@@ -7992,3 +7992,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `publicSiteUrlStrategy.ts` — on non-`site00.com` hosts, map `/visual-references/` → Supabase `site00/visual-references/...`; classify `/site00/visual-references/` as SUPABASE; extend mishosted repair + live capture hydrate; founder upload store key fallback; DesignAssetPreview diagnostics block CSS. Tests: `previewHostAssetDelivery.test.ts` (8).
 - **Founder next:** Hard refresh fsbw-dev → NDXBOOK DESIGN → verify authority + capture previews load; retry RECAPTURE if live capture still stale.
 
+---
+
+## 2026-09-11 — P0.VR.DIAG.1 authority-relative visual forensics + measured reconstruction spec
+
+- **Context:** Page upgrade flow (UPGRADE.1/2) worked but diagnosis was generic (“HEADER IS TOO TALL”) without authority-relative px/% evidence; plan items lacked traceability; twin builder received prose-only targets.
+- **Delivered:** `p0vrDiag1/` — `AuthorityRelativeForensicsEngine`, `AuthorityRelativeForensicsReport`, `MeasuredReconstructionSpec`, `RegionReconstructionSpec`, image alignment (chrome exclusion), normalized viewport geometry, page archetype region profiles (not NDX-only), DOM-assisted + shell-spec hybrid measurements, geometry/spacing/type/asset/nav/density/control/hierarchy diffs, confidence + functional risk models, `VisualImpactScore`, `VisualConvergenceScore`, forensics versioning, founder overrides.
+- **UI:** `PageCreativeUpgradePanel` — TOP VISUAL DIFFERENCES (measured authority/current/delta/confidence), RECONSTRUCTION PLAN from spec (target/current/delta/correction + VIEW EVIDENCE sheet), FUNCTION PRESERVATION separate, BEFORE/AFTER drift scores post-twin.
+- **Integration:** `openPageCreativeUpgradeSession` runs forensics on open (capture dims + DOM `[data-vr-region]` + mobile shell CSS vars); twin build applies `deriveTwinCssSnapshotFromPlan`; post-twin forensics + convergence. Build `P0_VR_DIAG_1_BUILD = v302`. Tests: `p0vrDiag1Forensics.test.ts` (15).
+- **Pilot:** NDXBOOK OVERVIEW mobile — header/gutter deltas from DOM vs `NDX_MOBILE_OVERVIEW_VISUAL_SPEC`, not hardcoded example px.
+- **Founder next:** Deploy v302 → DESIGN → NDXBOOK → OVERVIEW mobile → UPGRADE → verify TOP VISUAL DIFFERENCES show measured values → VIEW EVIDENCE → APPROVE → BUILD TWIN → check BEFORE/AFTER drift.
+
