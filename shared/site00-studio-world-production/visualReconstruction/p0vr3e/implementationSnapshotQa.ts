@@ -3,7 +3,7 @@
  */
 
 import type { ImplementationSnapshotRecord } from './types.js';
-import { IMPLEMENTATION_SNAPSHOT_QA_FAILURES } from './constants.js';
+import { IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES, IMPLEMENTATION_SNAPSHOT_QA_FAILURES } from './constants.js';
 
 export type ImplementationSnapshotQaResult = {
   passed: boolean;
@@ -22,10 +22,18 @@ export function runImplementationSnapshotQa(input: {
   brokenImageCount: number;
   fontsReady: boolean;
   hasRuntimeError: boolean;
+  httpStatus?: number | null;
+  pageNotFound?: boolean;
+  anchorFound?: boolean;
+  minCaptureBytes?: number;
 }): ImplementationSnapshotQaResult {
   const issues: string[] = [];
+  const minBytes = input.minCaptureBytes ?? IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES;
 
   if (input.bufferSize < 512) issues.push('BLANK_PAGE');
+  if (input.pageNotFound || input.httpStatus === 404) issues.push('PAGE_NOT_FOUND');
+  if (input.anchorFound === false) issues.push('CAPTURE_ANCHOR_MISSING');
+  if (input.bufferSize > 0 && input.bufferSize < minBytes && !input.hasRuntimeError) issues.push('ZERO_CONTENT');
   if (!input.finalUrl.includes(input.requestedRoute.split('?')[0] ?? '')) issues.push('WRONG_ROUTE');
   if (input.hasAuthRedirect) issues.push('AUTH_REDIRECT');
   if (input.hasLoadingShell) issues.push('LEGACY_LOADING_SHELL');
@@ -33,7 +41,6 @@ export function runImplementationSnapshotQa(input: {
   if (!input.fontsReady) issues.push('FONT_NOT_READY');
   if (input.hasRuntimeError) issues.push('RUNTIME_ERROR');
   if (input.record.width && input.record.width !== input.expectedWidth) issues.push('WRONG_VIEWPORT');
-  if (input.bufferSize < 2048 && !input.hasRuntimeError) issues.push('ZERO_CONTENT');
 
   return {
     passed: issues.length === 0,

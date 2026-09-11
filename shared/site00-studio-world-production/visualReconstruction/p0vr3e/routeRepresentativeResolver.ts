@@ -68,9 +68,13 @@ export function resolveCaptureTarget(input: {
   }
   const { representativeRoute } = resolveRepresentativeRoute(screen, input.projectId);
   const baseRoute = input.routeOverride ?? representativeRoute;
-  const captureRoute = isComposerDraftImplementationRoute(baseRoute.split('?')[0] ?? baseRoute)
+  let captureRoute = isComposerDraftImplementationRoute(baseRoute.split('?')[0] ?? baseRoute)
     ? composerDraftCaptureRoute(baseRoute.split('?')[0] ?? baseRoute)
     : baseRoute;
+  const capturePath = captureRoute.split('?')[0] ?? captureRoute;
+  if (screen.screenId === 'overview' && /^\/projects\/[^/]+$/.test(capturePath)) {
+    captureRoute = `${capturePath}/overview`;
+  }
   return {
     screen,
     route: captureRoute,

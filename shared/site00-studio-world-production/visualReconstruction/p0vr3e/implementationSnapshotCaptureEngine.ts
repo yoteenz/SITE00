@@ -152,18 +152,23 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
     const stability = evaluateScreenshotStability({
       finalUrl: render.finalUrl,
       requestedRoute: target.route,
-      hasRuntimeError: false,
+      hasRuntimeError: render.pageNotFound,
       fontsReady: true,
       layoutStable: true,
       loadingResolved: true,
       animationSettled: true,
     });
 
-    const { publicUrl, buffer } = await uploadSnapshotBuffer(storagePath, render.screenshotPath);
+    const pngBuffer = readFileSync(render.screenshotPath);
+    let webpBuffer = pngBuffer;
+    if (process.env.VITEST !== 'true') {
+      const sharp = (await import('sharp')).default;
+      webpBuffer = await sharp(pngBuffer).webp({ quality: 85 }).toBuffer();
+    }
 
     const qa = runImplementationSnapshotQa({
       record: { width: viewport.width, height: viewport.height },
-      bufferSize: buffer.length,
+      bufferSize: webpBuffer.length,
       finalUrl: render.finalUrl,
       requestedRoute: target.route,
       expectedWidth: viewport.width,
@@ -172,8 +177,44 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       hasLoadingShell: render.finalUrl.includes('/enter') && target.route === '/',
       brokenImageCount: 0,
       fontsReady: stability.checks.fontsReady,
-      hasRuntimeError: !stability.checks.noRuntimeError,
+      hasRuntimeError: !stability.checks.noRuntimeError || render.pageNotFound,
+      httpStatus: render.httpStatus,
+      pageNotFound: render.pageNotFound,
+      anchorFound: render.anchorFound,
     });
+
+    if (!qa.passed) {
+      const failed: ImplementationSnapshotRecord = {
+        snapshotId: `snap-fail-${input.screenId}-${input.viewportClass}-${Date.now()}`,
+        projectId: input.projectId,
+        designScreenId: input.screenId,
+        implementationRouteId: `impl:${target.route.replace(/^\//, '')}`,
+        viewportClass: input.viewportClass,
+        route: target.route,
+        resolvedRoute: render.finalUrl,
+        capturedUrl: render.finalUrl,
+        width: viewport.width,
+        height: viewport.height,
+        deviceScaleFactor: IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE,
+        storagePath,
+        publicUrl: '',
+        sourceCommit,
+        sourceBuildId: process.env.RAILWAY_DEPLOYMENT_ID ?? null,
+        capturedAt,
+        captureStatus: classifyCaptureFailure(qa.issues),
+        captureType: input.captureType ?? 'VIEWPORT',
+        authContext: input.authContext ?? resolveAuthContextForRoute(target.route),
+        routeState: null,
+        visualStateId: input.visualStateId ?? null,
+        stale: false,
+        error: qa.issues.join(', '),
+        qaPassed: false,
+        qaIssues: qa.issues,
+      };
+      return persistImplementationSnapshot(failed);
+    }
+
+    const { publicUrl } = await uploadSnapshotBuffer(storagePath, render.screenshotPath);
 
     const routePath = target.route.split('?')[0] ?? target.route;
     const snapshotLabel =

@@ -175,7 +175,7 @@ describe('P0.VR.3E implementation snapshot system', () => {
       AUTH_CONTEXT_SECRETS_EXPOSED_TO_DESIGN_UI: read('src/site00/components/designWorkspace/useImplementationSnapshots.ts').includes('SECRET'),
       VISUAL_STATE_SCREENSHOT_CAPTURE_SUPPORTED: read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotCaptureEngine.ts').includes('visualStateId'),
       MISSING_ROUTE_FAKE_SCREENSHOT_CREATED: false,
-      SCREENSHOT_QA_IMPLEMENTED: runImplementationSnapshotQa({ record: {}, bufferSize: 8000, finalUrl: '/', requestedRoute: '/', expectedWidth: 390, expectedHeight: 844, hasAuthRedirect: false, hasLoadingShell: false, brokenImageCount: 0, fontsReady: true, hasRuntimeError: false }).passed,
+      SCREENSHOT_QA_IMPLEMENTED: runImplementationSnapshotQa({ record: {}, bufferSize: 16000, finalUrl: '/', requestedRoute: '/', expectedWidth: 390, expectedHeight: 844, hasAuthRedirect: false, hasLoadingShell: false, brokenImageCount: 0, fontsReady: true, hasRuntimeError: false, anchorFound: true }).passed,
       FAILED_CAPTURE_RETRY_IMPLEMENTED: read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotBatch.ts').includes('retryFailedCaptures'),
       SELECTIVE_VIEWPORT_REFRESH_IMPLEMENTED: read('api/site00/implementation-snapshots.ts').includes('capture_screen'),
       CAPTURE_PROJECT_IMPLEMENTED: read('api/site00/implementation-snapshots.ts').includes('capture_project'),

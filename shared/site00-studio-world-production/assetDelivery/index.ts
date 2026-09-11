@@ -10,3 +10,4 @@ export * from './assetDeliveryProbe.js';
 export * from './previewHealth.js';
 export { isInvalidPersistedAssetRef, isPersistableCaptureUrl } from './persistableCaptureUrl.js';
 export * from './resolveLiveCapturePreviewRef.js';
+export * from './repairMishostedStorageHttpUrl.js';

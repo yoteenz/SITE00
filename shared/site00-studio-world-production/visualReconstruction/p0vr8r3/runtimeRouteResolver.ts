@@ -104,6 +104,15 @@ export function resolveRuntimeRouteForPage(
     resolutionEvidence = screen.routePattern;
   }
 
+  if (
+    screen?.screenId === 'overview' &&
+    resolvedRuntimePath &&
+    /^\/projects\/[^/]+$/.test(resolvedRuntimePath)
+  ) {
+    resolvedRuntimePath = `${resolvedRuntimePath}/overview`;
+    resolutionEvidence = `${resolutionEvidence ?? 'overview'};overviewRuntimePath`;
+  }
+
   const routeValid = Boolean(resolvedRuntimePath && resolvedRuntimePath.startsWith('/'));
   const captureUrl = routeValid && baseUrl ? `${baseUrl}${resolvedRuntimePath}` : resolvedRuntimePath;
 

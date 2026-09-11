@@ -385,6 +385,19 @@ describe('P0.VR.CAPTURE.1R3A — Authority + artifact proof', () => {
     expect(repaired).not.toContain('preview.example.test/studio-world');
   });
 
+  it('17b. live capture preview ref repairs cross-origin site00.com storage path', async () => {
+    const { resolveLiveCapturePreviewRef } = await import(
+      '../shared/site00-studio-world-production/assetDelivery/resolveLiveCapturePreviewRef.js'
+    );
+    const host = ['site00', 'com'].join('.');
+    const repaired = resolveLiveCapturePreviewRef({
+      imageRef: `https://${host}/studio-world/design/implementation-snapshots/ndxbook/overview/mobile/x.webp`,
+      siteOrigin: 'https://preview.fsbw-dev.com',
+    });
+    expect(repaired).toContain('/storage/v1/object/public/');
+    expect(repaired).not.toContain(`${host}/studio-world`);
+  });
+
   it('18. live capture preview ref repairs relative studio-world path', async () => {
     const { resolveLiveCapturePreviewRef } = await import(
       '../shared/site00-studio-world-production/assetDelivery/resolveLiveCapturePreviewRef.js'
