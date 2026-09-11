@@ -67,10 +67,11 @@ async function uploadSnapshotBuffer(storagePath: string, pngPath: string): Promi
     const sharp = (await import('sharp')).default;
     const webpBuffer = await sharp(buffer).webp({ quality: 85 }).toBuffer();
     const { uploadSite00AssetBuffer } = await import('../../../../api/_lib/site00Assts/storage.js');
-    const upload = await uploadSite00AssetBuffer(storagePath, webpBuffer, 'image/webp', { upsert: false });
+    const upload = await uploadSite00AssetBuffer(storagePath, webpBuffer, 'image/webp', { upsert: true });
     return { publicUrl: upload.publicUrl, buffer: webpBuffer };
-  } catch {
-    return { publicUrl: resolveStoragePublicUrl(storagePath), buffer };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Storage upload failed';
+    throw new Error(`IMPLEMENTATION_SNAPSHOT_UPLOAD_FAILED — ${message}`);
   }
 }
 
