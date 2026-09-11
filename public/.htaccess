@@ -1,13 +1,29 @@
+# SITE 00 SPA — Apache/cPanel (GoDaddy). Hard refresh on deep links must serve index.html.
+# FollowSymLinks is required on many shared hosts before RewriteEngine works.
+Options +FollowSymLinks -MultiViews -Indexes
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Never rewrite the shell itself.
   RewriteRule ^index\.html$ - [L]
+
+  # App route prefixes — rewrite even when a physical directory exists on the host (e.g. projects/).
+  RewriteRule ^(projects|services|control|origin|studio-world|admin|app|assts|idnty|bldr|evolve|validation|astral-world|bluprint|build|live|sign-in|identity|register|create-account)(/.*)?$ /index.html [L,QSA]
+
+  # Static assets and real files/directories.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule . /index.html [L,QSA]
 </IfModule>
 
-# GoDaddy/cPanel: serve SPA shell for hard-refreshed deep links (e.g. /projects/ndxbook/design).
+# Apache 2.4 fallback when mod_rewrite is unavailable or blocked.
+<IfModule mod_dir.c>
+  FallbackResource /index.html
+</IfModule>
+
+# Last-resort: custom error page still bootstraps the SPA.
 ErrorDocument 404 /index.html
 
 # Always revalidate SPA shell so new deploys take effect immediately (assets stay hashed).
