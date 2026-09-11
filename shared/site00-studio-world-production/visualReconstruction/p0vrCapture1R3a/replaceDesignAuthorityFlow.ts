@@ -104,8 +104,13 @@ export async function beginReplaceDesignAuthorityFromDataUrl(
         height,
       },
     };
-  } catch {
-    return { ok: false, errorCode: 'UPLOAD_FAILED', message: 'REFERENCE UPLOAD FAILED' };
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : String(err);
+    return {
+      ok: false,
+      errorCode: 'UPLOAD_FAILED',
+      message: detail.trim() ? detail : 'REFERENCE UPLOAD FAILED',
+    };
   }
 }
 
@@ -122,8 +127,13 @@ export async function beginReplaceDesignAuthorityUpload(
     const previewDataUrl = await fileToDataUrl(file);
     const ext = file.name.split('.').pop()?.toLowerCase() ?? 'png';
     return beginReplaceDesignAuthorityFromDataUrl(context, previewDataUrl, file.type, file.size, ext);
-  } catch {
-    return { ok: false, errorCode: 'UPLOAD_FAILED', message: 'REFERENCE UPLOAD FAILED' };
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : String(err);
+    return {
+      ok: false,
+      errorCode: 'UPLOAD_FAILED',
+      message: detail.trim() ? detail : 'REFERENCE UPLOAD FAILED',
+    };
   }
 }
 

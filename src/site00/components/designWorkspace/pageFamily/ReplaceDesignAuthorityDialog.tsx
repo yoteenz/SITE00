@@ -11,7 +11,7 @@ import {
   cancelDesignAuthorityReplacement,
   type ReplaceDesignAuthorityDraft,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
-import { prepareReferenceBoardUpload } from '../../../utils/prepareReferenceBoardUpload';
+import { mimeTypeFromDataUrl, prepareReferenceBoardUpload } from '../../../utils/prepareReferenceBoardUpload';
 import { DesignAssetPreview } from '../shared/DesignAssetPreview';
 import { resolveDesignAuthorityUpload } from '../../../services/uploadPageDesignAuthority';
 
@@ -82,12 +82,13 @@ export function ReplaceDesignAuthorityDialog({
       setError(null);
       try {
         const dataUrl = await prepareReferenceBoardUpload(file);
+        const mimeType = mimeTypeFromDataUrl(dataUrl);
         const result = await beginReplaceDesignAuthorityFromDataUrl(
           context,
           dataUrl,
-          file.type.includes('jpeg') ? 'image/jpeg' : file.type,
+          mimeType,
           file.size,
-          file.name.split('.').pop()?.toLowerCase(),
+          mimeType.includes('jpeg') || mimeType.includes('jpg') ? 'jpg' : file.name.split('.').pop()?.toLowerCase(),
         );
         if (!result.ok) {
           setError(result.message);
