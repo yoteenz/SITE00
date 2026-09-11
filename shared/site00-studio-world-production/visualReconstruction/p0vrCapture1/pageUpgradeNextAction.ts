@@ -5,13 +5,20 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { derivePageViewportCaptureStatus, getPageViewportCapture } from './pageViewportCapture.js';
 import { getPageCreativeUpgradeSession } from './pageCreativeUpgradeSession.js';
+import {
+  resolvePageViewportAuthority,
+  resolveRootUpgradePrimaryAction,
+} from '../../pageFamilyWorkspace/pageViewportAuthority.js';
 import type { PageUpgradeNextActionReceipt } from './types.js';
 
 export function resolvePageUpgradeNextAction(options: {
   projectId: string;
   pageId: string;
+  screenId?: string;
   viewport: DesignViewportClass;
   captureServiceAvailable: boolean;
+  isRoot?: boolean;
+  routeMapped?: boolean;
 }): PageUpgradeNextActionReceipt {
   if (!options.captureServiceAvailable) {
     return {
@@ -35,6 +42,24 @@ export function resolvePageUpgradeNextAction(options: {
 
   if (captureStatus === 'CAPTURE_FAILED') {
     return { action: 'RECAPTURE', label: 'RETRY', reason: 'Last capture failed.' };
+  }
+
+  if (options.screenId) {
+    const authority = resolvePageViewportAuthority({
+      projectId: options.projectId,
+      pageId: options.pageId,
+      screenId: options.screenId,
+      viewport: options.viewport,
+      routeMapped: options.routeMapped,
+      isRoot: options.isRoot,
+    });
+    if (resolveRootUpgradePrimaryAction(authority) === 'SET_DESIGN_AUTHORITY') {
+      return {
+        action: 'REVIEW_CREATIVE_DIRECTION',
+        label: 'SET DESIGN AUTHORITY',
+        reason: 'Approved design reference required before upgrade.',
+      };
+    }
   }
 
   if (!session || session.status === 'AWAITING_CAPTURE') {

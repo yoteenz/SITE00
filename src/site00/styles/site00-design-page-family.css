@@ -653,10 +653,36 @@
   font-size: 11px;
 }
 
+.site00-pfw-capture-now__authority {
+  margin: 10px 0 4px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.site00-pfw-capture-now__preview-label {
+  margin: 0;
+  padding: 6px 8px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--site00-dw-line);
+  opacity: 0.75;
+}
+
+.site00-pfw-capture-now__preview--authority {
+  margin-bottom: 12px;
+}
+
 .site00-pfw-capture-now__status {
   margin: 10px 0;
   font-size: 12px;
   letter-spacing: 0.04em;
+}
+
+.site00-pfw-workspace__route {
+  display: block;
+  font-size: 12px;
+  opacity: 0.75;
+  margin: 4px 0;
 }
 
 .site00-pfw-capture-now__preview {

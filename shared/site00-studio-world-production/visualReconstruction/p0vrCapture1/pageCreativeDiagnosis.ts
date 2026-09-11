@@ -6,6 +6,7 @@ import type { PageCreativeDiagnosis, PageCreativeDiagnosisCode } from './types.j
 
 export function buildPageCreativeDiagnosis(options?: {
   isChildPage?: boolean;
+  isRootPage?: boolean;
   viewport?: string;
   hasDenseText?: boolean;
   missingParentGrammar?: boolean;
@@ -18,8 +19,9 @@ export function buildPageCreativeDiagnosis(options?: {
   if (options?.viewport === 'desktop') codes.push('DESKTOP_DRIFT');
   if (codes.length === 0) codes.push('FUNCTION_VISUAL_MISMATCH');
 
-  const summary =
-    codes.includes('PARENT_GRAMMAR_DRIFT')
+  const summary = options?.isRootPage
+    ? 'Live root page drifts from approved design authority reference.'
+    : codes.includes('PARENT_GRAMMAR_DRIFT')
       ? 'Live page drifts from approved parent experience grammar.'
       : 'Live implementation needs creative-directed convergence with parent authority.';
 

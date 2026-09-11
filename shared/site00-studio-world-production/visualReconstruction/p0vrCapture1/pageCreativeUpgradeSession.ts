@@ -24,17 +24,21 @@ export function openPageCreativeUpgradeSession(options: {
   parentAuthorityLabel: string;
   route: string;
   isChildPage?: boolean;
+  isRoot?: boolean;
 }): PageCreativeUpgradeSession {
+  const isRoot = options.isRoot ?? false;
   const diagnosis = buildPageCreativeDiagnosis({
-    isChildPage: options.isChildPage ?? true,
+    isChildPage: !isRoot && (options.isChildPage ?? true),
+    isRootPage: isRoot,
     viewport: options.viewport,
-    missingParentGrammar: true,
+    missingParentGrammar: !isRoot,
   });
   const plan = buildPageCreativeDirectionPlan({
     pagePurpose: options.pagePurpose,
-    parentAuthorityLabel: options.parentAuthorityLabel,
+    parentAuthorityLabel: isRoot ? options.pagePurpose : options.parentAuthorityLabel,
     childArchetype: options.childArchetype,
     route: options.route,
+    isRootPage: isRoot,
   });
   const session: PageCreativeUpgradeSession = {
     sessionId: `upgrade_${options.projectId}_${Date.now()}`,
@@ -42,8 +46,9 @@ export function openPageCreativeUpgradeSession(options: {
     pageId: options.pageId,
     viewport: options.viewport,
     captureId: options.captureId,
-    parentAuthorityId: options.parentAuthorityId ?? null,
+    parentAuthorityId: isRoot ? null : (options.parentAuthorityId ?? null),
     childArchetype: options.childArchetype ?? null,
+    isRoot,
     currentDiagnosis: diagnosis,
     creativeDirectionPlan: plan,
     status: 'DIRECTION_READY',

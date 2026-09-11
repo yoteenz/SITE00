@@ -12,6 +12,10 @@ import {
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import type { CaptureServiceInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import { canRunLiveCapture } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
+import {
+  authorityStatusLabel,
+  resolvePageViewportAuthority,
+} from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageViewportAuthority.js';
 
 type Props = {
   projectId: string;
@@ -20,6 +24,8 @@ type Props = {
   route: string;
   displayName: string;
   viewport: DesignViewportClass;
+  isRoot?: boolean;
+  routeMapped?: boolean;
   captureService?: CaptureServiceInput;
   capturing?: boolean;
   captureProgress?: string | null;
@@ -44,9 +50,12 @@ function statusLabel(status: PageViewportCaptureStatus): string {
 export function PageCaptureNowPanel({
   projectId,
   pageId,
+  screenId,
   route,
   displayName,
   viewport,
+  isRoot,
+  routeMapped,
   captureService,
   capturing,
   captureProgress,
@@ -61,13 +70,26 @@ export function PageCaptureNowPanel({
     ? 'CAPTURING'
     : derivePageViewportCaptureStatus(stored);
   const captureAvailable = captureService ? canRunLiveCapture(captureService) : true;
+  const authority = resolvePageViewportAuthority({
+    projectId,
+    pageId,
+    screenId,
+    viewport,
+    routeMapped,
+    isRoot,
+  });
   const nextAction = resolvePageUpgradeNextAction({
     projectId,
     pageId,
+    screenId,
     viewport,
     captureServiceAvailable: captureAvailable,
+    isRoot,
+    routeMapped,
   });
-  const preview = screenshotUrl ?? stored?.imageRef ?? null;
+  const livePreview = screenshotUrl ?? stored?.imageRef ?? null;
+  const authorityApproved = authority.authorityStatus === 'APPROVED' || authority.authorityStatus === 'STALE';
+  const showUpgrade = status === 'CAPTURE_READY' && onUpgradePage && authorityApproved;
 
   return (
     <section className="site00-pfw-capture-now" aria-label="Capture now">
@@ -82,13 +104,30 @@ export function PageCaptureNowPanel({
         </div>
       </header>
 
-      <p className={`site00-pfw-capture-now__status is-${status.toLowerCase().replace(/_/g, '-')}`}>
-        LIVE CAPTURE: {statusLabel(status)}
+      <p className={`site00-pfw-capture-now__authority is-${authority.authorityStatus.toLowerCase()}`}>
+        DESIGN AUTHORITY: {authorityStatusLabel(authority.authorityStatus)}
       </p>
 
-      <div className="site00-pfw-capture-now__preview">
-        {preview ? (
-          <img src={preview} alt={`Live capture ${displayName}`} />
+      <div className="site00-pfw-capture-now__preview site00-pfw-capture-now__preview--authority">
+        <p className="site00-pfw-capture-now__preview-label">DESIGN AUTHORITY</p>
+        {authority.previewUrl ? (
+          <img src={authority.previewUrl} alt={`Design authority ${displayName}`} />
+        ) : (
+          <div className="site00-pfw-capture-now__preview-empty">
+            <span aria-hidden>▢</span>
+            <small>{authority.authorityStatus === 'MAPPED' ? 'MAPPED — NOT APPROVED' : 'NO REFERENCE YET'}</small>
+          </div>
+        )}
+      </div>
+
+      <p className={`site00-pfw-capture-now__status is-${status.toLowerCase().replace(/_/g, '-')}`}>
+        LIVE PAGE: {statusLabel(status)}
+      </p>
+
+      <div className="site00-pfw-capture-now__preview site00-pfw-capture-now__preview--live">
+        <p className="site00-pfw-capture-now__preview-label">LIVE PAGE</p>
+        {livePreview ? (
+          <img src={livePreview} alt={`Live capture ${displayName}`} />
         ) : (
           <div className="site00-pfw-capture-now__preview-empty">
             <span aria-hidden>▢</span>
@@ -121,7 +160,7 @@ export function PageCaptureNowPanel({
       ) : null}
 
       <div className="site00-pfw-capture-now__actions">
-        {status === 'CAPTURE_READY' && onUpgradePage ? (
+        {showUpgrade ? (
           <>
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onUpgradePage}>
               UPGRADE THIS PAGE

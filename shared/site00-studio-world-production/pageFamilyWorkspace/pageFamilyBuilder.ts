@@ -12,6 +12,12 @@ import type {
   DerivativeStatus,
 } from './types.js';
 import { resolveNavigationPromises } from './parentNavigationIntentResolver.js';
+import {
+  isRootAliasRoute,
+  resolveCanonicalRootDisplayName,
+  resolveCanonicalRootRoute,
+  resolveRootScreenId,
+} from './pageFamilyRootTarget.js';
 
 function normalizeRoute(route: string): string {
   const trimmed = route.split('?')[0]?.replace(/\/+$/, '') ?? '';
@@ -104,29 +110,35 @@ export function buildPageFamilyFromRows(input: {
     if (route.startsWith(projectPrefix)) rowByRoute.set(route, row);
   }
 
-  const overviewRoute = [...rowByRoute.keys()].find((r) => r.endsWith('/overview'));
-  const rootRoute = normalizeRoute(input.rootRoute ?? overviewRoute ?? projectPrefix);
+  const rootResolution = resolveCanonicalRootRoute(input.projectId, input.rows);
+  const rootRoute = normalizeRoute(input.rootRoute ?? rootResolution.canonicalRoute);
+  const rootAliases = rootResolution.aliases;
 
   const subfamilyAnchor = input.activeParentRoute ? normalizeRoute(input.activeParentRoute) : null;
   const parentRoute = subfamilyAnchor && subfamilyAnchor !== rootRoute ? subfamilyAnchor : rootRoute;
   const parentNodeId = `node:${parentRoute}`;
-  const parentRow = rowByRoute.get(parentRoute) ?? rowByRoute.get(rootRoute) ?? rowByRoute.get(overviewRoute ?? '');
+  const parentRow =
+    rowByRoute.get(parentRoute) ??
+    (parentRoute === rootRoute ? rootResolution.rootRow : undefined) ??
+    rowByRoute.get(rootRoute);
   const parentCapture = captureDerivativeStatus(parentRow);
   const parentExisting = Boolean(parentRow);
+  const rootScreenId = resolveRootScreenId(input.projectId, parentRow);
+  const rootCanonicalLabel = resolveCanonicalRootDisplayName(input.projectId, parentRow);
 
   const nodes: PageFamilyNode[] = [];
   const edges: PageFamilyEdge[] = [];
 
   nodes.push({
     nodeId: parentNodeId,
-    route: parentRoute,
-    surfaceId: parentRow?.screenId ?? parentNodeId,
-    label: parentRow?.displayName?.toUpperCase() ?? routeLabel(parentRoute, input.projectId.toUpperCase()),
+    route: parentRoute === rootRoute ? rootRoute : parentRoute,
+    surfaceId: parentRow?.screenId ?? rootScreenId ?? parentNodeId,
+    label: parentRoute === rootRoute ? rootCanonicalLabel : parentRow?.displayName?.toUpperCase() ?? routeLabel(parentRoute, input.projectId.toUpperCase()),
     level: 0,
-    archetype: 'LANDING',
+    archetype: 'OVERVIEW',
     inheritanceMode: null,
     existing: parentExisting,
-    designStatus: parentExisting ? 'APPROVED' : 'PROPOSED',
+    designStatus: parentExisting ? 'DESIGN_READY' : 'PROPOSED',
     buildStatus: parentExisting ? 'BUILT' : 'PROPOSED',
     linkageStatus: linkageFor(parentExisting, true),
     captureStatus: parentCapture,
@@ -134,7 +146,7 @@ export function buildPageFamilyFromRows(input: {
     childCount: 0,
     previewUrl: parentRow?.mobile?.publicUrl ?? null,
     referenceUrl: parentRow?.referenceUrl ?? null,
-    screenId: parentRow?.screenId ?? null,
+    screenId: rootScreenId,
     statusVisual: nodeVisual(parentCapture, parentExisting),
     statusLabel: parentExisting ? 'MAPPED' : 'PROPOSED',
     derivedFromLabel: null,
@@ -147,6 +159,7 @@ export function buildPageFamilyFromRows(input: {
 
   for (const [route, row] of rowByRoute) {
     if (route === parentRoute) continue;
+    if (parentRoute === rootRoute && isRootAliasRoute(route, input.projectId, rootAliases)) continue;
     const depth = routeDepthFromProject(route, projectPrefix);
     if (depth < 0) continue;
 
@@ -177,6 +190,7 @@ export function buildPageFamilyFromRows(input: {
     for (const [route, row] of rowByRoute) {
       const depth = routeDepthFromProject(route, projectPrefix);
       if (depth !== 1 || route === parentRoute) continue;
+      if (parentRoute === rootRoute && isRootAliasRoute(route, input.projectId, rootAliases)) continue;
       if (!childRoutes.has(route)) childRoutes.set(route, { row, grandchildren: [] });
     }
   }
@@ -276,7 +290,7 @@ export function buildPageFamilyFromRows(input: {
     projectId: input.projectId,
     rootParentRoute: rootRoute,
     rootParentSurfaceId: parentNodeId,
-    familyName: `${routeLabel(rootRoute, input.projectId.toUpperCase())} OVERVIEW`,
+    familyName: rootCanonicalLabel,
     authorityVersion: 'pci3-v1',
     nodeCount: nodes.length,
     childCount: nodes.filter((n) => n.level === 1).length,

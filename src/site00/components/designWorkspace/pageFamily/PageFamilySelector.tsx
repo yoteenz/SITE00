@@ -1,8 +1,9 @@
 /**
- * P0.PCI.3 — Hierarchical page family selector + jump to.
+ * P0.PCI.3 / P0.VR.CAPTURE.1R1 — Hierarchical page family selector + jump to (root-first).
  */
 
 import type { PageFamily, PageFamilyNode } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/types.js';
+import { listJumpToPageTargets } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyRootTarget.js';
 
 type Props = {
   family: PageFamily;
@@ -39,17 +40,17 @@ function renderTree(nodes: PageFamilyNode[], parentId: string | null, depth: num
 }
 
 export function PageFamilySelector({ family, selectedNodeId, onSelect, jumpValue, onJumpChange }: Props) {
-  const jumpOptions = family.nodes.filter((n) => n.level > 0);
+  const jumpOptions = listJumpToPageTargets(family);
+  const effectiveJumpValue = jumpValue || selectedNodeId || jumpOptions[0]?.nodeId || '';
 
   return (
     <div className="site00-pfw-selector">
       <label className="site00-pfw-selector__jump">
         <span>JUMP TO</span>
-        <select value={jumpValue} onChange={(e) => onJumpChange(e.target.value)}>
-          <option value="">Select a page…</option>
+        <select value={effectiveJumpValue} onChange={(e) => onJumpChange(e.target.value)}>
           {jumpOptions.map((n) => (
             <option key={n.nodeId} value={n.nodeId}>
-              {`${'  '.repeat(Math.max(0, n.level - 1))}${n.label}`}
+              {`${'  '.repeat(n.level)}${n.label} · ${n.route}`}
             </option>
           ))}
         </select>

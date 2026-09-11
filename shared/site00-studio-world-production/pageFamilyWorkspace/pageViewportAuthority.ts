@@ -1,0 +1,159 @@
+/**
+ * P0.VR.CAPTURE.1R1 — Per-viewport design authority (separate from page identity).
+ */
+
+import type { DesignViewportClass } from '../visualReconstruction/p0vr2/types.js';
+import {
+  getActiveCanonicalReference,
+  getActiveImplementationCanon,
+} from '../visualReconstruction/p0vr2/canonicalReferenceRegistry.js';
+import { ensureNdxbookPilotRegistered } from '../visualReconstruction/p0vr2/ndxPilotRegistration.js';
+
+export const DESIGN_AUTHORITY_STATUSES = [
+  'MISSING',
+  'PROPOSED',
+  'MAPPED',
+  'APPROVED',
+  'STALE',
+  'CONFLICTED',
+] as const;
+
+export type DesignAuthorityStatus = (typeof DESIGN_AUTHORITY_STATUSES)[number];
+
+export type PageViewportAuthority = {
+  pageId: string;
+  screenId: string;
+  viewport: DesignViewportClass;
+  referenceId: string | null;
+  authorityStatus: DesignAuthorityStatus;
+  approvedAt: string | null;
+  sourceType: 'APPROVED_REFERENCE' | 'APPROVED_CANON' | 'MAPPED_ROUTE' | 'PROPOSED' | 'NONE';
+  previewUrl: string | null;
+  previewSource: 'APPROVED_REFERENCE' | 'APPROVED_CANON' | 'REFERENCE_THUMBNAIL' | 'PLACEHOLDER' | 'NONE';
+};
+
+export type DesignAuthorityPreview = {
+  previewUrl: string | null;
+  previewSource: PageViewportAuthority['previewSource'];
+  label: string;
+};
+
+function mapCanonToAuthorityStatus(
+  hasReference: boolean,
+  canon: ReturnType<typeof getActiveImplementationCanon>,
+  mappedOnly: boolean,
+): DesignAuthorityStatus {
+  if (!hasReference) {
+    return mappedOnly ? 'MAPPED' : 'MISSING';
+  }
+  if (!canon) return 'PROPOSED';
+  if (canon.status === 'ACTIVE' && canon.founderJudgment === 'MATCHES') return 'APPROVED';
+  if (canon.status === 'STALE_AGAINST_NEW_REFERENCE') return 'STALE';
+  if (canon.status === 'ACTIVE') return 'APPROVED';
+  return 'PROPOSED';
+}
+
+export function resolvePageViewportAuthority(input: {
+  projectId: string;
+  pageId: string;
+  screenId: string;
+  viewport: DesignViewportClass;
+  routeMapped?: boolean;
+  isRoot?: boolean;
+}): PageViewportAuthority {
+  if (input.projectId === 'ndxbook') {
+    ensureNdxbookPilotRegistered();
+  }
+
+  const rootScreenId =
+    input.isRoot && input.screenId === 'desktop-overview' ? 'overview' : input.screenId;
+  const reference = getActiveCanonicalReference(input.projectId, rootScreenId, input.viewport);
+  const canon = getActiveImplementationCanon(input.projectId, rootScreenId, input.viewport);
+  const mappedOnly = Boolean(input.routeMapped && !reference);
+  const authorityStatus = mapCanonToAuthorityStatus(Boolean(reference), canon, mappedOnly);
+
+  const preview = resolveDesignAuthorityPreview({
+    referencePath: reference?.storagePath ?? null,
+    canonPath: canon?.renderSnapshotPath ?? null,
+    authorityStatus,
+  });
+
+  return {
+    pageId: input.pageId,
+    screenId: rootScreenId,
+    viewport: input.viewport,
+    referenceId: reference?.referenceId ?? null,
+    authorityStatus,
+    approvedAt: canon?.approvalDate || null,
+    sourceType: reference
+      ? canon?.status === 'ACTIVE'
+        ? 'APPROVED_CANON'
+        : 'APPROVED_REFERENCE'
+      : mappedOnly
+        ? 'MAPPED_ROUTE'
+        : 'NONE',
+    previewUrl: preview.previewUrl,
+    previewSource: preview.previewSource,
+  };
+}
+
+export function resolveDesignAuthorityPreview(input: {
+  referencePath: string | null;
+  canonPath?: string | null;
+  authorityStatus: DesignAuthorityStatus;
+}): DesignAuthorityPreview {
+  if (input.authorityStatus === 'APPROVED' || input.authorityStatus === 'STALE') {
+    if (input.referencePath) {
+      return {
+        previewUrl: input.referencePath,
+        previewSource: 'APPROVED_REFERENCE',
+        label: 'DESIGN AUTHORITY',
+      };
+    }
+    if (input.canonPath) {
+      return {
+        previewUrl: input.canonPath,
+        previewSource: 'APPROVED_CANON',
+        label: 'DESIGN AUTHORITY',
+      };
+    }
+  }
+
+  if (input.referencePath && input.authorityStatus === 'PROPOSED') {
+    return {
+      previewUrl: input.referencePath,
+      previewSource: 'REFERENCE_THUMBNAIL',
+      label: 'PROPOSED REFERENCE',
+    };
+  }
+
+  return {
+    previewUrl: null,
+    previewSource: 'PLACEHOLDER',
+    label: input.authorityStatus === 'MAPPED' ? 'MAPPED — NOT APPROVED' : 'DESIGN AUTHORITY MISSING',
+  };
+}
+
+export function authorityStatusLabel(status: DesignAuthorityStatus): string {
+  switch (status) {
+    case 'APPROVED':
+      return 'APPROVED ✓';
+    case 'MAPPED':
+      return 'MAPPED';
+    case 'PROPOSED':
+      return 'PROPOSED';
+    case 'STALE':
+      return 'STALE';
+    case 'CONFLICTED':
+      return 'CONFLICTED';
+    default:
+      return 'MISSING';
+  }
+}
+
+export function resolveRootUpgradePrimaryAction(authority: PageViewportAuthority): 'SET_DESIGN_AUTHORITY' | 'UPGRADE_THIS_PAGE' {
+  if (authority.authorityStatus === 'APPROVED' || authority.authorityStatus === 'STALE') {
+    return 'UPGRADE_THIS_PAGE';
+  }
+  return 'SET_DESIGN_AUTHORITY';
+}

@@ -89,10 +89,15 @@ export function derivePageFamilyReadiness(
   const approvals = getFamilyApprovals(family.familyId);
   const approvedIds = new Set(approvals.filter((a) => a.designApproved).map((a) => a.nodeId));
 
+  const root = family.nodes.find((n) => n.level === 0);
   const derivatives = family.nodes.filter((n) => n.level > 0);
-  const approvedCount = derivatives.filter((n) => approvedIds.has(n.nodeId) || n.designStatus === 'APPROVED').length;
-  const needsDesignCount = derivatives.filter(
-    (n) => !approvedIds.has(n.nodeId) && (n.designStatus === 'PROPOSED' || n.designStatus === 'DESIGN_PENDING'),
+  const pageTargets = root ? [root, ...derivatives] : derivatives;
+  const approvedCount = pageTargets.filter((n) => approvedIds.has(n.nodeId) || n.designStatus === 'APPROVED').length;
+  const needsDesignCount = pageTargets.filter(
+    (n) =>
+      !approvedIds.has(n.nodeId) &&
+      n.designStatus !== 'APPROVED' &&
+      (n.designStatus === 'PROPOSED' || n.designStatus === 'DESIGN_PENDING' || n.designStatus === 'DESIGN_READY'),
   ).length;
   const wiringIssueCount = family.edges.filter((e) => e.linkageStatus !== 'WIRED').length;
   const capturePendingCount = derivatives.filter((n) => n.captureStatus === 'CAPTURE_PENDING').length;
@@ -116,7 +121,7 @@ export function derivePageFamilyReadiness(
   });
 
   let completionPct: number | null = null;
-  if (derivatives.length > 0) completionPct = Math.round((approvedCount / derivatives.length) * 100);
+  if (pageTargets.length > 0) completionPct = Math.round((approvedCount / pageTargets.length) * 100);
 
   const summaryLabel =
     wiringIssueCount > 0
@@ -129,7 +134,12 @@ export function derivePageFamilyReadiness(
 
   return {
     structureStatus: structureConfirmed ? 'READY' : 'NEEDS_CONFIRMATION',
-    designStatus: needsDesignCount > 0 ? 'IN_PROGRESS' : approvedCount === derivatives.length && derivatives.length > 0 ? 'READY' : 'PENDING',
+    designStatus:
+      needsDesignCount > 0
+        ? 'IN_PROGRESS'
+        : approvedCount === pageTargets.length && pageTargets.length > 0
+          ? 'READY'
+          : 'PENDING',
     wiringStatus: wiringIssueCount > 0 ? 'ISSUES' : structureConfirmed ? 'READY' : 'IN_PROGRESS',
     buildStatus: derivatives.every((n) => n.buildStatus === 'BUILT' || n.existing) ? 'READY' : 'IN_PROGRESS',
     linkageStatus: wiringIssueCount > 0 ? 'ISSUES' : 'READY',
