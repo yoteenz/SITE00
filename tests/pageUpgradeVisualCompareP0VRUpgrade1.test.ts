@@ -66,6 +66,16 @@ describe('P0.VR.UPGRADE.1 — visual compare page upgrade', () => {
     expect(panel).toContain('BEFORE DRIFT VS AFTER DRIFT');
   });
 
+  it('4c. forensic buttons use portaled overlays (not plan-gated inline sheets)', () => {
+    const panel = read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx');
+    expect(panel).toContain('AllForensicsOverlay');
+    expect(panel).toContain('ForensicEvidenceDetailOverlay');
+    expect(panel).toContain('resolveAllRegionForensics');
+    expect(panel).not.toContain('allForensicsOpen && diagnosis?.allRegionForensics');
+    expect(panel).not.toMatch(/\(evidenceId \|\| evidenceRegionId\) && plan \?/);
+    expect(read('src/site00/styles/site00-design-page-family.css')).toContain('.site00-pfw-forensic-overlay');
+  });
+
   it('5. PageVisualDiagnosis legacy fallback still returns findings', () => {
     const dx = buildPageVisualDiagnosis({ isRootPage: true, viewport: 'mobile', pagePurpose: 'NDXBOOK OVERVIEW' });
     expect(dx.topFindings.length).toBeGreaterThanOrEqual(3);

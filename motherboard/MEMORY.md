@@ -8030,3 +8030,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** `createImageBitmap(file)` path on iOS could yield invalid bitmap / WebKit drawImage edge case; unguarded `CANONICAL_VIEWPORT_DIMENSIONS[viewport]` if viewport key missing.
 - **Fix:** `prepareReferenceBoardUpload` — on iPhone/iPad prefer **object URL → Image** decode before ImageBitmap; validate width/height; fallback chain. `beginReplaceDesignAuthorityFromDataUrl` — default viewport dims to mobile + image dimension fallbacks.
 
+---
+
+## 2026-09-11 — PAGE UPGRADE VIEW ALL FORENSICS / VIEW EVIDENCE stale (no-op)
+
+- **Symptoms:** NDXBOOK OVERVIEW mobile PAGE UPGRADE — **VIEW ALL FORENSICS** and **VIEW EVIDENCE** looked active but did nothing; founder expected full breakdown.
+- **Root cause:** Inline evidence sheets inside scrollable wizard drawer body; **VIEW ALL FORENSICS** only rendered when `diagnosis.allRegionForensics.length` (legacy sessions often only had `topVisualDifferences`); **VIEW EVIDENCE** required `reconstructionPlan` even when diagnosis had measured rows.
+- **Fix:** `ForensicEvidenceOverlays.tsx` — portaled `AllForensicsOverlay` + `ForensicEvidenceDetailOverlay` (z-index 320); `resolveAllRegionForensics()` fallback from `topVisualDifferences`; bridge maps full `dimensions` on `RegionForensicsSummary`; panel wired overlays, removed plan-gated inline sheets; CSS in `site00-design-page-family.css`. Tests: `forensicEvidenceOverlays.test.ts`, page upgrade `4c`.
+- **Founder next:** Deploy new frontend bundle → NDXBOOK OVERVIEW mobile UPGRADE → tap **VIEW ALL FORENSICS** (full-screen list) → **VIEW EVIDENCE** on a region (dimension grid AUTHORITY/CURRENT/DELTA/CONFIDENCE).
+

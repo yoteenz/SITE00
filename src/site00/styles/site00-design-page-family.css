@@ -1094,6 +1094,146 @@
   margin: 0;
 }
 
+/* P0.VR.DIAG.1R1 — portaled forensic breakdown (above wizard drawer z-index 200) */
+.site00-pfw-forensic-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 320;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.site00-pfw-forensic-overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.site00-pfw-forensic-overlay__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 480px);
+  max-height: min(92vh, 720px);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--site00-dw-panel, #fff);
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
+  pointer-events: auto;
+}
+
+.site00-pfw-forensic-overlay__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--site00-dw-line);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.site00-pfw-forensic-overlay__body {
+  overflow: auto;
+  padding: 12px 14px 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-pfw-forensic-overlay__coverage {
+  font-size: 11px;
+  line-height: 1.45;
+  margin: 0 0 12px;
+  opacity: 0.9;
+}
+
+.site00-pfw-forensic-overlay__empty {
+  font-size: 12px;
+  margin: 0;
+}
+
+.site00-pfw-forensic-overlay__dim-preview {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  font-size: 11px;
+  display: grid;
+  gap: 4px;
+}
+
+.site00-pfw-forensic-overlay__dim-preview li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--site00-dw-line);
+}
+
+.site00-pfw-forensic-overlay__dimensions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.site00-pfw-forensic-overlay__dimensions li {
+  padding: 10px;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 8px;
+}
+
+.site00-pfw-forensic-overlay__dimensions dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 8px 0 0;
+  font-size: 11px;
+}
+
+.site00-pfw-forensic-overlay__dimensions dt {
+  font-size: 9px;
+  opacity: 0.65;
+  letter-spacing: 0.06em;
+}
+
+.site00-pfw-forensic-overlay__dimensions dd {
+  margin: 0;
+}
+
+.site00-pfw-forensic-overlay__summary-dl {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 12px;
+}
+
+.site00-pfw-forensic-overlay__summary-dl dt {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.site00-pfw-forensic-overlay__summary-dl dd {
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .site00-pfw-forensic-overlay {
+    align-items: center;
+  }
+
+  .site00-pfw-forensic-overlay__panel {
+    border-radius: 12px;
+    max-height: min(85vh, 720px);
+  }
+}
+
 @media (max-width: 767px) {
   .site00-pfw-upgrade-v2__side-by-side {
     grid-template-columns: 1fr;

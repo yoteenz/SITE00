@@ -62,6 +62,14 @@ export type ForensicCoverageSummary = {
   scopeMismatch: boolean;
 };
 
+export type RegionForensicsDimensionSummary = {
+  dimension: string;
+  authority: string;
+  current: string;
+  delta: string;
+  confidence: string;
+};
+
 export type RegionForensicsSummary = {
   regionId: string;
   regionName: string;
@@ -69,6 +77,7 @@ export type RegionForensicsSummary = {
   confidence: string;
   dimensionCount: number;
   topDelta: string | null;
+  dimensions?: RegionForensicsDimensionSummary[];
 };
 
 export type PageVisualDiagnosis = {
