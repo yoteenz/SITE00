@@ -1,22 +1,36 @@
-SITE 00 — GoDaddy cPanel deploy bundle (2026-08-24 v53)
-========================================================
-
-Includes PR #388:
-- Founder mobile capture-auth bootstrap for Railway visual capture
-- /control/debug/capture-auth — export Playwright storage state from phone
-- Visual dev link when authenticated Projects refs are not VALID
+SITE 00 — GoDaddy cPanel deploy bundle
+======================================
 
 WHAT TO UPLOAD
 --------------
-1. site00-production-dist-2026-08-24-v53.zip
-2. cPanel public_html — delete old files, upload, extract, hard refresh
+1. Download the latest site00-production-dist-YYYY-MM-DD-vN.zip from GitHub Releases
+2. cPanel File Manager → open the **Document Root** for site00.com
+   (Domains → site00.com → Document Root — often public_html OR public_html/site00.com)
+3. Delete OLD SPA files inside that folder (index.html, assets/, release-manifest.json, .htaccess)
+4. Upload ZIP into that same folder → Extract here (NOT into a new subfolder)
+5. Confirm index.html and .htaccess sit directly in the document root
+6. Hard refresh site00.com (Safari: hold reload → Empty Cache)
 
-VERIFY
-------
-- Page source references index.DkGLYKZe.js (NOT index.BT7zuSxb.js)
-- /control/debug/capture-auth shows EXPORT FOR RAILWAY (signed in as founder)
+VERIFY YOU HAVE THE RIGHT BUILD
+-------------------------------
+View Page Source on site00.com. The script tag must reference the bundle from the release notes.
+
+WRONG (stale — capture fix NOT included):
+  index.BjMnKpdX.js  (v295 — htaccess only)
+
+RIGHT (capture pipeline fix included):
+  index.DufA8Ifn.js or newer (v296+)
+
+Also check: https://site00.com/release-manifest.json
+  commitSha should start with 894665b or later (not 1c472ec)
+
+CAPTURE NOW smoke test (SITE 00 project → PAGES tab)
+----------------------------------------------------
+- Root should show EXISTING (not PROPOSED) when mirror rows load
+- CAPTURE NOW must NOT say "CAPTURE INDEX MISSING FOR OVERVIEW"
+- If it still does, you are on an old bundle — re-upload the correct ZIP
 
 RAILWAY
 -------
-Redeploy api.site00.com from main (new POST /api/capture-auth-bootstrap).
-Founder: export JSON on phone → paste SITE00_CAPTURE_STORAGE_STATE_JSON → redeploy.
+API changes only: redeploy api.site00.com from main.
+Frontend-only ZIP: no Railway redeploy needed.

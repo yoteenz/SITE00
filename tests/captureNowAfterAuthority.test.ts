@@ -1,6 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { resolveCaptureIndexRow } from '../src/site00/components/designWorkspace/captureNowClient.js';
+import {
+  normalizeCaptureScreenId,
+  resolveCaptureIndexRow,
+} from '../src/site00/components/designWorkspace/captureNowClient.js';
 import type { PageVisualIndexRow } from '../src/site00/components/designWorkspace/DesignPagesVisualIndex';
 
 const rows: PageVisualIndexRow[] = [
@@ -43,6 +46,7 @@ describe('capture now after design authority upload', () => {
     ];
     expect(resolveCaptureIndexRow(siteRows, 'overview', 'site00')?.screenId).toBe('homepage');
     expect(resolveCaptureIndexRow(siteRows, 'homepage', 'site00')?.screenId).toBe('homepage');
+    expect(normalizeCaptureScreenId('overview', 'site00')).toBe('homepage');
   });
 
   it('replace authority dialog closes on local-only save', () => {

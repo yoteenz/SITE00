@@ -12,6 +12,10 @@ import {
   SITE00_WEBSITE_ROOT_ROUTE,
   SITE00_WEBSITE_ROOT_SCREEN_ID,
 } from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyRootTarget.js';
+import {
+  buildProjectPageMirrorRows,
+  pageMirrorRowToVisualIndexRow,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 
 const OVERVIEW_SCREEN_ALIASES = ['overview', 'desktop-overview', 'mobile-overview'] as const;
@@ -36,6 +40,18 @@ function resolveSite00HomepageRow(rows: PageVisualIndexRow[]): PageVisualIndexRo
   return (
     rows.find((r) => normalizeCaptureRoute(r.normalizedRoute ?? r.route) === SITE00_WEBSITE_ROOT_ROUTE) ?? null
   );
+}
+
+export function normalizeCaptureScreenId(screenId: string, projectId: string): string {
+  const normalized = screenId.toLowerCase();
+  if (isSite00WebsiteProject(projectId) && normalized === 'overview') {
+    return SITE00_WEBSITE_ROOT_SCREEN_ID;
+  }
+  return screenId;
+}
+
+export function buildLocalPageMirrorVisualRows(projectId: string): PageVisualIndexRow[] {
+  return buildProjectPageMirrorRows(projectId).map((row) => pageMirrorRowToVisualIndexRow(row));
 }
 
 export function resolveCaptureIndexRow(

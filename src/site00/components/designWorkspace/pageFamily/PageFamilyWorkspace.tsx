@@ -168,7 +168,14 @@ export function PageFamilyWorkspace({
   const isActiveRoot = Boolean(activeNode && activeNode.level === 0);
   const activeScreenId =
     activeNode?.screenId ??
-    (isActiveRoot ? resolveRootScreenId(projectId, rows.find((r) => r.screenId === 'overview')) : null);
+    (isActiveRoot
+      ? resolveRootScreenId(
+          projectId,
+          rootTarget?.screenId
+            ? rows.find((r) => r.screenId === rootTarget.screenId)
+            : undefined,
+        )
+      : null);
   const activeRoute = isActiveRoot && rootTarget ? rootTarget.canonicalRoute : activeNode?.route ?? '';
   const activePageId = activeRoute ? buildPageId(projectId, activeRoute) : '';
   const activeDisplayName = isActiveRoot && rootTarget ? rootTarget.canonicalName : activeNode?.label ?? 'PAGE';
