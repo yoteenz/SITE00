@@ -1,8 +1,8 @@
 /**
- * P0.VR.DIAG.1 — Before/after drift convergence scoring.
+ * P0.VR.DIAG.1 / P0.VR.DIAG.1R1 — Before/after drift convergence scoring.
  */
 
-import type { AuthorityRelativeForensicsReport, VisualConvergenceScore } from './types.js';
+import type { AuthorityRelativeForensicsReport, RegionConvergenceResult, VisualConvergenceScore } from './types.js';
 
 export function computeVisualConvergenceScore(input: {
   before: AuthorityRelativeForensicsReport;
@@ -55,4 +55,49 @@ function overallFromDimensions(score: VisualConvergenceScore): number {
     score.controls * 0.1 +
     score.order * 0.05;
   return Math.round(visual * 0.85 + score.function * 0.15);
+}
+
+function regionScore(report: AuthorityRelativeForensicsReport, regionId: string): number {
+  const bundle = report.regionForensics.find((b) => b.regionId === regionId);
+  if (!bundle) return 0;
+  if (bundle.dimensions.length === 0 && bundle.status === 'AMBIGUOUS') return 40;
+  const driftDims = bundle.dimensions.filter((d) => d.delta && !d.delta.includes('MISSING') && d.delta !== '0px');
+  const penalty = driftDims.length * 12;
+  return Math.max(0, Math.min(100, 100 - penalty));
+}
+
+export function computeRegionConvergenceResults(input: {
+  before: AuthorityRelativeForensicsReport;
+  after: AuthorityRelativeForensicsReport;
+}): RegionConvergenceResult[] {
+  const regionIds = new Set([
+    ...input.before.regionForensics.map((b) => b.regionId),
+    ...input.after.regionForensics.map((b) => b.regionId),
+  ]);
+
+  return [...regionIds].map((regionId) => {
+    const beforeBundle = input.before.regionForensics.find((b) => b.regionId === regionId);
+    const afterBundle = input.after.regionForensics.find((b) => b.regionId === regionId);
+    const beforeScore = regionScore(input.before, regionId);
+    const afterScore = regionScore(input.after, regionId);
+    const improvement = afterScore - beforeScore;
+    const improvementPct = beforeScore > 0 ? Math.round((improvement / beforeScore) * 100) : afterScore > 0 ? 100 : 0;
+    const remaining = afterBundle?.dimensions.filter((d) => d.delta && d.delta !== '0px').map((d) => `${d.dimension}: ${d.delta}`) ?? [];
+
+    let status: RegionConvergenceResult['status'] = 'UNCHANGED';
+    if (!beforeBundle || !afterBundle) status = 'UNANALYZED';
+    else if (improvement > 5) status = 'IMPROVED';
+    else if (improvement < -5) status = 'REGRESSED';
+
+    return {
+      regionId,
+      regionName: afterBundle?.regionName ?? beforeBundle?.regionName ?? regionId,
+      beforeScore,
+      afterScore,
+      improvement,
+      improvementPct,
+      remainingIssues: remaining.slice(0, 4),
+      status,
+    };
+  });
 }

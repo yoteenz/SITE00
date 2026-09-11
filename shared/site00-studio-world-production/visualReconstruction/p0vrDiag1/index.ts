@@ -15,3 +15,6 @@ export * from './forensicsVersion.js';
 export * from './founderOverrides.js';
 export * from './upgradeDiagnosisBridge.js';
 export * from './twinForensicsSnapshot.js';
+export * from './fullPageRegionCoverage.js';
+export * from './multiDimensionForensics.js';
+export * from './stackLayout.js';

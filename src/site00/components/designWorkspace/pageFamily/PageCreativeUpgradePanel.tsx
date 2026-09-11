@@ -88,6 +88,8 @@ export function PageCreativeUpgradePanel({
   const [refineText, setRefineText] = useState('');
   const [promotionConfirmOpen, setPromotionConfirmOpen] = useState(false);
   const [evidenceId, setEvidenceId] = useState<string | null>(null);
+  const [allForensicsOpen, setAllForensicsOpen] = useState(false);
+  const [evidenceRegionId, setEvidenceRegionId] = useState<string | null>(null);
 
   const showTwinReview =
     twinSession &&
@@ -124,12 +126,14 @@ export function PageCreativeUpgradePanel({
     return 'CURRENT VS DESIGN AUTHORITY';
   }, [showPostBuild, showTwinReview, session.status, twinSession?.status]);
 
+  const coverageBlocked = diagnosis?.forensicCoverage?.blockApproveDirection ?? false;
+
   const primaryAction = useMemo(() => {
     if (session.status === 'DIRECTION_READY') {
       return {
-        label: 'APPROVE DIRECTION',
+        label: coverageBlocked ? 'FORENSICS INCOMPLETE' : 'APPROVE DIRECTION',
         onClick: onApprove,
-        disabled: missingCurrent || missingAuthority,
+        disabled: missingCurrent || missingAuthority || coverageBlocked,
       };
     }
     if (session.status === 'DIRECTION_APPROVED' && !twinSession) {
@@ -159,6 +163,7 @@ export function PageCreativeUpgradePanel({
     buildingTwin,
     missingCurrent,
     missingAuthority,
+    coverageBlocked,
   ]);
 
   const secondaryAction = useMemo(() => {
@@ -421,6 +426,41 @@ export function PageCreativeUpgradePanel({
               ) : null}
               {renderVisualCompare()}
 
+              {diagnosis?.forensicCoverage ? (
+                <section
+                  className={`site00-pfw-upgrade-v2__coverage site00-pfw-upgrade-v2__coverage--${diagnosis.forensicCoverage.gateStatus.toLowerCase()}`}
+                >
+                  <h3>FORENSIC COVERAGE</h3>
+                  <p className="site00-pfw-upgrade-v2__coverage-summary">
+                    {diagnosis.forensicCoverage.majorAccounted} / {diagnosis.forensicCoverage.majorTotal} MAJOR REGIONS
+                    ACCOUNTED · {diagnosis.forensicCoverage.measurementDepthPct}% MULTI-DIMENSION DEPTH
+                    {diagnosis.forensicCoverage.ambiguousCount > 0
+                      ? ` · ${diagnosis.forensicCoverage.ambiguousCount} AMBIGUOUS`
+                      : ''}
+                  </p>
+                  <p className="site00-pfw-upgrade-v2__coverage-gate">
+                    {diagnosis.forensicCoverage.gateStatus}: {diagnosis.forensicCoverage.gateReason}
+                  </p>
+                  {diagnosis.forensicCoverage.scopeMismatch ? (
+                    <p className="site00-pfw-upgrade-v2__coverage-warn">
+                      CURRENT CAPTURE SCOPE INSUFFICIENT — FULL-PAGE CAPTURE REQUIRED FOR COMPLETE ANALYSIS.
+                    </p>
+                  ) : null}
+                  {diagnosis.forensicCoverage.missingCurrent.length ? (
+                    <p className="site00-pfw-upgrade-v2__coverage-missing">
+                      MISSING FROM CURRENT: {diagnosis.forensicCoverage.missingCurrent.join(' · ')}
+                    </p>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                    onClick={() => setAllForensicsOpen(true)}
+                  >
+                    VIEW ALL FORENSICS
+                  </button>
+                </section>
+              ) : null}
+
               {diagnosis?.topVisualDifferences?.length ? (
                 <section className="site00-pfw-upgrade-v2__diagnosis">
                   <h3>TOP VISUAL DIFFERENCES</h3>
@@ -526,49 +566,128 @@ export function PageCreativeUpgradePanel({
                       </div>
                     ))}
                   </dl>
+                  {twinSession.regionConvergence?.length ? (
+                    <ul className="site00-pfw-upgrade-v2__region-convergence">
+                      {twinSession.regionConvergence
+                        .filter((r) => r.status !== 'UNANALYZED')
+                        .slice(0, 8)
+                        .map((r) => (
+                          <li key={r.regionId}>
+                            <strong>{r.regionName}</strong>
+                            <span>
+                              {r.beforeScore} → {r.afterScore}
+                            </span>
+                          </li>
+                        ))}
+                    </ul>
+                  ) : null}
                 </section>
               ) : null}
 
-              {evidenceId && plan ? (
-                <div className="site00-pfw-upgrade-v2__evidence-sheet" role="dialog" aria-label="Forensic evidence">
-                  {(() => {
-                    const item = [...plan.geometryChanges, ...plan.spacingChanges, ...plan.componentChanges].find(
-                      (c) => c.evidenceId === evidenceId,
-                    );
-                    const top = diagnosis?.topVisualDifferences?.find((d) => d.evidenceId === evidenceId);
-                    return (
-                      <>
-                        <h4>EVIDENCE — {item?.regionName ?? top?.regionName ?? evidenceId}</h4>
-                        <dl>
-                          <div>
-                            <dt>AUTHORITY</dt>
-                            <dd>{item?.authorityValue ?? top?.authority ?? '—'}</dd>
-                          </div>
-                          <div>
-                            <dt>CURRENT</dt>
-                            <dd>{item?.currentValue ?? top?.current ?? '—'}</dd>
-                          </div>
-                          <div>
-                            <dt>DELTA</dt>
-                            <dd>{item?.delta ?? top?.delta ?? '—'}</dd>
-                          </div>
-                          <div>
-                            <dt>CORRECTION</dt>
-                            <dd>{item?.correction ?? top?.correction ?? '—'}</dd>
-                          </div>
-                          <div>
-                            <dt>CONFIDENCE</dt>
-                            <dd>{item?.confidence ?? top?.confidence ?? '—'}</dd>
-                          </div>
-                          <div>
-                            <dt>FUNCTIONAL RISK</dt>
-                            <dd>{item?.functionalRisk ?? 'LOW'}</dd>
-                          </div>
-                        </dl>
+              {allForensicsOpen && diagnosis?.allRegionForensics?.length ? (
+                <div className="site00-pfw-upgrade-v2__evidence-sheet site00-pfw-upgrade-v2__evidence-sheet--all" role="dialog" aria-label="All forensics">
+                  <h4>ALL FORENSICS — {diagnosis.allRegionForensics.length} REGIONS</h4>
+                  <ul className="site00-pfw-upgrade-v2__all-forensics">
+                    {diagnosis.allRegionForensics.map((region) => (
+                      <li key={region.regionId}>
+                        <strong>{region.regionName}</strong>
+                        <span className={`site00-pfw-upgrade-v2__region-status is-${region.status.toLowerCase()}`}>
+                          {region.status.replace(/_/g, ' ')}
+                        </span>
+                        <span>{region.dimensionCount} dimensions · {region.confidence}</span>
+                        {region.topDelta ? <span className="site00-pfw-upgrade-v2__forensics-delta">{region.topDelta}</span> : null}
                         <button
                           type="button"
                           className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-                          onClick={() => setEvidenceId(null)}
+                          onClick={() => {
+                            setEvidenceRegionId(region.regionId);
+                            setAllForensicsOpen(false);
+                          }}
+                        >
+                          VIEW EVIDENCE
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                    onClick={() => setAllForensicsOpen(false)}
+                  >
+                    CLOSE
+                  </button>
+                </div>
+              ) : null}
+
+              {(evidenceId || evidenceRegionId) && plan ? (
+                <div className="site00-pfw-upgrade-v2__evidence-sheet" role="dialog" aria-label="Forensic evidence">
+                  {(() => {
+                    const regionId = evidenceRegionId;
+                    const regionSpecs = plan.geometryChanges
+                      .concat(plan.spacingChanges, plan.componentChanges)
+                      .filter((c) => (regionId ? c.regionId === regionId : c.evidenceId === evidenceId));
+                    const item = regionSpecs[0] ?? [...plan.geometryChanges, ...plan.spacingChanges, ...plan.componentChanges].find(
+                      (c) => c.evidenceId === evidenceId,
+                    );
+                    const top = diagnosis?.topVisualDifferences?.find((d) => d.evidenceId === evidenceId);
+                    const regionSummary = diagnosis?.allRegionForensics?.find((r) => r.regionId === (regionId ?? item?.regionId));
+                    return (
+                      <>
+                        <h4>EVIDENCE — {item?.regionName ?? regionSummary?.regionName ?? top?.regionName ?? evidenceId}</h4>
+                        {regionSummary ? (
+                          <p className="site00-pfw-upgrade-v2__evidence-status">
+                            {regionSummary.status.replace(/_/g, ' ')} · {regionSummary.dimensionCount} dimensions ·{' '}
+                            {regionSummary.confidence}
+                          </p>
+                        ) : null}
+                        {regionSpecs.length > 1 ? (
+                          <ul className="site00-pfw-upgrade-v2__evidence-dimensions">
+                            {regionSpecs.map((spec) => (
+                              <li key={spec.id}>
+                                <strong>{spec.authorityValue?.split(':')[0] ?? spec.label}</strong>
+                                <span>
+                                  {spec.authorityValue?.split(':').slice(1).join(':').trim() ?? spec.authorityValue} →{' '}
+                                  {spec.currentValue?.split(':').slice(1).join(':').trim() ?? spec.currentValue}
+                                </span>
+                                <span className="site00-pfw-upgrade-v2__forensics-delta">{spec.delta}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <dl>
+                            <div>
+                              <dt>AUTHORITY</dt>
+                              <dd>{item?.authorityValue ?? top?.authority ?? '—'}</dd>
+                            </div>
+                            <div>
+                              <dt>CURRENT</dt>
+                              <dd>{item?.currentValue ?? top?.current ?? '—'}</dd>
+                            </div>
+                            <div>
+                              <dt>DELTA</dt>
+                              <dd>{item?.delta ?? top?.delta ?? '—'}</dd>
+                            </div>
+                            <div>
+                              <dt>CORRECTION</dt>
+                              <dd>{item?.correction ?? top?.correction ?? '—'}</dd>
+                            </div>
+                            <div>
+                              <dt>CONFIDENCE</dt>
+                              <dd>{item?.confidence ?? top?.confidence ?? '—'}</dd>
+                            </div>
+                            <div>
+                              <dt>FUNCTIONAL RISK</dt>
+                              <dd>{item?.functionalRisk ?? 'LOW'}</dd>
+                            </div>
+                          </dl>
+                        )}
+                        <button
+                          type="button"
+                          className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                          onClick={() => {
+                            setEvidenceId(null);
+                            setEvidenceRegionId(null);
+                          }}
                         >
                           CLOSE
                         </button>

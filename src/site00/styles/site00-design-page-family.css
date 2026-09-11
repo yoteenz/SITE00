@@ -983,6 +983,93 @@
   font-weight: 600;
 }
 
+.site00-pfw-upgrade-v2__coverage {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid var(--site00-dw-line);
+  font-size: 11px;
+}
+
+.site00-pfw-upgrade-v2__coverage--block {
+  border-color: #c0392b;
+}
+
+.site00-pfw-upgrade-v2__coverage--warning {
+  border-color: #d68910;
+}
+
+.site00-pfw-upgrade-v2__coverage--pass {
+  border-color: #1e8449;
+}
+
+.site00-pfw-upgrade-v2__coverage-summary,
+.site00-pfw-upgrade-v2__coverage-gate {
+  margin: 4px 0;
+}
+
+.site00-pfw-upgrade-v2__coverage-warn,
+.site00-pfw-upgrade-v2__coverage-missing {
+  color: #c0392b;
+  margin: 4px 0;
+}
+
+.site00-pfw-upgrade-v2__all-forensics {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.site00-pfw-upgrade-v2__all-forensics li {
+  border-bottom: 1px solid var(--site00-dw-line);
+  padding: 8px 0;
+  display: grid;
+  gap: 4px;
+}
+
+.site00-pfw-upgrade-v2__region-status.is-matched {
+  color: #1e8449;
+}
+
+.site00-pfw-upgrade-v2__region-status.is-missing_current,
+.site00-pfw-upgrade-v2__region-status.is-ambiguous {
+  color: #d68910;
+}
+
+.site00-pfw-upgrade-v2__region-convergence {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  font-size: 11px;
+}
+
+.site00-pfw-upgrade-v2__region-convergence li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--site00-dw-line);
+}
+
+.site00-pfw-upgrade-v2__evidence-dimensions {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 11px;
+}
+
+.site00-pfw-upgrade-v2__evidence-dimensions li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--site00-dw-line);
+}
+
+.site00-pfw-upgrade-v2__evidence-status {
+  font-size: 11px;
+  opacity: 0.85;
+  margin: 0 0 8px;
+}
+
 .site00-pfw-upgrade-v2__evidence-sheet {
   margin-top: 12px;
   padding: 12px;

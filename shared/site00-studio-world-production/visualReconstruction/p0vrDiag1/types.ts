@@ -86,14 +86,191 @@ export type VisualRegionBounds = {
   selectorHint?: string | null;
 };
 
+export const VISUAL_REGION_TYPES = [
+  'HEADER',
+  'IDENTITY',
+  'NAVIGATION',
+  'HERO',
+  'MEDIA',
+  'STATUS',
+  'METRICS',
+  'CONTENT',
+  'LIST',
+  'CARD_RAIL',
+  'CTA',
+  'CONTROLS',
+  'FOOTER',
+  'PERSISTENT_NAV',
+  'CUSTOM',
+] as const;
+export type VisualRegionType = (typeof VISUAL_REGION_TYPES)[number];
+
+export const REGION_SIGNIFICANCE_LEVELS = ['MAJOR', 'SUPPORTING', 'MINOR'] as const;
+export type RegionSignificance = (typeof REGION_SIGNIFICANCE_LEVELS)[number];
+
+export const FORENSIC_CAPTURE_SCOPES = ['CURRENT_VIEWPORT', 'FULL_PAGE', 'SEGMENTED_SCROLL'] as const;
+export type ForensicCaptureScope = (typeof FORENSIC_CAPTURE_SCOPES)[number];
+
+export const FORENSIC_COVERAGE_GATE_STATUSES = ['PASS', 'WARNING', 'BLOCK'] as const;
+export type ForensicCoverageGateStatus = (typeof FORENSIC_COVERAGE_GATE_STATUSES)[number];
+
+export const FULL_PAGE_FORENSIC_STATUSES = [
+  'INCOMPLETE_FORENSICS',
+  'READY_FOR_DIRECTION',
+  'READY_FOR_TWIN',
+  'TWIN_PARTIAL',
+  'TWIN_CONVERGED',
+  'REVISION_REQUIRED',
+  'CURRENT_CAPTURE_SCOPE_INSUFFICIENT',
+] as const;
+export type FullPageForensicStatus = (typeof FULL_PAGE_FORENSIC_STATUSES)[number];
+
 export type VisualRegionMatch = {
   regionId: string;
   regionName: string;
+  regionType?: VisualRegionType;
+  significance?: RegionSignificance;
   authorityRegion: VisualRegionBounds | null;
   currentRegion: VisualRegionBounds | null;
   matchConfidence: ForensicConfidence;
   matchMethod: 'DOM_ID' | 'LAYOUT_PROFILE' | 'VISUAL_STRUCTURE' | 'AMBIGUOUS';
   status: RegionMatchStatus;
+};
+
+export type RegionDimensionEvidence = {
+  evidenceId: string;
+  regionId: string;
+  dimension: string;
+  authorityValue: string | number;
+  currentValue: string | number;
+  delta: string | null;
+  deltaPct: number | null;
+  unit: 'px' | 'pct' | 'ratio' | 'count' | 'none';
+  confidence: ForensicConfidence;
+  source: 'DOM' | 'CSS_SNAPSHOT' | 'SHELL_SPEC' | 'LAYOUT_PROFILE' | 'ESTIMATED';
+};
+
+export type RegionComponentTarget = {
+  regionId: string;
+  componentId: string | null;
+  selector: string | null;
+  route: string | null;
+  confidence: ForensicConfidence;
+  unresolvedComponentTarget: boolean;
+};
+
+export type RegionForensicsBundle = {
+  regionId: string;
+  regionName: string;
+  regionType: VisualRegionType;
+  significance: RegionSignificance;
+  status: RegionMatchStatus;
+  componentTarget: RegionComponentTarget;
+  dimensions: RegionDimensionEvidence[];
+  corrections: string[];
+  confidence: ForensicConfidence;
+  functionalRisk: FunctionalRiskLevel;
+};
+
+export type FullPageRegionCoverageMap = {
+  pageId: string;
+  viewport: DesignViewportClass;
+  authorityVersionId: string | null;
+  captureId: string;
+  authorityRegions: string[];
+  currentRegions: string[];
+  matches: VisualRegionMatch[];
+  missingCurrent: string[];
+  extraCurrent: string[];
+  ambiguous: string[];
+  coverageScore: ForensicCoverageScore;
+  unresolvedMajorRegions: string[];
+  captureScope: ForensicCaptureScope;
+  authorityCaptureScope: ForensicCaptureScope;
+  scopeMismatch: boolean;
+  status: FullPageForensicStatus;
+};
+
+export type ForensicCoverageScore = {
+  majorAuthorityTotal: number;
+  majorAccounted: number;
+  majorAccountedPct: number;
+  majorWithMeasurementDepth: number;
+  measurementDepthPct: number;
+  ambiguousCount: number;
+  score: number;
+};
+
+export type ForensicCoverageGate = {
+  status: ForensicCoverageGateStatus;
+  reason: string;
+  blockApproveDirection: boolean;
+  founderMayProceedWithWarning: boolean;
+};
+
+export type VerticalRhythmGap = {
+  fromRegionId: string;
+  toRegionId: string;
+  fromRegionName: string;
+  toRegionName: string;
+  authorityGapPx: number | null;
+  currentGapPx: number | null;
+  deltaPx: number | null;
+  confidence: ForensicConfidence;
+  correction: string | null;
+};
+
+export type VerticalRhythmProfile = {
+  evidenceId: string;
+  gaps: VerticalRhythmGap[];
+};
+
+export type PageGutterProfile = {
+  evidenceId: string;
+  authorityLeft: number | null;
+  authorityRight: number | null;
+  currentLeft: number | null;
+  currentRight: number | null;
+  deltaLeft: number | null;
+  deltaRight: number | null;
+  confidence: ForensicConfidence;
+  correction: string | null;
+};
+
+export type TypographyHierarchyLevel = {
+  role: string;
+  authorityFontSizePx: number | null;
+  currentFontSizePx: number | null;
+  authorityLineCount: number | null;
+  currentLineCount: number | null;
+  scaleToBodyRatio: number | null;
+  confidence: ForensicConfidence;
+};
+
+export type TypographyHierarchyProfile = {
+  evidenceId: string;
+  levels: TypographyHierarchyLevel[];
+  correction: string | null;
+};
+
+export type RegionSequenceComparison = {
+  evidenceId: string;
+  authorityOrder: string[];
+  currentOrder: string[];
+  mismatch: boolean;
+  correction: string | null;
+  confidence: ForensicConfidence;
+};
+
+export type RegionConvergenceResult = {
+  regionId: string;
+  regionName: string;
+  beforeScore: number;
+  afterScore: number;
+  improvement: number;
+  improvementPct: number;
+  remainingIssues: string[];
+  status: 'IMPROVED' | 'UNCHANGED' | 'REGRESSED' | 'UNANALYZED';
 };
 
 export type GeometryDelta = {
@@ -247,6 +424,13 @@ export type AuthorityRelativeForensicsReport = {
   captureId: string;
   alignmentStatus: AlignmentStatus;
   regionMatches: VisualRegionMatch[];
+  regionForensics: RegionForensicsBundle[];
+  coverageMap: FullPageRegionCoverageMap;
+  coverageGate: ForensicCoverageGate;
+  verticalRhythm: VerticalRhythmProfile | null;
+  gutterProfile: PageGutterProfile | null;
+  typographyHierarchy: TypographyHierarchyProfile | null;
+  regionSequence: RegionSequenceComparison | null;
   geometryDiffs: GeometryDelta[];
   spacingDiffs: SpacingDelta[];
   typographyDiffs: TypographyDelta[];
@@ -261,6 +445,7 @@ export type AuthorityRelativeForensicsReport = {
   topImpactItems: VisualImpactScore[];
   confidenceSummary: Record<ForensicConfidence, number>;
   functionalRiskSummary: FunctionalRiskAssessment[];
+  fullPageStatus: FullPageForensicStatus;
   generatedAt: string;
 };
 
@@ -268,10 +453,13 @@ export type RegionReconstructionSpec = {
   regionId: string;
   regionName: string;
   evidenceId: string;
+  outcome?: RegionMatchStatus;
   authorityTarget: string;
   currentState: string;
   delta: string;
   correction: string;
+  corrections?: string[];
+  dimensionDeltas?: RegionDimensionEvidence[];
   visualCategory: VisualCategory;
   confidence: ForensicConfidence;
   functionalRisk: FunctionalRiskLevel;
@@ -295,6 +483,7 @@ export type MeasuredReconstructionSpec = {
   assetRequirements: string[];
   responsiveRequirements: string[];
   confidenceSummary: Record<ForensicConfidence, number>;
+  coverageGateStatus?: ForensicCoverageGateStatus;
   status: MeasuredSpecStatus;
   generatedAt: string;
 };

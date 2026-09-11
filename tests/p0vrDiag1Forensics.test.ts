@@ -101,7 +101,7 @@ describe('P0.VR.DIAG.1 forensics', () => {
       },
     });
     expect(report.geometryDiffs.length).toBeGreaterThan(0);
-    expect(report.geometryDiffs[0].evidenceId).toMatch(/^geom_/);
+    expect(report.geometryDiffs[0].evidenceId).toMatch(/^(geom_|dim_)/);
     expect(report.geometryDiffs[0].authority).toBeTruthy();
     expect(report.geometryDiffs[0].current).toBeTruthy();
     expect(report.geometryDiffs[0].correction).toMatch(/height/i);
@@ -125,7 +125,7 @@ describe('P0.VR.DIAG.1 forensics', () => {
         visualShellSpec: SHELL,
       },
     });
-    const headerDiff = report.geometryDiffs.find((d) => d.regionName === 'HEADER');
+    const headerDiff = report.geometryDiffs.find((d) => d.regionName.includes('HEADER'));
     expect(headerDiff).toBeTruthy();
     expect(headerDiff!.absoluteDelta).toBeGreaterThan(0);
     expect(String(headerDiff!.authority)).toContain('px');
