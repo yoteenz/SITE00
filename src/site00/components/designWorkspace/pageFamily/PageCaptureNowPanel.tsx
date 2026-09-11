@@ -48,6 +48,8 @@ type Props = {
   onViewDetails?: () => void;
   onReplaceAuthority?: () => void;
   onViewAuthorityHistory?: () => void;
+  onRetryTransport?: () => void;
+  captureServiceChecking?: boolean;
 };
 
 const INITIAL_HEALTH: PreviewHealth = {
@@ -80,6 +82,8 @@ export function PageCaptureNowPanel({
   onViewDetails,
   onReplaceAuthority,
   onViewAuthorityHistory,
+  onRetryTransport,
+  captureServiceChecking = false,
 }: Props) {
   const stored = usePageViewportCapture(projectId, pageId, viewport);
   const [authorityPreviewHealth, setAuthorityPreviewHealth] = useState<PreviewHealth>(INITIAL_HEALTH);
@@ -246,9 +250,13 @@ export function PageCaptureNowPanel({
 
       {captureError ? <p className="site00-pfw-capture-now__error">{captureError}</p> : null}
 
-      {!captureAvailable ? (
+      {captureServiceChecking ? (
+        <p className="site00-pfw-capture-now__unavailable">CHECKING CAPTURE SERVICE…</p>
+      ) : null}
+
+      {!captureAvailable && !captureServiceChecking ? (
         <p className="site00-pfw-capture-now__unavailable">
-          CAPTURE UNAVAILABLE — fix capture service in MORE → CAPTURE. Page family work remains available.
+          CAPTURE SERVICE OFFLINE — tap CAPTURE NOW to retry, or fix in MORE → CAPTURE. Railway redeploy may be required.
         </p>
       ) : null}
 
@@ -281,10 +289,13 @@ export function PageCaptureNowPanel({
           <button
             type="button"
             className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-            onClick={onCaptureNow}
-            disabled={!captureAvailable}
+            disabled={capturing || captureServiceChecking}
+            onClick={() => {
+              if (!captureAvailable) onRetryTransport?.();
+              onCaptureNow();
+            }}
           >
-            {nextAction.label}
+            {capturing ? 'CAPTURING…' : nextAction.label}
           </button>
         ) : null}
       </div>

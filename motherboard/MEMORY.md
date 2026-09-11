@@ -7828,3 +7828,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `isCaptureCorsOriginAllowed()` allows `*.fsbw-dev.com`, `*.trycloudflare.com`, `*.site00.com`; `formatCaptureTransportError` + `resolveDesignAuthorityUpload()` — recoverable transport errors fall back to device-local authority save with **SAVED ON THIS DEVICE ONLY** notice; `beginReplaceDesignAuthorityFromDataUrl` for compressed upload path. Deploy ZIP **v283**; **Railway redeploy required** for CORS + `upload_design_authority`.
 - **Founder QA:** Hard refresh fsbw-dev → REPLACE → APPROVE (cloud upload if API up; else local save + yellow notice). RECAPTURE if live preview still 404 (stale localStorage capture).
 
+---
+
+## 2026-09-11 — CAPTURE NOW dead + refresh 404 on fsbw-dev (v284)
+
+- **Issue:** Founder on fsbw-dev — CAPTURE NOW button appeared dead (disabled when transport preflight failed); hard refresh on design/projects deep URLs showed server 404; live capture preview showed 404 page.
+- **Root cause:** `captureServiceInput` defaulted `apiReachable` to false → disabled button on CORS/offline; Playwright used `window.location.origin` (fsbw-dev) where deep routes 404 without fresh `.htaccess`; preflight pending treated as offline.
+- **Fix:** CAPTURE NOW always clickable (retry transport + readable errors); `resolveFounderCaptureBaseUrl()` targets `https://site00.com` from preview hosts; `.htaccess` `ErrorDocument 404 /index.html` + `404.html` SPA fallback. Deploy ZIP **v284**; Railway redeploy still required for API CORS/worker.
+

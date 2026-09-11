@@ -7,6 +7,9 @@
   RewriteRule . /index.html [L]
 </IfModule>
 
+# GoDaddy/cPanel: serve SPA shell for hard-refreshed deep links (e.g. /projects/ndxbook/design).
+ErrorDocument 404 /index.html
+
 # Always revalidate SPA shell so new deploys take effect immediately (assets stay hashed).
 <IfModule mod_headers.c>
   <FilesMatch "^(index\.html|release-manifest\.json)$">
