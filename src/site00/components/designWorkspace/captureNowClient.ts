@@ -7,9 +7,36 @@ import {
   migrateHistoricalRootCapturePageId,
 } from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyRootTarget.js';
 import type { CaptureCompletionReceipt, CaptureErrorCode } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/captureReceipts.js';
+import {
+  isSite00WebsiteProject,
+  SITE00_WEBSITE_ROOT_ROUTE,
+  SITE00_WEBSITE_ROOT_SCREEN_ID,
+} from '../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyRootTarget.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 
 const OVERVIEW_SCREEN_ALIASES = ['overview', 'desktop-overview', 'mobile-overview'] as const;
+const SITE00_ROOT_SCREEN_ALIASES = [
+  SITE00_WEBSITE_ROOT_SCREEN_ID,
+  ...OVERVIEW_SCREEN_ALIASES,
+] as const;
+
+function normalizeCaptureRoute(route: string | undefined | null): string {
+  return (route ?? '').split('?')[0]?.replace(/\/$/, '').toLowerCase() ?? '';
+}
+
+function isSite00RootCaptureTarget(screenId: string, projectId?: string): boolean {
+  if (!projectId || !isSite00WebsiteProject(projectId)) return false;
+  const normalized = screenId.toLowerCase();
+  return SITE00_ROOT_SCREEN_ALIASES.includes(normalized as (typeof SITE00_ROOT_SCREEN_ALIASES)[number]);
+}
+
+function resolveSite00HomepageRow(rows: PageVisualIndexRow[]): PageVisualIndexRow | null {
+  const byScreen = rows.find((r) => r.screenId === SITE00_WEBSITE_ROOT_SCREEN_ID);
+  if (byScreen) return byScreen;
+  return (
+    rows.find((r) => normalizeCaptureRoute(r.normalizedRoute ?? r.route) === SITE00_WEBSITE_ROOT_ROUTE) ?? null
+  );
+}
 
 export function resolveCaptureIndexRow(
   rows: PageVisualIndexRow[],
@@ -20,6 +47,12 @@ export function resolveCaptureIndexRow(
   if (direct) return direct;
 
   const normalizedTarget = screenId.toLowerCase();
+
+  if (isSite00RootCaptureTarget(normalizedTarget, projectId)) {
+    const homepage = resolveSite00HomepageRow(rows);
+    if (homepage) return homepage;
+  }
+
   if (OVERVIEW_SCREEN_ALIASES.includes(normalizedTarget as (typeof OVERVIEW_SCREEN_ALIASES)[number])) {
     for (const alias of OVERVIEW_SCREEN_ALIASES) {
       const match = rows.find((r) => r.screenId === alias);
@@ -29,7 +62,7 @@ export function resolveCaptureIndexRow(
       const rootPrefix = `/projects/${projectId}`.toLowerCase();
       const overviewRoute = `${rootPrefix}/overview`;
       const rootMatch = rows.find((r) => {
-        const route = (r.normalizedRoute ?? r.route ?? '').split('?')[0]?.replace(/\/$/, '').toLowerCase() ?? '';
+        const route = normalizeCaptureRoute(r.normalizedRoute ?? r.route);
         return route === rootPrefix || route === overviewRoute || route.endsWith('/overview');
       });
       if (rootMatch) return rootMatch;

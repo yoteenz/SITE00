@@ -25,6 +25,26 @@ describe('capture now after design authority upload', () => {
     expect(row?.screenId).toBe('desktop-overview');
   });
 
+  it('resolves site00 overview alias to homepage mirror row', () => {
+    const siteRows: PageVisualIndexRow[] = [
+      {
+        screenId: 'homepage',
+        displayName: 'SITE 00 Homepage',
+        route: '/',
+        normalizedRoute: '/',
+        mobile: null,
+        referenceUrl: null,
+        neverCaptured: true,
+        resolvedCaptureState: 'NEVER_CAPTURED',
+        pageCaptureStatus: 'NEVER_CAPTURED',
+        isStale: false,
+        missingImplementation: false,
+      },
+    ];
+    expect(resolveCaptureIndexRow(siteRows, 'overview', 'site00')?.screenId).toBe('homepage');
+    expect(resolveCaptureIndexRow(siteRows, 'homepage', 'site00')?.screenId).toBe('homepage');
+  });
+
   it('replace authority dialog closes on local-only save', () => {
     const src = readFileSync('src/site00/components/designWorkspace/pageFamily/ReplaceDesignAuthorityDialog.tsx', 'utf8');
     expect(src).toContain('onReplaced(resolved.warning)');
