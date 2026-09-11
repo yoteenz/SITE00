@@ -57,7 +57,7 @@ export function ndxFounderWorkspaceMobileNav(projectSlug: string): NdxMobileNavI
 export function resolveMobileScreenIdFromPath(pathname: string, projectSlug: string): string {
   const normalized = pathname.replace(/\/+$/, '');
   const base = `/projects/${projectSlug}`;
-  if (normalized === base) return 'overview';
+  if (normalized === base || normalized === `${base}/overview`) return 'overview';
   if (normalized === `${base}/lab`) return 'lab-hub';
   if (normalized.includes('/content-operations/campaign-board/entry/')) return 'campaign-board-entry';
   if (normalized.includes('/content-operations/campaign-board')) return 'campaign-board';

@@ -47,6 +47,15 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
   const signInHref = site00SignInHrefWithReturnTo(location);
 
   useEffect(() => {
+    const designPreviewCapture =
+      typeof window !== 'undefined' &&
+      new URLSearchParams(location.search).get('designPreview') === '1';
+    if (designPreviewCapture) {
+      finishLocalAuthRecovery();
+      setRecoveryDone(true);
+      return;
+    }
+
     if (cloudPreview) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
@@ -141,7 +150,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview]);
+  }, [cloudPreview, location.search]);
 
   if (timedOut && isLoading) {
     return (

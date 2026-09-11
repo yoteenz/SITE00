@@ -8,6 +8,7 @@ import { tmpdir } from 'node:os';
 import type { RenderedReferenceSnapshot } from '../types.js';
 import type { RenderedDomMeasurement, RenderedDomMeasurementMap } from '../p0vr1d1/types.js';
 import { loadVisualCaptureAuthContext } from '../../../site00-visual-reference/captureAuthContext.js';
+import { resolveCaptureWaitSelector } from './resolveCaptureWaitSelector.js';
 
 export type ControlledRenderInput = {
   route: string;
@@ -28,6 +29,8 @@ export type ControlledRenderInput = {
   domRegionSelector?: string;
   /** Wait for this selector before screenshot (surface identity) */
   waitForSelector?: string | null;
+  /** Design screen id (overview, content-ops, …) for capture anchor resolution */
+  screenId?: string | null;
 };
 
 export type ControlledRenderResult = RenderedReferenceSnapshot & {
@@ -101,9 +104,12 @@ export async function renderControlledReference(input: ControlledRenderInput): P
   await page.waitForLoadState('domcontentloaded').catch(() => {});
   await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {});
 
-  const waitSelector =
-    input.waitForSelector ??
-    (input.route.includes('/projects/ndxbook') ? '[data-vr-region="ndx.header"]' : input.selector ?? null);
+  const waitSelector = resolveCaptureWaitSelector({
+    route: input.route,
+    screenId: input.screenId,
+    previewDeviceMode: previewMode,
+    selector: input.waitForSelector ?? input.selector ?? null,
+  });
   let anchorFound = !waitSelector;
   if (waitSelector) {
     anchorFound = await page
