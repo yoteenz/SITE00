@@ -275,8 +275,8 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
       apiConnected: transport.apiReachable,
       workerHealthy:
         transport.workerStatus === 'HEALTHY' && Boolean(transport.playwrightReady && transport.browserReady),
-      browserReady: transport.browserReady,
-      contractValid: transport.contractCompatible,
+      browserReady: Boolean(transport.browserReady),
+      contractValid: Boolean(transport.contractCompatible),
     };
   }, [captureTransportPending, transport]);
 
