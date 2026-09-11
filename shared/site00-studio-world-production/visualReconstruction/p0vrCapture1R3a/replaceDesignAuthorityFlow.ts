@@ -81,7 +81,8 @@ export async function beginReplaceDesignAuthorityFromDataUrl(
       extension: ext,
     });
 
-    const viewportDims = CANONICAL_VIEWPORT_DIMENSIONS[context.viewport];
+    const viewportDims =
+      CANONICAL_VIEWPORT_DIMENSIONS[context.viewport] ?? CANONICAL_VIEWPORT_DIMENSIONS.mobile;
     let width: number = viewportDims.width;
     let height: number = viewportDims.height;
     try {
@@ -143,7 +144,11 @@ function loadImageDimensions(dataUrl: string): Promise<{ width: number; height: 
   }
   return new Promise((resolve, reject) => {
     const img = new globalThis.Image();
-    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onload = () =>
+      resolve({
+        width: img.naturalWidth || img.width || CANONICAL_VIEWPORT_DIMENSIONS.mobile.width,
+        height: img.naturalHeight || img.height || CANONICAL_VIEWPORT_DIMENSIONS.mobile.height,
+      });
     img.onerror = () => reject(new Error('DECODE_FAILED'));
     img.src = dataUrl;
   });
