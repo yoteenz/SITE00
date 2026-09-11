@@ -97,6 +97,7 @@ export type PageCreativeUpgradeSession = {
   captureId: string;
   parentAuthorityId: string | null;
   childArchetype: string | null;
+  isRoot: boolean;
   currentDiagnosis: PageCreativeDiagnosis | null;
   creativeDirectionPlan: PageCreativeDirectionPlan | null;
   status: PageCreativeUpgradeStatus;

@@ -25,6 +25,18 @@ import {
   listSiblingNodes,
 } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyBuilder.js';
 import {
+  buildPageFamilyRootTarget,
+  buildPageId,
+  defaultSelectedNodeId,
+  resolveReviewStepLabel,
+  resolveRootScreenId,
+} from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyRootTarget.js';
+import {
+  authorityStatusLabel,
+  resolveDesignAuthorityPreview,
+  resolvePageViewportAuthority,
+} from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageViewportAuthority.js';
+import {
   buildProjectProgressSummary,
   derivePageFamilyReadiness,
 } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyReadiness.js';
@@ -81,7 +93,7 @@ function toRowInput(row: PageVisualIndexRow): PageFamilyRowInput {
 
 export function PageFamilyWorkspace({
   projectId,
-  projectName = 'PROJECT',
+  projectName: _projectName = 'PROJECT',
   rows,
   onOpenPage,
   onSelectScreen,
@@ -125,31 +137,44 @@ export function PageFamilyWorkspace({
   const workflowStep = getWorkflowStep(family.familyId);
   const workflowAction = resolveWorkflowAction(family);
 
-  const derivatives = useMemo(() => family.nodes.filter((n) => n.level > 0), [family.nodes]);
-  const activeNode = family.nodes.find((n) => n.nodeId === selectedNodeId) ?? derivatives[0] ?? family.nodes[0];
+  const rootNode = useMemo(() => family.nodes.find((n) => n.level === 0) ?? null, [family.nodes]);
+  const rootTarget = useMemo(
+    () => (rootNode ? buildPageFamilyRootTarget({ family, rows: rowInputs, rootNode }) : null),
+    [family, rowInputs, rootNode],
+  );
+  const activeNode = family.nodes.find((n) => n.nodeId === selectedNodeId) ?? rootNode ?? family.nodes[0];
   const siblings = activeNode ? listSiblingNodes(family, activeNode.nodeId) : [];
   const siblingIndex = activeNode ? siblings.findIndex((s) => s.nodeId === activeNode.nodeId) : 0;
   const prevSibling = siblingIndex > 0 ? siblings[siblingIndex - 1] : null;
   const nextSibling = siblingIndex >= 0 && siblingIndex < siblings.length - 1 ? siblings[siblingIndex + 1] : null;
-  const parentNode = family.nodes.find((n) => n.level === 0);
-  const activeRow = rows.find((r) => r.screenId === activeNode?.screenId);
-  const activePageId = activeRow?.normalizedRoute
-    ? `${projectId}:${activeRow.normalizedRoute}`
-    : activeNode?.screenId
-      ? `${projectId}:${activeNode.screenId}`
-      : '';
+  const parentNode = rootNode;
+  const isActiveRoot = Boolean(activeNode && activeNode.level === 0);
+  const activeScreenId =
+    activeNode?.screenId ??
+    (isActiveRoot ? resolveRootScreenId(projectId, rows.find((r) => r.screenId === 'overview')) : null);
+  const activeRoute = isActiveRoot && rootTarget ? rootTarget.canonicalRoute : activeNode?.route ?? '';
+  const activePageId = activeRoute ? buildPageId(projectId, activeRoute) : '';
+  const activeDisplayName = isActiveRoot && rootTarget ? rootTarget.canonicalName : activeNode?.label ?? 'PAGE';
+  const viewportAuthority = activeScreenId
+    ? resolvePageViewportAuthority({
+        projectId,
+        pageId: activePageId,
+        screenId: activeScreenId,
+        viewport,
+        routeMapped: activeNode?.existing,
+        isRoot: isActiveRoot,
+      })
+    : null;
   const viewportCapture = activePageId ? getPageViewportCapture(projectId, activePageId, viewport) : null;
   const upgradeSession = activePageId ? getPageCreativeUpgradeSession(projectId, activePageId, viewport) : null;
   const isCapturingActive = Boolean(activePageId && capturingPageId === activePageId);
 
   useEffect(() => {
     const saved = getSavedSelectedNode(family.familyId);
-    if (saved && family.nodes.some((n) => n.nodeId === saved)) {
-      setSelectedNodeId(saved);
-    } else if (derivatives[0]) {
-      setSelectedNodeId(derivatives[0].nodeId);
-    }
-  }, [family.familyId, derivatives]);
+    const nextId = defaultSelectedNodeId(family, saved);
+    setSelectedNodeId(nextId);
+    setJumpValue(nextId);
+  }, [family.familyId, family.nodes]);
 
   useEffect(() => {
     setDetecting(true);
@@ -164,10 +189,13 @@ export function PageFamilyWorkspace({
   const selectNode = useCallback(
     (nodeId: string) => {
       setSelectedNodeId(nodeId);
+      setJumpValue(nodeId);
       const node = family.nodes.find((n) => n.nodeId === nodeId);
-      if (node?.screenId) onSelectScreen(node.screenId);
+      const screenId =
+        node?.screenId ?? (node?.level === 0 ? resolveRootScreenId(projectId, undefined) : null);
+      if (screenId) onSelectScreen(screenId);
     },
-    [family.nodes, onSelectScreen],
+    [family.nodes, onSelectScreen, projectId],
   );
 
   const handleJump = (nodeId: string) => {
@@ -193,9 +221,9 @@ export function PageFamilyWorkspace({
       setWorkflowStep(family.familyId, 'REVIEW_CHILD');
       return;
     }
-    if (workflowAction.primaryLabel === 'APPROVE DESIGN' && activeNode && activeNode.level > 0) {
-      approveNodeDesign({ familyId: family.familyId, nodeId: activeNode.nodeId, route: activeNode.route });
-      if (nextSibling) selectNode(nextSibling.nodeId);
+    if (workflowAction.primaryLabel === 'APPROVE DESIGN' && activeNode) {
+      approveNodeDesign({ familyId: family.familyId, nodeId: activeNode.nodeId, route: activeRoute || activeNode.route });
+      if (activeNode.level > 0 && nextSibling) selectNode(nextSibling.nodeId);
       else setWorkflowStep(family.familyId, 'VERIFY_WIRING');
       return;
     }
@@ -282,22 +310,28 @@ export function PageFamilyWorkspace({
 
         <div className="site00-pfw-workspace__parent">
           <div className="site00-pfw-workspace__preview">
-            {parentNode?.previewUrl ? (
-              <img src={parentNode.previewUrl} alt="" />
-            ) : parentNode?.referenceUrl ? (
-              <img src={parentNode.referenceUrl} alt="" />
-            ) : (
-              <div className="site00-pfw-workspace__preview-empty">
-                <span aria-hidden>▢</span>
-                <small>NO PREVIEW YET</small>
-              </div>
-            )}
+            {(() => {
+              const authPreview = resolveDesignAuthorityPreview({
+                referencePath: viewportAuthority?.previewUrl ?? null,
+                authorityStatus: viewportAuthority?.authorityStatus ?? 'MISSING',
+              });
+              if (authPreview.previewUrl) {
+                return <img src={authPreview.previewUrl} alt="Design authority" />;
+              }
+              return (
+                <div className="site00-pfw-workspace__preview-empty">
+                  <span aria-hidden>▢</span>
+                  <small>{authPreview.label}</small>
+                </div>
+              );
+            })()}
           </div>
           <div className="site00-pfw-workspace__parent-meta">
-            <strong>{parentNode?.route.toUpperCase() ?? `/PROJECTS/${projectName.toUpperCase()}`}</strong>
-            <span className="site00-pfw-workspace__badge">PARENT AUTHORITY</span>
+            <strong>{(rootTarget?.canonicalName ?? family.familyName).toUpperCase()}</strong>
+            <span className="site00-pfw-workspace__route">{rootTarget?.canonicalRoute ?? parentNode?.route}</span>
+            <span className="site00-pfw-workspace__badge">{isActiveRoot ? 'ROOT PAGE' : 'FAMILY ROOT'}</span>
             <span className={`site00-pfw-workspace__status is-${parentNode?.statusVisual ?? 'neutral'}`}>
-              {parentNode?.statusLabel ?? 'MAPPED'}
+              {viewportAuthority ? authorityStatusLabel(viewportAuthority.authorityStatus) : parentNode?.statusLabel ?? 'MAPPED'}
             </span>
             <label>
               PAGE FAMILY
@@ -310,11 +344,48 @@ export function PageFamilyWorkspace({
               </select>
             </label>
             <p className="site00-pfw-workspace__family-summary">
-              FAMILY · {family.nodeCount} PAGES · {readiness.approvedCount} APPROVED · {readiness.summaryLabel}
+              FAMILY · {family.nodeCount} PAGES · {readiness.approvedCount != null ? `${readiness.approvedCount} APPROVED` : '— APPROVED'} · {readiness.summaryLabel}
             </p>
           </div>
         </div>
       </section>
+
+      {activeNode && activePageId && activeScreenId ? (
+        <PageCaptureNowPanel
+          projectId={projectId}
+          pageId={activePageId}
+          screenId={activeScreenId}
+          route={activeRoute}
+          displayName={activeDisplayName}
+          viewport={viewport}
+          isRoot={isActiveRoot}
+          routeMapped={activeNode.existing}
+          captureService={captureService}
+          capturing={isCapturingActive}
+          captureProgress={captureNowProgress}
+          screenshotUrl={viewportCapture?.imageRef ?? activeNode.previewUrl ?? null}
+          captureError={captureNowError ?? null}
+          onCaptureNow={() => onCaptureNow?.(activeScreenId, viewport)}
+          onUpgradePage={() => {
+            if (!viewportCapture?.captureId) return;
+            openPageCreativeUpgradeSession({
+              projectId,
+              pageId: activePageId,
+              viewport,
+              captureId: viewportCapture.captureId,
+              parentAuthorityId: isActiveRoot ? null : parentNode?.nodeId ?? null,
+              childArchetype: activeNode.archetype,
+              pagePurpose: activeDisplayName,
+              parentAuthorityLabel: parentNode?.route ?? 'Parent landing',
+              route: activeRoute,
+              isChildPage: !isActiveRoot && activeNode.level > 0,
+              isRoot: isActiveRoot,
+            });
+            setUpgradeOpen(true);
+          }}
+          onViewDetails={() => setDetailsOpen(true)}
+        />
+      ) : null}
 
       <PageFamilyMap
         family={family}
@@ -323,40 +394,6 @@ export function PageFamilyWorkspace({
         expanded={mapExpanded}
         onToggleExpand={() => setMapExpanded((v) => !v)}
       />
-
-      {activeNode && activeNode.screenId && activePageId ? (
-        <PageCaptureNowPanel
-          projectId={projectId}
-          pageId={activePageId}
-          screenId={activeNode.screenId}
-          route={activeNode.route}
-          displayName={activeNode.route.split('/').pop()?.replace(/-/g, ' ') ?? activeNode.route}
-          viewport={viewport}
-          captureService={captureService}
-          capturing={isCapturingActive}
-          captureProgress={captureNowProgress}
-          screenshotUrl={viewportCapture?.imageRef ?? activeNode.previewUrl ?? null}
-          captureError={captureNowError ?? null}
-          onCaptureNow={() => onCaptureNow?.(activeNode.screenId!, viewport)}
-          onUpgradePage={() => {
-            if (!viewportCapture?.captureId) return;
-            openPageCreativeUpgradeSession({
-              projectId,
-              pageId: activePageId,
-              viewport,
-              captureId: viewportCapture.captureId,
-              parentAuthorityId: parentNode?.nodeId ?? null,
-              childArchetype: activeNode.archetype,
-              pagePurpose: activeNode.route,
-              parentAuthorityLabel: parentNode?.route ?? 'Parent landing',
-              route: activeNode.route,
-              isChildPage: activeNode.level > 0,
-            });
-            setUpgradeOpen(true);
-          }}
-          onViewDetails={() => setDetailsOpen(true)}
-        />
-      ) : null}
 
       {activeNode && activeNode.level > 0 ? (
         <DerivativeReviewCarousel
@@ -388,8 +425,10 @@ export function PageFamilyWorkspace({
           else if (workflowAction.secondaryLabel === 'EDIT STRUCTURE') setDetailsOpen(true);
         }}
         reviewLabel={
-          activeNode && activeNode.level > 0
-            ? `REVIEW CHILD · ${Math.max(1, siblingIndex + 1)} OF ${Math.max(1, siblings.length)}`
+          activeNode
+            ? activeNode.level > 0
+              ? `${resolveReviewStepLabel(activeNode)} · ${Math.max(1, siblingIndex + 1)} OF ${Math.max(1, siblings.length)}`
+              : resolveReviewStepLabel(activeNode)
             : undefined
         }
       />
@@ -400,11 +439,11 @@ export function PageFamilyWorkspace({
             ADVANCED CAPTURE
           </button>
         ) : null}
-        {activeNode?.screenId && onOpenPage ? (
+        {activeScreenId && onOpenPage ? (
           <button
             type="button"
             className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-            onClick={() => onOpenPage(activeNode.screenId!)}
+            onClick={() => onOpenPage(activeScreenId)}
           >
             OPEN SELECTED PAGE
           </button>

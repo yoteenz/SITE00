@@ -5,6 +5,7 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 import { P0_VR_CAPTURE_1_BUILD } from './constants.js';
+import { migrateHistoricalRootCapturePageId } from '../../pageFamilyWorkspace/pageFamilyRootTarget.js';
 import type { CaptureSource, PageViewportCapture, PageViewportCaptureStatus } from './types.js';
 
 const store = new Map<string, PageViewportCapture>();
@@ -88,9 +89,10 @@ export function migrateLegacyCaptureToViewportCapture(options: {
 }): PageViewportCapture | null {
   if (!options.imageRef && !options.capturedAt) return null;
   const viewport = options.viewport ?? 'mobile';
+  const canonicalPageId = migrateHistoricalRootCapturePageId(options.projectId, options.pageId);
   const capture = buildPageViewportCapture({
     projectId: options.projectId,
-    pageId: options.pageId,
+    pageId: canonicalPageId,
     viewport,
     captureId: `legacy-${options.pageId}-${viewport}`,
     route: options.route,

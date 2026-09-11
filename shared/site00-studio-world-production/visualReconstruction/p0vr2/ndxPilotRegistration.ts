@@ -70,7 +70,7 @@ export const NDX_DESIGN_SCREENS: DesignScreenDefinition[] = [
   },
   {
     screenId: 'desktop-overview',
-    displayName: 'Desktop Overview Hub',
+    displayName: 'Overview — Desktop Reference',
     routePattern: '/projects/:projectSlug',
     scopeTargetId: 'desktopComposite',
     sharedComponentPaths: ['src/site00/components/founderWorkspace/FounderWorkspaceShell.tsx'],

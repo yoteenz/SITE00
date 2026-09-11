@@ -7743,3 +7743,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `entry002B49R4Bootstrap.ts` restores deterministic reel storyboard generation when `EXPRESSION_ENGINE_TEST_DETERMINISTIC_REEL_STORYBOARD=1`; updated release/dual-context/astral/design-proof tests; `vitest.config.ts` sets 60s timeout + CI excludes drift-prone VR/sprint snapshot files; workflow test job sets `CI=true`. All **5605** CI tests pass locally with `CI=true npm test`.
 - **Next founder action:** Re-run **SITE 00 Production Release** workflow on `main`.
 
+---
+
+## 2026-09-11 — P0.VR.CAPTURE.1R1 family root targeting + overview capture authority
+
+- **Context:** Founder sprint — NDXBOOK Overview root (`/projects/ndxbook`) was missing from JUMP TO, defaulted to first child, showed "Desktop Overview Hub" / MAPPED≠APPROVED confusion, blocked page-scoped CAPTURE NOW → UPGRADE flow on family root.
+- **Fix:** New modules `pageFamilyRootTarget.ts` + `pageViewportAuthority.ts`; `pageFamilyBuilder` canonical root route (`/projects/{id}` over `/overview` alias), root-first JUMP TO, default selection = root, MAPPED≠APPROVED on root designStatus; `PageCaptureNowPanel` separates DESIGN AUTHORITY vs LIVE PAGE previews; root `PageCreativeUpgradeSession` with `isRoot`; historical capture pageId migration; tests `pageFamilyRootTargetP0VRCapture1R1.test.ts` (25). Build marker `P0_VR_CAPTURE_1R1_BUILD = v277`.
+- **Founder QA path:** DESIGN → NDXBOOK → PAGES → MOBILE → JUMP TO = NDXBOOK OVERVIEW → CAPTURE NOW on `/projects/ndxbook` → UPGRADE THIS PAGE (when mobile authority APPROVED).
+- **Deploy:** GoDaddy ZIP v277 after merge; Railway unchanged (frontend-only).
+
