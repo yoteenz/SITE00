@@ -132,6 +132,7 @@ export function PageFamilyWorkspace({
   const [replaceAuthorityOpen, setReplaceAuthorityOpen] = useState(false);
   const [authorityHistoryOpen, setAuthorityHistoryOpen] = useState(false);
   const [authorityRefreshNonce, setAuthorityRefreshNonce] = useState(0);
+  const [authorityNotice, setAuthorityNotice] = useState<string | null>(null);
 
   const rowInputs = useMemo(() => rows.map(toRowInput), [rows]);
   const progress = useMemo(() => buildProjectProgressSummary(rowInputs, projectId), [rowInputs, projectId]);
@@ -419,7 +420,7 @@ export function PageFamilyWorkspace({
 
       {activeNode && activePageId && activeScreenId ? (
         <PageCaptureNowPanel
-          key={`${activePageId}:${authorityRefreshNonce}`}
+          key={activePageId}
           projectId={projectId}
           pageId={activePageId}
           screenId={activeScreenId}
@@ -474,6 +475,8 @@ export function PageFamilyWorkspace({
           onViewAuthorityHistory={() => setAuthorityHistoryOpen(true)}
           onRetryTransport={onRetryTransport}
           captureServiceChecking={captureServiceChecking}
+          authorityRefreshNonce={authorityRefreshNonce}
+          authorityNotice={authorityNotice}
         />
       ) : null}
 
@@ -587,7 +590,10 @@ export function PageFamilyWorkspace({
             viewport={viewport}
             currentAssetRef={viewportAuthority?.previewAssetRef ?? null}
             onClose={() => setReplaceAuthorityOpen(false)}
-            onReplaced={() => setAuthorityRefreshNonce((n) => n + 1)}
+            onReplaced={(notice) => {
+              setAuthorityRefreshNonce((n) => n + 1);
+              setAuthorityNotice(notice ?? null);
+            }}
           />
           <DesignAuthorityHistoryDialog
             open={authorityHistoryOpen}

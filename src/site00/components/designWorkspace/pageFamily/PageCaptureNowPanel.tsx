@@ -56,6 +56,8 @@ type Props = {
   onRetryTransport?: () => void;
   captureServiceChecking?: boolean;
   upgradeError?: string | null;
+  authorityRefreshNonce?: number;
+  authorityNotice?: string | null;
 };
 
 const INITIAL_HEALTH: PreviewHealth = {
@@ -92,6 +94,8 @@ export function PageCaptureNowPanel({
   onRetryTransport,
   captureServiceChecking = false,
   upgradeError = null,
+  authorityRefreshNonce = 0,
+  authorityNotice = null,
 }: Props) {
   const stored = usePageViewportCapture(projectId, pageId, viewport);
   const [authorityPreviewHealth, setAuthorityPreviewHealth] = useState<PreviewHealth>(INITIAL_HEALTH);
@@ -201,7 +205,8 @@ export function PageCaptureNowPanel({
   const authorityLabel = authorityStatusLabel(authority.authorityStatus, {
     isCurrent: currentAuthority.isCurrent && (authority.authorityStatus === 'APPROVED' || Boolean(currentAuthority.authorityVersion)),
   });
-  const authorityCacheBust = currentAuthority.authorityVersion?.authorityVersionId ?? null;
+  const authorityCacheBust =
+    currentAuthority.authorityVersion?.authorityVersionId ?? (authorityRefreshNonce ? String(authorityRefreshNonce) : null);
 
   return (
     <section className="site00-pfw-capture-now" aria-label="Capture now">
@@ -300,6 +305,8 @@ export function PageCaptureNowPanel({
           </ol>
         </div>
       ) : null}
+
+      {authorityNotice ? <p className="site00-pfw-capture-now__notice">{authorityNotice}</p> : null}
 
       {captureError ? <p className="site00-pfw-capture-now__error">{captureError}</p> : null}
 

@@ -9,6 +9,36 @@ import {
 import type { CaptureCompletionReceipt, CaptureErrorCode } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/captureReceipts.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 
+const OVERVIEW_SCREEN_ALIASES = ['overview', 'desktop-overview', 'mobile-overview'] as const;
+
+export function resolveCaptureIndexRow(
+  rows: PageVisualIndexRow[],
+  screenId: string,
+  projectId?: string,
+): PageVisualIndexRow | null {
+  const direct = rows.find((r) => r.screenId === screenId);
+  if (direct) return direct;
+
+  const normalizedTarget = screenId.toLowerCase();
+  if (OVERVIEW_SCREEN_ALIASES.includes(normalizedTarget as (typeof OVERVIEW_SCREEN_ALIASES)[number])) {
+    for (const alias of OVERVIEW_SCREEN_ALIASES) {
+      const match = rows.find((r) => r.screenId === alias);
+      if (match) return match;
+    }
+    if (projectId) {
+      const rootPrefix = `/projects/${projectId}`.toLowerCase();
+      const overviewRoute = `${rootPrefix}/overview`;
+      const rootMatch = rows.find((r) => {
+        const route = (r.normalizedRoute ?? r.route ?? '').split('?')[0]?.replace(/\/$/, '').toLowerCase() ?? '';
+        return route === rootPrefix || route === overviewRoute || route.endsWith('/overview');
+      });
+      if (rootMatch) return rootMatch;
+    }
+  }
+
+  return null;
+}
+
 export function resolveCapturePageId(projectId: string, row: PageVisualIndexRow): string {
   const route = row.normalizedRoute ?? row.route ?? '/';
   const raw = buildPageId(projectId, route);
