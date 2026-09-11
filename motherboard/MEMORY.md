@@ -7876,3 +7876,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Issue:** Founder proved NDXBOOK mobile design authority PNG loads directly in Safari (`/visual-references/founder/ndxbook/mobile-overview-fullscreen-reference-hifi.png`) but gate stuck **DESIGN AUTHORITY PREVIEW REQUIRED** — authority is **stale/outdated**, not missing; preview health **UNKNOWN** blocked same as FAIL with no timeout.
 - **Fix:** Page-scoped **REPLACE DESIGN AUTHORITY** flow hardened (upload → preview/compare → APPROVE & REPLACE only); `DesignAuthorityVersion` + `assetRef` + current pointer persistence; founder upload wins over pilot seed via `syncFounderAuthorityVersionsForProject`; approval/supersession receipts; **VIEW HISTORY** dialog; `PreviewHealthLifecycle` (LOADING→PASS/FAIL/TIMEOUT in 10s) in `DesignAssetPreview` with RETRY; gate block reasons: LOADING / FAILED / TIMED OUT / MISSING. No Railway/capture changes. Deploy ZIP **v291**.
 
+---
+
+## 2026-09-11 — UPGRADE THIS PAGE button no-op (v292)
+
+- **Issue:** After v291 both previews **PREVIEW READY ✓** and **UPGRADE THIS PAGE** showed with “THIS PAGE IS READY FOR CREATIVE DIRECTION” — tap did nothing on mobile.
+- **Root cause:** `PageCreativeUpgradePanel` rendered **inline below** Page Family Map + workflow rail (not a portal). On mobile the wizard opened off-screen; looked like a dead button. Secondary: silent `if (!viewportCapture?.captureId) return` and upgrade session read from module Map on re-render instead of React state.
+- **Fix:** `PageCreativeUpgradePanel` → `createPortal` drawer (`site00-dw-wizard-drawer`, z-index 200) like Replace Authority; `PageFamilyWorkspace` stores session in `useState`, resolves capture via `resolveCurrentPageViewportCapture`; visible `upgradeError` if capture id missing. Deploy ZIP **v292**; no Railway redeploy.
+
