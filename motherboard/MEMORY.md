@@ -7769,3 +7769,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `site00-resolve-cpanel-deploy-method.sh` — when **both** SSH+FTP creds present, default **FTP** unless `GODADDY_SSH_DEPLOY_ENABLED=true` or `GODADDY_DEPLOY_ENABLED=true` alone. Skips broken rsync attempt on GoDaddy.
 - **Founder:** Re-run workflow after merge; should see FTP deploy only. To force SSH later: GitHub var `GODADDY_SSH_DEPLOY_ENABLED=true` after fixing `.bash_profile` + `.profile` with same guard.
 
+---
+
+## 2026-09-11 — P0.VR.CAPTURE.1R2 capture receipt + persistence + live preview binding
+
+- **Context:** Founder QA — CAPTURE NOW UI advanced through 4 progress steps but LIVE PAGE stayed "NO LIVE CAPTURE YET"; no screenshot, no CAPTURE READY, no UPGRADE THIS PAGE. Root cause: `usePageMirror` used `setInterval` fake progress; API completion never bound to client `PageViewportCapture` store (server Map ≠ browser Map); pageId mismatch risk vs canonical `buildPageId`.
+- **Fix:** Receipt modules (`captureReceipts`, `captureCompletionPipeline`, `currentPageViewportCaptureResolver`, `livePageCaptureState`); `pageViewportCapture` history + localStorage + `subscribePageViewportCaptures`; `usePageViewportCapture` hook (`useSyncExternalStore`); `usePageMirror` removes timer, consumes `CaptureCompletionReceipt`, calls `bindCaptureCompletionToClientStore`, canonical pageId via `resolveCapturePageId`; `PageCaptureNowPanel` binds LIVE PAGE from resolver not batch summary; build `P0_VR_CAPTURE_1R2_BUILD = v278`; tests `visualReconstructionP0VRCapture1R2.test.ts` (30).
+- **Founder QA path:** DESIGN → NDXBOOK → PAGES → MOBILE → NDXBOOK OVERVIEW → CAPTURE NOW → after SAVING CAPTURE expect screenshot + CAPTURE READY ✓ + UPGRADE THIS PAGE; reload preserves capture (localStorage).
+- **Deploy:** GoDaddy ZIP v278 after merge; Railway unchanged unless API handler touched (minor build version bump only).
+

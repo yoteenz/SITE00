@@ -49,6 +49,7 @@ export type DesignPagesWizardProps = {
   viewport?: DesignViewportClass;
   capturingPageId?: string | null;
   captureNowProgress?: string | null;
+  captureNowError?: string | null;
   onRefreshProject?: () => void;
   onSyncProject?: () => void;
   onViewCaptureRun?: () => void;
@@ -165,6 +166,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
     viewport = 'mobile',
     capturingPageId,
     captureNowProgress,
+    captureNowError,
     onRefreshProject,
     mirrorLoading = false,
     pageCompletionJob = null,
@@ -363,6 +365,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           onCaptureNow={onCaptureNow}
           capturingPageId={capturingPageId}
           captureNowProgress={captureNowProgress}
+          captureNowError={captureNowError}
           captureService={captureServiceInput}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}
@@ -383,6 +386,7 @@ export function DesignPagesWizard(props: DesignPagesWizardProps) {
           onCaptureNow={onCaptureNow}
           capturingPageId={capturingPageId}
           captureNowProgress={captureNowProgress}
+          captureNowError={captureNowError}
           captureService={captureServiceInput}
           pageCompletionPct={pageCompletionPct}
           pageCompletionAttention={pageCompletionAttention ?? 0}

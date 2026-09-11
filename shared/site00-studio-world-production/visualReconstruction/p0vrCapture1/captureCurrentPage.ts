@@ -1,16 +1,14 @@
 /**
- * P0.VR.CAPTURE.1 — Capture exactly one page + one viewport (no project run).
+ * P0.VR.CAPTURE.1 / 1R2 — Capture exactly one page + one viewport (no project run).
  */
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 import { resolveRuntimeRouteForPage } from '../p0vr8r3/runtimeRouteResolver.js';
 import { getProjectPageRecord } from '../p0vr8/projectPageRegistry.js';
-import { P0_VR_CAPTURE_1_BUILD, PAGE_CAPTURE_TIMEOUT_MS } from './constants.js';
-import {
-  buildPageViewportCapture,
-  savePageViewportCapture,
-} from './pageViewportCapture.js';
+import { P0_VR_CAPTURE_1R2_BUILD, PAGE_CAPTURE_TIMEOUT_MS } from './constants.js';
+import { beginCaptureJobReceipt, completeCapturePipeline } from './captureCompletionPipeline.js';
+import type { CaptureCompletionReceipt } from './captureReceipts.js';
 import type { CaptureCurrentPageInput, CaptureCurrentPageResult } from './types.js';
 
 const inFlight = new Map<string, number>();
@@ -67,6 +65,7 @@ export function planCaptureCurrentPage(input: CaptureCurrentPageInput): {
   viewport: DesignViewportClass;
   singlePageJob: true;
   projectRunCreated: false;
+  jobReceipt: ReturnType<typeof beginCaptureJobReceipt>;
 } {
   const viewport = resolveCaptureViewport(input.viewport);
   const pageRecord =
@@ -84,13 +83,45 @@ export function planCaptureCurrentPage(input: CaptureCurrentPageInput): {
     input.resolvedRuntimePath ??
     routeIdentity.resolvedRuntimePath ??
     input.route;
+  const jobId = buildSinglePageCaptureJobId(input.projectId, input.pageId, viewport);
 
   return {
-    jobId: buildSinglePageCaptureJobId(input.projectId, input.pageId, viewport),
+    jobId,
     resolvedRuntimePath,
     viewport,
     singlePageJob: true,
     projectRunCreated: false,
+    jobReceipt: beginCaptureJobReceipt({
+      jobId,
+      projectId: input.projectId,
+      pageId: input.pageId,
+      viewport,
+      route: input.route,
+      resolvedRuntimePath,
+    }),
+  };
+}
+
+function resultFromCompletion(
+  completion: CaptureCompletionReceipt,
+  jobId: string,
+  dimensions: { width: number; height: number },
+): CaptureCurrentPageResult {
+  return {
+    captureId: completion.captureId,
+    screenshot: completion.imageRef,
+    capturedAt: completion.capturedAt,
+    viewport: completion.viewport,
+    dimensions,
+    route: completion.route,
+    pageId: completion.pageId,
+    status: completion.status,
+    jobId,
+    singlePageJob: true,
+    projectRunCreated: false,
+    error: completion.errorMessage ?? undefined,
+    completion,
+    imageRef: completion.imageRef,
   };
 }
 
@@ -101,77 +132,27 @@ export function finalizeCaptureCurrentPage(options: {
   screenshotUrl: string | null;
   captureId?: string;
   error?: string;
+  jobReceipt?: ReturnType<typeof beginCaptureJobReceipt>;
 }): CaptureCurrentPageResult {
   const viewport = resolveCaptureViewport(options.input.viewport);
   const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
-  const capturedAt = new Date().toISOString();
-  const captureId = options.captureId ?? `${options.jobId}-capture`;
-
-  if (options.error || !options.screenshotUrl) {
-    savePageViewportCapture(
-      buildPageViewportCapture({
-        projectId: options.input.projectId,
-        pageId: options.input.pageId,
-        viewport,
-        captureId,
-        route: options.input.route,
-        resolvedRuntimePath: options.resolvedRuntimePath,
-        imageRef: null,
-        capturedAt,
-        status: 'CAPTURE_FAILED',
-        screenId: options.input.screenId,
-        captureSource: options.input.captureSource ?? 'FOUNDER_CAPTURE_NOW',
-        capturedBuildVersion: options.input.capturedBuildVersion ?? P0_VR_CAPTURE_1_BUILD,
-      }),
-    );
-    return {
-      captureId,
-      screenshot: null,
-      capturedAt,
-      viewport,
-      dimensions: { width: dims.width, height: dims.height },
-      route: options.input.route,
-      pageId: options.input.pageId,
-      status: 'CAPTURE_FAILED',
-      jobId: options.jobId,
-      singlePageJob: true,
-      projectRunCreated: false,
-      error: options.error ?? 'CAPTURE_FAILED',
-    };
-  }
-
-  savePageViewportCapture(
-    buildPageViewportCapture({
-      projectId: options.input.projectId,
-      pageId: options.input.pageId,
-      viewport,
-      captureId,
-      route: options.input.route,
-      resolvedRuntimePath: options.resolvedRuntimePath,
-      imageRef: options.screenshotUrl,
-      capturedAt,
-      status: 'CAPTURE_READY',
-      screenId: options.input.screenId,
-      captureSource: options.input.captureSource ?? 'FOUNDER_CAPTURE_NOW',
-      capturedBuildVersion: options.input.capturedBuildVersion ?? P0_VR_CAPTURE_1_BUILD,
-    }),
-  );
-
-  return {
-    captureId,
-    screenshot: options.screenshotUrl,
-    capturedAt,
-    viewport,
-    dimensions: { width: dims.width, height: dims.height },
-    route: options.input.route,
-    pageId: options.input.pageId,
-    status: 'CAPTURE_READY',
+  const trace = completeCapturePipeline({
+    input: options.input,
     jobId: options.jobId,
-    singlePageJob: true,
-    projectRunCreated: false,
-  };
+    resolvedRuntimePath: options.resolvedRuntimePath,
+    screenshotUrl: options.screenshotUrl,
+    captureId: options.captureId,
+    error: options.error,
+    jobReceipt: options.jobReceipt,
+  });
+  if (!trace.completion) {
+    throw new Error('CAPTURE_COMPLETION_MISSING');
+  }
+  return resultFromCompletion(trace.completion, options.jobId, dims);
 }
 
 export function resetCaptureCurrentPageForTest(): void {
   inFlight.clear();
 }
+
+export { P0_VR_CAPTURE_1R2_BUILD };

@@ -46,12 +46,12 @@ import type { CaptureServiceInput } from '../../../../../shared/site00-studio-wo
 import type { PageFamilyRowInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/types.js';
 import type { DesignViewportClass } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
-  getPageViewportCapture,
   openPageCreativeUpgradeSession,
   getPageCreativeUpgradeSession,
   approvePageCreativeDirection,
   attachAfterCaptureToSession,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
+import { usePageViewportCapture } from '../usePageViewportCapture';
 import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
 import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
 import { PageCaptureNowPanel } from './PageCaptureNowPanel';
@@ -165,7 +165,7 @@ export function PageFamilyWorkspace({
         isRoot: isActiveRoot,
       })
     : null;
-  const viewportCapture = activePageId ? getPageViewportCapture(projectId, activePageId, viewport) : null;
+  const viewportCapture = usePageViewportCapture(projectId, activePageId, viewport);
   const upgradeSession = activePageId ? getPageCreativeUpgradeSession(projectId, activePageId, viewport) : null;
   const isCapturingActive = Boolean(activePageId && capturingPageId === activePageId);
 
@@ -363,7 +363,7 @@ export function PageFamilyWorkspace({
           captureService={captureService}
           capturing={isCapturingActive}
           captureProgress={captureNowProgress}
-          screenshotUrl={viewportCapture?.imageRef ?? activeNode.previewUrl ?? null}
+          screenshotUrl={viewportCapture?.imageRef ?? null}
           captureError={captureNowError ?? null}
           onCaptureNow={() => onCaptureNow?.(activeScreenId, viewport)}
           onUpgradePage={() => {
@@ -458,7 +458,7 @@ export function PageFamilyWorkspace({
       {upgradeOpen && upgradeSession ? (
         <PageCreativeUpgradePanel
           session={upgradeSession}
-          currentScreenshot={viewportCapture?.imageRef ?? activeNode?.previewUrl ?? null}
+          currentScreenshot={viewportCapture?.imageRef ?? null}
           proposedLabel={`CREATIVE-DIRECTED ${activeNode?.route.toUpperCase() ?? 'PAGE'}`}
           onApprove={() => {
             approvePageCreativeDirection(projectId, activePageId, viewport);

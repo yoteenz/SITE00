@@ -5,11 +5,11 @@
 import type { DesignViewportClass } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
   CAPTURE_NOW_PROGRESS_STEPS,
-  derivePageViewportCaptureStatus,
-  getPageViewportCapture,
+  deriveLivePageCaptureState,
+  livePageCaptureStatusLabel,
   resolvePageUpgradeNextAction,
-  type PageViewportCaptureStatus,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
+import { usePageViewportCapture } from '../usePageViewportCapture';
 import type { CaptureServiceInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import { canRunLiveCapture } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import {
@@ -36,17 +36,6 @@ type Props = {
   onViewDetails?: () => void;
 };
 
-function statusLabel(status: PageViewportCaptureStatus): string {
-  const labels: Record<PageViewportCaptureStatus, string> = {
-    NO_LIVE_CAPTURE: 'NO LIVE CAPTURE',
-    CAPTURE_READY: 'CAPTURE READY ✓',
-    CAPTURING: 'CAPTURING',
-    CAPTURE_FAILED: 'CAPTURE FAILED',
-    CAPTURE_OUTDATED: 'CAPTURE MAY BE OUTDATED',
-  };
-  return labels[status];
-}
-
 export function PageCaptureNowPanel({
   projectId,
   pageId,
@@ -65,10 +54,14 @@ export function PageCaptureNowPanel({
   onUpgradePage,
   onViewDetails,
 }: Props) {
-  const stored = getPageViewportCapture(projectId, pageId, viewport);
-  const status = capturing
-    ? 'CAPTURING'
-    : derivePageViewportCaptureStatus(stored);
+  const stored = usePageViewportCapture(projectId, pageId, viewport);
+  const liveState = deriveLivePageCaptureState({
+    projectId,
+    pageId,
+    viewport,
+    isCapturing: capturing,
+    boundCapture: stored,
+  });
   const captureAvailable = captureService ? canRunLiveCapture(captureService) : true;
   const authority = resolvePageViewportAuthority({
     projectId,
@@ -87,9 +80,9 @@ export function PageCaptureNowPanel({
     isRoot,
     routeMapped,
   });
-  const livePreview = screenshotUrl ?? stored?.imageRef ?? null;
+  const livePreview = stored?.imageRef ?? screenshotUrl ?? null;
   const authorityApproved = authority.authorityStatus === 'APPROVED' || authority.authorityStatus === 'STALE';
-  const showUpgrade = status === 'CAPTURE_READY' && onUpgradePage && authorityApproved;
+  const showUpgrade = liveState === 'READY' && onUpgradePage && authorityApproved && Boolean(stored?.captureId);
 
   return (
     <section className="site00-pfw-capture-now" aria-label="Capture now">
@@ -120,8 +113,8 @@ export function PageCaptureNowPanel({
         )}
       </div>
 
-      <p className={`site00-pfw-capture-now__status is-${status.toLowerCase().replace(/_/g, '-')}`}>
-        LIVE PAGE: {statusLabel(status)}
+      <p className={`site00-pfw-capture-now__status is-${liveState.toLowerCase().replace(/_/g, '-')}`}>
+        LIVE PAGE: {livePageCaptureStatusLabel(liveState)}
       </p>
 
       <div className="site00-pfw-capture-now__preview site00-pfw-capture-now__preview--live">
@@ -169,7 +162,7 @@ export function PageCaptureNowPanel({
               RECAPTURE
             </button>
           </>
-        ) : status === 'CAPTURE_FAILED' ? (
+        ) : liveState === 'FAILED' ? (
           <>
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onCaptureNow}>
               RETRY
@@ -180,7 +173,7 @@ export function PageCaptureNowPanel({
               </button>
             ) : null}
           </>
-        ) : status !== 'CAPTURING' ? (
+        ) : liveState !== 'CAPTURING' ? (
           <button
             type="button"
             className="site00-dw-v3-btn site00-dw-v3-btn--primary"
@@ -192,7 +185,7 @@ export function PageCaptureNowPanel({
         ) : null}
       </div>
 
-      {status === 'CAPTURE_READY' ? (
+      {liveState === 'READY' ? (
         <p className="site00-pfw-capture-now__ready-copy">THIS PAGE IS READY FOR CREATIVE DIRECTION.</p>
       ) : null}
     </section>
