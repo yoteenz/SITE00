@@ -11,7 +11,7 @@
     "dev": "vite --port 5174 --host",
     "dev:proxy": "cross-env VITE_DEV_PROXY_TARGET=http://127.0.0.1:5174 vite --port 5174 --host",
     "dev:api": "tsx watch server/index.ts",
-    "build": "tsc --noEmit && vite build && node scripts/site00-generate-release-manifest.mjs",
+    "build": "tsc --noEmit && vite build && node scripts/site00-generate-release-manifest.mjs && node scripts/site00-propagate-spa-htaccess.mjs",
     "build:emergency-zip": "bash scripts/package-cpanel-deploy.sh",
     "preview": "vite preview --port 4174 --host",
     "start:api": "tsx server/index.ts",

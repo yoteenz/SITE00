@@ -13,6 +13,10 @@ export const FRONTEND_OWNED_GLOBS = [
   'sitemap.xml',
   '404.html',
   '.htaccess',
+  'htaccess-deploy.txt',
+  'projects/.htaccess',
+  'services/.htaccess',
+  'control/.htaccess',
 ] as const;
 
 /** Remote paths excluded from dangerous-clean-slate deletion (host-owned). */

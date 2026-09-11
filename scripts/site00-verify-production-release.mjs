@@ -147,7 +147,9 @@ async function pollFrontend(expectedReleaseId) {
         };
       }
       if (!fe.smokeOk) lastError = 'homepage missing #root';
-      else if (fe.deepLinkOk === false) lastError = `SPA deep link 404: ${SPA_DEEP_LINK_PROBE}`;
+      else if (fe.deepLinkOk === false) {
+        lastError = `SPA deep link 404: ${SPA_DEEP_LINK_PROBE} — redeploy .htaccess + projects/.htaccess (rename htaccess-deploy.txt if needed)`;
+      }
       else lastError = 'frontend smoke failed';
     } catch (err) {
       const status = err && typeof err === 'object' && 'status' in err ? err.status : null;

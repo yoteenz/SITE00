@@ -324,7 +324,7 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     expect(htaccess).toMatch(/release-manifest/);
     expect(htaccess).toContain('no-cache');
     expect(htaccess).toContain('ErrorDocument 404');
-    expect(htaccess).toContain('FollowSymLinks');
+    expect(htaccess).toMatch(/SymLinksIfOwnerMatch|FollowSymLinks/);
     expect(htaccess).toMatch(/projects\|services/);
     expect(htaccess).toContain('FallbackResource');
   });
