@@ -324,8 +324,9 @@ describe('P0.VR.CAPTURE.1R2 — Capture receipt + live binding', () => {
   it('20. CTA upgrade requires persisted capture + renderable previews', () => {
     const panel = read('src/site00/components/designWorkspace/pageFamily/PageCaptureNowPanel.tsx');
     expect(panel).toContain('UPGRADE THIS PAGE');
+    expect(panel).toContain('shouldOfferPageUpgrade');
+    expect(panel).toContain('resolvePageCapturePrimaryLabel');
     expect(panel).toContain('upgradeContract.upgradeAllowed');
-    expect(panel).toContain('stored?.captureId');
   });
 
   it('21. authoritative success only — no fake timer in panel progress', () => {

@@ -9,7 +9,9 @@ import {
   CAPTURE_NOW_PROGRESS_STEPS,
   deriveLivePageCaptureState,
   livePageCaptureStatusLabel,
+  resolvePageCapturePrimaryLabel,
   resolvePageUpgradeNextAction,
+  shouldOfferPageUpgrade,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import {
   evaluateRenderableAuthorityContract,
@@ -153,7 +155,22 @@ export function PageCaptureNowPanel({
     viewportMatch: true,
   });
 
-  const showUpgrade = upgradeContract.upgradeAllowed && onUpgradePage && authorityApproved && Boolean(stored?.captureId);
+  const showUpgrade =
+    shouldOfferPageUpgrade({
+      upgradeAllowed: upgradeContract.upgradeAllowed,
+      liveState,
+      designPreviewStatus: authorityPreviewHealth.status,
+      livePreviewStatus: livePreviewHealth.status,
+      hasStoredCapture: Boolean(stored?.captureId),
+    }) &&
+    onUpgradePage &&
+    authorityApproved;
+  const primaryCaptureLabel = resolvePageCapturePrimaryLabel({
+    upgradeAllowed: showUpgrade,
+    liveState,
+    nextActionLabel: nextAction.label,
+    hasStoredCapture: Boolean(stored?.captureId),
+  });
   const showReplacePrimary = authority.authorityStatus === 'STALE' && canReplaceDesignAuthority(authority.authorityStatus);
   const authorityLabel = authorityStatusLabel(authority.authorityStatus, {
     isCurrent: currentAuthority.isCurrent && authority.authorityStatus === 'APPROVED',
@@ -295,7 +312,7 @@ export function PageCaptureNowPanel({
               onCaptureNow();
             }}
           >
-            {capturing ? 'CAPTURING…' : nextAction.label}
+            {capturing ? 'CAPTURING…' : primaryCaptureLabel}
           </button>
         ) : null}
       </div>
