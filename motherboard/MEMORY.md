@@ -7836,3 +7836,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `captureServiceInput` defaulted `apiReachable` to false → disabled button on CORS/offline; Playwright used `window.location.origin` (fsbw-dev) where deep routes 404 without fresh `.htaccess`; preflight pending treated as offline.
 - **Fix:** CAPTURE NOW always clickable (retry transport + readable errors); `resolveFounderCaptureBaseUrl()` targets `https://site00.com` from preview hosts; `.htaccess` `ErrorDocument 404 /index.html` + `404.html` SPA fallback. Deploy ZIP **v284**; Railway redeploy still required for API CORS/worker.
 
+---
+
+## 2026-09-11 — CAPTURE NOW hidden behind UPGRADE label (v285)
+
+- **Issue:** Founder on fsbw-dev NDXBOOK OVERVIEW — primary CTA showed **UPGRADE THIS PAGE** with gate **DESIGN AUTHORITY PREVIEW REQUIRED** / live preview 404; no visible CAPTURE NOW.
+- **Root cause:** `resolvePageUpgradeNextAction()` returned UPGRADE label while upgrade gate blocked; primary button reused misleading label.
+- **Fix:** `resolvePageCapturePrimaryLabel` + `shouldOfferPageUpgrade` — UPGRADE only when both previews PASS + liveState READY; else **RECAPTURE** / **CAPTURE NOW** / **RETRY**. Deploy ZIP **v285**.
+
