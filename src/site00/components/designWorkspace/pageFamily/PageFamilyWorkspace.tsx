@@ -63,6 +63,20 @@ import {
   listPageDesignAuthorityHistory,
   resolveCurrentDesignAuthority,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
+import {
+  getActiveTwinSessionForPage,
+  getTwinSession,
+  buildTwin,
+  addTwinRevision,
+  applyTwinRevision,
+  approveTwinForPromotion,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/reconstructionTwinSession.js';
+import { promoteTwinToLivePage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/pagePromotion.js';
+import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
+import {
+  getPageCreativeUpgradeSession,
+  markPageCreativeUpgradeStatus,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 
 export type PageFamilyWorkspaceProps = {
   projectId: string;
@@ -128,6 +142,8 @@ export function PageFamilyWorkspace({
   const [viewMode, setViewMode] = useState<'family' | 'library'>('family');
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [upgradeSession, setUpgradeSession] = useState<PageCreativeUpgradeSession | null>(null);
+  const [twinSession, setTwinSession] = useState<ReconstructionTwinSession | null>(null);
+  const [buildingTwin, setBuildingTwin] = useState(false);
   const [upgradeError, setUpgradeError] = useState<string | null>(null);
   const [replaceAuthorityOpen, setReplaceAuthorityOpen] = useState(false);
   const [authorityHistoryOpen, setAuthorityHistoryOpen] = useState(false);
@@ -195,8 +211,19 @@ export function PageFamilyWorkspace({
   const closeUpgrade = useCallback(() => {
     setUpgradeOpen(false);
     setUpgradeSession(null);
+    setTwinSession(null);
+    setBuildingTwin(false);
     setUpgradeError(null);
   }, []);
+
+  const refreshTwinSession = useCallback(
+    (projectIdArg: string, pageIdArg: string) => {
+      const active = getActiveTwinSessionForPage(projectIdArg, pageIdArg);
+      setTwinSession(active);
+      return active;
+    },
+    [],
+  );
 
   useEffect(() => {
     const saved = getSavedSelectedNode(family.familyId);
@@ -565,9 +592,52 @@ export function PageFamilyWorkspace({
           authorityScreenshot={upgradeSession.designAuthorityAssetRef ?? null}
           visualDiagnosis={upgradeSession.visualDiagnosis}
           reconstructionPlan={upgradeSession.reconstructionPlan}
+          twinSession={twinSession}
+          buildingTwin={buildingTwin}
           onApprove={() => {
             approvePageCreativeDirection(projectId, activePageId, viewport);
-            closeUpgrade();
+            const updated = getPageCreativeUpgradeSession(projectId, activePageId, viewport);
+            if (updated) setUpgradeSession(updated);
+            refreshTwinSession(projectId, activePageId);
+          }}
+          onBuildTwin={async () => {
+            const active = refreshTwinSession(projectId, activePageId);
+            if (!active) return;
+            setBuildingTwin(true);
+            const built = await buildTwin(active.sessionId);
+            setBuildingTwin(false);
+            if (built) setTwinSession(built);
+          }}
+          onPreviewTwin={() => {
+            const active = twinSession ?? refreshTwinSession(projectId, activePageId);
+            if (active?.twinRoute) window.open(active.twinRoute, '_blank', 'noopener,noreferrer');
+          }}
+          onRefineTwin={async (instruction) => {
+            const active = twinSession ?? refreshTwinSession(projectId, activePageId);
+            if (!active) return;
+            const rev = addTwinRevision(active.sessionId, instruction);
+            if (rev) {
+              const revised = await applyTwinRevision(active.sessionId, rev.revisionId);
+              if (revised) setTwinSession(revised);
+            }
+          }}
+          onApprovePromotion={() => {
+            const active = twinSession ?? refreshTwinSession(projectId, activePageId);
+            if (!active) return;
+            const approved = approveTwinForPromotion(active.sessionId);
+            if (approved) setTwinSession(approved);
+          }}
+          onPromote={() => {
+            const active = twinSession ?? refreshTwinSession(projectId, activePageId);
+            if (!active) return;
+            const receipt = promoteTwinToLivePage(active.sessionId);
+            if (receipt?.status === 'COMPLETE') {
+              markPageCreativeUpgradeStatus(projectId, activePageId, viewport, 'COMPLETE');
+              const updated = getTwinSession(active.sessionId);
+              if (updated) setTwinSession(updated);
+              const sess = getPageCreativeUpgradeSession(projectId, activePageId, viewport);
+              if (sess) setUpgradeSession(sess);
+            }
           }}
           onRevise={closeUpgrade}
           onBack={closeUpgrade}

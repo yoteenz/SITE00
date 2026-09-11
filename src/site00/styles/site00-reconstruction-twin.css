@@ -1,0 +1,64 @@
+.site00-reconstruction-twin-banner {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #1a1208;
+  color: #f5c842;
+  border-bottom: 2px solid #f5c842;
+}
+
+.site00-reconstruction-twin-banner strong {
+  color: #fff;
+}
+
+.site00-reconstruction-twin-root {
+  --site00-twin-accent: #f5c842;
+}
+
+.site00-reconstruction-twin-root .site00-project-operating-shell {
+  outline: 2px dashed rgba(245, 200, 66, 0.35);
+  outline-offset: -2px;
+}
+
+.site00-reconstruction-twin-missing {
+  padding: 2rem;
+  text-align: center;
+}
+
+.site00-pfw-upgrade-v2__twin-progress {
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site00-pfw-upgrade-v2__twin-progress li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-size: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site00-pfw-upgrade-v2__twin-progress li.is-complete {
+  color: #6fcf97;
+}
+
+.site00-pfw-upgrade-v2__twin-progress li.is-running {
+  color: #f5c842;
+}
+
+.site00-pfw-upgrade-v2__promotion-confirm {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  background: rgba(245, 200, 66, 0.06);
+  font-size: 0.8rem;
+}
