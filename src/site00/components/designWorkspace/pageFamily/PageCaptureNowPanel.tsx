@@ -163,10 +163,11 @@ export function PageCaptureNowPanel({
       livePreviewStatus: livePreviewHealth.status,
       hasStoredCapture: Boolean(stored?.captureId),
     }) &&
-    onUpgradePage &&
+    Boolean(onUpgradePage) &&
     authorityApproved;
+  const showUpgradeActions = Boolean(showUpgrade);
   const primaryCaptureLabel = resolvePageCapturePrimaryLabel({
-    upgradeAllowed: showUpgrade,
+    upgradeAllowed: showUpgradeActions,
     liveState,
     nextActionLabel: nextAction.label,
     hasStoredCapture: Boolean(stored?.captureId),
@@ -282,7 +283,7 @@ export function PageCaptureNowPanel({
       ) : null}
 
       <div className="site00-pfw-capture-now__actions">
-        {showUpgrade ? (
+        {showUpgradeActions ? (
           <>
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onUpgradePage}>
               UPGRADE THIS PAGE
