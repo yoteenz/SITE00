@@ -271,6 +271,21 @@ describe('P0.DEPLOY.1 — Release pipeline', () => {
     expect(wf).toContain('cpanel_method');
   });
 
+  it('22e. SSH rsync uses clean-shell options for cPanel dirty bashrc', () => {
+    const script = read('scripts/site00-cpanel-deploy.sh');
+    expect(script).toContain('ssh -T');
+    expect(script).toContain('protocol version mismatch');
+    expect(script).toContain('--rsync-path');
+    expect(script).toContain('bash --noprofile --norc');
+  });
+
+  it('22f. workflow FTP fallback when SSH rsync fails', () => {
+    const wf = read('.github/workflows/site00-production-deploy.yml');
+    expect(wf).toContain('continue-on-error: true');
+    expect(wf).toContain('ftp_available');
+    expect(wf).toContain('Confirm frontend deploy succeeded');
+  });
+
   it('23. legacy godaddy workflow deprecated on push', () => {
     const legacy = read('.github/workflows/deploy-godaddy.yml');
     expect(legacy).toContain('DEPRECATED');
