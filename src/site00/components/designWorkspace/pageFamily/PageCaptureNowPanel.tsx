@@ -11,9 +11,11 @@ import {
   isCaptureProgressStepComplete,
   livePageCaptureStatusLabel,
   resolvePageCapturePrimaryLabel,
+  resolvePageUpgradeBlockReasons,
   resolvePageUpgradeNextAction,
   shouldOfferPageUpgrade,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
+import { captureNavigationRouteMatchesTarget } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/captureRouteEquivalence.js';
 import {
   evaluateRenderableAuthorityContract,
   previewHealthLabel,
@@ -146,7 +148,16 @@ export function PageCaptureNowPanel({
     authority.authorityStatus === 'STALE' ||
     currentAuthority.isCurrent;
 
-  const routeMatch = stored?.artifactProof?.navigation?.status !== 'MISMATCH';
+  const navigation = stored?.artifactProof?.navigation ?? null;
+  const routeMatch =
+    !navigation ||
+    captureNavigationRouteMatchesTarget({
+      targetRoute: route,
+      requestedRoute: navigation.requestedRoute,
+      resolvedRuntimePath: navigation.resolvedRuntimePath,
+      finalUrl: navigation.finalUrl,
+      status: navigation.status,
+    });
   const pageMatch = stored?.artifactProof?.pageIdentity?.match !== false;
 
   const upgradeContract = evaluateRenderableAuthorityContract({
@@ -167,9 +178,18 @@ export function PageCaptureNowPanel({
       designPreviewStatus: authorityPreviewHealth.status,
       livePreviewStatus: livePreviewHealth.status,
       hasStoredCapture: Boolean(stored?.captureId),
-    }) &&
-    Boolean(onUpgradePage) &&
-    authorityApproved;
+      authorityApproved,
+    }) && Boolean(onUpgradePage);
+  const upgradeBlockReasons = resolvePageUpgradeBlockReasons({
+    upgradeAllowed: upgradeContract.upgradeAllowed,
+    upgradeBlockReason: upgradeContract.blockReason,
+    liveState,
+    designPreviewStatus: authorityPreviewHealth.status,
+    livePreviewStatus: livePreviewHealth.status,
+    hasStoredCapture: Boolean(stored?.captureId),
+    authorityApproved,
+    authorityStatus: authority.authorityStatus,
+  });
   const showUpgradeActions = Boolean(showUpgrade);
   const primaryCaptureLabel = resolvePageCapturePrimaryLabel({
     upgradeAllowed: showUpgradeActions,
@@ -293,8 +313,14 @@ export function PageCaptureNowPanel({
         </p>
       ) : null}
 
-      {!upgradeContract.upgradeAllowed && upgradeContract.blockReason ? (
-        <p className="site00-pfw-capture-now__gate">{upgradeContract.blockReason}</p>
+      {!showUpgradeActions && upgradeBlockReasons.length > 0 ? (
+        <div className="site00-pfw-capture-now__gate-list" role="status">
+          {upgradeBlockReasons.map((reason) => (
+            <p key={reason} className="site00-pfw-capture-now__gate">
+              {reason}
+            </p>
+          ))}
+        </div>
       ) : null}
 
       <div className="site00-pfw-capture-now__actions">

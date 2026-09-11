@@ -7,6 +7,7 @@ export * from './designAuthorityVersion.js';
 export * from './founderAuthorityUploadStore.js';
 export * from './currentDesignAuthorityResolver.js';
 export * from './replaceDesignAuthorityFlow.js';
+export * from './captureRouteEquivalence.js';
 export * from './captureNavigationReceipt.js';
 export * from './capturedPageIdentityCheck.js';
 export * from './captureArtifactProof.js';

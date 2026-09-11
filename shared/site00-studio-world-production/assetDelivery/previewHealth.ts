@@ -100,15 +100,19 @@ export function evaluateRenderableAuthorityContract(input: {
     blockReason = 'LIVE CAPTURE PREVIEW REQUIRED';
   } else if (input.captureStatus === 'PAGE_MISMATCH') {
     blockReason = 'CAPTURED PAGE DOES NOT MATCH TARGET';
-  } else if (input.captureStatus !== 'READY') {
+  } else if (input.captureStatus !== 'READY' && input.captureStatus !== 'OUTDATED') {
     blockReason = 'LIVE CAPTURE PREVIEW REQUIRED';
   }
+
+  const captureReadyForUpgrade =
+    input.captureStatus === 'READY' ||
+    (input.captureStatus === 'OUTDATED' && designOk && liveOk);
 
   return {
     approvalStatus: input.approvalStatus,
     captureStatus: input.captureStatus,
     previewHealth: input.liveCapturePreview,
-    upgradeAllowed: designOk && liveOk && pageOk && routeOk && viewportOk && input.captureStatus === 'READY',
+    upgradeAllowed: designOk && liveOk && pageOk && routeOk && viewportOk && captureReadyForUpgrade,
     blockReason,
   };
 }

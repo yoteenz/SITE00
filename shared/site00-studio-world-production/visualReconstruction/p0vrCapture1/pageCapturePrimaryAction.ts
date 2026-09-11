@@ -33,18 +33,84 @@ export function resolvePageCapturePrimaryLabel(input: {
   return input.hasStoredCapture ? 'RECAPTURE' : 'CAPTURE NOW';
 }
 
+export function isLiveCaptureReadyForUpgrade(liveState: LivePageCaptureState, livePreviewStatus: string): boolean {
+  if (liveState === 'READY') return true;
+  return liveState === 'OUTDATED' && livePreviewStatus === 'PASS';
+}
+
 export function shouldOfferPageUpgrade(input: {
   upgradeAllowed: boolean;
   liveState: LivePageCaptureState;
   designPreviewStatus: string;
   livePreviewStatus: string;
   hasStoredCapture: boolean;
+  authorityApproved?: boolean;
 }): boolean {
   return (
     input.upgradeAllowed &&
-    input.liveState === 'READY' &&
+    isLiveCaptureReadyForUpgrade(input.liveState, input.livePreviewStatus) &&
     input.designPreviewStatus === 'PASS' &&
     input.livePreviewStatus === 'PASS' &&
-    input.hasStoredCapture
+    input.hasStoredCapture &&
+    input.authorityApproved !== false
   );
+}
+
+export function resolvePageUpgradeBlockReasons(input: {
+  upgradeAllowed: boolean;
+  upgradeBlockReason: string | null;
+  liveState: LivePageCaptureState;
+  designPreviewStatus: string;
+  livePreviewStatus: string;
+  hasStoredCapture: boolean;
+  authorityApproved: boolean;
+  authorityStatus: string;
+}): string[] {
+  const reasons: string[] = [];
+
+  if (!input.hasStoredCapture) {
+    reasons.push('NO LIVE CAPTURE YET');
+    return reasons;
+  }
+
+  if (!input.authorityApproved) {
+    if (input.authorityStatus === 'MISSING' || input.authorityStatus === 'MAPPED') {
+      reasons.push('SET OR APPROVE DESIGN AUTHORITY FIRST');
+    } else {
+      reasons.push('DESIGN AUTHORITY APPROVAL REQUIRED');
+    }
+  }
+
+  if (input.designPreviewStatus !== 'PASS') {
+    reasons.push(
+      input.designPreviewStatus === 'FAIL'
+        ? 'DESIGN AUTHORITY PREVIEW FAILED'
+        : 'DESIGN AUTHORITY PREVIEW CHECKING',
+    );
+  }
+
+  if (input.livePreviewStatus !== 'PASS') {
+    reasons.push(
+      input.livePreviewStatus === 'FAIL' ? 'LIVE CAPTURE PREVIEW FAILED' : 'LIVE CAPTURE PREVIEW CHECKING',
+    );
+  }
+
+  if (
+    input.hasStoredCapture &&
+    !isLiveCaptureReadyForUpgrade(input.liveState, input.livePreviewStatus) &&
+    input.liveState !== 'CAPTURING'
+  ) {
+    if (input.liveState === 'PAGE_MISMATCH') reasons.push('CAPTURED PAGE DOES NOT MATCH TARGET');
+    else if (input.liveState === 'FAILED') reasons.push('LAST CAPTURE FAILED');
+    else if (input.liveState === 'PREVIEW_UNAVAILABLE') reasons.push('LIVE CAPTURE PREVIEW UNAVAILABLE');
+    else if (input.liveState === 'VERIFYING_PREVIEW' || input.liveState === 'SAVED') {
+      reasons.push('WAITING FOR LIVE PREVIEW CONFIRMATION');
+    }
+  }
+
+  if (input.upgradeBlockReason && !reasons.includes(input.upgradeBlockReason)) {
+    reasons.push(input.upgradeBlockReason);
+  }
+
+  return reasons;
 }
