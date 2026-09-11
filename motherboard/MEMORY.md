@@ -7923,3 +7923,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Client-side SPA routing — browser requests the literal path from Apache; production is not serving `index.html` for missing paths. Live curl: `/` → 200, `/projects/site00/design` → plain Apache 404 (13 bytes), no `#root` shell. Repo `.htaccess` had rewrite + `ErrorDocument 404` but GoDaddy often needs `Options +FollowSymLinks`, prefix rules when physical dirs exist, and `FallbackResource`. Cache-Control from `.htaccess` also absent on live index — rules not fully applied on host.
 - **Fix:** Hardened `public/.htaccess` (FollowSymLinks, route-prefix rewrites, FallbackResource); `verifyFrontendOnce` probes `/projects/site00/design` for SPA shell. Founder must redeploy dist (includes `.htaccess` dotfile) to GoDaddy public_html.
 
+---
+
+## 2026-09-11 — site00 CAPTURE INDEX MISSING FOR OVERVIEW (pipeline root mismatch)
+
+- **Issue:** On SITE 00 design → PAGES, root shows PROPOSED + `CAPTURE INDEX MISSING FOR "OVERVIEW"` even though CAPTURE NOW visible. ndxbook pipeline worked; site00 broken.
+- **Root cause:** Page-family + capture-now assumed every project root is `overview` at `/projects/{id}`. **site00** is the website itself — root screen is **`homepage` at `/`**, not overview. `resolveCaptureIndexRow('overview', 'site00')` returned null; page family builder only indexed `/projects/site00/*` routes so homepage row never wired to root node.
+- **Fix:** `isSite00WebsiteProject` + `SITE00_WEBSITE_ROOT_SCREEN_ID=homepage`; site00 canonical root `/`; capture aliases overview→homepage; page family indexes all site00 routes and prefers homepage when multiple rows share `/`. Tests in captureNowAfterAuthority + pageFamilyRootTarget.
+
