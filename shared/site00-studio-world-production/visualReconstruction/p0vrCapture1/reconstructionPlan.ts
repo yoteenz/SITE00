@@ -20,7 +20,9 @@ export type ReconstructionPlanChange = {
 };
 
 export type ReconstructionPlan = {
+  planId: string;
   pageId: string;
+  pagePurpose: string;
   viewport: DesignViewportClass;
   authorityVersionId: string | null;
   captureId: string;
@@ -117,7 +119,9 @@ export function buildReconstructionPlan(input: {
   }
 
   return {
+    planId: `plan_${input.pageId.replace(/[:/]/g, '_')}_${input.viewport}`,
     pageId: input.pageId,
+    pagePurpose: input.pagePurpose,
     viewport: input.viewport,
     authorityVersionId: input.authorityVersionId,
     captureId: input.captureId,

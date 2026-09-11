@@ -7,7 +7,7 @@ import { buildPageCreativeDiagnosis } from './pageCreativeDiagnosis.js';
 import { buildPageCreativeDirectionPlan } from './pageCreativeDirectionPlan.js';
 import { buildPageVisualDiagnosis } from './pageVisualDiagnosis.js';
 import { buildReconstructionPlan } from './reconstructionPlan.js';
-import { startPageReconstructionExecution } from './pageReconstructionExecution.js';
+import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { PageCreativeUpgradeSession, PageCreativeUpgradeStatus } from './types.js';
 
 const sessions = new Map<string, PageCreativeUpgradeSession>();
@@ -124,15 +124,16 @@ export function approvePageCreativeDirection(
   };
   sessions.set(sessionKey(projectId, pageId, viewport), updated);
   if (updated.reconstructionPlan && updated.designAuthorityVersionId) {
-    startPageReconstructionExecution({
+    createTwinSessionFromApprovedDirection({
       projectId,
       pageId,
       viewport,
-      plan: updated.reconstructionPlan,
+      canonicalRoute: updated.route,
       authorityVersionId: updated.designAuthorityVersionId,
-      captureId: updated.captureId,
-      authorityAssetRef: updated.designAuthorityAssetRef ?? null,
+      beforeCaptureId: updated.captureId,
       captureAssetRef: updated.captureAssetRef ?? null,
+      plan: updated.reconstructionPlan,
+      isRootPage: updated.isRoot,
     });
   }
   return updated;

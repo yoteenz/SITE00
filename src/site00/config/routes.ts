@@ -66,6 +66,9 @@ export const SITE00_ROUTES = {
   projectIdentity: '/projects/:projectSlug/identity',
   projectExperience: '/projects/:projectSlug/experience/*',
   projectDebugWorld: '/projects/:projectSlug/debug/world/*',
+  /** P0.VR.UPGRADE.2 — Protected reconstruction twin preview (non-indexable) */
+  projectReconstructionTwin:
+    '/projects/:projectSlug/debug/reconstruction/:pageScope/:sessionId',
   projectReader: '/projects/:projectSlug/reader/*',
   projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',

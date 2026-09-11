@@ -127,6 +127,7 @@ export type PageCreativeUpgradeSession = {
   captureAssetRef?: string | null;
   beforeImageRenderable?: boolean;
   referenceImageRenderable?: boolean;
+  twinSessionId?: string | null;
 };
 
 export type PageCreativeDiagnosisCode =

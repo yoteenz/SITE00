@@ -12,11 +12,12 @@ import {
   resetPageCreativeUpgradeSessionsForTest,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 import { buildPageVisualDiagnosis } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageVisualDiagnosis.js';
+import { buildReconstructionPlan } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import {
-  buildReconstructionPlan,
-  resetPageReconstructionExecutionsForTest,
-} from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
-import { getPageReconstructionExecution } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageReconstructionExecution.js';
+  getActiveTwinSessionForPage,
+  resetReconstructionTwinSessionsForTest,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/reconstructionTwinSession.js';
+import { resetPageImplementationRegistryForTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/pageImplementationRegistry.js';
 import { P0_VR_UPGRADE_1_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/constants.js';
 
 const root = join(import.meta.dirname, '..');
@@ -28,7 +29,8 @@ function read(rel: string): string {
 describe('P0.VR.UPGRADE.1 — visual compare page upgrade', () => {
   beforeEach(() => {
     resetPageCreativeUpgradeSessionsForTest();
-    resetPageReconstructionExecutionsForTest();
+    resetReconstructionTwinSessionsForTest();
+    resetPageImplementationRegistryForTest();
   });
 
   it('1. panel compares current vs design authority not proposed text', () => {
@@ -106,7 +108,7 @@ describe('P0.VR.UPGRADE.1 — visual compare page upgrade', () => {
     expect(session.reconstructionPlan?.goal).toMatch(/Match the approved/i);
   });
 
-  it('9. approve direction snapshots build session', () => {
+  it('9. approve direction creates twin session without live mutation', () => {
     openPageCreativeUpgradeSession({
       projectId: 'ndxbook',
       pageId: 'ndxbook:/projects/ndxbook',
@@ -121,9 +123,10 @@ describe('P0.VR.UPGRADE.1 — visual compare page upgrade', () => {
       captureAssetRef: '/captures/live.png',
     });
     approvePageCreativeDirection('ndxbook', 'ndxbook:/projects/ndxbook', 'mobile');
-    const exec = getPageReconstructionExecution('ndxbook', 'ndxbook:/projects/ndxbook', 'mobile');
-    expect(exec?.authorityVersionId).toBe('auth-1');
-    expect(exec?.captureId).toBe('cap-1');
+    const twin = getActiveTwinSessionForPage('ndxbook', 'ndxbook:/projects/ndxbook');
+    expect(twin?.authorityVersionId).toBe('auth-1');
+    expect(twin?.beforeCaptureId).toBe('cap-1');
+    expect(twin?.status).toBe('PLANNED');
   });
 
   it('10. post-build review before after authority', () => {
