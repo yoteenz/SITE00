@@ -44,6 +44,8 @@ export function createTwinSessionFromApprovedDirection(input: {
   beforeCaptureId: string;
   captureAssetRef: string | null;
   plan: ReconstructionPlan;
+  measuredSpecId?: string | null;
+  forensicsReportId?: string | null;
   isRootPage?: boolean;
   mutationPolicy?: TwinMutationPolicy;
 }): ReconstructionTwinSession {
@@ -92,6 +94,11 @@ export function createTwinSessionFromApprovedDirection(input: {
     mutationPolicy: input.mutationPolicy ?? 'READ_ONLY',
     functionContract,
     reconstructionPlan: input.plan,
+    measuredSpecId: input.measuredSpecId ?? input.plan.measuredSpecId ?? null,
+    forensicsReportId: input.forensicsReportId ?? input.plan.forensicsReportId ?? null,
+    postTwinForensicsReportId: null,
+    convergenceBefore: null,
+    convergenceAfter: null,
     status: 'PLANNED',
     buildSteps,
     twinCapture: null,

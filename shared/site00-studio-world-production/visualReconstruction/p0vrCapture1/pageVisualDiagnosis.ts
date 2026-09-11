@@ -26,13 +26,34 @@ export type VisualDiagnosisFinding = {
   label: string;
   impact: 'HIGH' | 'MEDIUM' | 'LOW';
   sourceDiff: string;
+  evidenceId?: string;
+  authorityValue?: string;
+  currentValue?: string;
+  delta?: string;
+  confidence?: 'HIGH' | 'MEDIUM' | 'LOW';
+  correction?: string;
+};
+
+export type TopVisualDifference = {
+  evidenceId: string;
+  regionName: string;
+  metric: string;
+  authority: string;
+  current: string;
+  delta: string;
+  confidence: string;
+  correction: string;
+  impactScore: number;
 };
 
 export type PageVisualDiagnosis = {
   findings: VisualDiagnosisFinding[];
   topFindings: string[];
+  topVisualDifferences?: TopVisualDifference[];
   summary: string;
   detectedAt: string;
+  forensicsReportId?: string;
+  alignmentStatus?: string;
 };
 
 function finding(

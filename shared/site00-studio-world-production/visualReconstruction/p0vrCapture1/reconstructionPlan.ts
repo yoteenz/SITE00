@@ -17,6 +17,15 @@ export type ReconstructionPlanChange = {
     | 'spacing'
     | 'interaction'
     | 'responsive';
+  evidenceId?: string;
+  authorityValue?: string;
+  currentValue?: string;
+  delta?: string;
+  correction?: string;
+  confidence?: 'HIGH' | 'MEDIUM' | 'LOW';
+  functionalRisk?: 'NONE' | 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  regionId?: string;
+  regionName?: string;
 };
 
 export type ReconstructionPlan = {
@@ -38,6 +47,8 @@ export type ReconstructionPlan = {
   rootPreservation: string[];
   risks: string[];
   status: 'DRAFT' | 'APPROVED';
+  measuredSpecId?: string;
+  forensicsReportId?: string;
 };
 
 const ROOT_PRESERVATION = [

@@ -175,6 +175,11 @@ export type ReconstructionTwinSession = {
   mutationPolicy: TwinMutationPolicy;
   functionContract: PageFunctionContract;
   reconstructionPlan: ReconstructionPlan;
+  measuredSpecId?: string | null;
+  forensicsReportId?: string | null;
+  postTwinForensicsReportId?: string | null;
+  convergenceBefore?: import('../p0vrDiag1/types.js').VisualConvergenceScore | null;
+  convergenceAfter?: import('../p0vrDiag1/types.js').VisualConvergenceScore | null;
   status: TwinSessionStatus;
   buildSteps: TwinBuildStepReceipt[];
   twinCapture: TwinViewportCapture | null;

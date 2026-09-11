@@ -87,6 +87,7 @@ export function PageCreativeUpgradePanel({
   const [refineOpen, setRefineOpen] = useState(false);
   const [refineText, setRefineText] = useState('');
   const [promotionConfirmOpen, setPromotionConfirmOpen] = useState(false);
+  const [evidenceId, setEvidenceId] = useState<string | null>(null);
 
   const showTwinReview =
     twinSession &&
@@ -420,9 +421,42 @@ export function PageCreativeUpgradePanel({
               ) : null}
               {renderVisualCompare()}
 
-              {diagnosis ? (
+              {diagnosis?.topVisualDifferences?.length ? (
                 <section className="site00-pfw-upgrade-v2__diagnosis">
-                  <h3>DIAGNOSIS</h3>
+                  <h3>TOP VISUAL DIFFERENCES</h3>
+                  <ul className="site00-pfw-upgrade-v2__forensics-list">
+                    {diagnosis.topVisualDifferences.map((item) => (
+                      <li key={item.evidenceId}>
+                        <strong>{item.regionName}</strong>
+                        <span className="site00-pfw-upgrade-v2__forensics-delta">{item.delta}</span>
+                        <dl className="site00-pfw-upgrade-v2__forensics-measures">
+                          <div>
+                            <dt>AUTHORITY</dt>
+                            <dd>{item.authority}</dd>
+                          </div>
+                          <div>
+                            <dt>CURRENT</dt>
+                            <dd>{item.current}</dd>
+                          </div>
+                          <div>
+                            <dt>CONFIDENCE</dt>
+                            <dd>{item.confidence}</dd>
+                          </div>
+                        </dl>
+                        <button
+                          type="button"
+                          className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                          onClick={() => setEvidenceId(item.evidenceId)}
+                        >
+                          VIEW EVIDENCE
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ) : diagnosis ? (
+                <section className="site00-pfw-upgrade-v2__diagnosis">
+                  <h3>TOP VISUAL DIFFERENCES</h3>
                   <ul>
                     {diagnosis.topFindings.map((item) => (
                       <li key={item}>{item}</li>
@@ -435,13 +469,33 @@ export function PageCreativeUpgradePanel({
                 <section className="site00-pfw-upgrade-v2__plan">
                   <h3>RECONSTRUCTION PLAN</h3>
                   <p className="site00-pfw-upgrade-v2__plan-goal">{plan.goal}</p>
-                  <ul>
+                  <ul className="site00-pfw-upgrade-v2__plan-list">
                     {[...plan.geometryChanges, ...plan.componentChanges, ...plan.spacingChanges]
                       .slice(0, 8)
                       .map((item) => (
                         <li key={item.id}>
-                          {item.label}
-                          <span className="site00-pfw-upgrade-v2__plan-source">{item.sourceDimension.replace(/_/g, ' ')}</span>
+                          <strong>{item.regionName ?? item.label.split(' — ')[0]}</strong>
+                          {item.authorityValue ? (
+                            <span className="site00-pfw-upgrade-v2__plan-target">TARGET: {item.authorityValue}</span>
+                          ) : null}
+                          {item.currentValue ? (
+                            <span className="site00-pfw-upgrade-v2__plan-current">CURRENT: {item.currentValue}</span>
+                          ) : null}
+                          {item.delta ? (
+                            <span className="site00-pfw-upgrade-v2__plan-delta">{item.delta}</span>
+                          ) : null}
+                          {item.correction ? (
+                            <span className="site00-pfw-upgrade-v2__plan-correction">{item.correction}</span>
+                          ) : null}
+                          {item.evidenceId ? (
+                            <button
+                              type="button"
+                              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                              onClick={() => setEvidenceId(item.evidenceId!)}
+                            >
+                              VIEW EVIDENCE
+                            </button>
+                          ) : null}
                         </li>
                       ))}
                   </ul>
@@ -449,9 +503,79 @@ export function PageCreativeUpgradePanel({
               ) : null}
 
               {plan ? (
-                <p className="site00-pfw-upgrade-v2__preserve">
-                  <strong>FUNCTION PRESERVED:</strong> {plan.functionPreservation.slice(0, 4).join(' · ').toUpperCase()}
-                </p>
+                <section className="site00-pfw-upgrade-v2__function-contract">
+                  <h3>FUNCTION PRESERVATION</h3>
+                  <ul>
+                    {plan.functionPreservation.map((item) => (
+                      <li key={item}>{item} ✓</li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
+
+              {twinSession?.convergenceBefore && twinSession?.convergenceAfter ? (
+                <section className="site00-pfw-upgrade-v2__convergence">
+                  <h3>BEFORE DRIFT VS AFTER DRIFT</h3>
+                  <dl className="site00-pfw-upgrade-v2__convergence-grid">
+                    {(['geometry', 'spacing', 'typography', 'assets', 'function'] as const).map((key) => (
+                      <div key={key}>
+                        <dt>{key.toUpperCase()}</dt>
+                        <dd>
+                          {twinSession.convergenceBefore![key]} → {twinSession.convergenceAfter![key]}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              ) : null}
+
+              {evidenceId && plan ? (
+                <div className="site00-pfw-upgrade-v2__evidence-sheet" role="dialog" aria-label="Forensic evidence">
+                  {(() => {
+                    const item = [...plan.geometryChanges, ...plan.spacingChanges, ...plan.componentChanges].find(
+                      (c) => c.evidenceId === evidenceId,
+                    );
+                    const top = diagnosis?.topVisualDifferences?.find((d) => d.evidenceId === evidenceId);
+                    return (
+                      <>
+                        <h4>EVIDENCE — {item?.regionName ?? top?.regionName ?? evidenceId}</h4>
+                        <dl>
+                          <div>
+                            <dt>AUTHORITY</dt>
+                            <dd>{item?.authorityValue ?? top?.authority ?? '—'}</dd>
+                          </div>
+                          <div>
+                            <dt>CURRENT</dt>
+                            <dd>{item?.currentValue ?? top?.current ?? '—'}</dd>
+                          </div>
+                          <div>
+                            <dt>DELTA</dt>
+                            <dd>{item?.delta ?? top?.delta ?? '—'}</dd>
+                          </div>
+                          <div>
+                            <dt>CORRECTION</dt>
+                            <dd>{item?.correction ?? top?.correction ?? '—'}</dd>
+                          </div>
+                          <div>
+                            <dt>CONFIDENCE</dt>
+                            <dd>{item?.confidence ?? top?.confidence ?? '—'}</dd>
+                          </div>
+                          <div>
+                            <dt>FUNCTIONAL RISK</dt>
+                            <dd>{item?.functionalRisk ?? 'LOW'}</dd>
+                          </div>
+                        </dl>
+                        <button
+                          type="button"
+                          className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                          onClick={() => setEvidenceId(null)}
+                        >
+                          CLOSE
+                        </button>
+                      </>
+                    );
+                  })()}
+                </div>
               ) : null}
 
               {noteOpen ? (

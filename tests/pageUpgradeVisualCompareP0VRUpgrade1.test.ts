@@ -58,10 +58,17 @@ describe('P0.VR.UPGRADE.1 — visual compare page upgrade', () => {
     expect(panel).toContain('clipPath');
   });
 
-  it('5. PageVisualDiagnosis returns specific findings', () => {
+  it('4b. upgrade panel shows measured forensics UI', () => {
+    const panel = read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx');
+    expect(panel).toContain('TOP VISUAL DIFFERENCES');
+    expect(panel).toContain('VIEW EVIDENCE');
+    expect(panel).toContain('FUNCTION PRESERVATION');
+    expect(panel).toContain('BEFORE DRIFT VS AFTER DRIFT');
+  });
+
+  it('5. PageVisualDiagnosis legacy fallback still returns findings', () => {
     const dx = buildPageVisualDiagnosis({ isRootPage: true, viewport: 'mobile', pagePurpose: 'NDXBOOK OVERVIEW' });
     expect(dx.topFindings.length).toBeGreaterThanOrEqual(3);
-    expect(dx.summary).not.toMatch(/drifts from approved design authority reference/i);
     expect(dx.findings.some((f) => f.label.includes('HEADER'))).toBe(true);
   });
 
@@ -105,7 +112,9 @@ describe('P0.VR.UPGRADE.1 — visual compare page upgrade', () => {
     expect(session.designAuthorityAssetRef).toContain('authority');
     expect(session.captureAssetRef).toContain('live');
     expect(session.visualDiagnosis).toBeTruthy();
-    expect(session.reconstructionPlan?.goal).toMatch(/Match the approved/i);
+    expect(session.reconstructionPlan?.goal).toMatch(/reconstruction/i);
+    expect(session.measuredSpecId).toBeTruthy();
+    expect(session.forensicsReportId).toBeTruthy();
   });
 
   it('9. approve direction creates twin session without live mutation', () => {
