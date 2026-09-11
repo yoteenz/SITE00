@@ -196,7 +196,7 @@ describe('P0.VR.CAPTURE.1R1 — Family root targeting', () => {
     expect(authority.previewUrl).toContain('/visual-references/');
   });
 
-  it('14. root capture plan resolves /projects/ndxbook', () => {
+  it('14. root capture plan resolves /projects/ndxbook/overview for overview screen', () => {
     const plan = planCaptureCurrentPage({
       projectId: 'ndxbook',
       pageId: buildPageId('ndxbook', '/projects/ndxbook'),
@@ -204,7 +204,7 @@ describe('P0.VR.CAPTURE.1R1 — Family root targeting', () => {
       route: '/projects/ndxbook',
       viewport: 'mobile',
     });
-    expect(plan.resolvedRuntimePath).toBe('/projects/ndxbook');
+    expect(plan.resolvedRuntimePath).toBe('/projects/ndxbook/overview');
     expect(plan.singlePageJob).toBe(true);
   });
 
