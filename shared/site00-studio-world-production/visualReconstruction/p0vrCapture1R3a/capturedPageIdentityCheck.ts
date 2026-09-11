@@ -3,6 +3,7 @@
  */
 
 import type { CaptureNavigationReceipt } from './captureNavigationReceipt.js';
+import { captureRootOverviewRoutesEquivalent } from './captureRouteEquivalence.js';
 
 export type CapturedPageIdentityCheck = {
   projectId: string;
@@ -54,10 +55,14 @@ export function runCapturedPageIdentityCheck(input: {
     };
   }
 
+  const finalPath = normalize(input.navigation.finalUrl);
   const match =
     input.navigation.status === 'MATCH' ||
-    normalize(finalUrl).endsWith(normalize(requestedPath)) ||
-    normalize(input.navigation.finalUrl).includes(normalize(requestedPath));
+    input.navigation.status === 'REDIRECTED' ||
+    finalPath.endsWith(normalize(requestedPath)) ||
+    finalPath.includes(normalize(requestedPath)) ||
+    captureRootOverviewRoutesEquivalent(requestedPath, input.navigation.resolvedRuntimePath) ||
+    captureRootOverviewRoutesEquivalent(requestedPath, input.navigation.finalUrl);
 
   if (!match) {
     return {

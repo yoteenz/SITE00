@@ -3,6 +3,7 @@
  */
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
+import { captureRootOverviewRoutesEquivalent } from './captureRouteEquivalence.js';
 
 export type CaptureNavigationReceipt = {
   jobId: string;
@@ -31,8 +32,15 @@ export function buildCaptureNavigationReceipt(input: {
   const redirected = input.redirectChain?.length ? input.redirectChain.length > 0 : finalPath !== resolvedPath;
 
   let status: CaptureNavigationReceipt['status'] = 'UNKNOWN';
-  if (finalPath === requestedPath || finalPath === resolvedPath) status = 'MATCH';
-  else if (redirected) status = 'REDIRECTED';
+  if (
+    finalPath === requestedPath ||
+    finalPath === resolvedPath ||
+    captureRootOverviewRoutesEquivalent(finalPath, requestedPath) ||
+    captureRootOverviewRoutesEquivalent(finalPath, resolvedPath) ||
+    captureRootOverviewRoutesEquivalent(requestedPath, resolvedPath)
+  ) {
+    status = 'MATCH';
+  } else if (redirected) status = 'REDIRECTED';
   else status = 'MISMATCH';
 
   return {

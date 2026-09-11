@@ -7891,3 +7891,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Issue:** Production Release / test failed after v290 merge — `pageFamilyRootTargetP0VRCapture1R1.test.ts` expected `resolvedRuntimePath` `/projects/ndxbook` but runtime resolver correctly returns `/projects/ndxbook/overview` for overview screen (v290 capture fix).
 - **Fix:** Updated test 14 expectation to `/projects/ndxbook/overview`. Test-only; no new deploy ZIP.
 
+---
+
+## 2026-09-11 — UPGRADE hidden, only RECAPTURE shown (v293)
+
+- **Issue:** After v292, founder lost **UPGRADE THIS PAGE** — only **RECAPTURE** primary CTA; previously both showed when previews PASS.
+- **Root cause:** Strict upgrade gate blocked silently: (1) v290 overview capture path `/projects/ndxbook/overview` vs page route `/projects/ndxbook` could mark navigation **MISMATCH** on stored captures; (2) `authorityApproved` false (MAPPED authority) hid upgrade with no message; (3) `OUTDATED` / preview-checking states blocked without explanation.
+- **Fix:** `captureRootOverviewRoutesEquivalent` + navigation MATCH for root/overview alias; upgrade gate uses route equivalence for legacy receipts; `resolvePageUpgradeBlockReasons` surfaces why upgrade is locked; OUTDATED capture allowed when both previews PASS. Deploy ZIP **v293**.
+
