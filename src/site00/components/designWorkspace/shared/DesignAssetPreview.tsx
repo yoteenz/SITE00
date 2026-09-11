@@ -2,7 +2,7 @@
  * P0.VR.CAPTURE.1R3 — Shared design authority / live capture preview with load health.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
 import {
   buildImageDeliveryTrace,
   derivePreviewHealthFromBrowser,
@@ -58,7 +58,13 @@ export function DesignAssetPreview({
     onPreviewHealthChange?.(previewHealth);
   }, [onPreviewHealthChange, previewHealth]);
 
-  const handleLoad = useCallback(() => {
+  const handleLoad = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    if (!img.naturalWidth || !img.naturalHeight) {
+      setBrowserError(true);
+      setBrowserLoaded(false);
+      return;
+    }
     setBrowserLoaded(true);
     setBrowserError(false);
   }, []);

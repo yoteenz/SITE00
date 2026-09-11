@@ -13,6 +13,7 @@ import { FounderPageProgressStrip } from './founderCapture/FounderPageProgressSt
 import { PageFamilyWorkspace } from './pageFamily/PageFamilyWorkspace';
 import { DesignTaskWizardShell } from './wizard/DesignTaskWizardShell';
 import '../../styles/site00-design-page-family.css';
+import '../../styles/site00-design-wizard.css';
 import {
   buildCaptureFounderGuidance,
   founderPageFilterLabels,

@@ -368,4 +368,16 @@ describe('P0.VR.CAPTURE.1R3A — Authority + artifact proof', () => {
   it('16. build v280', () => {
     expect(P0_VR_CAPTURE_1R3A_BUILD).toBe('v280');
   });
+
+  it('17. live capture preview ref repairs same-origin storage path', async () => {
+    const { resolveLiveCapturePreviewRef } = await import(
+      '../shared/site00-studio-world-production/assetDelivery/resolveLiveCapturePreviewRef.js'
+    );
+    const repaired = resolveLiveCapturePreviewRef({
+      imageRef: 'https://preview.example.test/studio-world/ndxbook/overview/mobile/x.webp',
+      siteOrigin: 'https://preview.example.test',
+    });
+    expect(repaired).toContain('/storage/v1/object/public/');
+    expect(repaired).not.toContain('preview.example.test/studio-world');
+  });
 });
