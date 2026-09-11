@@ -10,3 +10,4 @@ export * from './replaceDesignAuthorityFlow.js';
 export * from './captureNavigationReceipt.js';
 export * from './capturedPageIdentityCheck.js';
 export * from './captureArtifactProof.js';
+export * from './uploadPageDesignAuthority.js';

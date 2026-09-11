@@ -8,6 +8,10 @@ import {
   promoteVisualImplementationCanon,
   listCanonicalReferences,
 } from './canonicalReferenceRegistry.js';
+import {
+  hydrateCanonicalRegistryFromStorage,
+  persistCanonicalRegistrySnapshot,
+} from './canonicalReferencePersistence.js';
 import { registerProjectDesignScreens } from './designScreenRegistry.js';
 import type { CanonicalVisualReference, DesignScreenDefinition, VisualImplementationCanon } from './types.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from './constants.js';
@@ -158,6 +162,11 @@ export function registerNdxbookDesignPilot(): {
   ndxPilotRegistered = true;
   registerProjectDesignScreens('ndxbook', NDX_DESIGN_SCREENS);
 
+  const hydrated = hydrateCanonicalRegistryFromStorage('ndxbook');
+  if (hydrated) {
+    return { references: listCanonicalReferences('ndxbook'), screens: NDX_DESIGN_SCREENS };
+  }
+
   const references: CanonicalVisualReference[] = [];
   const canons: VisualImplementationCanon[] = [];
 
@@ -181,6 +190,7 @@ export function registerNdxbookDesignPilot(): {
   }
 
   seedImplementationCanons(canons.filter((c) => c.status === 'ACTIVE'));
+  persistCanonicalRegistrySnapshot('ndxbook');
 
   return { references, screens: NDX_DESIGN_SCREENS };
 }

@@ -129,6 +129,10 @@ export function listCanonicalReferences(projectId?: string): CanonicalVisualRefe
   return [...references.values()].filter((r) => !projectId || r.projectId === projectId);
 }
 
+export function listImplementationCanons(projectId?: string): VisualImplementationCanon[] {
+  return [...implementationCanons.values()].filter((c) => !projectId || c.projectId === projectId);
+}
+
 export function markImplementationCanonStale(
   projectId: string,
   screenId: string,

@@ -10,6 +10,7 @@ import {
   promoteVisualImplementationCanon,
   registerCanonicalVisualReference,
 } from '../p0vr2/canonicalReferenceRegistry.js';
+import { persistCanonicalRegistrySnapshot } from '../p0vr2/canonicalReferencePersistence.js';
 import { SUPPORTED_AUTHORITY_UPLOAD_MIMES } from './constants.js';
 import {
   buildFounderAuthorityStoragePath,
@@ -41,8 +42,14 @@ export type ReplaceDesignAuthorityDraft = {
   height: number;
 };
 
+export type ReplaceDesignAuthorityUploadPayload = {
+  storagePath: string;
+  publicUrl: string;
+  byteSize: number;
+};
+
 export type ReplaceDesignAuthorityResult =
-  | { ok: true; version: DesignAuthorityVersion; referenceId: string }
+  | { ok: true; version: DesignAuthorityVersion; referenceId: string; publicUrl: string }
   | { ok: false; errorCode: 'UPLOAD_FAILED' | 'INVALID_MIME' | 'APPROVAL_FAILED'; message: string };
 
 export function validateAuthorityUploadFile(file: File): { ok: boolean; errorCode?: 'INVALID_MIME' } {
@@ -111,13 +118,18 @@ function loadImageDimensions(dataUrl: string): Promise<{ width: number; height: 
   });
 }
 
-export function approveDesignAuthorityReplacement(draft: ReplaceDesignAuthorityDraft): ReplaceDesignAuthorityResult {
+export function approveDesignAuthorityReplacement(
+  draft: ReplaceDesignAuthorityDraft,
+  uploaded?: ReplaceDesignAuthorityUploadPayload | null,
+): ReplaceDesignAuthorityResult {
   const { context } = draft;
   const viewport = CANONICAL_VIEWPORT_DIMENSIONS[context.viewport];
   const existing = getActiveCanonicalReference(context.projectId, context.screenId, context.viewport);
+  const storagePath = uploaded?.storagePath ?? draft.storagePath;
+  const renderableRef = uploaded?.publicUrl ?? draft.storagePath;
 
   try {
-    persistFounderAuthorityUpload(draft.storagePath, draft.previewDataUrl);
+    persistFounderAuthorityUpload(storagePath, uploaded?.publicUrl ?? draft.previewDataUrl);
 
     const reference = registerCanonicalVisualReference({
       projectId: context.projectId,
@@ -129,7 +141,7 @@ export function approveDesignAuthorityReplacement(draft: ReplaceDesignAuthorityD
       scope: 'FULL_SCREEN_REFERENCE',
       scopeTargetId: context.screenId,
       assetId: `${context.screenId}-${context.viewport}-founder-upload`,
-      storagePath: draft.storagePath,
+      storagePath: renderableRef.startsWith('http') ? renderableRef : storagePath,
       createdBy: 'founder-upload-page-scoped',
       supersedes: existing?.referenceId ?? null,
       status: 'ACTIVE_CANONICAL',
@@ -165,7 +177,7 @@ export function approveDesignAuthorityReplacement(draft: ReplaceDesignAuthorityD
       viewport: context.viewport,
       route: context.route,
       referenceId: reference.referenceId,
-      storagePath: draft.storagePath,
+      storagePath: uploaded?.storagePath ?? draft.storagePath,
       status: 'CURRENT',
       approvedAt: new Date().toISOString(),
       supersededAt: null,
@@ -174,7 +186,14 @@ export function approveDesignAuthorityReplacement(draft: ReplaceDesignAuthorityD
       createdAt: new Date().toISOString(),
     });
 
-    return { ok: true, version, referenceId: reference.referenceId };
+    persistCanonicalRegistrySnapshot(context.projectId);
+
+    return {
+      ok: true,
+      version,
+      referenceId: reference.referenceId,
+      publicUrl: uploaded?.publicUrl ?? renderableRef,
+    };
   } catch (err) {
     return {
       ok: false,

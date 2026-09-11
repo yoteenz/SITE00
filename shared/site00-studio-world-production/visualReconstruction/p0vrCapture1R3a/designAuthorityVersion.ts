@@ -28,6 +28,7 @@ export type DesignAuthorityVersion = {
 };
 
 const versions = new Map<string, DesignAuthorityVersion>();
+let hydratedFromStorage = false;
 
 function persistVersion(record: DesignAuthorityVersion): void {
   if (typeof globalThis.localStorage === 'undefined') return;
@@ -41,7 +42,29 @@ function persistVersion(record: DesignAuthorityVersion): void {
   }
 }
 
+export function hydrateDesignAuthorityVersionsFromStorage(): void {
+  if (hydratedFromStorage || typeof globalThis.localStorage === 'undefined') return;
+  hydratedFromStorage = true;
+  for (let i = 0; i < globalThis.localStorage.length; i++) {
+    const key = globalThis.localStorage.key(i);
+    if (!key?.startsWith(DESIGN_AUTHORITY_VERSION_LS_PREFIX)) continue;
+    try {
+      const raw = globalThis.localStorage.getItem(key);
+      if (!raw) continue;
+      const record = JSON.parse(raw) as DesignAuthorityVersion;
+      versions.set(record.authorityVersionId, record);
+    } catch {
+      /* skip corrupt */
+    }
+  }
+}
+
+function ensureHydrated(): void {
+  hydrateDesignAuthorityVersionsFromStorage();
+}
+
 export function recordDesignAuthorityVersion(record: DesignAuthorityVersion): DesignAuthorityVersion {
+  ensureHydrated();
   versions.set(record.authorityVersionId, record);
   persistVersion(record);
   return record;
@@ -54,6 +77,7 @@ export function supersedeDesignAuthorityVersions(input: {
   supersededBy: string;
   at?: string;
 }): void {
+  ensureHydrated();
   const at = input.at ?? new Date().toISOString();
   for (const record of versions.values()) {
     if (
@@ -79,6 +103,7 @@ export function getCurrentDesignAuthorityVersion(
   pageId: string,
   viewport: DesignViewportClass,
 ): DesignAuthorityVersion | null {
+  ensureHydrated();
   return (
     [...versions.values()].find(
       (v) =>
@@ -95,6 +120,7 @@ export function listDesignAuthorityHistory(
   pageId: string,
   viewport: DesignViewportClass,
 ): DesignAuthorityVersion[] {
+  ensureHydrated();
   return [...versions.values()]
     .filter((v) => v.projectId === projectId && v.pageId === pageId && v.viewport === viewport)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
@@ -102,4 +128,5 @@ export function listDesignAuthorityHistory(
 
 export function resetDesignAuthorityVersionsForTest(): void {
   versions.clear();
+  hydratedFromStorage = false;
 }

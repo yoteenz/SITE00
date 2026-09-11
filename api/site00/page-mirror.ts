@@ -44,6 +44,11 @@ import {
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import { bootstrapAllManagedDesignProjects } from '../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { handleCaptureCorsPreflight, applyCaptureCorsHeaders } from '../_lib/site00Capture/captureCors.js';
+import { uploadSite00AssetBuffer } from '../_lib/site00Assts/storage.js';
+import {
+  buildPageDesignAuthorityStoragePath,
+  parseDataUrl,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/uploadPageDesignAuthority.js';
 
 const REPO_ROOT = process.cwd();
 let workerBootPromise: Promise<unknown> | null = null;
@@ -231,6 +236,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         } finally {
           releaseCaptureNowLock(postProjectId, input.pageId, viewportClass);
         }
+      }
+      case 'upload_design_authority': {
+        const dataUrl = String(body.dataUrl ?? '');
+        const parsed = parseDataUrl(dataUrl);
+        if (!parsed || parsed.buffer.length === 0) {
+          return res.status(400).json({ error: 'INVALID_IMAGE_DATA', message: 'REFERENCE UPLOAD FAILED' });
+        }
+        const viewportClass = body.viewportClass ?? 'mobile';
+        const screenId = String(body.screenId ?? '');
+        const ext =
+          parsed.mimeType.includes('png') ? 'png' : parsed.mimeType.includes('webp') ? 'webp' : 'jpg';
+        const storagePath = buildPageDesignAuthorityStoragePath({
+          projectId: postProjectId,
+          screenId,
+          viewport: viewportClass,
+          extension: ext,
+        });
+        const upload = await uploadSite00AssetBuffer(storagePath, parsed.buffer, parsed.mimeType, {
+          upsert: true,
+        });
+        return res.status(200).json({
+          publicUrl: upload.publicUrl,
+          storagePath: upload.storagePath,
+          byteSize: parsed.buffer.length,
+          mimeType: parsed.mimeType,
+        });
       }
       case 'refresh_page': {
         if (body.executeCapture && body.pageId && body.screenId) {
