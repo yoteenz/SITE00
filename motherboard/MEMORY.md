@@ -7915,3 +7915,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause (three):** (1) `captureNow` looked up mirror row by exact `screenId` — workspace passes `overview` but mirror row can be `desktop-overview` → silent no-op; (2) replace-authority **local-only** path left modal open (`onReplaced` without `onClose`) — backdrop blocked all taps; (3) `PageCaptureNowPanel` remounted on every authority refresh via `key={pageId:nonce}` disrupting capture UI.
 - **Fix:** `resolveCaptureIndexRow` with overview aliases + registry fallback; visible error if row still missing; local-only authority closes dialog + shows notice in panel; authority refresh uses cache-bust nonce only (no full panel remount). Deploy ZIP **v294**.
 
+---
+
+## 2026-09-11 — Hard refresh 404 on /projects/.../design (SPA hosting)
+
+- **Issue:** Refreshing `https://site00.com/projects/site00/design?...` shows Apache **404 Not Found**, not the React app. In-app navigation works; only full page load fails. Same for `/services` and other deep links.
+- **Root cause:** Client-side SPA routing — browser requests the literal path from Apache; production is not serving `index.html` for missing paths. Live curl: `/` → 200, `/projects/site00/design` → plain Apache 404 (13 bytes), no `#root` shell. Repo `.htaccess` had rewrite + `ErrorDocument 404` but GoDaddy often needs `Options +FollowSymLinks`, prefix rules when physical dirs exist, and `FallbackResource`. Cache-Control from `.htaccess` also absent on live index — rules not fully applied on host.
+- **Fix:** Hardened `public/.htaccess` (FollowSymLinks, route-prefix rewrites, FallbackResource); `verifyFrontendOnce` probes `/projects/site00/design` for SPA shell. Founder must redeploy dist (includes `.htaccess` dotfile) to GoDaddy public_html.
+
