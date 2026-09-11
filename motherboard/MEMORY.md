@@ -7931,3 +7931,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Page-family + capture-now assumed every project root is `overview` at `/projects/{id}`. **site00** is the website itself — root screen is **`homepage` at `/`**, not overview. `resolveCaptureIndexRow('overview', 'site00')` returned null; page family builder only indexed `/projects/site00/*` routes so homepage row never wired to root node.
 - **Fix:** `isSite00WebsiteProject` + `SITE00_WEBSITE_ROOT_SCREEN_ID=homepage`; site00 canonical root `/`; capture aliases overview→homepage; page family indexes all site00 routes and prefers homepage when multiple rows share `/`. Tests in captureNowAfterAuthority + pageFamilyRootTarget.
 
+---
+
+## 2026-09-11 — Founder still on v295 after deploy (capture fix not live)
+
+- **Issue:** After cPanel upload, still `CAPTURE INDEX MISSING FOR "OVERVIEW"` + root PROPOSED. Deep link refresh fixed (v295 htaccess).
+- **Cause:** Live `release-manifest.json` showed commit `1c472ec` / bundle `index.BjMnKpdX.js` — **v295 htaccess only**. Capture fix is **v296+** (`894665b`, `index.DufA8Ifn.js`). Founder likely uploaded v295 or extracted into wrong nested folder.
+- **Hardening:** `normalizeCaptureScreenId`, `buildLocalPageMirrorVisualRows`, mirror hook seeds local rows when API empty/fails; PageFamilyWorkspace root screen from `rootTarget`; SITE00-DEPLOY-README verify section (bundle hash + commitSha).
+
