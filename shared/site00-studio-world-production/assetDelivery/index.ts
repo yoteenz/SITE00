@@ -9,3 +9,4 @@ export * from './assetRenderableUrlResolver.js';
 export * from './assetDeliveryProbe.js';
 export * from './previewHealth.js';
 export { isInvalidPersistedAssetRef, isPersistableCaptureUrl } from './persistableCaptureUrl.js';
+export * from './resolveLiveCapturePreviewRef.js';

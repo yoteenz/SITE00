@@ -14,7 +14,7 @@ import {
 import {
   evaluateRenderableAuthorityContract,
   previewHealthLabel,
-  resolveAssetRenderableUrl,
+  resolveLiveCapturePreviewRef,
 } from '../../../../../shared/site00-studio-world-production/assetDelivery/index.js';
 import type { PreviewHealth } from '../../../../../shared/site00-studio-world-production/assetDelivery/types.js';
 import { resolveCurrentDesignAuthority } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
@@ -122,8 +122,15 @@ export function PageCaptureNowPanel({
     isRoot,
     routeMapped,
   });
-  const liveImageRef = stored?.imageRef ?? screenshotUrl ?? null;
-  const livePreviewUrl = useMemo(() => resolveAssetRenderableUrl(liveImageRef).url, [liveImageRef]);
+  const liveImageRef = useMemo(
+    () =>
+      resolveLiveCapturePreviewRef({
+        imageRef: stored?.imageRef ?? screenshotUrl ?? null,
+        artifactProof: stored?.artifactProof ?? null,
+      }),
+    [stored?.imageRef, stored?.artifactProof, screenshotUrl],
+  );
+  const livePreviewUrl = liveImageRef;
   const authorityApproved =
     authority.authorityStatus === 'APPROVED' ||
     authority.authorityStatus === 'STALE' ||
@@ -213,7 +220,7 @@ export function PageCaptureNowPanel({
 
       <div className="site00-pfw-capture-now__preview site00-pfw-capture-now__preview--live">
         <DesignAssetPreview
-          assetRef={liveImageRef}
+          assetRef={livePreviewUrl}
           alt={`Live capture ${displayName}`}
           label="LIVE PAGE"
           emptyCopy={captureAvailable ? 'NO LIVE CAPTURE YET' : 'CAPTURE UNAVAILABLE'}

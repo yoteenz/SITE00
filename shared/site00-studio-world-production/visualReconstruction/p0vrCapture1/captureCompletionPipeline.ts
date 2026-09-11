@@ -326,6 +326,9 @@ export function completeCapturePipeline(options: {
 }
 
 export function bindCaptureCompletionToClientStore(completion: CaptureCompletionReceipt): PageViewportCapture {
+  const imageRef =
+    completion.artifactProof?.resolvedUrl ??
+    completion.imageRef;
   return savePageViewportCapture(
     buildPageViewportCapture({
       projectId: completion.projectId,
@@ -334,10 +337,11 @@ export function bindCaptureCompletionToClientStore(completion: CaptureCompletion
       captureId: completion.captureId,
       route: completion.route,
       resolvedRuntimePath: completion.resolvedRuntimePath,
-      imageRef: completion.imageRef,
+      imageRef,
       capturedAt: completion.capturedAt,
       status: completion.status === 'CAPTURE_READY' ? 'CAPTURE_READY' : 'CAPTURE_FAILED',
       captureSource: 'FOUNDER_CAPTURE_NOW',
+      artifactProof: completion.artifactProof ?? undefined,
     }),
   );
 }

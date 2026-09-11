@@ -6,6 +6,7 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 import { migrateHistoricalRootCapturePageId } from '../../pageFamilyWorkspace/pageFamilyRootTarget.js';
+import { resolveLiveCapturePreviewRef } from '../../assetDelivery/resolveLiveCapturePreviewRef.js';
 import { P0_VR_CAPTURE_1R2_BUILD } from './constants.js';
 import type { CaptureSource, PageViewportCapture, PageViewportCaptureStatus } from './types.js';
 
@@ -55,8 +56,19 @@ export function hydratePageViewportCapturesFromStorage(projectId: string): numbe
     try {
       const raw = globalThis.localStorage.getItem(k);
       if (!raw) continue;
-      const capture = JSON.parse(raw) as PageViewportCapture;
+      const parsed = JSON.parse(raw) as PageViewportCapture;
+      const repairedRef = resolveLiveCapturePreviewRef({
+        imageRef: parsed.imageRef,
+        artifactProof: parsed.artifactProof ?? null,
+      });
+      const capture =
+        repairedRef && repairedRef !== parsed.imageRef
+          ? { ...parsed, imageRef: repairedRef }
+          : parsed;
       store.set(key(capture.projectId, capture.pageId, capture.viewport), capture);
+      if (repairedRef && repairedRef !== parsed.imageRef) {
+        persistCapture(capture);
+      }
       count++;
     } catch {
       /* skip corrupt */

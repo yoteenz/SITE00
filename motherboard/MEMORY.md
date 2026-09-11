@@ -7798,6 +7798,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-11 — P0.VR.CAPTURE.1R3A hotfix: replace dialog + live preview URL repair
+
+- **Issue:** Founder QA on fsbw-dev — REPLACE DESIGN AUTHORITY button appeared to do nothing; LIVE PAGE preview showed 404 while status said PREVIEW READY.
+- **Root cause:** Replace dialog rendered inline with no modal CSS/portal (invisible off-screen); live capture `imageRef` sometimes persisted as same-origin `/studio-world/...` URL (404 on cPanel) instead of Supabase public URL; client bind dropped `artifactProof`.
+- **Fix:** `ReplaceDesignAuthorityDialog` → `createPortal` + wizard drawer overlay; import wizard CSS on PAGES tab; `resolveLiveCapturePreviewRef` repairs same-origin storage paths to Supabase; hydrate + bind preserve `artifactProof`; `DesignAssetPreview` rejects zero-dimension loads. Deploy ZIP v281.
+
+---
+
 ## 2026-09-11 — Cloud preview tunnel blank after ASSEMBLING CTRL ROOM
 
 - **Issue:** Preview tunnel hung on white screen after "ASSEMBLING CTRL ROOM…" — not cinematic loader; `Site00AccountRouteGuard` blocked on Supabase session restore / profile sync. Boot shell `#root { display:none }` could persist on persistent tunnel hostnames not in `.trycloudflare.com` list.
