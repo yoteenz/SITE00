@@ -10,8 +10,16 @@ WHAT TO UPLOAD
 4. Upload ZIP into that same folder → Extract here (NOT into a new subfolder)
 5. Confirm index.html and .htaccess sit directly in the document root
 6. Confirm projects/.htaccess exists (nested SPA fallback for /projects/... URLs)
-7. If deep links still 404: rename htaccess-deploy.txt → .htaccess (cPanel often skips dotfiles on extract)
+7. If deep links still 404 — cPanel often skips dotfiles on extract/FTP:
+   a. Rename htaccess-deploy.txt → .htaccess (document root)
+   b. In each route folder (projects/, services/, …): rename htaccess-nested.txt → .htaccess
+   c. Or re-run GitHub Actions "SITE 00 Production Release" (activate step uploads .htaccess via FTP)
 8. Hard refresh site00.com (Safari: hold reload → Empty Cache)
+
+DEEP LINK SMOKE TEST
+--------------------
+https://site00.com/projects/site00/design must load the React app (not plain "404 Not Found").
+View source must contain id="root".
 
 VERIFY YOU HAVE THE RIGHT BUILD
 -------------------------------

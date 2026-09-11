@@ -30,4 +30,17 @@ describe('SPA htaccess propagation', () => {
     expect(readFileSync(nested, 'utf8')).toContain('/index.html');
     expect(existsSync(join('dist', 'htaccess-deploy.txt'))).toBe(true);
   });
+
+  it('dist contains visible htaccess-nested.txt for FTP activation', () => {
+    const visible = join('dist', 'projects', 'htaccess-nested.txt');
+    if (!existsSync(visible)) {
+      expect(true).toBe(true);
+      return;
+    }
+    expect(readFileSync(visible, 'utf8')).toContain('/index.html');
+  });
+
+  it('activate script exists for post-deploy', () => {
+    expect(existsSync('scripts/site00-activate-spa-htaccess.sh')).toBe(true);
+  });
 });

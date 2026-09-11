@@ -259,6 +259,21 @@ jobs:
           echo "::error::FRONTEND_DEPLOY_FAILED — SSH rsync and FTP fallback both failed or were unavailable"
           exit 1
 
+      - name: Activate SPA htaccess (GoDaddy dotfile workaround)
+        if: steps.ssh_deploy.outcome == 'success' || steps.ftp_deploy.outcome == 'success'
+        env:
+          GODADDY_SSH_HOST: ${{ secrets.GODADDY_SSH_HOST }}
+          GODADDY_SSH_USER: ${{ secrets.GODADDY_SSH_USER }}
+          GODADDY_SSH_PRIVATE_KEY: ${{ secrets.GODADDY_SSH_PRIVATE_KEY }}
+          GODADDY_SSH_PORT: ${{ secrets.GODADDY_SSH_PORT }}
+          GODADDY_SSH_REMOTE_DIR: ${{ vars.GODADDY_SSH_REMOTE_DIR }}
+          GODADDY_FTP_HOST: ${{ secrets.GODADDY_FTP_HOST }}
+          GODADDY_FTP_USERNAME: ${{ secrets.GODADDY_FTP_USERNAME }}
+          GODADDY_FTP_PASSWORD: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          GODADDY_FTP_SERVER_DIR: ${{ vars.GODADDY_FTP_SERVER_DIR }}
+          DIST_DIR: dist
+        run: bash scripts/site00-activate-spa-htaccess.sh
+
   verify_release:
     needs: [build, deploy_frontend, validate]
     if: always() && needs.validate.outputs.deploy_frontend == 'true' && needs.deploy_frontend.result == 'success'

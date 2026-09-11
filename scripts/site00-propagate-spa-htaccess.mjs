@@ -38,9 +38,13 @@ for (const prefix of SPA_ROUTE_PREFIXES) {
   const dir = path.join(DIST, prefix);
   mkdirSync(dir, { recursive: true });
   writeFileSync(path.join(dir, '.htaccess'), nestedBody, 'utf8');
+  // Visible copy — GoDaddy FTP/cPanel often skips dotfiles; post-deploy activates via rename/upload.
+  writeFileSync(path.join(dir, 'htaccess-nested.txt'), nestedBody, 'utf8');
 }
 
 writeFileSync(path.join(DIST, 'htaccess-deploy.txt'), rootBody, 'utf8');
 copyFileSync(ROOT_HTACCESS, path.join(DIST, '.htaccess'));
 
-console.log(`Wrote nested SPA .htaccess for ${SPA_ROUTE_PREFIXES.length} route prefixes + htaccess-deploy.txt`);
+console.log(
+  `Wrote nested SPA .htaccess for ${SPA_ROUTE_PREFIXES.length} route prefixes + htaccess-deploy.txt + htaccess-nested.txt`,
+);
