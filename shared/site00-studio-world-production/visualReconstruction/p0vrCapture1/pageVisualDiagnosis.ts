@@ -46,10 +46,37 @@ export type TopVisualDifference = {
   impactScore: number;
 };
 
+export type ForensicCoverageSummary = {
+  majorAccounted: number;
+  majorTotal: number;
+  majorAccountedPct: number;
+  measurementDepthPct: number;
+  ambiguousCount: number;
+  gateStatus: 'PASS' | 'WARNING' | 'BLOCK';
+  gateReason: string;
+  blockApproveDirection: boolean;
+  missingCurrent: string[];
+  extraCurrent: string[];
+  ambiguous: string[];
+  captureScope: string;
+  scopeMismatch: boolean;
+};
+
+export type RegionForensicsSummary = {
+  regionId: string;
+  regionName: string;
+  status: string;
+  confidence: string;
+  dimensionCount: number;
+  topDelta: string | null;
+};
+
 export type PageVisualDiagnosis = {
   findings: VisualDiagnosisFinding[];
   topFindings: string[];
   topVisualDifferences?: TopVisualDifference[];
+  forensicCoverage?: ForensicCoverageSummary;
+  allRegionForensics?: RegionForensicsSummary[];
   summary: string;
   detectedAt: string;
   forensicsReportId?: string;

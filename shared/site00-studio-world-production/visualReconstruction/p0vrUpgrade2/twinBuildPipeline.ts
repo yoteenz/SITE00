@@ -8,7 +8,7 @@ import { runTwinFidelityQa } from './twinFidelityQa.js';
 import { evaluatePromotionReadiness } from './promotionReadiness.js';
 import { P0_VR_UPGRADE_2_BUILD } from './constants.js';
 import { runAuthorityRelativeForensics } from '../p0vrDiag1/authorityRelativeForensicsEngine.js';
-import { computeVisualConvergenceScore } from '../p0vrDiag1/visualConvergenceScore.js';
+import { computeRegionConvergenceResults, computeVisualConvergenceScore } from '../p0vrDiag1/visualConvergenceScore.js';
 import { deriveTwinCssSnapshotFromPlan } from '../p0vrDiag1/twinForensicsSnapshot.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 
@@ -147,6 +147,10 @@ export async function runTwinBuildPipeline(
     after: afterForensics,
     functionScore: 100,
   });
+  const regionConvergence = computeRegionConvergenceResults({
+    before: beforeForensics,
+    after: afterForensics,
+  });
 
   return {
     status: 'READY_FOR_REVIEW',
@@ -159,5 +163,6 @@ export async function runTwinBuildPipeline(
     postTwinForensicsReportId: afterForensics.reportId,
     convergenceBefore: convergence.before,
     convergenceAfter: convergence.after,
+    regionConvergence,
   };
 }

@@ -180,6 +180,7 @@ export type ReconstructionTwinSession = {
   postTwinForensicsReportId?: string | null;
   convergenceBefore?: import('../p0vrDiag1/types.js').VisualConvergenceScore | null;
   convergenceAfter?: import('../p0vrDiag1/types.js').VisualConvergenceScore | null;
+  regionConvergence?: import('../p0vrDiag1/types.js').RegionConvergenceResult[] | null;
   status: TwinSessionStatus;
   buildSteps: TwinBuildStepReceipt[];
   twinCapture: TwinViewportCapture | null;

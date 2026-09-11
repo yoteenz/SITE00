@@ -1,11 +1,30 @@
 /**
- * P0.VR.DIAG.1 — Authority-relative visual forensics engine.
+ * P0.VR.DIAG.1 / P0.VR.DIAG.1R1 — Authority-relative visual forensics engine.
  */
 
 import { FORENSIC_DELTA_HIGH_PX, FORENSIC_DELTA_MEDIUM_PX, TOP_IMPACT_ITEM_LIMIT } from './constants.js';
+import {
+  buildFullPageRegionCoverageMap,
+  buildPageGutterProfile,
+  buildRegionSequenceComparison,
+  buildVerticalRhythmProfile,
+  computeForensicCoverageScore,
+  discoverExtraCurrentRegions,
+  evaluateForensicCoverageGate,
+  resolveCaptureScopes,
+} from './fullPageRegionCoverage.js';
 import { alignCapturePair } from './imageAlignment.js';
-import { buildNormalizedViewportGeometry, geometryFromDom } from './normalizedViewportGeometry.js';
-import { resolvePageRegionLayoutProfile, type PageRegionLayoutDefinition } from './pageRegionLayoutProfiles.js';
+import { buildRegionForensicsBundle } from './multiDimensionForensics.js';
+import { buildNormalizedViewportGeometry } from './normalizedViewportGeometry.js';
+import {
+  discoverAuthorityRegions,
+  resolvePageRegionLayoutProfile,
+  type PageRegionLayoutDefinition,
+} from './pageRegionLayoutProfiles.js';
+import {
+  buildStackedRegionBounds,
+  resolveStackLayoutContext,
+} from './stackLayout.js';
 import { pickTopImpactItems, scoreGeometryImpact } from './visualImpactScore.js';
 import type {
   AssetVisualMatch,
@@ -20,8 +39,10 @@ import type {
   HierarchyDifference,
   NavigationForensics,
   OrderStackForensics,
+  RegionForensicsBundle,
   SpacingDelta,
   TypographyDelta,
+  TypographyHierarchyProfile,
   VisualRegionBounds,
   VisualRegionMatch,
 } from './types.js';
@@ -45,6 +66,7 @@ export function runAuthorityRelativeForensics(
     isRootPage: input.pageArchetype.includes('overview'),
   });
 
+  const authorityRegions = discoverAuthorityRegions(profile);
   const alignment = alignCapturePair({
     currentWidth: input.currentCapture.width,
     currentHeight: input.currentCapture.height,
@@ -54,10 +76,38 @@ export function runAuthorityRelativeForensics(
     authorityReferenceType: input.designAuthority.referenceType ?? 'VIEWPORT_SCREENSHOT',
   });
 
+  const scopes = resolveCaptureScopes({
+    authorityReferenceType: input.designAuthority.referenceType,
+    currentHeight: input.currentCapture.height,
+    authorityHeight: input.designAuthority.height,
+  });
+
   const domMap = buildDomMap(input.domMeasurements ?? input.currentCapture.domMeasurements ?? []);
   const shell = input.designAuthority.visualShellSpec;
+  const cssSnapshot = input.currentCapture.cssSnapshot;
+
+  const shellForStack = shell ?? null;
+
+  const authCtx = resolveStackLayoutContext({
+    usableWidth: alignment.authorityUsable.width,
+    usableHeight: alignment.authorityUsable.height,
+    shell: shellForStack,
+    cssSnapshot: undefined,
+    domMap: new Map(),
+  });
+
+  const curCtx = resolveStackLayoutContext({
+    usableWidth: alignment.currentUsable.width,
+    usableHeight: alignment.currentUsable.height,
+    shell: shellForStack,
+    cssSnapshot,
+    domMap,
+  });
+
+  const middleRegions = profile.regions.filter((r) => !r.shellBound);
 
   const regionMatches: VisualRegionMatch[] = [];
+  const regionForensics: RegionForensicsBundle[] = [];
   const geometryDiffs: GeometryDelta[] = [];
   const spacingDiffs: SpacingDelta[] = [];
   const typographyDiffs: TypographyDelta[] = [];
@@ -68,19 +118,58 @@ export function runAuthorityRelativeForensics(
   const missingRegions: string[] = [];
   const extraRegions: string[] = [];
 
-  for (const regionDef of profile.regions) {
-    const componentMeta = input.componentMap?.find((c) => c.regionId === regionDef.regionId);
-    const authorityRegion = buildAuthorityRegion(regionDef, alignment.authorityUsable, shell, componentMeta);
-    const currentRegion = buildCurrentRegion(
-      regionDef,
-      alignment.currentUsable,
-      domMap.get(regionDef.regionId),
-      input.currentCapture.cssSnapshot,
-      componentMeta,
-    );
+  for (const regionDef of authorityRegions) {
+    const dom = domMap.get(regionDef.regionId);
 
-    const match = matchRegions(regionDef, authorityRegion, currentRegion, domMap.has(regionDef.regionId));
-    regionMatches.push(match);
+    const authorityRegion = buildStackedRegionBounds({
+      def: regionDef,
+      ctx: authCtx,
+      middleRegions,
+      dom: undefined,
+      side: 'authority',
+      shell: shellForStack,
+    });
+
+    let currentRegion: VisualRegionBounds | null = null;
+    if (dom && dom.actualHeight >= 4) {
+      currentRegion = buildStackedRegionBounds({
+        def: regionDef,
+        ctx: curCtx,
+        middleRegions,
+        dom,
+        side: 'current',
+        shell: shellForStack,
+      });
+    } else if (regionDef.shellBound || domMap.size === 0 || !hasDomForMiddleRegions(domMap, regionDef)) {
+      currentRegion = buildStackedRegionBounds({
+        def: regionDef,
+        ctx: curCtx,
+        middleRegions,
+        dom: undefined,
+        side: 'current',
+        shell: shellForStack,
+      });
+    }
+
+    const match = matchRegions(regionDef, authorityRegion, currentRegion, Boolean(dom));
+    regionMatches.push({
+      ...match,
+      regionType: regionDef.regionType,
+      significance: regionDef.significance,
+    });
+
+    const bundle = buildRegionForensicsBundle({
+      def: regionDef,
+      status: match.status,
+      authority: authorityRegion,
+      current: currentRegion,
+      dom,
+      shell: shell ? { headerPaddingX: shell.headerPaddingX, contentPaddingX: shell.contentPaddingX } : null,
+      cssSnapshot,
+      matchConfidence: match.matchConfidence,
+      route: input.route ?? null,
+    });
+    regionForensics.push(bundle);
 
     if (match.status === 'MISSING_CURRENT') {
       missingRegions.push(regionDef.regionName);
@@ -91,42 +180,91 @@ export function runAuthorityRelativeForensics(
       extraRegions.push(regionDef.regionName);
       continue;
     }
-    if (!authorityRegion || !currentRegion) continue;
+    if (match.status === 'AMBIGUOUS' || !authorityRegion || !currentRegion) continue;
 
-    const heightDiff = buildHeightGeometryDelta(regionDef, authorityRegion, currentRegion, match.matchConfidence);
-    if (heightDiff) geometryDiffs.push(heightDiff);
+    geometryDiffs.push(...dimensionsToGeometryDiffs(bundle, regionDef, match.matchConfidence));
+    spacingDiffs.push(...dimensionsToSpacingDiffs(bundle, regionDef));
 
-    const widthDiff = buildWidthGeometryDelta(regionDef, authorityRegion, currentRegion, match.matchConfidence);
-    if (widthDiff) geometryDiffs.push(widthDiff);
-
-    if (regionDef.category === 'NAVIGATION' || regionDef.regionId.includes('nav') || regionDef.regionId.includes('kpis')) {
-      navigationDiffs.push(buildNavigationForensics(regionDef, authorityRegion, currentRegion, shell, domMap.get(regionDef.regionId)));
+    if (regionDef.regionType === 'NAVIGATION' || regionDef.regionType === 'PERSISTENT_NAV') {
+      navigationDiffs.push(buildNavigationForensics(regionDef, authorityRegion, currentRegion, shell, dom));
     }
 
-    if (regionDef.regionId.includes('production') || regionDef.regionId.includes('hero')) {
-      assetDiffs.push(buildAssetMatch(regionDef, authorityRegion, currentRegion, domMap.get(regionDef.regionId)));
+    if (regionDef.regionType === 'MEDIA' || regionDef.category === 'ASSET') {
+      assetDiffs.push(buildAssetMatch(regionDef, authorityRegion, currentRegion, dom));
     }
 
-    if (regionDef.category === 'DENSITY') {
+    if (regionDef.category === 'DENSITY' || regionDef.regionType === 'LIST' || regionDef.regionType === 'CARD_RAIL') {
       densityDiffs.push(buildDensityDelta(regionDef, authorityRegion, currentRegion));
     }
   }
 
-  if (shell) {
-    spacingDiffs.push(...buildShellSpacingDiffs(shell, input.currentCapture.cssSnapshot, profile));
+  for (const extraDef of discoverExtraCurrentRegions({ profile, domMap })) {
+    const dom = domMap.get(extraDef.regionId)!;
+    const currentRegion: VisualRegionBounds = {
+      regionId: extraDef.regionId,
+      regionName: extraDef.regionName,
+      category: extraDef.category,
+      geometry: buildNormalizedViewportGeometry({
+        x: dom.actualX,
+        y: dom.actualY,
+        width: dom.actualWidth,
+        height: dom.actualHeight,
+        viewportWidth: alignment.currentUsable.width,
+        viewportHeight: alignment.currentUsable.height,
+      }),
+      componentId: dom.componentId ?? null,
+      selectorHint: null,
+    };
+    regionMatches.push({
+      regionId: extraDef.regionId,
+      regionName: extraDef.regionName,
+      regionType: extraDef.regionType,
+      significance: extraDef.significance,
+      authorityRegion: null,
+      currentRegion,
+      matchConfidence: 'MEDIUM',
+      matchMethod: 'DOM_ID',
+      status: 'MISSING_AUTHORITY',
+    });
+    extraRegions.push(extraDef.regionName);
+    regionForensics.push(
+      buildRegionForensicsBundle({
+        def: extraDef,
+        status: 'MISSING_AUTHORITY',
+        authority: null,
+        current: currentRegion,
+        dom,
+        matchConfidence: 'MEDIUM',
+        route: input.route ?? null,
+      }),
+    );
   }
 
-  typographyDiffs.push(...buildTypographyDiffs(profile.regions, domMap, alignment));
+  if (shell) {
+    spacingDiffs.push(...buildShellSpacingDiffs(shell, cssSnapshot, profile));
+  }
 
-  orderDiffs.push(...buildStackOrderDiff(profile, domMap));
+  typographyDiffs.push(...buildTypographyDiffs(profile.regions, domMap, alignment, regionForensics));
+
+  const verticalRhythm = buildVerticalRhythmProfile({
+    profile,
+    regionMatches,
+    sectionGapAuthority: shell?.sectionGap ?? 10,
+    sectionGapCurrent: curCtx.sectionGapPx,
+  });
+  const gutterProfile = buildPageGutterProfile({ shell: shellForStack, cssSnapshot });
+  const regionSequence = buildRegionSequenceComparison({ profile, regionMatches });
+  orderDiffs.push(...sequenceToOrderDiff(regionSequence));
+
+  const typographyHierarchy = buildTypographyHierarchyProfile(regionForensics);
 
   const hierarchyDiffs = buildHierarchyDiffs(regionMatches, geometryDiffs);
-  const controlDiffs = buildControlDiffs(regionMatches, shell, input.currentCapture.cssSnapshot);
-  const functionalRiskSummary = buildFunctionalRiskSummary(geometryDiffs, navigationDiffs);
+  const controlDiffs = buildControlDiffs(regionMatches, shell, cssSnapshot);
+  const functionalRiskSummary = buildFunctionalRiskSummary(geometryDiffs, navigationDiffs, regionForensics);
   const confidenceSummary = summarizeConfidence([
     ...geometryDiffs.map((d) => d.confidence),
     ...spacingDiffs.map((d) => d.confidence),
-    ...typographyDiffs.map((d) => d.confidence),
+    ...regionForensics.flatMap((b) => b.dimensions.map((d) => d.confidence)),
   ]);
 
   const impactScores = geometryDiffs.map((d) => {
@@ -134,6 +272,23 @@ export function runAuthorityRelativeForensics(
     return scoreGeometryImpact(d, weight);
   });
   const topImpactItems = pickTopImpactItems(impactScores, TOP_IMPACT_ITEM_LIMIT);
+
+  const coverageScore = computeForensicCoverageScore({ profile, regionForensics, regionMatches });
+  const coverageGate = evaluateForensicCoverageGate(coverageScore);
+  const coverageMap = buildFullPageRegionCoverageMap({
+    pageId: input.pageId,
+    viewport: input.viewport,
+    authorityVersionId: input.designAuthority.authorityVersionId,
+    captureId: input.currentCapture.captureId,
+    profile,
+    regionMatches,
+    regionForensics,
+    currentScope: scopes.currentScope,
+    authorityScope: scopes.authorityScope,
+    scopeMismatch: scopes.scopeMismatch,
+    coverageScore,
+    coverageGate,
+  });
 
   return {
     reportId: `forensics_${input.pageId.replace(/[:/]/g, '_')}_${Date.now()}`,
@@ -143,6 +298,13 @@ export function runAuthorityRelativeForensics(
     captureId: input.currentCapture.captureId,
     alignmentStatus: alignment.alignmentStatus,
     regionMatches,
+    regionForensics,
+    coverageMap,
+    coverageGate,
+    verticalRhythm,
+    gutterProfile,
+    typographyHierarchy,
+    regionSequence,
     geometryDiffs,
     spacingDiffs,
     typographyDiffs,
@@ -157,122 +319,87 @@ export function runAuthorityRelativeForensics(
     topImpactItems,
     confidenceSummary,
     functionalRiskSummary,
+    fullPageStatus: coverageMap.status,
     generatedAt: new Date().toISOString(),
   };
+}
+
+function hasDomForMiddleRegions(domMap: Map<string, DomRegionMeasurement>, def: PageRegionLayoutDefinition): boolean {
+  if (def.shellBound) return domMap.has(def.regionId);
+  return [...domMap.keys()].some((k) => k.includes('overview') || k.includes('hero') || k.includes('kpis'));
+}
+
+function dimensionsToGeometryDiffs(
+  bundle: RegionForensicsBundle,
+  def: PageRegionLayoutDefinition,
+  confidence: ForensicConfidence,
+): GeometryDelta[] {
+  const diffs: GeometryDelta[] = [];
+  const geomDims = ['height', 'width', 'leftOffset', 'topOffset', 'leftInset', 'bottomEdgeY', 'controlSize', 'containerHeight', 'aspectRatio'];
+  for (const dim of bundle.dimensions.filter((d) => geomDims.includes(d.dimension))) {
+    const abs = parseDeltaPx(dim.delta);
+    const direction = inferDirection(dim.delta, dim.dimension);
+    diffs.push({
+      evidenceId: dim.evidenceId,
+      regionId: def.regionId,
+      regionName: def.regionName,
+      metric: dim.dimension,
+      authority: String(dim.authorityValue),
+      current: String(dim.currentValue),
+      absoluteDelta: abs,
+      relativeDeltaPct: dim.deltaPct,
+      severity: abs != null && Math.abs(abs) >= FORENSIC_DELTA_HIGH_PX ? 'HIGH' : abs != null && Math.abs(abs) >= FORENSIC_DELTA_MEDIUM_PX ? 'MEDIUM' : 'LOW',
+      confidence: dim.confidence ?? confidence,
+      direction,
+      correction: bundle.corrections.find((c) => c.toLowerCase().includes(dim.dimension.toLowerCase())) ?? bundle.corrections[0] ?? `Align ${def.regionName.toLowerCase()} ${dim.dimension}`,
+    });
+  }
+  return diffs;
+}
+
+function dimensionsToSpacingDiffs(bundle: RegionForensicsBundle, def: PageRegionLayoutDefinition): SpacingDelta[] {
+  return bundle.dimensions
+    .filter((d) => ['itemGap', 'paddingTop'].includes(d.dimension))
+    .map((dim) => ({
+      evidenceId: dim.evidenceId,
+      regionId: def.regionId,
+      regionName: def.regionName,
+      metric: dim.dimension,
+      authority: String(dim.authorityValue),
+      current: String(dim.currentValue),
+      absoluteDelta: parseDeltaPx(dim.delta),
+      relativeDeltaPct: dim.deltaPct,
+      severity: 'MEDIUM' as const,
+      confidence: dim.confidence,
+      direction: inferDirection(dim.delta, dim.dimension),
+      correction: bundle.corrections[0] ?? `Adjust ${def.regionName.toLowerCase()} spacing`,
+      spacingKind: dim.dimension === 'itemGap' ? 'ROW_GAP' : 'PADDING',
+    }));
+}
+
+function parseDeltaPx(delta: string | null): number | null {
+  if (!delta) return null;
+  const m = /(-?\d+(?:\.\d+)?)px/.exec(delta);
+  return m ? Number(m[1]) : null;
+}
+
+function inferDirection(delta: string | null, dimension: string): CorrectionDirection {
+  if (!delta) return 'RESIZE';
+  if (delta.includes('MISSING')) return 'ADD';
+  if (delta.includes('EXTRA')) return 'REMOVE';
+  const m = /(-?\d)/.exec(delta);
+  if (!m) return 'RESIZE';
+  const n = Number(m[1]);
+  if (dimension.includes('height') || dimension.includes('width') || dimension.includes('Inset') || dimension.includes('gap')) {
+    return n < 0 ? 'INCREASE' : 'DECREASE';
+  }
+  return 'RESIZE';
 }
 
 function buildDomMap(measurements: DomRegionMeasurement[]): Map<string, DomRegionMeasurement> {
   const map = new Map<string, DomRegionMeasurement>();
   for (const m of measurements) map.set(m.regionId, m);
   return map;
-}
-
-function buildAuthorityRegion(
-  def: PageRegionLayoutDefinition,
-  usable: { width: number; height: number },
-  shell: AuthorityRelativeForensicsInput['designAuthority']['visualShellSpec'],
-  componentMeta?: { componentId: string; selectorHint?: string | null },
-): VisualRegionBounds {
-  let height = usable.height * def.normalizedHeight;
-  let y = usable.height * def.normalizedY;
-
-  if (shell && def.regionId.includes('header-shell')) {
-    height = shell.headerHeightPx;
-    y = 0;
-  } else if (shell && def.regionId.includes('bottom-nav')) {
-    height = shell.bottomNavHeightPx;
-    y = usable.height - shell.bottomNavHeightPx;
-  }
-
-  return {
-    regionId: def.regionId,
-    regionName: def.regionName,
-    category: def.category,
-    geometry: buildNormalizedViewportGeometry({
-      x: 0,
-      y,
-      width: usable.width,
-      height,
-      viewportWidth: usable.width,
-      viewportHeight: usable.height,
-    }),
-    componentId: componentMeta?.componentId ?? def.componentId ?? null,
-    selectorHint: componentMeta?.selectorHint ?? def.selectorHint ?? null,
-  };
-}
-
-function buildCurrentRegion(
-  def: PageRegionLayoutDefinition,
-  usable: { width: number; height: number },
-  dom: DomRegionMeasurement | undefined,
-  cssSnapshot: Record<string, string | number> | undefined,
-  componentMeta?: { componentId: string; selectorHint?: string | null },
-): VisualRegionBounds | null {
-  if (dom) {
-    return {
-      regionId: def.regionId,
-      regionName: def.regionName,
-      category: def.category,
-      geometry: geometryFromDom(dom, usable.width, usable.height),
-      componentId: dom.componentId ?? componentMeta?.componentId ?? def.componentId ?? null,
-      selectorHint: componentMeta?.selectorHint ?? def.selectorHint ?? null,
-    };
-  }
-
-  const headerH = parseCssNumber(cssSnapshot?.headerHeightPx ?? cssSnapshot?.['--ndx-mobile-header-h']);
-  const bottomH = parseCssNumber(cssSnapshot?.bottomNavHeightPx ?? cssSnapshot?.['--ndx-mobile-bottom-nav-h']);
-
-  if (def.regionId.includes('header-shell') && headerH != null) {
-    return {
-      regionId: def.regionId,
-      regionName: def.regionName,
-      category: def.category,
-      geometry: buildNormalizedViewportGeometry({
-        x: 0,
-        y: 0,
-        width: usable.width,
-        height: headerH,
-        viewportWidth: usable.width,
-        viewportHeight: usable.height,
-      }),
-      componentId: def.componentId ?? null,
-      selectorHint: def.selectorHint ?? null,
-    };
-  }
-
-  if (def.regionId.includes('bottom-nav') && bottomH != null) {
-    return {
-      regionId: def.regionId,
-      regionName: def.regionName,
-      category: def.category,
-      geometry: buildNormalizedViewportGeometry({
-        x: 0,
-        y: usable.height - bottomH,
-        width: usable.width,
-        height: bottomH,
-        viewportWidth: usable.width,
-        viewportHeight: usable.height,
-      }),
-      componentId: def.componentId ?? null,
-      selectorHint: def.selectorHint ?? null,
-    };
-  }
-
-  return {
-    regionId: def.regionId,
-    regionName: def.regionName,
-    category: def.category,
-    geometry: buildNormalizedViewportGeometry({
-      x: 0,
-      y: usable.height * def.normalizedY,
-      width: usable.width,
-      height: usable.height * def.normalizedHeight,
-      viewportWidth: usable.width,
-      viewportHeight: usable.height,
-    }),
-    componentId: def.componentId ?? null,
-    selectorHint: def.selectorHint ?? null,
-  };
 }
 
 function matchRegions(
@@ -303,6 +430,17 @@ function matchRegions(
       status: 'MISSING_CURRENT',
     };
   }
+  if (!hasDom && !def.shellBound && def.significance === 'MAJOR') {
+    return {
+      regionId: def.regionId,
+      regionName: def.regionName,
+      authorityRegion: authority,
+      currentRegion: current,
+      matchConfidence: 'MEDIUM',
+      matchMethod: 'LAYOUT_PROFILE',
+      status: authority && current ? 'MATCHED' : 'AMBIGUOUS',
+    };
+  }
   return {
     regionId: def.regionId,
     regionName: def.regionName,
@@ -311,65 +449,6 @@ function matchRegions(
     matchConfidence: hasDom ? 'HIGH' : 'MEDIUM',
     matchMethod: hasDom ? 'DOM_ID' : 'LAYOUT_PROFILE',
     status: authority && current ? 'MATCHED' : 'AMBIGUOUS',
-  };
-}
-
-function buildHeightGeometryDelta(
-  def: PageRegionLayoutDefinition,
-  authority: VisualRegionBounds,
-  current: VisualRegionBounds,
-  confidence: ForensicConfidence,
-): GeometryDelta | null {
-  const authH = authority.geometry.heightPx;
-  const curH = current.geometry.heightPx;
-  const abs = curH - authH;
-  if (Math.abs(abs) < 2) return null;
-
-  const rel = authH > 0 ? (abs / authH) * 100 : null;
-  const severity = Math.abs(abs) >= FORENSIC_DELTA_HIGH_PX ? 'HIGH' : Math.abs(abs) >= FORENSIC_DELTA_MEDIUM_PX ? 'MEDIUM' : 'LOW';
-  const direction: CorrectionDirection = abs > 0 ? 'DECREASE' : 'INCREASE';
-
-  return {
-    evidenceId: nextEvidenceId('geom_h'),
-    regionId: def.regionId,
-    regionName: def.regionName,
-    metric: 'height',
-    authority: formatMeasure(authH, confidence),
-    current: formatMeasure(curH, confidence),
-    absoluteDelta: round(abs),
-    relativeDeltaPct: rel != null ? round(rel) : null,
-    severity,
-    confidence,
-    direction,
-    correction: `${direction === 'DECREASE' ? 'Reduce' : 'Increase'} ${def.regionName.toLowerCase()} height toward ${formatMeasure(authH, confidence)} (current ${formatMeasure(curH, confidence)})`,
-  };
-}
-
-function buildWidthGeometryDelta(
-  def: PageRegionLayoutDefinition,
-  authority: VisualRegionBounds,
-  current: VisualRegionBounds,
-  confidence: ForensicConfidence,
-): GeometryDelta | null {
-  const authW = authority.geometry.widthPct;
-  const curW = current.geometry.widthPct;
-  const absPct = curW - authW;
-  if (Math.abs(absPct) < 3) return null;
-
-  const direction: CorrectionDirection = absPct < 0 ? 'INCREASE' : 'DECREASE';
-  return {
-    evidenceId: nextEvidenceId('geom_w'),
-    regionId: def.regionId,
-    regionName: def.regionName,
-    metric: 'width',
-    authority: `${round(authW)}% viewport`,
-    current: `${round(curW)}% viewport`,
-    absoluteDelta: null,
-    relativeDeltaPct: round(absPct),
-    severity: Math.abs(absPct) >= 15 ? 'HIGH' : 'MEDIUM',
-    confidence,
-    direction,
-    correction: `${direction === 'INCREASE' ? 'Increase' : 'Decrease'} ${def.regionName.toLowerCase()} width toward authority (${round(authW)}% vs current ${round(curW)}%)`,
   };
 }
 
@@ -405,8 +484,8 @@ function buildShellSpacingDiffs(
     const abs = currentGap - shell.sectionGap;
     diffs.push({
       evidenceId: nextEvidenceId('space_gap'),
-      regionId: profile.regions.find((r) => r.regionName.includes('METRICS'))?.regionId ?? 'page.section-gap',
-      regionName: 'SECTION GAP',
+      regionId: profile.regions.find((r) => r.regionName.includes('NAV'))?.regionId ?? 'page.section-gap',
+      regionName: 'VERTICAL SPACING RHYTHM',
       metric: 'section gap',
       authority: `${shell.sectionGap}px`,
       current: `${currentGap}px`,
@@ -427,19 +506,24 @@ function buildTypographyDiffs(
   regions: PageRegionLayoutDefinition[],
   domMap: Map<string, DomRegionMeasurement>,
   alignment: ReturnType<typeof alignCapturePair>,
+  regionForensics: RegionForensicsBundle[],
 ): TypographyDelta[] {
   const diffs: TypographyDelta[] = [];
-  const hero = regions.find((r) => r.regionId.includes('hero'));
+  const hero = regions.find((r) => r.regionType === 'IDENTITY');
   const heroDom = hero ? domMap.get(hero.regionId) : undefined;
-  if (!hero || !heroDom?.computedFontSize) return diffs;
+  const heroBundle = hero ? regionForensics.find((b) => b.regionId === hero.regionId) : undefined;
+  const fontDim = heroBundle?.dimensions.find((d) => d.dimension === 'fontSize');
 
-  const fontSize = parseCssNumber(heroDom.computedFontSize);
-  if (fontSize == null) return diffs;
+  if (!hero) return diffs;
+
+  const fontSize = heroDom?.computedFontSize ? parseCssNumber(heroDom.computedFontSize) : null;
+  if (fontSize == null && !fontDim) return diffs;
 
   const authorityEstimate = alignment.authorityUsable.height * (hero.normalizedHeight * 0.35);
-  const lineEstimate = heroDom.computedLineHeight ? parseCssNumber(heroDom.computedLineHeight) : null;
+  const lineEstimate = heroDom?.computedLineHeight ? parseCssNumber(heroDom.computedLineHeight) : null;
   const authorityLines = 2;
-  const currentLines = lineEstimate && fontSize ? Math.max(1, Math.round((heroDom.actualHeight * 0.45) / lineEstimate)) : null;
+  const currentLines =
+    lineEstimate && fontSize ? Math.max(1, Math.round(((heroDom?.actualHeight ?? 0) * 0.45) / lineEstimate)) : null;
 
   diffs.push({
     evidenceId: nextEvidenceId('type_hero'),
@@ -449,7 +533,7 @@ function buildTypographyDiffs(
       evidenceId: nextEvidenceId('type_auth'),
       regionId: hero.regionId,
       fontFamily: null,
-      fontSizePx: round(authorityEstimate * 0.12),
+      fontSizePx: fontDim ? parseCssNumber(String(fontDim.authorityValue)) : round(authorityEstimate * 0.12),
       lineHeightPx: null,
       fontWeight: null,
       letterSpacing: null,
@@ -470,21 +554,46 @@ function buildTypographyDiffs(
       letterSpacing: null,
       textTransform: null,
       lineCount: currentLines,
-      maxWidthPct: round((heroDom.actualWidth / alignment.currentUsable.width) * 100),
+      maxWidthPct: heroDom ? round((heroDom.actualWidth / alignment.currentUsable.width) * 100) : null,
       alignment: 'left',
-      confidence: heroDom.computedFontSize ? 'HIGH' : 'MEDIUM',
-      estimated: false,
+      confidence: heroDom?.computedFontSize ? 'HIGH' : 'MEDIUM',
+      estimated: !heroDom?.computedFontSize,
     },
     wrapDifference:
       currentLines != null && currentLines > authorityLines
         ? `Current ${currentLines} lines vs authority ${authorityLines} lines`
         : null,
     correction: 'Adjust title scale and max width toward authority hierarchy',
-    confidence: heroDom.computedFontSize ? 'HIGH' : 'MEDIUM',
+    confidence: heroDom?.computedFontSize ? 'HIGH' : 'MEDIUM',
     direction: 'RESIZE',
   });
 
   return diffs;
+}
+
+function buildTypographyHierarchyProfile(regionForensics: RegionForensicsBundle[]): TypographyHierarchyProfile {
+  const levels = regionForensics
+    .filter((b) => b.regionType === 'IDENTITY' || b.regionType === 'NAVIGATION' || b.regionType === 'STATUS')
+    .map((b) => {
+      const fontDim = b.dimensions.find((d) => d.dimension === 'fontSize');
+      return {
+        role: b.regionName,
+        authorityFontSizePx: fontDim ? parseCssNumber(String(fontDim.authorityValue)) : null,
+        currentFontSizePx: fontDim ? parseCssNumber(String(fontDim.currentValue)) : null,
+        authorityLineCount: null,
+        currentLineCount: null,
+        scaleToBodyRatio: null,
+        confidence: fontDim?.confidence ?? 'LOW',
+      };
+    });
+
+  return {
+    evidenceId: nextEvidenceId('type_hierarchy'),
+    levels,
+    correction: levels.some((l) => l.currentFontSizePx && l.authorityFontSizePx && l.currentFontSizePx !== l.authorityFontSizePx)
+      ? 'Restore typographic hierarchy scale relative to authority'
+      : null,
+  };
 }
 
 function buildNavigationForensics(
@@ -498,8 +607,8 @@ function buildNavigationForensics(
   return {
     evidenceId: nextEvidenceId('nav'),
     regionId: def.regionId,
-    itemCountAuthority: def.regionId.includes('kpis') ? 4 : null,
-    itemCountCurrent: def.regionId.includes('kpis') ? 4 : null,
+    itemCountAuthority: def.regionType === 'NAVIGATION' ? 4 : null,
+    itemCountCurrent: def.regionType === 'NAVIGATION' ? 4 : null,
     spacingDeltaPx: shell ? (parseCssNumber(dom?.computedGap) ?? null) : null,
     heightDeltaPx: round(heightDelta),
     activeStateMismatch: false,
@@ -509,7 +618,7 @@ function buildNavigationForensics(
       Math.abs(heightDelta) >= FORENSIC_DELTA_MEDIUM_PX
         ? `Align ${def.regionName.toLowerCase()} height and spacing to authority`
         : 'Review active-state and spacing against authority',
-    functionalRisk: def.regionId.includes('bottom-nav') ? 'MEDIUM' : 'LOW',
+    functionalRisk: def.regionType === 'PERSISTENT_NAV' ? 'MEDIUM' : 'LOW',
   };
 }
 
@@ -588,33 +697,23 @@ function buildDensityDelta(
     },
     relativeDeltaPct: rel != null ? round(rel) : null,
     correction:
-      rel != null && rel > 10
-        ? `Reduce ${def.regionName.toLowerCase()} vertical density toward authority (${round(authPct)}% vs ${round(curPct)}% viewport)`
+      rel != null && Math.abs(rel) > 8
+        ? `Adjust ${def.regionName.toLowerCase()} vertical density toward authority (${round(authPct)}% vs ${round(curPct)}% viewport)`
         : `Review ${def.regionName.toLowerCase()} density against authority`,
     confidence: 'MEDIUM',
   };
 }
 
-function buildStackOrderDiff(
-  profile: ReturnType<typeof resolvePageRegionLayoutProfile>,
-  domMap: Map<string, DomRegionMeasurement>,
-): OrderStackForensics[] {
-  const present = profile.regions
-    .filter((r) => domMap.has(r.regionId))
-    .sort((a, b) => (domMap.get(a.regionId)?.actualY ?? 0) - (domMap.get(b.regionId)?.actualY ?? 0))
-    .map((r) => r.regionName);
-
-  const mismatch = present.length > 1 && present.join('|') !== profile.regions.map((r) => r.regionName).slice(0, present.length).join('|');
-
+function sequenceToOrderDiff(seq: import('./types.js').RegionSequenceComparison): OrderStackForensics[] {
   return [
     {
-      evidenceId: nextEvidenceId('order'),
+      evidenceId: seq.evidenceId,
       regionId: 'page.stack',
-      authorityOrder: profile.stackOrder,
-      currentOrder: present.length ? present : profile.stackOrder,
-      mismatch,
-      correction: mismatch ? 'Reorder mobile stack to match authority sequence' : 'Stack order matches authority',
-      confidence: present.length ? 'HIGH' : 'LOW',
+      authorityOrder: seq.authorityOrder,
+      currentOrder: seq.currentOrder,
+      mismatch: seq.mismatch,
+      correction: seq.correction ?? 'Stack order matches authority',
+      confidence: seq.confidence,
     },
   ];
 }
@@ -623,8 +722,8 @@ function buildHierarchyDiffs(
   matches: VisualRegionMatch[],
   geometryDiffs: GeometryDelta[],
 ): HierarchyDifference[] {
-  const hero = matches.find((m) => m.regionId.includes('hero'));
-  const header = matches.find((m) => m.regionId.includes('header'));
+  const hero = matches.find((m) => m.regionType === 'IDENTITY' || m.regionId.includes('hero'));
+  const header = matches.find((m) => m.regionType === 'HEADER' || m.regionId.includes('header'));
   if (!hero?.authorityRegion || !hero.currentRegion) return [];
 
   const heroDrift = geometryDiffs.find((d) => d.regionId === hero.regionId && d.metric === 'height');
@@ -649,7 +748,7 @@ function buildControlDiffs(
   shell: AuthorityRelativeForensicsInput['designAuthority']['visualShellSpec'],
   cssSnapshot: Record<string, string | number> | undefined,
 ) {
-  const bottom = matches.find((m) => m.regionId.includes('bottom-nav'));
+  const bottom = matches.find((m) => m.regionType === 'PERSISTENT_NAV' || m.regionId.includes('bottom-nav'));
   if (!bottom?.authorityRegion || !bottom.currentRegion || !shell) return [];
 
   const currentH = parseCssNumber(cssSnapshot?.bottomNavHeightPx) ?? bottom.currentRegion.geometry.heightPx;
@@ -675,9 +774,10 @@ function buildControlDiffs(
 function buildFunctionalRiskSummary(
   geometryDiffs: GeometryDelta[],
   navigationDiffs: NavigationForensics[],
+  regionForensics: RegionForensicsBundle[],
 ): FunctionalRiskAssessment[] {
   const items: FunctionalRiskAssessment[] = [];
-  for (const d of geometryDiffs.slice(0, 5)) {
+  for (const d of geometryDiffs.slice(0, 8)) {
     items.push({
       evidenceId: d.evidenceId,
       changeSummary: d.correction,
@@ -691,6 +791,14 @@ function buildFunctionalRiskSummary(
       changeSummary: n.correction,
       risk: n.functionalRisk,
       rationale: 'Visual nav analysis only — route mapping protected separately',
+    });
+  }
+  for (const b of regionForensics.filter((r) => r.functionalRisk !== 'LOW').slice(0, 3)) {
+    items.push({
+      evidenceId: b.dimensions[0]?.evidenceId ?? b.regionId,
+      changeSummary: b.corrections[0] ?? b.regionName,
+      risk: b.functionalRisk,
+      rationale: 'Region-level functional risk from forensics bundle',
     });
   }
   return items;
@@ -709,10 +817,6 @@ function parseCssNumber(value: string | number | undefined | null): number | nul
   if (typeof value === 'number') return Number.isFinite(value) ? value : null;
   const match = /^([\d.]+)/.exec(String(value).trim());
   return match ? Number(match[1]) : null;
-}
-
-function formatMeasure(px: number, confidence: ForensicConfidence): string {
-  return confidence === 'LOW' ? `~${Math.round(px)}px` : `${Math.round(px)}px`;
 }
 
 function round(n: number): number {
