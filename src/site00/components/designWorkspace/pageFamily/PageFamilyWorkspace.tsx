@@ -56,6 +56,11 @@ import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
 import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
 import { PageCaptureNowPanel } from './PageCaptureNowPanel';
 import { PageCreativeUpgradePanel } from './PageCreativeUpgradePanel';
+import { ReplaceDesignAuthorityDialog } from './ReplaceDesignAuthorityDialog';
+import {
+  listPageDesignAuthorityHistory,
+  resolveCurrentDesignAuthority,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
 
 export type PageFamilyWorkspaceProps = {
   projectId: string;
@@ -116,6 +121,8 @@ export function PageFamilyWorkspace({
   const [detecting, setDetecting] = useState(true);
   const [viewMode, setViewMode] = useState<'family' | 'library'>('family');
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [replaceAuthorityOpen, setReplaceAuthorityOpen] = useState(false);
+  const [authorityRefreshNonce, setAuthorityRefreshNonce] = useState(0);
 
   const rowInputs = useMemo(() => rows.map(toRowInput), [rows]);
   const progress = useMemo(() => buildProjectProgressSummary(rowInputs, projectId), [rowInputs, projectId]);
@@ -233,16 +240,62 @@ export function PageFamilyWorkspace({
     }
   };
 
+  const authorityHistory =
+    activePageId && activeScreenId
+      ? listPageDesignAuthorityHistory(projectId, activePageId, viewport)
+      : [];
+  const currentAuthority =
+    activePageId && activeScreenId
+      ? resolveCurrentDesignAuthority({ projectId, pageId: activePageId, screenId: activeScreenId, viewport })
+      : null;
+
   const detailsContent = activeNode ? (
-    <dl className="site00-pfw-details">
-      <div><dt>ROUTE</dt><dd>{activeNode.route}</dd></div>
-      <div><dt>SURFACE ID</dt><dd>{activeNode.surfaceId}</dd></div>
-      <div><dt>ARCHETYPE</dt><dd>{activeNode.archetype}</dd></div>
-      <div><dt>INHERITANCE</dt><dd>{activeNode.inheritanceMode ?? '—'}</dd></div>
-      <div><dt>DESIGN</dt><dd>{activeNode.designStatus}</dd></div>
-      <div><dt>LINKAGE</dt><dd>{activeNode.linkageStatus}</dd></div>
-      <div><dt>CAPTURE</dt><dd>{activeNode.captureStatus}</dd></div>
-    </dl>
+    <>
+      <dl className="site00-pfw-details">
+        <div><dt>ROUTE</dt><dd>{activeNode.route}</dd></div>
+        <div><dt>SURFACE ID</dt><dd>{activeNode.surfaceId}</dd></div>
+        <div><dt>ARCHETYPE</dt><dd>{activeNode.archetype}</dd></div>
+        <div><dt>INHERITANCE</dt><dd>{activeNode.inheritanceMode ?? '—'}</dd></div>
+        <div><dt>DESIGN</dt><dd>{activeNode.designStatus}</dd></div>
+        <div><dt>LINKAGE</dt><dd>{activeNode.linkageStatus}</dd></div>
+        <div><dt>CAPTURE</dt><dd>{activeNode.captureStatus}</dd></div>
+      </dl>
+      {viewportCapture?.artifactProof ? (
+        <section className="site00-pfw-details__capture-proof">
+          <h4>CAPTURE ARTIFACT PROOF</h4>
+          <dl>
+            <div><dt>REQUESTED ROUTE</dt><dd>{viewportCapture.artifactProof.route}</dd></div>
+            <div><dt>FINAL URL</dt><dd>{viewportCapture.artifactProof.navigation?.finalUrl ?? '—'}</dd></div>
+            <div><dt>VIEWPORT</dt><dd>{viewportCapture.artifactProof.viewport.toUpperCase()}</dd></div>
+            <div><dt>BYTE SIZE</dt><dd>{viewportCapture.artifactProof.byteSize ?? '—'}</dd></div>
+            <div><dt>STORAGE REF</dt><dd>{viewportCapture.artifactProof.storageRef ?? '—'}</dd></div>
+            <div><dt>STATUS</dt><dd>{viewportCapture.artifactProof.status}</dd></div>
+          </dl>
+        </section>
+      ) : null}
+      {currentAuthority?.authorityVersion ? (
+        <section className="site00-pfw-details__authority">
+          <h4>DESIGN AUTHORITY</h4>
+          <dl>
+            <div><dt>VERSION</dt><dd>{currentAuthority.authorityVersion.authorityVersionId}</dd></div>
+            <div><dt>SOURCE</dt><dd>{currentAuthority.authorityVersion.source}</dd></div>
+            <div><dt>ASSET REF</dt><dd>{currentAuthority.previewAssetRef ?? '—'}</dd></div>
+          </dl>
+        </section>
+      ) : null}
+      {authorityHistory.length > 0 ? (
+        <section className="site00-pfw-details__authority-history">
+          <h4>AUTHORITY HISTORY</h4>
+          <ul>
+            {authorityHistory.map((v) => (
+              <li key={v.authorityVersionId}>
+                {v.status} · {v.source} · {v.approvedAt ?? v.createdAt}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+    </>
   ) : null;
 
   const projectClass = projectId.toLowerCase() === 'ndxbook' ? 'is-ndxbook' : '';
@@ -352,6 +405,7 @@ export function PageFamilyWorkspace({
 
       {activeNode && activePageId && activeScreenId ? (
         <PageCaptureNowPanel
+          key={`${activePageId}:${authorityRefreshNonce}`}
           projectId={projectId}
           pageId={activePageId}
           screenId={activeScreenId}
@@ -368,6 +422,12 @@ export function PageFamilyWorkspace({
           onCaptureNow={() => onCaptureNow?.(activeScreenId, viewport)}
           onUpgradePage={() => {
             if (!viewportCapture?.captureId) return;
+            const auth = resolveCurrentDesignAuthority({
+              projectId,
+              pageId: activePageId,
+              screenId: activeScreenId,
+              viewport,
+            });
             openPageCreativeUpgradeSession({
               projectId,
               pageId: activePageId,
@@ -380,10 +440,15 @@ export function PageFamilyWorkspace({
               route: activeRoute,
               isChildPage: !isActiveRoot && activeNode.level > 0,
               isRoot: isActiveRoot,
+              designAuthorityVersionId: auth.authorityVersion?.authorityVersionId ?? null,
+              designAuthorityAssetRef: auth.previewAssetRef,
+              captureAssetRef: viewportCapture.imageRef,
             });
             setUpgradeOpen(true);
           }}
           onViewDetails={() => setDetailsOpen(true)}
+          onReplaceAuthority={() => setReplaceAuthorityOpen(true)}
+          onViewAuthorityHistory={() => setDetailsOpen(true)}
         />
       ) : null}
 
@@ -473,6 +538,21 @@ export function PageFamilyWorkspace({
             }
           }}
           afterScreenshot={upgradeSession.afterCaptureId ? viewportCapture?.imageRef ?? null : null}
+        />
+      ) : null}
+
+      {activePageId && activeScreenId ? (
+        <ReplaceDesignAuthorityDialog
+          open={replaceAuthorityOpen}
+          projectId={projectId}
+          pageId={activePageId}
+          screenId={activeScreenId}
+          route={activeRoute}
+          displayName={activeDisplayName}
+          viewport={viewport}
+          currentAssetRef={viewportAuthority?.previewAssetRef ?? null}
+          onClose={() => setReplaceAuthorityOpen(false)}
+          onReplaced={() => setAuthorityRefreshNonce((n) => n + 1)}
         />
       ) : null}
 

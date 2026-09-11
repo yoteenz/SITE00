@@ -49,19 +49,35 @@ export function evaluateRenderableAuthorityContract(input: {
   captureStatus: string | null;
   designAuthorityPreview: PreviewHealth;
   liveCapturePreview: PreviewHealth;
+  pageIdentityMatch?: boolean;
+  routeMatch?: boolean;
+  viewportMatch?: boolean;
 }): RenderableAuthorityContract {
   const designOk = input.designAuthorityPreview.status === 'PASS';
   const liveOk = input.liveCapturePreview.status === 'PASS';
+  const pageOk = input.pageIdentityMatch !== false;
+  const routeOk = input.routeMatch !== false;
+  const viewportOk = input.viewportMatch !== false;
 
   let blockReason: string | null = null;
   if (!designOk) blockReason = 'DESIGN AUTHORITY PREVIEW REQUIRED';
   else if (!liveOk) blockReason = 'LIVE CAPTURE PREVIEW REQUIRED';
+  else if (!pageOk) blockReason = 'CAPTURED PAGE DOES NOT MATCH TARGET';
+  else if (!routeOk) blockReason = 'LIVE CAPTURE ROUTE MISMATCH';
+  else if (!viewportOk) blockReason = 'LIVE CAPTURE VIEWPORT MISMATCH';
+  else if (input.captureStatus === 'SAVED' || input.captureStatus === 'VERIFYING_PREVIEW') {
+    blockReason = 'LIVE CAPTURE PREVIEW REQUIRED';
+  } else if (input.captureStatus === 'PAGE_MISMATCH') {
+    blockReason = 'CAPTURED PAGE DOES NOT MATCH TARGET';
+  } else if (input.captureStatus !== 'READY') {
+    blockReason = 'LIVE CAPTURE PREVIEW REQUIRED';
+  }
 
   return {
     approvalStatus: input.approvalStatus,
     captureStatus: input.captureStatus,
     previewHealth: input.liveCapturePreview,
-    upgradeAllowed: designOk && liveOk,
+    upgradeAllowed: designOk && liveOk && pageOk && routeOk && viewportOk && input.captureStatus === 'READY',
     blockReason,
   };
 }

@@ -39,6 +39,7 @@ export const CAPTURE_ERROR_CODES = [
   'PERSISTENCE_FAILED',
   'BINDING_FAILED',
   'PUBLIC_URL_INVALID',
+  'CAPTURE_PAGE_MISMATCH',
   'TIMEOUT',
   'UNKNOWN',
 ] as const;
@@ -109,6 +110,8 @@ export type CaptureCompletionReceipt = {
   milestones: CaptureProgressMilestoneReceipt[];
   screenshot: ScreenshotReceipt | null;
   storage: CaptureStorageReceipt | null;
+  artifactProof?: import('../p0vrCapture1R3a/captureArtifactProof.js').CaptureArtifactProof | null;
+  navigation?: import('../p0vrCapture1R3a/captureNavigationReceipt.js').CaptureNavigationReceipt | null;
 };
 
 export type CaptureNowExecutionTrace = {

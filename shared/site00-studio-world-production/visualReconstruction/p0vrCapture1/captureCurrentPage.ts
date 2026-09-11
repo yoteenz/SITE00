@@ -133,6 +133,11 @@ export function finalizeCaptureCurrentPage(options: {
   captureId?: string;
   error?: string;
   jobReceipt?: ReturnType<typeof beginCaptureJobReceipt>;
+  finalUrl?: string | null;
+  byteSize?: number | null;
+  mimeType?: string | null;
+  storagePath?: string | null;
+  checksum?: string | null;
 }): CaptureCurrentPageResult {
   const viewport = resolveCaptureViewport(options.input.viewport);
   const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
@@ -144,6 +149,11 @@ export function finalizeCaptureCurrentPage(options: {
     captureId: options.captureId,
     error: options.error,
     jobReceipt: options.jobReceipt,
+    finalUrl: options.finalUrl,
+    byteSize: options.byteSize,
+    mimeType: options.mimeType,
+    storagePath: options.storagePath,
+    checksum: options.checksum,
   });
   if (!trace.completion) {
     throw new Error('CAPTURE_COMPLETION_MISSING');

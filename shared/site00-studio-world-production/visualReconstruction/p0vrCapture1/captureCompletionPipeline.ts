@@ -20,6 +20,14 @@ import {
   resolveAssetRenderableUrl,
 } from '../../assetDelivery/index.js';
 import {
+  buildCaptureArtifactProof,
+  captureArtifactProofAllowsReady,
+  buildCaptureNavigationReceipt,
+  runCapturedPageIdentityCheck,
+  type CaptureArtifactProof,
+  type CaptureNavigationReceipt,
+} from '../p0vrCapture1R3a/index.js';
+import {
   buildPageViewportCapture,
   savePageViewportCapture,
 } from './pageViewportCapture.js';
@@ -63,6 +71,11 @@ export function completeCapturePipeline(options: {
   error?: string;
   errorCode?: CaptureCompletionReceipt['errorCode'];
   jobReceipt?: CaptureJobReceipt;
+  finalUrl?: string | null;
+  byteSize?: number | null;
+  mimeType?: string | null;
+  storagePath?: string | null;
+  checksum?: string | null;
 }): CaptureNowExecutionTrace {
   const viewport = options.input.viewport;
   const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
@@ -77,6 +90,44 @@ export function completeCapturePipeline(options: {
   milestones = pushMilestone(milestones, 'VIEWPORT_RENDERING');
   milestones = pushMilestone(milestones, 'VIEWPORT_READY');
 
+  const navigation: CaptureNavigationReceipt | null = options.finalUrl
+    ? buildCaptureNavigationReceipt({
+        jobId: options.jobId,
+        requestedRoute: options.input.route,
+        resolvedRuntimePath: options.resolvedRuntimePath,
+        finalUrl: options.finalUrl,
+        viewport,
+      })
+    : null;
+
+  const pageIdentity = navigation
+    ? runCapturedPageIdentityCheck({
+        projectId: options.input.projectId,
+        pageId: canonicalPageId,
+        screenId: options.input.screenId,
+        route: options.input.route,
+        navigation,
+      })
+    : null;
+
+  const artifactProof: CaptureArtifactProof = buildCaptureArtifactProof({
+    jobId: options.jobId,
+    captureId,
+    projectId: options.input.projectId,
+    pageId: canonicalPageId,
+    viewport,
+    route: options.input.route,
+    screenshotUrl: options.screenshotUrl,
+    byteSize: options.byteSize,
+    mimeType: options.mimeType ?? 'image/webp',
+    width: dims.width,
+    height: dims.height,
+    checksum: options.checksum ?? null,
+    storagePath: options.storagePath ?? null,
+    navigation,
+    pageIdentity,
+  });
+
   const resolvedScreenshot = options.screenshotUrl
     ? resolveAssetRenderableUrl(options.screenshotUrl)
     : null;
@@ -85,7 +136,9 @@ export function completeCapturePipeline(options: {
   const deliveryInvalid =
     Boolean(options.screenshotUrl) &&
     (!isPersistableCaptureUrl(options.screenshotUrl) || !renderableScreenshotUrl);
-  const failed = Boolean(options.error || !options.screenshotUrl || deliveryInvalid);
+  const pageMismatch = pageIdentity != null && !pageIdentity.match;
+  const artifactInvalid = !captureArtifactProofAllowsReady(artifactProof) && Boolean(options.screenshotUrl);
+  const failed = Boolean(options.error || !options.screenshotUrl || deliveryInvalid || pageMismatch || artifactInvalid);
 
   if (failed) {
     milestones = pushMilestone(milestones, 'SCREENSHOT_TAKING');
@@ -143,13 +196,23 @@ export function completeCapturePipeline(options: {
       status: 'CAPTURE_FAILED',
       errorCode:
         options.errorCode ??
-        (deliveryInvalid ? 'PUBLIC_URL_INVALID' : options.screenshotUrl ? 'STORAGE_FAILED' : 'SCREENSHOT_FAILED'),
-      errorMessage: deliveryInvalid
-        ? 'CAPTURE_IMAGE_URL_NOT_RENDERABLE'
-        : (options.error ?? 'CAPTURE_FAILED'),
+        (pageMismatch
+          ? 'CAPTURE_PAGE_MISMATCH'
+          : deliveryInvalid
+            ? 'PUBLIC_URL_INVALID'
+            : options.screenshotUrl
+              ? 'STORAGE_FAILED'
+              : 'SCREENSHOT_FAILED'),
+      errorMessage: pageMismatch
+        ? 'CAPTURE_PAGE_MISMATCH'
+        : deliveryInvalid
+          ? 'CAPTURE_IMAGE_URL_NOT_RENDERABLE'
+          : (options.error ?? 'CAPTURE_FAILED'),
       milestones,
       screenshot,
       storage,
+      artifactProof,
+      navigation,
     };
     const jobReceipt: CaptureJobReceipt = {
       ...(options.jobReceipt ??
@@ -183,8 +246,8 @@ export function completeCapturePipeline(options: {
     height: dims.height,
     capturedAt,
     artifactRef: renderableScreenshotUrl,
-    mimeType: 'image/png',
-    byteSize: null,
+    mimeType: options.mimeType ?? 'image/webp',
+    byteSize: options.byteSize ?? null,
     status: 'CREATED',
   };
 
@@ -212,6 +275,7 @@ export function completeCapturePipeline(options: {
       screenId: options.input.screenId,
       captureSource: options.input.captureSource ?? 'FOUNDER_CAPTURE_NOW',
       capturedBuildVersion: options.input.capturedBuildVersion ?? P0_VR_CAPTURE_1R2_BUILD,
+      artifactProof,
     }),
   );
 
@@ -238,6 +302,8 @@ export function completeCapturePipeline(options: {
     milestones,
     screenshot,
     storage,
+    artifactProof,
+    navigation,
   };
 
   const jobReceipt: CaptureJobReceipt = {

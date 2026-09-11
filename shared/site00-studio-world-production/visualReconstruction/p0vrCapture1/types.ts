@@ -38,6 +38,8 @@ export type PageViewportCapture = {
   capturedBuildVersion: string;
   captureSource: CaptureSource;
   screenId?: string;
+  artifactProof?: import('../p0vrCapture1R3a/captureArtifactProof.js').CaptureArtifactProof | null;
+  designAuthorityVersionId?: string | null;
 };
 
 export type CaptureCurrentPageInput = {
@@ -105,6 +107,11 @@ export type PageCreativeUpgradeSession = {
   status: PageCreativeUpgradeStatus;
   approvedAt: string | null;
   afterCaptureId: string | null;
+  designAuthorityVersionId?: string | null;
+  designAuthorityAssetRef?: string | null;
+  captureAssetRef?: string | null;
+  beforeImageRenderable?: boolean;
+  referenceImageRenderable?: boolean;
 };
 
 export type PageCreativeDiagnosisCode =
