@@ -7975,3 +7975,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **UI:** PageCreativeUpgradePanel BUILD TWIN / twin progress / BEFORE|TWIN|AUTHORITY compare; ReconstructionTwinPreviewPage + banner NOT LIVE.
 - **Build:** v300 · 16 tests in `pageUpgradeTwinP0VRUpgrade2.test.ts`.
 
+---
+
+## 2026-09-11 — verify_release still failing: htaccess FTP path + activation order
+
+- **Issue:** After #708, CI still FRONTEND_SMOKE_FAILED — `/projects/site00/design` Apache 404. `htaccess-deploy.txt` + `projects/htaccess-nested.txt` live on host but dotfiles not activated.
+- **Cause:** Activate script preferred SSH (wrong remote dir?) and skipped FTP; FTP curl path used `./` prefix incorrectly.
+- **Fix:** FTP upload PRIMARY (same path as deploy), SSH backup; normalize FTP server dir; post-activate `site00-verify-spa-deep-link.mjs` fails deploy job if still 404. Manual: rename visible htaccess files in cPanel.
+
