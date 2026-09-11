@@ -8,6 +8,7 @@ import { resolveCaptureTarget } from '../shared/site00-studio-world-production/v
 import { runImplementationSnapshotQa } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotQa.js';
 import { IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3e/constants.js';
 import { repairMishostedStorageHttpUrl } from '../shared/site00-studio-world-production/assetDelivery/repairMishostedStorageHttpUrl.js';
+import { resolveCaptureWaitSelector } from '../shared/site00-studio-world-production/visualReconstruction/render/resolveCaptureWaitSelector.js';
 
 describe('Capture 404 root cause guards', () => {
   it('overview capture target uses /projects/:slug/overview runtime path', () => {
@@ -35,6 +36,28 @@ describe('Capture 404 root cause guards', () => {
     expect(qa.issues).toContain('ZERO_CONTENT');
     expect(qa.issues).toContain('CAPTURE_ANCHOR_MISSING');
     expect(IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES).toBeGreaterThan(4714);
+  });
+
+  it('overview capture wait selector targets mobile-overview not legacy ndx.header', () => {
+    expect(
+      resolveCaptureWaitSelector({
+        route: '/projects/ndxbook/overview',
+        screenId: 'overview',
+        previewDeviceMode: 'mobile',
+      }),
+    ).toBe('[data-visual-reconstruction="mobile-overview"]');
+    expect(
+      resolveCaptureWaitSelector({
+        route: '/projects/ndxbook/overview',
+        previewDeviceMode: 'mobile',
+      }),
+    ).toBe('[data-visual-reconstruction="mobile-overview"]');
+    expect(
+      resolveCaptureWaitSelector({
+        route: '/projects/ndxbook',
+        previewDeviceMode: 'mobile',
+      }),
+    ).toBe('[data-visual-reconstruction="mobile-overview"]');
   });
 
   it('repairMishostedStorageHttpUrl maps site-host paths to Supabase', () => {

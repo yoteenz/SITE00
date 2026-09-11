@@ -147,6 +147,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       commit: sourceCommit,
       previewDeviceMode: input.viewportClass === 'mobile' ? 'mobile' : 'desktop',
       routeSearch: buildRouteSearch(target.route, input.viewportClass, input.visualStateId),
+      screenId: input.screenId,
     });
 
     const stability = evaluateScreenshotStability({

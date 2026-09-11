@@ -2,6 +2,8 @@
  * P0.VR.1D.10 — Mobile full-screen shell rollout constants.
  */
 
+import { CAPTURE_WAIT_SELECTORS_BY_SCREEN } from '../render/resolveCaptureWaitSelector.js';
+
 export const P0_VR_1D10_LINEAGE = 'P0.VR.1D.10' as const;
 
 export const P0_VR_1D10_TARGET_SCREENS = [
@@ -31,10 +33,10 @@ export const P0_VR_1D10_VIEWPORT = {
 } as const;
 
 export const P0_VR_1D10_WAIT_SELECTORS: Record<(typeof P0_VR_1D10_TARGET_SCREENS)[number], string> = {
-  overview: '[data-visual-reconstruction="mobile-overview"]',
-  'content-ops': '[data-visual-reconstruction="mobile-content-ops"]',
-  'cultural-intelligence': '[data-visual-reconstruction="mobile-cultural-intelligence"]',
-  'character-lab': '[data-visual-reconstruction="mobile-character-lab"]',
+  overview: CAPTURE_WAIT_SELECTORS_BY_SCREEN.overview,
+  'content-ops': CAPTURE_WAIT_SELECTORS_BY_SCREEN['content-ops'],
+  'cultural-intelligence': CAPTURE_WAIT_SELECTORS_BY_SCREEN['cultural-intelligence'],
+  'character-lab': CAPTURE_WAIT_SELECTORS_BY_SCREEN['character-lab'],
 };
 
 export const P0_VR_1D10_REFERENCE_PATHS = {
