@@ -7884,3 +7884,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `PageCreativeUpgradePanel` rendered **inline below** Page Family Map + workflow rail (not a portal). On mobile the wizard opened off-screen; looked like a dead button. Secondary: silent `if (!viewportCapture?.captureId) return` and upgrade session read from module Map on re-render instead of React state.
 - **Fix:** `PageCreativeUpgradePanel` → `createPortal` drawer (`site00-dw-wizard-drawer`, z-index 200) like Replace Authority; `PageFamilyWorkspace` stores session in `useState`, resolves capture via `resolveCurrentPageViewportCapture`; visible `upgradeError` if capture id missing. Deploy ZIP **v292**; no Railway redeploy.
 
+---
+
+## 2026-09-11 — CI test stale overview route expectation
+
+- **Issue:** Production Release / test failed after v290 merge — `pageFamilyRootTargetP0VRCapture1R1.test.ts` expected `resolvedRuntimePath` `/projects/ndxbook` but runtime resolver correctly returns `/projects/ndxbook/overview` for overview screen (v290 capture fix).
+- **Fix:** Updated test 14 expectation to `/projects/ndxbook/overview`. Test-only; no new deploy ZIP.
+
