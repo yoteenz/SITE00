@@ -36,13 +36,11 @@ import { captureApiFetch, CAPTURE_CURRENT_PAGE_TIMEOUT_MS, PAGE_MIRROR_PATH } fr
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
 import { resolveFounderCaptureBaseUrl } from '../../../utils/site00CaptureBase';
 import {
-  buildProjectPageMirrorRows,
-  pageMirrorRowToVisualIndexRow,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
-import {
+  buildLocalPageMirrorVisualRows,
   captureFailureMessage,
   completionBindingFailed,
   logCaptureTelemetry,
+  normalizeCaptureScreenId,
   resolveCaptureIndexRow,
   resolveCapturePageId,
 } from './captureNowClient';
@@ -128,9 +126,11 @@ export function usePageMirror(projectId: string) {
     }
   }, []);
 
-  const applyMirrorResponse = useCallback((data: MirrorResponse) => {
+  const applyMirrorResponse = useCallback(
+    (data: MirrorResponse) => {
     setInspector(data.inspector);
-    setRows(data.pages ?? []);
+    const apiRows = data.pages ?? [];
+    setRows(apiRows.length ? apiRows : buildLocalPageMirrorVisualRows(projectId));
 
     const receipt = data.buildReceipt ?? null;
     const mismatch = detectBackendVersionMismatch(receipt ?? undefined, P0_VR_8R3R1_BUILD);
@@ -159,7 +159,9 @@ export function usePageMirror(projectId: string) {
 
       return next;
     });
-  }, []);
+  },
+    [projectId],
+  );
 
   const runTransportCheck = useCallback(async () => {
     setCaptureRefresh((prev) => ({ ...prev, transportChecking: true }));
@@ -191,6 +193,7 @@ export function usePageMirror(projectId: string) {
     try {
       const result = await captureApiFetch<MirrorResponse>(mirrorPath(projectId));
       if (!result.ok || !result.data) {
+        setRows(buildLocalPageMirrorVisualRows(projectId));
         if (result.errorCode) {
           setCaptureRefresh((prev) => ({
             ...prev,
@@ -226,10 +229,11 @@ export function usePageMirror(projectId: string) {
 
   const resolveRowForCapture = useCallback(
     (screenId: string): PageVisualIndexRow | null => {
-      const fromMirror = resolveCaptureIndexRow(rows, screenId, projectId);
+      const normalizedScreenId = normalizeCaptureScreenId(screenId, projectId);
+      const fromMirror = resolveCaptureIndexRow(rows, normalizedScreenId, projectId);
       if (fromMirror) return fromMirror;
-      const fallback = buildProjectPageMirrorRows(projectId).map(pageMirrorRowToVisualIndexRow);
-      return resolveCaptureIndexRow(fallback, screenId, projectId);
+      const fallback = buildLocalPageMirrorVisualRows(projectId);
+      return resolveCaptureIndexRow(fallback, normalizedScreenId, projectId);
     },
     [projectId, rows],
   );
