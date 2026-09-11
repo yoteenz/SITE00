@@ -8022,3 +8022,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `prepareReferenceBoardUpload` — extension fallback, `createImageBitmap` rasterize to JPEG, proactive compress for HEIC/large files; `mimeTypeFromDataUrl` for API; propagate real error messages from replace flow. Tests `prepareReferenceBoardUpload.test.ts`.
 - **Founder now:** After deploy — retry upload; if still fails, read the **specific** red error (not generic). Optional: Settings → Camera → Formats → Most Compatible. Replace authority until preview URL shows `page-authority/overview-mobile-…`, not `mobile-overview-fullscreen-reference-hifi.png`.
 
+---
+
+## 2026-09-11 — iOS REPLACE DESIGN AUTHORITY `undefined is not an object (evaluating 'o.width')`
+
+- **Symptom:** After PR #714, site00.com STEP 1 showed Safari error `undefined is not an object (evaluating 'o.width')` on same photo upload.
+- **Cause:** `createImageBitmap(file)` path on iOS could yield invalid bitmap / WebKit drawImage edge case; unguarded `CANONICAL_VIEWPORT_DIMENSIONS[viewport]` if viewport key missing.
+- **Fix:** `prepareReferenceBoardUpload` — on iPhone/iPad prefer **object URL → Image** decode before ImageBitmap; validate width/height; fallback chain. `beginReplaceDesignAuthorityFromDataUrl` — default viewport dims to mobile + image dimension fallbacks.
+
