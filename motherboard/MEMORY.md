@@ -7844,3 +7844,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `resolvePageUpgradeNextAction()` returned UPGRADE label while upgrade gate blocked; primary button reused misleading label.
 - **Fix:** `resolvePageCapturePrimaryLabel` + `shouldOfferPageUpgrade` — UPGRADE only when both previews PASS + liveState READY; else **RECAPTURE** / **CAPTURE NOW** / **RETRY**. Deploy ZIP **v285**.
 
+---
+
+## 2026-09-11 — Capture progress stuck on OPENING PAGE + 404 preview (v288)
+
+- **Issue:** Founder still saw live capture preview **404** and CAPTURE NOW progress frozen on first step **OPENING PAGE** — felt stuck, never advanced through RENDERING / SCREENSHOT / SAVING.
+- **Root cause:** Client `captureApiFetch` timeout was **30s** while Railway Playwright uses **90s** (`PAGE_CAPTURE_TIMEOUT_MS`) — request aborted mid-capture; UI only updated progress when API returned (so stayed on step 1 entire wait); no completed-step styling in progress list.
+- **Fix:** `CAPTURE_CURRENT_PAGE_TIMEOUT_MS` = 90s for `capture_current_page`; `startCaptureProgressAnimation()` advances four founder steps on timer during wait; panel marks completed steps; brief hold on SAVING before dismiss; clearer `REQUEST_TIMEOUT` copy; post-upload `site00StorageObjectExists` verify so fake Supabase URLs cannot succeed. Deploy ZIP **v288**; Railway redeploy still required for upload verify on worker.
+- **Founder QA:** Upload v288 → hard refresh fsbw-dev → RECAPTURE NDXBOOK OVERVIEW — watch all four progress steps advance → both previews **PREVIEW READY ✓** before UPGRADE.
+
