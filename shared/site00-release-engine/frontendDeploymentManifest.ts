@@ -15,8 +15,11 @@ export const FRONTEND_OWNED_GLOBS = [
   '.htaccess',
   'htaccess-deploy.txt',
   'projects/.htaccess',
+  'projects/htaccess-nested.txt',
   'services/.htaccess',
+  'services/htaccess-nested.txt',
   'control/.htaccess',
+  'control/htaccess-nested.txt',
 ] as const;
 
 /** Remote paths excluded from dangerous-clean-slate deletion (host-owned). */

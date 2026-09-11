@@ -7957,3 +7957,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Tests:** `pageUpgradeVisualCompareP0VRUpgrade1.test.ts` (15) + updated `visualReconstructionP0VRCapture1.test.ts` for new labels/statuses.
 - **Build:** `P0_VR_UPGRADE_1_BUILD = v299`. Deploy ZIP `site00-deploy-2026-09-11-v299`.
 
+---
+
+## 2026-09-11 — verify_release FRONTEND_SMOKE_FAILED deep link 404 (htaccess dotfiles)
+
+- **Issue:** CI `verify_release` fails after successful `deploy_frontend` — `FRONTEND_SMOKE_FAILED` polling `/projects/site00/design` (Apache 404). Manifest updates (efbc768) but deep links broken.
+- **Root cause:** GoDaddy FTP/cPanel deploy uploads `htaccess-deploy.txt` but skips dotfiles (`.htaccess`, `projects/.htaccess`). Root rewrite rules never activate.
+- **Fix:** `scripts/site00-activate-spa-htaccess.sh` post-deploy (SSH cp or FTP curl upload `.htaccess`); visible `htaccess-nested.txt` per route prefix; workflow step after deploy. Manual: rename htaccess-deploy.txt → .htaccess + projects/htaccess-nested.txt → .htaccess in cPanel.
+
