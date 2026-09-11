@@ -106,6 +106,13 @@ export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensi
       confidence: b.confidence,
       dimensionCount: b.dimensions.length,
       topDelta: b.dimensions.find((d) => d.delta && d.delta !== '0px')?.delta ?? null,
+      dimensions: b.dimensions.map((d) => ({
+        dimension: d.dimension,
+        authority: String(d.authorityValue),
+        current: String(d.currentValue),
+        delta: d.delta ?? '0px',
+        confidence: d.confidence,
+      })),
     })),
     summary: topFindings.slice(0, 3).join(' · '),
     detectedAt: report.generatedAt,
