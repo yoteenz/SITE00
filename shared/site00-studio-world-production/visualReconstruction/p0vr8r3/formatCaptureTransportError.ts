@@ -11,7 +11,7 @@ export function formatCaptureTransportError(code: string | null | undefined): st
     case 'ENDPOINT_NOT_FOUND':
       return 'CAPTURE API OUT OF DATE — redeploy Railway from latest main.';
     case 'REQUEST_TIMEOUT':
-      return 'CAPTURE API TIMED OUT — try again with a smaller image.';
+      return 'CAPTURE TIMED OUT — the page may still be loading on the server. Wait a moment, then try RECAPTURE.';
     case 'INVALID_API_BASE_URL':
       return 'API BASE URL NOT CONFIGURED for this host.';
     case 'MIXED_CONTENT_BLOCKED':

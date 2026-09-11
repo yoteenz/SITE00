@@ -70,15 +70,22 @@ describe('P0.VR.CAPTURE.1R2 — Capture receipt + live binding', () => {
     expect(plan.singlePageJob).toBe(true);
   });
 
-  it('4. usePageMirror has no timer-driven capture progress', () => {
+  it('4. usePageMirror stages capture progress while API runs', () => {
     const src = read('src/site00/components/designWorkspace/usePageMirror.ts');
     const start = src.indexOf('const captureNow = useCallback(');
     const end = src.indexOf('const refreshPage = useCallback(', start);
     const captureBlock = src.slice(start, end);
-    expect(captureBlock).not.toContain('setInterval');
-    expect(captureBlock).not.toContain('progressTimer');
+    expect(captureBlock).toContain('startCaptureProgressAnimation');
+    expect(captureBlock).toContain('CAPTURE_CURRENT_PAGE_TIMEOUT_MS');
     expect(src).toContain('bindCaptureCompletionToClientStore');
     expect(src).toContain('latestUiStepFromMilestones');
+  });
+
+  it('4b. capture progress timing module spreads steps across server timeout', () => {
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/captureProgressTiming.ts')).toContain(
+      'startCaptureProgressAnimation',
+    );
+    expect(read('src/site00/services/captureApiFetch.ts')).toContain('CAPTURE_CURRENT_PAGE_TIMEOUT_MS');
   });
 
   it('5. real milestone to UI step mapping', () => {

@@ -712,8 +712,13 @@
   font-size: 12px;
 }
 
+.site00-pfw-capture-now__progress li.is-complete {
+  opacity: 0.55;
+}
+
 .site00-pfw-capture-now__progress li.is-active {
   color: var(--site00-accent, #c8ff00);
+  font-weight: 600;
 }
 
 .site00-pfw-capture-now__actions {
