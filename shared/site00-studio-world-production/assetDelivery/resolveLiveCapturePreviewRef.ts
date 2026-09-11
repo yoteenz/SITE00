@@ -4,6 +4,7 @@
 
 import { resolveAssetRenderableUrl } from './assetRenderableUrlResolver.js';
 import { repairMishostedStorageHttpUrl } from './repairMishostedStorageHttpUrl.js';
+import { mapPublicSitePathToStorageObjectPath } from './publicSiteUrlStrategy.js';
 
 type ArtifactProofLike = {
   resolvedUrl?: string | null;
@@ -16,12 +17,17 @@ function repairStorageObjectPath(raw: string): string | null {
   if (
     normalized.startsWith('studio-world/') ||
     normalized.startsWith('site00/') ||
-    normalized.startsWith('visual-references/site00/')
+    normalized.startsWith('visual-references/site00/') ||
+    normalized.startsWith('visual-references/founder/')
   ) {
     return resolveAssetRenderableUrl(normalized).url;
   }
-  if (trimmed.startsWith('/studio-world/') || trimmed.startsWith('/site00/')) {
+  if (trimmed.startsWith('/studio-world/') || trimmed.startsWith('/site00/visual-references/')) {
     return resolveAssetRenderableUrl(trimmed).url;
+  }
+  const mappedPublic = mapPublicSitePathToStorageObjectPath(trimmed);
+  if (mappedPublic) {
+    return resolveAssetRenderableUrl(mappedPublic).url;
   }
   return null;
 }
@@ -36,9 +42,14 @@ function repairSameOriginStorageUrl(raw: string, siteOrigin: string | null): str
     if (
       path.startsWith('studio-world/') ||
       path.startsWith('site00/') ||
-      path.startsWith('visual-references/site00/')
+      path.startsWith('visual-references/site00/') ||
+      path.startsWith('visual-references/founder/')
     ) {
       return resolveAssetRenderableUrl(path).url;
+    }
+    const mappedPublic = mapPublicSitePathToStorageObjectPath(`/${path}`);
+    if (mappedPublic) {
+      return resolveAssetRenderableUrl(mappedPublic).url;
     }
   } catch {
     return null;

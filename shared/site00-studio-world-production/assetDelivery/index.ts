@@ -12,3 +12,4 @@ export * from './previewHealthLifecycle.js';
 export { isInvalidPersistedAssetRef, isPersistableCaptureUrl } from './persistableCaptureUrl.js';
 export * from './resolveLiveCapturePreviewRef.js';
 export * from './repairMishostedStorageHttpUrl.js';
+export * from './publicSiteUrlStrategy.js';

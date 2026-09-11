@@ -20,13 +20,17 @@ export function classifyAssetRef(ref: string): AssetStorageProvider {
   }
   if (
     trimmed.startsWith('site00/') ||
+    trimmed.startsWith('/site00/visual-references/') ||
     trimmed.startsWith('visual-references/site00/') ||
     trimmed.startsWith('studio-world/')
   ) {
     return 'SUPABASE';
   }
-  if (trimmed.startsWith('/studio-world/') || trimmed.startsWith('/site00/')) {
+  if (trimmed.startsWith('/studio-world/')) {
     return 'SUPABASE';
+  }
+  if (trimmed.startsWith('/site00/')) {
+    return 'PUBLIC_SITE';
   }
   if (trimmed.startsWith('/')) {
     return 'PUBLIC_SITE';
@@ -86,6 +90,8 @@ export function normalizeLegacyAssetRef(
       /* already canonical storage path */
     } else if (objectPath.startsWith('studio-world/')) {
       /* implementation snapshots */
+    } else if (objectPath.startsWith('visual-references/')) {
+      objectPath = `${SITE00_STORAGE_PUBLIC_PREFIX}/${objectPath}`;
     } else if (legacyRef.startsWith('/') && !legacyRef.startsWith('/visual-references/')) {
       objectPath = `${SITE00_STORAGE_PUBLIC_PREFIX}/${objectPath.replace(/^\/+/, '')}`;
     }
