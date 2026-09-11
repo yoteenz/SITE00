@@ -559,8 +559,12 @@ export function PageFamilyWorkspace({
         <PageCreativeUpgradePanel
           open={upgradeOpen}
           session={upgradeSession}
-          currentScreenshot={viewportCapture?.imageRef ?? null}
-          proposedLabel={`CREATIVE-DIRECTED ${activeNode?.route.toUpperCase() ?? 'PAGE'}`}
+          pageLabel={activeDisplayName}
+          route={activeRoute}
+          currentScreenshot={upgradeSession.captureAssetRef ?? viewportCapture?.imageRef ?? null}
+          authorityScreenshot={upgradeSession.designAuthorityAssetRef ?? null}
+          visualDiagnosis={upgradeSession.visualDiagnosis}
+          reconstructionPlan={upgradeSession.reconstructionPlan}
           onApprove={() => {
             approvePageCreativeDirection(projectId, activePageId, viewport);
             closeUpgrade();

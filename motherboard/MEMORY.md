@@ -7947,3 +7947,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Root `.htaccess` exists (403) but Apache **does not apply** rewrite/ErrorDocument (no cache-control headers either). Likely physical `projects/` dir on host + cPanel extract skipping/overwriting dotfiles.
 - **Fix:** `scripts/site00-propagate-spa-htaccess.mjs` writes nested `.htaccess` into 17 route-prefix folders (`projects/`, `services/`, …) + ships visible `htaccess-deploy.txt` for manual rename. Root htaccess uses `SymLinksIfOwnerMatch` + relative `index.html`. Deploy ZIP v298+.
 
+---
+
+## 2026-09-11 — P0.VR.UPGRADE.1 current vs design authority visual compare
+
+- **Context:** NDXBOOK OVERVIEW page upgrade showed CURRENT vs text “PROPOSED” list — confusing because reference should be approved design authority, not a textual plan.
+- **Core invariant:** CURRENT = live capture; DESIGN AUTHORITY = approved reference visual; RECONSTRUCTION PLAN = derived text plan (never labeled PROPOSED).
+- **Changes:** Rewrote `PageCreativeUpgradePanel` — mobile CURRENT|AUTHORITY|COMPARE toggle + overlay slider; desktop side-by-side; post-build BEFORE|AFTER|AUTHORITY review; RECONSTRUCTION PLAN section; specific `PageVisualDiagnosis`; traced `ReconstructionPlan`; `PageReconstructionExecution` snapshots authority+capture on approve; session statuses `COMPARE_READY`/`DIRECTION_APPROVED`; removed decorative wizard orb in upgrade drawer.
+- **Tests:** `pageUpgradeVisualCompareP0VRUpgrade1.test.ts` (15) + updated `visualReconstructionP0VRCapture1.test.ts` for new labels/statuses.
+- **Build:** `P0_VR_UPGRADE_1_BUILD = v299`. Deploy ZIP `site00-deploy-2026-09-11-v299`.
+

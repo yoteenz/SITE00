@@ -3,6 +3,11 @@
  */
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
+import type { PageVisualDiagnosis } from './pageVisualDiagnosis.js';
+import type { ReconstructionPlan } from './reconstructionPlan.js';
+
+export type { PageVisualDiagnosis } from './pageVisualDiagnosis.js';
+export type { ReconstructionPlan } from './reconstructionPlan.js';
 
 export const PAGE_VIEWPORT_CAPTURE_STATUSES = [
   'NO_LIVE_CAPTURE',
@@ -85,12 +90,17 @@ export const CAPTURE_NOW_PROGRESS_STEPS: CaptureProgressStep[] = [
 ];
 
 export type PageCreativeUpgradeStatus =
+  | 'COMPARE_READY'
   | 'AWAITING_CAPTURE'
   | 'DIAGNOSING'
   | 'DIRECTION_READY'
+  | 'DIRECTION_APPROVED'
   | 'APPROVED'
   | 'BUILDING'
+  | 'BUILD_COMPLETE'
   | 'VERIFYING'
+  | 'VERIFIED'
+  | 'REVISION_REQUIRED'
   | 'COMPLETE';
 
 export type PageCreativeUpgradeSession = {
@@ -103,8 +113,13 @@ export type PageCreativeUpgradeSession = {
   childArchetype: string | null;
   isRoot: boolean;
   currentDiagnosis: PageCreativeDiagnosis | null;
+  visualDiagnosis: PageVisualDiagnosis | null;
+  reconstructionPlan: ReconstructionPlan | null;
   creativeDirectionPlan: PageCreativeDirectionPlan | null;
   status: PageCreativeUpgradeStatus;
+  route: string;
+  pagePurpose: string;
+  founderNote: string | null;
   approvedAt: string | null;
   afterCaptureId: string | null;
   designAuthorityVersionId?: string | null;

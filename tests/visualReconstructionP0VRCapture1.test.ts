@@ -118,7 +118,7 @@ describe('P0.VR.CAPTURE.1 — Page-scoped capture', () => {
       input: { projectId: 'ndxbook', pageId: 'p1', screenId: 's1', route: '/r', viewport: 'mobile' },
       jobId: id,
       resolvedRuntimePath: '/projects/ndxbook/overview',
-      screenshotUrl: '/shot.png',
+      screenshotUrl: 'https://cdn.example.com/shot.png',
     });
     expect(result.singlePageJob).toBe(true);
     expect(result.projectRunCreated).toBe(false);
@@ -140,7 +140,7 @@ describe('P0.VR.CAPTURE.1 — Page-scoped capture', () => {
       input: { projectId: 'ndxbook', pageId: 'p1', screenId: 's1', route: '/r', viewport: 'mobile' },
       jobId: 'j1',
       resolvedRuntimePath: '/r',
-      screenshotUrl: '/x.png',
+      screenshotUrl: 'https://cdn.example.com/x.png',
     });
     expect(r.status).toBe('CAPTURE_READY');
   });
@@ -189,6 +189,8 @@ describe('P0.VR.CAPTURE.1 — Page-scoped capture', () => {
       pagePurpose: 'Operations',
       parentAuthorityLabel: 'Parent landing',
       route: '/ops',
+      designAuthorityAssetRef: 'https://cdn.example.com/authority.png',
+      captureAssetRef: 'https://cdn.example.com/live.png',
     });
     expect(s.status).toBe('DIRECTION_READY');
     expect(getPageCreativeUpgradeSession('ndxbook', 'p1', 'mobile')?.sessionId).toBe(s.sessionId);
@@ -217,9 +219,12 @@ describe('P0.VR.CAPTURE.1 — Page-scoped capture', () => {
       pagePurpose: 'Ops',
       parentAuthorityLabel: 'Landing',
       route: '/ops',
+      designAuthorityVersionId: 'auth-1',
+      designAuthorityAssetRef: 'https://cdn.example.com/authority.png',
+      captureAssetRef: 'https://cdn.example.com/live.png',
     });
     const approved = approvePageCreativeDirection('ndxbook', 'p1', 'mobile');
-    expect(approved?.status).toBe('APPROVED');
+    expect(approved?.status).toBe('DIRECTION_APPROVED');
     expect(approved?.approvedAt).toBeTruthy();
   });
 
@@ -340,10 +345,12 @@ describe('P0.VR.CAPTURE.1 — Page-scoped capture', () => {
   });
 
   it('31. creative upgrade UI panel', () => {
-    expect(read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx')).toContain('CURRENT VS PROPOSED');
+    expect(read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx')).toContain('CURRENT VS DESIGN AUTHORITY');
+    expect(read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx')).toContain('RECONSTRUCTION PLAN');
   });
 
   it('32. before/after verify flow', () => {
-    expect(read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx')).toContain('BEFORE / AFTER');
+    expect(read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx')).toContain("'before', 'after', 'authority'");
+    expect(read('src/site00/components/designWorkspace/pageFamily/PageCreativeUpgradePanel.tsx')).toContain('AFTER VS DESIGN AUTHORITY');
   });
 });

@@ -760,6 +760,151 @@
   font-size: 12px;
 }
 
+/* P0.VR.UPGRADE.1 — current vs design authority compare */
+.site00-pfw-upgrade-drawer .site00-dw-wizard__visual-area {
+  display: none;
+}
+
+.site00-pfw-upgrade-v2__header-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.site00-pfw-upgrade-v2__tabs {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.site00-pfw-upgrade-v2__tab {
+  border: 1px solid var(--site00-dw-line);
+  background: transparent;
+  color: inherit;
+  padding: 8px 12px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+}
+
+.site00-pfw-upgrade-v2__tab.is-active {
+  border-color: var(--site00-accent, #c8ff00);
+  color: var(--site00-accent, #c8ff00);
+}
+
+.site00-pfw-upgrade-v2__preview {
+  margin: 0;
+}
+
+.site00-pfw-upgrade-v2__preview figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.site00-pfw-upgrade-v2__preview figcaption span {
+  opacity: 0.75;
+  font-size: 10px;
+}
+
+.site00-pfw-upgrade-v2__img {
+  width: 100%;
+  max-width: 390px;
+  margin: 0 auto;
+  display: block;
+  border: 1px solid var(--site00-dw-line);
+  border-radius: 8px;
+}
+
+.site00-pfw-upgrade-v2__side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.site00-pfw-upgrade-v2__overlay {
+  position: relative;
+  max-width: 390px;
+  margin: 0 auto;
+}
+
+.site00-pfw-upgrade-v2__overlay-reveal {
+  position: absolute;
+  inset: 0;
+  top: 28px;
+  pointer-events: none;
+}
+
+.site00-pfw-upgrade-v2__overlay-reveal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.site00-pfw-upgrade-v2__slider {
+  display: block;
+  margin-top: 10px;
+  font-size: 11px;
+}
+
+.site00-pfw-upgrade-v2__empty,
+.site00-pfw-upgrade-v2__block {
+  min-height: 200px;
+  padding: 16px;
+  border: 1px dashed var(--site00-dw-line);
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.site00-pfw-upgrade-v2__diagnosis,
+.site00-pfw-upgrade-v2__plan {
+  margin-top: 16px;
+  font-size: 12px;
+}
+
+.site00-pfw-upgrade-v2__diagnosis h3,
+.site00-pfw-upgrade-v2__plan h3 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.site00-pfw-upgrade-v2__plan-source {
+  display: block;
+  opacity: 0.65;
+  font-size: 10px;
+}
+
+.site00-pfw-upgrade-v2__preserve {
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.site00-pfw-upgrade-v2__note textarea {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.site00-pfw-upgrade-v2__status {
+  margin-top: 12px;
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  .site00-pfw-upgrade-v2__side-by-side {
+    grid-template-columns: 1fr;
+  }
+}
+
 .site00-pfw-capture-now__authority-actions {
   display: flex;
   flex-wrap: wrap;
