@@ -7,12 +7,13 @@ import { createPortal } from 'react-dom';
 import type { DesignViewportClass } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
   approveDesignAuthorityReplacement,
-  beginReplaceDesignAuthorityUpload,
+  beginReplaceDesignAuthorityFromDataUrl,
   cancelDesignAuthorityReplacement,
   type ReplaceDesignAuthorityDraft,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
+import { prepareReferenceBoardUpload } from '../../../utils/prepareReferenceBoardUpload';
 import { DesignAssetPreview } from '../shared/DesignAssetPreview';
-import { uploadPageDesignAuthorityViaMirror } from '../../../services/uploadPageDesignAuthority';
+import { resolveDesignAuthorityUpload } from '../../../services/uploadPageDesignAuthority';
 
 type Props = {
   open: boolean;
@@ -44,6 +45,7 @@ export function ReplaceDesignAuthorityDialog({
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [approving, setApproving] = useState(false);
+  const [localOnlyNotice, setLocalOnlyNotice] = useState<string | null>(null);
 
   const context = {
     projectId,
@@ -59,6 +61,7 @@ export function ReplaceDesignAuthorityDialog({
       setDraft(null);
       setError(null);
       setUploading(false);
+      setLocalOnlyNotice(null);
       return;
     }
     const prev = document.body.style.overflow;
@@ -77,13 +80,25 @@ export function ReplaceDesignAuthorityDialog({
     async (file: File) => {
       setUploading(true);
       setError(null);
-      const result = await beginReplaceDesignAuthorityUpload(context, file);
-      setUploading(false);
-      if (!result.ok) {
-        setError(result.message);
-        return;
+      try {
+        const dataUrl = await prepareReferenceBoardUpload(file);
+        const result = await beginReplaceDesignAuthorityFromDataUrl(
+          context,
+          dataUrl,
+          file.type.includes('jpeg') ? 'image/jpeg' : file.type,
+          file.size,
+          file.name.split('.').pop()?.toLowerCase(),
+        );
+        if (!result.ok) {
+          setError(result.message);
+          return;
+        }
+        setDraft(result.draft);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'REFERENCE UPLOAD FAILED');
+      } finally {
+        setUploading(false);
       }
-      setDraft(result.draft);
     },
     [context],
   );
@@ -92,25 +107,31 @@ export function ReplaceDesignAuthorityDialog({
     if (!draft || approving) return;
     setApproving(true);
     setError(null);
-    const uploaded = await uploadPageDesignAuthorityViaMirror({
+    setLocalOnlyNotice(null);
+    const resolved = await resolveDesignAuthorityUpload({
       projectId,
       screenId,
       viewport,
       dataUrl: draft.previewDataUrl,
       mimeType: draft.mimeType,
     });
-    if (!uploaded.ok) {
+    if (!resolved.ok) {
       setApproving(false);
-      setError(uploaded.message);
+      setError(resolved.message);
       return;
     }
-    const result = approveDesignAuthorityReplacement(draft, uploaded.upload);
+    const result = approveDesignAuthorityReplacement(draft, resolved.upload);
     setApproving(false);
     if (!result.ok) {
       setError(result.message);
       return;
     }
     setDraft(null);
+    if (resolved.localOnly) {
+      setLocalOnlyNotice(resolved.warning);
+      onReplaced();
+      return;
+    }
     onReplaced();
     onClose();
   };
@@ -186,17 +207,26 @@ export function ReplaceDesignAuthorityDialog({
                 </div>
               </div>
               {error ? <p className="site00-pfw-replace-authority__error">{error}</p> : null}
+              {localOnlyNotice ? (
+                <p className="site00-pfw-replace-authority__notice">{localOnlyNotice}</p>
+              ) : null}
               <div className="site00-pfw-replace-authority__actions">
-              <button
-                type="button"
-                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-                disabled={approving}
-                onClick={() => void handleApprove()}
-              >
-                {approving ? 'SAVING…' : 'APPROVE & REPLACE'}
-              </button>
+                {!localOnlyNotice ? (
+                  <button
+                    type="button"
+                    className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                    disabled={approving}
+                    onClick={() => void handleApprove()}
+                  >
+                    {approving ? 'SAVING…' : 'APPROVE & REPLACE'}
+                  </button>
+                ) : (
+                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onClose}>
+                    DONE
+                  </button>
+                )}
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={handleCancel}>
-                  CANCEL
+                  {localOnlyNotice ? 'CLOSE' : 'CANCEL'}
                 </button>
               </div>
             </>

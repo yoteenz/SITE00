@@ -802,6 +802,13 @@
   font-size: 12px;
 }
 
+.site00-pfw-replace-authority__notice {
+  margin: 8px 0;
+  color: var(--site00-ndx-lime, #c8e600);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 @media (min-width: 900px) {
   .site00-pfw {
     max-width: 960px;

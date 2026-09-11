@@ -7819,3 +7819,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Cloud preview fast-path (skip network restore, show GO TO SIGN IN →); 6s auth step timeouts; Vite injects `site00-cloud-preview` + `site00-preview-hostname` meta; boot-gate.js honors both; `useLayoutEffect` releases boot shell when loader skipped; loading text color fallbacks. PR **#681**.
 - **Founder:** Hard refresh preview tunnel after merge; sign in on preview before /control or design routes.
 
+---
+
+## 2026-09-11 — Authority upload CORS + device-local fallback (v283)
+
+- **Issue:** After v282, REPLACE DESIGN AUTHORITY showed **API UNREACHABLE** on APPROVE from `site00.fsbw-dev.com` — nothing appeared to change for founder.
+- **Root cause:** v282 made cloud Supabase upload mandatory on approve; fsbw-dev → `api.site00.com` failed CORS (`captureCors.ts` only allowed apex/www/localhost, not `*.fsbw-dev.com`) → `Failed to fetch` → raw `API_UNREACHABLE` blocked replace entirely.
+- **Fix:** `isCaptureCorsOriginAllowed()` allows `*.fsbw-dev.com`, `*.trycloudflare.com`, `*.site00.com`; `formatCaptureTransportError` + `resolveDesignAuthorityUpload()` — recoverable transport errors fall back to device-local authority save with **SAVED ON THIS DEVICE ONLY** notice; `beginReplaceDesignAuthorityFromDataUrl` for compressed upload path. Deploy ZIP **v283**; **Railway redeploy required** for CORS + `upload_design_authority`.
+- **Founder QA:** Hard refresh fsbw-dev → REPLACE → APPROVE (cloud upload if API up; else local save + yellow notice). RECAPTURE if live preview still 404 (stale localStorage capture).
+

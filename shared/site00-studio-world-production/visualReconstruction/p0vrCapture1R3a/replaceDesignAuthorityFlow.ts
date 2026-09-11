@@ -59,18 +59,15 @@ export function validateAuthorityUploadFile(file: File): { ok: boolean; errorCod
   return { ok: true };
 }
 
-export async function beginReplaceDesignAuthorityUpload(
+export async function beginReplaceDesignAuthorityFromDataUrl(
   context: ReplaceDesignAuthorityContext,
-  file: File,
+  previewDataUrl: string,
+  mimeType: string,
+  byteSize: number,
+  extension?: string,
 ): Promise<{ ok: true; draft: ReplaceDesignAuthorityDraft } | { ok: false; errorCode: 'UPLOAD_FAILED' | 'INVALID_MIME'; message: string }> {
-  const valid = validateAuthorityUploadFile(file);
-  if (!valid.ok) {
-    return { ok: false, errorCode: valid.errorCode ?? 'INVALID_MIME', message: 'REFERENCE UPLOAD FAILED — unsupported format.' };
-  }
-
   try {
-    const previewDataUrl = await fileToDataUrl(file);
-    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'png';
+    const ext = extension ?? (mimeType.includes('jpeg') ? 'jpg' : mimeType.includes('webp') ? 'webp' : 'png');
     const storagePath = buildFounderAuthorityStoragePath({
       projectId: context.projectId,
       screenId: context.screenId,
@@ -95,12 +92,30 @@ export async function beginReplaceDesignAuthorityUpload(
         context,
         storagePath,
         previewDataUrl,
-        mimeType: file.type,
-        byteSize: file.size,
+        mimeType,
+        byteSize,
         width,
         height,
       },
     };
+  } catch {
+    return { ok: false, errorCode: 'UPLOAD_FAILED', message: 'REFERENCE UPLOAD FAILED' };
+  }
+}
+
+export async function beginReplaceDesignAuthorityUpload(
+  context: ReplaceDesignAuthorityContext,
+  file: File,
+): Promise<{ ok: true; draft: ReplaceDesignAuthorityDraft } | { ok: false; errorCode: 'UPLOAD_FAILED' | 'INVALID_MIME'; message: string }> {
+  const valid = validateAuthorityUploadFile(file);
+  if (!valid.ok) {
+    return { ok: false, errorCode: valid.errorCode ?? 'INVALID_MIME', message: 'REFERENCE UPLOAD FAILED — unsupported format.' };
+  }
+
+  try {
+    const previewDataUrl = await fileToDataUrl(file);
+    const ext = file.name.split('.').pop()?.toLowerCase() ?? 'png';
+    return beginReplaceDesignAuthorityFromDataUrl(context, previewDataUrl, file.type, file.size, ext);
   } catch {
     return { ok: false, errorCode: 'UPLOAD_FAILED', message: 'REFERENCE UPLOAD FAILED' };
   }
