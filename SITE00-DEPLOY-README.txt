@@ -12,8 +12,9 @@ WHAT TO UPLOAD
 6. Confirm projects/.htaccess exists (nested SPA fallback for /projects/... URLs)
 7. If deep links still 404 — cPanel often skips dotfiles on extract/FTP:
    a. Rename htaccess-deploy.txt → .htaccess (document root)
-   b. In each route folder (projects/, services/, …): rename htaccess-nested.txt → .htaccess
-   c. Or re-run GitHub Actions "SITE 00 Production Release" (activate step uploads .htaccess via FTP)
+   b. In projects/: rename htaccess-nested.txt → .htaccess (required for /projects/... URLs)
+   c. CI runs FTP .htaccess upload after deploy — if verify still fails, do (a)+(b) manually in File Manager
+   d. Test: https://site00.com/projects/site00/design must NOT show plain "404 Not Found"
 8. Hard refresh site00.com (Safari: hold reload → Empty Cache)
 
 DEEP LINK SMOKE TEST

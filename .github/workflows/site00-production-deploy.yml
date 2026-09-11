@@ -272,6 +272,8 @@ jobs:
           GODADDY_FTP_PASSWORD: ${{ secrets.GODADDY_FTP_PASSWORD }}
           GODADDY_FTP_SERVER_DIR: ${{ vars.GODADDY_FTP_SERVER_DIR }}
           DIST_DIR: dist
+          SITE00_FRONTEND_URL: ${{ env.SITE00_FRONTEND_URL }}
+          VERIFY_SPA_AFTER_ACTIVATE: 'true'
         run: bash scripts/site00-activate-spa-htaccess.sh
 
   verify_release:
