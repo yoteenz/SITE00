@@ -10,22 +10,37 @@ const EXPECTED_RELEASE_ID = process.env.EXPECTED_RELEASE_ID ?? '';
 const EXPECTED_VERSION = process.env.EXPECTED_VERSION ?? '';
 const POLL_INTERVAL_MS = Number(process.env.POLL_INTERVAL_MS ?? 15000);
 const TIMEOUT_MS = Number(process.env.RAILWAY_POLL_TIMEOUT_MS ?? 600000);
+const FRONTEND_POLL_TIMEOUT_MS = Number(process.env.FRONTEND_POLL_TIMEOUT_MS ?? 300000);
 const SKIP_FRONTEND = process.env.SKIP_FRONTEND_VERIFY === 'true';
+
+const RETRYABLE_FRONTEND_HTTP = new Set([403, 404, 408, 425, 429, 500, 502, 503, 504]);
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function fetchJson(url) {
-  const res = await fetch(url, { headers: { Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+async function fetchJson(url, options = {}) {
+  const res = await fetch(url, { headers: { Accept: 'application/json' }, ...options });
+  if (!res.ok) {
+    const err = new Error(`${url} HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
   return res.json();
 }
 
-async function fetchText(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`${url} HTTP ${res.status}`);
+async function fetchText(url, options = {}) {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    const err = new Error(`${url} HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
   return res.text();
+}
+
+export function isRetryableFrontendHttpStatus(status) {
+  return RETRYABLE_FRONTEND_HTTP.has(Number(status));
 }
 
 function parseBackend(raw) {
@@ -81,7 +96,7 @@ async function pollBackend(expectedReleaseId) {
   return { ok: false, backend: null, error: lastError };
 }
 
-async function verifyFrontend(expectedReleaseId) {
+async function verifyFrontendOnce(expectedReleaseId) {
   const manifest = await fetchJson(`${FRONTEND_URL}/release-manifest.json`);
   const html = await fetchText(`${FRONTEND_URL}/`);
   const smokeOk = html.includes('id="root"') || html.includes("id='root'");
@@ -94,6 +109,35 @@ async function verifyFrontend(expectedReleaseId) {
   };
   const releaseMatch = !expectedReleaseId || frontend.releaseId === expectedReleaseId;
   return { ok: smokeOk && releaseMatch, manifest, frontend, smokeOk, releaseMatch };
+}
+
+async function pollFrontend(expectedReleaseId) {
+  const deadline = Date.now() + FRONTEND_POLL_TIMEOUT_MS;
+  let lastError = 'timeout';
+  while (Date.now() < deadline) {
+    try {
+      const fe = await verifyFrontendOnce(expectedReleaseId);
+      if (fe.ok) return { ok: true, ...fe };
+      if (fe.releaseMatch === false) {
+        return {
+          ok: false,
+          ...fe,
+          error: `releaseId mismatch: expected ${expectedReleaseId}, got ${fe.frontend.releaseId}`,
+        };
+      }
+      if (!fe.smokeOk) lastError = 'homepage missing #root';
+      else lastError = 'frontend smoke failed';
+    } catch (err) {
+      const status = err && typeof err === 'object' && 'status' in err ? err.status : null;
+      lastError = err instanceof Error ? err.message : String(err);
+      if (!isRetryableFrontendHttpStatus(status)) {
+        return { ok: false, error: lastError };
+      }
+    }
+    console.log(`Frontend poll: waiting (${lastError})…`);
+    await sleep(POLL_INTERVAL_MS);
+  }
+  return { ok: false, error: lastError };
 }
 
 async function main() {
@@ -150,22 +194,16 @@ async function main() {
     process.exit(0);
   }
 
-  try {
-    const fe = await verifyFrontend(EXPECTED_RELEASE_ID);
-    receipt.stages.VERIFY_FRONTEND = fe.ok ? 'PASS' : 'FAIL';
-    receipt.frontend = fe.frontend;
-    receipt.manifest = fe.manifest;
-    if (!fe.ok) {
-      receipt.errors.push(
-        fe.releaseMatch === false ? 'VERSION_MISMATCH' : 'FRONTEND_SMOKE_FAILED',
-      );
-      receipt.status = 'PARTIAL';
-      console.log(JSON.stringify(receipt, null, 2));
-      process.exit(1);
-    }
-  } catch (err) {
-    receipt.stages.VERIFY_FRONTEND = 'FAIL';
-    receipt.errors.push(`FRONTEND_SMOKE_FAILED: ${err instanceof Error ? err.message : String(err)}`);
+  const fe = await pollFrontend(EXPECTED_RELEASE_ID);
+  receipt.stages.VERIFY_FRONTEND = fe.ok ? 'PASS' : 'FAIL';
+  if (fe.frontend) receipt.frontend = fe.frontend;
+  if (fe.manifest) receipt.manifest = fe.manifest;
+  if (!fe.ok) {
+    receipt.errors.push(
+      fe.releaseMatch === false
+        ? 'VERSION_MISMATCH'
+        : `FRONTEND_SMOKE_FAILED: ${fe.error ?? 'frontend verification failed'}`,
+    );
     receipt.status = 'PARTIAL';
     console.log(JSON.stringify(receipt, null, 2));
     process.exit(1);
