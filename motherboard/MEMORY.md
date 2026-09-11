@@ -8003,3 +8003,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Pilot:** NDXBOOK OVERVIEW mobile — header/gutter deltas from DOM vs `NDX_MOBILE_OVERVIEW_VISUAL_SPEC`, not hardcoded example px.
 - **Founder next:** Deploy v302 → DESIGN → NDXBOOK → OVERVIEW mobile → UPGRADE → verify TOP VISUAL DIFFERENCES show measured values → VIEW EVIDENCE → APPROVE → BUILD TWIN → check BEFORE/AFTER drift.
 
+---
+
+## 2026-09-11 — P0.VR.DIAG.1R1 full-page region coverage + multi-dimension forensics
+
+- **Context:** DIAG.1 proved measured deltas but live QA only surfaced HEADER + BOTTOM NAV; most page regions silent; regions measured height-only.
+- **Delivered:** Expanded authority-first region profile (10+ NDX overview regions: identity, nav, hero/media, progress band, metrics, activity, card rail, etc.); `FullPageRegionCoverageMap`, `ForensicCoverageScore`, `ForensicCoverageGate` (PASS/WARNING/BLOCK); stack-based layout for current vs authority when DOM partial; `RegionDimensionEvidence` multi-dimension per region (height, inset, control size, gaps, etc.); `VerticalRhythmProfile`, `PageGutterProfile`, `TypographyHierarchyProfile`, `RegionSequenceComparison`; `RegionConvergenceResult` post-twin.
+- **UI:** FORENSIC COVERAGE summary, VIEW ALL FORENSICS, multi-dimension VIEW EVIDENCE, APPROVE DIRECTION disabled when coverage BLOCK; region-by-region convergence after twin.
+- **Integration:** `collectDomRegionMeasurements` reads iframe preview DOM; measured spec status DRAFT when gate blocks. Build `P0_VR_DIAG_1R1_BUILD = v303`. Tests: `p0vrDiag1R1Forensics.test.ts` (12) + updated DIAG.1 tests (59 total forensics suite).
+- **Founder next:** Deploy v303 → NDXBOOK OVERVIEW mobile UPGRADE → verify FORENSIC COVERAGE shows all major regions → VIEW ALL FORENSICS → check ≥3 regions with multiple dimensions → only APPROVE when PASS/WARNING accepted.
+
