@@ -291,4 +291,29 @@ describe('P0.VR.CAPTURE.1R1 — Family root targeting', () => {
   it('25. resolveRootScreenId avoids desktop-overview as root screen', () => {
     expect(resolveRootScreenId('ndxbook', { screenId: 'desktop-overview', displayName: 'x' })).toBe('overview');
   });
+
+  it('26. site00 website root resolves to homepage at /', () => {
+    const siteRows = [
+      {
+        screenId: 'homepage',
+        displayName: 'SITE 00 Homepage',
+        route: '/',
+        normalizedRoute: '/',
+      },
+      {
+        screenId: 'guide',
+        displayName: 'Guide',
+        route: '/projects/site00/design',
+        normalizedRoute: '/projects/site00/design',
+      },
+    ];
+    const resolved = resolveCanonicalRootRoute('site00', siteRows);
+    expect(resolved.canonicalRoute).toBe('/');
+    expect(resolved.rootRow?.screenId).toBe('homepage');
+    expect(resolveRootScreenId('site00', resolved.rootRow)).toBe('homepage');
+    const family = buildPageFamilyFromRows({ projectId: 'site00', rows: siteRows });
+    const root = family.nodes.find((n) => n.level === 0)!;
+    expect(root.screenId).toBe('homepage');
+    expect(root.existing).toBe(true);
+  });
 });

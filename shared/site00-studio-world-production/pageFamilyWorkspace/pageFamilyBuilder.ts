@@ -14,6 +14,7 @@ import type {
 import { resolveNavigationPromises } from './parentNavigationIntentResolver.js';
 import {
   isRootAliasRoute,
+  isSite00WebsiteProject,
   resolveCanonicalRootDisplayName,
   resolveCanonicalRootRoute,
   resolveRootScreenId,
@@ -107,7 +108,9 @@ export function buildPageFamilyFromRows(input: {
 
   for (const row of input.rows) {
     const route = normalizeRoute(row.normalizedRoute ?? row.route ?? '');
-    if (route.startsWith(projectPrefix)) rowByRoute.set(route, row);
+    if (isSite00WebsiteProject(input.projectId) || route.startsWith(projectPrefix)) {
+      rowByRoute.set(route, row);
+    }
   }
 
   const rootResolution = resolveCanonicalRootRoute(input.projectId, input.rows);
@@ -118,8 +121,8 @@ export function buildPageFamilyFromRows(input: {
   const parentRoute = subfamilyAnchor && subfamilyAnchor !== rootRoute ? subfamilyAnchor : rootRoute;
   const parentNodeId = `node:${parentRoute}`;
   const parentRow =
-    rowByRoute.get(parentRoute) ??
     (parentRoute === rootRoute ? rootResolution.rootRow : undefined) ??
+    rowByRoute.get(parentRoute) ??
     rowByRoute.get(rootRoute);
   const parentCapture = captureDerivativeStatus(parentRow);
   const parentExisting = Boolean(parentRow);

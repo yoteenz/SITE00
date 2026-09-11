@@ -2,8 +2,16 @@
  * P0.VR.CAPTURE.1R1 — Family root as first-class page target.
  */
 
+import { SITE00_DESIGN_PROJECT_ID } from '../visualReconstruction/p0vr3/constants.js';
 import type { DesignViewportClass } from '../visualReconstruction/p0vr2/types.js';
 import type { PageFamily, PageFamilyNode, PageFamilyRowInput } from './types.js';
+
+export const SITE00_WEBSITE_ROOT_SCREEN_ID = 'homepage' as const;
+export const SITE00_WEBSITE_ROOT_ROUTE = '/' as const;
+
+export function isSite00WebsiteProject(projectId: string): boolean {
+  return projectId === SITE00_DESIGN_PROJECT_ID;
+}
 
 export const PAGE_ROOT_TYPES = [
   'HOME',
@@ -85,6 +93,18 @@ export function resolveCanonicalRootRoute(
   rootRow: PageFamilyRowInput | undefined;
   duplicateRootWarning: string | null;
 } {
+  if (isSite00WebsiteProject(projectId)) {
+    const homepageRow =
+      rows.find((row) => row.screenId === SITE00_WEBSITE_ROOT_SCREEN_ID) ??
+      rows.find((row) => normalizeRoute(row.normalizedRoute ?? row.route ?? '') === SITE00_WEBSITE_ROOT_ROUTE);
+    return {
+      canonicalRoute: SITE00_WEBSITE_ROOT_ROUTE,
+      aliases: [],
+      rootRow: homepageRow,
+      duplicateRootWarning: null,
+    };
+  }
+
   const projectPrefix = `/projects/${projectId}`.toLowerCase();
   const overviewAlias = `${projectPrefix}/overview`;
   const rowByRoute = new Map<string, PageFamilyRowInput>();
@@ -142,9 +162,12 @@ export function isRootAliasRoute(route: string, _projectId: string, aliases: str
   return aliases.some((a) => normalizeRoute(a) === normalized);
 }
 
-export function resolveRootScreenId(_projectId: string, rootRow?: PageFamilyRowInput | null): string {
+export function resolveRootScreenId(projectId: string, rootRow?: PageFamilyRowInput | null): string {
   if (rootRow?.screenId && rootRow.screenId !== 'desktop-overview') {
     return rootRow.screenId;
+  }
+  if (isSite00WebsiteProject(projectId)) {
+    return SITE00_WEBSITE_ROOT_SCREEN_ID;
   }
   return 'overview';
 }
@@ -228,6 +251,8 @@ export function migrateHistoricalRootCapturePageId(
   if (
     normalizedSuffix === projectPrefix ||
     normalizedSuffix === `${projectPrefix}/overview` ||
+    (isSite00WebsiteProject(projectId) &&
+      (normalizedSuffix === SITE00_WEBSITE_ROOT_ROUTE || lower === SITE00_WEBSITE_ROOT_SCREEN_ID)) ||
     lower === 'overview' ||
     lower === 'root' ||
     lower === 'desktop-overview' ||
