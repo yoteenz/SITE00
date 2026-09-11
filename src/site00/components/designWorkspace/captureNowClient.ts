@@ -31,6 +31,12 @@ export function captureFailureMessage(errorCode: CaptureErrorCode | null | undef
     case 'TIMEOUT':
       return 'CAPTURE TOOK TOO LONG.';
     default:
+      if (fallback?.includes('CAPTURE_SCREENSHOT_TOO_SMALL') || fallback?.includes('PAGE_NOT_FOUND')) {
+        return 'CAPTURE FAILED — PAGE DID NOT RENDER (404 OR BLANK). RECAPTURE AFTER HARD REFRESH.';
+      }
+      if (fallback?.includes('CAPTURE_ANCHOR_MISSING')) {
+        return 'CAPTURE FAILED — PAGE OPENED BUT NDX HEADER DID NOT RENDER. TRY AGAIN IN A MOMENT.';
+      }
       return fallback ?? 'CAPTURE FAILED';
   }
 }

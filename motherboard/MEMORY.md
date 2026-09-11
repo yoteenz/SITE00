@@ -7853,3 +7853,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `CAPTURE_CURRENT_PAGE_TIMEOUT_MS` = 90s for `capture_current_page`; `startCaptureProgressAnimation()` advances four founder steps on timer during wait; panel marks completed steps; brief hold on SAVING before dismiss; clearer `REQUEST_TIMEOUT` copy; post-upload `site00StorageObjectExists` verify so fake Supabase URLs cannot succeed. Deploy ZIP **v288**; Railway redeploy still required for upload verify on worker.
 - **Founder QA:** Upload v288 → hard refresh fsbw-dev → RECAPTURE NDXBOOK OVERVIEW — watch all four progress steps advance → both previews **PREVIEW READY ✓** before UPGRADE.
 
+---
+
+## 2026-09-11 — Capture preview 404 root cause (v289)
+
+- **Issue:** After v288 progress fix, founder still saw **404** in live capture preview — not a stuck step problem.
+- **Root cause (triangulated via live API + Supabase):** Railway Playwright uploaded **~4.7KB WebP shells** (blank/404 page) while pipeline returned **CAPTURE_READY**; QA threshold was 2KB so shells passed; `page-mirror` ignored `qaPassed`; stale refs like `https://site00.com/studio-world/...` 404 on Apache (bytes are in Supabase); overview capture opened `/projects/ndxbook` instead of SPA runtime `/projects/ndxbook/overview`; `ndx.header` anchor missing in shell.
+- **Fix:** QA min **12KB** + `PAGE_NOT_FOUND` + `CAPTURE_ANCHOR_MISSING`; skip Supabase upload when QA fails; `page-mirror` rejects failed QA; overview capture route → `/overview`; Playwright networkidle + 404 body detect; `repairMishostedStorageHttpUrl` for cross-origin site-host paths; bind/hydrate normalize to Supabase URL. Deploy ZIP **v289**; **Railway redeploy required** for capture engine + QA gate.
+

@@ -3,6 +3,7 @@
  */
 
 import { resolveAssetRenderableUrl } from './assetRenderableUrlResolver.js';
+import { repairMishostedStorageHttpUrl } from './repairMishostedStorageHttpUrl.js';
 
 type ArtifactProofLike = {
   resolvedUrl?: string | null;
@@ -48,6 +49,8 @@ function repairSameOriginStorageUrl(raw: string, siteOrigin: string | null): str
 function resolveCandidate(raw: string | null | undefined, siteOrigin: string | null): string | null {
   if (!raw?.trim()) return null;
   const trimmed = raw.trim();
+  const fromMishosted = repairMishostedStorageHttpUrl(trimmed);
+  if (fromMishosted) return fromMishosted;
   const fromPath = repairStorageObjectPath(trimmed);
   if (fromPath) return fromPath;
   const fromOrigin = repairSameOriginStorageUrl(trimmed, siteOrigin);

@@ -11,6 +11,7 @@ import { classifyAssetRef, isInvalidPersistedAssetRef, normalizeLegacyAssetRef }
 import type { CanonicalAssetRef, RenderableAssetUrl } from './types.js';
 import type { ImageDeliveryErrorCode } from './constants.js';
 import { readFounderAuthorityUpload } from '../visualReconstruction/p0vrCapture1R3a/founderAuthorityUploadStore.js';
+import { repairMishostedStorageHttpUrl } from './repairMishostedStorageHttpUrl.js';
 
 export type AssetResolverEnvironment = {
   supabaseUrl?: string | null;
@@ -106,9 +107,11 @@ export function resolveAssetRenderableUrl(
       if (!url.startsWith('http')) {
         return errorResult(canonicalRef, 'PUBLIC_URL_INVALID');
       }
-      const authMode = url.includes('token=') || url.includes('Signature=') ? 'SIGNED' : 'PUBLIC';
+      const repaired = repairMishostedStorageHttpUrl(url);
+      const resolvedUrl = repaired ?? url;
+      const authMode = resolvedUrl.includes('token=') || resolvedUrl.includes('Signature=') ? 'SIGNED' : 'PUBLIC';
       return {
-        url,
+        url: resolvedUrl,
         provider: 'ABSOLUTE_URL',
         expiresAt: null,
         authMode,

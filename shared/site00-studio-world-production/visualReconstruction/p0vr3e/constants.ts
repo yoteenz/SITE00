@@ -12,6 +12,9 @@ export const IMPLEMENTATION_SNAPSHOT_PERSISTENT_REGISTRY_RELATIVE_PATH =
 
 export const IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE = 2 as const;
 
+/** Mobile viewport captures below this WebP size are blank/error shells (not real pages). */
+export const IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES = 12_000 as const;
+
 export const SCREENSHOT_CAPTURE_CONCURRENCY_DEFAULT = 3 as const;
 
 export const P0_VR_3E_FAILURE_CODES = [
@@ -39,4 +42,6 @@ export const IMPLEMENTATION_SNAPSHOT_QA_FAILURES = [
   'RUNTIME_ERROR',
   'WRONG_VIEWPORT',
   'ZERO_CONTENT',
+  'PAGE_NOT_FOUND',
+  'CAPTURE_ANCHOR_MISSING',
 ] as const;

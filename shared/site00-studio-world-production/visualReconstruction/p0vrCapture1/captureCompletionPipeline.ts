@@ -14,10 +14,12 @@ import {
   type ScreenshotReceipt,
   pushMilestone,
 } from './captureReceipts.js';
+import { IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES } from '../p0vr3e/constants.js';
 import { P0_VR_CAPTURE_1R2_BUILD } from './constants.js';
 import {
   isPersistableCaptureUrl,
   resolveAssetRenderableUrl,
+  resolveLiveCapturePreviewRef,
 } from '../../assetDelivery/index.js';
 import {
   buildCaptureArtifactProof,
@@ -136,9 +138,15 @@ export function completeCapturePipeline(options: {
   const deliveryInvalid =
     Boolean(options.screenshotUrl) &&
     (!isPersistableCaptureUrl(options.screenshotUrl) || !renderableScreenshotUrl);
+  const captureTooSmall =
+    options.byteSize != null &&
+    options.byteSize > 0 &&
+    options.byteSize < IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES;
   const pageMismatch = pageIdentity != null && !pageIdentity.match;
   const artifactInvalid = !captureArtifactProofAllowsReady(artifactProof) && Boolean(options.screenshotUrl);
-  const failed = Boolean(options.error || !options.screenshotUrl || deliveryInvalid || pageMismatch || artifactInvalid);
+  const failed = Boolean(
+    options.error || !options.screenshotUrl || deliveryInvalid || captureTooSmall || pageMismatch || artifactInvalid,
+  );
 
   if (failed) {
     milestones = pushMilestone(milestones, 'SCREENSHOT_TAKING');
@@ -198,16 +206,20 @@ export function completeCapturePipeline(options: {
         options.errorCode ??
         (pageMismatch
           ? 'CAPTURE_PAGE_MISMATCH'
-          : deliveryInvalid
-            ? 'PUBLIC_URL_INVALID'
-            : options.screenshotUrl
-              ? 'STORAGE_FAILED'
-              : 'SCREENSHOT_FAILED'),
+          : captureTooSmall
+            ? 'SCREENSHOT_FAILED'
+            : deliveryInvalid
+              ? 'PUBLIC_URL_INVALID'
+              : options.screenshotUrl
+                ? 'STORAGE_FAILED'
+                : 'SCREENSHOT_FAILED'),
       errorMessage: pageMismatch
         ? 'CAPTURE_PAGE_MISMATCH'
-        : deliveryInvalid
-          ? 'CAPTURE_IMAGE_URL_NOT_RENDERABLE'
-          : (options.error ?? 'CAPTURE_FAILED'),
+        : captureTooSmall
+          ? 'CAPTURE_SCREENSHOT_TOO_SMALL'
+          : deliveryInvalid
+            ? 'CAPTURE_IMAGE_URL_NOT_RENDERABLE'
+            : (options.error ?? 'CAPTURE_FAILED'),
       milestones,
       screenshot,
       storage,
@@ -326,9 +338,11 @@ export function completeCapturePipeline(options: {
 }
 
 export function bindCaptureCompletionToClientStore(completion: CaptureCompletionReceipt): PageViewportCapture {
-  const imageRef =
-    completion.artifactProof?.resolvedUrl ??
-    completion.imageRef;
+  const rawRef = completion.artifactProof?.resolvedUrl ?? completion.imageRef;
+  const imageRef = resolveLiveCapturePreviewRef({
+    imageRef: rawRef,
+    artifactProof: completion.artifactProof ?? null,
+  }) ?? rawRef;
   return savePageViewportCapture(
     buildPageViewportCapture({
       projectId: completion.projectId,

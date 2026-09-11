@@ -33,6 +33,9 @@ export type ControlledRenderInput = {
 export type ControlledRenderResult = RenderedReferenceSnapshot & {
   domMeasurement: RenderedDomMeasurementMap | null;
   finalUrl: string;
+  httpStatus: number | null;
+  anchorFound: boolean;
+  pageNotFound: boolean;
 };
 
 function resolveStorageStatePath(input: ControlledRenderInput): string | undefined {
@@ -93,13 +96,22 @@ export async function renderControlledReference(input: ControlledRenderInput): P
   const page = await context.newPage();
   const search = input.routeSearch ?? (previewMode === 'mobile' ? '?site00MobileLayout=1' : '');
   const url = `${input.baseUrl}${input.route}${search.startsWith('?') ? search : search ? `?${search}` : ''}`;
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
-  await page.waitForLoadState('domcontentloaded');
+  const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 });
+  const httpStatus = response?.status() ?? null;
+  await page.waitForLoadState('domcontentloaded').catch(() => {});
+  await page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => {});
+
   const waitSelector =
     input.waitForSelector ??
     (input.route.includes('/projects/ndxbook') ? '[data-vr-region="ndx.header"]' : input.selector ?? null);
+  let anchorFound = !waitSelector;
   if (waitSelector) {
-    await page.locator(waitSelector).first().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+    anchorFound = await page
+      .locator(waitSelector)
+      .first()
+      .waitFor({ state: 'visible', timeout: 25_000 })
+      .then(() => true)
+      .catch(() => false);
   }
   await page.evaluate(async () => {
     await document.fonts.ready;
@@ -107,6 +119,11 @@ export async function renderControlledReference(input: ControlledRenderInput): P
   await page.waitForTimeout(1500);
 
   const finalUrl = page.url();
+  const bodyText = await page.locator('body').innerText().catch(() => '');
+  const pageNotFound =
+    httpStatus === 404 ||
+    /\b404\b[\s\S]{0,40}not found/i.test(bodyText) ||
+    /^not found$/im.test(bodyText.trim());
   const regionSelector = input.domRegionSelector ?? '[data-vr-region]';
   if (input.selector) {
     const el = page.locator(input.selector);
@@ -171,6 +188,9 @@ export async function renderControlledReference(input: ControlledRenderInput): P
     blueprintVersion: input.blueprintVersion,
     domMeasurement,
     finalUrl,
+    httpStatus,
+    anchorFound,
+    pageNotFound,
   };
 
   writeFileSync(join(input.outputDir, `${renderId}.json`), JSON.stringify(snapshot, null, 2));

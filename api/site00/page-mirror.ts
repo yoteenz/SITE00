@@ -206,8 +206,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             resolvedRoute?: string;
             width?: number;
             height?: number;
+            qaPassed?: boolean;
+            qaIssues?: string[];
+            error?: string | null;
           };
-          const screenshotUrl = snap.pageSnapshot?.publicUrl ?? snap.publicUrl ?? null;
+          const screenshotUrl =
+            snap.qaPassed === false ? null : snap.pageSnapshot?.publicUrl ?? snap.publicUrl ?? null;
           const result = finalizeCaptureCurrentPage({
             input,
             jobId: plan.jobId,
@@ -217,6 +221,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             finalUrl: snap.capturedUrl ?? snap.resolvedRoute ?? null,
             storagePath: snap.storagePath ?? null,
             mimeType: 'image/webp',
+            error:
+              snap.qaPassed === false
+                ? snap.error ?? snap.qaIssues?.join(', ') ?? 'CAPTURE_QA_FAILED'
+                : undefined,
           });
           return res.status(200).json({
             ...result,
