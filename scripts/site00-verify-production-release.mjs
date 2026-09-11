@@ -96,10 +96,31 @@ async function pollBackend(expectedReleaseId) {
   return { ok: false, backend: null, error: lastError };
 }
 
+const SPA_DEEP_LINK_PROBE = '/projects/site00/design';
+
+async function verifySpaDeepLinkOnce() {
+  const res = await fetch(`${FRONTEND_URL}${SPA_DEEP_LINK_PROBE}`, {
+    headers: { Accept: 'text/html' },
+    redirect: 'follow',
+  });
+  if (!res.ok) {
+    const err = new Error(`${FRONTEND_URL}${SPA_DEEP_LINK_PROBE} HTTP ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
+  const html = await res.text();
+  const spaShell = html.includes('id="root"') || html.includes("id='root'");
+  if (!spaShell) {
+    throw new Error(`SPA deep link missing #root: ${FRONTEND_URL}${SPA_DEEP_LINK_PROBE}`);
+  }
+  return true;
+}
+
 async function verifyFrontendOnce(expectedReleaseId) {
   const manifest = await fetchJson(`${FRONTEND_URL}/release-manifest.json`);
   const html = await fetchText(`${FRONTEND_URL}/`);
   const smokeOk = html.includes('id="root"') || html.includes("id='root'");
+  const deepLinkOk = await verifySpaDeepLinkOnce();
   const frontend = {
     ok: true,
     releaseId: manifest.releaseId ?? null,
@@ -108,7 +129,7 @@ async function verifyFrontendOnce(expectedReleaseId) {
     bundleEntry: manifest.bundleEntry ?? null,
   };
   const releaseMatch = !expectedReleaseId || frontend.releaseId === expectedReleaseId;
-  return { ok: smokeOk && releaseMatch, manifest, frontend, smokeOk, releaseMatch };
+  return { ok: smokeOk && deepLinkOk && releaseMatch, manifest, frontend, smokeOk, deepLinkOk, releaseMatch };
 }
 
 async function pollFrontend(expectedReleaseId) {
@@ -126,6 +147,7 @@ async function pollFrontend(expectedReleaseId) {
         };
       }
       if (!fe.smokeOk) lastError = 'homepage missing #root';
+      else if (fe.deepLinkOk === false) lastError = `SPA deep link 404: ${SPA_DEEP_LINK_PROBE}`;
       else lastError = 'frontend smoke failed';
     } catch (err) {
       const status = err && typeof err === 'object' && 'status' in err ? err.status : null;
