@@ -14,7 +14,13 @@ import type {
   CaptureTransportReceipt,
 } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureTransportReceipt.js';
 
+import { PAGE_CAPTURE_TIMEOUT_MS } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/constants.js';
+
+/** Default for lightweight mirror/health calls. */
 export const CAPTURE_API_TIMEOUT_MS = 30_000;
+
+/** Single-page Playwright capture can run up to PAGE_CAPTURE_TIMEOUT_MS on Railway. */
+export const CAPTURE_CURRENT_PAGE_TIMEOUT_MS = PAGE_CAPTURE_TIMEOUT_MS;
 export const PAGE_MIRROR_PATH = '/api/site00/page-mirror';
 
 export type CaptureApiFetchResult<T> = {

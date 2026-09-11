@@ -8,6 +8,7 @@ import type { DesignViewportClass } from '../../../../../shared/site00-studio-wo
 import {
   CAPTURE_NOW_PROGRESS_STEPS,
   deriveLivePageCaptureState,
+  isCaptureProgressStepComplete,
   livePageCaptureStatusLabel,
   resolvePageCapturePrimaryLabel,
   resolvePageUpgradeNextAction,
@@ -257,11 +258,19 @@ export function PageCaptureNowPanel({
         <div className="site00-pfw-capture-now__progress" role="status">
           <strong>CAPTURING THIS PAGE</strong>
           <ol>
-            {CAPTURE_NOW_PROGRESS_STEPS.map((step) => (
-              <li key={step} className={captureProgress === step ? 'is-active' : ''}>
-                {step.replace(/_/g, ' ')}
-              </li>
-            ))}
+            {CAPTURE_NOW_PROGRESS_STEPS.map((step) => {
+              const classes = [
+                captureProgress === step ? 'is-active' : '',
+                isCaptureProgressStepComplete(step, captureProgress) ? 'is-complete' : '',
+              ]
+                .filter(Boolean)
+                .join(' ');
+              return (
+                <li key={step} className={classes || undefined}>
+                  {step.replace(/_/g, ' ')}
+                </li>
+              );
+            })}
           </ol>
         </div>
       ) : null}

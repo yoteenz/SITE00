@@ -67,6 +67,11 @@ async function uploadSnapshotBuffer(storagePath: string, pngPath: string): Promi
     const webpBuffer = await sharp(buffer).webp({ quality: 85 }).toBuffer();
     const { uploadSite00AssetBuffer } = await import('../../../../api/_lib/site00Assts/storage.js');
     const upload = await uploadSite00AssetBuffer(storagePath, webpBuffer, 'image/webp', { upsert: true });
+    const { site00StorageObjectExists } = await import('../../../../api/_lib/site00Assts/storage.js');
+    const exists = await site00StorageObjectExists(storagePath);
+    if (!exists) {
+      throw new Error('IMPLEMENTATION_SNAPSHOT_UPLOAD_VERIFY_FAILED — object missing after upload');
+    }
     return { publicUrl: upload.publicUrl, buffer: webpBuffer };
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Storage upload failed';

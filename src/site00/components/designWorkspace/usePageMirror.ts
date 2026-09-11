@@ -22,14 +22,17 @@ import {
 import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
   bindCaptureCompletionToClientStore,
+  CAPTURE_NOW_SUCCESS_HOLD_MS,
   hydratePageViewportCapturesFromStorage,
   latestUiStepFromMilestones,
+  startCaptureProgressAnimation,
   type CaptureCompletionReceipt,
+  type CaptureProgressStep,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import type { CaptureCurrentPageResult } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
 import type { PageVisualIndexRow } from './DesignPagesVisualIndex';
 import { formatCaptureTransportError } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/formatCaptureTransportError.js';
-import { captureApiFetch, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
+import { captureApiFetch, CAPTURE_CURRENT_PAGE_TIMEOUT_MS, PAGE_MIRROR_PATH } from '../../services/captureApiFetch';
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
 import { resolveFounderCaptureBaseUrl } from '../../../utils/site00CaptureBase';
 import {
@@ -230,9 +233,14 @@ export function usePageMirror(projectId: string) {
       setCaptureNowProgress('OPENING_PAGE');
       logCaptureTelemetry('capture_button_clicked', { projectId, pageId, screenId, viewportClass });
 
+      const progressAnimation = startCaptureProgressAnimation((step) => {
+        setCaptureNowProgress(step);
+      });
+
       try {
         const result = await captureApiFetch<CaptureCurrentPageResult>(PAGE_MIRROR_PATH, {
           method: 'POST',
+          timeoutMs: CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
           body: {
             action: 'capture_current_page',
             projectId,
@@ -244,16 +252,20 @@ export function usePageMirror(projectId: string) {
           },
         });
 
+        progressAnimation.stop();
+
         const data = result.data;
         const completion = data?.completion;
 
         if (completion?.milestones?.length) {
           const uiStep = latestUiStepFromMilestones(completion.milestones);
-          if (uiStep) setCaptureNowProgress(uiStep);
+          if (uiStep) setCaptureNowProgress(uiStep as CaptureProgressStep);
           logCaptureTelemetry('stage_updates', {
             jobId: completion.jobId,
             milestones: completion.milestones.map((m) => m.milestone),
           });
+        } else if (result.ok) {
+          setCaptureNowProgress('SAVING_CAPTURE');
         }
 
         if (data) {
@@ -278,12 +290,18 @@ export function usePageMirror(projectId: string) {
           );
         }
 
+        if (completion?.status === 'CAPTURE_READY' && completion.imageRef) {
+          await new Promise((resolve) => setTimeout(resolve, CAPTURE_NOW_SUCCESS_HOLD_MS));
+        }
+
         return data ?? null;
       } catch (error) {
+        progressAnimation.stop();
         const message = error instanceof Error ? error.message : 'CAPTURE_FAILED';
         setCaptureNowError(captureFailureMessage(null, message));
         return null;
       } finally {
+        progressAnimation.stop();
         setCaptureNowProgress(null);
         setCapturingPageId(null);
         captureNowLockRef.current = null;
