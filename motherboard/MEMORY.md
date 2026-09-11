@@ -7869,3 +7869,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Actual root cause:** Playwright `ControlledReferenceRenderer` waited for **`[data-vr-region="ndx.header"]`** on all `/projects/ndxbook` routes. Mobile overview shell uses **`data-visual-reconstruction="mobile-overview"`** and **`ndx.overview.header-shell`** — **`ndx.header` never renders on overview**. Playwright timed out, screenshot was blank/404 Apache shell (~4.7KB WebP). Stale captures in localStorage still displayed 404 text in `<img>` preview while status stuck **PREVIEW CHECKING…** until img load completed.
 - **Fix:** Shared `resolveCaptureWaitSelector()` maps screen/route → correct markers (`mobile-overview`, `mobile-content-ops`, etc.); capture engine passes `screenId`; removed legacy `ndx.header` default; `designPreview=1` fast-path in `Site00AccountRouteGuard` skips Supabase restore for headless capture; `/overview` path in mobile screen resolver. Local Playwright verify: **anchorFound true**, **128KB PNG** (was 4.7KB). Deploy ZIP **v290**; **Railway redeploy required** for server capture fix; founder must **RECAPTURE** after deploy to replace stale 404 shells in localStorage.
 
+---
+
+## 2026-09-11 — P0.VR.AUTH.1 design authority replace + preview lifecycle (v291)
+
+- **Issue:** Founder proved NDXBOOK mobile design authority PNG loads directly in Safari (`/visual-references/founder/ndxbook/mobile-overview-fullscreen-reference-hifi.png`) but gate stuck **DESIGN AUTHORITY PREVIEW REQUIRED** — authority is **stale/outdated**, not missing; preview health **UNKNOWN** blocked same as FAIL with no timeout.
+- **Fix:** Page-scoped **REPLACE DESIGN AUTHORITY** flow hardened (upload → preview/compare → APPROVE & REPLACE only); `DesignAuthorityVersion` + `assetRef` + current pointer persistence; founder upload wins over pilot seed via `syncFounderAuthorityVersionsForProject`; approval/supersession receipts; **VIEW HISTORY** dialog; `PreviewHealthLifecycle` (LOADING→PASS/FAIL/TIMEOUT in 10s) in `DesignAssetPreview` with RETRY; gate block reasons: LOADING / FAILED / TIMED OUT / MISSING. No Railway/capture changes. Deploy ZIP **v291**.
+
