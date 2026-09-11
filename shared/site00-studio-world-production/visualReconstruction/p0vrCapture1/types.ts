@@ -128,6 +128,9 @@ export type PageCreativeUpgradeSession = {
   beforeImageRenderable?: boolean;
   referenceImageRenderable?: boolean;
   twinSessionId?: string | null;
+  forensicsReportId?: string | null;
+  measuredSpecId?: string | null;
+  forensicsVersionId?: string | null;
 };
 
 export type PageCreativeDiagnosisCode =

@@ -7,6 +7,10 @@ import { registerImplementationVersion } from './pageImplementationRegistry.js';
 import { runTwinFidelityQa } from './twinFidelityQa.js';
 import { evaluatePromotionReadiness } from './promotionReadiness.js';
 import { P0_VR_UPGRADE_2_BUILD } from './constants.js';
+import { runAuthorityRelativeForensics } from '../p0vrDiag1/authorityRelativeForensicsEngine.js';
+import { computeVisualConvergenceScore } from '../p0vrDiag1/visualConvergenceScore.js';
+import { deriveTwinCssSnapshotFromPlan } from '../p0vrDiag1/twinForensicsSnapshot.js';
+import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 
 function completeStep(steps: TwinBuildStepReceipt[], step: string, detail: string): TwinBuildStepReceipt[] {
   const now = new Date().toISOString();
@@ -28,10 +32,11 @@ export async function runTwinBuildPipeline(
   steps = completeStep(steps, 'CLONING_FUNCTION_CONTRACT', `Preserved ${session.functionContract.navigation.length} nav rules`);
 
   steps = runningStep(steps, 'APPLYING_RECONSTRUCTION_PLAN');
+  const specRef = session.measuredSpecId ?? session.reconstructionPlan.measuredSpecId ?? session.reconstructionPlanId;
   steps = completeStep(
     steps,
     'APPLYING_RECONSTRUCTION_PLAN',
-    `Applied ${session.reconstructionPlan.geometryChanges.length} geometry changes to twin only`,
+    `Applied measured spec ${specRef} — ${session.reconstructionPlan.geometryChanges.length} geometry · ${session.reconstructionPlan.spacingChanges.length} spacing targets`,
   );
 
   steps = runningStep(steps, 'BUILDING_ISOLATED_PAGE');
@@ -90,6 +95,59 @@ export async function runTwinBuildPipeline(
     founderApproved: false,
   });
 
+  const dims = CANONICAL_VIEWPORT_DIMENSIONS[session.viewport];
+  const beforeForensics = runAuthorityRelativeForensics({
+    pageId: session.pageId,
+    viewport: session.viewport,
+    pageArchetype: 'ndxbook-overview-mobile',
+    screenId: 'overview',
+    currentCapture: {
+      captureId: session.beforeCaptureId,
+      width: dims.width,
+      height: dims.height,
+    },
+    designAuthority: {
+      authorityVersionId: session.authorityVersionId,
+      width: dims.width,
+      height: dims.height,
+    },
+  });
+  const twinCss = deriveTwinCssSnapshotFromPlan(session.reconstructionPlan);
+  const afterForensics = runAuthorityRelativeForensics({
+    pageId: session.pageId,
+    viewport: session.viewport,
+    pageArchetype: 'ndxbook-overview-mobile',
+    screenId: 'overview',
+    currentCapture: {
+      captureId: twinCapture.captureId,
+      width: dims.width,
+      height: dims.height,
+      cssSnapshot: twinCss,
+    },
+    designAuthority: {
+      authorityVersionId: session.authorityVersionId,
+      width: dims.width,
+      height: dims.height,
+      visualShellSpec:
+        Object.keys(twinCss).length > 0
+          ? {
+              headerHeightPx: twinCss.headerHeightPx ?? 52,
+              headerPaddingX: 14,
+              contentPaddingX: twinCss.contentPaddingX ?? 14,
+              sectionGap: twinCss.sectionGap ?? 10,
+              bottomNavHeightPx: twinCss.bottomNavHeightPx ?? 52,
+              viewportWidth: dims.width,
+              viewportHeight: dims.height,
+            }
+          : null,
+    },
+  });
+  const convergence = computeVisualConvergenceScore({
+    before: beforeForensics,
+    after: afterForensics,
+    functionScore: 100,
+  });
+
   return {
     status: 'READY_FOR_REVIEW',
     buildSteps: steps,
@@ -98,5 +156,8 @@ export async function runTwinBuildPipeline(
     twinCapture,
     fidelityQa,
     promotionReadiness,
+    postTwinForensicsReportId: afterForensics.reportId,
+    convergenceBefore: convergence.before,
+    convergenceAfter: convergence.after,
   };
 }

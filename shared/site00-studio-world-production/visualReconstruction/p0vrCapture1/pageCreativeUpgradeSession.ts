@@ -5,10 +5,11 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { buildPageCreativeDiagnosis } from './pageCreativeDiagnosis.js';
 import { buildPageCreativeDirectionPlan } from './pageCreativeDirectionPlan.js';
-import { buildPageVisualDiagnosis } from './pageVisualDiagnosis.js';
-import { buildReconstructionPlan } from './reconstructionPlan.js';
+import { buildForensicUpgradeBundle } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
+import { recordForensicsVersion } from '../p0vrDiag1/forensicsVersion.js';
 import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { PageCreativeUpgradeSession, PageCreativeUpgradeStatus } from './types.js';
+import type { DomRegionMeasurement } from '../p0vrDiag1/types.js';
 
 const sessions = new Map<string, PageCreativeUpgradeSession>();
 
@@ -31,14 +32,64 @@ export function openPageCreativeUpgradeSession(options: {
   designAuthorityVersionId?: string | null;
   designAuthorityAssetRef?: string | null;
   captureAssetRef?: string | null;
+  captureWidth?: number;
+  captureHeight?: number;
+  authorityWidth?: number;
+  authorityHeight?: number;
+  domMeasurements?: DomRegionMeasurement[];
+  cssSnapshot?: Record<string, string | number>;
+  visualShellSpec?: {
+    headerHeightPx: number;
+    headerPaddingX: number;
+    contentPaddingX: number;
+    sectionGap: number;
+    bottomNavHeightPx: number;
+    viewportWidth: number;
+    viewportHeight: number;
+  } | null;
+  screenId?: string;
 }): PageCreativeUpgradeSession {
   const isRoot = options.isRoot ?? false;
   const hasCapture = Boolean(options.captureAssetRef);
   const hasAuthority = Boolean(options.designAuthorityAssetRef);
-  const visualDiagnosis = buildPageVisualDiagnosis({
-    isRootPage: isRoot,
+  const captureWidth = options.captureWidth ?? 390;
+  const captureHeight = options.captureHeight ?? 844;
+  const authorityWidth = options.authorityWidth ?? captureWidth;
+  const authorityHeight = options.authorityHeight ?? captureHeight;
+
+  const forensicBundle = buildForensicUpgradeBundle({
+    pageId: options.pageId,
     viewport: options.viewport,
+    pageArchetype: isRoot ? 'ndxbook-overview-mobile' : options.childArchetype ?? 'generic-mobile-page',
+    screenId: options.screenId,
+    route: options.route,
     pagePurpose: options.pagePurpose,
+    isRootPage: isRoot,
+    currentCapture: {
+      captureId: options.captureId,
+      width: captureWidth,
+      height: captureHeight,
+      imageRef: options.captureAssetRef,
+      domMeasurements: options.domMeasurements,
+      cssSnapshot: options.cssSnapshot,
+    },
+    designAuthority: {
+      authorityVersionId: options.designAuthorityVersionId ?? null,
+      width: authorityWidth,
+      height: authorityHeight,
+      assetRef: options.designAuthorityAssetRef,
+      referenceType: 'VIEWPORT_SCREENSHOT',
+      visualShellSpec: options.visualShellSpec ?? null,
+    },
+    domMeasurements: options.domMeasurements,
+  });
+  const visualDiagnosis = forensicBundle.visualDiagnosis;
+  const reconstructionPlan = forensicBundle.reconstructionPlan;
+  const forensicsVersion = recordForensicsVersion({
+    authorityVersionId: options.designAuthorityVersionId ?? null,
+    captureId: options.captureId,
+    reportId: forensicBundle.report.reportId,
+    specId: forensicBundle.measuredSpec.specId,
   });
   const diagnosis = buildPageCreativeDiagnosis({
     isChildPage: !isRoot && (options.isChildPage ?? true),
@@ -46,16 +97,6 @@ export function openPageCreativeUpgradeSession(options: {
     viewport: options.viewport,
     missingParentGrammar: !isRoot,
     pagePurpose: options.pagePurpose,
-  });
-  const reconstructionPlan = buildReconstructionPlan({
-    pageId: options.pageId,
-    viewport: options.viewport,
-    authorityVersionId: options.designAuthorityVersionId ?? null,
-    captureId: options.captureId,
-    route: options.route,
-    pagePurpose: options.pagePurpose,
-    isRootPage: isRoot,
-    diagnosis: visualDiagnosis,
   });
   const plan = buildPageCreativeDirectionPlan({
     pagePurpose: options.pagePurpose,
@@ -94,6 +135,9 @@ export function openPageCreativeUpgradeSession(options: {
     captureAssetRef: options.captureAssetRef ?? null,
     beforeImageRenderable: hasCapture,
     referenceImageRenderable: hasAuthority,
+    forensicsReportId: forensicBundle.report.reportId,
+    measuredSpecId: forensicBundle.measuredSpec.specId,
+    forensicsVersionId: forensicsVersion.versionId,
   };
   sessions.set(sessionKey(options.projectId, options.pageId, options.viewport), session);
   return session;
@@ -133,6 +177,8 @@ export function approvePageCreativeDirection(
       beforeCaptureId: updated.captureId,
       captureAssetRef: updated.captureAssetRef ?? null,
       plan: updated.reconstructionPlan,
+      measuredSpecId: updated.measuredSpecId ?? updated.reconstructionPlan.measuredSpecId ?? null,
+      forensicsReportId: updated.forensicsReportId ?? updated.reconstructionPlan.forensicsReportId ?? null,
       isRootPage: updated.isRoot,
     });
   }

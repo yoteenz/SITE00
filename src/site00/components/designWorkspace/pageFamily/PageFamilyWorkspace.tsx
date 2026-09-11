@@ -52,6 +52,9 @@ import {
   resolveCurrentPageViewportCapture,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/index.js';
 import type { PageCreativeUpgradeSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
+import { CANONICAL_VIEWPORT_DIMENSIONS } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/constants.js';
+import { resolveMobileVisualShellSpec } from '../../../config/ndxMobileVisualShellSpecs.js';
+import { collectCssSnapshotFromMobileShell, collectDomRegionMeasurements } from '../../../utils/collectDomRegionMeasurements.js';
 import { usePageViewportCapture } from '../usePageViewportCapture';
 import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
 import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
@@ -484,6 +487,10 @@ export function PageFamilyWorkspace({
               screenId: activeScreenId,
               viewport,
             });
+            const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
+            const shellSpec = resolveMobileVisualShellSpec(activeScreenId);
+            const domMeasurements = collectDomRegionMeasurements();
+            const cssSnapshot = collectCssSnapshotFromMobileShell();
             const session = openPageCreativeUpgradeSession({
               projectId,
               pageId: activePageId,
@@ -499,6 +506,24 @@ export function PageFamilyWorkspace({
               designAuthorityVersionId: auth.authorityVersion?.authorityVersionId ?? null,
               designAuthorityAssetRef: auth.previewAssetRef,
               captureAssetRef: boundCapture?.imageRef ?? null,
+              captureWidth: boundCapture?.width ?? dims.width,
+              captureHeight: boundCapture?.height ?? dims.height,
+              authorityWidth: dims.width,
+              authorityHeight: dims.height,
+              domMeasurements,
+              cssSnapshot,
+              screenId: activeScreenId,
+              visualShellSpec: shellSpec
+                ? {
+                    headerHeightPx: shellSpec.headerBounds.heightPx,
+                    headerPaddingX: shellSpec.headerPaddingX,
+                    contentPaddingX: shellSpec.contentPaddingX,
+                    sectionGap: shellSpec.sectionGap,
+                    bottomNavHeightPx: shellSpec.bottomNavBounds.heightPx,
+                    viewportWidth: shellSpec.viewport.width,
+                    viewportHeight: shellSpec.viewport.height,
+                  }
+                : null,
             });
             setUpgradeSession(session);
             setUpgradeOpen(true);
