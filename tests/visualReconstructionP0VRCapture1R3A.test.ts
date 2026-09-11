@@ -41,11 +41,15 @@ function read(rel: string): string {
 }
 
 describe('P0.VR.CAPTURE.1R3A — Authority + artifact proof', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     resetDesignAuthorityVersionsForTest();
     resetPageViewportCaptureStoreForTest();
     clearRefs();
     resetNdxPilotForTest();
+    const { clearCanonicalRegistryStorageForTest } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vr2/canonicalReferencePersistence.js'
+    );
+    clearCanonicalRegistryStorageForTest('ndxbook');
     ensureNdxbookPilotRegistered();
   });
 
@@ -379,5 +383,65 @@ describe('P0.VR.CAPTURE.1R3A — Authority + artifact proof', () => {
     });
     expect(repaired).toContain('/storage/v1/object/public/');
     expect(repaired).not.toContain('preview.example.test/studio-world');
+  });
+
+  it('18. live capture preview ref repairs relative studio-world path', async () => {
+    const { resolveLiveCapturePreviewRef } = await import(
+      '../shared/site00-studio-world-production/assetDelivery/resolveLiveCapturePreviewRef.js'
+    );
+    const repaired = resolveLiveCapturePreviewRef({
+      imageRef: '/studio-world/design/implementation-snapshots/ndxbook/overview/mobile/x.webp',
+    });
+    expect(repaired).toContain('/storage/v1/object/public/');
+  });
+
+  it('19. canonical registry persists founder replacement across hydrate', async () => {
+    const { clearCanonicalRegistryForTest } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vr2/canonicalReferenceRegistry.js'
+    );
+    const {
+      clearCanonicalRegistryStorageForTest,
+      hydrateCanonicalRegistryFromStorage,
+      persistCanonicalRegistrySnapshot,
+    } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vr2/canonicalReferencePersistence.js'
+    );
+    const { getActiveCanonicalReference } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vr2/canonicalReferenceRegistry.js'
+    );
+
+    clearCanonicalRegistryForTest();
+    clearCanonicalRegistryStorageForTest('ndxbook');
+    ensureNdxbookPilotRegistered();
+
+    const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    const file = new File([png], 'ref.png', { type: 'image/png' });
+    const upload = await beginReplaceDesignAuthorityUpload(
+      {
+        projectId: 'ndxbook',
+        pageId: 'ndxbook:/projects/ndxbook',
+        screenId: 'overview',
+        route: '/projects/ndxbook',
+        viewport: 'mobile',
+        displayName: 'NDXBOOK OVERVIEW',
+      },
+      file,
+    );
+    expect(upload.ok).toBe(true);
+    if (upload.ok) {
+      approveDesignAuthorityReplacement(upload.draft, {
+        storagePath: 'site00/visual-references/founder/ndxbook/page-authority/overview-mobile-test.webp',
+        publicUrl: 'https://example.test/storage/v1/object/public/live-preview/site00/visual-references/founder/ndxbook/page-authority/overview-mobile-test.webp',
+        byteSize: 100,
+      });
+    }
+
+    persistCanonicalRegistrySnapshot('ndxbook');
+    clearCanonicalRegistryForTest();
+    expect(getActiveCanonicalReference('ndxbook', 'overview', 'mobile')).toBeNull();
+
+    expect(hydrateCanonicalRegistryFromStorage('ndxbook')).toBe(true);
+    const active = getActiveCanonicalReference('ndxbook', 'overview', 'mobile');
+    expect(active?.storagePath).toContain('overview-mobile-test.webp');
   });
 });

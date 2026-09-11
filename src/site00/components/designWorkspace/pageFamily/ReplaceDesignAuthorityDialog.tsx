@@ -12,6 +12,7 @@ import {
   type ReplaceDesignAuthorityDraft,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
 import { DesignAssetPreview } from '../shared/DesignAssetPreview';
+import { uploadPageDesignAuthorityViaMirror } from '../../../services/uploadPageDesignAuthority';
 
 type Props = {
   open: boolean;
@@ -42,6 +43,7 @@ export function ReplaceDesignAuthorityDialog({
   const [draft, setDraft] = useState<ReplaceDesignAuthorityDraft | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [approving, setApproving] = useState(false);
 
   const context = {
     projectId,
@@ -86,9 +88,24 @@ export function ReplaceDesignAuthorityDialog({
     [context],
   );
 
-  const handleApprove = () => {
-    if (!draft) return;
-    const result = approveDesignAuthorityReplacement(draft);
+  const handleApprove = async () => {
+    if (!draft || approving) return;
+    setApproving(true);
+    setError(null);
+    const uploaded = await uploadPageDesignAuthorityViaMirror({
+      projectId,
+      screenId,
+      viewport,
+      dataUrl: draft.previewDataUrl,
+      mimeType: draft.mimeType,
+    });
+    if (!uploaded.ok) {
+      setApproving(false);
+      setError(uploaded.message);
+      return;
+    }
+    const result = approveDesignAuthorityReplacement(draft, uploaded.upload);
+    setApproving(false);
     if (!result.ok) {
       setError(result.message);
       return;
@@ -170,9 +187,14 @@ export function ReplaceDesignAuthorityDialog({
               </div>
               {error ? <p className="site00-pfw-replace-authority__error">{error}</p> : null}
               <div className="site00-pfw-replace-authority__actions">
-                <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={handleApprove}>
-                  APPROVE & REPLACE
-                </button>
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+                disabled={approving}
+                onClick={() => void handleApprove()}
+              >
+                {approving ? 'SAVING…' : 'APPROVE & REPLACE'}
+              </button>
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={handleCancel}>
                   CANCEL
                 </button>

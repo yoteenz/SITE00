@@ -9,6 +9,22 @@ type ArtifactProofLike = {
   storageRef?: string | null;
 } | null | undefined;
 
+function repairStorageObjectPath(raw: string): string | null {
+  const trimmed = raw.trim();
+  const normalized = trimmed.replace(/^\/+/, '');
+  if (
+    normalized.startsWith('studio-world/') ||
+    normalized.startsWith('site00/') ||
+    normalized.startsWith('visual-references/site00/')
+  ) {
+    return resolveAssetRenderableUrl(normalized).url;
+  }
+  if (trimmed.startsWith('/studio-world/') || trimmed.startsWith('/site00/')) {
+    return resolveAssetRenderableUrl(trimmed).url;
+  }
+  return null;
+}
+
 function repairSameOriginStorageUrl(raw: string, siteOrigin: string | null): string | null {
   if (!raw.startsWith('http') || !siteOrigin) return null;
   try {
@@ -29,6 +45,18 @@ function repairSameOriginStorageUrl(raw: string, siteOrigin: string | null): str
   return null;
 }
 
+function resolveCandidate(raw: string | null | undefined, siteOrigin: string | null): string | null {
+  if (!raw?.trim()) return null;
+  const trimmed = raw.trim();
+  const fromPath = repairStorageObjectPath(trimmed);
+  if (fromPath) return fromPath;
+  const fromOrigin = repairSameOriginStorageUrl(trimmed, siteOrigin);
+  if (fromOrigin) return fromOrigin;
+  const resolved = resolveAssetRenderableUrl(trimmed);
+  if (resolved.url) return resolved.url;
+  return trimmed.startsWith('http') ? trimmed : null;
+}
+
 export function resolveLiveCapturePreviewRef(input: {
   imageRef?: string | null;
   artifactProof?: ArtifactProofLike;
@@ -38,26 +66,16 @@ export function resolveLiveCapturePreviewRef(input: {
     input.siteOrigin ??
     (typeof globalThis.window !== 'undefined' ? globalThis.window.location.origin : null);
 
-  const proofUrl = input.artifactProof?.resolvedUrl;
-  if (proofUrl) {
-    const repaired = repairSameOriginStorageUrl(proofUrl, siteOrigin);
-    if (repaired) return repaired;
-    const resolved = resolveAssetRenderableUrl(proofUrl);
-    if (resolved.url) return resolved.url;
+  const candidates = [
+    input.artifactProof?.resolvedUrl,
+    input.artifactProof?.storageRef,
+    input.imageRef,
+  ];
+
+  for (const candidate of candidates) {
+    const resolved = resolveCandidate(candidate, siteOrigin);
+    if (resolved) return resolved;
   }
 
-  const storageRef = input.artifactProof?.storageRef;
-  if (storageRef) {
-    const resolved = resolveAssetRenderableUrl(storageRef);
-    if (resolved.url) return resolved.url;
-  }
-
-  const raw = input.imageRef?.trim();
-  if (!raw) return null;
-
-  const repairedRaw = repairSameOriginStorageUrl(raw, siteOrigin);
-  if (repairedRaw) return repairedRaw;
-
-  const resolved = resolveAssetRenderableUrl(raw);
-  return resolved.url ?? raw;
+  return null;
 }

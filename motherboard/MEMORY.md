@@ -7806,6 +7806,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-11 — P0.VR.CAPTURE.1R3A persistence + Supabase authority upload
+
+- **Issue:** After v281, REPLACE dialog visible but authority did not survive reload; live capture still 404. Root cause: canonical registry + authority versions were in-memory only (NDX seed overwrote founder replace on reload); founder upload was localStorage data URL only (quota / no durable asset).
+- **Fix:** `canonicalReferencePersistence` hydrates before NDX seed; `hydrateDesignAuthorityVersionsFromStorage`; `upload_design_authority` page-mirror action uploads to Supabase (`site00/visual-references/founder/...`); APPROVE & REPLACE calls API then persists registry snapshot; expanded live capture URL repair for relative `/studio-world/...` paths. Deploy ZIP v282; **Railway redeploy required** for API action.
+
+---
+
 ## 2026-09-11 — Cloud preview tunnel blank after ASSEMBLING CTRL ROOM
 
 - **Issue:** Preview tunnel hung on white screen after "ASSEMBLING CTRL ROOM…" — not cinematic loader; `Site00AccountRouteGuard` blocked on Supabase session restore / profile sync. Boot shell `#root { display:none }` could persist on persistent tunnel hostnames not in `.trycloudflare.com` list.
