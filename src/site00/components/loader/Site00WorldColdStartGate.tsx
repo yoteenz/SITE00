@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../../platform-stabilization/loadingScreenLock';
@@ -74,11 +74,16 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     return acquireLoadingScreenDocumentLock();
   }, [immersive, revealed]);
 
+  useLayoutEffect(() => {
+    if (immersive) return;
+    releaseSite00ImmersiveBootRoot();
+    teardownSite00ImmersiveBootShell();
+  }, [immersive]);
+
   useEffect(() => {
     if (!immersive) {
       loaderLifecycleLog('ROUTE_COMPLETE', { skipped: true });
       markSite00ImmersiveComplete();
-      teardownSite00ImmersiveBootShell();
       return;
     }
 
