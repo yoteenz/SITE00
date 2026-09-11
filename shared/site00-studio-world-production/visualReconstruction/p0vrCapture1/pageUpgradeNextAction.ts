@@ -78,7 +78,12 @@ export function resolvePageUpgradeNextAction(options: {
     };
   }
 
-  if (session.status === 'APPROVED' || session.status === 'BUILDING') {
+  if (
+    session.status === 'APPROVED' ||
+    session.status === 'DIRECTION_APPROVED' ||
+    session.status === 'BUILDING' ||
+    session.status === 'BUILD_COMPLETE'
+  ) {
     return { action: 'VERIFY_BUILD', label: 'VERIFY BUILD', reason: 'Build should preserve function.' };
   }
 
