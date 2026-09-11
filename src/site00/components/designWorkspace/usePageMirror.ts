@@ -36,9 +36,14 @@ import { captureApiFetch, CAPTURE_CURRENT_PAGE_TIMEOUT_MS, PAGE_MIRROR_PATH } fr
 import { checkCaptureTransportHealth } from '../../services/checkCaptureTransportHealth';
 import { resolveFounderCaptureBaseUrl } from '../../../utils/site00CaptureBase';
 import {
+  buildProjectPageMirrorRows,
+  pageMirrorRowToVisualIndexRow,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8/client.js';
+import {
   captureFailureMessage,
   completionBindingFailed,
   logCaptureTelemetry,
+  resolveCaptureIndexRow,
   resolveCapturePageId,
 } from './captureNowClient';
 
@@ -219,10 +224,25 @@ export function usePageMirror(projectId: string) {
     });
   }, []);
 
+  const resolveRowForCapture = useCallback(
+    (screenId: string): PageVisualIndexRow | null => {
+      const fromMirror = resolveCaptureIndexRow(rows, screenId, projectId);
+      if (fromMirror) return fromMirror;
+      const fallback = buildProjectPageMirrorRows(projectId).map(pageMirrorRowToVisualIndexRow);
+      return resolveCaptureIndexRow(fallback, screenId, projectId);
+    },
+    [projectId, rows],
+  );
+
   const captureNow = useCallback(
     async (screenId: string, viewportClass: DesignViewportClass = 'mobile') => {
-      const row = rows.find((r) => r.screenId === screenId);
-      if (!row) return null;
+      const row = resolveRowForCapture(screenId);
+      if (!row) {
+        setCaptureNowError(
+          `CAPTURE INDEX MISSING FOR "${screenId.toUpperCase()}" — PULL TO REFRESH OR REOPEN DESIGN.`,
+        );
+        return null;
+      }
 
       const pageId = resolveCapturePageId(projectId, row);
       const lockKey = `${pageId}:${viewportClass}`;
@@ -307,12 +327,12 @@ export function usePageMirror(projectId: string) {
         captureNowLockRef.current = null;
       }
     },
-    [bindCompletion, projectId, rows],
+    [bindCompletion, projectId, resolveRowForCapture],
   );
 
   const refreshPage = useCallback(
     async (screenId: string, viewportClass = 'mobile') => {
-      const row = rows.find((r) => r.screenId === screenId);
+      const row = resolveRowForCapture(screenId);
       if (!row) return;
       const pageId = resolveCapturePageId(projectId, row);
       await captureApiFetch(PAGE_MIRROR_PATH, {
@@ -330,7 +350,7 @@ export function usePageMirror(projectId: string) {
       });
       await refresh();
     },
-    [projectId, refresh, rows],
+    [projectId, refresh, resolveRowForCapture],
   );
 
   const refreshProject = useCallback(

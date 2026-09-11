@@ -25,7 +25,7 @@ type Props = {
   viewport: DesignViewportClass;
   currentAssetRef: string | null;
   onClose: () => void;
-  onReplaced: () => void;
+  onReplaced: (notice?: string) => void;
 };
 
 export function ReplaceDesignAuthorityDialog({
@@ -128,8 +128,8 @@ export function ReplaceDesignAuthorityDialog({
     }
     setDraft(null);
     if (resolved.localOnly) {
-      setLocalOnlyNotice(resolved.warning);
-      onReplaced();
+      onReplaced(resolved.warning);
+      onClose();
       return;
     }
     onReplaced();

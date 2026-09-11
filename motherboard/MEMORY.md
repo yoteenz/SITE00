@@ -7907,3 +7907,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** FTP `dangerous-clean-slate` deploy briefly returns 403/404 on manifest; verify ran once immediately after deploy with no retry.
 - **Fix:** `pollFrontend()` in `site00-verify-production-release.mjs` retries retryable HTTP (403/404/5xx) for up to 5m; workflow sets `FRONTEND_POLL_TIMEOUT_MS` + 10s poll interval. CI-only; no founder deploy action.
 
+---
+
+## 2026-09-11 — CAPTURE NOW dead after design authority upload (v294)
+
+- **Issue:** After uploading/replacing design authority, **CAPTURE NOW** / **RECAPTURE** appeared to do nothing.
+- **Root cause (three):** (1) `captureNow` looked up mirror row by exact `screenId` — workspace passes `overview` but mirror row can be `desktop-overview` → silent no-op; (2) replace-authority **local-only** path left modal open (`onReplaced` without `onClose`) — backdrop blocked all taps; (3) `PageCaptureNowPanel` remounted on every authority refresh via `key={pageId:nonce}` disrupting capture UI.
+- **Fix:** `resolveCaptureIndexRow` with overview aliases + registry fallback; visible error if row still missing; local-only authority closes dialog + shows notice in panel; authority refresh uses cache-bust nonce only (no full panel remount). Deploy ZIP **v294**.
+
