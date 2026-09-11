@@ -25,6 +25,9 @@ export function openPageCreativeUpgradeSession(options: {
   route: string;
   isChildPage?: boolean;
   isRoot?: boolean;
+  designAuthorityVersionId?: string | null;
+  designAuthorityAssetRef?: string | null;
+  captureAssetRef?: string | null;
 }): PageCreativeUpgradeSession {
   const isRoot = options.isRoot ?? false;
   const diagnosis = buildPageCreativeDiagnosis({
@@ -54,6 +57,11 @@ export function openPageCreativeUpgradeSession(options: {
     status: 'DIRECTION_READY',
     approvedAt: null,
     afterCaptureId: null,
+    designAuthorityVersionId: options.designAuthorityVersionId ?? null,
+    designAuthorityAssetRef: options.designAuthorityAssetRef ?? null,
+    captureAssetRef: options.captureAssetRef ?? null,
+    beforeImageRenderable: Boolean(options.captureAssetRef),
+    referenceImageRenderable: Boolean(options.designAuthorityAssetRef),
   };
   sessions.set(sessionKey(options.projectId, options.pageId, options.viewport), session);
   return session;

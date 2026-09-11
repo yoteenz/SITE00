@@ -7789,6 +7789,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-11 — P0.VR.CAPTURE.1R3A design authority replacement + capture artifact proof
+
+- **Context:** Founder live QA on NDXBOOK OVERVIEW `/projects/ndxbook` MOBILE — (A) design authority showed APPROVED but stale with no page-scoped REPLACE flow; (B) live capture reached CAPTURE SAVED ✓ but preview not proven renderable; UPGRADE could enable without visual proof.
+- **Fix:** New `p0vrCapture1R3a/` — `ReplaceDesignAuthorityFlow`, `DesignAuthorityVersion` (CURRENT/SUPERSEDED history), `CurrentDesignAuthorityResolver`, founder upload store (localStorage data URLs + public path), `CaptureArtifactProof`, `CaptureNavigationReceipt`, `CapturedPageIdentityCheck`. UI: `ReplaceDesignAuthorityDialog` + `PageCaptureNowPanel` REPLACE DESIGN AUTHORITY on page card; stale label APPROVED · STALE. Capture pipeline: byte/storage/route/page-identity proof; `LivePageCaptureState` adds VERIFYING_PREVIEW, PAGE_MISMATCH; SAVED ≠ READY; upgrade gate requires both previews PASS + capture READY. Build `P0_VR_CAPTURE_1R3A_BUILD = v280`; tests `visualReconstructionP0VRCapture1R3A.test.ts` (16).
+- **Founder QA:** DESIGN → NDXBOOK → PAGES → MOBILE → NDXBOOK OVERVIEW — REPLACE DESIGN AUTHORITY → upload → APPROVE & REPLACE → CURRENT ✓ PREVIEW READY ✓; verify live capture route/final URL/bytes in VIEW DETAILS → PREVIEW READY ✓; UPGRADE THIS PAGE only when both render.
+- **Deploy:** GoDaddy ZIP v280 after merge; Railway redeploy if API page-mirror touched.
+
+---
+
 ## 2026-09-11 — Cloud preview tunnel blank after ASSEMBLING CTRL ROOM
 
 - **Issue:** Preview tunnel hung on white screen after "ASSEMBLING CTRL ROOM…" — not cinematic loader; `Site00AccountRouteGuard` blocked on Supabase session restore / profile sync. Boot shell `#root { display:none }` could persist on persistent tunnel hostnames not in `.trycloudflare.com` list.

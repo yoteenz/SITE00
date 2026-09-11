@@ -10,6 +10,7 @@ import {
 import { classifyAssetRef, isInvalidPersistedAssetRef, normalizeLegacyAssetRef } from './canonicalAssetRef.js';
 import type { CanonicalAssetRef, RenderableAssetUrl } from './types.js';
 import type { ImageDeliveryErrorCode } from './constants.js';
+import { readFounderAuthorityUpload } from '../visualReconstruction/p0vrCapture1R3a/founderAuthorityUploadStore.js';
 
 export type AssetResolverEnvironment = {
   supabaseUrl?: string | null;
@@ -119,6 +120,18 @@ export function resolveAssetRenderableUrl(
     case 'PUBLIC_SITE': {
       const path = canonicalRef.objectPath ?? canonicalRef.legacyRef ?? '';
       if (!path) return errorResult(canonicalRef, 'ASSET_REF_MISSING');
+      const founderLocal = readFounderAuthorityUpload(path);
+      if (founderLocal?.startsWith('data:')) {
+        return {
+          url: founderLocal,
+          provider: 'PUBLIC_SITE',
+          expiresAt: null,
+          authMode: 'PUBLIC',
+          status: 'RESOLVED',
+          errorCode: null,
+          canonicalRef,
+        };
+      }
       return {
         url: resolvePublicSitePath(path, env),
         provider: 'PUBLIC_SITE',

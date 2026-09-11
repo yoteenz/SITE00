@@ -149,7 +149,8 @@ export function resolveDesignAuthorityPreview(input: {
   };
 }
 
-export function authorityStatusLabel(status: DesignAuthorityStatus): string {
+export function authorityStatusLabel(status: DesignAuthorityStatus, options?: { isCurrent?: boolean }): string {
+  if (options?.isCurrent && status === 'APPROVED') return 'CURRENT ✓';
   switch (status) {
     case 'APPROVED':
       return 'APPROVED ✓';
@@ -158,12 +159,20 @@ export function authorityStatusLabel(status: DesignAuthorityStatus): string {
     case 'PROPOSED':
       return 'PROPOSED';
     case 'STALE':
-      return 'STALE';
+      return 'APPROVED · STALE';
     case 'CONFLICTED':
       return 'CONFLICTED';
     default:
       return 'MISSING';
   }
+}
+
+export function canReplaceDesignAuthority(status: DesignAuthorityStatus): boolean {
+  return status === 'APPROVED' || status === 'STALE' || status === 'PROPOSED';
+}
+
+export function shouldSetDesignAuthority(status: DesignAuthorityStatus): boolean {
+  return status === 'MISSING' || status === 'MAPPED';
 }
 
 export function resolveRootUpgradePrimaryAction(authority: PageViewportAuthority): 'SET_DESIGN_AUTHORITY' | 'UPGRADE_THIS_PAGE' {

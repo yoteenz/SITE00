@@ -1,6 +1,6 @@
 /**
  * P0.VR.CAPTURE.1 — Page-scoped CAPTURE NOW panel (primary PAGES workflow).
- * P0.VR.CAPTURE.1R3 — Renderable preview health + upgrade gate hardening.
+ * P0.VR.CAPTURE.1R3 / 1R3A — Preview health, upgrade gate, authority replacement entry.
  */
 
 import { useMemo, useState } from 'react';
@@ -17,12 +17,15 @@ import {
   resolveAssetRenderableUrl,
 } from '../../../../../shared/site00-studio-world-production/assetDelivery/index.js';
 import type { PreviewHealth } from '../../../../../shared/site00-studio-world-production/assetDelivery/types.js';
+import { resolveCurrentDesignAuthority } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/index.js';
 import { usePageViewportCapture } from '../usePageViewportCapture';
 import type { CaptureServiceInput } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import { canRunLiveCapture } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageFamilyDependencyPolicy.js';
 import {
   authorityStatusLabel,
+  canReplaceDesignAuthority,
   resolvePageViewportAuthority,
+  shouldSetDesignAuthority,
 } from '../../../../../shared/site00-studio-world-production/pageFamilyWorkspace/pageViewportAuthority.js';
 import { DesignAssetPreview } from '../shared/DesignAssetPreview';
 
@@ -43,6 +46,8 @@ type Props = {
   onCaptureNow: () => void;
   onUpgradePage?: () => void;
   onViewDetails?: () => void;
+  onReplaceAuthority?: () => void;
+  onViewAuthorityHistory?: () => void;
 };
 
 const INITIAL_HEALTH: PreviewHealth = {
@@ -73,10 +78,18 @@ export function PageCaptureNowPanel({
   onCaptureNow,
   onUpgradePage,
   onViewDetails,
+  onReplaceAuthority,
+  onViewAuthorityHistory,
 }: Props) {
   const stored = usePageViewportCapture(projectId, pageId, viewport);
   const [authorityPreviewHealth, setAuthorityPreviewHealth] = useState<PreviewHealth>(INITIAL_HEALTH);
   const [livePreviewHealth, setLivePreviewHealth] = useState<PreviewHealth>(INITIAL_HEALTH);
+
+  const pageIdentityMismatch = stored?.artifactProof?.status === 'PAGE_MISMATCH';
+  const previewVerifying =
+    Boolean(stored?.captureId) &&
+    livePreviewHealth.status === 'UNKNOWN' &&
+    !capturing;
 
   const liveState = deriveLivePageCaptureState({
     projectId,
@@ -86,7 +99,10 @@ export function PageCaptureNowPanel({
     boundCapture: stored,
     previewLoadSucceeded: livePreviewHealth.status === 'PASS',
     previewLoadFailed: livePreviewHealth.status === 'FAIL',
+    previewVerifying,
+    pageIdentityMismatch,
   });
+
   const captureAvailable = captureService ? canRunLiveCapture(captureService) : true;
   const authority = resolvePageViewportAuthority({
     projectId,
@@ -96,6 +112,7 @@ export function PageCaptureNowPanel({
     routeMapped,
     isRoot,
   });
+  const currentAuthority = resolveCurrentDesignAuthority({ projectId, pageId, screenId, viewport });
   const nextAction = resolvePageUpgradeNextAction({
     projectId,
     pageId,
@@ -107,21 +124,29 @@ export function PageCaptureNowPanel({
   });
   const liveImageRef = stored?.imageRef ?? screenshotUrl ?? null;
   const livePreviewUrl = useMemo(() => resolveAssetRenderableUrl(liveImageRef).url, [liveImageRef]);
-  const authorityApproved = authority.authorityStatus === 'APPROVED' || authority.authorityStatus === 'STALE';
+  const authorityApproved =
+    authority.authorityStatus === 'APPROVED' ||
+    authority.authorityStatus === 'STALE' ||
+    currentAuthority.isCurrent;
+
+  const routeMatch = stored?.artifactProof?.navigation?.status !== 'MISMATCH';
+  const pageMatch = stored?.artifactProof?.pageIdentity?.match !== false;
 
   const upgradeContract = evaluateRenderableAuthorityContract({
     approvalStatus: authority.authorityStatus,
     captureStatus: liveState,
     designAuthorityPreview: authorityPreviewHealth,
     liveCapturePreview: livePreviewHealth,
+    pageIdentityMatch: pageMatch,
+    routeMatch,
+    viewportMatch: true,
   });
 
-  const showUpgrade =
-    upgradeContract.upgradeAllowed &&
-    onUpgradePage &&
-    authorityApproved &&
-    Boolean(stored?.captureId) &&
-    (liveState === 'READY' || liveState === 'SAVED');
+  const showUpgrade = upgradeContract.upgradeAllowed && onUpgradePage && authorityApproved && Boolean(stored?.captureId);
+  const showReplacePrimary = authority.authorityStatus === 'STALE' && canReplaceDesignAuthority(authority.authorityStatus);
+  const authorityLabel = authorityStatusLabel(authority.authorityStatus, {
+    isCurrent: currentAuthority.isCurrent && authority.authorityStatus === 'APPROVED',
+  });
 
   return (
     <section className="site00-pfw-capture-now" aria-label="Capture now">
@@ -137,7 +162,7 @@ export function PageCaptureNowPanel({
       </header>
 
       <p className={`site00-pfw-capture-now__authority is-${authority.authorityStatus.toLowerCase()}`}>
-        DESIGN AUTHORITY: {authorityStatusLabel(authority.authorityStatus)}
+        DESIGN AUTHORITY: {authorityLabel}
       </p>
       <p className={`site00-pfw-capture-now__preview-health is-${authorityPreviewHealth.status.toLowerCase()}`}>
         {authority.previewAssetRef ? previewHealthLabel(authorityPreviewHealth) : 'PREVIEW UNAVAILABLE'}
@@ -154,6 +179,29 @@ export function PageCaptureNowPanel({
           onPreviewHealthChange={setAuthorityPreviewHealth}
           onViewDetails={onViewDetails}
         />
+      </div>
+
+      <div className="site00-pfw-capture-now__authority-actions">
+        {shouldSetDesignAuthority(authority.authorityStatus) && onReplaceAuthority ? (
+          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onReplaceAuthority}>
+            SET DESIGN AUTHORITY
+          </button>
+        ) : canReplaceDesignAuthority(authority.authorityStatus) && onReplaceAuthority ? (
+          <>
+            <button
+              type="button"
+              className={`site00-dw-v3-btn ${showReplacePrimary ? 'site00-dw-v3-btn--primary' : 'site00-dw-v3-btn--outline'}`}
+              onClick={onReplaceAuthority}
+            >
+              REPLACE DESIGN AUTHORITY
+            </button>
+            {onViewAuthorityHistory ? (
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onViewAuthorityHistory}>
+                VIEW HISTORY
+              </button>
+            ) : null}
+          </>
+        ) : null}
       </div>
 
       <p className={`site00-pfw-capture-now__status is-${liveState.toLowerCase().replace(/_/g, '-')}`}>
@@ -189,9 +237,7 @@ export function PageCaptureNowPanel({
         </div>
       ) : null}
 
-      {captureError ? (
-        <p className="site00-pfw-capture-now__error">{captureError}</p>
-      ) : null}
+      {captureError ? <p className="site00-pfw-capture-now__error">{captureError}</p> : null}
 
       {!captureAvailable ? (
         <p className="site00-pfw-capture-now__unavailable">
@@ -199,7 +245,7 @@ export function PageCaptureNowPanel({
         </p>
       ) : null}
 
-      {!upgradeContract.upgradeAllowed && upgradeContract.blockReason && stored?.captureId ? (
+      {!upgradeContract.upgradeAllowed && upgradeContract.blockReason ? (
         <p className="site00-pfw-capture-now__gate">{upgradeContract.blockReason}</p>
       ) : null}
 
@@ -213,7 +259,7 @@ export function PageCaptureNowPanel({
               RECAPTURE
             </button>
           </>
-        ) : liveState === 'FAILED' ? (
+        ) : liveState === 'FAILED' || liveState === 'PAGE_MISMATCH' ? (
           <>
             <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onCaptureNow}>
               RETRY

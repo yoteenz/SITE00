@@ -79,6 +79,8 @@ export function buildPageViewportCapture(options: {
   captureSource?: CaptureSource;
   screenId?: string;
   status?: PageViewportCaptureStatus;
+  artifactProof?: PageViewportCapture['artifactProof'];
+  designAuthorityVersionId?: string | null;
 }): PageViewportCapture {
   const dims = CANONICAL_VIEWPORT_DIMENSIONS[options.viewport];
   const canonicalPageId = migrateHistoricalRootCapturePageId(options.projectId, options.pageId);
@@ -97,6 +99,8 @@ export function buildPageViewportCapture(options: {
     capturedBuildVersion: options.capturedBuildVersion ?? P0_VR_CAPTURE_1R2_BUILD,
     captureSource: options.captureSource ?? 'FOUNDER_CAPTURE_NOW',
     screenId: options.screenId,
+    artifactProof: options.artifactProof ?? null,
+    designAuthorityVersionId: options.designAuthorityVersionId ?? null,
   };
 }
 

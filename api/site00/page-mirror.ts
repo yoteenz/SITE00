@@ -192,16 +192,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             repoRoot: REPO_ROOT,
             jobId: plan.jobId,
           });
-          const screenshotUrl =
-            (snapshot as { pageSnapshot?: { publicUrl?: string }; publicUrl?: string }).pageSnapshot?.publicUrl ??
-            (snapshot as { publicUrl?: string }).publicUrl ??
-            null;
+          const snap = snapshot as {
+            pageSnapshot?: { publicUrl?: string };
+            publicUrl?: string;
+            snapshotId?: string;
+            storagePath?: string;
+            capturedUrl?: string;
+            resolvedRoute?: string;
+            width?: number;
+            height?: number;
+          };
+          const screenshotUrl = snap.pageSnapshot?.publicUrl ?? snap.publicUrl ?? null;
           const result = finalizeCaptureCurrentPage({
             input,
             jobId: plan.jobId,
             resolvedRuntimePath: plan.resolvedRuntimePath,
             screenshotUrl,
-            captureId: (snapshot as { snapshotId?: string }).snapshotId ?? plan.jobId,
+            captureId: snap.snapshotId ?? plan.jobId,
+            finalUrl: snap.capturedUrl ?? snap.resolvedRoute ?? null,
+            storagePath: snap.storagePath ?? null,
+            mimeType: 'image/webp',
           });
           return res.status(200).json({
             ...result,
