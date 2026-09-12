@@ -24,3 +24,7 @@ export * from './currentDomMeasurementExtractor.js';
 export * from './authorityImageMeasurementExtractor.js';
 export * from './forensicMeasurementDepthGate.js';
 export * from './dimensionValidityCheck.js';
+export * from './dimensionNormalization.js';
+export * from './deltaMath.js';
+export * from './forensicDepthQualification.js';
+export * from './forensicReconciliation.js';

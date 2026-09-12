@@ -6,6 +6,8 @@ import type { PageVisualDiagnosis, VisualDiagnosisDimension, VisualDiagnosisFind
 import type { ReconstructionPlan, ReconstructionPlanChange } from '../p0vrCapture1/reconstructionPlan.js';
 import { buildMeasuredReconstructionSpec } from './measuredReconstructionSpec.js';
 import { runAuthorityRelativeForensics } from './authorityRelativeForensicsEngine.js';
+import { reconcileForensicReportScoring } from './forensicReconciliation.js';
+import { resolvePageRegionLayoutProfile } from './pageRegionLayoutProfiles.js';
 import type {
   AuthorityRelativeForensicsInput,
   AuthorityRelativeForensicsReport,
@@ -42,6 +44,35 @@ export function buildForensicUpgradeBundle(input: AuthorityRelativeForensicsInpu
     isRootPage: input.isRootPage,
   });
   return { report, measuredSpec, visualDiagnosis, reconstructionPlan };
+}
+
+/** Reconcile scoring/math on an existing report without re-extracting dimensions (1R3). */
+export function recomputeForensicScoringFromReport(
+  report: AuthorityRelativeForensicsReport,
+  input: { pageArchetype: string; screenId?: string; isRootPage?: boolean },
+): ForensicUpgradeBundle {
+  const profile = resolvePageRegionLayoutProfile({
+    pageArchetype: input.pageArchetype,
+    screenId: input.screenId,
+    isRootPage: input.isRootPage,
+  });
+  const { report: reconciled } = reconcileForensicReportScoring({ report, profile });
+  const measuredSpec = buildMeasuredReconstructionSpec({
+    pageId: reconciled.pageId,
+    viewport: reconciled.viewport,
+    authorityVersionId: reconciled.authorityVersionId,
+    captureId: reconciled.captureId,
+    report: reconciled,
+  });
+  const visualDiagnosis = forensicReportToVisualDiagnosis(reconciled);
+  const reconstructionPlan = measuredSpecToReconstructionPlan({
+    measuredSpec,
+    report: reconciled,
+    pagePurpose: reconciled.pageId,
+    route: reconciled.pageId,
+    isRootPage: input.isRootPage,
+  });
+  return { report: reconciled, measuredSpec, visualDiagnosis, reconstructionPlan };
 }
 
 export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensicsReport): PageVisualDiagnosis {
@@ -88,10 +119,14 @@ export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensi
       majorAccounted: report.coverageMap.coverageScore.majorAccounted,
       majorTotal: report.coverageMap.coverageScore.majorAuthorityTotal,
       majorAccountedPct: report.coverageMap.coverageScore.majorAccountedPct,
-      measurementDepthPct: report.coverageMap.coverageScore.measurementDepthPct,
-      majorSufficientDepth: report.coverageMap.coverageScore.majorWithSufficientDepth,
+      measurementDepthPct:
+        report.topLevelDepthAggregation?.depthPct ?? report.coverageMap.coverageScore.measurementDepthPct,
+      majorSufficientDepth:
+        report.topLevelDepthAggregation?.sufficientRegionCount ??
+        report.coverageMap.coverageScore.majorWithSufficientDepth,
       depthGateStatus: report.measurementDepthGate.status,
       depthGateReason: report.measurementDepthGate.reason,
+      forensicConsistencyStatus: report.forensicConsistencyStatus ?? 'OK',
       ambiguousCount: report.coverageMap.coverageScore.ambiguousCount,
       gateStatus: report.coverageGate.status,
       gateReason: report.coverageGate.reason,
@@ -107,9 +142,11 @@ export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensi
       regionName: b.regionName,
       status: b.status,
       confidence: b.confidence,
-      dimensionCount: b.dimensions.length,
-      measurementDepthStatus: b.measurementDepth?.status ?? 'UNMEASURED',
+      dimensionCount: b.measurementDepth?.validDimensionCount ?? b.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).length ?? b.dimensions.length,
+      measurementDepthStatus: b.depthComputation?.depthStatus ?? b.measurementDepth?.status ?? 'UNMEASURED',
       missingDimensions: b.measurementDepth?.missingDimensions ?? [],
+      disqualifiedDimensionCount: b.measurementDepth?.disqualifiedDimensionCount ?? b.depthComputation?.disqualifiedDimensions.length ?? 0,
+      depthReasons: b.measurementDepth?.depthReasons ?? b.depthComputation?.reasons ?? [],
       topDelta: b.dimensions.find((d) => d.delta && !d.alignedWithinTolerance)?.delta ?? null,
       dimensions: b.dimensions.map((d) => ({
         dimension: d.dimension,

@@ -45,6 +45,7 @@ type Props = {
   onApprovePromotion?: () => void;
   onPromote?: () => void;
   buildingTwin?: boolean;
+  onRecomputeForensics?: () => void;
 };
 
 function useIsMobileViewport(): boolean {
@@ -81,6 +82,7 @@ export function PageCreativeUpgradePanel({
   onApprovePromotion,
   onPromote,
   buildingTwin,
+  onRecomputeForensics,
 }: Props) {
   const isMobile = useIsMobileViewport();
   const [compareMode, setCompareMode] = useState<CompareMode>('current');
@@ -452,6 +454,20 @@ export function PageCreativeUpgradePanel({
                     <p className="site00-pfw-upgrade-v2__coverage-gate">
                       DEPTH {diagnosis.forensicCoverage.depthGateStatus}: {diagnosis.forensicCoverage.depthGateReason}
                     </p>
+                  ) : null}
+                  {diagnosis.forensicCoverage.forensicConsistencyStatus === 'FORENSIC_STATE_INCONSISTENT' ? (
+                    <p className="site00-pfw-upgrade-v2__coverage-warn">
+                      FORENSIC STATE INCONSISTENT — RECALCULATE FORENSICS (no new capture required).
+                    </p>
+                  ) : null}
+                  {onRecomputeForensics ? (
+                    <button
+                      type="button"
+                      className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                      onClick={onRecomputeForensics}
+                    >
+                      RECALCULATE FORENSICS
+                    </button>
                   ) : null}
                   {diagnosis.forensicCoverage.scopeMismatch ? (
                     <p className="site00-pfw-upgrade-v2__coverage-warn">

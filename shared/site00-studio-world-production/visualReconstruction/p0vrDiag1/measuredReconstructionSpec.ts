@@ -65,7 +65,12 @@ export function buildMeasuredReconstructionSpec(input: {
       regionSpecs.push(regionSpecFromBundle(bundle, 'RESIZE', input.report));
       continue;
     }
-    for (const dim of bundle.dimensions) {
+    const qualifiedRows =
+      bundle.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).map((q) => q.dimension) ??
+      bundle.dimensions.map((d) => d.dimension);
+    const dimSet = new Set(qualifiedRows);
+    for (const dim of bundle.dimensions.filter((d) => dimSet.has(d.dimension))) {
+      if (dim.deltaPct != null && !Number.isFinite(dim.deltaPct)) continue;
       regionSpecs.push(dimensionToRegionSpec(bundle, dim, input.report));
     }
   }

@@ -9,7 +9,7 @@ import {
   extractCurrentDomMeasurements,
   extractAuthorityImageMeasurements,
   getRegionMeasurementProfile,
-  isDepthSufficient,
+  isRegionDepthSufficient,
   P0_VR_DIAG_1R2_BUILD,
   resetDimensionEvidenceCounterForTest,
   resetForensicsEvidenceCounterForTest,
@@ -136,7 +136,7 @@ describe('P0.VR.DIAG.1R2 measurement depth', () => {
   it('8. full pilot reaches sufficient depth on most majors', () => {
     const report = runNdxOverview();
     const sufficient = report.regionForensics.filter(
-      (b) => b.significance === 'MAJOR' && isDepthSufficient(b.measurementDepth),
+      (b) => b.significance === 'MAJOR' && isRegionDepthSufficient(b),
     ).length;
     expect(sufficient).toBeGreaterThanOrEqual(5);
     expect(report.coverageMap.coverageScore.majorWithSufficientDepth).toBeGreaterThanOrEqual(5);

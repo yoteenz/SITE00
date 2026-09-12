@@ -198,6 +198,11 @@ export function ForensicEvidenceDetailOverlay({
               MISSING EVIDENCE: {regionSummary.missingDimensions.join(' · ')}
             </p>
           ) : null}
+          {(regionSummary?.disqualifiedDimensionCount ?? 0) > 0 ? (
+            <p className="site00-pfw-forensic-overlay__missing">
+              NOT COUNTED: {regionSummary!.disqualifiedDimensionCount} dimension(s) — see profile / unit rules
+            </p>
+          ) : null}
 
           {dimensionRows.length > 0 ? (
             <ul className="site00-pfw-forensic-overlay__dimensions">

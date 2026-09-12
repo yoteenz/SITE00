@@ -66,7 +66,9 @@ function regionScore(report: AuthorityRelativeForensicsReport, regionId: string)
   const bundle = report.regionForensics.find((b) => b.regionId === regionId);
   if (!bundle) return 0;
   if (bundle.dimensions.length === 0 && bundle.status === 'AMBIGUOUS') return 40;
-  const driftDims = bundle.dimensions.filter((d) => d.delta && !d.delta.includes('MISSING') && d.delta !== '0px');
+  const driftDims = bundle.dimensions.filter(
+    (d) => d.delta && !d.delta.includes('MISSING') && !d.alignedWithinTolerance && !d.delta.startsWith('0'),
+  );
   const penalty = driftDims.length * 12;
   return Math.max(0, Math.min(100, 100 - penalty));
 }
@@ -130,7 +132,10 @@ export function computeRegionConvergenceResults(input: {
     const afterScore = regionScore(input.after, regionId);
     const improvement = afterScore - beforeScore;
     const improvementPct = beforeScore > 0 ? Math.round((improvement / beforeScore) * 100) : afterScore > 0 ? 100 : 0;
-    const remaining = afterBundle?.dimensions.filter((d) => d.delta && d.delta !== '0px').map((d) => `${d.dimension}: ${d.delta}`) ?? [];
+    const remaining =
+      afterBundle?.dimensions
+        .filter((d) => d.delta && !d.alignedWithinTolerance && !String(d.delta).startsWith('0'))
+        .map((d) => `${d.dimension}: ${d.delta}`) ?? [];
 
     let status: RegionConvergenceResult['status'] = 'UNCHANGED';
     if (!beforeBundle || !afterBundle) status = 'UNANALYZED';
