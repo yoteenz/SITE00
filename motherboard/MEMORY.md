@@ -8206,5 +8206,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Vite `manualChunks` pulled **Playwright** (and bare `chromium-bidi/*` imports) into client `vendor`/`index` via shared import chain `reconstructionTwinSession` → `twinBuildPipeline` → `executeNdxbookReplication` → `browserReplicationLoop` → `import('playwright')`. Browsers throw on unresolved `chromium-bidi` module specifiers before app code runs.
 - **Fix:** Vite `resolve.alias` maps `playwright` (+ `playwright/package.json`) and `chromium-bidi` subpaths to **browser stubs** under `scripts/vite-browser-stubs/`. Guard test `tests/site00ProductionBundleGuard.test.ts` asserts `dist/assets` omit those strings after `npm run build`.
 - **Founder next:** Upload fresh GitHub Release ZIP to GoDaddy (new bundle hash, e.g. not `index.BYksM3jN.js` with chromium-bidi). Playwright replication remains **server-only** (Railway/API); browser twin build paths that call Playwright fail fast if mis-invoked client-side.
+
+---
+
+## 2026-09-12 — Loader still stuck: live deploy on pre-fix bundle (38dbcb / index.BB6PY5fd.js)
+
+- **Symptom:** Founder still stuck on loading animation after v325 guidance.
+- **Live check:** site00.com `app-build-id` **38dbcb1381cf** + `index.BB6PY5fd.js` still contains top-level `import"chromium-bidi/..."` — React never mounts (`#root` empty). v325/v326 ZIPs on GitHub are clean; GoDaddy was not on those artifacts (partial/old CI upload).
+- **Follow-up ship:** `public/site00-assts-boot-recovery.js` (timeout/module-error → strip boot shell + reload banner); CI + `npm run build` run `scripts/verify-production-dist.mjs`; broader `chromium-bidi` vite alias; deploy README boot-verify lines.
+- **Founder next:** Upload **v327+** ZIP — delete old `assets/` + `index.html` first. Verify page source: **no** chromium-bidi in script bundle name/hash; includes `site00-assts-boot-recovery.js`; `app-build-id` ≥ **905a194** area. Hard refresh / clear site data on mobile.
 >>>>>>> origin/main
 
