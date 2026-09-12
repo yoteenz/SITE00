@@ -73,6 +73,7 @@ export type VisualPageBlueprint = {
   authorityVersionId: string;
   canvas: { width: number; height: number };
   globalGrid: string;
+  regionOrder?: string[];
   regions: VisualBlueprintRegion[];
   relationships: BlueprintRelationship[];
   typographySystem: string[];

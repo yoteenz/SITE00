@@ -219,6 +219,10 @@ export type ReconstructionTwinSession = {
   visualPageBlueprintId?: string | null;
   founderVisualAcceptance?: import('../p0vrReplication1/types.js').FounderVisualAcceptance | null;
   legacyTwinLabel?: 'LEGACY_PATCH_TWIN' | null;
+  /** P0.VR.REPLICATION.1R1 */
+  replicationExecutionReceipt?: import('../p0vrReplication1R1/replicationExecutionReceipt.js').ReplicationExecutionReceipt | null;
+  replicationExecutionMode?: import('../p0vrReplication1R1/replicationExecutionReceipt.js').ReplicationExecutionMode | null;
+  replicationNextStrategy?: 'CONTINUE_REFINEMENT' | 'SWITCH_IMPLEMENTATION_APPROACH' | null;
 };
 
 export type PageLiveRegistryEntry = {

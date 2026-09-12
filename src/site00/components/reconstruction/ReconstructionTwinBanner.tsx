@@ -11,12 +11,9 @@ type Props = {
 export function ReconstructionTwinBanner({ session }: Props) {
   return (
     <div className="site00-reconstruction-twin-banner" role="status" aria-live="polite">
-      <strong>RECONSTRUCTION TWIN</strong>
-      <span>NOT LIVE</span>
-      <span>{session.pageId.split(':').pop() ?? session.pageId}</span>
-      <span>{session.viewport.toUpperCase()}</span>
-      <span>{session.sessionId.slice(-8).toUpperCase()}</span>
-      <span>{session.status.replace(/_/g, ' ')}</span>
+      <strong>NOT LIVE</strong>
+      <span>TWIN</span>
+      <span>{session.sessionId.slice(-6).toUpperCase()}</span>
       {session.visualAuthorityStatus === 'FAILED_VISUAL_AUTHORITY' ||
       session.visualAuthorityStatus === 'VISUAL_AUTHORITY_FAILED' ? (
         <span className="site00-reconstruction-twin-banner__fail">FAILED VISUAL AUTHORITY</span>

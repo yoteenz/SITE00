@@ -8168,17 +8168,17 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< Updated upstream
 ## 2026-09-12 — CI fix: p0vrDiag1R5 internal structure cache key test
 
 - **Symptom:** Production Release / test failed — `tests/p0vrDiag1R5InternalStructure.test.ts` `expected null to be truthy` on `getRegionInternalStructure`.
 - **Cause:** Test built cache key with `P0_VR_DIAG_1R5A_BUILD` (v308); `analyzeMissingForensicEvidence` stores internal structure under `P0_VR_DIAG_1R5B_BUILD` (v309) via `structureCacheKey`.
 - **Fix:** Test uses `structureCacheKey({ ...after report fields, forensicsVersion: P0_VR_DIAG_1R5B_BUILD })`. PR **#737** merged to `main`.
-=======
+
+---
+
 ## 2026-09-12 — P0.VR.REPLICATION.1 high-fidelity replication mode + Page Upgrade UX rebuild
 
 - **Context:** Rebuild.1 fixed authority-first execution but founder UX still forensic-first (diagnose → gate → patch). Sprint reorganizes around product promise: reference → replicate → render → compare → self-correct → founder review.
 - **Delivered:** `p0vrReplication1/` — `ReconstructionMode` (PATCH / RECOMPOSE / **REPLICATION**), `ReconstructionModeResolver`, `VisualReconstructionDirector`, `VisualPageBlueprint` + relationships, `FunctionGraph` / `VisualGraph`, `FunctionToVisualBindingPlan`, `BrowserReplicationLoop` (Playwright optional via `SITE00_REPLICATION_PLAYWRIGHT=1`, synthetic iterations with real receipts), `VisualReplicationDiff`, `ReplicationCorrectionPlanner`, `ReplicationBudgetPolicy`, `ReplicationIteration`, `ReconstructionExperienceState`, `FounderVisualAcceptance`. Pipeline: `runTwinBuildPipeline` invokes director for NDX (`P0_VR_REPLICATION_1_BUILD = v314`). UX: `PageUpgradeReplicationExperience` — Reference / Replicate / Review / Refine / Promote step rail, **REPLICATE PAGE** primary CTA, forensics under **DETAILS** (collapsed by default) for NDX mobile overview. Legacy patch twins labeled `LEGACY_PATCH_TWIN`. Tests: `p0vrReplication1.test.ts`.
 - **Founder next:** Deploy **v322+** → DESIGN → NDXBOOK → PAGES → MOBILE → OVERVIEW → UPGRADE → expect **REFERENCE** screen with **REPLICATE PAGE** (not forensic wall) → replicate → **REVIEW** authority vs twin → refine in plain language → promote only after visual accept.
->>>>>>> Stashed changes
 

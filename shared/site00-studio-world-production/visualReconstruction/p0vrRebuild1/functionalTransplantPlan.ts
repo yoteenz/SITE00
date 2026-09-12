@@ -69,6 +69,6 @@ export function buildFunctionalTransplantPlan(input: {
     planId: `ftp_${input.sessionId}`,
     sessionId: input.sessionId,
     bindings,
-    status: bindings.length >= 3 ? 'READY' : 'PARTIAL',
+    status: bindings.length >= 1 ? 'READY' : 'PARTIAL',
   };
 }

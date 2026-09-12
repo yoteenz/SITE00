@@ -1,18 +1,24 @@
 .site00-reconstruction-twin-banner {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  left: auto;
   z-index: 9999;
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1rem;
+  gap: 0.35rem 0.5rem;
   align-items: center;
-  padding: 0.5rem 1rem;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
+  max-width: min(92vw, 280px);
+  padding: 4px 8px;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: #1a1208;
+  background: rgba(26, 18, 8, 0.92);
   color: #f5c842;
-  border-bottom: 2px solid #f5c842;
+  border: 1px solid #f5c842;
+  border-radius: 6px;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .site00-reconstruction-twin-banner strong {
