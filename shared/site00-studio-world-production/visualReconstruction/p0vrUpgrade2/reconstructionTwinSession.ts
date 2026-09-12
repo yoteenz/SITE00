@@ -57,6 +57,7 @@ export function createTwinSessionFromApprovedDirection(input: {
   authorityVersionId: string;
   beforeCaptureId: string;
   captureAssetRef: string | null;
+  designAuthorityAssetRef?: string | null;
   plan: ReconstructionPlan;
   measuredSpecId?: string | null;
   forensicsReportId?: string | null;
@@ -126,6 +127,7 @@ export function createTwinSessionFromApprovedDirection(input: {
     updatedAt: new Date().toISOString(),
     approvedForPromotionAt: null,
     promotedAt: null,
+    designAuthorityAssetRef: input.designAuthorityAssetRef ?? null,
   };
 
   sessions.set(sessionKey(sessionId), session);

@@ -187,6 +187,7 @@ export function approvePageCreativeDirection(
       authorityVersionId: updated.designAuthorityVersionId,
       beforeCaptureId: updated.captureId,
       captureAssetRef: updated.captureAssetRef ?? null,
+      designAuthorityAssetRef: updated.designAuthorityAssetRef ?? null,
       plan: updated.reconstructionPlan,
       measuredSpecId: updated.measuredSpecId ?? updated.reconstructionPlan.measuredSpecId ?? null,
       forensicsReportId: updated.forensicsReportId ?? updated.reconstructionPlan.forensicsReportId ?? null,

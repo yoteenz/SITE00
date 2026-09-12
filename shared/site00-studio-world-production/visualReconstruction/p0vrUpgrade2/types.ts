@@ -230,6 +230,12 @@ export type ReconstructionTwinSession = {
   /** P0.VR.REPLICATION.3A — Drift triangulation */
   driftTriangulationReport?: import('../p0vrReplication3a/types.js').DriftTriangulationReport | null;
   replicationDecisionTraces?: import('../p0vrReplication3a/types.js').ReplicationDecisionTrace[] | null;
+  /** P0.VR.REPLICATION.3B — Vision literal replication */
+  designAuthorityAssetRef?: string | null;
+  preVisionBaselineRenderMode?: import('../p0vrRebuild1/types.js').TwinRenderMode | null;
+  visionReplicationReport?: import('../p0vrReplication3b/types.js').VisionReplicationReport | null;
+  visionLiteralRegionSpecs?: import('../p0vrReplication3b/types.js').LiteralRegionSpec[] | null;
+  visionGeneratedSources?: import('../p0vrReplication3b/literalRegionSourceGenerator.js').GeneratedLiteralSource[] | null;
 };
 
 export type PageLiveRegistryEntry = {
