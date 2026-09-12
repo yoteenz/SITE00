@@ -2,6 +2,8 @@
  * P0.VR.2 — Master Design Reconstruction constants.
  */
 
+import type { DesignViewportClass } from './types.js';
+
 export const P0_VR_2_LINEAGE = 'P0.VR.2' as const;
 
 export const NDX_ICON_VISUAL_CANON_REFERENCE = {
@@ -22,6 +24,23 @@ export const CANONICAL_VIEWPORT_DIMENSIONS = {
   desktop: { width: 1440, height: 900 },
   ultrawide: { width: 2560, height: 1080 },
 } as const;
+
+/** Safe lookup — production Safari threw on missing viewport keys during authority approve. */
+export function normalizeDesignViewportClass(
+  viewport: DesignViewportClass | string | null | undefined,
+): DesignViewportClass {
+  const raw = String(viewport ?? 'mobile').toLowerCase();
+  if (raw in CANONICAL_VIEWPORT_DIMENSIONS) {
+    return raw as DesignViewportClass;
+  }
+  return 'mobile';
+}
+
+export function resolveCanonicalViewportDimensions(
+  viewport: DesignViewportClass | string | null | undefined,
+): (typeof CANONICAL_VIEWPORT_DIMENSIONS)[DesignViewportClass] {
+  return CANONICAL_VIEWPORT_DIMENSIONS[normalizeDesignViewportClass(viewport)];
+}
 
 export const P0_VR_2_FAILURE_CODES = [
   'FAIL_CANONICAL_REFERENCE_MISSING',

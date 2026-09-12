@@ -7,7 +7,7 @@ import {
   promoteVisualImplementationCanon,
   registerCanonicalVisualReference,
 } from '../p0vr2/canonicalReferenceRegistry.js';
-import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
+import { resolveCanonicalViewportDimensions } from '../p0vr2/constants.js';
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import {
   getCurrentDesignAuthorityVersion,
@@ -29,7 +29,7 @@ export function syncFounderAuthorityVersionIntoRegistry(input: {
   const assetRef = version.assetRef || version.storagePath;
   if (!assetRef) return false;
 
-  const viewport = CANONICAL_VIEWPORT_DIMENSIONS[input.viewport];
+  const viewport = resolveCanonicalViewportDimensions(input.viewport);
   const existing = getActiveCanonicalReference(input.projectId, input.screenId, input.viewport);
 
   const reference = registerCanonicalVisualReference({
