@@ -1,15 +1,17 @@
 /**
- * P0.VR.DIAG.1R1 — Full-screen forensic breakdown overlays (mobile-safe, portaled above wizard drawer).
+ * P0.VR.DIAG.1R1 / 1R5A — Full-screen forensic breakdown overlays (mobile-safe).
  */
 
 import { createPortal } from 'react-dom';
-import { useState } from 'react';
 import type {
   PageVisualDiagnosis,
   RegionForensicsSummary,
   TopVisualDifference,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageVisualDiagnosis.js';
 import type { ReconstructionPlan } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/reconstructionPlan.js';
+import { shouldShowViewStructure } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/structureUiVisibility.js';
+
+export { shouldShowViewStructure };
 
 export function resolveAllRegionForensics(
   diagnosis: PageVisualDiagnosis | null | undefined,
@@ -35,14 +37,30 @@ export function resolveAllRegionForensics(
   }));
 }
 
+export function regionOffersViewStructure(region: RegionForensicsSummary): boolean {
+  if (region.showViewStructure === true) return true;
+  return shouldShowViewStructure({
+    regionType: region.regionType,
+    measurementDepthStatus: region.measurementDepthStatus,
+    internalStructureStatus: region.internalStructureStatus,
+  });
+}
+
 type AllForensicsProps = {
   open: boolean;
   diagnosis: PageVisualDiagnosis | null | undefined;
   onClose: () => void;
   onSelectRegion: (regionId: string) => void;
+  onSelectStructure?: (regionId: string) => void;
 };
 
-export function AllForensicsOverlay({ open, diagnosis, onClose, onSelectRegion }: AllForensicsProps) {
+export function AllForensicsOverlay({
+  open,
+  diagnosis,
+  onClose,
+  onSelectRegion,
+  onSelectStructure,
+}: AllForensicsProps) {
   if (!open || typeof document === 'undefined') return null;
 
   const regions = resolveAllRegionForensics(diagnosis);
@@ -65,52 +83,71 @@ export function AllForensicsOverlay({ open, diagnosis, onClose, onSelectRegion }
               depth · {coverage.gateStatus}: {coverage.gateReason}
             </p>
           ) : null}
+          {diagnosis?.structureUiVersion ? (
+            <p className="site00-pfw-forensic-overlay__structure-meta">
+              FORENSICS {diagnosis.forensicsEngineVersion ?? '—'} · STRUCTURE UI {diagnosis.structureUiVersion}
+            </p>
+          ) : null}
           {regions.length === 0 ? (
             <p className="site00-pfw-forensic-overlay__empty">No region forensics available — recapture and reopen upgrade.</p>
           ) : (
             <ul className="site00-pfw-upgrade-v2__all-forensics">
-              {regions.map((region) => (
-                <li key={region.regionId}>
-                  <strong>{region.regionName}</strong>
-                  <span className={`site00-pfw-upgrade-v2__region-status is-${region.status.toLowerCase()}`}>
-                    {region.status.replace(/_/g, ' ')}
-                  </span>
-                  <span>
-                    {region.measurementDepthStatus ?? 'ANALYZED'} · {region.dimensionCount} valid dimensions ·{' '}
-                    {region.confidence}
-                  </span>
-                  {region.internalStructureStatus ? (
+              {regions.map((region) => {
+                const showStructure = regionOffersViewStructure(region);
+                return (
+                  <li key={region.regionId}>
+                    <strong>{region.regionName}</strong>
+                    <span className={`site00-pfw-upgrade-v2__region-status is-${region.status.toLowerCase()}`}>
+                      {region.status.replace(/_/g, ' ')}
+                    </span>
+                    <span>
+                      {region.measurementDepthStatus ?? 'ANALYZED'} · {region.dimensionCount} valid dimensions ·{' '}
+                      {region.confidence}
+                    </span>
                     <span className="site00-pfw-forensic-overlay__structure">
-                      INTERNAL STRUCTURE: {region.internalStructureStatus.replace(/_/g, ' ')}
+                      INTERNAL STRUCTURE: {(region.internalStructureStatus ?? 'UNRESOLVED').replace(/_/g, ' ')}
                       {region.internalStructureSubtype ? ` · ${region.internalStructureSubtype}` : ''}
                     </span>
-                  ) : null}
-                  {region.missingDimensions?.length ? (
-                    <span className="site00-pfw-forensic-overlay__missing">
-                      MISSING: {region.missingDimensions.slice(0, 5).join(' · ')}
-                    </span>
-                  ) : null}
-                  {region.topDelta ? <span className="site00-pfw-upgrade-v2__forensics-delta">{region.topDelta}</span> : null}
-                  {region.dimensions?.length ? (
-                    <ul className="site00-pfw-forensic-overlay__dim-preview">
-                      {region.dimensions.slice(0, 4).map((d, idx) => (
-                        <li key={`${region.regionId}-${d.dimension}-${idx}`}>
-                          <span>{d.dimension}</span>
-                          <span>{d.authority} → {d.current}</span>
-                          <span>{d.delta}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                  <button
-                    type="button"
-                    className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-                    onClick={() => onSelectRegion(region.regionId)}
-                  >
-                    VIEW EVIDENCE
-                  </button>
-                </li>
-              ))}
+                    {region.missingDimensions?.length ? (
+                      <span className="site00-pfw-forensic-overlay__missing">
+                        MISSING: {region.missingDimensions.slice(0, 5).join(' · ')}
+                      </span>
+                    ) : null}
+                    {region.topDelta ? <span className="site00-pfw-upgrade-v2__forensics-delta">{region.topDelta}</span> : null}
+                    {region.dimensions?.length ? (
+                      <ul className="site00-pfw-forensic-overlay__dim-preview">
+                        {region.dimensions.slice(0, 4).map((d, idx) => (
+                          <li key={`${region.regionId}-${d.dimension}-${idx}`}>
+                            <span>{d.dimension}</span>
+                            <span>
+                              {d.authority} → {d.current}
+                            </span>
+                            <span>{d.delta}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                    <div className="site00-pfw-forensic-overlay__actions">
+                      <button
+                        type="button"
+                        className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                        onClick={() => onSelectRegion(region.regionId)}
+                      >
+                        VIEW EVIDENCE
+                      </button>
+                      {showStructure && onSelectStructure ? (
+                        <button
+                          type="button"
+                          className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"
+                          onClick={() => onSelectStructure(region.regionId)}
+                        >
+                          VIEW STRUCTURE
+                        </button>
+                      ) : null}
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
@@ -127,6 +164,7 @@ type EvidenceDetailProps = {
   diagnosis: PageVisualDiagnosis | null | undefined;
   plan: ReconstructionPlan | null | undefined;
   onClose: () => void;
+  onOpenStructure?: (regionId: string) => void;
 };
 
 function resolveTopMatch(
@@ -144,8 +182,8 @@ export function ForensicEvidenceDetailOverlay({
   diagnosis,
   plan,
   onClose,
+  onOpenStructure,
 }: EvidenceDetailProps) {
-  const [structureOpen, setStructureOpen] = useState(false);
   if (!open || typeof document === 'undefined') return null;
   if (!evidenceId && !regionId) return null;
 
@@ -157,16 +195,12 @@ export function ForensicEvidenceDetailOverlay({
   const regionSpecs = plan
     ? plan.geometryChanges
         .concat(plan.spacingChanges, plan.componentChanges)
-        .filter((c) =>
-          resolvedRegionId ? c.regionId === resolvedRegionId : c.evidenceId === evidenceId,
-        )
+        .filter((c) => (resolvedRegionId ? c.regionId === resolvedRegionId : c.evidenceId === evidenceId))
     : [];
 
   const item =
     regionSpecs[0] ??
-    plan?.geometryChanges
-      .concat(plan.spacingChanges, plan.componentChanges)
-      .find((c) => c.evidenceId === evidenceId);
+    plan?.geometryChanges.concat(plan.spacingChanges, plan.componentChanges).find((c) => c.evidenceId === evidenceId);
 
   const dimensionRows =
     regionSummary?.dimensions ??
@@ -182,8 +216,8 @@ export function ForensicEvidenceDetailOverlay({
         ]
       : []);
 
-  const title =
-    item?.regionName ?? regionSummary?.regionName ?? top?.regionName ?? evidenceId ?? regionId ?? 'EVIDENCE';
+  const title = item?.regionName ?? regionSummary?.regionName ?? top?.regionName ?? evidenceId ?? regionId ?? 'EVIDENCE';
+  const showStructure = regionSummary ? regionOffersViewStructure(regionSummary) : false;
 
   return createPortal(
     <div className="site00-pfw-forensic-overlay" role="presentation">
@@ -205,21 +239,14 @@ export function ForensicEvidenceDetailOverlay({
                 : ''}
             </p>
           ) : null}
-          {regionSummary?.internalStructureHierarchy?.length ? (
-            <>
-              <button
-                type="button"
-                className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-                onClick={() => setStructureOpen((v) => !v)}
-              >
-                {structureOpen ? 'HIDE STRUCTURE' : 'VIEW STRUCTURE'}
-              </button>
-              {structureOpen ? (
-                <pre className="site00-pfw-forensic-overlay__structure-tree" aria-label="Internal structure hierarchy">
-                  {regionSummary.internalStructureHierarchy.join('\n')}
-                </pre>
-              ) : null}
-            </>
+          {showStructure && onOpenStructure && resolvedRegionId ? (
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"
+              onClick={() => onOpenStructure(resolvedRegionId)}
+            >
+              VIEW STRUCTURE
+            </button>
           ) : null}
           {regionSummary?.missingDimensions?.length ? (
             <p className="site00-pfw-forensic-overlay__missing">

@@ -4,7 +4,7 @@
 
 import { describe, expect, it, beforeEach } from 'vitest';
 import {
-  P0_VR_DIAG_1R5_BUILD,
+  P0_VR_DIAG_1R5A_BUILD,
   resetDimensionEvidenceCounterForTest,
   resetForensicsEvidenceCounterForTest,
   runAuthorityRelativeForensics,
@@ -63,7 +63,7 @@ describe('P0.VR.DIAG.1R5 internal structure', () => {
   });
 
   it('build constant', () => {
-    expect(P0_VR_DIAG_1R5_BUILD).toBe('v307');
+    expect(P0_VR_DIAG_1R5A_BUILD).toBe('v308');
   });
 
   it('section nav internal model resolves items, active item, indicator', () => {
@@ -146,7 +146,7 @@ describe('P0.VR.DIAG.1R5 internal structure', () => {
       viewportWidth: 390,
       viewportHeight: 844,
     });
-    expect(receipt.forensicsVersionAfter).toBe(P0_VR_DIAG_1R5_BUILD);
+    expect(receipt.forensicsVersionAfter).toBe(P0_VR_DIAG_1R5A_BUILD);
     expect(receipt.regionsAttempted.length).toBeGreaterThan(0);
     expect(receipt.structureTraces?.length).toBe(receipt.regionsAttempted.length);
     const afterDims = after.regionForensics.reduce((n, b) => n + b.dimensions.length, 0);
@@ -154,7 +154,8 @@ describe('P0.VR.DIAG.1R5 internal structure', () => {
     const attemptedId = receipt.regionsAttempted[0]!;
     const touched = after.regionForensics.find((b) => b.regionId === attemptedId);
     expect(touched?.internalStructure?.status).toBeDefined();
-    expect(getRegionInternalStructure(report.reportId, attemptedId)).toBeTruthy();
+    const cacheKey = `${report.pageId}|${report.viewport}|${report.authorityVersionId ?? 'na'}|${report.captureId}|${P0_VR_DIAG_1R5A_BUILD}`;
+    expect(getRegionInternalStructure(cacheKey, attemptedId)).toBeTruthy();
   });
 
   it('no progress reports root cause not silent', () => {

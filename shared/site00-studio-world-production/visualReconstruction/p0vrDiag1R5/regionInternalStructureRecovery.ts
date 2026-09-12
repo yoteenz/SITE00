@@ -14,7 +14,8 @@ import { computeInternalStructureCompleteness } from './internalStructureComplet
 import { deriveEvidenceRecoveryFailure } from './evidenceRecoveryFailure.js';
 import { buildStructureHierarchyPreview } from './structureHierarchyPreview.js';
 import type { InternalStructureRecoveryTrace, RegionInternalStructure } from './types.js';
-import type { RegionInternalStructureSummary } from '../p0vrDiag1/types.js';
+import type { RegionForensicsBundle, RegionInternalStructureSummary } from '../p0vrDiag1/types.js';
+import { buildStructureToDepthTrace } from './structureToDepthTrace.js';
 
 export function runRegionInternalStructureRecovery(input: {
   def: PageRegionLayoutDefinition;
@@ -23,12 +24,14 @@ export function runRegionInternalStructureRecovery(input: {
   authority: VisualRegionBounds;
   validDimensionsBefore: number;
   captureScopeInsufficient?: boolean;
+  bundleBefore?: RegionForensicsBundle;
 }): {
   currentStructure: RegionInternalStructure;
   authorityStructure: RegionInternalStructure;
   dimensionEvidence: RegionDimensionEvidence[];
   summary: RegionInternalStructureSummary;
   trace: InternalStructureRecoveryTrace;
+  depthTrace: ReturnType<typeof buildStructureToDepthTrace> | null;
 } {
   const currentStructure = extractCurrentRegionStructure({
     def: input.def,
@@ -54,7 +57,7 @@ export function runRegionInternalStructureRecovery(input: {
     status: currentStructure.status,
     subtype: currentStructure.subtype,
     completenessPct: completeness.completenessPct,
-    anchorHierarchy: hierarchy,
+    anchorHierarchy: hierarchy.length ? hierarchy : ['STRUCTURE NOT ANALYZED'],
   };
 
   const validAfterEstimate = input.validDimensionsBefore + dimensionEvidence.filter((d) => d.delta != null).length;
@@ -70,14 +73,36 @@ export function runRegionInternalStructureRecovery(input: {
 
   const recoveredDimensions = dimensionEvidence.map((d) => d.dimension);
 
+  const resolvedLabels = currentStructure.childAnchors
+    .filter((a) => a.anchorType !== 'CONTAINER')
+    .map((a) => a.label);
+
+  let depthTrace: ReturnType<typeof buildStructureToDepthTrace> | null = null;
+  if (input.bundleBefore) {
+    depthTrace = buildStructureToDepthTrace({
+      regionId: input.def.regionId,
+      regionName: input.def.regionName,
+      internalStructureStatus: currentStructure.status,
+      resolvedAnchorLabels: resolvedLabels,
+      structureEvidence: dimensionEvidence,
+      bundleBefore: input.bundleBefore,
+    });
+    summary.failureCode = failure?.failureCode ?? depthTrace.blockingReason ?? undefined;
+    summary.failureDetail = failure?.details ?? depthTrace.blockingReason ?? undefined;
+  } else if (failure) {
+    summary.failureCode = failure.failureCode;
+    summary.failureDetail = failure.details;
+  }
+
   const trace: InternalStructureRecoveryTrace = {
     regionId: input.def.regionId,
     regionName: input.def.regionName,
     validDimensionsBefore: input.validDimensionsBefore,
-    validDimensionsAfter: validAfterEstimate,
+    validDimensionsAfter: depthTrace?.validCountAfter ?? validAfterEstimate,
     structureStatus: currentStructure.status,
     recoveredDimensions,
     failure: failure ?? undefined,
+    depthTrace: depthTrace ?? undefined,
   };
 
   return {
@@ -86,5 +111,6 @@ export function runRegionInternalStructureRecovery(input: {
     dimensionEvidence,
     summary,
     trace,
+    depthTrace,
   };
 }

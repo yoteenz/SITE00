@@ -143,6 +143,7 @@ export type PageCreativeUpgradeSession = {
     regionsStillBlocked: string[];
     rootCauseSummary?: string | null;
     structureTraceCount?: number;
+    structureToDepthTraces?: import('../p0vrDiag1R5/structureToDepthTrace.js').StructureToDepthTrace[];
   } | null;
 };
 
