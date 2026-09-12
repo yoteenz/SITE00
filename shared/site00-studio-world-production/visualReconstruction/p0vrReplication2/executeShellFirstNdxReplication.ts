@@ -7,6 +7,7 @@ import { executeNdxbookReplication } from '../p0vrReplication1R1/executeNdxbookR
 import { buildNdxAuthorityShellBlueprint } from './authorityShellBlueprint.js';
 import { evaluateShellMatch, expectedShellFirstTwinBandPresence } from './shellMatchResult.js';
 import { buildShellReconstructionReceipt } from './shellReconstructionReceipt.js';
+import { buildDriftTriangulationReport } from '../p0vrReplication3a/buildDriftTriangulationReport.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -52,6 +53,12 @@ export async function executeShellFirstNdxReplication(input: {
   const shellPass = shellMatch.status === 'PASS';
   const pageReady = shellPass && base.receipt.status === 'PASS';
 
+  const driftTriangulationReport = buildDriftTriangulationReport({
+    session: input.session,
+    shellBlueprint: blueprint,
+    replicationMode: true,
+  });
+
   return {
     blueprint,
     shellMatch,
@@ -65,6 +72,8 @@ export async function executeShellFirstNdxReplication(input: {
       shellMatchResult: shellMatch,
       shellReconstructionReceipt: shellReceipt,
       replicationExecutionReceipt: base.receipt,
+      driftTriangulationReport,
+      replicationDecisionTraces: driftTriangulationReport.traces,
     },
   };
 }

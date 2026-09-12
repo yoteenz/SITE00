@@ -227,6 +227,9 @@ export type ReconstructionTwinSession = {
   authorityShellBlueprintId?: string | null;
   shellMatchResult?: import('../p0vrReplication2/shellMatchResult.js').ShellMatchResult | null;
   shellReconstructionReceipt?: import('../p0vrReplication2/shellReconstructionReceipt.js').ShellReconstructionReceipt | null;
+  /** P0.VR.REPLICATION.3A — Drift triangulation */
+  driftTriangulationReport?: import('../p0vrReplication3a/types.js').DriftTriangulationReport | null;
+  replicationDecisionTraces?: import('../p0vrReplication3a/types.js').ReplicationDecisionTrace[] | null;
 };
 
 export type PageLiveRegistryEntry = {

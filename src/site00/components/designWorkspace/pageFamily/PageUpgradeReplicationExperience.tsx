@@ -3,6 +3,7 @@
  */
 
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import type { PageCreativeUpgradeSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/types.js';
 import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import {
@@ -17,6 +18,7 @@ import {
   type ReplicationExecutionReceipt,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1R1/replicationExecutionReceipt.js';
 import { buildReplicationReviewModel } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication2/replicationReviewModel.js';
+import { DriftTracePanel } from './DriftTracePanel.js';
 import '../../../styles/site00-page-upgrade-replication.css';
 
 type Props = {
@@ -73,6 +75,7 @@ export function PageUpgradeReplicationExperience({
   replicationReceipt,
   upgradeError,
 }: Props) {
+  const [driftTraceOpen, setDriftTraceOpen] = useState(false);
   const experienceState = resolveReconstructionExperienceState({
     session,
     twinSession,
@@ -304,6 +307,14 @@ export function PageUpgradeReplicationExperience({
               </ul>
             ) : null}
             {detailsPanel}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setDriftTraceOpen((v) => !v)}
+            >
+              {driftTraceOpen ? 'HIDE DRIFT TRACE' : 'DRIFT TRACE'}
+            </button>
+            {driftTraceOpen ? <DriftTracePanel report={twinSession?.driftTriangulationReport} /> : null}
           </div>
         ) : null}
       </footer>
