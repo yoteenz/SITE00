@@ -9,6 +9,7 @@ import { BlueprintVsTwinOverlay } from './BlueprintVsTwinOverlay.js';
 import { TwinAuthorityCompareStrip } from './TwinAuthorityCompareStrip.js';
 import { HeroBlueprintDebugOverlay } from './HeroBlueprintDebugOverlay.js';
 import { HeroInspectionToolbar, type HeroInspectionLayerFlags } from './HeroInspectionToolbar.js';
+import { useHeroLiveDomCapture } from './useHeroLiveDomCapture.js';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import '../../styles/site00-forensic-blueprint-twin.css';
@@ -56,12 +57,16 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
     session.blueprintAssetBindings?.find((a) => a.objectId === '22')?.sourceAsset ??
     session.designAuthorityAssetRef ??
     null;
+  const heroH06Url = session.heroSafeRegionCropUrls?.H06 ?? null;
+  const heroH12Url = session.heroSafeRegionCropUrls?.H12 ?? null;
+  const liveCapture = useHeroLiveDomCapture(session);
   const [inspLayers, setInspLayers] = useState<HeroInspectionLayerFlags>({
     authorityBoxes: true,
     renderedBoxes: true,
     deltas: true,
     collisions: true,
     labels: true,
+    cropSources: false,
   });
 
   useEffect(() => {
@@ -79,6 +84,7 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
       data-4r1-build={session.authorityTighteningReport?.buildRef ?? null}
       data-4r2-build={session.heroSurgicalLockReport?.buildRef ?? null}
       data-4r3-build={session.heroGeometryConvergenceReport?.buildRef ?? null}
+      data-4r3r1-build={session.heroDomRecoveryReport?.buildRef ?? null}
       style={cssPatch}
     >
       <HeroInspectionToolbar layers={inspLayers} onLayersChange={setInspLayers} />
@@ -152,9 +158,9 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
           data-forensic-section="hero"
           data-hero-object="H14"
         >
-          <HeroBlueprintDebugOverlay session={session} layers={inspLayers} />
+          <HeroBlueprintDebugOverlay session={session} layers={inspLayers} liveCapture={liveCapture} />
 
-          <div className="site00-fb__hero-left-scrim" data-hero-object="H14-scrim" aria-hidden="true" />
+          <div className="site00-fb__hero-left-scrim" aria-hidden="true" />
 
           <div
             className="site00-fb__hero-h06"
@@ -162,18 +168,19 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
             data-forensic-object-id="22"
             aria-hidden="true"
           >
-            {heroAsset ? (
-              <div
-                className="site00-fb__hero-h06-crop"
-                style={{ backgroundImage: `url(${heroAsset})` }}
-              />
+            {heroH06Url ? (
+              <img className="site00-fb__hero-h06-img" src={heroH06Url} alt="" decoding="async" />
+            ) : heroAsset ? (
+              <div className="site00-fb__hero-h06-crop" style={{ backgroundImage: `url(${heroAsset})` }} />
             ) : null}
           </div>
 
           <div className="site00-fb__hero-h07-mask" data-hero-object="H07" aria-hidden="true" title="Center stack baked in H06 crop only" />
 
           <div className="site00-fb__hero-h12" data-hero-object="H12" data-hero-asset-role="HERO_RIGHT_LOWER_MEDIA" aria-hidden="true">
-            {heroAsset ? (
+            {heroH12Url ? (
+              <img className="site00-fb__hero-h12-img" src={heroH12Url} alt="" decoding="async" />
+            ) : heroAsset ? (
               <div
                 className="site00-fb__hero-h12-crop"
                 data-hero-crop-zone="hero-lower-right"

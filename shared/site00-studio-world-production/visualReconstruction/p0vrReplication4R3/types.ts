@@ -20,8 +20,16 @@ export type HeroAuthorityGeometryFull = {
   targetZ: number;
 };
 
+export type HeroMeasurementSource =
+  | 'PLAYWRIGHT_DOM'
+  | 'LIVE_BROWSER_DOM'
+  | 'LAYOUT_SPEC'
+  | 'SYNTHETIC'
+  | 'PENDING_LIVE_BROWSER';
+
 export type HeroRenderedGeometryFull = {
   objectId: HeroObjectId;
+  measurementSource?: HeroMeasurementSource;
   actualX: number;
   actualY: number;
   actualWidth: number;

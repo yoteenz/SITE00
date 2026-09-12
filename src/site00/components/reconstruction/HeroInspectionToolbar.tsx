@@ -12,6 +12,7 @@ export type HeroInspectionLayerFlags = {
   deltas: boolean;
   collisions: boolean;
   labels: boolean;
+  cropSources: boolean;
 };
 
 type Props = {
@@ -50,6 +51,9 @@ export function HeroInspectionToolbar({ layers, onLayersChange }: Props) {
         </button>
         <button type="button" className={layers.collisions ? 'is-on' : ''} onClick={() => toggle('collisions')}>
           COLLISIONS
+        </button>
+        <button type="button" className={layers.cropSources ? 'is-on' : ''} onClick={() => toggle('cropSources')}>
+          CROP SOURCES
         </button>
         <button type="button" className={layers.labels ? 'is-on' : ''} onClick={() => toggle('labels')}>
           {layers.labels ? 'HIDE LABELS' : 'SHOW LABELS'}

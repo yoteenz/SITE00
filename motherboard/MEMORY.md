@@ -8306,6 +8306,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrReplication4R3/` — hero-root `HeroAuthorityGeometry` / `HeroRenderedGeometry` / measured `HeroGeometryDelta`, `HeroGeometryReceipt`, 3 measured passes, `HeroAssetBindingGuard` (H12 `HERO_RIGHT_LOWER_MEDIA`), H12 crop fix (`--hero-h12-pos: 91% 43%`), editorial rhythm CSS vars. REPLICATE chains after 4R2. **INSPECT HERO** on REVIEW (Page Upgrade + replication experience) → `buildTwinHeroInspectionUrl`. Twin: `HeroInspectionToolbar` (authority/rendered/deltas/collisions/exit), overlay delta labels (green/yellow/red). Build **v337**.
 - **Limits:** Pipeline geometry syncs layout spec + CSS (Playwright live rect loop optional); founder human visual bar still required.
 - **Founder next:** Deploy **v337+** → REPLICATE → REVIEW → **INSPECT HERO** → verify deltas + H12 photo slot → EXIT INSPECTION.
+
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.4R3R1 live DOM rects + hero crop purity (twin only)
+
+- **Root cause (14 authority / 0 rendered):** Debug overlay read `heroGeometryConvergenceReport.renderedGeometry` from session (layout-spec / empty after handoff). No **live browser** measurement ran in inspection mode, so rendered count stayed 0 despite authority contracts.
+- **Fix:** `captureHeroLiveDomGeometry` + `useHeroLiveDomCapture` on twin when `?blueprintDebug=hero` (fonts/images settle → `getBoundingClientRect` hero-relative → real deltas). Header now shows authority · rendered · pass · outliers. 4R3 pipeline **no longer PASSes** from layout-spec sync (`renderedGeometry: []`, receipt FAIL until live DOM). `p0vrReplication4R3R1/` materializes **hero_h06** / **hero_h12** norm crops (hero band only) on REPLICATE; twin uses `<img>` crops instead of full-page `background-position`. Guards: `HeroCropPurityGuard`, `HeroRenderedCaptureReceipt`, `HeroGeometryReceiptV2`. Build **v338**.
+- **Founder next:** Deploy **v338+** → REPLICATE (refresh session) → INSPECT HERO → confirm **14 authority · 14 rendered** + cyan boxes; H06/H12 no nav/milestone text.
 =======
 ## 2026-09-12 — CI fix: p0vrReplication3cR1.test.ts (PERSISTED + Playwright)
 
