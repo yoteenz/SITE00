@@ -144,7 +144,8 @@ describe('P0.VR.REPLICATION.2 shell-first', () => {
       twinVersionId: 'twin_v1',
     });
     expect(result.sessionPatch.preVisionBaselineRenderMode).toBe('SHELL_FIRST_NDX_OVERVIEW');
-    expect(result.sessionPatch.twinRenderMode).toBe('VISION_LITERAL_EXECUTED_NDX_OVERVIEW');
+    expect(result.sessionPatch.twinRenderMode).toBe('FORENSIC_BLUEPRINT_EXECUTED_NDX_OVERVIEW');
+    expect(result.sessionPatch.forensicBlueprintReport?.buildRef).toBeTruthy();
     expect(result.sessionPatch.visionReplicationReport?.heroRecognizable).toBe(true);
     expect(result.sessionPatch.replication3cReport?.heroHumanRecognizable).toBe(true);
     expect(result.sessionPatch.geometryLockReport?.coordinateMap.elements.length).toBeGreaterThan(10);

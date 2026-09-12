@@ -8271,3 +8271,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `p0vrReplication3dBoundary/` — `ReplicationRenderBoundaryReceipt`, `TwinMountTrace`, `RegionTargetAssignmentTrace`, `CoordinateSpaceTrace`, `SourceClassificationReceipt`, `AssetBindingCompatibilityCheck`, `enforceHeroSlotBindings`, chained after geometry in `executeShellFirstNdxReplication`. DOM: `data-twin-content-root` on shell page bands (below host header), `data-twin-mount-root` on vision literal wrapper. UI: DETAILS **BOUNDARY TRACE**, preview `?renderRootsDebug=1` + blocked hero slice styling. Non-proof slots no longer bind raw authority; proof `slice_b` materialized crop still allowed.
 - **Founder next:** Deploy **v333+** → REPLICATE → DETAILS → BOUNDARY TRACE (PAGE_NESTING NO, content root valid) → PREVIEW TWIN `?renderRootsDebug=1` → confirm no miniature page in hero band. Wait on blueprint-grid until founder confirms visual QA PASS.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.4 forensic blueprint consumption + zero-invention rebuild
+
+- **Context:** Founder attached NDXBOOK mobile **design authority** + **forensic UI blueprint** (objects 01–70). Sprint treats blueprint as coding spec, not inspiration — stop semantic region collapse and invented typography/layout.
+- **Delivered:** `p0vrReplication4/` — `ForensicAuthorityBlueprint`, 70 `ForensicBlueprintObject` records (stable IDs), palette/typography/line specs, `BlueprintDomBinding`, `BlueprintAssetBinding`, `BlueprintTranslationReceipt`, `ObjectGeometryDelta`, 3-pass convergence scaffold, `executeForensicBlueprintPipeline` chained after 3D boundary on REPLICATE. Bundled assets under `public/assets/ndxbook-reconstruction/`. Twin: `ForensicBlueprintNdxOverviewTwin` (object-level DOM, host bottom nav, hero authority crop only on object 22). Render modes `FORENSIC_BLUEPRINT_*`. DETAILS → **BLUEPRINT TRANSLATION**; review tab **BLUEPRINT**; preview `?blueprintDebug=overlay|blink|difference`. REPLICATE now prefers forensic executed mode when coverage ≥95%.
+- **Limits:** Playwright `getBoundingClientRect` measure loop deferred (passes use blueprint CSS patch until founder runs overlay QA). Hard visual PASS still requires founder confirms twin matches authority.
+- **Founder next:** Deploy **v334+** → REPLICATE → REVIEW (AUTHORITY / BLUEPRINT / TWIN) → DETAILS coverage → PREVIEW `?blueprintDebug=overlay`. Live `/projects/ndxbook` unchanged.
+
