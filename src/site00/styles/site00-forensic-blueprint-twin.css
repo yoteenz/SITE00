@@ -384,6 +384,211 @@
   pointer-events: none;
 }
 
+/* Hero surgical lock (4R2) — one object, one DOM target */
+.site00-fb__hero--surgical {
+  display: block;
+  background: #080808;
+}
+
+.site00-fb__hero--surgical > .site00-fb__hero-left-scrim {
+  z-index: 5;
+}
+
+.site00-fb__hero-h06 {
+  position: absolute;
+  left: 37%;
+  top: 0;
+  right: 23%;
+  bottom: 0;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.site00-fb__hero-h06-crop {
+  width: 100%;
+  height: 100%;
+  background-size: var(--hero-h06-size, 280% auto);
+  background-position: var(--hero-h06-pos, 62% 24%);
+  background-repeat: no-repeat;
+  filter: grayscale(1) contrast(1.08);
+}
+
+.site00-fb__hero-h07-mask {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.site00-fb__hero-h12 {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 64px;
+  height: 56px;
+  z-index: 10;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site00-fb__hero-h12-crop {
+  width: 100%;
+  height: 100%;
+  background-size: var(--hero-h12-size, 400% auto);
+  background-position: var(--hero-h12-pos, 88% 78%);
+  background-repeat: no-repeat;
+  filter: grayscale(1) contrast(1.05);
+}
+
+.site00-fb__hero-h13 {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(90deg, transparent 151px, rgba(255, 255, 255, 0.14) 152px, transparent 153px),
+    linear-gradient(90deg, transparent 286px, rgba(255, 255, 255, 0.14) 287px, transparent 288px);
+}
+
+.site00-fb__hero-h09 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 88px;
+  height: 100%;
+  z-index: 25;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 8px 6px 6px;
+}
+
+.site00-fb__hero-h10 {
+  display: block;
+  margin: 4px auto 8px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.site00-fb__hero-h10::before,
+.site00-fb__hero-h10::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.site00-fb__hero-h10::before {
+  left: 50%;
+  top: 2px;
+  bottom: 2px;
+  width: 1px;
+  transform: translateX(-50%);
+}
+
+.site00-fb__hero-h10::after {
+  top: 50%;
+  left: 2px;
+  right: 2px;
+  height: 1px;
+  transform: translateY(-50%);
+}
+
+.site00-fb__hero-h11 {
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.site00-fb__hero--surgical .site00-fb__hero-left {
+  position: relative;
+  z-index: 30;
+  width: 152px;
+  max-width: 152px;
+  padding-top: 10px;
+}
+
+.site00-fb__hero-h01 {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+
+.site00-fb__hero-h02 {
+  font-family: var(--fb-sans-cond);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.08;
+  text-transform: uppercase;
+  display: block;
+  max-width: 140px;
+  letter-spacing: 0.02em;
+}
+
+.site00-fb__hero-h03 {
+  display: block;
+  width: 120px;
+  height: 2px;
+  background: var(--fb-lime);
+  margin: 8px 0 6px;
+  flex-shrink: 0;
+}
+
+.site00-fb__hero-h04 {
+  font-size: 9px;
+  line-height: 1.28;
+  text-transform: uppercase;
+  display: block;
+  max-width: 148px;
+  color: #ececec;
+  letter-spacing: 0.03em;
+}
+
+.site00-fb__hero-h05 {
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+  font-family: inherit;
+  cursor: default;
+}
+
+.site00-fb__hero-h08 {
+  position: absolute;
+  left: 52%;
+  bottom: 6px;
+  z-index: 50;
+  font-family: var(--fb-sans-cond);
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--hero-ndx-fill, var(--fb-lime));
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 .site00-fb__progress {
   display: grid;
   grid-template-columns: 1fr 104px;

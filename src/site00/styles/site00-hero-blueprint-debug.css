@@ -1,0 +1,44 @@
+.site00-fb__hero {
+  position: relative;
+}
+
+.site00-hero-debug {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+}
+
+.site00-hero-debug__label {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  margin: 0;
+  padding: 2px 4px;
+  font-size: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #b7f75f;
+  z-index: 101;
+}
+
+.site00-hero-debug__box {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px dashed rgba(0, 180, 255, 0.9);
+  background: rgba(0, 180, 255, 0.06);
+}
+
+.site00-hero-debug__box span {
+  font-size: 7px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 0 2px;
+}
+
+.site00-hero-debug__collision {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 7px;
+  color: #ff6b6b;
+}

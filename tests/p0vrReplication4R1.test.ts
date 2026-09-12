@@ -36,7 +36,7 @@ describe('P0.VR.REPLICATION.4R1 authority tightening', () => {
   it('hero DOM uses subregion grid and cropped photo layer', () => {
     const twin = read('src/site00/components/reconstruction/ForensicBlueprintNdxOverviewTwin.tsx');
     expect(twin).toContain('site00-fb__hero-left');
-    expect(twin).toContain('site00-fb__hero-photo-crop');
+    expect(twin).toContain('site00-fb__hero-h06-crop');
     expect(twin).toContain('site00-fb__hero-left-scrim');
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrReplication2/executeShellFirstNdxReplication.ts')).toContain(
       'executeAuthorityTighteningPass',

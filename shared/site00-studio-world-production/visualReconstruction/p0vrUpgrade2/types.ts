@@ -271,6 +271,8 @@ export type ReconstructionTwinSession = {
   twinForensicCssPatch?: Record<string, string> | null;
   /** P0.VR.REPLICATION.4R1 — Authority-locked tightening pass */
   authorityTighteningReport?: import('../p0vrReplication4R1/executeAuthorityTighteningPass.js').AuthorityTighteningReport | null;
+  /** P0.VR.REPLICATION.4R2 — Hero surgical lock + collision elimination */
+  heroSurgicalLockReport?: import('../p0vrReplication4R2/types.js').HeroSurgicalLockReport | null;
 };
 
 export type PageLiveRegistryEntry = {

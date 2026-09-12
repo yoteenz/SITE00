@@ -14,6 +14,7 @@ import { executeGeometryLockPipeline } from '../p0vrReplication3d/executeGeometr
 import { executeContentRootBoundaryPipeline } from '../p0vrReplication3dBoundary/executeContentRootBoundaryPipeline.js';
 import { executeForensicBlueprintPipeline } from '../p0vrReplication4/executeForensicBlueprintPipeline.js';
 import { executeAuthorityTighteningPass } from '../p0vrReplication4R1/executeAuthorityTighteningPass.js';
+import { executeHeroSurgicalLockPipeline } from '../p0vrReplication4R2/executeHeroSurgicalLockPipeline.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -114,6 +115,13 @@ export async function executeShellFirstNdxReplication(input: {
     forensicReport: forensic.report,
   });
 
+  const heroLock = executeHeroSurgicalLockPipeline({
+    session: {
+      ...input.session,
+      ...tightening.sessionPatch,
+    },
+  });
+
   const forensicReady =
     forensic.report.status === 'PASS' ||
     (forensic.report.requiredCoverage >= 95 && !forensic.report.invalidReplicationRoot);
@@ -137,6 +145,7 @@ export async function executeShellFirstNdxReplication(input: {
       ...boundary.sessionPatch,
       ...forensic.sessionPatch,
       ...tightening.sessionPatch,
+      ...heroLock.sessionPatch,
       status: pageReady ? 'READY_FOR_REVIEW' : shellPass ? base.sessionPatch.status : 'FAILED',
       twinRenderMode: finalRenderMode,
       forensicBlueprintReport: forensic.report,
