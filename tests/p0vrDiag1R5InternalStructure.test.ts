@@ -28,7 +28,9 @@ import {
   resetInternalStructureEvidenceCounterForTest,
   resetRegionInternalStructureRegistryForTest,
   getRegionInternalStructure,
+  structureCacheKey,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/index.js';
+import { P0_VR_DIAG_1R5B_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1/constants.js';
 import { resolvePageRegionLayoutProfile } from '../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1/pageRegionLayoutProfiles.js';
 import { isRegionDepthSufficient } from '../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1/forensicDepthQualification.js';
 
@@ -154,7 +156,13 @@ describe('P0.VR.DIAG.1R5 internal structure', () => {
     const attemptedId = receipt.regionsAttempted[0]!;
     const touched = after.regionForensics.find((b) => b.regionId === attemptedId);
     expect(touched?.internalStructure?.status).toBeDefined();
-    const cacheKey = `${report.pageId}|${report.viewport}|${report.authorityVersionId ?? 'na'}|${report.captureId}|${P0_VR_DIAG_1R5A_BUILD}`;
+    const cacheKey = structureCacheKey({
+      pageId: after.pageId,
+      viewport: after.viewport,
+      authorityVersionId: after.authorityVersionId,
+      captureId: after.captureId,
+      forensicsVersion: P0_VR_DIAG_1R5B_BUILD,
+    });
     expect(getRegionInternalStructure(cacheKey, attemptedId)).toBeTruthy();
   });
 
