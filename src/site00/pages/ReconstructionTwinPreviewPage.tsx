@@ -4,7 +4,7 @@
 
 import { Navigate, useParams } from 'react-router-dom';
 import { useEffect, useMemo, useState } from 'react';
-import { resolveTwinSessionForPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
+import { resolveTwinSessionForPreviewRoute } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
 import { ReconstructionTwinProvider } from '../components/reconstruction/ReconstructionTwinContext';
 import { ReconstructionTwinBanner } from '../components/reconstruction/ReconstructionTwinBanner';
 import ProjectOperatingModulePage from './ProjectOperatingModulePage';
@@ -13,9 +13,17 @@ import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-reconstruction-twin.css';
 
 export default function ReconstructionTwinPreviewPage() {
-  const { projectSlug = '', sessionId = '' } = useParams<{ projectSlug: string; sessionId: string }>();
+  const { projectSlug = '', pageScope = '', sessionId = '' } = useParams<{
+    projectSlug: string;
+    pageScope: string;
+    sessionId: string;
+  }>();
   const [resolved, setResolved] = useState(false);
-  const [session, setSession] = useState(() => (sessionId ? resolveTwinSessionForPreview(sessionId) : null));
+  const [session, setSession] = useState(() =>
+    sessionId && pageScope
+      ? resolveTwinSessionForPreviewRoute({ projectSlug, pageScope, sessionId })
+      : null,
+  );
 
   useEffect(() => {
     const meta = document.createElement('meta');
@@ -34,10 +42,13 @@ export default function ReconstructionTwinPreviewPage() {
       return;
     }
     setResolved(false);
-    const found = resolveTwinSessionForPreview(sessionId);
+    const found =
+      pageScope && sessionId
+        ? resolveTwinSessionForPreviewRoute({ projectSlug, pageScope, sessionId })
+        : null;
     setSession(found);
     setResolved(true);
-  }, [sessionId]);
+  }, [sessionId, pageScope, projectSlug]);
 
   const twinPage = useMemo(() => {
     if (!session) return null;
@@ -66,7 +77,8 @@ export default function ReconstructionTwinPreviewPage() {
       <div className="site00-page site00-reconstruction-twin-missing">
         <p>TWIN SESSION NOT FOUND OR EXPIRED.</p>
         <p className="site00-body">
-          Return to PAGE UPGRADE on this device, tap PREVIEW TWIN again, or rebuild if the session was cleared.
+          Twin data lives in this browser only (not on the server). Return to PAGE UPGRADE on{' '}
+          <strong>this same host</strong>, tap PREVIEW TWIN or OPEN TWIN again, or rebuild if storage was cleared.
         </p>
       </div>
     );

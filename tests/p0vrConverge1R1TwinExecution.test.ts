@@ -28,8 +28,10 @@ import {
 import {
   readTwinSessionHandoff,
   resolveTwinSessionForPreview,
+  resolveTwinSessionForPreviewRoute,
   stashTwinSessionForPreview,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
+import { decodePageScopeToPageId, encodePageScope } from '../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinRoute.js';
 import {
   readPersistedTwinSession,
   resetTwinSessionPersistenceForTest,
@@ -165,6 +167,52 @@ describe('P0.VR.CONVERGE.1R1 twin execution handoff', () => {
     const resumed = getActiveTwinSessionForPage('ndxbook', 'ndxbook:/projects/ndxbook/overview');
     expect(resumed?.sessionId).toBe(twin.sessionId);
     expect(resumed?.status).toBe('PLANNED');
+  });
+
+  it('decode page scope matches encode for ndxbook overview', () => {
+    const pageId = 'ndxbook:/projects/ndxbook/overview';
+    const scope = encodePageScope(pageId);
+    expect(scope).toBe('ndxbook----projects--ndxbook--overview');
+    expect(decodePageScopeToPageId('ndxbook', scope)).toBe(pageId);
+  });
+
+  it('preview route resolves latest session when url session id is stale', () => {
+    const store = new Map<string, string>();
+    (globalThis as { sessionStorage?: Storage }).sessionStorage = {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => {
+        store.set(k, v);
+      },
+      removeItem: (k: string) => {
+        store.delete(k);
+      },
+      clear: () => store.clear(),
+      key: () => null,
+      length: 0,
+    } as Storage;
+    openPageCreativeUpgradeSession({
+      projectId: 'ndxbook',
+      pageId: 'ndxbook:/projects/ndxbook/overview',
+      viewport: 'mobile',
+      captureId: 'cap-1',
+      pagePurpose: 'NDXBOOK OVERVIEW',
+      parentAuthorityLabel: 'NDXBOOK OVERVIEW',
+      route: '/projects/ndxbook/overview',
+      isRoot: true,
+      designAuthorityVersionId: 'auth-1',
+      designAuthorityAssetRef: 'https://cdn.example.com/a.png',
+      captureAssetRef: 'https://cdn.example.com/l.png',
+    });
+    approvePageCreativeDirection('ndxbook', 'ndxbook:/projects/ndxbook/overview', 'mobile');
+    const twin = getActiveTwinSessionForPage('ndxbook', 'ndxbook:/projects/ndxbook/overview')!;
+    stashTwinSessionForPreview({ ...twin, status: 'READY_FOR_REVIEW' });
+    const scope = encodePageScope(twin.pageId);
+    const resolved = resolveTwinSessionForPreviewRoute({
+      projectSlug: 'ndxbook',
+      pageScope: scope,
+      sessionId: 'twin_stale_wrong_id',
+    });
+    expect(resolved?.sessionId).toBe(twin.sessionId);
   });
 
   it('preview handoff resolves session after runtime cleared', () => {

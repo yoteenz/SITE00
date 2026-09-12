@@ -8,6 +8,15 @@ export function encodePageScope(pageId: string): string {
   return pageId.replace(/[:/]/g, '--').replace(/^-+|-+$/g, '') || 'page';
 }
 
+/** Inverse of encodePageScope (`:` and `/` both become `--`). */
+export function decodePageScopeToPageId(projectId: string, pageScope: string): string {
+  const parts = pageScope.split('--').filter((p) => p.length > 0);
+  if (parts[0] === projectId && parts.length > 1) {
+    return `${projectId}:/${parts.slice(1).join('/')}`;
+  }
+  return `${projectId}:${pageScope.replace(/--+/g, '/')}`;
+}
+
 export function buildTwinRoute(input: {
   projectId: string;
   pageId: string;

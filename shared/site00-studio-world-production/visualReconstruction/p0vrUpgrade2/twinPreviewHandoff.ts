@@ -4,8 +4,24 @@
 
 import type { ReconstructionTwinSession } from './types.js';
 import { getTwinSession, importTwinSessionForPreview } from './reconstructionTwinSession.js';
+import {
+  listPersistedTwinSessionsForProject,
+  readPersistedActiveTwinSessionId,
+} from './twinSessionPersistence.js';
+import { decodePageScopeToPageId, encodePageScope } from './twinRoute.js';
 
 const HANDOFF_PREFIX = 'site00:twin-preview-handoff:v1:';
+
+/** Smaller JSON for sessionStorage / quota-sensitive mobile handoff. */
+export function slimTwinSessionForPreviewHandoff(session: ReconstructionTwinSession): ReconstructionTwinSession {
+  return {
+    ...session,
+    fidelityQa: session.fidelityQa.slice(0, 6),
+    revisions: session.revisions.slice(-3),
+    twinVersions: session.twinVersions.slice(-2),
+    buildSteps: session.buildSteps,
+  };
+}
 
 function writeHandoff(sessionId: string, json: string): void {
   if (typeof sessionStorage !== 'undefined') {
@@ -45,10 +61,47 @@ function readHandoffRaw(sessionId: string): string | null {
 }
 
 export function stashTwinSessionForPreview(session: ReconstructionTwinSession): void {
+  const slim = slimTwinSessionForPreviewHandoff(session);
   try {
-    writeHandoff(session.sessionId, JSON.stringify(session));
+    writeHandoff(session.sessionId, JSON.stringify(slim));
   } catch {
-    // Quota — persistence layer may still have the session
+    try {
+      writeHandoff(
+        session.sessionId,
+        JSON.stringify({
+          sessionId: slim.sessionId,
+          projectId: slim.projectId,
+          pageId: slim.pageId,
+          canonicalRoute: slim.canonicalRoute,
+          twinRoute: slim.twinRoute,
+          status: slim.status,
+          viewport: slim.viewport,
+          authorityVersionId: slim.authorityVersionId,
+          reconstructionPlanId: slim.reconstructionPlanId,
+          twinCssPatch: slim.twinCssPatch,
+          reconstructionPlan: slim.reconstructionPlan,
+          regionExecutionDecisions: slim.regionExecutionDecisions,
+          functionContract: slim.functionContract,
+          buildSteps: slim.buildSteps,
+          sourceLiveVersionId: slim.sourceLiveVersionId,
+          beforeCaptureId: slim.beforeCaptureId,
+          twinVersionId: slim.twinVersionId,
+          mutationPolicy: slim.mutationPolicy,
+          createdAt: slim.createdAt,
+          updatedAt: slim.updatedAt,
+          twinCapture: slim.twinCapture,
+          responsiveImpact: slim.responsiveImpact,
+          approvedForPromotionAt: slim.approvedForPromotionAt,
+          promotedAt: slim.promotedAt,
+          fidelityQa: [],
+          revisions: [],
+          twinVersions: [],
+          promotionReadiness: slim.promotionReadiness,
+        } as ReconstructionTwinSession),
+      );
+    } catch {
+      // persistence layer may still have the session
+    }
   }
 }
 
@@ -68,4 +121,35 @@ export function resolveTwinSessionForPreview(sessionId: string): ReconstructionT
   const handoff = readTwinSessionHandoff(sessionId);
   if (!handoff) return null;
   return importTwinSessionForPreview(handoff);
+}
+
+/**
+ * Resolve twin for debug URL — session id in path may be stale; fall back to active session for page scope.
+ */
+export function resolveTwinSessionForPreviewRoute(input: {
+  projectSlug: string;
+  pageScope: string;
+  sessionId: string;
+}): ReconstructionTwinSession | null {
+  const direct = resolveTwinSessionForPreview(input.sessionId);
+  if (direct && direct.projectId === input.projectSlug) return direct;
+
+  const pageId = decodePageScopeToPageId(input.projectSlug, input.pageScope);
+  const activeId = readPersistedActiveTwinSessionId(input.projectSlug, pageId);
+  if (activeId) {
+    const active = resolveTwinSessionForPreview(activeId);
+    if (active) return active;
+  }
+
+  const candidates = listPersistedTwinSessionsForProject(input.projectSlug).filter(
+    (s) =>
+      encodePageScope(s.pageId) === input.pageScope &&
+      s.status !== 'PROMOTED' &&
+      s.status !== 'SUPERSEDED',
+  );
+  candidates.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const latest = candidates[0];
+  if (latest) return importTwinSessionForPreview(latest);
+
+  return null;
 }
