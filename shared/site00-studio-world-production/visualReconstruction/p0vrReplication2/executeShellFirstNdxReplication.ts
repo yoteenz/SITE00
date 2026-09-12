@@ -9,6 +9,7 @@ import { evaluateShellMatch, expectedShellFirstTwinBandPresence } from './shellM
 import { buildShellReconstructionReceipt } from './shellReconstructionReceipt.js';
 import { buildDriftTriangulationReport } from '../p0vrReplication3a/buildDriftTriangulationReport.js';
 import { executeVisionLiteralNdxReplication } from '../p0vrReplication3b/executeVisionLiteralNdxReplication.js';
+import { executeReplication3cPipeline } from '../p0vrReplication3c/executeReplication3cPipeline.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -72,10 +73,19 @@ export async function executeShellFirstNdxReplication(input: {
     preVisionBaselineRenderMode: 'SHELL_FIRST_NDX_OVERVIEW',
   });
 
-  const visionReady = visionLiteral.report.heroRecognizable && !visionLiteral.report.capabilityLimit;
-  const finalRenderMode = visionReady ? 'VISION_LITERAL_NDX_OVERVIEW' : visionLiteral.report.capabilityLimit
-    ? input.session.preVisionBaselineRenderMode ?? 'SHELL_FIRST_NDX_OVERVIEW'
-    : 'VISION_LITERAL_NDX_OVERVIEW';
+  const replication3c = executeReplication3cPipeline({
+    session: input.session,
+    visionReport: visionLiteral.report,
+    authorityImageUrl: input.session.designAuthorityAssetRef ?? null,
+    priorTwinVersionId: visionLiteral.sessionPatch.twinVersionId ?? input.twinVersionId,
+  });
+
+  const visionReady = replication3c.report.heroHumanRecognizable;
+  const finalRenderMode = visionReady
+    ? 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW'
+    : replication3c.report.capabilityLimit
+      ? 'VISION_LITERAL_NDX_OVERVIEW'
+      : 'VISION_LITERAL_NDX_OVERVIEW';
 
   return {
     blueprint,
@@ -84,6 +94,7 @@ export async function executeShellFirstNdxReplication(input: {
     sessionPatch: {
       ...base.sessionPatch,
       ...visionLiteral.sessionPatch,
+      ...replication3c.sessionPatch,
       status: pageReady ? 'READY_FOR_REVIEW' : shellPass ? base.sessionPatch.status : 'FAILED',
       twinRenderMode: finalRenderMode,
       visualAuthorityStatus: shellPass ? 'AUTHORITY_FIRST_BUILT' : 'SHELL_MISMATCH',
@@ -95,6 +106,7 @@ export async function executeShellFirstNdxReplication(input: {
       replicationDecisionTraces: driftTriangulationReport.traces,
       preVisionBaselineRenderMode: 'SHELL_FIRST_NDX_OVERVIEW',
       visionReplicationReport: visionLiteral.report,
+      replication3cReport: replication3c.report,
     },
   };
 }

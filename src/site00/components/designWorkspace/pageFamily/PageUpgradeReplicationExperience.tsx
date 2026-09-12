@@ -20,6 +20,7 @@ import {
 import { buildReplicationReviewModel } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication2/replicationReviewModel.js';
 import { DriftTracePanel } from './DriftTracePanel.js';
 import { VisionTracePanel } from './VisionTracePanel.js';
+import { AssetResolutionPanel } from './AssetResolutionPanel.js';
 import '../../../styles/site00-page-upgrade-replication.css';
 
 type Props = {
@@ -78,6 +79,7 @@ export function PageUpgradeReplicationExperience({
 }: Props) {
   const [driftTraceOpen, setDriftTraceOpen] = useState(false);
   const [visionTraceOpen, setVisionTraceOpen] = useState(false);
+  const [assetResolutionOpen, setAssetResolutionOpen] = useState(false);
   const experienceState = resolveReconstructionExperienceState({
     session,
     twinSession,
@@ -348,6 +350,14 @@ export function PageUpgradeReplicationExperience({
               {visionTraceOpen ? 'HIDE VISION TRACE' : 'VISION TRACE'}
             </button>
             {visionTraceOpen ? <VisionTracePanel report={twinSession?.visionReplicationReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setAssetResolutionOpen((v) => !v)}
+            >
+              {assetResolutionOpen ? 'HIDE ASSET RESOLUTION' : 'ASSET RESOLUTION'}
+            </button>
+            {assetResolutionOpen ? <AssetResolutionPanel report={twinSession?.replication3cReport} /> : null}
           </div>
         ) : null}
       </footer>

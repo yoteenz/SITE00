@@ -64,9 +64,22 @@
   position: relative;
 }
 
+.site00-vlt__image-slice--bound {
+  filter: grayscale(1) contrast(1.05);
+}
+
 .site00-vlt__image-slice--missing {
   opacity: 0.85;
-  outline: 1px dashed rgba(255, 255, 255, 0.2);
+  outline: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.site00-vlt--executed .site00-vlt__image-slice--missing {
+  display: none;
+}
+
+.site00-vlt__image-slice--muted {
+  background: linear-gradient(135deg, #2a2a2a, #4a4a4a);
+  filter: grayscale(1);
 }
 
 .site00-vlt__lime-ndx-region {
@@ -100,11 +113,35 @@
   border-left: 2px solid #c4ff00;
 }
 
-.site00-vlt__asset-tag {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  font-size: 7px;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.5);
+.site00-vlt__masthead .site00-sft__project-title {
+  font-family: 'Martian Mono', ui-monospace, monospace;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.site00-vlt__masthead .site00-sft__project-sub {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site00-vlt--executed {
+  --sft-bg: #f0f0ee;
+}
+
+.site00-vlt__host-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+.site00-vlt__right-graphic--bound {
+  background-color: #111;
+}
+
+.site00-vlt__right-graphic--accent {
+  border-left: 2px solid #c4ff00;
+  background: linear-gradient(180deg, #1a1a1a, #333);
 }
