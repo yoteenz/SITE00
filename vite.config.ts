@@ -117,9 +117,26 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_SITE00_CLOUD_PREVIEW': JSON.stringify(cloudMobilePreview ? '1' : '0'),
     },
     resolve: {
-      alias: {
-        '@site00-email': path.resolve(__dirname, 'shared/site00-email'),
-      },
+      alias: [
+        { find: '@site00-email', replacement: path.resolve(__dirname, 'shared/site00-email') },
+        // Playwright must stay server-only; shared twin-build modules use dynamic import('playwright').
+        {
+          find: 'playwright/package.json',
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/playwright-package.json'),
+        },
+        {
+          find: 'playwright',
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/playwright.ts'),
+        },
+        {
+          find: 'chromium-bidi/lib/cjs/bidiMapper/BidiMapper',
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/chromium-bidi-empty.ts'),
+        },
+        {
+          find: 'chromium-bidi/lib/cjs/cdp/CdpConnection',
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/chromium-bidi-empty.ts'),
+        },
+      ],
     },
     plugins: [
       react(cloudMobilePreview ? { fastRefresh: false } : undefined),

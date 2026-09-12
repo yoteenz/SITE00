@@ -8190,3 +8190,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrReplication2/` — `AuthorityShellBlueprint`, `ShellMatchResult` gate, `ShellReconstructionReceipt`, `ReplicationReviewModel`, `executeShellFirstNdxReplication` (wraps 1R1, `P0_VR_REPLICATION_2_BUILD = v316`). UI: `ShellFirstNdxOverviewTwin` + light editorial shell CSS (SITE 00 host header, breadcrumb, masthead split, section nav, hero, progress, metrics, focus, activity, bottom nav); NOT LIVE **outside-shell strip** on twin preview. PAGE UPGRADE: visible **DESIGN AUTHORITY** panel, shell-first replicate copy, REVIEW shell summary + DETAILS receipts. Pipeline: REPLICATION_MODE → shell-first executor; **SHELL_MISMATCH** blocks false success. Tests: `p0vrReplication2.test.ts`.
 - **Founder next:** Deploy **v324+** → UPGRADE → confirm authority image in REFERENCE → **REPLICATE PAGE** → REVIEW (shell line + AUTHORITY/TWIN) → **PREVIEW TWIN** — twin should read as same page family as authority (light shell, host header), not dark card dashboard. Live unchanged until promote. Remaining gap: pixel-perfect geometry still profile-derived until authority-image CV segmentation lands.
 
+---
+
+## 2026-09-12 — Production boot fix: Playwright leaked into SPA vendor bundle
+
+- **Context:** Founder reported **site00.com no longer booting** — immersive loader shell stuck, `#root` empty, React never mounted.
+- **Cause:** Vite `manualChunks` pulled **Playwright** (and bare `chromium-bidi/*` imports) into client `vendor`/`index` via shared import chain `reconstructionTwinSession` → `twinBuildPipeline` → `executeNdxbookReplication` → `browserReplicationLoop` → `import('playwright')`. Browsers throw on unresolved `chromium-bidi` module specifiers before app code runs.
+- **Fix:** Vite `resolve.alias` maps `playwright` (+ `playwright/package.json`) and `chromium-bidi` subpaths to **browser stubs** under `scripts/vite-browser-stubs/`. Guard test `tests/site00ProductionBundleGuard.test.ts` asserts `dist/assets` omit those strings after `npm run build`.
+- **Founder next:** Upload fresh GitHub Release ZIP to GoDaddy (new bundle hash, e.g. not `index.BYksM3jN.js` with chromium-bidi). Playwright replication remains **server-only** (Railway/API); browser twin build paths that call Playwright fail fast if mis-invoked client-side.
+
