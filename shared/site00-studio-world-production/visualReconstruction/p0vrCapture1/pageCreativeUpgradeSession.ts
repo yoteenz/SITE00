@@ -13,7 +13,9 @@ import {
   type ForensicUpgradeBundle,
 } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
 import type { RegionEvidenceRecoveryReceipt } from '../p0vrDiag1R4/types.js';
-import { P0_VR_DIAG_1R5_BUILD } from '../p0vrDiag1/constants.js';
+import { P0_VR_DIAG_1R5A_BUILD } from '../p0vrDiag1/constants.js';
+import { analyzeSingleRegionStructure } from '../p0vrDiag1R5/analyzeSingleRegionStructure.js';
+import { resolvePageRegionLayoutProfile } from '../p0vrDiag1/pageRegionLayoutProfiles.js';
 import type { AuthorityRelativeForensicsInput } from '../p0vrDiag1/types.js';
 import { recordForensicsVersion } from '../p0vrDiag1/forensicsVersion.js';
 import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
@@ -269,6 +271,7 @@ export function applyForensicUpgradeBundleToSession(
           regionsStillBlocked: receipt.regionsStillBlocked,
           rootCauseSummary: receipt.rootCauseSummary ?? null,
           structureTraceCount: receipt.structureTraces?.length ?? 0,
+          structureToDepthTraces: receipt.structureToDepthTraces ?? [],
         }
       : session.lastEvidenceRecoverySummary ?? null,
   };
@@ -327,7 +330,7 @@ export function analyzeMissingPageCreativeUpgradeEvidence(
   const shell = fullInput.designAuthority.visualShellSpec;
   const { bundle, receipt } = runRegionEvidenceRecoveryForUpgrade({
     report: stored,
-    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R5_BUILD,
+    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R5A_BUILD,
     pageArchetype: fullInput.pageArchetype,
     screenId: fullInput.screenId,
     isRootPage: fullInput.isRootPage,
@@ -349,6 +352,54 @@ export function analyzeMissingPageCreativeUpgradeEvidence(
   return applyForensicUpgradeBundleToSession(projectId, pageId, viewport, bundle, {
     evidenceRecoveryAt: receipt.createdAt,
     recoveryReceipt: receipt,
+  });
+}
+
+/** Single-region structure analysis (1R5A) — no full-page re-segment. */
+export function analyzeSingleRegionStructureForUpgrade(
+  projectId: string,
+  pageId: string,
+  viewport: DesignViewportClass,
+  regionId: string,
+  fullInput: AuthorityRelativeForensicsInput & {
+    pagePurpose: string;
+    route: string;
+    isRootPage?: boolean;
+  },
+): PageCreativeUpgradeSession | null {
+  const session = getPageCreativeUpgradeSession(projectId, pageId, viewport);
+  if (!session) return null;
+
+  const stored =
+    getForensicReport(session.forensicsReportId) ??
+    buildForensicUpgradeBundle(fullInput).report;
+
+  const profile = resolvePageRegionLayoutProfile({
+    pageArchetype: fullInput.pageArchetype,
+    screenId: fullInput.screenId,
+    isRootPage: fullInput.isRootPage,
+  });
+
+  const result = analyzeSingleRegionStructure({
+    report: stored,
+    profile,
+    regionId,
+    domMeasurements: fullInput.domMeasurements ?? fullInput.currentCapture.domMeasurements,
+  });
+  if (!result) return null;
+
+  const bundle = recomputeForensicScoringFromReport(result.report, {
+    pageArchetype: fullInput.pageArchetype,
+    screenId: fullInput.screenId,
+    isRootPage: fullInput.isRootPage,
+    pagePurpose: fullInput.pagePurpose,
+    route: fullInput.route,
+    domMeasurements: fullInput.domMeasurements ?? fullInput.currentCapture.domMeasurements,
+    structureToDepthTraces: [result.depthTrace],
+  });
+
+  return applyForensicUpgradeBundleToSession(projectId, pageId, viewport, bundle, {
+    evidenceRecoveryAt: new Date().toISOString(),
   });
 }
 

@@ -20,10 +20,13 @@ import { mergeRecoveredDimensions } from './mergeRecoveredDimensions.js';
 import { resolveDomTargetConfidence, targetConfidenceAllowsSufficientDepth } from './regionTargetConfidence.js';
 import { appendRecoveryHistory } from './regionEvidenceRecoveryHistory.js';
 import type { RecoveredDimensionProvenance, RegionEvidenceRecoveryReceipt } from './types.js';
-import { P0_VR_DIAG_1R5_BUILD } from '../p0vrDiag1/constants.js';
+import { P0_VR_DIAG_1R5A_BUILD } from '../p0vrDiag1/constants.js';
+import { cacheKeyFromReport } from '../p0vrDiag1R5/enrichRegionStructure.js';
+import { structureCacheKey, storeRegionInternalStructures } from '../p0vrDiag1R5/regionInternalStructureRegistry.js';
+import { recordRegionStructureVersion } from '../p0vrDiag1R5/regionStructureVersion.js';
+import type { StructureToDepthTrace } from '../p0vrDiag1R5/structureToDepthTrace.js';
 import { runRegionInternalStructureRecovery } from '../p0vrDiag1R5/regionInternalStructureRecovery.js';
 import { repairDimensionTypesOnBundles } from '../p0vrDiag1R5/dimensionTypeRepair.js';
-import { storeRegionInternalStructures } from '../p0vrDiag1R5/regionInternalStructureRegistry.js';
 import type { InternalStructureRecoveryTrace } from '../p0vrDiag1R5/types.js';
 
 export type AnalyzeMissingForensicEvidenceInput = {
@@ -86,8 +89,11 @@ export function analyzeMissingForensicEvidence(
   const regionsImproved: string[] = [];
   const regionsStillBlocked: string[] = [];
   const structureTraces: InternalStructureRecoveryTrace[] = [];
+  const structureToDepthTraces: StructureToDepthTrace[] = [];
   const recoveryFailures: NonNullable<RegionEvidenceRecoveryReceipt['recoveryFailures']> = [];
   const structureStore: Array<{ regionId: string; current: import('../p0vrDiag1R5/types.js').RegionInternalStructure; authority: import('../p0vrDiag1R5/types.js').RegionInternalStructure }> = [];
+  const cacheKeyInput = cacheKeyFromReport(input.report);
+  const cacheKey = structureCacheKey({ ...cacheKeyInput, forensicsVersion: P0_VR_DIAG_1R5A_BUILD });
 
   for (const block of blocking) {
     const idx = regionForensics.findIndex((b) => b.regionId === block.regionId);
@@ -172,8 +178,10 @@ export function analyzeMissingForensicEvidence(
       authority: match.authorityRegion,
       validDimensionsBefore: validBefore,
       captureScopeInsufficient: Boolean(scopeMismatch && !dom),
+      bundleBefore: bundle,
     });
     structureTraces.push(structurePass.trace);
+    if (structurePass.depthTrace) structureToDepthTraces.push(structurePass.depthTrace);
     structureStore.push({
       regionId: block.regionId,
       current: structurePass.currentStructure,
@@ -204,13 +212,18 @@ export function analyzeMissingForensicEvidence(
     const allRecovered = [...recovered, ...structurePass.dimensionEvidence];
 
     for (const row of allRecovered) {
-      if (row.currentSource === 'DOM_RECT' || row.currentSource === 'COMPUTED_STYLE') {
+      if (
+        row.currentSource === 'DOM_RECT' ||
+        row.currentSource === 'COMPUTED_STYLE' ||
+        row.currentSource === 'CHILD_ANCHOR'
+      ) {
         provenance.push({
           dimension: row.dimension,
           source: row.currentSource,
           sourceId: row.evidenceId,
           regionId: block.regionId,
-          extractionMethod: plan.recommendedRecoveryMethod,
+          extractionMethod:
+            row.currentSource === 'CHILD_ANCHOR' ? 'CHILD_ANCHOR_EXTRACTION' : plan.recommendedRecoveryMethod,
           confidence: row.confidence,
           timestamp: new Date().toISOString(),
         });
@@ -246,17 +259,32 @@ export function analyzeMissingForensicEvidence(
   const typeRepair = repairDimensionTypesOnBundles({
     bundles: regionForensics,
     forensicsVersionBefore: input.forensicsVersion,
-    forensicsVersionAfter: P0_VR_DIAG_1R5_BUILD,
+    forensicsVersionAfter: P0_VR_DIAG_1R5A_BUILD,
   });
+
+  const reconciledAfterRepair = typeRepair.bundles.map((b) => reconcileBundleDimensions(b));
 
   const patchedReport: AuthorityRelativeForensicsReport = {
     ...input.report,
-    regionForensics: typeRepair.bundles,
-    forensicsVersion: P0_VR_DIAG_1R5_BUILD,
+    regionForensics: reconciledAfterRepair,
+    forensicsVersion: P0_VR_DIAG_1R5A_BUILD,
     generatedAt: new Date().toISOString(),
   };
 
-  storeRegionInternalStructures(input.report.reportId, structureStore);
+  storeRegionInternalStructures(cacheKey, structureStore);
+  for (const entry of structureStore) {
+    const bundle = reconciledAfterRepair.find((b) => b.regionId === entry.regionId);
+    if (bundle?.internalStructure) {
+      recordRegionStructureVersion({
+        cacheKeyInput: { ...cacheKeyInput, forensicsVersion: P0_VR_DIAG_1R5A_BUILD },
+        regionId: entry.regionId,
+        forensicsVersion: P0_VR_DIAG_1R5A_BUILD,
+        summary: bundle.internalStructure,
+        current: entry.current,
+        authority: entry.authority,
+      });
+    }
+  }
 
   const { report: reconciledReport, aggregation } = reconcileForensicReportScoring({
     report: patchedReport,
@@ -282,7 +310,7 @@ export function analyzeMissingForensicEvidence(
 
   const receipt: RegionEvidenceRecoveryReceipt = {
     forensicsVersionBefore: input.forensicsVersion,
-    forensicsVersionAfter: P0_VR_DIAG_1R5_BUILD,
+    forensicsVersionAfter: P0_VR_DIAG_1R5A_BUILD,
     regionsAttempted: blocking.map((b) => b.regionId),
     regionsImproved,
     regionsStillBlocked,
@@ -295,6 +323,7 @@ export function analyzeMissingForensicEvidence(
     regionTransitions: transitions,
     plans,
     structureTraces,
+    structureToDepthTraces: structureToDepthTraces.length ? structureToDepthTraces : undefined,
     recoveryFailures: recoveryFailures.length ? recoveryFailures : undefined,
     dimensionTypeRepair: typeRepair.receipt.dimensionsReclassified ? typeRepair.receipt : null,
     rootCauseSummary,

@@ -331,6 +331,9 @@ export type RegionInternalStructureSummary = {
   subtype?: 'MILESTONE' | 'CARD_RAIL' | 'COMPOSITE' | 'AMBIGUOUS';
   completenessPct?: number;
   anchorHierarchy?: string[];
+  structureVersionId?: string;
+  failureCode?: string;
+  failureDetail?: string;
 };
 
 export type RegionForensicsBundle = {

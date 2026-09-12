@@ -1157,6 +1157,44 @@
   margin-top: 4px;
 }
 
+.site00-pfw-forensic-overlay__structure-meta {
+  font-size: 11px;
+  opacity: 0.75;
+  margin: 0 0 8px;
+}
+
+.site00-pfw-forensic-overlay__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.site00-pfw-forensic-overlay__panel--sheet {
+  width: min(100%, 100vw);
+  max-height: min(96vh, 900px);
+  border-radius: 16px 16px 0 0;
+}
+
+.site00-pfw-structure-side h4 {
+  margin: 12px 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.site00-pfw-structure-side__list {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.site00-pfw-structure-trace-list li {
+  margin-bottom: 6px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
 .site00-pfw-forensic-overlay__panel {
   position: relative;
   z-index: 1;

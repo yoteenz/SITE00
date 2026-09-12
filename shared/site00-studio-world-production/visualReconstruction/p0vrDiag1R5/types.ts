@@ -194,4 +194,5 @@ export type InternalStructureRecoveryTrace = {
   structureStatus: InternalStructureStatus;
   recoveredDimensions: string[];
   failure?: EvidenceRecoveryFailure;
+  depthTrace?: import('./structureToDepthTrace.js').StructureToDepthTrace;
 };

@@ -19,6 +19,7 @@ import {
   ForensicEvidenceDetailOverlay,
   resolveAllRegionForensics,
 } from './ForensicEvidenceOverlays.js';
+import { ForensicStructureOverlay } from './ForensicStructureOverlay.js';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
 type ReviewMode = 'before' | 'after' | 'authority';
@@ -51,6 +52,7 @@ type Props = {
   onAnalyzeMissingEvidence?: () => void;
   evidenceRecoveryRunning?: boolean;
   evidenceRecoveryError?: string | null;
+  onAnalyzeRegionStructure?: (regionId: string) => void;
 };
 
 function useIsMobileViewport(): boolean {
@@ -93,6 +95,7 @@ export function PageCreativeUpgradePanel({
   onAnalyzeMissingEvidence,
   evidenceRecoveryRunning,
   evidenceRecoveryError,
+  onAnalyzeRegionStructure,
 }: Props) {
   const isMobile = useIsMobileViewport();
   const [compareMode, setCompareMode] = useState<CompareMode>('current');
@@ -107,6 +110,7 @@ export function PageCreativeUpgradePanel({
   const [evidenceId, setEvidenceId] = useState<string | null>(null);
   const [allForensicsOpen, setAllForensicsOpen] = useState(false);
   const [evidenceRegionId, setEvidenceRegionId] = useState<string | null>(null);
+  const [structureRegionId, setStructureRegionId] = useState<string | null>(null);
 
   const showTwinReview =
     twinSession &&
@@ -507,6 +511,18 @@ export function PageCreativeUpgradePanel({
                             : ''}
                         </p>
                       ) : null}
+                      {session.lastEvidenceRecoverySummary?.structureToDepthTraces?.length ? (
+                        <ul className="site00-pfw-upgrade-v2__recovery-transitions site00-pfw-structure-trace-list">
+                          {session.lastEvidenceRecoverySummary.structureToDepthTraces.map((t) => (
+                            <li key={t.regionId}>
+                              <strong>{t.regionName}</strong> · {t.resolvedAnchors.length} anchors ·{' '}
+                              {t.generatedMeasurements.length} generated · {t.qualifiedDimensions.length} qualified ·{' '}
+                              {t.depthBefore} → {t.depthAfter}
+                              {t.blockingReason ? ` · ${t.blockingReason}` : ''}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                       {session.lastEvidenceRecoverySummary?.regionsImproved.length ? (
                         <ul className="site00-pfw-upgrade-v2__recovery-transitions">
                           {session.lastEvidenceRecoverySummary.regionsImproved.map((id) => (
@@ -799,6 +815,10 @@ export function PageCreativeUpgradePanel({
           setEvidenceId(regionId);
           setAllForensicsOpen(false);
         }}
+        onSelectStructure={(regionId) => {
+          setStructureRegionId(regionId);
+          setAllForensicsOpen(false);
+        }}
       />
       <ForensicEvidenceDetailOverlay
         open={Boolean(evidenceId || evidenceRegionId)}
@@ -810,6 +830,15 @@ export function PageCreativeUpgradePanel({
           setEvidenceId(null);
           setEvidenceRegionId(null);
         }}
+        onOpenStructure={(rid) => {
+          setStructureRegionId(rid);
+        }}
+      />
+      <ForensicStructureOverlay
+        open={Boolean(structureRegionId)}
+        region={resolveAllRegionForensics(diagnosis).find((r) => r.regionId === structureRegionId) ?? null}
+        onClose={() => setStructureRegionId(null)}
+        onAnalyzeStructure={onAnalyzeRegionStructure}
       />
     </div>,
     document.body,

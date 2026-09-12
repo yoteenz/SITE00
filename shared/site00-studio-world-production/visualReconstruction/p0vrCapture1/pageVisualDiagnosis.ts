@@ -91,6 +91,13 @@ export type RegionForensicsSummary = {
   internalStructureStatus?: string;
   internalStructureHierarchy?: string[];
   internalStructureSubtype?: string;
+  regionType?: string;
+  showViewStructure?: boolean;
+  showAnalyzeStructure?: boolean;
+  structureFailureCode?: string;
+  structureFailureDetail?: string;
+  structureView?: import('../p0vrDiag1R5/structureUiModel.js').RegionStructureViewModel;
+  structureToDepthTrace?: import('../p0vrDiag1R5/structureToDepthTrace.js').StructureToDepthTrace;
 };
 
 export type PageVisualDiagnosis = {
@@ -103,6 +110,9 @@ export type PageVisualDiagnosis = {
   detectedAt: string;
   forensicsReportId?: string;
   alignmentStatus?: string;
+  forensicsEngineVersion?: string;
+  structureUiVersion?: string;
+  structureToDepthTraces?: import('../p0vrDiag1R5/structureToDepthTrace.js').StructureToDepthTrace[];
 };
 
 function finding(

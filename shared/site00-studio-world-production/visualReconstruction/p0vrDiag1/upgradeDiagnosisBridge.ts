@@ -17,9 +17,18 @@ import type { RegionEvidenceRecoveryReceipt } from '../p0vrDiag1R4/types.js';
 import type {
   AuthorityRelativeForensicsInput,
   AuthorityRelativeForensicsReport,
+  DomRegionMeasurement,
   GeometryDelta,
   MeasuredReconstructionSpec,
 } from './types.js';
+import { P0_VR_DIAG_1R5A_BUILD } from './constants.js';
+import {
+  regionNeedsAnalyzeStructure,
+  resolveRegionInternalStructureSummary,
+  resolveRegionStructureViewModel,
+} from '../p0vrDiag1R5/enrichRegionStructure.js';
+import { shouldShowViewStructure } from '../p0vrDiag1R5/structureUiVisibility.js';
+import type { StructureToDepthTrace } from '../p0vrDiag1R5/structureToDepthTrace.js';
 
 export type ForensicUpgradeBundle = {
   report: AuthorityRelativeForensicsReport;
@@ -41,7 +50,15 @@ export function buildForensicUpgradeBundle(input: AuthorityRelativeForensicsInpu
     captureId: input.currentCapture.captureId,
     report,
   });
-  const visualDiagnosis = forensicReportToVisualDiagnosis(report);
+  const profile = resolvePageRegionLayoutProfile({
+    pageArchetype: input.pageArchetype,
+    screenId: input.screenId,
+    isRootPage: input.isRootPage,
+  });
+  const visualDiagnosis = forensicReportToVisualDiagnosis(report, {
+    profile,
+    domMeasurements: input.currentCapture.domMeasurements,
+  });
   const reconstructionPlan = measuredSpecToReconstructionPlan({
     measuredSpec,
     report,
@@ -62,6 +79,8 @@ export function recomputeForensicScoringFromReport(
     isRootPage?: boolean;
     pagePurpose?: string;
     route?: string;
+    domMeasurements?: DomRegionMeasurement[];
+    structureToDepthTraces?: StructureToDepthTrace[];
   },
 ): ForensicUpgradeBundle {
   const profile = resolvePageRegionLayoutProfile({
@@ -77,7 +96,11 @@ export function recomputeForensicScoringFromReport(
     captureId: reconciled.captureId,
     report: reconciled,
   });
-  const visualDiagnosis = forensicReportToVisualDiagnosis(reconciled);
+  const visualDiagnosis = forensicReportToVisualDiagnosis(reconciled, {
+    profile,
+    domMeasurements: input.domMeasurements,
+    structureToDepthTraces: input.structureToDepthTraces,
+  });
   const reconstructionPlan = measuredSpecToReconstructionPlan({
     measuredSpec,
     report: reconciled,
@@ -125,11 +148,24 @@ export function runRegionEvidenceRecoveryForUpgrade(input: {
     isRootPage: input.isRootPage,
     pagePurpose: input.pagePurpose,
     route: input.route,
+    domMeasurements: input.domMeasurements,
+    structureToDepthTraces: receipt.structureToDepthTraces,
   });
   return { bundle, receipt };
 }
 
-export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensicsReport): PageVisualDiagnosis {
+export function forensicReportToVisualDiagnosis(
+  report: AuthorityRelativeForensicsReport,
+  options?: {
+    profile?: ReturnType<typeof resolvePageRegionLayoutProfile>;
+    domMeasurements?: DomRegionMeasurement[];
+    structureToDepthTraces?: StructureToDepthTrace[];
+  },
+): PageVisualDiagnosis {
+  const profile =
+    options?.profile ??
+    resolvePageRegionLayoutProfile({ pageArchetype: report.pageId, screenId: undefined, isRootPage: true });
+  const traceByRegion = new Map((options?.structureToDepthTraces ?? []).map((t) => [t.regionId, t]));
   const findings: VisualDiagnosisFinding[] = [];
 
   for (const item of report.topImpactItems) {
@@ -191,34 +227,71 @@ export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensi
       captureScope: report.coverageMap.captureScope,
       scopeMismatch: report.coverageMap.scopeMismatch,
     },
-    allRegionForensics: report.regionForensics.map((b) => ({
-      regionId: b.regionId,
-      regionName: b.regionName,
-      status: b.status,
-      confidence: b.confidence,
-      dimensionCount: b.measurementDepth?.validDimensionCount ?? b.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).length ?? b.dimensions.length,
-      measurementDepthStatus: b.depthComputation?.depthStatus ?? b.measurementDepth?.status ?? 'UNMEASURED',
-      missingDimensions: b.measurementDepth?.missingDimensions ?? [],
-      disqualifiedDimensionCount: b.measurementDepth?.disqualifiedDimensionCount ?? b.depthComputation?.disqualifiedDimensions.length ?? 0,
-      depthReasons: b.measurementDepth?.depthReasons ?? b.depthComputation?.reasons ?? [],
-      topDelta: b.dimensions.find((d) => d.delta && !d.alignedWithinTolerance)?.delta ?? null,
-      dimensions: b.dimensions.map((d) => ({
-        dimension: d.dimension,
-        authority: String(d.authorityValue),
-        current: String(d.currentValue),
-        delta: d.delta ?? '0px',
-        confidence: d.confidence,
-        authoritySource: d.authoritySource ?? d.source,
-        currentSource: d.currentSource ?? d.source,
-      })),
-      internalStructureStatus: b.internalStructure?.status,
-      internalStructureHierarchy: b.internalStructure?.anchorHierarchy,
-      internalStructureSubtype: b.internalStructure?.subtype,
-    })),
+    allRegionForensics: report.regionForensics.map((b) => {
+      const structureSummary = resolveRegionInternalStructureSummary({
+        bundle: b,
+        report,
+        profile,
+        domMeasurements: options?.domMeasurements,
+      });
+      const depthTrace = traceByRegion.get(b.regionId);
+      const structureView = resolveRegionStructureViewModel({
+        bundle: { ...b, internalStructure: structureSummary },
+        report,
+        profile,
+        domMeasurements: options?.domMeasurements,
+        failureCode: structureSummary.failureCode ?? depthTrace?.blockingReason ?? undefined,
+        failureDetail: structureSummary.failureDetail ?? undefined,
+      });
+      const measurementDepthStatus = b.depthComputation?.depthStatus ?? b.measurementDepth?.status ?? 'UNMEASURED';
+      return {
+        regionId: b.regionId,
+        regionName: b.regionName,
+        regionType: b.regionType,
+        status: b.status,
+        confidence: b.confidence,
+        dimensionCount:
+          b.measurementDepth?.validDimensionCount ??
+          b.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).length ??
+          b.dimensions.length,
+        measurementDepthStatus,
+        missingDimensions: b.measurementDepth?.missingDimensions ?? [],
+        disqualifiedDimensionCount:
+          b.measurementDepth?.disqualifiedDimensionCount ?? b.depthComputation?.disqualifiedDimensions.length ?? 0,
+        depthReasons: b.measurementDepth?.depthReasons ?? b.depthComputation?.reasons ?? [],
+        topDelta: b.dimensions.find((d) => d.delta && !d.alignedWithinTolerance)?.delta ?? null,
+        dimensions: b.dimensions.map((d) => ({
+          dimension: d.dimension,
+          authority: String(d.authorityValue),
+          current: String(d.currentValue),
+          delta: d.delta ?? '0px',
+          confidence: d.confidence,
+          authoritySource: d.authoritySource ?? d.source,
+          currentSource: d.currentSource ?? d.source,
+        })),
+        internalStructureStatus: structureSummary.status,
+        internalStructureHierarchy: structureSummary.anchorHierarchy,
+        internalStructureSubtype: structureSummary.subtype,
+        structureFailureCode: structureSummary.failureCode,
+        structureFailureDetail: structureSummary.failureDetail,
+        showViewStructure: shouldShowViewStructure({
+          regionType: b.regionType,
+          measurementDepthStatus,
+          internalStructureStatus: structureSummary.status,
+          significance: b.significance,
+        }),
+        showAnalyzeStructure: regionNeedsAnalyzeStructure({ ...b, internalStructure: structureSummary }, structureSummary),
+        structureView: structureView ?? undefined,
+        structureToDepthTrace: depthTrace,
+      };
+    }),
     summary: topFindings.slice(0, 3).join(' · '),
     detectedAt: report.generatedAt,
     forensicsReportId: report.reportId,
     alignmentStatus: report.alignmentStatus,
+    forensicsEngineVersion: report.forensicsVersion ?? P0_VR_DIAG_1R5A_BUILD,
+    structureUiVersion: 'R5A',
+    structureToDepthTraces: options?.structureToDepthTraces,
   };
 }
 

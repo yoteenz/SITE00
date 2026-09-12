@@ -81,6 +81,7 @@ import {
   getPageCreativeUpgradeSession,
   markPageCreativeUpgradeStatus,
   analyzeMissingPageCreativeUpgradeEvidence,
+  analyzeSingleRegionStructureForUpgrade,
   recalculatePageCreativeUpgradeForensics,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 
@@ -823,6 +824,70 @@ export function PageFamilyWorkspace({
                 else setEvidenceRecoveryError('EVIDENCE RECOVERY FAILED — reopen PAGE UPGRADE.');
               } catch {
                 setEvidenceRecoveryError('EVIDENCE RECOVERY FAILED — try again.');
+              } finally {
+                setEvidenceRecoveryRunning(false);
+              }
+            }, 0);
+          }}
+          onAnalyzeRegionStructure={(regionId) => {
+            if (!activeScreenId || evidenceRecoveryRunning) return;
+            setEvidenceRecoveryError(null);
+            setEvidenceRecoveryRunning(true);
+            window.setTimeout(() => {
+              try {
+                const boundCapture =
+                  resolveCurrentPageViewportCapture(projectId, activePageId, viewport) ?? viewportCapture;
+                const captureId = boundCapture?.captureId ?? upgradeSession.captureId;
+                const auth = resolveCurrentDesignAuthority({
+                  projectId,
+                  pageId: activePageId,
+                  screenId: activeScreenId,
+                  viewport,
+                });
+                const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
+                const shellSpec = resolveMobileVisualShellSpec(activeScreenId);
+                const updated = analyzeSingleRegionStructureForUpgrade(projectId, activePageId, viewport, regionId, {
+                  pageId: activePageId,
+                  viewport,
+                  pageArchetype: isActiveRoot
+                    ? 'ndxbook-overview-mobile'
+                    : (activeNode?.archetype ?? 'generic-mobile-page'),
+                  screenId: activeScreenId,
+                  route: activeRoute,
+                  pagePurpose: activeDisplayName,
+                  isRootPage: isActiveRoot,
+                  currentCapture: {
+                    captureId,
+                    width: boundCapture?.width ?? dims.width,
+                    height: boundCapture?.height ?? dims.height,
+                    imageRef: boundCapture?.imageRef ?? upgradeSession.captureAssetRef,
+                    domMeasurements: collectDomRegionMeasurements(),
+                    cssSnapshot: collectCssSnapshotFromMobileShell(),
+                  },
+                  designAuthority: {
+                    authorityVersionId:
+                      auth.authorityVersion?.authorityVersionId ?? upgradeSession.designAuthorityVersionId ?? null,
+                    width: dims.width,
+                    height: dims.height,
+                    assetRef: auth.previewAssetRef ?? upgradeSession.designAuthorityAssetRef ?? null,
+                    referenceType: 'VIEWPORT_SCREENSHOT',
+                    visualShellSpec: shellSpec
+                      ? {
+                          headerHeightPx: shellSpec.headerBounds.heightPx,
+                          headerPaddingX: shellSpec.headerPaddingX,
+                          contentPaddingX: shellSpec.contentPaddingX,
+                          sectionGap: shellSpec.sectionGap,
+                          bottomNavHeightPx: shellSpec.bottomNavBounds.heightPx,
+                          viewportWidth: shellSpec.viewport.width,
+                          viewportHeight: shellSpec.viewport.height,
+                        }
+                      : null,
+                  },
+                });
+                if (updated) setUpgradeSession({ ...updated });
+                else setEvidenceRecoveryError('STRUCTURE ANALYSIS FAILED — reopen PAGE UPGRADE.');
+              } catch {
+                setEvidenceRecoveryError('STRUCTURE ANALYSIS FAILED — try again.');
               } finally {
                 setEvidenceRecoveryRunning(false);
               }
