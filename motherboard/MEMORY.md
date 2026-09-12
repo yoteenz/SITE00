@@ -8149,3 +8149,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `upgradeWorkflowStateResolver` — **READY TO BUILD TWIN** when twin **PLANNED** (never terminal with COMPLETE); `startTwinBuild` + `TwinBuildJob` / route + execution receipts calling canonical `buildTwin` → `runTwinBuildPipeline`; localStorage `twinSessionPersistence`; panel **BUILD TWIN NOW** for **PLANNED**/**FAILED**, mobile CTA below **FUNCTION PRESERVATION**, forensics collapsed on build-ready; stale input guard. Build `P0_VR_CONVERGE_1R1_BUILD = v311`. Tests: `p0vrConverge1R1TwinExecution.test.ts`.
 - **Founder next:** Deploy **v319+** → reopen existing NDXBOOK mobile PAGE UPGRADE (no restart) → expect **READY TO BUILD TWIN** + **BUILD TWIN NOW** → build progress from real steps → **TWIN READY** → **PREVIEW TWIN** on debug route (NOT LIVE); live `/projects/ndxbook` unchanged until promote.
 
+---
+
+## 2026-09-12 — Twin debug preview load fix (handoff + mobile)
+
+- **Symptom:** PREVIEW TWIN / twin debug URL not loading (blank, NOT FOUND, or popup blocked on mobile).
+- **Cause:** New tab had no twin session unless localStorage hydrate won; Safari mobile often blocks `window.open` for debug route.
+- **Fix:** `twinPreviewHandoff` (sessionStorage + localStorage stash); `resolveTwinSessionForPreview` + `importTwinSessionForPreview`; stash on build complete and before preview; mobile uses same-tab `location.assign` with popup fallback; preview page re-resolves session on mount. Build `P0_VR_CONVERGE_1R1_BUILD = v312`.
+- **Founder next:** Deploy **v320+** → TWIN READY → **PREVIEW TWIN** again (same device/browser); expect NOT LIVE banner + page content.
+

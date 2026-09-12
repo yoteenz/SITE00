@@ -75,6 +75,7 @@ import {
   approveTwinForPromotion,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/reconstructionTwinSession.js';
 import { startTwinBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/twinBuildJob.js';
+import { stashTwinSessionForPreview } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
 import { promoteTwinToLivePage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/pagePromotion.js';
 import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import {
@@ -659,7 +660,16 @@ export function PageFamilyWorkspace({
           }}
           onPreviewTwin={() => {
             const active = twinSession ?? refreshTwinSession(projectId, activePageId);
-            if (active?.twinRoute) window.open(active.twinRoute, '_blank', 'noopener,noreferrer');
+            if (!active?.twinRoute) return;
+            stashTwinSessionForPreview(active);
+            const mobile =
+              typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches;
+            if (mobile) {
+              window.location.assign(active.twinRoute);
+              return;
+            }
+            const opened = window.open(active.twinRoute, '_blank', 'noopener,noreferrer');
+            if (!opened) window.location.assign(active.twinRoute);
           }}
           onRefineTwin={async (instruction) => {
             const active = twinSession ?? refreshTwinSession(projectId, activePageId);
