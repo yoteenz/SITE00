@@ -134,8 +134,15 @@ jobs:
       - name: Install dependencies + Playwright Chromium
         env:
           INSTALL_PLAYWRIGHT: '1'
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
         run: npm ci
+      - name: Ensure Playwright Chromium (CI test job)
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
+        run: npx playwright install chromium
       - name: Run tests
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.cache/ms-playwright
         run: npm test
 
   build:
