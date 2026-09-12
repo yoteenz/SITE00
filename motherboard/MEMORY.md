@@ -8297,3 +8297,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Limits:** Automated geometry deltas `NOT_MEASURED` until Playwright rect capture; **human visual bar** still required before page-wide refinement. Live NDXBOOK unchanged.
 - **Founder next:** Deploy **v336+** → REPLICATE → REVIEW hero only → `?blueprintDebug=hero` → confirm single copies of ENTRY/headline/body/CTA/00 and NDX placement. Do not expand refinement until hero passes founder QA.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.4R3 hero geometry convergence + INSPECT HERO (twin only)
+
+- **Context:** 4R2 bound H01–H14 but `HeroGeometryDelta` stayed `NOT_MEASURED`; H12 crop showed lower-page content (bad `background-position`); founder had no UI for hero debug (manual `?blueprintDebug=hero`).
+- **Delivered:** `p0vrReplication4R3/` — hero-root `HeroAuthorityGeometry` / `HeroRenderedGeometry` / measured `HeroGeometryDelta`, `HeroGeometryReceipt`, 3 measured passes, `HeroAssetBindingGuard` (H12 `HERO_RIGHT_LOWER_MEDIA`), H12 crop fix (`--hero-h12-pos: 91% 43%`), editorial rhythm CSS vars. REPLICATE chains after 4R2. **INSPECT HERO** on REVIEW (Page Upgrade + replication experience) → `buildTwinHeroInspectionUrl`. Twin: `HeroInspectionToolbar` (authority/rendered/deltas/collisions/exit), overlay delta labels (green/yellow/red). Build **v337**.
+- **Limits:** Pipeline geometry syncs layout spec + CSS (Playwright live rect loop optional); founder human visual bar still required.
+- **Founder next:** Deploy **v337+** → REPLICATE → REVIEW → **INSPECT HERO** → verify deltas + H12 photo slot → EXIT INSPECTION.
+
