@@ -78,7 +78,10 @@ export async function executeNdxbookReplication(input: {
       code: 'REFERENCE_MISSING',
       message: 'Design authority version missing',
     });
-    return { receipt: { ...receipt, status: 'FAIL' }, sessionPatch: { status: 'FAILED', replicationExecutionReceipt: receipt } };
+    return {
+      receipt: { ...receipt, status: 'FAIL', nextStrategy: 'SWITCH_IMPLEMENTATION_APPROACH' },
+      sessionPatch: { status: 'FAILED', replicationExecutionReceipt: { ...receipt, status: 'FAIL', nextStrategy: 'SWITCH_IMPLEMENTATION_APPROACH' } },
+    };
   }
   receipt = setStage(receipt, 'reference', 'PASS');
 

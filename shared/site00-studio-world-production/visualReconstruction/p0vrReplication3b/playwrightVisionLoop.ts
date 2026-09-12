@@ -8,13 +8,14 @@ import type { VisionCorrectionPass } from './types.js';
 import { MAX_HERO_VISION_CORRECTION_PASSES } from './constants.js';
 import { scoreRegionLiterality } from './regionLiteralityScore.js';
 import type { LiteralRegionSpec } from './types.js';
+import { isPlaywrightReplicationCaptureEnabled } from './clientSafeRuntime.js';
 
 export async function captureTwinScreenshotRef(
   twinPreviewUrl: string | null,
   viewport: DesignViewportClass,
 ): Promise<string | null> {
-  if (!twinPreviewUrl || typeof process === 'undefined') return null;
-  if (process.env.SITE00_REPLICATION_PLAYWRIGHT !== '1' && process.env.VITEST !== 'true') {
+  if (!twinPreviewUrl) return null;
+  if (!isPlaywrightReplicationCaptureEnabled()) {
     return `playwright:skipped:${viewport}`;
   }
   try {

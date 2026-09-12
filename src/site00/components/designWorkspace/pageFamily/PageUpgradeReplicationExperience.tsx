@@ -265,18 +265,41 @@ export function PageUpgradeReplicationExperience({
 
       {experienceState === 'FAILED' ? (
         <section className="site00-pur__screen site00-pur__screen--fail">
-          <h2>WE COULDN&apos;T CREATE THE FIRST REPLICATION</h2>
+          {twinSession?.replicationFailureClass === 'CLIENT_RUNTIME_ERROR' ||
+          replicationReceipt?.failureClass === 'CLIENT_RUNTIME_ERROR' ? (
+            <>
+              <h2>REPLICATION COULDN&apos;T START</h2>
+              <p>
+                A runtime configuration error interrupted replication before the visual build began. Live page unchanged.
+              </p>
+            </>
+          ) : (
+            <h2>WE COULDN&apos;T CREATE THE FIRST REPLICATION</h2>
+          )}
           {replicationReceipt?.failedStage ? (
             <p>
               REPLICATION STOPPED AT: <strong>{stageLabel(replicationReceipt.failedStage)}</strong>
             </p>
           ) : null}
+          {replicationReceipt?.visionStages ? (
+            <p className="site00-pur__vision-stages">
+              Vision prep: {replicationReceipt.visionStages.visionRequestPreparation} · Vision request:{' '}
+              {replicationReceipt.visionStages.visionRequest}
+            </p>
+          ) : null}
           {upgradeError ? <p>{upgradeError}</p> : null}
+          {twinSession?.replicationRuntimeErrorCode ? (
+            <p>
+              <strong>{twinSession.replicationRuntimeErrorCode}</strong>
+            </p>
+          ) : null}
           <p>
             AUTOMATED BLUEPRINT PATH: {replicationReceipt?.blueprintComposer ?? '—'} · DIRECT SOURCE FALLBACK:{' '}
             {replicationReceipt?.directSourceFallback ?? '—'}
           </p>
-          <p>NEXT STRATEGY: {replicationReceipt?.nextStrategy ?? 'SWITCH_IMPLEMENTATION_APPROACH'}</p>
+          {replicationReceipt?.nextStrategy ? (
+            <p>NEXT STRATEGY: {replicationReceipt.nextStrategy}</p>
+          ) : null}
           <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={() => void onReplicate()}>
             RETRY REPLICATION
           </button>

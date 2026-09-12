@@ -38,8 +38,12 @@ export type ReplicationExecutionReceipt = {
   macroIterations: number;
   twinRoute: string | null;
   renderProof: string | null;
-  nextStrategy: 'CONTINUE_REFINEMENT' | 'SWITCH_IMPLEMENTATION_APPROACH';
+  nextStrategy: 'CONTINUE_REFINEMENT' | 'SWITCH_IMPLEMENTATION_APPROACH' | null;
   status: 'PASS' | 'FAIL';
+  /** P0.VR.REPLICATION.3B-R1 */
+  failureClass?: import('../p0vrReplication3b/replicationRuntimeFailure.js').ReplicationFailureClass | null;
+  runtimeErrorCode?: string | null;
+  visionStages?: import('../p0vrReplication3b/replicationRuntimeFailure.js').VisionExecutionStageReceipt | null;
 };
 
 export function initReplicationExecutionReceipt(sessionId: string): ReplicationExecutionReceipt {
@@ -59,8 +63,11 @@ export function initReplicationExecutionReceipt(sessionId: string): ReplicationE
     macroIterations: 0,
     twinRoute: null,
     renderProof: null,
-    nextStrategy: 'SWITCH_IMPLEMENTATION_APPROACH',
+    nextStrategy: null,
     status: 'FAIL',
+    failureClass: null,
+    runtimeErrorCode: null,
+    visionStages: null,
   };
 }
 

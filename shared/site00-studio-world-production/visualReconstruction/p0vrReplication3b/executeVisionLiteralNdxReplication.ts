@@ -19,6 +19,7 @@ import { scoreRegionLiterality } from './regionLiteralityScore.js';
 import { VISION_LITERAL_REGION_ORDER, P0_VR_REPLICATION_3B_BUILD, MIN_HERO_SUBREGIONS } from './constants.js';
 import type { VisionReplicationClient, VisionReplicationReport, VisionReplicationReceipt } from './types.js';
 import { LITERAL_UI_REPLICATION_PROMPT_CLASS } from './types.js';
+import { isVitestRuntime } from './clientSafeRuntime.js';
 
 export type VisionLiteralReplicationResult = {
   report: VisionReplicationReport;
@@ -58,7 +59,8 @@ export async function executeVisionLiteralNdxReplication(input: {
   visionClient?: VisionReplicationClient;
   preVisionBaselineRenderMode?: 'SHELL_FIRST_NDX_OVERVIEW';
 }): Promise<VisionLiteralReplicationResult> {
-  const client = input.visionClient ?? (process.env.VITEST === 'true' ? createTestFixtureVisionClient() : createBrowserVisionReplicationClient());
+  const client =
+    input.visionClient ?? (isVitestRuntime() ? createTestFixtureVisionClient() : createBrowserVisionReplicationClient());
   const audit = client.auditProvider();
   const authorityImage = input.authorityImageUrl ?? input.session.designAuthorityAssetRef ?? '';
 

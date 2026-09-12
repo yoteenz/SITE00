@@ -10,6 +10,10 @@ import {
 import type { ReconstructionTwinSession } from '../p0vrUpgrade2/types.js';
 import { persistTwinSessionsStore } from '../p0vrUpgrade2/twinSessionPersistence.js';
 import { stashTwinSessionForPreview } from '../p0vrUpgrade2/twinPreviewHandoff.js';
+import {
+  classifyReplicationBuildError,
+  visionStagesForRuntimeCrash,
+} from '../p0vrReplication3b/replicationRuntimeFailure.js';
 
 export const TWIN_BUILD_JOB_STATUSES = [
   'QUEUED',
@@ -302,13 +306,37 @@ export async function startTwinBuild(
     return { session: built, job, receipt };
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    const classified = classifyReplicationBuildError(message);
     job.status = 'FAILED';
-    job.errorCode = 'PATCH_APPLICATION_FAILED';
-    job.errorMessage = message;
+    job.errorCode = classified.errorCode;
+    job.errorMessage = classified.founderSummary;
     job.completedAt = new Date().toISOString();
     activeJobs.set(sessionId, job);
-    updateTwinSession(sessionId, { status: 'FAILED', buildJobStatus: 'FAILED' });
+    const prior = getTwinSession(sessionId);
+    const patchedReceipt = prior?.replicationExecutionReceipt
+      ? {
+          ...prior.replicationExecutionReceipt,
+          status: 'FAIL' as const,
+          failureClass: classified.failureClass,
+          runtimeErrorCode: classified.errorCode,
+          nextStrategy: classified.showSwitchImplementationStrategy ? 'SWITCH_IMPLEMENTATION_APPROACH' as const : null,
+          visionStages:
+            classified.failureClass === 'CLIENT_RUNTIME_ERROR' ? visionStagesForRuntimeCrash() : prior.replicationExecutionReceipt.visionStages,
+        }
+      : null;
+    updateTwinSession(sessionId, {
+      status: 'FAILED',
+      buildJobStatus: 'FAILED',
+      replicationFailureClass: classified.failureClass,
+      replicationRuntimeErrorCode: classified.errorCode,
+      replicationExecutionReceipt: patchedReceipt ?? prior?.replicationExecutionReceipt ?? null,
+    });
     persistTwinSessionsStore();
-    return { session: getTwinSession(sessionId), job, receipt: null, error: { code: job.errorCode, message } };
+    return {
+      session: getTwinSession(sessionId),
+      job,
+      receipt: null,
+      error: { code: job.errorCode, message: classified.founderSummary },
+    };
   }
 }

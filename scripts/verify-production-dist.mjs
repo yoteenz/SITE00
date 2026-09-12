@@ -6,7 +6,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const distAssets = join(process.cwd(), 'dist', 'assets');
-const forbidden = ['chromium-bidi', 'import"playwright"', "import'playwright'"];
+const forbidden = ['chromium-bidi', 'import"playwright"', "import'playwright'", '.env.VITEST'];
 
 let files;
 try {
