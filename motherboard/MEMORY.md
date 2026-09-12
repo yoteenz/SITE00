@@ -8080,3 +8080,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** `approveDesignAuthorityReplacement` used `CANONICAL_VIEWPORT_DIMENSIONS[context.viewport]` without fallback (unlike upload step); missing/invalid viewport on draft context → undefined `.width`.
 - **Fix:** `normalizeDesignViewportClass` + `resolveCanonicalViewportDimensions` in `p0vr2/constants.ts`; approve uses draft image dimensions + safe viewport; draft context normalized on upload; try/finally on dialog approve. Test in `visualReconstructionP0VRAUTH1.test.ts`.
 
+---
+
+## 2026-09-12 — Founder workspace persist on refresh (1R3B hardening)
+
+- **User follow-up:** Upload/capture still not persisting after page refresh despite cloud snapshot (1R3B).
+- **Gaps:** Debounced cloud push could lose data on fast refresh; merge rule `LOCAL_ACTIVITY_NEWER` blocked cloud restore; NDX pilot could re-seed default references when canonical registry LS empty but founder capture/authority keys existed; bootstrap ran late (only in capture hook) after `ensureNdxbookPilotRegistered` on first paint.
+- **Fix:** Local compact snapshot backup (`site00:founder-design-workspace-local:{projectId}`) via `persistLocalFounderDesignWorkspaceSnapshot` / `hydrateLocalFounderDesignWorkspaceSnapshot`; `bootstrapFounderDesignWorkspace` on `PageFamilyWorkspace` mount + capture/authority dialogs; immediate cloud push after capture bind + authority approve + `pagehide` flush; NDX pilot hydrates local snapshot before seed skip check; merge uses `LOCAL_NEWER` only when local has bindings and newer `savedAt`. Tests extended in `founderDesignWorkspaceSnapshot.test.ts`.
+- **Founder next:** Deploy **frontend ZIP** (v312+) + **Railway** redeploy → capture/upload once → hard refresh → LIVE capture + design authority should remain; cloud sync is bonus when API up.
+
