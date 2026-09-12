@@ -80,6 +80,7 @@ import type { ReconstructionTwinSession } from '../../../../../shared/site00-stu
 import {
   getPageCreativeUpgradeSession,
   markPageCreativeUpgradeStatus,
+  analyzeMissingPageCreativeUpgradeEvidence,
   recalculatePageCreativeUpgradeForensics,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 
@@ -149,6 +150,8 @@ export function PageFamilyWorkspace({
   const [upgradeSession, setUpgradeSession] = useState<PageCreativeUpgradeSession | null>(null);
   const [forensicsRecomputing, setForensicsRecomputing] = useState(false);
   const [forensicsRecomputeError, setForensicsRecomputeError] = useState<string | null>(null);
+  const [evidenceRecoveryRunning, setEvidenceRecoveryRunning] = useState(false);
+  const [evidenceRecoveryError, setEvidenceRecoveryError] = useState<string | null>(null);
   const [twinSession, setTwinSession] = useState<ReconstructionTwinSession | null>(null);
   const [buildingTwin, setBuildingTwin] = useState(false);
   const [upgradeError, setUpgradeError] = useState<string | null>(null);
@@ -756,6 +759,72 @@ export function PageFamilyWorkspace({
                 setForensicsRecomputeError('FORENSICS RECALCULATION FAILED — try again.');
               } finally {
                 setForensicsRecomputing(false);
+              }
+            }, 0);
+          }}
+          evidenceRecoveryRunning={evidenceRecoveryRunning}
+          evidenceRecoveryError={evidenceRecoveryError}
+          onAnalyzeMissingEvidence={() => {
+            if (!activeScreenId || evidenceRecoveryRunning) return;
+            setEvidenceRecoveryError(null);
+            setEvidenceRecoveryRunning(true);
+            window.setTimeout(() => {
+              try {
+                const boundCapture =
+                  resolveCurrentPageViewportCapture(projectId, activePageId, viewport) ?? viewportCapture;
+                const captureId = boundCapture?.captureId ?? upgradeSession.captureId;
+                const auth = resolveCurrentDesignAuthority({
+                  projectId,
+                  pageId: activePageId,
+                  screenId: activeScreenId,
+                  viewport,
+                });
+                const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
+                const shellSpec = resolveMobileVisualShellSpec(activeScreenId);
+                const updated = analyzeMissingPageCreativeUpgradeEvidence(projectId, activePageId, viewport, {
+                  pageId: activePageId,
+                  viewport,
+                  pageArchetype: isActiveRoot
+                    ? 'ndxbook-overview-mobile'
+                    : (activeNode?.archetype ?? 'generic-mobile-page'),
+                  screenId: activeScreenId,
+                  route: activeRoute,
+                  pagePurpose: activeDisplayName,
+                  isRootPage: isActiveRoot,
+                  currentCapture: {
+                    captureId,
+                    width: boundCapture?.width ?? dims.width,
+                    height: boundCapture?.height ?? dims.height,
+                    imageRef: boundCapture?.imageRef ?? upgradeSession.captureAssetRef,
+                    domMeasurements: collectDomRegionMeasurements(),
+                    cssSnapshot: collectCssSnapshotFromMobileShell(),
+                  },
+                  designAuthority: {
+                    authorityVersionId:
+                      auth.authorityVersion?.authorityVersionId ?? upgradeSession.designAuthorityVersionId ?? null,
+                    width: dims.width,
+                    height: dims.height,
+                    assetRef: auth.previewAssetRef ?? upgradeSession.designAuthorityAssetRef ?? null,
+                    referenceType: 'VIEWPORT_SCREENSHOT',
+                    visualShellSpec: shellSpec
+                      ? {
+                          headerHeightPx: shellSpec.headerBounds.heightPx,
+                          headerPaddingX: shellSpec.headerPaddingX,
+                          contentPaddingX: shellSpec.contentPaddingX,
+                          sectionGap: shellSpec.sectionGap,
+                          bottomNavHeightPx: shellSpec.bottomNavBounds.heightPx,
+                          viewportWidth: shellSpec.viewport.width,
+                          viewportHeight: shellSpec.viewport.height,
+                        }
+                      : null,
+                  },
+                });
+                if (updated) setUpgradeSession({ ...updated });
+                else setEvidenceRecoveryError('EVIDENCE RECOVERY FAILED — reopen PAGE UPGRADE.');
+              } catch {
+                setEvidenceRecoveryError('EVIDENCE RECOVERY FAILED — try again.');
+              } finally {
+                setEvidenceRecoveryRunning(false);
               }
             }, 0);
           }}

@@ -133,6 +133,15 @@ export type PageCreativeUpgradeSession = {
   forensicsVersionId?: string | null;
   /** Set when founder taps RECALCULATE FORENSICS — drives visible UI feedback. */
   forensicsRecalculatedAt?: string | null;
+  /** Set when founder taps ANALYZE MISSING EVIDENCE (1R4). */
+  forensicsEvidenceRecoveryAt?: string | null;
+  lastEvidenceRecoverySummary?: {
+    status: string;
+    depthBeforePct: number;
+    depthAfterPct: number;
+    regionsImproved: string[];
+    regionsStillBlocked: string[];
+  } | null;
 };
 
 export type PageCreativeDiagnosisCode =

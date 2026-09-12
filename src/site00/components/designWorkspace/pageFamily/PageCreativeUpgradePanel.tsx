@@ -48,6 +48,9 @@ type Props = {
   onRecomputeForensics?: () => void;
   forensicsRecomputing?: boolean;
   forensicsRecomputeError?: string | null;
+  onAnalyzeMissingEvidence?: () => void;
+  evidenceRecoveryRunning?: boolean;
+  evidenceRecoveryError?: string | null;
 };
 
 function useIsMobileViewport(): boolean {
@@ -87,6 +90,9 @@ export function PageCreativeUpgradePanel({
   onRecomputeForensics,
   forensicsRecomputing,
   forensicsRecomputeError,
+  onAnalyzeMissingEvidence,
+  evidenceRecoveryRunning,
+  evidenceRecoveryError,
 }: Props) {
   const isMobile = useIsMobileViewport();
   const [compareMode, setCompareMode] = useState<CompareMode>('current');
@@ -149,7 +155,11 @@ export function PageCreativeUpgradePanel({
       };
     }
     if (session.status === 'DIRECTION_APPROVED' && !twinSession) {
-      return { label: 'BUILD TWIN', onClick: onBuildTwin ?? (() => {}), disabled: !onBuildTwin || buildingTwin };
+      return {
+        label: 'BUILD TWIN',
+        onClick: onBuildTwin ?? (() => {}),
+        disabled: !onBuildTwin || buildingTwin || coverageBlocked,
+      };
     }
     if (twinSession?.status === 'BUILDING' || buildingTwin) {
       return { label: 'BUILDING TWIN…', onClick: () => {}, disabled: true };
@@ -464,13 +474,54 @@ export function PageCreativeUpgradePanel({
                       FORENSIC STATE INCONSISTENT — RECALCULATE FORENSICS (no new capture required).
                     </p>
                   ) : null}
+                  {diagnosis.forensicCoverage.depthGateStatus === 'BLOCK' && onAnalyzeMissingEvidence ? (
+                    <>
+                      <p className="site00-pfw-upgrade-v2__coverage-warn">
+                        BLOCKING REGIONS{' '}
+                        {Math.max(
+                          0,
+                          (diagnosis.forensicCoverage.majorTotal ?? 0) -
+                            (diagnosis.forensicCoverage.majorSufficientDepth ?? 0),
+                        )}
+                      </p>
+                      <button
+                        type="button"
+                        className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"
+                        onClick={onAnalyzeMissingEvidence}
+                        disabled={evidenceRecoveryRunning || forensicsRecomputing}
+                        aria-busy={evidenceRecoveryRunning}
+                      >
+                        {evidenceRecoveryRunning ? 'ANALYZING MISSING EVIDENCE…' : 'ANALYZE MISSING EVIDENCE'}
+                      </button>
+                      {session.lastEvidenceRecoverySummary ? (
+                        <p className="site00-pfw-upgrade-v2__coverage-recalc-ok">
+                          RECOVERY {session.lastEvidenceRecoverySummary.status.replace(/_/g, ' ')} · DEPTH{' '}
+                          {session.lastEvidenceRecoverySummary.depthBeforePct}% →{' '}
+                          {session.lastEvidenceRecoverySummary.depthAfterPct}%
+                          {session.lastEvidenceRecoverySummary.regionsImproved.length
+                            ? ` · ${session.lastEvidenceRecoverySummary.regionsImproved.length} IMPROVED`
+                            : ''}
+                        </p>
+                      ) : null}
+                      {session.lastEvidenceRecoverySummary?.regionsImproved.length ? (
+                        <ul className="site00-pfw-upgrade-v2__recovery-transitions">
+                          {session.lastEvidenceRecoverySummary.regionsImproved.map((id) => (
+                            <li key={id}>{id.split('.').pop()?.toUpperCase() ?? id} · SHALLOW → SUFFICIENT</li>
+                          ))}
+                        </ul>
+                      ) : null}
+                      {evidenceRecoveryError ? (
+                        <p className="site00-pfw-upgrade-v2__coverage-warn">{evidenceRecoveryError}</p>
+                      ) : null}
+                    </>
+                  ) : null}
                   {onRecomputeForensics ? (
                     <>
                       <button
                         type="button"
                         className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
                         onClick={onRecomputeForensics}
-                        disabled={forensicsRecomputing}
+                        disabled={forensicsRecomputing || evidenceRecoveryRunning}
                         aria-busy={forensicsRecomputing}
                       >
                         {forensicsRecomputing ? 'RECALCULATING FORENSICS…' : 'RECALCULATE FORENSICS'}
