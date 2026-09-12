@@ -8299,7 +8299,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-12 — P0.VR.REPLICATION.4R3 hero geometry convergence + INSPECT HERO (twin only)
 
 - **Context:** 4R2 bound H01–H14 but `HeroGeometryDelta` stayed `NOT_MEASURED`; H12 crop showed lower-page content (bad `background-position`); founder had no UI for hero debug (manual `?blueprintDebug=hero`).
@@ -8314,11 +8313,21 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause (14 authority / 0 rendered):** Debug overlay read `heroGeometryConvergenceReport.renderedGeometry` from session (layout-spec / empty after handoff). No **live browser** measurement ran in inspection mode, so rendered count stayed 0 despite authority contracts.
 - **Fix:** `captureHeroLiveDomGeometry` + `useHeroLiveDomCapture` on twin when `?blueprintDebug=hero` (fonts/images settle → `getBoundingClientRect` hero-relative → real deltas). Header now shows authority · rendered · pass · outliers. 4R3 pipeline **no longer PASSes** from layout-spec sync (`renderedGeometry: []`, receipt FAIL until live DOM). `p0vrReplication4R3R1/` materializes **hero_h06** / **hero_h12** norm crops (hero band only) on REPLICATE; twin uses `<img>` crops instead of full-page `background-position`. Guards: `HeroCropPurityGuard`, `HeroRenderedCaptureReceipt`, `HeroGeometryReceiptV2`. Build **v338**.
 - **Founder next:** Deploy **v338+** → REPLICATE (refresh session) → INSPECT HERO → confirm **14 authority · 14 rendered** + cyan boxes; H06/H12 no nav/milestone text.
-=======
+
+---
+
 ## 2026-09-12 — CI fix: p0vrReplication3cR1.test.ts (PERSISTED + Playwright)
 
 - **Symptom:** Production Release **test** job failed — `expected 'RESOLVED' to be 'PERSISTED'`; `browserType.launch: Executable does not exist`.
 - **Cause:** `resolveHeroAssetSlots` re-ran after 3C-R1 materialization and downgraded proof slot to `RESOLVED`; CI test job lacked reliable Chromium install for optional browser smoke.
 - **Fix:** Preserve proof slot when already `PERSISTED` + visible materialized URL; CI `npx playwright install chromium` + `PLAYWRIGHT_BROWSERS_PATH`; skip browser smoke if launch fails. PR **#754** merged.
->>>>>>> origin/main
+
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.4R4 hero outlier-only geometry convergence (twin only)
+
+- **Context:** After 4R3R1 live DOM measurement, remaining hero work is outlier-only CSS nudges from measured deltas — no new blueprint/forensics/architecture.
+- **Delivered:** `p0vrReplication4R4/` (`v339`) — `HeroConvergenceBaseline`, `HeroOutlierRanking`, `HeroOutlierCorrection`, `HeroConvergenceReceipt`, `runHeroOutlierConvergence` (max 3 passes, parent-first H14 in pass 1), `executeHeroOutlierConvergencePipeline` (`PENDING_LIVE_CONVERGENCE` on REPLICATE). Client `useHeroOutlierLiveConvergence` applies nudge CSS vars on `.site00-fb` during INSPECT HERO. Toolbar **OUTLIERS ONLY** + summary counts; overlay filters to out-of-tolerance objects. CSS `--hero-nudge-Hxx-*` transforms + `--hero-h09-width`.
+- **Rule:** No patch without measured live outlier; H06/H12 crop purity unchanged; live NDXBOOK not promoted.
+- **Founder next:** Deploy **v339+** → REPLICATE → INSPECT HERO → OUTLIERS ONLY + deltas → human AUTHORITY vs TWIN bar; lock hero or report remaining outlier IDs + live deltas.
 
