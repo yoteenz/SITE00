@@ -223,6 +223,10 @@ export type ReconstructionTwinSession = {
   replicationExecutionReceipt?: import('../p0vrReplication1R1/replicationExecutionReceipt.js').ReplicationExecutionReceipt | null;
   replicationExecutionMode?: import('../p0vrReplication1R1/replicationExecutionReceipt.js').ReplicationExecutionMode | null;
   replicationNextStrategy?: 'CONTINUE_REFINEMENT' | 'SWITCH_IMPLEMENTATION_APPROACH' | null;
+  /** P0.VR.REPLICATION.2 — Shell-first geometric reconstruction */
+  authorityShellBlueprintId?: string | null;
+  shellMatchResult?: import('../p0vrReplication2/shellMatchResult.js').ShellMatchResult | null;
+  shellReconstructionReceipt?: import('../p0vrReplication2/shellReconstructionReceipt.js').ShellReconstructionReceipt | null;
 };
 
 export type PageLiveRegistryEntry = {

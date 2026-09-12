@@ -99,8 +99,12 @@ export default function ReconstructionTwinPreviewPage() {
   return (
     <TwinPreviewErrorBoundary>
       <ReconstructionTwinProvider session={session}>
-        <ReconstructionTwinBanner session={session} />
-        <ReconstructionTwinOverviewSurface projectSlug={projectSlug} session={session} />
+        <div className="site00-reconstruction-twin-chrome">
+          <ReconstructionTwinBanner session={session} variant="outside-shell-strip" />
+          <div className="site00-reconstruction-twin-chrome__body">
+            <ReconstructionTwinOverviewSurface projectSlug={projectSlug} session={session} />
+          </div>
+        </div>
       </ReconstructionTwinProvider>
     </TwinPreviewErrorBoundary>
   );

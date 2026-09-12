@@ -6,9 +6,22 @@ import type { ReconstructionTwinSession } from '../../../../shared/site00-studio
 
 type Props = {
   session: ReconstructionTwinSession;
+  variant?: 'overlay' | 'outside-shell-strip';
 };
 
-export function ReconstructionTwinBanner({ session }: Props) {
+export function ReconstructionTwinBanner({ session, variant = 'overlay' }: Props) {
+  if (variant === 'outside-shell-strip') {
+    return (
+      <div className="site00-reconstruction-twin-chrome__debug-bar" role="status" aria-live="polite">
+        <strong>NOT LIVE</strong>
+        <span>TWIN</span>
+        <span>{session.sessionId.slice(-6).toUpperCase()}</span>
+        {session.visualAuthorityStatus === 'SHELL_MISMATCH' ? (
+          <span>SHELL MISMATCH</span>
+        ) : null}
+      </div>
+    );
+  }
   return (
     <div className="site00-reconstruction-twin-banner" role="status" aria-live="polite">
       <strong>NOT LIVE</strong>

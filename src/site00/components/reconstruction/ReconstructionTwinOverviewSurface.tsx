@@ -6,6 +6,7 @@ import type { ReconstructionTwinSession } from '../../../../shared/site00-studio
 import { resolveTwinRenderMode } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrRebuild1/sessionVisualAuthority.js';
 import { OverviewMobileHomeScreen } from '../founderWorkspace/OverviewFounderWorkspaceBoard.js';
 import { AuthorityFirstNdxOverviewTwin } from './AuthorityFirstNdxOverviewTwin.js';
+import { ShellFirstNdxOverviewTwin } from './ShellFirstNdxOverviewTwin.js';
 import '../../styles/site00-founder-workspace.css';
 import '../../styles/site00-project-overview.css';
 
@@ -16,16 +17,19 @@ type Props = {
 
 export function ReconstructionTwinOverviewSurface({ projectSlug, session }: Props) {
   const renderMode = resolveTwinRenderMode(session);
+  const shellFirst = renderMode === 'SHELL_FIRST_NDX_OVERVIEW';
   const authorityFirst = renderMode === 'AUTHORITY_FIRST_NDX_OVERVIEW';
 
   return (
     <div
-      className="site00-reconstruction-twin-page site00-ecosystem-shell--ndx-founder-mobile"
+      className={`site00-reconstruction-twin-page site00-ecosystem-shell--ndx-founder-mobile${shellFirst ? ' site00-reconstruction-twin-page--shell-first' : ''}`}
       data-reconstruction-twin-surface="overview"
       data-twin-render-mode={renderMode}
       data-visual-authority-status={session.visualAuthorityStatus ?? 'PENDING'}
     >
-      {authorityFirst ? (
+      {shellFirst ? (
+        <ShellFirstNdxOverviewTwin projectSlug={projectSlug} />
+      ) : authorityFirst ? (
         <AuthorityFirstNdxOverviewTwin projectSlug={projectSlug} regionOrder={session.authorityRegionOrder} />
       ) : (
         <div className="site00-mobile-shell site00-ecosystem-mobile-shell site00-ecosystem-mobile-shell--suppress-chrome">

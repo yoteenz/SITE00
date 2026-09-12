@@ -10,6 +10,7 @@ export const VISUAL_AUTHORITY_STATUSES = [
   'AUTHORITY_FIRST_BUILT',
   'FAILED_VISUAL_AUTHORITY',
   'VISUAL_AUTHORITY_FAILED',
+  'SHELL_MISMATCH',
   'ACCEPTED',
 ] as const;
 export type VisualAuthorityStatus = (typeof VISUAL_AUTHORITY_STATUSES)[number];
@@ -140,5 +141,5 @@ export type VisualAuthorityAcceptanceGate = {
   blockingReasons: string[];
 };
 
-export const TWIN_RENDER_MODES = ['LEGACY_PATCH', 'AUTHORITY_FIRST_NDX_OVERVIEW'] as const;
+export const TWIN_RENDER_MODES = ['LEGACY_PATCH', 'AUTHORITY_FIRST_NDX_OVERVIEW', 'SHELL_FIRST_NDX_OVERVIEW'] as const;
 export type TwinRenderMode = (typeof TWIN_RENDER_MODES)[number];
