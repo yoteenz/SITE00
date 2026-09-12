@@ -8288,3 +8288,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `p0vrReplication4R1/` — parent geometry CSS locks (375 shell, 24px gutter, band heights); hero decomposed into left editorial / cropped photo field + left scrim / right utility stack; masthead right colophon block; blueprint tab widths; progress phase dot; focus grid placement. Pipeline `executeAuthorityTighteningPass` after 4 on REPLICATE. Preview `?twinCompare=1` strip; DETAILS **TIGHTENING DRIFT (4R1)**.
 - **Founder next:** Deploy **v335+** → REPLICATE → PREVIEW `?twinCompare=1` + `?blueprintDebug=overlay` → confirm hero has single text layer. Visual exactness still founder-signed.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.4R2 hero surgical lock + collision elimination (twin only)
+
+- **Context:** 4R1 tightened full page but hero remained fragile — duplicated/ghost text, wrong NDX outline, collapsed blueprint objects, page-in-hero risk. Sprint scope **hero/editorial band only** (H01–H14); no progress/metrics/nav changes.
+- **Delivered:** `p0vrReplication4R2/` — `HeroObjectContract`, `HeroTextSourceTrace`, `HeroCollisionAudit` (failure codes), `HeroZLayerMap`, `HeroAuthorityGeometry` / delta scaffold, `executeHeroSurgicalLockPipeline` (`v336`) chained after 4R1 on REPLICATE. Twin hero rebuilt as surgical DOM (`site00-fb__hero--surgical`): fixed `<br />` locks for headline/body, single CTA/ENTRY/00, H06/H12 region crops (CSS vars), H07 masked (center stack baked in crop only), **filled lime H08** (no outline stroke), reticle H10, grid H13. Preview `?blueprintDebug=hero` uses `HeroBlueprintDebugOverlay` (hero-only boxes; full-page overlay suppressed when `hero`). DETAILS → **HERO SURGICAL LOCK (4R2)** panel.
+- **Limits:** Automated geometry deltas `NOT_MEASURED` until Playwright rect capture; **human visual bar** still required before page-wide refinement. Live NDXBOOK unchanged.
+- **Founder next:** Deploy **v336+** → REPLICATE → REVIEW hero only → `?blueprintDebug=hero` → confirm single copies of ENTRY/headline/body/CTA/00 and NDX placement. Do not expand refinement until hero passes founder QA.
+
