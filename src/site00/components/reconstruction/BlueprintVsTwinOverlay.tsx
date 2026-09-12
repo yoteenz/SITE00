@@ -21,7 +21,7 @@ export function BlueprintVsTwinOverlay({ session }: Props) {
     [objects],
   );
 
-  if (!mode || mode === '0') return null;
+  if (!mode || mode === '0' || mode === 'hero') return null;
 
   return (
     <div className={`site00-bp-overlay site00-bp-overlay--${mode}`} aria-hidden="true">
