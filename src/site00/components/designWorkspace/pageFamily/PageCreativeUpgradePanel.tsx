@@ -26,6 +26,7 @@ import {
   founderMayBuildTwin,
   resolveUpgradeWorkflowState,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/index.js';
+import { stashTwinSessionForPreview } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
 import '../../../styles/site00-reconstruction-twin.css';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
@@ -119,6 +120,12 @@ export function PageCreativeUpgradePanel({
   const [evidenceRegionId, setEvidenceRegionId] = useState<string | null>(null);
   const [structureRegionId, setStructureRegionId] = useState<string | null>(null);
   const [forensicsDetailsOpen, setForensicsDetailsOpen] = useState(true);
+  const [twinLinkCopied, setTwinLinkCopied] = useState(false);
+
+  const twinPreviewAbsoluteUrl = useMemo(() => {
+    if (!twinSession?.twinRoute || typeof window === 'undefined') return null;
+    return `${window.location.origin}${twinSession.twinRoute}`;
+  }, [twinSession?.twinRoute]);
 
   const workflow = useMemo(
     () => resolveUpgradeWorkflowState({ session, twinSession }),
@@ -491,6 +498,49 @@ export function PageCreativeUpgradePanel({
               ) : null}
               {twinSession?.status === 'READY_FOR_REVIEW' ? (
                 <p className="site00-pfw-upgrade-v2__approved">TWIN READY ✓</p>
+              ) : null}
+              {twinPreviewAbsoluteUrl &&
+              twinSession &&
+              ['READY_FOR_REVIEW', 'REVISION_REQUESTED', 'REVISING', 'APPROVED_FOR_PROMOTION'].includes(
+                twinSession.status,
+              ) ? (
+                <section className="site00-pfw-upgrade-v2__twin-link">
+                  <h3>TWIN DEBUG LINK</h3>
+                  <p className="site00-pfw-upgrade-v2__twin-link-url">
+                    <a href={twinPreviewAbsoluteUrl}>{twinPreviewAbsoluteUrl}</a>
+                  </p>
+                  <div className="site00-pfw-upgrade-v2__twin-link-actions">
+                    <button
+                      type="button"
+                      className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"
+                      onClick={() => {
+                        stashTwinSessionForPreview(twinSession);
+                        window.location.assign(twinPreviewAbsoluteUrl);
+                      }}
+                    >
+                      OPEN TWIN
+                    </button>
+                    <button
+                      type="button"
+                      className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                      onClick={async () => {
+                        stashTwinSessionForPreview(twinSession);
+                        try {
+                          await navigator.clipboard.writeText(twinPreviewAbsoluteUrl);
+                          setTwinLinkCopied(true);
+                          window.setTimeout(() => setTwinLinkCopied(false), 2500);
+                        } catch {
+                          window.prompt('COPY TWIN LINK:', twinPreviewAbsoluteUrl);
+                        }
+                      }}
+                    >
+                      {twinLinkCopied ? 'COPIED ✓' : 'COPY LINK'}
+                    </button>
+                  </div>
+                  <p className="site00-pfw-upgrade-v2__twin-link-hint">
+                    Open on this same phone/browser after TWIN READY — the link includes your private session id.
+                  </p>
+                </section>
               ) : null}
               {twinSession && (twinSession.status === 'BUILDING' || buildingTwin) ? (
                 <ul className="site00-pfw-upgrade-v2__twin-progress">
