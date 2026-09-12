@@ -25,6 +25,7 @@ import {
   founderMayApproveDirectionWithWarnings,
   founderMayBuildTwin,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/twinBuildReadiness.js';
+import '../../../styles/site00-reconstruction-twin.css';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
 type ReviewMode = 'before' | 'after' | 'authority';
