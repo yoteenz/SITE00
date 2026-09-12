@@ -72,3 +72,25 @@
   font-size: 7px;
   color: #ff6b6b;
 }
+
+.site00-hero-debug__missing {
+  position: absolute;
+  left: 4px;
+  bottom: 14px;
+  font-size: 7px;
+  color: #ff8888;
+  display: block;
+}
+
+.site00-hero-debug__crops {
+  position: absolute;
+  right: 2px;
+  top: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 6px;
+  color: #ccc;
+  max-width: 120px;
+  text-align: right;
+}

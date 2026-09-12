@@ -1,15 +1,17 @@
 /**
- * P0.VR.REPLICATION.4R2/4R3 — Hero-only blueprint debug (?blueprintDebug=hero).
+ * P0.VR.REPLICATION.4R2/4R3/4R3R1 — Hero-only blueprint debug (?blueprintDebug=hero).
  */
 
 import { useSearchParams } from 'react-router-dom';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import type { HeroInspectionLayerFlags } from './HeroInspectionToolbar.js';
+import type { HeroLiveDomCaptureResult } from './captureHeroLiveDomGeometry.js';
 import '../../styles/site00-hero-blueprint-debug.css';
 
 type Props = {
   session: ReconstructionTwinSession;
   layers: HeroInspectionLayerFlags;
+  liveCapture: HeroLiveDomCaptureResult | null;
 };
 
 function deltaClass(severity: string | undefined): string {
@@ -18,7 +20,7 @@ function deltaClass(severity: string | undefined): string {
   return 'site00-hero-debug__delta--red';
 }
 
-export function HeroBlueprintDebugOverlay({ session, layers }: Props) {
+export function HeroBlueprintDebugOverlay({ session, layers, liveCapture }: Props) {
   const [params] = useSearchParams();
   if (params.get('blueprintDebug') !== 'hero') return null;
 
@@ -33,16 +35,38 @@ export function HeroBlueprintDebugOverlay({ session, layers }: Props) {
       targetWidth: c.authorityBounds.width,
       targetHeight: c.authorityBounds.height,
     }));
-  const rendered = convergence?.renderedGeometry ?? [];
-  const deltas = convergence?.geometryDeltas ?? [];
+
+  const rendered = liveCapture?.renderedGeometry ?? [];
+  const deltas = liveCapture?.geometryDeltas ?? [];
+  const receipt = liveCapture?.geometryReceiptV2;
+  const capture = liveCapture?.captureReceipt;
+  const renderedCount = capture?.foundCount ?? 0;
+  const passCount = receipt?.withinToleranceCount ?? 0;
+  const outlierCount = receipt?.outlierCount ?? 0;
 
   return (
     <div className="site00-hero-debug" aria-hidden="true">
       {layers.labels ? (
         <p className="site00-hero-debug__label">
-          HERO DEBUG · {authority.length} authority · {rendered.length} rendered
+          HERO DEBUG · {authority.length} authority · {renderedCount} rendered · {passCount} pass · {outlierCount}{' '}
+          outliers
+          {capture?.measurementSource ? ` · ${capture.measurementSource}` : ''}
         </p>
       ) : null}
+      {layers.cropSources && session.heroDomRecoveryReport?.safeRegionCrops?.length ? (
+        <ul className="site00-hero-debug__crops">
+          {session.heroDomRecoveryReport.safeRegionCrops.map((c) => (
+            <li key={c.objectId}>
+              {c.objectId} {c.classification} · {c.status} · {c.naturalWidth}x{c.naturalHeight}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {(capture?.missingIds ?? []).map((id) => (
+        <span key={id} className="site00-hero-debug__missing">
+          {id} — RENDER TARGET MISSING
+        </span>
+      ))}
       {layers.authorityBoxes
         ? authority.map((a) => (
             <div

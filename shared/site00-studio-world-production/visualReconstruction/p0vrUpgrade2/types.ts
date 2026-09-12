@@ -275,6 +275,9 @@ export type ReconstructionTwinSession = {
   heroSurgicalLockReport?: import('../p0vrReplication4R2/types.js').HeroSurgicalLockReport | null;
   /** P0.VR.REPLICATION.4R3 — Measured hero geometry convergence */
   heroGeometryConvergenceReport?: import('../p0vrReplication4R3/types.js').HeroGeometryConvergenceReport | null;
+  /** P0.VR.REPLICATION.4R3R1 — Live DOM recovery + hero-safe crops */
+  heroDomRecoveryReport?: import('../p0vrReplication4R3R1/types.js').HeroDomRecoveryReport | null;
+  heroSafeRegionCropUrls?: { H06: string | null; H12: string | null } | null;
 };
 
 export type PageLiveRegistryEntry = {

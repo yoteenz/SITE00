@@ -42,12 +42,9 @@ describe('P0.VR.REPLICATION.4R3 hero geometry convergence', () => {
     });
     expect(report.buildRef).toBe(P0_VR_REPLICATION_4R3_BUILD);
     expect(report.authorityGeometry.length).toBe(14);
-    expect(report.renderedGeometry.length).toBe(14);
-    expect(report.geometryDeltas.length).toBe(14);
-    expect(report.geometryDeltas.every((d) => d.status !== undefined)).toBe(true);
-    expect(report.geometryDeltas.some((d) => d.status === 'NOT_MEASURED' as never)).toBe(false);
-    expect(report.geometryReceipt.measuredCount).toBe(14);
-    expect(report.legacyGeometryDeltas.every((d) => d.status !== 'NOT_MEASURED')).toBe(true);
+    expect(report.renderedGeometry.length).toBe(0);
+    expect(report.geometryReceipt.measuredCount).toBe(0);
+    expect(report.status).toBe('FAIL');
     expect(sessionPatch.twinForensicCssPatch?.['--hero-h12-pos']).toContain('43%');
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrReplication2/executeShellFirstNdxReplication.ts')).toContain(
       'executeHeroGeometryConvergencePipeline',

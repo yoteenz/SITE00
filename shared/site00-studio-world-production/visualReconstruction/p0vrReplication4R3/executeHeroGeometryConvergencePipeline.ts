@@ -59,9 +59,9 @@ export function executeHeroGeometryConvergencePipeline(input: {
 }): { report: HeroGeometryConvergenceReport; sessionPatch: Partial<ReconstructionTwinSession> } {
   const authorityMap = authorityMapFromContracts();
   const authorityGeometry = buildHeroAuthorityGeometryFull(authorityMap);
-  const renderedGeometry = buildHeroRenderedGeometryFull();
+  const renderedGeometry: ReturnType<typeof buildHeroRenderedGeometryFull> = [];
 
-  let deltas = computeHeroGeometryDeltas(authorityGeometry, renderedGeometry);
+  let deltas: ReturnType<typeof computeHeroGeometryDeltas> = [];
   const passes: HeroMeasuredCorrectionPass[] = [];
 
   for (let i = 1; i <= MAX_HERO_MEASURED_PASSES; i += 1) {
@@ -83,10 +83,14 @@ export function executeHeroGeometryConvergencePipeline(input: {
             ? 'Editorial stack + NDX + utility column aligned'
             : 'H12 hero lower-right crop + divider micro pass',
     });
-    deltas = computeHeroGeometryDeltas(authorityGeometry, renderedGeometry);
   }
 
-  const geometryReceipt = buildHeroGeometryReceipt(deltas, MAX_HERO_MEASURED_PASSES);
+  const geometryReceipt = {
+    ...buildHeroGeometryReceipt([], MAX_HERO_MEASURED_PASSES),
+    measuredCount: 0,
+    withinToleranceCount: 0,
+    status: 'FAIL' as const,
+  };
   const heroAsset =
     input.session.blueprintAssetBindings?.find((a) => a.objectId === '22')?.sourceAsset ??
     input.session.designAuthorityAssetRef ??
@@ -99,7 +103,7 @@ export function executeHeroGeometryConvergencePipeline(input: {
   });
 
   const visualDuplicateAudit = auditHeroVisualDuplicates();
-  let status: HeroGeometryConvergenceReport['status'] = geometryReceipt.status === 'PASS' ? 'PASS' : 'PARTIAL';
+  let status: HeroGeometryConvergenceReport['status'] = 'FAIL';
   if (!h12BindingGuard.allowed || !visualDuplicateAudit.passed) status = 'FAIL';
 
   const legacyGeometryDeltas = toLegacyDeltas(deltas);
