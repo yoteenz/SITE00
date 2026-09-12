@@ -155,6 +155,9 @@ function regionSpecFromBundle(
     selectorHint: bundle.componentTarget.selector,
     unresolvedComponentTarget: bundle.componentTarget.unresolvedComponentTarget,
     status: 'PENDING',
+    internalStructure: bundle.internalStructure,
+    childAnchorEvidence: bundle.internalStructure?.anchorHierarchy,
+    typedDimensions: bundle.dimensions.map((d) => d.dimension),
   };
 }
 
@@ -188,6 +191,10 @@ function dimensionToRegionSpec(
     selectorHint: bundle.componentTarget.selector,
     unresolvedComponentTarget: bundle.componentTarget.unresolvedComponentTarget,
     status: 'PENDING',
+    internalStructure: bundle.internalStructure,
+    childAnchorEvidence: bundle.internalStructure?.anchorHierarchy,
+    typedDimensions: bundle.dimensions.filter((d) => d.evidenceId === dim.evidenceId).map((d) => d.dimension),
+    structuralRelationships: bundle.internalStructure?.anchorHierarchy,
   };
 }
 

@@ -141,6 +141,8 @@ export type PageCreativeUpgradeSession = {
     depthAfterPct: number;
     regionsImproved: string[];
     regionsStillBlocked: string[];
+    rootCauseSummary?: string | null;
+    structureTraceCount?: number;
   } | null;
 };
 

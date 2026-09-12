@@ -125,6 +125,10 @@ export type RegionEvidenceRecoveryReceipt = {
   depthAfter: { sufficient: number; total: number; pct: number; gateStatus: string };
   regionTransitions: Array<{ regionId: string; regionName: string; before: RegionMeasurementDepthStatus; after: RegionMeasurementDepthStatus }>;
   plans: RegionEvidenceRecoveryPlan[];
+  structureTraces?: import('../p0vrDiag1R5/types.js').InternalStructureRecoveryTrace[];
+  recoveryFailures?: import('../p0vrDiag1R5/types.js').EvidenceRecoveryFailure[];
+  dimensionTypeRepair?: import('../p0vrDiag1R5/types.js').DimensionTypeRepairReceipt | null;
+  rootCauseSummary?: string | null;
   createdAt: string;
 };
 

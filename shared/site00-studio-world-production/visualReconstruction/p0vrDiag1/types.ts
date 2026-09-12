@@ -326,6 +326,13 @@ export type RegionComponentTarget = {
   unresolvedComponentTarget: boolean;
 };
 
+export type RegionInternalStructureSummary = {
+  status: 'UNRESOLVED' | 'PARTIAL' | 'RESOLVED' | 'AMBIGUOUS' | 'UNSUPPORTED';
+  subtype?: 'MILESTONE' | 'CARD_RAIL' | 'COMPOSITE' | 'AMBIGUOUS';
+  completenessPct?: number;
+  anchorHierarchy?: string[];
+};
+
 export type RegionForensicsBundle = {
   regionId: string;
   regionName: string;
@@ -340,6 +347,7 @@ export type RegionForensicsBundle = {
   measurementDepth?: RegionMeasurementDepth;
   depthComputation?: RegionDepthComputation;
   reconstructionTarget?: RegionReconstructionTargetMap;
+  internalStructure?: RegionInternalStructureSummary;
 };
 
 export type FullPageRegionCoverageMap = {
@@ -622,6 +630,7 @@ export type AuthorityRelativeForensicsReport = {
   confidenceSummary: Record<ForensicConfidence, number>;
   functionalRiskSummary: FunctionalRiskAssessment[];
   fullPageStatus: FullPageForensicStatus;
+  forensicsVersion?: string;
   generatedAt: string;
 };
 
@@ -649,6 +658,10 @@ export type RegionReconstructionSpec = {
   selectorHint: string | null;
   unresolvedComponentTarget: boolean;
   status: 'PENDING' | 'FOUNDER_OVERRIDE_KEEP_CURRENT' | 'APPROVED' | 'EXCLUDED';
+  internalStructure?: RegionInternalStructureSummary;
+  childAnchorEvidence?: string[];
+  typedDimensions?: string[];
+  structuralRelationships?: string[];
 };
 
 export type MeasuredReconstructionSpec = {

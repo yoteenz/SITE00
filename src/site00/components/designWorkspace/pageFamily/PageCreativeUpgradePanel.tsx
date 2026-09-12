@@ -501,6 +501,10 @@ export function PageCreativeUpgradePanel({
                           {session.lastEvidenceRecoverySummary.regionsImproved.length
                             ? ` · ${session.lastEvidenceRecoverySummary.regionsImproved.length} IMPROVED`
                             : ''}
+                          {session.lastEvidenceRecoverySummary.rootCauseSummary &&
+                          session.lastEvidenceRecoverySummary.status === 'NO_PROGRESS'
+                            ? ` · ${session.lastEvidenceRecoverySummary.rootCauseSummary}`
+                            : ''}
                         </p>
                       ) : null}
                       {session.lastEvidenceRecoverySummary?.regionsImproved.length ? (

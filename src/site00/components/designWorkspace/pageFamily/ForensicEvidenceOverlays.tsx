@@ -3,6 +3,7 @@
  */
 
 import { createPortal } from 'react-dom';
+import { useState } from 'react';
 import type {
   PageVisualDiagnosis,
   RegionForensicsSummary,
@@ -75,8 +76,15 @@ export function AllForensicsOverlay({ open, diagnosis, onClose, onSelectRegion }
                     {region.status.replace(/_/g, ' ')}
                   </span>
                   <span>
-                    {region.measurementDepthStatus ?? 'ANALYZED'} · {region.dimensionCount} dimensions · {region.confidence}
+                    {region.measurementDepthStatus ?? 'ANALYZED'} · {region.dimensionCount} valid dimensions ·{' '}
+                    {region.confidence}
                   </span>
+                  {region.internalStructureStatus ? (
+                    <span className="site00-pfw-forensic-overlay__structure">
+                      INTERNAL STRUCTURE: {region.internalStructureStatus.replace(/_/g, ' ')}
+                      {region.internalStructureSubtype ? ` · ${region.internalStructureSubtype}` : ''}
+                    </span>
+                  ) : null}
                   {region.missingDimensions?.length ? (
                     <span className="site00-pfw-forensic-overlay__missing">
                       MISSING: {region.missingDimensions.slice(0, 5).join(' · ')}
@@ -137,6 +145,7 @@ export function ForensicEvidenceDetailOverlay({
   plan,
   onClose,
 }: EvidenceDetailProps) {
+  const [structureOpen, setStructureOpen] = useState(false);
   if (!open || typeof document === 'undefined') return null;
   if (!evidenceId && !regionId) return null;
 
@@ -190,8 +199,27 @@ export function ForensicEvidenceDetailOverlay({
           {regionSummary ? (
             <p className="site00-pfw-upgrade-v2__evidence-status">
               {regionSummary.status.replace(/_/g, ' ')} · {regionSummary.measurementDepthStatus ?? 'MEASURED'} ·{' '}
-              {regionSummary.dimensionCount} dimensions · {regionSummary.confidence}
+              {regionSummary.dimensionCount} valid dimensions · {regionSummary.confidence}
+              {regionSummary.internalStructureStatus
+                ? ` · INTERNAL STRUCTURE: ${regionSummary.internalStructureStatus.replace(/_/g, ' ')}`
+                : ''}
             </p>
+          ) : null}
+          {regionSummary?.internalStructureHierarchy?.length ? (
+            <>
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                onClick={() => setStructureOpen((v) => !v)}
+              >
+                {structureOpen ? 'HIDE STRUCTURE' : 'VIEW STRUCTURE'}
+              </button>
+              {structureOpen ? (
+                <pre className="site00-pfw-forensic-overlay__structure-tree" aria-label="Internal structure hierarchy">
+                  {regionSummary.internalStructureHierarchy.join('\n')}
+                </pre>
+              ) : null}
+            </>
           ) : null}
           {regionSummary?.missingDimensions?.length ? (
             <p className="site00-pfw-forensic-overlay__missing">

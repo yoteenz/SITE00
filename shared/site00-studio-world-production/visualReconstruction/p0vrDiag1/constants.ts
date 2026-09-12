@@ -7,6 +7,7 @@ export const P0_VR_DIAG_1R1_BUILD = 'v303' as const;
 export const P0_VR_DIAG_1R2_BUILD = 'v304' as const;
 export const P0_VR_DIAG_1R3_BUILD = 'v305' as const;
 export const P0_VR_DIAG_1R4_BUILD = 'v306' as const;
+export const P0_VR_DIAG_1R5_BUILD = 'v307' as const;
 
 export const FORENSIC_DELTA_HIGH_PX = 16;
 export const FORENSIC_DELTA_MEDIUM_PX = 8;
