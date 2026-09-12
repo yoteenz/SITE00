@@ -48,18 +48,19 @@ export function buildForensicUpgradeBundle(input: AuthorityRelativeForensicsInpu
   route: string;
   isRootPage?: boolean;
 }): ForensicUpgradeBundle {
-  const report = runAuthorityRelativeForensics(input);
+  const profile = resolvePageRegionLayoutProfile({
+    pageArchetype: input.pageArchetype,
+    screenId: input.screenId,
+    isRootPage: input.isRootPage,
+  });
+  const rawReport = runAuthorityRelativeForensics(input);
+  const { report } = reconcileForensicReportScoring({ report: rawReport, profile });
   const measuredSpec = buildMeasuredReconstructionSpec({
     pageId: input.pageId,
     viewport: input.viewport,
     authorityVersionId: input.designAuthority.authorityVersionId,
     captureId: input.currentCapture.captureId,
     report,
-  });
-  const profile = resolvePageRegionLayoutProfile({
-    pageArchetype: input.pageArchetype,
-    screenId: input.screenId,
-    isRootPage: input.isRootPage,
   });
   const visualDiagnosis = forensicReportToVisualDiagnosis(report, {
     profile,
@@ -227,6 +228,7 @@ export function forensicReportToVisualDiagnosis(
       gateStatus: report.coverageGate.status,
       gateReason: report.coverageGate.reason,
       blockApproveDirection: report.coverageGate.blockApproveDirection,
+      founderMayProceedWithWarning: report.coverageGate.founderMayProceedWithWarning,
       missingCurrent: report.coverageMap.missingCurrent,
       extraCurrent: report.coverageMap.extraCurrent,
       ambiguous: report.coverageMap.ambiguous,

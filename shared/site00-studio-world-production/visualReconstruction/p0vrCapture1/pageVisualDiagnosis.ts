@@ -59,6 +59,7 @@ export type ForensicCoverageSummary = {
   gateStatus: 'PASS' | 'WARNING' | 'BLOCK';
   gateReason: string;
   blockApproveDirection: boolean;
+  founderMayProceedWithWarning?: boolean;
   missingCurrent: string[];
   extraCurrent: string[];
   ambiguous: string[];

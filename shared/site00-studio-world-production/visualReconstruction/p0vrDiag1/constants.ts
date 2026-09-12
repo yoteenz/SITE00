@@ -10,6 +10,7 @@ export const P0_VR_DIAG_1R4_BUILD = 'v306' as const;
 export const P0_VR_DIAG_1R5_BUILD = 'v307' as const;
 export const P0_VR_DIAG_1R5A_BUILD = 'v308' as const;
 export const P0_VR_DIAG_1R5B_BUILD = 'v309' as const;
+export const P0_VR_CONVERGE_1_BUILD = 'v310' as const;
 
 export const FORENSIC_DELTA_HIGH_PX = 16;
 export const FORENSIC_DELTA_MEDIUM_PX = 8;

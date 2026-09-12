@@ -193,6 +193,10 @@ export type ReconstructionTwinSession = {
   updatedAt: string;
   approvedForPromotionAt: string | null;
   promotedAt: string | null;
+  regionExecutionDecisions?: import('../p0vrConverge1/types.js').RegionExecutionDecision[];
+  twinBuildReceipt?: import('../p0vrConverge1/types.js').TwinBuildReceipt | null;
+  visualRefinement?: import('../p0vrConverge1/types.js').VisualRefinementSession | null;
+  twinCssPatch?: import('../p0vrConverge1/twinCssPatchEngine.js').TwinCssPatch | null;
 };
 
 export type PageLiveRegistryEntry = {
