@@ -8244,3 +8244,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Not full page pass yet:** Masthead/module nav/progress/metrics bands still largely shell-first styling; hero + host bottom nav are the 3C pilot targets. Post-bind vision recompare loop remains 3B playwright path + asset retry counter.
 - **Founder next:** Deploy **v330+** → UPGRADE → REPLICATE → REVIEW hero (real grayscale/lime, no wireframe labels) → DETAILS → ASSET RESOLUTION + VISION TRACE. Live unchanged.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.3C-R1 hero asset materialization proof
+
+- **Symptom:** After v330, hero still looked like gray blocks — receipts claimed BOUND but browser showed no authority photography.
+- **Root cause:** (1) `resolveHeroAssets` bound **non-existent library paths** (`/assets/ndxbook/...`, `/visual-references/.../corporate-layoff-memo.webp`) → network 404, CSS gray gradient fallback on `.site00-vlt__image-slice`. (2) Proof slot used full-authority URL + `background-position` only — no persisted crop artifact. (3) Receipts marked `rendered: true` on intent, not decode/visibility. (4) Preview handoff fallback JSON could drop `replicationAssetSlots` on quota trim.
+- **Fix (`p0vrReplication3cR1/`):** Real sharp crop → JPEG **data URL** persisted on slot (`materializedPublicUrl`); proof slot **`slice_b`** renders via `<img>` (`HeroMaterializedSliceImage`); `AssetMaterializationTrace` + DETAILS **MATERIALIZATION TRACE**; API `hero-asset-materialize` for CORS; pass requires `proofSlotVisible`. Playwright test proves decode + screenshot artifact.
+- **Founder next:** Deploy **v331+** → REPLICATE → PREVIEW TWIN → center hero mid-slice should show real cropped photo texture (not flat gray). DETAILS → MATERIALIZATION TRACE → `visible: YES` on slice_b.
+
