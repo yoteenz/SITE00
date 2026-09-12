@@ -8253,3 +8253,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (`p0vrReplication3cR1/`):** Real sharp crop → JPEG **data URL** persisted on slot (`materializedPublicUrl`); proof slot **`slice_b`** renders via `<img>` (`HeroMaterializedSliceImage`); `AssetMaterializationTrace` + DETAILS **MATERIALIZATION TRACE**; API `hero-asset-materialize` for CORS; pass requires `proofSlotVisible`. Playwright test proves decode + screenshot artifact.
 - **Founder next:** Deploy **v331+** → REPLICATE → PREVIEW TWIN → center hero mid-slice should show real cropped photo texture (not flat gray). DETAILS → MATERIALIZATION TRACE → `visible: YES` on slice_b.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.3D authority coordinate map + grid lock
+
+- **Context:** Post-3C-R1 twin still had visible placement/size drift — regions known but DOM used approximate % spacing.
+- **Delivered:** `p0vrReplication3d/` — `AuthorityCoordinateMap` (10k norm units, content viewport), element bounds for all major bands + hero internals + 6 module nav + 4 metrics + host nav, `AuthorityGrid`, `GeometryDelta` + tolerances, 3-pass correction, `GeometryFidelityReceipt`, CSS var patch on hero (`--vlt-hero-*`), `generateLiteralRegionSourceWithGeometry`, chained after 3C in replicate. DETAILS → **GEOMETRY**; preview `?geometryDebug=1` overlay.
+- **Limits:** Rendered bounds estimated from CSS until Playwright DOM capture in QA; hero-first CSS lock (masthead/metrics in map, not all bands patched yet).
+- **Founder next:** Deploy **v332+** → REPLICATE → check hero columns/CTA/lime → DETAILS → GEOMETRY.
+

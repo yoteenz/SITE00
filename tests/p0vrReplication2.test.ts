@@ -147,6 +147,8 @@ describe('P0.VR.REPLICATION.2 shell-first', () => {
     expect(result.sessionPatch.twinRenderMode).toBe('VISION_LITERAL_EXECUTED_NDX_OVERVIEW');
     expect(result.sessionPatch.visionReplicationReport?.heroRecognizable).toBe(true);
     expect(result.sessionPatch.replication3cReport?.heroHumanRecognizable).toBe(true);
+    expect(result.sessionPatch.geometryLockReport?.coordinateMap.elements.length).toBeGreaterThan(10);
+    expect(result.sessionPatch.twinGeometryCssPatch?.['--vlt-hero-min-height-px']).toBeTruthy();
     expect(result.sessionPatch.replicationAssetSlots?.every((s) => s.status === 'BOUND' || !s.required)).toBe(true);
     expect(result.shellReceipt.buildRef).toBe('v316');
     expect(result.sessionPatch.authorityShellBlueprintId).toBeTruthy();

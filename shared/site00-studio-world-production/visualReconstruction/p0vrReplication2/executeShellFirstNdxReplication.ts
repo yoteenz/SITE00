@@ -10,6 +10,7 @@ import { buildShellReconstructionReceipt } from './shellReconstructionReceipt.js
 import { buildDriftTriangulationReport } from '../p0vrReplication3a/buildDriftTriangulationReport.js';
 import { executeVisionLiteralNdxReplication } from '../p0vrReplication3b/executeVisionLiteralNdxReplication.js';
 import { executeReplication3cPipeline } from '../p0vrReplication3c/executeReplication3cPipeline.js';
+import { executeGeometryLockPipeline } from '../p0vrReplication3d/executeGeometryLockPipeline.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -80,6 +81,15 @@ export async function executeShellFirstNdxReplication(input: {
     priorTwinVersionId: visionLiteral.sessionPatch.twinVersionId ?? input.twinVersionId,
   });
 
+  const heroSpec = visionLiteral.report.literalRegionSpecs.find((s) => s.regionId === 'hero-editorial') ?? null;
+  const geometryLock = executeGeometryLockPipeline({
+    session: input.session,
+    shellBlueprint: blueprint,
+    heroSpec,
+    assetSlots: replication3c.sessionPatch.replicationAssetSlots ?? replication3c.report.assetSlots,
+    priorTwinVersionId: replication3c.sessionPatch.twinVersionId ?? input.twinVersionId,
+  });
+
   const visionReady = replication3c.report.heroHumanRecognizable;
   const finalRenderMode = visionReady
     ? 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW'
@@ -95,6 +105,7 @@ export async function executeShellFirstNdxReplication(input: {
       ...base.sessionPatch,
       ...visionLiteral.sessionPatch,
       ...replication3c.sessionPatch,
+      ...geometryLock.sessionPatch,
       status: pageReady ? 'READY_FOR_REVIEW' : shellPass ? base.sessionPatch.status : 'FAILED',
       twinRenderMode: finalRenderMode,
       visualAuthorityStatus: shellPass ? 'AUTHORITY_FIRST_BUILT' : 'SHELL_MISMATCH',
@@ -107,6 +118,7 @@ export async function executeShellFirstNdxReplication(input: {
       preVisionBaselineRenderMode: 'SHELL_FIRST_NDX_OVERVIEW',
       visionReplicationReport: visionLiteral.report,
       replication3cReport: replication3c.report,
+      geometryLockReport: geometryLock.report,
     },
   };
 }
