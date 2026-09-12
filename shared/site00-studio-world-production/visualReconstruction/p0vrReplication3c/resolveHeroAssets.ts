@@ -105,33 +105,28 @@ export function resolveHeroAssetSlots(input: {
     }
 
     if (authority && HERO_AUTHORITY_SLICE_CROPS[slot.slotId]) {
-      const crop = HERO_AUTHORITY_SLICE_CROPS[slot.slotId];
       const next: ReplicationAssetSlot = {
         ...slot,
-        selectedStrategy: 'AUTHORITY_REGION_DERIVATION',
-        selectedAsset: authority,
-        cropSpec: {
-          backgroundSize: crop.backgroundSize,
-          backgroundPosition: crop.backgroundPosition,
-          objectFit: 'cover',
-        },
-        status: 'BOUND',
-        bindingStage: 'SOURCE_BOUND',
-        failureReason: null,
+        selectedStrategy: 'UNRESOLVED',
+        selectedAsset: null,
+        cropSpec: null,
+        status: 'UNRESOLVED_VISUAL_ASSET',
+        bindingStage: 'RESOLVED',
+        failureReason: 'PAGE_AUTHORITY_MISUSED_AS_REGION_ASSET',
       };
       receipts.push({
         slotId: slot.slotId,
-        strategy: 'AUTHORITY_REGION_DERIVATION',
-        candidateCount: candidates.length + 1,
-        selectedAsset: authority,
-        source: 'authority CSS region (non-proof slot)',
-        cropApplied: true,
-        bound: true,
+        strategy: 'UNRESOLVED',
+        candidateCount: candidates.length,
+        selectedAsset: null,
+        source: 'blocked — requires materialized region crop (3D boundary)',
+        cropApplied: false,
+        bound: false,
         rendered: false,
         visible: false,
-        bindingStage: 'SOURCE_BOUND',
-        status: 'OK',
-        notes: 'CSS background-position crop — visibility not verified for non-proof slots',
+        bindingStage: 'RESOLVED',
+        status: 'UNRESOLVED_VISUAL_ASSET',
+        notes: 'Non-proof hero slots cannot bind full-page authority as CSS background',
       });
       return next;
     }
@@ -139,26 +134,26 @@ export function resolveHeroAssetSlots(input: {
     if (authority) {
       const next: ReplicationAssetSlot = {
         ...slot,
-        selectedStrategy: 'AUTHORITY_CROP',
-        selectedAsset: authority,
-        cropSpec: { backgroundSize: 'cover', backgroundPosition: 'center', objectFit: 'cover' },
-        status: 'BOUND',
-        bindingStage: 'SOURCE_BOUND',
-        failureReason: null,
+        selectedStrategy: 'UNRESOLVED',
+        selectedAsset: null,
+        cropSpec: null,
+        status: 'UNRESOLVED_VISUAL_ASSET',
+        bindingStage: 'RESOLVED',
+        failureReason: 'PAGE_AUTHORITY_MISUSED_AS_REGION_ASSET',
       };
       receipts.push({
         slotId: slot.slotId,
-        strategy: 'AUTHORITY_CROP',
+        strategy: 'UNRESOLVED',
         candidateCount: candidates.length,
-        selectedAsset: authority,
-        source: 'authority fallback crop',
-        cropApplied: true,
-        bound: true,
+        selectedAsset: null,
+        source: 'blocked — no raw authority fallback',
+        cropApplied: false,
+        bound: false,
         rendered: false,
         visible: false,
-        bindingStage: 'SOURCE_BOUND',
-        status: 'OK',
-        notes: 'Fallback authority crop — visibility not verified',
+        bindingStage: 'RESOLVED',
+        status: 'UNRESOLVED_VISUAL_ASSET',
+        notes: 'Authority fallback crop disabled (nested page prevention)',
       });
       return next;
     }

@@ -257,6 +257,8 @@ export type ReconstructionTwinSession = {
   geometryCorrectionPasses?: import('../p0vrReplication3d/types.js').GeometryCorrectionPass[] | null;
   twinGeometryCssPatch?: Record<string, string> | null;
   geometryLiteralHeroSource?: import('../p0vrReplication3b/literalRegionSourceGenerator.js').GeneratedLiteralSource | null;
+  /** P0.VR.REPLICATION.3D boundary — content root + hero slot enforcement */
+  replicationRenderBoundaryReport?: import('../p0vrReplication3dBoundary/types.js').ReplicationRenderBoundaryReceipt | null;
 };
 
 export type PageLiveRegistryEntry = {

@@ -22,6 +22,7 @@ import { DriftTracePanel } from './DriftTracePanel.js';
 import { VisionTracePanel } from './VisionTracePanel.js';
 import { AssetResolutionPanel } from './AssetResolutionPanel.js';
 import { GeometryPanel } from './GeometryPanel.js';
+import { BoundaryTracePanel } from './BoundaryTracePanel.js';
 import '../../../styles/site00-page-upgrade-replication.css';
 
 type Props = {
@@ -82,6 +83,7 @@ export function PageUpgradeReplicationExperience({
   const [visionTraceOpen, setVisionTraceOpen] = useState(false);
   const [assetResolutionOpen, setAssetResolutionOpen] = useState(false);
   const [geometryOpen, setGeometryOpen] = useState(false);
+  const [boundaryOpen, setBoundaryOpen] = useState(false);
   const experienceState = resolveReconstructionExperienceState({
     session,
     twinSession,
@@ -368,6 +370,16 @@ export function PageUpgradeReplicationExperience({
               {geometryOpen ? 'HIDE GEOMETRY' : 'GEOMETRY'}
             </button>
             {geometryOpen ? <GeometryPanel report={twinSession?.geometryLockReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setBoundaryOpen((v) => !v)}
+            >
+              {boundaryOpen ? 'HIDE BOUNDARY TRACE' : 'BOUNDARY TRACE'}
+            </button>
+            {boundaryOpen ? (
+              <BoundaryTracePanel report={twinSession?.replicationRenderBoundaryReport} />
+            ) : null}
           </div>
         ) : null}
       </footer>

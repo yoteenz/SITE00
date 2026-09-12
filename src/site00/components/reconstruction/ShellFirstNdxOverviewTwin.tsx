@@ -79,6 +79,7 @@ export function ShellFirstNdxOverviewTwin({
         </div>
       </header>
 
+      <div className="site00-sft__content-root" data-twin-content-root="ndx-overview-mobile">
       <nav className="site00-sft__band site00-sft__breadcrumb" data-shell-band="breadcrumb" aria-label="Breadcrumb">
         <span>PROJECTS</span>
         <span aria-hidden="true">›</span>
@@ -222,6 +223,7 @@ export function ShellFirstNdxOverviewTwin({
         })}
       </nav>
       )}
+      </div>
     </div>
   );
 }

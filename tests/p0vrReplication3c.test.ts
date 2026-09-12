@@ -133,14 +133,15 @@ describe('P0.VR.REPLICATION.3C asset + literal execution', () => {
     expect(sliceB?.bindingStage).toBe('RESOLVED');
   });
 
-  it('derives authority regions when library miss (no full-screen cheat in crop presets)', () => {
+  it('blocks non-proof authority CSS binding (3D boundary — no nested page in hero)', () => {
     const spec = heroSpec();
     const inventory = buildHeroAssetInventory({ heroSpec: spec, authorityImageUrl: 'https://a.png' });
     const { slots } = resolveHeroAssetSlots({ slots: inventory, authorityImageUrl: 'https://a.png' });
     const sliceC = slots.find((s) => s.slotId === 'slice_c');
-    expect(sliceC?.selectedStrategy).toMatch(/AUTHORITY_/);
-    expect(sliceC?.cropSpec?.backgroundSize).not.toBe('100% 100%');
-    expect(heroAssetsFullyBound(slots)).toBe(true);
+    expect(sliceC?.selectedStrategy).toBe('UNRESOLVED');
+    expect(sliceC?.selectedAsset).toBeNull();
+    expect(sliceC?.failureReason).toBe('PAGE_AUTHORITY_MISUSED_AS_REGION_ASSET');
+    expect(slots.find((s) => s.slotId === 'slice_b')?.status).toBe('PENDING');
   });
 
   it('uses procedural DOM for lime graphic', () => {
