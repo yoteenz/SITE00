@@ -8123,3 +8123,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `enrichRegionStructure` hydrates summaries/view models on every diagnosis build; `shouldShowViewStructure` / **VIEW STRUCTURE** + **ANALYZE STRUCTURE** on cards + `ForensicStructureOverlay` (mobile sheet); `StructureToDepthTrace` + per-region recovery list; scoped structure cache key; `P0_VR_DIAG_1R5A_BUILD = v308`; single-region `analyzeSingleRegionStructureForUpgrade`. Tests: `p0vrDiag1R5aSurfaceStructure.test.ts`.
 - **Founder next:** Deploy **v316+** → VIEW ALL FORENSICS → confirm **VIEW EVIDENCE** + **VIEW STRUCTURE** on blockers → tap structure → see CURRENT/AUTHORITY anchor status + depth trace after **ANALYZE MISSING EVIDENCE**.
 
+---
+
+## 2026-09-12 — P0.VR.DIAG.1R5B VIEW STRUCTURE live surface + zero-anchor recovery
+
+- **Context:** v316 live QA — recovery trace visible but **VIEW STRUCTURE** still absent on ALL FORENSICS region cards; zero-anchor blockers (CURRENT FOCUS, METRIC CELLS, SECTION NAV, PROGRESS) needed founder-readable diagnostics and scoped recovery without rewriting forensics stack.
+- **R5A UI root cause:** `regionOffersViewStructure` required `isComplexRegionType(regionType)` — missing/stale `regionType` on summaries hid the button; JSX also required both `showStructure && onSelectStructure` (catch-22: no structure data → no button to analyze).
+- **Fix:** `regionCardMustShowViewStructure` — shallow/unmeasured/blocked majors show **VIEW STRUCTURE** even when structure undefined; name inference (`SECTION NAVIGATION`, `METRIC`, `ACTIVITY`, etc.); button no longer gated on pre-existing structure. `ForensicStructureOverlay` — STRUCTURE NOT ANALYZED, zero-anchor panel, founder copy, CURRENT vs AUTHORITY side summary, separate authority anchor list. Engine: `MeaningfulChildTraversal`, `MetricRegionSubtypeResolver`, `ZeroAnchorDiagnosis`, `MeasurementOriginTrace`, `RegionStructureRecoveryReceipt`; LIST row recovery; nav uses traversed children; recovery receipts on analyze-missing. Build `P0_VR_DIAG_1R5B_BUILD = v309`, structure UI **R5B**. Tests: `p0vrDiag1R5bZeroAnchorStructure.test.ts`.
+- **Founder next:** Deploy **v317+** (no new capture) → NDXBOOK OVERVIEW → UPGRADE → **VIEW ALL FORENSICS** → every shallow region has **VIEW EVIDENCE** + **VIEW STRUCTURE** → open structure → **ANALYZE STRUCTURE** per blocker → **ANALYZE MISSING EVIDENCE** → read per-region anchors/qualified/depth before→after; if current resolves but authority does not, UI shows **AUTHORITY ANCHORS UNRESOLVED**.
+
