@@ -53,6 +53,7 @@ type Props = {
   onBuildTwin?: () => void | Promise<void>;
   onReplicatePage?: () => Promise<void>;
   onPreviewTwin?: () => void;
+  onInspectHero?: () => void;
   onRefineTwin?: (instruction: string) => void;
   onApprovePromotion?: () => void;
   onPromote?: () => void;
@@ -98,6 +99,7 @@ export function PageCreativeUpgradePanel({
   onBuildTwin,
   onReplicatePage,
   onPreviewTwin,
+  onInspectHero,
   onRefineTwin,
   onApprovePromotion,
   onPromote,
@@ -338,19 +340,30 @@ export function PageCreativeUpgradePanel({
   );
 
   const renderTwinReviewControls = () => (
-    <div className="site00-pfw-upgrade-v2__tabs" role="tablist" aria-label="Twin review">
-      {(['before', 'twin', 'authority', 'blueprint'] as const).map((mode) => (
+    <div className="site00-pfw-upgrade-v2__review-bar">
+      <div className="site00-pfw-upgrade-v2__tabs" role="tablist" aria-label="Twin review">
+        {(['before', 'twin', 'authority', 'blueprint'] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            role="tab"
+            aria-selected={twinReviewMode === mode}
+            className={`site00-pfw-upgrade-v2__tab${twinReviewMode === mode ? ' is-active' : ''}`}
+            onClick={() => setTwinReviewMode(mode)}
+          >
+            {mode.toUpperCase()}
+          </button>
+        ))}
+      </div>
+      {onInspectHero && twinSession ? (
         <button
-          key={mode}
           type="button"
-          role="tab"
-          aria-selected={twinReviewMode === mode}
-          className={`site00-pfw-upgrade-v2__tab${twinReviewMode === mode ? ' is-active' : ''}`}
-          onClick={() => setTwinReviewMode(mode)}
+          className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact site00-pfw-upgrade-v2__inspect-hero"
+          onClick={onInspectHero}
         >
-          {mode.toUpperCase()}
+          INSPECT HERO
         </button>
-      ))}
+      ) : null}
     </div>
   );
 
@@ -565,6 +578,7 @@ export function PageCreativeUpgradePanel({
                   onApproveDirection={onApprove}
                   onRefine={() => setRefineOpen(true)}
                   onPreviewTwin={onPreviewTwin}
+                  onInspectHero={onInspectHero}
                   onPromote={() => setPromotionConfirmOpen(true)}
                   detailsOpen={forensicsDetailsOpen}
                   onToggleDetails={() => setForensicsDetailsOpen((v) => !v)}

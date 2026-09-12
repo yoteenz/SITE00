@@ -273,6 +273,8 @@ export type ReconstructionTwinSession = {
   authorityTighteningReport?: import('../p0vrReplication4R1/executeAuthorityTighteningPass.js').AuthorityTighteningReport | null;
   /** P0.VR.REPLICATION.4R2 — Hero surgical lock + collision elimination */
   heroSurgicalLockReport?: import('../p0vrReplication4R2/types.js').HeroSurgicalLockReport | null;
+  /** P0.VR.REPLICATION.4R3 — Measured hero geometry convergence */
+  heroGeometryConvergenceReport?: import('../p0vrReplication4R3/types.js').HeroGeometryConvergenceReport | null;
 };
 
 export type PageLiveRegistryEntry = {

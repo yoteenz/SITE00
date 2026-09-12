@@ -42,6 +42,7 @@ type Props = {
   onApproveDirection: () => void;
   onRefine: () => void;
   onPreviewTwin?: () => void;
+  onInspectHero?: () => void;
   onPromote?: () => void;
   detailsOpen: boolean;
   onToggleDetails: () => void;
@@ -75,6 +76,7 @@ export function PageUpgradeReplicationExperience({
   onApproveDirection,
   onRefine,
   onPreviewTwin,
+  onInspectHero,
   onPromote,
   detailsOpen,
   onToggleDetails,
@@ -264,6 +266,11 @@ export function PageUpgradeReplicationExperience({
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onRefine}>
                   REFINE
                 </button>
+                {onInspectHero ? (
+                  <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onInspectHero}>
+                    INSPECT HERO
+                  </button>
+                ) : null}
                 {onPreviewTwin ? (
                   <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onPreviewTwin}>
                     PREVIEW TWIN

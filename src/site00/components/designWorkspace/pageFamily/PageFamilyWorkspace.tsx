@@ -76,6 +76,7 @@ import {
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/reconstructionTwinSession.js';
 import { startTwinBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/twinBuildJob.js';
 import { stashTwinSessionForPreview } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
+import { buildTwinHeroInspectionUrl } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R3/buildTwinHeroInspectionUrl.js';
 import { promoteTwinToLivePage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/pagePromotion.js';
 import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import {
@@ -694,6 +695,13 @@ export function PageFamilyWorkspace({
             }
             const opened = window.open(active.twinRoute, '_blank', 'noopener,noreferrer');
             if (!opened) window.location.assign(active.twinRoute);
+          }}
+          onInspectHero={() => {
+            const active = twinSession ?? refreshTwinSession(projectId, activePageId);
+            if (!active?.twinRoute) return;
+            stashTwinSessionForPreview(active);
+            const url = buildTwinHeroInspectionUrl(active.twinRoute);
+            window.location.assign(url);
           }}
           onRefineTwin={async (instruction) => {
             const active = twinSession ?? refreshTwinSession(projectId, activePageId);
