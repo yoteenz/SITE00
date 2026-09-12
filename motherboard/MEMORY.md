@@ -8297,3 +8297,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Limits:** Automated geometry deltas `NOT_MEASURED` until Playwright rect capture; **human visual bar** still required before page-wide refinement. Live NDXBOOK unchanged.
 - **Founder next:** Deploy **v336+** → REPLICATE → REVIEW hero only → `?blueprintDebug=hero` → confirm single copies of ENTRY/headline/body/CTA/00 and NDX placement. Do not expand refinement until hero passes founder QA.
 
+---
+
+## 2026-09-12 — CI fix: p0vrReplication3cR1.test.ts (PERSISTED + Playwright)
+
+- **Symptom:** Production Release **test** job failed — `expected 'RESOLVED' to be 'PERSISTED'`; `browserType.launch: Executable does not exist`.
+- **Cause:** `resolveHeroAssetSlots` re-ran after 3C-R1 materialization and downgraded proof slot to `RESOLVED`; CI test job lacked reliable Chromium install for optional browser smoke.
+- **Fix:** Preserve proof slot when already `PERSISTED` + visible materialized URL; CI `npx playwright install chromium` + `PLAYWRIGHT_BROWSERS_PATH`; skip browser smoke if launch fails. PR **#754** merged.
+
