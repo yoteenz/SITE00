@@ -28,6 +28,10 @@ export function AssetResolutionPanel({ report }: Props) {
           Build {report.buildRef} · twin {report.newTwinVersionId.slice(0, 24)}…
         </p>
         <p>
+          Proof slot visible: <strong>{report.proofSlotVisible ? 'YES' : 'NO'}</strong> · active twin{' '}
+          {report.activeTwinVersionId?.slice(0, 28) ?? '—'} · manifest {report.sourceBuildVersion ?? '—'}
+        </p>
+        <p>
           Hero human-recognizable: <strong>{report.heroHumanRecognizable ? 'YES' : 'NO'}</strong>
           {report.capabilityLimit ? (
             <>
@@ -51,12 +55,38 @@ export function AssetResolutionPanel({ report }: Props) {
                   · source {slot.selectedAsset.length > 48 ? `${slot.selectedAsset.slice(0, 48)}…` : slot.selectedAsset}
                 </>
               ) : null}
-              · <strong>{slot.status === 'BOUND' ? 'BOUND' : slot.status}</strong>
+              · <strong>{slot.bindingStage ?? (slot.status === 'BOUND' ? 'BOUND' : slot.status)}</strong>
+              {slot.materializedPublicUrl ? ' · materialized URL set' : null}
               {slot.failureReason ? ` · ${slot.failureReason}` : null}
             </li>
           ))}
         </ul>
       </section>
+
+      {report.materializationTraces?.length ? (
+        <section>
+          <h5>MATERIALIZATION TRACE</h5>
+          {report.materializationTraces.map((t) => (
+            <ul key={t.slotId} className="site00-drift-trace__list">
+              <li>
+                <strong>{t.slotId}</strong> · crop valid {t.authorityCropValid ? 'YES' : 'NO'} · persisted{' '}
+                {t.assetPersisted ? 'YES' : 'NO'} · decoded {t.decoded ? 'YES' : 'NO'} · visible{' '}
+                <strong>{t.visible ? 'YES' : 'NO'}</strong>
+              </li>
+              <li>
+                request {t.requestStatus ?? '—'} · {t.contentType ?? '—'} · {t.naturalWidth}×{t.naturalHeight} natural
+              </li>
+              {t.failureStage ? (
+                <li>
+                  FAIL: {t.failureStage} · {t.failureCode ?? '—'} · {t.notes}
+                </li>
+              ) : (
+                <li>{t.notes}</li>
+              )}
+            </ul>
+          ))}
+        </section>
+      ) : null}
 
       <section>
         <h5>RECEIPTS</h5>

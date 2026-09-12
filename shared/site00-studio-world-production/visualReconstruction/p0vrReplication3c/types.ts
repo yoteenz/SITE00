@@ -48,6 +48,10 @@ export type ReplicationAssetSlot = {
   positionSpec: string | null;
   status: 'BOUND' | 'UNRESOLVED_VISUAL_ASSET' | 'PENDING';
   failureReason: string | null;
+  /** P0.VR.REPLICATION.3C-R1 — persisted crop URL (data URL or CDN). */
+  materializedPublicUrl?: string | null;
+  bindingStage?: import('../p0vrReplication3cR1/types.js').AssetBindingStage | null;
+  materializationTrace?: import('../p0vrReplication3cR1/types.js').AssetMaterializationTrace | null;
 };
 
 export type AssetResolutionReceipt = {
@@ -61,6 +65,8 @@ export type AssetResolutionReceipt = {
   rendered: boolean;
   status: 'OK' | Replication3CFailureCode;
   notes: string;
+  bindingStage?: import('../p0vrReplication3cR1/types.js').AssetBindingStage | null;
+  visible?: boolean;
 };
 
 export type LiteralLayoutInstruction = {
@@ -112,4 +118,9 @@ export type Replication3CReport = {
   priorTwinVersionPreserved: string | null;
   newTwinVersionId: string;
   createdAt: string;
+  /** P0.VR.REPLICATION.3C-R1 */
+  materializationTraces?: import('../p0vrReplication3cR1/types.js').AssetMaterializationTrace[];
+  proofSlotVisible?: boolean;
+  activeTwinVersionId?: string;
+  sourceBuildVersion?: string;
 };

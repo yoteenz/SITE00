@@ -1,22 +1,14 @@
 /**
  * P0.VR.REPLICATION.3C — Resolve hero visual assets (search → derive → procedural).
+ * P0.VR.REPLICATION.3C-R1 — Do not bind missing library paths; proof slot awaits materialization.
  */
 
 import type { ReplicationAssetSlot, AssetResolutionReceipt } from './types.js';
-import { HERO_AUTHORITY_SLICE_CROPS, KNOWN_NDX_LIBRARY_ASSETS } from './constants.js';
-
-const ENTRY_ARTWORK_BY_SLOT: Record<string, string> = {
-  slice_b: '/visual-references/founder/ndxbook/card-artwork/corporate-layoff-memo.webp',
-  slice_a: '/assets/ndxbook/entry-001/entry001-archive-01-then-now.webp',
-};
+import { HERO_AUTHORITY_SLICE_CROPS } from './constants.js';
+import { HERO_MATERIALIZATION_PROOF_SLOT_ID } from '../p0vrReplication3cR1/constants.js';
 
 function searchExistingAssets(slot: ReplicationAssetSlot): string[] {
-  const hits: string[] = [];
-  if (ENTRY_ARTWORK_BY_SLOT[slot.slotId]) hits.push(ENTRY_ARTWORK_BY_SLOT[slot.slotId]);
-  for (const lib of KNOWN_NDX_LIBRARY_ASSETS) {
-    if (!hits.includes(lib)) hits.push(lib);
-  }
-  return hits.filter(Boolean);
+  return [...slot.candidateAssets];
 }
 
 export function resolveHeroAssetSlots(input: {
@@ -37,6 +29,7 @@ export function resolveHeroAssetSlots(input: {
         selectedAsset: 'css:lime-ndx-block',
         cropSpec: null,
         status: 'BOUND',
+        bindingStage: 'VISIBLE',
         failureReason: null,
       };
       receipts.push({
@@ -48,33 +41,65 @@ export function resolveHeroAssetSlots(input: {
         cropApplied: false,
         bound: true,
         rendered: true,
+        visible: true,
+        bindingStage: 'VISIBLE',
         status: 'OK',
         notes: 'Lime rectangle via CSS — not image placeholder',
       });
       return next;
     }
 
-    const libraryMatch = ENTRY_ARTWORK_BY_SLOT[slot.slotId];
-    if (libraryMatch) {
+    if (slot.slotId === HERO_MATERIALIZATION_PROOF_SLOT_ID) {
+      if (!authority) {
+        const failed: ReplicationAssetSlot = {
+          ...slot,
+          selectedStrategy: 'UNRESOLVED',
+          status: 'UNRESOLVED_VISUAL_ASSET',
+          failureReason: 'ASSET_SEARCH_NO_MATCH',
+        };
+        receipts.push({
+          slotId: slot.slotId,
+          strategy: 'UNRESOLVED',
+          candidateCount: 0,
+          selectedAsset: null,
+          source: 'none',
+          cropApplied: false,
+          bound: false,
+          rendered: false,
+          visible: false,
+          status: 'UNRESOLVED_VISUAL_ASSET',
+          notes: 'Proof slot requires design authority URL for crop materialization',
+        });
+        return failed;
+      }
       const next: ReplicationAssetSlot = {
         ...slot,
-        selectedStrategy: 'EXISTING_LIBRARY_ASSET',
-        selectedAsset: libraryMatch,
-        cropSpec: { objectFit: 'cover', backgroundPosition: 'center 40%' },
-        status: 'BOUND',
+        selectedStrategy: 'AUTHORITY_REGION_DERIVATION',
+        selectedAsset: authority,
+        cropSpec: HERO_AUTHORITY_SLICE_CROPS.slice_b
+          ? {
+              backgroundSize: HERO_AUTHORITY_SLICE_CROPS.slice_b.backgroundSize,
+              backgroundPosition: HERO_AUTHORITY_SLICE_CROPS.slice_b.backgroundPosition,
+              objectFit: 'cover',
+            }
+          : { objectFit: 'cover' },
+        status: 'PENDING',
+        bindingStage: 'RESOLVED',
         failureReason: null,
       };
       receipts.push({
         slotId: slot.slotId,
-        strategy: 'EXISTING_LIBRARY_ASSET',
-        candidateCount: candidates.length,
-        selectedAsset: libraryMatch,
-        source: 'ndxbook library',
+        strategy: 'AUTHORITY_REGION_DERIVATION',
+        candidateCount: 1,
+        selectedAsset: authority,
+        source: 'authority pending materialization',
         cropApplied: true,
-        bound: true,
-        rendered: true,
+        bound: false,
+        rendered: false,
+        visible: false,
+        bindingStage: 'RESOLVED',
         status: 'OK',
-        notes: 'High-confidence library match for hero slice',
+        notes: 'Awaiting persisted authority crop (3C-R1) — not marked visible until decode',
       });
       return next;
     }
@@ -91,6 +116,7 @@ export function resolveHeroAssetSlots(input: {
           objectFit: 'cover',
         },
         status: 'BOUND',
+        bindingStage: 'SOURCE_BOUND',
         failureReason: null,
       };
       receipts.push({
@@ -98,12 +124,14 @@ export function resolveHeroAssetSlots(input: {
         strategy: 'AUTHORITY_REGION_DERIVATION',
         candidateCount: candidates.length + 1,
         selectedAsset: authority,
-        source: 'authority PNG region derivation',
+        source: 'authority CSS region (non-proof slot)',
         cropApplied: true,
         bound: true,
-        rendered: true,
+        rendered: false,
+        visible: false,
+        bindingStage: 'SOURCE_BOUND',
         status: 'OK',
-        notes: 'Region crop from design authority — not full-screen bake',
+        notes: 'CSS background-position crop — visibility not verified for non-proof slots',
       });
       return next;
     }
@@ -115,6 +143,7 @@ export function resolveHeroAssetSlots(input: {
         selectedAsset: authority,
         cropSpec: { backgroundSize: 'cover', backgroundPosition: 'center', objectFit: 'cover' },
         status: 'BOUND',
+        bindingStage: 'SOURCE_BOUND',
         failureReason: null,
       };
       receipts.push({
@@ -125,9 +154,11 @@ export function resolveHeroAssetSlots(input: {
         source: 'authority fallback crop',
         cropApplied: true,
         bound: true,
-        rendered: true,
+        rendered: false,
+        visible: false,
+        bindingStage: 'SOURCE_BOUND',
         status: 'OK',
-        notes: 'Fallback authority crop',
+        notes: 'Fallback authority crop — visibility not verified',
       });
       return next;
     }
@@ -147,8 +178,9 @@ export function resolveHeroAssetSlots(input: {
       cropApplied: false,
       bound: false,
       rendered: false,
+      visible: false,
       status: 'UNRESOLVED_VISUAL_ASSET',
-      notes: 'No authority URL and no library match',
+      notes: 'No authority URL',
     });
     return failed;
   });
@@ -157,5 +189,10 @@ export function resolveHeroAssetSlots(input: {
 }
 
 export function heroAssetsFullyBound(slots: ReplicationAssetSlot[]): boolean {
-  return slots.every((s) => !s.required || s.status === 'BOUND');
+  return slots.every((s) => !s.required || s.status === 'BOUND' || s.status === 'PENDING');
+}
+
+export function heroProofSlotVisible(slots: ReplicationAssetSlot[]): boolean {
+  const proof = slots.find((s) => s.slotId === HERO_MATERIALIZATION_PROOF_SLOT_ID);
+  return Boolean(proof?.materializationTrace?.visible && proof.materializedPublicUrl);
 }

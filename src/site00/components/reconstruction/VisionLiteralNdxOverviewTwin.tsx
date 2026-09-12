@@ -5,7 +5,9 @@
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import type { ReplicationAssetSlot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication3c/types.js';
 import { ShellFirstNdxOverviewTwin } from './ShellFirstNdxOverviewTwin.js';
+import { HeroMaterializedSliceImage } from './HeroMaterializedSliceImage.js';
 import { useProjectOperatingState } from '../../hooks/useProjectOperatingState';
+import { HERO_MATERIALIZATION_PROOF_SLOT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication3cR1/constants.js';
 import '../../styles/site00-vision-literal-twin.css';
 
 type Props = {
@@ -36,6 +38,18 @@ function LiteralHeroBand({
     if (slot?.selectedStrategy === 'PROCEDURAL_DOM_GRAPHIC') {
       return <div key={id} className="site00-vlt__image-slice site00-vlt__image-slice--procedural" data-asset-slot={id} />;
     }
+    const materialized = slot?.materializedPublicUrl ?? null;
+    if (id === HERO_MATERIALIZATION_PROOF_SLOT_ID && materialized) {
+      return (
+        <HeroMaterializedSliceImage
+          key={id}
+          slotId={id}
+          src={materialized}
+          objectPosition={slot?.cropSpec?.backgroundPosition ?? 'center'}
+        />
+      );
+    }
+
     if (slot?.status === 'BOUND' && slot.selectedAsset) {
       const crop = slot.cropSpec;
       if (slot.selectedAsset.startsWith('css:')) {
