@@ -146,7 +146,7 @@ describe('P0.VR.DIAG.1R5 internal structure', () => {
       viewportWidth: 390,
       viewportHeight: 844,
     });
-    expect(receipt.forensicsVersionAfter).toBe(P0_VR_DIAG_1R5A_BUILD);
+    expect(receipt.forensicsVersionAfter).toBe('v309');
     expect(receipt.regionsAttempted.length).toBeGreaterThan(0);
     expect(receipt.structureTraces?.length).toBe(receipt.regionsAttempted.length);
     const afterDims = after.regionForensics.reduce((n, b) => n + b.dimensions.length, 0);

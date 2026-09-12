@@ -21,13 +21,19 @@ import type {
   GeometryDelta,
   MeasuredReconstructionSpec,
 } from './types.js';
-import { P0_VR_DIAG_1R5A_BUILD } from './constants.js';
+import { P0_VR_DIAG_1R5B_BUILD } from './constants.js';
 import {
   regionNeedsAnalyzeStructure,
   resolveRegionInternalStructureSummary,
   resolveRegionStructureViewModel,
 } from '../p0vrDiag1R5/enrichRegionStructure.js';
-import { shouldShowViewStructure } from '../p0vrDiag1R5/structureUiVisibility.js';
+import { regionCardMustShowViewStructure } from '../p0vrDiag1R5/structureUiVisibility.js';
+import { buildZeroAnchorDiagnosis } from '../p0vrDiag1R5/zeroAnchorDiagnosis.js';
+import { summarizeAnchorSideStatus } from '../p0vrDiag1R5/structureUiModel.js';
+import { getRegionInternalStructure, structureCacheKey } from '../p0vrDiag1R5/regionInternalStructureRegistry.js';
+import { cacheKeyFromReport } from '../p0vrDiag1R5/enrichRegionStructure.js';
+import { extractCurrentRegionStructure } from '../p0vrDiag1R5/currentRegionStructureExtractor.js';
+import { extractAuthorityRegionStructure } from '../p0vrDiag1R5/authorityRegionStructureExtractor.js';
 import type { StructureToDepthTrace } from '../p0vrDiag1R5/structureToDepthTrace.js';
 
 export type ForensicUpgradeBundle = {
@@ -274,8 +280,9 @@ export function forensicReportToVisualDiagnosis(
         internalStructureSubtype: structureSummary.subtype,
         structureFailureCode: structureSummary.failureCode,
         structureFailureDetail: structureSummary.failureDetail,
-        showViewStructure: shouldShowViewStructure({
+        showViewStructure: regionCardMustShowViewStructure({
           regionType: b.regionType,
+          regionName: b.regionName,
           measurementDepthStatus,
           internalStructureStatus: structureSummary.status,
           significance: b.significance,
@@ -283,14 +290,46 @@ export function forensicReportToVisualDiagnosis(
         showAnalyzeStructure: regionNeedsAnalyzeStructure({ ...b, internalStructure: structureSummary }, structureSummary),
         structureView: structureView ?? undefined,
         structureToDepthTrace: depthTrace,
+        zeroAnchorDiagnosis: (() => {
+          const def = profile.regions.find((r) => r.regionId === b.regionId);
+          const dom = options?.domMeasurements?.find((d) => d.regionId === b.regionId);
+          if (!def) return undefined;
+          const key = structureCacheKey(cacheKeyFromReport(report));
+          const cached = getRegionInternalStructure(key, b.regionId);
+          const related =
+            options?.domMeasurements?.filter((m) => m.regionId.startsWith(def.regionId) && m.regionId !== def.regionId) ??
+            [];
+          const current =
+            cached?.current ??
+            (dom ? extractCurrentRegionStructure({ def, dom, relatedDom: related }) : null);
+          const match = report.regionMatches.find((m) => m.regionId === b.regionId);
+          const authority =
+            cached?.authority ??
+            (match?.authorityRegion ? extractAuthorityRegionStructure({ def, authority: match.authorityRegion }) : null);
+          if (!current || !authority) return undefined;
+          return buildZeroAnchorDiagnosis({
+            def,
+            dom,
+            relatedDom: related,
+            currentStructure: current,
+            authorityStructure: authority,
+            failureCode: structureSummary.failureCode as import('../p0vrDiag1R5/types.js').EvidenceRecoveryFailureCode | undefined,
+          }) ?? undefined;
+        })(),
+        anchorSideSummary: (() => {
+          const key = structureCacheKey(cacheKeyFromReport(report));
+          const cached = getRegionInternalStructure(key, b.regionId);
+          if (cached) return summarizeAnchorSideStatus({ current: cached.current, authority: cached.authority });
+          return undefined;
+        })(),
       };
     }),
     summary: topFindings.slice(0, 3).join(' · '),
     detectedAt: report.generatedAt,
     forensicsReportId: report.reportId,
     alignmentStatus: report.alignmentStatus,
-    forensicsEngineVersion: report.forensicsVersion ?? P0_VR_DIAG_1R5A_BUILD,
-    structureUiVersion: 'R5A',
+    forensicsEngineVersion: report.forensicsVersion ?? P0_VR_DIAG_1R5B_BUILD,
+    structureUiVersion: 'R5B',
     structureToDepthTraces: options?.structureToDepthTraces,
   };
 }

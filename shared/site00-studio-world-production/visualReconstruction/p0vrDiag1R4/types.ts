@@ -130,6 +130,7 @@ export type RegionEvidenceRecoveryReceipt = {
   recoveryFailures?: import('../p0vrDiag1R5/types.js').EvidenceRecoveryFailure[];
   dimensionTypeRepair?: import('../p0vrDiag1R5/types.js').DimensionTypeRepairReceipt | null;
   rootCauseSummary?: string | null;
+  structureRecoveryReceipts?: import('../p0vrDiag1R5/regionStructureRecoveryReceipt.js').RegionStructureRecoveryReceipt[];
   createdAt: string;
 };
 

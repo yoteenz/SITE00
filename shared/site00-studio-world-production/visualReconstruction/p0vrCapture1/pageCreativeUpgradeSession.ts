@@ -13,7 +13,7 @@ import {
   type ForensicUpgradeBundle,
 } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
 import type { RegionEvidenceRecoveryReceipt } from '../p0vrDiag1R4/types.js';
-import { P0_VR_DIAG_1R5A_BUILD } from '../p0vrDiag1/constants.js';
+import { P0_VR_DIAG_1R5B_BUILD } from '../p0vrDiag1/constants.js';
 import { analyzeSingleRegionStructure } from '../p0vrDiag1R5/analyzeSingleRegionStructure.js';
 import { resolvePageRegionLayoutProfile } from '../p0vrDiag1/pageRegionLayoutProfiles.js';
 import type { AuthorityRelativeForensicsInput } from '../p0vrDiag1/types.js';
@@ -330,7 +330,7 @@ export function analyzeMissingPageCreativeUpgradeEvidence(
   const shell = fullInput.designAuthority.visualShellSpec;
   const { bundle, receipt } = runRegionEvidenceRecoveryForUpgrade({
     report: stored,
-    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R5A_BUILD,
+    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R5B_BUILD,
     pageArchetype: fullInput.pageArchetype,
     screenId: fullInput.screenId,
     isRootPage: fullInput.isRootPage,

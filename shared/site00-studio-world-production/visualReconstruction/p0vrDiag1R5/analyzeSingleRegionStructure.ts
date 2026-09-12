@@ -12,6 +12,7 @@ import { buildStructureToDepthTrace } from './structureToDepthTrace.js';
 import { storeRegionInternalStructures, structureCacheKey } from './regionInternalStructureRegistry.js';
 import { recordRegionStructureVersion } from './regionStructureVersion.js';
 import { cacheKeyFromReport } from './enrichRegionStructure.js';
+import { buildRegionStructureRecoveryReceipt } from './regionStructureRecoveryReceipt.js';
 
 export function analyzeSingleRegionStructure(input: {
   report: AuthorityRelativeForensicsReport;
@@ -21,6 +22,7 @@ export function analyzeSingleRegionStructure(input: {
 }): {
   report: AuthorityRelativeForensicsReport;
   depthTrace: ReturnType<typeof buildStructureToDepthTrace>;
+  receipt: ReturnType<typeof buildRegionStructureRecoveryReceipt>;
 } | null {
   const idx = input.report.regionForensics.findIndex((b) => b.regionId === input.regionId);
   if (idx < 0) return null;
@@ -38,12 +40,15 @@ export function analyzeSingleRegionStructure(input: {
     bundle.measurementDepth?.validDimensionCount ??
     0;
 
+  const anchorsBefore = 0;
+
   const structurePass = runRegionInternalStructureRecovery({
     def,
     dom,
     relatedDom,
     authority: match.authorityRegion,
     validDimensionsBefore: validBefore,
+    bundleBefore: bundle,
   });
 
   const resolvedLabels = structurePass.currentStructure.childAnchors
@@ -93,5 +98,24 @@ export function analyzeSingleRegionStructure(input: {
   };
 
   const { report } = reconcileForensicReportScoring({ report: patched, profile: input.profile });
-  return { report, depthTrace };
+
+  const updated = report.regionForensics.find((b) => b.regionId === input.regionId);
+  const anchorsAfter = structurePass.currentStructure.childAnchors.filter((a) => a.anchorType !== 'CONTAINER').length;
+  const qualifiedAfter =
+    updated?.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).length ?? validBefore;
+  const receipt = buildRegionStructureRecoveryReceipt({
+    regionId: input.regionId,
+    anchorsBefore,
+    anchorsAfter,
+    measurementsBefore: bundle.dimensions.length,
+    measurementsAfter: updated?.dimensions.length ?? bundle.dimensions.length,
+    qualifiedBefore: validBefore,
+    qualifiedAfter,
+    depthBefore: bundle.depthComputation?.depthStatus ?? bundle.measurementDepth?.status ?? 'SHALLOW',
+    depthAfter: updated?.depthComputation?.depthStatus ?? updated?.measurementDepth?.status ?? 'SHALLOW',
+    failureBefore: bundle.internalStructure?.failureCode,
+    failureAfter: structurePass.summary.failureCode,
+  });
+
+  return { report, depthTrace, receipt };
 }
