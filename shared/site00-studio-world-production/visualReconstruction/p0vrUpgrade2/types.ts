@@ -246,6 +246,9 @@ export type ReconstructionTwinSession = {
   literalLayoutInstructions?: import('../p0vrReplication3c/types.js').LiteralLayoutInstruction[] | null;
   literalSourceExecutionReceipts?: import('../p0vrReplication3c/types.js').LiteralSourceExecutionReceipt[] | null;
   visionLiteralExecutedSources?: import('../p0vrReplication3c/literalSourceExecutor.js').ExecutedLiteralSource[] | null;
+  /** P0.VR.REPLICATION.3C-R1 */
+  heroMaterializationTraces?: import('../p0vrReplication3cR1/types.js').AssetMaterializationTrace[] | null;
+  assetManifestVersion?: string | null;
 };
 
 export type PageLiveRegistryEntry = {

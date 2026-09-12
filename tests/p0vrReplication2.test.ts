@@ -118,10 +118,28 @@ describe('P0.VR.REPLICATION.2 shell-first', () => {
   });
 
   it('executeShellFirstNdxReplication sets shell-first session fields', async () => {
+    const { default: sharp } = await import('sharp');
+    const authority = await sharp({
+      create: { width: 390, height: 844, channels: 3, background: { r: 0, g: 0, b: 0 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: { width: 90, height: 55, channels: 3, background: { r: 190, g: 185, b: 175 } },
+          })
+            .png()
+            .toBuffer(),
+          left: 150,
+          top: 310,
+        },
+      ])
+      .png()
+      .toBuffer();
+    const dataUrl = `data:image/png;base64,${authority.toString('base64')}`;
     const result = await executeShellFirstNdxReplication({
       session: {
         ...ndxSession(),
-        designAuthorityAssetRef: 'https://cdn.example.com/ndxbook-authority-mobile.png',
+        designAuthorityAssetRef: dataUrl,
       },
       twinVersionId: 'twin_v1',
     });

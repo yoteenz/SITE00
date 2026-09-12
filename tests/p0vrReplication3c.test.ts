@@ -123,14 +123,14 @@ describe('P0.VR.REPLICATION.3C asset + literal execution', () => {
     );
   });
 
-  it('searches library and binds before generation', () => {
+  it('proof slot awaits materialization when authority present', () => {
     const spec = heroSpec();
-    const inventory = buildHeroAssetInventory({ heroSpec: spec, authorityImageUrl: null });
-    const { slots, receipts } = resolveHeroAssetSlots({ slots: inventory, authorityImageUrl: null });
+    const inventory = buildHeroAssetInventory({ heroSpec: spec, authorityImageUrl: 'https://a.png' });
+    const { slots } = resolveHeroAssetSlots({ slots: inventory, authorityImageUrl: 'https://a.png' });
     const sliceB = slots.find((s) => s.slotId === 'slice_b');
-    expect(sliceB?.selectedStrategy).toBe('EXISTING_LIBRARY_ASSET');
-    expect(sliceB?.status).toBe('BOUND');
-    expect(receipts.some((r) => r.strategy === 'EXISTING_LIBRARY_ASSET')).toBe(true);
+    expect(sliceB?.selectedStrategy).toBe('AUTHORITY_REGION_DERIVATION');
+    expect(sliceB?.status).toBe('PENDING');
+    expect(sliceB?.bindingStage).toBe('RESOLVED');
   });
 
   it('derives authority regions when library miss (no full-screen cheat in crop presets)', () => {
@@ -195,11 +195,29 @@ describe('P0.VR.REPLICATION.3C asset + literal execution', () => {
     expect(guard.code).toBe('SOURCE_STRUCTURE_COLLAPSE');
   });
 
-  it('3C pipeline produces receipts and preserves prior twin version', () => {
-    const result = executeReplication3cPipeline({
-      session: session(),
+  it('3C pipeline produces receipts and preserves prior twin version', async () => {
+    const { default: sharp } = await import('sharp');
+    const authority = await sharp({
+      create: { width: 390, height: 844, channels: 3, background: { r: 5, g: 5, b: 5 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: { width: 100, height: 70, channels: 3, background: { r: 200, g: 190, b: 180 } },
+          })
+            .png()
+            .toBuffer(),
+          left: 140,
+          top: 260,
+        },
+      ])
+      .png()
+      .toBuffer();
+    const dataUrl = `data:image/png;base64,${authority.toString('base64')}`;
+    const result = await executeReplication3cPipeline({
+      session: { ...session(), designAuthorityAssetRef: dataUrl },
       visionReport: minimalVisionReport(),
-      authorityImageUrl: session().designAuthorityAssetRef ?? null,
+      authorityImageUrl: dataUrl,
       priorTwinVersionId: 'twin_v329',
     });
     expect(result.report.priorTwinVersionPreserved).toBe('twin_v329');
@@ -229,11 +247,29 @@ describe('P0.VR.REPLICATION.3C asset + literal execution', () => {
     expect(ux).toContain('ASSET RESOLUTION');
   });
 
-  it('paid generation guard: no GENERATED_RECONSTRUCTION in default hero path', () => {
-    const result = executeReplication3cPipeline({
-      session: session(),
+  it('paid generation guard: no GENERATED_RECONSTRUCTION in default hero path', async () => {
+    const { default: sharp } = await import('sharp');
+    const authority = await sharp({
+      create: { width: 390, height: 844, channels: 3, background: { r: 8, g: 8, b: 8 } },
+    })
+      .composite([
+        {
+          input: await sharp({
+            create: { width: 80, height: 50, channels: 3, background: { r: 160, g: 150, b: 140 } },
+          })
+            .png()
+            .toBuffer(),
+          left: 145,
+          top: 300,
+        },
+      ])
+      .png()
+      .toBuffer();
+    const dataUrl = `data:image/png;base64,${authority.toString('base64')}`;
+    const result = await executeReplication3cPipeline({
+      session: { ...session(), designAuthorityAssetRef: dataUrl },
       visionReport: minimalVisionReport(),
-      authorityImageUrl: session().designAuthorityAssetRef ?? null,
+      authorityImageUrl: dataUrl,
       priorTwinVersionId: 'twin_v329',
     });
     expect(result.report.assetReceipts.every((r) => r.strategy !== 'GENERATED_RECONSTRUCTION')).toBe(true);

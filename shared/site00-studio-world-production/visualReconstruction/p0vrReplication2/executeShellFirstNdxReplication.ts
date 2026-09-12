@@ -73,7 +73,7 @@ export async function executeShellFirstNdxReplication(input: {
     preVisionBaselineRenderMode: 'SHELL_FIRST_NDX_OVERVIEW',
   });
 
-  const replication3c = executeReplication3cPipeline({
+  const replication3c = await executeReplication3cPipeline({
     session: input.session,
     visionReport: visionLiteral.report,
     authorityImageUrl: input.session.designAuthorityAssetRef ?? null,

@@ -98,6 +98,12 @@ export function stashTwinSessionForPreview(session: ReconstructionTwinSession): 
           revisions: [],
           twinVersions: [],
           promotionReadiness: slim.promotionReadiness,
+          twinRenderMode: slim.twinRenderMode,
+          replicationAssetSlots: slim.replicationAssetSlots,
+          replication3cReport: slim.replication3cReport,
+          heroMaterializationTraces: slim.heroMaterializationTraces,
+          assetManifestVersion: slim.assetManifestVersion,
+          designAuthorityAssetRef: slim.designAuthorityAssetRef,
         } as ReconstructionTwinSession),
       );
     } catch {
