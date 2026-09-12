@@ -44,7 +44,24 @@ describe('pageCapturePrimaryAction', () => {
         designPreviewStatus: 'PASS',
         livePreviewStatus: 'UNKNOWN',
         hasStoredCapture: true,
+        designPreviewUrlResolved: true,
+        livePreviewUrlResolved: false,
       }),
     ).toBe(false);
+  });
+
+  it('allows degraded upgrade when URLs resolve but preview verification is slow', () => {
+    expect(
+      shouldOfferPageUpgrade({
+        upgradeAllowed: true,
+        liveState: 'VERIFYING_PREVIEW',
+        designPreviewStatus: 'UNKNOWN',
+        livePreviewStatus: 'UNKNOWN',
+        hasStoredCapture: true,
+        authorityApproved: true,
+        designPreviewUrlResolved: true,
+        livePreviewUrlResolved: true,
+      }),
+    ).toBe(true);
   });
 });

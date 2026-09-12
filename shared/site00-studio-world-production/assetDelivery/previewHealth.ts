@@ -75,6 +75,8 @@ export function evaluateRenderableAuthorityContract(input: {
 }): RenderableAuthorityContract {
   const designOk = input.designAuthorityPreview.status === 'PASS';
   const liveOk = input.liveCapturePreview.status === 'PASS';
+  const designUrlReady = input.designAuthorityPreview.urlResolved;
+  const liveUrlReady = input.liveCapturePreview.urlResolved;
   const pageOk = input.pageIdentityMatch !== false;
   const routeOk = input.routeMatch !== false;
   const viewportOk = input.viewportMatch !== false;
@@ -106,13 +108,35 @@ export function evaluateRenderableAuthorityContract(input: {
 
   const captureReadyForUpgrade =
     input.captureStatus === 'READY' ||
-    (input.captureStatus === 'OUTDATED' && designOk && liveOk);
+    input.captureStatus === 'OUTDATED' ||
+    input.captureStatus === 'SAVED' ||
+    input.captureStatus === 'VERIFYING_PREVIEW';
+
+  const previewVerified = designOk && liveOk;
+  const previewDegraded =
+    !previewVerified &&
+    designUrlReady &&
+    liveUrlReady &&
+    input.designAuthorityPreview.status !== 'FAIL' &&
+    input.liveCapturePreview.status !== 'FAIL';
+
+  const upgradeAllowed =
+    pageOk &&
+    routeOk &&
+    viewportOk &&
+    captureReadyForUpgrade &&
+    !input.designAuthorityMissing &&
+    (previewVerified || previewDegraded);
+
+  if (previewDegraded && !previewVerified && !blockReason) {
+    blockReason = 'PREVIEW SLOW — UPGRADE ALLOWED WITH CAUTION';
+  }
 
   return {
     approvalStatus: input.approvalStatus,
     captureStatus: input.captureStatus,
     previewHealth: input.liveCapturePreview,
-    upgradeAllowed: designOk && liveOk && pageOk && routeOk && viewportOk && captureReadyForUpgrade,
+    upgradeAllowed,
     blockReason,
   };
 }

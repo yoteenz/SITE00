@@ -8097,3 +8097,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrDiag1R4/` — `BlockingRegionResolver`, `RegionEvidenceRecoveryPlan`, `DomTargetRecovery`, `RegionChildAnchorExtractor`, `AuthorityRegionMeasurementPass`, `RegionEvidenceCompleteness`, `RegionTargetConfidence`, `mergeRecoveredDimensions`, `analyzeMissingForensicEvidence` orchestrator (blockers only, preserves valid R3 evidence, DOM-before-screenshot, targeted authority remeasure, provenance + history). UI: **ANALYZE MISSING EVIDENCE** when depth gate BLOCK; recovery before/after depth summary; BUILD TWIN gated on coverage/depth. Bridge: `runRegionEvidenceRecoveryForUpgrade`; session: `analyzeMissingPageCreativeUpgradeEvidence`. Build `P0_VR_DIAG_1R4_BUILD = v306`. Tests: `p0vrDiag1R4Recovery.test.ts`.
 - **Founder next:** Deploy frontend v313+ → open PAGE UPGRADE (no new capture) → tap **ANALYZE MISSING EVIDENCE** → verify depth improves from real DOM/authority recovery → then APPROVE DIRECTION / BUILD TWIN when gate PASS/WARNING.
 
+---
+
+## 2026-09-12 — Preview flash/wipe + UPGRADE hidden on fsbw-dev mobile
+
+- **Symptom:** NDXBOOK DESIGN RECONSTRUCTION on `site00.fsbw-dev.com` — thumbnails load then disappear (`PREVIEW TOOK TOO LONG`, `UNKNOWN_IMAGE_DELIVERY_ERROR`); only **RECAPTURE** visible, no **UPGRADE THIS PAGE** → no **ANALYZE MISSING EVIDENCE**.
+- **Cause:** 10s preview timeout on slow Supabase loads + Safari cached images skipping `onLoad`; strict upgrade gate required both previews `PASS` before showing UPGRADE.
+- **Fix:** `DesignAssetPreview` sticky pass frame, longer Supabase timeout (28s), `img.complete` check; `evaluateRenderableAuthorityContract` + `shouldOfferPageUpgrade` **degraded** path when URLs resolve but verification slow/fail-soft; tests `previewHealthLifecycle.test.ts`, `pageCapturePrimaryAction.test.ts`.
+

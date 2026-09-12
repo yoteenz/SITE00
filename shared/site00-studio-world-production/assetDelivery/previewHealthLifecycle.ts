@@ -10,6 +10,29 @@ export type PreviewHealthLifecycleState = (typeof PREVIEW_HEALTH_LIFECYCLE_STATE
 /** Static same-origin reference images — 10s bounded wait. */
 export const PREVIEW_STATIC_IMAGE_TIMEOUT_MS = 10_000;
 
+/** Supabase public objects on mobile preview hosts — allow slower networks. */
+export const PREVIEW_REMOTE_STORAGE_TIMEOUT_MS = 28_000;
+
+export function resolvePreviewLoadTimeoutMs(resolvedUrl: string | null): number {
+  if (!resolvedUrl) return PREVIEW_STATIC_IMAGE_TIMEOUT_MS;
+  if (resolvedUrl.includes('supabase.co/storage/') || resolvedUrl.includes('/storage/v1/object/public/')) {
+    return PREVIEW_REMOTE_STORAGE_TIMEOUT_MS;
+  }
+  return PREVIEW_STATIC_IMAGE_TIMEOUT_MS;
+}
+
+/** Compare URLs ignoring cache-bust query params. */
+export function normalizePreviewUrlForComparison(url: string): string {
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.delete('v');
+    parsed.searchParams.delete('_cb');
+    return parsed.toString();
+  } catch {
+    return url.split('?')[0] ?? url;
+  }
+}
+
 export type PreviewHealthLifecycle = {
   state: PreviewHealthLifecycleState;
   retryCount: number;

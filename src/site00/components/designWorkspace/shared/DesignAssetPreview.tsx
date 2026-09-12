@@ -7,10 +7,11 @@ import {
   appendCacheBustQuery,
   buildImageDeliveryTrace,
   derivePreviewHealthFromBrowser,
-  PREVIEW_STATIC_IMAGE_TIMEOUT_MS,
   previewHealthLabel,
   previewHealthLifecycleLabel,
   resolveAssetRenderableUrl,
+  resolvePreviewLoadTimeoutMs,
+  normalizePreviewUrlForComparison,
   startPreviewHealthLoading,
   type PreviewHealthLifecycleState,
 } from '../../../../../shared/site00-studio-world-production/assetDelivery/index.js';
@@ -41,7 +42,9 @@ export function DesignAssetPreview({
 }: Props) {
   const [lifecycle, setLifecycle] = useState<PreviewHealthLifecycleState>('IDLE');
   const [retryNonce, setRetryNonce] = useState(0);
+  const [stickyLoadedUrl, setStickyLoadedUrl] = useState<string | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
   const resolved = useMemo(() => resolveAssetRenderableUrl(assetRef ?? null), [assetRef]);
   const previewUrl = useMemo(() => {
@@ -52,6 +55,11 @@ export function DesignAssetPreview({
     return resolved.url;
   }, [resolved.url, retryNonce, cacheBustKey]);
 
+  const previewUrlKey = useMemo(
+    () => (previewUrl ? normalizePreviewUrlForComparison(previewUrl) : null),
+    [previewUrl],
+  );
+
   const clearTimer = useCallback(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
@@ -59,51 +67,90 @@ export function DesignAssetPreview({
     }
   }, []);
 
+  const markPassFromImage = useCallback(
+    (img: HTMLImageElement) => {
+      if (!img.naturalWidth || !img.naturalHeight) {
+        setLifecycle('FAIL');
+        return;
+      }
+      clearTimer();
+      setLifecycle('PASS');
+      if (previewUrlKey) setStickyLoadedUrl(previewUrlKey);
+    },
+    [clearTimer, previewUrlKey],
+  );
+
   useEffect(() => {
     clearTimer();
-    if (!previewUrl) {
+    if (!previewUrl || !previewUrlKey) {
       setLifecycle('IDLE');
+      setStickyLoadedUrl(null);
       return;
     }
+
+    if (stickyLoadedUrl === previewUrlKey) {
+      setLifecycle('PASS');
+      return;
+    }
+
     setLifecycle(startPreviewHealthLoading({ state: 'IDLE', retryCount: retryNonce, startedAt: null, resolvedUrl: null }, previewUrl).state);
+
+    const timeoutMs = resolvePreviewLoadTimeoutMs(previewUrl);
     timeoutRef.current = setTimeout(() => {
-      setLifecycle('TIMEOUT');
-    }, PREVIEW_STATIC_IMAGE_TIMEOUT_MS);
+      const img = imgRef.current;
+      if (img?.complete && img.naturalWidth > 0 && previewUrlKey) {
+        setStickyLoadedUrl(previewUrlKey);
+        setLifecycle('PASS');
+        return;
+      }
+      setLifecycle((prev) => {
+        if (stickyLoadedUrl === previewUrlKey || prev === 'PASS') return 'PASS';
+        return 'TIMEOUT';
+      });
+    }, timeoutMs);
+
     return clearTimer;
-  }, [previewUrl, retryNonce, clearTimer]);
+  }, [previewUrl, previewUrlKey, retryNonce, clearTimer, stickyLoadedUrl]);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img || !previewUrl) return;
+    if (img.complete && img.naturalWidth > 0) {
+      markPassFromImage(img);
+    }
+  }, [previewUrl, markPassFromImage]);
 
   const previewHealth = useMemo(
     () =>
       derivePreviewHealthFromBrowser({
         ref: assetRef ?? null,
-        browserLoaded: lifecycle === 'PASS',
-        browserError: lifecycle === 'FAIL' || lifecycle === 'TIMEOUT',
-        lifecycle,
+        browserLoaded: lifecycle === 'PASS' || stickyLoadedUrl === previewUrlKey,
+        browserError: lifecycle === 'FAIL' || (lifecycle === 'TIMEOUT' && stickyLoadedUrl !== previewUrlKey),
+        lifecycle: stickyLoadedUrl === previewUrlKey ? 'PASS' : lifecycle,
       }),
-    [assetRef, lifecycle],
+    [assetRef, lifecycle, previewUrlKey, stickyLoadedUrl],
   );
 
   useEffect(() => {
     onPreviewHealthChange?.(previewHealth);
   }, [onPreviewHealthChange, previewHealth]);
 
-  const handleLoad = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
-    clearTimer();
-    const img = event.currentTarget;
-    if (!img.naturalWidth || !img.naturalHeight) {
-      setLifecycle('FAIL');
-      return;
-    }
-    setLifecycle('PASS');
-  }, [clearTimer]);
+  const handleLoad = useCallback(
+    (event: SyntheticEvent<HTMLImageElement>) => {
+      markPassFromImage(event.currentTarget);
+    },
+    [markPassFromImage],
+  );
 
   const handleError = useCallback(() => {
     clearTimer();
+    if (stickyLoadedUrl === previewUrlKey) return;
     setLifecycle('FAIL');
-  }, [clearTimer]);
+  }, [clearTimer, previewUrlKey, stickyLoadedUrl]);
 
   const handleRetry = useCallback(() => {
     clearTimer();
+    setStickyLoadedUrl(null);
     setLifecycle('IDLE');
     setRetryNonce((n) => n + 1);
   }, [clearTimer]);
@@ -114,13 +161,16 @@ export function DesignAssetPreview({
         sourceType,
         sourceId,
         ref: assetRef ?? null,
-        browserLoaded: lifecycle === 'PASS',
+        browserLoaded: lifecycle === 'PASS' || stickyLoadedUrl === previewUrlKey,
       }),
-    [assetRef, lifecycle, sourceId, sourceType],
+    [assetRef, lifecycle, previewUrlKey, sourceId, sourceType, stickyLoadedUrl],
   );
 
-  const showImage = Boolean(previewUrl) && lifecycle !== 'FAIL' && lifecycle !== 'TIMEOUT';
-  const healthLabel = previewUrl ? previewHealthLifecycleLabel(lifecycle) : 'PREVIEW UNAVAILABLE';
+  const displayPass = lifecycle === 'PASS' || stickyLoadedUrl === previewUrlKey;
+  const hardFail = (lifecycle === 'FAIL' || lifecycle === 'TIMEOUT') && !displayPass;
+  const showImage = Boolean(previewUrl) && !hardFail;
+  const healthLabel = previewUrl ? previewHealthLifecycleLabel(displayPass ? 'PASS' : lifecycle) : 'PREVIEW UNAVAILABLE';
+  const softTimeout = lifecycle === 'TIMEOUT' && displayPass;
 
   return (
     <div className="site00-design-asset-preview">
@@ -134,13 +184,21 @@ export function DesignAssetPreview({
         </p>
       </div>
       {showImage ? (
-        <img
-          key={`${previewUrl}:${retryNonce}`}
-          src={previewUrl ?? undefined}
-          alt={alt}
-          onLoad={handleLoad}
-          onError={handleError}
-        />
+        <>
+          {softTimeout ? (
+            <p className="site00-design-asset-preview__soft-warn" role="status">
+              PREVIEW SLOW — SHOWING LAST GOOD FRAME
+            </p>
+          ) : null}
+          <img
+            ref={imgRef}
+            key={`${previewUrlKey}:${retryNonce}`}
+            src={previewUrl ?? undefined}
+            alt={alt}
+            onLoad={handleLoad}
+            onError={handleError}
+          />
+        </>
       ) : (
         <div className="site00-design-asset-preview__empty" role="status">
           <span aria-hidden>▢</span>

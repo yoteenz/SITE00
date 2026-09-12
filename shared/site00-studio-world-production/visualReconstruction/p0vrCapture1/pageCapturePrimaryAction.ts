@@ -45,15 +45,28 @@ export function shouldOfferPageUpgrade(input: {
   livePreviewStatus: string;
   hasStoredCapture: boolean;
   authorityApproved?: boolean;
+  designPreviewUrlResolved?: boolean;
+  livePreviewUrlResolved?: boolean;
 }): boolean {
-  return (
-    input.upgradeAllowed &&
-    isLiveCaptureReadyForUpgrade(input.liveState, input.livePreviewStatus) &&
-    input.designPreviewStatus === 'PASS' &&
-    input.livePreviewStatus === 'PASS' &&
-    input.hasStoredCapture &&
-    input.authorityApproved !== false
-  );
+  if (!input.upgradeAllowed || !input.hasStoredCapture || input.authorityApproved === false) {
+    return false;
+  }
+
+  const captureReady =
+    isLiveCaptureReadyForUpgrade(input.liveState, input.livePreviewStatus) ||
+    input.liveState === 'SAVED' ||
+    input.liveState === 'VERIFYING_PREVIEW' ||
+    input.liveState === 'OUTDATED';
+
+  const previewsVerified =
+    input.designPreviewStatus === 'PASS' && input.livePreviewStatus === 'PASS';
+
+  const previewsDegraded =
+    Boolean(input.designPreviewUrlResolved && input.livePreviewUrlResolved) &&
+    input.designPreviewStatus !== 'FAIL' &&
+    input.livePreviewStatus !== 'FAIL';
+
+  return captureReady && (previewsVerified || previewsDegraded);
 }
 
 export function resolvePageUpgradeBlockReasons(input: {

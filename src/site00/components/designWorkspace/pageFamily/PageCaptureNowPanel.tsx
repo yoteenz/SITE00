@@ -183,6 +183,8 @@ export function PageCaptureNowPanel({
       livePreviewStatus: livePreviewHealth.status,
       hasStoredCapture: Boolean(stored?.captureId),
       authorityApproved,
+      designPreviewUrlResolved: authorityPreviewHealth.urlResolved,
+      livePreviewUrlResolved: livePreviewHealth.urlResolved,
     }) && Boolean(onUpgradePage);
   const upgradeBlockReasons = resolvePageUpgradeBlockReasons({
     upgradeAllowed: upgradeContract.upgradeAllowed,
