@@ -161,6 +161,8 @@ jobs:
           VITE_SITE00_CANONICAL_ORIGIN: https://site00.com
           VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
         run: npm run build
+      - name: Verify client bundle (no Playwright in SPA)
+        run: node scripts/verify-production-dist.mjs
       - name: Capture release metadata
         id: manifest
         run: |

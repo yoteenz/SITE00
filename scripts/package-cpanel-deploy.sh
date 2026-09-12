@@ -11,6 +11,7 @@ ZIP_NAME="site00-production-dist-${DATE}-emergency.zip"
 OUT="/tmp/${ZIP_NAME}"
 
 npm run build
+node scripts/verify-production-dist.mjs
 
 (
   cd dist
