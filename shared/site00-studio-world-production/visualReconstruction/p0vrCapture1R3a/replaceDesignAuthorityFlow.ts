@@ -4,6 +4,7 @@
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import {
+  CANONICAL_VIEWPORT_DIMENSIONS,
   normalizeDesignViewportClass,
   resolveCanonicalViewportDimensions,
 } from '../p0vr2/constants.js';
