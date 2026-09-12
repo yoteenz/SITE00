@@ -53,3 +53,11 @@ export function clearCurrentAuthorityPointersForTest(): void {
   if (typeof globalThis.localStorage === 'undefined') return;
   globalThis.localStorage.removeItem(DESIGN_AUTHORITY_CURRENT_POINTER_LS_PREFIX);
 }
+
+export function exportAuthorityPointerMap(): Record<string, string> {
+  return readPointerMap();
+}
+
+export function importAuthorityPointerMap(partial: Record<string, string>): void {
+  writePointerMap({ ...readPointerMap(), ...partial });
+}

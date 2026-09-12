@@ -5,6 +5,7 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { DESIGN_AUTHORITY_VERSION_LS_PREFIX } from './constants.js';
 import { getCurrentAuthorityPointer, setCurrentAuthorityPointer } from './currentAuthorityPointer.js';
+import { notifyFounderDesignWorkspaceCloudSync } from '../p0vrCapture1/founderDesignWorkspaceCloudSyncHook.js';
 
 export const DESIGN_AUTHORITY_VERSION_STATUSES = ['CURRENT', 'SUPERSEDED', 'DRAFT_PENDING'] as const;
 export type DesignAuthorityVersionStatus = (typeof DESIGN_AUTHORITY_VERSION_STATUSES)[number];
@@ -83,6 +84,7 @@ export function recordDesignAuthorityVersion(record: DesignAuthorityVersion): De
       authorityVersionId: normalized.authorityVersionId,
     });
   }
+  notifyFounderDesignWorkspaceCloudSync(normalized.projectId);
   return normalized;
 }
 

@@ -8,6 +8,7 @@ import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
 import { migrateHistoricalRootCapturePageId } from '../../pageFamilyWorkspace/pageFamilyRootTarget.js';
 import { resolveLiveCapturePreviewRef } from '../../assetDelivery/resolveLiveCapturePreviewRef.js';
 import { P0_VR_CAPTURE_1R2_BUILD } from './constants.js';
+import { notifyFounderDesignWorkspaceCloudSync } from './founderDesignWorkspaceCloudSyncHook.js';
 import type { CaptureSource, PageViewportCapture, PageViewportCaptureStatus } from './types.js';
 
 const store = new Map<string, PageViewportCapture>();
@@ -130,6 +131,7 @@ export function savePageViewportCapture(capture: PageViewportCapture): PageViewp
 
   persistCapture(normalized);
   notifyListeners();
+  notifyFounderDesignWorkspaceCloudSync(normalized.projectId);
   return normalized;
 }
 

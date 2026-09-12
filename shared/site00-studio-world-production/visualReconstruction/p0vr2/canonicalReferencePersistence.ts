@@ -9,6 +9,7 @@ import {
   seedCanonicalRegistry,
   seedImplementationCanons,
 } from './canonicalReferenceRegistry.js';
+import { notifyFounderDesignWorkspaceCloudSync } from '../p0vrCapture1/founderDesignWorkspaceCloudSyncHook.js';
 
 const LS_PREFIX = 'site00:canonical-registry:' as const;
 const memorySnapshots = new Map<string, string>();
@@ -52,6 +53,7 @@ export function persistCanonicalRegistrySnapshot(projectId: string): void {
     savedAt: new Date().toISOString(),
   };
   writeSnapshot(projectId, snapshot);
+  notifyFounderDesignWorkspaceCloudSync(projectId);
 }
 
 export function hydrateCanonicalRegistryFromStorage(projectId: string): boolean {

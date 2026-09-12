@@ -19,3 +19,5 @@ export * from './pageCreativeUpgradeSession.js';
 export * from './pageUpgradeNextAction.js';
 export * from './pageCapturePrimaryAction.js';
 export * from './captureProgressTiming.js';
+export * from './founderDesignWorkspaceSnapshot.js';
+export * from './founderDesignWorkspaceCloudSyncHook.js';

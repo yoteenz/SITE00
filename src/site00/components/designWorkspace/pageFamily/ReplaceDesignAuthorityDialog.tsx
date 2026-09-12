@@ -14,6 +14,7 @@ import {
 import { mimeTypeFromDataUrl, prepareReferenceBoardUpload } from '../../../utils/prepareReferenceBoardUpload';
 import { DesignAssetPreview } from '../shared/DesignAssetPreview';
 import { resolveDesignAuthorityUpload } from '../../../services/uploadPageDesignAuthority';
+import { pushFounderDesignWorkspaceSnapshot } from '../../../services/founderDesignWorkspaceCloudSync';
 
 type Props = {
   open: boolean;
@@ -128,6 +129,7 @@ export function ReplaceDesignAuthorityDialog({
       return;
     }
     setDraft(null);
+    void pushFounderDesignWorkspaceSnapshot(projectId);
     if (resolved.localOnly) {
       onReplaced(resolved.warning);
       onClose();
