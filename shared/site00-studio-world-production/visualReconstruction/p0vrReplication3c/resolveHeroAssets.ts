@@ -50,6 +50,13 @@ export function resolveHeroAssetSlots(input: {
     }
 
     if (slot.slotId === HERO_MATERIALIZATION_PROOF_SLOT_ID) {
+      if (
+        slot.materializedPublicUrl &&
+        slot.materializationTrace?.visible &&
+        slot.bindingStage === 'PERSISTED'
+      ) {
+        return slot;
+      }
       if (!authority) {
         const failed: ReplicationAssetSlot = {
           ...slot,
