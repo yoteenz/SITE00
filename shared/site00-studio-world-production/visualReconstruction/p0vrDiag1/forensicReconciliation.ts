@@ -57,7 +57,11 @@ export function reconcileForensicReportScoring(input: {
     aggregation,
   });
 
-  let coverageGate = combineCoverageAndDepthGates(coverageGateRaw, measurementDepthGate);
+  const regionCoverageComplete =
+    coverageScore.majorAuthorityTotal > 0 && coverageScore.majorAccounted >= coverageScore.majorAuthorityTotal;
+  let coverageGate = combineCoverageAndDepthGates(coverageGateRaw, measurementDepthGate, {
+    regionCoverageComplete,
+  });
   if (!consistency.consistent) {
     coverageGate = {
       ...coverageGate,

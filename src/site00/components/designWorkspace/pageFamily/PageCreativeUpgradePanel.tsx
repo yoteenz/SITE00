@@ -20,6 +20,11 @@ import {
   resolveAllRegionForensics,
 } from './ForensicEvidenceOverlays.js';
 import { ForensicStructureOverlay } from './ForensicStructureOverlay.js';
+import {
+  evaluateTwinBuildReadiness,
+  founderMayApproveDirectionWithWarnings,
+  founderMayBuildTwin,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/twinBuildReadiness.js';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
 type ReviewMode = 'before' | 'after' | 'authority';
@@ -111,6 +116,7 @@ export function PageCreativeUpgradePanel({
   const [allForensicsOpen, setAllForensicsOpen] = useState(false);
   const [evidenceRegionId, setEvidenceRegionId] = useState<string | null>(null);
   const [structureRegionId, setStructureRegionId] = useState<string | null>(null);
+  const [forensicsDetailsOpen, setForensicsDetailsOpen] = useState(true);
 
   const showTwinReview =
     twinSession &&
@@ -147,22 +153,47 @@ export function PageCreativeUpgradePanel({
     return 'CURRENT VS DESIGN AUTHORITY';
   }, [showPostBuild, showTwinReview, session.status, twinSession?.status]);
 
-  const coverageBlocked = diagnosis?.forensicCoverage?.blockApproveDirection ?? false;
+  const twinReadiness = useMemo(
+    () =>
+      evaluateTwinBuildReadiness({
+        diagnosis,
+        safety: {
+          authorityReady: !missingAuthority && Boolean(session.designAuthorityVersionId),
+          captureReady: !missingCurrent && Boolean(session.captureId),
+          routeReady: Boolean(route),
+          viewportReady: Boolean(session.viewport),
+          canonicalRoute: route,
+          expectedRoute: session.route ?? route,
+          functionContractReady: true,
+        },
+      }),
+    [diagnosis, missingAuthority, missingCurrent, route, session.captureId, session.designAuthorityVersionId, session.route, session.viewport],
+  );
+
+  const hardForensicBlock = twinReadiness.hardBlockers.length > 0;
+  const mayProceedWithWarning =
+    diagnosis?.forensicCoverage?.founderMayProceedWithWarning === true || twinReadiness.status === 'READY_WITH_WARNINGS';
   const regionForensicsCount = resolveAllRegionForensics(diagnosis).length;
+
+  useEffect(() => {
+    if (showTwinReview) setForensicsDetailsOpen(false);
+  }, [showTwinReview]);
 
   const primaryAction = useMemo(() => {
     if (session.status === 'DIRECTION_READY') {
+      const canApprove = founderMayApproveDirectionWithWarnings(twinReadiness);
       return {
-        label: coverageBlocked ? 'FORENSICS INCOMPLETE' : 'APPROVE DIRECTION',
+        label: hardForensicBlock ? 'FORENSICS INCOMPLETE' : mayProceedWithWarning ? 'APPROVE DIRECTION' : 'APPROVE DIRECTION',
         onClick: onApprove,
-        disabled: missingCurrent || missingAuthority || coverageBlocked,
+        disabled: missingCurrent || missingAuthority || !canApprove,
       };
     }
     if (session.status === 'DIRECTION_APPROVED' && !twinSession) {
+      const canBuild = founderMayBuildTwin(twinReadiness);
       return {
-        label: 'BUILD TWIN',
+        label: mayProceedWithWarning ? 'BUILD TWIN NOW' : 'BUILD TWIN',
         onClick: onBuildTwin ?? (() => {}),
-        disabled: !onBuildTwin || buildingTwin || coverageBlocked,
+        disabled: !onBuildTwin || buildingTwin || !canBuild,
       };
     }
     if (twinSession?.status === 'BUILDING' || buildingTwin) {
@@ -189,18 +220,23 @@ export function PageCreativeUpgradePanel({
     buildingTwin,
     missingCurrent,
     missingAuthority,
-    coverageBlocked,
+    hardForensicBlock,
+    mayProceedWithWarning,
+    twinReadiness,
   ]);
 
   const secondaryAction = useMemo(() => {
     if (session.status === 'DIRECTION_READY') {
       return { label: 'REVISE', onClick: onRevise };
     }
+    if (session.status === 'DIRECTION_APPROVED' && !twinSession && mayProceedWithWarning && onAnalyzeMissingEvidence) {
+      return { label: 'CONTINUE FORENSICS', onClick: onAnalyzeMissingEvidence };
+    }
     if (twinSession && ['READY_FOR_REVIEW', 'REVISION_REQUESTED'].includes(twinSession.status)) {
       return { label: 'REFINE TWIN', onClick: () => setRefineOpen(true) };
     }
     return undefined;
-  }, [session.status, twinSession, onRevise, onApprovePromotion]);
+  }, [session.status, twinSession, onRevise, mayProceedWithWarning, onAnalyzeMissingEvidence]);
 
   if (!open) return null;
 
@@ -450,13 +486,41 @@ export function PageCreativeUpgradePanel({
                   ))}
                 </ul>
               ) : null}
+              {mayProceedWithWarning && !showTwinReview && session.status !== 'DIRECTION_READY' ? (
+                <section className="site00-pfw-upgrade-v2__twin-warning">
+                  <h3>FORENSIC WARNING</h3>
+                  <p>
+                    Forensic depth is incomplete. SITE 00 can still build an isolated twin using the best available
+                    evidence. Unresolved regions may need visual refinement. Live will not change.
+                  </p>
+                  {twinReadiness.warnings.slice(0, 2).map((w) => (
+                    <p key={w} className="site00-pfw-upgrade-v2__coverage-warn">
+                      {w}
+                    </p>
+                  ))}
+                </section>
+              ) : null}
+
               {renderVisualCompare()}
 
               {diagnosis?.forensicCoverage ? (
                 <section
-                  className={`site00-pfw-upgrade-v2__coverage site00-pfw-upgrade-v2__coverage--${diagnosis.forensicCoverage.gateStatus.toLowerCase()}${forensicsRecomputing ? ' site00-pfw-upgrade-v2__coverage--recalculating' : ''}${session.forensicsRecalculatedAt ? ' site00-pfw-upgrade-v2__coverage--fresh' : ''}`}
+                  className={`site00-pfw-upgrade-v2__coverage site00-pfw-upgrade-v2__coverage--${diagnosis.forensicCoverage.gateStatus.toLowerCase()}${forensicsRecomputing ? ' site00-pfw-upgrade-v2__coverage--recalculating' : ''}${session.forensicsRecalculatedAt ? ' site00-pfw-upgrade-v2__coverage--fresh' : ''}${!forensicsDetailsOpen ? ' site00-pfw-upgrade-v2__coverage--collapsed' : ''}`}
                 >
-                  <h3>FORENSIC COVERAGE</h3>
+                  <div className="site00-pfw-upgrade-v2__coverage-head">
+                    <h3>{showTwinReview ? 'FORENSIC DETAILS' : 'FORENSIC COVERAGE'}</h3>
+                    {showTwinReview ? (
+                      <button
+                        type="button"
+                        className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                        onClick={() => setForensicsDetailsOpen((v) => !v)}
+                      >
+                        {forensicsDetailsOpen ? 'HIDE DETAILS' : 'SHOW DETAILS'}
+                      </button>
+                    ) : null}
+                  </div>
+                  {forensicsDetailsOpen ? (
+                    <>
                   <p className="site00-pfw-upgrade-v2__coverage-summary">
                     REGION COVERAGE {diagnosis.forensicCoverage.majorAccounted} / {diagnosis.forensicCoverage.majorTotal}
                     · MEASUREMENT DEPTH {diagnosis.forensicCoverage.majorSufficientDepth ?? '—'} /{' '}
@@ -478,7 +542,9 @@ export function PageCreativeUpgradePanel({
                       FORENSIC STATE INCONSISTENT — RECALCULATE FORENSICS (no new capture required).
                     </p>
                   ) : null}
-                  {diagnosis.forensicCoverage.depthGateStatus === 'BLOCK' && onAnalyzeMissingEvidence ? (
+                  {(diagnosis.forensicCoverage.depthGateStatus === 'BLOCK' ||
+                    diagnosis.forensicCoverage.depthGateStatus === 'WARNING') &&
+                  onAnalyzeMissingEvidence ? (
                     <>
                       <p className="site00-pfw-upgrade-v2__coverage-warn">
                         BLOCKING REGIONS{' '}
@@ -579,6 +645,8 @@ export function PageCreativeUpgradePanel({
                     >
                       VIEW ALL FORENSICS
                     </button>
+                  ) : null}
+                    </>
                   ) : null}
                 </section>
               ) : regionForensicsCount > 0 ? (
@@ -684,6 +752,20 @@ export function PageCreativeUpgradePanel({
                   <ul>
                     {plan.functionPreservation.map((item) => (
                       <li key={item}>{item} ✓</li>
+                    ))}
+                  </ul>
+                </section>
+              ) : null}
+
+              {twinSession?.regionExecutionDecisions?.length ? (
+                <section className="site00-pfw-upgrade-v2__region-execution">
+                  <h3>REGION BUILD MODES</h3>
+                  <ul>
+                    {twinSession.regionExecutionDecisions.map((d) => (
+                      <li key={d.regionId}>
+                        <strong>{d.regionName}</strong> · {d.executionMode.replace(/_/g, ' ')}
+                        {d.warnings.includes('FOUNDER REVIEW REQUIRED') ? ' · FOUNDER REVIEW REQUIRED' : ''}
+                      </li>
                     ))}
                   </ul>
                 </section>

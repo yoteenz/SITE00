@@ -83,11 +83,28 @@ export function evaluateForensicMeasurementDepthGate(input: {
 export function combineCoverageAndDepthGates(
   coverage: { status: ForensicCoverageGateStatus; reason: string; blockApproveDirection: boolean; founderMayProceedWithWarning: boolean },
   depth: ForensicMeasurementDepthGate,
+  options?: { regionCoverageComplete?: boolean },
 ): { status: ForensicCoverageGateStatus; reason: string; blockApproveDirection: boolean; founderMayProceedWithWarning: boolean } {
-  if (coverage.status === 'BLOCK' || depth.status === 'BLOCK') {
+  if (coverage.status === 'BLOCK') {
     return {
       status: 'BLOCK',
-      reason: depth.status === 'BLOCK' && coverage.status === 'BLOCK' ? `${coverage.reason} ${depth.reason}` : depth.status === 'BLOCK' ? depth.reason : coverage.reason,
+      reason: coverage.reason,
+      blockApproveDirection: true,
+      founderMayProceedWithWarning: false,
+    };
+  }
+  if (depth.status === 'BLOCK') {
+    if (options?.regionCoverageComplete) {
+      return {
+        status: 'WARNING',
+        reason: `Forensic depth is incomplete. ${depth.reason}`,
+        blockApproveDirection: false,
+        founderMayProceedWithWarning: true,
+      };
+    }
+    return {
+      status: 'BLOCK',
+      reason: depth.reason,
       blockApproveDirection: true,
       founderMayProceedWithWarning: false,
     };

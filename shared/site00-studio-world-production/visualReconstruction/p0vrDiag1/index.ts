@@ -31,3 +31,4 @@ export * from './forensicReconciliation.js';
 export * from './forensicReportRegistry.js';
 export * from '../p0vrDiag1R4/index.js';
 export * from '../p0vrDiag1R5/index.js';
+export * from '../p0vrConverge1/index.js';

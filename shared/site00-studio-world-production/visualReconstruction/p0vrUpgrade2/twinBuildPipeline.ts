@@ -11,6 +11,12 @@ import { runAuthorityRelativeForensics } from '../p0vrDiag1/authorityRelativeFor
 import { computeRegionConvergenceResults, computeVisualConvergenceScore } from '../p0vrDiag1/visualConvergenceScore.js';
 import { deriveTwinCssSnapshotFromPlan } from '../p0vrDiag1/twinForensicsSnapshot.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
+import { buildRegionExecutionDecisions } from '../p0vrConverge1/regionExecutionDecision.js';
+import { buildTwinCssPatch } from '../p0vrConverge1/twinCssPatchEngine.js';
+import { createVisualRefinementSession } from '../p0vrConverge1/visualRefinementSession.js';
+import type { TwinBuildReceipt } from '../p0vrConverge1/types.js';
+import { getForensicReport } from '../p0vrDiag1/forensicReportRegistry.js';
+import { resolvePageRegionLayoutProfile } from '../p0vrDiag1/pageRegionLayoutProfiles.js';
 
 function completeStep(steps: TwinBuildStepReceipt[], step: string, detail: string): TwinBuildStepReceipt[] {
   const now = new Date().toISOString();
@@ -27,16 +33,37 @@ export async function runTwinBuildPipeline(
   session: ReconstructionTwinSession,
 ): Promise<Partial<ReconstructionTwinSession>> {
   let steps = [...session.buildSteps];
+  const startedAt = new Date().toISOString();
 
   steps = runningStep(steps, 'CLONING_FUNCTION_CONTRACT');
   steps = completeStep(steps, 'CLONING_FUNCTION_CONTRACT', `Preserved ${session.functionContract.navigation.length} nav rules`);
 
   steps = runningStep(steps, 'APPLYING_RECONSTRUCTION_PLAN');
   const specRef = session.measuredSpecId ?? session.reconstructionPlan.measuredSpecId ?? session.reconstructionPlanId;
+  const report = session.forensicsReportId ? getForensicReport(session.forensicsReportId) : null;
+  const profile = resolvePageRegionLayoutProfile({
+    pageArchetype: 'ndxbook-overview-mobile',
+    screenId: 'overview',
+  });
+  const regionExecutionDecisions =
+    report != null
+      ? buildRegionExecutionDecisions({
+          report,
+          profile,
+          authorityVersionId: session.authorityVersionId,
+        })
+      : [];
+  const twinCssPatch = buildTwinCssPatch({
+    plan: session.reconstructionPlan,
+    regionDecisions: regionExecutionDecisions,
+  });
+  const buildWarnings = regionExecutionDecisions
+    .filter((d) => d.warnings.length)
+    .map((d) => `${d.regionName}: ${d.executionMode.replace(/_/g, ' ')}`);
   steps = completeStep(
     steps,
     'APPLYING_RECONSTRUCTION_PLAN',
-    `Applied measured spec ${specRef} — ${session.reconstructionPlan.geometryChanges.length} geometry · ${session.reconstructionPlan.spacingChanges.length} spacing targets`,
+    `Applied measured spec ${specRef} — ${session.reconstructionPlan.geometryChanges.length} geometry · ${session.reconstructionPlan.spacingChanges.length} spacing · ${regionExecutionDecisions.length} regions`,
   );
 
   steps = runningStep(steps, 'BUILDING_ISOLATED_PAGE');
@@ -152,6 +179,27 @@ export async function runTwinBuildPipeline(
     after: afterForensics,
   });
 
+  const completedAt = new Date().toISOString();
+  const twinBuildReceipt: TwinBuildReceipt = {
+    sessionId: session.sessionId,
+    sourceLiveVersionId: session.sourceLiveVersionId,
+    authorityVersionId: session.authorityVersionId,
+    captureId: session.beforeCaptureId,
+    regionDecisions: regionExecutionDecisions,
+    warnings: buildWarnings,
+    twinRoute: session.twinRoute,
+    twinVersionId: twinVersion.versionId,
+    startedAt,
+    completedAt,
+    status: 'COMPLETE',
+  };
+
+  const visualRefinement = createVisualRefinementSession({
+    sessionId: session.sessionId,
+    authorityVersionId: session.authorityVersionId,
+    twinVersionId: twinVersion.versionId,
+  });
+
   return {
     status: 'READY_FOR_REVIEW',
     buildSteps: steps,
@@ -164,5 +212,9 @@ export async function runTwinBuildPipeline(
     convergenceBefore: convergence.before,
     convergenceAfter: convergence.after,
     regionConvergence,
+    regionExecutionDecisions,
+    twinCssPatch,
+    twinBuildReceipt,
+    visualRefinement,
   };
 }

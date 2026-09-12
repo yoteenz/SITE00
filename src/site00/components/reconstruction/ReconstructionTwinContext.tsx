@@ -4,6 +4,7 @@
 
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
+import { ReconstructionTwinStyleLayer } from './ReconstructionTwinStyleLayer.js';
 
 type ReconstructionTwinContextValue = {
   session: ReconstructionTwinSession;
@@ -27,6 +28,7 @@ export function ReconstructionTwinProvider({
         data-reconstruction-twin={session.sessionId}
         data-twin-viewport={session.viewport}
       >
+        <ReconstructionTwinStyleLayer session={session} />
         {children}
       </div>
     </ReconstructionTwinContext.Provider>
