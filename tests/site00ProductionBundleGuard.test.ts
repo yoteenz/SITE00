@@ -33,6 +33,6 @@ describe('SITE 00 production bundle guard', () => {
   it('vite aliases Playwright to browser stubs', () => {
     const vite = readFileSync(join(ROOT, 'vite.config.ts'), 'utf8');
     expect(vite).toContain('scripts/vite-browser-stubs/playwright.ts');
-    expect(vite).toContain('chromium-bidi-empty.ts');
+    expect(vite).toMatch(/chromium-bidi/);
   });
 });

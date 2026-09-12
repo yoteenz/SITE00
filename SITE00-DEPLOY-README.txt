@@ -26,6 +26,13 @@ VERIFY YOU HAVE THE RIGHT BUILD
 -------------------------------
 View Page Source on site00.com. The script tag must reference the bundle from the release notes.
 
+BOOT FIX (2026-09-12 — site stuck on loader animation):
+  WRONG: any index.*.js that still breaks in console with "chromium-bidi" or
+         "Failed to resolve module specifier" (e.g. index.BB6PY5fd.js, index.BYksM3jN.js).
+  RIGHT: v325+ or v326+ from GitHub Releases AFTER PR #741 (Playwright stub fix).
+  Page source must include site00-assts-boot-recovery.js (v327+).
+  app-build-id meta should NOT be 38dbcb1381cf (pre-fix CI artifact).
+
 WRONG (stale — capture fix NOT included):
   index.BjMnKpdX.js  (v295 — htaccess only)
 

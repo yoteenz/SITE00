@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
@@ -77,6 +78,10 @@ export default defineConfig(({ mode, command }) => {
             .replace('content="__APP_BUILD_ID__"', `content="${stamp}"`)
             .replace('src="/src/main.tsx"', `src="/src/main.tsx?v=${stamp}"`)
             .replace(
+              'src="/site00-assts-boot-recovery.js"',
+              `src="/site00-assts-boot-recovery.js?v=${stamp}"`,
+            )
+            .replace(
               'src="/site00-assts-loader-boot.js?v=environment-v2"',
               `src="/site00-assts-loader-boot.js?v=${stamp}"`,
             );
@@ -90,6 +95,16 @@ export default defineConfig(({ mode, command }) => {
           }
           return next;
         },
+      },
+    };
+  }
+
+  function verifyClientBundlePlugin() {
+    return {
+      name: 'site00-verify-client-bundle',
+      closeBundle() {
+        if (command !== 'build') return;
+        execSync('node scripts/verify-production-dist.mjs', { stdio: 'inherit', cwd: process.cwd() });
       },
     };
   }
@@ -129,11 +144,7 @@ export default defineConfig(({ mode, command }) => {
           replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/playwright.ts'),
         },
         {
-          find: 'chromium-bidi/lib/cjs/bidiMapper/BidiMapper',
-          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/chromium-bidi-empty.ts'),
-        },
-        {
-          find: 'chromium-bidi/lib/cjs/cdp/CdpConnection',
+          find: /^chromium-bidi(\/.*)?$/,
           replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/chromium-bidi-empty.ts'),
         },
       ],
@@ -144,7 +155,7 @@ export default defineConfig(({ mode, command }) => {
       ...(cloudMobilePreview && previewSessionId
         ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin(), indexBuildStampPlugin(previewSessionId)]
         : []),
-      ...(command === 'build' ? [indexBuildStampPlugin(effectiveBuildId.slice(0, 12))] : []),
+      ...(command === 'build' ? [indexBuildStampPlugin(effectiveBuildId.slice(0, 12)), verifyClientBundlePlugin()] : []),
     ],
     base: '/',
     build: {
