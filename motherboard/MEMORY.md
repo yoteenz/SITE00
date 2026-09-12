@@ -8166,3 +8166,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrRebuild1/` — `ReconstructionStrategyResolver` (PATCH / RECOMPOSE / **REBUILD_FROM_AUTHORITY**), `CompositionDivergenceScore`, `AuthorityCompositionBlueprint` + `AuthorityRegionBlueprint` from authority profile (not current DOM), `CurrentPageFunctionalInventory`, `FunctionalTransplantPlan` / `FunctionalBinding`, `AuthorityFirstTwinComposer`, `AuthorityCompositionCoverage`, `LegacyStructureRetentionCheck`, `VisualAuthorityAcceptanceGate`, `FidelityScoreProvenance` (unknown ≠ 100), `sessionVisualAuthority` (legacy patch twins → **FAILED_VISUAL_AUTHORITY**, promotion blocked). Pipeline: `runTwinBuildPipeline` calls authority-first path for NDX overview (`P0_VR_REBUILD_1_BUILD = v313`); convergence scoring weights **composition**. UI: `AuthorityFirstNdxOverviewTwin` + CSS; `ReconstructionTwinOverviewSurface` switches render mode; upgrade panel shows failed visual authority + provenance. Tests: `p0vrRebuild1AuthorityFirst.test.ts`.
 - **Founder next:** Do **not** promote existing patch twin — verify **FAILED VISUAL AUTHORITY** + disabled **APPROVE FOR PROMOTION** → **BUILD TWIN NOW** again → **PREVIEW TWIN** must show authority-shaped structure at first glance (not old stack); compare TWIN vs AUTHORITY before scores; refine from new twin only.
 
+---
+
+## 2026-09-12 — CI fix: p0vrDiag1R5 internal structure cache key test
+
+- **Symptom:** Production Release / test failed — `tests/p0vrDiag1R5InternalStructure.test.ts` `expected null to be truthy` on `getRegionInternalStructure`.
+- **Cause:** Test built cache key with `P0_VR_DIAG_1R5A_BUILD` (v308); `analyzeMissingForensicEvidence` stores internal structure under `P0_VR_DIAG_1R5B_BUILD` (v309) via `structureCacheKey`.
+- **Fix:** Test uses `structureCacheKey({ ...after report fields, forensicsVersion: P0_VR_DIAG_1R5B_BUILD })`. PR **#737** merged to `main`.
+
