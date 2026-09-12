@@ -28,6 +28,21 @@
   gap: var(--site00-twin-section-gap, inherit);
 }
 
+.site00-pfw-upgrade-v2__mobile-active-task {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0 0.5rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 768px) {
+  .site00-pfw-upgrade-v2__mobile-active-task {
+    display: none;
+  }
+}
+
 .site00-pfw-upgrade-v2__twin-warning {
   margin: 1rem 0;
   padding: 0.75rem 1rem;

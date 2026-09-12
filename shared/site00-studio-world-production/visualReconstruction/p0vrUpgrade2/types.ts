@@ -197,6 +197,9 @@ export type ReconstructionTwinSession = {
   twinBuildReceipt?: import('../p0vrConverge1/types.js').TwinBuildReceipt | null;
   visualRefinement?: import('../p0vrConverge1/types.js').VisualRefinementSession | null;
   twinCssPatch?: import('../p0vrConverge1/twinCssPatchEngine.js').TwinCssPatch | null;
+  activeBuildJobId?: string | null;
+  buildJobStatus?: string | null;
+  lastBuildExecutionReceipt?: import('../p0vrConverge1/twinBuildJob.js').TwinBuildExecutionReceipt | null;
 };
 
 export type PageLiveRegistryEntry = {

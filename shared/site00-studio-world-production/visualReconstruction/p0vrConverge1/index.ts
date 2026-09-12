@@ -8,3 +8,5 @@ export * from './regionExecutionDecision.js';
 export * from './twinBuildReadiness.js';
 export * from './twinCssPatchEngine.js';
 export * from './visualRefinementSession.js';
+export * from './upgradeWorkflowStateResolver.js';
+export * from './twinBuildJob.js';

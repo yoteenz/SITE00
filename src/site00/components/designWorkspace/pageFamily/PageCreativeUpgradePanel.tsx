@@ -24,7 +24,8 @@ import {
   evaluateTwinBuildReadiness,
   founderMayApproveDirectionWithWarnings,
   founderMayBuildTwin,
-} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/twinBuildReadiness.js';
+  resolveUpgradeWorkflowState,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/index.js';
 import '../../../styles/site00-reconstruction-twin.css';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
@@ -119,13 +120,19 @@ export function PageCreativeUpgradePanel({
   const [structureRegionId, setStructureRegionId] = useState<string | null>(null);
   const [forensicsDetailsOpen, setForensicsDetailsOpen] = useState(true);
 
+  const workflow = useMemo(
+    () => resolveUpgradeWorkflowState({ session, twinSession }),
+    [session, twinSession],
+  );
+
   const showTwinReview =
     twinSession &&
     ['READY_FOR_REVIEW', 'REVISION_REQUESTED', 'REVISING', 'APPROVED_FOR_PROMOTION', 'VERIFYING'].includes(
       twinSession.status,
     );
   const showPostBuild =
-    (session.status === 'COMPLETE' && Boolean(afterScreenshot)) || twinSession?.status === 'PROMOTED';
+    twinSession?.status === 'PROMOTED' ||
+    (session.status === 'COMPLETE' && Boolean(afterScreenshot) && !twinSession);
   const diagnosis = visualDiagnosis ?? session.visualDiagnosis;
   const plan = reconstructionPlan ?? session.reconstructionPlan;
 
@@ -177,8 +184,8 @@ export function PageCreativeUpgradePanel({
   const regionForensicsCount = resolveAllRegionForensics(diagnosis).length;
 
   useEffect(() => {
-    if (showTwinReview) setForensicsDetailsOpen(false);
-  }, [showTwinReview]);
+    if (showTwinReview || workflow.state === 'READY_TO_BUILD_TWIN') setForensicsDetailsOpen(false);
+  }, [showTwinReview, workflow.state]);
 
   const primaryAction = useMemo(() => {
     if (session.status === 'DIRECTION_READY') {
@@ -187,6 +194,14 @@ export function PageCreativeUpgradePanel({
         label: hardForensicBlock ? 'FORENSICS INCOMPLETE' : mayProceedWithWarning ? 'APPROVE DIRECTION' : 'APPROVE DIRECTION',
         onClick: onApprove,
         disabled: missingCurrent || missingAuthority || !canApprove,
+      };
+    }
+    if (twinSession?.status === 'PLANNED' || twinSession?.status === 'FAILED') {
+      const canBuild = founderMayBuildTwin(twinReadiness) || mayProceedWithWarning;
+      return {
+        label: 'BUILD TWIN NOW',
+        onClick: onBuildTwin ?? (() => {}),
+        disabled: !onBuildTwin || buildingTwin || !canBuild,
       };
     }
     if (session.status === 'DIRECTION_APPROVED' && !twinSession) {
@@ -229,6 +244,14 @@ export function PageCreativeUpgradePanel({
   const secondaryAction = useMemo(() => {
     if (session.status === 'DIRECTION_READY') {
       return { label: 'REVISE', onClick: onRevise };
+    }
+    if (twinSession?.status === 'PLANNED') {
+      return {
+        label: 'REVIEW PLAN',
+        onClick: () => {
+          document.querySelector('.site00-pfw-upgrade-v2__plan')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        },
+      };
     }
     if (session.status === 'DIRECTION_APPROVED' && !twinSession && mayProceedWithWarning && onAnalyzeMissingEvidence) {
       return { label: 'CONTINUE FORENSICS', onClick: onAnalyzeMissingEvidence };
@@ -455,6 +478,7 @@ export function PageCreativeUpgradePanel({
             stepTitle="PAGE UPGRADE"
             headline={headline}
             support="Match the approved design authority while preserving the live page function."
+            statusLabel={`STATUS: ${workflow.founderStatusLabel}${workflow.twinStatusLabel ? ` · TWIN: ${workflow.twinStatusLabel}` : ''}`}
             onBack={onBack}
             transitionKey={`upgrade-${session.sessionId}-${session.forensicsRecalculatedAt ?? 'initial'}`}
             visual={<span className="site00-pfw-upgrade-v2__visual-spacer" aria-hidden />}
@@ -758,6 +782,29 @@ export function PageCreativeUpgradePanel({
                 </section>
               ) : null}
 
+              {isMobile && workflow.primaryTask === 'BUILD_TWIN' && primaryAction ? (
+                <div className="site00-pfw-upgrade-v2__mobile-active-task">
+                  <button
+                    type="button"
+                    className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-wizard__primary"
+                    disabled={primaryAction.disabled}
+                    onClick={primaryAction.onClick}
+                  >
+                    {primaryAction.label}
+                  </button>
+                  {secondaryAction ? (
+                    <button
+                      type="button"
+                      className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-wizard__secondary"
+                      disabled={Boolean((secondaryAction as { disabled?: boolean }).disabled)}
+                      onClick={secondaryAction.onClick}
+                    >
+                      {secondaryAction.label}
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+
               {twinSession?.regionExecutionDecisions?.length ? (
                 <section className="site00-pfw-upgrade-v2__region-execution">
                   <h3>REGION BUILD MODES</h3>
@@ -882,8 +929,9 @@ export function PageCreativeUpgradePanel({
               ) : null}
 
               <p className="site00-pfw-upgrade-v2__status">
-                STATUS: {session.status.replace(/_/g, ' ')}
-                {twinSession ? ` · TWIN: ${twinSession.status.replace(/_/g, ' ')}` : ''}
+                STATUS: {workflow.founderStatusLabel}
+                {workflow.twinStatusLabel ? ` · TWIN: ${workflow.twinStatusLabel}` : ''}
+                {workflow.conflictingComplete ? ' · (SESSION MARKED COMPLETE — BUILD STILL REQUIRED)' : ''}
               </p>
             </div>
           </DesignTaskWizardShell>
