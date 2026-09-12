@@ -10,6 +10,7 @@ import {
   site00ProjectCulturalIntelligencePath,
 } from '../../config/routes';
 import { ndxFounderWorkspaceMobileNav } from '../../config/ndxFounderWorkspaceMobileNav';
+import { TwinSite00HostBottomNav } from './TwinSite00HostBottomNav.js';
 import {
   NDX_METRIC_STATUS_LABELS,
   NDX_SECTION_NAV_LABELS,
@@ -30,9 +31,17 @@ type Props = {
   projectSlug: string;
   heroOverride?: ReactNode;
   hostClassName?: string;
+  bottomNavMode?: 'ndx-project' | 'site00-host';
+  mastheadClassName?: string;
 };
 
-export function ShellFirstNdxOverviewTwin({ projectSlug, heroOverride, hostClassName }: Props) {
+export function ShellFirstNdxOverviewTwin({
+  projectSlug,
+  heroOverride,
+  hostClassName,
+  bottomNavMode = 'ndx-project',
+  mastheadClassName,
+}: Props) {
   const location = useLocation();
   const nav = ndxFounderWorkspaceMobileNav(projectSlug);
   const { state: operatingState } = useProjectOperatingState(projectSlug);
@@ -76,7 +85,10 @@ export function ShellFirstNdxOverviewTwin({ projectSlug, heroOverride, hostClass
         <strong>NDXBOOK</strong>
       </nav>
 
-      <section className="site00-sft__band site00-sft__masthead" data-shell-band="masthead">
+      <section
+        className={`site00-sft__band site00-sft__masthead${mastheadClassName ? ` ${mastheadClassName}` : ''}`}
+        data-shell-band="masthead"
+      >
         <div className="site00-sft__masthead-main">
           <h1 className="site00-sft__project-title">NDXBOOK</h1>
           <p className="site00-sft__project-sub">Studio world · mobile overview</p>
@@ -178,6 +190,9 @@ export function ShellFirstNdxOverviewTwin({ projectSlug, heroOverride, hostClass
         </Link>
       </section>
 
+      {bottomNavMode === 'site00-host' ? (
+        <TwinSite00HostBottomNav />
+      ) : (
       <nav className="site00-sft__band site00-sft__bottom-nav" data-shell-band="bottom-nav" aria-label="SITE 00 navigation">
         {nav.map((item) => {
           const active =
@@ -206,6 +221,7 @@ export function ShellFirstNdxOverviewTwin({ projectSlug, heroOverride, hostClass
           );
         })}
       </nav>
+      )}
     </div>
   );
 }

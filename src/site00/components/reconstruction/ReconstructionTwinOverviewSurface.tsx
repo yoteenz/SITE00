@@ -18,7 +18,8 @@ type Props = {
 
 export function ReconstructionTwinOverviewSurface({ projectSlug, session }: Props) {
   const renderMode = resolveTwinRenderMode(session);
-  const visionLiteral = renderMode === 'VISION_LITERAL_NDX_OVERVIEW';
+  const visionLiteralExecuted = renderMode === 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW';
+  const visionLiteral = renderMode === 'VISION_LITERAL_NDX_OVERVIEW' || visionLiteralExecuted;
   const shellFirst = renderMode === 'SHELL_FIRST_NDX_OVERVIEW';
   const authorityFirst = renderMode === 'AUTHORITY_FIRST_NDX_OVERVIEW';
 
@@ -30,7 +31,7 @@ export function ReconstructionTwinOverviewSurface({ projectSlug, session }: Prop
       data-visual-authority-status={session.visualAuthorityStatus ?? 'PENDING'}
     >
       {visionLiteral ? (
-        <VisionLiteralNdxOverviewTwin projectSlug={projectSlug} session={session} />
+        <VisionLiteralNdxOverviewTwin projectSlug={projectSlug} session={session} executed={visionLiteralExecuted} />
       ) : shellFirst ? (
         <ShellFirstNdxOverviewTwin projectSlug={projectSlug} />
       ) : authorityFirst ? (

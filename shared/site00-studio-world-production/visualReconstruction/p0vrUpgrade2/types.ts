@@ -239,6 +239,13 @@ export type ReconstructionTwinSession = {
   /** P0.VR.REPLICATION.3B-R1 */
   replicationFailureClass?: import('../p0vrReplication3b/replicationRuntimeFailure.js').ReplicationFailureClass | null;
   replicationRuntimeErrorCode?: string | null;
+  /** P0.VR.REPLICATION.3C */
+  preVisionLiteralBaselineRenderMode?: import('../p0vrRebuild1/types.js').TwinRenderMode | null;
+  replication3cReport?: import('../p0vrReplication3c/types.js').Replication3CReport | null;
+  replicationAssetSlots?: import('../p0vrReplication3c/types.js').ReplicationAssetSlot[] | null;
+  literalLayoutInstructions?: import('../p0vrReplication3c/types.js').LiteralLayoutInstruction[] | null;
+  literalSourceExecutionReceipts?: import('../p0vrReplication3c/types.js').LiteralSourceExecutionReceipt[] | null;
+  visionLiteralExecutedSources?: import('../p0vrReplication3c/literalSourceExecutor.js').ExecutedLiteralSource[] | null;
 };
 
 export type PageLiveRegistryEntry = {

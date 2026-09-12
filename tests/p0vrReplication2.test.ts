@@ -119,12 +119,17 @@ describe('P0.VR.REPLICATION.2 shell-first', () => {
 
   it('executeShellFirstNdxReplication sets shell-first session fields', async () => {
     const result = await executeShellFirstNdxReplication({
-      session: ndxSession(),
+      session: {
+        ...ndxSession(),
+        designAuthorityAssetRef: 'https://cdn.example.com/ndxbook-authority-mobile.png',
+      },
       twinVersionId: 'twin_v1',
     });
     expect(result.sessionPatch.preVisionBaselineRenderMode).toBe('SHELL_FIRST_NDX_OVERVIEW');
-    expect(result.sessionPatch.twinRenderMode).toBe('VISION_LITERAL_NDX_OVERVIEW');
+    expect(result.sessionPatch.twinRenderMode).toBe('VISION_LITERAL_EXECUTED_NDX_OVERVIEW');
     expect(result.sessionPatch.visionReplicationReport?.heroRecognizable).toBe(true);
+    expect(result.sessionPatch.replication3cReport?.heroHumanRecognizable).toBe(true);
+    expect(result.sessionPatch.replicationAssetSlots?.every((s) => s.status === 'BOUND' || !s.required)).toBe(true);
     expect(result.shellReceipt.buildRef).toBe('v316');
     expect(result.sessionPatch.authorityShellBlueprintId).toBeTruthy();
   });
