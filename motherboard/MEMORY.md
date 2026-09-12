@@ -8140,3 +8140,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `p0vrConverge1/` — `TwinBuildReadiness`, `RegionExecutionDecision`, `ReconstructionConfidencePolicy`, `TwinBuildReceipt`, `VisualRefinementSession`, `twinCssPatchEngine`. Gate change: when **region coverage complete**, depth-only BLOCK → **WARNING** (`combineCoverageAndDepthGates` + reconcile on initial bundle). UI: **BUILD TWIN NOW** + forensic warning copy; **APPROVE DIRECTION** allowed with warnings; **CONTINUE FORENSICS** secondary; forensics collapse after twin review; region build modes list. Twin pipeline stores execution decisions + CSS patch; `ReconstructionTwinStyleLayer` applies real CSS vars on twin route. Build `P0_VR_CONVERGE_1_BUILD = v310`. Tests: `p0vrConverge1TwinBuild.test.ts`.
 - **Founder next:** Deploy **v318+** → NDXBOOK OVERVIEW → UPGRADE → **APPROVE DIRECTION** (warning OK) → **BUILD TWIN NOW** → **PREVIEW TWIN** → compare TWIN vs AUTHORITY → **REFINE TWIN** with a note; live `/projects/ndxbook` unchanged until explicit promote.
 
+---
+
+## 2026-09-12 — P0.VR.CONVERGE.1R1 Twin planned → real build handoff
+
+- **Context:** After CONVERGE.1, live QA showed **STATUS: COMPLETE** + **TWIN: PLANNED** with no **BUILD TWIN NOW** — pipeline dead-end after direction approval created a planned twin session.
+- **Root cause:** UI primary CTA only when `DIRECTION_APPROVED && !twinSession`; approve creates `twinSession` with status **PLANNED**, so CTA branch never ran. Misleading **COMPLETE** when upgrade session marked complete while twin still planned. Twin sessions were in-memory only (lost on refresh).
+- **Fix:** `upgradeWorkflowStateResolver` — **READY TO BUILD TWIN** when twin **PLANNED** (never terminal with COMPLETE); `startTwinBuild` + `TwinBuildJob` / route + execution receipts calling canonical `buildTwin` → `runTwinBuildPipeline`; localStorage `twinSessionPersistence`; panel **BUILD TWIN NOW** for **PLANNED**/**FAILED**, mobile CTA below **FUNCTION PRESERVATION**, forensics collapsed on build-ready; stale input guard. Build `P0_VR_CONVERGE_1R1_BUILD = v311`. Tests: `p0vrConverge1R1TwinExecution.test.ts`.
+- **Founder next:** Deploy **v319+** → reopen existing NDXBOOK mobile PAGE UPGRADE (no restart) → expect **READY TO BUILD TWIN** + **BUILD TWIN NOW** → build progress from real steps → **TWIN READY** → **PREVIEW TWIN** on debug route (NOT LIVE); live `/projects/ndxbook` unchanged until promote.
+
