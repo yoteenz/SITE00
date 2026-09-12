@@ -8192,14 +8192,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-12 — P0.VR.REPLICATION.3A drift triangulation + decision trace (NDXBOOK pilot)
 
 - **Context:** Shell-first twin closer but still drifts — need evidence of **where** authority structure is lost (implementation vs orchestration vs visual model vs policy vs source vs assets vs render).
 - **Delivered:** `p0vrReplication3a/` — `ReplicationFailureLayer`, `ReplicationDriftStage`, `ReplicationDecisionTrace`, `DriftTriangulationReport`, `RegionLiteralReplicationScore`, `ReplicationImplementationReceipt`, runtime module trace, visual provider audit ( **no vision on REPLICATE path** ), `ReplicationPolicyAudit`, hero/host/masthead/metrics/bottom-nav benchmarks vs `ShellFirstNdxOverviewTwin` pilot source map. Wired: `buildDriftTriangulationReport` on shell-first build (`v317`). UX: PAGE UPGRADE → **DETAILS** → **DRIFT TRACE** (`DriftTracePanel`). No live/promotion changes. Tests: `p0vrReplication3a.test.ts`.
 - **Primary root cause (pilot):** **VISUAL_INTELLIGENCE** (authority PNG not segmented; profile heuristic) + **EXECUTION_POLICY** / **SOURCE_GENERATION** (static React collapses hero to generic media). **Next fix class:** `UPGRADE_VISUAL_MODEL` + `FIX_SOURCE_GENERATOR` / `CHANGE_EXECUTION_POLICY`. No trivial miswire hotfix — `composeAuthorityFirstTwin` deferral is intentional.
 - **Founder next:** Deploy **v325+** → UPGRADE → DETAILS → **DRIFT TRACE** → drill **HERO**, **HOST HEADER**, **MASTHEAD**, **METRICS**, **BOTTOM NAV** — read REFERENCE→RENDER pipeline and culprit ranking.
-=======
+
+---
+
 ## 2026-09-12 — Production boot fix: Playwright leaked into SPA vendor bundle
 
 - **Context:** Founder reported **site00.com no longer booting** — immersive loader shell stuck, `#root` empty, React never mounted.
@@ -8215,5 +8216,4 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Live check:** site00.com `app-build-id` **38dbcb1381cf** + `index.BB6PY5fd.js` still contains top-level `import"chromium-bidi/..."` — React never mounts (`#root` empty). v325/v326 ZIPs on GitHub are clean; GoDaddy was not on those artifacts (partial/old CI upload).
 - **Follow-up ship:** `public/site00-assts-boot-recovery.js` (timeout/module-error → strip boot shell + reload banner); CI + `npm run build` run `scripts/verify-production-dist.mjs`; broader `chromium-bidi` vite alias; deploy README boot-verify lines.
 - **Founder next:** Upload **v327+** ZIP — delete old `assets/` + `index.html` first. Verify page source: **no** chromium-bidi in script bundle name/hash; includes `site00-assts-boot-recovery.js`; `app-build-id` ≥ **905a194** area. Hard refresh / clear site data on mobile.
->>>>>>> origin/main
 
