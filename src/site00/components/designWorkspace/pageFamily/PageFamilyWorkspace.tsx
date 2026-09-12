@@ -77,9 +77,11 @@ import {
 import { promoteTwinToLivePage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/pagePromotion.js';
 import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import {
+  applyForensicUpgradeBundleToSession,
   getPageCreativeUpgradeSession,
   markPageCreativeUpgradeStatus,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
+import { buildForensicUpgradeBundle } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1/upgradeDiagnosisBridge.js';
 
 export type PageFamilyWorkspaceProps = {
   projectId: string;
@@ -681,6 +683,57 @@ export function PageFamilyWorkspace({
             }
           }}
           afterScreenshot={upgradeSession.afterCaptureId ? viewportCapture?.imageRef ?? null : null}
+          onRecomputeForensics={() => {
+            if (!activeScreenId) return;
+            const boundCapture =
+              resolveCurrentPageViewportCapture(projectId, activePageId, viewport) ?? viewportCapture;
+            const captureId = boundCapture?.captureId ?? upgradeSession.captureId;
+            const auth = resolveCurrentDesignAuthority({
+              projectId,
+              pageId: activePageId,
+              screenId: activeScreenId,
+              viewport,
+            });
+            const dims = CANONICAL_VIEWPORT_DIMENSIONS[viewport];
+            const shellSpec = resolveMobileVisualShellSpec(activeScreenId);
+            const bundle = buildForensicUpgradeBundle({
+              pageId: activePageId,
+              viewport,
+              pageArchetype: isActiveRoot ? 'ndxbook-overview-mobile' : (activeNode?.archetype ?? 'generic-mobile-page'),
+              screenId: activeScreenId,
+              route: activeRoute,
+              pagePurpose: activeDisplayName,
+              isRootPage: isActiveRoot,
+              currentCapture: {
+                captureId,
+                width: boundCapture?.width ?? dims.width,
+                height: boundCapture?.height ?? dims.height,
+                imageRef: boundCapture?.imageRef ?? upgradeSession.captureAssetRef,
+                domMeasurements: collectDomRegionMeasurements(),
+                cssSnapshot: collectCssSnapshotFromMobileShell(),
+              },
+              designAuthority: {
+                authorityVersionId: auth.authorityVersion?.authorityVersionId ?? upgradeSession.designAuthorityVersionId ?? null,
+                width: dims.width,
+                height: dims.height,
+                assetRef: auth.previewAssetRef ?? upgradeSession.designAuthorityAssetRef ?? null,
+                referenceType: 'VIEWPORT_SCREENSHOT',
+                visualShellSpec: shellSpec
+                  ? {
+                      headerHeightPx: shellSpec.headerBounds.heightPx,
+                      headerPaddingX: shellSpec.headerPaddingX,
+                      contentPaddingX: shellSpec.contentPaddingX,
+                      sectionGap: shellSpec.sectionGap,
+                      bottomNavHeightPx: shellSpec.bottomNavBounds.heightPx,
+                      viewportWidth: shellSpec.viewport.width,
+                      viewportHeight: shellSpec.viewport.height,
+                    }
+                  : null,
+              },
+            });
+            const updated = applyForensicUpgradeBundleToSession(projectId, activePageId, viewport, bundle);
+            if (updated) setUpgradeSession(updated);
+          }}
         />
       ) : null}
 

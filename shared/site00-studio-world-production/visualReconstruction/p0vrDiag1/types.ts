@@ -188,6 +188,69 @@ export type RegionDimensionEvidence = {
   measurementConflict?: boolean;
 };
 
+export const DIMENSION_VALIDITY_STATUSES = [
+  'VALID',
+  'MISSING_AUTHORITY',
+  'MISSING_CURRENT',
+  'INVALID_AUTHORITY',
+  'INVALID_CURRENT',
+  'UNIT_MISMATCH',
+  'NOT_COMPARABLE',
+] as const;
+export type DimensionValidityStatus = (typeof DIMENSION_VALIDITY_STATUSES)[number];
+
+export type QualifiedDimensionEvidence = {
+  dimension: string;
+  validity: DimensionValidityStatus;
+  countsTowardDepth: boolean;
+  importance: DimensionImportance;
+  confidence: ForensicConfidence;
+  reason: string;
+};
+
+export type RegionDepthComputation = {
+  regionId: string;
+  requiredCritical: string[];
+  requiredHigh: string[];
+  qualifiedDimensions: QualifiedDimensionEvidence[];
+  disqualifiedDimensions: QualifiedDimensionEvidence[];
+  criticalResolved: number;
+  highResolved: number;
+  depthScore: number;
+  depthStatus: RegionMeasurementDepthStatus;
+  reasons: string[];
+};
+
+export type TopLevelDepthAggregation = {
+  majorRegionCount: number;
+  sufficientRegionCount: number;
+  deepRegionCount: number;
+  shallowRegionCount: number;
+  blockedRegionCount: number;
+  depthPct: number;
+  status: ForensicCoverageGateStatus | 'MEASURING';
+  regionSummaries: {
+    regionId: string;
+    regionName: string;
+    depthStatus: RegionMeasurementDepthStatus;
+    validDimensionCount: number;
+    expectedDimensionCount: number;
+    reasons: string[];
+  }[];
+};
+
+export type ForensicReconciliationReceipt = {
+  forensicsVersion: string;
+  regionsChecked: number;
+  dimensionsChecked: number;
+  mathErrorsCorrected: number;
+  depthStatusesChanged: number;
+  oldDepthPct: number;
+  newDepthPct: number;
+  consistencyStatus: 'OK' | 'FORENSIC_STATE_INCONSISTENT';
+  createdAt: string;
+};
+
 export type RegionMeasurementDepth = {
   regionId: string;
   regionType: VisualRegionType;
@@ -197,6 +260,9 @@ export type RegionMeasurementDepth = {
   depthScore: number;
   confidence: ForensicConfidence;
   status: RegionMeasurementDepthStatus;
+  validDimensionCount?: number;
+  disqualifiedDimensionCount?: number;
+  depthReasons?: string[];
 };
 
 export type ForensicMeasurementDepthGate = {
@@ -272,6 +338,7 @@ export type RegionForensicsBundle = {
   confidence: ForensicConfidence;
   functionalRisk: FunctionalRiskLevel;
   measurementDepth?: RegionMeasurementDepth;
+  depthComputation?: RegionDepthComputation;
   reconstructionTarget?: RegionReconstructionTargetMap;
 };
 
@@ -533,6 +600,8 @@ export type AuthorityRelativeForensicsReport = {
   coverageMap: FullPageRegionCoverageMap;
   coverageGate: ForensicCoverageGate;
   measurementDepthGate: ForensicMeasurementDepthGate;
+  topLevelDepthAggregation?: TopLevelDepthAggregation | null;
+  forensicConsistencyStatus?: 'OK' | 'FORENSIC_STATE_INCONSISTENT';
   globalPageProfile: GlobalPageMeasurementProfile | null;
   verticalRhythm: VerticalRhythmProfile | null;
   gutterProfile: PageGutterProfile | null;

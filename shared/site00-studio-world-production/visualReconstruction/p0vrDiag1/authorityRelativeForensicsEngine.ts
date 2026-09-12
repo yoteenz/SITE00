@@ -14,7 +14,7 @@ import {
   resolveCaptureScopes,
 } from './fullPageRegionCoverage.js';
 import { alignCapturePair } from './imageAlignment.js';
-import { combineCoverageAndDepthGates, evaluateForensicMeasurementDepthGate } from './forensicMeasurementDepthGate.js';
+import { reconcileForensicReportScoring } from './forensicReconciliation.js';
 import { buildRegionForensicsBundle } from './multiDimensionForensics.js';
 import { buildGlobalPageMeasurementProfile } from './regionMeasurementDepth.js';
 import { buildNormalizedViewportGeometry } from './normalizedViewportGeometry.js';
@@ -279,17 +279,15 @@ export function runAuthorityRelativeForensics(
   });
   const topImpactItems = pickTopImpactItems(impactScores, TOP_IMPACT_ITEM_LIMIT);
 
-  const coverageScore = computeForensicCoverageScore({ profile, regionForensics, regionMatches });
-  const coverageGateRaw = evaluateForensicCoverageGate(coverageScore);
-  const measurementDepthGate = evaluateForensicMeasurementDepthGate({ profile, regionForensics });
-  const coverageGate = combineCoverageAndDepthGates(coverageGateRaw, measurementDepthGate);
   const globalPageProfile = buildGlobalPageMeasurementProfile({
     viewportWidth: input.currentCapture.width,
     shell: shellForStack,
     cssSnapshot,
     regionCount: profile.regions.length,
   });
-  const coverageMap = buildFullPageRegionCoverageMap({
+
+  const draftCoverageScore = computeForensicCoverageScore({ profile, regionForensics, regionMatches });
+  const draftCoverageMap = buildFullPageRegionCoverageMap({
     pageId: input.pageId,
     viewport: input.viewport,
     authorityVersionId: input.designAuthority.authorityVersionId,
@@ -300,11 +298,11 @@ export function runAuthorityRelativeForensics(
     currentScope: scopes.currentScope,
     authorityScope: scopes.authorityScope,
     scopeMismatch: scopes.scopeMismatch,
-    coverageScore,
-    coverageGate,
+    coverageScore: draftCoverageScore,
+    coverageGate: evaluateForensicCoverageGate(draftCoverageScore),
   });
 
-  return {
+  const draftReport: AuthorityRelativeForensicsReport = {
     reportId: `forensics_${input.pageId.replace(/[:/]/g, '_')}_${Date.now()}`,
     pageId: input.pageId,
     viewport: input.viewport,
@@ -313,9 +311,17 @@ export function runAuthorityRelativeForensics(
     alignmentStatus: alignment.alignmentStatus,
     regionMatches,
     regionForensics,
-    coverageMap,
-    coverageGate,
-    measurementDepthGate,
+    coverageMap: draftCoverageMap,
+    coverageGate: evaluateForensicCoverageGate(draftCoverageScore),
+    measurementDepthGate: {
+      status: 'BLOCK',
+      reason: 'Pending reconciliation',
+      blockApproveDirection: true,
+      founderMayProceedWithWarning: false,
+      majorSufficient: 0,
+      majorTotal: draftCoverageScore.majorAuthorityTotal,
+      shallowMajorRegions: [],
+    },
     globalPageProfile,
     verticalRhythm,
     gutterProfile,
@@ -335,8 +341,14 @@ export function runAuthorityRelativeForensics(
     topImpactItems,
     confidenceSummary,
     functionalRiskSummary,
-    fullPageStatus: coverageMap.status,
+    fullPageStatus: draftCoverageMap.status,
     generatedAt: new Date().toISOString(),
+  };
+
+  const { report } = reconcileForensicReportScoring({ report: draftReport, profile });
+  return {
+    ...report,
+    fullPageStatus: report.coverageMap.status,
   };
 }
 

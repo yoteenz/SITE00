@@ -6,7 +6,7 @@ import {
   COVERAGE_BLOCK_DEPTH_RATIO,
   COVERAGE_BLOCK_MAJOR_RATIO,
 } from './constants.js';
-import { isDepthSufficient } from './regionMeasurementDepth.js';
+import { isRegionDepthSufficient } from './forensicDepthQualification.js';
 import type { PageRegionLayoutDefinition, PageRegionLayoutProfile } from './pageRegionLayoutProfiles.js';
 import type {
   ForensicCaptureScope,
@@ -53,12 +53,12 @@ export function computeForensicCoverageScore(input: {
 
   const majorWithDepth = majorDefs.filter((def) => {
     const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
-    return bundle && (isDepthSufficient(bundle.measurementDepth) || bundle.dimensions.length >= 2);
+    return bundle && (isRegionDepthSufficient(bundle) || bundle.dimensions.length >= 2);
   }).length;
 
   const majorWithSufficientDepth = majorDefs.filter((def) => {
     const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
-    return bundle && isDepthSufficient(bundle.measurementDepth);
+    return bundle && isRegionDepthSufficient(bundle);
   }).length;
 
   const ambiguousCount = input.regionMatches.filter((m) => m.status === 'AMBIGUOUS').length;
@@ -134,7 +134,7 @@ export function buildFullPageRegionCoverageMap(input: {
     .filter((r) => r.significance === 'MAJOR')
     .filter((def) => {
       const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
-      return !bundle || !isDepthSufficient(bundle.measurementDepth);
+      return !bundle || !isRegionDepthSufficient(bundle);
     })
     .map((r) => r.regionName);
 

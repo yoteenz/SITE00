@@ -230,6 +230,8 @@ export function isDepthSufficient(depth: RegionMeasurementDepth | undefined): bo
   return depth.status === 'SUFFICIENT' || depth.status === 'DEEP';
 }
 
+/** @deprecated prefer isRegionDepthSufficient(bundle) after 1R3 reconciliation */
+
 export function buildGlobalPageMeasurementProfile(input: {
   viewportWidth: number;
   shell?: { contentPaddingX: number; sectionGap?: number } | null;

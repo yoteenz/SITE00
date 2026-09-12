@@ -3,7 +3,8 @@
  */
 
 import { DEPTH_GATE_PASS_RATIO } from './constants.js';
-import { isDepthSufficient } from './regionMeasurementDepth.js';
+import { isRegionDepthSufficient } from './forensicDepthQualification.js';
+import type { TopLevelDepthAggregation } from './types.js';
 import type { PageRegionLayoutProfile } from './pageRegionLayoutProfiles.js';
 import type {
   ForensicMeasurementDepthGate,
@@ -16,20 +17,30 @@ const CRITICAL_REGION_TYPES = new Set(['HEADER', 'NAVIGATION', 'HERO', 'MEDIA', 
 export function evaluateForensicMeasurementDepthGate(input: {
   profile: PageRegionLayoutProfile;
   regionForensics: RegionForensicsBundle[];
+  aggregation?: TopLevelDepthAggregation | null;
 }): ForensicMeasurementDepthGate {
   const majorDefs = input.profile.regions.filter((r) => r.significance === 'MAJOR');
   const majorTotal = majorDefs.length;
 
   const shallowMajorRegions: string[] = [];
-  let majorSufficient = 0;
+  let majorSufficient = input.aggregation?.sufficientRegionCount ?? 0;
 
-  for (const def of majorDefs) {
-    const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
-    if (!bundle || bundle.status !== 'MATCHED') continue;
-    if (isDepthSufficient(bundle.measurementDepth)) {
-      majorSufficient += 1;
-    } else {
-      shallowMajorRegions.push(def.regionName);
+  if (!input.aggregation) {
+    majorSufficient = 0;
+    for (const def of majorDefs) {
+      const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
+      if (!bundle || bundle.status !== 'MATCHED') continue;
+      if (isRegionDepthSufficient(bundle)) {
+        majorSufficient += 1;
+      } else {
+        shallowMajorRegions.push(def.regionName);
+      }
+    }
+  } else {
+    for (const summary of input.aggregation.regionSummaries) {
+      if (summary.depthStatus === 'SHALLOW' || summary.depthStatus === 'UNMEASURED') {
+        shallowMajorRegions.push(summary.regionName);
+      }
     }
   }
 
@@ -44,13 +55,14 @@ export function evaluateForensicMeasurementDepthGate(input: {
     (b) =>
       b.status === 'MATCHED' &&
       CRITICAL_REGION_TYPES.has(b.regionType) &&
-      !isDepthSufficient(b.measurementDepth),
+      !isRegionDepthSufficient(b),
   );
 
-  if (ratio < DEPTH_GATE_PASS_RATIO || criticalShallow.some((b) => b.measurementDepth?.status === 'UNMEASURED')) {
+  if (ratio < DEPTH_GATE_PASS_RATIO || criticalShallow.some((b) => (b.depthComputation?.depthStatus ?? b.measurementDepth?.status) === 'UNMEASURED')) {
     status = 'BLOCK';
     blockApproveDirection = true;
-    reason = `Insufficient multi-dimension measurement depth (${majorSufficient}/${majorTotal} major regions SUFFICIENT).`;
+    const shallowNames = shallowMajorRegions.slice(0, 3).join(', ');
+    reason = `Insufficient multi-dimension measurement depth (${majorSufficient}/${majorTotal} major regions SUFFICIENT${shallowNames ? `; shallow: ${shallowNames}` : ''}).`;
   } else if (shallowMajorRegions.length > 0) {
     status = 'WARNING';
     founderMayProceedWithWarning = true;

@@ -5,7 +5,7 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { buildPageCreativeDiagnosis } from './pageCreativeDiagnosis.js';
 import { buildPageCreativeDirectionPlan } from './pageCreativeDirectionPlan.js';
-import { buildForensicUpgradeBundle } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
+import { buildForensicUpgradeBundle, type ForensicUpgradeBundle } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
 import { recordForensicsVersion } from '../p0vrDiag1/forensicsVersion.js';
 import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { PageCreativeUpgradeSession, PageCreativeUpgradeStatus } from './types.js';
@@ -223,6 +223,25 @@ export function attachAfterCaptureToSession(
     ...session,
     afterCaptureId,
     status: 'COMPLETE',
+  };
+  sessions.set(sessionKey(projectId, pageId, viewport), updated);
+  return updated;
+}
+
+export function applyForensicUpgradeBundleToSession(
+  projectId: string,
+  pageId: string,
+  viewport: DesignViewportClass,
+  bundle: ForensicUpgradeBundle,
+): PageCreativeUpgradeSession | null {
+  const session = getPageCreativeUpgradeSession(projectId, pageId, viewport);
+  if (!session) return null;
+  const updated: PageCreativeUpgradeSession = {
+    ...session,
+    visualDiagnosis: bundle.visualDiagnosis,
+    reconstructionPlan: bundle.reconstructionPlan,
+    forensicsReportId: bundle.report.reportId,
+    measuredSpecId: bundle.measuredSpec.specId,
   };
   sessions.set(sessionKey(projectId, pageId, viewport), updated);
   return updated;

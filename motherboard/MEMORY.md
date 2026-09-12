@@ -8047,3 +8047,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `RegionMeasurementDepth`, type-aware `RegionMeasurementProfile`, `CurrentDomMeasurementExtractor`, `AuthorityImageMeasurementExtractor`, `ForensicMeasurementDepthGate`, `DimensionValidityCheck`, source provenance on `RegionDimensionEvidence` (DOM_RECT/COMPUTED_STYLE vs AUTHORITY_IMAGE_ESTIMATE); depth requires DOM anchor for SUFFICIENT on majors; combined coverage+depth gate for APPROVE DIRECTION; UI shows REGION COVERAGE + MEASUREMENT DEPTH SUFFICIENT counts, missing evidence, sources in VIEW EVIDENCE; `collectDomRegionMeasurements` extended computed styles; `DimensionConvergenceResult`; build `P0_VR_DIAG_1R2_BUILD = v304`. Tests: `p0vrDiag1R2Forensics.test.ts` (13).
 - **Founder next:** Deploy frontend → NDXBOOK OVERVIEW mobile UPGRADE → confirm most regions show **≥3–6 dimensions** (not 0) → SECTION NAV + HERO VIEW EVIDENCE show multiple rows with sources → depth PASS/WARNING before APPROVE DIRECTION → BUILD TWIN → check dimension convergence.
 
+---
+
+## 2026-09-12 — P0.VR.DIAG.1R3 depth score reconciliation + delta math integrity
+
+- **Problem:** After 1R2, region cards showed 4–7 dimensions but top summary still **0% MEASUREMENT DEPTH / BLOCK**; evidence rows showed **-100%** when authority=current; aggregation used R2 `hasDomAnchor` sufficiency while UI counted raw dimension rows.
+- **Fix (scoring layer only — extractors preserved):** `dimensionNormalization.ts`, `deltaMath.ts` (zero valid, equal→0%, baseline-zero without invalid %), `forensicDepthQualification.ts` (`QualifiedDimensionEvidence`, `RegionDepthComputation`, `TopLevelDepthAggregation`, duplicate alias detection), `forensicReconciliation.ts` (`reconcileForensicReportScoring`, `ForensicReconciliationReceipt`); engine always reconciles before return; gates consume aggregation; UI **RECALCULATE FORENSICS** (no new capture); `recomputeForensicScoringFromReport` for stored reports. Build `P0_VR_DIAG_1R3_BUILD = v305`. Tests: `p0vrDiag1R3Scoring.test.ts`.
+- **Founder next:** Deploy → open existing UPGRADE (no recapture) → **RECALCULATE FORENSICS** if stale → verify **MEASUREMENT DEPTH X/8 SUFFICIENT** matches region cards → spot-check equal values show **0px · 0%**.
+
