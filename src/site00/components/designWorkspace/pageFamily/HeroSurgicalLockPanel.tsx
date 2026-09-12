@@ -48,7 +48,7 @@ export function HeroSurgicalLockPanel({ report }: Props) {
         </ul>
       </section>
       <p className="site00-drift-trace__hint">
-        PREVIEW twin: <code>?blueprintDebug=hero</code> (hero-only boxes, no full-page noise).
+        REVIEW → tap <strong>INSPECT HERO</strong> (opens hero overlay; no manual URL editing).
       </p>
     </div>
   );

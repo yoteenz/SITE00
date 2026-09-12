@@ -2,16 +2,18 @@
  * P0.VR.REPLICATION.4 — Zero-invention NDXBOOK overview twin from forensic blueprint objects 01–69.
  */
 
-import type { CSSProperties, ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import { TwinSite00HostBottomNav } from './TwinSite00HostBottomNav.js';
 import { BlueprintVsTwinOverlay } from './BlueprintVsTwinOverlay.js';
 import { TwinAuthorityCompareStrip } from './TwinAuthorityCompareStrip.js';
 import { HeroBlueprintDebugOverlay } from './HeroBlueprintDebugOverlay.js';
+import { HeroInspectionToolbar, type HeroInspectionLayerFlags } from './HeroInspectionToolbar.js';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import '../../styles/site00-forensic-blueprint-twin.css';
 import '../../styles/site00-hero-blueprint-debug.css';
+import '../../styles/site00-hero-inspection-toolbar.css';
 
 type Props = {
   projectSlug: string;
@@ -54,6 +56,19 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
     session.blueprintAssetBindings?.find((a) => a.objectId === '22')?.sourceAsset ??
     session.designAuthorityAssetRef ??
     null;
+  const [inspLayers, setInspLayers] = useState<HeroInspectionLayerFlags>({
+    authorityBoxes: true,
+    renderedBoxes: true,
+    deltas: true,
+    collisions: true,
+    labels: true,
+  });
+
+  useEffect(() => {
+    if (window.location.hash !== '#hero-inspection') return;
+    const el = document.getElementById('hero-inspection');
+    el?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }, []);
 
   return (
     <div
@@ -63,8 +78,10 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
       data-4-build={session.forensicBlueprintReport?.buildRef ?? null}
       data-4r1-build={session.authorityTighteningReport?.buildRef ?? null}
       data-4r2-build={session.heroSurgicalLockReport?.buildRef ?? null}
+      data-4r3-build={session.heroGeometryConvergenceReport?.buildRef ?? null}
       style={cssPatch}
     >
+      <HeroInspectionToolbar layers={inspLayers} onLayersChange={setInspLayers} />
       <TwinAuthorityCompareStrip session={session} />
       <BlueprintVsTwinOverlay session={session} />
 
@@ -130,11 +147,12 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
         </nav>
 
         <section
+          id="hero-inspection"
           className="site00-fb__hero site00-fb__hero--surgical"
           data-forensic-section="hero"
           data-hero-object="H14"
         >
-          <HeroBlueprintDebugOverlay session={session} />
+          <HeroBlueprintDebugOverlay session={session} layers={inspLayers} />
 
           <div className="site00-fb__hero-left-scrim" data-hero-object="H14-scrim" aria-hidden="true" />
 
@@ -154,9 +172,13 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
 
           <div className="site00-fb__hero-h07-mask" data-hero-object="H07" aria-hidden="true" title="Center stack baked in H06 crop only" />
 
-          <div className="site00-fb__hero-h12" data-hero-object="H12" aria-hidden="true">
+          <div className="site00-fb__hero-h12" data-hero-object="H12" data-hero-asset-role="HERO_RIGHT_LOWER_MEDIA" aria-hidden="true">
             {heroAsset ? (
-              <div className="site00-fb__hero-h12-crop" style={{ backgroundImage: `url(${heroAsset})` }} />
+              <div
+                className="site00-fb__hero-h12-crop"
+                data-hero-crop-zone="hero-lower-right"
+                style={{ backgroundImage: `url(${heroAsset})` }}
+              />
             ) : null}
           </div>
 

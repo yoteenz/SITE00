@@ -773,6 +773,18 @@
   letter-spacing: 0.06em;
 }
 
+.site00-pfw-upgrade-v2__review-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.site00-pfw-upgrade-v2__inspect-hero {
+  margin-left: auto;
+}
+
 .site00-pfw-upgrade-v2__tabs {
   display: flex;
   gap: 8px;

@@ -396,7 +396,7 @@
 
 .site00-fb__hero-h06 {
   position: absolute;
-  left: 37%;
+  left: var(--hero-h06-left, 37%);
   top: 0;
   right: 23%;
   bottom: 0;
@@ -439,7 +439,7 @@
   width: 100%;
   height: 100%;
   background-size: var(--hero-h12-size, 400% auto);
-  background-position: var(--hero-h12-pos, 88% 78%);
+  background-position: var(--hero-h12-pos, 91% 43%);
   background-repeat: no-repeat;
   filter: grayscale(1) contrast(1.05);
 }
@@ -517,7 +517,7 @@
   z-index: 30;
   width: 152px;
   max-width: 152px;
-  padding-top: 10px;
+  padding-top: var(--hero-left-pad-top, 10px);
 }
 
 .site00-fb__hero-h01 {
@@ -538,6 +538,7 @@
   display: block;
   max-width: 140px;
   letter-spacing: 0.02em;
+  margin-bottom: var(--hero-h02-mb, 8px);
 }
 
 .site00-fb__hero-h03 {
@@ -557,10 +558,11 @@
   max-width: 148px;
   color: #ececec;
   letter-spacing: 0.03em;
+  margin-top: var(--hero-h04-mt, 4px);
 }
 
 .site00-fb__hero-h05 {
-  margin-top: 10px;
+  margin-top: var(--hero-h05-mt, 12px);
   padding: 7px 10px;
   border: 1px solid #fff;
   background: transparent;
@@ -576,8 +578,8 @@
 
 .site00-fb__hero-h08 {
   position: absolute;
-  left: 52%;
-  bottom: 6px;
+  left: var(--hero-h08-left, 52%);
+  bottom: var(--hero-h08-bottom, 8px);
   z-index: 50;
   font-family: var(--fb-sans-cond);
   font-size: 44px;
