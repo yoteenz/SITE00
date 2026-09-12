@@ -26,6 +26,11 @@ import {
   twinBuildIdempotencyKey,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/index.js';
 import {
+  readTwinSessionHandoff,
+  resolveTwinSessionForPreview,
+  stashTwinSessionForPreview,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
+import {
   readPersistedTwinSession,
   resetTwinSessionPersistenceForTest,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinSessionPersistence.js';
@@ -43,7 +48,7 @@ describe('P0.VR.CONVERGE.1R1 twin execution handoff', () => {
   });
 
   it('build constant v311', () => {
-    expect(P0_VR_CONVERGE_1R1_BUILD).toBe('v311');
+    expect(P0_VR_CONVERGE_1R1_BUILD).toBe('v312');
   });
 
   it('PLANNED is non-terminal and COMPLETE cannot coexist with PLANNED', () => {
@@ -160,6 +165,43 @@ describe('P0.VR.CONVERGE.1R1 twin execution handoff', () => {
     const resumed = getActiveTwinSessionForPage('ndxbook', 'ndxbook:/projects/ndxbook/overview');
     expect(resumed?.sessionId).toBe(twin.sessionId);
     expect(resumed?.status).toBe('PLANNED');
+  });
+
+  it('preview handoff resolves session after runtime cleared', () => {
+    const store = new Map<string, string>();
+    (globalThis as { sessionStorage?: Storage }).sessionStorage = {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => {
+        store.set(k, v);
+      },
+      removeItem: (k: string) => {
+        store.delete(k);
+      },
+      clear: () => store.clear(),
+      key: () => null,
+      length: 0,
+    } as Storage;
+    openPageCreativeUpgradeSession({
+      projectId: 'ndxbook',
+      pageId: 'ndxbook:/projects/ndxbook/overview',
+      viewport: 'mobile',
+      captureId: 'cap-1',
+      pagePurpose: 'NDXBOOK OVERVIEW',
+      parentAuthorityLabel: 'NDXBOOK OVERVIEW',
+      route: '/projects/ndxbook/overview',
+      isRoot: true,
+      designAuthorityVersionId: 'auth-1',
+      designAuthorityAssetRef: 'https://cdn.example.com/a.png',
+      captureAssetRef: 'https://cdn.example.com/l.png',
+    });
+    approvePageCreativeDirection('ndxbook', 'ndxbook:/projects/ndxbook/overview', 'mobile');
+    const twin = getActiveTwinSessionForPage('ndxbook', 'ndxbook:/projects/ndxbook/overview')!;
+    stashTwinSessionForPreview(twin);
+    expect(readTwinSessionHandoff(twin.sessionId)?.sessionId).toBe(twin.sessionId);
+    clearReconstructionTwinSessionsRuntimeOnlyForTest();
+    resetTwinSessionPersistenceForTest();
+    const resolved = resolveTwinSessionForPreview(twin.sessionId);
+    expect(resolved?.sessionId).toBe(twin.sessionId);
   });
 
   it('UI panel exposes BUILD TWIN NOW when twin PLANNED', () => {

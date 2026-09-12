@@ -3,8 +3,8 @@
  */
 
 import { Navigate, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { getTwinSession } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/reconstructionTwinSession.js';
+import { useEffect, useMemo, useState } from 'react';
+import { resolveTwinSessionForPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
 import { ReconstructionTwinProvider } from '../components/reconstruction/ReconstructionTwinContext';
 import { ReconstructionTwinBanner } from '../components/reconstruction/ReconstructionTwinBanner';
 import ProjectOperatingModulePage from './ProjectOperatingModulePage';
@@ -14,7 +14,8 @@ import '../styles/site00-reconstruction-twin.css';
 
 export default function ReconstructionTwinPreviewPage() {
   const { projectSlug = '', sessionId = '' } = useParams<{ projectSlug: string; sessionId: string }>();
-  const session = getTwinSession(sessionId);
+  const [resolved, setResolved] = useState(false);
+  const [session, setSession] = useState(() => (sessionId ? resolveTwinSessionForPreview(sessionId) : null));
 
   useEffect(() => {
     const meta = document.createElement('meta');
@@ -26,15 +27,47 @@ export default function ReconstructionTwinPreviewPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!sessionId) {
+      setSession(null);
+      setResolved(true);
+      return;
+    }
+    setResolved(false);
+    const found = resolveTwinSessionForPreview(sessionId);
+    setSession(found);
+    setResolved(true);
+  }, [sessionId]);
+
+  const twinPage = useMemo(() => {
+    if (!session) return null;
+    const route = session.canonicalRoute.replace(/\/$/, '');
+    if (route.endsWith('/overview')) {
+      return <ProjectOperatingModulePage forcedModule="OVERVIEW" />;
+    }
+    return <ProjectOperatingModulePage forcedModule="OVERVIEW" />;
+  }, [session]);
+
   if (!isSignedIn() || !canAccessAdminPages()) {
     const returnTo = encodeURIComponent(window.location.pathname);
     return <Navigate to={`${SITE00_ROUTES.signIn}?returnTo=${returnTo}`} replace />;
+  }
+
+  if (!resolved) {
+    return (
+      <div className="site00-page site00-reconstruction-twin-missing">
+        <p>LOADING TWIN PREVIEW…</p>
+      </div>
+    );
   }
 
   if (!session || session.projectId !== projectSlug) {
     return (
       <div className="site00-page site00-reconstruction-twin-missing">
         <p>TWIN SESSION NOT FOUND OR EXPIRED.</p>
+        <p className="site00-body">
+          Return to PAGE UPGRADE on this device, tap PREVIEW TWIN again, or rebuild if the session was cleared.
+        </p>
       </div>
     );
   }
@@ -50,7 +83,7 @@ export default function ReconstructionTwinPreviewPage() {
   return (
     <ReconstructionTwinProvider session={session}>
       <ReconstructionTwinBanner session={session} />
-      <ProjectOperatingModulePage forcedModule="OVERVIEW" />
+      {twinPage}
     </ReconstructionTwinProvider>
   );
 }

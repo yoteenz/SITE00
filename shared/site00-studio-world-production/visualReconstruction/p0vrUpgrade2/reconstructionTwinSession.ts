@@ -139,6 +139,18 @@ export function getTwinSession(sessionId: string): ReconstructionTwinSession | n
   return sessions.get(sessionKey(sessionId)) ?? null;
 }
 
+/** Register a twin session from preview handoff (sessionStorage) into runtime + localStorage. */
+export function importTwinSessionForPreview(session: ReconstructionTwinSession): ReconstructionTwinSession {
+  syncRuntimeFromPersistence();
+  sessions.set(sessionKey(session.sessionId), session);
+  if (session.status !== 'PROMOTED' && session.status !== 'SUPERSEDED') {
+    pageSessionIndex.set(pageSessionsKey(session.projectId, session.pageId), session.sessionId);
+    setActiveTwinSession(session.projectId, session.pageId, session.sessionId);
+  }
+  persistSession(session);
+  return session;
+}
+
 export function getActiveTwinSessionForPage(
   projectId: string,
   pageId: string,

@@ -9,6 +9,7 @@ import {
 } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { ReconstructionTwinSession } from '../p0vrUpgrade2/types.js';
 import { persistTwinSessionsStore } from '../p0vrUpgrade2/twinSessionPersistence.js';
+import { stashTwinSessionForPreview } from '../p0vrUpgrade2/twinPreviewHandoff.js';
 
 export const TWIN_BUILD_JOB_STATUSES = [
   'QUEUED',
@@ -296,6 +297,7 @@ export async function startTwinBuild(
       lastBuildExecutionReceipt: receipt,
     });
     persistTwinSessionsStore();
+    stashTwinSessionForPreview(built);
 
     return { session: built, job, receipt };
   } catch (err) {
