@@ -8,6 +8,7 @@ import { buildMeasuredReconstructionSpec } from './measuredReconstructionSpec.js
 import { runAuthorityRelativeForensics } from './authorityRelativeForensicsEngine.js';
 import { reconcileForensicReportScoring } from './forensicReconciliation.js';
 import { resolvePageRegionLayoutProfile } from './pageRegionLayoutProfiles.js';
+import { storeForensicReport } from './forensicReportRegistry.js';
 import type {
   AuthorityRelativeForensicsInput,
   AuthorityRelativeForensicsReport,
@@ -43,13 +44,20 @@ export function buildForensicUpgradeBundle(input: AuthorityRelativeForensicsInpu
     route: input.route,
     isRootPage: input.isRootPage,
   });
+  storeForensicReport(report);
   return { report, measuredSpec, visualDiagnosis, reconstructionPlan };
 }
 
 /** Reconcile scoring/math on an existing report without re-extracting dimensions (1R3). */
 export function recomputeForensicScoringFromReport(
   report: AuthorityRelativeForensicsReport,
-  input: { pageArchetype: string; screenId?: string; isRootPage?: boolean },
+  input: {
+    pageArchetype: string;
+    screenId?: string;
+    isRootPage?: boolean;
+    pagePurpose?: string;
+    route?: string;
+  },
 ): ForensicUpgradeBundle {
   const profile = resolvePageRegionLayoutProfile({
     pageArchetype: input.pageArchetype,
@@ -68,10 +76,11 @@ export function recomputeForensicScoringFromReport(
   const reconstructionPlan = measuredSpecToReconstructionPlan({
     measuredSpec,
     report: reconciled,
-    pagePurpose: reconciled.pageId,
-    route: reconciled.pageId,
+    pagePurpose: input.pagePurpose ?? reconciled.pageId,
+    route: input.route ?? reconciled.pageId,
     isRootPage: input.isRootPage,
   });
+  storeForensicReport(reconciled);
   return { report: reconciled, measuredSpec, visualDiagnosis, reconstructionPlan };
 }
 
