@@ -278,6 +278,8 @@ export type ReconstructionTwinSession = {
   /** P0.VR.REPLICATION.4R3R1 — Live DOM recovery + hero-safe crops */
   heroDomRecoveryReport?: import('../p0vrReplication4R3R1/types.js').HeroDomRecoveryReport | null;
   heroSafeRegionCropUrls?: { H06: string | null; H12: string | null } | null;
+  /** P0.VR.REPLICATION.4R4 — Live-DOM outlier-only hero geometry convergence */
+  heroOutlierConvergenceReport?: import('../p0vrReplication4R4/types.js').HeroOutlierConvergenceReport | null;
 };
 
 export type PageLiveRegistryEntry = {

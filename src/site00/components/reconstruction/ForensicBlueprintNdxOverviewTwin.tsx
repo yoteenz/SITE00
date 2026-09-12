@@ -9,7 +9,7 @@ import { BlueprintVsTwinOverlay } from './BlueprintVsTwinOverlay.js';
 import { TwinAuthorityCompareStrip } from './TwinAuthorityCompareStrip.js';
 import { HeroBlueprintDebugOverlay } from './HeroBlueprintDebugOverlay.js';
 import { HeroInspectionToolbar, type HeroInspectionLayerFlags } from './HeroInspectionToolbar.js';
-import { useHeroLiveDomCapture } from './useHeroLiveDomCapture.js';
+import { useHeroOutlierLiveConvergence } from './useHeroOutlierLiveConvergence.js';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import '../../styles/site00-forensic-blueprint-twin.css';
@@ -52,14 +52,14 @@ function ForensicText({
 }
 
 export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
-  const cssPatch = (session.twinForensicCssPatch ?? {}) as CSSProperties;
+  const { liveCapture, outlierCssPatch } = useHeroOutlierLiveConvergence(session);
+  const cssPatch = { ...(session.twinForensicCssPatch ?? {}), ...outlierCssPatch } as CSSProperties;
   const heroAsset =
     session.blueprintAssetBindings?.find((a) => a.objectId === '22')?.sourceAsset ??
     session.designAuthorityAssetRef ??
     null;
   const heroH06Url = session.heroSafeRegionCropUrls?.H06 ?? null;
   const heroH12Url = session.heroSafeRegionCropUrls?.H12 ?? null;
-  const liveCapture = useHeroLiveDomCapture(session);
   const [inspLayers, setInspLayers] = useState<HeroInspectionLayerFlags>({
     authorityBoxes: true,
     renderedBoxes: true,
@@ -67,6 +67,7 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
     collisions: true,
     labels: true,
     cropSources: false,
+    outliersOnly: false,
   });
 
   useEffect(() => {
@@ -85,9 +86,16 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
       data-4r2-build={session.heroSurgicalLockReport?.buildRef ?? null}
       data-4r3-build={session.heroGeometryConvergenceReport?.buildRef ?? null}
       data-4r3r1-build={session.heroDomRecoveryReport?.buildRef ?? null}
+      data-4r4-build={session.heroOutlierConvergenceReport?.buildRef ?? null}
       style={cssPatch}
     >
-      <HeroInspectionToolbar layers={inspLayers} onLayersChange={setInspLayers} />
+      <HeroInspectionToolbar
+        layers={inspLayers}
+        onLayersChange={setInspLayers}
+        measuredCount={liveCapture?.geometryReceiptV2?.measuredCount ?? 14}
+        passCount={liveCapture?.geometryReceiptV2?.withinToleranceCount}
+        outlierCount={liveCapture?.geometryReceiptV2?.outlierCount}
+      />
       <TwinAuthorityCompareStrip session={session} />
       <BlueprintVsTwinOverlay session={session} />
 
