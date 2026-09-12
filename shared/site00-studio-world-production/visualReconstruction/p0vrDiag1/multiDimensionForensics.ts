@@ -2,9 +2,8 @@
  * P0.VR.DIAG.1R1 — Multi-dimension region forensics.
  */
 
-import { FORENSIC_DELTA_MIN_PX } from './constants.js';
 import type { PageRegionLayoutDefinition } from './pageRegionLayoutProfiles.js';
-import { geometryMetrics } from './stackLayout.js';
+import { buildRegionMeasurementDepthEvidence, resetRegionMeasurementDepthCounterForTest } from './regionMeasurementDepth.js';
 import type {
   DomRegionMeasurement,
   ForensicConfidence,
@@ -20,25 +19,12 @@ import type {
 let dimCounter = 0;
 export function resetDimensionEvidenceCounterForTest(): void {
   dimCounter = 0;
+  resetRegionMeasurementDepthCounterForTest();
 }
 
 function nextDimId(prefix: string): string {
   dimCounter += 1;
   return `${prefix}_${dimCounter}`;
-}
-
-function formatPx(value: number, confidence: ForensicConfidence): string {
-  const rounded = Math.round(value * 10) / 10;
-  return confidence === 'LOW' ? `~${rounded}px` : `${rounded}px`;
-}
-
-function formatDelta(abs: number, pct: number | null, confidence: ForensicConfidence): string {
-  const sign = abs > 0 ? '+' : '';
-  const pxPart = confidence === 'LOW' ? `~${sign}${Math.round(abs)}px` : `${sign}${Math.round(abs * 10) / 10}px`;
-  if (pct != null && Number.isFinite(pct)) {
-    return `${pxPart} · ${sign}${Math.round(pct)}%`;
-  }
-  return pxPart;
 }
 
 export function buildRegionComponentTarget(
@@ -58,112 +44,28 @@ export function buildRegionComponentTarget(
   };
 }
 
-const CORE_DIMENSIONS = ['height', 'width', 'leftOffset', 'topOffset'] as const;
-const HEADER_EXTRA = ['leftInset', 'bottomEdgeY', 'controlSize'] as const;
-const NAV_EXTRA = ['itemGap', 'containerHeight'] as const;
-const MEDIA_EXTRA = ['aspectRatio', 'occupiedAreaPct'] as const;
-
 export function buildRegionDimensionEvidence(input: {
   def: PageRegionLayoutDefinition;
   authority: VisualRegionBounds;
   current: VisualRegionBounds;
   dom?: DomRegionMeasurement;
-  shell?: { headerPaddingX: number; contentPaddingX: number } | null;
+  shell?: { headerPaddingX: number; contentPaddingX: number; sectionGap?: number } | null;
   cssSnapshot?: Record<string, string | number>;
   matchConfidence: ForensicConfidence;
+  viewportWidth?: number;
+  viewportHeight?: number;
 }): RegionDimensionEvidence[] {
-  const { def, authority, current, dom, shell, cssSnapshot, matchConfidence } = input;
-  const auth = geometryMetrics(authority.geometry);
-  const cur = geometryMetrics(current.geometry);
-  const source = dom ? 'DOM' : cssSnapshot ? 'CSS_SNAPSHOT' : shell ? 'SHELL_SPEC' : 'LAYOUT_PROFILE';
-  const confidence = dom ? 'HIGH' : matchConfidence;
-
-  const dimensions: RegionDimensionEvidence[] = [];
-
-  const pushDim = (
-    dimension: string,
-    authVal: number,
-    curVal: number,
-    unit: RegionDimensionEvidence['unit'],
-    src: RegionDimensionEvidence['source'] = source,
-    conf: ForensicConfidence = confidence,
-  ) => {
-    const abs = curVal - authVal;
-    const pct = authVal !== 0 ? (abs / authVal) * 100 : null;
-    if (unit === 'px' && Math.abs(abs) < FORENSIC_DELTA_MIN_PX && dimension !== 'bottomEdgeY') return;
-    if (unit === 'pct' && pct != null && Math.abs(pct) < 2) return;
-
-    dimensions.push({
-      evidenceId: nextDimId('dim'),
-      regionId: def.regionId,
-      dimension,
-      authorityValue: unit === 'px' ? formatPx(authVal, conf) : `${Math.round(authVal * 10) / 10}${unit === 'pct' ? '%' : ''}`,
-      currentValue: unit === 'px' ? formatPx(curVal, conf) : `${Math.round(curVal * 10) / 10}${unit === 'pct' ? '%' : ''}`,
-      delta: formatDelta(abs, pct, conf),
-      deltaPct: pct != null ? Math.round(pct * 10) / 10 : null,
-      unit,
-      confidence: conf,
-      source: src,
-    });
-  };
-
-  for (const key of CORE_DIMENSIONS) {
-    pushDim(key, auth[key], cur[key], key.includes('Pct') ? 'pct' : 'px');
-  }
-
-  if (def.regionType === 'HEADER') {
-    const authInset = shell?.headerPaddingX ?? auth.leftOffset;
-    const curInset = parseCss(cssSnapshot?.headerPaddingX) ?? dom?.actualX ?? cur.leftOffset;
-    pushDim('leftInset', authInset, curInset, 'px', shell ? 'SHELL_SPEC' : source);
-    pushDim('bottomEdgeY', auth.y + auth.height, cur.y + cur.height, 'px');
-    const controlSize = 32;
-    const curControl = parseCss(dom?.computedFontSize) ? parseCss(dom?.computedFontSize)! + 12 : 28;
-    pushDim('controlSize', controlSize, curControl, 'px', dom ? 'DOM' : 'ESTIMATED', dom ? 'HIGH' : 'LOW');
-  }
-
-  if (def.regionType === 'NAVIGATION' || def.regionType === 'PERSISTENT_NAV') {
-    pushDim('containerHeight', auth.height, cur.height, 'px');
-    const gap = parseCss(dom?.computedGap);
-    if (gap != null) pushDim('itemGap', shell?.contentPaddingX ? 8 : 8, gap, 'px', 'DOM', 'HIGH');
-  }
-
-  if (def.regionType === 'MEDIA' || def.regionType === 'HERO') {
-    pushDim('aspectRatio', auth.aspectRatio, cur.aspectRatio, 'ratio');
-    pushDim('occupiedAreaPct', auth.occupiedAreaPct, cur.occupiedAreaPct, 'pct');
-  }
-
-  if (dom?.computedPadding) {
-    const padTop = parsePadding(dom.computedPadding, 'top');
-    if (padTop != null && shell) pushDim('paddingTop', 0, padTop, 'px', 'DOM', 'MEDIUM');
-  }
-
-  if (dom?.computedFontSize) {
-    const fs = parseCss(dom.computedFontSize);
-    if (fs != null) pushDim('fontSize', estimateAuthorityFontSize(def, auth.height), fs, 'px', 'ESTIMATED', 'MEDIUM');
-  }
-
-  return dimensions;
-}
-
-function estimateAuthorityFontSize(def: PageRegionLayoutDefinition, regionHeight: number): number {
-  if (def.regionType === 'IDENTITY') return Math.round(regionHeight * 0.12);
-  if (def.regionType === 'NAVIGATION') return 11;
-  return Math.round(regionHeight * 0.08);
-}
-
-function parseCss(value: string | number | undefined | null): number | null {
-  if (value == null) return null;
-  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
-  const match = /^([\d.]+)/.exec(String(value).trim());
-  return match ? Number(match[1]) : null;
-}
-
-function parsePadding(padding: string, edge: 'top'): number | null {
-  const parts = padding.trim().split(/\s+/);
-  if (!parts.length) return null;
-  if (parts.length === 1) return parseCss(parts[0]);
-  if (edge === 'top') return parseCss(parts[0]);
-  return null;
+  return buildRegionMeasurementDepthEvidence({
+    def: input.def,
+    authority: input.authority,
+    current: input.current,
+    dom: input.dom,
+    shell: input.shell,
+    cssSnapshot: input.cssSnapshot,
+    viewportWidth: input.viewportWidth ?? 390,
+    viewportHeight: input.viewportHeight ?? 844,
+    matchConfidence: input.matchConfidence,
+  }).dimensions;
 }
 
 export function buildRegionForensicsBundle(input: {
@@ -172,10 +74,12 @@ export function buildRegionForensicsBundle(input: {
   authority: VisualRegionBounds | null;
   current: VisualRegionBounds | null;
   dom?: DomRegionMeasurement;
-  shell?: { headerPaddingX: number; contentPaddingX: number } | null;
+  shell?: { headerPaddingX: number; contentPaddingX: number; sectionGap?: number } | null;
   cssSnapshot?: Record<string, string | number>;
   matchConfidence: ForensicConfidence;
   route?: string | null;
+  viewportWidth?: number;
+  viewportHeight?: number;
 }): RegionForensicsBundle {
   const componentTarget = buildRegionComponentTarget(input.def, input.dom, input.route ?? null);
   const functionalRisk = inferFunctionalRisk(input.def.regionType, input.status);
@@ -251,18 +155,21 @@ export function buildRegionForensicsBundle(input: {
     };
   }
 
-  const dimensions = buildRegionDimensionEvidence({
+  const depthResult = buildRegionMeasurementDepthEvidence({
     def: input.def,
     authority: input.authority,
     current: input.current,
     dom: input.dom,
     shell: input.shell,
     cssSnapshot: input.cssSnapshot,
+    viewportWidth: input.viewportWidth ?? 390,
+    viewportHeight: input.viewportHeight ?? 844,
     matchConfidence: input.matchConfidence,
   });
+  const dimensions = depthResult.dimensions;
 
   const corrections = dimensions
-    .filter((d) => d.delta && d.delta !== '0px')
+    .filter((d) => !d.alignedWithinTolerance && d.delta && !String(d.delta).startsWith('0'))
     .map((d) => correctionForDimension(input.def.regionName, d));
 
   if (!corrections.length && dimensions.length) {
@@ -280,6 +187,8 @@ export function buildRegionForensicsBundle(input: {
     corrections,
     confidence: input.matchConfidence,
     functionalRisk,
+    measurementDepth: depthResult.depth,
+    reconstructionTarget: depthResult.target,
   };
 }
 
@@ -312,4 +221,3 @@ function inferFunctionalRisk(regionType: VisualRegionType, status: RegionMatchSt
   return 'LOW';
 }
 
-export { HEADER_EXTRA, NAV_EXTRA, MEDIA_EXTRA };

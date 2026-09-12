@@ -51,6 +51,9 @@ export type ForensicCoverageSummary = {
   majorTotal: number;
   majorAccountedPct: number;
   measurementDepthPct: number;
+  majorSufficientDepth?: number;
+  depthGateStatus?: 'PASS' | 'WARNING' | 'BLOCK';
+  depthGateReason?: string;
   ambiguousCount: number;
   gateStatus: 'PASS' | 'WARNING' | 'BLOCK';
   gateReason: string;
@@ -68,6 +71,8 @@ export type RegionForensicsDimensionSummary = {
   current: string;
   delta: string;
   confidence: string;
+  authoritySource?: string;
+  currentSource?: string;
 };
 
 export type RegionForensicsSummary = {
@@ -76,6 +81,8 @@ export type RegionForensicsSummary = {
   status: string;
   confidence: string;
   dimensionCount: number;
+  measurementDepthStatus?: string;
+  missingDimensions?: string[];
   topDelta: string | null;
   dimensions?: RegionForensicsDimensionSummary[];
 };

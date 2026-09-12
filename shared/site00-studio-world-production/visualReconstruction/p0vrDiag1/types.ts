@@ -74,6 +74,12 @@ export type DomRegionMeasurement = {
   computedGap?: string | null;
   computedFontSize?: string | null;
   computedLineHeight?: string | null;
+  computedFontWeight?: string | null;
+  computedLetterSpacing?: string | null;
+  computedTextTransform?: string | null;
+  computedDisplay?: string | null;
+  computedAlignItems?: string | null;
+  computedJustifyContent?: string | null;
   componentId?: string | null;
 };
 
@@ -137,6 +143,32 @@ export type VisualRegionMatch = {
   status: RegionMatchStatus;
 };
 
+export const DIMENSION_MEASUREMENT_SOURCES = [
+  'DOM_RECT',
+  'COMPUTED_STYLE',
+  'CHILD_ANCHOR',
+  'SCREENSHOT_ESTIMATE',
+  'AUTHORITY_IMAGE_ESTIMATE',
+  'CSS_SNAPSHOT',
+  'SHELL_SPEC',
+  'LAYOUT_PROFILE',
+  'DOM',
+  'ESTIMATED',
+] as const;
+export type DimensionMeasurementSource = (typeof DIMENSION_MEASUREMENT_SOURCES)[number];
+
+export const DIMENSION_IMPORTANCE_LEVELS = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'] as const;
+export type DimensionImportance = (typeof DIMENSION_IMPORTANCE_LEVELS)[number];
+
+export const REGION_MEASUREMENT_DEPTH_STATUSES = [
+  'UNMEASURED',
+  'SHALLOW',
+  'SUFFICIENT',
+  'DEEP',
+  'BLOCKED',
+] as const;
+export type RegionMeasurementDepthStatus = (typeof REGION_MEASUREMENT_DEPTH_STATUSES)[number];
+
 export type RegionDimensionEvidence = {
   evidenceId: string;
   regionId: string;
@@ -147,8 +179,77 @@ export type RegionDimensionEvidence = {
   deltaPct: number | null;
   unit: 'px' | 'pct' | 'ratio' | 'count' | 'none';
   confidence: ForensicConfidence;
+  /** @deprecated use authoritySource/currentSource */
   source: 'DOM' | 'CSS_SNAPSHOT' | 'SHELL_SPEC' | 'LAYOUT_PROFILE' | 'ESTIMATED';
+  authoritySource?: DimensionMeasurementSource;
+  currentSource?: DimensionMeasurementSource;
+  importance?: DimensionImportance;
+  alignedWithinTolerance?: boolean;
+  measurementConflict?: boolean;
 };
+
+export type RegionMeasurementDepth = {
+  regionId: string;
+  regionType: VisualRegionType;
+  requiredDimensions: string[];
+  resolvedDimensions: string[];
+  missingDimensions: string[];
+  depthScore: number;
+  confidence: ForensicConfidence;
+  status: RegionMeasurementDepthStatus;
+};
+
+export type ForensicMeasurementDepthGate = {
+  status: ForensicCoverageGateStatus;
+  reason: string;
+  blockApproveDirection: boolean;
+  founderMayProceedWithWarning: boolean;
+  majorSufficient: number;
+  majorTotal: number;
+  shallowMajorRegions: string[];
+};
+
+export type GlobalPageMeasurementProfile = {
+  pageLeftGutter: number | null;
+  pageRightGutter: number | null;
+  verticalRhythmGap: number | null;
+  contentMaxWidth: number | null;
+  sectionCount: number;
+  occupiedAreaRatio: number | null;
+};
+
+export type RegionReconstructionTargetMap = {
+  regionId: string;
+  componentId: string | null;
+  domPath: string | null;
+  layoutParent: string | null;
+  styleOwner: string | null;
+  confidence: ForensicConfidence;
+};
+
+export type DimensionConvergenceResult = {
+  regionId: string;
+  dimension: string;
+  beforeValue: string | number;
+  afterValue: string | number;
+  authorityValue: string | number;
+  beforeDelta: string | null;
+  afterDelta: string | null;
+  improvementPct: number | null;
+  status: 'IMPROVED' | 'UNCHANGED' | 'REGRESSED' | 'UNMEASURED';
+};
+
+export const ALIGNMENT_EVIDENCE_VALUES = [
+  'LEFT',
+  'CENTER',
+  'RIGHT',
+  'SPACE_BETWEEN',
+  'BASELINE',
+  'TOP',
+  'MIDDLE',
+  'BOTTOM',
+] as const;
+export type AlignmentEvidence = (typeof ALIGNMENT_EVIDENCE_VALUES)[number];
 
 export type RegionComponentTarget = {
   regionId: string;
@@ -170,6 +271,8 @@ export type RegionForensicsBundle = {
   corrections: string[];
   confidence: ForensicConfidence;
   functionalRisk: FunctionalRiskLevel;
+  measurementDepth?: RegionMeasurementDepth;
+  reconstructionTarget?: RegionReconstructionTargetMap;
 };
 
 export type FullPageRegionCoverageMap = {
@@ -196,6 +299,8 @@ export type ForensicCoverageScore = {
   majorAccounted: number;
   majorAccountedPct: number;
   majorWithMeasurementDepth: number;
+  /** Major regions with SUFFICIENT or DEEP depth status (1R2). */
+  majorWithSufficientDepth: number;
   measurementDepthPct: number;
   ambiguousCount: number;
   score: number;
@@ -427,6 +532,8 @@ export type AuthorityRelativeForensicsReport = {
   regionForensics: RegionForensicsBundle[];
   coverageMap: FullPageRegionCoverageMap;
   coverageGate: ForensicCoverageGate;
+  measurementDepthGate: ForensicMeasurementDepthGate;
+  globalPageProfile: GlobalPageMeasurementProfile | null;
   verticalRhythm: VerticalRhythmProfile | null;
   gutterProfile: PageGutterProfile | null;
   typographyHierarchy: TypographyHierarchyProfile | null;
@@ -460,6 +567,10 @@ export type RegionReconstructionSpec = {
   correction: string;
   corrections?: string[];
   dimensionDeltas?: RegionDimensionEvidence[];
+  measurementDepth?: RegionMeasurementDepth;
+  requiredDimensions?: string[];
+  resolvedDimensions?: string[];
+  missingDimensions?: string[];
   visualCategory: VisualCategory;
   confidence: ForensicConfidence;
   functionalRisk: FunctionalRiskLevel;

@@ -1158,6 +1158,19 @@
   margin: 0;
 }
 
+.site00-pfw-forensic-overlay__missing {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  margin: 4px 0 8px;
+  color: var(--site00-dw-warn, #8a5a00);
+}
+
+.site00-pfw-forensic-overlay__sources {
+  grid-column: 1 / -1;
+}
+
 .site00-pfw-forensic-overlay__dim-preview {
   list-style: none;
   margin: 8px 0;

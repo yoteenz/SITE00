@@ -8039,3 +8039,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `ForensicEvidenceOverlays.tsx` — portaled `AllForensicsOverlay` + `ForensicEvidenceDetailOverlay` (z-index 320); `resolveAllRegionForensics()` fallback from `topVisualDifferences`; bridge maps full `dimensions` on `RegionForensicsSummary`; panel wired overlays, removed plan-gated inline sheets; CSS in `site00-design-page-family.css`. Tests: `forensicEvidenceOverlays.test.ts`, page upgrade `4c`.
 - **Founder next:** Deploy new frontend bundle → NDXBOOK OVERVIEW mobile UPGRADE → tap **VIEW ALL FORENSICS** (full-screen list) → **VIEW EVIDENCE** on a region (dimension grid AUTHORITY/CURRENT/DELTA/CONFIDENCE).
 
+---
+
+## 2026-09-12 — P0.VR.DIAG.1R2 region measurement depth + DOM-assisted extraction
+
+- **Problem:** R1 fixed 8/8 region coverage but **measurement depth ~13%** — matched regions showed **0 dimensions** when authority/current aligned (delta filter stripped all rows); shallow understanding blocked direction.
+- **Delivered:** `RegionMeasurementDepth`, type-aware `RegionMeasurementProfile`, `CurrentDomMeasurementExtractor`, `AuthorityImageMeasurementExtractor`, `ForensicMeasurementDepthGate`, `DimensionValidityCheck`, source provenance on `RegionDimensionEvidence` (DOM_RECT/COMPUTED_STYLE vs AUTHORITY_IMAGE_ESTIMATE); depth requires DOM anchor for SUFFICIENT on majors; combined coverage+depth gate for APPROVE DIRECTION; UI shows REGION COVERAGE + MEASUREMENT DEPTH SUFFICIENT counts, missing evidence, sources in VIEW EVIDENCE; `collectDomRegionMeasurements` extended computed styles; `DimensionConvergenceResult`; build `P0_VR_DIAG_1R2_BUILD = v304`. Tests: `p0vrDiag1R2Forensics.test.ts` (13).
+- **Founder next:** Deploy frontend → NDXBOOK OVERVIEW mobile UPGRADE → confirm most regions show **≥3–6 dimensions** (not 0) → SECTION NAV + HERO VIEW EVIDENCE show multiple rows with sources → depth PASS/WARNING before APPROVE DIRECTION → BUILD TWIN → check dimension convergence.
+
