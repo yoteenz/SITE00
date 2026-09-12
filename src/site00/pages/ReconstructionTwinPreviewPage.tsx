@@ -3,14 +3,50 @@
  */
 
 import { Navigate, useParams } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { Component, type ErrorInfo, type ReactNode, useEffect, useState } from 'react';
 import { resolveTwinSessionForPreviewRoute } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
 import { ReconstructionTwinProvider } from '../components/reconstruction/ReconstructionTwinContext';
 import { ReconstructionTwinBanner } from '../components/reconstruction/ReconstructionTwinBanner';
-import ProjectOperatingModulePage from './ProjectOperatingModulePage';
+import { ReconstructionTwinOverviewSurface } from '../components/reconstruction/ReconstructionTwinOverviewSurface';
 import { isSignedIn, canAccessAdminPages } from '../../utils/adminAuth';
 import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-reconstruction-twin.css';
+
+class TwinPreviewErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+  state = { error: null as Error | null };
+
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('[twin-preview]', error, info.componentStack);
+  }
+
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="site00-page site00-reconstruction-twin-missing">
+          <p>TWIN PREVIEW CRASHED</p>
+          <p className="site00-body">{this.state.error.message}</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function useRobotsNoIndex() {
+  useEffect(() => {
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, nofollow';
+    document.head.appendChild(meta);
+    return () => {
+      if (meta.parentNode) meta.parentNode.removeChild(meta);
+    };
+  }, []);
+}
 
 export default function ReconstructionTwinPreviewPage() {
   const { projectSlug = '', pageScope = '', sessionId = '' } = useParams<{
@@ -18,58 +54,26 @@ export default function ReconstructionTwinPreviewPage() {
     pageScope: string;
     sessionId: string;
   }>();
-  const [resolved, setResolved] = useState(false);
+
   const [session, setSession] = useState(() =>
     sessionId && pageScope
       ? resolveTwinSessionForPreviewRoute({ projectSlug, pageScope, sessionId })
       : null,
   );
 
-  useEffect(() => {
-    const meta = document.createElement('meta');
-    meta.name = 'robots';
-    meta.content = 'noindex, nofollow';
-    document.head.appendChild(meta);
-    return () => {
-      document.head.removeChild(meta);
-    };
-  }, []);
+  useRobotsNoIndex();
 
   useEffect(() => {
-    if (!sessionId) {
+    if (!sessionId || !pageScope) {
       setSession(null);
-      setResolved(true);
       return;
     }
-    setResolved(false);
-    const found =
-      pageScope && sessionId
-        ? resolveTwinSessionForPreviewRoute({ projectSlug, pageScope, sessionId })
-        : null;
-    setSession(found);
-    setResolved(true);
+    setSession(resolveTwinSessionForPreviewRoute({ projectSlug, pageScope, sessionId }));
   }, [sessionId, pageScope, projectSlug]);
-
-  const twinPage = useMemo(() => {
-    if (!session) return null;
-    const route = session.canonicalRoute.replace(/\/$/, '');
-    if (route.endsWith('/overview')) {
-      return <ProjectOperatingModulePage forcedModule="OVERVIEW" />;
-    }
-    return <ProjectOperatingModulePage forcedModule="OVERVIEW" />;
-  }, [session]);
 
   if (!isSignedIn() || !canAccessAdminPages()) {
     const returnTo = encodeURIComponent(window.location.pathname);
     return <Navigate to={`${SITE00_ROUTES.signIn}?returnTo=${returnTo}`} replace />;
-  }
-
-  if (!resolved) {
-    return (
-      <div className="site00-page site00-reconstruction-twin-missing">
-        <p>LOADING TWIN PREVIEW…</p>
-      </div>
-    );
   }
 
   if (!session || session.projectId !== projectSlug) {
@@ -78,7 +82,7 @@ export default function ReconstructionTwinPreviewPage() {
         <p>TWIN SESSION NOT FOUND OR EXPIRED.</p>
         <p className="site00-body">
           Twin data lives in this browser only (not on the server). Return to PAGE UPGRADE on{' '}
-          <strong>this same host</strong>, tap PREVIEW TWIN or OPEN TWIN again, or rebuild if storage was cleared.
+          <strong>this same host</strong>, tap OPEN TWIN again, or rebuild if storage was cleared.
         </p>
       </div>
     );
@@ -93,9 +97,11 @@ export default function ReconstructionTwinPreviewPage() {
   }
 
   return (
-    <ReconstructionTwinProvider session={session}>
-      <ReconstructionTwinBanner session={session} />
-      {twinPage}
-    </ReconstructionTwinProvider>
+    <TwinPreviewErrorBoundary>
+      <ReconstructionTwinProvider session={session}>
+        <ReconstructionTwinBanner session={session} />
+        <ReconstructionTwinOverviewSurface projectSlug={projectSlug} />
+      </ReconstructionTwinProvider>
+    </TwinPreviewErrorBoundary>
   );
 }

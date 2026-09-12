@@ -108,6 +108,19 @@
 .site00-reconstruction-twin-missing {
   padding: 2rem;
   text-align: center;
+  min-height: 100vh;
+  background: #0c0c0c;
+  color: #f5f5f5;
+}
+
+.site00-reconstruction-twin-page {
+  min-height: 100vh;
+  background: #0c0c0c;
+  color: #f5f5f5;
+}
+
+.site00-reconstruction-twin-page .site00-mobile-shell__main {
+  padding-bottom: 2rem;
 }
 
 .site00-pfw-upgrade-v2__twin-progress {
