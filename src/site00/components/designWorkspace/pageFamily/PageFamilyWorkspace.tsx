@@ -638,11 +638,35 @@ export function PageFamilyWorkspace({
           reconstructionPlan={upgradeSession.reconstructionPlan}
           twinSession={twinSession}
           buildingTwin={buildingTwin}
+          upgradeError={upgradeError}
           onApprove={() => {
             approvePageCreativeDirection(projectId, activePageId, viewport);
             const updated = getPageCreativeUpgradeSession(projectId, activePageId, viewport);
             if (updated) setUpgradeSession(updated);
             refreshTwinSession(projectId, activePageId);
+          }}
+          onReplicatePage={async () => {
+            if (upgradeSession?.status === 'DIRECTION_READY') {
+              approvePageCreativeDirection(projectId, activePageId, viewport);
+              const updated = getPageCreativeUpgradeSession(projectId, activePageId, viewport);
+              if (updated) setUpgradeSession(updated);
+            }
+            const active = refreshTwinSession(projectId, activePageId);
+            if (!active) {
+              setUpgradeError('TWIN SESSION NOT READY — CLOSE AND REOPEN UPGRADE, THEN RETRY.');
+              return;
+            }
+            setTwinSession(active);
+            setBuildingTwin(true);
+            setUpgradeError(null);
+            const result = await startTwinBuild(active.sessionId, {
+              authorityVersionId: upgradeSession?.designAuthorityVersionId ?? null,
+              captureId: upgradeSession?.captureId ?? null,
+              reconstructionPlanId: upgradeSession?.reconstructionPlan?.planId ?? null,
+            });
+            setBuildingTwin(false);
+            if (result.error) setUpgradeError(result.error.message);
+            if (result.session) setTwinSession(result.session);
           }}
           onBuildTwin={async () => {
             const active = refreshTwinSession(projectId, activePageId) ?? twinSession;

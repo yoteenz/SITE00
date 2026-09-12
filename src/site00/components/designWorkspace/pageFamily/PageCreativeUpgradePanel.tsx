@@ -50,12 +50,14 @@ type Props = {
   visualDiagnosis?: PageVisualDiagnosis | null;
   reconstructionPlan?: ReconstructionPlan | null;
   twinSession?: ReconstructionTwinSession | null;
-  onBuildTwin?: () => void;
+  onBuildTwin?: () => void | Promise<void>;
+  onReplicatePage?: () => Promise<void>;
   onPreviewTwin?: () => void;
   onRefineTwin?: (instruction: string) => void;
   onApprovePromotion?: () => void;
   onPromote?: () => void;
   buildingTwin?: boolean;
+  upgradeError?: string | null;
   onRecomputeForensics?: () => void;
   forensicsRecomputing?: boolean;
   forensicsRecomputeError?: string | null;
@@ -94,11 +96,13 @@ export function PageCreativeUpgradePanel({
   reconstructionPlan,
   twinSession,
   onBuildTwin,
+  onReplicatePage,
   onPreviewTwin,
   onRefineTwin,
   onApprovePromotion,
   onPromote,
   buildingTwin,
+  upgradeError,
   onRecomputeForensics,
   forensicsRecomputing,
   forensicsRecomputeError,
@@ -199,18 +203,22 @@ export function PageCreativeUpgradePanel({
     if (showTwinReview || workflow.state === 'READY_TO_BUILD_TWIN') setForensicsDetailsOpen(false);
   }, [showTwinReview, workflow.state]);
 
-  const handleReplicatePage = () => {
+  const handleReplicatePage = async () => {
+    if (onReplicatePage) {
+      await onReplicatePage();
+      return;
+    }
     if (session.status === 'DIRECTION_READY') {
       onApprove();
-      window.setTimeout(() => onBuildTwin?.(), 0);
+      await onBuildTwin?.();
       return;
     }
     if (twinSession?.status === 'PLANNED' || twinSession?.status === 'FAILED') {
-      onBuildTwin?.();
+      await onBuildTwin?.();
       return;
     }
     if (session.status === 'DIRECTION_APPROVED' && !twinSession) {
-      onBuildTwin?.();
+      await onBuildTwin?.();
     }
   };
 
@@ -533,11 +541,13 @@ export function PageCreativeUpgradePanel({
                   currentScreenshot={currentScreenshot}
                   reviewCompare={renderVisualCompare()}
                   onReplicate={handleReplicatePage}
+                  replicationReceipt={twinSession?.replicationExecutionReceipt ?? null}
+                  upgradeError={upgradeError}
                   replicateDisabled={
                     missingCurrent ||
                     missingAuthority ||
                     buildingTwin ||
-                    (!onBuildTwin && session.status !== 'DIRECTION_READY')
+                    (!onBuildTwin && !onReplicatePage && session.status !== 'DIRECTION_READY')
                   }
                   onApproveDirection={onApprove}
                   onRefine={() => setRefineOpen(true)}

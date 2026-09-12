@@ -12,6 +12,10 @@ import {
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1/reconstructionExperienceState.js';
 import { resolveReconstructionMode } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1/reconstructionModeResolver.js';
 import { formatReplicationScore } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1/visualReplicationDiff.js';
+import {
+  stageLabel,
+  type ReplicationExecutionReceipt,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1R1/replicationExecutionReceipt.js';
 import '../../../styles/site00-page-upgrade-replication.css';
 
 type Props = {
@@ -21,8 +25,10 @@ type Props = {
   authorityScreenshot: string | null;
   currentScreenshot: string | null;
   reviewCompare: ReactNode;
-  onReplicate: () => void;
+  onReplicate: () => void | Promise<void>;
   replicateDisabled: boolean;
+  replicationReceipt?: ReplicationExecutionReceipt | null;
+  upgradeError?: string | null;
   onApproveDirection: () => void;
   onRefine: () => void;
   onPreviewTwin?: () => void;
@@ -63,6 +69,8 @@ export function PageUpgradeReplicationExperience({
   detailsOpen,
   onToggleDetails,
   detailsPanel,
+  replicationReceipt,
+  upgradeError,
 }: Props) {
   const experienceState = resolveReconstructionExperienceState({
     session,
@@ -220,9 +228,19 @@ export function PageUpgradeReplicationExperience({
 
       {experienceState === 'FAILED' ? (
         <section className="site00-pur__screen site00-pur__screen--fail">
-          <h2>REPLICATION ISSUE</h2>
-          <p>We couldn&apos;t rebuild this region yet. Live page unchanged.</p>
-          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onReplicate}>
+          <h2>WE COULDN&apos;T CREATE THE FIRST REPLICATION</h2>
+          {replicationReceipt?.failedStage ? (
+            <p>
+              REPLICATION STOPPED AT: <strong>{stageLabel(replicationReceipt.failedStage)}</strong>
+            </p>
+          ) : null}
+          {upgradeError ? <p>{upgradeError}</p> : null}
+          <p>
+            AUTOMATED BLUEPRINT PATH: {replicationReceipt?.blueprintComposer ?? '—'} · DIRECT SOURCE FALLBACK:{' '}
+            {replicationReceipt?.directSourceFallback ?? '—'}
+          </p>
+          <p>NEXT STRATEGY: {replicationReceipt?.nextStrategy ?? 'SWITCH_IMPLEMENTATION_APPROACH'}</p>
+          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={() => void onReplicate()}>
             RETRY REPLICATION
           </button>
         </section>

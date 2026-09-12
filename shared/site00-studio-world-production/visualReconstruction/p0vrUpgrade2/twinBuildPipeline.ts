@@ -25,9 +25,8 @@ import { evaluateVisualAuthorityAcceptanceGate } from '../p0vrRebuild1/visualAut
 import { buildFidelityScoreProvenance } from '../p0vrRebuild1/fidelityScoreProvenance.js';
 import type { VisualAuthorityStatus } from '../p0vrRebuild1/types.js';
 import { resolveReconstructionMode } from '../p0vrReplication1/reconstructionModeResolver.js';
-import { runVisualReconstructionDirector } from '../p0vrReplication1/visualReconstructionDirector.js';
-import { P0_VR_REPLICATION_1_BUILD } from '../p0vrReplication1/constants.js';
-import { createDefaultReplicationBudgetPolicy } from '../p0vrReplication1/replicationBudgetPolicy.js';
+import { executeNdxbookReplication } from '../p0vrReplication1R1/executeNdxbookReplication.js';
+import { NDX_PILOT_STACK_ORDER, P0_VR_REPLICATION_1R1_BUILD } from '../p0vrReplication1R1/constants.js';
 
 function completeStep(steps: TwinBuildStepReceipt[], step: string, detail: string): TwinBuildStepReceipt[] {
   const now = new Date().toISOString();
@@ -56,6 +55,13 @@ export async function runTwinBuildPipeline(
     screenId: 'overview',
   });
 
+  const modeResolution = resolveReconstructionMode({
+    pageId: session.pageId,
+    viewport: session.viewport,
+    pageArchetype: 'ndxbook-overview-mobile',
+    screenId: 'overview',
+  });
+
   let authorityFirstResult: ReturnType<typeof composeAuthorityFirstTwin> | null = null;
   let visualAuthorityStatus: VisualAuthorityStatus = 'PENDING';
   let twinRenderMode: 'LEGACY_PATCH' | 'AUTHORITY_FIRST_NDX_OVERVIEW' = 'LEGACY_PATCH';
@@ -78,15 +84,25 @@ export async function runTwinBuildPipeline(
       : [];
 
   if (strategy === 'REBUILD_FROM_AUTHORITY') {
-    authorityFirstResult = composeAuthorityFirstTwin(session);
-    authorityRegionOrder = authorityFirstResult.blueprint.regionOrder;
     twinRenderMode = 'AUTHORITY_FIRST_NDX_OVERVIEW';
-    visualAuthorityStatus = 'AUTHORITY_FIRST_BUILT';
-    steps = completeStep(
-      steps,
-      'APPLYING_RECONSTRUCTION_PLAN',
-      `Authority-first blueprint ${authorityFirstResult.blueprint.blueprintId} · divergence ${divergenceScore.score} (${divergenceScore.status})`,
-    );
+    if (modeResolution.mode === 'REPLICATION_MODE') {
+      authorityRegionOrder = [...NDX_PILOT_STACK_ORDER];
+      visualAuthorityStatus = 'PENDING';
+      steps = completeStep(
+        steps,
+        'APPLYING_RECONSTRUCTION_PLAN',
+        `P0.VR.REPLICATION.1R1 pilot — composition deferred to replication executor · divergence ${divergenceScore.score}`,
+      );
+    } else {
+      authorityFirstResult = composeAuthorityFirstTwin(session);
+      authorityRegionOrder = authorityFirstResult.blueprint.regionOrder;
+      visualAuthorityStatus = 'AUTHORITY_FIRST_BUILT';
+      steps = completeStep(
+        steps,
+        'APPLYING_RECONSTRUCTION_PLAN',
+        `Authority-first blueprint ${authorityFirstResult.blueprint.blueprintId} · divergence ${divergenceScore.score} (${divergenceScore.status})`,
+      );
+    }
   } else {
     steps = completeStep(
       steps,
@@ -104,14 +120,8 @@ export async function runTwinBuildPipeline(
     .map((d) => `${d.regionName}: ${d.executionMode.replace(/_/g, ' ')}`);
 
   steps = runningStep(steps, 'BUILDING_ISOLATED_PAGE');
-  const modeResolution = resolveReconstructionMode({
-    pageId: session.pageId,
-    viewport: session.viewport,
-    pageArchetype: 'ndxbook-overview-mobile',
-    screenId: 'overview',
-  });
   const buildRef =
-    strategy === 'REBUILD_FROM_AUTHORITY' ? P0_VR_REPLICATION_1_BUILD : P0_VR_UPGRADE_2_BUILD;
+    strategy === 'REBUILD_FROM_AUTHORITY' ? P0_VR_REPLICATION_1R1_BUILD : P0_VR_UPGRADE_2_BUILD;
   const twinVersion: TwinImplementationVersion = {
     versionId: `twin_v${session.sessionId}_1`,
     sessionId: session.sessionId,
@@ -196,7 +206,11 @@ export async function runTwinBuildPipeline(
           strategy,
         });
 
-  if (strategy === 'REBUILD_FROM_AUTHORITY' && compositionCoverage.status === 'FAIL') {
+  if (
+    strategy === 'REBUILD_FROM_AUTHORITY' &&
+    modeResolution.mode !== 'REPLICATION_MODE' &&
+    compositionCoverage.status === 'FAIL'
+  ) {
     visualAuthorityStatus = 'VISUAL_AUTHORITY_FAILED';
   }
 
@@ -295,15 +309,20 @@ export async function runTwinBuildPipeline(
     after: afterForensics,
   });
 
-  let replicationDirectorResult: Awaited<ReturnType<typeof runVisualReconstructionDirector>> | null = null;
+  let replicationExecutionPatch: Partial<ReconstructionTwinSession> | null = null;
   if (strategy === 'REBUILD_FROM_AUTHORITY' && modeResolution.mode === 'REPLICATION_MODE') {
-    replicationDirectorResult = await runVisualReconstructionDirector({
+    const replication = await executeNdxbookReplication({
       session: { ...session, twinVersionId: twinVersion.versionId },
+      twinVersionId: twinVersion.versionId,
       convergenceAfter: convergence.after,
-      twinPreviewUrl: null,
-      playwrightEnabled: process.env.SITE00_REPLICATION_PLAYWRIGHT === '1',
     });
-    convergence.after = replicationDirectorResult.convergenceAfter;
+    replicationExecutionPatch = replication.sessionPatch;
+    if (replication.sessionPatch.convergenceAfter) {
+      convergence.after = replication.sessionPatch.convergenceAfter;
+    }
+    if (replication.receipt.status === 'FAIL') {
+      steps = completeStep(steps, 'BUILDING_ISOLATED_PAGE', `Replication failed at ${replication.receipt.failedStage ?? 'unknown'}`);
+    }
   }
 
   const fidelityScoreProvenance = buildFidelityScoreProvenance({
@@ -333,8 +352,11 @@ export async function runTwinBuildPipeline(
     twinVersionId: twinVersion.versionId,
   });
 
+  const finalStatus =
+    replicationExecutionPatch?.status === 'FAILED' ? 'FAILED' : ('READY_FOR_REVIEW' as const);
+
   return {
-    status: 'READY_FOR_REVIEW',
+    status: finalStatus,
     buildSteps: steps,
     twinVersionId: twinVersion.versionId,
     twinVersions: [twinVersion],
@@ -360,11 +382,12 @@ export async function runTwinBuildPipeline(
     visualAuthorityAcceptanceGate,
     fidelityScoreProvenance,
     reconstructionMode: modeResolution.mode,
-    replicationIterations: replicationDirectorResult?.replicationIterations ?? null,
-    replicationBudgetPolicy: replicationDirectorResult
-      ? createDefaultReplicationBudgetPolicy()
-      : null,
-    finalReplicationDiff: replicationDirectorResult?.finalReplicationDiff ?? null,
-    visualPageBlueprintId: replicationDirectorResult?.blueprint.blueprintId ?? null,
+    replicationIterations: replicationExecutionPatch?.replicationIterations ?? null,
+    finalReplicationDiff: replicationExecutionPatch?.finalReplicationDiff ?? null,
+    visualPageBlueprintId: replicationExecutionPatch?.visualPageBlueprintId ?? null,
+    replicationExecutionReceipt: replicationExecutionPatch?.replicationExecutionReceipt ?? null,
+    replicationExecutionMode: replicationExecutionPatch?.replicationExecutionMode ?? null,
+    replicationNextStrategy: replicationExecutionPatch?.replicationNextStrategy ?? null,
+    ...(replicationExecutionPatch ?? {}),
   };
 }
