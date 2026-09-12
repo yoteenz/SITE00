@@ -26,8 +26,8 @@ import {
   hydratePageViewportCapturesFromStorage,
   listPageViewportCaptures,
   savePageViewportCapture,
-  type PageViewportCapture,
 } from './pageViewportCapture.js';
+import type { PageViewportCapture } from './types.js';
 
 export const FOUNDER_DESIGN_WORKSPACE_SNAPSHOT_VERSION = 1 as const;
 
