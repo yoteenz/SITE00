@@ -23,8 +23,11 @@ import { evaluateAuthorityCompositionCoverage } from '../p0vrRebuild1/authorityC
 import { runLegacyStructureRetentionCheck } from '../p0vrRebuild1/legacyStructureRetentionCheck.js';
 import { evaluateVisualAuthorityAcceptanceGate } from '../p0vrRebuild1/visualAuthorityAcceptanceGate.js';
 import { buildFidelityScoreProvenance } from '../p0vrRebuild1/fidelityScoreProvenance.js';
-import { P0_VR_REBUILD_1_BUILD } from '../p0vrRebuild1/constants.js';
 import type { VisualAuthorityStatus } from '../p0vrRebuild1/types.js';
+import { resolveReconstructionMode } from '../p0vrReplication1/reconstructionModeResolver.js';
+import { runVisualReconstructionDirector } from '../p0vrReplication1/visualReconstructionDirector.js';
+import { P0_VR_REPLICATION_1_BUILD } from '../p0vrReplication1/constants.js';
+import { createDefaultReplicationBudgetPolicy } from '../p0vrReplication1/replicationBudgetPolicy.js';
 
 function completeStep(steps: TwinBuildStepReceipt[], step: string, detail: string): TwinBuildStepReceipt[] {
   const now = new Date().toISOString();
@@ -101,8 +104,14 @@ export async function runTwinBuildPipeline(
     .map((d) => `${d.regionName}: ${d.executionMode.replace(/_/g, ' ')}`);
 
   steps = runningStep(steps, 'BUILDING_ISOLATED_PAGE');
+  const modeResolution = resolveReconstructionMode({
+    pageId: session.pageId,
+    viewport: session.viewport,
+    pageArchetype: 'ndxbook-overview-mobile',
+    screenId: 'overview',
+  });
   const buildRef =
-    strategy === 'REBUILD_FROM_AUTHORITY' ? P0_VR_REBUILD_1_BUILD : P0_VR_UPGRADE_2_BUILD;
+    strategy === 'REBUILD_FROM_AUTHORITY' ? P0_VR_REPLICATION_1_BUILD : P0_VR_UPGRADE_2_BUILD;
   const twinVersion: TwinImplementationVersion = {
     versionId: `twin_v${session.sessionId}_1`,
     sessionId: session.sessionId,
@@ -286,6 +295,17 @@ export async function runTwinBuildPipeline(
     after: afterForensics,
   });
 
+  let replicationDirectorResult: Awaited<ReturnType<typeof runVisualReconstructionDirector>> | null = null;
+  if (strategy === 'REBUILD_FROM_AUTHORITY' && modeResolution.mode === 'REPLICATION_MODE') {
+    replicationDirectorResult = await runVisualReconstructionDirector({
+      session: { ...session, twinVersionId: twinVersion.versionId },
+      convergenceAfter: convergence.after,
+      twinPreviewUrl: null,
+      playwrightEnabled: process.env.SITE00_REPLICATION_PLAYWRIGHT === '1',
+    });
+    convergence.after = replicationDirectorResult.convergenceAfter;
+  }
+
   const fidelityScoreProvenance = buildFidelityScoreProvenance({
     convergenceBefore: convergence.before,
     convergenceAfter: convergence.after,
@@ -339,5 +359,12 @@ export async function runTwinBuildPipeline(
     legacyStructureRetentionCheck: legacyCheck,
     visualAuthorityAcceptanceGate,
     fidelityScoreProvenance,
+    reconstructionMode: modeResolution.mode,
+    replicationIterations: replicationDirectorResult?.replicationIterations ?? null,
+    replicationBudgetPolicy: replicationDirectorResult
+      ? createDefaultReplicationBudgetPolicy()
+      : null,
+    finalReplicationDiff: replicationDirectorResult?.finalReplicationDiff ?? null,
+    visualPageBlueprintId: replicationDirectorResult?.blueprint.blueprintId ?? null,
   };
 }
