@@ -13,9 +13,9 @@ import {
   type ForensicUpgradeBundle,
 } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
 import type { RegionEvidenceRecoveryReceipt } from '../p0vrDiag1R4/types.js';
+import { P0_VR_DIAG_1R5_BUILD } from '../p0vrDiag1/constants.js';
 import type { AuthorityRelativeForensicsInput } from '../p0vrDiag1/types.js';
 import { recordForensicsVersion } from '../p0vrDiag1/forensicsVersion.js';
-import { P0_VR_DIAG_1R4_BUILD } from '../p0vrDiag1/constants.js';
 import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { PageCreativeUpgradeSession, PageCreativeUpgradeStatus } from './types.js';
 import type { DomRegionMeasurement } from '../p0vrDiag1/types.js';
@@ -267,6 +267,8 @@ export function applyForensicUpgradeBundleToSession(
           depthAfterPct: receipt.depthAfter.pct,
           regionsImproved: receipt.regionsImproved,
           regionsStillBlocked: receipt.regionsStillBlocked,
+          rootCauseSummary: receipt.rootCauseSummary ?? null,
+          structureTraceCount: receipt.structureTraces?.length ?? 0,
         }
       : session.lastEvidenceRecoverySummary ?? null,
   };
@@ -325,7 +327,7 @@ export function analyzeMissingPageCreativeUpgradeEvidence(
   const shell = fullInput.designAuthority.visualShellSpec;
   const { bundle, receipt } = runRegionEvidenceRecoveryForUpgrade({
     report: stored,
-    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R4_BUILD,
+    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R5_BUILD,
     pageArchetype: fullInput.pageArchetype,
     screenId: fullInput.screenId,
     isRootPage: fullInput.isRootPage,

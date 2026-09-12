@@ -8105,3 +8105,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** 10s preview timeout on slow Supabase loads + Safari cached images skipping `onLoad`; strict upgrade gate required both previews `PASS` before showing UPGRADE.
 - **Fix:** `DesignAssetPreview` sticky pass frame, longer Supabase timeout (28s), `img.complete` check; `evaluateRenderableAuthorityContract` + `shouldOfferPageUpgrade` **degraded** path when URLs resolve but verification slow/fail-soft; tests `previewHealthLifecycle.test.ts`, `pageCapturePrimaryAction.test.ts`.
 
+---
+
+## 2026-09-12 — P0.VR.DIAG.1R5 internal region structure + child-anchor forensics
+
+- **Context:** 1R4 targeted recovery runs but live QA often **NO PROGRESS** at 50% depth — engine finds region containers (section nav, metrics, progress) but not enough internal anchors (items, gaps, active indicator, track/fill, cells) for type-aware critical dimensions.
+- **Delivered:** `p0vrDiag1R5/` — `RegionInternalStructure`, `RegionChildAnchorR5`, `RegionRelationship`, `RepeatedAnchorGroup`, `CurrentRegionStructureExtractor` (type-aware DOM), `AuthorityRegionStructureExtractor`, `ChildAnchorCorrespondence`, `InternalStructureMeasurement`, `TypedDimensionFormatter` / `TypedDimensionComparator`, `InternalStructureCompleteness`, `ComplexRegionSubtypeResolver`, `EvidenceRecoveryFailure` root causes, `DimensionTypeRepairReceipt`, structure registry + `runRegionInternalStructureRecovery`. **R4 orchestrator** now merges internal-structure dimensions into blockers only, stores structure on bundles, bumps `P0_VR_DIAG_1R5_BUILD = v307`, surfaces `structureTraces` / `rootCauseSummary` on receipt. UI: region cards **INTERNAL STRUCTURE** status, **VIEW STRUCTURE** hierarchy in evidence overlay; recovery summary shows failure codes when still NO PROGRESS. Spec/twin path: `RegionReconstructionSpec` carries `internalStructure`, `childAnchorEvidence`, typed dimension lists.
+- **Founder next:** Deploy frontend **v315+** (no new capture) → PAGE UPGRADE → **ANALYZE MISSING EVIDENCE** → open SECTION NAV / METRIC CELLS / PROGRESS blockers → verify **VIEW STRUCTURE** + counts not px → depth should rise when structure exists; if shallow, read explicit `DOM_CHILDREN_UNRESOLVED` / etc. on recovery line.
+

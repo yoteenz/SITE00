@@ -1139,6 +1139,24 @@
   cursor: pointer;
 }
 
+.site00-pfw-forensic-overlay__structure-tree {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  margin: 8px 0 12px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 6px;
+  white-space: pre-wrap;
+}
+
+.site00-pfw-forensic-overlay__structure {
+  display: block;
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
 .site00-pfw-forensic-overlay__panel {
   position: relative;
   z-index: 1;

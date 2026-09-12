@@ -20,6 +20,11 @@ import { mergeRecoveredDimensions } from './mergeRecoveredDimensions.js';
 import { resolveDomTargetConfidence, targetConfidenceAllowsSufficientDepth } from './regionTargetConfidence.js';
 import { appendRecoveryHistory } from './regionEvidenceRecoveryHistory.js';
 import type { RecoveredDimensionProvenance, RegionEvidenceRecoveryReceipt } from './types.js';
+import { P0_VR_DIAG_1R5_BUILD } from '../p0vrDiag1/constants.js';
+import { runRegionInternalStructureRecovery } from '../p0vrDiag1R5/regionInternalStructureRecovery.js';
+import { repairDimensionTypesOnBundles } from '../p0vrDiag1R5/dimensionTypeRepair.js';
+import { storeRegionInternalStructures } from '../p0vrDiag1R5/regionInternalStructureRegistry.js';
+import type { InternalStructureRecoveryTrace } from '../p0vrDiag1R5/types.js';
 
 export type AnalyzeMissingForensicEvidenceInput = {
   report: AuthorityRelativeForensicsReport;
@@ -80,6 +85,9 @@ export function analyzeMissingForensicEvidence(
   const transitions: RegionEvidenceRecoveryReceipt['regionTransitions'] = [];
   const regionsImproved: string[] = [];
   const regionsStillBlocked: string[] = [];
+  const structureTraces: InternalStructureRecoveryTrace[] = [];
+  const recoveryFailures: NonNullable<RegionEvidenceRecoveryReceipt['recoveryFailures']> = [];
+  const structureStore: Array<{ regionId: string; current: import('../p0vrDiag1R5/types.js').RegionInternalStructure; authority: import('../p0vrDiag1R5/types.js').RegionInternalStructure }> = [];
 
   for (const block of blocking) {
     const idx = regionForensics.findIndex((b) => b.regionId === block.regionId);
@@ -149,10 +157,35 @@ export function analyzeMissingForensicEvidence(
     });
     plans.push(plan);
 
+    const validBefore =
+      bundle.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).length ??
+      bundle.measurementDepth?.validDimensionCount ??
+      bundle.dimensions.filter((d) => d.delta != null).length;
+
+    const relatedDom = domMeasurements.filter(
+      (m) => m.regionId.startsWith(def.regionId) && m.regionId !== def.regionId,
+    );
+    const structurePass = runRegionInternalStructureRecovery({
+      def,
+      dom: enrichedDom ?? dom ?? null,
+      relatedDom,
+      authority: match.authorityRegion,
+      validDimensionsBefore: validBefore,
+      captureScopeInsufficient: Boolean(scopeMismatch && !dom),
+    });
+    structureTraces.push(structurePass.trace);
+    structureStore.push({
+      regionId: block.regionId,
+      current: structurePass.currentStructure,
+      authority: structurePass.authorityStructure,
+    });
+    if (structurePass.trace.failure) recoveryFailures.push(structurePass.trace.failure);
+
     const targetConf = resolveDomTargetConfidence(domRecovery);
     if (!targetConfidenceAllowsSufficientDepth(targetConf) && plan.recommendedRecoveryMethod !== 'AUTHORITY_REGION_REMEASURE') {
       regionsStillBlocked.push(block.regionId);
       transitions.push({ regionId: block.regionId, regionName: block.regionName, before: beforeStatus, after: beforeStatus });
+      regionForensics[idx] = { ...bundle, internalStructure: structurePass.summary };
       continue;
     }
 
@@ -168,7 +201,9 @@ export function analyzeMissingForensicEvidence(
       matchConfidence: match.matchConfidence,
     }).dimensions;
 
-    for (const row of recovered) {
+    const allRecovered = [...recovered, ...structurePass.dimensionEvidence];
+
+    for (const row of allRecovered) {
       if (row.currentSource === 'DOM_RECT' || row.currentSource === 'COMPUTED_STYLE') {
         provenance.push({
           dimension: row.dimension,
@@ -182,11 +217,24 @@ export function analyzeMissingForensicEvidence(
       }
     }
 
-    const { merged, added } = mergeRecoveredDimensions(bundle.dimensions, recovered);
+    const { merged, added } = mergeRecoveredDimensions(bundle.dimensions, allRecovered);
     dimensionsAdded += added;
 
-    const reconciled = reconcileBundleDimensions({ ...bundle, dimensions: merged });
+    const reconciled = reconcileBundleDimensions({
+      ...bundle,
+      dimensions: merged,
+      internalStructure: structurePass.summary,
+    });
     regionForensics[idx] = reconciled;
+
+    const afterValid =
+      reconciled.depthComputation?.qualifiedDimensions.filter((q) => q.countsTowardDepth).length ??
+      reconciled.measurementDepth?.validDimensionCount ??
+      0;
+    structureTraces[structureTraces.length - 1] = {
+      ...structurePass.trace,
+      validDimensionsAfter: afterValid,
+    };
 
     const afterStatus = reconciled.depthComputation?.depthStatus ?? reconciled.measurementDepth?.status ?? beforeStatus;
     transitions.push({ regionId: block.regionId, regionName: block.regionName, before: beforeStatus, after: afterStatus });
@@ -195,11 +243,20 @@ export function analyzeMissingForensicEvidence(
     else regionsStillBlocked.push(block.regionId);
   }
 
+  const typeRepair = repairDimensionTypesOnBundles({
+    bundles: regionForensics,
+    forensicsVersionBefore: input.forensicsVersion,
+    forensicsVersionAfter: P0_VR_DIAG_1R5_BUILD,
+  });
+
   const patchedReport: AuthorityRelativeForensicsReport = {
     ...input.report,
-    regionForensics,
+    regionForensics: typeRepair.bundles,
+    forensicsVersion: P0_VR_DIAG_1R5_BUILD,
     generatedAt: new Date().toISOString(),
   };
+
+  storeRegionInternalStructures(input.report.reportId, structureStore);
 
   const { report: reconciledReport, aggregation } = reconcileForensicReportScoring({
     report: patchedReport,
@@ -216,11 +273,16 @@ export function analyzeMissingForensicEvidence(
   let status: RegionEvidenceRecoveryReceipt['status'] = 'NO_PROGRESS';
   if (captureRequired && regionsImproved.length === 0) status = 'CAPTURE_SCOPE_INSUFFICIENT';
   else if (regionsImproved.length === blocking.length && blocking.length > 0) status = 'RECOVERY_COMPLETE';
-  else if (regionsImproved.length > 0) status = 'PARTIAL';
+  else if (regionsImproved.length > 0 || dimensionsAdded > 0) status = 'PARTIAL';
+
+  const rootCauseSummary =
+    status === 'NO_PROGRESS' && recoveryFailures.length
+      ? recoveryFailures.map((f) => `${f.regionId}: ${f.failureCode}`).join(' · ')
+      : null;
 
   const receipt: RegionEvidenceRecoveryReceipt = {
     forensicsVersionBefore: input.forensicsVersion,
-    forensicsVersionAfter: input.forensicsVersion,
+    forensicsVersionAfter: P0_VR_DIAG_1R5_BUILD,
     regionsAttempted: blocking.map((b) => b.regionId),
     regionsImproved,
     regionsStillBlocked,
@@ -232,6 +294,10 @@ export function analyzeMissingForensicEvidence(
     depthAfter,
     regionTransitions: transitions,
     plans,
+    structureTraces,
+    recoveryFailures: recoveryFailures.length ? recoveryFailures : undefined,
+    dimensionTypeRepair: typeRepair.receipt.dimensionsReclassified ? typeRepair.receipt : null,
+    rootCauseSummary,
     createdAt: new Date().toISOString(),
   };
 

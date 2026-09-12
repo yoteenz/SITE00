@@ -88,6 +88,9 @@ export type RegionForensicsSummary = {
   depthReasons?: string[];
   topDelta: string | null;
   dimensions?: RegionForensicsDimensionSummary[];
+  internalStructureStatus?: string;
+  internalStructureHierarchy?: string[];
+  internalStructureSubtype?: string;
 };
 
 export type PageVisualDiagnosis = {
