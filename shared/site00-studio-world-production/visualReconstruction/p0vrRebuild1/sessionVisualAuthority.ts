@@ -41,6 +41,7 @@ export function inferLegacyPatchTwinStatus(session: ReconstructionTwinSession): 
 export function resolveTwinRenderMode(session: ReconstructionTwinSession): TwinRenderMode {
   if (session.twinRenderMode) return session.twinRenderMode;
   if (session.reconstructionStrategy === 'REBUILD_FROM_AUTHORITY') return 'AUTHORITY_FIRST_NDX_OVERVIEW';
+  if (session.legacyTwinLabel === 'LEGACY_PATCH_TWIN') return 'LEGACY_PATCH';
   if (inferLegacyPatchTwinStatus(session) === 'FAILED_VISUAL_AUTHORITY') return 'LEGACY_PATCH';
   return 'LEGACY_PATCH';
 }
@@ -137,8 +138,13 @@ export function enrichSessionVisualAuthority(session: ReconstructionTwinSession)
     promotionReadiness = { ...promotionReadiness, visualReady: false, blockingIssues };
   }
 
+  const legacyTwinLabel =
+    session.legacyTwinLabel ??
+    (legacyStatus === 'FAILED_VISUAL_AUTHORITY' ? ('LEGACY_PATCH_TWIN' as const) : null);
+
   return {
     ...session,
+    legacyTwinLabel,
     visualAuthorityStatus,
     twinRenderMode,
     reconstructionStrategy: strategy,

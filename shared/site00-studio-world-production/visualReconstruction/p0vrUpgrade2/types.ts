@@ -211,6 +211,14 @@ export type ReconstructionTwinSession = {
   legacyStructureRetentionCheck?: import('../p0vrRebuild1/types.js').LegacyStructureRetentionCheck | null;
   visualAuthorityAcceptanceGate?: import('../p0vrRebuild1/types.js').VisualAuthorityAcceptanceGate | null;
   fidelityScoreProvenance?: import('../p0vrRebuild1/types.js').FidelityScoreProvenance[] | null;
+  /** P0.VR.REPLICATION.1 */
+  reconstructionMode?: import('../p0vrReplication1/types.js').ReconstructionMode | null;
+  replicationIterations?: import('../p0vrReplication1/types.js').ReplicationIteration[] | null;
+  replicationBudgetPolicy?: import('../p0vrReplication1/types.js').ReplicationBudgetPolicy | null;
+  finalReplicationDiff?: import('../p0vrReplication1/types.js').VisualReplicationDiff | null;
+  visualPageBlueprintId?: string | null;
+  founderVisualAcceptance?: import('../p0vrReplication1/types.js').FounderVisualAcceptance | null;
+  legacyTwinLabel?: 'LEGACY_PATCH_TWIN' | null;
 };
 
 export type PageLiveRegistryEntry = {

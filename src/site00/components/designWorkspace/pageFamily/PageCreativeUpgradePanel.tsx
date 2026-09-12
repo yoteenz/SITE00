@@ -28,6 +28,7 @@ import {
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/index.js';
 import { stashTwinSessionForPreview } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
 import { formatProvenanceScore } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrRebuild1/fidelityScoreProvenance.js';
+import { PageUpgradeReplicationExperience } from './PageUpgradeReplicationExperience.js';
 import '../../../styles/site00-reconstruction-twin.css';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
@@ -120,7 +121,10 @@ export function PageCreativeUpgradePanel({
   const [allForensicsOpen, setAllForensicsOpen] = useState(false);
   const [evidenceRegionId, setEvidenceRegionId] = useState<string | null>(null);
   const [structureRegionId, setStructureRegionId] = useState<string | null>(null);
-  const [forensicsDetailsOpen, setForensicsDetailsOpen] = useState(true);
+  const [forensicsDetailsOpen, setForensicsDetailsOpen] = useState(false);
+  const useReplicationExperience =
+    session.viewport === 'mobile' &&
+    (session.pageId.includes('ndxbook') || route.includes('/projects/ndxbook'));
   const [twinLinkCopied, setTwinLinkCopied] = useState(false);
 
   const twinPreviewAbsoluteUrl = useMemo(() => {
@@ -195,7 +199,28 @@ export function PageCreativeUpgradePanel({
     if (showTwinReview || workflow.state === 'READY_TO_BUILD_TWIN') setForensicsDetailsOpen(false);
   }, [showTwinReview, workflow.state]);
 
+  const handleReplicatePage = () => {
+    if (session.status === 'DIRECTION_READY') {
+      onApprove();
+      window.setTimeout(() => onBuildTwin?.(), 0);
+      return;
+    }
+    if (twinSession?.status === 'PLANNED' || twinSession?.status === 'FAILED') {
+      onBuildTwin?.();
+      return;
+    }
+    if (session.status === 'DIRECTION_APPROVED' && !twinSession) {
+      onBuildTwin?.();
+    }
+  };
+
   const primaryAction = useMemo(() => {
+    if (useReplicationExperience) {
+      if (twinSession?.status === 'APPROVED_FOR_PROMOTION') {
+        return { label: 'PROMOTE TO LIVE', onClick: () => setPromotionConfirmOpen(true), disabled: !onPromote };
+      }
+      return undefined;
+    }
     if (session.status === 'DIRECTION_READY') {
       const canApprove = founderMayApproveDirectionWithWarnings(twinReadiness);
       return {
@@ -247,6 +272,7 @@ export function PageCreativeUpgradePanel({
     hardForensicBlock,
     mayProceedWithWarning,
     twinReadiness,
+    useReplicationExperience,
   ]);
 
   const secondaryAction = useMemo(() => {
@@ -486,7 +512,11 @@ export function PageCreativeUpgradePanel({
             stepTitle="PAGE UPGRADE"
             headline={headline}
             support="Match the approved design authority while preserving the live page function."
-            statusLabel={`STATUS: ${workflow.founderStatusLabel}${workflow.twinStatusLabel ? ` · TWIN: ${workflow.twinStatusLabel}` : ''}`}
+            statusLabel={
+              useReplicationExperience
+                ? `PAGE UPGRADE · ${session.viewport.toUpperCase()}`
+                : `STATUS: ${workflow.founderStatusLabel}${workflow.twinStatusLabel ? ` · TWIN: ${workflow.twinStatusLabel}` : ''}`
+            }
             onBack={onBack}
             transitionKey={`upgrade-${session.sessionId}-${session.forensicsRecalculatedAt ?? 'initial'}`}
             visual={<span className="site00-pfw-upgrade-v2__visual-spacer" aria-hidden />}
@@ -494,23 +524,65 @@ export function PageCreativeUpgradePanel({
             secondaryAction={secondaryAction}
           >
             <div className="site00-pfw-upgrade-v2">
-              {session.status === 'DIRECTION_APPROVED' && twinSession?.status === 'PLANNED' ? (
+              {useReplicationExperience ? (
+                <PageUpgradeReplicationExperience
+                  session={session}
+                  twinSession={twinSession}
+                  buildingTwin={buildingTwin}
+                  authorityScreenshot={authorityScreenshot}
+                  currentScreenshot={currentScreenshot}
+                  reviewCompare={renderVisualCompare()}
+                  onReplicate={handleReplicatePage}
+                  replicateDisabled={
+                    missingCurrent ||
+                    missingAuthority ||
+                    buildingTwin ||
+                    (!onBuildTwin && session.status !== 'DIRECTION_READY')
+                  }
+                  onApproveDirection={onApprove}
+                  onRefine={() => setRefineOpen(true)}
+                  onPreviewTwin={onPreviewTwin}
+                  onPromote={() => setPromotionConfirmOpen(true)}
+                  detailsOpen={forensicsDetailsOpen}
+                  onToggleDetails={() => setForensicsDetailsOpen((v) => !v)}
+                  detailsPanel={
+                    diagnosis?.forensicCoverage ? (
+                      <section className="site00-pfw-upgrade-v2__coverage">
+                        <p>
+                          REGION COVERAGE {diagnosis.forensicCoverage.majorAccounted} /{' '}
+                          {diagnosis.forensicCoverage.majorTotal} · DEPTH{' '}
+                          {diagnosis.forensicCoverage.majorSufficientDepth ?? '—'} /{' '}
+                          {diagnosis.forensicCoverage.majorTotal}
+                        </p>
+                        {twinSession?.reconstructionMode ? (
+                          <p>RECONSTRUCTION MODE: {twinSession.reconstructionMode.replace(/_/g, ' ')}</p>
+                        ) : null}
+                      </section>
+                    ) : (
+                      <p>Advanced diagnostics available after forensics run.</p>
+                    )
+                  }
+                />
+              ) : null}
+              {!useReplicationExperience && session.status === 'DIRECTION_APPROVED' && twinSession?.status === 'PLANNED' ? (
                 <p className="site00-pfw-upgrade-v2__approved">DIRECTION APPROVED ✓ — LIVE PAGE UNCHANGED</p>
               ) : null}
-              {twinSession?.status === 'READY_FOR_REVIEW' ? (
+              {!useReplicationExperience && twinSession?.status === 'READY_FOR_REVIEW' ? (
                 <p className="site00-pfw-upgrade-v2__approved">TWIN READY ✓</p>
               ) : null}
-              {twinSession?.visualAuthorityStatus === 'FAILED_VISUAL_AUTHORITY' ||
-              twinSession?.visualAuthorityStatus === 'VISUAL_AUTHORITY_FAILED' ? (
+              {!useReplicationExperience &&
+              (twinSession?.visualAuthorityStatus === 'FAILED_VISUAL_AUTHORITY' ||
+                twinSession?.visualAuthorityStatus === 'VISUAL_AUTHORITY_FAILED') ? (
                 <p className="site00-pfw-upgrade-v2__twin-warning">
                   FAILED VISUAL AUTHORITY — patch-based twin retained for debug. Rebuild to authority-first composition;
                   promotion disabled.
                 </p>
               ) : null}
-              {twinSession?.reconstructionStrategy === 'REBUILD_FROM_AUTHORITY' ? (
+              {!useReplicationExperience && twinSession?.reconstructionStrategy === 'REBUILD_FROM_AUTHORITY' ? (
                 <p className="site00-pfw-upgrade-v2__approved">AUTHORITY-FIRST TWIN · {twinSession.twinRenderMode ?? 'REBUILD'}</p>
               ) : null}
-              {twinPreviewAbsoluteUrl &&
+              {!useReplicationExperience &&
+              twinPreviewAbsoluteUrl &&
               twinSession &&
               ['READY_FOR_REVIEW', 'REVISION_REQUESTED', 'REVISING', 'APPROVED_FOR_PROMOTION'].includes(
                 twinSession.status,
@@ -553,7 +625,7 @@ export function PageCreativeUpgradePanel({
                   </p>
                 </section>
               ) : null}
-              {twinSession && (twinSession.status === 'BUILDING' || buildingTwin) ? (
+              {!useReplicationExperience && twinSession && (twinSession.status === 'BUILDING' || buildingTwin) ? (
                 <ul className="site00-pfw-upgrade-v2__twin-progress">
                   {twinSession.buildSteps.map((step) => (
                     <li
@@ -587,9 +659,9 @@ export function PageCreativeUpgradePanel({
                 </section>
               ) : null}
 
-              {renderVisualCompare()}
+              {!useReplicationExperience ? renderVisualCompare() : null}
 
-              {diagnosis?.forensicCoverage ? (
+              {!useReplicationExperience && diagnosis?.forensicCoverage ? (
                 <section
                   className={`site00-pfw-upgrade-v2__coverage site00-pfw-upgrade-v2__coverage--${diagnosis.forensicCoverage.gateStatus.toLowerCase()}${forensicsRecomputing ? ' site00-pfw-upgrade-v2__coverage--recalculating' : ''}${session.forensicsRecalculatedAt ? ' site00-pfw-upgrade-v2__coverage--fresh' : ''}${!forensicsDetailsOpen ? ' site00-pfw-upgrade-v2__coverage--collapsed' : ''}`}
                 >
