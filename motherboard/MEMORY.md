@@ -8262,3 +8262,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Limits:** Rendered bounds estimated from CSS until Playwright DOM capture in QA; hero-first CSS lock (masthead/metrics in map, not all bands patched yet).
 - **Founder next:** Deploy **v332+** → REPLICATE → check hero columns/CTA/lime → DETAILS → GEOMETRY.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.3D content root isolation + shell boundary enforcement
+
+- **Symptom:** Twin read as page-within-page — hero/media showed full authority screenshot via CSS `background-image` on non-proof slots (`slice_a`, `slice_c`, `right_graphic`), not a single page composition.
+- **Root cause:** `resolveHeroAssets` bound **PAGE_AUTHORITY** URL into hero media slots with background-position crops; mount tree lacked explicit **content root** contract; no pipeline guard against literal screenshot-as-hero binding.
+- **Fix:** `p0vrReplication3dBoundary/` — `ReplicationRenderBoundaryReceipt`, `TwinMountTrace`, `RegionTargetAssignmentTrace`, `CoordinateSpaceTrace`, `SourceClassificationReceipt`, `AssetBindingCompatibilityCheck`, `enforceHeroSlotBindings`, chained after geometry in `executeShellFirstNdxReplication`. DOM: `data-twin-content-root` on shell page bands (below host header), `data-twin-mount-root` on vision literal wrapper. UI: DETAILS **BOUNDARY TRACE**, preview `?renderRootsDebug=1` + blocked hero slice styling. Non-proof slots no longer bind raw authority; proof `slice_b` materialized crop still allowed.
+- **Founder next:** Deploy **v333+** → REPLICATE → DETAILS → BOUNDARY TRACE (PAGE_NESTING NO, content root valid) → PREVIEW TWIN `?renderRootsDebug=1` → confirm no miniature page in hero band. Wait on blueprint-grid until founder confirms visual QA PASS.
+
