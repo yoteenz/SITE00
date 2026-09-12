@@ -49,6 +49,11 @@ import {
   buildPageDesignAuthorityStoragePath,
   parseDataUrl,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/uploadPageDesignAuthority.js';
+import {
+  loadFounderDesignWorkspaceSnapshot,
+  saveFounderDesignWorkspaceSnapshot,
+} from '../_lib/site00Capture/founderDesignWorkspaceSnapshotStore.js';
+import type { FounderDesignWorkspaceSnapshot } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/founderDesignWorkspaceSnapshot.js';
 
 const REPO_ROOT = process.cwd();
 let workerBootPromise: Promise<unknown> | null = null;
@@ -244,6 +249,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         } finally {
           releaseCaptureNowLock(postProjectId, input.pageId, viewportClass);
         }
+      }
+      case 'get_founder_design_snapshot': {
+        const snapshot = await loadFounderDesignWorkspaceSnapshot(postProjectId);
+        return res.status(200).json({ snapshot });
+      }
+      case 'put_founder_design_snapshot': {
+        const snapshot = body.snapshot as FounderDesignWorkspaceSnapshot | undefined;
+        if (!snapshot || snapshot.projectId !== postProjectId) {
+          return res.status(400).json({ error: 'INVALID_SNAPSHOT' });
+        }
+        const saved = await saveFounderDesignWorkspaceSnapshot({
+          ...snapshot,
+          savedAt: snapshot.savedAt || new Date().toISOString(),
+        });
+        return res.status(200).json(saved);
       }
       case 'upload_design_authority': {
         const dataUrl = String(body.dataUrl ?? '');

@@ -21,6 +21,10 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureFounderGuidance.js';
 import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
+  ensureFounderDesignWorkspaceCloudSyncRegistered,
+  pullFounderDesignWorkspaceSnapshot,
+} from '../../services/founderDesignWorkspaceCloudSync';
+import {
   bindCaptureCompletionToClientStore,
   CAPTURE_NOW_SUCCESS_HOLD_MS,
   hydratePageViewportCapturesFromStorage,
@@ -504,7 +508,9 @@ export function usePageMirror(projectId: string) {
   }, [projectId, runTransportCheck]);
 
   useEffect(() => {
+    ensureFounderDesignWorkspaceCloudSyncRegistered();
     hydratePageViewportCapturesFromStorage(projectId);
+    void pullFounderDesignWorkspaceSnapshot(projectId);
     void runTransportCheck();
     void refresh();
     return () => stopPolling();

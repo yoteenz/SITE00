@@ -48,6 +48,15 @@ export async function downloadUrlToBuffer(url: string): Promise<Buffer> {
 }
 
 /** Returns true when the object exists in the configured assets bucket. */
+export async function downloadSite00StorageText(storagePath: string): Promise<string | null> {
+  const normalized = storagePath.replace(/^\/+/, '').trim();
+  if (!normalized) return null;
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).download(normalized);
+  if (error || !data) return null;
+  return await data.text();
+}
+
 export async function site00StorageObjectExists(storagePath: string): Promise<boolean> {
   const normalized = storagePath.replace(/^\/+/, '').trim();
   if (!normalized) return false;
