@@ -131,6 +131,8 @@ export type PageCreativeUpgradeSession = {
   forensicsReportId?: string | null;
   measuredSpecId?: string | null;
   forensicsVersionId?: string | null;
+  /** Set when founder taps RECALCULATE FORENSICS — drives visible UI feedback. */
+  forensicsRecalculatedAt?: string | null;
 };
 
 export type PageCreativeDiagnosisCode =

@@ -1013,6 +1013,31 @@
   margin: 4px 0;
 }
 
+.site00-pfw-upgrade-v2__coverage--recalculating {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.site00-pfw-upgrade-v2__coverage--fresh {
+  animation: site00-pfw-forensics-fresh 1.2s ease-out;
+}
+
+@keyframes site00-pfw-forensics-fresh {
+  0% {
+    box-shadow: 0 0 0 0 rgba(30, 132, 73, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(30, 132, 73, 0);
+  }
+}
+
+.site00-pfw-upgrade-v2__coverage-recalc-ok {
+  margin: 8px 0 0;
+  color: #1e8449;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 .site00-pfw-upgrade-v2__all-forensics {
   list-style: none;
   margin: 0 0 10px;

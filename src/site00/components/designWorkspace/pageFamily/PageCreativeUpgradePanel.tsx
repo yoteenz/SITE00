@@ -46,6 +46,8 @@ type Props = {
   onPromote?: () => void;
   buildingTwin?: boolean;
   onRecomputeForensics?: () => void;
+  forensicsRecomputing?: boolean;
+  forensicsRecomputeError?: string | null;
 };
 
 function useIsMobileViewport(): boolean {
@@ -83,6 +85,8 @@ export function PageCreativeUpgradePanel({
   onPromote,
   buildingTwin,
   onRecomputeForensics,
+  forensicsRecomputing,
+  forensicsRecomputeError,
 }: Props) {
   const isMobile = useIsMobileViewport();
   const [compareMode, setCompareMode] = useState<CompareMode>('current');
@@ -401,7 +405,7 @@ export function PageCreativeUpgradePanel({
             headline={headline}
             support="Match the approved design authority while preserving the live page function."
             onBack={onBack}
-            transitionKey={`upgrade-${session.sessionId}`}
+            transitionKey={`upgrade-${session.sessionId}-${session.forensicsRecalculatedAt ?? 'initial'}`}
             visual={<span className="site00-pfw-upgrade-v2__visual-spacer" aria-hidden />}
             primaryAction={primaryAction}
             secondaryAction={secondaryAction}
@@ -436,7 +440,7 @@ export function PageCreativeUpgradePanel({
 
               {diagnosis?.forensicCoverage ? (
                 <section
-                  className={`site00-pfw-upgrade-v2__coverage site00-pfw-upgrade-v2__coverage--${diagnosis.forensicCoverage.gateStatus.toLowerCase()}`}
+                  className={`site00-pfw-upgrade-v2__coverage site00-pfw-upgrade-v2__coverage--${diagnosis.forensicCoverage.gateStatus.toLowerCase()}${forensicsRecomputing ? ' site00-pfw-upgrade-v2__coverage--recalculating' : ''}${session.forensicsRecalculatedAt ? ' site00-pfw-upgrade-v2__coverage--fresh' : ''}`}
                 >
                   <h3>FORENSIC COVERAGE</h3>
                   <p className="site00-pfw-upgrade-v2__coverage-summary">
@@ -461,13 +465,30 @@ export function PageCreativeUpgradePanel({
                     </p>
                   ) : null}
                   {onRecomputeForensics ? (
-                    <button
-                      type="button"
-                      className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
-                      onClick={onRecomputeForensics}
-                    >
-                      RECALCULATE FORENSICS
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                        onClick={onRecomputeForensics}
+                        disabled={forensicsRecomputing}
+                        aria-busy={forensicsRecomputing}
+                      >
+                        {forensicsRecomputing ? 'RECALCULATING FORENSICS…' : 'RECALCULATE FORENSICS'}
+                      </button>
+                      {session.forensicsRecalculatedAt ? (
+                        <p className="site00-pfw-upgrade-v2__coverage-recalc-ok">
+                          FORENSICS UPDATED ·{' '}
+                          {new Date(session.forensicsRecalculatedAt).toLocaleTimeString(undefined, {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit',
+                          })}
+                        </p>
+                      ) : null}
+                      {forensicsRecomputeError ? (
+                        <p className="site00-pfw-upgrade-v2__coverage-warn">{forensicsRecomputeError}</p>
+                      ) : null}
+                    </>
                   ) : null}
                   {diagnosis.forensicCoverage.scopeMismatch ? (
                     <p className="site00-pfw-upgrade-v2__coverage-warn">

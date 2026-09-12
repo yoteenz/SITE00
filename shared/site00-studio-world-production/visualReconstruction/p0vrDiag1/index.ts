@@ -28,3 +28,4 @@ export * from './dimensionNormalization.js';
 export * from './deltaMath.js';
 export * from './forensicDepthQualification.js';
 export * from './forensicReconciliation.js';
+export * from './forensicReportRegistry.js';

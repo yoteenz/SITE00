@@ -5,7 +5,13 @@
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import { buildPageCreativeDiagnosis } from './pageCreativeDiagnosis.js';
 import { buildPageCreativeDirectionPlan } from './pageCreativeDirectionPlan.js';
-import { buildForensicUpgradeBundle, type ForensicUpgradeBundle } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
+import { getForensicReport } from '../p0vrDiag1/forensicReportRegistry.js';
+import {
+  buildForensicUpgradeBundle,
+  recomputeForensicScoringFromReport,
+  type ForensicUpgradeBundle,
+} from '../p0vrDiag1/upgradeDiagnosisBridge.js';
+import type { AuthorityRelativeForensicsInput } from '../p0vrDiag1/types.js';
 import { recordForensicsVersion } from '../p0vrDiag1/forensicsVersion.js';
 import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { PageCreativeUpgradeSession, PageCreativeUpgradeStatus } from './types.js';
@@ -233,6 +239,7 @@ export function applyForensicUpgradeBundleToSession(
   pageId: string,
   viewport: DesignViewportClass,
   bundle: ForensicUpgradeBundle,
+  options?: { recalculatedAt?: string | null },
 ): PageCreativeUpgradeSession | null {
   const session = getPageCreativeUpgradeSession(projectId, pageId, viewport);
   if (!session) return null;
@@ -242,9 +249,39 @@ export function applyForensicUpgradeBundleToSession(
     reconstructionPlan: bundle.reconstructionPlan,
     forensicsReportId: bundle.report.reportId,
     measuredSpecId: bundle.measuredSpec.specId,
+    forensicsRecalculatedAt: options?.recalculatedAt ?? session.forensicsRecalculatedAt ?? null,
   };
   sessions.set(sessionKey(projectId, pageId, viewport), updated);
   return updated;
+}
+
+/** Rescore stored forensics (1R3) or full re-run when no cached report. */
+export function recalculatePageCreativeUpgradeForensics(
+  projectId: string,
+  pageId: string,
+  viewport: DesignViewportClass,
+  fullInput: AuthorityRelativeForensicsInput & {
+    pagePurpose: string;
+    route: string;
+    isRootPage?: boolean;
+  },
+): PageCreativeUpgradeSession | null {
+  const session = getPageCreativeUpgradeSession(projectId, pageId, viewport);
+  if (!session) return null;
+
+  const stored = getForensicReport(session.forensicsReportId);
+  const bundle = stored
+    ? recomputeForensicScoringFromReport(stored, {
+        pageArchetype: fullInput.pageArchetype,
+        screenId: fullInput.screenId,
+        isRootPage: fullInput.isRootPage,
+        pagePurpose: fullInput.pagePurpose,
+        route: fullInput.route,
+      })
+    : buildForensicUpgradeBundle(fullInput);
+
+  const recalculatedAt = new Date().toISOString();
+  return applyForensicUpgradeBundleToSession(projectId, pageId, viewport, bundle, { recalculatedAt });
 }
 
 export function resetPageCreativeUpgradeSessionsForTest(): void {
