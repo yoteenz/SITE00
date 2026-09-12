@@ -40,7 +40,29 @@ export function hydrateTwinSessionsStoreFromPersistence(): void {
 export function persistTwinSessionsStore(): void {
   if (typeof localStorage === 'undefined') return;
   const payload: PersistedTwinStore = { sessions: memorySessions, pageIndex: memoryPageIndex };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    // Mobile Safari quota — drop oldest sessions until write succeeds
+    const ids = Object.keys(memorySessions).sort(
+      (a, b) => (memorySessions[a]?.updatedAt ?? '').localeCompare(memorySessions[b]?.updatedAt ?? ''),
+    );
+    while (ids.length > 1) {
+      const drop = ids.shift();
+      if (drop) delete memorySessions[drop];
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ sessions: memorySessions, pageIndex: memoryPageIndex }));
+        return;
+      } catch {
+        continue;
+      }
+    }
+  }
+}
+
+export function listPersistedTwinSessionsForProject(projectId: string): ReconstructionTwinSession[] {
+  hydrateTwinSessionsStoreFromPersistence();
+  return Object.values(memorySessions).filter((s) => s.projectId === projectId);
 }
 
 export function readPersistedTwinSession(sessionId: string): ReconstructionTwinSession | null {
