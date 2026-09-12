@@ -8089,3 +8089,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** Local compact snapshot backup (`site00:founder-design-workspace-local:{projectId}`) via `persistLocalFounderDesignWorkspaceSnapshot` / `hydrateLocalFounderDesignWorkspaceSnapshot`; `bootstrapFounderDesignWorkspace` on `PageFamilyWorkspace` mount + capture/authority dialogs; immediate cloud push after capture bind + authority approve + `pagehide` flush; NDX pilot hydrates local snapshot before seed skip check; merge uses `LOCAL_NEWER` only when local has bindings and newer `savedAt`. Tests extended in `founderDesignWorkspaceSnapshot.test.ts`.
 - **Founder next:** Deploy **frontend ZIP** (v312+) + **Railway** redeploy → capture/upload once → hard refresh → LIVE capture + design authority should remain; cloud sync is bonus when API up.
 
+---
+
+## 2026-09-12 — P0.VR.DIAG.1R4 shallow region evidence recovery
+
+- **Context:** After 1R3 math fix, live NDXBOOK overview shows believable **4/8 SUFFICIENT (50%) BLOCK** — remaining gap is missing forensic depth on shallow major regions, not aggregation bugs.
+- **Delivered:** `p0vrDiag1R4/` — `BlockingRegionResolver`, `RegionEvidenceRecoveryPlan`, `DomTargetRecovery`, `RegionChildAnchorExtractor`, `AuthorityRegionMeasurementPass`, `RegionEvidenceCompleteness`, `RegionTargetConfidence`, `mergeRecoveredDimensions`, `analyzeMissingForensicEvidence` orchestrator (blockers only, preserves valid R3 evidence, DOM-before-screenshot, targeted authority remeasure, provenance + history). UI: **ANALYZE MISSING EVIDENCE** when depth gate BLOCK; recovery before/after depth summary; BUILD TWIN gated on coverage/depth. Bridge: `runRegionEvidenceRecoveryForUpgrade`; session: `analyzeMissingPageCreativeUpgradeEvidence`. Build `P0_VR_DIAG_1R4_BUILD = v306`. Tests: `p0vrDiag1R4Recovery.test.ts`.
+- **Founder next:** Deploy frontend v313+ → open PAGE UPGRADE (no new capture) → tap **ANALYZE MISSING EVIDENCE** → verify depth improves from real DOM/authority recovery → then APPROVE DIRECTION / BUILD TWIN when gate PASS/WARNING.
+
