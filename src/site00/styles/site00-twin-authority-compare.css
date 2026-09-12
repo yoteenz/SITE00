@@ -1,0 +1,37 @@
+.site00-twin-compare-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+  max-width: 375px;
+  margin: 0 auto 8px;
+  padding: 4px;
+  background: #111;
+}
+
+.site00-twin-compare-strip__cell {
+  text-align: center;
+}
+
+.site00-twin-compare-strip__cell p {
+  margin: 0 0 4px;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: #b7f75f;
+}
+
+.site00-twin-compare-strip__cell img {
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid #333;
+}
+
+.site00-twin-compare-strip__cell--live {
+  border: 1px dashed #666;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

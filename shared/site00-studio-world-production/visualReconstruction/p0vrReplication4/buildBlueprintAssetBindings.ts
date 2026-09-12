@@ -15,9 +15,9 @@ export function buildBlueprintAssetBindings(input: {
           expectedBounds: bounds,
           sourceAsset: input.authorityAssetUrl,
           sourceStrategy: 'AUTHORITY_CROP',
-          crop: 'hero-center-band',
+          crop: 'hero-center-band-no-text',
           objectFit: 'cover',
-          objectPosition: 'center 35%',
+          objectPosition: '58% 22%',
           status: 'AUTHORITY_CROP',
         } satisfies BlueprintAssetBinding;
       }

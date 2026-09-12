@@ -269,6 +269,8 @@ export type ReconstructionTwinSession = {
   objectGeometryDeltas?: import('../p0vrReplication4/types.js').ObjectGeometryDelta[] | null;
   forensicConvergencePasses?: import('../p0vrReplication4/types.js').ForensicConvergencePass[] | null;
   twinForensicCssPatch?: Record<string, string> | null;
+  /** P0.VR.REPLICATION.4R1 — Authority-locked tightening pass */
+  authorityTighteningReport?: import('../p0vrReplication4R1/executeAuthorityTighteningPass.js').AuthorityTighteningReport | null;
 };
 
 export type PageLiveRegistryEntry = {
