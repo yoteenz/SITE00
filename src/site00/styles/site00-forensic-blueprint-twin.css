@@ -390,6 +390,46 @@
   background: #080808;
 }
 
+.site00-fb__hero--surgical [data-hero-object='H01'] {
+  transform: translate(var(--hero-nudge-H01-x, 0px), var(--hero-nudge-H01-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H02'] {
+  transform: translate(var(--hero-nudge-H02-x, 0px), var(--hero-nudge-H02-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H03'] {
+  transform: translate(var(--hero-nudge-H03-x, 0px), var(--hero-nudge-H03-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H04'] {
+  transform: translate(var(--hero-nudge-H04-x, 0px), var(--hero-nudge-H04-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H05'] {
+  transform: translate(var(--hero-nudge-H05-x, 0px), var(--hero-nudge-H05-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H06'] {
+  transform: translate(var(--hero-nudge-H06-x, 0px), var(--hero-nudge-H06-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H08'] {
+  transform: translate(var(--hero-nudge-H08-x, 0px), var(--hero-nudge-H08-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H09'] {
+  transform: translate(var(--hero-nudge-H09-x, 0px), var(--hero-nudge-H09-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H10'] {
+  transform: translate(var(--hero-nudge-H10-x, 0px), var(--hero-nudge-H10-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H11'] {
+  transform: translate(var(--hero-nudge-H11-x, 0px), var(--hero-nudge-H11-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H12'] {
+  transform: translate(var(--hero-nudge-H12-x, 0px), var(--hero-nudge-H12-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H13'] {
+  transform: translate(var(--hero-nudge-H13-x, 0px), var(--hero-nudge-H13-y, 0px));
+}
+.site00-fb__hero--surgical [data-hero-object='H14'] {
+  transform: translate(var(--hero-nudge-H14-x, 0px), var(--hero-nudge-H14-y, 0px));
+}
+
 .site00-fb__hero--surgical > .site00-fb__hero-left-scrim {
   z-index: 5;
 }
@@ -470,7 +510,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 88px;
+  width: var(--hero-h09-width, 88px);
   height: 100%;
   z-index: 25;
   box-sizing: border-box;

@@ -43,6 +43,10 @@ export function HeroBlueprintDebugOverlay({ session, layers, liveCapture }: Prop
   const renderedCount = capture?.foundCount ?? 0;
   const passCount = receipt?.withinToleranceCount ?? 0;
   const outlierCount = receipt?.outlierCount ?? 0;
+  const outlierIds = new Set(
+    deltas.filter((d) => d.status === 'OUT_OF_TOLERANCE' && d.objectId !== 'H07').map((d) => d.objectId),
+  );
+  const showObject = (id: string) => !layers.outliersOnly || outlierIds.has(id as never);
 
   return (
     <div className="site00-hero-debug" aria-hidden="true">
@@ -68,7 +72,8 @@ export function HeroBlueprintDebugOverlay({ session, layers, liveCapture }: Prop
         </span>
       ))}
       {layers.authorityBoxes
-        ? authority.map((a) => (
+        ? authority.map((a) =>
+            !showObject(a.objectId) ? null : (
             <div
               key={`auth-${a.objectId}`}
               className="site00-hero-debug__box site00-hero-debug__box--authority"
@@ -87,6 +92,7 @@ export function HeroBlueprintDebugOverlay({ session, layers, liveCapture }: Prop
       {layers.renderedBoxes
         ? rendered.map((r) => {
             if (r.actualWidth <= 0 && r.objectId === 'H07') return null;
+            if (!showObject(r.objectId)) return null;
             return (
               <div
                 key={`rend-${r.objectId}`}
@@ -107,6 +113,7 @@ export function HeroBlueprintDebugOverlay({ session, layers, liveCapture }: Prop
       {layers.deltas
         ? deltas.map((d) => {
             if (d.objectId === 'H07') return null;
+            if (!showObject(d.objectId)) return null;
             const auth = authority.find((a) => a.objectId === d.objectId);
             if (!auth) return null;
             return (
