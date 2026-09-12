@@ -18,16 +18,26 @@ function listJsAssets(): string[] {
 }
 
 describe('SITE 00 production bundle guard', () => {
-  it('dist assets omit Playwright and chromium-bidi (run npm run build first in CI)', () => {
-    const files = listJsAssets();
-    expect(files.length).toBeGreaterThan(0);
-    const forbidden = ['chromium-bidi', 'import"playwright"', "import'playwright'"];
-    for (const file of files) {
-      const src = readFileSync(join(DIST_ASSETS, file), 'utf8');
-      for (const needle of forbidden) {
-        expect(src, `${file} must not reference ${needle}`).not.toContain(needle);
+  const distJsAssets = listJsAssets();
+
+  // CI `test` job runs before `npm run build`; dist scan runs in build via scripts/verify-production-dist.mjs
+  it.skipIf(distJsAssets.length === 0)(
+    'dist assets omit Playwright and chromium-bidi (local: npm run build first)',
+    () => {
+      const forbidden = ['chromium-bidi', 'import"playwright"', "import'playwright'"];
+      for (const file of distJsAssets) {
+        const src = readFileSync(join(DIST_ASSETS, file), 'utf8');
+        for (const needle of forbidden) {
+          expect(src, `${file} must not reference ${needle}`).not.toContain(needle);
+        }
       }
-    }
+    },
+  );
+
+  it('CI build runs verify-production-dist.mjs after npm run build', () => {
+    const workflow = readFileSync(join(ROOT, '.github/workflows/site00-production-deploy.yml'), 'utf8');
+    expect(workflow).toContain('node scripts/verify-production-dist.mjs');
+    expect(readFileSync(join(ROOT, 'scripts/verify-production-dist.mjs'), 'utf8')).toContain('chromium-bidi');
   });
 
   it('vite aliases Playwright to browser stubs', () => {
