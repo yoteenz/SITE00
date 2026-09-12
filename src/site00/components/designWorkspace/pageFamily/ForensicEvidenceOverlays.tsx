@@ -75,8 +75,13 @@ export function AllForensicsOverlay({ open, diagnosis, onClose, onSelectRegion }
                     {region.status.replace(/_/g, ' ')}
                   </span>
                   <span>
-                    {region.dimensionCount} dimensions · {region.confidence}
+                    {region.measurementDepthStatus ?? 'ANALYZED'} · {region.dimensionCount} dimensions · {region.confidence}
                   </span>
+                  {region.missingDimensions?.length ? (
+                    <span className="site00-pfw-forensic-overlay__missing">
+                      MISSING: {region.missingDimensions.slice(0, 5).join(' · ')}
+                    </span>
+                  ) : null}
                   {region.topDelta ? <span className="site00-pfw-upgrade-v2__forensics-delta">{region.topDelta}</span> : null}
                   {region.dimensions?.length ? (
                     <ul className="site00-pfw-forensic-overlay__dim-preview">
@@ -184,8 +189,13 @@ export function ForensicEvidenceDetailOverlay({
         <div className="site00-pfw-forensic-overlay__body">
           {regionSummary ? (
             <p className="site00-pfw-upgrade-v2__evidence-status">
-              {regionSummary.status.replace(/_/g, ' ')} · {regionSummary.dimensionCount} dimensions ·{' '}
-              {regionSummary.confidence}
+              {regionSummary.status.replace(/_/g, ' ')} · {regionSummary.measurementDepthStatus ?? 'MEASURED'} ·{' '}
+              {regionSummary.dimensionCount} dimensions · {regionSummary.confidence}
+            </p>
+          ) : null}
+          {regionSummary?.missingDimensions?.length ? (
+            <p className="site00-pfw-forensic-overlay__missing">
+              MISSING EVIDENCE: {regionSummary.missingDimensions.join(' · ')}
             </p>
           ) : null}
 
@@ -211,6 +221,14 @@ export function ForensicEvidenceDetailOverlay({
                       <dt>CONFIDENCE</dt>
                       <dd>{d.confidence}</dd>
                     </div>
+                    {d.authoritySource || d.currentSource ? (
+                      <div className="site00-pfw-forensic-overlay__sources">
+                        <dt>SOURCE</dt>
+                        <dd>
+                          AUTH {d.authoritySource ?? '—'} · CUR {d.currentSource ?? '—'}
+                        </dd>
+                      </div>
+                    ) : null}
                   </dl>
                 </li>
               ))}

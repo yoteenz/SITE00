@@ -2,7 +2,12 @@
  * P0.VR.DIAG.1 / P0.VR.DIAG.1R1 — Before/after drift convergence scoring.
  */
 
-import type { AuthorityRelativeForensicsReport, RegionConvergenceResult, VisualConvergenceScore } from './types.js';
+import type {
+  AuthorityRelativeForensicsReport,
+  DimensionConvergenceResult,
+  RegionConvergenceResult,
+  VisualConvergenceScore,
+} from './types.js';
 
 export function computeVisualConvergenceScore(input: {
   before: AuthorityRelativeForensicsReport;
@@ -64,6 +69,49 @@ function regionScore(report: AuthorityRelativeForensicsReport, regionId: string)
   const driftDims = bundle.dimensions.filter((d) => d.delta && !d.delta.includes('MISSING') && d.delta !== '0px');
   const penalty = driftDims.length * 12;
   return Math.max(0, Math.min(100, 100 - penalty));
+}
+
+export function computeDimensionConvergenceResults(input: {
+  before: AuthorityRelativeForensicsReport;
+  after: AuthorityRelativeForensicsReport;
+}): DimensionConvergenceResult[] {
+  const results: DimensionConvergenceResult[] = [];
+  for (const afterBundle of input.after.regionForensics) {
+    const beforeBundle = input.before.regionForensics.find((b) => b.regionId === afterBundle.regionId);
+    if (!beforeBundle) continue;
+    for (const afterDim of afterBundle.dimensions) {
+      const beforeDim = beforeBundle.dimensions.find((d) => d.dimension === afterDim.dimension);
+      if (!beforeDim) {
+        results.push({
+          regionId: afterBundle.regionId,
+          dimension: afterDim.dimension,
+          beforeValue: '—',
+          afterValue: afterDim.currentValue,
+          authorityValue: afterDim.authorityValue,
+          beforeDelta: null,
+          afterDelta: afterDim.delta,
+          improvementPct: null,
+          status: 'UNMEASURED',
+        });
+        continue;
+      }
+      const beforePenalty = beforeDim.alignedWithinTolerance ? 0 : 1;
+      const afterPenalty = afterDim.alignedWithinTolerance ? 0 : 1;
+      const improvementPct = beforePenalty > afterPenalty ? 100 : beforePenalty < afterPenalty ? -100 : 0;
+      results.push({
+        regionId: afterBundle.regionId,
+        dimension: afterDim.dimension,
+        beforeValue: beforeDim.currentValue,
+        afterValue: afterDim.currentValue,
+        authorityValue: afterDim.authorityValue,
+        beforeDelta: beforeDim.delta,
+        afterDelta: afterDim.delta,
+        improvementPct,
+        status: improvementPct > 0 ? 'IMPROVED' : improvementPct < 0 ? 'REGRESSED' : 'UNCHANGED',
+      });
+    }
+  }
+  return results;
 }
 
 export function computeRegionConvergenceResults(input: {

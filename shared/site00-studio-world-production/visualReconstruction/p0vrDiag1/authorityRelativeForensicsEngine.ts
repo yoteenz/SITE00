@@ -14,7 +14,9 @@ import {
   resolveCaptureScopes,
 } from './fullPageRegionCoverage.js';
 import { alignCapturePair } from './imageAlignment.js';
+import { combineCoverageAndDepthGates, evaluateForensicMeasurementDepthGate } from './forensicMeasurementDepthGate.js';
 import { buildRegionForensicsBundle } from './multiDimensionForensics.js';
+import { buildGlobalPageMeasurementProfile } from './regionMeasurementDepth.js';
 import { buildNormalizedViewportGeometry } from './normalizedViewportGeometry.js';
 import {
   discoverAuthorityRegions,
@@ -164,10 +166,14 @@ export function runAuthorityRelativeForensics(
       authority: authorityRegion,
       current: currentRegion,
       dom,
-      shell: shell ? { headerPaddingX: shell.headerPaddingX, contentPaddingX: shell.contentPaddingX } : null,
+      shell: shell
+        ? { headerPaddingX: shell.headerPaddingX, contentPaddingX: shell.contentPaddingX, sectionGap: shell.sectionGap }
+        : null,
       cssSnapshot,
       matchConfidence: match.matchConfidence,
       route: input.route ?? null,
+      viewportWidth: input.currentCapture.width,
+      viewportHeight: input.currentCapture.height,
     });
     regionForensics.push(bundle);
 
@@ -274,7 +280,15 @@ export function runAuthorityRelativeForensics(
   const topImpactItems = pickTopImpactItems(impactScores, TOP_IMPACT_ITEM_LIMIT);
 
   const coverageScore = computeForensicCoverageScore({ profile, regionForensics, regionMatches });
-  const coverageGate = evaluateForensicCoverageGate(coverageScore);
+  const coverageGateRaw = evaluateForensicCoverageGate(coverageScore);
+  const measurementDepthGate = evaluateForensicMeasurementDepthGate({ profile, regionForensics });
+  const coverageGate = combineCoverageAndDepthGates(coverageGateRaw, measurementDepthGate);
+  const globalPageProfile = buildGlobalPageMeasurementProfile({
+    viewportWidth: input.currentCapture.width,
+    shell: shellForStack,
+    cssSnapshot,
+    regionCount: profile.regions.length,
+  });
   const coverageMap = buildFullPageRegionCoverageMap({
     pageId: input.pageId,
     viewport: input.viewport,
@@ -301,6 +315,8 @@ export function runAuthorityRelativeForensics(
     regionForensics,
     coverageMap,
     coverageGate,
+    measurementDepthGate,
+    globalPageProfile,
     verticalRhythm,
     gutterProfile,
     typographyHierarchy,

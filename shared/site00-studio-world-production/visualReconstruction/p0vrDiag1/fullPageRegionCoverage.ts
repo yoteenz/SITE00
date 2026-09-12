@@ -6,6 +6,7 @@ import {
   COVERAGE_BLOCK_DEPTH_RATIO,
   COVERAGE_BLOCK_MAJOR_RATIO,
 } from './constants.js';
+import { isDepthSufficient } from './regionMeasurementDepth.js';
 import type { PageRegionLayoutDefinition, PageRegionLayoutProfile } from './pageRegionLayoutProfiles.js';
 import type {
   ForensicCaptureScope,
@@ -52,12 +53,17 @@ export function computeForensicCoverageScore(input: {
 
   const majorWithDepth = majorDefs.filter((def) => {
     const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
-    return bundle && bundle.dimensions.length >= 2;
+    return bundle && (isDepthSufficient(bundle.measurementDepth) || bundle.dimensions.length >= 2);
+  }).length;
+
+  const majorWithSufficientDepth = majorDefs.filter((def) => {
+    const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
+    return bundle && isDepthSufficient(bundle.measurementDepth);
   }).length;
 
   const ambiguousCount = input.regionMatches.filter((m) => m.status === 'AMBIGUOUS').length;
   const majorAccountedPct = majorTotal ? Math.round((majorAccounted / majorTotal) * 100) : 0;
-  const measurementDepthPct = majorTotal ? Math.round((majorWithDepth / majorTotal) * 100) : 0;
+  const measurementDepthPct = majorTotal ? Math.round((majorWithSufficientDepth / majorTotal) * 100) : 0;
   const score = Math.round(majorAccountedPct * 0.55 + measurementDepthPct * 0.45);
 
   return {
@@ -65,6 +71,7 @@ export function computeForensicCoverageScore(input: {
     majorAccounted,
     majorAccountedPct,
     majorWithMeasurementDepth: majorWithDepth,
+    majorWithSufficientDepth,
     measurementDepthPct,
     ambiguousCount,
     score,
@@ -76,7 +83,7 @@ export function evaluateForensicCoverageGate(score: ForensicCoverageScore): Fore
   let reason = 'All major authority regions accounted for with sufficient measurement depth.';
 
   const majorRatio = score.majorAuthorityTotal ? score.majorAccounted / score.majorAuthorityTotal : 1;
-  const depthRatio = score.majorAuthorityTotal ? score.majorWithMeasurementDepth / score.majorAuthorityTotal : 1;
+  const depthRatio = score.majorAuthorityTotal ? score.majorWithSufficientDepth / score.majorAuthorityTotal : 1;
 
   if (majorRatio < COVERAGE_BLOCK_MAJOR_RATIO || depthRatio < COVERAGE_BLOCK_DEPTH_RATIO) {
     status = 'BLOCK';
@@ -84,13 +91,13 @@ export function evaluateForensicCoverageGate(score: ForensicCoverageScore): Fore
     reason =
       unaccounted > 0
         ? `${unaccounted} major authority region(s) have not been accounted for (${score.majorAccounted}/${score.majorAuthorityTotal} major regions, ${score.majorWithMeasurementDepth} with multi-dimension depth).`
-        : `Insufficient multi-dimension measurement depth (${score.majorWithMeasurementDepth}/${score.majorAuthorityTotal} major regions with ≥2 dimensions).`;
+        : `Insufficient multi-dimension measurement depth (${score.majorWithSufficientDepth}/${score.majorAuthorityTotal} major regions SUFFICIENT).`;
   } else if (score.ambiguousCount > 0 || majorRatio < 0.95 || depthRatio < 0.85) {
     status = 'WARNING';
     reason =
       score.ambiguousCount > 0
         ? `${score.ambiguousCount} ambiguous region(s) need founder review before direction approval.`
-        : `Coverage acceptable but ${score.majorAuthorityTotal - score.majorWithMeasurementDepth} major region(s) lack full dimension depth.`;
+        : `Coverage acceptable but ${score.majorAuthorityTotal - score.majorWithSufficientDepth} major region(s) lack sufficient measurement depth.`;
   }
 
   return {
@@ -127,7 +134,7 @@ export function buildFullPageRegionCoverageMap(input: {
     .filter((r) => r.significance === 'MAJOR')
     .filter((def) => {
       const bundle = input.regionForensics.find((b) => b.regionId === def.regionId);
-      return !bundle || bundle.dimensions.length < 2;
+      return !bundle || !isDepthSufficient(bundle.measurementDepth);
     })
     .map((r) => r.regionName);
 

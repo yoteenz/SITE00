@@ -438,8 +438,9 @@ export function PageCreativeUpgradePanel({
                 >
                   <h3>FORENSIC COVERAGE</h3>
                   <p className="site00-pfw-upgrade-v2__coverage-summary">
-                    {diagnosis.forensicCoverage.majorAccounted} / {diagnosis.forensicCoverage.majorTotal} MAJOR REGIONS
-                    ACCOUNTED · {diagnosis.forensicCoverage.measurementDepthPct}% MULTI-DIMENSION DEPTH
+                    REGION COVERAGE {diagnosis.forensicCoverage.majorAccounted} / {diagnosis.forensicCoverage.majorTotal}
+                    · MEASUREMENT DEPTH {diagnosis.forensicCoverage.majorSufficientDepth ?? '—'} /{' '}
+                    {diagnosis.forensicCoverage.majorTotal} SUFFICIENT ({diagnosis.forensicCoverage.measurementDepthPct}%)
                     {diagnosis.forensicCoverage.ambiguousCount > 0
                       ? ` · ${diagnosis.forensicCoverage.ambiguousCount} AMBIGUOUS`
                       : ''}
@@ -447,6 +448,11 @@ export function PageCreativeUpgradePanel({
                   <p className="site00-pfw-upgrade-v2__coverage-gate">
                     {diagnosis.forensicCoverage.gateStatus}: {diagnosis.forensicCoverage.gateReason}
                   </p>
+                  {diagnosis.forensicCoverage.depthGateStatus ? (
+                    <p className="site00-pfw-upgrade-v2__coverage-gate">
+                      DEPTH {diagnosis.forensicCoverage.depthGateStatus}: {diagnosis.forensicCoverage.depthGateReason}
+                    </p>
+                  ) : null}
                   {diagnosis.forensicCoverage.scopeMismatch ? (
                     <p className="site00-pfw-upgrade-v2__coverage-warn">
                       CURRENT CAPTURE SCOPE INSUFFICIENT — FULL-PAGE CAPTURE REQUIRED FOR COMPLETE ANALYSIS.

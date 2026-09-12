@@ -21,6 +21,12 @@ function measureNodes(doc: Document, selector: string): DomRegionMeasurement[] {
       computedGap: styles.gap,
       computedFontSize: styles.fontSize,
       computedLineHeight: styles.lineHeight,
+      computedFontWeight: styles.fontWeight,
+      computedLetterSpacing: styles.letterSpacing,
+      computedTextTransform: styles.textTransform,
+      computedDisplay: styles.display,
+      computedAlignItems: styles.alignItems,
+      computedJustifyContent: styles.justifyContent,
       componentId: el.dataset.componentId ?? null,
     };
   });

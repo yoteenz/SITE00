@@ -328,6 +328,7 @@ describe('P0.VR.DIAG.1 forensics', () => {
         captureId: 'cap_after',
         width: 390,
         height: 844,
+        domMeasurements: [DOM_HEADER],
         cssSnapshot: { contentPaddingX: 14, headerHeightPx: 52 },
       },
       designAuthority: { authorityVersionId: 'a1', width: 390, height: 844, visualShellSpec: SHELL },
