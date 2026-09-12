@@ -9,6 +9,11 @@ import { runAuthorityRelativeForensics } from './authorityRelativeForensicsEngin
 import { reconcileForensicReportScoring } from './forensicReconciliation.js';
 import { resolvePageRegionLayoutProfile } from './pageRegionLayoutProfiles.js';
 import { storeForensicReport } from './forensicReportRegistry.js';
+import {
+  analyzeMissingForensicEvidence,
+  type AnalyzeMissingForensicEvidenceInput,
+} from '../p0vrDiag1R4/regionEvidenceRecovery.js';
+import type { RegionEvidenceRecoveryReceipt } from '../p0vrDiag1R4/types.js';
 import type {
   AuthorityRelativeForensicsInput,
   AuthorityRelativeForensicsReport,
@@ -82,6 +87,46 @@ export function recomputeForensicScoringFromReport(
   });
   storeForensicReport(reconciled);
   return { report: reconciled, measuredSpec, visualDiagnosis, reconstructionPlan };
+}
+
+/** Targeted shallow-region evidence recovery (1R4) — blockers only, no full re-segment. */
+export function runRegionEvidenceRecoveryForUpgrade(input: {
+  report: AuthorityRelativeForensicsReport;
+  forensicsVersion: string;
+  pageArchetype: string;
+  screenId?: string;
+  isRootPage?: boolean;
+  pagePurpose?: string;
+  route?: string;
+  domMeasurements?: AnalyzeMissingForensicEvidenceInput['domMeasurements'];
+  cssSnapshot?: AnalyzeMissingForensicEvidenceInput['cssSnapshot'];
+  shell?: AnalyzeMissingForensicEvidenceInput['shell'];
+  viewportWidth?: number;
+  viewportHeight?: number;
+}): { bundle: ForensicUpgradeBundle; receipt: RegionEvidenceRecoveryReceipt } {
+  const profile = resolvePageRegionLayoutProfile({
+    pageArchetype: input.pageArchetype,
+    screenId: input.screenId,
+    isRootPage: input.isRootPage,
+  });
+  const { report: recovered, receipt } = analyzeMissingForensicEvidence({
+    report: input.report,
+    profile,
+    forensicsVersion: input.forensicsVersion,
+    domMeasurements: input.domMeasurements,
+    cssSnapshot: input.cssSnapshot,
+    shell: input.shell,
+    viewportWidth: input.viewportWidth,
+    viewportHeight: input.viewportHeight,
+  });
+  const bundle = recomputeForensicScoringFromReport(recovered, {
+    pageArchetype: input.pageArchetype,
+    screenId: input.screenId,
+    isRootPage: input.isRootPage,
+    pagePurpose: input.pagePurpose,
+    route: input.route,
+  });
+  return { bundle, receipt };
 }
 
 export function forensicReportToVisualDiagnosis(report: AuthorityRelativeForensicsReport): PageVisualDiagnosis {

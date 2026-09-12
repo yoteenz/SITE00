@@ -9,10 +9,13 @@ import { getForensicReport } from '../p0vrDiag1/forensicReportRegistry.js';
 import {
   buildForensicUpgradeBundle,
   recomputeForensicScoringFromReport,
+  runRegionEvidenceRecoveryForUpgrade,
   type ForensicUpgradeBundle,
 } from '../p0vrDiag1/upgradeDiagnosisBridge.js';
+import type { RegionEvidenceRecoveryReceipt } from '../p0vrDiag1R4/types.js';
 import type { AuthorityRelativeForensicsInput } from '../p0vrDiag1/types.js';
 import { recordForensicsVersion } from '../p0vrDiag1/forensicsVersion.js';
+import { P0_VR_DIAG_1R4_BUILD } from '../p0vrDiag1/constants.js';
 import { createTwinSessionFromApprovedDirection } from '../p0vrUpgrade2/reconstructionTwinSession.js';
 import type { PageCreativeUpgradeSession, PageCreativeUpgradeStatus } from './types.js';
 import type { DomRegionMeasurement } from '../p0vrDiag1/types.js';
@@ -239,10 +242,15 @@ export function applyForensicUpgradeBundleToSession(
   pageId: string,
   viewport: DesignViewportClass,
   bundle: ForensicUpgradeBundle,
-  options?: { recalculatedAt?: string | null },
+  options?: {
+    recalculatedAt?: string | null;
+    evidenceRecoveryAt?: string | null;
+    recoveryReceipt?: RegionEvidenceRecoveryReceipt | null;
+  },
 ): PageCreativeUpgradeSession | null {
   const session = getPageCreativeUpgradeSession(projectId, pageId, viewport);
   if (!session) return null;
+  const receipt = options?.recoveryReceipt;
   const updated: PageCreativeUpgradeSession = {
     ...session,
     visualDiagnosis: bundle.visualDiagnosis,
@@ -250,6 +258,17 @@ export function applyForensicUpgradeBundleToSession(
     forensicsReportId: bundle.report.reportId,
     measuredSpecId: bundle.measuredSpec.specId,
     forensicsRecalculatedAt: options?.recalculatedAt ?? session.forensicsRecalculatedAt ?? null,
+    forensicsEvidenceRecoveryAt:
+      options?.evidenceRecoveryAt ?? receipt?.createdAt ?? session.forensicsEvidenceRecoveryAt ?? null,
+    lastEvidenceRecoverySummary: receipt
+      ? {
+          status: receipt.status,
+          depthBeforePct: receipt.depthBefore.pct,
+          depthAfterPct: receipt.depthAfter.pct,
+          regionsImproved: receipt.regionsImproved,
+          regionsStillBlocked: receipt.regionsStillBlocked,
+        }
+      : session.lastEvidenceRecoverySummary ?? null,
   };
   sessions.set(sessionKey(projectId, pageId, viewport), updated);
   return updated;
@@ -282,6 +301,53 @@ export function recalculatePageCreativeUpgradeForensics(
 
   const recalculatedAt = new Date().toISOString();
   return applyForensicUpgradeBundleToSession(projectId, pageId, viewport, bundle, { recalculatedAt });
+}
+
+/** Targeted blocker recovery (1R4) using stored report + live DOM — no new capture by default. */
+export function analyzeMissingPageCreativeUpgradeEvidence(
+  projectId: string,
+  pageId: string,
+  viewport: DesignViewportClass,
+  fullInput: AuthorityRelativeForensicsInput & {
+    pagePurpose: string;
+    route: string;
+    isRootPage?: boolean;
+    forensicsVersion?: string;
+  },
+): PageCreativeUpgradeSession | null {
+  const session = getPageCreativeUpgradeSession(projectId, pageId, viewport);
+  if (!session) return null;
+
+  const stored =
+    getForensicReport(session.forensicsReportId) ??
+    buildForensicUpgradeBundle(fullInput).report;
+
+  const shell = fullInput.designAuthority.visualShellSpec;
+  const { bundle, receipt } = runRegionEvidenceRecoveryForUpgrade({
+    report: stored,
+    forensicsVersion: fullInput.forensicsVersion ?? session.forensicsVersionId ?? P0_VR_DIAG_1R4_BUILD,
+    pageArchetype: fullInput.pageArchetype,
+    screenId: fullInput.screenId,
+    isRootPage: fullInput.isRootPage,
+    pagePurpose: fullInput.pagePurpose,
+    route: fullInput.route,
+    domMeasurements: fullInput.domMeasurements ?? fullInput.currentCapture.domMeasurements,
+    cssSnapshot: fullInput.currentCapture.cssSnapshot,
+    shell: shell
+      ? {
+          headerPaddingX: shell.headerPaddingX,
+          contentPaddingX: shell.contentPaddingX,
+          sectionGap: shell.sectionGap,
+        }
+      : null,
+    viewportWidth: fullInput.currentCapture.width,
+    viewportHeight: fullInput.currentCapture.height,
+  });
+
+  return applyForensicUpgradeBundleToSession(projectId, pageId, viewport, bundle, {
+    evidenceRecoveryAt: receipt.createdAt,
+    recoveryReceipt: receipt,
+  });
 }
 
 export function resetPageCreativeUpgradeSessionsForTest(): void {
