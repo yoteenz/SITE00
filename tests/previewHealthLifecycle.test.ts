@@ -10,7 +10,7 @@ describe('previewHealthLifecycle', () => {
   it('uses longer timeout for Supabase public URLs', () => {
     expect(
       resolvePreviewLoadTimeoutMs(
-        'https://example.supabase.co/storage/v1/object/public/live-preview/studio-world/x.webp',
+        'https://cdn.example.test/storage/v1/object/public/live-preview/studio-world/x.webp',
       ),
     ).toBe(PREVIEW_REMOTE_STORAGE_TIMEOUT_MS);
     expect(resolvePreviewLoadTimeoutMs('/site00/x.png')).toBe(PREVIEW_STATIC_IMAGE_TIMEOUT_MS);
