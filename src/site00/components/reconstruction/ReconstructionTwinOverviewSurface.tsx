@@ -8,6 +8,7 @@ import { OverviewMobileHomeScreen } from '../founderWorkspace/OverviewFounderWor
 import { AuthorityFirstNdxOverviewTwin } from './AuthorityFirstNdxOverviewTwin.js';
 import { ShellFirstNdxOverviewTwin } from './ShellFirstNdxOverviewTwin.js';
 import { VisionLiteralNdxOverviewTwin } from './VisionLiteralNdxOverviewTwin.js';
+import { ForensicBlueprintNdxOverviewTwin } from './ForensicBlueprintNdxOverviewTwin.js';
 import '../../styles/site00-founder-workspace.css';
 import '../../styles/site00-project-overview.css';
 
@@ -18,19 +19,24 @@ type Props = {
 
 export function ReconstructionTwinOverviewSurface({ projectSlug, session }: Props) {
   const renderMode = resolveTwinRenderMode(session);
+  const forensicExecuted = renderMode === 'FORENSIC_BLUEPRINT_EXECUTED_NDX_OVERVIEW';
+  const forensic = renderMode === 'FORENSIC_BLUEPRINT_NDX_OVERVIEW' || forensicExecuted;
   const visionLiteralExecuted = renderMode === 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW';
-  const visionLiteral = renderMode === 'VISION_LITERAL_NDX_OVERVIEW' || visionLiteralExecuted;
-  const shellFirst = renderMode === 'SHELL_FIRST_NDX_OVERVIEW';
+  const visionLiteral =
+    !forensic && (renderMode === 'VISION_LITERAL_NDX_OVERVIEW' || visionLiteralExecuted);
+  const shellFirst = !forensic && renderMode === 'SHELL_FIRST_NDX_OVERVIEW';
   const authorityFirst = renderMode === 'AUTHORITY_FIRST_NDX_OVERVIEW';
 
   return (
     <div
-      className={`site00-reconstruction-twin-page site00-ecosystem-shell--ndx-founder-mobile${shellFirst || visionLiteral ? ' site00-reconstruction-twin-page--shell-first' : ''}${visionLiteral ? ' site00-reconstruction-twin-page--vision-literal' : ''}`}
+      className={`site00-reconstruction-twin-page site00-ecosystem-shell--ndx-founder-mobile${shellFirst || visionLiteral || forensic ? ' site00-reconstruction-twin-page--shell-first' : ''}${visionLiteral ? ' site00-reconstruction-twin-page--vision-literal' : ''}${forensic ? ' site00-reconstruction-twin-page--forensic-blueprint' : ''}`}
       data-reconstruction-twin-surface="overview"
       data-twin-render-mode={renderMode}
       data-visual-authority-status={session.visualAuthorityStatus ?? 'PENDING'}
     >
-      {visionLiteral ? (
+      {forensic ? (
+        <ForensicBlueprintNdxOverviewTwin projectSlug={projectSlug} session={session} />
+      ) : visionLiteral ? (
         <VisionLiteralNdxOverviewTwin projectSlug={projectSlug} session={session} executed={visionLiteralExecuted} />
       ) : shellFirst ? (
         <ShellFirstNdxOverviewTwin projectSlug={projectSlug} />

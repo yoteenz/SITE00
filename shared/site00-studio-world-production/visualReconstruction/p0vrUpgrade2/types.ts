@@ -259,6 +259,16 @@ export type ReconstructionTwinSession = {
   geometryLiteralHeroSource?: import('../p0vrReplication3b/literalRegionSourceGenerator.js').GeneratedLiteralSource | null;
   /** P0.VR.REPLICATION.3D boundary — content root + hero slot enforcement */
   replicationRenderBoundaryReport?: import('../p0vrReplication3dBoundary/types.js').ReplicationRenderBoundaryReceipt | null;
+  /** P0.VR.REPLICATION.4 — Forensic blueprint zero-invention rebuild */
+  replicationMode?: 'FORENSIC_BLUEPRINT_REPLICATION' | string | null;
+  forensicAuthorityBlueprint?: import('../p0vrReplication4/types.js').ForensicAuthorityBlueprint | null;
+  forensicBlueprintReport?: import('../p0vrReplication4/types.js').ForensicBlueprintExecutionReport | null;
+  blueprintDomBindings?: import('../p0vrReplication4/types.js').BlueprintDomBinding[] | null;
+  blueprintAssetBindings?: import('../p0vrReplication4/types.js').BlueprintAssetBinding[] | null;
+  blueprintTranslationReceipts?: import('../p0vrReplication4/types.js').BlueprintTranslationReceipt[] | null;
+  objectGeometryDeltas?: import('../p0vrReplication4/types.js').ObjectGeometryDelta[] | null;
+  forensicConvergencePasses?: import('../p0vrReplication4/types.js').ForensicConvergencePass[] | null;
+  twinForensicCssPatch?: Record<string, string> | null;
 };
 
 export type PageLiveRegistryEntry = {

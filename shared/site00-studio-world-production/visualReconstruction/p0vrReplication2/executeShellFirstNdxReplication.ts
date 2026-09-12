@@ -12,6 +12,7 @@ import { executeVisionLiteralNdxReplication } from '../p0vrReplication3b/execute
 import { executeReplication3cPipeline } from '../p0vrReplication3c/executeReplication3cPipeline.js';
 import { executeGeometryLockPipeline } from '../p0vrReplication3d/executeGeometryLockPipeline.js';
 import { executeContentRootBoundaryPipeline } from '../p0vrReplication3dBoundary/executeContentRootBoundaryPipeline.js';
+import { executeForensicBlueprintPipeline } from '../p0vrReplication4/executeForensicBlueprintPipeline.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -100,12 +101,23 @@ export async function executeShellFirstNdxReplication(input: {
     coordinateMap: geometryLock.sessionPatch.authorityCoordinateMap ?? geometryLock.report.coordinateMap,
   });
 
+  const forensic = executeForensicBlueprintPipeline({
+    session: input.session,
+    boundaryReport: boundary.report,
+    priorTwinVersionId: boundary.sessionPatch.twinVersionId ?? geometryLock.sessionPatch.twinVersionId ?? input.twinVersionId,
+  });
+
   const visionReady = replication3c.report.heroHumanRecognizable;
-  const finalRenderMode = visionReady
-    ? 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW'
-    : replication3c.report.capabilityLimit
-      ? 'VISION_LITERAL_NDX_OVERVIEW'
-      : 'VISION_LITERAL_NDX_OVERVIEW';
+  const forensicReady =
+    forensic.report.status === 'PASS' ||
+    (forensic.report.requiredCoverage >= 95 && !forensic.report.invalidReplicationRoot);
+  const finalRenderMode = forensicReady
+    ? 'FORENSIC_BLUEPRINT_EXECUTED_NDX_OVERVIEW'
+    : forensic.report.status === 'FORENSIC_BLUEPRINT_EXECUTION_FAILED'
+      ? 'FORENSIC_BLUEPRINT_NDX_OVERVIEW'
+      : visionReady
+        ? 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW'
+        : 'VISION_LITERAL_NDX_OVERVIEW';
 
   return {
     blueprint,
@@ -117,8 +129,10 @@ export async function executeShellFirstNdxReplication(input: {
       ...replication3c.sessionPatch,
       ...geometryLock.sessionPatch,
       ...boundary.sessionPatch,
+      ...forensic.sessionPatch,
       status: pageReady ? 'READY_FOR_REVIEW' : shellPass ? base.sessionPatch.status : 'FAILED',
       twinRenderMode: finalRenderMode,
+      forensicBlueprintReport: forensic.report,
       visualAuthorityStatus: shellPass ? 'AUTHORITY_FIRST_BUILT' : 'SHELL_MISMATCH',
       authorityShellBlueprintId: blueprint.blueprintId,
       shellMatchResult: shellMatch,

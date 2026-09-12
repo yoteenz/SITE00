@@ -33,7 +33,7 @@ import '../../../styles/site00-reconstruction-twin.css';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
 type ReviewMode = 'before' | 'after' | 'authority';
-type TwinReviewMode = 'before' | 'twin' | 'authority';
+type TwinReviewMode = 'before' | 'twin' | 'authority' | 'blueprint';
 
 type Props = {
   open: boolean;
@@ -339,7 +339,7 @@ export function PageCreativeUpgradePanel({
 
   const renderTwinReviewControls = () => (
     <div className="site00-pfw-upgrade-v2__tabs" role="tablist" aria-label="Twin review">
-      {(['before', 'twin', 'authority'] as const).map((mode) => (
+      {(['before', 'twin', 'authority', 'blueprint'] as const).map((mode) => (
         <button
           key={mode}
           type="button"
@@ -374,20 +374,33 @@ export function PageCreativeUpgradePanel({
   const renderVisualCompare = () => {
     if (showTwinReview && !showPostBuild) {
       const twinPlaceholder = twinSession?.twinCapture?.imageRef ?? null;
+      const blueprintSrc =
+        twinSession?.forensicAuthorityBlueprint?.sourceBlueprintAsset ??
+        '/assets/ndxbook-reconstruction/ndxbook-mobile-forensic-blueprint.jpg';
       const src =
         twinReviewMode === 'before'
           ? currentScreenshot
           : twinReviewMode === 'twin'
             ? twinPlaceholder ?? currentScreenshot
-            : authorityScreenshot;
+            : twinReviewMode === 'blueprint'
+              ? blueprintSrc
+              : authorityScreenshot;
       const label =
-        twinReviewMode === 'before' ? 'BEFORE' : twinReviewMode === 'twin' ? 'TWIN' : 'DESIGN AUTHORITY';
+        twinReviewMode === 'before'
+          ? 'BEFORE'
+          : twinReviewMode === 'twin'
+            ? 'TWIN'
+            : twinReviewMode === 'blueprint'
+              ? 'FORENSIC BLUEPRINT'
+              : 'DESIGN AUTHORITY';
       const sub =
         twinReviewMode === 'authority'
           ? 'APPROVED REFERENCE'
-          : twinReviewMode === 'twin'
-            ? 'RECONSTRUCTION CANDIDATE'
-            : 'LIVE IMPLEMENTATION';
+          : twinReviewMode === 'blueprint'
+            ? 'TRANSLATION SPEC'
+            : twinReviewMode === 'twin'
+              ? 'RECONSTRUCTION CANDIDATE'
+              : 'LIVE IMPLEMENTATION';
       return (
         <>
           {renderTwinReviewControls()}
