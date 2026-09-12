@@ -9,6 +9,7 @@ import {
   readPersistedActiveTwinSessionId,
 } from './twinSessionPersistence.js';
 import { decodePageScopeToPageId, encodePageScope } from './twinRoute.js';
+import { enrichSessionVisualAuthority } from '../p0vrRebuild1/sessionVisualAuthority.js';
 
 const HANDOFF_PREFIX = 'site00:twin-preview-handoff:v1:';
 
@@ -120,7 +121,7 @@ export function resolveTwinSessionForPreview(sessionId: string): ReconstructionT
   if (fromRegistry) return fromRegistry;
   const handoff = readTwinSessionHandoff(sessionId);
   if (!handoff) return null;
-  return importTwinSessionForPreview(handoff);
+  return enrichSessionVisualAuthority(importTwinSessionForPreview(handoff));
 }
 
 /**
@@ -149,7 +150,7 @@ export function resolveTwinSessionForPreviewRoute(input: {
   );
   candidates.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   const latest = candidates[0];
-  if (latest) return importTwinSessionForPreview(latest);
+  if (latest) return enrichSessionVisualAuthority(importTwinSessionForPreview(latest));
 
   return null;
 }

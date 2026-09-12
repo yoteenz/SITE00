@@ -17,6 +17,11 @@ export function ReconstructionTwinBanner({ session }: Props) {
       <span>{session.viewport.toUpperCase()}</span>
       <span>{session.sessionId.slice(-8).toUpperCase()}</span>
       <span>{session.status.replace(/_/g, ' ')}</span>
+      {session.visualAuthorityStatus === 'FAILED_VISUAL_AUTHORITY' ||
+      session.visualAuthorityStatus === 'VISUAL_AUTHORITY_FAILED' ? (
+        <span className="site00-reconstruction-twin-banner__fail">FAILED VISUAL AUTHORITY</span>
+      ) : null}
+      {session.reconstructionStrategy ? <span>{session.reconstructionStrategy.replace(/_/g, ' ')}</span> : null}
     </div>
   );
 }

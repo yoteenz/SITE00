@@ -27,6 +27,7 @@ import {
   resolveUpgradeWorkflowState,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/index.js';
 import { stashTwinSessionForPreview } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinPreviewHandoff.js';
+import { formatProvenanceScore } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrRebuild1/fidelityScoreProvenance.js';
 import '../../../styles/site00-reconstruction-twin.css';
 
 type CompareMode = 'current' | 'authority' | 'overlay';
@@ -499,6 +500,16 @@ export function PageCreativeUpgradePanel({
               {twinSession?.status === 'READY_FOR_REVIEW' ? (
                 <p className="site00-pfw-upgrade-v2__approved">TWIN READY ✓</p>
               ) : null}
+              {twinSession?.visualAuthorityStatus === 'FAILED_VISUAL_AUTHORITY' ||
+              twinSession?.visualAuthorityStatus === 'VISUAL_AUTHORITY_FAILED' ? (
+                <p className="site00-pfw-upgrade-v2__twin-warning">
+                  FAILED VISUAL AUTHORITY — patch-based twin retained for debug. Rebuild to authority-first composition;
+                  promotion disabled.
+                </p>
+              ) : null}
+              {twinSession?.reconstructionStrategy === 'REBUILD_FROM_AUTHORITY' ? (
+                <p className="site00-pfw-upgrade-v2__approved">AUTHORITY-FIRST TWIN · {twinSession.twinRenderMode ?? 'REBUILD'}</p>
+              ) : null}
               {twinPreviewAbsoluteUrl &&
               twinSession &&
               ['READY_FOR_REVIEW', 'REVISION_REQUESTED', 'REVISING', 'APPROVED_FOR_PROMOTION'].includes(
@@ -873,15 +884,34 @@ export function PageCreativeUpgradePanel({
                 <section className="site00-pfw-upgrade-v2__convergence">
                   <h3>BEFORE DRIFT VS AFTER DRIFT</h3>
                   <dl className="site00-pfw-upgrade-v2__convergence-grid">
-                    {(['geometry', 'spacing', 'typography', 'assets', 'function'] as const).map((key) => (
-                      <div key={key}>
-                        <dt>{key.toUpperCase()}</dt>
-                        <dd>
-                          {twinSession.convergenceBefore![key]} → {twinSession.convergenceAfter![key]}
-                        </dd>
-                      </div>
-                    ))}
+                    {(['composition', 'geometry', 'spacing', 'typography', 'assets', 'function'] as const).map((key) => {
+                      const beforeVal =
+                        key === 'composition'
+                          ? twinSession.convergenceBefore?.composition ?? '—'
+                          : twinSession.convergenceBefore![key as 'geometry'];
+                      const afterVal =
+                        key === 'composition'
+                          ? twinSession.convergenceAfter?.composition ?? '—'
+                          : twinSession.convergenceAfter![key as 'geometry'];
+                      return (
+                        <div key={key}>
+                          <dt>{key.toUpperCase()}</dt>
+                          <dd>
+                            {beforeVal} → {afterVal}
+                          </dd>
+                        </div>
+                      );
+                    })}
                   </dl>
+                  {twinSession.fidelityScoreProvenance?.length ? (
+                    <ul className="site00-pfw-upgrade-v2__provenance">
+                      {twinSession.fidelityScoreProvenance.map((row) => (
+                        <li key={row.dimension}>
+                          <strong>{row.dimension}</strong> after {formatProvenanceScore(row)} · {row.status}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                   {twinSession.regionConvergence?.length ? (
                     <ul className="site00-pfw-upgrade-v2__region-convergence">
                       {twinSession.regionConvergence

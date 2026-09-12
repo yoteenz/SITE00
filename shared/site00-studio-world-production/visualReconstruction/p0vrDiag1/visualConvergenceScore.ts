@@ -51,14 +51,15 @@ function scoreFromDiffCount(diffCount: number, regionCount: number): number {
 }
 
 function overallFromDimensions(score: VisualConvergenceScore): number {
+  const composition = score.composition ?? score.order;
   const visual =
-    score.geometry * 0.25 +
-    score.spacing * 0.2 +
-    score.typography * 0.15 +
-    score.assets * 0.15 +
-    score.hierarchy * 0.1 +
-    score.controls * 0.1 +
-    score.order * 0.05;
+    composition * 0.28 +
+    score.geometry * 0.2 +
+    score.spacing * 0.14 +
+    score.typography * 0.12 +
+    score.assets * 0.1 +
+    score.hierarchy * 0.08 +
+    score.controls * 0.08;
   return Math.round(visual * 0.85 + score.function * 0.15);
 }
 

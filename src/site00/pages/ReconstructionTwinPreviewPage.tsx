@@ -100,7 +100,7 @@ export default function ReconstructionTwinPreviewPage() {
     <TwinPreviewErrorBoundary>
       <ReconstructionTwinProvider session={session}>
         <ReconstructionTwinBanner session={session} />
-        <ReconstructionTwinOverviewSurface projectSlug={projectSlug} />
+        <ReconstructionTwinOverviewSurface projectSlug={projectSlug} session={session} />
       </ReconstructionTwinProvider>
     </TwinPreviewErrorBoundary>
   );

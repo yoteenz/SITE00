@@ -8158,3 +8158,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `twinPreviewHandoff` (sessionStorage + localStorage stash); `resolveTwinSessionForPreview` + `importTwinSessionForPreview`; stash on build complete and before preview; mobile uses same-tab `location.assign` with popup fallback; preview page re-resolves session on mount. Build `P0_VR_CONVERGE_1R1_BUILD = v312`.
 - **Founder next:** Deploy **v320+** → TWIN READY → **PREVIEW TWIN** again (same device/browser); expect NOT LIVE banner + page content.
 
+---
+
+## 2026-09-12 — P0.VR.REBUILD.1 authority-first twin reconstruction (execution layer)
+
+- **Context:** NDXBOOK mobile twin QA proved patch-first model wrong — twin kept legacy stack (CONTENT OPERATIONS → date → 4 KPIs → production → radar) instead of approved authority macro composition (masthead, module nav, editorial hero, progress/metrics bands, activity, bottom nav).
+- **Delivered:** `p0vrRebuild1/` — `ReconstructionStrategyResolver` (PATCH / RECOMPOSE / **REBUILD_FROM_AUTHORITY**), `CompositionDivergenceScore`, `AuthorityCompositionBlueprint` + `AuthorityRegionBlueprint` from authority profile (not current DOM), `CurrentPageFunctionalInventory`, `FunctionalTransplantPlan` / `FunctionalBinding`, `AuthorityFirstTwinComposer`, `AuthorityCompositionCoverage`, `LegacyStructureRetentionCheck`, `VisualAuthorityAcceptanceGate`, `FidelityScoreProvenance` (unknown ≠ 100), `sessionVisualAuthority` (legacy patch twins → **FAILED_VISUAL_AUTHORITY**, promotion blocked). Pipeline: `runTwinBuildPipeline` calls authority-first path for NDX overview (`P0_VR_REBUILD_1_BUILD = v313`); convergence scoring weights **composition**. UI: `AuthorityFirstNdxOverviewTwin` + CSS; `ReconstructionTwinOverviewSurface` switches render mode; upgrade panel shows failed visual authority + provenance. Tests: `p0vrRebuild1AuthorityFirst.test.ts`.
+- **Founder next:** Do **not** promote existing patch twin — verify **FAILED VISUAL AUTHORITY** + disabled **APPROVE FOR PROMOTION** → **BUILD TWIN NOW** again → **PREVIEW TWIN** must show authority-shaped structure at first glance (not old stack); compare TWIN vs AUTHORITY before scores; refine from new twin only.
+
