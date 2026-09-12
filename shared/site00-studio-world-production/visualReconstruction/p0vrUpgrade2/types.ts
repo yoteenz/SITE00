@@ -236,6 +236,9 @@ export type ReconstructionTwinSession = {
   visionReplicationReport?: import('../p0vrReplication3b/types.js').VisionReplicationReport | null;
   visionLiteralRegionSpecs?: import('../p0vrReplication3b/types.js').LiteralRegionSpec[] | null;
   visionGeneratedSources?: import('../p0vrReplication3b/literalRegionSourceGenerator.js').GeneratedLiteralSource[] | null;
+  /** P0.VR.REPLICATION.3B-R1 */
+  replicationFailureClass?: import('../p0vrReplication3b/replicationRuntimeFailure.js').ReplicationFailureClass | null;
+  replicationRuntimeErrorCode?: string | null;
 };
 
 export type PageLiveRegistryEntry = {

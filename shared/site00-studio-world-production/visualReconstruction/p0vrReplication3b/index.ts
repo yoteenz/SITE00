@@ -9,3 +9,5 @@ export * from './executeVisionLiteralNdxReplication.js';
 export * from './playwrightVisionLoop.js';
 export * from './regionLiteralityScore.js';
 export * from './visionGenericDetector.js';
+export * from './clientSafeRuntime.js';
+export * from './replicationRuntimeFailure.js';

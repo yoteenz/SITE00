@@ -9,6 +9,7 @@ import {
   observationToLiteralRegionSpec,
 } from './ndxStructuralVisionSeed.js';
 import { LITERAL_UI_REPLICATION_PROMPT_CLASS } from './types.js';
+import { isVitestRuntime, resolveClientApiBase } from './clientSafeRuntime.js';
 
 const PRIMARY_MODEL = 'claude-sonnet-4-6';
 const ESCALATED_MODEL = 'claude-sonnet-4-6';
@@ -31,13 +32,7 @@ export function auditVisionReplicationProvider(): VisionProviderAudit {
 }
 
 function resolveApiBase(): string {
-  if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE) {
-    return String(import.meta.env.VITE_API_BASE).replace(/\/$/, '');
-  }
-  if (typeof process !== 'undefined' && process.env?.VITE_API_BASE) {
-    return String(process.env.VITE_API_BASE).replace(/\/$/, '');
-  }
-  return '';
+  return resolveClientApiBase();
 }
 
 function testFixtureObservation(input: VisionReplicationInspectInput): VisionReplicationObservation {
@@ -78,7 +73,7 @@ export function createBrowserVisionReplicationClient(options?: {
   return {
     auditProvider: auditVisionReplicationProvider,
     inspect: async (input) => {
-      if (options?.forceFixture || process.env.VITEST === 'true') {
+      if (options?.forceFixture || isVitestRuntime()) {
         return testFixtureObservation(input);
       }
       const base = resolveApiBase();
