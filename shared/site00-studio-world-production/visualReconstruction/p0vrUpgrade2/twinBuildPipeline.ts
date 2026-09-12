@@ -25,8 +25,9 @@ import { evaluateVisualAuthorityAcceptanceGate } from '../p0vrRebuild1/visualAut
 import { buildFidelityScoreProvenance } from '../p0vrRebuild1/fidelityScoreProvenance.js';
 import type { VisualAuthorityStatus } from '../p0vrRebuild1/types.js';
 import { resolveReconstructionMode } from '../p0vrReplication1/reconstructionModeResolver.js';
-import { executeNdxbookReplication } from '../p0vrReplication1R1/executeNdxbookReplication.js';
+import { executeShellFirstNdxReplication } from '../p0vrReplication2/executeShellFirstNdxReplication.js';
 import { NDX_PILOT_STACK_ORDER, P0_VR_REPLICATION_1R1_BUILD } from '../p0vrReplication1R1/constants.js';
+import { P0_VR_REPLICATION_2_BUILD } from '../p0vrReplication2/constants.js';
 
 function completeStep(steps: TwinBuildStepReceipt[], step: string, detail: string): TwinBuildStepReceipt[] {
   const now = new Date().toISOString();
@@ -64,7 +65,8 @@ export async function runTwinBuildPipeline(
 
   let authorityFirstResult: ReturnType<typeof composeAuthorityFirstTwin> | null = null;
   let visualAuthorityStatus: VisualAuthorityStatus = 'PENDING';
-  let twinRenderMode: 'LEGACY_PATCH' | 'AUTHORITY_FIRST_NDX_OVERVIEW' = 'LEGACY_PATCH';
+  let twinRenderMode: 'LEGACY_PATCH' | 'AUTHORITY_FIRST_NDX_OVERVIEW' | 'SHELL_FIRST_NDX_OVERVIEW' =
+    'LEGACY_PATCH';
   let authorityRegionOrder: string[] | null = null;
 
   steps = runningStep(steps, 'APPLYING_RECONSTRUCTION_PLAN');
@@ -121,7 +123,11 @@ export async function runTwinBuildPipeline(
 
   steps = runningStep(steps, 'BUILDING_ISOLATED_PAGE');
   const buildRef =
-    strategy === 'REBUILD_FROM_AUTHORITY' ? P0_VR_REPLICATION_1R1_BUILD : P0_VR_UPGRADE_2_BUILD;
+    strategy === 'REBUILD_FROM_AUTHORITY' && modeResolution.mode === 'REPLICATION_MODE'
+      ? P0_VR_REPLICATION_2_BUILD
+      : strategy === 'REBUILD_FROM_AUTHORITY'
+        ? P0_VR_REPLICATION_1R1_BUILD
+        : P0_VR_UPGRADE_2_BUILD;
   const twinVersion: TwinImplementationVersion = {
     versionId: `twin_v${session.sessionId}_1`,
     sessionId: session.sessionId,
@@ -216,7 +222,11 @@ export async function runTwinBuildPipeline(
 
   const legacyCheck = runLegacyStructureRetentionCheck({
     strategy,
-    twinSurface: twinRenderMode === 'AUTHORITY_FIRST_NDX_OVERVIEW' ? 'AUTHORITY_FIRST' : 'LEGACY_OVERVIEW',
+    twinSurface:
+      twinRenderMode === 'AUTHORITY_FIRST_NDX_OVERVIEW' ||
+      (strategy === 'REBUILD_FROM_AUTHORITY' && modeResolution.mode === 'REPLICATION_MODE')
+        ? 'AUTHORITY_FIRST'
+        : 'LEGACY_OVERVIEW',
   });
 
   const visualAuthorityAcceptanceGate = evaluateVisualAuthorityAcceptanceGate({
@@ -311,17 +321,19 @@ export async function runTwinBuildPipeline(
 
   let replicationExecutionPatch: Partial<ReconstructionTwinSession> | null = null;
   if (strategy === 'REBUILD_FROM_AUTHORITY' && modeResolution.mode === 'REPLICATION_MODE') {
-    const replication = await executeNdxbookReplication({
+    const replication = await executeShellFirstNdxReplication({
       session: { ...session, twinVersionId: twinVersion.versionId },
       twinVersionId: twinVersion.versionId,
-      convergenceAfter: convergence.after,
     });
     replicationExecutionPatch = replication.sessionPatch;
     if (replication.sessionPatch.convergenceAfter) {
       convergence.after = replication.sessionPatch.convergenceAfter;
     }
-    if (replication.receipt.status === 'FAIL') {
-      steps = completeStep(steps, 'BUILDING_ISOLATED_PAGE', `Replication failed at ${replication.receipt.failedStage ?? 'unknown'}`);
+    if (replication.shellMatch.status === 'FAIL') {
+      steps = completeStep(steps, 'BUILDING_ISOLATED_PAGE', replication.shellMatch.gateLabel);
+    } else if (replication.sessionPatch.replicationExecutionReceipt?.status === 'FAIL') {
+      const failedStage = replication.sessionPatch.replicationExecutionReceipt.failedStage ?? 'unknown';
+      steps = completeStep(steps, 'BUILDING_ISOLATED_PAGE', `Replication failed at ${failedStage}`);
     }
   }
 
@@ -352,8 +364,13 @@ export async function runTwinBuildPipeline(
     twinVersionId: twinVersion.versionId,
   });
 
+  const shellGateFailed =
+    replicationExecutionPatch?.shellMatchResult?.status === 'FAIL' ||
+    replicationExecutionPatch?.visualAuthorityStatus === 'SHELL_MISMATCH';
   const finalStatus =
-    replicationExecutionPatch?.status === 'FAILED' ? 'FAILED' : ('READY_FOR_REVIEW' as const);
+    replicationExecutionPatch?.status === 'FAILED' || shellGateFailed
+      ? 'FAILED'
+      : ('READY_FOR_REVIEW' as const);
 
   return {
     status: finalStatus,

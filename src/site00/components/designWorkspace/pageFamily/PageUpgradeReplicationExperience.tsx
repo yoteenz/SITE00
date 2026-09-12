@@ -16,6 +16,7 @@ import {
   stageLabel,
   type ReplicationExecutionReceipt,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication1R1/replicationExecutionReceipt.js';
+import { buildReplicationReviewModel } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication2/replicationReviewModel.js';
 import '../../../styles/site00-page-upgrade-replication.css';
 
 type Props = {
@@ -40,10 +41,10 @@ type Props = {
 
 const REPLICATION_STEPS = [
   'READING REFERENCE',
-  'BUILDING STRUCTURE',
-  'BINDING FUNCTION',
-  'MATCHING VISUALS',
-  'VERIFYING PAGE',
+  'SEGMENTING SHELL',
+  'REBUILDING SHELL',
+  'BINDING CONTENT',
+  'VERIFYING SHELL',
 ] as const;
 
 function reviewSummaryLabel(score: number | null | undefined): 'PASS' | 'WARNING' | 'NEEDS REVIEW' {
@@ -87,6 +88,14 @@ export function PageUpgradeReplicationExperience({
 
   const diff = twinSession?.finalReplicationDiff;
   const iterations = twinSession?.replicationIterations ?? [];
+  const reviewModel =
+    twinSession && (experienceState === 'REVIEW_READY' || experienceState === 'REFINING' || experienceState === 'PROMOTION_READY')
+      ? buildReplicationReviewModel({
+          session: twinSession,
+          authorityScreenshot,
+          shellMatch: twinSession.shellMatchResult ?? null,
+        })
+      : null;
 
   return (
     <div className="site00-pur" data-experience-state={experienceState}>
@@ -105,8 +114,15 @@ export function PageUpgradeReplicationExperience({
         <section className="site00-pur__screen">
           <header className="site00-pur__screen-head">
             <h2>REFERENCE</h2>
-            <p>Design authority + live page — one action to replicate.</p>
+            <p>Approved design authority — shell geometry is fixed before content is bound.</p>
           </header>
+          <section className="site00-pur__authority-panel" aria-label="Design authority">
+            <h3 className="site00-pur__authority-title">DESIGN AUTHORITY</h3>
+            <p className="site00-pur__authority-meta">
+              {session.route ?? '—'} · {session.viewport.toUpperCase()} ·{' '}
+              {session.designAuthorityVersionId ? 'Reference approved' : 'Reference missing — update authority'}
+            </p>
+          </section>
           <div className="site00-pur__status-row">
             <span className="site00-pur__chip">{authorityScreenshot ? 'REFERENCE READY' : 'REFERENCE PENDING'}</span>
             <span className="site00-pur__chip">{currentScreenshot ? 'LIVE READY' : 'LIVE PENDING'}</span>
@@ -129,6 +145,10 @@ export function PageUpgradeReplicationExperience({
               )}
             </figure>
           </div>
+          <p className="site00-pur__replicate-hint">
+            SITE 00 will rebuild the page shell from the approved reference, then bind live content into the same
+            structure. Live page unchanged.
+          </p>
           <div className="site00-pur__cta-sticky">
             <button
               type="button"
@@ -146,7 +166,7 @@ export function PageUpgradeReplicationExperience({
         <section className="site00-pur__screen">
           <header className="site00-pur__screen-head">
             <h2>REPLICATE</h2>
-            <p>Replication in progress — real build receipts.</p>
+            <p>Building shell from authority — content binding follows.</p>
           </header>
           <ol className="site00-pur__step-rail">
             {REPLICATION_STEPS.map((label, i) => {
@@ -177,10 +197,22 @@ export function PageUpgradeReplicationExperience({
         <section className="site00-pur__screen">
           <header className="site00-pur__screen-head">
             <h2>{experienceState === 'PROMOTION_READY' ? 'PROMOTE' : 'REVIEW'}</h2>
-            <p>Authority vs twin — visual first.</p>
+            <p>Compare authority vs twin — shell fidelity first.</p>
           </header>
+          {reviewModel ? (
+            <ul className="site00-pur__review-summary">
+              <li>{reviewModel.shellMatchLabel}</li>
+              <li>{reviewModel.macroFidelityLabel}</li>
+              <li>Function preserved ✓</li>
+              <li>{reviewModel.liveUnchangedNote}</li>
+            </ul>
+          ) : null}
           {reviewCompare}
           <dl className="site00-pur__summary">
+            <div>
+              <dt>SHELL</dt>
+              <dd>{reviewModel?.shellMatchPass ? 'PASS' : 'NEEDS REVIEW'}</dd>
+            </div>
             <div>
               <dt>COMPOSITION</dt>
               <dd>{reviewSummaryLabel(diff?.compositionScore)}</dd>
@@ -210,7 +242,7 @@ export function PageUpgradeReplicationExperience({
             ) : (
               <>
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onApproveDirection}>
-                  APPROVE DIRECTION
+                  ACCEPT DIRECTION
                 </button>
                 <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onRefine}>
                   REFINE
@@ -257,6 +289,19 @@ export function PageUpgradeReplicationExperience({
             </p>
             {twinSession?.legacyTwinLabel ? (
               <p className="site00-pur__legacy">LEGACY PATCH TWIN · FAILED VISUAL AUTHORITY (preserved for debug)</p>
+            ) : null}
+            {twinSession?.shellReconstructionReceipt ? (
+              <p>
+                SHELL RECEIPT: {twinSession.shellReconstructionReceipt.message} · blueprint{' '}
+                {twinSession.authorityShellBlueprintId ?? '—'}
+              </p>
+            ) : null}
+            {twinSession?.shellMatchResult?.blockingReasons.length ? (
+              <ul>
+                {twinSession.shellMatchResult.blockingReasons.map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+              </ul>
             ) : null}
             {detailsPanel}
           </div>

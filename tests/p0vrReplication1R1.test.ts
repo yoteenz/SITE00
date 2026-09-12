@@ -132,7 +132,7 @@ describe('P0.VR.REPLICATION.1R1', () => {
     const pipeline = read(
       'shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/twinBuildPipeline.ts',
     );
-    expect(pipeline).toContain('executeNdxbookReplication');
+    expect(pipeline).toContain('executeShellFirstNdxReplication');
     expect(pipeline).toContain('composition deferred to replication executor');
   });
 
@@ -160,7 +160,7 @@ describe('P0.VR.REPLICATION.1R1', () => {
 
   it('review experience shows authority vs twin compare node', () => {
     const ux = read('src/site00/components/designWorkspace/pageFamily/PageUpgradeReplicationExperience.tsx');
-    expect(ux).toContain('Authority vs twin');
+    expect(ux).toContain('Compare authority vs twin');
     expect(ux).toContain('reviewCompare');
   });
 });
