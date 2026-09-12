@@ -8280,3 +8280,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Limits:** Playwright `getBoundingClientRect` measure loop deferred (passes use blueprint CSS patch until founder runs overlay QA). Hard visual PASS still requires founder confirms twin matches authority.
 - **Founder next:** Deploy **v334+** → REPLICATE → REVIEW (AUTHORITY / BLUEPRINT / TWIN) → DETAILS coverage → PREVIEW `?blueprintDebug=overlay`. Live `/projects/ndxbook` unchanged.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.4R1 authority tightening pass (twin only)
+
+- **Problem:** Twin still drifted — hero showed duplicate/ghost text (full authority URL behind DOM copy), loose shell spacing, masthead right column unstable.
+- **Fix:** `p0vrReplication4R1/` — parent geometry CSS locks (375 shell, 24px gutter, band heights); hero decomposed into left editorial / cropped photo field + left scrim / right utility stack; masthead right colophon block; blueprint tab widths; progress phase dot; focus grid placement. Pipeline `executeAuthorityTighteningPass` after 4 on REPLICATE. Preview `?twinCompare=1` strip; DETAILS **TIGHTENING DRIFT (4R1)**.
+- **Founder next:** Deploy **v335+** → REPLICATE → PREVIEW `?twinCompare=1` + `?blueprintDebug=overlay` → confirm hero has single text layer. Visual exactness still founder-signed.
+
