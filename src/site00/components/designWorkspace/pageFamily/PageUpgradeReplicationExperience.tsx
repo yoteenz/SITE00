@@ -24,6 +24,7 @@ import { AssetResolutionPanel } from './AssetResolutionPanel.js';
 import { GeometryPanel } from './GeometryPanel.js';
 import { BoundaryTracePanel } from './BoundaryTracePanel.js';
 import { BlueprintTranslationPanel } from './BlueprintTranslationPanel.js';
+import { AuthorityTighteningPanel } from './AuthorityTighteningPanel.js';
 import '../../../styles/site00-page-upgrade-replication.css';
 
 type Props = {
@@ -86,6 +87,7 @@ export function PageUpgradeReplicationExperience({
   const [geometryOpen, setGeometryOpen] = useState(false);
   const [boundaryOpen, setBoundaryOpen] = useState(false);
   const [blueprintOpen, setBlueprintOpen] = useState(false);
+  const [tighteningOpen, setTighteningOpen] = useState(false);
   const experienceState = resolveReconstructionExperienceState({
     session,
     twinSession,
@@ -390,6 +392,14 @@ export function PageUpgradeReplicationExperience({
               {blueprintOpen ? 'HIDE BLUEPRINT TRANSLATION' : 'BLUEPRINT TRANSLATION'}
             </button>
             {blueprintOpen ? <BlueprintTranslationPanel report={twinSession?.forensicBlueprintReport} /> : null}
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+              onClick={() => setTighteningOpen((v) => !v)}
+            >
+              {tighteningOpen ? 'HIDE TIGHTENING DRIFT' : 'TIGHTENING DRIFT (4R1)'}
+            </button>
+            {tighteningOpen ? <AuthorityTighteningPanel report={twinSession?.authorityTighteningReport} /> : null}
           </div>
         ) : null}
       </footer>

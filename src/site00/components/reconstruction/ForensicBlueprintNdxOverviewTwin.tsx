@@ -6,6 +6,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import { TwinSite00HostBottomNav } from './TwinSite00HostBottomNav.js';
 import { BlueprintVsTwinOverlay } from './BlueprintVsTwinOverlay.js';
+import { TwinAuthorityCompareStrip } from './TwinAuthorityCompareStrip.js';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
 import '../../styles/site00-forensic-blueprint-twin.css';
@@ -51,8 +52,10 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
       data-forensic-blueprint-twin="ndx-overview-mobile"
       data-twin-mount-root="forensic-blueprint-overview"
       data-4-build={session.forensicBlueprintReport?.buildRef ?? null}
+      data-4r1-build={session.authorityTighteningReport?.buildRef ?? null}
       style={cssPatch}
     >
+      <TwinAuthorityCompareStrip session={session} />
       <BlueprintVsTwinOverlay session={session} />
 
       <header className="site00-fb__host" data-forensic-section="host-header">
@@ -82,20 +85,26 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
           <ForensicText objectId="08" className="site00-fb__badge">
             FOUNDER OWNED
           </ForensicText>
-          <ForensicText objectId="09" className="site00-fb__colophon">
-            CULTURE
-            <br />
-            INTELLIGENCE
-            <br />
-            ARCHIVE
-            <br />
-            <u>IN PROGRESS</u>
-          </ForensicText>
-          <ForensicText objectId="10" className="site00-fb__colophon site00-fb__colophon--muted">
-            IDEAS · PEOPLE
-            <br />
-            PATTERNS · POWER
-          </ForensicText>
+          <div className="site00-fb__masthead-right">
+            <ForensicText objectId="09" className="site00-fb__colophon">
+              CULTURE
+              <br />
+              INTELLIGENCE
+              <br />
+              ARCHIVE
+              <br />
+              <u>IN PROGRESS</u>
+            </ForensicText>
+            <ForensicText objectId="10" className="site00-fb__colophon site00-fb__colophon--muted">
+              IDEAS
+              <br />
+              PEOPLE
+              <br />
+              PATTERNS
+              <br />
+              POWER
+            </ForensicText>
+          </div>
         </section>
 
         <nav className="site00-fb__section-nav" data-forensic-section="section-nav" aria-label="Module navigation">
@@ -111,34 +120,54 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
         </nav>
 
         <section className="site00-fb__hero" data-forensic-section="hero">
-          {heroAsset ? (
-            <div
-              className="site00-fb__hero-photo"
-              data-forensic-object-id="22"
-              style={{ backgroundImage: `url(${heroAsset})` }}
-              role="img"
-              aria-label="Hero architecture"
-            />
-          ) : (
-            <div className="site00-fb__hero-photo site00-fb__hero-photo--fallback" data-forensic-object-id="22" />
-          )}
-          <ForensicText objectId="17" className="site00-fb__hero-entry">
-            ENTRY 003
-          </ForensicText>
-          <ForensicText objectId="18" className="site00-fb__hero-headline">
-            CULTURE THROUGH A SHARPER LENS.
-          </ForensicText>
-          <span className="site00-fb__hero-accent" data-forensic-object-id="20" aria-hidden="true" />
-          <ForensicText objectId="19" className="site00-fb__hero-body">
-            IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.
-          </ForensicText>
-          <button type="button" className="site00-fb__hero-cta" data-forensic-object-id="21">
-            VIEW PROJECT →
-          </button>
-          <span className="site00-fb__hero-crosshair" data-forensic-object-id="23" aria-hidden="true" />
-          <ForensicText objectId="24" className="site00-fb__hero-zero">
-            00
-          </ForensicText>
+          <div className="site00-fb__hero-media-field" data-forensic-object-id="22">
+            {heroAsset ? (
+              <div
+                className="site00-fb__hero-photo-crop"
+                style={{
+                  backgroundImage: `url(${heroAsset})`,
+                  backgroundSize: 'var(--fb-hero-photo-size)',
+                  backgroundPosition: 'var(--fb-hero-photo-position)',
+                }}
+                role="img"
+                aria-label="Hero architecture crop"
+              />
+            ) : (
+              <div className="site00-fb__hero-photo-crop site00-fb__hero-photo-crop--fallback" />
+            )}
+            <div className="site00-fb__hero-left-scrim" aria-hidden="true" />
+          </div>
+
+          <div className="site00-fb__hero-left" data-hero-subregion="left-editorial">
+            <ForensicText objectId="17" className="site00-fb__hero-entry">
+              ENTRY 003
+            </ForensicText>
+            <ForensicText objectId="18" className="site00-fb__hero-headline">
+              CULTURE THROUGH A SHARPER LENS.
+            </ForensicText>
+            <span className="site00-fb__hero-accent" data-forensic-object-id="20" aria-hidden="true" />
+            <ForensicText objectId="19" className="site00-fb__hero-body">
+              IDEAS BECOME ENVIRONMENTS. ENVIRONMENTS CREATE OPPORTUNITY.
+            </ForensicText>
+            <button type="button" className="site00-fb__hero-cta" data-forensic-object-id="21">
+              VIEW PROJECT →
+            </button>
+          </div>
+
+          <div className="site00-fb__hero-right" data-hero-subregion="right-utility">
+            <ul className="site00-fb__hero-stack" aria-hidden="true">
+              <li>NDX</li>
+              <li>PEOPLE</li>
+              <li>IDEAS</li>
+              <li>CULTURE</li>
+              <li>IMPACT</li>
+            </ul>
+            <span className="site00-fb__hero-crosshair" data-forensic-object-id="23" aria-hidden="true" />
+            <ForensicText objectId="24" className="site00-fb__hero-zero">
+              00
+            </ForensicText>
+          </div>
+
           <ForensicText objectId="25" className="site00-fb__hero-ndx">
             NDX
           </ForensicText>
@@ -201,9 +230,10 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
           </div>
           <div className="site00-fb__metric">
             <span data-forensic-object-id="44" className="site00-fb__metric-icon" aria-hidden="true" />
-            <ForensicText objectId="45" className="site00-fb__metric-num">
+            <ForensicText objectId="45" className="site00-fb__metric-num site00-fb__metric-num--compact">
               CONNECTED
             </ForensicText>
+            <span className="site00-fb__metric-title site00-fb__metric-title--metric4">TECHNICAL HEALTH</span>
             <ForensicText objectId="46" className="site00-fb__metric-status site00-fb__metric-status--green">
               PASSING
             </ForensicText>
