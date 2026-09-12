@@ -8064,3 +8064,19 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (P0.VR.CAPTURE.1R3B):** `founderDesignWorkspaceSnapshot.ts` — JSON snapshot (public URLs + metadata, no data URLs) pushed to Supabase storage `site00/founder-design-workspace/{projectId}/snapshot-v1.json` via page-mirror `put_founder_design_snapshot` / `get_founder_design_snapshot`. Auto push debounced after capture/authority/registry saves; pull on workspace mount (`usePageViewportCapture`, `usePageMirror`). Tests: `founderDesignWorkspaceSnapshot.test.ts`.
 - **Founder next:** **Redeploy Railway API** (new mirror actions) + **deploy frontend ZIP** → replace authority + capture once → hard refresh → bindings should restore from cloud even if localStorage cleared. If upload shows **SAVED ON THIS DEVICE ONLY**, fix API/CORS before expecting cross-device persistence.
 
+---
+
+## 2026-09-12 — RECALCULATE FORENSICS button no visible feedback
+
+- **Symptom:** PAGE UPGRADE **RECALCULATE FORENSICS** appeared to do nothing visually.
+- **Cause:** Handler re-ran full `buildForensicUpgradeBundle` with no loading/success UI; 1R3 `recomputeForensicScoringFromReport` existed but reports were not retained in a registry after open, so rescoring path was unused; synchronous work on main thread felt like a dead tap.
+- **Fix:** `forensicReportRegistry.ts` stores reports on bundle build; `recalculatePageCreativeUpgradeForensics()` prefers rescore-from-stored-report; session `forensicsRecalculatedAt`; button shows **RECALCULATING…**, **FORENSICS UPDATED · time**, error line, coverage pulse CSS. Tests: `recalculateForensicsUpgrade.test.ts`.
+
+---
+
+## 2026-09-12 — Replace authority APPROVE `a.width` Safari error (site00.com)
+
+- **Symptom:** REPLACE DESIGN AUTHORITY step 2 — **APPROVE & REPLACE** showed `undefined is not an object (evaluating 'a.width')` on deployed site00.com (mobile Safari).
+- **Cause:** `approveDesignAuthorityReplacement` used `CANONICAL_VIEWPORT_DIMENSIONS[context.viewport]` without fallback (unlike upload step); missing/invalid viewport on draft context → undefined `.width`.
+- **Fix:** `normalizeDesignViewportClass` + `resolveCanonicalViewportDimensions` in `p0vr2/constants.ts`; approve uses draft image dimensions + safe viewport; draft context normalized on upload; try/finally on dialog approve. Test in `visualReconstructionP0VRAUTH1.test.ts`.
+

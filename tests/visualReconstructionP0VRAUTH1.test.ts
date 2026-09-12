@@ -161,6 +161,29 @@ describe('P0.VR.AUTH.1 — authority + preview lifecycle', () => {
     expect(PREVIEW_STATIC_IMAGE_TIMEOUT_MS).toBeLessThanOrEqual(15000);
   });
 
+  it('approve tolerates invalid viewport class on draft context (Safari width crash)', async () => {
+    const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    const file = new File([png], 'ref.png', { type: 'image/png' });
+    const draft = await beginReplaceDesignAuthorityUpload(
+      {
+        projectId: 'ndxbook',
+        pageId: 'ndxbook:/projects/ndxbook',
+        screenId: 'overview',
+        route: '/projects/ndxbook',
+        viewport: 'mobile',
+        displayName: 'NDXBOOK OVERVIEW',
+      },
+      file,
+    );
+    if (!draft.ok) return;
+    const broken = {
+      ...draft.draft,
+      context: { ...draft.draft.context, viewport: undefined as unknown as 'mobile' },
+    };
+    const result = approveDesignAuthorityReplacement(broken);
+    expect(result.ok).toBe(true);
+  });
+
   it('mobile replacement does not change desktop authority', async () => {
     const png = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     const file = new File([png], 'ref.png', { type: 'image/png' });

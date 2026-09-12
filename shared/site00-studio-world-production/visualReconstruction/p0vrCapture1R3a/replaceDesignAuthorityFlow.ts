@@ -3,7 +3,10 @@
  */
 
 import type { DesignViewportClass } from '../p0vr2/types.js';
-import { CANONICAL_VIEWPORT_DIMENSIONS } from '../p0vr2/constants.js';
+import {
+  normalizeDesignViewportClass,
+  resolveCanonicalViewportDimensions,
+} from '../p0vr2/constants.js';
 import {
   getActiveCanonicalReference,
   promoteReferenceToCanonical,
@@ -81,8 +84,8 @@ export async function beginReplaceDesignAuthorityFromDataUrl(
       extension: ext,
     });
 
-    const viewportDims =
-      CANONICAL_VIEWPORT_DIMENSIONS[context.viewport] ?? CANONICAL_VIEWPORT_DIMENSIONS.mobile;
+    const viewportClass = normalizeDesignViewportClass(context.viewport);
+    const viewportDims = resolveCanonicalViewportDimensions(viewportClass);
     let width: number = viewportDims.width;
     let height: number = viewportDims.height;
     try {
@@ -96,7 +99,7 @@ export async function beginReplaceDesignAuthorityFromDataUrl(
     return {
       ok: true,
       draft: {
-        context,
+        context: { ...context, viewport: viewportClass },
         storagePath,
         previewDataUrl,
         mimeType,
@@ -159,8 +162,11 @@ export function approveDesignAuthorityReplacement(
   uploaded?: ReplaceDesignAuthorityUploadPayload | null,
   options?: { reason?: DesignAuthoritySupersessionReason },
 ): ReplaceDesignAuthorityResult {
-  const { context } = draft;
-  const viewport = CANONICAL_VIEWPORT_DIMENSIONS[context.viewport];
+  const context = {
+    ...draft.context,
+    viewport: normalizeDesignViewportClass(draft.context.viewport),
+  };
+  const viewportDims = resolveCanonicalViewportDimensions(context.viewport);
   const existing = getActiveCanonicalReference(context.projectId, context.screenId, context.viewport);
   const storagePath = uploaded?.storagePath ?? draft.storagePath;
   const renderableRef = uploaded?.publicUrl ?? draft.storagePath;
@@ -173,8 +179,8 @@ export function approveDesignAuthorityReplacement(
       screenId: context.screenId,
       route: context.route,
       viewportClass: context.viewport,
-      viewportWidth: viewport.width,
-      viewportHeight: viewport.height,
+      viewportWidth: draft.width || viewportDims.width,
+      viewportHeight: draft.height || viewportDims.height,
       scope: 'FULL_SCREEN_REFERENCE',
       scopeTargetId: context.screenId,
       assetId: `${context.screenId}-${context.viewport}-founder-upload`,

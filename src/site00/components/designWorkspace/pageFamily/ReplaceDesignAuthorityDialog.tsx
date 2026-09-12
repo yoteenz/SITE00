@@ -110,33 +110,42 @@ export function ReplaceDesignAuthorityDialog({
     setApproving(true);
     setError(null);
     setLocalOnlyNotice(null);
-    const resolved = await resolveDesignAuthorityUpload({
-      projectId,
-      screenId,
-      viewport,
-      dataUrl: draft.previewDataUrl,
-      mimeType: draft.mimeType,
-    });
-    if (!resolved.ok) {
-      setApproving(false);
-      setError(resolved.message);
-      return;
-    }
-    const result = approveDesignAuthorityReplacement(draft, resolved.upload);
-    setApproving(false);
-    if (!result.ok) {
-      setError(result.message);
-      return;
-    }
-    setDraft(null);
-    void pushFounderDesignWorkspaceSnapshot(projectId);
-    if (resolved.localOnly) {
-      onReplaced(resolved.warning);
+    try {
+      const resolved = await resolveDesignAuthorityUpload({
+        projectId,
+        screenId,
+        viewport,
+        dataUrl: draft.previewDataUrl,
+        mimeType: draft.mimeType,
+      });
+      if (!resolved.ok) {
+        setError(resolved.message);
+        return;
+      }
+      const result = approveDesignAuthorityReplacement(draft, resolved.upload);
+      if (!result.ok) {
+        setError(result.message);
+        return;
+      }
+      setDraft(null);
+      void pushFounderDesignWorkspaceSnapshot(projectId);
+      if (resolved.localOnly) {
+        onReplaced(resolved.warning);
+        onClose();
+        return;
+      }
+      onReplaced();
       onClose();
-      return;
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(
+        message.includes('width')
+          ? 'APPROVE FAILED — viewport metadata missing. Close dialog and retry, or hard-refresh the page.'
+          : message || 'APPROVE FAILED',
+      );
+    } finally {
+      setApproving(false);
     }
-    onReplaced();
-    onClose();
   };
 
   const handleCancel = () => {
