@@ -200,6 +200,17 @@ export type ReconstructionTwinSession = {
   activeBuildJobId?: string | null;
   buildJobStatus?: string | null;
   lastBuildExecutionReceipt?: import('../p0vrConverge1/twinBuildJob.js').TwinBuildExecutionReceipt | null;
+  /** P0.VR.REBUILD.1 — Authority-first reconstruction */
+  reconstructionStrategy?: import('../p0vrRebuild1/types.js').ReconstructionStrategy;
+  compositionDivergenceScore?: import('../p0vrRebuild1/types.js').CompositionDivergenceScore | null;
+  twinCompositionVersion?: import('../p0vrRebuild1/types.js').TwinCompositionVersion | null;
+  authorityRegionOrder?: string[] | null;
+  visualAuthorityStatus?: import('../p0vrRebuild1/types.js').VisualAuthorityStatus | null;
+  twinRenderMode?: import('../p0vrRebuild1/types.js').TwinRenderMode | null;
+  authorityCompositionCoverage?: import('../p0vrRebuild1/types.js').AuthorityCompositionCoverage | null;
+  legacyStructureRetentionCheck?: import('../p0vrRebuild1/types.js').LegacyStructureRetentionCheck | null;
+  visualAuthorityAcceptanceGate?: import('../p0vrRebuild1/types.js').VisualAuthorityAcceptanceGate | null;
+  fidelityScoreProvenance?: import('../p0vrRebuild1/types.js').FidelityScoreProvenance[] | null;
 };
 
 export type PageLiveRegistryEntry = {

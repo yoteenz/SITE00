@@ -27,6 +27,7 @@ import {
   resetTwinSessionPersistenceForTest,
   writePersistedTwinSession,
 } from './twinSessionPersistence.js';
+import { enrichSessionVisualAuthority } from '../p0vrRebuild1/sessionVisualAuthority.js';
 
 const sessions = new Map<string, ReconstructionTwinSession>();
 
@@ -136,7 +137,9 @@ export function createTwinSessionFromApprovedDirection(input: {
 
 export function getTwinSession(sessionId: string): ReconstructionTwinSession | null {
   syncRuntimeFromPersistence();
-  return sessions.get(sessionKey(sessionId)) ?? null;
+  const raw = sessions.get(sessionKey(sessionId));
+  if (!raw) return null;
+  return enrichSessionVisualAuthority(raw);
 }
 
 /** Register a twin session from preview handoff (sessionStorage) into runtime + localStorage. */
@@ -148,7 +151,7 @@ export function importTwinSessionForPreview(session: ReconstructionTwinSession):
     setActiveTwinSession(session.projectId, session.pageId, session.sessionId);
   }
   persistSession(session);
-  return session;
+  return enrichSessionVisualAuthority(session);
 }
 
 export function getActiveTwinSessionForPage(
@@ -160,7 +163,7 @@ export function getActiveTwinSessionForPage(
   if (!id) return null;
   const session = sessions.get(id);
   if (!session || session.status === 'SUPERSEDED' || session.status === 'PROMOTED') return null;
-  return session;
+  return enrichSessionVisualAuthority(session);
 }
 
 export function updateTwinSession(

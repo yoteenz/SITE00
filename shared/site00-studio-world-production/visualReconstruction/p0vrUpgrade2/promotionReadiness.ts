@@ -8,16 +8,30 @@ import type {
   TwinFidelityQaResult,
 } from './types.js';
 import { criticalFunctionFailures, twinFunctionalQaPassed } from './twinFidelityQa.js';
+import type { VisualAuthorityAcceptanceGate } from '../p0vrRebuild1/types.js';
 
 export function evaluatePromotionReadiness(input: {
   session: ReconstructionTwinSession;
   fidelityQa: TwinFidelityQaResult[];
   currentAuthorityVersionId: string;
   founderApproved: boolean;
+  visualAuthorityGate?: VisualAuthorityAcceptanceGate | null;
 }): PromotionReadiness {
-  const { session, fidelityQa, currentAuthorityVersionId, founderApproved } = input;
+  const { session, fidelityQa, currentAuthorityVersionId, founderApproved, visualAuthorityGate } = input;
   const blockingIssues: string[] = [];
   const warnings: string[] = [];
+
+  if (
+    session.visualAuthorityStatus === 'FAILED_VISUAL_AUTHORITY' ||
+    session.visualAuthorityStatus === 'VISUAL_AUTHORITY_FAILED'
+  ) {
+    blockingIssues.push('VISUAL_AUTHORITY_FAILED');
+  }
+  if (visualAuthorityGate && !visualAuthorityGate.promotionAllowed) {
+    visualAuthorityGate.blockingReasons.forEach((r) => {
+      if (!blockingIssues.includes(r)) blockingIssues.push(r);
+    });
+  }
 
   if (!session.twinVersionId) blockingIssues.push('Twin build missing');
   if (!session.twinCapture || session.twinCapture.status !== 'CAPTURE_READY') {
@@ -54,6 +68,7 @@ export function evaluatePromotionReadiness(input: {
 
 export function canPromote(readiness: PromotionReadiness): boolean {
   return (
+    readiness.visualReady &&
     readiness.functionReady &&
     readiness.routeReady &&
     readiness.captureReady &&

@@ -702,6 +702,7 @@ export type VisualConvergenceScore = {
   hierarchy: number;
   controls: number;
   order: number;
+  composition?: number;
   function: number;
   overall: number;
 };
