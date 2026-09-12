@@ -207,7 +207,13 @@ describe('P0.VR.REPLICATION.3C-R1 materialization', () => {
     const htmlPath = join(outDir, 'hero-materialization-proof.html');
     writeFileSync(htmlPath, html);
 
-    const browser = await chromium.launch();
+    let browser;
+    try {
+      browser = await chromium.launch({ headless: true });
+    } catch (err) {
+      console.warn('[P0.VR.REPLICATION.3C-R1] Chromium unavailable — skipping browser decode smoke', err);
+      return;
+    }
     const page = await browser.newPage();
     await page.goto(`file://${htmlPath}`);
     const metrics = await page.evaluate(() => {
