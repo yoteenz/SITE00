@@ -45,6 +45,16 @@ export type FounderDesignWorkspaceSnapshot = {
 };
 
 const META_LS_PREFIX = 'site00:founder-design-snapshot-meta:' as const;
+const LOCAL_SNAPSHOT_LS_PREFIX = 'site00:founder-design-workspace-local:' as const;
+const localSnapshotMemory = new Map<string, string>();
+
+function localProjectHasBindings(projectId: string): boolean {
+  const authority = listCurrentDesignAuthorityVersionsForProject(projectId).length > 0;
+  const captures = listPageViewportCaptures(projectId).some(
+    (c) => c.status === 'CAPTURE_READY' && Boolean(c.imageRef),
+  );
+  return authority || captures;
+}
 
 function stripDataUrlsFromVersion(v: DesignAuthorityVersion): DesignAuthorityVersion {
   const assetRef = v.assetRef?.startsWith('data:') ? v.storagePath : v.assetRef;
@@ -105,21 +115,6 @@ export function writeLocalFounderDesignSnapshotSavedAt(projectId: string, savedA
   }
 }
 
-function localWorkspaceActivityIso(projectId: string): string | null {
-  hydrateDesignAuthorityVersionsFromStorage();
-  hydratePageViewportCapturesFromStorage(projectId);
-  const stamps: string[] = [];
-  for (const v of listCurrentDesignAuthorityVersionsForProject(projectId)) {
-    if (v.approvedAt) stamps.push(v.approvedAt);
-    if (v.createdAt) stamps.push(v.createdAt);
-  }
-  for (const c of listPageViewportCaptures(projectId)) {
-    if (c.capturedAt) stamps.push(c.capturedAt);
-  }
-  if (!stamps.length) return null;
-  return stamps.sort().at(-1) ?? null;
-}
-
 export function applyFounderDesignWorkspaceSnapshot(
   snapshot: FounderDesignWorkspaceSnapshot,
   options?: { force?: boolean },
@@ -129,13 +124,10 @@ export function applyFounderDesignWorkspaceSnapshot(
   }
 
   const localSavedAt = readLocalFounderDesignSnapshotSavedAt(snapshot.projectId);
-  const localActivity = localWorkspaceActivityIso(snapshot.projectId);
   if (!options?.force) {
-    if (localSavedAt && localSavedAt >= snapshot.savedAt) {
+    const localHasBindings = localProjectHasBindings(snapshot.projectId);
+    if (localSavedAt && localSavedAt >= snapshot.savedAt && localHasBindings) {
       return { applied: false, reason: 'LOCAL_NEWER' };
-    }
-    if (!localSavedAt && localActivity && localActivity >= snapshot.savedAt) {
-      return { applied: false, reason: 'LOCAL_ACTIVITY_NEWER' };
     }
   }
 
@@ -170,6 +162,54 @@ export function applyFounderDesignWorkspaceSnapshot(
   return { applied: true };
 }
 
+/** Compact binding backup in localStorage (survives refresh when individual keys fragment). */
+function readLocalSnapshotRaw(projectId: string): string | null {
+  if (typeof globalThis.localStorage !== 'undefined') {
+    try {
+      return globalThis.localStorage.getItem(`${LOCAL_SNAPSHOT_LS_PREFIX}${projectId}`);
+    } catch {
+      /* quota */
+    }
+  }
+  return localSnapshotMemory.get(projectId) ?? null;
+}
+
+function writeLocalSnapshotRaw(projectId: string, raw: string): void {
+  if (typeof globalThis.localStorage !== 'undefined') {
+    try {
+      globalThis.localStorage.setItem(`${LOCAL_SNAPSHOT_LS_PREFIX}${projectId}`, raw);
+      return;
+    } catch {
+      /* quota */
+    }
+  }
+  localSnapshotMemory.set(projectId, raw);
+}
+
+export function persistLocalFounderDesignWorkspaceSnapshot(projectId: string): void {
+  try {
+    const snapshot = buildFounderDesignWorkspaceSnapshot(projectId);
+    if (!snapshot.authorityVersions.length && !snapshot.captures.length) return;
+    writeLocalSnapshotRaw(projectId, JSON.stringify(snapshot));
+    writeLocalFounderDesignSnapshotSavedAt(projectId, snapshot.savedAt);
+  } catch {
+    /* quota */
+  }
+}
+
+export function hydrateLocalFounderDesignWorkspaceSnapshot(projectId: string): boolean {
+  try {
+    const raw = readLocalSnapshotRaw(projectId);
+    if (!raw) return false;
+    const snapshot = JSON.parse(raw) as FounderDesignWorkspaceSnapshot;
+    if (snapshot.projectId !== projectId) return false;
+    const result = applyFounderDesignWorkspaceSnapshot(snapshot, { force: true });
+    return result.applied;
+  } catch {
+    return false;
+  }
+}
+
 export function founderDesignWorkspaceSnapshotStoragePath(projectId: string): string {
   const safe = projectId.replace(/[^a-zA-Z0-9-_]/g, '_');
   return `site00/founder-design-workspace/${safe}/snapshot-v1.json`;
@@ -179,11 +219,18 @@ export function founderDesignWorkspaceSnapshotStoragePath(projectId: string): st
 export function resetFounderDesignSnapshotMetaForTest(projectId?: string): void {
   if (typeof globalThis.localStorage === 'undefined') return;
   if (projectId) {
-    globalThis.localStorage.removeItem(`${META_LS_PREFIX}${projectId}`);
+    localSnapshotMemory.delete(projectId);
+    if (typeof globalThis.localStorage !== 'undefined') {
+      globalThis.localStorage.removeItem(`${META_LS_PREFIX}${projectId}`);
+      globalThis.localStorage.removeItem(`${LOCAL_SNAPSHOT_LS_PREFIX}${projectId}`);
+    }
     return;
   }
+  localSnapshotMemory.clear();
   for (let i = globalThis.localStorage.length - 1; i >= 0; i--) {
     const key = globalThis.localStorage.key(i);
-    if (key?.startsWith(META_LS_PREFIX)) globalThis.localStorage.removeItem(key);
+    if (key?.startsWith(META_LS_PREFIX) || key?.startsWith(LOCAL_SNAPSHOT_LS_PREFIX)) {
+      globalThis.localStorage.removeItem(key);
+    }
   }
 }

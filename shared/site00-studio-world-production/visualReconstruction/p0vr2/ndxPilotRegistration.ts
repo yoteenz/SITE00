@@ -13,6 +13,13 @@ import {
   persistCanonicalRegistrySnapshot,
 } from './canonicalReferencePersistence.js';
 import { syncAllFounderAuthorityVersionsForProject } from '../p0vrCapture1R3a/syncFounderAuthorityRegistry.js';
+import { hydrateDesignAuthorityVersionsFromStorage } from '../p0vrCapture1R3a/designAuthorityVersion.js';
+import {
+  hydratePageViewportCapturesFromStorage,
+  listPageViewportCaptures,
+} from '../p0vrCapture1/pageViewportCapture.js';
+import { listCurrentDesignAuthorityVersionsForProject } from '../p0vrCapture1R3a/designAuthorityVersion.js';
+import { hydrateLocalFounderDesignWorkspaceSnapshot } from '../p0vrCapture1/founderDesignWorkspaceSnapshot.js';
 import { registerProjectDesignScreens } from './designScreenRegistry.js';
 import type { CanonicalVisualReference, DesignScreenDefinition, VisualImplementationCanon } from './types.js';
 import { CANONICAL_VIEWPORT_DIMENSIONS } from './constants.js';
@@ -163,8 +170,16 @@ export function registerNdxbookDesignPilot(): {
   ndxPilotRegistered = true;
   registerProjectDesignScreens('ndxbook', NDX_DESIGN_SCREENS);
 
+  hydrateDesignAuthorityVersionsFromStorage();
+  hydratePageViewportCapturesFromStorage('ndxbook');
+  hydrateLocalFounderDesignWorkspaceSnapshot('ndxbook');
+  const founderAuthorityCount = listCurrentDesignAuthorityVersionsForProject('ndxbook').length;
+  const founderCaptureCount = listPageViewportCaptures('ndxbook').filter(
+    (c) => c.status === 'CAPTURE_READY' && c.imageRef,
+  ).length;
+
   const hydrated = hydrateCanonicalRegistryFromStorage('ndxbook');
-  if (hydrated) {
+  if (hydrated || founderAuthorityCount > 0 || founderCaptureCount > 0) {
     syncAllFounderAuthorityVersionsForProject('ndxbook');
     return { references: listCanonicalReferences('ndxbook'), screens: NDX_DESIGN_SCREENS };
   }

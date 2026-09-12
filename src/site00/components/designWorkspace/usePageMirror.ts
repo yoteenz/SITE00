@@ -20,14 +20,10 @@ import {
   type TestWorkerProgressStep,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureFounderGuidance.js';
 import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
-import {
-  ensureFounderDesignWorkspaceCloudSyncRegistered,
-  pullFounderDesignWorkspaceSnapshot,
-} from '../../services/founderDesignWorkspaceCloudSync';
+import { pushFounderDesignWorkspaceSnapshot } from '../../services/founderDesignWorkspaceCloudSync';
 import {
   bindCaptureCompletionToClientStore,
   CAPTURE_NOW_SUCCESS_HOLD_MS,
-  hydratePageViewportCapturesFromStorage,
   latestUiStepFromMilestones,
   startCaptureProgressAnimation,
   type CaptureCompletionReceipt,
@@ -222,6 +218,7 @@ export function usePageMirror(projectId: string) {
 
   const bindCompletion = useCallback((completion: CaptureCompletionReceipt) => {
     bindCaptureCompletionToClientStore(completion);
+    void pushFounderDesignWorkspaceSnapshot(completion.projectId, { immediate: true });
     logCaptureTelemetry('capture_bound', {
       jobId: completion.jobId,
       captureId: completion.captureId,
@@ -508,9 +505,6 @@ export function usePageMirror(projectId: string) {
   }, [projectId, runTransportCheck]);
 
   useEffect(() => {
-    ensureFounderDesignWorkspaceCloudSyncRegistered();
-    hydratePageViewportCapturesFromStorage(projectId);
-    void pullFounderDesignWorkspaceSnapshot(projectId);
     void runTransportCheck();
     void refresh();
     return () => stopPolling();

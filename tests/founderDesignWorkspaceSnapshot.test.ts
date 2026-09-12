@@ -6,10 +6,13 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import {
   applyFounderDesignWorkspaceSnapshot,
   buildFounderDesignWorkspaceSnapshot,
+  hydrateLocalFounderDesignWorkspaceSnapshot,
+  persistLocalFounderDesignWorkspaceSnapshot,
   resetFounderDesignSnapshotMetaForTest,
   type FounderDesignWorkspaceSnapshot,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/founderDesignWorkspaceSnapshot.js';
 import {
+  getCurrentDesignAuthorityVersion,
   recordDesignAuthorityVersion,
   resetDesignAuthorityVersionsForTest,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1R3a/designAuthorityVersion.js';
@@ -64,6 +67,33 @@ describe('founder design workspace snapshot', () => {
     expect(snapshot.authorityVersions).toHaveLength(1);
     expect(snapshot.captures).toHaveLength(1);
     expect(snapshot.authorityVersions[0]?.assetRef).toContain('https://');
+  });
+
+  it('persists and hydrates local snapshot backup', () => {
+    recordDesignAuthorityVersion({
+      authorityVersionId: 'authv_local',
+      projectId: 'ndxbook',
+      pageId: 'ndxbook:/projects/ndxbook',
+      screenId: 'overview',
+      viewport: 'mobile',
+      route: '/projects/ndxbook',
+      referenceId: 'ref1',
+      assetRef: 'https://cdn.example.com/authority.webp',
+      storagePath: 'site00/visual-references/founder/ndxbook/page-authority/overview-mobile.webp',
+      status: 'CURRENT',
+      approvedAt: '2026-09-12T00:00:00.000Z',
+      supersededAt: null,
+      supersededBy: null,
+      source: 'FOUNDER_UPLOAD',
+      createdAt: '2026-09-12T00:00:00.000Z',
+    });
+    persistLocalFounderDesignWorkspaceSnapshot('ndxbook');
+    resetDesignAuthorityVersionsForTest();
+    resetPageViewportCaptureStoreForTest();
+    expect(hydrateLocalFounderDesignWorkspaceSnapshot('ndxbook')).toBe(true);
+    expect(getCurrentDesignAuthorityVersion('ndxbook', 'ndxbook:/projects/ndxbook', 'mobile')?.authorityVersionId).toBe(
+      'authv_local',
+    );
   });
 
   it('applies remote snapshot when local is empty', () => {

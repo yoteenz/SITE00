@@ -14,7 +14,10 @@ import {
 import { mimeTypeFromDataUrl, prepareReferenceBoardUpload } from '../../../utils/prepareReferenceBoardUpload';
 import { DesignAssetPreview } from '../shared/DesignAssetPreview';
 import { resolveDesignAuthorityUpload } from '../../../services/uploadPageDesignAuthority';
-import { pushFounderDesignWorkspaceSnapshot } from '../../../services/founderDesignWorkspaceCloudSync';
+import {
+  bootstrapFounderDesignWorkspace,
+  pushFounderDesignWorkspaceSnapshot,
+} from '../../../services/founderDesignWorkspaceCloudSync';
 
 type Props = {
   open: boolean;
@@ -65,6 +68,7 @@ export function ReplaceDesignAuthorityDialog({
       setLocalOnlyNotice(null);
       return;
     }
+    void bootstrapFounderDesignWorkspace(projectId);
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
@@ -128,7 +132,7 @@ export function ReplaceDesignAuthorityDialog({
         return;
       }
       setDraft(null);
-      void pushFounderDesignWorkspaceSnapshot(projectId);
+      void pushFounderDesignWorkspaceSnapshot(projectId, { immediate: true });
       if (resolved.localOnly) {
         onReplaced(resolved.warning);
         onClose();

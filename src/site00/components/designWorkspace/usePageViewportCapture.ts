@@ -3,10 +3,7 @@
  */
 
 import { useEffect, useSyncExternalStore } from 'react';
-import {
-  ensureFounderDesignWorkspaceCloudSyncRegistered,
-  pullFounderDesignWorkspaceSnapshot,
-} from '../../services/founderDesignWorkspaceCloudSync';
+import { bootstrapFounderDesignWorkspace } from '../../services/founderDesignWorkspaceCloudSync';
 import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/types.js';
 import {
   hydratePageViewportCapturesFromStorage,
@@ -22,9 +19,8 @@ export function usePageViewportCapture(
 ): PageViewportCaptureRecord | null {
   useEffect(() => {
     if (!projectId) return;
-    ensureFounderDesignWorkspaceCloudSyncRegistered();
     hydratePageViewportCapturesFromStorage(projectId);
-    void pullFounderDesignWorkspaceSnapshot(projectId);
+    void bootstrapFounderDesignWorkspace(projectId);
   }, [projectId]);
 
   return useSyncExternalStore(

@@ -56,6 +56,7 @@ import { CANONICAL_VIEWPORT_DIMENSIONS } from '../../../../../shared/site00-stud
 import { resolveMobileVisualShellSpec } from '../../../config/ndxMobileVisualShellSpecs.js';
 import { collectCssSnapshotFromMobileShell, collectDomRegionMeasurements } from '../../../utils/collectDomRegionMeasurements.js';
 import { usePageViewportCapture } from '../usePageViewportCapture';
+import { bootstrapFounderDesignWorkspace } from '../../../services/founderDesignWorkspaceCloudSync';
 import { CaptureServiceStatusChip } from './CaptureServiceStatusChip';
 import { FamilyReadinessDimensions } from './FamilyReadinessDimensions';
 import { PageCaptureNowPanel } from './PageCaptureNowPanel';
@@ -155,6 +156,11 @@ export function PageFamilyWorkspace({
   const [authorityHistoryOpen, setAuthorityHistoryOpen] = useState(false);
   const [authorityRefreshNonce, setAuthorityRefreshNonce] = useState(0);
   const [authorityNotice, setAuthorityNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!projectId) return;
+    void bootstrapFounderDesignWorkspace(projectId);
+  }, [projectId]);
 
   const rowInputs = useMemo(() => rows.map(toRowInput), [rows]);
   const progress = useMemo(() => buildProjectProgressSummary(rowInputs, projectId), [rowInputs, projectId]);
