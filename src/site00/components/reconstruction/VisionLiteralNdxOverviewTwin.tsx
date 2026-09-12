@@ -3,6 +3,7 @@
  */
 
 import type { CSSProperties } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import type { ReplicationAssetSlot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication3c/types.js';
 import { ShellFirstNdxOverviewTwin } from './ShellFirstNdxOverviewTwin.js';
@@ -10,6 +11,7 @@ import { HeroMaterializedSliceImage } from './HeroMaterializedSliceImage.js';
 import { useProjectOperatingState } from '../../hooks/useProjectOperatingState';
 import { HERO_MATERIALIZATION_PROOF_SLOT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication3cR1/constants.js';
 import { GeometryGridOverlay } from './GeometryGridOverlay.js';
+import { RenderRootsDebugOverlay } from './RenderRootsDebugOverlay.js';
 import '../../styles/site00-vision-literal-twin.css';
 
 type Props = {
@@ -52,10 +54,31 @@ function LiteralHeroBand({
       );
     }
 
+    if (slot?.failureReason === 'PAGE_AUTHORITY_MISUSED_AS_REGION_ASSET') {
+      return (
+        <div
+          key={id}
+          className="site00-vlt__image-slice site00-vlt__image-slice--blocked"
+          data-asset-slot={id}
+          data-boundary-blocked="true"
+        />
+      );
+    }
+
     if (slot?.status === 'BOUND' && slot.selectedAsset) {
       const crop = slot.cropSpec;
       if (slot.selectedAsset.startsWith('css:')) {
         return <div key={id} className="site00-vlt__image-slice site00-vlt__image-slice--procedural" data-asset-slot={id} />;
+      }
+      if (!slot.materializedPublicUrl && slot.selectedAsset.includes('authority')) {
+        return (
+          <div
+            key={id}
+            className="site00-vlt__image-slice site00-vlt__image-slice--blocked"
+            data-asset-slot={id}
+            data-boundary-blocked="true"
+          />
+        );
       }
       return (
         <div
@@ -98,12 +121,15 @@ function LiteralHeroBand({
           {['slice_a', 'slice_b', 'slice_c'].map(renderSlice)}
         </div>
         <div className="site00-vlt__right-visual-region" data-literal-subregion="right_visual_region">
-          {rightSlot?.status === 'BOUND' && rightSlot.selectedAsset && !rightSlot.selectedAsset.startsWith('css:') ? (
+          {rightSlot?.status === 'BOUND' &&
+          rightSlot.selectedAsset &&
+          !rightSlot.selectedAsset.startsWith('css:') &&
+          (rightSlot.materializedPublicUrl || !rightSlot.selectedAsset.toLowerCase().includes('authority')) ? (
             <div
               className="site00-vlt__right-graphic site00-vlt__right-graphic--bound"
               data-asset-slot="right_graphic"
               style={{
-                backgroundImage: `url(${rightSlot.selectedAsset})`,
+                backgroundImage: `url(${rightSlot.materializedPublicUrl ?? rightSlot.selectedAsset})`,
                 backgroundSize: rightSlot.cropSpec?.backgroundSize ?? 'cover',
                 backgroundPosition: rightSlot.cropSpec?.backgroundPosition ?? 'center',
               }}
@@ -119,6 +145,8 @@ function LiteralHeroBand({
 }
 
 export function VisionLiteralNdxOverviewTwin({ projectSlug, session, executed = false }: Props) {
+  const [searchParams] = useSearchParams();
+  const renderRootsDebug = searchParams.get('renderRootsDebug') === '1';
   const slots = slotMap(session?.replicationAssetSlots);
   const subregions = session?.visionLiteralRegionSpecs?.find((s) => s.regionId === 'hero-editorial')?.subregions.length ?? 4;
   const useHostNav = executed || session?.twinRenderMode === 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW';
@@ -127,14 +155,17 @@ export function VisionLiteralNdxOverviewTwin({ projectSlug, session, executed = 
 
   return (
     <div
-      className={`site00-vlt${executed ? ' site00-vlt--executed' : ''}${geometryPatch ? ' site00-vlt--geometry-locked' : ''}`}
+      className={`site00-vlt${executed ? ' site00-vlt--executed' : ''}${geometryPatch ? ' site00-vlt--geometry-locked' : ''}${renderRootsDebug ? ' site00-vlt--render-roots-debug' : ''}`}
       data-vision-literal-twin="ndx-overview-mobile"
       data-hero-subregions={subregions}
       data-3c-build={session?.replication3cReport?.buildRef ?? null}
       data-3d-build={session?.geometryLockReport?.buildRef ?? null}
+      data-3d-boundary-build={session?.replicationRenderBoundaryReport?.buildRef ?? null}
+      data-twin-mount-root="vision-literal-overview"
       style={cssVars}
     >
       <GeometryGridOverlay session={session} />
+      <RenderRootsDebugOverlay />
       <ShellFirstNdxOverviewTwin
         projectSlug={projectSlug}
         hostClassName="site00-vlt__host"

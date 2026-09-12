@@ -11,6 +11,7 @@ import { buildDriftTriangulationReport } from '../p0vrReplication3a/buildDriftTr
 import { executeVisionLiteralNdxReplication } from '../p0vrReplication3b/executeVisionLiteralNdxReplication.js';
 import { executeReplication3cPipeline } from '../p0vrReplication3c/executeReplication3cPipeline.js';
 import { executeGeometryLockPipeline } from '../p0vrReplication3d/executeGeometryLockPipeline.js';
+import { executeContentRootBoundaryPipeline } from '../p0vrReplication3dBoundary/executeContentRootBoundaryPipeline.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -90,6 +91,15 @@ export async function executeShellFirstNdxReplication(input: {
     priorTwinVersionId: replication3c.sessionPatch.twinVersionId ?? input.twinVersionId,
   });
 
+  const boundary = executeContentRootBoundaryPipeline({
+    session: input.session,
+    assetSlots:
+      geometryLock.sessionPatch.replicationAssetSlots ??
+      replication3c.sessionPatch.replicationAssetSlots ??
+      replication3c.report.assetSlots,
+    coordinateMap: geometryLock.sessionPatch.authorityCoordinateMap ?? geometryLock.report.coordinateMap,
+  });
+
   const visionReady = replication3c.report.heroHumanRecognizable;
   const finalRenderMode = visionReady
     ? 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW'
@@ -106,6 +116,7 @@ export async function executeShellFirstNdxReplication(input: {
       ...visionLiteral.sessionPatch,
       ...replication3c.sessionPatch,
       ...geometryLock.sessionPatch,
+      ...boundary.sessionPatch,
       status: pageReady ? 'READY_FOR_REVIEW' : shellPass ? base.sessionPatch.status : 'FAILED',
       twinRenderMode: finalRenderMode,
       visualAuthorityStatus: shellPass ? 'AUTHORITY_FIRST_BUILT' : 'SHELL_MISMATCH',
