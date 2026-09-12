@@ -98,6 +98,8 @@ export type RegionForensicsSummary = {
   structureFailureDetail?: string;
   structureView?: import('../p0vrDiag1R5/structureUiModel.js').RegionStructureViewModel;
   structureToDepthTrace?: import('../p0vrDiag1R5/structureToDepthTrace.js').StructureToDepthTrace;
+  zeroAnchorDiagnosis?: import('../p0vrDiag1R5/zeroAnchorDiagnosis.js').ZeroAnchorDiagnosis;
+  anchorSideSummary?: import('../p0vrDiag1R5/structureUiModel.js').RegionAnchorSideSummary;
 };
 
 export type PageVisualDiagnosis = {

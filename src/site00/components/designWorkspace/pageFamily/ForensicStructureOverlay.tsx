@@ -1,10 +1,11 @@
 /**
- * P0.VR.DIAG.1R5A — Full-screen / mobile-safe internal structure inspector.
+ * P0.VR.DIAG.1R5A / 1R5B — Full-screen / mobile-safe internal structure inspector.
  */
 
 import { createPortal } from 'react-dom';
 import type { RegionForensicsSummary } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageVisualDiagnosis.js';
 import { formatAnchorLine } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/structureUiModel.js';
+import { founderMessageForFailureCode } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/founderStructureCopy.js';
 
 type Props = {
   open: boolean;
@@ -19,6 +20,19 @@ export function ForensicStructureOverlay({ open, region, onClose, onAnalyzeStruc
   const view = region.structureView;
   const trace = region.structureToDepthTrace;
   const status = region.internalStructureStatus ?? view?.structureStatus ?? 'UNRESOLVED';
+  const zero = region.zeroAnchorDiagnosis;
+  const side = region.anchorSideSummary;
+  const failureCode = region.structureFailureCode ?? view?.failureCode ?? zero?.failureCode;
+  const founderCopy = failureCode
+    ? founderMessageForFailureCode(failureCode as import('../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/types.js').EvidenceRecoveryFailureCode, region.regionName)
+    : null;
+
+  const nonContainerCurrent =
+    view?.currentLines?.length ??
+    region.internalStructureHierarchy?.filter((h) => !h.includes('CONTAINER')).length ??
+    0;
+  const hasStructureData = Boolean(view?.currentLines?.length || region.internalStructureHierarchy?.length);
+  const showNotAnalyzed = !hasStructureData || status === 'UNRESOLVED';
 
   return createPortal(
     <div className="site00-pfw-forensic-overlay site00-pfw-forensic-overlay--structure" role="presentation">
@@ -45,16 +59,58 @@ export function ForensicStructureOverlay({ open, region, onClose, onAnalyzeStruc
               FORENSICS ENGINE: {view.forensicsEngine} · STRUCTURE UI: {view.structureUiVersion}
             </p>
           ) : null}
-          {(region.structureFailureCode || view?.failureCode) && (
-            <p className="site00-pfw-forensic-overlay__missing">
-              {(region.structureFailureCode ?? view?.failureCode)?.replace(/_/g, ' ')}
+
+          {side ? (
+            <section className="site00-pfw-structure-side">
+              <h4>CURRENT VS AUTHORITY</h4>
+              <p>
+                CURRENT: {side.current} — {side.currentDetail}
+              </p>
+              <p>
+                AUTHORITY: {side.authority} — {side.authorityDetail}
+              </p>
+              {side.failureCode ? (
+                <p className="site00-pfw-forensic-overlay__missing">FAILURE: {side.failureCode.replace(/_/g, ' ')}</p>
+              ) : null}
+            </section>
+          ) : null}
+
+          {founderCopy ? (
+            <p className="site00-pfw-forensic-overlay__structure-founder">{founderCopy.headline}</p>
+          ) : null}
+          {failureCode ? (
+            <p className="site00-pfw-forensic-overlay__missing site00-pfw-forensic-overlay__structure-detail">
+              DETAILS: {failureCode.replace(/_/g, ' ')}
               {region.structureFailureDetail || view?.failureDetail ? ` — ${region.structureFailureDetail ?? view?.failureDetail}` : ''}
             </p>
-          )}
+          ) : null}
+
+          {zero ? (
+            <section className="site00-pfw-structure-zero">
+              <h4>ZERO ANCHOR DIAGNOSIS</h4>
+              <p>{zero.founderSummary}</p>
+              <ul className="site00-pfw-structure-side__list">
+                <li>NO INTERNAL ANCHORS RESOLVED (non-container count: 0)</li>
+                <li>Child candidates: {zero.childCandidateCount} accepted · {zero.childCandidatesRejected} rejected</li>
+                {zero.rejectionReasons.length ? <li>Rejected: {zero.rejectionReasons.join(' · ')}</li> : null}
+                <li>Expected: {zero.expectedAnchorTypes.join(' · ')}</li>
+                {zero.metricSubtype ? <li>Metric subtype: {zero.metricSubtype}</li> : null}
+                {zero.metricSubtypeCandidates?.length ? (
+                  <li>Confirm type: {zero.metricSubtypeCandidates.join(' vs ')}</li>
+                ) : null}
+              </ul>
+            </section>
+          ) : nonContainerCurrent === 0 && !showNotAnalyzed ? (
+            <p className="site00-pfw-forensic-overlay__empty">NO INTERNAL ANCHORS RESOLVED</p>
+          ) : null}
+
+          {showNotAnalyzed ? (
+            <p className="site00-pfw-forensic-overlay__empty">STRUCTURE NOT ANALYZED</p>
+          ) : null}
 
           {view?.currentLines?.length ? (
             <section className="site00-pfw-structure-side">
-              <h4>CURRENT</h4>
+              <h4>CURRENT ANCHORS</h4>
               <ul className="site00-pfw-structure-side__list">
                 {view.currentLines.map((line) => (
                   <li key={`cur-${line.anchorKey}`}>
@@ -65,15 +121,13 @@ export function ForensicStructureOverlay({ open, region, onClose, onAnalyzeStruc
             </section>
           ) : region.internalStructureHierarchy?.length ? (
             <pre className="site00-pfw-forensic-overlay__structure-tree">{region.internalStructureHierarchy.join('\n')}</pre>
-          ) : (
-            <p className="site00-pfw-forensic-overlay__empty">STRUCTURE NOT ANALYZED</p>
-          )}
+          ) : null}
 
-          {view?.currentLines?.length ? (
+          {view?.authorityLines?.length ? (
             <section className="site00-pfw-structure-side">
-              <h4>AUTHORITY</h4>
+              <h4>AUTHORITY ANCHORS</h4>
               <ul className="site00-pfw-structure-side__list">
-                {view.currentLines.map((line) => (
+                {view.authorityLines.map((line) => (
                   <li key={`auth-${line.anchorKey}`}>
                     {formatAnchorLine(line, 'authority')} · {line.anchorType}
                   </li>
@@ -104,7 +158,8 @@ export function ForensicStructureOverlay({ open, region, onClose, onAnalyzeStruc
             </section>
           ) : null}
 
-          {region.showAnalyzeStructure && onAnalyzeStructure ? (
+          {(region.showAnalyzeStructure !== false && (showNotAnalyzed || zero || status === 'PARTIAL' || status === 'AMBIGUOUS')) &&
+          onAnalyzeStructure ? (
             <button
               type="button"
               className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"

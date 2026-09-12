@@ -93,7 +93,7 @@ describe('P0.VR.DIAG.1R5A surface structure UI + depth binding', () => {
       designAuthority: { authorityVersionId: 'a', width: 390, height: 844, visualShellSpec: SHELL },
     });
     const diagnosis = forensicReportToVisualDiagnosis(report, { profile, domMeasurements: SHALLOW_QA_DOM });
-    expect(diagnosis.structureUiVersion).toBe('R5A');
+    expect(diagnosis.structureUiVersion).toBe('R5B');
     const nav = diagnosis.allRegionForensics?.find((r) => r.regionType === 'NAVIGATION');
     expect(nav?.showViewStructure).toBe(true);
     expect(nav?.internalStructureHierarchy?.length).toBeGreaterThan(0);
@@ -117,7 +117,7 @@ describe('P0.VR.DIAG.1R5A surface structure UI + depth binding', () => {
       domMeasurements: SHALLOW_QA_DOM,
       shell: { headerPaddingX: 14, contentPaddingX: 14, sectionGap: 10 },
     });
-    expect(receipt.forensicsVersionAfter).toBe(P0_VR_DIAG_1R5A_BUILD);
+    expect(receipt.forensicsVersionAfter).toBe('v309');
     expect(receipt.structureToDepthTraces?.length).toBeGreaterThan(0);
     const afterPct = after.topLevelDepthAggregation?.depthPct ?? 0;
     expect(afterPct).toBeGreaterThanOrEqual(beforePct);

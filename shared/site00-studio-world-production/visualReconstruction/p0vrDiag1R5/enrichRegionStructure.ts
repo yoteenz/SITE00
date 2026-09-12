@@ -14,7 +14,7 @@ import { buildStructureHierarchyPreview } from './structureHierarchyPreview.js';
 import { computeInternalStructureCompleteness } from './internalStructureCompleteness.js';
 import { getRegionInternalStructure, structureCacheKey, type StructureCacheKeyInput } from './regionInternalStructureRegistry.js';
 import { buildRegionStructureViewModel, type RegionStructureViewModel } from './structureUiModel.js';
-import { isComplexRegionType, shouldShowAnalyzeStructure } from './structureUiVisibility.js';
+import { effectiveRegionType, isComplexRegionType, shouldShowAnalyzeStructure } from './structureUiVisibility.js';
 
 export function cacheKeyFromReport(report: AuthorityRelativeForensicsReport): StructureCacheKeyInput {
   return {
@@ -83,7 +83,8 @@ export function resolveRegionStructureViewModel(input: {
   failureCode?: string;
   failureDetail?: string;
 }): RegionStructureViewModel | null {
-  if (!isComplexRegionType(input.bundle.regionType)) return null;
+  const type = effectiveRegionType(input.bundle.regionType, input.bundle.regionName);
+  if (!isComplexRegionType(type)) return null;
 
   const summary = resolveRegionInternalStructureSummary(input);
   const key = structureCacheKey(cacheKeyFromReport(input.report));
@@ -119,6 +120,7 @@ export function regionNeedsAnalyzeStructure(
 ): boolean {
   return shouldShowAnalyzeStructure({
     regionType: bundle.regionType,
+    regionName: bundle.regionName,
     internalStructureStatus: summary.status,
     measurementDepthStatus: bundle.depthComputation?.depthStatus ?? bundle.measurementDepth?.status,
   });

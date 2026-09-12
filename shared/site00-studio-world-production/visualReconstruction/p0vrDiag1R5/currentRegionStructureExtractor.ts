@@ -5,6 +5,11 @@
 import type { PageRegionLayoutDefinition } from '../p0vrDiag1/pageRegionLayoutProfiles.js';
 import type { DomRegionMeasurement, VisualRegionType } from '../p0vrDiag1/types.js';
 import { resolveComplexRegionSubtype } from './complexRegionSubtypeResolver.js';
+import {
+  collectMeaningfulChildCandidates,
+  detectRepeatedRowGeometry,
+} from './meaningfulChildTraversal.js';
+import { resolveMetricRegionSubtype } from './metricRegionSubtypeResolver.js';
 import type {
   AnchorBounds,
   InternalStructureStatus,
@@ -58,7 +63,8 @@ function navStructure(
   const anchors: RegionChildAnchorR5[] = [container];
   const relationships: RegionRelationship[] = [];
 
-  const itemDom = related.length ? related : [];
+  const { accepted: traversed } = collectMeaningfulChildCandidates({ container: dom, relatedDom: related });
+  const itemDom = traversed.length >= 2 ? traversed : related.length ? related : [];
   let items: RegionChildAnchorR5[] = [];
 
   if (itemDom.length >= 2) {
@@ -171,14 +177,79 @@ function navStructure(
   return { anchors, groups: [group], relationships };
 }
 
-function metricsStructure(
+function activityListStructure(
   def: PageRegionLayoutDefinition,
   dom: DomRegionMeasurement,
   related: DomRegionMeasurement[],
 ): { anchors: RegionChildAnchorR5[]; groups: RepeatedAnchorGroup[]; relationships: RegionRelationship[] } {
   const container = buildContainerAnchor(def, dom);
+  const { accepted } = collectMeaningfulChildCandidates({ container: dom, relatedDom: related });
+  const rowDom = detectRepeatedRowGeometry(accepted) ?? (accepted.length >= 2 ? accepted : []);
+
+  const titleAnchor: RegionChildAnchorR5 | null =
+    accepted.length && !rowDom.includes(accepted[0]!)
+      ? {
+          anchorId: `${def.regionId}:section-title`,
+          anchorType: 'TITLE',
+          label: 'SECTION_HEADING',
+          bounds: boundsFromDom(accepted[0]!, dom),
+          source: 'DOM_RECT',
+          confidence: 'MEDIUM',
+          parentAnchorId: container.anchorId,
+          orderIndex: 1,
+        }
+      : null;
+
+  const rows =
+    rowDom.length >= 2
+      ? rowDom.map((d, i) => ({
+          anchorId: `${def.regionId}:row:${i}`,
+          anchorType: 'REPEATED_BLOCK' as const,
+          label: `LIST_ROW_${i + 1}`,
+          bounds: boundsFromDom(d, dom),
+          source: 'DOM_RECT' as const,
+          confidence: 'HIGH' as const,
+          parentAnchorId: container.anchorId,
+          orderIndex: 10 + i,
+        }))
+      : [];
+
+  const group: RepeatedAnchorGroup | null =
+    rows.length >= 3
+      ? {
+          groupType: 'LIST_ROWS',
+          anchors: rows,
+          count: rows.length,
+          sharedGeometry: rows[0] ? { width: rows[0].bounds.width, height: rows[0].bounds.height } : null,
+          spacingProfile: { meanGap: 8, minGap: 4, maxGap: 16, variance: 4, equalSpacing: true },
+          confidence: 'HIGH',
+        }
+      : null;
+
+  const anchors: RegionChildAnchorR5[] = [container];
+  if (titleAnchor) anchors.push(titleAnchor);
+  anchors.push(...rows);
+
+  return { anchors, groups: group ? [group] : [], relationships: [] };
+}
+
+function metricsStructure(
+  def: PageRegionLayoutDefinition,
+  dom: DomRegionMeasurement,
+  related: DomRegionMeasurement[],
+): { anchors: RegionChildAnchorR5[]; groups: RepeatedAnchorGroup[]; relationships: RegionRelationship[] } {
+  const metricSubtype = resolveMetricRegionSubtype({ def, dom, relatedDom: related });
+  if (metricSubtype.subtype === 'AMBIGUOUS' && metricSubtype.ambiguousCandidates) {
+    const container = buildContainerAnchor(def, dom);
+    return { anchors: [container], groups: [], relationships: [] };
+  }
+
+  const container = buildContainerAnchor(def, dom);
+  const { accepted } = collectMeaningfulChildCandidates({ container: dom, relatedDom: related });
   const cells =
-    related.length >= 2
+    accepted.length >= 2
+      ? accepted
+      : related.length >= 2
       ? related
       : (() => {
           const gap = parseGap(dom.computedGap) ?? 12;
@@ -407,6 +478,9 @@ export function extractCurrentRegionStructure(input: {
     case 'STATUS':
       built = progressStructure(input.def, dom);
       break;
+    case 'LIST':
+      built = activityListStructure(input.def, dom, related);
+      break;
     case 'CARD_RAIL':
       built = cardRailStructure(input.def, dom);
       break;
@@ -419,12 +493,17 @@ export function extractCurrentRegionStructure(input: {
   }
 
   const container = built.anchors.find((a) => a.anchorType === 'CONTAINER') ?? null;
-  const status = resolveStatus(built.anchors, input.def.regionType);
+  let status = resolveStatus(built.anchors, input.def.regionType);
+  let subtype = resolveComplexRegionSubtype(input.def);
+  if (input.def.regionType === 'METRICS') {
+    const metric = resolveMetricRegionSubtype({ def: input.def, dom, relatedDom: related });
+    if (metric.subtype === 'AMBIGUOUS') status = 'AMBIGUOUS';
+  }
 
   return {
     regionId: input.def.regionId,
     regionType: input.def.regionType,
-    subtype: resolveComplexRegionSubtype(input.def),
+    subtype,
     container,
     childAnchors: built.anchors,
     groups: built.groups,

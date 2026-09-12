@@ -22,3 +22,15 @@ export * from './structureToDepthTrace.js';
 export * from './enrichRegionStructure.js';
 export * from './analyzeSingleRegionStructure.js';
 export * from './regionStructureVersion.js';
+export * from './meaningfulChildTraversal.js';
+export * from './metricRegionSubtypeResolver.js';
+export * from './zeroAnchorDiagnosis.js';
+export * from './founderStructureCopy.js';
+export * from './measurementOriginTrace.js';
+export * from './regionStructureRecoveryReceipt.js';
+export {
+  regionCardMustShowViewStructure,
+  inferRegionTypeFromName,
+  effectiveRegionType,
+  isBlockingMeasurementDepth,
+} from './structureUiVisibility.js';

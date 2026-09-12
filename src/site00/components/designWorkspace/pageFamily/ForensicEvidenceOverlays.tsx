@@ -9,9 +9,12 @@ import type {
   TopVisualDifference,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageVisualDiagnosis.js';
 import type { ReconstructionPlan } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/reconstructionPlan.js';
-import { shouldShowViewStructure } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/structureUiVisibility.js';
+import {
+  regionCardMustShowViewStructure,
+  shouldShowViewStructure,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrDiag1R5/structureUiVisibility.js';
 
-export { shouldShowViewStructure };
+export { shouldShowViewStructure, regionCardMustShowViewStructure };
 
 export function resolveAllRegionForensics(
   diagnosis: PageVisualDiagnosis | null | undefined,
@@ -38,12 +41,22 @@ export function resolveAllRegionForensics(
 }
 
 export function regionOffersViewStructure(region: RegionForensicsSummary): boolean {
-  if (region.showViewStructure === true) return true;
-  return shouldShowViewStructure({
+  return regionCardMustShowViewStructure({
     regionType: region.regionType,
+    regionName: region.regionName,
     measurementDepthStatus: region.measurementDepthStatus,
     internalStructureStatus: region.internalStructureStatus,
+    showViewStructure: region.showViewStructure,
   });
+}
+
+/** Test / dev assertion: blocker cards must expose VIEW STRUCTURE in the action row. */
+export function regionCardActionListIncludesViewStructure(
+  region: RegionForensicsSummary,
+  actions: string[],
+): boolean {
+  if (!regionOffersViewStructure(region)) return true;
+  return actions.includes('VIEW STRUCTURE');
 }
 
 type AllForensicsProps = {
@@ -135,11 +148,12 @@ export function AllForensicsOverlay({
                       >
                         VIEW EVIDENCE
                       </button>
-                      {showStructure && onSelectStructure ? (
+                      {showStructure ? (
                         <button
                           type="button"
                           className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"
-                          onClick={() => onSelectStructure(region.regionId)}
+                          onClick={() => onSelectStructure?.(region.regionId)}
+                          data-testid={`view-structure-${region.regionId}`}
                         >
                           VIEW STRUCTURE
                         </button>
@@ -239,11 +253,11 @@ export function ForensicEvidenceDetailOverlay({
                 : ''}
             </p>
           ) : null}
-          {showStructure && onOpenStructure && resolvedRegionId ? (
+          {showStructure && resolvedRegionId ? (
             <button
               type="button"
               className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--compact"
-              onClick={() => onOpenStructure(resolvedRegionId)}
+              onClick={() => onOpenStructure?.(resolvedRegionId)}
             >
               VIEW STRUCTURE
             </button>

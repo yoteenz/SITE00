@@ -5,7 +5,20 @@
 import type { RegionInternalStructureSummary } from '../p0vrDiag1/types.js';
 import type { RegionInternalStructure, RegionChildAnchorR5 } from './types.js';
 
-export type AnchorSideStatus = 'RESOLVED' | 'MISSING' | 'AMBIGUOUS';
+export type AnchorSideStatus =
+  | 'RESOLVED'
+  | 'PARTIAL'
+  | 'UNRESOLVED'
+  | 'AMBIGUOUS'
+  | 'NOT_REQUIRED';
+
+export type RegionAnchorSideSummary = {
+  current: AnchorSideStatus;
+  authority: AnchorSideStatus;
+  currentDetail: string;
+  authorityDetail: string;
+  failureCode?: string;
+};
 
 export type StructureAnchorLine = {
   anchorKey: string;
@@ -33,11 +46,47 @@ export type RegionStructureViewModel = {
   structureUiVersion: string;
 };
 
-const UI_VERSION = 'R5A';
+const UI_VERSION = 'R5B';
 const ENGINE_VERSION = 'R5';
 
+export function summarizeAnchorSideStatus(input: {
+  current: RegionInternalStructure | null;
+  authority: RegionInternalStructure | null;
+}): RegionAnchorSideSummary {
+  const curChildren = input.current?.childAnchors.filter((a) => a.anchorType !== 'CONTAINER').length ?? 0;
+  const authChildren = input.authority?.childAnchors.filter((a) => a.anchorType !== 'CONTAINER').length ?? 0;
+
+  const side = (count: number, status?: string): AnchorSideStatus => {
+    if (status === 'AMBIGUOUS') return 'AMBIGUOUS';
+    if (count >= 3) return 'RESOLVED';
+    if (count > 0) return 'PARTIAL';
+    return 'UNRESOLVED';
+  };
+
+  const current = side(curChildren, input.current?.status);
+  const authority = side(authChildren, input.authority?.status);
+
+  let failureCode: string | undefined;
+  if (current !== 'UNRESOLVED' && authority === 'UNRESOLVED') failureCode = 'AUTHORITY_ANCHORS_UNRESOLVED';
+
+  const active = input.current?.childAnchors.find((a) => a.anchorType === 'ACTIVE_ITEM');
+  const curDetail =
+    curChildren === 0
+      ? '0 ANCHORS'
+      : `${curChildren} ITEMS${active ? ' · ACTIVE ITEM FOUND' : ''}`;
+  const authDetail = authChildren === 0 ? 'UNRESOLVED' : `${authChildren} ITEM BOXES`;
+
+  return {
+    current,
+    authority,
+    currentDetail: curDetail,
+    authorityDetail: authDetail,
+    failureCode,
+  };
+}
+
 function sideStatus(anchor: RegionChildAnchorR5 | undefined): AnchorSideStatus {
-  if (!anchor) return 'MISSING';
+  if (!anchor) return 'UNRESOLVED';
   if (anchor.confidence === 'LOW') return 'AMBIGUOUS';
   return 'RESOLVED';
 }
@@ -90,12 +139,12 @@ export function buildRegionStructureViewModel(input: {
   const keys = new Set<string>();
   for (const a of [...currentAnchors, ...authorityAnchors]) keys.add(anchorKey(a));
 
-  const currentLines: StructureAnchorLine[] = [];
+  const lines: StructureAnchorLine[] = [];
   for (const key of [...keys].sort()) {
     const cur = currentAnchors.find((a) => anchorKey(a) === key);
     const auth = authorityAnchors.find((a) => anchorKey(a) === key);
     const ref = cur ?? auth!;
-    currentLines.push({
+    lines.push({
       anchorKey: key,
       label: ref.label,
       anchorType: ref.anchorType,
@@ -107,6 +156,9 @@ export function buildRegionStructureViewModel(input: {
     });
   }
 
+  const currentLines = lines.filter((l) => l.current !== 'UNRESOLVED' || l.authority !== 'UNRESOLVED');
+  const authorityLines = lines.map((l) => ({ ...l }));
+
   const relationshipsSummary = input.current ? summarizeGroup(input.current, 'current') : [];
 
   return {
@@ -117,7 +169,7 @@ export function buildRegionStructureViewModel(input: {
     failureCode: input.failureCode,
     failureDetail: input.failureDetail,
     currentLines,
-    authorityLines: currentLines,
+    authorityLines,
     relationshipsSummary,
     compactHierarchy: input.summary.anchorHierarchy ?? [],
     forensicsEngine: ENGINE_VERSION,

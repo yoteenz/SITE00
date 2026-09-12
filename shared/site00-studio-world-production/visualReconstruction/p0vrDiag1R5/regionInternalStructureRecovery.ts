@@ -16,6 +16,8 @@ import { buildStructureHierarchyPreview } from './structureHierarchyPreview.js';
 import type { InternalStructureRecoveryTrace, RegionInternalStructure } from './types.js';
 import type { RegionForensicsBundle, RegionInternalStructureSummary } from '../p0vrDiag1/types.js';
 import { buildStructureToDepthTrace } from './structureToDepthTrace.js';
+import { buildZeroAnchorDiagnosis } from './zeroAnchorDiagnosis.js';
+import { buildMeasurementOriginTraces } from './measurementOriginTrace.js';
 
 export function runRegionInternalStructureRecovery(input: {
   def: PageRegionLayoutDefinition;
@@ -32,6 +34,8 @@ export function runRegionInternalStructureRecovery(input: {
   summary: RegionInternalStructureSummary;
   trace: InternalStructureRecoveryTrace;
   depthTrace: ReturnType<typeof buildStructureToDepthTrace> | null;
+  zeroAnchorDiagnosis: ReturnType<typeof buildZeroAnchorDiagnosis>;
+  measurementOrigins: ReturnType<typeof buildMeasurementOriginTraces>;
 } {
   const currentStructure = extractCurrentRegionStructure({
     def: input.def,
@@ -94,6 +98,21 @@ export function runRegionInternalStructureRecovery(input: {
     summary.failureDetail = failure.details;
   }
 
+  const zeroAnchorDiagnosis = buildZeroAnchorDiagnosis({
+    def: input.def,
+    dom: input.dom,
+    relatedDom: input.relatedDom,
+    currentStructure,
+    authorityStructure,
+    failureCode: failure?.failureCode,
+  });
+
+  const anchorIds = currentStructure.childAnchors.map((a) => a.anchorId);
+  const measurementOrigins = buildMeasurementOriginTraces(
+    input.bundleBefore?.dimensions ?? [],
+    anchorIds,
+  );
+
   const trace: InternalStructureRecoveryTrace = {
     regionId: input.def.regionId,
     regionName: input.def.regionName,
@@ -112,5 +131,7 @@ export function runRegionInternalStructureRecovery(input: {
     summary,
     trace,
     depthTrace,
+    zeroAnchorDiagnosis,
+    measurementOrigins,
   };
 }
