@@ -23,13 +23,16 @@ import { Site00Diamond } from '../shell/Site00Diamond';
 import { NDXBottomNavIcon } from '../../icons/ndx/NDXBottomNavIcon';
 import { NDXIcon } from '../../icons/ndx';
 import { NDX_ICON_CONTEXT_SIZE } from '../../../../shared/site00-studio-world-ui/icons/index.js';
+import type { ReactNode } from 'react';
 import '../../styles/site00-shell-first-twin.css';
 
 type Props = {
   projectSlug: string;
+  heroOverride?: ReactNode;
+  hostClassName?: string;
 };
 
-export function ShellFirstNdxOverviewTwin({ projectSlug }: Props) {
+export function ShellFirstNdxOverviewTwin({ projectSlug, heroOverride, hostClassName }: Props) {
   const location = useLocation();
   const nav = ndxFounderWorkspaceMobileNav(projectSlug);
   const { state: operatingState } = useProjectOperatingState(projectSlug);
@@ -54,7 +57,7 @@ export function ShellFirstNdxOverviewTwin({ projectSlug }: Props) {
 
   return (
     <div className="site00-sft" data-shell-first-twin="ndx-overview-mobile">
-      <header className="site00-sft__band site00-sft__host" data-shell-band="host-header">
+      <header className={`site00-sft__band site00-sft__host${hostClassName ? ` ${hostClassName}` : ''}`} data-shell-band="host-header">
         <div className="site00-sft__host-brand">
           <Site00Diamond mode="HOST_DEFAULT" />
           <span className="site00-sft__host-wordmark">SITE 00</span>
@@ -98,30 +101,32 @@ export function ShellFirstNdxOverviewTwin({ projectSlug }: Props) {
         ))}
       </nav>
 
-      <section className="site00-sft__band site00-sft__hero" data-shell-band="hero-editorial">
-        <div className="site00-sft__hero-media">
-          {heroArt ? (
-            <div
-              className="site00-sft__hero-image"
-              style={{
-                backgroundImage: `url(${heroArt.path})`,
-                backgroundPosition: heroArt.objectPosition,
-              }}
-              role="img"
-              aria-label="Editorial hero"
-            />
-          ) : (
-            <AssetPendingPlaceholder regionId="sft-hero" aspectRatio="16 / 10" />
-          )}
-        </div>
-        <div className="site00-sft__hero-copy">
-          <p className="site00-sft__hero-kicker">EDITORIAL</p>
-          <p className="site00-sft__hero-headline">{focusTitle.toUpperCase()}</p>
-        </div>
-        <div className="site00-sft__hero-side" aria-hidden="true">
-          <div className="site00-sft__hero-graphic" />
-        </div>
-      </section>
+      {heroOverride ?? (
+        <section className="site00-sft__band site00-sft__hero" data-shell-band="hero-editorial">
+          <div className="site00-sft__hero-media">
+            {heroArt ? (
+              <div
+                className="site00-sft__hero-image"
+                style={{
+                  backgroundImage: `url(${heroArt.path})`,
+                  backgroundPosition: heroArt.objectPosition,
+                }}
+                role="img"
+                aria-label="Editorial hero"
+              />
+            ) : (
+              <AssetPendingPlaceholder regionId="sft-hero" aspectRatio="16 / 10" />
+            )}
+          </div>
+          <div className="site00-sft__hero-copy">
+            <p className="site00-sft__hero-kicker">EDITORIAL</p>
+            <p className="site00-sft__hero-headline">{focusTitle.toUpperCase()}</p>
+          </div>
+          <div className="site00-sft__hero-side" aria-hidden="true">
+            <div className="site00-sft__hero-graphic" />
+          </div>
+        </section>
+      )}
 
       <section className="site00-sft__band site00-sft__progress" data-shell-band="progress-phase">
         <div className="site00-sft__progress-track">

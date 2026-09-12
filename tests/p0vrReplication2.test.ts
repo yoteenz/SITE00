@@ -122,7 +122,9 @@ describe('P0.VR.REPLICATION.2 shell-first', () => {
       session: ndxSession(),
       twinVersionId: 'twin_v1',
     });
-    expect(result.sessionPatch.twinRenderMode).toBe('SHELL_FIRST_NDX_OVERVIEW');
+    expect(result.sessionPatch.preVisionBaselineRenderMode).toBe('SHELL_FIRST_NDX_OVERVIEW');
+    expect(result.sessionPatch.twinRenderMode).toBe('VISION_LITERAL_NDX_OVERVIEW');
+    expect(result.sessionPatch.visionReplicationReport?.heroRecognizable).toBe(true);
     expect(result.shellReceipt.buildRef).toBe('v316');
     expect(result.sessionPatch.authorityShellBlueprintId).toBeTruthy();
   });

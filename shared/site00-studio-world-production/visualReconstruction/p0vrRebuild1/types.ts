@@ -141,5 +141,10 @@ export type VisualAuthorityAcceptanceGate = {
   blockingReasons: string[];
 };
 
-export const TWIN_RENDER_MODES = ['LEGACY_PATCH', 'AUTHORITY_FIRST_NDX_OVERVIEW', 'SHELL_FIRST_NDX_OVERVIEW'] as const;
+export const TWIN_RENDER_MODES = [
+  'LEGACY_PATCH',
+  'AUTHORITY_FIRST_NDX_OVERVIEW',
+  'SHELL_FIRST_NDX_OVERVIEW',
+  'VISION_LITERAL_NDX_OVERVIEW',
+] as const;
 export type TwinRenderMode = (typeof TWIN_RENDER_MODES)[number];

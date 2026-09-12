@@ -8217,3 +8217,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Follow-up ship:** `public/site00-assts-boot-recovery.js` (timeout/module-error → strip boot shell + reload banner); CI + `npm run build` run `scripts/verify-production-dist.mjs`; broader `chromium-bidi` vite alias; deploy README boot-verify lines.
 - **Founder next:** Upload **v327+** ZIP — delete old `assets/` + `index.html` first. Verify page source: **no** chromium-bidi in script bundle name/hash; includes `site00-assts-boot-recovery.js`; `app-build-id` ≥ **905a194** area. Hard refresh / clear site data on mobile.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.3B vision-in-the-loop literal replication (NDXBOOK mobile)
+
+- **Context:** 3A primary culprit **VISUAL_INTELLIGENCE** — REPLICATE did not send authority/twin images to a vision model. Sprint wires vision into replication loop with literal region specs + hero proof.
+- **Delivered:** `p0vrReplication3b/` — `VisionReplicationInspector`, `LiteralRegionSpec`, `LiteralRegionSourceGenerator`, `ReplicationLiteralPolicy`, `VisionCorrectionPass`, `VisionReplicationReceipt` / report, `executeVisionLiteralNdxReplication` (`v318`). API: `api/site00/vision-replication.ts` + Anthropic vision (`claude-sonnet-4-6`, `LITERAL_UI_REPLICATION`). Pipeline: `executeShellFirstNdxReplication` preserves **PRE_VISION_BASELINE** shell-first then builds **VISION_LITERAL_NDX_OVERVIEW** twin version. UI: `VisionLiteralNdxOverviewTwin` (4-zone black/lime/grayscale hero, literal asset slots), PAGE UPGRADE → DETAILS → **VISION TRACE**. Tests: `p0vrReplication3b.test.ts`.
+- **Provider:** Anthropic via Railway when `ANTHROPIC_API_KEY` set; vitest uses structural fixture proving image receipt + non-generic hero observation. Playwright re-capture when `SITE00_REPLICATION_PLAYWRIGHT=1`.
+- **Founder next:** Deploy release with 3B → UPGRADE → **REPLICATE PAGE** → REVIEW hero (not blank placeholder) → DETAILS → **VISION TRACE** if still off. Live unchanged; not promotion-ready.
+
