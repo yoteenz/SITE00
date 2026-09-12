@@ -70,11 +70,11 @@ import {
 import {
   getActiveTwinSessionForPage,
   getTwinSession,
-  buildTwin,
   addTwinRevision,
   applyTwinRevision,
   approveTwinForPromotion,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/reconstructionTwinSession.js';
+import { startTwinBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrConverge1/twinBuildJob.js';
 import { promoteTwinToLivePage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/pagePromotion.js';
 import type { ReconstructionTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import {
@@ -240,6 +240,11 @@ export function PageFamilyWorkspace({
     },
     [],
   );
+
+  useEffect(() => {
+    if (!upgradeOpen || !activePageId) return;
+    refreshTwinSession(projectId, activePageId);
+  }, [upgradeOpen, activePageId, projectId, refreshTwinSession]);
 
   useEffect(() => {
     const saved = getSavedSelectedNode(family.familyId);
@@ -639,12 +644,18 @@ export function PageFamilyWorkspace({
             refreshTwinSession(projectId, activePageId);
           }}
           onBuildTwin={async () => {
-            const active = refreshTwinSession(projectId, activePageId);
-            if (!active) return;
+            const active = refreshTwinSession(projectId, activePageId) ?? twinSession;
+            if (!active || !upgradeSession) return;
             setBuildingTwin(true);
-            const built = await buildTwin(active.sessionId);
+            setUpgradeError(null);
+            const result = await startTwinBuild(active.sessionId, {
+              authorityVersionId: upgradeSession.designAuthorityVersionId ?? null,
+              captureId: upgradeSession.captureId ?? null,
+              reconstructionPlanId: upgradeSession.reconstructionPlan?.planId ?? null,
+            });
             setBuildingTwin(false);
-            if (built) setTwinSession(built);
+            if (result.error) setUpgradeError(result.error.message);
+            if (result.session) setTwinSession(result.session);
           }}
           onPreviewTwin={() => {
             const active = twinSession ?? refreshTwinSession(projectId, activePageId);

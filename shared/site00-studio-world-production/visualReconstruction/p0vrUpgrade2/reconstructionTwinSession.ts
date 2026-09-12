@@ -22,6 +22,11 @@ import { TWIN_BUILD_STEPS } from './constants.js';
 import { runTwinBuildPipeline } from './twinBuildPipeline.js';
 import { evaluatePromotionReadiness } from './promotionReadiness.js';
 import { runTwinFidelityQa } from './twinFidelityQa.js';
+import {
+  mergePersistedTwinSessionsIntoRuntime,
+  resetTwinSessionPersistenceForTest,
+  writePersistedTwinSession,
+} from './twinSessionPersistence.js';
 
 const sessions = new Map<string, ReconstructionTwinSession>();
 
@@ -34,6 +39,14 @@ function pageSessionsKey(projectId: string, pageId: string): string {
 }
 
 const pageSessionIndex = new Map<string, string>();
+
+function syncRuntimeFromPersistence(): void {
+  mergePersistedTwinSessionsIntoRuntime(sessions, pageSessionIndex);
+}
+
+function persistSession(session: ReconstructionTwinSession): void {
+  writePersistedTwinSession(session);
+}
 
 export function createTwinSessionFromApprovedDirection(input: {
   projectId: string;
@@ -49,6 +62,7 @@ export function createTwinSessionFromApprovedDirection(input: {
   isRootPage?: boolean;
   mutationPolicy?: TwinMutationPolicy;
 }): ReconstructionTwinSession {
+  syncRuntimeFromPersistence();
   const liveVersion = ensureLivePageVersion({
     projectId: input.projectId,
     pageId: input.pageId,
@@ -116,10 +130,12 @@ export function createTwinSessionFromApprovedDirection(input: {
   sessions.set(sessionKey(sessionId), session);
   pageSessionIndex.set(pageSessionsKey(input.projectId, input.pageId), sessionId);
   setActiveTwinSession(input.projectId, input.pageId, sessionId);
+  persistSession(session);
   return session;
 }
 
 export function getTwinSession(sessionId: string): ReconstructionTwinSession | null {
+  syncRuntimeFromPersistence();
   return sessions.get(sessionKey(sessionId)) ?? null;
 }
 
@@ -127,6 +143,7 @@ export function getActiveTwinSessionForPage(
   projectId: string,
   pageId: string,
 ): ReconstructionTwinSession | null {
+  syncRuntimeFromPersistence();
   const id = pageSessionIndex.get(pageSessionsKey(projectId, pageId));
   if (!id) return null;
   const session = sessions.get(id);
@@ -142,6 +159,7 @@ export function updateTwinSession(
   if (!existing) return null;
   const updated = { ...existing, ...patch, updatedAt: new Date().toISOString() };
   sessions.set(sessionKey(sessionId), updated);
+  persistSession(updated);
   return updated;
 }
 
@@ -275,7 +293,12 @@ export function resumeTwinSession(sessionId: string): ReconstructionTwinSession 
   return session;
 }
 
-export function resetReconstructionTwinSessionsForTest(): void {
+export function clearReconstructionTwinSessionsRuntimeOnlyForTest(): void {
   sessions.clear();
   pageSessionIndex.clear();
+}
+
+export function resetReconstructionTwinSessionsForTest(): void {
+  clearReconstructionTwinSessionsRuntimeOnlyForTest();
+  resetTwinSessionPersistenceForTest();
 }
