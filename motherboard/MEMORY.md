@@ -8235,3 +8235,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `clientSafeRuntime.ts` (`import.meta.env` only); `CLIENT_RUNTIME_REPLICATION_ERROR` + founder copy; receipt vision stages; dist guard `.env.VITEST`. PR **#746** merged. Tests: `p0vrReplication3bR1.test.ts`.
 - **Founder next:** Deploy **v329+** frontend; Railway redeploy if API not yet live → REPLICATE again (vision path should run).
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.3C visual asset recovery + literal source execution
+
+- **Context:** 3B proved vision-in-loop (multi-zone hero) but twin still showed unresolved visuals and approximate source (generic hero collapse). Sprint patches **downstream** only: asset binding + literal source execution — no new vision/forensics engine.
+- **Delivered:** `p0vrReplication3c/` — `AssetResolutionStrategy`, `ReplicationAssetSlot`, `AssetResolutionReceipt`, `LiteralLayoutInstruction`, `LiteralSourceExecutionReceipt`, hero inventory, library search → authority region derivation → procedural lime DOM, `SOURCE_STRUCTURE_COLLAPSE` guard, `executeReplication3cPipeline` (`v319` build ref). Shell-first replicate chain sets **`VISION_LITERAL_EXECUTED_NDX_OVERVIEW`** when hero assets + source pass. UI: bound hero slices (no founder-visible `ASSET_MISSING`), `TwinSite00HostBottomNav` (MOBILE_SITE_NAV), DETAILS → **ASSET RESOLUTION** panel. Fix: `heroAssetInventory` used wrong variable name (runtime crash in REPLICATE).
+- **Not full page pass yet:** Masthead/module nav/progress/metrics bands still largely shell-first styling; hero + host bottom nav are the 3C pilot targets. Post-bind vision recompare loop remains 3B playwright path + asset retry counter.
+- **Founder next:** Deploy **v330+** → UPGRADE → REPLICATE → REVIEW hero (real grayscale/lime, no wireframe labels) → DETAILS → ASSET RESOLUTION + VISION TRACE. Live unchanged.
+
