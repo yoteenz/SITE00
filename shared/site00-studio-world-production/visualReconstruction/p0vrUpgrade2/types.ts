@@ -249,6 +249,14 @@ export type ReconstructionTwinSession = {
   /** P0.VR.REPLICATION.3C-R1 */
   heroMaterializationTraces?: import('../p0vrReplication3cR1/types.js').AssetMaterializationTrace[] | null;
   assetManifestVersion?: string | null;
+  /** P0.VR.REPLICATION.3D */
+  authorityCoordinateMap?: import('../p0vrReplication3d/types.js').AuthorityCoordinateMap | null;
+  authorityGrid?: import('../p0vrReplication3d/types.js').AuthorityGrid | null;
+  geometryLockReport?: import('../p0vrReplication3d/types.js').GeometryLockReport | null;
+  geometryFidelityReceipts?: import('../p0vrReplication3d/types.js').GeometryFidelityReceipt[] | null;
+  geometryCorrectionPasses?: import('../p0vrReplication3d/types.js').GeometryCorrectionPass[] | null;
+  twinGeometryCssPatch?: Record<string, string> | null;
+  geometryLiteralHeroSource?: import('../p0vrReplication3b/literalRegionSourceGenerator.js').GeneratedLiteralSource | null;
 };
 
 export type PageLiveRegistryEntry = {

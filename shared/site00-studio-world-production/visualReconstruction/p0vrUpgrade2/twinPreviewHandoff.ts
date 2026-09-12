@@ -104,6 +104,10 @@ export function stashTwinSessionForPreview(session: ReconstructionTwinSession): 
           heroMaterializationTraces: slim.heroMaterializationTraces,
           assetManifestVersion: slim.assetManifestVersion,
           designAuthorityAssetRef: slim.designAuthorityAssetRef,
+          twinGeometryCssPatch: slim.twinGeometryCssPatch,
+          authorityCoordinateMap: slim.authorityCoordinateMap,
+          geometryLockReport: slim.geometryLockReport,
+          geometryFidelityReceipts: slim.geometryFidelityReceipts,
         } as ReconstructionTwinSession),
       );
     } catch {

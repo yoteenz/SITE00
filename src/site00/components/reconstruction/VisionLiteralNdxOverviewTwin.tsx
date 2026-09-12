@@ -2,12 +2,14 @@
  * P0.VR.REPLICATION.3B/3C — Vision literal NDX overview with bound hero assets.
  */
 
+import type { CSSProperties } from 'react';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import type { ReplicationAssetSlot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication3c/types.js';
 import { ShellFirstNdxOverviewTwin } from './ShellFirstNdxOverviewTwin.js';
 import { HeroMaterializedSliceImage } from './HeroMaterializedSliceImage.js';
 import { useProjectOperatingState } from '../../hooks/useProjectOperatingState';
 import { HERO_MATERIALIZATION_PROOF_SLOT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication3cR1/constants.js';
+import { GeometryGridOverlay } from './GeometryGridOverlay.js';
 import '../../styles/site00-vision-literal-twin.css';
 
 type Props = {
@@ -120,14 +122,19 @@ export function VisionLiteralNdxOverviewTwin({ projectSlug, session, executed = 
   const slots = slotMap(session?.replicationAssetSlots);
   const subregions = session?.visionLiteralRegionSpecs?.find((s) => s.regionId === 'hero-editorial')?.subregions.length ?? 4;
   const useHostNav = executed || session?.twinRenderMode === 'VISION_LITERAL_EXECUTED_NDX_OVERVIEW';
+  const geometryPatch = session?.twinGeometryCssPatch ?? undefined;
+  const cssVars = geometryPatch as CSSProperties | undefined;
 
   return (
     <div
-      className={`site00-vlt${executed ? ' site00-vlt--executed' : ''}`}
+      className={`site00-vlt${executed ? ' site00-vlt--executed' : ''}${geometryPatch ? ' site00-vlt--geometry-locked' : ''}`}
       data-vision-literal-twin="ndx-overview-mobile"
       data-hero-subregions={subregions}
       data-3c-build={session?.replication3cReport?.buildRef ?? null}
+      data-3d-build={session?.geometryLockReport?.buildRef ?? null}
+      style={cssVars}
     >
+      <GeometryGridOverlay session={session} />
       <ShellFirstNdxOverviewTwin
         projectSlug={projectSlug}
         hostClassName="site00-vlt__host"
