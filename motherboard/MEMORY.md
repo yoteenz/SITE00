@@ -8226,3 +8226,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Provider:** Anthropic via Railway when `ANTHROPIC_API_KEY` set; vitest uses structural fixture proving image receipt + non-generic hero observation. Playwright re-capture when `SITE00_REPLICATION_PLAYWRIGHT=1`.
 - **Founder next:** Deploy release with 3B → UPGRADE → **REPLICATE PAGE** → REVIEW hero (not blank placeholder) → DETAILS → **VISION TRACE** if still off. Live unchanged; not promotion-ready.
 
+---
+
+## 2026-09-12 — P0.VR.REPLICATION.3B-R1 browser `process` crash on REPLICATE
+
+- **Symptom:** Mobile UPGRADE → REPLICATE → `Can't find variable: process` — flow died before vision API ran; UI wrongly suggested SWITCH_IMPLEMENTATION_APPROACH.
+- **Root cause:** `process.env.VITEST` in `executeVisionLiteralNdxReplication` / `visionReplicationClient` bundled into client (`twinPreviewHandoff`); Safari has no `process`.
+- **Fix:** `clientSafeRuntime.ts` (`import.meta.env` only); `CLIENT_RUNTIME_REPLICATION_ERROR` + founder copy; receipt vision stages; dist guard `.env.VITEST`. PR **#746** merged. Tests: `p0vrReplication3bR1.test.ts`.
+- **Founder next:** Deploy **v329+** frontend; Railway redeploy if API not yet live → REPLICATE again (vision path should run).
+
