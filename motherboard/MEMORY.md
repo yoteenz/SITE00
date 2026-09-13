@@ -8608,6 +8608,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.6 design compiler hardening (v377)
+
+- **Goal:** Formal design compiler — typed IR chain, bundle checksum, preflight before paid gen, compiler readiness before build, immutable approve lock, CREATIVE→TRANSLATION, fail-closed (no silent fallback).
+- **Fix:** `p0vrTwinV26` — Intent→Fidelity IR envelopes, `ConceptBundleChecksum`, `ConceptGenerationPreflight`, `CompilerReadinessReceipt`, `ObjectLineage`, `designCompilerBundles` on gallery; wired preflight in `beginDualOutput`, bundle build in `finalizeDualOutput`, lock on approve, `assertBuildCompilerContracts` in `prepareConceptDirectedTwinV2Build`; UI **COMPILER READINESS** + collapsed DESIGN COMPILER debug. Build ref **v377**.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.5 dual-output concept generation (v376)
 
 - **Problem:** Image-first concepts forced post-hoc blueprint/asset inference; unique assets trapped in authority image.

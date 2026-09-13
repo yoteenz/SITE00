@@ -49,6 +49,7 @@ export function emptyConceptGallery(): ConceptGalleryState {
     visualBlueprintReconciliations: {},
     blueprintVisualCoverage: {},
     assetCoverage: {},
+    designCompilerBundles: {},
   };
 }
 

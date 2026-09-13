@@ -954,6 +954,42 @@
   pointer-events: none;
 }
 
+.site00-twin-v2-compiler-readiness {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border: 1px solid #2a2a2a;
+  background: #050505;
+}
+
+.site00-twin-v2-compiler-readiness__title {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.5rem;
+}
+
+.site00-twin-v2-compiler-readiness__version,
+.site00-twin-v2-compiler-readiness__status,
+.site00-twin-v2-compiler-readiness__mode {
+  font-size: 0.62rem;
+  color: #aaa;
+  margin: 0.35rem 0;
+}
+
+.site00-twin-v2-compiler-readiness__list {
+  font-size: 0.62rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.site00-twin-v2-compiler-readiness__pre {
+  font-size: 0.55rem;
+  overflow: auto;
+  max-height: 200px;
+}
+
 .site00-twin-v2-paired-review__object-list {
   font-size: 0.72rem;
   max-height: 280px;

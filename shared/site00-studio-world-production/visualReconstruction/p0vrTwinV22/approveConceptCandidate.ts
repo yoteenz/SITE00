@@ -18,6 +18,9 @@ import { applyBlueprintOwnershipTags } from '../p0vrTwinV22R2/applyBlueprintOwne
 import { sanitizeConceptForHostBoundary } from '../p0vrTwinV22R2/sanitizeConceptForHostBoundary.js';
 import { assertActiveConceptUsesExecutionBlueprint } from '../p0vrTwinV22R2/assertActiveConceptUsesExecutionBlueprint.js';
 import { assertPairedConceptApprovalGate } from '../p0vrTwinV25/assertPairedConceptApprovalGate.js';
+import { lockApprovedDesignBundle } from '../p0vrTwinV26/lockApprovedDesignBundle.js';
+import { assertNotStaleReview } from '../p0vrTwinV26/staleReviewGuard.js';
+import { assertBuildCompilerContracts } from '../p0vrTwinV26/assertBuildCompilerContracts.js';
 function activeConceptHasExecutablePackage(session: ConceptDirectedTwinSession): boolean {
   const gallery = session.conceptGallery;
   const active = gallery ? getActiveConceptCandidate(session) : null;
@@ -90,6 +93,8 @@ export function prepareConceptDirectedTwinV2Build(
     throw new Error('TWIN_V2_CODE_BLOCKED: ExecutableConceptPackage required — approve failed or concept not build-ready');
   }
 
+  assertBuildCompilerContracts(working);
+
   return working;
 }
 
@@ -119,6 +124,14 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
   }
 
   assertPairedConceptApprovalGate({ candidate: active, gallery });
+
+  const compilerBundle = gallery.designCompilerBundles?.[active.conceptId];
+  if (active.conceptOrigin === 'DUAL_OUTPUT_PAIRED' && compilerBundle) {
+    assertNotStaleReview({ bundle: compilerBundle, uiBundleChecksum: compilerBundle.bundleChecksum.checksum });
+    if (compilerBundle.compilerReadiness?.status !== 'PASS') {
+      throw new Error('COMPILER_NOT_READY: cannot approve before compiler readiness pass');
+    }
+  }
 
   assertActiveConceptUsesExecutionBlueprint({
     candidate: { ...active, executionBlueprintId: executableBlueprint.blueprintId, originalBlueprintId: blueprint.blueprintId },
@@ -202,6 +215,20 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
     bindingPlan,
     hostBoundary,
   });
+
+  if (active.conceptOrigin === 'DUAL_OUTPUT_PAIRED' && compilerBundle) {
+    const locked = lockApprovedDesignBundle(compilerBundle, 'APPROVE_PAIRED_CONCEPT');
+    next = {
+      ...next,
+      conceptGallery: {
+        ...next.conceptGallery!,
+        designCompilerBundles: {
+          ...(next.conceptGallery!.designCompilerBundles ?? {}),
+          [active.conceptId]: locked,
+        },
+      },
+    };
+  }
 
   if (active.legacyVersionId) {
     next = {

@@ -250,6 +250,7 @@ export type ConceptGalleryState = {
   visualBlueprintReconciliations?: Record<string, import('../p0vrTwinV25/types.js').VisualBlueprintReconciliation>;
   blueprintVisualCoverage?: Record<string, import('../p0vrTwinV25/types.js').BlueprintVisualCoverageReceipt>;
   assetCoverage?: Record<string, import('../p0vrTwinV25/types.js').AssetCoverageReceipt>;
+  designCompilerBundles?: Record<string, import('../p0vrTwinV26/types.js').DesignCompilerBundle>;
   blueprints: Record<string, ConceptBlueprint>;
   manifests: Record<string, ConceptAssetManifest>;
   bindingPlans: Record<string, ConceptFunctionBindingPlan>;
