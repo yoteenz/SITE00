@@ -1,5 +1,9 @@
 import type { BlueprintGrammar, PageCreativeDirection } from '../p0vrTwinV21/types.js';
+import { isHostOwnedBlueprintLabel } from '../p0vrTwinV22R2/isHostOwnedBlueprintLabel.js';
 import type { ConceptBlueprint, ConceptBlueprintObject } from './types.js';
+
+/** Normalized height of SITE 00 global host header on the concept artboard (not client masthead). */
+const CONCEPT_HOST_HEADER_NORM = 0.06;
 
 /** Concept-specific blueprint from creative direction + post-image band plan (not V1 forensic blueprint). */
 export function generateConceptBlueprint(input: {
@@ -14,11 +18,17 @@ export function generateConceptBlueprint(input: {
     ? input.creativeDirection.sectionOrder
     : input.blueprintGrammar.informationBands;
 
-  const sectionHeight = 1 / Math.max(bands.length + 1, 4);
-  const sections = bands.map((label, i) => ({
+  const clientBands = bands.filter((label) => !isHostOwnedBlueprintLabel(label));
+  const sectionHeight = 0.84 / Math.max(clientBands.length, 1);
+  const sections = clientBands.map((label, i) => ({
     id: `sec-${i + 1}`,
     label,
-    bounds: { x: 0.04, y: 0.08 + i * sectionHeight, w: 0.92, h: sectionHeight * 0.85 },
+    bounds: {
+      x: 0.04,
+      y: CONCEPT_HOST_HEADER_NORM + i * sectionHeight,
+      w: 0.92,
+      h: sectionHeight * 0.85,
+    },
   }));
 
   const objects: ConceptBlueprintObject[] = [];
@@ -62,7 +72,7 @@ export function generateConceptBlueprint(input: {
     parentId: null,
     role: 'SITE_00 host chrome',
     type: 'shell',
-    bounds: { x: 0, y: 0, w: 1, h: 0.06 },
+    bounds: { x: 0, y: 0, w: 1, h: CONCEPT_HOST_HEADER_NORM },
     textRole: 'host_label',
     assetRole: null,
     surface: 'host_white',

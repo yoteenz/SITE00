@@ -36,6 +36,7 @@ export function emptyConceptGallery(): ConceptGalleryState {
     hostBoundarySanitizationReceipts: {},
     clientCanvasBoundaries: {},
     clientCanvasTrimReceipts: {},
+    clientCanvasTopReceipts: {},
   };
 }
 
@@ -74,6 +75,7 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
   const hostBoundarySanitizationReceipts = { ...(gallery.hostBoundarySanitizationReceipts ?? {}) };
   const clientCanvasBoundaries = { ...(gallery.clientCanvasBoundaries ?? {}) };
   const clientCanvasTrimReceipts = { ...(gallery.clientCanvasTrimReceipts ?? {}) };
+  const clientCanvasTopReceipts = { ...(gallery.clientCanvasTopReceipts ?? {}) };
   const hostBoundaryMaps = {
     sanitizedBlueprints,
     generatedHostArtifacts,
@@ -84,6 +86,7 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
     hostBoundarySanitizationReceipts,
     clientCanvasBoundaries,
     clientCanvasTrimReceipts,
+    clientCanvasTopReceipts,
   };
 
   for (const h of session.history) {
@@ -126,6 +129,7 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
     hostBoundarySanitizationReceipts,
     clientCanvasBoundaries,
     clientCanvasTrimReceipts,
+    clientCanvasTopReceipts,
   };
 }
 
@@ -194,6 +198,7 @@ function attachBlueprintLineage(
     | 'hostBoundarySanitizationReceipts'
     | 'clientCanvasBoundaries'
     | 'clientCanvasTrimReceipts'
+    | 'clientCanvasTopReceipts'
   >,
 ): ConceptCandidate {
   let blueprint = generateConceptBlueprint({
@@ -247,6 +252,7 @@ function attachBlueprintLineage(
   hostBoundaryMaps.compositePreviews[candidate.conceptId] = boundary.compositePreview;
   hostBoundaryMaps.clientCanvasBoundaries![candidate.conceptId] = boundary.clientCanvasBoundary;
   hostBoundaryMaps.clientCanvasTrimReceipts![candidate.conceptId] = boundary.clientCanvasTrimReceipt;
+  hostBoundaryMaps.clientCanvasTopReceipts![candidate.conceptId] = boundary.clientCanvasTopReceipt;
   const receipt = buildHostBoundarySanitizationReceipt({
     conceptId: candidate.conceptId,
     originalBlueprint: blueprint,
@@ -359,6 +365,7 @@ export function addConceptCandidateFromGeneration(
   const hostBoundarySanitizationReceipts = { ...(gallery.hostBoundarySanitizationReceipts ?? {}) };
   const clientCanvasBoundaries = { ...(gallery.clientCanvasBoundaries ?? {}) };
   const clientCanvasTrimReceipts = { ...(gallery.clientCanvasTrimReceipts ?? {}) };
+  const clientCanvasTopReceipts = { ...(gallery.clientCanvasTopReceipts ?? {}) };
   candidate = attachBlueprintLineage(base, candidate, blueprints, manifests, bindingPlans, reconciliations, {
     sanitizedBlueprints,
     generatedHostArtifacts,
@@ -369,6 +376,7 @@ export function addConceptCandidateFromGeneration(
     hostBoundarySanitizationReceipts,
     clientCanvasBoundaries,
     clientCanvasTrimReceipts,
+    clientCanvasTopReceipts,
   });
 
   return {
@@ -391,6 +399,7 @@ export function addConceptCandidateFromGeneration(
       hostBoundarySanitizationReceipts,
       clientCanvasBoundaries,
       clientCanvasTrimReceipts,
+      clientCanvasTopReceipts,
     },
     updatedAt: new Date().toISOString(),
   };

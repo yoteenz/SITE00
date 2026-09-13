@@ -9,6 +9,7 @@ import type {
 import type { HostBoundarySanitizationReceipt } from '../p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import type { ClientCanvasBoundary } from '../p0vrTwinV22R2/computeClientCanvasBoundary.js';
 import type { ClientCanvasTrimReceipt } from '../p0vrTwinV22R2/buildClientCanvasTrimReceipt.js';
+import type { ClientCanvasTopReceipt } from '../p0vrTwinV22R2/buildClientCanvasTopReceipt.js';
 import type { VisualOwnership } from '../p0vrTwinV22R2/types.js';
 import type {
   BlueprintGrammar,
@@ -245,6 +246,7 @@ export type ConceptGalleryState = {
   hostBoundarySanitizationReceipts?: Record<string, HostBoundarySanitizationReceipt>;
   clientCanvasBoundaries?: Record<string, ClientCanvasBoundary>;
   clientCanvasTrimReceipts?: Record<string, ClientCanvasTrimReceipt>;
+  clientCanvasTopReceipts?: Record<string, ClientCanvasTopReceipt>;
   backfillReceipt?: BackfillReceipt;
   galleryHydrationReceipt?: GalleryHydrationReceipt;
 };

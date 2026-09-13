@@ -20,3 +20,5 @@ export * from './clientCanvasBoundaryConstants.js';
 export * from './computeClientCanvasBoundary.js';
 export * from './buildClientCanvasTrimReceipt.js';
 export * from './assertClientCanvasExcludesHostArtifactExtent.js';
+export * from './assertClientCanvasIncludesFirstClientObject.js';
+export * from './buildClientCanvasTopReceipt.js';
