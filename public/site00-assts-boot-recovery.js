@@ -6,7 +6,7 @@
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   var ROOT_POLL_MS = 400;
-  var ROOT_DEADLINE_MS = 20000;
+  var ROOT_DEADLINE_MS = 12000;
   var released = false;
   var bannerId = 'site00-assts-boot-recovery-banner';
 
@@ -27,6 +27,9 @@
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
         new CustomEvent('site00-boot-recovery', { detail: { reason: reason || 'unknown' } }),
+      );
+      window.dispatchEvent(
+        new CustomEvent('site00-force-reveal-loader', { detail: { reason: reason || 'boot-recovery' } }),
       );
     }
   }
