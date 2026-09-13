@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 920" role="img" aria-label="R2 desktop SITE 00 design page authority">
+  <rect width="1440" height="920" fill="#f4f2ee"/>
+  <!-- A HOST -->
+  <rect x="0" y="0" width="1440" height="80" fill="#fff" stroke="#e5e1d9"/>
+  <text x="48" y="48" font-family="system-ui,sans-serif" font-size="24" font-weight="800" fill="#0a0a0a">SITE 00</text>
+  <rect x="160" y="24" width="5" height="36" fill="#e10600"/>
+  <text x="176" y="48" font-family="system-ui,sans-serif" font-size="14" fill="#444">Design · founder workspace</text>
+  <text x="48" y="72" font-family="system-ui,sans-serif" font-size="11" fill="#666">A · SITE 00 : PROJECT: NDXBOOK (open) : PAGE: DESIGN</text>
+  <text x="1200" y="48" font-family="system-ui,sans-serif" font-size="12" fill="#888">host controls</text>
+  <!-- B strip full width -->
+  <rect x="32" y="92" width="1376" height="48" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="48" y="122" font-family="system-ui,sans-serif" font-size="12" fill="#333">B · NDXBOOK · route · desktop · stage · authority v</text>
+  <!-- left context column -->
+  <rect x="32" y="152" width="300" height="736" rx="10" fill="#fff" stroke="#e0dcd4"/>
+  <text x="48" y="184" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#888">E · OUTPUT REVIEW</text>
+  <rect x="48" y="196" width="120" height="72" rx="6" fill="#f0ece6"/>
+  <rect x="180" y="196" width="120" height="72" rx="6" fill="#f0ece6"/>
+  <rect x="48" y="280" width="252" height="72" rx="6" fill="#f0ece6"/>
+  <text x="48" y="380" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#888">F · PIPELINE READINESS</text>
+  <rect x="48" y="392" width="252" height="100" rx="6" fill="#faf8f5" stroke="#e8e4dc"/>
+  <text x="60" y="420" font-family="system-ui,sans-serif" font-size="10" fill="#444">ready · blocked · next action</text>
+  <!-- C primary center -->
+  <rect x="348" y="152" width="780" height="620" rx="12" fill="#fff" stroke="#bbb"/>
+  <text x="368" y="184" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#111">C · PRIMARY WORKSPACE PANEL</text>
+  <rect x="368" y="200" width="740" height="480" rx="8" fill="#ece8e0"/>
+  <text x="620" y="450" font-family="system-ui,sans-serif" font-size="20" fill="#555">main table · authority preview</text>
+  <!-- D decision bar -->
+  <rect x="348" y="784" width="780" height="56" rx="8" fill="#e10600"/>
+  <text x="680" y="818" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">D · APPROVE · REFINE · REGENERATE · COMPARE</text>
+  <!-- G drawer -->
+  <rect x="1148" y="152" width="260" height="736" rx="10" fill="#fff" stroke="#ccc" stroke-dasharray="6 4"/>
+  <text x="1168" y="184" font-family="system-ui,sans-serif" font-size="11" fill="#888">G · SECONDARY DETAIL</text>
+  <text x="1168" y="208" font-family="system-ui,sans-serif" font-size="10" fill="#aaa">drawer collapsed</text>
+  <text x="32" y="900" font-family="system-ui,sans-serif" font-size="10" fill="#999">R2 · SITE 00 design workspace · NDXBOOK inside · not NDXBOOK app</text>
+</svg>

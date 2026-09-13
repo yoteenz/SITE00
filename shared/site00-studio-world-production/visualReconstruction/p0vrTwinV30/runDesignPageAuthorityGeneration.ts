@@ -1,12 +1,30 @@
 import {
+  DESIGN_PAGE_V3_CANONICAL_PATH,
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
+  DESIGN_PAGE_V3_SKELETON_AREAS,
+  P0_VR_TWIN_V30R2_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
 import { classifyDesignPageAuthority } from './classifyDesignPageAuthority.js';
+import {
+  buildDesktopDesignPageAuthorityPrompt,
+  buildMobileDesignPageAuthorityPrompt,
+} from './buildDesignPageAuthorityPrompts.js';
+import { runDesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.js';
 import { confirmDesignPageProductSkeleton } from './lockedExperienceSkeleton.js';
 import { dispatchDesignPageAuthorityVisuals } from './dispatchDesignPageAuthorityVisuals.js';
-import type { DesignPageAuthorityGenerationResult, DesignPageAuthorityReviewSession } from './types.js';
+import type { DesignPageAuthorityGenerationResult, DesignPageAuthorityReviewSession, DesignPageV3SkeletonArea } from './types.js';
+
+const ZONE_SUMMARIES: Record<DesignPageV3SkeletonArea, string> = {
+  HOST_HEADER_PAGE_FRAME: 'SITE 00 host header, breadcrumb, DESIGN page identity, top operating controls',
+  TARGET_CONTEXT_STRIP: 'Compact NDXBOOK · route · viewport · stage · authority/version context',
+  PRIMARY_WORKSPACE_PANEL: 'Dominant main table — active authority/concept preview and comparison affordance',
+  DECISION_BAR_ACTION_BAND: 'Workflow-aware approve · refine · regenerate · compare · inspect band',
+  STRUCTURED_OUTPUT_REVIEW_SYSTEM: 'Grouped pipeline artifacts: visual, blueprint, overlay, assets, functions',
+  PIPELINE_STATE_READINESS: 'Ready / missing / approved / blocked / next valid action at a glance',
+  SECONDARY_DETAIL_EXPANDABLE: 'Technical detail collapsed — never dominates primary workspace',
+};
 
 export async function runDesignPageAuthorityGeneration(input: {
   session: DesignPageAuthorityReviewSession;
@@ -18,6 +36,18 @@ export async function runDesignPageAuthorityGeneration(input: {
   const skeleton = confirmDesignPageProductSkeleton({
     projectId: input.session.projectId,
     buildRef: P0_VR_TWIN_V30_BUILD,
+  });
+  const mobilePrompt = buildMobileDesignPageAuthorityPrompt({
+    clientProjectId: input.session.projectId,
+    refineNotes: input.session.founderReview.refineNotes,
+  });
+  const desktopPrompt = buildDesktopDesignPageAuthorityPrompt({
+    clientProjectId: input.session.projectId,
+    refineNotes: input.session.founderReview.refineNotes,
+  });
+  const r2SelfCheck = runDesignPageAuthoritySelfCheck({
+    promptOrArtifactText: `${mobilePrompt}\n${desktopPrompt}`,
+    zoneCount: DESIGN_PAGE_V3_SKELETON_AREAS.length,
   });
   const dispatch = await dispatchDesignPageAuthorityVisuals({
     authoritySessionId: input.session.authoritySessionId,
@@ -34,23 +64,21 @@ export async function runDesignPageAuthorityGeneration(input: {
   const client = input.session.projectId.toUpperCase();
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
+    lineage: P0_VR_TWIN_V30R2_LINEAGE,
     authoritySessionId: input.session.authoritySessionId,
     projectId: input.session.projectId,
     pageLabel: input.session.pageLabel,
     hostProduct: DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
     clientProjectOpen: client,
+    canonicalPath: DESIGN_PAGE_V3_CANONICAL_PATH,
     skeletonConfirmed: skeleton.areas,
     mobile: dispatch.mobile,
     desktop: dispatch.desktop,
-    site00PageFrameSummary: `${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} shell, breadcrumb, DESIGN page identity — host owns chrome`,
-    primaryWorkAreaSummary: 'Dominant central design-upgrade surface (visual focal point, not text console)',
-    clientTargetContextSummary: `Project ${client} open — route/page/platform/stage as secondary band inside host workspace`,
-    decisionReviewSummary: 'Single primary approve/refine/regenerate/compare CTA; readiness visible at a glance',
-    structuredArtifactGroupingSummary: 'Authority, blueprint, overlay, assets, function map grouped — not flat text dump',
-    secondaryDetailZonesSummary: 'Provider trace / lineage / debug collapsed in bottom sheet (mobile) or right drawer (desktop)',
+    zoneSummaries: { ...ZONE_SUMMARIES },
     mobileTechnicalDetailsPattern: 'BOTTOM_SHEET_COLLAPSED',
     desktopTechnicalDetailsPattern: 'RIGHT_DRAWER_COLLAPSED',
     hostShellPreserved: true,
+    r2SelfCheck,
     classification,
     founderReview: {
       ...input.session.founderReview,

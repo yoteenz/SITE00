@@ -8727,3 +8727,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Problem:** V3.0 authorities read as **NDXBOOK-branded design workstation** instead of **SITE 00 Design page with NDXBOOK open**.
 - **Fix:** R1 skeleton (SITE_00_PAGE_FRAME first), host/client firewall in FAL prompts, prototypes redrawn (SITE 00 › PROJECT: NDXBOOK › DESIGN), separate approve locks **`DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE`** / **`DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP`**, panel copy + per-viewport approve. Build ref **v388**. Still authority-only — no implementation.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV3.0R2 design page authority lock (v389)
+
+- **Objective:** Zero ambiguity — **SITE 00 owns workspace**, NDXBOOK client open; A–G page zones; founder-review-ready visuals; R2 self-check on prompts.
+- **Delivered:** R2 skeleton (HOST_HEADER through SECONDARY_DETAIL), `designPageAuthoritySelfCheck`, prompts with strict fail cases + foundershi test line, **`mobile-authority-r2.svg`** / **`desktop-authority-r2.svg`**, panel shows R2 lineage + self-check PASS. Build **v389**. Locks unchanged per viewport. No implementation.
+
