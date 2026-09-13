@@ -7,6 +7,7 @@ import {
   appendDesignPageAuthorityRefineNote,
   createDesignPageAuthorityReviewSession,
   galleryCandidateCount,
+  forceReplaceDesignPageAuthorityWithPrototypeGallery,
   mergeDesignPageAuthorityApiResponse,
   readDesignPageAuthoritySession,
   DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
@@ -46,6 +47,7 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 import {
   DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS,
+  publicAuthorityPrototypeImageUrl,
   resolveDesignPageAuthorityImageSrc,
 } from './designPageAuthorityR3PrototypeUrls.js';
 import { DesignPageV3AuthorityPairDock } from './DesignPageV3AuthorityPairDock.js';
@@ -73,7 +75,7 @@ function onAuthorityImageError(
   hint: { territoryId: DesignPageV3TerritoryId; viewport: 'mobile' | 'desktop' },
 ) {
   const el = ev.currentTarget;
-  const fallback = resolveDesignPageAuthorityImageSrc(
+  const fallback = publicAuthorityPrototypeImageUrl(
     `/site00/twin-v3-design-page-authority/${hint.viewport}-territory-${hint.territoryId.toLowerCase()}-r3.svg`,
   );
   if (el.src !== fallback) el.src = fallback;
@@ -104,8 +106,16 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     const fromDisk = readDesignPageAuthoritySession(projectId);
     setSession((prev) => {
       let base = prev;
-      if (fromDisk && galleryCandidateCount(fromDisk.territoryGallery) >= galleryCandidateCount(prev.territoryGallery)) {
-        base = fromDisk;
+      if (fromDisk) {
+        const diskCount = galleryCandidateCount(fromDisk.territoryGallery);
+        const prevCount = galleryCandidateCount(prev.territoryGallery);
+        if (
+          diskCount > prevCount ||
+          fromDisk.buildRef !== prev.buildRef ||
+          JSON.stringify(fromDisk.territoryGallery) !== JSON.stringify(prev.territoryGallery)
+        ) {
+          base = fromDisk;
+        }
       }
       const normalized = normalizeDesignPageAuthoritySession(base);
       const galleryJson = JSON.stringify(normalized.territoryGallery);
@@ -313,8 +323,8 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       </p>
       <p className="site00-dw-v3-authority__hint">
         Browse generated candidates per territory (R5F1 feature manifest required in every A/B/C concept). Select
-        independent MOBILE and DESKTOP masters, promote each (feature coverage must PASS), then lock the pair — run ADD
-        ADD BATCH replaces the previous batch (one active batch per territory). Run when ready for six new R5F1 FAL authorities.
+        independent MOBILE and DESKTOP masters, promote each (feature coverage must PASS), then lock the pair. ADD BATCH
+        replaces the previous batch. Broken gallery? Use RESET WORKING PROTOTYPES below.
       </p>
       {running ? (
         <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-authority-generating">
@@ -334,6 +344,14 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           }
         >
           {running ? 'Generating…' : hasGallery ? 'ADD BATCH (A+B+C)' : 'GENERATE TERRITORIES A/B/C'}
+        </button>
+        <button
+          type="button"
+          className="site00-dw-v3-btn site00-dw-v3-btn--compact"
+          disabled={running || fullyLocked}
+          onClick={() => persist(forceReplaceDesignPageAuthorityWithPrototypeGallery(sessionView))}
+        >
+          RESET WORKING PROTOTYPES
         </button>
       </div>
 

@@ -1,6 +1,7 @@
 import type { DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import type {
   DesignPageAuthorityReviewSession,
+  DesignPageAuthorityTerritoryGallery,
   DesignPageAuthorityVisualArtifact,
 } from './types.js';
 import { isPublicPrototypeAuthorityPath, canonicalPublicPrototypePath } from './rewritePrototypeGalleryUrls.js';
@@ -20,6 +21,24 @@ export function canonicalPrototypePathFromAuthorityStorageUrl(
   const territoryId = m[2]!.toUpperCase() as DesignPageV3TerritoryId;
   if (territoryId !== 'A' && territoryId !== 'B' && territoryId !== 'C') return null;
   return canonicalPublicPrototypePath(territoryId, viewport);
+}
+
+/** Hashed Vite /assets URLs 404 on cPanel + some dev reloads — treat as unviewable. */
+export function isUnviewableAuthorityImageStorageUrl(storageUrl: string): boolean {
+  if (!storageUrl?.trim()) return true;
+  if (isBrokenPersistedAuthorityImageStorageUrl(storageUrl)) return true;
+  if (/\/assets\/[^"'\s]*-territory-[abc]-r3/i.test(storageUrl)) return true;
+  return false;
+}
+
+export function galleryHasUnviewableAuthorityImages(gallery: DesignPageAuthorityTerritoryGallery): boolean {
+  for (const territoryId of R3_TERRITORY_IDS) {
+    for (const c of gallery[territoryId]) {
+      if (isUnviewableAuthorityImageStorageUrl(c.mobile.storageUrl)) return true;
+      if (isUnviewableAuthorityImageStorageUrl(c.desktop.storageUrl)) return true;
+    }
+  }
+  return false;
 }
 
 /** URLs that cannot load in `<img>` — repair to bundled /site00 R3 paths. */

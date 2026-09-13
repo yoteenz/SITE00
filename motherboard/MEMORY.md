@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 broken batch 1 stuck (tunnel + site00.com) — gallery recovery v405
+
+- **Symptom:** Tunnel and GoDaddy deploy still showed only **broken batch 1** (blue ?); batch 2 not visible.
+- **Root causes:** (1) **Batch ledger + gallery backup** re-merged stale **batch 2** with hashed `/assets/` or dead URLs; `pruneGalleryToLatestBatch` kept that batch over repaired batch 1. (2) **`buildRef` v404** skipped auto-recover while gallery URLs looked “valid” in storage but failed at runtime. (3) Img resolver still preferred **hashed Vite `/assets/`** for canonical R3 paths on production.
+- **Delivered:** `recoverDesignPageAuthorityGallery.ts` — force **public-path prototype** gallery on stale `buildRef` or unviewable URLs; persist on read; **RESET WORKING PROTOTYPES** button; skip merging **unviewable** ledger/backup; resolver prefers **`/site00/twin-v3-design-page-authority/*.svg`** (origin URL in browser); mount re-read when disk session differs. Tests **`p0vrTwinV30GalleryRecovery.test.ts`**. Build **v405**. Founder: hard refresh after deploy; use **ADD BATCH** for new FAL if prototypes reset.
+
+---
+
 ## 2026-09-13 — Twin V3 ADD BATCH replaces prior batch (v404)
 
 - **Founder:** Replace unusable batch 1 with batch 2 — do not stack broken history.

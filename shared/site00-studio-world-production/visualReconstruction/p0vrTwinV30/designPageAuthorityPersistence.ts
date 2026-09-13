@@ -9,6 +9,8 @@ import {
   mergeGalleryFromBatchLedger,
   maxBatchGenerationFromLedger,
 } from './designPageAuthorityBatchLedger.js';
+import { recoverDesignPageAuthorityGalleryIfBroken } from './recoverDesignPageAuthorityGallery.js';
+import { galleryHasUnviewableAuthorityImages } from './repairAuthorityPrototypeUrls.js';
 import { createDesignPageAuthorityReviewSession } from './designPageAuthorityReviewState.js';
 import type {
   DesignPageAuthorityGenerationResult,
@@ -70,7 +72,7 @@ function mergeStoredAuthoritySessions(
       featureAuthority: merged.featureAuthority ?? row.featureAuthority,
     };
   }
-  if (galleryBackup) {
+  if (galleryBackup && !galleryHasUnviewableAuthorityImages(galleryBackup)) {
     merged = {
       ...merged,
       territoryGallery: mergeTerritoryGalleries(merged.territoryGallery, galleryBackup),
@@ -168,7 +170,16 @@ export function readDesignPageAuthoritySession(projectId: string): DesignPageAut
     const sessionRow = sessionParsed?.[key] ?? null;
     const galleryBackup = readGalleryBackup(key);
     const merged = mergeStoredAuthoritySessions(key, localRow, sessionRow, galleryBackup);
-    return merged ? normalizeDesignPageAuthoritySession(merged) : null;
+    if (!merged) return null;
+    const normalized = normalizeDesignPageAuthoritySession(merged);
+    const recovered = recoverDesignPageAuthorityGalleryIfBroken(normalized);
+    if (
+      JSON.stringify(recovered.territoryGallery) !== JSON.stringify(normalized.territoryGallery) ||
+      recovered.buildRef !== normalized.buildRef
+    ) {
+      writeDesignPageAuthoritySession(recovered);
+    }
+    return recovered;
   } catch {
     return null;
   }

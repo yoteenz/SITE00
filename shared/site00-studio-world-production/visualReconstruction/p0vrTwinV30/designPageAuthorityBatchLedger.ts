@@ -1,4 +1,5 @@
 import type { DesignPageAuthorityTerritoryGallery } from './types.js';
+import { galleryHasUnviewableAuthorityImages } from './repairAuthorityPrototypeUrls.js';
 import { mergeTerritoryGalleries, maxBatchGenerationInGallery } from './designPageAuthorityTerritoryGallery.js';
 
 const BATCH_LEDGER_KEY = 'site00:design-page-v3-authority:batch-ledger:v1';
@@ -41,8 +42,7 @@ export function galleryCandidateCount(gallery: DesignPageAuthorityTerritoryGalle
   return gallery.A.length + gallery.B.length + gallery.C.length;
 }
 
-/** Latest batch only — replaces prior ledger entries (batch 1 discarded when batch 2 lands). */
-export function appendAuthorityBatchLedger(
+export function setAuthorityBatchLedgerSnapshot(
   projectId: string,
   gallery: DesignPageAuthorityTerritoryGallery,
   candidateGeneration: number,
@@ -50,13 +50,24 @@ export function appendAuthorityBatchLedger(
   if (!galleryCandidateCount(gallery)) return;
   const key = projectId.toLowerCase();
   const store = readLedgerStore();
-  const entry: AuthorityBatchLedgerEntry = {
-    batchGeneration: candidateGeneration,
-    savedAt: new Date().toISOString(),
-    territoryGallery: gallery,
-  };
-  store[key] = [entry];
+  store[key] = [
+    {
+      batchGeneration: candidateGeneration,
+      savedAt: new Date().toISOString(),
+      territoryGallery: gallery,
+    },
+  ];
   writeLedgerStore(store);
+}
+
+/** Latest batch only — replaces prior ledger entries (batch 1 discarded when batch 2 lands). */
+export function appendAuthorityBatchLedger(
+  projectId: string,
+  gallery: DesignPageAuthorityTerritoryGallery,
+  candidateGeneration: number,
+): void {
+  if (!galleryCandidateCount(gallery)) return;
+  setAuthorityBatchLedgerSnapshot(projectId, gallery, candidateGeneration);
 }
 
 export function mergeGalleryFromBatchLedger(
@@ -67,6 +78,9 @@ export function mergeGalleryFromBatchLedger(
   const list = readLedgerStore()[key] ?? [];
   if (!list.length) return gallery;
   const latest = list.reduce((a, b) => (a.batchGeneration >= b.batchGeneration ? a : b));
+  if (galleryHasUnviewableAuthorityImages(latest.territoryGallery)) {
+    return gallery;
+  }
   return mergeTerritoryGalleries(gallery, latest.territoryGallery);
 }
 
