@@ -4,6 +4,12 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV3.0R6 derivation pipeline + GENERATE DERIVATIVES (v412)
+
+- **Delivered:** `runDesignWorkspaceDerivation` orchestrator from locked R5F2 pair → StructuralBlueprint, SurgicalObjectMap, feature bindings (29), CanonicalAssetManifest, FunctionBindingMap, ownership/responsive/typography/state/interaction/primitive contracts, ReverseTraceabilityMap, CompilerReadinessReceipt, `DesignWorkspaceImplementationPackage`. **GENERATE DERIVATIVES** button runs pipeline (LOCAL_COMPILER, **falJobsDispatched: 0**); idempotent reuse; button state machine (GENERATING / REVIEW DERIVATIVES). UI: `DesignPageV3DerivationReviewPanel`. Tests **`p0vrTwinV30R6.test.ts`**. Build **v412**. No auto live React build.
+
+---
+
 ## 2026-09-13 — R5F2 mobile recovery strip (v411)
 
 - **Founder report:** On **site00.fsbw-dev.com** mobile, did not see promised LOCKED / GENERATE DERIVATIVES UI — only dense header text and PAIR REVIEW after scroll; **GENERATE DERIVATIVES** lived inside collapsed **AUTHORITY PAIR · tap to manage** dock (desktop-only dock visible ≥720px).
