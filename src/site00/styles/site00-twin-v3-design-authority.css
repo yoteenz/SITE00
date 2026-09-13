@@ -371,6 +371,33 @@
   }
 }
 
+.site00-dw-v3-derivation-review {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border: 2px solid #0a7a3e;
+  border-radius: 10px;
+  background: #f8fff9;
+  font-size: 0.75rem;
+}
+
+.site00-dw-v3-derivation-review__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-derivation-review__grid {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-derivation-review__technical {
+  font-size: 0.7rem;
+}
+
 .site00-dw-v3-authority-pair-review {
   margin: 0 0 1rem;
   padding: 0.75rem;

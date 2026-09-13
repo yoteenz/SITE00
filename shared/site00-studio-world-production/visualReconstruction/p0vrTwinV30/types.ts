@@ -150,5 +150,7 @@ export type DesignPageAuthorityReviewSession = {
   authorityPipeline?: DesignWorkspaceAuthorityPipelineState;
   /** R5F1: canonical feature manifest + coverage receipts */
   featureAuthority?: DesignWorkspaceFeatureAuthorityState;
+  /** R6: derivation runs + implementation packages */
+  designWorkspaceDerivation?: import('./designWorkspaceDerivation/types.js').DesignWorkspaceDerivationState;
   updatedAt: string;
 };

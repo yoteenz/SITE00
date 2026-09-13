@@ -40,7 +40,10 @@ const EXPECTED_DERIVATION_ARTIFACTS = [
   'ReverseTraceabilityMap',
 ] as const;
 
-/** Validates locked pair and returns the derivation input bundle — does not build live React. */
+/**
+ * Validates locked pair and returns the derivation input plan.
+ * @see runDesignWorkspaceDerivation — R6 live GENERATE DERIVATIVES execution.
+ */
 export function deriveDesignWorkspacePackage(input: DeriveDesignWorkspacePackageInput): DeriveDesignWorkspacePackagePlan {
   const { session, authorityPairId } = input;
   assertDerivationAllowed(session);

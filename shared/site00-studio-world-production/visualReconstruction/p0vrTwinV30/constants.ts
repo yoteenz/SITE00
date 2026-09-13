@@ -1,5 +1,5 @@
-/** P0.VR.TWINV3.0R5F2 — one-time founder authority injection + derivation unblock. */
-export const P0_VR_TWIN_V30_BUILD = 'v411' as const;
+/** P0.VR.TWINV3.0R6 — locked authority derivation + implementation package. */
+export const P0_VR_TWIN_V30_BUILD = 'v412' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
@@ -10,6 +10,7 @@ export const P0_VR_TWIN_V30R4_LINEAGE = 'P0.VR.TWINV3.0R4' as const;
 export const P0_VR_TWIN_V30R5_LINEAGE = 'P0.VR.TWINV3.0R5' as const;
 export const P0_VR_TWIN_V30R5F1_LINEAGE = 'P0.VR.TWINV3.0R5F1' as const;
 export const P0_VR_TWIN_V30R5F2_LINEAGE = 'P0.VR.TWINV3.0R5F2' as const;
+export const P0_VR_TWIN_V30R6_LINEAGE = 'P0.VR.TWINV3.0R6' as const;
 
 /** Tracked defect — injection unblocks pipeline; gallery display fix is separate. */
 export const AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID = 'AUTHORITY_IMAGE_DISPLAY_BROKEN' as const;

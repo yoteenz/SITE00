@@ -1,5 +1,5 @@
 import {
-  derivationPrimaryActionLabel,
+  resolveDerivationButtonView,
   isFounderInjectedAuthorityPair,
   pairStatusLabel,
   resolveViewportMasterArtifact,
@@ -15,6 +15,7 @@ type Props = {
   onLockPair: () => void;
   onGenerateDerivatives?: () => void;
   pairLocked: boolean;
+  generating?: boolean;
 };
 
 export function DesignPageV3AuthorityPairDock({
@@ -25,6 +26,7 @@ export function DesignPageV3AuthorityPairDock({
   onLockPair,
   onGenerateDerivatives,
   pairLocked,
+  generating,
 }: Props) {
   const pipeline = session.authorityPipeline;
   const mobileSel = pipeline?.viewportSelection.mobile;
@@ -96,8 +98,10 @@ export function DesignPageV3AuthorityPairDock({
 
   const bothPromoted = Boolean(mobileMaster && desktopMaster);
   const founderInjected = isFounderInjectedAuthorityPair(session);
-  const derivationReady = session.authorityPipeline?.authorityPair?.derivationStatus === 'READY';
-  const primaryLabel = derivationPrimaryActionLabel(session);
+  const derivationReady =
+    session.authorityPipeline?.authorityPair?.derivationStatus === 'READY' ||
+    session.authorityPipeline?.authorityPair?.derivationStatus === 'COMPLETE';
+  const buttonView = resolveDerivationButtonView(session);
 
   return (
     <aside className="site00-dw-v3-authority-dock" aria-label="Authority pair selection" data-testid="v3-authority-pair-dock">
@@ -114,15 +118,16 @@ export function DesignPageV3AuthorityPairDock({
         {slot('mobile', 'MOBILE MASTER', mobileSel, mobileMaster, mobileArt)}
         {slot('desktop', 'DESKTOP MASTER', desktopSel, desktopMaster, desktopArt)}
       </div>
-      {pairLocked && derivationReady ?
+      {pairLocked && (derivationReady || buttonView.state !== 'DISABLED') ?
         <div className="site00-dw-v3-authority-dock__lock">
           <button
             type="button"
             className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--lock"
-            data-testid="v3-generate-derivatives-primary"
+            data-testid={generating ? 'v3-derivation-generating' : buttonView.testId}
+            disabled={buttonView.disabled || generating}
             onClick={() => onGenerateDerivatives?.()}
           >
-            {primaryLabel}
+            {generating ? 'GENERATING DERIVATIVES…' : buttonView.label}
           </button>
           <p className="site00-dw-v3-authority-dock__meta">DERIVATION READY · EXECUTION TRANSLATION · INVENTION NONE</p>
         </div>

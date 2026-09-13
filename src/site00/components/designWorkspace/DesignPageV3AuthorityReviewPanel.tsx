@@ -22,7 +22,8 @@ import {
   isViewportCandidateSelected,
   applyFounderR5F2RecoveryIfNeeded,
   AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID,
-  deriveDesignWorkspacePackage,
+  resolveDerivationButtonView,
+  runDesignWorkspaceDerivation,
   lockDesignWorkspaceAuthorityPair,
   normalizeDesignPageAuthoritySession,
   P0_VR_TWIN_V30R5F1_LINEAGE,
@@ -55,6 +56,7 @@ import {
 } from './designPageAuthorityR3PrototypeUrls.js';
 import { DesignPageV3AuthorityPairDock } from './DesignPageV3AuthorityPairDock.js';
 import { DesignPageV3AuthorityRecoveryStrip } from './DesignPageV3AuthorityRecoveryStrip.js';
+import { DesignPageV3DerivationReviewPanel } from './DesignPageV3DerivationReviewPanel.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
 type Props = {
@@ -102,6 +104,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [confirmKind, setConfirmKind] = useState<ConfirmKind | null>(null);
   const [fullscreenSrc, setFullscreenSrc] = useState<string | null>(null);
   const [mobileDockOpen, setMobileDockOpen] = useState(false);
+  const [derivationGenerating, setDerivationGenerating] = useState(false);
 
   useEffect(() => {
     if (!pilot) return;
@@ -229,16 +232,29 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   }, [persist, sessionView]);
 
   const onGenerateDerivatives = useCallback(() => {
-    try {
-      const pairId = sessionView.authorityPipeline?.authorityPair?.id;
-      if (!pairId) throw new Error('DESIGN_AUTHORITY_PAIR_NOT_READY');
-      deriveDesignWorkspacePackage({ session: sessionView, authorityPairId: pairId });
-      setPersistWarning('Derivation entrypoint validated — GENERATE DERIVATIVES ready (no auto-dispatch in R5F2).');
+    const view = resolveDerivationButtonView(sessionView);
+    if (view.state === 'REVIEW_DERIVATIVES') {
+      setMobileDockOpen(true);
+      setPersistWarning(null);
       setError(null);
+      return;
+    }
+    setDerivationGenerating(true);
+    setError(null);
+    try {
+      const { session: derived, reusedExisting } = runDesignWorkspaceDerivation(sessionView);
+      persist(derived);
+      setPersistWarning(
+        reusedExisting ?
+          'Existing derivation package reused (same frozen authority inputs).'
+        : 'Derivation complete — review package below. No live page build in R6.',
+      );
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Derivation blocked');
+    } finally {
+      setDerivationGenerating(false);
     }
-  }, [sessionView]);
+  }, [persist, sessionView]);
 
   const onReplaceViewport = useCallback(
     (viewport: 'mobile' | 'desktop') => {
@@ -302,6 +318,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       onLockPair={() => setConfirmKind('lock-pair')}
       onGenerateDerivatives={onGenerateDerivatives}
       pairLocked={pairLocked}
+      generating={derivationGenerating}
     />
   );
 
@@ -343,7 +360,13 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         </p>
       : null}
 
-      <DesignPageV3AuthorityRecoveryStrip session={sessionView} onGenerateDerivatives={onGenerateDerivatives} />
+      <DesignPageV3AuthorityRecoveryStrip
+        session={sessionView}
+        onGenerateDerivatives={onGenerateDerivatives}
+        generating={derivationGenerating}
+      />
+
+      <DesignPageV3DerivationReviewPanel session={sessionView} />
 
       <p className="site00-dw-v3-authority__hint" data-testid="v3-authority-gallery-stats">
         {galleryStats}

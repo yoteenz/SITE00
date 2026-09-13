@@ -1,7 +1,7 @@
 import {
   AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID,
   DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
-  derivationPrimaryActionLabel,
+  resolveDerivationButtonView,
   getProjectCreativeContextVersion,
   masterAmendmentStatusLabel,
   P0_VR_TWIN_V30R5F2_LINEAGE,
@@ -11,6 +11,7 @@ import {
 type Props = {
   session: DesignPageAuthorityReviewSession;
   onGenerateDerivatives: () => void;
+  generating?: boolean;
 };
 
 function statusRow(label: string, value: string, testId?: string) {
@@ -23,13 +24,20 @@ function statusRow(label: string, value: string, testId?: string) {
 }
 
 /** Always-visible post-R5F2 state — mobile-first; dock toggle hides GENERATE DERIVATIVES on phone. */
-export function DesignPageV3AuthorityRecoveryStrip({ session, onGenerateDerivatives }: Props) {
+export function DesignPageV3AuthorityRecoveryStrip({ session, onGenerateDerivatives, generating }: Props) {
   const pipeline = session.authorityPipeline;
   const receipt = pipeline?.founderAuthorityInjectionReceipt;
   if (receipt?.status !== 'PASS') return null;
 
   const pairLocked = pipeline?.authorityPair?.status === 'PAIR_LOCKED';
-  const derivationReady = pipeline?.authorityPair?.derivationStatus === 'READY';
+  const derivationReady =
+    pipeline?.authorityPair?.derivationStatus === 'READY' || pipeline?.authorityPair?.derivationStatus === 'COMPLETE';
+  const buttonView = resolveDerivationButtonView(session);
+  const showPrimary =
+    buttonView.state === 'GENERATE_DERIVATIVES' ||
+    buttonView.state === 'REVIEW_DERIVATIVES' ||
+    buttonView.state === 'RESOLVE_BLOCKERS' ||
+    buttonView.state === 'DERIVATION_FAILED';
   const mobile = pipeline?.mobileMaster;
   const desktop = pipeline?.desktopMaster;
   const contextVersion = getProjectCreativeContextVersion(session);
@@ -71,14 +79,15 @@ export function DesignPageV3AuthorityRecoveryStrip({ session, onGenerateDerivati
           in PAIR REVIEW use founder JPGs ({DESIGN_WORKSPACE_FEATURE_MANIFEST_V1}).
         </p>
       : null}
-      {pairLocked && derivationReady ?
+      {pairLocked && (derivationReady || showPrimary) ?
         <button
           type="button"
           className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-authority-recovery__primary"
-          data-testid="v3-generate-derivatives-mobile-primary"
+          data-testid={generating ? 'v3-derivation-generating' : buttonView.testId}
+          disabled={buttonView.disabled || generating}
           onClick={onGenerateDerivatives}
         >
-          {derivationPrimaryActionLabel(session)}
+          {generating ? 'GENERATING DERIVATIVES…' : buttonView.label}
         </button>
       : null}
     </section>
