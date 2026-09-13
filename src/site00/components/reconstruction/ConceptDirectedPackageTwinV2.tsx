@@ -1,4 +1,5 @@
 /**
+ * LEGACY_V2_EXECUTION_PATH — superseded by ConceptVisualCompilerTwinV2 (TWINV2.4R1).
  * P0.VR.TWINV2.3 + 3R1 — Package-driven DOM-first coded twin.
  */
 

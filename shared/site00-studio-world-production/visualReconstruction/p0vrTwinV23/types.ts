@@ -15,7 +15,7 @@ export type TwinV2BuildPolicy = {
 };
 
 export type TwinV2ExecutionLineage = {
-  buildRef: typeof P0_VR_TWIN_V23_BUILD | 'v374';
+  buildRef: typeof P0_VR_TWIN_V23_BUILD | 'v374' | 'v375';
   conceptId: string;
   approvedVisualAuthorityId: string;
   executionBlueprintId: string;
@@ -99,7 +99,12 @@ export type TwinV2BuildHistoryEntry = {
   conceptId: string;
   packageId: string | null;
   builtAt: string;
-  status: 'PASS' | 'FAILED_PACKAGE_LINEAGE' | 'FAILED_BUILD' | 'FAILED_RASTERIZED_EXECUTION';
+  status:
+    | 'PASS'
+    | 'FAILED_PACKAGE_LINEAGE'
+    | 'FAILED_BUILD'
+    | 'FAILED_RASTERIZED_EXECUTION'
+    | 'FAILED_WRONG_IMPLEMENTATION_STRATEGY';
   componentRef: string;
 };
 

@@ -30,6 +30,7 @@ import {
   getBuilderEntryPointTrace,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23/index.js';
 import { P0_VR_TWIN_V23R1_BUILD as V23R1_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23R1/constants.js';
+import { P0_VR_TWIN_V24R1_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV24R1/constants.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
 
@@ -129,7 +130,7 @@ describe('P0.VR.TWINV2.3 package-driven builder', () => {
     const { artifacts } = buildTwinV2FromPackage(session);
     expect(artifacts.fidelityReceipt.status).not.toBe('PENDING');
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/composeFromExecutablePackage.ts')).toContain(
-      'buildTwinV2FromPackage',
+      'buildTwinV2ViaVisualCompiler',
     );
   });
 
@@ -156,15 +157,15 @@ describe('P0.VR.TWINV2.3 package-driven builder', () => {
     expect(result.sessionPatch.buildRef).toBe(V23R1_BUILD);
     expect(result.artifacts.buildMode).toBe('PACKAGE_DRIVEN_SOURCE_GENERATION');
     const { sessionPatch } = composeConceptDirectedTwinV2(session);
+    expect(sessionPatch.buildRef).toBe(P0_VR_TWIN_V24R1_BUILD);
+    expect(sessionPatch.renderedTwin?.buildMode).toBe('VISUAL_TO_CODE_COMPILER');
     expect(sessionPatch.twinV2Execution?.buildStage).toBe('COMPLETE');
   });
 
   it('UI: execution lineage + build stages', () => {
-    expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain(
-      'EXECUTION LINEAGE',
-    );
-    expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain(
-      'PACKAGE',
-    );
+    const ui = read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx');
+    expect(ui).toContain('EXECUTION LINEAGE');
+    expect(ui).toContain('VISUAL_TO_CODE_COMPILER');
+    expect(ui).toContain('STRATEGY');
   });
 });
