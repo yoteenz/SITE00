@@ -3,7 +3,13 @@ import {
   applyDesignPageAuthorityGeneration,
   createDesignPageAuthorityReviewSession,
 } from './designPageAuthorityReviewState.js';
-import { emptyTerritoryGallery, normalizeDesignPageAuthoritySession } from './designPageAuthorityTerritoryGallery.js';
+import { buildTerritoryPrototypeBundles } from './buildTerritoryPrototypeBundles.js';
+import {
+  emptyTerritoryGallery,
+  normalizeDesignPageAuthoritySession,
+  replaceTerritoryBundlesInGallery,
+  territoryGalleryHasCandidates,
+} from './designPageAuthorityTerritoryGallery.js';
 import { repairPrototypeGallerySession } from './repairAuthorityPrototypeUrls.js';
 import type {
   DesignPageAuthorityGenerationResult,
@@ -36,6 +42,29 @@ export function emptyDesignPageAuthorityBatch2Module(projectId: string): DesignP
     lastResult: null,
     updatedAt: now,
   };
+}
+
+/** Instant R3 SVGs in batch-2 module (no FAL) — same public paths as deploy bundle. */
+export function seedDesignPageAuthorityBatch2PrototypeGallery(
+  state: DesignPageAuthorityBatch2ModuleState,
+): DesignPageAuthorityBatch2ModuleState {
+  const base = normalizeDesignPageAuthorityBatch2Module(state);
+  if (territoryGalleryHasCandidates(base.territoryGallery)) return base;
+  const now = new Date().toISOString();
+  const bundles = buildTerritoryPrototypeBundles({
+    authoritySessionId: `batch2-proto-${base.projectId}-${Date.now()}`,
+  });
+  return normalizeDesignPageAuthorityBatch2Module({
+    ...base,
+    candidateGeneration: 2,
+    territoryGallery: replaceTerritoryBundlesInGallery({
+      gallery: emptyTerritoryGallery(),
+      bundles,
+      batchGeneration: 2,
+      createdAt: now,
+    }),
+    updatedAt: now,
+  });
 }
 
 export function normalizeDesignPageAuthorityBatch2Module(
