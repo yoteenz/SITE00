@@ -274,9 +274,57 @@
 
 .site00-twin-v2-gallery__view-tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.35rem;
   margin-bottom: 0.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.25rem;
+}
+
+.site00-twin-v2-gallery__view-tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-size: 0.62rem;
+}
+
+.site00-twin-v2-gallery__region-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site00-twin-v2-gallery__region-row {
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.site00-twin-v2-gallery__region-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.62rem;
+  margin-top: 0.25rem;
+  opacity: 0.92;
+}
+
+.site00-twin-v2-gallery__build-block,
+.site00-twin-v2-gallery__host-receipt,
+.site00-twin-v2-gallery__host-preview-note {
+  font-size: 0.65rem;
+  line-height: 1.35;
+  margin: 0.35rem 0;
+  color: #f5a623;
+}
+
+.site00-twin-v2-gallery__host-preview-note {
+  color: #c8ff00;
+  text-align: center;
+}
+
+.site00-twin-v2-host-composite__canvas--client-only img {
+  clip-path: inset(7% 0 12% 0);
 }
 
 .site00-twin-v2-gallery__view-tabs button.is-active {

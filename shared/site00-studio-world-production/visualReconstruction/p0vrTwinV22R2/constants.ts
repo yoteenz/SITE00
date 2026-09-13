@@ -1,4 +1,6 @@
-export const P0_VR_TWIN_V22R2_BUILD = 'v352' as const;
+export const P0_VR_TWIN_V22R2_BUILD = 'v356' as const;
+
+export const HOST_PREVIEW_NOT_WIRED = 'HOST_PREVIEW_NOT_WIRED' as const;
 
 export const VISUAL_OWNERSHIP = [
   'HOST_OWNED_LOCKED',

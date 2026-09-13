@@ -357,6 +357,8 @@ export function PageConceptDirectedTwinV2Experience({
           blueprints={gallery.blueprints}
           sanitizedBlueprints={gallery.sanitizedBlueprints ?? {}}
           generatedHostArtifacts={gallery.generatedHostArtifacts ?? {}}
+          hostShellContracts={gallery.hostShellContracts ?? {}}
+          hostBoundaryReceipts={gallery.hostBoundarySanitizationReceipts ?? {}}
           bindingSummaries={bindingSummaries}
           onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
           onApprove={handleApprove}

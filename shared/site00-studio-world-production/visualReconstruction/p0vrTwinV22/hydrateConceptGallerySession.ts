@@ -11,6 +11,7 @@ import {
   type V2ConceptGenerationRecord,
 } from './discoverExistingV2ConceptGenerations.js';
 import { P0_VR_TWIN_V22_BUILD } from './constants.js';
+import { repairConceptGalleryHostBoundary } from '../p0vrTwinV22R2/repairConceptGalleryHostBoundary.js';
 import type { BackfillReceipt, GalleryHydrationReceipt } from './types.js';
 
 function mergeHistoryFromDiscovery(
@@ -125,11 +126,14 @@ export function hydrateConceptGallerySession(
         canvasBoundaries: priorGallery?.canvasBoundaries ?? {},
         hostShellContracts: priorGallery?.hostShellContracts ?? {},
         compositePreviews: priorGallery?.compositePreviews ?? {},
+        hostBoundarySanitizationReceipts: priorGallery?.hostBoundarySanitizationReceipts ?? {},
       },
     });
   } else if (priorGallery) {
     gallery = priorGallery;
   }
+
+  gallery = repairConceptGalleryHostBoundary(working, gallery);
 
   const preferredActive = needsBackfill
     ? (gallery.candidates[0]?.conceptId ?? null)

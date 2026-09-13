@@ -1,12 +1,18 @@
 /**
- * P0.VR.TWINV2.2 — Horizontal concept gallery + readiness + blueprint peek.
+ * P0.VR.TWINV2.2 + 2R2R1 — Concept gallery with execution blueprint + host boundary UI.
  */
 
 import { useCallback, useRef, useState, type TouchEvent } from 'react';
 import type { ConceptCandidate, ConceptBlueprint } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/types.js';
-import type { GeneratedHostArtifact } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/types.js';
+import type {
+  GeneratedHostArtifact,
+  HostShellContract,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/types.js';
+import type { HostBoundarySanitizationReceipt } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { canBuildConcept } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
+import { buildBlueprintRegionInspectionRows } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildBlueprintRegionInspectionRows.js';
+import { computeExecutableConceptPackageReadiness } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeExecutableConceptPackageReadiness.js';
 import { TwinV2HostShellCompositePreview } from './TwinV2HostShellCompositePreview.js';
 
 type BlueprintViewMode =
@@ -26,6 +32,8 @@ type Props = {
   blueprints: Record<string, ConceptBlueprint>;
   sanitizedBlueprints: Record<string, ConceptBlueprint>;
   generatedHostArtifacts: Record<string, GeneratedHostArtifact[]>;
+  hostShellContracts: Record<string, HostShellContract>;
+  hostBoundaryReceipts: Record<string, HostBoundarySanitizationReceipt>;
   bindingSummaries: Record<string, { region: string; fn: string }[]>;
   onSelectConcept: (conceptId: string) => void;
   onApprove: () => void;
@@ -50,31 +58,24 @@ function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
       {chip(r.blueprintReady, 'BLUEPRINT')}
       {chip(r.assetsReady, 'ASSETS')}
       {chip(r.functionsReady, 'FUNCTIONS')}
-      {chip(r.hostBoundaryReady, 'HOST BOUNDARY')}
-      {r.status === 'READY_TO_BUILD' || r.status === 'APPROVED_READY_TO_BUILD' ? (
-        <strong className="site00-twin-v2-gallery__ready-ok">READY TO BUILD</strong>
-      ) : candidate.founderJudgment === 'APPROVED' ? (
-        <strong className="site00-twin-v2-gallery__ready-warn">PREPARING BUILD PACKAGE</strong>
-      ) : (
-        <strong className="site00-twin-v2-gallery__ready-warn">VISUAL ONLY — NOT BUILD READY</strong>
-      )}
+      {chip(r.hostBoundaryReady === true, 'HOST BOUNDARY')}
     </div>
   );
 }
 
-function ownershipBadge(ownership?: string, artifact?: boolean) {
-  if (artifact) {
-    return (
-      <span className="site00-twin-v2-gallery__ownership-badge is-host-artifact">GENERATED HOST ARTIFACT</span>
-    );
+function tabLabel(mode: BlueprintViewMode): string {
+  switch (mode) {
+    case 'CLIENT_CANVAS':
+      return 'CLIENT CANVAS';
+    case 'HOST_PREVIEW':
+      return 'HOST PREVIEW';
+    case 'BLUEPRINT':
+      return 'VIEW BLUEPRINT';
+    case 'ASSETS':
+      return 'VIEW ASSETS';
+    default:
+      return mode.replace(/_/g, ' ');
   }
-  if (ownership === 'HOST_OWNED_LOCKED') {
-    return <span className="site00-twin-v2-gallery__ownership-badge">HOST LOCKED</span>;
-  }
-  if (ownership === 'CLIENT_OWNED_CREATIVE') {
-    return <span className="site00-twin-v2-gallery__ownership-badge is-client">CLIENT CREATIVE</span>;
-  }
-  return null;
 }
 
 export function ConceptDirectedTwinGallery({
@@ -84,6 +85,8 @@ export function ConceptDirectedTwinGallery({
   blueprints,
   sanitizedBlueprints,
   generatedHostArtifacts,
+  hostShellContracts,
+  hostBoundaryReceipts,
   bindingSummaries,
   onSelectConcept,
   onApprove,
@@ -102,13 +105,32 @@ export function ConceptDirectedTwinGallery({
     sorted.findIndex((c) => c.conceptId === activeConceptId),
   );
   const active = sorted[activeIndex] ?? sorted.at(-1);
-  const blueprint = active ? blueprints[active.conceptBlueprintId] : null;
-  const sanitized =
-    active && sanitizedBlueprints
-      ? Object.values(sanitizedBlueprints).find((b) => b.conceptId === active.conceptId) ?? blueprint
-      : blueprint;
+
+  const originalBlueprint = active ? blueprints[active.conceptBlueprintId] : null;
+  const executionBlueprint =
+    active && active.executionBlueprintId
+      ? sanitizedBlueprints[active.executionBlueprintId]
+      : active
+        ? Object.values(sanitizedBlueprints).find((b) => b.conceptId === active.conceptId) ?? null
+        : null;
   const hostArtifacts = active ? generatedHostArtifacts[active.conceptId] ?? [] : [];
+  const hostContract = active ? hostShellContracts[active.conceptId] ?? null : null;
+  const hostReceipt = active ? hostBoundaryReceipts[active.conceptId] : null;
   const bindings = active ? bindingSummaries[active.functionBindingPlanId] ?? [] : [];
+
+  const inspectionRows =
+    originalBlueprint && executionBlueprint
+      ? buildBlueprintRegionInspectionRows({
+          originalBlueprint,
+          executionBlueprint,
+          generatedHostArtifacts: hostArtifacts,
+          hostShellContract: hostContract,
+        })
+      : [];
+
+  const packageReadiness = active
+    ? computeExecutableConceptPackageReadiness({ candidate: active, readiness: active.buildReadiness })
+    : null;
 
   const scrollToIndex = useCallback(
     (idx: number) => {
@@ -141,10 +163,20 @@ export function ConceptDirectedTwinGallery({
     return <p>No concepts in gallery yet.</p>;
   }
 
-  const buildOk = active.founderJudgment === 'APPROVED' && canBuildConcept(active.buildReadiness, true);
+  const buildOk =
+    active.founderJudgment === 'APPROVED' &&
+    canBuildConcept(active.buildReadiness, true) &&
+    active.buildReadiness.hostBoundaryReady === true;
+
+  const buildBlockReason =
+    !active.buildReadiness.hostBoundaryReady
+      ? 'HOST BOUNDARY INCOMPLETE — verify VIEW BLUEPRINT + HOST PREVIEW'
+      : active.founderJudgment !== 'APPROVED'
+        ? 'Approve concept after host boundary verification'
+        : null;
 
   return (
-    <div className="site00-twin-v2-gallery">
+    <div className="site00-twin-v2-gallery" data-twin-v2-host-boundary-ui="1">
       <header className="site00-twin-v2-gallery__head">
         <strong>TWIN V2 — CONCEPTS</strong>
         <span>
@@ -199,6 +231,12 @@ export function ConceptDirectedTwinGallery({
       </div>
 
       <ReadinessStrip candidate={active} />
+      {hostReceipt ? (
+        <p className="site00-twin-v2-gallery__host-receipt" aria-label="Host boundary receipt">
+          Execution blueprint: {hostReceipt.executionBlueprintId} · excluded artifacts:{' '}
+          {hostReceipt.generatedHostArtifactCount}
+        </p>
+      ) : null}
 
       <div className="site00-twin-v2-gallery__actions">
         <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onApprove}>
@@ -215,12 +253,14 @@ export function ConceptDirectedTwinGallery({
           className="site00-dw-v3-btn site00-dw-v3-btn--primary"
           disabled={!buildOk || building}
           onClick={onBuild}
+          title={buildBlockReason ?? undefined}
         >
           BUILD THIS CONCEPT
         </button>
       </div>
+      {buildBlockReason ? <p className="site00-twin-v2-gallery__build-block">{buildBlockReason}</p> : null}
 
-      <div className="site00-twin-v2-gallery__view-tabs" role="tablist" aria-label="Blueprint view">
+      <div className="site00-twin-v2-gallery__view-tabs" role="tablist" aria-label="Concept inspection views">
         {(
           [
             'VISUAL',
@@ -233,77 +273,108 @@ export function ConceptDirectedTwinGallery({
             'ASSETS',
           ] as BlueprintViewMode[]
         ).map((mode) => (
-            <button
-              key={mode}
-              type="button"
-              role="tab"
-              className={viewMode === mode ? 'is-active' : ''}
-              onClick={() => setViewMode(mode)}
-            >
-              {mode === 'BLUEPRINT' || mode === 'ASSETS' || mode === 'CLIENT_CANVAS' || mode === 'HOST_PREVIEW'
-                ? `VIEW ${mode.replace(/_/g, ' ')}`
-                : mode.replace(/_/g, ' ')}
-            </button>
+          <button
+            key={mode}
+            type="button"
+            role="tab"
+            aria-selected={viewMode === mode}
+            data-view-tab={mode}
+            className={viewMode === mode ? 'is-active' : ''}
+            onClick={() => setViewMode(mode)}
+          >
+            {tabLabel(mode)}
+          </button>
         ))}
       </div>
 
-      {viewMode === 'CLIENT_CANVAS' && active?.visualAssetUrl ? (
-        <section className="site00-twin-v2-gallery__blueprint-panel">
-          <p>Client canvas authority (host chrome excluded from build package).</p>
-          <img src={active.visualAssetUrl} alt="Client canvas" style={{ maxWidth: '100%' }} />
+      {viewMode === 'CLIENT_CANVAS' && active.visualAssetUrl ? (
+        <section className="site00-twin-v2-gallery__blueprint-panel" data-panel="client-canvas">
+          <p>NDXBOOK client creative area only (generated host chrome excluded from build).</p>
+          <div className="site00-twin-v2-host-composite__canvas site00-twin-v2-host-composite__canvas--client-only">
+            <img src={active.visualAssetUrl} alt="Client canvas authority" draggable={false} />
+          </div>
         </section>
       ) : null}
 
       {viewMode === 'HOST_PREVIEW' ? (
-        <TwinV2HostShellCompositePreview
-          projectSlug={projectSlug}
-          clientCanvasImageUrl={active?.visualAssetUrl ?? null}
-        />
+        <section data-panel="host-preview" aria-label="Host preview">
+          <TwinV2HostShellCompositePreview
+            projectSlug={projectSlug}
+            clientCanvasImageUrl={active.visualAssetUrl ?? null}
+          />
+          <p className="site00-twin-v2-gallery__host-preview-note">
+            REAL SITE 00 HOST SHELL + APPROVED NDXBOOK CLIENT CANVAS. Generated host artifacts are excluded from build.
+          </p>
+        </section>
       ) : null}
 
-      {viewMode !== 'VISUAL' && viewMode !== 'CLIENT_CANVAS' && viewMode !== 'HOST_PREVIEW' && blueprint ? (
+      {viewMode !== 'VISUAL' && viewMode !== 'CLIENT_CANVAS' && viewMode !== 'HOST_PREVIEW' && originalBlueprint ? (
         <section className="site00-twin-v2-gallery__blueprint-panel">
           {viewMode === 'BLUEPRINT' || viewMode === 'OVERLAY' ? (
-            <ul>
-              {blueprint.sections.map((s) => (
-                <li key={s.id}>
-                  {s.label} — y:{s.bounds.y.toFixed(2)} h:{s.bounds.h.toFixed(2)}
-                  {ownershipBadge('CLIENT_OWNED_CREATIVE')}
+            <ul className="site00-twin-v2-gallery__region-list">
+              {inspectionRows.map((row) => (
+                <li key={row.regionId} className="site00-twin-v2-gallery__region-row">
+                  <strong>{row.label}</strong>
+                  <span>
+                    y:{row.bounds.y.toFixed(2)} h:{row.bounds.h.toFixed(2)}
+                  </span>
+                  <div className="site00-twin-v2-gallery__region-meta">
+                    <span>OWNERSHIP: {row.ownership}</span>
+                    {row.generatedSource ? (
+                      <span className="site00-twin-v2-gallery__ownership-badge is-host-artifact">
+                        GENERATED HOST ARTIFACT
+                      </span>
+                    ) : null}
+                    {row.executionStatus === 'EXCLUDED_FROM_CLIENT_BUILD' ? (
+                      <span className="site00-twin-v2-gallery__ownership-badge is-host-artifact">EXCLUDED</span>
+                    ) : null}
+                    <span>EXECUTION: {row.executionStatus}</span>
+                    {row.runtimeSource ? <span>→ {row.runtimeSource}</span> : null}
+                  </div>
                 </li>
               ))}
             </ul>
           ) : null}
-          {hostArtifacts.length > 0 ? (
-            <ul aria-label="Generated host artifacts excluded">
-              {hostArtifacts.map((a) => (
-                <li key={a.objectId}>
-                  {a.objectId} — {a.artifactType}
-                  {ownershipBadge(undefined, true)}
-                  <span> EXCLUDED FROM CLIENT BUILD</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          {viewMode === 'OBJECT_MAP' ? (
+          {viewMode === 'OBJECT_MAP' && executionBlueprint ? (
             <ul>
-              {(sanitized ?? blueprint).objects.slice(0, 12).map((o) => (
+              {executionBlueprint.objects.map((o) => (
                 <li key={o.objectId}>
                   {o.objectId} · {o.role} · z{o.zLayer}
-                  {ownershipBadge(o.ownership, o.isGeneratedHostArtifact)}
+                  <span className="site00-twin-v2-gallery__ownership-badge is-client">CLIENT CREATIVE</span>
                 </li>
               ))}
             </ul>
           ) : null}
           {viewMode === 'FUNCTION_MAP' ? (
-            <ul>
-              {bindings.map((b) => (
-                <li key={b.region}>
-                  {b.region} → {b.fn}
-                </li>
-              ))}
-            </ul>
+            <>
+              <p className="site00-twin-v2-gallery__fn-head">CLIENT PAGE FUNCTIONS</p>
+              <ul>
+                {bindings.map((b) => (
+                  <li key={b.region}>
+                    {b.region} → {b.fn}
+                  </li>
+                ))}
+              </ul>
+              {hostContract ? (
+                <>
+                  <p className="site00-twin-v2-gallery__fn-head">HOST COMPONENT BINDINGS</p>
+                  <ul>
+                    <li>{hostContract.hostHeaderComponent}</li>
+                    <li>{hostContract.hostBottomNavComponent}</li>
+                    <li>{hostContract.pageMountPoint}</li>
+                  </ul>
+                </>
+              ) : null}
+            </>
           ) : null}
-          {viewMode === 'ASSETS' ? <p>{blueprint.assetSlots.length} asset slots mapped to concept regions.</p> : null}
+          {viewMode === 'ASSETS' && executionBlueprint ? (
+            <p>{executionBlueprint.assetSlots.length} client asset slots (host artifacts excluded).</p>
+          ) : null}
+          {packageReadiness && viewMode === 'BLUEPRINT' ? (
+            <p className="site00-twin-v2-gallery__package-ready">
+              Package readiness: {packageReadiness.readyToBuild ? 'READY' : packageReadiness.blockingReasons.join(', ')}
+            </p>
+          ) : null}
         </section>
       ) : null}
     </div>
