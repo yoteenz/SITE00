@@ -1,8 +1,9 @@
-/** P0.VR.TWINV3.0R3 — host shell + project-reactive workspace expression. */
-export const P0_VR_TWIN_V30_BUILD = 'v393' as const;
+/** P0.VR.TWINV3.0R4 — project creative DNA + grounded workspace authority generation. */
+export const P0_VR_TWIN_V30_BUILD = 'v394' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
 export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;
+export const P0_VR_TWIN_V30R4_LINEAGE = 'P0.VR.TWINV3.0R4' as const;
 
 export const DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE = 'DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE' as const;
 export const DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP = 'DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP' as const;

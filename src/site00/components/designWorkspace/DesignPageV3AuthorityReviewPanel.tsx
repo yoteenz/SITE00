@@ -1,5 +1,5 @@
 /**
- * P0.VR.TWINV3.0R3 — SITE 00 shell + NDXBOOK project-reactive workspace authority.
+ * P0.VR.TWINV3.0R4 — SITE 00 shell + NDXBOOK project-grounded workspace authority.
  */
 
 import { useCallback, useMemo, useState } from 'react';
@@ -16,7 +16,7 @@ import {
   isDesignPageAuthorityFullyLocked,
   isDesignPageAuthorityViewportLocked,
   normalizeDesignPageAuthoritySession,
-  P0_VR_TWIN_V30R3_LINEAGE,
+  P0_VR_TWIN_V30R4_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
@@ -144,7 +144,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     >
       <header className="site00-dw-v3-authority__head">
         <strong>
-          {P0_VR_TWIN_V30R3_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
+          {P0_VR_TWIN_V30R4_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
         </strong>
         <span>Project {projectId.toUpperCase()} · territory galleries persist on this page</span>
         {mobileLocked ? (
@@ -221,10 +221,21 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       {result ? (
         <>
           <p className="site00-dw-v3-authority__hint">
-            Last batch #{sessionView.candidateGeneration} · R3 {result.r3SelfCheck.pass ? 'PASS' : 'FAIL'} ·{' '}
+            Last batch #{sessionView.candidateGeneration} · R3 {result.r3SelfCheck.pass ? 'PASS' : 'FAIL'} · R4{' '}
+            {result.r4SelfCheck?.pass ? 'PASS' : 'FAIL'} ·{' '}
             {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')}
             {selectedTerritory ? ` · lock territory ${selectedTerritory}` : ' · select territory for lock'}
           </p>
+          {result.projectGroundingQa ? (
+            <p className="site00-dw-v3-authority__hint" data-testid="v3-project-grounding-qa">
+              Project grounding: {result.projectGroundingQa.projectGrounding} · Artifact vocabulary:{' '}
+              {result.projectGroundingQa.artifactVocabulary} · Random asset risk:{' '}
+              {result.projectGroundingQa.randomAssetRisk} · Territory consistency:{' '}
+              {result.projectGroundingQa.territoryContentConsistency} · Host firewall:{' '}
+              {result.projectGroundingQa.hostProjectFirewall} · context {result.projectCreativeContextVersion} ·
+              ungrounded assets {result.ungroundedAssetCount ?? 0}
+            </p>
+          ) : null}
           {result.falProviderTrace?.length ? (
             <p className="site00-dw-v3-authority__hint" data-testid="v3-fal-trace">
               FAL:{' '}

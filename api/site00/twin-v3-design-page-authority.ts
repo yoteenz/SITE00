@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ok: true,
       service: 'twin-v3-design-page-authority',
       buildRef: P0_VR_TWIN_V30_BUILD,
-      sprint: 'P0.VR.TWINV3.0R3',
+      sprint: 'P0.VR.TWINV3.0R4',
     });
     return;
   }
@@ -56,7 +56,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'DESIGN_PAGE_AUTHORITY_FAILED';
-    const status = message.includes('FAL_KEY_MISSING') ? 503 : message.includes('PILOT') ? 422 : 500;
+    const status =
+      message.includes('FAL_KEY_MISSING') ? 503
+      : message.includes('PILOT') || message.includes('PROJECT_CREATIVE_CONTEXT_INCOMPLETE') ? 422
+      : message.includes('PROJECT_VISUAL_ASSET_UNGROUNDED') ? 422
+      : 500;
     res.status(status).json({ error: message });
   }
 }

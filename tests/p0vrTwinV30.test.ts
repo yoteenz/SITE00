@@ -1,5 +1,5 @@
 /**
- * P0.VR.TWINV3.0R3 — host shell + project-reactive workspace expression
+ * P0.VR.TWINV3.0R3/R4 — host shell + project-grounded workspace expression
  */
 
 import { readFileSync } from 'node:fs';
@@ -23,6 +23,7 @@ import {
   HOST_PROJECT_EXPRESSION_CORE_RULE,
   isDesignPageAuthorityFullyLocked,
   P0_VR_TWIN_V30R3_LINEAGE,
+  P0_VR_TWIN_V30R4_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   runDesignPageAuthorityGeneration,
   runDesignPageAuthorityR3SelfCheck,
@@ -51,6 +52,7 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
       .join('\n');
     expect(combined).toContain('HOST HEADER');
     expect(combined).toContain(P0_VR_TWIN_V30R3_LINEAGE);
+    expect(combined).toContain(P0_VR_TWIN_V30R4_LINEAGE);
     expect(combined).toContain('Martian Mono');
     expect(combined).toContain('lime');
     const r2 = runDesignPageAuthoritySelfCheck({ promptOrArtifactText: combined, zoneCount: 7 });
@@ -85,7 +87,7 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     const session = createDesignPageAuthorityReviewSession();
     const result = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
     expect(result.buildRef).toBe(P0_VR_TWIN_V30_BUILD);
-    expect(result.lineage).toBe(P0_VR_TWIN_V30R3_LINEAGE);
+    expect(result.lineage).toBe(P0_VR_TWIN_V30R4_LINEAGE);
     expect(result.territories.length).toBe(3);
     expect(result.r3SelfCheck.pass).toBe(true);
     expect(result.mobile.storageUrl).toContain('mobile-territory-a-r3.svg');
@@ -154,6 +156,9 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(read('api/site00/twin-v3-design-page-authority.ts')).toContain('territoryScope');
     expect(read('src/site00/components/designWorkspace/DesignPageV3AuthorityReviewPanel.tsx')).toContain(
       'territoryGallery',
+    );
+    expect(read('src/site00/components/designWorkspace/DesignPageV3AuthorityReviewPanel.tsx')).toContain(
+      'v3-project-grounding-qa',
     );
     assertV1Isolation();
   });

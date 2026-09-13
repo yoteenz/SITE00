@@ -15,3 +15,4 @@ export * from './runDesignPageAuthorityGeneration.js';
 export * from './requestDesignPageAuthorityGeneration.js';
 export * from './designPageAuthorityPersistence.js';
 export * from './designPageAuthoritySelfCheck.js';
+export * from './projectCreativeGrounding/index.js';
