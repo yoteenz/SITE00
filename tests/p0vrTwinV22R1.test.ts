@@ -20,6 +20,7 @@ import {
   shouldShowV2EmptyState,
   assertConceptGalleryEmptyState,
   hydrateConceptGallerySession,
+  importExistingV2ConceptsFromUrls,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/index.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
@@ -154,7 +155,16 @@ describe('P0.VR.TWINV2.2R1 concept gallery hydration', () => {
     expect(read('api/site00/twin-v2-concept-generations.ts')).toContain('projectId');
     expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('appendTwinV2ConceptLedger');
     expect(read('server/routes.ts')).toContain('twin-v2-concept-generations');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v347');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v348');
+  });
+
+  it('importExistingV2ConceptsFromUrls builds gallery without API', () => {
+    let session = createConceptDirectedTwinSession({ projectId: 'ndxbook', pageId: 'p', sessionId: 'imp-1' });
+    session = importExistingV2ConceptsFromUrls(session, [
+      'https://example.com/c1.jpg',
+      'https://example.com/c2.jpg',
+    ]);
+    expect(session.conceptGallery?.candidates.length).toBe(2);
   });
 
   it('regenerate appends concept 6 without reset', () => {

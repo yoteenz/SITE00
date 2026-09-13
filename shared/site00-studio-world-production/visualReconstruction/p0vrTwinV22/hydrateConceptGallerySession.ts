@@ -1,5 +1,6 @@
 import type { ConceptDirectedTwinSession, VisualConceptVersion } from '../p0vrTwinV21/types.js';
 import { runPageCreativeDirector } from '../p0vrTwinV21/runPageCreativeDirector.js';
+import { listAllConceptDirectedTwinSessions } from '../p0vrTwinV21/conceptDirectedTwinSessionStore.js';
 import {
   backfillConceptGalleryFromHistory,
   emptyConceptGallery,
@@ -85,9 +86,17 @@ export function hydrateConceptGallerySession(
     remoteStorageRecords?: RemoteStorageGenerationRecord[];
   },
 ): ConceptDirectedTwinSession {
+  const extraSiblings =
+    input?.siblingSessions ??
+    listAllConceptDirectedTwinSessions().filter(
+      (s) =>
+        s.sessionId !== session.sessionId &&
+        s.projectId.toLowerCase() === session.projectId.toLowerCase(),
+    );
+
   const discovered = discoverExistingV2ConceptGenerations({
     session,
-    siblingSessions: input?.siblingSessions,
+    siblingSessions: extraSiblings,
     remoteStorageRecords: input?.remoteStorageRecords,
   });
 
