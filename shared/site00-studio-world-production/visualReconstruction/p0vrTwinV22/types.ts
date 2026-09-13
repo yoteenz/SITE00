@@ -6,6 +6,7 @@ import type {
   OwnershipResolutionReceipt,
   TwinV2CanvasBoundary,
 } from '../p0vrTwinV22R2/types.js';
+import type { HostBoundarySanitizationReceipt } from '../p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import type { VisualOwnership } from '../p0vrTwinV22R2/types.js';
 import type {
   BlueprintGrammar,
@@ -154,6 +155,10 @@ export type ConceptCandidate = {
   brandContextSnapshot: CreativeBrandContext;
   blueprintGrammarSnapshot: BlueprintGrammar;
   conceptBlueprintId: string;
+  /** Raw generated composition blueprint (audit). */
+  originalBlueprintId?: string | null;
+  /** Host-sanitized blueprint used for build + founder execution view. */
+  executionBlueprintId?: string | null;
   assetManifestId: string;
   functionBindingPlanId: string;
   buildReadiness: ConceptBuildReadiness;
@@ -235,6 +240,7 @@ export type ConceptGalleryState = {
   canvasBoundaries: Record<string, TwinV2CanvasBoundary>;
   hostShellContracts: Record<string, HostShellContract>;
   compositePreviews: Record<string, HostShellCompositePreview>;
+  hostBoundarySanitizationReceipts?: Record<string, HostBoundarySanitizationReceipt>;
   backfillReceipt?: BackfillReceipt;
   galleryHydrationReceipt?: GalleryHydrationReceipt;
 };

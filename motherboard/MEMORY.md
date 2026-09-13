@@ -8446,6 +8446,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
 - **Decisions:** `VisualOwnership` + `TwinV2CanvasBoundary`; `sanitizeConceptForHostBoundary` preserves original concept image/blueprint history, produces `sanitizedBlueprint` excluding `GeneratedHostArtifact`; build uses real `TwinSite00HostBottomNav` + client mount `site00-twin-v2-ndx__client-canvas`; `assertNoGeneratedHostArtifactsInClientBuild` → `TWIN_V2_HOST_BOUNDARY_VIOLATION`; readiness adds **HOST BOUNDARY ✓**; GPT prompt `clientCanvasOnly: true` + boundary text; UI **VIEW CLIENT CANVAS** / **VIEW HOST PREVIEW** + badges in blueprint/object maps.
 - **Changes:** `shared/.../p0vrTwinV22R2/*`, wired into `p0vrTwinV22` gallery/approve/package; `ConceptDirectedTwinGallery`, `TwinV2HostShellCompositePreview`; tests `tests/p0vrTwinV22R2.test.ts`. No V1/live promotion. Build ref **v352**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R1 sanitized blueprint binding + host preview UI recovery (v356)
+
+- **Root cause:** Persisted concept galleries (localStorage) kept candidates but **never hydrated** `sanitizedBlueprints` / `hostBoundaryReady` on reopen — UI read raw `blueprint.sections` including **host bottom nav** band with no exclusion labels; founder on pre-v355 deploy also missed tab UI.
+- **Fix:** `repairConceptGalleryHostBoundary` on every gallery hydrate/backfill; `originalBlueprintId` + `executionBlueprintId` on candidates; blueprint inspection rows with GENERATED HOST ARTIFACT / EXCLUDED; prominent **HOST PREVIEW** + **CLIENT CANVAS** tabs; build blocked until `hostBoundaryReady`; `HostBoundarySanitizationReceipt`; stale guard `TWIN_V2_STALE_UNSANITIZED_BLUEPRINT`. Build ref **v356**.
 =======
 ## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
 

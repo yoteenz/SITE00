@@ -6,6 +6,7 @@ import { computeConceptBuildReadiness, canBuildConcept } from './computeConceptB
 import { ensureConceptGallery, getActiveConceptCandidate } from './conceptGalleryState.js';
 import { applyBlueprintOwnershipTags } from '../p0vrTwinV22R2/applyBlueprintOwnershipTags.js';
 import { sanitizeConceptForHostBoundary } from '../p0vrTwinV22R2/sanitizeConceptForHostBoundary.js';
+import { assertActiveConceptUsesExecutionBlueprint } from '../p0vrTwinV22R2/assertActiveConceptUsesExecutionBlueprint.js';
 
 export function approveActiveConceptCandidate(session: ConceptDirectedTwinSession): ConceptDirectedTwinSession {
   const base = ensureConceptGallery(session);
@@ -31,6 +32,17 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
   if (!blueprint || !executableBlueprint || !manifest || !bindingPlan) {
     throw new Error('TWIN_V22: missing blueprint lineage for approve');
   }
+
+  assertActiveConceptUsesExecutionBlueprint({
+    candidate: { ...active, executionBlueprintId: executableBlueprint.blueprintId, originalBlueprintId: blueprint.blueprintId },
+    gallery: {
+      ...gallery,
+      sanitizedBlueprints: {
+        ...gallery.sanitizedBlueprints,
+        [executableBlueprint.blueprintId]: executableBlueprint,
+      },
+    },
+  });
 
   const now = new Date().toISOString();
   const updatedCandidate = {
