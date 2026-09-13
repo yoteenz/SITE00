@@ -33,7 +33,7 @@ const PUBLIC_PATH_TO_BUNDLED = new Map<string, string>([
   ['/site00/twin-v3-design-page-authority/desktop-territory-c-r3.svg', desktopTerritoryC],
 ]);
 
-/** Stable paths shipped in public/ + cPanel ZIP (never rely on hashed /assets alone). */
+/** Stable paths shipped in public/ + cPanel ZIP (fallback when bundled URL unavailable). */
 export function publicAuthorityPrototypeImageUrl(canonicalPath: string): string {
   const normalized = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath.replace(/^\/+/, '')}`;
   if (typeof window === 'undefined') return normalized;
@@ -50,7 +50,12 @@ const R3_FILENAME_TO_BUNDLED = new Map<string, string>([
   ['desktop-territory-c-r3.svg', desktopTerritoryC],
 ]);
 
-/** Map legacy /public paths and relative paths to bundled asset URLs (browser). */
+function bundledPrototypeSrc(canonicalPath: string): string | null {
+  const normalized = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath.replace(/^\/+/, '')}`;
+  return PUBLIC_PATH_TO_BUNDLED.get(normalized) ?? null;
+}
+
+/** img src for R3 prototypes — prefer Vite-bundled URLs (data: or hashed /assets), not bare /site00 paths alone. */
 export function resolveDesignPageAuthorityImageSrc(
   storageUrl: string,
   hint?: { territoryId: DesignPageV3TerritoryId; viewport: 'mobile' | 'desktop' },
@@ -68,41 +73,45 @@ export function resolveDesignPageAuthorityImageSrc(
   if (/^data:/i.test(url) || /^blob:/i.test(url)) return url;
   if (/^https?:\/\//i.test(url)) {
     const canonicalFromFile = canonicalPrototypePathFromAuthorityStorageUrl(url);
-    if (canonicalFromFile) url = canonicalFromFile;
-    else return url;
+    if (canonicalFromFile) {
+      const bundled = bundledPrototypeSrc(canonicalFromFile);
+      if (bundled) return bundled;
+      return url;
+    }
+    return url;
   }
 
   const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
-  if (PUBLIC_PATH_TO_BUNDLED.has(normalized)) {
-    return publicAuthorityPrototypeImageUrl(normalized);
-  }
-  const bundled = PUBLIC_PATH_TO_BUNDLED.get(normalized);
-  if (bundled && typeof window === 'undefined') return bundled;
+  const fromMap = bundledPrototypeSrc(normalized);
+  if (fromMap) return fromMap;
 
   const file = normalized.split('/').pop();
   if (file) {
     const canonicalFromFile = canonicalPrototypePathFromAuthorityStorageUrl(`/${file}`);
     if (canonicalFromFile) {
-      if (typeof window !== 'undefined') {
-        return publicAuthorityPrototypeImageUrl(canonicalFromFile);
-      }
-      const fromCanonical = PUBLIC_PATH_TO_BUNDLED.get(canonicalFromFile);
-      if (fromCanonical) return fromCanonical;
+      const bundled = bundledPrototypeSrc(canonicalFromFile);
+      if (bundled) return bundled;
     }
     const byName = R3_FILENAME_TO_BUNDLED.get(file);
-    if (byName) {
-      if (typeof window !== 'undefined') {
-        const canonical = canonicalPrototypePathFromAuthorityStorageUrl(`/${file}`);
-        if (canonical) return publicAuthorityPrototypeImageUrl(canonical);
-      }
-      return byName;
-    }
+    if (byName) return byName;
+  }
+
+  if (hint) {
+    return DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS[hint.territoryId][hint.viewport];
   }
 
   if (typeof window !== 'undefined' && normalized.includes('/twin-v3-design-page-authority/')) {
     return publicAuthorityPrototypeImageUrl(normalized);
   }
   return normalized;
+}
+
+/** onError fallback — always use bundled prototype (never origin + broken path). */
+export function authorityPrototypeBundledFallbackSrc(hint: {
+  territoryId: DesignPageV3TerritoryId;
+  viewport: 'mobile' | 'desktop';
+}): string {
+  return DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS[hint.territoryId][hint.viewport];
 }
 
 export { normalizeDesignPageAuthorityVisualUrl } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/rewritePrototypeGalleryUrls.js';

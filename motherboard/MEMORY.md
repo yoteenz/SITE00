@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 img src wired to bundled SVGs again (v409)
+
+- **Symptom:** Batch 1 + batch 2 prototypes show broken `?` on fsbw-dev / deploy though storage has `/site00/...` paths.
+- **Root cause:** v405–408 `resolveDesignPageAuthorityImageSrc` preferred **`publicAuthorityPrototypeImageUrl`** (origin + `/site00/...`) over **Vite `?url` imports** (inlined `data:image/svg+xml` in bundle). Tunnel/cPanel often serves HTML or 404 for those paths → `<img>` fails. Previously working wiring used bundled URLs.
+- **Fix:** Resolver + `onError` fallback return **`DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS`** / map lookup (bundled data URLs). Public `/site00/` only as last resort without hint. Build **v409**.
+
+---
+
 ## 2026-09-13 — Twin V3 batch 2 auto-seed prototypes (v408)
 
 - **Symptom:** Founder on fsbw-dev v407 — BATCH 2 panel empty (“NO BATCH 2 FRAMES YET”); no images until FAL.

@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R5F1 — feature manifest + master amendment + R5F1 regeneration contract. */
-export const P0_VR_TWIN_V30_BUILD = 'v408' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v409' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
