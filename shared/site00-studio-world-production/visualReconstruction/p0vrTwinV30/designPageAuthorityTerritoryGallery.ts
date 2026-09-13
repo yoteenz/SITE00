@@ -64,6 +64,35 @@ export function resolveTerritoryCandidate(
   return list[list.length - 1]!;
 }
 
+function bundleAlreadyInGallery(
+  gallery: DesignPageAuthorityTerritoryGallery,
+  bundle: DesignPageAuthorityTerritoryBundle,
+): boolean {
+  return gallery[bundle.territoryId].some(
+    (c) =>
+      c.mobile.storageUrl === bundle.mobile.storageUrl &&
+      c.desktop.storageUrl === bundle.desktop.storageUrl,
+  );
+}
+
+/** Attach lastResult territory frames to gallery when FAL completed but gallery was not updated. */
+export function syncGalleryFromLastResult(
+  session: DesignPageAuthorityReviewSession,
+): DesignPageAuthorityReviewSession {
+  const bundles = session.lastResult?.territories ?? [];
+  if (!bundles.length) return session;
+  let territoryGallery = session.territoryGallery ?? emptyTerritoryGallery();
+  const missing = bundles.filter((b) => !bundleAlreadyInGallery(territoryGallery, b));
+  if (!missing.length) return session;
+  territoryGallery = appendTerritoryBundlesToGallery({
+    gallery: territoryGallery,
+    bundles: missing,
+    batchGeneration: session.candidateGeneration || 1,
+    createdAt: session.lastResult?.founderReview?.updatedAt ?? session.updatedAt,
+  });
+  return { ...session, territoryGallery };
+}
+
 export function resolveSelectedTerritoryCandidate(
   session: DesignPageAuthorityReviewSession,
 ): DesignPageAuthorityTerritoryCandidate | null {
@@ -77,23 +106,24 @@ export function resolveSelectedTerritoryCandidate(
 export function normalizeDesignPageAuthoritySession(
   session: DesignPageAuthorityReviewSession,
 ): DesignPageAuthorityReviewSession {
-  let territoryGallery = session.territoryGallery ?? emptyTerritoryGallery();
-  if (!territoryGalleryHasCandidates(territoryGallery) && session.lastResult?.territories?.length) {
+  const synced = syncGalleryFromLastResult(session);
+  let territoryGallery = synced.territoryGallery ?? emptyTerritoryGallery();
+  if (!territoryGalleryHasCandidates(territoryGallery) && synced.lastResult?.territories?.length) {
     territoryGallery = appendTerritoryBundlesToGallery({
       gallery: territoryGallery,
-      bundles: session.lastResult.territories,
-      batchGeneration: session.candidateGeneration || 1,
-      createdAt: session.lastResult.founderReview?.updatedAt ?? session.updatedAt,
+      bundles: synced.lastResult!.territories,
+      batchGeneration: synced.candidateGeneration || 1,
+      createdAt: synced.lastResult!.founderReview?.updatedAt ?? synced.updatedAt,
     });
   }
-  const selectedCandidateByTerritory = { ...(session.selectedCandidateByTerritory ?? {}) };
+  const selectedCandidateByTerritory = { ...(synced.selectedCandidateByTerritory ?? {}) };
   for (const id of TERRITORY_IDS) {
     if (!selectedCandidateByTerritory[id] && territoryGallery[id].length) {
       selectedCandidateByTerritory[id] = latestTerritoryCandidate(territoryGallery, id)!.candidateId;
     }
   }
   return {
-    ...session,
+    ...synced,
     territoryGallery,
     selectedCandidateByTerritory,
   };

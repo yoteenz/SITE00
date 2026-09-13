@@ -9,6 +9,8 @@ import { assertV1Isolation } from '../shared/site00-studio-world-production/visu
 import {
   applyDesignPageAuthorityGeneration,
   approveDesignPageAuthorityViewport,
+  mergeDesignPageAuthorityApiResponse,
+  syncGalleryFromLastResult,
   buildAllTerritoryPrompts,
   confirmDesignPageProductSkeleton,
   createDesignPageAuthorityReviewSession,
@@ -90,7 +92,28 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(result.expressionContract.projectId).toBe('ndxbook');
   });
 
-  it('11–14 territory gallery accumulates per category', async () => {
+  it('11 merge API response appends FAL territories to prior session', async () => {
+    let session = createDesignPageAuthorityReviewSession();
+    const batch = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
+    session = mergeDesignPageAuthorityApiResponse(session, { result: batch }, 'GENERATE');
+    expect(session.territoryGallery.A.length).toBe(1);
+    expect(session.lastResult?.territories.length).toBe(3);
+  });
+
+  it('12 syncGalleryFromLastResult when gallery empty but lastResult set', async () => {
+    let session = createDesignPageAuthorityReviewSession();
+    const batch = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
+    session = {
+      ...session,
+      lastResult: batch,
+      territoryGallery: { A: [], B: [], C: [] },
+      candidateGeneration: 1,
+    };
+    session = syncGalleryFromLastResult(session);
+    expect(session.territoryGallery.B.length).toBe(1);
+  });
+
+  it('13–16 territory gallery accumulates per category', async () => {
     let session = createDesignPageAuthorityReviewSession();
     const batch1 = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
     session = applyDesignPageAuthorityGeneration(session, batch1, 'GENERATE');

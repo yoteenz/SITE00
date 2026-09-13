@@ -8762,3 +8762,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Problem:** FAL outputs only in FAL history; each regenerate replaced the prior batch on the design page — no compare stack within Editorial (B) etc.
 - **Fix:** `territoryGallery` in authority session (localStorage) appends mobile+desktop pairs per A/B/C; **+ GENERATE THIS TERRITORY** (`REGENERATE_TERRITORY`); UI lists Compare #1…#N under each category with FAL URLs. Build **v392**.
 
+---
+
+## 2026-09-13 — Twin V3 gallery wired to FAL API result (v393)
+
+- **Problem:** After live FAL batch, UI still showed **0 candidates** — panel persisted `res.session` from API without merging `result.territories` (stale/mismatched server session).
+- **Fix:** **`mergeDesignPageAuthorityApiResponse`** applies `result.territories` on client; **`syncGalleryFromLastResult`** on normalize; API response validation if territories empty. Build **v393**.
+
