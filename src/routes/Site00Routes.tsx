@@ -95,6 +95,9 @@ const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPa
 const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
 const ProjectAstralWorldFastTrackPage = lazy(() => import('../site00/pages/ProjectAstralWorldFastTrackPage'));
 const ReconstructionTwinPreviewPage = lazy(() => import('../site00/pages/ReconstructionTwinPreviewPage'));
+const HeroOutlierMeasureHarnessPage = import.meta.env.DEV
+  ? lazy(() => import('../site00/pages/HeroOutlierMeasureHarnessPage'))
+  : null;
 const ProjectAstralWorldReaderPage = lazy(() => import('../site00/pages/ProjectAstralWorldReaderPage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
@@ -870,6 +873,16 @@ export function Site00Routes() {
           </AstralWorldRouteGuard>
         }
       />
+      {HeroOutlierMeasureHarnessPage ? (
+        <Route
+          path="/__dev/hero-outlier-measure"
+          element={
+            <Site00Suspense>
+              <HeroOutlierMeasureHarnessPage />
+            </Site00Suspense>
+          }
+        />
+      ) : null}
       <Route
         path={SITE00_ROUTES.projectReconstructionTwin}
         element={

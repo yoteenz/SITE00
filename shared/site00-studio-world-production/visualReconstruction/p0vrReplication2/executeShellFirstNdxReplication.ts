@@ -18,6 +18,7 @@ import { executeHeroSurgicalLockPipeline } from '../p0vrReplication4R2/executeHe
 import { executeHeroGeometryConvergencePipeline } from '../p0vrReplication4R3/executeHeroGeometryConvergencePipeline.js';
 import { executeHeroDomRecoveryPipeline } from '../p0vrReplication4R3R1/executeHeroDomRecoveryPipeline.js';
 import { executeHeroOutlierConvergencePipeline } from '../p0vrReplication4R4/executeHeroOutlierConvergencePipeline.js';
+import { executeHeroOutlierConvergenceR4R1Pipeline } from '../p0vrReplication4R4R1/executeHeroOutlierConvergenceR4R1Pipeline.js';
 import { P0_VR_REPLICATION_2_BUILD } from './constants.js';
 import type { ShellMatchResult } from './shellMatchResult.js';
 import type { AuthorityShellBlueprint } from './authorityShellBlueprint.js';
@@ -153,6 +154,17 @@ export async function executeShellFirstNdxReplication(input: {
     },
   });
 
+  const heroOutlierConvergenceR4R1 = executeHeroOutlierConvergenceR4R1Pipeline({
+    session: {
+      ...input.session,
+      ...tightening.sessionPatch,
+      ...heroLock.sessionPatch,
+      ...heroGeometry.sessionPatch,
+      ...heroDomRecovery.sessionPatch,
+      ...heroOutlierConvergence.sessionPatch,
+    },
+  });
+
   const forensicReady =
     forensic.report.status === 'PASS' ||
     (forensic.report.requiredCoverage >= 95 && !forensic.report.invalidReplicationRoot);
@@ -180,6 +192,7 @@ export async function executeShellFirstNdxReplication(input: {
       ...heroGeometry.sessionPatch,
       ...heroDomRecovery.sessionPatch,
       ...heroOutlierConvergence.sessionPatch,
+      ...heroOutlierConvergenceR4R1.sessionPatch,
       status: pageReady ? 'READY_FOR_REVIEW' : shellPass ? base.sessionPatch.status : 'FAILED',
       twinRenderMode: finalRenderMode,
       forensicBlueprintReport: forensic.report,

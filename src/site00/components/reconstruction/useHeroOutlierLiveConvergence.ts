@@ -1,54 +1,136 @@
 /**
- * P0.VR.REPLICATION.4R4 — Live browser outlier-only convergence (max 3 passes).
+ * P0.VR.REPLICATION.4R4R1 — Live browser factual outlier convergence (3+3+remainder passes).
  */
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { ReconstructionTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrUpgrade2/types.js';
 import type { HeroOutlierConvergenceReport } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/types.js';
+import type { HeroOutlierConvergenceRunReport, HeroOutlierPatch } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4R1/types.js';
 import { rankHeroOutliers } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/rankHeroOutliers.js';
 import { buildHeroConvergenceBaseline } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/buildHeroConvergenceBaseline.js';
+import { P0_VR_REPLICATION_4R4_BUILD } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/constants.js';
 import {
-  MAX_OUTLIER_CONVERGENCE_PASSES,
-  P0_VR_REPLICATION_4R4_BUILD,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/constants.js';
-import { HERO_OUTLIER_PASS_FOCUS, passAllowsObject } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/heroOutlierPassFocus.js';
-import { buildHeroOutlierCorrection } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4/buildHeroOutlierCorrections.js';
+  HERO_OUTLIER_PASS1_MAX,
+  HERO_OUTLIER_PASS2_MAX,
+  P0_VR_REPLICATION_4R4R1_BUILD,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4R1/constants.js';
+import { buildHeroOutlierSnapshot } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4R1/buildHeroOutlierSnapshot.js';
+import { buildFactualHeroPatch } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R4R1/buildFactualHeroPatch.js';
 import type { HeroObjectId } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R2/types.js';
+import type { HeroGeometryDeltaFull } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrReplication4R3/types.js';
 import {
   captureHeroLiveDomGeometry,
   waitForHeroRenderStabilization,
 } from './captureHeroLiveDomGeometry.js';
 import type { HeroLiveDomCaptureResult } from './captureHeroLiveDomGeometry.js';
+import { useHeroLiveDomCapture } from './useHeroLiveDomCapture.js';
+
+declare global {
+  interface Window {
+    __HERO_MEASURE_AUTHORITY__?: NonNullable<
+      ReconstructionTwinSession['heroGeometryConvergenceReport']
+    >['authorityGeometry'];
+    __HERO_OUTLIER_SNAPSHOT__?: ReturnType<typeof buildHeroOutlierSnapshot>;
+  }
+}
 
 export type HeroOutlierLiveConvergenceState = {
   liveCapture: HeroLiveDomCaptureResult | null;
   outlierCssPatch: Record<string, string>;
   report: HeroOutlierConvergenceReport | null;
+  runReport: HeroOutlierConvergenceRunReport | null;
 };
+
+const PARENT_FIRST: HeroObjectId[] = ['H14', 'H09', 'H06'];
 
 function mergePatch(base: Record<string, string>, delta: Record<string, string>): Record<string, string> {
   return { ...base, ...delta };
 }
 
-export function useHeroOutlierLiveConvergence(session: ReconstructionTwinSession): HeroOutlierLiveConvergenceState {
+function outlierIds(deltas: HeroGeometryDeltaFull[]): HeroObjectId[] {
+  return deltas
+    .filter((d) => d.objectId !== 'H07' && d.status === 'OUT_OF_TOLERANCE')
+    .map((d) => d.objectId as HeroObjectId);
+}
+
+function pickPassTargets(deltas: HeroGeometryDeltaFull[], max: number): HeroObjectId[] {
+  const ids = outlierIds(deltas);
+  const ranked = rankHeroOutliers(deltas);
+  const ordered: HeroObjectId[] = [];
+  for (const parent of PARENT_FIRST) {
+    if (ids.includes(parent)) ordered.push(parent);
+  }
+  for (const entry of ranked) {
+    if (ordered.length >= max) break;
+    if (!ids.includes(entry.objectId) || ordered.includes(entry.objectId)) continue;
+    ordered.push(entry.objectId);
+  }
+  return ordered.slice(0, max);
+}
+
+function applyCssPatchToRoot(cssPatch: Record<string, string>) {
+  const root = document.querySelector('.site00-fb') as HTMLElement | null;
+  if (!root) return;
+  for (const [k, v] of Object.entries(cssPatch)) {
+    root.style.setProperty(k, v);
+  }
+}
+
+function runPass(deltas: HeroGeometryDeltaFull[], max: number, patchIn: Record<string, string>) {
+  let cssPatchLocal = { ...patchIn };
+  const patches: HeroOutlierPatch[] = [];
+  for (const objectId of pickPassTargets(deltas, max)) {
+    const delta = deltas.find((d) => d.objectId === objectId);
+    if (!delta) continue;
+    const { patch, outlierPatch } = buildFactualHeroPatch({ objectId, delta, cssPatch: cssPatchLocal });
+    if (outlierPatch.status === 'APPLIED') {
+      cssPatchLocal = mergePatch(cssPatchLocal, patch);
+      patches.push(outlierPatch);
+    }
+  }
+  return { cssPatch: cssPatchLocal, patches };
+}
+
+export function useHeroOutlierLiveConvergence(
+  session: ReconstructionTwinSession,
+  options?: { baselineMeasureOnly?: boolean },
+): HeroOutlierLiveConvergenceState {
+  const baselineOnly = options?.baselineMeasureOnly ?? false;
+  const baselineCapture = useHeroLiveDomCapture(session);
   const [params] = useSearchParams();
   const active = params.get('blueprintDebug') === 'hero';
   const [state, setState] = useState<HeroOutlierLiveConvergenceState>({
     liveCapture: null,
     outlierCssPatch: {},
     report: null,
+    runReport: null,
   });
 
   useEffect(() => {
-    if (!active) {
-      setState({ liveCapture: null, outlierCssPatch: {}, report: null });
+    if (!baselineOnly || !active) return;
+    const authority = session.heroGeometryConvergenceReport?.authorityGeometry ?? [];
+    if (authority.length >= 14) window.__HERO_MEASURE_AUTHORITY__ = authority;
+    if (!baselineCapture) return;
+    window.__HERO_OUTLIER_SNAPSHOT__ = buildHeroOutlierSnapshot({
+      twinId: session.sessionId,
+      measurementSource: 'LIVE_BROWSER_DOM',
+      measuredCount: baselineCapture.geometryReceiptV2?.measuredCount ?? 14,
+      renderedCount: baselineCapture.captureReceipt.foundCount,
+      deltas: baselineCapture.geometryDeltas,
+    });
+  }, [baselineOnly, active, session, baselineCapture]);
+
+  useEffect(() => {
+    if (baselineOnly || !active) {
+      if (!baselineOnly) setState({ liveCapture: null, outlierCssPatch: {}, report: null, runReport: null });
       return;
     }
 
     let cancelled = false;
     const authority = session.heroGeometryConvergenceReport?.authorityGeometry ?? [];
     const baseCss = (session.twinForensicCssPatch ?? {}) as Record<string, string>;
+    window.__HERO_MEASURE_AUTHORITY__ = authority;
 
     (async () => {
       await waitForHeroRenderStabilization();
@@ -57,120 +139,117 @@ export function useHeroOutlierLiveConvergence(session: ReconstructionTwinSession
       let cssPatch = { ...baseCss };
       let liveCapture = captureHeroLiveDomGeometry(authority);
       const sessionId = session.sessionId;
-      const twinId = sessionId;
-      const authorityId = session.designAuthorityAssetRef ?? sessionId;
 
-      const baseline = buildHeroConvergenceBaseline({
-        twinId,
-        authorityId,
+      const initialSnapshot = buildHeroOutlierSnapshot({
+        twinId: sessionId,
         measurementSource: 'LIVE_BROWSER_DOM',
-        authority,
+        measuredCount: liveCapture.geometryReceiptV2?.measuredCount ?? 14,
+        renderedCount: liveCapture.captureReceipt.foundCount,
         deltas: liveCapture.geometryDeltas,
       });
+      window.__HERO_OUTLIER_SNAPSHOT__ = initialSnapshot;
 
-      const passes: HeroOutlierConvergenceReport['passes'] = [];
-      const objectsChanged = new Set<string>();
-      const passOutlierSnapshots: string[][] = [];
+      let pass1Patches: HeroOutlierPatch[] = [];
+      let pass2Patches: HeroOutlierPatch[] = [];
+      let pass3Patches: HeroOutlierPatch[] = [];
 
-      for (let passIndex = 1; passIndex <= MAX_OUTLIER_CONVERGENCE_PASSES; passIndex += 1) {
-        const deltas = liveCapture.geometryDeltas;
-        const outliers = deltas.filter((d) => d.objectId !== 'H07' && d.status === 'OUT_OF_TOLERANCE');
-        passOutlierSnapshots.push(outliers.map((d) => d.objectId));
-
-        if (outliers.length === 0) break;
-
-        const focus = HERO_OUTLIER_PASS_FOCUS[passIndex]!;
-        const corrections: HeroOutlierConvergenceReport['passes'][0]['corrections'] = [];
-        const ranked = rankHeroOutliers(deltas);
-        const hasH14 = outliers.some((d) => d.objectId === 'H14');
-
-        for (const entry of ranked) {
-          if (!passAllowsObject(passIndex, entry.objectId)) continue;
-          if (hasH14 && passIndex === 1 && entry.objectId !== 'H14' && !['H06', 'H09'].includes(entry.objectId)) {
-            continue;
-          }
-          const { correction, patchDelta } = buildHeroOutlierCorrection({
-            objectId: entry.objectId,
-            delta: entry.delta,
-            existingPatch: cssPatch,
-            rootCause: `Live DOM ${focus}`,
-          });
-          if (correction.status === 'APPLIED') {
-            cssPatch = mergePatch(cssPatch, patchDelta);
-            objectsChanged.add(entry.objectId);
-            corrections.push(correction);
-          }
-        }
-
-        passes.push({
-          passIndex,
-          focus,
-          outlierIds: outliers.map((d) => d.objectId),
-          corrections,
-        });
-
-        if (corrections.length === 0) break;
-
-        const root = document.querySelector('.site00-fb') as HTMLElement | null;
-        if (root) {
-          for (const [k, v] of Object.entries(cssPatch)) {
-            root.style.setProperty(k, v);
-          }
-        }
-
-        await waitForHeroRenderStabilization();
-        if (cancelled) return;
-        liveCapture = captureHeroLiveDomGeometry(authority);
-
-        if (liveCapture.geometryDeltas.filter((d) => d.status === 'OUT_OF_TOLERANCE' && d.objectId !== 'H07').length === 0) {
-          break;
-        }
+      if (initialSnapshot.outlierCount === 0) {
+        publishState();
+        return;
       }
 
-      const finalDeltas = liveCapture.geometryDeltas;
-      const finalBaseline = buildHeroConvergenceBaseline({
-        twinId,
-        authorityId,
-        measurementSource: 'LIVE_BROWSER_DOM',
-        authority,
-        deltas: finalDeltas,
-      });
-      const finalOutliers = finalBaseline.outliers;
+      ({ cssPatch, patches: pass1Patches } = runPass(liveCapture.geometryDeltas, HERO_OUTLIER_PASS1_MAX, cssPatch));
+      applyCssPatchToRoot(cssPatch);
+      await waitForHeroRenderStabilization();
+      liveCapture = captureHeroLiveDomGeometry(authority);
+      if (outlierIds(liveCapture.geometryDeltas).length === 0) {
+        publishState();
+        return;
+      }
 
-      const receipt: HeroOutlierConvergenceReport['receipt'] = {
-        baselineOutliers: baseline.outliers,
-        pass1Outliers: (passOutlierSnapshots[0] ?? []) as HeroOutlierConvergenceReport['receipt']['baselineOutliers'],
-        pass2Outliers: (passOutlierSnapshots[1] ?? []) as HeroOutlierConvergenceReport['receipt']['pass2Outliers'],
-        pass3Outliers: (passOutlierSnapshots[2] ?? []) as HeroOutlierConvergenceReport['receipt']['pass3Outliers'],
-        finalOutliers,
-        baselineMaxError: Math.max(baseline.maxPositionError, baseline.maxSizeError),
-        finalMaxError: Math.max(finalBaseline.maxPositionError, finalBaseline.maxSizeError),
-        baselineMeanError: (baseline.meanPositionError + baseline.meanSizeError) / 2,
-        finalMeanError: (finalBaseline.meanPositionError + finalBaseline.meanSizeError) / 2,
-        objectsChanged: [...objectsChanged] as HeroOutlierConvergenceReport['receipt']['objectsChanged'],
-        objectsUntouched: (['H01', 'H02', 'H03', 'H04', 'H05', 'H06', 'H08', 'H09', 'H10', 'H11', 'H12', 'H13', 'H14'] as HeroObjectId[]).filter(
-          (id) => !objectsChanged.has(id),
-        ),
-        status: finalOutliers.length === 0 ? 'GEOMETRY_CONVERGED' : 'PARTIAL',
-      };
+      ({ cssPatch, patches: pass2Patches } = runPass(liveCapture.geometryDeltas, HERO_OUTLIER_PASS2_MAX, cssPatch));
+      applyCssPatchToRoot(cssPatch);
+      await waitForHeroRenderStabilization();
+      liveCapture = captureHeroLiveDomGeometry(authority);
+      if (outlierIds(liveCapture.geometryDeltas).length === 0) {
+        publishState();
+        return;
+      }
 
-      const report: HeroOutlierConvergenceReport = {
-        buildRef: P0_VR_REPLICATION_4R4_BUILD,
-        sessionId,
-        baseline,
-        ranking: rankHeroOutliers(liveCapture.geometryDeltas),
-        passes,
-        receipt,
-        cssPatch,
-        measurementSource: 'LIVE_BROWSER_DOM',
-        status: finalOutliers.length === 0 ? 'GEOMETRY_CONVERGED' : 'PARTIAL',
-      };
+      const remaining = outlierIds(liveCapture.geometryDeltas).length;
+      ({ cssPatch, patches: pass3Patches } = runPass(liveCapture.geometryDeltas, remaining, cssPatch));
+      applyCssPatchToRoot(cssPatch);
+      await waitForHeroRenderStabilization();
+      liveCapture = captureHeroLiveDomGeometry(authority);
+      publishState();
 
-      if (!cancelled) {
+      function publishState() {
+        if (cancelled) return;
+        const finalOutliers = outlierIds(liveCapture.geometryDeltas);
+        const baseline = buildHeroConvergenceBaseline({
+          twinId: sessionId,
+          authorityId: session.designAuthorityAssetRef ?? sessionId,
+          measurementSource: 'LIVE_BROWSER_DOM',
+          authority,
+          deltas: liveCapture.geometryDeltas,
+        });
         setState({
           liveCapture,
           outlierCssPatch: cssPatch,
-          report,
+          report: {
+            buildRef: P0_VR_REPLICATION_4R4_BUILD,
+            sessionId,
+            baseline,
+            ranking: rankHeroOutliers(liveCapture.geometryDeltas),
+            passes: [],
+            receipt: {
+              baselineOutliers: initialSnapshot.outliers.map((o) => o.objectId),
+              pass1Outliers: [],
+              pass2Outliers: [],
+              pass3Outliers: [],
+              finalOutliers,
+              baselineMaxError: 0,
+              finalMaxError: 0,
+              baselineMeanError: 0,
+              finalMeanError: 0,
+              objectsChanged: [],
+              objectsUntouched: [],
+              status: finalOutliers.length === 0 ? 'GEOMETRY_CONVERGED' : 'PARTIAL',
+            },
+            cssPatch,
+            measurementSource: 'LIVE_BROWSER_DOM',
+            status: finalOutliers.length === 0 ? 'GEOMETRY_CONVERGED' : 'PARTIAL',
+          },
+          runReport: {
+            buildRef: P0_VR_REPLICATION_4R4R1_BUILD,
+            sessionId,
+            initialSnapshot,
+            pass1Patches,
+            pass1OutlierCount: initialSnapshot.outlierCount,
+            pass2Patches,
+            pass2OutlierCount: pass2Patches.length ? outlierIds(liveCapture.geometryDeltas).length : 0,
+            pass3Patches,
+            finalOutlierIds: finalOutliers,
+            finalDeltas: liveCapture.geometryDeltas,
+            plateau: {
+              detected: false,
+              consecutivePassesWithoutImprovement: 0,
+              status: 'NONE',
+              lastOutlierCount: finalOutliers.length,
+              lastMaxError: 0,
+              lastMeanError: 0,
+            },
+            limitClassifications: {},
+            regressions: [],
+            heroLockGuard: {
+              heroState: finalOutliers.length === 0 ? 'LOCKED' : 'OPEN',
+              allowsHeroCssMutation: finalOutliers.length !== 0,
+              allowsHeroAssetMutation: finalOutliers.length !== 0,
+              allowsHeroLayoutMutation: finalOutliers.length !== 0,
+            },
+            cssPatch,
+            status: finalOutliers.length === 0 ? 'GEOMETRY_CONVERGED' : 'PARTIAL',
+          },
         });
       }
     })();
@@ -180,6 +259,7 @@ export function useHeroOutlierLiveConvergence(session: ReconstructionTwinSession
     };
   }, [
     active,
+    baselineOnly,
     session.sessionId,
     session.heroSafeRegionCropUrls?.H06,
     session.heroSafeRegionCropUrls?.H12,
@@ -188,5 +268,9 @@ export function useHeroOutlierLiveConvergence(session: ReconstructionTwinSession
     session.designAuthorityAssetRef,
   ]);
 
-  return active ? state : { liveCapture: null, outlierCssPatch: {}, report: null };
+  if (baselineOnly && active) {
+    return { liveCapture: baselineCapture, outlierCssPatch: {}, report: null, runReport: null };
+  }
+
+  return active ? state : { liveCapture: null, outlierCssPatch: {}, report: null, runReport: null };
 }

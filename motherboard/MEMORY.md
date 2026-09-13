@@ -8331,3 +8331,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Rule:** No patch without measured live outlier; H06/H12 crop purity unchanged; live NDXBOOK not promoted.
 - **Founder next:** Deploy **v339+** → REPLICATE → INSPECT HERO → OUTLIERS ONLY + deltas → human AUTHORITY vs TWIN bar; lock hero or report remaining outlier IDs + live deltas.
 
+---
+
+## 2026-09-13 — P0.VR.REPLICATION.4R4R1 eight-outlier factual hero convergence (twin only)
+
+- **Context:** Founder QA on v339: **14 measured · 14 rendered · 6 pass · 8 outliers** (H01–H05, H08, H11, H12). Sprint required snapshot-before-patch and factual CSS only.
+- **Baseline (Playwright 375px):** Recorded in `heroOutlierSnapshotBaseline.ts` + `scripts/playwright-hero-outlier-snapshot.mjs` dev harness `/__dev/hero-outlier-measure`. Post-patch Playwright: **0 outliers · 13 pass** (H07 masked).
+- **Delivered:** `p0vrReplication4R4R1/` (`v340`) — `HeroOutlierSnapshot`, `HeroOutlierPatch`, plateau/limit types, `HeroLockGuard`, factual CSS in `site00-forensic-blueprint-twin.css` + `heroLayoutSpec` vars (editorial widths, NDX 46px, H12 bottom offset, H11 cell). Inspection: full Δw/Δh labels, **LOCKED** badge when converged. REPLICATE chains 4R4R1 after 4R4.
+- **Founder next:** Deploy **v340** → fresh REPLICATE → INSPECT HERO → confirm outlier count 0 → EXIT → AUTHORITY vs TWIN visual bar → lock hero → masthead + section nav next.
+

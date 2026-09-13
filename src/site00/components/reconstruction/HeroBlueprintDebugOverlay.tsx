@@ -124,7 +124,9 @@ export function HeroBlueprintDebugOverlay({ session, layers, liveCapture }: Prop
               >
                 {d.objectId} Δx{d.deltaX >= 0 ? '+' : ''}
                 {Math.round(d.deltaX)} Δy{d.deltaY >= 0 ? '+' : ''}
-                {Math.round(d.deltaY)}
+                {Math.round(d.deltaY)} Δw{d.deltaWidth >= 0 ? '+' : ''}
+                {Math.round(d.deltaWidth)} Δh{d.deltaHeight >= 0 ? '+' : ''}
+                {Math.round(d.deltaHeight)}
               </span>
             );
           })

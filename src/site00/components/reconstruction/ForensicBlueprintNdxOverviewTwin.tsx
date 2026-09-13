@@ -19,6 +19,8 @@ import '../../styles/site00-hero-inspection-toolbar.css';
 type Props = {
   projectSlug: string;
   session: ReconstructionTwinSession;
+  /** Dev Playwright harness — baseline capture only (no auto nudge passes). */
+  heroMeasureBaselineOnly?: boolean;
 };
 
 const ACTIVITY_ROWS = [
@@ -51,8 +53,10 @@ function ForensicText({
   );
 }
 
-export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
-  const { liveCapture, outlierCssPatch } = useHeroOutlierLiveConvergence(session);
+export function ForensicBlueprintNdxOverviewTwin({ session, heroMeasureBaselineOnly }: Props) {
+  const { liveCapture, outlierCssPatch, runReport } = useHeroOutlierLiveConvergence(session, {
+    baselineMeasureOnly: heroMeasureBaselineOnly,
+  });
   const cssPatch = { ...(session.twinForensicCssPatch ?? {}), ...outlierCssPatch } as CSSProperties;
   const heroAsset =
     session.blueprintAssetBindings?.find((a) => a.objectId === '22')?.sourceAsset ??
@@ -87,6 +91,8 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
       data-4r3-build={session.heroGeometryConvergenceReport?.buildRef ?? null}
       data-4r3r1-build={session.heroDomRecoveryReport?.buildRef ?? null}
       data-4r4-build={session.heroOutlierConvergenceReport?.buildRef ?? null}
+      data-4r4r1-build={runReport?.buildRef ?? null}
+      data-hero-state={runReport?.heroLockGuard.heroState ?? 'OPEN'}
       style={cssPatch}
     >
       <HeroInspectionToolbar
@@ -95,6 +101,7 @@ export function ForensicBlueprintNdxOverviewTwin({ session }: Props) {
         measuredCount={liveCapture?.geometryReceiptV2?.measuredCount ?? 14}
         passCount={liveCapture?.geometryReceiptV2?.withinToleranceCount}
         outlierCount={liveCapture?.geometryReceiptV2?.outlierCount}
+        heroLocked={runReport?.heroLockGuard.heroState === 'LOCKED'}
       />
       <TwinAuthorityCompareStrip session={session} />
       <BlueprintVsTwinOverlay session={session} />

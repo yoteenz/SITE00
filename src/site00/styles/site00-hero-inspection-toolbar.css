@@ -12,6 +12,16 @@
   pointer-events: auto;
 }
 
+.site00-hero-insp__locked {
+  color: var(--fb-lime, #b7f75f);
+  font-weight: 700;
+}
+
+.site00-hero-insp__summary {
+  font-weight: 500;
+  color: #ccc;
+}
+
 .site00-hero-insp__title {
   margin: 0 0 4px;
   font-size: 8px;
