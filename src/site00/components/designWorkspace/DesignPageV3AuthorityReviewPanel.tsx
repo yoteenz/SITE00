@@ -1,5 +1,5 @@
 /**
- * P0.VR.TWINV3.0R2 — SITE 00 design page authority lock (A–G zones).
+ * P0.VR.TWINV3.0R3 — SITE 00 shell + NDXBOOK project-reactive workspace authority.
  */
 
 import { useCallback, useState } from 'react';
@@ -9,16 +9,21 @@ import {
   createDesignPageAuthorityReviewSession,
   DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
   DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
+  DESIGN_PAGE_V3_FOUNDER_TERRITORY_VERDICTS,
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   isDesignPageAuthorityFullyLocked,
   isDesignPageAuthorityViewportLocked,
-  P0_VR_TWIN_V30R2_LINEAGE,
+  P0_VR_TWIN_V30R3_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
+  selectDesignPageAuthorityTerritory,
+  setDesignPageAuthorityTerritoryVerdict,
   writeDesignPageAuthoritySession,
   type DesignPageAuthorityReviewSession,
+  type DesignPageV3FounderTerritoryVerdict,
+  type DesignPageV3TerritoryId,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
@@ -67,10 +72,28 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     [persist, refineDraft, session],
   );
 
+  const onSelectTerritory = useCallback(
+    (territoryId: DesignPageV3TerritoryId) => {
+      persist(selectDesignPageAuthorityTerritory(session, territoryId));
+    },
+    [persist, session],
+  );
+
+  const onTerritoryVerdict = useCallback(
+    (territoryId: DesignPageV3TerritoryId, verdict: DesignPageV3FounderTerritoryVerdict) => {
+      persist(setDesignPageAuthorityTerritoryVerdict(session, territoryId, verdict));
+    },
+    [persist, session],
+  );
+
   const approveViewport = useCallback(
     (viewport: 'mobile' | 'desktop') => {
       if (!session.lastResult) return;
-      persist(approveDesignPageAuthorityViewport(session, viewport));
+      try {
+        persist(approveDesignPageAuthorityViewport(session, viewport));
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Approve failed');
+      }
     },
     [persist, session],
   );
@@ -81,6 +104,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const mobileLocked = isDesignPageAuthorityViewportLocked(session, 'mobile');
   const desktopLocked = isDesignPageAuthorityViewportLocked(session, 'desktop');
   const result = session.lastResult;
+  const selectedTerritory = session.founderReview.selectedTerritoryId;
 
   return (
     <section
@@ -89,15 +113,21 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       data-build-ref={P0_VR_TWIN_V30_BUILD}
     >
       <header className="site00-dw-v3-authority__head">
-        <strong>{P0_VR_TWIN_V30R2_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE</strong>
-        <span>Project {projectId.toUpperCase()} open · authority lock · no implementation</span>
-        {mobileLocked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE}</span> : null}
-        {desktopLocked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP}</span> : null}
+        <strong>
+          {P0_VR_TWIN_V30R3_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
+        </strong>
+        <span>Project {projectId.toUpperCase()} · host shell + project atmosphere · no implementation</span>
+        {mobileLocked ? (
+          <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE}</span>
+        ) : null}
+        {desktopLocked ? (
+          <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP}</span>
+        ) : null}
       </header>
       <p className="site00-dw-v3-authority__hint">
-        Canonical: {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} → PROJECT: NDXBOOK → PAGE: DESIGN. {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} owns the
-        workspace; NDXBOOK is the active client project. Pass test: “This is SITE 00’s design workspace, and I am working on NDXBOOK
-        inside it.” Fail: “This looks like an NDXBOOK app.”
+        SITE 00 provides the architecture; NDXBOOK provides the atmosphere inside the workspace. Review territories A
+        (Central Stage), B (Editorial Workbench), C (Spatial Workflow). Select one territory, then lock mobile +
+        desktop as a pair — implementation sprint waits for both locks.
       </p>
       <div className="site00-dw-v3-authority__actions">
         <button
@@ -106,12 +136,12 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           disabled={running || fullyLocked}
           onClick={() => void run(result ? 'REGENERATE' : 'GENERATE')}
         >
-          {running ? 'Generating…' : result ? 'REGENERATE AUTHORITY PAIR' : 'GENERATE AUTHORITY PAIR'}
+          {running ? 'Generating…' : result ? 'REGENERATE 6 AUTHORITY FRAMES' : 'GENERATE TERRITORIES A/B/C'}
         </button>
         <button
           type="button"
           className="site00-dw-v3-btn site00-dw-v3-btn--outline"
-          disabled={!result || mobileLocked}
+          disabled={!selectedTerritory || !result || mobileLocked}
           onClick={() => approveViewport('mobile')}
         >
           APPROVE MOBILE ({DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE})
@@ -119,20 +149,20 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         <button
           type="button"
           className="site00-dw-v3-btn site00-dw-v3-btn--outline"
-          disabled={!result || desktopLocked}
+          disabled={!selectedTerritory || !result || desktopLocked}
           onClick={() => approveViewport('desktop')}
         >
           APPROVE DESKTOP ({DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP})
         </button>
       </div>
       <div className="site00-dw-v3-authority__refine">
-        <label htmlFor="v3-authority-refine">Refine notes (host/client firewall preserved)</label>
+        <label htmlFor="v3-authority-refine">Refine notes (host / project firewall preserved)</label>
         <textarea
           id="v3-authority-refine"
           value={refineDraft}
           disabled={fullyLocked}
           onChange={(e) => setRefineDraft(e.target.value)}
-          placeholder="e.g. strengthen SITE 00 header; NDXBOOK only in project band; enlarge primary work area"
+          placeholder="e.g. stronger NDXBOOK lime in workspace; keep SITE 00 red on host only; less card grid"
         />
         <button
           type="button"
@@ -151,18 +181,58 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       {result ? (
         <>
           <p className="site00-dw-v3-authority__hint">
-            {result.lineage} · {result.canonicalPath} · R2 self-check {result.r2SelfCheck.pass ? 'PASS' : 'FAIL'} ·{' '}
-            {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')} · candidate #{session.candidateGeneration}
+            {result.lineage} · R2 {result.r2SelfCheck.pass ? 'PASS' : 'FAIL'} · R3 {result.r3SelfCheck.pass ? 'PASS' : 'FAIL'}{' '}
+            · {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')} · candidate #{session.candidateGeneration}
+            {selectedTerritory ? ` · selected territory ${selectedTerritory}` : ' · select territory before approve'}
           </p>
-          <div className="site00-dw-v3-authority__pair">
-            <figure className="site00-dw-v3-authority__frame">
-              <figcaption>Mobile {result.mobile.representativePrototype ? '(prototype)' : ''}</figcaption>
-              <img src={result.mobile.storageUrl} alt="SITE 00 design page mobile authority" />
-            </figure>
-            <figure className="site00-dw-v3-authority__frame">
-              <figcaption>Desktop {result.desktop.representativePrototype ? '(prototype)' : ''}</figcaption>
-              <img src={result.desktop.storageUrl} alt="SITE 00 design page desktop authority" />
-            </figure>
+          <div className="site00-dw-v3-authority__territories">
+            {result.territories.map((bundle) => {
+              const isSelected = session.founderReview.selectedTerritoryId === bundle.territoryId;
+              const verdict = session.founderReview.territoryVerdicts[bundle.territoryId];
+              return (
+                <article
+                  key={bundle.territoryId}
+                  className={`site00-dw-v3-authority__territory${isSelected ? ' site00-dw-v3-authority__territory--selected' : ''}`}
+                >
+                  <header className="site00-dw-v3-authority__territory-head">
+                    <strong>
+                      Territory {bundle.territoryId} · {bundle.territoryName}
+                    </strong>
+                    <button
+                      type="button"
+                      className="site00-dw-v3-btn site00-dw-v3-btn--compact"
+                      disabled={fullyLocked}
+                      onClick={() => onSelectTerritory(bundle.territoryId)}
+                    >
+                      {isSelected ? 'SELECTED' : 'SELECT FOR LOCK'}
+                    </button>
+                  </header>
+                  <div className="site00-dw-v3-authority__verdicts" role="group" aria-label={`Verdict territory ${bundle.territoryId}`}>
+                    {DESIGN_PAGE_V3_FOUNDER_TERRITORY_VERDICTS.map((v) => (
+                      <button
+                        key={v}
+                        type="button"
+                        className={`site00-dw-v3-btn site00-dw-v3-btn--verdict${verdict === v ? ' site00-dw-v3-btn--verdict-on' : ''}`}
+                        disabled={fullyLocked}
+                        onClick={() => onTerritoryVerdict(bundle.territoryId, v)}
+                      >
+                        {v.replace(/_/g, ' ')}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="site00-dw-v3-authority__pair">
+                    <figure className="site00-dw-v3-authority__frame">
+                      <figcaption>Mobile {bundle.mobile.representativePrototype ? '(prototype)' : ''}</figcaption>
+                      <img src={bundle.mobile.storageUrl} alt={`Territory ${bundle.territoryId} mobile authority`} />
+                    </figure>
+                    <figure className="site00-dw-v3-authority__frame">
+                      <figcaption>Desktop {bundle.desktop.representativePrototype ? '(prototype)' : ''}</figcaption>
+                      <img src={bundle.desktop.storageUrl} alt={`Territory ${bundle.territoryId} desktop authority`} />
+                    </figure>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </>
       ) : null}

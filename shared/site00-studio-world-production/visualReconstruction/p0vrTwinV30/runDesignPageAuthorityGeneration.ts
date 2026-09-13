@@ -1,30 +1,38 @@
+import { resolveActiveProjectExpressionContract } from './activeProjectExpressionContract.js';
 import {
   DESIGN_PAGE_V3_CANONICAL_PATH,
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   DESIGN_PAGE_V3_SKELETON_AREAS,
-  P0_VR_TWIN_V30R2_LINEAGE,
+  P0_VR_TWIN_V30R3_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
 import { classifyDesignPageAuthority } from './classifyDesignPageAuthority.js';
-import {
-  buildDesktopDesignPageAuthorityPrompt,
-  buildMobileDesignPageAuthorityPrompt,
-} from './buildDesignPageAuthorityPrompts.js';
+import { buildAllTerritoryPrompts } from './buildDesignPageAuthorityTerritoryPrompts.js';
 import { runDesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.js';
+import { runDesignPageAuthorityR3SelfCheck } from './designPageAuthorityR3SelfCheck.js';
+import { dispatchDesignPageAuthorityTerritoryVisuals } from './dispatchDesignPageAuthorityTerritoryVisuals.js';
 import { confirmDesignPageProductSkeleton } from './lockedExperienceSkeleton.js';
-import { dispatchDesignPageAuthorityVisuals } from './dispatchDesignPageAuthorityVisuals.js';
 import type { DesignPageAuthorityGenerationResult, DesignPageAuthorityReviewSession, DesignPageV3SkeletonArea } from './types.js';
 
 const ZONE_SUMMARIES: Record<DesignPageV3SkeletonArea, string> = {
-  HOST_HEADER_PAGE_FRAME: 'SITE 00 host header, breadcrumb, DESIGN page identity, top operating controls',
-  TARGET_CONTEXT_STRIP: 'Compact NDXBOOK · route · viewport · stage · authority/version context',
-  PRIMARY_WORKSPACE_PANEL: 'Dominant main table — active authority/concept preview and comparison affordance',
-  DECISION_BAR_ACTION_BAND: 'Workflow-aware approve · refine · regenerate · compare · inspect band',
-  STRUCTURED_OUTPUT_REVIEW_SYSTEM: 'Grouped pipeline artifacts: visual, blueprint, overlay, assets, functions',
-  PIPELINE_STATE_READINESS: 'Ready / missing / approved / blocked / next valid action at a glance',
-  SECONDARY_DETAIL_EXPANDABLE: 'Technical detail collapsed — never dominates primary workspace',
+  HOST_HEADER_PAGE_FRAME: 'SITE 00 host shell — breadcrumb, DESIGN identity, Martian Mono wayfinding, host red reserved',
+  TARGET_CONTEXT_STRIP: 'Compact NDXBOOK route/viewport — host-owned strip; project context not app shell',
+  PRIMARY_WORKSPACE_PANEL: 'Dominant NDXBOOK-atmosphere work surface — lime accents, editorial artifact stage',
+  DECISION_BAR_ACTION_BAND: 'Operating-state decision layer — not generic CTA card',
+  STRUCTURED_OUTPUT_REVIEW_SYSTEM: 'Artifacts as layers/stacks/filmstrips — not uniform card grid',
+  PIPELINE_STATE_READINESS: 'SITE 00 system readiness semantics — quiet spine / edge marks',
+  SECONDARY_DETAIL_EXPANDABLE: 'Compiler/debug recessed — bottom sheet / edge drawer',
 };
+
+function pickPreviewPair(
+  territories: DesignPageAuthorityGenerationResult['territories'],
+  selectedTerritoryId: DesignPageAuthorityReviewSession['founderReview']['selectedTerritoryId'],
+) {
+  const id = selectedTerritoryId ?? 'A';
+  const bundle = territories.find((t) => t.territoryId === id) ?? territories[0];
+  return { bundle, selectedTerritoryId: selectedTerritoryId ?? null };
+}
 
 export async function runDesignPageAuthorityGeneration(input: {
   session: DesignPageAuthorityReviewSession;
@@ -37,34 +45,44 @@ export async function runDesignPageAuthorityGeneration(input: {
     projectId: input.session.projectId,
     buildRef: P0_VR_TWIN_V30_BUILD,
   });
-  const mobilePrompt = buildMobileDesignPageAuthorityPrompt({
+  const allPrompts = buildAllTerritoryPrompts({
     clientProjectId: input.session.projectId,
     refineNotes: input.session.founderReview.refineNotes,
   });
-  const desktopPrompt = buildDesktopDesignPageAuthorityPrompt({
-    clientProjectId: input.session.projectId,
-    refineNotes: input.session.founderReview.refineNotes,
-  });
+  const combinedPromptText = Object.values(allPrompts)
+    .flatMap((p) => [p.mobile, p.desktop])
+    .join('\n');
   const r2SelfCheck = runDesignPageAuthoritySelfCheck({
-    promptOrArtifactText: `${mobilePrompt}\n${desktopPrompt}`,
+    promptOrArtifactText: combinedPromptText,
     zoneCount: DESIGN_PAGE_V3_SKELETON_AREAS.length,
   });
-  const dispatch = await dispatchDesignPageAuthorityVisuals({
+  const r3SelfCheck = runDesignPageAuthorityR3SelfCheck({
+    promptOrArtifactText: combinedPromptText,
+    territoryPrompts: {
+      A: allPrompts.A.mobile,
+      B: allPrompts.B.mobile,
+      C: allPrompts.C.mobile,
+    },
+  });
+  const dispatch = await dispatchDesignPageAuthorityTerritoryVisuals({
     authoritySessionId: input.session.authoritySessionId,
     clientProjectId: input.session.projectId,
     refineNotes: input.session.founderReview.refineNotes,
   });
+  const previewTerritory = input.session.founderReview.selectedTerritoryId;
+  const { bundle, selectedTerritoryId } = pickPreviewPair(dispatch.territories, previewTerritory);
   const falKeyConfigured = Boolean(process.env.FAL_KEY?.trim()) && process.env.VITEST !== 'true';
   const classification = classifyDesignPageAuthority({
-    mobileUrl: dispatch.mobile.storageUrl,
-    desktopUrl: dispatch.desktop.storageUrl,
+    mobileUrl: bundle.mobile.storageUrl,
+    desktopUrl: bundle.desktop.storageUrl,
     falKeyConfigured,
   });
   const now = new Date().toISOString();
   const client = input.session.projectId.toUpperCase();
+  const expressionContract = resolveActiveProjectExpressionContract(input.session.projectId);
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
-    lineage: P0_VR_TWIN_V30R2_LINEAGE,
+    lineage: P0_VR_TWIN_V30R3_LINEAGE,
     authoritySessionId: input.session.authoritySessionId,
     projectId: input.session.projectId,
     pageLabel: input.session.pageLabel,
@@ -72,13 +90,17 @@ export async function runDesignPageAuthorityGeneration(input: {
     clientProjectOpen: client,
     canonicalPath: DESIGN_PAGE_V3_CANONICAL_PATH,
     skeletonConfirmed: skeleton.areas,
-    mobile: dispatch.mobile,
-    desktop: dispatch.desktop,
+    territories: dispatch.territories,
+    mobile: bundle.mobile,
+    desktop: bundle.desktop,
+    selectedTerritoryId,
+    expressionContract,
     zoneSummaries: { ...ZONE_SUMMARIES },
     mobileTechnicalDetailsPattern: 'BOTTOM_SHEET_COLLAPSED',
     desktopTechnicalDetailsPattern: 'RIGHT_DRAWER_COLLAPSED',
     hostShellPreserved: true,
     r2SelfCheck,
+    r3SelfCheck,
     classification,
     founderReview: {
       ...input.session.founderReview,

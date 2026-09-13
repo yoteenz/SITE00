@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ok: true,
       service: 'twin-v3-design-page-authority',
       buildRef: P0_VR_TWIN_V30_BUILD,
-      sprint: 'P0.VR.TWINV3.0R2',
+      sprint: 'P0.VR.TWINV3.0R3',
     });
     return;
   }
