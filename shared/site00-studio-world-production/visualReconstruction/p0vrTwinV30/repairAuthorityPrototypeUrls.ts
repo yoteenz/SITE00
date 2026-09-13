@@ -7,6 +7,35 @@ import { isPublicPrototypeAuthorityPath, canonicalPublicPrototypePath } from './
 
 const R3_TERRITORY_IDS: DesignPageV3TerritoryId[] = ['A', 'B', 'C'];
 
+/** Vite dev / old sessions persisted hashed `/assets/*-r3.svg` — breaks after every deploy. */
+const R3_SVG_FILENAME =
+  /(?:^|[/?])(mobile|desktop)-territory-(a|b|c)-r3(?:\.[A-Za-z0-9_-]+)?\.svg(?:\?|#|$)/i;
+
+export function canonicalPrototypePathFromAuthorityStorageUrl(
+  storageUrl: string,
+): string | null {
+  const m = storageUrl.match(R3_SVG_FILENAME);
+  if (!m) return null;
+  const viewport = m[1]!.toLowerCase() as 'mobile' | 'desktop';
+  const territoryId = m[2]!.toUpperCase() as DesignPageV3TerritoryId;
+  if (territoryId !== 'A' && territoryId !== 'B' && territoryId !== 'C') return null;
+  return canonicalPublicPrototypePath(territoryId, viewport);
+}
+
+/** URLs that cannot load in `<img>` — repair to bundled /site00 R3 paths. */
+export function isBrokenPersistedAuthorityImageStorageUrl(storageUrl: string): boolean {
+  if (!storageUrl?.trim()) return true;
+  const url = storageUrl.trim();
+  if (/^vitest:\/\//i.test(url)) return true;
+  if (/^https?:\/\/[^/]+\/(data:.+)$/i.test(url)) return true;
+  if (/^data:/i.test(url)) return true;
+  if (/\/assets\/[^"'\s]*-territory-[abc]-r3(?:\.[A-Za-z0-9_-]+)?\.svg/i.test(url)) return true;
+  if (canonicalPrototypePathFromAuthorityStorageUrl(url)) {
+    return !isPublicPrototypeAuthorityPath(url);
+  }
+  return false;
+}
+
 function territoryFromR3Filename(storageUrl: string): DesignPageV3TerritoryId | null {
   const m = storageUrl.match(/territory-([abc])/i);
   if (!m) return null;
@@ -30,6 +59,15 @@ export function repairAuthorityVisualStorageUrl(
 
   const originPrefixedData = url.match(/^https?:\/\/[^/]+\/(data:.+)$/i);
   if (originPrefixedData) url = originPrefixedData[1]!;
+
+  const fromR3Filename = canonicalPrototypePathFromAuthorityStorageUrl(url);
+  if (fromR3Filename && isBrokenPersistedAuthorityImageStorageUrl(url)) {
+    url = fromR3Filename;
+  }
+
+  if (/^vitest:\/\//i.test(url) && hint) {
+    return canonicalPublicPrototypePath(hint.territoryId, hint.viewport);
+  }
 
   if (/^https?:\/\//i.test(url)) {
     try {
@@ -73,12 +111,21 @@ function repairArtifact(
   artifact: DesignPageAuthorityVisualArtifact,
   hint: { territoryId: DesignPageV3TerritoryId; viewport: 'mobile' | 'desktop' },
 ): DesignPageAuthorityVisualArtifact {
-  const storageUrl = repairAuthorityVisualStorageUrl(artifact.storageUrl, hint);
+  let storageUrl = repairAuthorityVisualStorageUrl(artifact.storageUrl, hint);
+  const wasBroken = isBrokenPersistedAuthorityImageStorageUrl(artifact.storageUrl);
+  const stillBroken = isBrokenPersistedAuthorityImageStorageUrl(storageUrl);
+  if (wasBroken || stillBroken || artifact.representativePrototype) {
+    if (stillBroken || wasBroken) {
+      storageUrl = canonicalPublicPrototypePath(hint.territoryId, hint.viewport);
+    }
+  }
   const isProto =
     artifact.representativePrototype ||
     isPublicPrototypeAuthorityPath(storageUrl) ||
     isPublicPrototypeAuthorityPath(artifact.storageUrl) ||
-    /^data:image\/svg/i.test(artifact.storageUrl);
+    /^data:image\/svg/i.test(artifact.storageUrl) ||
+    wasBroken ||
+    stillBroken;
   return {
     ...artifact,
     storageUrl,

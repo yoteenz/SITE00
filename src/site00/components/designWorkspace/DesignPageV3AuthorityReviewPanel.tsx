@@ -2,7 +2,7 @@
  * P0.VR.TWINV3.0R5 — viewport master selection + authority pair lock (R4 grounding retained).
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
 import {
   appendDesignPageAuthorityRefineNote,
   createDesignPageAuthorityReviewSession,
@@ -67,6 +67,17 @@ function viewportStateLabel(state: string): string {
   return state.replace(/_/g, ' ');
 }
 
+function onAuthorityImageError(
+  ev: SyntheticEvent<HTMLImageElement>,
+  hint: { territoryId: DesignPageV3TerritoryId; viewport: 'mobile' | 'desktop' },
+) {
+  const el = ev.currentTarget;
+  const fallback = resolveDesignPageAuthorityImageSrc(
+    `/site00/twin-v3-design-page-authority/${hint.viewport}-territory-${hint.territoryId.toLowerCase()}-r3.svg`,
+  );
+  if (el.src !== fallback) el.src = fallback;
+}
+
 export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const pilot = projectId.toLowerCase() === DESIGN_PAGE_V3_PILOT_PROJECT_ID;
   const [session, setSession] = useState<DesignPageAuthorityReviewSession>(() => {
@@ -91,7 +102,12 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     if (!pilot) return;
     setSession((prev) => {
       const normalized = normalizeDesignPageAuthoritySession(prev);
-      if (territoryGalleryHasCandidates(normalized.territoryGallery)) return normalized;
+      const galleryJson = JSON.stringify(normalized.territoryGallery);
+      const priorJson = JSON.stringify(prev.territoryGallery);
+      if (territoryGalleryHasCandidates(normalized.territoryGallery)) {
+        if (galleryJson !== priorJson) writeDesignPageAuthoritySession(normalized);
+        return normalized;
+      }
       let seeded = seedDesignPageAuthorityPrototypeGallery(normalized);
       seeded = rewritePrototypeGalleryUrls(seeded, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
       writeDesignPageAuthoritySession(seeded);
@@ -535,6 +551,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                               })}
                               alt={`Territory ${territoryId} mobile candidate ${index + 1}`}
                               loading="lazy"
+                              onError={(ev) => onAuthorityImageError(ev, { territoryId, viewport: 'mobile' })}
                             />
                             <div className="site00-dw-v3-authority__frame-actions">
                               <button
@@ -560,6 +577,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                               })}
                               alt={`Territory ${territoryId} desktop candidate ${index + 1}`}
                               loading="lazy"
+                              onError={(ev) => onAuthorityImageError(ev, { territoryId, viewport: 'desktop' })}
                             />
                             <div className="site00-dw-v3-authority__frame-actions">
                               <button

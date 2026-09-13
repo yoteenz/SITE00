@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 authority gallery images still broken (v401 heal)
+
+- **Symptom:** Founder on **site00.fsbw-dev.com** — DESIGN authority cards show blue **?** (MOBILE/DESKTOP · GENERATED) after v398 URL repair.
+- **Root cause:** v398 repaired `data:` / origin-mangled URLs but **not** stale **Vite hashed `/assets/mobile-territory-*-r3.*.svg`** URLs persisted in **localStorage**. After each dev deploy the hash 404s; gallery already had candidates so **seed** did not run.
+- **Fix:** `isBrokenPersistedAuthorityImageStorageUrl` + rewrite hashed `/assets/*-r3*.svg` to canonical `/site00/twin-v3-design-page-authority/*.svg`; resolver maps those HTTPS asset URLs to bundled imports; mount effect **persists healed gallery**; `<img onError>` fallback to R3 prototype. Build **v401**.
+
+---
+
 ## 2026-09-13 — Twin V3 authority prompts: uppercase UI on every page (v400)
 
 - **Founder ask:** Confirm concept-driving prompts enforce **uppercase** UI typography on **all pages** shown in authority mockups.

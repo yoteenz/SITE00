@@ -23,6 +23,8 @@ export {
   canonicalPublicPrototypePath,
 } from './rewritePrototypeGalleryUrls.js';
 export {
+  canonicalPrototypePathFromAuthorityStorageUrl,
+  isBrokenPersistedAuthorityImageStorageUrl,
   repairAuthorityVisualStorageUrl,
   repairPrototypeGallerySession,
   rewritePrototypeGalleryUrls,

@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createDesignPageAuthorityReviewSession,
   repairAuthorityVisualStorageUrl,
+  isBrokenPersistedAuthorityImageStorageUrl,
   repairPrototypeGallerySession,
   rewritePrototypeGalleryUrls,
   seedDesignPageAuthorityPrototypeGallery,
@@ -17,6 +18,17 @@ import {
 } from '../src/site00/components/designWorkspace/designPageAuthorityR3PrototypeUrls.js';
 
 describe('Twin V3 authority prototype image wiring', () => {
+  it('detects stale Vite /assets/*-r3.svg URLs as broken', () => {
+    const stale = 'https://preview.example.test/assets/mobile-territory-a-r3.Dk8s9f.svg';
+    expect(isBrokenPersistedAuthorityImageStorageUrl(stale)).toBe(true);
+    expect(repairAuthorityVisualStorageUrl(stale, { territoryId: 'A', viewport: 'mobile' })).toBe(
+      '/site00/twin-v3-design-page-authority/mobile-territory-a-r3.svg',
+    );
+    expect(resolveDesignPageAuthorityImageSrc(stale, { territoryId: 'A', viewport: 'mobile' })).toBe(
+      DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS.A.mobile,
+    );
+  });
+
   it('repairs origin-prefixed data: URLs (broken img src)', () => {
     const broken = 'https://preview.example.test/data:image/svg+xml;base64,PHN2Zy8+';
     expect(repairAuthorityVisualStorageUrl(broken)).toBe('data:image/svg+xml;base64,PHN2Zy8+');

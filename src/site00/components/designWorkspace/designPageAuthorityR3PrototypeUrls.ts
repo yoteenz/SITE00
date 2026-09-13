@@ -8,7 +8,10 @@ import desktopTerritoryC from '../../assets/twin-v3-design-page-authority/deskto
 import mobileTerritoryA from '../../assets/twin-v3-design-page-authority/mobile-territory-a-r3.svg?url';
 import mobileTerritoryB from '../../assets/twin-v3-design-page-authority/mobile-territory-b-r3.svg?url';
 import mobileTerritoryC from '../../assets/twin-v3-design-page-authority/mobile-territory-c-r3.svg?url';
-import { repairAuthorityVisualStorageUrl } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/repairAuthorityPrototypeUrls.js';
+import {
+  canonicalPrototypePathFromAuthorityStorageUrl,
+  repairAuthorityVisualStorageUrl,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/repairAuthorityPrototypeUrls.js';
 import type { DesignPageV3TerritoryId } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/hostProjectExpressionModel.js';
 
 export const DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS: Record<
@@ -48,7 +51,11 @@ export function resolveDesignPageAuthorityImageSrc(
   let url = repairAuthorityVisualStorageUrl(storageUrl, hint);
 
   if (/^data:/i.test(url) || /^blob:/i.test(url)) return url;
-  if (/^https?:\/\//i.test(url)) return url;
+  if (/^https?:\/\//i.test(url)) {
+    const canonicalFromFile = canonicalPrototypePathFromAuthorityStorageUrl(url);
+    if (canonicalFromFile) url = canonicalFromFile;
+    else return url;
+  }
 
   const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
   const bundled = PUBLIC_PATH_TO_BUNDLED.get(normalized);
