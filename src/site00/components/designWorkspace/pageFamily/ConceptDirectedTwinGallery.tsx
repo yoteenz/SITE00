@@ -2,12 +2,9 @@
  * P0.VR.TWINV2.2 — Horizontal concept gallery + readiness + blueprint peek.
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, type TouchEvent } from 'react';
 import type { ConceptCandidate, ConceptBlueprint } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/types.js';
-import {
-  getConceptDisplayLabel,
-  sortCandidatesForGallery,
-} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
+import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { canBuildConcept } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 
 type BlueprintViewMode = 'VISUAL' | 'BLUEPRINT' | 'OVERLAY' | 'OBJECT_MAP' | 'FUNCTION_MAP' | 'ASSETS';
@@ -28,10 +25,10 @@ type Props = {
 
 function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
   const r = candidate.buildReadiness;
-  const chip = (ok: boolean, label: string) => (
-    <span className={`site00-twin-v2-gallery__ready${ok ? ' is-ok' : ''}`}>
+  const chip = (ready: boolean, label: string) => (
+    <span className={`site00-twin-v2-gallery__ready${ready ? ' is-ok' : ' is-pending'}`}>
       {label}
-      {ok ? ' ✓' : ''}
+      {ready ? ' ✓' : ' PENDING'}
     </span>
   );
   return (
@@ -42,6 +39,8 @@ function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
       {chip(r.functionsReady, 'FUNCTIONS')}
       {r.status === 'READY_TO_BUILD' || r.status === 'APPROVED_READY_TO_BUILD' ? (
         <strong className="site00-twin-v2-gallery__ready-ok">READY TO BUILD</strong>
+      ) : candidate.founderJudgment === 'APPROVED' ? (
+        <strong className="site00-twin-v2-gallery__ready-warn">PREPARING BUILD PACKAGE</strong>
       ) : (
         <strong className="site00-twin-v2-gallery__ready-warn">VISUAL ONLY — NOT BUILD READY</strong>
       )}
@@ -63,15 +62,21 @@ export function ConceptDirectedTwinGallery({
   generating,
 }: Props) {
   const railRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
   const [viewMode, setViewMode] = useState<BlueprintViewMode>('VISUAL');
   const sorted = sortCandidatesForGallery(candidates);
-  const active = sorted.find((c) => c.conceptId === activeConceptId) ?? sorted.at(-1);
+  const activeIndex = Math.max(
+    0,
+    sorted.findIndex((c) => c.conceptId === activeConceptId),
+  );
+  const active = sorted[activeIndex] ?? sorted.at(-1);
   const blueprint = active ? blueprints[active.conceptBlueprintId] : null;
   const bindings = active ? bindingSummaries[active.functionBindingPlanId] ?? [] : [];
 
   const scrollToIndex = useCallback(
     (idx: number) => {
-      const c = sorted[idx];
+      const bounded = Math.max(0, Math.min(sorted.length - 1, idx));
+      const c = sorted[bounded];
       if (!c) return;
       onSelectConcept(c.conceptId);
       const el = railRef.current?.querySelector(`[data-concept-id="${c.conceptId}"]`);
@@ -79,6 +84,21 @@ export function ConceptDirectedTwinGallery({
     },
     [onSelectConcept, sorted],
   );
+
+  const onTouchStart = (e: TouchEvent) => {
+    touchStartX.current = e.changedTouches[0]?.clientX ?? null;
+  };
+
+  const onTouchEnd = (e: TouchEvent) => {
+    const start = touchStartX.current;
+    const end = e.changedTouches[0]?.clientX;
+    touchStartX.current = null;
+    if (start == null || end == null) return;
+    const delta = end - start;
+    if (Math.abs(delta) < 40) return;
+    if (delta < 0) scrollToIndex(activeIndex + 1);
+    else scrollToIndex(activeIndex - 1);
+  };
 
   if (!active) {
     return <p>No concepts in gallery yet.</p>;
@@ -91,11 +111,18 @@ export function ConceptDirectedTwinGallery({
       <header className="site00-twin-v2-gallery__head">
         <strong>TWIN V2 — CONCEPTS</strong>
         <span>
-          {getConceptDisplayLabel(active)} OF {String(sorted.length).padStart(2, '0')}
+          CONCEPT {active.versionNumber} OF {sorted.length}
         </span>
       </header>
 
-      <div ref={railRef} className="site00-twin-v2-gallery__rail" role="list" aria-label="Concept gallery swipe rail">
+      <div
+        ref={railRef}
+        className="site00-twin-v2-gallery__rail"
+        role="list"
+        aria-label="Concept gallery swipe rail"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         {sorted.map((c) => (
           <article
             key={c.conceptId}
@@ -104,14 +131,18 @@ export function ConceptDirectedTwinGallery({
             className={`site00-twin-v2-gallery__slide${c.conceptId === active.conceptId ? ' is-active' : ''}`}
             onClick={() => onSelectConcept(c.conceptId)}
           >
-            {c.visualAssetUrl ? (
-              <img src={c.visualAssetUrl} alt={getConceptDisplayLabel(c)} draggable={false} />
+            {c.visualAssetUrl || c.visualAsset ? (
+              <img src={c.visualAssetUrl ?? undefined} alt={`Concept ${c.versionNumber}`} draggable={false} />
             ) : (
               <div className="site00-twin-v2-gallery__empty">NO IMAGE</div>
             )}
             <footer>
-              <span>{getConceptDisplayLabel(c)}</span>
-              <span>{c.generationType.replace(/_/g, ' ')}</span>
+              <span>CONCEPT {String(c.versionNumber).padStart(2, '0')}</span>
+              {c.generationType === 'LEGACY_V2_CONCEPT' ? (
+                <span className="site00-twin-v2-gallery__legacy">RECOVERED</span>
+              ) : (
+                <span>{c.generationType.replace(/_/g, ' ')}</span>
+              )}
             </footer>
           </article>
         ))}
@@ -162,7 +193,7 @@ export function ConceptDirectedTwinGallery({
               className={viewMode === mode ? 'is-active' : ''}
               onClick={() => setViewMode(mode)}
             >
-              {mode.replace(/_/g, ' ')}
+              {mode === 'BLUEPRINT' || mode === 'ASSETS' ? `VIEW ${mode.replace(/_/g, ' ')}` : mode.replace(/_/g, ' ')}
             </button>
           ),
         )}

@@ -57,6 +57,26 @@ export async function downloadSite00StorageText(storagePath: string): Promise<st
   return await data.text();
 }
 
+export async function listSite00StorageFiles(
+  folderPrefix: string,
+  limit = 100,
+): Promise<{ name: string; id: string | null; createdAt: string | null }[]> {
+  const normalized = folderPrefix.replace(/^\/+/, '').replace(/\/+$/, '');
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).list(normalized, {
+    limit,
+    sortBy: { column: 'name', order: 'asc' },
+  });
+  if (error || !data) return [];
+  return data
+    .filter((entry) => entry.name && !entry.name.endsWith('/'))
+    .map((entry) => ({
+      name: entry.name,
+      id: entry.id ?? null,
+      createdAt: entry.created_at ?? null,
+    }));
+}
+
 export async function site00StorageObjectExists(storagePath: string): Promise<boolean> {
   const normalized = storagePath.replace(/^\/+/, '').trim();
   if (!normalized) return false;

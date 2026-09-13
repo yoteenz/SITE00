@@ -33,7 +33,7 @@ export function mergeVisualConceptApiResult(
   if (!session.creativeDirection) {
     throw new Error('TWIN_V2_VISUAL: missing creative direction');
   }
-  const versionId = `vc-${session.sessionId}-${Date.now()}`;
+  const versionId = `vc-${session.sessionId}-${Date.now()}-${session.history.length}`;
   const creativeDirection: PageCreativeDirection = session.creativeDirection;
   const version: VisualConceptVersion = {
     versionId,

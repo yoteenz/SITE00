@@ -8381,3 +8381,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrTwinV22/` (`v345`) — gallery state + backfill, blueprint/reconcile/manifest/binding generators, readiness contract + visual-only guard, approve → package, compose from package only; UI `ConceptDirectedTwinGallery` (horizontal rail, filmstrip, readiness strip, blueprint tabs); wired into merge/orchestrate, Twin V2 experience, session persist on open; tests `tests/p0vrTwinV22.test.ts`; V1 forensic + live unchanged.
 - **Founder next:** Deploy **v345** → TWIN V2 → swipe existing concepts (no new gen) → check VISUAL/BLUEPRINT/ASSETS/FUNCTIONS → VIEW BLUEPRINT → approve one **READY TO BUILD** → **BUILD THIS CONCEPT** → compare approved vs Twin V2.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R1 concept gallery hydration + legacy backfill (NDXBOOK)
+
+- **Symptom:** Twin V2 UI showed **NO VISUAL CONCEPT YET** despite five generated concepts; no swipe gallery.
+- **Root cause:** `ensureConceptGallery` returned early when `conceptGallery.buildRef === v345` even with **empty `candidates[]`**, skipping history backfill; concepts also split across localStorage pageId keys / session ids without sibling merge; durable images in Supabase `site00/twin-v2/{sessionId}/` not queried.
+- **Fix:** `hydrateConceptGallerySession` + `discoverExistingV2ConceptGenerations`, `getConceptCandidates`, stale empty guard; merge sibling overview sessions; GET `/api/site00/twin-v2-concept-generations`; gallery-first UI (details collapsed, forensics hidden pre-build); **v346**.
+- **Founder next:** Deploy **v346** → TWIN V2 → must see **CONCEPT 1 OF 5** immediately (no generate) → swipe 1–5 → VIEW BLUEPRINT → approve → build when ready.
+

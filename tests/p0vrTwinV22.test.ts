@@ -54,7 +54,7 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     expect(gallery.candidates.every((c) => c.conceptBlueprintId && c.assetManifestId)).toBe(true);
     const sorted = sortCandidatesForGallery(gallery.candidates);
     expect(sorted.map((c) => c.versionNumber)).toEqual([1, 2, 3]);
-    expect(gallery.activeConceptId).toBe(sorted[2].conceptId);
+    expect(gallery.activeConceptId).toBe(sorted.at(-1)!.conceptId);
     const switched = setActiveConceptId(session, sorted[0].conceptId);
     expect(getActiveConceptCandidate(switched)?.conceptId).toBe(sorted[0].conceptId);
     expect(JSON.stringify(switched.conceptGallery).length).toBeGreaterThan(100);
@@ -202,7 +202,7 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
       shellContract: ['SITE_00 host'],
     });
     expect(pkg.status).toBe('READY');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v345');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v346');
   });
 
   it('blueprint generation is concept-specific from creative direction', () => {
