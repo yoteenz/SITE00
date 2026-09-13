@@ -283,4 +283,5 @@ export type ConceptGalleryState = {
   twinFidelityReceipts?: Record<string, import('../p0vrTwinV27/types.js').TwinFidelityReceipt>;
   surgicalBlueprintCodeBindings?: Record<string, import('../p0vrTwinV27/types.js').BlueprintObjectCodeBinding[]>;
   falParallelTwinProofs?: Record<string, import('../p0vrTwinV28/types.js').FalParallelTwinProofBundle>;
+  atomicGenerationBundles?: Record<string, import('../p0vrTwinV29/types.js').AtomicCreativeGenerationResult>;
 };

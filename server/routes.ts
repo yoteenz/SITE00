@@ -42,6 +42,7 @@ import site00TwinV2VisualConceptHandler from '../api/site00/twin-v2-visual-conce
 import site00TwinV2ConceptGenerationsHandler from '../api/site00/twin-v2-concept-generations.js';
 import site00TwinV2ImportConceptHandler from '../api/site00/twin-v2-import-concept.js';
 import site00TwinV2FalParallelTwinProofHandler from '../api/site00/twin-v2-fal-parallel-twin-proof.js';
+import site00TwinV2AtomicConceptGenerationHandler from '../api/site00/twin-v2-atomic-concept-generation.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -88,5 +89,6 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/twin-v2-concept-generations', handler: site00TwinV2ConceptGenerationsHandler },
   { path: '/api/site00/twin-v2-import-concept', handler: site00TwinV2ImportConceptHandler },
   { path: '/api/site00/twin-v2-fal-parallel-twin-proof', handler: site00TwinV2FalParallelTwinProofHandler },
+  { path: '/api/site00/twin-v2-atomic-concept-generation', handler: site00TwinV2AtomicConceptGenerationHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];
