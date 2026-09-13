@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R5 — viewport master selection + authority pair lock gate. */
-export const P0_VR_TWIN_V30_BUILD = 'v397' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v398' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
 export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;

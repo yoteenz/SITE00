@@ -1,4 +1,5 @@
 import { emptyAuthorityPipelineState } from './designWorkspaceAuthorityPipeline.js';
+import { repairPrototypeGallerySession } from './repairAuthorityPrototypeUrls.js';
 import { DESIGN_PAGE_V3_TERRITORY_DEFINITIONS, type DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import type {
   DesignPageAuthorityReviewSession,
@@ -123,12 +124,12 @@ export function normalizeDesignPageAuthoritySession(
       selectedCandidateByTerritory[id] = latestTerritoryCandidate(territoryGallery, id)!.candidateId;
     }
   }
-  return {
+  return repairPrototypeGallerySession({
     ...synced,
     territoryGallery,
     selectedCandidateByTerritory,
     authorityPipeline: synced.authorityPipeline ?? emptyAuthorityPipelineState(),
-  };
+  });
 }
 
 export function territoryDisplayName(id: DesignPageV3TerritoryId): string {
