@@ -8519,3 +8519,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `translateY(-top%)` ran on a **bottom clip-path-shortened** img inside `overflow:hidden` — wrong % base + viewport clipped shifted masthead.
 - **Fix:** Single full artboard img with `top: calc(-100% * top / visible)` inside aspect-ratio viewport; remove transform+clip stack; `MASTHEAD_VISUAL_BLEED_NORM` (0.012) on `canvasTop` when masthead band present. Build ref **v360**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 client canvas panel unclip (v361)
+
+- **Symptom:** Founder QA after v360 — masthead still “clipped”; scroll inside CLIENT CANVAS showed KPI band (wrong slice).
+- **Root cause:** CLIENT CANVAS reused `.site00-twin-v2-gallery__blueprint-panel` (**max-height: 12rem**, **overflow: auto**) meant for blueprint text rows — viewport ate top of crop; scroll looked like bad crop origin.
+- **Fix:** Dedicated `.site00-twin-v2-gallery__client-canvas-panel` (no max-height, overflow visible). Build ref **v361**.
+

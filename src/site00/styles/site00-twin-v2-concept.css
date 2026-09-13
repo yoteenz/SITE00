@@ -336,6 +336,15 @@
   padding: 0.5rem;
 }
 
+/** Full-height client canvas preview — must not inherit blueprint list 12rem scroll clip. */
+.site00-twin-v2-gallery__client-canvas-panel {
+  font-size: 0.75rem;
+  max-height: none;
+  overflow: visible;
+  border: 1px solid #333;
+  padding: 0.5rem;
+}
+
 .site00-twin-v2-gallery__legacy {
   font-size: 0.55rem;
   opacity: 0.75;
