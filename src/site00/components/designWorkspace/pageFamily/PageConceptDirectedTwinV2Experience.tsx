@@ -25,6 +25,8 @@ import {
   importExistingV2ConceptsFromUrls,
   requestTwinV2ImportConcept,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import { getActiveConceptCandidate } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
+import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
   readTwinV2UiPersist,
   writeTwinV2UiPersist,
@@ -219,6 +221,9 @@ export function PageConceptDirectedTwinV2Experience({
     !hydrating && showEmptyState && gallery?.backfillReceipt?.status === 'NO_DISCOVERABLE_GENERATIONS';
   const showGallery = galleryQuery.canonicalConceptCount > 0;
   const preBuildConceptStage = showGallery && !session.renderedTwin?.builtAt;
+  const activeConcept = gallery ? getActiveConceptCandidate(session) : null;
+  const canRebuildTwin =
+    Boolean(activeConcept) && isConceptTechnicallyReadyForBuild(activeConcept!.buildReadiness);
 
   const bindingSummaries = Object.fromEntries(
     Object.entries(gallery?.bindingPlans ?? {}).map(([id, plan]) => [
@@ -503,13 +508,26 @@ export function PageConceptDirectedTwinV2Experience({
           <div className="site00-twin-v2-concept__built-preview-frame">
             <ResolveConceptDirectedTwinV2Renderer projectSlug={session.projectId} session={session} />
           </div>
-          <button
-            type="button"
-            className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-            onClick={() => onPreviewTwinV2(session)}
-          >
-            OPEN FULL TWIN V2 PREVIEW
-          </button>
+          <div className="site00-twin-v2-concept__built-actions">
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+              disabled={!canRebuildTwin || building}
+              onClick={() => {
+                void handleBuildTwin();
+              }}
+              aria-busy={building}
+            >
+              {building ? 'BUILDING TWIN…' : 'REBUILD THIS CONCEPT'}
+            </button>
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+              onClick={() => onPreviewTwinV2(session)}
+            >
+              OPEN FULL TWIN V2 PREVIEW
+            </button>
+          </div>
         </section>
       ) : null}
 
@@ -538,7 +556,7 @@ export function PageConceptDirectedTwinV2Experience({
             generating={generating}
           />
         ) : (
-          <details className="site00-twin-v2-concept__gallery-collapse">
+          <details className="site00-twin-v2-concept__gallery-collapse" open={Boolean(session.renderedTwin?.builtAt)}>
             <summary>Concept gallery &amp; inspection</summary>
             <ConceptDirectedTwinGallery
               projectSlug={session.projectId}
