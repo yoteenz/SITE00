@@ -8414,3 +8414,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Shipped:** Merge **v348** — empty state **IMPORT EXISTING CONCEPTS** (paste FAL URLs) + **IMPORT INTO GALLERY**; Railway route `twin-v2-import-concept`; hydrate scans **all** same-project localStorage sessions (not overview pageId only).
 - **Founder next:** Deploy **v348** frontend + **Railway** API → TWIN V2 → paste five `fal.media` URLs → **IMPORT INTO GALLERY** → **CONCEPT 1 OF 5** without new generation. Future gens after v347 auto-ledger.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R4 import button dead + hydration clobber (v349)
+
+- **Symptom:** v348 UI visible but **IMPORT INTO GALLERY** appeared to do nothing; still no gallery.
+- **Root causes:** (1) Empty URL field → error rendered **below fold** (after details). (2) Async gallery hydrate used **stale session** and could **overwrite** a just-imported gallery when remote fetch completed. (3) Legacy localStorage sessions missing **`creativeDirection`** caused `mergeVisualConceptApiResult` to throw on import.
+- **Fix (v349):** `sessionRef` + never reduce candidate count on hydrate merge; inline import feedback/errors above button; require `https://` URLs; `ensureTwinV2SessionCreativeDirection` on import; local-only fallback still builds gallery if API copy fails.
+

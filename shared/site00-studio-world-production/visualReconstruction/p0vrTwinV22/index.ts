@@ -18,5 +18,9 @@ export {
   fetchRemoteTwinV2GenerationsForProject,
 } from './fetchRemoteTwinV2Generations.js';
 export * from './twinV2PageScope.js';
-export * from './importExistingV2ConceptFromUrl.js';
+export {
+  ensureTwinV2SessionCreativeDirection,
+  importExistingV2ConceptFromUrl,
+  importExistingV2ConceptsFromUrls,
+} from './importExistingV2ConceptFromUrl.js';
 export * from './requestTwinV2ImportConcept.js';
