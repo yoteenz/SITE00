@@ -155,6 +155,10 @@ export default defineConfig(({ mode, command }) => {
           find: /^chromium-bidi(\/.*)?$/,
           replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/chromium-bidi-empty.ts'),
         },
+        {
+          find: /^sharp(\/.*)?$/,
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/sharp.ts'),
+        },
       ],
     },
     plugins: [
