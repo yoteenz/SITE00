@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 gallery persistence loops (v406)
+
+- **Symptom:** Founder: “nothing is changing” on tunnel + site00.com — still broken batch 1 after v405.
+- **Loops found:** (1) **`syncGalleryFromLastResult`** re-appended **`lastResult.territories`** when gallery already had candidates (resurrected broken batch). (2) **localStorage + sessionStorage + backup + ledger merge** kept **multiple batch-1 candidates**; UI selected the broken duplicate. (3) Mount effect **re-persisted in-memory `prev`** instead of always adopting **recovered disk** session. (4) **`mergeDesignPageAuthorityApiResponse`** merged **server gallery** back over client. (5) **`buildRef`-only recovery** stopped after v405 while storage still bad.
+- **Fix:** **`AUTHORITY_GALLERY_RECOVERY_EPOCH=2`** one-time heal; **`pruneGalleryToLatestCandidatePerTerritory`**; sync only into **empty** territories; **`purgeDesignPageAuthoritySideStores`** on force reset; recover on every **write**; mount loads disk only. Build **v406**.
+
+---
+
 ## 2026-09-13 — Twin V3 broken batch 1 stuck (tunnel + site00.com) — gallery recovery v405
 
 - **Symptom:** Tunnel and GoDaddy deploy still showed only **broken batch 1** (blue ?); batch 2 not visible.

@@ -86,7 +86,12 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [session, setSession] = useState<DesignPageAuthorityReviewSession>(() => {
     if (!pilot) return createDesignPageAuthorityReviewSession({ projectId });
     const stored = readDesignPageAuthoritySession(projectId);
-    return stored ? normalizeDesignPageAuthoritySession(stored) : createDesignPageAuthorityReviewSession({ projectId });
+    if (stored) return normalizeDesignPageAuthoritySession(stored);
+    const seeded = seedDesignPageAuthorityPrototypeGallery(
+      createDesignPageAuthorityReviewSession({ projectId }),
+    );
+    writeDesignPageAuthoritySession(seeded);
+    return normalizeDesignPageAuthoritySession(seeded);
   });
   const [refineDraft, setRefineDraft] = useState('');
   const [running, setRunning] = useState(false);
@@ -103,32 +108,12 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
 
   useEffect(() => {
     if (!pilot) return;
-    const fromDisk = readDesignPageAuthoritySession(projectId);
-    setSession((prev) => {
-      let base = prev;
-      if (fromDisk) {
-        const diskCount = galleryCandidateCount(fromDisk.territoryGallery);
-        const prevCount = galleryCandidateCount(prev.territoryGallery);
-        if (
-          diskCount > prevCount ||
-          fromDisk.buildRef !== prev.buildRef ||
-          JSON.stringify(fromDisk.territoryGallery) !== JSON.stringify(prev.territoryGallery)
-        ) {
-          base = fromDisk;
-        }
-      }
-      const normalized = normalizeDesignPageAuthoritySession(base);
-      const galleryJson = JSON.stringify(normalized.territoryGallery);
-      const priorJson = JSON.stringify(prev.territoryGallery);
-      if (territoryGalleryHasCandidates(normalized.territoryGallery)) {
-        if (galleryJson !== priorJson) writeDesignPageAuthoritySession(normalized);
-        return normalized;
-      }
-      let seeded = seedDesignPageAuthorityPrototypeGallery(normalized);
-      seeded = rewritePrototypeGalleryUrls(seeded, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
-      writeDesignPageAuthoritySession(seeded);
-      return seeded;
-    });
+    let loaded = readDesignPageAuthoritySession(projectId);
+    if (!loaded) {
+      loaded = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession({ projectId }));
+      writeDesignPageAuthoritySession(loaded);
+    }
+    setSession(normalizeDesignPageAuthoritySession(loaded));
   }, [pilot, projectId]);
 
   const persist = useCallback((next: DesignPageAuthorityReviewSession) => {

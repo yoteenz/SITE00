@@ -187,7 +187,8 @@ export function readDesignPageAuthoritySession(projectId: string): DesignPageAut
 
 export function writeDesignPageAuthoritySession(session: DesignPageAuthorityReviewSession): boolean {
   if (typeof localStorage === 'undefined' && typeof sessionStorage === 'undefined') return true;
-  const slim = slimSessionForStorage(session);
+  const prepared = recoverDesignPageAuthorityGalleryIfBroken(normalizeDesignPageAuthoritySession(session));
+  const slim = slimSessionForStorage(prepared);
   const key = session.projectId.toLowerCase();
   let localOk = true;
   let sessionOk = true;
@@ -213,7 +214,7 @@ export function writeDesignPageAuthoritySession(session: DesignPageAuthorityRevi
     sessionOk = false;
     console.error('site00:design-page-v3-authority sessionStorage persist failed', err);
   }
-  writeGalleryBackup(key, session.territoryGallery);
-  appendAuthorityBatchLedger(key, session.territoryGallery, session.candidateGeneration);
+  writeGalleryBackup(key, prepared.territoryGallery);
+  appendAuthorityBatchLedger(key, prepared.territoryGallery, prepared.candidateGeneration);
   return localOk || sessionOk;
 }

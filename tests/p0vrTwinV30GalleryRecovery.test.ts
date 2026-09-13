@@ -29,6 +29,7 @@ import {
   mergeGalleryFromBatchLedger,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designPageAuthorityBatchLedger.js';
 import {
+  AUTHORITY_GALLERY_RECOVERY_EPOCH,
   P0_VR_TWIN_V30_BUILD,
   createDesignPageAuthorityReviewSession,
   readDesignPageAuthoritySession,
@@ -87,10 +88,11 @@ describe('Twin V3 gallery recovery (v405)', () => {
 
   it('readDesignPageAuthoritySession auto-writes recovered gallery', () => {
     let session = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession());
-    session = { ...session, buildRef: 'v403' };
+    session = { ...session, buildRef: 'v403', galleryRecoveryEpoch: 0 };
     writeDesignPageAuthoritySession(session);
     const fromRead = readDesignPageAuthoritySession(session.projectId);
     expect(fromRead?.buildRef).toBe(P0_VR_TWIN_V30_BUILD);
+    expect(fromRead?.galleryRecoveryEpoch).toBe(AUTHORITY_GALLERY_RECOVERY_EPOCH);
     expect(fromRead?.territoryGallery.A[0]!.mobile.storageUrl).toContain('/site00/twin-v3-design-page-authority/');
   });
 });

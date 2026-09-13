@@ -26,8 +26,10 @@ export function canonicalPrototypePathFromAuthorityStorageUrl(
 /** Hashed Vite /assets URLs 404 on cPanel + some dev reloads — treat as unviewable. */
 export function isUnviewableAuthorityImageStorageUrl(storageUrl: string): boolean {
   if (!storageUrl?.trim()) return true;
-  if (isBrokenPersistedAuthorityImageStorageUrl(storageUrl)) return true;
-  if (/\/assets\/[^"'\s]*-territory-[abc]-r3/i.test(storageUrl)) return true;
+  const url = storageUrl.trim();
+  if (isBrokenPersistedAuthorityImageStorageUrl(url)) return true;
+  if (/^\/assets\//i.test(url)) return true;
+  if (/\/assets\/[^"'\s]*-territory-[abc]-r3/i.test(url)) return true;
   return false;
 }
 
@@ -48,6 +50,7 @@ export function isBrokenPersistedAuthorityImageStorageUrl(storageUrl: string): b
   if (/^vitest:\/\//i.test(url)) return true;
   if (/^https?:\/\/[^/]+\/(data:.+)$/i.test(url)) return true;
   if (/^data:/i.test(url)) return true;
+  if (/^\/assets\//i.test(url)) return true;
   if (/\/assets\/[^"'\s]*-territory-[abc]-r3(?:\.[A-Za-z0-9_-]+)?\.svg/i.test(url)) return true;
   if (canonicalPrototypePathFromAuthorityStorageUrl(url)) {
     return !isPublicPrototypeAuthorityPath(url);
