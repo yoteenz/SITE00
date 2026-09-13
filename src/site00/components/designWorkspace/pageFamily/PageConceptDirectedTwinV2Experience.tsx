@@ -2,7 +2,7 @@
  * P0.VR.TWINV2.1 + TWINV2.2 — Concept-directed twin workflow (parallel to forensic V1).
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { site00ClientApiUrl } from '../../../../../shared/site00-studio-world-production/site00ClientApiBase.js';
 import type { ConceptDirectedTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
 import {
@@ -20,6 +20,7 @@ import {
   shouldShowV2EmptyState,
   fetchRemoteTwinV2Generations,
   fetchRemoteTwinV2GenerationsForProject,
+  importExistingV2ConceptFromUrl,
   importExistingV2ConceptsFromUrls,
   requestTwinV2ImportConcept,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
@@ -69,17 +70,21 @@ export function PageConceptDirectedTwinV2Experience({
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
   const [importUrls, setImportUrls] = useState('');
   const [importing, setImporting] = useState(false);
+  const [importFeedback, setImportFeedback] = useState<string | null>(null);
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
 
   useEffect(() => {
     let cancelled = false;
     void (async () => {
       setHydrating(true);
       try {
-        const siblingSessions = listConceptDirectedTwinSessionsForProject(session.projectId).filter(
-          (s) => s.sessionId !== session.sessionId,
+        const base = sessionRef.current;
+        const siblingSessions = listConceptDirectedTwinSessionsForProject(base.projectId).filter(
+          (s) => s.sessionId !== base.sessionId,
         );
-        const sessionIds = [session.sessionId, ...siblingSessions.map((s) => s.sessionId)];
-        const byProject = await fetchRemoteTwinV2GenerationsForProject(session.projectId);
+        const sessionIds = [base.sessionId, ...siblingSessions.map((s) => s.sessionId)];
+        const byProject = await fetchRemoteTwinV2GenerationsForProject(base.projectId);
         const bySession = (await Promise.all(sessionIds.map((id) => fetchRemoteTwinV2Generations(id)))).flatMap(
           (r) => r.records,
         );
@@ -90,8 +95,18 @@ export function PageConceptDirectedTwinV2Experience({
         }
         const remoteRecords = [...remoteMap.values()];
 
-        const hydrated = ensureConceptGallery(session, { siblingSessions, remoteStorageRecords: remoteRecords });
-        if (!cancelled) onSessionChange(hydrated);
+        const latest = sessionRef.current;
+        const priorCandidates = latest.conceptGallery?.candidates?.length ?? 0;
+        const hydrated = ensureConceptGallery(latest, { siblingSessions, remoteStorageRecords: remoteRecords });
+        const nextCandidates = hydrated.conceptGallery?.candidates?.length ?? 0;
+        const merged =
+          nextCandidates >= priorCandidates
+            ? hydrated
+            : {
+                ...latest,
+                conceptGallery: latest.conceptGallery ?? hydrated.conceptGallery,
+              };
+        if (!cancelled) onSessionChange(merged);
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : 'Gallery hydration failed');
       } finally {
@@ -203,15 +218,22 @@ export function PageConceptDirectedTwinV2Experience({
     const urls = importUrls
       .split('\n')
       .map((s) => s.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .filter((u) => u.startsWith('http://') || u.startsWith('https://'));
     if (!urls.length) {
-      setError('Paste at least one image URL to import');
+      const msg = 'Paste at least one full image URL (https://…) — one per line.';
+      setImportFeedback(msg);
+      setError(msg);
       return;
     }
     setImporting(true);
     setError(null);
+    setImportFeedback(null);
     try {
       let working = session;
+      let persistedCount = 0;
+      let localOnlyCount = 0;
+      const importErrors: string[] = [];
       for (const url of urls) {
         try {
           const persisted = await requestTwinV2ImportConcept({
@@ -220,16 +242,35 @@ export function PageConceptDirectedTwinV2Experience({
             sessionId: session.sessionId,
             imageUrl: url,
           });
-          working = importExistingV2ConceptsFromUrls(working, [persisted.imageUrl]);
-        } catch {
-          working = importExistingV2ConceptsFromUrls(working, [url]);
+          working = importExistingV2ConceptFromUrl(working, {
+            imageUrl: persisted.imageUrl,
+            imageStorageRef: persisted.imageStorageRef,
+          });
+          persistedCount += 1;
+        } catch (e) {
+          try {
+            working = importExistingV2ConceptsFromUrls(working, [url]);
+            localOnlyCount += 1;
+          } catch (inner) {
+            importErrors.push(inner instanceof Error ? inner.message : url);
+          }
         }
       }
+      if (persistedCount + localOnlyCount === 0) {
+        throw new Error(importErrors[0] ?? 'Import failed — check URLs and try again');
+      }
       working = ensureConceptGallery(working);
+      sessionRef.current = working;
       onSessionChange(working);
       setImportUrls('');
+      const n = working.conceptGallery?.candidates.length ?? 0;
+      setImportFeedback(
+        `Imported ${persistedCount + localOnlyCount} image(s). Gallery: ${n} concept${n === 1 ? '' : 's'}${localOnlyCount ? ' (some saved on this device only — redeploy Railway for durable storage)' : ''}.`,
+      );
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Import failed');
+      const msg = e instanceof Error ? e.message : 'Import failed';
+      setError(msg);
+      setImportFeedback(msg);
     } finally {
       setImporting(false);
     }
@@ -315,13 +356,23 @@ export function PageConceptDirectedTwinV2Experience({
                 placeholder="https://…fal.media/…&#10;https://…"
               />
             </label>
+            {importFeedback ? (
+              <p className="site00-twin-v2-concept__import-feedback" role="status">
+                {importFeedback}
+              </p>
+            ) : null}
+            {error ? (
+              <p className="site00-twin-v2-concept__import-error" role="alert">
+                {error}
+              </p>
+            ) : null}
             <button
               type="button"
               className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-              disabled={importing}
+              disabled={importing || hydrating}
               onClick={() => void runImportExisting()}
             >
-              {importing ? 'IMPORTING…' : 'IMPORT INTO GALLERY'}
+              {importing ? 'IMPORTING…' : hydrating ? 'LOADING GALLERY…' : 'IMPORT INTO GALLERY'}
             </button>
           </section>
           <div className="site00-twin-v2-concept__actions">

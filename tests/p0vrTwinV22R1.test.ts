@@ -155,7 +155,15 @@ describe('P0.VR.TWINV2.2R1 concept gallery hydration', () => {
     expect(read('api/site00/twin-v2-concept-generations.ts')).toContain('projectId');
     expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('appendTwinV2ConceptLedger');
     expect(read('server/routes.ts')).toContain('twin-v2-concept-generations');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v348');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v349');
+  });
+
+  it('import works when creativeDirection missing on legacy session', () => {
+    let session = createConceptDirectedTwinSession({ projectId: 'ndxbook', pageId: 'p', sessionId: 'legacy-1' });
+    session = { ...session, creativeDirection: undefined as unknown as typeof session.creativeDirection };
+    session = importExistingV2ConceptsFromUrls(session, ['https://example.com/legacy.jpg']);
+    expect(session.conceptGallery?.candidates.length).toBe(1);
+    expect(session.creativeDirection).toBeTruthy();
   });
 
   it('importExistingV2ConceptsFromUrls builds gallery without API', () => {

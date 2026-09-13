@@ -347,3 +347,15 @@
   font-size: 0.75rem;
   min-height: 6rem;
 }
+
+.site00-twin-v2-concept__import-feedback {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #c8ff00;
+}
+
+.site00-twin-v2-concept__import-error {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #ff6b6b;
+}
