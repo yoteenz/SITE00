@@ -1,5 +1,5 @@
 /**
- * P0.VR.TWINV3.0R1 — SITE 00 design page authority (NDXBOOK open inside host).
+ * P0.VR.TWINV3.0R2 — SITE 00 design page authority lock (A–G zones).
  */
 
 import { useCallback, useState } from 'react';
@@ -13,6 +13,7 @@ import {
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   isDesignPageAuthorityFullyLocked,
   isDesignPageAuthorityViewportLocked,
+  P0_VR_TWIN_V30R2_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
@@ -88,15 +89,15 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       data-build-ref={P0_VR_TWIN_V30_BUILD}
     >
       <header className="site00-dw-v3-authority__head">
-        <strong>TWIN V3R1 · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE AUTHORITY</strong>
-        <span>Project {projectId.toUpperCase()} open · authority only</span>
+        <strong>{P0_VR_TWIN_V30R2_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE</strong>
+        <span>Project {projectId.toUpperCase()} open · authority lock · no implementation</span>
         {mobileLocked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE}</span> : null}
         {desktopLocked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP}</span> : null}
       </header>
       <p className="site00-dw-v3-authority__hint">
-        Target: what the {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} <strong>Design</strong> page looks like with{' '}
-        <strong>NDXBOOK</strong> open — {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} owns the shell; NDXBOOK is the client project, not the
-        app brand. Regenerate until it reads as host workspace, not an NDXBOOK design app.
+        Canonical: {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} → PROJECT: NDXBOOK → PAGE: DESIGN. {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} owns the
+        workspace; NDXBOOK is the active client project. Pass test: “This is SITE 00’s design workspace, and I am working on NDXBOOK
+        inside it.” Fail: “This looks like an NDXBOOK app.”
       </p>
       <div className="site00-dw-v3-authority__actions">
         <button
@@ -150,7 +151,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       {result ? (
         <>
           <p className="site00-dw-v3-authority__hint">
-            {result.hostProduct} · client {result.clientProjectOpen} ·{' '}
+            {result.lineage} · {result.canonicalPath} · R2 self-check {result.r2SelfCheck.pass ? 'PASS' : 'FAIL'} ·{' '}
             {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')} · candidate #{session.candidateGeneration}
           </p>
           <div className="site00-dw-v3-authority__pair">

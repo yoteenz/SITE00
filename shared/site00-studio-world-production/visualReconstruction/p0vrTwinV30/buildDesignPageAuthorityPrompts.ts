@@ -1,33 +1,63 @@
 import {
+  DESIGN_PAGE_V3_CANONICAL_PATH,
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_MOBILE_PRODUCT_WIDTH_PX,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
+  P0_VR_TWIN_V30R2_LINEAGE,
 } from './constants.js';
-import { skeletonPromptBlock } from './lockedExperienceSkeleton.js';
+import { canonicalReframeBlock, foundershiTestLine } from './designPageAuthoritySelfCheck.js';
+import { skeletonZoneLabelsForPrompt } from './lockedExperienceSkeleton.js';
 
 const HOST_CLIENT_FIREWALL = `
-CRITICAL — HOST / CLIENT (fail if wrong):
-- HOST = ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} (the product). Owns shell, frame, wayfinding, nav language, system red accents, operational tone, persistent controls.
-- CLIENT = opened project (e.g. ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()}). Owns project title, artifact being upgraded, project-specific previews ONLY inside the workspace — NOT the app chrome.
-- The mockup must read: "${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} → PROJECT: ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} → PAGE: DESIGN"
-- FAIL if it looks like a standalone ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} design application or ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()}-branded shell.
-- Do NOT use black-heavy ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} app aesthetic for the host; bright white/off-white SITE 00 environment.
+CRITICAL — HOST / CLIENT (sprint fails if violated):
+- HOST = ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME}. Owns shell, page structure, identity, global controls, framing, wayfinding, chrome, review flow structure, layout grammar, red accent logic, operational tone.
+- CLIENT = ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} (opened project). Owns project identity, route target, project references/outputs/previews — NEVER the workspace shell.
+- PRIMARY DECISION: ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} owns the workspace; ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} is active project inside it.
+- If the mockup reads as ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} owning the workspace → FAIL and regenerate.
+- Bright/light ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host; no black-dominant ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} app shell.
+`.trim();
+
+const R2_QUALITY_BAR = `
+MANDATORY LAYOUT CHARACTER: designed product surface · editor/operator control workspace · visual decisions central.
+NOT: inspector-only, plain report, documentation sheet, debug dump, Figma screenshot, ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} mini-app.
+
+STRICT FAILURES (regenerate if any): standalone ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} tool; ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()} owns shell; text-first console; generic dashboard; technical wall dominates; disconnected artifacts; next action unclear; ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} visually weak.
+
+${foundershiTestLine()}
+
+${P0_VR_TWIN_V30R2_LINEAGE} — polished founder-review-ready mockup, not rough wireframe.
 `.trim();
 
 const SHARED_CREATIVE_BRIEF = `
+${canonicalReframeBlock()}
+
 ${HOST_CLIENT_FIREWALL}
 
-VISUAL HIERARCHY (strict order):
-1. ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host shell / page frame (largest brand presence in chrome)
-2. Active client project context (project open indicator — secondary to host)
-3. DESIGN page workflow (review, approve, readiness — operational workspace)
-4. Individual artifacts + technical details (tertiary)
+NON-NEGOTIABLE HIERARCHY:
+1. ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host environment
+2. Active project: ${DESIGN_PAGE_V3_PILOT_PROJECT_ID.toUpperCase()}
+3. Design-workspace workflow
+4. Concept / blueprint / asset / readiness review
+5. Technical detail (secondary only)
 
-SITE 00 design language: bright white/off-white, clean operational framing, red host accents, strong structure, founder daily-use workstation.
-NOT: generic SaaS dashboard, endless text console, CMS admin, NDX overview page, fake KPIs.
-One primary decision + one dominant primary action. Technical details collapsed (mobile bottom sheet / desktop right drawer).
-Use workflow labels where helpful: review, approve, refine, regenerate, compare, readiness — not long prose blocks.
+${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} language: bright/off-white, clean geometry, structured spacing, restrained red accents, typographic hierarchy, differentiated panels.
+Visual-first, scan-friendly, decisive — organize workflow visually, do not narrate with paragraphs.
+No fake metrics. Representative status chips only.
 `.trim();
+
+function zoneCompositionBlock(viewport: 'mobile' | 'desktop'): string {
+  const zones = skeletonZoneLabelsForPrompt();
+  const form =
+    viewport === 'mobile' ?
+      'Strong stacking; primary workspace obvious; actions thumb-reachable; no long reading surfaces.'
+    : 'Intentional columns; context + main workspace + supporting review; premium operating surface; no dead empty space.';
+  return `
+REQUIRED PAGE ZONES (A–G — all visible, hierarchical):
+${zones}
+
+${form}
+`.trim();
+}
 
 export function buildMobileDesignPageAuthorityPrompt(input: {
   clientProjectId: string;
@@ -36,26 +66,19 @@ export function buildMobileDesignPageAuthorityPrompt(input: {
   const client = input.clientProjectId.toUpperCase();
   const refine =
     input.refineNotes?.length ?
-      `\nFOUNDER REFINE NOTES (preserve host/client skeleton):\n${input.refineNotes.map((n) => `- ${n}`).join('\n')}\n`
+      `\nFOUNDER REFINE NOTES (preserve R2 zones + host/client):\n${input.refineNotes.map((n) => `- ${n}`).join('\n')}\n`
     : '';
   return `
-Generate a HIGH-FIDELITY UI MOCKUP — MOBILE authority for the ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN page with client project ${client} OPEN inside it.
-Canvas: ${DESIGN_PAGE_V3_MOBILE_PRODUCT_WIDTH_PX}px width; ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host safe areas preserved.
+Generate a HIGH-FIDELITY, founder-review-ready UI MOCKUP — MOBILE authority.
+Subject: ${DESIGN_PAGE_V3_CANONICAL_PATH} with client project ${client} OPEN (not ${client}-owned app).
+Canvas: ${DESIGN_PAGE_V3_MOBILE_PRODUCT_WIDTH_PX}px; ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host safe areas.
 
 ${SHARED_CREATIVE_BRIEF}
+${R2_QUALITY_BAR}
 
-LOCKED AUTHORITY AREAS (must appear; creative may recompose):
-${skeletonPromptBlock()}
-
-MOBILE COMPOSITION:
-- Prominent ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host header + breadcrumb (${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} · ${client} · DESIGN)
-- Dominant PRIMARY WORK AREA (central design-upgrade task — visual focal point)
-- Compact CLIENT TARGET CONTEXT (project ${client}, route/page, mobile context, workflow stage chip)
-- DECISION REVIEW surface with one primary CTA (approve / refine / regenerate hierarchy)
-- STRUCTURED ARTIFACT GROUPING (authority visual, blueprint, overlay, assets — grouped, not text dump)
-- SECONDARY DETAIL collapsed bottom-sheet affordance
+${zoneCompositionBlock('mobile')}
 ${refine}
-Output: portrait UI mock; must unmistakably be ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} host with ${client} open — not a ${client} app.
+Output: portrait; unmistakably ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} design workspace with ${client} inside.
 `.trim();
 }
 
@@ -66,24 +89,18 @@ export function buildDesktopDesignPageAuthorityPrompt(input: {
   const client = input.clientProjectId.toUpperCase();
   const refine =
     input.refineNotes?.length ?
-      `\nFOUNDER REFINE NOTES (preserve host/client skeleton):\n${input.refineNotes.map((n) => `- ${n}`).join('\n')}\n`
+      `\nFOUNDER REFINE NOTES (preserve R2 zones + host/client):\n${input.refineNotes.map((n) => `- ${n}`).join('\n')}\n`
     : '';
   return `
-Generate a HIGH-FIDELITY UI MOCKUP — DESKTOP authority for the ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN page with client project ${client} OPEN inside it.
-Landscape workstation — NOT stretched mobile cards; NOT a standalone ${client} application window.
+Generate a HIGH-FIDELITY, founder-review-ready UI MOCKUP — DESKTOP authority.
+Subject: ${DESIGN_PAGE_V3_CANONICAL_PATH} with client project ${client} OPEN.
+Landscape workstation — NOT stretched mobile; NOT standalone ${client} application window.
 
 ${SHARED_CREATIVE_BRIEF}
+${R2_QUALITY_BAR}
 
-LOCKED AUTHORITY AREAS (must appear; creative may recompose):
-${skeletonPromptBlock()}
-
-DESKTOP COMPOSITION:
-- Persistent ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} shell + wayfinding + project selector showing ${client} as OPEN project
-- Large PRIMARY WORK AREA (center — design upgrade review)
-- Side context for CLIENT TARGET + structured artifact groups
-- Right-side SECONDARY DETAIL drawer (collapsed)
-- Host red accents on ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} controls only; ${client} identity inside project band, not replacing host
+${zoneCompositionBlock('desktop')}
 ${refine}
-Output: landscape UI mock; reads as ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} design workspace with ${client} open.
+Output: landscape; ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} owns environment; ${client} = active project band.
 `.trim();
 }

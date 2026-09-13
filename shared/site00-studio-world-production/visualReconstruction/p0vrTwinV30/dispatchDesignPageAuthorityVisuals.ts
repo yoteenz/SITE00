@@ -1,6 +1,9 @@
 import { buildFalImageInput } from '../../../site00-visual-generation/falImageModels.js';
 import { TWIN_V2_VISUAL_PROVIDER, TWIN_V2_VISUAL_PROVIDER_LABEL } from '../p0vrTwinV21/constants.js';
-import { DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE } from './constants.js';
+import {
+  DESIGN_PAGE_V3_R2_PROTOTYPE_DESKTOP,
+  DESIGN_PAGE_V3_R2_PROTOTYPE_MOBILE,
+} from './constants.js';
 import {
   buildDesktopDesignPageAuthorityPrompt,
   buildMobileDesignPageAuthorityPrompt,
@@ -10,11 +13,8 @@ import type { DesignPageAuthorityVisualArtifact } from './types.js';
 async function falOne(prompt: string, aspectRatio: '9:16' | '16:9', label: string): Promise<{ url: string; jobRef: string }> {
   if (process.env.VITEST === 'true') {
     const ts = Date.now();
-    const file =
-      label === 'mobile' ?
-        `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-authority-prototype.svg`
-      : `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-authority-prototype.svg`;
-    return { url: `${file}?v=r1-${ts}`, jobRef: `vitest-design-page-v3r1-${label}-${ts}` };
+    const file = label === 'mobile' ? DESIGN_PAGE_V3_R2_PROTOTYPE_MOBILE : DESIGN_PAGE_V3_R2_PROTOTYPE_DESKTOP;
+    return { url: `${file}?v=r2-${ts}`, jobRef: `vitest-design-page-v3r2-${label}-${ts}` };
   }
   const falKey = process.env.FAL_KEY?.trim();
   if (!falKey) throw new Error('FAL_KEY_MISSING');
@@ -52,7 +52,7 @@ export async function dispatchDesignPageAuthorityVisuals(input: {
     clientProjectId: input.clientProjectId,
     refineNotes: input.refineNotes,
   });
-  const trace = ['DESIGN_PAGE_V3R1: SITE 00 host-first mobile + desktop authority'];
+  const trace = ['DESIGN_PAGE_V3R2: SITE 00 design page authority lock (A–G zones)'];
   const mobileJob = await falOne(mobilePrompt, '9:16', 'mobile');
   trace.push(`mobile job ${mobileJob.jobRef}`);
   const desktopJob = await falOne(desktopPrompt, '16:9', 'desktop');
@@ -61,7 +61,7 @@ export async function dispatchDesignPageAuthorityVisuals(input: {
   const provider = TWIN_V2_VISUAL_PROVIDER_LABEL;
   const model = TWIN_V2_VISUAL_PROVIDER;
   const mk = (viewport: 'mobile' | 'desktop', url: string, jobRef: string): DesignPageAuthorityVisualArtifact => ({
-    artifactId: `dpa-v3r1-${viewport}-${input.authoritySessionId}-${ts}`,
+    artifactId: `dpa-v3r2-${viewport}-${input.authoritySessionId}-${ts}`,
     viewport,
     storageUrl: url,
     widthHintPx: viewport === 'mobile' ? 430 : 1440,

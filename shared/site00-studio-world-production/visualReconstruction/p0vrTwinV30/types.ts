@@ -1,10 +1,13 @@
 import type {
   DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
   DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
+  DESIGN_PAGE_V3_CANONICAL_PATH,
   DESIGN_PAGE_V3_SKELETON_AREAS,
   DESIGN_PAGE_V3_WORKFLOW_PHASES,
+  P0_VR_TWIN_V30R2_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
+import type { DesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.js';
 
 export type DesignPageV3WorkflowPhase = (typeof DESIGN_PAGE_V3_WORKFLOW_PHASES)[number];
 
@@ -29,23 +32,21 @@ export type DesignPageAuthorityVisualArtifact = {
 
 export type DesignPageAuthorityGenerationResult = {
   buildRef: typeof P0_VR_TWIN_V30_BUILD;
+  lineage: typeof P0_VR_TWIN_V30R2_LINEAGE;
   authoritySessionId: string;
   projectId: string;
   pageLabel: string;
   hostProduct: string;
   clientProjectOpen: string;
+  canonicalPath: typeof DESIGN_PAGE_V3_CANONICAL_PATH;
   skeletonConfirmed: DesignPageV3SkeletonArea[];
   mobile: DesignPageAuthorityVisualArtifact;
   desktop: DesignPageAuthorityVisualArtifact;
-  site00PageFrameSummary: string;
-  primaryWorkAreaSummary: string;
-  clientTargetContextSummary: string;
-  decisionReviewSummary: string;
-  structuredArtifactGroupingSummary: string;
-  secondaryDetailZonesSummary: string;
+  zoneSummaries: Record<DesignPageV3SkeletonArea, string>;
   mobileTechnicalDetailsPattern: 'BOTTOM_SHEET_COLLAPSED';
   desktopTechnicalDetailsPattern: 'RIGHT_DRAWER_COLLAPSED';
   hostShellPreserved: true;
+  r2SelfCheck: DesignPageAuthoritySelfCheck;
   classification: DesignPageAuthorityClassification;
   founderReview: DesignPageAuthorityFounderReviewState;
 };

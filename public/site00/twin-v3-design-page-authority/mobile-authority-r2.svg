@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 960" role="img" aria-label="R2 mobile SITE 00 design page authority">
+  <defs>
+    <linearGradient id="hostBar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#faf9f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="430" height="960" fill="#f4f2ee"/>
+  <!-- A HOST HEADER -->
+  <rect x="0" y="0" width="430" height="72" fill="url(#hostBar)" stroke="#e5e1d9"/>
+  <text x="20" y="32" font-family="system-ui,sans-serif" font-size="18" font-weight="800" fill="#0a0a0a">SITE 00</text>
+  <rect x="92" y="16" width="4" height="28" fill="#e10600"/>
+  <text x="104" y="34" font-family="system-ui,sans-serif" font-size="11" font-weight="600" fill="#444">DESIGN workspace</text>
+  <text x="20" y="58" font-family="system-ui,sans-serif" font-size="10" fill="#666">A · HOST · SITE 00 : PROJECT: NDXBOOK : PAGE: DESIGN</text>
+  <!-- B TARGET STRIP -->
+  <rect x="12" y="80" width="406" height="44" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="20" y="100" font-family="system-ui,sans-serif" font-size="9" font-weight="600" fill="#888">B · TARGET</text>
+  <text x="20" y="116" font-family="system-ui,sans-serif" font-size="10" fill="#333">NDXBOOK · /projects/ndxbook/overview · mobile · REVIEW</text>
+  <!-- C PRIMARY WORKSPACE -->
+  <rect x="12" y="132" width="406" height="340" rx="12" fill="#fff" stroke="#bbb"/>
+  <text x="24" y="156" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#111">C · PRIMARY WORKSPACE</text>
+  <rect x="24" y="168" width="382" height="248" rx="8" fill="#ece8e0"/>
+  <text x="130" y="300" font-family="system-ui,sans-serif" font-size="14" fill="#555">active authority / concept preview</text>
+  <text x="24" y="448" font-family="system-ui,sans-serif" font-size="9" fill="#777">compare · decision state · visual-first</text>
+  <!-- D DECISION BAR -->
+  <rect x="12" y="480" width="406" height="52" rx="8" fill="#fff" stroke="#e10600" stroke-width="2"/>
+  <text x="20" y="500" font-family="system-ui,sans-serif" font-size="9" font-weight="600" fill="#888">D · DECISION</text>
+  <rect x="20" y="508" width="120" height="28" rx="6" fill="#e10600"/>
+  <text x="38" y="526" font-family="system-ui,sans-serif" font-size="10" font-weight="700" fill="#fff">APPROVE</text>
+  <text x="150" y="526" font-family="system-ui,sans-serif" font-size="9" fill="#444">refine · regen · compare</text>
+  <!-- E OUTPUT REVIEW -->
+  <rect x="12" y="540" width="406" height="88" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="20" y="560" font-family="system-ui,sans-serif" font-size="9" font-weight="600" fill="#888">E · OUTPUT REVIEW (one pipeline)</text>
+  <rect x="20" y="568" width="58" height="48" rx="4" fill="#f0ece6"/>
+  <rect x="86" y="568" width="58" height="48" rx="4" fill="#f0ece6"/>
+  <rect x="152" y="568" width="58" height="48" rx="4" fill="#f0ece6"/>
+  <rect x="218" y="568" width="58" height="48" rx="4" fill="#f0ece6"/>
+  <text x="290" y="596" font-family="system-ui,sans-serif" font-size="8" fill="#555">visual · blueprint · overlay · assets · functions</text>
+  <!-- F PIPELINE READINESS -->
+  <rect x="12" y="636" width="406" height="56" rx="8" fill="#fff" stroke="#e0dcd4"/>
+  <text x="20" y="656" font-family="system-ui,sans-serif" font-size="9" font-weight="600" fill="#888">F · READINESS</text>
+  <text x="20" y="676" font-family="system-ui,sans-serif" font-size="9" fill="#333">Ready Ð · Blocked BUILD · Next: approve direction</text>
+  <!-- G SECONDARY -->
+  <rect x="12" y="700" width="406" height="40" rx="20" fill="#111" opacity="0.07"/>
+  <text x="120" y="725" font-family="system-ui,sans-serif" font-size="10" fill="#555">G · Technical detail · bottom sheet ²</text>
+  <text x="12" y="920" font-family="system-ui,sans-serif" font-size="9" fill="#999">R2 authority · SITE 00 owns workspace · NDXBOOK client open · representative</text>
+</svg>
