@@ -8438,3 +8438,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Reality:** `site00.fsbw-dev.com` → **Vite dev** (not production); iOS Safari often **full-reloads** background tabs — cannot disable OS behavior. Cloud preview also used per-boot cache bust (`previewSessionId`) until now.
 - **Mitigation:** `twinV2UiPersistence` (sessionStorage) saves import URL draft + twinV2Open; restores when Page Upgrade reopens same page; Vite cloud preview defaults to **stable** build stamp (override `SITE00_CLOUD_PREVIEW_STABLE=0`). Twin V2 **concepts** remain in **localStorage** after reload. **Production ZIP** on fsbw-dev avoids dev no-cache churn.
 
+---
+
+## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
+
+- **Symptom:** Founder: deployed site still stuck on loading animation after v351.
+- **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
+- **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
+- **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
+
