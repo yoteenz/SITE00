@@ -8608,6 +8608,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.4R1 compiler route enforcement (v375)
+
+- **Symptom:** After v374 DOM-first build, twin still looked like generic semantic wireframe; EXECUTION LINEAGE showed **PACKAGE_DRIVEN_SOURCE_GENERATION**.
+- **Root cause:** **BUILD THIS CONCEPT** → `composeConceptDirectedTwinV2FromPackage` → **`buildTwinV2FromPackage`** → **`ConceptDirectedPackageTwinV2`** / semantic templates — **VISUAL_TO_CODE_COMPILER** never became active path.
+- **Fix:** `p0vrTwinV24R1` — `TwinV2StrategyResolver`, `buildTwinV2ViaVisualCompiler`, `runConceptVisualToCodeCompiler`, receipts (strategy/visual authority/compiler/source/route), `assertVisualCompilerRoute`; compose now calls visual compiler only; **`ConceptVisualCompilerTwinV2`** renderer + client canvas frame; legacy package renderer marked **LEGACY_V2_EXECUTION_PATH**; v374 builds invalidated **`FAILED_WRONG_IMPLEMENTATION_STRATEGY`**; UI lineage STRATEGY→VISUAL→COMPILER→PLAN→SOURCE→FUNCTIONS→RENDER→FIDELITY; build ref **v375**. V1/live/creative untouched. Cloud browser QA blocked on sign-in (code + vitest verified).
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.3 execution lineage + package-driven builder (v372)
 
 - **Symptom:** Built Twin V2 read as generic NDXBOOK overview — ghosted concept image, pageIntent/functionGraph bands, not approved blueprint layout.
