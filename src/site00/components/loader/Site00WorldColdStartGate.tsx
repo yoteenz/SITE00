@@ -16,6 +16,7 @@ import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderMediaPresentation 
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import {
   markSite00ImmersiveComplete,
+  purgeSite00ImmersiveLoaderDomAfterGateReveal,
   shouldShowSite00ImmersiveLoader,
 } from './site00LoaderSession';
 import { isSite00LoaderPreviewPath, isSite00SignInPath, isSite00PublicHubPath } from './site00LoaderPaths';
@@ -108,6 +109,11 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     releaseSite00ImmersiveBootRoot();
     teardownSite00ImmersiveBootShell();
   }, [immersive]);
+
+  useLayoutEffect(() => {
+    if (!revealed) return;
+    purgeSite00ImmersiveLoaderDomAfterGateReveal('gate-revealed');
+  }, [revealed]);
 
   useEffect(() => {
     if (!immersive) {

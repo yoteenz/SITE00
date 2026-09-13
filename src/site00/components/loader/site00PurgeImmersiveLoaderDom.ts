@@ -7,7 +7,7 @@ export function purgeSite00ImmersiveLoaderDom(reason?: string): void {
   if (typeof document === 'undefined') return;
 
   document.querySelectorAll('.site00-immersive-loader').forEach((el) => {
-    el.remove();
+    if (el.parentNode) el.remove();
   });
 
   document.documentElement.classList.remove('site00-assts-boot');

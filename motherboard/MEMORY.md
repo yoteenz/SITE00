@@ -8505,6 +8505,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Blank screen after loader (`removeChild` React crash)
+
+- **Context:** Founder: site00.com passes immersive loader then **white blank** `#root`; boot recovery banner; console **`NotFoundError: removeChild`**.
+- **Root cause:** Loader DOM was stripped **while React still owned the portal** — `markSite00ImmersiveComplete()` called `purgeSite00ImmersiveLoaderDom()` synchronously inside `forceRevealApp`; boot-recovery watchdog + `dispatchSite00ForceRevealLoader` also removed `.site00-immersive-loader` before gate exit.
+- **Fix:** Session mark sets storage only; **`purgeSite00ImmersiveLoaderDomAfterGateReveal`** runs in gate `useLayoutEffect` when `revealed`; force-reveal dispatches event only (no DOM purge); boot-recovery purges immersive overlay only when session complete + static shell cleanup when `#root` has children; pageshow/bfcache same rules. PR **#788**.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.2R2R3 hotfix (v359) — masthead + bottom nav crop regression
 
 - **Symptom:** After v358, founder QA on Twin V2 CLIENT CANVAS: NDXBOOK masthead top still clipped; invented HOME/PROJECTS bottom nav visible again inside client preview.

@@ -34,7 +34,7 @@ describe('SITE 00 immersive suspense fallback guard', () => {
     expect(read('src/site00/components/loader/site00PurgeImmersiveLoaderDom.ts')).toContain(
       '.site00-immersive-loader',
     );
-    expect(read('public/site00-assts-boot-recovery.js')).toContain('watchdog-root-has-app');
+    expect(read('public/site00-assts-boot-recovery.js')).toContain('watchdog-session-complete');
   });
 
   it('ASSTS cold start gate matches world gate failsafe hooks', () => {

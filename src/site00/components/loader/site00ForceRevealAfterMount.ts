@@ -19,6 +19,11 @@ export const SITE00_FORCE_REVEAL_LOADER_EVENT = 'site00-force-reveal-loader';
 
 export function dispatchSite00ForceRevealLoader(reason: string): void {
   if (typeof window === 'undefined') return;
-  purgeSite00ImmersiveLoaderDom(reason);
+  // Never purge loader DOM here — React portals own `.site00-immersive-loader` until the gate exits.
   window.dispatchEvent(new CustomEvent(SITE00_FORCE_REVEAL_LOADER_EVENT, { detail: { reason } }));
+}
+
+/** Last-resort DOM strip (boot recovery timeout / bfcache) — not for normal loader exit. */
+export function emergencyPurgeSite00ImmersiveLoaderDom(reason: string): void {
+  purgeSite00ImmersiveLoaderDom(reason);
 }

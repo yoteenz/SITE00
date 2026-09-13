@@ -18,6 +18,7 @@ import {
 } from '../../components/loader/site00LoaderPreload';
 import {
   markSite00ImmersiveComplete,
+  purgeSite00ImmersiveLoaderDomAfterGateReveal,
   shouldShowSite00ImmersiveLoader,
 } from '../../components/loader/site00LoaderSession';
 import { useSite00LoaderProgress } from '../../components/loader/useSite00LoaderProgress';
@@ -111,6 +112,11 @@ export function AsstsColdStartGate() {
       forceRevealApp('preview-tunnel-bypass');
     }
   }, [bypassColdStart, forceRevealApp]);
+
+  useLayoutEffect(() => {
+    if (!revealed) return;
+    purgeSite00ImmersiveLoaderDomAfterGateReveal('gate-revealed');
+  }, [revealed]);
 
   useEffect(() => {
     if (!immersive || revealed) return;
