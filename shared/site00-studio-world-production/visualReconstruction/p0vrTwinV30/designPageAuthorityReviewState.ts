@@ -16,6 +16,7 @@ import {
   appendTerritoryBundlesToGallery,
   emptyTerritoryGallery,
   latestTerritoryCandidate,
+  mergeTerritoryGalleries,
   normalizeDesignPageAuthoritySession,
   resolveSelectedTerritoryCandidate,
   resolveTerritoryCandidate,
@@ -115,9 +116,26 @@ export function mergeDesignPageAuthorityApiResponse(
     );
   }
   let merged = applyDesignPageAuthorityGeneration(priorSession, api.result, action);
-  if (api.session && !territoryGalleryHasCandidates(merged.territoryGallery)) {
+  if (api.session) {
     const serverNorm = normalizeDesignPageAuthoritySession(api.session);
     if (territoryGalleryHasCandidates(serverNorm.territoryGallery)) {
+      merged = normalizeDesignPageAuthoritySession({
+        ...merged,
+        territoryGallery: mergeTerritoryGalleries(merged.territoryGallery, serverNorm.territoryGallery),
+        candidateGeneration: Math.max(merged.candidateGeneration, serverNorm.candidateGeneration),
+        founderReview: {
+          ...merged.founderReview,
+          refineNotes: priorSession.founderReview.refineNotes,
+          selectedTerritoryId:
+            merged.founderReview.selectedTerritoryId ?? serverNorm.founderReview.selectedTerritoryId,
+          territoryVerdicts: {
+            ...priorSession.founderReview.territoryVerdicts,
+            ...merged.founderReview.territoryVerdicts,
+            ...serverNorm.founderReview.territoryVerdicts,
+          },
+        },
+      });
+    } else if (!territoryGalleryHasCandidates(merged.territoryGallery)) {
       merged = normalizeDesignPageAuthoritySession({
         ...serverNorm,
         founderReview: {
