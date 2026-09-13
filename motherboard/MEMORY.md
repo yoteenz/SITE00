@@ -8734,3 +8734,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Objective:** Zero ambiguity — **SITE 00 owns workspace**, NDXBOOK client open; A–G page zones; founder-review-ready visuals; R2 self-check on prompts.
 - **Delivered:** R2 skeleton (HOST_HEADER through SECONDARY_DETAIL), `designPageAuthoritySelfCheck`, prompts with strict fail cases + foundershi test line, **`mobile-authority-r2.svg`** / **`desktop-authority-r2.svg`**, panel shows R2 lineage + self-check PASS. Build **v389**. Locks unchanged per viewport. No implementation.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV3.0R3 host shell + NDXBOOK project atmosphere (v390)
+
+- **Problem:** R1/R2 fixed host ownership but **over-corrected** — workspace felt generic SITE 00 / SaaS admin (flat cards, host red everywhere, missing NDXBOOK lime atmosphere).
+- **Model:** Three layers — **HOST shell (SITE 00)**, **active project workspace (NDXBOOK lime / editorial)**, **system/compiler meta (SITE 00)**. Core rule: SITE 00 architecture + project atmosphere. `ActiveProjectExpressionContract` + `hostProjectExpressionModel`.
+- **Delivered:** Territory prompts A/B/C (Central Stage, Editorial Workbench, Spatial Workflow) × mobile/desktop — **6 R3 SVG prototypes**, `designPageAuthorityR3SelfCheck`, `dispatchDesignPageAuthorityTerritoryVisuals`, panel territory select + founder verdicts (LOVE IT / PROMISING / …), **viewport approve requires territory selection**. Build **v390**. Still authority-only — lock pair after founder picks territory; then implementation sprint.
+
