@@ -14,6 +14,7 @@ import {
   prepareConceptDirectedTwinV2Build,
   assertV1Isolation,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import { beginDualOutputConceptGeneration } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV25/buildDualOutputPreGeneration.js';
 import { isConceptTechnicallyReadyForBuild } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
   ensureConceptGallery,
@@ -37,14 +38,18 @@ const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel),
 
 function sessionWithConcepts(count: number) {
   let session = createConceptDirectedTwinSession({ projectId: 'ndxbook', pageId: 'overview', sessionId: 'gal-1' });
+  session = ensureConceptGallery(session);
   for (let i = 0; i < count; i++) {
+    session = beginDualOutputConceptGeneration(session, {
+      generationType: i === 0 ? 'INITIAL' : 'REGENERATED',
+    }).session;
     session = mergeVisualConceptApiResult(session, {
       action: i === 0 ? 'generate' : 'regenerate',
       imageUrl: `/concept-${i + 1}.jpg`,
       imageStorageRef: `ref-${i + 1}`,
     });
   }
-  return ensureConceptGallery(session);
+  return session;
 }
 
 describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
@@ -74,6 +79,11 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
   it('5 refinement creates child with parentConceptId', () => {
     let session = sessionWithConcepts(1);
     const parent = getActiveConceptCandidate(session)!;
+    session = beginDualOutputConceptGeneration(session, {
+      generationType: 'REFINED',
+      parentConceptId: parent.conceptId,
+      founderInstruction: 'tighten hero',
+    }).session;
     session = mergeVisualConceptApiResult(session, {
       action: 'refine',
       imageUrl: '/concept-refined.jpg',
@@ -128,9 +138,15 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
   it('16–18 asset manifest slots and classification', () => {
     const session = sessionWithConcepts(1);
     const c = session.conceptGallery!.candidates[0];
+    expect(c.conceptOrigin).toBe('DUAL_OUTPUT_PAIRED');
     const manifest = session.conceptGallery!.manifests[c.assetManifestId];
-    expect(manifest.slots.some((s) => s.sourceStrategy === 'GENERATED_CONCEPT_ASSET')).toBe(true);
-    expect(manifest.slots.some((s) => s.sourceStrategy === 'CONCEPT_REGION_DERIVATION')).toBe(true);
+    expect(manifest.slots.length).toBeGreaterThan(0);
+    expect(
+      manifest.slots.some(
+        (s) => s.sourceStrategy === 'GENERATED_CONCEPT_ASSET' || s.sourceStrategy === 'NEW_GENERATED_ASSET',
+      ),
+    ).toBe(true);
+    expect(session.conceptGallery!.generatedConceptAssets?.[c.conceptId]?.length).toBeGreaterThan(0);
   });
 
   it('19–20 function binding plan and required function coverage', () => {
@@ -139,7 +155,7 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     const plan = session.conceptGallery!.bindingPlans[c.functionBindingPlanId];
     expect(plan.requiredFunctions.length).toBeGreaterThanOrEqual(8);
     expect(plan.requiredFunctionCoverage).toBeGreaterThanOrEqual(0.75);
-    expect(plan.bindings.some((b) => b.visualRegion.includes('PROGRESS'))).toBe(true);
+    expect(plan.bindings.some((b) => b.visualRegion.includes('progress'))).toBe(true);
   });
 
   it('21–23 build readiness, visual-only guard, approval package', () => {
@@ -174,7 +190,8 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     expect(() => composeConceptDirectedTwinV2(session)).toThrow(/approve active concept/);
     session = approveActiveConceptCandidate(session);
     const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(session);
-    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedPackageTwinV2');
+    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptVisualCompilerTwinV2');
+    expect(sessionPatch.renderedTwin?.buildMode).toBe('VISUAL_TO_CODE_COMPILER');
     expect(functionBindingSummary.length).toBeGreaterThan(0);
     expect(sessionPatch.conceptGallery?.fidelityReceipts).toBeDefined();
     const bare = { ...session, conceptGallery: { ...session.conceptGallery!, packages: {} } };

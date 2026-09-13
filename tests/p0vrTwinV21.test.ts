@@ -115,7 +115,8 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
     });
     session = approveActiveConceptCandidate(session);
     const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(session);
-    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedPackageTwinV2');
+    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptVisualCompilerTwinV2');
+    expect(sessionPatch.renderedTwin?.buildMode).toBe('VISUAL_TO_CODE_COMPILER');
     expect(functionBindingSummary.length).toBeGreaterThan(0);
     expect(buildTwinV2PreviewRoute('ndxbook', 'sess-build')).toBe('/projects/ndxbook/debug/twin-v2/sess-build');
     const slashy = 'twin-v2-ndxbook-ndxbook:/projects/ndxbook-1789263564104';
