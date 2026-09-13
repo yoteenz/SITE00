@@ -10,6 +10,7 @@ import {
   buildNdxbookProjectCreativeContextPackage,
   loadProjectCreativeContextPackage,
   P0_VR_TWIN_V30R4_LINEAGE,
+  P0_VR_TWIN_V30R5_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   PROJECT_CREATIVE_CONTEXT_VERSION,
   runDesignPageAuthorityGeneration,
@@ -105,7 +106,7 @@ describe('P0.VR.TWINV3.0R4 project creative grounding', () => {
     const session = createDesignPageAuthorityReviewSession();
     const result = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
     expect(result.buildRef).toBe(P0_VR_TWIN_V30_BUILD);
-    expect(result.lineage).toBe(P0_VR_TWIN_V30R4_LINEAGE);
+    expect(result.lineage).toBe(P0_VR_TWIN_V30R5_LINEAGE);
     expect(result.r4SelfCheck.pass).toBe(true);
     expect(result.projectCreativeContextVersion).toBe(PROJECT_CREATIVE_CONTEXT_VERSION);
     expect(result.authorityGroundedAssetManifests.length).toBe(6);

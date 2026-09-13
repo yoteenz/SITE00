@@ -5,9 +5,10 @@ import type {
   DESIGN_PAGE_V3_CANONICAL_PATH,
   DESIGN_PAGE_V3_SKELETON_AREAS,
   DESIGN_PAGE_V3_WORKFLOW_PHASES,
-  P0_VR_TWIN_V30R4_LINEAGE,
+  P0_VR_TWIN_V30R5_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
+import type { DesignWorkspaceAuthorityPipelineState } from './designWorkspaceAuthorityTypes.js';
 import type { DesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.js';
 import type { DesignPageAuthorityR3SelfCheck } from './designPageAuthorityR3SelfCheck.js';
 import type { DesignPageAuthorityR4SelfCheck } from './projectCreativeGrounding/designPageAuthorityR4SelfCheck.js';
@@ -65,7 +66,7 @@ export type DesignPageAuthorityTerritoryGallery = Record<
 
 export type DesignPageAuthorityGenerationResult = {
   buildRef: typeof P0_VR_TWIN_V30_BUILD;
-  lineage: typeof P0_VR_TWIN_V30R4_LINEAGE;
+  lineage: typeof P0_VR_TWIN_V30R5_LINEAGE;
   authoritySessionId: string;
   projectId: string;
   pageLabel: string;
@@ -138,5 +139,7 @@ export type DesignPageAuthorityReviewSession = {
   /** Active compare selection per territory category */
   selectedCandidateByTerritory: Partial<Record<DesignPageV3TerritoryId, string>>;
   founderReview: DesignPageAuthorityFounderReviewState;
+  /** R5: viewport master selection, promotion, pair lock */
+  authorityPipeline?: DesignWorkspaceAuthorityPipelineState;
   updatedAt: string;
 };

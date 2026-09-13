@@ -26,6 +26,7 @@ import {
   isDesignPageAuthorityFullyLocked,
   P0_VR_TWIN_V30R3_LINEAGE,
   P0_VR_TWIN_V30R4_LINEAGE,
+  P0_VR_TWIN_V30R5_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   runDesignPageAuthorityGeneration,
   runDesignPageAuthorityR3SelfCheck,
@@ -89,7 +90,7 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     const session = createDesignPageAuthorityReviewSession();
     const result = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
     expect(result.buildRef).toBe(P0_VR_TWIN_V30_BUILD);
-    expect(result.lineage).toBe(P0_VR_TWIN_V30R4_LINEAGE);
+    expect(result.lineage).toBe(P0_VR_TWIN_V30R5_LINEAGE);
     expect(result.territories.length).toBe(3);
     expect(result.r3SelfCheck.pass).toBe(true);
     expect(result.mobile.storageUrl).toContain('mobile-territory-a-r3.svg');

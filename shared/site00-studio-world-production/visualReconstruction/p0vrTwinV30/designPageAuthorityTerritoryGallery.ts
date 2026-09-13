@@ -1,3 +1,4 @@
+import { emptyAuthorityPipelineState } from './designWorkspaceAuthorityPipeline.js';
 import { DESIGN_PAGE_V3_TERRITORY_DEFINITIONS, type DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import type {
   DesignPageAuthorityReviewSession,
@@ -126,6 +127,7 @@ export function normalizeDesignPageAuthoritySession(
     ...synced,
     territoryGallery,
     selectedCandidateByTerritory,
+    authorityPipeline: synced.authorityPipeline ?? emptyAuthorityPipelineState(),
   };
 }
 

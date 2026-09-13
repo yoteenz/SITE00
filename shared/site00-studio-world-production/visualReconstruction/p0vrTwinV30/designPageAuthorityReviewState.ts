@@ -7,6 +7,7 @@ import {
 } from './constants.js';
 import type { DesignPageV3FounderTerritoryVerdict } from './hostProjectExpressionModel.js';
 import { buildTerritoryPrototypeBundles } from './buildTerritoryPrototypeBundles.js';
+import { emptyAuthorityPipelineState, registerGeneratedCandidates } from './designWorkspaceAuthorityPipeline.js';
 import {
   appendTerritoryBundlesToGallery,
   emptyTerritoryGallery,
@@ -41,6 +42,7 @@ export function createDesignPageAuthorityReviewSession(input?: {
     territoryGallery: emptyTerritoryGallery(),
     selectedCandidateByTerritory: {},
     founderReview: emptyFounderReview(now),
+    authorityPipeline: emptyAuthorityPipelineState(),
     updatedAt: now,
   };
 }
@@ -119,13 +121,16 @@ export function seedDesignPageAuthorityPrototypeGallery(
     const latest = latestTerritoryCandidate(territoryGallery, bundle.territoryId);
     if (latest) selectedCandidateByTerritory[bundle.territoryId] = latest.candidateId;
   }
-  return normalizeDesignPageAuthoritySession({
-    ...base,
-    candidateGeneration: batchGeneration,
-    territoryGallery,
-    selectedCandidateByTerritory,
-    updatedAt: now,
-  });
+  return registerGeneratedCandidates(
+    normalizeDesignPageAuthoritySession({
+      ...base,
+      candidateGeneration: batchGeneration,
+      territoryGallery,
+      selectedCandidateByTerritory,
+      authorityPipeline: base.authorityPipeline ?? emptyAuthorityPipelineState(),
+      updatedAt: now,
+    }),
+  );
 }
 
 export function applyDesignPageAuthorityGeneration(
@@ -147,7 +152,7 @@ export function applyDesignPageAuthorityGeneration(
     const latest = latestTerritoryCandidate(territoryGallery, bundle.territoryId);
     if (latest) selectedCandidateByTerritory[bundle.territoryId] = latest.candidateId;
   }
-  return normalizeDesignPageAuthoritySession({
+  const withGallery = normalizeDesignPageAuthoritySession({
     ...base,
     candidateGeneration: batchGeneration,
     lastResult: result,
@@ -161,8 +166,10 @@ export function applyDesignPageAuthorityGeneration(
       lastAction: action,
       updatedAt: now,
     },
+    authorityPipeline: base.authorityPipeline ?? emptyAuthorityPipelineState(),
     updatedAt: now,
   });
+  return registerGeneratedCandidates(withGallery);
 }
 
 export function appendDesignPageAuthorityRefineNote(
