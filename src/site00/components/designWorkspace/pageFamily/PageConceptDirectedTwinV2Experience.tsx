@@ -45,7 +45,7 @@ type Props = {
   twinV1PreviewUrl: string | null;
   onSessionChange: (session: ConceptDirectedTwinSession) => void;
   onClose: () => void;
-  onPreviewTwinV2: () => void;
+  onPreviewTwinV2: (session: ConceptDirectedTwinSession) => void;
 };
 
 function activeStepIndex(status: ConceptDirectedTwinSession['status']): number {
@@ -442,7 +442,11 @@ export function PageConceptDirectedTwinV2Experience({
           <div className="site00-twin-v2-concept__built-preview-frame">
             <ConceptDirectedNdxOverviewTwinV2 projectSlug={session.projectId} session={session} />
           </div>
-          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onPreviewTwinV2}>
+          <button
+            type="button"
+            className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+            onClick={() => onPreviewTwinV2(session)}
+          >
             OPEN FULL TWIN V2 PREVIEW
           </button>
         </section>
@@ -598,7 +602,11 @@ export function PageConceptDirectedTwinV2Experience({
       </details>
 
       {session.renderedTwin?.builtAt ? (
-        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onPreviewTwinV2}>
+        <button
+          type="button"
+          className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+          onClick={() => onPreviewTwinV2(session)}
+        >
           OPEN TWIN V2 PREVIEW
         </button>
       ) : null}
@@ -649,7 +657,9 @@ export function PageConceptDirectedTwinV2Experience({
           ) : null}
           {liveCompare === 'TWIN_V2' && session.renderedTwin?.builtAt ? (
             <p>
-              <a href={twinV2Route}>Open Twin V2 preview</a>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--link" onClick={() => onPreviewTwinV2(session)}>
+                Open Twin V2 preview
+              </button>
             </p>
           ) : null}
         </>

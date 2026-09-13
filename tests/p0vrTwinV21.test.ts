@@ -118,6 +118,11 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
     expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedNdxOverviewTwinV2');
     expect(functionBindingSummary.length).toBeGreaterThan(0);
     expect(buildTwinV2PreviewRoute('ndxbook', 'sess-build')).toBe('/projects/ndxbook/debug/twin-v2/sess-build');
+    const slashy = 'twin-v2-ndxbook-ndxbook:/projects/ndxbook-1789263564104';
+    expect(buildTwinV2PreviewRoute('ndxbook', slashy)).toBe(
+      `/projects/ndxbook/debug/twin-v2/${encodeURIComponent(slashy)}`,
+    );
+    expect(buildTwinV2PreviewRoute('ndxbook', slashy)).not.toContain('/projects/ndxbook-1789263564104');
   });
 
   it('22–24. UI route comparison fidelity receipt', () => {

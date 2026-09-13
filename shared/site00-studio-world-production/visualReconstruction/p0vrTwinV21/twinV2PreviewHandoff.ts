@@ -1,4 +1,5 @@
 import type { ConceptDirectedTwinSession } from './types.js';
+import { listAllConceptDirectedTwinSessions } from './conceptDirectedTwinSessionStore.js';
 
 const HANDOFF_PREFIX = 'site00:twin-v2-preview-handoff:v1:';
 
@@ -15,18 +16,33 @@ export function stashConceptDirectedTwinSessionForPreview(session: ConceptDirect
   }
 }
 
+function readHandoffSession(sessionId: string): ConceptDirectedTwinSession | null {
+  const key = `${HANDOFF_PREFIX}${sessionId}`;
+  const rawSession =
+    typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(key) : null;
+  const rawLocal =
+    typeof localStorage !== 'undefined' ? localStorage.getItem(key) : null;
+  const raw = rawSession ?? rawLocal;
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as ConceptDirectedTwinSession;
+  } catch {
+    return null;
+  }
+}
+
 export function resolveConceptDirectedTwinSessionForPreview(input: {
   projectSlug: string;
   sessionId: string;
 }): ConceptDirectedTwinSession | null {
-  const raw =
-    typeof sessionStorage !== 'undefined'
-      ? sessionStorage.getItem(`${HANDOFF_PREFIX}${input.sessionId}`)
-      : null;
-  const fromHandoff = raw ? (JSON.parse(raw) as ConceptDirectedTwinSession) : null;
+  const fromHandoff = readHandoffSession(input.sessionId);
   if (fromHandoff?.sessionId === input.sessionId && fromHandoff.projectId === input.projectSlug) {
     return fromHandoff;
   }
-  if (fromHandoff) return fromHandoff;
-  return null;
+  if (fromHandoff?.sessionId === input.sessionId) return fromHandoff;
+
+  const fromStore = listAllConceptDirectedTwinSessions().find(
+    (s) => s.sessionId === input.sessionId && s.projectId === input.projectSlug,
+  );
+  return fromStore ?? null;
 }

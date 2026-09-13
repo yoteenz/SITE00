@@ -4,9 +4,10 @@
 
 import { Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { decodeTwinV2PreviewSessionId } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/buildTwinV2Route.js';
 import { resolveConceptDirectedTwinSessionForPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/twinV2PreviewHandoff.js';
 import { ConceptDirectedNdxOverviewTwinV2 } from '../components/reconstruction/ConceptDirectedNdxOverviewTwinV2.js';
-import { isSignedIn, canAccessAdminPages } from '../../utils/adminAuth';
+import { isSignedIn } from '../../utils/adminAuth';
 import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-twin-v2-concept.css';
 
@@ -23,7 +24,8 @@ function useRobotsNoIndex() {
 }
 
 export default function ConceptDirectedTwinV2PreviewPage() {
-  const { projectSlug = '', sessionId = '' } = useParams<{ projectSlug: string; sessionId: string }>();
+  const { projectSlug = '', sessionId: sessionIdParam = '' } = useParams<{ projectSlug: string; sessionId: string }>();
+  const sessionId = sessionIdParam ? decodeTwinV2PreviewSessionId(sessionIdParam) : '';
   const [session, setSession] = useState(() =>
     sessionId ? resolveConceptDirectedTwinSessionForPreview({ projectSlug, sessionId }) : null,
   );
@@ -38,8 +40,8 @@ export default function ConceptDirectedTwinV2PreviewPage() {
     setSession(resolveConceptDirectedTwinSessionForPreview({ projectSlug, sessionId }));
   }, [sessionId, projectSlug]);
 
-  if (!isSignedIn() || !canAccessAdminPages()) {
-    const returnTo = encodeURIComponent(window.location.pathname);
+  if (!isSignedIn()) {
+    const returnTo = encodeURIComponent(window.location.pathname + window.location.search);
     return <Navigate to={`${SITE00_ROUTES.signIn}?returnTo=${returnTo}`} replace />;
   }
 
