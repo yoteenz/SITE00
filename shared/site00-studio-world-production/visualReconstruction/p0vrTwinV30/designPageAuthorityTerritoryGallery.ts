@@ -48,6 +48,22 @@ export function maxBatchGenerationInGallery(gallery: DesignPageAuthorityTerritor
   return max;
 }
 
+function candidateFromBundle(
+  bundle: DesignPageAuthorityTerritoryBundle,
+  batchGeneration: number,
+  createdAt: string,
+): DesignPageAuthorityTerritoryCandidate {
+  return {
+    candidateId: `dpa-cand-${bundle.territoryId}-${batchGeneration}-${Date.now()}`,
+    territoryId: bundle.territoryId,
+    territoryName: bundle.territoryName,
+    batchGeneration,
+    createdAt,
+    mobile: bundle.mobile,
+    desktop: bundle.desktop,
+  };
+}
+
 export function appendTerritoryBundlesToGallery(input: {
   gallery: DesignPageAuthorityTerritoryGallery;
   bundles: DesignPageAuthorityTerritoryBundle[];
@@ -61,16 +77,39 @@ export function appendTerritoryBundlesToGallery(input: {
     C: [...input.gallery.C],
   };
   for (const bundle of input.bundles) {
-    const candidate: DesignPageAuthorityTerritoryCandidate = {
-      candidateId: `dpa-cand-${bundle.territoryId}-${input.batchGeneration}-${Date.now()}`,
-      territoryId: bundle.territoryId,
-      territoryName: bundle.territoryName,
-      batchGeneration: input.batchGeneration,
-      createdAt,
-      mobile: bundle.mobile,
-      desktop: bundle.desktop,
-    };
+    const candidate = candidateFromBundle(bundle, input.batchGeneration, createdAt);
     next[bundle.territoryId] = [...next[bundle.territoryId], candidate];
+  }
+  return next;
+}
+
+/** ADD BATCH / regen — drop prior batch candidates for affected territories (founder sees one batch only). */
+export function replaceTerritoryBundlesInGallery(input: {
+  gallery: DesignPageAuthorityTerritoryGallery;
+  bundles: DesignPageAuthorityTerritoryBundle[];
+  batchGeneration: number;
+  createdAt?: string;
+}): DesignPageAuthorityTerritoryGallery {
+  const createdAt = input.createdAt ?? new Date().toISOString();
+  const next: DesignPageAuthorityTerritoryGallery = {
+    A: [...input.gallery.A],
+    B: [...input.gallery.B],
+    C: [...input.gallery.C],
+  };
+  for (const bundle of input.bundles) {
+    next[bundle.territoryId] = [candidateFromBundle(bundle, input.batchGeneration, createdAt)];
+  }
+  return next;
+}
+
+/** Keep only the highest batchGeneration per territory (drops older broken batch in each column). */
+export function pruneGalleryToLatestBatch(gallery: DesignPageAuthorityTerritoryGallery): DesignPageAuthorityTerritoryGallery {
+  const next = emptyTerritoryGallery();
+  for (const territoryId of TERRITORY_IDS) {
+    const list = gallery[territoryId];
+    if (!list.length) continue;
+    const maxBatch = Math.max(...list.map((c) => c.batchGeneration));
+    next[territoryId] = list.filter((c) => c.batchGeneration === maxBatch);
   }
   return next;
 }
@@ -154,6 +193,8 @@ export function normalizeDesignPageAuthoritySession(
       selectedCandidateByTerritory[id] = latestTerritoryCandidate(territoryGallery, id)!.candidateId;
     }
   }
+  territoryGallery = pruneGalleryToLatestBatch(territoryGallery);
+
   return repairPrototypeGallerySession({
     ...synced,
     territoryGallery,

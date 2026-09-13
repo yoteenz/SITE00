@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R5F1 — feature manifest + master amendment + R5F1 regeneration contract. */
-export const P0_VR_TWIN_V30_BUILD = 'v403' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v404' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
 export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;

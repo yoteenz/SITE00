@@ -42,7 +42,7 @@ export function galleryCandidateCount(gallery: DesignPageAuthorityTerritoryGalle
   return gallery.A.length + gallery.B.length + gallery.C.length;
 }
 
-/** Append-only batch snapshots — survives slim lastResult + partial main session writes. */
+/** Latest batch only — replaces prior ledger entries (batch 1 discarded when batch 2 lands). */
 export function appendAuthorityBatchLedger(
   projectId: string,
   gallery: DesignPageAuthorityTerritoryGallery,
@@ -51,15 +51,12 @@ export function appendAuthorityBatchLedger(
   if (!galleryCandidateCount(gallery)) return;
   const key = projectId.toLowerCase();
   const store = readLedgerStore();
-  const list = store[key] ?? [];
-  if (list.some((e) => e.batchGeneration === candidateGeneration)) return;
   const entry: AuthorityBatchLedgerEntry = {
     batchGeneration: candidateGeneration,
     savedAt: new Date().toISOString(),
     territoryGallery: gallery,
   };
-  const next = [...list, entry].slice(-MAX_LEDGER_ENTRIES);
-  store[key] = next;
+  store[key] = [entry];
   writeLedgerStore(store);
 }
 
@@ -69,11 +66,9 @@ export function mergeGalleryFromBatchLedger(
 ): DesignPageAuthorityTerritoryGallery {
   const key = projectId.toLowerCase();
   const list = readLedgerStore()[key] ?? [];
-  let merged = gallery;
-  for (const entry of list) {
-    merged = mergeTerritoryGalleries(merged, entry.territoryGallery);
-  }
-  return merged;
+  if (!list.length) return gallery;
+  const latest = list.reduce((a, b) => (a.batchGeneration >= b.batchGeneration ? a : b));
+  return mergeTerritoryGalleries(gallery, latest.territoryGallery);
 }
 
 export function maxBatchGenerationFromLedger(projectId: string): number {

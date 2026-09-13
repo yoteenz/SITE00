@@ -40,6 +40,22 @@ import {
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designPageAuthorityReviewState.js';
 
 describe('Twin V3 gallery batch persistence', () => {
+  it('replaceTerritoryBundlesInGallery drops batch 1 when batch 2 is applied', async () => {
+    const { replaceTerritoryBundlesInGallery } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designPageAuthorityTerritoryGallery.js'
+    );
+    let session = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession());
+    expect(session.territoryGallery.A[0]!.batchGeneration).toBe(1);
+    const bundles = buildTerritoryPrototypeBundles({ authoritySessionId: session.authoritySessionId });
+    const replaced = replaceTerritoryBundlesInGallery({
+      gallery: session.territoryGallery,
+      bundles,
+      batchGeneration: 2,
+    });
+    expect(replaced.A.length).toBe(1);
+    expect(replaced.A[0]!.batchGeneration).toBe(2);
+  });
+
   it('mergeTerritoryGalleries unions batches by candidateId', () => {
     let session = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession());
     const batch1 = { ...session.territoryGallery };
@@ -57,36 +73,25 @@ describe('Twin V3 gallery batch persistence', () => {
     expect(merged.C.length).toBe(2);
   });
 
-  it('syncGalleryFromLastResult keeps a second batch when storage URLs match after repair', () => {
+  it('normalize keeps only latest batch (drops older broken batch)', async () => {
+    const { pruneGalleryToLatestBatch } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designPageAuthorityTerritoryGallery.js'
+    );
     let session = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession());
-    const batch2Bundles = buildTerritoryPrototypeBundles({
-      authoritySessionId: session.authoritySessionId,
+    const batch2Gallery = appendTerritoryBundlesToGallery({
+      gallery: session.territoryGallery,
+      bundles: buildTerritoryPrototypeBundles({ authoritySessionId: session.authoritySessionId }),
+      batchGeneration: 2,
     });
-    session = {
-      ...session,
-      candidateGeneration: 2,
-      territoryGallery: appendTerritoryBundlesToGallery({
-        gallery: session.territoryGallery,
-        bundles: batch2Bundles,
-        batchGeneration: 2,
-      }),
-      lastResult: {
-        ...(session.lastResult!),
-        territories: batch2Bundles,
-      },
+    const both = { ...session.territoryGallery, ...batch2Gallery, A: [...session.territoryGallery.A, ...batch2Gallery.A] };
+    const merged = {
+      A: [...session.territoryGallery.A, ...batch2Gallery.A],
+      B: [...session.territoryGallery.B, ...batch2Gallery.B],
+      C: [...session.territoryGallery.C, ...batch2Gallery.C],
     };
-    session = normalizeDesignPageAuthoritySession(session);
-    const onlyBatch1 = {
-      ...session,
-      territoryGallery: {
-        A: [session.territoryGallery.A[0]!],
-        B: [session.territoryGallery.B[0]!],
-        C: [session.territoryGallery.C[0]!],
-      },
-      lastResult: { ...session.lastResult!, territories: batch2Bundles },
-    };
-    const healed = syncGalleryFromLastResult(onlyBatch1);
-    expect(healed.territoryGallery.A.length).toBe(2);
+    const pruned = pruneGalleryToLatestBatch(merged);
+    expect(pruned.A.length).toBe(1);
+    expect(pruned.A[0]!.batchGeneration).toBe(2);
   });
 
   it('batch ledger restores a batch missing from primary gallery read', () => {

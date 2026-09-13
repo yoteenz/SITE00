@@ -314,7 +314,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       <p className="site00-dw-v3-authority__hint">
         Browse generated candidates per territory (R5F1 feature manifest required in every A/B/C concept). Select
         independent MOBILE and DESKTOP masters, promote each (feature coverage must PASS), then lock the pair — run ADD
-        BATCH to regenerate six R5F1 authorities via FAL when ready.
+        ADD BATCH replaces the previous batch (one active batch per territory). Run when ready for six new R5F1 FAL authorities.
       </p>
       {running ? (
         <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-authority-generating">
