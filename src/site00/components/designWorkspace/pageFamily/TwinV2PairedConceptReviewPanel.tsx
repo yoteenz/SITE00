@@ -5,6 +5,7 @@
 import { useMemo, useState } from 'react';
 import type { ConceptDirectedTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
 import type { ConceptCandidate } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/types.js';
+import { conceptImageDisplayUrl } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptImageDisplayUrl.js';
 
 type ReviewMode = 'VISUAL' | 'BLUEPRINT' | 'OVERLAY' | 'OBJECT_MAP' | 'FUNCTION_MAP' | 'ASSETS';
 
@@ -43,7 +44,7 @@ export function TwinV2PairedConceptReviewPanel({ session, candidate }: Props) {
     return null;
   }
 
-  const imageUrl = candidate.visualAssetUrl;
+  const imageUrl = conceptImageDisplayUrl(candidate);
 
   return (
     <section className="site00-twin-v2-paired-review" aria-label="Paired concept review">

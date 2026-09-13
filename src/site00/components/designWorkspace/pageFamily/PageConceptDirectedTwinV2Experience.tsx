@@ -144,19 +144,27 @@ export function PageConceptDirectedTwinV2Experience({
         }
         const remoteRecords = [...remoteMap.values()];
 
-        const latest = sessionRef.current;
-        const priorCandidates = latest.conceptGallery?.candidates?.length ?? 0;
-        const hydrated = ensureConceptGallery(latest, { siblingSessions, remoteStorageRecords: remoteRecords });
+        const beforeHydrate = sessionRef.current;
+        const snapUpdatedAt = beforeHydrate.updatedAt;
+        const snapCandidateCount = beforeHydrate.conceptGallery?.candidates?.length ?? 0;
+        const priorCandidates = snapCandidateCount;
+        const hydrated = ensureConceptGallery(beforeHydrate, { siblingSessions, remoteStorageRecords: remoteRecords });
         const nextCandidates = hydrated.conceptGallery?.candidates?.length ?? 0;
         const merged =
           nextCandidates >= priorCandidates
             ? hydrated
             : {
-                ...latest,
-                conceptGallery: latest.conceptGallery ?? hydrated.conceptGallery,
+                ...beforeHydrate,
+                conceptGallery: beforeHydrate.conceptGallery ?? hydrated.conceptGallery,
               };
         if (!cancelled) {
-              onSessionChange(reconcileTwinV2SessionState(merged));
+              const live = sessionRef.current;
+              const userAdvancedDuringHydrate =
+                live.updatedAt !== snapUpdatedAt ||
+                (live.conceptGallery?.candidates.length ?? 0) > snapCandidateCount;
+              if (!userAdvancedDuringHydrate) {
+                onSessionChange(reconcileTwinV2SessionState(merged));
+              }
             }
           })(),
           new Promise<void>((_, reject) => {
@@ -274,7 +282,16 @@ export function PageConceptDirectedTwinV2Experience({
         parentVersionId:
           action === 'refine' ? (activeLegacy ?? latestConcept?.versionId ?? null) : (latestConcept?.versionId ?? null),
       });
+      sessionRef.current = working;
       onSessionChange(working);
+      const newActive = working.conceptGallery?.activeConceptId;
+      if (newActive) {
+        window.requestAnimationFrame(() => {
+          document
+            .querySelector(`[data-concept-id="${newActive}"]`)
+            ?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        });
+      }
       setRefineOpen(false);
       setRefineText('');
       setRefineRegion('');
@@ -288,7 +305,9 @@ export function PageConceptDirectedTwinV2Experience({
 
   const handleApprove = () => {
     try {
-      const next = approveActiveConceptCandidate(ensureConceptGallery(session));
+      const next = approveActiveConceptCandidate(
+        session.conceptGallery?.candidates.length ? session : ensureConceptGallery(session),
+      );
       onSessionChange(next);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Approve failed');

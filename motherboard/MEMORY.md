@@ -8630,6 +8630,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V2 gallery stuck on old image after REGENERATE
+
+- **Symptom:** Gallery / paired review kept showing prior concept image after REGENERATE or REBUILD.
+- **Root cause:** `mergeVisualConceptApiResult` called **`ensureConceptGallery` after dual-output finalize**, re-hydrating and clobbering the new candidate; async **gallery hydrate** could finish after generate and overwrite session; Safari/CDN cached same image URL.
+- **Fix:** Remove post-finalize hydrate; skip hydrate apply when session advanced during fetch; `conceptImageDisplayUrl` cache-bust; scroll active slide after generate.
+
+---
+
 ## 2026-09-13 — Twin V2 still unchanged after rebuild (hydrate preserveBuild)
 
 - **Symptom:** Founder still saw no change after v379 REBUILD / generate fixes on mobile tunnel.
