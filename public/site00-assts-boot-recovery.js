@@ -85,6 +85,7 @@
   var started = Date.now();
   var poll = window.setInterval(function () {
     if (rootHasApp()) {
+      releaseBootShell('app-mounted');
       window.clearInterval(poll);
       return;
     }
