@@ -11,8 +11,10 @@ import {
   mergeVisualConceptApiResult,
   composeConceptDirectedTwinV2,
   approveActiveConceptCandidate,
+  prepareConceptDirectedTwinV2Build,
   assertV1Isolation,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import { isConceptTechnicallyReadyForBuild } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
   ensureConceptGallery,
   backfillConceptGalleryFromHistory,
@@ -152,6 +154,19 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     expect(canBuildConcept(approved.buildReadiness, true)).toBe(true);
     const pkgId = `ecp-${approved.conceptId}`;
     expect(session.conceptGallery!.packages[pkgId]).toBeDefined();
+  });
+
+  it('BUILD THIS CONCEPT prepares approve + package when readiness complete (mobile one-tap)', () => {
+    const session = sessionWithConcepts(1);
+    const before = getActiveConceptCandidate(session)!;
+    expect(before.founderJudgment).not.toBe('APPROVED');
+    expect(isConceptTechnicallyReadyForBuild(before.buildReadiness)).toBe(true);
+    const prepared = prepareConceptDirectedTwinV2Build(session);
+    const after = getActiveConceptCandidate(prepared)!;
+    expect(after.founderJudgment).toBe('APPROVED');
+    expect(prepared.conceptGallery!.packages[`ecp-${after.conceptId}`]).toBeDefined();
+    const { sessionPatch } = composeConceptDirectedTwinV2(prepared);
+    expect(sessionPatch.status).toBe('TWIN_V2_REVIEW_READY');
   });
 
   it('24–28 build requires ExecutableConceptPackage; no image-only build', () => {

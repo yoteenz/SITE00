@@ -13,6 +13,7 @@ import {
   buildTwinV2PreviewRoute,
   TWIN_V2_VISUAL_PROVIDER_LABEL,
   approveActiveConceptCandidate,
+  prepareConceptDirectedTwinV2Build,
   ensureConceptGallery,
   setActiveConceptId,
   listConceptDirectedTwinSessionsForProject,
@@ -313,8 +314,9 @@ export function PageConceptDirectedTwinV2Experience({
     setBuilding(true);
     setError(null);
     try {
-      const { sessionPatch } = composeConceptDirectedTwinV2(session);
-      onSessionChange({ ...session, ...sessionPatch, status: 'TWIN_V2_REVIEW_READY' });
+      const prepared = prepareConceptDirectedTwinV2Build(session);
+      const { sessionPatch } = composeConceptDirectedTwinV2(prepared);
+      onSessionChange({ ...prepared, ...sessionPatch, status: 'TWIN_V2_REVIEW_READY' });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Build blocked');
     } finally {

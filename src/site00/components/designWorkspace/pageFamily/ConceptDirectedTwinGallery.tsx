@@ -11,7 +11,7 @@ import type {
 import type { ClientCanvasBoundary } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeClientCanvasBoundary.js';
 import type { HostBoundarySanitizationReceipt } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
-import { canBuildConcept } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
+import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import { buildBlueprintRegionInspectionRows } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildBlueprintRegionInspectionRows.js';
 import { computeExecutableConceptPackageReadiness } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeExecutableConceptPackageReadiness.js';
 import { TwinV2HostShellCompositePreview } from './TwinV2HostShellCompositePreview.js';
@@ -168,17 +168,15 @@ export function ConceptDirectedTwinGallery({
     return <p>No concepts in gallery yet.</p>;
   }
 
-  const buildOk =
-    active.founderJudgment === 'APPROVED' &&
-    canBuildConcept(active.buildReadiness, true) &&
-    active.buildReadiness.hostBoundaryReady === true;
+  const buildOk = isConceptTechnicallyReadyForBuild(active.buildReadiness);
 
-  const buildBlockReason =
-    !active.buildReadiness.hostBoundaryReady
+  const buildBlockReason = !buildOk
+    ? !active.buildReadiness.hostBoundaryReady
       ? 'HOST BOUNDARY INCOMPLETE — verify VIEW BLUEPRINT + HOST PREVIEW'
-      : active.founderJudgment !== 'APPROVED'
-        ? 'Approve concept after host boundary verification'
-        : null;
+      : 'Complete VISUAL, BLUEPRINT, ASSETS, and FUNCTIONS before build'
+    : active.founderJudgment !== 'APPROVED'
+      ? 'BUILD will lock visual authority (same as APPROVE) and compile the twin package'
+      : null;
 
   return (
     <div className="site00-twin-v2-gallery" data-twin-v2-host-boundary-ui="1">

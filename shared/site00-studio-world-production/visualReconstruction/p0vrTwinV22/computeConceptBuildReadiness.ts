@@ -87,11 +87,19 @@ export function computeConceptBuildReadiness(input: {
   };
 }
 
+export function isConceptTechnicallyReadyForBuild(readiness: ConceptBuildReadiness): boolean {
+  if (readiness.status === 'VISUAL_ONLY') return false;
+  return (
+    readiness.visualReady &&
+    readiness.blueprintReady &&
+    readiness.assetsReady &&
+    readiness.functionsReady &&
+    readiness.hostBoundaryReady === true
+  );
+}
+
 export function canBuildConcept(readiness: ConceptBuildReadiness, approved: boolean): boolean {
   if (!approved) return false;
-  if (readiness.status === 'VISUAL_ONLY') return false;
-  if (!readiness.blueprintReady || !readiness.assetsReady || !readiness.functionsReady || !readiness.hostBoundaryReady) {
-    return false;
-  }
+  if (!isConceptTechnicallyReadyForBuild(readiness)) return false;
   return readiness.status === 'READY_TO_BUILD' || readiness.status === 'APPROVED_READY_TO_BUILD';
 }
