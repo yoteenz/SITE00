@@ -8535,3 +8535,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Double bottom cap — `hostSafeBottom` 0.88 applied **with** artifact cap (~0.895), shaving activity tail; top bleed 0.012 too small vs painted masthead.
 - **Fix:** Top bleed **0.019**; bottom visual bleed **0.037**; when invented nav artifact exists, cap bottom at artifact only (not hostSafe 0.88); activity section tail in last-bottom; crop `top` −1px Safari fudge. Build ref **v362**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 bleed +16px / +40px (v363)
+
+- **Founder QA:** Masthead and latest activity still slightly clipped after v362.
+- **Fix:** Masthead visual bleed **31px** @812 (+16); activity bottom bleed **70px** @812 (+40); crop top −2px Safari. Build ref **v363**.
+

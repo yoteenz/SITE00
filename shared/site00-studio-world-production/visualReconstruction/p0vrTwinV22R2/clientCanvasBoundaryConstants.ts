@@ -11,8 +11,12 @@ export const CLIENT_CANVAS_HOST_ARTIFACT_HEIGHT_LEAK = 'CLIENT_CANVAS_HOST_ARTIF
 
 export const CLIENT_CANVAS_TOP_CROP_LOSS = 'CLIENT_CANVAS_TOP_CROP_LOSS' as const;
 
+/** Mobile concept artboard height (px) — bleed constants are derived from this. */
+export const CLIENT_CANVAS_ARTBOARD_HEIGHT_PX = 812 as const;
+
 /** Full concept artboard height/width for padding-bottom crop frames. */
-export const CLIENT_CANVAS_ARTBOARD_HEIGHT_OVER_WIDTH = 812 / 375;
+export const CLIENT_CANVAS_ARTBOARD_HEIGHT_OVER_WIDTH =
+  CLIENT_CANVAS_ARTBOARD_HEIGHT_PX / 375;
 
 /** Painted SITE 00 host header band on full-page concept images (matches HostShellContract). */
 export const SITE00_HOST_TOP_INSET_NORM = 0.07 as const;
@@ -20,8 +24,8 @@ export const SITE00_HOST_TOP_INSET_NORM = 0.07 as const;
 /** Painted / reserved host bottom safe area on full-page concept images. */
 export const SITE00_HOST_BOTTOM_INSET_NORM = 0.12 as const;
 
-/** Full-page concept images often draw masthead slightly above blueprint y (~15px @ 812). */
-export const MASTHEAD_VISUAL_BLEED_NORM = 0.019 as const;
+/** Masthead paint extends above blueprint (~31px @ 812 — includes +16px founder QA). */
+export const MASTHEAD_VISUAL_BLEED_NORM = 31 / CLIENT_CANVAS_ARTBOARD_HEIGHT_PX;
 
-/** Activity / last band often extends below blueprint section box (~30px @ 812). */
-export const CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM = 0.037 as const;
+/** Activity tail extends below blueprint section box (~70px @ 812 — includes +40px founder QA). */
+export const CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM = 70 / CLIENT_CANVAS_ARTBOARD_HEIGHT_PX;
