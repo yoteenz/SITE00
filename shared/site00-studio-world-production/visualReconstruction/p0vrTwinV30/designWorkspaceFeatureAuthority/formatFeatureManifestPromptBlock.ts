@@ -54,7 +54,7 @@ ${viewportNote}
 
 Depict believable state: one concept under review; one viewport may show SELECTED to demonstrate workflow (no contradictory dual-lock).
 
-REQUIRED VISIBLE AFFORDANCES (feature coverage — all must appear in mockup chrome/labels):
+REQUIRED VISIBLE AFFORDANCES (feature coverage — all must appear in mockup chrome/labels; render labels UPPERCASE on every page shown):
 SITE 00 host + PROJECT + DESIGN context · REFERENCES · ASSETS · PAGES · SKINS · HISTORY · MORE
 MOBILE · TABLET · DESKTOP viewport control · TARGET · ACTIVE context
 CONCEPT · CANDIDATE · GALLERY · COMPARE · REFINE · REGENERATE · INSPECT · VIEW · FULLSCREEN

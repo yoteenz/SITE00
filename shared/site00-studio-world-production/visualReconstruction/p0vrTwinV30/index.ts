@@ -3,6 +3,7 @@ export * from './types.js';
 export * from './lockedExperienceSkeleton.js';
 export * from './buildDesignPageAuthorityPrompts.js';
 export * from './buildDesignPageAuthorityTerritoryPrompts.js';
+export * from './formatDesignWorkspaceTypographyCasePromptBlock.js';
 export * from './activeProjectExpressionContract.js';
 export * from './hostProjectExpressionModel.js';
 export * from './designPageAuthorityR3SelfCheck.js';

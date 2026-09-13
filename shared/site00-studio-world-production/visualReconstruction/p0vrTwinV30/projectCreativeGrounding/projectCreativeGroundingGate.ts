@@ -25,7 +25,10 @@ export function runProjectCreativeGroundingGate(
   if (!visualLanguageReady) missing.push('visualLanguage');
 
   const typographyReady =
-    Boolean(pkg.typographyExpression.hostTypography) && Boolean(pkg.typographyExpression.projectTypography);
+    Boolean(pkg.typographyExpression.hostTypography) &&
+    Boolean(pkg.typographyExpression.projectTypography) &&
+    Boolean(pkg.typographyExpression.uiCaseRule) &&
+    Boolean(pkg.typographyExpression.allPagesCaseRule);
   if (!typographyReady) missing.push('typographyExpression');
 
   const assetSourceMapReady = pkg.assetSourceMap.sources.length >= 3;

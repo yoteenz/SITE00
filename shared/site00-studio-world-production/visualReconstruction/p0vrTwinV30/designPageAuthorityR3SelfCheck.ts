@@ -1,5 +1,6 @@
 import { NDXBOOK_LIME, SITE00_HOST_RED } from './activeProjectExpressionContract.js';
 import { DESIGN_PAGE_V3_HOST_PRODUCT_NAME } from './constants.js';
+import { DESIGN_WORKSPACE_UI_UPPERCASE_MARKER } from './formatDesignWorkspaceTypographyCasePromptBlock.js';
 import { HOST_PROJECT_EXPRESSION_CORE_RULE } from './hostProjectExpressionModel.js';
 
 export type DesignPageAuthorityR3SelfCheck = {
@@ -9,6 +10,7 @@ export type DesignPageAuthorityR3SelfCheck = {
   ndxbookLimeAccentQa: boolean;
   site00RedOwnershipQa: boolean;
   typographyOwnershipQa: boolean;
+  uppercaseCaseGovernanceQa: boolean;
   spatialGrammarQa: boolean;
   genericDashboardDriftQa: boolean;
   threeDistinctTerritories: boolean;
@@ -53,6 +55,12 @@ export function runDesignPageAuthorityR3SelfCheck(input: {
     t.includes('martian mono') && (t.includes('host') || t.includes('system'));
   if (!typographyOwnershipQa) failures.push('TYPOGRAPHY_OWNERSHIP_QA_FAIL');
 
+  const uppercaseCaseGovernanceQa =
+    input.promptOrArtifactText.includes(DESIGN_WORKSPACE_UI_UPPERCASE_MARKER) &&
+    t.includes('typography case governance') &&
+    t.includes('every page');
+  if (!uppercaseCaseGovernanceQa) failures.push('UPPERCASE_CASE_GOVERNANCE_QA_FAIL');
+
   const spatialGrammarQa =
     t.includes('dominant') &&
     (t.includes('central stage') || t.includes('workbench') || t.includes('spatial workflow')) &&
@@ -82,6 +90,7 @@ export function runDesignPageAuthorityR3SelfCheck(input: {
     ndxbookLimeAccentQa,
     site00RedOwnershipQa,
     typographyOwnershipQa,
+    uppercaseCaseGovernanceQa,
     spatialGrammarQa,
     genericDashboardDriftQa,
     threeDistinctTerritories,

@@ -173,8 +173,11 @@ const NDXBOOK_TYPO: ProjectTypographyExpression = {
   projectTypography: 'NDXBOOK expressive editorial type inside workspace panels only',
   allowedMixing: 'Do not force one family across host and project layers',
   displayBehavior: 'High-contrast typographic moments in workspace hero zones',
-  editorialBehavior: 'Index labels, metadata lines, cultural-evidence captions',
+  editorialBehavior: 'Index labels, metadata lines, cultural-evidence captions — uppercase casing',
   metadataBehavior: 'Quiet systematic labels — not SaaS table headers',
+  uiCaseRule: 'ALL visible SITE 00 + design-workspace UI text uppercase',
+  allPagesCaseRule:
+    'Every page/route/surface shown in the mockup (PAGES nav, previews, secondary canvases) uses the same uppercase UI casing',
 };
 
 const NDXBOOK_MATERIAL: ProjectMaterialLanguage = {

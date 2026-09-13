@@ -54,6 +54,7 @@ NO GENERIC FALLBACK when project context exists — do not fill gaps with generi
 NO UNGROUNDED VISUALS: Every image-like object must map to artifactType + source. If depicting placeholder content, use PROJECT-VALID placeholder within artifact family (e.g. NDXBOOK cultural-evidence placeholder) — never random architectural or portrait stock.
 
 TYPOGRAPHY: Host = ${pkg.typographyExpression.hostTypography}. Project workspace = ${pkg.typographyExpression.projectTypography}. ${pkg.typographyExpression.allowedMixing}
+Host + workspace UI case: ${pkg.typographyExpression.uiCaseRule}. ${pkg.typographyExpression.allPagesCaseRule}
 
 MATERIAL: ${pkg.materialLanguage.allowedMaterials.slice(0, 5).join(', ')} — forbidden: ${pkg.materialLanguage.forbiddenMaterials.join(', ')}
 `.trim();
