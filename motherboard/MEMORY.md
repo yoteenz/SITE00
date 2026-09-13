@@ -8720,3 +8720,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrTwinV30/` — locked skeleton A–K confirmation, FAL prompts + dispatch (vitest → SVG prototypes in `public/site00/twin-v3-design-page-authority/`), founder approve/refine/regenerate → lock **`DESIGN_PAGE_V3_AUTHORITY_V1`**. API `POST /api/site00/twin-v3-design-page-authority`. UI **`DesignPageV3AuthorityReviewPanel`** at top of NDXBOOK design workspace (`StudioWorldDesignWorkspace`). Classification **PARTIAL** in CI; **PROVEN** with `FAL_KEY` on Railway.
 - **Next sprint:** Implement approved authority and reconnect compiler/bundle/asset/fidelity — not this sprint.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV3.0R1 SITE 00 host-first authority correction (v388)
+
+- **Problem:** V3.0 authorities read as **NDXBOOK-branded design workstation** instead of **SITE 00 Design page with NDXBOOK open**.
+- **Fix:** R1 skeleton (SITE_00_PAGE_FRAME first), host/client firewall in FAL prompts, prototypes redrawn (SITE 00 › PROJECT: NDXBOOK › DESIGN), separate approve locks **`DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE`** / **`DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP`**, panel copy + per-viewport approve. Build ref **v388**. Still authority-only — no implementation.
+

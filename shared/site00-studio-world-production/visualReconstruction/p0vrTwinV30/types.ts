@@ -1,5 +1,6 @@
 import type {
-  DESIGN_PAGE_V3_AUTHORITY_LOCK_ID,
+  DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
+  DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
   DESIGN_PAGE_V3_SKELETON_AREAS,
   DESIGN_PAGE_V3_WORKFLOW_PHASES,
   P0_VR_TWIN_V30_BUILD,
@@ -31,17 +32,17 @@ export type DesignPageAuthorityGenerationResult = {
   authoritySessionId: string;
   projectId: string;
   pageLabel: string;
+  hostProduct: string;
+  clientProjectOpen: string;
   skeletonConfirmed: DesignPageV3SkeletonArea[];
   mobile: DesignPageAuthorityVisualArtifact;
   desktop: DesignPageAuthorityVisualArtifact;
-  masterWorkspaceSummary: string;
-  workflowRailSummary: string;
-  currentActionSummary: string;
-  derivativeBundleUxSummary: string;
-  assetWorkspaceSummary: string;
-  functionOwnershipUxSummary: string;
-  compilerReadinessUxSummary: string;
-  fidelityReviewUxSummary: string;
+  site00PageFrameSummary: string;
+  primaryWorkAreaSummary: string;
+  clientTargetContextSummary: string;
+  decisionReviewSummary: string;
+  structuredArtifactGroupingSummary: string;
+  secondaryDetailZonesSummary: string;
   mobileTechnicalDetailsPattern: 'BOTTOM_SHEET_COLLAPSED';
   desktopTechnicalDetailsPattern: 'RIGHT_DRAWER_COLLAPSED';
   hostShellPreserved: true;
@@ -57,7 +58,8 @@ export type DesignPageAuthorityClassification =
 export type DesignPageAuthorityFounderReviewState = {
   mobileApproved: boolean;
   desktopApproved: boolean;
-  lockId: typeof DESIGN_PAGE_V3_AUTHORITY_LOCK_ID | null;
+  mobileLockId: typeof DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE | null;
+  desktopLockId: typeof DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP | null;
   refineNotes: string[];
   lastAction: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'APPROVE' | null;
   updatedAt: string;

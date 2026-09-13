@@ -1,4 +1,5 @@
 import {
+  DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
@@ -20,7 +21,7 @@ export async function runDesignPageAuthorityGeneration(input: {
   });
   const dispatch = await dispatchDesignPageAuthorityVisuals({
     authoritySessionId: input.session.authoritySessionId,
-    projectLabel: input.session.pageLabel,
+    clientProjectId: input.session.projectId,
     refineNotes: input.session.founderReview.refineNotes,
   });
   const falKeyConfigured = Boolean(process.env.FAL_KEY?.trim()) && process.env.VITEST !== 'true';
@@ -30,22 +31,23 @@ export async function runDesignPageAuthorityGeneration(input: {
     falKeyConfigured,
   });
   const now = new Date().toISOString();
+  const client = input.session.projectId.toUpperCase();
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
     authoritySessionId: input.session.authoritySessionId,
     projectId: input.session.projectId,
     pageLabel: input.session.pageLabel,
+    hostProduct: DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
+    clientProjectOpen: client,
     skeletonConfirmed: skeleton.areas,
     mobile: dispatch.mobile,
     desktop: dispatch.desktop,
-    masterWorkspaceSummary: 'Dominant master concept canvas with approve / refine / regenerate hierarchy',
-    workflowRailSummary: 'Compact TARGET→FIDELITY phase rail with IDLE/READY/ACTIVE/BLOCKED/PASS/FAIL chips',
-    currentActionSummary: 'Single primary CTA dominates (e.g. APPROVE MASTER); secondary actions subordinate',
-    derivativeBundleUxSummary: 'Master + blueprint twin + overlay + object data + assets + functions + lineage as one family',
-    assetWorkspaceSummary: 'Thumbnail-first asset inventory with object binding and regen contract chips',
-    functionOwnershipUxSummary: 'Host vs client ownership map with exclusions — high signal, no JSON wall',
-    compilerReadinessUxSummary: 'Pre-flight checklist (master locked, blueprint, assets, functions, host boundary, checksum)',
-    fidelityReviewUxSummary: 'Post-build master vs coded compare with machine/founder pass and drift highlights',
+    site00PageFrameSummary: `${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} shell, breadcrumb, DESIGN page identity — host owns chrome`,
+    primaryWorkAreaSummary: 'Dominant central design-upgrade surface (visual focal point, not text console)',
+    clientTargetContextSummary: `Project ${client} open — route/page/platform/stage as secondary band inside host workspace`,
+    decisionReviewSummary: 'Single primary approve/refine/regenerate/compare CTA; readiness visible at a glance',
+    structuredArtifactGroupingSummary: 'Authority, blueprint, overlay, assets, function map grouped — not flat text dump',
+    secondaryDetailZonesSummary: 'Provider trace / lineage / debug collapsed in bottom sheet (mobile) or right drawer (desktop)',
     mobileTechnicalDetailsPattern: 'BOTTOM_SHEET_COLLAPSED',
     desktopTechnicalDetailsPattern: 'RIGHT_DRAWER_COLLAPSED',
     hostShellPreserved: true,

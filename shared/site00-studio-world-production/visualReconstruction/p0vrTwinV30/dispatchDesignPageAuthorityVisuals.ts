@@ -14,7 +14,7 @@ async function falOne(prompt: string, aspectRatio: '9:16' | '16:9', label: strin
       label === 'mobile' ?
         `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-authority-prototype.svg`
       : `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-authority-prototype.svg`;
-    return { url: `${file}?v=${ts}`, jobRef: `vitest-design-page-v3-${label}-${ts}` };
+    return { url: `${file}?v=r1-${ts}`, jobRef: `vitest-design-page-v3r1-${label}-${ts}` };
   }
   const falKey = process.env.FAL_KEY?.trim();
   if (!falKey) throw new Error('FAL_KEY_MISSING');
@@ -41,18 +41,18 @@ export type DesignPageAuthorityVisualDispatch = {
 
 export async function dispatchDesignPageAuthorityVisuals(input: {
   authoritySessionId: string;
-  projectLabel: string;
+  clientProjectId: string;
   refineNotes?: string[];
 }): Promise<DesignPageAuthorityVisualDispatch> {
   const mobilePrompt = buildMobileDesignPageAuthorityPrompt({
-    projectLabel: input.projectLabel,
+    clientProjectId: input.clientProjectId,
     refineNotes: input.refineNotes,
   });
   const desktopPrompt = buildDesktopDesignPageAuthorityPrompt({
-    projectLabel: input.projectLabel,
+    clientProjectId: input.clientProjectId,
     refineNotes: input.refineNotes,
   });
-  const trace = ['DESIGN_PAGE_V3: sibling mobile + desktop authority generation'];
+  const trace = ['DESIGN_PAGE_V3R1: SITE 00 host-first mobile + desktop authority'];
   const mobileJob = await falOne(mobilePrompt, '9:16', 'mobile');
   trace.push(`mobile job ${mobileJob.jobRef}`);
   const desktopJob = await falOne(desktopPrompt, '16:9', 'desktop');
@@ -61,7 +61,7 @@ export async function dispatchDesignPageAuthorityVisuals(input: {
   const provider = TWIN_V2_VISUAL_PROVIDER_LABEL;
   const model = TWIN_V2_VISUAL_PROVIDER;
   const mk = (viewport: 'mobile' | 'desktop', url: string, jobRef: string): DesignPageAuthorityVisualArtifact => ({
-    artifactId: `dpa-v3-${viewport}-${input.authoritySessionId}-${ts}`,
+    artifactId: `dpa-v3r1-${viewport}-${input.authoritySessionId}-${ts}`,
     viewport,
     storageUrl: url,
     widthHintPx: viewport === 'mobile' ? 430 : 1440,
