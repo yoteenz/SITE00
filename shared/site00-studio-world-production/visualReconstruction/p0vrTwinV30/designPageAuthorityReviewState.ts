@@ -18,6 +18,7 @@ import {
   latestTerritoryCandidate,
   mergeTerritoryGalleries,
   normalizeDesignPageAuthoritySession,
+  replaceTerritoryBundlesInGallery,
   resolveSelectedTerritoryCandidate,
   resolveTerritoryCandidate,
   territoryGalleryHasCandidates,
@@ -206,12 +207,21 @@ export function applyDesignPageAuthorityGeneration(
   const now = new Date().toISOString();
   const batchGeneration = session.candidateGeneration + 1;
   const base = normalizeDesignPageAuthoritySession(session);
-  const territoryGallery = appendTerritoryBundlesToGallery({
-    gallery: base.territoryGallery,
-    bundles: result.territories,
-    batchGeneration,
-    createdAt: now,
-  });
+  const replacesPriorBatch =
+    action === 'REGENERATE' || action === 'REGENERATE_TERRITORY' || action === 'REFINE';
+  const territoryGallery = replacesPriorBatch
+    ? replaceTerritoryBundlesInGallery({
+        gallery: base.territoryGallery,
+        bundles: result.territories,
+        batchGeneration,
+        createdAt: now,
+      })
+    : appendTerritoryBundlesToGallery({
+        gallery: base.territoryGallery,
+        bundles: result.territories,
+        batchGeneration,
+        createdAt: now,
+      });
   const selectedCandidateByTerritory = { ...base.selectedCandidateByTerritory };
   for (const bundle of result.territories) {
     const latest = latestTerritoryCandidate(territoryGallery, bundle.territoryId);
@@ -231,7 +241,8 @@ export function applyDesignPageAuthorityGeneration(
       lastAction: action,
       updatedAt: now,
     },
-    authorityPipeline: base.authorityPipeline ?? emptyAuthorityPipelineState(),
+    authorityPipeline:
+      replacesPriorBatch ? emptyAuthorityPipelineState() : (base.authorityPipeline ?? emptyAuthorityPipelineState()),
     updatedAt: now,
   });
   let next = registerGeneratedCandidates(withGallery);

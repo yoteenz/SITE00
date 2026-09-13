@@ -149,12 +149,13 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(session.territoryGallery.B.length).toBe(1);
   });
 
-  it('13–16 territory gallery accumulates per category', async () => {
+  it('13–16 REGENERATE_TERRITORY replaces prior candidate in that territory only', async () => {
     let session = createDesignPageAuthorityReviewSession();
     const batch1 = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
     session = applyDesignPageAuthorityGeneration(session, batch1, 'GENERATE');
     expect(session.territoryGallery.A.length).toBe(1);
     expect(session.territoryGallery.B.length).toBe(1);
+    const firstBCandidateId = session.territoryGallery.B[0]!.candidateId;
     const batchB = await runDesignPageAuthorityGeneration({
       session,
       action: 'REGENERATE_TERRITORY',
@@ -162,7 +163,8 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     });
     session = applyDesignPageAuthorityGeneration(session, batchB, 'REGENERATE_TERRITORY');
     expect(session.territoryGallery.A.length).toBe(1);
-    expect(session.territoryGallery.B.length).toBe(2);
+    expect(session.territoryGallery.B.length).toBe(1);
+    expect(session.territoryGallery.B[0]!.candidateId).not.toBe(firstBCandidateId);
     expect(session.territoryGallery.C.length).toBe(1);
   });
 
