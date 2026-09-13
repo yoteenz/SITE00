@@ -25,7 +25,7 @@ describe('Twin V3 authority prototype image wiring', () => {
       '/site00/twin-v3-design-page-authority/mobile-territory-a-r3.svg',
     );
     expect(resolveDesignPageAuthorityImageSrc(stale, { territoryId: 'A', viewport: 'mobile' })).toBe(
-      DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS.A.mobile,
+      '/site00/twin-v3-design-page-authority/mobile-territory-a-r3.svg',
     );
   });
 
@@ -52,10 +52,11 @@ describe('Twin V3 authority prototype image wiring', () => {
     }
   });
 
-  it('resolve maps canonical path to bundled vite asset URL', () => {
+  it('resolve maps canonical path to stable public /site00 R3 path (not hashed /assets)', () => {
     const canonical = '/site00/twin-v3-design-page-authority/mobile-territory-a-r3.svg';
     const resolved = resolveDesignPageAuthorityImageSrc(canonical);
-    expect(resolved).toBe(DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS.A.mobile);
+    expect(resolved).toBe(canonical);
+    expect(resolved).not.toContain('/assets/');
   });
 
   it('normalizeDesignPageAuthoritySession repairs mangled gallery from storage shape', () => {

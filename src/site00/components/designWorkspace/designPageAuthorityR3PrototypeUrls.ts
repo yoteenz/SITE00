@@ -33,6 +33,14 @@ const PUBLIC_PATH_TO_BUNDLED = new Map<string, string>([
   ['/site00/twin-v3-design-page-authority/desktop-territory-c-r3.svg', desktopTerritoryC],
 ]);
 
+/** Stable paths shipped in public/ + cPanel ZIP (never rely on hashed /assets alone). */
+export function publicAuthorityPrototypeImageUrl(canonicalPath: string): string {
+  const normalized = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath.replace(/^\/+/, '')}`;
+  if (typeof window === 'undefined') return normalized;
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+  return `${window.location.origin}${base}${normalized}`;
+}
+
 const R3_FILENAME_TO_BUNDLED = new Map<string, string>([
   ['mobile-territory-a-r3.svg', mobileTerritoryA],
   ['desktop-territory-a-r3.svg', desktopTerritoryA],
@@ -65,24 +73,34 @@ export function resolveDesignPageAuthorityImageSrc(
   }
 
   const normalized = url.startsWith('/') ? url : `/${url.replace(/^\/+/, '')}`;
+  if (PUBLIC_PATH_TO_BUNDLED.has(normalized)) {
+    return publicAuthorityPrototypeImageUrl(normalized);
+  }
   const bundled = PUBLIC_PATH_TO_BUNDLED.get(normalized);
-  if (bundled) return bundled;
+  if (bundled && typeof window === 'undefined') return bundled;
 
   const file = normalized.split('/').pop();
   if (file) {
     const canonicalFromFile = canonicalPrototypePathFromAuthorityStorageUrl(`/${file}`);
     if (canonicalFromFile) {
+      if (typeof window !== 'undefined') {
+        return publicAuthorityPrototypeImageUrl(canonicalFromFile);
+      }
       const fromCanonical = PUBLIC_PATH_TO_BUNDLED.get(canonicalFromFile);
       if (fromCanonical) return fromCanonical;
     }
     const byName = R3_FILENAME_TO_BUNDLED.get(file);
-    if (byName) return byName;
+    if (byName) {
+      if (typeof window !== 'undefined') {
+        const canonical = canonicalPrototypePathFromAuthorityStorageUrl(`/${file}`);
+        if (canonical) return publicAuthorityPrototypeImageUrl(canonical);
+      }
+      return byName;
+    }
   }
 
-  if (typeof window !== 'undefined') {
-    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-    const path = normalized.startsWith(base + '/') ? normalized : `${base}${normalized}`;
-    return `${window.location.origin}${path.startsWith('/') ? path : `/${path}`}`;
+  if (typeof window !== 'undefined' && normalized.includes('/twin-v3-design-page-authority/')) {
+    return publicAuthorityPrototypeImageUrl(normalized);
   }
   return normalized;
 }
