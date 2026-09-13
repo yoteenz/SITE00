@@ -107,6 +107,10 @@ app.get('/api/health', async (_req, res) => {
       captureBaseUrl,
       playwrightInstalled: await isPlaywrightInstalled(),
     },
+    fal: {
+      configured: Boolean(process.env.FAL_KEY?.trim()),
+      twinV2VisualConceptPath: '/api/site00/twin-v2-visual-concept',
+    },
   });
 });
 

@@ -20,18 +20,26 @@ export async function requestTwinV2VisualConcept(input: {
   const url = input.apiBase
     ? `${input.apiBase.replace(/\/$/, '')}/api/site00/twin-v2-visual-concept`
     : site00ClientApiUrl('/api/site00/twin-v2-visual-concept');
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'omit',
+      body: JSON.stringify({
       action: input.action,
       session: input.session,
       refineInstruction: input.refineInstruction ?? null,
       refineRegion: input.refineRegion ?? null,
       founderConfirmedSpend: true,
-    }),
-  });
+      }),
+    });
+  } catch (networkErr) {
+    const msg = networkErr instanceof Error ? networkErr.message : 'Network error';
+    throw new Error(
+      `${msg} — could not reach ${url}. Check mobile network or API host (api.site00.com).`,
+    );
+  }
   if (!res.ok) {
     const err = (await res.json().catch(() => ({}))) as { error?: string };
     const hint =
