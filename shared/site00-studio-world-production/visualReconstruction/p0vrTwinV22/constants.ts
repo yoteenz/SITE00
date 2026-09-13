@@ -1,4 +1,4 @@
-export const P0_VR_TWIN_V22_BUILD = 'v359' as const;
+export const P0_VR_TWIN_V22_BUILD = 'v360' as const;
 
 export const CONCEPT_GENERATION_TYPES = [
   'INITIAL',

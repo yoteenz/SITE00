@@ -37,7 +37,7 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     const first = computeFirstClientContentTop(bp);
     expect(first.firstClientContentTop).toBeLessThanOrEqual(CLIENT_CANVAS_LEGACY_TOP_NORM);
     const boundary = g.clientCanvasBoundaries![c.conceptId]!;
-    expect(boundary.canvasTop).toBe(first.firstClientContentTop);
+    expect(boundary.canvasTop).toBeLessThanOrEqual(first.firstClientContentTop);
     expect(boundary.firstClientOwnedObjectId).toBeTruthy();
   });
 
@@ -74,15 +74,18 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     expect(() => assertClientCanvasIncludesFirstClientObject(leaky)).toThrow(CLIENT_CANVAS_TOP_CROP_LOSS);
   });
 
-  it('presentation uses shift + bottom clip (no symmetric 7/12 inset)', () => {
+  it('presentation uses viewport-relative top offset (no transform+clip stack)', () => {
     expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).toContain(
+      '--client-crop-top',
+    );
+    expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).not.toContain(
       'translateY',
     );
-    expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).toContain(
+    expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).not.toContain(
       'clipPath',
     );
+    expect(read('src/site00/styles/site00-twin-v2-concept.css')).toContain('calc(-100% * var(--client-crop-top');
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).not.toContain('inset(7% 0 12% 0)');
-    expect(read('src/site00/styles/site00-twin-v2-concept.css')).not.toContain('object-fit: cover');
   });
 
   it('sanitizedCanvasBottom respects host safe area (excludes invented nav band)', () => {
@@ -109,7 +112,7 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     const receipt = session.conceptGallery!.clientCanvasTopReceipts![c.conceptId]!;
     expect(receipt.newCanvasTop).toBeLessThanOrEqual(receipt.previousCanvasTop);
     expect(['RECOVERED', 'UNCHANGED']).toContain(receipt.status);
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v359');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v360');
     const boundary = computeClientCanvasBoundary({
       conceptId: c.conceptId,
       executionBlueprint: session.conceptGallery!.sanitizedBlueprints[c.executionBlueprintId!],

@@ -17,10 +17,9 @@ export function TwinV2ExecutionClientCanvasFrame({
   alt = 'NDXBOOK client canvas',
   debugGuides = false,
 }: Props) {
-  const visible = boundary.sanitizedCanvasHeight;
+  const visible = Math.max(0.05, boundary.sanitizedCanvasHeight);
   const top = boundary.canvasTop;
-  const bottomClipPct = (1 - boundary.sanitizedCanvasBottom) * 100;
-  const visibleHeightPxAt375 = 812 * visible;
+  const artboardVisibleHeight = 812 * visible;
 
   return (
     <div
@@ -29,26 +28,17 @@ export function TwinV2ExecutionClientCanvasFrame({
       data-canvas-top={top.toFixed(4)}
       data-canvas-bottom={boundary.sanitizedCanvasBottom.toFixed(4)}
       style={{
-        aspectRatio: `375 / ${visibleHeightPxAt375}`,
+        aspectRatio: `375 / ${artboardVisibleHeight}`,
+        ['--client-crop-top' as string]: String(top),
+        ['--client-crop-visible' as string]: String(visible),
       }}
     >
-      <div
-        className="site00-twin-v2-trimmed-canvas__shift"
-        style={{
-          transform: `translateY(-${top * 100}%)`,
-        }}
-      >
-        <img
-          src={imageUrl}
-          alt={alt}
-          draggable={false}
-          className="site00-twin-v2-trimmed-canvas__artboard"
-          style={{
-            clipPath: `inset(0 0 ${bottomClipPct}% 0)`,
-            WebkitClipPath: `inset(0 0 ${bottomClipPct}% 0)`,
-          }}
-        />
-      </div>
+      <img
+        src={imageUrl}
+        alt={alt}
+        draggable={false}
+        className="site00-twin-v2-trimmed-canvas__artboard"
+      />
       {debugGuides ? (
         <>
           <span className="site00-twin-v2-trimmed-canvas__guide site00-twin-v2-trimmed-canvas__guide--top">

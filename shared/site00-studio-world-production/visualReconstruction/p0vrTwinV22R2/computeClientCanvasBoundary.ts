@@ -4,6 +4,7 @@ import { isHostOwnedBlueprintLabel } from './isHostOwnedBlueprintLabel.js';
 import {
   APPROVED_CLIENT_BOTTOM_PADDING_NORM,
   CLIENT_CANVAS_TOP_FALLBACK_NORM,
+  MASTHEAD_VISUAL_BLEED_NORM,
   SITE00_HOST_BOTTOM_INSET_NORM,
   SITE00_HOST_TOP_INSET_NORM,
 } from './clientCanvasBoundaryConstants.js';
@@ -163,12 +164,11 @@ export function computeClientCanvasBoundary(input: {
   const hostTopInset = input.hostTopInsetNorm ?? SITE00_HOST_TOP_INSET_NORM;
   const hostBottomInset = input.hostBottomNavHeightNorm ?? SITE00_HOST_BOTTOM_INSET_NORM;
   const mastheadTop = resolveMastheadSectionTop(input.executionBlueprint);
-  const semanticTop = Math.min(
-    first.firstClientContentTop,
-    mastheadTop ?? first.firstClientContentTop,
-    hostTopInset,
-  );
-  const canvasTop = Math.max(0, semanticTop);
+  const rawTop = Math.min(first.firstClientContentTop, mastheadTop ?? first.firstClientContentTop);
+  let canvasTop = Math.max(0, Math.min(rawTop, hostTopInset));
+  if (mastheadTop != null) {
+    canvasTop = Math.max(0, canvasTop - MASTHEAD_VISUAL_BLEED_NORM);
+  }
 
   const paddedBottom = last.lastClientContentBottom + APPROVED_CLIENT_BOTTOM_PADDING_NORM;
   const hostSafeBottom = 1 - hostBottomInset;

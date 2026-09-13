@@ -8511,3 +8511,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** (1) `canvasTop` followed first section below masthead (~0.08) instead of masthead/host inset (0.07); (2) bottom cap omitted host safe-area floor when artifact geometry loose; (3) WebKit `translateY` on bare `img` inside `height:0` padding box mis-aligned crop.
 - **Fix:** `canvasTop = min(firstClient, masthead, hostTopInset 0.07)`; `sanitizedCanvasBottom = min(..., 1 - hostBottomInset, artifact y)`; exclude invented bottom-nav objects from last-client extent; crop frame = aspect-ratio window + inner shift + bottom-only `clip-path`; gallery repair when `buildRef !== v359` or bottom &gt; 0.88. Build ref **v359**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 crop frame fix (v360)
+
+- **Symptom:** Founder v359 QA — masthead still top-clipped; second view showed wrong vertical slice (metrics band cut off).
+- **Root cause:** `translateY(-top%)` ran on a **bottom clip-path-shortened** img inside `overflow:hidden` — wrong % base + viewport clipped shifted masthead.
+- **Fix:** Single full artboard img with `top: calc(-100% * top / visible)` inside aspect-ratio viewport; remove transform+clip stack; `MASTHEAD_VISUAL_BLEED_NORM` (0.012) on `canvasTop` when masthead band present. Build ref **v360**.
+
