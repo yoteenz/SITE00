@@ -45,6 +45,7 @@ type Props = {
   onBuild: () => void;
   building: boolean;
   generating: boolean;
+  twinBuiltAt?: string | null;
 };
 
 function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
@@ -99,6 +100,7 @@ export function ConceptDirectedTwinGallery({
   onBuild,
   building,
   generating,
+  twinBuiltAt = null,
 }: Props) {
   const railRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -254,11 +256,13 @@ export function ConceptDirectedTwinGallery({
         <button
           type="button"
           className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-          disabled={!buildOk || building}
+          disabled={!buildOk || building || Boolean(twinBuiltAt)}
           onClick={onBuild}
+          aria-busy={building}
           title={buildBlockReason ?? undefined}
+          data-twin-build-state={building ? 'running' : twinBuiltAt ? 'done' : buildOk ? 'ready' : 'blocked'}
         >
-          BUILD THIS CONCEPT
+          {building ? 'BUILDING TWIN…' : twinBuiltAt ? 'TWIN BUILT ✓' : 'BUILD THIS CONCEPT'}
         </button>
       </div>
       {buildBlockReason ? <p className="site00-twin-v2-gallery__build-block">{buildBlockReason}</p> : null}

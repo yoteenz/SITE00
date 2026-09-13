@@ -189,6 +189,12 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     expect(read('src/site00/components/designWorkspace/pageFamily/ConceptDirectedTwinGallery.tsx')).toContain(
       'site00-twin-v2-gallery__rail',
     );
+    expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain(
+      'site00-twin-v2-concept__built-panel',
+    );
+    expect(read('src/site00/components/designWorkspace/pageFamily/ConceptDirectedTwinGallery.tsx')).toContain(
+      'BUILDING TWIN',
+    );
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).toMatch(/scroll-snap|gallery__rail/);
   });
 
