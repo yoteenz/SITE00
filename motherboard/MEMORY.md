@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 batch ledger + gallery stats (v403)
+
+- **Symptom:** After v402, batch 2 still not visible on fsbw-dev; batch 1 images still broken.
+- **Follow-up:** Append-only **batch ledger** (localStorage + sessionStorage) snapshots gallery per `candidateGeneration`; merge ledger on read; gallery backup also written to localStorage; mount re-reads disk if richer than in-memory; img resolver falls back to bundled R3 via hint + hashed `/assets/` filenames; UI shows **Gallery · A/B/C counts · build v403**.
+- **Note:** Batches generated before v403 ledger cannot be recovered — re-run ADD BATCH once on v403+.
+
+---
+
 ## 2026-09-13 — Twin V3 batch 2 gallery lost + batch 1 broken (v402)
 
 - **Symptom:** ADD BATCH (batch 2) vanished after reload; only batch 1 remained with broken thumbnails.
