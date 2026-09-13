@@ -32,6 +32,9 @@ import { TwinV2PairedConceptReviewPanel } from './TwinV2PairedConceptReviewPanel
 import { TwinV2FalParallelTwinProofControls } from './TwinV2FalParallelTwinProofPanel.js';
 import { requestFalParallelTwinProof } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/requestFalParallelTwinProof.js';
 import type { FalParallelTwinProofBundle } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/types.js';
+import { requestAtomicConceptGeneration } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV29/requestAtomicConceptGeneration.js';
+import type { AtomicCreativeGenerationResult } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV29/types.js';
+import { TwinV2AtomicGenerationBundleControls } from './TwinV2AtomicGenerationBundlePanel.js';
 import { TwinV2CompilerReadinessPanel } from './TwinV2CompilerReadinessPanel.js';
 import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
@@ -106,6 +109,11 @@ export function PageConceptDirectedTwinV2Experience({
     () => session.conceptGallery?.falParallelTwinProofs?.[session.sessionId] ?? null,
   );
   const showFalTwinProofPilot = session.projectId === 'ndxbook' && session.pageId === 'overview';
+  const [atomicRunning, setAtomicRunning] = useState(false);
+  const [atomicError, setAtomicError] = useState<string | null>(null);
+  const [atomicResult, setAtomicResult] = useState<AtomicCreativeGenerationResult | null>(
+    () => session.conceptGallery?.atomicGenerationBundles?.[session.sessionId] ?? null,
+  );
   const [importUrls, setImportUrls] = useState(() => {
     const ui = readTwinV2UiPersist(session.projectId);
     if (ui?.pageId === session.pageId && ui.importUrlsDraft) return ui.importUrlsDraft;
@@ -386,6 +394,37 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
+  const handleRunAtomicBundle = async () => {
+    setAtomicRunning(true);
+    setAtomicError(null);
+    try {
+      const conceptId = `atomic-${session.sessionId}-${Date.now()}`;
+      const conceptVersionId = `vc-atomic-${Date.now()}`;
+      const res = await requestAtomicConceptGeneration({
+        session,
+        conceptId,
+        conceptVersionId,
+      });
+      setAtomicResult(res.result);
+      const galleryBase = session.conceptGallery ?? ensureConceptGallery(session).conceptGallery!;
+      onSessionChange({
+        ...session,
+        conceptGallery: {
+          ...galleryBase,
+          atomicGenerationBundles: {
+            ...(galleryBase.atomicGenerationBundles ?? {}),
+            [session.sessionId]: res.result,
+          },
+        },
+        updatedAt: new Date().toISOString(),
+      });
+    } catch (e) {
+      setAtomicError(e instanceof Error ? e.message : 'Atomic generation failed');
+    } finally {
+      setAtomicRunning(false);
+    }
+  };
+
   const handleRunFalTwinProof = async () => {
     setFalProofRunning(true);
     setFalProofError(null);
@@ -654,12 +693,20 @@ export function PageConceptDirectedTwinV2Experience({
       ) : null}
 
       {showFalTwinProofPilot ? (
-        <TwinV2FalParallelTwinProofControls
-          onRunProof={() => void handleRunFalTwinProof()}
-          running={falProofRunning}
-          error={falProofError}
-          bundle={falProofBundle}
-        />
+        <>
+          <TwinV2FalParallelTwinProofControls
+            onRunProof={() => void handleRunFalTwinProof()}
+            running={falProofRunning}
+            error={falProofError}
+            bundle={falProofBundle}
+          />
+          <TwinV2AtomicGenerationBundleControls
+            onRun={() => void handleRunAtomicBundle()}
+            running={atomicRunning}
+            error={atomicError}
+            result={atomicResult}
+          />
+        </>
       ) : null}
 
       {activeConcept && activeConcept.conceptOrigin === 'DUAL_OUTPUT_PAIRED' ? (
