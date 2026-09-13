@@ -25,6 +25,7 @@ import {
   buildTwinV2PreviewRoute,
   assertV1Isolation,
   isTwinV2PilotEligible,
+  approveActiveConceptCandidate,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
@@ -112,7 +113,7 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
       imageUrl: '/c.jpg',
       imageStorageRef: null,
     });
-    session = applyApproveVisualConcept(session, session.history[0].versionId);
+    session = approveActiveConceptCandidate(session);
     const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(session);
     expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedNdxOverviewTwinV2');
     expect(functionBindingSummary.length).toBeGreaterThan(0);
@@ -123,6 +124,7 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
     expect(read('src/site00/config/routes.ts')).toContain('projectTwinV2Concept');
     expect(read('src/site00/components/designWorkspace/pageFamily/PageUpgradeReplicationExperience.tsx')).toContain('CREATE TWIN V2');
     expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain('APPROVE');
+    expect(read('src/site00/components/designWorkspace/pageFamily/ConceptDirectedTwinGallery.tsx')).toContain('TWIN V2 — CONCEPTS');
     expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('gpt-image-2');
   });
 

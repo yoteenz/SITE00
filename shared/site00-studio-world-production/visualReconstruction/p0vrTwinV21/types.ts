@@ -151,6 +151,8 @@ export type TwinV2FidelityReceipt = {
 export type ConceptDirectedTwinSession = {
   buildRef: typeof P0_VR_TWIN_V21_BUILD;
   generationMode: 'CONCEPT_DIRECTED_V2';
+  /** P0.VR.TWINV2.2 — persistent concept gallery + executable lineage */
+  conceptGallery?: import('../p0vrTwinV22/types.js').ConceptGalleryState;
   sessionId: string;
   projectId: string;
   pageId: string;

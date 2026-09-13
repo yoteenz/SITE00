@@ -88,6 +88,7 @@ import {
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 import {
   createConceptDirectedTwinSession,
+  ensureConceptGallery,
   isTwinV2PilotEligible,
   loadConceptDirectedTwinSession,
   saveConceptDirectedTwinSession,
@@ -265,13 +266,14 @@ export function PageFamilyWorkspace({
     if (!activePageId || !twinV2Eligible) return;
     const existing = loadConceptDirectedTwinSession(projectId, activePageId);
     const refs = upgradeSession?.designAuthorityAssetRef ? [upgradeSession.designAuthorityAssetRef] : [];
-    const session =
+    const session = ensureConceptGallery(
       existing ??
-      createConceptDirectedTwinSession({
-        projectId,
-        pageId: activePageId,
-        referenceAssets: refs,
-      });
+        createConceptDirectedTwinSession({
+          projectId,
+          pageId: activePageId,
+          referenceAssets: refs,
+        }),
+    );
     saveConceptDirectedTwinSession(session);
     setTwinV2Session(session);
     setTwinV2Open(true);

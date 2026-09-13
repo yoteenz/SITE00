@@ -186,3 +186,107 @@
 .site00-pur__twin-v2-entry--persistent .site00-pur__chip {
   margin-left: 0.35rem;
 }
+
+.site00-twin-v2-gallery__head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+.site00-twin-v2-gallery__rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.site00-twin-v2-gallery__slide {
+  flex: 0 0 min(100%, 375px);
+  scroll-snap-align: center;
+  border: 2px solid #222;
+  background: #000;
+}
+
+.site00-twin-v2-gallery__slide.is-active {
+  border-color: #c8ff00;
+}
+
+.site00-twin-v2-gallery__slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.site00-twin-v2-gallery__slide footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  font-size: 0.65rem;
+  color: #ccc;
+}
+
+.site00-twin-v2-gallery__filmstrip {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+
+.site00-twin-v2-gallery__filmstrip button {
+  min-width: 2rem;
+  padding: 0.25rem;
+  border: 1px solid #444;
+  background: transparent;
+  color: inherit;
+}
+
+.site00-twin-v2-gallery__filmstrip button.is-active {
+  border-color: #c8ff00;
+}
+
+.site00-twin-v2-gallery__readiness {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  margin: 0.5rem 0;
+}
+
+.site00-twin-v2-gallery__ready.is-ok {
+  color: #c8ff00;
+}
+
+.site00-twin-v2-gallery__ready-warn {
+  color: #f5a623;
+}
+
+.site00-twin-v2-gallery__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.site00-twin-v2-gallery__view-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-twin-v2-gallery__view-tabs button.is-active {
+  border-color: #c8ff00;
+}
+
+.site00-twin-v2-gallery__blueprint-panel {
+  font-size: 0.75rem;
+  max-height: 12rem;
+  overflow: auto;
+  border: 1px solid #333;
+  padding: 0.5rem;
+}

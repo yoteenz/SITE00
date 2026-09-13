@@ -1,4 +1,6 @@
 import { appendVisualConceptVersion } from './applyFounderVisualJudgment.js';
+import { addConceptCandidateFromGeneration, getActiveConceptCandidate } from '../p0vrTwinV22/conceptGalleryState.js';
+import type { ConceptGenerationType } from '../p0vrTwinV22/types.js';
 import type { ConceptDirectedTwinSession, PageCreativeDirection, VisualConceptVersion } from './types.js';
 
 export function recordFounderVisualSpendIntent(
@@ -45,9 +47,39 @@ export function mergeVisualConceptApiResult(
     status: 'DRAFT',
     createdAt: new Date().toISOString(),
   };
+  const activeBefore = getActiveConceptCandidate(session);
   let next = appendVisualConceptVersion(session, version);
+  const genType: ConceptGenerationType =
+    input.action === 'refine' ? 'REFINED' : input.action === 'regenerate' ? 'REGENERATED' : 'INITIAL';
+  const parentId =
+    input.action === 'refine'
+      ? (activeBefore?.conceptId ??
+          (input.parentVersionId
+            ? next.conceptGallery?.candidates.find((c) => c.legacyVersionId === input.parentVersionId)?.conceptId ??
+              null
+            : null))
+      : null;
+
+  next = addConceptCandidateFromGeneration(next, {
+    generationType: genType,
+    imageUrl: input.imageUrl,
+    imageStorageRef: input.imageStorageRef,
+    founderInstruction: input.refineInstruction ?? null,
+    parentConceptId: parentId,
+    creativeDirection,
+  });
+
+  const linkedLegacyId = version.versionId;
   next = {
     ...next,
+    conceptGallery: next.conceptGallery
+      ? {
+          ...next.conceptGallery,
+          candidates: next.conceptGallery.candidates.map((c) =>
+            c.conceptId === next.conceptGallery!.activeConceptId ? { ...c, legacyVersionId: linkedLegacyId } : c,
+          ),
+        }
+      : next.conceptGallery,
     status: 'TWIN_V2_CONCEPT_READY',
     founderJudgment: {
       ...next.founderJudgment,
