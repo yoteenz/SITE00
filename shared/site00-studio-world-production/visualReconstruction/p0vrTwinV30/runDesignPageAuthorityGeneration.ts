@@ -4,9 +4,11 @@ import {
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   DESIGN_PAGE_V3_SKELETON_AREAS,
-  P0_VR_TWIN_V30R5_LINEAGE,
+  DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
+  P0_VR_TWIN_V30R5F1_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
+import { runDesignPageAuthorityR5F1SelfCheck } from './designWorkspaceFeatureAuthority/designPageAuthorityR5F1SelfCheck.js';
 import {
   assertNoUngroundedVisualAssets,
   buildAuthorityGroundedAssetManifest,
@@ -104,6 +106,12 @@ export async function runDesignPageAuthorityGeneration(input: {
   if (!r4SelfCheck.pass) {
     throw new Error(`PROJECT_CREATIVE_CONTEXT_INCOMPLETE: r4 self-check ${r4SelfCheck.failures.join(', ')}`);
   }
+  const r5f1SelfCheck = runDesignPageAuthorityR5F1SelfCheck({
+    promptOrArtifactText: combinedPromptText,
+  });
+  if (!r5f1SelfCheck.pass) {
+    throw new Error(`MASTER_FEATURE_COVERAGE_INCOMPLETE: r5f1 ${r5f1SelfCheck.failures.join(', ')}`);
+  }
   const territoryScope = input.territoryScope ?? 'ALL';
   const scopedTerritoryIds = territoryScopeToIds(territoryScope);
   const dispatch = await dispatchDesignPageAuthorityTerritoryVisuals({
@@ -151,7 +159,9 @@ export async function runDesignPageAuthorityGeneration(input: {
   });
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
-    lineage: P0_VR_TWIN_V30R5_LINEAGE,
+    lineage: P0_VR_TWIN_V30R5F1_LINEAGE,
+    designWorkspaceFeatureManifestVersion: DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
+    r5f1SelfCheck,
     authoritySessionId: input.session.authoritySessionId,
     projectId: input.session.projectId,
     pageLabel: input.session.pageLabel,
