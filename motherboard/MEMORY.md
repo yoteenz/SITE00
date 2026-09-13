@@ -8582,3 +8582,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Compose is synchronous (no UI); post-build preview/compare lived **below** the gallery off-screen; async gallery hydrate could overwrite a fresh build; errors only at bottom of drawer.
 - **Fix:** BUILDING TWIN… button state + lime banner; **TWIN V2 BUILT** panel with inline `ConceptDirectedNdxOverviewTwinV2` + scroll-into-view; collapse gallery after build; hydrate preserves `renderedTwin`.
 
+---
+
+## 2026-09-13 — Twin V2 OPEN PREVIEW routed to home (encoded sessionId)
+
+- **Symptom:** OPEN TWIN V2 PREVIEW landed on SITE 00 home (`/`).
+- **Root cause:** `sessionId` embeds page route slashes (`twin-v2-ndxbook-ndxbook:/projects/ndxbook-…`); unencoded URL broke `:sessionId` matching → App `*` → `/`. Stale parent session on stash; preview gated on `canAccessAdminPages`.
+- **Fix:** `encodeURIComponent` in `buildTwinV2PreviewRoute` + decode on preview page; stash live built session; localStorage fallback resolve; signed-in gate only.
+
