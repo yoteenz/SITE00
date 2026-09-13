@@ -8608,6 +8608,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.5 dual-output concept generation (v376)
+
+- **Problem:** Image-first concepts forced post-hoc blueprint/asset inference; unique assets trapped in authority image.
+- **Fix:** `p0vrTwinV25` — **CompositionPlan + ConceptVisualBlueprint + ConceptAssetPlan + ConceptFunctionTargetPlan** created **before** FAL visual; `beginDualOutputConceptGeneration` → API prompt carries object plan → `finalizeDualOutputConceptGeneration` reconciles, materializes **ConceptGeneratedAsset** canonical paths, builds manifest/bindings; approval gate `assertPairedConceptApprovalGate`; UI **TwinV2PairedConceptReviewPanel** (VISUAL/BLUEPRINT/OVERLAY/ASSETS/FUNCTION MAP); legacy concepts **`LEGACY_IMAGE_FIRST`** preserved; build ref **v376**. Railway API must redeploy for dual-output prompt on generate.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.4R1 compiler route enforcement (v375)
 
 - **Symptom:** After v374 DOM-first build, twin still looked like generic semantic wireframe; EXECUTION LINEAGE showed **PACKAGE_DRIVEN_SOURCE_GENERATION**.
