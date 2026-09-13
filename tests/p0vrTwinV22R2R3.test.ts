@@ -86,6 +86,12 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     );
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).toContain('calc(-100% * var(--client-crop-top');
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).not.toContain('inset(7% 0 12% 0)');
+    expect(read('src/site00/components/designWorkspace/pageFamily/ConceptDirectedTwinGallery.tsx')).toContain(
+      'site00-twin-v2-gallery__client-canvas-panel',
+    );
+    expect(read('src/site00/styles/site00-twin-v2-concept.css')).toContain(
+      'site00-twin-v2-gallery__client-canvas-panel',
+    );
   });
 
   it('sanitizedCanvasBottom respects host safe area (excludes invented nav band)', () => {
@@ -112,7 +118,7 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     const receipt = session.conceptGallery!.clientCanvasTopReceipts![c.conceptId]!;
     expect(receipt.newCanvasTop).toBeLessThanOrEqual(receipt.previousCanvasTop);
     expect(['RECOVERED', 'UNCHANGED']).toContain(receipt.status);
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v360');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v361');
     const boundary = computeClientCanvasBoundary({
       conceptId: c.conceptId,
       executionBlueprint: session.conceptGallery!.sanitizedBlueprints[c.executionBlueprintId!],

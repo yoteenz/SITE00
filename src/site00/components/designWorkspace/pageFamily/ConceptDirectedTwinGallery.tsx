@@ -293,7 +293,7 @@ export function ConceptDirectedTwinGallery({
       </div>
 
       {viewMode === 'CLIENT_CANVAS' && active.visualAssetUrl && clientCanvasBoundary ? (
-        <section className="site00-twin-v2-gallery__blueprint-panel" data-panel="client-canvas">
+        <section className="site00-twin-v2-gallery__client-canvas-panel" data-panel="client-canvas">
           <p>NDXBOOK client creative area only (trimmed at last client-owned boundary).</p>
           <TwinV2ExecutionClientCanvasFrame
             imageUrl={active.visualAssetUrl}

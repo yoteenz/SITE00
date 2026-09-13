@@ -92,7 +92,7 @@ describe('P0.VR.TWINV2.2R2R2 client canvas trim', () => {
     );
     expect(lastClientContentBottom).toBeGreaterThan(0);
     expect(assertV1Isolation().v1PipelineUntouched).toBe(true);
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v360');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v361');
   });
 
   it('computeClientCanvasBoundary receipt fields', () => {

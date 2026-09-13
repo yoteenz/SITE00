@@ -183,7 +183,7 @@ describe('P0.VR.TWINV2.2R2 host boundary contract', () => {
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/composeFromExecutablePackage.ts')).not.toContain(
       'promoteTwinToLive',
     );
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v360');
-    expect(P0_VR_TWIN_V22R2_BUILD).toBe('v360');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v361');
+    expect(P0_VR_TWIN_V22R2_BUILD).toBe('v361');
   });
 });
