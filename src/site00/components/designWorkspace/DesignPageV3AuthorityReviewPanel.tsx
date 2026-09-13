@@ -54,6 +54,7 @@ import {
   resolveDesignPageAuthorityImageSrc,
 } from './designPageAuthorityR3PrototypeUrls.js';
 import { DesignPageV3AuthorityPairDock } from './DesignPageV3AuthorityPairDock.js';
+import { DesignPageV3AuthorityRecoveryStrip } from './DesignPageV3AuthorityRecoveryStrip.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
 type Props = {
@@ -101,6 +102,15 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [confirmKind, setConfirmKind] = useState<ConfirmKind | null>(null);
   const [fullscreenSrc, setFullscreenSrc] = useState<string | null>(null);
   const [mobileDockOpen, setMobileDockOpen] = useState(false);
+
+  useEffect(() => {
+    if (!pilot) return;
+    const receiptOk = session.authorityPipeline?.founderAuthorityInjectionReceipt?.status === 'PASS';
+    const locked = session.authorityPipeline?.authorityPair?.status === 'PAIR_LOCKED';
+    if (receiptOk && locked) {
+      setMobileDockOpen(true);
+    }
+  }, [pilot, session.authorityPipeline?.founderAuthorityInjectionReceipt?.status, session.authorityPipeline?.authorityPair?.status]);
 
   const sessionView = useMemo(() => {
     const normalized = normalizeDesignPageAuthoritySession(session);
@@ -332,6 +342,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           founder authority injection.
         </p>
       : null}
+
+      <DesignPageV3AuthorityRecoveryStrip session={sessionView} onGenerateDerivatives={onGenerateDerivatives} />
+
       <p className="site00-dw-v3-authority__hint" data-testid="v3-authority-gallery-stats">
         {galleryStats}
       </p>
@@ -372,7 +385,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         aria-expanded={mobileDockOpen}
         onClick={() => setMobileDockOpen((v) => !v)}
       >
-        AUTHORITY PAIR · tap to {mobileDockOpen ? 'hide' : 'manage'}
+        {pairLocked ?
+          `AUTHORITY PAIR · LOCKED · tap to ${mobileDockOpen ? 'hide' : 'show'} dock`
+        : `AUTHORITY PAIR · tap to ${mobileDockOpen ? 'hide' : 'manage'}`}
       </button>
       {mobileDockOpen ? <div className="site00-dw-v3-authority-dock--mobile">{dock}</div> : null}
 

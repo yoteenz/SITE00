@@ -275,6 +275,70 @@
   color: #555;
 }
 
+.site00-dw-v3-authority-recovery {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border: 3px solid #c6f135;
+  border-radius: 12px;
+  background: #f3ffe0;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site00-dw-v3-authority-recovery__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.65rem;
+  font-size: 0.78rem;
+}
+
+.site00-dw-v3-authority-recovery__grid {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+
+.site00-dw-v3-authority-recovery__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.site00-dw-v3-authority-recovery__label {
+  color: #333;
+  font-weight: 600;
+}
+
+.site00-dw-v3-authority-recovery__value {
+  color: #0a7a3e;
+  font-weight: 800;
+}
+
+.site00-dw-v3-authority-recovery__issue {
+  margin: 0 0 0.65rem;
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: #444;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+.site00-dw-v3-authority-recovery__primary {
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
 .site00-dw-v3-authority-dock--desktop {
   display: none;
 }
