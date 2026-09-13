@@ -8704,3 +8704,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** On merge, only stamp **`buildRef`** via `emptyConceptGallery()` when missing — do **not** hydrate/backfill before append. Stale empty-gallery hydrate sets **`activeConceptId`** to **`candidates[0]`** when backfill recovered from zero candidates.
 - **Changes:** `p0vrTwinV21/orchestrateTwinV2VisualConcept.ts`, `p0vrTwinV22/hydrateConceptGallerySession.ts`; `tests/p0vrTwinV22R1.test.ts` green (12/12). No GoDaddy ZIP required (shared logic only); Railway redeploy optional.
 
+---
+
+## 2026-09-13 — v29 atomic bundle button invisible on real NDXBOOK pageId
+
+- **Symptom:** Founder could not find **RUN ATOMIC GENERATION BUNDLE (v29)** (or v28 proof) in Twin V2 UX.
+- **Root cause:** Pilot UI gated on `session.pageId === 'overview'`; live NDXBOOK sessions use canonical ids like `ndxbook:/projects/ndxbook` (see `isTwinV2OverviewPageScope` / `buildPageId`).
+- **Fix:** Gate v28/v29 controls with **`isTwinV2OverviewPageScope`**; moved pilot block to **top of Twin V2 drawer** (after hydrate) with `NDXBOOK FAL pilot` label. Deploy ZIP required for site00.com.
+

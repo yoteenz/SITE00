@@ -93,6 +93,11 @@ describe('P0.VR.TWINV2.9 atomic generation bundle', () => {
     expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2AtomicGenerationBundlePanel.tsx')).toContain(
       'OBJECT_DATA',
     );
+    const twinUi = read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx');
+    expect(twinUi).toContain('TwinV2AtomicGenerationBundleControls');
+    expect(twinUi).toContain('site00-twin-v2-fal-proof-pilot');
+    expect(twinUi).toContain('isTwinV2OverviewPageScope');
+    expect(twinUi).not.toContain("session.pageId === 'overview'");
   });
 
   it('29–33 v28 block + v1 + pipeline order', () => {
