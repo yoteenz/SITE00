@@ -3,7 +3,7 @@ import { isHostOwnedBlueprintLabel } from '../p0vrTwinV22R2/isHostOwnedBlueprint
 import type { ConceptBlueprint, ConceptBlueprintObject } from './types.js';
 
 /** Normalized height of SITE 00 global host header on the concept artboard (not client masthead). */
-const CONCEPT_HOST_HEADER_NORM = 0.06;
+const CONCEPT_HOST_HEADER_NORM = 0.07;
 
 /** Concept-specific blueprint from creative direction + post-image band plan (not V1 forensic blueprint). */
 export function generateConceptBlueprint(input: {

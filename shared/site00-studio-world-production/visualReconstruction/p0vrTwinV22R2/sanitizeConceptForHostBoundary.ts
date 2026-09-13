@@ -52,6 +52,7 @@ export function sanitizeConceptForHostBoundary(input: {
     conceptId: input.conceptId,
     executionBlueprint: sanitizedBlueprint,
     generatedHostArtifacts,
+    hostTopInsetNorm: hostShellContract.clientCanvasInsets.top,
     hostBottomNavHeightNorm: hostShellContract.safeAreaRules.bottomInsetNorm,
   });
   assertClientCanvasExcludesHostArtifactExtent({ boundary: clientCanvasBoundary, generatedHostArtifacts });

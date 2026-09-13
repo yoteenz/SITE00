@@ -8503,3 +8503,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Actual culprit:** Not gate failsafe — **`Site00ImmersiveColdStartFallback`** portaled a second **non-exiting** immersive loader to `document.body` during lazy chunk Suspense (copy hidden until animation plays; no exit lifecycle). Orphan DOM + `html.site00-assts-boot` could hide `#root`.
 - **Fix (v355):** Remove immersive loader from route Suspense fallbacks entirely; `purgeSite00ImmersiveLoaderDom()` on session complete / force-reveal / loading-terminal recovery; boot-recovery **watchdog** (after gate complete or 10s) strips orphaned `.site00-immersive-loader`; stop marking immersive session complete on raw React mount (gate owns session).
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 hotfix (v359) — masthead + bottom nav crop regression
+
+- **Symptom:** After v358, founder QA on Twin V2 CLIENT CANVAS: NDXBOOK masthead top still clipped; invented HOME/PROJECTS bottom nav visible again inside client preview.
+- **Root cause:** (1) `canvasTop` followed first section below masthead (~0.08) instead of masthead/host inset (0.07); (2) bottom cap omitted host safe-area floor when artifact geometry loose; (3) WebKit `translateY` on bare `img` inside `height:0` padding box mis-aligned crop.
+- **Fix:** `canvasTop = min(firstClient, masthead, hostTopInset 0.07)`; `sanitizedCanvasBottom = min(..., 1 - hostBottomInset, artifact y)`; exclude invented bottom-nav objects from last-client extent; crop frame = aspect-ratio window + inner shift + bottom-only `clip-path`; gallery repair when `buildRef !== v359` or bottom &gt; 0.88. Build ref **v359**.
+

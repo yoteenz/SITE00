@@ -3,7 +3,6 @@
  */
 
 import type { ClientCanvasBoundary } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeClientCanvasBoundary.js';
-import { CLIENT_CANVAS_ARTBOARD_HEIGHT_OVER_WIDTH } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/clientCanvasBoundaryConstants.js';
 
 type Props = {
   imageUrl: string;
@@ -20,6 +19,8 @@ export function TwinV2ExecutionClientCanvasFrame({
 }: Props) {
   const visible = boundary.sanitizedCanvasHeight;
   const top = boundary.canvasTop;
+  const bottomClipPct = (1 - boundary.sanitizedCanvasBottom) * 100;
+  const visibleHeightPxAt375 = 812 * visible;
 
   return (
     <div
@@ -28,17 +29,26 @@ export function TwinV2ExecutionClientCanvasFrame({
       data-canvas-top={top.toFixed(4)}
       data-canvas-bottom={boundary.sanitizedCanvasBottom.toFixed(4)}
       style={{
-        paddingBottom: `${visible * CLIENT_CANVAS_ARTBOARD_HEIGHT_OVER_WIDTH * 100}%`,
+        aspectRatio: `375 / ${visibleHeightPxAt375}`,
       }}
     >
-      <img
-        src={imageUrl}
-        alt={alt}
-        draggable={false}
+      <div
+        className="site00-twin-v2-trimmed-canvas__shift"
         style={{
           transform: `translateY(-${top * 100}%)`,
         }}
-      />
+      >
+        <img
+          src={imageUrl}
+          alt={alt}
+          draggable={false}
+          className="site00-twin-v2-trimmed-canvas__artboard"
+          style={{
+            clipPath: `inset(0 0 ${bottomClipPct}% 0)`,
+            WebkitClipPath: `inset(0 0 ${bottomClipPct}% 0)`,
+          }}
+        />
+      </div>
       {debugGuides ? (
         <>
           <span className="site00-twin-v2-trimmed-canvas__guide site00-twin-v2-trimmed-canvas__guide--top">

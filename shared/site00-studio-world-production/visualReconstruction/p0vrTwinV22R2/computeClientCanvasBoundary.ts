@@ -4,7 +4,10 @@ import { isHostOwnedBlueprintLabel } from './isHostOwnedBlueprintLabel.js';
 import {
   APPROVED_CLIENT_BOTTOM_PADDING_NORM,
   CLIENT_CANVAS_TOP_FALLBACK_NORM,
+  SITE00_HOST_BOTTOM_INSET_NORM,
+  SITE00_HOST_TOP_INSET_NORM,
 } from './clientCanvasBoundaryConstants.js';
+import { isInventedBottomNavObject } from './detectGeneratedHostArtifacts.js';
 
 export type ClientCanvasBoundary = {
   conceptId: string;
@@ -29,7 +32,25 @@ function isClientBlueprintObject(obj: ConceptBlueprint['objects'][0]): boolean {
   if (obj.isGeneratedHostArtifact) return false;
   if (obj.ownership === 'HOST_OWNED_LOCKED') return false;
   if (obj.objectId === 'obj-host-header') return false;
+  if (isInventedBottomNavObject(obj)) return false;
   return true;
+}
+
+function isClientBlueprintSection(sec: ConceptBlueprint['sections'][0]): boolean {
+  if (isHostOwnedBlueprintLabel(sec.label)) return false;
+  const n = sec.label.toLowerCase();
+  if (n.includes('host bottom nav')) return false;
+  return true;
+}
+
+function resolveMastheadSectionTop(blueprint: ConceptBlueprint): number | null {
+  for (const sec of blueprint.sections) {
+    const n = sec.label.toLowerCase();
+    if (n.includes('masthead') || n.includes('project identity')) {
+      return sec.bounds.y;
+    }
+  }
+  return null;
 }
 
 export function computeFirstClientContentTop(blueprint: ConceptBlueprint): {
@@ -44,7 +65,7 @@ export function computeFirstClientContentTop(blueprint: ConceptBlueprint): {
   let firstBounds: { y: number; h: number } | null = null;
 
   for (const sec of blueprint.sections) {
-    if (isHostOwnedBlueprintLabel(sec.label)) continue;
+    if (!isClientBlueprintSection(sec)) continue;
     if (sec.label.toLowerCase().includes('masthead') || sec.label.toLowerCase().includes('project identity')) {
       ownershipCorrections.push(`${sec.label}: CLIENT_OWNED_CREATIVE (masthead band)`);
     }
@@ -61,6 +82,19 @@ export function computeFirstClientContentTop(blueprint: ConceptBlueprint): {
       firstTop = obj.bounds.y;
       firstId = obj.objectId;
       firstBounds = { y: obj.bounds.y, h: obj.bounds.h };
+    }
+  }
+
+  const mastheadTop = resolveMastheadSectionTop(blueprint);
+  if (mastheadTop != null && mastheadTop < firstTop) {
+    firstTop = mastheadTop;
+    const mastheadSec = blueprint.sections.find((s) => {
+      const n = s.label.toLowerCase();
+      return n.includes('masthead') || n.includes('project identity');
+    });
+    if (mastheadSec) {
+      firstId = mastheadSec.id;
+      firstBounds = { y: mastheadSec.bounds.y, h: mastheadSec.bounds.h };
     }
   }
 
@@ -86,7 +120,7 @@ export function computeLastClientContentBottom(blueprint: ConceptBlueprint): {
   let lastBounds: { y: number; h: number } | null = null;
 
   for (const sec of blueprint.sections) {
-    if (isHostOwnedBlueprintLabel(sec.label)) continue;
+    if (!isClientBlueprintSection(sec)) continue;
     const bottom = sec.bounds.y + sec.bounds.h;
     if (bottom > lastBottom) {
       lastBottom = bottom;
@@ -116,6 +150,7 @@ export function computeClientCanvasBoundary(input: {
   conceptId: string;
   executionBlueprint: ConceptBlueprint;
   generatedHostArtifacts: GeneratedHostArtifact[];
+  hostTopInsetNorm?: number;
   hostBottomNavHeightNorm?: number;
 }): ClientCanvasBoundary {
   const first = computeFirstClientContentTop(input.executionBlueprint);
@@ -125,11 +160,22 @@ export function computeClientCanvasBoundary(input: {
   const generatedHostNavBounds = bottomNavArtifact?.visualBounds ?? null;
   const excludedHostArtifactHeight = generatedHostNavBounds?.h ?? 0;
 
-  const canvasTop = first.firstClientContentTop;
+  const hostTopInset = input.hostTopInsetNorm ?? SITE00_HOST_TOP_INSET_NORM;
+  const hostBottomInset = input.hostBottomNavHeightNorm ?? SITE00_HOST_BOTTOM_INSET_NORM;
+  const mastheadTop = resolveMastheadSectionTop(input.executionBlueprint);
+  const semanticTop = Math.min(
+    first.firstClientContentTop,
+    mastheadTop ?? first.firstClientContentTop,
+    hostTopInset,
+  );
+  const canvasTop = Math.max(0, semanticTop);
+
   const paddedBottom = last.lastClientContentBottom + APPROVED_CLIENT_BOTTOM_PADDING_NORM;
-  const cappedBottom = generatedHostNavBounds
-    ? Math.min(paddedBottom, Math.max(canvasTop + 0.05, generatedHostNavBounds.y - 0.005))
-    : paddedBottom;
+  const hostSafeBottom = 1 - hostBottomInset;
+  const artifactCap = generatedHostNavBounds
+    ? Math.max(canvasTop + 0.05, generatedHostNavBounds.y - 0.005)
+    : hostSafeBottom;
+  const cappedBottom = Math.min(paddedBottom, artifactCap, hostSafeBottom);
 
   const sanitizedCanvasBottom = Math.min(0.98, cappedBottom);
   const sanitizedCanvasHeight = Math.max(0.1, sanitizedCanvasBottom - canvasTop);

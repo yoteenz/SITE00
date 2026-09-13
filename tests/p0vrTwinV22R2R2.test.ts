@@ -74,7 +74,7 @@ describe('P0.VR.TWINV2.2R2R2 client canvas trim', () => {
     expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).toContain(
       'translateY',
     );
-    expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).not.toContain(
+    expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).toContain(
       'clipPath',
     );
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).not.toContain('inset(7% 0 12% 0)');
@@ -94,7 +94,7 @@ describe('P0.VR.TWINV2.2R2R2 client canvas trim', () => {
     );
     expect(lastClientContentBottom).toBeGreaterThan(0);
     expect(assertV1Isolation().v1PipelineUntouched).toBe(true);
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v358');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v359');
   });
 
   it('computeClientCanvasBoundary receipt fields', () => {

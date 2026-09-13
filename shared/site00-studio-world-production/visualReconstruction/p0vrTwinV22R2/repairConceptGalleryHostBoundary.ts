@@ -8,6 +8,8 @@ import { generateConceptFunctionBindingPlan } from '../p0vrTwinV22/generateConce
 import { computeConceptBuildReadiness } from '../p0vrTwinV22/computeConceptBuildReadiness.js';
 import { generateConceptBlueprint } from '../p0vrTwinV22/generateConceptBlueprint.js';
 import type { HostBoundarySanitizationReceipt } from './buildHostBoundarySanitizationReceipt.js';
+import { SITE00_HOST_BOTTOM_INSET_NORM } from './clientCanvasBoundaryConstants.js';
+import { P0_VR_TWIN_V22_BUILD } from '../p0vrTwinV22/constants.js';
 
 function repairOneCandidate(
   session: ConceptDirectedTwinSession,
@@ -134,14 +136,18 @@ export function repairConceptGalleryHostBoundary(
   };
 
   const candidates = gallery.candidates.map((c) => {
+    const boundary = workingGallery.clientCanvasBoundaries?.[c.conceptId];
+    const hostSafeBottom = 1 - SITE00_HOST_BOTTOM_INSET_NORM;
     const needsRepair =
+      gallery.buildRef !== P0_VR_TWIN_V22_BUILD ||
       !c.executionBlueprintId ||
       !workingGallery.sanitizedBlueprints[c.executionBlueprintId] ||
       c.buildReadiness.hostBoundaryReady !== true ||
       (workingGallery.generatedHostArtifacts[c.conceptId]?.length ?? 0) === 0 ||
-      !workingGallery.clientCanvasBoundaries?.[c.conceptId] ||
+      !boundary ||
       !workingGallery.clientCanvasTopReceipts?.[c.conceptId] ||
-      (workingGallery.clientCanvasBoundaries[c.conceptId]?.canvasTop ?? 1) > 0.075;
+      (boundary.canvasTop ?? 1) > 0.075 ||
+      (boundary.sanitizedCanvasBottom ?? 1) > hostSafeBottom + 0.01;
     if (!needsRepair && c.executionBlueprintId && c.originalBlueprintId) {
       return c;
     }
