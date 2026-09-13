@@ -1,4 +1,6 @@
 import {
+  derivationPrimaryActionLabel,
+  isFounderInjectedAuthorityPair,
   pairStatusLabel,
   resolveViewportMasterArtifact,
   type DesignPageAuthorityReviewSession,
@@ -11,6 +13,7 @@ type Props = {
   onViewViewport: (viewport: 'mobile' | 'desktop') => void;
   onPromoteViewport: (viewport: 'mobile' | 'desktop') => void;
   onLockPair: () => void;
+  onGenerateDerivatives?: () => void;
   pairLocked: boolean;
 };
 
@@ -20,6 +23,7 @@ export function DesignPageV3AuthorityPairDock({
   onViewViewport,
   onPromoteViewport,
   onLockPair,
+  onGenerateDerivatives,
   pairLocked,
 }: Props) {
   const pipeline = session.authorityPipeline;
@@ -47,7 +51,11 @@ export function DesignPageV3AuthorityPairDock({
       <p className="site00-dw-v3-authority-dock__meta">
         {master ?
           <>
-            {master.sourceTerritoryId} · {master.sourceConceptCandidateId.slice(-8)} · v{master.version}
+            {master.founderApproved ? 'FOUNDER APPROVED · ' : ''}
+            {master.sourceType === 'FOUNDER_ATTACHED_AUTHORITY' ?
+              'ATTACHED MASTER'
+            : `${master.sourceTerritoryId} · ${master.sourceConceptCandidateId.slice(-8)}`}{' '}
+            · v{master.version}
             <br />
             <span className="site00-dw-v3-authority-dock__status">{master.status.replace(/_/g, ' ')}</span>
           </>
@@ -87,18 +95,38 @@ export function DesignPageV3AuthorityPairDock({
   );
 
   const bothPromoted = Boolean(mobileMaster && desktopMaster);
+  const founderInjected = isFounderInjectedAuthorityPair(session);
+  const derivationReady = session.authorityPipeline?.authorityPair?.derivationStatus === 'READY';
+  const primaryLabel = derivationPrimaryActionLabel(session);
 
   return (
     <aside className="site00-dw-v3-authority-dock" aria-label="Authority pair selection" data-testid="v3-authority-pair-dock">
       <header className="site00-dw-v3-authority-dock__head">
-        <strong>AUTHORITY PAIR</strong>
+        <strong>AUTHORITY PAIR{pairLocked ? ' · LOCKED' : ''}</strong>
         <span className="site00-dw-v3-authority-dock__pair-status">{pairStatusLabel(session)}</span>
+        {founderInjected ?
+          <span className="site00-dw-v3-authority-dock__recovery" data-testid="v3-founder-injection-badge">
+            FOUNDER AUTHORITY INJECTION · R5F2
+          </span>
+        : null}
       </header>
       <div className="site00-dw-v3-authority-dock__grid">
         {slot('mobile', 'MOBILE MASTER', mobileSel, mobileMaster, mobileArt)}
         {slot('desktop', 'DESKTOP MASTER', desktopSel, desktopMaster, desktopArt)}
       </div>
-      {bothPromoted ?
+      {pairLocked && derivationReady ?
+        <div className="site00-dw-v3-authority-dock__lock">
+          <button
+            type="button"
+            className="site00-dw-v3-btn site00-dw-v3-btn--primary site00-dw-v3-btn--lock"
+            data-testid="v3-generate-derivatives-primary"
+            onClick={() => onGenerateDerivatives?.()}
+          >
+            {primaryLabel}
+          </button>
+          <p className="site00-dw-v3-authority-dock__meta">DERIVATION READY · EXECUTION TRANSLATION · INVENTION NONE</p>
+        </div>
+      : bothPromoted ?
         <div className="site00-dw-v3-authority-dock__lock">
           <button
             type="button"
