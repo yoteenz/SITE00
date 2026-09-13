@@ -1,3 +1,4 @@
+import { site00ClientApiUrl } from '../../site00ClientApiBase.js';
 import type { ConceptDirectedTwinSession } from './types.js';
 
 export type TwinV2VisualConceptResponse = {
@@ -16,8 +17,9 @@ export async function requestTwinV2VisualConcept(input: {
   refineRegion?: string | null;
   apiBase?: string;
 }): Promise<TwinV2VisualConceptResponse> {
-  const base = input.apiBase ?? import.meta.env.VITE_API_BASE ?? '';
-  const url = `${base.replace(/\/$/, '')}/api/site00/twin-v2-visual-concept`;
+  const url = input.apiBase
+    ? `${input.apiBase.replace(/\/$/, '')}/api/site00/twin-v2-visual-concept`
+    : site00ClientApiUrl('/api/site00/twin-v2-visual-concept');
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -32,7 +34,11 @@ export async function requestTwinV2VisualConcept(input: {
   });
   if (!res.ok) {
     const err = (await res.json().catch(() => ({}))) as { error?: string };
-    throw new Error(err.error ?? `Visual concept request failed (${res.status})`);
+    const hint =
+      res.status === 404
+        ? ` — endpoint missing on ${url.split('/api/')[0] || 'API host'}; redeploy Railway API from main if using api.site00.com`
+        : '';
+    throw new Error(err.error ?? `Visual concept request failed (${res.status})${hint}`);
   }
   return res.json() as Promise<TwinV2VisualConceptResponse>;
 }
