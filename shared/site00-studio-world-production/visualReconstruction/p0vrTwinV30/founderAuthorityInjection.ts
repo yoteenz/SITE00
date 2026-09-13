@@ -321,15 +321,6 @@ export function applyOneTimeFounderAuthorityInjection(
   });
 }
 
-export function derivationPrimaryActionLabel(session: DesignPageAuthorityReviewSession): string {
-  const pair = session.authorityPipeline?.authorityPair;
-  if (pair?.status === 'PAIR_LOCKED' && pair.derivationStatus === 'READY') {
-    return 'GENERATE DERIVATIVES';
-  }
-  if (pair?.derivationStatus === 'STALE') return 'RELOCK OR AMEND BEFORE DERIVATION';
-  return 'LOCK AUTHORITY PAIR';
-}
-
 export function isFounderInjectedAuthorityPair(session: DesignPageAuthorityReviewSession): boolean {
   return session.authorityPipeline?.authorityPair?.sourceType === 'FOUNDER_AUTHORITY_INJECTION';
 }
