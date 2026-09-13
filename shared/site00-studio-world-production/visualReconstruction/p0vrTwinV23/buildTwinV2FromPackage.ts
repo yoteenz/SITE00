@@ -3,7 +3,7 @@ import type { ConceptBuildFidelityReceipt, ExecutableConceptPackage } from '../p
 import { ensureConceptGallery, getActiveConceptCandidate } from '../p0vrTwinV22/conceptGalleryState.js';
 import { assertNoGeneratedHostArtifactsInClientBuild } from '../p0vrTwinV22R2/assertNoGeneratedHostArtifactsInClientBuild.js';
 import { buildTwinV2PreviewRoute } from '../p0vrTwinV21/buildTwinV2Route.js';
-import { DEFAULT_TWIN_V2_BUILD_POLICY, P0_VR_TWIN_V23_BUILD } from './constants.js';
+import { DEFAULT_TWIN_V2_BUILD_POLICY } from './constants.js';
 import type { PackageDrivenBuildArtifacts, TwinV2BuildHistoryEntry } from './types.js';
 import { traceActiveApprovedConceptLineage, resolveExecutablePackageForConcept } from './traceActiveApprovedConceptLineage.js';
 import {
@@ -14,6 +14,8 @@ import { buildExecutablePackageAttachmentReceipt } from './buildExecutablePackag
 import { generatePackageDrivenSourceArtifacts } from './generatePackageDrivenSourceArtifacts.js';
 import { assertTwinV2RenderMatchesApprovedLineage } from './assertTwinV2RenderMatchesApprovedLineage.js';
 import { assertPackageDrivenComponentRef } from './guards.js';
+import { P0_VR_TWIN_V23R1_BUILD } from '../p0vrTwinV23R1/constants.js';
+import { buildDomFirstTranslation } from '../p0vrTwinV23R1/buildDomFirstTranslation.js';
 
 export type BuildTwinV2FromPackageResult = {
   sessionPatch: Partial<ConceptDirectedTwinSession>;
@@ -30,9 +32,24 @@ function invalidatePriorTwinIfLineageBroken(
   if (!prior?.builtAt) return history;
   const priorPackageId =
     'sourcePackageId' in prior && prior.sourcePackageId ? prior.sourcePackageId : null;
-  if (priorPackageId && priorPackageId === nextPackageId) return history;
   const priorConceptId =
     'sourceConceptId' in prior && prior.sourceConceptId ? prior.sourceConceptId : 'unknown';
+  if (priorPackageId && priorPackageId === nextPackageId) {
+    if (prior.builtAt && !session.twinV2DomTranslation) {
+      return [
+        ...history,
+        {
+          twinId: session.sessionId,
+          conceptId: priorConceptId,
+          packageId: priorPackageId,
+          builtAt: prior.builtAt,
+          status: 'FAILED_RASTERIZED_EXECUTION',
+          componentRef: prior.componentRef,
+        },
+      ];
+    }
+    return history;
+  }
   return [
     ...history,
     {
@@ -83,6 +100,15 @@ export function buildTwinV2FromPackage(session: ConceptDirectedTwinSession): Bui
   const sourceGenerationId = `src-${pkg.packageId}-${Date.now()}`;
   const functionGraph = pkg.functionGraphSnapshot ?? session.functionGraph;
 
+  const pageIntent = pkg.pageIntentSnapshot ?? session.pageIntent;
+  const domTranslation = buildDomFirstTranslation({ pkg, pageIntent, functionGraph });
+  if (domTranslation.domRealityReceipt.status !== 'PASS') {
+    throw new Error('TWIN_V2_OBJECT_TRANSLATION_FAILED: DOM reality receipt failed');
+  }
+  if (domTranslation.rasterAudit.fullAuthorityUsed) {
+    throw new Error('TWIN_V2_FULL_AUTHORITY_RASTER_USAGE');
+  }
+
   const sourceArtifacts = generatePackageDrivenSourceArtifacts({
     pkg,
     sourceGenerationId,
@@ -114,8 +140,8 @@ export function buildTwinV2FromPackage(session: ConceptDirectedTwinSession): Bui
     conceptId: active.conceptId,
     twinId: renderedTwinId,
     visualAuthorityId: active.conceptId,
-    blueprintObjectCount: sourceArtifacts.objectCoverage.blueprintObjectCount,
-    renderedObjectCount: sourceArtifacts.objectCoverage.generatedObjectCount,
+    blueprintObjectCount: domTranslation.expandedObjects.length,
+    renderedObjectCount: domTranslation.domBindings.filter((b) => b.status === 'BOUND').length,
     geometryMatch: 0.72,
     typographyMatch: 0.85,
     assetMatch: 0.8,
@@ -129,7 +155,7 @@ export function buildTwinV2FromPackage(session: ConceptDirectedTwinSession): Bui
   };
 
   const lineage = {
-    buildRef: P0_VR_TWIN_V23_BUILD,
+    buildRef: P0_VR_TWIN_V23R1_BUILD,
     conceptId: pkg.conceptId,
     approvedVisualAuthorityId: active.conceptId,
     executionBlueprintId: pkg.blueprint.blueprintId,
@@ -175,7 +201,8 @@ export function buildTwinV2FromPackage(session: ConceptDirectedTwinSession): Bui
     },
     status: 'TWIN_V2_REVIEW_READY',
     sourceGeneration: { ...session.sourceGeneration, lastBuildAt: builtAt },
-    buildRef: P0_VR_TWIN_V23_BUILD,
+    buildRef: P0_VR_TWIN_V23R1_BUILD,
+    twinV2DomTranslation: domTranslation,
     twinV2BuildHistory: invalidatePriorTwinIfLineageBroken(session, pkg.packageId),
     twinV2Execution: {
       buildPolicy,
