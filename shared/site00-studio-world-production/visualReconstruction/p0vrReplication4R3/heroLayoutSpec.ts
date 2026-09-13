@@ -27,19 +27,29 @@ export const HERO_RENDERED_LAYOUT: Record<HeroObjectId, HeroLayoutRect> = {
 };
 
 export function buildHeroCssPatchFromLayout(): Record<string, string> {
+  /** Baseline vars after 4R4R1 Playwright snapshot (8 outliers → factual nudges). */
   return {
     '--fb-hero-h': '220px',
     '--hero-h06-pos': '58% 26%',
     '--hero-h06-size': '265% auto',
     '--hero-h06-left': '37%',
+    '--hero-h06-right-inset': '23%',
     '--hero-h12-pos': '91% 43%',
     '--hero-h12-size': '320% auto',
+    '--hero-h12-width': '64px',
+    '--hero-h12-height': '56px',
+    '--hero-h12-bottom-offset': '5px',
     '--hero-ndx-fill': '#b7f75f',
     '--hero-left-pad-top': '10px',
-    '--hero-h08-left': '52%',
-    '--hero-h08-bottom': '8px',
-    '--hero-h02-mb': '8px',
+    '--hero-h08-left': '51.6%',
+    '--hero-h08-bottom': '7px',
+    '--hero-h08-font-size': '46px',
+    '--hero-h09-width': '88px',
+    '--hero-h02-mb': '4px',
+    '--hero-h03-mt': '4px',
+    '--hero-h03-mb': '6px',
     '--hero-h04-mt': '4px',
-    '--hero-h05-mt': '12px',
+    '--hero-h05-mt': '10px',
+    '--hero-h10-mb': '4px',
   };
 }

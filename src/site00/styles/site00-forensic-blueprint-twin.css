@@ -438,7 +438,7 @@
   position: absolute;
   left: var(--hero-h06-left, 37%);
   top: 0;
-  right: 23%;
+  right: var(--hero-h06-right-inset, 23%);
   bottom: 0;
   z-index: 10;
   overflow: hidden;
@@ -475,9 +475,9 @@
 .site00-fb__hero-h12 {
   position: absolute;
   right: 0;
-  bottom: 0;
-  width: 64px;
-  height: 56px;
+  bottom: var(--hero-h12-bottom-offset, 0px);
+  width: var(--hero-h12-width, 64px);
+  height: var(--hero-h12-height, 56px);
   z-index: 10;
   overflow: hidden;
   box-sizing: border-box;
@@ -522,7 +522,7 @@
 
 .site00-fb__hero-h10 {
   display: block;
-  margin: 4px auto 8px;
+  margin: 4px auto var(--hero-h10-mb, 8px);
   width: 18px;
   height: 18px;
   border: 1px solid rgba(255, 255, 255, 0.85);
@@ -556,10 +556,13 @@
 
 .site00-fb__hero-h11 {
   display: block;
+  width: 28px;
+  margin: 0 auto;
   text-align: center;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
+  box-sizing: border-box;
 }
 
 .site00-fb__hero--surgical .site00-fb__hero-left {
@@ -575,6 +578,9 @@
   font-weight: 600;
   text-transform: uppercase;
   display: block;
+  width: 80px;
+  max-width: 80px;
+  box-sizing: border-box;
   margin-bottom: 6px;
   letter-spacing: 0.05em;
 }
@@ -586,7 +592,9 @@
   line-height: 1.08;
   text-transform: uppercase;
   display: block;
+  width: 140px;
   max-width: 140px;
+  box-sizing: border-box;
   letter-spacing: 0.02em;
   margin-bottom: var(--hero-h02-mb, 8px);
 }
@@ -596,7 +604,7 @@
   width: 120px;
   height: 2px;
   background: var(--fb-lime);
-  margin: 8px 0 6px;
+  margin: var(--hero-h03-mt, 4px) 0 var(--hero-h03-mb, 10px);
   flex-shrink: 0;
 }
 
@@ -605,7 +613,9 @@
   line-height: 1.28;
   text-transform: uppercase;
   display: block;
+  width: 148px;
   max-width: 148px;
+  box-sizing: border-box;
   color: #ececec;
   letter-spacing: 0.03em;
   margin-top: var(--hero-h04-mt, 4px);
@@ -621,7 +631,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  width: fit-content;
+  width: 132px;
+  max-width: 132px;
+  min-height: 32px;
+  box-sizing: border-box;
   font-family: inherit;
   cursor: default;
 }
@@ -632,13 +645,16 @@
   bottom: var(--hero-h08-bottom, 8px);
   z-index: 50;
   font-family: var(--fb-sans-cond);
-  font-size: 44px;
+  font-size: var(--hero-h08-font-size, 44px);
   font-weight: 800;
   color: var(--hero-ndx-fill, var(--fb-lime));
   line-height: 0.95;
   letter-spacing: -0.03em;
   pointer-events: none;
   overflow: hidden;
+  width: 120px;
+  text-align: left;
+  box-sizing: border-box;
 }
 
 .site00-fb__progress {

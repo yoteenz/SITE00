@@ -280,6 +280,8 @@ export type ReconstructionTwinSession = {
   heroSafeRegionCropUrls?: { H06: string | null; H12: string | null } | null;
   /** P0.VR.REPLICATION.4R4 — Live-DOM outlier-only hero geometry convergence */
   heroOutlierConvergenceReport?: import('../p0vrReplication4R4/types.js').HeroOutlierConvergenceReport | null;
+  /** P0.VR.REPLICATION.4R4R1 — factual 8-outlier snapshot + CSS convergence */
+  heroOutlierConvergenceR4R1Report?: import('../p0vrReplication4R4R1/types.js').HeroOutlierConvergenceRunReport | null;
 };
 
 export type PageLiveRegistryEntry = {

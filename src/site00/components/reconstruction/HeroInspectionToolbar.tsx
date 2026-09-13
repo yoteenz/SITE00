@@ -22,9 +22,17 @@ type Props = {
   measuredCount?: number;
   passCount?: number;
   outlierCount?: number;
+  heroLocked?: boolean;
 };
 
-export function HeroInspectionToolbar({ layers, onLayersChange, measuredCount, passCount, outlierCount }: Props) {
+export function HeroInspectionToolbar({
+  layers,
+  onLayersChange,
+  measuredCount,
+  passCount,
+  outlierCount,
+  heroLocked,
+}: Props) {
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const active = params.get('blueprintDebug') === 'hero';
@@ -50,6 +58,7 @@ export function HeroInspectionToolbar({ layers, onLayersChange, measuredCount, p
             · {measuredCount} measured · {passCount ?? 0} pass · {outlierCount ?? 0} outliers
           </span>
         ) : null}
+        {heroLocked ? <span className="site00-hero-insp__locked"> · LOCKED</span> : null}
       </p>
       <div className="site00-hero-insp__controls">
         <button type="button" className={layers.authorityBoxes ? 'is-on' : ''} onClick={() => toggle('authorityBoxes')}>
