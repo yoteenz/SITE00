@@ -88,6 +88,7 @@ import {
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 import {
   ensureConceptGallery,
+  reconcileTwinV2SessionState,
   isTwinV2PilotEligible,
   listConceptDirectedTwinSessionsForProject,
   resolveTwinV2SessionForOpen,
@@ -286,7 +287,11 @@ export function PageFamilyWorkspace({
     const siblingSessions = listConceptDirectedTwinSessionsForProject(projectId).filter(
       (s) => s.sessionId !== base.sessionId && isTwinV2OverviewPageScope(projectId, s.pageId),
     );
-    const session = ensureConceptGallery(base, { siblingSessions });
+    const session = reconcileTwinV2SessionState(
+      base.conceptGallery?.candidates.length && base.conceptGallery.buildRef
+        ? base
+        : ensureConceptGallery(base, { siblingSessions }),
+    );
     saveConceptDirectedTwinSession(session);
     setTwinV2Session(session);
     setTwinV2Open(true);

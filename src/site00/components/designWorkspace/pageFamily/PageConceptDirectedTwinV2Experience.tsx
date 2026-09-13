@@ -14,6 +14,7 @@ import {
   TWIN_V2_VISUAL_PROVIDER_LABEL,
   approveActiveConceptCandidate,
   prepareConceptDirectedTwinV2Build,
+  reconcileTwinV2SessionState,
   ensureConceptGallery,
   setActiveConceptId,
   listConceptDirectedTwinSessionsForProject,
@@ -155,32 +156,7 @@ export function PageConceptDirectedTwinV2Experience({
                 conceptGallery: latest.conceptGallery ?? hydrated.conceptGallery,
               };
         if (!cancelled) {
-              const current = sessionRef.current;
-              const preserveBuild =
-                Boolean(current.renderedTwin?.builtAt) && !Boolean(merged.renderedTwin?.builtAt);
-              onSessionChange(
-                preserveBuild
-                  ? {
-                      ...merged,
-                      renderedTwin: current.renderedTwin,
-                      fidelityReceipt: current.fidelityReceipt ?? merged.fidelityReceipt,
-                      status: current.status,
-                      approvedVisualAuthority: current.approvedVisualAuthority ?? merged.approvedVisualAuthority,
-                      twinV2VisualSpec: current.twinV2VisualSpec ?? merged.twinV2VisualSpec,
-                      conceptGallery: {
-                        ...(merged.conceptGallery ?? current.conceptGallery!),
-                        packages: {
-                          ...(merged.conceptGallery?.packages ?? {}),
-                          ...(current.conceptGallery?.packages ?? {}),
-                        },
-                        fidelityReceipts: {
-                          ...(merged.conceptGallery?.fidelityReceipts ?? {}),
-                          ...(current.conceptGallery?.fidelityReceipts ?? {}),
-                        },
-                      },
-                    }
-                  : merged,
-              );
+              onSessionChange(reconcileTwinV2SessionState(merged));
             }
           })(),
           new Promise<void>((_, reject) => {
@@ -391,7 +367,9 @@ export function PageConceptDirectedTwinV2Experience({
     setBuildStage('STRATEGY');
     const started = Date.now();
     try {
-      const prepared = prepareConceptDirectedTwinV2Build(sessionRef.current);
+      const reconciled = reconcileTwinV2SessionState(sessionRef.current);
+      sessionRef.current = reconciled;
+      const prepared = prepareConceptDirectedTwinV2Build(reconciled);
       setBuildStage('VISUAL');
       await new Promise<void>((r) => window.setTimeout(r, 80));
       setBuildStage('COMPILER');
@@ -417,11 +395,15 @@ export function PageConceptDirectedTwinV2Experience({
           window.setTimeout(resolve, waitMs);
         });
       }
+      sessionRef.current = next;
       onSessionChange(next);
       setBuildStage('COMPLETE');
+      const builtLabel = next.renderedTwin?.builtAt
+        ? new Date(next.renderedTwin.builtAt).toLocaleString()
+        : 'now';
       setBuildBanner({
         tone: 'ok',
-        text: `VISUAL_TO_CODE_COMPILER complete (${functionBindingSummary.length} bindings). Strategy + compiler lineage below.`,
+        text: `VISUAL_TO_CODE_COMPILER complete (${functionBindingSummary.length} bindings) · compiled ${builtLabel}.`,
       });
       window.requestAnimationFrame(() => {
         buildResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });

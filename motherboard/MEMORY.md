@@ -8630,6 +8630,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V2 still unchanged after rebuild (hydrate preserveBuild)
+
+- **Symptom:** Founder still saw no change after v379 REBUILD / generate fixes on mobile tunnel.
+- **Root cause:** Gallery hydrate **`preserveBuild`** re-applied stale `packages` and old `renderedTwin`; `openTwinV2Workflow` always ran `ensureConceptGallery` (destructive); `resolveTwinV2SessionForOpen` could swap to a **richer sibling** session instead of this page’s localStorage key.
+- **Fix:** `reconcileTwinV2SessionState` (sync all package visuals + invalidate stale compiler); hydrate/open/build call reconcile; remove preserveBuild merge; prefer direct page session when it has data; success banner shows compiled timestamp.
+
+---
+
 ## 2026-09-13 — Twin V2 REBUILD THIS CONCEPT no-op (stale package + hydrate)
 
 - **Symptom:** REBUILD / BUILD THIS CONCEPT clicked; no visible change (same compiled preview / timestamp).

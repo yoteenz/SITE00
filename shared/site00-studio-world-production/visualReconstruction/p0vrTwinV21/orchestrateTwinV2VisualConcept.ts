@@ -5,7 +5,7 @@ import {
   getActiveConceptCandidate,
 } from '../p0vrTwinV22/conceptGalleryState.js';
 import { finalizeDualOutputConceptGeneration } from '../p0vrTwinV25/finalizeDualOutputConceptGeneration.js';
-import { invalidateStaleTwinBuildForActiveConcept } from '../p0vrTwinV22/invalidateStaleTwinBuildForConcept.js';
+import { reconcileTwinV2SessionState } from '../p0vrTwinV22/reconcileTwinV2SessionState.js';
 import type { ConceptGenerationType } from '../p0vrTwinV22/types.js';
 import type { ConceptDirectedTwinSession, PageCreativeDirection, VisualConceptVersion } from './types.js';
 
@@ -108,5 +108,5 @@ export function mergeVisualConceptApiResult(
       updatedAt: new Date().toISOString(),
     },
   };
-  return invalidateStaleTwinBuildForActiveConcept(next);
+  return reconcileTwinV2SessionState(next);
 }
