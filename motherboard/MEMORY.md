@@ -8357,3 +8357,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Pilot eligibility required `"overview"` in `pageId`, but NDXBOOK family root uses canonical `ndxbook:/projects/ndxbook` (no overview substring). CTA was also gated to V1 **REFERENCE** step only (hidden once a twin existed / REVIEW state).
 - **Fix:** Broaden `isTwinV2PilotEligible` (root route, `isRootOverview`, screenId `overview`); persistent lime-bordered **CREATE TWIN V2** strip on all replication states; duplicate entry in upgrade drawer header.
 
+---
+
+## 2026-09-13 — TWINV2.1 fix: visual concept 404 on fsbw-dev
+
+- **Symptom:** **GENERATE VISUAL CONCEPT** → `Visual concept request failed (404)` on `00.fsbw-dev.com`.
+- **Cause:** `requestTwinV2VisualConcept` used only `VITE_API_BASE`; when empty, POST went to static host `/api/...` (no API on cPanel).
+- **Fix:** `site00ClientApiBase.ts` + `site00ClientApiUrl` (fsbw-dev / cloudflare / site00.com → `https://api.site00.com`); Twin V2 request uses it; vite local API plugin registers twin-v2 route for dev.
+

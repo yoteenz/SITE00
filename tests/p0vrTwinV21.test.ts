@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { site00ClientApiUrl } from '../shared/site00-studio-world-production/site00ClientApiBase.js';
 import {
   P0_VR_TWIN_V21_BUILD,
   DEFAULT_TWIN_GENERATION_MODE,
@@ -137,7 +138,23 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/requestTwinV2VisualConcept.ts')).toContain(
       'founderConfirmedSpend: true',
     );
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/requestTwinV2VisualConcept.ts')).toContain(
+      'site00ClientApiUrl',
+    );
     expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain('Confirm spend');
+  });
+
+  it('visual concept API uses Railway on fsbw-dev when VITE_API_BASE empty', () => {
+    const prev = globalThis.window;
+    // @ts-expect-error test shim
+    globalThis.window = { location: { hostname: '00.fsbw-dev.com', origin: 'https://00.fsbw-dev.com' } };
+    try {
+      expect(site00ClientApiUrl('/api/site00/twin-v2-visual-concept')).toBe(
+        'https://api.site00.com/api/site00/twin-v2-visual-concept',
+      );
+    } finally {
+      globalThis.window = prev;
+    }
   });
 
   it('28. build PASS ref', () => {
