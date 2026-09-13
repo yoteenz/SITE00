@@ -8794,6 +8794,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 ADD BATCH replaces prior batch (v404)
+
+- **Founder:** Replace unusable batch 1 with batch 2 — do not stack broken history.
+- **Delivered:** `REGENERATE` / `REGENERATE_TERRITORY` / `REFINE` use `replaceTerritoryBundlesInGallery` (one candidate per affected territory); `pruneGalleryToLatestBatch` per territory on normalize; batch ledger stores **latest only**; full regen resets authority pipeline selection. Build **v404**.
+
+---
+
 ## 2026-09-13 — Twin V3 batch ledger + gallery stats (v403)
 
 - **Symptom:** After v402, batch 2 still not visible on fsbw-dev; batch 1 images still broken.
