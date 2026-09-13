@@ -8365,3 +8365,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** `requestTwinV2VisualConcept` used only `VITE_API_BASE`; when empty, POST went to static host `/api/...` (no API on cPanel).
 - **Fix:** `site00ClientApiBase.ts` + `site00ClientApiUrl` (fsbw-dev / cloudflare / site00.com → `https://api.site00.com`); Twin V2 request uses it; vite local API plugin registers twin-v2 route for dev.
 
+---
+
+## 2026-09-13 — TWINV2.1 fix: Load failed / FAL connection clarity
+
+- **Symptom:** Safari **Load failed** on GENERATE VISUAL CONCEPT; founder asked if fal account is connected.
+- **Cause:** Cross-origin fetch used `credentials: 'include'` with API `Access-Control-Allow-Origin: *` (browser blocks). FAL is **server-side only** (`FAL_KEY` on Railway) — not linked in browser. Silent fallback when FAL_KEY missing hid misconfiguration.
+- **Fix:** `credentials: 'omit'`, capture-style CORS on twin-v2 handler, `{ fal }` import + explicit `FAL_KEY_MISSING` 503, GET `/api/site00/twin-v2-visual-concept` returns `falKeyConfigured`, UI status line, `/api/health` includes `fal.configured`.
+

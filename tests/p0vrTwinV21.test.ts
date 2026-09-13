@@ -144,6 +144,14 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
     expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain('Confirm spend');
   });
 
+  it('visual concept fetch omits credentials (CORS-safe cross-origin)', () => {
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/requestTwinV2VisualConcept.ts')).toContain(
+      "credentials: 'omit'",
+    );
+    expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('FAL_KEY_MISSING');
+    expect(read('api/site00/twin-v2-visual-concept.ts')).toContain("const { fal } = await import('@fal-ai/client')");
+  });
+
   it('visual concept API uses Railway on fsbw-dev when VITE_API_BASE empty', () => {
     const prev = globalThis.window;
     // @ts-expect-error test shim

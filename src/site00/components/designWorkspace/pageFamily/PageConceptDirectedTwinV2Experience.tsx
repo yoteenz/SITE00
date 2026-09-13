@@ -2,7 +2,8 @@
  * P0.VR.TWINV2.1 — Concept-directed twin workflow (parallel to forensic V1).
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { site00ClientApiUrl } from '../../../../../shared/site00-studio-world-production/site00ClientApiBase.js';
 import type { ConceptDirectedTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
 import {
   applyApproveVisualConcept,
@@ -55,6 +56,27 @@ export function PageConceptDirectedTwinV2Experience({
   const [historyVersionId, setHistoryVersionId] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('APPROVED_VISUAL');
   const [liveCompare, setLiveCompare] = useState<'LIVE' | 'TWIN_V1' | 'TWIN_V2'>('LIVE');
+  const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetch(site00ClientApiUrl('/api/site00/twin-v2-visual-concept'), { credentials: 'omit' })
+      .then((r) => r.json())
+      .then((data: { falKeyConfigured?: boolean }) => {
+        if (cancelled) return;
+        setFalApiStatus(
+          data.falKeyConfigured
+            ? 'FAL connected on API (Railway FAL_KEY set)'
+            : 'FAL not configured on API — set FAL_KEY on Railway for api.site00.com',
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setFalApiStatus('Could not reach visual concept API — check deploy / network');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const step = activeStepIndex(session.status);
   const latestConcept = session.history.at(-1);
@@ -156,6 +178,7 @@ export function PageConceptDirectedTwinV2Experience({
         <p>
           Visual model: {TWIN_V2_VISUAL_PROVIDER_LABEL} · {session.referenceAssets.length} reference assets
         </p>
+        {falApiStatus ? <p className="site00-twin-v2-concept__fal-status">{falApiStatus}</p> : null}
       </section>
 
       <figure className="site00-twin-v2-concept__concept-frame">

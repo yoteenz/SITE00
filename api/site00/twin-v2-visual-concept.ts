@@ -3,6 +3,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
 import { buildVisualConceptPrompt } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/buildVisualConceptPrompt.js';
 import {
   TWIN_V2_VISUAL_PROVIDER,
@@ -20,14 +21,33 @@ type Body = {
   founderConfirmedSpend?: boolean;
 };
 
+function isFalKeyConfigured(): boolean {
+  return Boolean(process.env.FAL_KEY?.trim());
+}
+
+function resolvePublicAssetUrl(relativePath: string, req: VercelRequest): string {
+  if (relativePath.startsWith('http')) return relativePath;
+  const origin =
+    (typeof req.headers.origin === 'string' ? req.headers.origin : null) ??
+    process.env.VITE_SITE00_CANONICAL_ORIGIN?.trim() ??
+    'https://site00.com';
+  return `${origin.replace(/\/$/, '')}${relativePath.startsWith('/') ? relativePath : `/${relativePath}`}`;
+}
+
 async function dispatchGptImage2(prompt: string): Promise<string> {
-  if (process.env.VITEST === 'true' || !process.env.FAL_KEY) {
+  if (process.env.VITEST === 'true') {
     return '/assets/ndxbook-reconstruction/ndxbook-mobile-authority.jpg';
   }
-  const fal = await import('@fal-ai/client');
-  fal.fal.config({ credentials: process.env.FAL_KEY });
+  const falKey = process.env.FAL_KEY?.trim();
+  if (!falKey) {
+    throw new Error(
+      'FAL_KEY_MISSING: Add your fal.ai API key to Railway (api.site00.com) as FAL_KEY — not connected in browser; server-side only.',
+    );
+  }
+  const { fal } = await import('@fal-ai/client');
+  fal.config({ credentials: falKey });
   const input = buildFalImageInput({ prompt, aspectRatio: '9:16', model: TWIN_V2_VISUAL_PROVIDER });
-  const result = await fal.fal.subscribe(input.model, { input: input.input });
+  const result = await fal.subscribe(input.model, { input: input.input });
   const imageUrl =
     (result.data as { images?: { url?: string }[] })?.images?.[0]?.url ??
     (result.data as { image?: { url?: string } })?.image?.url;
@@ -36,6 +56,19 @@ async function dispatchGptImage2(prompt: string): Promise<string> {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (handleTwinV2VisualConceptCors(req, res)) return;
+
+  if (req.method === 'GET') {
+    res.status(200).json({
+      ok: true,
+      service: 'twin-v2-visual-concept',
+      falKeyConfigured: isFalKeyConfigured(),
+      model: TWIN_V2_VISUAL_PROVIDER,
+      note: 'FAL is server-side (Railway FAL_KEY). Browser does not connect to your fal account directly.',
+    });
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'METHOD_NOT_ALLOWED' });
     return;
@@ -64,10 +97,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const remoteUrl = await dispatchGptImage2(prompt);
-    let imageUrl = remoteUrl;
+    let imageUrl = remoteUrl.startsWith('http') ? remoteUrl : resolvePublicAssetUrl(remoteUrl, req);
     let imageStorageRef: string | null = null;
 
-    if (remoteUrl.startsWith('http') && process.env.FAL_KEY) {
+    if (remoteUrl.startsWith('http') && isFalKeyConfigured()) {
       const { downloadUrlToBuffer } = await import('../_lib/site00Assts/storage.js');
       const buf = await downloadUrlToBuffer(remoteUrl);
       const path = `site00/twin-v2/${body.session.sessionId}/${Date.now()}.webp`;
@@ -79,13 +112,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ok: true,
       provider: TWIN_V2_VISUAL_PROVIDER_LABEL,
       model: TWIN_V2_VISUAL_PROVIDER,
+      falKeyConfigured: isFalKeyConfigured(),
       promptDigest: prompt.slice(0, 200),
       imageUrl,
       imageStorageRef,
     });
   } catch (err) {
-    res.status(500).json({
-      error: err instanceof Error ? err.message : 'VISUAL_CONCEPT_GENERATION_FAILED',
+    const message = err instanceof Error ? err.message : 'VISUAL_CONCEPT_GENERATION_FAILED';
+    const status = message.includes('FAL_KEY_MISSING') ? 503 : 500;
+    res.status(status).json({
+      error: message,
+      falKeyConfigured: isFalKeyConfigured(),
     });
   }
 }
