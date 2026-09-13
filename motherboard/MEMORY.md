@@ -8794,6 +8794,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 batch 2 isolated module/panel (v407)
+
+- **Founder:** Batch 1 recovery still not trustworthy — put **batch 2** in a **separate module/panel above batch 1**, independent storage.
+- **Delivered:** `DesignPageV3AuthorityBatch2Panel` + `designPageAuthorityBatch2Module.ts` + **`site00:design-page-v3-authority:batch2-module:v1`** (localStorage only — no ledger/backup/recovery merge). Batch 2 panel: GENERATE / ADD BATCH 2 / per-territory regen via FAL. Batch 1 panel relabeled **LEGACY**; FAL button disabled (“use batch 2 above”). Stack order in `StudioWorldDesignWorkspace`. Tests **`p0vrTwinV30Batch2Module.test.ts`**. Build **v407**.
+
+---
+
 ## 2026-09-13 — Twin V3 gallery persistence loops (v406)
 
 - **Symptom:** Founder: “nothing is changing” on tunnel + site00.com — still broken batch 1 after v405.

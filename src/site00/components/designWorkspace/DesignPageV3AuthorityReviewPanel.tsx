@@ -36,7 +36,6 @@ import {
   selectViewportCandidate,
   setDesignPageAuthorityTerritoryVerdict,
   territoryDisplayName,
-  territoryGalleryHasCandidates,
   beginViewportMasterReplacement,
   unselectViewportCandidate,
   writeDesignPageAuthoritySession,
@@ -258,8 +257,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const fullyLocked = isDesignPageAuthorityFullyLocked(sessionView) || pairLocked;
   const mobileLocked = isDesignPageAuthorityViewportLocked(sessionView, 'mobile');
   const desktopLocked = isDesignPageAuthorityViewportLocked(sessionView, 'desktop');
-  const hasGallery = territoryGalleryHasCandidates(sessionView.territoryGallery);
-  const galleryStats = `Gallery · batch #${sessionView.candidateGeneration} · A:${sessionView.territoryGallery.A.length} B:${sessionView.territoryGallery.B.length} C:${sessionView.territoryGallery.C.length} · ${galleryCandidateCount(sessionView.territoryGallery)} frames · build ${P0_VR_TWIN_V30_BUILD}`;
+  const galleryStats = `Batch 1 legacy · batch #${sessionView.candidateGeneration} · A:${sessionView.territoryGallery.A.length} B:${sessionView.territoryGallery.B.length} C:${sessionView.territoryGallery.C.length} · ${galleryCandidateCount(sessionView.territoryGallery)} frames · build ${P0_VR_TWIN_V30_BUILD}`;
   const selectedTerritory = sessionView.founderReview.selectedTerritoryId;
   const result = sessionView.lastResult;
   const contextVersion = getProjectCreativeContextVersion(sessionView);
@@ -281,12 +279,13 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   return (
     <section
       className="site00-dw-v3-authority"
-      aria-label="Twin V3 SITE 00 design page authority review"
+      aria-label="Twin V3 SITE 00 design page authority batch 1 legacy review"
+      data-batch-module="1"
       data-build-ref={P0_VR_TWIN_V30_BUILD}
     >
       <header className="site00-dw-v3-authority__head">
         <strong>
-          {P0_VR_TWIN_V30R5F1_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
+          BATCH 1 · LEGACY · {P0_VR_TWIN_V30R5F1_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
         </strong>
         <span>
           Project {projectId.toUpperCase()} · context {contextVersion} · features {DESIGN_WORKSPACE_FEATURE_MANIFEST_V1}
@@ -307,9 +306,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         {galleryStats}
       </p>
       <p className="site00-dw-v3-authority__hint">
-        Browse generated candidates per territory (R5F1 feature manifest required in every A/B/C concept). Select
-        independent MOBILE and DESKTOP masters, promote each (feature coverage must PASS), then lock the pair. ADD BATCH
-        replaces the previous batch. Broken gallery? Use RESET WORKING PROTOTYPES below.
+        Legacy batch-1 storage (masters / pair lock). New FAL runs live in the <strong>BATCH 2</strong> panel above —
+        separate localStorage key, not merged with batch 1. Use RESET WORKING PROTOTYPES here only to fix broken batch-1
+        prototypes.
       </p>
       {running ? (
         <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-authority-generating">
@@ -319,16 +318,11 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       <div className="site00-dw-v3-authority__actions">
         <button
           type="button"
-          className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-          disabled={running || fullyLocked}
-          onClick={() =>
-            void run({
-              action: hasGallery ? 'REGENERATE' : 'GENERATE',
-              territoryScope: 'ALL',
-            })
-          }
+          className="site00-dw-v3-btn site00-dw-v3-btn--compact"
+          disabled
+          title="Use BATCH 2 panel above for FAL generation"
         >
-          {running ? 'Generating…' : hasGallery ? 'ADD BATCH (A+B+C)' : 'GENERATE TERRITORIES A/B/C'}
+          FAL moved to BATCH 2 panel ↑
         </button>
         <button
           type="button"
