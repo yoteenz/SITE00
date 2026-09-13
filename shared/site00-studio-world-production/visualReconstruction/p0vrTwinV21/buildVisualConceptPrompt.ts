@@ -5,6 +5,7 @@ import type {
   PageFunctionGraph,
   PageIntentModel,
 } from './types.js';
+import { TWIN_V2_CLIENT_CANVAS_GENERATION_BOUNDARY } from '../p0vrTwinV22R2/visualConceptGenerationBoundary.js';
 
 export function buildVisualConceptPrompt(input: {
   pageIntent: PageIntentModel;
@@ -14,11 +15,17 @@ export function buildVisualConceptPrompt(input: {
   creativeDirection: PageCreativeDirection;
   viewport: 'mobile';
   refineInstruction?: string | null;
+  clientCanvasOnly?: boolean;
 }): string {
   const refine = input.refineInstruction?.trim();
+  const clientCanvasOnly = input.clientCanvasOnly !== false;
   return [
-    'Design the correct NDXBOOK OVERVIEW mobile page experience using approved NDXBOOK / SITE 00 visual language.',
-    'Full-page vertical composition, 375px wide mobile artboard, high fidelity UI design frame.',
+    clientCanvasOnly
+      ? 'Design the NDXBOOK client canvas only (content between SITE 00 host header and host bottom nav).'
+      : 'Design the correct NDXBOOK OVERVIEW mobile page experience using approved NDXBOOK / SITE 00 visual language.',
+    clientCanvasOnly
+      ? '375px wide mobile client canvas artboard — do not include device frame or app shell chrome.'
+      : 'Full-page vertical composition, 375px wide mobile artboard, high fidelity UI design frame.',
     'NOT a screenshot recreation. NOT a generic SaaS dashboard. NOT modernized admin cards.',
     `Intent: ${input.pageIntent.summary}`,
     `User decision: ${input.pageIntent.primaryDecision}`,
@@ -29,6 +36,7 @@ export function buildVisualConceptPrompt(input: {
     `Brand: ${input.brandContext.projectIdentity}. Colors: ${input.brandContext.colorLanguage.join(', ')}.`,
     `Typography: ${input.brandContext.typographicGrammar.join('; ')}.`,
     `Host/client: ${input.brandContext.hostClientFirewall}`,
+    clientCanvasOnly ? TWIN_V2_CLIENT_CANVAS_GENERATION_BOUNDARY : '',
     refine ? `Founder refinement: ${refine}` : '',
   ]
     .filter(Boolean)

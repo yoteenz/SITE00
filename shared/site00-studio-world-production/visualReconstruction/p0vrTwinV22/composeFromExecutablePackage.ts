@@ -2,6 +2,7 @@ import type { ConceptDirectedTwinSession, TwinV2FidelityReceipt } from '../p0vrT
 import { P0_VR_TWIN_V21_BUILD } from '../p0vrTwinV21/constants.js';
 import type { ConceptBuildFidelityReceipt } from './types.js';
 import { ensureConceptGallery, getActiveConceptCandidate } from './conceptGalleryState.js';
+import { assertNoGeneratedHostArtifactsInClientBuild } from '../p0vrTwinV22R2/assertNoGeneratedHostArtifactsInClientBuild.js';
 
 export type ConceptDirectedTwinV2ComposeFromPackageResult = {
   sessionPatch: Partial<ConceptDirectedTwinSession>;
@@ -23,6 +24,8 @@ export function composeConceptDirectedTwinV2FromPackage(
   if (!pkg) {
     throw new Error('TWIN_V2_CODE_BLOCKED: ExecutableConceptPackage required — image-only build not allowed');
   }
+
+  assertNoGeneratedHostArtifactsInClientBuild(pkg.blueprint);
 
   const builtAt = new Date().toISOString();
   const twinFidelity: TwinV2FidelityReceipt = {

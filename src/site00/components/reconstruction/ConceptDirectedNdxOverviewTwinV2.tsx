@@ -28,6 +28,7 @@ export function ConceptDirectedNdxOverviewTwinV2({ projectSlug, session }: Props
         <span className="site00-twin-v2-ndx__host-route">{projectSlug.toUpperCase()}</span>
       </header>
 
+      <div className="site00-twin-v2-ndx__client-canvas" data-client-mount="true">
       {authorityUrl ? (
         <figure className="site00-twin-v2-ndx__authority-ghost" aria-hidden>
           <img src={authorityUrl} alt="" />
@@ -96,6 +97,7 @@ export function ConceptDirectedNdxOverviewTwinV2({ projectSlug, session }: Props
           </span>
         ))}
       </section>
+      </div>
 
       <TwinSite00HostBottomNav />
     </div>

@@ -359,3 +359,51 @@
   font-size: 0.75rem;
   color: #ff6b6b;
 }
+
+.site00-twin-v2-ndx__client-canvas {
+  padding-bottom: calc(var(--site00-mobile-nav-height, 72px) + 0.5rem);
+  padding-top: 0.25rem;
+}
+
+.site00-twin-v2-host-composite {
+  max-width: 375px;
+  margin: 0 auto;
+  border: 2px solid #111;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+}
+
+.site00-twin-v2-host-composite__canvas {
+  flex: 1;
+  overflow: hidden;
+}
+
+.site00-twin-v2-host-composite__canvas img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+  clip-path: inset(7% 0 12% 0);
+}
+
+.site00-twin-v2-gallery__ownership-badge {
+  display: inline-block;
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  padding: 0.1rem 0.35rem;
+  margin-left: 0.35rem;
+  border: 1px solid #444;
+}
+
+.site00-twin-v2-gallery__ownership-badge.is-host-artifact {
+  border-color: #f5a623;
+  color: #f5a623;
+}
+
+.site00-twin-v2-gallery__ownership-badge.is-client {
+  border-color: #c8ff00;
+  color: #c8ff00;
+}

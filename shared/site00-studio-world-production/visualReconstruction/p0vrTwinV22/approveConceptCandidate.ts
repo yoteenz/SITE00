@@ -4,6 +4,8 @@ import { buildTwinV2VisualSpec } from '../p0vrTwinV21/buildTwinV2VisualSpec.js';
 import { buildExecutableConceptPackage } from './buildExecutableConceptPackage.js';
 import { computeConceptBuildReadiness, canBuildConcept } from './computeConceptBuildReadiness.js';
 import { ensureConceptGallery, getActiveConceptCandidate } from './conceptGalleryState.js';
+import { applyBlueprintOwnershipTags } from '../p0vrTwinV22R2/applyBlueprintOwnershipTags.js';
+import { sanitizeConceptForHostBoundary } from '../p0vrTwinV22R2/sanitizeConceptForHostBoundary.js';
 
 export function approveActiveConceptCandidate(session: ConceptDirectedTwinSession): ConceptDirectedTwinSession {
   const base = ensureConceptGallery(session);
@@ -13,10 +15,20 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
     throw new Error('Cannot approve concept without persistent image');
   }
 
-  const blueprint = gallery.blueprints[active.conceptBlueprintId];
+  const blueprintRaw = gallery.blueprints[active.conceptBlueprintId];
   const manifest = gallery.manifests[active.assetManifestId];
   const bindingPlan = gallery.bindingPlans[active.functionBindingPlanId];
-  if (!blueprint || !manifest || !bindingPlan) {
+  const blueprint = applyBlueprintOwnershipTags(blueprintRaw, {
+    fullPageConceptImage: Boolean(active.visualAssetUrl),
+  });
+  const hostBoundary = sanitizeConceptForHostBoundary({
+    conceptId: active.conceptId,
+    pageId: active.pageId,
+    blueprint,
+    originalConceptImageUrl: active.visualAssetUrl,
+  });
+  const executableBlueprint = hostBoundary.sanitizedBlueprint;
+  if (!blueprint || !executableBlueprint || !manifest || !bindingPlan) {
     throw new Error('TWIN_V22: missing blueprint lineage for approve');
   }
 
@@ -28,9 +40,10 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
     status: 'APPROVED' as const,
     buildReadiness: computeConceptBuildReadiness({
       candidate: { ...active, founderJudgment: 'APPROVED', visualAuthorityStatus: 'LOCKED_FOR_BUILD' },
-      blueprint,
+      blueprint: executableBlueprint,
       manifest,
       bindingPlan,
+      hostBoundary,
     }),
     updatedAt: now,
   };
@@ -68,10 +81,15 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
   if (canBuildConcept(updatedCandidate.buildReadiness, true)) {
     const pkg = buildExecutableConceptPackage({
       candidate: updatedCandidate,
-      blueprint,
+      blueprint: executableBlueprint,
       manifest,
       bindingPlan,
-      shellContract: [base.brandContext.hostClientFirewall, 'SITE_00 bottom nav host strip'],
+      shellContract: [
+        base.brandContext.hostClientFirewall,
+        'SITE_00 bottom nav — TwinSite00HostBottomNav (canonical, not generated)',
+      ],
+      hostShellContract: hostBoundary.hostShellContract,
+      hostBoundary,
     });
     next = {
       ...next,
