@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 authority R3 mockups broken (gray ?) — URL repair (v398)
+
+- **Symptom:** NDXBOOK design authority gallery on **site00.fsbw-dev.com** / mobile showed gray boxes + blue broken-image icon; batch 1 prototype rows did not show SITE 00 + NDXBOOK lime SVGs.
+- **Root causes:** (1) `rewritePrototypeGalleryUrls` replaced session `storageUrl` with Vite **data:** SVG URLs; `resolveDesignPageAuthorityImageSrc` then prefixed **`origin + /data:...`** → invalid `img` src. (2) Broken URLs could persist in **localStorage** and survive reloads.
+- **Fix:** `repairAuthorityPrototypeUrls.ts` — canonical **`/site00/twin-v3-design-page-authority/*.svg`** in session; repair on **`normalizeDesignPageAuthoritySession`**; resolver passes through **data:/blob:**, strips **origin/data:** mangling, maps to bundled assets at render. Tests **`p0vrTwinV30AuthorityImageRepair.test.ts`**. Build **v398**.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV3.0R5 viewport master selection + pair lock (v397)
 
 - **Context:** Founder picked mobile/desktop authorities outside the product; gallery was view-only with legacy APPROVE MOBILE/DESKTOP per territory.
