@@ -8630,6 +8630,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V2 REBUILD THIS CONCEPT no-op (stale package + hydrate)
+
+- **Symptom:** REBUILD / BUILD THIS CONCEPT clicked; no visible change (same compiled preview / timestamp).
+- **Root cause:** `ExecutableConceptPackage` kept first-approve `visualAuthority.imageUrl`; rebuild never refreshed it. `ensureConceptGallery` on build re-hydrated gallery from history and could overwrite in-memory candidate visuals before compose.
+- **Fix:** `executablePackageVisualDrift` + `refreshExecutablePackageForActiveCandidate` in `prepareConceptDirectedTwinV2Build`; skip full hydrate when gallery already populated (`buildRef`); same skip in `buildTwinV2ViaVisualCompiler`; compiler attaches active visual when package drift; UI remount compiler preview + scroll errors into built panel.
+
+---
+
 ## 2026-09-13 — Twin V2 stale concept visual after GENERATE/REGENERATE
 
 - **Symptom:** Founder generated a new concept image; Twin V2 screen still showed the **previous compiled render** (old VISUAL_TO_CODE_COMPILER canvas), not the new gallery visual.

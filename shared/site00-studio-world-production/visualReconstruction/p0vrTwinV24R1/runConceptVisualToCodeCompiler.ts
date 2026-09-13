@@ -26,7 +26,10 @@ function attachVisualAuthority(
   pkg: ExecutableConceptPackage,
   clientCanvasBoundary: import('../p0vrTwinV22R2/computeClientCanvasBoundary.js').ClientCanvasBoundary | null,
 ): VisualAuthorityAttachment {
-  const url = pkg.visualAuthority.imageUrl ?? active.visualAssetUrl;
+  const url =
+    active.visualAssetUrl && active.visualAssetUrl !== pkg.visualAuthority.imageUrl
+      ? active.visualAssetUrl
+      : (pkg.visualAuthority.imageUrl ?? active.visualAssetUrl);
   if (!url) {
     throw new Error('TWIN_V2_VISUAL_AUTHORITY_MISSING');
   }

@@ -46,7 +46,10 @@ function appendStrategyInvalidationHistory(
 export function buildTwinV2ViaVisualCompiler(
   session: ConceptDirectedTwinSession,
 ): BuildTwinV2ViaVisualCompilerResult {
-  const base = ensureConceptGallery(session);
+  const base =
+    session.conceptGallery?.candidates.length && session.conceptGallery.buildRef
+      ? session
+      : ensureConceptGallery(session);
   const active = getActiveConceptCandidate(base);
   if (!active || active.founderJudgment !== 'APPROVED') {
     throw new Error('TWIN_V2_CODE_BLOCKED: approve active concept before build');
