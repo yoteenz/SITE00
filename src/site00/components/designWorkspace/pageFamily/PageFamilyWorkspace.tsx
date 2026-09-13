@@ -1049,10 +1049,11 @@ export function PageFamilyWorkspace({
                   }
                   setTwinV2Open(false);
                 }}
-                onPreviewTwinV2={() => {
-                  if (!twinV2Session) return;
-                  stashConceptDirectedTwinSessionForPreview(twinV2Session);
-                  const path = buildTwinV2PreviewRoute(twinV2Session.projectId, twinV2Session.sessionId);
+                onPreviewTwinV2={(liveSession) => {
+                  if (!liveSession?.sessionId) return;
+                  saveConceptDirectedTwinSession(liveSession);
+                  stashConceptDirectedTwinSessionForPreview(liveSession);
+                  const path = buildTwinV2PreviewRoute(liveSession.projectId, liveSession.sessionId);
                   window.location.assign(path);
                 }}
               />
