@@ -6,7 +6,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { decodeTwinV2PreviewSessionId } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/buildTwinV2Route.js';
 import { resolveConceptDirectedTwinSessionForPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/twinV2PreviewHandoff.js';
-import { ConceptDirectedNdxOverviewTwinV2 } from '../components/reconstruction/ConceptDirectedNdxOverviewTwinV2.js';
+import { ResolveConceptDirectedTwinV2Renderer } from '../components/reconstruction/resolveConceptDirectedTwinV2Renderer.js';
 import { isSignedIn } from '../../utils/adminAuth';
 import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-twin-v2-concept.css';
@@ -68,7 +68,7 @@ export default function ConceptDirectedTwinV2PreviewPage() {
       <div className="site00-twin-v2-preview-banner" role="status">
         TWIN V2 · CONCEPT-DIRECTED · NOT LIVE
       </div>
-      <ConceptDirectedNdxOverviewTwinV2 projectSlug={projectSlug} session={session} />
+      <ResolveConceptDirectedTwinV2Renderer projectSlug={projectSlug} session={session} />
     </div>
   );
 }

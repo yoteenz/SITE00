@@ -184,6 +184,9 @@ export type ExecutableConceptPackage = {
   shellContract: string[];
   hostShellContract?: HostShellContract;
   responsiveContract: string[];
+  /** Supporting context only — must not override approved visual package. */
+  pageIntentSnapshot?: PageIntentModel;
+  functionGraphSnapshot?: PageFunctionGraph;
   status: 'READY' | 'BUILDING' | 'BUILT';
   createdAt: string;
 };
@@ -199,6 +202,7 @@ export type ConceptBuildFidelityReceipt = {
   assetMatch: number | null;
   colorMatch: number | null;
   functionCoverage: number | null;
+  hostBoundaryMatch?: boolean | null;
   outliers: string[];
   status: 'PENDING' | 'PARTIAL' | 'PASS';
 };

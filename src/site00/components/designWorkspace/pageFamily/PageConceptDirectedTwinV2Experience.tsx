@@ -30,7 +30,8 @@ import {
   writeTwinV2UiPersist,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/twinV2UiPersistence.js';
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
-import { ConceptDirectedNdxOverviewTwinV2 } from '../../reconstruction/ConceptDirectedNdxOverviewTwinV2.js';
+import { ResolveConceptDirectedTwinV2Renderer } from '../../reconstruction/resolveConceptDirectedTwinV2Renderer.js';
+import type { TwinV2BuildStage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23/types.js';
 import '../../../styles/site00-twin-v2-concept.css';
 
 const BUILD_FEEDBACK_MIN_MS = 480;
@@ -342,19 +343,27 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
+  const [buildStage, setBuildStage] = useState<TwinV2BuildStage | null>(null);
+
   const handleBuildTwin = async () => {
     setBuilding(true);
     setBuildBanner(null);
     setError(null);
+    setBuildStage('PACKAGE');
     const started = Date.now();
     try {
       const prepared = prepareConceptDirectedTwinV2Build(sessionRef.current);
+      setBuildStage('SOURCE');
+      await new Promise<void>((r) => window.setTimeout(r, 120));
       const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(prepared);
+      setBuildStage('RENDER');
+      await new Promise<void>((r) => window.setTimeout(r, 120));
       const next: ConceptDirectedTwinSession = {
         ...prepared,
         ...sessionPatch,
         status: 'TWIN_V2_REVIEW_READY',
       };
+      setBuildStage('FIDELITY');
       const waitMs = Math.max(0, BUILD_FEEDBACK_MIN_MS - (Date.now() - started));
       if (waitMs > 0) {
         await new Promise<void>((resolve) => {
@@ -362,9 +371,10 @@ export function PageConceptDirectedTwinV2Experience({
         });
       }
       onSessionChange(next);
+      setBuildStage('COMPLETE');
       setBuildBanner({
         tone: 'ok',
-        text: `Twin V2 compiled (${functionBindingSummary.length} live bindings). Preview below — open full preview for fidelity QA.`,
+        text: `PACKAGE → SOURCE → RENDER → FIDELITY complete (${functionBindingSummary.length} bindings). Preview below — open EXECUTION LINEAGE in details.`,
       });
       window.requestAnimationFrame(() => {
         buildResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -372,7 +382,11 @@ export function PageConceptDirectedTwinV2Experience({
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Build blocked';
       setError(msg);
-      setBuildBanner({ tone: 'error', text: msg });
+      setBuildStage('FAILED');
+      setBuildBanner({
+        tone: 'error',
+        text: `BUILD STOPPED — ${msg}`,
+      });
     } finally {
       setBuilding(false);
     }
@@ -404,6 +418,29 @@ export function PageConceptDirectedTwinV2Experience({
       </nav>
 
       {hydrating ? <p className="site00-twin-v2-concept__hydrating">Loading concept gallery…</p> : null}
+
+      {building || buildStage ? (
+        <p className="site00-twin-v2-concept__build-stages" role="status" aria-live="polite">
+          BUILD:{' '}
+          {(['PACKAGE', 'SOURCE', 'RENDER', 'FIDELITY'] as const).map((s, i) => (
+            <span
+              key={s}
+              className={
+                buildStage === s
+                  ? 'is-active'
+                  : buildStage === 'COMPLETE' || (buildStage && i < ['PACKAGE', 'SOURCE', 'RENDER', 'FIDELITY'].indexOf(buildStage))
+                    ? 'is-done'
+                    : buildStage === 'FAILED'
+                      ? 'is-fail'
+                      : ''
+              }
+            >
+              {s}
+              {i < 3 ? ' → ' : ''}
+            </span>
+          ))}
+        </p>
+      ) : null}
 
       {buildBanner ? (
         <p
@@ -437,10 +474,34 @@ export function PageConceptDirectedTwinV2Experience({
           </header>
           <p className="site00-twin-v2-concept__built-meta">
             Compiled {new Date(session.renderedTwin.builtAt).toLocaleString()} · status{' '}
-            {session.fidelityReceipt?.status ?? 'PENDING'}
+            {session.fidelityReceipt?.status ?? 'PENDING'} · mode{' '}
+            {session.renderedTwin.buildMode ?? 'legacy'}
           </p>
+          {session.twinV2Execution ? (
+            <details className="site00-twin-v2-concept__lineage">
+              <summary>EXECUTION LINEAGE</summary>
+              <ul className="site00-twin-v2-concept__lineage-list">
+                {(
+                  [
+                    ['CONCEPT', session.twinV2Execution.lineage.conceptId, session.twinV2Execution.attachmentReceipt.status],
+                    ['VISUAL', session.twinV2Execution.lineage.approvedVisualAuthorityId, 'PASS'],
+                    ['BLUEPRINT', session.twinV2Execution.lineage.executionBlueprintId, 'PASS'],
+                    ['ASSETS', session.twinV2Execution.lineage.assetManifestId, 'PASS'],
+                    ['FUNCTIONS', session.twinV2Execution.lineage.functionBindingPlanId, 'PASS'],
+                    ['PACKAGE', session.twinV2Execution.lineage.executablePackageId, session.twinV2Execution.attachmentReceipt.status],
+                    ['SOURCE', session.twinV2Execution.lineage.sourceGenerationId, session.twinV2Execution.sourceGenerationReceipt.status],
+                    ['RENDER', session.twinV2Execution.lineage.renderedTwinId, session.twinV2Execution.renderReceipt.status],
+                  ] as const
+                ).map(([label, id, st]) => (
+                  <li key={label}>
+                    {label} {st === 'PASS' ? '✓' : '✗'} — <code>{id}</code>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ) : null}
           <div className="site00-twin-v2-concept__built-preview-frame">
-            <ConceptDirectedNdxOverviewTwinV2 projectSlug={session.projectId} session={session} />
+            <ResolveConceptDirectedTwinV2Renderer projectSlug={session.projectId} session={session} />
           </div>
           <button
             type="button"

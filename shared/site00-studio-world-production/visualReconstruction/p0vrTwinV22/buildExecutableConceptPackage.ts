@@ -41,6 +41,8 @@ export function buildExecutableConceptPackage(input: {
     shellContract: input.shellContract,
     hostShellContract: input.hostShellContract,
     responsiveContract: input.blueprint.responsiveRelationships,
+    pageIntentSnapshot: input.candidate.pageIntentSnapshot,
+    functionGraphSnapshot: input.candidate.functionGraphSnapshot,
     status: 'READY',
     createdAt: now,
   };
