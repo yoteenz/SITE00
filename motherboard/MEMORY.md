@@ -8550,3 +8550,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** (1) `sanitizedCanvasBottom` stopped at blueprint `paddedBottom` far above fake nav; (2) PAGE UPGRADE drawer **72vh** + body scroll — activity below fold looked like crop.
 - **Fix:** When invented nav artifact exists, `sanitizedCanvasBottom = artifactTop − ε` (full paint to nav); drawer **94vh** on CLIENT CANVAS; scroll hint on panel. Masthead unchanged. Build ref **v364**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2 activity bleed no-op fix + gallery re-sanitize (v365)
+
+- **Symptom:** Founder “nothing changed” after v364 bleed — latest activity still one row clipped; masthead OK.
+- **Root cause:** v364 **ignored `paddedBottom`** when fake nav existed (artifactCap-only), so +40px activity bleed never affected crop; persisted galleries at **v364** with tight bottom did not re-sanitize (repair only when bottom **above** host safe area).
+- **Fix:** Bottom = `min(paddedBottom, navArtifact.y + 0.002)` (assert leak ceiling); `repairConceptGalleryHostBoundary` drift + stale-tight detection; build ref **v365**. Masthead unchanged.
+
