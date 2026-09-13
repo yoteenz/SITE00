@@ -24,16 +24,36 @@ export function saveConceptDirectedTwinSession(session: ConceptDirectedTwinSessi
 
 export function listConceptDirectedTwinSessionsForProject(projectId: string): ConceptDirectedTwinSession[] {
   if (typeof localStorage === 'undefined') return [];
+  const want = projectId.toLowerCase();
   const sessions: ConceptDirectedTwinSession[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (!key?.startsWith(STORAGE_PREFIX) || !key.includes(`${projectId}:`)) continue;
+    if (!key?.startsWith(STORAGE_PREFIX)) continue;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const parsed = JSON.parse(raw) as ConceptDirectedTwinSession;
+      if (parsed.projectId?.toLowerCase() !== want && !key.toLowerCase().includes(`:${want}:`)) continue;
+      sessions.push(parsed);
+    } catch {
+      /* skip corrupt */
+    }
+  }
+  return sessions;
+}
+
+export function listAllConceptDirectedTwinSessions(): ConceptDirectedTwinSession[] {
+  if (typeof localStorage === 'undefined') return [];
+  const sessions: ConceptDirectedTwinSession[] = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(STORAGE_PREFIX)) continue;
     try {
       const raw = localStorage.getItem(key);
       if (!raw) continue;
       sessions.push(JSON.parse(raw) as ConceptDirectedTwinSession);
     } catch {
-      /* skip corrupt */
+      /* skip */
     }
   }
   return sessions;

@@ -117,7 +117,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectId: body.session.projectId,
           pageId: body.session.pageId,
           sessionId: body.session.sessionId,
-          imageUrl: imageStorageRef ? null : imageUrl,
+          imageUrl,
           imageStorageRef,
           createdAt,
           provider: TWIN_V2_VISUAL_PROVIDER_LABEL,

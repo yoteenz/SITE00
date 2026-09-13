@@ -21,6 +21,8 @@ import {
   shouldShowV2EmptyState,
   fetchRemoteTwinV2Generations,
   fetchRemoteTwinV2GenerationsForProject,
+  importExistingV2ConceptsFromUrls,
+  requestTwinV2ImportConcept,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
 import '../../../styles/site00-twin-v2-concept.css';
@@ -66,6 +68,8 @@ export function PageConceptDirectedTwinV2Experience({
   const [compareMode, setCompareMode] = useState<CompareMode>('APPROVED_VISUAL');
   const [liveCompare, setLiveCompare] = useState<'LIVE' | 'TWIN_V1' | 'TWIN_V2'>('LIVE');
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
+  const [importUrls, setImportUrls] = useState('');
+  const [importing, setImporting] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -196,6 +200,42 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
+  const runImportExisting = async () => {
+    const urls = importUrls
+      .split('\n')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (!urls.length) {
+      setError('Paste at least one image URL to import');
+      return;
+    }
+    setImporting(true);
+    setError(null);
+    try {
+      let working = session;
+      for (const url of urls) {
+        try {
+          const persisted = await requestTwinV2ImportConcept({
+            projectId: session.projectId,
+            pageId: session.pageId,
+            sessionId: session.sessionId,
+            imageUrl: url,
+          });
+          working = importExistingV2ConceptsFromUrls(working, [persisted.imageUrl]);
+        } catch {
+          working = importExistingV2ConceptsFromUrls(working, [url]);
+        }
+      }
+      working = ensureConceptGallery(working);
+      onSessionChange(working);
+      setImportUrls('');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Import failed');
+    } finally {
+      setImporting(false);
+    }
+  };
+
   const handleBuildTwin = () => {
     setBuilding(true);
     setError(null);
@@ -255,25 +295,44 @@ export function PageConceptDirectedTwinV2Experience({
       {!hydrating && showEmptyState ? (
         <>
           <figure className="site00-twin-v2-concept__concept-frame">
-            <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>
-              NO VISUAL CONCEPT YET
+            <div style={{ padding: '1.5rem 1rem', textAlign: 'center', color: '#888' }}>
+              NO STORED CONCEPTS ON THIS DEVICE OR API
               {hydrationFailed ? (
-                <p style={{ fontSize: '0.75rem', marginTop: '1rem' }}>
-                  Recovery found 0 stored concepts for this device/API scope. Deploy frontend v347 + redeploy Railway API,
-                  then reopen TWIN V2. Past FAL-only images without storage cannot be recovered until ledger backfill runs
-                  on next generation.
+                <p style={{ fontSize: '0.75rem', marginTop: '0.75rem' }}>
+                  Site 00 has 0 saved Twin V2 images for ndxbook (checked Supabase ledger/storage). Your five FAL outputs
+                  were never persisted here — import their image URLs below (no new generation).
                 </p>
               ) : null}
             </div>
           </figure>
-          <div className="site00-twin-v2-concept__actions">
+          <section className="site00-twin-v2-concept__import">
+            <label>
+              <strong>IMPORT EXISTING CONCEPTS</strong>
+              <span> — paste image URLs (one per line, up to 10). No paid generation.</span>
+              <textarea
+                value={importUrls}
+                onChange={(e) => setImportUrls(e.target.value)}
+                rows={5}
+                placeholder="https://…fal.media/…&#10;https://…"
+              />
+            </label>
             <button
               type="button"
               className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+              disabled={importing}
+              onClick={() => void runImportExisting()}
+            >
+              {importing ? 'IMPORTING…' : 'IMPORT INTO GALLERY'}
+            </button>
+          </section>
+          <div className="site00-twin-v2-concept__actions">
+            <button
+              type="button"
+              className="site00-dw-v3-btn site00-dw-v3-btn--outline"
               disabled={generating}
               onClick={() => setSpendConfirmOpen('generate')}
             >
-              {generating ? 'GENERATING…' : 'GENERATE VISUAL CONCEPT'}
+              {generating ? 'GENERATING…' : 'GENERATE NEW CONCEPT (PAID)'}
             </button>
           </div>
         </>

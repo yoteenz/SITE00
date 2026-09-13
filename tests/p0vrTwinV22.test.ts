@@ -202,7 +202,7 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
       shellContract: ['SITE_00 host'],
     });
     expect(pkg.status).toBe('READY');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v347');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v348');
   });
 
   it('blueprint generation is concept-specific from creative direction', () => {

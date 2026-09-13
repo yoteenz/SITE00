@@ -330,3 +330,20 @@
 .site00-twin-v2-concept[data-twin-v2-stage='concept-gallery'] .site00-twin-v2-concept__compact-summary {
   display: none;
 }
+
+.site00-twin-v2-concept__import {
+  margin: 0.75rem 0;
+  font-size: 0.8rem;
+}
+
+.site00-twin-v2-concept__import label {
+  display: block;
+}
+
+.site00-twin-v2-concept__import textarea {
+  width: 100%;
+  margin: 0.5rem 0;
+  font-family: inherit;
+  font-size: 0.75rem;
+  min-height: 6rem;
+}
