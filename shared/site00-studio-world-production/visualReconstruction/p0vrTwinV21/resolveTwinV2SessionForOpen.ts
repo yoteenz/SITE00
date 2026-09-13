@@ -21,6 +21,16 @@ export function resolveTwinV2SessionForOpen(input: {
     isTwinV2OverviewPageScope(input.projectId, s.pageId),
   );
 
+  /** Prefer this page's localStorage session when it already has Twin V2 work (avoid swapping to a richer sibling). */
+  if (direct && sessionRichness(direct) > 0) {
+    return {
+      ...direct,
+      projectId: input.projectId,
+      pageId: input.pageId,
+      referenceAssets: input.referenceAssets?.length ? input.referenceAssets : direct.referenceAssets,
+    };
+  }
+
   let best = direct;
   for (const s of overviewSessions) {
     if (!best || sessionRichness(s) > sessionRichness(best)) best = s;
