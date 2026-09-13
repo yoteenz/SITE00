@@ -1,13 +1,14 @@
 /**
- * If the SPA module fails or React never mounts, release the ultra-early boot shell
- * so the founder is not stuck on a static loader image forever.
+ * Boot recovery + loader overlay watchdog.
+ * Removes ultra-early boot shell and any orphaned full-screen immersive loaders.
  */
 (function site00AsstsBootRecovery() {
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
   var ROOT_POLL_MS = 400;
   var ROOT_DEADLINE_MS = 12000;
-  var released = false;
+  var WATCHDOG_MS = 800;
+  var WATCHDOG_MAX_MS = 45000;
   var bannerId = 'site00-assts-boot-recovery-banner';
 
   function rootHasApp() {
@@ -15,21 +16,28 @@
     return !!(root && root.childElementCount > 0);
   }
 
-  function releaseBootShell(reason) {
-    if (released) return;
-    released = true;
+  function purgeLoaderOverlays(reason) {
     document.documentElement.classList.remove('site00-assts-boot');
     var shell = document.getElementById('site00-assts-boot-shell');
     if (shell) {
       shell.hidden = true;
       shell.remove();
     }
+    document.querySelectorAll('.site00-immersive-loader').forEach(function (el) {
+      el.remove();
+    });
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('site00-force-reveal-loader', { detail: { reason: reason || 'boot-recovery' } }),
+      );
+    }
+  }
+
+  function releaseBootShell(reason) {
+    purgeLoaderOverlays(reason);
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
         new CustomEvent('site00-boot-recovery', { detail: { reason: reason || 'unknown' } }),
-      );
-      window.dispatchEvent(
-        new CustomEvent('site00-force-reveal-loader', { detail: { reason: reason || 'boot-recovery' } }),
       );
     }
   }
@@ -85,6 +93,12 @@
     }
   });
 
+  window.addEventListener('pageshow', function (ev) {
+    if (ev && ev.persisted && rootHasApp()) {
+      purgeLoaderOverlays('bfcache-restore');
+    }
+  });
+
   var started = Date.now();
   var poll = window.setInterval(function () {
     if (rootHasApp()) {
@@ -97,4 +111,33 @@
       maybeRecover('timeout');
     }
   }, ROOT_POLL_MS);
+
+  function isImmersiveSessionComplete() {
+    try {
+      return (
+        sessionStorage.getItem('site00-immersive-complete') === '1' ||
+        sessionStorage.getItem('site00-assts-immersive-complete') === '1'
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var watchdogStarted = Date.now();
+  var watchdog = window.setInterval(function () {
+    if (!rootHasApp()) return;
+    var elapsed = Date.now() - started;
+    var allowPurge =
+      isImmersiveSessionComplete() || elapsed >= 10000;
+    if (!allowPurge) return;
+    var hasOverlay =
+      document.documentElement.classList.contains('site00-assts-boot') ||
+      document.querySelector('.site00-immersive-loader');
+    if (hasOverlay) {
+      purgeLoaderOverlays('watchdog-root-has-app');
+    }
+    if (Date.now() - watchdogStarted >= WATCHDOG_MAX_MS) {
+      window.clearInterval(watchdog);
+    }
+  }, WATCHDOG_MS);
 })();

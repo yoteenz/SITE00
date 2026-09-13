@@ -1,4 +1,5 @@
 import { isSite00CloudPreviewBuild, isSite00PreviewTunnelHost } from './site00PreviewHost';
+import { purgeSite00ImmersiveLoaderDom } from './site00PurgeImmersiveLoaderDom';
 
 const SITE00_IMMERSIVE_SESSION_KEY = 'site00-immersive-complete';
 /** @deprecated Migrated to SITE00_IMMERSIVE_SESSION_KEY */
@@ -42,6 +43,7 @@ export function markSite00ImmersiveComplete(): void {
   } catch {
     /* ignore */
   }
+  purgeSite00ImmersiveLoaderDom('immersive-session-complete');
 }
 
 /** @deprecated Use markSite00ImmersiveComplete */

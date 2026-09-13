@@ -8470,3 +8470,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `shouldShowSite00ImmersiveLoader()` stays **true on hard reload** even after the gate marks session complete. Lazy-route **Suspense fallbacks** portal a **non-exiting** immersive loader (progress 0, no failsafe) over the app.
 - **Fix (v354):** Fallbacks skip when `isSite00ImmersiveSessionComplete()`; **AsstsColdStartGate** parity with world gate; boot CSS `:has()` so `#root` is not hidden after shell hidden; scheduled boot teardown + force-reveal in `main.tsx`.
 
+---
+
+## 2026-09-13 — Loader marble pedestal stuck (v355 triangulation)
+
+- **Symptom:** Founder screenshot — full-screen **marble pedestal / hall** on **site00.com** with **no** SITE 00 copy or progress (Safari mobile). v354 live but “not fixed.”
+- **Actual culprit:** Not gate failsafe — **`Site00ImmersiveColdStartFallback`** portaled a second **non-exiting** immersive loader to `document.body` during lazy chunk Suspense (copy hidden until animation plays; no exit lifecycle). Orphan DOM + `html.site00-assts-boot` could hide `#root`.
+- **Fix (v355):** Remove immersive loader from route Suspense fallbacks entirely; `purgeSite00ImmersiveLoaderDom()` on session complete / force-reveal / loading-terminal recovery; boot-recovery **watchdog** (after gate complete or 10s) strips orphaned `.site00-immersive-loader`; stop marking immersive session complete on raw React mount (gate owns session).
+
