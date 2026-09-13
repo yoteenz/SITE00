@@ -1,5 +1,10 @@
 import { appendVisualConceptVersion } from './applyFounderVisualJudgment.js';
-import { addConceptCandidateFromGeneration, getActiveConceptCandidate } from '../p0vrTwinV22/conceptGalleryState.js';
+import {
+  addConceptCandidateFromGeneration,
+  ensureConceptGallery,
+  getActiveConceptCandidate,
+} from '../p0vrTwinV22/conceptGalleryState.js';
+import { finalizeDualOutputConceptGeneration } from '../p0vrTwinV25/finalizeDualOutputConceptGeneration.js';
 import type { ConceptGenerationType } from '../p0vrTwinV22/types.js';
 import type { ConceptDirectedTwinSession, PageCreativeDirection, VisualConceptVersion } from './types.js';
 
@@ -60,14 +65,28 @@ export function mergeVisualConceptApiResult(
             : null))
       : null;
 
-  next = addConceptCandidateFromGeneration(next, {
-    generationType: genType,
-    imageUrl: input.imageUrl,
-    imageStorageRef: input.imageStorageRef,
-    founderInstruction: input.refineInstruction ?? null,
-    parentConceptId: parentId,
-    creativeDirection,
-  });
+  const pendingDualOutput = next.conceptGallery?.pendingDualOutput ?? null;
+  if (pendingDualOutput) {
+    next = finalizeDualOutputConceptGeneration(
+      { ...next, conceptGallery: { ...next.conceptGallery!, pendingDualOutput } },
+      {
+        imageUrl: input.imageUrl,
+        imageStorageRef: input.imageStorageRef,
+        legacyVersionId: version.versionId,
+      },
+    );
+    next = ensureConceptGallery(next);
+  } else {
+    next = ensureConceptGallery(next);
+    next = addConceptCandidateFromGeneration(next, {
+      generationType: genType,
+      imageUrl: input.imageUrl,
+      imageStorageRef: input.imageStorageRef,
+      founderInstruction: input.refineInstruction ?? null,
+      parentConceptId: parentId,
+      creativeDirection,
+    });
+  }
 
   const linkedLegacyId = version.versionId;
   next = {

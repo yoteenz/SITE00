@@ -17,6 +17,7 @@ import { ensureConceptGallery, getActiveConceptCandidate } from './conceptGaller
 import { applyBlueprintOwnershipTags } from '../p0vrTwinV22R2/applyBlueprintOwnershipTags.js';
 import { sanitizeConceptForHostBoundary } from '../p0vrTwinV22R2/sanitizeConceptForHostBoundary.js';
 import { assertActiveConceptUsesExecutionBlueprint } from '../p0vrTwinV22R2/assertActiveConceptUsesExecutionBlueprint.js';
+import { assertPairedConceptApprovalGate } from '../p0vrTwinV25/assertPairedConceptApprovalGate.js';
 function activeConceptHasExecutablePackage(session: ConceptDirectedTwinSession): boolean {
   const gallery = session.conceptGallery;
   const active = gallery ? getActiveConceptCandidate(session) : null;
@@ -116,6 +117,8 @@ export function approveActiveConceptCandidate(session: ConceptDirectedTwinSessio
   if (!blueprint || !executableBlueprint || !manifest || !bindingPlan) {
     throw new Error('TWIN_V22: missing blueprint lineage for approve');
   }
+
+  assertPairedConceptApprovalGate({ candidate: active, gallery });
 
   assertActiveConceptUsesExecutionBlueprint({
     candidate: { ...active, executionBlueprintId: executableBlueprint.blueprintId, originalBlueprintId: blueprint.blueprintId },

@@ -37,6 +37,18 @@ export function emptyConceptGallery(): ConceptGalleryState {
     clientCanvasBoundaries: {},
     clientCanvasTrimReceipts: {},
     clientCanvasTopReceipts: {},
+    pendingDualOutput: null,
+    pairedArtifacts: {},
+    compositionPlans: {},
+    visualBlueprints: {},
+    reconciledVisualBlueprints: {},
+    assetPlans: {},
+    functionTargetPlans: {},
+    generatedConceptAssets: {},
+    assetPurityReceipts: {},
+    visualBlueprintReconciliations: {},
+    blueprintVisualCoverage: {},
+    assetCoverage: {},
   };
 }
 
@@ -175,6 +187,7 @@ function materializeCandidateFromVersion(
     visualAuthorityStatus: version.status === 'APPROVED' ? 'LOCKED_FOR_BUILD' : 'OPEN',
     status: version.status === 'APPROVED' ? 'APPROVED' : 'DRAFT',
     legacyVersionId: version.versionId,
+    conceptOrigin: 'LEGACY_IMAGE_FIRST',
     createdAt: now,
     updatedAt: now,
   };
@@ -348,6 +361,7 @@ export function addConceptCandidateFromGeneration(
     visualAuthorityStatus: 'OPEN',
     status: 'DRAFT',
     legacyVersionId: null,
+    conceptOrigin: 'LEGACY_IMAGE_FIRST',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };

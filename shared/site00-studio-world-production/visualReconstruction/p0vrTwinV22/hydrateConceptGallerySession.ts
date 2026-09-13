@@ -130,6 +130,18 @@ export function hydrateConceptGallerySession(
         clientCanvasBoundaries: priorGallery?.clientCanvasBoundaries ?? {},
         clientCanvasTrimReceipts: priorGallery?.clientCanvasTrimReceipts ?? {},
         clientCanvasTopReceipts: priorGallery?.clientCanvasTopReceipts ?? {},
+        pendingDualOutput: priorGallery?.pendingDualOutput ?? null,
+        pairedArtifacts: priorGallery?.pairedArtifacts ?? {},
+        compositionPlans: priorGallery?.compositionPlans ?? {},
+        visualBlueprints: priorGallery?.visualBlueprints ?? {},
+        reconciledVisualBlueprints: priorGallery?.reconciledVisualBlueprints ?? {},
+        assetPlans: priorGallery?.assetPlans ?? {},
+        functionTargetPlans: priorGallery?.functionTargetPlans ?? {},
+        generatedConceptAssets: priorGallery?.generatedConceptAssets ?? {},
+        assetPurityReceipts: priorGallery?.assetPurityReceipts ?? {},
+        visualBlueprintReconciliations: priorGallery?.visualBlueprintReconciliations ?? {},
+        blueprintVisualCoverage: priorGallery?.blueprintVisualCoverage ?? {},
+        assetCoverage: priorGallery?.assetCoverage ?? {},
       },
     });
   } else if (priorGallery) {
