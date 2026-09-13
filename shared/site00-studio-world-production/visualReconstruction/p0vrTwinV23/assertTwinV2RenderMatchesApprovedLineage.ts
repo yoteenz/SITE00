@@ -22,7 +22,11 @@ export function assertTwinV2RenderMatchesApprovedLineage(input: {
   if ('sourceBlueprintId' in twin && twin.sourceBlueprintId !== input.blueprintId) {
     reasons.push(`blueprintId mismatch`);
   }
-  if (twin.buildMode && twin.buildMode !== 'PACKAGE_DRIVEN_SOURCE_GENERATION') {
+  if (
+    twin.buildMode &&
+    twin.buildMode !== 'PACKAGE_DRIVEN_SOURCE_GENERATION' &&
+    twin.buildMode !== 'VISUAL_TO_CODE_COMPILER'
+  ) {
     reasons.push(`invalid buildMode ${twin.buildMode}`);
   }
   return { pass: reasons.length === 0, reasons };

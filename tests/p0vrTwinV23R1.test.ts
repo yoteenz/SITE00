@@ -24,6 +24,8 @@ import {
   stripDebugCopy,
   P0_VR_TWIN_V23R1_BUILD,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23R1/index.js';
+import { P0_VR_TWIN_V24R1_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV24R1/constants.js';
+import { buildTwinV2FromPackage } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23/buildTwinV2FromPackage.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
 
@@ -96,12 +98,19 @@ describe('P0.VR.TWINV2.3R1 DOM-first translation', () => {
     expect(read('src/site00/components/reconstruction/NdxTwinDomArtboard.tsx')).toContain('site00-twin-v2-dom__nav-btn');
   });
 
-  it('19–22 build stores dom translation + v374 + raster invalidation', () => {
+  it('19–22 BUILD THIS CONCEPT uses visual compiler (v375); legacy path keeps DOM translation', () => {
     const session = approvedSession();
     const { sessionPatch } = composeConceptDirectedTwinV2(session);
-    expect(sessionPatch.buildRef).toBe(P0_VR_TWIN_V23R1_BUILD);
-    expect(sessionPatch.twinV2DomTranslation?.sourceTranslationReceipt.status).toBe('PASS');
-    expect(sessionPatch.twinV2DomTranslation?.expandedObjects.length).toBeGreaterThan(30);
+    expect(sessionPatch.buildRef).toBe(P0_VR_TWIN_V24R1_BUILD);
+    expect(sessionPatch.twinV2VisualCompiler?.strategyRoutingReceipt.resolvedStrategy).toBe(
+      'VISUAL_TO_CODE_COMPILER',
+    );
+    expect(sessionPatch.twinV2VisualCompiler?.compilerInputReceipt.visualAuthorityAttached).toBe(true);
+
+    const legacy = buildTwinV2FromPackage(session);
+    expect(legacy.sessionPatch.buildRef).toBe(P0_VR_TWIN_V23R1_BUILD);
+    expect(legacy.sessionPatch.twinV2DomTranslation?.sourceTranslationReceipt.status).toBe('PASS');
+    expect(legacy.sessionPatch.twinV2DomTranslation?.expandedObjects.length).toBeGreaterThan(30);
   });
 
   it('23–29 lineage retained, V1/live untouched, PASS build', () => {
@@ -119,7 +128,9 @@ describe('P0.VR.TWINV2.3R1 DOM-first translation', () => {
       },
     };
     const { sessionPatch } = composeConceptDirectedTwinV2(session);
-    expect(sessionPatch.twinV2BuildHistory?.some((h) => h.status === 'FAILED_RASTERIZED_EXECUTION')).toBe(true);
+    expect(sessionPatch.twinV2BuildHistory?.some((h) => h.status === 'FAILED_WRONG_IMPLEMENTATION_STRATEGY')).toBe(
+      true,
+    );
     expect(sessionPatch.twinV2Execution?.lineage.executablePackageId).toBeDefined();
     expect(assertV1Isolation().v1PipelineUntouched).toBe(true);
   });

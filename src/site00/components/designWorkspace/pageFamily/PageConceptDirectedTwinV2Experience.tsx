@@ -34,6 +34,18 @@ import {
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
 import { ResolveConceptDirectedTwinV2Renderer } from '../../reconstruction/resolveConceptDirectedTwinV2Renderer.js';
 import type { TwinV2BuildStage } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23/types.js';
+
+const COMPILER_BUILD_STAGES = [
+  'STRATEGY',
+  'VISUAL',
+  'COMPILER',
+  'PLAN',
+  'SOURCE',
+  'FUNCTIONS',
+  'RENDER',
+  'FIDELITY',
+] as const;
+type CompilerBuildStage = (typeof COMPILER_BUILD_STAGES)[number];
 import '../../../styles/site00-twin-v2-concept.css';
 
 const BUILD_FEEDBACK_MIN_MS = 480;
@@ -348,21 +360,29 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
-  const [buildStage, setBuildStage] = useState<TwinV2BuildStage | null>(null);
+  const [buildStage, setBuildStage] = useState<TwinV2BuildStage | CompilerBuildStage | null>(null);
 
   const handleBuildTwin = async () => {
     setBuilding(true);
     setBuildBanner(null);
     setError(null);
-    setBuildStage('PACKAGE');
+    setBuildStage('STRATEGY');
     const started = Date.now();
     try {
       const prepared = prepareConceptDirectedTwinV2Build(sessionRef.current);
-      setBuildStage('SOURCE');
-      await new Promise<void>((r) => window.setTimeout(r, 120));
+      setBuildStage('VISUAL');
+      await new Promise<void>((r) => window.setTimeout(r, 80));
+      setBuildStage('COMPILER');
+      await new Promise<void>((r) => window.setTimeout(r, 80));
       const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(prepared);
+      setBuildStage('PLAN');
+      await new Promise<void>((r) => window.setTimeout(r, 60));
+      setBuildStage('SOURCE');
+      await new Promise<void>((r) => window.setTimeout(r, 60));
+      setBuildStage('FUNCTIONS');
+      await new Promise<void>((r) => window.setTimeout(r, 60));
       setBuildStage('RENDER');
-      await new Promise<void>((r) => window.setTimeout(r, 120));
+      await new Promise<void>((r) => window.setTimeout(r, 60));
       const next: ConceptDirectedTwinSession = {
         ...prepared,
         ...sessionPatch,
@@ -379,7 +399,7 @@ export function PageConceptDirectedTwinV2Experience({
       setBuildStage('COMPLETE');
       setBuildBanner({
         tone: 'ok',
-        text: `PACKAGE → SOURCE → RENDER → FIDELITY complete (${functionBindingSummary.length} bindings). Preview below — open EXECUTION LINEAGE in details.`,
+        text: `VISUAL_TO_CODE_COMPILER complete (${functionBindingSummary.length} bindings). Strategy + compiler lineage below.`,
       });
       window.requestAnimationFrame(() => {
         buildResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -427,13 +447,14 @@ export function PageConceptDirectedTwinV2Experience({
       {building || buildStage ? (
         <p className="site00-twin-v2-concept__build-stages" role="status" aria-live="polite">
           BUILD:{' '}
-          {(['PACKAGE', 'SOURCE', 'RENDER', 'FIDELITY'] as const).map((s, i) => (
+          {COMPILER_BUILD_STAGES.map((s, i) => (
             <span
               key={s}
               className={
                 buildStage === s
                   ? 'is-active'
-                  : buildStage === 'COMPLETE' || (buildStage && i < ['PACKAGE', 'SOURCE', 'RENDER', 'FIDELITY'].indexOf(buildStage))
+                  : buildStage === 'COMPLETE' ||
+                      (buildStage && COMPILER_BUILD_STAGES.indexOf(buildStage as CompilerBuildStage) > i)
                     ? 'is-done'
                     : buildStage === 'FAILED'
                       ? 'is-fail'
@@ -441,7 +462,7 @@ export function PageConceptDirectedTwinV2Experience({
               }
             >
               {s}
-              {i < 3 ? ' → ' : ''}
+              {i < COMPILER_BUILD_STAGES.length - 1 ? ' → ' : ''}
             </span>
           ))}
         </p>
@@ -482,26 +503,49 @@ export function PageConceptDirectedTwinV2Experience({
             {session.fidelityReceipt?.status ?? 'PENDING'} · mode{' '}
             {session.renderedTwin.buildMode ?? 'legacy'}
           </p>
-          {session.twinV2Execution ? (
-            <details className="site00-twin-v2-concept__lineage">
+          {session.twinV2VisualCompiler || session.twinV2Execution ? (
+            <details className="site00-twin-v2-concept__lineage" open>
               <summary>EXECUTION LINEAGE</summary>
+              {session.twinV2VisualCompiler ? (
+                <p className="site00-twin-v2-concept__strategy">
+                  IMPLEMENTATION STRATEGY: <strong>{session.twinV2VisualCompiler.strategy}</strong> · old renderer
+                  invoked: {session.twinV2VisualCompiler.strategyRoutingReceipt.oldRendererInvoked ? 'YES' : 'NO'} · fallback:{' '}
+                  {session.twinV2VisualCompiler.strategyRoutingReceipt.fallbackUsed ? 'YES' : 'NO'}
+                </p>
+              ) : null}
               <ul className="site00-twin-v2-concept__lineage-list">
-                {(
-                  [
-                    ['CONCEPT', session.twinV2Execution.lineage.conceptId, session.twinV2Execution.attachmentReceipt.status],
-                    ['VISUAL', session.twinV2Execution.lineage.approvedVisualAuthorityId, 'PASS'],
-                    ['BLUEPRINT', session.twinV2Execution.lineage.executionBlueprintId, 'PASS'],
-                    ['ASSETS', session.twinV2Execution.lineage.assetManifestId, 'PASS'],
-                    ['FUNCTIONS', session.twinV2Execution.lineage.functionBindingPlanId, 'PASS'],
-                    ['PACKAGE', session.twinV2Execution.lineage.executablePackageId, session.twinV2Execution.attachmentReceipt.status],
-                    ['SOURCE', session.twinV2Execution.lineage.sourceGenerationId, session.twinV2Execution.sourceGenerationReceipt.status],
-                    ['RENDER', session.twinV2Execution.lineage.renderedTwinId, session.twinV2Execution.renderReceipt.status],
-                  ] as const
-                ).map(([label, id, st]) => (
-                  <li key={label}>
-                    {label} {st === 'PASS' ? '✓' : '✗'} — <code>{id}</code>
-                  </li>
-                ))}
+                {session.twinV2VisualCompiler
+                  ? (
+                      [
+                        ['STRATEGY', session.twinV2VisualCompiler.strategy, 'PASS'],
+                        ['VISUAL AUTHORITY', session.twinV2VisualCompiler.visualAuthority.visualAuthorityId, 'PASS'],
+                        ['COMPILER', session.twinV2VisualCompiler.compilerInvocationReceipt.compilerRunId, 'PASS'],
+                        ['VISUAL PLAN', session.twinV2VisualCompiler.visualImplementationPlan.planId, 'PASS'],
+                        ['SOURCE', session.twinV2VisualCompiler.sourceReceipt.sourceGenerationId, 'PASS'],
+                        ['FUNCTIONS', String(session.twinV2VisualCompiler.functionTransplantReceipt.functionBindingsPassed), 'PASS'],
+                        ['RENDER', session.twinV2VisualCompiler.routeProvenance.renderComponent, 'PASS'],
+                        ['FIDELITY', session.fidelityReceipt?.status ?? 'PENDING', session.fidelityReceipt?.status === 'PASS' ? 'PASS' : 'PARTIAL'],
+                      ] as const
+                    ).map(([label, id, st]) => (
+                      <li key={label}>
+                        {label} {st === 'PASS' ? '✓' : '◐'} — <code>{id}</code>
+                      </li>
+                    ))
+                  : null}
+                {session.twinV2Execution && !session.twinV2VisualCompiler
+                  ? (
+                      [
+                        ['CONCEPT', session.twinV2Execution.lineage.conceptId, session.twinV2Execution.attachmentReceipt.status],
+                        ['PACKAGE', session.twinV2Execution.lineage.executablePackageId, session.twinV2Execution.attachmentReceipt.status],
+                        ['SOURCE', session.twinV2Execution.lineage.sourceGenerationId, session.twinV2Execution.sourceGenerationReceipt.status],
+                        ['RENDER', session.twinV2Execution.lineage.renderedTwinId, session.twinV2Execution.renderReceipt.status],
+                      ] as const
+                    ).map(([label, id, st]) => (
+                      <li key={label}>
+                        {label} {st === 'PASS' ? '✓' : '✗'} — <code>{id}</code>
+                      </li>
+                    ))
+                  : null}
               </ul>
             </details>
           ) : null}

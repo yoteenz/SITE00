@@ -758,6 +758,83 @@
   margin-right: 0.35rem;
 }
 
+.site00-twin-v2-concept__strategy {
+  margin: 0.35rem 0;
+  font-size: 0.68rem;
+}
+
+.site00-twin-v2-v2c {
+  max-width: 430px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  position: relative;
+}
+
+.site00-twin-v2-v2c__host {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid #eee;
+}
+
+.site00-twin-v2-v2c__strategy {
+  width: 100%;
+  color: #0a0a0a;
+  background: var(--twin-v2-lime, #c8ff00);
+  padding: 0.15rem 0.35rem;
+  font-weight: 700;
+}
+
+.site00-twin-v2-v2c__client-canvas {
+  position: relative;
+}
+
+.site00-twin-v2-v2c__overlays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.site00-twin-v2-v2c__region {
+  position: absolute;
+  pointer-events: auto;
+}
+
+.site00-twin-v2-v2c__nav-btn {
+  font-size: 0.55rem;
+  margin: 0.1rem;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid #111;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.site00-twin-v2-v2c__progress {
+  height: 0.35rem;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid #111;
+}
+
+.site00-twin-v2-v2c__progress-fill {
+  height: 100%;
+  background: var(--twin-v2-lime, #c8ff00);
+}
+
+.site00-twin-v2-v2c__meta {
+  font-size: 0.55rem;
+  padding: 0.5rem 1rem;
+  opacity: 0.8;
+}
+
+.site00-twin-v2-v2c__error {
+  color: #900;
+  padding: 1rem;
+}
+
 .site00-twin-v2-ndx__client-canvas {
   padding-bottom: calc(var(--site00-mobile-nav-height, 72px) + 0.5rem);
   padding-top: 0.25rem;
