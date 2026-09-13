@@ -13,5 +13,8 @@ export * from './discoverExistingV2ConceptGenerations.js';
 export * from './conceptGalleryQuery.js';
 export * from './assertConceptGalleryEmptyState.js';
 export * from './hydrateConceptGallerySession.js';
-export * from './fetchRemoteTwinV2Generations.js';
+export {
+  fetchRemoteTwinV2Generations,
+  fetchRemoteTwinV2GenerationsForProject,
+} from './fetchRemoteTwinV2Generations.js';
 export * from './twinV2PageScope.js';

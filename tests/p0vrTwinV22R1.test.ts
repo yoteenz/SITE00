@@ -9,6 +9,7 @@ import {
   createConceptDirectedTwinSession,
   mergeVisualConceptApiResult,
   assertV1Isolation,
+  resolveTwinV2SessionForOpen,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import {
   P0_VR_TWIN_V22_BUILD,
@@ -141,11 +142,19 @@ describe('P0.VR.TWINV2.2R1 concept gallery hydration', () => {
     expect(hydrated.conceptGallery!.galleryHydrationReceipt?.backfillTriggered).toBe(true);
   });
 
+  it('resolveTwinV2SessionForOpen returns a session shell for ndxbook', () => {
+    const s = resolveTwinV2SessionForOpen({ projectId: 'ndxbook', pageId: 'ndxbook:/projects/ndxbook' });
+    expect(s.projectId).toBe('ndxbook');
+    expect(s.creativeDirection).toBeTruthy();
+  });
+
   it('15–16 V1 isolation + discovery API route (no image gen in backfill)', () => {
     expect(assertV1Isolation().v1PipelineUntouched).toBe(true);
     expect(read('api/site00/twin-v2-concept-generations.ts')).not.toContain('fal.subscribe');
+    expect(read('api/site00/twin-v2-concept-generations.ts')).toContain('projectId');
+    expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('appendTwinV2ConceptLedger');
     expect(read('server/routes.ts')).toContain('twin-v2-concept-generations');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v346');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v347');
   });
 
   it('regenerate appends concept 6 without reset', () => {

@@ -2,6 +2,7 @@ export * from './constants.js';
 export * from './types.js';
 export * from './twinGenerationMode.js';
 export * from './createConceptDirectedTwinSession.js';
+export * from './resolveTwinV2SessionForOpen.js';
 export {
   loadConceptDirectedTwinSession,
   saveConceptDirectedTwinSession,
