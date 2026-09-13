@@ -4,11 +4,25 @@ import {
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   DESIGN_PAGE_V3_SKELETON_AREAS,
-  P0_VR_TWIN_V30R3_LINEAGE,
+  P0_VR_TWIN_V30R4_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
+import {
+  assertNoUngroundedVisualAssets,
+  buildAuthorityGroundedAssetManifest,
+} from './projectCreativeGrounding/authorityGroundedAssetManifest.js';
+import {
+  buildProjectGroundingReviewSummary,
+  runDesignPageAuthorityR4SelfCheck,
+} from './projectCreativeGrounding/designPageAuthorityR4SelfCheck.js';
+import { loadProjectCreativeContextPackage } from './projectCreativeGrounding/loadProjectCreativeContextPackage.js';
+import { assertProjectCreativeGroundingGate } from './projectCreativeGrounding/projectCreativeGroundingGate.js';
+import { PROJECT_CREATIVE_CONTEXT_VERSION } from './projectCreativeGrounding/types.js';
 import { classifyDesignPageAuthority } from './classifyDesignPageAuthority.js';
-import { buildAllTerritoryPrompts } from './buildDesignPageAuthorityTerritoryPrompts.js';
+import {
+  buildAllTerritoryCreativePayloads,
+  buildAllTerritoryPrompts,
+} from './buildDesignPageAuthorityTerritoryPrompts.js';
 import { runDesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.js';
 import { runDesignPageAuthorityR3SelfCheck } from './designPageAuthorityR3SelfCheck.js';
 import { dispatchDesignPageAuthorityTerritoryVisuals } from './dispatchDesignPageAuthorityTerritoryVisuals.js';
@@ -52,10 +66,13 @@ export async function runDesignPageAuthorityGeneration(input: {
     projectId: input.session.projectId,
     buildRef: P0_VR_TWIN_V30_BUILD,
   });
+  const creativeContext = loadProjectCreativeContextPackage(input.session.projectId);
+  const projectCreativeGroundingGate = assertProjectCreativeGroundingGate(creativeContext);
   const allPrompts = buildAllTerritoryPrompts({
     clientProjectId: input.session.projectId,
     refineNotes: input.session.founderReview.refineNotes,
   });
+  const territoryPayloads = buildAllTerritoryCreativePayloads(input.session.projectId);
   const combinedPromptText = Object.values(allPrompts)
     .flatMap((p) => [p.mobile, p.desktop])
     .join('\n');
@@ -71,6 +88,22 @@ export async function runDesignPageAuthorityGeneration(input: {
       C: allPrompts.C.mobile,
     },
   });
+  const r4SelfCheck = runDesignPageAuthorityR4SelfCheck({
+    promptOrArtifactText: combinedPromptText,
+    territoryPrompts: {
+      A: allPrompts.A.mobile,
+      B: allPrompts.B.mobile,
+      C: allPrompts.C.mobile,
+    },
+    payloads: {
+      A: territoryPayloads.A.mobile,
+      B: territoryPayloads.B.mobile,
+      C: territoryPayloads.C.mobile,
+    },
+  });
+  if (!r4SelfCheck.pass) {
+    throw new Error(`PROJECT_CREATIVE_CONTEXT_INCOMPLETE: r4 self-check ${r4SelfCheck.failures.join(', ')}`);
+  }
   const territoryScope = input.territoryScope ?? 'ALL';
   const scopedTerritoryIds = territoryScopeToIds(territoryScope);
   const dispatch = await dispatchDesignPageAuthorityTerritoryVisuals({
@@ -90,9 +123,35 @@ export async function runDesignPageAuthorityGeneration(input: {
   const now = new Date().toISOString();
   const client = input.session.projectId.toUpperCase();
   const expressionContract = resolveActiveProjectExpressionContract(input.session.projectId);
+  const authorityGroundedAssetManifests: ReturnType<typeof buildAuthorityGroundedAssetManifest>[] = [];
+  for (const territoryId of ['A', 'B', 'C'] as const) {
+    for (const viewport of ['mobile', 'desktop'] as const) {
+      const payload = territoryPayloads[territoryId][viewport];
+      authorityGroundedAssetManifests.push(
+        buildAuthorityGroundedAssetManifest({
+          authoritySessionId: input.session.authoritySessionId,
+          projectId: input.session.projectId,
+          territoryId,
+          viewport,
+          payload,
+        }),
+      );
+    }
+  }
+  assertNoUngroundedVisualAssets(authorityGroundedAssetManifests);
+  const ungroundedAssetCount = authorityGroundedAssetManifests.reduce(
+    (n, m) => n + m.ungroundedAssetCount,
+    0,
+  );
+  const projectGroundingQa = buildProjectGroundingReviewSummary({
+    groundingGatePass: projectCreativeGroundingGate.pass,
+    r4SelfCheckPass: r4SelfCheck.pass,
+    ungroundedAssetCount,
+    hostProjectFirewallPass: r3SelfCheck.hostProjectFirewall,
+  });
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
-    lineage: P0_VR_TWIN_V30R3_LINEAGE,
+    lineage: P0_VR_TWIN_V30R4_LINEAGE,
     authoritySessionId: input.session.authoritySessionId,
     projectId: input.session.projectId,
     pageLabel: input.session.pageLabel,
@@ -111,6 +170,12 @@ export async function runDesignPageAuthorityGeneration(input: {
     hostShellPreserved: true,
     r2SelfCheck,
     r3SelfCheck,
+    r4SelfCheck,
+    projectCreativeContextVersion: PROJECT_CREATIVE_CONTEXT_VERSION,
+    projectCreativeGroundingGate,
+    authorityGroundedAssetManifests,
+    ungroundedAssetCount,
+    projectGroundingQa,
     falProviderTrace: dispatch.providerTrace,
     classification,
     founderReview: {

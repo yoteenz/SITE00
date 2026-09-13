@@ -8769,3 +8769,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Problem:** After live FAL batch, UI still showed **0 candidates** — panel persisted `res.session` from API without merging `result.territories` (stale/mismatched server session).
 - **Fix:** **`mergeDesignPageAuthorityApiResponse`** applies `result.territories` on client; **`syncGalleryFromLastResult`** on normalize; API response validation if territories empty. Build **v393**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV3.0R4 project creative grounding (v394)
+
+- **Problem:** R3 improved spatial composition and host/project separation but creative layer still invented **random books, portraits, architecture** — style context without **project truth**.
+- **Delivered (authority-only):** `ProjectCreativeContextPackage` + NDXBOOK pilot DNA, artifact vocabulary (entry/campaign/receipt/index families), asset source map (Entry 001, CD manifests, handoff canon), visual/typography/material/symbolic language, workspace expression + **DesignWorkspaceFunctionContract**, **`ProjectCreativeGroundingGate`** (fail closed `PROJECT_CREATIVE_CONTEXT_INCOMPLETE`), grounding injected into territory prompts before FAL, **`AuthorityGroundedAssetManifest`** + **`AssetGroundingRecord`** slots, **`runDesignPageAuthorityR4SelfCheck`**, ungrounded guard `PROJECT_VISUAL_ASSET_UNGROUNDED`, founder **project grounding QA** line on authority panel. Territories A/B/C share same NDXBOOK artifact family — spatial diff only. Build **v394**. V1/live/compiler untouched.
+

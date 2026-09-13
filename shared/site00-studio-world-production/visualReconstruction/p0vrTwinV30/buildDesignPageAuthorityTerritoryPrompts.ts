@@ -5,7 +5,10 @@ import {
   DESIGN_PAGE_V3_MOBILE_PRODUCT_WIDTH_PX,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   P0_VR_TWIN_V30R3_LINEAGE,
+  P0_VR_TWIN_V30R4_LINEAGE,
 } from './constants.js';
+import { buildAuthorityCreativeGenerationPayload } from './projectCreativeGrounding/buildAuthorityCreativeGenerationPayload.js';
+import { formatProjectGroundingPromptBlock } from './projectCreativeGrounding/formatProjectGroundingPromptBlock.js';
 import { canonicalReframeBlock, foundershiTestLine } from './designPageAuthoritySelfCheck.js';
 import {
   DESIGN_PAGE_V3_TERRITORY_DEFINITIONS,
@@ -40,10 +43,11 @@ ANTI-PATTERNS (regenerate): left sidebar + top bar + generic cards + right inspe
 `.trim();
 
 const R3_QUALITY = `
-${P0_VR_TWIN_V30R3_LINEAGE} — three spatially DISTINCT territories (not color skins). Creative workstation / editorial environment — NOT enterprise admin SaaS template.
+${P0_VR_TWIN_V30R3_LINEAGE} + ${P0_VR_TWIN_V30R4_LINEAGE} — three spatially DISTINCT territories (not color skins). Creative workstation / editorial environment — NOT enterprise admin SaaS template.
 
 ${foundershiTestLine()}
 Plus: "I can immediately feel NDXBOOK is the project I have open." — both reactions required.
+Plus: "Every major image/artifact belongs to NDXBOOK — not random creative decoration." — required for R4 pass.
 
 ${canonicalReframeBlock()}
 `.trim();
@@ -89,18 +93,46 @@ export function buildTerritoryDesignPageAuthorityPrompt(input: {
     input.viewport === 'mobile' ?
       `${DESIGN_PAGE_V3_MOBILE_PRODUCT_WIDTH_PX}px portrait`
     : '1440px landscape creative workstation';
+  const groundingPayload = buildAuthorityCreativeGenerationPayload({
+    projectId: input.clientProjectId,
+    territoryId: input.territoryId,
+    viewport: input.viewport,
+  });
+  const groundingBlock = formatProjectGroundingPromptBlock(groundingPayload);
   return `
 Generate HIGH-FIDELITY founder-review UI MOCKUP — ${input.viewport.toUpperCase()} — ${DESIGN_PAGE_V3_CANONICAL_PATH}.
 Active project ${client} OPEN inside ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} shell (not ${client}-owned app).
 Canvas: ${canvas}.
 
 ${R3_QUALITY}
+${groundingBlock}
 ${sharedBrief(input.viewport)}
 ${territoryBlock(input.territoryId)}
 ${refine}
 
-Output: unmistakably ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} architecture + ${client} atmosphere in workspace.
+Output: unmistakably ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} architecture + ${client} atmosphere in workspace with project-true artifacts only.
 `.trim();
+}
+
+export function buildAllTerritoryCreativePayloads(clientProjectId: string): Record<
+  DesignPageV3TerritoryId,
+  { mobile: ReturnType<typeof buildAuthorityCreativeGenerationPayload>; desktop: ReturnType<typeof buildAuthorityCreativeGenerationPayload> }
+> {
+  const ids: DesignPageV3TerritoryId[] = ['A', 'B', 'C'];
+  const out = {} as Record<
+    DesignPageV3TerritoryId,
+    {
+      mobile: ReturnType<typeof buildAuthorityCreativeGenerationPayload>;
+      desktop: ReturnType<typeof buildAuthorityCreativeGenerationPayload>;
+    }
+  >;
+  for (const id of ids) {
+    out[id] = {
+      mobile: buildAuthorityCreativeGenerationPayload({ projectId: clientProjectId, territoryId: id, viewport: 'mobile' }),
+      desktop: buildAuthorityCreativeGenerationPayload({ projectId: clientProjectId, territoryId: id, viewport: 'desktop' }),
+    };
+  }
+  return out;
 }
 
 export function buildAllTerritoryPrompts(input: {

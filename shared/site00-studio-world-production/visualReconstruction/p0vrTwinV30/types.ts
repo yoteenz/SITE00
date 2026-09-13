@@ -5,11 +5,18 @@ import type {
   DESIGN_PAGE_V3_CANONICAL_PATH,
   DESIGN_PAGE_V3_SKELETON_AREAS,
   DESIGN_PAGE_V3_WORKFLOW_PHASES,
-  P0_VR_TWIN_V30R3_LINEAGE,
+  P0_VR_TWIN_V30R4_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
 import type { DesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.js';
 import type { DesignPageAuthorityR3SelfCheck } from './designPageAuthorityR3SelfCheck.js';
+import type { DesignPageAuthorityR4SelfCheck } from './projectCreativeGrounding/designPageAuthorityR4SelfCheck.js';
+import type {
+  AuthorityGroundedAssetManifest,
+  ProjectCreativeGroundingGateResult,
+  ProjectGroundingReviewSummary,
+} from './projectCreativeGrounding/types.js';
+import type { PROJECT_CREATIVE_CONTEXT_VERSION } from './projectCreativeGrounding/types.js';
 import type { DesignPageV3FounderTerritoryVerdict, DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 
 export type DesignPageV3WorkflowPhase = (typeof DESIGN_PAGE_V3_WORKFLOW_PHASES)[number];
@@ -58,7 +65,7 @@ export type DesignPageAuthorityTerritoryGallery = Record<
 
 export type DesignPageAuthorityGenerationResult = {
   buildRef: typeof P0_VR_TWIN_V30_BUILD;
-  lineage: typeof P0_VR_TWIN_V30R3_LINEAGE;
+  lineage: typeof P0_VR_TWIN_V30R4_LINEAGE;
   authoritySessionId: string;
   projectId: string;
   pageLabel: string;
@@ -79,6 +86,12 @@ export type DesignPageAuthorityGenerationResult = {
   hostShellPreserved: true;
   r2SelfCheck: DesignPageAuthoritySelfCheck;
   r3SelfCheck: DesignPageAuthorityR3SelfCheck;
+  r4SelfCheck: DesignPageAuthorityR4SelfCheck;
+  projectCreativeContextVersion: typeof PROJECT_CREATIVE_CONTEXT_VERSION;
+  projectCreativeGroundingGate: ProjectCreativeGroundingGateResult;
+  authorityGroundedAssetManifests: AuthorityGroundedAssetManifest[];
+  ungroundedAssetCount: number;
+  projectGroundingQa: ProjectGroundingReviewSummary;
   /** FAL queue batch trace (parallel enqueue spread + request ids) */
   falProviderTrace: string[];
   classification: DesignPageAuthorityClassification;
