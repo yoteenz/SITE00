@@ -29,6 +29,9 @@ import {
 import { getActiveConceptCandidate } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { beginParallelCompositionTwinGeneration } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV27/beginParallelCompositionTwinGeneration.js';
 import { TwinV2PairedConceptReviewPanel } from './TwinV2PairedConceptReviewPanel.js';
+import { TwinV2FalParallelTwinProofControls } from './TwinV2FalParallelTwinProofPanel.js';
+import { requestFalParallelTwinProof } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/requestFalParallelTwinProof.js';
+import type { FalParallelTwinProofBundle } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV28/types.js';
 import { TwinV2CompilerReadinessPanel } from './TwinV2CompilerReadinessPanel.js';
 import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
@@ -97,6 +100,12 @@ export function PageConceptDirectedTwinV2Experience({
   const [compareMode, setCompareMode] = useState<CompareMode>('APPROVED_VISUAL');
   const [liveCompare, setLiveCompare] = useState<'LIVE' | 'TWIN_V1' | 'TWIN_V2'>('LIVE');
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
+  const [falProofRunning, setFalProofRunning] = useState(false);
+  const [falProofError, setFalProofError] = useState<string | null>(null);
+  const [falProofBundle, setFalProofBundle] = useState<FalParallelTwinProofBundle | null>(
+    () => session.conceptGallery?.falParallelTwinProofs?.[session.sessionId] ?? null,
+  );
+  const showFalTwinProofPilot = session.projectId === 'ndxbook' && session.pageId === 'overview';
   const [importUrls, setImportUrls] = useState(() => {
     const ui = readTwinV2UiPersist(session.projectId);
     if (ui?.pageId === session.pageId && ui.importUrlsDraft) return ui.importUrlsDraft;
@@ -377,6 +386,38 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
+  const handleRunFalTwinProof = async () => {
+    setFalProofRunning(true);
+    setFalProofError(null);
+    try {
+      const conceptId = `fal-v28-${session.sessionId}-${Date.now()}`;
+      const conceptVersionId = `vc-fal-v28-${Date.now()}`;
+      const res = await requestFalParallelTwinProof({
+        session,
+        conceptId,
+        conceptVersionId,
+        runAssetProof: true,
+      });
+      setFalProofBundle(res.bundle);
+      const galleryBase = session.conceptGallery ?? ensureConceptGallery(session).conceptGallery!;
+      onSessionChange({
+        ...session,
+        conceptGallery: {
+          ...galleryBase,
+          falParallelTwinProofs: {
+            ...(galleryBase.falParallelTwinProofs ?? {}),
+            [session.sessionId]: res.bundle,
+          },
+        },
+        updatedAt: new Date().toISOString(),
+      });
+    } catch (e) {
+      setFalProofError(e instanceof Error ? e.message : 'FAL parallel twin proof failed');
+    } finally {
+      setFalProofRunning(false);
+    }
+  };
+
   const [buildStage, setBuildStage] = useState<TwinV2BuildStage | CompilerBuildStage | null>(null);
 
   const handleBuildTwin = async () => {
@@ -610,6 +651,15 @@ export function PageConceptDirectedTwinV2Experience({
             </button>
           </div>
         </section>
+      ) : null}
+
+      {showFalTwinProofPilot ? (
+        <TwinV2FalParallelTwinProofControls
+          onRunProof={() => void handleRunFalTwinProof()}
+          running={falProofRunning}
+          error={falProofError}
+          bundle={falProofBundle}
+        />
       ) : null}
 
       {activeConcept && activeConcept.conceptOrigin === 'DUAL_OUTPUT_PAIRED' ? (

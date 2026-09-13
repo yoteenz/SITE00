@@ -8662,6 +8662,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.8 FAL parallel twin generation capability proof (v383)
+
+- **Context:** Validate whether FAL can produce **two distinct visual artifacts** (authority + blueprint twin) from the same **MinimalTwinGenerationState** before investing in blueprint-exclusive BUILD wiring. Scope: NDXBOOK overview mobile pilot only; no BUILD/V1/live changes.
+- **Delivered:** `p0vrTwinV28/` — MinimalTwinGenerationState (27 object IDs), coordinated dual FAL calls (`COORDINATED_DUAL_CALL`; multi-output probe documented), `FalTwinGenerationReceipt`, `TwinVisualAlignmentReceipt`, standalone asset mini-proof jobs, capability classification (PROVEN / PARTIAL / FAILED). API `POST /api/site00/twin-v2-fal-parallel-twin-proof`. UI **RUN FAL PARALLEL TWIN PROOF (v28)** on ndxbook/overview Twin V2 drawer — side-by-side, blueprint, QA overlay (overlay is not a generated artifact). Ledger appends two entries with `:AUTHORITY_VISUAL` / `:BLUEPRINT_TWIN_VISUAL` model suffix.
+- **Classification:** CI/vitest → **PARTIAL** (simulated dual jobs); live **PROVEN** only after founder confirms alignment on real FAL outputs with `FAL_KEY` on Railway.
+- **Next:** Founder runs proof once, checks FAL history for two jobs, visually compares authority vs blueprint twin; do not BUILD until capability proven.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.7 parallel composition + surgical blueprint twin (v382)
 
 - **Context:** Sprint P0.VR.TWINV2.7 — shared **ConceptCompositionState**, parallel **AuthorityVisual** + **SurgicalBlueprintTwin** + **AssetGenerationContractSet**, three-way reconciliation, blueprint-only code path, no authority image as runtime substrate; NDXBOOK overview mobile pilot; do not touch V1/live.
