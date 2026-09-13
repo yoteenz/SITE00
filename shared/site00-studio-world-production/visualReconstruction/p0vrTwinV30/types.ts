@@ -40,6 +40,22 @@ export type DesignPageAuthorityTerritoryBundle = {
   desktop: DesignPageAuthorityVisualArtifact;
 };
 
+/** One mobile+desktop pair stored under a territory category for compare. */
+export type DesignPageAuthorityTerritoryCandidate = {
+  candidateId: string;
+  territoryId: DesignPageV3TerritoryId;
+  territoryName: string;
+  batchGeneration: number;
+  createdAt: string;
+  mobile: DesignPageAuthorityVisualArtifact;
+  desktop: DesignPageAuthorityVisualArtifact;
+};
+
+export type DesignPageAuthorityTerritoryGallery = Record<
+  DesignPageV3TerritoryId,
+  DesignPageAuthorityTerritoryCandidate[]
+>;
+
 export type DesignPageAuthorityGenerationResult = {
   buildRef: typeof P0_VR_TWIN_V30_BUILD;
   lineage: typeof P0_VR_TWIN_V30R3_LINEAGE;
@@ -82,9 +98,20 @@ export type DesignPageAuthorityFounderReviewState = {
   selectedTerritoryId: DesignPageV3TerritoryId | null;
   territoryVerdicts: Partial<Record<DesignPageV3TerritoryId, DesignPageV3FounderTerritoryVerdict>>;
   refineNotes: string[];
-  lastAction: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'APPROVE' | 'SELECT_TERRITORY' | 'TERRITORY_VERDICT' | null;
+  lastAction:
+    | 'GENERATE'
+    | 'REFINE'
+    | 'REGENERATE'
+    | 'REGENERATE_TERRITORY'
+    | 'APPROVE'
+    | 'SELECT_TERRITORY'
+    | 'SELECT_TERRITORY_CANDIDATE'
+    | 'TERRITORY_VERDICT'
+    | null;
   updatedAt: string;
 };
+
+export type DesignPageAuthorityTerritoryScope = 'ALL' | DesignPageV3TerritoryId;
 
 export type DesignPageAuthorityReviewSession = {
   buildRef: typeof P0_VR_TWIN_V30_BUILD;
@@ -93,6 +120,10 @@ export type DesignPageAuthorityReviewSession = {
   pageLabel: string;
   candidateGeneration: number;
   lastResult: DesignPageAuthorityGenerationResult | null;
+  /** Accumulated FAL/prototype pairs per territory — compare within A / B / C */
+  territoryGallery: DesignPageAuthorityTerritoryGallery;
+  /** Active compare selection per territory category */
+  selectedCandidateByTerritory: Partial<Record<DesignPageV3TerritoryId, string>>;
   founderReview: DesignPageAuthorityFounderReviewState;
   updatedAt: string;
 };

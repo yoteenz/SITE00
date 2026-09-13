@@ -10,7 +10,8 @@ export type DesignPageAuthorityApiResponse = {
 
 export async function requestDesignPageAuthorityGeneration(input: {
   session: DesignPageAuthorityReviewSession;
-  action?: 'GENERATE' | 'REFINE' | 'REGENERATE';
+  action?: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY';
+  territoryScope?: 'ALL' | 'A' | 'B' | 'C';
   founderConfirmedSpend?: boolean;
   apiBase?: string;
 }): Promise<DesignPageAuthorityApiResponse> {
@@ -24,6 +25,7 @@ export async function requestDesignPageAuthorityGeneration(input: {
     body: JSON.stringify({
       session: input.session,
       action: input.action ?? 'GENERATE',
+      territoryScope: input.territoryScope ?? 'ALL',
       founderConfirmedSpend: input.founderConfirmedSpend ?? true,
     }),
   });

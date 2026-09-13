@@ -5,12 +5,22 @@ import {
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
-import type { DesignPageV3FounderTerritoryVerdict, DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
+import type { DesignPageV3FounderTerritoryVerdict } from './hostProjectExpressionModel.js';
+import {
+  appendTerritoryBundlesToGallery,
+  emptyTerritoryGallery,
+  latestTerritoryCandidate,
+  normalizeDesignPageAuthoritySession,
+  resolveSelectedTerritoryCandidate,
+  resolveTerritoryCandidate,
+} from './designPageAuthorityTerritoryGallery.js';
 import type {
   DesignPageAuthorityFounderReviewState,
   DesignPageAuthorityGenerationResult,
   DesignPageAuthorityReviewSession,
+  DesignPageAuthorityTerritoryScope,
 } from './types.js';
+import type { DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 
 export function createDesignPageAuthorityReviewSession(input?: {
   projectId?: string;
@@ -26,6 +36,8 @@ export function createDesignPageAuthorityReviewSession(input?: {
     pageLabel: input?.pageLabel ?? `${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} · DESIGN · Project: ${client} open`,
     candidateGeneration: 0,
     lastResult: null,
+    territoryGallery: emptyTerritoryGallery(),
+    selectedCandidateByTerritory: {},
     founderReview: emptyFounderReview(now),
     updatedAt: now,
   };
@@ -48,23 +60,38 @@ function emptyFounderReview(now: string): DesignPageAuthorityFounderReviewState 
 export function applyDesignPageAuthorityGeneration(
   session: DesignPageAuthorityReviewSession,
   result: DesignPageAuthorityGenerationResult,
-  action: 'GENERATE' | 'REFINE' | 'REGENERATE',
+  action: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY',
 ): DesignPageAuthorityReviewSession {
   const now = new Date().toISOString();
-  return {
-    ...session,
-    candidateGeneration: session.candidateGeneration + 1,
+  const batchGeneration = session.candidateGeneration + 1;
+  const base = normalizeDesignPageAuthoritySession(session);
+  const territoryGallery = appendTerritoryBundlesToGallery({
+    gallery: base.territoryGallery,
+    bundles: result.territories,
+    batchGeneration,
+    createdAt: now,
+  });
+  const selectedCandidateByTerritory = { ...base.selectedCandidateByTerritory };
+  for (const bundle of result.territories) {
+    const latest = latestTerritoryCandidate(territoryGallery, bundle.territoryId);
+    if (latest) selectedCandidateByTerritory[bundle.territoryId] = latest.candidateId;
+  }
+  return normalizeDesignPageAuthoritySession({
+    ...base,
+    candidateGeneration: batchGeneration,
     lastResult: result,
+    territoryGallery,
+    selectedCandidateByTerritory,
     founderReview: {
       ...emptyFounderReview(now),
-      refineNotes: session.founderReview.refineNotes,
-      selectedTerritoryId: session.founderReview.selectedTerritoryId,
-      territoryVerdicts: { ...session.founderReview.territoryVerdicts },
+      refineNotes: base.founderReview.refineNotes,
+      selectedTerritoryId: base.founderReview.selectedTerritoryId,
+      territoryVerdicts: { ...base.founderReview.territoryVerdicts },
       lastAction: action,
       updatedAt: now,
     },
     updatedAt: now,
-  };
+  });
 }
 
 export function appendDesignPageAuthorityRefineNote(
@@ -101,19 +128,66 @@ export function selectDesignPageAuthorityTerritory(
     },
     updatedAt: now,
   };
-  const bundle = session.lastResult?.territories.find((t) => t.territoryId === territoryId);
-  if (bundle && session.lastResult) {
+  const normalized = normalizeDesignPageAuthoritySession(next);
+  const candidate = resolveTerritoryCandidate(
+    normalized.territoryGallery,
+    territoryId,
+    normalized.selectedCandidateByTerritory[territoryId],
+  );
+  if (candidate && normalized.lastResult) {
+    next = {
+      ...normalized,
+      lastResult: {
+        ...normalized.lastResult,
+        mobile: candidate.mobile,
+        desktop: candidate.desktop,
+        selectedTerritoryId: territoryId,
+      },
+    };
+  } else {
+    next = normalized;
+  }
+  return next;
+}
+
+export function selectDesignPageAuthorityTerritoryCandidate(
+  session: DesignPageAuthorityReviewSession,
+  territoryId: DesignPageV3TerritoryId,
+  candidateId: string,
+): DesignPageAuthorityReviewSession {
+  const now = new Date().toISOString();
+  const normalized = normalizeDesignPageAuthoritySession(session);
+  const candidate = resolveTerritoryCandidate(normalized.territoryGallery, territoryId, candidateId);
+  if (!candidate) return normalized;
+  let next: DesignPageAuthorityReviewSession = {
+    ...normalized,
+    selectedCandidateByTerritory: {
+      ...normalized.selectedCandidateByTerritory,
+      [territoryId]: candidateId,
+    },
+    founderReview: {
+      ...normalized.founderReview,
+      lastAction: 'SELECT_TERRITORY_CANDIDATE',
+      updatedAt: now,
+    },
+    updatedAt: now,
+  };
+  if (normalized.founderReview.selectedTerritoryId === territoryId && next.lastResult) {
     next = {
       ...next,
       lastResult: {
-        ...session.lastResult,
-        mobile: bundle.mobile,
-        desktop: bundle.desktop,
+        ...next.lastResult,
+        mobile: candidate.mobile,
+        desktop: candidate.desktop,
         selectedTerritoryId: territoryId,
       },
     };
   }
   return next;
+}
+
+export function territoryScopeToIds(scope: DesignPageAuthorityTerritoryScope): DesignPageV3TerritoryId[] {
+  return scope === 'ALL' ? ['A', 'B', 'C'] : [scope];
 }
 
 export function setDesignPageAuthorityTerritoryVerdict(
@@ -140,6 +214,10 @@ export function approveDesignPageAuthorityViewport(
 ): DesignPageAuthorityReviewSession {
   if (!session.founderReview.selectedTerritoryId) {
     throw new Error('TERRITORY_REQUIRED: select territory A/B/C before viewport lock');
+  }
+  const candidate = resolveSelectedTerritoryCandidate(session);
+  if (!candidate) {
+    throw new Error('TERRITORY_CANDIDATE_REQUIRED: generate at least one pair in selected territory');
   }
   const now = new Date().toISOString();
   const founderReview: DesignPageAuthorityFounderReviewState = {

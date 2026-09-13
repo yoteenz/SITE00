@@ -1,3 +1,4 @@
+import { normalizeDesignPageAuthoritySession } from './designPageAuthorityTerritoryGallery.js';
 import type { DesignPageAuthorityReviewSession } from './types.js';
 
 const STORAGE_KEY = 'site00:design-page-v3-authority:v1';
@@ -8,7 +9,8 @@ export function readDesignPageAuthoritySession(projectId: string): DesignPageAut
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Record<string, DesignPageAuthorityReviewSession>;
-    return parsed[projectId.toLowerCase()] ?? null;
+    const row = parsed[projectId.toLowerCase()];
+    return row ? normalizeDesignPageAuthoritySession(row) : null;
   } catch {
     return null;
   }

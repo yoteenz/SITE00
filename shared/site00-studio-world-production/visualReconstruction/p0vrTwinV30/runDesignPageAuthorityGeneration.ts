@@ -13,7 +13,13 @@ import { runDesignPageAuthoritySelfCheck } from './designPageAuthoritySelfCheck.
 import { runDesignPageAuthorityR3SelfCheck } from './designPageAuthorityR3SelfCheck.js';
 import { dispatchDesignPageAuthorityTerritoryVisuals } from './dispatchDesignPageAuthorityTerritoryVisuals.js';
 import { confirmDesignPageProductSkeleton } from './lockedExperienceSkeleton.js';
-import type { DesignPageAuthorityGenerationResult, DesignPageAuthorityReviewSession, DesignPageV3SkeletonArea } from './types.js';
+import { territoryScopeToIds } from './designPageAuthorityReviewState.js';
+import type {
+  DesignPageAuthorityGenerationResult,
+  DesignPageAuthorityReviewSession,
+  DesignPageAuthorityTerritoryScope,
+  DesignPageV3SkeletonArea,
+} from './types.js';
 
 const ZONE_SUMMARIES: Record<DesignPageV3SkeletonArea, string> = {
   HOST_HEADER_PAGE_FRAME: 'SITE 00 host shell — breadcrumb, DESIGN identity, Martian Mono wayfinding, host red reserved',
@@ -36,7 +42,8 @@ function pickPreviewPair(
 
 export async function runDesignPageAuthorityGeneration(input: {
   session: DesignPageAuthorityReviewSession;
-  action?: 'GENERATE' | 'REFINE' | 'REGENERATE';
+  action?: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY';
+  territoryScope?: DesignPageAuthorityTerritoryScope;
 }): Promise<DesignPageAuthorityGenerationResult> {
   if (input.session.projectId !== DESIGN_PAGE_V3_PILOT_PROJECT_ID) {
     throw new Error('DESIGN_PAGE_V3_PILOT: ndxbook only');
@@ -64,10 +71,13 @@ export async function runDesignPageAuthorityGeneration(input: {
       C: allPrompts.C.mobile,
     },
   });
+  const territoryScope = input.territoryScope ?? 'ALL';
+  const scopedTerritoryIds = territoryScopeToIds(territoryScope);
   const dispatch = await dispatchDesignPageAuthorityTerritoryVisuals({
     authoritySessionId: input.session.authoritySessionId,
     clientProjectId: input.session.projectId,
     refineNotes: input.session.founderReview.refineNotes,
+    territoryIds: scopedTerritoryIds,
   });
   const previewTerritory = input.session.founderReview.selectedTerritoryId;
   const { bundle, selectedTerritoryId } = pickPreviewPair(dispatch.territories, previewTerritory);

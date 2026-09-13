@@ -11,7 +11,8 @@ import { P0_VR_TWIN_V30_BUILD } from '../../shared/site00-studio-world-productio
 
 type Body = {
   session: DesignPageAuthorityReviewSession;
-  action?: 'GENERATE' | 'REFINE' | 'REGENERATE';
+  action?: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY';
+  territoryScope?: 'ALL' | 'A' | 'B' | 'C';
   founderConfirmedSpend?: boolean;
 };
 
@@ -41,7 +42,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const action = body.action ?? 'GENERATE';
-    const result = await runDesignPageAuthorityGeneration({ session: body.session, action });
+    const result = await runDesignPageAuthorityGeneration({
+      session: body.session,
+      action,
+      territoryScope: body.territoryScope ?? 'ALL',
+    });
     const session = applyDesignPageAuthorityGeneration(body.session, result, action);
     res.status(200).json({
       ok: true,
