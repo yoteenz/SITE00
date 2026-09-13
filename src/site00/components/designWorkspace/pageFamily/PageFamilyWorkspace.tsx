@@ -87,11 +87,10 @@ import {
   recalculatePageCreativeUpgradeForensics,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
 import {
-  createConceptDirectedTwinSession,
   ensureConceptGallery,
   isTwinV2PilotEligible,
   listConceptDirectedTwinSessionsForProject,
-  loadConceptDirectedTwinSession,
+  resolveTwinV2SessionForOpen,
   saveConceptDirectedTwinSession,
   isTwinV2OverviewPageScope,
   stashConceptDirectedTwinSessionForPreview,
@@ -266,20 +265,16 @@ export function PageFamilyWorkspace({
 
   const openTwinV2Workflow = useCallback(() => {
     if (!activePageId || !twinV2Eligible) return;
-    const existing = loadConceptDirectedTwinSession(projectId, activePageId);
     const refs = upgradeSession?.designAuthorityAssetRef ? [upgradeSession.designAuthorityAssetRef] : [];
+    const base = resolveTwinV2SessionForOpen({
+      projectId,
+      pageId: activePageId,
+      referenceAssets: refs,
+    });
     const siblingSessions = listConceptDirectedTwinSessionsForProject(projectId).filter(
-      (s) => s.pageId !== activePageId && isTwinV2OverviewPageScope(projectId, s.pageId),
+      (s) => s.sessionId !== base.sessionId && isTwinV2OverviewPageScope(projectId, s.pageId),
     );
-    const session = ensureConceptGallery(
-      existing ??
-        createConceptDirectedTwinSession({
-          projectId,
-          pageId: activePageId,
-          referenceAssets: refs,
-        }),
-      { siblingSessions },
-    );
+    const session = ensureConceptGallery(base, { siblingSessions });
     saveConceptDirectedTwinSession(session);
     setTwinV2Session(session);
     setTwinV2Open(true);

@@ -3,7 +3,8 @@ import type { RemoteStorageGenerationRecord } from './discoverExistingV2ConceptG
 
 export type RemoteTwinV2GenerationsResponse = {
   ok: boolean;
-  sessionId: string;
+  sessionId?: string | null;
+  projectId?: string | null;
   records: RemoteStorageGenerationRecord[];
   error?: string;
   code?: 'LEGACY_V2_DISCOVERY_FAILED';
@@ -26,5 +27,26 @@ export async function fetchRemoteTwinV2Generations(sessionId: string): Promise<R
       searchedSessionIds: data.searchedSessionIds,
     };
   }
-  return data;
+  return { ...data, sessionId };
+}
+
+export async function fetchRemoteTwinV2GenerationsForProject(
+  projectId: string,
+): Promise<RemoteTwinV2GenerationsResponse> {
+  const url = site00ClientApiUrl(
+    `/api/site00/twin-v2-concept-generations?projectId=${encodeURIComponent(projectId)}`,
+  );
+  const res = await fetch(url, { credentials: 'omit' });
+  const data = (await res.json()) as RemoteTwinV2GenerationsResponse;
+  if (!res.ok) {
+    return {
+      ok: false,
+      projectId,
+      records: [],
+      error: data.error ?? `HTTP ${res.status}`,
+      code: data.code,
+      searchedSessionIds: data.searchedSessionIds,
+    };
+  }
+  return { ...data, projectId };
 }

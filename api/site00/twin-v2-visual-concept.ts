@@ -12,6 +12,7 @@ import {
 import type { ConceptDirectedTwinSession } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
 import { buildFalImageInput } from '../../shared/site00-visual-generation/falImageModels.js';
 import { uploadSite00AssetBuffer } from '../_lib/site00Assts/storage.js';
+import { appendTwinV2ConceptLedger } from '../_lib/site00TwinV2/twinV2ConceptLedger.js';
 
 type Body = {
   action: 'generate' | 'regenerate' | 'refine';
@@ -106,6 +107,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const path = `site00/twin-v2/${body.session.sessionId}/${Date.now()}.webp`;
       await uploadSite00AssetBuffer(path, buf, 'image/webp');
       imageStorageRef = path;
+    }
+
+    const createdAt = new Date().toISOString();
+    if (body.session.projectId && (imageStorageRef || imageUrl)) {
+      try {
+        await appendTwinV2ConceptLedger({
+          entryId: `ledger-${body.session.sessionId}-${Date.now()}`,
+          projectId: body.session.projectId,
+          pageId: body.session.pageId,
+          sessionId: body.session.sessionId,
+          imageUrl: imageStorageRef ? null : imageUrl,
+          imageStorageRef,
+          createdAt,
+          provider: TWIN_V2_VISUAL_PROVIDER_LABEL,
+          model: TWIN_V2_VISUAL_PROVIDER,
+        });
+      } catch {
+        /* ledger append must not block founder generation */
+      }
     }
 
     res.status(200).json({

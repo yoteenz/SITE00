@@ -20,6 +20,7 @@ import {
   getConceptCandidates,
   shouldShowV2EmptyState,
   fetchRemoteTwinV2Generations,
+  fetchRemoteTwinV2GenerationsForProject,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
 import '../../../styles/site00-twin-v2-concept.css';
@@ -75,9 +76,16 @@ export function PageConceptDirectedTwinV2Experience({
           (s) => s.sessionId !== session.sessionId && isTwinV2OverviewPageScope(session.projectId, s.pageId),
         );
         const sessionIds = [session.sessionId, ...siblingSessions.map((s) => s.sessionId)];
-        const remoteRecords = (
-          await Promise.all(sessionIds.map((id) => fetchRemoteTwinV2Generations(id)))
-        ).flatMap((r) => r.records);
+        const byProject = await fetchRemoteTwinV2GenerationsForProject(session.projectId);
+        const bySession = (await Promise.all(sessionIds.map((id) => fetchRemoteTwinV2Generations(id)))).flatMap(
+          (r) => r.records,
+        );
+        const remoteMap = new Map<string, (typeof byProject.records)[0]>();
+        for (const r of [...byProject.records, ...bySession]) {
+          const key = r.imageStorageRef ?? r.imageUrl;
+          if (key) remoteMap.set(key, r);
+        }
+        const remoteRecords = [...remoteMap.values()];
 
         const hydrated = ensureConceptGallery(session, { siblingSessions, remoteStorageRecords: remoteRecords });
         if (!cancelled) onSessionChange(hydrated);
@@ -121,7 +129,10 @@ export function PageConceptDirectedTwinV2Experience({
   const gallery = session.conceptGallery;
   const galleryCandidates = galleryQuery.candidates;
   const discoverableCount = gallery?.backfillReceipt?.discoverableGenerationCount ?? 0;
-  const showEmptyState = shouldShowV2EmptyState(discoverableCount, galleryQuery.canonicalConceptCount);
+  const showEmptyState =
+    !hydrating && shouldShowV2EmptyState(discoverableCount, galleryQuery.canonicalConceptCount);
+  const hydrationFailed =
+    !hydrating && showEmptyState && gallery?.backfillReceipt?.status === 'NO_DISCOVERABLE_GENERATIONS';
   const showGallery = galleryQuery.canonicalConceptCount > 0;
   const preBuildConceptStage = showGallery && !session.renderedTwin?.builtAt;
 
@@ -244,7 +255,16 @@ export function PageConceptDirectedTwinV2Experience({
       {!hydrating && showEmptyState ? (
         <>
           <figure className="site00-twin-v2-concept__concept-frame">
-            <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>NO VISUAL CONCEPT YET</div>
+            <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>
+              NO VISUAL CONCEPT YET
+              {hydrationFailed ? (
+                <p style={{ fontSize: '0.75rem', marginTop: '1rem' }}>
+                  Recovery found 0 stored concepts for this device/API scope. Deploy frontend v347 + redeploy Railway API,
+                  then reopen TWIN V2. Past FAL-only images without storage cannot be recovered until ledger backfill runs
+                  on next generation.
+                </p>
+              ) : null}
+            </div>
           </figure>
           <div className="site00-twin-v2-concept__actions">
             <button
