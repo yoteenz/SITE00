@@ -70,7 +70,7 @@ export function PageConceptDirectedTwinV2Experience({
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
   const [importUrls, setImportUrls] = useState('');
   const [importing, setImporting] = useState(false);
-  const [importFeedback, setImportFeedback] = useState<string | null>(null);
+  const [importNotice, setImportNotice] = useState<{ tone: 'error' | 'ok'; text: string } | null>(null);
   const sessionRef = useRef(session);
   sessionRef.current = session;
 
@@ -221,14 +221,15 @@ export function PageConceptDirectedTwinV2Experience({
       .filter(Boolean)
       .filter((u) => u.startsWith('http://') || u.startsWith('https://'));
     if (!urls.length) {
-      const msg = 'Paste at least one full image URL (https://…) — one per line.';
-      setImportFeedback(msg);
-      setError(msg);
+      setImportNotice({
+        tone: 'error',
+        text: 'Paste at least one full image URL (https://…) — one per line. Grey placeholder text is not imported.',
+      });
       return;
     }
     setImporting(true);
     setError(null);
-    setImportFeedback(null);
+    setImportNotice(null);
     try {
       let working = session;
       let persistedCount = 0;
@@ -264,13 +265,13 @@ export function PageConceptDirectedTwinV2Experience({
       onSessionChange(working);
       setImportUrls('');
       const n = working.conceptGallery?.candidates.length ?? 0;
-      setImportFeedback(
-        `Imported ${persistedCount + localOnlyCount} image(s). Gallery: ${n} concept${n === 1 ? '' : 's'}${localOnlyCount ? ' (some saved on this device only — redeploy Railway for durable storage)' : ''}.`,
-      );
+      setImportNotice({
+        tone: 'ok',
+        text: `Imported ${persistedCount + localOnlyCount} image(s). Gallery: ${n} concept${n === 1 ? '' : 's'}${localOnlyCount ? ' (some saved on this device only — redeploy Railway for durable storage)' : ''}.`,
+      });
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Import failed';
-      setError(msg);
-      setImportFeedback(msg);
+      setImportNotice({ tone: 'error', text: msg });
     } finally {
       setImporting(false);
     }
@@ -348,22 +349,27 @@ export function PageConceptDirectedTwinV2Experience({
           <section className="site00-twin-v2-concept__import">
             <label>
               <strong>IMPORT EXISTING CONCEPTS</strong>
-              <span> — paste image URLs (one per line, up to 10). No paid generation.</span>
+              <span> — paste your five FAL image links (one per line). No paid generation.</span>
               <textarea
                 value={importUrls}
-                onChange={(e) => setImportUrls(e.target.value)}
+                onChange={(e) => {
+                  setImportUrls(e.target.value);
+                  if (importNotice?.tone === 'error') setImportNotice(null);
+                }}
                 rows={5}
-                placeholder="https://…fal.media/…&#10;https://…"
+                placeholder={'Paste links from fal.ai history — example:\nhttps://v3.fal.media/files/…/image.webp'}
               />
             </label>
-            {importFeedback ? (
-              <p className="site00-twin-v2-concept__import-feedback" role="status">
-                {importFeedback}
-              </p>
-            ) : null}
-            {error ? (
-              <p className="site00-twin-v2-concept__import-error" role="alert">
-                {error}
+            {importNotice ? (
+              <p
+                className={
+                  importNotice.tone === 'ok'
+                    ? 'site00-twin-v2-concept__import-feedback'
+                    : 'site00-twin-v2-concept__import-error'
+                }
+                role={importNotice.tone === 'ok' ? 'status' : 'alert'}
+              >
+                {importNotice.text}
               </p>
             ) : null}
             <button
