@@ -8,6 +8,8 @@ import type { SanitizedConceptBoundaryResult } from './types.js';
 import { computeClientCanvasBoundary } from './computeClientCanvasBoundary.js';
 import { buildClientCanvasTrimReceipt } from './buildClientCanvasTrimReceipt.js';
 import { assertClientCanvasExcludesHostArtifactExtent } from './assertClientCanvasExcludesHostArtifactExtent.js';
+import { assertClientCanvasIncludesFirstClientObject } from './assertClientCanvasIncludesFirstClientObject.js';
+import { buildClientCanvasTopReceipt } from './buildClientCanvasTopReceipt.js';
 
 export function sanitizeConceptForHostBoundary(input: {
   conceptId: string;
@@ -50,16 +52,19 @@ export function sanitizeConceptForHostBoundary(input: {
     conceptId: input.conceptId,
     executionBlueprint: sanitizedBlueprint,
     generatedHostArtifacts,
+    hostTopInsetNorm: hostShellContract.clientCanvasInsets.top,
     hostBottomNavHeightNorm: hostShellContract.safeAreaRules.bottomInsetNorm,
   });
   assertClientCanvasExcludesHostArtifactExtent({ boundary: clientCanvasBoundary, generatedHostArtifacts });
+  assertClientCanvasIncludesFirstClientObject(clientCanvasBoundary);
   const clientCanvasTrimReceipt = buildClientCanvasTrimReceipt(clientCanvasBoundary);
+  const clientCanvasTopReceipt = buildClientCanvasTopReceipt(clientCanvasBoundary);
 
   const trimmedCanvasBoundary = {
     ...canvasBoundary,
     contentCanvasBounds: {
       x: 0,
-      y: clientCanvasBoundary.canvasTop,
+      y: clientCanvasBoundary.firstClientContentTop,
       w: 1,
       h: clientCanvasBoundary.sanitizedCanvasHeight,
     },
@@ -84,6 +89,7 @@ export function sanitizeConceptForHostBoundary(input: {
     compositePreview,
     clientCanvasBoundary,
     clientCanvasTrimReceipt,
+    clientCanvasTopReceipt,
     originalConceptImagePreserved: Boolean(input.originalConceptImageUrl),
   };
 }

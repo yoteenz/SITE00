@@ -5,6 +5,66 @@
   padding: 0 0 2rem;
 }
 
+.site00-twin-v2-concept__build-banner {
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.site00-twin-v2-concept__build-banner--ok {
+  border-color: var(--site00-lime, #c8ff00);
+  color: #111;
+  background: rgba(200, 255, 0, 0.12);
+}
+
+.site00-twin-v2-concept__build-banner--error {
+  border-color: #e05252;
+  color: #5a1010;
+  background: rgba(224, 82, 82, 0.12);
+}
+
+.site00-twin-v2-concept__built-panel {
+  border: 2px solid var(--site00-lime, #c8ff00);
+  padding: 0.65rem;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.site00-twin-v2-concept__built-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.site00-twin-v2-concept__built-meta {
+  margin: 0;
+  font-size: 0.65rem;
+  opacity: 0.85;
+}
+
+.site00-twin-v2-concept__built-preview-frame {
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.site00-twin-v2-concept__gallery-collapse {
+  font-size: 0.75rem;
+}
+
+.site00-twin-v2-concept__gallery-collapse summary {
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0;
+}
+
 .site00-twin-v2-concept__rail {
   display: flex;
   flex-wrap: wrap;
@@ -336,6 +396,27 @@
   padding: 0.5rem;
 }
 
+/** Full-height client canvas preview — must not inherit blueprint list 12rem scroll clip. */
+.site00-twin-v2-gallery__client-canvas-panel {
+  font-size: 0.75rem;
+  max-height: none;
+  overflow: visible;
+  border: 1px solid #333;
+  padding: 0.5rem;
+}
+
+.site00-twin-v2-gallery__client-canvas-scroll-hint {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.65rem;
+  line-height: 1.35;
+  opacity: 0.8;
+  color: #c8ff00;
+}
+
+.site00-dw-wizard-drawer__panel:has([data-panel='client-canvas']) {
+  max-height: min(94vh, 960px);
+}
+
 .site00-twin-v2-gallery__legacy {
   font-size: 0.55rem;
   opacity: 0.75;
@@ -430,6 +511,7 @@
 }
 
 .site00-twin-v2-trimmed-canvas {
+  position: relative;
   width: 100%;
   max-width: 375px;
   overflow: hidden;
@@ -437,10 +519,16 @@
   background: #fff;
 }
 
-.site00-twin-v2-trimmed-canvas img {
+.site00-twin-v2-trimmed-canvas__artboard {
+  position: absolute;
+  left: 0;
+  top: calc(-100% * var(--client-crop-top, 0) / var(--client-crop-visible, 1) - 2px);
   display: block;
   width: 100%;
   height: auto;
+  max-width: none;
+  aspect-ratio: 375 / 812;
+  object-position: top left;
 }
 
 .site00-twin-v2-gallery__ownership-badge {

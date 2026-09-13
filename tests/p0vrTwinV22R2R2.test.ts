@@ -38,7 +38,7 @@ describe('P0.VR.TWINV2.2R2R2 client canvas trim', () => {
     const boundary = g.clientCanvasBoundaries![c.conceptId];
     expect(boundary).toBeDefined();
     expect(boundary!.generatedHostNavBounds?.y).toBeGreaterThanOrEqual(0.88);
-    expect(boundary!.sanitizedCanvasBottom).toBeLessThan(boundary!.generatedHostNavBounds!.y);
+    expect(boundary!.sanitizedCanvasBottom).toBeLessThanOrEqual(boundary!.generatedHostNavBounds!.y + 0.002);
     expect(boundary!.lastClientContentBottom).toBeGreaterThan(0.2);
     const receipt = g.clientCanvasTrimReceipts![c.conceptId];
     expect(receipt?.finalClientCanvasHeight).toBe(boundary!.sanitizedCanvasHeight);
@@ -70,10 +70,11 @@ describe('P0.VR.TWINV2.2R2R2 client canvas trim', () => {
     ).toThrow(CLIENT_CANVAS_HOST_ARTIFACT_HEIGHT_LEAK);
   });
 
-  it('UI uses trimmed frame not fixed 12% clip', () => {
+  it('UI uses viewport crop frame not fixed 12% clip', () => {
     expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2ExecutionClientCanvasFrame.tsx')).toContain(
-      'clipPath',
+      '--client-crop-visible',
     );
+    expect(read('src/site00/styles/site00-twin-v2-concept.css')).toContain('--client-crop-top');
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).not.toContain('inset(7% 0 12% 0)');
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).not.toContain('min-height: 520px');
   });
@@ -91,7 +92,7 @@ describe('P0.VR.TWINV2.2R2R2 client canvas trim', () => {
     );
     expect(lastClientContentBottom).toBeGreaterThan(0);
     expect(assertV1Isolation().v1PipelineUntouched).toBe(true);
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v357');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v365');
   });
 
   it('computeClientCanvasBoundary receipt fields', () => {

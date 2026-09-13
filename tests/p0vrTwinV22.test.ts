@@ -11,8 +11,10 @@ import {
   mergeVisualConceptApiResult,
   composeConceptDirectedTwinV2,
   approveActiveConceptCandidate,
+  prepareConceptDirectedTwinV2Build,
   assertV1Isolation,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import { isConceptTechnicallyReadyForBuild } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
   ensureConceptGallery,
   backfillConceptGalleryFromHistory,
@@ -154,6 +156,19 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     expect(session.conceptGallery!.packages[pkgId]).toBeDefined();
   });
 
+  it('BUILD THIS CONCEPT prepares approve + package when readiness complete (mobile one-tap)', () => {
+    const session = sessionWithConcepts(1);
+    const before = getActiveConceptCandidate(session)!;
+    expect(before.founderJudgment).not.toBe('APPROVED');
+    expect(isConceptTechnicallyReadyForBuild(before.buildReadiness)).toBe(true);
+    const prepared = prepareConceptDirectedTwinV2Build(session);
+    const after = getActiveConceptCandidate(prepared)!;
+    expect(after.founderJudgment).toBe('APPROVED');
+    expect(prepared.conceptGallery!.packages[`ecp-${after.conceptId}`]).toBeDefined();
+    const { sessionPatch } = composeConceptDirectedTwinV2(prepared);
+    expect(sessionPatch.status).toBe('TWIN_V2_REVIEW_READY');
+  });
+
   it('24–28 build requires ExecutableConceptPackage; no image-only build', () => {
     let session = sessionWithConcepts(1);
     expect(() => composeConceptDirectedTwinV2(session)).toThrow(/approve active concept/);
@@ -173,6 +188,12 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     );
     expect(read('src/site00/components/designWorkspace/pageFamily/ConceptDirectedTwinGallery.tsx')).toContain(
       'site00-twin-v2-gallery__rail',
+    );
+    expect(read('src/site00/components/designWorkspace/pageFamily/PageConceptDirectedTwinV2Experience.tsx')).toContain(
+      'site00-twin-v2-concept__built-panel',
+    );
+    expect(read('src/site00/components/designWorkspace/pageFamily/ConceptDirectedTwinGallery.tsx')).toContain(
+      'BUILDING TWIN',
     );
     expect(read('src/site00/styles/site00-twin-v2-concept.css')).toMatch(/scroll-snap|gallery__rail/);
   });
@@ -200,7 +221,7 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
       shellContract: ['SITE_00 host'],
     });
     expect(pkg.status).toBe('READY');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v357');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v365');
   });
 
   it('blueprint generation is concept-specific from creative direction', () => {

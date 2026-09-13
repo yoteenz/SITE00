@@ -7,6 +7,7 @@ import type {
 } from './types.js';
 import type { SanitizedConceptBoundaryResult } from '../p0vrTwinV22R2/types.js';
 import { assertClientCanvasExcludesHostArtifactExtent } from '../p0vrTwinV22R2/assertClientCanvasExcludesHostArtifactExtent.js';
+import { assertClientCanvasIncludesFirstClientObject } from '../p0vrTwinV22R2/assertClientCanvasIncludesFirstClientObject.js';
 
 export function computeConceptBuildReadiness(input: {
   candidate: Pick<ConceptCandidate, 'visualAssetUrl' | 'founderJudgment' | 'visualAuthorityStatus'>;
@@ -37,6 +38,7 @@ export function computeConceptBuildReadiness(input: {
         boundary: input.hostBoundary.clientCanvasBoundary,
         generatedHostArtifacts: input.hostBoundary.generatedHostArtifacts,
       });
+      assertClientCanvasIncludesFirstClientObject(input.hostBoundary.clientCanvasBoundary);
     } catch {
       clientCanvasTrimOk = false;
     }
@@ -85,11 +87,19 @@ export function computeConceptBuildReadiness(input: {
   };
 }
 
+export function isConceptTechnicallyReadyForBuild(readiness: ConceptBuildReadiness): boolean {
+  if (readiness.status === 'VISUAL_ONLY') return false;
+  return (
+    readiness.visualReady &&
+    readiness.blueprintReady &&
+    readiness.assetsReady &&
+    readiness.functionsReady &&
+    readiness.hostBoundaryReady === true
+  );
+}
+
 export function canBuildConcept(readiness: ConceptBuildReadiness, approved: boolean): boolean {
   if (!approved) return false;
-  if (readiness.status === 'VISUAL_ONLY') return false;
-  if (!readiness.blueprintReady || !readiness.assetsReady || !readiness.functionsReady || !readiness.hostBoundaryReady) {
-    return false;
-  }
+  if (!isConceptTechnicallyReadyForBuild(readiness)) return false;
   return readiness.status === 'READY_TO_BUILD' || readiness.status === 'APPROVED_READY_TO_BUILD';
 }

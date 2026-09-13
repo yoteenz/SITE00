@@ -8449,6 +8449,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
+
+- **Symptom:** Founder: deployed site still stuck on loading animation after v351.
+- **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
+- **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
+- **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.2R2 host-shell exclusion + client-canvas boundary (v352)
 
 - **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
@@ -8463,12 +8472,20 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix:** `repairConceptGalleryHostBoundary` on every gallery hydrate/backfill; `originalBlueprintId` + `executionBlueprintId` on candidates; blueprint inspection rows with GENERATED HOST ARTIFACT / EXCLUDED; prominent **HOST PREVIEW** + **CLIENT CANVAS** tabs; build blocked until `hostBoundaryReady`; `HostBoundarySanitizationReceipt`; stale guard `TWIN_V2_STALE_UNSANITIZED_BLUEPRINT`. Build ref **v356**.
 
 ---
-## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
 
-- **Symptom:** Founder: deployed site still stuck on loading animation after v351.
-- **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
-- **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
-- **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
+## 2026-09-13 — P0.VR.TWINV2.2R2R2 client canvas bottom-boundary trim (v357)
+
+- **Symptom:** HOST PREVIEW showed large white gap between NDXBOOK content and real SITE 00 bottom nav after fake nav exclusion.
+- **Root cause:** Fixed `clip-path inset(7% 0 12% 0)`, composite `min-height:520px` + `flex:1` reserved orphaned height below last client region; excluded nav band still counted in full-image layout.
+- **Fix:** Blueprint-driven `ClientCanvasBoundary` + `TwinV2ExecutionClientCanvasFrame` (dynamic crop + collapsed aspect); `ClientCanvasTrimReceipt`; `assertClientCanvasExcludesHostArtifactExtent`; gallery stores trim metadata; original `visualAsset` unchanged. Build ref **v357**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 client canvas top-boundary recovery (v358)
+
+- **Symptom:** R2R2 bottom PASS; CLIENT CANVAS top FAIL — NDXBOOK masthead/identity cropped; canvas appeared to start at section-nav/hero.
+- **Root cause:** Fixed `canvasTop = 7%` (legacy symmetric clip) plus `clip-path` on full-height img inside `overflow:hidden` + aspect wrapper (layout box did not shrink — visible top clipped even when bottom trim correct).
+- **Fix:** Independent `firstClientContentTop` from min CLIENT-owned sections/objects; `canvasTop` = that value; `lastClientContentBottom` unchanged; padding-bottom + `translateY` frame (no top 12%/7% clip); `assertClientCanvasIncludesFirstClientObject` → `CLIENT_CANVAS_TOP_CROP_LOSS`; `ClientCanvasTopReceipt`; masthead band layout at y=0.06; stop tagging all shells y&lt;0.08 as host (only `obj-host-header`); host bottom nav band omitted from client section layout. Build ref **v358**. No V1/live promotion.
 
 ---
 
@@ -8492,4 +8509,76 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Context:** Founder: site00.com passes immersive loader then **white blank** `#root`; boot recovery banner; console **`NotFoundError: removeChild`**.
 - **Root cause:** Loader DOM was stripped **while React still owned the portal** — `markSite00ImmersiveComplete()` called `purgeSite00ImmersiveLoaderDom()` synchronously inside `forceRevealApp`; boot-recovery watchdog + `dispatchSite00ForceRevealLoader` also removed `.site00-immersive-loader` before gate exit.
-- **Fix:** Session mark sets storage only; **`purgeSite00ImmersiveLoaderDomAfterGateReveal`** runs in gate `useLayoutEffect` when `revealed`; force-reveal dispatches event only (no DOM purge); boot-recovery purges immersive overlay only when session complete + static shell cleanup when `#root` has children; pageshow/bfcache same rules. PR **fix-loader-dom-race**.
+- **Fix:** Session mark sets storage only; **`purgeSite00ImmersiveLoaderDomAfterGateReveal`** runs in gate `useLayoutEffect` when `revealed`; force-reveal dispatches event only (no DOM purge); boot-recovery purges immersive overlay only when session complete + static shell cleanup when `#root` has children; pageshow/bfcache same rules. PR **#788**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 hotfix (v359) — masthead + bottom nav crop regression
+
+- **Symptom:** After v358, founder QA on Twin V2 CLIENT CANVAS: NDXBOOK masthead top still clipped; invented HOME/PROJECTS bottom nav visible again inside client preview.
+- **Root cause:** (1) `canvasTop` followed first section below masthead (~0.08) instead of masthead/host inset (0.07); (2) bottom cap omitted host safe-area floor when artifact geometry loose; (3) WebKit `translateY` on bare `img` inside `height:0` padding box mis-aligned crop.
+- **Fix:** `canvasTop = min(firstClient, masthead, hostTopInset 0.07)`; `sanitizedCanvasBottom = min(..., 1 - hostBottomInset, artifact y)`; exclude invented bottom-nav objects from last-client extent; crop frame = aspect-ratio window + inner shift + bottom-only `clip-path`; gallery repair when `buildRef !== v359` or bottom &gt; 0.88. Build ref **v359**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 crop frame fix (v360)
+
+- **Symptom:** Founder v359 QA — masthead still top-clipped; second view showed wrong vertical slice (metrics band cut off).
+- **Root cause:** `translateY(-top%)` ran on a **bottom clip-path-shortened** img inside `overflow:hidden` — wrong % base + viewport clipped shifted masthead.
+- **Fix:** Single full artboard img with `top: calc(-100% * top / visible)` inside aspect-ratio viewport; remove transform+clip stack; `MASTHEAD_VISUAL_BLEED_NORM` (0.012) on `canvasTop` when masthead band present. Build ref **v360**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 client canvas panel unclip (v361)
+
+- **Symptom:** Founder QA after v360 — masthead still “clipped”; scroll inside CLIENT CANVAS showed KPI band (wrong slice).
+- **Root cause:** CLIENT CANVAS reused `.site00-twin-v2-gallery__blueprint-panel` (**max-height: 12rem**, **overflow: auto**) meant for blueprint text rows — viewport ate top of crop; scroll looked like bad crop origin.
+- **Fix:** Dedicated `.site00-twin-v2-gallery__client-canvas-panel` (no max-height, overflow visible). Build ref **v361**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 masthead/activity bleed (v362)
+
+- **Symptom:** ~10–15px masthead + ~20–30px latest activity still clipped after v361.
+- **Root cause:** Double bottom cap — `hostSafeBottom` 0.88 applied **with** artifact cap (~0.895), shaving activity tail; top bleed 0.012 too small vs painted masthead.
+- **Fix:** Top bleed **0.019**; bottom visual bleed **0.037**; when invented nav artifact exists, cap bottom at artifact only (not hostSafe 0.88); activity section tail in last-bottom; crop `top` −1px Safari fudge. Build ref **v362**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 bleed +16px / +40px (v363)
+
+- **Founder QA:** Masthead and latest activity still slightly clipped after v362.
+- **Fix:** Masthead visual bleed **31px** @812 (+16); activity bottom bleed **70px** @812 (+40); crop top −2px Safari. Build ref **v363**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2 activity tail to invented nav + drawer scroll (v364)
+
+- **Symptom:** Latest activity still ~100–200px “clipped”; masthead OK (do not touch).
+- **Root cause:** (1) `sanitizedCanvasBottom` stopped at blueprint `paddedBottom` far above fake nav; (2) PAGE UPGRADE drawer **72vh** + body scroll — activity below fold looked like crop.
+- **Fix:** When invented nav artifact exists, `sanitizedCanvasBottom = artifactTop − ε` (full paint to nav); drawer **94vh** on CLIENT CANVAS; scroll hint on panel. Masthead unchanged. Build ref **v364**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2 activity bleed no-op fix + gallery re-sanitize (v365)
+
+- **Symptom:** Founder “nothing changed” after v364 bleed — latest activity still one row clipped; masthead OK.
+- **Root cause:** v364 **ignored `paddedBottom`** when fake nav existed (artifactCap-only), so +40px activity bleed never affected crop; persisted galleries at **v364** with tight bottom did not re-sanitize (repair only when bottom **above** host safe area).
+- **Fix:** Bottom = `min(paddedBottom, navArtifact.y + 0.002)` (assert leak ceiling); `repairConceptGalleryHostBoundary` drift + stale-tight detection; build ref **v365**. Masthead unchanged.
+
+---
+
+## 2026-09-13 — Twin V2 BUILD THIS CONCEPT one-tap (approve + package)
+
+- **Symptom:** BUILD button appeared dead on mobile — all readiness chips ✓ including HOST BOUNDARY, but tap did nothing.
+- **Root cause:** BUILD stayed **disabled** until separate **APPROVE** (`founderJudgment === 'APPROVED'`); disabled buttons give no feedback on iOS. Some approved-without-package sessions threw on compose.
+- **Fix:** Enable BUILD when technical readiness complete; `prepareConceptDirectedTwinV2Build` runs approve + executable package upsert then compose; hint text explains BUILD locks authority.
+
+---
+
+## 2026-09-13 — Twin V2 BUILD visible feedback + inline preview
+
+- **Symptom:** After APPROVE, red BUILD tap felt dead — no building state; nothing appeared to happen.
+- **Root cause:** Compose is synchronous (no UI); post-build preview/compare lived **below** the gallery off-screen; async gallery hydrate could overwrite a fresh build; errors only at bottom of drawer.
+- **Fix:** BUILDING TWIN… button state + lime banner; **TWIN V2 BUILT** panel with inline `ConceptDirectedNdxOverviewTwinV2` + scroll-into-view; collapse gallery after build; hydrate preserves `renderedTwin`.
+

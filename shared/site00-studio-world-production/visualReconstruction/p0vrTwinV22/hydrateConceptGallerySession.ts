@@ -129,6 +129,7 @@ export function hydrateConceptGallerySession(
         hostBoundarySanitizationReceipts: priorGallery?.hostBoundarySanitizationReceipts ?? {},
         clientCanvasBoundaries: priorGallery?.clientCanvasBoundaries ?? {},
         clientCanvasTrimReceipts: priorGallery?.clientCanvasTrimReceipts ?? {},
+        clientCanvasTopReceipts: priorGallery?.clientCanvasTopReceipts ?? {},
       },
     });
   } else if (priorGallery) {

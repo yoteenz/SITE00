@@ -2,7 +2,7 @@ import { GENERATED_HOST_BOTTOM_NAV_LABELS } from './constants.js';
 import type { GeneratedHostArtifact } from './types.js';
 import type { ConceptBlueprint, ConceptBlueprintObject } from '../p0vrTwinV22/types.js';
 
-function isInventedBottomNavObject(obj: ConceptBlueprintObject): boolean {
+export function isInventedBottomNavObject(obj: ConceptBlueprintObject): boolean {
   if (obj.type === 'nav' && obj.bounds.y >= 0.82) return true;
   const role = `${obj.role} ${obj.textRole ?? ''} ${obj.interactionRole ?? ''}`.toUpperCase();
   if (obj.bounds.y >= 0.82 && role.includes('HOST')) return true;

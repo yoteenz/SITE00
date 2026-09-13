@@ -55,6 +55,32 @@ describe('P0.VR.TWINV2.2R2R1 sanitized blueprint binding', () => {
     expect(repaired.generatedHostArtifacts[c.conceptId]?.length).toBeGreaterThan(0);
   });
 
+  it('re-sanitizes persisted gallery when client canvas bottom drifted (v365 paddedBottom path)', () => {
+    const session = ensureConceptGallery(
+      mergeVisualConceptApiResult(
+        createConceptDirectedTwinSession({ projectId: 'ndxbook', pageId: 'overview', sessionId: 'stale-bottom-1' }),
+        { action: 'generate', imageUrl: '/c.jpg', imageStorageRef: null },
+      ),
+    );
+    const gallery = session.conceptGallery!;
+    const c = gallery.candidates[0]!;
+    const freshBottom = gallery.clientCanvasBoundaries![c.conceptId]!.sanitizedCanvasBottom;
+    const stale = {
+      ...gallery,
+      buildRef: 'v364' as typeof gallery.buildRef,
+      clientCanvasBoundaries: {
+        ...gallery.clientCanvasBoundaries,
+        [c.conceptId]: {
+          ...gallery.clientCanvasBoundaries![c.conceptId]!,
+          sanitizedCanvasBottom: 0.85,
+        },
+      },
+    };
+    const repaired = repairConceptGalleryHostBoundary(session, stale);
+    expect(repaired.clientCanvasBoundaries![c.conceptId]!.sanitizedCanvasBottom).toBeGreaterThan(0.88);
+    expect(repaired.clientCanvasBoundaries![c.conceptId]!.sanitizedCanvasBottom).toBeCloseTo(freshBottom, 2);
+  });
+
   it('1–4 active concept execution vs original blueprint ids', () => {
     const session = ensureConceptGallery(
       mergeVisualConceptApiResult(
@@ -84,8 +110,10 @@ describe('P0.VR.TWINV2.2R2R1 sanitized blueprint binding', () => {
       generatedHostArtifacts: g.generatedHostArtifacts[c.conceptId],
       hostShellContract: g.hostShellContracts[c.conceptId],
     });
-    const hostNav = rows.find((r) => r.label.toLowerCase().includes('host bottom nav'));
-    expect(hostNav?.ownership).toBe('HOST_OWNED_LOCKED');
+    const hostNav =
+      rows.find((r) => r.regionId === 'obj-generated-host-bottom-nav') ??
+      rows.find((r) => r.label.toLowerCase().includes('host bottom nav'));
+    expect(hostNav?.ownership).toBe('GENERATED_HOST_ARTIFACT');
     expect(hostNav?.generatedSource).toBe('GENERATED_HOST_ARTIFACT');
     expect(hostNav?.executionStatus).toBe('EXCLUDED_FROM_CLIENT_BUILD');
     expect(hostNav?.runtimeSource).toBe('TwinSite00HostBottomNav');
@@ -133,6 +161,6 @@ describe('P0.VR.TWINV2.2R2R1 sanitized blueprint binding', () => {
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/composeFromExecutablePackage.ts')).not.toContain(
       'promoteTwinToLive',
     );
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v357');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v365');
   });
 });

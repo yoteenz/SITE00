@@ -158,7 +158,7 @@ describe('P0.VR.TWINV2.2R1 concept gallery hydration', () => {
     expect(read('api/site00/twin-v2-concept-generations.ts')).toContain('projectId');
     expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('appendTwinV2ConceptLedger');
     expect(read('server/routes.ts')).toContain('twin-v2-concept-generations');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v351');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v365');
   });
 
   it('twinV2UiPersistence round-trips import draft in sessionStorage', () => {

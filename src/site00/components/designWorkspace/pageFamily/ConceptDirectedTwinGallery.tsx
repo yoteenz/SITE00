@@ -11,7 +11,7 @@ import type {
 import type { ClientCanvasBoundary } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeClientCanvasBoundary.js';
 import type { HostBoundarySanitizationReceipt } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
-import { canBuildConcept } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
+import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import { buildBlueprintRegionInspectionRows } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildBlueprintRegionInspectionRows.js';
 import { computeExecutableConceptPackageReadiness } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeExecutableConceptPackageReadiness.js';
 import { TwinV2HostShellCompositePreview } from './TwinV2HostShellCompositePreview.js';
@@ -45,6 +45,7 @@ type Props = {
   onBuild: () => void;
   building: boolean;
   generating: boolean;
+  twinBuiltAt?: string | null;
 };
 
 function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
@@ -99,6 +100,7 @@ export function ConceptDirectedTwinGallery({
   onBuild,
   building,
   generating,
+  twinBuiltAt = null,
 }: Props) {
   const railRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
@@ -168,17 +170,15 @@ export function ConceptDirectedTwinGallery({
     return <p>No concepts in gallery yet.</p>;
   }
 
-  const buildOk =
-    active.founderJudgment === 'APPROVED' &&
-    canBuildConcept(active.buildReadiness, true) &&
-    active.buildReadiness.hostBoundaryReady === true;
+  const buildOk = isConceptTechnicallyReadyForBuild(active.buildReadiness);
 
-  const buildBlockReason =
-    !active.buildReadiness.hostBoundaryReady
+  const buildBlockReason = !buildOk
+    ? !active.buildReadiness.hostBoundaryReady
       ? 'HOST BOUNDARY INCOMPLETE — verify VIEW BLUEPRINT + HOST PREVIEW'
-      : active.founderJudgment !== 'APPROVED'
-        ? 'Approve concept after host boundary verification'
-        : null;
+      : 'Complete VISUAL, BLUEPRINT, ASSETS, and FUNCTIONS before build'
+    : active.founderJudgment !== 'APPROVED'
+      ? 'BUILD will lock visual authority (same as APPROVE) and compile the twin package'
+      : null;
 
   return (
     <div className="site00-twin-v2-gallery" data-twin-v2-host-boundary-ui="1">
@@ -256,11 +256,13 @@ export function ConceptDirectedTwinGallery({
         <button
           type="button"
           className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-          disabled={!buildOk || building}
+          disabled={!buildOk || building || Boolean(twinBuiltAt)}
           onClick={onBuild}
+          aria-busy={building}
           title={buildBlockReason ?? undefined}
+          data-twin-build-state={building ? 'running' : twinBuiltAt ? 'done' : buildOk ? 'ready' : 'blocked'}
         >
-          BUILD THIS CONCEPT
+          {building ? 'BUILDING TWIN…' : twinBuiltAt ? 'TWIN BUILT ✓' : 'BUILD THIS CONCEPT'}
         </button>
       </div>
       {buildBlockReason ? <p className="site00-twin-v2-gallery__build-block">{buildBlockReason}</p> : null}
@@ -293,8 +295,11 @@ export function ConceptDirectedTwinGallery({
       </div>
 
       {viewMode === 'CLIENT_CANVAS' && active.visualAssetUrl && clientCanvasBoundary ? (
-        <section className="site00-twin-v2-gallery__blueprint-panel" data-panel="client-canvas">
+        <section className="site00-twin-v2-gallery__client-canvas-panel" data-panel="client-canvas">
           <p>NDXBOOK client creative area only (trimmed at last client-owned boundary).</p>
+          <p className="site00-twin-v2-gallery__client-canvas-scroll-hint">
+            The full client canvas is taller than one screen — scroll this PAGE UPGRADE panel to reach latest activity.
+          </p>
           <TwinV2ExecutionClientCanvasFrame
             imageUrl={active.visualAssetUrl}
             boundary={clientCanvasBoundary}
