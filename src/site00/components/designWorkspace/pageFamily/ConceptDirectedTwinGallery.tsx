@@ -295,6 +295,9 @@ export function ConceptDirectedTwinGallery({
       {viewMode === 'CLIENT_CANVAS' && active.visualAssetUrl && clientCanvasBoundary ? (
         <section className="site00-twin-v2-gallery__client-canvas-panel" data-panel="client-canvas">
           <p>NDXBOOK client creative area only (trimmed at last client-owned boundary).</p>
+          <p className="site00-twin-v2-gallery__client-canvas-scroll-hint">
+            The full client canvas is taller than one screen — scroll this PAGE UPGRADE panel to reach latest activity.
+          </p>
           <TwinV2ExecutionClientCanvasFrame
             imageUrl={active.visualAssetUrl}
             boundary={clientCanvasBoundary}
