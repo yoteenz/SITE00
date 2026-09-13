@@ -35,4 +35,7 @@ export {
 } from './repairAuthorityPrototypeUrls.js';
 export * from './designWorkspaceAuthorityTypes.js';
 export * from './designWorkspaceAuthorityPipeline.js';
+export * from './founderAuthorityInjection.js';
+export * from './founderAuthorityInjectionPersistence.js';
+export * from './deriveDesignWorkspacePackage.js';
 export * from './designWorkspaceFeatureAuthority/index.js';

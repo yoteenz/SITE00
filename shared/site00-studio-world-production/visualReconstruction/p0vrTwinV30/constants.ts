@@ -1,5 +1,5 @@
-/** P0.VR.TWINV3.0R5F1 — feature manifest + master amendment + R5F1 regeneration contract. */
-export const P0_VR_TWIN_V30_BUILD = 'v409' as const;
+/** P0.VR.TWINV3.0R5F2 — one-time founder authority injection + derivation unblock. */
+export const P0_VR_TWIN_V30_BUILD = 'v410' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
@@ -9,6 +9,11 @@ export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;
 export const P0_VR_TWIN_V30R4_LINEAGE = 'P0.VR.TWINV3.0R4' as const;
 export const P0_VR_TWIN_V30R5_LINEAGE = 'P0.VR.TWINV3.0R5' as const;
 export const P0_VR_TWIN_V30R5F1_LINEAGE = 'P0.VR.TWINV3.0R5F1' as const;
+export const P0_VR_TWIN_V30R5F2_LINEAGE = 'P0.VR.TWINV3.0R5F2' as const;
+
+/** Tracked defect — injection unblocks pipeline; gallery display fix is separate. */
+export const AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID = 'AUTHORITY_IMAGE_DISPLAY_BROKEN' as const;
+export const AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_STATUS = 'OPEN' as const;
 
 export const DESIGN_WORKSPACE_FEATURE_MANIFEST_V1 = 'design-workspace-feature-manifest-v1' as const;
 
@@ -49,6 +54,25 @@ export const DESIGN_PAGE_V3_SKELETON_AREAS = [
 ] as const;
 
 export const DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE = '/site00/twin-v3-design-page-authority' as const;
+
+/** Immutable founder-attached authority assets (R5F2 recovery). SHA256 of original JPG bytes. */
+export const FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER = {
+  originalFilename: 'mobile-master.jpg',
+  publicPath: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/founder-r5f2-ndxbook/mobile-master.jpg`,
+  originalFileHashSha256: 'd6468fd91c15bcb596e88015eddf7a4a37304934309a6a3e0b8932620c852cca',
+  mimeType: 'image/jpeg',
+  widthPx: 1200,
+  heightPx: 2600,
+} as const;
+
+export const FOUNDER_R5F2_NDXBOOK_DESKTOP_MASTER = {
+  originalFilename: 'desktop-master.jpg',
+  publicPath: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/founder-r5f2-ndxbook/desktop-master.jpg`,
+  originalFileHashSha256: '72573e0293ca43e96ceec74f55249b6359d1f4fcfc90642e77332e73be5e4002',
+  mimeType: 'image/jpeg',
+  widthPx: 2400,
+  heightPx: 1600,
+} as const;
 
 export const DESIGN_PAGE_V3_R2_PROTOTYPE_MOBILE = `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-authority-r2.svg` as const;
 export const DESIGN_PAGE_V3_R2_PROTOTYPE_DESKTOP = `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-authority-r2.svg` as const;

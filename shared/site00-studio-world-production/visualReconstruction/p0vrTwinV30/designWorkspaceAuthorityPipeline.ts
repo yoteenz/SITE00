@@ -58,8 +58,16 @@ export function computeAuthorityImageHash(artifact: DesignPageAuthorityVisualArt
   return fnv1aHex(`${artifact.artifactId}|${artifact.storageUrl}`);
 }
 
-export function computePairChecksum(mobile: ViewportMasterAuthority, desktop: ViewportMasterAuthority): string {
-  return fnv1aHex(`${mobile.authorityImageHash}|${desktop.authorityImageHash}|${mobile.id}|${desktop.id}`);
+export function computePairChecksum(
+  mobile: ViewportMasterAuthority,
+  desktop: ViewportMasterAuthority,
+  pairVersion: number,
+): string {
+  const contextVersion = mobile.projectCreativeContextVersion;
+  const manifestVersion = mobile.designWorkspaceFeatureManifestVersion;
+  return fnv1aHex(
+    `${mobile.id}|${mobile.authorityImageHash}|${desktop.id}|${desktop.authorityImageHash}|${contextVersion}|${manifestVersion}|${pairVersion}`,
+  );
 }
 
 function viewportKey(viewport: DesignWorkspaceViewport): 'mobile' | 'desktop' {
@@ -163,8 +171,9 @@ function buildDraftPair(
     lockedAt: null,
     lockedBy: null,
     projectCreativeContextVersion: anchor.projectCreativeContextVersion,
+    designWorkspaceFeatureManifestVersion: anchor.designWorkspaceFeatureManifestVersion,
     pairChecksum:
-      mobile && desktop ? computePairChecksum(mobile, desktop) : '',
+      mobile && desktop ? computePairChecksum(mobile, desktop, pairVersion) : '',
     supersedesPairId: pipeline.supersededPairs.at(-1)?.id ?? null,
     derivationStatus: 'NOT_STARTED',
   };
@@ -385,6 +394,7 @@ export function promoteViewportMaster(
     version,
     supersedesAuthorityId: supersede?.id ?? null,
     immutableAfterPairLock: false,
+    sourceType: 'GALLERY_CANDIDATE',
   };
 
   const states = { ...pipeline.candidateViewportStates };
@@ -446,12 +456,14 @@ export function lockDesignWorkspaceAuthorityPair(
   const mobile = pipeline.mobileMaster!;
   const desktop = pipeline.desktopMaster!;
   const lockedAt = new Date().toISOString();
+  const draftPair = pipeline.authorityPair ?? buildDraftPair(pipeline, 'PAIR_READY');
   const pair: DesignWorkspaceAuthorityPair = {
-    ...(pipeline.authorityPair ?? buildDraftPair(pipeline, 'PAIR_READY')),
+    ...draftPair,
     status: 'PAIR_LOCKED',
     lockedAt,
     lockedBy,
-    pairChecksum: computePairChecksum(mobile, desktop),
+    pairChecksum: computePairChecksum(mobile, desktop, draftPair.pairVersion),
+    designWorkspaceFeatureManifestVersion: mobile.designWorkspaceFeatureManifestVersion,
     derivationStatus: 'READY',
   };
   pipeline = {
@@ -527,11 +539,37 @@ export function runDesignAuthorityPairReadinessGate(
     }
   }
 
-  if (pair && pipeline.mobileMaster && pipeline.desktopMaster) {
-    const checksum = computePairChecksum(pipeline.mobileMaster, pipeline.desktopMaster);
+  const manifest = loadActiveDesignWorkspaceFeatureManifest();
+  const featureStale =
+    (pipeline.mobileMaster && pipeline.mobileMaster.designWorkspaceFeatureManifestVersion !== manifest.version) ||
+    (pipeline.desktopMaster && pipeline.desktopMaster.designWorkspaceFeatureManifestVersion !== manifest.version);
+  if (pipeline.mobileMaster && pipeline.mobileMaster.designWorkspaceFeatureManifestVersion !== manifest.version) {
+    errors.push('DESIGN_AUTHORITY_FEATURE_STALE');
+  }
+  if (pipeline.desktopMaster && pipeline.desktopMaster.designWorkspaceFeatureManifestVersion !== manifest.version) {
+    errors.push('DESIGN_AUTHORITY_FEATURE_STALE');
+  }
+
+  if (!featureStale && pair && pipeline.mobileMaster && pipeline.desktopMaster) {
+    const checksum = computePairChecksum(
+      pipeline.mobileMaster,
+      pipeline.desktopMaster,
+      pair.pairVersion,
+    );
     if (pair.pairChecksum && pair.pairChecksum !== checksum && pair.status === 'PAIR_LOCKED') {
       errors.push('DESIGN_AUTHORITY_HASH_MISMATCH');
     }
+  }
+
+  if (pipeline.mobileMaster?.sourceType === 'FOUNDER_ATTACHED_AUTHORITY' && !pipeline.mobileMaster.authorityAssetRecordId) {
+    errors.push('DESIGN_AUTHORITY_ASSET_RECORD_MISSING');
+  }
+  if (pipeline.desktopMaster?.sourceType === 'FOUNDER_ATTACHED_AUTHORITY' && !pipeline.desktopMaster.authorityAssetRecordId) {
+    errors.push('DESIGN_AUTHORITY_ASSET_RECORD_MISSING');
+  }
+
+  if (requireLocked && pair?.status === 'PAIR_LOCKED' && pair.derivationStatus === 'STALE') {
+    errors.push('DESIGN_AUTHORITY_DERIVATION_STALE');
   }
 
   return {
@@ -540,23 +578,27 @@ export function runDesignAuthorityPairReadinessGate(
     mobileAuthorityId: pipeline.mobileMaster?.id ?? null,
     desktopAuthorityId: pipeline.desktopMaster?.id ?? null,
     pairChecksum:
-      pipeline.mobileMaster && pipeline.desktopMaster ?
-        computePairChecksum(pipeline.mobileMaster, pipeline.desktopMaster)
+      pipeline.mobileMaster && pipeline.desktopMaster && pair ?
+        computePairChecksum(pipeline.mobileMaster, pipeline.desktopMaster, pair.pairVersion)
       : null,
   };
 }
 
 export function assertDerivationAllowed(session: DesignPageAuthorityReviewSession): void {
+  assertMasterNotFeatureStale(session.authorityPipeline?.mobileMaster);
+  assertMasterNotFeatureStale(session.authorityPipeline?.desktopMaster);
   const gate = runDesignAuthorityPairReadinessGate(session, { requireLocked: true });
   if (!gate.pass) {
-    throw new Error(gate.errors[0] ?? 'DESIGN_AUTHORITY_DERIVATION_BLOCKED');
+    const first = gate.errors[0] ?? 'DESIGN_AUTHORITY_DERIVATION_BLOCKED';
+    if (gate.errors.includes('DESIGN_AUTHORITY_FEATURE_STALE')) {
+      throw new Error('MASTER_AMENDMENT_REQUIRED');
+    }
+    throw new Error(first);
   }
   const pair = session.authorityPipeline?.authorityPair;
   if (pair?.derivationStatus === 'STALE') {
     throw new Error('DESIGN_AUTHORITY_DERIVATION_STALE');
   }
-  assertMasterNotFeatureStale(session.authorityPipeline?.mobileMaster);
-  assertMasterNotFeatureStale(session.authorityPipeline?.desktopMaster);
 }
 
 export function getCandidateViewportState(

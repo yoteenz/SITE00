@@ -15,6 +15,10 @@ export type ConceptCandidateAuthorityState =
 
 export type ViewportMasterAuthorityStatus = 'PROMOTED' | 'PAIR_LOCKED' | 'SUPERSEDED';
 
+export type ViewportMasterSourceType =
+  | 'GALLERY_CANDIDATE'
+  | 'FOUNDER_ATTACHED_AUTHORITY';
+
 export type ViewportMasterAuthority = {
   id: string;
   projectId: string;
@@ -36,6 +40,10 @@ export type ViewportMasterAuthority = {
   version: number;
   supersedesAuthorityId: string | null;
   immutableAfterPairLock: boolean;
+  sourceType?: ViewportMasterSourceType;
+  founderApproved?: boolean;
+  recoveryReceiptId?: string | null;
+  authorityAssetRecordId?: string | null;
 };
 
 export type DesignWorkspaceAuthorityPairStatus =
@@ -57,6 +65,10 @@ export type DesignWorkspaceAuthorityPairDerivationStatus =
   | 'COMPLETE'
   | 'STALE';
 
+export type DesignWorkspaceAuthorityPairSourceType =
+  | 'GALLERY_PROMOTION'
+  | 'FOUNDER_AUTHORITY_INJECTION';
+
 export type DesignWorkspaceAuthorityPair = {
   id: string;
   projectId: string;
@@ -69,9 +81,55 @@ export type DesignWorkspaceAuthorityPair = {
   lockedAt: string | null;
   lockedBy: string | null;
   projectCreativeContextVersion: typeof PROJECT_CREATIVE_CONTEXT_VERSION | string;
+  designWorkspaceFeatureManifestVersion?: string;
   pairChecksum: string;
   supersedesPairId: string | null;
   derivationStatus: DesignWorkspaceAuthorityPairDerivationStatus;
+  sourceType?: DesignWorkspaceAuthorityPairSourceType;
+  recoveryReceiptId?: string | null;
+};
+
+export type FounderAttachedAuthorityAssetRecord = {
+  id: string;
+  originalFilename: string;
+  canonicalStoredAssetId: string;
+  originalFileHashSha256: string;
+  canonicalStoredFileHashSha256: string;
+  widthPx: number;
+  heightPx: number;
+  mimeType: string;
+  ingestedAt: string;
+  projectId: string;
+  workspaceType: 'DESIGN_PAGE_V3';
+  viewport: DesignWorkspaceViewport;
+  sourceLineage: 'FOUNDER_ATTACHED_AUTHORITY';
+  founderJudgment: 'APPROVED';
+  storageUri: string;
+};
+
+export type FounderAuthorityInjectionReceipt = {
+  id: string;
+  projectId: string;
+  workspaceType: 'DESIGN_PAGE_V3';
+  reason: 'AUTHORITY_IMAGE_DISPLAY_BROKEN_IN_DESIGN_WORKSPACE';
+  mobileAuthorityId: string;
+  desktopAuthorityId: string;
+  mobileFileHash: string;
+  desktopFileHash: string;
+  projectCreativeContextVersion: string;
+  featureManifestVersion: string;
+  injectedBy: string;
+  injectedAt: string;
+  normalWorkflowBypassedStep: 'IN_PRODUCT_VISUAL_PAIR_LOCK_INTERACTION';
+  retainedValidationGates: string[];
+  status: 'PASS' | 'FAIL';
+};
+
+export type AuthorityImageDisplayBrokenIssue = {
+  issueId: 'AUTHORITY_IMAGE_DISPLAY_BROKEN';
+  status: 'OPEN' | 'CLOSED';
+  diagnostics: string[];
+  updatedAt: string;
 };
 
 export type ViewportCandidateRef = {
@@ -86,7 +144,8 @@ export type AuthorityPipelineEventType =
   | 'VIEWPORT_MASTER_SUPERSEDED'
   | 'PAIR_LOCKED'
   | 'PAIR_SUPERSEDED'
-  | 'DERIVATION_MARKED_STALE';
+  | 'DERIVATION_MARKED_STALE'
+  | 'FOUNDER_AUTHORITY_INJECTION';
 
 export type AuthorityPipelineEvent = {
   id: string;
@@ -118,4 +177,7 @@ export type DesignWorkspaceAuthorityPipelineState = {
   events: AuthorityPipelineEvent[];
   executionIntent: 'CREATIVE' | 'TRANSLATION';
   inventionBudget: 'FULL' | 'NONE';
+  founderAuthorityInjectionReceipt?: FounderAuthorityInjectionReceipt | null;
+  founderAuthorityAssets?: FounderAttachedAuthorityAssetRecord[];
+  authorityImageDisplayIssue?: AuthorityImageDisplayBrokenIssue | null;
 };

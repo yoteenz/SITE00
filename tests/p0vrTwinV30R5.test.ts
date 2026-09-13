@@ -105,7 +105,10 @@ describe('P0.VR.TWINV3.0R5 design workspace authority pair', () => {
     expect(session.authorityPipeline?.inventionBudget).toBe('NONE');
     const mm = session.authorityPipeline!.mobileMaster!;
     const dm = session.authorityPipeline!.desktopMaster!;
-    expect(session.authorityPipeline?.authorityPair?.pairChecksum).toBe(computePairChecksum(mm, dm));
+    const pairVersion = session.authorityPipeline?.authorityPair?.pairVersion ?? 1;
+    expect(session.authorityPipeline?.authorityPair?.pairChecksum).toBe(
+      computePairChecksum(mm, dm, pairVersion),
+    );
   });
 
   it('12 stale derivation when master replaced after lock would require new pair — promotion before lock supersedes', () => {

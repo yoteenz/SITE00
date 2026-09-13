@@ -20,9 +20,13 @@ import {
   isDesignPageAuthorityFullyLocked,
   isDesignPageAuthorityViewportLocked,
   isViewportCandidateSelected,
+  applyFounderR5F2RecoveryIfNeeded,
+  AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID,
+  deriveDesignWorkspacePackage,
   lockDesignWorkspaceAuthorityPair,
   normalizeDesignPageAuthoritySession,
   P0_VR_TWIN_V30R5F1_LINEAGE,
+  P0_VR_TWIN_V30R5F2_LINEAGE,
   DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
   masterAmendmentStatusLabel,
   P0_VR_TWIN_V30_BUILD,
@@ -108,9 +112,10 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     let loaded = readDesignPageAuthoritySession(projectId);
     if (!loaded) {
       loaded = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession({ projectId }));
-      writeDesignPageAuthoritySession(loaded);
     }
-    setSession(normalizeDesignPageAuthoritySession(loaded));
+    loaded = applyFounderR5F2RecoveryIfNeeded(normalizeDesignPageAuthoritySession(loaded));
+    writeDesignPageAuthoritySession(loaded);
+    setSession(loaded);
   }, [pilot, projectId]);
 
   const persist = useCallback((next: DesignPageAuthorityReviewSession) => {
@@ -213,6 +218,18 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     }
   }, [persist, sessionView]);
 
+  const onGenerateDerivatives = useCallback(() => {
+    try {
+      const pairId = sessionView.authorityPipeline?.authorityPair?.id;
+      if (!pairId) throw new Error('DESIGN_AUTHORITY_PAIR_NOT_READY');
+      deriveDesignWorkspacePackage({ session: sessionView, authorityPairId: pairId });
+      setPersistWarning('Derivation entrypoint validated — GENERATE DERIVATIVES ready (no auto-dispatch in R5F2).');
+      setError(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Derivation blocked');
+    }
+  }, [sessionView]);
+
   const onReplaceViewport = useCallback(
     (viewport: 'mobile' | 'desktop') => {
       const master =
@@ -263,6 +280,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     sessionView.authorityPipeline?.mobileMaster && sessionView.authorityPipeline?.desktopMaster,
   );
 
+  const founderRecoveryApplied = Boolean(sessionView.authorityPipeline?.founderAuthorityInjectionReceipt?.status === 'PASS');
+  const derivationReady = sessionView.authorityPipeline?.authorityPair?.derivationStatus === 'READY';
+
   const dock = (
     <DesignPageV3AuthorityPairDock
       session={sessionView}
@@ -270,6 +290,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       onViewViewport={onViewViewport}
       onPromoteViewport={(viewport) => setConfirmKind(viewport === 'mobile' ? 'promote-mobile' : 'promote-desktop')}
       onLockPair={() => setConfirmKind('lock-pair')}
+      onGenerateDerivatives={onGenerateDerivatives}
       pairLocked={pairLocked}
     />
   );
@@ -299,7 +320,18 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP}</span>
         ) : null}
         {pairLocked ? <span className="site00-dw-v3-authority__lock">TRANSLATION MODE</span> : null}
+        {founderRecoveryApplied ?
+          <span className="site00-dw-v3-authority__lock" data-testid="v3-r5f2-recovery-banner">
+            {P0_VR_TWIN_V30R5F2_LINEAGE} · PAIR LOCKED · DERIVATION {derivationReady ? 'READY' : 'BLOCKED'}
+          </span>
+        : null}
       </header>
+      {sessionView.authorityPipeline?.authorityImageDisplayIssue?.status === 'OPEN' ?
+        <p className="site00-dw-v3-authority__hint" data-testid="v3-broken-image-issue">
+          Tracked issue {AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID} remains OPEN — gallery display fix is separate from
+          founder authority injection.
+        </p>
+      : null}
       <p className="site00-dw-v3-authority__hint" data-testid="v3-authority-gallery-stats">
         {galleryStats}
       </p>
@@ -359,7 +391,10 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                 : sessionView.authorityPipeline?.desktopMaster;
               return (
                 <figure key={viewport} className="site00-dw-v3-authority-pair-review__figure">
-                  <figcaption>{viewport.toUpperCase()} MASTER · {master?.sourceTerritoryId}</figcaption>
+                  <figcaption>
+                    {viewport.toUpperCase()} MASTER ·{' '}
+                    {master?.founderApproved ? 'FOUNDER APPROVED' : master?.sourceTerritoryId}
+                  </figcaption>
                   {art ?
                     <img
                       src={resolveDesignPageAuthorityImageSrc(art.storageUrl)}
