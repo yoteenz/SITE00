@@ -7,6 +7,7 @@ import type {
 } from './types.js';
 import type { SanitizedConceptBoundaryResult } from '../p0vrTwinV22R2/types.js';
 import { assertClientCanvasExcludesHostArtifactExtent } from '../p0vrTwinV22R2/assertClientCanvasExcludesHostArtifactExtent.js';
+import { assertClientCanvasIncludesFirstClientObject } from '../p0vrTwinV22R2/assertClientCanvasIncludesFirstClientObject.js';
 
 export function computeConceptBuildReadiness(input: {
   candidate: Pick<ConceptCandidate, 'visualAssetUrl' | 'founderJudgment' | 'visualAuthorityStatus'>;
@@ -37,6 +38,7 @@ export function computeConceptBuildReadiness(input: {
         boundary: input.hostBoundary.clientCanvasBoundary,
         generatedHostArtifacts: input.hostBoundary.generatedHostArtifacts,
       });
+      assertClientCanvasIncludesFirstClientObject(input.hostBoundary.clientCanvasBoundary);
     } catch {
       clientCanvasTrimOk = false;
     }

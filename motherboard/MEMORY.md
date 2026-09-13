@@ -8449,7 +8449,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
+## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
+
+- **Symptom:** Founder: deployed site still stuck on loading animation after v351.
+- **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
+- **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
+- **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.2R2 host-shell exclusion + client-canvas boundary (v352)
 
 - **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
@@ -8462,14 +8470,22 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Root cause:** Persisted concept galleries (localStorage) kept candidates but **never hydrated** `sanitizedBlueprints` / `hostBoundaryReady` on reopen — UI read raw `blueprint.sections` including **host bottom nav** band with no exclusion labels; founder on pre-v355 deploy also missed tab UI.
 - **Fix:** `repairConceptGalleryHostBoundary` on every gallery hydrate/backfill; `originalBlueprintId` + `executionBlueprintId` on candidates; blueprint inspection rows with GENERATED HOST ARTIFACT / EXCLUDED; prominent **HOST PREVIEW** + **CLIENT CANVAS** tabs; build blocked until `hostBoundaryReady`; `HostBoundarySanitizationReceipt`; stale guard `TWIN_V2_STALE_UNSANITIZED_BLUEPRINT`. Build ref **v356**.
-=======
-## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
 
-- **Symptom:** Founder: deployed site still stuck on loading animation after v351.
-- **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
-- **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
-- **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
->>>>>>> origin/main
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R2 client canvas bottom-boundary trim (v357)
+
+- **Symptom:** HOST PREVIEW showed large white gap between NDXBOOK content and real SITE 00 bottom nav after fake nav exclusion.
+- **Root cause:** Fixed `clip-path inset(7% 0 12% 0)`, composite `min-height:520px` + `flex:1` reserved orphaned height below last client region; excluded nav band still counted in full-image layout.
+- **Fix:** Blueprint-driven `ClientCanvasBoundary` + `TwinV2ExecutionClientCanvasFrame` (dynamic crop + collapsed aspect); `ClientCanvasTrimReceipt`; `assertClientCanvasExcludesHostArtifactExtent`; gallery stores trim metadata; original `visualAsset` unchanged. Build ref **v357**.
+
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2R3 client canvas top-boundary recovery (v358)
+
+- **Symptom:** R2R2 bottom PASS; CLIENT CANVAS top FAIL — NDXBOOK masthead/identity cropped; canvas appeared to start at section-nav/hero.
+- **Root cause:** Fixed `canvasTop = 7%` (legacy symmetric clip) plus `clip-path` on full-height img inside `overflow:hidden` + aspect wrapper (layout box did not shrink — visible top clipped even when bottom trim correct).
+- **Fix:** Independent `firstClientContentTop` from min CLIENT-owned sections/objects; `canvasTop` = that value; `lastClientContentBottom` unchanged; padding-bottom + `translateY` frame (no top 12%/7% clip); `assertClientCanvasIncludesFirstClientObject` → `CLIENT_CANVAS_TOP_CROP_LOSS`; `ClientCanvasTopReceipt`; masthead band layout at y=0.06; stop tagging all shells y&lt;0.08 as host (only `obj-host-header`); host bottom nav band omitted from client section layout. Build ref **v358**. No V1/live promotion.
 
 ---
 

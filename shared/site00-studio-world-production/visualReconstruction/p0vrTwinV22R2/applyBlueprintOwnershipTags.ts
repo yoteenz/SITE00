@@ -10,7 +10,7 @@ function tagObject(obj: ConceptBlueprintObject, ownership: VisualOwnership, extr
 export function applyBlueprintOwnershipTags(blueprint: ConceptBlueprint, opts?: { fullPageConceptImage?: boolean }): ConceptBlueprint {
   const fullPage = opts?.fullPageConceptImage ?? true;
   const objects: ConceptBlueprintObject[] = blueprint.objects.map((obj) => {
-    if (obj.objectId === 'obj-host-header' || (obj.type === 'shell' && obj.bounds.y < 0.08)) {
+    if (obj.objectId === 'obj-host-header') {
       return tagObject(obj, 'HOST_OWNED_LOCKED', { isGeneratedHostArtifact: true });
     }
     if (obj.interactionRole === 'host_wayfinding') {

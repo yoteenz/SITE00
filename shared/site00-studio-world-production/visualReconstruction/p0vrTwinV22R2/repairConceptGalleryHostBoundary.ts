@@ -83,6 +83,8 @@ function repairOneCandidate(
   gallery.clientCanvasTrimReceipts = gallery.clientCanvasTrimReceipts ?? {};
   gallery.clientCanvasBoundaries[candidate.conceptId] = boundary.clientCanvasBoundary;
   gallery.clientCanvasTrimReceipts[candidate.conceptId] = boundary.clientCanvasTrimReceipt;
+  gallery.clientCanvasTopReceipts = gallery.clientCanvasTopReceipts ?? {};
+  gallery.clientCanvasTopReceipts[candidate.conceptId] = boundary.clientCanvasTopReceipt;
 
   return {
     ...candidate,
@@ -109,6 +111,7 @@ export function repairConceptGalleryHostBoundary(
   const hostBoundarySanitizationReceipts = { ...(gallery.hostBoundarySanitizationReceipts ?? {}) };
   const clientCanvasBoundaries = { ...(gallery.clientCanvasBoundaries ?? {}) };
   const clientCanvasTrimReceipts = { ...(gallery.clientCanvasTrimReceipts ?? {}) };
+  const clientCanvasTopReceipts = { ...(gallery.clientCanvasTopReceipts ?? {}) };
   const blueprints = { ...gallery.blueprints };
   const manifests = { ...gallery.manifests };
   const bindingPlans = { ...gallery.bindingPlans };
@@ -124,6 +127,7 @@ export function repairConceptGalleryHostBoundary(
     hostBoundarySanitizationReceipts,
     clientCanvasBoundaries,
     clientCanvasTrimReceipts,
+    clientCanvasTopReceipts,
     blueprints,
     manifests,
     bindingPlans,
@@ -135,7 +139,9 @@ export function repairConceptGalleryHostBoundary(
       !workingGallery.sanitizedBlueprints[c.executionBlueprintId] ||
       c.buildReadiness.hostBoundaryReady !== true ||
       (workingGallery.generatedHostArtifacts[c.conceptId]?.length ?? 0) === 0 ||
-      !workingGallery.clientCanvasBoundaries?.[c.conceptId];
+      !workingGallery.clientCanvasBoundaries?.[c.conceptId] ||
+      !workingGallery.clientCanvasTopReceipts?.[c.conceptId] ||
+      (workingGallery.clientCanvasBoundaries[c.conceptId]?.canvasTop ?? 1) > 0.075;
     if (!needsRepair && c.executionBlueprintId && c.originalBlueprintId) {
       return c;
     }

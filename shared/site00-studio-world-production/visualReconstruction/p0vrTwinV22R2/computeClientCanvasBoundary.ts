@@ -3,30 +3,85 @@ import type { GeneratedHostArtifact } from './types.js';
 import { isHostOwnedBlueprintLabel } from './isHostOwnedBlueprintLabel.js';
 import {
   APPROVED_CLIENT_BOTTOM_PADDING_NORM,
-  CLIENT_CANVAS_TOP_NORM,
+  CLIENT_CANVAS_TOP_FALLBACK_NORM,
 } from './clientCanvasBoundaryConstants.js';
 
 export type ClientCanvasBoundary = {
   conceptId: string;
   canvasTop: number;
+  firstClientContentTop: number;
   lastClientContentBottom: number;
   bottomPadding: number;
   sanitizedCanvasBottom: number;
   sanitizedCanvasHeight: number;
   excludedHostArtifactHeight: number;
   hostSafeAreaInset: number;
+  firstClientOwnedObjectId: string | null;
+  firstClientOwnedObjectBounds: { y: number; h: number } | null;
   lastClientOwnedObjectId: string | null;
   lastClientOwnedObjectBounds: { y: number; h: number } | null;
   generatedHostNavBounds: { y: number; h: number } | null;
+  ownershipCorrections: string[];
   status: 'TRIMMED' | 'UNTRIMMED';
 };
+
+function isClientBlueprintObject(obj: ConceptBlueprint['objects'][0]): boolean {
+  if (obj.isGeneratedHostArtifact) return false;
+  if (obj.ownership === 'HOST_OWNED_LOCKED') return false;
+  if (obj.objectId === 'obj-host-header') return false;
+  return true;
+}
+
+export function computeFirstClientContentTop(blueprint: ConceptBlueprint): {
+  firstClientContentTop: number;
+  firstClientOwnedObjectId: string | null;
+  firstClientOwnedObjectBounds: { y: number; h: number } | null;
+  ownershipCorrections: string[];
+} {
+  const ownershipCorrections: string[] = [];
+  let firstTop = 1;
+  let firstId: string | null = null;
+  let firstBounds: { y: number; h: number } | null = null;
+
+  for (const sec of blueprint.sections) {
+    if (isHostOwnedBlueprintLabel(sec.label)) continue;
+    if (sec.label.toLowerCase().includes('masthead') || sec.label.toLowerCase().includes('project identity')) {
+      ownershipCorrections.push(`${sec.label}: CLIENT_OWNED_CREATIVE (masthead band)`);
+    }
+    if (sec.bounds.y < firstTop) {
+      firstTop = sec.bounds.y;
+      firstId = sec.id;
+      firstBounds = { y: sec.bounds.y, h: sec.bounds.h };
+    }
+  }
+
+  for (const obj of blueprint.objects) {
+    if (!isClientBlueprintObject(obj)) continue;
+    if (obj.bounds.y < firstTop) {
+      firstTop = obj.bounds.y;
+      firstId = obj.objectId;
+      firstBounds = { y: obj.bounds.y, h: obj.bounds.h };
+    }
+  }
+
+  if (firstTop >= 1) {
+    firstTop = CLIENT_CANVAS_TOP_FALLBACK_NORM;
+  }
+
+  return {
+    firstClientContentTop: Math.max(0, firstTop),
+    firstClientOwnedObjectId: firstId,
+    firstClientOwnedObjectBounds: firstBounds,
+    ownershipCorrections,
+  };
+}
 
 export function computeLastClientContentBottom(blueprint: ConceptBlueprint): {
   lastClientContentBottom: number;
   lastClientOwnedObjectId: string | null;
   lastClientOwnedObjectBounds: { y: number; h: number } | null;
 } {
-  let lastBottom: number = CLIENT_CANVAS_TOP_NORM;
+  let lastBottom = 0;
   let lastId: string | null = null;
   let lastBounds: { y: number; h: number } | null = null;
 
@@ -41,8 +96,7 @@ export function computeLastClientContentBottom(blueprint: ConceptBlueprint): {
   }
 
   for (const obj of blueprint.objects) {
-    if (obj.isGeneratedHostArtifact) continue;
-    if (obj.ownership === 'HOST_OWNED_LOCKED') continue;
+    if (!isClientBlueprintObject(obj)) continue;
     const bottom = obj.bounds.y + obj.bounds.h;
     if (bottom > lastBottom) {
       lastBottom = bottom;
@@ -64,38 +118,43 @@ export function computeClientCanvasBoundary(input: {
   generatedHostArtifacts: GeneratedHostArtifact[];
   hostBottomNavHeightNorm?: number;
 }): ClientCanvasBoundary {
-  const { lastClientContentBottom, lastClientOwnedObjectId, lastClientOwnedObjectBounds } =
-    computeLastClientContentBottom(input.executionBlueprint);
+  const first = computeFirstClientContentTop(input.executionBlueprint);
+  const last = computeLastClientContentBottom(input.executionBlueprint);
 
   const bottomNavArtifact = input.generatedHostArtifacts.find((a) => a.artifactType === 'INVENTED_BOTTOM_NAV');
   const generatedHostNavBounds = bottomNavArtifact?.visualBounds ?? null;
-  const artifactTop = generatedHostNavBounds?.y ?? 1;
   const excludedHostArtifactHeight = generatedHostNavBounds?.h ?? 0;
 
-  const paddedBottom = lastClientContentBottom + APPROVED_CLIENT_BOTTOM_PADDING_NORM;
+  const canvasTop = first.firstClientContentTop;
+  const paddedBottom = last.lastClientContentBottom + APPROVED_CLIENT_BOTTOM_PADDING_NORM;
   const cappedBottom = generatedHostNavBounds
-    ? Math.min(paddedBottom, Math.max(CLIENT_CANVAS_TOP_NORM, artifactTop - 0.005))
+    ? Math.min(paddedBottom, Math.max(canvasTop + 0.05, generatedHostNavBounds.y - 0.005))
     : paddedBottom;
 
   const sanitizedCanvasBottom = Math.min(0.98, cappedBottom);
-  const sanitizedCanvasHeight = Math.max(0.1, sanitizedCanvasBottom - CLIENT_CANVAS_TOP_NORM);
+  const sanitizedCanvasHeight = Math.max(0.1, sanitizedCanvasBottom - canvasTop);
 
   return {
     conceptId: input.conceptId,
-    canvasTop: CLIENT_CANVAS_TOP_NORM,
-    lastClientContentBottom,
+    canvasTop,
+    firstClientContentTop: first.firstClientContentTop,
+    lastClientContentBottom: last.lastClientContentBottom,
     bottomPadding: APPROVED_CLIENT_BOTTOM_PADDING_NORM,
     sanitizedCanvasBottom,
     sanitizedCanvasHeight,
     excludedHostArtifactHeight,
     hostSafeAreaInset: input.hostBottomNavHeightNorm ?? 0.12,
-    lastClientOwnedObjectId,
-    lastClientOwnedObjectBounds,
+    firstClientOwnedObjectId: first.firstClientOwnedObjectId,
+    firstClientOwnedObjectBounds: first.firstClientOwnedObjectBounds,
+    lastClientOwnedObjectId: last.lastClientOwnedObjectId,
+    lastClientOwnedObjectBounds: last.lastClientOwnedObjectBounds,
     generatedHostNavBounds,
+    ownershipCorrections: first.ownershipCorrections,
     status: excludedHostArtifactHeight > 0 ? 'TRIMMED' : 'UNTRIMMED',
   };
 }
 
+/** Clip insets for legacy/debug only — presentation uses translate + padding frame (R2R3). */
 export function clientCanvasClipInsetsFromBoundary(boundary: ClientCanvasBoundary): {
   topPct: number;
   bottomPct: number;
@@ -103,6 +162,5 @@ export function clientCanvasClipInsetsFromBoundary(boundary: ClientCanvasBoundar
 } {
   const topPct = boundary.canvasTop * 100;
   const bottomPct = (1 - boundary.sanitizedCanvasBottom) * 100;
-  const visibleHeightRatio = boundary.sanitizedCanvasHeight;
-  return { topPct, bottomPct, visibleHeightRatio };
+  return { topPct, bottomPct, visibleHeightRatio: boundary.sanitizedCanvasHeight };
 }
