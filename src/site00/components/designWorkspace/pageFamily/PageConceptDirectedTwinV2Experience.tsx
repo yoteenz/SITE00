@@ -6,14 +6,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { site00ClientApiUrl } from '../../../../../shared/site00-studio-world-production/site00ClientApiBase.js';
 import type { ConceptDirectedTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
 import {
-  applyApproveVisualConcept,
   composeConceptDirectedTwinV2,
   mergeVisualConceptApiResult,
   recordFounderVisualSpendIntent,
   requestTwinV2VisualConcept,
   buildTwinV2PreviewRoute,
   TWIN_V2_VISUAL_PROVIDER_LABEL,
+  approveActiveConceptCandidate,
+  ensureConceptGallery,
+  setActiveConceptId,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
 import '../../../styles/site00-twin-v2-concept.css';
 
 const STEPS = ['INTENT', 'CREATIVE DIRECTION', 'VISUAL CONCEPT', 'FOUNDER REVIEW', 'BUILD TWIN', 'FIDELITY REVIEW'] as const;
@@ -53,10 +56,15 @@ export function PageConceptDirectedTwinV2Experience({
   const [refineText, setRefineText] = useState('');
   const [refineRegion, setRefineRegion] = useState('');
   const [spendConfirmOpen, setSpendConfirmOpen] = useState<'generate' | 'regenerate' | 'refine' | null>(null);
-  const [historyVersionId, setHistoryVersionId] = useState<string | null>(null);
+  const [historyVersionId] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('APPROVED_VISUAL');
   const [liveCompare, setLiveCompare] = useState<'LIVE' | 'TWIN_V1' | 'TWIN_V2'>('LIVE');
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    onSessionChange(ensureConceptGallery(session));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- hydrate gallery once on open
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -79,6 +87,15 @@ export function PageConceptDirectedTwinV2Experience({
   }, []);
 
   const step = activeStepIndex(session.status);
+  const gallery = session.conceptGallery;
+  const galleryCandidates = gallery?.candidates ?? [];
+  const bindingSummaries = Object.fromEntries(
+    Object.entries(gallery?.bindingPlans ?? {}).map(([id, plan]) => [
+      id,
+      plan.bindings.map((b) => ({ region: b.visualRegion, fn: b.liveFunction })),
+    ]),
+  );
+
   const latestConcept = session.history.at(-1);
   const displayConcept =
     historyVersionId != null
@@ -86,6 +103,7 @@ export function PageConceptDirectedTwinV2Experience({
       : latestConcept;
 
   const approvedImage = session.approvedVisualAuthority?.imageUrl ?? displayConcept?.imageUrl;
+  const showGallery = galleryCandidates.length > 0;
 
   const twinV2Route = useMemo(
     () => buildTwinV2PreviewRoute(session.projectId, session.sessionId),
@@ -104,12 +122,17 @@ export function PageConceptDirectedTwinV2Experience({
         refineInstruction: action === 'refine' ? refineText : null,
         refineRegion: action === 'refine' ? refineRegion : null,
       });
+      const activeLegacy =
+        gallery?.activeConceptId != null
+          ? galleryCandidates.find((c) => c.conceptId === gallery.activeConceptId)?.legacyVersionId
+          : null;
       working = mergeVisualConceptApiResult(working, {
         action,
         imageUrl: res.imageUrl,
         imageStorageRef: res.imageStorageRef,
         refineInstruction: action === 'refine' ? refineText : null,
-        parentVersionId: latestConcept?.versionId ?? null,
+        parentVersionId:
+          action === 'refine' ? (activeLegacy ?? latestConcept?.versionId ?? null) : (latestConcept?.versionId ?? null),
       });
       onSessionChange(working);
       setRefineOpen(false);
@@ -124,9 +147,8 @@ export function PageConceptDirectedTwinV2Experience({
   };
 
   const handleApprove = () => {
-    if (!displayConcept) return;
     try {
-      const next = applyApproveVisualConcept(session, displayConcept.versionId);
+      const next = approveActiveConceptCandidate(ensureConceptGallery(session));
       onSessionChange(next);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Approve failed');
@@ -181,83 +203,47 @@ export function PageConceptDirectedTwinV2Experience({
         {falApiStatus ? <p className="site00-twin-v2-concept__fal-status">{falApiStatus}</p> : null}
       </section>
 
-      <figure className="site00-twin-v2-concept__concept-frame">
-        {displayConcept?.imageUrl ? (
-          <img src={displayConcept.imageUrl} alt="Twin V2 visual concept" />
-        ) : (
-          <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>NO VISUAL CONCEPT YET</div>
-        )}
-      </figure>
-
-      {session.history.length > 0 ? (
-        <div className="site00-twin-v2-concept__history" aria-label="Concept history">
-          {session.history.map((h) => (
-            <button
-              key={h.versionId}
-              type="button"
-              className={`site00-twin-v2-concept__history-item${h.status === 'APPROVED' ? ' is-approved' : ''}`}
-              onClick={() => setHistoryVersionId(h.versionId)}
-            >
-              {h.label}
-            </button>
-          ))}
-        </div>
-      ) : null}
-
-      <div className="site00-twin-v2-concept__actions">
-        {!displayConcept?.imageUrl ? (
-          <button
-            type="button"
-            className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-            disabled={generating}
-            onClick={() => setSpendConfirmOpen('generate')}
-          >
-            {generating ? 'GENERATING…' : 'GENERATE VISUAL CONCEPT'}
-          </button>
-        ) : (
-          <>
+      {showGallery && gallery ? (
+        <ConceptDirectedTwinGallery
+          candidates={galleryCandidates}
+          activeConceptId={gallery.activeConceptId}
+          blueprints={gallery.blueprints}
+          bindingSummaries={bindingSummaries}
+          onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
+          onApprove={handleApprove}
+          onRefine={() => setRefineOpen(true)}
+          onRegenerate={() => setSpendConfirmOpen('regenerate')}
+          onBuild={handleBuildTwin}
+          building={building}
+          generating={generating}
+        />
+      ) : (
+        <>
+          <figure className="site00-twin-v2-concept__concept-frame">
+            {displayConcept?.imageUrl ? (
+              <img src={displayConcept.imageUrl} alt="Twin V2 visual concept" />
+            ) : (
+              <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>NO VISUAL CONCEPT YET</div>
+            )}
+          </figure>
+          <div className="site00-twin-v2-concept__actions">
             <button
               type="button"
               className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-              disabled={!displayConcept?.imageUrl || session.sourceGeneration.codeAllowed}
-              onClick={handleApprove}
-            >
-              APPROVE
-            </button>
-            <button
-              type="button"
-              className="site00-dw-v3-btn site00-dw-v3-btn--outline"
               disabled={generating}
-              onClick={() => setSpendConfirmOpen('regenerate')}
+              onClick={() => setSpendConfirmOpen('generate')}
             >
-              REGENERATE
+              {generating ? 'GENERATING…' : 'GENERATE VISUAL CONCEPT'}
             </button>
-            <button
-              type="button"
-              className="site00-dw-v3-btn site00-dw-v3-btn--outline"
-              disabled={generating}
-              onClick={() => setRefineOpen(true)}
-            >
-              REFINE
-            </button>
-          </>
-        )}
-        {session.sourceGeneration.codeAllowed ? (
-          <button
-            type="button"
-            className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-            disabled={building || Boolean(session.renderedTwin?.builtAt)}
-            onClick={handleBuildTwin}
-          >
-            {building ? 'BUILDING…' : 'BUILD TWIN V2'}
-          </button>
-        ) : null}
-        {session.renderedTwin?.builtAt ? (
-          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onPreviewTwinV2}>
-            OPEN TWIN V2 PREVIEW
-          </button>
-        ) : null}
-      </div>
+          </div>
+        </>
+      )}
+
+      {session.renderedTwin?.builtAt ? (
+        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onPreviewTwinV2}>
+          OPEN TWIN V2 PREVIEW
+        </button>
+      ) : null}
 
       {error ? <p role="alert">{error}</p> : null}
 
