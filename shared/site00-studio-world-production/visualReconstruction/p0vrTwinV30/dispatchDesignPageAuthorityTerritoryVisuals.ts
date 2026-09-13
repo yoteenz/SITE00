@@ -26,9 +26,15 @@ export async function dispatchDesignPageAuthorityTerritoryVisuals(input: {
   authoritySessionId: string;
   clientProjectId: string;
   refineNotes?: string[];
+  /** Default all three; pass one id to append only that territory category */
+  territoryIds?: DesignPageV3TerritoryId[];
 }): Promise<DesignPageAuthorityTerritoryVisualDispatch> {
-  const trace = ['DESIGN_PAGE_V3R3: parallel FAL batch (6 frames: A/B/C × mobile/desktop)'];
-  const territoryIds: DesignPageV3TerritoryId[] = ['A', 'B', 'C'];
+  const territoryIds: DesignPageV3TerritoryId[] = input.territoryIds?.length ? input.territoryIds : ['A', 'B', 'C'];
+  const trace = [
+    territoryIds.length === 3
+      ? 'DESIGN_PAGE_V3R3: parallel FAL batch (6 frames: A/B/C × mobile/desktop)'
+      : `DESIGN_PAGE_V3R3: parallel FAL batch (territory ${territoryIds.join(',')} × mobile/desktop)`,
+  ];
   const ts = Date.now();
   const provider = TWIN_V2_VISUAL_PROVIDER_LABEL;
   const model = TWIN_V2_VISUAL_PROVIDER;

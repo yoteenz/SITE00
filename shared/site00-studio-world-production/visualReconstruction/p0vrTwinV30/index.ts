@@ -10,6 +10,7 @@ export * from './dispatchDesignPageAuthorityVisuals.js';
 export * from './dispatchDesignPageAuthorityTerritoryVisuals.js';
 export * from './classifyDesignPageAuthority.js';
 export * from './designPageAuthorityReviewState.js';
+export * from './designPageAuthorityTerritoryGallery.js';
 export * from './runDesignPageAuthorityGeneration.js';
 export * from './requestDesignPageAuthorityGeneration.js';
 export * from './designPageAuthorityPersistence.js';

@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R3 — host shell + project-reactive workspace expression. */
-export const P0_VR_TWIN_V30_BUILD = 'v391' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v392' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
 export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;

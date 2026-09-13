@@ -125,3 +125,39 @@
   background: #0a0a0a;
   color: #fff;
 }
+
+.site00-dw-v3-authority__territory-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.site00-dw-v3-authority__candidate-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.site00-dw-v3-authority__candidate {
+  border: 1px dashed #d8d4cc;
+  border-radius: 8px;
+  padding: 0.65rem;
+  background: #fff;
+}
+
+.site00-dw-v3-authority__candidate--active {
+  border-style: solid;
+  border-color: #c6f135;
+  box-shadow: 0 0 0 1px #c6f135;
+}
+
+.site00-dw-v3-authority__candidate-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: #555;
+}
