@@ -1,11 +1,14 @@
 import { Suspense, type ReactNode } from 'react';
 import { ASSTS_IMMERSIVE_LOADER_CONFIG } from '../../components/loader/site00LoaderConfig';
 import { Site00ImmersiveLoader } from '../../components/loader/Site00ImmersiveLoader';
-import { shouldShowAsstsImmersiveLoader } from '../../components/loader/site00LoaderSession';
+import {
+  isSite00ImmersiveSessionComplete,
+  shouldShowAsstsImmersiveLoader,
+} from '../../components/loader/site00LoaderSession';
 
 /** Immersive fallback during lazy route load — never plain LoadingScreen on cold start. */
 function AsstsRouteFallback() {
-  if (shouldShowAsstsImmersiveLoader()) {
+  if (!isSite00ImmersiveSessionComplete() && shouldShowAsstsImmersiveLoader()) {
     const config = ASSTS_IMMERSIVE_LOADER_CONFIG;
     return (
       <Site00ImmersiveLoader

@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom';
 import { Site00ImmersiveLoader } from './Site00ImmersiveLoader';
 import { resolveSite00ImmersiveLoaderConfig } from './site00LoaderConfig';
 import { isSite00ImmersivePath } from './site00LoaderPaths';
-import { shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
+import { isSite00ImmersiveSessionComplete, shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
 
 /**
  * Immersive SITE 00 loader portaled to document.body so it stays visible while
@@ -14,7 +14,12 @@ export function Site00ImmersiveColdStartFallback() {
   }
 
   const path = window.location.pathname || '';
-  if (!isSite00ImmersivePath(path) || !shouldShowSite00ImmersiveLoader()) {
+  // After the cinematic gate finishes, nav.type===reload still forces shouldShow=true — never block lazy routes.
+  if (
+    !isSite00ImmersivePath(path) ||
+    isSite00ImmersiveSessionComplete() ||
+    !shouldShowSite00ImmersiveLoader()
+  ) {
     return null;
   }
 
