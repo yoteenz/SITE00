@@ -76,9 +76,10 @@ export function mergeVisualConceptApiResult(
         legacyVersionId: version.versionId,
       },
     );
-    next = ensureConceptGallery(next);
   } else {
-    next = ensureConceptGallery(next);
+    if (!next.conceptGallery?.candidates.length || !next.conceptGallery.buildRef) {
+      next = ensureConceptGallery(next);
+    }
     next = addConceptCandidateFromGeneration(next, {
       generationType: genType,
       imageUrl: input.imageUrl,

@@ -11,6 +11,7 @@ import type {
 import type { ClientCanvasBoundary } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeClientCanvasBoundary.js';
 import type { HostBoundarySanitizationReceipt } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
+import { conceptImageDisplayUrl } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptImageDisplayUrl.js';
 import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import { buildBlueprintRegionInspectionRows } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildBlueprintRegionInspectionRows.js';
 import { computeExecutableConceptPackageReadiness } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeExecutableConceptPackageReadiness.js';
@@ -207,8 +208,8 @@ export function ConceptDirectedTwinGallery({
           >
             {c.visualAssetUrl || c.visualAsset ? (
               <img
-                key={`${c.conceptId}-${c.updatedAt}`}
-                src={c.visualAssetUrl ?? undefined}
+                key={`${c.conceptId}-${c.updatedAt}-${c.visualAssetUrl ?? ''}`}
+                src={conceptImageDisplayUrl(c)}
                 alt={`Concept ${c.versionNumber}`}
                 draggable={false}
               />
