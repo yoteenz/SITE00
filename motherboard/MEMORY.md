@@ -8712,3 +8712,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** Pilot UI gated on `session.pageId === 'overview'`; live NDXBOOK sessions use canonical ids like `ndxbook:/projects/ndxbook` (see `isTwinV2OverviewPageScope` / `buildPageId`).
 - **Fix:** Gate v28/v29 controls with **`isTwinV2OverviewPageScope`**; moved pilot block to **top of Twin V2 drawer** (after hydrate) with `NDXBOOK FAL pilot` label. Deploy ZIP required for site00.com.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV3.0 design page authority generation (v386)
+
+- **Context:** Step back from Twin V2 overview generation; bottleneck is **Design workspace page** UX (console-like, text-heavy). Sprint produces **mobile + desktop visual authorities** only — **no design page implementation**, no BUILD route / V1 / live changes.
+- **Delivered:** `p0vrTwinV30/` — locked skeleton A–K confirmation, FAL prompts + dispatch (vitest → SVG prototypes in `public/site00/twin-v3-design-page-authority/`), founder approve/refine/regenerate → lock **`DESIGN_PAGE_V3_AUTHORITY_V1`**. API `POST /api/site00/twin-v3-design-page-authority`. UI **`DesignPageV3AuthorityReviewPanel`** at top of NDXBOOK design workspace (`StudioWorldDesignWorkspace`). Classification **PARTIAL** in CI; **PROVEN** with `FAL_KEY` on Railway.
+- **Next sprint:** Implement approved authority and reconnect compiler/bundle/asset/fidelity — not this sprint.
+
