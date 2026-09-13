@@ -8324,6 +8324,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Production boot regression: sharp in vendor (`process is not defined`)
+
+- **Symptom:** site00.com stuck on loader again; boot recovery banner; console **`ReferenceError: process is not defined`** in `vendor.*.js` (deploy `e66dbfd` / `index.CIg10A0g.js`).
+- **Cause:** **`sharp`** bundled into client vendor via `p0vrReplication3cR1` → `import('sharp')` (same class of leak as Playwright/chromium-bidi). Sharp init touches `process.report` / `process.platform`.
+- **Fix:** Vite alias `sharp` → `scripts/vite-browser-stubs/sharp.ts`; verify script forbids `debuglog("sharp")` + `process.report`; crop try/catch. PR **#777** merged.
+- **Founder next:** Production Release with **Promote frontend** after merge; verify vendor hash changed and Origin loads (not boot recovery banner).
+
+---
+
 ## 2026-09-12 — P0.VR.REPLICATION.4R4 hero outlier-only geometry convergence (twin only)
 
 - **Context:** After 4R3R1 live DOM measurement, remaining hero work is outlier-only CSS nudges from measured deltas — no new blueprint/forensics/architecture.
