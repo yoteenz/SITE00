@@ -174,7 +174,7 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
     expect(() => composeConceptDirectedTwinV2(session)).toThrow(/approve active concept/);
     session = approveActiveConceptCandidate(session);
     const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(session);
-    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedNdxOverviewTwinV2');
+    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedPackageTwinV2');
     expect(functionBindingSummary.length).toBeGreaterThan(0);
     expect(sessionPatch.conceptGallery?.fidelityReceipts).toBeDefined();
     const bare = { ...session, conceptGallery: { ...session.conceptGallery!, packages: {} } };

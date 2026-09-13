@@ -178,7 +178,7 @@ describe('P0.VR.TWINV2.2R2 host boundary contract', () => {
       ),
     );
     const { sessionPatch } = composeConceptDirectedTwinV2(session);
-    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedNdxOverviewTwinV2');
+    expect(sessionPatch.renderedTwin?.componentRef).toBe('ConceptDirectedPackageTwinV2');
     expect(assertV1Isolation().v1PipelineUntouched).toBe(true);
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/composeFromExecutablePackage.ts')).not.toContain(
       'promoteTwinToLive',

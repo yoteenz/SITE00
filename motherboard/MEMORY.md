@@ -8590,3 +8590,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `sessionId` embeds page route slashes (`twin-v2-ndxbook-ndxbook:/projects/ndxbook-…`); unencoded URL broke `:sessionId` matching → App `*` → `/`. Stale parent session on stash; preview gated on `canAccessAdminPages`.
 - **Fix:** `encodeURIComponent` in `buildTwinV2PreviewRoute` + decode on preview page; stash live built session; localStorage fallback resolve; signed-in gate only.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.3 execution lineage + package-driven builder (v372)
+
+- **Symptom:** Built Twin V2 read as generic NDXBOOK overview — ghosted concept image, pageIntent/functionGraph bands, not approved blueprint layout.
+- **Root cause:** `composeFromExecutablePackage` only stamped metadata; `ConceptDirectedNdxOverviewTwinV2` ignored `ExecutableConceptPackage` (semantic recomposition + `authority-ghost` cheat).
+- **Fix:** New `p0vrTwinV23` — `buildTwinV2FromPackage`, lineage/receipts, fail-closed validation, `ConceptDirectedPackageTwinV2` blueprint renderer (no ghost image); BUILD stages PACKAGE→SOURCE→RENDER→FIDELITY + EXECUTION LINEAGE UI; prior non-package builds marked `FAILED_PACKAGE_LINEAGE` in history. Build ref **v372**. V1/live/creative generation untouched.
+
