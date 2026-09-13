@@ -6,7 +6,9 @@ import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from '
 import {
   appendDesignPageAuthorityRefineNote,
   createDesignPageAuthorityReviewSession,
+  galleryCandidateCount,
   mergeDesignPageAuthorityApiResponse,
+  readDesignPageAuthoritySession,
   DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
   DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
   DESIGN_PAGE_V3_FOUNDER_TERRITORY_VERDICTS,
@@ -24,7 +26,6 @@ import {
   masterAmendmentStatusLabel,
   P0_VR_TWIN_V30_BUILD,
   promoteViewportMaster,
-  readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
   resolveViewportMasterArtifact,
   seedDesignPageAuthorityPrototypeGallery,
@@ -100,8 +101,13 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
 
   useEffect(() => {
     if (!pilot) return;
+    const fromDisk = readDesignPageAuthoritySession(projectId);
     setSession((prev) => {
-      const normalized = normalizeDesignPageAuthoritySession(prev);
+      let base = prev;
+      if (fromDisk && galleryCandidateCount(fromDisk.territoryGallery) >= galleryCandidateCount(prev.territoryGallery)) {
+        base = fromDisk;
+      }
+      const normalized = normalizeDesignPageAuthoritySession(base);
       const galleryJson = JSON.stringify(normalized.territoryGallery);
       const priorJson = JSON.stringify(prev.territoryGallery);
       if (territoryGalleryHasCandidates(normalized.territoryGallery)) {
@@ -258,6 +264,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const mobileLocked = isDesignPageAuthorityViewportLocked(sessionView, 'mobile');
   const desktopLocked = isDesignPageAuthorityViewportLocked(sessionView, 'desktop');
   const hasGallery = territoryGalleryHasCandidates(sessionView.territoryGallery);
+  const galleryStats = `Gallery · batch #${sessionView.candidateGeneration} · A:${sessionView.territoryGallery.A.length} B:${sessionView.territoryGallery.B.length} C:${sessionView.territoryGallery.C.length} · ${galleryCandidateCount(sessionView.territoryGallery)} frames · build ${P0_VR_TWIN_V30_BUILD}`;
   const selectedTerritory = sessionView.founderReview.selectedTerritoryId;
   const result = sessionView.lastResult;
   const contextVersion = getProjectCreativeContextVersion(sessionView);
@@ -301,6 +308,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         ) : null}
         {pairLocked ? <span className="site00-dw-v3-authority__lock">TRANSLATION MODE</span> : null}
       </header>
+      <p className="site00-dw-v3-authority__hint" data-testid="v3-authority-gallery-stats">
+        {galleryStats}
+      </p>
       <p className="site00-dw-v3-authority__hint">
         Browse generated candidates per territory (R5F1 feature manifest required in every A/B/C concept). Select
         independent MOBILE and DESKTOP masters, promote each (feature coverage must PASS), then lock the pair — run ADD
