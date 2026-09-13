@@ -438,15 +438,14 @@
   background: #fff;
 }
 
-.site00-twin-v2-trimmed-canvas__shift {
-  width: 100%;
-  will-change: transform;
-}
-
 .site00-twin-v2-trimmed-canvas__artboard {
+  position: absolute;
+  left: 0;
+  top: calc(-100% * var(--client-crop-top, 0) / var(--client-crop-visible, 1));
   display: block;
   width: 100%;
   height: auto;
+  max-width: none;
   aspect-ratio: 375 / 812;
   object-position: top left;
 }
