@@ -8778,6 +8778,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 authority prototype broken images (v396)
+
+- **Symptom:** Territory gallery showed Compare #1 **prototype** rows but `<img>` broken (blue ?) on mobile design page.
+- **Cause:** Prototype `storageUrl` paths like `/site00/twin-v3-design-page-authority/*.svg` were treated as **relative** on nested routes (`/projects/…/design`), fetching HTML instead of SVG; some deploys also missing public copies.
+- **Fix:** `resolveDesignPageAuthorityImageSrc` (absolute origin + path), Vite bundled SVGs under `src/site00/assets/twin-v3-design-page-authority/`, `rewritePrototypeGalleryUrls` on session display. Build **v396**.
+
+---
+
 ## 2026-09-13 — Twin V3 territory gallery empty on mobile (v395)
 
 - **Symptom:** Design page showed **0 candidates** for A/B/C despite generate actions; founder on **site00.fsbw-dev.com** mobile.
