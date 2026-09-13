@@ -1,0 +1,172 @@
+.site00-twin-v2-concept {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 0 2rem;
+}
+
+.site00-twin-v2-concept__rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site00-twin-v2-concept__rail-step {
+  opacity: 0.45;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid var(--site00-border, #222);
+}
+
+.site00-twin-v2-concept__rail-step.is-active {
+  opacity: 1;
+  border-color: var(--site00-lime, #c8ff00);
+  color: var(--site00-lime, #c8ff00);
+}
+
+.site00-twin-v2-concept__concept-frame {
+  position: relative;
+  max-width: 375px;
+  margin: 0 auto;
+  border: 2px solid #111;
+  background: #000;
+}
+
+.site00-twin-v2-concept__concept-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.site00-twin-v2-concept__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.site00-twin-v2-concept__history {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.site00-twin-v2-concept__history-item {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+.site00-twin-v2-concept__history-item.is-approved {
+  border-color: var(--site00-lime, #c8ff00);
+}
+
+.site00-twin-v2-concept__compact-summary {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+.site00-twin-v2-preview-banner {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #c8ff00;
+  color: #000;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.35rem;
+}
+
+.site00-twin-v2-ndx {
+  max-width: 430px;
+  margin: 0 auto;
+  background: #fff;
+  color: #111;
+  min-height: 100vh;
+  position: relative;
+}
+
+.site00-twin-v2-ndx__host {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid #eee;
+}
+
+.site00-twin-v2-ndx__authority-ghost {
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.site00-twin-v2-ndx__authority-ghost img {
+  width: 100%;
+  height: auto;
+}
+
+.site00-twin-v2-ndx__masthead {
+  padding: 1rem;
+  background: #0a0a0a;
+  color: #fff;
+}
+
+.site00-twin-v2-ndx__kicker {
+  color: #c8ff00;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.site00-twin-v2-ndx__decision {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.site00-twin-v2-ndx__module-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid #111;
+}
+
+.site00-twin-v2-ndx__chip {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid #111;
+}
+
+.site00-twin-v2-ndx__band {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.site00-twin-v2-ndx__band h2 {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+
+.site00-twin-v2-ndx__progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 1rem;
+  font-size: 0.7rem;
+}
+
+.site00-pur__twin-v2-entry {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #444;
+}

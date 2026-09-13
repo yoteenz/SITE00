@@ -86,6 +86,16 @@ import {
   analyzeSingleRegionStructureForUpgrade,
   recalculatePageCreativeUpgradeForensics,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrCapture1/pageCreativeUpgradeSession.js';
+import {
+  createConceptDirectedTwinSession,
+  isTwinV2PilotEligible,
+  loadConceptDirectedTwinSession,
+  saveConceptDirectedTwinSession,
+  stashConceptDirectedTwinSessionForPreview,
+  buildTwinV2PreviewRoute,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import type { ConceptDirectedTwinSession } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
+import { PageConceptDirectedTwinV2Experience } from './PageConceptDirectedTwinV2Experience.js';
 
 export type PageFamilyWorkspaceProps = {
   projectId: string;
@@ -162,6 +172,8 @@ export function PageFamilyWorkspace({
   const [authorityHistoryOpen, setAuthorityHistoryOpen] = useState(false);
   const [authorityRefreshNonce, setAuthorityRefreshNonce] = useState(0);
   const [authorityNotice, setAuthorityNotice] = useState<string | null>(null);
+  const [twinV2Open, setTwinV2Open] = useState(false);
+  const [twinV2Session, setTwinV2Session] = useState<ConceptDirectedTwinSession | null>(null);
 
   useEffect(() => {
     if (!projectId) return;
@@ -232,7 +244,36 @@ export function PageFamilyWorkspace({
     setTwinSession(null);
     setBuildingTwin(false);
     setUpgradeError(null);
+    setTwinV2Open(false);
+    setTwinV2Session(null);
   }, []);
+
+  const twinV2Eligible = useMemo(
+    () =>
+      isTwinV2PilotEligible({
+        projectId,
+        pageId: activePageId,
+        viewport,
+        route: activeRoute,
+      }),
+    [projectId, activePageId, viewport, activeRoute],
+  );
+
+  const openTwinV2Workflow = useCallback(() => {
+    if (!activePageId || !twinV2Eligible) return;
+    const existing = loadConceptDirectedTwinSession(projectId, activePageId);
+    const refs = upgradeSession?.designAuthorityAssetRef ? [upgradeSession.designAuthorityAssetRef] : [];
+    const session =
+      existing ??
+      createConceptDirectedTwinSession({
+        projectId,
+        pageId: activePageId,
+        referenceAssets: refs,
+      });
+    saveConceptDirectedTwinSession(session);
+    setTwinV2Session(session);
+    setTwinV2Open(true);
+  }, [activePageId, twinV2Eligible, projectId, upgradeSession?.designAuthorityAssetRef]);
 
   const refreshTwinSession = useCallback(
     (projectIdArg: string, pageIdArg: string) => {
@@ -946,6 +987,30 @@ export function PageFamilyWorkspace({
               }
             }, 0);
           }}
+          twinV2Eligible={twinV2Eligible}
+          onOpenTwinV2={openTwinV2Workflow}
+          twinV2Experience={
+            twinV2Open && twinV2Session ? (
+              <PageConceptDirectedTwinV2Experience
+                session={twinV2Session}
+                currentScreenshot={upgradeSession.captureAssetRef ?? viewportCapture?.imageRef ?? null}
+                twinV1PreviewUrl={
+                  twinSession?.twinRoute ? `${typeof window !== 'undefined' ? window.location.origin : ''}${twinSession.twinRoute}` : null
+                }
+                onSessionChange={(next) => {
+                  saveConceptDirectedTwinSession(next);
+                  setTwinV2Session(next);
+                }}
+                onClose={() => setTwinV2Open(false)}
+                onPreviewTwinV2={() => {
+                  if (!twinV2Session) return;
+                  stashConceptDirectedTwinSessionForPreview(twinV2Session);
+                  const path = buildTwinV2PreviewRoute(twinV2Session.projectId, twinV2Session.sessionId);
+                  window.location.assign(path);
+                }}
+              />
+            ) : undefined
+          }
         />
       ) : null}
 

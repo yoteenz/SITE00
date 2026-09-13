@@ -47,6 +47,8 @@ type Props = {
   detailsOpen: boolean;
   onToggleDetails: () => void;
   detailsPanel: ReactNode;
+  twinV2Eligible?: boolean;
+  onOpenTwinV2?: () => void;
 };
 
 const REPLICATION_STEPS = [
@@ -83,6 +85,8 @@ export function PageUpgradeReplicationExperience({
   detailsPanel,
   replicationReceipt,
   upgradeError,
+  twinV2Eligible,
+  onOpenTwinV2,
 }: Props) {
   const [driftTraceOpen, setDriftTraceOpen] = useState(false);
   const [visionTraceOpen, setVisionTraceOpen] = useState(false);
@@ -178,6 +182,17 @@ export function PageUpgradeReplicationExperience({
               REPLICATE PAGE
             </button>
           </div>
+          {twinV2Eligible && onOpenTwinV2 ? (
+            <div className="site00-pur__twin-v2-entry">
+              <p className="site00-pur__replicate-hint">
+                Parallel experiment — creative direction before code. Twin V1 forensic pipeline stays available above.
+              </p>
+              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onOpenTwinV2}>
+                CREATE TWIN V2
+              </button>
+              <span className="site00-pur__chip">CONCEPT-DIRECTED</span>
+            </div>
+          ) : null}
         </section>
       ) : null}
 
