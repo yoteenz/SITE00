@@ -1,15 +1,18 @@
 /**
- * P0.VR.TWINV3.0 — Founder review for design page visual authority (no page implementation).
+ * P0.VR.TWINV3.0R1 — SITE 00 design page authority (NDXBOOK open inside host).
  */
 
 import { useCallback, useState } from 'react';
 import {
-  approveDesignPageAuthorityPair,
+  approveDesignPageAuthorityViewport,
   appendDesignPageAuthorityRefineNote,
   createDesignPageAuthorityReviewSession,
-  DESIGN_PAGE_V3_AUTHORITY_LOCK_ID,
+  DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
+  DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
+  DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
-  isDesignPageAuthorityLocked,
+  isDesignPageAuthorityFullyLocked,
+  isDesignPageAuthorityViewportLocked,
   P0_VR_TWIN_V30_BUILD,
   readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
@@ -63,45 +66,79 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     [persist, refineDraft, session],
   );
 
-  const approvePair = useCallback(() => {
-    if (!session.lastResult) return;
-    persist(approveDesignPageAuthorityPair(session));
-  }, [persist, session]);
+  const approveViewport = useCallback(
+    (viewport: 'mobile' | 'desktop') => {
+      if (!session.lastResult) return;
+      persist(approveDesignPageAuthorityViewport(session, viewport));
+    },
+    [persist, session],
+  );
 
   if (!pilot) return null;
 
-  const locked = isDesignPageAuthorityLocked(session);
+  const fullyLocked = isDesignPageAuthorityFullyLocked(session);
+  const mobileLocked = isDesignPageAuthorityViewportLocked(session, 'mobile');
+  const desktopLocked = isDesignPageAuthorityViewportLocked(session, 'desktop');
   const result = session.lastResult;
 
   return (
-    <section className="site00-dw-v3-authority" aria-label="Twin V3 design page authority review" data-build-ref={P0_VR_TWIN_V30_BUILD}>
+    <section
+      className="site00-dw-v3-authority"
+      aria-label="Twin V3 SITE 00 design page authority review"
+      data-build-ref={P0_VR_TWIN_V30_BUILD}
+    >
       <header className="site00-dw-v3-authority__head">
-        <strong>TWIN V3 · DESIGN PAGE AUTHORITY</strong>
-        <span>NDXBOOK · authority only · no implementation</span>
-        {locked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_LOCK_ID} locked</span> : null}
+        <strong>TWIN V3R1 · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE AUTHORITY</strong>
+        <span>Project {projectId.toUpperCase()} open · authority only</span>
+        {mobileLocked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE}</span> : null}
+        {desktopLocked ? <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP}</span> : null}
       </header>
       <p className="site00-dw-v3-authority__hint">
-        Generate mobile + desktop visual authorities inside the locked product skeleton. Approve both to lock; next sprint implements
-        the approved look — not this sprint.
+        Target: what the {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} <strong>Design</strong> page looks like with{' '}
+        <strong>NDXBOOK</strong> open — {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} owns the shell; NDXBOOK is the client project, not the
+        app brand. Regenerate until it reads as host workspace, not an NDXBOOK design app.
       </p>
       <div className="site00-dw-v3-authority__actions">
-        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" disabled={running || locked} onClick={() => void run('GENERATE')}>
+        <button
+          type="button"
+          className="site00-dw-v3-btn site00-dw-v3-btn--primary"
+          disabled={running || fullyLocked}
+          onClick={() => void run(result ? 'REGENERATE' : 'GENERATE')}
+        >
           {running ? 'Generating…' : result ? 'REGENERATE AUTHORITY PAIR' : 'GENERATE AUTHORITY PAIR'}
         </button>
-        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" disabled={!result || locked} onClick={approvePair}>
-          APPROVE MOBILE + DESKTOP ({DESIGN_PAGE_V3_AUTHORITY_LOCK_ID})
+        <button
+          type="button"
+          className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+          disabled={!result || mobileLocked}
+          onClick={() => approveViewport('mobile')}
+        >
+          APPROVE MOBILE ({DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE})
+        </button>
+        <button
+          type="button"
+          className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+          disabled={!result || desktopLocked}
+          onClick={() => approveViewport('desktop')}
+        >
+          APPROVE DESKTOP ({DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP})
         </button>
       </div>
       <div className="site00-dw-v3-authority__refine">
-        <label htmlFor="v3-authority-refine">Refine notes (preserves skeleton)</label>
+        <label htmlFor="v3-authority-refine">Refine notes (host/client firewall preserved)</label>
         <textarea
           id="v3-authority-refine"
           value={refineDraft}
-          disabled={locked}
+          disabled={fullyLocked}
           onChange={(e) => setRefineDraft(e.target.value)}
-          placeholder="e.g. make master preview larger; quiet the workflow rail"
+          placeholder="e.g. strengthen SITE 00 header; NDXBOOK only in project band; enlarge primary work area"
         />
-        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--compact" disabled={running || locked || !refineDraft.trim()} onClick={() => void run('REFINE')}>
+        <button
+          type="button"
+          className="site00-dw-v3-btn site00-dw-v3-btn--compact"
+          disabled={running || fullyLocked || !refineDraft.trim()}
+          onClick={() => void run('REFINE')}
+        >
           REFINE + REGENERATE
         </button>
       </div>
@@ -113,16 +150,17 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       {result ? (
         <>
           <p className="site00-dw-v3-authority__hint">
-            Classification: {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')} · candidate #{session.candidateGeneration}
+            {result.hostProduct} · client {result.clientProjectOpen} ·{' '}
+            {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')} · candidate #{session.candidateGeneration}
           </p>
           <div className="site00-dw-v3-authority__pair">
             <figure className="site00-dw-v3-authority__frame">
-              <figcaption>Mobile authority {result.mobile.representativePrototype ? '(prototype)' : ''}</figcaption>
-              <img src={result.mobile.storageUrl} alt="Mobile design page authority" />
+              <figcaption>Mobile {result.mobile.representativePrototype ? '(prototype)' : ''}</figcaption>
+              <img src={result.mobile.storageUrl} alt="SITE 00 design page mobile authority" />
             </figure>
             <figure className="site00-dw-v3-authority__frame">
-              <figcaption>Desktop authority {result.desktop.representativePrototype ? '(prototype)' : ''}</figcaption>
-              <img src={result.desktop.storageUrl} alt="Desktop design page authority" />
+              <figcaption>Desktop {result.desktop.representativePrototype ? '(prototype)' : ''}</figcaption>
+              <img src={result.desktop.storageUrl} alt="SITE 00 design page desktop authority" />
             </figure>
           </div>
         </>
