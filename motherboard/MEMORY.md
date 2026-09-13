@@ -8373,3 +8373,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Cross-origin fetch used `credentials: 'include'` with API `Access-Control-Allow-Origin: *` (browser blocks). FAL is **server-side only** (`FAL_KEY` on Railway) — not linked in browser. Silent fallback when FAL_KEY missing hid misconfiguration.
 - **Fix:** `credentials: 'omit'`, capture-style CORS on twin-v2 handler, `{ fal }` import + explicit `FAL_KEY_MISSING` 503, GET `/api/site00/twin-v2-visual-concept` returns `falKeyConfigured`, UI status line, `/api/health` includes `fal.configured`.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2 concept gallery + blueprint lineage + build-readiness (NDXBOOK Twin V2)
+
+- **Context:** Founder sprint after TWINV2.1 proved distinct V2 concepts; risk was ephemeral FAL-only history with no per-concept executable lineage. Goal: persistent swipeable **ConceptCandidate** records with **ConceptBlueprint**, **ConceptAssetManifest**, **ConceptFunctionBindingPlan**, **ConceptBuildReadiness**, **ExecutableConceptPackage** required for build; regenerate/refine never overwrite prior concepts; backfill from session `history` as `LEGACY_V2_CONCEPT`.
+- **Delivered:** `p0vrTwinV22/` (`v345`) — gallery state + backfill, blueprint/reconcile/manifest/binding generators, readiness contract + visual-only guard, approve → package, compose from package only; UI `ConceptDirectedTwinGallery` (horizontal rail, filmstrip, readiness strip, blueprint tabs); wired into merge/orchestrate, Twin V2 experience, session persist on open; tests `tests/p0vrTwinV22.test.ts`; V1 forensic + live unchanged.
+- **Founder next:** Deploy **v345** → TWIN V2 → swipe existing concepts (no new gen) → check VISUAL/BLUEPRINT/ASSETS/FUNCTIONS → VIEW BLUEPRINT → approve one **READY TO BUILD** → **BUILD THIS CONCEPT** → compare approved vs Twin V2.
+
