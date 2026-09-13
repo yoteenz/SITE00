@@ -19,6 +19,35 @@ export function territoryGalleryHasCandidates(gallery: DesignPageAuthorityTerrit
   return TERRITORY_IDS.some((id) => gallery[id].length > 0);
 }
 
+/** Union batches from multiple persisted snapshots (localStorage vs sessionStorage, API merge). */
+export function mergeTerritoryGalleries(
+  primary: DesignPageAuthorityTerritoryGallery,
+  secondary: DesignPageAuthorityTerritoryGallery,
+): DesignPageAuthorityTerritoryGallery {
+  const next = emptyTerritoryGallery();
+  for (const territoryId of TERRITORY_IDS) {
+    const byId = new Map<string, DesignPageAuthorityTerritoryCandidate>();
+    for (const c of [...(primary[territoryId] ?? []), ...(secondary[territoryId] ?? [])]) {
+      byId.set(c.candidateId, c);
+    }
+    next[territoryId] = [...byId.values()].sort((a, b) => {
+      if (a.batchGeneration !== b.batchGeneration) return a.batchGeneration - b.batchGeneration;
+      return a.createdAt.localeCompare(b.createdAt);
+    });
+  }
+  return next;
+}
+
+export function maxBatchGenerationInGallery(gallery: DesignPageAuthorityTerritoryGallery): number {
+  let max = 0;
+  for (const territoryId of TERRITORY_IDS) {
+    for (const c of gallery[territoryId]) {
+      if (c.batchGeneration > max) max = c.batchGeneration;
+    }
+  }
+  return max;
+}
+
 export function appendTerritoryBundlesToGallery(input: {
   gallery: DesignPageAuthorityTerritoryGallery;
   bundles: DesignPageAuthorityTerritoryBundle[];
@@ -73,8 +102,8 @@ function bundleAlreadyInGallery(
 ): boolean {
   return gallery[bundle.territoryId].some(
     (c) =>
-      c.mobile.storageUrl === bundle.mobile.storageUrl &&
-      c.desktop.storageUrl === bundle.desktop.storageUrl,
+      c.mobile.artifactId === bundle.mobile.artifactId &&
+      c.desktop.artifactId === bundle.desktop.artifactId,
   );
 }
 

@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 batch 2 gallery lost + batch 1 broken (v402)
+
+- **Symptom:** ADD BATCH (batch 2) vanished after reload; only batch 1 remained with broken thumbnails.
+- **Causes:** (1) `bundleAlreadyInGallery` deduped by **storageUrl** — after v401 URL repair, batch 2 looked identical to batch 1 and was not re-synced from `lastResult`. (2) **localStorage vs sessionStorage** picked newest row only — batch 2 could live in one store while heal wrote batch 1 to the other. (3) Full `lastResult.territories` in storage increased quota failures.
+- **Fix:** Dedupe by **artifactId**; `mergeTerritoryGalleries` on read + API merge; slim persisted `lastResult.territories` when gallery populated; dedicated **gallery-backup** in sessionStorage. Build **v402**.
+
+---
+
 ## 2026-09-13 — Twin V3 authority gallery images still broken (v401 heal)
 
 - **Symptom:** Founder on **site00.fsbw-dev.com** — DESIGN authority cards show blue **?** (MOBILE/DESKTOP · GENERATED) after v398 URL repair.
