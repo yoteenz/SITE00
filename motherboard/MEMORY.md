@@ -8742,3 +8742,9 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Model:** Three layers — **HOST shell (SITE 00)**, **active project workspace (NDXBOOK lime / editorial)**, **system/compiler meta (SITE 00)**. Core rule: SITE 00 architecture + project atmosphere. `ActiveProjectExpressionContract` + `hostProjectExpressionModel`.
 - **Delivered:** Territory prompts A/B/C (Central Stage, Editorial Workbench, Spatial Workflow) × mobile/desktop — **6 R3 SVG prototypes**, `designPageAuthorityR3SelfCheck`, `dispatchDesignPageAuthorityTerritoryVisuals`, panel territory select + founder verdicts (LOVE IT / PROMISING / …), **viewport approve requires territory selection**. Build **v390**. Still authority-only — lock pair after founder picks territory; then implementation sprint.
 
+---
+
+## 2026-09-13 — Twin V3 authority FAL jobs parallelized
+
+- **Change:** `dispatchDesignPageAuthorityTerritoryVisuals` runs all **6** territory frames (A/B/C × mobile/desktop) via **`Promise.all`**; legacy `dispatchDesignPageAuthorityVisuals` runs mobile+desktop in parallel. Provider trace notes parallel batch. No UI/build ref bump — Railway redeploy optional for faster live generation.
+

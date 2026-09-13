@@ -4,7 +4,7 @@
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { assertV1Isolation } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import {
   approveDesignPageAuthorityViewport,
@@ -59,7 +59,41 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(r3.pass).toBe(true);
   });
 
-  it('7–10 generation yields 3 territories × 2 viewports', async () => {
+  it('7–9 R3 dispatch runs 6 FAL jobs in parallel', async () => {
+    const { dispatchDesignPageAuthorityTerritoryVisuals } = await import(
+      '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/dispatchDesignPageAuthorityTerritoryVisuals.js'
+    );
+    let inFlight = 0;
+    let maxInFlight = 0;
+    const originalAll = Promise.all.bind(Promise);
+    const spy = vi.spyOn(Promise, 'all').mockImplementation((values) => {
+      if (Array.isArray(values) && values.length === 6) {
+        return originalAll(
+          values.map((p) => {
+            inFlight += 1;
+            maxInFlight = Math.max(maxInFlight, inFlight);
+            return Promise.resolve(p).finally(() => {
+              inFlight -= 1;
+            });
+          }),
+        ) as ReturnType<typeof Promise.all>;
+      }
+      return originalAll(values);
+    });
+    try {
+      const out = await dispatchDesignPageAuthorityTerritoryVisuals({
+        authoritySessionId: 'parallel-test',
+        clientProjectId: 'ndxbook',
+      });
+      expect(out.providerTrace[0]).toContain('parallel FAL batch');
+      expect(out.territories.length).toBe(3);
+      expect(maxInFlight).toBe(6);
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it('10 generation yields 3 territories × 2 viewports', async () => {
     const session = createDesignPageAuthorityReviewSession();
     const result = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
     expect(result.buildRef).toBe(P0_VR_TWIN_V30_BUILD);

@@ -52,10 +52,12 @@ export async function dispatchDesignPageAuthorityVisuals(input: {
     clientProjectId: input.clientProjectId,
     refineNotes: input.refineNotes,
   });
-  const trace = ['DESIGN_PAGE_V3R2: SITE 00 design page authority lock (A–G zones)'];
-  const mobileJob = await falOne(mobilePrompt, '9:16', 'mobile');
+  const trace = ['DESIGN_PAGE_V3R2: parallel FAL batch (mobile + desktop)'];
+  const [mobileJob, desktopJob] = await Promise.all([
+    falOne(mobilePrompt, '9:16', 'mobile'),
+    falOne(desktopPrompt, '16:9', 'desktop'),
+  ]);
   trace.push(`mobile job ${mobileJob.jobRef}`);
-  const desktopJob = await falOne(desktopPrompt, '16:9', 'desktop');
   trace.push(`desktop job ${desktopJob.jobRef}`);
   const ts = Date.now();
   const provider = TWIN_V2_VISUAL_PROVIDER_LABEL;
