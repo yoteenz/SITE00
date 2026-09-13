@@ -8438,3 +8438,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Reality:** `site00.fsbw-dev.com` → **Vite dev** (not production); iOS Safari often **full-reloads** background tabs — cannot disable OS behavior. Cloud preview also used per-boot cache bust (`previewSessionId`) until now.
 - **Mitigation:** `twinV2UiPersistence` (sessionStorage) saves import URL draft + twinV2Open; restores when Page Upgrade reopens same page; Vite cloud preview defaults to **stable** build stamp (override `SITE00_CLOUD_PREVIEW_STABLE=0`). Twin V2 **concepts** remain in **localStorage** after reload. **Production ZIP** on fsbw-dev avoids dev no-cache churn.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R2 host-shell exclusion + client-canvas boundary (v352)
+
+- **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
+- **Decisions:** `VisualOwnership` + `TwinV2CanvasBoundary`; `sanitizeConceptForHostBoundary` preserves original concept image/blueprint history, produces `sanitizedBlueprint` excluding `GeneratedHostArtifact`; build uses real `TwinSite00HostBottomNav` + client mount `site00-twin-v2-ndx__client-canvas`; `assertNoGeneratedHostArtifactsInClientBuild` → `TWIN_V2_HOST_BOUNDARY_VIOLATION`; readiness adds **HOST BOUNDARY ✓**; GPT prompt `clientCanvasOnly: true` + boundary text; UI **VIEW CLIENT CANVAS** / **VIEW HOST PREVIEW** + badges in blueprint/object maps.
+- **Changes:** `shared/.../p0vrTwinV22R2/*`, wired into `p0vrTwinV22` gallery/approve/package; `ConceptDirectedTwinGallery`, `TwinV2HostShellCompositePreview`; tests `tests/p0vrTwinV22R2.test.ts`. No V1/live promotion. Build ref **v352**.
+
