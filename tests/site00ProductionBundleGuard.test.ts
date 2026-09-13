@@ -24,7 +24,7 @@ describe('SITE 00 production bundle guard', () => {
   it.skipIf(distJsAssets.length === 0)(
     'dist assets omit Playwright and chromium-bidi (local: npm run build first)',
     () => {
-      const forbidden = ['chromium-bidi', 'import"playwright"', "import'playwright'"];
+      const forbidden = ['chromium-bidi', 'import"playwright"', "import'playwright'", 'debuglog("sharp")'];
       for (const file of distJsAssets) {
         const src = readFileSync(join(DIST_ASSETS, file), 'utf8');
         for (const needle of forbidden) {
@@ -44,5 +44,6 @@ describe('SITE 00 production bundle guard', () => {
     const vite = readFileSync(join(ROOT, 'vite.config.ts'), 'utf8');
     expect(vite).toContain('scripts/vite-browser-stubs/playwright.ts');
     expect(vite).toMatch(/chromium-bidi/);
+    expect(vite).toContain('scripts/vite-browser-stubs/sharp.ts');
   });
 });

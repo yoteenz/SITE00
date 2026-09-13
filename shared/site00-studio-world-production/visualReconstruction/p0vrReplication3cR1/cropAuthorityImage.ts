@@ -51,46 +51,50 @@ export async function cropAuthorityImageBuffer(input: {
     return { ok: false, code: 'ASSET_CREATION_FAILED', message: 'sharp unavailable' };
   }
 
-  const meta = await sharp(input.source).metadata();
-  const srcW = meta.width ?? 0;
-  const srcH = meta.height ?? 0;
-  if (srcW < 8 || srcH < 8) {
-    return { ok: false, code: 'AUTHORITY_CROP_INVALID', message: 'Authority dimensions invalid' };
-  }
+  try {
+    const meta = await sharp(input.source).metadata();
+    const srcW = meta.width ?? 0;
+    const srcH = meta.height ?? 0;
+    if (srcW < 8 || srcH < 8) {
+      return { ok: false, code: 'AUTHORITY_CROP_INVALID', message: 'Authority dimensions invalid' };
+    }
 
-  const left = Math.max(0, Math.floor(rect.left * srcW));
-  const top = Math.max(0, Math.floor(rect.top * srcH));
-  const width = Math.max(1, Math.min(srcW - left, Math.floor(rect.width * srcW)));
-  const height = Math.max(1, Math.min(srcH - top, Math.floor(rect.height * srcH)));
+    const left = Math.max(0, Math.floor(rect.left * srcW));
+    const top = Math.max(0, Math.floor(rect.top * srcH));
+    const width = Math.max(1, Math.min(srcW - left, Math.floor(rect.width * srcW)));
+    const height = Math.max(1, Math.min(srcH - top, Math.floor(rect.height * srcH)));
 
-  if (width < 2 || height < 2) {
-    return { ok: false, code: 'AUTHORITY_CROP_INVALID', message: 'Crop dimensions zero' };
-  }
+    if (width < 2 || height < 2) {
+      return { ok: false, code: 'AUTHORITY_CROP_INVALID', message: 'Crop dimensions zero' };
+    }
 
-  const cropped = sharp(input.source).extract({ left, top, width, height });
-  const { data, info } = await cropped.raw().toBuffer({ resolveWithObject: true });
-  const lumaStdDev = computeLumaStdDev(data, info.width, info.height, info.channels);
-  if (lumaStdDev < MIN_CROP_LUMA_STDDEV) {
+    const cropped = sharp(input.source).extract({ left, top, width, height });
+    const { data, info } = await cropped.raw().toBuffer({ resolveWithObject: true });
+    const lumaStdDev = computeLumaStdDev(data, info.width, info.height, info.channels);
+    if (lumaStdDev < MIN_CROP_LUMA_STDDEV) {
+      return {
+        ok: false,
+        code: 'AUTHORITY_CROP_INVALID',
+        message: `Crop luma variance too low (${lumaStdDev.toFixed(2)})`,
+      };
+    }
+
+    const jpeg = await sharp(input.source)
+      .extract({ left, top, width, height })
+      .jpeg({ quality: 88 })
+      .toBuffer();
+
     return {
-      ok: false,
-      code: 'AUTHORITY_CROP_INVALID',
-      message: `Crop luma variance too low (${lumaStdDev.toFixed(2)})`,
+      ok: true,
+      buffer: jpeg,
+      width,
+      height,
+      mimeType: 'image/jpeg',
+      lumaStdDev,
     };
+  } catch {
+    return { ok: false, code: 'ASSET_CREATION_FAILED', message: 'sharp unavailable' };
   }
-
-  const jpeg = await sharp(input.source)
-    .extract({ left, top, width, height })
-    .jpeg({ quality: 88 })
-    .toBuffer();
-
-  return {
-    ok: true,
-    buffer: jpeg,
-    width,
-    height,
-    mimeType: 'image/jpeg',
-    lumaStdDev,
-  };
 }
 
 export function bufferToDataUrl(buffer: Buffer, mimeType: string): string {
