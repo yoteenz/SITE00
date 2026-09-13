@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R5F2 — one-time founder authority injection + derivation unblock. */
-export const P0_VR_TWIN_V30_BUILD = 'v410' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v411' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
