@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { assertV1Isolation } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import {
   applyDesignPageAuthorityGeneration,
+  seedDesignPageAuthorityPrototypeGallery,
   approveDesignPageAuthorityViewport,
   mergeDesignPageAuthorityApiResponse,
   syncGalleryFromLastResult,
@@ -92,6 +93,16 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(result.r3SelfCheck.pass).toBe(true);
     expect(result.mobile.storageUrl).toContain('mobile-territory-a-r3.svg');
     expect(result.expressionContract.projectId).toBe('ndxbook');
+  });
+
+  it('10b prototype seed fills empty gallery without API', () => {
+    const session = createDesignPageAuthorityReviewSession();
+    expect(session.territoryGallery.A.length).toBe(0);
+    const seeded = seedDesignPageAuthorityPrototypeGallery(session);
+    expect(seeded.territoryGallery.A.length).toBe(1);
+    expect(seeded.territoryGallery.B.length).toBe(1);
+    expect(seeded.territoryGallery.C.length).toBe(1);
+    expect(seeded.territoryGallery.A[0]!.mobile.storageUrl).toContain('mobile-territory-a-r3.svg');
   });
 
   it('11 merge API response appends FAL territories to prior session', async () => {
