@@ -38,6 +38,7 @@ import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.
 import site00DesignAssetReconstructionHandler from '../api/site00/design-asset-reconstruction.js';
 import site00MasterSkinHandler from '../api/site00/master-skin.js';
 import site00BrandFamilySkinHandler from '../api/site00/brand-family-skin.js';
+import site00TwinV2VisualConceptHandler from '../api/site00/twin-v2-visual-concept.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
@@ -80,5 +81,6 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/design-asset-reconstruction', handler: site00DesignAssetReconstructionHandler },
   { path: '/api/site00/master-skin', handler: site00MasterSkinHandler },
   { path: '/api/site00/brand-family-skin', handler: site00BrandFamilySkinHandler },
+  { path: '/api/site00/twin-v2-visual-concept', handler: site00TwinV2VisualConceptHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

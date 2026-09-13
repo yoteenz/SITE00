@@ -69,6 +69,8 @@ export const SITE00_ROUTES = {
   /** P0.VR.UPGRADE.2 — Protected reconstruction twin preview (non-indexable) */
   projectReconstructionTwin:
     '/projects/:projectSlug/debug/reconstruction/:pageScope/:sessionId',
+  /** P0.VR.TWINV2.1 — Concept-directed twin preview (experimental, not live) */
+  projectTwinV2Concept: '/projects/:projectSlug/debug/twin-v2/:sessionId',
   projectReader: '/projects/:projectSlug/reader/*',
   projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',

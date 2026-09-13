@@ -95,6 +95,7 @@ const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPa
 const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
 const ProjectAstralWorldFastTrackPage = lazy(() => import('../site00/pages/ProjectAstralWorldFastTrackPage'));
 const ReconstructionTwinPreviewPage = lazy(() => import('../site00/pages/ReconstructionTwinPreviewPage'));
+const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/ConceptDirectedTwinV2PreviewPage'));
 const HeroOutlierMeasureHarnessPage = import.meta.env.DEV
   ? lazy(() => import('../site00/pages/HeroOutlierMeasureHarnessPage'))
   : null;
@@ -888,6 +889,14 @@ export function Site00Routes() {
         element={
           <Site00Suspense>
             <ReconstructionTwinPreviewPage />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectTwinV2Concept}
+        element={
+          <Site00Suspense>
+            <ConceptDirectedTwinV2PreviewPage />
           </Site00Suspense>
         }
       />

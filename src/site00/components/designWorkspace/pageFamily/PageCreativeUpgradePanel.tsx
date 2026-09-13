@@ -66,6 +66,9 @@ type Props = {
   evidenceRecoveryRunning?: boolean;
   evidenceRecoveryError?: string | null;
   onAnalyzeRegionStructure?: (regionId: string) => void;
+  twinV2Eligible?: boolean;
+  onOpenTwinV2?: () => void;
+  twinV2Experience?: import('react').ReactNode;
 };
 
 function useIsMobileViewport(): boolean {
@@ -112,6 +115,9 @@ export function PageCreativeUpgradePanel({
   evidenceRecoveryRunning,
   evidenceRecoveryError,
   onAnalyzeRegionStructure,
+  twinV2Eligible,
+  onOpenTwinV2,
+  twinV2Experience,
 }: Props) {
   const isMobile = useIsMobileViewport();
   const [compareMode, setCompareMode] = useState<CompareMode>('current');
@@ -558,7 +564,8 @@ export function PageCreativeUpgradePanel({
             secondaryAction={secondaryAction}
           >
             <div className="site00-pfw-upgrade-v2">
-              {useReplicationExperience ? (
+              {twinV2Experience ? twinV2Experience : null}
+              {!twinV2Experience && useReplicationExperience ? (
                 <PageUpgradeReplicationExperience
                   session={session}
                   twinSession={twinSession}
@@ -582,6 +589,8 @@ export function PageCreativeUpgradePanel({
                   onPromote={() => setPromotionConfirmOpen(true)}
                   detailsOpen={forensicsDetailsOpen}
                   onToggleDetails={() => setForensicsDetailsOpen((v) => !v)}
+                  twinV2Eligible={twinV2Eligible}
+                  onOpenTwinV2={onOpenTwinV2}
                   detailsPanel={
                     diagnosis?.forensicCoverage ? (
                       <section className="site00-pfw-upgrade-v2__coverage">

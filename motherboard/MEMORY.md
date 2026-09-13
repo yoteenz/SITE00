@@ -8340,3 +8340,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** `p0vrReplication4R4R1/` (`v340`) — `HeroOutlierSnapshot`, `HeroOutlierPatch`, plateau/limit types, `HeroLockGuard`, factual CSS in `site00-forensic-blueprint-twin.css` + `heroLayoutSpec` vars (editorial widths, NDX 46px, H12 bottom offset, H11 cell). Inspection: full Δw/Δh labels, **LOCKED** badge when converged. REPLICATE chains 4R4R1 after 4R4.
 - **Founder next:** Deploy **v340** → fresh REPLICATE → INSPECT HERO → confirm outlier count 0 → EXIT → AUTHORITY vs TWIN visual bar → lock hero → masthead + section nav next.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.1 concept-directed Twin V2 (NDXBOOK overview mobile, parallel to V1)
+
+- **Context:** Experiment inside-out pipeline: page intent → function graph → brand/grammar → internal creative director → **full-page visual concept** (founder approve/regenerate/refine) → coded Twin V2 → forensic fidelity QA downstream. **Must not disturb** Twin V1 forensic replication, hero lock, or live `/projects/ndxbook`.
+- **Delivered:** `p0vrTwinV21/` (`v341`) — `TwinGenerationMode` (`FORENSIC_REPLICATION_V1` default, `CONCEPT_DIRECTED_V2` explicit), `ConceptDirectedTwinSession`, intent/function/brand/grammar builders, `PageCreativeDirector`, FAL **GPT Image 2** API `POST /api/site00/twin-v2-visual-concept` (founder spend guard), approve/regenerate/refine + history, `ConceptDirectedTwinV2Composer` (blocks code until approve), preview route `/projects/:slug/debug/twin-v2/:sessionId`, UI **CREATE TWIN V2 · CONCEPT-DIRECTED** in Page Upgrade (V1 **REPLICATE PAGE** unchanged). Tests `tests/p0vrTwinV21.test.ts`.
+- **Limits:** Pilot **NDXBOOK overview mobile only**; no live promotion; fidelity receipt scaffold `PENDING` until founder runs existing forensic overlay on approved visual vs twin; production visual gen requires `FAL_KEY` on Railway (vitest/dev falls back to authority JPG).
+- **Founder next:** Deploy **v341+** → DESIGN → NDXBOOK → PAGES → MOBILE → OVERVIEW → UPGRADE → **CREATE TWIN V2** → review intent/direction → **GENERATE VISUAL CONCEPT** (confirm spend) → APPROVE/REFINE/REGENERATE → **BUILD TWIN V2** → compare LIVE / V1 / V2 → forensic QA for implementation drift only.
+
