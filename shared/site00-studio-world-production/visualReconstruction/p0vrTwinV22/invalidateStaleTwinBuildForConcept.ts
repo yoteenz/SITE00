@@ -12,12 +12,20 @@ export function invalidateStaleTwinBuildForActiveConcept(
   const active = getActiveConceptCandidate(session);
   if (!active?.conceptId) return session;
 
-  const builtFor = session.renderedTwin?.sourceConceptId ?? null;
+  const compiler = session.twinV2VisualCompiler;
+  const compilerConceptId =
+    compiler?.compilerInvocationReceipt?.conceptId ??
+    compiler?.visualImplementationPlan?.conceptId ??
+    compiler?.compilerInputReceipt?.conceptId ??
+    null;
+  const builtFor = session.renderedTwin?.sourceConceptId ?? compilerConceptId ?? null;
   const hasBuiltTwin = Boolean(session.renderedTwin?.builtAt);
+  const conceptChanged = builtFor != null && builtFor !== active.conceptId;
+  const visualMismatch =
+    Boolean(active.visualAssetUrl && compiler?.visualAuthority?.assetUrl) &&
+    compiler!.visualAuthority.assetUrl !== active.visualAssetUrl;
   const stale =
-    (hasBuiltTwin || session.twinV2VisualCompiler) &&
-    builtFor != null &&
-    builtFor !== active.conceptId;
+    (hasBuiltTwin || compiler) && (conceptChanged || visualMismatch);
 
   if (!stale) {
     return session;

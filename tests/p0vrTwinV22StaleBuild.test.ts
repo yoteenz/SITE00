@@ -47,6 +47,41 @@ describe('Twin V2 stale build invalidation', () => {
     expect(session.conceptGallery!.candidates.at(-1)?.visualAssetUrl).toBe('/second.jpg');
   });
 
+  it('clears compiler when visual URL changes but concept id matches (regenerate in session)', () => {
+    let session = createConceptDirectedTwinSession({ projectId: 'ndxbook', pageId: 'overview', sessionId: 'stale-3' });
+    session = ensureConceptGallery(session);
+    session = beginDualOutputConceptGeneration(session, { generationType: 'INITIAL' }).session;
+    session = mergeVisualConceptApiResult(session, {
+      action: 'generate',
+      imageUrl: '/old.jpg',
+      imageStorageRef: 'ref-old',
+    });
+    const id = session.conceptGallery!.activeConceptId!;
+    session = {
+      ...session,
+      conceptGallery: {
+        ...session.conceptGallery!,
+        candidates: session.conceptGallery!.candidates.map((c) =>
+          c.conceptId === id ? { ...c, visualAssetUrl: '/new.jpg', updatedAt: new Date().toISOString() } : c,
+        ),
+      },
+      renderedTwin: {
+        renderMode: 'TWIN_V2_VISUAL_COMPILER_NDX_OVERVIEW',
+        componentRef: 'ConceptVisualCompilerTwinV2',
+        builtAt: new Date().toISOString(),
+        sourceConceptId: id,
+        buildMode: 'VISUAL_TO_CODE_COMPILER',
+      },
+      twinV2VisualCompiler: {
+        visualAuthority: { assetUrl: '/old.jpg' },
+        compilerInvocationReceipt: { conceptId: id },
+      } as never,
+    };
+    const out = invalidateStaleTwinBuildForActiveConcept(session);
+    expect(out.renderedTwin).toBeNull();
+    expect(out.twinV2VisualCompiler).toBeNull();
+  });
+
   it('invalidate helper is no-op when build matches active', () => {
     let session = createConceptDirectedTwinSession({ projectId: 'ndxbook', pageId: 'overview', sessionId: 'stale-2' });
     session = ensureConceptGallery(session);
