@@ -48,6 +48,12 @@
   opacity: 0.85;
 }
 
+.site00-twin-v2-concept__built-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .site00-twin-v2-concept__built-preview-frame {
   max-height: min(52vh, 420px);
   overflow: auto;

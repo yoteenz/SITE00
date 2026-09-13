@@ -256,13 +256,13 @@ export function ConceptDirectedTwinGallery({
         <button
           type="button"
           className="site00-dw-v3-btn site00-dw-v3-btn--primary"
-          disabled={!buildOk || building || Boolean(twinBuiltAt)}
+          disabled={!buildOk || building}
           onClick={onBuild}
           aria-busy={building}
-          title={buildBlockReason ?? undefined}
-          data-twin-build-state={building ? 'running' : twinBuiltAt ? 'done' : buildOk ? 'ready' : 'blocked'}
+          title={buildBlockReason ?? (twinBuiltAt ? 'Run package-driven build again from approved concept' : undefined)}
+          data-twin-build-state={building ? 'running' : buildOk ? (twinBuiltAt ? 'rebuild' : 'ready') : 'blocked'}
         >
-          {building ? 'BUILDING TWIN…' : twinBuiltAt ? 'TWIN BUILT ✓' : 'BUILD THIS CONCEPT'}
+          {building ? 'BUILDING TWIN…' : twinBuiltAt ? 'REBUILD THIS CONCEPT' : 'BUILD THIS CONCEPT'}
         </button>
       </div>
       {buildBlockReason ? <p className="site00-twin-v2-gallery__build-block">{buildBlockReason}</p> : null}
