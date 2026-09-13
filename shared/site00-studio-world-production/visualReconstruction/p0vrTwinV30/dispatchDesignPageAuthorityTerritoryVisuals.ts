@@ -5,11 +5,13 @@ import { buildTerritoryDesignPageAuthorityPrompt } from './buildDesignPageAuthor
 import { DESIGN_PAGE_V3_TERRITORY_DEFINITIONS, type DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import type { DesignPageAuthorityTerritoryBundle, DesignPageAuthorityVisualArtifact } from './types.js';
 
+type FalJobResult = { url: string; jobRef: string };
+
 async function falOne(
   prompt: string,
   aspectRatio: '9:16' | '16:9',
   label: string,
-): Promise<{ url: string; jobRef: string }> {
+): Promise<FalJobResult> {
   if (process.env.VITEST === 'true') {
     const ts = Date.now();
     return { url: `${label}?v=r3-${ts}`, jobRef: `vitest-design-page-v3r3-${label}-${ts}` };
@@ -40,12 +42,20 @@ export type DesignPageAuthorityTerritoryVisualDispatch = {
   providerTrace: string[];
 };
 
+type TerritoryFrameJob = {
+  territoryId: DesignPageV3TerritoryId;
+  viewport: 'mobile' | 'desktop';
+  prompt: string;
+  aspectRatio: '9:16' | '16:9';
+  storageLabel: string;
+};
+
 export async function dispatchDesignPageAuthorityTerritoryVisuals(input: {
   authoritySessionId: string;
   clientProjectId: string;
   refineNotes?: string[];
 }): Promise<DesignPageAuthorityTerritoryVisualDispatch> {
-  const trace = ['DESIGN_PAGE_V3R3: host shell + NDXBOOK atmosphere · territories A/B/C'];
+  const trace = ['DESIGN_PAGE_V3R3: parallel FAL batch (6 frames: A/B/C × mobile/desktop)'];
   const territoryIds: DesignPageV3TerritoryId[] = ['A', 'B', 'C'];
   const ts = Date.now();
   const provider = TWIN_V2_VISUAL_PROVIDER_LABEL;
@@ -69,9 +79,7 @@ export async function dispatchDesignPageAuthorityTerritoryVisuals(input: {
     createdAt: new Date().toISOString(),
   });
 
-  const territories: DesignPageAuthorityTerritoryBundle[] = [];
-
-  for (const territoryId of territoryIds) {
+  const frameJobs: TerritoryFrameJob[] = territoryIds.flatMap((territoryId) => {
     const mobilePrompt = buildTerritoryDesignPageAuthorityPrompt({
       territoryId,
       viewport: 'mobile',
@@ -84,29 +92,53 @@ export async function dispatchDesignPageAuthorityTerritoryVisuals(input: {
       clientProjectId: input.clientProjectId,
       refineNotes: input.refineNotes,
     });
-
     const mobileLabel = prototypePath(territoryId, 'mobile');
     const desktopLabel = prototypePath(territoryId, 'desktop');
+    return [
+      {
+        territoryId,
+        viewport: 'mobile',
+        prompt: mobilePrompt,
+        aspectRatio: '9:16',
+        storageLabel: mobileLabel,
+      },
+      {
+        territoryId,
+        viewport: 'desktop',
+        prompt: desktopPrompt,
+        aspectRatio: '16:9',
+        storageLabel: desktopLabel,
+      },
+    ];
+  });
 
-    const mobileJob =
-      process.env.VITEST === 'true' ?
-        { url: mobileLabel, jobRef: `vitest-${territoryId}-mobile-${ts}` }
-      : await falOne(mobilePrompt, '9:16', mobileLabel);
-    trace.push(`${territoryId} mobile ${mobileJob.jobRef}`);
+  const frameResults = await Promise.all(
+    frameJobs.map(async (job) => {
+      const falResult =
+        process.env.VITEST === 'true' ?
+          {
+            url: job.storageLabel,
+            jobRef: `vitest-${job.territoryId}-${job.viewport}-${ts}`,
+          }
+        : await falOne(job.prompt, job.aspectRatio, job.storageLabel);
+      return { job, falResult };
+    }),
+  );
 
-    const desktopJob =
-      process.env.VITEST === 'true' ?
-        { url: desktopLabel, jobRef: `vitest-${territoryId}-desktop-${ts}` }
-      : await falOne(desktopPrompt, '16:9', desktopLabel);
-    trace.push(`${territoryId} desktop ${desktopJob.jobRef}`);
+  for (const { job, falResult } of frameResults) {
+    trace.push(`${job.territoryId} ${job.viewport} ${falResult.jobRef}`);
+  }
 
-    territories.push({
+  const territories: DesignPageAuthorityTerritoryBundle[] = territoryIds.map((territoryId) => {
+    const mobileResult = frameResults.find((r) => r.job.territoryId === territoryId && r.job.viewport === 'mobile')!;
+    const desktopResult = frameResults.find((r) => r.job.territoryId === territoryId && r.job.viewport === 'desktop')!;
+    return {
       territoryId,
       territoryName: DESIGN_PAGE_V3_TERRITORY_DEFINITIONS[territoryId].name,
-      mobile: mk(territoryId, 'mobile', mobileJob.url, mobileJob.jobRef),
-      desktop: mk(territoryId, 'desktop', desktopJob.url, desktopJob.jobRef),
-    });
-  }
+      mobile: mk(territoryId, 'mobile', mobileResult.falResult.url, mobileResult.falResult.jobRef),
+      desktop: mk(territoryId, 'desktop', desktopResult.falResult.url, desktopResult.falResult.jobRef),
+    };
+  });
 
   return { territories, providerTrace: trace };
 }
