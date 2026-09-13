@@ -28,6 +28,85 @@ function activeConceptHasExecutablePackage(session: ConceptDirectedTwinSession):
   return Object.values(gallery.packages).some((p) => p.conceptId === active.conceptId);
 }
 
+function findExecutablePackageForConcept(
+  session: ConceptDirectedTwinSession,
+  conceptId: string,
+): import('./types.js').ExecutableConceptPackage | null {
+  const gallery = session.conceptGallery;
+  if (!gallery) return null;
+  return Object.values(gallery.packages).find((p) => p.conceptId === conceptId) ?? null;
+}
+
+/** True when gallery visual changed but ExecutableConceptPackage still locks the old image URL. */
+export function executablePackageVisualDrift(session: ConceptDirectedTwinSession): boolean {
+  const active = getActiveConceptCandidate(session);
+  if (!active?.visualAssetUrl) return false;
+  const pkg = findExecutablePackageForConcept(session, active.conceptId);
+  if (!pkg) return false;
+  return (
+    pkg.visualAuthority.imageUrl !== active.visualAssetUrl ||
+    (active.visualAsset != null && pkg.visualAuthority.imageStorageRef !== active.visualAsset)
+  );
+}
+
+/** Sync package visual authority + READY status from active candidate (rebuild / regenerate without re-approve). */
+export function refreshExecutablePackageForActiveCandidate(
+  session: ConceptDirectedTwinSession,
+): ConceptDirectedTwinSession {
+  const gallery = session.conceptGallery;
+  if (!gallery) return session;
+  const active = getActiveConceptCandidate(session);
+  if (!active?.visualAssetUrl) return session;
+
+  const existing = findExecutablePackageForConcept(session, active.conceptId);
+  if (!existing) return session;
+  if (!executablePackageVisualDrift(session)) return session;
+
+  const lockedAt = new Date().toISOString();
+  const pkg = {
+    ...existing,
+    visualAuthority: {
+      imageUrl: active.visualAssetUrl,
+      imageStorageRef: active.visualAsset,
+      lockedAt,
+    },
+    status: 'READY' as const,
+  };
+
+  const blueprintRaw =
+    (active.executionBlueprintId ? gallery.sanitizedBlueprints[active.executionBlueprintId] : null) ??
+    gallery.blueprints[active.conceptBlueprintId];
+  let clientCanvasBoundaries = gallery.clientCanvasBoundaries;
+  if (blueprintRaw) {
+    const hostBoundary = sanitizeConceptForHostBoundary({
+      conceptId: active.conceptId,
+      pageId: active.pageId,
+      blueprint: applyBlueprintOwnershipTags(blueprintRaw, { fullPageConceptImage: true }),
+      originalConceptImageUrl: active.visualAssetUrl,
+    });
+    clientCanvasBoundaries = {
+      ...gallery.clientCanvasBoundaries,
+      [active.conceptId]: hostBoundary.clientCanvasBoundary,
+    };
+  }
+
+  return {
+    ...session,
+    approvedVisualAuthority: {
+      versionId: active.legacyVersionId ?? active.conceptId,
+      imageUrl: active.visualAssetUrl,
+      imageStorageRef: active.visualAsset,
+      lockedAt,
+    },
+    conceptGallery: {
+      ...gallery,
+      packages: { ...gallery.packages, [pkg.packageId]: pkg },
+      clientCanvasBoundaries,
+    },
+    updatedAt: lockedAt,
+  };
+}
+
 function upsertExecutablePackageForActiveConcept(
   session: ConceptDirectedTwinSession,
   input: {
@@ -40,7 +119,6 @@ function upsertExecutablePackageForActiveConcept(
 ): ConceptDirectedTwinSession {
   const gallery = session.conceptGallery!;
   const existing = Object.values(gallery.packages).find((p) => p.conceptId === input.candidate.conceptId);
-  if (existing) return session;
 
   if (!canBuildConcept(input.candidate.buildReadiness, input.candidate.founderJudgment === 'APPROVED')) {
     return session;
@@ -51,19 +129,27 @@ function upsertExecutablePackageForActiveConcept(
     blueprint: input.executableBlueprint,
     manifest: input.manifest,
     bindingPlan: input.bindingPlan,
-    shellContract: [
+    shellContract: existing?.shellContract ?? [
       session.brandContext.hostClientFirewall,
       'SITE 00 bottom nav — TwinSite00HostBottomNav (canonical, not generated)',
     ],
-    hostShellContract: input.hostBoundary.hostShellContract,
+    hostShellContract: input.hostBoundary.hostShellContract ?? existing?.hostShellContract,
     hostBoundary: input.hostBoundary,
   });
+
+  const packageId = existing?.packageId ?? pkg.packageId;
+  const merged = {
+    ...pkg,
+    packageId,
+    createdAt: existing?.createdAt ?? pkg.createdAt,
+    status: 'READY' as const,
+  };
 
   return {
     ...session,
     conceptGallery: {
       ...gallery,
-      packages: { ...gallery.packages, [pkg.packageId]: pkg },
+      packages: { ...gallery.packages, [packageId]: merged },
     },
   };
 }
@@ -72,7 +158,13 @@ function upsertExecutablePackageForActiveConcept(
 export function prepareConceptDirectedTwinV2Build(
   session: ConceptDirectedTwinSession,
 ): ConceptDirectedTwinSession {
-  let working = ensureConceptGallery(session);
+  let working =
+    session.conceptGallery?.candidates.length && session.conceptGallery.buildRef
+      ? session
+      : ensureConceptGallery(session);
+  if (executablePackageVisualDrift(working)) {
+    working = refreshExecutablePackageForActiveCandidate(working);
+  }
   const active = getActiveConceptCandidate(working);
   if (!active) {
     throw new Error('TWIN_V2_BUILD_BLOCKED: no active concept');

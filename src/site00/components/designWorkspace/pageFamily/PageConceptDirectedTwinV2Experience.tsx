@@ -434,6 +434,9 @@ export function PageConceptDirectedTwinV2Experience({
         tone: 'error',
         text: `BUILD STOPPED — ${msg}`,
       });
+      window.requestAnimationFrame(() => {
+        buildResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     } finally {
       setBuilding(false);
     }
@@ -574,8 +577,17 @@ export function PageConceptDirectedTwinV2Experience({
             </details>
           ) : null}
           <div className="site00-twin-v2-concept__built-preview-frame">
-            <ResolveConceptDirectedTwinV2Renderer projectSlug={session.projectId} session={session} />
+            <ResolveConceptDirectedTwinV2Renderer
+              key={`${session.renderedTwin?.compilerRunId ?? session.renderedTwin?.builtAt ?? 'twin'}-${activeConcept.conceptId}`}
+              projectSlug={session.projectId}
+              session={session}
+            />
           </div>
+          {buildBanner && buildBanner.tone === 'error' ? (
+            <p className="site00-twin-v2-concept__build-banner site00-twin-v2-concept__build-banner--error" role="alert">
+              {buildBanner.text}
+            </p>
+          ) : null}
           <div className="site00-twin-v2-concept__built-actions">
             <button
               type="button"
