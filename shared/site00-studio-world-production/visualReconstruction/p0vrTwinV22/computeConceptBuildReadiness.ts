@@ -6,6 +6,7 @@ import type {
   ConceptFunctionBindingPlan,
 } from './types.js';
 import type { SanitizedConceptBoundaryResult } from '../p0vrTwinV22R2/types.js';
+import { assertClientCanvasExcludesHostArtifactExtent } from '../p0vrTwinV22R2/assertClientCanvasExcludesHostArtifactExtent.js';
 
 export function computeConceptBuildReadiness(input: {
   candidate: Pick<ConceptCandidate, 'visualAssetUrl' | 'founderJudgment' | 'visualAuthorityStatus'>;
@@ -29,11 +30,25 @@ export function computeConceptBuildReadiness(input: {
       input.bindingPlan.unboundFunctions.length <= 2,
   );
   const shellReady = Boolean(input.blueprint?.shellRelationship);
+  let clientCanvasTrimOk = true;
+  if (input.hostBoundary?.clientCanvasBoundary) {
+    try {
+      assertClientCanvasExcludesHostArtifactExtent({
+        boundary: input.hostBoundary.clientCanvasBoundary,
+        generatedHostArtifacts: input.hostBoundary.generatedHostArtifacts,
+      });
+    } catch {
+      clientCanvasTrimOk = false;
+    }
+  }
+
   const hostBoundaryReady = input.hostBoundary
     ? Boolean(
-        input.hostBoundary.sanitizedBlueprint.objects.every((o) => !o.isGeneratedHostArtifact) &&
+        clientCanvasTrimOk &&
+          input.hostBoundary.sanitizedBlueprint.objects.every((o) => !o.isGeneratedHostArtifact) &&
           input.hostBoundary.ownershipReceipt.status === 'RESOLVED' &&
-          input.hostBoundary.hostShellContract.status === 'LOCKED',
+          input.hostBoundary.hostShellContract.status === 'LOCKED' &&
+          input.hostBoundary.clientCanvasBoundary.sanitizedCanvasHeight > 0,
       )
     : Boolean(input.blueprint && input.blueprint.objects.every((o) => !o.isGeneratedHostArtifact && o.type !== 'nav'));
   const responsiveReady = Boolean(input.blueprint?.responsiveRelationships.length);

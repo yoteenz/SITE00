@@ -34,6 +34,8 @@ export function emptyConceptGallery(): ConceptGalleryState {
     hostShellContracts: {},
     compositePreviews: {},
     hostBoundarySanitizationReceipts: {},
+    clientCanvasBoundaries: {},
+    clientCanvasTrimReceipts: {},
   };
 }
 
@@ -70,6 +72,8 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
   const hostShellContracts = { ...gallery.hostShellContracts };
   const compositePreviews = { ...gallery.compositePreviews };
   const hostBoundarySanitizationReceipts = { ...(gallery.hostBoundarySanitizationReceipts ?? {}) };
+  const clientCanvasBoundaries = { ...(gallery.clientCanvasBoundaries ?? {}) };
+  const clientCanvasTrimReceipts = { ...(gallery.clientCanvasTrimReceipts ?? {}) };
   const hostBoundaryMaps = {
     sanitizedBlueprints,
     generatedHostArtifacts,
@@ -78,6 +82,8 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
     hostShellContracts,
     compositePreviews,
     hostBoundarySanitizationReceipts,
+    clientCanvasBoundaries,
+    clientCanvasTrimReceipts,
   };
 
   for (const h of session.history) {
@@ -118,6 +124,8 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
     hostShellContracts,
     compositePreviews,
     hostBoundarySanitizationReceipts,
+    clientCanvasBoundaries,
+    clientCanvasTrimReceipts,
   };
 }
 
@@ -184,6 +192,8 @@ function attachBlueprintLineage(
     | 'hostShellContracts'
     | 'compositePreviews'
     | 'hostBoundarySanitizationReceipts'
+    | 'clientCanvasBoundaries'
+    | 'clientCanvasTrimReceipts'
   >,
 ): ConceptCandidate {
   let blueprint = generateConceptBlueprint({
@@ -235,6 +245,8 @@ function attachBlueprintLineage(
   hostBoundaryMaps.canvasBoundaries[candidate.conceptId] = boundary.canvasBoundary;
   hostBoundaryMaps.hostShellContracts[candidate.conceptId] = boundary.hostShellContract;
   hostBoundaryMaps.compositePreviews[candidate.conceptId] = boundary.compositePreview;
+  hostBoundaryMaps.clientCanvasBoundaries![candidate.conceptId] = boundary.clientCanvasBoundary;
+  hostBoundaryMaps.clientCanvasTrimReceipts![candidate.conceptId] = boundary.clientCanvasTrimReceipt;
   const receipt = buildHostBoundarySanitizationReceipt({
     conceptId: candidate.conceptId,
     originalBlueprint: blueprint,
@@ -345,6 +357,8 @@ export function addConceptCandidateFromGeneration(
   const hostShellContracts = { ...gallery.hostShellContracts };
   const compositePreviews = { ...gallery.compositePreviews };
   const hostBoundarySanitizationReceipts = { ...(gallery.hostBoundarySanitizationReceipts ?? {}) };
+  const clientCanvasBoundaries = { ...(gallery.clientCanvasBoundaries ?? {}) };
+  const clientCanvasTrimReceipts = { ...(gallery.clientCanvasTrimReceipts ?? {}) };
   candidate = attachBlueprintLineage(base, candidate, blueprints, manifests, bindingPlans, reconciliations, {
     sanitizedBlueprints,
     generatedHostArtifacts,
@@ -353,6 +367,8 @@ export function addConceptCandidateFromGeneration(
     hostShellContracts,
     compositePreviews,
     hostBoundarySanitizationReceipts,
+    clientCanvasBoundaries,
+    clientCanvasTrimReceipts,
   });
 
   return {
@@ -373,6 +389,8 @@ export function addConceptCandidateFromGeneration(
       hostShellContracts,
       compositePreviews,
       hostBoundarySanitizationReceipts,
+      clientCanvasBoundaries,
+      clientCanvasTrimReceipts,
     },
     updatedAt: new Date().toISOString(),
   };

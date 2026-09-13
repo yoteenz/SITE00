@@ -127,6 +127,8 @@ export function hydrateConceptGallerySession(
         hostShellContracts: priorGallery?.hostShellContracts ?? {},
         compositePreviews: priorGallery?.compositePreviews ?? {},
         hostBoundarySanitizationReceipts: priorGallery?.hostBoundarySanitizationReceipts ?? {},
+        clientCanvasBoundaries: priorGallery?.clientCanvasBoundaries ?? {},
+        clientCanvasTrimReceipts: priorGallery?.clientCanvasTrimReceipts ?? {},
       },
     });
   } else if (priorGallery) {

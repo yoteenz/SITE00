@@ -5,6 +5,9 @@ import { detectGeneratedHostArtifacts } from './detectGeneratedHostArtifacts.js'
 import { resolveOwnershipReceipt } from './resolveOwnershipReceipt.js';
 import { buildNdxbookMobileTwinV2CanvasBoundary } from './twinV2CanvasBoundary.js';
 import type { SanitizedConceptBoundaryResult } from './types.js';
+import { computeClientCanvasBoundary } from './computeClientCanvasBoundary.js';
+import { buildClientCanvasTrimReceipt } from './buildClientCanvasTrimReceipt.js';
+import { assertClientCanvasExcludesHostArtifactExtent } from './assertClientCanvasExcludesHostArtifactExtent.js';
 
 export function sanitizeConceptForHostBoundary(input: {
   conceptId: string;
@@ -43,6 +46,25 @@ export function sanitizeConceptForHostBoundary(input: {
     generatedHostArtifacts,
   });
 
+  const clientCanvasBoundary = computeClientCanvasBoundary({
+    conceptId: input.conceptId,
+    executionBlueprint: sanitizedBlueprint,
+    generatedHostArtifacts,
+    hostBottomNavHeightNorm: hostShellContract.safeAreaRules.bottomInsetNorm,
+  });
+  assertClientCanvasExcludesHostArtifactExtent({ boundary: clientCanvasBoundary, generatedHostArtifacts });
+  const clientCanvasTrimReceipt = buildClientCanvasTrimReceipt(clientCanvasBoundary);
+
+  const trimmedCanvasBoundary = {
+    ...canvasBoundary,
+    contentCanvasBounds: {
+      x: 0,
+      y: clientCanvasBoundary.canvasTop,
+      w: 1,
+      h: clientCanvasBoundary.sanitizedCanvasHeight,
+    },
+  };
+
   const compositePreview = buildHostShellCompositePreview({
     conceptId: input.conceptId,
     originalConceptImageUrl: input.originalConceptImageUrl,
@@ -57,9 +79,11 @@ export function sanitizeConceptForHostBoundary(input: {
     sanitizedBlueprint,
     generatedHostArtifacts,
     ownershipReceipt,
-    canvasBoundary,
+    canvasBoundary: trimmedCanvasBoundary,
     hostShellContract,
     compositePreview,
+    clientCanvasBoundary,
+    clientCanvasTrimReceipt,
     originalConceptImagePreserved: Boolean(input.originalConceptImageUrl),
   };
 }

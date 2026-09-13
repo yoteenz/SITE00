@@ -7,6 +7,8 @@ import type {
   TwinV2CanvasBoundary,
 } from '../p0vrTwinV22R2/types.js';
 import type { HostBoundarySanitizationReceipt } from '../p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
+import type { ClientCanvasBoundary } from '../p0vrTwinV22R2/computeClientCanvasBoundary.js';
+import type { ClientCanvasTrimReceipt } from '../p0vrTwinV22R2/buildClientCanvasTrimReceipt.js';
 import type { VisualOwnership } from '../p0vrTwinV22R2/types.js';
 import type {
   BlueprintGrammar,
@@ -241,6 +243,8 @@ export type ConceptGalleryState = {
   hostShellContracts: Record<string, HostShellContract>;
   compositePreviews: Record<string, HostShellCompositePreview>;
   hostBoundarySanitizationReceipts?: Record<string, HostBoundarySanitizationReceipt>;
+  clientCanvasBoundaries?: Record<string, ClientCanvasBoundary>;
+  clientCanvasTrimReceipts?: Record<string, ClientCanvasTrimReceipt>;
   backfillReceipt?: BackfillReceipt;
   galleryHydrationReceipt?: GalleryHydrationReceipt;
 };

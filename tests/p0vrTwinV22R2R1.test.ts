@@ -133,6 +133,6 @@ describe('P0.VR.TWINV2.2R2R1 sanitized blueprint binding', () => {
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/composeFromExecutablePackage.ts')).not.toContain(
       'promoteTwinToLive',
     );
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v356');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v357');
   });
 });

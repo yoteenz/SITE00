@@ -8,12 +8,14 @@ import type {
   GeneratedHostArtifact,
   HostShellContract,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/types.js';
+import type { ClientCanvasBoundary } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeClientCanvasBoundary.js';
 import type { HostBoundarySanitizationReceipt } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildHostBoundarySanitizationReceipt.js';
 import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { canBuildConcept } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import { buildBlueprintRegionInspectionRows } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/buildBlueprintRegionInspectionRows.js';
 import { computeExecutableConceptPackageReadiness } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/computeExecutableConceptPackageReadiness.js';
 import { TwinV2HostShellCompositePreview } from './TwinV2HostShellCompositePreview.js';
+import { TwinV2ExecutionClientCanvasFrame } from './TwinV2ExecutionClientCanvasFrame.js';
 
 type BlueprintViewMode =
   | 'VISUAL'
@@ -34,6 +36,7 @@ type Props = {
   generatedHostArtifacts: Record<string, GeneratedHostArtifact[]>;
   hostShellContracts: Record<string, HostShellContract>;
   hostBoundaryReceipts: Record<string, HostBoundarySanitizationReceipt>;
+  clientCanvasBoundaries: Record<string, ClientCanvasBoundary>;
   bindingSummaries: Record<string, { region: string; fn: string }[]>;
   onSelectConcept: (conceptId: string) => void;
   onApprove: () => void;
@@ -87,6 +90,7 @@ export function ConceptDirectedTwinGallery({
   generatedHostArtifacts,
   hostShellContracts,
   hostBoundaryReceipts,
+  clientCanvasBoundaries,
   bindingSummaries,
   onSelectConcept,
   onApprove,
@@ -116,6 +120,7 @@ export function ConceptDirectedTwinGallery({
   const hostArtifacts = active ? generatedHostArtifacts[active.conceptId] ?? [] : [];
   const hostContract = active ? hostShellContracts[active.conceptId] ?? null : null;
   const hostReceipt = active ? hostBoundaryReceipts[active.conceptId] : null;
+  const clientCanvasBoundary = active ? clientCanvasBoundaries[active.conceptId] ?? null : null;
   const bindings = active ? bindingSummaries[active.functionBindingPlanId] ?? [] : [];
 
   const inspectionRows =
@@ -287,12 +292,14 @@ export function ConceptDirectedTwinGallery({
         ))}
       </div>
 
-      {viewMode === 'CLIENT_CANVAS' && active.visualAssetUrl ? (
+      {viewMode === 'CLIENT_CANVAS' && active.visualAssetUrl && clientCanvasBoundary ? (
         <section className="site00-twin-v2-gallery__blueprint-panel" data-panel="client-canvas">
-          <p>NDXBOOK client creative area only (generated host chrome excluded from build).</p>
-          <div className="site00-twin-v2-host-composite__canvas site00-twin-v2-host-composite__canvas--client-only">
-            <img src={active.visualAssetUrl} alt="Client canvas authority" draggable={false} />
-          </div>
+          <p>NDXBOOK client creative area only (trimmed at last client-owned boundary).</p>
+          <TwinV2ExecutionClientCanvasFrame
+            imageUrl={active.visualAssetUrl}
+            boundary={clientCanvasBoundary}
+            alt="Client canvas authority"
+          />
         </section>
       ) : null}
 
@@ -301,6 +308,7 @@ export function ConceptDirectedTwinGallery({
           <TwinV2HostShellCompositePreview
             projectSlug={projectSlug}
             clientCanvasImageUrl={active.visualAssetUrl ?? null}
+            clientCanvasBoundary={clientCanvasBoundary}
           />
           <p className="site00-twin-v2-gallery__host-preview-note">
             REAL SITE 00 HOST SHELL + APPROVED NDXBOOK CLIENT CANVAS. Generated host artifacts are excluded from build.
