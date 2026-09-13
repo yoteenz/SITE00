@@ -4,6 +4,13 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
+## 2026-09-13 — R5F2 mobile recovery strip (v411)
+
+- **Founder report:** On **site00.fsbw-dev.com** mobile, did not see promised LOCKED / GENERATE DERIVATIVES UI — only dense header text and PAIR REVIEW after scroll; **GENERATE DERIVATIVES** lived inside collapsed **AUTHORITY PAIR · tap to manage** dock (desktop-only dock visible ≥720px).
+- **Fix:** `DesignPageV3AuthorityRecoveryStrip` — lime card under header with explicit LOCKED / FOUNDER APPROVED / DERIVATION READY rows + full-width **GENERATE DERIVATIVES** (`data-testid=v3-generate-derivatives-mobile-primary`); auto-expand mobile dock when R5F2 receipt PASS + pair locked; toggle label **LOCKED · show dock**. Build **v411**.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV3.0R5F2 founder authority injection + derivation unblock (v410)
 
 - **Context:** R5/R5F1 pipeline existed but broken gallery img display blocked in-product pair lock; founder attached **exact** approved mobile + desktop JPG masters for NDXBOOK (no FAL regen).
