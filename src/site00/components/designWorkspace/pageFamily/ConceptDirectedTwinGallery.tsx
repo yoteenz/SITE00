@@ -4,15 +4,28 @@
 
 import { useCallback, useRef, useState, type TouchEvent } from 'react';
 import type { ConceptCandidate, ConceptBlueprint } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/types.js';
+import type { GeneratedHostArtifact } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22R2/types.js';
 import { sortCandidatesForGallery } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { canBuildConcept } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
+import { TwinV2HostShellCompositePreview } from './TwinV2HostShellCompositePreview.js';
 
-type BlueprintViewMode = 'VISUAL' | 'BLUEPRINT' | 'OVERLAY' | 'OBJECT_MAP' | 'FUNCTION_MAP' | 'ASSETS';
+type BlueprintViewMode =
+  | 'VISUAL'
+  | 'CLIENT_CANVAS'
+  | 'HOST_PREVIEW'
+  | 'BLUEPRINT'
+  | 'OVERLAY'
+  | 'OBJECT_MAP'
+  | 'FUNCTION_MAP'
+  | 'ASSETS';
 
 type Props = {
+  projectSlug: string;
   candidates: ConceptCandidate[];
   activeConceptId: string | null;
   blueprints: Record<string, ConceptBlueprint>;
+  sanitizedBlueprints: Record<string, ConceptBlueprint>;
+  generatedHostArtifacts: Record<string, GeneratedHostArtifact[]>;
   bindingSummaries: Record<string, { region: string; fn: string }[]>;
   onSelectConcept: (conceptId: string) => void;
   onApprove: () => void;
@@ -37,6 +50,7 @@ function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
       {chip(r.blueprintReady, 'BLUEPRINT')}
       {chip(r.assetsReady, 'ASSETS')}
       {chip(r.functionsReady, 'FUNCTIONS')}
+      {chip(r.hostBoundaryReady, 'HOST BOUNDARY')}
       {r.status === 'READY_TO_BUILD' || r.status === 'APPROVED_READY_TO_BUILD' ? (
         <strong className="site00-twin-v2-gallery__ready-ok">READY TO BUILD</strong>
       ) : candidate.founderJudgment === 'APPROVED' ? (
@@ -48,10 +62,28 @@ function ReadinessStrip({ candidate }: { candidate: ConceptCandidate }) {
   );
 }
 
+function ownershipBadge(ownership?: string, artifact?: boolean) {
+  if (artifact) {
+    return (
+      <span className="site00-twin-v2-gallery__ownership-badge is-host-artifact">GENERATED HOST ARTIFACT</span>
+    );
+  }
+  if (ownership === 'HOST_OWNED_LOCKED') {
+    return <span className="site00-twin-v2-gallery__ownership-badge">HOST LOCKED</span>;
+  }
+  if (ownership === 'CLIENT_OWNED_CREATIVE') {
+    return <span className="site00-twin-v2-gallery__ownership-badge is-client">CLIENT CREATIVE</span>;
+  }
+  return null;
+}
+
 export function ConceptDirectedTwinGallery({
+  projectSlug,
   candidates,
   activeConceptId,
   blueprints,
+  sanitizedBlueprints,
+  generatedHostArtifacts,
   bindingSummaries,
   onSelectConcept,
   onApprove,
@@ -71,6 +103,11 @@ export function ConceptDirectedTwinGallery({
   );
   const active = sorted[activeIndex] ?? sorted.at(-1);
   const blueprint = active ? blueprints[active.conceptBlueprintId] : null;
+  const sanitized =
+    active && sanitizedBlueprints
+      ? Object.values(sanitizedBlueprints).find((b) => b.conceptId === active.conceptId) ?? blueprint
+      : blueprint;
+  const hostArtifacts = active ? generatedHostArtifacts[active.conceptId] ?? [] : [];
   const bindings = active ? bindingSummaries[active.functionBindingPlanId] ?? [] : [];
 
   const scrollToIndex = useCallback(
@@ -184,8 +221,18 @@ export function ConceptDirectedTwinGallery({
       </div>
 
       <div className="site00-twin-v2-gallery__view-tabs" role="tablist" aria-label="Blueprint view">
-        {(['VISUAL', 'BLUEPRINT', 'OVERLAY', 'OBJECT_MAP', 'FUNCTION_MAP', 'ASSETS'] as BlueprintViewMode[]).map(
-          (mode) => (
+        {(
+          [
+            'VISUAL',
+            'CLIENT_CANVAS',
+            'HOST_PREVIEW',
+            'BLUEPRINT',
+            'OVERLAY',
+            'OBJECT_MAP',
+            'FUNCTION_MAP',
+            'ASSETS',
+          ] as BlueprintViewMode[]
+        ).map((mode) => (
             <button
               key={mode}
               type="button"
@@ -193,28 +240,56 @@ export function ConceptDirectedTwinGallery({
               className={viewMode === mode ? 'is-active' : ''}
               onClick={() => setViewMode(mode)}
             >
-              {mode === 'BLUEPRINT' || mode === 'ASSETS' ? `VIEW ${mode.replace(/_/g, ' ')}` : mode.replace(/_/g, ' ')}
+              {mode === 'BLUEPRINT' || mode === 'ASSETS' || mode === 'CLIENT_CANVAS' || mode === 'HOST_PREVIEW'
+                ? `VIEW ${mode.replace(/_/g, ' ')}`
+                : mode.replace(/_/g, ' ')}
             </button>
-          ),
-        )}
+        ))}
       </div>
 
-      {viewMode !== 'VISUAL' && blueprint ? (
+      {viewMode === 'CLIENT_CANVAS' && active?.visualAssetUrl ? (
+        <section className="site00-twin-v2-gallery__blueprint-panel">
+          <p>Client canvas authority (host chrome excluded from build package).</p>
+          <img src={active.visualAssetUrl} alt="Client canvas" style={{ maxWidth: '100%' }} />
+        </section>
+      ) : null}
+
+      {viewMode === 'HOST_PREVIEW' ? (
+        <TwinV2HostShellCompositePreview
+          projectSlug={projectSlug}
+          clientCanvasImageUrl={active?.visualAssetUrl ?? null}
+        />
+      ) : null}
+
+      {viewMode !== 'VISUAL' && viewMode !== 'CLIENT_CANVAS' && viewMode !== 'HOST_PREVIEW' && blueprint ? (
         <section className="site00-twin-v2-gallery__blueprint-panel">
           {viewMode === 'BLUEPRINT' || viewMode === 'OVERLAY' ? (
             <ul>
               {blueprint.sections.map((s) => (
                 <li key={s.id}>
                   {s.label} — y:{s.bounds.y.toFixed(2)} h:{s.bounds.h.toFixed(2)}
+                  {ownershipBadge('CLIENT_OWNED_CREATIVE')}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {hostArtifacts.length > 0 ? (
+            <ul aria-label="Generated host artifacts excluded">
+              {hostArtifacts.map((a) => (
+                <li key={a.objectId}>
+                  {a.objectId} — {a.artifactType}
+                  {ownershipBadge(undefined, true)}
+                  <span> EXCLUDED FROM CLIENT BUILD</span>
                 </li>
               ))}
             </ul>
           ) : null}
           {viewMode === 'OBJECT_MAP' ? (
             <ul>
-              {blueprint.objects.slice(0, 12).map((o) => (
+              {(sanitized ?? blueprint).objects.slice(0, 12).map((o) => (
                 <li key={o.objectId}>
                   {o.objectId} · {o.role} · z{o.zLayer}
+                  {ownershipBadge(o.ownership, o.isGeneratedHostArtifact)}
                 </li>
               ))}
             </ul>

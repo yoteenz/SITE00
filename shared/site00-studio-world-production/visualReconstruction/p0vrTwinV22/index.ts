@@ -25,3 +25,4 @@ export {
 } from './importExistingV2ConceptFromUrl.js';
 export * from './requestTwinV2ImportConcept.js';
 export * from './twinV2UiPersistence.js';
+export * from '../p0vrTwinV22R2/index.js';

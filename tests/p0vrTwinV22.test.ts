@@ -185,24 +185,22 @@ describe('P0.VR.TWINV2.2 concept gallery + executable package', () => {
       imageStorageRef: 'stored-ref',
     });
     const c = getActiveConceptCandidate(ensureConceptGallery(session))!;
-    const readiness = computeConceptBuildReadiness({
-      candidate: c,
-      blueprint: session.conceptGallery!.blueprints[c.conceptBlueprintId],
-      manifest: session.conceptGallery!.manifests[c.assetManifestId],
-      bindingPlan: session.conceptGallery!.bindingPlans[c.functionBindingPlanId],
-    });
-    expect(readiness.status).toBe('READY_TO_BUILD');
+    expect(c.buildReadiness.status).toBe('READY_TO_BUILD');
+    expect(c.buildReadiness.hostBoundaryReady).toBe(true);
     session = approveActiveConceptCandidate(session);
     const approved = getActiveConceptCandidate(session)!;
+    const sanitized =
+      Object.values(session.conceptGallery!.sanitizedBlueprints).find((b) => b.conceptId === approved.conceptId) ??
+      session.conceptGallery!.blueprints[approved.conceptBlueprintId];
     const pkg = buildExecutableConceptPackage({
       candidate: approved,
-      blueprint: session.conceptGallery!.blueprints[approved.conceptBlueprintId],
+      blueprint: sanitized,
       manifest: session.conceptGallery!.manifests[approved.assetManifestId],
       bindingPlan: session.conceptGallery!.bindingPlans[approved.functionBindingPlanId],
       shellContract: ['SITE_00 host'],
     });
     expect(pkg.status).toBe('READY');
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v351');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v352');
   });
 
   it('blueprint generation is concept-specific from creative direction', () => {

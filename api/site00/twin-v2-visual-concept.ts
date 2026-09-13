@@ -94,6 +94,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     creativeDirection: body.session.creativeDirection,
     viewport: 'mobile',
     refineInstruction: refine,
+    clientCanvasOnly: true,
   });
 
   try {

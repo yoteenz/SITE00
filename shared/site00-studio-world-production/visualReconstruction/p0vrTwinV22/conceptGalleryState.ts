@@ -11,6 +11,8 @@ import { generateConceptAssetManifest } from './generateConceptAssetManifest.js'
 import { generateConceptFunctionBindingPlan } from './generateConceptFunctionBindingPlan.js';
 import { computeConceptBuildReadiness } from './computeConceptBuildReadiness.js';
 import { hydrateConceptGallerySession } from './hydrateConceptGallerySession.js';
+import { applyBlueprintOwnershipTags } from '../p0vrTwinV22R2/applyBlueprintOwnershipTags.js';
+import { sanitizeConceptForHostBoundary } from '../p0vrTwinV22R2/sanitizeConceptForHostBoundary.js';
 
 export function emptyConceptGallery(): ConceptGalleryState {
   return {
@@ -23,6 +25,12 @@ export function emptyConceptGallery(): ConceptGalleryState {
     reconciliations: {},
     packages: {},
     fidelityReceipts: {},
+    sanitizedBlueprints: {},
+    generatedHostArtifacts: {},
+    ownershipReceipts: {},
+    canvasBoundaries: {},
+    hostShellContracts: {},
+    compositePreviews: {},
   };
 }
 
@@ -52,6 +60,20 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
   const manifests = { ...gallery.manifests };
   const bindingPlans = { ...gallery.bindingPlans };
   const reconciliations = { ...gallery.reconciliations };
+  const sanitizedBlueprints = { ...gallery.sanitizedBlueprints };
+  const generatedHostArtifacts = { ...gallery.generatedHostArtifacts };
+  const ownershipReceipts = { ...gallery.ownershipReceipts };
+  const canvasBoundaries = { ...gallery.canvasBoundaries };
+  const hostShellContracts = { ...gallery.hostShellContracts };
+  const compositePreviews = { ...gallery.compositePreviews };
+  const hostBoundaryMaps = {
+    sanitizedBlueprints,
+    generatedHostArtifacts,
+    ownershipReceipts,
+    canvasBoundaries,
+    hostShellContracts,
+    compositePreviews,
+  };
 
   for (const h of session.history) {
     if (!h.imageUrl && !h.imageStorageRef) continue;
@@ -63,7 +85,15 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
         ? candidates.find((c) => c.legacyVersionId === h.parentVersionId)?.conceptId ?? null
         : null,
     });
-    candidate = attachBlueprintLineage(session, candidate, blueprints, manifests, bindingPlans, reconciliations);
+    candidate = attachBlueprintLineage(
+      session,
+      candidate,
+      blueprints,
+      manifests,
+      bindingPlans,
+      reconciliations,
+      hostBoundaryMaps,
+    );
     candidates.push(candidate);
   }
 
@@ -76,6 +106,12 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
     manifests,
     bindingPlans,
     reconciliations,
+    sanitizedBlueprints,
+    generatedHostArtifacts,
+    ownershipReceipts,
+    canvasBoundaries,
+    hostShellContracts,
+    compositePreviews,
   };
 }
 
@@ -112,8 +148,9 @@ function materializeCandidateFromVersion(
       assetsReady: false,
       functionsReady: false,
       shellReady: false,
+      hostBoundaryReady: false,
       responsiveReady: false,
-      unresolved: ['blueprint', 'assets', 'functions'],
+      unresolved: ['blueprint', 'assets', 'functions', 'hostBoundary'],
       status: 'VISUAL_ONLY',
     },
     founderJudgment: version.status === 'APPROVED' ? 'APPROVED' : 'NONE',
@@ -132,8 +169,17 @@ function attachBlueprintLineage(
   manifests: ConceptGalleryState['manifests'],
   bindingPlans: ConceptGalleryState['bindingPlans'],
   reconciliations: ConceptGalleryState['reconciliations'],
+  hostBoundaryMaps: Pick<
+    ConceptGalleryState,
+    | 'sanitizedBlueprints'
+    | 'generatedHostArtifacts'
+    | 'ownershipReceipts'
+    | 'canvasBoundaries'
+    | 'hostShellContracts'
+    | 'compositePreviews'
+  >,
 ): ConceptCandidate {
-  const blueprint = generateConceptBlueprint({
+  let blueprint = generateConceptBlueprint({
     conceptId: candidate.conceptId,
     creativeDirection: candidate.creativeDirection,
     blueprintGrammar: candidate.blueprintGrammarSnapshot,
@@ -141,6 +187,14 @@ function attachBlueprintLineage(
   });
   blueprint.blueprintId = candidate.conceptBlueprintId;
   blueprint.status = 'RECONCILED';
+  blueprint = applyBlueprintOwnershipTags(blueprint, { fullPageConceptImage: Boolean(candidate.visualAssetUrl) });
+
+  const boundary = sanitizeConceptForHostBoundary({
+    conceptId: candidate.conceptId,
+    pageId: candidate.pageId,
+    blueprint,
+    originalConceptImageUrl: candidate.visualAssetUrl,
+  });
 
   const reconciliation = reconcileConceptBlueprint({
     conceptId: candidate.conceptId,
@@ -150,7 +204,7 @@ function attachBlueprintLineage(
 
   const manifest = generateConceptAssetManifest({
     conceptId: candidate.conceptId,
-    blueprint,
+    blueprint: boundary.sanitizedBlueprint,
     conceptImageUrl: candidate.visualAssetUrl,
     referenceAssets: session.referenceAssets,
   });
@@ -158,7 +212,7 @@ function attachBlueprintLineage(
 
   const bindingPlan = generateConceptFunctionBindingPlan({
     conceptId: candidate.conceptId,
-    blueprint,
+    blueprint: boundary.sanitizedBlueprint,
     functionGraph: candidate.functionGraphSnapshot,
   });
   bindingPlan.bindingPlanId = candidate.functionBindingPlanId;
@@ -168,11 +222,19 @@ function attachBlueprintLineage(
   bindingPlans[bindingPlan.bindingPlanId] = bindingPlan;
   reconciliations[reconciliation.reconciliationId] = reconciliation;
 
+  hostBoundaryMaps.sanitizedBlueprints[boundary.sanitizedBlueprintId] = boundary.sanitizedBlueprint;
+  hostBoundaryMaps.generatedHostArtifacts[candidate.conceptId] = boundary.generatedHostArtifacts;
+  hostBoundaryMaps.ownershipReceipts[candidate.conceptId] = boundary.ownershipReceipt;
+  hostBoundaryMaps.canvasBoundaries[candidate.conceptId] = boundary.canvasBoundary;
+  hostBoundaryMaps.hostShellContracts[candidate.conceptId] = boundary.hostShellContract;
+  hostBoundaryMaps.compositePreviews[candidate.conceptId] = boundary.compositePreview;
+
   const buildReadiness = computeConceptBuildReadiness({
     candidate,
-    blueprint,
+    blueprint: boundary.sanitizedBlueprint,
     manifest,
     bindingPlan,
+    hostBoundary: boundary,
   });
 
   return {
@@ -232,6 +294,7 @@ export function addConceptCandidateFromGeneration(
       assetsReady: false,
       functionsReady: false,
       shellReady: false,
+      hostBoundaryReady: false,
       responsiveReady: false,
       unresolved: [],
       status: 'VISUAL_ONLY',
@@ -248,7 +311,20 @@ export function addConceptCandidateFromGeneration(
   const manifests = { ...gallery.manifests };
   const bindingPlans = { ...gallery.bindingPlans };
   const reconciliations = { ...gallery.reconciliations };
-  candidate = attachBlueprintLineage(base, candidate, blueprints, manifests, bindingPlans, reconciliations);
+  const sanitizedBlueprints = { ...gallery.sanitizedBlueprints };
+  const generatedHostArtifacts = { ...gallery.generatedHostArtifacts };
+  const ownershipReceipts = { ...gallery.ownershipReceipts };
+  const canvasBoundaries = { ...gallery.canvasBoundaries };
+  const hostShellContracts = { ...gallery.hostShellContracts };
+  const compositePreviews = { ...gallery.compositePreviews };
+  candidate = attachBlueprintLineage(base, candidate, blueprints, manifests, bindingPlans, reconciliations, {
+    sanitizedBlueprints,
+    generatedHostArtifacts,
+    ownershipReceipts,
+    canvasBoundaries,
+    hostShellContracts,
+    compositePreviews,
+  });
 
   return {
     ...base,
@@ -261,6 +337,12 @@ export function addConceptCandidateFromGeneration(
       manifests,
       bindingPlans,
       reconciliations,
+      sanitizedBlueprints,
+      generatedHostArtifacts,
+      ownershipReceipts,
+      canvasBoundaries,
+      hostShellContracts,
+      compositePreviews,
     },
     updatedAt: new Date().toISOString(),
   };

@@ -1,5 +1,13 @@
 import type { BUILD_READINESS_STATUSES, CONCEPT_GENERATION_TYPES, P0_VR_TWIN_V22_BUILD } from './constants.js';
 import type {
+  GeneratedHostArtifact,
+  HostShellCompositePreview,
+  HostShellContract,
+  OwnershipResolutionReceipt,
+  TwinV2CanvasBoundary,
+} from '../p0vrTwinV22R2/types.js';
+import type { VisualOwnership } from '../p0vrTwinV22R2/types.js';
+import type {
   BlueprintGrammar,
   CreativeBrandContext,
   PageCreativeDirection,
@@ -16,6 +24,7 @@ export type ConceptBuildReadiness = {
   assetsReady: boolean;
   functionsReady: boolean;
   shellReady: boolean;
+  hostBoundaryReady: boolean;
   responsiveReady: boolean;
   unresolved: string[];
   status: ConceptBuildReadinessStatus;
@@ -35,6 +44,9 @@ export type ConceptBlueprintObject = {
   border: string | null;
   zLayer: number;
   interactionRole: string | null;
+  ownership?: VisualOwnership;
+  ownershipNote?: string | null;
+  isGeneratedHostArtifact?: boolean;
 };
 
 export type ConceptBlueprint = {
@@ -57,6 +69,7 @@ export type ConceptBlueprint = {
   responsiveRelationships: string[];
   interactionRegions: { regionId: string; role: string }[];
   shellRelationship: string;
+  sanitizedFromBlueprintId?: string | null;
   createdAt: string;
   status: 'DRAFT' | 'RECONCILED' | 'LOCKED';
 };
@@ -161,6 +174,7 @@ export type ExecutableConceptPackage = {
   assetManifest: ConceptAssetManifest;
   functionBindingPlan: ConceptFunctionBindingPlan;
   shellContract: string[];
+  hostShellContract?: HostShellContract;
   responsiveContract: string[];
   status: 'READY' | 'BUILDING' | 'BUILT';
   createdAt: string;
@@ -215,6 +229,12 @@ export type ConceptGalleryState = {
   reconciliations: Record<string, ConceptBlueprintReconciliation>;
   packages: Record<string, ExecutableConceptPackage>;
   fidelityReceipts: Record<string, ConceptBuildFidelityReceipt>;
+  sanitizedBlueprints: Record<string, ConceptBlueprint>;
+  generatedHostArtifacts: Record<string, GeneratedHostArtifact[]>;
+  ownershipReceipts: Record<string, OwnershipResolutionReceipt>;
+  canvasBoundaries: Record<string, TwinV2CanvasBoundary>;
+  hostShellContracts: Record<string, HostShellContract>;
+  compositePreviews: Record<string, HostShellCompositePreview>;
   backfillReceipt?: BackfillReceipt;
   galleryHydrationReceipt?: GalleryHydrationReceipt;
 };

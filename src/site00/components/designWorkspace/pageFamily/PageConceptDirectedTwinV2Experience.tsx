@@ -351,9 +351,12 @@ export function PageConceptDirectedTwinV2Experience({
 
       {showGallery && gallery ? (
         <ConceptDirectedTwinGallery
+          projectSlug={session.projectId}
           candidates={galleryCandidates}
           activeConceptId={galleryQuery.activeConceptId}
           blueprints={gallery.blueprints}
+          sanitizedBlueprints={gallery.sanitizedBlueprints ?? {}}
+          generatedHostArtifacts={gallery.generatedHostArtifacts ?? {}}
           bindingSummaries={bindingSummaries}
           onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
           onApprove={handleApprove}

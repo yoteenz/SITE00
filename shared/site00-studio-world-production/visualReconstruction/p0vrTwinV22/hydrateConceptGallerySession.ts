@@ -119,6 +119,12 @@ export function hydrateConceptGallerySession(
         reconciliations: priorGallery?.reconciliations ?? {},
         packages: priorGallery?.packages ?? {},
         fidelityReceipts: priorGallery?.fidelityReceipts ?? {},
+        sanitizedBlueprints: priorGallery?.sanitizedBlueprints ?? {},
+        generatedHostArtifacts: priorGallery?.generatedHostArtifacts ?? {},
+        ownershipReceipts: priorGallery?.ownershipReceipts ?? {},
+        canvasBoundaries: priorGallery?.canvasBoundaries ?? {},
+        hostShellContracts: priorGallery?.hostShellContracts ?? {},
+        compositePreviews: priorGallery?.compositePreviews ?? {},
       },
     });
   } else if (priorGallery) {
