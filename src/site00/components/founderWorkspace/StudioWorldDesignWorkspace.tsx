@@ -88,6 +88,7 @@ import { DesignAssetsWizard } from '../designWorkspace/DesignAssetsWizard';
 import { DesignSkinsWizard } from '../designWorkspace/DesignSkinsWizard';
 import { DesignHistoryTab } from '../designWorkspace/DesignHistoryTab';
 import { DesignMoreTab } from '../designWorkspace/DesignMoreTab';
+import { DesignPageV3AuthorityBatch2Panel } from '../designWorkspace/DesignPageV3AuthorityBatch2Panel.js';
 import { DesignPageV3AuthorityReviewPanel } from '../designWorkspace/DesignPageV3AuthorityReviewPanel.js';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import type { PagesWizardStep } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
@@ -691,6 +692,7 @@ export function StudioWorldDesignWorkspace({
             LOADING {designProjectContext.context.projectName.toUpperCase()} DESIGN CONTEXT…
           </p>
         ) : null}
+        <DesignPageV3AuthorityBatch2Panel projectId={activeDesignProjectId} />
         <DesignPageV3AuthorityReviewPanel projectId={activeDesignProjectId} />
         <DesignWorkspacePrimaryTabRail
           activeTab={primaryTab}

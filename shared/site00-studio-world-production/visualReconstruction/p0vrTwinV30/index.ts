@@ -17,6 +17,8 @@ export * from './designPageAuthorityTerritoryGallery.js';
 export * from './runDesignPageAuthorityGeneration.js';
 export * from './requestDesignPageAuthorityGeneration.js';
 export * from './designPageAuthorityPersistence.js';
+export * from './designPageAuthorityBatch2Module.js';
+export * from './designPageAuthorityBatch2Persistence.js';
 export * from './designPageAuthoritySelfCheck.js';
 export * from './projectCreativeGrounding/index.js';
 export {
