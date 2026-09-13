@@ -8447,3 +8447,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
 - **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
 
+---
+
+## 2026-09-13 — Loader infinite after gate (v354 suspense fallback)
+
+- **Symptom:** Founder: **nothing changed** after v353 — still stuck on loading animation on **site00.com** (bundle had gate failsafe but hang persisted).
+- **Root cause:** `shouldShowSite00ImmersiveLoader()` stays **true on hard reload** even after the gate marks session complete. Lazy-route **Suspense fallbacks** portal a **non-exiting** immersive loader (progress 0, no failsafe) over the app.
+- **Fix (v354):** Fallbacks skip when `isSite00ImmersiveSessionComplete()`; **AsstsColdStartGate** parity with world gate; boot CSS `:has()` so `#root` is not hidden after shell hidden; scheduled boot teardown + force-reveal in `main.tsx`.
+

@@ -4,7 +4,7 @@ const SITE00_IMMERSIVE_SESSION_KEY = 'site00-immersive-complete';
 /** @deprecated Migrated to SITE00_IMMERSIVE_SESSION_KEY */
 const LEGACY_ASSTS_SESSION_KEY = 'site00-assts-immersive-complete';
 
-function isImmersiveSessionComplete(): boolean {
+export function isSite00ImmersiveSessionComplete(): boolean {
   try {
     return (
       sessionStorage.getItem(SITE00_IMMERSIVE_SESSION_KEY) === '1' ||
@@ -28,7 +28,7 @@ export function shouldShowSite00ImmersiveLoader(): boolean {
     /* ignore */
   }
 
-  return !isImmersiveSessionComplete();
+  return !isSite00ImmersiveSessionComplete();
 }
 
 /** @deprecated Use shouldShowSite00ImmersiveLoader */
