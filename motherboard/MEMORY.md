@@ -8592,6 +8592,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.3R1 DOM-first twin (no authority UI crops)
+
+- **Symptom:** Package renderer still showed cropped concept strips + “Preserve function: …” labels — not real coded UI.
+- **Root cause:** Shallow blueprint bands + `assetUrlForObject` falling back to full `visualAuthority.imageUrl`; section roles from creative director leaked to UI.
+- **Fix:** `p0vrTwinV23R1` object expansion + `NdxTwinDomArtboard` (DOM nav/progress/metrics/activity/hero CSS+SVG); build ref **v374**; prior raster twin → `FAILED_RASTERIZED_EXECUTION` on rebuild. Creative/V1/live untouched.
+
+---
+
 ## 2026-09-13 — Twin V2 REBUILD THIS CONCEPT (post-build pipeline re-run)
 
 - **Symptom:** After a twin was built, **BUILD THIS CONCEPT** disappeared — only preview buttons; gallery collapsed.
