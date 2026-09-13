@@ -298,7 +298,6 @@ export function PageConceptDirectedTwinV2Experience({
         parentVersionId:
           action === 'refine' ? (activeLegacy ?? latestConcept?.versionId ?? null) : (latestConcept?.versionId ?? null),
       });
-      working = ensureConceptGallery(working);
       onSessionChange(working);
       setRefineOpen(false);
       setRefineText('');
@@ -510,7 +509,9 @@ export function PageConceptDirectedTwinV2Experience({
         </p>
       ) : null}
 
-      {session.renderedTwin?.builtAt ? (
+      {session.renderedTwin?.builtAt &&
+      activeConcept &&
+      session.renderedTwin.sourceConceptId === activeConcept.conceptId ? (
         <section
           ref={buildResultRef}
           className="site00-twin-v2-concept__built-panel"

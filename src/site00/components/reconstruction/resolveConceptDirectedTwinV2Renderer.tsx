@@ -1,4 +1,5 @@
 import type { ConceptDirectedTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/types.js';
+import { getActiveConceptCandidate } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { ConceptDirectedNdxOverviewTwinV2 } from './ConceptDirectedNdxOverviewTwinV2.js';
 import { ConceptVisualCompilerTwinV2 } from './ConceptVisualCompilerTwinV2.js';
 
@@ -12,10 +13,17 @@ type Props = {
  * Legacy renderers are historical — not used for new builds.
  */
 export function ResolveConceptDirectedTwinV2Renderer({ projectSlug, session }: Props) {
+  const active = getActiveConceptCandidate(session);
+  const buildMatchesActive =
+    session.renderedTwin?.sourceConceptId != null &&
+    active?.conceptId != null &&
+    session.renderedTwin.sourceConceptId === active.conceptId;
+
   if (
-    session.renderedTwin?.buildMode === 'VISUAL_TO_CODE_COMPILER' ||
-    session.renderedTwin?.componentRef === 'ConceptVisualCompilerTwinV2' ||
-    session.twinV2VisualCompiler
+    buildMatchesActive &&
+    (session.renderedTwin?.buildMode === 'VISUAL_TO_CODE_COMPILER' ||
+      session.renderedTwin?.componentRef === 'ConceptVisualCompilerTwinV2' ||
+      session.twinV2VisualCompiler)
   ) {
     return <ConceptVisualCompilerTwinV2 projectSlug={projectSlug} session={session} />;
   }

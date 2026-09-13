@@ -70,7 +70,12 @@ export function TwinV2PairedConceptReviewPanel({ session, candidate }: Props) {
       </div>
       <div className="site00-twin-v2-paired-review__stage">
         {mode === 'VISUAL' && imageUrl ? (
-          <img src={imageUrl} alt="Generated concept visual" className="site00-twin-v2-paired-review__visual" />
+          <img
+            key={`${candidate.conceptId}-${candidate.updatedAt}`}
+            src={imageUrl}
+            alt="Generated concept visual"
+            className="site00-twin-v2-paired-review__visual"
+          />
         ) : null}
         {(mode === 'BLUEPRINT' || mode === 'OBJECT_MAP') && visualBlueprint ? (
           <ul className="site00-twin-v2-paired-review__object-list">

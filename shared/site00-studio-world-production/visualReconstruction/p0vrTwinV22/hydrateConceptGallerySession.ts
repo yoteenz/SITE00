@@ -151,12 +151,16 @@ export function hydrateConceptGallerySession(
 
   gallery = repairConceptGalleryHostBoundary(working, gallery);
 
-  const preferredActive = needsBackfill
-    ? (gallery.candidates[0]?.conceptId ?? null)
-    : gallery.lastActiveConceptId &&
-        gallery.candidates.some((c) => c.conceptId === gallery.lastActiveConceptId)
-      ? gallery.lastActiveConceptId
-      : (gallery.candidates[0]?.conceptId ?? null);
+  const preferredActive = (() => {
+    const last = priorGallery?.lastActiveConceptId ?? gallery.lastActiveConceptId;
+    if (last && gallery.candidates.some((c) => c.conceptId === last)) {
+      return last;
+    }
+    if (priorGallery?.activeConceptId && gallery.candidates.some((c) => c.conceptId === priorGallery.activeConceptId)) {
+      return priorGallery.activeConceptId;
+    }
+    return gallery.candidates.at(-1)?.conceptId ?? gallery.candidates[0]?.conceptId ?? null;
+  })();
 
   const backfillReceipt: BackfillReceipt = {
     projectId: working.projectId,

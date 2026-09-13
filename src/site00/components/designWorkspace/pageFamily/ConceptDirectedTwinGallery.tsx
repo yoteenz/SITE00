@@ -206,7 +206,12 @@ export function ConceptDirectedTwinGallery({
             onClick={() => onSelectConcept(c.conceptId)}
           >
             {c.visualAssetUrl || c.visualAsset ? (
-              <img src={c.visualAssetUrl ?? undefined} alt={`Concept ${c.versionNumber}`} draggable={false} />
+              <img
+                key={`${c.conceptId}-${c.updatedAt}`}
+                src={c.visualAssetUrl ?? undefined}
+                alt={`Concept ${c.versionNumber}`}
+                draggable={false}
+              />
             ) : (
               <div className="site00-twin-v2-gallery__empty">NO IMAGE</div>
             )}

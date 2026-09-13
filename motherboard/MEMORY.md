@@ -8630,6 +8630,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V2 stale concept visual after GENERATE/REGENERATE
+
+- **Symptom:** Founder generated a new concept image; Twin V2 screen still showed the **previous compiled render** (old VISUAL_TO_CODE_COMPILER canvas), not the new gallery visual.
+- **Root cause:** Session kept `renderedTwin` + `twinV2VisualCompiler` tied to the **prior** `sourceConceptId` / `visualAuthority.assetUrl` while gallery active concept advanced to a new candidate (or updated URL). Renderer preferred compiler artifacts over fresh `visualAssetUrl`.
+- **Fix:** `invalidateStaleTwinBuildForActiveConcept` after `mergeVisualConceptApiResult` — clears build artifacts when active concept id or visual URL diverges; hydrate prefers `lastActiveConceptId`; **TWIN V2 BUILT** + compiler renderer gated on `sourceConceptId === activeConceptId`; gallery/paired review `<img key={conceptId-updatedAt}>` for remount. Build ref ships with next deploy after merge.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.3 execution lineage + package-driven builder (v372)
 
 - **Symptom:** Built Twin V2 read as generic NDXBOOK overview — ghosted concept image, pageIntent/functionGraph bands, not approved blueprint layout.
