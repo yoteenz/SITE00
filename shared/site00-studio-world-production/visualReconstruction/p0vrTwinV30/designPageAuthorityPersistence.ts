@@ -4,6 +4,11 @@ import {
   normalizeDesignPageAuthoritySession,
   territoryGalleryHasCandidates,
 } from './designPageAuthorityTerritoryGallery.js';
+import {
+  appendAuthorityBatchLedger,
+  mergeGalleryFromBatchLedger,
+  maxBatchGenerationFromLedger,
+} from './designPageAuthorityBatchLedger.js';
 import { createDesignPageAuthorityReviewSession } from './designPageAuthorityReviewState.js';
 import type {
   DesignPageAuthorityGenerationResult,
@@ -78,7 +83,9 @@ function mergeStoredAuthoritySessions(
   merged.candidateGeneration = Math.max(
     merged.candidateGeneration,
     maxBatchGenerationInGallery(merged.territoryGallery),
+    maxBatchGenerationFromLedger(projectId),
   );
+  merged.territoryGallery = mergeGalleryFromBatchLedger(projectId, merged.territoryGallery);
   return merged;
 }
 
@@ -97,28 +104,47 @@ function createMinimalSessionFromGalleryBackup(
 }
 
 function readGalleryBackup(projectId: string): DesignPageAuthorityTerritoryGallery | null {
-  if (typeof sessionStorage === 'undefined') return null;
-  try {
-    const raw = sessionStorage.getItem(GALLERY_BACKUP_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as Record<string, DesignPageAuthorityTerritoryGallery>;
-    return parsed[projectId.toLowerCase()] ?? null;
-  } catch {
-    return null;
-  }
+  const parsed = readGalleryBackupRaw();
+  return parsed?.[projectId.toLowerCase()] ?? null;
 }
 
 function writeGalleryBackup(projectId: string, gallery: DesignPageAuthorityTerritoryGallery): boolean {
-  if (typeof sessionStorage === 'undefined') return false;
+  const key = projectId.toLowerCase();
+  const payload = JSON.stringify({
+    ...(readGalleryBackupRaw() ?? {}),
+    [key]: gallery,
+  });
+  let ok = false;
   try {
-    const raw = sessionStorage.getItem(GALLERY_BACKUP_KEY);
-    const parsed = raw ? (JSON.parse(raw) as Record<string, DesignPageAuthorityTerritoryGallery>) : {};
-    parsed[projectId.toLowerCase()] = gallery;
-    sessionStorage.setItem(GALLERY_BACKUP_KEY, JSON.stringify(parsed));
-    return true;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(GALLERY_BACKUP_KEY, payload);
+      ok = true;
+    }
   } catch {
-    return false;
+    /* quota */
   }
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem(GALLERY_BACKUP_KEY, payload);
+      ok = true;
+    }
+  } catch {
+    /* quota */
+  }
+  return ok;
+}
+
+function readGalleryBackupRaw(): Record<string, DesignPageAuthorityTerritoryGallery> | null {
+  for (const store of [typeof localStorage !== 'undefined' ? localStorage : null, typeof sessionStorage !== 'undefined' ? sessionStorage : null]) {
+    if (!store) continue;
+    try {
+      const raw = store.getItem(GALLERY_BACKUP_KEY);
+      if (raw) return JSON.parse(raw) as Record<string, DesignPageAuthorityTerritoryGallery>;
+    } catch {
+      /* try next */
+    }
+  }
+  return null;
 }
 
 function readParsedStore(raw: string | null): Record<string, DesignPageAuthorityReviewSession> | null {
@@ -177,5 +203,6 @@ export function writeDesignPageAuthoritySession(session: DesignPageAuthorityRevi
     console.error('site00:design-page-v3-authority sessionStorage persist failed', err);
   }
   writeGalleryBackup(key, session.territoryGallery);
+  appendAuthorityBatchLedger(key, session.territoryGallery, session.candidateGeneration);
   return localOk || sessionOk;
 }

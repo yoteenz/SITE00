@@ -10,6 +10,7 @@ import mobileTerritoryB from '../../assets/twin-v3-design-page-authority/mobile-
 import mobileTerritoryC from '../../assets/twin-v3-design-page-authority/mobile-territory-c-r3.svg?url';
 import {
   canonicalPrototypePathFromAuthorityStorageUrl,
+  isBrokenPersistedAuthorityImageStorageUrl,
   repairAuthorityVisualStorageUrl,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/repairAuthorityPrototypeUrls.js';
 import type { DesignPageV3TerritoryId } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/hostProjectExpressionModel.js';
@@ -46,9 +47,15 @@ export function resolveDesignPageAuthorityImageSrc(
   storageUrl: string,
   hint?: { territoryId: DesignPageV3TerritoryId; viewport: 'mobile' | 'desktop' },
 ): string {
+  if (!storageUrl?.trim() && hint) {
+    return DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS[hint.territoryId][hint.viewport];
+  }
   if (!storageUrl) return storageUrl;
 
   let url = repairAuthorityVisualStorageUrl(storageUrl, hint);
+  if (isBrokenPersistedAuthorityImageStorageUrl(url) && hint) {
+    url = `/site00/twin-v3-design-page-authority/${hint.viewport}-territory-${hint.territoryId.toLowerCase()}-r3.svg`;
+  }
 
   if (/^data:/i.test(url) || /^blob:/i.test(url)) return url;
   if (/^https?:\/\//i.test(url)) {
@@ -63,6 +70,11 @@ export function resolveDesignPageAuthorityImageSrc(
 
   const file = normalized.split('/').pop();
   if (file) {
+    const canonicalFromFile = canonicalPrototypePathFromAuthorityStorageUrl(`/${file}`);
+    if (canonicalFromFile) {
+      const fromCanonical = PUBLIC_PATH_TO_BUNDLED.get(canonicalFromFile);
+      if (fromCanonical) return fromCanonical;
+    }
     const byName = R3_FILENAME_TO_BUNDLED.get(file);
     if (byName) return byName;
   }
