@@ -8558,3 +8558,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** v364 **ignored `paddedBottom`** when fake nav existed (artifactCap-only), so +40px activity bleed never affected crop; persisted galleries at **v364** with tight bottom did not re-sanitize (repair only when bottom **above** host safe area).
 - **Fix:** Bottom = `min(paddedBottom, navArtifact.y + 0.002)` (assert leak ceiling); `repairConceptGalleryHostBoundary` drift + stale-tight detection; build ref **v365**. Masthead unchanged.
 
+---
+
+## 2026-09-13 — Twin V2 BUILD THIS CONCEPT one-tap (approve + package)
+
+- **Symptom:** BUILD button appeared dead on mobile — all readiness chips ✓ including HOST BOUNDARY, but tap did nothing.
+- **Root cause:** BUILD stayed **disabled** until separate **APPROVE** (`founderJudgment === 'APPROVED'`); disabled buttons give no feedback on iOS. Some approved-without-package sessions threw on compose.
+- **Fix:** Enable BUILD when technical readiness complete; `prepareConceptDirectedTwinV2Build` runs approve + executable package upsert then compose; hint text explains BUILD locks authority.
+
