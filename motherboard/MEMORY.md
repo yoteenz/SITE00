@@ -8748,3 +8748,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Change:** `dispatchDesignPageAuthorityTerritoryVisuals` runs all **6** territory frames (A/B/C × mobile/desktop) via **`Promise.all`**; legacy `dispatchDesignPageAuthorityVisuals` runs mobile+desktop in parallel. Provider trace notes parallel batch. No UI/build ref bump — Railway redeploy optional for faster live generation.
 
+---
+
+## 2026-09-13 — FAL parallel enqueue helper (v391)
+
+- **Problem:** Founder still saw **sequential** FAL dispatches for territory A/B/C despite `Promise.all` on `fal.subscribe`.
+- **Fix:** Shared **`runFalImageJobsParallel`** — phase 1 **`queue.submit` × N in parallel**, phase 2 **`subscribeToStatus` + `result` × N in parallel**. Wired into Twin V3 territory + R2 pair, Twin V28 dual proof, Twin V29 atomic bundle. Panel shows **`FAL_PARALLEL_ENQUEUE spreadMs=…`** in `falProviderTrace`. Build **v391** — Railway redeploy + optional GoDaddy ZIP for trace UI.
+
