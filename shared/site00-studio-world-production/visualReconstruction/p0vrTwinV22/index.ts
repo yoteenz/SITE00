@@ -29,3 +29,4 @@ export * from '../p0vrTwinV22R2/index.js';
 export * from '../p0vrTwinV23/index.js';
 export * from '../p0vrTwinV23R1/index.js';
 export * from '../p0vrTwinV24R1/index.js';
+export * from '../p0vrTwinV25/index.js';

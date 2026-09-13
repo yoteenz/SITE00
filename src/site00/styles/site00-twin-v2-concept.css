@@ -898,3 +898,66 @@
   border-color: #c8ff00;
   color: #c8ff00;
 }
+
+.site00-twin-v2-paired-review {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border: 1px solid #333;
+  background: #0a0a0a;
+}
+
+.site00-twin-v2-paired-review__flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.site00-twin-v2-paired-review__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.site00-twin-v2-paired-review__tabs button {
+  font-size: 0.6rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #444;
+  background: transparent;
+  color: #ccc;
+}
+
+.site00-twin-v2-paired-review__tabs button.is-active {
+  border-color: #c8ff00;
+  color: #c8ff00;
+}
+
+.site00-twin-v2-paired-review__visual {
+  width: 100%;
+  max-width: 375px;
+  height: auto;
+  display: block;
+}
+
+.site00-twin-v2-paired-review__overlay-wrap {
+  position: relative;
+  max-width: 375px;
+}
+
+.site00-twin-v2-paired-review__overlay-box {
+  position: absolute;
+  border: 1px solid rgba(200, 255, 0, 0.85);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.site00-twin-v2-paired-review__object-list {
+  font-size: 0.72rem;
+  max-height: 280px;
+  overflow: auto;
+  margin: 0;
+  padding-left: 1.1rem;
+}

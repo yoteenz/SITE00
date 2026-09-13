@@ -95,6 +95,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     viewport: 'mobile',
     refineInstruction: refine,
     clientCanvasOnly: true,
+    dualOutputInstruction: body.session.conceptGallery?.pendingDualOutput?.visualGenerationInstruction ?? null,
   });
 
   try {

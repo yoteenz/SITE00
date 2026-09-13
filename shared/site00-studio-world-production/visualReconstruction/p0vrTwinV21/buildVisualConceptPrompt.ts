@@ -16,6 +16,7 @@ export function buildVisualConceptPrompt(input: {
   viewport: 'mobile';
   refineInstruction?: string | null;
   clientCanvasOnly?: boolean;
+  dualOutputInstruction?: string | null;
 }): string {
   const refine = input.refineInstruction?.trim();
   const clientCanvasOnly = input.clientCanvasOnly !== false;
@@ -38,6 +39,7 @@ export function buildVisualConceptPrompt(input: {
     `Host/client: ${input.brandContext.hostClientFirewall}`,
     clientCanvasOnly ? TWIN_V2_CLIENT_CANVAS_GENERATION_BOUNDARY : '',
     refine ? `Founder refinement: ${refine}` : '',
+    input.dualOutputInstruction ? `\n--- STRUCTURED OBJECT PLAN (render faithfully) ---\n${input.dualOutputInstruction}` : '',
   ]
     .filter(Boolean)
     .join('\n');

@@ -149,6 +149,9 @@ export type ConceptCandidate = {
   versionNumber: number;
   parentConceptId: string | null;
   generationType: ConceptGenerationType;
+  /** P0.VR.TWINV2.5 — dual-output vs legacy image-first backfill. */
+  conceptOrigin?: 'DUAL_OUTPUT_PAIRED' | 'LEGACY_IMAGE_FIRST';
+  pairedConceptStatus?: string | null;
   visualAsset: string | null;
   visualAssetUrl: string | null;
   creativeDirection: PageCreativeDirection;
@@ -235,6 +238,18 @@ export type ConceptGalleryState = {
   candidates: ConceptCandidate[];
   activeConceptId: string | null;
   lastActiveConceptId?: string | null;
+  pendingDualOutput?: import('../p0vrTwinV25/types.js').PendingDualOutputGeneration | null;
+  pairedArtifacts?: Record<string, import('../p0vrTwinV25/types.js').PairedConceptArtifact>;
+  compositionPlans?: Record<string, import('../p0vrTwinV25/types.js').CompositionPlan>;
+  visualBlueprints?: Record<string, import('../p0vrTwinV25/types.js').ConceptVisualBlueprint>;
+  reconciledVisualBlueprints?: Record<string, import('../p0vrTwinV25/types.js').ReconciledConceptVisualBlueprint>;
+  assetPlans?: Record<string, import('../p0vrTwinV25/types.js').ConceptAssetPlan>;
+  functionTargetPlans?: Record<string, import('../p0vrTwinV25/types.js').ConceptFunctionTargetPlan>;
+  generatedConceptAssets?: Record<string, import('../p0vrTwinV25/types.js').ConceptGeneratedAsset[]>;
+  assetPurityReceipts?: Record<string, import('../p0vrTwinV25/types.js').ConceptAssetPurityReceipt>;
+  visualBlueprintReconciliations?: Record<string, import('../p0vrTwinV25/types.js').VisualBlueprintReconciliation>;
+  blueprintVisualCoverage?: Record<string, import('../p0vrTwinV25/types.js').BlueprintVisualCoverageReceipt>;
+  assetCoverage?: Record<string, import('../p0vrTwinV25/types.js').AssetCoverageReceipt>;
   blueprints: Record<string, ConceptBlueprint>;
   manifests: Record<string, ConceptAssetManifest>;
   bindingPlans: Record<string, ConceptFunctionBindingPlan>;
