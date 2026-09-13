@@ -8662,6 +8662,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.9 atomic creative generation bundle (v384)
+
+- **Context:** Follow-up to v28 — one **ConceptCompositionState** must emit all sibling outputs in one logical transaction (authority visual, blueprint twin visual, surgical blueprint data, asset contracts, standalone asset renders, function binding map) before concept is complete. No BUILD/V1/live changes.
+- **Delivered:** `p0vrTwinV29/` — `AtomicConceptGenerationBundle`, orchestrator `runAtomicConceptGenerationBundle` (Mode C coordinated FAL sibling calls + composition-state surgical data **not** post-hoc vision), completeness/consistency/registration receipts, v28 capability gate (`ATOMIC_GENERATION_BLOCKED_BY_PROVIDER_CAPABILITY` if v28 FAILED). API `POST /api/site00/twin-v2-atomic-concept-generation`. UI **RUN ATOMIC GENERATION BUNDLE (v29)** on ndxbook/overview with review modes VISUAL / BLUEPRINT TWIN / OVERLAY / OBJECT DATA / ASSETS / FUNCTIONS; approve disabled unless completeness PASS.
+- **Classification:** vitest → **ATOMIC_CREATIVE_GENERATION_PARTIAL**; live PROVEN when all siblings + FAL on Railway with founder alignment.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.8 FAL parallel twin generation capability proof (v383)
 
 - **Context:** Validate whether FAL can produce **two distinct visual artifacts** (authority + blueprint twin) from the same **MinimalTwinGenerationState** before investing in blueprint-exclusive BUILD wiring. Scope: NDXBOOK overview mobile pilot only; no BUILD/V1/live changes.
