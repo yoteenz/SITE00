@@ -8592,6 +8592,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V2 REBUILD THIS CONCEPT (post-build pipeline re-run)
+
+- **Symptom:** After a twin was built, **BUILD THIS CONCEPT** disappeared — only preview buttons; gallery collapsed.
+- **Root cause:** Gallery disabled build when `twinBuiltAt` set (`TWIN BUILT ✓`); post-build UI hid gallery in collapsed `<details>`.
+- **Fix:** Enable **REBUILD THIS CONCEPT** when readiness OK; primary rebuild on **TWIN V2 BUILT** panel; expand gallery details when twin exists.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.3 execution lineage + package-driven builder (v372)
 
 - **Symptom:** Built Twin V2 read as generic NDXBOOK overview — ghosted concept image, pageIntent/functionGraph bands, not approved blueprint layout.
