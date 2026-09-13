@@ -8695,3 +8695,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** `composeFromExecutablePackage` only stamped metadata; `ConceptDirectedNdxOverviewTwinV2` ignored `ExecutableConceptPackage` (semantic recomposition + `authority-ghost` cheat).
 - **Fix:** New `p0vrTwinV23` — `buildTwinV2FromPackage`, lineage/receipts, fail-closed validation, `ConceptDirectedPackageTwinV2` blueprint renderer (no ghost image); BUILD stages PACKAGE→SOURCE→RENDER→FIDELITY + EXECUTION LINEAGE UI; prior non-package builds marked `FAILED_PACKAGE_LINEAGE` in history. Build ref **v372**. V1/live/creative generation untouched.
 
+---
+
+## 2026-09-13 — TWIN V2.2R1 CI gallery duplicate candidate fix
+
+- **Context:** Production Release CI showed **5 failures** in `tests/p0vrTwinV22R1.test.ts` (gallery counts +1, stale backfill `activeConceptId` on last vs first candidate). Follow-up after v27–v29 merges; user screenshot implied fix needed.
+- **Root cause:** `mergeVisualConceptApiResult` called **`ensureConceptGallery`** (history backfill) on the **first** generate when gallery was empty, then **`addConceptCandidateFromGeneration`** — one history row became **two** gallery candidates (6 candidates for 5 merges). Import/hydrate tests inherited the extra row.
+- **Fix:** On merge, only stamp **`buildRef`** via `emptyConceptGallery()` when missing — do **not** hydrate/backfill before append. Stale empty-gallery hydrate sets **`activeConceptId`** to **`candidates[0]`** when backfill recovered from zero candidates.
+- **Changes:** `p0vrTwinV21/orchestrateTwinV2VisualConcept.ts`, `p0vrTwinV22/hydrateConceptGallerySession.ts`; `tests/p0vrTwinV22R1.test.ts` green (12/12). No GoDaddy ZIP required (shared logic only); Railway redeploy optional.
+

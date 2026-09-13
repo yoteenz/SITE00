@@ -1,7 +1,7 @@
 import { appendVisualConceptVersion } from './applyFounderVisualJudgment.js';
 import {
   addConceptCandidateFromGeneration,
-  ensureConceptGallery,
+  emptyConceptGallery,
   getActiveConceptCandidate,
 } from '../p0vrTwinV22/conceptGalleryState.js';
 import { finalizeParallelCompositionTwinGeneration } from '../p0vrTwinV27/finalizeParallelCompositionTwinGeneration.js';
@@ -77,8 +77,14 @@ export function mergeVisualConceptApiResult(
       },
     );
   } else {
-    if (!next.conceptGallery?.candidates.length || !next.conceptGallery.buildRef) {
-      next = ensureConceptGallery(next);
+    if (!next.conceptGallery?.buildRef) {
+      const prior = next.conceptGallery;
+      next = {
+        ...next,
+        conceptGallery: prior
+          ? { ...prior, buildRef: prior.buildRef ?? emptyConceptGallery().buildRef }
+          : emptyConceptGallery(),
+      };
     }
     next = addConceptCandidateFromGeneration(next, {
       generationType: genType,
