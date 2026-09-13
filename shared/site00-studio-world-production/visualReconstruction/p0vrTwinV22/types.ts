@@ -238,7 +238,10 @@ export type ConceptGalleryState = {
   candidates: ConceptCandidate[];
   activeConceptId: string | null;
   lastActiveConceptId?: string | null;
-  pendingDualOutput?: import('../p0vrTwinV25/types.js').PendingDualOutputGeneration | null;
+  pendingDualOutput?:
+    | import('../p0vrTwinV25/types.js').PendingDualOutputGeneration
+    | import('../p0vrTwinV27/types.js').PendingParallelTwinGeneration
+    | null;
   pairedArtifacts?: Record<string, import('../p0vrTwinV25/types.js').PairedConceptArtifact>;
   compositionPlans?: Record<string, import('../p0vrTwinV25/types.js').CompositionPlan>;
   visualBlueprints?: Record<string, import('../p0vrTwinV25/types.js').ConceptVisualBlueprint>;
@@ -269,4 +272,14 @@ export type ConceptGalleryState = {
   clientCanvasTopReceipts?: Record<string, ClientCanvasTopReceipt>;
   backfillReceipt?: BackfillReceipt;
   galleryHydrationReceipt?: GalleryHydrationReceipt;
+  compositionStates?: Record<string, import('../p0vrTwinV27/types.js').ConceptCompositionState>;
+  surgicalBlueprintTwins?: Record<string, import('../p0vrTwinV27/types.js').SurgicalBlueprintTwin>;
+  assetGenerationContractSets?: Record<string, import('../p0vrTwinV27/types.js').AssetGenerationContractSet>;
+  authorityVisuals?: Record<string, import('../p0vrTwinV27/types.js').AuthorityVisualRecord>;
+  twinReconciliationReceipts?: Record<string, import('../p0vrTwinV27/types.js').TwinReconciliationReceipt>;
+  canonicalAssetManifestsV27?: Record<string, import('../p0vrTwinV27/types.js').CanonicalAssetManifest>;
+  blueprintTranslationReceipts?: Record<string, import('../p0vrTwinV27/types.js').BlueprintTranslationReceipt>;
+  runtimeIndependenceReceipts?: Record<string, import('../p0vrTwinV27/types.js').RuntimeIndependenceReceipt>;
+  twinFidelityReceipts?: Record<string, import('../p0vrTwinV27/types.js').TwinFidelityReceipt>;
+  surgicalBlueprintCodeBindings?: Record<string, import('../p0vrTwinV27/types.js').BlueprintObjectCodeBinding[]>;
 };

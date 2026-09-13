@@ -8662,6 +8662,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV2.7 parallel composition + surgical blueprint twin (v382)
+
+- **Context:** Sprint P0.VR.TWINV2.7 — shared **ConceptCompositionState**, parallel **AuthorityVisual** + **SurgicalBlueprintTwin** + **AssetGenerationContractSet**, three-way reconciliation, blueprint-only code path, no authority image as runtime substrate; NDXBOOK overview mobile pilot; do not touch V1/live.
+- **Topics:** Failure modes A (template pre-commit) vs B (authority-image-first DOM); full pipeline spec (46 deliverables); continues from v25 dual-output + gallery/rebuild fixes on main.
+- **Decisions / outcomes:** New module **`p0vrTwinV27/`** — composition state, surgical objects + **BlueprintRelationship** graph, asset regeneration contracts, **TwinReconciliationPass**, guards (**TWIN_V2_BLUEPRINT_POSTHOC_ONLY**, **AuthorityRuntimeFirewall**, **ParallelVisualObjectGuard**), **compileSurgicalBlueprintToCode** (TRANSLATION / NONE invention budget), receipts (translation, runtime independence, fidelity). **`beginParallelCompositionTwinGeneration`** replaces UI generate entry (build ref **v382**); **`finalizeParallelCompositionTwinGeneration`** wraps v25 finalize + stores v27 gallery maps. **`ConceptSurgicalBlueprintTwinV2`** = blueprint-exclusive render (`data-authority-substrate="false"`). Review panel shows surgical object list, relationships count, asset contract ids. Legacy **`beginDualOutputConceptGeneration`** (v376) unchanged for tests.
+- **Changes:** `shared/.../p0vrTwinV27/*`, `p0vrTwinV21/orchestrateTwinV2VisualConcept.ts`, `p0vrTwinV22/types.ts` gallery fields, `PageConceptDirectedTwinV2Experience.tsx`, `TwinV2PairedConceptReviewPanel.tsx`, `ConceptSurgicalBlueprintTwinV2.tsx`, `tests/p0vrTwinV27.test.ts`.
+- **Conventions:** New concepts must share **`compositionStateId`** across authority, surgical blueprint, and contracts; build compiler consumes surgical blueprint + canonical manifest, not FAL raster as structure; paid asset regen remains founder-triggered (`FOUNDER_CONFIRM` spend policy).
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV2.3 execution lineage + package-driven builder (v372)
 
 - **Symptom:** Built Twin V2 read as generic NDXBOOK overview — ghosted concept image, pageIntent/functionGraph bands, not approved blueprint layout.

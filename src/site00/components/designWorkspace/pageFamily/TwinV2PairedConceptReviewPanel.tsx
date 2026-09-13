@@ -28,6 +28,14 @@ export function TwinV2PairedConceptReviewPanel({ session, candidate }: Props) {
   const coverage = gallery?.blueprintVisualCoverage?.[candidate.conceptId];
   const assetCov = gallery?.assetCoverage?.[candidate.conceptId];
   const fnPlan = gallery?.functionTargetPlans?.[candidate.functionBindingPlanId];
+  const surgicalTwin = Object.values(gallery?.surgicalBlueprintTwins ?? {}).find(
+    (b) => b.conceptId === candidate.conceptId,
+  );
+  const contractSet = Object.values(gallery?.assetGenerationContractSets ?? {}).find(
+    (s) => s.conceptId === candidate.conceptId,
+  );
+  const twinReconciliation = gallery?.twinReconciliationReceipts?.[candidate.conceptId];
+  const objectList = surgicalTwin?.objects ?? visualBlueprint?.objects ?? [];
 
   const pairedFlags = useMemo(() => {
     const r = candidate.buildReadiness;
@@ -78,19 +86,32 @@ export function TwinV2PairedConceptReviewPanel({ session, candidate }: Props) {
             className="site00-twin-v2-paired-review__visual"
           />
         ) : null}
-        {(mode === 'BLUEPRINT' || mode === 'OBJECT_MAP') && visualBlueprint ? (
+        {(mode === 'BLUEPRINT' || mode === 'OBJECT_MAP') && objectList.length ? (
           <ul className="site00-twin-v2-paired-review__object-list">
-            {visualBlueprint.objects.map((o) => (
+            {objectList.map((o) => (
               <li key={o.objectId}>
-                <code>{o.objectId}</code> — {o.role} ({o.type})
+                <code>{o.objectId}</code> — {o.role} ({'type' in o ? o.type : 'object'})
+                {surgicalTwin && 'relationships' in surgicalTwin ? (
+                  <span>
+                    {' '}
+                    · rel{' '}
+                    {surgicalTwin.relationships.filter((r) => r.sourceObjectId === o.objectId).length}
+                  </span>
+                ) : null}
               </li>
             ))}
+            {surgicalTwin ? (
+              <li>
+                <em>Surgical relationships: {surgicalTwin.relationships.length}</em>
+                {twinReconciliation ? ` · reconciliation ${twinReconciliation.status}` : ''}
+              </li>
+            ) : null}
           </ul>
         ) : null}
-        {mode === 'OVERLAY' && imageUrl && visualBlueprint ? (
+        {mode === 'OVERLAY' && imageUrl && objectList.length ? (
           <div className="site00-twin-v2-paired-review__overlay-wrap">
             <img src={imageUrl} alt="" className="site00-twin-v2-paired-review__visual" />
-            {visualBlueprint.objects.map((o) => (
+            {objectList.map((o) => (
               <div
                 key={o.objectId}
                 className="site00-twin-v2-paired-review__overlay-box"
@@ -117,12 +138,17 @@ export function TwinV2PairedConceptReviewPanel({ session, candidate }: Props) {
         {mode === 'ASSETS' ? (
           <ul className="site00-twin-v2-paired-review__object-list">
             {assets.length === 0 ? <li>No standalone assets registered.</li> : null}
-            {assets.map((a) => (
-              <li key={a.assetId}>
-                <strong>{a.role}</strong> — {a.assetId} — {a.transparentBackground ? 'transparent' : 'opaque'} —{' '}
-                {a.canonicalFile}
-              </li>
-            ))}
+            {assets.map((a) => {
+              const contract = contractSet?.contracts.find((c) => c.objectId === a.blueprintObjectId);
+              return (
+                <li key={a.assetId}>
+                  <strong>{a.role}</strong> — <code>{a.blueprintObjectId}</code> — {a.assetSlotId} —{' '}
+                  {contract?.canonicalAssetId ?? a.assetId} — {a.transparentBackground ? 'transparent' : 'opaque'} —{' '}
+                  {contract ? `contract ${contract.assetGenerationContractId.slice(0, 24)}…` : 'no contract'} —{' '}
+                  {a.canonicalFile}
+                </li>
+              );
+            })}
           </ul>
         ) : null}
       </div>
