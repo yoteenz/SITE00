@@ -155,7 +155,7 @@ export type TwinV2FidelityReceipt = {
 };
 
 export type ConceptDirectedTwinSession = {
-  buildRef: typeof P0_VR_TWIN_V21_BUILD | 'v372';
+  buildRef: typeof P0_VR_TWIN_V21_BUILD | 'v372' | 'v374';
   generationMode: 'CONCEPT_DIRECTED_V2';
   /** P0.VR.TWINV2.2 — persistent concept gallery + executable lineage */
   conceptGallery?: import('../p0vrTwinV22/types.js').ConceptGalleryState;
@@ -180,6 +180,7 @@ export type ConceptDirectedTwinSession = {
   fidelityReceipt: TwinV2FidelityReceipt | null;
   packageDrivenBuild?: { packageId: string; conceptId: string } | null;
   twinV2Execution?: import('../p0vrTwinV23/types.js').PackageDrivenBuildArtifacts | null;
+  twinV2DomTranslation?: import('../p0vrTwinV23R1/types.js').DomFirstTranslationArtifacts | null;
   twinV2BuildHistory?: import('../p0vrTwinV23/types.js').TwinV2BuildHistoryEntry[];
   status: TwinV2Status;
   history: VisualConceptVersion[];

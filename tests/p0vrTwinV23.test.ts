@@ -18,7 +18,7 @@ import {
   getActiveConceptCandidate,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import {
-  P0_VR_TWIN_V23_BUILD,
+  P0_VR_TWIN_V23R1_BUILD,
   DEFAULT_TWIN_V2_BUILD_POLICY,
   buildTwinV2FromPackage,
   buildTwinV2,
@@ -29,6 +29,7 @@ import {
   assertNoGhostedAuthorityImageInSource,
   getBuilderEntryPointTrace,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23/index.js';
+import { P0_VR_TWIN_V23R1_BUILD as V23R1_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23R1/constants.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
 
@@ -91,15 +92,19 @@ describe('P0.VR.TWINV2.3 package-driven builder', () => {
     expect(sessionPatch.renderedTwin?.buildMode).toBe('PACKAGE_DRIVEN_SOURCE_GENERATION');
     expect(artifacts.sourceGenerationReceipt.fallbackUsed).toBe(false);
     expect(artifacts.objectCoverage.blueprintObjectCount).toBeGreaterThan(0);
-    expect(read('src/site00/components/reconstruction/ConceptDirectedPackageTwinV2.tsx')).not.toContain('authority-ghost');
+    expect(read('src/site00/components/reconstruction/NdxTwinDomArtboard.tsx')).not.toContain('authority-ghost');
   });
 
   it('16–19 typography/colors/assets/functions from package sources', () => {
-    const pkgRenderer = read('src/site00/components/reconstruction/ConceptDirectedPackageTwinV2.tsx');
-    expect(pkgRenderer).toContain('blueprint.typography');
-    expect(pkgRenderer).toContain('blueprint.colors');
-    expect(pkgRenderer).toContain('assetManifest.slots');
-    expect(pkgRenderer).toContain('functionBindingPlan.bindings');
+    const domRenderer = read('src/site00/components/reconstruction/NdxTwinDomArtboard.tsx');
+    expect(domRenderer).toContain('blueprint.typography');
+    expect(domRenderer).toContain('functionGraph');
+    expect(read('src/site00/components/reconstruction/ConceptDirectedPackageTwinV2.tsx')).toContain(
+      'buildDomFirstTranslation',
+    );
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV23R1/sectionTemplates.ts')).toContain(
+      'functionBindingId',
+    );
   });
 
   it('20–23 PACKAGE_DRIVEN mode, provenance, render receipt, lineage assert', () => {
@@ -148,7 +153,7 @@ describe('P0.VR.TWINV2.3 package-driven builder', () => {
     const session = approvedSession();
     const pkg = Object.values(session.conceptGallery!.packages)[0];
     const result = buildTwinV2({ package: pkg, session });
-    expect(result.sessionPatch.buildRef).toBe(P0_VR_TWIN_V23_BUILD);
+    expect(result.sessionPatch.buildRef).toBe(V23R1_BUILD);
     expect(result.artifacts.buildMode).toBe('PACKAGE_DRIVEN_SOURCE_GENERATION');
     const { sessionPatch } = composeConceptDirectedTwinV2(session);
     expect(sessionPatch.twinV2Execution?.buildStage).toBe('COMPLETE');
