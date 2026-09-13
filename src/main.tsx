@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { ensureAuthRestoredFromBackup, persistAuthBackup } from './utils/adminAuth';
 import { restoreSupabaseSessionFromCookie } from './utils/supabase';
+import { teardownSite00BootShellAfterReactMount } from './site00/components/loader/site00ForceRevealAfterMount';
 
 ensureAuthRestoredFromBackup();
 restoreSupabaseSessionFromCookie();
@@ -21,3 +22,7 @@ ReactDOM.createRoot(rootEl).render(
     </BrowserRouter>
   </React.StrictMode>,
 );
+
+queueMicrotask(() => {
+  teardownSite00BootShellAfterReactMount();
+});

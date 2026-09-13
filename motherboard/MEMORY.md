@@ -8440,9 +8440,18 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+<<<<<<< HEAD
 ## 2026-09-13 — P0.VR.TWINV2.2R2 host-shell exclusion + client-canvas boundary (v352)
 
 - **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
 - **Decisions:** `VisualOwnership` + `TwinV2CanvasBoundary`; `sanitizeConceptForHostBoundary` preserves original concept image/blueprint history, produces `sanitizedBlueprint` excluding `GeneratedHostArtifact`; build uses real `TwinSite00HostBottomNav` + client mount `site00-twin-v2-ndx__client-canvas`; `assertNoGeneratedHostArtifactsInClientBuild` → `TWIN_V2_HOST_BOUNDARY_VIOLATION`; readiness adds **HOST BOUNDARY ✓**; GPT prompt `clientCanvasOnly: true` + boundary text; UI **VIEW CLIENT CANVAS** / **VIEW HOST PREVIEW** + badges in blueprint/object maps.
 - **Changes:** `shared/.../p0vrTwinV22R2/*`, wired into `p0vrTwinV22` gallery/approve/package; `ConceptDirectedTwinGallery`, `TwinV2HostShellCompositePreview`; tests `tests/p0vrTwinV22R2.test.ts`. No V1/live promotion. Build ref **v352**.
+=======
+## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
+
+- **Symptom:** Founder: deployed site still stuck on loading animation after v351.
+- **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
+- **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
+- **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
+>>>>>>> origin/main
 

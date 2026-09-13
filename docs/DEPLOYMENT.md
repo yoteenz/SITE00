@@ -129,6 +129,8 @@ SITE 00 has **two independent deploy targets**. Most sprints touch only one.
 
 Preview hosts (`fsbw-dev.com`, Cloudflare tunnels) call **`https://api.site00.com`** for API requests — not the local Vite `/api` middleware. See `src/utils/site00ApiBase.ts`.
 
+**fsbw-dev sanity check:** View page source. If you see `<script type="module" src="/src/main.tsx">`, the hostname is hitting the **Cloud Vite tunnel** (dev), not your cPanel ZIP. A stuck loading screen often means the tunnel/VM is down or the dev bundle failed — upload the latest GitHub Release ZIP to GoDaddy instead. Production ZIP uses `<script … src="/assets/index.*.js">` and `app-build-id` ≠ `dev-local`.
+
 ### Quick decision — which deploy(s)?
 
 Use this at the end of every sprint. Check **only what changed in the PR**.
