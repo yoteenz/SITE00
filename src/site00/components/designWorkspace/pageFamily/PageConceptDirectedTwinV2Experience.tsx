@@ -35,6 +35,7 @@ import type { FalParallelTwinProofBundle } from '../../../../../shared/site00-st
 import { requestAtomicConceptGeneration } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV29/requestAtomicConceptGeneration.js';
 import type { AtomicCreativeGenerationResult } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV29/types.js';
 import { TwinV2AtomicGenerationBundleControls } from './TwinV2AtomicGenerationBundlePanel.js';
+import { isTwinV2OverviewPageScope } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/twinV2PageScope.js';
 import { TwinV2CompilerReadinessPanel } from './TwinV2CompilerReadinessPanel.js';
 import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
@@ -108,7 +109,7 @@ export function PageConceptDirectedTwinV2Experience({
   const [falProofBundle, setFalProofBundle] = useState<FalParallelTwinProofBundle | null>(
     () => session.conceptGallery?.falParallelTwinProofs?.[session.sessionId] ?? null,
   );
-  const showFalTwinProofPilot = session.projectId === 'ndxbook' && session.pageId === 'overview';
+  const showFalTwinProofPilot = isTwinV2OverviewPageScope(session.projectId, session.pageId);
   const [atomicRunning, setAtomicRunning] = useState(false);
   const [atomicError, setAtomicError] = useState<string | null>(null);
   const [atomicResult, setAtomicResult] = useState<AtomicCreativeGenerationResult | null>(
@@ -550,6 +551,26 @@ export function PageConceptDirectedTwinV2Experience({
 
       {hydrating ? <p className="site00-twin-v2-concept__hydrating">Loading concept gallery…</p> : null}
 
+      {showFalTwinProofPilot && !hydrating ? (
+        <section className="site00-twin-v2-fal-proof-pilot" aria-label="NDXBOOK FAL pilot">
+          <p className="site00-twin-v2-fal-proof-controls__hint">
+            NDXBOOK overview pilot — v28 capability proof, then v29 atomic bundle (no BUILD).
+          </p>
+          <TwinV2FalParallelTwinProofControls
+            onRunProof={() => void handleRunFalTwinProof()}
+            running={falProofRunning}
+            error={falProofError}
+            bundle={falProofBundle}
+          />
+          <TwinV2AtomicGenerationBundleControls
+            onRun={() => void handleRunAtomicBundle()}
+            running={atomicRunning}
+            error={atomicError}
+            result={atomicResult}
+          />
+        </section>
+      ) : null}
+
       {building || buildStage ? (
         <p className="site00-twin-v2-concept__build-stages" role="status" aria-live="polite">
           BUILD:{' '}
@@ -690,23 +711,6 @@ export function PageConceptDirectedTwinV2Experience({
             </button>
           </div>
         </section>
-      ) : null}
-
-      {showFalTwinProofPilot ? (
-        <>
-          <TwinV2FalParallelTwinProofControls
-            onRunProof={() => void handleRunFalTwinProof()}
-            running={falProofRunning}
-            error={falProofError}
-            bundle={falProofBundle}
-          />
-          <TwinV2AtomicGenerationBundleControls
-            onRun={() => void handleRunAtomicBundle()}
-            running={atomicRunning}
-            error={atomicError}
-            result={atomicResult}
-          />
-        </>
       ) : null}
 
       {activeConcept && activeConcept.conceptOrigin === 'DUAL_OUTPUT_PAIRED' ? (
