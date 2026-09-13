@@ -70,5 +70,7 @@ export type SanitizedConceptBoundaryResult = {
   canvasBoundary: TwinV2CanvasBoundary;
   hostShellContract: HostShellContract;
   compositePreview: HostShellCompositePreview;
+  clientCanvasBoundary: import('./computeClientCanvasBoundary.js').ClientCanvasBoundary;
+  clientCanvasTrimReceipt: import('./buildClientCanvasTrimReceipt.js').ClientCanvasTrimReceipt;
   originalConceptImagePreserved: boolean;
 };

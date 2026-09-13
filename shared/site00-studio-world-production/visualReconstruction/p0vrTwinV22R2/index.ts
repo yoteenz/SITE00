@@ -16,3 +16,7 @@ export * from './repairConceptGalleryHostBoundary.js';
 export * from './assertActiveConceptUsesExecutionBlueprint.js';
 export * from './computeExecutableConceptPackageReadiness.js';
 export * from './resolveActiveConceptBlueprintTrace.js';
+export * from './clientCanvasBoundaryConstants.js';
+export * from './computeClientCanvasBoundary.js';
+export * from './buildClientCanvasTrimReceipt.js';
+export * from './assertClientCanvasExcludesHostArtifactExtent.js';
