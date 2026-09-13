@@ -255,8 +255,10 @@ export function PageFamilyWorkspace({
         pageId: activePageId,
         viewport,
         route: activeRoute,
+        isRootOverview: isActiveRoot,
+        screenId: activeScreenId,
       }),
-    [projectId, activePageId, viewport, activeRoute],
+    [projectId, activePageId, viewport, activeRoute, isActiveRoot, activeScreenId],
   );
 
   const openTwinV2Workflow = useCallback(() => {
