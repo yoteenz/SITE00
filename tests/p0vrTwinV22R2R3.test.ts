@@ -103,9 +103,9 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     );
     const c = getActiveConceptCandidate(session)!;
     const boundary = session.conceptGallery!.clientCanvasBoundaries![c.conceptId]!;
-    expect(boundary.sanitizedCanvasBottom).toBeGreaterThan(0.85);
+    expect(boundary.sanitizedCanvasBottom).toBeGreaterThan(0.88);
     expect(boundary.sanitizedCanvasBottom).toBeLessThan(boundary.generatedHostNavBounds!.y);
-    expect(boundary.sanitizedCanvasBottom).toBeGreaterThan(1 - 0.12);
+    expect(boundary.sanitizedCanvasBottom).toBeCloseTo(boundary.generatedHostNavBounds!.y - 0.005, 2);
   });
 
   it('ClientCanvasTopReceipt + build ref', () => {
@@ -119,7 +119,7 @@ describe('P0.VR.TWINV2.2R2R3 client canvas top recovery', () => {
     const receipt = session.conceptGallery!.clientCanvasTopReceipts![c.conceptId]!;
     expect(receipt.newCanvasTop).toBeLessThanOrEqual(receipt.previousCanvasTop);
     expect(['RECOVERED', 'UNCHANGED']).toContain(receipt.status);
-    expect(P0_VR_TWIN_V22_BUILD).toBe('v363');
+    expect(P0_VR_TWIN_V22_BUILD).toBe('v364');
     const boundary = computeClientCanvasBoundary({
       conceptId: c.conceptId,
       executionBlueprint: session.conceptGallery!.sanitizedBlueprints[c.executionBlueprintId!],

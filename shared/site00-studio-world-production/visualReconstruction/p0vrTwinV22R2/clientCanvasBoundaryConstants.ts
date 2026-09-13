@@ -29,3 +29,6 @@ export const MASTHEAD_VISUAL_BLEED_NORM = 31 / CLIENT_CANVAS_ARTBOARD_HEIGHT_PX;
 
 /** Activity tail extends below blueprint section box (~70px @ 812 — includes +40px founder QA). */
 export const CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM = 70 / CLIENT_CANVAS_ARTBOARD_HEIGHT_PX;
+
+/** Stop sanitized crop slightly above detected invented host nav top. */
+export const INVENTED_HOST_NAV_TOP_EPSILON_NORM = 0.002 as const;

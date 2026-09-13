@@ -8542,3 +8542,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Founder QA:** Masthead and latest activity still slightly clipped after v362.
 - **Fix:** Masthead visual bleed **31px** @812 (+16); activity bottom bleed **70px** @812 (+40); crop top −2px Safari. Build ref **v363**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2 activity tail to invented nav + drawer scroll (v364)
+
+- **Symptom:** Latest activity still ~100–200px “clipped”; masthead OK (do not touch).
+- **Root cause:** (1) `sanitizedCanvasBottom` stopped at blueprint `paddedBottom` far above fake nav; (2) PAGE UPGRADE drawer **72vh** + body scroll — activity below fold looked like crop.
+- **Fix:** When invented nav artifact exists, `sanitizedCanvasBottom = artifactTop − ε` (full paint to nav); drawer **94vh** on CLIENT CANVAS; scroll hint on panel. Masthead unchanged. Build ref **v364**.
+

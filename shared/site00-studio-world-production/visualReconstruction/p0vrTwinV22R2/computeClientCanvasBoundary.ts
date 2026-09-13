@@ -5,6 +5,7 @@ import {
   APPROVED_CLIENT_BOTTOM_PADDING_NORM,
   CLIENT_CANVAS_TOP_FALLBACK_NORM,
   CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM,
+  INVENTED_HOST_NAV_TOP_EPSILON_NORM,
   MASTHEAD_VISUAL_BLEED_NORM,
   SITE00_HOST_BOTTOM_INSET_NORM,
   SITE00_HOST_TOP_INSET_NORM,
@@ -190,8 +191,10 @@ export function computeClientCanvasBoundary(input: {
   const artifactCap = generatedHostNavBounds
     ? Math.max(canvasTop + 0.05, generatedHostNavBounds.y - 0.005)
     : hostSafeBottom;
+  // Painted activity often extends far below blueprint section boxes — when fake nav is detected,
+  // run the crop up to the nav band (masthead/top logic unchanged above).
   const cappedBottom = generatedHostNavBounds
-    ? Math.min(paddedBottom, artifactCap)
+    ? artifactCap - INVENTED_HOST_NAV_TOP_EPSILON_NORM
     : Math.min(paddedBottom, hostSafeBottom);
 
   const sanitizedCanvasBottom = Math.min(0.98, cappedBottom);
