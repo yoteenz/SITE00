@@ -8398,3 +8398,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Fix (v347):** `resolveTwinV2SessionForOpen` (richest localStorage session); hydrate fetches **`?projectId=ndxbook`** (ledger + all `site00/twin-v2/*ndxbook*` storage folders); append **`twin-v2-ledger`** on each successful generation POST; empty state only after hydration completes.
 - **Founder:** Deploy **v347** cPanel ZIP **and** Railway API redeploy → reopen TWIN V2 → expand **VIEW INPUTS & DETAILS → CONCEPT STORE** (should show DISCOVERED/BACKFILLED counts). If DISCOVERED=0, prior gens were never persisted to Supabase/session (FAL-only); one new gen after v347 will ledger + gallery going forward.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R3 import existing concept URLs (FAL-only recovery)
+
+- **Confirmed:** `GET ?projectId=ndxbook` on api.site00.com returns **0 records** — five founder concepts were never in Supabase ledger/storage or local session on device.
+- **Fix (v348):** **IMPORT EXISTING CONCEPTS** UI (paste image URLs, no paid gen); `POST /api/site00/twin-v2-import-concept` copies to storage + ledger; `importExistingV2ConceptsFromUrls`; broader localStorage scan (case-insensitive projectId).
+

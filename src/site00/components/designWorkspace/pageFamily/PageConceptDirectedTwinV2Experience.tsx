@@ -16,7 +16,6 @@ import {
   ensureConceptGallery,
   setActiveConceptId,
   listConceptDirectedTwinSessionsForProject,
-  isTwinV2OverviewPageScope,
   getConceptCandidates,
   shouldShowV2EmptyState,
   fetchRemoteTwinV2Generations,
@@ -77,7 +76,7 @@ export function PageConceptDirectedTwinV2Experience({
       setHydrating(true);
       try {
         const siblingSessions = listConceptDirectedTwinSessionsForProject(session.projectId).filter(
-          (s) => s.sessionId !== session.sessionId && isTwinV2OverviewPageScope(session.projectId, s.pageId),
+          (s) => s.sessionId !== session.sessionId,
         );
         const sessionIds = [session.sessionId, ...siblingSessions.map((s) => s.sessionId)];
         const byProject = await fetchRemoteTwinV2GenerationsForProject(session.projectId);

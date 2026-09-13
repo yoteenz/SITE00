@@ -1,7 +1,6 @@
 import type { ConceptDirectedTwinSession, VisualConceptVersion } from '../p0vrTwinV21/types.js';
 import { runPageCreativeDirector } from '../p0vrTwinV21/runPageCreativeDirector.js';
 import { listAllConceptDirectedTwinSessions } from '../p0vrTwinV21/conceptDirectedTwinSessionStore.js';
-import { isTwinV2OverviewPageScope } from './twinV2PageScope.js';
 import {
   backfillConceptGalleryFromHistory,
   emptyConceptGallery,
@@ -92,8 +91,7 @@ export function hydrateConceptGallerySession(
     listAllConceptDirectedTwinSessions().filter(
       (s) =>
         s.sessionId !== session.sessionId &&
-        s.projectId.toLowerCase() === session.projectId.toLowerCase() &&
-        isTwinV2OverviewPageScope(session.projectId, s.pageId),
+        s.projectId.toLowerCase() === session.projectId.toLowerCase(),
     );
 
   const discovered = discoverExistingV2ConceptGenerations({
