@@ -1,4 +1,4 @@
-import { buildFalImageInput } from '../../../site00-visual-generation/falImageModels.js';
+import { runFalImageJobsParallel } from '../../../site00-visual-generation/falParallelImageSubscribe.js';
 import {
   TWIN_V2_VISUAL_PROVIDER,
   TWIN_V2_VISUAL_PROVIDER_LABEL,
@@ -28,21 +28,9 @@ async function falOne(prompt: string, label: string): Promise<{ url: string; job
       jobRef: `vitest-atomic-${label}-${ts}`,
     };
   }
-  const falKey = process.env.FAL_KEY?.trim();
-  if (!falKey) throw new Error('FAL_KEY_MISSING');
-  const { fal } = await import('@fal-ai/client');
-  fal.config({ credentials: falKey });
-  const input = buildFalImageInput({ prompt, aspectRatio: '9:16' });
-  const result = await fal.subscribe(input.model, { input: input.input });
-  const jobRef =
-    (result as { requestId?: string }).requestId ??
-    (result as { request_id?: string }).request_id ??
-    `fal-${label}-${Date.now()}`;
-  const url =
-    (result.data as { images?: { url?: string }[] })?.images?.[0]?.url ??
-    (result.data as { image?: { url?: string } })?.image?.url;
-  if (!url) throw new Error(`FAL ${label} missing url`);
-  return { url, jobRef: String(jobRef) };
+  const batch = await runFalImageJobsParallel([{ jobKey: label, prompt, aspectRatio: '9:16' }]);
+  const row = batch.results[0]!;
+  return { url: row.url, jobRef: row.jobRef };
 }
 
 export async function dispatchAtomicFalVisuals(input: {
@@ -52,10 +40,24 @@ export async function dispatchAtomicFalVisuals(input: {
 }): Promise<AtomicFalVisualDispatch> {
   const authPrompt = buildAuthorityPromptFromCompositionState(input.compositionState, input.pageIntentSummary);
   const bpPrompt = buildBlueprintTwinPromptFromCompositionState(input.compositionState, input.pageIntentSummary);
-  const trace = ['MODE C: orchestrated creative transaction — coordinated sibling FAL jobs'];
-  const auth = await falOne(authPrompt, 'authority');
+  const trace = ['MODE C: orchestrated creative transaction — parallel sibling FAL enqueue'];
+  const batch =
+    process.env.VITEST === 'true' ?
+      {
+        results: [
+          { ...(await falOne(authPrompt, 'authority')), jobKey: 'authority', enqueueOffsetMs: 0 },
+          { ...(await falOne(bpPrompt, 'blueprint-twin')), jobKey: 'blueprint-twin', enqueueOffsetMs: 0 },
+        ],
+        providerTrace: ['FAL_PARALLEL_ENQUEUE spreadMs=0 (vitest atomic)'],
+      }
+    : await runFalImageJobsParallel([
+        { jobKey: 'authority', prompt: authPrompt, aspectRatio: '9:16' },
+        { jobKey: 'blueprint-twin', prompt: bpPrompt, aspectRatio: '9:16' },
+      ]);
+  trace.push(...batch.providerTrace);
+  const auth = batch.results.find((r) => r.jobKey === 'authority')!;
+  const bp = batch.results.find((r) => r.jobKey === 'blueprint-twin')!;
   trace.push(`authority job ${auth.jobRef}`);
-  const bp = await falOne(bpPrompt, 'blueprint-twin');
   trace.push(`blueprint twin job ${bp.jobRef}`);
   const ts = Date.now();
   const provider = TWIN_V2_VISUAL_PROVIDER_LABEL;

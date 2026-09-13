@@ -88,7 +88,7 @@ describe('P0.VR.TWINV2.9 atomic generation bundle', () => {
       'ConceptCompositionState',
     );
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vrTwinV29/dispatchAtomicFalVisuals.ts')).toContain(
-      'fal.subscribe',
+      'runFalImageJobsParallel',
     );
     expect(read('src/site00/components/designWorkspace/pageFamily/TwinV2AtomicGenerationBundlePanel.tsx')).toContain(
       'OBJECT_DATA',
