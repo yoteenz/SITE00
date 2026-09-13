@@ -159,6 +159,11 @@ export function hydrateConceptGallerySession(
     if (priorGallery?.activeConceptId && gallery.candidates.some((c) => c.conceptId === priorGallery.activeConceptId)) {
       return priorGallery.activeConceptId;
     }
+    const staleGalleryBackfill =
+      needsBackfill && !(priorGallery?.candidates?.length ?? 0) && gallery.candidates.length > 0;
+    if (staleGalleryBackfill) {
+      return gallery.candidates[0]?.conceptId ?? null;
+    }
     return gallery.candidates.at(-1)?.conceptId ?? gallery.candidates[0]?.conceptId ?? null;
   })();
 
