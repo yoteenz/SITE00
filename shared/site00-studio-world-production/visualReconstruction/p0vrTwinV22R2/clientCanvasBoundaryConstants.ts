@@ -13,3 +13,9 @@ export const CLIENT_CANVAS_TOP_CROP_LOSS = 'CLIENT_CANVAS_TOP_CROP_LOSS' as cons
 
 /** Full concept artboard height/width for padding-bottom crop frames. */
 export const CLIENT_CANVAS_ARTBOARD_HEIGHT_OVER_WIDTH = 812 / 375;
+
+/** Painted SITE 00 host header band on full-page concept images (matches HostShellContract). */
+export const SITE00_HOST_TOP_INSET_NORM = 0.07 as const;
+
+/** Painted / reserved host bottom safe area on full-page concept images. */
+export const SITE00_HOST_BOTTOM_INSET_NORM = 0.12 as const;

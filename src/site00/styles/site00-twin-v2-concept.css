@@ -433,20 +433,21 @@
   position: relative;
   width: 100%;
   max-width: 375px;
-  height: 0;
   overflow: hidden;
   line-height: 0;
   background: #fff;
 }
 
-.site00-twin-v2-trimmed-canvas img {
-  position: absolute;
-  top: 0;
-  left: 0;
+.site00-twin-v2-trimmed-canvas__shift {
+  width: 100%;
+  will-change: transform;
+}
+
+.site00-twin-v2-trimmed-canvas__artboard {
   display: block;
   width: 100%;
   height: auto;
-  object-fit: contain;
+  aspect-ratio: 375 / 812;
   object-position: top left;
 }
 
