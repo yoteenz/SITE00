@@ -22,3 +22,5 @@ export {
   isPublicPrototypeAuthorityPath,
   canonicalPublicPrototypePath,
 } from './rewritePrototypeGalleryUrls.js';
+export * from './designWorkspaceAuthorityTypes.js';
+export * from './designWorkspaceAuthorityPipeline.js';

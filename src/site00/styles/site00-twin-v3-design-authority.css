@@ -85,6 +85,109 @@
   gap: 1.5rem;
 }
 
+.site00-dw-v3-authority-dock {
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 2px solid #c6f135;
+  border-radius: 10px;
+  background: #fafdf5;
+}
+
+.site00-dw-v3-authority-dock__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.site00-dw-v3-authority-dock__pair-status {
+  color: #333;
+  font-weight: 600;
+}
+
+.site00-dw-v3-authority-dock__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 720px) {
+  .site00-dw-v3-authority-dock__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.site00-dw-v3-authority-dock__slot {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.site00-dw-v3-authority-dock__thumb {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0ec;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0.35rem 0;
+}
+
+.site00-dw-v3-authority-dock__thumb img {
+  max-height: 160px;
+  width: auto;
+  max-width: 100%;
+}
+
+.site00-dw-v3-authority-dock__empty {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.site00-dw-v3-authority-dock__meta {
+  font-size: 0.7rem;
+  margin: 0 0 0.5rem;
+  line-height: 1.35;
+}
+
+.site00-dw-v3-authority-dock__status {
+  color: #0a7a3e;
+  font-weight: 600;
+}
+
+.site00-dw-v3-authority-dock__slot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.site00-dw-v3-authority-dock__lock {
+  margin-top: 0.75rem;
+}
+
+.site00-dw-v3-btn--lock {
+  width: 100%;
+}
+
+.site00-dw-v3-authority__frame--viewport-selected {
+  outline: 2px solid #c6f135;
+  outline-offset: 2px;
+}
+
+.site00-dw-v3-authority__frame--viewport-promoted {
+  outline: 2px solid #0a7a3e;
+}
+
+.site00-dw-v3-authority__frame-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.35rem 0.5rem 0.5rem;
+}
+
 .site00-dw-v3-authority__territory {
   border: 1px solid #e0dcd4;
   border-radius: 10px;
@@ -160,4 +263,123 @@
   margin-bottom: 0.5rem;
   font-size: 0.75rem;
   color: #555;
+}
+
+.site00-dw-v3-authority-dock--desktop {
+  display: none;
+}
+
+.site00-dw-v3-authority-dock--mobile {
+  margin-bottom: 1rem;
+}
+
+.site00-dw-v3-authority-dock-toggle {
+  display: block;
+  width: 100%;
+  margin: 0 0 0.5rem;
+  padding: 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 2px solid #c6f135;
+  border-radius: 8px;
+  background: #fafdf5;
+  cursor: pointer;
+}
+
+@media (min-width: 720px) {
+  .site00-dw-v3-authority-dock--desktop {
+    display: block;
+  }
+  .site00-dw-v3-authority-dock-toggle,
+  .site00-dw-v3-authority-dock--mobile {
+    display: none;
+  }
+}
+
+.site00-dw-v3-authority-pair-review {
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 1px solid #0a7a3e;
+  border-radius: 10px;
+  background: #f5fff8;
+}
+
+.site00-dw-v3-authority-pair-review header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.site00-dw-v3-authority-pair-review__grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 900px) {
+  .site00-dw-v3-authority-pair-review__grid {
+    grid-template-columns: 1fr 1.6fr;
+  }
+}
+
+.site00-dw-v3-authority-pair-review__figure {
+  margin: 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.site00-dw-v3-authority-pair-review__figure figcaption {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.7rem;
+  background: #f0f0ec;
+}
+
+.site00-dw-v3-authority-pair-review__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+.site00-dw-v3-authority-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.site00-dw-v3-authority-modal__panel {
+  max-width: 28rem;
+  padding: 1rem;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 0.85rem;
+}
+
+.site00-dw-v3-authority-modal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.site00-dw-v3-authority-modal--fullscreen {
+  padding: 0;
+  background: rgba(0, 0, 0, 0.92);
+}
+
+.site00-dw-v3-authority-modal--fullscreen img {
+  max-width: 100%;
+  max-height: 100vh;
+  margin: auto;
 }

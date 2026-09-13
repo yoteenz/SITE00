@@ -8792,3 +8792,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Causes:** Gallery only populated after long FAL API round-trip; iOS tab reload drops in-memory state; R4 **`lastResult`** bloated localStorage (quota) so gallery did not survive reload; client ignored server **`session`** gallery on edge merge failures.
 - **Fix:** Auto **`seedDesignPageAuthorityPrototypeGallery`** (SVG A/B/C × mobile/desktop on mount); **`mergeDesignPageAuthorityApiResponse`** falls back to API **`session`**; slim persisted **`lastResult`** + **sessionStorage** backup; in-flight generating hint. Build **v395**.
 
+---
+
+## 2026-09-13 — P0.VR.TWINV3.0R5 viewport master selection + pair lock (v397)
+
+- **Context:** Founder picked mobile/desktop authorities outside the product; gallery was view-only with legacy APPROVE MOBILE/DESKTOP per territory.
+- **Delivered:** Independent **MOBILE** / **DESKTOP** selection → explicit **promote** → **DesignWorkspaceAuthorityPair** → explicit **pair lock** (`executionIntent: TRANSLATION`, `inventionBudget: NONE`). Models: **`ViewportMasterAuthority`**, **`DesignWorkspaceAuthorityPair`**, pipeline in **`designWorkspaceAuthorityPipeline.ts`**; **`DesignAuthorityPairReadinessGate`** / **`assertDerivationAllowed`** block derivation until **`PAIR_LOCKED`**. UI: per-frame **SELECT FOR MOBILE/DESKTOP**, **`DesignPageV3AuthorityPairDock`**, pair review + lock confirmations, mobile bottom-sheet toggle for dock. Promotion preserves **`authorityImageUri`** (no regen). **`beginViewportMasterReplacement`** supersedes masters without deleting sibling candidates. Generation lineage **`P0.VR.TWINV3.0R5`**, build **v397**. Tests **`p0vrTwinV30R5.test.ts`** (18 scenarios). No live design page / blueprint fan-out in this sprint.
+

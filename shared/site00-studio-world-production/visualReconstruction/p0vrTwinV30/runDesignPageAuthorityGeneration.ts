@@ -4,7 +4,7 @@ import {
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   DESIGN_PAGE_V3_SKELETON_AREAS,
-  P0_VR_TWIN_V30R4_LINEAGE,
+  P0_VR_TWIN_V30R5_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
 import {
@@ -151,7 +151,7 @@ export async function runDesignPageAuthorityGeneration(input: {
   });
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
-    lineage: P0_VR_TWIN_V30R4_LINEAGE,
+    lineage: P0_VR_TWIN_V30R5_LINEAGE,
     authoritySessionId: input.session.authoritySessionId,
     projectId: input.session.projectId,
     pageLabel: input.session.pageLabel,

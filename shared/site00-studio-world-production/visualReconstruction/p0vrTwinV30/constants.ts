@@ -1,9 +1,12 @@
-/** P0.VR.TWINV3.0R4 — project creative DNA + grounded workspace authority generation. */
-export const P0_VR_TWIN_V30_BUILD = 'v396' as const;
+/** P0.VR.TWINV3.0R5 — viewport master selection + authority pair lock gate. */
+export const P0_VR_TWIN_V30_BUILD = 'v397' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
 export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;
 export const P0_VR_TWIN_V30R4_LINEAGE = 'P0.VR.TWINV3.0R4' as const;
+export const P0_VR_TWIN_V30R5_LINEAGE = 'P0.VR.TWINV3.0R5' as const;
+
+export const DESIGN_WORKSPACE_TYPE_DESIGN_PAGE_V3 = 'DESIGN_PAGE_V3' as const;
 
 export const DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE = 'DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE' as const;
 export const DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP = 'DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP' as const;
