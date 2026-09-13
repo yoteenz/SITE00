@@ -4,6 +4,7 @@ import { isHostOwnedBlueprintLabel } from './isHostOwnedBlueprintLabel.js';
 import {
   APPROVED_CLIENT_BOTTOM_PADDING_NORM,
   CLIENT_CANVAS_TOP_FALLBACK_NORM,
+  CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM,
   MASTHEAD_VISUAL_BLEED_NORM,
   SITE00_HOST_BOTTOM_INSET_NORM,
   SITE00_HOST_TOP_INSET_NORM,
@@ -140,6 +141,17 @@ export function computeLastClientContentBottom(blueprint: ConceptBlueprint): {
     }
   }
 
+  for (const sec of blueprint.sections) {
+    if (!isClientBlueprintSection(sec)) continue;
+    if (!sec.label.toLowerCase().includes('activity')) continue;
+    const activityBottom = sec.bounds.y + sec.bounds.h;
+    if (activityBottom > lastBottom) {
+      lastBottom = activityBottom;
+      lastId = sec.id;
+      lastBounds = { y: sec.bounds.y, h: sec.bounds.h };
+    }
+  }
+
   return {
     lastClientContentBottom: lastBottom,
     lastClientOwnedObjectId: lastId,
@@ -170,12 +182,17 @@ export function computeClientCanvasBoundary(input: {
     canvasTop = Math.max(0, canvasTop - MASTHEAD_VISUAL_BLEED_NORM);
   }
 
-  const paddedBottom = last.lastClientContentBottom + APPROVED_CLIENT_BOTTOM_PADDING_NORM;
+  const paddedBottom =
+    last.lastClientContentBottom +
+    APPROVED_CLIENT_BOTTOM_PADDING_NORM +
+    CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM;
   const hostSafeBottom = 1 - hostBottomInset;
   const artifactCap = generatedHostNavBounds
     ? Math.max(canvasTop + 0.05, generatedHostNavBounds.y - 0.005)
     : hostSafeBottom;
-  const cappedBottom = Math.min(paddedBottom, artifactCap, hostSafeBottom);
+  const cappedBottom = generatedHostNavBounds
+    ? Math.min(paddedBottom, artifactCap)
+    : Math.min(paddedBottom, hostSafeBottom);
 
   const sanitizedCanvasBottom = Math.min(0.98, cappedBottom);
   const sanitizedCanvasHeight = Math.max(0.1, sanitizedCanvasBottom - canvasTop);

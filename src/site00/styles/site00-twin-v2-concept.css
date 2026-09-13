@@ -450,7 +450,7 @@
 .site00-twin-v2-trimmed-canvas__artboard {
   position: absolute;
   left: 0;
-  top: calc(-100% * var(--client-crop-top, 0) / var(--client-crop-visible, 1));
+  top: calc(-100% * var(--client-crop-top, 0) / var(--client-crop-visible, 1) - 1px);
   display: block;
   width: 100%;
   height: auto;

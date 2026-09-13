@@ -20,5 +20,8 @@ export const SITE00_HOST_TOP_INSET_NORM = 0.07 as const;
 /** Painted / reserved host bottom safe area on full-page concept images. */
 export const SITE00_HOST_BOTTOM_INSET_NORM = 0.12 as const;
 
-/** Full-page concept images often draw masthead slightly above blueprint y — recover without host chrome. */
-export const MASTHEAD_VISUAL_BLEED_NORM = 0.012 as const;
+/** Full-page concept images often draw masthead slightly above blueprint y (~15px @ 812). */
+export const MASTHEAD_VISUAL_BLEED_NORM = 0.019 as const;
+
+/** Activity / last band often extends below blueprint section box (~30px @ 812). */
+export const CLIENT_CANVAS_BOTTOM_VISUAL_BLEED_NORM = 0.037 as const;
