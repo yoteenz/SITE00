@@ -43,7 +43,11 @@ export function markSite00ImmersiveComplete(): void {
   } catch {
     /* ignore */
   }
-  purgeSite00ImmersiveLoaderDom('immersive-session-complete');
+}
+
+/** Strip loader DOM only after React has unmounted the portal (gate `revealed` commit). */
+export function purgeSite00ImmersiveLoaderDomAfterGateReveal(reason?: string): void {
+  purgeSite00ImmersiveLoaderDom(reason ?? 'immersive-session-complete');
 }
 
 /** @deprecated Use markSite00ImmersiveComplete */

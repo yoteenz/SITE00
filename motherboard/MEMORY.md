@@ -8449,7 +8449,6 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-13 — P0.VR.TWINV2.2R2 host-shell exclusion + client-canvas boundary (v352)
 
 - **Context:** Strong new Twin V2 concept included invented bottom nav (HOME/PROJECTS/CREATE/MESSAGES/ACCOUNT) — image model drew SITE 00 host chrome; must not enter executable build.
@@ -8462,14 +8461,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Root cause:** Persisted concept galleries (localStorage) kept candidates but **never hydrated** `sanitizedBlueprints` / `hostBoundaryReady` on reopen — UI read raw `blueprint.sections` including **host bottom nav** band with no exclusion labels; founder on pre-v355 deploy also missed tab UI.
 - **Fix:** `repairConceptGalleryHostBoundary` on every gallery hydrate/backfill; `originalBlueprintId` + `executionBlueprintId` on candidates; blueprint inspection rows with GENERATED HOST ARTIFACT / EXCLUDED; prominent **HOST PREVIEW** + **CLIENT CANVAS** tabs; build blocked until `hostBoundaryReady`; `HostBoundarySanitizationReceipt`; stale guard `TWIN_V2_STALE_UNSANITIZED_BLUEPRINT`. Build ref **v356**.
-=======
+
+---
 ## 2026-09-13 — Loader hang hardfix (v353) + fsbw-dev = Vite tunnel
 
 - **Symptom:** Founder: deployed site still stuck on loading animation after v351.
 - **Finding:** `site00.fsbw-dev.com` page source serves **`/src/main.tsx?v=dev-local`** (Cloud **Vite tunnel**), not cPanel **`/assets/index.*.js`** ZIP — “deploy” may not have replaced tunnel DNS/hosting.
 - **Root bug:** Cinematic gate could reach `phase=exiting` without **`revealed=true`** if exit callback never fired.
 - **Fix (v353):** `teardownSite00BootShellAfterReactMount` in `main.tsx`; preview tunnel **bypasses** immersive gate; `forceRevealApp` on bootstrap complete/error; **6s** wall failsafe; boot recovery dispatches `site00-force-reveal-loader`.
->>>>>>> origin/main
 
 ---
 
@@ -8487,3 +8486,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Actual culprit:** Not gate failsafe — **`Site00ImmersiveColdStartFallback`** portaled a second **non-exiting** immersive loader to `document.body` during lazy chunk Suspense (copy hidden until animation plays; no exit lifecycle). Orphan DOM + `html.site00-assts-boot` could hide `#root`.
 - **Fix (v355):** Remove immersive loader from route Suspense fallbacks entirely; `purgeSite00ImmersiveLoaderDom()` on session complete / force-reveal / loading-terminal recovery; boot-recovery **watchdog** (after gate complete or 10s) strips orphaned `.site00-immersive-loader`; stop marking immersive session complete on raw React mount (gate owns session).
 
+---
+
+## 2026-09-13 — Blank screen after loader (`removeChild` React crash)
+
+- **Context:** Founder: site00.com passes immersive loader then **white blank** `#root`; boot recovery banner; console **`NotFoundError: removeChild`**.
+- **Root cause:** Loader DOM was stripped **while React still owned the portal** — `markSite00ImmersiveComplete()` called `purgeSite00ImmersiveLoaderDom()` synchronously inside `forceRevealApp`; boot-recovery watchdog + `dispatchSite00ForceRevealLoader` also removed `.site00-immersive-loader` before gate exit.
+- **Fix:** Session mark sets storage only; **`purgeSite00ImmersiveLoaderDomAfterGateReveal`** runs in gate `useLayoutEffect` when `revealed`; force-reveal dispatches event only (no DOM purge); boot-recovery purges immersive overlay only when session complete + static shell cleanup when `#root` has children; pageshow/bfcache same rules. PR **fix-loader-dom-race**.

@@ -16,15 +16,19 @@
     return !!(root && root.childElementCount > 0);
   }
 
-  function purgeLoaderOverlays(reason) {
+  function purgeStaticBootShellOnly() {
     document.documentElement.classList.remove('site00-assts-boot');
     var shell = document.getElementById('site00-assts-boot-shell');
     if (shell) {
       shell.hidden = true;
       shell.remove();
     }
+  }
+
+  function purgeLoaderOverlays(reason) {
+    purgeStaticBootShellOnly();
     document.querySelectorAll('.site00-immersive-loader').forEach(function (el) {
-      el.remove();
+      if (el && el.parentNode) el.remove();
     });
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
@@ -94,7 +98,9 @@
   });
 
   window.addEventListener('pageshow', function (ev) {
-    if (ev && ev.persisted && rootHasApp()) {
+    if (!ev || !ev.persisted || !rootHasApp()) return;
+    purgeStaticBootShellOnly();
+    if (isImmersiveSessionComplete()) {
       purgeLoaderOverlays('bfcache-restore');
     }
   });
@@ -102,7 +108,7 @@
   var started = Date.now();
   var poll = window.setInterval(function () {
     if (rootHasApp()) {
-      releaseBootShell('app-mounted');
+      purgeStaticBootShellOnly();
       window.clearInterval(poll);
       return;
     }
@@ -133,8 +139,11 @@
     var hasOverlay =
       document.documentElement.classList.contains('site00-assts-boot') ||
       document.querySelector('.site00-immersive-loader');
-    if (hasOverlay) {
-      purgeLoaderOverlays('watchdog-root-has-app');
+    if (document.documentElement.classList.contains('site00-assts-boot')) {
+      purgeStaticBootShellOnly();
+    }
+    if (isImmersiveSessionComplete() && document.querySelector('.site00-immersive-loader')) {
+      purgeLoaderOverlays('watchdog-session-complete');
     }
     if (Date.now() - watchdogStarted >= WATCHDOG_MAX_MS) {
       window.clearInterval(watchdog);
