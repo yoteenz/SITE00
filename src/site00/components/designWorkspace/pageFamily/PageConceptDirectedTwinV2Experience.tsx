@@ -27,7 +27,7 @@ import {
   requestTwinV2ImportConcept,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import { getActiveConceptCandidate } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
-import { beginDualOutputConceptGeneration } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV25/buildDualOutputPreGeneration.js';
+import { beginParallelCompositionTwinGeneration } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV27/beginParallelCompositionTwinGeneration.js';
 import { TwinV2PairedConceptReviewPanel } from './TwinV2PairedConceptReviewPanel.js';
 import { TwinV2CompilerReadinessPanel } from './TwinV2CompilerReadinessPanel.js';
 import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
@@ -257,7 +257,7 @@ export function PageConceptDirectedTwinV2Experience({
         action === 'refine' ? 'REFINED' : action === 'regenerate' ? 'REGENERATED' : ('INITIAL' as const);
       const parentForRefine =
         action === 'refine' && gallery?.activeConceptId ? gallery.activeConceptId : null;
-      working = beginDualOutputConceptGeneration(working, {
+      working = beginParallelCompositionTwinGeneration(working, {
         generationType: genType,
         parentConceptId: parentForRefine,
         founderInstruction: action === 'refine' ? refineText : null,
