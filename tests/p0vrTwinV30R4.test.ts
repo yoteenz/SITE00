@@ -11,6 +11,7 @@ import {
   loadProjectCreativeContextPackage,
   P0_VR_TWIN_V30R4_LINEAGE,
   P0_VR_TWIN_V30R5_LINEAGE,
+  P0_VR_TWIN_V30R5F1_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   PROJECT_CREATIVE_CONTEXT_VERSION,
   runDesignPageAuthorityGeneration,
@@ -21,6 +22,7 @@ import {
   buildAllTerritoryPrompts,
   buildAllTerritoryCreativePayloads,
   assertProjectCreativeGroundingGate,
+  DESIGN_WORKSPACE_UI_UPPERCASE_MARKER,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 
 describe('P0.VR.TWINV3.0R4 project creative grounding', () => {
@@ -81,6 +83,22 @@ describe('P0.VR.TWINV3.0R4 project creative grounding', () => {
     expect(r4.pass).toBe(true);
     expect(combined).toContain(P0_VR_TWIN_V30R4_LINEAGE);
     expect(combined).toContain('NO GENERIC FALLBACK');
+    expect(combined).toContain(DESIGN_WORKSPACE_UI_UPPERCASE_MARKER);
+    expect(combined).toContain('Host + workspace UI case:');
+  });
+
+  it('16b all territory prompts enforce uppercase UI on every page (R3 QA)', () => {
+    const all = buildAllTerritoryPrompts({ clientProjectId: 'ndxbook' });
+    const combined = Object.values(all)
+      .flatMap((p) => [p.mobile, p.desktop])
+      .join('\n');
+    for (const [territoryId, pair] of Object.entries(all) as ['A' | 'B' | 'C', { mobile: string; desktop: string }][]) {
+      expect(pair.mobile).toContain(DESIGN_WORKSPACE_UI_UPPERCASE_MARKER);
+      expect(pair.desktop).toContain(DESIGN_WORKSPACE_UI_UPPERCASE_MARKER);
+      expect(pair.mobile).toContain('EVERY PAGE AND SURFACE');
+      void territoryId;
+    }
+    expect(combined.toLowerCase()).toContain('every page');
   });
 
   it('17–19 AssetGroundingRecord + manifest + ungrounded guard', () => {

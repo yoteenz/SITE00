@@ -92,6 +92,8 @@ export type ProjectTypographyExpression = {
   displayBehavior: string;
   editorialBehavior: string;
   metadataBehavior: string;
+  uiCaseRule: string;
+  allPagesCaseRule: string;
 };
 
 export type ProjectMaterialLanguage = {

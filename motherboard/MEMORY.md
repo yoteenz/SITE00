@@ -8794,6 +8794,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 authority prompts: uppercase UI on every page (v400)
+
+- **Founder ask:** Confirm concept-driving prompts enforce **uppercase** UI typography on **all pages** shown in authority mockups.
+- **Finding:** Pre-v400 R4/R5F1 territory + grounding prompts specified Martian Mono host type and uppercase affordance *strings* but lacked an explicit **all-pages uppercase casing contract** (brand lore has this elsewhere via `TYPOGRAPHY_FIREWALL` / `typographyProvenance`).
+- **Delivered:** `formatDesignWorkspaceTypographyCasePromptBlock` injected into R2 + R3 territory prompts; NDXBOOK `ProjectTypographyExpression.uiCaseRule` + `allPagesCaseRule`; R3 self-check `UPPERCASE_CASE_GOVERNANCE_QA`; R5F1 affordance line; tests in **`p0vrTwinV30R4.test.ts`**. Build **v400**. Existing FAL/SVG authorities need regen to pick up prompt law.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV3.0R5F1 feature manifest + master amendment (v399)
 
 - **Context:** R5 viewport master UX could not be frozen into pre-R5 visual authorities without omitting new product capabilities under TRANSLATION mode.

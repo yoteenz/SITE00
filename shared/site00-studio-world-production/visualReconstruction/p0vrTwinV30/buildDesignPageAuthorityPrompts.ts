@@ -6,6 +6,7 @@ import {
   P0_VR_TWIN_V30R2_LINEAGE,
 } from './constants.js';
 import { canonicalReframeBlock, foundershiTestLine } from './designPageAuthoritySelfCheck.js';
+import { formatDesignWorkspaceTypographyCasePromptBlock } from './formatDesignWorkspaceTypographyCasePromptBlock.js';
 import { skeletonZoneLabelsForPrompt } from './lockedExperienceSkeleton.js';
 
 const HOST_CLIENT_FIREWALL = `
@@ -41,6 +42,7 @@ NON-NEGOTIABLE HIERARCHY:
 5. Technical detail (secondary only)
 
 ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} language: bright/off-white, clean geometry, structured spacing, restrained red accents, typographic hierarchy, differentiated panels.
+${formatDesignWorkspaceTypographyCasePromptBlock()}
 Visual-first, scan-friendly, decisive — organize workflow visually, do not narrate with paragraphs.
 No fake metrics. Representative status chips only.
 `.trim();

@@ -19,6 +19,7 @@ import {
   HOST_PROJECT_EXPRESSION_CORE_RULE,
   type DesignPageV3TerritoryId,
 } from './hostProjectExpressionModel.js';
+import { formatDesignWorkspaceTypographyCasePromptBlock } from './formatDesignWorkspaceTypographyCasePromptBlock.js';
 import { skeletonZoneLabelsForPrompt } from './lockedExperienceSkeleton.js';
 
 const THREE_LAYER_MODEL = `
@@ -73,6 +74,7 @@ function sharedBrief(viewport: 'mobile' | 'desktop'): string {
     : 'Desktop: creative workstation; strong central stage; quiet host frame; less admin dashboard.';
   return `
 ${THREE_LAYER_MODEL}
+${formatDesignWorkspaceTypographyCasePromptBlock()}
 ${SPATIAL_GRAMMAR}
 
 LOCKED SKELETON ZONES (A–G — all present, hierarchical):
