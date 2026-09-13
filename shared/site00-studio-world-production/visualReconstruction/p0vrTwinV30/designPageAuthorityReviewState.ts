@@ -7,7 +7,11 @@ import {
 } from './constants.js';
 import type { DesignPageV3FounderTerritoryVerdict } from './hostProjectExpressionModel.js';
 import { buildTerritoryPrototypeBundles } from './buildTerritoryPrototypeBundles.js';
+import { buildAllTerritoryPrompts } from './buildDesignPageAuthorityTerritoryPrompts.js';
 import { emptyAuthorityPipelineState, registerGeneratedCandidates } from './designWorkspaceAuthorityPipeline.js';
+import { buildFeatureCoverageReceipt } from './designWorkspaceFeatureAuthority/featureCoverageReceipt.js';
+import { emptyDesignWorkspaceFeatureAuthorityState } from './designWorkspaceFeatureAuthority/featureAuthorityState.js';
+import { DESIGN_WORKSPACE_FEATURE_MANIFEST_V1 } from './constants.js';
 import {
   appendTerritoryBundlesToGallery,
   emptyTerritoryGallery,
@@ -43,7 +47,42 @@ export function createDesignPageAuthorityReviewSession(input?: {
     selectedCandidateByTerritory: {},
     founderReview: emptyFounderReview(now),
     authorityPipeline: emptyAuthorityPipelineState(),
+    featureAuthority: emptyDesignWorkspaceFeatureAuthorityState(),
     updatedAt: now,
+  };
+}
+
+function attachCandidateFeatureCoverage(
+  session: DesignPageAuthorityReviewSession,
+  candidateId: string,
+  territoryId: DesignPageV3TerritoryId,
+  projectId: string,
+): DesignPageAuthorityReviewSession {
+  const prompts = buildAllTerritoryPrompts({
+    clientProjectId: projectId,
+    refineNotes: session.founderReview.refineNotes,
+  });
+  const featureAuthority = session.featureAuthority ?? emptyDesignWorkspaceFeatureAuthorityState();
+  const mobileReceipt = buildFeatureCoverageReceipt({
+    authorityCandidateId: `${candidateId}:mobile`,
+    promptOrArtifactText: prompts[territoryId].mobile,
+    manifestVersion: DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
+  });
+  const desktopReceipt = buildFeatureCoverageReceipt({
+    authorityCandidateId: `${candidateId}:desktop`,
+    promptOrArtifactText: prompts[territoryId].desktop,
+    manifestVersion: DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
+  });
+  return {
+    ...session,
+    featureAuthority: {
+      ...featureAuthority,
+      candidateCoverageById: {
+        ...featureAuthority.candidateCoverageById,
+        [`${candidateId}:mobile`]: mobileReceipt,
+        [`${candidateId}:desktop`]: desktopReceipt,
+      },
+    },
   };
 }
 
@@ -121,16 +160,24 @@ export function seedDesignPageAuthorityPrototypeGallery(
     const latest = latestTerritoryCandidate(territoryGallery, bundle.territoryId);
     if (latest) selectedCandidateByTerritory[bundle.territoryId] = latest.candidateId;
   }
-  return registerGeneratedCandidates(
+  let next = registerGeneratedCandidates(
     normalizeDesignPageAuthoritySession({
       ...base,
       candidateGeneration: batchGeneration,
       territoryGallery,
       selectedCandidateByTerritory,
       authorityPipeline: base.authorityPipeline ?? emptyAuthorityPipelineState(),
+      featureAuthority: base.featureAuthority ?? emptyDesignWorkspaceFeatureAuthorityState(),
       updatedAt: now,
     }),
   );
+  for (const bundle of bundles) {
+    const latest = latestTerritoryCandidate(next.territoryGallery, bundle.territoryId);
+    if (latest) {
+      next = attachCandidateFeatureCoverage(next, latest.candidateId, bundle.territoryId, next.projectId);
+    }
+  }
+  return next;
 }
 
 export function applyDesignPageAuthorityGeneration(
@@ -169,7 +216,14 @@ export function applyDesignPageAuthorityGeneration(
     authorityPipeline: base.authorityPipeline ?? emptyAuthorityPipelineState(),
     updatedAt: now,
   });
-  return registerGeneratedCandidates(withGallery);
+  let next = registerGeneratedCandidates(withGallery);
+  for (const bundle of result.territories) {
+    const latest = latestTerritoryCandidate(next.territoryGallery, bundle.territoryId);
+    if (latest) {
+      next = attachCandidateFeatureCoverage(next, latest.candidateId, bundle.territoryId, next.projectId);
+    }
+  }
+  return next;
 }
 
 export function appendDesignPageAuthorityRefineNote(

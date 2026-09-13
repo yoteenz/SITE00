@@ -19,7 +19,9 @@ import {
   isViewportCandidateSelected,
   lockDesignWorkspaceAuthorityPair,
   normalizeDesignPageAuthoritySession,
-  P0_VR_TWIN_V30R5_LINEAGE,
+  P0_VR_TWIN_V30R5F1_LINEAGE,
+  DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
+  masterAmendmentStatusLabel,
   P0_VR_TWIN_V30_BUILD,
   promoteViewportMaster,
   readDesignPageAuthoritySession,
@@ -266,9 +268,15 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     >
       <header className="site00-dw-v3-authority__head">
         <strong>
-          {P0_VR_TWIN_V30R5_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
+          {P0_VR_TWIN_V30R5F1_LINEAGE} · {DESIGN_PAGE_V3_HOST_PRODUCT_NAME} DESIGN PAGE
         </strong>
-        <span>Project {projectId.toUpperCase()} · context {contextVersion}</span>
+        <span>
+          Project {projectId.toUpperCase()} · context {contextVersion} · features {DESIGN_WORKSPACE_FEATURE_MANIFEST_V1}
+        </span>
+        <span className="site00-dw-v3-authority__hint" data-testid="v3-master-amendment-status">
+          {masterAmendmentStatusLabel(sessionView.authorityPipeline?.mobileMaster)} ·{' '}
+          {masterAmendmentStatusLabel(sessionView.authorityPipeline?.desktopMaster)}
+        </span>
         {mobileLocked ? (
           <span className="site00-dw-v3-authority__lock">{DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE}</span>
         ) : null}
@@ -278,8 +286,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         {pairLocked ? <span className="site00-dw-v3-authority__lock">TRANSLATION MODE</span> : null}
       </header>
       <p className="site00-dw-v3-authority__hint">
-        Browse generated candidates per territory. Select independent MOBILE and DESKTOP viewport masters, promote each
-        explicitly, then lock the authority pair — no blueprint or package derivation until the pair is locked.
+        Browse generated candidates per territory (R5F1 feature manifest required in every A/B/C concept). Select
+        independent MOBILE and DESKTOP masters, promote each (feature coverage must PASS), then lock the pair — run ADD
+        BATCH to regenerate six R5F1 authorities via FAL when ready.
       </p>
       {running ? (
         <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-authority-generating">

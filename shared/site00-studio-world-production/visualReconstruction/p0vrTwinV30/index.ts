@@ -28,3 +28,4 @@ export {
 } from './repairAuthorityPrototypeUrls.js';
 export * from './designWorkspaceAuthorityTypes.js';
 export * from './designWorkspaceAuthorityPipeline.js';
+export * from './designWorkspaceFeatureAuthority/index.js';

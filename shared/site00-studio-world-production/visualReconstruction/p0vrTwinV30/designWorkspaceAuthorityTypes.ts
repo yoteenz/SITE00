@@ -27,6 +27,7 @@ export type ViewportMasterAuthority = {
   authorityImageHash: string;
   authorityImageUri: string;
   projectCreativeContextVersion: typeof PROJECT_CREATIVE_CONTEXT_VERSION | string;
+  designWorkspaceFeatureManifestVersion: string;
   groundingManifestId: string | null;
   lineageId: string;
   promotedBy: string;

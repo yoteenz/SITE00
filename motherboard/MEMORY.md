@@ -8794,6 +8794,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV3.0R5F1 feature manifest + master amendment (v399)
+
+- **Context:** R5 viewport master UX could not be frozen into pre-R5 visual authorities without omitting new product capabilities under TRANSLATION mode.
+- **Delivered:** `DesignWorkspaceFeatureManifest` v1 (29 required DESIGN features A–AC incl. R5 authority-selection set), `WorkspaceFeatureChangeSet` (R5F1 ADD), `MasterAuthorityAmendment` (MASTER_AMENDMENT vs FULL_REGENERATION), `FeatureCoverageReceipt` + fail-closed promotion gate, `MasterFeatureBinding` on promote, stale master detection (`MASTER UPDATE REQUIRED`), R5F1 prompt block injected into all A/B/C mobile+desktop generation prompts, generation lineage **P0.VR.TWINV3.0R5F1**, `designWorkspaceFeatureManifestVersion` on masters/results. Tests **`p0vrTwinV30R5F1.test.ts`**. Founder runs **ADD BATCH (A+B+C)** for six FAL authorities — not live design page implementation. Build **v399**.
+
+---
+
 ## 2026-09-13 — Twin V3 authority R3 mockups broken (gray ?) — URL repair (v398)
 
 - **Symptom:** NDXBOOK design authority gallery on **site00.fsbw-dev.com** / mobile showed gray boxes + blue broken-image icon; batch 1 prototype rows did not show SITE 00 + NDXBOOK lime SVGs.

@@ -1,8 +1,12 @@
 import {
   DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
   DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
-  P0_VR_TWIN_V30R5_LINEAGE,
+  P0_VR_TWIN_V30R5F1_LINEAGE,
 } from './constants.js';
+import { assertFeatureCoverageForPromotion } from './designWorkspaceFeatureAuthority/featureCoverageGate.js';
+import { buildPromotionFeatureBindings } from './designWorkspaceFeatureAuthority/masterFeatureBinding.js';
+import { loadActiveDesignWorkspaceFeatureManifest } from './designWorkspaceFeatureAuthority/designWorkspaceFeatureManifestV1.js';
+import { assertMasterNotFeatureStale } from './designWorkspaceFeatureAuthority/staleMasterDetection.js';
 import { PROJECT_CREATIVE_CONTEXT_VERSION } from './projectCreativeGrounding/types.js';
 import type { DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import {
@@ -333,7 +337,12 @@ export function promoteViewportMaster(
     throw new Error('VIEWPORT_SLOT_MISMATCH');
   }
 
+  const coverageKey = `${ref.candidateId}:${viewport}`;
+  const receipt = session.featureAuthority?.candidateCoverageById[coverageKey] ?? null;
+  assertFeatureCoverageForPromotion(receipt);
+
   const supersede = pipelineViewport === 'MOBILE' ? pipeline.mobileMaster : pipeline.desktopMaster;
+  if (supersede) assertMasterNotFeatureStale(supersede);
   let supersededMasters = pipeline.supersededMasters;
   if (supersede) {
     supersededMasters = [...supersededMasters, { ...supersede, status: 'SUPERSEDED' }];
@@ -367,8 +376,9 @@ export function promoteViewportMaster(
     authorityImageHash: computeAuthorityImageHash(artifact),
     authorityImageUri: artifact.storageUrl,
     projectCreativeContextVersion: getProjectCreativeContextVersion(session),
+    designWorkspaceFeatureManifestVersion: loadActiveDesignWorkspaceFeatureManifest().version,
     groundingManifestId: groundingManifestIdForCandidate(session, found.territoryId, viewport),
-    lineageId: P0_VR_TWIN_V30R5_LINEAGE,
+    lineageId: P0_VR_TWIN_V30R5F1_LINEAGE,
     promotedBy,
     promotedAt: new Date().toISOString(),
     status: 'PROMOTED',
@@ -403,9 +413,23 @@ export function promoteViewportMaster(
     pipeline = syncPairStatus(pipeline);
   }
 
+  const manifest = loadActiveDesignWorkspaceFeatureManifest();
+  const bindings = buildPromotionFeatureBindings(master, manifest.requiredFeatureIds);
+  const featureAuthority = session.featureAuthority ?? {
+    activeManifest: manifest,
+    changeSets: [],
+    amendments: [],
+    candidateCoverageById: {},
+    masterBindings: [],
+  };
+
   return normalizeDesignPageAuthoritySession({
     ...session,
     authorityPipeline: pipeline,
+    featureAuthority: {
+      ...featureAuthority,
+      masterBindings: [...featureAuthority.masterBindings, ...bindings],
+    },
     updatedAt: new Date().toISOString(),
   });
 }
@@ -531,6 +555,8 @@ export function assertDerivationAllowed(session: DesignPageAuthorityReviewSessio
   if (pair?.derivationStatus === 'STALE') {
     throw new Error('DESIGN_AUTHORITY_DERIVATION_STALE');
   }
+  assertMasterNotFeatureStale(session.authorityPipeline?.mobileMaster);
+  assertMasterNotFeatureStale(session.authorityPipeline?.desktopMaster);
 }
 
 export function getCandidateViewportState(

@@ -6,7 +6,10 @@ import {
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   P0_VR_TWIN_V30R3_LINEAGE,
   P0_VR_TWIN_V30R4_LINEAGE,
+  P0_VR_TWIN_V30R5F1_LINEAGE,
+  DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
 } from './constants.js';
+import { formatFeatureManifestPromptBlock } from './designWorkspaceFeatureAuthority/formatFeatureManifestPromptBlock.js';
 import { buildAuthorityCreativeGenerationPayload } from './projectCreativeGrounding/buildAuthorityCreativeGenerationPayload.js';
 import { formatProjectGroundingPromptBlock } from './projectCreativeGrounding/formatProjectGroundingPromptBlock.js';
 import { canonicalReframeBlock, foundershiTestLine } from './designPageAuthoritySelfCheck.js';
@@ -43,7 +46,8 @@ ANTI-PATTERNS (regenerate): left sidebar + top bar + generic cards + right inspe
 `.trim();
 
 const R3_QUALITY = `
-${P0_VR_TWIN_V30R3_LINEAGE} + ${P0_VR_TWIN_V30R4_LINEAGE} — three spatially DISTINCT territories (not color skins). Creative workstation / editorial environment — NOT enterprise admin SaaS template.
+${P0_VR_TWIN_V30R3_LINEAGE} + ${P0_VR_TWIN_V30R4_LINEAGE} + ${P0_VR_TWIN_V30R5F1_LINEAGE} — three spatially DISTINCT territories (not color skins). Creative workstation / editorial environment — NOT enterprise admin SaaS template.
+Feature manifest ${DESIGN_WORKSPACE_FEATURE_MANIFEST_V1} — identical required capabilities across A/B/C.
 
 ${foundershiTestLine()}
 Plus: "I can immediately feel NDXBOOK is the project I have open." — both reactions required.
@@ -99,12 +103,18 @@ export function buildTerritoryDesignPageAuthorityPrompt(input: {
     viewport: input.viewport,
   });
   const groundingBlock = formatProjectGroundingPromptBlock(groundingPayload);
+  const featureBlock = formatFeatureManifestPromptBlock({
+    territoryId: input.territoryId,
+    viewport: input.viewport,
+    evolutionMode: 'MASTER_AMENDMENT',
+  });
   return `
 Generate HIGH-FIDELITY founder-review UI MOCKUP — ${input.viewport.toUpperCase()} — ${DESIGN_PAGE_V3_CANONICAL_PATH}.
 Active project ${client} OPEN inside ${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} shell (not ${client}-owned app).
 Canvas: ${canvas}.
 
 ${R3_QUALITY}
+${featureBlock}
 ${groundingBlock}
 ${sharedBrief(input.viewport)}
 ${territoryBlock(input.territoryId)}

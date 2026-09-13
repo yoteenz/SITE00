@@ -13,7 +13,7 @@ import {
   seedDesignPageAuthorityPrototypeGallery,
   selectViewportCandidate,
   unselectViewportCandidate,
-  P0_VR_TWIN_V30R5_LINEAGE,
+  P0_VR_TWIN_V30R5F1_LINEAGE,
   P0_VR_TWIN_V30_BUILD,
   runDesignPageAuthorityGeneration,
   getCandidateViewportState,
@@ -182,7 +182,7 @@ describe('P0.VR.TWINV3.0R5 design workspace authority pair', () => {
   it('R5 lineage + build ref', async () => {
     const session = createDesignPageAuthorityReviewSession();
     const batch = await runDesignPageAuthorityGeneration({ session, action: 'GENERATE' });
-    expect(batch.lineage).toBe(P0_VR_TWIN_V30R5_LINEAGE);
+    expect(batch.lineage).toBe(P0_VR_TWIN_V30R5F1_LINEAGE);
     expect(batch.buildRef).toBe(P0_VR_TWIN_V30_BUILD);
   });
 });
