@@ -8405,3 +8405,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Confirmed:** `GET ?projectId=ndxbook` on api.site00.com returns **0 records** — five founder concepts were never in Supabase ledger/storage or local session on device.
 - **Fix (v348):** **IMPORT EXISTING CONCEPTS** UI (paste image URLs, no paid gen); `POST /api/site00/twin-v2-import-concept` copies to storage + ledger; `importExistingV2ConceptsFromUrls`; broader localStorage scan (case-insensitive projectId).
 
+---
+
+## 2026-09-13 — P0.VR.TWINV2.2R3 founder QA: “Recovery found 0” (expected) + ship v348
+
+- **Context:** Founder on **site00.fsbw-dev.com** after v347 deploy saw new copy (“Recovery found 0 stored concepts…”) but still no gallery — asked why.
+- **Outcome:** Recovery message is **correct**: production `GET ?projectId=ndxbook` returns **empty ledger/storage**; five prior gens were **FAL-only** and not on this device’s localStorage. Auto-gallery cannot invent images without URLs or a new paid gen (post-v347 ledger).
+- **Shipped:** Merge **v348** — empty state **IMPORT EXISTING CONCEPTS** (paste FAL URLs) + **IMPORT INTO GALLERY**; Railway route `twin-v2-import-concept`; hydrate scans **all** same-project localStorage sessions (not overview pageId only).
+- **Founder next:** Deploy **v348** frontend + **Railway** API → TWIN V2 → paste five `fal.media` URLs → **IMPORT INTO GALLERY** → **CONCEPT 1 OF 5** without new generation. Future gens after v347 auto-ledger.
+
