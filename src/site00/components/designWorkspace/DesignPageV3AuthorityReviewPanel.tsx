@@ -7,6 +7,7 @@ import {
   approveDesignPageAuthorityViewport,
   appendDesignPageAuthorityRefineNote,
   createDesignPageAuthorityReviewSession,
+  mergeDesignPageAuthorityApiResponse,
   DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP,
   DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
   DESIGN_PAGE_V3_FOUNDER_TERRITORY_VERDICTS,
@@ -48,13 +49,17 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [refineDraft, setRefineDraft] = useState('');
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [persistWarning, setPersistWarning] = useState<string | null>(null);
 
   const sessionView = useMemo(() => normalizeDesignPageAuthoritySession(session), [session]);
 
   const persist = useCallback((next: DesignPageAuthorityReviewSession) => {
     const normalized = normalizeDesignPageAuthoritySession(next);
     setSession(normalized);
-    writeDesignPageAuthoritySession(normalized);
+    const ok = writeDesignPageAuthoritySession(normalized);
+    setPersistWarning(
+      ok ? null : 'Could not save territory gallery to this browser (storage full?). Images stay until you reload.',
+    );
   }, []);
 
   const run = useCallback(
@@ -71,13 +76,16 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           setRefineDraft('');
           persist(working);
         }
+        const apiAction =
+          input.action === 'GENERATE' ? 'GENERATE' : input.action;
         const res = await requestDesignPageAuthorityGeneration({
           session: working,
-          action: input.action === 'GENERATE' ? 'GENERATE' : input.action,
+          action: apiAction,
           territoryScope: input.territoryScope ?? 'ALL',
           founderConfirmedSpend: true,
         });
-        persist(res.session);
+        const merged = mergeDesignPageAuthorityApiResponse(working, res, apiAction);
+        persist(merged);
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Generation failed');
       } finally {
@@ -203,6 +211,11 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       {error ? (
         <p className="site00-dw-v3-authority__error" role="alert">
           {error}
+        </p>
+      ) : null}
+      {persistWarning ? (
+        <p className="site00-dw-v3-authority__error" role="status">
+          {persistWarning}
         </p>
       ) : null}
       {result ? (

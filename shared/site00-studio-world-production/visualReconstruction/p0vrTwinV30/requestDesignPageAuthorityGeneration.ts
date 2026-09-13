@@ -33,5 +33,14 @@ export async function requestDesignPageAuthorityGeneration(input: {
     const err = (await res.json().catch(() => ({}))) as { error?: string };
     throw new Error(err.error ?? `Design page authority generation failed (${res.status})`);
   }
-  return res.json() as Promise<DesignPageAuthorityApiResponse>;
+  const data = (await res.json()) as DesignPageAuthorityApiResponse;
+  if (!data.ok || !data.result) {
+    throw new Error('DESIGN_PAGE_AUTHORITY_BAD_RESPONSE: missing result payload');
+  }
+  if (!Array.isArray(data.result.territories) || data.result.territories.length === 0) {
+    throw new Error(
+      'DESIGN_PAGE_AUTHORITY_EMPTY_TERRITORIES: FAL batch returned no territory frames — check Railway deploy and FAL_KEY',
+    );
+  }
+  return data;
 }

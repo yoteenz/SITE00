@@ -16,14 +16,16 @@ export function readDesignPageAuthoritySession(projectId: string): DesignPageAut
   }
 }
 
-export function writeDesignPageAuthoritySession(session: DesignPageAuthorityReviewSession): void {
-  if (typeof localStorage === 'undefined') return;
+export function writeDesignPageAuthoritySession(session: DesignPageAuthorityReviewSession): boolean {
+  if (typeof localStorage === 'undefined') return true;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     const parsed = raw ? (JSON.parse(raw) as Record<string, DesignPageAuthorityReviewSession>) : {};
     parsed[session.projectId.toLowerCase()] = session;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
-  } catch {
-    /* ignore */
+    return true;
+  } catch (err) {
+    console.error('site00:design-page-v3-authority persist failed', err);
+    return false;
   }
 }

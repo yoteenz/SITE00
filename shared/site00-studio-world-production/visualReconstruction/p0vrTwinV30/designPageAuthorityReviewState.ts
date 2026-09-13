@@ -57,6 +57,22 @@ function emptyFounderReview(now: string): DesignPageAuthorityFounderReviewState 
   };
 }
 
+export function mergeDesignPageAuthorityApiResponse(
+  priorSession: DesignPageAuthorityReviewSession,
+  api: {
+    result: DesignPageAuthorityGenerationResult;
+  },
+  action: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY',
+): DesignPageAuthorityReviewSession {
+  const territories = api.result?.territories ?? [];
+  if (!territories.length) {
+    throw new Error(
+      'AUTHORITY_GENERATION_EMPTY: API returned no territory mobile/desktop frames — FAL may have run but results were not wired to the gallery',
+    );
+  }
+  return applyDesignPageAuthorityGeneration(priorSession, api.result, action);
+}
+
 export function applyDesignPageAuthorityGeneration(
   session: DesignPageAuthorityReviewSession,
   result: DesignPageAuthorityGenerationResult,
