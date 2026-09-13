@@ -8794,6 +8794,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-13 — Twin V3 batch 2 auto-seed prototypes (v408)
+
+- **Symptom:** Founder on fsbw-dev v407 — BATCH 2 panel empty (“NO BATCH 2 FRAMES YET”); no images until FAL.
+- **Fix:** `seedDesignPageAuthorityBatch2PrototypeGallery` on read when batch-2 store empty — 6 R3 `/site00/...` SVG frames (batchGeneration 2), independent of batch 1. Build **v408**.
+
+---
+
 ## 2026-09-13 — Twin V3 batch 2 isolated module/panel (v407)
 
 - **Founder:** Batch 1 recovery still not trustworthy — put **batch 2** in a **separate module/panel above batch 1**, independent storage.

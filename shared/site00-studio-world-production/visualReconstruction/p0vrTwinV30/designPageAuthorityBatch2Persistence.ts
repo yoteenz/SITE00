@@ -1,8 +1,10 @@
 import {
   emptyDesignPageAuthorityBatch2Module,
   normalizeDesignPageAuthorityBatch2Module,
+  seedDesignPageAuthorityBatch2PrototypeGallery,
   type DesignPageAuthorityBatch2ModuleState,
 } from './designPageAuthorityBatch2Module.js';
+import { territoryGalleryHasCandidates } from './designPageAuthorityTerritoryGallery.js';
 
 export const BATCH2_MODULE_STORAGE_KEY = 'site00:design-page-v3-authority:batch2-module:v1' as const;
 
@@ -30,8 +32,12 @@ function writeStore(parsed: Record<string, DesignPageAuthorityBatch2ModuleState>
 export function readDesignPageAuthorityBatch2Module(projectId: string): DesignPageAuthorityBatch2ModuleState {
   const key = projectId.toLowerCase();
   const row = readStore()[key];
-  if (!row) return emptyDesignPageAuthorityBatch2Module(key);
-  return normalizeDesignPageAuthorityBatch2Module(row);
+  let state = row ? normalizeDesignPageAuthorityBatch2Module(row) : emptyDesignPageAuthorityBatch2Module(key);
+  if (!territoryGalleryHasCandidates(state.territoryGallery)) {
+    state = seedDesignPageAuthorityBatch2PrototypeGallery(state);
+    writeDesignPageAuthorityBatch2Module(state);
+  }
+  return state;
 }
 
 export function writeDesignPageAuthorityBatch2Module(state: DesignPageAuthorityBatch2ModuleState): boolean {

@@ -130,7 +130,8 @@ export function DesignPageV3AuthorityBatch2Panel({ projectId }: Props) {
         {stats}
       </p>
       <p className="site00-dw-v3-authority__hint">
-        Use this panel for new FAL runs. Batch 1 below is legacy storage only — it cannot overwrite batch 2.
+        R3 prototype SVGs load here automatically (6 frames). Use ADD BATCH 2 for live FAL. Batch 1 below is legacy
+        only — it cannot overwrite batch 2.
       </p>
       {running ? (
         <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-authority-batch2-generating">

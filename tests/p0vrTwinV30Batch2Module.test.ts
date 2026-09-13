@@ -41,6 +41,16 @@ describe('Twin V3 batch 2 module storage', () => {
     expect(BATCH2_MODULE_STORAGE_KEY).not.toBe('site00:design-page-v3-authority:v1');
   });
 
+  it('auto-seeds prototype SVG gallery when batch 2 store is empty', () => {
+    const projectId = 'ndxbook';
+    const loaded = readDesignPageAuthorityBatch2Module(projectId);
+    expect(loaded.territoryGallery.A.length).toBe(1);
+    expect(loaded.territoryGallery.A[0]!.batchGeneration).toBe(2);
+    expect(loaded.territoryGallery.A[0]!.mobile.storageUrl).toContain('/site00/twin-v3-design-page-authority/');
+    expect(loaded.territoryGallery.B.length).toBe(1);
+    expect(loaded.territoryGallery.C.length).toBe(1);
+  });
+
   it('batch 2 survives batch 1 session overwrite', () => {
     const projectId = 'ndxbook';
     let batch2 = emptyDesignPageAuthorityBatch2Module(projectId);
