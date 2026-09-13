@@ -5,6 +5,7 @@ import {
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
+import type { DesignPageV3FounderTerritoryVerdict, DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import type {
   DesignPageAuthorityFounderReviewState,
   DesignPageAuthorityGenerationResult,
@@ -36,6 +37,8 @@ function emptyFounderReview(now: string): DesignPageAuthorityFounderReviewState 
     desktopApproved: false,
     mobileLockId: null,
     desktopLockId: null,
+    selectedTerritoryId: null,
+    territoryVerdicts: {},
     refineNotes: [],
     lastAction: null,
     updatedAt: now,
@@ -55,6 +58,8 @@ export function applyDesignPageAuthorityGeneration(
     founderReview: {
       ...emptyFounderReview(now),
       refineNotes: session.founderReview.refineNotes,
+      selectedTerritoryId: session.founderReview.selectedTerritoryId,
+      territoryVerdicts: { ...session.founderReview.territoryVerdicts },
       lastAction: action,
       updatedAt: now,
     },
@@ -81,10 +86,61 @@ export function appendDesignPageAuthorityRefineNote(
   };
 }
 
+export function selectDesignPageAuthorityTerritory(
+  session: DesignPageAuthorityReviewSession,
+  territoryId: DesignPageV3TerritoryId,
+): DesignPageAuthorityReviewSession {
+  const now = new Date().toISOString();
+  let next: DesignPageAuthorityReviewSession = {
+    ...session,
+    founderReview: {
+      ...session.founderReview,
+      selectedTerritoryId: territoryId,
+      lastAction: 'SELECT_TERRITORY',
+      updatedAt: now,
+    },
+    updatedAt: now,
+  };
+  const bundle = session.lastResult?.territories.find((t) => t.territoryId === territoryId);
+  if (bundle && session.lastResult) {
+    next = {
+      ...next,
+      lastResult: {
+        ...session.lastResult,
+        mobile: bundle.mobile,
+        desktop: bundle.desktop,
+        selectedTerritoryId: territoryId,
+      },
+    };
+  }
+  return next;
+}
+
+export function setDesignPageAuthorityTerritoryVerdict(
+  session: DesignPageAuthorityReviewSession,
+  territoryId: DesignPageV3TerritoryId,
+  verdict: DesignPageV3FounderTerritoryVerdict,
+): DesignPageAuthorityReviewSession {
+  const now = new Date().toISOString();
+  return {
+    ...session,
+    founderReview: {
+      ...session.founderReview,
+      territoryVerdicts: { ...session.founderReview.territoryVerdicts, [territoryId]: verdict },
+      lastAction: 'TERRITORY_VERDICT',
+      updatedAt: now,
+    },
+    updatedAt: now,
+  };
+}
+
 export function approveDesignPageAuthorityViewport(
   session: DesignPageAuthorityReviewSession,
   viewport: 'mobile' | 'desktop',
 ): DesignPageAuthorityReviewSession {
+  if (!session.founderReview.selectedTerritoryId) {
+    throw new Error('TERRITORY_REQUIRED: select territory A/B/C before viewport lock');
+  }
   const now = new Date().toISOString();
   const founderReview: DesignPageAuthorityFounderReviewState = {
     ...session.founderReview,

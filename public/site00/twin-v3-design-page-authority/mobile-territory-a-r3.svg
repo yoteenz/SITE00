@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 960" role="img" aria-label="R3 mobile territory A central stage">
+  <rect width="430" height="960" fill="#f8f7f4"/>
+  <rect x="0" y="0" width="430" height="64" fill="#fff" stroke="#e5e1d9"/>
+  <text x="16" y="28" font-family="ui-monospace,monospace" font-size="14" font-weight="700" fill="#0a0a0a">SITE 00</text>
+  <rect x="88" y="14" width="3" height="22" fill="#e10600"/>
+  <text x="98" y="28" font-family="ui-monospace,monospace" font-size="9" fill="#555">DESIGN · host shell</text>
+  <text x="16" y="52" font-family="ui-monospace,monospace" font-size="8" fill="#888">A · SITE 00 : PROJECT: NDXBOOK : PAGE: DESIGN</text>
+  <text x="320" y="28" font-family="ui-monospace,monospace" font-size="8" fill="#e10600">system</text>
+  <!-- quiet workflow spine -->
+  <rect x="8" y="72" width="6" height="820" rx="3" fill="#eceae6"/>
+  <text x="18" y="100" font-family="ui-monospace,monospace" font-size="7" fill="#999" transform="rotate(-90 18 100)">TARGET·MASTER·BUNDLE·APPROVE·BUILD</text>
+  <!-- NDXBOOK central stage -->
+  <rect x="20" y="88" width="390" height="520" rx="4" fill="#0a0a0a"/>
+  <rect x="28" y="96" width="374" height="440" fill="#111" stroke="#c6f135" stroke-width="3"/>
+  <text x="40" y="120" font-family="Georgia,serif" font-size="11" fill="#c6f135">NDXBOOK · CENTRAL STAGE · TERRITORY A</text>
+  <rect x="40" y="132" width="350" height="280" fill="#1a1a1a"/>
+  <text x="120" y="280" font-family="Georgia,serif" font-size="16" fill="#fff">master visual · editorial archive</text>
+  <rect x="40" y="424" width="160" height="8" fill="#c6f135"/>
+  <text x="40" y="460" font-family="Georgia,serif" font-size="10" fill="#ccc">artifact filmstrip · lime emphasis</text>
+  <!-- decision as operating state -->
+  <rect x="20" y="620" width="390" height="48" fill="#c6f135"/>
+  <text x="32" y="650" font-family="Georgia,serif" font-size="12" font-weight="700" fill="#0a0a0a">APPROVE MASTER · current operating state</text>
+  <!-- system meta host -->
+  <rect x="20" y="680" width="390" height="56" rx="6" fill="#fff" stroke="#e0dcd4"/>
+  <text x="28" y="702" font-family="ui-monospace,monospace" font-size="8" fill="#888">F · compiler readiness · SITE 00 meta</text>
+  <text x="28" y="720" font-family="ui-monospace,monospace" font-size="8" fill="#444">ready · lineage · host boundary</text>
+  <rect x="20" y="748" width="390" height="36" rx="18" fill="#111" opacity="0.06"/>
+  <text x="110" y="770" font-family="ui-monospace,monospace" font-size="9" fill="#666">G · technical · bottom sheet</text>
+  <text x="12" y="940" font-family="ui-monospace,monospace" font-size="8" fill="#999">R3 A · SITE 00 shell + NDXBOOK lime workspace · not NDXBOOK app</text>
+</svg>

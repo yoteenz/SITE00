@@ -78,3 +78,50 @@
   color: #b00020;
   font-size: 0.8rem;
 }
+
+.site00-dw-v3-authority__territories {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.site00-dw-v3-authority__territory {
+  border: 1px solid #e0dcd4;
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #faf9f7;
+}
+
+.site00-dw-v3-authority__territory--selected {
+  border-color: #0a7a3e;
+  box-shadow: 0 0 0 1px #0a7a3e;
+}
+
+.site00-dw-v3-authority__territory-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-authority__verdicts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.site00-dw-v3-btn--verdict {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.site00-dw-v3-btn--verdict-on {
+  border-color: #0a0a0a;
+  background: #0a0a0a;
+  color: #fff;
+}

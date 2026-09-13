@@ -1,7 +1,8 @@
-/** P0.VR.TWINV3.0R2 — SITE 00 design page authority lock (zero host/client ambiguity). */
-export const P0_VR_TWIN_V30_BUILD = 'v389' as const;
+/** P0.VR.TWINV3.0R3 — host shell + project-reactive workspace expression. */
+export const P0_VR_TWIN_V30_BUILD = 'v390' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
+export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;
 
 export const DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE = 'DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE' as const;
 export const DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP = 'DESIGN_PAGE_V3_AUTHORITY_V1_DESKTOP' as const;
@@ -41,3 +42,18 @@ export const DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE = '/site00/twin-v3-design-page-
 
 export const DESIGN_PAGE_V3_R2_PROTOTYPE_MOBILE = `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-authority-r2.svg` as const;
 export const DESIGN_PAGE_V3_R2_PROTOTYPE_DESKTOP = `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-authority-r2.svg` as const;
+
+export const DESIGN_PAGE_V3_R3_TERRITORY_PROTOTYPES = {
+  A: {
+    mobile: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-territory-a-r3.svg`,
+    desktop: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-territory-a-r3.svg`,
+  },
+  B: {
+    mobile: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-territory-b-r3.svg`,
+    desktop: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-territory-b-r3.svg`,
+  },
+  C: {
+    mobile: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/mobile-territory-c-r3.svg`,
+    desktop: `${DESIGN_PAGE_V3_AUTHORITY_ASSET_BASE}/desktop-territory-c-r3.svg`,
+  },
+} as const;
