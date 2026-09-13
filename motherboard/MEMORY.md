@@ -4,6 +4,13 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
+## 2026-09-13 — P0.VR.TWINV3.0R5F2 founder authority injection + derivation unblock (v410)
+
+- **Context:** R5/R5F1 pipeline existed but broken gallery img display blocked in-product pair lock; founder attached **exact** approved mobile + desktop JPG masters for NDXBOOK (no FAL regen).
+- **Delivered:** Founder JPGs in `public/.../founder-r5f2-ndxbook/` (SHA256 pinned); `applyOneTimeFounderAuthorityInjection` + `FounderAuthorityInjectionReceipt` + asset records; extended deterministic `computePairChecksum` (ids, hashes, context, manifest, pairVersion); auto **PAIR_LOCKED** with `FOUNDER_AUTHORIZED_RECOVERY`, `TRANSLATION`, `NONE`; `deriveDesignWorkspacePackage` entrypoint (validates, no auto-dispatch); `applyFounderR5F2RecoveryIfNeeded` on NDXBOOK design panel mount; UX: FOUNDER APPROVED labels, **GENERATE DERIVATIVES** primary when derivation READY, no lock button after recovery; **`AUTHORITY_IMAGE_DISPLAY_BROKEN`** issue stays OPEN. Tests **`p0vrTwinV30R5F2.test.ts`** (16). Build **v410**.
+
+---
+
 ## 2026-08-18 — Motherboard setup + cloud preview + IDNTY four states + GoDaddy mobile deploy guidance
 
 Summary of the **whole conversation so far** in this cloud agent run (source: mobile, repo: `yoteenz/SITE00`).
