@@ -3,6 +3,7 @@ import {
   DESIGN_PAGE_V3_AUTHORITY_V1_MOBILE,
   DESIGN_PAGE_V3_HOST_PRODUCT_NAME,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
+  AUTHORITY_GALLERY_RECOVERY_EPOCH,
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
 import type { DesignPageV3FounderTerritoryVerdict } from './hostProjectExpressionModel.js';
@@ -16,7 +17,6 @@ import {
   appendTerritoryBundlesToGallery,
   emptyTerritoryGallery,
   latestTerritoryCandidate,
-  mergeTerritoryGalleries,
   normalizeDesignPageAuthoritySession,
   replaceTerritoryBundlesInGallery,
   resolveSelectedTerritoryCandidate,
@@ -40,6 +40,7 @@ export function createDesignPageAuthorityReviewSession(input?: {
   const client = projectId.toUpperCase();
   return {
     buildRef: P0_VR_TWIN_V30_BUILD,
+    galleryRecoveryEpoch: AUTHORITY_GALLERY_RECOVERY_EPOCH,
     authoritySessionId: `dpa-${projectId}-${Date.now()}`,
     projectId,
     pageLabel: input?.pageLabel ?? `${DESIGN_PAGE_V3_HOST_PRODUCT_NAME} · DESIGN · Project: ${client} open`,
@@ -122,8 +123,11 @@ export function mergeDesignPageAuthorityApiResponse(
     if (territoryGalleryHasCandidates(serverNorm.territoryGallery)) {
       merged = normalizeDesignPageAuthoritySession({
         ...merged,
-        territoryGallery: mergeTerritoryGalleries(merged.territoryGallery, serverNorm.territoryGallery),
         candidateGeneration: Math.max(merged.candidateGeneration, serverNorm.candidateGeneration),
+        galleryRecoveryEpoch: Math.max(
+          merged.galleryRecoveryEpoch ?? 0,
+          serverNorm.galleryRecoveryEpoch ?? 0,
+        ),
         founderReview: {
           ...merged.founderReview,
           refineNotes: priorSession.founderReview.refineNotes,
@@ -182,6 +186,7 @@ export function seedDesignPageAuthorityPrototypeGallery(
   let next = registerGeneratedCandidates(
     normalizeDesignPageAuthoritySession({
       ...base,
+      galleryRecoveryEpoch: AUTHORITY_GALLERY_RECOVERY_EPOCH,
       candidateGeneration: batchGeneration,
       territoryGallery,
       selectedCandidateByTerritory,
@@ -229,6 +234,7 @@ export function applyDesignPageAuthorityGeneration(
   }
   const withGallery = normalizeDesignPageAuthoritySession({
     ...base,
+    galleryRecoveryEpoch: AUTHORITY_GALLERY_RECOVERY_EPOCH,
     candidateGeneration: batchGeneration,
     lastResult: result,
     territoryGallery,

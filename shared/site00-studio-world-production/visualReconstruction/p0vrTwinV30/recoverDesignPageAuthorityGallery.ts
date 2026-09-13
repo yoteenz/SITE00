@@ -1,4 +1,4 @@
-import { P0_VR_TWIN_V30_BUILD } from './constants.js';
+import { AUTHORITY_GALLERY_RECOVERY_EPOCH, P0_VR_TWIN_V30_BUILD } from './constants.js';
 import { buildTerritoryPrototypeBundles } from './buildTerritoryPrototypeBundles.js';
 import { emptyAuthorityPipelineState, registerGeneratedCandidates } from './designWorkspaceAuthorityPipeline.js';
 import { setAuthorityBatchLedgerSnapshot } from './designPageAuthorityBatchLedger.js';
@@ -10,7 +10,9 @@ import {
   latestTerritoryCandidate,
   normalizeDesignPageAuthoritySession,
   replaceTerritoryBundlesInGallery,
+  territoryGalleryHasCandidates,
 } from './designPageAuthorityTerritoryGallery.js';
+import { purgeDesignPageAuthoritySideStores } from './designPageAuthoritySideStoreHygiene.js';
 import type { DesignPageAuthorityReviewSession } from './types.js';
 import type { DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 
@@ -19,6 +21,8 @@ const TERRITORY_IDS: DesignPageV3TerritoryId[] = ['A', 'B', 'C'];
 export { galleryHasUnviewableAuthorityImages, isUnviewableAuthorityImageStorageUrl };
 
 export function shouldForcePrototypeGalleryRecovery(session: DesignPageAuthorityReviewSession): boolean {
+  if (!territoryGalleryHasCandidates(session.territoryGallery)) return false;
+  if ((session.galleryRecoveryEpoch ?? 0) !== AUTHORITY_GALLERY_RECOVERY_EPOCH) return true;
   if (session.buildRef !== P0_VR_TWIN_V30_BUILD) return true;
   return galleryHasUnviewableAuthorityImages(session.territoryGallery);
 }
@@ -42,9 +46,11 @@ export function forceReplaceDesignPageAuthorityWithPrototypeGallery(
     const latest = latestTerritoryCandidate(territoryGallery, id);
     if (latest) selectedCandidateByTerritory[id] = latest.candidateId;
   }
+  purgeDesignPageAuthoritySideStores(session.projectId);
   let next: DesignPageAuthorityReviewSession = {
     ...session,
     buildRef: P0_VR_TWIN_V30_BUILD,
+    galleryRecoveryEpoch: AUTHORITY_GALLERY_RECOVERY_EPOCH,
     candidateGeneration: 1,
     lastResult: null,
     territoryGallery,

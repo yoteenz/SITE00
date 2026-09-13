@@ -114,6 +114,21 @@ export function pruneGalleryToLatestBatch(gallery: DesignPageAuthorityTerritoryG
   return next;
 }
 
+/** One visible candidate per territory — stops localStorage/sessionStorage merge duplicates. */
+export function pruneGalleryToLatestCandidatePerTerritory(
+  gallery: DesignPageAuthorityTerritoryGallery,
+): DesignPageAuthorityTerritoryGallery {
+  const batched = pruneGalleryToLatestBatch(gallery);
+  const next = emptyTerritoryGallery();
+  for (const territoryId of TERRITORY_IDS) {
+    const list = batched[territoryId];
+    if (!list.length) continue;
+    const sorted = [...list].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    next[territoryId] = [sorted[sorted.length - 1]!];
+  }
+  return next;
+}
+
 export function latestTerritoryCandidate(
   gallery: DesignPageAuthorityTerritoryGallery,
   territoryId: DesignPageV3TerritoryId,
@@ -153,7 +168,10 @@ export function syncGalleryFromLastResult(
   const bundles = session.lastResult?.territories ?? [];
   if (!bundles.length) return session;
   let territoryGallery = session.territoryGallery ?? emptyTerritoryGallery();
-  const missing = bundles.filter((b) => !bundleAlreadyInGallery(territoryGallery, b));
+  const missing = bundles.filter((b) => {
+    if ((territoryGallery[b.territoryId] ?? []).length > 0) return false;
+    return !bundleAlreadyInGallery(territoryGallery, b);
+  });
   if (!missing.length) return session;
   territoryGallery = appendTerritoryBundlesToGallery({
     gallery: territoryGallery,
@@ -193,7 +211,7 @@ export function normalizeDesignPageAuthoritySession(
       selectedCandidateByTerritory[id] = latestTerritoryCandidate(territoryGallery, id)!.candidateId;
     }
   }
-  territoryGallery = pruneGalleryToLatestBatch(territoryGallery);
+  territoryGallery = pruneGalleryToLatestCandidatePerTerritory(territoryGallery);
 
   return repairPrototypeGallerySession({
     ...synced,

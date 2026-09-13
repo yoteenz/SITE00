@@ -134,6 +134,8 @@ export type DesignPageAuthorityTerritoryScope = 'ALL' | DesignPageV3TerritoryId;
 
 export type DesignPageAuthorityReviewSession = {
   buildRef: typeof P0_VR_TWIN_V30_BUILD;
+  /** Matched against AUTHORITY_GALLERY_RECOVERY_EPOCH to force one-time gallery heal. */
+  galleryRecoveryEpoch?: number;
   authoritySessionId: string;
   projectId: string;
   pageLabel: string;
