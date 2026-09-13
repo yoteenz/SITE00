@@ -5,6 +5,66 @@
   padding: 0 0 2rem;
 }
 
+.site00-twin-v2-concept__build-banner {
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  border-radius: 6px;
+  border: 1px solid #333;
+}
+
+.site00-twin-v2-concept__build-banner--ok {
+  border-color: var(--site00-lime, #c8ff00);
+  color: #111;
+  background: rgba(200, 255, 0, 0.12);
+}
+
+.site00-twin-v2-concept__build-banner--error {
+  border-color: #e05252;
+  color: #5a1010;
+  background: rgba(224, 82, 82, 0.12);
+}
+
+.site00-twin-v2-concept__built-panel {
+  border: 2px solid var(--site00-lime, #c8ff00);
+  padding: 0.65rem;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.site00-twin-v2-concept__built-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.site00-twin-v2-concept__built-meta {
+  margin: 0;
+  font-size: 0.65rem;
+  opacity: 0.85;
+}
+
+.site00-twin-v2-concept__built-preview-frame {
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.site00-twin-v2-concept__gallery-collapse {
+  font-size: 0.75rem;
+}
+
+.site00-twin-v2-concept__gallery-collapse summary {
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0;
+}
+
 .site00-twin-v2-concept__rail {
   display: flex;
   flex-wrap: wrap;

@@ -30,7 +30,10 @@ import {
   writeTwinV2UiPersist,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/twinV2UiPersistence.js';
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
+import { ConceptDirectedNdxOverviewTwinV2 } from '../../reconstruction/ConceptDirectedNdxOverviewTwinV2.js';
 import '../../../styles/site00-twin-v2-concept.css';
+
+const BUILD_FEEDBACK_MIN_MS = 480;
 
 const STEPS = ['INTENT', 'CREATIVE DIRECTION', 'VISUAL CONCEPT', 'FOUNDER REVIEW', 'BUILD TWIN', 'FIDELITY REVIEW'] as const;
 
@@ -66,6 +69,8 @@ export function PageConceptDirectedTwinV2Experience({
   const [building, setBuilding] = useState(false);
   const [hydrating, setHydrating] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [buildBanner, setBuildBanner] = useState<{ tone: 'ok' | 'error'; text: string } | null>(null);
+  const buildResultRef = useRef<HTMLElement | null>(null);
   const [refineOpen, setRefineOpen] = useState(false);
   const [refineText, setRefineText] = useState('');
   const [refineRegion, setRefineRegion] = useState('');
@@ -131,7 +136,34 @@ export function PageConceptDirectedTwinV2Experience({
                 ...latest,
                 conceptGallery: latest.conceptGallery ?? hydrated.conceptGallery,
               };
-        if (!cancelled) onSessionChange(merged);
+        if (!cancelled) {
+              const current = sessionRef.current;
+              const preserveBuild =
+                Boolean(current.renderedTwin?.builtAt) && !Boolean(merged.renderedTwin?.builtAt);
+              onSessionChange(
+                preserveBuild
+                  ? {
+                      ...merged,
+                      renderedTwin: current.renderedTwin,
+                      fidelityReceipt: current.fidelityReceipt ?? merged.fidelityReceipt,
+                      status: current.status,
+                      approvedVisualAuthority: current.approvedVisualAuthority ?? merged.approvedVisualAuthority,
+                      twinV2VisualSpec: current.twinV2VisualSpec ?? merged.twinV2VisualSpec,
+                      conceptGallery: {
+                        ...(merged.conceptGallery ?? current.conceptGallery!),
+                        packages: {
+                          ...(merged.conceptGallery?.packages ?? {}),
+                          ...(current.conceptGallery?.packages ?? {}),
+                        },
+                        fidelityReceipts: {
+                          ...(merged.conceptGallery?.fidelityReceipts ?? {}),
+                          ...(current.conceptGallery?.fidelityReceipts ?? {}),
+                        },
+                      },
+                    }
+                  : merged,
+              );
+            }
           })(),
           new Promise<void>((_, reject) => {
             window.setTimeout(() => reject(new Error('Gallery hydration timed out')), hydrateWallMs);
@@ -310,15 +342,37 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
-  const handleBuildTwin = () => {
+  const handleBuildTwin = async () => {
     setBuilding(true);
+    setBuildBanner(null);
     setError(null);
+    const started = Date.now();
     try {
-      const prepared = prepareConceptDirectedTwinV2Build(session);
-      const { sessionPatch } = composeConceptDirectedTwinV2(prepared);
-      onSessionChange({ ...prepared, ...sessionPatch, status: 'TWIN_V2_REVIEW_READY' });
+      const prepared = prepareConceptDirectedTwinV2Build(sessionRef.current);
+      const { sessionPatch, functionBindingSummary } = composeConceptDirectedTwinV2(prepared);
+      const next: ConceptDirectedTwinSession = {
+        ...prepared,
+        ...sessionPatch,
+        status: 'TWIN_V2_REVIEW_READY',
+      };
+      const waitMs = Math.max(0, BUILD_FEEDBACK_MIN_MS - (Date.now() - started));
+      if (waitMs > 0) {
+        await new Promise<void>((resolve) => {
+          window.setTimeout(resolve, waitMs);
+        });
+      }
+      onSessionChange(next);
+      setBuildBanner({
+        tone: 'ok',
+        text: `Twin V2 compiled (${functionBindingSummary.length} live bindings). Preview below — open full preview for fidelity QA.`,
+      });
+      window.requestAnimationFrame(() => {
+        buildResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Build blocked');
+      const msg = e instanceof Error ? e.message : 'Build blocked';
+      setError(msg);
+      setBuildBanner({ tone: 'error', text: msg });
     } finally {
       setBuilding(false);
     }
@@ -351,26 +405,100 @@ export function PageConceptDirectedTwinV2Experience({
 
       {hydrating ? <p className="site00-twin-v2-concept__hydrating">Loading concept gallery…</p> : null}
 
+      {buildBanner ? (
+        <p
+          className={
+            buildBanner.tone === 'ok'
+              ? 'site00-twin-v2-concept__build-banner site00-twin-v2-concept__build-banner--ok'
+              : 'site00-twin-v2-concept__build-banner site00-twin-v2-concept__build-banner--error'
+          }
+          role={buildBanner.tone === 'error' ? 'alert' : 'status'}
+        >
+          {buildBanner.text}
+        </p>
+      ) : null}
+
+      {error && !buildBanner ? (
+        <p className="site00-twin-v2-concept__build-banner site00-twin-v2-concept__build-banner--error" role="alert">
+          {error}
+        </p>
+      ) : null}
+
+      {session.renderedTwin?.builtAt ? (
+        <section
+          ref={buildResultRef}
+          className="site00-twin-v2-concept__built-panel"
+          data-twin-v2-built="1"
+          aria-label="Compiled Twin V2 preview"
+        >
+          <header className="site00-twin-v2-concept__built-head">
+            <strong>TWIN V2 BUILT</strong>
+            <span>FIDELITY REVIEW</span>
+          </header>
+          <p className="site00-twin-v2-concept__built-meta">
+            Compiled {new Date(session.renderedTwin.builtAt).toLocaleString()} · status{' '}
+            {session.fidelityReceipt?.status ?? 'PENDING'}
+          </p>
+          <div className="site00-twin-v2-concept__built-preview-frame">
+            <ConceptDirectedNdxOverviewTwinV2 projectSlug={session.projectId} session={session} />
+          </div>
+          <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--primary" onClick={onPreviewTwinV2}>
+            OPEN FULL TWIN V2 PREVIEW
+          </button>
+        </section>
+      ) : null}
+
       {showGallery && gallery ? (
-        <ConceptDirectedTwinGallery
-          projectSlug={session.projectId}
-          candidates={galleryCandidates}
-          activeConceptId={galleryQuery.activeConceptId}
-          blueprints={gallery.blueprints}
-          sanitizedBlueprints={gallery.sanitizedBlueprints ?? {}}
-          generatedHostArtifacts={gallery.generatedHostArtifacts ?? {}}
-          hostShellContracts={gallery.hostShellContracts ?? {}}
-          hostBoundaryReceipts={gallery.hostBoundarySanitizationReceipts ?? {}}
-          clientCanvasBoundaries={gallery.clientCanvasBoundaries ?? {}}
-          bindingSummaries={bindingSummaries}
-          onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
-          onApprove={handleApprove}
-          onRefine={() => setRefineOpen(true)}
-          onRegenerate={() => setSpendConfirmOpen('regenerate')}
-          onBuild={handleBuildTwin}
-          building={building}
-          generating={generating}
-        />
+        preBuildConceptStage ? (
+          <ConceptDirectedTwinGallery
+            projectSlug={session.projectId}
+            candidates={galleryCandidates}
+            activeConceptId={galleryQuery.activeConceptId}
+            blueprints={gallery.blueprints}
+            sanitizedBlueprints={gallery.sanitizedBlueprints ?? {}}
+            generatedHostArtifacts={gallery.generatedHostArtifacts ?? {}}
+            hostShellContracts={gallery.hostShellContracts ?? {}}
+            hostBoundaryReceipts={gallery.hostBoundarySanitizationReceipts ?? {}}
+            clientCanvasBoundaries={gallery.clientCanvasBoundaries ?? {}}
+            bindingSummaries={bindingSummaries}
+            twinBuiltAt={session.renderedTwin?.builtAt ?? null}
+            onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
+            onApprove={handleApprove}
+            onRefine={() => setRefineOpen(true)}
+            onRegenerate={() => setSpendConfirmOpen('regenerate')}
+            onBuild={() => {
+              void handleBuildTwin();
+            }}
+            building={building}
+            generating={generating}
+          />
+        ) : (
+          <details className="site00-twin-v2-concept__gallery-collapse">
+            <summary>Concept gallery &amp; inspection</summary>
+            <ConceptDirectedTwinGallery
+              projectSlug={session.projectId}
+              candidates={galleryCandidates}
+              activeConceptId={galleryQuery.activeConceptId}
+              blueprints={gallery.blueprints}
+              sanitizedBlueprints={gallery.sanitizedBlueprints ?? {}}
+              generatedHostArtifacts={gallery.generatedHostArtifacts ?? {}}
+              hostShellContracts={gallery.hostShellContracts ?? {}}
+              hostBoundaryReceipts={gallery.hostBoundarySanitizationReceipts ?? {}}
+              clientCanvasBoundaries={gallery.clientCanvasBoundaries ?? {}}
+              bindingSummaries={bindingSummaries}
+              twinBuiltAt={session.renderedTwin?.builtAt ?? null}
+              onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
+              onApprove={handleApprove}
+              onRefine={() => setRefineOpen(true)}
+              onRegenerate={() => setSpendConfirmOpen('regenerate')}
+              onBuild={() => {
+                void handleBuildTwin();
+              }}
+              building={building}
+              generating={generating}
+            />
+          </details>
+        )
       ) : null}
 
       {!hydrating && showEmptyState ? (

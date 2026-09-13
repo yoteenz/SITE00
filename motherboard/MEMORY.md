@@ -8566,3 +8566,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** BUILD stayed **disabled** until separate **APPROVE** (`founderJudgment === 'APPROVED'`); disabled buttons give no feedback on iOS. Some approved-without-package sessions threw on compose.
 - **Fix:** Enable BUILD when technical readiness complete; `prepareConceptDirectedTwinV2Build` runs approve + executable package upsert then compose; hint text explains BUILD locks authority.
 
+---
+
+## 2026-09-13 — Twin V2 BUILD visible feedback + inline preview
+
+- **Symptom:** After APPROVE, red BUILD tap felt dead — no building state; nothing appeared to happen.
+- **Root cause:** Compose is synchronous (no UI); post-build preview/compare lived **below** the gallery off-screen; async gallery hydrate could overwrite a fresh build; errors only at bottom of drawer.
+- **Fix:** BUILDING TWIN… button state + lime banner; **TWIN V2 BUILT** panel with inline `ConceptDirectedNdxOverviewTwinV2` + scroll-into-view; collapse gallery after build; hydrate preserves `renderedTwin`.
+
