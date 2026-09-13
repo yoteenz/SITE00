@@ -21,6 +21,7 @@ import {
   readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
   seedDesignPageAuthorityPrototypeGallery,
+  rewritePrototypeGalleryUrls,
   selectDesignPageAuthorityTerritory,
   selectDesignPageAuthorityTerritoryCandidate,
   setDesignPageAuthorityTerritoryVerdict,
@@ -32,6 +33,10 @@ import {
   type DesignPageV3FounderTerritoryVerdict,
   type DesignPageV3TerritoryId,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
+import {
+  DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS,
+  resolveDesignPageAuthorityImageSrc,
+} from './designPageAuthorityR3PrototypeUrls.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
 type Props = {
@@ -52,14 +57,18 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [persistWarning, setPersistWarning] = useState<string | null>(null);
 
-  const sessionView = useMemo(() => normalizeDesignPageAuthoritySession(session), [session]);
+  const sessionView = useMemo(() => {
+    const normalized = normalizeDesignPageAuthoritySession(session);
+    return rewritePrototypeGalleryUrls(normalized, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
+  }, [session]);
 
   useEffect(() => {
     if (!pilot) return;
     setSession((prev) => {
       const normalized = normalizeDesignPageAuthoritySession(prev);
       if (territoryGalleryHasCandidates(normalized.territoryGallery)) return normalized;
-      const seeded = seedDesignPageAuthorityPrototypeGallery(normalized);
+      let seeded = seedDesignPageAuthorityPrototypeGallery(normalized);
+      seeded = rewritePrototypeGalleryUrls(seeded, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
       writeDesignPageAuthoritySession(seeded);
       return seeded;
     });
@@ -96,11 +105,12 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           territoryScope: input.territoryScope ?? 'ALL',
           founderConfirmedSpend: true,
         });
-        const merged = mergeDesignPageAuthorityApiResponse(
+        let merged = mergeDesignPageAuthorityApiResponse(
           working,
           { result: res.result, session: res.session },
           apiAction,
         );
+        merged = rewritePrototypeGalleryUrls(merged, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
         persist(merged);
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Generation failed');
@@ -350,7 +360,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                               {candidate.mobile.providerJobRef.length > 20 ? '…' : ''}
                             </figcaption>
                             <img
-                              src={candidate.mobile.storageUrl}
+                              src={resolveDesignPageAuthorityImageSrc(candidate.mobile.storageUrl)}
                               alt={`Territory ${territoryId} mobile candidate ${index + 1}`}
                               loading="lazy"
                             />
@@ -361,7 +371,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                               {candidate.desktop.providerJobRef.length > 20 ? '…' : ''}
                             </figcaption>
                             <img
-                              src={candidate.desktop.storageUrl}
+                              src={resolveDesignPageAuthorityImageSrc(candidate.desktop.storageUrl)}
                               alt={`Territory ${territoryId} desktop candidate ${index + 1}`}
                               loading="lazy"
                             />
