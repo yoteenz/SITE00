@@ -2,7 +2,6 @@ import type { DesignPageAuthorityTerritoryGallery } from './types.js';
 import { mergeTerritoryGalleries, maxBatchGenerationInGallery } from './designPageAuthorityTerritoryGallery.js';
 
 const BATCH_LEDGER_KEY = 'site00:design-page-v3-authority:batch-ledger:v1';
-const MAX_LEDGER_ENTRIES = 12;
 
 export type AuthorityBatchLedgerEntry = {
   batchGeneration: number;
