@@ -17,10 +17,14 @@ export * from './designPageAuthorityPersistence.js';
 export * from './designPageAuthoritySelfCheck.js';
 export * from './projectCreativeGrounding/index.js';
 export {
-  rewritePrototypeGalleryUrls,
   normalizeDesignPageAuthorityVisualUrl,
   isPublicPrototypeAuthorityPath,
   canonicalPublicPrototypePath,
 } from './rewritePrototypeGalleryUrls.js';
+export {
+  repairAuthorityVisualStorageUrl,
+  repairPrototypeGallerySession,
+  rewritePrototypeGalleryUrls,
+} from './repairAuthorityPrototypeUrls.js';
 export * from './designWorkspaceAuthorityTypes.js';
 export * from './designWorkspaceAuthorityPipeline.js';

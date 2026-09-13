@@ -32,7 +32,12 @@ import {
   runDesignPageAuthorityR3SelfCheck,
   runDesignPageAuthoritySelfCheck,
   selectDesignPageAuthorityTerritory,
+  rewritePrototypeGalleryUrls,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
+import {
+  DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS,
+  resolveDesignPageAuthorityImageSrc,
+} from '../src/site00/components/designWorkspace/designPageAuthorityR3PrototypeUrls.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
 
@@ -113,6 +118,14 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(seeded.territoryGallery.B.length).toBe(1);
     expect(seeded.territoryGallery.C.length).toBe(1);
     expect(seeded.territoryGallery.A[0]!.mobile.storageUrl).toContain('mobile-territory-a-r3.svg');
+  });
+
+  it('10c resolve maps canonical /site00 R3 paths to bundled assets', () => {
+    expect(resolveDesignPageAuthorityImageSrc('/site00/twin-v3-design-page-authority/mobile-territory-a-r3.svg')).toBe(
+      DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS.A.mobile,
+    );
+    const mangled = 'https://preview.example.test/data:image/svg+xml;base64,PHN2Zy8+';
+    expect(resolveDesignPageAuthorityImageSrc(mangled)).toBe('data:image/svg+xml;base64,PHN2Zy8+');
   });
 
   it('11 merge API response appends FAL territories to prior session', async () => {

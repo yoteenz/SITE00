@@ -520,7 +520,10 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                               MOBILE · {viewportStateLabel(mobileState)}
                             </figcaption>
                             <img
-                              src={resolveDesignPageAuthorityImageSrc(candidate.mobile.storageUrl)}
+                              src={resolveDesignPageAuthorityImageSrc(candidate.mobile.storageUrl, {
+                                territoryId,
+                                viewport: 'mobile',
+                              })}
                               alt={`Territory ${territoryId} mobile candidate ${index + 1}`}
                               loading="lazy"
                             />
@@ -542,7 +545,10 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
                               DESKTOP · {viewportStateLabel(desktopState)}
                             </figcaption>
                             <img
-                              src={resolveDesignPageAuthorityImageSrc(candidate.desktop.storageUrl)}
+                              src={resolveDesignPageAuthorityImageSrc(candidate.desktop.storageUrl, {
+                                territoryId,
+                                viewport: 'desktop',
+                              })}
                               alt={`Territory ${territoryId} desktop candidate ${index + 1}`}
                               loading="lazy"
                             />
