@@ -155,10 +155,25 @@ describe('P0.VR.TWINV2.1 concept-directed twin V2', () => {
     ).toBe(true);
     expect(
       isTwinV2PilotEligible({
+        projectId: 'ndxbook',
+        pageId: 'ndxbook:/projects/ndxbook',
+        viewport: 'mobile',
+        route: '/projects/ndxbook',
+        isRootOverview: true,
+      }),
+    ).toBe(true);
+    expect(
+      isTwinV2PilotEligible({
         projectId: 'other',
         pageId: 'x',
         viewport: 'mobile',
       }),
     ).toBe(false);
+  });
+
+  it('CREATE TWIN V2 visible on all replication experience states', () => {
+    const src = read('src/site00/components/designWorkspace/pageFamily/PageUpgradeReplicationExperience.tsx');
+    expect(src).toContain('site00-pur__twin-v2-entry--persistent');
+    expect(src.indexOf('twinV2Entry')).toBeLessThan(src.indexOf('site00-pur__rail'));
   });
 });

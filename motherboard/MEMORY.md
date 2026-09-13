@@ -8349,3 +8349,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Limits:** Pilot **NDXBOOK overview mobile only**; no live promotion; fidelity receipt scaffold `PENDING` until founder runs existing forensic overlay on approved visual vs twin; production visual gen requires `FAL_KEY` on Railway (vitest/dev falls back to authority JPG).
 - **Founder next:** Deploy **v341+** → DESIGN → NDXBOOK → PAGES → MOBILE → OVERVIEW → UPGRADE → **CREATE TWIN V2** → review intent/direction → **GENERATE VISUAL CONCEPT** (confirm spend) → APPROVE/REFINE/REGENERATE → **BUILD TWIN V2** → compare LIVE / V1 / V2 → forensic QA for implementation drift only.
 
+---
+
+## 2026-09-13 — TWINV2.1 fix: CREATE TWIN V2 missing on Page Upgrade
+
+- **Symptom:** Founder did not see **CREATE TWIN V2** on upgrade screen.
+- **Cause:** Pilot eligibility required `"overview"` in `pageId`, but NDXBOOK family root uses canonical `ndxbook:/projects/ndxbook` (no overview substring). CTA was also gated to V1 **REFERENCE** step only (hidden once a twin existed / REVIEW state).
+- **Fix:** Broaden `isTwinV2PilotEligible` (root route, `isRootOverview`, screenId `overview`); persistent lime-bordered **CREATE TWIN V2** strip on all replication states; duplicate entry in upgrade drawer header.
+

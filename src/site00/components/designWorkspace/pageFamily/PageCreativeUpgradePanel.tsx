@@ -542,6 +542,15 @@ export function PageCreativeUpgradePanel({
             <span>{pageLabel.toUpperCase()}</span>
             <span>{route}</span>
             <span>{session.viewport.toUpperCase()}</span>
+            {twinV2Eligible && onOpenTwinV2 && !twinV2Experience ? (
+              <button
+                type="button"
+                className="site00-dw-v3-btn site00-dw-v3-btn--outline site00-dw-v3-btn--compact"
+                onClick={onOpenTwinV2}
+              >
+                CREATE TWIN V2 · CONCEPT-DIRECTED
+              </button>
+            ) : null}
           </div>
           <button type="button" className="site00-dw-wizard-drawer__close" onClick={onBack} aria-label="Close">
             ✕

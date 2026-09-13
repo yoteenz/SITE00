@@ -170,3 +170,19 @@
   padding-top: 0.75rem;
   border-top: 1px dashed #444;
 }
+
+.site00-pur__twin-v2-entry--persistent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--site00-lime, #c8ff00);
+  background: rgba(200, 255, 0, 0.06);
+}
+
+.site00-pur__twin-v2-entry--persistent .site00-pur__chip {
+  margin-left: 0.35rem;
+}

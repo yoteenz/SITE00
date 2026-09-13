@@ -27,6 +27,7 @@ import { BlueprintTranslationPanel } from './BlueprintTranslationPanel.js';
 import { AuthorityTighteningPanel } from './AuthorityTighteningPanel.js';
 import { HeroSurgicalLockPanel } from './HeroSurgicalLockPanel.js';
 import '../../../styles/site00-page-upgrade-replication.css';
+import '../../../styles/site00-twin-v2-concept.css';
 
 type Props = {
   session: PageCreativeUpgradeSession;
@@ -120,8 +121,25 @@ export function PageUpgradeReplicationExperience({
         })
       : null;
 
+  const twinV2Entry =
+    twinV2Eligible && onOpenTwinV2 ? (
+      <div className="site00-pur__twin-v2-entry site00-pur__twin-v2-entry--persistent">
+        <div>
+          <strong>TWIN V2</strong>
+          <span className="site00-pur__chip">CONCEPT-DIRECTED</span>
+          <p className="site00-pur__replicate-hint">
+            Parallel experiment — creative direction before code. V1 REPLICATE PAGE unchanged.
+          </p>
+        </div>
+        <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onOpenTwinV2}>
+          CREATE TWIN V2
+        </button>
+      </div>
+    ) : null;
+
   return (
     <div className="site00-pur" data-experience-state={experienceState}>
+      {twinV2Entry}
       <nav className="site00-pur__rail" aria-label="Upgrade progress">
         {EXPERIENCE_STEP_LABELS.map((label, i) => (
           <span
@@ -182,17 +200,6 @@ export function PageUpgradeReplicationExperience({
               REPLICATE PAGE
             </button>
           </div>
-          {twinV2Eligible && onOpenTwinV2 ? (
-            <div className="site00-pur__twin-v2-entry">
-              <p className="site00-pur__replicate-hint">
-                Parallel experiment — creative direction before code. Twin V1 forensic pipeline stays available above.
-              </p>
-              <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onOpenTwinV2}>
-                CREATE TWIN V2
-              </button>
-              <span className="site00-pur__chip">CONCEPT-DIRECTED</span>
-            </div>
-          ) : null}
         </section>
       ) : null}
 
