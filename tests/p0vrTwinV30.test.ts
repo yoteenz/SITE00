@@ -9,6 +9,7 @@ import { assertV1Isolation } from '../shared/site00-studio-world-production/visu
 import {
   applyDesignPageAuthorityGeneration,
   seedDesignPageAuthorityPrototypeGallery,
+  normalizeDesignPageAuthorityVisualUrl,
   approveDesignPageAuthorityViewport,
   mergeDesignPageAuthorityApiResponse,
   syncGalleryFromLastResult,
@@ -93,6 +94,14 @@ describe('P0.VR.TWINV3.0R3 design page authority territories', () => {
     expect(result.r3SelfCheck.pass).toBe(true);
     expect(result.mobile.storageUrl).toContain('mobile-territory-a-r3.svg');
     expect(result.expressionContract.projectId).toBe('ndxbook');
+  });
+
+  it('10a normalizeDesignPageAuthorityVisualUrl for nested SPA routes', () => {
+    const origin = 'https://example.test';
+    const rel = 'assets/specimen-a.svg';
+    expect(normalizeDesignPageAuthorityVisualUrl(rel, origin)).toBe(`${origin}/assets/specimen-a.svg`);
+    expect(normalizeDesignPageAuthorityVisualUrl('/assets/specimen-a.svg', origin)).toBe(`${origin}/assets/specimen-a.svg`);
+    expect(normalizeDesignPageAuthorityVisualUrl('https://cdn.example/img.webp')).toContain('cdn.example');
   });
 
   it('10b prototype seed fills empty gallery without API', () => {

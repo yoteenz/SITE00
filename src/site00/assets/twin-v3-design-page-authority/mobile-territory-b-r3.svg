@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 960" role="img" aria-label="R3 mobile territory B editorial workbench">
+  <rect width="430" height="960" fill="#fff"/>
+  <rect x="0" y="0" width="430" height="56" fill="#faf9f7" stroke="#e5e1d9"/>
+  <text x="14" y="24" font-family="ui-monospace,monospace" font-size="13" font-weight="700">SITE 00</text>
+  <rect x="78" y="12" width="3" height="18" fill="#e10600"/>
+  <text x="88" y="24" font-family="ui-monospace,monospace" font-size="8" fill="#666">DESIGN · NDXBOOK open</text>
+  <!-- asymmetric editorial block -->
+  <rect x="0" y="56" width="280" height="420" fill="#0a0a0a"/>
+  <text x="16" y="88" font-family="Georgia,serif" font-size="14" fill="#c6f135">TERRITORY B</text>
+  <text x="16" y="112" font-family="Georgia,serif" font-size="22" fill="#fff">Editorial</text>
+  <text x="16" y="140" font-family="Georgia,serif" font-size="22" fill="#fff">Workbench</text>
+  <rect x="16" y="160" width="248" height="200" fill="#151515" stroke="#c6f135" stroke-width="2"/>
+  <text x="24" y="280" font-family="Georgia,serif" font-size="11" fill="#ccc">master · archive rhythm</text>
+  <rect x="288" y="56" width="142" height="200" fill="#f4f2ee"/>
+  <text x="296" y="80" font-family="ui-monospace,monospace" font-size="7" fill="#888">workflow edge</text>
+  <line x1="296" y1="100" x2="420" y2="100" stroke="#c6f135" stroke-width="2"/>
+  <line x1="296" y1="130" x2="400" y2="130" stroke="#ddd"/>
+  <line x1="296" y1="160" x2="410" y2="160" stroke="#ddd"/>
+  <!-- decision + artifact composition -->
+  <rect x="0" y="488" width="430" height="120" fill="#c6f135"/>
+  <text x="16" y="520" font-family="Georgia,serif" font-size="13" font-weight="700" fill="#0a0a0a">Approve direction · primary composition</text>
+  <text x="16" y="548" font-family="Georgia,serif" font-size="10" fill="#222">decision layer · not CTA card</text>
+  <rect x="16" y="620" width="398" height="72" fill="#fff" stroke="#e0dcd4"/>
+  <text x="24" y="644" font-family="ui-monospace,monospace" font-size="8" fill="#888">F · SITE 00 readiness · Martian labels</text>
+  <rect x="16" y="708" width="398" height="40" rx="20" fill="#111" opacity="0.05"/>
+  <text x="120" y="734" font-family="ui-monospace,monospace" font-size="9" fill="#666">G · technical bottom sheet</text>
+  <text x="12" y="940" font-family="ui-monospace,monospace" font-size="8" fill="#999">R3 B · asymmetric NDXBOOK · SITE 00 host header</text>
+</svg>

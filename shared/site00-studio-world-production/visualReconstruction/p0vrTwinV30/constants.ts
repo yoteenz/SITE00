@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R4 — project creative DNA + grounded workspace authority generation. */
-export const P0_VR_TWIN_V30_BUILD = 'v395' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v396' as const;
 
 export const P0_VR_TWIN_V30R2_LINEAGE = 'P0.VR.TWINV3.0R2' as const;
 export const P0_VR_TWIN_V30R3_LINEAGE = 'P0.VR.TWINV3.0R3' as const;
