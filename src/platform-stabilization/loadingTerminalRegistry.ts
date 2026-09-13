@@ -1,4 +1,4 @@
-import { clearLoadingScreenDocumentLock } from './loadingScreenLock';
+import { purgeSite00ImmersiveLoaderDom } from '../site00/components/loader/site00PurgeImmersiveLoaderDom';
 
 export type LoadingTerminalSource = {
   id: string;
@@ -30,7 +30,7 @@ export async function forceLoadingTerminalRecovery(
   reason = 'loading-timeout',
 ): Promise<void> {
   if (typeof document === 'undefined') return;
-  clearLoadingScreenDocumentLock();
+  purgeSite00ImmersiveLoaderDom(reason);
   document.querySelectorAll('.loading-screen-root').forEach((el) => el.remove());
   console.error('[loading-terminal] forced recovery', { reason, stuck });
 }

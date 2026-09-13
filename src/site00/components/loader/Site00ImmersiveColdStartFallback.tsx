@@ -1,41 +1,7 @@
-import { createPortal } from 'react-dom';
-import { Site00ImmersiveLoader } from './Site00ImmersiveLoader';
-import { resolveSite00ImmersiveLoaderConfig } from './site00LoaderConfig';
-import { isSite00ImmersivePath } from './site00LoaderPaths';
-import { isSite00ImmersiveSessionComplete, shouldShowSite00ImmersiveLoader } from './site00LoaderSession';
-
 /**
- * Immersive SITE 00 loader portaled to document.body so it stays visible while
- * `html.site00-assts-boot` hides `#root` during ultra-early boot.
+ * @deprecated Route Suspense must not portal the immersive loader — see Site00RouteLoadingFallback.
+ * Kept as a no-op so stale imports fail safe.
  */
 export function Site00ImmersiveColdStartFallback() {
-  if (typeof window === 'undefined') {
-    return null;
-  }
-
-  const path = window.location.pathname || '';
-  // After the cinematic gate finishes, nav.type===reload still forces shouldShow=true — never block lazy routes.
-  if (
-    !isSite00ImmersivePath(path) ||
-    isSite00ImmersiveSessionComplete() ||
-    !shouldShowSite00ImmersiveLoader()
-  ) {
-    return null;
-  }
-
-  const config = resolveSite00ImmersiveLoaderConfig(path);
-  const overlay = (
-    <Site00ImmersiveLoader
-      config={config}
-      progress={0}
-      stageSubtitle={config.stages[0]?.subtitle ?? ''}
-      loaderState="BOOTSTRAP"
-    />
-  );
-
-  if (typeof document === 'undefined') {
-    return overlay;
-  }
-
-  return createPortal(overlay, document.body);
+  return null;
 }

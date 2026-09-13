@@ -19,14 +19,22 @@ describe('SITE 00 immersive suspense fallback guard', () => {
     );
   });
 
-  it('world route suspense fallback skips loader when session complete', () => {
-    const fallback = read('src/site00/components/loader/Site00ImmersiveColdStartFallback.tsx');
-    expect(fallback).toContain('isSite00ImmersiveSessionComplete');
+  it('world route suspense fallback never portals immersive loader', () => {
+    const fallback = read('src/site00/components/loader/Site00RouteLoadingFallback.tsx');
+    expect(fallback).not.toContain('Site00ImmersiveColdStartFallback');
+    expect(fallback).toContain('ReferenceShellSuspenseFallback');
   });
 
-  it('ASSTS route suspense fallback skips loader when session complete', () => {
+  it('ASSTS route suspense fallback never portals immersive loader', () => {
     const suspense = read('src/site00/assts/components/AsstsRouteSuspense.tsx');
-    expect(suspense).toContain('isSite00ImmersiveSessionComplete');
+    expect(suspense).not.toContain('Site00ImmersiveLoader');
+  });
+
+  it('purge helper strips immersive loader DOM', () => {
+    expect(read('src/site00/components/loader/site00PurgeImmersiveLoaderDom.ts')).toContain(
+      '.site00-immersive-loader',
+    );
+    expect(read('public/site00-assts-boot-recovery.js')).toContain('watchdog-root-has-app');
   });
 
   it('ASSTS cold start gate matches world gate failsafe hooks', () => {
