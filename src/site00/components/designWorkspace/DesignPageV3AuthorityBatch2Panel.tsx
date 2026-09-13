@@ -24,7 +24,7 @@ import {
   type DesignPageV3TerritoryId,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 import {
-  publicAuthorityPrototypeImageUrl,
+  authorityPrototypeBundledFallbackSrc,
   resolveDesignPageAuthorityImageSrc,
 } from './designPageAuthorityR3PrototypeUrls.js';
 import '../../styles/site00-twin-v3-design-authority.css';
@@ -40,9 +40,7 @@ function onAuthorityImageError(
   hint: { territoryId: DesignPageV3TerritoryId; viewport: 'mobile' | 'desktop' },
 ) {
   const el = ev.currentTarget;
-  const fallback = publicAuthorityPrototypeImageUrl(
-    `/site00/twin-v3-design-page-authority/${hint.viewport}-territory-${hint.territoryId.toLowerCase()}-r3.svg`,
-  );
+  const fallback = authorityPrototypeBundledFallbackSrc(hint);
   if (el.src !== fallback) el.src = fallback;
 }
 
