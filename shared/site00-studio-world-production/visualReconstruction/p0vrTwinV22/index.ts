@@ -24,3 +24,4 @@ export {
   importExistingV2ConceptsFromUrls,
 } from './importExistingV2ConceptFromUrl.js';
 export * from './requestTwinV2ImportConcept.js';
+export * from './twinV2UiPersistence.js';

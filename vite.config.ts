@@ -36,8 +36,16 @@ export default defineConfig(({ mode, command }) => {
     (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
       process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
 
-  /** Unique per dev-server boot — busts mobile Safari module cache on cloud preview. */
-  const previewSessionId = cloudMobilePreview ? Date.now().toString(36) : null;
+  /** Cloud preview: stable stamp by default (same until redeploy); set SITE00_CLOUD_PREVIEW_STABLE=0 to bust every Vite boot. */
+  const previewSessionUnstable =
+    cloudMobilePreview &&
+    (process.env.SITE00_CLOUD_PREVIEW_STABLE === '0' ||
+      process.env.SITE00_CLOUD_PREVIEW_STABLE === 'false');
+  const previewSessionId = cloudMobilePreview
+    ? previewSessionUnstable
+      ? Date.now().toString(36)
+      : String(buildId).slice(0, 12)
+    : null;
   const effectiveBuildId = previewSessionId ?? buildId;
 
   const tunnelHostname = (

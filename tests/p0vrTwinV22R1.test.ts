@@ -21,6 +21,9 @@ import {
   assertConceptGalleryEmptyState,
   hydrateConceptGallerySession,
   importExistingV2ConceptsFromUrls,
+  readTwinV2UiPersist,
+  writeTwinV2UiPersist,
+  clearTwinV2UiPersist,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/index.js';
 
 const read = (rel: string) => readFileSync(join(import.meta.dirname, '..', rel), 'utf8');
@@ -156,6 +159,28 @@ describe('P0.VR.TWINV2.2R1 concept gallery hydration', () => {
     expect(read('api/site00/twin-v2-visual-concept.ts')).toContain('appendTwinV2ConceptLedger');
     expect(read('server/routes.ts')).toContain('twin-v2-concept-generations');
     expect(P0_VR_TWIN_V22_BUILD).toBe('v351');
+  });
+
+  it('twinV2UiPersistence round-trips import draft in sessionStorage', () => {
+    const store = new Map<string, string>();
+    (globalThis as { sessionStorage?: Storage }).sessionStorage = {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => store.set(k, v),
+      removeItem: (k: string) => store.delete(k),
+      clear: () => store.clear(),
+      key: () => null,
+      length: store.size,
+    } as Storage;
+    clearTwinV2UiPersist('ndxbook');
+    writeTwinV2UiPersist({
+      projectId: 'ndxbook',
+      pageId: 'p1',
+      upgradeOpen: true,
+      twinV2Open: true,
+      importUrlsDraft: 'https://example.com/a.jpg',
+    });
+    const ui = readTwinV2UiPersist('ndxbook');
+    expect(ui?.importUrlsDraft).toContain('example.com');
   });
 
   it('import works when creativeDirection missing on legacy session', () => {

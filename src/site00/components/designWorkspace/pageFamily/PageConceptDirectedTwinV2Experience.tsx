@@ -24,6 +24,10 @@ import {
   importExistingV2ConceptsFromUrls,
   requestTwinV2ImportConcept,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
+import {
+  readTwinV2UiPersist,
+  writeTwinV2UiPersist,
+} from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/twinV2UiPersistence.js';
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
 import '../../../styles/site00-twin-v2-concept.css';
 
@@ -68,11 +72,28 @@ export function PageConceptDirectedTwinV2Experience({
   const [compareMode, setCompareMode] = useState<CompareMode>('APPROVED_VISUAL');
   const [liveCompare, setLiveCompare] = useState<'LIVE' | 'TWIN_V1' | 'TWIN_V2'>('LIVE');
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
-  const [importUrls, setImportUrls] = useState('');
+  const [importUrls, setImportUrls] = useState(() => {
+    const ui = readTwinV2UiPersist(session.projectId);
+    if (ui?.pageId === session.pageId && ui.importUrlsDraft) return ui.importUrlsDraft;
+    return '';
+  });
   const [importing, setImporting] = useState(false);
   const [importNotice, setImportNotice] = useState<{ tone: 'error' | 'ok'; text: string } | null>(null);
   const sessionRef = useRef(session);
   sessionRef.current = session;
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      writeTwinV2UiPersist({
+        projectId: session.projectId,
+        pageId: session.pageId,
+        upgradeOpen: true,
+        twinV2Open: true,
+        importUrlsDraft: importUrls,
+      });
+    }, 400);
+    return () => window.clearTimeout(t);
+  }, [importUrls, session.pageId, session.projectId]);
 
   useEffect(() => {
     let cancelled = false;

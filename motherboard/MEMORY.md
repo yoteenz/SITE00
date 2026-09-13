@@ -8430,3 +8430,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Causes:** (1) Early HTML boot shell not removed after React mounts. (2) Immersive loader bootstrap cancelled or stalled with no wall-clock exit. (3) Twin V2 gallery hydrate awaiting hung API fetch.
 - **Fix (v351):** `site00-assts-boot-recovery.js` removes boot shell when `#root` has content; `Site00WorldColdStartGate` 22s failsafe reveals app; Twin V2 remote fetch 8s timeout + 12s hydrate wall clock.
 
+---
+
+## 2026-09-13 — Tunnel preview reload clears mobile work (sessionStorage persist)
+
+- **Question:** Founder asked to stop tunnel **refreshing on leave/return** and clearing Twin V2 / import progress.
+- **Reality:** `site00.fsbw-dev.com` → **Vite dev** (not production); iOS Safari often **full-reloads** background tabs — cannot disable OS behavior. Cloud preview also used per-boot cache bust (`previewSessionId`) until now.
+- **Mitigation:** `twinV2UiPersistence` (sessionStorage) saves import URL draft + twinV2Open; restores when Page Upgrade reopens same page; Vite cloud preview defaults to **stable** build stamp (override `SITE00_CLOUD_PREVIEW_STABLE=0`). Twin V2 **concepts** remain in **localStorage** after reload. **Production ZIP** on fsbw-dev avoids dev no-cache churn.
+

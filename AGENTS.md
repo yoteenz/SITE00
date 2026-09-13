@@ -31,6 +31,8 @@ bash scripts/package-cpanel-deploy.sh   # build dist + ZIP to /tmp/
 
 Preview tunnel: `.cursor/environment.json` terminals `site00-vite` + `site00-preview-tunnel`. URL file: `/tmp/site00-cloud-preview-url.txt`.
 
+**Mobile tunnel vs production (progress):** `site00.fsbw-dev.com` points at the **Vite dev server**, not the GoDaddy ZIP. iOS Safari often **fully reloads** the tab when you switch apps — that clears in-memory UI (drawers, unsaved textarea) but **localStorage** keeps Twin V2 sessions and imported concepts. For stable QA without dev reload behavior, use a **production ZIP** on fsbw-dev or site00.com. Twin V2 **import URL drafts** and “reopen TWIN V2” are persisted in **sessionStorage** (`site00:twin-v2-ui:v1:*`) across reloads when you reopen Page Upgrade on the same page.
+
 API is **not** on cPanel static hosting. Production API: Railway (`api.site00.com`). `VITE_API_BASE=https://api.site00.com` at build time.
 
 ### Git shipping (mandatory)
