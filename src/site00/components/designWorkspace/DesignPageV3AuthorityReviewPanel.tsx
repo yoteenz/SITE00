@@ -2,7 +2,7 @@
  * P0.VR.TWINV3.0R4 — SITE 00 shell + NDXBOOK project-grounded workspace authority.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   approveDesignPageAuthorityViewport,
   appendDesignPageAuthorityRefineNote,
@@ -20,6 +20,7 @@ import {
   P0_VR_TWIN_V30_BUILD,
   readDesignPageAuthoritySession,
   requestDesignPageAuthorityGeneration,
+  seedDesignPageAuthorityPrototypeGallery,
   selectDesignPageAuthorityTerritory,
   selectDesignPageAuthorityTerritoryCandidate,
   setDesignPageAuthorityTerritoryVerdict,
@@ -53,6 +54,17 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
 
   const sessionView = useMemo(() => normalizeDesignPageAuthoritySession(session), [session]);
 
+  useEffect(() => {
+    if (!pilot) return;
+    setSession((prev) => {
+      const normalized = normalizeDesignPageAuthoritySession(prev);
+      if (territoryGalleryHasCandidates(normalized.territoryGallery)) return normalized;
+      const seeded = seedDesignPageAuthorityPrototypeGallery(normalized);
+      writeDesignPageAuthoritySession(seeded);
+      return seeded;
+    });
+  }, [pilot, projectId]);
+
   const persist = useCallback((next: DesignPageAuthorityReviewSession) => {
     const normalized = normalizeDesignPageAuthoritySession(next);
     setSession(normalized);
@@ -84,7 +96,11 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
           territoryScope: input.territoryScope ?? 'ALL',
           founderConfirmedSpend: true,
         });
-        const merged = mergeDesignPageAuthorityApiResponse(working, res, apiAction);
+        const merged = mergeDesignPageAuthorityApiResponse(
+          working,
+          { result: res.result, session: res.session },
+          apiAction,
+        );
         persist(merged);
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Generation failed');
@@ -156,9 +172,14 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       </header>
       <p className="site00-dw-v3-authority__hint">
         Each territory (A Central Stage, B Editorial Workbench, C Spatial Workflow) keeps its own stack of generated
-        mobile+desktop pairs. Regenerate one category to add another compare candidate — all stay visible here (not only
-        in FAL history). Select a territory + candidate, then lock mobile and desktop.
+        mobile+desktop pairs. SVG prototypes load instantly; live FAL adds new compare rows (2–4 min for full A+B+C on
+        mobile — keep this tab open). Select a territory + candidate, then lock mobile and desktop.
       </p>
+      {running ? (
+        <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-authority-generating">
+          Generating live frames via api.site00.com — do not switch apps (iOS may reload and drop in-flight results).
+        </p>
+      ) : null}
       <div className="site00-dw-v3-authority__actions">
         <button
           type="button"

@@ -6,6 +6,7 @@ import {
   P0_VR_TWIN_V30_BUILD,
 } from './constants.js';
 import type { DesignPageV3FounderTerritoryVerdict } from './hostProjectExpressionModel.js';
+import { buildTerritoryPrototypeBundles } from './buildTerritoryPrototypeBundles.js';
 import {
   appendTerritoryBundlesToGallery,
   emptyTerritoryGallery,
@@ -13,6 +14,7 @@ import {
   normalizeDesignPageAuthoritySession,
   resolveSelectedTerritoryCandidate,
   resolveTerritoryCandidate,
+  territoryGalleryHasCandidates,
 } from './designPageAuthorityTerritoryGallery.js';
 import type {
   DesignPageAuthorityFounderReviewState,
@@ -61,6 +63,7 @@ export function mergeDesignPageAuthorityApiResponse(
   priorSession: DesignPageAuthorityReviewSession,
   api: {
     result: DesignPageAuthorityGenerationResult;
+    session?: DesignPageAuthorityReviewSession;
   },
   action: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY',
 ): DesignPageAuthorityReviewSession {
@@ -70,7 +73,59 @@ export function mergeDesignPageAuthorityApiResponse(
       'AUTHORITY_GENERATION_EMPTY: API returned no territory mobile/desktop frames — FAL may have run but results were not wired to the gallery',
     );
   }
-  return applyDesignPageAuthorityGeneration(priorSession, api.result, action);
+  let merged = applyDesignPageAuthorityGeneration(priorSession, api.result, action);
+  if (api.session && !territoryGalleryHasCandidates(merged.territoryGallery)) {
+    const serverNorm = normalizeDesignPageAuthoritySession(api.session);
+    if (territoryGalleryHasCandidates(serverNorm.territoryGallery)) {
+      merged = normalizeDesignPageAuthoritySession({
+        ...serverNorm,
+        founderReview: {
+          ...serverNorm.founderReview,
+          refineNotes: priorSession.founderReview.refineNotes,
+          selectedTerritoryId:
+            priorSession.founderReview.selectedTerritoryId ?? serverNorm.founderReview.selectedTerritoryId,
+          territoryVerdicts: {
+            ...priorSession.founderReview.territoryVerdicts,
+            ...serverNorm.founderReview.territoryVerdicts,
+          },
+        },
+      });
+    }
+  }
+  return merged;
+}
+
+/** Instant A/B/C gallery from bundled SVG prototypes (no API / FAL). */
+export function seedDesignPageAuthorityPrototypeGallery(
+  session: DesignPageAuthorityReviewSession,
+  input?: { territoryIds?: DesignPageV3TerritoryId[] },
+): DesignPageAuthorityReviewSession {
+  const base = normalizeDesignPageAuthoritySession(session);
+  if (territoryGalleryHasCandidates(base.territoryGallery)) return base;
+  const now = new Date().toISOString();
+  const batchGeneration = base.candidateGeneration + 1;
+  const bundles = buildTerritoryPrototypeBundles({
+    authoritySessionId: base.authoritySessionId,
+    territoryIds: input?.territoryIds,
+  });
+  const territoryGallery = appendTerritoryBundlesToGallery({
+    gallery: base.territoryGallery,
+    bundles,
+    batchGeneration,
+    createdAt: now,
+  });
+  const selectedCandidateByTerritory = { ...base.selectedCandidateByTerritory };
+  for (const bundle of bundles) {
+    const latest = latestTerritoryCandidate(territoryGallery, bundle.territoryId);
+    if (latest) selectedCandidateByTerritory[bundle.territoryId] = latest.candidateId;
+  }
+  return normalizeDesignPageAuthoritySession({
+    ...base,
+    candidateGeneration: batchGeneration,
+    territoryGallery,
+    selectedCandidateByTerritory,
+    updatedAt: now,
+  });
 }
 
 export function applyDesignPageAuthorityGeneration(
