@@ -28,6 +28,7 @@ import {
 import { getActiveConceptCandidate } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/conceptGalleryState.js';
 import { beginDualOutputConceptGeneration } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV25/buildDualOutputPreGeneration.js';
 import { TwinV2PairedConceptReviewPanel } from './TwinV2PairedConceptReviewPanel.js';
+import { TwinV2CompilerReadinessPanel } from './TwinV2CompilerReadinessPanel.js';
 import { isConceptTechnicallyReadyForBuild } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV22/computeConceptBuildReadiness.js';
 import {
   readTwinV2UiPersist,
@@ -236,8 +237,17 @@ export function PageConceptDirectedTwinV2Experience({
   const showGallery = galleryQuery.canonicalConceptCount > 0;
   const preBuildConceptStage = showGallery && !session.renderedTwin?.builtAt;
   const activeConcept = gallery ? getActiveConceptCandidate(session) : null;
+  const compilerReady =
+    !activeConcept?.conceptId ||
+    activeConcept.conceptOrigin !== 'DUAL_OUTPUT_PAIRED' ||
+    session.conceptGallery?.designCompilerBundles?.[activeConcept.conceptId]?.compilerReadiness?.status ===
+      'PASS';
   const canRebuildTwin =
-    Boolean(activeConcept) && isConceptTechnicallyReadyForBuild(activeConcept!.buildReadiness);
+    Boolean(activeConcept) &&
+    isConceptTechnicallyReadyForBuild(activeConcept!.buildReadiness) &&
+    compilerReady &&
+    (activeConcept!.founderJudgment === 'APPROVED' ||
+      activeConcept!.conceptOrigin !== 'DUAL_OUTPUT_PAIRED');
 
   const bindingSummaries = Object.fromEntries(
     Object.entries(gallery?.bindingPlans ?? {}).map(([id, plan]) => [
@@ -589,7 +599,10 @@ export function PageConceptDirectedTwinV2Experience({
       ) : null}
 
       {activeConcept && activeConcept.conceptOrigin === 'DUAL_OUTPUT_PAIRED' ? (
-        <TwinV2PairedConceptReviewPanel session={session} candidate={activeConcept} />
+        <>
+          <TwinV2PairedConceptReviewPanel session={session} candidate={activeConcept} />
+          <TwinV2CompilerReadinessPanel session={session} candidate={activeConcept} />
+        </>
       ) : null}
 
       {showGallery && gallery ? (

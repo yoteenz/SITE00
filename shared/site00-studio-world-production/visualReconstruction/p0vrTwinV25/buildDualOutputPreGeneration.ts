@@ -12,6 +12,10 @@ import type {
   PairedConceptArtifact,
 } from './types.js';
 import { VISUAL_GENERATION_CORE_INSTRUCTION } from './visualGenerationInstruction.js';
+import {
+  assertConceptGenerationPreflight,
+  runConceptGenerationPreflight,
+} from '../p0vrTwinV26/runConceptGenerationPreflight.js';
 
 export function buildCompositionPlan(input: {
   conceptId: string;
@@ -234,6 +238,9 @@ export function beginDualOutputConceptGeneration(
     visualGenerationInstruction,
     startedAt: now,
   };
+
+  const preflight = runConceptGenerationPreflight(baseSession, pending);
+  assertConceptGenerationPreflight(preflight);
 
   return {
     session: {

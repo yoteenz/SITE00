@@ -142,6 +142,7 @@ export function hydrateConceptGallerySession(
         visualBlueprintReconciliations: priorGallery?.visualBlueprintReconciliations ?? {},
         blueprintVisualCoverage: priorGallery?.blueprintVisualCoverage ?? {},
         assetCoverage: priorGallery?.assetCoverage ?? {},
+        designCompilerBundles: priorGallery?.designCompilerBundles ?? {},
       },
     });
   } else if (priorGallery) {

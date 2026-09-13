@@ -11,6 +11,9 @@ import { materializeStandaloneConceptAssets } from './materializeStandaloneConce
 import { buildFunctionBindingPlanFromTargets } from './buildFunctionBindingPlanFromTargets.js';
 import { buildAssetManifestFromPairedGeneration } from './buildAssetManifestFromPairedGeneration.js';
 import { reconcileVisualBlueprintToImage } from './reconcileVisualBlueprintToImage.js';
+import { buildDesignCompilerBundle } from '../p0vrTwinV26/buildDesignCompilerBundle.js';
+import { runConceptGenerationPreflight } from '../p0vrTwinV26/runConceptGenerationPreflight.js';
+
 export function finalizeDualOutputConceptGeneration(
   session: ConceptDirectedTwinSession,
   input: { imageUrl: string; imageStorageRef: string | null; legacyVersionId: string },
@@ -234,6 +237,18 @@ export function finalizeDualOutputConceptGeneration(
     assetCoverage: { ...(gallery.assetCoverage ?? {}), [candidate.conceptId]: assetCoverage },
     pairedArtifacts: { ...(gallery.pairedArtifacts ?? {}), [candidate.conceptId]: updatedPaired },
     pendingDualOutput: null,
+  };
+
+  const compilerBundle = buildDesignCompilerBundle({
+    session,
+    candidate,
+    gallery: nextGallery,
+    reconciledBlueprint,
+    preflightReceipt: runConceptGenerationPreflight(session, pending),
+  });
+  nextGallery.designCompilerBundles = {
+    ...(gallery.designCompilerBundles ?? {}),
+    [candidate.conceptId]: compilerBundle,
   };
 
   return {
