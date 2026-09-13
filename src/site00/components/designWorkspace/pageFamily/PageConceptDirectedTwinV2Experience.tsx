@@ -1,5 +1,5 @@
 /**
- * P0.VR.TWINV2.1 — Concept-directed twin workflow (parallel to forensic V1).
+ * P0.VR.TWINV2.1 + TWINV2.2 — Concept-directed twin workflow (parallel to forensic V1).
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -15,6 +15,11 @@ import {
   approveActiveConceptCandidate,
   ensureConceptGallery,
   setActiveConceptId,
+  listConceptDirectedTwinSessionsForProject,
+  isTwinV2OverviewPageScope,
+  getConceptCandidates,
+  shouldShowV2EmptyState,
+  fetchRemoteTwinV2Generations,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
 import { ConceptDirectedTwinGallery } from './ConceptDirectedTwinGallery.js';
 import '../../../styles/site00-twin-v2-concept.css';
@@ -51,20 +56,39 @@ export function PageConceptDirectedTwinV2Experience({
 }: Props) {
   const [generating, setGenerating] = useState(false);
   const [building, setBuilding] = useState(false);
+  const [hydrating, setHydrating] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refineOpen, setRefineOpen] = useState(false);
   const [refineText, setRefineText] = useState('');
   const [refineRegion, setRefineRegion] = useState('');
   const [spendConfirmOpen, setSpendConfirmOpen] = useState<'generate' | 'regenerate' | 'refine' | null>(null);
-  const [historyVersionId] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('APPROVED_VISUAL');
   const [liveCompare, setLiveCompare] = useState<'LIVE' | 'TWIN_V1' | 'TWIN_V2'>('LIVE');
   const [falApiStatus, setFalApiStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    onSessionChange(ensureConceptGallery(session));
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- hydrate gallery once on open
-  }, []);
+    let cancelled = false;
+    void (async () => {
+      setHydrating(true);
+      try {
+        const siblingSessions = listConceptDirectedTwinSessionsForProject(session.projectId).filter(
+          (s) => s.sessionId !== session.sessionId && isTwinV2OverviewPageScope(session.projectId, s.pageId),
+        );
+        const sessionIds = [session.sessionId, ...siblingSessions.map((s) => s.sessionId)];
+        const remoteRecords = (
+          await Promise.all(sessionIds.map((id) => fetchRemoteTwinV2Generations(id)))
+        ).flatMap((r) => r.records);
+
+        const hydrated = ensureConceptGallery(session, { siblingSessions, remoteStorageRecords: remoteRecords });
+        if (!cancelled) onSessionChange(hydrated);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : 'Gallery hydration failed');
+      } finally {
+        if (!cancelled) setHydrating(false);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- hydrate once per Twin V2 open / session id
+  }, [session.sessionId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -87,8 +111,20 @@ export function PageConceptDirectedTwinV2Experience({
   }, []);
 
   const step = activeStepIndex(session.status);
+  const galleryQuery = getConceptCandidates({
+    projectId: session.projectId,
+    pageId: session.pageId,
+    viewport: 'mobile',
+    mode: 'CONCEPT_DIRECTED_V2',
+    session,
+  });
   const gallery = session.conceptGallery;
-  const galleryCandidates = gallery?.candidates ?? [];
+  const galleryCandidates = galleryQuery.candidates;
+  const discoverableCount = gallery?.backfillReceipt?.discoverableGenerationCount ?? 0;
+  const showEmptyState = shouldShowV2EmptyState(discoverableCount, galleryQuery.canonicalConceptCount);
+  const showGallery = galleryQuery.canonicalConceptCount > 0;
+  const preBuildConceptStage = showGallery && !session.renderedTwin?.builtAt;
+
   const bindingSummaries = Object.fromEntries(
     Object.entries(gallery?.bindingPlans ?? {}).map(([id, plan]) => [
       id,
@@ -97,13 +133,6 @@ export function PageConceptDirectedTwinV2Experience({
   );
 
   const latestConcept = session.history.at(-1);
-  const displayConcept =
-    historyVersionId != null
-      ? session.history.find((h) => h.versionId === historyVersionId) ?? latestConcept
-      : latestConcept;
-
-  const approvedImage = session.approvedVisualAuthority?.imageUrl ?? displayConcept?.imageUrl;
-  const showGallery = galleryCandidates.length > 0;
 
   const twinV2Route = useMemo(
     () => buildTwinV2PreviewRoute(session.projectId, session.sessionId),
@@ -134,6 +163,7 @@ export function PageConceptDirectedTwinV2Experience({
         parentVersionId:
           action === 'refine' ? (activeLegacy ?? latestConcept?.versionId ?? null) : (latestConcept?.versionId ?? null),
       });
+      working = ensureConceptGallery(working);
       onSessionChange(working);
       setRefineOpen(false);
       setRefineText('');
@@ -168,8 +198,12 @@ export function PageConceptDirectedTwinV2Experience({
     }
   };
 
+  const storeSummary = gallery?.backfillReceipt
+    ? `DISCOVERED: ${gallery.backfillReceipt.discoverableGenerationCount} · BACKFILLED: ${gallery.backfillReceipt.backfilledCount} · CANONICAL: ${gallery.backfillReceipt.canonicalConceptCount} · RENDERED: ${gallery.galleryHydrationReceipt?.renderedConceptCount ?? galleryQuery.canonicalConceptCount}`
+    : null;
+
   return (
-    <div className="site00-twin-v2-concept" data-twin-v2-workflow="1">
+    <div className="site00-twin-v2-concept" data-twin-v2-workflow="1" data-twin-v2-stage={preBuildConceptStage ? 'concept-gallery' : 'default'}>
       <header>
         <strong>TWIN V2</strong>
         <span> · CONCEPT-DIRECTED · EXPERIMENTAL</span>
@@ -189,24 +223,12 @@ export function PageConceptDirectedTwinV2Experience({
         ))}
       </nav>
 
-      <section className="site00-twin-v2-concept__compact-summary">
-        <p>{session.pageIntent.summary}</p>
-        <p>
-          <strong>Creative premise:</strong> {session.creativeDirection?.creativePremise}
-        </p>
-        <p>
-          <strong>Hero:</strong> {session.creativeDirection?.heroConcept}
-        </p>
-        <p>
-          Visual model: {TWIN_V2_VISUAL_PROVIDER_LABEL} · {session.referenceAssets.length} reference assets
-        </p>
-        {falApiStatus ? <p className="site00-twin-v2-concept__fal-status">{falApiStatus}</p> : null}
-      </section>
+      {hydrating ? <p className="site00-twin-v2-concept__hydrating">Loading concept gallery…</p> : null}
 
       {showGallery && gallery ? (
         <ConceptDirectedTwinGallery
           candidates={galleryCandidates}
-          activeConceptId={gallery.activeConceptId}
+          activeConceptId={galleryQuery.activeConceptId}
           blueprints={gallery.blueprints}
           bindingSummaries={bindingSummaries}
           onSelectConcept={(id) => onSessionChange(setActiveConceptId(session, id))}
@@ -217,14 +239,12 @@ export function PageConceptDirectedTwinV2Experience({
           building={building}
           generating={generating}
         />
-      ) : (
+      ) : null}
+
+      {!hydrating && showEmptyState ? (
         <>
           <figure className="site00-twin-v2-concept__concept-frame">
-            {displayConcept?.imageUrl ? (
-              <img src={displayConcept.imageUrl} alt="Twin V2 visual concept" />
-            ) : (
-              <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>NO VISUAL CONCEPT YET</div>
-            )}
+            <div style={{ padding: '3rem 1rem', textAlign: 'center', color: '#888' }}>NO VISUAL CONCEPT YET</div>
           </figure>
           <div className="site00-twin-v2-concept__actions">
             <button
@@ -237,7 +257,42 @@ export function PageConceptDirectedTwinV2Experience({
             </button>
           </div>
         </>
-      )}
+      ) : null}
+
+      {showGallery ? (
+        <div className="site00-twin-v2-concept__actions site00-twin-v2-concept__actions--secondary">
+          <button
+            type="button"
+            className="site00-dw-v3-btn site00-dw-v3-btn--outline"
+            disabled={generating}
+            onClick={() => setSpendConfirmOpen('generate')}
+          >
+            {generating ? 'GENERATING…' : 'GENERATE NEW CONCEPT'}
+          </button>
+        </div>
+      ) : null}
+
+      <details className="site00-twin-v2-concept__details">
+        <summary>VIEW INPUTS &amp; DETAILS</summary>
+        <section className="site00-twin-v2-concept__compact-summary">
+          <p>{session.pageIntent.summary}</p>
+          <p>
+            <strong>Creative premise:</strong> {session.creativeDirection?.creativePremise}
+          </p>
+          <p>
+            <strong>Hero:</strong> {session.creativeDirection?.heroConcept}
+          </p>
+          <p>
+            Visual model: {TWIN_V2_VISUAL_PROVIDER_LABEL} · {session.referenceAssets.length} reference assets
+          </p>
+          {falApiStatus ? <p className="site00-twin-v2-concept__fal-status">{falApiStatus}</p> : null}
+          {storeSummary ? (
+            <p className="site00-twin-v2-concept__concept-store">
+              <strong>CONCEPT STORE</strong> · {storeSummary}
+            </p>
+          ) : null}
+        </section>
+      </details>
 
       {session.renderedTwin?.builtAt ? (
         <button type="button" className="site00-dw-v3-btn site00-dw-v3-btn--outline" onClick={onPreviewTwinV2}>
@@ -247,7 +302,7 @@ export function PageConceptDirectedTwinV2Experience({
 
       {error ? <p role="alert">{error}</p> : null}
 
-      {session.renderedTwin?.builtAt ? (
+      {!preBuildConceptStage && session.renderedTwin?.builtAt ? (
         <>
           <div className="site00-pfw-upgrade-v2__tabs" role="tablist" aria-label="Approved vs twin">
             {(['APPROVED_VISUAL', 'TWIN_V2', 'OVERLAY', 'DIFF'] as CompareMode[]).map((mode) => (
@@ -267,30 +322,34 @@ export function PageConceptDirectedTwinV2Experience({
         </>
       ) : null}
 
-      <div className="site00-pfw-upgrade-v2__tabs" role="tablist" aria-label="Live V1 V2 compare">
-        {(['LIVE', 'TWIN_V1', 'TWIN_V2'] as const).map((mode) => (
-          <button
-            key={mode}
-            type="button"
-            className={`site00-pfw-upgrade-v2__tab${liveCompare === mode ? ' is-active' : ''}`}
-            onClick={() => setLiveCompare(mode)}
-          >
-            {mode.replace(/_/g, ' ')}
-          </button>
-        ))}
-      </div>
-      {liveCompare === 'LIVE' && currentScreenshot ? (
-        <img src={currentScreenshot} alt="Live" style={{ maxWidth: 375 }} />
-      ) : null}
-      {liveCompare === 'TWIN_V1' && twinV1PreviewUrl ? (
-        <p>
-          <a href={twinV1PreviewUrl}>Open Twin V1 preview</a>
-        </p>
-      ) : null}
-      {liveCompare === 'TWIN_V2' && session.renderedTwin?.builtAt ? (
-        <p>
-          <a href={twinV2Route}>Open Twin V2 preview</a>
-        </p>
+      {!preBuildConceptStage ? (
+        <>
+          <div className="site00-pfw-upgrade-v2__tabs" role="tablist" aria-label="Live V1 V2 compare">
+            {(['LIVE', 'TWIN_V1', 'TWIN_V2'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                className={`site00-pfw-upgrade-v2__tab${liveCompare === mode ? ' is-active' : ''}`}
+                onClick={() => setLiveCompare(mode)}
+              >
+                {mode.replace(/_/g, ' ')}
+              </button>
+            ))}
+          </div>
+          {liveCompare === 'LIVE' && currentScreenshot ? (
+            <img src={currentScreenshot} alt="Live" style={{ maxWidth: 375 }} />
+          ) : null}
+          {liveCompare === 'TWIN_V1' && twinV1PreviewUrl ? (
+            <p>
+              <a href={twinV1PreviewUrl}>Open Twin V1 preview</a>
+            </p>
+          ) : null}
+          {liveCompare === 'TWIN_V2' && session.renderedTwin?.builtAt ? (
+            <p>
+              <a href={twinV2Route}>Open Twin V2 preview</a>
+            </p>
+          ) : null}
+        </>
       ) : null}
 
       {refineOpen ? (
@@ -326,8 +385,6 @@ export function PageConceptDirectedTwinV2Experience({
           </button>
         </dialog>
       ) : null}
-
-      {approvedImage && compareMode === 'APPROVED_VISUAL' ? null : null}
     </div>
   );
 }

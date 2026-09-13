@@ -2,7 +2,13 @@ export * from './constants.js';
 export * from './types.js';
 export * from './twinGenerationMode.js';
 export * from './createConceptDirectedTwinSession.js';
-export * from './conceptDirectedTwinSessionStore.js';
+export {
+  loadConceptDirectedTwinSession,
+  saveConceptDirectedTwinSession,
+  twinV2StorageKey,
+  listConceptDirectedTwinSessionsForProject,
+  assertV1Isolation,
+} from './conceptDirectedTwinSessionStore.js';
 export * from './runPageCreativeDirector.js';
 export * from './buildVisualConceptPrompt.js';
 export * from './applyFounderVisualJudgment.js';

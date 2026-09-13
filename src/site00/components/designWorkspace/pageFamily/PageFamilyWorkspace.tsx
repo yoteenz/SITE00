@@ -90,8 +90,10 @@ import {
   createConceptDirectedTwinSession,
   ensureConceptGallery,
   isTwinV2PilotEligible,
+  listConceptDirectedTwinSessionsForProject,
   loadConceptDirectedTwinSession,
   saveConceptDirectedTwinSession,
+  isTwinV2OverviewPageScope,
   stashConceptDirectedTwinSessionForPreview,
   buildTwinV2PreviewRoute,
 } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV21/index.js';
@@ -266,6 +268,9 @@ export function PageFamilyWorkspace({
     if (!activePageId || !twinV2Eligible) return;
     const existing = loadConceptDirectedTwinSession(projectId, activePageId);
     const refs = upgradeSession?.designAuthorityAssetRef ? [upgradeSession.designAuthorityAssetRef] : [];
+    const siblingSessions = listConceptDirectedTwinSessionsForProject(projectId).filter(
+      (s) => s.pageId !== activePageId && isTwinV2OverviewPageScope(projectId, s.pageId),
+    );
     const session = ensureConceptGallery(
       existing ??
         createConceptDirectedTwinSession({
@@ -273,6 +278,7 @@ export function PageFamilyWorkspace({
           pageId: activePageId,
           referenceAssets: refs,
         }),
+      { siblingSessions },
     );
     saveConceptDirectedTwinSession(session);
     setTwinV2Session(session);

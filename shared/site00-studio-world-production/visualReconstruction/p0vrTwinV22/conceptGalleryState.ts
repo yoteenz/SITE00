@@ -10,6 +10,7 @@ import { reconcileConceptBlueprint } from './reconcileConceptBlueprint.js';
 import { generateConceptAssetManifest } from './generateConceptAssetManifest.js';
 import { generateConceptFunctionBindingPlan } from './generateConceptFunctionBindingPlan.js';
 import { computeConceptBuildReadiness } from './computeConceptBuildReadiness.js';
+import { hydrateConceptGallerySession } from './hydrateConceptGallerySession.js';
 
 export function emptyConceptGallery(): ConceptGalleryState {
   return {
@@ -25,12 +26,11 @@ export function emptyConceptGallery(): ConceptGalleryState {
   };
 }
 
-export function ensureConceptGallery(session: ConceptDirectedTwinSession): ConceptDirectedTwinSession {
-  if (session.conceptGallery?.buildRef === P0_VR_TWIN_V22_BUILD) {
-    return session;
-  }
-  const gallery = backfillConceptGalleryFromHistory(session);
-  return { ...session, conceptGallery: gallery, updatedAt: new Date().toISOString() };
+export function ensureConceptGallery(
+  session: ConceptDirectedTwinSession,
+  input?: Parameters<typeof hydrateConceptGallerySession>[1],
+): ConceptDirectedTwinSession {
+  return hydrateConceptGallerySession(session, input);
 }
 
 function lineageLabel(candidate: ConceptCandidate): string {
@@ -71,7 +71,7 @@ export function backfillConceptGalleryFromHistory(session: ConceptDirectedTwinSe
     ...gallery,
     buildRef: P0_VR_TWIN_V22_BUILD,
     candidates,
-    activeConceptId: candidates.at(-1)?.conceptId ?? null,
+    activeConceptId: gallery.lastActiveConceptId ?? candidates[0]?.conceptId ?? null,
     blueprints,
     manifests,
     bindingPlans,
@@ -256,6 +256,7 @@ export function addConceptCandidateFromGeneration(
       ...gallery,
       candidates: [...gallery.candidates, candidate],
       activeConceptId: candidate.conceptId,
+      lastActiveConceptId: candidate.conceptId,
       blueprints,
       manifests,
       bindingPlans,
@@ -273,7 +274,7 @@ export function setActiveConceptId(session: ConceptDirectedTwinSession, conceptI
   }
   return {
     ...base,
-    conceptGallery: { ...gallery, activeConceptId: conceptId },
+    conceptGallery: { ...gallery, activeConceptId: conceptId, lastActiveConceptId: conceptId },
     updatedAt: new Date().toISOString(),
   };
 }

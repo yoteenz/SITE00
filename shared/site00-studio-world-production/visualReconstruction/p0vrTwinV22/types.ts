@@ -148,6 +148,7 @@ export type ConceptCandidate = {
   visualAuthorityStatus: 'OPEN' | 'LOCKED_FOR_BUILD';
   status: 'DRAFT' | 'APPROVED' | 'BUILDING' | 'BUILT';
   legacyVersionId: string | null;
+  providerGenerationId?: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -180,14 +181,40 @@ export type ConceptBuildFidelityReceipt = {
   status: 'PENDING' | 'PARTIAL' | 'PASS';
 };
 
+export type BackfillReceipt = {
+  projectId: string;
+  pageId: string;
+  viewport: 'mobile';
+  discoverableGenerationCount: number;
+  backfilledCount: number;
+  dedupedCount: number;
+  failedCount: number;
+  failedIds: string[];
+  canonicalConceptCount: number;
+  status: 'COMPLETE' | 'PARTIAL' | 'FAILED' | 'NO_DISCOVERABLE_GENERATIONS';
+  searchedSessionIds: string[];
+};
+
+export type GalleryHydrationReceipt = {
+  queryCount: number;
+  activeConceptId: string | null;
+  renderedConceptCount: number;
+  emptyStateShown: boolean;
+  backfillTriggered: boolean;
+  status: 'HYDRATED' | 'EMPTY';
+};
+
 export type ConceptGalleryState = {
   buildRef: typeof P0_VR_TWIN_V22_BUILD;
   candidates: ConceptCandidate[];
   activeConceptId: string | null;
+  lastActiveConceptId?: string | null;
   blueprints: Record<string, ConceptBlueprint>;
   manifests: Record<string, ConceptAssetManifest>;
   bindingPlans: Record<string, ConceptFunctionBindingPlan>;
   reconciliations: Record<string, ConceptBlueprintReconciliation>;
   packages: Record<string, ExecutableConceptPackage>;
   fidelityReceipts: Record<string, ConceptBuildFidelityReceipt>;
+  backfillReceipt?: BackfillReceipt;
+  galleryHydrationReceipt?: GalleryHydrationReceipt;
 };
