@@ -185,6 +185,11 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
             · {result.classification.replace(/DESIGN_PAGE_AUTHORITY_/, '')} · candidate #{session.candidateGeneration}
             {selectedTerritory ? ` · selected territory ${selectedTerritory}` : ' · select territory before approve'}
           </p>
+          {result.falProviderTrace?.length ? (
+            <p className="site00-dw-v3-authority__hint" data-testid="v3-fal-trace">
+              FAL: {result.falProviderTrace.filter((l) => l.includes('FAL_PARALLEL') || l.includes('ENQUEUED')).slice(0, 4).join(' · ')}
+            </p>
+          ) : null}
           <div className="site00-dw-v3-authority__territories">
             {result.territories.map((bundle) => {
               const isSelected = session.founderReview.selectedTerritoryId === bundle.territoryId;

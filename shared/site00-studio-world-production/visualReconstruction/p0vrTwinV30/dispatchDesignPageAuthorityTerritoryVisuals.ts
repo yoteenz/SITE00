@@ -1,37 +1,9 @@
-import { buildFalImageInput } from '../../../site00-visual-generation/falImageModels.js';
+import { runFalImageJobsParallel } from '../../../site00-visual-generation/falParallelImageSubscribe.js';
 import { TWIN_V2_VISUAL_PROVIDER, TWIN_V2_VISUAL_PROVIDER_LABEL } from '../p0vrTwinV21/constants.js';
 import { DESIGN_PAGE_V3_R3_TERRITORY_PROTOTYPES } from './constants.js';
 import { buildTerritoryDesignPageAuthorityPrompt } from './buildDesignPageAuthorityTerritoryPrompts.js';
 import { DESIGN_PAGE_V3_TERRITORY_DEFINITIONS, type DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
 import type { DesignPageAuthorityTerritoryBundle, DesignPageAuthorityVisualArtifact } from './types.js';
-
-type FalJobResult = { url: string; jobRef: string };
-
-async function falOne(
-  prompt: string,
-  aspectRatio: '9:16' | '16:9',
-  label: string,
-): Promise<FalJobResult> {
-  if (process.env.VITEST === 'true') {
-    const ts = Date.now();
-    return { url: `${label}?v=r3-${ts}`, jobRef: `vitest-design-page-v3r3-${label}-${ts}` };
-  }
-  const falKey = process.env.FAL_KEY?.trim();
-  if (!falKey) throw new Error('FAL_KEY_MISSING');
-  const { fal } = await import('@fal-ai/client');
-  fal.config({ credentials: falKey });
-  const input = buildFalImageInput({ prompt, aspectRatio });
-  const result = await fal.subscribe(input.model, { input: input.input });
-  const jobRef =
-    (result as { requestId?: string }).requestId ??
-    (result as { request_id?: string }).request_id ??
-    `fal-design-v3r3-${label}-${Date.now()}`;
-  const url =
-    (result.data as { images?: { url?: string }[] })?.images?.[0]?.url ??
-    (result.data as { image?: { url?: string } })?.image?.url;
-  if (!url) throw new Error(`FAL design page authority ${label} missing url`);
-  return { url, jobRef: String(jobRef) };
-}
 
 function prototypePath(territoryId: DesignPageV3TerritoryId, viewport: 'mobile' | 'desktop'): string {
   return DESIGN_PAGE_V3_R3_TERRITORY_PROTOTYPES[territoryId][viewport];
@@ -112,31 +84,39 @@ export async function dispatchDesignPageAuthorityTerritoryVisuals(input: {
     ];
   });
 
-  const frameResults = await Promise.all(
-    frameJobs.map(async (job) => {
-      const falResult =
-        process.env.VITEST === 'true' ?
-          {
-            url: job.storageLabel,
-            jobRef: `vitest-${job.territoryId}-${job.viewport}-${ts}`,
-          }
-        : await falOne(job.prompt, job.aspectRatio, job.storageLabel);
-      return { job, falResult };
-    }),
-  );
+  const falBatch =
+    process.env.VITEST === 'true' ?
+      {
+        results: frameJobs.map((job) => ({
+          jobKey: `${job.territoryId}-${job.viewport}`,
+          url: job.storageLabel,
+          jobRef: `vitest-${job.territoryId}-${job.viewport}-${ts}`,
+          enqueueOffsetMs: 0,
+        })),
+        providerTrace: ['FAL_PARALLEL_ENQUEUE spreadMs=0 (vitest territory batch)'],
+      }
+    : await runFalImageJobsParallel(
+        frameJobs.map((job) => ({
+          jobKey: `${job.territoryId}-${job.viewport}`,
+          prompt: job.prompt,
+          aspectRatio: job.aspectRatio,
+        })),
+      );
 
-  for (const { job, falResult } of frameResults) {
-    trace.push(`${job.territoryId} ${job.viewport} ${falResult.jobRef}`);
-  }
+  trace.push(...falBatch.providerTrace);
+
+  const resultByKey = new Map(falBatch.results.map((r) => [r.jobKey, r]));
 
   const territories: DesignPageAuthorityTerritoryBundle[] = territoryIds.map((territoryId) => {
-    const mobileResult = frameResults.find((r) => r.job.territoryId === territoryId && r.job.viewport === 'mobile')!;
-    const desktopResult = frameResults.find((r) => r.job.territoryId === territoryId && r.job.viewport === 'desktop')!;
+    const mobileResult = resultByKey.get(`${territoryId}-mobile`)!;
+    const desktopResult = resultByKey.get(`${territoryId}-desktop`)!;
+    trace.push(`${territoryId} mobile ${mobileResult.jobRef}`);
+    trace.push(`${territoryId} desktop ${desktopResult.jobRef}`);
     return {
       territoryId,
       territoryName: DESIGN_PAGE_V3_TERRITORY_DEFINITIONS[territoryId].name,
-      mobile: mk(territoryId, 'mobile', mobileResult.falResult.url, mobileResult.falResult.jobRef),
-      desktop: mk(territoryId, 'desktop', desktopResult.falResult.url, desktopResult.falResult.jobRef),
+      mobile: mk(territoryId, 'mobile', mobileResult.url, mobileResult.jobRef),
+      desktop: mk(territoryId, 'desktop', desktopResult.url, desktopResult.jobRef),
     };
   });
 

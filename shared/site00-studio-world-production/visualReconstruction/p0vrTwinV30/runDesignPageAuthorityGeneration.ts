@@ -101,6 +101,7 @@ export async function runDesignPageAuthorityGeneration(input: {
     hostShellPreserved: true,
     r2SelfCheck,
     r3SelfCheck,
+    falProviderTrace: dispatch.providerTrace,
     classification,
     founderReview: {
       ...input.session.founderReview,

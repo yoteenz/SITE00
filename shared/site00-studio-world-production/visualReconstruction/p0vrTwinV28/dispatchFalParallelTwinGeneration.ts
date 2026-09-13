@@ -1,4 +1,5 @@
 import { buildFalImageInput } from '../../../site00-visual-generation/falImageModels.js';
+import { runFalImageJobsParallel } from '../../../site00-visual-generation/falParallelImageSubscribe.js';
 import {
   TWIN_V2_VISUAL_PROVIDER,
   TWIN_V2_VISUAL_PROVIDER_LABEL,
@@ -113,10 +114,17 @@ export async function dispatchFalParallelTwinGeneration(input: {
   const authorityPrompt = buildAuthorityVisualPrompt(input.state, input.pageIntentSummary);
   const blueprintPrompt = buildBlueprintTwinVisualPrompt(input.state, input.pageIntentSummary);
 
-  trace.push('MODE: COORDINATED_DUAL_CALL — authority then blueprint twin from same MinimalTwinGenerationState');
-  const authority = await falSubscribeOne(authorityPrompt, 'authority');
+  trace.push('MODE: COORDINATED_DUAL_CALL — parallel enqueue authority + blueprint twin');
+  const batch = await runFalImageJobsParallel([
+    { jobKey: 'authority', prompt: authorityPrompt, aspectRatio: '9:16' },
+    { jobKey: 'blueprint-twin', prompt: blueprintPrompt, aspectRatio: '9:16' },
+  ]);
+  trace.push(...batch.providerTrace);
+  const authorityRow = batch.results.find((r) => r.jobKey === 'authority')!;
+  const blueprintRow = batch.results.find((r) => r.jobKey === 'blueprint-twin')!;
+  const authority = { url: authorityRow.url, jobRef: authorityRow.jobRef };
+  const blueprint = { url: blueprintRow.url, jobRef: blueprintRow.jobRef };
   trace.push(`Authority job: ${authority.jobRef}`);
-  const blueprint = await falSubscribeOne(blueprintPrompt, 'blueprint-twin');
   trace.push(`Blueprint twin job: ${blueprint.jobRef}`);
 
   const ts = Date.now();

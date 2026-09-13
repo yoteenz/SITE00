@@ -63,6 +63,8 @@ export type DesignPageAuthorityGenerationResult = {
   hostShellPreserved: true;
   r2SelfCheck: DesignPageAuthoritySelfCheck;
   r3SelfCheck: DesignPageAuthorityR3SelfCheck;
+  /** FAL queue batch trace (parallel enqueue spread + request ids) */
+  falProviderTrace: string[];
   classification: DesignPageAuthorityClassification;
   founderReview: DesignPageAuthorityFounderReviewState;
 };
