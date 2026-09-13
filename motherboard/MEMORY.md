@@ -8422,3 +8422,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root causes:** (1) Empty URL field → error rendered **below fold** (after details). (2) Async gallery hydrate used **stale session** and could **overwrite** a just-imported gallery when remote fetch completed. (3) Legacy localStorage sessions missing **`creativeDirection`** caused `mergeVisualConceptApiResult` to throw on import.
 - **Fix (v349):** `sessionRef` + never reduce candidate count on hydrate merge; inline import feedback/errors above button; require `https://` URLs; `ensureTwinV2SessionCreativeDirection` on import; local-only fallback still builds gallery if API copy fails.
 
+---
+
+## 2026-09-13 — Site stuck on loading animation (boot shell / loader failsafe v351)
+
+- **Symptom:** Deployed site hangs on cinematic loading animation (founder mobile).
+- **Causes:** (1) Early HTML boot shell not removed after React mounts. (2) Immersive loader bootstrap cancelled or stalled with no wall-clock exit. (3) Twin V2 gallery hydrate awaiting hung API fetch.
+- **Fix (v351):** `site00-assts-boot-recovery.js` removes boot shell when `#root` has content; `Site00WorldColdStartGate` 22s failsafe reveals app; Twin V2 remote fetch 8s timeout + 12s hydrate wall clock.
+

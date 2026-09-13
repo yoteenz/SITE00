@@ -28,6 +28,8 @@ import {
 } from './site00LoaderAnimationPlayback';
 
 const COMPLETE_HOLD_MS = 680;
+/** Never leave founder on cinematic loader past this wall clock (mobile networks, cancelled bootstrap). */
+const LOADER_WALL_CLOCK_FAILSAFE_MS = 22_000;
 
 initSite00ImmersiveLoaderBoot();
 
@@ -72,6 +74,20 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   useEffect(() => {
     if (!immersive || revealed) return;
     return acquireLoadingScreenDocumentLock();
+  }, [immersive, revealed]);
+
+  useEffect(() => {
+    if (!immersive || revealed) return;
+    const failsafe = window.setTimeout(() => {
+      loaderLifecycleLog('ROUTE_COMPLETE', { failsafe: true, wallMs: LOADER_WALL_CLOCK_FAILSAFE_MS });
+      markSite00ImmersiveComplete();
+      releaseSite00ImmersiveBootRoot();
+      teardownSite00ImmersiveBootShell();
+      setPageUnderlayReady(true);
+      setPhase('exiting');
+      setRevealed(true);
+    }, LOADER_WALL_CLOCK_FAILSAFE_MS);
+    return () => window.clearTimeout(failsafe);
   }, [immersive, revealed]);
 
   useLayoutEffect(() => {

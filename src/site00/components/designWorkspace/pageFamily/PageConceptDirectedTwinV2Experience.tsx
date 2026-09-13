@@ -78,7 +78,10 @@ export function PageConceptDirectedTwinV2Experience({
     let cancelled = false;
     void (async () => {
       setHydrating(true);
+      const hydrateWallMs = 12_000;
       try {
+        await Promise.race([
+          (async () => {
         const base = sessionRef.current;
         const siblingSessions = listConceptDirectedTwinSessionsForProject(base.projectId).filter(
           (s) => s.sessionId !== base.sessionId,
@@ -107,8 +110,16 @@ export function PageConceptDirectedTwinV2Experience({
                 conceptGallery: latest.conceptGallery ?? hydrated.conceptGallery,
               };
         if (!cancelled) onSessionChange(merged);
+          })(),
+          new Promise<void>((_, reject) => {
+            window.setTimeout(() => reject(new Error('Gallery hydration timed out')), hydrateWallMs);
+          }),
+        ]);
       } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : 'Gallery hydration failed');
+        if (!cancelled) {
+          const msg = e instanceof Error ? e.message : 'Gallery hydration failed';
+          setError(msg.includes('timed out') ? 'Concept gallery load timed out — you can still import URLs below.' : msg);
+        }
       } finally {
         if (!cancelled) setHydrating(false);
       }
