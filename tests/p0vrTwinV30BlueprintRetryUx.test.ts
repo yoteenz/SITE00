@@ -10,7 +10,10 @@ import {
   ensureMobileDesignReferenceAuthority,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 import { applyFounderNbpMobileTwinPromotion } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/applyFounderNbpMobileTwinPromotion.js';
-import { evaluateBlueprintLightStyleRetry } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
+import {
+  evaluateBlueprintLightStyleRetry,
+  evaluateBlueprintLightStyleRetryFromPipeline,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
 import { recordFounderTwinCapabilityDecision } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/recordFounderTwinCapabilityDecision.js';
 import { resolveMobileTwinReviewSlots } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
 import { runMobileTwinCapabilityTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinCapabilityTest.js';
@@ -28,9 +31,17 @@ async function promotedSession() {
 }
 
 describe('Blueprint light retry UX visibility', () => {
-  it('authority panel mounts mobile blueprint retry strip', () => {
+  it('authority panel mounts mobile blueprint retry strip near recovery strip', () => {
     const src = readFileSync('src/site00/components/designWorkspace/DesignPageV3AuthorityReviewPanel.tsx', 'utf8');
     expect(src).toContain('DesignPageV3MobileTwinBlueprintRetryStrip');
+    expect(src.indexOf('DesignPageV3AuthorityRecoveryStrip')).toBeLessThan(
+      src.indexOf('DesignPageV3MobileTwinBlueprintRetryStrip'),
+    );
+  });
+
+  it('locked provider panel embeds retry block when twin pair exists', () => {
+    const src = readFileSync('src/site00/components/designWorkspace/DesignPageV3MobileTwinLockedProviderPanel.tsx', 'utf8');
+    expect(src).toContain('DesignPageV3MobileTwinBlueprintRetryBlock');
   });
 
   it('after atomic twin, strip offers retry even when receipt auto-PASS (unknown background)', async () => {
@@ -70,6 +81,27 @@ describe('Blueprint light retry UX visibility', () => {
       artifactsById: pipeline.artifactsById,
     });
     expect(view.urgentLightStyleRequired).toBe(true);
+    expect(view.showRetryStrip).toBe(true);
+  });
+
+  it('legacy blueprint without styleContractId still shows retry when NBP locked', async () => {
+    const session = await runMobileAtomicTwinGeneration({ session: await promotedSession() });
+    const pipeline = session.mobileTwinPipeline!;
+    const bp = pipeline.blueprintTwins.at(-1)!;
+    const legacyPipeline = {
+      ...pipeline,
+      blueprintTwins: pipeline.blueprintTwins.map((b) =>
+        b.id === bp.id ?
+          {
+            ...b,
+            styleContractId: null,
+            outputRepresentationMode: 'TECHNICAL_BLUEPRINT_RENDER' as const,
+            promptContractVersion: null,
+          }
+        : b,
+      ),
+    };
+    const view = evaluateBlueprintLightStyleRetryFromPipeline(legacyPipeline);
     expect(view.showRetryStrip).toBe(true);
   });
 });

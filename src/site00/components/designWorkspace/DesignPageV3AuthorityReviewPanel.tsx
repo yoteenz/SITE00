@@ -417,6 +417,8 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         feedbackKind={error ? 'error' : persistWarning ? 'success' : null}
       />
 
+      <DesignPageV3MobileTwinBlueprintRetryStrip session={sessionView} onSessionUpdate={persist} />
+
       <div data-testid="v3-derivation-feedback">
         {error ?
           <p className="site00-dw-v3-authority__error" role="alert" data-testid="v3-derivation-error-banner">
@@ -433,8 +435,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       <DesignPageV3SectionErrorBoundary label="Mobile twin review">
         <DesignPageV3MobileTwinFounderPathPanel session={sessionView} projectId={projectId} onSessionUpdate={persist} />
         <DesignPageV3MobileTwinCapabilityTestPanel session={sessionView} onSessionUpdate={persist} />
-        <DesignPageV3MobileTwinLockedProviderPanel session={sessionView} onSessionUpdate={persist} />
-        <DesignPageV3MobileTwinBlueprintRetryStrip session={sessionView} onSessionUpdate={persist} />
+      <DesignPageV3MobileTwinLockedProviderPanel session={sessionView} onSessionUpdate={persist} />
         {mobileProviderLocked ?
           <details className="site00-dw-v3-mobile-twin-benchmark-history" data-testid="v3-benchmark-history-details">
             <summary>History · provider benchmarks (routing superseded)</summary>
