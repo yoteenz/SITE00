@@ -8966,6 +8966,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Mobile twin SYNC unlock v428
+
+- **Still locked after v427:** sessionView never merged `site00:mobile-twin-pipeline:v1`; founder images could exist only in LS while UI read empty authority session.
+- **Fix:** `syncFounderMobileTwinSession` on every `sessionView`; **SYNC & UNLOCK FROM SAVED FAL STATE** button + diagnostics line; broader FAL pair detection + PARTIAL bootstrap from lone FAL renders; preview fallbacks for actual/blueprint. Build **v428**.
+
+---
+
 ## 2026-09-14 — Mobile twin pipeline reconcile unlock (v427)
 
 - **Bug:** FAL images generated but **FLOW A** / **RUN PROVIDER BENCHMARK** stayed locked — `mergeMobileTwinPipelinePreferRenders` kept the LS row with more `renders` but dropped `twinCapabilityTest`, strategy, and blueprint ids; UI gated on missing metadata.
