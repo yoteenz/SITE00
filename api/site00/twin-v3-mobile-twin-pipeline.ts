@@ -46,13 +46,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const originHeader = req.headers.origin ?? req.headers['x-forwarded-host'];
-  const publicOrigin =
-    typeof originHeader === 'string' && originHeader.startsWith('http') ?
-      originHeader
-    : typeof originHeader === 'string' ?
-      `https://${originHeader}`
-    : undefined;
+  // FAL reference fetch uses site00.com for founder JPGs (see resolveMobileTwinPublicAssetUrl).
+  const publicOrigin = (process.env.SITE00_PUBLIC_ORIGIN ?? 'https://site00.com').replace(/\/$/, '');
 
   try {
     const session = await runMobileTwinFalPipeline({
