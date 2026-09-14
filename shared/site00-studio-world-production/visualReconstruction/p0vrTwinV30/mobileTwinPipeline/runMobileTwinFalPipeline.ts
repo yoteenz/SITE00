@@ -12,6 +12,10 @@ import { runMobileTwinCapabilityTest } from './runMobileTwinCapabilityTest.js';
 import { runMobileTwinProviderBenchmark } from './runMobileTwinProviderBenchmark.js';
 import { runMobileTwinFocusedHybridBenchmark } from './runMobileTwinFocusedHybridBenchmark.js';
 import {
+  applyFounderNbpMobileTwinPromotion,
+  unlockMobileTwinProviderStrategy,
+} from './applyFounderNbpMobileTwinPromotion.js';
+import {
   assertBlueprintTwinNotRedesigned,
   buildRenderBlueprintTwinReconciliationReceipt,
 } from './mobileTwinReconciliation.js';
@@ -33,7 +37,19 @@ export type MobileTwinFalAction =
   | 'GENERATE_MOBILE_RENDER'
   | 'REFINE_MOBILE_RENDER'
   | 'REGENERATE_MOBILE_RENDER'
-  | 'GENERATE_MOBILE_TWIN_PACKAGE';
+  | 'GENERATE_MOBILE_TWIN_PACKAGE'
+  | 'APPLY_FOUNDER_NBP_MOBILE_PROMOTION'
+  | 'UNLOCK_MOBILE_PROVIDER_STRATEGY';
+
+const BENCHMARK_ACTIONS = new Set<MobileTwinFalAction>([
+  'RUN_MOBILE_TWIN_PROVIDER_BENCHMARK',
+  'RETRY_PROVIDER_BENCHMARK_NBPRO',
+  'RETRY_PROVIDER_BENCHMARK_FLUX2MAX',
+  'RETRY_PROVIDER_BENCHMARK_KONTEXTMAX',
+  'RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK',
+  'RETRY_FOCUSED_HYBRID_NBP_FULL',
+  'RETRY_FOCUSED_HYBRID_GPT2_NBP',
+]);
 
 function appendCost(pipeline: NonNullable<DesignPageAuthorityReviewSession['mobileTwinPipeline']>, record: MobileProviderCostRecord) {
   return {
@@ -59,6 +75,17 @@ export async function runMobileTwinFalPipeline(input: {
   let session = ensureMobileDesignReferenceAuthority(input.session);
   const pipeline = session.mobileTwinPipeline!;
   const ref = pipeline.designReference!;
+
+  if (input.action === 'APPLY_FOUNDER_NBP_MOBILE_PROMOTION') {
+    return applyFounderNbpMobileTwinPromotion(session);
+  }
+  if (input.action === 'UNLOCK_MOBILE_PROVIDER_STRATEGY') {
+    return unlockMobileTwinProviderStrategy(session);
+  }
+
+  if (pipeline.mobileTwinProviderLock?.locked && BENCHMARK_ACTIONS.has(input.action)) {
+    throw new Error('MOBILE_TWIN_PROVIDER_STRATEGY_LOCKED');
+  }
 
   if (input.action === 'RUN_MOBILE_TWIN_CAPABILITY_TEST') {
     return runMobileTwinCapabilityTest({
@@ -153,6 +180,7 @@ export async function runMobileTwinFalPipeline(input: {
       publicOrigin: input.publicOrigin,
       parentRenderId,
       regeneration: input.action === 'REGENERATE_MOBILE_RENDER',
+      pipeline,
     });
 
     const costRecord: MobileProviderCostRecord = {
@@ -200,6 +228,7 @@ export async function runMobileTwinFalPipeline(input: {
       publicOrigin: input.publicOrigin,
       refineNotes: input.refineNotes ?? ['Founder refinement'],
       parentRenderId: parent.id,
+      pipeline,
     });
 
     const costRecord: MobileProviderCostRecord = {

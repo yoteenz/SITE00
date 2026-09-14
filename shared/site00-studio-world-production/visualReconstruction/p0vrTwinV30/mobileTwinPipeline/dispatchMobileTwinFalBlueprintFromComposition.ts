@@ -3,10 +3,12 @@ import { runFalReferenceImageJob } from '../../../../site00-visual-generation/fa
 import { P0_VR_TWIN_V30R7MF3_LINEAGE } from '../constants.js';
 import { buildMobileBlueprintTwinFromCompositionFalPrompt } from './buildMobileTwinFalPrompts.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
+import { getMobileTwinVisualProviderStrategy } from './getMobileTwinVisualProviderStrategy.js';
 import type {
   MobileBlueprintTwinVisual,
   MobileDesignReferenceAuthority,
   MobileTwinCompositionState,
+  MobileTwinPipelineState,
 } from './types.js';
 
 const ESTIMATED_TWIN_COST_USD = 0.08;
@@ -22,6 +24,7 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
   composition: MobileTwinCompositionState;
   siblingActualRenderId: string;
   publicOrigin?: string;
+  pipeline?: MobileTwinPipelineState | null;
 }): Promise<{
   blueprint: MobileBlueprintTwinVisual;
   costUsd: number;
@@ -34,6 +37,8 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
     siblingActualRenderId: input.siblingActualRenderId,
   });
 
+  const lockedRoute = input.pipeline ? getMobileTwinVisualProviderStrategy(input.pipeline) : null;
+
   let falResult;
   try {
     falResult = await runFalReferenceImageJob({
@@ -41,8 +46,10 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
       prompt,
       referenceImageUrls: [referenceUrl],
       aspectRatio: '9:16',
+      model: lockedRoute?.blueprint.model,
     });
   } catch (err) {
+    if (lockedRoute?.locked) throw new Error('MOBILE_TWIN_NBP_PROVIDER_FAILED');
     const message = err instanceof Error ? err.message : 'BLUEPRINT_TWIN_COMPOSITION_MISMATCH';
     throw new Error(message.includes('FAL') ? message : 'MOBILE_RENDER_PROVIDER_FAILED');
   }

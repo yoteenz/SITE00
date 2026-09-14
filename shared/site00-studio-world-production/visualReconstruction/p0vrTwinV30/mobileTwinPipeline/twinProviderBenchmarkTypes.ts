@@ -68,6 +68,7 @@ export type FounderProviderBenchmarkDecision =
   | 'NONE';
 
 export type MobileTwinProviderBenchmarkState = {
+  benchmarkRoutingRole?: 'ACTIVE' | 'HISTORICAL_PROVIDER_BENCHMARK';
   benchmarkId: string;
   snapshot: TwinProviderBenchmarkSnapshot;
   methodLocked: 'ATOMIC_SIBLING_FROM_COMPOSITION';

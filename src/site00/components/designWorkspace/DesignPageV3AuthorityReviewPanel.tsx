@@ -63,6 +63,7 @@ import { DesignPageV3MobileTwinFounderPathPanel } from './DesignPageV3MobileTwin
 import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileTwinCapabilityTestPanel.js';
 import { DesignPageV3MobileTwinProviderBenchmarkPanel } from './DesignPageV3MobileTwinProviderBenchmarkPanel.js';
 import { DesignPageV3MobileTwinFocusedHybridPanel } from './DesignPageV3MobileTwinFocusedHybridPanel.js';
+import { DesignPageV3MobileTwinLockedProviderPanel } from './DesignPageV3MobileTwinLockedProviderPanel.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
 type Props = {
@@ -328,6 +329,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
 
   const founderRecoveryApplied = Boolean(sessionView.authorityPipeline?.founderAuthorityInjectionReceipt?.status === 'PASS');
   const derivationReady = sessionView.authorityPipeline?.authorityPair?.derivationStatus === 'READY';
+  const mobileProviderLocked = Boolean(sessionView.mobileTwinPipeline?.mobileTwinProviderLock?.locked);
 
   const dock = (
     <DesignPageV3AuthorityPairDock
@@ -403,8 +405,18 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
 
       <DesignPageV3MobileTwinFounderPathPanel session={sessionView} projectId={projectId} onSessionUpdate={persist} />
       <DesignPageV3MobileTwinCapabilityTestPanel session={sessionView} onSessionUpdate={persist} />
-      <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
-      <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
+      <DesignPageV3MobileTwinLockedProviderPanel session={sessionView} onSessionUpdate={persist} />
+      {mobileProviderLocked ?
+        <details className="site00-dw-v3-mobile-twin-benchmark-history" data-testid="v3-benchmark-history-details">
+          <summary>History · provider benchmarks (routing superseded)</summary>
+          <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
+          <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
+        </details>
+      : <>
+          <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
+          <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
+        </>
+      }
       <DesignPageV3MobileTwinPipelinePanel session={sessionView} onSessionUpdate={persist} />
       <DesignPageV3DerivationReviewPanel session={sessionView} onSessionUpdate={persist} />
 

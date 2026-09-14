@@ -1,4 +1,8 @@
 import type { MobileTwinVisualGenerationStrategy } from './mobileTwinVisualStrategy.js';
+import {
+  HISTORICAL_PROVIDER_BENCHMARK,
+  LOCKED_MOBILE_STRATEGY_STATUS,
+} from './mobileTwinProviderPromotionTypes.js';
 import type { TwinFlowACapabilityReceipt } from './twinCapabilityTestTypes.js';
 import type { MobileTwinCapabilityTestState } from './twinCapabilityTestTypes.js';
 import { buildMobileTwinCompositionState } from './buildMobileTwinCompositionState.js';
@@ -137,6 +141,12 @@ export function mergeMobileTwinPipelineRich(
     mobileTwinProviderStrategy: pick.mobileTwinProviderStrategy ?? other.mobileTwinProviderStrategy,
     focusedHybridBenchmark: pick.focusedHybridBenchmark ?? other.focusedHybridBenchmark,
     mobileTwinRenderStrategy: pick.mobileTwinRenderStrategy ?? other.mobileTwinRenderStrategy,
+    mobileTwinProviderLock:
+      pick.mobileTwinProviderLock?.locked ? pick.mobileTwinProviderLock
+      : other.mobileTwinProviderLock?.locked ? other.mobileTwinProviderLock
+      : (pick.mobileTwinProviderLock ?? other.mobileTwinProviderLock),
+    founderTwinProviderPromotionReceiptId:
+      pick.founderTwinProviderPromotionReceiptId ?? other.founderTwinProviderPromotionReceiptId,
     founderManualTwinPathUnlock: Boolean(pick.founderManualTwinPathUnlock || other.founderManualTwinPathUnlock),
     falJobsDispatched: Math.max(pick.falJobsDispatched ?? 0, other.falJobsDispatched ?? 0),
     totalProviderCostUsd: Math.max(pick.totalProviderCostUsd ?? 0, other.totalProviderCostUsd ?? 0),
@@ -332,6 +342,71 @@ export function reconcileMobileTwinPipelineState(pipeline: MobileTwinPipelineSta
           },
         };
       }
+    }
+  }
+
+  if (next.mobileTwinProviderLock?.locked) {
+    const lock = next.mobileTwinProviderLock;
+    next = {
+      ...next,
+      desktopJobsDispatched: 0,
+      mobileTwinProviderStrategy: null,
+    };
+    if (next.providerBenchmark && next.providerBenchmark.benchmarkRoutingRole !== HISTORICAL_PROVIDER_BENCHMARK) {
+      next = {
+        ...next,
+        providerBenchmark: { ...next.providerBenchmark, benchmarkRoutingRole: HISTORICAL_PROVIDER_BENCHMARK },
+      };
+    }
+    if (
+      next.focusedHybridBenchmark &&
+      next.focusedHybridBenchmark.benchmarkRoutingRole !== HISTORICAL_PROVIDER_BENCHMARK
+    ) {
+      next = {
+        ...next,
+        focusedHybridBenchmark: {
+          ...next.focusedHybridBenchmark,
+          benchmarkRoutingRole: HISTORICAL_PROVIDER_BENCHMARK,
+        },
+      };
+    }
+    if (
+      !next.mobileTwinRenderStrategy ||
+      next.mobileTwinRenderStrategy.status !== LOCKED_MOBILE_STRATEGY_STATUS
+    ) {
+      next = {
+        ...next,
+        mobileTwinRenderStrategy: {
+          strategy: 'NBP_FULL_PAIR',
+          actualProvider: 'FAL',
+          actualModel: lock.actualModel,
+          blueprintProvider: 'FAL',
+          blueprintModel: lock.blueprintModel,
+          benchmarkRunId:
+            next.mobileTwinRenderStrategy?.benchmarkRunId ??
+            next.founderTwinProviderPromotionReceiptId ??
+            lock.promotionReceiptId,
+          benchmarkSnapshotId:
+            next.mobileTwinRenderStrategy?.benchmarkSnapshotId ??
+            next.focusedHybridBenchmark?.snapshot.id ??
+            `lock-${lock.promotionReceiptId}`,
+          compositionStateId:
+            next.mobileTwinRenderStrategy?.compositionStateId ??
+            next.focusedHybridBenchmark?.snapshot.compositionStateId ??
+            next.compositionStates[0]?.id ??
+            'unknown',
+          compositionHash:
+            next.mobileTwinRenderStrategy?.compositionHash ??
+            next.focusedHybridBenchmark?.snapshot.compositionHash ??
+            next.compositionStates[0]?.compositionHash ??
+            'unknown',
+          actualRenderId: next.mobileTwinRenderStrategy?.actualRenderId ?? null,
+          blueprintRenderId: next.mobileTwinRenderStrategy?.blueprintRenderId ?? null,
+          founderNotes: next.mobileTwinRenderStrategy?.founderNotes ?? 'Founder NBP lock (reconcile)',
+          selectedAt: lock.lockedAt,
+          status: LOCKED_MOBILE_STRATEGY_STATUS,
+        },
+      };
     }
   }
 

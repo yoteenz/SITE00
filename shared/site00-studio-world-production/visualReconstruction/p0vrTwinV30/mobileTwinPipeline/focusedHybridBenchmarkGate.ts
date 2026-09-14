@@ -6,7 +6,8 @@ export type FocusedHybridGateReason =
   | 'MISSING_MOBILE_MASTER'
   | 'METHOD_A_NOT_LOCKED'
   | 'CAPABILITY_NOT_READY'
-  | 'MISSING_CAPABILITY_SNAPSHOT';
+  | 'MISSING_CAPABILITY_SNAPSHOT'
+  | 'PROVIDER_STRATEGY_LOCKED';
 
 export function getFocusedHybridBenchmarkGate(pipeline: MobileTwinPipelineState | null | undefined): {
   canRun: boolean;
@@ -18,6 +19,13 @@ export function getFocusedHybridBenchmarkGate(pipeline: MobileTwinPipelineState 
       canRun: false,
       reason: 'MISSING_MOBILE_MASTER',
       hint: 'Mobile design reference required.',
+    };
+  }
+  if (pipeline.mobileTwinProviderLock?.locked) {
+    return {
+      canRun: false,
+      reason: 'PROVIDER_STRATEGY_LOCKED',
+      hint: 'NBP full pair locked — use GENERATE MOBILE TWIN. Benchmark history is under Technical details.',
     };
   }
   if (pipeline.mobileTwinVisualGenerationStrategy !== 'ATOMIC_SIBLING_FROM_COMPOSITION') {

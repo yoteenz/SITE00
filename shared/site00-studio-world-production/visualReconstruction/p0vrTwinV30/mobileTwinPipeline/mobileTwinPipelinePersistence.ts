@@ -100,6 +100,8 @@ export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState)
     mobileTwinProviderStrategy: state.mobileTwinProviderStrategy ?? null,
     focusedHybridBenchmark: state.focusedHybridBenchmark ?? null,
     mobileTwinRenderStrategy: state.mobileTwinRenderStrategy ?? null,
+    mobileTwinProviderLock: state.mobileTwinProviderLock ?? null,
+    founderTwinProviderPromotionReceiptId: state.founderTwinProviderPromotionReceiptId ?? null,
     founderManualTwinPathUnlock: state.founderManualTwinPathUnlock ?? false,
   };
   if (base.renders.length && !base.activeRenderId) {
