@@ -9,6 +9,7 @@ import { classifyLegacyMobileRender } from './mobileRenderClassification.js';
 import { finalizeMobileTwinPackageSession } from './runGenerateMobileTwinPackageCore.js';
 import { runMobileAtomicTwinGeneration } from './runMobileAtomicTwinGeneration.js';
 import { runMobileTwinCapabilityTest } from './runMobileTwinCapabilityTest.js';
+import { runMobileTwinProviderBenchmark } from './runMobileTwinProviderBenchmark.js';
 import {
   assertBlueprintTwinNotRedesigned,
   buildRenderBlueprintTwinReconciliationReceipt,
@@ -19,6 +20,10 @@ export type MobileTwinFalAction =
   | 'RUN_MOBILE_TWIN_CAPABILITY_TEST'
   | 'RETRY_CAPABILITY_FLOW_A'
   | 'RETRY_CAPABILITY_FLOW_B'
+  | 'RUN_MOBILE_TWIN_PROVIDER_BENCHMARK'
+  | 'RETRY_PROVIDER_BENCHMARK_NBPRO'
+  | 'RETRY_PROVIDER_BENCHMARK_FLUX2MAX'
+  | 'RETRY_PROVIDER_BENCHMARK_KONTEXTMAX'
   | 'GENERATE_MOBILE_TWIN'
   | 'REGENERATE_MOBILE_TWIN'
   | 'GENERATE_MOBILE_RENDER'
@@ -70,6 +75,29 @@ export async function runMobileTwinFalPipeline(input: {
       session,
       publicOrigin: input.publicOrigin,
       retry: 'FLOW_B',
+    });
+  }
+
+  if (input.action === 'RUN_MOBILE_TWIN_PROVIDER_BENCHMARK') {
+    return runMobileTwinProviderBenchmark({ session, publicOrigin: input.publicOrigin, retry: 'NONE' });
+  }
+  if (input.action === 'RETRY_PROVIDER_BENCHMARK_NBPRO') {
+    return runMobileTwinProviderBenchmark({ session, publicOrigin: input.publicOrigin, retry: 'NBPRO', forceNew: true });
+  }
+  if (input.action === 'RETRY_PROVIDER_BENCHMARK_FLUX2MAX') {
+    return runMobileTwinProviderBenchmark({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'FLUX2MAX',
+      forceNew: true,
+    });
+  }
+  if (input.action === 'RETRY_PROVIDER_BENCHMARK_KONTEXTMAX') {
+    return runMobileTwinProviderBenchmark({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'KONTEXTMAX',
+      forceNew: true,
     });
   }
 
