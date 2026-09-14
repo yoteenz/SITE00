@@ -9199,6 +9199,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Twin local compile merged pipeline (v454)
+
+- **Symptom:** After v453, twin still showed SCHEMA_MISSING + “tap REBUILD” even after REBUILD.
+- **Cause:** Local compile required **`isMobileTwinPackageApprovalConfirmed`** (visual pair + frozen authority); founder had APPROVED package in **`site00:mobile-twin-pipeline:v1`** but twin resolver only read design authority LS → no compile, no cache.
+- **Fix:** **`resolveLocalMobileTwinCompileInput`** merges design + dedicated pipeline stores; compile on APPROVED package only; twin load **writes R8M1 cache** after local compile. Build **v454**.
+
+---
+
 ## 2026-09-14 — Twin route SCHEMA_MISSING local fallback (v453)
 
 - **Symptom:** Twin page showed **`MOBILE_TWIN_IMPLEMENTATION_SCHEMA_MISSING`** after REBUILD; founder stuck on gate message.
