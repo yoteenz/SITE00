@@ -181,7 +181,7 @@ export type MobileBlueprintTwinVisual = {
   outputRepresentationMode?: 'TECHNICAL_BLUEPRINT_RENDER' | 'LIGHT_TECHNICAL_BLUEPRINT';
   styleContractId?: string | null;
   promptContractVersion?: string | null;
-  blueprintVisualVariant?: 'CANONICAL_LIGHT' | 'HISTORICAL_BLUEPRINT_VARIANT';
+  blueprintVisualVariant?: 'CANONICAL_LIGHT' | 'ACTIVE_BLUEPRINT_TWIN' | 'HISTORICAL_BLUEPRINT_VARIANT';
   blueprintStyleStatus?: 'PASS' | 'REVIEW_REQUIRED' | 'BLOCKED';
   styleFailureCode?: string | null;
   styleReceiptId?: string | null;

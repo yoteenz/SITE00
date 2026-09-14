@@ -9076,6 +9076,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF3P6F1 blueprint-only light style retry (v439)
+
+- **Context:** P6 pipeline proof OK; Blueprint violated **mobile-light-technical-blueprint-v1** (dark sheet). Representation-only fix — no Actual / routing / mounting changes.
+- **Delivered:** P6F1 prompt priority + negative style contract; optional **STYLE_REFERENCE_ONLY** anchor; strengthened **dominantBackground** / **LIGHT_BACKGROUND_PASS** receipts; **RETRY LIGHT BLUEPRINT** (1 NBP job, 0 Actual, same atomic run + composition + Actual); historical dark variants preserved; UI warning + technical row. Tests **`p0vrTwinV30R7MF3P6F1.test.ts`**. Build **v439**.
+
+---
+
 ## 2026-09-14 — Design page white screen fix (v438)
 
 - **Symptom:** site00.fsbw-dev.com loads; **/projects/ndxbook/design** blank white (signed-in founder).

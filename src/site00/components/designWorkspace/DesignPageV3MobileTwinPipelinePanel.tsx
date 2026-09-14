@@ -9,7 +9,11 @@ import { approveMobileTwinPackage, canApproveMobileTwinPackage } from '../../../
 import { selectMobileImplementationRender } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileImplementationRender.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
-import { MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
+import {
+  BLUEPRINT_DARK_MODE_VIOLATION,
+  MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID,
+  type BlueprintVisualStyleReceipt,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 
@@ -65,6 +69,18 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     : 'NOT GENERATED';
   const falJobCount = slots?.falJobCount ?? pipeline?.falJobsDispatched ?? 0;
   const providerCost = slots?.providerCostUsd ?? pipeline?.totalProviderCostUsd ?? 0;
+  const styleReceipt =
+    twin?.styleReceiptId ?
+      (pipeline?.artifactsById[twin.styleReceiptId] as BlueprintVisualStyleReceipt | undefined)
+    : null;
+  const blueprintNeedsLightStyle =
+    twin?.blueprintStyleStatus === 'REVIEW_REQUIRED' ||
+    twin?.blueprintStyleStatus === 'BLOCKED' ||
+    twin?.styleFailureCode === BLUEPRINT_DARK_MODE_VIOLATION ||
+    styleReceipt?.failureCode === BLUEPRINT_DARK_MODE_VIOLATION;
+  const historicalBlueprintCount =
+    pipeline?.blueprintTwins.filter((b) => b.blueprintVisualVariant === 'HISTORICAL_BLUEPRINT_VARIANT').length ??
+    0;
 
   const comparePanels = useMemo(() => {
     const refSrc = ref ? resolveImageSrc(ref.sourceImageUri) : null;
@@ -146,12 +162,22 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           {render?.referenceCloneRisk ? ` · clone risk ${render.referenceCloneRisk}` : ''}
         </li>
         <li data-testid="v3-r7m-blueprint">
-          BLUEPRINT · {blueprintStyleLabel} · {blueprintStepLabel}
+          BLUEPRINT TWIN · {blueprintStyleLabel} · {blueprintStepLabel}
           {twin?.styleContractId === MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID ?
             ' · STYLE CONTRACT LIGHT V1'
           : ''}
-          {twin?.blueprintStyleStatus === 'REVIEW_REQUIRED' ? ' · REVIEW REQUIRED' : ''}
+          {blueprintNeedsLightStyle ? ' · LIGHT STYLE REQUIRED' : ''}
         </li>
+        {twin ?
+          <li data-testid="v3-r7m-blueprint-technical">
+            ACTIVE BLUEPRINT · {twin.provider} · {twin.providerJobRef.slice(-24)} · contract{' '}
+            {twin.styleContractId ?? '—'} · bg {styleReceipt?.dominantBackground ?? '—'} ·{' '}
+            {twin.blueprintStyleStatus ?? '—'}
+            {historicalBlueprintCount > 0 ?
+              ` · HISTORICAL VARIANTS · ${historicalBlueprintCount}`
+            : ''}
+          </li>
+        : null}
         <li data-testid="v3-r7m-package">
           STRUCTURED PACKAGE · {pkg?.status ?? (busy ? 'GENERATING' : 'NOT STARTED')}
         </li>
@@ -199,14 +225,20 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
             Actual page may be reproducing the reference too literally. Review the twin pair together.
           </p>
         : null}
-        {twin?.blueprintStyleStatus === 'REVIEW_REQUIRED' || twin?.blueprintStyleStatus === 'BLOCKED' ?
+        {blueprintNeedsLightStyle ?
+          <p className="site00-dw-v3-authority__hint" data-testid="v3-blueprint-light-style-warning" role="status">
+            LIGHT STYLE REQUIRED — current Blueprint failed the light technical contract (
+            {BLUEPRINT_DARK_MODE_VIOLATION}). Actual and package are intact; retry Blueprint only.
+          </p>
+        : null}
+        {blueprintNeedsLightStyle ?
           <button
             type="button"
             data-testid="v3-retry-mobile-blueprint-light"
             disabled={busy || !render}
             onClick={() => runFal('RETRY_MOBILE_BLUEPRINT_LIGHT')}
           >
-            RETRY BLUEPRINT (LIGHT ONLY)
+            RETRY LIGHT BLUEPRINT
           </button>
         : null}
         {canApproveMobileTwinPackage(session) ?
