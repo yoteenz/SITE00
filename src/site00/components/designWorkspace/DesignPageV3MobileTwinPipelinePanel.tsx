@@ -15,7 +15,7 @@ import {
   type BlueprintVisualStyleReceipt,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
-import { evaluateBlueprintLightStyleRetry } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
+import { evaluateBlueprintLightStyleRetryFromPipeline } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 import { DesignPageV3MobileTwinPackageInspector } from './DesignPageV3MobileTwinPackageInspector.js';
 
@@ -80,16 +80,14 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const blueprintRetryView = useMemo(() => {
     if (!pipeline) return null;
     try {
-      return evaluateBlueprintLightStyleRetry({
-        actualRender: render,
-        blueprintTwin: twin,
-        artifactsById: pipeline.artifactsById,
-        publicOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
-      });
+      return evaluateBlueprintLightStyleRetryFromPipeline(
+        pipeline,
+        typeof window !== 'undefined' ? window.location.origin : undefined,
+      );
     } catch {
       return null;
     }
-  }, [pipeline, render, twin]);
+  }, [pipeline]);
   const blueprintNeedsLightStyle = Boolean(blueprintRetryView?.urgentLightStyleRequired);
   const showBlueprintRetryButton = Boolean(blueprintRetryView?.canRetryLightBlueprint);
   const historicalBlueprintCount =

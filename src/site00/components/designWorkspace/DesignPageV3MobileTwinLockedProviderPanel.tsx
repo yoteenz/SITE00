@@ -7,7 +7,10 @@ import { getMobileTwinVisualProviderStrategy } from '../../../../shared/site00-s
 import { canRunFullMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinVisualStrategy.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { unlockMobileTwinProviderStrategy } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/applyFounderNbpMobileTwinPromotion.js';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { evaluateBlueprintLightStyleRetryFromPipeline } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
+import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import { DesignPageV3MobileTwinBlueprintRetryBlock } from './DesignPageV3MobileTwinBlueprintRetryBlock.js';
 
 type Props = {
   session: DesignPageAuthorityReviewSession;
@@ -19,6 +22,19 @@ export function DesignPageV3MobileTwinLockedProviderPanel({ session, onSessionUp
   const route = pipeline ? getMobileTwinVisualProviderStrategy(pipeline) : null;
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+
+  const pipelineDefaults = pipeline ? ensureMobileTwinPipelineDefaults(pipeline) : undefined;
+  const blueprintRetryView = useMemo(() => {
+    if (!pipelineDefaults) return null;
+    try {
+      return evaluateBlueprintLightStyleRetryFromPipeline(
+        pipelineDefaults,
+        typeof window !== 'undefined' ? window.location.origin : undefined,
+      );
+    } catch {
+      return null;
+    }
+  }, [pipelineDefaults]);
 
   const hasMobileReference =
     Boolean(session.authorityPipeline?.mobileMaster) ||
@@ -73,6 +89,14 @@ export function DesignPageV3MobileTwinLockedProviderPanel({ session, onSessionUp
         >
           GENERATE MOBILE TWIN PACKAGE
         </button>
+        {blueprintRetryView?.showRetryStrip ?
+          <DesignPageV3MobileTwinBlueprintRetryBlock
+            session={session}
+            view={blueprintRetryView}
+            onSessionUpdate={onSessionUpdate}
+            embedded
+          />
+        : null}
         <details className="site00-dw-v3-mobile-twin-locked-provider__advanced">
           <summary>Technical · provider strategy</summary>
           <button type="button" data-testid="v3-unlock-mobile-provider-strategy" disabled={busy} onClick={unlock}>

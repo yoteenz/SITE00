@@ -1,5 +1,5 @@
 /** Founder manual override unlock for Method A + benchmark path. */
-export const P0_VR_TWIN_V30_BUILD = 'v443' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v444' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;

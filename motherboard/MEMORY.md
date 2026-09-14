@@ -4,6 +4,14 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
+## 2026-09-14 — Blueprint retry strip visibility v444 (legacy twin + dual mount)
+
+- **Founder report:** Blue **RETRY LIGHT BLUEPRINT** strip still not visible after twin pair (v442/v443).
+- **Cause:** `showRetryStrip` required `styleContractId` / `LIGHT_TECHNICAL` on blueprint artifact; legacy FAL rows + slot hydration misses hid the CTA. Strip was only below long founder-path stack.
+- **Fix:** `resolveBlueprintRetryTwinPair` + `evaluateBlueprintLightStyleRetryFromPipeline`; show when **NBP locked / Method A** + twin URIs exist; strip moved **directly under R5F2 recovery strip** (sticky); same block **embedded under GENERATE MOBILE TWIN PACKAGE** in locked provider panel. Build **v444**.
+
+---
+
 ## 2026-09-14 — Design page boot recovery v443 (process.env + error boundaries)
 
 - **Founder report:** Design page not booting correctly again on fsbw-dev (white / crash pattern similar to v438).
