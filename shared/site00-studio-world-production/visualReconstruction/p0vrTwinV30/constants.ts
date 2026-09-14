@@ -1,5 +1,5 @@
 /** P0.VR.TWINV3.0R6F1 — pixel-grounded derivation + translation review. */
-export const P0_VR_TWIN_V30_BUILD = 'v414' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v415' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;

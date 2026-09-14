@@ -26,6 +26,10 @@ ReactDOM.createRoot(rootEl).render(
   </React.StrictMode>,
 );
 
+rootEl.setAttribute('data-site00-app-mounted', '1');
+const bootHint = document.getElementById('site00-root-boot-hint');
+if (bootHint) bootHint.remove();
+
 queueMicrotask(() => {
   teardownSite00BootShellAfterReactMount();
 });

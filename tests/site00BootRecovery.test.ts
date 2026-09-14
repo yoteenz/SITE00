@@ -17,7 +17,8 @@ describe('SITE 00 boot recovery', () => {
   it('boot recovery script releases shell when root stays empty', () => {
     const src = readFileSync(join(ROOT, 'public/site00-assts-boot-recovery.js'), 'utf8');
     expect(src).toContain('site00-assts-boot');
-    expect(src).toContain('childElementCount');
+    expect(src).toContain('data-site00-app-mounted');
+    expect(src).toContain('ROOT_DEADLINE_PREVIEW_MS');
     expect(src).toContain('module specifier');
   });
 });
