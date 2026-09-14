@@ -9076,6 +9076,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF3P4b NDXBOOK generate gate auto-unlock on load (v436)
+
+- **Symptom:** **GENERATE MOBILE TWIN** grey on fsbw-dev with “run capability test / visual strategy” despite P4 NBP manual promotion intent.
+- **Cause:** P4 **provider lock** bypassed benchmark routing but UI **`strategyResolved`** still required **`mobileTwinVisualGenerationStrategy !== UNRESOLVED`** or **`mobileTwinProviderLock`**; **`normalizeFounderNbpPromotionOnLoad`** only promoted when Method A was **already** set (post capability test), so typical founder sessions with reference locked stayed **UNRESOLVED** + no lock.
+- **Fix:** For **ndxbook** with mobile reference/master, set **ATOMIC_SIBLING_FROM_COMPOSITION** when **UNRESOLVED**, then **`applyFounderNbpMobileTwinPromotion`**; persist LS when lock newly applied in **`syncFounderMobileTwinSession`**; UI treats **`founderManualTwinPathUnlock`** as resolved + clearer hint. Test **24b** in **`p0vrTwinV30R7MF3P4.test.ts`**.
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.

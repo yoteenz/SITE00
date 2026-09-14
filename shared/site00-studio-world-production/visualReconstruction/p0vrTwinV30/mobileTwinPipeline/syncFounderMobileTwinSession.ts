@@ -2,6 +2,7 @@ import type { DesignPageAuthorityReviewSession } from '../types.js';
 import {
   attachMobileTwinPipelineFromBrowserStore,
   ensureMobileTwinPipelineDefaults,
+  writeMobileTwinPipelineToBrowser,
 } from './mobileTwinPipelinePersistence.js';
 import {
   hasFlowABaselineForBenchmark,
@@ -51,10 +52,15 @@ export function syncFounderMobileTwinSession(
   const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
   if (!merged) return session;
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged));
+  const beforeLock = pipeline.mobileTwinProviderLock?.locked;
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
     updatedAt: new Date().toISOString(),
   });
-  return tryRecoverOrphanTwinArtifacts(promoted);
+  const recovered = tryRecoverOrphanTwinArtifacts(promoted);
+  if (recovered.mobileTwinPipeline?.mobileTwinProviderLock?.locked && !beforeLock) {
+    writeMobileTwinPipelineToBrowser(projectId, recovered.mobileTwinPipeline);
+  }
+  return recovered;
 }

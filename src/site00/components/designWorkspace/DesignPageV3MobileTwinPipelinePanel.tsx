@@ -108,7 +108,9 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
 
   const providerLocked = Boolean(pipeline?.mobileTwinProviderLock?.locked);
   const strategyResolved =
-    providerLocked || pipeline?.mobileTwinVisualGenerationStrategy !== 'UNRESOLVED';
+    providerLocked ||
+    pipeline?.founderManualTwinPathUnlock ||
+    pipeline?.mobileTwinVisualGenerationStrategy !== 'UNRESOLVED';
   const runTwin = () => runFal('GENERATE_MOBILE_TWIN');
 
   const runApproveTwin = () => {
@@ -174,7 +176,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       <div className="site00-dw-v3-mobile-twin-pipeline__actions">
         {!strategyResolved ?
           <p className="site00-dw-v3-authority__hint" data-testid="v3-strategy-blocked">
-            Run capability test and select a visual strategy before full GENERATE MOBILE TWIN.
+            Mobile twin strategy not ready — hard refresh Design. NDXBOOK pilot should auto-lock NBP (scroll up
+            for MOBILE TWIN PROVIDER · LOCKED BY FOUNDER). Or use FOUNDER OVERRIDE in the founder path panel.
           </p>
         : null}
         <button type="button" data-testid="v3-generate-mobile-twin" disabled={busy || !strategyResolved} onClick={runTwin}>

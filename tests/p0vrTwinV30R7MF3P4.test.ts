@@ -184,6 +184,14 @@ describe('P0.VR.TWINV3.0R7MF3P4 NBP mobile provider lock', () => {
     expect(gate.reason).toBe('PROVIDER_STRATEGY_LOCKED');
   });
 
+  it('24b normalize on load without capability test when reference authority exists', () => {
+    const session = normalizeFounderNbpPromotionOnLoad(lockedSession());
+    expect(session.mobileTwinPipeline!.mobileTwinVisualGenerationStrategy).toBe(
+      'ATOMIC_SIBLING_FROM_COMPOSITION',
+    );
+    expect(session.mobileTwinPipeline!.mobileTwinProviderLock?.locked).toBe(true);
+  });
+
   it('lineage artifact recorded', async () => {
     const session = await promotedSession();
     expect(session.mobileTwinPipeline!.artifactsById[`lineage-${P0_VR_TWIN_V30R7MF3P4_LINEAGE}`]).toBeTruthy();
