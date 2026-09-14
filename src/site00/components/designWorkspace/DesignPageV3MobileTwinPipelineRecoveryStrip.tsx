@@ -18,7 +18,7 @@ export function DesignPageV3MobileTwinPipelineRecoveryStrip({ session, projectId
   );
   const [msg, setMsg] = useState<string | null>(null);
 
-  if (!view.showRecoveryStrip) return null;
+  if (!view.showRecoveryStrip && !view.showAuthorityImageRecovery) return null;
 
   const restore = () => {
     setMsg(null);

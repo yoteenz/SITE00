@@ -20,6 +20,7 @@ describe('Mobile twin founder actions strip', () => {
     const authority = readFileSync('src/site00/components/designWorkspace/DesignPageV3AuthorityReviewPanel.tsx', 'utf8');
     const inspector = readFileSync('src/site00/components/designWorkspace/DesignPageV3MobileTwinPackageInspector.tsx', 'utf8');
     expect(authority).toContain('DesignPageV3MobileTwinFounderActionsStrip');
+    expect(authority).toContain('DesignPageV3MobileTwinPipelineRecoveryStrip');
     expect(inspector).toContain('DesignPageV3MobileTwinFounderActionsStrip');
   });
 
@@ -35,5 +36,15 @@ describe('Mobile twin founder actions strip', () => {
     expect(view.showGenerate).toBe(true);
     expect(view.showEmptyBackupMessage).toBe(true);
     expect(view.canGenerate).toBe(true);
+  });
+
+  it('shows RESTORE when FAL jobs ran but authority images are not mounted', () => {
+    let session = applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession({ projectId: 'ndxbook' }));
+    session = ensureMobileDesignReferenceAuthority({
+      ...session,
+      mobileTwinPipeline: { ...emptyMobileTwinPipelineState(), falJobsDispatched: 2, packages: [] },
+    });
+    const view = evaluateMobileTwinFounderActionsStrip(session, 'ndxbook');
+    expect(view.showRestore).toBe(true);
   });
 });
