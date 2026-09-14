@@ -19,10 +19,11 @@ import { evaluateBlueprintLightStyleRetryFromPipeline } from '../../../../shared
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 import { DesignPageV3MobileTwinPackageInspector } from './DesignPageV3MobileTwinPackageInspector.js';
 import { approveAndPersistMobileTwinPackage, compileMobileTwinImplementationRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
-import { mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../config/routes.js';
-import { MOBILE_TWIN_APPROVAL_PERSIST_FAILED } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
+import { MOBILE_TWIN_APPROVAL_PERSIST_FAILED, mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
+import { writeTwinImplementationCache } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/twinImplementationBrowserCache.js';
+import type { CompiledMobileTwinImplementationDocument } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
@@ -180,7 +181,29 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     setBusy(true);
     setErr(null);
     void compileMobileTwinImplementationRoute({ session })
-      .then(() => setApprovalMsg('Twin implementation compiled — review on twin route.'))
+      .then((res) => {
+        const build = res.build as {
+          id: string;
+          implementationVersion: string;
+          previewRoute: string;
+          founderStatus: string;
+          promotionStatus: string;
+        } | undefined;
+        const document = res.document as CompiledMobileTwinImplementationDocument | undefined;
+        if (build && document) {
+          writeTwinImplementationCache({
+            projectId: session.projectId.toLowerCase(),
+            buildId: build.id,
+            implementationVersion: build.implementationVersion,
+            previewRoute: build.previewRoute,
+            founderStatus: build.founderStatus,
+            promotionStatus: build.promotionStatus,
+            document,
+            cachedAt: new Date().toISOString(),
+          });
+        }
+        setApprovalMsg('Twin implementation compiled — review on twin route.');
+      })
       .catch((e: Error) => setErr(e.message))
       .finally(() => setBusy(false));
   };

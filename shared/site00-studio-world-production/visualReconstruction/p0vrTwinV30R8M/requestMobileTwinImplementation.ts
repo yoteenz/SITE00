@@ -98,7 +98,19 @@ export async function fetchMobileTwinImplementationState(projectId: string, apiB
     apiBase ?
       `${apiBase.replace(/\/$/, '')}/api/site00/twin-v3-mobile-twin-implementation?projectId=${encodeURIComponent(projectId)}`
     : site00ClientApiUrl(`/api/site00/twin-v3-mobile-twin-implementation?projectId=${encodeURIComponent(projectId)}`);
-  const res = await fetch(url, { credentials: 'include' });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      credentials: 'omit',
+      headers: { Accept: 'application/json' },
+    });
+  } catch (cause) {
+    const msg = cause instanceof Error ? cause.message : String(cause);
+    if (msg.includes('Load failed') || msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+      throw new Error('MOBILE_TWIN_IMPLEMENTATION_API_UNREACHABLE');
+    }
+    throw cause;
+  }
   const json = (await res.json().catch(() => ({}))) as ApiResponse;
   if (!res.ok) throw new Error(json.error ?? 'MOBILE_TWIN_IMPLEMENTATION_STATE_FAILED');
   return json.state;

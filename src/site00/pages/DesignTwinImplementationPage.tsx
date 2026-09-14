@@ -3,66 +3,27 @@ import { Link, useParams } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes.js';
 import { MobileTwinCompiledImplementationRenderer } from '../components/designWorkspace/MobileTwinCompiledImplementationRenderer.js';
 import { DesignTwinImplementationReviewPanel } from '../components/designWorkspace/DesignTwinImplementationReviewPanel.js';
-import type { CompiledMobileTwinImplementationDocument } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
-import { fetchMobileTwinImplementationState } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
+import { resolveTwinImplementationPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
 import { P0_VR_TWIN_V30R8M_LINEAGE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import '../styles/site00-twin-v3-design-authority.css';
-
-type LoadedBuild = {
-  buildId: string;
-  implementationVersion: string;
-  document: CompiledMobileTwinImplementationDocument;
-  previewRoute: string;
-  founderStatus: string;
-  promotionStatus: string;
-};
 
 export function DesignTwinImplementationPage() {
   const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
   const projectId = projectSlug.toLowerCase();
   const [err, setErr] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [loaded, setLoaded] = useState<LoadedBuild | null>(null);
+  const [loaded, setLoaded] = useState<Awaited<ReturnType<typeof resolveTwinImplementationPreview>> | null>(null);
   const [reviewMode, setReviewMode] = useState<'LIVE' | 'ACTUAL' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE'>('LIVE');
 
   const reload = useCallback(async () => {
     setLoading(true);
     setErr(null);
+    setNotice(null);
     try {
-      const state = (await fetchMobileTwinImplementationState(projectId)) as {
-        latestBuildId?: string | null;
-        status?: string;
-        implementationPayload?: {
-          latestBuild?: {
-            id: string;
-            implementationVersion: string;
-            previewRoute: string;
-            founderStatus: string;
-            promotionStatus: string;
-            compiledDocument?: CompiledMobileTwinImplementationDocument;
-          };
-        };
-      } | null;
-      if (!state?.latestBuildId) {
-        setLoaded(null);
-        setErr(state?.status === 'READY_TO_COMPILE' ? 'TWIN_IMPLEMENTATION_NOT_BUILT' : 'NO_APPROVED_MOBILE_TWIN_PACKAGE');
-        return;
-      }
-      const build = state.implementationPayload?.latestBuild;
-      const document = build?.compiledDocument;
-      if (!build || !document) {
-        setErr('TWIN_IMPLEMENTATION_NOT_BUILT');
-        setLoaded(null);
-        return;
-      }
-      setLoaded({
-        buildId: build.id,
-        implementationVersion: build.implementationVersion,
-        document,
-        previewRoute: build.previewRoute,
-        founderStatus: build.founderStatus,
-        promotionStatus: build.promotionStatus,
-      });
+      const preview = await resolveTwinImplementationPreview(projectId);
+      setLoaded(preview);
+      setNotice(preview.notice);
     } catch (e) {
       setErr(e instanceof Error ? e.message : 'TWIN_IMPLEMENTATION_LOAD_FAILED');
       setLoaded(null);
@@ -101,13 +62,24 @@ export function DesignTwinImplementationPage() {
       <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M_LINEAGE}>
         {header}
         <p data-testid="twin-implementation-gate">{err ?? 'TWIN_IMPLEMENTATION_NOT_BUILT'}</p>
+        <p className="site00-dw-v3-authority__hint">
+          If you already approved the package: open Design → BUILD TWIN DESIGN ROUTE, then reopen this page. Railway must
+          serve v446+ API for durable cross-device state.
+        </p>
       </div>
     );
   }
 
+  const serverBacked = loaded.source === 'API';
+
   return (
     <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M_LINEAGE}>
       {header}
+      {notice ?
+        <p className="site00-dw-v3-authority__hint" data-testid="twin-implementation-notice" role="status">
+          {notice}
+        </p>
+      : null}
       <DesignTwinImplementationReviewPanel
         projectId={projectId}
         buildId={loaded.buildId}
@@ -116,6 +88,7 @@ export function DesignTwinImplementationPage() {
         implementationVersion={loaded.implementationVersion}
         founderStatus={loaded.founderStatus}
         promotionStatus={loaded.promotionStatus}
+        serverBacked={serverBacked}
         onUpdated={() => void reload()}
       />
       {reviewMode === 'LIVE' || reviewMode.startsWith('COMPARE') ?
