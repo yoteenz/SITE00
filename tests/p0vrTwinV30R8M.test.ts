@@ -28,6 +28,11 @@ import {
   requestMobileTwinImplementationCorrectionService,
 } from '../api/_lib/site00MobileTwinImplementation/mobileTwinImplementationService.js';
 import { SITE00_ROUTES } from '../src/site00/config/routes.js';
+import * as designPersistence from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designPageAuthorityPersistence.js';
+import { applyMobileTwinPackageApprovalConfirmation } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/confirmMobileTwinPackageApproval.js';
+import { resolveTwinImplementationPreview } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
+import * as implementationApi from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
+import { vi } from 'vitest';
 
 async function approvedPackageSession() {
   let session = ensureMobileDesignReferenceAuthority(
@@ -140,5 +145,17 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
   it('27 desktop implementation jobs remain 0', async () => {
     const session = await approvedPackageSession();
     expect(session.mobileTwinPipeline!.desktopJobsDispatched).toBe(0);
+  });
+
+  it('28 twin preview local compile when implementation API unreachable', async () => {
+    const session = applyMobileTwinPackageApprovalConfirmation(await approvedPackageSession());
+    vi.spyOn(designPersistence, 'readDesignPageAuthoritySession').mockReturnValue(session);
+    vi.spyOn(implementationApi, 'fetchMobileTwinImplementationState').mockRejectedValue(
+      new Error('MOBILE_TWIN_IMPLEMENTATION_API_UNREACHABLE'),
+    );
+    const preview = await resolveTwinImplementationPreview('ndxbook');
+    expect(preview.source).toBe('LOCAL_COMPILE');
+    expect(preview.document.nodes.length).toBeGreaterThan(0);
+    vi.restoreAllMocks();
   });
 });

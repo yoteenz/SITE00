@@ -7,3 +7,5 @@ export * from './evaluatePromotionReadiness.js';
 export * from './buildPackageApprovalRecord.js';
 export * from './applyImplementationPipelineUpdate.js';
 export * from './requestMobileTwinImplementation.js';
+export * from './twinImplementationBrowserCache.js';
+export * from './resolveTwinImplementationPreview.js';

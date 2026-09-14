@@ -17,6 +17,7 @@ type Props = {
   implementationVersion: string;
   founderStatus: string;
   promotionStatus: string;
+  serverBacked?: boolean;
   onUpdated: () => void;
 };
 
@@ -49,6 +50,7 @@ export function DesignTwinImplementationReviewPanel({
   implementationVersion,
   founderStatus,
   promotionStatus,
+  serverBacked = true,
   onUpdated,
 }: Props) {
   const [busy, setBusy] = useState(false);
@@ -97,7 +99,12 @@ export function DesignTwinImplementationReviewPanel({
           </button>
         ))}
       </div>
-      {founderStatus !== 'FOUNDER_APPROVED' ?
+      {!serverBacked ?
+        <p className="site00-dw-v3-authority__hint" data-testid="twin-implementation-local-only">
+          Local preview only — founder approve/correction requires BUILD TWIN on Design with API reachable.
+        </p>
+      : null}
+      {serverBacked && founderStatus !== 'FOUNDER_APPROVED' ?
         <>
           <button type="button" data-testid="approve-implementation" disabled={busy} onClick={runApprove}>
             APPROVE IMPLEMENTATION
