@@ -98,6 +98,7 @@ export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState)
     mobileTwinVisualGenerationStrategy: state.mobileTwinVisualGenerationStrategy ?? 'UNRESOLVED',
     providerBenchmark: state.providerBenchmark ?? null,
     mobileTwinProviderStrategy: state.mobileTwinProviderStrategy ?? null,
+    founderManualTwinPathUnlock: state.founderManualTwinPathUnlock ?? false,
   };
   if (base.renders.length && !base.activeRenderId) {
     base.activeRenderId = base.renders.at(-1)!.id;

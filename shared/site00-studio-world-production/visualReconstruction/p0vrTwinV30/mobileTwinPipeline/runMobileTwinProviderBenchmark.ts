@@ -75,14 +75,23 @@ function resolveFrozenComposition(
 
 function resolveBaselineFromCapabilityTest(
   pipeline: NonNullable<DesignPageAuthorityReviewSession['mobileTwinPipeline']>,
-): { actualId: string; blueprintId: string; model: string } {
+): { actualId: string; blueprintId: string; model: string } | null {
   const test = pipeline.twinCapabilityTest;
-  if (!test?.flowABlueprintId || !test.flowAReceiptId) {
-    throw new Error('MOBILE_TWIN_PROVIDER_BASELINE_MISSING');
+  if (test?.flowABlueprintId && test.canonicalActualRenderId) {
+    const actual = pipeline.renders.find((r) => r.id === test.canonicalActualRenderId);
+    const blueprint = pipeline.blueprintTwins.find((b) => b.id === test.flowABlueprintId);
+    if (actual?.renderImageUri && blueprint?.twinImageUri) {
+      return {
+        actualId: actual.id,
+        blueprintId: blueprint.id,
+        model: actual.providerModel || 'openai/gpt-image-2/edit',
+      };
+    }
   }
+  if (!test?.flowAReceiptId) return null;
   const flowA = pipeline.artifactsById[test.flowAReceiptId] as TwinFlowACapabilityReceipt | undefined;
   if (!flowA || flowA.flowMode !== 'TWIN_FLOW_A_ATOMIC_SIBLINGS' || flowA.status !== 'COMPLETE') {
-    throw new Error('MOBILE_TWIN_PROVIDER_BASELINE_MISSING');
+    return null;
   }
   return {
     actualId: flowA.actualRenderId,
@@ -116,7 +125,63 @@ export async function runMobileTwinProviderBenchmark(input: {
     snapshot.compositionHash,
   );
 
-  const baseline = resolveBaselineFromCapabilityTest(pipeline);
+  let baseline = resolveBaselineFromCapabilityTest(pipeline);
+  const ref = pipeline.designReference!;
+  const gpt2Model = resolveTwinBenchmarkModel('GPT2_BASELINE').model;
+
+  if (!baseline && pipeline.founderManualTwinPathUnlock) {
+    const runPrefix = `GPT2_BASELINE_${benchmarkId}`;
+    const pair = await dispatchMobileTwinBenchmarkPair({
+      runPrefix,
+      model: gpt2Model,
+      reference: ref,
+      composition,
+      publicOrigin: input.publicOrigin,
+    });
+    baseline = { actualId: pair.actual.id, blueprintId: pair.blueprint.id, model: pair.model };
+    const testId = capTest.testId;
+    const flowAReceipt: TwinFlowACapabilityReceipt = {
+      id: capTest.flowAReceiptId ?? `tfar-${testId}`,
+      flowMode: 'TWIN_FLOW_A_ATOMIC_SIBLINGS',
+      actualRenderId: pair.actual.id,
+      blueprintRenderId: pair.blueprint.id,
+      actualJobId: pair.actualJobRef,
+      blueprintJobId: pair.blueprintJobRef,
+      actualHash: pair.actual.renderImageHash,
+      blueprintHash: pair.blueprint.twinImageHash,
+      compositionStateId: composition.id,
+      compositionHash: composition.compositionHash,
+      provider: 'FAL',
+      model: pair.model,
+      estimatedCostUsd: pair.actualCostUsd + pair.blueprintCostUsd,
+      status: 'COMPLETE',
+      createdAt: new Date().toISOString(),
+    };
+    pipeline = {
+      ...pipeline,
+      renders: [...pipeline.renders.map(classifyLegacyMobileRender), pair.actual],
+      blueprintTwins: [...pipeline.blueprintTwins, pair.blueprint],
+      twinCapabilityTest: {
+        ...capTest,
+        canonicalActualRenderId: pair.actual.id,
+        flowABlueprintId: pair.blueprint.id,
+        flowAReceiptId: flowAReceipt.id,
+        status: 'FOUNDER_REVIEW_READY',
+      },
+      artifactsById: {
+        ...pipeline.artifactsById,
+        [pair.actual.id]: pair.actual,
+        [pair.blueprint.id]: pair.blueprint,
+        [flowAReceipt.id]: flowAReceipt,
+      },
+      falJobsDispatched: pipeline.falJobsDispatched + 2,
+      totalProviderCostUsd: pipeline.totalProviderCostUsd + pair.actualCostUsd + pair.blueprintCostUsd,
+    };
+    session = { ...session, mobileTwinPipeline: pipeline };
+  }
+
+  if (!baseline) throw new Error('MOBILE_TWIN_PROVIDER_BASELINE_MISSING');
+
   const benchmarkIdempotencyKey = providerBenchmarkIdempotencyKey(snapshot.id, 'benchmark', TWIN_BENCHMARK_VERSION);
 
   const existing = pipeline.providerBenchmark;
@@ -167,7 +232,6 @@ export async function runMobileTwinProviderBenchmark(input: {
     methodLocked: 'ATOMIC_SIBLING_FROM_COMPOSITION',
   };
 
-  const ref = pipeline.designReference!;
   const slugsToRun =
     retry !== 'NONE' && retry !== 'GPT2_BASELINE' ? [retry] : TWIN_BENCHMARK_CHALLENGERS;
 
