@@ -15,6 +15,7 @@ import {
   applyFounderNbpMobileTwinPromotion,
   unlockMobileTwinProviderStrategy,
 } from './applyFounderNbpMobileTwinPromotion.js';
+import { runMobileBlueprintOnlyRetry } from './runMobileBlueprintOnlyRetry.js';
 import {
   assertBlueprintTwinNotRedesigned,
   buildRenderBlueprintTwinReconciliationReceipt,
@@ -39,7 +40,8 @@ export type MobileTwinFalAction =
   | 'REGENERATE_MOBILE_RENDER'
   | 'GENERATE_MOBILE_TWIN_PACKAGE'
   | 'APPLY_FOUNDER_NBP_MOBILE_PROMOTION'
-  | 'UNLOCK_MOBILE_PROVIDER_STRATEGY';
+  | 'UNLOCK_MOBILE_PROVIDER_STRATEGY'
+  | 'RETRY_MOBILE_BLUEPRINT_LIGHT';
 
 const BENCHMARK_ACTIONS = new Set<MobileTwinFalAction>([
   'RUN_MOBILE_TWIN_PROVIDER_BENCHMARK',
@@ -149,6 +151,13 @@ export async function runMobileTwinFalPipeline(input: {
       publicOrigin: input.publicOrigin,
       retry: 'GPT2_ACTUAL__NBP_BLUEPRINT',
       forceNew: true,
+    });
+  }
+
+  if (input.action === 'RETRY_MOBILE_BLUEPRINT_LIGHT') {
+    return runMobileBlueprintOnlyRetry({
+      session,
+      publicOrigin: input.publicOrigin,
     });
   }
 

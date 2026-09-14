@@ -9062,6 +9062,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF3P5 light technical blueprint contract (v434)
+
+- **Context:** After P4 NBP lock, founder prefers **light** technical blueprint (readability) vs ambiguous dark/light NBP outputs.
+- **Delivered:** `BlueprintVisualStyleContract` (`mobile-light-technical-blueprint-v1`), `buildMobileLightTechnicalBlueprintFalPrompt`, style/structure + presentation firewalls, `BlueprintVisualStyleReceipt` + `DarkBlueprintRisk` / `BLUEPRINT_DARK_MODE_VIOLATION`, locked-route dispatch uses `LIGHT_TECHNICAL_BLUEPRINT` + `r7mf3p5-light-blueprint-v1`; historical blueprints tagged `HISTORICAL_BLUEPRINT_VARIANT`; `RETRY_MOBILE_BLUEPRINT_LIGHT` blueprint-only retry; UI labels **LIGHT TECHNICAL**. Build **v434**. Tests **`p0vrTwinV30R7MF3P5.test.ts`**. Structured blueprint still from composition state only.
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.

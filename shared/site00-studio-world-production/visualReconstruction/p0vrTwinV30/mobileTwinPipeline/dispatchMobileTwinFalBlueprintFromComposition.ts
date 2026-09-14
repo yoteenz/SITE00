@@ -1,7 +1,14 @@
 import { createHash } from 'node:crypto';
 import { runFalReferenceImageJob } from '../../../../site00-visual-generation/falReferenceImageJob.js';
-import { P0_VR_TWIN_V30R7MF3_LINEAGE } from '../constants.js';
+import { P0_VR_TWIN_V30R7MF3P5_LINEAGE } from '../constants.js';
 import { buildMobileBlueprintTwinFromCompositionFalPrompt } from './buildMobileTwinFalPrompts.js';
+import {
+  buildBlueprintVisualStyleReceipt,
+  buildMobileLightTechnicalBlueprintFalPrompt,
+  MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID,
+  R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION,
+  type BlueprintVisualStyleReceipt,
+} from './blueprintVisualStyleContract.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
 import { getMobileTwinVisualProviderStrategy } from './getMobileTwinVisualProviderStrategy.js';
 import type {
@@ -25,19 +32,28 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
   siblingActualRenderId: string;
   publicOrigin?: string;
   pipeline?: MobileTwinPipelineState | null;
+  providerMetadataHint?: Record<string, unknown> | null;
 }): Promise<{
   blueprint: MobileBlueprintTwinVisual;
+  styleReceipt: BlueprintVisualStyleReceipt;
   costUsd: number;
   providerJobRef: string;
   model: string;
 }> {
   const referenceUrl = resolveMobileTwinPublicAssetUrl(input.reference.sourceImageUri, input.publicOrigin);
-  const prompt = buildMobileBlueprintTwinFromCompositionFalPrompt({
-    composition: input.composition,
-    siblingActualRenderId: input.siblingActualRenderId,
-  });
-
   const lockedRoute = input.pipeline ? getMobileTwinVisualProviderStrategy(input.pipeline) : null;
+  const useLight = lockedRoute?.useLightTechnicalBlueprint ?? false;
+
+  const prompt =
+    useLight ?
+      buildMobileLightTechnicalBlueprintFalPrompt({
+        composition: input.composition,
+        siblingActualRenderId: input.siblingActualRenderId,
+      })
+    : buildMobileBlueprintTwinFromCompositionFalPrompt({
+        composition: input.composition,
+        siblingActualRenderId: input.siblingActualRenderId,
+      });
 
   let falResult;
   try {
@@ -55,6 +71,17 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
   }
 
   const twinImageHash = hashFromUrl(`${falResult.url}:${falResult.jobRef}`);
+  const styleReceipt = buildBlueprintVisualStyleReceipt({
+    blueprintRenderId: input.twinId,
+    twinImageUri: falResult.url,
+    providerMetadata: input.providerMetadataHint ?? null,
+  });
+
+  const blueprintStyleStatus =
+    styleReceipt.result === 'PASS' ? 'PASS'
+    : styleReceipt.result === 'FAIL' ? 'BLOCKED'
+    : 'REVIEW_REQUIRED';
+
   const blueprint: MobileBlueprintTwinVisual = {
     id: input.twinId,
     compositionStateId: input.composition.id,
@@ -63,14 +90,21 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
     twinImageUri: falResult.url,
     twinImageHash,
     provider: 'FAL',
-    providerJobRef: `${P0_VR_TWIN_V30R7MF3_LINEAGE}-blueprint-${falResult.jobRef}`,
+    providerJobRef: `${P0_VR_TWIN_V30R7MF3P5_LINEAGE}-blueprint-${falResult.jobRef}`,
     structuralSource: 'FROZEN_COMPOSITION_STATE',
-    outputRepresentationMode: 'TECHNICAL_BLUEPRINT_RENDER',
+    outputRepresentationMode: useLight ? 'LIGHT_TECHNICAL_BLUEPRINT' : 'TECHNICAL_BLUEPRINT_RENDER',
+    styleContractId: useLight ? MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID : null,
+    promptContractVersion: useLight ? R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION : null,
+    blueprintVisualVariant: useLight ? 'CANONICAL_LIGHT' : undefined,
+    blueprintStyleStatus,
+    styleFailureCode: styleReceipt.failureCode,
+    styleReceiptId: styleReceipt.id,
     createdAt: new Date().toISOString(),
   };
 
   return {
     blueprint,
+    styleReceipt,
     costUsd: ESTIMATED_TWIN_COST_USD,
     providerJobRef: blueprint.providerJobRef,
     model: falResult.model,

@@ -54,7 +54,7 @@ export function DesignPageV3MobileTwinLockedProviderPanel({ session, onSessionUp
           ACTUAL · NBP · <code>{route.actual.model}</code>
         </li>
         <li data-testid="v3-locked-blueprint">
-          BLUEPRINT · NBP · <code>{route.blueprint.model}</code>
+          BLUEPRINT · NBP · LIGHT TECHNICAL · <code>{route.blueprint.model}</code>
         </li>
         <li data-testid="v3-locked-method">
           METHOD · ATOMIC SIBLING · {methodA ? 'LOCKED' : '—'}

@@ -1,5 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import { P0_VR_TWIN_V30R7MF3_LINEAGE } from '../constants.js';
+import { BLUEPRINT_DARK_MODE_VIOLATION } from './blueprintVisualStyleContract.js';
 import { assertFullMobileTwinPackageAllowed } from './mobileTwinVisualStrategy.js';
 import { assertLockedMobileProviderAvailable } from './getMobileTwinVisualProviderStrategy.js';
 import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
@@ -238,6 +239,15 @@ export async function runMobileAtomicTwinGeneration(input: {
 
   atomicRun.blueprintRenderJobId = blueprintDispatched.providerJobRef;
   atomicRun.providerMetadata.blueprintModel = blueprintDispatched.model;
+
+  const blueprintStyleBlocked =
+    blueprintDispatched.blueprint.blueprintStyleStatus === 'BLOCKED' ||
+    blueprintDispatched.blueprint.blueprintStyleStatus === 'REVIEW_REQUIRED';
+  if (blueprintStyleBlocked) {
+    atomicRun.errorCodes = [
+      blueprintDispatched.blueprint.styleFailureCode ?? BLUEPRINT_DARK_MODE_VIOLATION,
+    ];
+  }
   const blueprintCost: MobileProviderCostRecord = {
     id: `cost-blueprint-${blueprintId}`,
     kind: 'BLUEPRINT_TWIN',
@@ -301,7 +311,9 @@ export async function runMobileAtomicTwinGeneration(input: {
   });
   pkgDraft.providerLineage = P0_VR_TWIN_V30R7MF3_LINEAGE;
   pkgDraft.status =
-    twinVisualReceipt.result === 'FAIL' || twinVisualReceipt.visualCompositionMatch === false ?
+    blueprintStyleBlocked ||
+    twinVisualReceipt.result === 'FAIL' ||
+    twinVisualReceipt.visualCompositionMatch === false ?
       'BLOCKED'
     : 'FOUNDER_REVIEW_READY';
 
@@ -319,7 +331,8 @@ export async function runMobileAtomicTwinGeneration(input: {
   atomicRun.packageId = pkgDraft.id;
   atomicRun.costRecords = [actualCost.id, blueprintCost.id];
   atomicRun.status =
-    pkgDraft.status === 'BLOCKED' ? 'BLOCKED'
+    blueprintStyleBlocked ? 'PARTIAL'
+    : pkgDraft.status === 'BLOCKED' ? 'BLOCKED'
     : 'FOUNDER_REVIEW_READY';
   atomicRun.completedAt = new Date().toISOString();
 
@@ -332,7 +345,8 @@ export async function runMobileAtomicTwinGeneration(input: {
     blueprintRenderId: blueprintDispatched.blueprint.id,
     blueprintRenderHash: blueprintDispatched.blueprint.twinImageHash,
     version: runVersion,
-    status: pkgDraft.status === 'BLOCKED' ? 'BLOCKED' : 'FOUNDER_REVIEW_READY',
+    status:
+      blueprintStyleBlocked || pkgDraft.status === 'BLOCKED' ? 'BLOCKED' : 'FOUNDER_REVIEW_READY',
     atomicRunId: runId,
     createdAt: new Date().toISOString(),
     approvedAt: null,
@@ -348,6 +362,7 @@ export async function runMobileAtomicTwinGeneration(input: {
       { [actualDispatched.render.referenceTranslationEvidenceReceiptId]: actualDispatched.translationEvidence }
     : {}),
     [blueprintDispatched.blueprint.id]: blueprintDispatched.blueprint,
+    [blueprintDispatched.styleReceipt.id]: blueprintDispatched.styleReceipt,
     [bundle.surgicalBlueprint.id]: bundle.surgicalBlueprint,
     [bundle.objectMap.id]: bundle.objectMap,
     [bundle.canonicalAssetManifest.id]: bundle.canonicalAssetManifest,
