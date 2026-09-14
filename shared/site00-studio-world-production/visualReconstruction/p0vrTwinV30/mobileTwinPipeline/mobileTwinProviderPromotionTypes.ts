@@ -42,4 +42,5 @@ export type MobileTwinVisualProviderStrategyResolved = {
   source: typeof FOUNDER_MANUAL_PROMOTION_SOURCE | 'LOCKED_MOBILE_STRATEGY';
   locked: boolean;
   useNbpPageOnlyActualPrompt: boolean;
+  useLightTechnicalBlueprint?: boolean;
 };

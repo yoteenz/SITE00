@@ -9,6 +9,7 @@ import {
   P0_VR_TWIN_V30R7MF3P2_LINEAGE,
   P0_VR_TWIN_V30R7MF3P3_LINEAGE,
   P0_VR_TWIN_V30R7MF3P4_LINEAGE,
+  P0_VR_TWIN_V30R7MF3P5_LINEAGE,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import {
   runMobileTwinFalPipeline,
@@ -35,6 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       sprint: P0_VR_TWIN_V30R7MF3P2_LINEAGE,
       focusedHybridSprint: P0_VR_TWIN_V30R7MF3P3_LINEAGE,
       mobileProviderLockSprint: P0_VR_TWIN_V30R7MF3P4_LINEAGE,
+      lightBlueprintSprint: P0_VR_TWIN_V30R7MF3P5_LINEAGE,
     });
     return;
   }

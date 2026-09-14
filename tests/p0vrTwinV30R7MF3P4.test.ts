@@ -162,7 +162,7 @@ describe('P0.VR.TWINV3.0R7MF3P4 NBP mobile provider lock', () => {
     const session = await runMobileAtomicTwinGeneration({ session: await promotedSession() });
     const bp = session.mobileTwinPipeline!.blueprintTwins.at(-1)!;
     expect(bp.structuralSource).toBe('FROZEN_COMPOSITION_STATE');
-    expect(bp.outputRepresentationMode).toBe('TECHNICAL_BLUEPRINT_RENDER');
+    expect(bp.outputRepresentationMode).toBe('LIGHT_TECHNICAL_BLUEPRINT');
   });
 
   it('20 asset fan-out remains cost-gated on capability test', async () => {

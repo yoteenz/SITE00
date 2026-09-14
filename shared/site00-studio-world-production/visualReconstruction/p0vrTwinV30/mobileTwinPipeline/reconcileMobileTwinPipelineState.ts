@@ -345,6 +345,16 @@ export function reconcileMobileTwinPipelineState(pipeline: MobileTwinPipelineSta
     }
   }
 
+  next = {
+    ...next,
+    blueprintTwins: next.blueprintTwins.map((bp) => {
+      if (bp.styleContractId === 'mobile-light-technical-blueprint-v1') return bp;
+      if (bp.outputRepresentationMode === 'LIGHT_TECHNICAL_BLUEPRINT') return bp;
+      if (!bp.twinImageUri) return bp;
+      return { ...bp, blueprintVisualVariant: 'HISTORICAL_BLUEPRINT_VARIANT' as const };
+    }),
+  };
+
   if (next.mobileTwinProviderLock?.locked) {
     const lock = next.mobileTwinProviderLock;
     next = {

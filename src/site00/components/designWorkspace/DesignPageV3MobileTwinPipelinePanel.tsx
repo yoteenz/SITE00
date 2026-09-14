@@ -9,6 +9,7 @@ import { approveMobileTwinPackage, canApproveMobileTwinPackage } from '../../../
 import { selectMobileImplementationRender } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileImplementationRender.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import { MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
@@ -37,7 +38,13 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const activeRenderId = pipeline?.activeRenderId ?? pipeline?.renders.at(-1)?.id ?? null;
   const render = activeRenderId ? pipeline?.renders.find((r) => r.id === activeRenderId) ?? null : null;
   const pkg = pipeline?.latestPackageId ? pipeline.packages.find((p) => p.id === pipeline.latestPackageId) : null;
-  const twin = pkg ? pipeline?.blueprintTwins.find((b) => b.id === pkg.blueprintTwinVisualId) : null;
+  const twin =
+    pkg ? pipeline?.blueprintTwins.find((b) => b.id === pkg.blueprintTwinVisualId)
+    : pipeline?.blueprintTwins.find((b) => b.implementationRenderId === render?.id) ?? null;
+  const blueprintStyleLabel =
+    twin?.outputRepresentationMode === 'LIGHT_TECHNICAL_BLUEPRINT' ? 'LIGHT TECHNICAL'
+    : twin?.blueprintVisualVariant === 'HISTORICAL_BLUEPRINT_VARIANT' ? 'HISTORICAL'
+    : 'BLUEPRINT';
   const atomicRun = pipeline?.activeAtomicRunId ?
     pipeline.atomicRuns.find((r) => r.id === pipeline.activeAtomicRunId)
   : null;
@@ -78,7 +85,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     if (compareMode === 'ACTUAL_BLUEPRINT') {
       return [
         { label: 'ACTUAL RENDER (PHASE A)', src: renderSrc, testId: 'v3-r7m-compare-render' },
-        { label: 'BLUEPRINT TWIN', src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
+        { label: `BLUEPRINT (${blueprintStyleLabel})`, src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
       ];
     }
     return [
@@ -86,7 +93,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       { label: 'RENDER', src: renderSrc, testId: 'v3-r7m-compare-render' },
       { label: 'BLUEPRINT', src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
     ];
-  }, [compareMode, ref, render, twin, viewMode]);
+  }, [blueprintStyleLabel, compareMode, ref, render, twin, viewMode]);
 
   const runFal = (action: Parameters<typeof requestMobileTwinFal>[0]['action'], refineNotes?: string[]) => {
     setBusy(true);
@@ -132,7 +139,11 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           {render?.referenceCloneRisk ? ` · clone risk ${render.referenceCloneRisk}` : ''}
         </li>
         <li data-testid="v3-r7m-blueprint">
-          BLUEPRINT PAGE · {blueprintStepLabel}
+          BLUEPRINT · {blueprintStyleLabel} · {blueprintStepLabel}
+          {twin?.styleContractId === MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID ?
+            ' · STYLE CONTRACT LIGHT V1'
+          : ''}
+          {twin?.blueprintStyleStatus === 'REVIEW_REQUIRED' ? ' · REVIEW REQUIRED' : ''}
         </li>
         <li data-testid="v3-r7m-package">
           STRUCTURED PACKAGE · {pkg?.status ?? (busy ? 'GENERATING' : 'NOT STARTED')}
@@ -178,6 +189,16 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           <p className="site00-dw-v3-authority__hint" data-testid="v3-clone-risk-warning">
             Actual page may be reproducing the reference too literally. Review the twin pair together.
           </p>
+        : null}
+        {twin?.blueprintStyleStatus === 'REVIEW_REQUIRED' || twin?.blueprintStyleStatus === 'BLOCKED' ?
+          <button
+            type="button"
+            data-testid="v3-retry-mobile-blueprint-light"
+            disabled={busy || !render}
+            onClick={() => runFal('RETRY_MOBILE_BLUEPRINT_LIGHT')}
+          >
+            RETRY BLUEPRINT (LIGHT ONLY)
+          </button>
         : null}
         {canApproveMobileTwinPackage(session) ?
           <button type="button" data-testid="v3-approve-mobile-twin-package" onClick={runApproveTwin}>

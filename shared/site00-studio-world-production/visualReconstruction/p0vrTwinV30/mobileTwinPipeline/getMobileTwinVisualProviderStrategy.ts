@@ -17,6 +17,7 @@ export function getMobileTwinVisualProviderStrategy(
     source: FOUNDER_MANUAL_PROMOTION_SOURCE,
     locked: true,
     useNbpPageOnlyActualPrompt: true,
+    useLightTechnicalBlueprint: true,
   };
 }
 

@@ -178,7 +178,13 @@ export type MobileBlueprintTwinVisual = {
   provider: 'FAL' | 'LOCAL_COMPILER';
   providerJobRef: string;
   structuralSource?: 'FROZEN_COMPOSITION_STATE' | 'ACTUAL_RENDER_PIXELS';
-  outputRepresentationMode?: 'TECHNICAL_BLUEPRINT_RENDER';
+  outputRepresentationMode?: 'TECHNICAL_BLUEPRINT_RENDER' | 'LIGHT_TECHNICAL_BLUEPRINT';
+  styleContractId?: string | null;
+  promptContractVersion?: string | null;
+  blueprintVisualVariant?: 'CANONICAL_LIGHT' | 'HISTORICAL_BLUEPRINT_VARIANT';
+  blueprintStyleStatus?: 'PASS' | 'REVIEW_REQUIRED' | 'BLOCKED';
+  styleFailureCode?: string | null;
+  styleReceiptId?: string | null;
   createdAt: string;
 };
 
