@@ -159,7 +159,7 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     const preview = await resolveTwinImplementationPreview('ndxbook');
     expect(preview.source).toBe('LOCAL_COMPILE');
     expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION);
-    expect(preview.notice).toContain('SCHEMA_MISSING');
+    expect(preview.notice).toContain('Supabase tables');
     vi.restoreAllMocks();
   });
 
