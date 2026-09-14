@@ -2,7 +2,9 @@ import type { DesignPageAuthorityReviewSession } from '../types.js';
 import {
   attachMobileTwinPipelineFromBrowserStore,
   ensureMobileTwinPipelineDefaults,
+  restoreMobileTwinPipelineFromBrowserStore,
 } from './mobileTwinPipelinePersistence.js';
+import { evaluateMobileTwinPipelineRecovery } from './evaluateMobileTwinPipelineRecovery.js';
 import {
   hasFlowABaselineForBenchmark,
   isCapabilityTestFounderReviewReady,
@@ -45,12 +47,31 @@ export function getMobileTwinPipelineDiagnostics(pipeline: MobileTwinPipelineSta
 }
 
 /** Merge dedicated mobile-twin LS + reconcile metadata (founder SYNC / sessionView). */
+export function restoreFounderMobileTwinPipelineFromBrowser(
+  session: DesignPageAuthorityReviewSession,
+  projectId: string,
+): DesignPageAuthorityReviewSession {
+  const restored = restoreMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
+  if (!restored) return session;
+  const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(restored));
+  const promoted = normalizeFounderNbpPromotionOnLoad({
+    ...session,
+    mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
+    updatedAt: new Date().toISOString(),
+  });
+  return applyMobileTwinPackageApprovalConfirmation(tryRecoverOrphanTwinArtifacts(promoted));
+}
+
 export function syncFounderMobileTwinSession(
   session: DesignPageAuthorityReviewSession,
   projectId: string,
 ): DesignPageAuthorityReviewSession {
-  const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
+  let merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
   if (!merged) return session;
+  const recovery = evaluateMobileTwinPipelineRecovery({ ...session, mobileTwinPipeline: merged }, projectId);
+  if (recovery.showRecoveryStrip) {
+    merged = restoreMobileTwinPipelineFromBrowserStore(projectId, merged) ?? merged;
+  }
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged));
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,

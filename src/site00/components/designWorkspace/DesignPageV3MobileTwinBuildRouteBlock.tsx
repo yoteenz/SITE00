@@ -6,6 +6,7 @@ import {
   P0_VR_TWIN_V30R8M_LINEAGE,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 import { compileAndCacheMobileTwinImplementation } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
+import { readTwinImplementationCache } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/twinImplementationBrowserCache.js';
 import { SITE00_ROUTES } from '../../config/routes.js';
 
 type Props = {
@@ -26,7 +27,9 @@ export function DesignPageV3MobileTwinBuildRouteBlock({
   const [msg, setMsg] = useState<string | null>(null);
 
   const pipeline = session.mobileTwinPipeline;
-  const hasBuild = Boolean(pipeline?.mobileTwinImplementation?.latestBuildId);
+  const implCache = readTwinImplementationCache(session.projectId.toLowerCase());
+  const hasBuild = Boolean(pipeline?.mobileTwinImplementation?.latestBuildId ?? implCache?.buildId);
+  const pipelineEmpty = (pipeline?.packages.length ?? 0) === 0 && (pipeline?.falJobsDispatched ?? 0) === 0;
   const twinRoute = SITE00_ROUTES.projectDesignTwin.replace(':projectSlug', session.projectId.toLowerCase());
   const previewPath = mobileTwinTwinPreviewRoute(session.projectId);
 
@@ -53,8 +56,17 @@ export function DesignPageV3MobileTwinBuildRouteBlock({
         <span>{hasBuild ? 'PREVIEW CACHED · REBUILD OK' : 'NEXT ACTION · BUILD ONCE'}</span>
       </header>
       <p className="site00-dw-v3-authority__hint" data-testid="v3-build-twin-strip-copy">
-        Package is approved. Tap once to compile structured artifacts into the twin preview (writes browser cache; hits
-        Railway when API is live). Then open the twin route to review — no auto-promote to live Design.
+        {pipelineEmpty && implCache ?
+          <>
+            Twin preview cache exists on this device, but the mobile twin package session looks empty — try{' '}
+            <strong>RESTORE MOBILE TWIN FROM BROWSER BACKUP</strong> above, or regenerate the package. You can still open
+            the twin route review link below.
+          </>
+        : <>
+            Package is approved. Tap once to compile structured artifacts into the twin preview (writes browser cache;
+            hits Railway when API is live). Then open the twin route to review — no auto-promote to live Design.
+          </>
+        }
       </p>
       <button
         type="button"
