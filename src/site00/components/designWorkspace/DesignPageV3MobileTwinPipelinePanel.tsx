@@ -15,6 +15,7 @@ import {
   type BlueprintVisualStyleReceipt,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
+import { evaluateBlueprintLightStyleRetry } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 import { DesignPageV3MobileTwinPackageInspector } from './DesignPageV3MobileTwinPackageInspector.js';
 
@@ -76,11 +77,17 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     twin?.styleReceiptId ?
       (pipeline?.artifactsById[twin.styleReceiptId] as BlueprintVisualStyleReceipt | undefined)
     : null;
-  const blueprintNeedsLightStyle =
-    twin?.blueprintStyleStatus === 'REVIEW_REQUIRED' ||
-    twin?.blueprintStyleStatus === 'BLOCKED' ||
-    twin?.styleFailureCode === BLUEPRINT_DARK_MODE_VIOLATION ||
-    styleReceipt?.failureCode === BLUEPRINT_DARK_MODE_VIOLATION;
+  const blueprintRetryView =
+    pipeline ?
+      evaluateBlueprintLightStyleRetry({
+        actualRender: render,
+        blueprintTwin: twin,
+        artifactsById: pipeline.artifactsById,
+        publicOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
+      })
+    : null;
+  const blueprintNeedsLightStyle = Boolean(blueprintRetryView?.urgentLightStyleRequired);
+  const showBlueprintRetryButton = Boolean(blueprintRetryView?.canRetryLightBlueprint);
   const historicalBlueprintCount =
     pipeline?.blueprintTwins.filter((b) => b.blueprintVisualVariant === 'HISTORICAL_BLUEPRINT_VARIANT').length ??
     0;
@@ -234,7 +241,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
             {BLUEPRINT_DARK_MODE_VIOLATION}). Actual and package are intact; retry Blueprint only.
           </p>
         : null}
-        {blueprintNeedsLightStyle ?
+        {showBlueprintRetryButton ?
           <button
             type="button"
             data-testid="v3-retry-mobile-blueprint-light"

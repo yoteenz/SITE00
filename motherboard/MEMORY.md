@@ -4,6 +4,13 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
+## 2026-09-14 — Blueprint light retry strip visible on Design (v442)
+
+- **Founder report:** Session-close guidance (“RETRY LIGHT BLUEPRINT if dark”) not visible on fsbw-dev Design — button only rendered when automated `blueprintNeedsLightStyle` fired; real FAL blueprint URLs often **PASS** receipt heuristics (UNKNOWN background) so CTA stayed hidden below fold in pipeline panel.
+- **Fix:** `evaluateBlueprintLightStyleRetry()` + **`DesignPageV3MobileTwinBlueprintRetryStrip`** (blue card under **MOBILE TWIN PROVIDER · LOCKED**) shows **RETRY LIGHT BLUEPRINT** whenever light-contract twin pair exists; urgent copy when receipt/status fails contract; optional style-anchor hint (`VITE_SITE00_LIGHT_BLUEPRINT_STYLE_REFERENCE_URL` / Railway secret). Pipeline panel uses same helper (retry button always when pair ready). Build **v442**. Tests **`p0vrTwinV30BlueprintRetryUx.test.ts`**.
+
+---
+
 ## 2026-09-14 — R7MF3P7 Mobile Twin Package Inspector + artifact hydration (v441)
 
 - **Context:** Mobile Twin reaches **FOUNDER_REVIEW_READY** with structured package artifacts in `artifactsById`, but **PACKAGE** tab only showed three images + provider debug — founder could not inspect composition, blueprint, object/asset/function maps, ownership, traceability, or validation receipts.
