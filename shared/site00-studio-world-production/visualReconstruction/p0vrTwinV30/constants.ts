@@ -1,5 +1,5 @@
 /** Founder manual override unlock for Method A + benchmark path. */
-export const P0_VR_TWIN_V30_BUILD = 'v434' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v435' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
@@ -22,6 +22,7 @@ export const P0_VR_TWIN_V30R7MF3P2_LINEAGE = 'P0.VR.TWINV3.0R7MF3P2' as const;
 export const P0_VR_TWIN_V30R7MF3P3_LINEAGE = 'P0.VR.TWINV3.0R7MF3P3' as const;
 export const P0_VR_TWIN_V30R7MF3P4_LINEAGE = 'P0.VR.TWINV3.0R7MF3P4' as const;
 export const P0_VR_TWIN_V30R7MF3P5_LINEAGE = 'P0.VR.TWINV3.0R7MF3P5' as const;
+export const P0_VR_TWIN_V30R7MF3P6_LINEAGE = 'P0.VR.TWINV3.0R7MF3P6' as const;
 
 /** Tracked defect — injection unblocks pipeline; gallery display fix is separate. */
 export const AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID = 'AUTHORITY_IMAGE_DISPLAY_BROKEN' as const;

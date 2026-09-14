@@ -25,7 +25,7 @@ export function mergeMobileTwinFalApiResponse(
   updatedAt?: string,
 ): DesignPageAuthorityReviewSession {
   if (!serverPipeline) return clientSession;
-  const mergedPipeline = mergeMobileTwinPipelineRich(clientSession.mobileTwinPipeline, serverPipeline);
+  const mergedPipeline = mergeMobileTwinPipelineRich(serverPipeline, clientSession.mobileTwinPipeline);
   return {
     ...clientSession,
     mobileTwinPipeline: mergedPipeline ?? serverPipeline,
