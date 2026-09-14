@@ -1,5 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../p0vrTwinV30/types.js';
 import { site00ClientApiUrl } from '../../site00ClientApiBase.js';
+import { isMobileTwinImplementationServerUnavailableMessage } from './implementationApiAvailability.js';
 import { MOBILE_TWIN_APPROVAL_PERSIST_FAILED } from './constants.js';
 import type { MobileTwinImplementationApiAction, MobileTwinImplementationCorrectionReason, MobileTwinPackageApprovalRecord } from './types.js';
 import { approveMobileTwinPackage } from '../p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
@@ -127,8 +128,11 @@ export async function compileAndCacheMobileTwinImplementation(input: {
       });
       return { ok: true, message: 'Twin implementation compiled — open TWIN DESIGN ROUTE to review.' };
     }
-  } catch {
-    /* fall through to local compile */
+  } catch (apiErr) {
+    const apiMsg = apiErr instanceof Error ? apiErr.message : String(apiErr);
+    if (!isMobileTwinImplementationServerUnavailableMessage(apiMsg)) {
+      /* unexpected API error — still attempt local compile */
+    }
   }
   try {
     const document = compileApprovedMobileTwinPackage({ pipeline, packageId });
@@ -144,7 +148,8 @@ export async function compileAndCacheMobileTwinImplementation(input: {
     });
     return {
       ok: true,
-      message: 'Twin preview cached locally (API unreachable). Open TWIN DESIGN ROUTE — redeploy Railway for durable build.',
+      message:
+        'Twin preview cached locally on this device (server persistence unavailable). Open TWIN IMPLEMENTATION REVIEW — apply Supabase R8M migration on Railway for cross-device builds.',
     };
   } catch (err) {
     const message = err instanceof Error ? err.message : 'MOBILE_TWIN_COMPILE_FAILED';

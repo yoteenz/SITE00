@@ -4,6 +4,10 @@ import { isMobileTwinPackageApprovalConfirmed } from './confirmMobileTwinPackage
 import { fetchMobileTwinImplementationState } from './requestMobileTwinImplementation.js';
 import { readTwinImplementationCache, type TwinImplementationCacheEntry } from './twinImplementationBrowserCache.js';
 import { isProductionReadyImplementationDocument } from './implementationDocumentValidity.js';
+import {
+  isMobileTwinImplementationServerUnavailableMessage,
+  MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT,
+} from './implementationApiAvailability.js';
 import type { CompiledMobileTwinImplementationDocument } from './types.js';
 
 export type TwinImplementationPreviewLoad = {
@@ -73,22 +77,26 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    const network =
-      msg.includes('Load failed') ||
-      msg.includes('Failed to fetch') ||
-      msg.includes('NetworkError') ||
-      msg.includes('MOBILE_TWIN_IMPLEMENTATION_STATE_FAILED') ||
-      msg.includes('MOBILE_TWIN_IMPLEMENTATION_API_UNREACHABLE');
+    const serverUnavailable = isMobileTwinImplementationServerUnavailableMessage(msg);
     const cached = readTwinImplementationCache(key);
     const cachedLoad = cached ? fromCache(cached) : null;
-    if (cachedLoad) return cachedLoad;
-    if (network) {
+    if (cachedLoad) {
+      return {
+        ...cachedLoad,
+        notice:
+          msg.includes('SCHEMA_MISSING') ?
+            `${MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT} Showing cached twin build from this device.`
+          : cachedLoad.notice,
+      };
+    }
+    if (serverUnavailable) {
       const session = readDesignPageAuthoritySession(key);
       if (session && isMobileTwinPackageApprovalConfirmed(session) && session.mobileTwinPipeline?.latestPackageId) {
         const document = compileApprovedMobileTwinPackage({
           pipeline: session.mobileTwinPipeline,
           packageId: session.mobileTwinPipeline.latestPackageId,
         });
+        const schemaMissing = msg.includes('SCHEMA_MISSING');
         return {
           source: 'LOCAL_COMPILE',
           buildId: `local-compile-${document.sourceArtifactIds[0] ?? 'preview'}`,
@@ -97,9 +105,15 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
           founderStatus: 'PENDING',
           promotionStatus: 'NOT_READY',
           document,
-          notice:
-            'API unreachable — showing local compile from approved package. Tap BUILD TWIN DESIGN ROUTE on Design when api.site00.com is on v446+.',
+          notice: schemaMissing ?
+            `${MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT} Showing local compile — tap REBUILD on Design if this page was blank before.`
+          : 'API unreachable — showing local compile from approved package. Tap BUILD TWIN DESIGN ROUTE on Design when api.site00.com is on v446+.',
         };
+      }
+      if (msg.includes('SCHEMA_MISSING')) {
+        throw new Error(
+          `${msg} — On Design, tap REBUILD TWIN DESIGN ROUTE (local cache). Ops: apply Supabase migration 20260914193000_site00_mobile_twin_implementation_r8m.sql on production DB.`,
+        );
       }
       throw new Error(
         'MOBILE_TWIN_IMPLEMENTATION_API_UNREACHABLE — Railway may need redeploy (twin-v3-mobile-twin-implementation) or run BUILD TWIN DESIGN ROUTE on Design first.',

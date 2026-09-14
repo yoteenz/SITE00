@@ -150,6 +150,19 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     expect(session.mobileTwinPipeline!.desktopJobsDispatched).toBe(0);
   });
 
+  it('28b twin preview local compile when implementation schema missing on server', async () => {
+    const session = applyMobileTwinPackageApprovalConfirmation(await approvedPackageSession());
+    vi.spyOn(designPersistence, 'readDesignPageAuthoritySession').mockReturnValue(session);
+    vi.spyOn(implementationApi, 'fetchMobileTwinImplementationState').mockRejectedValue(
+      new Error('MOBILE_TWIN_IMPLEMENTATION_SCHEMA_MISSING'),
+    );
+    const preview = await resolveTwinImplementationPreview('ndxbook');
+    expect(preview.source).toBe('LOCAL_COMPILE');
+    expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION);
+    expect(preview.notice).toContain('SCHEMA_MISSING');
+    vi.restoreAllMocks();
+  });
+
   it('28 twin preview local compile when implementation API unreachable', async () => {
     const session = applyMobileTwinPackageApprovalConfirmation(await approvedPackageSession());
     vi.spyOn(designPersistence, 'readDesignPageAuthoritySession').mockReturnValue(session);
