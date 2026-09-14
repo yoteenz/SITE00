@@ -9076,6 +9076,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Design page white screen fix (v438)
+
+- **Symptom:** site00.fsbw-dev.com loads; **/projects/ndxbook/design** blank white (signed-in founder).
+- **Cause:** R7MF3P4c **`syncFounderMobileTwinSession` wrote localStorage during render** (via `useMemo`); auto-**persist** effect could **re-render loop** / hard crash on mobile Safari; **`normalizeFounderNbpPromotionOnLoad`** threw without guard.
+- **Fix:** Sync is **pure** (no LS in sync); try/catch around sync + promotion; one-shot promotion persist ref; mount **load effect** syncs + writes once. Build **v438**.
+
+---
+
 ## 2026-09-14 — R7MF3P4c NBP locked panel + persist promotion (v437)
 
 - **Symptom:** Generate enabled as **GENERATE MOBILE TWIN (FAL)**; no **MOBILE TWIN PROVIDER · LOCKED BY FOUNDER** / **GENERATE MOBILE TWIN PACKAGE** (founder screenshot post-v436).
