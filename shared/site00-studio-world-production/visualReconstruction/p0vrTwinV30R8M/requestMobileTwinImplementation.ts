@@ -93,6 +93,65 @@ export async function compileMobileTwinImplementationRoute(input: {
   return postImplementationApi({ session: input.session, action: 'COMPILE_IMPLEMENTATION', apiBase: input.apiBase });
 }
 
+/** API compile when reachable; always cache document for twin route preview. */
+export async function compileAndCacheMobileTwinImplementation(input: {
+  session: DesignPageAuthorityReviewSession;
+  apiBase?: string;
+}): Promise<{ ok: boolean; message: string }> {
+  const { compileApprovedMobileTwinPackage } = await import('./compileApprovedMobileTwinPackage.js');
+  const { writeTwinImplementationCache } = await import('./twinImplementationBrowserCache.js');
+  const { mobileTwinTwinPreviewRoute } = await import('./constants.js');
+  const pipeline = input.session.mobileTwinPipeline;
+  const packageId = pipeline?.latestPackageId;
+  if (!pipeline || !packageId) {
+    return { ok: false, message: 'MOBILE_TWIN_PACKAGE_MISSING' };
+  }
+  let buildId = pipeline.mobileTwinImplementation?.latestBuildId ?? `local-build-${Date.now()}`;
+  let version = pipeline.mobileTwinImplementation?.latestImplementationVersion ?? 'mobile-twin-impl-local-preview';
+  try {
+    const res = await compileMobileTwinImplementationRoute(input);
+    const build = res.build as { id: string; implementationVersion: string; previewRoute: string; founderStatus: string; promotionStatus: string } | undefined;
+    const document = res.document as import('./types.js').CompiledMobileTwinImplementationDocument | undefined;
+    if (build?.id) buildId = build.id;
+    if (build?.implementationVersion) version = build.implementationVersion;
+    if (document) {
+      writeTwinImplementationCache({
+        projectId: input.session.projectId.toLowerCase(),
+        buildId,
+        implementationVersion: version,
+        previewRoute: build?.previewRoute ?? mobileTwinTwinPreviewRoute(input.session.projectId),
+        founderStatus: build?.founderStatus ?? 'PENDING',
+        promotionStatus: build?.promotionStatus ?? 'NOT_READY',
+        document,
+        cachedAt: new Date().toISOString(),
+      });
+      return { ok: true, message: 'Twin implementation compiled — open TWIN DESIGN ROUTE to review.' };
+    }
+  } catch {
+    /* fall through to local compile */
+  }
+  try {
+    const document = compileApprovedMobileTwinPackage({ pipeline, packageId });
+    writeTwinImplementationCache({
+      projectId: input.session.projectId.toLowerCase(),
+      buildId,
+      implementationVersion: version,
+      previewRoute: mobileTwinTwinPreviewRoute(input.session.projectId),
+      founderStatus: 'PENDING',
+      promotionStatus: 'NOT_READY',
+      document,
+      cachedAt: new Date().toISOString(),
+    });
+    return {
+      ok: true,
+      message: 'Twin preview cached locally (API unreachable). Open TWIN DESIGN ROUTE — redeploy Railway for durable build.',
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'MOBILE_TWIN_COMPILE_FAILED';
+    return { ok: false, message };
+  }
+}
+
 export async function fetchMobileTwinImplementationState(projectId: string, apiBase?: string) {
   const url =
     apiBase ?
