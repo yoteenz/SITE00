@@ -2,6 +2,7 @@ import { emptyAuthorityPipelineState } from './designWorkspaceAuthorityPipeline.
 import { repairPrototypeGallerySession } from './repairAuthorityPrototypeUrls.js';
 import { emptyDesignWorkspaceFeatureAuthorityState } from './designWorkspaceFeatureAuthority/featureAuthorityState.js';
 import { DESIGN_PAGE_V3_TERRITORY_DEFINITIONS, type DesignPageV3TerritoryId } from './hostProjectExpressionModel.js';
+import { ensureMobileDesignReferenceAuthority } from './mobileTwinPipeline/mobileDesignReferenceAuthority.js';
 import type {
   DesignPageAuthorityReviewSession,
   DesignPageAuthorityTerritoryBundle,
