@@ -8929,6 +8929,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF1 ACTUAL RENDER empty after FAL success (v421)
+
+- **Symptom:** Founder generated mobile render on fal.ai (job OK) but DESIGN RECONSTRUCTION **ACTUAL RENDER** still **NOT GENERATED YET**; gate could show GENERATED with FAL jobs hint at 0.
+- **Cause:** FAL dashboard success does not hydrate SITE 00 unless **`requestMobileTwinFal`** returns an updated session and **`mobileTwinPipeline.renders`** persists. iOS Safari full reload + large **design authority** localStorage merge could drop or fail to merge **`mobileTwinPipeline`** (only gallery/authority pair merged reliably).
+- **Fix:** Dedicated key **`site00:mobile-twin-pipeline:v1`** (`mobileTwinPipelinePersistence.ts`); read/write on authority session load/save; merge preferring row with more renders; UI **`ensureMobileTwinPipelineDefaults`** + fallback **`activeRenderId` → latest render**. Build **v421**. fsbw-dev tunnel still dev server — hard refresh Design tab after generate; production ZIP for stable QA.
+
+---
+
 ## 2026-09-14 — R7MF1 FAL reference upload fix (v420)
 
 - **Symptom:** FAL 422 **Failed to download the file** on mobile twin render.
