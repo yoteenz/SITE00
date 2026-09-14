@@ -59,6 +59,7 @@ import { DesignPageV3AuthorityRecoveryStrip } from './DesignPageV3AuthorityRecov
 import { DesignPageV3DerivationReviewPanel } from './DesignPageV3DerivationReviewPanel.js';
 import { DesignPageV3MobileTwinPipelinePanel } from './DesignPageV3MobileTwinPipelinePanel.js';
 import { DesignPageV3MobileTwinBlueprintRetryStrip } from './DesignPageV3MobileTwinBlueprintRetryStrip.js';
+import { DesignPageV3MobileTwinBuildRouteStrip } from './DesignPageV3MobileTwinBuildRouteStrip.js';
 import { syncFounderMobileTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 import { DesignPageV3MobileTwinFounderPathPanel } from './DesignPageV3MobileTwinFounderPathPanel.js';
 import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileTwinCapabilityTestPanel.js';
@@ -418,6 +419,8 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       />
 
       <DesignPageV3MobileTwinBlueprintRetryStrip session={sessionView} onSessionUpdate={persist} />
+
+      <DesignPageV3MobileTwinBuildRouteStrip session={sessionView} />
 
       <div data-testid="v3-derivation-feedback">
         {error ?

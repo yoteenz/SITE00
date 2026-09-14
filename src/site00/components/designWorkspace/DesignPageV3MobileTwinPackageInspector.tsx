@@ -8,6 +8,8 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinPackageCorrection.js';
 import { canApproveMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
 import { approveAndPersistMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
+import { shouldShowBuildTwinDesignRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/shouldShowBuildTwinDesignRoute.js';
+import { DesignPageV3MobileTwinBuildRouteBlock } from './DesignPageV3MobileTwinBuildRouteBlock.js';
 import { PACKAGE_ARTIFACT_MISSING } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPackageIntegrityReceipt.js';
 
 type Props = {
@@ -287,6 +289,14 @@ export function DesignPageV3MobileTwinPackageInspector({ session, projectId, onS
         <button type="button" data-testid="v3-approve-mobile-twin-package-inspector" onClick={approve}>
           APPROVE MOBILE TWIN PACKAGE
         </button>
+      : null}
+
+      {shouldShowBuildTwinDesignRoute(session) ?
+        <DesignPageV3MobileTwinBuildRouteBlock
+          session={session}
+          embedded
+          buildTestId="v3-build-twin-design-route-inspector"
+        />
       : null}
 
       <div className="site00-dw-v3-mobile-twin-package-inspector__correction" data-testid="v3-request-package-correction">

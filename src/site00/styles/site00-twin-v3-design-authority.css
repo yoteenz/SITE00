@@ -559,6 +559,53 @@
   color: #fff;
 }
 
+.site00-dw-v3-mobile-twin-build-route {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border-radius: 10px;
+  border: 2px solid #2e7d32;
+  background: #e8f5e9;
+  font-size: 0.75rem;
+  position: sticky;
+  top: 0.35rem;
+  z-index: 6;
+  box-shadow: 0 2px 10px rgba(27, 94, 32, 0.18);
+}
+
+.site00-dw-v3-mobile-twin-build-route--embedded {
+  margin-top: 0.65rem;
+  position: relative;
+  top: auto;
+  z-index: auto;
+  box-shadow: none;
+}
+
+.site00-dw-v3-mobile-twin-build-route__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.35rem;
+}
+
+.site00-dw-v3-mobile-twin-build-route__primary {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #1b5e20;
+  background: #388e3c;
+  color: #fff;
+}
+
+.site00-dw-v3-mobile-twin-build-route__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0 0;
+}
+
 .site00-dw-v3-mobile-twin-package-inspector {
   display: flex;
   flex-direction: column;
