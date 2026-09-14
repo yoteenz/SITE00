@@ -129,22 +129,6 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   }, [session]);
 
   useEffect(() => {
-    if (!pilot || !session.mobileTwinPipeline) return;
-    const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline);
-    if (!merged) return;
-    const reconciled = ensureMobileTwinPipelineDefaults(merged);
-    const prevReady =
-      session.mobileTwinPipeline.twinCapabilityTest?.status === 'FOUNDER_REVIEW_READY' ||
-      session.mobileTwinPipeline.twinCapabilityTest?.status === 'PARTIAL';
-    const nextReady =
-      reconciled.twinCapabilityTest?.status === 'FOUNDER_REVIEW_READY' ||
-      reconciled.twinCapabilityTest?.status === 'PARTIAL';
-    if (!prevReady && nextReady) {
-      persist({ ...session, mobileTwinPipeline: reconciled });
-    }
-  }, [pilot, projectId, session, persist]);
-
-  useEffect(() => {
     if (!pilot) return;
     let loaded = readDesignPageAuthoritySession(projectId);
     if (!loaded) {
@@ -163,6 +147,22 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       ok ? null : 'Could not save territory gallery to this browser (storage full?). Images stay until you reload.',
     );
   }, []);
+
+  useEffect(() => {
+    if (!pilot || !session.mobileTwinPipeline) return;
+    const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline);
+    if (!merged) return;
+    const reconciled = ensureMobileTwinPipelineDefaults(merged);
+    const prevReady =
+      session.mobileTwinPipeline.twinCapabilityTest?.status === 'FOUNDER_REVIEW_READY' ||
+      session.mobileTwinPipeline.twinCapabilityTest?.status === 'PARTIAL';
+    const nextReady =
+      reconciled.twinCapabilityTest?.status === 'FOUNDER_REVIEW_READY' ||
+      reconciled.twinCapabilityTest?.status === 'PARTIAL';
+    if (!prevReady && nextReady) {
+      persist({ ...session, mobileTwinPipeline: reconciled });
+    }
+  }, [pilot, projectId, session, persist]);
 
   const run = useCallback(
     async (input: {
