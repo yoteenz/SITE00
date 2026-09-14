@@ -148,6 +148,15 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     );
   }, []);
 
+  useEffect(() => {
+    if (!pilot) return;
+    const viewLocked = sessionView.mobileTwinPipeline?.mobileTwinProviderLock?.locked;
+    const storedLocked = session.mobileTwinPipeline?.mobileTwinProviderLock?.locked;
+    if (viewLocked && !storedLocked) {
+      persist(sessionView);
+    }
+  }, [pilot, sessionView, session.mobileTwinPipeline?.mobileTwinProviderLock?.locked, persist]);
+
   const run = useCallback(
     async (input: {
       action: 'GENERATE' | 'REFINE' | 'REGENERATE' | 'REGENERATE_TERRITORY';

@@ -53,14 +53,23 @@ export function syncFounderMobileTwinSession(
   if (!merged) return session;
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged));
   const beforeLock = pipeline.mobileTwinProviderLock?.locked;
+  const beforeStrategy = pipeline.mobileTwinVisualGenerationStrategy;
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
     updatedAt: new Date().toISOString(),
   });
   const recovered = tryRecoverOrphanTwinArtifacts(promoted);
-  if (recovered.mobileTwinPipeline?.mobileTwinProviderLock?.locked && !beforeLock) {
-    writeMobileTwinPipelineToBrowser(projectId, recovered.mobileTwinPipeline);
+  const afterPipeline = recovered.mobileTwinPipeline;
+  if (afterPipeline) {
+    const lockNow = afterPipeline.mobileTwinProviderLock?.locked;
+    const stratNow = afterPipeline.mobileTwinVisualGenerationStrategy;
+    const shouldPersist =
+      (lockNow && !beforeLock) ||
+      (stratNow === 'ATOMIC_SIBLING_FROM_COMPOSITION' && beforeStrategy === 'UNRESOLVED');
+    if (shouldPersist) {
+      writeMobileTwinPipelineToBrowser(projectId, afterPipeline);
+    }
   }
   return recovered;
 }
