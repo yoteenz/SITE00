@@ -626,6 +626,59 @@
   background: #e0f7fa;
 }
 
+.site00-dw-v3-mobile-twin-focused-hybrid {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border-radius: 10px;
+  border: 2px solid #1565c0;
+  background: #e3f2fd;
+}
+
+.site00-dw-v3-mobile-twin-focused-hybrid__gate {
+  margin: 0 0 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px dashed #1565c0;
+  font-size: 0.68rem;
+}
+
+.site00-dw-v3-mobile-twin-focused-hybrid header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-mobile-twin-focused-hybrid__actions,
+.site00-dw-v3-mobile-twin-focused-hybrid__compare-tabs,
+.site00-dw-v3-mobile-twin-focused-hybrid__strategy-cards,
+.site00-dw-v3-mobile-twin-focused-hybrid__card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-mobile-twin-focused-hybrid__strategy-cards article {
+  flex: 1 1 100%;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.site00-dw-v3-mobile-twin-focused-hybrid__card-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.35rem;
+}
+
+.site00-dw-v3-mobile-twin-focused-hybrid__compare-tabs button.is-active {
+  background: #1565c0;
+  color: #fff;
+}
+
 .site00-dw-v3-mobile-twin-provider-benchmark__gate {
   margin: 0 0 0.5rem;
   padding: 0.5rem;

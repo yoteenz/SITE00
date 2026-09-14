@@ -62,6 +62,7 @@ import { syncFounderMobileTwinSession } from '../../../../shared/site00-studio-w
 import { DesignPageV3MobileTwinFounderPathPanel } from './DesignPageV3MobileTwinFounderPathPanel.js';
 import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileTwinCapabilityTestPanel.js';
 import { DesignPageV3MobileTwinProviderBenchmarkPanel } from './DesignPageV3MobileTwinProviderBenchmarkPanel.js';
+import { DesignPageV3MobileTwinFocusedHybridPanel } from './DesignPageV3MobileTwinFocusedHybridPanel.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
 type Props = {
@@ -403,6 +404,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       <DesignPageV3MobileTwinFounderPathPanel session={sessionView} projectId={projectId} onSessionUpdate={persist} />
       <DesignPageV3MobileTwinCapabilityTestPanel session={sessionView} onSessionUpdate={persist} />
       <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
+      <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
       <DesignPageV3MobileTwinPipelinePanel session={sessionView} onSessionUpdate={persist} />
       <DesignPageV3DerivationReviewPanel session={sessionView} onSessionUpdate={persist} />
 
