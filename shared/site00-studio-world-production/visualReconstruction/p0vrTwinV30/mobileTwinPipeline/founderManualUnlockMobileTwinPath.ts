@@ -1,4 +1,5 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
+import { applyFounderNbpMobileTwinPromotion } from './applyFounderNbpMobileTwinPromotion.js';
 import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
 import { buildMobileTwinCompositionState } from './buildMobileTwinCompositionState.js';
 import { buildTwinCapabilityTestCompositionSnapshot } from './buildTwinCapabilityTestSnapshot.js';
@@ -46,11 +47,19 @@ export function founderManualUnlockMobileTwinPath(
     },
   };
 
-  return {
+  let sessionOut: DesignPageAuthorityReviewSession = {
     ...withRef,
     mobileTwinPipeline: nextPipeline,
     updatedAt: new Date().toISOString(),
   };
+  if (withRef.projectId.toLowerCase() === 'ndxbook') {
+    try {
+      sessionOut = applyFounderNbpMobileTwinPromotion(sessionOut);
+    } catch {
+      /* keep Method A unlock if promotion preconditions fail */
+    }
+  }
+  return sessionOut;
 }
 
 export function isFounderManualTwinPathUnlocked(pipeline: MobileTwinPipelineState | null | undefined): boolean {

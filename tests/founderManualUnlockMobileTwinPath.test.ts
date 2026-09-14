@@ -19,4 +19,11 @@ describe('founderManualUnlockMobileTwinPath', () => {
     expect(isCapabilityTestFounderReviewReady(p)).toBe(true);
     expect(hasFlowABaselineForBenchmark(p)).toBe(true);
   });
+
+  it('ndxbook founder override also applies NBP provider lock', () => {
+    const session = founderManualUnlockMobileTwinPath(
+      applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession({ projectId: 'ndxbook' })),
+    );
+    expect(session.mobileTwinPipeline!.mobileTwinProviderLock?.locked).toBe(true);
+  });
 });

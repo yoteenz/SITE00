@@ -167,9 +167,5 @@ export function normalizeFounderNbpPromotionOnLoad(
     return session;
   }
 
-  try {
-    return applyFounderNbpMobileTwinPromotion(working);
-  } catch {
-    return working;
-  }
+  return applyFounderNbpMobileTwinPromotion(working);
 }

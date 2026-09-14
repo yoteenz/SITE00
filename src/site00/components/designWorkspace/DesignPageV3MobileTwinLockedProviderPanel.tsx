@@ -20,7 +20,10 @@ export function DesignPageV3MobileTwinLockedProviderPanel({ session, onSessionUp
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  if (!session.authorityPipeline?.mobileMaster || !route?.locked) return null;
+  const hasMobileReference =
+    Boolean(session.authorityPipeline?.mobileMaster) ||
+    pipeline?.designReference?.status === 'REFERENCE_LOCKED';
+  if (!hasMobileReference || !route?.locked) return null;
 
   const methodA = pipeline?.mobileTwinVisualGenerationStrategy === 'ATOMIC_SIBLING_FROM_COMPOSITION';
   const packageReady = canRunFullMobileTwinPackage(pipeline?.mobileTwinVisualGenerationStrategy, pipeline);

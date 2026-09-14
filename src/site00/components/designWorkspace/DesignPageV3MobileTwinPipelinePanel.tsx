@@ -11,6 +11,7 @@ import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-pro
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import { MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
+import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
@@ -107,6 +108,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   };
 
   const providerLocked = Boolean(pipeline?.mobileTwinProviderLock?.locked);
+  const nbpPackageMode =
+    providerLocked || pipeline?.mobileTwinRenderStrategy?.status === LOCKED_MOBILE_STRATEGY_STATUS;
   const strategyResolved =
     providerLocked ||
     pipeline?.founderManualTwinPathUnlock ||
@@ -181,7 +184,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           </p>
         : null}
         <button type="button" data-testid="v3-generate-mobile-twin" disabled={busy || !strategyResolved} onClick={runTwin}>
-          {providerLocked ? 'GENERATE MOBILE TWIN PACKAGE' : 'GENERATE MOBILE TWIN (FAL)'}
+          {nbpPackageMode ? 'GENERATE MOBILE TWIN PACKAGE' : 'GENERATE MOBILE TWIN (FAL)'}
         </button>
         <button
           type="button"
