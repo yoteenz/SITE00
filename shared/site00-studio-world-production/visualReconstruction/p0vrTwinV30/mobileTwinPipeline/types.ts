@@ -2,6 +2,10 @@
 
 import type { DesignWorkspaceViewport } from '../designWorkspaceAuthorityTypes.js';
 import type { MobileTwinCapabilityTestState } from './twinCapabilityTestTypes.js';
+import type {
+  MobileTwinProviderBenchmarkState,
+  MobileTwinProviderStrategy,
+} from './twinProviderBenchmarkTypes.js';
 import type { MobileTwinVisualGenerationStrategy } from './mobileTwinVisualStrategy.js';
 
 export const R6F2_BLUEPRINT_ROLE = 'SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE' as const;
@@ -360,6 +364,8 @@ export type MobileTwinPipelineState = {
   r6f2ForensicRole: typeof R6F2_BLUEPRINT_ROLE;
   twinCapabilityTest: MobileTwinCapabilityTestState | null;
   mobileTwinVisualGenerationStrategy: MobileTwinVisualGenerationStrategy;
+  providerBenchmark: MobileTwinProviderBenchmarkState | null;
+  mobileTwinProviderStrategy: MobileTwinProviderStrategy | null;
 };
 
 export type MobileTwinPipelineErrorCode =
@@ -398,6 +404,8 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     r6f2ForensicRole: R6F2_BLUEPRINT_ROLE,
     twinCapabilityTest: null,
     mobileTwinVisualGenerationStrategy: 'UNRESOLVED',
+    providerBenchmark: null,
+    mobileTwinProviderStrategy: null,
   };
 }
 

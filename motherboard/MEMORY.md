@@ -8966,6 +8966,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — P0.VR.TWINV3.0R7MF3P2 Method A multi-provider benchmark (v425)
+
+- **Context:** After R7MF3P1 locked **Method A** (atomic sibling Actual + Blueprint from one frozen composition), founder needs side-by-side **provider/model** comparison without changing pipeline architecture.
+- **Delivered:** `TwinProviderBenchmarkSnapshot`, `TwinProviderBenchmarkAdapter` (`runTwinProviderBenchmarkFalJob`), `runMobileTwinProviderBenchmark` (baseline GPT Image 2 pair reused from P1 Flow A; challengers **Nano Banana Pro Edit**, **FLUX.2 Max Edit**, **FLUX.1 Kontext Max** via env-overridable FAL IDs), `ProviderTwinBenchmarkReceipt` + cost/latency records, idempotency on snapshot+version, per-provider retry actions, `recordFounderProviderBenchmarkDecision` → `MobileTwinProviderStrategy` (`PROVISIONAL_WINNER` or null on NONE). UI **`DesignPageV3MobileTwinProviderBenchmarkPanel`** (compare all actuals/blueprints/twin pairs, founder pick, fullscreen). API actions `RUN_MOBILE_TWIN_PROVIDER_BENCHMARK`, `RETRY_PROVIDER_BENCHMARK_*`. Tests **`p0vrTwinV30R7MF3P2.test.ts`**. Build **v425**. No package fan-out, no desktop, no Method B in benchmark path.
+
+---
+
 ## 2026-09-14 — R7MF1 mobile FAL fetch fix (v419)
 
 - **Symptom:** iOS Safari on `site00.fsbw-dev.com` showed **Load failed** on GENERATE MOBILE RENDER (FAL).
