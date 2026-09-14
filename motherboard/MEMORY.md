@@ -9052,3 +9052,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Full design session JSON (~240KB) in API request/response; single RUN dispatched 4 FAL jobs (~2min) — iOS Safari often aborts before response; empty JSON → generic provider failed.
 - **Fix:** API returns **slim `mobileTwinPipeline` only**; `requestMobileTwinFal` strips gallery from POST and **merges** pipeline into local session. UI **RUN** chains two RETRY actions (~60–90s each) with visible status; RETRY buttons wired with `data-testid` + provider error display. Build **v431**. Railway redeploy required for API half.
 
+---
+
+## 2026-09-14 — Focused hybrid RUN gate + control bootstrap (v432)
+
+- **Symptom:** **RUN FOCUSED HYBRID BENCHMARK** grey/disabled, SNAPSHOT NOT RUN — nothing dispatched.
+- **Cause:** UI required saved Flow A **render URIs** (`hasFlowABaselineForBenchmark`) while founder path often has **FOUNDER OVERRIDE** metadata only; server threw `MOBILE_TWIN_FOCUSED_HYBRID_CONTROL_MISSING`.
+- **Fix:** `getFocusedHybridBenchmarkGate` (capability-ready / Method A, not URI gate); RUN button explains lock; `ensureMobileTwinFlowAControlPair` bootstraps GPT2 control on Railway when override-ready but no images. Build **v432**.
+
