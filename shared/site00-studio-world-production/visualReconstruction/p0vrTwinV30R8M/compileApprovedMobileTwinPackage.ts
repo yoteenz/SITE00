@@ -1,6 +1,7 @@
 import type { MobileStructuredArtifactBundle } from '../p0vrTwinV30/mobileTwinPipeline/buildMobileTwinStructuredArtifacts.js';
 import type { MobileTwinCompositionState, MobileTwinPackage } from '../p0vrTwinV30/mobileTwinPipeline/types.js';
 import { P0_VR_TWIN_V30R8M_LINEAGE } from './constants.js';
+import { compileVisualMobileTwinImplementation } from '../p0vrTwinV30R8M1/compileVisualMobileTwinImplementation.js';
 import type { CompiledMobileTwinImplementationDocument, CompiledMobileTwinNode, MobileTwinStructuredCompilerInput } from './types.js';
 
 const FORBIDDEN_RASTER_PRIMITIVES = [
@@ -14,7 +15,7 @@ const FORBIDDEN_RASTER_PRIMITIVES = [
   'blueprint screenshot as page',
 ];
 
-function loadStructuredBundle(
+export function loadStructuredBundle(
   pipeline: MobileTwinStructuredCompilerInput['pipeline'],
   pkg: MobileTwinPackage,
 ): { composition: MobileTwinCompositionState; bundle: MobileStructuredArtifactBundle } {
@@ -52,8 +53,8 @@ function nodeStylesForObject(obj: MobileTwinCompositionState['objectDefinitions'
   return base;
 }
 
-/** Structured package → DOM-oriented implementation document (no raster page cheats). */
-export function compileApprovedMobileTwinPackage(
+/** Legacy R8M wireframe mapper — tests / rejection history only. */
+export function compileApprovedMobileTwinPackageLegacyWireframe(
   input: MobileTwinStructuredCompilerInput,
 ): CompiledMobileTwinImplementationDocument {
   const { pipeline, packageId } = input;
@@ -129,5 +130,13 @@ export function assertCompilerDoesNotUseRasterAuthorities(input: {
     }
   }
   void input.actualRenderUri;
+  void input.actualRenderUri;
   void input.blueprintRenderUri;
+}
+
+/** Visual implementation translation (R8M1) — production twin compile path. */
+export function compileApprovedMobileTwinPackage(
+  input: MobileTwinStructuredCompilerInput,
+): CompiledMobileTwinImplementationDocument {
+  return compileVisualMobileTwinImplementation(input);
 }

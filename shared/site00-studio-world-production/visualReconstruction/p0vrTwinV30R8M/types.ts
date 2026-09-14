@@ -45,6 +45,12 @@ export type CompiledMobileTwinNode = {
   objectId: string;
   primitive: string;
   semanticRole: string;
+  /** Production copy — never compiler semantic role text. */
+  displayText?: string | null;
+  imageUri?: string | null;
+  sectionId?: string;
+  componentType?: string;
+  visualStyleSource?: string;
   layout: { leftPct: number; topPct: number; widthPct: number; heightPct: number; zIndex: number };
   styles: Record<string, string>;
   functionTarget: string | null;
@@ -53,12 +59,51 @@ export type CompiledMobileTwinNode = {
   interactionIntent: string | null;
 };
 
+export type MobileTwinImplementationRenderTreeNode = {
+  objectId: string;
+  parentId: string | null;
+  sectionId: string;
+  componentType: string;
+  componentName: string;
+  visualStyleSource: 'ACTUAL_AUTHORITY' | 'BLUEPRINT_AUTHORITY' | 'PROJECT_CONTEXT' | 'HOST_SHELL' | 'STRUCTURED_GEOMETRY';
+  assetSource: string | null;
+  typographySource: string | null;
+  functionBinding: string | null;
+  ownership: string;
+  runtimeState: string;
+  displayText: string | null;
+  imageUri: string | null;
+  primitive: string;
+  layoutOrder: number;
+  styles: Record<string, string>;
+  interactionIntent: string | null;
+};
+
+export type MobileTwinImplementationRenderTree = {
+  rootSectionId: string;
+  sections: { id: string; label: string; ownership: 'SITE_00_HOST' | 'ACTIVE_PROJECT' }[];
+  nodes: MobileTwinImplementationRenderTreeNode[];
+};
+
+export type ImplementationAuthoritiesLoaded = {
+  actualRenderId: string;
+  actualRenderUri: string;
+  blueprintRenderId: string;
+  blueprintRenderUri: string;
+  projectContextVersion: string;
+  featureManifestVersion: string;
+};
+
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
+  compilerGeneration?: 'R8M' | 'R8M1';
   viewport: 'MOBILE';
   widthPx: number;
   heightPx: number;
   nodes: CompiledMobileTwinNode[];
+  renderTree?: MobileTwinImplementationRenderTree;
+  authoritiesLoaded?: ImplementationAuthoritiesLoaded;
+  semanticLabelViolations?: string[];
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';
@@ -105,7 +150,8 @@ export type MobileTwinImplementationBuildRecord = {
   implementationVersion: string;
   previewRoute: string;
   compiledAt: string;
-  buildStatus: 'PREVIEW_BUILD_READY' | 'FAILED';
+  buildStatus: 'PREVIEW_BUILD_READY' | 'FAILED' | 'REJECTED_IMPLEMENTATION';
+  rejectionReason?: string | null;
   compiledDocument: CompiledMobileTwinImplementationDocument;
   visualFidelityReceiptId: string | null;
   structuralFidelityReceiptId: string | null;

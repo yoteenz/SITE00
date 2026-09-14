@@ -19,7 +19,8 @@ import {
   isMobileTwinPackageApprovalConfirmed,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/confirmMobileTwinPackageApproval.js';
 import { compileApprovedMobileTwinPackage, assertCompilerDoesNotUseRasterAuthorities } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/compileApprovedMobileTwinPackage.js';
-import { mobileTwinTwinPreviewRoute, P0_VR_TWIN_V30R8M_LINEAGE } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
+import { mobileTwinTwinPreviewRoute } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
+import { P0_VR_TWIN_V30R8M1_LINEAGE, MOBILE_TWIN_IMPL_COMPILER_GENERATION } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M1/constants.js';
 import { mobileTwinImplementationStore } from '../api/_lib/site00MobileTwinImplementation/storeAdapter.js';
 import {
   compileMobileTwinImplementationService,
@@ -77,7 +78,9 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     await persistMobileTwinPackageApprovalService(session);
     const compiled = await compileMobileTwinImplementationService(session);
     expect(compiled.document.structuredSource).toBe('COMPOSITION_AND_PACKAGE_ARTIFACTS');
-    expect(compiled.document.lineage).toBe(P0_VR_TWIN_V30R8M_LINEAGE);
+    expect(compiled.document.lineage).toBe(P0_VR_TWIN_V30R8M1_LINEAGE);
+    expect(compiled.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION);
+    expect(compiled.document.renderTree?.nodes.length).toBeGreaterThan(0);
     expect(compiled.document.nodes.length).toBeGreaterThan(0);
     assertCompilerDoesNotUseRasterAuthorities({
       actualRenderUri: 'vitest-fal://actual',
@@ -155,6 +158,7 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     );
     const preview = await resolveTwinImplementationPreview('ndxbook');
     expect(preview.source).toBe('LOCAL_COMPILE');
+    expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION);
     expect(preview.document.nodes.length).toBeGreaterThan(0);
     vi.restoreAllMocks();
   });
