@@ -139,7 +139,7 @@ export function unlockMobileTwinProviderStrategy(
   };
 }
 
-/** Pilot NDXBOOK: normalize provisional benchmark state to locked NBP once Method A is set. */
+/** Pilot NDXBOOK: canonical Method A + founder NBP lock (no capability-test gate for generate). */
 export function normalizeFounderNbpPromotionOnLoad(
   session: DesignPageAuthorityReviewSession,
 ): DesignPageAuthorityReviewSession {
@@ -147,10 +147,29 @@ export function normalizeFounderNbpPromotionOnLoad(
   const pipeline = session.mobileTwinPipeline;
   if (!pipeline) return session;
   if (pipeline.mobileTwinProviderLock?.locked) return session;
-  if (pipeline.mobileTwinVisualGenerationStrategy !== 'ATOMIC_SIBLING_FROM_COMPOSITION') return session;
-  try {
-    return applyFounderNbpMobileTwinPromotion(session);
-  } catch {
+
+  const hasMobileAuthority =
+    Boolean(pipeline.designReference) || Boolean(session.authorityPipeline?.mobileMaster);
+  if (!hasMobileAuthority) return session;
+
+  let working: DesignPageAuthorityReviewSession = session;
+  if (working.mobileTwinPipeline!.mobileTwinVisualGenerationStrategy === 'UNRESOLVED') {
+    working = {
+      ...working,
+      mobileTwinPipeline: {
+        ...working.mobileTwinPipeline!,
+        mobileTwinVisualGenerationStrategy: 'ATOMIC_SIBLING_FROM_COMPOSITION',
+      },
+    };
+  }
+
+  if (working.mobileTwinPipeline!.mobileTwinVisualGenerationStrategy !== 'ATOMIC_SIBLING_FROM_COMPOSITION') {
     return session;
+  }
+
+  try {
+    return applyFounderNbpMobileTwinPromotion(working);
+  } catch {
+    return working;
   }
 }
