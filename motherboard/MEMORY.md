@@ -9207,6 +9207,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Global mobile twin RESTORE banner + restore offer (v458)
+
+- **Symptom:** Founder still did not see **MOBILE TWIN · BROWSER BACKUP FOUND** after v457 — strip lived only inside Batch 1 authority (below Batch 2); **`sessionView` sync** could hide recovery while Actual/Blueprint still missing.
+- **Fix:** **`evaluateMobileTwinRestoreOffer`** (richest browser LS vs session slots); sticky **`DesignPageV3MobileTwinGlobalRecoveryStrip`** at **top of Design workspace** (above Batch 2); **`designAuthoritySessionEvents`** so global RESTORE updates authority panel same tab. Build **v458**. Tests **`p0vrTwinV30RestoreOffer.test.ts`**.
+
+---
+
 ## 2026-09-14 — Auto-heal Actual/Blueprint on Design sync (v456)
 
 - **Symptom:** v455 rehydrate/snapshot **did not recover** Actual/Blueprint after refresh on founder device.
