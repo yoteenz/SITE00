@@ -97,7 +97,12 @@ export function attachMobileTwinPipelineFromBrowserStore(
 }
 
 export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState): MobileTwinPipelineState {
-  const base = { ...emptyMobileTwinPipelineState(), ...state };
+  const base = {
+    ...emptyMobileTwinPipelineState(),
+    ...state,
+    atomicRuns: state.atomicRuns ?? [],
+    visualPairs: state.visualPairs ?? [],
+  };
   if (base.renders.length && !base.activeRenderId) {
     base.activeRenderId = base.renders.at(-1)!.id;
   }

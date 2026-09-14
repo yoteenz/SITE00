@@ -160,11 +160,88 @@ export type MobileBlueprintTwinVisual = {
   id: string;
   compositionStateId: string;
   compositionHash: string;
+  /** Sibling link — not structural derivation source (R7MF3). */
   implementationRenderId: string;
   twinImageUri: string;
   twinImageHash: string;
   provider: 'FAL' | 'LOCAL_COMPILER';
   providerJobRef: string;
+  structuralSource?: 'FROZEN_COMPOSITION_STATE' | 'ACTUAL_RENDER_PIXELS';
+  outputRepresentationMode?: 'TECHNICAL_BLUEPRINT_RENDER';
+  createdAt: string;
+};
+
+export type MobileAtomicTwinRunStatus =
+  | 'QUEUED'
+  | 'COMPOSING'
+  | 'DISPATCHING'
+  | 'GENERATING'
+  | 'RECONCILING'
+  | 'FOUNDER_REVIEW_READY'
+  | 'BLOCKED'
+  | 'PARTIAL'
+  | 'FAILED'
+  | 'APPROVED';
+
+export type MobileAtomicTwinGenerationRun = {
+  id: string;
+  projectId: string;
+  workspaceType: 'DESIGN_PAGE_V3';
+  viewport: 'MOBILE';
+  referenceAuthorityId: string;
+  referenceAuthorityHash: string;
+  featureManifestVersion: string;
+  projectCreativeContextVersion: string;
+  compositionStateId: string;
+  compositionHash: string;
+  actualRenderJobId: string | null;
+  blueprintRenderJobId: string | null;
+  structuredDerivativeIds: string[];
+  providerMetadata: { lineage: string; actualModel: string | null; blueprintModel: string | null };
+  status: MobileAtomicTwinRunStatus;
+  startedAt: string;
+  completedAt: string | null;
+  reconciliationReceiptId: string | null;
+  packageId: string | null;
+  visualPairId: string | null;
+  errorCodes: string[];
+  costRecords: string[];
+  parentRunId?: string | null;
+  idempotencyKey: string;
+};
+
+export type MobileTwinVisualPairStatus =
+  | 'GENERATING'
+  | 'RECONCILING'
+  | 'FOUNDER_REVIEW_READY'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'SUPERSEDED'
+  | 'BLOCKED';
+
+export type MobileTwinVisualPair = {
+  id: string;
+  compositionStateId: string;
+  compositionHash: string;
+  actualRenderId: string;
+  actualRenderHash: string;
+  blueprintRenderId: string;
+  blueprintRenderHash: string;
+  version: number;
+  status: MobileTwinVisualPairStatus;
+  atomicRunId: string;
+  createdAt: string;
+  approvedAt: string | null;
+  supersedesPairId: string | null;
+};
+
+export type DerivativeCompositionReceipt = {
+  id: string;
+  compositionStateId: string;
+  compositionHash: string;
+  structuredArtifactIds: string[];
+  allDerivativesShareComposition: boolean;
+  result: 'PASS' | 'FAIL';
   createdAt: string;
 };
 
@@ -265,6 +342,10 @@ export type MobileTwinPipelineState = {
   renderGate: MobileImplementationRenderGateState;
   implementationVisualAuthority: MobileImplementationVisualAuthority | null;
   blueprintTwins: MobileBlueprintTwinVisual[];
+  atomicRuns: MobileAtomicTwinGenerationRun[];
+  activeAtomicRunId: string | null;
+  visualPairs: MobileTwinVisualPair[];
+  activeVisualPairId: string | null;
   packages: MobileTwinPackage[];
   latestPackageId: string | null;
   artifactsById: Record<string, unknown>;
@@ -297,6 +378,10 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     renderGate: 'GENERATED' as MobileImplementationRenderGateState,
     implementationVisualAuthority: null,
     blueprintTwins: [],
+    atomicRuns: [],
+    activeAtomicRunId: null,
+    visualPairs: [],
+    activeVisualPairId: null,
     packages: [],
     latestPackageId: null,
     artifactsById: {},

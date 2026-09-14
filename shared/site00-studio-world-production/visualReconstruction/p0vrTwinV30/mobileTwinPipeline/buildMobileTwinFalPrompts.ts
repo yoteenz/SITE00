@@ -2,6 +2,7 @@ import {
   DESIGN_WORKSPACE_FEATURE_MANIFEST_V1,
   P0_VR_TWIN_V30R7MF1_LINEAGE,
   P0_VR_TWIN_V30R7MF2_LINEAGE,
+  P0_VR_TWIN_V30R7MF3_LINEAGE,
 } from '../constants.js';
 import {
   ANTI_CLONE_PROHIBITIONS,
@@ -99,28 +100,42 @@ export function promptIncludesAntiCloneInstruction(prompt: string): boolean {
   );
 }
 
+/** @deprecated R7MF1 sequential path — R7MF3 uses buildMobileBlueprintTwinFromCompositionFalPrompt */
 export function buildMobileBlueprintTwinFalPrompt(input: {
   composition: MobileTwinCompositionState;
   implementationRenderId: string;
   implementationRenderHash: string;
   implementationVisualAuthorityId: string;
 }): string {
+  return buildMobileBlueprintTwinFromCompositionFalPrompt({
+    composition: input.composition,
+    siblingActualRenderId: input.implementationRenderId,
+  });
+}
+
+export function buildMobileBlueprintTwinFromCompositionFalPrompt(input: {
+  composition: MobileTwinCompositionState;
+  siblingActualRenderId: string;
+}): string {
   return [
-    `LINEAGE: ${P0_VR_TWIN_V30R7MF1_LINEAGE}`,
-    'TASK: TRANSLATION ONLY — TECHNICAL BLUEPRINT TWIN of the APPROVED MOBILE IMPLEMENTATION RENDER.',
-    'PARENT VISUAL: approved MobileImplementationRender (NOT the original design reference).',
+    `LINEAGE: ${P0_VR_TWIN_V30R7MF3_LINEAGE}`,
+    'OUTPUT REPRESENTATION MODE: TECHNICAL_BLUEPRINT_RENDER',
+    'STRUCTURAL SOURCE: MobileTwinCompositionState (FROZEN) — NOT Actual Render pixels.',
     '',
-    'CREATE A TECHNICAL BLUEPRINT TWIN OF THIS EXACT APPROVED MOBILE RENDER.',
-    'DO NOT REDESIGN. DO NOT MOVE OBJECTS. DO NOT CHANGE LAYOUT. DO NOT CHANGE PROPORTIONS.',
-    'DO NOT REMOVE OBJECTS. DO NOT ADD UI. DO NOT CHANGE CONTENT IDENTITY.',
-    'DO NOT SUBSTITUTE PROJECT ASSETS. DO NOT CHANGE HOST/PROJECT OWNERSHIP.',
-    'PRESERVE THE EXACT COMPOSITION. Use technical blueprint annotation language.',
+    'CREATE THE TECHNICAL BLUEPRINT VERSION OF THE EXACT SAME FROZEN MOBILE COMPOSITION.',
+    'DO NOT REDESIGN. DO NOT MOVE OBJECTS. DO NOT CHANGE OBJECT SIZES. DO NOT CHANGE HIERARCHY.',
+    'DO NOT ADD OR REMOVE UI. DO NOT CHANGE CONTENT IDENTITY. DO NOT USE A DIFFERENT PAGE CONCEPT.',
+    'Represent the same composition using wireframe/technical blueprint visualization.',
     '',
     `compositionStateId: ${input.composition.id}`,
     `compositionHash: ${input.composition.compositionHash}`,
-    `implementationRenderId: ${input.implementationRenderId}`,
-    `implementationRenderHash: ${input.implementationRenderHash}`,
-    `implementationVisualAuthorityId: ${input.implementationVisualAuthorityId}`,
+    `siblingActualRenderId: ${input.siblingActualRenderId}`,
     `objectDefinitionCount: ${input.composition.objectDefinitions.length}`,
+    `featureBindingCount: ${input.composition.featureBindings.length}`,
+    `hostProjectContractVersion: ${input.composition.hostProjectContractVersion}`,
   ].join('\n');
+}
+
+export function blueprintPromptUsesFrozenComposition(prompt: string): boolean {
+  return prompt.includes('STRUCTURAL SOURCE: MobileTwinCompositionState') && prompt.includes('TECHNICAL_BLUEPRINT_RENDER');
 }

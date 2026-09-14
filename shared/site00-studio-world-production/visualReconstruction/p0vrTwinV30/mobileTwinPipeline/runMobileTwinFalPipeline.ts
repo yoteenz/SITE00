@@ -7,6 +7,7 @@ import { dispatchMobileTwinFalRender } from './dispatchMobileTwinFalRender.js';
 import { dispatchMobileTwinFalBlueprintTwin } from './dispatchMobileTwinFalBlueprintTwin.js';
 import { classifyLegacyMobileRender } from './mobileRenderClassification.js';
 import { finalizeMobileTwinPackageSession } from './runGenerateMobileTwinPackageCore.js';
+import { runMobileAtomicTwinGeneration } from './runMobileAtomicTwinGeneration.js';
 import {
   assertBlueprintTwinNotRedesigned,
   buildRenderBlueprintTwinReconciliationReceipt,
@@ -14,6 +15,8 @@ import {
 import type { MobileProviderCostRecord } from './types.js';
 
 export type MobileTwinFalAction =
+  | 'GENERATE_MOBILE_TWIN'
+  | 'REGENERATE_MOBILE_TWIN'
   | 'GENERATE_MOBILE_RENDER'
   | 'REFINE_MOBILE_RENDER'
   | 'REGENERATE_MOBILE_RENDER'
@@ -43,6 +46,17 @@ export async function runMobileTwinFalPipeline(input: {
   let session = ensureMobileDesignReferenceAuthority(input.session);
   const pipeline = session.mobileTwinPipeline!;
   const ref = pipeline.designReference!;
+
+  if (input.action === 'GENERATE_MOBILE_TWIN' || input.action === 'REGENERATE_MOBILE_TWIN') {
+    const parentRun = pipeline.activeAtomicRunId ? pipeline.atomicRuns.find((r) => r.id === pipeline.activeAtomicRunId) : null;
+    return runMobileAtomicTwinGeneration({
+      session,
+      publicOrigin: input.publicOrigin,
+      regeneration: input.action === 'REGENERATE_MOBILE_TWIN',
+      parentRunId: parentRun?.id ?? null,
+      parentPairId: pipeline.activeVisualPairId,
+    });
+  }
 
   if (input.action === 'GENERATE_MOBILE_RENDER' || input.action === 'REGENERATE_MOBILE_RENDER') {
     const runId = `r7mf2-render-${Date.now()}`;
