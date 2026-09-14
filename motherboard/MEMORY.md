@@ -8966,6 +8966,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Mobile twin pipeline reconcile unlock (v427)
+
+- **Bug:** FAL images generated but **FLOW A** / **RUN PROVIDER BENCHMARK** stayed locked — `mergeMobileTwinPipelinePreferRenders` kept the LS row with more `renders` but dropped `twinCapabilityTest`, strategy, and blueprint ids; UI gated on missing metadata.
+- **Fix:** `mergeMobileTwinPipelineRich` + `reconcileMobileTwinPipelineState` (rebuild test from Flow A receipt or actual+blueprint pair); panels merge LS + reconcile before enable/actions. Build **v427**.
+
+---
+
 ## 2026-09-14 — Mobile twin founder path UX (v426)
 
 - **Issue:** Founder on fsbw-dev saw capability test but not **FLOW A MORE ACCURATE** (hidden until test completes) or **MOBILE TWIN PROVIDER BENCHMARK** (panel returned null until Method A selected).

@@ -1,3 +1,7 @@
+import {
+  mergeMobileTwinPipelineRich,
+  reconcileMobileTwinPipelineState,
+} from './reconcileMobileTwinPipelineState.js';
 import type { MobileTwinPipelineState } from './types.js';
 import { emptyMobileTwinPipelineState } from './types.js';
 
@@ -72,19 +76,7 @@ export function mergeMobileTwinPipelinePreferRenders(
   primary?: MobileTwinPipelineState,
   secondary?: MobileTwinPipelineState,
 ): MobileTwinPipelineState | undefined {
-  if (!primary && !secondary) return undefined;
-  if (!primary) return secondary;
-  if (!secondary) return primary;
-  const pick = secondary.renders.length >= primary.renders.length ? secondary : primary;
-  const other = pick === secondary ? primary : secondary;
-  return {
-    ...pick,
-    designReference: pick.designReference ?? other.designReference,
-    desktopStatus: 'DEFERRED',
-    r6f2ForensicRole: pick.r6f2ForensicRole ?? other.r6f2ForensicRole,
-    falJobsDispatched: Math.max(pick.falJobsDispatched ?? 0, other.falJobsDispatched ?? 0),
-    totalProviderCostUsd: Math.max(pick.totalProviderCostUsd ?? 0, other.totalProviderCostUsd ?? 0),
-  };
+  return mergeMobileTwinPipelineRich(primary, secondary);
 }
 
 export function attachMobileTwinPipelineFromBrowserStore(
@@ -114,5 +106,5 @@ export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState)
     const active = base.renders.find((r) => r.id === base.activeRenderId);
     if (active?.status === 'FOUNDER_REVIEW') base.renderGate = 'FOUNDER_REVIEW';
   }
-  return base;
+  return reconcileMobileTwinPipelineState(base);
 }

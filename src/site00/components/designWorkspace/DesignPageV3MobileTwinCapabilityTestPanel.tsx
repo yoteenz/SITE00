@@ -3,7 +3,11 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import { P0_VR_TWIN_V30R7MF3P1_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { recordFounderTwinCapabilityDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/recordFounderTwinCapabilityDecision.js';
-import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import {
+  attachMobileTwinPipelineFromBrowserStore,
+  ensureMobileTwinPipelineDefaults,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import { isCapabilityTestFounderReviewReady } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import type { FounderTwinCapabilityDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/twinCapabilityTestTypes.js';
 
 type CompareMode = 'ACTUAL_A' | 'ACTUAL_B' | 'A_B';
@@ -20,9 +24,23 @@ function resolveImageSrc(uri: string): string {
   return `${window.location.origin}${pathPart}`;
 }
 
+function sessionWithReconciledPipeline(session: DesignPageAuthorityReviewSession): DesignPageAuthorityReviewSession {
+  const merged = attachMobileTwinPipelineFromBrowserStore(
+    session.projectId,
+    session.mobileTwinPipeline ?? undefined,
+  );
+  if (!merged) return session;
+  return {
+    ...session,
+    mobileTwinPipeline: ensureMobileTwinPipelineDefaults(merged),
+  };
+}
+
 export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUpdate }: Props) {
-  const pipeline = session.mobileTwinPipeline ? ensureMobileTwinPipelineDefaults(session.mobileTwinPipeline) : undefined;
+  const workingSession = sessionWithReconciledPipeline(session);
+  const pipeline = workingSession.mobileTwinPipeline;
   const test = pipeline?.twinCapabilityTest;
+  const step2Ready = pipeline ? isCapabilityTestFounderReviewReady(pipeline) : false;
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('ACTUAL_A');
@@ -66,7 +84,7 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
   const runTest = (action: Parameters<typeof requestMobileTwinFal>[0]['action']) => {
     setBusy(true);
     setErr(null);
-    void requestMobileTwinFal({ session, action, founderConfirmedSpend: true })
+    void requestMobileTwinFal({ session: workingSession, action, founderConfirmedSpend: true })
       .then(onSessionUpdate)
       .catch((e: Error) => setErr(e.message))
       .finally(() => setBusy(false));
@@ -75,7 +93,7 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
   const pickDecision = (decision: FounderTwinCapabilityDecision) => {
     setErr(null);
     try {
-      onSessionUpdate(recordFounderTwinCapabilityDecision(session, decision));
+      onSessionUpdate(recordFounderTwinCapabilityDecision(workingSession, decision));
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     }
@@ -112,15 +130,15 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
         <p className="site00-dw-v3-mobile-twin-capability-test__step-label">
           STEP 2 · Pick visual strategy (required before provider benchmark)
         </p>
-        {test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL' ?
+        {!step2Ready ?
           <p className="site00-dw-v3-mobile-twin-capability-test__step-hint" role="status">
-            Run Step 1 first — buttons enable when capability test finishes (or PARTIAL).
+            Run Step 1 first — or wait for sync if images already generated (reload after deploy v427).
           </p>
         : null}
         <button
           type="button"
           data-testid="v3-pick-flow-a"
-          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          disabled={!step2Ready}
           onClick={() => pickDecision('FLOW_A_MORE_ACCURATE')}
         >
           FLOW A MORE ACCURATE
@@ -128,21 +146,21 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
         <button
           type="button"
           data-testid="v3-pick-flow-b"
-          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          disabled={!step2Ready}
           onClick={() => pickDecision('FLOW_B_MORE_ACCURATE')}
         >
           FLOW B MORE ACCURATE
         </button>
         <button
           type="button"
-          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          disabled={!step2Ready}
           onClick={() => pickDecision('BOTH_ACCEPTABLE')}
         >
           BOTH ACCEPTABLE
         </button>
         <button
           type="button"
-          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          disabled={!step2Ready}
           onClick={() => pickDecision('NEITHER_ACCEPTABLE')}
         >
           NEITHER ACCEPTABLE

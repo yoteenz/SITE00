@@ -3,7 +3,11 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import { P0_VR_TWIN_V30R7MF3P2_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { recordFounderProviderBenchmarkDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/recordFounderProviderBenchmarkDecision.js';
-import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import {
+  attachMobileTwinPipelineFromBrowserStore,
+  ensureMobileTwinPipelineDefaults,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import { hasFlowABaselineForBenchmark } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import type { FounderProviderBenchmarkDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/twinProviderBenchmarkTypes.js';
 import type { MobileTwinFalAction } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.js';
 
@@ -48,8 +52,18 @@ const PROVIDER_ROWS: {
   },
 ];
 
+function sessionWithReconciledPipeline(session: DesignPageAuthorityReviewSession): DesignPageAuthorityReviewSession {
+  const merged = attachMobileTwinPipelineFromBrowserStore(
+    session.projectId,
+    session.mobileTwinPipeline ?? undefined,
+  );
+  if (!merged) return session;
+  return { ...session, mobileTwinPipeline: ensureMobileTwinPipelineDefaults(merged) };
+}
+
 export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessionUpdate }: Props) {
-  const pipeline = session.mobileTwinPipeline ? ensureMobileTwinPipelineDefaults(session.mobileTwinPipeline) : undefined;
+  const workingSession = sessionWithReconciledPipeline(session);
+  const pipeline = workingSession.mobileTwinPipeline;
   const bench = pipeline?.providerBenchmark;
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -59,6 +73,8 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
   if (!session.authorityPipeline?.mobileMaster) return null;
 
   const methodALocked = pipeline?.mobileTwinVisualGenerationStrategy === 'ATOMIC_SIBLING_FROM_COMPOSITION';
+  const flowAReady = pipeline ? hasFlowABaselineForBenchmark(pipeline) : false;
+  const canRunBenchmark = methodALocked && flowAReady;
 
   const resolvePair = (actualId: string | null, blueprintId: string | null) => {
     const actual = actualId ? pipeline?.renders.find((r) => r.id === actualId) : null;
@@ -122,7 +138,7 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
   const runAction = (action: MobileTwinFalAction) => {
     setBusy(true);
     setErr(null);
-    void requestMobileTwinFal({ session, action, founderConfirmedSpend: true })
+    void requestMobileTwinFal({ session: workingSession, action, founderConfirmedSpend: true })
       .then(onSessionUpdate)
       .catch((e: Error) => setErr(e.message))
       .finally(() => setBusy(false));
@@ -131,7 +147,7 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
   const pick = (decision: FounderProviderBenchmarkDecision) => {
     setErr(null);
     try {
-      onSessionUpdate(recordFounderProviderBenchmarkDecision(session, decision));
+      onSessionUpdate(recordFounderProviderBenchmarkDecision(workingSession, decision));
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     }
@@ -158,7 +174,8 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
       : null}
       <ul>
         <li>SNAPSHOT · {bench?.snapshot.id ?? '—'} · {bench?.status ?? 'NOT RUN'}</li>
-        <li>METHOD · {bench?.methodLocked ?? 'ATOMIC_SIBLING_FROM_COMPOSITION'}</li>
+        <li>METHOD · {methodALocked ? 'ATOMIC_SIBLING_FROM_COMPOSITION' : 'UNLOCK AFTER FLOW A'}</li>
+        <li>FLOW A BASELINE · {flowAReady ? 'READY' : 'MISSING'}</li>
         <li>PROMPT CONTRACT · {bench?.snapshot.promptContractVersion ?? '—'}</li>
         <li>PROVIDER STRATEGY · {pipeline?.mobileTwinProviderStrategy?.status ?? 'UNRESOLVED'}</li>
       </ul>
@@ -166,7 +183,7 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
         <button
           type="button"
           data-testid="v3-run-provider-benchmark"
-          disabled={busy || !methodALocked || !pipeline?.twinCapabilityTest?.flowABlueprintId}
+          disabled={busy || !canRunBenchmark}
           onClick={() => runAction('RUN_MOBILE_TWIN_PROVIDER_BENCHMARK')}
         >
           RUN PROVIDER BENCHMARK

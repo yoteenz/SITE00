@@ -16,6 +16,7 @@ import {
   attachMobileTwinPipelineFromBrowserStore,
   writeMobileTwinPipelineToBrowser,
 } from './mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import { mergeMobileTwinPipelineRich } from './mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import type {
   DesignPageAuthorityGenerationResult,
   DesignPageAuthorityReviewSession,
@@ -74,10 +75,7 @@ function mergeStoredAuthoritySessions(
       selectedCandidateByTerritory: { ...row.selectedCandidateByTerritory, ...merged.selectedCandidateByTerritory },
       authorityPipeline: merged.authorityPipeline ?? row.authorityPipeline,
       featureAuthority: merged.featureAuthority ?? row.featureAuthority,
-      mobileTwinPipeline:
-        (merged.mobileTwinPipeline?.renders?.length ?? 0) >= (row.mobileTwinPipeline?.renders?.length ?? 0) ?
-          merged.mobileTwinPipeline ?? row.mobileTwinPipeline
-        : row.mobileTwinPipeline ?? merged.mobileTwinPipeline,
+      mobileTwinPipeline: mergeMobileTwinPipelineRich(merged.mobileTwinPipeline, row.mobileTwinPipeline),
     };
   }
   if (galleryBackup && !galleryHasUnviewableAuthorityImages(galleryBackup)) {

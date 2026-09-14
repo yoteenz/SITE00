@@ -58,6 +58,10 @@ import { DesignPageV3AuthorityPairDock } from './DesignPageV3AuthorityPairDock.j
 import { DesignPageV3AuthorityRecoveryStrip } from './DesignPageV3AuthorityRecoveryStrip.js';
 import { DesignPageV3DerivationReviewPanel } from './DesignPageV3DerivationReviewPanel.js';
 import { DesignPageV3MobileTwinPipelinePanel } from './DesignPageV3MobileTwinPipelinePanel.js';
+import {
+  attachMobileTwinPipelineFromBrowserStore,
+  ensureMobileTwinPipelineDefaults,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import { DesignPageV3MobileTwinFounderPathPanel } from './DesignPageV3MobileTwinFounderPathPanel.js';
 import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileTwinCapabilityTestPanel.js';
 import { DesignPageV3MobileTwinProviderBenchmarkPanel } from './DesignPageV3MobileTwinProviderBenchmarkPanel.js';
@@ -123,6 +127,22 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     const normalized = normalizeDesignPageAuthoritySession(session);
     return rewritePrototypeGalleryUrls(normalized, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
   }, [session]);
+
+  useEffect(() => {
+    if (!pilot || !session.mobileTwinPipeline) return;
+    const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline);
+    if (!merged) return;
+    const reconciled = ensureMobileTwinPipelineDefaults(merged);
+    const prevReady =
+      session.mobileTwinPipeline.twinCapabilityTest?.status === 'FOUNDER_REVIEW_READY' ||
+      session.mobileTwinPipeline.twinCapabilityTest?.status === 'PARTIAL';
+    const nextReady =
+      reconciled.twinCapabilityTest?.status === 'FOUNDER_REVIEW_READY' ||
+      reconciled.twinCapabilityTest?.status === 'PARTIAL';
+    if (!prevReady && nextReady) {
+      persist({ ...session, mobileTwinPipeline: reconciled });
+    }
+  }, [pilot, projectId, session, persist]);
 
   useEffect(() => {
     if (!pilot) return;
