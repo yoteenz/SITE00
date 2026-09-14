@@ -9060,3 +9060,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** UI required saved Flow A **render URIs** (`hasFlowABaselineForBenchmark`) while founder path often has **FOUNDER OVERRIDE** metadata only; server threw `MOBILE_TWIN_FOCUSED_HYBRID_CONTROL_MISSING`.
 - **Fix:** `getFocusedHybridBenchmarkGate` (capability-ready / Method A, not URI gate); RUN button explains lock; `ensureMobileTwinFlowAControlPair` bootstraps GPT2 control on Railway when override-ready but no images. Build **v432**.
 
+---
+
+## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
+
+- **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
+- **Decision:** **`MOBILE_TWIN_RENDER_STRATEGY = NBP_FULL_PAIR`** locked for NDXBOOK pilot (`fal-ai/nano-banana-pro/edit` both legs), **`selectionMethod: FOUNDER_MANUAL_PROMOTION`**, benchmark history kept as **`HISTORICAL_PROVIDER_BENCHMARK`** only.
+- **Delivered:** `FounderTwinProviderPromotionReceipt`, `MobileTwinProviderLock`, `getMobileTwinVisualProviderStrategy()`, `applyFounderNbpMobileTwinPromotion` + **`normalizeFounderNbpPromotionOnLoad`** on `syncFounderMobileTwinSession`; atomic FAL dispatches use locked NBP + NBP page-only Actual prompt; fail closed (`MOBILE_TWIN_NBP_PROVIDER_FAILED` / `MOBILE_TWIN_LOCKED_PROVIDER_UNAVAILABLE`); benchmark FAL actions blocked when locked; UI **`DesignPageV3MobileTwinLockedProviderPanel`** primary CTA **GENERATE MOBILE TWIN PACKAGE**; benchmarks under History `<details>`; advanced **UNLOCK MOBILE PROVIDER STRATEGY**. Build **v433**. Tests **`p0vrTwinV30R7MF3P4.test.ts`**. Desktop untouched; no React implementation compiler auto-start.
+
