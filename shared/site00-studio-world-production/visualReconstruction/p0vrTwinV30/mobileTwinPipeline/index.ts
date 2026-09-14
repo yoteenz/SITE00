@@ -18,5 +18,8 @@ export * from './referenceCloneFirewall.js';
 export * from './referenceTranslationEvidence.js';
 export * from './rejectMobileImplementationRender.js';
 export * from './approveMobileTwinPackage.js';
+export * from './hydrateMobileTwinPackageInspector.js';
+export * from './mobileTwinPackageIntegrityReceipt.js';
+export * from './requestMobileTwinPackageCorrection.js';
 export * from './twinVisualCompositionReceipt.js';
 /** Node/API-only: import runMobileAtomicTwinGeneration.js and dispatchMobileTwinFalBlueprintFromComposition.js directly. */

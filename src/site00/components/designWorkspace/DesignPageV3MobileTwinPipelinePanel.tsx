@@ -16,6 +16,7 @@ import {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
+import { DesignPageV3MobileTwinPackageInspector } from './DesignPageV3MobileTwinPackageInspector.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
@@ -38,6 +39,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const [err, setErr] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('REFERENCE_ACTUAL');
   const [viewMode, setViewMode] = useState<ViewMode>('SIDE_BY_SIDE');
+  const [packageFullscreen, setPackageFullscreen] = useState<{ label: string; src: string } | null>(null);
+  const showPackageInspector = compareMode === 'PACKAGE' && viewMode === 'SIDE_BY_SIDE';
   if (!session.authorityPipeline?.mobileMaster) return null;
 
   const ref = pipeline?.designReference;
@@ -292,16 +295,38 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
             FULLSCREEN BLUEPRINT
           </button>
         </div>
-        <div className="site00-dw-v3-mobile-twin-pipeline__compare-grid">
-          {comparePanels.map((panel) => (
-            <figure key={panel.testId} data-testid={panel.testId}>
-              <figcaption>{panel.label}</figcaption>
-              {panel.src ?
-                <img src={panel.src} alt={panel.label} loading="lazy" />
-              : <p className="site00-dw-v3-mobile-twin-pipeline__placeholder">Not generated yet</p>}
-            </figure>
-          ))}
-        </div>
+        {showPackageInspector ?
+          <DesignPageV3MobileTwinPackageInspector
+            session={pipeline ? { ...session, mobileTwinPipeline: pipeline } : session}
+            projectId={session.projectId}
+            onSessionUpdate={onSessionUpdate}
+            onFullscreen={(label, src) => setPackageFullscreen({ label, src })}
+          />
+        : <div className="site00-dw-v3-mobile-twin-pipeline__compare-grid">
+            {comparePanels.map((panel) => (
+              <figure key={panel.testId} data-testid={panel.testId}>
+                <figcaption>{panel.label}</figcaption>
+                {panel.src ?
+                  <img src={panel.src} alt={panel.label} loading="lazy" />
+                : <p className="site00-dw-v3-mobile-twin-pipeline__placeholder">Not generated yet</p>}
+              </figure>
+            ))}
+          </div>
+        }
+        {packageFullscreen ?
+          <div
+            className="site00-dw-v3-mobile-twin-package-inspector__fullscreen"
+            data-testid="v3-package-visual-fullscreen"
+            role="dialog"
+            aria-label={packageFullscreen.label}
+          >
+            <button type="button" onClick={() => setPackageFullscreen(null)}>
+              CLOSE
+            </button>
+            <p>{packageFullscreen.label}</p>
+            <img src={packageFullscreen.src} alt={packageFullscreen.label} />
+          </div>
+        : null}
       </div>
       {err ?
         <p className="site00-dw-v3-authority__error" role="alert">
