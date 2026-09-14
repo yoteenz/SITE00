@@ -4,7 +4,7 @@ import { SITE00_ROUTES } from '../config/routes.js';
 import { MobileTwinCompiledImplementationRenderer } from '../components/designWorkspace/MobileTwinCompiledImplementationRenderer.js';
 import { DesignTwinImplementationReviewPanel } from '../components/designWorkspace/DesignTwinImplementationReviewPanel.js';
 import { resolveTwinImplementationPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
-import { P0_VR_TWIN_V30R8M_LINEAGE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
+import { P0_VR_TWIN_V30R8M1_LINEAGE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M1/constants.js';
 import '../styles/site00-twin-v3-design-authority.css';
 
 export function DesignTwinImplementationPage() {
@@ -50,7 +50,7 @@ export function DesignTwinImplementationPage() {
 
   if (loading) {
     return (
-      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M_LINEAGE}>
+      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M1_LINEAGE}>
         {header}
         <p>Loading twin implementation…</p>
       </div>
@@ -59,7 +59,7 @@ export function DesignTwinImplementationPage() {
 
   if (!loaded) {
     return (
-      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M_LINEAGE}>
+      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M1_LINEAGE}>
         {header}
         <p data-testid="twin-implementation-gate">{err ?? 'TWIN_IMPLEMENTATION_NOT_BUILT'}</p>
         <p className="site00-dw-v3-authority__hint">
@@ -73,7 +73,7 @@ export function DesignTwinImplementationPage() {
   const serverBacked = loaded.source === 'API';
 
   return (
-    <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M_LINEAGE}>
+    <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M1_LINEAGE}>
       {header}
       {notice ?
         <p className="site00-dw-v3-authority__hint" data-testid="twin-implementation-notice" role="status">

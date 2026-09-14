@@ -2,6 +2,7 @@ export * from './constants.js';
 export * from './types.js';
 export * from './confirmMobileTwinPackageApproval.js';
 export * from './compileApprovedMobileTwinPackage.js';
+export * from './implementationDocumentValidity.js';
 export * from './buildImplementationFidelityReceipts.js';
 export * from './evaluatePromotionReadiness.js';
 export * from './buildPackageApprovalRecord.js';

@@ -3,6 +3,7 @@ import { compileApprovedMobileTwinPackage } from './compileApprovedMobileTwinPac
 import { isMobileTwinPackageApprovalConfirmed } from './confirmMobileTwinPackageApproval.js';
 import { fetchMobileTwinImplementationState } from './requestMobileTwinImplementation.js';
 import { readTwinImplementationCache, type TwinImplementationCacheEntry } from './twinImplementationBrowserCache.js';
+import { isProductionReadyImplementationDocument } from './implementationDocumentValidity.js';
 import type { CompiledMobileTwinImplementationDocument } from './types.js';
 
 export type TwinImplementationPreviewLoad = {
@@ -16,7 +17,8 @@ export type TwinImplementationPreviewLoad = {
   notice: string | null;
 };
 
-function fromCache(entry: TwinImplementationCacheEntry): TwinImplementationPreviewLoad {
+function fromCache(entry: TwinImplementationCacheEntry): TwinImplementationPreviewLoad | null {
+  if (!isProductionReadyImplementationDocument(entry.document)) return null;
   return {
     source: 'LOCAL_CACHE',
     buildId: entry.buildId,
@@ -25,7 +27,8 @@ function fromCache(entry: TwinImplementationCacheEntry): TwinImplementationPrevi
     founderStatus: entry.founderStatus,
     promotionStatus: entry.promotionStatus,
     document: entry.document,
-    notice: 'Showing cached twin build (API unreachable). Run BUILD TWIN DESIGN ROUTE on Design after Railway redeploy for server authority.',
+    notice:
+      'Showing cached twin build (API unreachable). Cached output is real R8M1 implementation — redeploy Railway for durable server authority.',
   };
 }
 
@@ -45,6 +48,7 @@ function fromApiState(state: {
   const build = state.implementationPayload?.latestBuild;
   const document = build?.compiledDocument;
   if (!state.latestBuildId || !build || !document) return null;
+  if (!isProductionReadyImplementationDocument(document)) return null;
   return {
     source: 'API',
     buildId: build.id,
@@ -76,7 +80,8 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
       msg.includes('MOBILE_TWIN_IMPLEMENTATION_STATE_FAILED') ||
       msg.includes('MOBILE_TWIN_IMPLEMENTATION_API_UNREACHABLE');
     const cached = readTwinImplementationCache(key);
-    if (cached) return fromCache(cached);
+    const cachedLoad = cached ? fromCache(cached) : null;
+    if (cachedLoad) return cachedLoad;
     if (network) {
       const session = readDesignPageAuthoritySession(key);
       if (session && isMobileTwinPackageApprovalConfirmed(session) && session.mobileTwinPipeline?.latestPackageId) {
@@ -105,7 +110,8 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
   }
 
   const cached = readTwinImplementationCache(key);
-  if (cached) return fromCache(cached);
+  const cachedLoad = cached ? fromCache(cached) : null;
+  if (cachedLoad) return cachedLoad;
 
   const session = readDesignPageAuthoritySession(key);
   if (session && isMobileTwinPackageApprovalConfirmed(session)) {

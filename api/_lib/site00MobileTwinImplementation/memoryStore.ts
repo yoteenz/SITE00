@@ -1,3 +1,7 @@
+import {
+  isWireframeImplementationDocument,
+  wireframeRejectionReason,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/implementationDocumentValidity.js';
 import type {
   CompiledMobileTwinImplementationDocument,
   ImplementationStructuralFidelityReceipt,
@@ -49,6 +53,21 @@ export async function getPackageApprovalMemory(projectId: string): Promise<Mobil
   return approvals.get(row.latestPackageApprovalId) ?? null;
 }
 
+function rejectWireframeBuildIfNeeded(projectId: string): void {
+  const prev = stateByProject.get(projectId.toLowerCase());
+  const prevBuildId = prev?.latestBuildId;
+  if (!prevBuildId) return;
+  const prevBuild = builds.get(prevBuildId);
+  const prevDoc = compiledByBuild.get(prevBuildId);
+  if (!prevBuild || !prevDoc || !isWireframeImplementationDocument(prevDoc)) return;
+  if (prevBuild.buildStatus === 'REJECTED_IMPLEMENTATION') return;
+  builds.set(prevBuildId, {
+    ...prevBuild,
+    buildStatus: 'REJECTED_IMPLEMENTATION',
+    rejectionReason: wireframeRejectionReason(),
+  });
+}
+
 export async function saveBuildMemory(input: {
   projectId: string;
   build: MobileTwinImplementationBuildRecord;
@@ -58,6 +77,7 @@ export async function saveBuildMemory(input: {
   promotion: MobileTwinPromotionReadinessReceipt;
   status: string;
 }): Promise<void> {
+  rejectWireframeBuildIfNeeded(input.projectId);
   builds.set(input.build.id, input.build);
   compiledByBuild.set(input.build.id, input.document);
   visualByBuild.set(input.build.id, input.visual);

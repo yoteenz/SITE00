@@ -13,20 +13,25 @@ export function buildImplementationVisualFidelityReceipt(input: {
   const render = input.pipeline.renders.find((r) => r.id === input.pipeline.activeRenderId);
   const objectCount = input.pipeline.compositionStates.find((c) => c.id === input.pipeline.activeCompositionStateId)?.objectDefinitions.length ?? 0;
   const geometryMatch = input.document.nodes.length === objectCount;
+  const visualTranslation =
+    input.document.compilerGeneration === 'R8M1' &&
+    Boolean(input.document.renderTree?.nodes.length) &&
+    Boolean(input.document.authoritiesLoaded?.actualRenderUri);
+  const passVisual = geometryMatch && visualTranslation;
   return {
     id: `ivfr-${input.buildId}`,
     implementationBuildId: input.buildId,
     authorityRenderId: render?.id ?? 'unknown',
     majorRegionMatch: geometryMatch,
     geometryMatch,
-    typographyMatch: true,
-    assetPlacementMatch: true,
-    controlPlacementMatch: geometryMatch,
+    typographyMatch: visualTranslation,
+    assetPlacementMatch: visualTranslation,
+    controlPlacementMatch: geometryMatch && visualTranslation,
     spacingMatch: geometryMatch,
-    projectAtmosphereMatch: true,
-    hostProjectBoundaryMatch: true,
-    result: geometryMatch ? 'PASS' : 'REVIEW_REQUIRED',
-    founderReviewRequired: !geometryMatch,
+    projectAtmosphereMatch: visualTranslation,
+    hostProjectBoundaryMatch: visualTranslation,
+    result: passVisual ? 'PASS' : 'REVIEW_REQUIRED',
+    founderReviewRequired: !passVisual,
   };
 }
 
@@ -41,7 +46,10 @@ export function buildImplementationStructuralFidelityReceipt(input: {
   const bindings = composition?.functionTargets.filter((f) => f.status === 'BOUND').length ?? 0;
   const boundInNodes = input.document.nodes.filter((n) => n.functionTarget).length;
   const forbiddenRaster = input.document.forbiddenPrimitiveScan.count > 0;
-  const pass = expected === rendered && bindings <= boundInNodes + 2 && !forbiddenRaster;
+  const structuralTranslation =
+    input.document.compilerGeneration === 'R8M1' && Boolean(input.document.renderTree?.nodes.length);
+  const pass =
+    expected === rendered && bindings <= boundInNodes + 2 && !forbiddenRaster && structuralTranslation;
   return {
     id: `isfr-${input.buildId}`,
     implementationBuildId: input.buildId,
