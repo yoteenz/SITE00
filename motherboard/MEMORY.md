@@ -9160,6 +9160,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — BUILD TWIN DESIGN ROUTE visible after package approve (v448)
+
+- **Context:** Founder approved mobile twin package but **BUILD TWIN DESIGN ROUTE** was not visible on Design UX (buried in MOBILE TWIN REVIEW actions; **`readyToCompile`** could hide button when **`latestBuildId`** set; PACKAGE compare tab had approve but no BUILD).
+- **Fix:** Sticky green **`DesignPageV3MobileTwinBuildRouteStrip`** under blueprint retry strip (uses **`shouldShowBuildTwinDesignRoute`**); shared **`DesignPageV3MobileTwinBuildRouteBlock`** + **`compileAndCacheMobileTwinImplementation`** (always shows BUILD/REBUILD + twin route link); same block in **PACKAGE inspector** and pipeline actions. Build **v448**. Tests **`p0vrTwinV30BuildRouteUx.test.ts`**.
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
