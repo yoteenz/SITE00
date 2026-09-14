@@ -8929,6 +8929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — P0.VR.TWINV3.0R6F2 exact boundaries + geometry fidelity (v416)
+
+- **Context:** Founder rejected R6F1 translation overlays as loose / oversized; sprint required pixel-exact visual bounds, separate geometry fidelity receipts/gates, preserved R6F1 history, no build/regen.
+- **Delivered:** `exactBoundaryAnalysis.ts` + Node `refineBoundsFromPixelEdges`; `runExactBoundaryDerivation` wired as default in `runDesignWorkspaceDerivation` (algorithm **R6F2**, derivation v2 idempotency); `VisualBounds` vs `InteractionBounds`, line geometry for dividers, overlap/tightness QA, `GeometryFidelityReceipt` per viewport; translation approval gated on coverage + geometry + granularity; correction records `OBJECT_BOUNDARIES_NOT_PIXEL_EXACT`; viewport-specific template objects (Mobile/Desktop counts differ); review UI layers (OBJECTS/REGIONS/GEOMETRY QA), zoom/pan, inspect panel, distinct overlay styles. Tests **`p0vrTwinV30R6F2.test.ts`**. Build **v416**.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV3.0R5 viewport master selection + pair lock (v397)
 
 - **Context:** Founder picked mobile/desktop authorities outside the product; gallery was view-only with legacy APPROVE MOBILE/DESKTOP per territory.
