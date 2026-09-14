@@ -21,5 +21,6 @@ export * from './approveMobileTwinPackage.js';
 export * from './hydrateMobileTwinPackageInspector.js';
 export * from './mobileTwinPackageIntegrityReceipt.js';
 export * from './requestMobileTwinPackageCorrection.js';
+export * from './evaluateBlueprintLightStyleRetry.js';
 export * from './twinVisualCompositionReceipt.js';
 /** Node/API-only: import runMobileAtomicTwinGeneration.js and dispatchMobileTwinFalBlueprintFromComposition.js directly. */
