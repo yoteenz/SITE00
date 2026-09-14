@@ -615,6 +615,13 @@
   color: #fff;
 }
 
+.site00-dw-v3-mobile-twin-global-recovery {
+  margin: 0 0 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 12;
+}
+
 .site00-dw-v3-mobile-twin-pipeline-recovery {
   margin: 0 0 1rem;
   padding: 0.85rem;
