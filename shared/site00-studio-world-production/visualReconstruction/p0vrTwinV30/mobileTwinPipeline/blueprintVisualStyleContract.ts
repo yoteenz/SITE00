@@ -1,4 +1,4 @@
-import { P0_VR_TWIN_V30R7MF3P5_LINEAGE, P0_VR_TWIN_V30R7MF3P6F1_LINEAGE } from '../constants.js';
+import { P0_VR_TWIN_V30R7MF3P6F1_LINEAGE } from '../constants.js';
 import type { MobileTwinCompositionState } from './types.js';
 import { BLUEPRINT_STYLE_REFERENCE_ROLE } from './resolveLightBlueprintStyleReference.js';
 
@@ -44,7 +44,7 @@ export type BlueprintVisualStyleContract = {
   legibilityRequirement: 'FOUNDER_INSPECTION_PRIORITY';
   decorativeFreedom: 'NONE';
   status: 'LOCKED';
-  version: typeof R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION;
+  version: typeof R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION;
 };
 
 export type BlueprintVisualStyleReceiptResult = 'PASS' | 'REVIEW_REQUIRED' | 'FAIL';
