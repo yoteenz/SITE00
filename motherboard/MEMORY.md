@@ -8929,6 +8929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — P0.VR.TWINV3.0R7MF1 mobile FAL provider activation (v418)
+
+- **Context:** R7M proved composition-state architecture via LOCAL_COMPILER stub; R7MF1 wires real FAL for Phase A mobile implementation render + Phase B blueprint twin without changing R7M state model.
+- **Delivered:** `falReferenceImageJob`, `dispatchMobileTwinFalRender/BlueprintTwin`, `runMobileTwinFalPipeline`, API `POST /api/site00/twin-v3-mobile-twin-pipeline`. LOCAL_COMPILER renders classified `PIPELINE_PROOF_STUB` / `LOCAL_PROOF_ONLY` — blocked from `FROZEN_IMPLEMENTATION_AUTHORITY` unless `founderStubOverride`. UI: FAL generate/refine/regenerate, render version picker, fullscreen compare. Tests **`p0vrTwinV30R7MF1.test.ts`**. Build **v418**.
+
+---
+
 ## 2026-09-14 — P0.VR.TWINV3.0R7M mobile composition-state twin pipeline (v417)
 
 - **Context:** R6/R6F1/R6F2 incorrectly treated founder mobile JPG as implementation render for blueprint extraction. Sprint R7M restores architecture: **MobileDesignReferenceAuthority** → **MobileTwinCompositionState** → **MobileImplementationRender** → **MobileBlueprintTwin** + structured package (mobile-only; desktop deferred).
