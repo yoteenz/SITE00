@@ -23,6 +23,9 @@ export function recordFounderMobileTwinRenderStrategy(
   founderNotes?: string | null,
 ): DesignPageAuthorityReviewSession {
   const pipeline = session.mobileTwinPipeline;
+  if (pipeline?.mobileTwinProviderLock?.locked) {
+    throw new Error('MOBILE_TWIN_PROVIDER_STRATEGY_LOCKED');
+  }
   if (!pipeline?.focusedHybridBenchmark) throw new Error('MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK_MISSING');
 
   let strategy: MobileTwinRenderStrategy | null = null;

@@ -11,6 +11,7 @@ import type {
   MobileTwinRenderStrategy,
 } from './twinFocusedHybridBenchmarkTypes.js';
 import type { MobileTwinVisualGenerationStrategy } from './mobileTwinVisualStrategy.js';
+import type { MobileTwinProviderLock } from './mobileTwinProviderPromotionTypes.js';
 
 export const R6F2_BLUEPRINT_ROLE = 'SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE' as const;
 
@@ -374,6 +375,8 @@ export type MobileTwinPipelineState = {
   mobileTwinProviderStrategy: MobileTwinProviderStrategy | null;
   focusedHybridBenchmark: MobileTwinFocusedHybridBenchmarkState | null;
   mobileTwinRenderStrategy: MobileTwinRenderStrategy | null;
+  mobileTwinProviderLock: MobileTwinProviderLock | null;
+  founderTwinProviderPromotionReceiptId: string | null;
 };
 
 export type MobileTwinPipelineErrorCode =
@@ -417,6 +420,8 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     mobileTwinProviderStrategy: null,
     focusedHybridBenchmark: null,
     mobileTwinRenderStrategy: null,
+    mobileTwinProviderLock: null,
+    founderTwinProviderPromotionReceiptId: null,
   };
 }
 

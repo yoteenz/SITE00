@@ -70,6 +70,7 @@ export type FocusedHybridStrategyRow = {
 };
 
 export type MobileTwinFocusedHybridBenchmarkState = {
+  benchmarkRoutingRole?: 'ACTIVE' | 'HISTORICAL_PROVIDER_BENCHMARK';
   benchmarkId: string;
   snapshot: TwinFocusedHybridBenchmarkSnapshot;
   methodLocked: 'ATOMIC_SIBLING_FROM_COMPOSITION';
@@ -88,7 +89,10 @@ export type FounderMobileTwinRenderStrategyDecision =
   | 'HYBRID_GPT2_ACTUAL__NBP_BLUEPRINT'
   | 'UNRESOLVED';
 
-export type MobileTwinRenderStrategyStatus = 'UNRESOLVED' | 'PROVISIONAL_WINNER';
+export type MobileTwinRenderStrategyStatus =
+  | 'UNRESOLVED'
+  | 'PROVISIONAL_WINNER'
+  | 'LOCKED_MOBILE_STRATEGY';
 
 export type MobileTwinRenderStrategy = {
   strategy: Exclude<FounderMobileTwinRenderStrategyDecision, 'UNRESOLVED'>;

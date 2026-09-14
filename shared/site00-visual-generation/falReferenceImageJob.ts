@@ -19,9 +19,10 @@ export async function runFalReferenceImageJob(input: {
   prompt: string;
   referenceImageUrls: string[];
   aspectRatio?: '9:16' | '16:9';
+  model?: string;
 }): Promise<FalReferenceImageJobResult> {
   if (process.env.VITEST === 'true') {
-    const model = 'openai/gpt-image-2/edit';
+    const model = input.model ?? 'openai/gpt-image-2/edit';
     return {
       url: `vitest-fal://${input.jobKey}`,
       jobRef: `vitest-fal-ref-${input.jobKey}-${Date.now()}`,
@@ -41,11 +42,23 @@ export async function runFalReferenceImageJob(input: {
   fal.config({ credentials: falKey });
 
   const accessibleRefs = await ensureFalAccessibleReferenceUrls(input.referenceImageUrls);
-  const { model, input: falInput } = buildFalImageInput({
-    prompt: input.prompt,
-    aspectRatio: input.aspectRatio ?? '9:16',
-    referenceImageUrls: accessibleRefs,
-  });
+  const model =
+    input.model?.trim() ||
+    buildFalImageInput({
+      prompt: input.prompt,
+      aspectRatio: input.aspectRatio ?? '9:16',
+      referenceImageUrls: accessibleRefs,
+    }).model;
+  const falInput =
+    input.model ?
+      (accessibleRefs.length > 0 ?
+        { prompt: input.prompt, image_urls: accessibleRefs, num_images: 1 }
+      : { prompt: input.prompt, num_images: 1 })
+    : buildFalImageInput({
+        prompt: input.prompt,
+        aspectRatio: input.aspectRatio ?? '9:16',
+        referenceImageUrls: accessibleRefs,
+      }).input;
 
   const submitResult = await fal.queue.submit(model, { input: falInput });
   const requestId =

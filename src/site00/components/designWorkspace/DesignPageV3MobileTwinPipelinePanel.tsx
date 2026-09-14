@@ -97,7 +97,9 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       .finally(() => setBusy(false));
   };
 
-  const strategyResolved = pipeline?.mobileTwinVisualGenerationStrategy !== 'UNRESOLVED';
+  const providerLocked = Boolean(pipeline?.mobileTwinProviderLock?.locked);
+  const strategyResolved =
+    providerLocked || pipeline?.mobileTwinVisualGenerationStrategy !== 'UNRESOLVED';
   const runTwin = () => runFal('GENERATE_MOBILE_TWIN');
 
   const runApproveTwin = () => {
@@ -162,7 +164,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           </p>
         : null}
         <button type="button" data-testid="v3-generate-mobile-twin" disabled={busy || !strategyResolved} onClick={runTwin}>
-          GENERATE MOBILE TWIN (FAL)
+          {providerLocked ? 'GENERATE MOBILE TWIN PACKAGE' : 'GENERATE MOBILE TWIN (FAL)'}
         </button>
         <button
           type="button"

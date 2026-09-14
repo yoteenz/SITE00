@@ -3,6 +3,9 @@ import { runFalReferenceImageJob } from '../../../../site00-visual-generation/fa
 import { FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER, P0_VR_TWIN_V30R7MF2_LINEAGE } from '../constants.js';
 import { attachMobileRenderTranslationReceipts } from './attachMobileRenderTranslationReceipts.js';
 import { buildMobileImplementationRenderFalPrompt } from './buildMobileTwinFalPrompts.js';
+import { buildNbpCorrectedActualFalPrompt } from './buildNbpCorrectedActualPrompt.js';
+import { getMobileTwinVisualProviderStrategy } from './getMobileTwinVisualProviderStrategy.js';
+import type { MobileTwinPipelineState } from './types.js';
 import { REAL_PROVIDER_RENDER_MODE } from './mobileRenderClassification.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
 import type { ReferenceTranslationEvidenceReceipt } from './referenceTranslationEvidence.js';
@@ -22,6 +25,7 @@ export async function dispatchMobileTwinFalRender(input: {
   refineNotes?: string[];
   parentRenderId?: string | null;
   regeneration?: boolean;
+  pipeline?: MobileTwinPipelineState | null;
 }): Promise<{
   render: MobileImplementationRender;
   translationEvidence: ReferenceTranslationEvidenceReceipt;
@@ -30,12 +34,16 @@ export async function dispatchMobileTwinFalRender(input: {
   model: string;
 }> {
   const referenceUrl = resolveMobileTwinPublicAssetUrl(input.reference.sourceImageUri, input.publicOrigin);
-  const prompt = buildMobileImplementationRenderFalPrompt({
-    reference: input.reference,
-    composition: input.composition,
-    refineNotes: input.refineNotes,
-    regeneration: input.regeneration,
-  });
+  const lockedRoute = input.pipeline ? getMobileTwinVisualProviderStrategy(input.pipeline) : null;
+  const prompt =
+    lockedRoute?.useNbpPageOnlyActualPrompt ?
+      buildNbpCorrectedActualFalPrompt({ reference: input.reference, composition: input.composition })
+    : buildMobileImplementationRenderFalPrompt({
+        reference: input.reference,
+        composition: input.composition,
+        refineNotes: input.refineNotes,
+        regeneration: input.regeneration,
+      });
 
   let falResult;
   try {
@@ -44,9 +52,11 @@ export async function dispatchMobileTwinFalRender(input: {
       prompt,
       referenceImageUrls: [referenceUrl],
       aspectRatio: '9:16',
+      model: lockedRoute?.actual.model,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'MOBILE_RENDER_PROVIDER_FAILED';
+    if (lockedRoute?.locked) throw new Error('MOBILE_TWIN_NBP_PROVIDER_FAILED');
     throw new Error(message.includes('FAL') ? message : 'MOBILE_RENDER_PROVIDER_FAILED');
   }
 

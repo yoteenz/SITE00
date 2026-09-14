@@ -9,6 +9,7 @@ import {
   reconcileMobileTwinPipelineState,
 } from './reconcileMobileTwinPipelineState.js';
 import type { MobileTwinPipelineState } from './types.js';
+import { normalizeFounderNbpPromotionOnLoad } from './applyFounderNbpMobileTwinPromotion.js';
 
 export type MobileTwinPipelineDiagnostics = {
   renderCount: number;
@@ -48,5 +49,9 @@ export function syncFounderMobileTwinSession(
   const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
   if (!merged) return session;
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged));
-  return { ...session, mobileTwinPipeline: pipeline, updatedAt: new Date().toISOString() };
+  return normalizeFounderNbpPromotionOnLoad({
+    ...session,
+    mobileTwinPipeline: pipeline,
+    updatedAt: new Date().toISOString(),
+  });
 }
