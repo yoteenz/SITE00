@@ -350,9 +350,16 @@ export function reconcileMobileTwinPipelineState(pipeline: MobileTwinPipelineSta
     }
   }
 
+  const activeRun =
+    next.activeAtomicRunId ?
+      next.atomicRuns.find((r) => r.id === next.activeAtomicRunId)
+    : next.atomicRuns.at(-1) ?? null;
+  const mountedBlueprintId = activeRun?.blueprintRenderArtifactId ?? null;
+
   next = {
     ...next,
     blueprintTwins: next.blueprintTwins.map((bp) => {
+      if (bp.id === mountedBlueprintId) return bp;
       if (bp.blueprintVisualVariant === 'ACTIVE_BLUEPRINT_TWIN') return bp;
       if (bp.styleContractId === 'mobile-light-technical-blueprint-v1' && bp.blueprintStyleStatus === 'PASS') return bp;
       if (bp.outputRepresentationMode === 'LIGHT_TECHNICAL_BLUEPRINT' && bp.blueprintStyleStatus === 'PASS') return bp;

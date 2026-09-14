@@ -1,3 +1,4 @@
+import { syncActiveBlueprintReviewMount } from './syncActiveBlueprintReviewMount.js';
 import type { MobileBlueprintTwinVisual, MobileImplementationRender, MobileTwinPipelineState } from './types.js';
 
 export type MobileTwinReviewSlots = {
@@ -44,10 +45,30 @@ export function resolveMobileTwinReviewSlots(pipeline: MobileTwinPipelineState):
     pair?.actualRenderId ??
     pipeline.activeRenderId ??
     null;
-  const blueprintId = run?.blueprintRenderArtifactId ?? pair?.blueprintRenderId ?? null;
+  const runBlueprintId = run?.blueprintRenderArtifactId ?? null;
+  let blueprintId = runBlueprintId ?? pair?.blueprintRenderId ?? null;
 
   const actualRender = actualId ? pipeline.renders.find((r) => r.id === actualId) ?? null : null;
   let blueprintTwin = blueprintId ? pipeline.blueprintTwins.find((b) => b.id === blueprintId) ?? null : null;
+
+  if (actualRender) {
+    const siblings = pipeline.blueprintTwins.filter(
+      (b) => b.implementationRenderId === actualRender.id && b.twinImageUri,
+    );
+    const mountedFromRun =
+      runBlueprintId ? siblings.find((b) => b.id === runBlueprintId) ?? null : null;
+    const activeForActual =
+      mountedFromRun ??
+      siblings.find((b) => b.blueprintVisualVariant === 'ACTIVE_BLUEPRINT_TWIN') ??
+      siblings.at(-1) ??
+      null;
+    if (activeForActual && (!blueprintTwin || blueprintTwin.id !== activeForActual.id)) {
+      if (!runBlueprintId || activeForActual.id === runBlueprintId) {
+        blueprintTwin = activeForActual;
+        blueprintId = activeForActual.id;
+      }
+    }
+  }
 
   if (!blueprintTwin && actualRender) {
     blueprintTwin =
@@ -75,7 +96,7 @@ export function resolveMobileTwinReviewSlots(pipeline: MobileTwinPipelineState):
 
 /** After merge/reconcile, set activity pointers from latest atomic twin run. */
 export function hydrateMobileTwinReviewState(pipeline: MobileTwinPipelineState): MobileTwinPipelineState {
-  let next = { ...pipeline };
+  let next = syncActiveBlueprintReviewMount({ ...pipeline });
   const slots = resolveMobileTwinReviewSlots(next);
 
   if (slots.actualRender) {

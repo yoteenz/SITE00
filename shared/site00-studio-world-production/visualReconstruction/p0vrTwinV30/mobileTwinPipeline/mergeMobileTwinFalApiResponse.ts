@@ -1,6 +1,7 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import { slimMobileTwinPipelineForStorage } from './mobileTwinPipelinePersistence.js';
-import { mergeMobileTwinPipelineRich } from './reconcileMobileTwinPipelineState.js';
+import { mergeMobileTwinPipelineRich, reconcileMobileTwinPipelineState } from './reconcileMobileTwinPipelineState.js';
+import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { MobileTwinPipelineState } from './types.js';
 
 /** Drop gallery/result bulk — Railway only needs mobile twin + authority masters. */
@@ -25,7 +26,16 @@ export function mergeMobileTwinFalApiResponse(
   updatedAt?: string,
 ): DesignPageAuthorityReviewSession {
   if (!serverPipeline) return clientSession;
-  const mergedPipeline = mergeMobileTwinPipelineRich(serverPipeline, clientSession.mobileTwinPipeline);
+  const clientPipeline = clientSession.mobileTwinPipeline;
+  const serverWins =
+    (serverPipeline.falJobsDispatched ?? 0) > (clientPipeline?.falJobsDispatched ?? 0) ||
+    serverPipeline.blueprintTwins.length > (clientPipeline?.blueprintTwins.length ?? 0);
+  const mergedPipeline =
+    serverWins ?
+      hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(serverPipeline))
+    : hydrateMobileTwinReviewState(
+        mergeMobileTwinPipelineRich(serverPipeline, clientPipeline) ?? serverPipeline,
+      );
   return {
     ...clientSession,
     mobileTwinPipeline: mergedPipeline ?? serverPipeline,
