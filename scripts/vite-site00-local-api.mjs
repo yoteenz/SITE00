@@ -44,6 +44,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/twin-v2-fal-parallel-twin-proof', file: 'api/site00/twin-v2-fal-parallel-twin-proof.ts' },
   { path: '/api/site00/twin-v2-atomic-concept-generation', file: 'api/site00/twin-v2-atomic-concept-generation.ts' },
   { path: '/api/site00/twin-v3-mobile-twin-pipeline', file: 'api/site00/twin-v3-mobile-twin-pipeline.ts' },
+  { path: '/api/site00/twin-v3-mobile-twin-implementation', file: 'api/site00/twin-v3-mobile-twin-implementation.ts' },
   { path: '/api/admin/site00-marketing', file: 'api/admin/site00-marketing.ts' },
   { path: '/api/admin/site00-assts', file: 'api/admin/site00-assts.ts' },
   { path: '/api/admin/site00-production', file: 'api/admin/site00-production.ts' },

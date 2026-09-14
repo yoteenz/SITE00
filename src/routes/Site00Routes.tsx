@@ -169,6 +169,9 @@ const Site00OwnedDesignWorkspacePage = lazy(() =>
 const LegacyProjectDesignRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.LegacyProjectDesignRedirectPage })),
 );
+const DesignTwinImplementationPage = lazy(() =>
+  import('../site00/pages/DesignTwinImplementationPage').then((m) => ({ default: m.DesignTwinImplementationPage })),
+);
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
@@ -1097,6 +1100,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectProductAssetFactoryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwin}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignTwinImplementationPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

@@ -12,6 +12,7 @@ import type { MobileTwinPipelineState } from './types.js';
 import { normalizeFounderNbpPromotionOnLoad } from './applyFounderNbpMobileTwinPromotion.js';
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import { tryRecoverOrphanTwinArtifacts } from './tryRecoverOrphanTwinArtifacts.js';
+import { applyMobileTwinPackageApprovalConfirmation } from '../../p0vrTwinV30R8M/confirmMobileTwinPackageApproval.js';
 
 export type MobileTwinPipelineDiagnostics = {
   renderCount: number;
@@ -56,5 +57,5 @@ export function syncFounderMobileTwinSession(
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
     updatedAt: new Date().toISOString(),
   });
-  return tryRecoverOrphanTwinArtifacts(promoted);
+  return applyMobileTwinPackageApprovalConfirmation(tryRecoverOrphanTwinArtifacts(promoted));
 }

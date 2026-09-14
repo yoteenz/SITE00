@@ -134,6 +134,7 @@ export const SITE00_ROUTES = {
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
   projectDesign: '/projects/:projectSlug/design',
+  projectDesignTwin: '/projects/:projectSlug/design/twin',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',

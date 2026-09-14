@@ -408,6 +408,8 @@ export type MobileTwinPipelineState = {
   mobileTwinProviderLock: MobileTwinProviderLock | null;
   founderTwinProviderPromotionReceiptId: string | null;
   mobileTwinProviderJobRecords?: MobileTwinProviderJobRecord[];
+  /** R8M — durable approval + twin implementation route (backend authority). */
+  mobileTwinImplementation?: import('../../p0vrTwinV30R8M/types.js').MobileTwinImplementationSessionSlice | null;
 };
 
 export type MobileTwinPipelineErrorCode =
