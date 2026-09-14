@@ -30,11 +30,11 @@ async function approvedPackageSession() {
 }
 
 describe('BUILD twin design route UX visibility', () => {
-  it('authority panel mounts build route strip after blueprint retry strip', () => {
+  it('authority panel mounts founder actions strip (includes BUILD) after blueprint retry strip', () => {
     const src = readFileSync('src/site00/components/designWorkspace/DesignPageV3AuthorityReviewPanel.tsx', 'utf8');
-    expect(src).toContain('DesignPageV3MobileTwinBuildRouteStrip');
+    expect(src).toContain('DesignPageV3MobileTwinFounderActionsStrip');
     expect(src.indexOf('DesignPageV3MobileTwinBlueprintRetryStrip')).toBeLessThan(
-      src.indexOf('DesignPageV3MobileTwinBuildRouteStrip'),
+      src.indexOf('DesignPageV3MobileTwinFounderActionsStrip'),
     );
   });
 

@@ -559,6 +559,62 @@
   color: #fff;
 }
 
+.site00-dw-v3-mobile-twin-founder-actions {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border-radius: 10px;
+  border: 2px solid #6a1b9a;
+  background: #f3e5f5;
+  font-size: 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 12;
+  box-shadow: 0 2px 12px rgba(106, 27, 154, 0.22);
+}
+
+.site00-dw-v3-mobile-twin-founder-actions__head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-bottom: 0.35rem;
+}
+
+.site00-dw-v3-mobile-twin-founder-actions__primary {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #4a148c;
+  background: #7b1fa2;
+  color: #fff;
+}
+
+.site00-dw-v3-mobile-twin-founder-actions__secondary {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid #6a1b9a;
+  background: #fff;
+  color: #4a148c;
+}
+
+.site00-dw-v3-mobile-twin-founder-actions__restore {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #bf360c;
+  background: #f57c00;
+  color: #fff;
+}
+
 .site00-dw-v3-mobile-twin-pipeline-recovery {
   margin: 0 0 1rem;
   padding: 0.85rem;
