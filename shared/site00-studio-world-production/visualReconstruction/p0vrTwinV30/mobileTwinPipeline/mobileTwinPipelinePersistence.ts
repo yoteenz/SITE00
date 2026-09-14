@@ -102,6 +102,8 @@ export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState)
     ...state,
     atomicRuns: state.atomicRuns ?? [],
     visualPairs: state.visualPairs ?? [],
+    twinCapabilityTest: state.twinCapabilityTest ?? null,
+    mobileTwinVisualGenerationStrategy: state.mobileTwinVisualGenerationStrategy ?? 'UNRESOLVED',
   };
   if (base.renders.length && !base.activeRenderId) {
     base.activeRenderId = base.renders.at(-1)!.id;

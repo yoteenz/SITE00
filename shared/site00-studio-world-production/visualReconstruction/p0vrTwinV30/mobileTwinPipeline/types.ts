@@ -1,6 +1,8 @@
 /** P0.VR.TWINV3.0R7M — Mobile-only composition-state twin pipeline */
 
 import type { DesignWorkspaceViewport } from '../designWorkspaceAuthorityTypes.js';
+import type { MobileTwinCapabilityTestState } from './twinCapabilityTestTypes.js';
+import type { MobileTwinVisualGenerationStrategy } from './mobileTwinVisualStrategy.js';
 
 export const R6F2_BLUEPRINT_ROLE = 'SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE' as const;
 
@@ -356,6 +358,8 @@ export type MobileTwinPipelineState = {
   founderStubOverride?: boolean;
   desktopStatus: 'DEFERRED';
   r6f2ForensicRole: typeof R6F2_BLUEPRINT_ROLE;
+  twinCapabilityTest: MobileTwinCapabilityTestState | null;
+  mobileTwinVisualGenerationStrategy: MobileTwinVisualGenerationStrategy;
 };
 
 export type MobileTwinPipelineErrorCode =
@@ -392,6 +396,8 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     founderStubOverride: false,
     desktopStatus: 'DEFERRED',
     r6f2ForensicRole: R6F2_BLUEPRINT_ROLE,
+    twinCapabilityTest: null,
+    mobileTwinVisualGenerationStrategy: 'UNRESOLVED',
   };
 }
 

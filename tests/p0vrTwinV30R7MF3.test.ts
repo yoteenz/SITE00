@@ -29,10 +29,21 @@ function lockedSession() {
   return ensureMobileDesignReferenceAuthority(applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession()));
 }
 
+function twinReadySession() {
+  const session = lockedSession();
+  return {
+    ...session,
+    mobileTwinPipeline: {
+      ...session.mobileTwinPipeline!,
+      mobileTwinVisualGenerationStrategy: 'ATOMIC_SIBLING_FROM_COMPOSITION' as const,
+    },
+  };
+}
+
 describe('P0.VR.TWINV3.0R7MF3 atomic mobile twin', () => {
   it('1–6 immutable reference + one atomic run + shared composition on siblings', async () => {
     const session = await runMobileTwinFalPipeline({
-      session: lockedSession(),
+      session: twinReadySession(),
       action: 'GENERATE_MOBILE_TWIN',
       founderConfirmedSpend: true,
     });
@@ -54,7 +65,7 @@ describe('P0.VR.TWINV3.0R7MF3 atomic mobile twin', () => {
 
   it('7–13 blueprint not from actual pixels; structured from composition', async () => {
     const session = await runMobileTwinFalPipeline({
-      session: lockedSession(),
+      session: twinReadySession(),
       action: 'GENERATE_MOBILE_TWIN',
       founderConfirmedSpend: true,
     });
@@ -80,7 +91,7 @@ describe('P0.VR.TWINV3.0R7MF3 atomic mobile twin', () => {
 
   it('17–19 twin visual receipt + hash alone ≠ visual pass', async () => {
     const session = await runMobileTwinFalPipeline({
-      session: lockedSession(),
+      session: twinReadySession(),
       action: 'GENERATE_MOBILE_TWIN',
       founderConfirmedSpend: true,
     });
@@ -95,7 +106,7 @@ describe('P0.VR.TWINV3.0R7MF3 atomic mobile twin', () => {
 
   it('20–24 founder reviews pair; no separate render approval required', async () => {
     let session = await runMobileTwinFalPipeline({
-      session: lockedSession(),
+      session: twinReadySession(),
       action: 'GENERATE_MOBILE_TWIN',
       founderConfirmedSpend: true,
     });
@@ -108,7 +119,7 @@ describe('P0.VR.TWINV3.0R7MF3 atomic mobile twin', () => {
 
   it('25–27 atomic supersedes sequential generate render UX contract', async () => {
     const session = await runMobileTwinFalPipeline({
-      session: lockedSession(),
+      session: twinReadySession(),
       action: 'GENERATE_MOBILE_TWIN',
       founderConfirmedSpend: true,
     });
@@ -119,7 +130,7 @@ describe('P0.VR.TWINV3.0R7MF3 atomic mobile twin', () => {
 
   it('28–30 regenerate preserves history; desktop 0', async () => {
     let session = await runMobileTwinFalPipeline({
-      session: lockedSession(),
+      session: twinReadySession(),
       action: 'GENERATE_MOBILE_TWIN',
       founderConfirmedSpend: true,
     });

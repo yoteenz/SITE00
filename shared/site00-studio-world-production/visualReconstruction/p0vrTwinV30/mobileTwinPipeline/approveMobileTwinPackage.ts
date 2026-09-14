@@ -3,10 +3,12 @@ import type { MobileImplementationVisualAuthority } from './types.js';
 import { assertRenderPassesReferenceCloneFirewall } from './referenceCloneFirewall.js';
 import { classifyLegacyMobileRender, assertRenderCanBecomeImplementationAuthority } from './mobileRenderClassification.js';
 import type { TwinVisualCompositionReceipt } from './twinVisualCompositionReceipt.js';
+import { assertFullMobileTwinPackageAllowed } from './mobileTwinVisualStrategy.js';
 
 export function canApproveMobileTwinPackage(session: DesignPageAuthorityReviewSession): boolean {
   const p = session.mobileTwinPipeline;
   if (!p?.latestPackageId) return false;
+  if (p.mobileTwinVisualGenerationStrategy === 'UNRESOLVED') return false;
   const pkg = p.packages.find((x) => x.id === p.latestPackageId);
   if (!pkg || pkg.status !== 'FOUNDER_REVIEW_READY') return false;
   const pair = p.activeVisualPairId ? p.visualPairs.find((v) => v.id === p.activeVisualPairId) : null;
@@ -21,6 +23,7 @@ export function approveMobileTwinPackage(
   notes = '',
 ): DesignPageAuthorityReviewSession {
   void notes;
+  assertFullMobileTwinPackageAllowed(session.mobileTwinPipeline?.mobileTwinVisualGenerationStrategy);
   if (!canApproveMobileTwinPackage(session)) throw new Error('MOBILE_TWIN_PACKAGE_NOT_READY');
   const pipeline = session.mobileTwinPipeline!;
   const pkg = pipeline.packages.find((x) => x.id === pipeline.latestPackageId)!;

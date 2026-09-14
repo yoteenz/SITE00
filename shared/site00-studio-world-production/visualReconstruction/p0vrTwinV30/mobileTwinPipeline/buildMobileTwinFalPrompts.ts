@@ -139,3 +139,32 @@ export function buildMobileBlueprintTwinFromCompositionFalPrompt(input: {
 export function blueprintPromptUsesFrozenComposition(prompt: string): boolean {
   return prompt.includes('STRUCTURAL SOURCE: MobileTwinCompositionState') && prompt.includes('TECHNICAL_BLUEPRINT_RENDER');
 }
+
+export function buildMobileBlueprintTwinFromActualTransformFalPrompt(input: {
+  composition: MobileTwinCompositionState;
+  actualRenderId: string;
+  actualRenderHash: string;
+}): string {
+  return [
+    `LINEAGE: ${P0_VR_TWIN_V30R7MF3_LINEAGE}`,
+    'SPRINT: P0.VR.TWINV3.0R7MF3P1 FLOW B',
+    'TASK: IMAGE-TO-BLUEPRINT TRANSFORMATION of the EXACT supplied Actual Page image.',
+    'ATTACHED_IMAGE_ROLE=CANONICAL_ACTUAL_PAGE — transform THIS page only.',
+    '',
+    'TRANSFORM THIS EXACT PAGE INTO ITS TECHNICAL BLUEPRINT REPRESENTATION.',
+    'PRESERVE THE PAGE EXACTLY. DO NOT REDESIGN. DO NOT MOVE OBJECTS. DO NOT CHANGE OBJECT SIZES.',
+    'DO NOT ADD OR REMOVE MODULES. DO NOT CHANGE PAGE STATE. DO NOT SUBSTITUTE ASSETS.',
+    'DO NOT REWRITE THE COMPOSITION. ONLY CHANGE REPRESENTATION TO BLUEPRINT / TECHNICAL VISUAL LANGUAGE.',
+    '',
+    `compositionStateId: ${input.composition.id}`,
+    `compositionHash: ${input.composition.compositionHash}`,
+    `actualRenderId: ${input.actualRenderId}`,
+    `actualRenderHash: ${input.actualRenderHash}`,
+    `objectDefinitionCount: ${input.composition.objectDefinitions.length}`,
+    'STRUCTURED TRUTH: frozen MobileTwinCompositionState (not pixel reverse-engineering).',
+  ].join('\n');
+}
+
+export function blueprintTransformPromptUsesActualImage(prompt: string): boolean {
+  return prompt.includes('IMAGE-TO-BLUEPRINT TRANSFORMATION') && prompt.includes('CANONICAL_ACTUAL_PAGE');
+}

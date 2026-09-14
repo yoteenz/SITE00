@@ -97,6 +97,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       .finally(() => setBusy(false));
   };
 
+  const strategyResolved = pipeline?.mobileTwinVisualGenerationStrategy !== 'UNRESOLVED';
   const runTwin = () => runFal('GENERATE_MOBILE_TWIN');
 
   const runApproveTwin = () => {
@@ -155,7 +156,12 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
         </div>
       : null}
       <div className="site00-dw-v3-mobile-twin-pipeline__actions">
-        <button type="button" data-testid="v3-generate-mobile-twin" disabled={busy} onClick={runTwin}>
+        {!strategyResolved ?
+          <p className="site00-dw-v3-authority__hint" data-testid="v3-strategy-blocked">
+            Run capability test and select a visual strategy before full GENERATE MOBILE TWIN.
+          </p>
+        : null}
+        <button type="button" data-testid="v3-generate-mobile-twin" disabled={busy || !strategyResolved} onClick={runTwin}>
           GENERATE MOBILE TWIN (FAL)
         </button>
         <button
