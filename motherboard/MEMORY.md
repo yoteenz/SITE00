@@ -9037,3 +9037,10 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Decision:** Intentional **founder override** bypasses capability/Flow A gates without inventing FAL URLs; benchmark still uses Railway FAL (may dispatch GPT-2 baseline if no saved renders).
 - **Changes:** `founderManualUnlockMobileTwinPath.ts`, `founderManualTwinPathUnlock` on pipeline state, reconcile + `runMobileTwinProviderBenchmark` honor flag; primary UI **FOUNDER OVERRIDE — UNLOCK METHOD A + BENCHMARK**; SYNC demoted to secondary with status message. Build **v429**. Tests **`founderManualUnlockMobileTwinPath.test.ts`**.
 
+---
+
+## 2026-09-14 — R7MF3P3 GPT2/NBP focused hybrid twin test (v430)
+
+- **Context:** P2 showed GPT2 best Actual, NBP strong Blueprint but NBP Actual often device-mockup; FLUX not fit — need 3-way strategy compare (GPT2 pair, NBP corrected pair, hybrid GPT2 Actual + NBP Blueprint) without architecture change.
+- **Delivered:** `runMobileTwinFocusedHybridBenchmark`, split-provider `dispatchMobileTwinSplitProviderPair`, NBP **presentation firewall** prompt + `ACTUAL_PRESENTATION_VIOLATION_DEVICE_FRAME`, `ProviderStrategyBenchmarkReceipt`, `MobileTwinRenderStrategy` + `recordFounderMobileTwinRenderStrategy`, UI **`DesignPageV3MobileTwinFocusedHybridPanel`**, actions `RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK` / retries. GPT2 control reused from P2 baseline. Build **v430**. Tests **`p0vrTwinV30R7MF3P3.test.ts`**. No FLUX in P3 path; no package fan-out.
+

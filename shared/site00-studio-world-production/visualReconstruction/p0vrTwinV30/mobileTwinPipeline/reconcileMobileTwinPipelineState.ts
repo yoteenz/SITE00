@@ -135,6 +135,8 @@ export function mergeMobileTwinPipelineRich(
       other.mobileTwinVisualGenerationStrategy,
     ),
     mobileTwinProviderStrategy: pick.mobileTwinProviderStrategy ?? other.mobileTwinProviderStrategy,
+    focusedHybridBenchmark: pick.focusedHybridBenchmark ?? other.focusedHybridBenchmark,
+    mobileTwinRenderStrategy: pick.mobileTwinRenderStrategy ?? other.mobileTwinRenderStrategy,
     founderManualTwinPathUnlock: Boolean(pick.founderManualTwinPathUnlock || other.founderManualTwinPathUnlock),
     falJobsDispatched: Math.max(pick.falJobsDispatched ?? 0, other.falJobsDispatched ?? 0),
     totalProviderCostUsd: Math.max(pick.totalProviderCostUsd ?? 0, other.totalProviderCostUsd ?? 0),

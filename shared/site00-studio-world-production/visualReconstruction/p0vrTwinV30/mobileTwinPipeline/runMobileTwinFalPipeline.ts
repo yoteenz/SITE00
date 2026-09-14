@@ -10,6 +10,7 @@ import { finalizeMobileTwinPackageSession } from './runGenerateMobileTwinPackage
 import { runMobileAtomicTwinGeneration } from './runMobileAtomicTwinGeneration.js';
 import { runMobileTwinCapabilityTest } from './runMobileTwinCapabilityTest.js';
 import { runMobileTwinProviderBenchmark } from './runMobileTwinProviderBenchmark.js';
+import { runMobileTwinFocusedHybridBenchmark } from './runMobileTwinFocusedHybridBenchmark.js';
 import {
   assertBlueprintTwinNotRedesigned,
   buildRenderBlueprintTwinReconciliationReceipt,
@@ -24,6 +25,9 @@ export type MobileTwinFalAction =
   | 'RETRY_PROVIDER_BENCHMARK_NBPRO'
   | 'RETRY_PROVIDER_BENCHMARK_FLUX2MAX'
   | 'RETRY_PROVIDER_BENCHMARK_KONTEXTMAX'
+  | 'RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK'
+  | 'RETRY_FOCUSED_HYBRID_NBP_FULL'
+  | 'RETRY_FOCUSED_HYBRID_GPT2_NBP'
   | 'GENERATE_MOBILE_TWIN'
   | 'REGENERATE_MOBILE_TWIN'
   | 'GENERATE_MOBILE_RENDER'
@@ -97,6 +101,26 @@ export async function runMobileTwinFalPipeline(input: {
       session,
       publicOrigin: input.publicOrigin,
       retry: 'KONTEXTMAX',
+      forceNew: true,
+    });
+  }
+
+  if (input.action === 'RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK') {
+    return runMobileTwinFocusedHybridBenchmark({ session, publicOrigin: input.publicOrigin, retry: 'NONE' });
+  }
+  if (input.action === 'RETRY_FOCUSED_HYBRID_NBP_FULL') {
+    return runMobileTwinFocusedHybridBenchmark({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'NBP_FULL_PAIR_CORRECTED',
+      forceNew: true,
+    });
+  }
+  if (input.action === 'RETRY_FOCUSED_HYBRID_GPT2_NBP') {
+    return runMobileTwinFocusedHybridBenchmark({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'GPT2_ACTUAL__NBP_BLUEPRINT',
       forceNew: true,
     });
   }
