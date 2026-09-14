@@ -4,6 +4,14 @@ Append-only conversation summaries. **Do not overwrite earlier entries.** Latest
 
 ---
 
+## 2026-09-14 — Design page boot recovery v443 (process.env + error boundaries)
+
+- **Founder report:** Design page not booting correctly again on fsbw-dev (white / crash pattern similar to v438).
+- **Cause:** New blueprint retry / style-anchor path called **`process.env` in client-shared code** (`resolveLightBlueprintStyleReference`, `resolveMobileTwinPublicAssetUrl`) — **`ReferenceError: process is not defined`** in Vite/browser can white-screen the whole authority panel. Package inspector could also throw on missing `compositionHash` / jobId slices.
+- **Fix:** `readSite00OptionalEnv()` (import.meta + safe globalThis.process); public asset URL resolver uses it; sync wrapped in **`syncPilotSessionSafe`** on initial state + mount; **`DesignPageV3SectionErrorBoundary`** around batch-1 authority + mobile twin stack; defensive optional chaining in package inspector. Build **v443**. Tests **`designPageV3MobileTwinBoot.test.ts`**.
+
+---
+
 ## 2026-09-14 — Blueprint light retry strip visible on Design (v442)
 
 - **Founder report:** Session-close guidance (“RETRY LIGHT BLUEPRINT if dark”) not visible on fsbw-dev Design — button only rendered when automated `blueprintNeedsLightStyle` fired; real FAL blueprint URLs often **PASS** receipt heuristics (UNKNOWN background) so CTA stayed hidden below fold in pipeline panel.

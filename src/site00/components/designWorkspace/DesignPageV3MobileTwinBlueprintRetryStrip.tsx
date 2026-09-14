@@ -21,12 +21,17 @@ export function DesignPageV3MobileTwinBlueprintRetryStrip({ session, onSessionUp
 
   const view = useMemo(() => {
     if (!pipeline) return null;
-    return evaluateBlueprintLightStyleRetry({
-      actualRender: slots?.actualRender ?? null,
-      blueprintTwin: slots?.blueprintTwin ?? null,
-      artifactsById: pipeline.artifactsById,
-      publicOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
-    });
+    try {
+      return evaluateBlueprintLightStyleRetry({
+        actualRender: slots?.actualRender ?? null,
+        blueprintTwin: slots?.blueprintTwin ?? null,
+        artifactsById: pipeline.artifactsById,
+        publicOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
+      });
+    } catch (err) {
+      console.error('site00: blueprint retry strip evaluation failed', err);
+      return null;
+    }
   }, [pipeline, slots?.actualRender, slots?.blueprintTwin]);
 
   if (!view?.showRetryStrip) return null;

@@ -4,6 +4,7 @@ import {
   type MobileTwinVisualProviderStrategyResolved,
 } from './mobileTwinProviderPromotionTypes.js';
 import type { MobileTwinPipelineState } from './types.js';
+import { readSite00OptionalEnv } from './readSite00OptionalEnv.js';
 
 export function getMobileTwinVisualProviderStrategy(
   pipeline: MobileTwinPipelineState | null | undefined,
@@ -27,7 +28,7 @@ export function assertLockedMobileProviderAvailable(pipeline: MobileTwinPipeline
   const route = getMobileTwinVisualProviderStrategy(pipeline);
   if (!route) return;
   const nbp = resolveFocusedHybridNbpModel();
-  if (process.env.SITE00_TWIN_BENCHMARK_NBPRO_MODEL === 'UNAVAILABLE') {
+  if (readSite00OptionalEnv('SITE00_TWIN_BENCHMARK_NBPRO_MODEL') === 'UNAVAILABLE') {
     throw new Error('MOBILE_TWIN_LOCKED_PROVIDER_UNAVAILABLE');
   }
   if (route.actual.model !== nbp && !route.actual.model.includes('nano-banana')) {

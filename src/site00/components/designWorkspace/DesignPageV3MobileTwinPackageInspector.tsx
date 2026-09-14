@@ -128,7 +128,10 @@ export function DesignPageV3MobileTwinPackageInspector({ session, projectId, onS
         {view.compositionStats ?
           <ul>
             <li>compositionStateId · {view.composition?.id}</li>
-            <li>compositionHash · {view.composition?.compositionHash.slice(0, 16)}…</li>
+            <li>
+              compositionHash ·{' '}
+              {view.composition?.compositionHash ? `${view.composition.compositionHash.slice(0, 16)}…` : '—'}
+            </li>
             <li>status · {view.composition?.status}</li>
             <li>regions · {view.compositionStats.regionCount}</li>
             <li>objects · {view.compositionStats.objectCount}</li>
@@ -248,11 +251,11 @@ export function DesignPageV3MobileTwinPackageInspector({ session, projectId, onS
           <ul>
             <li>
               ACTUAL · {view.providerLineage.actual.provider} · {view.providerLineage.actual.model} ·{' '}
-              {view.providerLineage.actual.jobId.slice(-20)} · ${view.providerLineage.actual.costUsd.toFixed(2)}
+              {(view.providerLineage.actual.jobId ?? '').slice(-20)} · ${view.providerLineage.actual.costUsd.toFixed(2)}
             </li>
             <li>
               BLUEPRINT · {view.providerLineage.blueprint.provider} · {view.providerLineage.blueprint.styleContract} ·{' '}
-              {view.providerLineage.blueprint.jobId.slice(-20)}
+              {(view.providerLineage.blueprint.jobId ?? '').slice(-20)}
             </li>
           </ul>
         : null}
