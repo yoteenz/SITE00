@@ -3,6 +3,8 @@ import {
   HISTORICAL_PROVIDER_BENCHMARK,
   LOCKED_MOBILE_STRATEGY_STATUS,
 } from './mobileTwinProviderPromotionTypes.js';
+import { applyMobileTwinAuthorityImageSnapshot } from './mobileTwinAuthorityImageSnapshot.js';
+import { rehydrateMobileTwinVisualArtifactsFromStore } from './rehydrateMobileTwinVisualArtifacts.js';
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { TwinFlowACapabilityReceipt } from './twinCapabilityTestTypes.js';
 import type { MobileTwinCapabilityTestState } from './twinCapabilityTestTypes.js';
@@ -185,8 +187,14 @@ export function hasFlowABaselineForBenchmark(pipeline: MobileTwinPipelineState):
 }
 
 /** Rebuild capability test + ids from receipts / render pairs after storage merge or iOS reload. */
-export function reconcileMobileTwinPipelineState(pipeline: MobileTwinPipelineState): MobileTwinPipelineState {
-  let next = { ...pipeline };
+export function reconcileMobileTwinPipelineState(
+  pipeline: MobileTwinPipelineState,
+  projectId?: string,
+): MobileTwinPipelineState {
+  let next = rehydrateMobileTwinVisualArtifactsFromStore({ ...pipeline });
+  if (projectId) {
+    next = applyMobileTwinAuthorityImageSnapshot(next, projectId);
+  }
   const pair = findFlowAPair(next);
   const receipt = findFlowAReceipt(next);
 

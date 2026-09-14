@@ -9199,6 +9199,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Actual/Blueprint authority image persistence (v455)
+
+- **Symptom:** MOBILE TWIN **Actual** + **Blueprint** images **disappear on refresh**; founder reruns FAL / rebuild though assets existed.
+- **Cause:** Slim LS kept render objects in **`artifactsById`** but **`renders`/`blueprintTwins` arrays** could be empty after regressive design session writes or iOS reload; review slots read arrays only. No compact URI snapshot for remount.
+- **Fix:** **`rehydrateMobileTwinVisualArtifactsFromStore`** before reconcile; **`mobileTwinAuthorityImageSnapshot`** (`site00:mobile-twin-authority-images:v1`) written on pipeline save; **`applyMobileTwinAuthorityImageSnapshot`** on sync with `projectId`. Build **v455**. Tests **`p0vrTwinV30AuthorityImagePersistence.test.ts`**.
+
+---
+
 ## 2026-09-14 — Twin local compile merged pipeline (v454)
 
 - **Symptom:** After v453, twin still showed SCHEMA_MISSING + “tap REBUILD” even after REBUILD.

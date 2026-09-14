@@ -2,6 +2,8 @@ import {
   mergeMobileTwinPipelineRich,
   reconcileMobileTwinPipelineState,
 } from './reconcileMobileTwinPipelineState.js';
+import { writeMobileTwinAuthorityImageSnapshot } from './mobileTwinAuthorityImageSnapshot.js';
+import { rehydrateMobileTwinVisualArtifactsFromStore } from './rehydrateMobileTwinVisualArtifacts.js';
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import { mobileTwinPipelineDataScore } from './mobileTwinPipelineDataScore.js';
 import type { MobileTwinPipelineState } from './types.js';
@@ -143,8 +145,10 @@ export function writeMobileTwinPipelineToBrowser(projectId: string, state: Mobil
       return false;
     }
   }
-  const slim = slimMobileTwinPipelineForStorage(merged);
-  writeBackupSnapshot(key, merged);
+  const rehydrated = rehydrateMobileTwinVisualArtifactsFromStore(merged);
+  const slim = slimMobileTwinPipelineForStorage(rehydrated);
+  writeBackupSnapshot(key, rehydrated);
+  writeMobileTwinAuthorityImageSnapshot(key, rehydrated);
   const parsed = readStore();
   parsed[key] = slim;
   return writeStore(parsed);
@@ -169,9 +173,13 @@ export function attachMobileTwinPipelineFromBrowserStore(
       (mobileTwinPipelineDataScore(stored) >= mobileTwinPipelineDataScore(backup) ? stored : backup)
     : stored ?? backup ?? undefined;
   if (!richestStored) return sessionPipeline;
-  if (!sessionPipeline) return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(richestStored));
+  if (!sessionPipeline) {
+    return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(richestStored, key));
+  }
   const merged = mergeMobileTwinPipelinePreferRenders(sessionPipeline, richestStored);
-  return merged ? hydrateMobileTwinReviewState(merged) : sessionPipeline ?? richestStored;
+  return merged ?
+      hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(merged, key))
+    : sessionPipeline ?? richestStored;
 }
 
 /** Force session pipeline from dedicated LS (+ backup) when in-memory state regressed. */
@@ -189,7 +197,7 @@ export function restoreMobileTwinPipelineFromBrowserStore(
   if (!richest) return sessionPipeline;
   const merged =
     sessionPipeline ? (mergeMobileTwinPipelineRich(richest, sessionPipeline) ?? richest) : richest;
-  return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(merged));
+  return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(merged, key));
 }
 
 export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState): MobileTwinPipelineState {

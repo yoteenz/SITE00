@@ -55,7 +55,7 @@ export function restoreFounderMobileTwinPipelineFromBrowser(
 ): DesignPageAuthorityReviewSession {
   const restored = restoreMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
   if (!restored) return session;
-  const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(restored));
+  const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(restored, projectId));
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
@@ -85,7 +85,7 @@ export function syncFounderMobileTwinSession(
   if (recovery.showRecoveryStrip) {
     merged = restoreMobileTwinPipelineFromBrowserStore(projectId, merged) ?? merged;
   }
-  const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged));
+  const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged, projectId));
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
