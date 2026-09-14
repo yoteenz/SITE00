@@ -9062,6 +9062,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF3P6 Mobile Twin routing cleanup + NBP enforcement + hydration (v435)
+
+- **Context:** Post P4/P5, founders saw GPT2 leakage, FAL outputs not mounting in review slots, FAL jobs 0, stale Phase A UI, duplicate GENERATE spend.
+- **Delivered:** `assertMobileTwinNbpModelAtDispatch` / post-job lock check (`MOBILE_TWIN_PROVIDER_LOCK_VIOLATION`); API merge prefers **server** pipeline; `requestMobileTwinFal` writes LS + `hydrateMobileTwinReviewState`; atomic run created **GENERATING** before FAL; `ingestMobileTwinProviderResult` + provider job records; review slots via `resolveMobileTwinReviewSlots`; idempotency gate + orphan recovery; UI **ACTUAL PAGE** / **BLUEPRINT TWIN** labels + technical provider details. Build **v435**. Tests **`p0vrTwinV30R7MF3P6.test.ts`**.
+
+---
+
 ## 2026-09-14 — R7MF3P5 light technical blueprint contract (v434)
 
 - **Context:** After P4 NBP lock, founder prefers **light** technical blueprint (readability) vs ambiguous dark/light NBP outputs.
