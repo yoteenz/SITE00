@@ -2,6 +2,7 @@ import {
   mergeMobileTwinPipelineRich,
   reconcileMobileTwinPipelineState,
 } from './reconcileMobileTwinPipelineState.js';
+import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { MobileTwinPipelineState } from './types.js';
 import { emptyMobileTwinPipelineState } from './types.js';
 
@@ -90,8 +91,15 @@ export function attachMobileTwinPipelineFromBrowserStore(
   sessionPipeline?: MobileTwinPipelineState,
 ): MobileTwinPipelineState | undefined {
   const stored = readMobileTwinPipelineFromBrowser(projectId);
-  const merged = mergeMobileTwinPipelinePreferRenders(sessionPipeline, stored ?? undefined);
-  return merged ?? sessionPipeline ?? stored ?? undefined;
+  if (!stored) return sessionPipeline;
+  if (!sessionPipeline) return stored;
+  const sessionJobs = sessionPipeline.falJobsDispatched ?? 0;
+  const storedJobs = stored.falJobsDispatched ?? 0;
+  if (sessionJobs > storedJobs) {
+    return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(sessionPipeline));
+  }
+  const merged = mergeMobileTwinPipelinePreferRenders(sessionPipeline, stored);
+  return merged ? hydrateMobileTwinReviewState(merged) : sessionPipeline ?? stored;
 }
 
 export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState): MobileTwinPipelineState {

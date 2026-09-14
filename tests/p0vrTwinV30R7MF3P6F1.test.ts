@@ -28,6 +28,11 @@ import { recordFounderTwinCapabilityDecision } from '../shared/site00-studio-wor
 import { runMobileTwinCapabilityTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinCapabilityTest.js';
 import { runMobileAtomicTwinGeneration } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileAtomicTwinGeneration.js';
 import { runMobileBlueprintOnlyRetry } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileBlueprintOnlyRetry.js';
+import {
+  hydrateMobileTwinReviewState,
+  resolveMobileTwinReviewSlots,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
+import { reconcileMobileTwinPipelineState } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import { runMobileTwinFalPipeline } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.js';
 import * as falReferenceImageJob from '../shared/site00-visual-generation/falReferenceImageJob.js';
 import { resolveFocusedHybridGpt2Model, resolveFocusedHybridNbpModel } from '../shared/site00-visual-generation/twinFocusedHybridBenchmarkCatalog.js';
@@ -100,6 +105,39 @@ describe('P0.VR.TWINV3.0R7MF3P6F1 light blueprint retry', () => {
     expect(bp.compositionHash).toBe(compHash);
     expect(bp.implementationRenderId).toBe(actualId);
     spy.mockRestore();
+  });
+
+  it('9b review slots bind atomic-run blueprint when stale ACTIVE sibling remains', async () => {
+    let session = await promotedSession();
+    session = await runMobileAtomicTwinGeneration({ session });
+    const priorBpId = session.mobileTwinPipeline!.blueprintTwins.at(-1)!.id;
+    vi.spyOn(falReferenceImageJob, 'runFalReferenceImageJob').mockResolvedValue({
+      url: 'vitest-fal://light-blueprint-pass-mount',
+      jobRef: 'job-light-mount',
+      model: resolveFocusedHybridNbpModel(),
+    });
+    session = await runMobileBlueprintOnlyRetry({ session });
+    const newBpId = session.mobileTwinPipeline!.atomicRuns.find(
+      (r) => r.id === session.mobileTwinPipeline!.activeAtomicRunId,
+    )!.blueprintRenderArtifactId!;
+    expect(newBpId).not.toBe(priorBpId);
+    const corrupted = {
+      ...session.mobileTwinPipeline!,
+      blueprintTwins: session.mobileTwinPipeline!.blueprintTwins.map((b) => {
+        if (b.id === priorBpId) return { ...b, blueprintVisualVariant: 'ACTIVE_BLUEPRINT_TWIN' as const };
+        if (b.id === newBpId) return { ...b, blueprintVisualVariant: 'HISTORICAL_BLUEPRINT_VARIANT' as const };
+        return b;
+      }),
+      visualPairs: session.mobileTwinPipeline!.visualPairs.map((p) =>
+        p.atomicRunId === session.mobileTwinPipeline!.activeAtomicRunId ?
+          { ...p, blueprintRenderId: priorBpId }
+        : p,
+      ),
+    };
+    const hydrated = hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(corrupted));
+    const slots = resolveMobileTwinReviewSlots(hydrated);
+    expect(slots.blueprintTwin?.id).toBe(newBpId);
+    expect(slots.blueprintTwin?.twinImageUri).toContain('light-blueprint-pass-mount');
   });
 
   it('9–14 historical preserved; light pass promotes active pointer', async () => {
