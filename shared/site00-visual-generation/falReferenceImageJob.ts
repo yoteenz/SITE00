@@ -1,4 +1,5 @@
 import { buildFalImageInput } from './falImageModels.js';
+import { ensureFalAccessibleReferenceUrls } from './falEnsureReferenceUrls.js';
 
 export type FalReferenceImageJobResult = {
   url: string;
@@ -39,10 +40,11 @@ export async function runFalReferenceImageJob(input: {
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
 
+  const accessibleRefs = await ensureFalAccessibleReferenceUrls(input.referenceImageUrls);
   const { model, input: falInput } = buildFalImageInput({
     prompt: input.prompt,
     aspectRatio: input.aspectRatio ?? '9:16',
-    referenceImageUrls: input.referenceImageUrls,
+    referenceImageUrls: accessibleRefs,
   });
 
   const submitResult = await fal.queue.submit(model, { input: falInput });

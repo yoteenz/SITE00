@@ -8929,6 +8929,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF1 FAL reference upload fix (v420)
+
+- **Symptom:** FAL 422 **Failed to download the file** on mobile twin render.
+- **Cause:** `https://site00.com/.../mobile-master.jpg` returns **text/html** (SPA index) on cPanel — FAL cannot use it as `image_urls`.
+- **Fix:** `falEnsureReferenceUrls.ts` loads JPG from Railway `public/` or GitHub raw, uploads to **fal.storage**, then runs gpt-image-2/edit. Build **v420**. Railway redeploy required.
+
+---
+
 ## 2026-09-14 — R7MF1 mobile FAL fetch fix (v419)
 
 - **Symptom:** iOS Safari on `site00.fsbw-dev.com` showed **Load failed** on GENERATE MOBILE RENDER (FAL).
