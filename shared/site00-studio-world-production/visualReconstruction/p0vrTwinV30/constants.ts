@@ -1,5 +1,5 @@
-/** P0.VR.TWINV3.0R7MF3P2 — founder path UX + provider benchmark visibility. */
-export const P0_VR_TWIN_V30_BUILD = 'v426' as const;
+/** Mobile twin pipeline reconcile — unlock Flow A / benchmark after FAL + reload. */
+export const P0_VR_TWIN_V30_BUILD = 'v427' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
