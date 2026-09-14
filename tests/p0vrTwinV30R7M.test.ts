@@ -19,11 +19,14 @@ import {
   runMobileCompositionForensicQa,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 import { runGenerateMobileImplementationRenderNode } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runGenerateMobileImplementationRenderNode.js';
+import { runGenerateMobileImplementationRenderNode } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runGenerateMobileImplementationRenderNode.js';
 import { runGenerateMobileTwinPackageNode } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runGenerateMobileTwinPackageNode.js';
-import { canGenerateMobileTwinPackage } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runGenerateMobileTwinPackage.js';
+import {
+  canGenerateMobileTwinPackage,
+  runGenerateMobileTwinPackage,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runGenerateMobileTwinPackage.js';
 
 const runGenerateMobileImplementationRender = runGenerateMobileImplementationRenderNode;
-const runGenerateMobileTwinPackage = runGenerateMobileTwinPackageNode;
 import { resolveFounderAuthorityAbsolutePath } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceDerivation/pixelGroundedAuthorityAnalysisNode.js';
 
 function lockedSession() {
@@ -81,24 +84,27 @@ describe('P0.VR.TWINV3.0R7M mobile twin pipeline', () => {
     let session = await runGenerateMobileImplementationRender(lockedSession());
     expect(session.mobileTwinPipeline!.renderGate).toBe('FOUNDER_REVIEW');
     expect(canGenerateMobileTwinPackage(session)).toBe(false);
-    await expect(runGenerateMobileTwinPackage(session)).rejects.toThrow(/MOBILE_RENDER_NOT_APPROVED/);
+    await expect(runGenerateMobileTwinPackageNode(session)).rejects.toThrow(/MOBILE_RENDER_NOT_APPROVED/);
   });
 
-  it('14–16 approve render → visual authority + frozen composition', async () => {
-    let session = await runGenerateMobileImplementationRender(lockedSession());
-    const hashBefore = session.mobileTwinPipeline!.compositionStates.at(-1)!.compositionHash;
-    session = approveMobileImplementationRender(session);
-    expect(session.mobileTwinPipeline!.implementationVisualAuthority?.status).toBe('FROZEN_IMPLEMENTATION_AUTHORITY');
-    expect(session.mobileTwinPipeline!.renderGate).toBe('FROZEN');
-    const comp = session.mobileTwinPipeline!.compositionStates.at(-1)!;
-    expect(comp.status).toBe('FROZEN');
-    expect(comp.compositionHash).toBe(hashBefore);
+  it('14–16 local stub cannot become final implementation authority (R7MF1)', async () => {
+    const session = await runGenerateMobileImplementationRender(lockedSession());
+    expect(() => approveMobileImplementationRender(session)).toThrow(
+      /LOCAL_COMPILER_STUB_CANNOT_BECOME_FINAL_IMPLEMENTATION_AUTHORITY/,
+    );
   });
 
-  it('17–20 twin package shares composition hash across derivatives', async () => {
+  it('17–20 twin package shares composition hash across derivatives (local proof package path)', async () => {
     let session = await runGenerateMobileImplementationRender(lockedSession());
+    session = {
+      ...session,
+      mobileTwinPipeline: {
+        ...session.mobileTwinPipeline!,
+        founderStubOverride: true,
+      },
+    };
     session = approveMobileImplementationRender(session);
-    session = await runGenerateMobileTwinPackage(session);
+    session = await runGenerateMobileTwinPackageNode(session);
     const pkg = session.mobileTwinPipeline!.packages.at(-1)!;
     const comp = session.mobileTwinPipeline!.compositionStates.find((c) => c.id === pkg.compositionStateId)!;
     const blueprint = session.mobileTwinPipeline!.artifactsById[pkg.blueprintTwinVisualId] as {
@@ -112,8 +118,12 @@ describe('P0.VR.TWINV3.0R7M mobile twin pipeline', () => {
 
   it('21–25 reconciliation + fidelity receipts', async () => {
     let session = await runGenerateMobileImplementationRender(lockedSession());
+    session = {
+      ...session,
+      mobileTwinPipeline: { ...session.mobileTwinPipeline!, founderStubOverride: true },
+    };
     session = approveMobileImplementationRender(session);
-    session = await runGenerateMobileTwinPackage(session);
+    session = await runGenerateMobileTwinPackageNode(session);
     const pkg = session.mobileTwinPipeline!.packages.at(-1)!;
     const recon = session.mobileTwinPipeline!.artifactsById[pkg.reconciliationReceiptId] as { result: string };
     const refFid = session.mobileTwinPipeline!.artifactsById[pkg.referenceTranslationFidelityReceiptId] as {
@@ -134,11 +144,15 @@ describe('P0.VR.TWINV3.0R7M mobile twin pipeline', () => {
     expect(forensic.role).toBe(R6F2_BLUEPRINT_ROLE);
   });
 
-  it('28–29 approve/regenerate hooks + package after approval', async () => {
+  it('28–29 approve/regenerate hooks + package after stub override', async () => {
     let session = await runGenerateMobileImplementationRender(lockedSession());
+    session = {
+      ...session,
+      mobileTwinPipeline: { ...session.mobileTwinPipeline!, founderStubOverride: true },
+    };
     session = approveMobileImplementationRender(session);
-    expect(canGenerateMobileTwinPackage(session)).toBe(true);
-    session = await runGenerateMobileTwinPackage(session);
+    expect(canGenerateMobileTwinPackage(session)).toBe(false);
+    session = await runGenerateMobileTwinPackageNode(session);
     expect(session.mobileTwinPipeline!.latestPackageId).toBeTruthy();
     expect(session.mobileTwinPipeline!.packages.at(-1)?.status).toBe('FOUNDER_REVIEW_READY');
   });

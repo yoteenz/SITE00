@@ -3,6 +3,7 @@ import { P0_VR_TWIN_V30R7M_LINEAGE } from '../constants.js';
 import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
 import { buildMobileTwinCompositionState } from './buildMobileTwinCompositionState.js';
 import type { MobileImplementationRender } from './types.js';
+import { LOCAL_STUB_RENDER_MODE } from './mobileRenderClassification.js';
 import { writeLocalMobileImplementationRender } from './mobileTwinPipelineNode.js';
 
 /** Node/vitest entry — uses sharp to persist render JPG under r7m-generated/. */
@@ -30,6 +31,9 @@ export async function runGenerateMobileImplementationRenderNode(
     heightPx: written.height,
     provider: 'LOCAL_COMPILER',
     providerJobRef: `${P0_VR_TWIN_V30R7M_LINEAGE}-render-${runId}`,
+    renderMode: LOCAL_STUB_RENDER_MODE,
+    providerArtifactType: 'LOCAL_PROOF_ONLY',
+    providerStatus: 'GENERATED',
     status: 'FOUNDER_REVIEW',
     createdAt: new Date().toISOString(),
   };

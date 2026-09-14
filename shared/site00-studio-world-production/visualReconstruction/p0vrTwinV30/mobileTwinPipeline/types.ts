@@ -87,6 +87,10 @@ export type MobileTwinCompositionState = {
 
 export type MobileImplementationRenderStatus = 'GENERATED' | 'FOUNDER_REVIEW' | 'APPROVED' | 'SUPERSEDED';
 
+export type MobileRenderMode = 'REAL_PROVIDER_RENDER' | 'PIPELINE_PROOF_STUB';
+export type MobileProviderArtifactType = 'REAL_VISUAL_GENERATION' | 'LOCAL_PROOF_ONLY';
+export type MobileProviderJobStatus = 'QUEUED' | 'GENERATING' | 'GENERATED' | 'FAILED';
+
 export type MobileImplementationRender = {
   id: string;
   compositionStateId: string;
@@ -98,6 +102,15 @@ export type MobileImplementationRender = {
   heightPx: number;
   provider: 'FAL' | 'LOCAL_COMPILER';
   providerJobRef: string;
+  providerModel?: string;
+  providerStatus?: MobileProviderJobStatus;
+  renderMode?: MobileRenderMode;
+  providerArtifactType?: MobileProviderArtifactType;
+  normalizedRequest?: Record<string, unknown>;
+  parentRenderId?: string | null;
+  refinementScope?: string | null;
+  founderNotes?: string[];
+  providerCostUsd?: number;
   status: MobileImplementationRenderStatus;
   createdAt: string;
 };
@@ -115,9 +128,12 @@ export type MobileImplementationVisualAuthorityStatus = 'FROZEN_IMPLEMENTATION_A
 export type MobileImplementationVisualAuthority = {
   id: string;
   renderId: string;
+  sourceProviderJobId: string | null;
   compositionStateId: string;
   compositionHash: string;
   referenceAuthorityId: string;
+  featureManifestVersion: string;
+  projectCreativeContextVersion: string;
   imageUri: string;
   imageHash: string;
   approvedAt: string;
@@ -164,6 +180,7 @@ export type MobileTwinPackage = {
   reconciliationReceiptId: string;
   referenceTranslationFidelityReceiptId: string;
   twinFidelityReceiptId: string;
+  renderBlueprintTwinReconciliationReceiptId?: string;
   featureManifestVersion: string;
   projectCreativeContextVersion: string;
   packageChecksum: string;
@@ -193,6 +210,27 @@ export type TwinFidelityReceipt = {
   result: 'PASS' | 'FAIL';
 };
 
+export type RenderBlueprintTwinReconciliationReceipt = {
+  id: string;
+  renderId: string;
+  blueprintTwinId: string;
+  compositionStateId: string;
+  compositionHash: string;
+  regionCorrespondence: boolean;
+  objectCountCorrespondence: boolean;
+  hierarchyCorrespondence: boolean;
+  result: 'PASS' | 'FAIL' | 'REVIEW_REQUIRED';
+};
+
+export type MobileProviderCostRecord = {
+  id: string;
+  kind: 'MOBILE_RENDER' | 'BLUEPRINT_TWIN' | 'STANDALONE_ASSET';
+  providerJobRef: string;
+  model: string;
+  estimatedCostUsd: number;
+  createdAt: string;
+};
+
 export type MobileTwinReconciliationReceipt = {
   id: string;
   packageId: string;
@@ -216,6 +254,10 @@ export type MobileTwinPipelineState = {
   latestPackageId: string | null;
   artifactsById: Record<string, unknown>;
   falJobsDispatched: number;
+  desktopJobsDispatched: number;
+  providerCostRecords: MobileProviderCostRecord[];
+  totalProviderCostUsd: number;
+  founderStubOverride?: boolean;
   desktopStatus: 'DEFERRED';
   r6f2ForensicRole: typeof R6F2_BLUEPRINT_ROLE;
 };
@@ -244,6 +286,10 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     latestPackageId: null,
     artifactsById: {},
     falJobsDispatched: 0,
+    desktopJobsDispatched: 0,
+    providerCostRecords: [],
+    totalProviderCostUsd: 0,
+    founderStubOverride: false,
     desktopStatus: 'DEFERRED',
     r6f2ForensicRole: R6F2_BLUEPRINT_ROLE,
   };
