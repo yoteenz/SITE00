@@ -6,7 +6,8 @@ import {
   requestMobileTwinPackageCorrection,
   type MobileTwinPackageCorrectionReason,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinPackageCorrection.js';
-import { canApproveMobileTwinPackage, approveMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
+import { canApproveMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
+import { approveAndPersistMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
 import { PACKAGE_ARTIFACT_MISSING } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPackageIntegrityReceipt.js';
 
 type Props = {
@@ -58,8 +59,10 @@ export function DesignPageV3MobileTwinPackageInspector({ session, projectId, onS
   const approve = () => {
     setMsg(null);
     try {
-      onSessionUpdate(approveMobileTwinPackage(session));
-      setMsg('Package approved.');
+      void approveAndPersistMobileTwinPackage({ session }).then((next) => {
+        onSessionUpdate(next);
+        setMsg('MOBILE TWIN PACKAGE APPROVED');
+      });
     } catch (e) {
       setMsg(e instanceof Error ? e.message : String(e));
     }

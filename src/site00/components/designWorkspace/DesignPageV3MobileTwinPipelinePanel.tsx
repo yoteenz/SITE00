@@ -5,7 +5,7 @@ import {
   P0_VR_TWIN_V30R7MF3_LINEAGE,
   P0_VR_TWIN_V30R7M_LINEAGE,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
-import { approveMobileTwinPackage, canApproveMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
+import { canApproveMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
 import { selectMobileImplementationRender } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileImplementationRender.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
@@ -18,6 +18,11 @@ import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-w
 import { evaluateBlueprintLightStyleRetryFromPipeline } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 import { DesignPageV3MobileTwinPackageInspector } from './DesignPageV3MobileTwinPackageInspector.js';
+import { approveAndPersistMobileTwinPackage, compileMobileTwinImplementationRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
+import { mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
+import { Link } from 'react-router-dom';
+import { SITE00_ROUTES } from '../../config/routes.js';
+import { MOBILE_TWIN_APPROVAL_PERSIST_FAILED } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
@@ -41,6 +46,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const [compareMode, setCompareMode] = useState<CompareMode>('REFERENCE_ACTUAL');
   const [viewMode, setViewMode] = useState<ViewMode>('SIDE_BY_SIDE');
   const [packageFullscreen, setPackageFullscreen] = useState<{ label: string; src: string } | null>(null);
+  const [approvalMsg, setApprovalMsg] = useState<string | null>(null);
   const showPackageInspector = compareMode === 'PACKAGE' && viewMode === 'SIDE_BY_SIDE';
   if (!session.authorityPipeline?.mobileMaster) return null;
 
@@ -144,13 +150,39 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     pipeline?.mobileTwinVisualGenerationStrategy !== 'UNRESOLVED';
   const runTwin = () => runFal('GENERATE_MOBILE_TWIN');
 
+  const packageApproved =
+    pkg?.status === 'APPROVED' ||
+    pipeline?.mobileTwinImplementation?.packageApprovalStatus === 'CONFIRMED' ||
+    pipeline?.mobileTwinImplementation?.packageApprovalStatus === 'LOCAL_ONLY';
+  const readyToCompile =
+    pipeline?.mobileTwinImplementation?.implementationStatus === 'READY_TO_COMPILE' ||
+    (packageApproved && !pipeline?.mobileTwinImplementation?.latestBuildId);
+  const twinPreviewRoute = mobileTwinTwinPreviewRoute(session.projectId);
+
   const runApproveTwin = () => {
     setErr(null);
-    try {
-      onSessionUpdate(approveMobileTwinPackage(session));
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : String(e));
-    }
+    setApprovalMsg(null);
+    setBusy(true);
+    void approveAndPersistMobileTwinPackage({ session })
+      .then((next) => {
+        onSessionUpdate(next);
+        if (next.mobileTwinPipeline?.mobileTwinImplementation?.packageApprovalStatus === 'PERSIST_FAILED') {
+          setErr(MOBILE_TWIN_APPROVAL_PERSIST_FAILED);
+          return;
+        }
+        setApprovalMsg('MOBILE TWIN PACKAGE APPROVED');
+      })
+      .catch((e: Error) => setErr(e.message))
+      .finally(() => setBusy(false));
+  };
+
+  const runBuildTwinRoute = () => {
+    setBusy(true);
+    setErr(null);
+    void compileMobileTwinImplementationRoute({ session })
+      .then(() => setApprovalMsg('Twin implementation compiled — review on twin route.'))
+      .catch((e: Error) => setErr(e.message))
+      .finally(() => setBusy(false));
   };
 
   return (
@@ -254,9 +286,30 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           </button>
         : null}
         {canApproveMobileTwinPackage(session) ?
-          <button type="button" data-testid="v3-approve-mobile-twin-package" onClick={runApproveTwin}>
+          <button type="button" data-testid="v3-approve-mobile-twin-package" disabled={busy} onClick={runApproveTwin}>
             APPROVE MOBILE TWIN PACKAGE
           </button>
+        : null}
+        {approvalMsg ?
+          <p className="site00-dw-v3-authority__hint" data-testid="v3-mobile-twin-package-approved-msg" role="status">
+            {approvalMsg}
+          </p>
+        : null}
+        {packageApproved ?
+          <div data-testid="v3-next-action-build-twin">
+            <p className="site00-dw-v3-authority__hint">NEXT ACTION · BUILD TWIN DESIGN ROUTE</p>
+            {readyToCompile ?
+              <button type="button" data-testid="v3-build-twin-design-route" disabled={busy} onClick={runBuildTwinRoute}>
+                BUILD TWIN DESIGN ROUTE
+              </button>
+            : null}
+            {pipeline?.mobileTwinImplementation?.latestBuildId ?
+              <Link to={SITE00_ROUTES.projectDesignTwin.replace(':projectSlug', session.projectId.toLowerCase())}>
+                REVIEW TWIN IMPLEMENTATION
+              </Link>
+            : null}
+            <span className="site00-dw-v3-authority__hint">{twinPreviewRoute}</span>
+          </div>
         : null}
       </div>
       <div className="site00-dw-v3-mobile-twin-pipeline__compare" role="region" aria-label="Mobile twin founder review">

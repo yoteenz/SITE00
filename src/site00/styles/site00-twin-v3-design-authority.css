@@ -1178,3 +1178,33 @@
   max-height: 100vh;
   margin: auto;
 }
+
+.site00-dw-v3-twin-impl-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(10, 122, 62, 0.06);
+}
+
+.site00-dw-v3-twin-impl-review {
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+}
+
+.site00-dw-v3-twin-impl-review__modes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0;
+}
+
+.site00-mobile-twin-compiled-impl {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}

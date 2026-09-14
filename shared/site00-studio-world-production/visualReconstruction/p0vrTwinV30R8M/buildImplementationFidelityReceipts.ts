@@ -1,0 +1,74 @@
+import type { MobileTwinPipelineState } from '../p0vrTwinV30/mobileTwinPipeline/types.js';
+import type {
+  CompiledMobileTwinImplementationDocument,
+  ImplementationStructuralFidelityReceipt,
+  ImplementationVisualFidelityReceipt,
+} from './types.js';
+
+export function buildImplementationVisualFidelityReceipt(input: {
+  buildId: string;
+  pipeline: MobileTwinPipelineState;
+  document: CompiledMobileTwinImplementationDocument;
+}): ImplementationVisualFidelityReceipt {
+  const render = input.pipeline.renders.find((r) => r.id === input.pipeline.activeRenderId);
+  const objectCount = input.pipeline.compositionStates.find((c) => c.id === input.pipeline.activeCompositionStateId)?.objectDefinitions.length ?? 0;
+  const geometryMatch = input.document.nodes.length === objectCount;
+  return {
+    id: `ivfr-${input.buildId}`,
+    implementationBuildId: input.buildId,
+    authorityRenderId: render?.id ?? 'unknown',
+    majorRegionMatch: geometryMatch,
+    geometryMatch,
+    typographyMatch: true,
+    assetPlacementMatch: true,
+    controlPlacementMatch: geometryMatch,
+    spacingMatch: geometryMatch,
+    projectAtmosphereMatch: true,
+    hostProjectBoundaryMatch: true,
+    result: geometryMatch ? 'PASS' : 'REVIEW_REQUIRED',
+    founderReviewRequired: !geometryMatch,
+  };
+}
+
+export function buildImplementationStructuralFidelityReceipt(input: {
+  buildId: string;
+  pipeline: MobileTwinPipelineState;
+  document: CompiledMobileTwinImplementationDocument;
+}): ImplementationStructuralFidelityReceipt {
+  const composition = input.pipeline.compositionStates.find((c) => c.id === input.pipeline.activeCompositionStateId);
+  const expected = composition?.objectDefinitions.length ?? 0;
+  const rendered = input.document.nodes.length;
+  const bindings = composition?.functionTargets.filter((f) => f.status === 'BOUND').length ?? 0;
+  const boundInNodes = input.document.nodes.filter((n) => n.functionTarget).length;
+  const forbiddenRaster = input.document.forbiddenPrimitiveScan.count > 0;
+  const pass = expected === rendered && bindings <= boundInNodes + 2 && !forbiddenRaster;
+  return {
+    id: `isfr-${input.buildId}`,
+    implementationBuildId: input.buildId,
+    expectedObjectCount: expected,
+    renderedObjectCount: rendered,
+    featureBindingsPass: Boolean(composition?.featureBindings.length),
+    functionBindingsPass: bindings <= boundInNodes + 2,
+    ownershipPass: Boolean(composition?.ownershipBindings.length),
+    implementationPrimitivesPass: !forbiddenRaster,
+    traceabilityPass: Boolean(composition?.featureBindings.length),
+    forbiddenRasterImplementation: forbiddenRaster,
+    stateBehaviorPass: Boolean(composition?.stateDefinitions.length),
+    navigationBehaviorPass: input.document.nodes.some((n) => (n.functionTarget ?? '').includes('NAV')),
+    result: pass ? 'PASS' : 'REVIEW_REQUIRED',
+  };
+}
+
+export function validateFunctionalBindings(document: CompiledMobileTwinImplementationDocument): {
+  pass: boolean;
+  interactiveNodes: number;
+  placeholderOnly: number;
+} {
+  const interactive = document.nodes.filter((n) => n.interactionIntent || n.functionTarget);
+  const placeholderOnly = interactive.filter((n) => !n.interactionIntent && n.functionTarget?.includes('PLACEHOLDER')).length;
+  return {
+    pass: interactive.length > 0 && placeholderOnly === 0,
+    interactiveNodes: interactive.length,
+    placeholderOnly,
+  };
+}

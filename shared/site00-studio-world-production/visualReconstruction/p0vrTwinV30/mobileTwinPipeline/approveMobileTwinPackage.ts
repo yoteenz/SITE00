@@ -10,7 +10,9 @@ export function canApproveMobileTwinPackage(session: DesignPageAuthorityReviewSe
   if (!p?.latestPackageId) return false;
   if (p.mobileTwinVisualGenerationStrategy === 'UNRESOLVED') return false;
   const pkg = p.packages.find((x) => x.id === p.latestPackageId);
-  if (!pkg || pkg.status !== 'FOUNDER_REVIEW_READY') return false;
+  if (!pkg) return false;
+  if (pkg.status === 'APPROVED' || p.mobileTwinImplementation?.packageApprovalStatus === 'CONFIRMED') return false;
+  if (pkg.status !== 'FOUNDER_REVIEW_READY') return false;
   const pair = p.activeVisualPairId ? p.visualPairs.find((v) => v.id === p.activeVisualPairId) : null;
   if (!pair || pair.status !== 'FOUNDER_REVIEW_READY') return false;
   const render = p.renders.find((r) => r.id === pair.actualRenderId);
