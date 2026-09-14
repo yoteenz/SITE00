@@ -56,7 +56,7 @@ describe('P0.VR.TWINV3.0R7MF3P5 light blueprint contract', () => {
     expect(prompt).toContain('white or very light cool');
     expect(lightBlueprintPromptForbidsDarkBackground(prompt)).toBe(true);
     expect(prompt).toContain('phone mockup');
-    expect(prompt).toContain(`PROMPT_CONTRACT_VERSION: ${R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION}`);
+    expect(prompt).toContain('r7mf3p6f1-light-blueprint-v1');
   });
 
   it('6–9 NBP blueprint provider with LIGHT_TECHNICAL representation when locked', async () => {

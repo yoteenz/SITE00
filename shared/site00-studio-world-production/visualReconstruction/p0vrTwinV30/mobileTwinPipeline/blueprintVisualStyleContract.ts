@@ -1,8 +1,12 @@
-import { P0_VR_TWIN_V30R7MF3P5_LINEAGE } from '../constants.js';
+import { P0_VR_TWIN_V30R7MF3P5_LINEAGE, P0_VR_TWIN_V30R7MF3P6F1_LINEAGE } from '../constants.js';
 import type { MobileTwinCompositionState } from './types.js';
+import { BLUEPRINT_STYLE_REFERENCE_ROLE } from './resolveLightBlueprintStyleReference.js';
 
 export const MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID = 'mobile-light-technical-blueprint-v1' as const;
 export const R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION = 'r7mf3p5-light-blueprint-v1' as const;
+/** Active prompt contract for locked NBP Blueprint (P6F1 hardening). */
+export const R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION = 'r7mf3p6f1-light-blueprint-v1' as const;
+export const LIGHT_BACKGROUND_PASS = 'LIGHT_BACKGROUND_PASS' as const;
 
 export const BLUEPRINT_STYLE_STRUCTURE_FIREWALL = 'BlueprintStyleStructureFirewall' as const;
 export const BLUEPRINT_PRESENTATION_FIREWALL = 'BLUEPRINT_PRESENTATION_FIREWALL' as const;
@@ -50,17 +54,23 @@ export type BlueprintVisualStyleReceipt = {
   blueprintRenderId: string;
   styleContractId: typeof MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID;
   requestedMode: 'LIGHT_TECHNICAL_BLUEPRINT';
-  promptContractVersion: typeof R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION;
+  promptContractVersion: typeof R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION;
+  dominantBackground: 'LIGHT' | 'DARK' | 'UNKNOWN';
   observedBackgroundClass: 'LIGHT' | 'DARK' | 'UNKNOWN';
   observedContrastClass: 'DARK_ON_LIGHT' | 'LIGHT_ON_DARK' | 'UNKNOWN';
   observedLineworkClass: 'TECHNICAL_BLUE' | 'OTHER' | 'UNKNOWN';
   observedGridClass: 'SUBTLE' | 'HEAVY' | 'NONE' | 'UNKNOWN';
   darkBackgroundRisk: DarkBlueprintRisk;
+  lineworkContrast: 'DARK_ON_LIGHT' | 'LIGHT_ON_DARK' | 'UNKNOWN';
+  pageOnlyStatus: 'PASS' | 'FAIL' | 'UNKNOWN';
+  styleReferenceUsed: boolean;
+  styleReferenceMode: typeof BLUEPRINT_STYLE_REFERENCE_ROLE | null;
   deviceFrameRisk: 'LOW' | 'MEDIUM' | 'HIGH';
   styleDriftRisk: 'LOW' | 'MEDIUM' | 'HIGH';
   result: BlueprintVisualStyleReceiptResult;
   founderReviewRequired: boolean;
   failureCode: string | null;
+  backgroundClassification: typeof LIGHT_BACKGROUND_PASS | typeof BLUEPRINT_DARK_MODE_VIOLATION | 'UNKNOWN';
   createdAt: string;
 };
 
@@ -92,8 +102,40 @@ export function getLockedMobileLightBlueprintStyleContract(): BlueprintVisualSty
     legibilityRequirement: 'FOUNDER_INSPECTION_PRIORITY',
     decorativeFreedom: 'NONE',
     status: 'LOCKED',
-    version: R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION,
+    version: R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION,
   };
+}
+
+export function buildBlueprintPriorityLightStyleBlock(): string {
+  return [
+    'PRIORITY 1 — LIGHT BLUEPRINT STYLE (NON-OPTIONAL):',
+    'OUTPUT A LIGHT TECHNICAL BLUEPRINT ON A WHITE OR VERY LIGHT COOL OFF-WHITE BACKGROUND.',
+    'DO NOT OUTPUT A DARK BLUEPRINT.',
+    'Dark blueprint styling is a failure state.',
+  ].join('\n');
+}
+
+export function buildBlueprintNegativeStyleContractBlock(): string {
+  return [
+    'NEGATIVE STYLE CONTRACT — FORBIDDEN:',
+    'NO DARK BACKGROUND.',
+    'NO NAVY BACKGROUND.',
+    'NO BLACK BACKGROUND.',
+    'NO CHARCOAL BACKGROUND.',
+    'NO LIGHT-LINES-ON-DARK-PAPER STYLE.',
+    'NO cyan-on-dark blueprint.',
+    'NO dark drafting sheet.',
+    'NO neon technical style.',
+  ].join('\n');
+}
+
+export function buildBlueprintStyleReferenceFirewallBlock(): string {
+  return [
+    `STYLE REFERENCE ROLE: ${BLUEPRINT_STYLE_REFERENCE_ROLE}`,
+    'If a second reference image is attached, use it ONLY for background treatment, linework palette, grid tone, and annotation color.',
+    'DO NOT copy page geometry, object layout, hierarchy, or content from the style reference.',
+    'Composition truth remains MobileTwinCompositionState + sibling Actual identity only.',
+  ].join('\n');
 }
 
 export function buildBlueprintStyleStructureFirewallBlock(): string {
@@ -133,29 +175,34 @@ export function buildForbiddenBlueprintStylesBlock(): string {
 export function buildMobileLightTechnicalBlueprintFalPrompt(input: {
   composition: MobileTwinCompositionState;
   siblingActualRenderId: string;
+  styleReferenceAttached?: boolean;
 }): string {
   const contract = getLockedMobileLightBlueprintStyleContract();
   return [
-    `LINEAGE: ${P0_VR_TWIN_V30R7MF3P5_LINEAGE}`,
-    `PROMPT_CONTRACT_VERSION: ${R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION}`,
+    buildBlueprintPriorityLightStyleBlock(),
+    '',
+    buildBlueprintNegativeStyleContractBlock(),
+    '',
+    `LINEAGE: ${P0_VR_TWIN_V30R7MF3P6F1_LINEAGE}`,
+    `PROMPT_CONTRACT_VERSION: ${R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION}`,
     `BLUEPRINT_VISUAL_STYLE_CONTRACT: ${contract.id}`,
     'representationMode: LIGHT_TECHNICAL_BLUEPRINT',
     'STRUCTURAL SOURCE: MobileTwinCompositionState (FROZEN) — NOT Actual Render pixels.',
     '',
+    input.styleReferenceAttached ? buildBlueprintStyleReferenceFirewallBlock() : '',
+    input.styleReferenceAttached ? '' : '',
     'CREATE A LIGHT TECHNICAL BLUEPRINT VERSION OF THE EXACT SAME MOBILE PAGE.',
     'THIS IS A REPRESENTATION TRANSFORMATION ONLY — same composition, same hierarchy, same page state.',
     '',
-    'USE:',
-    '- white or very light cool off-white background',
-    '- clean blue technical linework (medium/dark blue primary, lighter blue secondary)',
-    '- thin precise outlines and crisp borders',
-    '- subtle cool-blue technical grid (low contrast — must not compete with UI)',
-    '- highly legible technical labels (dark navy / technical blue text)',
-    '- restrained blueprint annotations (selective — do not over-annotate)',
-    '- clean architectural / interface drafting language',
-    '- mostly unfilled surfaces or extremely light transparent fills',
-    '- selected/active states: outline, hatch, or technical notation — not large dark fills',
-    '- image/artifact regions: technical linework / blueprint tonal treatment — not full-color photorealistic raster',
+    'REQUIRED STYLE:',
+    'BACKGROUND: pure white or very light cool off-white',
+    'LINEWORK: medium/dark technical blue',
+    'SECONDARY LINES: lighter technical blue',
+    'GRID: subtle pale-blue drafting grid',
+    'TEXT: dark blue/navy on light background',
+    'SURFACES: white / near-white',
+    'IMAGE REGIONS: blue monochrome technical treatment on light background',
+    'ANNOTATIONS: blue technical notation',
     '',
     'DO NOT:',
     '- use a dark background or black/navy full-page fills',
@@ -163,7 +210,6 @@ export function buildMobileLightTechnicalBlueprintFalPrompt(input: {
     '- change object dimensions, hierarchy, navigation, or control positions',
     '- add or remove UI or change page state',
     '- alter artifact positions or invent new technical elements',
-    '- make the image decorative or inherit dark editorial atmosphere for the sheet background',
     '- wrap the page in a phone/device/browser frame',
     '',
     buildForbiddenBlueprintStylesBlock(),
@@ -182,7 +228,25 @@ export function buildMobileLightTechnicalBlueprintFalPrompt(input: {
     `objectDefinitionCount: ${input.composition.objectDefinitions.length}`,
     `featureBindingCount: ${input.composition.featureBindings.length}`,
     `hostProjectContractVersion: ${input.composition.hostProjectContractVersion}`,
-  ].join('\n');
+  ]
+    .filter((line, i, arr) => !(line === '' && arr[i - 1] === ''))
+    .join('\n');
+}
+
+export function classifyDominantBackground(input: {
+  twinImageUri: string;
+  providerMetadata?: Record<string, unknown> | null;
+}): 'LIGHT' | 'DARK' | 'UNKNOWN' {
+  const meta = input.providerMetadata ?? {};
+  if (meta.backgroundClass === 'LIGHT' || meta.dominantBackground === 'LIGHT') return 'LIGHT';
+  if (meta.backgroundClass === 'DARK' || meta.dominantBackground === 'DARK') return 'DARK';
+  if (typeof meta.dominantBackgroundLuminance === 'number') {
+    return meta.dominantBackgroundLuminance >= 0.55 ? 'LIGHT' : 'DARK';
+  }
+  const risk = assessDarkBlueprintRisk(input);
+  if (risk === 'HIGH') return 'DARK';
+  if (risk === 'LOW') return 'LIGHT';
+  return 'UNKNOWN';
 }
 
 export function assessDarkBlueprintRisk(input: {
@@ -192,11 +256,13 @@ export function assessDarkBlueprintRisk(input: {
   const meta = input.providerMetadata ?? {};
   if (meta.darkBackgroundLikelihood === 'HIGH' || meta.simulateDarkBlueprint === true) return 'HIGH';
   if (meta.darkBackgroundLikelihood === 'MEDIUM') return 'MEDIUM';
+  if (typeof meta.dominantBackgroundLuminance === 'number' && meta.dominantBackgroundLuminance < 0.45) return 'HIGH';
   const uri = input.twinImageUri.toLowerCase();
   if (uri.includes('dark-blueprint') || uri.includes('navy-sheet') || uri.includes('black-blueprint')) {
     return 'HIGH';
   }
   if (uri.includes('dark-mode-blueprint')) return 'MEDIUM';
+  if (uri.includes('light-blueprint-pass')) return 'LOW';
   return 'LOW';
 }
 
@@ -216,8 +282,10 @@ export function buildBlueprintVisualStyleReceipt(input: {
   blueprintRenderId: string;
   twinImageUri: string;
   providerMetadata?: Record<string, unknown> | null;
+  styleReferenceUsed?: boolean;
 }): BlueprintVisualStyleReceipt {
   const darkBackgroundRisk = assessDarkBlueprintRisk(input);
+  const dominantBackground = classifyDominantBackground(input);
   const deviceFrameRisk = assessBlueprintDeviceFrameRisk(input);
   const styleDriftRisk: DarkBlueprintRisk =
     darkBackgroundRisk === 'HIGH' || deviceFrameRisk === 'HIGH' ? 'HIGH'
@@ -232,7 +300,7 @@ export function buildBlueprintVisualStyleReceipt(input: {
     result = 'FAIL';
     failureCode = BLUEPRINT_PRESENTATION_VIOLATION;
     founderReviewRequired = true;
-  } else if (darkBackgroundRisk === 'HIGH') {
+  } else if (darkBackgroundRisk === 'HIGH' || dominantBackground === 'DARK') {
     result = 'REVIEW_REQUIRED';
     failureCode = BLUEPRINT_DARK_MODE_VIOLATION;
     founderReviewRequired = true;
@@ -242,13 +310,16 @@ export function buildBlueprintVisualStyleReceipt(input: {
     founderReviewRequired = true;
   }
 
-  const observedBackgroundClass =
-    darkBackgroundRisk === 'HIGH' ? 'DARK'
-    : darkBackgroundRisk === 'LOW' ? 'LIGHT'
-    : 'UNKNOWN';
+  const observedBackgroundClass = dominantBackground;
   const observedContrastClass =
-    darkBackgroundRisk === 'HIGH' ? 'LIGHT_ON_DARK'
-    : darkBackgroundRisk === 'LOW' ? 'DARK_ON_LIGHT'
+    dominantBackground === 'DARK' ? 'LIGHT_ON_DARK'
+    : dominantBackground === 'LIGHT' ? 'DARK_ON_LIGHT'
+    : 'UNKNOWN';
+  const lineworkContrast = observedContrastClass;
+  const pageOnlyStatus = deviceFrameRisk === 'HIGH' ? 'FAIL' : 'PASS';
+  const backgroundClassification =
+    dominantBackground === 'LIGHT' && result === 'PASS' ? LIGHT_BACKGROUND_PASS
+    : failureCode === BLUEPRINT_DARK_MODE_VIOLATION ? BLUEPRINT_DARK_MODE_VIOLATION
     : 'UNKNOWN';
 
   return {
@@ -256,25 +327,48 @@ export function buildBlueprintVisualStyleReceipt(input: {
     blueprintRenderId: input.blueprintRenderId,
     styleContractId: MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID,
     requestedMode: 'LIGHT_TECHNICAL_BLUEPRINT',
-    promptContractVersion: R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION,
+    promptContractVersion: R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION,
+    dominantBackground,
     observedBackgroundClass,
     observedContrastClass,
     observedLineworkClass: 'TECHNICAL_BLUE',
     observedGridClass: 'SUBTLE',
     darkBackgroundRisk,
+    lineworkContrast,
+    pageOnlyStatus,
+    styleReferenceUsed: Boolean(input.styleReferenceUsed),
+    styleReferenceMode: input.styleReferenceUsed ? BLUEPRINT_STYLE_REFERENCE_ROLE : null,
     deviceFrameRisk,
     styleDriftRisk,
     result,
     founderReviewRequired,
     failureCode,
+    backgroundClassification,
     createdAt: new Date().toISOString(),
   };
 }
 
 export function lightBlueprintPromptForbidsDarkBackground(prompt: string): boolean {
   return (
-    prompt.includes('DO NOT') &&
-    prompt.includes('dark background') &&
-    prompt.includes(BLUEPRINT_DARK_MODE_VIOLATION)
+    prompt.includes('NO DARK BACKGROUND') &&
+    prompt.includes('NO NAVY BACKGROUND') &&
+    prompt.includes('DO NOT OUTPUT A DARK BLUEPRINT')
   );
+}
+
+export function lightBlueprintPromptStartsWithLightBackgroundRequirement(prompt: string): boolean {
+  const head = prompt.slice(0, 280).toUpperCase();
+  return head.includes('LIGHT TECHNICAL BLUEPRINT') && head.includes('WHITE OR VERY LIGHT');
+}
+
+/** Mark non-canonical dark/light-failed blueprint for history (preserve artifact). */
+export function classifyBlueprintAsHistoricalVariant(
+  blueprint: import('./types.js').MobileBlueprintTwinVisual,
+): import('./types.js').MobileBlueprintTwinVisual {
+  if (blueprint.blueprintVisualVariant === 'HISTORICAL_BLUEPRINT_VARIANT') return blueprint;
+  return {
+    ...blueprint,
+    blueprintVisualVariant: 'HISTORICAL_BLUEPRINT_VARIANT',
+    styleFailureCode: blueprint.styleFailureCode ?? BLUEPRINT_DARK_MODE_VIOLATION,
+  };
 }

@@ -1,12 +1,14 @@
 import { createHash } from 'node:crypto';
 import { runFalReferenceImageJob } from '../../../../site00-visual-generation/falReferenceImageJob.js';
-import { P0_VR_TWIN_V30R7MF3P5_LINEAGE } from '../constants.js';
+import { P0_VR_TWIN_V30R7MF3P6F1_LINEAGE } from '../constants.js';
+import { resolveLightBlueprintStyleReferenceUrl } from './resolveLightBlueprintStyleReference.js';
 import { buildMobileBlueprintTwinFromCompositionFalPrompt } from './buildMobileTwinFalPrompts.js';
 import {
   buildBlueprintVisualStyleReceipt,
   buildMobileLightTechnicalBlueprintFalPrompt,
   MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID,
-  R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION,
+  R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION,
+  HISTORICAL_BLUEPRINT_VARIANT,
   type BlueprintVisualStyleReceipt,
 } from './blueprintVisualStyleContract.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
@@ -48,16 +50,20 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
   const lockedRoute = input.pipeline ? getMobileTwinVisualProviderStrategy(input.pipeline) : null;
   const useLight = lockedRoute?.useLightTechnicalBlueprint ?? false;
 
+  const styleReferenceUrl = useLight ? resolveLightBlueprintStyleReferenceUrl(input.publicOrigin) : null;
   const prompt =
     useLight ?
       buildMobileLightTechnicalBlueprintFalPrompt({
         composition: input.composition,
         siblingActualRenderId: input.siblingActualRenderId,
+        styleReferenceAttached: Boolean(styleReferenceUrl),
       })
     : buildMobileBlueprintTwinFromCompositionFalPrompt({
         composition: input.composition,
         siblingActualRenderId: input.siblingActualRenderId,
       });
+
+  const referenceImageUrls = styleReferenceUrl ? [referenceUrl, styleReferenceUrl] : [referenceUrl];
 
   const dispatchModel = assertMobileTwinNbpModelAtDispatch(
     lockedRoute?.blueprint.model,
@@ -70,7 +76,7 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
     falResult = await runFalReferenceImageJob({
       jobKey: `mobile-blueprint-composition-${input.twinId}`,
       prompt,
-      referenceImageUrls: [referenceUrl],
+      referenceImageUrls,
       aspectRatio: '9:16',
       model: dispatchModel,
     });
@@ -87,6 +93,7 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
     blueprintRenderId: input.twinId,
     twinImageUri: falResult.url,
     providerMetadata: input.providerMetadataHint ?? null,
+    styleReferenceUsed: Boolean(styleReferenceUrl),
   });
 
   const blueprintStyleStatus =
@@ -102,12 +109,15 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
     twinImageUri: falResult.url,
     twinImageHash,
     provider: 'FAL',
-    providerJobRef: `${P0_VR_TWIN_V30R7MF3P5_LINEAGE}-blueprint-${falResult.jobRef}`,
+    providerJobRef: `${P0_VR_TWIN_V30R7MF3P6F1_LINEAGE}-blueprint-${falResult.jobRef}`,
     structuralSource: 'FROZEN_COMPOSITION_STATE',
     outputRepresentationMode: useLight ? 'LIGHT_TECHNICAL_BLUEPRINT' : 'TECHNICAL_BLUEPRINT_RENDER',
     styleContractId: useLight ? MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID : null,
-    promptContractVersion: useLight ? R7MF3P5_LIGHT_BLUEPRINT_PROMPT_VERSION : null,
-    blueprintVisualVariant: useLight ? 'CANONICAL_LIGHT' : undefined,
+    promptContractVersion: useLight ? R7MF3P6F1_LIGHT_BLUEPRINT_PROMPT_VERSION : null,
+    blueprintVisualVariant:
+      useLight && blueprintStyleStatus === 'PASS' ? 'ACTIVE_BLUEPRINT_TWIN'
+      : useLight && blueprintStyleStatus !== 'PASS' ? HISTORICAL_BLUEPRINT_VARIANT
+      : undefined,
     blueprintStyleStatus,
     styleFailureCode: styleReceipt.failureCode,
     styleReceiptId: styleReceipt.id,
