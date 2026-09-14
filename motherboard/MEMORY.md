@@ -9167,6 +9167,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — GENERATE failed silently (MOBILE_REFERENCE_MISSING) v451
+
+- **Symptom:** Founder tapped **GENERATE MOBILE TWIN PACKAGE** — no package, “nothing happened.”
+- **Cause:** UI showed REFERENCE from `pipeline.designReference` but Railway **`ensureMobileDesignReferenceAuthority`** required `authorityPipeline.mobileMaster` → API **500 `MOBILE_REFERENCE_MISSING`**; error easy to miss in purple strip / iOS tab reload during 60–90s FAL.
+- **Fix:** Accept locked **`designReference`** without mobile master; preflight in **`requestMobileTwinFal`**; founder strip shows in-progress + result/error. Build **v451** PR **#882**.
+
+---
+
 ## 2026-09-14 — Founder actions strip on PACKAGE tab (v450)
 
 - **Symptom:** Neither orange RESTORE nor **GENERATE MOBILE TWIN PACKAGE** / BUILD visible — founder only on PACKAGE inspector with FAL 0.
