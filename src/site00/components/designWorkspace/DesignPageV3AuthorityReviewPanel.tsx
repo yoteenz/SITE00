@@ -62,6 +62,10 @@ import { DesignPageV3MobileTwinBlueprintRetryStrip } from './DesignPageV3MobileT
 import { DesignPageV3MobileTwinFounderActionsStrip } from './DesignPageV3MobileTwinFounderActionsStrip.js';
 import { DesignPageV3MobileTwinPipelineRecoveryStrip } from './DesignPageV3MobileTwinPipelineRecoveryStrip.js';
 import { syncFounderMobileTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
+import {
+  DESIGN_AUTHORITY_SESSION_CHANGED,
+  notifyDesignAuthoritySessionChanged,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designAuthoritySessionEvents.js';
 import { DesignPageV3MobileTwinFounderPathPanel } from './DesignPageV3MobileTwinFounderPathPanel.js';
 import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileTwinCapabilityTestPanel.js';
 import { DesignPageV3MobileTwinProviderBenchmarkPanel } from './DesignPageV3MobileTwinProviderBenchmarkPanel.js';
@@ -159,14 +163,32 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     promotionPersistAttempted.current = true;
   }, [pilot, projectId]);
 
-  const persist = useCallback((next: DesignPageAuthorityReviewSession) => {
-    const normalized = normalizeDesignPageAuthoritySession(next);
-    setSession(normalized);
-    const ok = writeDesignPageAuthoritySession(normalized);
-    setPersistWarning(
-      ok ? null : 'Could not save territory gallery to this browser (storage full?). Images stay until you reload.',
-    );
-  }, []);
+  const persist = useCallback(
+    (next: DesignPageAuthorityReviewSession) => {
+      const normalized = normalizeDesignPageAuthoritySession(next);
+      setSession(normalized);
+      const ok = writeDesignPageAuthoritySession(normalized);
+      notifyDesignAuthoritySessionChanged(projectId);
+      setPersistWarning(
+        ok ? null : 'Could not save territory gallery to this browser (storage full?). Images stay until you reload.',
+      );
+    },
+    [projectId],
+  );
+
+  useEffect(() => {
+    if (!pilot) return;
+    const onExternalSessionChange = (ev: Event) => {
+      const detail = (ev as CustomEvent<{ projectId?: string }>).detail;
+      if (detail?.projectId !== projectId.toLowerCase()) return;
+      let loaded = readDesignPageAuthoritySession(projectId);
+      if (!loaded) return;
+      loaded = applyFounderR5F2RecoveryIfNeeded(normalizeDesignPageAuthoritySession(loaded));
+      setSession(syncPilotSessionSafe(loaded, projectId));
+    };
+    window.addEventListener(DESIGN_AUTHORITY_SESSION_CHANGED, onExternalSessionChange);
+    return () => window.removeEventListener(DESIGN_AUTHORITY_SESSION_CHANGED, onExternalSessionChange);
+  }, [pilot, projectId]);
 
   useEffect(() => {
     if (!pilot || promotionPersistAttempted.current) return;

@@ -1,9 +1,7 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../constants.js';
 import { canRunFullMobileTwinPackage } from './mobileTwinVisualStrategy.js';
-import { mobileTwinAuthorityImagesReady } from './autoHealMobileTwinAuthorityImages.js';
-import { evaluateMobileTwinPipelineRecovery } from './evaluateMobileTwinPipelineRecovery.js';
-import { hasMobileTwinBrowserBackup } from './hasMobileTwinBrowserBackup.js';
+import { evaluateMobileTwinRestoreOffer } from './evaluateMobileTwinRestoreOffer.js';
 import { shouldShowBuildTwinDesignRoute } from '../../p0vrTwinV30R8M/shouldShowBuildTwinDesignRoute.js';
 import { normalizeFounderNbpPromotionOnLoad } from './applyFounderNbpMobileTwinPromotion.js';
 import { syncFounderMobileTwinSession } from './syncFounderMobileTwinSession.js';
@@ -54,7 +52,7 @@ export function evaluateMobileTwinFounderActionsStrip(
 
   const synced = normalizeFounderNbpPromotionOnLoad(syncFounderMobileTwinSession(session, projectId));
   const pipeline = synced.mobileTwinPipeline;
-  const recovery = evaluateMobileTwinPipelineRecovery(synced, projectId);
+  const restoreOffer = evaluateMobileTwinRestoreOffer(synced, projectId);
   const falJobs = pipeline?.falJobsDispatched ?? 0;
   const packageCount = pipeline?.packages.length ?? 0;
   const hasApproved = pipeline?.packages.some((p) => p.status === 'APPROVED') ?? false;
@@ -75,12 +73,7 @@ export function evaluateMobileTwinFounderActionsStrip(
     }
   }
 
-  const imagesReady = pipeline ? mobileTwinAuthorityImagesReady(pipeline, projectId) : false;
-  const hasBackup = hasMobileTwinBrowserBackup(projectId);
-  const showRestore =
-    recovery.showRecoveryStrip ||
-    recovery.showAuthorityImageRecovery ||
-    (!imagesReady && (hasBackup || falJobs > 0 || packageCount > 0));
+  const showRestore = restoreOffer.show;
 
   return {
     showStrip: true,

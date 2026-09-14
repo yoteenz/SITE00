@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/types.js';
-import { evaluateMobileTwinPipelineRecovery } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateMobileTwinPipelineRecovery.js';
+import { evaluateMobileTwinRestoreOffer } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateMobileTwinRestoreOffer.js';
 import { restoreFounderMobileTwinPipelineFromBrowser } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 import { P0_VR_TWIN_V30R7MF3_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 
@@ -12,13 +12,10 @@ type Props = {
 
 /** When in-memory Design session lost mobile twin data but dedicated LS backup is richer. */
 export function DesignPageV3MobileTwinPipelineRecoveryStrip({ session, projectId, onSessionUpdate }: Props) {
-  const view = useMemo(
-    () => evaluateMobileTwinPipelineRecovery(session, projectId),
-    [session, projectId],
-  );
+  const view = useMemo(() => evaluateMobileTwinRestoreOffer(session, projectId), [session, projectId]);
   const [msg, setMsg] = useState<string | null>(null);
 
-  if (!view.showRecoveryStrip && !view.showAuthorityImageRecovery) return null;
+  if (!view.show) return null;
 
   const restore = () => {
     setMsg(null);
