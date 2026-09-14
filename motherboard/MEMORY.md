@@ -9044,3 +9044,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** P2 showed GPT2 best Actual, NBP strong Blueprint but NBP Actual often device-mockup; FLUX not fit — need 3-way strategy compare (GPT2 pair, NBP corrected pair, hybrid GPT2 Actual + NBP Blueprint) without architecture change.
 - **Delivered:** `runMobileTwinFocusedHybridBenchmark`, split-provider `dispatchMobileTwinSplitProviderPair`, NBP **presentation firewall** prompt + `ACTUAL_PRESENTATION_VIOLATION_DEVICE_FRAME`, `ProviderStrategyBenchmarkReceipt`, `MobileTwinRenderStrategy` + `recordFounderMobileTwinRenderStrategy`, UI **`DesignPageV3MobileTwinFocusedHybridPanel`**, actions `RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK` / retries. GPT2 control reused from P2 baseline. Build **v430**. Tests **`p0vrTwinV30R7MF3P3.test.ts`**. No FLUX in P3 path; no package fan-out.
 
+---
+
+## 2026-09-14 — Focused hybrid RETRY mobile fix (v431)
+
+- **Symptom:** RETRY on NBP/hybrid cards showed **MOBILE_RENDER_PROVIDER_FAILED**; strategies stayed **NOT_RUN** on fsbw-dev mobile.
+- **Cause:** Full design session JSON (~240KB) in API request/response; single RUN dispatched 4 FAL jobs (~2min) — iOS Safari often aborts before response; empty JSON → generic provider failed.
+- **Fix:** API returns **slim `mobileTwinPipeline` only**; `requestMobileTwinFal` strips gallery from POST and **merges** pipeline into local session. UI **RUN** chains two RETRY actions (~60–90s each) with visible status; RETRY buttons wired with `data-testid` + provider error display. Build **v431**. Railway redeploy required for API half.
+
