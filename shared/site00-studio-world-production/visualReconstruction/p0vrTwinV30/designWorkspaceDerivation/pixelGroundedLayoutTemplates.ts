@@ -9,6 +9,8 @@ type TemplateSpec = Omit<DetectedVisualCandidate, 'candidateId'> & {
   key: string;
   featureId?: string;
   parentKey?: string;
+  /** When set, object is measured only on that viewport (independent Mobile/Desktop counts). */
+  viewportMask?: 'MOBILE' | 'DESKTOP';
 };
 
 /** Implementation-relevant objects visible in founder-approved workspace mockups. */
@@ -63,12 +65,20 @@ export const NDXBOOK_AUTHORITY_OBJECT_TEMPLATE: TemplateSpec[] = [
   { key: 'master-amendment-badge', category: 'BADGE', importance: 'MEDIUM', nx: 0.48, ny: 0.95, nw: 0.2, nh: 0.03, featureId: 'master_amendment_status' },
   { key: 'divider-host-context', category: 'BORDER', importance: 'LOW', nx: 0.02, ny: 0.112, nw: 0.96, nh: 0.002 },
   { key: 'divider-workspace-gallery', category: 'BORDER', importance: 'LOW', nx: 0.04, ny: 0.47, nw: 0.92, nh: 0.002 },
+  { key: 'host-nav-history', category: 'NAV_ITEM', importance: 'MEDIUM', nx: 0.57, ny: 0.01, nw: 0.09, nh: 0.022, parentKey: 'host-shell', featureId: 'design_history', viewportMask: 'DESKTOP' },
+  { key: 'host-nav-more', category: 'NAV_ITEM', importance: 'MEDIUM', nx: 0.67, ny: 0.01, nw: 0.07, nh: 0.022, parentKey: 'host-shell', viewportMask: 'MOBILE' },
+  { key: 'mobile-bottom-nav-shell', category: 'SURFACE', importance: 'HIGH', nx: 0, ny: 0.92, nw: 1, nh: 0.08, viewportMask: 'MOBILE' },
+  { key: 'mobile-nav-references', category: 'NAV_ITEM', importance: 'HIGH', nx: 0.04, ny: 0.945, nw: 0.14, nh: 0.035, parentKey: 'mobile-bottom-nav-shell', featureId: 'design_workspace_navigation', viewportMask: 'MOBILE' },
+  { key: 'mobile-nav-assets', category: 'NAV_ITEM', importance: 'MEDIUM', nx: 0.2, ny: 0.945, nw: 0.14, nh: 0.035, parentKey: 'mobile-bottom-nav-shell', viewportMask: 'MOBILE' },
+  { key: 'mobile-nav-pages', category: 'NAV_ITEM', importance: 'MEDIUM', nx: 0.36, ny: 0.945, nw: 0.14, nh: 0.035, parentKey: 'mobile-bottom-nav-shell', viewportMask: 'MOBILE' },
+  { key: 'mobile-nav-skins', category: 'NAV_ITEM', importance: 'MEDIUM', nx: 0.52, ny: 0.945, nw: 0.14, nh: 0.035, parentKey: 'mobile-bottom-nav-shell', viewportMask: 'MOBILE' },
+  { key: 'mobile-nav-more', category: 'NAV_ITEM', importance: 'MEDIUM', nx: 0.68, ny: 0.945, nw: 0.14, nh: 0.035, parentKey: 'mobile-bottom-nav-shell', viewportMask: 'MOBILE' },
 ];
 
 export function expandTemplateCandidates(viewport: 'MOBILE' | 'DESKTOP'): DetectedVisualCandidate[] {
   const xShift = viewport === 'MOBILE' ? 0 : 0;
   const widthScale = viewport === 'MOBILE' ? 1 : 1;
-  return NDXBOOK_AUTHORITY_OBJECT_TEMPLATE.map((t) => ({
+  return NDXBOOK_AUTHORITY_OBJECT_TEMPLATE.filter((t) => !t.viewportMask || t.viewportMask === viewport).map((t) => ({
     candidateId: `${viewport.toLowerCase()}-${t.key}`,
     category: t.category,
     importance: t.importance,

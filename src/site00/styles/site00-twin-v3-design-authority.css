@@ -447,6 +447,13 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+
+.site00-dw-v3-derivation-review__zoom-layer {
+  transform-origin: top left;
+  position: relative;
 }
 
 .site00-dw-v3-derivation-review__authority-img {
@@ -466,6 +473,47 @@
   box-sizing: border-box;
   border: 1px solid rgba(10, 122, 62, 0.85);
   background: rgba(10, 122, 62, 0.08);
+  padding: 0;
+  cursor: pointer;
+}
+
+.site00-dw-v3-derivation-review__overlay-box--region {
+  border-style: dashed;
+  background: rgba(10, 122, 62, 0.04);
+}
+
+.site00-dw-v3-derivation-review__overlay-box--text {
+  border-width: 1px;
+  background: rgba(10, 122, 62, 0.05);
+}
+
+.site00-dw-v3-derivation-review__overlay-box--control {
+  border-width: 2px;
+  background: rgba(0, 90, 200, 0.07);
+  border-color: rgba(0, 90, 200, 0.75);
+}
+
+.site00-dw-v3-derivation-review__overlay-box--image {
+  background: rgba(180, 120, 0, 0.08);
+  border-color: rgba(180, 120, 0, 0.75);
+}
+
+.site00-dw-v3-derivation-review__overlay-box.is-child {
+  border-width: 1px;
+}
+
+.site00-dw-v3-derivation-review__overlay-box.is-geometry-weak {
+  border-color: #c62828;
+  background: rgba(198, 40, 40, 0.15);
+  box-shadow: 0 0 0 1px rgba(198, 40, 40, 0.35);
+}
+
+.site00-dw-v3-derivation-review__inspect {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.68rem;
 }
 
 .site00-dw-v3-derivation-review__overlay-label {

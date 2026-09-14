@@ -1,8 +1,8 @@
 /**
- * P0.VR.TWINV3.0R6F1 — founder-triggered derivation (pixel-grounded measurement, no default FAL).
+ * P0.VR.TWINV3.0R6F2 — founder-triggered derivation (exact boundaries + geometry fidelity).
  */
 
-import { P0_VR_TWIN_V30R6F1_LINEAGE } from '../constants.js';
+import { P0_VR_TWIN_V30R6F2_LINEAGE } from '../constants.js';
 import {
   assertDerivationAllowed,
   runDesignAuthorityPairReadinessGate,
@@ -11,8 +11,8 @@ import { loadActiveDesignWorkspaceFeatureManifest } from '../designWorkspaceFeat
 import { loadProjectCreativeContextPackage } from '../projectCreativeGrounding/loadProjectCreativeContextPackage.js';
 import { normalizeDesignPageAuthoritySession } from '../designPageAuthorityTerritoryGallery.js';
 import type { DesignPageAuthorityReviewSession } from '../types.js';
-import { buildPixelGroundedDerivationBundle } from './runPixelGroundedDerivation.js';
-import { DERIVATION_ALGORITHM_R6F1 } from './pixelGroundedTypes.js';
+import { buildExactBoundaryDerivationBundle } from './runExactBoundaryDerivation.js';
+import { DERIVATION_ALGORITHM_R6F2 } from './geometryFidelityTypes.js';
 import type {
   DesignWorkspaceDerivationArtifactBundle,
   DesignWorkspaceDerivationRun,
@@ -37,7 +37,7 @@ export function buildDerivationIdempotencyKey(input: {
   derivationVersion?: number;
 }): string {
   return fnv1aHex(
-    `${input.authorityPairId}|${input.pairChecksum}|${input.featureManifestVersion}|${input.projectCreativeContextVersion}|${input.derivationAlgorithm ?? DERIVATION_ALGORITHM_R6F1}|v${input.derivationVersion ?? 1}`,
+    `${input.authorityPairId}|${input.pairChecksum}|${input.featureManifestVersion}|${input.projectCreativeContextVersion}|${input.derivationAlgorithm ?? DERIVATION_ALGORITHM_R6F2}|v${input.derivationVersion ?? 2}`,
   );
 }
 
@@ -144,7 +144,8 @@ export async function runDesignWorkspaceDerivation(
     pairChecksum: pair.pairChecksum,
     featureManifestVersion: manifest.version,
     projectCreativeContextVersion: mobile.projectCreativeContextVersion,
-    derivationVersion: correctionRequested ? runVersion : 1,
+    derivationAlgorithm: DERIVATION_ALGORITHM_R6F2,
+    derivationVersion: correctionRequested ? runVersion : 2,
   });
 
   const active = derivation.activeRunId ? derivation.runs.find((r) => r.id === derivation.activeRunId) : null;
@@ -158,7 +159,7 @@ export async function runDesignWorkspaceDerivation(
     );
     if (existingComplete?.implementationPackageId) {
       const pkg = derivation.packages.find((p) => p.id === existingComplete.implementationPackageId);
-      if (pkg?.derivationAlgorithm === 'R6F1') {
+      if (pkg?.derivationAlgorithm === 'R6F2') {
         return rehydrateBundleFromState(session, derivation, existingComplete, true);
       }
     }
@@ -195,9 +196,9 @@ export async function runDesignWorkspaceDerivation(
       {
         id: `pdd-${runId}-local`,
         provider: 'LOCAL_COMPILER',
-        model: P0_VR_TWIN_V30R6F1_LINEAGE,
+        model: P0_VR_TWIN_V30R6F2_LINEAGE,
         derivativeType: 'STRUCTURED_PACKAGE',
-        purpose: 'Pixel-grounded derivation from locked authorities',
+        purpose: 'Exact boundary derivation from locked authorities',
         inputAuthorityIds: [mobile.id, desktop.id],
         inputHashes: [mobile.authorityImageHash, desktop.authorityImageHash],
         status: 'COMPLETE',
@@ -206,7 +207,8 @@ export async function runDesignWorkspaceDerivation(
     falJobsDispatched: 0,
   };
 
-  const pixel = await buildPixelGroundedDerivationBundle({
+  const priorPackageId = correctionRequested ? derivation.latestPackageId : null;
+  const pixel = await buildExactBoundaryDerivationBundle({
     runId,
     pairId: pair.id,
     pairChecksum: pair.pairChecksum,
@@ -215,18 +217,15 @@ export async function runDesignWorkspaceDerivation(
     featureManifestVersion: manifest.version,
     projectCreativeContextVersion: mobile.projectCreativeContextVersion,
     translationApproved,
-    mobileGranularityId: `ogr-${runId}-mobile`,
-    desktopGranularityId: `ogr-${runId}-desktop`,
-    mobileCoverageId: `avcr-${runId}-mobile`,
-    desktopCoverageId: `avcr-${runId}-desktop`,
-    mobileWeightedId: `wacr-${runId}-mobile`,
-    desktopWeightedId: `wacr-${runId}-desktop`,
-    visualClusterMapId: `vcm-${runId}`,
-    responsiveObjectCorrespondenceMapId: `rocm-${runId}`,
+    correctionInProgress: correctionRequested,
+    priorPackageId,
   });
 
   const bundle = pixel.bundle;
-  const gaps = pixel.visualCoverageGatePass ? [] : ['AUTHORITY_VISUAL_COVERAGE_INCOMPLETE'];
+  const gaps = [
+    ...(pixel.visualCoverageGatePass ? [] : ['AUTHORITY_VISUAL_COVERAGE_INCOMPLETE']),
+    ...(pixel.geometryFidelityGatePass ? [] : ['OBJECT_GEOMETRY_FIDELITY_FAILED']),
+  ];
 
   const artifactIds = [
     bundle.structuralBlueprint.id,
@@ -248,7 +247,10 @@ export async function runDesignWorkspaceDerivation(
 
   run = {
     ...run,
-    status: pixel.visualCoverageGatePass && bundle.compilerReadinessReceipt.overall === 'PASS' ? 'COMPLETE' : 'BLOCKED',
+    status:
+      pixel.visualCoverageGatePass && pixel.geometryFidelityGatePass && bundle.compilerReadinessReceipt.overall === 'PASS' ?
+        'COMPLETE'
+      : 'BLOCKED',
     completedAt: new Date().toISOString(),
     derivativeArtifactIds: artifactIds,
     readinessReceiptId: bundle.compilerReadinessReceipt.id,

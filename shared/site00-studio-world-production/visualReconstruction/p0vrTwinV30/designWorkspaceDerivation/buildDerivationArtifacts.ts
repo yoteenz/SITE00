@@ -554,6 +554,12 @@ export function buildImplementationPackage(input: {
       | 'weightedAuthorityCoverageReceiptDesktopId'
       | 'visualClusterMapId'
       | 'responsiveObjectCorrespondenceMapId'
+      | 'exactBoundaryAnalysisMobileId'
+      | 'exactBoundaryAnalysisDesktopId'
+      | 'geometryFidelityReceiptMobileId'
+      | 'geometryFidelityReceiptDesktopId'
+      | 'priorImplementationPackageId'
+      | 'derivationVersion'
     >
   >;
 }): DesignWorkspaceImplementationPackage {

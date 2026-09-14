@@ -18,12 +18,15 @@ export function buildScopedCompilerReadinessReceipt(input: {
   runId: string;
   pairId: string;
   visualCoverageGatePass: boolean;
+  geometryFidelityGatePass?: boolean;
   mobileCoverage: AuthorityVisualCoverageReceipt;
   desktopCoverage: AuthorityVisualCoverageReceipt;
   mobileGranularity: ObjectGranularityReceipt;
   desktopGranularity: ObjectGranularityReceipt;
   translationApproved: boolean;
+  correctionInProgress?: boolean;
 }): ScopedReadinessSummary {
+  const geometryPass = input.geometryFidelityGatePass ?? true;
   const derivationGranularityPass =
     input.mobileGranularity.result === 'PASS' && input.desktopGranularity.result === 'PASS';
   const derivationCoveragePass = input.mobileCoverage.result === 'PASS' && input.desktopCoverage.result === 'PASS';
@@ -35,6 +38,12 @@ export function buildScopedCompilerReadinessReceipt(input: {
     { gate: 'PIXEL ANALYSIS', scope: 'DERIVATION', result: input.visualCoverageGatePass ? 'PASS' : 'FAIL', detail: 'sharp measurement' },
     { gate: 'OBJECT GRANULARITY', scope: 'DERIVATION', result: derivationGranularityPass ? 'PASS' : 'FAIL', detail: 'child decomposition' },
     { gate: 'VISUAL COVERAGE', scope: 'DERIVATION', result: derivationCoveragePass ? 'PASS' : 'FAIL', detail: 'high-importance mapped' },
+    {
+      gate: 'GEOMETRY FIDELITY',
+      scope: 'DERIVATION',
+      result: geometryPass ? 'PASS' : 'FAIL',
+      detail: 'exact visual bounds + overlap QA',
+    },
     { gate: 'STRUCTURAL BLUEPRINT', scope: 'REVIEW', result: 'PASS', detail: 'pixel-grounded regions' },
     { gate: 'SURGICAL OBJECT MAP', scope: 'REVIEW', result: derivationGranularityPass ? 'PASS' : 'FAIL', detail: 'R6F1 granularity' },
     { gate: 'RELATIONSHIP GEOMETRY', scope: 'REVIEW', result: 'PASS', detail: 'measured object IDs' },
@@ -70,7 +79,7 @@ export function buildScopedCompilerReadinessReceipt(input: {
 
   const blockers = checks.filter((c) => c.result === 'FAIL' || (c.scope === 'BUILD' && c.result === 'BLOCKED')).map((c) => c.gate);
   const derivationPass = checks.filter((c) => c.scope === 'DERIVATION' && c.result === 'FAIL').length === 0;
-  const reviewPass = derivationPass && input.visualCoverageGatePass;
+  const reviewPass = derivationPass && input.visualCoverageGatePass && geometryPass;
   const buildPass = false;
 
   const receipt: CompilerReadinessReceipt = {
@@ -78,15 +87,20 @@ export function buildScopedCompilerReadinessReceipt(input: {
     authorityPairId: input.pairId,
     derivationRunId: input.runId,
     checks: checks.map((c) => ({ gate: `${c.gate} [${c.scope}]`, result: c.result === 'NOT_APPLICABLE' ? 'PASS' : c.result, detail: c.detail })),
-    overall: derivationPass && input.visualCoverageGatePass ? 'PASS' : 'BLOCKED',
+    overall: derivationPass && input.visualCoverageGatePass && geometryPass ? 'PASS' : 'BLOCKED',
     blockers,
     generatedAt: new Date().toISOString(),
   };
 
   return {
     derivation: derivationPass ? 'DERIVATION_COMPLETE' : 'DERIVATION_READY',
-    review: reviewPass ? 'FOUNDER_REVIEW_READY' : 'DERIVATION_COMPLETE',
-    build: buildPass ? 'BUILD_READY' : 'BUILD_REVIEW_READY',
+    review:
+      input.correctionInProgress && !geometryPass ?
+        'CORRECTION_IN_PROGRESS'
+      : reviewPass ?
+        'FOUNDER_REVIEW_READY'
+      : 'DERIVATION_COMPLETE',
+    build: buildPass ? 'BUILD_READY' : input.correctionInProgress && !geometryPass ? 'BLOCKED' : 'BUILD_REVIEW_READY',
     receipt,
   };
 }

@@ -66,6 +66,7 @@ function buildMeasuredObjects(input: {
   const objects: PixelMeasuredObject[] = [];
 
   for (const t of NDXBOOK_AUTHORITY_OBJECT_TEMPLATE) {
+    if (t.viewportMask && t.viewportMask !== input.viewport) continue;
     const candidateId = `${input.viewport.toLowerCase()}-${t.key}`;
     const bandNudge = input.rowAdjust[Math.floor(t.ny * (input.rowAdjust.length - 1))] ?? 0;
     const ny = Math.min(0.98, Math.max(0, t.ny + (bandNudge - 0.5) * 0.02));

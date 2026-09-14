@@ -8,9 +8,11 @@ export type ReadinessScope = 'DERIVATION' | 'REVIEW' | 'BUILD';
 export type ReadinessStage =
   | 'DERIVATION_READY'
   | 'DERIVATION_COMPLETE'
+  | 'CORRECTION_IN_PROGRESS'
   | 'FOUNDER_REVIEW_READY'
   | 'BUILD_REVIEW_READY'
-  | 'BUILD_READY';
+  | 'BUILD_READY'
+  | 'BLOCKED';
 
 export type VisualImportanceLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
 
@@ -164,7 +166,7 @@ export type PixelGroundedSurgicalObjectMap = {
   objects: PixelMeasuredObject[];
   relationships: BlueprintRelationship[];
   version: number;
-  derivationAlgorithm: 'R6F1';
+  derivationAlgorithm: 'R6F1' | 'R6F2';
 };
 
 export const DERIVATION_ALGORITHM_R6F1 = 'R6F1' as const;
