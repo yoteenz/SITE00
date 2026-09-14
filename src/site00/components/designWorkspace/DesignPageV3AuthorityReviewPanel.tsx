@@ -2,7 +2,7 @@
  * P0.VR.TWINV3.0R5 — viewport master selection + authority pair lock (R4 grounding retained).
  */
 
-import { useCallback, useEffect, useMemo, useState, type SyntheticEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react';
 import {
   appendDesignPageAuthorityRefineNote,
   createDesignPageAuthorityReviewSession,
@@ -112,6 +112,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [fullscreenSrc, setFullscreenSrc] = useState<string | null>(null);
   const [mobileDockOpen, setMobileDockOpen] = useState(false);
   const [derivationGenerating, setDerivationGenerating] = useState(false);
+  const promotionPersistAttempted = useRef(false);
 
   useEffect(() => {
     if (!pilot) return;
@@ -123,9 +124,14 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   }, [pilot, session.authorityPipeline?.founderAuthorityInjectionReceipt?.status, session.authorityPipeline?.authorityPair?.status]);
 
   const sessionView = useMemo(() => {
-    const normalized = normalizeDesignPageAuthoritySession(session);
-    const rewritten = rewritePrototypeGalleryUrls(normalized, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
-    return pilot ? syncFounderMobileTwinSession(rewritten, projectId) : rewritten;
+    try {
+      const normalized = normalizeDesignPageAuthoritySession(session);
+      const rewritten = rewritePrototypeGalleryUrls(normalized, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
+      return pilot ? syncFounderMobileTwinSession(rewritten, projectId) : rewritten;
+    } catch (err) {
+      console.error('site00: mobile twin session sync failed', err);
+      return normalizeDesignPageAuthoritySession(session);
+    }
   }, [session, pilot, projectId]);
 
   useEffect(() => {
@@ -135,8 +141,10 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       loaded = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession({ projectId }));
     }
     loaded = applyFounderR5F2RecoveryIfNeeded(normalizeDesignPageAuthoritySession(loaded));
-    writeDesignPageAuthoritySession(loaded);
-    setSession(loaded);
+    const synced = syncFounderMobileTwinSession(loaded, projectId);
+    writeDesignPageAuthoritySession(synced);
+    setSession(synced);
+    promotionPersistAttempted.current = true;
   }, [pilot, projectId]);
 
   const persist = useCallback((next: DesignPageAuthorityReviewSession) => {
@@ -149,12 +157,12 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!pilot) return;
+    if (!pilot || promotionPersistAttempted.current) return;
     const viewLocked = sessionView.mobileTwinPipeline?.mobileTwinProviderLock?.locked;
     const storedLocked = session.mobileTwinPipeline?.mobileTwinProviderLock?.locked;
-    if (viewLocked && !storedLocked) {
-      persist(sessionView);
-    }
+    if (!viewLocked || storedLocked) return;
+    promotionPersistAttempted.current = true;
+    persist(sessionView);
   }, [pilot, sessionView, session.mobileTwinPipeline?.mobileTwinProviderLock?.locked, persist]);
 
   const run = useCallback(
