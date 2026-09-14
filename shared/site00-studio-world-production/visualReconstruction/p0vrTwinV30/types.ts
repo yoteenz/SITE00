@@ -152,5 +152,7 @@ export type DesignPageAuthorityReviewSession = {
   featureAuthority?: DesignWorkspaceFeatureAuthorityState;
   /** R6: derivation runs + implementation packages */
   designWorkspaceDerivation?: import('./designWorkspaceDerivation/types.js').DesignWorkspaceDerivationState;
+  /** R7M: mobile composition-state twin pipeline (desktop deferred) */
+  mobileTwinPipeline?: import('./mobileTwinPipeline/types.js').MobileTwinPipelineState;
   updatedAt: string;
 };

@@ -383,6 +383,100 @@
   }
 }
 
+.site00-dw-v3-mobile-twin-pipeline {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border: 2px solid #1565c0;
+  border-radius: 10px;
+  background: #f3f8ff;
+  font-size: 0.75rem;
+}
+
+.site00-dw-v3-mobile-twin-pipeline header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__steps {
+  margin: 0 0 0.5rem;
+  padding-left: 1.1rem;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__actions button {
+  font-size: 0.68rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 6px;
+  border: 2px solid #1565c0;
+  background: #e3f2fd;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-tabs button {
+  font-size: 0.62rem;
+  padding: 0.3rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid #1565c0;
+  background: #fff;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-tabs button.is-active {
+  background: #1565c0;
+  color: #fff;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.5rem;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-grid figure {
+  margin: 0;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-grid figcaption {
+  padding: 0.25rem 0.4rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  background: #e3f2fd;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__compare-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  object-fit: contain;
+}
+
+.site00-dw-v3-mobile-twin-pipeline__placeholder {
+  margin: 0;
+  padding: 1rem 0.5rem;
+  font-size: 0.65rem;
+  color: #546e7a;
+  text-align: center;
+}
+
 .site00-dw-v3-derivation-review {
   margin: 0 0 1rem;
   padding: 0.85rem;
