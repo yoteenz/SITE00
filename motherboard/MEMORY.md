@@ -9076,6 +9076,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF3P4c NBP locked panel + persist promotion (v437)
+
+- **Symptom:** Generate enabled as **GENERATE MOBILE TWIN (FAL)**; no **MOBILE TWIN PROVIDER · LOCKED BY FOUNDER** / **GENERATE MOBILE TWIN PACKAGE** (founder screenshot post-v436).
+- **Cause:** Method A could be set without **`mobileTwinProviderLock`** (normalize swallowed promotion errors; React **`session`** never persisted **`sessionView`** lock); locked panel required **`authorityPipeline.mobileMaster`** only; focused hybrid **RENDER STRATEGY · UNRESOLVED** is not the same as Method A gate.
+- **Fix:** Persist lock when **`sessionView`** promotes; sync writes LS on Method A transition; founder override chains **`applyFounderNbpMobileTwinPromotion`** for ndxbook; locked panel shows with **designReference**; pipeline button label uses **NBP package mode** when render strategy locked. Build **v437**.
+
+---
+
 ## 2026-09-14 — R7MF3P4b NDXBOOK generate gate auto-unlock on load (v436)
 
 - **Symptom:** **GENERATE MOBILE TWIN** grey on fsbw-dev with “run capability test / visual strategy” despite P4 NBP manual promotion intent.
