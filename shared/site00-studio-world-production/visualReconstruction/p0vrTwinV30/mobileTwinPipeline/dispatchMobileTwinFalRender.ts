@@ -1,9 +1,11 @@
 import { createHash } from 'node:crypto';
 import { runFalReferenceImageJob } from '../../../../site00-visual-generation/falReferenceImageJob.js';
-import { FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER, P0_VR_TWIN_V30R7MF1_LINEAGE } from '../constants.js';
+import { FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER, P0_VR_TWIN_V30R7MF2_LINEAGE } from '../constants.js';
+import { attachMobileRenderTranslationReceipts } from './attachMobileRenderTranslationReceipts.js';
 import { buildMobileImplementationRenderFalPrompt } from './buildMobileTwinFalPrompts.js';
 import { REAL_PROVIDER_RENDER_MODE } from './mobileRenderClassification.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
+import type { ReferenceTranslationEvidenceReceipt } from './referenceTranslationEvidence.js';
 import type { MobileDesignReferenceAuthority, MobileImplementationRender, MobileTwinCompositionState } from './types.js';
 
 const ESTIMATED_RENDER_COST_USD = 0.08;
@@ -22,6 +24,7 @@ export async function dispatchMobileTwinFalRender(input: {
   regeneration?: boolean;
 }): Promise<{
   render: MobileImplementationRender;
+  translationEvidence: ReferenceTranslationEvidenceReceipt;
   costUsd: number;
   providerJobRef: string;
   model: string;
@@ -52,7 +55,7 @@ export async function dispatchMobileTwinFalRender(input: {
     throw new Error('MOBILE_RENDER_PROVIDER_FAILED');
   }
 
-  const render: MobileImplementationRender = {
+  const baseRender: MobileImplementationRender = {
     id: input.runId,
     compositionStateId: input.composition.id,
     compositionHash: input.composition.compositionHash,
@@ -76,10 +79,23 @@ export async function dispatchMobileTwinFalRender(input: {
     createdAt: new Date().toISOString(),
   };
 
+  const { render, translationEvidence } = attachMobileRenderTranslationReceipts({
+    reference: input.reference,
+    composition: input.composition,
+    render: baseRender,
+    refineNotes: input.refineNotes,
+    regeneration: input.regeneration,
+  });
+
+  if (render.cloneFirewallBlocked) {
+    throw new Error('REFERENCE_TRANSLATION_COLLAPSE_TO_REPLICATION');
+  }
+
   return {
     render,
+    translationEvidence,
     costUsd: ESTIMATED_RENDER_COST_USD,
-    providerJobRef: `${P0_VR_TWIN_V30R7MF1_LINEAGE}-render-${falResult.jobRef}`,
+    providerJobRef: `${P0_VR_TWIN_V30R7MF2_LINEAGE}-render-${falResult.jobRef}`,
     model: falResult.model,
   };
 }

@@ -87,6 +87,12 @@ export type MobileTwinCompositionState = {
 
 export type MobileImplementationRenderStatus = 'GENERATED' | 'FOUNDER_REVIEW' | 'APPROVED' | 'SUPERSEDED';
 
+export type MobilePhaseAOutputRole = 'MOBILE_IMPLEMENTATION_RENDER';
+
+export type ReferenceCloneRiskLevel = 'LOW' | 'MEDIUM' | 'HIGH';
+
+export type MobileRenderFailureClassification = 'REFERENCE_TRANSLATION_COLLAPSE_TO_REPLICATION';
+
 export type MobileRenderMode = 'REAL_PROVIDER_RENDER' | 'PIPELINE_PROOF_STUB';
 export type MobileProviderArtifactType = 'REAL_VISUAL_GENERATION' | 'LOCAL_PROOF_ONLY';
 export type MobileProviderJobStatus = 'QUEUED' | 'GENERATING' | 'GENERATED' | 'FAILED';
@@ -112,6 +118,13 @@ export type MobileImplementationRender = {
   founderNotes?: string[];
   providerCostUsd?: number;
   status: MobileImplementationRenderStatus;
+  phaseAOutputRole?: MobilePhaseAOutputRole;
+  referenceCloneRisk?: ReferenceCloneRiskLevel;
+  referenceTranslationEvidenceReceiptId?: string;
+  cloneFirewallBlocked?: boolean;
+  failureClassification?: MobileRenderFailureClassification | null;
+  founderRejectReason?: string | null;
+  founderRejectNotes?: string | null;
   createdAt: string;
 };
 
@@ -121,6 +134,8 @@ export type MobileImplementationRenderGateState =
   | 'APPROVED'
   | 'REFINE_REQUESTED'
   | 'REGENERATE_REQUESTED'
+  | 'NEEDS_REFINEMENT'
+  | 'REJECTED'
   | 'FROZEN';
 
 export type MobileImplementationVisualAuthorityStatus = 'FROZEN_IMPLEMENTATION_AUTHORITY';
