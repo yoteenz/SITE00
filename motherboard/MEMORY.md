@@ -8966,6 +8966,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Mobile twin founder path UX (v426)
+
+- **Issue:** Founder on fsbw-dev saw capability test but not **FLOW A MORE ACCURATE** (hidden until test completes) or **MOBILE TWIN PROVIDER BENCHMARK** (panel returned null until Method A selected).
+- **Fix:** **`DesignPageV3MobileTwinFounderPathPanel`** (4-step checklist), always-visible Step 2 buttons (disabled until test ready), provider benchmark section always rendered with **LOCKED** gate copy; CSS for capability/provider/founder panels. Build **v426**.
+
+---
+
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF3P2 Method A multi-provider benchmark (v425)
 
 - **Context:** After R7MF3P1 locked **Method A** (atomic sibling Actual + Blueprint from one frozen composition), founder needs side-by-side **provider/model** comparison without changing pipeline architecture.

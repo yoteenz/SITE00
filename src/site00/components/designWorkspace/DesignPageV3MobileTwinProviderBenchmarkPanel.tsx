@@ -57,7 +57,8 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
   const [fullscreen, setFullscreen] = useState<{ label: string; src: string } | null>(null);
 
   if (!session.authorityPipeline?.mobileMaster) return null;
-  if (pipeline?.mobileTwinVisualGenerationStrategy !== 'ATOMIC_SIBLING_FROM_COMPOSITION') return null;
+
+  const methodALocked = pipeline?.mobileTwinVisualGenerationStrategy === 'ATOMIC_SIBLING_FROM_COMPOSITION';
 
   const resolvePair = (actualId: string | null, blueprintId: string | null) => {
     const actual = actualId ? pipeline?.renders.find((r) => r.id === actualId) : null;
@@ -138,14 +139,23 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
 
   return (
     <section
+      id="v3-mobile-twin-provider-benchmark"
       className="site00-dw-v3-mobile-twin-provider-benchmark"
       data-testid="v3-mobile-twin-provider-benchmark"
       data-lineage={P0_VR_TWIN_V30R7MF3P2_LINEAGE}
+      data-locked={methodALocked ? 'false' : 'true'}
     >
       <header>
         <strong>MOBILE TWIN PROVIDER BENCHMARK</strong>
         <span>Method A locked · same frozen composition · 6 new FAL jobs max</span>
       </header>
+      {!methodALocked ?
+        <p className="site00-dw-v3-mobile-twin-provider-benchmark__gate" role="status" data-testid="v3-provider-benchmark-gate">
+          <strong>LOCKED — complete Step 2 first.</strong> Run the capability test above, then tap{' '}
+          <strong>FLOW A MORE ACCURATE</strong> so STRATEGY shows ATOMIC_SIBLING. This section unlocks immediately
+          after that (no redeploy needed).
+        </p>
+      : null}
       <ul>
         <li>SNAPSHOT · {bench?.snapshot.id ?? '—'} · {bench?.status ?? 'NOT RUN'}</li>
         <li>METHOD · {bench?.methodLocked ?? 'ATOMIC_SIBLING_FROM_COMPOSITION'}</li>
@@ -156,7 +166,7 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
         <button
           type="button"
           data-testid="v3-run-provider-benchmark"
-          disabled={busy || !pipeline?.twinCapabilityTest?.flowABlueprintId}
+          disabled={busy || !methodALocked || !pipeline?.twinCapabilityTest?.flowABlueprintId}
           onClick={() => runAction('RUN_MOBILE_TWIN_PROVIDER_BENCHMARK')}
         >
           RUN PROVIDER BENCHMARK
