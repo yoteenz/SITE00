@@ -574,14 +574,38 @@
   word-break: break-word;
 }
 
+.site00-dw-v3-mobile-twin-founder-path__override {
+  display: block;
+  width: 100%;
+  margin: 0.35rem 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.55rem 0.65rem;
+  border-radius: 8px;
+  border: 3px solid #e65100;
+  background: #ffe0b2;
+  color: #bf360c;
+}
+
 .site00-dw-v3-mobile-twin-founder-path__sync {
-  margin: 0.35rem 0 0.5rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  padding: 0.45rem 0.6rem;
+  display: block;
+  width: 100%;
+  margin: 0 0 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.4rem 0.55rem;
   border-radius: 6px;
-  border: 2px solid #f57f17;
+  border: 1px solid #f57f17;
   background: #fff;
+}
+
+.site00-dw-v3-mobile-twin-founder-path__status {
+  margin: 0 0 0.5rem;
+  padding: 0.45rem;
+  font-size: 0.65rem;
+  background: #e8f5e9;
+  border: 1px solid #2e7d32;
+  border-radius: 6px;
 }
 
 .site00-dw-v3-mobile-twin-founder-path__hint {

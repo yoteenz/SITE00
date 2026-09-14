@@ -34,7 +34,8 @@ export function getMobileTwinPipelineDiagnostics(pipeline: MobileTwinPipelineSta
     strategy: reconciled.mobileTwinVisualGenerationStrategy ?? 'UNRESOLVED',
     step2Ready: isCapabilityTestFounderReviewReady(reconciled),
     benchmarkReady:
-      reconciled.mobileTwinVisualGenerationStrategy === 'ATOMIC_SIBLING_FROM_COMPOSITION' &&
+      (reconciled.mobileTwinVisualGenerationStrategy === 'ATOMIC_SIBLING_FROM_COMPOSITION' ||
+        Boolean(reconciled.founderManualTwinPathUnlock)) &&
       hasFlowABaselineForBenchmark(reconciled),
   };
 }

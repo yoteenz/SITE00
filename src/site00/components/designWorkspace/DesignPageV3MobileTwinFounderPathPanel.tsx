@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/types.js';
+import { founderManualUnlockMobileTwinPath } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/founderManualUnlockMobileTwinPath.js';
 import {
   getMobileTwinPipelineDiagnostics,
   syncFounderMobileTwinSession,
@@ -19,16 +21,22 @@ function stepState(current: boolean, done: boolean): StepState {
 }
 
 export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onSessionUpdate }: Props) {
+  const [statusMsg, setStatusMsg] = useState<string | null>(null);
+
   if (!session.authorityPipeline?.mobileMaster) return null;
 
   const pipeline = session.mobileTwinPipeline;
   const diagnostics = pipeline ? getMobileTwinPipelineDiagnostics(pipeline) : null;
+  const manualUnlock = Boolean(pipeline?.founderManualTwinPathUnlock);
   const test = pipeline?.twinCapabilityTest;
   const strategy = pipeline?.mobileTwinVisualGenerationStrategy ?? 'UNRESOLVED';
   const bench = pipeline?.providerBenchmark;
 
   const step1Done =
-    test?.status === 'FOUNDER_REVIEW_READY' || test?.status === 'PARTIAL' || test?.status === 'FAILED';
+    manualUnlock ||
+    test?.status === 'FOUNDER_REVIEW_READY' ||
+    test?.status === 'PARTIAL' ||
+    test?.status === 'FAILED';
   const step2Done = strategy === 'ATOMIC_SIBLING_FROM_COMPOSITION';
   const step3Done =
     bench?.status === 'FOUNDER_REVIEW_READY' ||
@@ -40,6 +48,27 @@ export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onS
   const s2 = stepState(step1Done && !step2Done, step2Done);
   const s3 = stepState(step2Done && !step3Done, step3Done);
   const s4 = stepState(step3Done && !step4Done, step4Done);
+
+  const runManualUnlock = () => {
+    setStatusMsg(null);
+    const next = founderManualUnlockMobileTwinPath(session);
+    onSessionUpdate(next);
+    setStatusMsg(
+      'UNLOCKED: Method A locked · Step 2 + provider benchmark enabled. RUN PROVIDER BENCHMARK will create GPT-2 baseline on Railway if needed.',
+    );
+  };
+
+  const runSync = () => {
+    setStatusMsg(null);
+    const next = syncFounderMobileTwinSession(session, projectId);
+    onSessionUpdate(next);
+    const d = next.mobileTwinPipeline ? getMobileTwinPipelineDiagnostics(next.mobileTwinPipeline) : null;
+    setStatusMsg(
+      d ?
+        `SYNC done · FAL renders ${d.falRenderCount} · step2 ${d.step2Ready ? 'READY' : 'LOCKED'}`
+      : 'SYNC done · no mobile twin pipeline on session',
+    );
+  };
 
   return (
     <nav
@@ -54,26 +83,40 @@ export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onS
       {diagnostics ?
         <p className="site00-dw-v3-mobile-twin-founder-path__diag" data-testid="v3-mobile-twin-diagnostics">
           SYNC · renders {diagnostics.falRenderCount}/{diagnostics.renderCount} · blueprints {diagnostics.blueprintCount}{' '}
-          · FAL jobs {diagnostics.falJobsDispatched} · capability {diagnostics.capabilityStatus} · step2{' '}
+          · FAL jobs {diagnostics.falJobsDispatched}
+          {manualUnlock ? ' · FOUNDER OVERRIDE ON' : ''} · capability {diagnostics.capabilityStatus} · step2{' '}
           {diagnostics.step2Ready ? 'READY' : 'LOCKED'} · benchmark {diagnostics.benchmarkReady ? 'READY' : 'LOCKED'}
         </p>
       : null}
       <button
         type="button"
+        className="site00-dw-v3-mobile-twin-founder-path__override"
+        data-testid="v3-mobile-twin-founder-override-unlock"
+        onClick={runManualUnlock}
+      >
+        FOUNDER OVERRIDE — UNLOCK METHOD A + BENCHMARK
+      </button>
+      <button
+        type="button"
         className="site00-dw-v3-mobile-twin-founder-path__sync"
         data-testid="v3-mobile-twin-sync-unlock"
-        onClick={() => onSessionUpdate(syncFounderMobileTwinSession(session, projectId))}
+        onClick={runSync}
       >
-        SYNC &amp; UNLOCK FROM SAVED FAL STATE
+        SYNC FROM SAVED FAL STATE (if any)
       </button>
+      {statusMsg ?
+        <p className="site00-dw-v3-mobile-twin-founder-path__status" role="status" data-testid="v3-mobile-twin-path-status">
+          {statusMsg}
+        </p>
+      : null}
       <ol className="site00-dw-v3-mobile-twin-founder-path__steps">
         <li data-state={s1} id="v3-founder-path-step-1">
           <span className="site00-dw-v3-mobile-twin-founder-path__num">1</span>
           <div>
             <strong>Run capability test</strong>
             <p>
-              Tap <a href="#v3-mobile-twin-capability-test">RUN MOBILE TWIN CAPABILITY TEST</a> below (up to 3 FAL
-              jobs).
+              Tap <a href="#v3-mobile-twin-capability-test">RUN MOBILE TWIN CAPABILITY TEST</a> below — or use{' '}
+              <strong>FOUNDER OVERRIDE</strong> above to skip the gate.
             </p>
           </div>
         </li>
@@ -81,10 +124,7 @@ export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onS
           <span className="site00-dw-v3-mobile-twin-founder-path__num">2</span>
           <div>
             <strong>Select Method A</strong>
-            <p>
-              When images appear, tap <strong>FLOW A MORE ACCURATE</strong> (unlocks provider benchmark). Strategy must
-              show ATOMIC_SIBLING — not UNRESOLVED.
-            </p>
+            <p>Override already sets Method A. Otherwise tap <strong>FLOW A MORE ACCURATE</strong>.</p>
           </div>
         </li>
         <li data-state={s3} id="v3-founder-path-step-3">
@@ -92,8 +132,8 @@ export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onS
           <div>
             <strong>Run provider benchmark</strong>
             <p>
-              Scroll to <a href="#v3-mobile-twin-provider-benchmark">MOBILE TWIN PROVIDER BENCHMARK</a> →{' '}
-              <strong>RUN PROVIDER BENCHMARK</strong> (6 FAL jobs on Railway).
+              <a href="#v3-mobile-twin-provider-benchmark">RUN PROVIDER BENCHMARK</a> (6 challenger jobs; +2 GPT-2
+              baseline if missing).
             </p>
           </div>
         </li>
@@ -105,18 +145,6 @@ export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onS
           </div>
         </li>
       </ol>
-      {!step2Done && step1Done ?
-        <p className="site00-dw-v3-mobile-twin-founder-path__hint" role="status">
-          Step 2: scroll up slightly — <strong>FLOW A MORE ACCURATE</strong> buttons are in the capability test
-          section.
-        </p>
-      : null}
-      {step2Done && !step3Done ?
-        <p className="site00-dw-v3-mobile-twin-founder-path__hint" role="status">
-          Step 3: provider benchmark section is below capability test — scroll down to{' '}
-          <a href="#v3-mobile-twin-provider-benchmark">MOBILE TWIN PROVIDER BENCHMARK</a>.
-        </p>
-      : null}
     </nav>
   );
 }

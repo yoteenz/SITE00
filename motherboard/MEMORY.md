@@ -9028,3 +9028,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Context:** Founder picked mobile/desktop authorities outside the product; gallery was view-only with legacy APPROVE MOBILE/DESKTOP per territory.
 - **Delivered:** Independent **MOBILE** / **DESKTOP** selection → explicit **promote** → **DesignWorkspaceAuthorityPair** → explicit **pair lock** (`executionIntent: TRANSLATION`, `inventionBudget: NONE`). Models: **`ViewportMasterAuthority`**, **`DesignWorkspaceAuthorityPair`**, pipeline in **`designWorkspaceAuthorityPipeline.ts`**; **`DesignAuthorityPairReadinessGate`** / **`assertDerivationAllowed`** block derivation until **`PAIR_LOCKED`**. UI: per-frame **SELECT FOR MOBILE/DESKTOP**, **`DesignPageV3AuthorityPairDock`**, pair review + lock confirmations, mobile bottom-sheet toggle for dock. Promotion preserves **`authorityImageUri`** (no regen). **`beginViewportMasterReplacement`** supersedes masters without deleting sibling candidates. Generation lineage **`P0.VR.TWINV3.0R5`**, build **v397**. Tests **`p0vrTwinV30R5.test.ts`** (18 scenarios). No live design page / blueprint fan-out in this sprint.
 
+---
+
+## 2026-09-14 — Mobile twin founder manual unlock (v429)
+
+- **Context:** R7MF3P2 founder path on mobile showed **renders 0/0 · FAL jobs 0** with Step 2 / benchmark **LOCKED** after founder generated images; **SYNC** could not help when **`site00:mobile-twin-pipeline:v1`** was empty (FAL dashboard success ≠ persisted pipeline).
+- **Topics:** Provider benchmark sprint, visibility fixes v426–v428, reconcile/SYNC, founder frustration with non-functional SYNC.
+- **Decision:** Intentional **founder override** bypasses capability/Flow A gates without inventing FAL URLs; benchmark still uses Railway FAL (may dispatch GPT-2 baseline if no saved renders).
+- **Changes:** `founderManualUnlockMobileTwinPath.ts`, `founderManualTwinPathUnlock` on pipeline state, reconcile + `runMobileTwinProviderBenchmark` honor flag; primary UI **FOUNDER OVERRIDE — UNLOCK METHOD A + BENCHMARK**; SYNC demoted to secondary with status message. Build **v429**. Tests **`founderManualUnlockMobileTwinPath.test.ts`**.
+

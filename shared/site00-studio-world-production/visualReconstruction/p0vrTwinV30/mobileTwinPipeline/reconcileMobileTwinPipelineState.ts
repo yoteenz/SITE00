@@ -135,6 +135,7 @@ export function mergeMobileTwinPipelineRich(
       other.mobileTwinVisualGenerationStrategy,
     ),
     mobileTwinProviderStrategy: pick.mobileTwinProviderStrategy ?? other.mobileTwinProviderStrategy,
+    founderManualTwinPathUnlock: Boolean(pick.founderManualTwinPathUnlock || other.founderManualTwinPathUnlock),
     falJobsDispatched: Math.max(pick.falJobsDispatched ?? 0, other.falJobsDispatched ?? 0),
     totalProviderCostUsd: Math.max(pick.totalProviderCostUsd ?? 0, other.totalProviderCostUsd ?? 0),
     desktopJobsDispatched: 0,
@@ -147,6 +148,7 @@ export function mergeMobileTwinPipelineRich(
 }
 
 export function isCapabilityTestFounderReviewReady(pipeline: MobileTwinPipelineState): boolean {
+  if (pipeline.founderManualTwinPathUnlock) return true;
   const status = pipeline.twinCapabilityTest?.status;
   if (status === 'FOUNDER_REVIEW_READY' || status === 'PARTIAL') return true;
   if (findFlowAPair(pipeline) !== null) return true;
@@ -155,6 +157,7 @@ export function isCapabilityTestFounderReviewReady(pipeline: MobileTwinPipelineS
 }
 
 export function hasFlowABaselineForBenchmark(pipeline: MobileTwinPipelineState): boolean {
+  if (pipeline.founderManualTwinPathUnlock) return true;
   const test = pipeline.twinCapabilityTest;
   if (test?.flowABlueprintId && test.canonicalActualRenderId) {
     const bp = pipeline.blueprintTwins.find((b) => b.id === test.flowABlueprintId);

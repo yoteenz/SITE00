@@ -360,6 +360,8 @@ export type MobileTwinPipelineState = {
   providerCostRecords: MobileProviderCostRecord[];
   totalProviderCostUsd: number;
   founderStubOverride?: boolean;
+  /** Founder bypass when FAL jobs succeeded but mobile-twin LS never persisted. */
+  founderManualTwinPathUnlock?: boolean;
   desktopStatus: 'DEFERRED';
   r6f2ForensicRole: typeof R6F2_BLUEPRINT_ROLE;
   twinCapabilityTest: MobileTwinCapabilityTestState | null;
@@ -400,6 +402,7 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     providerCostRecords: [],
     totalProviderCostUsd: 0,
     founderStubOverride: false,
+    founderManualTwinPathUnlock: false,
     desktopStatus: 'DEFERRED',
     r6f2ForensicRole: R6F2_BLUEPRINT_ROLE,
     twinCapabilityTest: null,
