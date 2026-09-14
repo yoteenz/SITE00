@@ -3,8 +3,10 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import { P0_VR_TWIN_V30R7MF3P4_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { evaluateMobileTwinFounderActionsStrip } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateMobileTwinFounderActionsStrip.js';
 import { normalizeFounderNbpPromotionOnLoad } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/applyFounderNbpMobileTwinPromotion.js';
-import { syncFounderMobileTwinSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
-import { restoreFounderMobileTwinPipelineFromBrowser } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
+import {
+  restoreFounderMobileTwinPipelineFromBrowser,
+  syncFounderMobileTwinSession,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { DesignPageV3MobileTwinBuildRouteBlock } from './DesignPageV3MobileTwinBuildRouteBlock.js';
 
