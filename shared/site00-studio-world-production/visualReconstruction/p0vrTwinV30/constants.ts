@@ -1,5 +1,5 @@
-/** P0.VR.TWINV3.0R7MF2 — mobile reference translation + anti-clone render guard. */
-export const P0_VR_TWIN_V30_BUILD = 'v422' as const;
+/** P0.VR.TWINV3.0R7MF3 — atomic mobile twin generation + shared composition pair. */
+export const P0_VR_TWIN_V30_BUILD = 'v423' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
@@ -16,6 +16,7 @@ export const P0_VR_TWIN_V30R6F2_LINEAGE = 'P0.VR.TWINV3.0R6F2' as const;
 export const P0_VR_TWIN_V30R7M_LINEAGE = 'P0.VR.TWINV3.0R7M' as const;
 export const P0_VR_TWIN_V30R7MF1_LINEAGE = 'P0.VR.TWINV3.0R7MF1' as const;
 export const P0_VR_TWIN_V30R7MF2_LINEAGE = 'P0.VR.TWINV3.0R7MF2' as const;
+export const P0_VR_TWIN_V30R7MF3_LINEAGE = 'P0.VR.TWINV3.0R7MF3' as const;
 
 /** Tracked defect — injection unblocks pipeline; gallery display fix is separate. */
 export const AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID = 'AUTHORITY_IMAGE_DISPLAY_BROKEN' as const;

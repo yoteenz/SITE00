@@ -4,7 +4,7 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
-import { P0_VR_TWIN_V30_BUILD, P0_VR_TWIN_V30R7MF1_LINEAGE } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
+import { P0_VR_TWIN_V30_BUILD, P0_VR_TWIN_V30R7MF3_LINEAGE } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import {
   runMobileTwinFalPipeline,
   type MobileTwinFalAction,
@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ok: true,
       service: 'twin-v3-mobile-twin-pipeline',
       buildRef: P0_VR_TWIN_V30_BUILD,
-      sprint: P0_VR_TWIN_V30R7MF1_LINEAGE,
+      sprint: P0_VR_TWIN_V30R7MF3_LINEAGE,
     });
     return;
   }

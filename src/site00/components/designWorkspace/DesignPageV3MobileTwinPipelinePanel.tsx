@@ -3,23 +3,19 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import {
   P0_VR_TWIN_V30R7MF1_LINEAGE,
   P0_VR_TWIN_V30R7MF2_LINEAGE,
+  P0_VR_TWIN_V30R7MF3_LINEAGE,
   P0_VR_TWIN_V30R7M_LINEAGE,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import {
-  approveMobileImplementationRender,
-  canGenerateMobileTwinPackage,
-  FOUNDER_MOBILE_RENDER_REJECT_REASONS,
-  rejectMobileImplementationRender,
-  requestMobileRenderRefine,
-  requestMobileRenderRegenerate,
-  runGenerateMobileTwinPackage,
+  approveMobileTwinPackage,
+  canApproveMobileTwinPackage,
   selectMobileImplementationRender,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/index.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
-type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL';
+type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
 
 type Props = {
   session: DesignPageAuthorityReviewSession;
@@ -39,11 +35,6 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const [err, setErr] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('REFERENCE_ACTUAL');
   const [viewMode, setViewMode] = useState<ViewMode>('SIDE_BY_SIDE');
-  const [refineText, setRefineText] = useState('');
-  const [rejectReason, setRejectReason] = useState<(typeof FOUNDER_MOBILE_RENDER_REJECT_REASONS)[number]>(
-    'TOO_CLOSE_TO_REFERENCE',
-  );
-
   if (!session.authorityPipeline?.mobileMaster) return null;
 
   const ref = pipeline?.designReference;
@@ -51,11 +42,23 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const render = activeRenderId ? pipeline?.renders.find((r) => r.id === activeRenderId) ?? null : null;
   const pkg = pipeline?.latestPackageId ? pipeline.packages.find((p) => p.id === pipeline.latestPackageId) : null;
   const twin = pkg ? pipeline?.blueprintTwins.find((b) => b.id === pkg.blueprintTwinVisualId) : null;
+  const atomicRun = pipeline?.activeAtomicRunId ?
+    pipeline.atomicRuns.find((r) => r.id === pipeline.activeAtomicRunId)
+  : null;
+  const visualPair = pipeline?.activeVisualPairId ?
+    pipeline.visualPairs.find((p) => p.id === pipeline.activeVisualPairId)
+  : null;
   const isRealRender = render?.renderMode === 'REAL_PROVIDER_RENDER' || render?.provider === 'FAL';
-  const renderStepLabel =
-    busy ? 'GENERATING'
+  const actualStepLabel =
+    busy ? 'GENERATING WITH BLUEPRINT'
     : render?.providerStatus === 'FAILED' ? 'FAILED'
-    : render?.status ?? 'NOT GENERATED';
+    : render ? 'READY'
+    : 'NOT GENERATED';
+  const blueprintStepLabel =
+    busy ? 'GENERATING WITH ACTUAL'
+    : twin ? 'READY'
+    : atomicRun?.status === 'PARTIAL' ? 'BLOCKED (retry)'
+    : 'NOT GENERATED';
 
   const comparePanels = useMemo(() => {
     const refSrc = ref ? resolveImageSrc(ref.sourceImageUri) : null;
@@ -65,7 +68,10 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       return [{ label: 'DESIGN REFERENCE', src: refSrc, testId: 'v3-r7m-compare-reference' }];
     }
     if (viewMode === 'FULLSCREEN_ACTUAL') {
-      return [{ label: 'ACTUAL RENDER (PHASE A)', src: renderSrc, testId: 'v3-r7m-compare-render' }];
+      return [{ label: 'ACTUAL PAGE', src: renderSrc, testId: 'v3-r7m-compare-render' }];
+    }
+    if (viewMode === 'FULLSCREEN_BLUEPRINT') {
+      return [{ label: 'BLUEPRINT PAGE', src: twinSrc, testId: 'v3-r7m-compare-blueprint' }];
     }
     if (compareMode === 'REFERENCE_ACTUAL') {
       return [
@@ -95,35 +101,26 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       .finally(() => setBusy(false));
   };
 
-  const runRender = () => runFal('GENERATE_MOBILE_RENDER');
+  const runTwin = () => runFal('GENERATE_MOBILE_TWIN');
 
-  const runApprove = () => {
+  const runApproveTwin = () => {
     setErr(null);
     try {
-      onSessionUpdate(approveMobileImplementationRender(session));
+      onSessionUpdate(approveMobileTwinPackage(session));
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     }
-  };
-
-  const runPackage = () => {
-    setBusy(true);
-    setErr(null);
-    void runGenerateMobileTwinPackage(session)
-      .then(onSessionUpdate)
-      .catch((e: Error) => setErr(e.message))
-      .finally(() => setBusy(false));
   };
 
   return (
     <section
       className="site00-dw-v3-mobile-twin-pipeline"
       data-testid="v3-mobile-twin-pipeline"
-      data-lineage={P0_VR_TWIN_V30R7MF2_LINEAGE}
+      data-lineage={P0_VR_TWIN_V30R7MF3_LINEAGE}
     >
       <header>
-        <strong>MOBILE TWIN PIPELINE</strong>
-        <span>R7MF2 · reference translation · Desktop deferred</span>
+        <strong>MOBILE TWIN REVIEW</strong>
+        <span>R7MF3 · atomic twin pair · Desktop deferred</span>
       </header>
       <ul className="site00-dw-v3-mobile-twin-pipeline__steps">
         <li data-testid="v3-r7m-reference">
@@ -131,20 +128,18 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           {ref ? ` · ${ref.sourceImageHash.slice(0, 12)}…` : ''}
         </li>
         <li data-testid="v3-r7m-render">
-          ACTUAL RENDER (PHASE A) · {renderStepLabel}
-          {render ? ` · ${isRealRender ? 'FAL' : 'LOCAL_PROOF_ONLY'}` : ''} · gate {pipeline?.renderGate ?? '—'}
+          ACTUAL PAGE · {actualStepLabel}
+          {render ? ` · ${isRealRender ? 'FAL' : 'LOCAL_PROOF_ONLY'}` : ''}
           {render?.referenceCloneRisk ? ` · clone risk ${render.referenceCloneRisk}` : ''}
         </li>
         <li data-testid="v3-r7m-blueprint">
-          BLUEPRINT TWIN ·{' '}
-          {twin ?
-            'READY'
-          : pipeline?.renderGate === 'FROZEN' ?
-            'ready to generate (Phase B)'
-          : 'WAITING FOR RENDER APPROVAL — not expected in Phase A'}
+          BLUEPRINT PAGE · {blueprintStepLabel}
         </li>
         <li data-testid="v3-r7m-package">
-          STRUCTURED PACKAGE · {pkg?.status ?? 'WAITING FOR RENDER APPROVAL'}
+          STRUCTURED PACKAGE · {pkg?.status ?? (busy ? 'GENERATING' : 'NOT STARTED')}
+        </li>
+        <li data-testid="v3-r7m-twin-run">
+          ATOMIC TWIN RUN · {atomicRun?.status ?? '—'} {visualPair ? `· pair ${visualPair.status}` : ''}
         </li>
         <li data-testid="v3-r7m-desktop">DESKTOP · DEFERRED</li>
       </ul>
@@ -164,86 +159,25 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
         </div>
       : null}
       <div className="site00-dw-v3-mobile-twin-pipeline__actions">
-        <button type="button" data-testid="v3-generate-mobile-render" disabled={busy} onClick={runRender}>
-          GENERATE MOBILE RENDER (FAL)
+        <button type="button" data-testid="v3-generate-mobile-twin" disabled={busy} onClick={runTwin}>
+          GENERATE MOBILE TWIN (FAL)
+        </button>
+        <button
+          type="button"
+          data-testid="v3-regenerate-mobile-twin"
+          disabled={busy || !render}
+          onClick={() => runFal('REGENERATE_MOBILE_TWIN')}
+        >
+          REGENERATE MOBILE TWIN
         </button>
         {render?.referenceCloneRisk === 'HIGH' ?
           <p className="site00-dw-v3-authority__hint" data-testid="v3-clone-risk-warning">
-            Output may be reproducing the reference too literally. Review translation before approve.
+            Actual page may be reproducing the reference too literally. Review the twin pair together.
           </p>
         : null}
-        {render?.status === 'FOUNDER_REVIEW' && isRealRender ?
-          <>
-            <button type="button" data-testid="v3-approve-mobile-render" onClick={runApprove}>
-              APPROVE MOBILE RENDER
-            </button>
-            <div className="site00-dw-v3-mobile-twin-pipeline__reject">
-              <select
-                value={rejectReason}
-                onChange={(e) =>
-                  setRejectReason(e.target.value as (typeof FOUNDER_MOBILE_RENDER_REJECT_REASONS)[number])
-                }
-              >
-                {FOUNDER_MOBILE_RENDER_REJECT_REASONS.map((reason) => (
-                  <option key={reason} value={reason}>
-                    {reason.replace(/_/g, ' ')}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                data-testid="v3-reject-mobile-render"
-                onClick={() => {
-                  setErr(null);
-                  try {
-                    onSessionUpdate(rejectMobileImplementationRender(session, rejectReason));
-                  } catch (e) {
-                    setErr(e instanceof Error ? e.message : String(e));
-                  }
-                }}
-              >
-                REJECT RENDER
-              </button>
-            </div>
-            <button
-              type="button"
-              data-testid="v3-regenerate-mobile-render"
-              disabled={busy}
-              onClick={() => {
-                onSessionUpdate(requestMobileRenderRegenerate(session));
-                runFal('REGENERATE_MOBILE_RENDER');
-              }}
-            >
-              REGENERATE MOBILE RENDER
-            </button>
-          </>
-        : null}
-        {render?.status === 'FOUNDER_REVIEW' && isRealRender ?
-          <div className="site00-dw-v3-mobile-twin-pipeline__refine">
-            <textarea
-              value={refineText}
-              onChange={(e) => setRefineText(e.target.value)}
-              placeholder="Refinement notes (bounded)"
-              rows={2}
-            />
-            <button
-              type="button"
-              data-testid="v3-refine-mobile-render"
-              disabled={busy || !refineText.trim()}
-              onClick={() => {
-                const notes = refineText.trim().split('\n').filter(Boolean);
-                onSessionUpdate(requestMobileRenderRefine(session, notes));
-                runFal('REFINE_MOBILE_RENDER', notes);
-                setRefineText('');
-              }}
-            >
-              REFINE MOBILE RENDER
-            </button>
-          </div>
-        : null}
-        {canGenerateMobileTwinPackage(session) ?
-          <button type="button" data-testid="v3-generate-mobile-twin-package" disabled={busy} onClick={runPackage}>
-            GENERATE MOBILE TWIN PACKAGE
+        {canApproveMobileTwinPackage(session) ?
+          <button type="button" data-testid="v3-approve-mobile-twin-package" onClick={runApproveTwin}>
+            APPROVE MOBILE TWIN PACKAGE
           </button>
         : null}
       </div>
@@ -288,6 +222,9 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           <button type="button" onClick={() => setViewMode('FULLSCREEN_ACTUAL')}>
             FULLSCREEN ACTUAL
           </button>
+          <button type="button" onClick={() => setViewMode('FULLSCREEN_BLUEPRINT')}>
+            FULLSCREEN BLUEPRINT
+          </button>
         </div>
         <div className="site00-dw-v3-mobile-twin-pipeline__compare-grid">
           {comparePanels.map((panel) => (
@@ -306,8 +243,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
         </p>
       : null}
       <p className="site00-dw-v3-authority__hint">
-        {P0_VR_TWIN_V30R7M_LINEAGE} geometry + {P0_VR_TWIN_V30R7MF1_LINEAGE} FAL + {P0_VR_TWIN_V30R7MF2_LINEAGE}{' '}
-        anti-clone translation. Local proof stubs cannot become final authority. R6F2:{' '}
+        {P0_VR_TWIN_V30R7M_LINEAGE} + {P0_VR_TWIN_V30R7MF3_LINEAGE} atomic Actual+Blueprint siblings.{' '}
+        {P0_VR_TWIN_V30R7MF2_LINEAGE} anti-clone on Actual. R6F2:{' '}
         {pipeline?.r6f2ForensicRole ?? 'SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE'}.
         FAL jobs: {pipeline?.falJobsDispatched ?? 0} · est. ${(pipeline?.totalProviderCostUsd ?? 0).toFixed(2)}
       </p>
