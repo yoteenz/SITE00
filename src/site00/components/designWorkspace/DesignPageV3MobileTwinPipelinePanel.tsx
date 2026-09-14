@@ -13,6 +13,7 @@ import {
   selectMobileImplementationRender,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/index.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
+import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL';
@@ -30,7 +31,7 @@ function resolveImageSrc(uri: string): string {
 }
 
 export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }: Props) {
-  const pipeline = session.mobileTwinPipeline;
+  const pipeline = session.mobileTwinPipeline ? ensureMobileTwinPipelineDefaults(session.mobileTwinPipeline) : undefined;
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('REFERENCE_ACTUAL');
@@ -40,7 +41,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   if (!session.authorityPipeline?.mobileMaster) return null;
 
   const ref = pipeline?.designReference;
-  const render = pipeline?.activeRenderId ? pipeline.renders.find((r) => r.id === pipeline.activeRenderId) : null;
+  const activeRenderId = pipeline?.activeRenderId ?? pipeline?.renders.at(-1)?.id ?? null;
+  const render = activeRenderId ? pipeline?.renders.find((r) => r.id === activeRenderId) ?? null : null;
   const pkg = pipeline?.latestPackageId ? pipeline.packages.find((p) => p.id === pipeline.latestPackageId) : null;
   const twin = pkg ? pipeline?.blueprintTwins.find((b) => b.id === pkg.blueprintTwinVisualId) : null;
   const isRealRender = render?.renderMode === 'REAL_PROVIDER_RENDER' || render?.provider === 'FAL';
