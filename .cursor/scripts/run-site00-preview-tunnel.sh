@@ -8,8 +8,10 @@ if [[ ! -x "$CF" ]]; then
   bash "$ROOT/.cursor/scripts/install-cloudflared.sh"
 fi
 
+LOG="/tmp/site00-preview-tunnel.log"
 if [[ -z "${SITE00_CLOUDFLARE_TUNNEL_TOKEN:-}" ]]; then
-  echo "SITE00_CLOUDFLARE_TUNNEL_TOKEN is not set — preview tunnel cannot start." >&2
+  msg="SITE00_CLOUDFLARE_TUNNEL_TOKEN is not set — preview tunnel cannot start (Cursor Cloud Secrets)."
+  echo "$msg" | tee -a "$LOG" >&2
   exit 1
 fi
 
