@@ -214,13 +214,17 @@ export function normalizeDesignPageAuthoritySession(
   }
   territoryGallery = pruneGalleryToLatestCandidatePerTerritory(territoryGallery);
 
-  return repairPrototypeGallerySession({
+  const repaired = repairPrototypeGallerySession({
     ...synced,
     territoryGallery,
     selectedCandidateByTerritory,
     authorityPipeline: synced.authorityPipeline ?? emptyAuthorityPipelineState(),
     featureAuthority: synced.featureAuthority ?? emptyDesignWorkspaceFeatureAuthorityState(),
   });
+  if (repaired.authorityPipeline?.mobileMaster) {
+    return ensureMobileDesignReferenceAuthority(repaired);
+  }
+  return repaired;
 }
 
 export function territoryDisplayName(id: DesignPageV3TerritoryId): string {
