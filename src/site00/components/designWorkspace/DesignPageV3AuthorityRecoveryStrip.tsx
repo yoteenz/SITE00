@@ -12,6 +12,8 @@ type Props = {
   session: DesignPageAuthorityReviewSession;
   onGenerateDerivatives: () => void;
   generating?: boolean;
+  feedbackMessage?: string | null;
+  feedbackKind?: 'error' | 'success' | null;
 };
 
 function statusRow(label: string, value: string, testId?: string) {
@@ -24,7 +26,13 @@ function statusRow(label: string, value: string, testId?: string) {
 }
 
 /** Always-visible post-R5F2 state — mobile-first; dock toggle hides GENERATE DERIVATIVES on phone. */
-export function DesignPageV3AuthorityRecoveryStrip({ session, onGenerateDerivatives, generating }: Props) {
+export function DesignPageV3AuthorityRecoveryStrip({
+  session,
+  onGenerateDerivatives,
+  generating,
+  feedbackMessage,
+  feedbackKind,
+}: Props) {
   const pipeline = session.authorityPipeline;
   const receipt = pipeline?.founderAuthorityInjectionReceipt;
   if (receipt?.status !== 'PASS') return null;
@@ -89,6 +97,19 @@ export function DesignPageV3AuthorityRecoveryStrip({ session, onGenerateDerivati
         >
           {generating ? 'GENERATING DERIVATIVES…' : buttonView.label}
         </button>
+      : null}
+      {feedbackMessage ?
+        <p
+          className={
+            feedbackKind === 'error' ?
+              'site00-dw-v3-authority-recovery__feedback site00-dw-v3-authority-recovery__feedback--error'
+            : 'site00-dw-v3-authority-recovery__feedback'
+          }
+          role={feedbackKind === 'error' ? 'alert' : 'status'}
+          data-testid="v3-recovery-derivation-feedback"
+        >
+          {feedbackMessage}
+        </p>
       : null}
     </section>
   );

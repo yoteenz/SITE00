@@ -1,5 +1,3 @@
-import path from 'node:path';
-import sharp from 'sharp';
 import type { ViewportMasterAuthority } from '../designWorkspaceAuthorityTypes.js';
 import {
   FOUNDER_R5F2_NDXBOOK_DESKTOP_MASTER,
@@ -17,40 +15,28 @@ import type {
 } from './pixelGroundedTypes.js';
 import { MIN_SURGICAL_OBJECTS_PER_VIEWPORT } from './pixelGroundedTypes.js';
 
-export function resolveFounderAuthorityAbsolutePath(publicPath: string): string {
-  const rel = publicPath.replace(/^\//, '');
-  return path.join(process.cwd(), 'public', rel);
+/** True when derivation runs in the SPA (fsbw-dev / site00.com) — no sharp in bundle. */
+export function isBrowserPixelDerivationRuntime(): boolean {
+  return typeof window !== 'undefined' && typeof document !== 'undefined';
 }
 
-async function measureRowBands(imagePath: string, bandCount: number): Promise<number[]> {
-  const { data, info } = await sharp(imagePath)
-    .resize({ width: 160, withoutEnlargement: true })
-    .greyscale()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
-  const rowEnergy: number[] = [];
-  for (let y = 0; y < info.height; y++) {
-    let sum = 0;
-    for (let x = 0; x < info.width; x++) {
-      sum += data[y * info.width + x] ?? 0;
-    }
-    rowEnergy.push(sum / info.width);
-  }
-  const edges: number[] = [];
-  for (let i = 1; i < rowEnergy.length; i++) {
-    edges.push(Math.abs(rowEnergy[i]! - rowEnergy[i - 1]!));
-  }
-  const threshold = edges.reduce((a, b) => a + b, 0) / edges.length;
-  const bandYs: number[] = [];
-  for (let i = 0; i < edges.length; i++) {
-    if (edges[i]! > threshold * 1.35) {
-      bandYs.push(i / edges.length);
-    }
-  }
-  while (bandYs.length < bandCount) {
-    bandYs.push(bandYs.length / bandCount);
-  }
-  return bandYs.slice(0, bandCount);
+function defaultRowBandAdjustments(bandCount: number): number[] {
+  return Array.from({ length: bandCount }, (_, i) => (bandCount <= 1 ? 0 : i / (bandCount - 1)));
+}
+
+async function measureAuthorityDimensionsInBrowser(
+  authorityImageUri: string,
+): Promise<{ width: number; height: number } | null> {
+  if (typeof Image === 'undefined') return null;
+  const pathPart = authorityImageUri.startsWith('/') ? authorityImageUri : `/${authorityImageUri}`;
+  const src = `${window.location.origin}${pathPart}`;
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
 }
 
 function importanceWeight(level: VisualImportanceLevel): number {
@@ -73,7 +59,9 @@ function buildMeasuredObjects(input: {
   height: number;
   authorityImageId: string;
   rowAdjust: number[];
+  pixelSource?: PixelMeasuredObject['pixelSource'];
 }): PixelMeasuredObject[] {
+  const pixelSource = input.pixelSource ?? 'MEASURED';
   const parentIdByKey = new Map<string, string>();
   const objects: PixelMeasuredObject[] = [];
 
@@ -111,7 +99,7 @@ function buildMeasuredObjects(input: {
       centerX: x + w / 2,
       centerY: y + h / 2,
       visualImportance: t.importance,
-      pixelSource: 'MEASURED',
+      pixelSource,
       internalGeometry: {
         paddingTop: Math.round(h * 0.08),
         paddingLeft: Math.round(w * 0.06),
@@ -151,11 +139,24 @@ export async function analyzePixelGroundedAuthority(input: {
 }): Promise<PixelGroundedAuthorityAnalysis> {
   const spec =
     input.master.viewport === 'MOBILE' ? FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER : FOUNDER_R5F2_NDXBOOK_DESKTOP_MASTER;
-  const imagePath = resolveFounderAuthorityAbsolutePath(input.master.authorityImageUri);
-  const meta = await sharp(imagePath).metadata();
-  const width = meta.width ?? spec.widthPx;
-  const height = meta.height ?? spec.heightPx;
-  const rowBandAdjustments = await measureRowBands(imagePath, 8);
+
+  let width: number;
+  let height: number;
+  let rowBandAdjustments: number[];
+
+  if (isBrowserPixelDerivationRuntime()) {
+    const dims = await measureAuthorityDimensionsInBrowser(input.master.authorityImageUri);
+    width = dims?.width ?? spec.widthPx;
+    height = dims?.height ?? spec.heightPx;
+    rowBandAdjustments = defaultRowBandAdjustments(8);
+  } else {
+    const { measureLockedFounderAuthorityPixels } = await import('./pixelGroundedAuthorityAnalysisNode.js');
+    const measured = await measureLockedFounderAuthorityPixels(input.master.authorityImageUri, spec, 8);
+    width = measured.width;
+    height = measured.height;
+    rowBandAdjustments = measured.rowBandAdjustments;
+  }
+
   const detectedCandidates = expandTemplateCandidates(input.master.viewport);
   const measuredObjects = buildMeasuredObjects({
     viewport: input.master.viewport,
@@ -163,6 +164,7 @@ export async function analyzePixelGroundedAuthority(input: {
     height,
     authorityImageId: input.master.authorityImageId,
     rowAdjust: rowBandAdjustments,
+    pixelSource: isBrowserPixelDerivationRuntime() ? 'TEMPLATE_SCALED' : 'MEASURED',
   });
 
   return {

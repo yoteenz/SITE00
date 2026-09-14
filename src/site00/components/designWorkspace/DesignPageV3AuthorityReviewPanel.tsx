@@ -237,21 +237,32 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       setMobileDockOpen(true);
       setPersistWarning(null);
       setError(null);
+      requestAnimationFrame(() => {
+        document.querySelector('[data-testid="v3-derivation-review-panel"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
       return;
     }
     setDerivationGenerating(true);
     setError(null);
+    setPersistWarning(null);
     void runDesignWorkspaceDerivation(sessionView)
       .then(({ session: derived, reusedExisting }) => {
         persist(derived);
         setPersistWarning(
           reusedExisting ?
             'Existing derivation package reused (same frozen authority inputs).'
-          : 'Pixel-grounded derivation complete — review translation below. No live page build in R6F1.',
+          : 'Derivation complete — scroll to TRANSLATION REVIEW below.',
         );
+        requestAnimationFrame(() => {
+          document.querySelector('[data-testid="v3-derivation-review-panel"]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
       })
       .catch((e: unknown) => {
-        setError(e instanceof Error ? e.message : 'Derivation blocked');
+        const message = e instanceof Error ? e.message : 'Derivation blocked';
+        setError(message);
+        requestAnimationFrame(() => {
+          document.querySelector('[data-testid="v3-derivation-feedback"]')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
       })
       .finally(() => {
         setDerivationGenerating(false);
@@ -366,7 +377,22 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         session={sessionView}
         onGenerateDerivatives={onGenerateDerivatives}
         generating={derivationGenerating}
+        feedbackMessage={derivationGenerating ? null : (error ?? persistWarning)}
+        feedbackKind={error ? 'error' : persistWarning ? 'success' : null}
       />
+
+      <div data-testid="v3-derivation-feedback">
+        {error ?
+          <p className="site00-dw-v3-authority__error" role="alert" data-testid="v3-derivation-error-banner">
+            {error}
+          </p>
+        : null}
+        {!error && persistWarning ?
+          <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-derivation-success-banner">
+            {persistWarning}
+          </p>
+        : null}
+      </div>
 
       <DesignPageV3DerivationReviewPanel session={sessionView} onSessionUpdate={persist} />
 

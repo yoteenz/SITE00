@@ -330,6 +330,18 @@
   letter-spacing: 0.01em;
 }
 
+.site00-dw-v3-authority-recovery__feedback {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: #064d28;
+}
+
+.site00-dw-v3-authority-recovery__feedback--error {
+  color: #8b0000;
+  font-weight: 600;
+}
+
 .site00-dw-v3-authority-recovery__primary {
   display: block;
   width: 100%;

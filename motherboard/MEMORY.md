@@ -8875,6 +8875,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — GENERATE DERIVATIVES dead on mobile/fsbw-dev (v414)
+
+- **Symptom:** Founder tap **GENERATE DERIVATIVES** on `site00.fsbw-dev.com` (v413) — no visible result.
+- **Root cause:** R6F1 `analyzePixelGroundedAuthority` called Vite **sharp browser stub** (`sharp is not available in the browser bundle`); error rendered far below recovery strip.
+- **Fix:** Browser runtime uses `Image()` dimensions + template row bands (no sharp); sharp isolated in `pixelGroundedAuthorityAnalysisNode.ts` (dynamic import Node-only). Inline derivation feedback on recovery strip + scroll to translation review. Build **v414**.
+
+---
+
 ## 2026-09-13 — P0.VR.TWINV3.0R6F1 pixel-grounded derivation + translation review (v413)
 
 - **Context:** R6 proved derivation orchestration but ~10 skeleton objects/viewport was too coarse for TRANSLATION / inventionBudget NONE; founder must approve **translation interpretation** separately from creative authority JPGs.

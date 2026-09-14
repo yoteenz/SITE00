@@ -16,12 +16,12 @@ import {
   MIN_SURGICAL_OBJECTS_PER_VIEWPORT,
   P0_VR_TWIN_V30R6F1_LINEAGE,
   requestDerivationCorrection,
-  resolveFounderAuthorityAbsolutePath,
   runDesignWorkspaceDerivation,
   scopeReadinessLabel,
   buildScopedCompilerReadinessReceipt,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
-import { analyzePixelGroundedAuthority } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceDerivation/pixelGroundedAuthorityAnalysis.js';
+import { analyzePixelGroundedAuthority, isBrowserPixelDerivationRuntime } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceDerivation/pixelGroundedAuthorityAnalysis.js';
+import { resolveFounderAuthorityAbsolutePath } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceDerivation/pixelGroundedAuthorityAnalysisNode.js';
 
 function lockedSession() {
   return applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession());
@@ -170,6 +170,10 @@ describe('P0.VR.TWINV3.0R6F1 pixel-grounded derivation', () => {
     expect(session.designWorkspaceDerivation!.correctionRequested).toBe(true);
     session = (await runDesignWorkspaceDerivation(session)).session;
     expect(session.designWorkspaceDerivation!.runs.length).toBe(runCountBefore + 1);
+  });
+
+  it('32 browser SPA path must not require sharp (vitest runs node path)', () => {
+    expect(isBrowserPixelDerivationRuntime()).toBe(false);
   });
 
   it('31 lineage + algorithm + object counts exceed R6 coarse minimum', async () => {
