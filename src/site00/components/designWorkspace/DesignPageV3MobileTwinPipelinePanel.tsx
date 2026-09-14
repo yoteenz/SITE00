@@ -77,15 +77,19 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     twin?.styleReceiptId ?
       (pipeline?.artifactsById[twin.styleReceiptId] as BlueprintVisualStyleReceipt | undefined)
     : null;
-  const blueprintRetryView =
-    pipeline ?
-      evaluateBlueprintLightStyleRetry({
+  const blueprintRetryView = useMemo(() => {
+    if (!pipeline) return null;
+    try {
+      return evaluateBlueprintLightStyleRetry({
         actualRender: render,
         blueprintTwin: twin,
         artifactsById: pipeline.artifactsById,
         publicOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
-      })
-    : null;
+      });
+    } catch {
+      return null;
+    }
+  }, [pipeline, render, twin]);
   const blueprintNeedsLightStyle = Boolean(blueprintRetryView?.urgentLightStyleRequired);
   const showBlueprintRetryButton = Boolean(blueprintRetryView?.canRetryLightBlueprint);
   const historicalBlueprintCount =

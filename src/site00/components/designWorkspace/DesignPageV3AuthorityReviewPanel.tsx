@@ -65,7 +65,17 @@ import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileT
 import { DesignPageV3MobileTwinProviderBenchmarkPanel } from './DesignPageV3MobileTwinProviderBenchmarkPanel.js';
 import { DesignPageV3MobileTwinFocusedHybridPanel } from './DesignPageV3MobileTwinFocusedHybridPanel.js';
 import { DesignPageV3MobileTwinLockedProviderPanel } from './DesignPageV3MobileTwinLockedProviderPanel.js';
+import { DesignPageV3SectionErrorBoundary } from './DesignPageV3SectionErrorBoundary.js';
 import '../../styles/site00-twin-v3-design-authority.css';
+
+function syncPilotSessionSafe(session: DesignPageAuthorityReviewSession, projectId: string): DesignPageAuthorityReviewSession {
+  try {
+    return syncFounderMobileTwinSession(session, projectId);
+  } catch (err) {
+    console.error('site00: mobile twin session sync failed', err);
+    return session;
+  }
+}
 
 type Props = {
   projectId: string;
@@ -98,12 +108,16 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   const [session, setSession] = useState<DesignPageAuthorityReviewSession>(() => {
     if (!pilot) return createDesignPageAuthorityReviewSession({ projectId });
     const stored = readDesignPageAuthoritySession(projectId);
-    if (stored) return normalizeDesignPageAuthoritySession(stored);
+    if (stored) {
+      const normalized = normalizeDesignPageAuthoritySession(stored);
+      return pilot ? syncPilotSessionSafe(normalized, projectId) : normalized;
+    }
     const seeded = seedDesignPageAuthorityPrototypeGallery(
       createDesignPageAuthorityReviewSession({ projectId }),
     );
     writeDesignPageAuthoritySession(seeded);
-    return normalizeDesignPageAuthoritySession(seeded);
+    const normalized = normalizeDesignPageAuthoritySession(seeded);
+    return pilot ? syncPilotSessionSafe(normalized, projectId) : normalized;
   });
   const [refineDraft, setRefineDraft] = useState('');
   const [running, setRunning] = useState(false);
@@ -125,14 +139,9 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
   }, [pilot, session.authorityPipeline?.founderAuthorityInjectionReceipt?.status, session.authorityPipeline?.authorityPair?.status]);
 
   const sessionView = useMemo(() => {
-    try {
-      const normalized = normalizeDesignPageAuthoritySession(session);
-      const rewritten = rewritePrototypeGalleryUrls(normalized, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
-      return pilot ? syncFounderMobileTwinSession(rewritten, projectId) : rewritten;
-    } catch (err) {
-      console.error('site00: mobile twin session sync failed', err);
-      return normalizeDesignPageAuthoritySession(session);
-    }
+    const normalized = normalizeDesignPageAuthoritySession(session);
+    const rewritten = rewritePrototypeGalleryUrls(normalized, DESIGN_PAGE_AUTHORITY_R3_PROTOTYPE_URLS);
+    return pilot ? syncPilotSessionSafe(rewritten, projectId) : rewritten;
   }, [session, pilot, projectId]);
 
   useEffect(() => {
@@ -142,7 +151,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
       loaded = seedDesignPageAuthorityPrototypeGallery(createDesignPageAuthorityReviewSession({ projectId }));
     }
     loaded = applyFounderR5F2RecoveryIfNeeded(normalizeDesignPageAuthoritySession(loaded));
-    const synced = syncFounderMobileTwinSession(loaded, projectId);
+    const synced = syncPilotSessionSafe(loaded, projectId);
     writeDesignPageAuthoritySession(synced);
     setSession(synced);
     promotionPersistAttempted.current = true;
@@ -421,22 +430,24 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         : null}
       </div>
 
-      <DesignPageV3MobileTwinFounderPathPanel session={sessionView} projectId={projectId} onSessionUpdate={persist} />
-      <DesignPageV3MobileTwinCapabilityTestPanel session={sessionView} onSessionUpdate={persist} />
-      <DesignPageV3MobileTwinLockedProviderPanel session={sessionView} onSessionUpdate={persist} />
-      <DesignPageV3MobileTwinBlueprintRetryStrip session={sessionView} onSessionUpdate={persist} />
-      {mobileProviderLocked ?
-        <details className="site00-dw-v3-mobile-twin-benchmark-history" data-testid="v3-benchmark-history-details">
-          <summary>History · provider benchmarks (routing superseded)</summary>
-          <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
-          <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
-        </details>
-      : <>
-          <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
-          <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
-        </>
-      }
-      <DesignPageV3MobileTwinPipelinePanel session={sessionView} onSessionUpdate={persist} />
+      <DesignPageV3SectionErrorBoundary label="Mobile twin review">
+        <DesignPageV3MobileTwinFounderPathPanel session={sessionView} projectId={projectId} onSessionUpdate={persist} />
+        <DesignPageV3MobileTwinCapabilityTestPanel session={sessionView} onSessionUpdate={persist} />
+        <DesignPageV3MobileTwinLockedProviderPanel session={sessionView} onSessionUpdate={persist} />
+        <DesignPageV3MobileTwinBlueprintRetryStrip session={sessionView} onSessionUpdate={persist} />
+        {mobileProviderLocked ?
+          <details className="site00-dw-v3-mobile-twin-benchmark-history" data-testid="v3-benchmark-history-details">
+            <summary>History · provider benchmarks (routing superseded)</summary>
+            <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
+            <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
+          </details>
+        : <>
+            <DesignPageV3MobileTwinProviderBenchmarkPanel session={sessionView} onSessionUpdate={persist} />
+            <DesignPageV3MobileTwinFocusedHybridPanel session={sessionView} onSessionUpdate={persist} />
+          </>
+        }
+        <DesignPageV3MobileTwinPipelinePanel session={sessionView} onSessionUpdate={persist} />
+      </DesignPageV3SectionErrorBoundary>
       <DesignPageV3DerivationReviewPanel session={sessionView} onSessionUpdate={persist} />
 
       <p className="site00-dw-v3-authority__hint" data-testid="v3-authority-gallery-stats">
