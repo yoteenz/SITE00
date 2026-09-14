@@ -8875,6 +8875,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Projects page boot recovery false alarm on fsbw-dev (v415)
+
+- **Symptom:** Mobile `site00.fsbw-dev.com` /projects — white screen + “SITE 00 did not finish loading (v325+)” though tunnel/Vite healthy.
+- **Root cause:** `site00-assts-boot-recovery.js` fired after **12s** while mobile Safari still downloading hundreds of Vite ESM modules; banner copy targeted production ZIP not dev preview.
+- **Fix:** React sets `#root[data-site00-app-mounted=1]`; recovery waits for that (not placeholder text); **60s** deadline on cloud preview hosts; preview-specific banner copy; inline “Loading SITE 00…” in `index.html`. Build **v415**.
+
+---
+
 ## 2026-09-14 — GENERATE DERIVATIVES dead on mobile/fsbw-dev (v414)
 
 - **Symptom:** Founder tap **GENERATE DERIVATIVES** on `site00.fsbw-dev.com` (v413) — no visible result.
