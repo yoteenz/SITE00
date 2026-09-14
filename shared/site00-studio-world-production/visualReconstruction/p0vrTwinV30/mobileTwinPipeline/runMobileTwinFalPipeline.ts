@@ -8,6 +8,7 @@ import { dispatchMobileTwinFalBlueprintTwin } from './dispatchMobileTwinFalBluep
 import { classifyLegacyMobileRender } from './mobileRenderClassification.js';
 import { finalizeMobileTwinPackageSession } from './runGenerateMobileTwinPackageCore.js';
 import { runMobileAtomicTwinGeneration } from './runMobileAtomicTwinGeneration.js';
+import { runMobileTwinCapabilityTest } from './runMobileTwinCapabilityTest.js';
 import {
   assertBlueprintTwinNotRedesigned,
   buildRenderBlueprintTwinReconciliationReceipt,
@@ -15,6 +16,9 @@ import {
 import type { MobileProviderCostRecord } from './types.js';
 
 export type MobileTwinFalAction =
+  | 'RUN_MOBILE_TWIN_CAPABILITY_TEST'
+  | 'RETRY_CAPABILITY_FLOW_A'
+  | 'RETRY_CAPABILITY_FLOW_B'
   | 'GENERATE_MOBILE_TWIN'
   | 'REGENERATE_MOBILE_TWIN'
   | 'GENERATE_MOBILE_RENDER'
@@ -46,6 +50,28 @@ export async function runMobileTwinFalPipeline(input: {
   let session = ensureMobileDesignReferenceAuthority(input.session);
   const pipeline = session.mobileTwinPipeline!;
   const ref = pipeline.designReference!;
+
+  if (input.action === 'RUN_MOBILE_TWIN_CAPABILITY_TEST') {
+    return runMobileTwinCapabilityTest({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'NONE',
+    });
+  }
+  if (input.action === 'RETRY_CAPABILITY_FLOW_A') {
+    return runMobileTwinCapabilityTest({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'FLOW_A',
+    });
+  }
+  if (input.action === 'RETRY_CAPABILITY_FLOW_B') {
+    return runMobileTwinCapabilityTest({
+      session,
+      publicOrigin: input.publicOrigin,
+      retry: 'FLOW_B',
+    });
+  }
 
   if (input.action === 'GENERATE_MOBILE_TWIN' || input.action === 'REGENERATE_MOBILE_TWIN') {
     const parentRun = pipeline.activeAtomicRunId ? pipeline.atomicRuns.find((r) => r.id === pipeline.activeAtomicRunId) : null;

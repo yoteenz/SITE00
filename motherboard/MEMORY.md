@@ -8929,6 +8929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — P0.VR.TWINV3.0R7MF3P1 mobile twin A/B capability test (v424)
+
+- **Context:** Before full R7MF3 package fan-out, empirically compare Flow A (composition sibling blueprint) vs Flow B (Actual→blueprint transform) with same frozen snapshot.
+- **Delivered:** `TwinCapabilityTestCompositionSnapshot`, SHARED_CANONICAL_ACTUAL (1 Actual + Blueprint A + Blueprint B = 3 FAL jobs), `TwinFlowA/B` receipts, `TwinVisualMatchReceipt` (machinePass false), founder decision → `MobileTwinVisualGenerationStrategy`; full `GENERATE_MOBILE_TWIN` blocked until strategy set. UI **MOBILE TWIN CAPABILITY TEST** panel. Build **v424**. Tests **`p0vrTwinV30R7MF3P1.test.ts`**.
+
+---
+
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF3 atomic mobile twin generation (v423)
 
 - **Context:** R7MF2 fixed reference cloning but Phase A→approve→Phase B was wrong; Actual and Blueprint must be sibling outputs of one frozen `MobileTwinCompositionState`.

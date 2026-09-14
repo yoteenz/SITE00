@@ -58,6 +58,7 @@ import { DesignPageV3AuthorityPairDock } from './DesignPageV3AuthorityPairDock.j
 import { DesignPageV3AuthorityRecoveryStrip } from './DesignPageV3AuthorityRecoveryStrip.js';
 import { DesignPageV3DerivationReviewPanel } from './DesignPageV3DerivationReviewPanel.js';
 import { DesignPageV3MobileTwinPipelinePanel } from './DesignPageV3MobileTwinPipelinePanel.js';
+import { DesignPageV3MobileTwinCapabilityTestPanel } from './DesignPageV3MobileTwinCapabilityTestPanel.js';
 import '../../styles/site00-twin-v3-design-authority.css';
 
 type Props = {
@@ -395,6 +396,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         : null}
       </div>
 
+      <DesignPageV3MobileTwinCapabilityTestPanel session={sessionView} onSessionUpdate={persist} />
       <DesignPageV3MobileTwinPipelinePanel session={sessionView} onSessionUpdate={persist} />
       <DesignPageV3DerivationReviewPanel session={sessionView} onSessionUpdate={persist} />
 

@@ -1,5 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import { P0_VR_TWIN_V30R7MF3_LINEAGE } from '../constants.js';
+import { assertFullMobileTwinPackageAllowed } from './mobileTwinVisualStrategy.js';
 import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
 import { buildMobileTwinCompositionState } from './buildMobileTwinCompositionState.js';
 import { runMobileCompositionPreflight } from './mobileCompositionPreflight.js';
@@ -89,6 +90,7 @@ export async function runMobileAtomicTwinGeneration(input: {
 }): Promise<DesignPageAuthorityReviewSession> {
   let session = ensureMobileDesignReferenceAuthority(input.session);
   let pipeline = session.mobileTwinPipeline!;
+  assertFullMobileTwinPackageAllowed(pipeline.mobileTwinVisualGenerationStrategy);
   const ref = pipeline.designReference!;
   const runVersion = pipeline.atomicRuns.length + 1;
   const runId = `r7mf3-atomic-${Date.now()}`;
