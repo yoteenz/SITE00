@@ -1,5 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import type { MobileImplementationVisualAuthority, MobileTwinCompositionState } from './types.js';
+import { assertRenderCanBecomeImplementationAuthority, classifyLegacyMobileRender } from './mobileRenderClassification.js';
 
 export function approveMobileImplementationRender(
   session: DesignPageAuthorityReviewSession,
@@ -8,8 +9,8 @@ export function approveMobileImplementationRender(
   void notes;
   const pipeline = session.mobileTwinPipeline;
   if (!pipeline?.activeRenderId) throw new Error('MOBILE_RENDER_GENERATION_FAILED');
-  const render = pipeline.renders.find((r) => r.id === pipeline.activeRenderId);
-  if (!render) throw new Error('MOBILE_RENDER_GENERATION_FAILED');
+  const render = classifyLegacyMobileRender(pipeline.renders.find((r) => r.id === pipeline.activeRenderId)!);
+  assertRenderCanBecomeImplementationAuthority(render, pipeline.founderStubOverride);
   if (render.status !== 'FOUNDER_REVIEW' && render.status !== 'GENERATED') {
     throw new Error('MOBILE_RENDER_NOT_APPROVED');
   }
@@ -25,9 +26,12 @@ export function approveMobileImplementationRender(
   const visualAuthority: MobileImplementationVisualAuthority = {
     id: `miva-${render.id}`,
     renderId: render.id,
+    sourceProviderJobId: render.providerJobRef,
     compositionStateId: composition.id,
     compositionHash: composition.compositionHash,
     referenceAuthorityId: render.referenceAuthorityId,
+    featureManifestVersion: composition.featureManifestVersion,
+    projectCreativeContextVersion: composition.projectCreativeContextVersion,
     imageUri: render.renderImageUri,
     imageHash: render.renderImageHash,
     approvedAt: now,
@@ -46,7 +50,7 @@ export function approveMobileImplementationRender(
     : session.authorityPipeline,
     mobileTwinPipeline: {
       ...pipeline,
-      renders: pipeline.renders.map((r) => (r.id === render.id ? approvedRender : r)),
+      renders: pipeline.renders.map((r) => (r.id === render.id ? approvedRender : classifyLegacyMobileRender(r))),
       compositionStates: pipeline.compositionStates.map((c) => (c.id === composition.id ? frozenComposition : c)),
       renderGate: 'FROZEN',
       implementationVisualAuthority: visualAuthority,
@@ -69,6 +73,42 @@ export function requestMobileRenderRegenerate(session: DesignPageAuthorityReview
     mobileTwinPipeline: {
       ...pipeline,
       renderGate: 'REGENERATE_REQUESTED',
+    },
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+export function requestMobileRenderRefine(
+  session: DesignPageAuthorityReviewSession,
+  founderNotes: string[],
+): DesignPageAuthorityReviewSession {
+  const pipeline = session.mobileTwinPipeline;
+  if (!pipeline) throw new Error('MOBILE_REFERENCE_MISSING');
+  return {
+    ...session,
+    mobileTwinPipeline: {
+      ...pipeline,
+      renderGate: 'REFINE_REQUESTED',
+      artifactsById: {
+        ...pipeline.artifactsById,
+        'pending-refine-notes': founderNotes,
+      },
+    },
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+export function selectMobileImplementationRender(
+  session: DesignPageAuthorityReviewSession,
+  renderId: string,
+): DesignPageAuthorityReviewSession {
+  const pipeline = session.mobileTwinPipeline;
+  if (!pipeline?.renders.some((r) => r.id === renderId)) throw new Error('MOBILE_RENDER_GENERATION_FAILED');
+  return {
+    ...session,
+    mobileTwinPipeline: {
+      ...pipeline,
+      activeRenderId: renderId,
     },
     updatedAt: new Date().toISOString(),
   };

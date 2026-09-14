@@ -4,6 +4,8 @@ export * from './buildMobileTwinCompositionState.js';
 export * from './runGenerateMobileImplementationRender.js';
 export * from './approveMobileImplementationRender.js';
 export * from './runGenerateMobileTwinPackage.js';
+export * from './requestMobileTwinFal.js';
+export * from './mobileRenderClassification.js';
 export * from './mobileTwinReconciliation.js';
 export * from './mobileTwinForensicQa.js';
 export * from './buildMobileTwinStructuredArtifacts.js';

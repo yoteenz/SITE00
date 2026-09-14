@@ -1,5 +1,5 @@
-/** P0.VR.TWINV3.0R7M — mobile composition-state twin pipeline. */
-export const P0_VR_TWIN_V30_BUILD = 'v417' as const;
+/** P0.VR.TWINV3.0R7MF1 — mobile FAL provider activation. */
+export const P0_VR_TWIN_V30_BUILD = 'v418' as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;
@@ -14,6 +14,7 @@ export const P0_VR_TWIN_V30R6_LINEAGE = 'P0.VR.TWINV3.0R6' as const;
 export const P0_VR_TWIN_V30R6F1_LINEAGE = 'P0.VR.TWINV3.0R6F1' as const;
 export const P0_VR_TWIN_V30R6F2_LINEAGE = 'P0.VR.TWINV3.0R6F2' as const;
 export const P0_VR_TWIN_V30R7M_LINEAGE = 'P0.VR.TWINV3.0R7M' as const;
+export const P0_VR_TWIN_V30R7MF1_LINEAGE = 'P0.VR.TWINV3.0R7MF1' as const;
 
 /** Tracked defect — injection unblocks pipeline; gallery display fix is separate. */
 export const AUTHORITY_IMAGE_DISPLAY_BROKEN_ISSUE_ID = 'AUTHORITY_IMAGE_DISPLAY_BROKEN' as const;

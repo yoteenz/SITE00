@@ -4,6 +4,7 @@ import type {
   MobileTwinCompositionState,
   MobileTwinReconciliationReceipt,
   ReferenceTranslationFidelityReceipt,
+  RenderBlueprintTwinReconciliationReceipt,
   TwinFidelityReceipt,
 } from './types.js';
 import { DESIGN_WORKSPACE_REQUIRED_FEATURE_IDS_V1 } from '../designWorkspaceFeatureAuthority/featureDefinitionsV1.js';
@@ -73,6 +74,29 @@ export function buildMobileTwinReconciliationReceipt(input: {
     derivativeCompositionMatch: errors.length === 0,
     errors,
     result: errors.length === 0 ? 'PASS' : 'FAIL',
+  };
+}
+
+export function buildRenderBlueprintTwinReconciliationReceipt(input: {
+  id: string;
+  render: MobileImplementationRender;
+  blueprint: MobileBlueprintTwinVisual;
+  composition: MobileTwinCompositionState;
+}): RenderBlueprintTwinReconciliationReceipt {
+  const hashMatch =
+    input.render.compositionHash === input.blueprint.compositionHash &&
+    input.composition.compositionHash === input.blueprint.compositionHash;
+  const objectCountCorrespondence = input.composition.objectDefinitions.length > 0;
+  return {
+    id: input.id,
+    renderId: input.render.id,
+    blueprintTwinId: input.blueprint.id,
+    compositionStateId: input.composition.id,
+    compositionHash: input.composition.compositionHash,
+    regionCorrespondence: hashMatch,
+    objectCountCorrespondence,
+    hierarchyCorrespondence: hashMatch && input.blueprint.implementationRenderId === input.render.id,
+    result: hashMatch && input.blueprint.implementationRenderId === input.render.id ? 'PASS' : 'FAIL',
   };
 }
 
