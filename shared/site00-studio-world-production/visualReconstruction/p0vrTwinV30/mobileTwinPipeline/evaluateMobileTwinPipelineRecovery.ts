@@ -1,5 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import { authorityImagesRecoverableOffDevice, mobileTwinAuthorityImagesReady } from './autoHealMobileTwinAuthorityImages.js';
+import { hasMobileTwinBrowserBackup } from './hasMobileTwinBrowserBackup.js';
 import { mobileTwinPipelineDataScore } from './mobileTwinPipelineDataScore.js';
 import { readMobileTwinPipelineFromBrowser } from './mobileTwinPipelinePersistence.js';
 
@@ -23,11 +24,17 @@ export function evaluateMobileTwinPipelineRecovery(
   const sessionPipe = session.mobileTwinPipeline;
   const storedScore = stored ? mobileTwinPipelineDataScore(stored) : 0;
   const sessionScore = sessionPipe ? mobileTwinPipelineDataScore(sessionPipe) : 0;
-  const sessionReady = sessionPipe ? mobileTwinAuthorityImagesReady(sessionPipe) : false;
+  const sessionReady = sessionPipe ? mobileTwinAuthorityImagesReady(sessionPipe, projectId) : false;
   const recoverableImages = !sessionReady && authorityImagesRecoverableOffDevice(projectId);
+  const hasBackup = hasMobileTwinBrowserBackup(projectId);
+  const sessionFalJobs = sessionPipe?.falJobsDispatched ?? 0;
+  const sessionPackages = sessionPipe?.packages.length ?? 0;
+  const missingImagesWithHistory =
+    !sessionReady && (hasBackup || sessionFalJobs > 0 || sessionPackages > 0);
   return {
-    showRecoveryStrip: storedScore > sessionScore + 50 || recoverableImages,
-    showAuthorityImageRecovery: recoverableImages,
+    showRecoveryStrip:
+      storedScore > sessionScore + 50 || recoverableImages || missingImagesWithHistory,
+    showAuthorityImageRecovery: recoverableImages || missingImagesWithHistory,
     storedScore,
     sessionScore,
     storedFalJobs: stored?.falJobsDispatched ?? 0,

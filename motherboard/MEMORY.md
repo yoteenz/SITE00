@@ -9199,6 +9199,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Mount mobile twin RESTORE UX (v457)
+
+- **Symptom:** Founder never saw **MOBILE TWIN · BROWSER BACKUP FOUND** / orange RESTORE — only purple founder strip sometimes hid RESTORE after auto-heal.
+- **Cause:** **`DesignPageV3MobileTwinPipelineRecoveryStrip` was never mounted** in Authority panel; **`showRestore` gated** on strict score delta only.
+- **Fix:** Mount orange recovery strip on Design; widen recovery + founder **`showRestore`** when Actual/Blueprint missing but FAL jobs / packages / browser backup exist. Build **v457**.
+
+---
+
 ## 2026-09-14 — Auto-heal Actual/Blueprint on Design sync (v456)
 
 - **Symptom:** v455 rehydrate/snapshot **did not recover** Actual/Blueprint after refresh on founder device.

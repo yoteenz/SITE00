@@ -1,7 +1,9 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../constants.js';
 import { canRunFullMobileTwinPackage } from './mobileTwinVisualStrategy.js';
+import { mobileTwinAuthorityImagesReady } from './autoHealMobileTwinAuthorityImages.js';
 import { evaluateMobileTwinPipelineRecovery } from './evaluateMobileTwinPipelineRecovery.js';
+import { hasMobileTwinBrowserBackup } from './hasMobileTwinBrowserBackup.js';
 import { shouldShowBuildTwinDesignRoute } from '../../p0vrTwinV30R8M/shouldShowBuildTwinDesignRoute.js';
 import { normalizeFounderNbpPromotionOnLoad } from './applyFounderNbpMobileTwinPromotion.js';
 import { syncFounderMobileTwinSession } from './syncFounderMobileTwinSession.js';
@@ -73,10 +75,17 @@ export function evaluateMobileTwinFounderActionsStrip(
     }
   }
 
+  const imagesReady = pipeline ? mobileTwinAuthorityImagesReady(pipeline, projectId) : false;
+  const hasBackup = hasMobileTwinBrowserBackup(projectId);
+  const showRestore =
+    recovery.showRecoveryStrip ||
+    recovery.showAuthorityImageRecovery ||
+    (!imagesReady && (hasBackup || falJobs > 0 || packageCount > 0));
+
   return {
     showStrip: true,
-    showRestore: recovery.showRecoveryStrip,
-    showEmptyBackupMessage: !recovery.showRecoveryStrip && falJobs === 0 && packageCount === 0,
+    showRestore,
+    showEmptyBackupMessage: !showRestore && falJobs === 0 && packageCount === 0,
     showGenerate,
     canGenerate,
     showBuild,
