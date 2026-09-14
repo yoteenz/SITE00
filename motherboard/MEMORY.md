@@ -9145,6 +9145,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R8M durable mobile twin approval + twin design route (v446)
+
+- **Context:** Sprint **P0.VR.TWINV3.0R8M** — post-approval pipeline after founder **APPROVE MOBILE TWIN PACKAGE** (was browser-only).
+- **Delivered:** Supabase tables **`site00_mobile_twin_package_approvals`**, **`site00_mobile_twin_implementation_builds`**, **`site00_mobile_twin_implementation_state`**; API **`/api/site00/twin-v3-mobile-twin-implementation`** (persist approval, compile, founder implementation approve/correction); **`approveAndPersistMobileTwinPackage`** + **`MOBILE_TWIN_APPROVAL_PERSIST_FAILED`**; **`compileApprovedMobileTwinPackage`** from structured artifacts (no raster page); route **`/projects/ndxbook/design/twin`** + **`DesignTwinImplementationPage`**; MOBILE TWIN REVIEW shows **MOBILE TWIN PACKAGE APPROVED** + **BUILD TWIN DESIGN ROUTE**; fidelity receipts + **PROMOTION_READY** without auto-promote; **`StudioWorldDesignWorkspace`** untouched. Build **v446**. Tests **`p0vrTwinV30R8M.test.ts`**. **Railway redeploy + Supabase migration** required for durable backend.
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
