@@ -9137,6 +9137,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Light blueprint retry review slot mount (v445)
+
+- **Context:** Founder **RETRY LIGHT BLUEPRINT** succeeded (new FAL URL / blueprint twin in pipeline) but Design **compare slots** and PACKAGE inspector still showed the **previous** blueprint image.
+- **Cause:** `resolveMobileTwinReviewSlots` could prefer the first stale **`ACTIVE_BLUEPRINT_TWIN`** sibling over **`atomicRun.blueprintRenderArtifactId`**; visual pair / package pointers could lag after retry; localStorage merge sometimes beat in-memory session without hydration; reconcile demoted non-mounted PASS blueprints unless id matched active run pointer.
+- **Fix:** **`syncActiveBlueprintReviewMount`** aligns visual pair + package to active run blueprint and demotes sibling actives; slot resolver **prefers run-mounted blueprint id**; reconcile skips historical demotion for **`activeRun.blueprintRenderArtifactId`**; **`mergeMobileTwinFalApiResponse`** + **`attachMobileTwinPipelineFromBrowserStore`** hydrate after merge; session with higher **`falJobsDispatched`** wins over LS. Test **9b** in **`p0vrTwinV30R7MF3P6F1.test.ts`**. Build **v445**.
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
