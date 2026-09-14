@@ -1,8 +1,13 @@
 import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/types.js';
-import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
+import {
+  getMobileTwinPipelineDiagnostics,
+  syncFounderMobileTwinSession,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 
 type Props = {
   session: DesignPageAuthorityReviewSession;
+  projectId: string;
+  onSessionUpdate: (session: DesignPageAuthorityReviewSession) => void;
 };
 
 type StepState = 'done' | 'active' | 'locked';
@@ -13,12 +18,11 @@ function stepState(current: boolean, done: boolean): StepState {
   return 'locked';
 }
 
-export function DesignPageV3MobileTwinFounderPathPanel({ session }: Props) {
+export function DesignPageV3MobileTwinFounderPathPanel({ session, projectId, onSessionUpdate }: Props) {
   if (!session.authorityPipeline?.mobileMaster) return null;
 
-  const pipeline = session.mobileTwinPipeline ?
-    ensureMobileTwinPipelineDefaults(session.mobileTwinPipeline)
-  : undefined;
+  const pipeline = session.mobileTwinPipeline;
+  const diagnostics = pipeline ? getMobileTwinPipelineDiagnostics(pipeline) : null;
   const test = pipeline?.twinCapabilityTest;
   const strategy = pipeline?.mobileTwinVisualGenerationStrategy ?? 'UNRESOLVED';
   const bench = pipeline?.providerBenchmark;
@@ -47,6 +51,21 @@ export function DesignPageV3MobileTwinFounderPathPanel({ session }: Props) {
         <strong>MOBILE TWIN FOUNDER PATH</strong>
         <span>R7MF3P1 capability → R7MF3P2 provider benchmark (mobile only)</span>
       </header>
+      {diagnostics ?
+        <p className="site00-dw-v3-mobile-twin-founder-path__diag" data-testid="v3-mobile-twin-diagnostics">
+          SYNC · renders {diagnostics.falRenderCount}/{diagnostics.renderCount} · blueprints {diagnostics.blueprintCount}{' '}
+          · FAL jobs {diagnostics.falJobsDispatched} · capability {diagnostics.capabilityStatus} · step2{' '}
+          {diagnostics.step2Ready ? 'READY' : 'LOCKED'} · benchmark {diagnostics.benchmarkReady ? 'READY' : 'LOCKED'}
+        </p>
+      : null}
+      <button
+        type="button"
+        className="site00-dw-v3-mobile-twin-founder-path__sync"
+        data-testid="v3-mobile-twin-sync-unlock"
+        onClick={() => onSessionUpdate(syncFounderMobileTwinSession(session, projectId))}
+      >
+        SYNC &amp; UNLOCK FROM SAVED FAL STATE
+      </button>
       <ol className="site00-dw-v3-mobile-twin-founder-path__steps">
         <li data-state={s1} id="v3-founder-path-step-1">
           <span className="site00-dw-v3-mobile-twin-founder-path__num">1</span>

@@ -3,10 +3,6 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import { P0_VR_TWIN_V30R7MF3P1_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { recordFounderTwinCapabilityDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/recordFounderTwinCapabilityDecision.js';
-import {
-  attachMobileTwinPipelineFromBrowserStore,
-  ensureMobileTwinPipelineDefaults,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import { isCapabilityTestFounderReviewReady } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import type { FounderTwinCapabilityDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/twinCapabilityTestTypes.js';
 
@@ -24,21 +20,8 @@ function resolveImageSrc(uri: string): string {
   return `${window.location.origin}${pathPart}`;
 }
 
-function sessionWithReconciledPipeline(session: DesignPageAuthorityReviewSession): DesignPageAuthorityReviewSession {
-  const merged = attachMobileTwinPipelineFromBrowserStore(
-    session.projectId,
-    session.mobileTwinPipeline ?? undefined,
-  );
-  if (!merged) return session;
-  return {
-    ...session,
-    mobileTwinPipeline: ensureMobileTwinPipelineDefaults(merged),
-  };
-}
-
 export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUpdate }: Props) {
-  const workingSession = sessionWithReconciledPipeline(session);
-  const pipeline = workingSession.mobileTwinPipeline;
+  const pipeline = session.mobileTwinPipeline;
   const test = pipeline?.twinCapabilityTest;
   const step2Ready = pipeline ? isCapabilityTestFounderReviewReady(pipeline) : false;
   const [busy, setBusy] = useState(false);
@@ -51,9 +34,10 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
   const actual =
     test?.canonicalActualRenderId ?
       pipeline?.renders.find((r) => r.id === test.canonicalActualRenderId)
-    : null;
+    : pipeline?.renders.filter((r) => r.renderImageUri && r.provider === 'FAL').at(-1) ?? null;
   const blueprintA =
-    test?.flowABlueprintId ? pipeline?.blueprintTwins.find((b) => b.id === test.flowABlueprintId) : null;
+    test?.flowABlueprintId ? pipeline?.blueprintTwins.find((b) => b.id === test.flowABlueprintId)
+    : pipeline?.blueprintTwins.filter((b) => b.twinImageUri).at(-1) ?? null;
   const blueprintB =
     test?.flowBBlueprintId ? pipeline?.blueprintTwins.find((b) => b.id === test.flowBBlueprintId) : null;
 
@@ -84,7 +68,7 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
   const runTest = (action: Parameters<typeof requestMobileTwinFal>[0]['action']) => {
     setBusy(true);
     setErr(null);
-    void requestMobileTwinFal({ session: workingSession, action, founderConfirmedSpend: true })
+    void requestMobileTwinFal({ session, action, founderConfirmedSpend: true })
       .then(onSessionUpdate)
       .catch((e: Error) => setErr(e.message))
       .finally(() => setBusy(false));
@@ -93,7 +77,7 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
   const pickDecision = (decision: FounderTwinCapabilityDecision) => {
     setErr(null);
     try {
-      onSessionUpdate(recordFounderTwinCapabilityDecision(workingSession, decision));
+      onSessionUpdate(recordFounderTwinCapabilityDecision(session, decision));
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     }
