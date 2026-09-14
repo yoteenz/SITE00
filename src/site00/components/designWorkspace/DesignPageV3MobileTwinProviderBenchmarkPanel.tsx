@@ -3,10 +3,6 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import { P0_VR_TWIN_V30R7MF3P2_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { recordFounderProviderBenchmarkDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/recordFounderProviderBenchmarkDecision.js';
-import {
-  attachMobileTwinPipelineFromBrowserStore,
-  ensureMobileTwinPipelineDefaults,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import { hasFlowABaselineForBenchmark } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import type { FounderProviderBenchmarkDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/twinProviderBenchmarkTypes.js';
 import type { MobileTwinFalAction } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.js';
@@ -52,18 +48,8 @@ const PROVIDER_ROWS: {
   },
 ];
 
-function sessionWithReconciledPipeline(session: DesignPageAuthorityReviewSession): DesignPageAuthorityReviewSession {
-  const merged = attachMobileTwinPipelineFromBrowserStore(
-    session.projectId,
-    session.mobileTwinPipeline ?? undefined,
-  );
-  if (!merged) return session;
-  return { ...session, mobileTwinPipeline: ensureMobileTwinPipelineDefaults(merged) };
-}
-
 export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessionUpdate }: Props) {
-  const workingSession = sessionWithReconciledPipeline(session);
-  const pipeline = workingSession.mobileTwinPipeline;
+  const pipeline = session.mobileTwinPipeline;
   const bench = pipeline?.providerBenchmark;
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -138,7 +124,7 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
   const runAction = (action: MobileTwinFalAction) => {
     setBusy(true);
     setErr(null);
-    void requestMobileTwinFal({ session: workingSession, action, founderConfirmedSpend: true })
+    void requestMobileTwinFal({ session, action, founderConfirmedSpend: true })
       .then(onSessionUpdate)
       .catch((e: Error) => setErr(e.message))
       .finally(() => setBusy(false));
@@ -147,7 +133,7 @@ export function DesignPageV3MobileTwinProviderBenchmarkPanel({ session, onSessio
   const pick = (decision: FounderProviderBenchmarkDecision) => {
     setErr(null);
     try {
-      onSessionUpdate(recordFounderProviderBenchmarkDecision(workingSession, decision));
+      onSessionUpdate(recordFounderProviderBenchmarkDecision(session, decision));
     } catch (e) {
       setErr(e instanceof Error ? e.message : String(e));
     }

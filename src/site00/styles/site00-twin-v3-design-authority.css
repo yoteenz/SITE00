@@ -567,6 +567,23 @@
   font-size: 0.7rem;
 }
 
+.site00-dw-v3-mobile-twin-founder-path__diag {
+  margin: 0.35rem 0;
+  font-size: 0.62rem;
+  font-family: ui-monospace, monospace;
+  word-break: break-word;
+}
+
+.site00-dw-v3-mobile-twin-founder-path__sync {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  border: 2px solid #f57f17;
+  background: #fff;
+}
+
 .site00-dw-v3-mobile-twin-founder-path__hint {
   margin: 0.5rem 0 0;
   padding: 0.45rem;
