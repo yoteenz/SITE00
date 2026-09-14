@@ -35,8 +35,10 @@ import {
   applyMobileTwinAuthorityImageSnapshot,
   writeMobileTwinAuthorityImageSnapshot,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinAuthorityImageSnapshot.js';
+import { autoHealMobileTwinAuthorityImages } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/autoHealMobileTwinAuthorityImages.js';
 import { reconcileMobileTwinPipelineState } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
 import { resolveMobileTwinReviewSlots } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
+import { writeMobileTwinPipelineToBrowser } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 
 describe('mobile twin authority image persistence', () => {
   it('rehydrates renders from artifactsById when arrays were cleared', () => {
@@ -121,5 +123,50 @@ describe('mobile twin authority image persistence', () => {
     const healed = applyMobileTwinAuthorityImageSnapshot(empty, 'ndxbook');
     expect(healed.renders.some((r) => r.renderImageUri.includes('snap-actual'))).toBe(true);
     expect(healed.blueprintTwins.some((b) => b.twinImageUri.includes('snap-bp'))).toBe(true);
+  });
+
+  it('autoHeal restores from snapshot when session pipeline arrays are empty', () => {
+    const rich = {
+      ...emptyMobileTwinPipelineState(),
+      renders: [
+        {
+          id: 'render-auto',
+          compositionStateId: 'comp-1',
+          compositionHash: 'hash-1',
+          referenceAuthorityId: 'ref-1',
+          renderImageUri: 'https://fal.media/files/auto-actual.png',
+          renderImageHash: 'h1',
+          widthPx: 390,
+          heightPx: 844,
+          provider: 'FAL' as const,
+          providerJobRef: 'job-a',
+          status: 'FOUNDER_REVIEW' as const,
+          createdAt: new Date().toISOString(),
+        },
+      ],
+      blueprintTwins: [
+        {
+          id: 'bp-auto',
+          compositionStateId: 'comp-1',
+          compositionHash: 'hash-1',
+          implementationRenderId: 'render-auto',
+          twinImageUri: 'https://fal.media/files/auto-bp.png',
+          twinImageHash: 'h2',
+          provider: 'FAL' as const,
+          providerJobRef: 'job-b',
+          blueprintVisualVariant: 'ACTIVE_BLUEPRINT_TWIN' as const,
+          createdAt: new Date().toISOString(),
+        },
+      ],
+      activeRenderId: 'render-auto',
+      falJobsDispatched: 2,
+    };
+    writeMobileTwinAuthorityImageSnapshot('ndxbook', rich);
+    writeMobileTwinPipelineToBrowser('ndxbook', rich);
+    const empty = { ...emptyMobileTwinPipelineState(), falJobsDispatched: 2, packages: rich.packages };
+    const healed = autoHealMobileTwinAuthorityImages(empty, 'ndxbook');
+    const slots = resolveMobileTwinReviewSlots(reconcileMobileTwinPipelineState(healed, 'ndxbook'));
+    expect(slots.actualRender?.renderImageUri).toContain('auto-actual');
+    expect(slots.blueprintTwin?.twinImageUri).toContain('auto-bp');
   });
 });

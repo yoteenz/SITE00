@@ -12,6 +12,7 @@ import {
 import { recoverDesignPageAuthorityGalleryIfBroken } from './recoverDesignPageAuthorityGallery.js';
 import { galleryHasUnviewableAuthorityImages } from './repairAuthorityPrototypeUrls.js';
 import { createDesignPageAuthorityReviewSession } from './designPageAuthorityReviewState.js';
+import { writeMobileTwinAuthorityImageSnapshot } from './mobileTwinPipeline/mobileTwinAuthorityImageSnapshot.js';
 import {
   attachMobileTwinPipelineFromBrowserStore,
   writeMobileTwinPipelineToBrowser,
@@ -228,6 +229,7 @@ export function writeDesignPageAuthoritySession(session: DesignPageAuthorityRevi
   appendAuthorityBatchLedger(key, prepared.territoryGallery, prepared.candidateGeneration);
   if (prepared.mobileTwinPipeline) {
     writeMobileTwinPipelineToBrowser(key, prepared.mobileTwinPipeline);
+    writeMobileTwinAuthorityImageSnapshot(key, prepared.mobileTwinPipeline);
   }
   return localOk || sessionOk;
 }
