@@ -3,7 +3,7 @@ import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00
 import { P0_VR_TWIN_V30R7MF3P3_LINEAGE } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { recordFounderMobileTwinRenderStrategy } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/recordFounderMobileTwinRenderStrategy.js';
-import { hasFlowABaselineForBenchmark } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/reconcileMobileTwinPipelineState.js';
+import { getFocusedHybridBenchmarkGate } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/focusedHybridBenchmarkGate.js';
 import type { FounderMobileTwinRenderStrategyDecision } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/twinFocusedHybridBenchmarkTypes.js';
 import type { MobileTwinFalAction } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.js';
 
@@ -71,9 +71,8 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
 
   if (!session.authorityPipeline?.mobileMaster) return null;
 
-  const methodALocked = pipeline?.mobileTwinVisualGenerationStrategy === 'ATOMIC_SIBLING_FROM_COMPOSITION';
-  const flowAReady = pipeline ? hasFlowABaselineForBenchmark(pipeline) : false;
-  const canRun = methodALocked && flowAReady;
+  const gate = getFocusedHybridBenchmarkGate(pipeline);
+  const canRun = gate.canRun;
 
   const resolvePair = (actualId: string | null, blueprintId: string | null) => {
     const actual = actualId ? pipeline?.renders.find((r) => r.id === actualId) : null;
@@ -189,8 +188,10 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
         <span>R7MF3P3 · GPT2 + Nano Banana Pro only · no FLUX</span>
       </header>
       {!canRun ?
-        <p className="site00-dw-v3-mobile-twin-focused-hybrid__gate" role="status">
-          LOCKED — Method A + Flow A baseline required (same as provider benchmark).
+        <p className="site00-dw-v3-mobile-twin-focused-hybrid__gate" role="status" data-testid="v3-fh-gate">
+          <strong>LOCKED — {gate.reason}</strong> {gate.hint}{' '}
+          <a href="#v3-mobile-twin-founder-path">Founder path</a> ·{' '}
+          <a href="#v3-mobile-twin-capability-test">Capability test</a>
         </p>
       : null}
       <ul>
@@ -202,10 +203,17 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
         <button
           type="button"
           data-testid="v3-run-focused-hybrid-benchmark"
-          disabled={busy || !canRun}
-          onClick={() => void runFullBenchmark()}
+          disabled={busy}
+          aria-disabled={!canRun}
+          onClick={() => {
+            if (!canRun) {
+              setErr(gate.hint);
+              return;
+            }
+            void runFullBenchmark();
+          }}
         >
-          {busy ? 'RUNNING…' : 'RUN FOCUSED HYBRID BENCHMARK'}
+          {busy ? 'RUNNING…' : canRun ? 'RUN FOCUSED HYBRID BENCHMARK' : 'RUN (LOCKED — see above)'}
         </button>
       </div>
       {busyLabel ?

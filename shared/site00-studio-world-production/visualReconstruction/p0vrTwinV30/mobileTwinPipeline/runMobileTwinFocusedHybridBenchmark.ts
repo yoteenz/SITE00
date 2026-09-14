@@ -18,7 +18,7 @@ import { dispatchMobileTwinSplitProviderPair } from './dispatchMobileTwinSplitPr
 import { buildProviderStrategyBenchmarkReceipt } from './buildProviderStrategyBenchmarkReceipt.js';
 import { evaluateActualPresentationFirewall } from './actualPresentationFirewall.js';
 import { classifyLegacyMobileRender } from './mobileRenderClassification.js';
-import type { TwinFlowACapabilityReceipt } from './twinCapabilityTestTypes.js';
+import { ensureMobileTwinFlowAControlPair } from './ensureMobileTwinFlowAControlPair.js';
 import type {
   FocusedHybridStrategyRow,
   MobileTwinFocusedHybridBenchmarkState,
@@ -69,31 +69,6 @@ function resolveFrozenComposition(
   if (!comp) throw new Error('MOBILE_COMPOSITION_STATE_MISSING');
   if (comp.compositionHash !== compositionHash) throw new Error('MOBILE_COMPOSITION_STATE_MISSING');
   return comp;
-}
-
-function resolveControlBaseline(
-  pipeline: NonNullable<DesignPageAuthorityReviewSession['mobileTwinPipeline']>,
-): { actualId: string; blueprintId: string } | null {
-  const bench = pipeline.providerBenchmark;
-  if (bench?.baselineActualRenderId && bench.baselineBlueprintRenderId) {
-    const actual = pipeline.renders.find((r) => r.id === bench.baselineActualRenderId);
-    const blueprint = pipeline.blueprintTwins.find((b) => b.id === bench.baselineBlueprintRenderId);
-    if (actual?.renderImageUri && blueprint?.twinImageUri) {
-      return { actualId: actual.id, blueprintId: blueprint.id };
-    }
-  }
-  const test = pipeline.twinCapabilityTest;
-  if (test?.flowABlueprintId && test.canonicalActualRenderId) {
-    const actual = pipeline.renders.find((r) => r.id === test.canonicalActualRenderId);
-    const blueprint = pipeline.blueprintTwins.find((b) => b.id === test.flowABlueprintId);
-    if (actual?.renderImageUri && blueprint?.twinImageUri) {
-      return { actualId: actual.id, blueprintId: blueprint.id };
-    }
-  }
-  if (!test?.flowAReceiptId) return null;
-  const flowA = pipeline.artifactsById[test.flowAReceiptId] as TwinFlowACapabilityReceipt | undefined;
-  if (!flowA || flowA.flowMode !== 'TWIN_FLOW_A_ATOMIC_SIBLINGS' || flowA.status !== 'COMPLETE') return null;
-  return { actualId: flowA.actualRenderId, blueprintId: flowA.blueprintRenderId };
 }
 
 function initBenchmarkState(input: {
@@ -223,9 +198,6 @@ export async function runMobileTwinFocusedHybridBenchmark(input: {
   const capTest = pipeline.twinCapabilityTest;
   if (!capTest?.snapshot) throw new Error('MOBILE_TWIN_CAPABILITY_TEST_MISSING');
 
-  const control = resolveControlBaseline(pipeline);
-  if (!control) throw new Error('MOBILE_TWIN_FOCUSED_HYBRID_CONTROL_MISSING');
-
   const benchmarkId = pipeline.focusedHybridBenchmark?.benchmarkId ?? `r7mf3p3-${Date.now()}`;
   const snapshot = buildTwinFocusedHybridBenchmarkSnapshot({
     benchmarkId,
@@ -237,6 +209,22 @@ export async function runMobileTwinFocusedHybridBenchmark(input: {
     snapshot.compositionStateId,
     snapshot.compositionHash,
   );
+
+  const allowBootstrap =
+    Boolean(pipeline.founderManualTwinPathUnlock) ||
+    capTest.status === 'FOUNDER_REVIEW_READY' ||
+    capTest.status === 'PARTIAL';
+  const ensured = await ensureMobileTwinFlowAControlPair({
+    session,
+    composition,
+    runPrefix: `FH_CONTROL_${benchmarkId}`,
+    publicOrigin: input.publicOrigin,
+    allowBootstrap,
+  });
+  if (!ensured) throw new Error('MOBILE_TWIN_FOCUSED_HYBRID_CONTROL_MISSING');
+  session = ensured.session;
+  pipeline = session.mobileTwinPipeline!;
+  const control = { actualId: ensured.actualId, blueprintId: ensured.blueprintId };
   const ref = pipeline.designReference!;
   const gpt2Model = resolveFocusedHybridGpt2Model();
   const nbpModel = resolveFocusedHybridNbpModel();
