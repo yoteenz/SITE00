@@ -64,6 +64,7 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
   const pipeline = session.mobileTwinPipeline;
   const hybrid = pipeline?.focusedHybridBenchmark;
   const [busy, setBusy] = useState(false);
+  const [busyLabel, setBusyLabel] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [compareMode, setCompareMode] = useState<CompareMode>('STRATEGY_CARDS');
   const [fullscreen, setFullscreen] = useState<{ label: string; src: string } | null>(null);
@@ -90,13 +91,48 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
     [hybrid, pipeline?.renders, pipeline?.blueprintTwins],
   );
 
-  const runAction = (action: MobileTwinFalAction) => {
+  const runAction = async (action: MobileTwinFalAction, label?: string) => {
+    setBusy(true);
+    setBusyLabel(label ?? 'Running FAL on Railway — keep tab open (~60–90s)…');
+    setErr(null);
+    try {
+      let next = await requestMobileTwinFal({ session, action, founderConfirmedSpend: true });
+      onSessionUpdate(next);
+      return next;
+    } catch (e: unknown) {
+      setErr(e instanceof Error ? e.message : String(e));
+      return null;
+    } finally {
+      setBusy(false);
+      setBusyLabel(null);
+    }
+  };
+
+  const runFullBenchmark = async () => {
     setBusy(true);
     setErr(null);
-    requestMobileTwinFal({ session, action, founderConfirmedSpend: true })
-      .then(onSessionUpdate)
-      .catch((e: unknown) => setErr(e instanceof Error ? e.message : String(e)))
-      .finally(() => setBusy(false));
+    try {
+      let next = session;
+      setBusyLabel('Step 1/2 — NBP corrected pair (~60–90s)…');
+      next = await requestMobileTwinFal({
+        session: next,
+        action: 'RETRY_FOCUSED_HYBRID_NBP_FULL',
+        founderConfirmedSpend: true,
+      });
+      onSessionUpdate(next);
+      setBusyLabel('Step 2/2 — Hybrid GPT2+NBP pair (~60–90s)…');
+      next = await requestMobileTwinFal({
+        session: next,
+        action: 'RETRY_FOCUSED_HYBRID_GPT2_NBP',
+        founderConfirmedSpend: true,
+      });
+      onSessionUpdate(next);
+    } catch (e: unknown) {
+      setErr(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+      setBusyLabel(null);
+    }
   };
 
   const pick = (decision: FounderMobileTwinRenderStrategyDecision) => {
@@ -167,11 +203,16 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
           type="button"
           data-testid="v3-run-focused-hybrid-benchmark"
           disabled={busy || !canRun}
-          onClick={() => runAction('RUN_MOBILE_TWIN_FOCUSED_HYBRID_BENCHMARK')}
+          onClick={() => void runFullBenchmark()}
         >
-          RUN FOCUSED HYBRID BENCHMARK
+          {busy ? 'RUNNING…' : 'RUN FOCUSED HYBRID BENCHMARK'}
         </button>
       </div>
+      {busyLabel ?
+        <p className="site00-dw-v3-mobile-twin-focused-hybrid__running" role="status" data-testid="v3-fh-running">
+          {busyLabel}
+        </p>
+      : null}
       <div className="site00-dw-v3-mobile-twin-focused-hybrid__compare-tabs">
         {(
           [
@@ -197,8 +238,9 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
           <article key={c.key} data-testid={`v3-fh-strategy-${c.key}`}>
             <h4>{c.title}</h4>
             <p>
-              {c.actualLabel} + {c.blueprintLabel} · {c.row?.status ?? 'NOT_RUN'}
+              {c.actualLabel} + {c.blueprintLabel} · {c.row?.status ?? (hybrid ? 'NOT_RUN' : 'NOT STARTED')}
               {c.row?.presentationFirewallPass === false ? ' · PRESENTATION REVIEW' : ''}
+              {c.row?.providerErrorState ? ` · ${c.row.providerErrorState}` : ''}
             </p>
             <div className="site00-dw-v3-mobile-twin-focused-hybrid__card-previews">
               {c.actual?.renderImageUri ?
@@ -233,8 +275,15 @@ export function DesignPageV3MobileTwinFocusedHybridPanel({ session, onSessionUpd
                 SELECT STRATEGY
               </button>
               {c.retry ?
-                <button type="button" disabled={busy} onClick={() => runAction(c.retry!)}>
-                  RETRY
+                <button
+                  type="button"
+                  data-testid={`v3-fh-retry-${c.key}`}
+                  disabled={busy || !canRun}
+                  onClick={() =>
+                    void runAction(c.retry!, `${c.title} — keep tab open (~60–90s)…`)
+                  }
+                >
+                  {busy ? '…' : 'RETRY'}
                 </button>
               : null}
             </div>

@@ -326,7 +326,8 @@ export async function runMobileTwinFocusedHybridBenchmark(input: {
       },
     };
 
-    const runPrefix = `${strategyId}-${benchmarkId}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const attemptSuffix = input.forceNew || retry !== 'NONE' ? `-${Date.now()}` : '';
+    const runPrefix = `${strategyId}-${benchmarkId}${attemptSuffix}`.replace(/[^a-zA-Z0-9_-]/g, '_');
 
     try {
       let result: Awaited<ReturnType<typeof runStrategyPair>>;

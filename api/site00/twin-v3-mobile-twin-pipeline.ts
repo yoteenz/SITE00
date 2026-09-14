@@ -4,11 +4,16 @@
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
-import { P0_VR_TWIN_V30_BUILD, P0_VR_TWIN_V30R7MF3P2_LINEAGE } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
+import {
+  P0_VR_TWIN_V30_BUILD,
+  P0_VR_TWIN_V30R7MF3P2_LINEAGE,
+  P0_VR_TWIN_V30R7MF3P3_LINEAGE,
+} from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import {
   runMobileTwinFalPipeline,
   type MobileTwinFalAction,
 } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.js';
+import { slimMobileTwinPipelineForStorage } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import type { DesignPageAuthorityReviewSession } from '../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/types.js';
 
 type Body = {
@@ -27,6 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       service: 'twin-v3-mobile-twin-pipeline',
       buildRef: P0_VR_TWIN_V30_BUILD,
       sprint: P0_VR_TWIN_V30R7MF3P2_LINEAGE,
+      focusedHybridSprint: P0_VR_TWIN_V30R7MF3P3_LINEAGE,
     });
     return;
   }
@@ -57,9 +63,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       refineNotes: body.refineNotes,
       publicOrigin,
     });
+    const mobileTwinPipeline =
+      session.mobileTwinPipeline ? slimMobileTwinPipelineForStorage(session.mobileTwinPipeline) : null;
     res.status(200).json({
       ok: true,
-      session,
+      mobileTwinPipeline,
+      updatedAt: session.updatedAt,
       falKeyConfigured: Boolean(process.env.FAL_KEY?.trim()),
     });
   } catch (err) {

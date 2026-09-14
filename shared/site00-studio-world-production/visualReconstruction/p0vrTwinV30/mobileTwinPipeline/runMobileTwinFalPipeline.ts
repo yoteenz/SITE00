@@ -317,5 +317,5 @@ export async function runMobileTwinFalPipeline(input: {
     };
   }
 
-  throw new Error('MOBILE_RENDER_PROVIDER_FAILED');
+  throw new Error(`UNSUPPORTED_MOBILE_TWIN_ACTION:${input.action}`);
 }
