@@ -9152,6 +9152,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Twin route LOAD FAILED on fsbw-dev Safari (v447)
+
+- **Symptom:** **`/projects/ndxbook/design/twin`** showed **Load failed** on mobile preview tunnel.
+- **Cause:** **`fetchMobileTwinImplementationState`** used **`credentials: 'include'`** on cross-origin **`api.site00.com`** (Safari CORS); plus no fallback when Railway R8M API/schema not live yet.
+- **Fix:** **`credentials: 'omit'`** on GET; **`resolveTwinImplementationPreview`** tries API → **localStorage cache** → **local compile** from approved Design session; BUILD TWIN writes cache. Build **v447**. Test **28** in **`p0vrTwinV30R8M.test.ts`**.
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
