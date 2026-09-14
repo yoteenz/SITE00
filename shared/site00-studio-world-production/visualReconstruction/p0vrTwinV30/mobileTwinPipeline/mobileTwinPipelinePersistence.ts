@@ -3,8 +3,12 @@ import {
   reconcileMobileTwinPipelineState,
 } from './reconcileMobileTwinPipelineState.js';
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
+import { mobileTwinPipelineDataScore } from './mobileTwinPipelineDataScore.js';
 import type { MobileTwinPipelineState } from './types.js';
 import { emptyMobileTwinPipelineState } from './types.js';
+import type { MobileTwinPackage } from './types.js';
+
+const BACKUP_STORAGE_KEY = 'site00:mobile-twin-pipeline:backup:v1';
 
 const STORAGE_KEY = 'site00:mobile-twin-pipeline:v1';
 
@@ -26,6 +30,49 @@ function writeStore(parsed: Record<string, MobileTwinPipelineState>): boolean {
     return true;
   } catch {
     return false;
+  }
+}
+
+function packageArtifactIds(pkg: MobileTwinPackage): string[] {
+  return [
+    pkg.compositionStateId,
+    pkg.surgicalBlueprintId,
+    pkg.objectMapId,
+    pkg.canonicalAssetManifestId,
+    pkg.functionBindingMapId,
+    pkg.hostProjectOwnershipMapId,
+    pkg.implementationPrimitiveContractId,
+    pkg.reverseTraceabilityMapId,
+    pkg.reconciliationReceiptId,
+    pkg.referenceTranslationFidelityReceiptId,
+    pkg.twinFidelityReceiptId,
+    pkg.implementationRenderId,
+    pkg.blueprintTwinVisualId,
+    pkg.implementationVisualAuthorityId ?? '',
+  ].filter(Boolean);
+}
+
+function readBackupStore(): Record<string, MobileTwinPipelineState> {
+  if (typeof localStorage === 'undefined') return {};
+  try {
+    const raw = localStorage.getItem(BACKUP_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Record<string, MobileTwinPipelineState>) : {};
+  } catch {
+    return {};
+  }
+}
+
+function writeBackupSnapshot(projectId: string, state: MobileTwinPipelineState): void {
+  if (typeof localStorage === 'undefined') return;
+  try {
+    const key = projectId.toLowerCase();
+    const parsed = readBackupStore();
+    const existing = parsed[key];
+    if (existing && mobileTwinPipelineDataScore(state) <= mobileTwinPipelineDataScore(existing)) return;
+    parsed[key] = state;
+    localStorage.setItem(BACKUP_STORAGE_KEY, JSON.stringify(parsed));
+  } catch {
+    /* quota */
   }
 }
 
@@ -58,11 +105,25 @@ export function slimMobileTwinPipelineForStorage(state: MobileTwinPipelineState)
   for (const comp of compositionStates) {
     if (comp.id === activeCompId) artifactsById[comp.id] = comp;
   }
+  const activePkg =
+    (state.latestPackageId ? state.packages.find((p) => p.id === state.latestPackageId) : null) ??
+    state.packages.at(-1) ??
+    null;
+  if (activePkg) {
+    for (const id of packageArtifactIds(activePkg)) {
+      if (state.artifactsById[id]) artifactsById[id] = state.artifactsById[id];
+    }
+    artifactsById[activePkg.id] = activePkg;
+  }
+  for (const pair of state.visualPairs ?? []) {
+    artifactsById[pair.id] = pair;
+  }
   return {
     ...state,
     compositionStates,
     artifactsById: { ...state.artifactsById, ...artifactsById },
     providerCostRecords: state.providerCostRecords?.slice(-8) ?? [],
+    mobileTwinImplementation: state.mobileTwinImplementation,
   };
 }
 
@@ -74,8 +135,18 @@ export function readMobileTwinPipelineFromBrowser(projectId: string): MobileTwin
 
 export function writeMobileTwinPipelineToBrowser(projectId: string, state: MobileTwinPipelineState): boolean {
   const key = projectId.toLowerCase();
+  const existing = readStore()[key];
+  let merged = state;
+  if (existing) {
+    merged = mergeMobileTwinPipelineRich(state, existing) ?? state;
+    if (mobileTwinPipelineDataScore(merged) < mobileTwinPipelineDataScore(existing)) {
+      return false;
+    }
+  }
+  const slim = slimMobileTwinPipelineForStorage(merged);
+  writeBackupSnapshot(key, merged);
   const parsed = readStore();
-  parsed[key] = slimMobileTwinPipelineForStorage(state);
+  parsed[key] = slim;
   return writeStore(parsed);
 }
 
@@ -90,16 +161,35 @@ export function attachMobileTwinPipelineFromBrowserStore(
   projectId: string,
   sessionPipeline?: MobileTwinPipelineState,
 ): MobileTwinPipelineState | undefined {
+  const key = projectId.toLowerCase();
   const stored = readMobileTwinPipelineFromBrowser(projectId);
-  if (!stored) return sessionPipeline;
-  if (!sessionPipeline) return stored;
-  const sessionJobs = sessionPipeline.falJobsDispatched ?? 0;
-  const storedJobs = stored.falJobsDispatched ?? 0;
-  if (sessionJobs > storedJobs) {
-    return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(sessionPipeline));
-  }
-  const merged = mergeMobileTwinPipelinePreferRenders(sessionPipeline, stored);
-  return merged ? hydrateMobileTwinReviewState(merged) : sessionPipeline ?? stored;
+  const backup = readBackupStore()[key];
+  const richestStored =
+    stored && backup ?
+      (mobileTwinPipelineDataScore(stored) >= mobileTwinPipelineDataScore(backup) ? stored : backup)
+    : stored ?? backup ?? undefined;
+  if (!richestStored) return sessionPipeline;
+  if (!sessionPipeline) return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(richestStored));
+  const merged = mergeMobileTwinPipelinePreferRenders(sessionPipeline, richestStored);
+  return merged ? hydrateMobileTwinReviewState(merged) : sessionPipeline ?? richestStored;
+}
+
+/** Force session pipeline from dedicated LS (+ backup) when in-memory state regressed. */
+export function restoreMobileTwinPipelineFromBrowserStore(
+  projectId: string,
+  sessionPipeline?: MobileTwinPipelineState,
+): MobileTwinPipelineState | undefined {
+  const key = projectId.toLowerCase();
+  const stored = readMobileTwinPipelineFromBrowser(projectId);
+  const backup = readBackupStore()[key];
+  const richest =
+    stored && backup ?
+      (mobileTwinPipelineDataScore(stored) >= mobileTwinPipelineDataScore(backup) ? stored : backup)
+    : stored ?? backup ?? undefined;
+  if (!richest) return sessionPipeline;
+  const merged =
+    sessionPipeline ? (mergeMobileTwinPipelineRich(richest, sessionPipeline) ?? richest) : richest;
+  return hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(merged));
 }
 
 export function ensureMobileTwinPipelineDefaults(state: MobileTwinPipelineState): MobileTwinPipelineState {
