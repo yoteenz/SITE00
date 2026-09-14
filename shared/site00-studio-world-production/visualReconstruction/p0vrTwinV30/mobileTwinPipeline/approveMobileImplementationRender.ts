@@ -1,5 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
 import type { MobileImplementationVisualAuthority, MobileTwinCompositionState } from './types.js';
+import { assertRenderPassesReferenceCloneFirewall } from './referenceCloneFirewall.js';
 import { assertRenderCanBecomeImplementationAuthority, classifyLegacyMobileRender } from './mobileRenderClassification.js';
 
 export function approveMobileImplementationRender(
@@ -11,6 +12,10 @@ export function approveMobileImplementationRender(
   if (!pipeline?.activeRenderId) throw new Error('MOBILE_RENDER_GENERATION_FAILED');
   const render = classifyLegacyMobileRender(pipeline.renders.find((r) => r.id === pipeline.activeRenderId)!);
   assertRenderCanBecomeImplementationAuthority(render, pipeline.founderStubOverride);
+  assertRenderPassesReferenceCloneFirewall(render);
+  if (pipeline.renderGate === 'NEEDS_REFINEMENT' || pipeline.renderGate === 'REJECTED') {
+    throw new Error('MOBILE_RENDER_NOT_APPROVED');
+  }
   if (render.status !== 'FOUNDER_REVIEW' && render.status !== 'GENERATED') {
     throw new Error('MOBILE_RENDER_NOT_APPROVED');
   }

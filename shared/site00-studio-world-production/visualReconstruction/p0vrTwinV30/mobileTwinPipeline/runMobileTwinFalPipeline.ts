@@ -45,7 +45,7 @@ export async function runMobileTwinFalPipeline(input: {
   const ref = pipeline.designReference!;
 
   if (input.action === 'GENERATE_MOBILE_RENDER' || input.action === 'REGENERATE_MOBILE_RENDER') {
-    const runId = `r7mf1-render-${Date.now()}`;
+    const runId = `r7mf2-render-${Date.now()}`;
     const composition = buildMobileTwinCompositionState({ runId, reference: ref });
     composition.status = 'RECONCILED';
     const preflight = runMobileCompositionPreflight({ reference: ref, composition });
@@ -84,6 +84,7 @@ export async function runMobileTwinFalPipeline(input: {
           ...pipeline.artifactsById,
           [composition.id]: composition,
           [dispatched.render.id]: dispatched.render,
+          [dispatched.translationEvidence.id]: dispatched.translationEvidence,
         },
       },
       costRecord,
@@ -99,7 +100,7 @@ export async function runMobileTwinFalPipeline(input: {
     const composition = pipeline.compositionStates.find((c) => c.id === parent.compositionStateId);
     if (!composition) throw new Error('MOBILE_COMPOSITION_STATE_MISSING');
 
-    const runId = `r7mf1-refine-${Date.now()}`;
+    const runId = `r7mf2-refine-${Date.now()}`;
     const dispatched = await dispatchMobileTwinFalRender({
       runId,
       reference: ref,
@@ -127,6 +128,7 @@ export async function runMobileTwinFalPipeline(input: {
         artifactsById: {
           ...pipeline.artifactsById,
           [dispatched.render.id]: dispatched.render,
+          [dispatched.translationEvidence.id]: dispatched.translationEvidence,
         },
       },
       costRecord,

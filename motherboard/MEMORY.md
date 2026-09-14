@@ -8929,6 +8929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — P0.VR.TWINV3.0R7MF2 reference translation + anti-clone guard (v422)
+
+- **Context:** R7MF1 FAL Phase A worked but outputs mirrored Design Reference too literally (reference cloning vs true MobileImplementationRender).
+- **Delivered:** R7MF2 lineage; strengthened render prompt (reference vs implementation roles, anti-clone prohibitions, composition-first input priority); `ReferenceCloneFirewall` + `REFERENCE_TRANSLATION_COLLAPSE_TO_REPLICATION`; `ReferenceTranslationEvidenceReceipt`; founder reject reasons incl. `TOO_CLOSE_TO_REFERENCE`; UI Phase A labels, clone-risk advisory, reject path; package still blocked until valid render approved. Build **v422**. Tests **`p0vrTwinV30R7MF2.test.ts`**.
+
+---
+
 ## 2026-09-14 — R7MF1 ACTUAL RENDER empty after FAL success (v421)
 
 - **Symptom:** Founder generated mobile render on fal.ai (job OK) but DESIGN RECONSTRUCTION **ACTUAL RENDER** still **NOT GENERATED YET**; gate could show GENERATED with FAL jobs hint at 0.
