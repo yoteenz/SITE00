@@ -398,6 +398,101 @@
   font-size: 0.7rem;
 }
 
+.site00-dw-v3-derivation-review__modes,
+.site00-dw-v3-derivation-review__viewport-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.site00-dw-v3-derivation-review__modes button,
+.site00-dw-v3-derivation-review__viewport-toggle button {
+  font-size: 0.65rem;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid #0a7a3e;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.site00-dw-v3-derivation-review__modes button.is-active,
+.site00-dw-v3-derivation-review__viewport-toggle button.is-active {
+  background: #0a7a3e;
+  color: #fff;
+}
+
+.site00-dw-v3-derivation-review__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.65rem;
+}
+
+.site00-dw-v3-derivation-review__authority-stage {
+  position: relative;
+  max-width: 100%;
+  margin-bottom: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.site00-dw-v3-derivation-review__authority-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.site00-dw-v3-derivation-review__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.site00-dw-v3-derivation-review__overlay-box {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(10, 122, 62, 0.85);
+  background: rgba(10, 122, 62, 0.08);
+}
+
+.site00-dw-v3-derivation-review__overlay-label {
+  font-size: 0.45rem;
+  line-height: 1.1;
+  color: #064d28;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 1px 2px;
+}
+
+.site00-dw-v3-derivation-review__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  align-items: center;
+}
+
+.site00-dw-v3-derivation-review__actions button {
+  font-size: 0.7rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 2px solid #0a7a3e;
+  background: #eafff0;
+}
+
+.site00-dw-v3-derivation-review__actions input {
+  flex: 1;
+  min-width: 8rem;
+  font-size: 0.7rem;
+  padding: 0.35rem;
+}
+
+.site00-dw-v3-derivation-review__feature-list {
+  margin: 0 0 0.75rem;
+  padding-left: 1.1rem;
+  font-size: 0.68rem;
+}
+
 .site00-dw-v3-authority-pair-review {
   margin: 0 0 1rem;
   padding: 0.75rem;

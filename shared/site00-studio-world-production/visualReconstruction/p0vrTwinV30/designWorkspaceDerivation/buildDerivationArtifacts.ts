@@ -539,10 +539,28 @@ export function buildImplementationPackage(input: {
     compilerReadinessReceiptId: string;
   };
   receipt: CompilerReadinessReceipt;
+  packageStatus?: DesignWorkspaceImplementationPackage['status'];
+  packageExtensions?: Partial<
+    Pick<
+      DesignWorkspaceImplementationPackage,
+      | 'derivationAlgorithm'
+      | 'pixelGroundedAnalysisMobileId'
+      | 'pixelGroundedAnalysisDesktopId'
+      | 'objectGranularityReceiptMobileId'
+      | 'objectGranularityReceiptDesktopId'
+      | 'authorityVisualCoverageReceiptMobileId'
+      | 'authorityVisualCoverageReceiptDesktopId'
+      | 'weightedAuthorityCoverageReceiptMobileId'
+      | 'weightedAuthorityCoverageReceiptDesktopId'
+      | 'visualClusterMapId'
+      | 'responsiveObjectCorrespondenceMapId'
+    >
+  >;
 }): DesignWorkspaceImplementationPackage {
   const checksum = fnv1aHex(
     `${input.pairChecksum}|${input.artifactIds.structuralBlueprintId}|${input.artifactIds.surgicalObjectMapId}|${input.featureManifestVersion}`,
   );
+  const defaultStatus = input.receipt.overall === 'PASS' ? 'READY_FOR_REVIEW' : 'BLOCKED';
   return {
     id: `dwip-${input.runId}`,
     derivationRunId: input.runId,
@@ -554,9 +572,10 @@ export function buildImplementationPackage(input: {
     executionIntent: 'TRANSLATION',
     inventionBudget: 'NONE',
     packageChecksum: checksum,
-    status: input.receipt.overall === 'PASS' ? 'READY_FOR_REVIEW' : 'BLOCKED',
+    status: input.packageStatus ?? defaultStatus,
     version: 1,
     createdAt: new Date().toISOString(),
+    ...input.packageExtensions,
   };
 }
 

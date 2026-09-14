@@ -241,19 +241,21 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
     }
     setDerivationGenerating(true);
     setError(null);
-    try {
-      const { session: derived, reusedExisting } = runDesignWorkspaceDerivation(sessionView);
-      persist(derived);
-      setPersistWarning(
-        reusedExisting ?
-          'Existing derivation package reused (same frozen authority inputs).'
-        : 'Derivation complete — review package below. No live page build in R6.',
-      );
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Derivation blocked');
-    } finally {
-      setDerivationGenerating(false);
-    }
+    void runDesignWorkspaceDerivation(sessionView)
+      .then(({ session: derived, reusedExisting }) => {
+        persist(derived);
+        setPersistWarning(
+          reusedExisting ?
+            'Existing derivation package reused (same frozen authority inputs).'
+          : 'Pixel-grounded derivation complete — review translation below. No live page build in R6F1.',
+        );
+      })
+      .catch((e: unknown) => {
+        setError(e instanceof Error ? e.message : 'Derivation blocked');
+      })
+      .finally(() => {
+        setDerivationGenerating(false);
+      });
   }, [persist, sessionView]);
 
   const onReplaceViewport = useCallback(
@@ -366,7 +368,7 @@ export function DesignPageV3AuthorityReviewPanel({ projectId }: Props) {
         generating={derivationGenerating}
       />
 
-      <DesignPageV3DerivationReviewPanel session={sessionView} />
+      <DesignPageV3DerivationReviewPanel session={sessionView} onSessionUpdate={persist} />
 
       <p className="site00-dw-v3-authority__hint" data-testid="v3-authority-gallery-stats">
         {galleryStats}
