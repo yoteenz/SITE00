@@ -21,6 +21,7 @@ import { runGenerateMobileImplementationRenderNode } from '../shared/site00-stud
 import { runMobileTwinFalPipeline } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runMobileTwinFalPipeline.js';
 import { classifyLegacyMobileRender, isRenderEligibleForFinalAuthority } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileRenderClassification.js';
 import { resolveFounderAuthorityAbsolutePath } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceDerivation/pixelGroundedAuthorityAnalysisNode.js';
+import { resolveMobileTwinPublicAssetUrl } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/resolveMobileTwinPublicAssetUrl.js';
 
 function lockedSession() {
   return ensureMobileDesignReferenceAuthority(applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession()));
@@ -192,6 +193,14 @@ describe('P0.VR.TWINV3.0R7MF1 mobile FAL twin pipeline', () => {
     });
     expect(session.mobileTwinPipeline!.desktopJobsDispatched).toBe(0);
     expect(P0_VR_TWIN_V30R7MF1_LINEAGE).toContain('R7MF1');
+  });
+
+  it('FAL reference URL uses site00.com on dev tunnel origin (not tunnel host)', () => {
+    const url = resolveMobileTwinPublicAssetUrl(
+      '/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg',
+      'http://localhost:5174',
+    );
+    expect(url).toBe('https://site00.com/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg');
   });
 
   it('founder mobile JPG hash unchanged', () => {

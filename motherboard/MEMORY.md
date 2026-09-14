@@ -8929,6 +8929,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — R7MF1 mobile FAL fetch fix (v419)
+
+- **Symptom:** iOS Safari on `site00.fsbw-dev.com` showed **Load failed** on GENERATE MOBILE RENDER (FAL).
+- **Cause:** `requestMobileTwinFal` used `credentials: 'include'` (CORS break vs design-authority `omit`); API passed tunnel origin into FAL reference URL.
+- **Fix:** `credentials: 'omit'`, clearer network/FAL_KEY errors; founder JPG reference always resolves to `https://site00.com/...` for FAL. Build **v419**.
+
+---
+
 ## 2026-09-14 — P0.VR.TWINV3.0R7MF1 mobile FAL provider activation (v418)
 
 - **Context:** R7M proved composition-state architecture via LOCAL_COMPILER stub; R7MF1 wires real FAL for Phase A mobile implementation render + Phase B blueprint twin without changing R7M state model.
