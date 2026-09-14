@@ -102,10 +102,12 @@ export async function compileAndCacheMobileTwinImplementation(input: {
   const { compileApprovedMobileTwinPackage } = await import('./compileApprovedMobileTwinPackage.js');
   const { writeTwinImplementationCache } = await import('./twinImplementationBrowserCache.js');
   const { mobileTwinTwinPreviewRoute } = await import('./constants.js');
-  const pipeline = input.session.mobileTwinPipeline;
-  const packageId = pipeline?.latestPackageId;
+  const { resolveLocalMobileTwinCompileInput } = await import('./resolveLocalMobileTwinCompileInput.js');
+  const merged = resolveLocalMobileTwinCompileInput(input.session.projectId);
+  const pipeline = merged?.pipeline ?? input.session.mobileTwinPipeline;
+  const packageId = merged?.packageId ?? pipeline?.latestPackageId;
   if (!pipeline || !packageId) {
-    return { ok: false, message: 'MOBILE_TWIN_PACKAGE_MISSING' };
+    return { ok: false, message: 'MOBILE_TWIN_PACKAGE_MISSING — restore mobile twin backup or regenerate package on Design.' };
   }
   let buildId = pipeline.mobileTwinImplementation?.latestBuildId ?? `local-build-${Date.now()}`;
   let version = pipeline.mobileTwinImplementation?.latestImplementationVersion ?? 'mobile-twin-impl-local-preview';

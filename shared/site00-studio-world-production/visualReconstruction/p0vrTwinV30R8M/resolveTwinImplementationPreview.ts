@@ -1,8 +1,10 @@
 import { readDesignPageAuthoritySession } from '../p0vrTwinV30/designPageAuthorityPersistence.js';
 import { compileApprovedMobileTwinPackage } from './compileApprovedMobileTwinPackage.js';
 import { isMobileTwinPackageApprovalConfirmed } from './confirmMobileTwinPackageApproval.js';
+import { resolveLocalMobileTwinCompileInput } from './resolveLocalMobileTwinCompileInput.js';
 import { fetchMobileTwinImplementationState } from './requestMobileTwinImplementation.js';
-import { readTwinImplementationCache, type TwinImplementationCacheEntry } from './twinImplementationBrowserCache.js';
+import { readTwinImplementationCache, writeTwinImplementationCache, type TwinImplementationCacheEntry } from './twinImplementationBrowserCache.js';
+import { mobileTwinTwinPreviewRoute } from './constants.js';
 import { isProductionReadyImplementationDocument } from './implementationDocumentValidity.js';
 import {
   isMobileTwinImplementationServerUnavailableMessage,
@@ -90,29 +92,50 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
       };
     }
     if (serverUnavailable) {
-      const session = readDesignPageAuthoritySession(key);
-      if (session && isMobileTwinPackageApprovalConfirmed(session) && session.mobileTwinPipeline?.latestPackageId) {
-        const document = compileApprovedMobileTwinPackage({
-          pipeline: session.mobileTwinPipeline,
-          packageId: session.mobileTwinPipeline.latestPackageId,
-        });
-        const schemaMissing = msg.includes('SCHEMA_MISSING');
-        return {
-          source: 'LOCAL_COMPILE',
-          buildId: `local-compile-${document.sourceArtifactIds[0] ?? 'preview'}`,
-          implementationVersion: 'mobile-twin-impl-local-preview',
-          previewRoute: `/projects/${key}/design/twin`,
-          founderStatus: 'PENDING',
-          promotionStatus: 'NOT_READY',
-          document,
-          notice: schemaMissing ?
-            `${MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT} Showing local compile — tap REBUILD on Design if this page was blank before.`
-          : 'API unreachable — showing local compile from approved package. Tap BUILD TWIN DESIGN ROUTE on Design when api.site00.com is on v446+.',
-        };
+      const localInput = resolveLocalMobileTwinCompileInput(key);
+      if (localInput) {
+        try {
+          const document = compileApprovedMobileTwinPackage({
+            pipeline: localInput.pipeline,
+            packageId: localInput.packageId,
+          });
+          const buildId = `local-compile-${document.sourceArtifactIds[0] ?? 'preview'}`;
+          writeTwinImplementationCache({
+            projectId: key,
+            buildId,
+            implementationVersion: 'mobile-twin-impl-local-preview',
+            previewRoute: mobileTwinTwinPreviewRoute(key),
+            founderStatus: 'PENDING',
+            promotionStatus: 'NOT_READY',
+            document,
+            cachedAt: new Date().toISOString(),
+          });
+          const schemaMissing = msg.includes('SCHEMA_MISSING');
+          return {
+            source: 'LOCAL_COMPILE',
+            buildId,
+            implementationVersion: 'mobile-twin-impl-local-preview',
+            previewRoute: mobileTwinTwinPreviewRoute(key),
+            founderStatus: 'PENDING',
+            promotionStatus: 'NOT_READY',
+            document,
+            notice: schemaMissing ?
+              `${MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT} Loaded from local compile on this device (cache saved).`
+            : 'API unreachable — showing local compile from approved package. Tap BUILD TWIN DESIGN ROUTE on Design when api.site00.com is on v446+.',
+          };
+        } catch (compileErr) {
+          const compileMsg = compileErr instanceof Error ? compileErr.message : String(compileErr);
+          if (msg.includes('SCHEMA_MISSING')) {
+            throw new Error(
+              `${msg} Local compile failed: ${compileMsg}. On Design stay on the same tab, tap REBUILD TWIN DESIGN ROUTE, then reopen twin. If package data is empty, RESTORE MOBILE TWIN FROM BROWSER BACKUP first.`,
+            );
+          }
+          throw compileErr;
+        }
       }
       if (msg.includes('SCHEMA_MISSING')) {
         throw new Error(
-          `${msg} — On Design, tap REBUILD TWIN DESIGN ROUTE (local cache). Ops: apply Supabase migration 20260914193000_site00_mobile_twin_implementation_r8m.sql on production DB.`,
+          `${msg} No approved package found in this browser (design session + mobile-twin storage). Open Design on this device, RESTORE backup if needed, approve package, REBUILD, then reopen twin. Ops: apply Supabase migration 20260914193000_site00_mobile_twin_implementation_r8m.sql.`,
         );
       }
       throw new Error(
