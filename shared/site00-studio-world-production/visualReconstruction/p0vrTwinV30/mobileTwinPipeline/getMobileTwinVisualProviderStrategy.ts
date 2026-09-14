@@ -11,6 +11,8 @@ export function getMobileTwinVisualProviderStrategy(
   if (!pipeline?.mobileTwinProviderLock?.locked) return null;
   const nbp = pipeline.mobileTwinProviderLock.actualModel || resolveFocusedHybridNbpModel();
   return {
+    viewport: 'MOBILE',
+    method: 'ATOMIC_SIBLING_FROM_COMPOSITION',
     strategy: 'NBP_FULL_PAIR',
     actual: { provider: 'FAL', model: nbp },
     blueprint: { provider: 'FAL', model: pipeline.mobileTwinProviderLock.blueprintModel || nbp },

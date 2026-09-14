@@ -5,6 +5,10 @@ import { attachMobileRenderTranslationReceipts } from './attachMobileRenderTrans
 import { buildMobileImplementationRenderFalPrompt } from './buildMobileTwinFalPrompts.js';
 import { buildNbpCorrectedActualFalPrompt } from './buildNbpCorrectedActualPrompt.js';
 import { getMobileTwinVisualProviderStrategy } from './getMobileTwinVisualProviderStrategy.js';
+import {
+  assertMobileTwinNbpModelAfterJob,
+  assertMobileTwinNbpModelAtDispatch,
+} from './assertMobileTwinNbpProviderModel.js';
 import type { MobileTwinPipelineState } from './types.js';
 import { REAL_PROVIDER_RENDER_MODE } from './mobileRenderClassification.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
@@ -45,6 +49,12 @@ export async function dispatchMobileTwinFalRender(input: {
         regeneration: input.regeneration,
       });
 
+  const dispatchModel = assertMobileTwinNbpModelAtDispatch(
+    lockedRoute?.actual.model,
+    input.pipeline,
+    'actual',
+  );
+
   let falResult;
   try {
     falResult = await runFalReferenceImageJob({
@@ -52,13 +62,15 @@ export async function dispatchMobileTwinFalRender(input: {
       prompt,
       referenceImageUrls: [referenceUrl],
       aspectRatio: '9:16',
-      model: lockedRoute?.actual.model,
+      model: dispatchModel,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'MOBILE_RENDER_PROVIDER_FAILED';
     if (lockedRoute?.locked) throw new Error('MOBILE_TWIN_NBP_PROVIDER_FAILED');
     throw new Error(message.includes('FAL') ? message : 'MOBILE_RENDER_PROVIDER_FAILED');
   }
+
+  assertMobileTwinNbpModelAfterJob(falResult.model, input.pipeline);
 
   const renderImageHash = hashFromUrl(`${falResult.url}:${falResult.jobRef}`);
   if (renderImageHash === input.reference.sourceImageHash) {

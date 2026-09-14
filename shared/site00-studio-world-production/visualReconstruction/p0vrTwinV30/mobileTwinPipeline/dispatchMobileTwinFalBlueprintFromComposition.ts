@@ -11,6 +11,10 @@ import {
 } from './blueprintVisualStyleContract.js';
 import { resolveMobileTwinPublicAssetUrl } from './resolveMobileTwinPublicAssetUrl.js';
 import { getMobileTwinVisualProviderStrategy } from './getMobileTwinVisualProviderStrategy.js';
+import {
+  assertMobileTwinNbpModelAfterJob,
+  assertMobileTwinNbpModelAtDispatch,
+} from './assertMobileTwinNbpProviderModel.js';
 import type {
   MobileBlueprintTwinVisual,
   MobileDesignReferenceAuthority,
@@ -55,6 +59,12 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
         siblingActualRenderId: input.siblingActualRenderId,
       });
 
+  const dispatchModel = assertMobileTwinNbpModelAtDispatch(
+    lockedRoute?.blueprint.model,
+    input.pipeline,
+    'blueprint',
+  );
+
   let falResult;
   try {
     falResult = await runFalReferenceImageJob({
@@ -62,13 +72,15 @@ export async function dispatchMobileTwinFalBlueprintFromComposition(input: {
       prompt,
       referenceImageUrls: [referenceUrl],
       aspectRatio: '9:16',
-      model: lockedRoute?.blueprint.model,
+      model: dispatchModel,
     });
   } catch (err) {
     if (lockedRoute?.locked) throw new Error('MOBILE_TWIN_NBP_PROVIDER_FAILED');
     const message = err instanceof Error ? err.message : 'BLUEPRINT_TWIN_COMPOSITION_MISMATCH';
     throw new Error(message.includes('FAL') ? message : 'MOBILE_RENDER_PROVIDER_FAILED');
   }
+
+  assertMobileTwinNbpModelAfterJob(falResult.model, input.pipeline);
 
   const twinImageHash = hashFromUrl(`${falResult.url}:${falResult.jobRef}`);
   const styleReceipt = buildBlueprintVisualStyleReceipt({

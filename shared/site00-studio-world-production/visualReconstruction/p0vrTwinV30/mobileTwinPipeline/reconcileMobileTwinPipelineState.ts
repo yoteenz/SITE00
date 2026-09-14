@@ -3,6 +3,7 @@ import {
   HISTORICAL_PROVIDER_BENCHMARK,
   LOCKED_MOBILE_STRATEGY_STATUS,
 } from './mobileTwinProviderPromotionTypes.js';
+import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { TwinFlowACapabilityReceipt } from './twinCapabilityTestTypes.js';
 import type { MobileTwinCapabilityTestState } from './twinCapabilityTestTypes.js';
 import { buildMobileTwinCompositionState } from './buildMobileTwinCompositionState.js';
@@ -154,6 +155,10 @@ export function mergeMobileTwinPipelineRich(
     desktopStatus: 'DEFERRED',
     r6f2ForensicRole: pick.r6f2ForensicRole ?? other.r6f2ForensicRole,
     providerCostRecords: [...(other.providerCostRecords ?? []), ...(pick.providerCostRecords ?? [])].slice(-16),
+    mobileTwinProviderJobRecords: unionById(
+      pick.mobileTwinProviderJobRecords ?? [],
+      other.mobileTwinProviderJobRecords ?? [],
+    ),
   };
 
   return reconcileMobileTwinPipelineState(merged);
@@ -420,5 +425,5 @@ export function reconcileMobileTwinPipelineState(pipeline: MobileTwinPipelineSta
     }
   }
 
-  return next;
+  return hydrateMobileTwinReviewState(next);
 }

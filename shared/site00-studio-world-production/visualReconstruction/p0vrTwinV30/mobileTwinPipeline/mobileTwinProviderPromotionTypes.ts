@@ -36,6 +36,8 @@ export type MobileTwinProviderLock = {
 };
 
 export type MobileTwinVisualProviderStrategyResolved = {
+  viewport: 'MOBILE';
+  method: 'ATOMIC_SIBLING_FROM_COMPOSITION';
   strategy: 'NBP_FULL_PAIR';
   actual: { provider: 'FAL'; model: string };
   blueprint: { provider: 'FAL'; model: string };

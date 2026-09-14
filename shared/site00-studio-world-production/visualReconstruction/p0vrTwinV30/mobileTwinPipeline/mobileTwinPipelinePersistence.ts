@@ -45,6 +45,12 @@ export function slimMobileTwinPipelineForStorage(state: MobileTwinPipelineState)
   for (const render of state.renders) {
     artifactsById[render.id] = render;
   }
+  for (const bp of state.blueprintTwins) {
+    if (bp.twinImageUri) artifactsById[bp.id] = bp;
+  }
+  for (const run of state.atomicRuns ?? []) {
+    artifactsById[run.id] = run;
+  }
   if (state.implementationVisualAuthority) {
     artifactsById[state.implementationVisualAuthority.id] = state.implementationVisualAuthority;
   }

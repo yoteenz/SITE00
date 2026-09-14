@@ -5,6 +5,8 @@ import {
   mergeMobileTwinFalApiResponse,
   stripSessionForMobileTwinFalRequest,
 } from './mergeMobileTwinFalApiResponse.js';
+import { writeMobileTwinPipelineToBrowser } from './mobileTwinPipelinePersistence.js';
+import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { MobileTwinFalAction } from './runMobileTwinFalPipeline.js';
 
 export async function requestMobileTwinFal(input: {
@@ -60,14 +62,24 @@ export async function requestMobileTwinFal(input: {
     throw new Error(detail);
   }
   if (data.mobileTwinPipeline) {
-    return mergeMobileTwinFalApiResponse(input.session, data.mobileTwinPipeline, data.updatedAt);
+    const merged = mergeMobileTwinFalApiResponse(input.session, data.mobileTwinPipeline, data.updatedAt);
+    if (merged.mobileTwinPipeline) {
+      merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
+      writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
+    }
+    return merged;
   }
   if (data.session) {
-    return mergeMobileTwinFalApiResponse(
+    const merged = mergeMobileTwinFalApiResponse(
       input.session,
       data.session.mobileTwinPipeline ?? null,
       data.session.updatedAt,
     );
+    if (merged.mobileTwinPipeline) {
+      merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
+      writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
+    }
+    return merged;
   }
   throw new Error('MOBILE_RENDER_PROVIDER_FAILED: empty API response (retry or hard refresh Design tab).');
 }

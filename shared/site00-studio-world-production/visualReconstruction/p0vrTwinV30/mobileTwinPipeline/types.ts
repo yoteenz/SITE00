@@ -200,6 +200,20 @@ export type MobileAtomicTwinRunStatus =
   | 'FAILED'
   | 'APPROVED';
 
+export type MobileTwinProviderJobRecord = {
+  id: string;
+  runId: string;
+  leg: 'ACTUAL' | 'BLUEPRINT';
+  provider: 'FAL';
+  model: string;
+  representationMode: 'IMPLEMENTATION_RENDER' | 'LIGHT_TECHNICAL_BLUEPRINT';
+  providerJobRef: string;
+  compositionStateId: string;
+  compositionHash: string;
+  startedAt: string;
+  status: 'COMPLETE' | 'FAILED';
+};
+
 export type MobileAtomicTwinGenerationRun = {
   id: string;
   projectId: string;
@@ -211,10 +225,20 @@ export type MobileAtomicTwinGenerationRun = {
   projectCreativeContextVersion: string;
   compositionStateId: string;
   compositionHash: string;
+  strategy?: 'NBP_FULL_PAIR';
+  actualProvider?: 'FAL';
+  actualModel?: string;
+  blueprintProvider?: 'FAL';
+  blueprintModel?: string;
   actualRenderJobId: string | null;
   blueprintRenderJobId: string | null;
+  actualRenderArtifactId?: string | null;
+  blueprintRenderArtifactId?: string | null;
+  actualStatus?: 'GENERATING' | 'READY' | 'FAILED';
+  blueprintStatus?: 'GENERATING' | 'READY' | 'FAILED';
   structuredDerivativeIds: string[];
   providerMetadata: { lineage: string; actualModel: string | null; blueprintModel: string | null };
+  providerJobRecords?: MobileTwinProviderJobRecord[];
   status: MobileAtomicTwinRunStatus;
   startedAt: string;
   completedAt: string | null;
@@ -383,6 +407,7 @@ export type MobileTwinPipelineState = {
   mobileTwinRenderStrategy: MobileTwinRenderStrategy | null;
   mobileTwinProviderLock: MobileTwinProviderLock | null;
   founderTwinProviderPromotionReceiptId: string | null;
+  mobileTwinProviderJobRecords?: MobileTwinProviderJobRecord[];
 };
 
 export type MobileTwinPipelineErrorCode =
@@ -428,6 +453,7 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     mobileTwinRenderStrategy: null,
     mobileTwinProviderLock: null,
     founderTwinProviderPromotionReceiptId: null,
+    mobileTwinProviderJobRecords: [],
   };
 }
 

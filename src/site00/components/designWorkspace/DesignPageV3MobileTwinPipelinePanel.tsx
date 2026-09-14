@@ -10,6 +10,7 @@ import { selectMobileImplementationRender } from '../../../../shared/site00-stud
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import { MOBILE_LIGHT_TECHNICAL_BLUEPRINT_CONTRACT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
+import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
 
 type CompareMode = 'REFERENCE_ACTUAL' | 'ACTUAL_BLUEPRINT' | 'PACKAGE';
 type ViewMode = 'SIDE_BY_SIDE' | 'FULLSCREEN_REFERENCE' | 'FULLSCREEN_ACTUAL' | 'FULLSCREEN_BLUEPRINT';
@@ -35,33 +36,34 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   if (!session.authorityPipeline?.mobileMaster) return null;
 
   const ref = pipeline?.designReference;
-  const activeRenderId = pipeline?.activeRenderId ?? pipeline?.renders.at(-1)?.id ?? null;
-  const render = activeRenderId ? pipeline?.renders.find((r) => r.id === activeRenderId) ?? null : null;
+  const slots = pipeline ? resolveMobileTwinReviewSlots(pipeline) : null;
+  const render = slots?.actualRender ?? null;
+  const twin = slots?.blueprintTwin ?? null;
   const pkg = pipeline?.latestPackageId ? pipeline.packages.find((p) => p.id === pipeline.latestPackageId) : null;
-  const twin =
-    pkg ? pipeline?.blueprintTwins.find((b) => b.id === pkg.blueprintTwinVisualId)
-    : pipeline?.blueprintTwins.find((b) => b.implementationRenderId === render?.id) ?? null;
   const blueprintStyleLabel =
     twin?.outputRepresentationMode === 'LIGHT_TECHNICAL_BLUEPRINT' ? 'LIGHT TECHNICAL'
     : twin?.blueprintVisualVariant === 'HISTORICAL_BLUEPRINT_VARIANT' ? 'HISTORICAL'
     : 'BLUEPRINT';
-  const atomicRun = pipeline?.activeAtomicRunId ?
-    pipeline.atomicRuns.find((r) => r.id === pipeline.activeAtomicRunId)
-  : null;
+  const atomicRun =
+    slots?.atomicRunId ? pipeline?.atomicRuns.find((r) => r.id === slots.atomicRunId) ?? null : null;
   const visualPair = pipeline?.activeVisualPairId ?
     pipeline.visualPairs.find((p) => p.id === pipeline.activeVisualPairId)
   : null;
   const isRealRender = render?.renderMode === 'REAL_PROVIDER_RENDER' || render?.provider === 'FAL';
   const actualStepLabel =
-    busy ? 'GENERATING WITH BLUEPRINT'
+    busy ? 'GENERATING'
+    : atomicRun?.actualStatus === 'GENERATING' ? 'GENERATING'
     : render?.providerStatus === 'FAILED' ? 'FAILED'
     : render ? 'READY'
     : 'NOT GENERATED';
   const blueprintStepLabel =
-    busy ? 'GENERATING WITH ACTUAL'
+    busy ? 'GENERATING'
+    : atomicRun?.blueprintStatus === 'GENERATING' ? 'GENERATING'
     : twin ? 'READY'
     : atomicRun?.status === 'PARTIAL' ? 'BLOCKED (retry)'
     : 'NOT GENERATED';
+  const falJobCount = slots?.falJobCount ?? pipeline?.falJobsDispatched ?? 0;
+  const providerCost = slots?.providerCostUsd ?? pipeline?.totalProviderCostUsd ?? 0;
 
   const comparePanels = useMemo(() => {
     const refSrc = ref ? resolveImageSrc(ref.sourceImageUri) : null;
@@ -79,19 +81,19 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
     if (compareMode === 'REFERENCE_ACTUAL') {
       return [
         { label: 'DESIGN REFERENCE', src: refSrc, testId: 'v3-r7m-compare-reference' },
-        { label: 'ACTUAL RENDER (PHASE A)', src: renderSrc, testId: 'v3-r7m-compare-render' },
+        { label: 'ACTUAL PAGE', src: renderSrc, testId: 'v3-r7m-compare-render' },
       ];
     }
     if (compareMode === 'ACTUAL_BLUEPRINT') {
       return [
-        { label: 'ACTUAL RENDER (PHASE A)', src: renderSrc, testId: 'v3-r7m-compare-render' },
-        { label: `BLUEPRINT (${blueprintStyleLabel})`, src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
+        { label: 'ACTUAL PAGE', src: renderSrc, testId: 'v3-r7m-compare-render' },
+        { label: `BLUEPRINT TWIN · ${blueprintStyleLabel}`, src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
       ];
     }
     return [
       { label: 'REFERENCE', src: refSrc, testId: 'v3-r7m-compare-reference' },
-      { label: 'RENDER', src: renderSrc, testId: 'v3-r7m-compare-render' },
-      { label: 'BLUEPRINT', src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
+      { label: 'ACTUAL PAGE', src: renderSrc, testId: 'v3-r7m-compare-render' },
+      { label: `BLUEPRINT TWIN · ${blueprintStyleLabel}`, src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
     ];
   }, [blueprintStyleLabel, compareMode, ref, render, twin, viewMode]);
 
@@ -149,7 +151,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
           STRUCTURED PACKAGE · {pkg?.status ?? (busy ? 'GENERATING' : 'NOT STARTED')}
         </li>
         <li data-testid="v3-r7m-twin-run">
-          ATOMIC TWIN RUN · {atomicRun?.status ?? '—'} {visualPair ? `· pair ${visualPair.status}` : ''}
+          ATOMIC TWIN RUN · {atomicRun?.id?.slice(-10) ?? '—'} · {atomicRun?.status ?? '—'}{' '}
+          {visualPair ? `· pair ${visualPair.status}` : ''}
         </li>
         <li data-testid="v3-r7m-desktop">DESKTOP · DEFERRED</li>
       </ul>
@@ -271,8 +274,23 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
         {P0_VR_TWIN_V30R7M_LINEAGE} + {P0_VR_TWIN_V30R7MF3_LINEAGE} atomic Actual+Blueprint siblings.{' '}
         {P0_VR_TWIN_V30R7MF2_LINEAGE} anti-clone on Actual. R6F2:{' '}
         {pipeline?.r6f2ForensicRole ?? 'SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE'}.
-        FAL jobs: {pipeline?.falJobsDispatched ?? 0} · est. ${(pipeline?.totalProviderCostUsd ?? 0).toFixed(2)}
+        FAL jobs: {falJobCount} · est. ${providerCost.toFixed(2)}
       </p>
+      {atomicRun ?
+        <details className="site00-dw-v3-mobile-twin-pipeline__technical" data-testid="v3-mobile-twin-provider-details">
+          <summary>Technical · provider jobs</summary>
+          <ul>
+            <li>
+              ACTUAL · {atomicRun.actualModel ?? render?.providerModel ?? '—'} ·{' '}
+              {atomicRun.actualRenderJobId ?? '—'} · {atomicRun.actualStatus ?? '—'}
+            </li>
+            <li>
+              BLUEPRINT · {atomicRun.blueprintModel ?? twin?.styleContractId ?? '—'} ·{' '}
+              {atomicRun.blueprintRenderJobId ?? '—'} · {atomicRun.blueprintStatus ?? '—'} · LIGHT TECHNICAL
+            </li>
+          </ul>
+        </details>
+      : null}
     </section>
   );
 }

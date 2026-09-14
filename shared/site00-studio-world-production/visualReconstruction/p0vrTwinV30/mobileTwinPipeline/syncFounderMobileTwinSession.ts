@@ -10,6 +10,8 @@ import {
 } from './reconcileMobileTwinPipelineState.js';
 import type { MobileTwinPipelineState } from './types.js';
 import { normalizeFounderNbpPromotionOnLoad } from './applyFounderNbpMobileTwinPromotion.js';
+import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
+import { tryRecoverOrphanTwinArtifacts } from './tryRecoverOrphanTwinArtifacts.js';
 
 export type MobileTwinPipelineDiagnostics = {
   renderCount: number;
@@ -49,9 +51,10 @@ export function syncFounderMobileTwinSession(
   const merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
   if (!merged) return session;
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged));
-  return normalizeFounderNbpPromotionOnLoad({
+  const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
-    mobileTwinPipeline: pipeline,
+    mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
     updatedAt: new Date().toISOString(),
   });
+  return tryRecoverOrphanTwinArtifacts(promoted);
 }
