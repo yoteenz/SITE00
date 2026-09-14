@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { DesignPageAuthorityReviewSession } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/types.js';
 import {
-  P0_VR_TWIN_V30R7MF1_LINEAGE,
   P0_VR_TWIN_V30R7MF2_LINEAGE,
   P0_VR_TWIN_V30R7MF3_LINEAGE,
   P0_VR_TWIN_V30R7M_LINEAGE,
