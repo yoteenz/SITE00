@@ -9167,6 +9167,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Mobile twin session wipe + browser backup recovery (v449)
+
+- **Symptom:** After v448, Design PACKAGE tab showed **MOBILETWINPACKAGE missing**, FAL jobs **0**, no BUILD — founder reported prior twin/package data gone (screenshots on fsbw-dev **BUILD v447**).
+- **Cause:** In-memory empty **`mobileTwinPipeline`** on persist could **overwrite** richer dedicated LS **`site00:mobile-twin-pipeline:v1`**; slim snapshot also dropped package artifact ids from **`artifactsById`**.
+- **Fix:** **`writeMobileTwinPipelineToBrowser`** merges + blocks regressive writes; **`site00:mobile-twin-pipeline:backup:v1`** snapshot on rich writes; attach/restore prefers richest store; orange **`DesignPageV3MobileTwinPipelineRecoveryStrip`** (**RESTORE MOBILE TWIN FROM BROWSER BACKUP**); auto-restore path in **`syncFounderMobileTwinSession`**; BUILD strip also when **`readTwinImplementationCache`**. Build **v449**. Tests **`p0vrTwinV30MobileTwinPersistenceRecovery.test.ts`**. If both stores empty on device, founder must **GENERATE MOBILE TWIN PACKAGE** again (backup cannot invent pre-fix data).
+
+---
+
 ## 2026-09-14 — R7MF3P4 founder NBP full-pair promotion + Mobile provider lock (v433)
 
 - **Context:** After R7MF3P3 founder judged **NBP full pair** best for Mobile Actual+Blueprint; benchmark/strategy-card indirection no longer wanted for normal generation.
