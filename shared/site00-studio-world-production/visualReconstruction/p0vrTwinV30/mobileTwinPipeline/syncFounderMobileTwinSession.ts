@@ -15,6 +15,8 @@ import { normalizeFounderNbpPromotionOnLoad } from './applyFounderNbpMobileTwinP
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import { tryRecoverOrphanTwinArtifacts } from './tryRecoverOrphanTwinArtifacts.js';
 import { applyMobileTwinPackageApprovalConfirmation } from '../../p0vrTwinV30R8M/confirmMobileTwinPackageApproval.js';
+import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
+import { emptyMobileTwinPipelineState } from './types.js';
 
 export type MobileTwinPipelineDiagnostics = {
   renderCount: number;
@@ -66,7 +68,18 @@ export function syncFounderMobileTwinSession(
   session: DesignPageAuthorityReviewSession,
   projectId: string,
 ): DesignPageAuthorityReviewSession {
-  let merged = attachMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
+  let base = session;
+  if (!base.mobileTwinPipeline && base.authorityPipeline?.mobileMaster) {
+    try {
+      base = ensureMobileDesignReferenceAuthority({
+        ...base,
+        mobileTwinPipeline: emptyMobileTwinPipelineState(),
+      });
+    } catch {
+      /* mobile master incomplete */
+    }
+  }
+  let merged = attachMobileTwinPipelineFromBrowserStore(projectId, base.mobileTwinPipeline ?? undefined);
   if (!merged) return session;
   const recovery = evaluateMobileTwinPipelineRecovery({ ...session, mobileTwinPipeline: merged }, projectId);
   if (recovery.showRecoveryStrip) {

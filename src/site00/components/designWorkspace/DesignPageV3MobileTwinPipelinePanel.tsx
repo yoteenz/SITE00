@@ -47,7 +47,10 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const [packageFullscreen, setPackageFullscreen] = useState<{ label: string; src: string } | null>(null);
   const [approvalMsg, setApprovalMsg] = useState<string | null>(null);
   const showPackageInspector = compareMode === 'PACKAGE' && viewMode === 'SIDE_BY_SIDE';
-  if (!session.authorityPipeline?.mobileMaster) return null;
+  const hasMobileTwinContext =
+    Boolean(session.authorityPipeline?.mobileMaster) ||
+    session.mobileTwinPipeline?.designReference?.status === 'REFERENCE_LOCKED';
+  if (!hasMobileTwinContext) return null;
 
   const ref = pipeline?.designReference;
   const slots = pipeline ? resolveMobileTwinReviewSlots(pipeline) : null;

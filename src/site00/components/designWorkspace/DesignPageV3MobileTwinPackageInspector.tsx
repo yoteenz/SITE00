@@ -10,6 +10,7 @@ import { canApproveMobileTwinPackage } from '../../../../shared/site00-studio-wo
 import { approveAndPersistMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
 import { shouldShowBuildTwinDesignRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/shouldShowBuildTwinDesignRoute.js';
 import { DesignPageV3MobileTwinBuildRouteBlock } from './DesignPageV3MobileTwinBuildRouteBlock.js';
+import { DesignPageV3MobileTwinFounderActionsStrip } from './DesignPageV3MobileTwinFounderActionsStrip.js';
 import { PACKAGE_ARTIFACT_MISSING } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPackageIntegrityReceipt.js';
 
 type Props = {
@@ -76,6 +77,8 @@ export function DesignPageV3MobileTwinPackageInspector({ session, projectId, onS
         <strong>MOBILE TWIN PACKAGE INSPECTOR</strong>
         <span>{P0_VR_TWIN_V30R7MF3P7_LINEAGE.replace('P0.VR.', '')}</span>
       </header>
+
+      <DesignPageV3MobileTwinFounderActionsStrip session={session} projectId={projectId} onSessionUpdate={onSessionUpdate} />
 
       <section className="site00-dw-v3-mobile-twin-package-inspector__summary" data-testid="v3-package-inspector-summary">
         <h3>MOBILE TWIN PACKAGE</h3>
