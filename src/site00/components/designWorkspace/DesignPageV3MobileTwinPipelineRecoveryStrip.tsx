@@ -39,9 +39,12 @@ export function DesignPageV3MobileTwinPipelineRecoveryStrip({ session, projectId
         <span>SESSION LOOKS EMPTY — DATA MAY STILL BE ON THIS DEVICE</span>
       </header>
       <p className="site00-dw-v3-authority__hint" data-testid="v3-mobile-twin-recovery-copy">
-        This tab shows FAL jobs {view.sessionFalJobs} / packages {view.sessionPackageCount}, but dedicated mobile-twin
-        storage has FAL jobs {view.storedFalJobs} / packages {view.storedPackageCount}. Tap restore before regenerating
-        (avoids duplicate NBP charges).
+        {view.showAuthorityImageRecovery ?
+          'Actual / Blueprint images are missing in this tab but URIs may still be in browser backup or authority snapshot. Tap restore before paying for another NBP run.'
+        : <>This tab shows FAL jobs {view.sessionFalJobs} / packages {view.sessionPackageCount}, but dedicated mobile-twin
+            storage has FAL jobs {view.storedFalJobs} / packages {view.storedPackageCount}. Tap restore before regenerating
+            (avoids duplicate NBP charges).</>
+        }
       </p>
       <button
         type="button"

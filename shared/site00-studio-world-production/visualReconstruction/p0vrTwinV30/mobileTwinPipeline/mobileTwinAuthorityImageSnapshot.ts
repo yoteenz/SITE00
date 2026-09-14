@@ -16,13 +16,35 @@ export type MobileTwinAuthorityImageSnapshot = {
   savedAt: string;
 };
 
-function readStore(): Record<string, MobileTwinAuthorityImageSnapshot> {
-  if (typeof localStorage === 'undefined') return {};
+function readStoreFrom(storage: Storage | null): Record<string, MobileTwinAuthorityImageSnapshot> {
+  if (!storage) return {};
   try {
-    const raw = localStorage.getItem(SNAPSHOT_KEY);
+    const raw = storage.getItem(SNAPSHOT_KEY);
     return raw ? (JSON.parse(raw) as Record<string, MobileTwinAuthorityImageSnapshot>) : {};
   } catch {
     return {};
+  }
+}
+
+function readStore(): Record<string, MobileTwinAuthorityImageSnapshot> {
+  const local =
+    typeof localStorage !== 'undefined' ? readStoreFrom(localStorage) : ({} as Record<string, MobileTwinAuthorityImageSnapshot>);
+  const session =
+    typeof sessionStorage !== 'undefined' ? readStoreFrom(sessionStorage) : ({} as Record<string, MobileTwinAuthorityImageSnapshot>);
+  return { ...session, ...local };
+}
+
+function writeStore(parsed: Record<string, MobileTwinAuthorityImageSnapshot>): void {
+  const payload = JSON.stringify(parsed);
+  try {
+    if (typeof localStorage !== 'undefined') localStorage.setItem(SNAPSHOT_KEY, payload);
+  } catch {
+    /* quota */
+  }
+  try {
+    if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(SNAPSHOT_KEY, payload);
+  } catch {
+    /* quota */
   }
 }
 
@@ -42,13 +64,9 @@ export function writeMobileTwinAuthorityImageSnapshot(projectId: string, pipelin
     savedAt: new Date().toISOString(),
   };
   if (!snap.actualRenderUri && !snap.blueprintTwinUri) return;
-  try {
-    const parsed = readStore();
-    parsed[projectId.toLowerCase()] = snap;
-    localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(parsed));
-  } catch {
-    /* quota */
-  }
+  const parsed = readStore();
+  parsed[projectId.toLowerCase()] = snap;
+  writeStore(parsed);
 }
 
 export function readMobileTwinAuthorityImageSnapshot(projectId: string): MobileTwinAuthorityImageSnapshot | null {
@@ -70,7 +88,9 @@ export function applyMobileTwinAuthorityImageSnapshot(
   if (snap.actualRenderId && snap.actualRenderUri) {
     const idx = renders.findIndex((r) => r.id === snap.actualRenderId);
     if (idx >= 0) {
-      if (!renders[idx]!.renderImageUri) renders[idx] = { ...renders[idx]!, renderImageUri: snap.actualRenderUri };
+      if (!renders[idx]!.renderImageUri || renders[idx]!.renderImageUri !== snap.actualRenderUri) {
+        renders[idx] = { ...renders[idx]!, renderImageUri: snap.actualRenderUri, status: 'FOUNDER_REVIEW' };
+      }
     } else {
       renders.push({
         id: snap.actualRenderId,
@@ -92,12 +112,12 @@ export function applyMobileTwinAuthorityImageSnapshot(
   if (snap.blueprintTwinId && snap.blueprintTwinUri) {
     const idx = blueprintTwins.findIndex((b) => b.id === snap.blueprintTwinId);
     if (idx >= 0) {
-      if (!blueprintTwins[idx]!.twinImageUri) {
-        blueprintTwins[idx] = { ...blueprintTwins[idx]!, twinImageUri: snap.blueprintTwinUri };
-      }
-      if (blueprintTwins[idx]!.blueprintVisualVariant === 'HISTORICAL_BLUEPRINT_VARIANT') {
-        blueprintTwins[idx] = { ...blueprintTwins[idx]!, blueprintVisualVariant: 'ACTIVE_BLUEPRINT_TWIN' };
-      }
+      blueprintTwins[idx] = {
+        ...blueprintTwins[idx]!,
+        twinImageUri: snap.blueprintTwinUri,
+        blueprintVisualVariant: 'ACTIVE_BLUEPRINT_TWIN',
+        blueprintStyleStatus: blueprintTwins[idx]!.blueprintStyleStatus ?? 'PASS',
+      };
     } else {
       blueprintTwins.push({
         id: snap.blueprintTwinId,

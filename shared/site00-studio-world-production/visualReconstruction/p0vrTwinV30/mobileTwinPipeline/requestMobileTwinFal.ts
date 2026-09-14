@@ -5,6 +5,7 @@ import {
   mergeMobileTwinFalApiResponse,
   stripSessionForMobileTwinFalRequest,
 } from './mergeMobileTwinFalApiResponse.js';
+import { writeMobileTwinAuthorityImageSnapshot } from './mobileTwinAuthorityImageSnapshot.js';
 import { writeMobileTwinPipelineToBrowser } from './mobileTwinPipelinePersistence.js';
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { MobileTwinFalAction } from './runMobileTwinFalPipeline.js';
@@ -76,6 +77,7 @@ export async function requestMobileTwinFal(input: {
     if (merged.mobileTwinPipeline) {
       merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
       writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
+      writeMobileTwinAuthorityImageSnapshot(merged.projectId, merged.mobileTwinPipeline);
     }
     return merged;
   }
@@ -88,6 +90,7 @@ export async function requestMobileTwinFal(input: {
     if (merged.mobileTwinPipeline) {
       merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
       writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
+      writeMobileTwinAuthorityImageSnapshot(merged.projectId, merged.mobileTwinPipeline);
     }
     return merged;
   }

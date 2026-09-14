@@ -4,7 +4,9 @@ import {
   ensureMobileTwinPipelineDefaults,
   restoreMobileTwinPipelineFromBrowserStore,
 } from './mobileTwinPipelinePersistence.js';
+import { autoHealMobileTwinAuthorityImages } from './autoHealMobileTwinAuthorityImages.js';
 import { evaluateMobileTwinPipelineRecovery } from './evaluateMobileTwinPipelineRecovery.js';
+import { writeMobileTwinAuthorityImageSnapshot } from './mobileTwinAuthorityImageSnapshot.js';
 import {
   hasFlowABaselineForBenchmark,
   isCapabilityTestFounderReviewReady,
@@ -55,7 +57,8 @@ export function restoreFounderMobileTwinPipelineFromBrowser(
 ): DesignPageAuthorityReviewSession {
   const restored = restoreMobileTwinPipelineFromBrowserStore(projectId, session.mobileTwinPipeline ?? undefined);
   if (!restored) return session;
-  const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(restored, projectId));
+  let pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(restored, projectId));
+  pipeline = autoHealMobileTwinAuthorityImages(pipeline, projectId);
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
@@ -82,10 +85,12 @@ export function syncFounderMobileTwinSession(
   let merged = attachMobileTwinPipelineFromBrowserStore(projectId, base.mobileTwinPipeline ?? undefined);
   if (!merged) return session;
   const recovery = evaluateMobileTwinPipelineRecovery({ ...session, mobileTwinPipeline: merged }, projectId);
-  if (recovery.showRecoveryStrip) {
+  if (recovery.showRecoveryStrip || recovery.showAuthorityImageRecovery) {
     merged = restoreMobileTwinPipelineFromBrowserStore(projectId, merged) ?? merged;
   }
+  merged = autoHealMobileTwinAuthorityImages(merged, projectId);
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged, projectId));
+  writeMobileTwinAuthorityImageSnapshot(projectId, pipeline);
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
