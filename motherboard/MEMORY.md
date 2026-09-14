@@ -9167,6 +9167,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Founder actions strip on PACKAGE tab (v450)
+
+- **Symptom:** Neither orange RESTORE nor **GENERATE MOBILE TWIN PACKAGE** / BUILD visible — founder only on PACKAGE inspector with FAL 0.
+- **Cause:** CTAs buried above compare tabs inside MOBILE TWIN REVIEW; RESTORE/BUILD gates hidden when backup empty / not approved; **GENERATE** only in locked-provider panel when `mobileTwinProviderLock` present.
+- **Fix:** Purple sticky **`DesignPageV3MobileTwinFounderActionsStrip`** at Batch 1 authority top **and inside Package Inspector** — always shows empty-backup copy + **GENERATE** (+ **ENABLE NBP GENERATE** when lock missing) + RESTORE/BUILD when applicable. **`P0_VR_TWIN_V30_BUILD` → v450**. PR **#881**.
+
+---
+
 ## 2026-09-14 — Mobile twin session wipe + browser backup recovery (v449)
 
 - **Symptom:** After v448, Design PACKAGE tab showed **MOBILETWINPACKAGE missing**, FAL jobs **0**, no BUILD — founder reported prior twin/package data gone (screenshots on fsbw-dev **BUILD v447**).
