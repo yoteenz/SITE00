@@ -8929,6 +8929,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — P0.VR.TWINV3.0R7M mobile composition-state twin pipeline (v417)
+
+- **Context:** R6/R6F1/R6F2 incorrectly treated founder mobile JPG as implementation render for blueprint extraction. Sprint R7M restores architecture: **MobileDesignReferenceAuthority** → **MobileTwinCompositionState** → **MobileImplementationRender** → **MobileBlueprintTwin** + structured package (mobile-only; desktop deferred).
+- **Delivered:** `mobileTwinPipeline/` (composition builder, browser + Node render/package runners, render gate, twin package, reconciliation receipts). UI **MOBILE TWIN PIPELINE** panel with founder compare modes (REFERENCE↔ACTUAL, ACTUAL↔BLUEPRINT, PACKAGE) plus GENERATE MOBILE RENDER / APPROVE / GENERATE TWIN PACKAGE. R6F2 role **SUPERSEDED_BY_COMPOSITION_STATE_TWIN_PIPELINE** (forensic QA only). Phase A/B proof uses **LOCAL_COMPILER** (FAL gated post–render approval). Tests **`p0vrTwinV30R7M.test.ts`** (13). Build **v417**.
+
+---
+
 ## 2026-09-14 — P0.VR.TWINV3.0R6F2 exact boundaries + geometry fidelity (v416)
 
 - **Context:** Founder rejected R6F1 translation overlays as loose / oversized; sprint required pixel-exact visual bounds, separate geometry fidelity receipts/gates, preserved R6F1 history, no build/regen.
