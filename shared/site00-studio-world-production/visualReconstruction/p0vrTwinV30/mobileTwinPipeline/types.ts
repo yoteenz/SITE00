@@ -279,7 +279,7 @@ export function emptyMobileTwinPipelineState(): MobileTwinPipelineState {
     activeCompositionStateId: null,
     renders: [],
     activeRenderId: null,
-    renderGate: 'GENERATED',
+    renderGate: 'GENERATED' as MobileImplementationRenderGateState,
     implementationVisualAuthority: null,
     blueprintTwins: [],
     packages: [],

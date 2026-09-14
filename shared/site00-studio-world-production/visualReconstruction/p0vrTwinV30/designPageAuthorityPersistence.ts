@@ -12,6 +12,10 @@ import {
 import { recoverDesignPageAuthorityGalleryIfBroken } from './recoverDesignPageAuthorityGallery.js';
 import { galleryHasUnviewableAuthorityImages } from './repairAuthorityPrototypeUrls.js';
 import { createDesignPageAuthorityReviewSession } from './designPageAuthorityReviewState.js';
+import {
+  attachMobileTwinPipelineFromBrowserStore,
+  writeMobileTwinPipelineToBrowser,
+} from './mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import type {
   DesignPageAuthorityGenerationResult,
   DesignPageAuthorityReviewSession,
@@ -70,6 +74,10 @@ function mergeStoredAuthoritySessions(
       selectedCandidateByTerritory: { ...row.selectedCandidateByTerritory, ...merged.selectedCandidateByTerritory },
       authorityPipeline: merged.authorityPipeline ?? row.authorityPipeline,
       featureAuthority: merged.featureAuthority ?? row.featureAuthority,
+      mobileTwinPipeline:
+        (merged.mobileTwinPipeline?.renders?.length ?? 0) >= (row.mobileTwinPipeline?.renders?.length ?? 0) ?
+          merged.mobileTwinPipeline ?? row.mobileTwinPipeline
+        : row.mobileTwinPipeline ?? merged.mobileTwinPipeline,
     };
   }
   if (galleryBackup && !galleryHasUnviewableAuthorityImages(galleryBackup)) {
@@ -173,13 +181,17 @@ export function readDesignPageAuthoritySession(projectId: string): DesignPageAut
     if (!merged) return null;
     const normalized = normalizeDesignPageAuthoritySession(merged);
     const recovered = recoverDesignPageAuthorityGalleryIfBroken(normalized);
+    const withMobileTwin: DesignPageAuthorityReviewSession = {
+      ...recovered,
+      mobileTwinPipeline: attachMobileTwinPipelineFromBrowserStore(key, recovered.mobileTwinPipeline),
+    };
     if (
       JSON.stringify(recovered.territoryGallery) !== JSON.stringify(normalized.territoryGallery) ||
       recovered.buildRef !== normalized.buildRef
     ) {
-      writeDesignPageAuthoritySession(recovered);
+      writeDesignPageAuthoritySession(withMobileTwin);
     }
-    return recovered;
+    return withMobileTwin;
   } catch {
     return null;
   }
@@ -216,5 +228,8 @@ export function writeDesignPageAuthoritySession(session: DesignPageAuthorityRevi
   }
   writeGalleryBackup(key, prepared.territoryGallery);
   appendAuthorityBatchLedger(key, prepared.territoryGallery, prepared.candidateGeneration);
+  if (prepared.mobileTwinPipeline) {
+    writeMobileTwinPipelineToBrowser(key, prepared.mobileTwinPipeline);
+  }
   return localOk || sessionOk;
 }
