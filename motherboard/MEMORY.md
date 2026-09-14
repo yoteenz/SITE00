@@ -9199,6 +9199,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Twin route SCHEMA_MISSING local fallback (v453)
+
+- **Symptom:** Twin page showed **`MOBILE_TWIN_IMPLEMENTATION_SCHEMA_MISSING`** after REBUILD; founder stuck on gate message.
+- **Cause:** Railway API reachable but **Supabase R8M tables not applied** (`storeAdapter` throws); twin **GET** treated schema error as fatal (no local compile/cache fallback unlike unreachable API).
+- **Fix:** **`isMobileTwinImplementationServerUnavailableMessage`** includes SCHEMA_MISSING/STORE_UNAVAILABLE; **`resolveTwinImplementationPreview`** + REBUILD cache path use local R8M1 compile + clearer Supabase migration hint. Migration file: **`20260914193000_site00_mobile_twin_implementation_r8m.sql`**. Build **v453**.
+
+---
+
 ## 2026-09-14 — P0.VR.TWINV3.0R8M1 visual implementation translation (v452)
 
 - **Symptom:** `/projects/ndxbook/design/twin` showed wireframe/debug output — semantic object labels (HOST NAV, DOMINANT HEADLINE, GALLERY THUMB, etc.), overlapping boxes, generic typography; cached build treated as success.
