@@ -176,14 +176,15 @@ describe('P0.VR.TWINV3.0R6F1 pixel-grounded derivation', () => {
     expect(isBrowserPixelDerivationRuntime()).toBe(false);
   });
 
-  it('31 lineage + algorithm + object counts exceed R6 coarse minimum', async () => {
+  it('31 default derivation entry remains R6F2 exact-boundary (R6F1 lineage preserved in repo)', async () => {
     const { bundle } = await runDesignWorkspaceDerivation(lockedSession());
     expect(P0_VR_TWIN_V30R6F1_LINEAGE).toContain('R6F1');
-    expect(bundle.implementationPackage.derivationAlgorithm).toBe(DERIVATION_ALGORITHM_R6F1);
+    expect(bundle.implementationPackage.derivationAlgorithm).toBe('R6F2');
     const mob = bundle.surgicalObjectMap.objects.filter((o) => o.viewport === 'MOBILE').length;
     const desk = bundle.surgicalObjectMap.objects.filter((o) => o.viewport === 'DESKTOP').length;
     expect(mob).toBeGreaterThanOrEqual(MIN_SURGICAL_OBJECTS_PER_VIEWPORT);
     expect(desk).toBeGreaterThanOrEqual(MIN_SURGICAL_OBJECTS_PER_VIEWPORT);
+    expect(mob).not.toBe(desk);
   });
 });
 

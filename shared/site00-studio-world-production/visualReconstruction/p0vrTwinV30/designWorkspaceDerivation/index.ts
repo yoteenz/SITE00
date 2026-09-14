@@ -5,5 +5,8 @@ export * from './derivationButtonState.js';
 export * from './pixelGroundedTypes.js';
 export * from './pixelGroundedAuthorityAnalysis.js';
 export * from './runPixelGroundedDerivation.js';
+export * from './geometryFidelityTypes.js';
+export * from './exactBoundaryAnalysis.js';
+export * from './runExactBoundaryDerivation.js';
 export * from './scopedCompilerReadiness.js';
 export * from './translationReview.js';

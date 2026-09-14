@@ -1,5 +1,8 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
-import type { DesignWorkspaceTranslationReviewRecord } from './types.js';
+import type { DesignWorkspaceImplementationPackage, DesignWorkspaceTranslationReviewRecord } from './types.js';
+import { canApproveTranslationGates } from './exactBoundaryAnalysis.js';
+import type { GeometryFidelityReceipt } from './geometryFidelityTypes.js';
+import type { AuthorityVisualCoverageReceipt, ObjectGranularityReceipt } from './pixelGroundedTypes.js';
 
 export function createPendingTranslationReview(session: DesignPageAuthorityReviewSession): DesignWorkspaceTranslationReviewRecord | null {
   const derivation = session.designWorkspaceDerivation;
@@ -20,12 +23,61 @@ export function createPendingTranslationReview(session: DesignPageAuthorityRevie
   };
 }
 
+export function evaluateTranslationApprovalGate(session: DesignPageAuthorityReviewSession): {
+  allowed: boolean;
+  reason: string | null;
+} {
+  const derivation = session.designWorkspaceDerivation;
+  const pkg = derivation?.packages.find((p) => p.id === derivation.latestPackageId) as
+    | DesignWorkspaceImplementationPackage
+    | undefined;
+  if (!derivation || !pkg) return { allowed: false, reason: 'TRANSLATION_REVIEW_NO_PACKAGE' };
+  const artifacts = derivation.artifactsById;
+  const mobCov = pkg.authorityVisualCoverageReceiptMobileId ?
+    (artifacts[pkg.authorityVisualCoverageReceiptMobileId] as AuthorityVisualCoverageReceipt)
+  : null;
+  const deskCov = pkg.authorityVisualCoverageReceiptDesktopId ?
+    (artifacts[pkg.authorityVisualCoverageReceiptDesktopId] as AuthorityVisualCoverageReceipt)
+  : null;
+  const mobGran = pkg.objectGranularityReceiptMobileId ?
+    (artifacts[pkg.objectGranularityReceiptMobileId] as ObjectGranularityReceipt)
+  : null;
+  const deskGran = pkg.objectGranularityReceiptDesktopId ?
+    (artifacts[pkg.objectGranularityReceiptDesktopId] as ObjectGranularityReceipt)
+  : null;
+  const mobGeo = pkg.geometryFidelityReceiptMobileId ?
+    (artifacts[pkg.geometryFidelityReceiptMobileId] as GeometryFidelityReceipt)
+  : null;
+  const deskGeo = pkg.geometryFidelityReceiptDesktopId ?
+    (artifacts[pkg.geometryFidelityReceiptDesktopId] as GeometryFidelityReceipt)
+  : null;
+  const visualCoverageGatePass = mobCov?.result === 'PASS' && deskCov?.result === 'PASS';
+  const granularityPass = mobGran?.result === 'PASS' && deskGran?.result === 'PASS';
+  const geometryFidelityGatePass =
+    pkg.derivationAlgorithm === 'R6F2' ?
+      mobGeo?.result === 'PASS' && deskGeo?.result === 'PASS'
+    : true;
+  const criticalVisualGaps = (mobCov?.highImportanceUnmapped ?? 0) + (deskCov?.highImportanceUnmapped ?? 0);
+  const allowed = canApproveTranslationGates({
+    visualCoverageGatePass,
+    geometryFidelityGatePass,
+    granularityPass,
+    criticalVisualGaps,
+  });
+  if (!allowed && pkg.derivationAlgorithm === 'R6F2' && !geometryFidelityGatePass) {
+    return { allowed: false, reason: 'OBJECT_GEOMETRY_FIDELITY_FAILED' };
+  }
+  return { allowed, reason: allowed ? null : 'TRANSLATION_APPROVAL_GATE_BLOCKED' };
+}
+
 export function approveTranslationReview(
   session: DesignPageAuthorityReviewSession,
   notes = '',
 ): DesignPageAuthorityReviewSession {
   const derivation = session.designWorkspaceDerivation;
   if (!derivation?.latestPackageId) throw new Error('TRANSLATION_REVIEW_NO_PACKAGE');
+  const gate = evaluateTranslationApprovalGate(session);
+  if (!gate.allowed) throw new Error(gate.reason ?? 'TRANSLATION_APPROVAL_GATE_BLOCKED');
   const now = new Date().toISOString();
   const record: DesignWorkspaceTranslationReviewRecord = {
     id: `trr-${derivation.runs.at(-1)?.id ?? now}`,
@@ -68,6 +120,11 @@ export function requestDerivationCorrection(
     founderDecision: 'REQUEST_DERIVATION_CORRECTION',
     reviewNotes: '',
     requestedCorrections: corrections,
+    correctionReason:
+      corrections.some((c) => /boundary|geometry|pixel.?exact|not.?pixel/i.test(c)) ?
+        'OBJECT_BOUNDARIES_NOT_PIXEL_EXACT'
+      : 'OBJECT_MISSED',
+    priorPackageId: derivation.latestPackageId,
     approvedAt: null,
     rejectedAt: now,
     reviewedBy: 'founder',

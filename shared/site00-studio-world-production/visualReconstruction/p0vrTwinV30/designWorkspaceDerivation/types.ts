@@ -321,6 +321,8 @@ export type DesignWorkspaceTranslationReviewRecord = {
   founderDecision: 'APPROVE_TRANSLATION' | 'REQUEST_DERIVATION_CORRECTION' | 'PENDING';
   reviewNotes: string;
   requestedCorrections: string[];
+  correctionReason?: 'OBJECT_BOUNDARIES_NOT_PIXEL_EXACT' | 'OBJECT_MISSED' | 'OTHER';
+  priorPackageId?: string | null;
   approvedAt: string | null;
   rejectedAt: string | null;
   reviewedBy: string | null;
@@ -352,9 +354,15 @@ export type DesignWorkspaceImplementationPackage = {
   status: ImplementationPackageStatus;
   version: number;
   createdAt: string;
-  derivationAlgorithm?: 'R6' | 'R6F1';
+  derivationAlgorithm?: 'R6' | 'R6F1' | 'R6F2';
+  derivationVersion?: number;
+  priorImplementationPackageId?: string | null;
   pixelGroundedAnalysisMobileId?: string;
   pixelGroundedAnalysisDesktopId?: string;
+  exactBoundaryAnalysisMobileId?: string;
+  exactBoundaryAnalysisDesktopId?: string;
+  geometryFidelityReceiptMobileId?: string;
+  geometryFidelityReceiptDesktopId?: string;
   objectGranularityReceiptMobileId?: string;
   objectGranularityReceiptDesktopId?: string;
   authorityVisualCoverageReceiptMobileId?: string;
