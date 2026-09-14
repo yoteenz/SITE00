@@ -5,11 +5,8 @@ import {
   P0_VR_TWIN_V30R7MF3_LINEAGE,
   P0_VR_TWIN_V30R7M_LINEAGE,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
-import {
-  approveMobileTwinPackage,
-  canApproveMobileTwinPackage,
-  selectMobileImplementationRender,
-} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/index.js';
+import { approveMobileTwinPackage, canApproveMobileTwinPackage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileTwinPackage.js';
+import { selectMobileImplementationRender } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/approveMobileImplementationRender.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
 import { ensureMobileTwinPipelineDefaults } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 

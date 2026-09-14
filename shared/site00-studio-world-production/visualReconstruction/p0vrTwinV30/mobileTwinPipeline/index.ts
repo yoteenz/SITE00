@@ -17,7 +17,6 @@ export * from './referenceRoleContracts.js';
 export * from './referenceCloneFirewall.js';
 export * from './referenceTranslationEvidence.js';
 export * from './rejectMobileImplementationRender.js';
-export * from './runMobileAtomicTwinGeneration.js';
 export * from './approveMobileTwinPackage.js';
 export * from './twinVisualCompositionReceipt.js';
-export * from './dispatchMobileTwinFalBlueprintFromComposition.js';
+/** Node/API-only: import runMobileAtomicTwinGeneration.js and dispatchMobileTwinFalBlueprintFromComposition.js directly. */
