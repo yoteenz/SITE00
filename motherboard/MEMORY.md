@@ -9199,6 +9199,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-14 — Auto-heal Actual/Blueprint on Design sync (v456)
+
+- **Symptom:** v455 rehydrate/snapshot **did not recover** Actual/Blueprint after refresh on founder device.
+- **Cause:** Snapshot only written on dedicated pipeline save (often skipped); recovery strip gated on score delta not missing images; no auto-heal on **`syncFounderMobileTwinSession`**; snapshot localStorage-only.
+- **Fix:** **`autoHealMobileTwinAuthorityImages`** on every sync + restore; snapshot mirrored to **sessionStorage**; write snapshot on **design session persist** + FAL ingest; recovery strip when URIs recoverable off-device. Build **v456**.
+
+---
+
 ## 2026-09-14 — Actual/Blueprint authority image persistence (v455)
 
 - **Symptom:** MOBILE TWIN **Actual** + **Blueprint** images **disappear on refresh**; founder reruns FAL / rebuild though assets existed.
