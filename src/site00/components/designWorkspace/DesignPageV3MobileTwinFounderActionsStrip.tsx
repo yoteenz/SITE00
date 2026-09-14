@@ -26,13 +26,23 @@ export function DesignPageV3MobileTwinFounderActionsStrip({ session, projectId, 
   if (!view.showStrip) return null;
 
   const runGenerate = () => {
+    if (busy || !view.canGenerate) return;
     setBusy(true);
     setErr(null);
-    setMsg(null);
+    setMsg('Calling api.site00.com — mobile twin package ~60–90s. Keep this tab open (iOS may reload if you switch apps).');
     let working = normalizeFounderNbpPromotionOnLoad(syncFounderMobileTwinSession(session, projectId));
     onSessionUpdate(working);
     void requestMobileTwinFal({ session: working, action: 'GENERATE_MOBILE_TWIN', founderConfirmedSpend: true })
-      .then(onSessionUpdate)
+      .then((next) => {
+        onSessionUpdate(next);
+        const pkg = next.mobileTwinPipeline?.packages.at(-1);
+        const jobs = next.mobileTwinPipeline?.falJobsDispatched ?? 0;
+        setMsg(
+          pkg ?
+            `Package run finished · status ${pkg.status} · FAL jobs ${jobs}. Open PACKAGE sections below to review.`
+          : `FAL jobs ${jobs} — check MOBILE TWIN REVIEW steps for ACTUAL + BLUEPRINT.`,
+        );
+      })
       .catch((e: Error) => setErr(e.message))
       .finally(() => setBusy(false));
   };
@@ -103,8 +113,13 @@ export function DesignPageV3MobileTwinFounderActionsStrip({ session, projectId, 
             disabled={busy || !view.canGenerate}
             onClick={runGenerate}
           >
-            GENERATE MOBILE TWIN PACKAGE
+            {busy ? 'GENERATING MOBILE TWIN PACKAGE…' : 'GENERATE MOBILE TWIN PACKAGE'}
           </button>
+          {busy ?
+            <p className="site00-dw-v3-authority__hint" role="status" data-testid="v3-founder-generate-in-progress">
+              Railway FAL in progress — wait for success or error in this purple box.
+            </p>
+          : null}
           {!view.canGenerate && view.generateBlockedHint ?
             <>
               <p className="site00-dw-v3-authority__hint">{view.generateBlockedHint}</p>

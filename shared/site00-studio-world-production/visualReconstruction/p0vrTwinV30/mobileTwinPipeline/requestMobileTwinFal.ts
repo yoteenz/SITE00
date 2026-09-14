@@ -8,6 +8,7 @@ import {
 import { writeMobileTwinPipelineToBrowser } from './mobileTwinPipelinePersistence.js';
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { MobileTwinFalAction } from './runMobileTwinFalPipeline.js';
+import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
 
 export async function requestMobileTwinFal(input: {
   session: DesignPageAuthorityReviewSession;
@@ -16,6 +17,15 @@ export async function requestMobileTwinFal(input: {
   founderConfirmedSpend?: boolean;
   refineNotes?: string[];
 }): Promise<DesignPageAuthorityReviewSession> {
+  let sessionForApi: DesignPageAuthorityReviewSession;
+  try {
+    sessionForApi = ensureMobileDesignReferenceAuthority(input.session);
+  } catch {
+    throw new Error(
+      'MOBILE_REFERENCE_MISSING: lock or promote MOBILE MASTER in PAIR REVIEW (Batch 1), then hard refresh Design.',
+    );
+  }
+
   const url =
     input.apiBase ?
       `${input.apiBase.replace(/\/$/, '')}/api/site00/twin-v3-mobile-twin-pipeline`
@@ -29,7 +39,7 @@ export async function requestMobileTwinFal(input: {
       // Match twin-v3-design-page-authority — `include` breaks CORS on Safari (Load failed).
       credentials: 'omit',
       body: JSON.stringify({
-        session: stripSessionForMobileTwinFalRequest(input.session),
+        session: stripSessionForMobileTwinFalRequest(sessionForApi),
         action: input.action,
         founderConfirmedSpend: input.founderConfirmedSpend ?? true,
         refineNotes: input.refineNotes,
@@ -62,7 +72,7 @@ export async function requestMobileTwinFal(input: {
     throw new Error(detail);
   }
   if (data.mobileTwinPipeline) {
-    const merged = mergeMobileTwinFalApiResponse(input.session, data.mobileTwinPipeline, data.updatedAt);
+    const merged = mergeMobileTwinFalApiResponse(sessionForApi, data.mobileTwinPipeline, data.updatedAt);
     if (merged.mobileTwinPipeline) {
       merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
       writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
@@ -71,7 +81,7 @@ export async function requestMobileTwinFal(input: {
   }
   if (data.session) {
     const merged = mergeMobileTwinFalApiResponse(
-      input.session,
+      sessionForApi,
       data.session.mobileTwinPipeline ?? null,
       data.session.updatedAt,
     );

@@ -26,16 +26,31 @@ export function mobileMasterToDesignReference(master: ViewportMasterAuthority): 
 export function ensureMobileDesignReferenceAuthority(
   session: DesignPageAuthorityReviewSession,
 ): DesignPageAuthorityReviewSession {
-  const mobile = session.authorityPipeline?.mobileMaster;
-  if (!mobile) throw new Error('MOBILE_REFERENCE_MISSING');
-  const designReference = mobileMasterToDesignReference(mobile);
   const pipeline = session.mobileTwinPipeline ?? emptyMobileTwinPipelineState();
-  return {
-    ...session,
-    mobileTwinPipeline: {
-      ...pipeline,
-      designReference,
-    },
-    updatedAt: new Date().toISOString(),
-  };
+  const lockedRef = pipeline.designReference?.status === 'REFERENCE_LOCKED' ? pipeline.designReference : null;
+
+  const mobile = session.authorityPipeline?.mobileMaster;
+  if (mobile) {
+    const designReference = mobileMasterToDesignReference(mobile);
+    return {
+      ...session,
+      mobileTwinPipeline: {
+        ...pipeline,
+        designReference,
+      },
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  if (lockedRef) {
+    return {
+      ...session,
+      mobileTwinPipeline: {
+        ...pipeline,
+        designReference: lockedRef,
+      },
+    };
+  }
+
+  throw new Error('MOBILE_REFERENCE_MISSING');
 }
