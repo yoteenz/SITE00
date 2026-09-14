@@ -304,7 +304,27 @@ export type CompilerReadinessReceipt = {
   generatedAt: string;
 };
 
-export type ImplementationPackageStatus = 'INCOMPLETE' | 'BLOCKED' | 'READY_FOR_REVIEW' | 'APPROVED_FOR_BUILD' | 'FEATURE_STALE';
+export type ImplementationPackageStatus =
+  | 'INCOMPLETE'
+  | 'BLOCKED'
+  | 'READY_FOR_REVIEW'
+  | 'FOUNDER_REVIEW_READY'
+  | 'BUILD_REVIEW_READY'
+  | 'APPROVED_FOR_BUILD'
+  | 'FEATURE_STALE';
+
+export type DesignWorkspaceTranslationReviewRecord = {
+  id: string;
+  derivationRunId: string;
+  authorityPairId: string;
+  packageId: string;
+  founderDecision: 'APPROVE_TRANSLATION' | 'REQUEST_DERIVATION_CORRECTION' | 'PENDING';
+  reviewNotes: string;
+  requestedCorrections: string[];
+  approvedAt: string | null;
+  rejectedAt: string | null;
+  reviewedBy: string | null;
+};
 
 export type DesignWorkspaceImplementationPackage = {
   id: string;
@@ -332,6 +352,28 @@ export type DesignWorkspaceImplementationPackage = {
   status: ImplementationPackageStatus;
   version: number;
   createdAt: string;
+  derivationAlgorithm?: 'R6' | 'R6F1';
+  pixelGroundedAnalysisMobileId?: string;
+  pixelGroundedAnalysisDesktopId?: string;
+  objectGranularityReceiptMobileId?: string;
+  objectGranularityReceiptDesktopId?: string;
+  authorityVisualCoverageReceiptMobileId?: string;
+  authorityVisualCoverageReceiptDesktopId?: string;
+  weightedAuthorityCoverageReceiptMobileId?: string;
+  weightedAuthorityCoverageReceiptDesktopId?: string;
+  visualClusterMapId?: string;
+  responsiveObjectCorrespondenceMapId?: string;
+  translationReviewRecordId?: string | null;
+};
+
+export type DesignWorkspaceDerivationState = {
+  runs: DesignWorkspaceDerivationRun[];
+  activeRunId: string | null;
+  packages: DesignWorkspaceImplementationPackage[];
+  latestPackageId: string | null;
+  artifactsById: Record<string, unknown>;
+  translationReview?: DesignWorkspaceTranslationReviewRecord;
+  correctionRequested?: boolean;
 };
 
 export type DesignWorkspaceDerivationArtifactBundle = {
@@ -349,12 +391,4 @@ export type DesignWorkspaceDerivationArtifactBundle = {
   reverseTraceabilityMap: ReverseTraceabilityMap;
   compilerReadinessReceipt: CompilerReadinessReceipt;
   implementationPackage: DesignWorkspaceImplementationPackage;
-};
-
-export type DesignWorkspaceDerivationState = {
-  runs: DesignWorkspaceDerivationRun[];
-  activeRunId: string | null;
-  packages: DesignWorkspaceImplementationPackage[];
-  latestPackageId: string | null;
-  artifactsById: Record<string, unknown>;
 };

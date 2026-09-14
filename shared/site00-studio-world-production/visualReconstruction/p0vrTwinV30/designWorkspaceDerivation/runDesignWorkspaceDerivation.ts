@@ -1,8 +1,8 @@
 /**
- * P0.VR.TWINV3.0R6 — founder-triggered derivation orchestrator (local structured compiler, no default FAL).
+ * P0.VR.TWINV3.0R6F1 — founder-triggered derivation (pixel-grounded measurement, no default FAL).
  */
 
-import { P0_VR_TWIN_V30R6_LINEAGE } from '../constants.js';
+import { P0_VR_TWIN_V30R6F1_LINEAGE } from '../constants.js';
 import {
   assertDerivationAllowed,
   runDesignAuthorityPairReadinessGate,
@@ -11,23 +11,8 @@ import { loadActiveDesignWorkspaceFeatureManifest } from '../designWorkspaceFeat
 import { loadProjectCreativeContextPackage } from '../projectCreativeGrounding/loadProjectCreativeContextPackage.js';
 import { normalizeDesignPageAuthoritySession } from '../designPageAuthorityTerritoryGallery.js';
 import type { DesignPageAuthorityReviewSession } from '../types.js';
-import {
-  assertNoAuthorityRasterPrimitives,
-  buildCanonicalAssetManifest,
-  buildCompilerReadinessReceipt,
-  buildFunctionBindingMap,
-  buildHostProjectOwnershipMap,
-  buildImplementationPackage,
-  buildImplementationPrimitiveContract,
-  buildInteractionGeometryContract,
-  buildResponsiveRelationshipContract,
-  buildReverseTraceabilityMap,
-  buildStateVisualContract,
-  buildStructuralBlueprint,
-  buildSurgicalObjectMap,
-  buildTypographyFidelityContract,
-  completeFeatureBindings,
-} from './buildDerivationArtifacts.js';
+import { buildPixelGroundedDerivationBundle } from './runPixelGroundedDerivation.js';
+import { DERIVATION_ALGORITHM_R6F1 } from './pixelGroundedTypes.js';
 import type {
   DesignWorkspaceDerivationArtifactBundle,
   DesignWorkspaceDerivationRun,
@@ -48,9 +33,11 @@ export function buildDerivationIdempotencyKey(input: {
   pairChecksum: string;
   featureManifestVersion: string;
   projectCreativeContextVersion: string;
+  derivationAlgorithm?: string;
+  derivationVersion?: number;
 }): string {
   return fnv1aHex(
-    `${input.authorityPairId}|${input.pairChecksum}|${input.featureManifestVersion}|${input.projectCreativeContextVersion}`,
+    `${input.authorityPairId}|${input.pairChecksum}|${input.featureManifestVersion}|${input.projectCreativeContextVersion}|${input.derivationAlgorithm ?? DERIVATION_ALGORITHM_R6F1}|v${input.derivationVersion ?? 1}`,
   );
 }
 
@@ -91,6 +78,7 @@ export function markDerivationRunActive(
       pairChecksum: pair.pairChecksum,
       featureManifestVersion: mobile.designWorkspaceFeatureManifestVersion,
       projectCreativeContextVersion: mobile.projectCreativeContextVersion,
+      derivationVersion: derivation.runs.length + 1,
     }),
     providerDispatches: [],
     falJobsDispatched: 0,
@@ -122,9 +110,6 @@ function resolveLockedR5F2Masters(session: DesignPageAuthorityReviewSession) {
   if (!pair || pair.status !== 'PAIR_LOCKED') throw new Error('AUTHORITY_PAIR_NOT_LOCKED');
   if (pair.derivationStatus === 'STALE') throw new Error('DESIGN_AUTHORITY_DERIVATION_STALE');
   if (!mobile || !desktop) throw new Error('DESIGN_AUTHORITY_PAIR_NOT_READY');
-  if (mobile.sourceType !== 'FOUNDER_ATTACHED_AUTHORITY' && desktop.sourceType !== 'FOUNDER_ATTACHED_AUTHORITY') {
-    /* R6 test path also allows gallery-promoted masters when locked */
-  }
   return { pair, mobile, desktop };
 }
 
@@ -135,10 +120,10 @@ export type RunDesignWorkspaceDerivationResult = {
   reusedExisting: boolean;
 };
 
-/** Canonical entrypoint for GENERATE DERIVATIVES — synchronous structured derivation. */
-export function runDesignWorkspaceDerivation(
+/** Canonical entrypoint for GENERATE DERIVATIVES — async pixel-grounded derivation. */
+export async function runDesignWorkspaceDerivation(
   session: DesignPageAuthorityReviewSession,
-): RunDesignWorkspaceDerivationResult {
+): Promise<RunDesignWorkspaceDerivationResult> {
   assertDerivationAllowed(session);
   const gate = runDesignAuthorityPairReadinessGate(session, { requireLocked: true });
   if (!gate.pass) {
@@ -150,33 +135,37 @@ export function runDesignWorkspaceDerivation(
   loadProjectCreativeContextPackage(session.projectId);
 
   const derivation = session.designWorkspaceDerivation ?? emptyDesignWorkspaceDerivationState();
+  const runVersion = derivation.runs.length + 1;
+  const correctionRequested = Boolean(derivation.correctionRequested);
+  const translationApproved = derivation.translationReview?.founderDecision === 'APPROVE_TRANSLATION';
+
   const idempotencyKey = buildDerivationIdempotencyKey({
     authorityPairId: pair.id,
     pairChecksum: pair.pairChecksum,
     featureManifestVersion: manifest.version,
     projectCreativeContextVersion: mobile.projectCreativeContextVersion,
+    derivationVersion: correctionRequested ? runVersion : 1,
   });
 
-  const active = derivation.activeRunId ?
-    derivation.runs.find((r) => r.id === derivation.activeRunId)
-  : null;
+  const active = derivation.activeRunId ? derivation.runs.find((r) => r.id === derivation.activeRunId) : null;
   if (active && (active.status === 'QUEUED' || active.status === 'DERIVING') && !active.implementationPackageId) {
     throw new Error('DERIVATION_RUN_ALREADY_ACTIVE');
   }
 
-  const existingComplete = derivation.runs.find(
-    (r) => r.idempotencyKey === idempotencyKey && r.status === 'COMPLETE' && r.implementationPackageId,
-  );
-  if (existingComplete?.implementationPackageId) {
-    const pkg = derivation.packages.find((p) => p.id === existingComplete.implementationPackageId);
-    if (pkg) {
-      return rehydrateBundleFromState(session, derivation, existingComplete, true);
+  if (!correctionRequested) {
+    const existingComplete = derivation.runs.find(
+      (r) => r.idempotencyKey === idempotencyKey && r.status === 'COMPLETE' && r.implementationPackageId,
+    );
+    if (existingComplete?.implementationPackageId) {
+      const pkg = derivation.packages.find((p) => p.id === existingComplete.implementationPackageId);
+      if (pkg?.derivationAlgorithm === 'R6F1') {
+        return rehydrateBundleFromState(session, derivation, existingComplete, true);
+      }
     }
   }
 
   const now = new Date().toISOString();
   const runId = `dwr-${Date.now()}`;
-  const runVersion = derivation.runs.length + 1;
 
   let run: DesignWorkspaceDerivationRun = {
     id: runId,
@@ -206,9 +195,9 @@ export function runDesignWorkspaceDerivation(
       {
         id: `pdd-${runId}-local`,
         provider: 'LOCAL_COMPILER',
-        model: P0_VR_TWIN_V30R6_LINEAGE,
+        model: P0_VR_TWIN_V30R6F1_LINEAGE,
         derivativeType: 'STRUCTURED_PACKAGE',
-        purpose: 'Structural derivation from locked authorities',
+        purpose: 'Pixel-grounded derivation from locked authorities',
         inputAuthorityIds: [mobile.id, desktop.id],
         inputHashes: [mobile.authorityImageHash, desktop.authorityImageHash],
         status: 'COMPLETE',
@@ -217,149 +206,98 @@ export function runDesignWorkspaceDerivation(
     falJobsDispatched: 0,
   };
 
-  const structuralBlueprint = buildStructuralBlueprint({ runId, pairId: pair.id, mobile, desktop });
-  const surgicalObjectMap = buildSurgicalObjectMap({ runId, pairId: pair.id, blueprint: structuralBlueprint });
-  const featureBindings = completeFeatureBindings({ runId, blueprint: structuralBlueprint, objectMap: surgicalObjectMap });
-  const canonicalAssetManifest = buildCanonicalAssetManifest({ runId, pairId: pair.id, objectMap: surgicalObjectMap });
-  const functionBindingMap = buildFunctionBindingMap({ runId, pairId: pair.id, objectMap: surgicalObjectMap });
-  const hostProjectOwnershipMap = buildHostProjectOwnershipMap({
-    runId,
-    pairId: pair.id,
-    blueprint: structuralBlueprint,
-    objectMap: surgicalObjectMap,
-  });
-  const responsiveRelationshipContract = buildResponsiveRelationshipContract({ runId, pairId: pair.id });
-  const typographyFidelityContract = buildTypographyFidelityContract({ runId, pairId: pair.id });
-  const stateVisualContract = buildStateVisualContract({ runId, pairId: pair.id });
-  const interactionGeometryContract = buildInteractionGeometryContract({
-    runId,
-    pairId: pair.id,
-    objectMap: surgicalObjectMap,
-  });
-  const implementationPrimitiveContract = buildImplementationPrimitiveContract({
-    runId,
-    pairId: pair.id,
-    objectMap: surgicalObjectMap,
-  });
-  const rasterViolations = assertNoAuthorityRasterPrimitives(implementationPrimitiveContract);
-  const functionBindingMapFinal = functionBindingMap;
-  if (!functionBindingMapFinal.bindings.some((b) => b.status === 'MISSING')) {
-    functionBindingMapFinal.bindings.push({
-      objectId: 'synthetic-none',
-      featureId: 'move_to_build',
-      functionTarget: 'move_to_build',
-      status: 'MISSING',
-    });
-  }
-  const reverseTraceabilityMap = buildReverseTraceabilityMap({
-    runId,
-    pairId: pair.id,
-    featureBindings,
-    objectMap: surgicalObjectMap,
-    primitiveContract: implementationPrimitiveContract,
-    functionMap: functionBindingMapFinal,
-  });
-  const gaps = [...rasterViolations];
-  const compilerReadinessReceipt = buildCompilerReadinessReceipt({
-    runId,
-    pairId: pair.id,
-    featureBindings,
-    gaps,
-  });
-  const implementationPackage = buildImplementationPackage({
+  const pixel = await buildPixelGroundedDerivationBundle({
     runId,
     pairId: pair.id,
     pairChecksum: pair.pairChecksum,
+    mobile,
+    desktop,
     featureManifestVersion: manifest.version,
     projectCreativeContextVersion: mobile.projectCreativeContextVersion,
-    artifactIds: {
-      structuralBlueprintId: structuralBlueprint.id,
-      surgicalObjectMapId: surgicalObjectMap.id,
-      masterFeatureBindingIds: featureBindings.map((b) => b.id),
-      canonicalAssetManifestId: canonicalAssetManifest.id,
-      functionBindingMapId: functionBindingMapFinal.id,
-      hostProjectOwnershipMapId: hostProjectOwnershipMap.id,
-      responsiveRelationshipContractId: responsiveRelationshipContract.id,
-      typographyFidelityContractId: typographyFidelityContract.id,
-      stateVisualContractId: stateVisualContract.id,
-      interactionGeometryContractId: interactionGeometryContract.id,
-      implementationPrimitiveContractId: implementationPrimitiveContract.id,
-      reverseTraceabilityMapId: reverseTraceabilityMap.id,
-      compilerReadinessReceiptId: compilerReadinessReceipt.id,
-    },
-    receipt: compilerReadinessReceipt,
+    translationApproved,
+    mobileGranularityId: `ogr-${runId}-mobile`,
+    desktopGranularityId: `ogr-${runId}-desktop`,
+    mobileCoverageId: `avcr-${runId}-mobile`,
+    desktopCoverageId: `avcr-${runId}-desktop`,
+    mobileWeightedId: `wacr-${runId}-mobile`,
+    desktopWeightedId: `wacr-${runId}-desktop`,
+    visualClusterMapId: `vcm-${runId}`,
+    responsiveObjectCorrespondenceMapId: `rocm-${runId}`,
   });
 
-  const bundle: DesignWorkspaceDerivationArtifactBundle = {
-    structuralBlueprint,
-    surgicalObjectMap,
-    featureBindings,
-    canonicalAssetManifest,
-    functionBindingMap: functionBindingMapFinal,
-    hostProjectOwnershipMap,
-    responsiveRelationshipContract,
-    typographyFidelityContract,
-    stateVisualContract,
-    interactionGeometryContract,
-    implementationPrimitiveContract,
-    reverseTraceabilityMap,
-    compilerReadinessReceipt,
-    implementationPackage,
-  };
+  const bundle = pixel.bundle;
+  const gaps = pixel.visualCoverageGatePass ? [] : ['AUTHORITY_VISUAL_COVERAGE_INCOMPLETE'];
 
   const artifactIds = [
-    structuralBlueprint.id,
-    surgicalObjectMap.id,
-    ...featureBindings.map((b) => b.id),
-    canonicalAssetManifest.id,
-    functionBindingMapFinal.id,
-    hostProjectOwnershipMap.id,
-    responsiveRelationshipContract.id,
-    typographyFidelityContract.id,
-    stateVisualContract.id,
-    interactionGeometryContract.id,
-    implementationPrimitiveContract.id,
-    reverseTraceabilityMap.id,
-    compilerReadinessReceipt.id,
-    implementationPackage.id,
+    bundle.structuralBlueprint.id,
+    bundle.surgicalObjectMap.id,
+    ...bundle.featureBindings.map((b) => b.id),
+    bundle.canonicalAssetManifest.id,
+    bundle.functionBindingMap.id,
+    bundle.hostProjectOwnershipMap.id,
+    bundle.responsiveRelationshipContract.id,
+    bundle.typographyFidelityContract.id,
+    bundle.stateVisualContract.id,
+    bundle.interactionGeometryContract.id,
+    bundle.implementationPrimitiveContract.id,
+    bundle.reverseTraceabilityMap.id,
+    bundle.compilerReadinessReceipt.id,
+    bundle.implementationPackage.id,
+    ...Object.keys(pixel.artifactExtras),
   ];
 
   run = {
     ...run,
-    status: compilerReadinessReceipt.overall === 'PASS' ? 'COMPLETE' : 'BLOCKED',
+    status: pixel.visualCoverageGatePass && bundle.compilerReadinessReceipt.overall === 'PASS' ? 'COMPLETE' : 'BLOCKED',
     completedAt: new Date().toISOString(),
     derivativeArtifactIds: artifactIds,
-    readinessReceiptId: compilerReadinessReceipt.id,
-    implementationPackageId: implementationPackage.id,
+    readinessReceiptId: bundle.compilerReadinessReceipt.id,
+    implementationPackageId: bundle.implementationPackage.id,
     errorCodes: gaps,
   };
 
   const artifactsById: Record<string, unknown> = {
     ...derivation.artifactsById,
-    [structuralBlueprint.id]: structuralBlueprint,
-    [surgicalObjectMap.id]: surgicalObjectMap,
-    [canonicalAssetManifest.id]: canonicalAssetManifest,
-    [functionBindingMapFinal.id]: functionBindingMapFinal,
-    [hostProjectOwnershipMap.id]: hostProjectOwnershipMap,
-    [responsiveRelationshipContract.id]: responsiveRelationshipContract,
-    [typographyFidelityContract.id]: typographyFidelityContract,
-    [stateVisualContract.id]: stateVisualContract,
-    [interactionGeometryContract.id]: interactionGeometryContract,
-    [implementationPrimitiveContract.id]: implementationPrimitiveContract,
-    [reverseTraceabilityMap.id]: reverseTraceabilityMap,
-    [compilerReadinessReceipt.id]: compilerReadinessReceipt,
-    [implementationPackage.id]: implementationPackage,
+    [bundle.structuralBlueprint.id]: bundle.structuralBlueprint,
+    [bundle.surgicalObjectMap.id]: bundle.surgicalObjectMap,
+    [bundle.canonicalAssetManifest.id]: bundle.canonicalAssetManifest,
+    [bundle.functionBindingMap.id]: bundle.functionBindingMap,
+    [bundle.hostProjectOwnershipMap.id]: bundle.hostProjectOwnershipMap,
+    [bundle.responsiveRelationshipContract.id]: bundle.responsiveRelationshipContract,
+    [bundle.typographyFidelityContract.id]: bundle.typographyFidelityContract,
+    [bundle.stateVisualContract.id]: bundle.stateVisualContract,
+    [bundle.interactionGeometryContract.id]: bundle.interactionGeometryContract,
+    [bundle.implementationPrimitiveContract.id]: bundle.implementationPrimitiveContract,
+    [bundle.reverseTraceabilityMap.id]: bundle.reverseTraceabilityMap,
+    [bundle.compilerReadinessReceipt.id]: bundle.compilerReadinessReceipt,
+    [bundle.implementationPackage.id]: bundle.implementationPackage,
+    ...pixel.artifactExtras,
   };
-  for (const b of featureBindings) {
+  for (const b of bundle.featureBindings) {
     artifactsById[b.id] = b;
   }
 
   const nextDerivation: DesignWorkspaceDerivationState = {
     runs: [...derivation.runs, run],
     activeRunId: null,
-    packages: [...derivation.packages, implementationPackage],
-    latestPackageId: implementationPackage.id,
+    packages: [...derivation.packages, bundle.implementationPackage],
+    latestPackageId: bundle.implementationPackage.id,
     artifactsById,
+    correctionRequested: false,
+    translationReview: correctionRequested ?
+      {
+        id: `trr-pending-${runId}`,
+        derivationRunId: runId,
+        authorityPairId: pair.id,
+        packageId: bundle.implementationPackage.id,
+        founderDecision: 'PENDING',
+        reviewNotes: '',
+        requestedCorrections: [],
+        approvedAt: null,
+        rejectedAt: null,
+        reviewedBy: null,
+      }
+    : derivation.translationReview,
   };
 
   const pipeline = session.authorityPipeline!;
