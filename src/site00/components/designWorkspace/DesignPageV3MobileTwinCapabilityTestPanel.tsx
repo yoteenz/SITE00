@@ -83,6 +83,7 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
 
   return (
     <section
+      id="v3-mobile-twin-capability-test"
       className="site00-dw-v3-mobile-twin-capability-test"
       data-testid="v3-mobile-twin-capability-test"
       data-lineage={P0_VR_TWIN_V30R7MF3P1_LINEAGE}
@@ -107,22 +108,46 @@ export function DesignPageV3MobileTwinCapabilityTestPanel({ session, onSessionUp
           RETRY FLOW B
         </button>
       </div>
-      {test?.status === 'FOUNDER_REVIEW_READY' || test?.status === 'PARTIAL' ?
-        <div className="site00-dw-v3-mobile-twin-capability-test__decisions">
-          <button type="button" data-testid="v3-pick-flow-a" onClick={() => pickDecision('FLOW_A_MORE_ACCURATE')}>
-            FLOW A MORE ACCURATE
-          </button>
-          <button type="button" data-testid="v3-pick-flow-b" onClick={() => pickDecision('FLOW_B_MORE_ACCURATE')}>
-            FLOW B MORE ACCURATE
-          </button>
-          <button type="button" onClick={() => pickDecision('BOTH_ACCEPTABLE')}>
-            BOTH ACCEPTABLE
-          </button>
-          <button type="button" onClick={() => pickDecision('NEITHER_ACCEPTABLE')}>
-            NEITHER ACCEPTABLE
-          </button>
-        </div>
-      : null}
+      <div className="site00-dw-v3-mobile-twin-capability-test__decisions">
+        <p className="site00-dw-v3-mobile-twin-capability-test__step-label">
+          STEP 2 · Pick visual strategy (required before provider benchmark)
+        </p>
+        {test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL' ?
+          <p className="site00-dw-v3-mobile-twin-capability-test__step-hint" role="status">
+            Run Step 1 first — buttons enable when capability test finishes (or PARTIAL).
+          </p>
+        : null}
+        <button
+          type="button"
+          data-testid="v3-pick-flow-a"
+          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          onClick={() => pickDecision('FLOW_A_MORE_ACCURATE')}
+        >
+          FLOW A MORE ACCURATE
+        </button>
+        <button
+          type="button"
+          data-testid="v3-pick-flow-b"
+          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          onClick={() => pickDecision('FLOW_B_MORE_ACCURATE')}
+        >
+          FLOW B MORE ACCURATE
+        </button>
+        <button
+          type="button"
+          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          onClick={() => pickDecision('BOTH_ACCEPTABLE')}
+        >
+          BOTH ACCEPTABLE
+        </button>
+        <button
+          type="button"
+          disabled={test?.status !== 'FOUNDER_REVIEW_READY' && test?.status !== 'PARTIAL'}
+          onClick={() => pickDecision('NEITHER_ACCEPTABLE')}
+        >
+          NEITHER ACCEPTABLE
+        </button>
+      </div>
       <div className="site00-dw-v3-mobile-twin-capability-test__compare-tabs">
         <button type="button" className={compareMode === 'ACTUAL_A' ? 'is-active' : undefined} onClick={() => setCompareMode('ACTUAL_A')}>
           ACTUAL ↔ BLUEPRINT A
