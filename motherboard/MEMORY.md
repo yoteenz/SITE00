@@ -9405,6 +9405,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — P0.VR.TWINV4.2R1 production golden + diff-driven mutation loop (v482)
+
+- **Sprint:** **`TwinV4ProductionGoldenAuthority`** via `VITE_NDXBOOK_TWIN_V4_PRODUCTION_GOLDEN_*` (prod proof only; **`PRODUCTION_GOLDEN_AUTHORITY_UNAVAILABLE`** if unset). Engineering/dev still seals https forensic — **no first-valid in prod proof**. **`TwinV4DiffDrivenMutationEngine`** + **`twinV42ReconstructionContract`** (layout tokens, impl hash); **`TwinV42ForensicLiveCanvas`** replaces scene-graph box LIVE renderer (**`CORRECTION_REQUIRED` / `LIVE_OUTPUT_DOES_NOT_RESEMBLE_REFERENCE`** on prior V4.2 boxes). Convergence loop: mutation → new screenshot hash → fresh pixel diff (**valid iterations only**; stall detection). UI: iteration history, **CORRECTION HISTORY** tab. Tests **`p0vrTwinV42R1.test.ts`**. Threshold pass still open — diff should move, not flat 9.55% ceremonial loops.
+
+---
+
 ## 2026-09-15 — Twin V4.2 mobile golden boot hotfix (v481)
 
 - **Symptom:** fsbw-dev / mobile showed **`TWIN_V4_GOLDEN_AUTHORITY_INVALID`** with no path forward after V4.2 shipped.
