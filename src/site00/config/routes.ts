@@ -136,6 +136,7 @@ export const SITE00_ROUTES = {
   projectDesign: '/projects/:projectSlug/design',
   projectDesignTwin: '/projects/:projectSlug/design/twin',
   projectDesignTwinV4: '/projects/:projectSlug/design/twin-v4',
+  projectDesignTwinSolDirect: '/projects/:projectSlug/design/twin-sol-direct',
   /** P0.VR.DESIGNBENCH.SOL1 — isolated Sol reference-to-Figma benchmark */
   projectDesignTwinTestB: '/projects/:projectSlug/design/twin-testB',
   projectDesignTwinTestA: '/projects/:projectSlug/design/twin-testA',
@@ -143,6 +144,10 @@ export const SITE00_ROUTES = {
   projectDesignTwinGrokDirect: '/projects/:projectSlug/design/twin-grok-direct',
   /** P0.VR.DESIGNBENCH.OPUS-DIRECT1 — isolated Opus direct reconstruction */
   projectDesignTwinOpusDirect: '/projects/:projectSlug/design/twin-opus-direct',
+  /** P0.VR.DESIGNBENCH.FABLE-DIRECT1 — isolated Claude Fable direct reconstruction */
+  projectDesignTwinFableDirect: '/projects/:projectSlug/design/twin-fable-direct',
+  /** P0.VR.DESIGNBENCH.SPARK-DIRECT1 — isolated Spark direct reconstruction */
+  projectDesignTwinSparkDirect: '/projects/:projectSlug/design/twin-spark-direct',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
@@ -538,6 +543,14 @@ export function site00ProjectDesignTwinGrokDirectPath(projectSlug: string): stri
 
 export function site00ProjectDesignTwinOpusDirectPath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/twin-opus-direct`;
+}
+
+export function site00ProjectDesignTwinFableDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-fable-direct`;
+}
+
+export function site00ProjectDesignTwinSparkDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-direct`;
 }
 
 export function site00CanonicalDesignPath(params?: {

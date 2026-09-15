@@ -176,6 +176,7 @@ const DesignTwinImplementationPage = lazy(() =>
 const DesignTwinV4ProofPage = lazy(() =>
   import('../site00/pages/DesignTwinV4ProofPage').then((m) => ({ default: m.DesignTwinV4ProofPage })),
 );
+const NdxbookSolDirectPage = lazy(() => import('../site00/pages/NdxbookSolDirectPage'));
 const SolDesignBenchmarkPage = lazy(() => import('../site00/pages/SolDesignBenchmarkPage'));
 const DesignTwinTestAPage = lazy(() =>
   import('../site00/pages/DesignTwinTestAPage').then((m) => ({ default: m.DesignTwinTestAPage })),
@@ -185,6 +186,12 @@ const DesignTwinGrokDirectPage = lazy(() =>
 );
 const DesignTwinOpusDirectPage = lazy(() =>
   import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinOpusDirectPage })),
+);
+const DesignTwinFableDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinFableDirectPage').then((m) => ({ default: m.DesignTwinFableDirectPage })),
+);
+const DesignTwinSparkDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinSparkDirectPage').then((m) => ({ default: m.DesignTwinSparkDirectPage })),
 );
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
@@ -1144,6 +1151,16 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.projectDesignTwinSolDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <NdxbookSolDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.projectDesignTwinTestB}
         element={
           <Site00Layout>
@@ -1179,6 +1196,26 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00Suspense>
               <DesignTwinOpusDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinFableDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinFableDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinSparkDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinSparkDirectPage />
             </Site00Suspense>
           </Site00Layout>
         }

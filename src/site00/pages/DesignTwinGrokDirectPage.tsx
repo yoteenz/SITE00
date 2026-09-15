@@ -1,6 +1,9 @@
 import '../styles/site00-twin-grok-direct.css';
 
-const PAPER = '/site00/creative-direction/ndxbook/eu-branch-receipts-isolated.webp';
+const HAND = '/site00/twin-grok-direct/tgd-hand-plate.png';
+const FORM = '/site00/twin-grok-direct/tgd-form.png';
+const OVERLAY = '/site00/twin-grok-direct/tgd-overlay-001.png';
+const PORTRAIT = '/site00/twin-grok-direct/tgd-portrait.png';
 
 function IconPhone() {
   return (
@@ -116,43 +119,8 @@ function IconHistory() {
   );
 }
 
-function ArchivalHand() {
-  return (
-    <svg className="tgd-hand" viewBox="0 0 240 300" aria-hidden="true">
-      <defs>
-        <filter id="tgd-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="1.15" numOctaves="3" result="n" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-      </defs>
-      <rect width="240" height="300" fill="#f3ebde" />
-      <rect width="240" height="300" fill="#c8bca9" opacity="0.22" filter="url(#tgd-grain)" />
-      <g stroke="#c2b6a4" strokeWidth="0.35" opacity="0.4">
-        {Array.from({ length: 14 }, (_, i) => (
-          <line key={`v${i}`} x1={20 + i * 15} y1="10" x2={20 + i * 15} y2="290" />
-        ))}
-        {Array.from({ length: 18 }, (_, i) => (
-          <line key={`h${i}`} x1="12" y1={14 + i * 15} x2="228" y2={14 + i * 15} />
-        ))}
-      </g>
-      <g fill="#7a6e60" opacity="0.32" fontFamily="Inter, sans-serif" fontSize="6" letterSpacing="0.18em">
-        <text x="158" y="36">CHECK REF</text>
-        <text x="158" y="48">P.1377</text>
-        <text x="158" y="60">P.208</text>
-        <text x="158" y="72">P.311</text>
-        <text x="172" y="176">8758</text>
-      </g>
-      <g fill="#111">
-        <path d="M117 16c-6 1-9 6-9 12v92c0 6 1 10 5 14-18 8-36 26-38 48-2 24 14 41 36 46 2 14 6 34 14 48 9 16 28 22 44 12 14-8 19-26 17-44 18-4 30-20 28-38-2-17-15-28-32-27 1-8 3-18 4-30 1-10-2-16-8-18-4-1-7 1-8 5V28c0-7-4-13-10-13-1.6 0-3.2.4-4.4 1.1z" />
-        <ellipse cx="118" cy="20" rx="8.4" ry="9.2" />
-        <ellipse cx="76" cy="172" rx="15" ry="20" transform="rotate(-38 76 172)" />
-        <ellipse cx="70" cy="196" rx="12" ry="16" transform="rotate(-18 70 196)" />
-        <ellipse cx="76" cy="216" rx="11" ry="14" transform="rotate(-8 76 216)" />
-        <ellipse cx="154" cy="208" rx="13" ry="17" />
-        <path d="M96 230c8 18 22 28 40 26 16-2 28-14 30-28-12 10-28 14-46 10-10-2-18-6-24-8z" />
-      </g>
-    </svg>
-  );
+function HandPlate() {
+  return <img className="tgd-hand" src={HAND} alt="" />;
 }
 
 function PaperDoc({ kind }: { kind: 'ground' | 'blue' | 'overlay' | 'assets' | 'fn' }) {
@@ -182,21 +150,10 @@ function PaperDoc({ kind }: { kind: 'ground' | 'blue' | 'overlay' | 'assets' | '
       </div>
     );
   }
+  const src = kind === 'ground' ? FORM : kind === 'overlay' ? OVERLAY : PORTRAIT;
   return (
     <div className={`tgd-doc tgd-doc--${kind}`} aria-hidden="true">
-      <img src={PAPER} alt="" />
-      <div className="tgd-doc__marks">
-        {kind === 'ground' ? (
-          <span className="tgd-doc__form">
-            <b />
-            <b />
-            <b />
-            <b />
-          </span>
-        ) : null}
-        {kind === 'overlay' ? <span className="tgd-doc__big">001</span> : null}
-        {kind === 'assets' ? <span className="tgd-doc__portrait" /> : null}
-      </div>
+      <img src={src} alt="" />
     </div>
   );
 }
@@ -216,7 +173,7 @@ function MiniSignalCard({ dark }: { dark?: boolean }) {
         </strong>
       </div>
       <div className="tgd-mini__hand">
-        <ArchivalHand />
+        <HandPlate />
       </div>
     </div>
   );
@@ -312,7 +269,7 @@ export function DesignTwinGrokDirectPage() {
                 </p>
               </div>
               <div className="tgd-hero__plate">
-                <ArchivalHand />
+                <HandPlate />
               </div>
             </div>
             <footer className="tgd-hero__foot">
@@ -422,6 +379,7 @@ export function DesignTwinGrokDirectPage() {
               <div className="tgd-card__zero">001</div>
             </article>
             <article className="tgd-card tgd-card--clip">
+              <img src={OVERLAY} alt="" />
               <div className="tgd-card__stamp">
                 <span>001</span>
                 <small>
