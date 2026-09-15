@@ -46,6 +46,57 @@ export function writeForensicBlueprintToCache(key: string, authority: ForensicUi
   writeToStorage(key, authority);
 }
 
+const STUB_FORENSIC_URI_PREFIXES = ['vitest-fal://', 'local-autobuild://'];
+
+export function isLoadableForensicBlueprintUri(uri: string): boolean {
+  if (!uri) return false;
+  if (STUB_FORENSIC_URI_PREFIXES.some((p) => uri.startsWith(p))) return false;
+  return (
+    uri.startsWith('http://') ||
+    uri.startsWith('https://') ||
+    (uri.startsWith('/') && !uri.startsWith('//'))
+  );
+}
+
+function pickBestForensicBootCandidate(
+  projectId: string,
+  authority: ForensicUiBlueprintAuthority,
+  best: ForensicUiBlueprintAuthority | null,
+): ForensicUiBlueprintAuthority | null {
+  if (authority.projectId !== projectId) return best;
+  if (!isLoadableForensicBlueprintUri(authority.blueprintImageUri)) return best;
+  if (authority.founderReviewStatus === 'CORRECTION_REQUESTED') return best;
+  const usable =
+    authority.founderReviewStatus === 'APPROVED' ||
+    authority.status === 'MACHINE_VALIDATED' ||
+    authority.status === 'FOUNDER_BLUEPRINT_REVIEW';
+  if (!usable) return best;
+  if (!best || authority.generatedAt > best.generatedAt) return authority;
+  return best;
+}
+
+/** Cached real Fal forensic PNG (https) — includes MACHINE_VALIDATED pending founder click. */
+export function findCachedForensicBlueprintForTwinV41Boot(projectId: string): ForensicUiBlueprintAuthority | null {
+  let best: ForensicUiBlueprintAuthority | null = null;
+  for (const authority of cache.values()) {
+    best = pickBestForensicBootCandidate(projectId, authority, best);
+  }
+  if (!site00IsBrowser() || typeof localStorage === 'undefined') return best;
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(STORAGE_PREFIX)) continue;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const authority = JSON.parse(raw) as ForensicUiBlueprintAuthority;
+      best = pickBestForensicBootCandidate(projectId, authority, best);
+    } catch {
+      /* skip */
+    }
+  }
+  return best;
+}
+
 /** Browser: find founder-approved forensic with loadable image URI (https or site path). */
 export function findFounderApprovedForensicBlueprintInStorage(): ForensicUiBlueprintAuthority | null {
   if (!site00IsBrowser() || typeof localStorage === 'undefined') return null;
@@ -57,14 +108,7 @@ export function findFounderApprovedForensicBlueprintInStorage(): ForensicUiBluep
       if (!raw) continue;
       const authority = JSON.parse(raw) as ForensicUiBlueprintAuthority;
       if (authority.founderReviewStatus !== 'APPROVED') continue;
-      const uri = authority.blueprintImageUri;
-      if (
-        uri.startsWith('http://') ||
-        uri.startsWith('https://') ||
-        (uri.startsWith('/') && !uri.startsWith('//'))
-      ) {
-        return authority;
-      }
+      if (isLoadableForensicBlueprintUri(authority.blueprintImageUri)) return authority;
     } catch {
       /* skip corrupt */
     }

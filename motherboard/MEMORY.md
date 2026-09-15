@@ -9403,3 +9403,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 - **Sprint:** Twin V4.1 replaces V4.0 **hardcoded 42-node placeholder graph** (rejected **`HARDCODED_SCENE_GRAPH_PLACEHOLDER_RENDER`**) with **`p0vrTwinV41/`** pipeline: **founder-approved forensic PNG only** (no stub/local-autobuild), **`ForensicPixelAnalysis`** (regions, edges, color samples, text regions, callouts, visual objects), **`TwinV41PixelDerivedSceneGraph`** with per-node **evidence refs**, **`PIXEL EXTRACTION`** overlay on real authority raster, modes **FORENSIC AUTHORITY / PIXEL EXTRACTION / SCENE GRAPH / EVIDENCE**; **LIVE DOM reconstruction disabled** until V4.2 (`DOM_RECONSTRUCTION_DISABLED_V41`). **`reconstructionEngineProof = INCONCLUSIVE`**; gate **`FOUNDER_EXTRACTION_REVIEW`**. Persistence **`site00:twin-v41:`**. Tests **`p0vrTwinV41.test.ts`**. Founder needs approved forensic in localStorage + **`?actualHash=`** matching cache when hash not auto-resolved.
 
+---
+
+## 2026-09-15 — Twin V4 route boot hotfix (v478)
+
+- **Symptom:** **`/projects/ndxbook/design/twin-v4`** not booting on fsbw-dev / mobile.
+- **Cause:** V4.1 required **`founderReviewStatus === APPROVED`** and manual **`actualHash`** — real Fal cache uses **`PENDING` + MACHINE_VALIDATED** with **https** PNG; browser raster path used **`Buffer`/`pngjs`**.
+- **Fix:** **`findCachedForensicBlueprintForTwinV41Boot`** + **`resolveTwinV41BootContext`**; accept cached **https** Fal forensic; **canvas** PNG decode in browser; boot help copy when authority missing.
+

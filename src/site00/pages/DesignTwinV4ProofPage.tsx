@@ -7,7 +7,7 @@ import {
   P0_VR_TWIN_V41_LINEAGE,
   PIXEL_EXTRACTION_REVIEW_REQUIRED,
 } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/constants.js';
-import { findFounderApprovedForensicBlueprintInStorage } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/forensicBlueprintCache.js';
+import { resolveTwinV41BootContext } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/resolveTwinV41BootContext.js';
 import { TwinV41PixelExtractionOverlay } from '../components/designWorkspace/TwinV41PixelExtractionOverlay.js';
 import { P0_VR_TWIN_V30_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { TWIN_V4_CSS_NAMESPACE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/constants.js';
@@ -24,12 +24,15 @@ export function DesignTwinV4ProofPage() {
   const [bundle, setBundle] = useState<TwinV41PixelExtractionBundle | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
-  const sourceActualHash = useMemo(() => {
-    const fromQuery = searchParams.get('actualHash');
-    if (fromQuery) return fromQuery;
-    const stored = findFounderApprovedForensicBlueprintInStorage();
-    return stored?.sourceActualHash ?? '';
-  }, [searchParams]);
+  const bootContext = useMemo(
+    () =>
+      resolveTwinV41BootContext({
+        projectId,
+        queryActualHash: searchParams.get('actualHash'),
+      }),
+    [projectId, searchParams],
+  );
+  const sourceActualHash = bootContext.sourceActualHash;
 
   useEffect(() => {
     if (!sourceActualHash) {
@@ -83,7 +86,13 @@ export function DesignTwinV4ProofPage() {
         ))}
       </div>
       {err ?
-        <p data-testid="twin-v4-error">{err}</p>
+        <div className="site00-twin-v41-boot-help" data-testid="twin-v4-error">
+          <p>{err}</p>
+          <p>
+            Generate or load the forensic blueprint on <strong>/projects/{projectId}/design/twin</strong> first (Fal PNG
+            cached in this browser). Optional: add <code>?actualHash=…</code> matching the twin actual hash.
+          </p>
+        </div>
       : null}
       {!bundle && !err ?
         <p data-testid="twin-v4-loading">Running forensic pixel analysis…</p>

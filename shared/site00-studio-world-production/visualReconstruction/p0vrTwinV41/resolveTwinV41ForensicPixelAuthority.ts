@@ -1,6 +1,7 @@
 import {
-  findFounderApprovedForensicBlueprintInStorage,
+  findCachedForensicBlueprintForTwinV41Boot,
   forensicBlueprintCacheKey,
+  isLoadableForensicBlueprintUri,
   readForensicBlueprintFromCache,
 } from '../p0vrTwinV30R8M2R5/forensicBlueprintCache.js';
 import { site00IsBrowser } from '../../runtime/site00RuntimeEnv.js';
@@ -10,24 +11,23 @@ import { TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE } from './constants.js';
 import type { TwinV41ForensicPixelAuthorityLock } from './twinV41Types.js';
 import { loadForensicRasterFromUri } from './loadForensicRaster.js';
 
-const STUB_URI_PREFIXES = ['vitest-fal://', 'local-autobuild://'];
-
-function isLoadableForensicUri(uri: string): boolean {
-  if (!uri) return false;
-  if (STUB_URI_PREFIXES.some((p) => uri.startsWith(p))) return false;
-  return (
-    uri.startsWith('http://') ||
-    uri.startsWith('https://') ||
-    uri.startsWith('file://') ||
-    (uri.startsWith('/') && !uri.startsWith('//'))
-  );
+function isPixelAuthorityUriLoadable(uri: string): boolean {
+  if (isLoadableForensicBlueprintUri(uri)) return true;
+  return !site00IsBrowser() && uri.startsWith('file://');
 }
 
-function assertFounderApproved(authority: ForensicUiBlueprintAuthority): void {
-  if (authority.founderReviewStatus !== 'APPROVED') {
+function assertPixelForensicAuthority(authority: ForensicUiBlueprintAuthority): void {
+  if (!isPixelAuthorityUriLoadable(authority.blueprintImageUri)) {
     throw new Error(TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE);
   }
-  if (!isLoadableForensicUri(authority.blueprintImageUri)) {
+  if (authority.founderReviewStatus === 'CORRECTION_REQUESTED') {
+    throw new Error(TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE);
+  }
+  const usable =
+    authority.founderReviewStatus === 'APPROVED' ||
+    authority.status === 'MACHINE_VALIDATED' ||
+    authority.status === 'FOUNDER_BLUEPRINT_REVIEW';
+  if (!usable) {
     throw new Error(TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE);
   }
 }
@@ -42,7 +42,7 @@ export async function resolveTwinV41ForensicPixelAuthority(input: {
   const cacheKey = forensicBlueprintCacheKey({ actualHash: input.sourceActualHash });
   let authority = readForensicBlueprintFromCache(cacheKey);
   if (!authority && site00IsBrowser()) {
-    const stored = findFounderApprovedForensicBlueprintInStorage();
+    const stored = findCachedForensicBlueprintForTwinV41Boot(input.projectId);
     if (stored && stored.sourceActualHash === input.sourceActualHash) {
       authority = stored;
     }
@@ -50,7 +50,7 @@ export async function resolveTwinV41ForensicPixelAuthority(input: {
   if (!authority) {
     throw new Error(TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE);
   }
-  assertFounderApproved(authority);
+  assertPixelForensicAuthority(authority);
   const raster = await loadForensicRasterFromUri(authority.blueprintImageUri);
   return {
     artifactId: authority.id,
@@ -64,5 +64,5 @@ export async function resolveTwinV41ForensicPixelAuthority(input: {
 }
 
 export function resolveTwinV41ForensicPixelAuthoritySyncForTests(authority: ForensicUiBlueprintAuthority): void {
-  assertFounderApproved(authority);
+  assertPixelForensicAuthority(authority);
 }
