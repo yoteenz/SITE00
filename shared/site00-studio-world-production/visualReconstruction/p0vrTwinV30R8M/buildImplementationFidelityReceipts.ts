@@ -22,19 +22,20 @@ export function buildImplementationVisualFidelityReceipt(input: {
     (input.document.translationBriefConsumed &&
       input.document.codingPromptInjected &&
       input.document.translationReadiness?.status !== 'BLOCKED');
-  const visualTranslation =
+  const visualTranslation = Boolean(
     (input.document.compilerGeneration === 'R8M1' ||
       input.document.compilerGeneration === 'R8M2' ||
       input.document.compilerGeneration === 'R8M2R1' ||
       input.document.compilerGeneration === 'R8M2R2') &&
-    Boolean(input.document.renderTree?.nodes.length) &&
-    Boolean(input.document.authoritiesLoaded?.actualRenderUri) &&
-    expressionReady &&
-    translationReady &&
-    (input.document.compilerGeneration === 'R8M1' ||
-      input.document.compilerGeneration === 'R8M2R1' ||
-      input.document.compilerGeneration === 'R8M2R2' ||
-      Boolean(input.document.visualFidelityEvaluation?.machinePass));
+      input.document.renderTree?.nodes.length &&
+      input.document.authoritiesLoaded?.actualRenderUri &&
+      expressionReady &&
+      translationReady &&
+      (input.document.compilerGeneration === 'R8M1' ||
+        input.document.compilerGeneration === 'R8M2R1' ||
+        input.document.compilerGeneration === 'R8M2R2' ||
+        input.document.visualFidelityEvaluation?.machinePass),
+  );
   const passVisual = geometryMatch && visualTranslation;
   return {
     id: `ivfr-${input.buildId}`,
