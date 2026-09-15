@@ -90,6 +90,17 @@ describe('P0.VR.DESIGNBENCH.SOL1F3 strict schema and recovery', () => {
     expect(Object.keys(body.text.format.schema.properties)).toEqual(SOL_TRANSLATION_PACKAGE_KEYS);
     expect(body.text.format.schema.additionalProperties).toBe(false);
     expect(JSON.stringify(body.text.format.schema)).not.toContain('data:image');
+    const assertStrictObjects = (node: unknown): void => {
+      if (!node || typeof node !== 'object') return;
+      const schema = node as Record<string, unknown>;
+      if (schema.type === 'object') {
+        expect(schema.additionalProperties).toBe(false);
+        expect(schema.required).toEqual(Object.keys(schema.properties as Record<string, unknown>));
+      }
+      Object.values(schema).forEach(assertStrictObjects);
+    };
+    assertStrictObjects(body.text.format.schema);
+    expect(JSON.stringify(body.text.format.schema)).not.toContain('maxLength');
   });
 
   it('validates schema output and rejects embedded visual payloads', async () => {
