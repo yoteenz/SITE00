@@ -9207,6 +9207,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — FAL blueprint mount sync fix (v460)
+
+- **Symptom:** FAL generated correct light blueprint but Design compare slot still showed bundled founder JPG / stale mount.
+- **Cause:** v459 **`applyFounderCanonicalLightBlueprintMount`** ran on every **`syncFounderMobileTwinSession`** and overwrote any non-founder URI; **`mergeMobileTwinFalApiResponse`** skipped server blueprint when FAL job count unchanged (light retry).
+- **Fix:** Founder mount **fallback only** (missing URI, legacy `TECHNICAL_BLUEPRINT_RENDER`, dark/blocked — never stomp live FAL LIGHT+PASS); API merge always **`mergeMobileTwinPipelineRich(server, client)`**. Build **v460**.
+
+---
+
 ## 2026-09-15 — Founder canonical light blueprint mount (v459)
 
 - **Founder:** Replace mounted Design blueprint compare image with supplied light technical JPG (not dark FAL sheet).
