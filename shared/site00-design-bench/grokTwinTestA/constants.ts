@@ -1,14 +1,17 @@
 /** P0.VR.DESIGNBENCH.GROK1 — isolated Grok visual translation lab. */
 
-export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v483' as const;
+export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v484' as const;
 export const P0_VR_DESIGNBENCH_GROK1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1' as const;
+export const P0_VR_DESIGNBENCH_GROK1F1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F1' as const;
 
 export const GROK_TWIN_TEST_A_ROUTE_PATH = '/projects/:projectSlug/design/twin-testA' as const;
 export const GROK_TWIN_TEST_A_HEADER = 'TWIN DESIGN BENCHMARK' as const;
 export const GROK_TWIN_TEST_A_SUBHEADER = 'TEST A · GROK' as const;
 export const GROK_TWIN_TEST_A_MODEL = 'GROK' as const;
+export const GROK_TWIN_TEST_A_MODEL_LABEL = 'GROK 4.6' as const;
 export const GROK_TWIN_TEST_A_PROVIDER = 'xai' as const;
-export const GROK_TWIN_TEST_A_PROVIDER_MODEL_DEFAULT = 'grok-2-vision-1212' as const;
+export const GROK_TWIN_TEST_A_PROVIDER_LABEL = 'xAI' as const;
+export const GROK_TWIN_TEST_A_PROVIDER_MODEL = 'grok-4.6' as const;
 
 export const GROK_TWIN_TEST_A_STORAGE_PREFIX = 'site00:twin-test-a:' as const;
 export const GROK_TWIN_TEST_A_STORAGE_KEY = 'site00:twin-test-a:v1:latestRun' as const;

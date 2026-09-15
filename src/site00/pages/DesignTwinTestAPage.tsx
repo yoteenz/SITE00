@@ -5,14 +5,18 @@ import {
   GROK_ACTIVE_STAGES,
   P0_VR_DESIGNBENCH_GROK1_BUILD,
   GROK_TWIN_TEST_A_HEADER,
+  GROK_TWIN_TEST_A_MODEL_LABEL,
+  GROK_TWIN_TEST_A_PROVIDER_LABEL,
   GROK_TWIN_TEST_A_SUBHEADER,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
+import { GROK_4_6_PROVIDER_BINDING_FAILED, GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import type { GrokDesignBenchProviderReadinessReceipt } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import { persistGrokTwinTestARun, readPersistedGrokTwinTestARun, historicalGrokTwinTestAAverageMs } from '../../../shared/site00-design-bench/grokTwinTestA/persist.js';
 import { sha256HexFromBytes } from '../../../shared/site00-design-bench/grokTwinTestA/sha256.js';
 import { estimateRemainingMs, formatDurationMmSs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import { formatAspectRatio, validateGrokReferenceUpload } from '../../../shared/site00-design-bench/grokTwinTestA/uploadValidation.js';
 import type { GrokDesignBenchResultTab, GrokDesignBenchRun } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
-import { pollGrokTwinTestARun, startGrokTwinTestARun } from '../services/grokTwinTestAClient.js';
+import { fetchGrokTwinTestAReadiness, pollGrokTwinTestARun, startGrokTwinTestARun } from '../services/grokTwinTestAClient.js';
 import '../styles/site00-twin-test-a.css';
 
 type LocalReference = {
@@ -66,10 +70,41 @@ export function DesignTwinTestAPage() {
   const [zoom, setZoom] = useState<'FIT' | '100%' | 'ZOOM'>('FIT');
   const [sideBySide, setSideBySide] = useState(true);
   const [starting, setStarting] = useState(false);
+  const [readiness, setReadiness] = useState<GrokDesignBenchProviderReadinessReceipt | null>(null);
+  const [failureOpen, setFailureOpen] = useState(false);
 
   const active = Boolean(run && GROK_ACTIVE_STAGES.includes(run.stage as (typeof GROK_ACTIVE_STAGES)[number]));
   const frozen = Boolean(run?.reference?.immutableForRun && active);
-  const startDisabled = !localRef || frozen || starting || active;
+  const providerReady = readiness?.state === 'READY';
+  const startDisabled = !localRef || frozen || starting || active || !providerReady;
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetchGrokTwinTestAReadiness()
+      .then((next) => {
+        if (!cancelled) setReadiness(next);
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setReadiness({
+            state: 'BLOCKED',
+            reason: err instanceof Error ? err.message : 'Readiness check failed',
+            provider: 'xai',
+            modelId: GROK_DESIGN_BENCH_MODEL_ID,
+            xaiApiKeyPresent: false,
+            modelHardBound: true,
+            fallbackAllowed: false,
+            webSearchAllowed: false,
+            visionInputRequired: true,
+            imageInputCanAttach: Boolean(localRef),
+            competitorAccessAllowed: false,
+          });
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [localRef]);
 
   useEffect(() => {
     if (!run || run.stage === 'COMPLETE' || run.stage === 'FAILED' || run.stage === 'IDLE') return;
@@ -208,6 +243,9 @@ export function DesignTwinTestAPage() {
           <p className="twin-test-a__sub" data-testid="twin-test-a-model-label">
             {GROK_TWIN_TEST_A_SUBHEADER}
           </p>
+          <p className="twin-test-a__model-id" data-testid="twin-test-a-model-id">
+            {GROK_TWIN_TEST_A_MODEL_LABEL}
+          </p>
         </div>
         <div className="twin-test-a__build">{P0_VR_DESIGNBENCH_GROK1_BUILD}</div>
       </header>
@@ -250,9 +288,46 @@ export function DesignTwinTestAPage() {
         ) : null}
 
         {run?.stage === 'FAILED' ? (
-          <p className="twin-test-a__error" data-testid="twin-test-a-failed">
-            {run.error}
-          </p>
+          <div className="twin-test-a__error-block" data-testid="twin-test-a-failed">
+            <p className="twin-test-a__error">
+              {run.providerFailure?.code === GROK_4_6_PROVIDER_BINDING_FAILED
+                ? GROK_4_6_PROVIDER_BINDING_FAILED
+                : run.error}
+            </p>
+            {run.providerFailure ? (
+              <details
+                className="twin-test-a__failure-details"
+                data-testid="twin-test-a-binding-failure"
+                open={failureOpen}
+                onToggle={(e) => setFailureOpen((e.target as HTMLDetailsElement).open)}
+              >
+                <summary>TECHNICAL DETAILS</summary>
+                <dl>
+                  <dt>PROVIDER RESPONSE CODE</dt>
+                  <dd>{run.providerFailure.providerResponseCode ?? '—'}</dd>
+                  <dt>CLASSIFICATION</dt>
+                  <dd>{run.providerFailure.classification}</dd>
+                  <dt>RUN ID</dt>
+                  <dd>{run.providerFailure.runId}</dd>
+                  <dt>MODEL</dt>
+                  <dd>{GROK_DESIGN_BENCH_MODEL_ID}</dd>
+                </dl>
+              </details>
+            ) : null}
+          </div>
+        ) : null}
+
+        {readiness ? (
+          <section className="twin-test-a__readiness" data-testid="twin-test-a-readiness">
+            <h2 className="twin-test-a__section-label">PROVIDER READINESS</h2>
+            <p data-testid="twin-test-a-readiness-state">
+              {readiness.state}
+              {readiness.reason ? ` · ${readiness.reason}` : ''}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-bound-model">
+              {GROK_TWIN_TEST_A_PROVIDER_LABEL} · {GROK_DESIGN_BENCH_MODEL_ID}
+            </p>
+          </section>
         ) : null}
 
         {run?.stage !== 'COMPLETE' ? (
@@ -437,8 +512,10 @@ export function DesignTwinTestAPage() {
             ) : null}
             {tab === 'RUN_METRICS' ? (
               <dl className="twin-test-a__metrics" data-testid="twin-test-a-metrics">
+                <dt>PROVIDER</dt>
+                <dd data-testid="twin-test-a-metrics-provider">{GROK_TWIN_TEST_A_PROVIDER_LABEL}</dd>
                 <dt>MODEL</dt>
-                <dd>GROK</dd>
+                <dd data-testid="twin-test-a-metrics-model">{run.modelId ?? GROK_DESIGN_BENCH_MODEL_ID}</dd>
                 <dt>RUN ID</dt>
                 <dd>{run.runId}</dd>
                 <dt>REFERENCE SHA256</dt>

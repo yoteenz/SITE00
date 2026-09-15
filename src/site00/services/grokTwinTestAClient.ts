@@ -1,6 +1,7 @@
 import {
   GROK_TWIN_TEST_A_API_PATH,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
+import type { GrokDesignBenchProviderReadinessReceipt } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import type { GrokDesignBenchRun } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
 import { site00ClientApiUrl } from '../../../shared/site00-studio-world-production/site00ClientApiBase.js';
 
@@ -70,6 +71,13 @@ export async function startGrokTwinTestARun(input: {
   }
   if (!json.run) throw new Error(json.error ?? 'GROK_START_NO_RUN');
   return json.run;
+}
+
+export async function fetchGrokTwinTestAReadiness(): Promise<GrokDesignBenchProviderReadinessReceipt> {
+  const res = await getFirstOk('?action=readiness');
+  const json = (await res.json()) as { ok?: boolean; readiness?: GrokDesignBenchProviderReadinessReceipt; error?: string };
+  if (!res.ok || !json.readiness) throw new Error(json.error ?? 'GROK_READINESS_FAILED');
+  return json.readiness;
 }
 
 export async function pollGrokTwinTestARun(runId: string): Promise<GrokDesignBenchRun> {

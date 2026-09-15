@@ -9,6 +9,7 @@ import {
   getLatestPublicGrokDesignBenchRun,
   getPublicGrokDesignBenchRun,
   grokDesignBenchAudit,
+  grokDesignBenchReadiness,
   startGrokDesignBenchRun,
 } from '../_lib/site00GrokDesignBench/service.js';
 
@@ -21,6 +22,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const action = String(query.action ?? 'latest');
     if (action === 'audit' || action === 'provider_audit') {
       return res.status(200).json({ ok: true, audit: grokDesignBenchAudit() });
+    }
+    if (action === 'readiness') {
+      return res.status(200).json({ ok: true, readiness: grokDesignBenchReadiness() });
     }
     if (action === 'run') {
       const runId = String(query.runId ?? '');
@@ -62,7 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(202).json({ ok: true, run, async: run.stage !== 'COMPLETE' && run.stage !== 'FAILED' });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'GROK_START_FAILED';
-    const status = message.includes('XAI_API_KEY') ? 503 : 400;
+    const status = message.includes('XAI_API_KEY') || message.includes('GROK_4_6_PROVIDER_BINDING_FAILED') ? 503 : 400;
     return res.status(status).json({ ok: false, error: message });
   }
 }

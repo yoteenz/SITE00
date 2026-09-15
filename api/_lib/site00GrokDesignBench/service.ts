@@ -3,14 +3,21 @@ import { createHash } from 'node:crypto';
 import {
   GROK_TWIN_TEST_A_MODEL,
   GROK_TWIN_TEST_A_PROVIDER,
+  GROK_TWIN_TEST_A_PROVIDER_LABEL,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
+import { GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import { grokStageLabel, grokStageProgress, emptyGrokTiming, estimateRemainingMs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import { validateGrokReferenceUpload } from '../../../shared/site00-design-bench/grokTwinTestA/uploadValidation.js';
 import type {
   GrokDesignBenchReferenceAuthority,
   GrokDesignBenchRun,
 } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
-import { auditGrokDesignBenchProvider, grokDesignBenchProviderModel } from './grokVisionProvider.js';
+import {
+  auditGrokDesignBenchProvider,
+  evaluateGrokDesignBenchReadiness,
+  grokDesignBenchProviderModel,
+  isGrokTestHarnessEnabled,
+} from './grokVisionProvider.js';
 import { executeGrokDesignBenchJob, launchGrokDesignBenchJob } from './jobRunner.js';
 import {
   getGrokDesignBenchRun,
@@ -54,6 +61,16 @@ export function getLatestPublicGrokDesignBenchRun(projectId: string): GrokDesign
 }
 
 export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput): Promise<GrokDesignBenchRun> {
+  if (!isGrokTestHarnessEnabled()) {
+    const readiness = evaluateGrokDesignBenchReadiness({
+      referenceUploaded: true,
+      referenceFrozen: true,
+      imageBytesPresent: Boolean(input.imageBase64),
+    });
+    if (readiness.state !== 'READY') {
+      throw new Error(readiness.reason ?? 'GROK_PROVIDER_BLOCKED');
+    }
+  }
   const validation = validateGrokReferenceUpload({
     filename: input.filename,
     mime: input.mime,
@@ -95,7 +112,10 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
     projectId: input.projectId.toLowerCase(),
     model: GROK_TWIN_TEST_A_MODEL,
     provider: GROK_TWIN_TEST_A_PROVIDER,
+    providerLabel: GROK_TWIN_TEST_A_PROVIDER_LABEL,
     providerModel: grokDesignBenchProviderModel(),
+    modelId: GROK_DESIGN_BENCH_MODEL_ID,
+    webSearchEnabled: false,
     stage: 'QUEUED',
     stageLabel: grokStageLabel('QUEUED'),
     progressPercent: grokStageProgress('QUEUED'),
@@ -118,6 +138,8 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
       totalTokens: null,
       note: 'Pending provider',
     },
+    inputReceipt: null,
+    providerFailure: null,
     composerInvoked: false,
     otherModelOutputAccessed: false,
     testBDataRead: false,
@@ -135,9 +157,14 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
 export function grokDesignBenchAudit() {
   return {
     ...auditGrokDesignBenchProvider(),
+    readiness: evaluateGrokDesignBenchReadiness(),
     isolatedFromTwin: true,
     isolatedFromTwinV4: true,
     isolatedFromTestB: true,
     isolatedFromSol: true,
   };
+}
+
+export function grokDesignBenchReadiness() {
+  return evaluateGrokDesignBenchReadiness();
 }

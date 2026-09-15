@@ -4,6 +4,11 @@ import {
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import { finalizeGrokTiming, grokStageLabel, grokStageProgress } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import type { GrokDesignBenchRun, GrokDesignBenchStage } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
+import {
+  classifyGrok46ProviderError,
+  GROK_4_6_PROVIDER_BINDING_FAILED,
+  GROK_DESIGN_BENCH_MODEL_ID,
+} from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import { translateInterfaceWithGrok } from './grokVisionProvider.js';
 import { getGrokDesignBenchRun, getGrokReferenceBytes, putGrokDesignBenchRun, recordGrokDuration } from './store.js';
 
@@ -53,6 +58,7 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
     run = patchRun(run, { timing: { ...run.timing, providerStartedAt } });
 
     const translated = await translateInterfaceWithGrok({
+      runId,
       imageBytes: bytes.bytes,
       mime: run.reference.mime,
       filename: run.reference.filename,
@@ -63,7 +69,9 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
 
     const providerCompletedAt = new Date().toISOString();
     run = patchRun(requireRun(runId), {
-      providerModel: translated.providerModel,
+      providerModel: GROK_DESIGN_BENCH_MODEL_ID,
+      modelId: GROK_DESIGN_BENCH_MODEL_ID,
+      inputReceipt: translated.inputReceipt,
       timing: { ...requireRun(runId).timing, providerCompletedAt },
       cost: {
         reported: translated.costReported,
@@ -97,9 +105,21 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'GROK_JOB_FAILED';
+    const bindingFailed = message.includes(GROK_4_6_PROVIDER_BINDING_FAILED);
+    const codeMatch = message.match(/providerResponseCode=(\d+|none)/);
+    const status = codeMatch && codeMatch[1] !== 'none' ? Number(codeMatch[1]) : null;
     return patchRun(requireRun(runId), {
       stage: 'FAILED',
       error: message,
+      providerFailure: bindingFailed
+        ? {
+            code: GROK_4_6_PROVIDER_BINDING_FAILED,
+            providerResponseCode: status,
+            classification: classifyGrok46ProviderError(status, message),
+            runId,
+            detail: message,
+          }
+        : null,
       timing: finalizeGrokTiming(requireRun(runId).timing, new Date().toISOString()),
     });
   }
@@ -110,5 +130,12 @@ export function launchGrokDesignBenchJob(runId: string): void {
 }
 
 export function grokJobUsesOnlyGrok(run: GrokDesignBenchRun): boolean {
-  return run.model === GROK_TWIN_TEST_A_MODEL && run.provider === GROK_TWIN_TEST_A_PROVIDER && run.composerInvoked === false;
+  return (
+    run.model === GROK_TWIN_TEST_A_MODEL &&
+    run.provider === GROK_TWIN_TEST_A_PROVIDER &&
+    run.modelId === GROK_DESIGN_BENCH_MODEL_ID &&
+    run.providerModel === GROK_DESIGN_BENCH_MODEL_ID &&
+    run.webSearchEnabled === false &&
+    run.composerInvoked === false
+  );
 }
