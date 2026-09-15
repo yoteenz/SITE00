@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { SITE00_ROUTES, site00ProjectDesignTwinOpusDirectPath } from '../src/site00/config/routes';
 import {
+  TWIN_OPUS_DIRECT_ASSETS,
   TWIN_OPUS_DIRECT_BOTTOM_NAV,
   TWIN_OPUS_DIRECT_CANDIDATES,
   TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
@@ -130,7 +131,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — no raster cheat', () => {
     expect(css).not.toMatch(/\.tod-screen\s*\{[^}]*background-image/);
   });
 
-  it('only sources imagery from the approved repo paper texture', () => {
+  it('keeps CSS url() limited to fonts and variables', () => {
     expect(TWIN_OPUS_DIRECT_PAPER_TEXTURE).toBe(
       '/site00/creative-direction/ndxbook/eu-branch-receipts-isolated.webp',
     );
@@ -138,6 +139,48 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — no raster cheat', () => {
     for (const url of urls) {
       expect(url).toMatch(/fonts\.googleapis\.com|--tod-|var\(/);
     }
+  });
+
+  it('loads Grok rasters from the isolated opus-direct public folder via img tags', () => {
+    const content = readRepo('src/site00/components/designBench/opusDirect/twinOpusDirectContent.ts');
+    const assetPaths = Object.values(TWIN_OPUS_DIRECT_ASSETS);
+    expect(assetPaths).toHaveLength(8);
+    for (const assetPath of assetPaths) {
+      expect(assetPath.startsWith('/site00/twin-opus-direct/')).toBe(true);
+      expect(content).toContain(assetPath);
+      expect(existsSync(path.join(repoRoot, 'public', assetPath.replace(/^\//, '')))).toBe(true);
+    }
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.hand');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.form');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.overlay');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.blueprint');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.split001');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.collage');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.evidence');
+    expect(css).not.toContain('/site00/twin-opus-direct/');
+    expect(screen).not.toMatch(/style=\{\{\s*backgroundImage/);
+  });
+});
+
+describe('P0.VR.DESIGNBENCH.GROK-ASSET-OPUS1 — image slot wiring', () => {
+  it('tags every raster slot without touching live copy or icons', () => {
+    const slots = [
+      'hand-plate',
+      'authority-desktop',
+      'candidate-grain',
+      'candidate-collage',
+      'candidate-archive',
+      'output-grounding',
+      'output-blueprint',
+      'output-overlay',
+      'output-assets',
+    ];
+    for (const slot of slots) {
+      expect(screen).toContain(`data-tod-slot="${slot}"`);
+    }
+    expect(screen).not.toContain('TodPointingHandPlate');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_HERO.headline');
+    expect(screen).toContain('TodIconMenu');
   });
 });
 

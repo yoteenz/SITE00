@@ -263,3 +263,18 @@ export const TWIN_OPUS_DIRECT_PIPELINE_TITLE = 'PIPELINE / READINESS';
  */
 export const TWIN_OPUS_DIRECT_PAPER_TEXTURE =
   '/site00/creative-direction/ndxbook/eu-branch-receipts-isolated.webp';
+
+/**
+ * Grok-owned raster plates for P0.VR.DESIGNBENCH.GROK-ASSET-OPUS1.
+ * Paths only — live copy above stays Opus-owned and must not change.
+ */
+export const TWIN_OPUS_DIRECT_ASSETS = {
+  hand: '/site00/twin-opus-direct/tod-hand-plate.jpg',
+  form: '/site00/twin-opus-direct/tod-form.png',
+  overlay: '/site00/twin-opus-direct/tod-overlay-001.png',
+  portrait: '/site00/twin-opus-direct/tod-portrait.png',
+  blueprint: '/site00/twin-opus-direct/tod-blueprint.jpg',
+  split001: '/site00/twin-opus-direct/tod-001-split.jpg',
+  collage: '/site00/twin-opus-direct/tod-collage-plate.jpg',
+  evidence: '/site00/twin-opus-direct/tod-evidence-pack.jpg',
+} as const;
