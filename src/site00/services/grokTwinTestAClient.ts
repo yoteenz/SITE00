@@ -139,6 +139,39 @@ export async function fetchGrokTwinTestAReadiness(): Promise<{
 export async function pollGrokTwinTestARun(runId: string): Promise<GrokDesignBenchRun> {
   const res = await getFirstReadyHost(`?action=run&runId=${encodeURIComponent(runId)}`);
   const json = (await res.json()) as { ok?: boolean; run?: GrokDesignBenchRun; error?: string };
+  if (res.status === 404) throw new Error('RUN_NOT_FOUND');
   if (!res.ok || !json.run) throw new Error(json.error ?? 'GROK_POLL_FAILED');
   return json.run;
+}
+
+export async function cancelGrokTwinTestARun(runId: string): Promise<GrokDesignBenchRun> {
+  const res = await postFirstOk({ action: 'cancel', runId });
+  const json = (await res.json()) as { ok?: boolean; run?: GrokDesignBenchRun; error?: string };
+  if (!res.ok || !json.run) throw new Error(json.error ?? 'GROK_CANCEL_FAILED');
+  return json.run;
+}
+
+export async function fetchGrokTwinTestARuntimeHealth(): Promise<{
+  founderRunReady: boolean;
+  modelAccess: string;
+  imageInput: string;
+  providerTimingProbe: string;
+  polling: string;
+  stallWatchdog: string;
+  timeout: string;
+  timingProbe?: { providerLatencyMs: number | null; totalLatencyMs: number | null; pass: boolean };
+}> {
+  const res = await getFirstReadyHost('?action=runtime_health');
+  const json = (await res.json()) as { ok?: boolean; health?: Record<string, unknown> };
+  const health = json.health ?? {};
+  return {
+    founderRunReady: health.founderRunReady === true,
+    modelAccess: String(health.modelAccess ?? 'FAIL'),
+    imageInput: String(health.imageInput ?? 'FAIL'),
+    providerTimingProbe: String(health.providerTimingProbe ?? 'FAIL'),
+    polling: String(health.polling ?? 'FAIL'),
+    stallWatchdog: String(health.stallWatchdog ?? 'FAIL'),
+    timeout: String(health.timeout ?? 'FAIL'),
+    timingProbe: health.timingProbe as { providerLatencyMs: number | null; totalLatencyMs: number | null; pass: boolean } | undefined,
+  };
 }

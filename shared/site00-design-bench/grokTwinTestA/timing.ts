@@ -1,5 +1,12 @@
-import { GROK_STAGE_LABELS, GROK_STAGE_PROGRESS, GROK_TWIN_TEST_A_DEFAULT_ETA_MS } from './constants.js';
+import {
+  GROK_DESIGN_BENCH_STALL_MS,
+  GROK_STAGE_LABELS,
+  GROK_STAGE_PROGRESS,
+  GROK_TWIN_TEST_A_DEFAULT_ETA_MS,
+} from './constants.js';
 import type { GrokDesignBenchStage, GrokDesignBenchTiming } from './types.js';
+
+export type GrokEtaKind = 'COUNTDOWN' | 'TAKING_LONGER' | 'POSSIBLE_STALL';
 
 export function emptyGrokTiming(): GrokDesignBenchTiming {
   return {
@@ -12,6 +19,7 @@ export function emptyGrokTiming(): GrokDesignBenchTiming {
     modelDurationMs: null,
     postProcessingDurationMs: null,
     totalDurationMs: null,
+    uploadDurationMs: null,
   };
 }
 
@@ -35,15 +43,36 @@ export function estimateRemainingMs(args: {
   stage: GrokDesignBenchStage;
   elapsedMs: number;
   historicalAverageMs: number | null;
+  lastStateChangeAt?: string | null;
 }): number | null {
-  if (args.stage === 'COMPLETE' || args.stage === 'FAILED' || args.stage === 'IDLE') return 0;
+  return evaluateGrokEta(args).remainingMs;
+}
+
+export function evaluateGrokEta(args: {
+  stage: GrokDesignBenchStage;
+  elapsedMs: number;
+  historicalAverageMs: number | null;
+  lastStateChangeAt?: string | null;
+  nowMs?: number;
+}): { remainingMs: number | null; kind: GrokEtaKind; label: string } {
+  if (args.stage === 'COMPLETE' || args.stage === 'FAILED' || args.stage === 'IDLE' || args.stage === 'CANCELLED') {
+    return { remainingMs: 0, kind: 'COUNTDOWN', label: '00:00' };
+  }
   const expected = args.historicalAverageMs && args.historicalAverageMs > 0
     ? args.historicalAverageMs
     : GROK_TWIN_TEST_A_DEFAULT_ETA_MS;
-  const progress = Math.max(grokStageProgress(args.stage), 8);
-  const projected = expected * (1 - progress / 100);
-  const fromElapsed = Math.max(expected - args.elapsedMs, 0);
-  return Math.round(Math.max(Math.min(projected, fromElapsed + expected * 0.25), 0));
+  const nowMs = args.nowMs ?? Date.now();
+  const sinceChange = args.lastStateChangeAt
+    ? Math.max(nowMs - Date.parse(args.lastStateChangeAt), 0)
+    : args.elapsedMs;
+  if (sinceChange >= GROK_DESIGN_BENCH_STALL_MS) {
+    return { remainingMs: null, kind: 'POSSIBLE_STALL', label: 'POSSIBLE STALL' };
+  }
+  if (args.elapsedMs > expected * 2) {
+    return { remainingMs: null, kind: 'TAKING_LONGER', label: 'TAKING LONGER THAN EXPECTED' };
+  }
+  const remaining = Math.max(expected - args.elapsedMs, 0);
+  return { remainingMs: Math.round(remaining), kind: 'COUNTDOWN', label: formatDurationMmSs(remaining) };
 }
 
 export function finalizeGrokTiming(timing: GrokDesignBenchTiming, completedAtIso: string): GrokDesignBenchTiming {
@@ -59,6 +88,7 @@ export function finalizeGrokTiming(timing: GrokDesignBenchTiming, completedAtIso
     modelDurationMs: Math.max(providerCompletedAtMs - providerStartedAtMs, 0),
     postProcessingDurationMs: Math.max(completedAtMs - providerCompletedAtMs, 0),
     totalDurationMs: Math.max(completedAtMs - queuedAtMs, 0),
+    uploadDurationMs: timing.uploadDurationMs ?? null,
   };
 }
 
