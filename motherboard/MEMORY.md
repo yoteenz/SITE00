@@ -9519,3 +9519,13 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Live proof:** `GET https://api.site00.com/api/site00/twin-test-a-design-bench?action=readiness` → READY / xai / grok-4.6 / key true. Vite same-origin remains BLOCKED (no production secret). Browser on local Vite page (Railway-first client) shows READY + XAI KEY PRESENT: YES.
 - **Conventions:** Secret-backed Test A calls must target the Railway API host that holds `XAI_API_KEY`. Do not put the key in `VITE_*`. A 200 from Vite is not a usable readiness host if `xaiApiKeyPresent` is false.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F2 live provider verification
+
+- **Deployment proof:** Railway serves prompt **`sol-design-bench-test-b-v3-json-instruction`** with the server-side OpenAI credential present, exact model **`gpt-5.6-sol`**, reasoning **`high`**, no fallback, and web search disabled.
+- **Live smoke:** A generated 2×2 white PNG (not the founder golden) started run **`sol_df434e46-fecd-4161-bee5-e70dbe67d2a2`** and completed successfully against the real OpenAI Responses API.
+- **Receipts:** Dispatch recorded image input attached, **`json_object`**, structured output requested, JSON instruction present, actual dispatched model **`gpt-5.6-sol`**, high reasoning, and provider response ID. Input receipt preserved the fixture SHA256 and prompt version.
+- **Result:** Parsed package type **`FigmaStyleInterfaceTranslationPackage`**, four components, no error. Timing: 2 ms queue, 115,291 ms model, 2 ms post-processing, 115,297 ms total.
+- **Conclusion:** The observed OpenAI 400 JSON-instruction failure is fixed in production. Founder may retry the preserved golden reference through **`/projects/ndxbook/design/twin-testB`**.
+
