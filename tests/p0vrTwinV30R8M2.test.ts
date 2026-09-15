@@ -20,6 +20,12 @@ import {
   CRITICAL_IMPLEMENTATION_REGIONS,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/constants.js';
 import {
+  MOBILE_TWIN_IMPLEMENTATION_VERSION_EXPRESSION,
+  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R1,
+  P0_VR_TWIN_V30R8M2R1_LINEAGE,
+  R8M2_CORRECTION_REQUIRED_REASON,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R1/constants.js';
+import {
   assertRuntimeImageSourceAllowed,
   AUTHORITY_RASTER_REGION_RUNTIME_VIOLATION,
   classifyRuntimeImageSource,
@@ -52,9 +58,9 @@ describe('P0.VR.TWINV3.0R8M2 fidelity convergence', () => {
     expect(documentRequiresR8M2Recompile(r8m1)).toBe(true);
     const doc = founderApprovedDoc();
     expect(doc.priorBuildCorrection?.status).toBe('CORRECTION_REQUIRED');
-    expect(doc.priorBuildCorrection?.reason).toBe(R8M1_CORRECTION_REQUIRED_REASON);
-    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION);
-    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION);
+    expect(doc.priorBuildCorrection?.reason).toBe(R8M2_CORRECTION_REQUIRED_REASON);
+    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_EXPRESSION);
+    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R1);
   });
 
   it('3–6 RuntimeAuthorityRasterFirewall blocks authority URIs', () => {
@@ -116,7 +122,7 @@ describe('P0.VR.TWINV3.0R8M2 fidelity convergence', () => {
 
   it('23–25 live route artifacts + screenshot comparison hooks', () => {
     const page = readFileSync('src/site00/pages/DesignTwinImplementationPage.tsx', 'utf8');
-    expect(page).toContain('P0_VR_TWIN_V30R8M2_LINEAGE');
+    expect(page).toContain('P0_VR_TWIN_V30R8M2R1_LINEAGE');
     expect(readFileSync('tests/p0vrTwinV30R8M2.test.ts', 'utf8')).toContain('LIVE_BROWSER_QA');
   });
 
@@ -133,4 +139,4 @@ describe('P0.VR.TWINV3.0R8M2 fidelity convergence', () => {
 });
 
 /** QA marker for sprint Part 23 — browser capture performed in agent session. */
-export const LIVE_BROWSER_QA = 'twin-route-browser-qa-v465';
+export const LIVE_BROWSER_QA = 'twin-route-browser-qa-v466';

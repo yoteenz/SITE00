@@ -71,9 +71,15 @@ export type MobileTwinImplementationRenderTreeNode = {
     | 'PROJECT_CONTEXT'
     | 'HOST_SHELL'
     | 'STRUCTURED_GEOMETRY'
-    | 'CANONICAL_PROJECT_ASSET';
+    | 'CANONICAL_PROJECT_ASSET'
+    | 'IMPLEMENTATION_EXPRESSION_IR';
   assetSource: string | null;
   typographySource: string | null;
+  expressionObjectId?: string;
+  styleSource?: string;
+  spatialSource?: string;
+  assetTreatmentSource?: string;
+  authorityEvidence?: string;
   functionBinding: string | null;
   ownership: string;
   runtimeState: string;
@@ -108,7 +114,7 @@ export type PriorBuildCorrectionRecord = {
 
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1';
   implementationVersion?: string;
   viewport: 'MOBILE';
   widthPx: number;
@@ -123,6 +129,11 @@ export type CompiledMobileTwinImplementationDocument = {
   assetTraceability?: import('../p0vrTwinV30R8M2/canonicalAssetRebind.js').RuntimeAssetTraceability[];
   unresolvedAssetBindings?: string[];
   visualFidelityEvaluation?: { machinePass: boolean; founderPass: boolean };
+  implementationExpressionIr?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').ImplementationExpressionIR;
+  visualAuthorityIngestionAudit?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').VisualAuthorityIngestionAuditReceipt;
+  implementationDriftAudit?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').ImplementationDriftAudit;
+  genericFallbackAudit?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').GenericFallbackAudit;
+  expressionReadiness?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').ImplementationExpressionReadinessReceipt;
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';

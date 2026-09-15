@@ -9308,3 +9308,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`p0vrTwinV30R8M2`** — **`RuntimeAuthorityRasterFirewall`**, **`canonicalAssetRebind`**, R8M2 translator (control hierarchy, spatial/material contracts, region map + receipts). Production compile → **`mobile-twin-impl-v3`** / **`R8M2`**; R8M1 prior builds **`CORRECTION_REQUIRED`** (`IMPLEMENTATION_TRANSLATION_TOO_ABSTRACT`). Renderer enforces firewall at runtime. Build **v465**. Tests **`p0vrTwinV30R8M2.test.ts`**.
 - **Founder ops:** Deploy **v465** ZIP; signed-in **`/projects/ndxbook/design/twin`** autorebuilds R8M2 cache. Supabase R8M migration still optional for durable API builds.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2R1 visual authority ingestion + ImplementationExpressionIR (v466)
+
+- **Sprint:** R8M2R1 — audit R8M2 path (URIs vs bytes vs analysis); **`VisualAuthorityIngestionLayer`**, **`ActualVisualAnalysis`** / **`BlueprintVisualAnalysis`**, **`ImplementationExpressionIR`** + readiness gate; translator consumes IR; drift audit vs R8M2; twin Technical Details **IMPLEMENTATION EXPRESSION** trace UI.
+- **Hypothesis confirmed:** Pre-R8M2R1 compiler had authority URIs attached but **`translateVisualImplementationR8M2` voided authorities** and styled from object-type + PROJECT_CONTEXT defaults.
+- **Delivered:** **`p0vrTwinV30R8M2R1`** — sharp-backed byte ingestion for founder mounts (remote/mock URIs resolve to `/assets/ndxbook-reconstruction/*` at compile only); composition-anchored pixel analysis (**`SITE00_PIXEL_GROUNDED_COMPOSITION_ANCHORED`**); production compile **`mobile-twin-impl-v3-expression`** / **`R8M2R1`**; fail-closed on **`IMPLEMENTATION_EXPRESSION_READINESS_BLOCKED`**. Build **v466**. Tests **`p0vrTwinV30R8M2R1.test.ts`** + updated R8M/R8M1/R8M2 suites.
+- **Founder ops:** Deploy **v466** ZIP; **`/projects/ndxbook/design/twin`** recompiles from expression IR; inspect **IMPLEMENTATION EXPRESSION** under twin review panel. No Design route promotion; desktop deferred.
+
