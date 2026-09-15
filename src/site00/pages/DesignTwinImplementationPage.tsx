@@ -4,7 +4,12 @@ import { SITE00_ROUTES } from '../config/routes.js';
 import { MobileTwinCompiledImplementationRenderer } from '../components/designWorkspace/MobileTwinCompiledImplementationRenderer.js';
 import { DesignTwinImplementationReviewPanel } from '../components/designWorkspace/DesignTwinImplementationReviewPanel.js';
 import { resolveTwinImplementationPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
-import { P0_VR_TWIN_V30R8M2R5_LINEAGE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
+import {
+  FORENSIC_BLUEPRINT_GENERATION_FAILED,
+  P0_VR_TWIN_V30R8M2R5F1_LINEAGE,
+  P0_VR_TWIN_V30R8M2R5_LINEAGE,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
+import { P0_VR_TWIN_V30_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { DesignTwinForensicBlueprintPanel } from '../components/designWorkspace/DesignTwinForensicBlueprintPanel.js';
 import { DesignTwinActualLiveCompareOverlay } from '../components/designWorkspace/DesignTwinActualLiveCompareOverlay.js';
 import '../styles/site00-twin-v3-design-authority.css';
@@ -54,7 +59,11 @@ export function DesignTwinImplementationPage() {
 
   if (loading) {
     return (
-      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}>
+      <div
+        className="site00-page site00-page--twin-implementation"
+        data-lineage={P0_VR_TWIN_V30R8M2R5F1_LINEAGE}
+        data-build={P0_VR_TWIN_V30_BUILD}
+      >
         {header}
         <p>Loading twin implementation…</p>
       </div>
@@ -62,13 +71,32 @@ export function DesignTwinImplementationPage() {
   }
 
   if (!loaded) {
+    const forensicFailed =
+      err?.includes(FORENSIC_BLUEPRINT_GENERATION_FAILED) ||
+      err?.includes('FORENSIC_BLUEPRINT_NOT_PRIMED') ||
+      err?.includes('FORENSIC_BLUEPRINT');
     return (
-      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}>
+      <div
+        className="site00-page site00-page--twin-implementation"
+        data-lineage={P0_VR_TWIN_V30R8M2R5F1_LINEAGE}
+        data-build={P0_VR_TWIN_V30_BUILD}
+      >
         {header}
+        {forensicFailed ?
+          <div data-testid="forensic-blueprint-generation-failed" role="alert">
+            <p>
+              <strong>FORENSIC BLUEPRINT GENERATION FAILED</strong>
+            </p>
+            <p data-testid="forensic-blueprint-error-class">{err}</p>
+            <button type="button" className="site00-btn" onClick={() => void reload()}>
+              Retry forensic blueprint
+            </button>
+          </div>
+        : null}
         <p data-testid="twin-implementation-gate">{err ?? 'TWIN_IMPLEMENTATION_NOT_BUILT'}</p>
         <p className="site00-dw-v3-authority__hint">
-          NDXBOOK twin autobuild runs on load — hard refresh once. If this persists, deploy the latest production ZIP so
-          bundled founder blueprint assets load from /assets/ndxbook-reconstruction/.
+          NDXBOOK twin autobuild runs on load — deploy build {P0_VR_TWIN_V30_BUILD} or hard refresh once. Forensic
+          blueprint generation runs on api.site00.com (Fal server-side).
         </p>
       </div>
     );
@@ -77,7 +105,12 @@ export function DesignTwinImplementationPage() {
   const serverBacked = loaded.source === 'API';
 
   return (
-    <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}>
+    <div
+      className="site00-page site00-page--twin-implementation"
+      data-lineage={P0_VR_TWIN_V30R8M2R5F1_LINEAGE}
+      data-build={P0_VR_TWIN_V30_BUILD}
+      data-parent-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}
+    >
       {header}
       {notice ?
         <p className="site00-dw-v3-authority__hint" data-testid="twin-implementation-notice" role="status">

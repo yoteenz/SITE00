@@ -1,6 +1,9 @@
 export { FORENSIC_PROMPT_OPENING } from './buildForensicImplementationCodingPrompt.js';
 
 export const P0_VR_TWIN_V30R8M2R5_LINEAGE = 'P0.VR.TWINV3.0R8M2R5' as const;
+export const P0_VR_TWIN_V30R8M2R5F1_LINEAGE = 'P0.VR.TWINV3.0R8M2R5F1' as const;
+/** Bumps local twin implementation cache without founder clearing storage manually. */
+export const MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH = 2 as const;
 export const MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R5 = 'R8M2R5' as const;
 export const MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT =
   'mobile-twin-impl-v7-forensic-blueprint' as const;

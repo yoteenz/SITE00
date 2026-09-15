@@ -31,6 +31,19 @@ export type ForensicBlueprintGenerationReceipt = {
   generatedAt: string;
 };
 
+export type ForensicFalDispatchReceipt = {
+  dispatchId: string;
+  packageId: string;
+  actualHash: string;
+  blueprintHash: string | null;
+  endpoint: string;
+  promptVersion: string;
+  createdAt: string;
+  status: 'DISPATCHING' | 'DISPATCHED' | 'FAILED';
+  falRequestId?: string | null;
+  errorClass?: string | null;
+};
+
 export type ForensicUiObjectEntry = {
   forensicObjectId: string;
   semanticObjectId: string;

@@ -20,7 +20,9 @@ import { compileApprovedMobileTwinPackage } from './compileApprovedMobileTwinPac
 import { documentRequiresR8M2Recompile } from '../p0vrTwinV30R8M2/invalidatePriorR8M1Build.js';
 import { MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT } from '../p0vrTwinV30R8M2R5/constants.js';
 import { resolveImplementationAuthorities } from '../p0vrTwinV30R8M1/resolveImplementationAuthorities.js';
-import { ingestAuthorityImageContent } from '../p0vrTwinV30R8M2R1/authorityContentIngestion.js';
+import { ingestAuthorityImageContent, ingestAuthorityImageContentSync } from '../p0vrTwinV30R8M2R1/authorityContentIngestion.js';
+import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
+import { requestForensicUiBlueprintGeneration } from './requestForensicUiBlueprint.js';
 import { resolveAuthorityIngestUri } from '../p0vrTwinV30R8M2R1/resolveAuthorityIngestUri.js';
 import { FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER } from '../p0vrTwinV30/constants.js';
 import { mobileTwinTwinPreviewRoute } from './constants.js';
@@ -42,6 +44,30 @@ function persistEscalatedSession(session: DesignPageAuthorityReviewSession): Des
   writeDesignPageAuthoritySession(next);
   notifyDesignAuthoritySessionChanged(next.projectId);
   return next;
+}
+
+async function primeForensicBlueprintForPackage(
+  session: DesignPageAuthorityReviewSession,
+  packageId: string,
+): Promise<void> {
+  if (site00IsVitest()) return;
+  const pipeline = session.mobileTwinPipeline;
+  if (!pipeline) return;
+  const pkg = pipeline.packages.find((p) => p.id === packageId);
+  if (!pkg) return;
+  const authorities = resolveImplementationAuthorities(pipeline, pkg);
+  const actualIngested = ingestAuthorityImageContentSync({
+    uri: resolveAuthorityIngestUri(authorities.actualRenderUri, 'actual'),
+    specWidthPx: FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER.widthPx,
+    specHeightPx: FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER.heightPx,
+  });
+  const actualHash = actualIngested.contentHash ?? pkg.packageChecksum;
+  await requestForensicUiBlueprintGeneration({
+    session,
+    packageId,
+    sourceActualHash: actualHash,
+    founderConfirmedSpend: true,
+  });
 }
 
 async function primeAuthorityIngestionForPackage(
@@ -137,6 +163,7 @@ export async function ensureNdxbookTwinImplementationReady(projectId: string): P
     const packageId = resolveApprovedPackageIdForLocalCompile(session.mobileTwinPipeline);
     if (packageId) {
       await primeAuthorityIngestionForPackage(session.mobileTwinPipeline, packageId);
+      await primeForensicBlueprintForPackage(session, packageId);
     }
     writeLocalTwinCompileCacheFromApprovedPackage(key, session);
   }

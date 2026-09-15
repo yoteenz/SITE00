@@ -12,6 +12,7 @@ import { evaluateMobileTwinPromotionReadiness } from '../../../shared/site00-stu
 import { mobileTwinTwinPreviewRoute } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 import type { MobileTwinImplementationCorrectionReason } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
 import { mobileTwinImplementationStore } from './storeAdapter.js';
+import { generateForensicUiBlueprintForSession } from './forensicUiBlueprintService.js';
 
 export async function persistMobileTwinPackageApprovalService(session: DesignPageAuthorityReviewSession) {
   const approvalId = randomUUID();
@@ -44,6 +45,7 @@ export async function compileMobileTwinImplementationService(session: DesignPage
   const priorBuilds =
     typeof state.implementationPayload.buildCount === 'number' ? (state.implementationPayload.buildCount as number) : 0;
   const buildId = randomUUID();
+  await generateForensicUiBlueprintForSession({ session, packageId: pkg.id });
   const document = compileApprovedMobileTwinPackage({ pipeline, packageId: pkg.id });
   const version = document.implementationVersion ?? `mobile-twin-impl-v${priorBuilds + 1}`;
   const render = pipeline.renders.find((r) => r.id === pipeline.activeRenderId);

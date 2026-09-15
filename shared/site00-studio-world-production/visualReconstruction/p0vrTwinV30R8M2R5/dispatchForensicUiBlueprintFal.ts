@@ -1,3 +1,4 @@
+import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
 import { runFalReferenceImageJob } from '../../../site00-visual-generation/falReferenceImageJob.js';
 import { fnv1aHex } from '../p0vrTwinV30/mobileTwinPipeline/runGenerateMobileTwinPackageCore.js';
 import { forensicBlueprintContentHash } from './forensicBlueprintHash.js';
@@ -131,7 +132,7 @@ export async function generateForensicUiBlueprintAuthority(input: {
     outputFormat: FORENSIC_BLUEPRINT_OUTPUT_FORMAT,
     resultUrl: falResult.url,
     resultHash: blueprintHash,
-    costUsd: process.env.VITEST === 'true' ? 0 : null,
+    costUsd: site00IsVitest() ? 0 : null,
     generatedAt: authority.generatedAt,
   };
 
