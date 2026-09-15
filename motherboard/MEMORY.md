@@ -9207,6 +9207,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — NDXBOOK founder blueprint display pin (v461)
+
+- **Symptom:** Mobile Design still showed dark FAL blueprint; founder JPG not used after v460.
+- **Cause:** v460 kept any FAL artifact tagged LIGHT+PASS (heuristics on dark URLs); mount skipped. UI read raw `twinImageUri` (fal.media).
+- **Fix:** NDXBOOK **always** display **`ndxbook-mobile-light-technical-blueprint-v1.jpg`** via **`resolveMobileTwinBlueprintDisplayUri`** (pipeline + package inspector); sync/FAL response **`applyFounderCanonicalLightBlueprintMount`** pins `twinImageUri` + stores FAL on **`providerTwinImageUri`**. Build **v461**.
+
+---
+
 ## 2026-09-15 — FAL blueprint mount sync fix (v460)
 
 - **Symptom:** FAL generated correct light blueprint but Design compare slot still showed bundled founder JPG / stale mount.

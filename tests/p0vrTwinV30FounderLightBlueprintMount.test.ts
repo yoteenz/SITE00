@@ -82,7 +82,7 @@ describe('founder canonical light blueprint mount', () => {
     expect(slots.blueprintTwin?.blueprintStyleStatus).toBe('PASS');
   });
 
-  it('does not replace a live FAL light blueprint (sync must stay in sync with generation)', () => {
+  it('pins founder JPG for display while preserving FAL on providerTwinImageUri', () => {
     const falUri = 'https://fal.media/files/light-blueprint-pass.png';
     let session = applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession({ projectId: 'ndxbook' }));
     session = ensureMobileDesignReferenceAuthority({
@@ -148,6 +148,7 @@ describe('founder canonical light blueprint mount', () => {
 
     const pipe = applyFounderCanonicalLightBlueprintMount(session.mobileTwinPipeline!, 'ndxbook');
     const slots = resolveMobileTwinReviewSlots(pipe);
-    expect(slots.blueprintTwin?.twinImageUri).toBe(falUri);
+    expect(slots.blueprintTwin?.twinImageUri).toBe(NDXBOOK_MOBILE_LIGHT_TECHNICAL_BLUEPRINT_MOUNT);
+    expect(slots.blueprintTwin?.providerTwinImageUri).toBe(falUri);
   });
 });
