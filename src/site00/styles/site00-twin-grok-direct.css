@@ -74,7 +74,7 @@
 
 .tgd-crumb,
 .tgd-compiler {
-  font-size: 8px;
+  font-size: 7.5px;
   font-weight: 600;
 }
 
@@ -139,9 +139,9 @@
 .tgd-struct h3,
 .tgd-data nav {
   margin: 0;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 }
 
 .tgd-target__col p {
@@ -243,15 +243,16 @@
 }
 
 .tgd-hero__copy h1 {
-  margin: 0 0 26px;
-  font-size: 32px;
-  line-height: 0.86;
+  margin: 0 0 22px;
+  font-size: 30px;
+  line-height: 0.84;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  color: #f7f2e9;
+  letter-spacing: -0.05em;
+  color: #f3eee4;
 }
 
 .tgd-hero__plate {
+  position: relative;
   margin: 10px 2px 8px 10px;
   background: #1a1a1a;
   overflow: hidden;
@@ -259,13 +260,22 @@
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
+.tgd-hero__plate::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(48, 38, 28, 0.18);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 .tgd-hero__copy p {
   margin: 0;
-  font-size: 8px;
-  line-height: 1.55;
-  letter-spacing: 0.08em;
+  font-size: 7px;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
   font-weight: 600;
-  color: #f0eadf;
+  color: #ece6db;
 }
 
 .tgd-hand {
@@ -328,7 +338,8 @@
 .tgd-rail {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
+  height: 400px;
 }
 
 .tgd-btn {
@@ -695,6 +706,10 @@
   background: #0a0a0a;
 }
 
+.tgd-card--dark {
+  background: #070707;
+}
+
 .tgd-struct,
 .tgd-pipe,
 .tgd-data {
@@ -983,9 +998,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
+  height: 36px;
   border-top: 1px solid var(--tgd-line);
-  font-size: 7px;
+  font-size: 6.5px;
   font-weight: 700;
 }
 
