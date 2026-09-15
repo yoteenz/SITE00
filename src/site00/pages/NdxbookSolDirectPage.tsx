@@ -14,7 +14,7 @@ const archiveCards = [
   { version: 'V1.3', title: 'THE SIGNAL\nIS THE INDEX', kind: 'selected', art: SOL.hand },
   { version: 'V1.2', title: 'THE SIGNAL\nIS THE INDEX', kind: 'grid', art: SOL.blueprint },
   { version: 'V1.1', title: 'CULTURE HAS\nA PAPER TRAIL.', kind: 'receipt', art: SOL.split001 },
-  { version: '', title: 'THE\nSIGNAL\nIS IN THE\nINDEX', kind: 'type', art: SOL.news001 },
+  { version: '', title: 'THE\nSIGNAL\nIS IN THE\nINDEX', kind: 'type', art: SOL.overlay },
 ];
 
 const reviewCards = [
