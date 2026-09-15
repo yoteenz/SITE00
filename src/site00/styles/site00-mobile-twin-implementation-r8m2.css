@@ -1,0 +1,47 @@
+@import './site00-mobile-twin-implementation-r8m1.css';
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__gallery {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__structured {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__node[data-control-role='PRIMARY'] {
+  background: #c8ff00 !important;
+  color: #0a0a0a !important;
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__node[data-control-role='SELECTED'] {
+  border: 2px solid #c8ff00 !important;
+  color: #c8ff00 !important;
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__node[data-control-role='SECONDARY'] {
+  background: #161616 !important;
+  color: #f0f0f0 !important;
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__bottom-nav .site00-mobile-twin-compiled-impl__node {
+  background: #0a0a0a !important;
+  color: #bdbdbd !important;
+  border: 1px solid #222 !important;
+  font-size: 8px;
+  padding: 6px 2px;
+  text-align: center;
+}
+
+.site00-mobile-twin-compiled-impl[data-compiler-generation='R8M2'] .site00-mobile-twin-compiled-impl__readiness-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}

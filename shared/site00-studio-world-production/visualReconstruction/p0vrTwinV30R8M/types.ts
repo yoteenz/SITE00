@@ -65,7 +65,13 @@ export type MobileTwinImplementationRenderTreeNode = {
   sectionId: string;
   componentType: string;
   componentName: string;
-  visualStyleSource: 'ACTUAL_AUTHORITY' | 'BLUEPRINT_AUTHORITY' | 'PROJECT_CONTEXT' | 'HOST_SHELL' | 'STRUCTURED_GEOMETRY';
+  visualStyleSource:
+    | 'ACTUAL_AUTHORITY'
+    | 'BLUEPRINT_AUTHORITY'
+    | 'PROJECT_CONTEXT'
+    | 'HOST_SHELL'
+    | 'STRUCTURED_GEOMETRY'
+    | 'CANONICAL_PROJECT_ASSET';
   assetSource: string | null;
   typographySource: string | null;
   functionBinding: string | null;
@@ -94,9 +100,16 @@ export type ImplementationAuthoritiesLoaded = {
   featureManifestVersion: string;
 };
 
+export type PriorBuildCorrectionRecord = {
+  priorGeneration: string;
+  reason: string;
+  status: 'CORRECTION_REQUIRED';
+};
+
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2';
+  implementationVersion?: string;
   viewport: 'MOBILE';
   widthPx: number;
   heightPx: number;
@@ -104,6 +117,12 @@ export type CompiledMobileTwinImplementationDocument = {
   renderTree?: MobileTwinImplementationRenderTree;
   authoritiesLoaded?: ImplementationAuthoritiesLoaded;
   semanticLabelViolations?: string[];
+  priorBuildCorrection?: PriorBuildCorrectionRecord;
+  regionFidelityReceipts?: import('../p0vrTwinV30R8M2/implementationRegionFidelityReceipt.js').ImplementationRegionFidelityReceipt[];
+  actualImplementationRegionMap?: import('../p0vrTwinV30R8M2/actualImplementationRegionMap.js').ActualImplementationRegionEntry[];
+  assetTraceability?: import('../p0vrTwinV30R8M2/canonicalAssetRebind.js').RuntimeAssetTraceability[];
+  unresolvedAssetBindings?: string[];
+  visualFidelityEvaluation?: { machinePass: boolean; founderPass: boolean };
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';

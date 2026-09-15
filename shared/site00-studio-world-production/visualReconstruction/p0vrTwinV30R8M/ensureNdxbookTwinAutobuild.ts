@@ -17,6 +17,8 @@ import { writeMobileTwinAuthorityImageSnapshot } from '../p0vrTwinV30/mobileTwin
 import { writeMobileTwinPipelineToBrowser } from '../p0vrTwinV30/mobileTwinPipeline/mobileTwinPipelinePersistence.js';
 import { syncFounderMobileTwinSession } from '../p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 import { compileApprovedMobileTwinPackage } from './compileApprovedMobileTwinPackage.js';
+import { documentRequiresR8M2Recompile } from '../p0vrTwinV30R8M2/invalidatePriorR8M1Build.js';
+import { MOBILE_TWIN_IMPLEMENTATION_VERSION } from '../p0vrTwinV30R8M2/constants.js';
 import { mobileTwinTwinPreviewRoute } from './constants.js';
 import { isProductionReadyImplementationDocument } from './implementationDocumentValidity.js';
 import {
@@ -49,7 +51,7 @@ function compileSessionPipelineToTwinCache(session: DesignPageAuthorityReviewSes
   writeTwinImplementationCache({
     projectId: key,
     buildId: `autobuild-${packageId}`,
-    implementationVersion: 'mobile-twin-impl-autobuild-r8m1',
+    implementationVersion: MOBILE_TWIN_IMPLEMENTATION_VERSION,
     previewRoute: mobileTwinTwinPreviewRoute(key),
     founderStatus: 'PENDING',
     promotionStatus: 'NOT_READY',
@@ -103,7 +105,9 @@ export async function ensureNdxbookTwinImplementationReady(projectId: string): P
   if (key !== DESIGN_PAGE_V3_PILOT_PROJECT_ID) return;
 
   const cached = readTwinImplementationCache(key);
-  if (cached && isProductionReadyImplementationDocument(cached.document)) return;
+  if (cached && isProductionReadyImplementationDocument(cached.document) && !documentRequiresR8M2Recompile(cached.document)) {
+    return;
+  }
 
   const session = materializeNdxbookFounderApprovedPackage(key);
   if (session) writeLocalTwinCompileCacheFromApprovedPackage(key, session);

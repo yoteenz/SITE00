@@ -14,9 +14,10 @@ export function buildImplementationVisualFidelityReceipt(input: {
   const objectCount = input.pipeline.compositionStates.find((c) => c.id === input.pipeline.activeCompositionStateId)?.objectDefinitions.length ?? 0;
   const geometryMatch = input.document.nodes.length === objectCount;
   const visualTranslation =
-    input.document.compilerGeneration === 'R8M1' &&
+    (input.document.compilerGeneration === 'R8M1' || input.document.compilerGeneration === 'R8M2') &&
     Boolean(input.document.renderTree?.nodes.length) &&
-    Boolean(input.document.authoritiesLoaded?.actualRenderUri);
+    Boolean(input.document.authoritiesLoaded?.actualRenderUri) &&
+    (input.document.compilerGeneration !== 'R8M2' || Boolean(input.document.visualFidelityEvaluation?.machinePass));
   const passVisual = geometryMatch && visualTranslation;
   return {
     id: `ivfr-${input.buildId}`,
@@ -47,7 +48,8 @@ export function buildImplementationStructuralFidelityReceipt(input: {
   const boundInNodes = input.document.nodes.filter((n) => n.functionTarget).length;
   const forbiddenRaster = input.document.forbiddenPrimitiveScan.count > 0;
   const structuralTranslation =
-    input.document.compilerGeneration === 'R8M1' && Boolean(input.document.renderTree?.nodes.length);
+    (input.document.compilerGeneration === 'R8M1' || input.document.compilerGeneration === 'R8M2') &&
+    Boolean(input.document.renderTree?.nodes.length);
   const pass =
     expected === rendered && bindings <= boundInNodes + 2 && !forbiddenRaster && structuralTranslation;
   return {

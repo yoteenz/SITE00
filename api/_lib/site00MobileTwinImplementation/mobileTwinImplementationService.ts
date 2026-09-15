@@ -43,9 +43,9 @@ export async function compileMobileTwinImplementationService(session: DesignPage
 
   const priorBuilds =
     typeof state.implementationPayload.buildCount === 'number' ? (state.implementationPayload.buildCount as number) : 0;
-  const version = `mobile-twin-impl-v${priorBuilds + 1}`;
   const buildId = randomUUID();
   const document = compileApprovedMobileTwinPackage({ pipeline, packageId: pkg.id });
+  const version = document.implementationVersion ?? `mobile-twin-impl-v${priorBuilds + 1}`;
   const render = pipeline.renders.find((r) => r.id === pipeline.activeRenderId);
   const blueprint = pipeline.blueprintTwins.find((b) => b.id === pipeline.activeVisualPairId ? pipeline.visualPairs.find((p) => p.id === pipeline.activeVisualPairId)?.blueprintRenderId : undefined);
   assertCompilerDoesNotUseRasterAuthorities({
