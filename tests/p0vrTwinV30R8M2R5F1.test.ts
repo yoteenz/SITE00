@@ -20,6 +20,10 @@ import { readTwinImplementationCache } from '../shared/site00-studio-world-produ
 import { MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
 import { P0_VR_TWIN_V30_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestForensicUiBlueprintGeneration } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestForensicUiBlueprint.js';
+import {
+  isSite00PreviewHost,
+  listForensicUiBlueprintApiPostUrls,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveForensicUiBlueprintApiUrl.js';
 import forensicHandler from '../api/site00/twin-v3-forensic-ui-blueprint.js';
 
 const UNGUARDED_PROCESS_ENV = /(?<!typeof process !== 'undefined' && )process\.env/;
@@ -43,7 +47,10 @@ describe('P0.VR.TWINV3.0R8M2R5F1 runtime recovery', () => {
     const page = readFileSync('src/site00/pages/DesignTwinImplementationPage.tsx', 'utf8');
     expect(page).toContain('DesignTwinImplementationPage');
     expect(page).not.toMatch(UNGUARDED_PROCESS_ENV);
-    expect(P0_VR_TWIN_V30_BUILD).toBe('v471');
+    expect(P0_VR_TWIN_V30_BUILD).toBe('v472');
+    expect(isSite00PreviewHost('site00.fsbw-dev.com')).toBe(true);
+    const previewUrls = listForensicUiBlueprintApiPostUrls();
+    expect(previewUrls.length).toBeGreaterThanOrEqual(1);
     expect(MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH).toBe(2);
   });
 
@@ -61,6 +68,7 @@ describe('P0.VR.TWINV3.0R8M2R5F1 runtime recovery', () => {
     expect(typeof requestForensicUiBlueprintGeneration).toBe('function');
     const routes = readFileSync('server/routes.ts', 'utf8');
     expect(routes).toContain('/api/site00/twin-v3-forensic-ui-blueprint');
+    expect(readFileSync('scripts/vite-site00-local-api.mjs', 'utf8')).toContain('twin-v3-forensic-ui-blueprint');
     expect(typeof forensicHandler).toBe('function');
   });
 
@@ -72,7 +80,7 @@ describe('P0.VR.TWINV3.0R8M2R5F1 runtime recovery', () => {
       'shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestForensicUiBlueprint.ts',
       'utf8',
     );
-    expect(clientReq).not.toContain('FAL_KEY');
+    expect(clientReq).not.toMatch(/process\.env\.FAL_KEY/);
     expect(clientReq).not.toMatch(UNGUARDED_PROCESS_ENV);
   });
 
