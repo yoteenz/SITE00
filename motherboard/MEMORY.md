@@ -9575,3 +9575,15 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Changes:** Explicit HTTP classes (401/403 AUTHENTICATION_OR_ACCESS_FAILURE, 404 MODEL_NOT_FOUND, 410 MODEL_OR_ENDPOINT_REJECTED, 429 RATE_LIMITED, 500/502/503/504 provider errors, network PROVIDER_NETWORK_FAILURE). `GrokBenchmarkFailureClass` with PROVIDER_TRANSIENT_FAILURE for 503. Safe evidence (status, request id, error code/type/message, attempt timing — never Authorization/key). Bounded retry: max 2 automatic retries after initial (3 attempts) for 429/500/502/503/504; backoff ~2s then ~5s; honor Retry-After; no retry for 400/401/403/404/410. Retries fit inside F4 10-min budget and update `lastStateChangeAt` so the 5-min stall watchdog does not false-fire. UI: GROK PROVIDER TEMPORARILY UNAVAILABLE / RETRYING… ATTEMPT N OF 3; final failure + RETRY GROK TEST (new run ID, same golden SHA256). Build **v489**. Tests **`tests/p0vrDesignBenchGrok1F5.test.ts`**.
 - **Conventions:** Never classify 503 as MODEL_REJECTED. Model-access failures and transient-service failures stay distinct. Do not hide retries when comparing Grok vs Sol. Manual retry is a new run; automatic retry is provider-attempt only. Do not manufacture paid 503s — use mocked provider tests.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1 golden-reference reconstruction
+
+Summary of the **whole conversation so far** in this chat: founder supplied a 572×1024 NDXBOOK Design workspace golden and directed GPT-5.6 Sol to reconstruct it directly as an isolated React/CSS route without Composer, benchmark providers, prior Twin renderers, Grok output, or raster alignment cheats.
+
+- **Context:** New route **`/projects/ndxbook/design/twin-sol-direct`**; golden screenshot is the sole visual authority; existing Design, Twin, Twin V4, Test A, Test B, and Grok direct surfaces remain unchanged.
+- **Topics covered:** Macro page geometry, dense SITE 00/NDXBOOK shell, artifact/authority split, candidate gallery, structured review, readiness and detail bands, typography/color/material matching, existing neutral asset inspection, exact-viewport browser QA, and timing.
+- **Decisions / outcomes:** Built a dedicated DOM/SVG/CSS composition and reused one independent NDXBOOK hand source only as muted archival texture. The supplied golden, repository mobile-master screenshots, and canvases are not rendered by the route. Three screenshot-driven correction passes aligned the major vertical bands. Exact raised-finger/newspaper source art was unavailable standalone, so hero asset fidelity remains the principal known gap.
+- **Changes:** Added **`NdxbookSolDirectPage.tsx`**, scoped **`site00-ndxbook-sol-direct.css`**, route constant/wiring, and focused isolation/raster-firewall tests. Browser proof captured at 572×1024. Implementation ran 21:06:53–21:24:48 UTC; first render 21:12:24 UTC.
+- **Conventions:** Direct visual benchmarks should use isolated page/CSS modules, preserve reference-first geometry, test against the exact authority viewport, and state missing-asset gaps honestly rather than extracting screenshot pixels.
+
