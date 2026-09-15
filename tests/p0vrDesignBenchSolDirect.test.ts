@@ -21,7 +21,16 @@ describe('P0.VR.DESIGNBENCH.SOL-DIRECT1', () => {
     expect(pageSource).toContain('STRUCTURED OUTPUT REVIEW');
     expect(pageSource).toContain('PIPELINE / READINESS');
     expect(cssSource).toContain('.sol-main-stage');
-    expect(cssSource).toContain('grid-template-columns: 386px 150px');
+    expect(cssSource).toContain('grid-template-columns: 387px 150px');
+  });
+
+  it('locks the measured 572 by 1024 structural geometry and golden copy', () => {
+    expect(cssSource).toContain('grid-template-columns: 52px 102px 85px 78px 71px 86px 98px');
+    expect(cssSource).toContain('grid-template-columns: 113px 109px 109px 103px 110px');
+    expect(cssSource).toContain('grid-template-columns: 122px 123px 117px 1fr');
+    expect(cssSource).toContain('grid-template-columns: 109px 115px 115px 116px 117px');
+    expect(pageSource).toContain('POSITION MAP');
+    expect(pageSource).toContain('F06_VERIFICATION');
   });
 
   it('does not rasterize the supplied golden reference', () => {

@@ -114,7 +114,7 @@ function StructuredReview() {
             <small>{card.eyebrow}</small>
             <strong>{card.title.split('\n').map((line) => <span key={line}>{line}</span>)}</strong>
             <div className={`sol-review-art ${card.asset}`}>
-              {card.asset === 'functions' ? <>F01_INDEX_SIGNAL<br />F02_ERROR_REFERENCE<br />F03_ARCHIVAL_LINK<br />F04_CONTEXT_BRIDGE<br />F05_SOURCE_TOGGLE</> : null}
+              {card.asset === 'functions' ? <>F01_INDEX_SIGNAL<br />F02_ERROR_REFERENCE<br />F03_ARCHIVAL_LINK<br />F04_CONTEXT_BRIDGE<br />F05_SOURCE_TOGGLE<br />F06_VERIFICATION</> : null}
             </div>
             <footer><span>{card.foot}</span><Icon>▱</Icon></footer>
           </article>
@@ -130,7 +130,7 @@ function Readiness() {
       <header>PIPELINE / READINESS</header>
       <div className="sol-ready-grid">
         <div className="sol-score"><small>READINESS</small><div><b>82%</b></div><span>READY</span><footer>COMPILES: READY <i /></footer></div>
-        <div className="sol-checks"><small>CHECKS</small>{['LAYOUT SYSTEM','TYPE SCALE','ASSET LINKS','FUNCTION MAP','ACCESSIBILITY'].map((x, i)=><p key={x}>{x}<b className={i === 4 ? 'warn' : ''}>{i === 4 ? '!' : '●'}</b></p>)}<button>VIEW DETAILS</button></div>
+        <div className="sol-checks"><small>CHECKS</small>{['LAYOUT SYSTEM','TYPE SCALE','ASSET LINKS','POSITION MAP','ACCESSIBILITY'].map((x, i)=><p key={x}>{x}<b className={i === 4 ? 'warn' : ''}>{i === 4 ? '!' : '●'}</b></p>)}<button>VIEW DETAILS</button></div>
         <div className="sol-status"><small>STATUS</small><p>APPROVED ELEMENTS <b>18</b></p><p>PENDING DECISIONS <b>2</b></p><p>BLOCKERS <b>0</b></p><p>WARNINGS <b>1</b></p></div>
         <div className="sol-next"><small>NEXT ACTION</small><strong>PROMOTE MOBILE MASTER<br />TO AUTHORITY PAIR</strong><button className="sol-lime">PRIMARY ACTION</button><button>MOVE TO BUILD WHEN READY</button><button>VIEW TECHNICAL DETAILS</button></div>
       </div>
@@ -161,7 +161,7 @@ export function NdxbookSolDirectPage() {
       <section className="sol-target-band">
         <div><small>TARGET</small><strong>ENTRY 001<br />ENTRY COVER<br />HOMEPAGE HERO</strong></div>
         <div className="sol-viewport"><small>VIEWPORT</small><button className="active"><Icon>▯</Icon>MOBILE</button><button><Icon>▯</Icon>TABLET</button><button><Icon>▱</Icon>DESKTOP</button></div>
-        <div><small>STAGE</small><strong>REVIEW_ACTIVE_CONCEPT</strong><small>AUTHORITY</small><strong>PAIR: UNLOCKED · V1.3　♙</strong></div>
+        <div><small>STAGE</small><strong>REVIEW_ACTIVE_CONCEPT</strong><small>AUTHORITY</small><strong>PAIR: UNLOCKED · V1.3 <i className="sol-pair-lock" aria-label="Authority pair lock control" /></strong></div>
       </section>
       <section className="sol-main-stage"><HeroArtifact /><AuthorityRail /></section>
       <CandidateGallery />

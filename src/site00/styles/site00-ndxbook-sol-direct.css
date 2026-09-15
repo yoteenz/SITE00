@@ -26,7 +26,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
   height: 31px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 9px;
   padding: 0 14px;
   border-bottom: 1px solid #aaa;
   background: #f7f7f5;
@@ -34,20 +34,20 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 }
 .sol-hostbar > b { font-size: 9px; }
 .sol-hostbar .red { color: #8d302d; }
-.sol-hostbar > span { margin-left: auto; font-size: 6px; }
+.sol-hostbar > span:not(.sol-icon) { width: 86px; display: flex; align-items: center; justify-content: space-between; margin-left: auto; margin-right: 19px; font-size: 6px; letter-spacing: .2px; }
 .sol-hostbar i, .sol-context i, .sol-score i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); vertical-align: middle; }
 
-.sol-primary-nav { height: 26px; display: grid; grid-template-columns: 52px repeat(6, 1fr); border-bottom: 1px solid #b7b7b4; background: #fafaf8; }
+.sol-primary-nav { height: 26px; display: grid; grid-template-columns: 52px 102px 85px 78px 71px 86px 98px; border-bottom: 1px solid #b7b7b4; background: #fafaf8; }
 .sol-primary-nav button { border: 0; border-right: 1px solid #d3d3d0; background: transparent; font-size: 7px; }
 .sol-primary-nav button:first-child { font-size: 14px; }
 
-.sol-context { height: 25px; display: flex; align-items: center; padding: 0 11px; background: #060606; color: #eaeae7; }
+.sol-context { height: 26px; display: flex; align-items: center; padding: 0 11px; background: #060606; color: #eaeae7; }
 .sol-context b { padding: 2px 6px; background: var(--lime); color: #111; font-size: 6px; }
 .sol-context span { margin-left: 10px; font-size: 6px; }
-.sol-context em { margin-left: auto; color: var(--lime); font-size: 5px; font-style: normal; }
+.sol-context em { margin-left: auto; color: var(--lime); font-size: 5px; font-style: normal; letter-spacing: .8px; }
 
-.sol-target-band { height: 70px; display: grid; grid-template-columns: 155px 235px 1fr; border-bottom: 1px solid #bbb; background: #f7f7f5; }
-.sol-target-band > div { padding: 9px 12px; border-right: 1px solid #ccc; }
+.sol-target-band { height: 69px; display: grid; grid-template-columns: 155px 234px 1fr; border-bottom: 1px solid #bbb; background: #f7f7f5; }
+.sol-target-band > div { padding: 8px 12px 9px; border-right: 1px solid #ccc; }
 .sol-target-band small { display: block; margin-bottom: 3px; font-size: 6px; font-weight: 600; }
 .sol-target-band strong { display: block; font-size: 7px; font-weight: 500; line-height: 1.5; }
 .sol-viewport { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 12px 49px; padding: 8px 0 0 !important; }
@@ -55,13 +55,16 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-viewport button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 0; background: transparent; }
 .sol-viewport button .sol-icon { font-size: 25px; font-family: Arial, sans-serif; transform: scaleX(1.25); }
 .sol-viewport button.active::after { content: ""; position: absolute; bottom: 0; width: 34px; height: 3px; background: var(--lime); }
+.sol-pair-lock { position: relative; width: 7px; height: 6px; margin-left: 3px; border: 1px solid #555; border-radius: 1px; vertical-align: -1px; }
+.sol-pair-lock::before { content: ""; position: absolute; left: 1px; top: -5px; width: 3px; height: 4px; border: 1px solid #555; border-bottom: 0; border-radius: 3px 3px 0 0; }
 
-.sol-main-stage { height: 305px; display: grid; grid-template-columns: 386px 150px; gap: 10px; padding: 9px 11px 8px; }
+.sol-main-stage { height: 305px; display: grid; grid-template-columns: 387px 150px; gap: 9px; padding: 9px 11px 8px; }
 .sol-hero-artifact { position: relative; overflow: hidden; border: 1px solid #222; border-radius: 5px; background: #101010; color: #f3f1e9; }
+.sol-hero-artifact, .sol-authority { height: 294px; }
 .sol-hero-meta { position: absolute; z-index: 4; inset: 12px 13px auto; display: flex; justify-content: space-between; color: var(--lime); font-size: 6px; }
-.sol-hero-copy { position: absolute; z-index: 4; left: 13px; top: 42px; width: 210px; }
-.sol-hero-copy h1 { width: 390px; margin: 0; color: #f3f1e9; font-family: Impact, "Arial Narrow", sans-serif; font-size: 57px; font-weight: 500; line-height: .88; letter-spacing: -1px; -webkit-text-stroke: .65px #f3f1e9; filter: drop-shadow(1px 0 #f3f1e9) drop-shadow(-1px 0 #f3f1e9); transform: scaleX(.47); transform-origin: left top; }
-.sol-hero-copy p { margin: 15px 0 0; color: var(--lime); font-size: 7px; font-weight: 700; line-height: 1.45; }
+.sol-hero-copy { position: absolute; z-index: 4; left: 14px; top: 41px; width: 210px; }
+.sol-hero-copy h1 { width: 410px; margin: 0; color: #f3f1e9; font-family: Impact, "Arial Narrow", sans-serif; font-size: 61px; font-weight: 500; line-height: .88; letter-spacing: -1px; -webkit-text-stroke: .65px #f3f1e9; filter: drop-shadow(1px 0 #f3f1e9) drop-shadow(-1px 0 #f3f1e9); transform: scaleX(.42); transform-origin: left top; }
+.sol-hero-copy p { margin: 8px 0 0; color: var(--lime); font-size: 7px; font-weight: 700; line-height: 1.6; transform: scaleX(.906); transform-origin: left top; }
 .sol-hero-image { position: absolute; inset: 33px 9px 37px 221px; overflow: hidden; background: #d7d0c1; filter: grayscale(1) contrast(1.25); }
 .sol-hero-image::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 14px, rgba(10,10,10,.18) 15px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(10,10,10,.13) 24px); mix-blend-mode: multiply; }
 .sol-paper-grid { position: absolute; inset: 0; background: #d9d1c2; transform: rotate(-2deg); }
@@ -98,10 +101,10 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-authority .sol-lock { min-height: 24px; line-height: 1.25; }
 .sol-lock .sol-icon { margin-right: 5px; font-size: 12px; }
 
-.sol-panel { margin: 0 11px 10px; border: 1px solid #999; border-radius: 4px; background: #f8f8f6; overflow: hidden; }
+.sol-panel { margin: 0 15px 10px 11px; border: 1px solid #999; border-radius: 4px; background: #f8f8f6; overflow: hidden; }
 .sol-panel > header { height: 20px; display: flex; align-items: center; justify-content: space-between; padding: 0 7px; border-bottom: 1px solid #b7b7b4; font-size: 6px; }
-.sol-gallery { height: 147px; margin-top: 11px; }
-.sol-candidate-row { position: relative; display: grid; grid-template-columns: 131px 126px 126px 132px; gap: 6px; height: 90px; padding: 6px; overflow: hidden; }
+.sol-gallery { height: 145px; margin-top: 10px; margin-bottom: 11px; }
+.sol-candidate-row { position: relative; display: grid; grid-template-columns: 132px 126px 126px 132px; gap: 7px; height: 92px; padding: 5px 2px 1px 5px; overflow: hidden; }
 .sol-candidate { position: relative; overflow: hidden; padding: 8px; border: 1px solid #333; border-radius: 4px; background: #111; color: #f3f1e9; }
 .sol-candidate::after { content: ""; position: absolute; inset: 0; opacity: .27; background: repeating-linear-gradient(90deg, transparent 0 14px, #ddd 15px), repeating-linear-gradient(0deg, transparent 0 13px, #777 14px); }
 .sol-candidate small, .sol-candidate strong, .sol-candidate b { position: relative; z-index: 2; }
@@ -115,15 +118,16 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-candidate.receipt { background: linear-gradient(90deg, #262525 0 40%, #d6cfc1 40%); }
 .sol-candidate.receipt::before { content: "001"; position: absolute; z-index: 1; right: 10px; bottom: 5px; color: #171717; font-size: 25px; line-height: 1; }
 .sol-candidate.type { padding-left: 34px; background: linear-gradient(90deg, #111 0 45%, #d4cdbf 45%); }
+.sol-candidate.type { transform: translateX(-1px); }
 .sol-candidate.type::before { content: "001"; position: absolute; z-index: 1; left: 61px; top: 4px; color: #171717; font-size: 21px; line-height: 1; }
 .sol-candidate.type::after { opacity: .34; background: repeating-linear-gradient(90deg, transparent 0 18px, #eee 19px), repeating-linear-gradient(0deg, transparent 0 9px, #777 10px); }
 .sol-gallery-next { position: absolute; right: -6px; top: 39px; z-index: 3; width: 21px; height: 21px; border: 0; border-radius: 50%; background: #fff; font-size: 18px; }
-.sol-gallery-actions { height: 36px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #aaa; }
+.sol-gallery-actions { height: 32px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #aaa; }
 .sol-gallery-actions button { border: 0; border-right: 1px solid #bbb; background: transparent; font-size: 6px; }
 .sol-gallery-actions .sol-icon { margin-right: 8px; }
 
 .sol-structured { height: 142px; }
-.sol-review-grid { height: 121px; display: grid; grid-template-columns: repeat(5, 1fr); }
+.sol-review-grid { height: 121px; display: grid; grid-template-columns: 113px 109px 109px 103px 110px; }
 .sol-review-grid article { padding: 7px 6px 4px; border-right: 1px solid #ccc; overflow: hidden; }
 .sol-review-grid small, .sol-review-grid strong span { display: block; }
 .sol-review-grid small { margin-bottom: 3px; font-size: 5.5px; }
@@ -139,7 +143,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-review-grid footer .sol-icon { font-size: 11px; }
 
 .sol-readiness { height: 113px; margin-bottom: 7px; }
-.sol-ready-grid { display: grid; grid-template-columns: 125px 120px 120px 1fr; height: 92px; }
+.sol-ready-grid { display: grid; grid-template-columns: 122px 123px 117px 1fr; height: 92px; }
 .sol-ready-grid > div { position: relative; padding: 6px 9px; border-right: 1px solid #ccc; }
 .sol-ready-grid small { display: block; margin-bottom: 4px; font-size: 5px; }
 .sol-score > div { float: left; display: grid; place-items: center; width: 53px; height: 53px; margin-right: 8px; border: 2px solid #75ae45; border-right-color: #ddd; border-radius: 50%; }
@@ -154,12 +158,13 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-next strong { display: block; margin-bottom: 3px; font-size: 6px; line-height: 1.4; font-weight: 500; }
 .sol-next button { margin-bottom: 3px; }
 
-.sol-detail-tabs { position: relative; height: 27px; display: grid; grid-template-columns: repeat(5, 1fr); padding: 5px 103px 0; border-top: 1px solid #aaa; background: #f3f3f1; }
+.sol-detail-tabs { position: relative; height: 27px; display: grid; grid-template-columns: 101px 96px 92px 87px 81px; padding: 5px 20px 0 95px; border-top: 1px solid #aaa; background: #f3f3f1; }
 .sol-detail-tabs::before { content: ""; position: absolute; top: 4px; left: calc(50% - 28px); width: 56px; height: 3px; border-radius: 3px; background: #111; }
 .sol-detail-tabs span { display: grid; place-items: end center; border-bottom: 1px solid #aaa; white-space: nowrap; font-size: 4.5px; }
-.sol-detail-tabs .active { border-bottom: 2px solid #9c302f; }
-.sol-detail { height: 65px; display: grid; grid-template-columns: 105px 194px 1fr 70px; align-items: center; padding: 3px 17px; background: #f7f7f5; }
-.sol-detail-thumb { width: 95px; height: 55px; display: flex; align-items: center; padding: 8px; border: 1px solid #555; background: linear-gradient(90deg,#111 0 68%,#d2cabc 68%); color: #eee; font-family: Impact, sans-serif; font-size: 10px; line-height: .93; }
+.sol-detail-tabs .active { position: relative; border-bottom: 1px solid #aaa; }
+.sol-detail-tabs .active::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: 51px; height: 2px; background: #9c302f; transform: translateX(-50%); }
+.sol-detail { height: 65px; display: grid; grid-template-columns: 105px 186px 1fr 70px; align-items: center; padding: 3px 18px; background: #f7f7f5; }
+.sol-detail-thumb { width: 99px; height: 55px; display: flex; align-items: center; padding: 8px; border: 1px solid #555; background: linear-gradient(90deg,#111 0 68%,#d2cabc 68%); color: #eee; font-family: Impact, sans-serif; font-size: 10px; line-height: .93; }
 .sol-detail dl { display: grid; grid-template-columns: 55px 1fr; margin: 0; font-size: 4.5px; line-height: 1.35; }
 .sol-detail dd { margin: 0; }
 .sol-amend { border-left: 1px solid #ccc; padding-left: 10px; font-size: 4.5px; }
@@ -168,7 +173,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-amend mark { padding: 1px 3px; background: var(--lime); font-size: 4px; }
 .sol-detail > button { align-self: center; height: 14px; border: 1px solid #aaa; border-radius: 3px; background: transparent; font-size: 4.5px; }
 
-.sol-bottom-nav { height: 38px; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid #aaa; background: #f8f8f6; }
+.sol-bottom-nav { height: 37px; display: grid; grid-template-columns: 109px 115px 115px 116px 117px; border-top: 1px solid #aaa; background: #f8f8f6; }
 .sol-bottom-nav button { position: relative; border: 0; border-right: 1px solid #ccc; background: transparent; font-size: 5px; line-height: 1.4; }
 .sol-bottom-nav .sol-icon { margin-right: 7px; font-size: 16px; vertical-align: middle; }
 .sol-bottom-nav .active::before { content: ""; position: absolute; top: 0; left: 19px; right: 19px; height: 3px; background: var(--lime); }
