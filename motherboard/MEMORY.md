@@ -9431,3 +9431,15 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** V4.1 required **`founderReviewStatus === APPROVED`** and manual **`actualHash`** — real Fal cache uses **`PENDING` + MACHINE_VALIDATED** with **https** PNG; browser raster path used **`Buffer`/`pngjs`**.
 - **Fix:** **`findCachedForensicBlueprintForTwinV41Boot`** + **`resolveTwinV41BootContext`**; accept cached **https** Fal forensic; **canvas** PNG decode in browser; boot help copy when authority missing.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1 Grok twin-testA visual translation lab (v483)
+
+Summary of this chat: founder assigned **GROK** (not Composer) to build an isolated visual/Figma-style interface translation benchmark and later translate one golden image uploaded only through the page.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK1**. Route **`/projects/ndxbook/design/twin-testA`**. Golden image is **not** in this chat — founder uploads via the page file picker, then presses **START GROK TEST**.
+- **Decisions:** Isolated from `/design/twin`, `/design/twin-v4`, `/projects/site00/design`, and twin-testB. No Sol output, no Composer, no alternate provider fallback. Provider is **xAI Grok vision** (`XAI_API_KEY`, default model `grok-2-vision-1212`). Vitest uses a labeled harness package only when `VITEST=true` and no live key — never as production fallback.
+- **Delivered:** Isolated module **`shared/site00-design-bench/grokTwinTestA/`**; API **`/api/site00/twin-test-a-design-bench`**; async job stages IDLE→COMPLETE; reference freeze (`GrokDesignBenchReferenceAuthority`); Figma-style 14-part package + artboard renderer; progress/ETA/elapsed; result tabs; persist `site00:twin-test-a:`. Build **v483**. Tests **`tests/p0vrDesignBenchGrok1.test.ts`**.
+- **Founder ops:** Open twin-testA → upload golden PNG/JPG/WEBP → START GROK TEST. Railway needs **`XAI_API_KEY`**. Preview can use Vite local API. Existing Twin routes unchanged.
+- **Conventions:** Design-bench routes stay isolated; Grok bench never reads Test B / Sol / Twin V3–V4 compilers.
+

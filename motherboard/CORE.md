@@ -51,6 +51,7 @@ Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content 
 | `/evolve/state` | Evolve path selector |
 | `/assts` | Asset factory / vault |
 | `/control` | Client control panel |
+| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (P0.VR.DESIGNBENCH.GROK1). Does not share state with `/design/twin`, `/design/twin-v4`, `/projects/site00/design`, or twin-testB. |
 
 Desktop preview paths use `/desktop` suffix (artboard preview mode).
 
