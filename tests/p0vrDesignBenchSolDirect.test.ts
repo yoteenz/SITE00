@@ -50,13 +50,37 @@ describe('P0.VR.DESIGNBENCH.SOL-DIRECT1', () => {
     expect(pageSource).toContain('name="target"');
     expect(pageSource).toContain('name="expand"');
     expect(pageSource).toContain('name="lock"');
-    expect(pageSource).toContain('name="grid"');
+    expect(pageSource).toContain('name="gridFill"');
     expect(pageSource).toContain('name="clock"');
     expect(pageSource).toContain('name="bolt"');
+    expect(pageSource).toContain('name="file"');
     expect(pageSource).not.toContain('☰');
     expect(pageSource).not.toContain('☷');
     expect(pageSource).not.toContain('▦');
     expect(pageSource).not.toContain('ϟ');
     expect(cssSource).toContain('grid-template-columns: 386px 150px');
+  });
+
+  it('inventories every golden icon slot with a live data-slot', () => {
+    const slots = [
+      'A1-hamburger', 'A2-crumb-1', 'A3-crumb-2', 'A4-compiler-dot', 'A5-overflow-dots', 'A6-more-caret', 'A7-context-dot',
+      'B1-mobile', 'B2-tablet', 'B3-desktop', 'B4-mobile-underline', 'B5-authority-lock',
+      'C1-select-check', 'C2-pair-caret', 'C3-lock-pair', 'C4-hero-evidence', 'C5-card-check',
+      'D1-compare-sliders', 'D2-gallery-next',
+      'E1-refine', 'E2-regenerate', 'E3-inspect', 'E4-fullscreen',
+      'F1-grounding-file', 'F2-blueprint-file', 'F3-overlay-file', 'F4-assets-file', 'F5-function-file',
+      'G1-ready-ring', 'G2-compiles-dot', 'G3-check-layout', 'G4-check-type', 'G5-check-assets', 'G6-check-function', 'G7-check-a11y',
+      'G8-status-approved', 'G9-status-pending', 'G10-status-blockers', 'G11-status-warnings',
+      'H1-tab-grabber',
+      'I1-workspace', 'I2-design-history', 'I3-feature-change', 'I4-master-amendment', 'I5-contextual-next',
+    ];
+    expect(slots).toHaveLength(45);
+    for (const slot of slots) {
+      const present = pageSource.includes(`data-slot="${slot}"`) || pageSource.includes(`slot="${slot}"`) || pageSource.includes(`'${slot}'`);
+      expect(present, slot).toBe(true);
+    }
+    expect(pageSource).toContain('name="file"');
+    expect(pageSource).toContain('name="gridFill"');
+    expect(pageSource).toContain('G8-status-approved');
   });
 });
