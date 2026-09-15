@@ -9704,3 +9704,15 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Decisions / outcomes:** Generic unicode (☰ ☷ ▦ ϟ ✓ ● etc.) replaced with reference-traced inline SVGs. Inspect is a target/reticle, not a magnifying glass. Devices are filled silhouettes. `SOL_STRUCTURE_CHANGED: NO`.
 - **Changes:** `NdxbookSolDirectPage.tsx` Mark/DeviceMark/CheckDot; icon-only CSS sizing; Sol tests assert SVG marks; CORE sol-direct row; this MEMORY entry. PR **#941**.
 - **Conventions:** If a mark is perceived as a shape rather than live text, Grok redraws it. Keep the function, rebuild the shape. Do not drop in Lucide/emoji when the golden shows a different silhouette.
+
+---
+
+## 2026-09-15 — GROK-ASSET1R2 exhaustive Sol icon slot completeness
+
+Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 Cursor sprints on one NDXBOOK DESIGN golden. DIRECT1/R1 built `twin-grok-direct`. ASSET1 rebuilt Sol-direct plates (PR #938). ASSET1R1 redrew icon *style* (PR #941) but claimed audit complete while slots were still missing. ASSET1R2 required a literal slot-by-slot inventory.
+
+- **Context:** Same route `/projects/ndxbook/design/twin-sol-direct`. Completeness, not a new icon style. Sol structure frozen. No Composer.
+- **Topics covered:** GoldenIconSlotMap (45 slots A–I); live visibility vs Cloudflare stale tunnel; STATUS-column marks missing; structured footers independently; five dock slots independently; presence before polish.
+- **Decisions / outcomes:** Missing before: G8–G11 STATUS checks/warn. Wrong: I1 outline grid, I3/F1–F5 lined doc vs folded file, dock marks too light. After: every golden slot tagged (`data-slot` / `slot`) and asserted. `missingSlotCount = 0` in source. `SOL_STRUCTURE_CHANGED: NO`.
+- **Changes:** `NdxbookSolDirectPage.tsx` file/gridFill marks, STATUS CheckDots, per-panel footer slots, heavier dock CSS; slot inventory test (6 tests); CORE row; this MEMORY entry. PR **#944**.
+- **Conventions:** Do not report ICON_SYMBOL_AUDIT COMPLETE by category. Audit LOCATION + ROLE + SLOT. One footer icon on one card does not prove the other four. All five dock slots must pass independently.
