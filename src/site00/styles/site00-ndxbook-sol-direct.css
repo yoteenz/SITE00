@@ -62,9 +62,9 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-viewport button { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 0; background: transparent; }
 .sol-viewport button .sol-icon { font-size: 25px; font-family: Arial, sans-serif; transform: scaleX(1.25); }
 .sol-viewport button .sol-device { display: block; color: #111; }
-.sol-device-mobile { width: 9px; height: 16px; }
-.sol-device-tablet { width: 12px; height: 16px; }
-.sol-device-desktop { width: 20px; height: 15px; }
+.sol-device-mobile { width: 11px; height: 19px; }
+.sol-device-tablet { width: 14px; height: 19px; }
+.sol-device-desktop { width: 22px; height: 16px; }
 .sol-viewport button.active::after { content: ""; position: absolute; bottom: 0; width: 34px; height: 3px; background: var(--lime); }
 
 .sol-main-stage { height: 305px; display: grid; grid-template-columns: 386px 150px; gap: 10px; padding: 9px 11px 8px; }
