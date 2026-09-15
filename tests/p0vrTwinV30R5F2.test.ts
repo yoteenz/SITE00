@@ -4,6 +4,7 @@
 
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   applyOneTimeFounderAuthorityInjection,
@@ -22,8 +23,14 @@ import {
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 import { PROJECT_CREATIVE_CONTEXT_VERSION } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/projectCreativeGrounding/types.js';
 
-const MOBILE_JPG = '/workspace/public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg';
-const DESKTOP_JPG = '/workspace/public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/desktop-master.jpg';
+const MOBILE_JPG = join(
+  process.cwd(),
+  'public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg',
+);
+const DESKTOP_JPG = join(
+  process.cwd(),
+  'public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/desktop-master.jpg',
+);
 
 describe('P0.VR.TWINV3.0R5F2 founder authority injection', () => {
   it('1–2 registers Mobile and Desktop founder authorities', () => {

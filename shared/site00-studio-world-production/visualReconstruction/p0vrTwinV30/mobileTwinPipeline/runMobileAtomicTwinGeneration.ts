@@ -130,7 +130,7 @@ export async function runMobileAtomicTwinGeneration(input: {
     projectCreativeContextVersion: composition.projectCreativeContextVersion,
     runVersion,
   });
-  if (gate.action === 'RETURN_READY') {
+  if (gate.action === 'RETURN_READY' && !input.regeneration) {
     return {
       ...session,
       mobileTwinPipeline: hydrateMobileTwinReviewState({

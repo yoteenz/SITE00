@@ -4,6 +4,7 @@
 
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   applyOneTimeFounderAuthorityInjection,
@@ -134,7 +135,10 @@ describe('P0.VR.TWINV3.0R6 derivation', () => {
   });
 
   it('25 locked authority JPG bytes unchanged', async () => {
-    const mobilePath = '/workspace/public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg';
+    const mobilePath = join(
+      process.cwd(),
+      'public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg',
+    );
     const before = createHash('sha256').update(readFileSync(mobilePath)).digest('hex');
     await runDesignWorkspaceDerivation(lockedR5F2Session());
     const after = createHash('sha256').update(readFileSync(mobilePath)).digest('hex');
