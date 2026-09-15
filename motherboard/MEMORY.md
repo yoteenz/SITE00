@@ -9349,3 +9349,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`p0vrTwinV30R8M2R5`** module; browser-safe **`resolveForensicUiBlueprintAuthoritySync`** (FAL dispatch server/vitest-only); **`DesignTwinForensicBlueprintPanel`**, **`DesignTwinForensicImplementationInspector`**. Build **v470**. Tests **`p0vrTwinV30R8M2R5.test.ts`** + updated R8M twin suites.
 - **Founder ops:** Deploy **v470** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; review **FORENSIC BLUEPRINT** tab alongside Actual + LIVE. Production FAL blueprint generation runs server-side with **`FAL_KEY`** (browser autobuild uses local stub pending founder blueprint review). Design route untouched; desktop deferred.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2R5F1 client process fix + forensic Fal dispatch (v471)
+
+- **Hotfix:** Safari **`Can't find variable: process`** on twin route — removed unguarded **`process.env`** from browser-reachable R8M2R5 compile path via **`site00RuntimeEnv.site00IsVitest()`**; browser no longer seeds forensic blueprint locally (must server-prime).
+- **Server:** **`POST /api/site00/twin-v3-forensic-ui-blueprint`** (`GENERATE_FORENSIC_UI_BLUEPRINT`) → **`generateForensicUiBlueprintForSession`** → **`fal-ai/nano-banana-2/edit`** with **`ForensicFalDispatchReceipt`**. Client **`requestForensicUiBlueprintGeneration`** hydrates in-memory forensic cache before local compile. **`compileMobileTwinImplementationService`** primes forensic before compile.
+- **UX:** Twin page **FORENSIC BLUEPRINT GENERATION FAILED** + retry; cache epoch **v2** + build **v471**. Tests **`p0vrTwinV30R8M2R5F1.test.ts`**. **Founder:** Redeploy **Railway** (new API route) + deploy **v471** ZIP.
+
