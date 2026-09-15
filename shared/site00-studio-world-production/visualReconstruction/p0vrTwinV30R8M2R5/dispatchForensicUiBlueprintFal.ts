@@ -86,9 +86,17 @@ export async function generateForensicUiBlueprintAuthority(input: {
       : [input.primaryActualImageUrl],
       aspectRatio: '9:16',
       model: FORENSIC_BLUEPRINT_FAL_ENDPOINT,
+      falInputOverride: buildNanoBanana2EditInput({
+        prompt,
+        primaryImageUrl: input.primaryActualImageUrl,
+        secondaryImageUrl: input.secondaryLightBlueprintUrl,
+      }),
     });
-  } catch {
-    throw new Error(FORENSIC_BLUEPRINT_GENERATION_FAILED);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : FORENSIC_BLUEPRINT_GENERATION_FAILED;
+    throw new Error(
+      msg.includes('FAL') || msg.includes('MOBILE_RENDER') || msg.includes('REFERENCE') ? msg : FORENSIC_BLUEPRINT_GENERATION_FAILED,
+    );
   }
 
   const blueprintHash = forensicBlueprintContentHash(`${falResult.url}:${input.sourceActualHash}`);

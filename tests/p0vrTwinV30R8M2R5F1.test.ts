@@ -47,7 +47,7 @@ describe('P0.VR.TWINV3.0R8M2R5F1 runtime recovery', () => {
     const page = readFileSync('src/site00/pages/DesignTwinImplementationPage.tsx', 'utf8');
     expect(page).toContain('DesignTwinImplementationPage');
     expect(page).not.toMatch(UNGUARDED_PROCESS_ENV);
-    expect(P0_VR_TWIN_V30_BUILD).toBe('v472');
+    expect(P0_VR_TWIN_V30_BUILD).toBe('v473');
     expect(isSite00PreviewHost('site00.fsbw-dev.com')).toBe(true);
     const previewUrls = listForensicUiBlueprintApiPostUrls();
     expect(previewUrls.length).toBeGreaterThanOrEqual(1);

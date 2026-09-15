@@ -1,5 +1,5 @@
 /** Founder manual override unlock for Method A + benchmark path. */
-export const P0_VR_TWIN_V30_BUILD = 'v472' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v473' as const;
 
 /** NDXBOOK: auto materialize founder package + twin cache; hide manual founder gate UI (temporary). */
 export const MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 = true as const;
