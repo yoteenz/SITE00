@@ -116,7 +116,8 @@ describe('P0.VR.TWINV4.1 pixel-derived forensic extraction', () => {
     const page = readFileSync('src/site00/pages/DesignTwinV4ProofPage.tsx', 'utf8');
     const overlay = readFileSync('src/site00/components/designWorkspace/TwinV41PixelExtractionOverlay.tsx', 'utf8');
     expect(page).toContain('PIXEL_EXTRACTION');
-    expect(page).not.toContain("mode === 'LIVE'");
+    expect(page).toContain('LIVE_RECONSTRUCTION');
+    expect(page).toContain('compileTwinV42PageBoot');
     expect(overlay).toContain('twin-v41-authority-raster');
     expect(overlay).toContain('site00-twin-v41-extraction__box');
     expect(TWIN_V41_PROJECT_STYLE_FIREWALL.forbidNdxbookDarkTheme).toBe(true);

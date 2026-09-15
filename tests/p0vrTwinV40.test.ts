@@ -17,7 +17,8 @@ describe('P0.VR.TWINV4.0 clean-room route isolation', () => {
     expect(SITE00_ROUTES.projectDesignTwinV4).toBe('/projects/:projectSlug/design/twin-v4');
     expect(twinV4ProofRoute('ndxbook')).toBe('/projects/ndxbook/design/twin-v4');
     const page = readFileSync('src/site00/pages/DesignTwinV4ProofPage.tsx', 'utf8');
-    expect(page).toContain('compileTwinV41PixelExtraction');
+    expect(page).toContain('compileTwinV42PageBoot');
+    expect(page).toContain('TwinV42ForensicLiveCanvas');
   });
 
   it('V4 does not import V3 visual compiler / render tree / CSS', () => {
