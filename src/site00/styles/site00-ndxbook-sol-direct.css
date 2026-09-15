@@ -22,8 +22,9 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-direct .sol-icon { display: inline-grid; place-items: center; width: 11px; height: 11px; line-height: 1; }
 .sol-direct .sol-icon svg { width: 100%; height: 100%; display: block; }
 .sol-direct i { display: inline-block; }
-.sol-status-mark { display: inline-grid; place-items: center; width: 8px; height: 8px; }
+.sol-status-mark { display: inline-grid; place-items: center; width: 9px; height: 9px; }
 .sol-status-mark svg { width: 100%; height: 100%; display: block; }
+.sol-status-val { display: inline-flex; align-items: center; gap: 3px; }
 
 .sol-hostbar {
   height: 31px;
@@ -45,7 +46,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-primary-nav button { border: 0; border-right: 1px solid #d3d3d0; background: transparent; font-size: 7px; }
 .sol-primary-nav button:first-child { font-size: 14px; }
 .sol-primary-nav button:first-child .sol-icon { width: 13px; height: 13px; }
-.sol-primary-nav button:last-child .sol-icon { width: 8px; height: 8px; display: inline-grid; }
+.sol-primary-nav button:last-child .sol-icon { width: 10px; height: 10px; display: inline-grid; }
 
 .sol-context { height: 25px; display: flex; align-items: center; padding: 0 11px; background: #060606; color: #eaeae7; }
 .sol-context b { padding: 2px 6px; background: var(--lime); color: #111; font-size: 6px; }
@@ -85,7 +86,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-authority > button { min-height: 17px; border: 1px solid #777; border-radius: 3px; background: #fafaf7; font-size: 6px; }
 .sol-authority .sol-select-mobile { height: 40px; display: flex; padding: 0; align-items: stretch; border-color: #111; background: var(--lime); }
 .sol-select-mobile .sol-icon { width: 28px; height: 16px; }
-.sol-authority section > header .sol-icon { width: 8px; height: 8px; }
+.sol-authority section > header .sol-icon { width: 10px; height: 10px; }
 .sol-lock .sol-icon { width: 10px; height: 10px; margin-right: 5px; }
 .sol-select-mobile > span { flex: 1; padding-top: 8px; }
 .sol-select-mobile small { display: block; margin: 8px -1px -1px -29px; padding: 3px; background: #050505; color: #eee; }
@@ -103,7 +104,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-authority .sol-lime, .sol-ready-grid .sol-lime { background: var(--lime); }
 .sol-authority .sol-black { background: #050505; color: #fff; border-color: #050505; }
 .sol-authority .sol-lock { min-height: 24px; line-height: 1.25; }
-.sol-panel > header .sol-icon { width: 9px; height: 9px; display: inline-grid; vertical-align: -1px; }
+.sol-panel > header .sol-icon { width: 11px; height: 11px; display: inline-grid; vertical-align: -2px; }
 
 .sol-panel { margin: 0 11px 10px; border: 1px solid #999; border-radius: 4px; background: #f8f8f6; overflow: hidden; }
 .sol-panel > header { height: 20px; display: flex; align-items: center; justify-content: space-between; padding: 0 7px; border-bottom: 1px solid #b7b7b4; font-size: 6px; }
@@ -136,7 +137,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-gallery-next .sol-icon { width: 10px; height: 10px; }
 .sol-gallery-actions { height: 36px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #aaa; }
 .sol-gallery-actions button { border: 0; border-right: 1px solid #bbb; background: transparent; font-size: 6px; }
-.sol-gallery-actions .sol-icon { width: 10px; height: 10px; margin-right: 6px; display: inline-grid; vertical-align: -2px; }
+.sol-gallery-actions .sol-icon { width: 12px; height: 12px; margin-right: 6px; display: inline-grid; vertical-align: -2px; }
 
 .sol-structured { height: 142px; }
 .sol-review-grid { height: 121px; display: grid; grid-template-columns: repeat(5, 1fr); }
@@ -152,7 +153,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-review-art.evidence img { object-position: 50% 18%; filter: grayscale(1) contrast(1.25) brightness(.9); }
 .sol-review-art.functions { background: transparent; font-size: 4.5px; line-height: 1.45; }
 .sol-review-grid footer { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; white-space: nowrap; font-size: 4.5px; }
-.sol-review-grid footer .sol-icon { width: 8px; height: 8px; }
+.sol-review-grid footer .sol-icon { width: 11px; height: 11px; }
 
 .sol-readiness { height: 113px; margin-bottom: 7px; }
 .sol-ready-grid { display: grid; grid-template-columns: 125px 120px 120px 1fr; height: 92px; }
@@ -187,8 +188,8 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-detail > button { align-self: center; height: 14px; border: 1px solid #aaa; border-radius: 3px; background: transparent; font-size: 4.5px; }
 
 .sol-bottom-nav { height: 38px; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid #aaa; background: #f8f8f6; }
-.sol-bottom-nav button { position: relative; border: 0; border-right: 1px solid #ccc; background: transparent; font-size: 5px; line-height: 1.4; }
-.sol-bottom-nav .sol-icon { width: 11px; height: 11px; margin-right: 5px; display: inline-grid; vertical-align: middle; }
+.sol-bottom-nav button { position: relative; display: flex; align-items: center; justify-content: center; gap: 4px; border: 0; border-right: 1px solid #ccc; background: transparent; font-size: 5px; line-height: 1.3; }
+.sol-bottom-nav .sol-icon { width: 14px; height: 14px; flex: 0 0 14px; }
 .sol-bottom-nav .active::before { content: ""; position: absolute; top: 0; left: 19px; right: 19px; height: 3px; background: var(--lime); }
 
 @media (max-width: 571px) {

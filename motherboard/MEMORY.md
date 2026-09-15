@@ -9721,6 +9721,19 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Changes:** `NdxbookSolDirectPage.tsx` Mark/DeviceMark/CheckDot; icon-only CSS sizing; Sol tests assert SVG marks; CORE sol-direct row; this MEMORY entry. PR **#941**.
 - **Conventions:** If a mark is perceived as a shape rather than live text, Grok redraws it. Keep the function, rebuild the shape. Do not drop in Lucide/emoji when the golden shows a different silhouette.
 
+<<<<<<< HEAD
+---
+
+## 2026-09-15 — GROK-ASSET1R2 exhaustive Sol icon slot completeness
+
+Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 Cursor sprints on one NDXBOOK DESIGN golden. DIRECT1/R1 built `twin-grok-direct`. ASSET1 rebuilt Sol-direct plates (PR #938). ASSET1R1 redrew icon *style* (PR #941) but claimed audit complete while slots were still missing. ASSET1R2 required a literal slot-by-slot inventory.
+
+- **Context:** Same route `/projects/ndxbook/design/twin-sol-direct`. Completeness, not a new icon style. Sol structure frozen. No Composer.
+- **Topics covered:** GoldenIconSlotMap (45 slots A–I); live visibility vs Cloudflare stale tunnel; STATUS-column marks missing; structured footers independently; five dock slots independently; presence before polish.
+- **Decisions / outcomes:** Missing before: G8–G11 STATUS checks/warn. Wrong: I1 outline grid, I3/F1–F5 lined doc vs folded file, dock marks too light. After: every golden slot tagged (`data-slot` / `slot`) and asserted. `missingSlotCount = 0` in source. `SOL_STRUCTURE_CHANGED: NO`.
+- **Changes:** `NdxbookSolDirectPage.tsx` file/gridFill marks, STATUS CheckDots, per-panel footer slots, heavier dock CSS; slot inventory test (6 tests); CORE row; this MEMORY entry. PR **#944**.
+- **Conventions:** Do not report ICON_SYMBOL_AUDIT COMPLETE by category. Audit LOCATION + ROLE + SLOT. One footer icon on one card does not prove the other four. All five dock slots must pass independently.
+=======
 ## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-DIRECT1 isolated golden reconstruction (v495)
 
 Summary of the **whole conversation so far** in this chat: founder ran a fresh Claude Fable 5.1 High sprint to recreate the attached NDXBOOK DESIGN golden directly in code with high structural/visual fidelity — no Composer, no Sol/Grok/Opus direct code or results consulted, real DOM/CSS only.
@@ -9730,3 +9743,4 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh C
 - **Decisions / outcomes:** Reference viewport **608×1088** (artboard scales down on narrower phones via transform). Hero 410 / gap 13 / rail 156. Section borders land within 1–3px of the golden in every band. The golden/mobile-master is never rendered by the route (raster firewall test). Hero photograph (pointing hand on xerox newsprint) is an SVG/CSS approximation — no standalone source asset exists; only `eu-branch-receipts-isolated.webp` used as muted texture. Route boots without CTRL ROOM sign-in.
 - **Changes:** `src/site00/pages/DesignTwinFableDirectPage.tsx`, `src/site00/styles/site00-twin-fable-direct.css`, route constant + `site00ProjectDesignTwinFableDirectPath` in `routes.ts`, lazy route in `Site00Routes.tsx`, `tests/p0vrDesignBenchFableDirect1.test.ts` (9 tests). PR **#943**. Build **v495**.
 - **Conventions:** Inside a scoped stylesheet, element resets (`button`, `dl`, `ul`) must use `:where(.scope) el` so component classes can override them. `.fd-viewport` is `position: fixed; inset: 0` so body default margin cannot offset/scale the artboard. Golden-derived text sizes on this page are 6–10px medium weight; measure ink extents, not guessed sizes.
+>>>>>>> origin/main
