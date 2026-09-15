@@ -9405,6 +9405,14 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — Twin V4.2 mobile golden boot hotfix (v481)
+
+- **Symptom:** fsbw-dev / mobile showed **`TWIN_V4_GOLDEN_AUTHORITY_INVALID`** with no path forward after V4.2 shipped.
+- **Cause:** Boot required sealed pin before **`primeTwinV41ForensicFromDesignSession`**; stale pin blocked re-seal; generic INVALID when device had no **https** forensic yet (only stub / no design session).
+- **Fix:** Page **auto-primes** forensic API first; **`resolveForensicForGoldenSeal`** uses boot cache + prime; **invalid pin cleared** and re-sealed from loadable https forensic; **`TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE`** + detail when cache/prime missing. Still **no fallback** to stub/local-autobuild.
+
+---
+
 ## 2026-09-15 — P0.VR.TWINV4.1F1 + P0.VR.TWINV4.2 golden authority pin + Playwright pixel diff gate (v480)
 
 - **Sprint:** **`p0vrTwinV42/`** hard-pins **`TwinV4GoldenAuthority`** (SHA256, dimensions, https — no stub fallback); **`TwinV4AuthorityPurgeReceipt`**; Twin V4 page boot **`compileTwinV42PageBoot`** validates pin before V4.1 segmentation (cache key **`goldenSha256 + segmentationVersion`**). **V4.2:** canonical viewport from golden dims; **`TwinV42LiveReconstruction`** fixed canvas; **Playwright + pixelmatch** diff loop (**`runTwinV4GoldenDiffLoop`**, region masks, heatmap artifacts); UI tabs LIVE / FORENSIC AUTHORITY / SIDE BY SIDE / OVERLAY / DIFF HEATMAP / REGION DIFF + V4.1 tabs; **`goldenDiffCapture=1`** QA route + guard bypass for engineering screenshots. Proof **YES** only with real pixel pass + raster firewall — current live DOM vs golden still **high diff (~9.5%)** → **`INCONCLUSIVE`/`NO`** until CSS convergence. Tests **`tests/p0vrTwinV42.test.ts`**. V3 **`/design/twin`** unchanged.
