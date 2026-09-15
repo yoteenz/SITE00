@@ -217,13 +217,13 @@ export function DesignTwinTestAPage() {
           <section className="twin-test-a__progress" data-testid="twin-test-a-progress">
             <h2>GROK IS TRANSLATING YOUR INTERFACE</h2>
             <div className="twin-test-a__bar" data-testid="twin-test-a-progress-bar">
-              <span style={{ width: `${run.progressPercent}%` }} />
+              <span style={{ width: `${run?.progressPercent ?? 4}%` }} />
             </div>
             <div className="twin-test-a__progress-meta">
               <div data-testid="twin-test-a-stage">
                 CURRENT STAGE:
                 <br />
-                {run.stageLabel}
+                {run?.stageLabel ?? 'Queued for Grok…'}
               </div>
               <div data-testid="twin-test-a-elapsed">
                 ELAPSED:
