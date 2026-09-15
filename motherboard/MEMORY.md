@@ -9282,3 +9282,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** R8M **`compileApprovedMobileTwinPackage`** mapped composition to absolute-positioned boxes; **`MobileTwinCompiledImplementationRenderer`** rendered **`semanticRole.replace(/_/g, ' ')`** as visible text.
 - **Fix:** R8M1 **`VisualImplementationTranslator`** + **`SemanticDebugLabelFirewall`** + **`ImplementationTypographyResolver`**; production compile path **`compileVisualMobileTwinImplementation`** (authorities: Actual + Blueprint + ndxbook-pilot-r4-v1); legacy wireframe kept as **`compileApprovedMobileTwinPackageLegacyWireframe`**; preview/cache rejects non-R8M1 docs; prior wireframe builds marked **`REJECTED_IMPLEMENTATION`** (`IMPLEMENTATION_COMPILER_SEMANTIC_WIREFRAME_LEAK`) on new compile; section-based twin renderer + NDXBOOK black/lime CSS; fidelity receipts require R8M1 render tree. Build **v452**. Tests **`p0vrTwinV30R8M1.test.ts`**. Founder: **BUILD TWIN DESIGN ROUTE** after merge; Railway redeploy for durable API builds; GoDaddy ZIP v452 for production twin QA.
 
+---
+
+## 2026-09-15 — Founder escalation visible at top of Design (v463)
+
+- **Context:** Founder asked to escalate — bundled light blueprint JPG should **create approved package** + **rebuild twin route**; v461 display pin + v462 pipeline escalation still not showing/working reliably on mobile (buried purple strip, missing mobile reference on cold session).
+- **Topics:** RESTORE UX, dark vs light blueprint, sync vs mount, FAL vs founder JPG, package approval, twin R8M1 compile cache.
+- **Decisions:** Keep v462 **`escalateFounderMobileTwinPackageFromCanonicalAssets`** / one-tap **`runFounderMobileTwinPackageEscalation`**; add **top-of-Design** CTA so founder never scrolls to authority; auto **`applyOneTimeFounderAuthorityInjection`** when **`MOBILE_REFERENCE_MISSING`** on escalation.
+- **Changes:** **`DesignPageV3MobileTwinGlobalRecoveryStrip`** always shows **USE FOUNDER BLUEPRINT · BUILD PACKAGE · REBUILD TWIN** on NDXBOOK (+ twin route link when cache exists); **`shouldShowMobileTwinFounderActionsStrip`** true for all pilot sessions; **`ensureSessionReadyForFounderEscalation`** in run path. Build **v463**. Tests **`p0vrTwinV30FounderEscalationPrepare.test.ts`**, founder strip mount asserts global test id.
+- **Founder ops:** Production GoDaddy ZIP **v463** (JPG assets under `/assets/ndxbook-reconstruction/`); Design top purple strip → one tap escalation → **OPEN TWIN IMPLEMENTATION REVIEW**.
+
