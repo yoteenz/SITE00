@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, beforeEach } from 'vitest';
 import {
+  findCachedForensicBlueprintForTwinV41Boot,
   forensicBlueprintCacheKey,
   writeForensicBlueprintToCache,
   clearForensicBlueprintCacheForTests,
@@ -57,6 +58,17 @@ describe('P0.VR.TWINV4.1 pixel-derived forensic extraction', () => {
     await expect(
       compileTwinV41PixelExtraction({ projectId: 'ndxbook', sourceActualHash: ACTUAL_HASH }),
     ).rejects.toThrow(TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE);
+  });
+
+  it('boot finds MACHINE_VALIDATED https forensic in cache', () => {
+    writeForensicBlueprintToCache(forensicBlueprintCacheKey({ actualHash: ACTUAL_HASH }), {
+      ...buildFounderApprovedForensicAuthorityForFixture(ACTUAL_HASH),
+      blueprintImageUri: 'https://fal.media/files/example/forensic-blueprint.png',
+      founderReviewStatus: 'PENDING',
+      status: 'MACHINE_VALIDATED',
+      projectId: 'ndxbook',
+    });
+    expect(findCachedForensicBlueprintForTwinV41Boot('ndxbook')?.sourceActualHash).toBe(ACTUAL_HASH);
   });
 
   it('4–5 V4.0 hardcoded graph rejected; placeholder generator disabled', () => {
