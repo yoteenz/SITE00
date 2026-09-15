@@ -9300,3 +9300,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1`** — on NDXBOOK Design load + `/design/twin` load, **`ensureNdxbookTwinImplementationReady`** materializes founder-approved package (canonical JPGs) and R8M1 compile cache; hides founder escalation / restore / founder-actions strips. Twin cache uses memory fallback when LS missing. Build **v464**. Tests **`p0vrTwinV30TwinAutobuild.test.ts`**.
 - **Founder ops:** Deploy **v464** ZIP → open **`/projects/ndxbook/design/twin`** (hard refresh once); no BUILD/RESTORE/ESCALATE taps required.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2 implementation fidelity (v465)
+
+- **Sprint:** R8M2 — fidelity convergence, authority-raster purge, canonical asset rebind; twin route only; package/composition untouched.
+- **Delivered:** **`p0vrTwinV30R8M2`** — **`RuntimeAuthorityRasterFirewall`**, **`canonicalAssetRebind`**, R8M2 translator (control hierarchy, spatial/material contracts, region map + receipts). Production compile → **`mobile-twin-impl-v3`** / **`R8M2`**; R8M1 prior builds **`CORRECTION_REQUIRED`** (`IMPLEMENTATION_TRANSLATION_TOO_ABSTRACT`). Renderer enforces firewall at runtime. Build **v465**. Tests **`p0vrTwinV30R8M2.test.ts`**.
+- **Founder ops:** Deploy **v465** ZIP; signed-in **`/projects/ndxbook/design/twin`** autorebuilds R8M2 cache. Supabase R8M migration still optional for durable API builds.
+
