@@ -1,9 +1,14 @@
 /** P0.VR.DESIGNBENCH.GROK1 — isolated Grok visual translation lab. */
 
-export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v485' as const;
+export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v486' as const;
 export const P0_VR_DESIGNBENCH_GROK1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F2_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F2' as const;
+export const P0_VR_DESIGNBENCH_GROK1F3_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F3' as const;
+export const GROK_XAI_API_BASE = 'https://api.x.ai/v1' as const;
+export const GROK_DESIGN_BENCH_INFERENCE_PATH = '/responses' as const;
+export const GROK_DESIGN_BENCH_INFERENCE_METHOD = 'POST' as const;
+export const GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM = 'GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM' as const;
 export const GROK_TWIN_TEST_A_PRODUCTION_API_ORIGIN = 'https://api.site00.com' as const;
 
 export const GROK_TWIN_TEST_A_ROUTE_PATH = '/projects/:projectSlug/design/twin-testA' as const;

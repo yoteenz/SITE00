@@ -51,7 +51,7 @@ Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content 
 | `/evolve/state` | Evolve path selector |
 | `/assts` | Asset factory / vault |
 | `/control` | Client control panel |
-| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (P0.VR.DESIGNBENCH.GROK1 / GROK1F1 / GROK1F2). Hard-bound to **xAI grok-4.6** — no model fallback. Secret-backed calls prefer Railway `https://api.site00.com` (`XAI_API_KEY` server-only). Vite same-origin is fallback only. Does not share state with `/design/twin`, `/design/twin-v4`, `/projects/site00/design`, or twin-testB. |
+| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (GROK1–GROK1F3). Hard-bound to **xAI grok-4.6** on `POST /v1/responses` — no model fallback. READY requires key + team model access + smoke. Secret-backed calls prefer Railway `https://api.site00.com`. |
 
 Desktop preview paths use `/desktop` suffix (artboard preview mode).
 
