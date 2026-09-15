@@ -19,6 +19,7 @@ import { tryRecoverOrphanTwinArtifacts } from './tryRecoverOrphanTwinArtifacts.j
 import { applyMobileTwinPackageApprovalConfirmation } from '../../p0vrTwinV30R8M/confirmMobileTwinPackageApproval.js';
 import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
 import { emptyMobileTwinPipelineState } from './types.js';
+import { applyFounderCanonicalLightBlueprintMount } from './ndxbookLightBlueprintMount.js';
 
 export type MobileTwinPipelineDiagnostics = {
   renderCount: number;
@@ -59,6 +60,7 @@ export function restoreFounderMobileTwinPipelineFromBrowser(
   if (!restored) return session;
   let pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(restored, projectId));
   pipeline = autoHealMobileTwinAuthorityImages(pipeline, projectId);
+  pipeline = applyFounderCanonicalLightBlueprintMount(pipeline, projectId);
   const promoted = normalizeFounderNbpPromotionOnLoad({
     ...session,
     mobileTwinPipeline: hydrateMobileTwinReviewState(pipeline),
@@ -89,6 +91,7 @@ export function syncFounderMobileTwinSession(
     merged = restoreMobileTwinPipelineFromBrowserStore(projectId, merged) ?? merged;
   }
   merged = autoHealMobileTwinAuthorityImages(merged, projectId);
+  merged = applyFounderCanonicalLightBlueprintMount(merged, projectId);
   const pipeline = ensureMobileTwinPipelineDefaults(reconcileMobileTwinPipelineState(merged, projectId));
   writeMobileTwinAuthorityImageSnapshot(projectId, pipeline);
   const promoted = normalizeFounderNbpPromotionOnLoad({
