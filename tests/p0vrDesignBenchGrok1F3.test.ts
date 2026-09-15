@@ -14,6 +14,7 @@ import {
   evaluateGrokDesignBenchReadiness,
 } from '../api/_lib/site00GrokDesignBench/grokVisionProvider.js';
 import {
+  GROK46_SMOKE_PNG_B64,
   classifyGrok46AccessRootCause,
   grok46ListedForKey,
   probeGrok46TeamAccess,
@@ -139,6 +140,8 @@ describe('P0.VR.DESIGNBENCH.GROK1F3 grok-4.6 team access probe', () => {
     });
     expect(passedText.textOnlySmoke.modelAccepted).toBe(true);
     expect(passedText.imageSmoke.ran).toBe(true);
+    expect(Buffer.from(GROK46_SMOKE_PNG_B64, 'base64').subarray(16, 24).readUInt32BE(0)).toBeGreaterThanOrEqual(8);
+    expect(Buffer.from(GROK46_SMOKE_PNG_B64, 'base64').subarray(16, 24).readUInt32BE(4)).toBeGreaterThanOrEqual(8);
   });
 
   it('7. provider endpoint is recorded as POST /responses', () => {
