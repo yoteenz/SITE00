@@ -3,7 +3,15 @@ import { scanDocumentForAuthorityRasterViolations } from './runtimeAuthorityRast
 import { R8M1_CORRECTION_REQUIRED_REASON } from './constants.js';
 
 export function documentRequiresR8M2Recompile(doc: CompiledMobileTwinImplementationDocument): boolean {
-  if (doc.compilerGeneration === 'R8M2R1' || doc.compilerGeneration === 'R8M2') return false;
+  if (
+    doc.compilerGeneration === 'R8M2R2' &&
+    doc.translationBriefConsumed &&
+    doc.codingPromptInjected &&
+    doc.implementationVersion === 'mobile-twin-impl-v4-translation-brief'
+  ) {
+    return false;
+  }
+  if (doc.compilerGeneration === 'R8M2R1' || doc.compilerGeneration === 'R8M2') return true;
   if (doc.compilerGeneration === 'R8M1' || doc.compilerGeneration === 'R8M') return true;
   const uris = (doc.renderTree?.nodes ?? doc.nodes).map((n) => n.imageUri);
   if (scanDocumentForAuthorityRasterViolations(uris).length) return true;

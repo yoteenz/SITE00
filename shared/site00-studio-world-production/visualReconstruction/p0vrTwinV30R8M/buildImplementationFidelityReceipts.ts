@@ -14,18 +14,26 @@ export function buildImplementationVisualFidelityReceipt(input: {
   const objectCount = input.pipeline.compositionStates.find((c) => c.id === input.pipeline.activeCompositionStateId)?.objectDefinitions.length ?? 0;
   const geometryMatch = input.document.nodes.length === objectCount;
   const expressionReady =
-    input.document.compilerGeneration !== 'R8M2R1' ||
+    (input.document.compilerGeneration !== 'R8M2R1' && input.document.compilerGeneration !== 'R8M2R2') ||
     (input.document.expressionReadiness?.status !== 'BLOCKED' &&
       Boolean(input.document.implementationExpressionIr?.objectExpressions.length));
+  const translationReady =
+    input.document.compilerGeneration !== 'R8M2R2' ||
+    (input.document.translationBriefConsumed &&
+      input.document.codingPromptInjected &&
+      input.document.translationReadiness?.status !== 'BLOCKED');
   const visualTranslation =
     (input.document.compilerGeneration === 'R8M1' ||
       input.document.compilerGeneration === 'R8M2' ||
-      input.document.compilerGeneration === 'R8M2R1') &&
+      input.document.compilerGeneration === 'R8M2R1' ||
+      input.document.compilerGeneration === 'R8M2R2') &&
     Boolean(input.document.renderTree?.nodes.length) &&
     Boolean(input.document.authoritiesLoaded?.actualRenderUri) &&
     expressionReady &&
+    translationReady &&
     (input.document.compilerGeneration === 'R8M1' ||
       input.document.compilerGeneration === 'R8M2R1' ||
+      input.document.compilerGeneration === 'R8M2R2' ||
       Boolean(input.document.visualFidelityEvaluation?.machinePass));
   const passVisual = geometryMatch && visualTranslation;
   return {
@@ -59,7 +67,8 @@ export function buildImplementationStructuralFidelityReceipt(input: {
   const structuralTranslation =
     (input.document.compilerGeneration === 'R8M1' ||
       input.document.compilerGeneration === 'R8M2' ||
-      input.document.compilerGeneration === 'R8M2R1') &&
+      input.document.compilerGeneration === 'R8M2R1' ||
+      input.document.compilerGeneration === 'R8M2R2') &&
     Boolean(input.document.renderTree?.nodes.length);
   const pass =
     expected === rendered && bindings <= boundInNodes + 2 && !forbiddenRaster && structuralTranslation;

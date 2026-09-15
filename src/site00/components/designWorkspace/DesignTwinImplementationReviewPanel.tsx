@@ -10,6 +10,7 @@ import type {
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
 import { mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 import { DesignTwinImplementationExpressionTrace } from './DesignTwinImplementationExpressionTrace.js';
+import { DesignTwinImplementationTranslationInspector } from './DesignTwinImplementationTranslationInspector.js';
 
 type ReviewMode = 'LIVE' | 'ACTUAL' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE';
 
@@ -134,7 +135,10 @@ export function DesignTwinImplementationReviewPanel({
       : null}
       {msg ? <p role="status">{msg}</p> : null}
       {implementationDocument ?
-        <DesignTwinImplementationExpressionTrace document={implementationDocument} />
+        <>
+          <DesignTwinImplementationTranslationInspector document={implementationDocument} />
+          <DesignTwinImplementationExpressionTrace document={implementationDocument} />
+        </>
       : null}
     </section>
   );
