@@ -9389,3 +9389,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Autobuild **awaited Fal forensic blueprint** with no timeout + **R8M3 double compile** (full R8M2R5 then R8M3) on main thread; forensic cache was in-memory only (lost on iOS reload).
 - **Fix:** Persist forensic blueprint **localStorage**; skip Fal when cached; **120s fetch timeout** + local stub fallback; browser **skip nested R8M2R5** compile; autobuild errors non-fatal for preview resolver; loading hint on twin page.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV4.0 clean-room forensic reconstruction proof route (v476)
+
+- **Sprint:** New isolated route **`/projects/ndxbook/design/twin-v4`** — does **not** import V3 visual compiler/CSS/render tree; **`TwinV4IsolationContract`** all `inheritsV3* = false`; **`TwinV4ForensicAuthorityLock`** from cached/stub forensic only (**`TWIN_V4_FAL_GENERATION_JOBS = 0`**); pipeline **scene graph → DOM plan → fresh `site00-twin-v4-*` DOM/CSS → correction loop → gate/proof** in **`p0vrTwinV40/`**; minimal review UI (LIVE / authority / compare / overlay / scene graph / DOM measurements); LIVE stage uses real DOM (forensic PNG only in reference panels); browser **`getBoundingClientRect`** capture via **`captureTwinV4LiveDomMeasurements`**. V3 **`/design/twin`** and main design workspace **unchanged**. Persistence **`site00:twin-v4:`** keys separate from V3 cache.
+- **Proof (compile path):** With ndxbook stub/cache authority, vitest compile reports **REVIEW_READY**, 2 correction iterations, all regions **LOW**, proof **YES** — compile uses simulated measurements in Node; founder must still validate with real browser screenshot + production forensic artifact hash when cached blueprint exists.
+- **Tests:** **`tests/p0vrTwinV40.test.ts`** (27 checklist items). Deploy **v476** ZIP; open **`/projects/ndxbook/design/twin-v4`**.
+
