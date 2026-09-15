@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import {
   COMPOSER_INVOKED_DURING_TEST,
   SOL_DESIGN_BENCH_STAGES,
+  SolDesignBenchEtaEstimator,
   estimateRemainingSeconds,
   stageProgress,
   validateReferenceInput,
@@ -177,6 +178,10 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
     ]);
     expect(stageProgress('ANALYZING_VISUAL')).toBeGreaterThan(stageProgress('INGESTING_REFERENCE'));
     expect(estimateRemainingSeconds('ANALYZING_VISUAL', 10)).toBeGreaterThan(0);
+    expect(new SolDesignBenchEtaEstimator().estimate('ANALYZING_VISUAL', 10)).toMatchObject({
+      approximate: true,
+      basis: 'STAGE_WEIGHTS',
+    });
     expect(COMPOSER_INVOKED_DURING_TEST).toBe(false);
   });
 });

@@ -7,8 +7,8 @@ import {
   COMPOSER_INVOKED_DURING_TEST,
   SOL_DESIGN_BENCH_MODEL,
   SOL_DESIGN_BENCH_PROVIDER,
+  SolDesignBenchEtaEstimator,
   assertTranslationPackage,
-  estimateRemainingSeconds,
   stageProgress,
   validateReferenceInput,
   type SolDesignBenchHistoryEntry,
@@ -85,11 +85,10 @@ async function updateStage(runId: string, status: SolDesignBenchStage): Promise<
   run.stageLabel = STAGE_LABELS[status];
   run.progress = stageProgress(status);
   const anchor = run.timing.startedAt || run.timing.queuedAt;
-  run.etaSeconds = estimateRemainingSeconds(
+  run.etaSeconds = new SolDesignBenchEtaEstimator(await readHistory()).estimate(
     status,
     Math.max(0, (Date.now() - Date.parse(anchor)) / 1000),
-    await readHistory(),
-  );
+  ).remainingSeconds;
   await saveRun(run);
   return run;
 }
@@ -246,7 +245,7 @@ export async function startSolDesignBenchRun(
       postProcessingDuration: null,
       totalDuration: null,
     },
-    etaSeconds: estimateRemainingSeconds('QUEUED', 0),
+    etaSeconds: new SolDesignBenchEtaEstimator().estimate('QUEUED', 0).remainingSeconds,
     etaIsEstimate: true,
     result: null,
     error: null,

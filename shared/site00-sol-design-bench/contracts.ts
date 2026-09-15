@@ -208,6 +208,26 @@ export function estimateRemainingSeconds(
   return Math.max(15, Math.round(expectedTotal - elapsedSeconds));
 }
 
+/** Stage-derived ETA with Sol-specific completed-run calibration; values are always approximate. */
+export class SolDesignBenchEtaEstimator {
+  constructor(private readonly history: SolDesignBenchHistoryEntry[] = []) {}
+
+  estimate(stage: SolDesignBenchStage, elapsedSeconds: number): {
+    remainingSeconds: number | null;
+    approximate: true;
+    basis: 'STAGE_WEIGHTS' | 'SOL_DURATION_HISTORY';
+  } {
+    const hasSolHistory = this.history.some(
+      (entry) => entry.model === SOL_DESIGN_BENCH_MODEL && entry.totalDuration > 0,
+    );
+    return {
+      remainingSeconds: estimateRemainingSeconds(stage, elapsedSeconds, this.history),
+      approximate: true,
+      basis: hasSolHistory ? 'SOL_DURATION_HISTORY' : 'STAGE_WEIGHTS',
+    };
+  }
+}
+
 export function validateReferenceInput(input: StartSolDesignBenchRequest['reference']): string[] {
   const errors: string[] = [];
   if (!['image/png', 'image/jpeg', 'image/webp'].includes(input.mime)) errors.push('UNSUPPORTED_MIME');
