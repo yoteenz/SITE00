@@ -10,8 +10,16 @@ import {
   GROK_TWIN_TEST_A_SUBHEADER,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import { GROK_4_6_PROVIDER_BINDING_FAILED, GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
-import type { GrokDesignBenchProviderReadinessReceipt } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
-import { persistGrokTwinTestARun, readPersistedGrokTwinTestARun, historicalGrokTwinTestAAverageMs } from '../../../shared/site00-design-bench/grokTwinTestA/persist.js';
+import type {
+  GrokDesignBenchHostDiagnostic,
+  GrokDesignBenchProviderReadinessReceipt,
+} from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import {
+  clearPersistedGrokTwinTestARun,
+  persistGrokTwinTestARun,
+  readPersistedGrokTwinTestARun,
+  historicalGrokTwinTestAAverageMs,
+} from '../../../shared/site00-design-bench/grokTwinTestA/persist.js';
 import { sha256HexFromBytes } from '../../../shared/site00-design-bench/grokTwinTestA/sha256.js';
 import { estimateRemainingMs, formatDurationMmSs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import { formatAspectRatio, validateGrokReferenceUpload } from '../../../shared/site00-design-bench/grokTwinTestA/uploadValidation.js';
@@ -71,6 +79,7 @@ export function DesignTwinTestAPage() {
   const [sideBySide, setSideBySide] = useState(true);
   const [starting, setStarting] = useState(false);
   const [readiness, setReadiness] = useState<GrokDesignBenchProviderReadinessReceipt | null>(null);
+  const [hostDiagnostic, setHostDiagnostic] = useState<GrokDesignBenchHostDiagnostic | null>(null);
   const [failureOpen, setFailureOpen] = useState(false);
 
   const active = Boolean(run && GROK_ACTIVE_STAGES.includes(run.stage as (typeof GROK_ACTIVE_STAGES)[number]));
@@ -82,10 +91,14 @@ export function DesignTwinTestAPage() {
     let cancelled = false;
     void fetchGrokTwinTestAReadiness()
       .then((next) => {
-        if (!cancelled) setReadiness(next);
+        if (!cancelled) {
+          setReadiness(next.readiness);
+          setHostDiagnostic(next.hostDiagnostic);
+        }
       })
       .catch((err) => {
         if (!cancelled) {
+          setHostDiagnostic(null);
           setReadiness({
             state: 'BLOCKED',
             reason: err instanceof Error ? err.message : 'Readiness check failed',
@@ -116,6 +129,14 @@ export function DesignTwinTestAPage() {
     if (!run?.runId) return;
     persistGrokTwinTestARun(run);
   }, [run]);
+
+  useEffect(() => {
+    if (readiness?.state !== 'READY' || run?.stage !== 'FAILED') return;
+    const text = `${run.error ?? ''}`;
+    if (!/missing on the API host/i.test(text) && !/Railway API service/i.test(text)) return;
+    clearPersistedGrokTwinTestARun();
+    setRun(null);
+  }, [readiness?.state, run]);
 
   useEffect(() => {
     if (!run?.runId || run.stage === 'COMPLETE' || run.stage === 'FAILED') return;
@@ -327,6 +348,33 @@ export function DesignTwinTestAPage() {
             <p className="twin-test-a__hint" data-testid="twin-test-a-bound-model">
               {GROK_TWIN_TEST_A_PROVIDER_LABEL} · {GROK_DESIGN_BENCH_MODEL_ID}
             </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-key-present">
+              XAI KEY PRESENT: {readiness.xaiApiKeyPresent ? 'YES' : 'NO'}
+            </p>
+            {hostDiagnostic ? (
+              <dl className="twin-test-a__host-diagnostic" data-testid="twin-test-a-host-diagnostic">
+                <div>
+                  <dt>RUNTIME</dt>
+                  <dd data-testid="twin-test-a-diag-runtime">{hostDiagnostic.runtime}</dd>
+                </div>
+                <div>
+                  <dt>HOST</dt>
+                  <dd data-testid="twin-test-a-diag-host">{hostDiagnostic.host}</dd>
+                </div>
+                <div>
+                  <dt>ENVIRONMENT</dt>
+                  <dd data-testid="twin-test-a-diag-environment">{hostDiagnostic.environment}</dd>
+                </div>
+                <div>
+                  <dt>XAI KEY PRESENT</dt>
+                  <dd data-testid="twin-test-a-diag-key">{hostDiagnostic.xaiKeyPresent ? 'YES' : 'NO'}</dd>
+                </div>
+                <div>
+                  <dt>MODEL</dt>
+                  <dd data-testid="twin-test-a-diag-model">{hostDiagnostic.modelId}</dd>
+                </div>
+              </dl>
+            ) : null}
           </section>
         ) : null}
 

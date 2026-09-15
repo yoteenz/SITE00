@@ -88,6 +88,9 @@ function applyServerEnv() {
   if (!process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE && process.env.NODE_ENV !== 'production') {
     process.env.SITE00_CLIENT_REVIEW_PREVIEW_MODE = '1';
   }
+  if (!process.env.SITE00_VITE_LOCAL_API) {
+    process.env.SITE00_VITE_LOCAL_API = '1';
+  }
 }
 
 function readRequestBody(req) {

@@ -9,6 +9,7 @@ import {
   getLatestPublicGrokDesignBenchRun,
   getPublicGrokDesignBenchRun,
   grokDesignBenchAudit,
+  grokDesignBenchHostIdentity,
   grokDesignBenchReadiness,
   startGrokDesignBenchRun,
 } from '../_lib/site00GrokDesignBench/service.js';
@@ -24,7 +25,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ ok: true, audit: grokDesignBenchAudit() });
     }
     if (action === 'readiness') {
-      return res.status(200).json({ ok: true, readiness: grokDesignBenchReadiness() });
+      const requestHost = typeof req.headers.host === 'string' ? req.headers.host : '';
+      return res.status(200).json({
+        ok: true,
+        readiness: grokDesignBenchReadiness(),
+        hostDiagnostic: grokDesignBenchHostIdentity(requestHost),
+      });
     }
     if (action === 'run') {
       const runId = String(query.runId ?? '');
