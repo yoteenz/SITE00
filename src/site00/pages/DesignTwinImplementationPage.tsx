@@ -66,7 +66,11 @@ export function DesignTwinImplementationPage() {
         data-build={P0_VR_TWIN_V30_BUILD}
       >
         {header}
-        <p>Loading twin implementation…</p>
+        <p data-testid="twin-implementation-loading">Loading twin implementation…</p>
+        <p className="site00-dw-v3-authority__hint">
+          First open on this device can take 1–2 minutes (forensic blueprint + compile). Leave this tab open. If it
+          exceeds 2 minutes, tap back to Design and reopen twin, or deploy production ZIP for faster load.
+        </p>
       </div>
     );
   }

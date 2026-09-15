@@ -47,7 +47,7 @@ function buildReceipt(
   };
 }
 
-function seedLocalForensicBlueprintStub(input: ForensicBlueprintResolveInput): ForensicUiBlueprintAuthority {
+export function seedLocalForensicBlueprintStub(input: ForensicBlueprintResolveInput): ForensicUiBlueprintAuthority {
   const url =
     site00IsVitest() ?
       `vitest-fal://forensic-ui-blueprint-${input.projectId}`
@@ -83,10 +83,10 @@ export function resolveForensicUiBlueprintAuthoritySync(
     return { authority: cached, receipt: buildReceipt(cached, input, 'fbgr-sync') };
   }
 
-  if (!site00IsVitest()) {
-    throw new Error('FORENSIC_BLUEPRINT_NOT_PRIMED — call server GENERATE_FORENSIC_UI_BLUEPRINT before compile');
+  if (site00IsVitest()) {
+    const authority = seedLocalForensicBlueprintStub(input);
+    return { authority, receipt: buildReceipt(authority, input, 'fbgr-local') };
   }
 
-  const authority = seedLocalForensicBlueprintStub(input);
-  return { authority, receipt: buildReceipt(authority, input, 'fbgr-local') };
+  throw new Error('FORENSIC_BLUEPRINT_NOT_PRIMED — call server GENERATE_FORENSIC_UI_BLUEPRINT before compile');
 }

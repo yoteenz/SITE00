@@ -34,7 +34,8 @@ import {
   buildForensicVisualStyleMap,
 } from '../p0vrTwinV30R8M2R5/buildForensicMaps.js';
 import { buildForensicImplementationCodingPrompt } from '../p0vrTwinV30R8M2R5/buildForensicImplementationCodingPrompt.js';
-import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
+import { site00IsBrowser, site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
+import { browserPriorR8M2R5DocumentStub } from './browserPriorDocumentStub.js';
 import {
   MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_INGESTION,
   MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M3,
@@ -62,7 +63,10 @@ import {
 export function compileVisualMobileTwinImplementationR8M3(
   input: MobileTwinStructuredCompilerInput,
 ): CompiledMobileTwinImplementationDocument {
-  const priorR8M2R5 = compileVisualMobileTwinImplementationR8M2R5(input);
+  const priorR8M2R5 =
+    site00IsVitest() ? compileVisualMobileTwinImplementationR8M2R5(input)
+    : site00IsBrowser() ? browserPriorR8M2R5DocumentStub()
+    : compileVisualMobileTwinImplementationR8M2R5(input);
 
   const { pipeline, packageId } = input;
   const pkg = pipeline.packages.find((p) => p.id === packageId)!;

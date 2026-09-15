@@ -23,6 +23,12 @@ import { resolveImplementationAuthorities } from '../p0vrTwinV30R8M1/resolveImpl
 import { ingestAuthorityImageContent, ingestAuthorityImageContentSync } from '../p0vrTwinV30R8M2R1/authorityContentIngestion.js';
 import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
 import { requestForensicUiBlueprintGeneration } from './requestForensicUiBlueprint.js';
+import {
+  forensicBlueprintCacheKey,
+  readForensicBlueprintFromCache,
+} from '../p0vrTwinV30R8M2R5/forensicBlueprintCache.js';
+import { seedLocalForensicBlueprintStub } from '../p0vrTwinV30R8M2R5/resolveForensicUiBlueprintAuthoritySync.js';
+import { resolveMobileTwinPublicAssetUrl } from '../p0vrTwinV30/mobileTwinPipeline/resolveMobileTwinPublicAssetUrl.js';
 import { resolveAuthorityIngestUri } from '../p0vrTwinV30R8M2R1/resolveAuthorityIngestUri.js';
 import { FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER } from '../p0vrTwinV30/constants.js';
 import { mobileTwinTwinPreviewRoute } from './constants.js';
@@ -62,12 +68,29 @@ async function primeForensicBlueprintForPackage(
     specHeightPx: FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER.heightPx,
   });
   const actualHash = actualIngested.contentHash ?? pkg.packageChecksum;
-  await requestForensicUiBlueprintGeneration({
-    session,
-    packageId,
-    sourceActualHash: actualHash,
-    founderConfirmedSpend: true,
-  });
+  const cacheKey = forensicBlueprintCacheKey({ actualHash });
+  if (readForensicBlueprintFromCache(cacheKey)) return;
+
+  try {
+    await requestForensicUiBlueprintGeneration({
+      session,
+      packageId,
+      sourceActualHash: actualHash,
+      founderConfirmedSpend: true,
+    });
+  } catch {
+    seedLocalForensicBlueprintStub({
+      projectId: session.projectId,
+      sourceActualAuthorityId: authorities.actualRenderId,
+      sourceActualHash: actualHash,
+      primaryActualImageUrl: resolveMobileTwinPublicAssetUrl(authorities.actualRenderUri ?? ''),
+      secondaryLightBlueprintUrl: resolveMobileTwinPublicAssetUrl(authorities.blueprintRenderUri ?? ''),
+      canonicalViewport: {
+        widthPx: FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER.widthPx,
+        heightPx: FOUNDER_R5F2_NDXBOOK_MOBILE_MASTER.heightPx,
+      },
+    });
+  }
 }
 
 async function primeAuthorityIngestionForPackage(
@@ -165,6 +188,10 @@ export async function ensureNdxbookTwinImplementationReady(projectId: string): P
       await primeAuthorityIngestionForPackage(session.mobileTwinPipeline, packageId);
       await primeForensicBlueprintForPackage(session, packageId);
     }
-    writeLocalTwinCompileCacheFromApprovedPackage(key, session);
+    try {
+      writeLocalTwinCompileCacheFromApprovedPackage(key, session);
+    } catch {
+      /* compile may fail if package incomplete — preview path may retry */
+    }
   }
 }
