@@ -335,6 +335,9 @@ export function DesignTwinTestAPage() {
             <p className="twin-test-a__hint" data-testid="twin-test-a-bound-model">
               {GROK_TWIN_TEST_A_PROVIDER_LABEL} · {GROK_DESIGN_BENCH_MODEL_ID}
             </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-key-present">
+              XAI KEY PRESENT: {readiness.xaiApiKeyPresent ? 'YES' : 'NO'}
+            </p>
             {hostDiagnostic ? (
               <dl className="twin-test-a__host-diagnostic" data-testid="twin-test-a-host-diagnostic">
                 <div>
