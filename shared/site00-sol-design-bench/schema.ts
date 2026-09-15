@@ -392,7 +392,6 @@ export function validateSolTranslationPackage(
     '$',
     invalidFields,
   );
-  const preview = row.VISUAL_INTERFACE_PREVIEW as Record<string, unknown> | undefined;
   if (JSON.stringify(row.VISUAL_INTERFACE_PREVIEW ?? {}).includes('data:image')) {
     invalidFields.push('VISUAL_INTERFACE_PREVIEW.embeddedDataUrl');
   }
