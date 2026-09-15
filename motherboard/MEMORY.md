@@ -9325,3 +9325,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`p0vrTwinV30R8M2R2`** module; **`DesignTwinImplementationTranslationInspector`**; updated fidelity + autobuild version pins. Build **v467**. Tests **`p0vrTwinV30R8M2R2.test.ts`** + updated R8M/R8M1/R8M2/R8M2R1 suites. Cloud browser QA: twin route loads **`MOBILE-TWIN-IMPL-V4-TRANSLATION-BRIEF`**, translation inspector expanded.
 - **Founder ops:** Deploy **v467** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; expand **IMPLEMENTATION TRANSLATION** to debug drift vs Actual. Design route untouched; desktop deferred.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2R3 translation-driven full rebuild (v468)
+
+- **Sprint:** R8M2R3 — **`FULL_TRANSLATION_REBUILD`** mandatory; **`StaleRenderTreeReuseFirewall`**; fresh **`TranslationDrivenImplementationPlan`**, component tree, style system, CSS contract (`site00-twin-td`); no reuse of R8M2R2 render tree; **`TranslationMaterialityReceipt`** + region convergence; R8M2R2 marked **`TRANSLATION_NOT_MATERIALLY_APPLIED`**; production **`mobile-twin-impl-v5-translation-rebuild`** / **`R8M2R3`**; renderer branch + **`site00-mobile-twin-implementation-r8m2r3.css`** (hero 3-col grid, 4-up gallery, 5-up structured band).
+- **Delivered:** **`p0vrTwinV30R8M2R3`** module. Build **v468**. Tests **`p0vrTwinV30R8M2R3.test.ts`** + updated twin suites. Browser QA: v5 version string on twin review; hard refresh clears stale **`site00:mobile-twin-implementation-cache:v1`** for R8M2R3 compile.
+- **Founder ops:** Deploy **v468** ZIP → hard refresh twin route → compare Actual vs LIVE (hero grid, authority rail, gallery density). Design route untouched; desktop deferred.
+
