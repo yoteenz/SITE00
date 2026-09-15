@@ -80,7 +80,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
 
   it('5–15 critical section translations exist', async () => {
     const input = founderCompileInput();
-    const doc = compileApprovedMobileTwinPackage(input);
+    const doc = compileVisualMobileTwinImplementationR8M2R2(input);
     const brief = doc.implementationTranslationBrief!;
     const ids = new Set(brief.sectionTranslations.map((s) => s.sectionId));
     for (const id of [
@@ -102,7 +102,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('16–22 directive sections present', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     const brief = doc.implementationTranslationBrief!;
     expect(brief.typographyTranslation).toMatch(/TYPOGRAPHY/);
     expect(brief.colorMaterialTranslation).toMatch(/COLOR/);
@@ -114,7 +114,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('23 critical sections include authority evidence', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     const brief = doc.implementationTranslationBrief!;
     const withEvidence = brief.sectionTranslations.filter(
       (s) => s.evidence.structuredObjectIds.length || s.evidence.actualRegionIds.length,
@@ -123,7 +123,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('24–26 VisualImplementationCodingPrompt generated and injected', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     const prompt = doc.visualImplementationCodingPrompt!;
     expect(prompt.id).toMatch(/^vicp-/);
     expect(prompt.promptVersion).toBe(VISUAL_IMPLEMENTATION_CODING_PROMPT_VERSION);
@@ -174,7 +174,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
 
   it('28 ImplementationExpressionIR refined by brief', () => {
     const input = founderCompileInput();
-    const doc = compileApprovedMobileTwinPackage(input);
+    const doc = compileVisualMobileTwinImplementationR8M2R2(input);
     expect(doc.expressionChangesFromBrief?.objectsAdjusted).toBeGreaterThan(0);
     expect(doc.implementationExpressionIr?.globalExpression.densityProfile).toContain('brief');
   });
@@ -206,7 +206,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('30 prompt traceability links runtime to brief sections', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     expect(doc.translationPromptTrace?.length).toBeGreaterThan(10);
     const link = doc.translationPromptTrace![0]!;
     expect(link.runtimeObjectId).toBeTruthy();
@@ -215,7 +215,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('31–32 new implementation version + twin recompiles via production path', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_TRANSLATION);
     expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R2);
     expect(doc.lineage).toBe(P0_VR_TWIN_V30R8M2R2_LINEAGE);
@@ -224,7 +224,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
 
   it('33 TRANSLATION_BRIEF_NOT_CONSUMED when prompt missing preamble', () => {
     const input = founderCompileInput();
-    const doc = compileApprovedMobileTwinPackage(input);
+    const doc = compileVisualMobileTwinImplementationR8M2R2(input);
     const brief = doc.implementationTranslationBrief!;
     const prompt = { ...doc.visualImplementationCodingPrompt!, fullText: 'invalid' };
     expect(() =>
@@ -243,7 +243,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('35 translation fidelity receipt generated', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     const receipt = doc.implementationTranslationFidelityReceipt!;
     expect(receipt.codingPromptId).toBe(doc.visualImplementationCodingPrompt?.id);
     expect(receipt.result).toMatch(/PASS|REVIEW_REQUIRED/);
@@ -256,7 +256,7 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   });
 
   it('37 desktop translation compile jobs remain zero', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     expect(doc.viewport).toBe('MOBILE');
     expect(doc.implementationTranslationBrief?.viewport).toBe('MOBILE');
   });
@@ -264,8 +264,8 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
   it('R8M2R1 builds require R8M2R2 recompile', () => {
     const prior = compileVisualMobileTwinImplementationR8M2R1(founderCompileInput());
     expect(documentRequiresR8M2Recompile(prior)).toBe(true);
-    const next = compileApprovedMobileTwinPackage(founderCompileInput());
-    expect(documentRequiresR8M2Recompile(next)).toBe(false);
+    const next = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
+    expect(documentRequiresR8M2Recompile(next)).toBe(true);
   });
 
   it('refineImplementationExpressionIRFromBrief touches spatial rhythm', async () => {
@@ -300,13 +300,13 @@ describe('P0.VR.TWINV3.0R8M2R2 translation brief pipeline', () => {
 
   it('coding prompt contains hero translation content', () => {
     const input = founderCompileInput();
-    const doc = compileApprovedMobileTwinPackage(input);
+    const doc = compileVisualMobileTwinImplementationR8M2R2(input);
     const hero = doc.implementationTranslationBrief!.sectionTranslations.find((s) => s.sectionId === 'HERO_WORKSPACE')!;
     expect(doc.visualImplementationCodingPrompt!.fullText).toContain(hero.implementationGuidance.slice(0, 30));
   });
 
   it('buildTranslationPromptTraceLinks maps expression evidence', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R2(founderCompileInput());
     const links = buildTranslationPromptTraceLinks({
       compositionObjectIds: doc.nodes.map((n) => n.objectId),
       expressionIr: doc.implementationExpressionIr!,
