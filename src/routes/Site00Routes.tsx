@@ -176,6 +176,7 @@ const DesignTwinImplementationPage = lazy(() =>
 const DesignTwinV4ProofPage = lazy(() =>
   import('../site00/pages/DesignTwinV4ProofPage').then((m) => ({ default: m.DesignTwinV4ProofPage })),
 );
+const NdxbookSolDirectPage = lazy(() => import('../site00/pages/NdxbookSolDirectPage'));
 const SolDesignBenchmarkPage = lazy(() => import('../site00/pages/SolDesignBenchmarkPage'));
 const DesignTwinTestAPage = lazy(() =>
   import('../site00/pages/DesignTwinTestAPage').then((m) => ({ default: m.DesignTwinTestAPage })),
@@ -1140,6 +1141,16 @@ export function Site00Routes() {
                 <DesignTwinV4ProofPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinSolDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <NdxbookSolDirectPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />

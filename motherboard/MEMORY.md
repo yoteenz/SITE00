@@ -9587,6 +9587,42 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1 golden-reference reconstruction
+
+Summary of the **whole conversation so far** in this chat: founder supplied a 572×1024 NDXBOOK Design workspace golden and directed GPT-5.6 Sol to reconstruct it directly as an isolated React/CSS route without Composer, benchmark providers, prior Twin renderers, Grok output, or raster alignment cheats.
+
+- **Context:** New route **`/projects/ndxbook/design/twin-sol-direct`**; golden screenshot is the sole visual authority; existing Design, Twin, Twin V4, Test A, Test B, and Grok direct surfaces remain unchanged.
+- **Topics covered:** Macro page geometry, dense SITE 00/NDXBOOK shell, artifact/authority split, candidate gallery, structured review, readiness and detail bands, typography/color/material matching, existing neutral asset inspection, exact-viewport browser QA, and timing.
+- **Decisions / outcomes:** Built a dedicated DOM/SVG/CSS composition and reused one independent NDXBOOK hand source only as muted archival texture. The supplied golden, repository mobile-master screenshots, and canvases are not rendered by the route. Three screenshot-driven correction passes aligned the major vertical bands. Exact raised-finger/newspaper source art was unavailable standalone, so hero asset fidelity remains the principal known gap.
+- **Changes:** Added **`NdxbookSolDirectPage.tsx`**, scoped **`site00-ndxbook-sol-direct.css`**, route constant/wiring, and focused isolation/raster-firewall tests. Browser proof captured at 572×1024. Implementation ran 21:06:53–21:24:48 UTC; first render 21:12:24 UTC.
+- **Conventions:** Direct visual benchmarks should use isolated page/CSS modules, preserve reference-first geometry, test against the exact authority viewport, and state missing-asset gaps honestly rather than extracting screenshot pixels.
+
+---
+
+## 2026-09-15 — Public Sol-direct route intermittently served by stale tunnel connectors
+
+Summary of the **whole conversation so far** in this chat: user requested a runtime-only diagnosis of why the new public **`/projects/ndxbook/design/twin-sol-direct`** route sometimes falls through to the homepage while the same route works on local Vite, with all existing Twin visual implementations explicitly off limits.
+
+- **Context:** Route constant and public `Site00Layout` wiring were already present; no account guard was involved. Investigation stayed at route-table, HTTP, Vite, process, and Cloudflare tunnel layers.
+- **Topics covered:** Local/public deep-link responses, Vite transformed-module parity, active process and tunnel topology, repeated cache-busted public requests, and the application catch-all.
+- **Decisions / outcomes:** Confirmed multiple simultaneously active connectors behind the same named Cloudflare tunnel. Repeated public requests alternated among three Vite dependency revisions; only the current revision contained `projectDesignTwinSolDirect`, while stale revisions did not and returned the SPA HTML for the missing page module. On those stale revisions, App's `path="*"` navigation sends the unknown route to `/`. Cloudflare itself does not issue an HTTP redirect.
+- **Changes:** Diagnostic documentation only; no route, page, visual implementation, tunnel process, or application behavior changed.
+- **Conventions:** A stable named preview tunnel must have one active Cloud Agent connector (or all connectors must serve the same revision). Cache-busted transformed-module sampling is the concrete check when a public Vite hostname behaves inconsistently with localhost.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1R1 fidelity tightening
+
+Summary of the **whole conversation so far** in this chat: founder commissioned the isolated Sol direct reconstruction from a 572×1024 NDXBOOK golden, reported that the shared preview URL fell through to the homepage, then requested an outside-in visual-authority follow-up on the same route and same direct-build chat.
+
+- **Context:** Preserve **`/projects/ndxbook/design/twin-sol-direct`** architecture and isolation while materially tightening the live DOM/CSS result against the attached golden. Composer, Grok direct output, and the Sol provider benchmark remain outside this work.
+- **Topics covered:** Golden-first discrepancy ranking; stale named-tunnel connector diagnosis and isolated quick-tunnel workaround; parent geometry; hero/newsprint crop; raised-finger vector treatment; condensed headline weight; evidence/footer alignment; candidate compositions; exact-viewport three-pass browser comparison; raster-firewall verification.
+- **Decisions / outcomes:** The pre-R1 top gaps were hero photographic fidelity, headline weight, candidate artwork, hand gesture, rail density, tagline rhythm, structured-card texture, candidate variants, gauge alignment, and footer icon scale. R1 kept already-aligned 572×1024 shell geometry and replaced weaker hero/candidate treatments. Six total correction passes have now been completed across DIRECT1 + R1; R1 passes separately covered macro geometry, component proportions, and typography/material details.
+- **Changes:** Updated only **`NdxbookSolDirectPage.tsx`** and scoped **`site00-ndxbook-sol-direct.css`** for R1, plus this memory entry. Added generated newsprint DOM, revised inline SVG hand, tighter hero crop, heavier condensed display type, corrected tagline/evidence placement, and denser candidate art. Focused tests, typecheck, production build, and cPanel package verification pass.
+- **Conventions:** A visually aligned shell does not excuse a wrong dominant asset. When the exact standalone source is unavailable and screenshot extraction is forbidden, use honest DOM/SVG approximation, preserve the measured parent box, and report the photographic-fidelity gap explicitly.
+
+---
+
 ## 2026-09-15 — Test B signed-out preview boot fix
 
 Summary of the **whole conversation so far** in this chat: founder commissioned the isolated `twin-testB` SOL visual-design benchmark, hard-bound OpenAI `gpt-5.6-sol` at high reasoning, advanced it from free-form JSON through strict schema-enforced SDK parsing, proved the 32K output budget with tiny and ≥50KB live runs, then reported that the testing page itself would not boot.
@@ -9609,7 +9645,6 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 - **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
 - **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
 
-
 ---
 
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SPARK-DIRECT1 isolated golden reconstruction
@@ -9621,3 +9656,27 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh M
 - **Decisions / outcomes:** Direct implementation only — no spec JSON, no translation engine. CSS-composed archival collage (no standalone pointing-hand photo asset in repo). Route boots without CTRL ROOM sign-in. Timing: START 22:26:17Z, FIRST RENDER 22:29:25Z, FINAL 22:31:03Z (~4m46s). No other direct-bench files opened (isolation held; mandatory motherboard read only).
 - **Changes:** `src/site00/pages/DesignTwinSparkDirectPage.tsx`, `src/site00/styles/site00-twin-spark-direct.css`, route constant + helper in `src/site00/config/routes.ts`, lazy route in `src/routes/Site00Routes.tsx` (+19 lines), this MEMORY entry.
 - **Conventions:** Spark-direct bench keeps the same no-guard isolated-route pattern as prior direct benches; visual authority is always the attached golden, never current DESIGN visuals.
+---
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
+
+Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1R1**. Same route `/projects/ndxbook/design/twin-grok-direct`. Do not rebuild architecture.
+- **Top initial gaps:** blob SVG hand; hero plate scale; 768 artboard on gray surround; gallery/doc placeholders; authority thumbs; rail button size; type scale; section heights; extra bottom air; dirty xerox missing.
+- **Changes:** Generated missing xerox plates into `public/site00/twin-grok-direct/`; traced 768×1376 / 512+208 hero-rail; inset darker plate; condensed type; existing Twin/DESIGN still untouched. Build **v491**.
+- **Conventions:** Direct-reconstruction follow-ups replace conflicting visual code. Do not add analog markup that is not in the golden. Do not slice the golden into the page.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F6R2 durable structured-output proof receipt
+
+Summary of the **whole conversation so far** in this chat: after Test B’s signed-out boot fix, the verified F6 structured-output gate regressed on Railway because runs and `structured-output-proof.json` lived under process-local `/tmp`. Both historical proof run IDs became `SOL_RUN_NOT_FOUND`, and readiness fell back to tiny PASS / large FAIL despite the completed F6R1 evidence. The fix moved proof authority to existing SITE 00 Supabase persistence, separated provider readiness from reference selection, exposed explicit UI readiness states, reconciled stale browser runs, and survived repeated API restarts.
+
+- **Context:** Preserve the paid F6R1 proof without another provider call, without using the founder golden, and without changing OpenAI `gpt-5.6-sol`, high reasoning, strict schema, prompt, 32K budget, Composer, or Grok behavior.
+- **Root causes:** Sol runs and proof flags were process-local files. The first durable implementation then hashed `JSON.stringify(configuration)`; Supabase JSONB reordered object keys after restart, making the fingerprint order-dependent and causing a valid stored receipt to be rejected.
+- **Changes:** Added Supabase-backed `SolStructuredOutputProofReceipt` in `site00_methodology_validation_runs`, keyed by deterministic record ID/mode. Receipt retains nested evidence plus required top-level proof/build/config/result fields. F6R1 backfill accepts only the exact tiny/stress run IDs, attested builds, prompt/hash, schema/parser, model/reasoning, 32K budget, 69,968 characters, 22,968 tokens, non-truncation, direct parsed output, and schema PASS. Recursive canonical serialization now produces fingerprint `2226a22e999bbc6d747adae0d602fe74a7dbae7933de135cff4dc04f49c9e11b`; the prior order-dependent receipt safely upgrades without a provider call. Current Railway commit is exposed separately from the attested F6 provider build.
+- **Readiness/UI:** Reference-free GET readiness is READY when credentials/config/proof pass; reference validation remains start-only. UI separately shows PROVIDER READINESS, STRICT PIPELINE PROOF, and FOUNDER GOLDEN RETRY. Start stays disabled until a reference is selected. Failed stale local runs carrying proof=false are cleared when Railway says PASS; completed valid results remain.
+- **Verification:** Supabase receipt hydrated after two API process restarts with unchanged `persistedAt=2026-09-15T21:47:45.366Z`, canonical fingerprint, F6R1 provenance, and tiny/large/pipeline PASS. Focused regression coverage includes JSONB key reordering, legacy receipt upgrade/reuse, no-reference READY, visible labels, stale-run clearing, selected-reference button gating, exact receipt fields, and zero provider invocation.
+- **Conventions:** Durable JSONB fingerprints must use canonical stable serialization, never insertion-order `JSON.stringify`. Proof compatibility binds the historical provider build and exact current provider configuration; unrelated storage/UI deployment commits do not invalidate the attested pipeline.

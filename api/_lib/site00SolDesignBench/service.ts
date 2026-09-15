@@ -18,8 +18,8 @@ import {
 } from '../../../shared/site00-sol-design-bench/contracts.js';
 import {
   SolDesignBenchModelContract,
-  SolDesignBenchPriorProofAttestation,
   type SolDesignBenchProviderReadinessReceipt,
+  type SolStructuredOutputProofReceipt,
 } from '../../../shared/site00-sol-design-bench/modelContract.js';
 import {
   SOL_PROVIDER_MODEL_ID,
@@ -30,6 +30,10 @@ import {
   executeSolDesignAnalysis,
   type SolProviderResult,
 } from './provider.js';
+import {
+  loadOrBackfillSolStructuredOutputProofReceipt,
+  persistSolStructuredOutputProofEvidence,
+} from './proofReceiptStore.js';
 
 const ROOT = process.env.SOL_DESIGN_BENCH_STORE_DIR?.trim() ||
   join(tmpdir(), 'site00-sol-design-bench');
@@ -66,13 +70,20 @@ export async function getSolDesignBenchProviderReadiness(input?: {
     largeOutputStressPassed: proof.largeOutputStressPassed,
     structuredOutputPipelineProofPassed:
       proof.tinyLiveSchemaSmokePassed && proof.largeOutputStressPassed,
+    structuredOutputProofReceipt: proof.receipt,
+    structuredOutputProofPersistence: proof.persistence,
+    currentRailwayCommit:
+      process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ||
+      process.env.VERCEL_GIT_COMMIT_SHA?.trim() ||
+      process.env.SITE00_BUILD_ID?.trim() ||
+      'unknown',
     blockingReasons: [],
   };
   if (!receipt.openAiCredentialPresentServerSide) receipt.blockingReasons.push('OPENAI_CREDENTIAL_MISSING');
   if (!receipt.exactModelIdConfigured) receipt.blockingReasons.push('EXACT_MODEL_ID_NOT_CONFIGURED');
   if (!receipt.highReasoningConfigured) receipt.blockingReasons.push('HIGH_REASONING_NOT_CONFIGURED');
-  if (!receipt.referenceImageAvailable) receipt.blockingReasons.push('REFERENCE_IMAGE_UNAVAILABLE');
-  if (!receipt.imageInputAttachmentPathValid) receipt.blockingReasons.push('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
+  if (input && !receipt.referenceImageAvailable) receipt.blockingReasons.push('REFERENCE_IMAGE_UNAVAILABLE');
+  if (input && !receipt.imageInputAttachmentPathValid) receipt.blockingReasons.push('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
   if (!receipt.noFallbackConfigured) receipt.blockingReasons.push('MODEL_FALLBACK_CONFIGURED');
   if (!receipt.webSearchDisabled) receipt.blockingReasons.push('WEB_SEARCH_ENABLED');
   if (!receipt.structuredOutputPipelineProofPassed) {
@@ -121,25 +132,37 @@ function historyPath(): string {
   return join(ROOT, 'history.json');
 }
 
-function structuredOutputProofPath(): string {
-  return join(ROOT, 'structured-output-proof.json');
-}
-
 interface StructuredOutputProofState {
   tinyLiveSchemaSmokePassed: boolean;
   largeOutputStressPassed: boolean;
+  receipt: SolStructuredOutputProofReceipt | null;
+  persistence: 'SUPABASE' | 'TEST_OVERRIDE' | 'UNAVAILABLE';
 }
 
 let structuredOutputProofOverride: StructuredOutputProofState | null = null;
 
 async function readStructuredOutputProof(): Promise<StructuredOutputProofState> {
-  if (structuredOutputProofOverride) return structuredClone(structuredOutputProofOverride);
+  if (structuredOutputProofOverride) {
+    return {
+      ...structuredClone(structuredOutputProofOverride),
+      receipt: null,
+      persistence: 'TEST_OVERRIDE',
+    };
+  }
   try {
-    return JSON.parse(await readFile(structuredOutputProofPath(), 'utf8')) as StructuredOutputProofState;
+    const receipt = await loadOrBackfillSolStructuredOutputProofReceipt();
+    return {
+      tinyLiveSchemaSmokePassed: Boolean(receipt?.tinyLiveSchemaSmoke?.passed),
+      largeOutputStressPassed: Boolean(receipt?.largeOutputStress?.passed),
+      receipt,
+      persistence: 'SUPABASE',
+    };
   } catch {
     return {
-      tinyLiveSchemaSmokePassed: SolDesignBenchPriorProofAttestation.tinyLiveSchemaSmokePassed,
+      tinyLiveSchemaSmokePassed: false,
       largeOutputStressPassed: false,
+      receipt: null,
+      persistence: 'UNAVAILABLE',
     };
   }
 }
@@ -278,11 +301,41 @@ async function runJob(runId: string): Promise<void> {
         ? providerResult.completenessReceipt.outputCharacters >= 50_000
         : null;
     if (run.proofMode && run.proofPassed) {
-      const proof = await readStructuredOutputProof();
-      if (run.proofMode === 'TINY_LIVE_SCHEMA_SMOKE') proof.tinyLiveSchemaSmokePassed = true;
-      if (run.proofMode === 'LARGE_OUTPUT_STRESS') proof.largeOutputStressPassed = true;
-      if (structuredOutputProofOverride) structuredOutputProofOverride = structuredClone(proof);
-      await writeFile(structuredOutputProofPath(), JSON.stringify(proof), 'utf8');
+      if (structuredOutputProofOverride) {
+        if (run.proofMode === 'TINY_LIVE_SCHEMA_SMOKE') {
+          structuredOutputProofOverride.tinyLiveSchemaSmokePassed = true;
+        }
+        if (run.proofMode === 'LARGE_OUTPUT_STRESS') {
+          structuredOutputProofOverride.largeOutputStressPassed = true;
+        }
+      } else {
+        const runtime = providerResult.runtimeReceipt;
+        if (
+          !runtime.schemaValidationPass ||
+          !runtime.structuredResultDirect ||
+          runtime.manualJsonParseUsed ||
+          runtime.outputTextUsedAsPrimaryResult ||
+          providerResult.completenessReceipt.truncated ||
+          !providerResult.completenessReceipt.complete
+        ) {
+          throw new Error('SOL_STRUCTURED_OUTPUT_PROOF_EVIDENCE_INVALID');
+        }
+        await persistSolStructuredOutputProofEvidence({
+          proofMode: run.proofMode,
+          runId: run.runId,
+          apiBuild: runtime.liveApiBuild,
+          sourcePromptVersion: run.solPromptVersion,
+          sourceMaxOutputTokens: providerResult.completenessReceipt.maxOutputTokens,
+          finishReason: providerResult.completenessReceipt.finishReason,
+          outputCharacters: providerResult.completenessReceipt.outputCharacters,
+          actualOutputTokens: providerResult.completenessReceipt.actualOutputTokens,
+          schemaValidationPass: runtime.schemaValidationPass,
+          structuredResultDirect: runtime.structuredResultDirect,
+          manualJsonParseUsed: runtime.manualJsonParseUsed,
+          outputTextUsedAsPrimaryResult: runtime.outputTextUsedAsPrimaryResult,
+          passed: true,
+        });
+      }
     }
     await saveRun(run);
 
