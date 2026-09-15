@@ -9597,3 +9597,15 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Verification:** 11 focused Sol tests passed, TypeScript and production build passed, and signed-out browser boots passed for both the normal and `?goldenDiffCapture=1` URLs. Temporary diagnostic probes and logs were removed.
 - **Conventions:** Isolated design-benchmark preview routes must boot without a CTRL ROOM session. Missing or stale readiness fields must keep execution safely blocked rather than crash the page.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1 isolated golden reconstruction (v490)
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh Grok 4.6 Cursor sprint to recreate an attached NDXBOOK DESIGN golden as real DOM/CSS — not a Figma package, not Composer, not a provider bench.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1**. Golden attached in-chat (768×1376). Isolated route **`/projects/ndxbook/design/twin-grok-direct`**. Do not mutate `/design/twin`, `twin-v4`, `twin-testA`, `twin-testB`, or current DESIGN.
+- **Topics covered:** Motherboard load; golden geometry measurement; reuse of NDXBOOK paper texture (`eu-branch-receipts-isolated.webp`); three browser visual passes vs the golden.
+- **Decisions / outcomes:** Direct implementation only. Artboard locked to 768×1376. No raster cheat (golden / mobile-master not used as a page background). Route boots without CTRL ROOM sign-in. Exact archival pointing-hand photograph is not a standalone repo asset — constructed xerox plate used instead.
+- **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
+- **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
+
