@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import sharp from 'sharp';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   COMPOSER_INVOKED_DURING_TEST,
   SOL_DESIGN_BENCH_STAGES,
@@ -12,12 +12,18 @@ import {
   type FigmaStyleInterfaceTranslationPackage,
   type StartSolDesignBenchRequest,
 } from '../shared/site00-sol-design-bench/contracts';
+import { SolDesignBenchModelContract } from '../shared/site00-sol-design-bench/modelContract';
 import {
   getSolDesignBenchRun,
   resetSolDesignBenchForTests,
   setSolDesignBenchExecutorForTests,
   startSolDesignBenchRun,
 } from '../api/_lib/site00SolDesignBench/service';
+import {
+  SOL_PROMPT_HASH,
+  SOL_PROMPT_VERSION,
+  buildSolBenchmarkInputReceipt,
+} from '../api/_lib/site00SolDesignBench/provider';
 import { SITE00_ROUTES, solDesignBenchmarkRoute } from '../src/site00/config/routes';
 
 function packageFixture(sha256: string): FigmaStyleInterfaceTranslationPackage {
@@ -113,7 +119,12 @@ async function waitForTerminal(runId: string) {
   throw new Error('test run did not finish');
 }
 
+beforeEach(() => {
+  process.env.OPENAI_API_KEY = 'test-server-only-key';
+});
+
 afterEach(async () => {
+  delete process.env.OPENAI_API_KEY;
   setSolDesignBenchExecutorForTests(null);
   await resetSolDesignBenchForTests();
 });
@@ -133,9 +144,23 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
     expect(validateReferenceInput({ ...request.reference, mime: 'image/gif' as 'image/png' }))
       .toContain('UNSUPPORTED_MIME');
 
-    setSolDesignBenchExecutorForTests(async ({ authority }) => ({
+    setSolDesignBenchExecutorForTests(async ({ runId, authority }) => ({
       package: packageFixture(authority.sha256),
       cost: null,
+      dispatchReceipt: {
+        receiptType: 'SolBenchmarkProviderDispatchReceipt',
+        runId,
+        provider: 'openai',
+        requestedModelId: 'gpt-5.6-sol',
+        actualDispatchedModelId: 'gpt-5.6-sol',
+        requestedReasoningEffort: 'high',
+        fallbackAllowed: false,
+        webSearchEnabled: false,
+        endpoint: 'https://api.openai.com/v1/responses',
+        providerResponseId: 'resp_test',
+        dispatchedAt: new Date().toISOString(),
+      },
+      inputReceipt: buildSolBenchmarkInputReceipt({ runId, authority }),
     }));
     const started = await startSolDesignBenchRun(request);
     request.reference.filename = 'replacement.png';
@@ -151,6 +176,17 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
     expect(complete.result?.IMPLEMENTATION_HANDOFF.composerInvoked).toBe(false);
     expect(complete.composerInvokedDuringTest).toBe(false);
     expect(complete.grokOutputAccessed).toBe(false);
+    expect(complete.provider).toBe('OpenAI');
+    expect(complete.providerModelId).toBe('gpt-5.6-sol');
+    expect(complete.requestedReasoningEffort).toBe('high');
+    expect(complete.inputReceipt).toMatchObject({
+      imageInputAttached: true,
+      modelId: 'gpt-5.6-sol',
+      requestedReasoningEffort: 'high',
+    });
+    expect(complete.providerDispatchReceipt?.actualDispatchedModelId).toBe('gpt-5.6-sol');
+    expect(complete.solPromptVersion).toBe(SOL_PROMPT_VERSION);
+    expect(complete.solPromptHash).toBe(SOL_PROMPT_HASH);
     expect(complete.timing.totalDuration).not.toBeNull();
   });
 
@@ -166,7 +202,7 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
       message: 'SOL_PROVIDER_FAILED_TEST',
     });
     expect(complete.authority.storedFile).toContain('reference.png');
-    expect(complete.provider).toBe('SOL');
+    expect(complete.provider).toBe('OpenAI');
   });
 
   it('implements the fixed stage machine and explicitly approximate ETA', () => {
@@ -183,5 +219,14 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
       basis: 'STAGE_WEIGHTS',
     });
     expect(COMPOSER_INVOKED_DURING_TEST).toBe(false);
+    expect(SolDesignBenchModelContract).toMatchObject({
+      provider: 'openai',
+      modelId: 'gpt-5.6-sol',
+      reasoningEffort: 'high',
+      visionInputRequired: true,
+      fallbackAllowed: false,
+      webSearchAllowed: false,
+      competitorAccessAllowed: false,
+    });
   });
 });

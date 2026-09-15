@@ -33,6 +33,21 @@ interface LocalReference {
   sha256: string;
 }
 
+interface SolProviderStatus {
+  provider: 'OpenAI';
+  modelId: 'gpt-5.6-sol';
+  reasoningEffort: 'high';
+  fallbackAllowed: false;
+  webSearchEnabled: false;
+  providerReadiness: {
+    state: 'READY' | 'BLOCKED';
+    openAiCredentialPresentServerSide: boolean;
+    blockingReasons: string[];
+  };
+  promptVersion: string;
+  promptHash: string;
+}
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -324,7 +339,9 @@ function ResultsWorkspace({
         ) : null}
         {tab === 'RUN METRICS' ? (
           <dl className="sol-bench-run-metrics">
-            <div><dt>MODEL</dt><dd>{run.model}</dd></div>
+            <div><dt>PROVIDER</dt><dd>{run.provider}</dd></div>
+            <div><dt>MODEL</dt><dd>{run.providerModelId}</dd></div>
+            <div><dt>REASONING</dt><dd>{run.requestedReasoningEffort.toUpperCase()}</dd></div>
             <div><dt>RUN ID</dt><dd>{run.runId}</dd></div>
             <div><dt>REFERENCE SHA256</dt><dd>{run.authority.sha256}</dd></div>
             <div><dt>QUEUE</dt><dd>{formatDuration(run.timing.queueDuration)}</dd></div>
@@ -332,6 +349,10 @@ function ResultsWorkspace({
             <div><dt>POST PROCESS</dt><dd>{formatDuration(run.timing.postProcessingDuration)}</dd></div>
             <div><dt>TOTAL</dt><dd>{formatDuration(run.timing.totalDuration)}</dd></div>
             <div><dt>COST</dt><dd>{run.cost ? `${run.cost.currency} ${run.cost.amount.toFixed(4)}` : 'Not available'}</dd></div>
+            <div><dt>PROMPT VERSION</dt><dd>{run.solPromptVersion}</dd></div>
+            <div><dt>PROMPT SHA256</dt><dd>{run.solPromptHash}</dd></div>
+            <div><dt>FALLBACK ALLOWED</dt><dd>FALSE</dd></div>
+            <div><dt>WEB SEARCH ENABLED</dt><dd>FALSE</dd></div>
             <div><dt>COMPOSER_INVOKED_DURING_TEST</dt><dd>FALSE</dd></div>
             <div><dt>GROK_OUTPUT_ACCESSED</dt><dd>FALSE</dd></div>
           </dl>
@@ -347,6 +368,7 @@ export function SolDesignBenchmarkPage() {
   const [error, setError] = useState('');
   const [isInspecting, setIsInspecting] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [providerStatus, setProviderStatus] = useState<SolProviderStatus | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const pickerRef = useRef<HTMLInputElement>(null);
 
@@ -364,6 +386,15 @@ export function SolDesignBenchmarkPage() {
   useEffect(() => {
     const previous = localStorage.getItem(LAST_RUN_KEY);
     if (previous) void loadRun(previous).catch(() => localStorage.removeItem(LAST_RUN_KEY));
+    void fetch(site00ApiUrl('/api/site00/sol-design-bench'), {
+      credentials: 'omit',
+      cache: 'no-store',
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`Provider readiness unavailable (${response.status}).`);
+        setProviderStatus(await response.json() as SolProviderStatus);
+      })
+      .catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
   }, [loadRun]);
 
   useEffect(() => {
@@ -445,6 +476,23 @@ export function SolDesignBenchmarkPage() {
         <div><span>SITE 00 · DESIGN INTELLIGENCE LAB</span><h1>TWIN DESIGN BENCHMARK</h1></div>
         <strong>TEST B · SOL</strong>
       </header>
+      <div className="sol-bench-model-contract" data-testid="sol-model-contract">
+        <div><small>PROVIDER</small><strong>OpenAI</strong></div>
+        <div><small>MODEL</small><strong>GPT-5.6 SOL</strong><code>gpt-5.6-sol</code></div>
+        <div><small>REASONING</small><strong>HIGH</strong></div>
+        <div><small>FALLBACK</small><strong>OFF</strong></div>
+        <div><small>WEB SEARCH</small><strong>OFF</strong></div>
+        <div>
+          <small>PROVIDER READINESS</small>
+          <strong className={providerStatus?.providerReadiness.openAiCredentialPresentServerSide ? 'is-ready' : 'is-blocked'}>
+            {providerStatus
+              ? providerStatus.providerReadiness.openAiCredentialPresentServerSide
+                ? 'CREDENTIAL READY'
+                : 'BLOCKED · OPENAI CREDENTIAL'
+              : 'CHECKING…'}
+          </strong>
+        </div>
+      </div>
 
       <section className="sol-bench-reference">
         <div className="sol-bench-section-heading"><span>01</span><h2>REFERENCE IMAGE</h2></div>
@@ -484,7 +532,10 @@ export function SolDesignBenchmarkPage() {
           </div>
         ) : null}
 
-        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
+        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading || !providerStatus?.providerReadiness.openAiCredentialPresentServerSide} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
+        {!run && providerStatus && !providerStatus.providerReadiness.openAiCredentialPresentServerSide ? (
+          <p className="sol-bench-readiness-blocked">START BLOCKED · Railway must provide the server-side OpenAI credential for exact gpt-5.6-sol dispatch.</p>
+        ) : null}
         {error ? <p className="sol-bench-error" role="alert">{error}</p> : null}
       </section>
 

@@ -17,7 +17,14 @@ import {
   type StartSolDesignBenchRequest,
 } from '../../../shared/site00-sol-design-bench/contracts.js';
 import {
+  SolDesignBenchModelContract,
+  type SolDesignBenchProviderReadinessReceipt,
+} from '../../../shared/site00-sol-design-bench/modelContract.js';
+import {
   SOL_PROVIDER_MODEL_ID,
+  SOL_PROMPT_HASH,
+  SOL_PROMPT_VERSION,
+  buildSolBenchmarkInputReceipt,
   executeSolDesignAnalysis,
   type SolProviderResult,
 } from './provider.js';
@@ -29,6 +36,40 @@ const activeJobs = new Set<string>();
 
 type SolExecutor = typeof executeSolDesignAnalysis;
 let executor: SolExecutor = executeSolDesignAnalysis;
+
+export class SolDesignBenchProviderBlockedError extends Error {
+  constructor(public readonly receipt: SolDesignBenchProviderReadinessReceipt) {
+    super(`SOL_PROVIDER_READINESS_BLOCKED:${receipt.blockingReasons.join(',')}`);
+  }
+}
+
+export function getSolDesignBenchProviderReadiness(input?: {
+  referenceImageAvailable?: boolean;
+  imageInputAttachmentPathValid?: boolean;
+}): SolDesignBenchProviderReadinessReceipt {
+  const receipt: SolDesignBenchProviderReadinessReceipt = {
+    receiptType: 'SolDesignBenchProviderReadinessReceipt',
+    state: 'READY',
+    checkedAt: new Date().toISOString(),
+    openAiCredentialPresentServerSide: Boolean(process.env.OPENAI_API_KEY?.trim()),
+    exactModelIdConfigured: SOL_PROVIDER_MODEL_ID === SolDesignBenchModelContract.modelId,
+    highReasoningConfigured: SolDesignBenchModelContract.reasoningEffort === 'high',
+    referenceImageAvailable: input?.referenceImageAvailable ?? false,
+    imageInputAttachmentPathValid: input?.imageInputAttachmentPathValid ?? false,
+    noFallbackConfigured: SolDesignBenchModelContract.fallbackAllowed === false,
+    webSearchDisabled: SolDesignBenchModelContract.webSearchAllowed === false,
+    blockingReasons: [],
+  };
+  if (!receipt.openAiCredentialPresentServerSide) receipt.blockingReasons.push('OPENAI_CREDENTIAL_MISSING');
+  if (!receipt.exactModelIdConfigured) receipt.blockingReasons.push('EXACT_MODEL_ID_NOT_CONFIGURED');
+  if (!receipt.highReasoningConfigured) receipt.blockingReasons.push('HIGH_REASONING_NOT_CONFIGURED');
+  if (!receipt.referenceImageAvailable) receipt.blockingReasons.push('REFERENCE_IMAGE_UNAVAILABLE');
+  if (!receipt.imageInputAttachmentPathValid) receipt.blockingReasons.push('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
+  if (!receipt.noFallbackConfigured) receipt.blockingReasons.push('MODEL_FALLBACK_CONFIGURED');
+  if (!receipt.webSearchDisabled) receipt.blockingReasons.push('WEB_SEARCH_ENABLED');
+  receipt.state = receipt.blockingReasons.length ? 'BLOCKED' : 'READY';
+  return receipt;
+}
 
 const STAGE_LABELS: Record<SolDesignBenchStage, string> = {
   IDLE: 'Waiting for reference',
@@ -134,13 +175,15 @@ async function runJob(runId: string): Promise<void> {
       void updateStage(runId, providerStages[providerStageIndex]);
     }, 25_000);
 
-    const providerResult = await executor({ authority: run.authority, dataUrl });
+    const providerResult = await executor({ runId, authority: run.authority, dataUrl });
     clearInterval(stageTimer);
     stageTimer = null;
 
     run = (await getSolDesignBenchRun(runId))!;
     run.timing.providerCompletedAt = new Date().toISOString();
     run.cost = providerResult.cost;
+    run.providerDispatchReceipt = providerResult.dispatchReceipt;
+    run.inputReceipt = providerResult.inputReceipt;
     await saveRun(run);
 
     await updateStage(runId, 'RENDERING_INTERFACE_PREVIEW');
@@ -176,7 +219,9 @@ async function runJob(runId: string): Promise<void> {
       run.progress = 100;
       run.etaSeconds = 0;
       run.error = {
-        code: 'SOL_RUN_FAILED',
+        code: error instanceof Error && error.message.startsWith('GPT_5_6_SOL_PROVIDER_BINDING_FAILED')
+          ? 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
+          : 'SOL_RUN_FAILED',
         message: error instanceof Error ? error.message : String(error),
       };
       run.timing.completedAt = new Date().toISOString();
@@ -210,6 +255,13 @@ export async function startSolDesignBenchRun(
   }
 
   const runId = `sol_${randomUUID()}`;
+  const readiness = getSolDesignBenchProviderReadiness({
+    referenceImageAvailable: bytes.length > 0,
+    imageInputAttachmentPathValid:
+      request.reference.dataUrl.startsWith(`data:${request.reference.mime};base64,`) &&
+      sha256 === request.reference.sha256.toLowerCase(),
+  });
+  if (readiness.state !== 'READY') throw new SolDesignBenchProviderBlockedError(readiness);
   await ensureRoot();
   const storedFile = referencePath(runId, request.reference.mime);
   await writeFile(storedFile, bytes);
@@ -234,6 +286,26 @@ export async function startSolDesignBenchRun(
     model: SOL_DESIGN_BENCH_MODEL,
     provider: SOL_DESIGN_BENCH_PROVIDER,
     providerModelId: SOL_PROVIDER_MODEL_ID,
+    requestedReasoningEffort: SolDesignBenchModelContract.reasoningEffort,
+    providerReadinessReceipt: readiness,
+    providerDispatchReceipt: null,
+    inputReceipt: buildSolBenchmarkInputReceipt({
+      runId,
+      authority: {
+        authorityType: 'SolDesignBenchReferenceAuthority',
+        runId,
+        storedFile,
+        filename: request.reference.filename,
+        sha256,
+        width,
+        height,
+        bytes: bytes.length,
+        mime: request.reference.mime,
+        timestamp: now,
+      },
+    }),
+    solPromptVersion: SOL_PROMPT_VERSION,
+    solPromptHash: SOL_PROMPT_HASH,
     timing: {
       queuedAt: now,
       startedAt: null,

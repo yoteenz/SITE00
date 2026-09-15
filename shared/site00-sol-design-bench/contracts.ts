@@ -1,5 +1,11 @@
+import type {
+  SolBenchmarkInputReceipt,
+  SolBenchmarkProviderDispatchReceipt,
+  SolDesignBenchProviderReadinessReceipt,
+} from './modelContract.js';
+
 export const SOL_DESIGN_BENCH_MODEL = 'GPT-5.6 SOL' as const;
-export const SOL_DESIGN_BENCH_PROVIDER = 'SOL' as const;
+export const SOL_DESIGN_BENCH_PROVIDER = 'OpenAI' as const;
 export const COMPOSER_INVOKED_DURING_TEST = false as const;
 
 export const SOL_DESIGN_BENCH_STAGES = [
@@ -146,12 +152,21 @@ export interface SolDesignBenchRun {
   authority: SolDesignBenchReferenceAuthority;
   model: typeof SOL_DESIGN_BENCH_MODEL;
   provider: typeof SOL_DESIGN_BENCH_PROVIDER;
-  providerModelId: string;
+  providerModelId: 'gpt-5.6-sol';
+  requestedReasoningEffort: 'high';
+  providerReadinessReceipt: SolDesignBenchProviderReadinessReceipt;
+  providerDispatchReceipt: SolBenchmarkProviderDispatchReceipt | null;
+  inputReceipt: SolBenchmarkInputReceipt;
+  solPromptVersion: string;
+  solPromptHash: string;
   timing: SolDesignBenchTiming;
   etaSeconds: number | null;
   etaIsEstimate: true;
   result: FigmaStyleInterfaceTranslationPackage | null;
-  error: { code: 'SOL_RUN_FAILED'; message: string } | null;
+  error: {
+    code: 'SOL_RUN_FAILED' | 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED';
+    message: string;
+  } | null;
   cost: { currency: string; amount: number } | null;
   composerInvokedDuringTest: false;
   grokOutputAccessed: false;

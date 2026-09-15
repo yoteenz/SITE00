@@ -1,15 +1,18 @@
+import { createHash } from 'node:crypto';
 import type {
   FigmaStyleInterfaceTranslationPackage,
   SolDesignBenchReferenceAuthority,
 } from '../../../shared/site00-sol-design-bench/contracts.js';
+import {
+  SolDesignBenchModelContract,
+  type SolBenchmarkInputReceipt,
+  type SolBenchmarkProviderDispatchReceipt,
+} from '../../../shared/site00-sol-design-bench/modelContract.js';
 
-export const SOL_PROVIDER_MODEL_ID =
-  process.env.SOL_DESIGN_BENCH_MODEL?.trim() || 'gpt-5.6-sol';
+export const SOL_PROVIDER_MODEL_ID = SolDesignBenchModelContract.modelId;
+export const SOL_PROMPT_VERSION = 'sol-design-bench-test-b-v2-high-reasoning';
 
-const SOL_PROVIDER_URL =
-  process.env.SOL_DESIGN_BENCH_API_URL?.trim() || 'https://api.openai.com/v1/responses';
-
-const SYSTEM_PROMPT = `You are GPT-5.6 SOL operating as a literal visual-design intelligence layer.
+export const SOL_SYSTEM_PROMPT = `You are GPT-5.6 SOL operating as a literal visual-design intelligence layer.
 The uploaded screenshot is immutable design authority. Translate it; do not redesign, improve, normalize, or apply a preferred design system.
 Analyze page, section, component, and perceptual levels. Use source-derived pixel measurements and preserve source aspect ratio, geometry, typography hierarchy, color concentration, asset placement, density, whitespace, and emphasis.
 
@@ -38,6 +41,8 @@ DO_NOT_CHANGE_RULES contains only constraints genuinely visible in the reference
 Never mention or use Grok. Never invoke Composer.`;
 
 type ResponsesApiPayload = {
+  id?: string;
+  model?: string;
   output_text?: string;
   output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
   usage?: { input_tokens?: number; output_tokens?: number };
@@ -55,47 +60,93 @@ function extractJson(text: string): unknown {
 export interface SolProviderResult {
   package: FigmaStyleInterfaceTranslationPackage;
   cost: { amount: number; currency: string } | null;
+  dispatchReceipt: SolBenchmarkProviderDispatchReceipt;
+  inputReceipt: SolBenchmarkInputReceipt;
+}
+
+export const SOL_PROMPT_HASH = createHash('sha256')
+  .update(SOL_SYSTEM_PROMPT)
+  .digest('hex');
+
+export function buildSolOpenAiRequestBody(input: {
+  authority: SolDesignBenchReferenceAuthority;
+  dataUrl: string;
+}) {
+  return {
+    model: SolDesignBenchModelContract.modelId,
+    reasoning: { effort: SolDesignBenchModelContract.reasoningEffort },
+    instructions: SOL_SYSTEM_PROMPT,
+    input: [{
+      role: 'user',
+      content: [
+        {
+          type: 'input_text',
+          text: `Analyze this immutable reference. Authority SHA256: ${input.authority.sha256}. Intrinsic frame: ${input.authority.width} × ${input.authority.height}. MIME: ${input.authority.mime}.`,
+        },
+        { type: 'input_image', image_url: input.dataUrl, detail: 'high' },
+      ],
+    }],
+    tools: [],
+    tool_choice: 'none',
+    text: { format: { type: 'json_object' } },
+    max_output_tokens: 30000,
+  } as const;
+}
+
+export function buildSolBenchmarkInputReceipt(input: {
+  runId: string;
+  authority: SolDesignBenchReferenceAuthority;
+}): SolBenchmarkInputReceipt {
+  return {
+    receiptType: 'SolBenchmarkInputReceipt',
+    runId: input.runId,
+    referenceSha256: input.authority.sha256,
+    referenceWidth: input.authority.width,
+    referenceHeight: input.authority.height,
+    imageInputAttached: true,
+    provider: SolDesignBenchModelContract.provider,
+    modelId: SolDesignBenchModelContract.modelId,
+    requestedReasoningEffort: SolDesignBenchModelContract.reasoningEffort,
+    promptVersion: SOL_PROMPT_VERSION,
+  };
 }
 
 export async function executeSolDesignAnalysis(input: {
+  runId: string;
   authority: SolDesignBenchReferenceAuthority;
   dataUrl: string;
 }): Promise<SolProviderResult> {
-  const apiKey =
-    process.env.SOL_DESIGN_BENCH_API_KEY?.trim() ||
-    process.env.OPENAI_API_KEY?.trim();
-  if (!apiKey) throw new Error('SOL_PROVIDER_CREDENTIALS_MISSING');
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  if (!apiKey) throw new Error('GPT_5_6_SOL_PROVIDER_BINDING_FAILED:OPENAI_CREDENTIAL_MISSING');
 
-  const response = await fetch(SOL_PROVIDER_URL, {
+  const requestBody = buildSolOpenAiRequestBody(input);
+  const imageInput = requestBody.input[0].content.find((row) => row.type === 'input_image');
+  if (!imageInput?.image_url.startsWith(`data:${input.authority.mime};base64,`)) {
+    throw new Error('GPT_5_6_SOL_PROVIDER_BINDING_FAILED:VISION_INPUT_NOT_ATTACHED');
+  }
+
+  const response = await fetch(SolDesignBenchModelContract.responsesEndpoint, {
     method: 'POST',
     headers: {
       authorization: `Bearer ${apiKey}`,
       'content-type': 'application/json',
     },
-    body: JSON.stringify({
-      model: SOL_PROVIDER_MODEL_ID,
-      instructions: SYSTEM_PROMPT,
-      input: [{
-        role: 'user',
-        content: [
-          {
-            type: 'input_text',
-            text: `Analyze this immutable reference. Authority SHA256: ${input.authority.sha256}. Intrinsic frame: ${input.authority.width} × ${input.authority.height}. MIME: ${input.authority.mime}.`,
-          },
-          { type: 'input_image', image_url: input.dataUrl, detail: 'high' },
-        ],
-      }],
-      text: { format: { type: 'json_object' } },
-      max_output_tokens: 30000,
-    }),
+    body: JSON.stringify(requestBody),
     signal: AbortSignal.timeout(12 * 60 * 1000),
   });
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error(`SOL_PROVIDER_FAILED_${response.status}:${detail.slice(0, 240)}`);
+    throw new Error(
+      `GPT_5_6_SOL_PROVIDER_BINDING_FAILED:OPENAI_${response.status}:${detail.slice(0, 240)}`,
+    );
   }
   const body = (await response.json()) as ResponsesApiPayload;
+  if (body.model !== SolDesignBenchModelContract.modelId) {
+    throw new Error(
+      `GPT_5_6_SOL_PROVIDER_BINDING_FAILED:DISPATCHED_MODEL_${body.model || 'UNREPORTED'}`,
+    );
+  }
   const text =
     body.output_text ||
     body.output?.flatMap((row) => row.content ?? []).find((row) => row.type === 'output_text')?.text ||
@@ -106,5 +157,19 @@ export async function executeSolDesignAnalysis(input: {
     cost: typeof body.cost?.amount === 'number'
       ? { amount: body.cost.amount, currency: body.cost.currency || 'USD' }
       : null,
+    dispatchReceipt: {
+      receiptType: 'SolBenchmarkProviderDispatchReceipt',
+      runId: input.runId,
+      provider: SolDesignBenchModelContract.provider,
+      requestedModelId: SolDesignBenchModelContract.modelId,
+      actualDispatchedModelId: SolDesignBenchModelContract.modelId,
+      requestedReasoningEffort: SolDesignBenchModelContract.reasoningEffort,
+      fallbackAllowed: SolDesignBenchModelContract.fallbackAllowed,
+      webSearchEnabled: SolDesignBenchModelContract.webSearchAllowed,
+      endpoint: SolDesignBenchModelContract.responsesEndpoint,
+      providerResponseId: body.id || null,
+      dispatchedAt: new Date().toISOString(),
+    },
+    inputReceipt: buildSolBenchmarkInputReceipt(input),
   };
 }

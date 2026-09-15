@@ -2,10 +2,14 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { readFile } from 'node:fs/promises';
 import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
 import type { StartSolDesignBenchRequest } from '../../shared/site00-sol-design-bench/contracts.js';
+import { SolDesignBenchModelContract } from '../../shared/site00-sol-design-bench/modelContract.js';
 import {
   getSolDesignBenchRun,
+  getSolDesignBenchProviderReadiness,
+  SolDesignBenchProviderBlockedError,
   startSolDesignBenchRun,
 } from '../_lib/site00SolDesignBench/service.js';
+import { SOL_PROMPT_HASH, SOL_PROMPT_VERSION } from '../_lib/site00SolDesignBench/provider.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleTwinV2VisualConceptCors(req, res)) return;
@@ -18,11 +22,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         ok: true,
         service: 'sol-design-bench',
         model: 'GPT-5.6 SOL',
-        provider: 'SOL',
-        providerConfigured: Boolean(
-          process.env.SOL_DESIGN_BENCH_API_KEY?.trim() ||
-          process.env.OPENAI_API_KEY?.trim(),
-        ),
+        provider: SolDesignBenchModelContract.providerLabel,
+        modelId: SolDesignBenchModelContract.modelId,
+        reasoningEffort: SolDesignBenchModelContract.reasoningEffort,
+        fallbackAllowed: SolDesignBenchModelContract.fallbackAllowed,
+        webSearchEnabled: SolDesignBenchModelContract.webSearchAllowed,
+        providerReadiness: getSolDesignBenchProviderReadiness(),
+        promptVersion: SOL_PROMPT_VERSION,
+        promptHash: SOL_PROMPT_HASH,
         composerInvokedDuringTest: false,
         grokOutputAccessed: false,
       });
@@ -64,9 +71,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(202).json({ ok: true, run });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    res.status(message.startsWith('SOL_REFERENCE_') ? 422 : 500).json({
+    const readiness = error instanceof SolDesignBenchProviderBlockedError
+      ? error.receipt
+      : undefined;
+    res.status(readiness ? 503 : message.startsWith('SOL_REFERENCE_') ? 422 : 500).json({
       error: message,
-      code: message.startsWith('SOL_REFERENCE_') ? 'SOL_REFERENCE_INVALID' : 'SOL_RUN_FAILED',
+      code: readiness
+        ? 'SOL_PROVIDER_READINESS_BLOCKED'
+        : message.startsWith('SOL_REFERENCE_')
+          ? 'SOL_REFERENCE_INVALID'
+          : 'SOL_RUN_FAILED',
+      readiness,
     });
   }
 }

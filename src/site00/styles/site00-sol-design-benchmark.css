@@ -45,6 +45,46 @@
   white-space: nowrap;
 }
 
+.sol-bench-model-contract {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border: 1px solid var(--ink);
+  border-top: 0;
+  background: #fff;
+}
+
+.sol-bench-model-contract > div {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-height: 58px;
+  padding: 11px;
+  border-right: 1px solid var(--line);
+}
+
+.sol-bench-model-contract > div:last-child {
+  border-right: 0;
+}
+
+.sol-bench-model-contract small {
+  color: #77756d;
+  font-size: 7px;
+  letter-spacing: .08em;
+}
+
+.sol-bench-model-contract strong,
+.sol-bench-model-contract code {
+  font-size: 9px;
+}
+
+.sol-bench-model-contract .is-ready {
+  color: #56700c;
+}
+
+.sol-bench-model-contract .is-blocked {
+  color: #a72929;
+}
+
 .sol-bench-reference,
 .sol-bench-progress,
 .sol-bench-results {
@@ -278,6 +318,13 @@
   overflow-wrap: anywhere;
 }
 
+.sol-bench-readiness-blocked {
+  margin: 8px 0 0;
+  color: #8d2424;
+  font-size: 8px;
+  text-align: center;
+}
+
 .sol-bench-complete {
   display: flex;
   align-items: baseline;
@@ -469,6 +516,14 @@
   .sol-bench-components,
   .sol-bench-progress__metrics {
     grid-template-columns: 1fr;
+  }
+
+  .sol-bench-model-contract {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sol-bench-model-contract > div {
+    border-bottom: 1px solid var(--line);
   }
 
   .sol-bench-authority {
