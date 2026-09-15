@@ -12,6 +12,7 @@ import {
 } from '../../../shared/site00-sol-design-bench/schema.js';
 import {
   SolDesignBenchModelContract,
+  SolDesignBenchOutputBudget,
   type SolBenchmarkInputReceipt,
   type SolOutputCompletenessReceipt,
   type SolBenchmarkProviderDispatchReceipt,
@@ -20,7 +21,7 @@ import {
 } from '../../../shared/site00-sol-design-bench/modelContract.js';
 
 export const SOL_PROVIDER_MODEL_ID = SolDesignBenchModelContract.modelId;
-export const SOL_PROMPT_VERSION = 'sol-design-bench-test-b-v5-sdk-parsed-schema';
+export const SOL_PROMPT_VERSION = 'sol-design-bench-test-b-v6-output-budget-32k';
 export const SOL_SCHEMA_NAME = 'figma_style_interface_translation_package' as const;
 export const SOL_USER_JSON_INSTRUCTION =
   'Return the final FigmaStyleInterfaceTranslationPackage as compact valid JSON matching the supplied strict JSON Schema. Do not duplicate prose or embed image/base64 data.';
@@ -102,7 +103,7 @@ export function buildSolOpenAiRequestBody(input: {
         ),
       },
     },
-    max_output_tokens: 16000,
+    max_output_tokens: SolDesignBenchOutputBudget.maxOutputTokens,
   } as const;
 }
 
@@ -283,6 +284,9 @@ export async function executeSolDesignAnalysis(input: {
     finishReason,
     outputCharacters: diagnosticRawText.length,
     outputTokens: typeof body.usage?.output_tokens === 'number' ? body.usage.output_tokens : null,
+    maxOutputTokens: SolDesignBenchOutputBudget.maxOutputTokens,
+    actualOutputTokens: typeof body.usage?.output_tokens === 'number' ? body.usage.output_tokens : null,
+    schemaValidationPass: false,
     truncated,
     complete: !truncated && body.status !== 'failed' && body.output_parsed != null,
   };
@@ -299,6 +303,7 @@ export async function executeSolDesignAnalysis(input: {
 
   const parsed = body.output_parsed;
   const validation = validateSolTranslationPackage(parsed, input.authority);
+  completenessReceipt.schemaValidationPass = validation.valid;
   const runtimeReceipt: SolStructuredOutputRuntimeReceipt = {
     receiptType: 'SolStructuredOutputRuntimeReceipt',
     runId: input.runId,

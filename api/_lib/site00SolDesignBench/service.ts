@@ -18,6 +18,7 @@ import {
 } from '../../../shared/site00-sol-design-bench/contracts.js';
 import {
   SolDesignBenchModelContract,
+  SolDesignBenchPriorProofAttestation,
   type SolDesignBenchProviderReadinessReceipt,
 } from '../../../shared/site00-sol-design-bench/modelContract.js';
 import {
@@ -136,7 +137,10 @@ async function readStructuredOutputProof(): Promise<StructuredOutputProofState> 
   try {
     return JSON.parse(await readFile(structuredOutputProofPath(), 'utf8')) as StructuredOutputProofState;
   } catch {
-    return { tinyLiveSchemaSmokePassed: false, largeOutputStressPassed: false };
+    return {
+      tinyLiveSchemaSmokePassed: SolDesignBenchPriorProofAttestation.tinyLiveSchemaSmokePassed,
+      largeOutputStressPassed: false,
+    };
   }
 }
 
