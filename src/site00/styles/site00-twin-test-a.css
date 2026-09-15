@@ -33,6 +33,34 @@
   color: var(--tta-muted);
 }
 
+.twin-test-a__model-id {
+  margin: 6px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--tta-ink);
+}
+
+.twin-test-a__readiness {
+  border: 1px solid var(--tta-line);
+  padding: 12px 14px;
+  font-size: 12px;
+}
+
+.twin-test-a__failure-details {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--tta-muted);
+}
+
+.twin-test-a__failure-details summary {
+  cursor: pointer;
+  letter-spacing: 0.1em;
+}
+
+.twin-test-a__error-block .twin-test-a__error {
+  margin-bottom: 0;
+}
+
 .twin-test-a__build {
   font-size: 10px;
   color: var(--tta-muted);

@@ -118,6 +118,8 @@ describe('P0.VR.DESIGNBENCH.GROK1 twin-testA', () => {
     expect(run.reference?.sha256).toHaveLength(64);
     expect(run.model).toBe('GROK');
     expect(run.provider).toBe('xai');
+    expect(run.modelId).toBe('grok-4.6');
+    expect(run.providerModel).toBe('grok-4.6');
     expect(run.stage).toBe('COMPLETE');
     expect(run.composerInvoked).toBe(false);
     expect(run.otherModelOutputAccessed).toBe(false);

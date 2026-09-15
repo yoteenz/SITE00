@@ -1,4 +1,5 @@
 import type { GROK_JOB_STAGES } from './constants.js';
+import type { GrokBenchmarkInputReceipt, GrokDesignBenchProviderFailure } from './modelContract.js';
 
 export type GrokDesignBenchStage = (typeof GROK_JOB_STAGES)[number];
 
@@ -255,7 +256,10 @@ export interface GrokDesignBenchRun {
   projectId: string;
   model: 'GROK';
   provider: 'xai';
-  providerModel: string;
+  providerLabel: 'xAI';
+  providerModel: 'grok-4.6';
+  modelId: 'grok-4.6';
+  webSearchEnabled: false;
   stage: GrokDesignBenchStage;
   stageLabel: string;
   progressPercent: number;
@@ -266,6 +270,8 @@ export interface GrokDesignBenchRun {
   package: FigmaStyleInterfaceTranslationPackage | null;
   timing: GrokDesignBenchTiming;
   cost: GrokDesignBenchCost;
+  inputReceipt: GrokBenchmarkInputReceipt | null;
+  providerFailure: GrokDesignBenchProviderFailure | null;
   composerInvoked: false;
   otherModelOutputAccessed: false;
   testBDataRead: false;

@@ -9443,3 +9443,15 @@ Summary of this chat: founder assigned **GROK** (not Composer) to build an isola
 - **Founder ops:** Open twin-testA → upload golden PNG/JPG/WEBP → START GROK TEST. Railway needs **`XAI_API_KEY`**. Preview can use Vite local API. Existing Twin routes unchanged.
 - **Conventions:** Design-bench routes stay isolated; Grok bench never reads Test B / Sol / Twin V3–V4 compilers.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F1 grok-4.6 hard-bind (v484)
+
+Summary of this chat: Grok built isolated twin-testA (GROK1), then founder required a surgical provider correction so Test A evaluates **grok-4.6** vs GPT-5.6 Sol — not `grok-2-vision-1212`.
+
+- **Context:** Follow-up **P0.VR.DESIGNBENCH.GROK1F1**. Do not upload/process the golden image. Do not change the 14-part Figma contract.
+- **Decisions:** Test A production model is hard-bound to **xAI `grok-4.6`**. No fallback to any other Grok/xAI/OpenAI/Sol/Composer model. Env model override is rejected. Web search off. Image must be multimodal input. `XAI_API_KEY` server-only. START against provider requires readiness READY.
+- **Changes:** `GrokDesignBenchModelContract`, `GrokBenchmarkInputReceipt`, `GrokDesignBenchProviderReadinessReceipt`; provider fail-closed `GROK_4_6_PROVIDER_BINDING_FAILED`; UI shows **GROK 4.6** + xAI / grok-4.6 in metrics. Build **v484**. Tests **`tests/p0vrDesignBenchGrok1F1.test.ts`**.
+- **Founder ops:** Redeploy Railway + set `XAI_API_KEY`. Deploy v484 ZIP. Then upload the golden on twin-testA and START.
+- **Conventions:** Benchmark integrity > successful execution. Never silently change Test A model ID.
+
