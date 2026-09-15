@@ -9521,6 +9521,16 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F2 live provider verification
+
+- **Deployment proof:** Railway serves prompt **`sol-design-bench-test-b-v3-json-instruction`** with the server-side OpenAI credential present, exact model **`gpt-5.6-sol`**, reasoning **`high`**, no fallback, and web search disabled.
+- **Live smoke:** A generated 2×2 white PNG (not the founder golden) started run **`sol_df434e46-fecd-4161-bee5-e70dbe67d2a2`** and completed successfully against the real OpenAI Responses API.
+- **Receipts:** Dispatch recorded image input attached, **`json_object`**, structured output requested, JSON instruction present, actual dispatched model **`gpt-5.6-sol`**, high reasoning, and provider response ID. Input receipt preserved the fixture SHA256 and prompt version.
+- **Result:** Parsed package type **`FigmaStyleInterfaceTranslationPackage`**, four components, no error. Timing: 2 ms queue, 115,291 ms model, 2 ms post-processing, 115,297 ms total.
+- **Conclusion:** The observed OpenAI 400 JSON-instruction failure is fixed in production. Founder may retry the preserved golden reference through **`/projects/ndxbook/design/twin-testB`**.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F3 grok-4.6 team access probe (v486)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed the Railway vs Vite host boundary (GROK1F2), then founder hit live **410 MODEL_REJECTED** after the key and host were already correct.

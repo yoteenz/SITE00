@@ -16,6 +16,7 @@ import {
   getSolDesignBenchProviderReadiness,
   startSolDesignBenchRun,
 } from '../api/_lib/site00SolDesignBench/service';
+import { strictSolPackageFixture } from './helpers/solDesignBenchmarkPackageFixture';
 
 const OUTPUT_DELIVERABLES = [
   'VISUAL_INTERFACE_PREVIEW',
@@ -43,6 +44,7 @@ function outputFixture(sha256: string): FigmaStyleInterfaceTranslationPackage {
       background: '#fff',
       componentIds: ['page'],
       renderingNotes: [],
+      visualPreviewRef: 'sol-preview://sol_test',
     },
     PAGE_FRAME_SPEC: { frame: { width: 2, height: 3 } },
     SECTION_TREE: [{ id: 'page', type: 'PAGE' }],
@@ -169,7 +171,7 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
   it('persists verified dispatch and multimodal input receipts', async () => {
     process.env.OPENAI_API_KEY = 'server-test-key';
     const { request, authority } = await inputFixture();
-    const payload = outputFixture(authority.sha256);
+    const providerPayload = strictSolPackageFixture(authority.sha256);
     const fetchMock = vi.fn(async (_url: string, init: RequestInit) => {
       const requestBody = JSON.parse(String(init.body)) as Record<string, unknown>;
       expect(requestBody.model).toBe('gpt-5.6-sol');
@@ -177,7 +179,8 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
       return new Response(JSON.stringify({
         id: 'resp_sol_exact',
         model: 'gpt-5.6-sol',
-        output_text: JSON.stringify(payload),
+        status: 'completed',
+        output_text: JSON.stringify(providerPayload),
       }), { status: 200, headers: { 'content-type': 'application/json' } });
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -194,7 +197,8 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
       reasoningEffort: 'high',
       imageInputAttached: true,
       structuredOutputRequested: true,
-      structuredOutputMode: 'json_object',
+      structuredOutputMode: 'json_schema',
+      schemaVersion: 'figma-interface-translation-v1',
       jsonInstructionPresent: true,
       requestedModelId: 'gpt-5.6-sol',
       actualDispatchedModelId: 'gpt-5.6-sol',
