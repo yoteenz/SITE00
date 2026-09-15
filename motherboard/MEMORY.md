@@ -9552,3 +9552,14 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Changes:** 10-min `GrokDesignBenchExecutionTimeout` → `GROK_PROVIDER_TIMEOUT` + AbortController; 5-min `GrokDesignBenchStallWatchdog` → `RUN_STALLED`; ETA kinds `TAKING LONGER THAN EXPECTED` / `POSSIBLE STALL`; `CANCEL TEST`; real QUEUE/UPLOAD/PROVIDER/POST/TOTAL timing; output size/truncation metadata (diagnose only); `GROK_RUNTIME_HEALTH` + tiny-image timing probe; poll `RUN_NOT_FOUND` archives incident as `SERVER_RUN_LOST`; long runs archived, not used as ETA average. Build **v487**.
 - **Conventions:** Never show a fake short ETA after a stage exceeds 2× expected. Founder golden stays blocked until runtime health passes. Preserve 54+ minute runs in incident history. Do not auto-retry. Do not add `max_output_tokens` until diagnosed and founder asks.
 
+---
+
+## 2026-09-15 — twin-testA preview boot: remove CTRL ROOM sign-in gate (v488)
+
+Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA through GROK1–F4 (watchdog, timeout, cancel, runtime health). Founder then reported **the test page isn’t booting**.
+
+- **Context:** Follow-up after F4 v487. Founder is on mobile. Do not rerun the golden.
+- **Live diagnosis:** Local Vite (`127.0.0.1:5174`) booted TWIN DESIGN BENCHMARK v487. Preview `site00.fsbw-dev.com/projects/ndxbook/design/twin-testA` redirected to `/origin/sign-in?returnTo=…` because Test A sat behind `Site00AccountRouteGuard`. Production `site00.com` same path is a stale/broken ZIP (loader then boot-recovery), not this Vite.
+- **Fix:** Remove the account guard from the twin-testA route so the isolated bench boots without CTRL ROOM session. Persist strips `data:` image URLs so a huge golden cannot freeze iOS localStorage parse. Build **v488**.
+- **Conventions:** Isolated design-bench routes must boot on the preview tunnel without sign-in. Production deep links still need the v488 ZIP + `.htaccess`.
+
