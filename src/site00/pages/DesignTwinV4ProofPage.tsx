@@ -11,7 +11,12 @@ import { P0_VR_TWIN_V30_BUILD } from '../../../shared/site00-studio-world-produc
 import { TWIN_V4_CSS_NAMESPACE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/constants.js';
 import { compileTwinV42PageBoot } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/compileTwinV42PageBoot.js';
 import type { TwinV42PageBootResult } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/compileTwinV42PageBoot.js';
-import { TWIN_V4_GOLDEN_AUTHORITY_INVALID } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/constants.js';
+import {
+  TWIN_V4_GOLDEN_AUTHORITY_INVALID,
+  TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/constants.js';
+import { primeTwinV41ForensicFromDesignSession } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/primeTwinV41ForensicFromDesignSession.js';
+import { TwinV42GoldenBootError } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/twinV42GoldenBootError.js';
 import type { TwinV42GoldenDiffBundle } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/twinV42Types.js';
 import { readTwinV42GoldenDiffBundle } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/twinV42Persistence.js';
 import '../styles/site00-twin-v4-proof.css';
@@ -45,6 +50,8 @@ export function DesignTwinV4ProofPage() {
     async function run() {
       setErr(null);
       setBoot(null);
+      setBootStatus('Checking cached forensic blueprint…');
+      await primeTwinV41ForensicFromDesignSession(projectId);
       setBootStatus('Validating founder golden authority…');
       try {
         const result = await compileTwinV42PageBoot({
@@ -60,8 +67,18 @@ export function DesignTwinV4ProofPage() {
       } catch (e) {
         if (!cancelled) {
           setBootStatus(null);
+          if (e instanceof TwinV42GoldenBootError) {
+            setErr(e.message);
+            return;
+          }
           const msg = e instanceof Error ? e.message : 'TWIN_V42_BOOT_FAILED';
-          setErr(msg.includes(TWIN_V4_GOLDEN_AUTHORITY_INVALID) ? TWIN_V4_GOLDEN_AUTHORITY_INVALID : msg);
+          if (msg.includes(TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE)) {
+            setErr(msg);
+          } else if (msg.includes(TWIN_V4_GOLDEN_AUTHORITY_INVALID)) {
+            setErr(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
+          } else {
+            setErr(msg);
+          }
         }
       }
     }
@@ -131,9 +148,10 @@ export function DesignTwinV4ProofPage() {
         <div className="site00-twin-v41-boot-help" data-testid="twin-v4-error">
           <p>{err}</p>
           <p>
-            V4 requires a <strong>hard-pinned</strong> founder forensic PNG (https, SHA256 verified). No fallback. Open{' '}
-            <strong>/projects/{projectId}/design/twin</strong> to cache Fal forensic, reload — first valid https artifact
-            seals the golden pin. Optional: <code>?actualHash=…</code>
+            V4 needs a <strong>hard-pinned</strong> https Fal forensic PNG on <strong>this device</strong> (no{' '}
+            <code>local-autobuild://</code> stub). Open <strong>/projects/{projectId}/design/twin</strong> or Design
+            workspace until twin loads, then return here — V4 auto-primes the forensic API and seals the golden pin.
+            Optional: <code>?actualHash=…</code>
           </p>
         </div>
       : null}

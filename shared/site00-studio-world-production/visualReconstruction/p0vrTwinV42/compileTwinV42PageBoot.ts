@@ -3,20 +3,26 @@ import { compileTwinV41PixelExtraction } from '../p0vrTwinV41/compileTwinV41Pixe
 import { resolveTwinV41BootContext } from '../p0vrTwinV41/resolveTwinV41BootContext.js';
 import { primeTwinV41ForensicFromDesignSession } from '../p0vrTwinV41/primeTwinV41ForensicFromDesignSession.js';
 import {
+  findCachedForensicBlueprintForTwinV41Boot,
   forensicBlueprintCacheKey,
+  isLoadableForensicBlueprintUri,
   readForensicBlueprintFromCache,
 } from '../p0vrTwinV30R8M2R5/forensicBlueprintCache.js';
+import type { ForensicUiBlueprintAuthority } from '../p0vrTwinV30R8M2R5/forensicTypes.js';
 import { site00IsBrowser } from '../../runtime/site00RuntimeEnv.js';
 import {
   P0_VR_TWIN_V41F1_LINEAGE,
   P0_VR_TWIN_V42_LINEAGE,
   TWIN_V4_GOLDEN_AUTHORITY_INVALID,
+  TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE,
   TWIN_V42_PLAYWRIGHT_DEVICE_SCALE,
 } from './constants.js';
+import { TwinV42GoldenBootError } from './twinV42GoldenBootError.js';
 import { twinV42SegmentationCacheKey } from './segmentationCacheKey.js';
 import { purgeStaleTwinV4AuthorityReferences } from './twinV4AuthorityPurge.js';
 import {
   fetchGoldenAuthorityBytes,
+  clearTwinV4GoldenAuthorityForTests,
   readPinnedTwinV4GoldenAuthority,
   resolveTwinV4GoldenAuthority,
   validateTwinV4GoldenAuthority,
@@ -42,18 +48,57 @@ export type TwinV42PageBootResult = {
   fallbackAuthorityAllowed: false;
 };
 
+function isGoldenSealCandidateUri(uri: string): boolean {
+  if (isLoadableForensicBlueprintUri(uri)) return true;
+  return !site00IsBrowser() && uri.startsWith('file://');
+}
+
 async function goldenBytesMatchPin(pin: TwinV4GoldenAuthority): Promise<void> {
   const { bytes } = await fetchGoldenAuthorityBytes(pin.artifactUrl);
   const hash = await sha256Hex(bytes);
   if (hash !== pin.sha256) throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
 }
 
-async function resolveSourceActualHash(projectId: string, queryActualHash: string | null): Promise<string> {
+async function resolveForensicForGoldenSeal(
+  projectId: string,
+  queryActualHash: string | null,
+): Promise<{ sourceActualHash: string; authority: ForensicUiBlueprintAuthority }> {
   const boot = resolveTwinV41BootContext({ projectId, queryActualHash });
-  if (boot.sourceActualHash) return boot.sourceActualHash;
+  if (
+    boot.authority &&
+    boot.sourceActualHash &&
+    isGoldenSealCandidateUri(boot.authority.blueprintImageUri)
+  ) {
+    return { sourceActualHash: boot.sourceActualHash, authority: boot.authority };
+  }
+
+  const cachedBoot = findCachedForensicBlueprintForTwinV41Boot(projectId);
+  if (cachedBoot && isGoldenSealCandidateUri(cachedBoot.blueprintImageUri)) {
+    return { sourceActualHash: cachedBoot.sourceActualHash, authority: cachedBoot };
+  }
+
   const primed = await primeTwinV41ForensicFromDesignSession(projectId);
-  if (primed.ok) return primed.sourceActualHash;
-  throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
+  if (primed.ok) {
+    const authority = readForensicBlueprintFromCache(
+      forensicBlueprintCacheKey({ actualHash: primed.sourceActualHash }),
+    );
+    if (authority && isGoldenSealCandidateUri(authority.blueprintImageUri)) {
+      return { sourceActualHash: primed.sourceActualHash, authority };
+    }
+  }
+
+  const detail =
+    primed.ok ?
+      'Forensic cached but blueprint URL is not loadable https.'
+    : primed.code === 'SKIPPED_VITEST' ?
+      'Seed forensic fixture in tests.'
+    : primed.message;
+  throw new TwinV42GoldenBootError(TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE, detail);
+}
+
+async function resolveSourceActualHash(projectId: string, queryActualHash: string | null): Promise<string> {
+  const resolved = await resolveForensicForGoldenSeal(projectId, queryActualHash);
+  return resolved.sourceActualHash;
 }
 
 export async function compileTwinV42PageBoot(input: {
@@ -62,21 +107,33 @@ export async function compileTwinV42PageBoot(input: {
   allowSeal?: boolean;
 }): Promise<TwinV42PageBootResult> {
   const allowSeal = input.allowSeal ?? site00IsBrowser();
-  let golden: TwinV4GoldenAuthority;
+  let golden: TwinV4GoldenAuthority | null = null;
 
   const pinned = readPinnedTwinV4GoldenAuthority();
   if (pinned) {
-    golden = await validateTwinV4GoldenAuthority(pinned);
-  } else {
-    const sourceActualHash = await resolveSourceActualHash(input.projectId, input.queryActualHash ?? null);
-    const authority = readForensicBlueprintFromCache(
-      forensicBlueprintCacheKey({ actualHash: sourceActualHash }),
+    try {
+      golden = await validateTwinV4GoldenAuthority(pinned);
+    } catch {
+      clearTwinV4GoldenAuthorityForTests();
+    }
+  }
+
+  if (!golden) {
+    const { authority } = await resolveForensicForGoldenSeal(
+      input.projectId,
+      input.queryActualHash ?? null,
     );
-    if (!authority) throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
-    golden = await resolveTwinV4GoldenAuthority({
-      allowSeal,
-      candidate: { artifactId: authority.id, artifactUrl: authority.blueprintImageUri },
-    });
+    try {
+      golden = await resolveTwinV4GoldenAuthority({
+        allowSeal,
+        candidate: { artifactId: authority.id, artifactUrl: authority.blueprintImageUri },
+      });
+    } catch {
+      throw new TwinV42GoldenBootError(
+        TWIN_V4_GOLDEN_AUTHORITY_INVALID,
+        'Could not seal golden pin from forensic blueprint (https required).',
+      );
+    }
   }
 
   await goldenBytesMatchPin(golden);
