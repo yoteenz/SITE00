@@ -21,6 +21,7 @@ import {
   SolDesignBenchModelContract,
   SolDesignBenchPriorProofAttestation,
   type SolDesignBenchProviderReadinessReceipt,
+  type SolStructuredOutputProofReceipt,
 } from '../../../shared/site00-sol-design-bench/modelContract.js';
 import {
   SOL_PROVIDER_MODEL_ID,
@@ -31,6 +32,10 @@ import {
   executeSolDesignAnalysis,
   type SolProviderResult,
 } from './provider.js';
+import {
+  loadOrBackfillSolStructuredOutputProofReceipt,
+  persistSolStructuredOutputProofEvidence,
+} from './proofReceiptStore.js';
 
 const ROOT = process.env.SOL_DESIGN_BENCH_STORE_DIR?.trim() ||
   join(tmpdir(), 'site00-sol-design-bench');
@@ -67,6 +72,8 @@ export async function getSolDesignBenchProviderReadiness(input?: {
     largeOutputStressPassed: proof.largeOutputStressPassed,
     structuredOutputPipelineProofPassed:
       proof.tinyLiveSchemaSmokePassed && proof.largeOutputStressPassed,
+    structuredOutputProofReceipt: proof.receipt,
+    structuredOutputProofPersistence: proof.persistence,
     blockingReasons: [],
   };
   if (!receipt.openAiCredentialPresentServerSide) receipt.blockingReasons.push('OPENAI_CREDENTIAL_MISSING');
@@ -129,12 +136,49 @@ function structuredOutputProofPath(): string {
 interface StructuredOutputProofState {
   tinyLiveSchemaSmokePassed: boolean;
   largeOutputStressPassed: boolean;
+  receipt: SolStructuredOutputProofReceipt | null;
+  persistence: 'SUPABASE' | 'TEST_OVERRIDE' | 'UNAVAILABLE';
 }
 
 let structuredOutputProofOverride: StructuredOutputProofState | null = null;
 
 async function readStructuredOutputProof(): Promise<StructuredOutputProofState> {
-  if (structuredOutputProofOverride) return structuredClone(structuredOutputProofOverride);
+  if (structuredOutputProofOverride) {
+    return {
+      ...structuredClone(structuredOutputProofOverride),
+      receipt: null,
+      persistence: 'TEST_OVERRIDE',
+    };
+  }
+  const legacyProof = await readLegacyStructuredOutputProofForAgentInstrumentation();
+  try {
+    const receipt = await loadOrBackfillSolStructuredOutputProofReceipt();
+    // #region agent log
+    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:durable', message: 'Loaded authoritative durable Sol proof receipt', data: { receiptFound: Boolean(receipt), configurationFingerprint: receipt?.configurationFingerprint ?? null, provenance: receipt?.provenance ?? null, pipelinePassed: receipt?.structuredOutputPipelineProofPassed ?? false, legacyTiny: legacyProof.tinyLiveSchemaSmokePassed, legacyLarge: legacyProof.largeOutputStressPassed }, timestamp: Date.now() })}\n`);
+    // #endregion
+    return {
+      tinyLiveSchemaSmokePassed: Boolean(receipt?.tinyLiveSchemaSmoke?.passed),
+      largeOutputStressPassed: Boolean(receipt?.largeOutputStress?.passed),
+      receipt,
+      persistence: 'SUPABASE',
+    };
+  } catch (error) {
+    // #region agent log
+    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:unavailable', message: 'Durable Sol proof receipt unavailable', data: { errorName: error instanceof Error ? error.name : 'UNKNOWN', legacyTiny: legacyProof.tinyLiveSchemaSmokePassed, legacyLarge: legacyProof.largeOutputStressPassed }, timestamp: Date.now() })}\n`);
+    // #endregion
+    return {
+      tinyLiveSchemaSmokePassed: false,
+      largeOutputStressPassed: false,
+      receipt: null,
+      persistence: 'UNAVAILABLE',
+    };
+  }
+}
+
+async function readLegacyStructuredOutputProofForAgentInstrumentation(): Promise<Pick<
+  StructuredOutputProofState,
+  'tinyLiveSchemaSmokePassed' | 'largeOutputStressPassed'
+>> {
   // #region agent log
   appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof', message: 'Reading Sol proof state', data: { path: structuredOutputProofPath(), configuredStoreDir: Boolean(process.env.SOL_DESIGN_BENCH_STORE_DIR?.trim()) }, timestamp: Date.now() })}\n`);
   // #endregion
@@ -289,11 +333,30 @@ async function runJob(runId: string): Promise<void> {
         ? providerResult.completenessReceipt.outputCharacters >= 50_000
         : null;
     if (run.proofMode && run.proofPassed) {
-      const proof = await readStructuredOutputProof();
-      if (run.proofMode === 'TINY_LIVE_SCHEMA_SMOKE') proof.tinyLiveSchemaSmokePassed = true;
-      if (run.proofMode === 'LARGE_OUTPUT_STRESS') proof.largeOutputStressPassed = true;
-      if (structuredOutputProofOverride) structuredOutputProofOverride = structuredClone(proof);
-      await writeFile(structuredOutputProofPath(), JSON.stringify(proof), 'utf8');
+      if (structuredOutputProofOverride) {
+        if (run.proofMode === 'TINY_LIVE_SCHEMA_SMOKE') {
+          structuredOutputProofOverride.tinyLiveSchemaSmokePassed = true;
+        }
+        if (run.proofMode === 'LARGE_OUTPUT_STRESS') {
+          structuredOutputProofOverride.largeOutputStressPassed = true;
+        }
+      } else {
+        await persistSolStructuredOutputProofEvidence({
+          proofMode: run.proofMode,
+          runId: run.runId,
+          apiBuild: providerResult.runtimeReceipt.liveApiBuild,
+          sourcePromptVersion: run.solPromptVersion,
+          sourceMaxOutputTokens: providerResult.completenessReceipt.maxOutputTokens,
+          finishReason: providerResult.completenessReceipt.finishReason,
+          outputCharacters: providerResult.completenessReceipt.outputCharacters,
+          actualOutputTokens: providerResult.completenessReceipt.actualOutputTokens,
+          schemaValidationPass: true,
+          structuredResultDirect: true,
+          manualJsonParseUsed: false,
+          outputTextUsedAsPrimaryResult: false,
+          passed: true,
+        });
+      }
     }
     await saveRun(run);
 

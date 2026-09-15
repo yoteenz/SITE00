@@ -31,6 +31,50 @@ export const SolDesignBenchPriorProofAttestation = {
   schemaValidationPass: true,
 } as const;
 
+export interface SolStructuredOutputProofConfiguration {
+  provider: 'openai';
+  model: 'gpt-5.6-sol';
+  reasoning: 'high';
+  promptVersion: string;
+  promptHash: string;
+  schemaVersion: 'figma-interface-translation-v1';
+  schemaName: 'figma_style_interface_translation_package';
+  structuredOutputMode: 'json_schema';
+  strict: true;
+  parserPath: 'openai.responses.parse.output_parsed';
+  maxOutputTokens: 32_000;
+}
+
+export interface SolStructuredOutputProofEvidence {
+  proofMode: 'TINY_LIVE_SCHEMA_SMOKE' | 'LARGE_OUTPUT_STRESS';
+  runId: string;
+  apiBuild: string;
+  sourcePromptVersion: string;
+  sourceMaxOutputTokens: number;
+  finishReason: string;
+  outputCharacters: number | null;
+  actualOutputTokens: number | null;
+  schemaValidationPass: true;
+  structuredResultDirect: true;
+  manualJsonParseUsed: false;
+  outputTextUsedAsPrimaryResult: false;
+  passed: true;
+}
+
+export interface SolStructuredOutputProofReceipt {
+  receiptType: 'SolStructuredOutputProofReceipt';
+  receiptVersion: 1;
+  environment: 'production';
+  configuration: SolStructuredOutputProofConfiguration;
+  configurationFingerprint: string;
+  tinyLiveSchemaSmoke: SolStructuredOutputProofEvidence | null;
+  largeOutputStress: SolStructuredOutputProofEvidence | null;
+  structuredOutputPipelineProofPassed: boolean;
+  provenance: 'LIVE_PROOF' | 'F6R1_VERIFIED_EVIDENCE_BACKFILL';
+  compatibilityBasis: string;
+  persistedAt: string;
+}
+
 export interface SolBenchmarkProviderDispatchReceipt {
   receiptType: 'SolBenchmarkProviderDispatchReceipt';
   runId: string;
@@ -129,5 +173,7 @@ export interface SolDesignBenchProviderReadinessReceipt {
   tinyLiveSchemaSmokePassed: boolean;
   largeOutputStressPassed: boolean;
   structuredOutputPipelineProofPassed: boolean;
+  structuredOutputProofReceipt: SolStructuredOutputProofReceipt | null;
+  structuredOutputProofPersistence: 'SUPABASE' | 'TEST_OVERRIDE' | 'UNAVAILABLE';
   blockingReasons: string[];
 }
