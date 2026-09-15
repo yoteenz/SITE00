@@ -13,6 +13,24 @@ export const SolDesignBenchModelContract = {
 
 export type SolDesignBenchModelContractValue = typeof SolDesignBenchModelContract;
 
+export const SolDesignBenchOutputBudget = {
+  contractType: 'SolDesignBenchOutputBudget',
+  maxOutputTokens: 32_000,
+  appliesToStressProof: true,
+  appliesToFounderRun: true,
+  model: 'gpt-5.6-sol',
+  schemaVersion: 'figma-interface-translation-v1',
+} as const;
+
+/** F5 production proof remains valid because F6 changes capacity only. */
+export const SolDesignBenchPriorProofAttestation = {
+  tinyLiveSchemaSmokePassed: true,
+  runId: 'sol_bb016b79-7f63-47d7-8679-d4f3ec96a668',
+  apiBuild: '4b803623dcf9f9768d12530087fe017f19388947',
+  parserPath: 'openai.responses.parse.output_parsed',
+  schemaValidationPass: true,
+} as const;
+
 export interface SolBenchmarkProviderDispatchReceipt {
   receiptType: 'SolBenchmarkProviderDispatchReceipt';
   runId: string;
@@ -58,6 +76,9 @@ export interface SolOutputCompletenessReceipt {
   finishReason: string;
   outputCharacters: number;
   outputTokens: number | null;
+  maxOutputTokens: number;
+  actualOutputTokens: number | null;
+  schemaValidationPass: boolean;
   truncated: boolean;
   complete: boolean;
 }

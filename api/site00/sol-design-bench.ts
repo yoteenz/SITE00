@@ -2,7 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { readFile } from 'node:fs/promises';
 import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
 import type { StartSolDesignBenchRequest } from '../../shared/site00-sol-design-bench/contracts.js';
-import { SolDesignBenchModelContract } from '../../shared/site00-sol-design-bench/modelContract.js';
+import {
+  SolDesignBenchModelContract,
+  SolDesignBenchOutputBudget,
+} from '../../shared/site00-sol-design-bench/modelContract.js';
 import {
   getSolDesignBenchRun,
   getSolDesignBenchProviderReadiness,
@@ -30,6 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         reasoningEffort: SolDesignBenchModelContract.reasoningEffort,
         fallbackAllowed: SolDesignBenchModelContract.fallbackAllowed,
         webSearchEnabled: SolDesignBenchModelContract.webSearchAllowed,
+        outputBudget: SolDesignBenchOutputBudget,
         providerReadiness: await getSolDesignBenchProviderReadiness(),
         promptVersion: SOL_PROMPT_VERSION,
         promptHash: SOL_PROMPT_HASH,

@@ -362,6 +362,8 @@ function ResultsWorkspace({
             <div><dt>OUTPUT TEXT PRIMARY</dt><dd>{run.structuredOutputRuntimeReceipt ? String(run.structuredOutputRuntimeReceipt.outputTextUsedAsPrimaryResult).toUpperCase() : 'PENDING'}</dd></div>
             <div><dt>LIVE API BUILD</dt><dd>{run.structuredOutputRuntimeReceipt?.liveApiBuild || 'PENDING'}</dd></div>
             <div><dt>OUTPUT COMPLETE</dt><dd>{run.outputCompletenessReceipt?.complete ? 'YES' : 'PENDING'}</dd></div>
+            <div><dt>MAX OUTPUT TOKENS</dt><dd>{run.outputCompletenessReceipt?.maxOutputTokens ?? '32,000'}</dd></div>
+            <div><dt>ACTUAL OUTPUT TOKENS</dt><dd>{run.outputCompletenessReceipt?.actualOutputTokens ?? 'PENDING'}</dd></div>
             <div><dt>VISUAL PREVIEW REF</dt><dd>{pkg.VISUAL_INTERFACE_PREVIEW.visualPreviewRef}</dd></div>
             <div><dt>FALLBACK ALLOWED</dt><dd>FALSE</dd></div>
             <div><dt>WEB SEARCH ENABLED</dt><dd>FALSE</dd></div>
