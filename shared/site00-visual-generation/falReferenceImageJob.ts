@@ -20,6 +20,8 @@ export async function runFalReferenceImageJob(input: {
   referenceImageUrls: string[];
   aspectRatio?: '9:16' | '16:9';
   model?: string;
+  /** When set (e.g. nano-banana-2/edit), merged after reference URLs are uploaded to fal.storage. */
+  falInputOverride?: Record<string, unknown>;
 }): Promise<FalReferenceImageJobResult> {
   if (process.env.VITEST === 'true') {
     const model = input.model ?? 'openai/gpt-image-2/edit';
@@ -50,7 +52,12 @@ export async function runFalReferenceImageJob(input: {
       referenceImageUrls: accessibleRefs,
     }).model;
   const falInput =
-    input.model ?
+    input.falInputOverride ?
+      {
+        ...input.falInputOverride,
+        image_urls: accessibleRefs.length ? accessibleRefs : (input.falInputOverride.image_urls as string[] | undefined),
+      }
+    : input.model ?
       (accessibleRefs.length > 0 ?
         { prompt: input.prompt, image_urls: accessibleRefs, num_images: 1 }
       : { prompt: input.prompt, num_images: 1 })

@@ -9365,3 +9365,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** Preview hosts always POST to **`api.site00.com`**, which still returned **404** for **`twin-v3-forensic-ui-blueprint`** until Railway redeploy.
 - **Fix:** Preview tries **same-origin Vite local API first** (`listForensicUiBlueprintApiPostUrls`); **`vite-site00-local-api.mjs`** registers forensic route; clearer **`FORENSIC_API_NOT_DEPLOYED`** / FAL_KEY messages. Build **v472**.
 
+---
+
+## 2026-09-15 — R8M2R5F3 Fal reference bytes for light blueprint (v473)
+
+- **Symptom:** Founder “nothing generated” — Fal history empty; API returned generic **`FORENSIC_BLUEPRINT_GENERATION_FAILED`**.
+- **Root cause:** **`ndxbook-mobile-light-technical-blueprint-v1.jpg`** on **site00.com** returns **SPA HTML** (not JPEG); **`ensureFalAccessibleReferenceUrls`** failed on secondary reference → entire forensic job aborted.
+- **Fix:** **`falEnsureReferenceUrls`** — local `public/assets/ndxbook-reconstruction/*` + **GitHub raw** fallback; forensic dispatch uses **`buildNanoBanana2EditInput`** + surfaces real error messages. Verified live Fal **`request_id`** + PNG result URL. Build **v473**.
+

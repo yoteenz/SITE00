@@ -4,6 +4,18 @@ import path from 'node:path';
 const GITHUB_RAW_FOUNDER_MOBILE =
   'https://raw.githubusercontent.com/yoteenz/SITE00/main/public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg';
 
+const GITHUB_RAW_NDXBOOK_RECONSTRUCTION_BASE =
+  'https://raw.githubusercontent.com/yoteenz/SITE00/main/public/assets/ndxbook-reconstruction';
+
+function ndxbookReconstructionFileName(source: string): string | null {
+  const match = source.match(/\/assets\/ndxbook-reconstruction\/([^/?#]+)/i);
+  return match?.[1] ?? null;
+}
+
+function githubRawNdxbookReconstruction(fileName: string): string {
+  return `${GITHUB_RAW_NDXBOOK_RECONSTRUCTION_BASE}/${fileName}`;
+}
+
 function isAlreadyFalCdn(url: string): boolean {
   try {
     const host = new URL(url).hostname.toLowerCase();
@@ -46,10 +58,23 @@ async function loadReferenceBytes(source: string): Promise<{ bytes: Buffer; file
     }
   }
 
+  const ndxFile = ndxbookReconstructionFileName(source);
+  if (ndxFile) {
+    const localAbs = resolveRepoPublicPath(`/assets/ndxbook-reconstruction/${ndxFile}`);
+    if (existsSync(localAbs)) {
+      const bytes = readFileSync(localAbs);
+      assertJpegOrPng(bytes, localAbs);
+      return { bytes, fileName: path.basename(localAbs) };
+    }
+  }
+
   const candidates: string[] = [];
   if (source.startsWith('http')) candidates.push(source);
   if (source.includes('founder-r5f2-ndxbook/mobile-master.jpg')) {
     candidates.push(GITHUB_RAW_FOUNDER_MOBILE);
+  }
+  if (ndxFile) {
+    candidates.push(githubRawNdxbookReconstruction(ndxFile));
   }
 
   for (const url of candidates) {
