@@ -18,11 +18,15 @@ export function buildImplementationVisualFidelityReceipt(input: {
       input.document.compilerGeneration !== 'R8M2R2' &&
       input.document.compilerGeneration !== 'R8M2R3' &&
       input.document.compilerGeneration !== 'R8M2R4' &&
-      input.document.compilerGeneration !== 'R8M2R5') ||
+      input.document.compilerGeneration !== 'R8M2R5' &&
+      input.document.compilerGeneration !== 'R8M3') ||
     (input.document.expressionReadiness?.status !== 'BLOCKED' &&
       Boolean(input.document.implementationExpressionIr?.objectExpressions.length));
   const translationReady =
-    input.document.compilerGeneration === 'R8M2R5' ?
+    input.document.compilerGeneration === 'R8M3' ?
+      input.document.forensicIngestionDrivenCompile &&
+      input.document.forensicFidelityGate?.status === 'REVIEW_READY'
+    : input.document.compilerGeneration === 'R8M2R5' ?
       input.document.forensicFidelityGate?.status === 'REVIEW_READY'
     : input.document.compilerGeneration === 'R8M2R4' ?
       input.document.visualReconstructionConvergenceGate?.status === 'REVIEW_READY'
@@ -39,7 +43,8 @@ export function buildImplementationVisualFidelityReceipt(input: {
       input.document.compilerGeneration === 'R8M2R2' ||
       input.document.compilerGeneration === 'R8M2R3' ||
       input.document.compilerGeneration === 'R8M2R4' ||
-      input.document.compilerGeneration === 'R8M2R5') &&
+      input.document.compilerGeneration === 'R8M2R5' ||
+      input.document.compilerGeneration === 'R8M3') &&
       input.document.renderTree?.nodes.length &&
       input.document.authoritiesLoaded?.actualRenderUri &&
       expressionReady &&
@@ -50,6 +55,7 @@ export function buildImplementationVisualFidelityReceipt(input: {
         input.document.compilerGeneration === 'R8M2R3' ||
         input.document.compilerGeneration === 'R8M2R4' ||
         input.document.compilerGeneration === 'R8M2R5' ||
+        input.document.compilerGeneration === 'R8M3' ||
         input.document.visualFidelityEvaluation?.machinePass),
   );
   const passVisual = geometryMatch && visualTranslation;
@@ -88,7 +94,8 @@ export function buildImplementationStructuralFidelityReceipt(input: {
       input.document.compilerGeneration === 'R8M2R2' ||
       input.document.compilerGeneration === 'R8M2R3' ||
       input.document.compilerGeneration === 'R8M2R4' ||
-      input.document.compilerGeneration === 'R8M2R5') &&
+      input.document.compilerGeneration === 'R8M2R5' ||
+      input.document.compilerGeneration === 'R8M3') &&
     Boolean(input.document.renderTree?.nodes.length);
   const pass =
     expected === rendered && bindings <= boundInNodes + 2 && !forbiddenRaster && structuralTranslation;

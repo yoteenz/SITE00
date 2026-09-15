@@ -7,11 +7,18 @@ type Props = {
 export function DesignTwinForensicImplementationInspector({ document }: Props) {
   const objects = document.forensicUiObjectMap?.objects.slice(0, 8) ?? [];
   const lastIter = document.forensicDomCorrectionIterations?.[document.forensicDomCorrectionIterations.length - 1];
+  const ingestion = document.compilerGeneration === 'R8M3';
   return (
     <section data-testid="twin-forensic-implementation-inspector">
       <h3>FORENSIC IMPLEMENTATION</h3>
+      <p data-testid="twin-forensic-ingestion-status">
+        {ingestion ?
+          `ingestion ${document.forensicBlueprintIngestionReceipt?.id ?? '—'} · merged ${document.mergedImplementationObjectMap?.objects.length ?? 0} · unresolved ${document.cleanedForensicObjectMapReceipt?.unresolvedForensicObjects.length ?? 0} · consumed ${document.forensicReconstructionFidelityReceipt?.forensicEvidenceConsumed ? 'yes' : 'no'}`
+        : `legacy compile · objects ${document.forensicUiObjectMap?.objects.length ?? 0}`}
+      </p>
       <p>
-        spec {document.forensicImplementationSpec?.id ?? '—'} · objects {document.forensicUiObjectMap?.objects.length ?? 0}
+        spec {document.forensicImplementationSpec?.id ?? '—'} · blueprint{' '}
+        {document.forensicBlueprintArtifact?.classification ?? '—'}
       </p>
       <ul>
         {objects.map((o) => {

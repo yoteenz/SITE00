@@ -10,6 +10,7 @@ export function isWireframeImplementationDocument(doc: CompiledMobileTwinImpleme
 
 export function isProductionReadyImplementationDocument(doc: CompiledMobileTwinImplementationDocument): boolean {
   const generationOk =
+    doc.compilerGeneration === 'R8M3' ||
     doc.compilerGeneration === 'R8M2R5' ||
     doc.compilerGeneration === 'R8M2R4' ||
     doc.compilerGeneration === 'R8M2R3' ||
@@ -18,7 +19,19 @@ export function isProductionReadyImplementationDocument(doc: CompiledMobileTwinI
     doc.compilerGeneration === 'R8M2' ||
     doc.compilerGeneration === 'R8M1';
   const regionOk =
-    doc.compilerGeneration === 'R8M2R5' ?
+    doc.compilerGeneration === 'R8M3' ?
+      Boolean(
+        doc.forensicBlueprintArtifact?.artifactKind === 'FORENSIC_BLUEPRINT_IMPLEMENTATION_SPEC' &&
+          doc.forensicIngestionDrivenCompile &&
+          doc.mergedImplementationObjectMap?.objects.length &&
+          doc.forensicReconstructionFidelityReceipt?.forensicEvidenceConsumed &&
+          doc.forensicImplementationSpec &&
+          doc.forensicFidelityGate?.realBrowserScreenshotPresent &&
+          !doc.syntheticScreenshotUsedAsProof &&
+          doc.forensicFidelityGate?.founderImplementationReview === 'FOUNDER_IMPLEMENTATION_REVIEW' &&
+          doc.renderTree?.nodes.some((n) => n.sectionId.startsWith('fm3-')),
+      )
+    : doc.compilerGeneration === 'R8M2R5' ?
       Boolean(
         doc.forensicImplementationSpec &&
           doc.forensicPromptInjected &&

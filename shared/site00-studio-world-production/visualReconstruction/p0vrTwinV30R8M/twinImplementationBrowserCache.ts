@@ -1,6 +1,6 @@
 import type { CompiledMobileTwinImplementationDocument } from './types.js';
 
-import { MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH } from '../p0vrTwinV30R8M2R5/constants.js';
+import { MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH } from '../p0vrTwinV30R8M3/constants.js';
 
 const STORAGE_KEY = `site00:mobile-twin-implementation-cache:v${MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH}`;
 

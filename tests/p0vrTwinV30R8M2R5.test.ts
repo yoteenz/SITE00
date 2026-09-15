@@ -88,30 +88,30 @@ describe('P0.VR.TWINV3.0R8M2R5 forensic blueprint implementation', () => {
     expect(doc.forensicImplementationSpec?.hash.length).toBeGreaterThanOrEqual(8);
   });
 
-  it('18–22 forensic prompt injected; fresh fb tree', () => {
+  it('18–22 forensic prompt injected; fresh fm3 ingestion tree on production path', () => {
     const input = founderCompileInput();
     const prior = compileVisualMobileTwinImplementationR8M2R4(input);
     const doc = compileApprovedMobileTwinPackage(input);
     expect(doc.forensicImplementationCodingPrompt?.fullText.startsWith(FORENSIC_PROMPT_OPENING)).toBe(true);
     expect(doc.forensicPromptInjected).toBe(true);
     expect(renderTreeStructureSignatureR8M2R5(prior)).not.toBe(renderTreeStructureSignatureR8M2R5(doc));
-    expect(doc.renderTree?.nodes.some((n) => n.sectionId.startsWith('fb-'))).toBe(true);
-    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT);
+    expect(doc.renderTree?.nodes.some((n) => n.sectionId.startsWith('fm3-'))).toBe(true);
+    expect(doc.implementationVersion).toBe('mobile-twin-impl-v8-forensic-ingestion');
   });
 
-  it('23–28 critical regions use forensic geometry in tree', () => {
+  it('23–28 critical regions use ingestion forensic geometry in tree', () => {
     const doc = compileApprovedMobileTwinPackage(founderCompileInput());
     const sections = new Set(doc.renderTree?.nodes.map((n) => n.sectionId));
     for (const id of [
-      'fb-hero-workspace',
-      'fb-candidate-gallery',
-      'fb-structured-output',
-      'fb-readiness',
-      'fb-bottom-nav',
+      'fm3-hero-workspace',
+      'fm3-candidate-gallery',
+      'fm3-structured-output',
+      'fm3-readiness',
+      'fm3-bottom-nav',
     ]) {
       expect(sections.has(id)).toBe(true);
     }
-    expect(doc.renderTree?.nodes.some((n) => n.styleSource === 'FORENSIC_SPEC_REBUILD')).toBe(true);
+    expect(doc.renderTree?.nodes.some((n) => n.styleSource === 'FORENSIC_INGESTION_REBUILD')).toBe(true);
   });
 
   it('29–35 real browser QA; no synthetic proof; DOM loop', () => {
@@ -133,9 +133,9 @@ describe('P0.VR.TWINV3.0R8M2R5 forensic blueprint implementation', () => {
 
   it('36–40 production path, UI, design route, desktop', () => {
     const doc = compileApprovedMobileTwinPackage(founderCompileInput());
-    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R5);
-    expect(doc.lineage).toBe(P0_VR_TWIN_V30R8M2R5_LINEAGE);
-    expect(doc.priorBuildCorrection?.reason).toBe(R8M2R4_CORRECTION_REQUIRED_REASON);
+    expect(doc.compilerGeneration).toBe('R8M3');
+    expect(doc.lineage).toBe('P0.VR.TWINV3.0R8M3');
+    expect(doc.priorBuildCorrection?.reason).toBe('FORENSIC_BLUEPRINT_NOT_INGESTED_AS_IMPLEMENTATION_SPEC');
     expect(documentRequiresR8M2Recompile(doc)).toBe(false);
     expect(documentRequiresR8M2Recompile(compileVisualMobileTwinImplementationR8M2R4(founderCompileInput()))).toBe(true);
     expect(scanDocumentForAuthorityRasterViolations(doc.nodes.map((n) => n.imageUri))).toEqual([]);

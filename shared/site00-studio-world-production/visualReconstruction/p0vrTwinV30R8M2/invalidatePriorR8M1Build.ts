@@ -4,11 +4,15 @@ import { R8M1_CORRECTION_REQUIRED_REASON } from './constants.js';
 
 export function documentRequiresR8M2Recompile(doc: CompiledMobileTwinImplementationDocument): boolean {
   if (
-    doc.compilerGeneration === 'R8M2R5' &&
-    doc.implementationVersion === 'mobile-twin-impl-v7-forensic-blueprint' &&
+    doc.compilerGeneration === 'R8M3' &&
+    doc.implementationVersion === 'mobile-twin-impl-v8-forensic-ingestion' &&
+    doc.forensicIngestionDrivenCompile &&
     doc.forensicFidelityGate?.status === 'REVIEW_READY'
   ) {
     return false;
+  }
+  if (doc.compilerGeneration === 'R8M2R5') {
+    return true;
   }
   if (doc.compilerGeneration === 'R8M2R4' || doc.compilerGeneration === 'R8M2R3') return true;
   if (
