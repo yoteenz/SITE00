@@ -61,6 +61,16 @@ export interface GrokDesignBenchProviderReadinessReceipt {
   visionInputRequired: true;
   imageInputCanAttach: boolean;
   competitorAccessAllowed: false;
+  founderRunReady?: boolean;
+  runtimeHealth?: {
+    modelAccess: 'PASS' | 'FAIL';
+    imageInput: 'PASS' | 'FAIL';
+    providerTimingProbe: 'PASS' | 'FAIL';
+    polling: 'PASS' | 'FAIL';
+    stallWatchdog: 'PASS';
+    timeout: 'PASS';
+    founderRunReady: boolean;
+  };
 }
 
 /** Non-secret host identity for GROK1F2. Never includes key material. */

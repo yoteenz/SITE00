@@ -255,6 +255,7 @@ describe('P0.VR.DESIGNBENCH.GROK1 twin-testA', () => {
       'FINALIZING',
       'COMPLETE',
       'FAILED',
+      'CANCELLED',
     ]);
   });
 });

@@ -51,7 +51,7 @@ Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content 
 | `/evolve/state` | Evolve path selector |
 | `/assts` | Asset factory / vault |
 | `/control` | Client control panel |
-| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (GROK1–GROK1F3). Hard-bound to **xAI grok-4.6** on `POST /v1/responses` — no model fallback. READY requires key + team model access + smoke. Secret-backed calls prefer Railway `https://api.site00.com`. |
+| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (GROK1–GROK1F4). Hard-bound to **xAI grok-4.6** on `POST /v1/responses` — no model fallback. READY requires key + team model access + smoke. **F4:** 10-min provider timeout, 5-min stall watchdog, ETA correction, cancel, `GROK_RUNTIME_HEALTH` gate before founder golden. Secret-backed calls prefer Railway `https://api.site00.com`. |
 
 Desktop preview paths use `/desktop` suffix (artboard preview mode).
 

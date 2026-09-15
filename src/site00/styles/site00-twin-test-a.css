@@ -197,6 +197,18 @@
   min-width: 180px;
 }
 
+.twin-test-a__cancel {
+  min-width: 160px;
+  margin-top: 14px;
+}
+
+.twin-test-a__stall {
+  margin: 14px 0 0;
+  color: #f3c36b;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
 .twin-test-a__progress {
   border: 1px solid var(--tta-line);
   padding: 20px 18px;

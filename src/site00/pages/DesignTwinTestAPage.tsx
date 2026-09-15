@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { GrokTwinTestAArtboard } from '../components/designBench/GrokTwinTestAArtboard.js';
 import {
   GROK_ACTIVE_STAGES,
+  GROK_DESIGN_BENCH_POLL_INTERVAL_MS,
+  GROK_DESIGN_BENCH_STALL_MS,
+  GROK_TERMINAL_STAGES,
   P0_VR_DESIGNBENCH_GROK1_BUILD,
   GROK_TWIN_TEST_A_HEADER,
   GROK_TWIN_TEST_A_MODEL_LABEL,
@@ -16,15 +19,24 @@ import type {
 } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import {
   clearPersistedGrokTwinTestARun,
+  archiveGrokTwinTestAIncident,
+  markGrokTwinTestAServerLost,
   persistGrokTwinTestARun,
   readPersistedGrokTwinTestARun,
+  readGrokTwinTestAIncidents,
   historicalGrokTwinTestAAverageMs,
 } from '../../../shared/site00-design-bench/grokTwinTestA/persist.js';
 import { sha256HexFromBytes } from '../../../shared/site00-design-bench/grokTwinTestA/sha256.js';
-import { estimateRemainingMs, formatDurationMmSs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
+import { evaluateGrokEta, formatDurationMmSs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import { formatAspectRatio, validateGrokReferenceUpload } from '../../../shared/site00-design-bench/grokTwinTestA/uploadValidation.js';
 import type { GrokDesignBenchResultTab, GrokDesignBenchRun } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
-import { fetchGrokTwinTestAReadiness, pollGrokTwinTestARun, startGrokTwinTestARun } from '../services/grokTwinTestAClient.js';
+import {
+  cancelGrokTwinTestARun,
+  fetchGrokTwinTestAReadiness,
+  fetchGrokTwinTestARuntimeHealth,
+  pollGrokTwinTestARun,
+  startGrokTwinTestARun,
+} from '../services/grokTwinTestAClient.js';
 import '../styles/site00-twin-test-a.css';
 
 type LocalReference = {
@@ -81,11 +93,25 @@ export function DesignTwinTestAPage() {
   const [readiness, setReadiness] = useState<GrokDesignBenchProviderReadinessReceipt | null>(null);
   const [hostDiagnostic, setHostDiagnostic] = useState<GrokDesignBenchHostDiagnostic | null>(null);
   const [failureOpen, setFailureOpen] = useState(false);
+  const [runtimeHealth, setRuntimeHealth] = useState<{
+    founderRunReady: boolean;
+    modelAccess: string;
+    imageInput: string;
+    providerTimingProbe: string;
+    polling: string;
+    stallWatchdog: string;
+    timeout: string;
+    timingProbe?: { providerLatencyMs: number | null; totalLatencyMs: number | null; pass: boolean };
+  } | null>(null);
+  const [lastPollAt, setLastPollAt] = useState<string | null>(null);
+  const [cancelling, setCancelling] = useState(false);
+  const [incidentCount] = useState(() => readGrokTwinTestAIncidents().length);
 
   const active = Boolean(run && GROK_ACTIVE_STAGES.includes(run.stage as (typeof GROK_ACTIVE_STAGES)[number]));
   const frozen = Boolean(run?.reference?.immutableForRun && active);
   const providerReady = readiness?.state === 'READY' && readiness.benchmarkReady === true;
-  const startDisabled = !localRef || frozen || starting || active || !providerReady;
+  const founderRunReady = runtimeHealth?.founderRunReady === true;
+  const startDisabled = !localRef || frozen || starting || active || !providerReady || !founderRunReady;
 
   useEffect(() => {
     let cancelled = false;
@@ -127,7 +153,43 @@ export function DesignTwinTestAPage() {
   }, [localRef]);
 
   useEffect(() => {
-    if (!run || run.stage === 'COMPLETE' || run.stage === 'FAILED' || run.stage === 'IDLE') return;
+    const persisted = readPersistedGrokTwinTestARun();
+    if (!persisted?.timing.queuedAt) return;
+    const elapsed = Date.now() - Date.parse(persisted.timing.queuedAt);
+    if (
+      GROK_ACTIVE_STAGES.includes(persisted.stage as (typeof GROK_ACTIVE_STAGES)[number]) &&
+      elapsed >= GROK_DESIGN_BENCH_STALL_MS
+    ) {
+      archiveGrokTwinTestAIncident(persisted);
+    }
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    void fetchGrokTwinTestARuntimeHealth()
+      .then((next) => {
+        if (!cancelled) setRuntimeHealth(next);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setRuntimeHealth({
+            founderRunReady: false,
+            modelAccess: 'FAIL',
+            imageInput: 'FAIL',
+            providerTimingProbe: 'FAIL',
+            polling: 'FAIL',
+            stallWatchdog: 'FAIL',
+            timeout: 'FAIL',
+          });
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!run || GROK_TERMINAL_STAGES.includes(run.stage as (typeof GROK_TERMINAL_STAGES)[number])) return;
     const id = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(id);
   }, [run?.stage, run?.runId]);
@@ -146,17 +208,22 @@ export function DesignTwinTestAPage() {
   }, [readiness?.state, run]);
 
   useEffect(() => {
-    if (!run?.runId || run.stage === 'COMPLETE' || run.stage === 'FAILED') return;
+    if (!run?.runId || GROK_TERMINAL_STAGES.includes(run.stage as (typeof GROK_TERMINAL_STAGES)[number])) return;
     let cancelled = false;
     const tick = async () => {
       try {
         const next = await pollGrokTwinTestARun(run.runId);
-        if (!cancelled) setRun(next);
-      } catch {
-        /* keep last known run */
+        if (!cancelled) {
+          setLastPollAt(new Date().toISOString());
+          setRun(next);
+        }
+      } catch (err) {
+        if (!cancelled && err instanceof Error && err.message === 'RUN_NOT_FOUND') {
+          setRun(markGrokTwinTestAServerLost(run));
+        }
       }
     };
-    const id = window.setInterval(() => void tick(), 1200);
+    const id = window.setInterval(() => void tick(), GROK_DESIGN_BENCH_POLL_INTERVAL_MS);
     void tick();
     return () => {
       cancelled = true;
@@ -170,12 +237,14 @@ export function DesignTwinTestAPage() {
     return Math.max(end - Date.parse(run.timing.queuedAt), 0);
   }, [run, now]);
 
-  const etaMs = useMemo(() => {
+  const eta = useMemo(() => {
     if (!run) return null;
-    return estimateRemainingMs({
+    return evaluateGrokEta({
       stage: run.stage,
       elapsedMs,
-      historicalAverageMs: historicalGrokTwinTestAAverageMs() ?? run.estimatedRemainingMs,
+      historicalAverageMs: historicalGrokTwinTestAAverageMs(),
+      lastStateChangeAt:
+        run.lastStateChangeAt ?? run.timing.providerStartedAt ?? run.timing.startedAt ?? run.timing.queuedAt,
     });
   }, [run, elapsedMs]);
 
@@ -239,6 +308,19 @@ export function DesignTwinTestAPage() {
     }
   }
 
+  async function cancelTest() {
+    if (!run?.runId || !active || cancelling) return;
+    setCancelling(true);
+    try {
+      const next = await cancelGrokTwinTestARun(run.runId);
+      setRun(next);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : 'CANCEL_FAILED');
+    } finally {
+      setCancelling(false);
+    }
+  }
+
   const previewSrc = localRef?.objectUrl ?? run?.reference?.imageUrl ?? '';
   const previewMeta = localRef
     ? {
@@ -299,11 +381,37 @@ export function DesignTwinTestAPage() {
               <div data-testid="twin-test-a-eta">
                 ESTIMATED REMAINING:
                 <br />
-                ~{formatDurationMmSs(etaMs)}
+                <span data-testid="twin-test-a-eta-label">
+                  {eta?.kind === 'POSSIBLE_STALL'
+                    ? 'POSSIBLE STALL'
+                    : eta?.kind === 'TAKING_LONGER'
+                      ? 'TAKING LONGER THAN EXPECTED'
+                      : eta?.label ?? '—'}
+                </span>
                 <div className="twin-test-a__eta-note" data-testid="twin-test-a-eta-approximate">
-                  ETA is approximate · stage-based
+                  {eta?.kind === 'POSSIBLE_STALL'
+                    ? 'STATUS: POSSIBLE STALL · no stage change for 5+ minutes'
+                    : eta?.kind === 'TAKING_LONGER'
+                      ? 'ETA is approximate · taking longer than expected'
+                      : 'ETA is approximate · stage-based'}
                 </div>
               </div>
+            </div>
+            {run?.stall?.stalled ? (
+              <p className="twin-test-a__stall" data-testid="twin-test-a-stalled">
+                RUN_STALLED · {run.stall.stalledStage} · PROVIDER {run.stall.providerRequestStatus}
+              </p>
+            ) : null}
+            <div className="twin-test-a__actions">
+              <button
+                type="button"
+                className="twin-test-a__cancel"
+                data-testid="twin-test-a-cancel"
+                disabled={cancelling || run?.cancelStatus === 'CANCEL_REQUESTED'}
+                onClick={() => void cancelTest()}
+              >
+                {run?.cancelStatus === 'CANCEL_REQUESTED' ? 'CANCEL REQUESTED' : 'CANCEL TEST'}
+              </button>
             </div>
           </section>
         ) : null}
@@ -315,6 +423,13 @@ export function DesignTwinTestAPage() {
           </p>
         ) : null}
 
+        {run?.stage === 'CANCELLED' ? (
+          <p className="twin-test-a__complete-banner" data-testid="twin-test-a-cancelled">
+            GROK TEST CANCELLED
+            <strong>{formatDurationMmSs(run.timing.totalDurationMs)}</strong>
+          </p>
+        ) : null}
+
         {run?.stage === 'FAILED' ? (
           <div className="twin-test-a__error-block" data-testid="twin-test-a-failed">
             <p className="twin-test-a__error">
@@ -322,6 +437,20 @@ export function DesignTwinTestAPage() {
                 ? GROK_4_6_PROVIDER_BINDING_FAILED
                 : run.error}
             </p>
+            {run.error === 'SERVER_RUN_LOST' || run.error === 'GROK_PROVIDER_TIMEOUT' || run.stall?.stalled ? (
+              <dl className="twin-test-a__metrics" data-testid="twin-test-a-incident-timing">
+                <dt>STALLED STAGE</dt>
+                <dd>{run.stall?.stalledStage ?? run.stage}</dd>
+                <dt>ELAPSED</dt>
+                <dd>{formatDurationMmSs(run.timing.totalDurationMs ?? elapsedMs)}</dd>
+                <dt>PROVIDER REQUEST</dt>
+                <dd>{run.providerRequestStatus ?? run.stall?.providerRequestStatus ?? 'UNKNOWN'}</dd>
+                <dt>LAST STATE CHANGE</dt>
+                <dd>{run.lastStateChangeAt ?? run.stall?.lastStateChange ?? '—'}</dd>
+                <dt>PRESERVED</dt>
+                <dd>YES</dd>
+              </dl>
+            ) : null}
             {run.providerFailure ? (
               <details
                 className="twin-test-a__failure-details"
@@ -395,6 +524,42 @@ export function DesignTwinTestAPage() {
                   <dd data-testid="twin-test-a-diag-model">{hostDiagnostic.modelId}</dd>
                 </div>
               </dl>
+            ) : null}
+          </section>
+        ) : null}
+
+        {runtimeHealth ? (
+          <section className="twin-test-a__readiness" data-testid="twin-test-a-runtime-health">
+            <h2 className="twin-test-a__section-label">GROK_RUNTIME_HEALTH</h2>
+            <p data-testid="twin-test-a-founder-run-ready">
+              FOUNDER_RUN_READY: {runtimeHealth.founderRunReady ? 'YES' : 'NO'}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-health-model-access">
+              MODEL_ACCESS: {runtimeHealth.modelAccess}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-health-image-input">
+              IMAGE_INPUT: {runtimeHealth.imageInput}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-health-timing-probe">
+              PROVIDER_TIMING_PROBE: {runtimeHealth.providerTimingProbe}
+              {runtimeHealth.timingProbe?.providerLatencyMs != null
+                ? ` · ${runtimeHealth.timingProbe.providerLatencyMs}ms`
+                : ''}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-health-polling">
+              POLLING: {runtimeHealth.polling}
+              {lastPollAt ? ` · LAST ${lastPollAt}` : ''}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-health-watchdog">
+              STALL_WATCHDOG: {runtimeHealth.stallWatchdog}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-health-timeout">
+              TIMEOUT: {runtimeHealth.timeout}
+            </p>
+            {incidentCount > 0 ? (
+              <p className="twin-test-a__hint" data-testid="twin-test-a-incident-preserved">
+                PRIOR LONG RUN PRESERVED: YES · {incidentCount} incident{incidentCount === 1 ? '' : 's'}
+              </p>
             ) : null}
           </section>
         ) : null}
@@ -483,6 +648,11 @@ export function DesignTwinTestAPage() {
                 START GROK TEST
               </button>
             </div>
+            {!founderRunReady ? (
+              <p className="twin-test-a__hint" data-testid="twin-test-a-start-blocked">
+                START blocked until GROK_RUNTIME_HEALTH passes. Founder golden is not retried automatically.
+              </p>
+            ) : null}
           </section>
         ) : null}
 
@@ -590,13 +760,21 @@ export function DesignTwinTestAPage() {
                 <dt>REFERENCE SHA256</dt>
                 <dd>{run.reference?.sha256}</dd>
                 <dt>QUEUE</dt>
-                <dd>{formatDurationMmSs(run.timing.queueDurationMs)}</dd>
-                <dt>MODEL TIME</dt>
-                <dd>{formatDurationMmSs(run.timing.modelDurationMs)}</dd>
+                <dd data-testid="twin-test-a-queue-time">{formatDurationMmSs(run.timing.queueDurationMs)}</dd>
+                <dt>UPLOAD</dt>
+                <dd data-testid="twin-test-a-upload-time">{formatDurationMmSs(run.timing.uploadDurationMs)}</dd>
+                <dt>PROVIDER</dt>
+                <dd data-testid="twin-test-a-provider-time">{formatDurationMmSs(run.timing.modelDurationMs)}</dd>
                 <dt>POST PROCESS</dt>
-                <dd>{formatDurationMmSs(run.timing.postProcessingDurationMs)}</dd>
+                <dd data-testid="twin-test-a-post-process-time">{formatDurationMmSs(run.timing.postProcessingDurationMs)}</dd>
                 <dt>TOTAL</dt>
-                <dd>{formatDurationMmSs(run.timing.totalDurationMs)}</dd>
+                <dd data-testid="twin-test-a-total-time">{formatDurationMmSs(run.timing.totalDurationMs)}</dd>
+                <dt>OUTPUT TOKENS</dt>
+                <dd data-testid="twin-test-a-output-tokens">{run.cost.completionTokens ?? '—'}</dd>
+                <dt>OUTPUT SIZE</dt>
+                <dd data-testid="twin-test-a-output-size">{run.outputBytes ?? '—'}</dd>
+                <dt>TRUNCATED</dt>
+                <dd data-testid="twin-test-a-truncated">{run.responseTruncated ? 'YES' : 'NO'}</dd>
                 <dt>COST</dt>
                 <dd>
                   {run.cost.reported && run.cost.amount != null

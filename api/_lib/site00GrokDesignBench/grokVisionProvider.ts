@@ -33,6 +33,7 @@ export interface GrokVisionTranslateInput {
   width: number;
   height: number;
   sha256: string;
+  signal?: AbortSignal;
 }
 
 export interface GrokVisionTranslateResult {
@@ -45,6 +46,12 @@ export interface GrokVisionTranslateResult {
   totalTokens: number | null;
   costAmount: number | null;
   costReported: boolean;
+  outputBytes: number | null;
+  requestInputBytes: number | null;
+  responseId: string | null;
+  finishStatus: string | null;
+  responseTruncated: boolean;
+  maxOutputTokens: null;
 }
 
 export function grokDesignBenchProviderModel(): typeof GROK_DESIGN_BENCH_MODEL_ID {
@@ -339,6 +346,12 @@ export async function translateInterfaceWithGrok(
       totalTokens: null,
       costAmount: null,
       costReported: false,
+      outputBytes: null,
+      requestInputBytes: null,
+      responseId: null,
+      finishStatus: 'HARNESS',
+      responseTruncated: false,
+      maxOutputTokens: null,
     };
   }
 
@@ -348,6 +361,8 @@ export async function translateInterfaceWithGrok(
   }
 
   const payloadBody = buildGrok46ResponsesPayload(input);
+  const serialized = JSON.stringify(payloadBody);
+  const requestInputBytes = Buffer.byteLength(serialized, 'utf8');
   const user = payloadBody.input[1] as { content: Array<{ type: string }> };
   const imagePart = user.content.some((p) => p.type === 'input_image');
   if (!imagePart || !inputReceipt.imageInputAttached) {
@@ -357,11 +372,12 @@ export async function translateInterfaceWithGrok(
   const endpoint = process.env.SITE00_GROK_API_BASE?.replace(/\/$/, '') || 'https://api.x.ai/v1';
   const response = await fetch(`${endpoint}/responses`, {
     method: GROK_DESIGN_BENCH_INFERENCE_METHOD,
+    signal: input.signal,
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(payloadBody),
+    body: serialized,
   });
 
   if (!response.ok) {
@@ -370,7 +386,10 @@ export async function translateInterfaceWithGrok(
   }
 
   const payload = (await response.json()) as {
+    id?: string;
     model?: string;
+    status?: string;
+    incomplete_details?: { reason?: string };
     output_text?: string;
     output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
     usage?: { input_tokens?: number; output_tokens?: number; total_tokens?: number; prompt_tokens?: number; completion_tokens?: number };
@@ -390,6 +409,11 @@ export async function translateInterfaceWithGrok(
 
   const parsed = parseGrokPackageJson(content);
   const pkg = assertFigmaStylePackage(parsed);
+  const finishStatus = payload.status ?? (payload.incomplete_details?.reason ? 'incomplete' : 'completed');
+  const responseTruncated =
+    finishStatus === 'incomplete' ||
+    payload.incomplete_details?.reason === 'max_output_tokens' ||
+    /max_output_tokens|length/i.test(payload.incomplete_details?.reason ?? '');
   return {
     package: pkg,
     provider: 'xai',
@@ -400,6 +424,12 @@ export async function translateInterfaceWithGrok(
     totalTokens: payload.usage?.total_tokens ?? null,
     costAmount: typeof payload.usage_cost?.total_cost === 'number' ? payload.usage_cost.total_cost : null,
     costReported: typeof payload.usage_cost?.total_cost === 'number',
+    outputBytes: Buffer.byteLength(content, 'utf8'),
+    requestInputBytes,
+    responseId: payload.id ?? null,
+    finishStatus,
+    responseTruncated,
+    maxOutputTokens: null,
   };
 }
 

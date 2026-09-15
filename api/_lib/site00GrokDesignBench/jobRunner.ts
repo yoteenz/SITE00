@@ -9,7 +9,16 @@ import {
   GROK_4_6_PROVIDER_BINDING_FAILED,
   GROK_DESIGN_BENCH_MODEL_ID,
 } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import {
+  GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS,
+  GROK_PROVIDER_TIMEOUT,
+} from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import { translateInterfaceWithGrok } from './grokVisionProvider.js';
+import {
+  clearGrokRunControl,
+  isGrokRunCancelRequested,
+  registerGrokRunAbort,
+} from './grokWatchdog.js';
 import { getGrokDesignBenchRun, getGrokReferenceBytes, putGrokDesignBenchRun, recordGrokDuration } from './store.js';
 
 const STAGE_PAUSE_MS = process.env.VITEST === 'true' ? 0 : 40;
@@ -19,6 +28,7 @@ export function patchRun(run: GrokDesignBenchRun, patch: Partial<GrokDesignBench
   if (patch.stage) {
     next.stageLabel = grokStageLabel(patch.stage);
     next.progressPercent = grokStageProgress(patch.stage);
+    next.lastStateChangeAt = new Date().toISOString();
   }
   putGrokDesignBenchRun(next);
   return next;
@@ -55,23 +65,53 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
 
     run = await advance(runId, 'ANALYZING_VISUAL');
     const providerStartedAt = new Date().toISOString();
-    run = patchRun(run, { timing: { ...run.timing, providerStartedAt } });
-
-    const translated = await translateInterfaceWithGrok({
-      runId,
-      imageBytes: bytes.bytes,
-      mime: run.reference.mime,
-      filename: run.reference.filename,
-      width: run.reference.width,
-      height: run.reference.height,
-      sha256: run.reference.sha256,
+    run = patchRun(run, {
+      timing: { ...run.timing, providerStartedAt },
+      providerRequestStatus: 'IN_FLIGHT',
     });
+    if (isGrokRunCancelRequested(runId)) {
+      throw new Error('CANCEL_REQUESTED');
+    }
+
+    const controller = registerGrokRunAbort(runId);
+    const timeout = setTimeout(() => controller.abort(), GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS);
+    let translated;
+    try {
+      translated = await translateInterfaceWithGrok({
+        runId,
+        imageBytes: bytes.bytes,
+        mime: run.reference.mime,
+        filename: run.reference.filename,
+        width: run.reference.width,
+        height: run.reference.height,
+        sha256: run.reference.sha256,
+        signal: controller.signal,
+      });
+    } catch (err) {
+      if (isGrokRunCancelRequested(runId) || (err instanceof Error && err.name === 'AbortError')) {
+        throw new Error(isGrokRunCancelRequested(runId) ? 'CANCEL_REQUESTED' : GROK_PROVIDER_TIMEOUT);
+      }
+      throw err;
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    if (isGrokRunCancelRequested(runId)) {
+      throw new Error('CANCEL_REQUESTED');
+    }
 
     const providerCompletedAt = new Date().toISOString();
     run = patchRun(requireRun(runId), {
       providerModel: GROK_DESIGN_BENCH_MODEL_ID,
       modelId: GROK_DESIGN_BENCH_MODEL_ID,
+      providerRequestStatus: 'RETURNED',
       inputReceipt: translated.inputReceipt,
+      outputBytes: translated.outputBytes,
+      requestInputBytes: translated.requestInputBytes,
+      responseId: translated.responseId,
+      finishStatus: translated.finishStatus,
+      maxOutputTokens: translated.maxOutputTokens,
+      responseTruncated: translated.responseTruncated,
       timing: { ...requireRun(runId).timing, providerCompletedAt },
       cost: {
         reported: translated.costReported,
@@ -84,6 +124,10 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
       },
     });
 
+    if (isGrokRunCancelRequested(runId)) {
+      throw new Error('CANCEL_REQUESTED');
+    }
+
     run = await advance(runId, 'DECOMPOSING_LAYOUT');
     run = await advance(runId, 'BUILDING_DESIGN_SYSTEM');
     run = await advance(runId, 'BUILDING_COMPONENT_SPEC');
@@ -93,7 +137,9 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
 
     const completedAt = new Date().toISOString();
     const timing = finalizeGrokTiming({ ...requireRun(runId).timing, completedAt }, completedAt);
-    if (timing.totalDurationMs) recordGrokDuration(timing.totalDurationMs);
+    if (timing.totalDurationMs && timing.totalDurationMs < GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS) {
+      recordGrokDuration(timing.totalDurationMs);
+    }
 
     return patchRun(requireRun(runId), {
       stage: 'COMPLETE',
@@ -105,12 +151,16 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'GROK_JOB_FAILED';
+    const cancelled = message === 'CANCEL_REQUESTED';
+    const timedOut = message === GROK_PROVIDER_TIMEOUT;
     const bindingFailed = message.includes(GROK_4_6_PROVIDER_BINDING_FAILED);
     const codeMatch = message.match(/providerResponseCode=(\d+|none)/);
     const status = codeMatch && codeMatch[1] !== 'none' ? Number(codeMatch[1]) : null;
     return patchRun(requireRun(runId), {
-      stage: 'FAILED',
+      stage: cancelled ? 'CANCELLED' : 'FAILED',
       error: message,
+      cancelStatus: cancelled ? 'CANCELLED' : requireRun(runId).cancelStatus ?? null,
+      providerRequestStatus: timedOut ? 'TIMEOUT' : cancelled ? 'CANCELLED' : 'FAILED',
       providerFailure: bindingFailed
         ? {
             code: GROK_4_6_PROVIDER_BINDING_FAILED,
@@ -122,6 +172,8 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
         : null,
       timing: finalizeGrokTiming(requireRun(runId).timing, new Date().toISOString()),
     });
+  } finally {
+    clearGrokRunControl(runId);
   }
 }
 
