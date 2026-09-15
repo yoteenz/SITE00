@@ -1,76 +1,73 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes.js';
-import { compileTwinV4ForensicReconstruction } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/compileTwinV4ForensicReconstruction.js';
-import type { TwinV4ForensicReconstructionBundle } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/twinV4Types.js';
-import { TwinV4ForensicReconstructionRenderer } from '../components/designWorkspace/TwinV4ForensicReconstructionRenderer.js';
-import { P0_VR_TWIN_V40_LINEAGE, TWIN_V4_CSS_NAMESPACE, TWIN_V4_FAL_GENERATION_JOBS } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/constants.js';
+import { compileTwinV41PixelExtraction } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/compileTwinV41PixelExtraction.js';
+import type { TwinV41PixelExtractionBundle } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/twinV41Types.js';
+import {
+  P0_VR_TWIN_V41_LINEAGE,
+  PIXEL_EXTRACTION_REVIEW_REQUIRED,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/constants.js';
+import { findFounderApprovedForensicBlueprintInStorage } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/forensicBlueprintCache.js';
+import { TwinV41PixelExtractionOverlay } from '../components/designWorkspace/TwinV41PixelExtractionOverlay.js';
 import { P0_VR_TWIN_V30_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
-import { captureTwinV4LiveDomMeasurements } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/captureTwinV4LiveDomMeasurements.js';
-import type { TwinV4DomMeasurementMap } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/twinV4Types.js';
+import { TWIN_V4_CSS_NAMESPACE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/constants.js';
 import '../styles/site00-twin-v4-proof.css';
 
-type ViewMode =
-  | 'LIVE'
-  | 'FORENSIC_AUTHORITY'
-  | 'SIDE_BY_SIDE'
-  | 'OVERLAY'
-  | 'SCENE_GRAPH'
-  | 'DOM_MEASUREMENTS';
+type ViewMode = 'FORENSIC_AUTHORITY' | 'PIXEL_EXTRACTION' | 'SCENE_GRAPH' | 'EVIDENCE';
 
 export function DesignTwinV4ProofPage() {
   const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
   const projectId = projectSlug.toLowerCase();
-  const [mode, setMode] = useState<ViewMode>('LIVE');
+  const [searchParams] = useSearchParams();
+  const [mode, setMode] = useState<ViewMode>('PIXEL_EXTRACTION');
   const [err, setErr] = useState<string | null>(null);
-  const [bundle, setBundle] = useState<TwinV4ForensicReconstructionBundle | null>(null);
-  const [liveDomMeasurements, setLiveDomMeasurements] = useState<TwinV4DomMeasurementMap | null>(null);
-  const liveStageRef = useRef<HTMLDivElement | null>(null);
+  const [bundle, setBundle] = useState<TwinV41PixelExtractionBundle | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+
+  const sourceActualHash = useMemo(() => {
+    const fromQuery = searchParams.get('actualHash');
+    if (fromQuery) return fromQuery;
+    const stored = findFounderApprovedForensicBlueprintInStorage();
+    return stored?.sourceActualHash ?? '';
+  }, [searchParams]);
 
   useEffect(() => {
-    try {
-      const result = compileTwinV4ForensicReconstruction({
-        projectId,
-        sourcePackageId: `v4-package-${projectId}`,
-        sourceActualHash: 'v4-founder-actual-hash',
-      });
-      setBundle(result);
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : 'TWIN_V4_COMPILE_FAILED');
+    if (!sourceActualHash) {
+      setErr('TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE');
+      setBundle(null);
+      return;
     }
-  }, [projectId]);
+    let cancelled = false;
+    setErr(null);
+    compileTwinV41PixelExtraction({ projectId, sourceActualHash })
+      .then((result) => {
+        if (!cancelled) setBundle(result);
+      })
+      .catch((e) => {
+        if (!cancelled) setErr(e instanceof Error ? e.message : 'TWIN_V41_EXTRACTION_FAILED');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, sourceActualHash]);
 
-  useEffect(() => {
-    if (!bundle || mode !== 'LIVE') return;
-    const stage = liveStageRef.current?.querySelector(`.site00-twin-v4__stage`);
-    if (!(stage instanceof HTMLElement)) return;
-    const id = requestAnimationFrame(() => {
-      setLiveDomMeasurements(captureTwinV4LiveDomMeasurements({ sceneGraph: bundle.sceneGraph, stageElement: stage }));
-    });
-    return () => cancelAnimationFrame(id);
-  }, [bundle, mode, bundle?.correctionIterations.length]);
-
-  const correctionBoost = bundle?.correctionIterations.length ?? 0;
-  const authorityUri = bundle?.ingestionReceipt.contentUri ?? '';
-
-  const modes: ViewMode[] = [
-    'LIVE',
-    'FORENSIC_AUTHORITY',
-    'SIDE_BY_SIDE',
-    'OVERLAY',
-    'SCENE_GRAPH',
-    'DOM_MEASUREMENTS',
-  ];
+  const modes: ViewMode[] = ['FORENSIC_AUTHORITY', 'PIXEL_EXTRACTION', 'SCENE_GRAPH', 'EVIDENCE'];
 
   const debugLine = useMemo(() => {
     if (!bundle) return '';
-    return `gate=${bundle.gate.status} proof=${bundle.proofAnswer} nodes=${bundle.sceneGraph.nodes.length} falJobs=${TWIN_V4_FAL_GENERATION_JOBS}`;
+    return `gate=${bundle.gate.status} proof=${bundle.reconstructionEngineProof} nodes=${bundle.sceneGraph.nodes.length} · ${PIXEL_EXTRACTION_REVIEW_REQUIRED}`;
   }, [bundle]);
 
+  const selectedNode = bundle?.sceneGraph.nodes.find((n) => n.sceneNodeId === selectedNodeId) ?? null;
+
   return (
-    <div className="site00-page site00-page--twin-v4" data-lineage={P0_VR_TWIN_V40_LINEAGE} data-build={P0_VR_TWIN_V30_BUILD}>
+    <div
+      className="site00-page site00-page--twin-v4 site00-page--twin-v41"
+      data-lineage={P0_VR_TWIN_V41_LINEAGE}
+      data-build={P0_VR_TWIN_V30_BUILD}
+    >
       <header className={`${TWIN_V4_CSS_NAMESPACE}__topbar`} data-testid="twin-v4-topbar">
-        <span>TWIN V4 · FORENSIC RECONSTRUCTION PROOF</span>
+        <span>TWIN V4.1 · PIXEL-DERIVED FORENSIC EXTRACTION</span>
         <Link to={SITE00_ROUTES.site00Design + `?project=${projectId}`}>← DESIGN WORKSPACE</Link>
       </header>
       <div className={`${TWIN_V4_CSS_NAMESPACE}__modes`} data-testid="twin-v4-modes">
@@ -88,62 +85,58 @@ export function DesignTwinV4ProofPage() {
       {err ?
         <p data-testid="twin-v4-error">{err}</p>
       : null}
-      {!bundle ?
-        <p data-testid="twin-v4-loading">Compiling V4 forensic reconstruction…</p>
-      : null}
-      {bundle && mode === 'LIVE' ?
-        <div ref={liveStageRef}>
-          <TwinV4ForensicReconstructionRenderer
-            sceneGraph={bundle.sceneGraph}
-            domPlan={bundle.domPlan}
-            correctionBoost={correctionBoost}
-          />
-        </div>
+      {!bundle && !err ?
+        <p data-testid="twin-v4-loading">Running forensic pixel analysis…</p>
       : null}
       {bundle && mode === 'FORENSIC_AUTHORITY' ?
-        <div className={`${TWIN_V4_CSS_NAMESPACE}__authority-panel`} data-testid="twin-v4-authority-panel">
-          <p>Reference only — not used as LIVE DOM substrate.</p>
-          {authorityUri.startsWith('http') || authorityUri.startsWith('/') ?
-            <img src={authorityUri} alt="" data-testid="twin-v4-authority-image" />
-          : <p>{authorityUri}</p>}
+        <div className="site00-twin-v41-extraction__authority-only" data-testid="twin-v4-authority-panel">
+          <p>Founder-approved forensic blueprint (sole visual authority).</p>
+          <img src={bundle.authorityLock.imageUri} alt="" data-testid="twin-v4-authority-image" />
         </div>
       : null}
-      {bundle && mode === 'SIDE_BY_SIDE' ?
-        <div className={`${TWIN_V4_CSS_NAMESPACE}__compare-row`}>
-          <TwinV4ForensicReconstructionRenderer sceneGraph={bundle.sceneGraph} domPlan={bundle.domPlan} />
-          <div className={`${TWIN_V4_CSS_NAMESPACE}__authority-panel`}>
-            {authorityUri.startsWith('http') || authorityUri.startsWith('/') ?
-              <img src={authorityUri} alt="" />
-            : null}
-          </div>
-        </div>
-      : null}
-      {bundle && mode === 'OVERLAY' ?
-        <div style={{ position: 'relative' }}>
-          <TwinV4ForensicReconstructionRenderer sceneGraph={bundle.sceneGraph} domPlan={bundle.domPlan} />
-          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.25 }}>
-            {authorityUri.startsWith('http') || authorityUri.startsWith('/') ?
-              <img src={authorityUri} alt="" style={{ width: '100%' }} />
-            : null}
-          </div>
-        </div>
+      {bundle && mode === 'PIXEL_EXTRACTION' ?
+        <TwinV41PixelExtractionOverlay bundle={bundle} />
       : null}
       {bundle && mode === 'SCENE_GRAPH' ?
-        <pre data-testid="twin-v4-scene-graph-debug">{JSON.stringify(bundle.sceneGraph.nodes.slice(0, 24), null, 2)}</pre>
+        <div className="site00-twin-v41-scene-list" data-testid="twin-v41-scene-graph">
+          <ul>
+            {bundle.sceneGraph.nodes.slice(0, 48).map((n) => (
+              <li key={n.sceneNodeId}>
+                <button type="button" onClick={() => setSelectedNodeId(n.sceneNodeId)}>
+                  {n.sceneNodeId} · {n.type} · ev={n.evidence.evidenceCount}
+                </button>
+              </li>
+            ))}
+          </ul>
+          {selectedNode ?
+            <div data-testid="twin-v41-scene-node-detail">
+              {selectedNode.sceneNodeId} — confidence {selectedNode.evidence.confidence.toFixed(2)}
+            </div>
+          : null}
+        </div>
       : null}
-      {bundle && mode === 'DOM_MEASUREMENTS' ?
-        <pre data-testid="twin-v4-dom-measurements">
-          {JSON.stringify(
-            (liveDomMeasurements ?? bundle.domMeasurementMap).measurements.slice(0, 20),
-            null,
-            2,
-          )}
-        </pre>
+      {bundle && mode === 'EVIDENCE' ?
+        <div className="site00-twin-v41-evidence" data-testid="twin-v41-evidence">
+          <p>Receipt status: {bundle.receipt.status}</p>
+          <p>Major regions: {bundle.receipt.majorRegionCount}</p>
+          <p>Text regions: {bundle.receipt.textRegionCount}</p>
+          <p>Edges: {bundle.receipt.edgeCount}</p>
+          <p>Callouts: {bundle.receipt.calloutCount}</p>
+          <p>Nodes without evidence: {bundle.receipt.nodesWithoutEvidence}</p>
+          <p>Average confidence: {bundle.receipt.averageConfidence.toFixed(3)}</p>
+          <ul>
+            {bundle.analysis.colorSampleMap.samples.map((s) => (
+              <li key={s.sampleId}>
+                {s.role}: {s.hex} @ ({s.x},{s.y})
+              </li>
+            ))}
+          </ul>
+        </div>
       : null}
       {bundle ?
         <div className={`${TWIN_V4_CSS_NAMESPACE}__debug`} data-testid="twin-v4-debug">
-          {debugLine} · lock={bundle.authorityLock.forensicBlueprintArtifactId} · hash=
-          {bundle.authorityLock.forensicBlueprintHash.slice(0, 12)}
+          {debugLine} · lock={bundle.authorityLock.artifactId} · {bundle.authorityLock.imageWidth}×
+          {bundle.authorityLock.imageHeight}
         </div>
       : null}
     </div>

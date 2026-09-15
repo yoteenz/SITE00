@@ -9397,3 +9397,9 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Proof (compile path):** With ndxbook stub/cache authority, vitest compile reports **REVIEW_READY**, 2 correction iterations, all regions **LOW**, proof **YES** — compile uses simulated measurements in Node; founder must still validate with real browser screenshot + production forensic artifact hash when cached blueprint exists.
 - **Tests:** **`tests/p0vrTwinV40.test.ts`** (27 checklist items). Deploy **v476** ZIP; open **`/projects/ndxbook/design/twin-v4`**.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV4.1 pixel-derived scene graph extraction (v477)
+
+- **Sprint:** Twin V4.1 replaces V4.0 **hardcoded 42-node placeholder graph** (rejected **`HARDCODED_SCENE_GRAPH_PLACEHOLDER_RENDER`**) with **`p0vrTwinV41/`** pipeline: **founder-approved forensic PNG only** (no stub/local-autobuild), **`ForensicPixelAnalysis`** (regions, edges, color samples, text regions, callouts, visual objects), **`TwinV41PixelDerivedSceneGraph`** with per-node **evidence refs**, **`PIXEL EXTRACTION`** overlay on real authority raster, modes **FORENSIC AUTHORITY / PIXEL EXTRACTION / SCENE GRAPH / EVIDENCE**; **LIVE DOM reconstruction disabled** until V4.2 (`DOM_RECONSTRUCTION_DISABLED_V41`). **`reconstructionEngineProof = INCONCLUSIVE`**; gate **`FOUNDER_EXTRACTION_REVIEW`**. Persistence **`site00:twin-v41:`**. Tests **`p0vrTwinV41.test.ts`**. Founder needs approved forensic in localStorage + **`?actualHash=`** matching cache when hash not auto-resolved.
+

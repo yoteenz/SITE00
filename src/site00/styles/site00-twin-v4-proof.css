@@ -89,3 +89,83 @@
   gap: 8px;
   padding: 8px;
 }
+
+/* V4.1 — neutral host chrome; authority frame stays light technical document */
+.site00-page--twin-v41 .site00-twin-v41-extraction__stage {
+  position: relative;
+  max-width: min(100%, 900px);
+  margin: 8px auto;
+  border: 1px solid #8ab4f0;
+  background: #f5f5f0;
+}
+
+.site00-twin-v41-extraction__authority {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.site00-twin-v41-extraction__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.site00-twin-v41-extraction__box {
+  fill: none;
+  stroke: #0066cc;
+  stroke-width: 2;
+  pointer-events: stroke;
+}
+
+.site00-twin-v41-extraction__label {
+  fill: #003366;
+  font-size: 11px;
+  font-family: ui-monospace, monospace;
+}
+
+.site00-twin-v41-extraction__note,
+.site00-twin-v41-extraction__v40-banner {
+  font-size: 11px;
+  padding: 6px 10px;
+  color: #ccc;
+}
+
+.site00-twin-v41-extraction__v40-banner {
+  color: #f5a623;
+}
+
+.site00-twin-v41-extraction__layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 10px;
+}
+
+.site00-twin-v41-extraction__layer {
+  font-size: 10px;
+  padding: 3px 8px;
+  border: 1px solid #555;
+  background: #1a1a1a;
+  color: #ddd;
+}
+
+.site00-twin-v41-extraction__layer--on {
+  border-color: #0066cc;
+  color: #8ab4f0;
+}
+
+.site00-twin-v41-extraction__inspector,
+.site00-twin-v41-evidence,
+.site00-twin-v41-scene-list {
+  font-size: 11px;
+  padding: 8px 10px;
+  color: #ccc;
+}
+
+.site00-twin-v41-extraction__authority-only img {
+  max-width: 100%;
+  height: auto;
+}

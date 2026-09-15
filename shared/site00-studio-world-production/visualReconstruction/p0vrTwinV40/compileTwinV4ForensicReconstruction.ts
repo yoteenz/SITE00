@@ -146,12 +146,16 @@ function proofAnswer(input: {
   return { answer: 'INCONCLUSIVE', cause: 'scene graph extraction' };
 }
 
-export function compileTwinV4ForensicReconstruction(input: {
+const DOM_RECONSTRUCTION_DISABLED_V41 = 'DOM_RECONSTRUCTION_DISABLED_V41';
+
+export function compileTwinV4ForensicReconstruction(_input: {
   projectId: string;
   sourcePackageId: string;
   sourceActualHash: string;
 }): TwinV4ForensicReconstructionBundle {
-  const { authority, lock, ingestionReceipt } = resolveTwinV4ForensicAuthority(input);
+  throw new Error(DOM_RECONSTRUCTION_DISABLED_V41);
+  /* V4.0 DOM reconstruction disabled until V4.2 after founder pixel extraction approval */
+  const { authority, lock, ingestionReceipt } = resolveTwinV4ForensicAuthority(_input);
   const sceneGraph = extractTwinV4VisualSceneGraph({ forensicBlueprintHash: authority.blueprintHash });
   const textMap = buildTwinV4TextObjectMap(sceneGraph);
   const domPlan = buildTwinV4DomReconstructionPlan(sceneGraph);
@@ -211,6 +215,9 @@ export function compileTwinV4ForensicReconstruction(input: {
     visual: visualComparisonReceipt,
     highDrift,
   });
+  void answer;
+  const proofAnswerFinal: TwinV4ReconstructionProofAnswer = 'INCONCLUSIVE';
+  const causeFinal = cause ?? 'scene graph extraction';
 
   const bundle: TwinV4ForensicReconstructionBundle = {
     lineage: P0_VR_TWIN_V40_LINEAGE,
@@ -226,8 +233,8 @@ export function compileTwinV4ForensicReconstruction(input: {
     regionDrifts: regionDriftReports,
     correctionIterations: iterations,
     gate,
-    proofAnswer: answer,
-    proofPrimaryCause: cause,
+    proofAnswer: proofAnswerFinal,
+    proofPrimaryCause: causeFinal,
   };
 
   writeTwinV4Bundle(bundle);
