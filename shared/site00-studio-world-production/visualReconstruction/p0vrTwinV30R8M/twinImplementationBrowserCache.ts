@@ -1,6 +1,8 @@
 import type { CompiledMobileTwinImplementationDocument } from './types.js';
 
-const STORAGE_KEY = 'site00:mobile-twin-implementation-cache:v1';
+import { MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH } from '../p0vrTwinV30R8M2R5/constants.js';
+
+const STORAGE_KEY = `site00:mobile-twin-implementation-cache:v${MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH}`;
 
 /** When localStorage is unavailable (tests / rare embed), twin preview still works for the session. */
 const memoryStore: Record<string, TwinImplementationCacheEntry> = {};

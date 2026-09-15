@@ -1,3 +1,4 @@
+import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
 import { fnv1aHex } from '../p0vrTwinV30/mobileTwinPipeline/runGenerateMobileTwinPackageCore.js';
 import {
   FORENSIC_BLUEPRINT_FAL_ENDPOINT,
@@ -41,14 +42,14 @@ function buildReceipt(
     outputFormat: FORENSIC_BLUEPRINT_OUTPUT_FORMAT,
     resultUrl: authority.falResultUrl,
     resultHash: authority.blueprintHash,
-    costUsd: process.env.VITEST === 'true' ? 0 : null,
+    costUsd: site00IsVitest() ? 0 : null,
     generatedAt: authority.generatedAt,
   };
 }
 
 function seedLocalForensicBlueprintStub(input: ForensicBlueprintResolveInput): ForensicUiBlueprintAuthority {
   const url =
-    process.env.VITEST === 'true' ?
+    site00IsVitest() ?
       `vitest-fal://forensic-ui-blueprint-${input.projectId}`
     : `local-autobuild://forensic-ui-blueprint-${input.projectId}`;
   const blueprintHash = forensicBlueprintContentHash(`${url}:${input.sourceActualHash}`);
@@ -64,7 +65,7 @@ function seedLocalForensicBlueprintStub(input: ForensicBlueprintResolveInput): F
     blueprintImageUri: url,
     blueprintHash,
     generatedAt: new Date().toISOString(),
-    status: process.env.VITEST === 'true' ? 'MACHINE_VALIDATED' : 'FOUNDER_BLUEPRINT_REVIEW',
+    status: site00IsVitest() ? 'MACHINE_VALIDATED' : 'FOUNDER_BLUEPRINT_REVIEW',
     founderReviewStatus: 'PENDING',
   };
   const cacheKey = forensicBlueprintCacheKey({ actualHash: input.sourceActualHash });
@@ -82,10 +83,8 @@ export function resolveForensicUiBlueprintAuthoritySync(
     return { authority: cached, receipt: buildReceipt(cached, input, 'fbgr-sync') };
   }
 
-  const canSeedLocally =
-    process.env.VITEST === 'true' || (typeof window !== 'undefined' && typeof document !== 'undefined');
-  if (!canSeedLocally) {
-    throw new Error('FORENSIC_BLUEPRINT_NOT_PRIMED — call generateForensicUiBlueprintAuthority before compile');
+  if (!site00IsVitest()) {
+    throw new Error('FORENSIC_BLUEPRINT_NOT_PRIMED — call server GENERATE_FORENSIC_UI_BLUEPRINT before compile');
   }
 
   const authority = seedLocalForensicBlueprintStub(input);

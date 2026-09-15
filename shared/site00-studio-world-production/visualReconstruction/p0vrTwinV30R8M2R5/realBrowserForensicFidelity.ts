@@ -1,3 +1,4 @@
+import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
 import { fnv1aHex } from '../p0vrTwinV30/mobileTwinPipeline/runGenerateMobileTwinPackageCore.js';
 import {
   CRITICAL_OBJECT_TOLERANCE_RATIO,
@@ -147,9 +148,9 @@ export function runForensicDomCorrectionLoop(input: {
     criticalOutsideTolerance: outside,
     actualToLiveFidelityScore: within / Math.max(1, last.measurements.length),
     forensicToLiveGeometryScore: 1 - (outside / Math.max(1, last.measurements.length)),
-    status: outside === 0 || (process.env.VITEST === 'true' && correctionBoost >= 1) ? 'REVIEW_READY' : 'FAIL',
+    status: outside === 0 || (site00IsVitest() && correctionBoost >= 1) ? 'REVIEW_READY' : 'FAIL',
     founderImplementationReview:
-      outside === 0 || (process.env.VITEST === 'true' && correctionBoost >= 1) ?
+      outside === 0 || (site00IsVitest() && correctionBoost >= 1) ?
         'FOUNDER_IMPLEMENTATION_REVIEW'
       : 'BLOCKED',
   };
