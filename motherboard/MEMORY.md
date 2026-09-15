@@ -9357,3 +9357,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Server:** **`POST /api/site00/twin-v3-forensic-ui-blueprint`** (`GENERATE_FORENSIC_UI_BLUEPRINT`) → **`generateForensicUiBlueprintForSession`** → **`fal-ai/nano-banana-2/edit`** with **`ForensicFalDispatchReceipt`**. Client **`requestForensicUiBlueprintGeneration`** hydrates in-memory forensic cache before local compile. **`compileMobileTwinImplementationService`** primes forensic before compile.
 - **UX:** Twin page **FORENSIC BLUEPRINT GENERATION FAILED** + retry; cache epoch **v2** + build **v471**. Tests **`p0vrTwinV30R8M2R5F1.test.ts`**. **Founder:** Redeploy **Railway** (new API route) + deploy **v471** ZIP.
 
+---
+
+## 2026-09-15 — R8M2R5F2 fsbw-dev forensic API routing (v472)
+
+- **Symptom:** Founder **`site00.fsbw-dev.com`** twin showed **`FORENSIC_BLUEPRINT_GENERATION_FAILED`** after v471 process fix (page renders, Fal not reached).
+- **Cause:** Preview hosts always POST to **`api.site00.com`**, which still returned **404** for **`twin-v3-forensic-ui-blueprint`** until Railway redeploy.
+- **Fix:** Preview tries **same-origin Vite local API first** (`listForensicUiBlueprintApiPostUrls`); **`vite-site00-local-api.mjs`** registers forensic route; clearer **`FORENSIC_API_NOT_DEPLOYED`** / FAL_KEY messages. Build **v472**.
+
