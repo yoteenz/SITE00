@@ -138,6 +138,7 @@ export const SITE00_ROUTES = {
   projectDesignTwinV4: '/projects/:projectSlug/design/twin-v4',
   /** P0.VR.DESIGNBENCH.SOL1 — isolated Sol reference-to-Figma benchmark */
   projectDesignTwinTestB: '/projects/:projectSlug/design/twin-testB',
+  projectDesignTwinTestA: '/projects/:projectSlug/design/twin-testA',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
@@ -521,6 +522,10 @@ export function site00ProjectDesignPath(
 
 export function solDesignBenchmarkRoute(projectSlug: string): string {
   return `/projects/${projectSlug}/design/twin-testB`;
+}
+
+export function site00ProjectDesignTwinTestAPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-testA`;
 }
 
 export function site00CanonicalDesignPath(params?: {
