@@ -1,5 +1,7 @@
 /** P0.VR.DESIGNBENCH.GROK1F1 — hard-bound Grok 4.6 model contract. */
 
+import { classifyGrokProviderHttpStatus } from './providerErrors.js';
+
 export const GROK_DESIGN_BENCH_MODEL_ID = 'grok-4.6' as const;
 export const GROK_DESIGN_BENCH_PROVIDER = 'xai' as const;
 export const GROK_DESIGN_BENCH_PROVIDER_LABEL = 'xAI' as const;
@@ -83,11 +85,24 @@ export interface GrokDesignBenchHostDiagnostic {
 }
 
 export interface GrokDesignBenchProviderFailure {
-  code: typeof GROK_4_6_PROVIDER_BINDING_FAILED;
+  code: string;
   providerResponseCode: number | null;
-  classification: 'MODEL_REJECTED' | 'AUTH' | 'RATE_LIMIT' | 'NETWORK' | 'UNKNOWN';
+  classification: import('./providerErrors.js').GrokProviderHttpClassification;
+  benchmarkFailureClass?: import('./providerErrors.js').GrokBenchmarkFailureClass;
+  incidentClass?: string;
   runId: string;
   detail: string;
+  providerRequestId?: string | null;
+  providerErrorCode?: string | null;
+  providerErrorType?: string | null;
+  providerMessage?: string | null;
+  endpoint?: string;
+  attempt?: number;
+  attempts?: number;
+  startedAt?: string;
+  failedAt?: string;
+  duration?: number;
+  model?: typeof GROK_DESIGN_BENCH_MODEL_ID;
 }
 
 export function assertGrok46HardBind(modelId: string): asserts modelId is typeof GROK_DESIGN_BENCH_MODEL_ID {
@@ -101,20 +116,7 @@ export function isForbiddenGrokBenchModel(modelId: string): boolean {
 }
 
 export function classifyGrok46ProviderError(status: number | null, body: string): GrokDesignBenchProviderFailure['classification'] {
-  const text = body.toLowerCase();
-  if (status === 401 || status === 403 || text.includes('invalid api key') || text.includes('unauthorized')) {
-    return 'AUTH';
-  }
-  if (status === 429) return 'RATE_LIMIT';
-  if (
-    status === 410 ||
-    status === 404 ||
-    text.includes('model') && (text.includes('not found') || text.includes('unknown') || text.includes('does not exist') || text.includes('unsupported'))
-  ) {
-    return 'MODEL_REJECTED';
-  }
-  if (status == null) return 'NETWORK';
-  return 'UNKNOWN';
+  return classifyGrokProviderHttpStatus(status, body);
 }
 
 export function formatGrok46BindingFailure(args: {

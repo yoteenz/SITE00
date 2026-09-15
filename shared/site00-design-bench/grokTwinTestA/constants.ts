@@ -1,15 +1,21 @@
 /** P0.VR.DESIGNBENCH.GROK1 — isolated Grok visual translation lab. */
 
-export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v488' as const;
+export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v489' as const;
 export const P0_VR_DESIGNBENCH_GROK1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F2_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F2' as const;
 export const P0_VR_DESIGNBENCH_GROK1F3_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F3' as const;
 export const P0_VR_DESIGNBENCH_GROK1F4_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F4' as const;
+export const P0_VR_DESIGNBENCH_GROK1F5_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F5' as const;
 export const GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS = 10 * 60 * 1000;
 export const GROK_DESIGN_BENCH_STALL_MS = 5 * 60 * 1000;
 export const GROK_PROVIDER_TIMEOUT = 'GROK_PROVIDER_TIMEOUT' as const;
 export const GROK_RUN_STALLED = 'RUN_STALLED' as const;
+export const GROK_PROVIDER_MAX_ATTEMPTS = 3;
+export const GROK_PROVIDER_MAX_RETRIES = 2;
+export const GROK_PROVIDER_RETRY_BACKOFF_MS = [0, 2000, 5000] as const;
+export const GROK_PROVIDER_SERVICE_UNAVAILABLE = 'GROK_PROVIDER_SERVICE_UNAVAILABLE' as const;
+export const GROK_PROVIDER_TEMPORARILY_UNAVAILABLE = 'GROK PROVIDER TEMPORARILY UNAVAILABLE' as const;
 export const GROK_TWIN_TEST_A_INCIDENT_KEY = 'site00:twin-test-a:v1:incidentHistory' as const;
 export const GROK_XAI_API_BASE = 'https://api.x.ai/v1' as const;
 export const GROK_DESIGN_BENCH_INFERENCE_PATH = '/responses' as const;

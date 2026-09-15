@@ -175,12 +175,14 @@ describe('P0.VR.DESIGNBENCH.GROK1F1 grok-4.6 hard-bind', () => {
     expect(() => assertGrok46HardBind('grok-2-vision-1212')).toThrow(GROK_4_6_PROVIDER_BINDING_FAILED);
     const failure = grok46ProviderFailureFromHttp('run-9', 404, 'model not found');
     expect(failure.code).toBe(GROK_4_6_PROVIDER_BINDING_FAILED);
-    expect(failure.classification).toBe('MODEL_REJECTED');
+    expect(failure.classification).toBe('MODEL_NOT_FOUND');
     expect(failure.runId).toBe('run-9');
     const message = formatGrok46BindingFailure({ runId: 'run-9', status: 404, body: 'unknown model' });
     expect(message).toContain(GROK_4_6_PROVIDER_BINDING_FAILED);
     expect(message).not.toContain('falling back');
-    expect(classifyGrok46ProviderError(404, 'model not found')).toBe('MODEL_REJECTED');
+    expect(classifyGrok46ProviderError(404, 'model not found')).toBe('MODEL_NOT_FOUND');
+    expect(classifyGrok46ProviderError(503, 'service unavailable')).toBe('PROVIDER_SERVICE_UNAVAILABLE');
+    expect(classifyGrok46ProviderError(503, 'service unavailable')).not.toBe('MODEL_REJECTED');
   });
 
   it('11. original benchmark contract unchanged', () => {

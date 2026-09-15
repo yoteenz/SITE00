@@ -8,3 +8,4 @@ export * from './sha256.js';
 export * from './packageGuard.js';
 export * from './persist.js';
 export * from './modelContract.js';
+export * from './providerErrors.js';

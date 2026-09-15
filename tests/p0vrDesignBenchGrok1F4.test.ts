@@ -95,7 +95,7 @@ describe('P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog', () => {
   });
 
   it('1. build and lineage', () => {
-    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v488');
+    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v489');
     expect(P0_VR_DESIGNBENCH_GROK1F4_LINEAGE).toBe('P0.VR.DESIGNBENCH.GROK1F4');
   });
 
@@ -283,7 +283,8 @@ describe('P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog', () => {
     expect(health).toHaveProperty('founderRunReady');
     expect(read('api/_lib/site00GrokDesignBench/service.ts')).toContain('GROK_RUNTIME_HEALTH_BLOCKED');
     expect(read('api/_lib/site00GrokDesignBench/service.ts')).toContain('founderRunReady');
-    expect(read('api/_lib/site00GrokDesignBench/jobRunner.ts')).not.toMatch(/retry|auto-retry|retryGrok/i);
+    expect(read('src/site00/pages/DesignTwinTestAPage.tsx')).toContain('Founder golden is not retried automatically');
+    expect(read('api/_lib/site00GrokDesignBench/jobRunner.ts')).not.toMatch(/retryGrokGolden|autoRetryFounderGolden/i);
     expect(read('api/site00/twin-test-a-design-bench.ts')).toContain("action === 'cancel'");
     expect(read('api/site00/twin-test-a-design-bench.ts')).toContain('runtime_health');
   });

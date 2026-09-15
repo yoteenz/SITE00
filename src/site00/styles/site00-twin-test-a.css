@@ -209,6 +209,25 @@
   font-size: 12px;
 }
 
+.twin-test-a__retry-banner,
+.twin-test-a__retry-final {
+  margin: 14px 0 0;
+  border: 1px solid rgba(243, 195, 107, 0.35);
+  background: #16120a;
+  padding: 12px 14px;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.twin-test-a__retry-banner p,
+.twin-test-a__retry-final p {
+  margin: 0 0 8px;
+}
+
+.twin-test-a__retry-final .twin-test-a__start {
+  margin-top: 8px;
+}
+
 .twin-test-a__progress {
   border: 1px solid var(--tta-line);
   padding: 20px 18px;

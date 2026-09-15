@@ -14,6 +14,7 @@ import {
   grokDesignBenchHostIdentity,
   grokDesignBenchReadiness,
   grokDesignBenchRuntimeHealth,
+  retryGrokDesignBenchFromRun,
   startGrokDesignBenchRun,
 } from '../_lib/site00GrokDesignBench/service.js';
 
@@ -80,6 +81,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const run = cancelGrokDesignBenchRun(String(body.runId ?? ''));
     if (!run) return res.status(404).json({ ok: false, error: 'RUN_NOT_FOUND' });
     return res.status(200).json({ ok: true, run });
+  }
+
+  if (action === 'retry' || action === 'retry_grok') {
+    try {
+      const run = await retryGrokDesignBenchFromRun(String(body.runId ?? body.sourceRunId ?? ''));
+      return res.status(202).json({ ok: true, run, async: run.stage !== 'COMPLETE' && run.stage !== 'FAILED' });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'GROK_RETRY_FAILED';
+      return res.status(400).json({ ok: false, error: message });
+    }
   }
 
   if (action !== 'start' && action !== 'start_run') {

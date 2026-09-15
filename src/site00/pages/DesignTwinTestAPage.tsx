@@ -12,7 +12,8 @@ import {
   GROK_TWIN_TEST_A_PROVIDER_LABEL,
   GROK_TWIN_TEST_A_SUBHEADER,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
-import { GROK_4_6_PROVIDER_BINDING_FAILED, GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import { GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import { isGrokModelRejectionClassification } from '../../../shared/site00-design-bench/grokTwinTestA/providerErrors.js';
 import type {
   GrokDesignBenchHostDiagnostic,
   GrokDesignBenchProviderReadinessReceipt,
@@ -35,6 +36,7 @@ import {
   fetchGrokTwinTestAReadiness,
   fetchGrokTwinTestARuntimeHealth,
   pollGrokTwinTestARun,
+  retryGrokTwinTestARun,
   startGrokTwinTestARun,
 } from '../services/grokTwinTestAClient.js';
 import '../styles/site00-twin-test-a.css';
@@ -308,6 +310,29 @@ export function DesignTwinTestAPage() {
     }
   }
 
+  async function retryTest() {
+    if (!run?.runId || starting || active) return;
+    setStarting(true);
+    setUploadError(null);
+    try {
+      const next = localRef
+        ? await startGrokTwinTestARun({
+            projectId,
+            filename: localRef.file.name,
+            mime: localRef.mime,
+            width: localRef.width,
+            height: localRef.height,
+            imageBase64: localRef.dataUrl,
+          })
+        : await retryGrokTwinTestARun(run.runId);
+      setRun(next);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : 'RETRY_FAILED');
+    } finally {
+      setStarting(false);
+    }
+  }
+
   async function cancelTest() {
     if (!run?.runId || !active || cancelling) return;
     setCancelling(true);
@@ -378,6 +403,21 @@ export function DesignTwinTestAPage() {
                 <br />
                 {formatDurationMmSs(elapsedMs)}
               </div>
+              <div data-testid="twin-test-a-provider-attempts">
+                PROVIDER ATTEMPTS:
+                <br />
+                {run?.providerRetry?.attempt ?? 0}
+              </div>
+              <div data-testid="twin-test-a-provider-retries">
+                RETRIES:
+                <br />
+                {run?.providerRetry?.retries ?? 0}
+              </div>
+              <div data-testid="twin-test-a-total-run-time">
+                TOTAL RUN TIME:
+                <br />
+                {formatDurationMmSs(elapsedMs)}
+              </div>
               <div data-testid="twin-test-a-eta">
                 ESTIMATED REMAINING:
                 <br />
@@ -397,6 +437,22 @@ export function DesignTwinTestAPage() {
                 </div>
               </div>
             </div>
+            {run?.providerRetry &&
+            (run.providerRetry.status === 'RETRYING' || run.providerRetry.status === 'WAITING_RETRY') ? (
+              <div className="twin-test-a__retry-banner" data-testid="twin-test-a-provider-retrying">
+                <p>{run.providerRetry.uiHeadline ?? 'GROK PROVIDER TEMPORARILY UNAVAILABLE'}</p>
+                <p data-testid="twin-test-a-retry-detail">
+                  {(run.providerRetry.uiDetail ?? `RETRYING…\nATTEMPT ${run.providerRetry.attempt} OF ${run.providerRetry.maxAttempts}`)
+                    .split('\n')
+                    .map((line) => (
+                      <span key={line}>
+                        {line}
+                        <br />
+                      </span>
+                    ))}
+                </p>
+              </div>
+            ) : null}
             {run?.stall?.stalled ? (
               <p className="twin-test-a__stall" data-testid="twin-test-a-stalled">
                 RUN_STALLED · {run.stall.stalledStage} · PROVIDER {run.stall.providerRequestStatus}
@@ -432,11 +488,33 @@ export function DesignTwinTestAPage() {
 
         {run?.stage === 'FAILED' ? (
           <div className="twin-test-a__error-block" data-testid="twin-test-a-failed">
-            <p className="twin-test-a__error">
-              {run.providerFailure?.code === GROK_4_6_PROVIDER_BINDING_FAILED
-                ? GROK_4_6_PROVIDER_BINDING_FAILED
-                : run.error}
+            <p className="twin-test-a__error" data-testid="twin-test-a-failed-headline">
+              {run.providerFailure?.classification &&
+              isGrokModelRejectionClassification(run.providerFailure.classification)
+                ? run.providerFailure.classification
+                : run.providerRetry?.uiHeadline ||
+                    run.providerFailure?.incidentClass ||
+                    run.benchmarkFailureClass ||
+                    run.error}
             </p>
+            {run.benchmarkFailureClass === 'PROVIDER_TRANSIENT_FAILURE' ||
+            run.providerFailure?.classification === 'PROVIDER_SERVICE_UNAVAILABLE' ? (
+              <div className="twin-test-a__retry-final" data-testid="twin-test-a-transient-final">
+                <p>GROK PROVIDER TEMPORARILY UNAVAILABLE</p>
+                <p>Provider returned: {run.providerFailure?.providerResponseCode ?? run.providerRetry?.lastHttpStatus ?? '—'}</p>
+                <p>Attempts: {run.providerRetry?.attempt ?? run.providerFailure?.attempts ?? '—'}</p>
+                <p>This benchmark run did not reach successful model inference.</p>
+                <button
+                  type="button"
+                  className="twin-test-a__start"
+                  data-testid="twin-test-a-retry-grok"
+                  disabled={starting || !founderRunReady}
+                  onClick={() => void retryTest()}
+                >
+                  RETRY GROK TEST
+                </button>
+              </div>
+            ) : null}
             {run.error === 'SERVER_RUN_LOST' || run.error === 'GROK_PROVIDER_TIMEOUT' || run.stall?.stalled ? (
               <dl className="twin-test-a__metrics" data-testid="twin-test-a-incident-timing">
                 <dt>STALLED STAGE</dt>
@@ -463,7 +541,15 @@ export function DesignTwinTestAPage() {
                   <dt>PROVIDER RESPONSE CODE</dt>
                   <dd>{run.providerFailure.providerResponseCode ?? '—'}</dd>
                   <dt>CLASSIFICATION</dt>
-                  <dd>{run.providerFailure.classification}</dd>
+                  <dd data-testid="twin-test-a-failure-class">{run.providerFailure.classification}</dd>
+                  <dt>BENCHMARK FAILURE</dt>
+                  <dd>{run.providerFailure.benchmarkFailureClass ?? run.benchmarkFailureClass ?? '—'}</dd>
+                  <dt>INCIDENT CLASS</dt>
+                  <dd>{run.providerFailure.incidentClass ?? '—'}</dd>
+                  <dt>PROVIDER REQUEST ID</dt>
+                  <dd>{run.providerFailure.providerRequestId ?? '—'}</dd>
+                  <dt>ATTEMPTS</dt>
+                  <dd>{run.providerFailure.attempts ?? run.providerRetry?.attempt ?? '—'}</dd>
                   <dt>RUN ID</dt>
                   <dd>{run.providerFailure.runId}</dd>
                   <dt>MODEL</dt>
@@ -769,6 +855,14 @@ export function DesignTwinTestAPage() {
                 <dd data-testid="twin-test-a-post-process-time">{formatDurationMmSs(run.timing.postProcessingDurationMs)}</dd>
                 <dt>TOTAL</dt>
                 <dd data-testid="twin-test-a-total-time">{formatDurationMmSs(run.timing.totalDurationMs)}</dd>
+                <dt>PROVIDER ATTEMPTS</dt>
+                <dd data-testid="twin-test-a-metrics-attempts">{run.providerRetry?.attempt ?? 1}</dd>
+                <dt>RETRIES</dt>
+                <dd data-testid="twin-test-a-metrics-retries">{run.providerRetry?.retries ?? 0}</dd>
+                <dt>SUCCESSFUL ATTEMPT</dt>
+                <dd>{run.providerRetry?.timing.successfulAttempt ?? '—'}</dd>
+                <dt>TOTAL RUN TIME</dt>
+                <dd data-testid="twin-test-a-metrics-total-run">{formatDurationMmSs(run.timing.totalDurationMs)}</dd>
                 <dt>OUTPUT TOKENS</dt>
                 <dd data-testid="twin-test-a-output-tokens">{run.cost.completionTokens ?? '—'}</dd>
                 <dt>OUTPUT SIZE</dt>
