@@ -7,6 +7,7 @@ import { isSemanticDebugLabel } from '../../../../shared/site00-studio-world-pro
 import { assertRuntimeImageSourceAllowed } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/runtimeAuthorityRasterFirewall.js';
 import '../../styles/site00-mobile-twin-implementation-r8m1.css';
 import '../../styles/site00-mobile-twin-implementation-r8m2.css';
+import '../../styles/site00-mobile-twin-implementation-r8m2r3.css';
 
 type Props = {
   document: CompiledMobileTwinImplementationDocument;
@@ -19,7 +20,18 @@ function sectionClass(sectionId: string): string {
   return 'site00-mobile-twin-compiled-impl__section';
 }
 
-function rowClass(sectionId: string): string {
+function rowClass(sectionId: string, translationDriven: boolean): string {
+  if (translationDriven) {
+    if (sectionId === 'td-hero') return 'site00-twin-td__hero-grid';
+    if (sectionId === 'td-gallery') return 'site00-twin-td__gallery-sheet';
+    if (sectionId === 'td-structured') return 'site00-twin-td__structured-band';
+    if (sectionId === 'td-bottom-nav') return 'site00-twin-td__bottom-nav';
+    if (sectionId === 'td-readiness') return 'site00-twin-td__readiness-row';
+    if (sectionId === 'td-metadata') return 'site00-twin-td__metadata-strip';
+    if (sectionId === 'td-authority') return 'site00-twin-td__authority-rail';
+    if (sectionId === 'td-decision') return 'site00-twin-td__decision-row';
+    return 'site00-twin-td__decision-row';
+  }
   if (sectionId === 'gallery') return 'site00-mobile-twin-compiled-impl__gallery';
   if (sectionId === 'structured-output') return 'site00-mobile-twin-compiled-impl__structured';
   if (sectionId === 'bottom-nav') return 'site00-mobile-twin-compiled-impl__bottom-nav';
@@ -38,6 +50,8 @@ function visibleCopy(node: { displayText?: string | null; semanticRole: string }
 
 /** R8M2 visual implementation — canonical assets + fidelity; never authority raster at runtime. */
 export function MobileTwinCompiledImplementationRenderer({ document, onNodeActivate }: Props) {
+  const translationDriven = document.compilerGeneration === 'R8M2R3';
+  const rootClass = translationDriven ? 'site00-twin-td' : 'site00-mobile-twin-compiled-impl';
   const assetTraceByObjectId = new Map(
     (document.assetTraceability ?? []).map((t) => [t.objectId, t]),
   );
@@ -79,9 +93,10 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
 
   return (
     <div
-      className="site00-mobile-twin-compiled-impl"
+      className={rootClass}
       data-testid="mobile-twin-compiled-implementation"
       data-compiler-generation={document.compilerGeneration ?? 'legacy'}
+      data-implementation-generation-mode={document.implementationGenerationMode ?? undefined}
       style={{
         width: '100%',
         maxWidth: document.widthPx,
@@ -93,15 +108,21 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
         if (!sectionNodes?.length) return null;
         const meta = sections.find((s) => s.id === sectionId);
         return (
-          <section key={sectionId} className={sectionClass(sectionId)} data-section-id={sectionId}>
+          <section
+            key={sectionId}
+            className={translationDriven ? 'site00-twin-td__section' : sectionClass(sectionId)}
+            data-section-id={sectionId}
+          >
             {meta ?
-              <p className="site00-mobile-twin-compiled-impl__section-title">{meta.label}</p>
+              <p className={translationDriven ? 'site00-twin-td__section-title' : 'site00-mobile-twin-compiled-impl__section-title'}>
+                {meta.label}
+              </p>
             : null}
             <div
               className={
-                sectionId === 'readiness' ?
-                  `${rowClass(sectionId)} site00-mobile-twin-compiled-impl__readiness-row`
-                : rowClass(sectionId)
+                !translationDriven && sectionId === 'readiness' ?
+                  `${rowClass(sectionId, false)} site00-mobile-twin-compiled-impl__readiness-row`
+                : rowClass(sectionId, translationDriven)
               }
             >
               {sectionNodes.map((node) => {
@@ -124,7 +145,11 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                   <Tag
                     key={node.objectId}
                     type={interactive ? 'button' : undefined}
-                    className={`site00-mobile-twin-compiled-impl__node${interactive ? ' site00-mobile-twin-compiled-impl__node--interactive' : ''}`}
+                    className={
+                      translationDriven ?
+                        `site00-twin-td__node${interactive ? ' site00-twin-td__node--interactive' : ''}`
+                      : `site00-mobile-twin-compiled-impl__node${interactive ? ' site00-mobile-twin-compiled-impl__node--interactive' : ''}`
+                    }
                     data-object-id={node.objectId}
                     data-primitive={node.primitive}
                     data-component={node.componentType}
@@ -138,14 +163,18 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                   >
                     {isImage ?
                       <div
-                        className={`site00-mobile-twin-compiled-impl__image-wrap${node.componentType === 'CARD' ? ' site00-mobile-twin-compiled-impl__thumb' : ''}`}
+                        className={
+                          translationDriven ?
+                            'site00-twin-td__image-wrap'
+                          : `site00-mobile-twin-compiled-impl__image-wrap${node.componentType === 'CARD' ? ' site00-mobile-twin-compiled-impl__thumb' : ''}`
+                        }
                       >
                         <img src={safeImageUri!} alt="" draggable={false} />
                       </div>
                     : null}
                     {isGauge ?
-                      <div className="site00-mobile-twin-compiled-impl__gauge" aria-hidden>
-                        <div className="site00-mobile-twin-compiled-impl__gauge-fill" />
+                      <div className={translationDriven ? 'site00-twin-td__gauge' : 'site00-mobile-twin-compiled-impl__gauge'} aria-hidden>
+                        <div className={translationDriven ? 'site00-twin-td__gauge-fill' : 'site00-mobile-twin-compiled-impl__gauge-fill'} />
                       </div>
                     : null}
                     {copy ?

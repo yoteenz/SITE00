@@ -114,7 +114,8 @@ export type PriorBuildCorrectionRecord = {
 
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3';
+  implementationGenerationMode?: import('../p0vrTwinV30R8M2R3/implementationGenerationMode.js').ImplementationGenerationMode;
   implementationVersion?: string;
   viewport: 'MOBILE';
   widthPx: number;
@@ -142,6 +143,12 @@ export type CompiledMobileTwinImplementationDocument = {
   expressionChangesFromBrief?: import('../p0vrTwinV30R8M2R2/refineImplementationExpressionIRFromBrief.js').ExpressionChangesFromBrief;
   translationBriefConsumed?: boolean;
   codingPromptInjected?: boolean;
+  translationDrivenImplementationPlan?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenImplementationPlan;
+  translationDrivenComponentTree?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenComponentTree;
+  translationDrivenStyleSystem?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenStyleSystem;
+  translationDrivenCssContract?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenCssContract;
+  translationMaterialityReceipt?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationMaterialityReceipt;
+  translationDrivenRegionConvergenceReceipts?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenRegionConvergenceReceipt[];
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';
