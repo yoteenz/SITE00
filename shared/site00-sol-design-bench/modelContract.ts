@@ -17,8 +17,14 @@ export interface SolBenchmarkProviderDispatchReceipt {
   receiptType: 'SolBenchmarkProviderDispatchReceipt';
   runId: string;
   provider: 'openai';
+  modelId: 'gpt-5.6-sol';
+  reasoningEffort: 'high';
+  imageInputAttached: true;
+  structuredOutputRequested: true;
+  structuredOutputMode: 'json_object';
+  jsonInstructionPresent: true;
   requestedModelId: 'gpt-5.6-sol';
-  actualDispatchedModelId: 'gpt-5.6-sol';
+  actualDispatchedModelId: 'gpt-5.6-sol' | null;
   requestedReasoningEffort: 'high';
   fallbackAllowed: false;
   webSearchEnabled: false;

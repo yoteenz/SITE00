@@ -10,7 +10,9 @@ import {
 } from '../../../shared/site00-sol-design-bench/modelContract.js';
 
 export const SOL_PROVIDER_MODEL_ID = SolDesignBenchModelContract.modelId;
-export const SOL_PROMPT_VERSION = 'sol-design-bench-test-b-v2-high-reasoning';
+export const SOL_PROMPT_VERSION = 'sol-design-bench-test-b-v3-json-instruction';
+export const SOL_USER_JSON_INSTRUCTION =
+  'Return the final FigmaStyleInterfaceTranslationPackage as valid JSON matching the required schema.';
 
 export const SOL_SYSTEM_PROMPT = `You are GPT-5.6 SOL operating as a literal visual-design intelligence layer.
 The uploaded screenshot is immutable design authority. Translate it; do not redesign, improve, normalize, or apply a preferred design system.
@@ -65,7 +67,7 @@ export interface SolProviderResult {
 }
 
 export const SOL_PROMPT_HASH = createHash('sha256')
-  .update(SOL_SYSTEM_PROMPT)
+  .update(`${SOL_SYSTEM_PROMPT}\n${SOL_USER_JSON_INSTRUCTION}`)
   .digest('hex');
 
 export function buildSolOpenAiRequestBody(input: {
@@ -81,7 +83,7 @@ export function buildSolOpenAiRequestBody(input: {
       content: [
         {
           type: 'input_text',
-          text: `Analyze this immutable reference. Authority SHA256: ${input.authority.sha256}. Intrinsic frame: ${input.authority.width} × ${input.authority.height}. MIME: ${input.authority.mime}.`,
+          text: `${SOL_USER_JSON_INSTRUCTION} Analyze this immutable reference. Authority SHA256: ${input.authority.sha256}. Intrinsic frame: ${input.authority.width} × ${input.authority.height}. MIME: ${input.authority.mime}.`,
         },
         { type: 'input_image', image_url: input.dataUrl, detail: 'high' },
       ],
@@ -91,6 +93,29 @@ export function buildSolOpenAiRequestBody(input: {
     text: { format: { type: 'json_object' } },
     max_output_tokens: 30000,
   } as const;
+}
+
+type SolOpenAiRequestBody = ReturnType<typeof buildSolOpenAiRequestBody>;
+
+export function assertSolStructuredOutputRequest(body: SolOpenAiRequestBody): void {
+  const userText = body.input
+    .flatMap((message) => message.content)
+    .filter((part) => part.type === 'input_text')
+    .map((part) => part.text)
+    .join(' ');
+  if (body.text.format.type !== 'json_object' || !/\bjson\b/i.test(userText)) {
+    throw new Error('SOL_STRUCTURED_OUTPUT_REQUEST_INVALID:JSON_INSTRUCTION_MISSING');
+  }
+}
+
+export class SolProviderRequestError extends Error {
+  constructor(
+    message: string,
+    public readonly dispatchReceipt: SolBenchmarkProviderDispatchReceipt,
+    public readonly inputReceipt: SolBenchmarkInputReceipt,
+  ) {
+    super(message);
+  }
 }
 
 export function buildSolBenchmarkInputReceipt(input: {
@@ -120,10 +145,32 @@ export async function executeSolDesignAnalysis(input: {
   if (!apiKey) throw new Error('GPT_5_6_SOL_PROVIDER_BINDING_FAILED:OPENAI_CREDENTIAL_MISSING');
 
   const requestBody = buildSolOpenAiRequestBody(input);
+  assertSolStructuredOutputRequest(requestBody);
   const imageInput = requestBody.input[0].content.find((row) => row.type === 'input_image');
   if (!imageInput?.image_url.startsWith(`data:${input.authority.mime};base64,`)) {
     throw new Error('GPT_5_6_SOL_PROVIDER_BINDING_FAILED:VISION_INPUT_NOT_ATTACHED');
   }
+
+  const inputReceipt = buildSolBenchmarkInputReceipt(input);
+  const dispatchReceipt: SolBenchmarkProviderDispatchReceipt = {
+    receiptType: 'SolBenchmarkProviderDispatchReceipt',
+    runId: input.runId,
+    provider: SolDesignBenchModelContract.provider,
+    modelId: SolDesignBenchModelContract.modelId,
+    reasoningEffort: SolDesignBenchModelContract.reasoningEffort,
+    imageInputAttached: true,
+    structuredOutputRequested: true,
+    structuredOutputMode: 'json_object',
+    jsonInstructionPresent: true,
+    requestedModelId: SolDesignBenchModelContract.modelId,
+    actualDispatchedModelId: null,
+    requestedReasoningEffort: SolDesignBenchModelContract.reasoningEffort,
+    fallbackAllowed: SolDesignBenchModelContract.fallbackAllowed,
+    webSearchEnabled: SolDesignBenchModelContract.webSearchAllowed,
+    endpoint: SolDesignBenchModelContract.responsesEndpoint,
+    providerResponseId: null,
+    dispatchedAt: new Date().toISOString(),
+  };
 
   const response = await fetch(SolDesignBenchModelContract.responsesEndpoint, {
     method: 'POST',
@@ -137,39 +184,50 @@ export async function executeSolDesignAnalysis(input: {
 
   if (!response.ok) {
     const detail = await response.text();
-    throw new Error(
-      `GPT_5_6_SOL_PROVIDER_BINDING_FAILED:OPENAI_${response.status}:${detail.slice(0, 240)}`,
+    const classification =
+      response.status === 400 && /\b(model|reasoning)\b/i.test(detail)
+        ? 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
+        : response.status === 400
+          ? 'OPENAI_RESPONSES_REQUEST_INVALID'
+          : 'SOL_RUN_FAILED';
+    throw new SolProviderRequestError(
+      `${classification}:OPENAI_${response.status}:${detail.slice(0, 240)}`,
+      dispatchReceipt,
+      inputReceipt,
     );
   }
   const body = (await response.json()) as ResponsesApiPayload;
   if (body.model !== SolDesignBenchModelContract.modelId) {
-    throw new Error(
+    throw new SolProviderRequestError(
       `GPT_5_6_SOL_PROVIDER_BINDING_FAILED:DISPATCHED_MODEL_${body.model || 'UNREPORTED'}`,
+      dispatchReceipt,
+      inputReceipt,
     );
   }
   const text =
     body.output_text ||
     body.output?.flatMap((row) => row.content ?? []).find((row) => row.type === 'output_text')?.text ||
     '';
-  const parsed = extractJson(text) as FigmaStyleInterfaceTranslationPackage;
+  let parsed: FigmaStyleInterfaceTranslationPackage;
+  try {
+    parsed = extractJson(text) as FigmaStyleInterfaceTranslationPackage;
+  } catch (error) {
+    throw new SolProviderRequestError(
+      `SOL_STRUCTURED_OUTPUT_PARSE_FAILED:${error instanceof Error ? error.message : String(error)}`,
+      { ...dispatchReceipt, actualDispatchedModelId: SolDesignBenchModelContract.modelId, providerResponseId: body.id || null },
+      inputReceipt,
+    );
+  }
   return {
     package: parsed,
     cost: typeof body.cost?.amount === 'number'
       ? { amount: body.cost.amount, currency: body.cost.currency || 'USD' }
       : null,
     dispatchReceipt: {
-      receiptType: 'SolBenchmarkProviderDispatchReceipt',
-      runId: input.runId,
-      provider: SolDesignBenchModelContract.provider,
-      requestedModelId: SolDesignBenchModelContract.modelId,
+      ...dispatchReceipt,
       actualDispatchedModelId: SolDesignBenchModelContract.modelId,
-      requestedReasoningEffort: SolDesignBenchModelContract.reasoningEffort,
-      fallbackAllowed: SolDesignBenchModelContract.fallbackAllowed,
-      webSearchEnabled: SolDesignBenchModelContract.webSearchAllowed,
-      endpoint: SolDesignBenchModelContract.responsesEndpoint,
       providerResponseId: body.id || null,
-      dispatchedAt: new Date().toISOString(),
     },
-    inputReceipt: buildSolBenchmarkInputReceipt(input),
+    inputReceipt,
   };
 }

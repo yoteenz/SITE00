@@ -146,6 +146,8 @@ export interface SolDesignBenchTiming {
 
 export interface SolDesignBenchRun {
   runId: string;
+  retryOfRunId: string | null;
+  retryRunIds: string[];
   status: SolDesignBenchStage;
   stageLabel: string;
   progress: number;
@@ -164,7 +166,12 @@ export interface SolDesignBenchRun {
   etaIsEstimate: true;
   result: FigmaStyleInterfaceTranslationPackage | null;
   error: {
-    code: 'SOL_RUN_FAILED' | 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED';
+    code:
+      | 'SOL_RUN_FAILED'
+      | 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
+      | 'SOL_STRUCTURED_OUTPUT_REQUEST_INVALID'
+      | 'OPENAI_RESPONSES_REQUEST_INVALID'
+      | 'SOL_STRUCTURED_OUTPUT_PARSE_FAILED';
     message: string;
   } | null;
   cost: { currency: string; amount: number } | null;

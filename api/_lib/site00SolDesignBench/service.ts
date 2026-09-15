@@ -24,6 +24,7 @@ import {
   SOL_PROVIDER_MODEL_ID,
   SOL_PROMPT_HASH,
   SOL_PROMPT_VERSION,
+  SolProviderRequestError,
   buildSolBenchmarkInputReceipt,
   executeSolDesignAnalysis,
   type SolProviderResult,
@@ -214,16 +215,30 @@ async function runJob(runId: string): Promise<void> {
     if (stageTimer) clearInterval(stageTimer);
     const run = await getSolDesignBenchRun(runId);
     if (run) {
+      if (error instanceof SolProviderRequestError) {
+        run.providerDispatchReceipt = error.dispatchReceipt;
+        run.inputReceipt = error.inputReceipt;
+      }
       run.status = 'FAILED';
       run.stageLabel = STAGE_LABELS.FAILED;
       run.progress = 100;
       run.etaSeconds = 0;
       run.error = {
-        code: error instanceof Error && error.message.startsWith('GPT_5_6_SOL_PROVIDER_BINDING_FAILED')
-          ? 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
-          : 'SOL_RUN_FAILED',
+        code:
+          error instanceof Error && error.message.startsWith('GPT_5_6_SOL_PROVIDER_BINDING_FAILED')
+            ? 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
+            : error instanceof Error && error.message.startsWith('SOL_STRUCTURED_OUTPUT_REQUEST_INVALID')
+              ? 'SOL_STRUCTURED_OUTPUT_REQUEST_INVALID'
+              : error instanceof Error && error.message.startsWith('OPENAI_RESPONSES_REQUEST_INVALID')
+                ? 'OPENAI_RESPONSES_REQUEST_INVALID'
+                : error instanceof Error && error.message.startsWith('SOL_STRUCTURED_OUTPUT_PARSE_FAILED')
+                  ? 'SOL_STRUCTURED_OUTPUT_PARSE_FAILED'
+                  : 'SOL_RUN_FAILED',
         message: error instanceof Error ? error.message : String(error),
       };
+      if (run.timing.providerStartedAt && !run.timing.providerCompletedAt) {
+        run.timing.providerCompletedAt = new Date().toISOString();
+      }
       run.timing.completedAt = new Date().toISOString();
       deriveTiming(run);
       await saveRun(run);
@@ -235,6 +250,7 @@ async function runJob(runId: string): Promise<void> {
 
 export async function startSolDesignBenchRun(
   request: StartSolDesignBenchRequest,
+  options?: { retryOfRunId?: string },
 ): Promise<SolDesignBenchRun> {
   const errors = validateReferenceInput(request.reference);
   if (errors.length) throw new Error(`SOL_REFERENCE_INVALID:${errors.join(',')}`);
@@ -268,6 +284,8 @@ export async function startSolDesignBenchRun(
   const now = new Date().toISOString();
   const run: SolDesignBenchRun = {
     runId,
+    retryOfRunId: options?.retryOfRunId ?? null,
+    retryRunIds: [],
     status: 'QUEUED',
     stageLabel: STAGE_LABELS.QUEUED,
     progress: stageProgress('QUEUED'),
@@ -328,6 +346,28 @@ export async function startSolDesignBenchRun(
   await saveRun(run);
   setTimeout(() => void runJob(runId), 0);
   return run;
+}
+
+export async function retrySolDesignBenchRun(sourceRunId: string): Promise<SolDesignBenchRun> {
+  const source = await getSolDesignBenchRun(sourceRunId);
+  if (!source) throw new Error('SOL_RETRY_SOURCE_RUN_NOT_FOUND');
+  if (source.status !== 'FAILED') throw new Error('SOL_RETRY_SOURCE_NOT_FAILED');
+  const bytes = await readFile(source.authority.storedFile);
+  const retried = await startSolDesignBenchRun({
+    action: 'START_SOL_TEST',
+    reference: {
+      filename: source.authority.filename,
+      mime: source.authority.mime,
+      bytes: source.authority.bytes,
+      width: source.authority.width,
+      height: source.authority.height,
+      sha256: source.authority.sha256,
+      dataUrl: `data:${source.authority.mime};base64,${bytes.toString('base64')}`,
+    },
+  }, { retryOfRunId: sourceRunId });
+  source.retryRunIds = [...(source.retryRunIds ?? []), retried.runId];
+  await saveRun(source);
+  return retried;
 }
 
 export async function getSolDesignBenchRun(runId: string): Promise<SolDesignBenchRun | null> {

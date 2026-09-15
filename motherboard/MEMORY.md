@@ -9495,6 +9495,19 @@ Summary of this chat: founder shared GitHub Actions **Production Release / test*
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F2 Responses JSON request + frozen retry
+
+Summary of the **whole conversation so far** in this chat: founder commissioned isolated Test B, required exact OpenAI `gpt-5.6-sol` high-reasoning binding, then supplied the first live provider failure proving that `json_object` validation rejected the request because the actual user message omitted the literal word JSON.
+
+- **Context:** Surgical live-provider correction only; preserve exact model/reasoning/image flow, the fixed 14-deliverable package, no fallback, and do not consume the founder golden during development.
+- **Root cause:** The system `instructions` mentioned JSON, but OpenAI’s `json_object` guard validated input messages; Test B’s user `input_text` did not include JSON.
+- **Changes:** User multimodal message now says **“Return the final FigmaStyleInterfaceTranslationPackage as valid JSON matching the required schema.”**; pre-dispatch JSON guard; safe structured-output metadata on `SolBenchmarkProviderDispatchReceipt`; request/parse-specific error classes; `RETRY_SOL_TEST` creates a new run from the stored frozen bytes/SHA while retaining the failed source run and retry lineage.
+- **Invariants:** `gpt-5.6-sol`, reasoning `high`, actual `input_image`, `json_object`, tools/web off, no fallback, Composer false, and all 14 output deliverables unchanged.
+- **Verification:** 40 focused/current-Twin tests passed; typecheck and production build passed. A GUI subagent could not start because its retained attachment history exceeded the provider limit; deterministic retry/request tests remain conclusive. Real tiny-image OpenAI smoke is deferred until the corrected server revision is deployed.
+- **Conventions:** `json_object` requests must place the literal JSON instruction in provider-validated user input, not only system instructions/comments. A malformed Responses request is not a model-binding failure.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F2 API host environment boundary (v485)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound it to **xAI grok-4.6** (GROK1F1), then founder reported Test A still saying **XAI_API_KEY MISSING ON THE API HOST** even after the key existed on Railway production SITE00 and the service was redeployed.

@@ -6,6 +6,7 @@ import { SolDesignBenchModelContract } from '../../shared/site00-sol-design-benc
 import {
   getSolDesignBenchRun,
   getSolDesignBenchProviderReadiness,
+  retrySolDesignBenchRun,
   SolDesignBenchProviderBlockedError,
   startSolDesignBenchRun,
 } from '../_lib/site00SolDesignBench/service.js';
@@ -60,7 +61,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return;
   }
 
-  const body = req.body as StartSolDesignBenchRequest;
+  const body = req.body as StartSolDesignBenchRequest | {
+    action: 'RETRY_SOL_TEST';
+    sourceRunId: string;
+  };
+  if (body?.action === 'RETRY_SOL_TEST') {
+    try {
+      const run = await retrySolDesignBenchRun(body.sourceRunId);
+      res.status(202).json({ ok: true, run });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(message.includes('NOT_FOUND') ? 404 : 422).json({
+        error: message,
+        code: 'SOL_RETRY_FAILED',
+      });
+    }
+    return;
+  }
   if (body?.action !== 'START_SOL_TEST' || !body.reference) {
     res.status(400).json({ error: 'SOL_REFERENCE_REQUIRED' });
     return;
