@@ -59,17 +59,21 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-main-stage { height: 305px; display: grid; grid-template-columns: 386px 150px; gap: 10px; padding: 9px 11px 8px; }
 .sol-hero-artifact { position: relative; overflow: hidden; border: 1px solid #222; border-radius: 5px; background: #101010; color: #f3f1e9; }
 .sol-hero-meta { position: absolute; z-index: 4; inset: 12px 13px auto; display: flex; justify-content: space-between; color: var(--lime); font-size: 6px; }
-.sol-hero-copy { position: absolute; z-index: 4; left: 13px; top: 39px; width: 210px; }
-.sol-hero-copy h1 { width: 360px; margin: 0; font-family: Impact, "Arial Narrow", sans-serif; font-size: 50px; font-weight: 500; line-height: .95; letter-spacing: -.8px; transform: scaleX(.57); transform-origin: left top; }
-.sol-hero-copy p { margin: 35px 0 0; color: var(--lime); font-size: 7px; font-weight: 700; line-height: 1.45; }
-.sol-hero-image { position: absolute; inset: 28px 0 20px 221px; overflow: hidden; background: #d7d0c1; filter: grayscale(1) contrast(1.25); }
+.sol-hero-copy { position: absolute; z-index: 4; left: 13px; top: 42px; width: 210px; }
+.sol-hero-copy h1 { width: 390px; margin: 0; color: #f3f1e9; font-family: Impact, "Arial Narrow", sans-serif; font-size: 57px; font-weight: 500; line-height: .88; letter-spacing: -1px; -webkit-text-stroke: .65px #f3f1e9; filter: drop-shadow(1px 0 #f3f1e9) drop-shadow(-1px 0 #f3f1e9); transform: scaleX(.47); transform-origin: left top; }
+.sol-hero-copy p { margin: 15px 0 0; color: var(--lime); font-size: 7px; font-weight: 700; line-height: 1.45; }
+.sol-hero-image { position: absolute; inset: 33px 9px 37px 221px; overflow: hidden; background: #d7d0c1; filter: grayscale(1) contrast(1.25); }
 .sol-hero-image::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 14px, rgba(10,10,10,.18) 15px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(10,10,10,.13) 24px); mix-blend-mode: multiply; }
 .sol-paper-grid { position: absolute; inset: 0; background: #d9d1c2; transform: rotate(-2deg); }
-.sol-hero-image img { position: absolute; z-index: 2; width: 380px; height: 228px; left: -120px; top: 2px; object-fit: cover; object-position: 5% 17%; opacity: .28; filter: grayscale(1) contrast(1.7) brightness(.9); mix-blend-mode: multiply; }
-.sol-hand-silhouette { position: absolute; z-index: 3; left: 8px; bottom: -13px; width: 119px; height: 222px; overflow: visible; fill: #171513; transform: rotate(-4deg); filter: drop-shadow(1px 1px 0 #786e61); }
+.sol-hero-image img { position: absolute; z-index: 1; width: 380px; height: 228px; left: -120px; top: 2px; object-fit: cover; object-position: 5% 17%; opacity: .16; filter: grayscale(1) contrast(1.7) brightness(.9); mix-blend-mode: multiply; }
+.sol-newsprint { position: absolute; z-index: 2; inset: 7px 5px; display: flex; flex-direction: column; gap: 19px; color: #554d43; font: 5px/1.1 "Martian Mono", monospace; opacity: .8; transform: rotate(-1.5deg); }
+.sol-newsprint::before, .sol-newsprint::after { content: ""; position: absolute; border: 1px solid rgba(50,45,39,.45); }
+.sol-newsprint::before { inset: 18px 49px 52px 5px; }
+.sol-newsprint::after { inset: 72px 4px 18px 69px; }
+.sol-hand-silhouette { position: absolute; z-index: 3; left: 13px; bottom: -20px; width: 116px; height: 226px; overflow: visible; fill: #171513; opacity: .94; transform: rotate(-4deg); filter: drop-shadow(1px 1px 0 #786e61); mix-blend-mode: multiply; }
 .sol-hand-highlight { fill: none; stroke: #726b62; stroke-width: 2; opacity: .55; }
 .sol-index-stamp { position: absolute; z-index: 5; right: 8px; top: 38px; font: 7px/1.25 monospace; transform: rotate(7deg); }
-.sol-hero-foot { position: absolute; z-index: 5; inset: auto 13px 12px; display: grid; grid-template-columns: 80px 22px 91px 1fr 20px; align-items: end; font-size: 5px; }
+.sol-hero-foot { position: absolute; z-index: 5; inset: auto 13px 20px; display: grid; grid-template-columns: 80px 22px 106px 1fr 20px; align-items: end; font-size: 5px; }
 .sol-hero-foot i { width: 13px; height: 13px; border-radius: 50%; background: var(--lime); color: #111; text-align: center; font-size: 14px; line-height: 12px; font-style: normal; }
 .sol-hero-foot b { justify-self: start; padding: 2px 5px; background: var(--lime); color: #111; font-size: 5px; font-weight: 500; }
 .sol-hero-foot span:last-child { justify-self: end; }
@@ -106,8 +110,13 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-candidate strong span { display: block; }
 .sol-candidate b { position: absolute; right: 3px; top: 3px; width: 13px; height: 13px; border-radius: 50%; background: var(--lime); color: #111; text-align: center; }
 .sol-candidate.selected { outline: 3px solid var(--lime); outline-offset: -3px; background: linear-gradient(90deg, #10110b 0 60%, #c7bfaf 60%); }
+.sol-candidate.selected::before { content: ""; position: absolute; z-index: 1; right: 13px; top: 20px; width: 25px; height: 52px; background: #151515; clip-path: polygon(43% 100%,31% 65%,5% 51%,19% 43%,39% 54%,36% 22%,48% 20%,54% 49%,59% 0,70% 1%,70% 51%,81% 26%,91% 30%,86% 66%,72% 100%); }
+.sol-candidate.grid { background: linear-gradient(90deg, #171717 0 61%, #080808 61%); }
 .sol-candidate.receipt { background: linear-gradient(90deg, #262525 0 40%, #d6cfc1 40%); }
+.sol-candidate.receipt::before { content: "001"; position: absolute; z-index: 1; right: 10px; bottom: 5px; color: #171717; font-size: 25px; line-height: 1; }
 .sol-candidate.type { padding-left: 34px; background: linear-gradient(90deg, #111 0 45%, #d4cdbf 45%); }
+.sol-candidate.type::before { content: "001"; position: absolute; z-index: 1; left: 61px; top: 4px; color: #171717; font-size: 21px; line-height: 1; }
+.sol-candidate.type::after { opacity: .34; background: repeating-linear-gradient(90deg, transparent 0 18px, #eee 19px), repeating-linear-gradient(0deg, transparent 0 9px, #777 10px); }
 .sol-gallery-next { position: absolute; right: -6px; top: 39px; z-index: 3; width: 21px; height: 21px; border: 0; border-radius: 50%; background: #fff; font-size: 18px; }
 .sol-gallery-actions { height: 36px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #aaa; }
 .sol-gallery-actions button { border: 0; border-right: 1px solid #bbb; background: transparent; font-size: 6px; }

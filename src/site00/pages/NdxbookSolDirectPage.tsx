@@ -30,10 +30,17 @@ function HeroArtifact() {
       <div className="sol-hero-image" aria-label="Archival hand and evidence collage">
         <div className="sol-paper-grid" />
         <img src="/assets/expression-engine/entry-002/pre-storyboard-authority/ndx-entry-002-pre-sba-ndx-hands-001.jpg" alt="" />
+        <div className="sol-newsprint" aria-hidden="true">
+          <span>CULTURAL INDEX / SIGNAL RECEIPT / ARCHIVE 001</span>
+          <span>THE RECORD BECOMES EVIDENCE WHEN CONTEXT SURVIVES</span>
+          <span>IDEAS ARE DOCUMENTS. DOCUMENTS ARE SIGNALS.</span>
+          <span>REFERENCE 137　PAGE 208　FIELD NOTE 311</span>
+          <span>OBSERVE / COLLECT / CROSS-REFERENCE / PUBLISH</span>
+          <span>ARCHIVAL MATTER　CULTURAL INTELLIGENCE EDITORIAL</span>
+        </div>
         <svg className="sol-hand-silhouette" viewBox="0 0 160 240" aria-hidden="true">
-          <path d="M60 225c-1-20-7-35-19-50l-21-28c-7-10 4-22 14-14l24 20-12-20c-7-12 7-23 17-14l14 14-3-112c0-18 24-19 26-1l5 106 7-34c3-14 21-11 21 3l-2 51 9-18c6-12 22-4 17 9l-15 48c-7 21-17 28-29 41l-3 14z" />
-          <path d="M49 126c-5-12 11-20 19-10l21 27-10 18zM108 104c5-13 23-8 22 6l-3 43-20-2z" />
-          <path className="sol-hand-highlight" d="M87 24l4 121M59 127l22 31M119 108l-3 51M34 145l34 29M67 188c21 7 43 2 59-12" />
+          <path d="M63 229l-3-31c-17-7-28-18-34-34l-8-22c-4-12 11-20 19-10l20 22-11-25c-5-13 11-21 19-10l15 22-3-114c0-18 23-19 25-1l5 115 9-21c5-13 22-7 19 7l-7 27 11-16c7-11 22-1 16 11l-18 38c-7 16-17 26-25 39l-2 14z" />
+          <path className="sol-hand-highlight" d="M89 27l4 125M58 128l18 31M121 127l-8 34M31 141l31 32M61 191c22 8 46 2 62-14" />
         </svg>
         <div className="sol-index-stamp">CREC: REF.<br />P.137<br />P.311</div>
       </div>
