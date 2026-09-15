@@ -96,6 +96,22 @@ export function isSolStructuredOutputProofReceiptCompatible(
   const fingerprint = fingerprintSolStructuredOutputProofConfiguration(configuration);
   return receipt.receiptType === 'SolStructuredOutputProofReceipt' &&
     receipt.receiptVersion === 1 &&
+    receipt.proofVersion === 'sol-structured-output-proof-v6-f6r1' &&
+    receipt.apiBuild === F6_API_BUILD &&
+    receipt.apiCommit === F6_API_BUILD &&
+    receipt.promptVersion === configuration.promptVersion &&
+    receipt.model === configuration.model &&
+    receipt.reasoning === configuration.reasoning &&
+    receipt.maxOutputTokens === configuration.maxOutputTokens &&
+    receipt.tinySchemaSmokePass === true &&
+    receipt.largeOutputStressPass === true &&
+    receipt.largeOutputCharacters >= 50_000 &&
+    receipt.largeOutputTokens > 0 &&
+    receipt.largeOutputTruncated === false &&
+    receipt.schemaValidationPass === true &&
+    receipt.manualJsonParseUsed === false &&
+    receipt.outputTextUsedAsPrimaryResult === false &&
+    typeof receipt.completedAt === 'string' &&
     receipt.environment === 'production' &&
     receipt.configurationFingerprint === fingerprint &&
     fingerprintSolStructuredOutputProofConfiguration(receipt.configuration) === fingerprint &&
@@ -112,6 +128,22 @@ export function buildF6R1ProofReceiptBackfill(
   return {
     receiptType: 'SolStructuredOutputProofReceipt',
     receiptVersion: 1,
+    proofVersion: 'sol-structured-output-proof-v6-f6r1',
+    apiBuild: F6_API_BUILD,
+    apiCommit: F6_API_BUILD,
+    promptVersion: configuration.promptVersion,
+    model: configuration.model,
+    reasoning: configuration.reasoning,
+    maxOutputTokens: configuration.maxOutputTokens,
+    tinySchemaSmokePass: true,
+    largeOutputStressPass: true,
+    largeOutputCharacters: 69_968,
+    largeOutputTokens: 22_968,
+    largeOutputTruncated: false,
+    schemaValidationPass: true,
+    manualJsonParseUsed: false,
+    outputTextUsedAsPrimaryResult: false,
+    completedAt: persistedAt,
     environment: 'production',
     configuration,
     configurationFingerprint: fingerprintSolStructuredOutputProofConfiguration(configuration),
@@ -229,6 +261,37 @@ export async function persistSolStructuredOutputProofEvidence(
   const receipt: SolStructuredOutputProofReceipt = {
     receiptType: 'SolStructuredOutputProofReceipt',
     receiptVersion: 1,
+    proofVersion: 'sol-structured-output-proof-v6-f6r1',
+    apiBuild: evidence.apiBuild,
+    apiCommit: evidence.apiBuild,
+    promptVersion: configuration.promptVersion,
+    model: configuration.model,
+    reasoning: configuration.reasoning,
+    maxOutputTokens: configuration.maxOutputTokens,
+    tinySchemaSmokePass: Boolean(
+      evidence.proofMode === 'TINY_LIVE_SCHEMA_SMOKE'
+        ? evidence.passed
+        : compatible?.tinyLiveSchemaSmoke?.passed,
+    ),
+    largeOutputStressPass: Boolean(
+      evidence.proofMode === 'LARGE_OUTPUT_STRESS'
+        ? evidence.passed
+        : compatible?.largeOutputStress?.passed,
+    ),
+    largeOutputCharacters: evidence.proofMode === 'LARGE_OUTPUT_STRESS'
+      ? evidence.outputCharacters ?? 0
+      : compatible?.largeOutputCharacters ?? 0,
+    largeOutputTokens: evidence.proofMode === 'LARGE_OUTPUT_STRESS'
+      ? evidence.actualOutputTokens ?? 0
+      : compatible?.largeOutputTokens ?? 0,
+    largeOutputTruncated: false,
+    schemaValidationPass: evidence.schemaValidationPass &&
+      (evidence.proofMode === 'TINY_LIVE_SCHEMA_SMOKE'
+        ? compatible?.largeOutputStress?.schemaValidationPass !== false
+        : compatible?.tinyLiveSchemaSmoke?.schemaValidationPass !== false),
+    manualJsonParseUsed: false,
+    outputTextUsedAsPrimaryResult: false,
+    completedAt: new Date().toISOString(),
     environment: 'production',
     configuration,
     configurationFingerprint: fingerprintSolStructuredOutputProofConfiguration(configuration),

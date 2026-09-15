@@ -74,13 +74,18 @@ export async function getSolDesignBenchProviderReadiness(input?: {
       proof.tinyLiveSchemaSmokePassed && proof.largeOutputStressPassed,
     structuredOutputProofReceipt: proof.receipt,
     structuredOutputProofPersistence: proof.persistence,
+    currentRailwayCommit:
+      process.env.RAILWAY_GIT_COMMIT_SHA?.trim() ||
+      process.env.VERCEL_GIT_COMMIT_SHA?.trim() ||
+      process.env.SITE00_BUILD_ID?.trim() ||
+      'unknown',
     blockingReasons: [],
   };
   if (!receipt.openAiCredentialPresentServerSide) receipt.blockingReasons.push('OPENAI_CREDENTIAL_MISSING');
   if (!receipt.exactModelIdConfigured) receipt.blockingReasons.push('EXACT_MODEL_ID_NOT_CONFIGURED');
   if (!receipt.highReasoningConfigured) receipt.blockingReasons.push('HIGH_REASONING_NOT_CONFIGURED');
-  if (!receipt.referenceImageAvailable) receipt.blockingReasons.push('REFERENCE_IMAGE_UNAVAILABLE');
-  if (!receipt.imageInputAttachmentPathValid) receipt.blockingReasons.push('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
+  if (input && !receipt.referenceImageAvailable) receipt.blockingReasons.push('REFERENCE_IMAGE_UNAVAILABLE');
+  if (input && !receipt.imageInputAttachmentPathValid) receipt.blockingReasons.push('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
   if (!receipt.noFallbackConfigured) receipt.blockingReasons.push('MODEL_FALLBACK_CONFIGURED');
   if (!receipt.webSearchDisabled) receipt.blockingReasons.push('WEB_SEARCH_ENABLED');
   if (!receipt.structuredOutputPipelineProofPassed) {

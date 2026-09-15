@@ -64,6 +64,22 @@ export interface SolStructuredOutputProofEvidence {
 export interface SolStructuredOutputProofReceipt {
   receiptType: 'SolStructuredOutputProofReceipt';
   receiptVersion: 1;
+  proofVersion: 'sol-structured-output-proof-v6-f6r1';
+  apiBuild: string;
+  apiCommit: string;
+  promptVersion: string;
+  model: 'gpt-5.6-sol';
+  reasoning: 'high';
+  maxOutputTokens: 32_000;
+  tinySchemaSmokePass: boolean;
+  largeOutputStressPass: boolean;
+  largeOutputCharacters: number;
+  largeOutputTokens: number;
+  largeOutputTruncated: boolean;
+  schemaValidationPass: boolean;
+  manualJsonParseUsed: boolean;
+  outputTextUsedAsPrimaryResult: boolean;
+  completedAt: string;
   environment: 'production';
   configuration: SolStructuredOutputProofConfiguration;
   configurationFingerprint: string;
@@ -175,5 +191,6 @@ export interface SolDesignBenchProviderReadinessReceipt {
   structuredOutputPipelineProofPassed: boolean;
   structuredOutputProofReceipt: SolStructuredOutputProofReceipt | null;
   structuredOutputProofPersistence: 'SUPABASE' | 'TEST_OVERRIDE' | 'UNAVAILABLE';
+  currentRailwayCommit: string;
   blockingReasons: string[];
 }

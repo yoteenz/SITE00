@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { readFile } from 'node:fs/promises';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   buildF6R1ProofReceiptBackfill,
   fingerprintSolStructuredOutputProofConfiguration,
@@ -11,14 +12,22 @@ import {
 import {
   getSolDesignBenchProviderReadiness,
   resetSolDesignBenchForTests,
+  setSolDesignBenchExecutorForTests,
 } from '../api/_lib/site00SolDesignBench/service';
+import {
+  canStartSolFounderGolden,
+  shouldClearStaleSolFailure,
+} from '../src/site00/pages/SolDesignBenchmarkPage';
 import type {
   SolStructuredOutputProofConfiguration,
   SolStructuredOutputProofReceipt,
 } from '../shared/site00-sol-design-bench/modelContract';
+import type { SolDesignBenchRun } from '../shared/site00-sol-design-bench/contracts';
 
 afterEach(async () => {
   delete process.env.OPENAI_API_KEY;
+  delete process.env.RAILWAY_GIT_COMMIT_SHA;
+  setSolDesignBenchExecutorForTests(null);
   resetSolStructuredOutputProofReceiptStoreForTests();
   await resetSolDesignBenchForTests();
 });
@@ -43,6 +52,22 @@ describe('P0.VR.DESIGNBENCH.SOL1F6R2 durable proof receipt', () => {
     expect(receipt).toMatchObject({
       receiptType: 'SolStructuredOutputProofReceipt',
       receiptVersion: 1,
+      proofVersion: 'sol-structured-output-proof-v6-f6r1',
+      apiBuild: '6728d538b2dc5898ccc4667039a47463ecee47b7',
+      apiCommit: '6728d538b2dc5898ccc4667039a47463ecee47b7',
+      promptVersion: 'sol-design-bench-test-b-v6-output-budget-32k',
+      model: 'gpt-5.6-sol',
+      reasoning: 'high',
+      maxOutputTokens: 32_000,
+      tinySchemaSmokePass: true,
+      largeOutputStressPass: true,
+      largeOutputCharacters: 69_968,
+      largeOutputTokens: 22_968,
+      largeOutputTruncated: false,
+      schemaValidationPass: true,
+      manualJsonParseUsed: false,
+      outputTextUsedAsPrimaryResult: false,
+      completedAt: '2026-09-15T00:00:00.000Z',
       provenance: 'F6R1_VERIFIED_EVIDENCE_BACKFILL',
       configuration,
       tinyLiveSchemaSmoke: {
@@ -119,6 +144,70 @@ describe('P0.VR.DESIGNBENCH.SOL1F6R2 durable proof receipt', () => {
       },
     });
     expect(writes).toBe(1);
+  });
+
+  it('reports no-reference provider readiness READY and exposes the current deploy separately', async () => {
+    let stored: SolStructuredOutputProofReceipt | null = null;
+    setSolStructuredOutputProofReceiptStoreForTests({
+      load: async () => stored,
+      save: async (receipt) => {
+        stored = structuredClone(receipt);
+      },
+    });
+    process.env.OPENAI_API_KEY = 'server-test-key';
+    process.env.RAILWAY_GIT_COMMIT_SHA = 'f6r2-storage-ui-commit';
+    const provider = vi.fn();
+    setSolDesignBenchExecutorForTests(provider as never);
+
+    const readiness = await getSolDesignBenchProviderReadiness();
+    expect(readiness).toMatchObject({
+      state: 'READY',
+      referenceImageAvailable: false,
+      imageInputAttachmentPathValid: false,
+      structuredOutputPipelineProofPassed: true,
+      currentRailwayCommit: 'f6r2-storage-ui-commit',
+    });
+    expect(readiness.blockingReasons).not.toContain('REFERENCE_IMAGE_UNAVAILABLE');
+    expect(readiness.blockingReasons).not.toContain('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
+    expect(readiness.structuredOutputProofReceipt?.apiBuild)
+      .toBe('6728d538b2dc5898ccc4667039a47463ecee47b7');
+    expect(provider).not.toHaveBeenCalled();
+  });
+
+  it('renders separate readiness labels and gates start on both proof and selected golden', async () => {
+    const source = await readFile('src/site00/pages/SolDesignBenchmarkPage.tsx', 'utf8');
+    expect(source).toContain('<small>PROVIDER READINESS</small>');
+    expect(source).toContain("<small>STRICT PIPELINE PROOF</small>");
+    expect(source).toContain('<small>FOUNDER GOLDEN RETRY</small>');
+    expect(canStartSolFounderGolden({
+      referenceSelected: false,
+      providerReady: true,
+      structuredPipelineReady: true,
+      isInspecting: false,
+      isUploading: false,
+    })).toBe(false);
+    expect(canStartSolFounderGolden({
+      referenceSelected: true,
+      providerReady: true,
+      structuredPipelineReady: true,
+      isInspecting: false,
+      isUploading: false,
+    })).toBe(true);
+  });
+
+  it('clears stale failed local proof state but preserves completed valid results', () => {
+    const staleFailure = {
+      status: 'FAILED',
+      providerReadinessReceipt: { structuredOutputPipelineProofPassed: false },
+    } as SolDesignBenchRun;
+    const completed = {
+      status: 'COMPLETE',
+      providerReadinessReceipt: { structuredOutputPipelineProofPassed: false },
+      result: {},
+    } as SolDesignBenchRun;
+    expect(shouldClearStaleSolFailure(staleFailure, true)).toBe(true);
+    expect(shouldClearStaleSolFailure(staleFailure, false)).toBe(false);
+    expect(shouldClearStaleSolFailure(completed, true)).toBe(false);
   });
 
   it('rejects a stored receipt after configuration drift instead of trusting its booleans', () => {
