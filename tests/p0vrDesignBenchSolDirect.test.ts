@@ -26,8 +26,37 @@ describe('P0.VR.DESIGNBENCH.SOL-DIRECT1', () => {
 
   it('does not rasterize the supplied golden reference', () => {
     expect(pageSource).not.toContain('01a0a6e4-5d78-78a0-9429-5c8691380acf');
+    expect(pageSource).not.toContain('01a0a719-5252-7a5d-9c44-2033071cb0d8');
     expect(pageSource).not.toContain('mobile-master.jpg');
     expect(cssSource).not.toMatch(/background(?:-image)?:\s*url\(/);
     expect(pageSource).not.toContain('<canvas');
+  });
+
+  it('keeps Sol structural geometry frozen while using reconstructed plates', () => {
+    expect(cssSource).toContain('height: 305px');
+    expect(cssSource).toContain('grid-template-columns: 386px 150px');
+    expect(cssSource).toContain('height: 147px');
+    expect(cssSource).toContain('height: 142px');
+    expect(cssSource).toContain('height: 113px');
+    expect(pageSource).toContain('/site00/twin-sol-direct/sol-hand-plate.jpg');
+    expect(pageSource).toContain('/site00/twin-sol-direct/sol-blueprint.jpg');
+    expect(pageSource).not.toContain('ndx-entry-002-pre-sba-ndx-hands-001.jpg');
+    expect(pageSource).not.toContain('sol-hand-silhouette');
+  });
+
+  it('uses reference-traced SVG marks instead of generic unicode icons', () => {
+    expect(pageSource).toContain('function Mark');
+    expect(pageSource).toContain('name="sliders"');
+    expect(pageSource).toContain('name="target"');
+    expect(pageSource).toContain('name="expand"');
+    expect(pageSource).toContain('name="lock"');
+    expect(pageSource).toContain('name="grid"');
+    expect(pageSource).toContain('name="clock"');
+    expect(pageSource).toContain('name="bolt"');
+    expect(pageSource).not.toContain('☰');
+    expect(pageSource).not.toContain('☷');
+    expect(pageSource).not.toContain('▦');
+    expect(pageSource).not.toContain('ϟ');
+    expect(cssSource).toContain('grid-template-columns: 386px 150px');
   });
 });

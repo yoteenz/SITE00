@@ -187,6 +187,9 @@ const DesignTwinGrokDirectPage = lazy(() =>
 const DesignTwinFableDirectPage = lazy(() =>
   import('../site00/pages/DesignTwinFableDirectPage').then((m) => ({ default: m.DesignTwinFableDirectPage })),
 );
+const DesignTwinSparkDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinSparkDirectPage').then((m) => ({ default: m.DesignTwinSparkDirectPage })),
+);
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
@@ -1190,6 +1193,16 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00Suspense>
               <DesignTwinFableDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinSparkDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinSparkDirectPage />
             </Site00Suspense>
           </Site00Layout>
         }
