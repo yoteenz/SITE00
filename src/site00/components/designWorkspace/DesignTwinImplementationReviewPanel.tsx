@@ -11,6 +11,7 @@ import type {
 import { mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 import { DesignTwinImplementationExpressionTrace } from './DesignTwinImplementationExpressionTrace.js';
 import { DesignTwinImplementationTranslationInspector } from './DesignTwinImplementationTranslationInspector.js';
+import { DesignTwinImplementationAuthorityInspector } from './DesignTwinImplementationAuthorityInspector.js';
 
 type ReviewMode = 'LIVE' | 'ACTUAL' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE';
 
@@ -137,6 +138,9 @@ export function DesignTwinImplementationReviewPanel({
       {implementationDocument ?
         <>
           <DesignTwinImplementationTranslationInspector document={implementationDocument} />
+          {implementationDocument.compilerGeneration === 'R8M2R4' ?
+            <DesignTwinImplementationAuthorityInspector document={implementationDocument} />
+          : null}
           <DesignTwinImplementationExpressionTrace document={implementationDocument} />
         </>
       : null}

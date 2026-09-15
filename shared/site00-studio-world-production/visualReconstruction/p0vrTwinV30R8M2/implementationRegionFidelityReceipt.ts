@@ -27,15 +27,17 @@ export function buildRegionFidelityReceipts(input: {
   return input.regions.map((region) => {
     const regionNodes = nodes.filter((n) => {
       const section = n.sectionId;
-      if (region.regionId === 'HOST_HEADER') return section === 'host' || section === 'td-host';
-      if (region.regionId === 'PROJECT_CONTEXT') return section === 'context' || section === 'td-context';
-      if (region.regionId === 'HERO_WORKSPACE') return section === 'hero' || section === 'td-hero';
-      if (region.regionId === 'AUTHORITY_PANEL') return section === 'hero' || section === 'td-authority' || section === 'td-hero';
-      if (region.regionId === 'CANDIDATE_GALLERY') return section === 'gallery' || section === 'td-gallery';
-      if (region.regionId === 'STRUCTURED_OUTPUT') return section === 'structured-output' || section === 'td-structured';
-      if (region.regionId === 'READINESS') return section === 'readiness' || section === 'td-readiness';
-      if (region.regionId === 'CONCEPT_DATA') return section === 'readiness' || section === 'td-metadata';
-      if (region.regionId === 'BOTTOM_NAV') return section === 'bottom-nav' || section === 'td-bottom-nav';
+      if (region.regionId === 'HOST_HEADER') return section === 'host' || section === 'td-host' || section === 'af-host';
+      if (region.regionId === 'PROJECT_CONTEXT') return section === 'context' || section === 'td-context' || section === 'af-context';
+      if (region.regionId === 'HERO_WORKSPACE') return section === 'hero' || section === 'td-hero' || section === 'af-hero';
+      if (region.regionId === 'AUTHORITY_PANEL')
+        return section === 'hero' || section === 'td-authority' || section === 'td-hero' || section === 'af-authority' || section === 'af-hero';
+      if (region.regionId === 'CANDIDATE_GALLERY') return section === 'gallery' || section === 'td-gallery' || section === 'af-gallery';
+      if (region.regionId === 'STRUCTURED_OUTPUT')
+        return section === 'structured-output' || section === 'td-structured' || section === 'af-structured';
+      if (region.regionId === 'READINESS') return section === 'readiness' || section === 'td-readiness' || section === 'af-readiness';
+      if (region.regionId === 'CONCEPT_DATA') return section === 'readiness' || section === 'td-metadata' || section === 'af-metadata';
+      if (region.regionId === 'BOTTOM_NAV') return section === 'bottom-nav' || section === 'td-bottom-nav' || section === 'af-bottom-nav';
       return region.objectIds.includes(n.objectId);
     });
 
