@@ -142,6 +142,13 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
     const routes = await readFile('src/routes/Site00Routes.tsx', 'utf8');
     expect(routes).toContain('SolDesignBenchmarkPage');
     expect(routes).toContain('projectDesignTwinTestB');
+    const testBRoute = routes.slice(
+      routes.indexOf('path={SITE00_ROUTES.projectDesignTwinTestB}'),
+      routes.indexOf('path={SITE00_ROUTES.projectDesignTwinTestA}'),
+    );
+    expect(testBRoute).not.toContain('Site00AccountRouteGuard');
+    const page = await readFile('src/site00/pages/SolDesignBenchmarkPage.tsx', 'utf8');
+    expect(page).toContain('providerStatus?.providerReadiness?.structuredOutputPipelineProofPassed === true');
   });
 
   it('validates MIME, hashes, dimensions and creates an immutable authority', async () => {
