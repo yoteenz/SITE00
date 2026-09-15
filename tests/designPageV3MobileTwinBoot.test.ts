@@ -13,8 +13,10 @@ import {
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/index.js';
 
 describe('Design page mobile twin boot hardening', () => {
-  it('resolveLightBlueprintStyleReferenceUrl does not throw on tunnel origin', () => {
-    expect(resolveLightBlueprintStyleReferenceUrl('http://localhost:5174')).toBeNull();
+  it('resolveLightBlueprintStyleReferenceUrl maps tunnel origin to public site00 asset', () => {
+    expect(resolveLightBlueprintStyleReferenceUrl('http://localhost:5174')).toBe(
+      'https://site00.com/assets/ndxbook-reconstruction/ndxbook-mobile-light-technical-blueprint-v1.jpg',
+    );
   });
 
   it('evaluateBlueprintLightStyleRetry returns retry strip for light-contract pair', () => {
