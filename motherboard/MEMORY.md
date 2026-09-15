@@ -9373,3 +9373,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Root cause:** **`ndxbook-mobile-light-technical-blueprint-v1.jpg`** on **site00.com** returns **SPA HTML** (not JPEG); **`ensureFalAccessibleReferenceUrls`** failed on secondary reference → entire forensic job aborted.
 - **Fix:** **`falEnsureReferenceUrls`** — local `public/assets/ndxbook-reconstruction/*` + **GitHub raw** fallback; forensic dispatch uses **`buildNanoBanana2EditInput`** + surfaces real error messages. Verified live Fal **`request_id`** + PNG result URL. Build **v473**.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M3 forensic blueprint ingestion + merged object map (v474)
+
+- **Sprint:** Ingest existing **Forensic UI Implementation Blueprint** as **`FORENSIC_BLUEPRINT_IMPLEMENTATION_SPEC`** (no new Fal); **`extractCleanForensicObjectMap`** + **`validateAndMergeForensicObjectMap`** (precedence: actual → forensic → package); production compile **`mobile-twin-impl-v8-forensic-ingestion`** / **`R8M3`** with **`fm3-*`** DOM/CSS (`site00-twin-fm3`); **`ForensicReconstructionFidelityReceipt`** + translation-layer effect vs prior **R8M2R5**; twin inspector shows ingestion evidence; design route untouched.
+- **Module:** **`p0vrTwinV30R8M3/`**; **`compileApprovedMobileTwinPackage`** now calls **R8M3**; client cache epoch **v3**. Tests **`p0vrTwinV30R8M3.test.ts`** + updated twin suites.
+- **Founder:** Deploy **v474** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; compare Actual vs LIVE (fm3 layout). Railway unchanged unless API edits later.
+
