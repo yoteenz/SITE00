@@ -42,7 +42,7 @@ describe('P0.VR.TWINV3.0R8M2R3 translation rebuild', () => {
   it('1–3 FULL_TRANSLATION_REBUILD mandatory; PATCH prohibited; R8M2R2 marked correction', () => {
     expect(resolveProductionImplementationGenerationMode()).toBe('FULL_TRANSLATION_REBUILD');
     expect(() => assertGenerationModeAllowed('PATCH_EXISTING')).toThrow(PATCH_EXISTING_PROHIBITED);
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     expect(doc.priorBuildCorrection?.priorGeneration).toBe('R8M2R2');
     expect(doc.priorBuildCorrection?.reason).toBe(R8M2R2_CORRECTION_REQUIRED_REASON);
   });
@@ -57,14 +57,14 @@ describe('P0.VR.TWINV3.0R8M2R3 translation rebuild', () => {
   });
 
   it('8–10 fresh plan, component tree, css contract', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     expect(doc.translationDrivenImplementationPlan?.id).toMatch(/^tdip-/);
     expect(doc.translationDrivenComponentTree?.nodes.length).toBeGreaterThan(20);
     expect(doc.translationDrivenCssContract?.rootClass).toBe('site00-twin-td');
   });
 
   it('11–17 critical sections rebuilt in td-* render tree', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     const sections = new Set(doc.renderTree?.nodes.map((n) => n.sectionId));
     for (const id of ['td-hero', 'td-gallery', 'td-structured', 'td-readiness', 'td-metadata', 'td-bottom-nav']) {
       expect(sections.has(id)).toBe(true);
@@ -75,7 +75,7 @@ describe('P0.VR.TWINV3.0R8M2R3 translation rebuild', () => {
   it('18–20 composition, layout, style hashes differ from R8M2R2', () => {
     const input = founderCompileInput();
     const prior = compileVisualMobileTwinImplementationR8M2R2(input);
-    const doc = compileApprovedMobileTwinPackage(input);
+    const doc = compileVisualMobileTwinImplementationR8M2R3(input);
     const receipt = doc.translationMaterialityReceipt!;
     expect(receipt.priorComponentCompositionHash).not.toBe(receipt.newComponentCompositionHash);
     expect(receipt.priorLayoutContractHash).not.toBe(receipt.newLayoutContractHash);
@@ -85,7 +85,7 @@ describe('P0.VR.TWINV3.0R8M2R3 translation rebuild', () => {
   });
 
   it('21–24 brief drives structure; no authority raster', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     expect(doc.implementationTranslationBrief?.globalTranslation.length).toBeGreaterThan(40);
     expect(doc.implementationExpressionIr?.objectExpressions.length).toBeGreaterThan(20);
     expect(scanDocumentForAuthorityRasterViolations(doc.nodes.map((n) => n.imageUri))).toEqual([]);
@@ -93,24 +93,24 @@ describe('P0.VR.TWINV3.0R8M2R3 translation rebuild', () => {
   });
 
   it('25–26 materiality receipt; near-identical would fail', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     expect(doc.translationMaterialityReceipt?.result).toBe('PASS');
     expect(TRANSLATION_REBUILD_NOT_MATERIAL).toBe('TRANSLATION_REBUILD_NOT_MATERIAL');
     expect(STALE_RENDER_TREE_REUSE).toBe('STALE_RENDER_TREE_REUSE');
   });
 
-  it('27–29 production path R8M2R3 + region convergence receipts', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+  it('27–29 R8M2R3 compiler + region convergence receipts', () => {
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R3);
     expect(doc.lineage).toBe(P0_VR_TWIN_V30R8M2R3_LINEAGE);
     expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_TRANSLATION_REBUILD);
     expect(doc.translationDrivenRegionConvergenceReceipts?.length).toBe(10);
   });
 
-  it('30–33 design route untouched; desktop zero; cache requires R8M2R3', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+  it('30–33 design route untouched; desktop zero; R8M2R3 requires recompile after R8M2R4', () => {
+    const doc = compileVisualMobileTwinImplementationR8M2R3(founderCompileInput());
     expect(doc.viewport).toBe('MOBILE');
-    expect(documentRequiresR8M2Recompile(doc)).toBe(false);
+    expect(documentRequiresR8M2Recompile(doc)).toBe(true);
     expect(documentRequiresR8M2Recompile(compileVisualMobileTwinImplementationR8M2R2(founderCompileInput()))).toBe(true);
     const designWs = readFileSync('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx', 'utf8');
     expect(designWs).not.toContain('mobile-twin-impl-v5-translation-rebuild');

@@ -10,13 +10,23 @@ export function isWireframeImplementationDocument(doc: CompiledMobileTwinImpleme
 
 export function isProductionReadyImplementationDocument(doc: CompiledMobileTwinImplementationDocument): boolean {
   const generationOk =
+    doc.compilerGeneration === 'R8M2R4' ||
     doc.compilerGeneration === 'R8M2R3' ||
     doc.compilerGeneration === 'R8M2R2' ||
     doc.compilerGeneration === 'R8M2R1' ||
     doc.compilerGeneration === 'R8M2' ||
     doc.compilerGeneration === 'R8M1';
   const regionOk =
-    doc.compilerGeneration === 'R8M2R3' ?
+    doc.compilerGeneration === 'R8M2R4' ?
+      Boolean(
+        doc.actualVisibleToImplementationAuthoringStage &&
+          doc.actualFirstPromptInjected &&
+          doc.visualReconstructionConvergenceGate?.founderImplementationReview === 'FOUNDER_IMPLEMENTATION_REVIEW' &&
+          doc.liveImplementationCanonicalScreenshot?.screenshotHash &&
+          doc.actualToLiveVisualComparison &&
+          doc.renderTree?.nodes.some((n) => n.sectionId.startsWith('af-')),
+      )
+    : doc.compilerGeneration === 'R8M2R3' ?
       Boolean(
         doc.implementationGenerationMode === 'FULL_TRANSLATION_REBUILD' &&
           doc.translationMaterialityReceipt?.result === 'PASS' &&

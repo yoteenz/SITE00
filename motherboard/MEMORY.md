@@ -9333,3 +9333,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`p0vrTwinV30R8M2R3`** module. Build **v468**. Tests **`p0vrTwinV30R8M2R3.test.ts`** + updated twin suites. Browser QA: v5 version string on twin review; hard refresh clears stale **`site00:mobile-twin-implementation-cache:v1`** for R8M2R3 compile.
 - **Founder ops:** Deploy **v468** ZIP → hard refresh twin route → compare Actual vs LIVE (hero grid, authority rail, gallery density). Design route untouched; desktop deferred.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2R4 actual-first pixel-fidelity reconstruction (v469)
+
+- **Sprint:** R8M2R4 — approved **Actual** as top visual authority; **`ActualToCodeReconstructionDirective`** (`PIXEL_FIDELITY_RECONSTRUCTION`, no layout/style invention); region contracts + visual weight + typography/control/asset targets; **`ActualFirstVisualReconstructionPrompt`**; **`VisualReconstructionPlan`** (image-grounded); fresh **`af-*`** DOM/CSS tree (`site00-twin-af`); iterative render/compare loop (≥2) with **`ActualToLiveVisualComparison`**, **`PerceptualDifferenceMap`**, region drift → code corrections; **`VisualReconstructionConvergenceGate`** → **`FOUNDER_IMPLEMENTATION_REVIEW`**; twin **Actual ↔ Live** compare overlay + **Implementation Authority Inspector**; production **`mobile-twin-impl-v6-actual-first-reconstruction`** / **`R8M2R4`**; R8M2R3 caches force recompile.
+- **Delivered:** **`p0vrTwinV30R8M2R4`** module; **`DesignTwinActualLiveCompareOverlay`**; build **v469**. Tests **`p0vrTwinV30R8M2R4.test.ts`** + updated R8M twin suites.
+- **Founder ops:** Deploy **v469** ZIP; twin route **COMPARE ACTUAL ↔ LIVE** (side-by-side, overlay, flicker); clear implementation cache if still on v5 td tree. Design route untouched; desktop deferred.
+

@@ -21,10 +21,10 @@ import {
 import { compileApprovedMobileTwinPackage, assertCompilerDoesNotUseRasterAuthorities } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/compileApprovedMobileTwinPackage.js';
 import { mobileTwinTwinPreviewRoute } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
 import {
-  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R3,
-  MOBILE_TWIN_IMPLEMENTATION_VERSION_TRANSLATION_REBUILD,
-  P0_VR_TWIN_V30R8M2R3_LINEAGE,
-} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R3/constants.js';
+  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4,
+  MOBILE_TWIN_IMPLEMENTATION_VERSION_ACTUAL_FIRST,
+  P0_VR_TWIN_V30R8M2R4_LINEAGE,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R4/constants.js';
 import { mobileTwinImplementationStore } from '../api/_lib/site00MobileTwinImplementation/storeAdapter.js';
 import {
   compileMobileTwinImplementationService,
@@ -82,8 +82,8 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     await persistMobileTwinPackageApprovalService(session);
     const compiled = await compileMobileTwinImplementationService(session);
     expect(compiled.document.structuredSource).toBe('COMPOSITION_AND_PACKAGE_ARTIFACTS');
-    expect(compiled.document.lineage).toBe(P0_VR_TWIN_V30R8M2R3_LINEAGE);
-    expect(compiled.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R3);
+    expect(compiled.document.lineage).toBe(P0_VR_TWIN_V30R8M2R4_LINEAGE);
+    expect(compiled.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4);
     expect(compiled.document.renderTree?.nodes.length).toBeGreaterThan(0);
     expect(compiled.document.nodes.length).toBeGreaterThan(0);
     assertCompilerDoesNotUseRasterAuthorities({
@@ -143,8 +143,8 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     await persistMobileTwinPackageApprovalService(session);
     const v1 = await compileMobileTwinImplementationService(session);
     const v2 = await compileMobileTwinImplementationService(session);
-    expect(v1.build.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_TRANSLATION_REBUILD);
-    expect(v2.build.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_TRANSLATION_REBUILD);
+    expect(v1.build.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_ACTUAL_FIRST);
+    expect(v2.build.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_ACTUAL_FIRST);
     const state = await mobileTwinImplementationStore.getImplementationState('ndxbook');
     expect(state?.implementationPayload.buildCount).toBe(2);
   });
@@ -162,7 +162,7 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     );
     const preview = await resolveTwinImplementationPreview('ndxbook');
     expect(['LOCAL_COMPILE', 'LOCAL_CACHE']).toContain(preview.source);
-    expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R3);
+    expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4);
     if (preview.source === 'LOCAL_COMPILE') expect(preview.notice).toContain('Supabase tables');
     vi.restoreAllMocks();
   });
@@ -175,7 +175,7 @@ describe('P0.VR.TWINV3.0R8M mobile twin implementation pipeline', () => {
     );
     const preview = await resolveTwinImplementationPreview('ndxbook');
     expect(['LOCAL_COMPILE', 'LOCAL_CACHE']).toContain(preview.source);
-    expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R3);
+    expect(preview.document.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4);
     expect(preview.document.nodes.length).toBeGreaterThan(0);
     vi.restoreAllMocks();
   });

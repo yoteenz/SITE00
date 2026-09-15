@@ -72,7 +72,8 @@ export type MobileTwinImplementationRenderTreeNode = {
     | 'HOST_SHELL'
     | 'STRUCTURED_GEOMETRY'
     | 'CANONICAL_PROJECT_ASSET'
-    | 'IMPLEMENTATION_EXPRESSION_IR';
+    | 'IMPLEMENTATION_EXPRESSION_IR'
+    | 'APPROVED_ACTUAL_REFERENCE';
   assetSource: string | null;
   typographySource: string | null;
   expressionObjectId?: string;
@@ -114,7 +115,7 @@ export type PriorBuildCorrectionRecord = {
 
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3' | 'R8M2R4';
   implementationGenerationMode?: import('../p0vrTwinV30R8M2R3/implementationGenerationMode.js').ImplementationGenerationMode;
   implementationVersion?: string;
   viewport: 'MOBILE';
@@ -149,6 +150,32 @@ export type CompiledMobileTwinImplementationDocument = {
   translationDrivenCssContract?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenCssContract;
   translationMaterialityReceipt?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationMaterialityReceipt;
   translationDrivenRegionConvergenceReceipts?: import('../p0vrTwinV30R8M2R3/translationDrivenTypes.js').TranslationDrivenRegionConvergenceReceipt[];
+  actualToCodeReconstructionDirective?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualToCodeReconstructionDirective;
+  actualFirstVisualReconstructionPrompt?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstVisualReconstructionPrompt;
+  visualReconstructionPlan?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').VisualReconstructionPlan;
+  regionReconstructionContracts?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualRegionReconstructionContract[];
+  visualWeightContract?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').VisualWeightContract;
+  compositionRelationshipTargets?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').CompositionRelationshipTargets;
+  typographyReconstructionTargets?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').TypographyReconstructionTarget[];
+  controlReconstructionTargets?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ControlReconstructionTarget[];
+  assetReconstructionTargets?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').AssetReconstructionTarget[];
+  actualAssetIdentityGateResults?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualAssetIdentityGateResult[];
+  reconstructionIterations?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ReconstructionIterationRecord[];
+  visualReconstructionConvergenceGate?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').VisualReconstructionConvergenceGate;
+  actualFirstMaterialChangeReceipt?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstMaterialChangeReceipt;
+  actualVisibleToImplementationAuthoringStage?: boolean;
+  actualAuthorityContentHashAtAuthoring?: string | null;
+  blueprintAvailableToReconstruction?: boolean;
+  translationBriefRole?: 'EXPLANATION_OF_ACTUAL';
+  actualFirstPromptInjected?: boolean;
+  liveImplementationCanonicalScreenshot?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').LiveImplementationCanonicalScreenshot;
+  actualToLiveVisualComparison?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualToLiveVisualComparison;
+  perceptualDifferenceMap?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').PerceptualDifferenceMap;
+  actualToLiveRegionDrifts?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualToLiveRegionDrift[];
+  responsiveAdaptationDeferredUntilCanonicalMatch?: boolean;
+  actualFirstComponentTree?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstImplementationArtifacts['actualFirstComponentTree'];
+  actualFirstLayoutContract?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstImplementationArtifacts['actualFirstLayoutContract'];
+  actualFirstStyleContract?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstImplementationArtifacts['actualFirstStyleContract'];
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';

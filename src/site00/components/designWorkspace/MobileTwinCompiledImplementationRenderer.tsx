@@ -8,6 +8,7 @@ import { assertRuntimeImageSourceAllowed } from '../../../../shared/site00-studi
 import '../../styles/site00-mobile-twin-implementation-r8m1.css';
 import '../../styles/site00-mobile-twin-implementation-r8m2.css';
 import '../../styles/site00-mobile-twin-implementation-r8m2r3.css';
+import '../../styles/site00-mobile-twin-implementation-r8m2r4.css';
 
 type Props = {
   document: CompiledMobileTwinImplementationDocument;
@@ -20,8 +21,19 @@ function sectionClass(sectionId: string): string {
   return 'site00-mobile-twin-compiled-impl__section';
 }
 
-function rowClass(sectionId: string, translationDriven: boolean): string {
-  if (translationDriven) {
+function rowClass(sectionId: string, layoutMode: 'legacy' | 'td' | 'af'): string {
+  if (layoutMode === 'af') {
+    if (sectionId === 'af-hero') return 'site00-twin-af__hero-grid';
+    if (sectionId === 'af-gallery') return 'site00-twin-af__gallery-sheet';
+    if (sectionId === 'af-structured') return 'site00-twin-af__structured-band';
+    if (sectionId === 'af-bottom-nav') return 'site00-twin-af__bottom-nav';
+    if (sectionId === 'af-readiness') return 'site00-twin-af__readiness-row';
+    if (sectionId === 'af-metadata') return 'site00-twin-af__metadata-strip';
+    if (sectionId === 'af-authority') return 'site00-twin-af__authority-rail';
+    if (sectionId === 'af-decision') return 'site00-twin-af__decision-row';
+    return 'site00-twin-af__decision-row';
+  }
+  if (layoutMode === 'td') {
     if (sectionId === 'td-hero') return 'site00-twin-td__hero-grid';
     if (sectionId === 'td-gallery') return 'site00-twin-td__gallery-sheet';
     if (sectionId === 'td-structured') return 'site00-twin-td__structured-band';
@@ -39,6 +51,12 @@ function rowClass(sectionId: string, translationDriven: boolean): string {
   return 'site00-mobile-twin-compiled-impl__row';
 }
 
+function cssVarsFromDocument(document: CompiledMobileTwinImplementationDocument): CSSProperties | undefined {
+  const vars = document.actualFirstStyleContract?.cssVariables;
+  if (!vars) return undefined;
+  return vars as CSSProperties;
+}
+
 function visibleCopy(node: { displayText?: string | null; semanticRole: string }): string | null {
   const text = node.displayText?.trim();
   if (text) {
@@ -50,8 +68,13 @@ function visibleCopy(node: { displayText?: string | null; semanticRole: string }
 
 /** R8M2 visual implementation — canonical assets + fidelity; never authority raster at runtime. */
 export function MobileTwinCompiledImplementationRenderer({ document, onNodeActivate }: Props) {
+  const actualFirst = document.compilerGeneration === 'R8M2R4';
   const translationDriven = document.compilerGeneration === 'R8M2R3';
-  const rootClass = translationDriven ? 'site00-twin-td' : 'site00-mobile-twin-compiled-impl';
+  const layoutMode = actualFirst ? 'af' : translationDriven ? 'td' : 'legacy';
+  const rootClass =
+    actualFirst ? 'site00-twin-af'
+    : translationDriven ? 'site00-twin-td'
+    : 'site00-mobile-twin-compiled-impl';
   const assetTraceByObjectId = new Map(
     (document.assetTraceability ?? []).map((t) => [t.objectId, t]),
   );
@@ -101,6 +124,7 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
         width: '100%',
         maxWidth: document.widthPx,
         margin: '0 auto',
+        ...cssVarsFromDocument(document),
       }}
     >
       {sectionOrder.map((sectionId) => {
@@ -110,19 +134,29 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
         return (
           <section
             key={sectionId}
-            className={translationDriven ? 'site00-twin-td__section' : sectionClass(sectionId)}
+            className={
+              layoutMode === 'af' ? 'site00-twin-af__section'
+              : layoutMode === 'td' ? 'site00-twin-td__section'
+              : sectionClass(sectionId)
+            }
             data-section-id={sectionId}
           >
             {meta ?
-              <p className={translationDriven ? 'site00-twin-td__section-title' : 'site00-mobile-twin-compiled-impl__section-title'}>
+              <p
+                className={
+                  layoutMode === 'af' ? 'site00-twin-af__section-title'
+                  : layoutMode === 'td' ? 'site00-twin-td__section-title'
+                  : 'site00-mobile-twin-compiled-impl__section-title'
+                }
+              >
                 {meta.label}
               </p>
             : null}
             <div
               className={
-                !translationDriven && sectionId === 'readiness' ?
-                  `${rowClass(sectionId, false)} site00-mobile-twin-compiled-impl__readiness-row`
-                : rowClass(sectionId, translationDriven)
+                layoutMode === 'legacy' && sectionId === 'readiness' ?
+                  `${rowClass(sectionId, 'legacy')} site00-mobile-twin-compiled-impl__readiness-row`
+                : rowClass(sectionId, layoutMode)
               }
             >
               {sectionNodes.map((node) => {
@@ -146,7 +180,9 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                     key={node.objectId}
                     type={interactive ? 'button' : undefined}
                     className={
-                      translationDriven ?
+                      layoutMode === 'af' ?
+                        `site00-twin-af__node${interactive ? ' site00-twin-af__node--interactive' : ''}`
+                      : layoutMode === 'td' ?
                         `site00-twin-td__node${interactive ? ' site00-twin-td__node--interactive' : ''}`
                       : `site00-mobile-twin-compiled-impl__node${interactive ? ' site00-mobile-twin-compiled-impl__node--interactive' : ''}`
                     }
@@ -164,8 +200,8 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                     {isImage ?
                       <div
                         className={
-                          translationDriven ?
-                            'site00-twin-td__image-wrap'
+                          layoutMode === 'af' ? 'site00-twin-af__image-wrap'
+                          : layoutMode === 'td' ? 'site00-twin-td__image-wrap'
                           : `site00-mobile-twin-compiled-impl__image-wrap${node.componentType === 'CARD' ? ' site00-mobile-twin-compiled-impl__thumb' : ''}`
                         }
                       >
@@ -173,8 +209,21 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                       </div>
                     : null}
                     {isGauge ?
-                      <div className={translationDriven ? 'site00-twin-td__gauge' : 'site00-mobile-twin-compiled-impl__gauge'} aria-hidden>
-                        <div className={translationDriven ? 'site00-twin-td__gauge-fill' : 'site00-mobile-twin-compiled-impl__gauge-fill'} />
+                      <div
+                        className={
+                          layoutMode === 'af' ? 'site00-twin-af__gauge'
+                          : layoutMode === 'td' ? 'site00-twin-td__gauge'
+                          : 'site00-mobile-twin-compiled-impl__gauge'
+                        }
+                        aria-hidden
+                      >
+                        <div
+                          className={
+                            layoutMode === 'af' ? 'site00-twin-af__gauge-fill'
+                            : layoutMode === 'td' ? 'site00-twin-td__gauge-fill'
+                            : 'site00-mobile-twin-compiled-impl__gauge-fill'
+                          }
+                        />
                       </div>
                     : null}
                     {copy ?
