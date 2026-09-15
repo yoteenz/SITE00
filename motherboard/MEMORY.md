@@ -9647,6 +9647,18 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SPARK-DIRECT1 isolated golden reconstruction
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh Muse Spark 1.3 (HIGH effort) Cursor sprint to directly recreate the attached NDXBOOK DESIGN golden as real DOM/CSS on an isolated route — no Composer, no other-model output, no raster cheat.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.SPARK-DIRECT1**. Golden attached in-chat. Isolated route **`/projects/ndxbook/design/twin-spark-direct`**. Do not mutate `/design/twin`, `twin-v4`, `twin-testA`, `twin-testB`, `twin-sol-direct`, `twin-grok-direct`, `twin-opus-direct`, `twin-fable-direct`, or current DESIGN.
+- **Topics covered:** Motherboard load; golden region inspection (13 regions); direct React+CSS implementation; 4 browser visual QA passes (hero scale, collage density, gallery card 3 paper, amendment alignment); mobile 390px check; tsc + vitest + production build.
+- **Decisions / outcomes:** Direct implementation only — no spec JSON, no translation engine. CSS-composed archival collage (no standalone pointing-hand photo asset in repo). Route boots without CTRL ROOM sign-in. Timing: START 22:26:17Z, FIRST RENDER 22:29:25Z, FINAL 22:31:03Z (~4m46s). No other direct-bench files opened (isolation held; mandatory motherboard read only).
+- **Changes:** `src/site00/pages/DesignTwinSparkDirectPage.tsx`, `src/site00/styles/site00-twin-spark-direct.css`, route constant + helper in `src/site00/config/routes.ts`, lazy route in `src/routes/Site00Routes.tsx` (+19 lines), this MEMORY entry.
+- **Conventions:** Spark-direct bench keeps the same no-guard isolated-route pattern as prior direct benches; visual authority is always the attached golden, never current DESIGN visuals.
+---
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
 
 Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
