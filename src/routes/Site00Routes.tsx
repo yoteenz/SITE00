@@ -1,5 +1,5 @@
-import { lazy, Suspense, type ReactNode } from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
+import { Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import AdminGuard from '../components/AdminGuard';
 import { Site00Provider } from '../site00/state/Site00Context';
 import { ExperienceContextProvider } from '../site00/state/experienceContext';
@@ -19,6 +19,7 @@ import { Site00WorkflowDesktopLegacyRedirect } from '../site00/components/shell/
 import { Site00IdentityAliasRedirect, Site00SignInAliasRedirect } from '../site00/components/routing/Site00RouteAliases';
 import { Site00TypographyBootstrap } from '../site00/components/Site00TypographyBootstrap';
 import { site00PublicDesktopPath } from '../site00/config/site00-public-pages';
+import { writeAgentDebugLog } from '../utils/agentDebugLog';
 /* Eager-load SITE 00 + ASSTS styles (lazy route CSS was not applying on mobile preview). */
 import '../site00/styles/site00.css';
 import '../site00/styles/site00-locations.css';
@@ -296,6 +297,27 @@ const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage')
 
 function Site00Suspense({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>;
+}
+
+function SolTestBRouteProbe({ children }: { children: ReactNode }) {
+  const location = useLocation();
+  const { projectSlug } = useParams();
+  useEffect(() => {
+    // #region agent log
+    writeAgentDebugLog({
+      hypothesisId: 'B,D',
+      location: 'src/routes/Site00Routes.tsx:SolTestBRouteProbe',
+      message: 'Test B route element mounted before lazy page',
+      data: {
+        pathname: location.pathname,
+        search: location.search,
+        projectSlug: projectSlug ?? null,
+        configuredPath: SITE00_ROUTES.projectDesignTwinTestB,
+      },
+    });
+    // #endregion
+  }, [location.pathname, location.search, projectSlug]);
+  return <>{children}</>;
 }
 
 function Site00ComposerDraftPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
@@ -1142,9 +1164,11 @@ export function Site00Routes() {
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
-              <Site00Suspense>
-                <SolDesignBenchmarkPage />
-              </Site00Suspense>
+              <SolTestBRouteProbe>
+                <Site00Suspense>
+                  <SolDesignBenchmarkPage />
+                </Site00Suspense>
+              </SolTestBRouteProbe>
             </Site00AccountRouteGuard>
           </Site00Layout>
         }
