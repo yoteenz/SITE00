@@ -14,7 +14,12 @@ import type {
   GrokDesignBenchHostDiagnostic,
   GrokDesignBenchProviderReadinessReceipt,
 } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
-import { persistGrokTwinTestARun, readPersistedGrokTwinTestARun, historicalGrokTwinTestAAverageMs } from '../../../shared/site00-design-bench/grokTwinTestA/persist.js';
+import {
+  clearPersistedGrokTwinTestARun,
+  persistGrokTwinTestARun,
+  readPersistedGrokTwinTestARun,
+  historicalGrokTwinTestAAverageMs,
+} from '../../../shared/site00-design-bench/grokTwinTestA/persist.js';
 import { sha256HexFromBytes } from '../../../shared/site00-design-bench/grokTwinTestA/sha256.js';
 import { estimateRemainingMs, formatDurationMmSs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import { formatAspectRatio, validateGrokReferenceUpload } from '../../../shared/site00-design-bench/grokTwinTestA/uploadValidation.js';
@@ -124,6 +129,14 @@ export function DesignTwinTestAPage() {
     if (!run?.runId) return;
     persistGrokTwinTestARun(run);
   }, [run]);
+
+  useEffect(() => {
+    if (readiness?.state !== 'READY' || run?.stage !== 'FAILED') return;
+    const text = `${run.error ?? ''}`;
+    if (!/missing on the API host/i.test(text) && !/Railway API service/i.test(text)) return;
+    clearPersistedGrokTwinTestARun();
+    setRun(null);
+  }, [readiness?.state, run]);
 
   useEffect(() => {
     if (!run?.runId || run.stage === 'COMPLETE' || run.stage === 'FAILED') return;
