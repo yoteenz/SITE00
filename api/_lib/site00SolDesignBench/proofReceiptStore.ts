@@ -72,6 +72,43 @@ function isExpectedF6Configuration(configuration: SolStructuredOutputProofConfig
     fingerprintSolStructuredOutputProofConfiguration(EXPECTED_F6_CONFIGURATION);
 }
 
+function isSafeNestedOnlyF6R1Receipt(value: unknown): value is SolStructuredOutputProofReceipt {
+  if (!value || typeof value !== 'object') return false;
+  const receipt = value as Partial<SolStructuredOutputProofReceipt>;
+  const tiny = receipt.tinyLiveSchemaSmoke as Partial<SolStructuredOutputProofEvidence> | null;
+  const large = receipt.largeOutputStress as Partial<SolStructuredOutputProofEvidence> | null;
+  if (!receipt.configuration || typeof receipt.configuration !== 'object') return false;
+  const expectedFingerprint = fingerprintSolStructuredOutputProofConfiguration(EXPECTED_F6_CONFIGURATION);
+  return receipt.receiptType === 'SolStructuredOutputProofReceipt' &&
+    receipt.receiptVersion === 1 &&
+    receipt.provenance === 'F6R1_VERIFIED_EVIDENCE_BACKFILL' &&
+    receipt.configurationFingerprint === expectedFingerprint &&
+    fingerprintSolStructuredOutputProofConfiguration(receipt.configuration) === expectedFingerprint &&
+    tiny?.runId === 'sol_bb016b79-7f63-47d7-8679-d4f3ec96a668' &&
+    tiny.apiBuild === '4b803623dcf9f9768d12530087fe017f19388947' &&
+    tiny.sourcePromptVersion === 'sol-design-bench-test-b-v5-sdk-parsed-schema' &&
+    tiny.sourceMaxOutputTokens === 16_000 &&
+    tiny.schemaValidationPass === true &&
+    tiny.structuredResultDirect === true &&
+    tiny.manualJsonParseUsed === false &&
+    tiny.outputTextUsedAsPrimaryResult === false &&
+    tiny.passed === true &&
+    large?.runId === F6_STRESS_RUN_ID &&
+    large.apiBuild === F6_API_BUILD &&
+    large.sourcePromptVersion === EXPECTED_F6_CONFIGURATION.promptVersion &&
+    large.sourceMaxOutputTokens === EXPECTED_F6_CONFIGURATION.maxOutputTokens &&
+    large.outputCharacters === 69_968 &&
+    large.actualOutputTokens === 22_968 &&
+    large.finishReason === 'completed' &&
+    large.schemaValidationPass === true &&
+    large.structuredResultDirect === true &&
+    large.manualJsonParseUsed === false &&
+    large.outputTextUsedAsPrimaryResult === false &&
+    large.passed === true &&
+    receipt.structuredOutputPipelineProofPassed === true &&
+    typeof receipt.persistedAt === 'string';
+}
+
 function isProofEvidence(value: unknown, proofMode: SolStructuredOutputProofEvidence['proofMode']): value is SolStructuredOutputProofEvidence {
   if (!value || typeof value !== 'object') return false;
   const proof = value as Partial<SolStructuredOutputProofEvidence>;
@@ -240,7 +277,12 @@ export async function loadOrBackfillSolStructuredOutputProofReceipt(): Promise<S
   const store = await resolveStore();
   const stored = await store.load();
   if (stored) {
-    return isSolStructuredOutputProofReceiptCompatible(stored) ? stored : null;
+    if (isSolStructuredOutputProofReceiptCompatible(stored)) return stored;
+    if (!isSafeNestedOnlyF6R1Receipt(stored)) return null;
+    const upgraded = buildF6R1ProofReceiptBackfill(stored.persistedAt);
+    if (!upgraded) return null;
+    await store.save(upgraded);
+    return upgraded;
   }
   const backfill = buildF6R1ProofReceiptBackfill();
   if (!backfill) return null;

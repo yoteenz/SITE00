@@ -65,7 +65,9 @@ export interface SolStructuredOutputProofReceipt {
   receiptType: 'SolStructuredOutputProofReceipt';
   receiptVersion: 1;
   proofVersion: 'sol-structured-output-proof-v6-f6r1';
+  /** Attested provider-pipeline Railway build; this intentionally remains F6R1. */
   apiBuild: string;
+  /** Commit that produced the attested provider proof, not the currently deployed API commit. */
   apiCommit: string;
   promptVersion: string;
   model: 'gpt-5.6-sol';
@@ -191,6 +193,7 @@ export interface SolDesignBenchProviderReadinessReceipt {
   structuredOutputPipelineProofPassed: boolean;
   structuredOutputProofReceipt: SolStructuredOutputProofReceipt | null;
   structuredOutputProofPersistence: 'SUPABASE' | 'TEST_OVERRIDE' | 'UNAVAILABLE';
+  /** Current API deployment, exposed separately from the attested F6R1 provider build. */
   currentRailwayCommit: string;
   blockingReasons: string[];
 }

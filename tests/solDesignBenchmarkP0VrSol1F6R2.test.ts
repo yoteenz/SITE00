@@ -146,6 +146,46 @@ describe('P0.VR.DESIGNBENCH.SOL1F6R2 durable proof receipt', () => {
     expect(writes).toBe(1);
   });
 
+  it('safely upgrades the prior nested-only F6R2 receipt without a provider run', async () => {
+    const nestedOnly = structuredClone(
+      buildF6R1ProofReceiptBackfill('2026-09-15T21:40:00.000Z')!,
+    ) as Record<string, unknown>;
+    for (const key of [
+      'proofVersion',
+      'apiBuild',
+      'apiCommit',
+      'promptVersion',
+      'model',
+      'reasoning',
+      'maxOutputTokens',
+      'tinySchemaSmokePass',
+      'largeOutputStressPass',
+      'largeOutputCharacters',
+      'largeOutputTokens',
+      'largeOutputTruncated',
+      'schemaValidationPass',
+      'manualJsonParseUsed',
+      'outputTextUsedAsPrimaryResult',
+      'completedAt',
+    ]) delete nestedOnly[key];
+    let stored = nestedOnly as unknown as SolStructuredOutputProofReceipt;
+    const save = vi.fn(async (receipt: SolStructuredOutputProofReceipt) => {
+      stored = structuredClone(receipt);
+    });
+    setSolStructuredOutputProofReceiptStoreForTests({
+      load: async () => stored,
+      save,
+    });
+    const upgraded = await loadOrBackfillSolStructuredOutputProofReceipt();
+    expect(upgraded).toMatchObject({
+      proofVersion: 'sol-structured-output-proof-v6-f6r1',
+      apiBuild: '6728d538b2dc5898ccc4667039a47463ecee47b7',
+      completedAt: '2026-09-15T21:40:00.000Z',
+      structuredOutputPipelineProofPassed: true,
+    });
+    expect(save).toHaveBeenCalledOnce();
+  });
+
   it('reports no-reference provider readiness READY and exposes the current deploy separately', async () => {
     let stored: SolStructuredOutputProofReceipt | null = null;
     setSolStructuredOutputProofReceiptStoreForTests({
