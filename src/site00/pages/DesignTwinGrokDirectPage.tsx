@@ -186,7 +186,14 @@ function PaperDoc({ kind }: { kind: 'ground' | 'blue' | 'overlay' | 'assets' | '
     <div className={`tgd-doc tgd-doc--${kind}`} aria-hidden="true">
       <img src={PAPER} alt="" />
       <div className="tgd-doc__marks">
-        {kind === 'ground' ? <span className="tgd-doc__form" /> : null}
+        {kind === 'ground' ? (
+          <span className="tgd-doc__form">
+            <b />
+            <b />
+            <b />
+            <b />
+          </span>
+        ) : null}
         {kind === 'overlay' ? <span className="tgd-doc__big">001</span> : null}
         {kind === 'assets' ? <span className="tgd-doc__portrait" /> : null}
       </div>

@@ -39,7 +39,7 @@ interface SolProviderStatus {
   reasoningEffort: 'high';
   fallbackAllowed: false;
   webSearchEnabled: false;
-  providerReadiness: {
+  providerReadiness?: {
     state: 'READY' | 'BLOCKED';
     openAiCredentialPresentServerSide: boolean;
     tinyLiveSchemaSmokePassed: boolean;
@@ -390,6 +390,8 @@ export function SolDesignBenchmarkPage() {
   const failureStatuses = ['FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED'];
   const isFailure = Boolean(run && failureStatuses.includes(run.status));
   const isRunning = Boolean(run && run.status !== 'COMPLETE' && !failureStatuses.includes(run.status));
+  const structuredPipelineReady =
+    providerStatus?.providerReadiness?.structuredOutputPipelineProofPassed === true;
 
   const loadRun = useCallback(async (runId: string) => {
     const response = await fetch(site00ApiUrl(`/api/site00/sol-design-bench?runId=${encodeURIComponent(runId)}`), { credentials: 'omit', cache: 'no-store' });
@@ -523,9 +525,9 @@ export function SolDesignBenchmarkPage() {
         <div><small>WEB SEARCH</small><strong>OFF</strong></div>
         <div>
           <small>PROVIDER READINESS</small>
-          <strong className={providerStatus?.providerReadiness.structuredOutputPipelineProofPassed ? 'is-ready' : 'is-blocked'}>
+          <strong className={structuredPipelineReady ? 'is-ready' : 'is-blocked'}>
             {providerStatus
-              ? providerStatus.providerReadiness.structuredOutputPipelineProofPassed
+              ? structuredPipelineReady
                 ? 'STRICT PIPELINE PROVEN'
                 : 'BLOCKED · STRICT PIPELINE PROOF'
               : 'CHECKING…'}
@@ -571,8 +573,8 @@ export function SolDesignBenchmarkPage() {
           </div>
         ) : null}
 
-        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading || !providerStatus?.providerReadiness.structuredOutputPipelineProofPassed} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
-        {!run && providerStatus && !providerStatus.providerReadiness.structuredOutputPipelineProofPassed ? (
+        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading || !structuredPipelineReady} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
+        {!run && providerStatus && !structuredPipelineReady ? (
           <p className="sol-bench-readiness-blocked">START BLOCKED · Tiny live schema and large-output runtime proofs must pass on the Railway API build.</p>
         ) : null}
         {error ? <p className="sol-bench-error" role="alert">{error}</p> : null}

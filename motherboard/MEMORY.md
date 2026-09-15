@@ -9565,6 +9565,16 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F3–F6R1 strict parsed output + 32K capacity proof
+
+Summary of the whole conversation: after F2 fixed OpenAI’s missing JSON instruction, founder runs still produced malformed ~92–93KB free-form JSON. F3 introduced strict JSON Schema, validation/completeness receipts, private raw-response persistence, a separate SVG preview artifact, and frozen-reference retry recovery. F4 live tracing proved F3 had initially not deployed, then proved strict schema was live but the application still consumed `output_text` through `JSON.parse`. F5 replaced that success path with the official OpenAI SDK `responses.parse().output_parsed`, added `SolStructuredOutputRuntimeReceipt`, a legacy-parser firewall, and a founder-run gate requiring tiny + ≥50KB live proofs. F6 raised one shared founder/stress output budget from 16K to 32K after the first stress attempt truncated at 42,651 characters / 16,000 tokens.
+
+- **Final live proof:** Railway build **`6728d538b2dc5898ccc4667039a47463ecee47b7`**, prompt **`sol-design-bench-test-b-v6-output-budget-32k`**. The single F6 stress run **`sol_afe08020-a20c-497d-a8b5-7a7c1bf07ae4`** completed in 228,653 ms with 69,968 characters, 22,968 actual output tokens of 32,000, finish reason `completed`, no truncation, direct SDK-parsed structured result, no application manual JSON parse, no primary output-text path, and schema validation PASS.
+- **Gate:** Tiny live smoke remains PASS from run **`sol_bb016b79-7f63-47d7-8679-d4f3ec96a668`**. Railway now reports `tinyLiveSchemaSmokePassed=true`, `largeOutputStressPassed=true`, and `structuredOutputPipelineProofPassed=true`. Founder retry for golden SHA **`f86d9809b8334394131b1a1c815b18857c9c824bdeb51a87f7d1710bdf284d44`** is READY; the golden was not used in any proof.
+- **Invariants:** OpenAI `gpt-5.6-sol`, high reasoning, strict `json_schema`, schema `figma_style_interface_translation_package`, actual image input, no fallback/web/Composer/Grok access, and the 14-part benchmark contract remain unchanged.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F5 xAI 503 classification + transient retry (v489)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed Railway vs Vite host boundary (GROK1F2), proved team access on `POST /v1/responses` (GROK1F3), added 10-min timeout + 5-min stall watchdog (GROK1F4 / v487), unblocked preview boot without CTRL ROOM sign-in (v488), then founder reran the real Grok 4.6 benchmark after F4 health gates passed and hit **HTTP 503 classified as MODEL_REJECTED**.
@@ -9574,6 +9584,18 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Root cause:** `classifyGrok46ProviderError` / adapter collapsed non-2xx (and body “model …” matches) into MODEL_REJECTED. A transient xAI 503 is a service outage, not model rejection.
 - **Changes:** Explicit HTTP classes (401/403 AUTHENTICATION_OR_ACCESS_FAILURE, 404 MODEL_NOT_FOUND, 410 MODEL_OR_ENDPOINT_REJECTED, 429 RATE_LIMITED, 500/502/503/504 provider errors, network PROVIDER_NETWORK_FAILURE). `GrokBenchmarkFailureClass` with PROVIDER_TRANSIENT_FAILURE for 503. Safe evidence (status, request id, error code/type/message, attempt timing — never Authorization/key). Bounded retry: max 2 automatic retries after initial (3 attempts) for 429/500/502/503/504; backoff ~2s then ~5s; honor Retry-After; no retry for 400/401/403/404/410. Retries fit inside F4 10-min budget and update `lastStateChangeAt` so the 5-min stall watchdog does not false-fire. UI: GROK PROVIDER TEMPORARILY UNAVAILABLE / RETRYING… ATTEMPT N OF 3; final failure + RETRY GROK TEST (new run ID, same golden SHA256). Build **v489**. Tests **`tests/p0vrDesignBenchGrok1F5.test.ts`**.
 - **Conventions:** Never classify 503 as MODEL_REJECTED. Model-access failures and transient-service failures stay distinct. Do not hide retries when comparing Grok vs Sol. Manual retry is a new run; automatic retry is provider-attempt only. Do not manufacture paid 503s — use mocked provider tests.
+
+---
+
+## 2026-09-15 — Test B signed-out preview boot fix
+
+Summary of the **whole conversation so far** in this chat: founder commissioned the isolated `twin-testB` SOL visual-design benchmark, hard-bound OpenAI `gpt-5.6-sol` at high reasoning, advanced it from free-form JSON through strict schema-enforced SDK parsing, proved the 32K output budget with tiny and ≥50KB live runs, then reported that the testing page itself would not boot.
+
+- **Context:** `/projects/ndxbook/design/twin-testB` showed `SIGN IN REQUIRED FOR THIS ROUTE` when opened normally and could appear blank through the preview capture URL. The founder golden was not uploaded or rerun during diagnosis.
+- **Root cause:** Test B remained wrapped by `Site00AccountRouteGuard`, which contradicted the benchmark’s isolated signed-out preview requirement. A legacy/incomplete readiness payload could also be dereferenced as though the nested receipt were guaranteed.
+- **Changes:** Removed only the Test B account guard; preserved `Site00Layout`, suspense, route path, provider/model/schema/output-budget behavior, proof gates, and run storage. Made `providerReadiness` optional at the UI boundary and derived one defensive `structuredPipelineReady` boolean. Added route/readiness regression assertions.
+- **Verification:** 11 focused Sol tests passed, TypeScript and production build passed, and signed-out browser boots passed for both the normal and `?goldenDiffCapture=1` URLs. Temporary diagnostic probes and logs were removed.
+- **Conventions:** Isolated design-benchmark preview routes must boot without a CTRL ROOM session. Missing or stale readiness fields must keep execution safely blocked rather than crash the page.
 
 ---
 

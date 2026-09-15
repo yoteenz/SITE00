@@ -737,15 +737,16 @@
 
 .tgd-doc__form {
   position: absolute;
-  inset: 8px;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent,
-      transparent 7px,
-      rgba(0, 0, 0, 0.12) 7px,
-      rgba(0, 0, 0, 0.12) 8px
-    );
+  inset: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tgd-doc__form b {
+  display: block;
+  height: 7px;
+  background: rgba(0, 0, 0, 0.12);
 }
 
 .tgd-doc img {
