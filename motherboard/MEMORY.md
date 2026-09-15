@@ -9585,3 +9585,15 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Changes:** Explicit HTTP classes (401/403 AUTHENTICATION_OR_ACCESS_FAILURE, 404 MODEL_NOT_FOUND, 410 MODEL_OR_ENDPOINT_REJECTED, 429 RATE_LIMITED, 500/502/503/504 provider errors, network PROVIDER_NETWORK_FAILURE). `GrokBenchmarkFailureClass` with PROVIDER_TRANSIENT_FAILURE for 503. Safe evidence (status, request id, error code/type/message, attempt timing — never Authorization/key). Bounded retry: max 2 automatic retries after initial (3 attempts) for 429/500/502/503/504; backoff ~2s then ~5s; honor Retry-After; no retry for 400/401/403/404/410. Retries fit inside F4 10-min budget and update `lastStateChangeAt` so the 5-min stall watchdog does not false-fire. UI: GROK PROVIDER TEMPORARILY UNAVAILABLE / RETRYING… ATTEMPT N OF 3; final failure + RETRY GROK TEST (new run ID, same golden SHA256). Build **v489**. Tests **`tests/p0vrDesignBenchGrok1F5.test.ts`**.
 - **Conventions:** Never classify 503 as MODEL_REJECTED. Model-access failures and transient-service failures stay distinct. Do not hide retries when comparing Grok vs Sol. Manual retry is a new run; automatic retry is provider-attempt only. Do not manufacture paid 503s — use mocked provider tests.
 
+---
+
+## 2026-09-15 — Test B signed-out preview boot fix
+
+Summary of the **whole conversation so far** in this chat: founder commissioned the isolated `twin-testB` SOL visual-design benchmark, hard-bound OpenAI `gpt-5.6-sol` at high reasoning, advanced it from free-form JSON through strict schema-enforced SDK parsing, proved the 32K output budget with tiny and ≥50KB live runs, then reported that the testing page itself would not boot.
+
+- **Context:** `/projects/ndxbook/design/twin-testB` showed `SIGN IN REQUIRED FOR THIS ROUTE` when opened normally and could appear blank through the preview capture URL. The founder golden was not uploaded or rerun during diagnosis.
+- **Root cause:** Test B remained wrapped by `Site00AccountRouteGuard`, which contradicted the benchmark’s isolated signed-out preview requirement. A legacy/incomplete readiness payload could also be dereferenced as though the nested receipt were guaranteed.
+- **Changes:** Removed only the Test B account guard; preserved `Site00Layout`, suspense, route path, provider/model/schema/output-budget behavior, proof gates, and run storage. Made `providerReadiness` optional at the UI boundary and derived one defensive `structuredPipelineReady` boolean. Added route/readiness regression assertions.
+- **Verification:** 11 focused Sol tests passed, TypeScript and production build passed, and signed-out browser boots passed for both the normal and `?goldenDiffCapture=1` URLs. Temporary diagnostic probes and logs were removed.
+- **Conventions:** Isolated design-benchmark preview routes must boot without a CTRL ROOM session. Missing or stale readiness fields must keep execution safely blocked rather than crash the page.
+
