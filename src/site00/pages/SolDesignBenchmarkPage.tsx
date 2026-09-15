@@ -6,7 +6,6 @@ import type {
   SolDesignBenchRun,
   StartSolDesignBenchRequest,
 } from '../../../shared/site00-sol-design-bench/contracts';
-import { writeAgentDebugLog } from '../../utils/agentDebugLog';
 import '../styles/site00-sol-design-benchmark.css';
 
 const ACCEPTED_MIMES = ['image/png', 'image/jpeg', 'image/webp'] as const;
@@ -394,17 +393,6 @@ export function SolDesignBenchmarkPage() {
   const structuredPipelineReady =
     providerStatus?.providerReadiness?.structuredOutputPipelineProofPassed === true;
 
-  useEffect(() => {
-    // #region agent log
-    writeAgentDebugLog({
-      hypothesisId: 'C,D',
-      location: 'src/site00/pages/SolDesignBenchmarkPage.tsx:mountEffect',
-      message: 'Sol Test B page mounted',
-      data: { pathname: window.location.pathname, apiUrl: site00ApiUrl('/api/site00/sol-design-bench') },
-    });
-    // #endregion
-  }, []);
-
   const loadRun = useCallback(async (runId: string) => {
     const response = await fetch(site00ApiUrl(`/api/site00/sol-design-bench?runId=${encodeURIComponent(runId)}`), { credentials: 'omit', cache: 'no-store' });
     if (!response.ok) throw new Error(`Could not load Sol run (${response.status}).`);
@@ -422,22 +410,7 @@ export function SolDesignBenchmarkPage() {
     })
       .then(async (response) => {
         if (!response.ok) throw new Error(`Provider readiness unavailable (${response.status}).`);
-        const status = await response.json() as SolProviderStatus;
-        // #region agent log
-        writeAgentDebugLog({
-          hypothesisId: 'E',
-          location: 'src/site00/pages/SolDesignBenchmarkPage.tsx:readinessFetch',
-          message: 'Sol readiness response received before render',
-          data: {
-            status: response.status,
-            topLevelKeys: Object.keys(status ?? {}),
-            hasProviderReadiness: Boolean(status?.providerReadiness),
-            readinessKeys: Object.keys(status?.providerReadiness ?? {}),
-            pipelineProofType: typeof status?.providerReadiness?.structuredOutputPipelineProofPassed,
-          },
-        });
-        // #endregion
-        setProviderStatus(status);
+        setProviderStatus(await response.json() as SolProviderStatus);
       })
       .catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
   }, [loadRun]);
