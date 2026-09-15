@@ -9609,3 +9609,19 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 - **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
 - **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
 
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.OPUS-DIRECT1 isolated Opus golden reconstruction
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh **Claude Opus 5** Cursor sprint asking whether Opus can look at the NDXBOOK DESIGN golden and directly recreate the page's structure in code, weighted toward structural fidelity rather than asset recreation.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.OPUS-DIRECT1**. New isolated route **`/projects/:projectSlug/design/twin-opus-direct`**. Blind and independent of Sol Direct, Grok Direct, Sol Test B, Grok Test A, Twin V3 and Twin V4 — their implementations were not read. No Composer.
+- **Golden resolution:** The founder's in-chat attachment did not reach the agent. The same golden exists in-repo as `public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg` (608×1088 — identical aspect to the 768×1376 attachment recorded for GROK-DIRECT1) and its region list matches the sprint's Phase 1 list exactly, so it was used as the design authority. **Future design-bench sprints can resolve "the golden" from that path when an attachment is missing.**
+- **Topics covered:** Motherboard load; pixel-scan decomposition of the golden (band boundaries, column dividers, ink spans, region luminance); font metric solving; 11 real-browser QA passes with pixel diff; isolation and accessibility verification.
+- **Decisions / outcomes:** Artboard locked to **768×1376**, scaled to fit any viewport on a black backdrop with an 18px frame radius. All geometry measured off the golden and encoded directly. Chrome bands 40.4 / 34.1 / 36 / 92.3 / 34.4 / 92.2 / 49.7; content grid 15.2 / 732.6 / 20.2; hero 517.9 + gap 12.6 + rail 202.1; section heights 395.4 / 156.6 / 36.6 / 190.7 / 151.6. Live-text ink spans land within ±4% of the golden. Route boots without the CTRL ROOM account guard. No raster cheat.
+- **Typography learning:** Martian Mono advance is exactly **0.70em**, so `font-size = goldenPxPerChar / 0.70` reproduces text footprints directly. The golden's display headline is an ultra-condensed poster face reproduced as **Anton at `scaleX(0.692)`** (font-size 69.03px, line-height 69.5px) — matched on both cap height and string width.
+- **CSS gotcha:** A `.tod-screen button { font: inherit }` reset out-specifies single-class component rules and silently forced every control to 16px. Use zero-specificity `:where(.tod-screen) :where(button, …)` for resets inside a scoped design surface.
+- **Changes:** `DesignTwinOpusDirectPage.tsx`, `components/designBench/opusDirect/{TwinOpusDirectScreen.tsx, TwinOpusDirectIcons.tsx, twinOpusDirectContent.ts}`, `styles/site00-twin-opus-direct.css`, route constant + `site00ProjectDesignTwinOpusDirectPath`, route registration, `tests/p0vrDesignBenchOpusDirect.test.ts` (16 tests), CORE route row, this MEMORY entry. Only 19 lines changed in pre-existing files.
+- **Known gap:** The archival pointing-hand photograph and the newsprint collages behind candidates V1.1/V1.0 are not standalone repo assets; boxes, tone and density are reconstructed from `eu-branch-receipts-isolated.webp` plus CSS, so the candidate gallery keeps the largest residual pixel difference.
+- **Conventions:** For design-bench reconstruction sprints, measure the golden programmatically (row/column edge scans + ink spans) before writing CSS, and converge with a scripted browser screenshot → pixel-diff loop rather than by eye.
