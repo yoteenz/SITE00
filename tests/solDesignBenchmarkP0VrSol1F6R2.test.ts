@@ -111,6 +111,51 @@ describe('P0.VR.DESIGNBENCH.SOL1F6R2 durable proof receipt', () => {
     expect(buildF6R1ProofReceiptBackfill(new Date(0).toISOString(), changed)).toBeNull();
   });
 
+  it('keeps the configuration fingerprint stable after JSONB reorders object keys', () => {
+    const receipt = buildF6R1ProofReceiptBackfill(new Date(0).toISOString())!;
+    const reorderedConfiguration = Object.fromEntries(
+      Object.entries(receipt.configuration).reverse(),
+    ) as unknown as SolStructuredOutputProofConfiguration;
+    const roundTripped = {
+      ...receipt,
+      configuration: reorderedConfiguration,
+    };
+    expect(fingerprintSolStructuredOutputProofConfiguration(reorderedConfiguration))
+      .toBe(receipt.configurationFingerprint);
+    expect(isSolStructuredOutputProofReceiptCompatible(roundTripped)).toBe(true);
+  });
+
+  it('upgrades the order-dependent stored fingerprint without invoking the provider', async () => {
+    const legacy = buildF6R1ProofReceiptBackfill('2026-09-15T21:40:00.000Z')!;
+    legacy.configuration = Object.fromEntries(
+      Object.entries(legacy.configuration).sort(([left], [right]) => left.localeCompare(right)),
+    ) as unknown as SolStructuredOutputProofConfiguration;
+    legacy.configurationFingerprint = '3571995a08e5ae4b9c13b3c06e26e171430b9a3ce52adfc58bafe19b78636aac';
+    let stored = structuredClone(legacy);
+    const save = vi.fn(async (receipt: SolStructuredOutputProofReceipt) => {
+      stored = structuredClone(receipt);
+    });
+    const provider = vi.fn();
+    setSolDesignBenchExecutorForTests(provider as never);
+    setSolStructuredOutputProofReceiptStoreForTests({
+      load: async () => structuredClone(stored),
+      save,
+    });
+
+    const upgraded = await loadOrBackfillSolStructuredOutputProofReceipt();
+    expect(upgraded?.structuredOutputPipelineProofPassed).toBe(true);
+    expect(upgraded?.configurationFingerprint)
+      .toBe(fingerprintSolStructuredOutputProofConfiguration(upgraded!.configuration));
+    expect(upgraded?.configurationFingerprint).not.toBe(legacy.configurationFingerprint);
+    expect(save).toHaveBeenCalledOnce();
+    expect(provider).not.toHaveBeenCalled();
+
+    const reused = await loadOrBackfillSolStructuredOutputProofReceipt();
+    expect(reused?.configurationFingerprint).toBe(upgraded?.configurationFingerprint);
+    expect(save).toHaveBeenCalledOnce();
+    expect(provider).not.toHaveBeenCalled();
+  });
+
   it('persists one backfill and reuses it after process-local Sol state resets', async () => {
     let stored: SolStructuredOutputProofReceipt | null = null;
     let writes = 0;

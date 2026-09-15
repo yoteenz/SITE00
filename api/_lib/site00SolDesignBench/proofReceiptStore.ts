@@ -50,7 +50,19 @@ export function getCurrentSolStructuredOutputProofConfiguration(): SolStructured
 export function fingerprintSolStructuredOutputProofConfiguration(
   configuration: SolStructuredOutputProofConfiguration,
 ): string {
-  return createHash('sha256').update(JSON.stringify(configuration)).digest('hex');
+  return createHash('sha256').update(stableSerialize(configuration)).digest('hex');
+}
+
+function stableSerialize(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => stableSerialize(item)).join(',')}]`;
+  }
+  if (value && typeof value === 'object') {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record).sort().map((key) =>
+      `${JSON.stringify(key)}:${stableSerialize(record[key])}`).join(',')}}`;
+  }
+  return JSON.stringify(value) ?? 'null';
 }
 
 const EXPECTED_F6_CONFIGURATION: SolStructuredOutputProofConfiguration = {
@@ -67,6 +79,10 @@ const EXPECTED_F6_CONFIGURATION: SolStructuredOutputProofConfiguration = {
   maxOutputTokens: 32_000,
 };
 
+const LEGACY_ORDER_DEPENDENT_F6_FINGERPRINT = createHash('sha256')
+  .update(JSON.stringify(EXPECTED_F6_CONFIGURATION))
+  .digest('hex');
+
 function isExpectedF6Configuration(configuration: SolStructuredOutputProofConfiguration): boolean {
   return fingerprintSolStructuredOutputProofConfiguration(configuration) ===
     fingerprintSolStructuredOutputProofConfiguration(EXPECTED_F6_CONFIGURATION);
@@ -79,10 +95,13 @@ function isSafeNestedOnlyF6R1Receipt(value: unknown): value is SolStructuredOutp
   const large = receipt.largeOutputStress as Partial<SolStructuredOutputProofEvidence> | null;
   if (!receipt.configuration || typeof receipt.configuration !== 'object') return false;
   const expectedFingerprint = fingerprintSolStructuredOutputProofConfiguration(EXPECTED_F6_CONFIGURATION);
+  const storedFingerprintIsRecognized =
+    receipt.configurationFingerprint === expectedFingerprint ||
+    receipt.configurationFingerprint === LEGACY_ORDER_DEPENDENT_F6_FINGERPRINT;
   return receipt.receiptType === 'SolStructuredOutputProofReceipt' &&
     receipt.receiptVersion === 1 &&
     receipt.provenance === 'F6R1_VERIFIED_EVIDENCE_BACKFILL' &&
-    receipt.configurationFingerprint === expectedFingerprint &&
+    storedFingerprintIsRecognized &&
     fingerprintSolStructuredOutputProofConfiguration(receipt.configuration) === expectedFingerprint &&
     tiny?.runId === 'sol_bb016b79-7f63-47d7-8679-d4f3ec96a668' &&
     tiny.apiBuild === '4b803623dcf9f9768d12530087fe017f19388947' &&
