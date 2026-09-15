@@ -8,6 +8,8 @@ import {
   syncFounderMobileTwinSession,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 import { requestMobileTwinFal } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/requestMobileTwinFal.js';
+import { runFounderMobileTwinPackageEscalation } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/runFounderMobileTwinPackageEscalation.js';
+import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { DesignPageV3MobileTwinBuildRouteBlock } from './DesignPageV3MobileTwinBuildRouteBlock.js';
 
 type Props = {
@@ -66,6 +68,23 @@ export function DesignPageV3MobileTwinFounderActionsStrip({ session, projectId, 
     setMsg('Restored from browser backup — check PACKAGE tab or BUILD below.');
   };
 
+  const runEscalation = () => {
+    if (busy) return;
+    setBusy(true);
+    setErr(null);
+    setMsg('Building founder package from your canonical blueprint JPG and compiling twin route…');
+    const working = normalizeFounderNbpPromotionOnLoad(syncFounderMobileTwinSession(session, projectId));
+    void runFounderMobileTwinPackageEscalation({ session: working })
+      .then(({ session: next, message }) => {
+        onSessionUpdate(next);
+        setMsg(message);
+      })
+      .catch((e: Error) => setErr(e.message))
+      .finally(() => setBusy(false));
+  };
+
+  const showEscalation = projectId.toLowerCase() === DESIGN_PAGE_V3_PILOT_PROJECT_ID;
+
   return (
     <section
       className="site00-dw-v3-mobile-twin-founder-actions"
@@ -79,6 +98,24 @@ export function DesignPageV3MobileTwinFounderActionsStrip({ session, projectId, 
           FAL {view.falJobs} · packages {view.packageCount} · NBP {view.providerLocked ? 'LOCKED' : 'NOT LOCKED'}
         </span>
       </header>
+
+      {showEscalation ?
+        <>
+          <p className="site00-dw-v3-authority__hint" data-testid="v3-founder-escalation-copy">
+            Escalation: approve a package built from your bundled light blueprint JPG, then rebuild the twin route on
+            this device (no FAL).
+          </p>
+          <button
+            type="button"
+            className="site00-dw-v3-mobile-twin-founder-actions__primary"
+            data-testid="v3-founder-escalate-package-rebuild-twin"
+            disabled={busy}
+            onClick={runEscalation}
+          >
+            USE FOUNDER BLUEPRINT · BUILD PACKAGE · REBUILD TWIN
+          </button>
+        </>
+      : null}
 
       {view.showRestore ?
         <>

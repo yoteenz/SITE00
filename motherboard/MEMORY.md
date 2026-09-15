@@ -9207,6 +9207,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — Founder package escalation + twin rebuild (v462)
+
+- **Founder:** Escalate — use supplied light blueprint JPG to **create approved package** and **rebuild twin route** (display/sync still not enough on mobile).
+- **Delivered:** **`escalateFounderMobileTwinPackageFromCanonicalAssets`** (canonical Actual JPG + light blueprint → structured package → **`approveMobileTwinPackage`** with **`founderStubOverride`**); **`runFounderMobileTwinPackageEscalation`** persists LS + compile cache; purple strip button **USE FOUNDER BLUEPRINT · BUILD PACKAGE · REBUILD TWIN**. Build **v462**. Test **`p0vrTwinV30FounderPackageEscalation.test.ts`**.
+
+---
+
 ## 2026-09-15 — NDXBOOK founder blueprint display pin (v461)
 
 - **Symptom:** Mobile Design still showed dark FAL blueprint; founder JPG not used after v460.
