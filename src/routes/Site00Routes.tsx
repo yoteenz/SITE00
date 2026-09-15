@@ -1141,11 +1141,9 @@ export function Site00Routes() {
         path={SITE00_ROUTES.projectDesignTwinTestB}
         element={
           <Site00Layout>
-            <Site00AccountRouteGuard>
-              <Site00Suspense>
-                <SolDesignBenchmarkPage />
-              </Site00Suspense>
-            </Site00AccountRouteGuard>
+            <Site00Suspense>
+              <SolDesignBenchmarkPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />
