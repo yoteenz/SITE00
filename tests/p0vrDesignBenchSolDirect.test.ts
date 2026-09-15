@@ -31,6 +31,8 @@ describe('P0.VR.DESIGNBENCH.SOL-DIRECT1', () => {
     expect(cssSource).toContain('grid-template-columns: 109px 115px 115px 116px 117px');
     expect(pageSource).toContain('POSITION MAP');
     expect(pageSource).toContain('F06_VERIFICATION');
+    expect(pageSource).toContain('warn={i === 3}');
+    expect(cssSource).toContain('.sol-review-art.functions { padding: 5px 6px; border: 1px solid #999;');
   });
 
   it('does not rasterize the supplied golden reference', () => {

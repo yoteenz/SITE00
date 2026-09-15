@@ -236,7 +236,7 @@ function Readiness() {
       <header>PIPELINE / READINESS</header>
       <div className="sol-ready-grid">
         <div className="sol-score"><small>READINESS</small><div><b>82%</b></div><span>READY</span><footer>COMPILES: READY <i /></footer></div>
-        <div className="sol-checks"><small>CHECKS</small>{['LAYOUT SYSTEM','TYPE SCALE','ASSET LINKS','POSITION MAP','ACCESSIBILITY'].map((x, i)=><p key={x}>{x}<CheckDot warn={i === 4} /></p>)}<button>VIEW DETAILS</button></div>
+        <div className="sol-checks"><small>CHECKS</small>{['LAYOUT SYSTEM','TYPE SCALE','ASSET LINKS','POSITION MAP','ACCESSIBILITY'].map((x, i)=><p key={x}>{x}<CheckDot warn={i === 3} /></p>)}<button>VIEW DETAILS</button></div>
         <div className="sol-status"><small>STATUS</small><p>APPROVED ELEMENTS <b>18</b></p><p>PENDING DECISIONS <b>2</b></p><p>BLOCKERS <b>0</b></p><p>WARNINGS <b>1</b></p></div>
         <div className="sol-next"><small>NEXT ACTION</small><strong>PROMOTE MOBILE MASTER<br />TO AUTHORITY PAIR</strong><button className="sol-lime">PRIMARY ACTION</button><button>MOVE TO BUILD WHEN READY</button><button>VIEW TECHNICAL DETAILS</button></div>
       </div>
