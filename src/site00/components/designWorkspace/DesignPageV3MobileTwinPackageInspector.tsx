@@ -12,6 +12,7 @@ import { shouldShowBuildTwinDesignRoute } from '../../../../shared/site00-studio
 import { DesignPageV3MobileTwinBuildRouteBlock } from './DesignPageV3MobileTwinBuildRouteBlock.js';
 import { DesignPageV3MobileTwinFounderActionsStrip } from './DesignPageV3MobileTwinFounderActionsStrip.js';
 import { PACKAGE_ARTIFACT_MISSING } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinPackageIntegrityReceipt.js';
+import { resolveMobileTwinBlueprintDisplayUri } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/resolveMobileTwinBlueprintDisplayUri.js';
 
 type Props = {
   session: DesignPageAuthorityReviewSession;
@@ -113,7 +114,7 @@ export function DesignPageV3MobileTwinPackageInspector({ session, projectId, onS
             const src =
               label === 'REFERENCE' ? ref?.sourceImageUri
               : label === 'ACTUAL PAGE' ? actual?.renderImageUri
-              : bp?.twinImageUri;
+              : resolveMobileTwinBlueprintDisplayUri(projectId, bp ?? null);
             return (
               <article key={label} className="site00-dw-v3-mobile-twin-package-inspector__card">
                 <h4>{label}</h4>

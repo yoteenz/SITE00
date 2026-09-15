@@ -10,6 +10,7 @@ import { writeMobileTwinPipelineToBrowser } from './mobileTwinPipelinePersistenc
 import { hydrateMobileTwinReviewState } from './hydrateMobileTwinReviewState.js';
 import type { MobileTwinFalAction } from './runMobileTwinFalPipeline.js';
 import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
+import { applyFounderCanonicalLightBlueprintMount } from './ndxbookLightBlueprintMount.js';
 
 export async function requestMobileTwinFal(input: {
   session: DesignPageAuthorityReviewSession;
@@ -75,7 +76,9 @@ export async function requestMobileTwinFal(input: {
   if (data.mobileTwinPipeline) {
     const merged = mergeMobileTwinFalApiResponse(sessionForApi, data.mobileTwinPipeline, data.updatedAt);
     if (merged.mobileTwinPipeline) {
-      merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
+      let pipe = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
+      pipe = applyFounderCanonicalLightBlueprintMount(pipe, merged.projectId);
+      merged.mobileTwinPipeline = pipe;
       writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
       writeMobileTwinAuthorityImageSnapshot(merged.projectId, merged.mobileTwinPipeline);
     }
@@ -88,7 +91,9 @@ export async function requestMobileTwinFal(input: {
       data.session.updatedAt,
     );
     if (merged.mobileTwinPipeline) {
-      merged.mobileTwinPipeline = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
+      let pipe = hydrateMobileTwinReviewState(merged.mobileTwinPipeline);
+      pipe = applyFounderCanonicalLightBlueprintMount(pipe, merged.projectId);
+      merged.mobileTwinPipeline = pipe;
       writeMobileTwinPipelineToBrowser(merged.projectId, merged.mobileTwinPipeline);
       writeMobileTwinAuthorityImageSnapshot(merged.projectId, merged.mobileTwinPipeline);
     }

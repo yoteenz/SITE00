@@ -175,6 +175,8 @@ export type MobileBlueprintTwinVisual = {
   implementationRenderId: string;
   twinImageUri: string;
   twinImageHash: string;
+  /** Original FAL URL when twinImageUri pinned to founder canonical mount (NDXBOOK). */
+  providerTwinImageUri?: string | null;
   provider: 'FAL' | 'LOCAL_COMPILER';
   providerJobRef: string;
   structuralSource?: 'FROZEN_COMPOSITION_STATE' | 'ACTUAL_RENDER_PIXELS';

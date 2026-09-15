@@ -15,6 +15,7 @@ import {
   type BlueprintVisualStyleReceipt,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/blueprintVisualStyleContract.js';
 import { resolveMobileTwinReviewSlots } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/hydrateMobileTwinReviewState.js';
+import { resolveMobileTwinBlueprintDisplayUri } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/resolveMobileTwinBlueprintDisplayUri.js';
 import { evaluateBlueprintLightStyleRetryFromPipeline } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/evaluateBlueprintLightStyleRetry.js';
 import { LOCKED_MOBILE_STRATEGY_STATUS } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/mobileTwinProviderPromotionTypes.js';
 import { DesignPageV3MobileTwinPackageInspector } from './DesignPageV3MobileTwinPackageInspector.js';
@@ -105,7 +106,8 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
   const comparePanels = useMemo(() => {
     const refSrc = ref ? resolveImageSrc(ref.sourceImageUri) : null;
     const renderSrc = render ? resolveImageSrc(render.renderImageUri) : null;
-    const twinSrc = twin ? resolveImageSrc(twin.twinImageUri) : null;
+    const twinDisplayUri = resolveMobileTwinBlueprintDisplayUri(session.projectId, twin);
+    const twinSrc = twinDisplayUri ? resolveImageSrc(twinDisplayUri) : null;
     if (viewMode === 'FULLSCREEN_REFERENCE') {
       return [{ label: 'DESIGN REFERENCE', src: refSrc, testId: 'v3-r7m-compare-reference' }];
     }
@@ -132,7 +134,7 @@ export function DesignPageV3MobileTwinPipelinePanel({ session, onSessionUpdate }
       { label: 'ACTUAL PAGE', src: renderSrc, testId: 'v3-r7m-compare-render' },
       { label: `BLUEPRINT TWIN · ${blueprintStyleLabel}`, src: twinSrc, testId: 'v3-r7m-compare-blueprint' },
     ];
-  }, [blueprintStyleLabel, compareMode, ref, render, twin, viewMode]);
+  }, [blueprintStyleLabel, compareMode, ref, render, session.projectId, twin, viewMode]);
 
   const runFal = (action: Parameters<typeof requestMobileTwinFal>[0]['action'], refineNotes?: string[]) => {
     setBusy(true);
