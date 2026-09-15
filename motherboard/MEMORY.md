@@ -9317,3 +9317,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`p0vrTwinV30R8M2R1`** — sharp-backed byte ingestion for founder mounts (remote/mock URIs resolve to `/assets/ndxbook-reconstruction/*` at compile only); composition-anchored pixel analysis (**`SITE00_PIXEL_GROUNDED_COMPOSITION_ANCHORED`**); production compile **`mobile-twin-impl-v3-expression`** / **`R8M2R1`**; fail-closed on **`IMPLEMENTATION_EXPRESSION_READINESS_BLOCKED`**. Build **v466**. Tests **`p0vrTwinV30R8M2R1.test.ts`** + updated R8M/R8M1/R8M2 suites.
 - **Founder ops:** Deploy **v466** ZIP; **`/projects/ndxbook/design/twin`** recompiles from expression IR; inspect **IMPLEMENTATION EXPRESSION** under twin review panel. No Design route promotion; desktop deferred.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2R2 Implementation Translation Brief + coding prompt (v467)
+
+- **Sprint:** R8M2R2 — written **`ImplementationTranslationBrief`** + compiler-facing **`VisualImplementationCodingPrompt`** between visual analysis and expression IR; refine IR from brief; inject prompt into **`compileApprovedMobileTwinPackage`**; readiness + fidelity receipts; twin **IMPLEMENTATION TRANSLATION** inspector; prompt traceability; **`mobile-twin-impl-v4-translation-brief`** / **`R8M2R2`** production path; R8M2R1 caches force recompile.
+- **Delivered:** **`p0vrTwinV30R8M2R2`** module; **`DesignTwinImplementationTranslationInspector`**; updated fidelity + autobuild version pins. Build **v467**. Tests **`p0vrTwinV30R8M2R2.test.ts`** + updated R8M/R8M1/R8M2/R8M2R1 suites. Cloud browser QA: twin route loads **`MOBILE-TWIN-IMPL-V4-TRANSLATION-BRIEF`**, translation inspector expanded.
+- **Founder ops:** Deploy **v467** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; expand **IMPLEMENTATION TRANSLATION** to debug drift vs Actual. Design route untouched; desktop deferred.
+
