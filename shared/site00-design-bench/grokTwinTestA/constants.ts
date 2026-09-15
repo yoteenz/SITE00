@@ -1,6 +1,6 @@
 /** P0.VR.DESIGNBENCH.GROK1 — isolated Grok visual translation lab. */
 
-export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v487' as const;
+export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v488' as const;
 export const P0_VR_DESIGNBENCH_GROK1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F2_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F2' as const;

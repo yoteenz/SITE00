@@ -16,15 +16,34 @@ function storage(): Storage | null {
   }
 }
 
+function forStorage(run: GrokDesignBenchRun): GrokDesignBenchRun {
+  if (!run.reference?.imageUrl?.startsWith('data:')) return run;
+  return {
+    ...run,
+    reference: {
+      ...run.reference,
+      imageUrl: '',
+    },
+  };
+}
+
+function writeJson(ls: Storage, key: string, value: unknown): void {
+  try {
+    ls.setItem(key, JSON.stringify(value));
+  } catch {
+    /* quota / private mode — never crash boot */
+  }
+}
+
 export function persistGrokTwinTestARun(run: GrokDesignBenchRun): void {
   const ls = storage();
   if (!ls) return;
   if (isForbiddenTwinTestAStorageKey(GROK_TWIN_TEST_A_STORAGE_KEY)) return;
-  ls.setItem(GROK_TWIN_TEST_A_STORAGE_KEY, JSON.stringify(run));
+  writeJson(ls, GROK_TWIN_TEST_A_STORAGE_KEY, forStorage(run));
   if (run.stage === 'COMPLETE' && run.timing.totalDurationMs && run.timing.totalDurationMs > 0 && run.timing.totalDurationMs < 10 * 60 * 1000) {
     const history = readGrokTwinTestADurationHistory();
     history.push(run.timing.totalDurationMs);
-    ls.setItem(GROK_TWIN_TEST_A_HISTORY_KEY, JSON.stringify(history.slice(-12)));
+    writeJson(ls, GROK_TWIN_TEST_A_HISTORY_KEY, history.slice(-12));
   }
   if (
     (run.timing.totalDurationMs ?? 0) >= 10 * 60 * 1000 ||
@@ -74,7 +93,7 @@ export function archiveGrokTwinTestAIncident(run: GrokDesignBenchRun): void {
   if (!ls || isForbiddenTwinTestAStorageKey(GROK_TWIN_TEST_A_INCIDENT_KEY)) return;
   const prev = readGrokTwinTestAIncidents();
   if (prev.some((item) => item.runId === run.runId)) return;
-  ls.setItem(GROK_TWIN_TEST_A_INCIDENT_KEY, JSON.stringify([run, ...prev].slice(0, 20)));
+  writeJson(ls, GROK_TWIN_TEST_A_INCIDENT_KEY, [forStorage(run), ...prev].slice(0, 20));
 }
 
 export function markGrokTwinTestAServerLost(run: GrokDesignBenchRun): GrokDesignBenchRun {
