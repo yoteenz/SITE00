@@ -1,5 +1,4 @@
 import { createHash, randomUUID } from 'node:crypto';
-import { appendFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -19,7 +18,6 @@ import {
 } from '../../../shared/site00-sol-design-bench/contracts.js';
 import {
   SolDesignBenchModelContract,
-  SolDesignBenchPriorProofAttestation,
   type SolDesignBenchProviderReadinessReceipt,
   type SolStructuredOutputProofReceipt,
 } from '../../../shared/site00-sol-design-bench/modelContract.js';
@@ -134,10 +132,6 @@ function historyPath(): string {
   return join(ROOT, 'history.json');
 }
 
-function structuredOutputProofPath(): string {
-  return join(ROOT, 'structured-output-proof.json');
-}
-
 interface StructuredOutputProofState {
   tinyLiveSchemaSmokePassed: boolean;
   largeOutputStressPassed: boolean;
@@ -155,51 +149,20 @@ async function readStructuredOutputProof(): Promise<StructuredOutputProofState> 
       persistence: 'TEST_OVERRIDE',
     };
   }
-  const legacyProof = await readLegacyStructuredOutputProofForAgentInstrumentation();
   try {
     const receipt = await loadOrBackfillSolStructuredOutputProofReceipt();
-    // #region agent log
-    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:durable', message: 'Loaded authoritative durable Sol proof receipt', data: { receiptFound: Boolean(receipt), configurationFingerprint: receipt?.configurationFingerprint ?? null, provenance: receipt?.provenance ?? null, pipelinePassed: receipt?.structuredOutputPipelineProofPassed ?? false, legacyTiny: legacyProof.tinyLiveSchemaSmokePassed, legacyLarge: legacyProof.largeOutputStressPassed }, timestamp: Date.now() })}\n`);
-    // #endregion
     return {
       tinyLiveSchemaSmokePassed: Boolean(receipt?.tinyLiveSchemaSmoke?.passed),
       largeOutputStressPassed: Boolean(receipt?.largeOutputStress?.passed),
       receipt,
       persistence: 'SUPABASE',
     };
-  } catch (error) {
-    // #region agent log
-    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:unavailable', message: 'Durable Sol proof receipt unavailable', data: { errorName: error instanceof Error ? error.name : 'UNKNOWN', legacyTiny: legacyProof.tinyLiveSchemaSmokePassed, legacyLarge: legacyProof.largeOutputStressPassed }, timestamp: Date.now() })}\n`);
-    // #endregion
+  } catch {
     return {
       tinyLiveSchemaSmokePassed: false,
       largeOutputStressPassed: false,
       receipt: null,
       persistence: 'UNAVAILABLE',
-    };
-  }
-}
-
-async function readLegacyStructuredOutputProofForAgentInstrumentation(): Promise<Pick<
-  StructuredOutputProofState,
-  'tinyLiveSchemaSmokePassed' | 'largeOutputStressPassed'
->> {
-  // #region agent log
-  appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof', message: 'Reading Sol proof state', data: { path: structuredOutputProofPath(), configuredStoreDir: Boolean(process.env.SOL_DESIGN_BENCH_STORE_DIR?.trim()) }, timestamp: Date.now() })}\n`);
-  // #endregion
-  try {
-    const proof = JSON.parse(await readFile(structuredOutputProofPath(), 'utf8')) as StructuredOutputProofState;
-    // #region agent log
-    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:file', message: 'Loaded Sol proof file', data: { tiny: proof.tinyLiveSchemaSmokePassed, large: proof.largeOutputStressPassed, keys: Object.keys(proof).sort() }, timestamp: Date.now() })}\n`);
-    // #endregion
-    return proof;
-  } catch (error) {
-    // #region agent log
-    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,B', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:fallback', message: 'Sol proof file unavailable; using code fallback', data: { errorCode: error && typeof error === 'object' && 'code' in error ? String(error.code) : 'UNKNOWN', fallbackTiny: SolDesignBenchPriorProofAttestation.tinyLiveSchemaSmokePassed, fallbackLarge: false }, timestamp: Date.now() })}\n`);
-    // #endregion
-    return {
-      tinyLiveSchemaSmokePassed: SolDesignBenchPriorProofAttestation.tinyLiveSchemaSmokePassed,
-      largeOutputStressPassed: false,
     };
   }
 }
@@ -659,21 +622,12 @@ export async function readSolDesignBenchPreview(runId: string): Promise<Buffer> 
 
 export async function getSolDesignBenchRun(runId: string): Promise<SolDesignBenchRun | null> {
   const cached = runCache.get(runId);
-  // #region agent log
-  appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,D', location: 'api/_lib/site00SolDesignBench/service.ts:getSolDesignBenchRun', message: 'Looking up Sol run', data: { runId, cacheHit: Boolean(cached), path: runPath(runId) }, timestamp: Date.now() })}\n`);
-  // #endregion
   if (cached) return structuredClone(cached);
   try {
     const run = JSON.parse(await readFile(runPath(runId), 'utf8')) as SolDesignBenchRun;
     runCache.set(runId, run);
-    // #region agent log
-    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'D', location: 'api/_lib/site00SolDesignBench/service.ts:getSolDesignBenchRun:file', message: 'Loaded Sol run file', data: { runId, status: run.status, proofMode: run.proofMode, proofPassed: run.proofPassed }, timestamp: Date.now() })}\n`);
-    // #endregion
     return structuredClone(run);
-  } catch (error) {
-    // #region agent log
-    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,D', location: 'api/_lib/site00SolDesignBench/service.ts:getSolDesignBenchRun:miss', message: 'Sol run file unavailable', data: { runId, errorCode: error && typeof error === 'object' && 'code' in error ? String(error.code) : 'UNKNOWN' }, timestamp: Date.now() })}\n`);
-    // #endregion
+  } catch {
     return null;
   }
 }
