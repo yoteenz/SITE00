@@ -9433,6 +9433,32 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1 isolated Sol reference-to-Figma benchmark
+
+Summary of the **whole conversation so far** in this chat: founder requested an isolated Test B environment where GPT-5.6 Sol receives a golden screenshot only through the finished route, freezes it, performs asynchronous literal interface translation, and emits a visual Figma-style reconstruction plus complete implementation handoff without Composer or Grok.
+
+- **Context:** Build **`/projects/ndxbook/design/twin-testB`** as a clean Sol benchmark; do not inspect Test A/Grok or mutate existing Twin, Twin V4, or canonical Design routes.
+- **Topics covered:** Browser image validation and SHA256; immutable run-scoped authority; file-backed server job persistence; stage-derived progress/ETA; Sol-only multimodal provider adapter; visual artboard comparison; human-readable Figma specs, component inspector, tokens, assets, hierarchy, exact handoff, metrics, and failure preservation.
+- **Decisions / outcomes:** Added **`SolDesignBenchReferenceAuthority`**, **`SolDesignBenchEtaEstimator`**, **`FigmaStyleInterfaceTranslationPackage`**, and **`SolComposerImplementationHandoff`** contracts. Production requires server-only **`SOL_DESIGN_BENCH_API_KEY`** (or `OPENAI_API_KEY`) plus an endpoint/model serving **`gpt-5.6-sol`**; there is deliberately no alternate-model fallback. Missing credentials produce **`SOL_RUN_FAILED`** while preserving the reference and run timings.
+- **Changes:** New shared contracts, Sol provider/job service, **`/api/site00/sol-design-bench`**, Test B page/CSS/route, Express + Vite local API wiring, env placeholders, and focused tests. Existing Twin routes were not edited except adding the independent router entry.
+- **Verification:** Focused + current Twin regression suites passed (**30 tests**); typecheck and production build passed; live API returned `202 QUEUED` then preserved `FAILED / SOL_RUN_FAILED / SOL_PROVIDER_CREDENTIALS_MISSING`; browser QA confirmed upload, preview, MIME/bytes/dimensions/aspect/SHA256, REMOVE/REPLACE, and enabled START. Full provider completion awaits a deployed Sol credential/endpoint.
+- **Conventions:** Never label another vision model as Sol. Test B remains fail-closed on provider identity and never falls back, invokes Composer, or reads Grok result data.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F1 OpenAI GPT-5.6 Sol hard binding
+
+Summary of the **whole conversation so far** in this chat: founder first requested isolated Sol Test B reference-to-Figma infrastructure, then required a surgical provider correction so the benchmark proves exact OpenAI `gpt-5.6-sol` execution at high reasoning rather than accepting a generic Responses-compatible endpoint.
+
+- **Context:** Keep `/projects/ndxbook/design/twin-testB` and its fixed 14-deliverable translation package; hard-bind only its provider boundary; do not process the founder golden yet.
+- **Topics covered:** Explicit provider/model/reasoning contract, multimodal input receipt, dispatch receipt, prompt version/hash, no-web/no-tools/no-fallback policy, pre-run credential/reference readiness, exact founder-visible identity, and wrong-model fail-closed behavior.
+- **Decisions / outcomes:** **`SolDesignBenchModelContract`** is immutable: provider `openai`, endpoint `https://api.openai.com/v1/responses`, model `gpt-5.6-sol`, reasoning `high`, vision required, fallback/web/competitor access false. Only server-side `OPENAI_API_KEY` is accepted; environment model or endpoint overrides were removed. A response that reports any other model fails as **`GPT_5_6_SOL_PROVIDER_BINDING_FAILED`** with no retry/downgrade.
+- **Changes:** Added model/receipt contracts; exact request serializer (`reasoning.effort=high`, `tools=[]`, `tool_choice=none`, uploaded data URL as `input_image`); readiness gate before run creation; persisted input/dispatch/readiness/prompt receipts; API readiness payload; exact provider/model/reasoning/fallback/search UI and run metrics; F1 deterministic tests.
+- **Verification:** 35 focused/current-Twin tests passed; typecheck and production build passed; live readiness API reports OpenAI + exact model/high reasoning + blocked credential state; client source contains no key/header; browser QA used an empty reference state and processed no golden.
+- **Conventions:** Test B must never accept model aliases or provider-reported substitutions. Railway must provide `OPENAI_API_KEY`; until then START remains visibly blocked.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1 Grok twin-testA visual translation lab (v483)
 
 Summary of this chat: founder assigned **GROK** (not Composer) to build an isolated visual/Figma-style interface translation benchmark and later translate one golden image uploaded only through the page.

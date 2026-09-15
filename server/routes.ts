@@ -47,6 +47,7 @@ import site00TwinV3DesignPageAuthorityHandler from '../api/site00/twin-v3-design
 import site00TwinV3MobileTwinPipelineHandler from '../api/site00/twin-v3-mobile-twin-pipeline.js';
 import site00TwinV3MobileTwinImplementationHandler from '../api/site00/twin-v3-mobile-twin-implementation.js';
 import site00TwinV3ForensicUiBlueprintHandler from '../api/site00/twin-v3-forensic-ui-blueprint.js';
+import site00SolDesignBenchHandler from '../api/site00/sol-design-bench.js';
 import site00TwinTestADesignBenchHandler from '../api/site00/twin-test-a-design-bench.js';
 import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
@@ -99,6 +100,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/twin-v3-mobile-twin-pipeline', handler: site00TwinV3MobileTwinPipelineHandler },
   { path: '/api/site00/twin-v3-mobile-twin-implementation', handler: site00TwinV3MobileTwinImplementationHandler },
   { path: '/api/site00/twin-v3-forensic-ui-blueprint', handler: site00TwinV3ForensicUiBlueprintHandler },
+  { path: '/api/site00/sol-design-bench', handler: site00SolDesignBenchHandler },
   { path: '/api/site00/twin-test-a-design-bench', handler: site00TwinTestADesignBenchHandler },
   { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];
