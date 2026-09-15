@@ -9341,3 +9341,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Delivered:** **`p0vrTwinV30R8M2R4`** module; **`DesignTwinActualLiveCompareOverlay`**; build **v469**. Tests **`p0vrTwinV30R8M2R4.test.ts`** + updated R8M twin suites.
 - **Founder ops:** Deploy **v469** ZIP; twin route **COMPARE ACTUAL ↔ LIVE** (side-by-side, overlay, flicker); clear implementation cache if still on v5 td tree. Design route untouched; desktop deferred.
 
+---
+
+## 2026-09-15 — P0.VR.TWINV3.0R8M2R5 @Fal forensic UI blueprint + blueprint-driven twin (v470)
+
+- **Sprint:** R8M2R5 — generate **Forensic UI Blueprint** from approved Actual via **`fal-ai/nano-banana-2/edit`** (primary Actual, optional light blueprint secondary); structured **`ForensicImplementationSpec`** (object/section/typography/style/spacing/asset maps); production compile **`mobile-twin-impl-v7-forensic-blueprint`** / **`R8M2R5`** with fresh **`fb-*`** DOM/CSS (`site00-twin-fb`); real-browser fidelity gate (**`PLAYWRIGHT_DOM`**, rejects synthetic screenshot proof); ≥2 DOM correction iterations; twin review tabs **FORENSIC BLUEPRINT** + **Forensic Implementation** inspector; R8M2R4 caches force recompile.
+- **Delivered:** **`p0vrTwinV30R8M2R5`** module; browser-safe **`resolveForensicUiBlueprintAuthoritySync`** (FAL dispatch server/vitest-only); **`DesignTwinForensicBlueprintPanel`**, **`DesignTwinForensicImplementationInspector`**. Build **v470**. Tests **`p0vrTwinV30R8M2R5.test.ts`** + updated R8M twin suites.
+- **Founder ops:** Deploy **v470** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; review **FORENSIC BLUEPRINT** tab alongside Actual + LIVE. Production FAL blueprint generation runs server-side with **`FAL_KEY`** (browser autobuild uses local stub pending founder blueprint review). Design route untouched; desktop deferred.
+

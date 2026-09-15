@@ -4,7 +4,8 @@ import { SITE00_ROUTES } from '../config/routes.js';
 import { MobileTwinCompiledImplementationRenderer } from '../components/designWorkspace/MobileTwinCompiledImplementationRenderer.js';
 import { DesignTwinImplementationReviewPanel } from '../components/designWorkspace/DesignTwinImplementationReviewPanel.js';
 import { resolveTwinImplementationPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
-import { P0_VR_TWIN_V30R8M2R4_LINEAGE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R4/constants.js';
+import { P0_VR_TWIN_V30R8M2R5_LINEAGE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
+import { DesignTwinForensicBlueprintPanel } from '../components/designWorkspace/DesignTwinForensicBlueprintPanel.js';
 import { DesignTwinActualLiveCompareOverlay } from '../components/designWorkspace/DesignTwinActualLiveCompareOverlay.js';
 import '../styles/site00-twin-v3-design-authority.css';
 
@@ -15,7 +16,9 @@ export function DesignTwinImplementationPage() {
   const [notice, setNotice] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loaded, setLoaded] = useState<Awaited<ReturnType<typeof resolveTwinImplementationPreview>> | null>(null);
-  const [reviewMode, setReviewMode] = useState<'LIVE' | 'ACTUAL' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE'>('LIVE');
+  const [reviewMode, setReviewMode] = useState<
+    'LIVE' | 'ACTUAL' | 'FORENSIC_BLUEPRINT' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE'
+  >('LIVE');
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -51,7 +54,7 @@ export function DesignTwinImplementationPage() {
 
   if (loading) {
     return (
-      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R4_LINEAGE}>
+      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}>
         {header}
         <p>Loading twin implementation…</p>
       </div>
@@ -60,7 +63,7 @@ export function DesignTwinImplementationPage() {
 
   if (!loaded) {
     return (
-      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R4_LINEAGE}>
+      <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}>
         {header}
         <p data-testid="twin-implementation-gate">{err ?? 'TWIN_IMPLEMENTATION_NOT_BUILT'}</p>
         <p className="site00-dw-v3-authority__hint">
@@ -74,7 +77,7 @@ export function DesignTwinImplementationPage() {
   const serverBacked = loaded.source === 'API';
 
   return (
-    <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R4_LINEAGE}>
+    <div className="site00-page site00-page--twin-implementation" data-lineage={P0_VR_TWIN_V30R8M2R5_LINEAGE}>
       {header}
       {notice ?
         <p className="site00-dw-v3-authority__hint" data-testid="twin-implementation-notice" role="status">
@@ -93,7 +96,9 @@ export function DesignTwinImplementationPage() {
         implementationDocument={loaded.document}
         onUpdated={() => void reload()}
       />
-      {reviewMode === 'COMPARE_ACTUAL' ?
+      {reviewMode === 'FORENSIC_BLUEPRINT' ?
+        <DesignTwinForensicBlueprintPanel document={loaded.document} />
+      : reviewMode === 'COMPARE_ACTUAL' ?
         <DesignTwinActualLiveCompareOverlay
           document={loaded.document}
           actualAuthorityUri={loaded.document.authoritiesLoaded?.actualRenderUri}

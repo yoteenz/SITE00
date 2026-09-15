@@ -21,11 +21,11 @@ import {
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/constants.js';
 import { R8M2_CORRECTION_REQUIRED_REASON } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R1/constants.js';
 import {
-  MOBILE_TWIN_IMPLEMENTATION_VERSION_ACTUAL_FIRST,
-  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4,
-  P0_VR_TWIN_V30R8M2R4_LINEAGE,
-  R8M2R3_CORRECTION_REQUIRED_REASON,
-} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R4/constants.js';
+  MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT,
+  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R5,
+  P0_VR_TWIN_V30R8M2R5_LINEAGE,
+  R8M2R4_CORRECTION_REQUIRED_REASON,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
 import { compileVisualMobileTwinImplementationR8M2R1 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R1/compileVisualMobileTwinImplementationR8M2R1.js';
 import {
   assertRuntimeImageSourceAllowed,
@@ -60,9 +60,9 @@ describe('P0.VR.TWINV3.0R8M2 fidelity convergence', () => {
     expect(documentRequiresR8M2Recompile(r8m1)).toBe(true);
     const doc = founderApprovedDoc();
     expect(doc.priorBuildCorrection?.status).toBe('CORRECTION_REQUIRED');
-    expect(doc.priorBuildCorrection?.reason).toBe(R8M2R3_CORRECTION_REQUIRED_REASON);
-    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_ACTUAL_FIRST);
-    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4);
+    expect(doc.priorBuildCorrection?.reason).toBe(R8M2R4_CORRECTION_REQUIRED_REASON);
+    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT);
+    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R5);
     const r8m2r1 = compileVisualMobileTwinImplementationR8M2R1({
       pipeline: session.mobileTwinPipeline!,
       packageId: session.mobileTwinPipeline!.latestPackageId!,
@@ -130,7 +130,7 @@ describe('P0.VR.TWINV3.0R8M2 fidelity convergence', () => {
 
   it('23–25 live route artifacts + screenshot comparison hooks', () => {
     const page = readFileSync('src/site00/pages/DesignTwinImplementationPage.tsx', 'utf8');
-    expect(page).toContain('P0_VR_TWIN_V30R8M2R4_LINEAGE');
+    expect(page).toContain('P0_VR_TWIN_V30R8M2R5_LINEAGE');
     expect(readFileSync('tests/p0vrTwinV30R8M2.test.ts', 'utf8')).toContain('LIVE_BROWSER_QA');
   });
 
