@@ -1,5 +1,8 @@
 /** Founder manual override unlock for Method A + benchmark path. */
-export const P0_VR_TWIN_V30_BUILD = 'v463' as const;
+export const P0_VR_TWIN_V30_BUILD = 'v464' as const;
+
+/** NDXBOOK: auto materialize founder package + twin cache; hide manual founder gate UI (temporary). */
+export const MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 = true as const;
 
 /** Bump when client must one-time reset persisted gallery (independent of buildRef). */
 export const AUTHORITY_GALLERY_RECOVERY_EPOCH = 2 as const;

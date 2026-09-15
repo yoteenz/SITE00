@@ -11,6 +11,8 @@ import {
   MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT,
 } from './implementationApiAvailability.js';
 import type { CompiledMobileTwinImplementationDocument } from './types.js';
+import { ensureNdxbookTwinImplementationReady } from './ensureNdxbookTwinAutobuild.js';
+import { DESIGN_PAGE_V3_PILOT_PROJECT_ID, MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 } from '../p0vrTwinV30/constants.js';
 
 export type TwinImplementationPreviewLoad = {
   source: 'API' | 'LOCAL_CACHE' | 'LOCAL_COMPILE';
@@ -69,6 +71,10 @@ function fromApiState(state: {
 
 export async function resolveTwinImplementationPreview(projectId: string): Promise<TwinImplementationPreviewLoad> {
   const key = projectId.toLowerCase();
+
+  if (MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 && key === DESIGN_PAGE_V3_PILOT_PROJECT_ID) {
+    await ensureNdxbookTwinImplementationReady(key);
+  }
 
   try {
     const state = (await fetchMobileTwinImplementationState(key)) as Parameters<typeof fromApiState>[0] | null;
@@ -134,8 +140,17 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
         }
       }
       if (msg.includes('SCHEMA_MISSING')) {
+        await ensureNdxbookTwinImplementationReady(key);
+        const retryCache = readTwinImplementationCache(key);
+        const retryLoad = retryCache ? fromCache(retryCache) : null;
+        if (retryLoad) {
+          return {
+            ...retryLoad,
+            notice: `${MOBILE_TWIN_SCHEMA_MISSING_FOUNDER_HINT} Twin autobuilt from founder blueprint on this device.`,
+          };
+        }
         throw new Error(
-          `${msg} No approved package found in this browser (design session + mobile-twin storage). Open Design on this device, RESTORE backup if needed, approve package, REBUILD, then reopen twin. Ops: apply Supabase migration 20260914193000_site00_mobile_twin_implementation_r8m.sql.`,
+          `${msg} Twin autobuild could not produce a package on this device. Ops: apply Supabase migration 20260914193000_site00_mobile_twin_implementation_r8m.sql.`,
         );
       }
       throw new Error(
@@ -150,9 +165,21 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
   const cachedLoad = cached ? fromCache(cached) : null;
   if (cachedLoad) return cachedLoad;
 
+  if (MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 && key === DESIGN_PAGE_V3_PILOT_PROJECT_ID) {
+    await ensureNdxbookTwinImplementationReady(key);
+    const retry = readTwinImplementationCache(key);
+    const retryLoad = retry ? fromCache(retry) : null;
+    if (retryLoad) {
+      return {
+        ...retryLoad,
+        notice: 'Twin implementation autobuilt from founder canonical blueprint (manual gates disabled).',
+      };
+    }
+  }
+
   const session = readDesignPageAuthoritySession(key);
   if (session && isMobileTwinPackageApprovalConfirmed(session)) {
-    throw new Error('TWIN_IMPLEMENTATION_NOT_BUILT — return to Design and tap BUILD TWIN DESIGN ROUTE.');
+    throw new Error('TWIN_IMPLEMENTATION_NOT_BUILT');
   }
   throw new Error('NO_APPROVED_MOBILE_TWIN_PACKAGE');
 }

@@ -2,6 +2,9 @@ import type { CompiledMobileTwinImplementationDocument } from './types.js';
 
 const STORAGE_KEY = 'site00:mobile-twin-implementation-cache:v1';
 
+/** When localStorage is unavailable (tests / rare embed), twin preview still works for the session. */
+const memoryStore: Record<string, TwinImplementationCacheEntry> = {};
+
 export type TwinImplementationCacheEntry = {
   projectId: string;
   buildId: string;
@@ -14,24 +17,27 @@ export type TwinImplementationCacheEntry = {
 };
 
 function readStore(): Record<string, TwinImplementationCacheEntry> {
-  if (typeof localStorage === 'undefined') return {};
+  if (typeof localStorage === 'undefined') return { ...memoryStore };
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as Record<string, TwinImplementationCacheEntry>) : {};
+    const parsed = raw ? (JSON.parse(raw) as Record<string, TwinImplementationCacheEntry>) : {};
+    return { ...memoryStore, ...parsed };
   } catch {
-    return {};
+    return { ...memoryStore };
   }
 }
 
 export function writeTwinImplementationCache(entry: TwinImplementationCacheEntry): boolean {
-  if (typeof localStorage === 'undefined') return false;
+  const key = entry.projectId.toLowerCase();
+  memoryStore[key] = entry;
+  if (typeof localStorage === 'undefined') return true;
   try {
     const parsed = readStore();
-    parsed[entry.projectId.toLowerCase()] = entry;
+    parsed[key] = entry;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
     return true;
   } catch {
-    return false;
+    return true;
   }
 }
 

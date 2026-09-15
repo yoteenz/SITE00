@@ -27,31 +27,28 @@ describe('Mobile twin founder actions strip', () => {
       'src/site00/components/designWorkspace/DesignPageV3MobileTwinGlobalRecoveryStrip.tsx',
       'utf8',
     );
-    expect(globalRecovery).toContain('v3-founder-escalate-package-rebuild-twin-global');
+    expect(globalRecovery).toContain('MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1');
     expect(inspector).toContain('DesignPageV3MobileTwinFounderActionsStrip');
   });
 
-  it('shows GENERATE when NDXBOOK has reference but empty pipeline', () => {
+  it('hides founder strip when NDXBOOK autobuild gates are open', () => {
     let session = applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession({ projectId: 'ndxbook' }));
     session = ensureMobileDesignReferenceAuthority({
       ...session,
       mobileTwinPipeline: emptyMobileTwinPipelineState(),
     });
-    expect(shouldShowMobileTwinFounderActionsStrip(session, 'ndxbook')).toBe(true);
+    expect(shouldShowMobileTwinFounderActionsStrip(session, 'ndxbook')).toBe(false);
     const view = evaluateMobileTwinFounderActionsStrip(session, 'ndxbook');
-    expect(view.showStrip).toBe(true);
-    expect(view.showGenerate).toBe(true);
-    expect(view.showEmptyBackupMessage).toBe(true);
-    expect(view.canGenerate).toBe(true);
+    expect(view.showStrip).toBe(false);
   });
 
-  it('shows RESTORE when FAL jobs ran but authority images are not mounted', () => {
+  it('does not surface restore CTA in founder strip while autobuild gates are open', () => {
     let session = applyOneTimeFounderAuthorityInjection(createDesignPageAuthorityReviewSession({ projectId: 'ndxbook' }));
     session = ensureMobileDesignReferenceAuthority({
       ...session,
       mobileTwinPipeline: { ...emptyMobileTwinPipelineState(), falJobsDispatched: 2, packages: [] },
     });
     const view = evaluateMobileTwinFounderActionsStrip(session, 'ndxbook');
-    expect(view.showRestore).toBe(true);
+    expect(view.showStrip).toBe(false);
   });
 });

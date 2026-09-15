@@ -63,8 +63,8 @@ export function DesignTwinImplementationPage() {
         {header}
         <p data-testid="twin-implementation-gate">{err ?? 'TWIN_IMPLEMENTATION_NOT_BUILT'}</p>
         <p className="site00-dw-v3-authority__hint">
-          If you already approved the package: open Design → BUILD TWIN DESIGN ROUTE, then reopen this page. Railway must
-          serve v446+ API for durable cross-device state.
+          NDXBOOK twin autobuild runs on load — hard refresh once. If this persists, deploy the latest production ZIP so
+          bundled founder blueprint assets load from /assets/ndxbook-reconstruction/.
         </p>
       </div>
     );

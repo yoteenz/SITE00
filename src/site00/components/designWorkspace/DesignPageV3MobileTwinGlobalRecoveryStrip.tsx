@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   createDesignPageAuthorityReviewSession,
   DESIGN_PAGE_V3_PILOT_PROJECT_ID,
+  MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1,
   normalizeDesignPageAuthoritySession,
   readDesignPageAuthoritySession,
   writeDesignPageAuthoritySession,
@@ -70,6 +71,7 @@ export function DesignPageV3MobileTwinGlobalRecoveryStrip({ projectId }: Props) 
   const [busy, setBusy] = useState(false);
 
   if (!pilot) return null;
+  if (MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1) return null;
 
   const persist = (next: DesignPageAuthorityReviewSession) => {
     const normalized = normalizeDesignPageAuthoritySession(next);

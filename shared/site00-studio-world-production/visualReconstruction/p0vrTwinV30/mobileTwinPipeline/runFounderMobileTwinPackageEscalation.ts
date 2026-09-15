@@ -1,7 +1,6 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
-import { applyOneTimeFounderAuthorityInjection } from '../founderAuthorityInjection.js';
 import { notifyDesignAuthoritySessionChanged } from '../designAuthoritySessionEvents.js';
-import { ensureMobileDesignReferenceAuthority } from './mobileDesignReferenceAuthority.js';
+import { ensureSessionReadyForFounderEscalation } from './founderEscalationSessionPrepare.js';
 import { normalizeDesignPageAuthoritySession } from '../designPageAuthorityTerritoryGallery.js';
 import { writeDesignPageAuthoritySession } from '../designPageAuthorityPersistence.js';
 import { writeMobileTwinAuthorityImageSnapshot } from './mobileTwinAuthorityImageSnapshot.js';
@@ -19,16 +18,6 @@ export type FounderPackageEscalationResult = {
 };
 
 /** Founder escalation: canonical JPG pair → approved package → twin route compile + browser cache. */
-function ensureSessionReadyForFounderEscalation(
-  session: DesignPageAuthorityReviewSession,
-): DesignPageAuthorityReviewSession {
-  try {
-    return ensureMobileDesignReferenceAuthority(session);
-  } catch {
-    return ensureMobileDesignReferenceAuthority(applyOneTimeFounderAuthorityInjection(session));
-  }
-}
-
 export async function runFounderMobileTwinPackageEscalation(input: {
   session: DesignPageAuthorityReviewSession;
   apiBase?: string;
