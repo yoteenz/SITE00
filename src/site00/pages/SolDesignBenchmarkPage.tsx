@@ -10,6 +10,7 @@ import '../styles/site00-sol-design-benchmark.css';
 
 const ACCEPTED_MIMES = ['image/png', 'image/jpeg', 'image/webp'] as const;
 const LAST_RUN_KEY = 'site00:sol-design-bench:last-run:v1';
+const FAILURE_STATUSES = ['FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED'];
 const RESULT_TABS = [
   'VISUAL DESIGN',
   'FIGMA SPEC',
@@ -39,7 +40,7 @@ interface SolProviderStatus {
   reasoningEffort: 'high';
   fallbackAllowed: false;
   webSearchEnabled: false;
-  providerReadiness: {
+  providerReadiness?: {
     state: 'READY' | 'BLOCKED';
     openAiCredentialPresentServerSide: boolean;
     tinyLiveSchemaSmokePassed: boolean;
@@ -47,8 +48,35 @@ interface SolProviderStatus {
     structuredOutputPipelineProofPassed: boolean;
     blockingReasons: string[];
   };
+  currentRailwayCommit?: string;
   promptVersion: string;
   promptHash: string;
+}
+
+export function shouldClearStaleSolFailure(
+  run: SolDesignBenchRun | null,
+  authoritativePipelineReady: boolean,
+): boolean {
+  return Boolean(
+    run &&
+    FAILURE_STATUSES.includes(run.status) &&
+    run.providerReadinessReceipt?.structuredOutputPipelineProofPassed === false &&
+    authoritativePipelineReady,
+  );
+}
+
+export function canStartSolFounderGolden(input: {
+  referenceSelected: boolean;
+  providerReady: boolean;
+  structuredPipelineReady: boolean;
+  isInspecting: boolean;
+  isUploading: boolean;
+}): boolean {
+  return input.referenceSelected &&
+    input.providerReady &&
+    input.structuredPipelineReady &&
+    !input.isInspecting &&
+    !input.isUploading;
 }
 
 function formatBytes(bytes: number): string {
@@ -387,9 +415,19 @@ export function SolDesignBenchmarkPage() {
   const pickerRef = useRef<HTMLInputElement>(null);
 
   const referenceUrl = reference?.objectUrl || (run ? site00ApiUrl(`/api/site00/sol-design-bench?runId=${encodeURIComponent(run.runId)}&reference=1`) : '');
-  const failureStatuses = ['FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED'];
-  const isFailure = Boolean(run && failureStatuses.includes(run.status));
-  const isRunning = Boolean(run && run.status !== 'COMPLETE' && !failureStatuses.includes(run.status));
+  const isFailure = Boolean(run && FAILURE_STATUSES.includes(run.status));
+  const isRunning = Boolean(run && run.status !== 'COMPLETE' && !FAILURE_STATUSES.includes(run.status));
+  const providerReady = providerStatus?.providerReadiness?.state === 'READY';
+  const structuredPipelineReady =
+    providerStatus?.providerReadiness?.structuredOutputPipelineProofPassed === true;
+  const founderGoldenRetryReady = providerReady && structuredPipelineReady;
+  const canStart = canStartSolFounderGolden({
+    referenceSelected: Boolean(reference),
+    providerReady,
+    structuredPipelineReady,
+    isInspecting,
+    isUploading,
+  });
 
   const loadRun = useCallback(async (runId: string) => {
     const response = await fetch(site00ApiUrl(`/api/site00/sol-design-bench?runId=${encodeURIComponent(runId)}`), { credentials: 'omit', cache: 'no-store' });
@@ -412,6 +450,14 @@ export function SolDesignBenchmarkPage() {
       })
       .catch((reason) => setError(reason instanceof Error ? reason.message : String(reason)));
   }, [loadRun]);
+
+  useEffect(() => {
+    if (!shouldClearStaleSolFailure(run, structuredPipelineReady)) return;
+    setRun(null);
+    localStorage.removeItem(LAST_RUN_KEY);
+    setElapsed(0);
+    setError('');
+  }, [run, structuredPipelineReady]);
 
   useEffect(() => {
     if (!isRunning || !run) return;
@@ -484,7 +530,7 @@ export function SolDesignBenchmarkPage() {
   };
 
   const retry = async () => {
-    if (!run || !failureStatuses.includes(run.status)) return;
+    if (!run || !FAILURE_STATUSES.includes(run.status)) return;
     setError('');
     setIsUploading(true);
     try {
@@ -523,12 +569,20 @@ export function SolDesignBenchmarkPage() {
         <div><small>WEB SEARCH</small><strong>OFF</strong></div>
         <div>
           <small>PROVIDER READINESS</small>
-          <strong className={providerStatus?.providerReadiness.structuredOutputPipelineProofPassed ? 'is-ready' : 'is-blocked'}>
-            {providerStatus
-              ? providerStatus.providerReadiness.structuredOutputPipelineProofPassed
-                ? 'STRICT PIPELINE PROVEN'
-                : 'BLOCKED · STRICT PIPELINE PROOF'
-              : 'CHECKING…'}
+          <strong className={providerReady ? 'is-ready' : 'is-blocked'}>
+            {providerStatus ? providerReady ? 'READY' : 'BLOCKED' : 'CHECKING…'}
+          </strong>
+        </div>
+        <div>
+          <small>STRICT PIPELINE PROOF</small>
+          <strong className={structuredPipelineReady ? 'is-ready' : 'is-blocked'}>
+            {providerStatus ? structuredPipelineReady ? 'PASS' : 'BLOCKED' : 'CHECKING…'}
+          </strong>
+        </div>
+        <div>
+          <small>FOUNDER GOLDEN RETRY</small>
+          <strong className={founderGoldenRetryReady ? 'is-ready' : 'is-blocked'}>
+            {providerStatus ? founderGoldenRetryReady ? 'READY' : 'BLOCKED' : 'CHECKING…'}
           </strong>
         </div>
       </div>
@@ -571,8 +625,8 @@ export function SolDesignBenchmarkPage() {
           </div>
         ) : null}
 
-        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading || !providerStatus?.providerReadiness.structuredOutputPipelineProofPassed} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
-        {!run && providerStatus && !providerStatus.providerReadiness.structuredOutputPipelineProofPassed ? (
+        {!run ? <button className="sol-bench-start" disabled={!canStart} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
+        {!run && providerStatus && !structuredPipelineReady ? (
           <p className="sol-bench-readiness-blocked">START BLOCKED · Tiny live schema and large-output runtime proofs must pass on the Railway API build.</p>
         ) : null}
         {error ? <p className="sol-bench-error" role="alert">{error}</p> : null}

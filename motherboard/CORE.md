@@ -52,6 +52,7 @@ Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content 
 | `/assts` | Asset factory / vault |
 | `/control` | Client control panel |
 | `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (GROK1–GROK1F5). Hard-bound to **xAI grok-4.6** on `POST /v1/responses` — no model fallback. **Does not sit behind CTRL ROOM sign-in** (preview/phone must boot the bench). READY requires key + team model access + smoke. **F4:** 10-min provider timeout, 5-min stall watchdog, ETA correction, cancel, `GROK_RUNTIME_HEALTH` gate before founder golden. **F5:** HTTP 503 is `PROVIDER_SERVICE_UNAVAILABLE` / `PROVIDER_TRANSIENT_FAILURE`, not `MODEL_REJECTED`; bounded 2 automatic retries (3 attempts) for 429/500/502/503/504 inside the 10-min budget; Retry-After honored; retry updates lastStateChangeAt so the stall watchdog does not false-fire. Secret-backed calls prefer Railway `https://api.site00.com`. |
+| `/projects/:slug/design/twin-grok-direct` | Isolated Grok **direct reconstruction** of the founder golden (P0.VR.DESIGNBENCH.GROK-DIRECT1). Real DOM/CSS only — no Figma package, no provider API, no raster cheat. Does not sit behind CTRL ROOM sign-in. Existing Twin / DESIGN routes stay untouched. |
 
 Desktop preview paths use `/desktop` suffix (artboard preview mode).
 

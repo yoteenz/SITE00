@@ -9565,6 +9565,16 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F3–F6R1 strict parsed output + 32K capacity proof
+
+Summary of the whole conversation: after F2 fixed OpenAI’s missing JSON instruction, founder runs still produced malformed ~92–93KB free-form JSON. F3 introduced strict JSON Schema, validation/completeness receipts, private raw-response persistence, a separate SVG preview artifact, and frozen-reference retry recovery. F4 live tracing proved F3 had initially not deployed, then proved strict schema was live but the application still consumed `output_text` through `JSON.parse`. F5 replaced that success path with the official OpenAI SDK `responses.parse().output_parsed`, added `SolStructuredOutputRuntimeReceipt`, a legacy-parser firewall, and a founder-run gate requiring tiny + ≥50KB live proofs. F6 raised one shared founder/stress output budget from 16K to 32K after the first stress attempt truncated at 42,651 characters / 16,000 tokens.
+
+- **Final live proof:** Railway build **`6728d538b2dc5898ccc4667039a47463ecee47b7`**, prompt **`sol-design-bench-test-b-v6-output-budget-32k`**. The single F6 stress run **`sol_afe08020-a20c-497d-a8b5-7a7c1bf07ae4`** completed in 228,653 ms with 69,968 characters, 22,968 actual output tokens of 32,000, finish reason `completed`, no truncation, direct SDK-parsed structured result, no application manual JSON parse, no primary output-text path, and schema validation PASS.
+- **Gate:** Tiny live smoke remains PASS from run **`sol_bb016b79-7f63-47d7-8679-d4f3ec96a668`**. Railway now reports `tinyLiveSchemaSmokePassed=true`, `largeOutputStressPassed=true`, and `structuredOutputPipelineProofPassed=true`. Founder retry for golden SHA **`f86d9809b8334394131b1a1c815b18857c9c824bdeb51a87f7d1710bdf284d44`** is READY; the golden was not used in any proof.
+- **Invariants:** OpenAI `gpt-5.6-sol`, high reasoning, strict `json_schema`, schema `figma_style_interface_translation_package`, actual image input, no fallback/web/Composer/Grok access, and the 14-part benchmark contract remain unchanged.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F5 xAI 503 classification + transient retry (v489)
 
 Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed Railway vs Vite host boundary (GROK1F2), proved team access on `POST /v1/responses` (GROK1F3), added 10-min timeout + 5-min stall watchdog (GROK1F4 / v487), unblocked preview boot without CTRL ROOM sign-in (v488), then founder reran the real Grok 4.6 benchmark after F4 health gates passed and hit **HTTP 503 classified as MODEL_REJECTED**.
@@ -9610,3 +9620,51 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Decisions / outcomes:** The pre-R1 top gaps were hero photographic fidelity, headline weight, candidate artwork, hand gesture, rail density, tagline rhythm, structured-card texture, candidate variants, gauge alignment, and footer icon scale. R1 kept already-aligned 572×1024 shell geometry and replaced weaker hero/candidate treatments. Six total correction passes have now been completed across DIRECT1 + R1; R1 passes separately covered macro geometry, component proportions, and typography/material details.
 - **Changes:** Updated only **`NdxbookSolDirectPage.tsx`** and scoped **`site00-ndxbook-sol-direct.css`** for R1, plus this memory entry. Added generated newsprint DOM, revised inline SVG hand, tighter hero crop, heavier condensed display type, corrected tagline/evidence placement, and denser candidate art. Focused tests, typecheck, production build, and cPanel package verification pass.
 - **Conventions:** A visually aligned shell does not excuse a wrong dominant asset. When the exact standalone source is unavailable and screenshot extraction is forbidden, use honest DOM/SVG approximation, preserve the measured parent box, and report the photographic-fidelity gap explicitly.
+
+---
+
+## 2026-09-15 — Test B signed-out preview boot fix
+
+Summary of the **whole conversation so far** in this chat: founder commissioned the isolated `twin-testB` SOL visual-design benchmark, hard-bound OpenAI `gpt-5.6-sol` at high reasoning, advanced it from free-form JSON through strict schema-enforced SDK parsing, proved the 32K output budget with tiny and ≥50KB live runs, then reported that the testing page itself would not boot.
+
+- **Context:** `/projects/ndxbook/design/twin-testB` showed `SIGN IN REQUIRED FOR THIS ROUTE` when opened normally and could appear blank through the preview capture URL. The founder golden was not uploaded or rerun during diagnosis.
+- **Root cause:** Test B remained wrapped by `Site00AccountRouteGuard`, which contradicted the benchmark’s isolated signed-out preview requirement. A legacy/incomplete readiness payload could also be dereferenced as though the nested receipt were guaranteed.
+- **Changes:** Removed only the Test B account guard; preserved `Site00Layout`, suspense, route path, provider/model/schema/output-budget behavior, proof gates, and run storage. Made `providerReadiness` optional at the UI boundary and derived one defensive `structuredPipelineReady` boolean. Added route/readiness regression assertions.
+- **Verification:** 11 focused Sol tests passed, TypeScript and production build passed, and signed-out browser boots passed for both the normal and `?goldenDiffCapture=1` URLs. Temporary diagnostic probes and logs were removed.
+- **Conventions:** Isolated design-benchmark preview routes must boot without a CTRL ROOM session. Missing or stale readiness fields must keep execution safely blocked rather than crash the page.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1 isolated golden reconstruction (v490)
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh Grok 4.6 Cursor sprint to recreate an attached NDXBOOK DESIGN golden as real DOM/CSS — not a Figma package, not Composer, not a provider bench.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1**. Golden attached in-chat (768×1376). Isolated route **`/projects/ndxbook/design/twin-grok-direct`**. Do not mutate `/design/twin`, `twin-v4`, `twin-testA`, `twin-testB`, or current DESIGN.
+- **Topics covered:** Motherboard load; golden geometry measurement; reuse of NDXBOOK paper texture (`eu-branch-receipts-isolated.webp`); three browser visual passes vs the golden.
+- **Decisions / outcomes:** Direct implementation only. Artboard locked to 768×1376. No raster cheat (golden / mobile-master not used as a page background). Route boots without CTRL ROOM sign-in. Exact archival pointing-hand photograph is not a standalone repo asset — constructed xerox plate used instead.
+- **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
+- **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
+
+Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1R1**. Same route `/projects/ndxbook/design/twin-grok-direct`. Do not rebuild architecture.
+- **Top initial gaps:** blob SVG hand; hero plate scale; 768 artboard on gray surround; gallery/doc placeholders; authority thumbs; rail button size; type scale; section heights; extra bottom air; dirty xerox missing.
+- **Changes:** Generated missing xerox plates into `public/site00/twin-grok-direct/`; traced 768×1376 / 512+208 hero-rail; inset darker plate; condensed type; existing Twin/DESIGN still untouched. Build **v491**.
+- **Conventions:** Direct-reconstruction follow-ups replace conflicting visual code. Do not add analog markup that is not in the golden. Do not slice the golden into the page.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F6R2 durable structured-output proof receipt
+
+Summary of the **whole conversation so far** in this chat: after Test B’s signed-out boot fix, the verified F6 structured-output gate regressed on Railway because runs and `structured-output-proof.json` lived under process-local `/tmp`. Both historical proof run IDs became `SOL_RUN_NOT_FOUND`, and readiness fell back to tiny PASS / large FAIL despite the completed F6R1 evidence. The fix moved proof authority to existing SITE 00 Supabase persistence, separated provider readiness from reference selection, exposed explicit UI readiness states, reconciled stale browser runs, and survived repeated API restarts.
+
+- **Context:** Preserve the paid F6R1 proof without another provider call, without using the founder golden, and without changing OpenAI `gpt-5.6-sol`, high reasoning, strict schema, prompt, 32K budget, Composer, or Grok behavior.
+- **Root causes:** Sol runs and proof flags were process-local files. The first durable implementation then hashed `JSON.stringify(configuration)`; Supabase JSONB reordered object keys after restart, making the fingerprint order-dependent and causing a valid stored receipt to be rejected.
+- **Changes:** Added Supabase-backed `SolStructuredOutputProofReceipt` in `site00_methodology_validation_runs`, keyed by deterministic record ID/mode. Receipt retains nested evidence plus required top-level proof/build/config/result fields. F6R1 backfill accepts only the exact tiny/stress run IDs, attested builds, prompt/hash, schema/parser, model/reasoning, 32K budget, 69,968 characters, 22,968 tokens, non-truncation, direct parsed output, and schema PASS. Recursive canonical serialization now produces fingerprint `2226a22e999bbc6d747adae0d602fe74a7dbae7933de135cff4dc04f49c9e11b`; the prior order-dependent receipt safely upgrades without a provider call. Current Railway commit is exposed separately from the attested F6 provider build.
+- **Readiness/UI:** Reference-free GET readiness is READY when credentials/config/proof pass; reference validation remains start-only. UI separately shows PROVIDER READINESS, STRICT PIPELINE PROOF, and FOUNDER GOLDEN RETRY. Start stays disabled until a reference is selected. Failed stale local runs carrying proof=false are cleared when Railway says PASS; completed valid results remain.
+- **Verification:** Supabase receipt hydrated after two API process restarts with unchanged `persistedAt=2026-09-15T21:47:45.366Z`, canonical fingerprint, F6R1 provenance, and tiny/large/pipeline PASS. Focused regression coverage includes JSONB key reordering, legacy receipt upgrade/reuse, no-reference READY, visible labels, stale-run clearing, selected-reference button gating, exact receipt fields, and zero provider invocation.
+- **Conventions:** Durable JSONB fingerprints must use canonical stable serialization, never insertion-order `JSON.stringify`. Proof compatibility binds the historical provider build and exact current provider configuration; unrelated storage/UI deployment commits do not invalidate the attested pipeline.
