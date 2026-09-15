@@ -9431,3 +9431,16 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Cause:** V4.1 required **`founderReviewStatus === APPROVED`** and manual **`actualHash`** — real Fal cache uses **`PENDING` + MACHINE_VALIDATED** with **https** PNG; browser raster path used **`Buffer`/`pngjs`**.
 - **Fix:** **`findCachedForensicBlueprintForTwinV41Boot`** + **`resolveTwinV41BootContext`**; accept cached **https** Fal forensic; **canvas** PNG decode in browser; boot help copy when authority missing.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1 isolated Sol reference-to-Figma benchmark
+
+Summary of the **whole conversation so far** in this chat: founder requested an isolated Test B environment where GPT-5.6 Sol receives a golden screenshot only through the finished route, freezes it, performs asynchronous literal interface translation, and emits a visual Figma-style reconstruction plus complete implementation handoff without Composer or Grok.
+
+- **Context:** Build **`/projects/ndxbook/design/twin-testB`** as a clean Sol benchmark; do not inspect Test A/Grok or mutate existing Twin, Twin V4, or canonical Design routes.
+- **Topics covered:** Browser image validation and SHA256; immutable run-scoped authority; file-backed server job persistence; stage-derived progress/ETA; Sol-only multimodal provider adapter; visual artboard comparison; human-readable Figma specs, component inspector, tokens, assets, hierarchy, exact handoff, metrics, and failure preservation.
+- **Decisions / outcomes:** Added **`SolDesignBenchReferenceAuthority`**, **`SolDesignBenchEtaEstimator`**, **`FigmaStyleInterfaceTranslationPackage`**, and **`SolComposerImplementationHandoff`** contracts. Production requires server-only **`SOL_DESIGN_BENCH_API_KEY`** (or `OPENAI_API_KEY`) plus an endpoint/model serving **`gpt-5.6-sol`**; there is deliberately no alternate-model fallback. Missing credentials produce **`SOL_RUN_FAILED`** while preserving the reference and run timings.
+- **Changes:** New shared contracts, Sol provider/job service, **`/api/site00/sol-design-bench`**, Test B page/CSS/route, Express + Vite local API wiring, env placeholders, and focused tests. Existing Twin routes were not edited except adding the independent router entry.
+- **Verification:** Focused + current Twin regression suites passed (**30 tests**); typecheck and production build passed; live API returned `202 QUEUED` then preserved `FAILED / SOL_RUN_FAILED / SOL_PROVIDER_CREDENTIALS_MISSING`; browser QA confirmed upload, preview, MIME/bytes/dimensions/aspect/SHA256, REMOVE/REPLACE, and enabled START. Full provider completion awaits a deployed Sol credential/endpoint.
+- **Conventions:** Never label another vision model as Sol. Test B remains fail-closed on provider identity and never falls back, invokes Composer, or reads Grok result data.
+
