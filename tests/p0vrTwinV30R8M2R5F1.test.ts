@@ -17,7 +17,7 @@ import {
 import { escalateFounderMobileTwinPackageFromCanonicalAssets } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/escalateFounderMobileTwinPackageFromCanonicalAssets.js';
 import { ensureNdxbookTwinImplementationReady } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/ensureNdxbookTwinAutobuild.js';
 import { readTwinImplementationCache } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/twinImplementationBrowserCache.js';
-import { MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
+import { MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M3/constants.js';
 import { P0_VR_TWIN_V30_BUILD } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { requestForensicUiBlueprintGeneration } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestForensicUiBlueprint.js';
 import {
@@ -51,7 +51,7 @@ describe('P0.VR.TWINV3.0R8M2R5F1 runtime recovery', () => {
     expect(isSite00PreviewHost('site00.fsbw-dev.com')).toBe(true);
     const previewUrls = listForensicUiBlueprintApiPostUrls();
     expect(previewUrls.length).toBeGreaterThanOrEqual(1);
-    expect(MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH).toBe(2);
+    expect(MOBILE_TWIN_IMPLEMENTATION_CLIENT_CACHE_EPOCH).toBe(3);
   });
 
   it('5–8 forensic API service dispatches Fal and captures request id', async () => {
@@ -75,7 +75,7 @@ describe('P0.VR.TWINV3.0R8M2R5F1 runtime recovery', () => {
   it('9–12 vitest autobuild still compiles; no FAL_KEY in client request module', async () => {
     await ensureNdxbookTwinImplementationReady('ndxbook');
     const cache = readTwinImplementationCache('ndxbook');
-    expect(cache?.document.compilerGeneration).toBe('R8M2R5');
+    expect(cache?.document.compilerGeneration).toBe('R8M3');
     const clientReq = readFileSync(
       'shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestForensicUiBlueprint.ts',
       'utf8',

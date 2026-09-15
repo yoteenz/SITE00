@@ -1,7 +1,7 @@
 import type { MobileStructuredArtifactBundle } from '../p0vrTwinV30/mobileTwinPipeline/buildMobileTwinStructuredArtifacts.js';
 import type { MobileTwinCompositionState, MobileTwinPackage } from '../p0vrTwinV30/mobileTwinPipeline/types.js';
 import { P0_VR_TWIN_V30R8M_LINEAGE } from './constants.js';
-import { compileVisualMobileTwinImplementationR8M2R5 } from '../p0vrTwinV30R8M2R5/compileVisualMobileTwinImplementationR8M2R5.js';
+import { compileVisualMobileTwinImplementationR8M3 } from '../p0vrTwinV30R8M3/compileVisualMobileTwinImplementationR8M3.js';
 import type { CompiledMobileTwinImplementationDocument, CompiledMobileTwinNode, MobileTwinStructuredCompilerInput } from './types.js';
 
 const FORBIDDEN_RASTER_PRIMITIVES = [
@@ -134,9 +134,9 @@ export function assertCompilerDoesNotUseRasterAuthorities(input: {
   void input.blueprintRenderUri;
 }
 
-/** Forensic blueprint-driven reconstruction (R8M2R5) — production twin compile path. */
+/** Forensic blueprint ingestion + merged object map (R8M3) — production twin compile path. */
 export function compileApprovedMobileTwinPackage(
   input: MobileTwinStructuredCompilerInput,
 ): CompiledMobileTwinImplementationDocument {
-  return compileVisualMobileTwinImplementationR8M2R5(input);
+  return compileVisualMobileTwinImplementationR8M3(input);
 }

@@ -18,7 +18,7 @@ import { writeMobileTwinPipelineToBrowser } from '../p0vrTwinV30/mobileTwinPipel
 import { syncFounderMobileTwinSession } from '../p0vrTwinV30/mobileTwinPipeline/syncFounderMobileTwinSession.js';
 import { compileApprovedMobileTwinPackage } from './compileApprovedMobileTwinPackage.js';
 import { documentRequiresR8M2Recompile } from '../p0vrTwinV30R8M2/invalidatePriorR8M1Build.js';
-import { MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT } from '../p0vrTwinV30R8M2R5/constants.js';
+import { MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_INGESTION } from '../p0vrTwinV30R8M3/constants.js';
 import { resolveImplementationAuthorities } from '../p0vrTwinV30R8M1/resolveImplementationAuthorities.js';
 import { ingestAuthorityImageContent, ingestAuthorityImageContentSync } from '../p0vrTwinV30R8M2R1/authorityContentIngestion.js';
 import { site00IsVitest } from '../../runtime/site00RuntimeEnv.js';
@@ -100,7 +100,7 @@ function compileSessionPipelineToTwinCache(session: DesignPageAuthorityReviewSes
   writeTwinImplementationCache({
     projectId: key,
     buildId: `autobuild-${packageId}`,
-    implementationVersion: MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT,
+    implementationVersion: MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_INGESTION,
     previewRoute: mobileTwinTwinPreviewRoute(key),
     founderStatus: 'PENDING',
     promotionStatus: 'NOT_READY',

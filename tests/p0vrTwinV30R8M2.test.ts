@@ -21,11 +21,11 @@ import {
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/constants.js';
 import { R8M2_CORRECTION_REQUIRED_REASON } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R1/constants.js';
 import {
-  MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT,
-  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R5,
-  P0_VR_TWIN_V30R8M2R5_LINEAGE,
-  R8M2R4_CORRECTION_REQUIRED_REASON,
-} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R5/constants.js';
+  MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_INGESTION,
+  MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M3,
+  P0_VR_TWIN_V30R8M3_LINEAGE,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M3/constants.js';
+import { R8M2R5_CORRECTION_REQUIRED_REASON } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M3/constants.js';
 import { compileVisualMobileTwinImplementationR8M2R1 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R1/compileVisualMobileTwinImplementationR8M2R1.js';
 import {
   assertRuntimeImageSourceAllowed,
@@ -60,9 +60,9 @@ describe('P0.VR.TWINV3.0R8M2 fidelity convergence', () => {
     expect(documentRequiresR8M2Recompile(r8m1)).toBe(true);
     const doc = founderApprovedDoc();
     expect(doc.priorBuildCorrection?.status).toBe('CORRECTION_REQUIRED');
-    expect(doc.priorBuildCorrection?.reason).toBe(R8M2R4_CORRECTION_REQUIRED_REASON);
-    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_BLUEPRINT);
-    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R5);
+    expect(doc.priorBuildCorrection?.reason).toBe(R8M2R5_CORRECTION_REQUIRED_REASON);
+    expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_FORENSIC_INGESTION);
+    expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M3);
     const r8m2r1 = compileVisualMobileTwinImplementationR8M2R1({
       pipeline: session.mobileTwinPipeline!,
       packageId: session.mobileTwinPipeline!.latestPackageId!,

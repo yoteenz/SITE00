@@ -115,7 +115,7 @@ export type PriorBuildCorrectionRecord = {
 
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3' | 'R8M2R4' | 'R8M2R5';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3' | 'R8M2R4' | 'R8M2R5' | 'R8M3';
   implementationGenerationMode?: import('../p0vrTwinV30R8M2R3/implementationGenerationMode.js').ImplementationGenerationMode;
   implementationVersion?: string;
   viewport: 'MOBILE';
@@ -193,6 +193,15 @@ export type CompiledMobileTwinImplementationDocument = {
   syntheticScreenshotUsedAsProof?: boolean;
   forensicComponentTree?: { id: string; hash: string; rootClass: string; sectionIds: string[] };
   forensicStyleContract?: { id: string; hash: string; cssVariables: Record<string, string> };
+  forensicBlueprintArtifact?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').MobileTwinForensicBlueprintArtifact;
+  forensicBlueprintIngestionReceipt?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').ForensicBlueprintIngestionReceipt;
+  cleanedForensicObjectMap?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').ForensicBlueprintObjectMap;
+  cleanedForensicObjectMapReceipt?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').CleanedForensicObjectMapReceipt;
+  forensicObjectValidationReceipt?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').ForensicObjectValidationReceipt;
+  objectMapAuthorityMergeReceipt?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').ObjectMapAuthorityMergeReceipt;
+  mergedImplementationObjectMap?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').MergedImplementationObjectMap;
+  forensicReconstructionFidelityReceipt?: import('../p0vrTwinV30R8M3/forensicIngestionTypes.js').ForensicReconstructionFidelityReceipt;
+  forensicIngestionDrivenCompile?: boolean;
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';

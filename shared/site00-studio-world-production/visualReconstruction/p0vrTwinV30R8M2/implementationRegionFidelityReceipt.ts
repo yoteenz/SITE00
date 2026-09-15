@@ -28,11 +28,29 @@ export function buildRegionFidelityReceipts(input: {
     const regionNodes = nodes.filter((n) => {
       const section = n.sectionId;
       if (region.regionId === 'HOST_HEADER')
-        return section === 'host' || section === 'td-host' || section === 'af-host' || section === 'fb-host-shell';
+        return (
+          section === 'host' ||
+          section === 'td-host' ||
+          section === 'af-host' ||
+          section === 'fb-host-shell' ||
+          section === 'fm3-host-shell'
+        );
       if (region.regionId === 'PROJECT_CONTEXT')
-        return section === 'context' || section === 'td-context' || section === 'af-context' || section === 'fb-project-context';
+        return (
+          section === 'context' ||
+          section === 'td-context' ||
+          section === 'af-context' ||
+          section === 'fb-project-context' ||
+          section === 'fm3-project-context'
+        );
       if (region.regionId === 'HERO_WORKSPACE')
-        return section === 'hero' || section === 'td-hero' || section === 'af-hero' || section === 'fb-hero-workspace';
+        return (
+          section === 'hero' ||
+          section === 'td-hero' ||
+          section === 'af-hero' ||
+          section === 'fb-hero-workspace' ||
+          section === 'fm3-hero-workspace'
+        );
       if (region.regionId === 'AUTHORITY_PANEL')
         return (
           section === 'hero' ||
@@ -41,23 +59,50 @@ export function buildRegionFidelityReceipts(input: {
           section === 'af-authority' ||
           section === 'af-hero' ||
           section === 'fb-authority-panel' ||
-          section === 'fb-hero-workspace'
+          section === 'fb-hero-workspace' ||
+          section === 'fm3-authority-panel' ||
+          section === 'fm3-hero-workspace'
         );
       if (region.regionId === 'CANDIDATE_GALLERY')
-        return section === 'gallery' || section === 'td-gallery' || section === 'af-gallery' || section === 'fb-candidate-gallery';
+        return (
+          section === 'gallery' ||
+          section === 'td-gallery' ||
+          section === 'af-gallery' ||
+          section === 'fb-candidate-gallery' ||
+          section === 'fm3-candidate-gallery'
+        );
       if (region.regionId === 'STRUCTURED_OUTPUT')
         return (
           section === 'structured-output' ||
           section === 'td-structured' ||
           section === 'af-structured' ||
-          section === 'fb-structured-output'
+          section === 'fb-structured-output' ||
+          section === 'fm3-structured-output'
         );
       if (region.regionId === 'READINESS')
-        return section === 'readiness' || section === 'td-readiness' || section === 'af-readiness' || section === 'fb-readiness';
+        return (
+          section === 'readiness' ||
+          section === 'td-readiness' ||
+          section === 'af-readiness' ||
+          section === 'fb-readiness' ||
+          section === 'fm3-readiness'
+        );
       if (region.regionId === 'CONCEPT_DATA')
-        return section === 'readiness' || section === 'td-metadata' || section === 'af-metadata' || section === 'fb-concept-data-history';
+        return (
+          section === 'readiness' ||
+          section === 'td-metadata' ||
+          section === 'af-metadata' ||
+          section === 'fb-concept-data-history' ||
+          section === 'fm3-concept-data-history'
+        );
       if (region.regionId === 'BOTTOM_NAV')
-        return section === 'bottom-nav' || section === 'td-bottom-nav' || section === 'af-bottom-nav' || section === 'fb-bottom-nav';
+        return (
+          section === 'bottom-nav' ||
+          section === 'td-bottom-nav' ||
+          section === 'af-bottom-nav' ||
+          section === 'fb-bottom-nav' ||
+          section === 'fm3-bottom-nav'
+        );
       return region.objectIds.includes(n.objectId);
     });
 
