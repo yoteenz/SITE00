@@ -1,5 +1,6 @@
 import type { GROK_JOB_STAGES } from './constants.js';
 import type { GrokBenchmarkInputReceipt, GrokDesignBenchProviderFailure } from './modelContract.js';
+import type { GrokBenchmarkFailureClass, GrokProviderRetryState } from './providerErrors.js';
 
 export type GrokDesignBenchStage = (typeof GROK_JOB_STAGES)[number];
 
@@ -273,6 +274,8 @@ export interface GrokDesignBenchRun {
   cost: GrokDesignBenchCost;
   inputReceipt: GrokBenchmarkInputReceipt | null;
   providerFailure: GrokDesignBenchProviderFailure | null;
+  benchmarkFailureClass?: GrokBenchmarkFailureClass | null;
+  providerRetry?: GrokProviderRetryState | null;
   composerInvoked: false;
   otherModelOutputAccessed: false;
   testBDataRead: false;

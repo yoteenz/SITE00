@@ -30,6 +30,7 @@ import {
   grokHistoricalAverageMs,
   latestGrokDesignBenchRun,
   putGrokDesignBenchRun,
+  getGrokReferenceBytes,
   putGrokReferenceBytes,
 } from './store.js';
 
@@ -159,6 +160,8 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
     },
     inputReceipt: null,
     providerFailure: null,
+    benchmarkFailureClass: null,
+    providerRetry: null,
     composerInvoked: false,
     otherModelOutputAccessed: false,
     testBDataRead: false,
@@ -171,6 +174,33 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
   }
   launchGrokDesignBenchJob(runId);
   return publicGrokDesignBenchRun(run);
+}
+
+export async function retryGrokDesignBenchFromRun(sourceRunId: string): Promise<GrokDesignBenchRun> {
+  const source = getGrokDesignBenchRun(sourceRunId);
+  if (!source?.reference) {
+    throw new Error('RETRY_SOURCE_MISSING');
+  }
+  const bytes = getGrokReferenceBytes(source.reference.storageRef);
+  if (!bytes || bytes.sha256 !== source.reference.sha256) {
+    throw new Error('RETRY_REFERENCE_BYTES_MISSING');
+  }
+  const next = await startGrokDesignBenchRun({
+    projectId: source.projectId,
+    filename: source.reference.filename,
+    mime: source.reference.mime,
+    width: source.reference.width,
+    height: source.reference.height,
+    imageBase64: bytes.bytes.toString('base64'),
+    awaitCompletion: process.env.VITEST === 'true',
+  });
+  if (next.reference?.sha256 !== source.reference.sha256) {
+    throw new Error('RETRY_GOLDEN_SHA256_MISMATCH');
+  }
+  if (next.runId === source.runId) {
+    throw new Error('RETRY_MUST_CREATE_NEW_RUN_ID');
+  }
+  return next;
 }
 
 export function grokDesignBenchAudit() {

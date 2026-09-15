@@ -1,9 +1,11 @@
 import { jsonrepair } from 'jsonrepair';
 import {
   GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM,
+  GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS,
   GROK_DESIGN_BENCH_INFERENCE_METHOD,
   GROK_DESIGN_BENCH_INFERENCE_PATH,
   GROK_TWIN_TEST_A_PROVIDER,
+  GROK_TWIN_TEST_A_PROVIDER_MODEL,
   GROK_XAI_API_BASE,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import {
@@ -13,7 +15,6 @@ import {
   GROK_DESIGN_BENCH_PROMPT_VERSION,
   assertGrok46HardBind,
   classifyGrok46ProviderError,
-  formatGrok46BindingFailure,
   isForbiddenGrokBenchModel,
   type GrokBenchmarkInputReceipt,
   type GrokDesignBenchHostDiagnostic,
@@ -21,8 +22,10 @@ import {
   type GrokDesignBenchProviderReadinessReceipt,
 } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import { assertFigmaStylePackage } from '../../../shared/site00-design-bench/grokTwinTestA/packageGuard.js';
+import type { GrokProviderRetryState } from '../../../shared/site00-design-bench/grokTwinTestA/providerErrors.js';
 import type { FigmaStyleInterfaceTranslationPackage } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
 import { probeGrok46TeamAccess, type Grok46AccessProbe } from './grokAccessProbe.js';
+import { fetchGrokResponsesWithRetry, type GrokProviderRetryEvent } from './grokProviderRetry.js';
 import { buildGrokVisualTranslationUserPrompt, GROK_VISUAL_TRANSLATION_SYSTEM } from './prompt.js';
 
 export interface GrokVisionTranslateInput {
@@ -34,6 +37,11 @@ export interface GrokVisionTranslateInput {
   height: number;
   sha256: string;
   signal?: AbortSignal;
+  deadlineMs?: number;
+  fetchImpl?: typeof fetch;
+  sleepImpl?: (ms: number, signal?: AbortSignal) => Promise<void>;
+  nowImpl?: () => number;
+  onProviderEvent?: (event: GrokProviderRetryEvent) => void;
 }
 
 export interface GrokVisionTranslateResult {
@@ -52,6 +60,7 @@ export interface GrokVisionTranslateResult {
   finishStatus: string | null;
   responseTruncated: boolean;
   maxOutputTokens: null;
+  providerRetry: GrokProviderRetryState;
 }
 
 export function grokDesignBenchProviderModel(): typeof GROK_DESIGN_BENCH_MODEL_ID {
@@ -318,12 +327,17 @@ export function buildGrok46ResponsesPayload(input: GrokVisionTranslateInput): {
 }
 
 export function grok46ProviderFailureFromHttp(runId: string, status: number, body: string): GrokDesignBenchProviderFailure {
+  const classification = classifyGrok46ProviderError(status, body);
   return {
-    code: GROK_4_6_PROVIDER_BINDING_FAILED,
+    code:
+      classification === 'PROVIDER_SERVICE_UNAVAILABLE'
+        ? 'GROK_PROVIDER_SERVICE_UNAVAILABLE'
+        : GROK_4_6_PROVIDER_BINDING_FAILED,
     providerResponseCode: status,
-    classification: classifyGrok46ProviderError(status, body),
+    classification,
     runId,
     detail: body.slice(0, 400),
+    model: GROK_TWIN_TEST_A_PROVIDER_MODEL,
   };
 }
 
@@ -352,6 +366,27 @@ export async function translateInterfaceWithGrok(
       finishStatus: 'HARNESS',
       responseTruncated: false,
       maxOutputTokens: null,
+      providerRetry: {
+        status: 'SUCCEEDED',
+        attempt: 1,
+        maxAttempts: 3,
+        retries: 0,
+        lastHttpStatus: 200,
+        lastClassification: null,
+        lastBenchmarkFailureClass: null,
+        incidentClass: null,
+        evidence: [],
+        timing: {
+          attempt1Duration: 0,
+          retryWaitDuration: 0,
+          attempt2Duration: null,
+          attempt3Duration: null,
+          totalProviderWallTime: 0,
+          successfulAttempt: 1,
+        },
+        uiHeadline: null,
+        uiDetail: null,
+      },
     };
   }
 
@@ -370,20 +405,18 @@ export async function translateInterfaceWithGrok(
   }
 
   const endpoint = process.env.SITE00_GROK_API_BASE?.replace(/\/$/, '') || 'https://api.x.ai/v1';
-  const response = await fetch(`${endpoint}/responses`, {
-    method: GROK_DESIGN_BENCH_INFERENCE_METHOD,
-    signal: input.signal,
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
+  const { response, retryState } = await fetchGrokResponsesWithRetry({
+    runId: input.runId,
+    endpoint: `${endpoint}/responses`,
+    apiKey,
     body: serialized,
+    signal: input.signal,
+    deadlineMs: input.deadlineMs ?? Date.now() + GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS,
+    fetchImpl: input.fetchImpl,
+    sleepImpl: input.sleepImpl,
+    nowImpl: input.nowImpl,
+    onEvent: input.onProviderEvent,
   });
-
-  if (!response.ok) {
-    const detail = await response.text().catch(() => '');
-    throw new Error(formatGrok46BindingFailure({ runId: input.runId, status: response.status, body: detail }));
-  }
 
   const payload = (await response.json()) as {
     id?: string;
@@ -430,6 +463,7 @@ export async function translateInterfaceWithGrok(
     finishStatus,
     responseTruncated,
     maxOutputTokens: null,
+    providerRetry: retryState,
   };
 }
 

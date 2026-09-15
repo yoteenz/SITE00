@@ -9563,3 +9563,15 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Fix:** Remove the account guard from the twin-testA route so the isolated bench boots without CTRL ROOM session. Persist strips `data:` image URLs so a huge golden cannot freeze iOS localStorage parse. Build **v488**.
 - **Conventions:** Isolated design-bench routes must boot on the preview tunnel without sign-in. Production deep links still need the v488 ZIP + `.htaccess`.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F5 xAI 503 classification + transient retry (v489)
+
+Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed Railway vs Vite host boundary (GROK1F2), proved team access on `POST /v1/responses` (GROK1F3), added 10-min timeout + 5-min stall watchdog (GROK1F4 / v487), unblocked preview boot without CTRL ROOM sign-in (v488), then founder reran the real Grok 4.6 benchmark after F4 health gates passed and hit **HTTP 503 classified as MODEL_REJECTED**.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK1F5**. Surgical provider reliability only. Do not change grok-4.6, `/v1/responses`, 14-part contract, golden SHA, image-input, or prompt. Do not invoke Composer or mutate Sol.
+- **Live incident:** Founder page proved XAI KEY PRESENT, grok-4.6 AVAILABLE, live smokes PASS, FOUNDER_RUN_READY YES. Full benchmark then failed HTTP 503 with old class **MODEL_REJECTED**. That class is invalid: the same key/model already passed availability, detail, text smoke, image smoke, and timing probe.
+- **Root cause:** `classifyGrok46ProviderError` / adapter collapsed non-2xx (and body “model …” matches) into MODEL_REJECTED. A transient xAI 503 is a service outage, not model rejection.
+- **Changes:** Explicit HTTP classes (401/403 AUTHENTICATION_OR_ACCESS_FAILURE, 404 MODEL_NOT_FOUND, 410 MODEL_OR_ENDPOINT_REJECTED, 429 RATE_LIMITED, 500/502/503/504 provider errors, network PROVIDER_NETWORK_FAILURE). `GrokBenchmarkFailureClass` with PROVIDER_TRANSIENT_FAILURE for 503. Safe evidence (status, request id, error code/type/message, attempt timing — never Authorization/key). Bounded retry: max 2 automatic retries after initial (3 attempts) for 429/500/502/503/504; backoff ~2s then ~5s; honor Retry-After; no retry for 400/401/403/404/410. Retries fit inside F4 10-min budget and update `lastStateChangeAt` so the 5-min stall watchdog does not false-fire. UI: GROK PROVIDER TEMPORARILY UNAVAILABLE / RETRYING… ATTEMPT N OF 3; final failure + RETRY GROK TEST (new run ID, same golden SHA256). Build **v489**. Tests **`tests/p0vrDesignBenchGrok1F5.test.ts`**.
+- **Conventions:** Never classify 503 as MODEL_REJECTED. Model-access failures and transient-service failures stay distinct. Do not hide retries when comparing Grok vs Sol. Manual retry is a new run; automatic retry is provider-attempt only. Do not manufacture paid 503s — use mocked provider tests.
+

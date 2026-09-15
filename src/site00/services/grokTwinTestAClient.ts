@@ -144,6 +144,16 @@ export async function pollGrokTwinTestARun(runId: string): Promise<GrokDesignBen
   return json.run;
 }
 
+export async function retryGrokTwinTestARun(runId: string): Promise<GrokDesignBenchRun> {
+  const res = await postFirstOk({ action: 'retry', runId });
+  const json = (await res.json()) as { ok?: boolean; run?: GrokDesignBenchRun; error?: string };
+  if (!res.ok && res.status !== 202) {
+    throw new Error(json.error ?? `GROK_RETRY_FAILED_${res.status}`);
+  }
+  if (!json.run) throw new Error(json.error ?? 'GROK_RETRY_NO_RUN');
+  return json.run;
+}
+
 export async function cancelGrokTwinTestARun(runId: string): Promise<GrokDesignBenchRun> {
   const res = await postFirstOk({ action: 'cancel', runId });
   const json = (await res.json()) as { ok?: boolean; run?: GrokDesignBenchRun; error?: string };
