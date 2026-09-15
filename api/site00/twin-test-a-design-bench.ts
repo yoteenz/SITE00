@@ -8,6 +8,7 @@ import { applyCaptureCorsHeaders, handleCaptureCorsPreflight } from '../_lib/sit
 import {
   getLatestPublicGrokDesignBenchRun,
   getPublicGrokDesignBenchRun,
+  grokDesignBenchAccessProbe,
   grokDesignBenchAudit,
   grokDesignBenchHostIdentity,
   grokDesignBenchReadiness,
@@ -24,11 +25,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (action === 'audit' || action === 'provider_audit') {
       return res.status(200).json({ ok: true, audit: grokDesignBenchAudit() });
     }
+    if (action === 'access_probe' || action === 'model_access') {
+      const requestHost = typeof req.headers.host === 'string' ? req.headers.host : '';
+      const access = await grokDesignBenchAccessProbe();
+      return res.status(200).json({
+        ok: true,
+        ...access,
+        hostDiagnostic: grokDesignBenchHostIdentity(requestHost),
+      });
+    }
     if (action === 'readiness') {
       const requestHost = typeof req.headers.host === 'string' ? req.headers.host : '';
       return res.status(200).json({
         ok: true,
-        readiness: grokDesignBenchReadiness(),
+        readiness: await grokDesignBenchReadiness(),
         hostDiagnostic: grokDesignBenchHostIdentity(requestHost),
       });
     }

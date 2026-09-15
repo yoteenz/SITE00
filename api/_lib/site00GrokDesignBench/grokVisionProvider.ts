@@ -1,5 +1,11 @@
 import { jsonrepair } from 'jsonrepair';
-import { GROK_TWIN_TEST_A_PROVIDER } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
+import {
+  GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM,
+  GROK_DESIGN_BENCH_INFERENCE_METHOD,
+  GROK_DESIGN_BENCH_INFERENCE_PATH,
+  GROK_TWIN_TEST_A_PROVIDER,
+  GROK_XAI_API_BASE,
+} from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import {
   GROK_4_6_PROVIDER_BINDING_FAILED,
   GROK_DESIGN_BENCH_MODEL_CONTRACT,
@@ -16,6 +22,7 @@ import {
 } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import { assertFigmaStylePackage } from '../../../shared/site00-design-bench/grokTwinTestA/packageGuard.js';
 import type { FigmaStyleInterfaceTranslationPackage } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
+import { probeGrok46TeamAccess, type Grok46AccessProbe } from './grokAccessProbe.js';
 import { buildGrokVisualTranslationUserPrompt, GROK_VISUAL_TRANSLATION_SYSTEM } from './prompt.js';
 
 export interface GrokVisionTranslateInput {
@@ -97,6 +104,7 @@ export function evaluateGrokDesignBenchReadiness(args?: {
   const overrideBlocked = Boolean(override && override !== GROK_DESIGN_BENCH_MODEL_ID);
   const keyPresent = Boolean(grokDesignBenchApiKey());
   const imageInputCanAttach = args?.imageBytesPresent ?? true;
+  const requestEndpoint = `${(process.env.SITE00_GROK_API_BASE?.replace(/\/$/, '') || GROK_XAI_API_BASE).replace(/\/$/, '')}${GROK_DESIGN_BENCH_INFERENCE_PATH}`;
   let reason: string | null = null;
   if (process.env.SITE00_GROK_DESIGN_BENCH_ALLOW_ALT === '1') {
     reason = 'Fallback is configured; Test A forbids provider/model fallback';
@@ -110,13 +118,22 @@ export function evaluateGrokDesignBenchReadiness(args?: {
     reason = 'Reference is not frozen';
   } else if (args && args.imageBytesPresent === false) {
     reason = 'Image bytes cannot be attached as multimodal input';
+  } else {
+    reason = 'Live grok-4.6 access probe required before benchmark READY';
   }
   return {
-    state: reason ? 'BLOCKED' : 'READY',
+    state: 'BLOCKED',
     reason,
     provider: 'xai',
     modelId: GROK_DESIGN_BENCH_MODEL_ID,
     xaiApiKeyPresent: keyPresent,
+    grok46Access: 'UNKNOWN',
+    liveModelSmoke: 'SKIPPED',
+    benchmarkReady: false,
+    availableLanguageModels: [],
+    requestEndpoint,
+    requestMethod: GROK_DESIGN_BENCH_INFERENCE_METHOD,
+    modelField: GROK_DESIGN_BENCH_MODEL_ID,
     modelHardBound: true,
     fallbackAllowed: false,
     webSearchAllowed: false,
@@ -124,6 +141,66 @@ export function evaluateGrokDesignBenchReadiness(args?: {
     imageInputCanAttach,
     competitorAccessAllowed: false,
   };
+}
+
+export function applyGrok46AccessProbeToReadiness(
+  base: GrokDesignBenchProviderReadinessReceipt,
+  probe: Grok46AccessProbe,
+): GrokDesignBenchProviderReadinessReceipt {
+  const smokePass = probe.textOnlySmoke.modelAccepted && (!probe.imageSmoke.ran || probe.imageSmoke.modelAccepted);
+  const access: GrokDesignBenchProviderReadinessReceipt['grok46Access'] = probe.grok46AvailableToThisKey
+    ? 'AVAILABLE'
+    : 'UNAVAILABLE';
+  const liveModelSmoke: GrokDesignBenchProviderReadinessReceipt['liveModelSmoke'] = !probe.textOnlySmoke.ran
+    ? 'SKIPPED'
+    : smokePass
+      ? 'PASS'
+      : 'FAIL';
+  const available = probe.availableLanguageModels.filter((id) => id.toLowerCase().includes('grok'));
+  let reason = base.reason;
+  if (!base.xaiApiKeyPresent) {
+    reason = 'XAI_API_KEY missing on the API host. Grok 4.6 cannot start.';
+  } else if (!probe.grok46AvailableToThisKey) {
+    reason = `${GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM}. Available Grok models: ${available.join(', ') || 'none'}`;
+  } else if (!probe.textOnlySmoke.modelAccepted) {
+    reason = `grok-4.6 listed but text smoke failed HTTP ${probe.textOnlySmoke.httpStatus ?? 'none'}`;
+  } else if (probe.imageSmoke.ran && !probe.imageSmoke.modelAccepted) {
+    reason = `grok-4.6 text smoke passed; image smoke failed HTTP ${probe.imageSmoke.httpStatus ?? 'none'}`;
+  } else {
+    reason = null;
+  }
+  const blockedForOther = Boolean(
+    process.env.SITE00_GROK_DESIGN_BENCH_ALLOW_ALT === '1' ||
+      (process.env.SITE00_GROK_VISION_MODEL?.trim() &&
+        process.env.SITE00_GROK_VISION_MODEL.trim() !== GROK_DESIGN_BENCH_MODEL_ID),
+  );
+  const benchmarkReady = Boolean(base.xaiApiKeyPresent && probe.grok46AvailableToThisKey && smokePass && !blockedForOther);
+  return {
+    ...base,
+    state: benchmarkReady ? 'READY' : 'BLOCKED',
+    reason: blockedForOther ? base.reason : reason,
+    grok46Access: access,
+    liveModelSmoke,
+    benchmarkReady,
+    availableLanguageModels: probe.availableLanguageModels,
+    requestEndpoint: probe.requestEndpoint,
+    requestMethod: probe.requestMethod,
+    modelField: probe.modelField,
+  };
+}
+
+export async function evaluateGrokDesignBenchLiveReadiness(args?: {
+  referenceUploaded?: boolean;
+  referenceFrozen?: boolean;
+  imageBytesPresent?: boolean;
+}): Promise<GrokDesignBenchProviderReadinessReceipt> {
+  const base = evaluateGrokDesignBenchReadiness(args);
+  if (!base.xaiApiKeyPresent) return base;
+  if (process.env.SITE00_GROK_DESIGN_BENCH_ALLOW_ALT === '1') return base;
+  const override = process.env.SITE00_GROK_VISION_MODEL?.trim();
+  if (override && override !== GROK_DESIGN_BENCH_MODEL_ID) return base;
+  const probe = await probeGrok46TeamAccess();
+  return applyGrok46AccessProbeToReadiness(base, probe);
 }
 
 export function auditGrokDesignBenchProvider(): {
@@ -200,6 +277,39 @@ export function buildGrok46ChatPayload(input: GrokVisionTranslateInput): {
   };
 }
 
+export function buildGrok46ResponsesPayload(input: GrokVisionTranslateInput): {
+  model: typeof GROK_DESIGN_BENCH_MODEL_ID;
+  temperature: number;
+  tools: [];
+  store: false;
+  input: unknown[];
+} {
+  const model = grokDesignBenchProviderModel();
+  if (isForbiddenGrokBenchModel(model)) {
+    throw new Error(`${GROK_4_6_PROVIDER_BINDING_FAILED}: forbidden model ${model}`);
+  }
+  if (!input.imageBytes.length) {
+    throw new Error('IMAGE_INPUT_REQUIRED');
+  }
+  const dataUrl = `data:${input.mime};base64,${input.imageBytes.toString('base64')}`;
+  return {
+    model,
+    temperature: 0.1,
+    tools: [],
+    store: false,
+    input: [
+      { role: 'system', content: GROK_VISUAL_TRANSLATION_SYSTEM },
+      {
+        role: 'user',
+        content: [
+          { type: 'input_text', text: buildGrokVisualTranslationUserPrompt(input) },
+          { type: 'input_image', image_url: dataUrl },
+        ],
+      },
+    ],
+  };
+}
+
 export function grok46ProviderFailureFromHttp(runId: string, status: number, body: string): GrokDesignBenchProviderFailure {
   return {
     code: GROK_4_6_PROVIDER_BINDING_FAILED,
@@ -237,15 +347,16 @@ export async function translateInterfaceWithGrok(
     throw new Error('XAI_API_KEY_MISSING: set XAI_API_KEY on the Railway API service. Grok 4.6 is the only provider; no fallback.');
   }
 
-  const payloadBody = buildGrok46ChatPayload(input);
-  const imagePart = (payloadBody.messages[1] as { content: Array<{ type: string }> }).content.some((p) => p.type === 'image_url');
+  const payloadBody = buildGrok46ResponsesPayload(input);
+  const user = payloadBody.input[1] as { content: Array<{ type: string }> };
+  const imagePart = user.content.some((p) => p.type === 'input_image');
   if (!imagePart || !inputReceipt.imageInputAttached) {
     throw new Error('IMAGE_INPUT_REQUIRED');
   }
 
   const endpoint = process.env.SITE00_GROK_API_BASE?.replace(/\/$/, '') || 'https://api.x.ai/v1';
-  const response = await fetch(`${endpoint}/chat/completions`, {
-    method: 'POST',
+  const response = await fetch(`${endpoint}/responses`, {
+    method: GROK_DESIGN_BENCH_INFERENCE_METHOD,
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
@@ -260,14 +371,19 @@ export async function translateInterfaceWithGrok(
 
   const payload = (await response.json()) as {
     model?: string;
-    choices?: Array<{ message?: { content?: string } }>;
-    usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number };
+    output_text?: string;
+    output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+    usage?: { input_tokens?: number; output_tokens?: number; total_tokens?: number; prompt_tokens?: number; completion_tokens?: number };
     usage_cost?: { total_cost?: number };
   };
   if (payload.model && payload.model !== GROK_DESIGN_BENCH_MODEL_ID) {
     throw new Error(`${GROK_4_6_PROVIDER_BINDING_FAILED}: provider returned model ${payload.model}`);
   }
-  const content = payload.choices?.[0]?.message?.content;
+  const content =
+    payload.output_text ||
+    payload.output
+      ?.flatMap((item) => item.content ?? [])
+      .find((part) => part.type === 'output_text' && part.text)?.text;
   if (!content) {
     throw new Error('GROK_PROVIDER_EMPTY_RESPONSE');
   }
@@ -279,8 +395,8 @@ export async function translateInterfaceWithGrok(
     provider: 'xai',
     providerModel: GROK_DESIGN_BENCH_MODEL_ID,
     inputReceipt,
-    promptTokens: payload.usage?.prompt_tokens ?? null,
-    completionTokens: payload.usage?.completion_tokens ?? null,
+    promptTokens: payload.usage?.input_tokens ?? payload.usage?.prompt_tokens ?? null,
+    completionTokens: payload.usage?.output_tokens ?? payload.usage?.completion_tokens ?? null,
     totalTokens: payload.usage?.total_tokens ?? null,
     costAmount: typeof payload.usage_cost?.total_cost === 'number' ? payload.usage_cost.total_cost : null,
     costReported: typeof payload.usage_cost?.total_cost === 'number',

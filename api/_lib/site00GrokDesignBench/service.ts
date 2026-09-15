@@ -13,12 +13,15 @@ import type {
   GrokDesignBenchRun,
 } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
 import {
+  applyGrok46AccessProbeToReadiness,
   auditGrokDesignBenchProvider,
+  evaluateGrokDesignBenchLiveReadiness,
   evaluateGrokDesignBenchReadiness,
   grokDesignBenchHostDiagnostic,
   grokDesignBenchProviderModel,
   isGrokTestHarnessEnabled,
 } from './grokVisionProvider.js';
+import { probeGrok46TeamAccess } from './grokAccessProbe.js';
 import { executeGrokDesignBenchJob, launchGrokDesignBenchJob } from './jobRunner.js';
 import {
   getGrokDesignBenchRun,
@@ -63,12 +66,12 @@ export function getLatestPublicGrokDesignBenchRun(projectId: string): GrokDesign
 
 export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput): Promise<GrokDesignBenchRun> {
   if (!isGrokTestHarnessEnabled()) {
-    const readiness = evaluateGrokDesignBenchReadiness({
+    const readiness = await evaluateGrokDesignBenchLiveReadiness({
       referenceUploaded: true,
       referenceFrozen: true,
       imageBytesPresent: Boolean(input.imageBase64),
     });
-    if (readiness.state !== 'READY') {
+    if (readiness.state !== 'READY' || !readiness.benchmarkReady) {
       throw new Error(readiness.reason ?? 'GROK_PROVIDER_BLOCKED');
     }
   }
@@ -166,8 +169,16 @@ export function grokDesignBenchAudit() {
   };
 }
 
-export function grokDesignBenchReadiness() {
-  return evaluateGrokDesignBenchReadiness();
+export async function grokDesignBenchReadiness() {
+  return evaluateGrokDesignBenchLiveReadiness();
+}
+
+export async function grokDesignBenchAccessProbe() {
+  const probe = await probeGrok46TeamAccess({ skipCache: true });
+  return {
+    probe,
+    readiness: applyGrok46AccessProbeToReadiness(evaluateGrokDesignBenchReadiness(), probe),
+  };
 }
 
 export function grokDesignBenchHostIdentity(requestHost?: string) {

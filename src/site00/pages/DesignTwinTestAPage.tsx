@@ -84,7 +84,7 @@ export function DesignTwinTestAPage() {
 
   const active = Boolean(run && GROK_ACTIVE_STAGES.includes(run.stage as (typeof GROK_ACTIVE_STAGES)[number]));
   const frozen = Boolean(run?.reference?.immutableForRun && active);
-  const providerReady = readiness?.state === 'READY';
+  const providerReady = readiness?.state === 'READY' && readiness.benchmarkReady === true;
   const startDisabled = !localRef || frozen || starting || active || !providerReady;
 
   useEffect(() => {
@@ -105,6 +105,13 @@ export function DesignTwinTestAPage() {
             provider: 'xai',
             modelId: GROK_DESIGN_BENCH_MODEL_ID,
             xaiApiKeyPresent: false,
+            grok46Access: 'UNKNOWN',
+            liveModelSmoke: 'SKIPPED',
+            benchmarkReady: false,
+            availableLanguageModels: [],
+            requestEndpoint: 'https://api.x.ai/v1/responses',
+            requestMethod: 'POST',
+            modelField: GROK_DESIGN_BENCH_MODEL_ID,
             modelHardBound: true,
             fallbackAllowed: false,
             webSearchAllowed: false,
@@ -349,8 +356,22 @@ export function DesignTwinTestAPage() {
               {GROK_TWIN_TEST_A_PROVIDER_LABEL} · {GROK_DESIGN_BENCH_MODEL_ID}
             </p>
             <p className="twin-test-a__hint" data-testid="twin-test-a-key-present">
-              XAI KEY PRESENT: {readiness.xaiApiKeyPresent ? 'YES' : 'NO'}
+              XAI KEY: {readiness.xaiApiKeyPresent ? 'PRESENT' : 'MISSING'}
             </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-grok-access">
+              GROK 4.6 ACCESS: {readiness.grok46Access}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-model-smoke">
+              LIVE MODEL SMOKE: {readiness.liveModelSmoke}
+            </p>
+            <p className="twin-test-a__hint" data-testid="twin-test-a-benchmark-ready">
+              BENCHMARK READY: {readiness.benchmarkReady ? 'YES' : 'NO'}
+            </p>
+            {readiness.grok46Access === 'UNAVAILABLE' && readiness.availableLanguageModels.length ? (
+              <p className="twin-test-a__hint" data-testid="twin-test-a-available-models">
+                AVAILABLE GROK MODELS: {readiness.availableLanguageModels.filter((id) => id.toLowerCase().includes('grok')).join(', ') || 'none'}
+              </p>
+            ) : null}
             {hostDiagnostic ? (
               <dl className="twin-test-a__host-diagnostic" data-testid="twin-test-a-host-diagnostic">
                 <div>

@@ -39,12 +39,22 @@ export interface GrokBenchmarkInputReceipt {
   promptVersion: typeof GROK_DESIGN_BENCH_PROMPT_VERSION;
 }
 
+export type Grok46AccessState = 'AVAILABLE' | 'UNAVAILABLE' | 'UNKNOWN';
+export type Grok46SmokeState = 'PASS' | 'FAIL' | 'SKIPPED';
+
 export interface GrokDesignBenchProviderReadinessReceipt {
   state: 'READY' | 'BLOCKED';
   reason: string | null;
   provider: 'xai';
   modelId: typeof GROK_DESIGN_BENCH_MODEL_ID;
   xaiApiKeyPresent: boolean;
+  grok46Access: Grok46AccessState;
+  liveModelSmoke: Grok46SmokeState;
+  benchmarkReady: boolean;
+  availableLanguageModels: string[];
+  requestEndpoint: string;
+  requestMethod: 'POST';
+  modelField: typeof GROK_DESIGN_BENCH_MODEL_ID;
   modelHardBound: true;
   fallbackAllowed: false;
   webSearchAllowed: false;
@@ -87,6 +97,7 @@ export function classifyGrok46ProviderError(status: number | null, body: string)
   }
   if (status === 429) return 'RATE_LIMIT';
   if (
+    status === 410 ||
     status === 404 ||
     text.includes('model') && (text.includes('not found') || text.includes('unknown') || text.includes('does not exist') || text.includes('unsupported'))
   ) {
