@@ -16,6 +16,7 @@ import { GuardLoadingRecovery } from '../../../platform-stabilization/GuardLoadi
 import { useGuardLoadingTimeout } from '../../../platform-stabilization/useGuardLoadingTimeout';
 import { promiseWithTimeout } from '../../../platform-stabilization/promiseWithTimeout';
 import { isSite00CloudPreviewBuild } from '../loader/site00PreviewHost';
+import { writeAgentDebugLog } from '../../../utils/agentDebugLog';
 
 const SERVER_RESTORE_ATTEMPT_KEY = 'site00_ctrl_room_restore_v1';
 const AUTH_STEP_TIMEOUT_MS = 6_000;
@@ -51,6 +52,22 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     new URLSearchParams(location.search).get('goldenDiffCapture') === '1';
 
   useEffect(() => {
+    // #region agent log
+    if (location.pathname.includes('/design/twin-testB')) {
+      writeAgentDebugLog({
+        hypothesisId: 'B',
+        location: 'src/site00/components/guards/Site00AccountRouteGuard.tsx:recoveryEffect',
+        message: 'Test B account guard recovery entered',
+        data: {
+          pathname: location.pathname,
+          search: location.search,
+          cloudPreview,
+          goldenDiffCapture,
+          supabaseConfigured: isSupabaseConfigured(),
+        },
+      });
+    }
+    // #endregion
     const designPreviewCapture =
       typeof window !== 'undefined' &&
       new URLSearchParams(location.search).get('designPreview') === '1';
@@ -155,6 +172,26 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
       cancelled = true;
     };
   }, [cloudPreview, goldenDiffCapture, location.search]);
+
+  useEffect(() => {
+    if (!location.pathname.includes('/design/twin-testB')) return;
+    const signedIn = isSignedIn();
+    const decision = !recoveryDone
+      ? 'LOADING'
+      : signedIn || goldenDiffCapture
+        ? 'RENDER_CHILDREN'
+        : cloudPreview
+          ? 'SHOW_SIGN_IN_REQUIRED'
+          : 'REDIRECT_SIGN_IN';
+    // #region agent log
+    writeAgentDebugLog({
+      hypothesisId: 'B',
+      location: 'src/site00/components/guards/Site00AccountRouteGuard.tsx:decisionEffect',
+      message: 'Test B account guard decision',
+      data: { recoveryDone, signedIn, goldenDiffCapture, cloudPreview, decision },
+    });
+    // #endregion
+  }, [cloudPreview, goldenDiffCapture, location.pathname, recoveryDone]);
 
   if (timedOut && isLoading) {
     return (

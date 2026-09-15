@@ -6,6 +6,7 @@ import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { appendFileSync } from 'node:fs';
 import { loadEnv } from 'vite';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -164,6 +165,19 @@ export function site00LocalApiPlugin() {
       server.middlewares.use(async (req, res, next) => {
         const rawUrl = req.url ?? '';
         const pathname = rawUrl.split('?')[0] ?? '';
+        // #region agent log
+        if (pathname === '/__agent-debug-log' && req.method === 'POST') {
+          try {
+            const payload = JSON.parse(await readRequestBody(req));
+            appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify(payload)}\n`);
+            res.statusCode = 204;
+          } catch {
+            res.statusCode = 400;
+          }
+          res.end();
+          return;
+        }
+        // #endregion
         const file = routeByPath.get(pathname);
         if (!file) return next();
 
