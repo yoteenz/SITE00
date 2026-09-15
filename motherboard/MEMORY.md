@@ -9599,6 +9599,18 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1 isolated golden reconstruction (v490)
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh Grok 4.6 Cursor sprint to recreate an attached NDXBOOK DESIGN golden as real DOM/CSS — not a Figma package, not Composer, not a provider bench.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1**. Golden attached in-chat (768×1376). Isolated route **`/projects/ndxbook/design/twin-grok-direct`**. Do not mutate `/design/twin`, `twin-v4`, `twin-testA`, `twin-testB`, or current DESIGN.
+- **Topics covered:** Motherboard load; golden geometry measurement; reuse of NDXBOOK paper texture (`eu-branch-receipts-isolated.webp`); three browser visual passes vs the golden.
+- **Decisions / outcomes:** Direct implementation only. Artboard locked to 768×1376. No raster cheat (golden / mobile-master not used as a page background). Route boots without CTRL ROOM sign-in. Exact archival pointing-hand photograph is not a standalone repo asset — constructed xerox plate used instead.
+- **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
+- **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F6R2 durable structured-output proof receipt
 
 Summary of the **whole conversation so far** in this chat: after Test B’s signed-out boot fix, the verified F6 structured-output gate regressed on Railway because runs and `structured-output-proof.json` lived under process-local `/tmp`. Both historical proof run IDs became `SOL_RUN_NOT_FOUND`, and readiness fell back to tiny PASS / large FAIL despite the completed F6R1 evidence. The fix moved proof authority to existing SITE 00 Supabase persistence, separated provider readiness from reference selection, exposed explicit UI readiness states, reconciled stale browser runs, and survived repeated API restarts.

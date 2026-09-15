@@ -180,6 +180,9 @@ const SolDesignBenchmarkPage = lazy(() => import('../site00/pages/SolDesignBench
 const DesignTwinTestAPage = lazy(() =>
   import('../site00/pages/DesignTwinTestAPage').then((m) => ({ default: m.DesignTwinTestAPage })),
 );
+const DesignTwinGrokDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinGrokDirectPage').then((m) => ({ default: m.DesignTwinGrokDirectPage })),
+);
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
@@ -1153,6 +1156,16 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00Suspense>
               <DesignTwinTestAPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinGrokDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinGrokDirectPage />
             </Site00Suspense>
           </Site00Layout>
         }
