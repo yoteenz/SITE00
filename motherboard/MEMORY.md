@@ -9207,6 +9207,13 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — Founder canonical light blueprint mount (v459)
+
+- **Founder:** Replace mounted Design blueprint compare image with supplied light technical JPG (not dark FAL sheet).
+- **Delivered:** Bundled **`public/assets/ndxbook-reconstruction/ndxbook-mobile-light-technical-blueprint-v1.jpg`** (also synced **`ndxbook-mobile-forensic-blueprint.jpg`**); **`applyFounderCanonicalLightBlueprintMount`** on NDXBOOK **`syncFounderMobileTwinSession`** + restore; default NBP light **style reference** uses same asset. Build **v459**. Test **`p0vrTwinV30FounderLightBlueprintMount.test.ts`**.
+
+---
+
 ## 2026-09-14 — Global mobile twin RESTORE banner + restore offer (v458)
 
 - **Symptom:** Founder still did not see **MOBILE TWIN · BROWSER BACKUP FOUND** after v457 — strip lived only inside Batch 1 authority (below Batch 2); **`sessionView` sync** could hide recovery while Actual/Blueprint still missing.
