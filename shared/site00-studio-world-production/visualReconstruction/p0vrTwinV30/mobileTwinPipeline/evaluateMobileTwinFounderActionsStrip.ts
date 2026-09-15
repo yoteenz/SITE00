@@ -1,5 +1,5 @@
 import type { DesignPageAuthorityReviewSession } from '../types.js';
-import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../constants.js';
+import { DESIGN_PAGE_V3_PILOT_PROJECT_ID, MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 } from '../constants.js';
 import { canRunFullMobileTwinPackage } from './mobileTwinVisualStrategy.js';
 import { evaluateMobileTwinRestoreOffer } from './evaluateMobileTwinRestoreOffer.js';
 import { shouldShowBuildTwinDesignRoute } from '../../p0vrTwinV30R8M/shouldShowBuildTwinDesignRoute.js';
@@ -23,6 +23,7 @@ export function shouldShowMobileTwinFounderActionsStrip(
   _session: DesignPageAuthorityReviewSession,
   projectId: string,
 ): boolean {
+  if (MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1) return false;
   return projectId.toLowerCase() === DESIGN_PAGE_V3_PILOT_PROJECT_ID;
 }
 

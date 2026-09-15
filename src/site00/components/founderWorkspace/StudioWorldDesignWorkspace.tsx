@@ -92,6 +92,8 @@ import { DesignPageV3AuthorityBatch2Panel } from '../designWorkspace/DesignPageV
 import { DesignPageV3AuthorityReviewPanel } from '../designWorkspace/DesignPageV3AuthorityReviewPanel.js';
 import { DesignPageV3MobileTwinGlobalRecoveryStrip } from '../designWorkspace/DesignPageV3MobileTwinGlobalRecoveryStrip.js';
 import { DesignPageV3SectionErrorBoundary } from '../designWorkspace/DesignPageV3SectionErrorBoundary.js';
+import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
+import { ensureNdxbookTwinImplementationReady } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/ensureNdxbookTwinAutobuild.js';
 import { DesignWorkspaceOverflowMenu } from '../designWorkspace/DesignWorkspaceOverflowMenu';
 import type { PagesWizardStep } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
 import type { AssetsWizardStep } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3r1/designWizardSteps.js';
@@ -234,6 +236,11 @@ export function StudioWorldDesignWorkspace({
       syncUrl({ project: activeDesignProjectId });
     }
   }, [activeDesignProjectId, syncUrl, urlState.project]);
+
+  useEffect(() => {
+    if (activeDesignProjectId.toLowerCase() !== DESIGN_PAGE_V3_PILOT_PROJECT_ID) return;
+    void ensureNdxbookTwinImplementationReady(activeDesignProjectId);
+  }, [activeDesignProjectId]);
 
   const site00SyncContract = useMemo(
     () => (projectId === 'site00' ? getActiveDesignRouteSyncContract() : null),

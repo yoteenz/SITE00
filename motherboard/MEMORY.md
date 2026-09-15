@@ -9292,3 +9292,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Changes:** **`DesignPageV3MobileTwinGlobalRecoveryStrip`** always shows **USE FOUNDER BLUEPRINT · BUILD PACKAGE · REBUILD TWIN** on NDXBOOK (+ twin route link when cache exists); **`shouldShowMobileTwinFounderActionsStrip`** true for all pilot sessions; **`ensureSessionReadyForFounderEscalation`** in run path. Build **v463**. Tests **`p0vrTwinV30FounderEscalationPrepare.test.ts`**, founder strip mount asserts global test id.
 - **Founder ops:** Production GoDaddy ZIP **v463** (JPG assets under `/assets/ndxbook-reconstruction/`); Design top purple strip → one tap escalation → **OPEN TWIN IMPLEMENTATION REVIEW**.
 
+---
+
+## 2026-09-15 — NDXBOOK twin autobuild, manual gates off (v464)
+
+- **Founder:** No more button maze — auto-build design twin route from bundled founder blueprint; disable manual gates for now.
+- **Delivered:** **`MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1`** — on NDXBOOK Design load + `/design/twin` load, **`ensureNdxbookTwinImplementationReady`** materializes founder-approved package (canonical JPGs) and R8M1 compile cache; hides founder escalation / restore / founder-actions strips. Twin cache uses memory fallback when LS missing. Build **v464**. Tests **`p0vrTwinV30TwinAutobuild.test.ts`**.
+- **Founder ops:** Deploy **v464** ZIP → open **`/projects/ndxbook/design/twin`** (hard refresh once); no BUILD/RESTORE/ESCALATE taps required.
+
