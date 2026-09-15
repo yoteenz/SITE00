@@ -8,6 +8,7 @@ import {
   PIXEL_EXTRACTION_REVIEW_REQUIRED,
 } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/constants.js';
 import { resolveTwinV41BootContext } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/resolveTwinV41BootContext.js';
+import { primeTwinV41ForensicFromDesignSession } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/primeTwinV41ForensicFromDesignSession.js';
 import { TwinV41PixelExtractionOverlay } from '../components/designWorkspace/TwinV41PixelExtractionOverlay.js';
 import { P0_VR_TWIN_V30_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { TWIN_V4_CSS_NAMESPACE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/constants.js';
@@ -23,6 +24,7 @@ export function DesignTwinV4ProofPage() {
   const [err, setErr] = useState<string | null>(null);
   const [bundle, setBundle] = useState<TwinV41PixelExtractionBundle | null>(null);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [bootStatus, setBootStatus] = useState<string | null>(null);
 
   const bootContext = useMemo(
     () =>
@@ -35,20 +37,71 @@ export function DesignTwinV4ProofPage() {
   const sourceActualHash = bootContext.sourceActualHash;
 
   useEffect(() => {
-    if (!sourceActualHash) {
-      setErr('TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE');
-      setBundle(null);
-      return;
-    }
     let cancelled = false;
-    setErr(null);
-    compileTwinV41PixelExtraction({ projectId, sourceActualHash })
-      .then((result) => {
-        if (!cancelled) setBundle(result);
-      })
-      .catch((e) => {
-        if (!cancelled) setErr(e instanceof Error ? e.message : 'TWIN_V41_EXTRACTION_FAILED');
-      });
+
+    async function run() {
+      setErr(null);
+      setBundle(null);
+      let hash = sourceActualHash;
+      if (!hash) {
+        setBootStatus('Looking for cached forensic blueprint…');
+        const primed = await primeTwinV41ForensicFromDesignSession(projectId);
+        if (primed.ok) {
+          hash = primed.sourceActualHash;
+        } else if (primed.code !== 'SKIPPED_VITEST') {
+          setBootStatus(null);
+          setErr(`TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE — ${primed.message}`);
+          return;
+        }
+      }
+      if (!hash) {
+        setBootStatus(null);
+        setErr('TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE');
+        return;
+      }
+      setBootStatus('Running pixel extraction…');
+      try {
+        const result = await compileTwinV41PixelExtraction({ projectId, sourceActualHash: hash });
+        if (!cancelled) {
+          setBundle(result);
+          setBootStatus(null);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setBootStatus(null);
+          const msg = e instanceof Error ? e.message : 'TWIN_V41_EXTRACTION_FAILED';
+          if (msg.includes('TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE')) {
+            setBootStatus('Fetching forensic blueprint from API…');
+            const primed = await primeTwinV41ForensicFromDesignSession(projectId);
+            if (primed.ok) {
+              try {
+                const retry = await compileTwinV41PixelExtraction({
+                  projectId,
+                  sourceActualHash: primed.sourceActualHash,
+                });
+                if (!cancelled) {
+                  setBundle(retry);
+                  setBootStatus(null);
+                  return;
+                }
+              } catch (retryErr) {
+                if (!cancelled) {
+                  setErr(retryErr instanceof Error ? retryErr.message : msg);
+                }
+                return;
+              }
+            }
+            if (!cancelled && !primed.ok) {
+              setErr(`TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE — ${primed.message}`);
+            }
+            return;
+          }
+          setErr(msg);
+        }
+      }
+    }
+
+    void run();
     return () => {
       cancelled = true;
     };
@@ -89,13 +142,15 @@ export function DesignTwinV4ProofPage() {
         <div className="site00-twin-v41-boot-help" data-testid="twin-v4-error">
           <p>{err}</p>
           <p>
-            Generate or load the forensic blueprint on <strong>/projects/{projectId}/design/twin</strong> first (Fal PNG
-            cached in this browser). Optional: add <code>?actualHash=…</code> matching the twin actual hash.
+            V4 needs an <strong>https</strong> Fal forensic PNG in this browser (not the gray{' '}
+            <code>local-autobuild://</code> stub). Open <strong>/projects/{projectId}/design/twin</strong> or Design
+            workspace so the package exists, then reload this page — V4 will try the forensic API automatically. Optional:{' '}
+            <code>?actualHash=…</code> if you have the twin actual hash.
           </p>
         </div>
       : null}
       {!bundle && !err ?
-        <p data-testid="twin-v4-loading">Running forensic pixel analysis…</p>
+        <p data-testid="twin-v4-loading">{bootStatus ?? 'Running forensic pixel analysis…'}</p>
       : null}
       {bundle && mode === 'FORENSIC_AUTHORITY' ?
         <div className="site00-twin-v41-extraction__authority-only" data-testid="twin-v4-authority-panel">

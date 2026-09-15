@@ -1,6 +1,7 @@
 import type { ForensicUiBlueprintAuthority } from './forensicTypes.js';
 import { FORENSIC_BLUEPRINT_FAL_ENDPOINT, FORENSIC_BLUEPRINT_PROMPT_VERSION } from './constants.js';
 import { site00IsBrowser } from '../../runtime/site00RuntimeEnv.js';
+import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../p0vrTwinV30/constants.js';
 
 const cache = new Map<string, ForensicUiBlueprintAuthority>();
 const STORAGE_PREFIX = 'site00:forensic-blueprint-cache:v1:';
@@ -63,7 +64,8 @@ function pickBestForensicBootCandidate(
   authority: ForensicUiBlueprintAuthority,
   best: ForensicUiBlueprintAuthority | null,
 ): ForensicUiBlueprintAuthority | null {
-  if (authority.projectId !== projectId) return best;
+  const authorityProject = (authority.projectId ?? DESIGN_PAGE_V3_PILOT_PROJECT_ID).toLowerCase();
+  if (authorityProject !== projectId.toLowerCase()) return best;
   if (!isLoadableForensicBlueprintUri(authority.blueprintImageUri)) return best;
   if (authority.founderReviewStatus === 'CORRECTION_REQUESTED') return best;
   const usable =
