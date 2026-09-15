@@ -1,0 +1,97 @@
+.site00-twin-v42-forensic {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  color: #1a3366;
+  overflow: hidden;
+}
+
+.site00-twin-v42-forensic__header {
+  padding: 8px 12px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #1e5bb8;
+}
+
+.site00-twin-v42-forensic__title {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site00-twin-v42-forensic__subtitle {
+  font-size: 0.85em;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+.site00-twin-v42-forensic__rule {
+  margin-top: 6px;
+  width: 100%;
+}
+
+.site00-twin-v42-forensic__main {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #1e5bb8;
+}
+
+.site00-twin-v42-forensic__left {
+  border-right: 1px solid #1e5bb8;
+}
+
+.site00-twin-v42-forensic__page-shell {
+  border: 1px solid #1e5bb8;
+  background: #fafaf8;
+  min-height: 100%;
+}
+
+.site00-twin-v42-forensic__band {
+  border-bottom: 1px solid rgba(30, 91, 184, 0.35);
+  padding: 6px 8px;
+}
+
+.site00-twin-v42-forensic__band-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.site00-twin-v42-forensic__right {
+  background: #fff;
+}
+
+.site00-twin-v42-spec-table {
+  width: 100%;
+  color: #142850;
+}
+
+.site00-twin-v42-spec-table th,
+.site00-twin-v42-spec-table td {
+  border: 1px solid #1e5bb8;
+  padding: 2px 4px;
+  text-align: left;
+}
+
+.site00-twin-v42-forensic__lower {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 10px;
+  gap: 4px;
+  box-sizing: border-box;
+}
+
+.site00-twin-v42-forensic__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.site00-twin-v42-forensic__swatch {
+  border: 1px solid #333;
+  box-sizing: border-box;
+}
+
+.site00-twin-v42-forensic__typography-key,
+.site00-twin-v42-forensic__divider-specs,
+.site00-twin-v42-forensic__notes {
+  border-top: 1px solid rgba(30, 91, 184, 0.25);
+  padding-top: 4px;
+}

@@ -21,7 +21,6 @@ import {
   TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE,
   TWIN_V42_FULL_PAGE_DIFF_THRESHOLD,
   TWIN_V42_PLAYWRIGHT_DEVICE_SCALE,
-  MIN_TWIN_V42_GOLDEN_DIFF_ITERATIONS,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/constants.js';
 import {
   clearTwinV4GoldenAuthorityForTests,
@@ -324,10 +323,14 @@ describe('P0.VR.TWINV4.2 Playwright golden diff gate', () => {
       artifactDir: '/tmp/twin-v42-test-artifacts',
       queryActualHash: ACTUAL_HASH,
       localStorageSeed,
+      productionGolden: false,
+      fixtureGoldenUsedInProduction: false,
     });
 
     expect(gate.iterations.length).toBeGreaterThanOrEqual(1);
-    expect(gate.iterations.length).toBeLessThanOrEqual(MIN_TWIN_V42_GOLDEN_DIFF_ITERATIONS);
+    expect(gate.mutationIterations).toBeGreaterThanOrEqual(1);
+    expect(gate.iterations.some((it) => it.validMutation)).toBe(true);
+    expect(gate.iterations.some((it) => it.implementationHashAfter !== it.implementationHashBefore)).toBe(true);
     expect(gate.fontStability.documentFontsReady).toBe(true);
     expect(['YES', 'NO', 'INCONCLUSIVE']).toContain(gate.reconstructionEngineProof);
     await fetchGoldenAuthorityBytes(goldenAuthority.artifactUrl);

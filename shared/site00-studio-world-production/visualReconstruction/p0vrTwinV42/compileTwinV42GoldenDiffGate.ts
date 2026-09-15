@@ -1,7 +1,7 @@
 import { readTwinV42GoldenDiffBundle, writeTwinV42GoldenDiffBundle } from './twinV42Persistence.js';
 import { runTwinV4GoldenDiffLoop } from './runTwinV4GoldenDiffLoop.js';
 import { auditTwinV4LiveDomForRasterCheat } from './twinV4RasterCheatFirewall.js';
-import { P0_VR_TWIN_V42_LINEAGE } from './constants.js';
+import { P0_VR_TWIN_V42R1_LINEAGE } from './constants.js';
 import type { TwinV4GoldenAuthority, TwinV4CanonicalViewport, TwinV42GoldenDiffBundle } from './twinV42Types.js';
 import { loadGoldenPngBufferForNode } from './twinV42NodeGoldenLoader.js';
 
@@ -15,6 +15,8 @@ export async function compileTwinV42GoldenDiffGate(input: {
   artifactDir?: string;
   queryActualHash?: string;
   localStorageSeed?: Record<string, string>;
+  productionGolden?: boolean;
+  fixtureGoldenUsedInProduction?: boolean;
 }): Promise<TwinV42GoldenDiffBundle> {
   const goldenPng = input.goldenPng ?? loadGoldenPngBufferForNode(input.goldenAuthority);
   const loop = await runTwinV4GoldenDiffLoop({
@@ -57,17 +59,22 @@ export async function compileTwinV42GoldenDiffGate(input: {
   }
 
   const bundle: TwinV42GoldenDiffBundle = {
-    lineage: P0_VR_TWIN_V42_LINEAGE,
+    lineage: P0_VR_TWIN_V42R1_LINEAGE,
+    productionGolden: input.productionGolden ?? false,
+    fixtureGoldenUsedInProduction: input.fixtureGoldenUsedInProduction ?? false,
     goldenAuthority: input.goldenAuthority,
     canonicalViewport: input.canonicalViewport,
     purgeReceipt: input.purgeReceipt,
     iterations: loop.iterations,
+    mutationIterations: loop.mutationIterations,
     fontStability: loop.fontStability,
     assetStability: loop.assetStability,
     rasterFirewall,
     gate,
     reconstructionEngineProof: proof,
     proofBlockedReason,
+    convergenceStalled: loop.stalled,
+    regionRegressions: loop.regionRegressions,
   };
 
   writeTwinV42GoldenDiffBundle(bundle);

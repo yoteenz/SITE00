@@ -15,6 +15,7 @@ export async function captureTwinV4LiveReconstructionScreenshot(input: {
   viewport: TwinV4CanonicalViewport;
   queryActualHash?: string;
   localStorageSeed?: Record<string, string>;
+  correctionGeneration?: number;
 }): Promise<TwinV4PlaywrightCaptureResult> {
   const { chromium } = await import('playwright');
   const browser = await chromium.launch({ headless: true });
@@ -35,7 +36,11 @@ export async function captureTwinV4LiveReconstructionScreenshot(input: {
       }, input.localStorageSeed);
     }
     const hashQ = input.queryActualHash ? `&actualHash=${encodeURIComponent(input.queryActualHash)}` : '';
-    const route = `/projects/${input.projectId}/design/twin-v4?goldenDiffCapture=1&designPreview=1${hashQ}`;
+    const genQ =
+      input.correctionGeneration !== undefined ?
+        `&correctionGeneration=${encodeURIComponent(String(input.correctionGeneration))}`
+      : '';
+    const route = `/projects/${input.projectId}/design/twin-v4?goldenDiffCapture=1&designPreview=1${hashQ}${genQ}`;
     await page.goto(`${input.baseUrl.replace(/\/$/, '')}${route}`, {
       waitUntil: 'networkidle',
       timeout: 120_000,
