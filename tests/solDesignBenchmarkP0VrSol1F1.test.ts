@@ -161,11 +161,6 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
       provider: 'openai',
       modelId: 'gpt-5.6-sol',
       reasoningEffort: 'high',
-      imageInputAttached: true,
-      structuredOutputRequested: true,
-      structuredOutputMode: 'json_object',
-      jsonInstructionPresent: true,
-      modelId: 'gpt-5.6-sol',
       fallbackAllowed: false,
       webSearchAllowed: false,
     }));
@@ -195,6 +190,12 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
     expect(fetchMock.mock.calls[0][0]).toBe('https://api.openai.com/v1/responses');
     expect(result.dispatchReceipt).toMatchObject({
       provider: 'openai',
+      modelId: 'gpt-5.6-sol',
+      reasoningEffort: 'high',
+      imageInputAttached: true,
+      structuredOutputRequested: true,
+      structuredOutputMode: 'json_object',
+      jsonInstructionPresent: true,
       requestedModelId: 'gpt-5.6-sol',
       actualDispatchedModelId: 'gpt-5.6-sol',
       requestedReasoningEffort: 'high',
