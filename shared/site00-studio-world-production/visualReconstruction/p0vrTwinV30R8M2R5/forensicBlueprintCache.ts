@@ -46,6 +46,32 @@ export function writeForensicBlueprintToCache(key: string, authority: ForensicUi
   writeToStorage(key, authority);
 }
 
+/** Browser: find founder-approved forensic with loadable image URI (https or site path). */
+export function findFounderApprovedForensicBlueprintInStorage(): ForensicUiBlueprintAuthority | null {
+  if (!site00IsBrowser() || typeof localStorage === 'undefined') return null;
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith(STORAGE_PREFIX)) continue;
+    try {
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const authority = JSON.parse(raw) as ForensicUiBlueprintAuthority;
+      if (authority.founderReviewStatus !== 'APPROVED') continue;
+      const uri = authority.blueprintImageUri;
+      if (
+        uri.startsWith('http://') ||
+        uri.startsWith('https://') ||
+        (uri.startsWith('/') && !uri.startsWith('//'))
+      ) {
+        return authority;
+      }
+    } catch {
+      /* skip corrupt */
+    }
+  }
+  return null;
+}
+
 export function clearForensicBlueprintCacheForTests(): void {
   cache.clear();
   if (typeof localStorage !== 'undefined') {
