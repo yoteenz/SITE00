@@ -272,7 +272,7 @@ function ResultsWorkspace({
                 <button className={zoom === value ? 'is-active' : ''} onClick={() => setZoom(value)} key={value}>{value}</button>
               ))}
             </div>
-            <div className={`sol-bench-compare sol-bench-compare--${compare.toLowerCase().replaceAll(' ', '-')}`}>
+            <div className={`sol-bench-compare sol-bench-compare--${compare.toLowerCase().replace(/ /g, '-')}`}>
               {showReference ? <figure><figcaption>GOLDEN REFERENCE</figcaption><div className="sol-bench-image-stage"><img src={referenceUrl} alt="Golden reference" /></div></figure> : null}
               {showTranslation ? <figure><figcaption>SOL TRANSLATION</figcaption><PreviewArtboard package={pkg} referenceUrl={referenceUrl} zoom={zoom} /></figure> : null}
             </div>
@@ -346,6 +346,7 @@ export function SolDesignBenchmarkPage() {
   const [run, setRun] = useState<SolDesignBenchRun | null>(null);
   const [error, setError] = useState('');
   const [isInspecting, setIsInspecting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const pickerRef = useRef<HTMLInputElement>(null);
 
@@ -417,6 +418,7 @@ export function SolDesignBenchmarkPage() {
       },
     };
     try {
+      setIsUploading(true);
       const response = await fetch(site00ApiUrl('/api/site00/sol-design-bench'), {
         method: 'POST',
         credentials: 'omit',
@@ -429,6 +431,8 @@ export function SolDesignBenchmarkPage() {
       localStorage.setItem(LAST_RUN_KEY, body.run.runId);
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : String(reason));
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -480,7 +484,7 @@ export function SolDesignBenchmarkPage() {
           </div>
         ) : null}
 
-        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting} onClick={() => void start()}>START SOL TEST</button> : null}
+        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
         {error ? <p className="sol-bench-error" role="alert">{error}</p> : null}
       </section>
 
@@ -494,6 +498,13 @@ export function SolDesignBenchmarkPage() {
             <div><small>ESTIMATED REMAINING</small><strong>{run.etaSeconds == null ? 'Estimating…' : `~${formatDuration(run.etaSeconds * 1000)}`}</strong><em>Stage-derived estimate</em></div>
           </div>
           {run.error ? <p className="sol-bench-error">{run.error.code}: {run.error.message}</p> : null}
+        </section>
+      ) : null}
+      {isUploading ? (
+        <section className="sol-bench-progress" data-testid="sol-progress">
+          <span className="sol-bench-progress__eyebrow">SOL IS TRANSLATING YOUR INTERFACE</span>
+          <div className="sol-bench-progress__bar"><i style={{ width: '2%' }} /></div>
+          <div className="sol-bench-progress__metrics"><div><small>STAGE</small><strong>Uploading reference…</strong></div></div>
         </section>
       ) : null}
 
