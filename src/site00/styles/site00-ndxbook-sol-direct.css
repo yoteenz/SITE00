@@ -1,3 +1,5 @@
+body:has(.sol-direct) { margin: 0; background: #dededb; }
+
 .sol-direct {
   --lime: #b9ed1f;
   --ink: #0c0c0b;
@@ -35,7 +37,7 @@
 .sol-hostbar > span { margin-left: auto; font-size: 6px; }
 .sol-hostbar i, .sol-context i, .sol-score i { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); vertical-align: middle; }
 
-.sol-primary-nav { height: 26px; display: grid; grid-template-columns: 52px repeat(5, 1fr); border-bottom: 1px solid #b7b7b4; background: #fafaf8; }
+.sol-primary-nav { height: 26px; display: grid; grid-template-columns: 52px repeat(6, 1fr); border-bottom: 1px solid #b7b7b4; background: #fafaf8; }
 .sol-primary-nav button { border: 0; border-right: 1px solid #d3d3d0; background: transparent; font-size: 7px; }
 .sol-primary-nav button:first-child { font-size: 14px; }
 
@@ -58,12 +60,14 @@
 .sol-hero-artifact { position: relative; overflow: hidden; border: 1px solid #222; border-radius: 5px; background: #101010; color: #f3f1e9; }
 .sol-hero-meta { position: absolute; z-index: 4; inset: 12px 13px auto; display: flex; justify-content: space-between; color: var(--lime); font-size: 6px; }
 .sol-hero-copy { position: absolute; z-index: 4; left: 13px; top: 39px; width: 210px; }
-.sol-hero-copy h1 { margin: 0; font-family: Impact, "Arial Narrow", sans-serif; font-size: 40px; font-weight: 500; line-height: .99; letter-spacing: -.8px; }
-.sol-hero-copy p { margin: 15px 0 0; color: var(--lime); font-size: 7px; font-weight: 700; line-height: 1.45; }
-.sol-hero-image { position: absolute; inset: 28px 0 20px 216px; overflow: hidden; background: #d7d0c1; filter: grayscale(1) contrast(1.25); }
+.sol-hero-copy h1 { width: 360px; margin: 0; font-family: Impact, "Arial Narrow", sans-serif; font-size: 50px; font-weight: 500; line-height: .95; letter-spacing: -.8px; transform: scaleX(.57); transform-origin: left top; }
+.sol-hero-copy p { margin: 35px 0 0; color: var(--lime); font-size: 7px; font-weight: 700; line-height: 1.45; }
+.sol-hero-image { position: absolute; inset: 28px 0 20px 221px; overflow: hidden; background: #d7d0c1; filter: grayscale(1) contrast(1.25); }
 .sol-hero-image::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 14px, rgba(10,10,10,.18) 15px), repeating-linear-gradient(90deg, transparent 0 23px, rgba(10,10,10,.13) 24px); mix-blend-mode: multiply; }
 .sol-paper-grid { position: absolute; inset: 0; background: #d9d1c2; transform: rotate(-2deg); }
-.sol-hero-image img { position: absolute; z-index: 2; width: 380px; height: 228px; left: -120px; top: 2px; object-fit: cover; object-position: 32% 42%; filter: grayscale(1) contrast(1.7) brightness(.78); mix-blend-mode: multiply; }
+.sol-hero-image img { position: absolute; z-index: 2; width: 380px; height: 228px; left: -120px; top: 2px; object-fit: cover; object-position: 5% 17%; opacity: .28; filter: grayscale(1) contrast(1.7) brightness(.9); mix-blend-mode: multiply; }
+.sol-hand-silhouette { position: absolute; z-index: 3; left: 8px; bottom: -13px; width: 119px; height: 222px; overflow: visible; fill: #171513; transform: rotate(-4deg); filter: drop-shadow(1px 1px 0 #786e61); }
+.sol-hand-highlight { fill: none; stroke: #726b62; stroke-width: 2; opacity: .55; }
 .sol-index-stamp { position: absolute; z-index: 5; right: 8px; top: 38px; font: 7px/1.25 monospace; transform: rotate(7deg); }
 .sol-hero-foot { position: absolute; z-index: 5; inset: auto 13px 12px; display: grid; grid-template-columns: 80px 22px 91px 1fr 20px; align-items: end; font-size: 5px; }
 .sol-hero-foot i { width: 13px; height: 13px; border-radius: 50%; background: var(--lime); color: #111; text-align: center; font-size: 14px; line-height: 12px; font-style: normal; }
@@ -92,7 +96,7 @@
 
 .sol-panel { margin: 0 11px 10px; border: 1px solid #999; border-radius: 4px; background: #f8f8f6; overflow: hidden; }
 .sol-panel > header { height: 20px; display: flex; align-items: center; justify-content: space-between; padding: 0 7px; border-bottom: 1px solid #b7b7b4; font-size: 6px; }
-.sol-gallery { height: 147px; }
+.sol-gallery { height: 147px; margin-top: 11px; }
 .sol-candidate-row { position: relative; display: grid; grid-template-columns: 131px 126px 126px 132px; gap: 6px; height: 90px; padding: 6px; overflow: hidden; }
 .sol-candidate { position: relative; overflow: hidden; padding: 8px; border: 1px solid #333; border-radius: 4px; background: #111; color: #f3f1e9; }
 .sol-candidate::after { content: ""; position: absolute; inset: 0; opacity: .27; background: repeating-linear-gradient(90deg, transparent 0 14px, #ddd 15px), repeating-linear-gradient(0deg, transparent 0 13px, #777 14px); }
@@ -145,8 +149,8 @@
 .sol-detail-tabs::before { content: ""; position: absolute; top: 4px; left: calc(50% - 28px); width: 56px; height: 3px; border-radius: 3px; background: #111; }
 .sol-detail-tabs span { display: grid; place-items: end center; border-bottom: 1px solid #aaa; white-space: nowrap; font-size: 4.5px; }
 .sol-detail-tabs .active { border-bottom: 2px solid #9c302f; }
-.sol-detail { height: 72px; display: grid; grid-template-columns: 105px 194px 1fr 70px; align-items: center; padding: 4px 17px; background: #f7f7f5; }
-.sol-detail-thumb { width: 95px; height: 58px; display: flex; align-items: center; padding: 8px; border: 1px solid #555; background: linear-gradient(90deg,#111 0 68%,#d2cabc 68%); color: #eee; font-family: Impact, sans-serif; font-size: 10px; line-height: .93; }
+.sol-detail { height: 65px; display: grid; grid-template-columns: 105px 194px 1fr 70px; align-items: center; padding: 3px 17px; background: #f7f7f5; }
+.sol-detail-thumb { width: 95px; height: 55px; display: flex; align-items: center; padding: 8px; border: 1px solid #555; background: linear-gradient(90deg,#111 0 68%,#d2cabc 68%); color: #eee; font-family: Impact, sans-serif; font-size: 10px; line-height: .93; }
 .sol-detail dl { display: grid; grid-template-columns: 55px 1fr; margin: 0; font-size: 4.5px; line-height: 1.35; }
 .sol-detail dd { margin: 0; }
 .sol-amend { border-left: 1px solid #ccc; padding-left: 10px; font-size: 4.5px; }

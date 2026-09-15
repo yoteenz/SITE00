@@ -30,6 +30,11 @@ function HeroArtifact() {
       <div className="sol-hero-image" aria-label="Archival hand and evidence collage">
         <div className="sol-paper-grid" />
         <img src="/assets/expression-engine/entry-002/pre-storyboard-authority/ndx-entry-002-pre-sba-ndx-hands-001.jpg" alt="" />
+        <svg className="sol-hand-silhouette" viewBox="0 0 160 240" aria-hidden="true">
+          <path d="M60 225c-1-20-7-35-19-50l-21-28c-7-10 4-22 14-14l24 20-12-20c-7-12 7-23 17-14l14 14-3-112c0-18 24-19 26-1l5 106 7-34c3-14 21-11 21 3l-2 51 9-18c6-12 22-4 17 9l-15 48c-7 21-17 28-29 41l-3 14z" />
+          <path d="M49 126c-5-12 11-20 19-10l21 27-10 18zM108 104c5-13 23-8 22 6l-3 43-20-2z" />
+          <path className="sol-hand-highlight" d="M87 24l4 121M59 127l22 31M119 108l-3 51M34 145l34 29M67 188c21 7 43 2 59-12" />
+        </svg>
         <div className="sol-index-stamp">CREC: REF.<br />P.137<br />P.311</div>
       </div>
       <div className="sol-hero-foot">
