@@ -46,11 +46,15 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
   const cloudPreview = isSite00CloudPreviewBuild();
   const signInHref = site00SignInHrefWithReturnTo(location);
 
+  const goldenDiffCapture =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(location.search).get('goldenDiffCapture') === '1';
+
   useEffect(() => {
     const designPreviewCapture =
       typeof window !== 'undefined' &&
       new URLSearchParams(location.search).get('designPreview') === '1';
-    if (designPreviewCapture) {
+    if (designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
       return;
@@ -150,7 +154,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview, location.search]);
+  }, [cloudPreview, goldenDiffCapture, location.search]);
 
   if (timedOut && isLoading) {
     return (
@@ -172,6 +176,9 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
   }
 
   if (!isSignedIn()) {
+    if (goldenDiffCapture) {
+      return <>{children}</>;
+    }
     if (cloudPreview) {
       return (
         <div className="site00-ctrl-room-loading site00-ctrl-room-loading--sign-in" role="status" aria-live="polite">

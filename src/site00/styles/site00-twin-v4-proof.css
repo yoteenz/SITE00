@@ -169,3 +169,43 @@
   max-width: 100%;
   height: auto;
 }
+
+.site00-twin-v42-authority__meta {
+  font-size: 11px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  padding: 8px 10px;
+}
+
+.site00-twin-v42-compare {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px;
+}
+
+.site00-twin-v42-overlay {
+  position: relative;
+  margin: 8px auto;
+  width: fit-content;
+}
+
+.site00-twin-v42-overlay__golden {
+  position: absolute;
+  inset: 0;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.site00-twin-v42-region-diff ul {
+  list-style: none;
+  padding: 8px 10px;
+  font-size: 11px;
+}
+
+.site00-twin-v4-qa-stable *,
+.site00-page--twin-v42-capture * {
+  animation: none !important;
+  transition: none !important;
+}

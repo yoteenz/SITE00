@@ -9405,6 +9405,12 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 
 ---
 
+## 2026-09-15 — P0.VR.TWINV4.1F1 + P0.VR.TWINV4.2 golden authority pin + Playwright pixel diff gate (v480)
+
+- **Sprint:** **`p0vrTwinV42/`** hard-pins **`TwinV4GoldenAuthority`** (SHA256, dimensions, https — no stub fallback); **`TwinV4AuthorityPurgeReceipt`**; Twin V4 page boot **`compileTwinV42PageBoot`** validates pin before V4.1 segmentation (cache key **`goldenSha256 + segmentationVersion`**). **V4.2:** canonical viewport from golden dims; **`TwinV42LiveReconstruction`** fixed canvas; **Playwright + pixelmatch** diff loop (**`runTwinV4GoldenDiffLoop`**, region masks, heatmap artifacts); UI tabs LIVE / FORENSIC AUTHORITY / SIDE BY SIDE / OVERLAY / DIFF HEATMAP / REGION DIFF + V4.1 tabs; **`goldenDiffCapture=1`** QA route + guard bypass for engineering screenshots. Proof **YES** only with real pixel pass + raster firewall — current live DOM vs golden still **high diff (~9.5%)** → **`INCONCLUSIVE`/`NO`** until CSS convergence. Tests **`tests/p0vrTwinV42.test.ts`**. V3 **`/design/twin`** unchanged.
+
+---
+
 ## 2026-09-15 — Twin V4 route boot hotfix (v478)
 
 - **Symptom:** **`/projects/ndxbook/design/twin-v4`** not booting on fsbw-dev / mobile.
