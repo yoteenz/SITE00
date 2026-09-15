@@ -75,7 +75,11 @@ export async function resolveTwinImplementationPreview(projectId: string): Promi
   const key = projectId.toLowerCase();
 
   if (MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 && key === DESIGN_PAGE_V3_PILOT_PROJECT_ID) {
-    await ensureNdxbookTwinImplementationReady(key);
+    try {
+      await ensureNdxbookTwinImplementationReady(key);
+    } catch {
+      /* autobuild is best-effort — API/cache/local compile may still succeed */
+    }
   }
 
   try {

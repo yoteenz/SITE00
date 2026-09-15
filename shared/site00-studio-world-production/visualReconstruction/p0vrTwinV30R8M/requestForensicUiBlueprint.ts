@@ -77,18 +77,46 @@ export async function requestForensicUiBlueprintGeneration(input: {
   let lastStatus: number | null = null;
   let lastUrl: string | null = null;
 
+  const FORENSIC_FETCH_TIMEOUT_MS = 120_000;
+
   for (const url of urls) {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'omit',
-      body: JSON.stringify({
-        action: 'GENERATE_FORENSIC_UI_BLUEPRINT',
-        session: input.session,
-        packageId: input.packageId,
-        founderConfirmedSpend: input.founderConfirmedSpend ?? true,
-      }),
-    });
+    const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timeoutId =
+      controller ?
+        setTimeout(() => {
+          controller.abort();
+        }, FORENSIC_FETCH_TIMEOUT_MS)
+      : null;
+    let res: Response;
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'omit',
+        signal: controller?.signal,
+        body: JSON.stringify({
+          action: 'GENERATE_FORENSIC_UI_BLUEPRINT',
+          session: input.session,
+          packageId: input.packageId,
+          founderConfirmedSpend: input.founderConfirmedSpend ?? true,
+        }),
+      });
+    } catch (fetchErr) {
+      if (timeoutId) clearTimeout(timeoutId);
+      const aborted = fetchErr instanceof Error && fetchErr.name === 'AbortError';
+      lastMessage =
+        aborted ?
+          `${FORENSIC_BLUEPRINT_GENERATION_FAILED} — forensic blueprint request timed out after ${FORENSIC_FETCH_TIMEOUT_MS / 1000}s`
+        : fetchErr instanceof Error ?
+          fetchErr.message
+        : FORENSIC_BLUEPRINT_GENERATION_FAILED;
+      lastClass = FORENSIC_BLUEPRINT_GENERATION_FAILED;
+      lastUrl = url;
+      if (urls.indexOf(url) < urls.length - 1) continue;
+      throw new ForensicBlueprintGenerationClientError(lastMessage, lastClass, null, null, url);
+    } finally {
+      if (timeoutId) clearTimeout(timeoutId);
+    }
 
     const json = await parseForensicApiResponse(res);
     lastStatus = res.status;
