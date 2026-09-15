@@ -13,6 +13,7 @@ import { site00IsBrowser } from '../../runtime/site00RuntimeEnv.js';
 import {
   P0_VR_TWIN_V41F1_LINEAGE,
   P0_VR_TWIN_V42_LINEAGE,
+  P0_VR_TWIN_V42R1_LINEAGE,
   TWIN_V4_GOLDEN_AUTHORITY_INVALID,
   TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE,
   TWIN_V42_PLAYWRIGHT_DEVICE_SCALE,
@@ -35,6 +36,10 @@ import type {
 } from './twinV42Types.js';
 import { readTwinV42GoldenDiffBundle, writeTwinV42GoldenDiffBundle } from './twinV42Persistence.js';
 import { sha256Hex } from './sha256Hex.js';
+import {
+  isTwinV4ProductionGoldenProofRequired,
+  resolveTwinV4ProductionGoldenAuthority,
+} from './twinV4ProductionGoldenAuthority.js';
 
 const memorySegmentationCache = new Map<string, TwinV41PixelExtractionBundle>();
 
@@ -46,6 +51,8 @@ export type TwinV42PageBootResult = {
   pixelBundle: TwinV41PixelExtractionBundle;
   diffBundle: TwinV42GoldenDiffBundle | null;
   fallbackAuthorityAllowed: false;
+  productionGolden: boolean;
+  fixtureGoldenUsedInProduction: boolean;
 };
 
 function isGoldenSealCandidateUri(uri: string): boolean {
@@ -108,31 +115,42 @@ export async function compileTwinV42PageBoot(input: {
 }): Promise<TwinV42PageBootResult> {
   const allowSeal = input.allowSeal ?? site00IsBrowser();
   let golden: TwinV4GoldenAuthority | null = null;
+  let productionGolden = false;
+  let fixtureGoldenUsedInProduction = false;
 
-  const pinned = readPinnedTwinV4GoldenAuthority();
-  if (pinned) {
-    try {
-      golden = await validateTwinV4GoldenAuthority(pinned);
-    } catch {
-      clearTwinV4GoldenAuthorityForTests();
+  if (isTwinV4ProductionGoldenProofRequired()) {
+    const resolved = await resolveTwinV4ProductionGoldenAuthority({ projectId: input.projectId });
+    golden = resolved.authority;
+    productionGolden = true;
+  } else {
+    const pinned = readPinnedTwinV4GoldenAuthority();
+    if (pinned) {
+      try {
+        golden = await validateTwinV4GoldenAuthority(pinned);
+      } catch {
+        clearTwinV4GoldenAuthorityForTests();
+      }
     }
-  }
 
-  if (!golden) {
-    const { authority } = await resolveForensicForGoldenSeal(
-      input.projectId,
-      input.queryActualHash ?? null,
-    );
-    try {
-      golden = await resolveTwinV4GoldenAuthority({
-        allowSeal,
-        candidate: { artifactId: authority.id, artifactUrl: authority.blueprintImageUri },
-      });
-    } catch {
-      throw new TwinV42GoldenBootError(
-        TWIN_V4_GOLDEN_AUTHORITY_INVALID,
-        'Could not seal golden pin from forensic blueprint (https required).',
+    if (!golden) {
+      const { authority } = await resolveForensicForGoldenSeal(
+        input.projectId,
+        input.queryActualHash ?? null,
       );
+      try {
+        golden = await resolveTwinV4GoldenAuthority({
+          allowSeal,
+          candidate: { artifactId: authority.id, artifactUrl: authority.blueprintImageUri },
+        });
+      } catch {
+        throw new TwinV42GoldenBootError(
+          TWIN_V4_GOLDEN_AUTHORITY_INVALID,
+          'Could not seal golden pin from forensic blueprint (https required).',
+        );
+      }
+    }
+    if (golden.artifactUrl.startsWith('file://')) {
+      fixtureGoldenUsedInProduction = false;
     }
   }
 
@@ -184,28 +202,35 @@ export async function compileTwinV42PageBoot(input: {
       rasterCheatViolations: rasterFirewall.runtimeRasterUsage,
     };
     writeTwinV42GoldenDiffBundle({
-      lineage: P0_VR_TWIN_V42_LINEAGE,
+      lineage: P0_VR_TWIN_V42R1_LINEAGE,
+      productionGolden,
+      fixtureGoldenUsedInProduction,
       goldenAuthority: golden,
       canonicalViewport: viewport,
       purgeReceipt,
       iterations: [],
+      mutationIterations: 0,
       fontStability: { documentFontsReady: false, fallbackFontsDetected: false },
       assetStability: { imagesLoaded: 0, imagesPending: 0, placeholderImages: 0 },
       rasterFirewall,
       gate: stubGate,
       reconstructionEngineProof: 'INCONCLUSIVE',
       proofBlockedReason: 'PLAYWRIGHT_GOLDEN_DIFF_NOT_RUN',
+      convergenceStalled: false,
+      regionRegressions: [],
     });
   }
 
   return {
-    lineage: `${P0_VR_TWIN_V41F1_LINEAGE}+${P0_VR_TWIN_V42_LINEAGE}`,
+    lineage: `${P0_VR_TWIN_V41F1_LINEAGE}+${P0_VR_TWIN_V42_LINEAGE}+${P0_VR_TWIN_V42R1_LINEAGE}`,
     goldenAuthority: golden,
     canonicalViewport: viewport,
     purgeReceipt,
     pixelBundle,
     diffBundle: readTwinV42GoldenDiffBundle(),
     fallbackAuthorityAllowed: false,
+    productionGolden,
+    fixtureGoldenUsedInProduction,
   };
 }
 

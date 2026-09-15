@@ -65,14 +65,32 @@ export type TwinV4RasterCheatFirewall = {
   runtimeRasterUsage: number;
 };
 
+export type TwinV4DiffDeltaReceipt = {
+  iteration: number;
+  priorDiff: number;
+  currentDiff: number;
+  delta: number;
+  improved: boolean;
+  regionsImproved: string[];
+  regionsRegressed: string[];
+};
+
 export type TwinV4GoldenDiffIteration = {
   iteration: number;
+  validMutation: boolean;
+  implementationHashBefore: string | null;
+  implementationHashAfter: string | null;
+  screenshotHashBefore: string | null;
+  screenshotHashAfter: string;
   liveScreenshotPath: string;
   diffHeatmapPath: string;
   diffReportPath: string;
   regionDiffPath: string;
   fullDiff: TwinV4GoldenDiffReceipt;
   regionDiffs: TwinV4RegionDiffReceipt[];
+  diffDelta: TwinV4DiffDeltaReceipt | null;
+  targetedRegion: string | null;
+  mutationType: string | null;
 };
 
 export type TwinV4GoldenDiffGateStatus =
@@ -92,14 +110,19 @@ export type TwinV4GoldenDiffGate = {
 
 export type TwinV42GoldenDiffBundle = {
   lineage: string;
+  productionGolden: boolean;
+  fixtureGoldenUsedInProduction: boolean;
   goldenAuthority: TwinV4GoldenAuthority;
   canonicalViewport: TwinV4CanonicalViewport;
   purgeReceipt: TwinV4AuthorityPurgeReceipt;
   iterations: TwinV4GoldenDiffIteration[];
+  mutationIterations: number;
   fontStability: TwinV4FontStabilityReceipt;
   assetStability: TwinV4AssetStabilityReceipt;
   rasterFirewall: TwinV4RasterCheatFirewall;
   gate: TwinV4GoldenDiffGate;
   reconstructionEngineProof: 'YES' | 'NO' | 'INCONCLUSIVE';
   proofBlockedReason: string | null;
+  convergenceStalled: boolean;
+  regionRegressions: string[];
 };

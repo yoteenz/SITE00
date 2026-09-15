@@ -6,7 +6,11 @@ import {
   PIXEL_EXTRACTION_REVIEW_REQUIRED,
 } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/constants.js';
 import { TwinV41PixelExtractionOverlay } from '../components/designWorkspace/TwinV41PixelExtractionOverlay.js';
-import { TwinV42LiveReconstruction } from '../components/designWorkspace/TwinV42LiveReconstruction.js';
+import { TwinV42ForensicLiveCanvas } from '../components/designWorkspace/TwinV42ForensicLiveCanvas.js';
+import {
+  PRIOR_LIVE_REJECTION_REASON,
+  PRIOR_LIVE_STATUS,
+} from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/constants.js';
 import { P0_VR_TWIN_V30_BUILD } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/constants.js';
 import { TWIN_V4_CSS_NAMESPACE } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/constants.js';
 import { compileTwinV42PageBoot } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/compileTwinV42PageBoot.js';
@@ -30,13 +34,17 @@ type ViewMode =
   | 'REGION_DIFF'
   | 'PIXEL_EXTRACTION'
   | 'SCENE_GRAPH'
-  | 'EVIDENCE';
+  | 'EVIDENCE'
+  | 'CORRECTION_HISTORY';
 
 export function DesignTwinV4ProofPage() {
   const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
   const projectId = projectSlug.toLowerCase();
   const [searchParams] = useSearchParams();
   const goldenDiffCapture = searchParams.get('goldenDiffCapture') === '1';
+  const correctionGenParam = searchParams.get('correctionGeneration');
+  const correctionGeneration =
+    correctionGenParam && Number.isFinite(Number(correctionGenParam)) ? Number(correctionGenParam) : undefined;
   const [mode, setMode] = useState<ViewMode>(goldenDiffCapture ? 'LIVE_RECONSTRUCTION' : 'LIVE_RECONSTRUCTION');
   const [err, setErr] = useState<string | null>(null);
   const [boot, setBoot] = useState<TwinV42PageBootResult | null>(null);
@@ -101,6 +109,7 @@ export function DesignTwinV4ProofPage() {
         'PIXEL_EXTRACTION',
         'SCENE_GRAPH',
         'EVIDENCE',
+        'CORRECTION_HISTORY',
       ];
 
   const bundle = boot?.pixelBundle ?? null;
@@ -126,7 +135,7 @@ export function DesignTwinV4ProofPage() {
     >
       {!goldenDiffCapture ?
         <header className={`${TWIN_V4_CSS_NAMESPACE}__topbar`} data-testid="twin-v4-topbar">
-          <span>TWIN V4.2 · GOLDEN AUTHORITY + LIVE RECONSTRUCTION</span>
+          <span>TWIN V4.2R1 · PRODUCTION GOLDEN + DIFF-DRIVEN RECONSTRUCTION</span>
           <Link to={SITE00_ROUTES.site00Design + `?project=${projectId}`}>← DESIGN WORKSPACE</Link>
         </header>
       : null}
@@ -176,6 +185,8 @@ export function DesignTwinV4ProofPage() {
             <dd data-testid="twin-v4-authority-url-status">
               {golden.httpStatus ?? (goldenDisplayUrl ? 'HTTPS' : 'LOCAL_FIXTURE')}
             </dd>
+            <dt>Production golden</dt>
+            <dd data-testid="twin-v4-production-golden">{boot.productionGolden ? 'YES' : 'NO (engineering)'}</dd>
           </dl>
           {goldenDisplayUrl ?
             <img src={goldenDisplayUrl} alt="" data-testid="twin-v4-authority-image" width={golden.width} height={golden.height} />
@@ -185,7 +196,11 @@ export function DesignTwinV4ProofPage() {
         </div>
       : null}
       {boot && bundle && viewport && (mode === 'LIVE_RECONSTRUCTION' || goldenDiffCapture) ?
-        <TwinV42LiveReconstruction sceneGraph={bundle.sceneGraph} viewport={viewport} />
+        <TwinV42ForensicLiveCanvas
+          pixelBundle={bundle}
+          viewport={viewport}
+          correctionGeneration={correctionGeneration}
+        />
       : null}
       {boot && bundle && golden && viewport && mode === 'SIDE_BY_SIDE' ?
         <div className="site00-twin-v42-compare" data-testid="twin-v4-side-by-side">
@@ -199,13 +214,13 @@ export function DesignTwinV4ProofPage() {
           </div>
           <div>
             <p>LIVE DOM</p>
-            <TwinV42LiveReconstruction sceneGraph={bundle.sceneGraph} viewport={viewport} />
+            <TwinV42ForensicLiveCanvas pixelBundle={bundle} viewport={viewport} correctionGeneration={correctionGeneration} />
           </div>
         </div>
       : null}
       {boot && bundle && golden && viewport && mode === 'OVERLAY' ?
         <div className="site00-twin-v42-overlay" data-testid="twin-v4-overlay">
-          <TwinV42LiveReconstruction sceneGraph={bundle.sceneGraph} viewport={viewport} />
+          <TwinV42ForensicLiveCanvas pixelBundle={bundle} viewport={viewport} correctionGeneration={correctionGeneration} />
           {goldenDisplayUrl ?
             <img
               className="site00-twin-v42-overlay__golden"
@@ -227,20 +242,57 @@ export function DesignTwinV4ProofPage() {
           </p>
         </div>
       : null}
-      {mode === 'REGION_DIFF' && lastIteration ?
+      {mode === 'REGION_DIFF' && diffBundle ?
         <div className="site00-twin-v42-region-diff" data-testid="twin-v4-region-diff-panel">
-          <p>
-            FULL PAGE DIFF: {(lastIteration.fullDiff.diffPercent * 100).toFixed(2)}% · THRESHOLD:{' '}
-            {(lastIteration.fullDiff.threshold * 100).toFixed(2)}% · STATUS:{' '}
-            {lastIteration.fullDiff.pass ? 'PASS' : 'FAIL'}
+          <p data-testid="twin-v4-gate-status">
+            GATE: {diffBundle.gate.status} · proof={diffBundle.reconstructionEngineProof}
           </p>
-          <ul>
-            {lastIteration.regionDiffs.map((r) => (
-              <li key={r.regionId} data-testid={`twin-v4-region-${r.regionId}`}>
-                {r.regionId.replace(/_/g, ' ')}: {(r.diffPercent * 100).toFixed(2)}% ·{' '}
-                {r.pass ? 'PASS' : 'FAIL'}
+          <ul data-testid="twin-v4-iteration-history">
+            {diffBundle.iterations.map((it) => (
+              <li key={it.iteration}>
+                ITERATION {it.iteration}
+                {it.validMutation ? ' (valid mutation)' : ''} — {(it.fullDiff.diffPercent * 100).toFixed(2)}%
+                {it.diffDelta ?
+                  ` · Δ ${(it.diffDelta.delta * 100).toFixed(2)}% ${it.diffDelta.improved ? '↓' : '↑'}`
+                : ''}
               </li>
             ))}
+          </ul>
+          {lastIteration ?
+            <>
+              <p>
+                FULL PAGE DIFF: {(lastIteration.fullDiff.diffPercent * 100).toFixed(2)}% · THRESHOLD:{' '}
+                {(lastIteration.fullDiff.threshold * 100).toFixed(2)}% ·{' '}
+                {lastIteration.fullDiff.pass ? 'PASS' : 'FAIL'}
+              </p>
+              <ul>
+                {lastIteration.regionDiffs.map((r) => (
+                  <li key={r.regionId} data-testid={`twin-v4-region-${r.regionId}`}>
+                    {r.regionId.replace(/_/g, ' ')}: {(r.diffPercent * 100).toFixed(2)}% ·{' '}
+                    {r.pass ? 'PASS' : 'FAIL'}
+                  </li>
+                ))}
+              </ul>
+            </>
+          : null}
+        </div>
+      : null}
+      {mode === 'CORRECTION_HISTORY' ?
+        <div className="site00-twin-v42-correction-history" data-testid="twin-v4-correction-history">
+          <p>
+            Prior live: {PRIOR_LIVE_STATUS} — {PRIOR_LIVE_REJECTION_REASON}
+          </p>
+          <p>Valid mutation iterations: {diffBundle?.mutationIterations ?? 0}</p>
+          <ul>
+            {(diffBundle?.iterations ?? [])
+              .filter((it) => it.validMutation)
+              .map((it) => (
+                <li key={it.iteration}>
+                  #{it.iteration} · region {it.targetedRegion ?? '—'} · diff{' '}
+                  {(it.fullDiff.diffPercent * 100).toFixed(2)}% · impl{' '}
+                  {it.implementationHashAfter?.slice(0, 8)}
+                </li>
+              ))}
           </ul>
         </div>
       : null}
