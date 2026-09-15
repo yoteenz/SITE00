@@ -27,15 +27,11 @@ export function mergeMobileTwinFalApiResponse(
 ): DesignPageAuthorityReviewSession {
   if (!serverPipeline) return clientSession;
   const clientPipeline = clientSession.mobileTwinPipeline;
-  const serverWins =
-    (serverPipeline.falJobsDispatched ?? 0) > (clientPipeline?.falJobsDispatched ?? 0) ||
-    serverPipeline.blueprintTwins.length > (clientPipeline?.blueprintTwins.length ?? 0);
-  const mergedPipeline =
-    serverWins ?
-      hydrateMobileTwinReviewState(reconcileMobileTwinPipelineState(serverPipeline))
-    : hydrateMobileTwinReviewState(
-        mergeMobileTwinPipelineRich(serverPipeline, clientPipeline) ?? serverPipeline,
-      );
+  const mergedPipeline = hydrateMobileTwinReviewState(
+    reconcileMobileTwinPipelineState(
+      mergeMobileTwinPipelineRich(serverPipeline, clientPipeline) ?? serverPipeline,
+    ),
+  );
   return {
     ...clientSession,
     mobileTwinPipeline: mergedPipeline ?? serverPipeline,
