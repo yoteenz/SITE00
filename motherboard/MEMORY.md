@@ -9563,3 +9563,13 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Fix:** Remove the account guard from the twin-testA route so the isolated bench boots without CTRL ROOM session. Persist strips `data:` image URLs so a huge golden cannot freeze iOS localStorage parse. Build **v488**.
 - **Conventions:** Isolated design-bench routes must boot on the preview tunnel without sign-in. Production deep links still need the v488 ZIP + `.htaccess`.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F3–F6R1 strict parsed output + 32K capacity proof
+
+Summary of the whole conversation: after F2 fixed OpenAI’s missing JSON instruction, founder runs still produced malformed ~92–93KB free-form JSON. F3 introduced strict JSON Schema, validation/completeness receipts, private raw-response persistence, a separate SVG preview artifact, and frozen-reference retry recovery. F4 live tracing proved F3 had initially not deployed, then proved strict schema was live but the application still consumed `output_text` through `JSON.parse`. F5 replaced that success path with the official OpenAI SDK `responses.parse().output_parsed`, added `SolStructuredOutputRuntimeReceipt`, a legacy-parser firewall, and a founder-run gate requiring tiny + ≥50KB live proofs. F6 raised one shared founder/stress output budget from 16K to 32K after the first stress attempt truncated at 42,651 characters / 16,000 tokens.
+
+- **Final live proof:** Railway build **`6728d538b2dc5898ccc4667039a47463ecee47b7`**, prompt **`sol-design-bench-test-b-v6-output-budget-32k`**. The single F6 stress run **`sol_afe08020-a20c-497d-a8b5-7a7c1bf07ae4`** completed in 228,653 ms with 69,968 characters, 22,968 actual output tokens of 32,000, finish reason `completed`, no truncation, direct SDK-parsed structured result, no application manual JSON parse, no primary output-text path, and schema validation PASS.
+- **Gate:** Tiny live smoke remains PASS from run **`sol_bb016b79-7f63-47d7-8679-d4f3ec96a668`**. Railway now reports `tinyLiveSchemaSmokePassed=true`, `largeOutputStressPassed=true`, and `structuredOutputPipelineProofPassed=true`. Founder retry for golden SHA **`f86d9809b8334394131b1a1c815b18857c9c824bdeb51a87f7d1710bdf284d44`** is READY; the golden was not used in any proof.
+- **Invariants:** OpenAI `gpt-5.6-sol`, high reasoning, strict `json_schema`, schema `figma_style_interface_translation_package`, actual image input, no fallback/web/Composer/Grok access, and the 14-part benchmark contract remain unchanged.
+
