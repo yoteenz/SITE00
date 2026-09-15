@@ -20,15 +20,10 @@ export type MobileTwinFounderActionsStripView = {
 };
 
 export function shouldShowMobileTwinFounderActionsStrip(
-  session: DesignPageAuthorityReviewSession,
+  _session: DesignPageAuthorityReviewSession,
   projectId: string,
 ): boolean {
-  if (projectId.toLowerCase() !== DESIGN_PAGE_V3_PILOT_PROJECT_ID) return false;
-  const pipe = session.mobileTwinPipeline;
-  if (session.authorityPipeline?.mobileMaster) return true;
-  if (pipe?.designReference?.status === 'REFERENCE_LOCKED') return true;
-  if (session.authorityPipeline?.founderAuthorityInjectionReceipt?.status === 'PASS') return true;
-  return false;
+  return projectId.toLowerCase() === DESIGN_PAGE_V3_PILOT_PROJECT_ID;
 }
 
 export function evaluateMobileTwinFounderActionsStrip(

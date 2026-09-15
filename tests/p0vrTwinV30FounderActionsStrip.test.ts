@@ -23,6 +23,11 @@ describe('Mobile twin founder actions strip', () => {
     expect(authority).toContain('DesignPageV3MobileTwinPipelineRecoveryStrip');
     const ws = readFileSync('src/site00/components/founderWorkspace/StudioWorldDesignWorkspace.tsx', 'utf8');
     expect(ws).toContain('DesignPageV3MobileTwinGlobalRecoveryStrip');
+    const globalRecovery = readFileSync(
+      'src/site00/components/designWorkspace/DesignPageV3MobileTwinGlobalRecoveryStrip.tsx',
+      'utf8',
+    );
+    expect(globalRecovery).toContain('v3-founder-escalate-package-rebuild-twin-global');
     expect(inspector).toContain('DesignPageV3MobileTwinFounderActionsStrip');
   });
 
