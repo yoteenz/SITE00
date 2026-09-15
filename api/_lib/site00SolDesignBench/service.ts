@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
+import { appendFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -134,9 +135,19 @@ let structuredOutputProofOverride: StructuredOutputProofState | null = null;
 
 async function readStructuredOutputProof(): Promise<StructuredOutputProofState> {
   if (structuredOutputProofOverride) return structuredClone(structuredOutputProofOverride);
+  // #region agent log
+  appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof', message: 'Reading Sol proof state', data: { path: structuredOutputProofPath(), configuredStoreDir: Boolean(process.env.SOL_DESIGN_BENCH_STORE_DIR?.trim()) }, timestamp: Date.now() })}\n`);
+  // #endregion
   try {
-    return JSON.parse(await readFile(structuredOutputProofPath(), 'utf8')) as StructuredOutputProofState;
-  } catch {
+    const proof = JSON.parse(await readFile(structuredOutputProofPath(), 'utf8')) as StructuredOutputProofState;
+    // #region agent log
+    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'B,C', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:file', message: 'Loaded Sol proof file', data: { tiny: proof.tinyLiveSchemaSmokePassed, large: proof.largeOutputStressPassed, keys: Object.keys(proof).sort() }, timestamp: Date.now() })}\n`);
+    // #endregion
+    return proof;
+  } catch (error) {
+    // #region agent log
+    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,B', location: 'api/_lib/site00SolDesignBench/service.ts:readStructuredOutputProof:fallback', message: 'Sol proof file unavailable; using code fallback', data: { errorCode: error && typeof error === 'object' && 'code' in error ? String(error.code) : 'UNKNOWN', fallbackTiny: SolDesignBenchPriorProofAttestation.tinyLiveSchemaSmokePassed, fallbackLarge: false }, timestamp: Date.now() })}\n`);
+    // #endregion
     return {
       tinyLiveSchemaSmokePassed: SolDesignBenchPriorProofAttestation.tinyLiveSchemaSmokePassed,
       largeOutputStressPassed: false,
@@ -569,12 +580,21 @@ export async function readSolDesignBenchPreview(runId: string): Promise<Buffer> 
 
 export async function getSolDesignBenchRun(runId: string): Promise<SolDesignBenchRun | null> {
   const cached = runCache.get(runId);
+  // #region agent log
+  appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,D', location: 'api/_lib/site00SolDesignBench/service.ts:getSolDesignBenchRun', message: 'Looking up Sol run', data: { runId, cacheHit: Boolean(cached), path: runPath(runId) }, timestamp: Date.now() })}\n`);
+  // #endregion
   if (cached) return structuredClone(cached);
   try {
     const run = JSON.parse(await readFile(runPath(runId), 'utf8')) as SolDesignBenchRun;
     runCache.set(runId, run);
+    // #region agent log
+    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'D', location: 'api/_lib/site00SolDesignBench/service.ts:getSolDesignBenchRun:file', message: 'Loaded Sol run file', data: { runId, status: run.status, proofMode: run.proofMode, proofPassed: run.proofPassed }, timestamp: Date.now() })}\n`);
+    // #endregion
     return structuredClone(run);
-  } catch {
+  } catch (error) {
+    // #region agent log
+    appendFileSync('/opt/cursor/logs/debug.log', `${JSON.stringify({ hypothesisId: 'A,D', location: 'api/_lib/site00SolDesignBench/service.ts:getSolDesignBenchRun:miss', message: 'Sol run file unavailable', data: { runId, errorCode: error && typeof error === 'object' && 'code' in error ? String(error.code) : 'UNKNOWN' }, timestamp: Date.now() })}\n`);
+    // #endregion
     return null;
   }
 }
