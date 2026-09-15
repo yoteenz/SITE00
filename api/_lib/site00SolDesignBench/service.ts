@@ -341,19 +341,30 @@ async function runJob(runId: string): Promise<void> {
           structuredOutputProofOverride.largeOutputStressPassed = true;
         }
       } else {
+        const runtime = providerResult.runtimeReceipt;
+        if (
+          !runtime.schemaValidationPass ||
+          !runtime.structuredResultDirect ||
+          runtime.manualJsonParseUsed ||
+          runtime.outputTextUsedAsPrimaryResult ||
+          providerResult.completenessReceipt.truncated ||
+          !providerResult.completenessReceipt.complete
+        ) {
+          throw new Error('SOL_STRUCTURED_OUTPUT_PROOF_EVIDENCE_INVALID');
+        }
         await persistSolStructuredOutputProofEvidence({
           proofMode: run.proofMode,
           runId: run.runId,
-          apiBuild: providerResult.runtimeReceipt.liveApiBuild,
+          apiBuild: runtime.liveApiBuild,
           sourcePromptVersion: run.solPromptVersion,
           sourceMaxOutputTokens: providerResult.completenessReceipt.maxOutputTokens,
           finishReason: providerResult.completenessReceipt.finishReason,
           outputCharacters: providerResult.completenessReceipt.outputCharacters,
           actualOutputTokens: providerResult.completenessReceipt.actualOutputTokens,
-          schemaValidationPass: true,
-          structuredResultDirect: true,
-          manualJsonParseUsed: false,
-          outputTextUsedAsPrimaryResult: false,
+          schemaValidationPass: runtime.schemaValidationPass,
+          structuredResultDirect: runtime.structuredResultDirect,
+          manualJsonParseUsed: runtime.manualJsonParseUsed,
+          outputTextUsedAsPrimaryResult: runtime.outputTextUsedAsPrimaryResult,
           passed: true,
         });
       }

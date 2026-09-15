@@ -89,6 +89,10 @@ export function isSolStructuredOutputProofReceiptCompatible(
   receipt: SolStructuredOutputProofReceipt,
   configuration = getCurrentSolStructuredOutputProofConfiguration(),
 ): boolean {
+  if (!receipt || typeof receipt !== 'object' || !receipt.configuration ||
+    typeof receipt.configuration !== 'object') {
+    return false;
+  }
   const fingerprint = fingerprintSolStructuredOutputProofConfiguration(configuration);
   return receipt.receiptType === 'SolStructuredOutputProofReceipt' &&
     receipt.receiptVersion === 1 &&
