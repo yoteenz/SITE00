@@ -9381,3 +9381,11 @@ Summary of P1 controlled production proof sprint for SITE00_PROJECTS_INDEX.
 - **Module:** **`p0vrTwinV30R8M3/`**; **`compileApprovedMobileTwinPackage`** now calls **R8M3**; client cache epoch **v3**. Tests **`p0vrTwinV30R8M3.test.ts`** + updated twin suites.
 - **Founder:** Deploy **v474** ZIP; hard refresh **`/projects/ndxbook/design/twin`**; compare Actual vs LIVE (fm3 layout). Railway unchanged unless API edits later.
 
+---
+
+## 2026-09-15 — Twin preview stuck on “Loading…” (fsbw-dev hotfix)
+
+- **Symptom:** **`site00.fsbw-dev.com`** twin route hung on **Loading twin implementation…** (no error UI).
+- **Cause:** Autobuild **awaited Fal forensic blueprint** with no timeout + **R8M3 double compile** (full R8M2R5 then R8M3) on main thread; forensic cache was in-memory only (lost on iOS reload).
+- **Fix:** Persist forensic blueprint **localStorage**; skip Fal when cached; **120s fetch timeout** + local stub fallback; browser **skip nested R8M2R5** compile; autobuild errors non-fatal for preview resolver; loading hint on twin page.
+
