@@ -2,6 +2,7 @@ import type {
   FigmaStyleInterfaceTranslationPackage,
   SolDesignBenchReferenceAuthority,
 } from './contracts.js';
+import { z } from 'zod';
 
 export const SOL_DESIGN_BENCH_SCHEMA_VERSION = 'figma-interface-translation-v1' as const;
 
@@ -308,6 +309,10 @@ export const FigmaStyleInterfaceTranslationPackageSchema = {
     DO_NOT_CHANGE_RULES: stringArray(100),
   },
 } as const;
+
+/** Official SDK parser schema; generated from the canonical strict JSON Schema. */
+export const FigmaStyleInterfaceTranslationPackageZodSchema =
+  z.fromJSONSchema(FigmaStyleInterfaceTranslationPackageSchema as never);
 
 export interface SolSchemaValidationResult {
   valid: boolean;

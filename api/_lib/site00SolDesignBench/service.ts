@@ -34,6 +34,7 @@ const ROOT = process.env.SOL_DESIGN_BENCH_STORE_DIR?.trim() ||
   join(tmpdir(), 'site00-sol-design-bench');
 const runCache = new Map<string, SolDesignBenchRun>();
 const activeJobs = new Set<string>();
+const activeProofModes = new Set<'TINY_LIVE_SCHEMA_SMOKE' | 'LARGE_OUTPUT_STRESS'>();
 
 type SolExecutor = typeof executeSolDesignAnalysis;
 let executor: SolExecutor = executeSolDesignAnalysis;
@@ -44,10 +45,11 @@ export class SolDesignBenchProviderBlockedError extends Error {
   }
 }
 
-export function getSolDesignBenchProviderReadiness(input?: {
+export async function getSolDesignBenchProviderReadiness(input?: {
   referenceImageAvailable?: boolean;
   imageInputAttachmentPathValid?: boolean;
-}): SolDesignBenchProviderReadinessReceipt {
+}): Promise<SolDesignBenchProviderReadinessReceipt> {
+  const proof = await readStructuredOutputProof();
   const receipt: SolDesignBenchProviderReadinessReceipt = {
     receiptType: 'SolDesignBenchProviderReadinessReceipt',
     state: 'READY',
@@ -59,6 +61,10 @@ export function getSolDesignBenchProviderReadiness(input?: {
     imageInputAttachmentPathValid: input?.imageInputAttachmentPathValid ?? false,
     noFallbackConfigured: SolDesignBenchModelContract.fallbackAllowed === false,
     webSearchDisabled: SolDesignBenchModelContract.webSearchAllowed === false,
+    tinyLiveSchemaSmokePassed: proof.tinyLiveSchemaSmokePassed,
+    largeOutputStressPassed: proof.largeOutputStressPassed,
+    structuredOutputPipelineProofPassed:
+      proof.tinyLiveSchemaSmokePassed && proof.largeOutputStressPassed,
     blockingReasons: [],
   };
   if (!receipt.openAiCredentialPresentServerSide) receipt.blockingReasons.push('OPENAI_CREDENTIAL_MISSING');
@@ -68,6 +74,9 @@ export function getSolDesignBenchProviderReadiness(input?: {
   if (!receipt.imageInputAttachmentPathValid) receipt.blockingReasons.push('IMAGE_INPUT_ATTACHMENT_PATH_INVALID');
   if (!receipt.noFallbackConfigured) receipt.blockingReasons.push('MODEL_FALLBACK_CONFIGURED');
   if (!receipt.webSearchDisabled) receipt.blockingReasons.push('WEB_SEARCH_ENABLED');
+  if (!receipt.structuredOutputPipelineProofPassed) {
+    receipt.blockingReasons.push('STRUCTURED_OUTPUT_PIPELINE_PROOF_REQUIRED');
+  }
   receipt.state = receipt.blockingReasons.length ? 'BLOCKED' : 'READY';
   return receipt;
 }
@@ -109,6 +118,26 @@ function visualPreviewPath(runId: string): string {
 
 function historyPath(): string {
   return join(ROOT, 'history.json');
+}
+
+function structuredOutputProofPath(): string {
+  return join(ROOT, 'structured-output-proof.json');
+}
+
+interface StructuredOutputProofState {
+  tinyLiveSchemaSmokePassed: boolean;
+  largeOutputStressPassed: boolean;
+}
+
+let structuredOutputProofOverride: StructuredOutputProofState | null = null;
+
+async function readStructuredOutputProof(): Promise<StructuredOutputProofState> {
+  if (structuredOutputProofOverride) return structuredClone(structuredOutputProofOverride);
+  try {
+    return JSON.parse(await readFile(structuredOutputProofPath(), 'utf8')) as StructuredOutputProofState;
+  } catch {
+    return { tinyLiveSchemaSmokePassed: false, largeOutputStressPassed: false };
+  }
 }
 
 async function ensureRoot(): Promise<void> {
@@ -214,7 +243,12 @@ async function runJob(runId: string): Promise<void> {
       void updateStage(runId, providerStages[providerStageIndex]);
     }, 25_000);
 
-    const providerResult = await executor({ runId, authority: run.authority, dataUrl });
+    const providerResult = await executor({
+      runId,
+      authority: run.authority,
+      dataUrl,
+      proofMode: run.proofMode ?? undefined,
+    });
     clearInterval(stageTimer);
     stageTimer = null;
 
@@ -228,11 +262,24 @@ async function runJob(runId: string): Promise<void> {
       mode: 0o600,
     });
     run.rawProviderResponseRef = `sol-raw://${runId}`;
+    run.structuredOutputRuntimeReceipt = providerResult.runtimeReceipt;
     run.structuredOutputValidationReceipt = {
       ...providerResult.validationReceipt,
       rawResponsePersistedSafely: true,
     };
     run.outputCompletenessReceipt = providerResult.completenessReceipt;
+    run.proofPassed = run.proofMode === 'TINY_LIVE_SCHEMA_SMOKE'
+      ? true
+      : run.proofMode === 'LARGE_OUTPUT_STRESS'
+        ? providerResult.completenessReceipt.outputCharacters >= 50_000
+        : null;
+    if (run.proofMode && run.proofPassed) {
+      const proof = await readStructuredOutputProof();
+      if (run.proofMode === 'TINY_LIVE_SCHEMA_SMOKE') proof.tinyLiveSchemaSmokePassed = true;
+      if (run.proofMode === 'LARGE_OUTPUT_STRESS') proof.largeOutputStressPassed = true;
+      if (structuredOutputProofOverride) structuredOutputProofOverride = structuredClone(proof);
+      await writeFile(structuredOutputProofPath(), JSON.stringify(proof), 'utf8');
+    }
     await saveRun(run);
 
     await updateStage(runId, 'RENDERING_INTERFACE_PREVIEW');
@@ -318,13 +365,18 @@ async function runJob(runId: string): Promise<void> {
       await saveRun(run);
     }
   } finally {
+    const finalRun = await getSolDesignBenchRun(runId);
+    if (finalRun?.proofMode) activeProofModes.delete(finalRun.proofMode);
     activeJobs.delete(runId);
   }
 }
 
 export async function startSolDesignBenchRun(
   request: StartSolDesignBenchRequest,
-  options?: { retryOfRunId?: string },
+  options?: {
+    retryOfRunId?: string;
+    proofMode?: 'TINY_LIVE_SCHEMA_SMOKE' | 'LARGE_OUTPUT_STRESS';
+  },
 ): Promise<SolDesignBenchRun> {
   const errors = validateReferenceInput(request.reference);
   if (errors.length) throw new Error(`SOL_REFERENCE_INVALID:${errors.join(',')}`);
@@ -345,19 +397,31 @@ export async function startSolDesignBenchRun(
   }
 
   const runId = `sol_${randomUUID()}`;
-  const readiness = getSolDesignBenchProviderReadiness({
+  const readiness = await getSolDesignBenchProviderReadiness({
     referenceImageAvailable: bytes.length > 0,
     imageInputAttachmentPathValid:
       request.reference.dataUrl.startsWith(`data:${request.reference.mime};base64,`) &&
       sha256 === request.reference.sha256.toLowerCase(),
   });
-  if (readiness.state !== 'READY') throw new SolDesignBenchProviderBlockedError(readiness);
+  const effectiveBlockingReasons = options?.proofMode
+    ? readiness.blockingReasons.filter(
+        (reason) => reason !== 'STRUCTURED_OUTPUT_PIPELINE_PROOF_REQUIRED',
+      )
+    : readiness.blockingReasons;
+  if (effectiveBlockingReasons.length) throw new SolDesignBenchProviderBlockedError(readiness);
+  const effectiveReadiness: SolDesignBenchProviderReadinessReceipt = {
+    ...readiness,
+    state: 'READY',
+    blockingReasons: [],
+  };
   await ensureRoot();
   const storedFile = referencePath(runId, request.reference.mime);
   await writeFile(storedFile, bytes);
   const now = new Date().toISOString();
   const run: SolDesignBenchRun = {
     runId,
+    proofMode: options?.proofMode ?? null,
+    proofPassed: null,
     retryOfRunId: options?.retryOfRunId ?? null,
     retryRunIds: [],
     status: 'QUEUED',
@@ -379,7 +443,7 @@ export async function startSolDesignBenchRun(
     provider: SOL_DESIGN_BENCH_PROVIDER,
     providerModelId: SOL_PROVIDER_MODEL_ID,
     requestedReasoningEffort: SolDesignBenchModelContract.reasoningEffort,
-    providerReadinessReceipt: readiness,
+    providerReadinessReceipt: effectiveReadiness,
     providerDispatchReceipt: null,
     inputReceipt: buildSolBenchmarkInputReceipt({
       runId,
@@ -397,6 +461,7 @@ export async function startSolDesignBenchRun(
       },
     }),
     structuredOutputValidationReceipt: null,
+    structuredOutputRuntimeReceipt: null,
     outputCompletenessReceipt: null,
     rawProviderResponseRef: null,
     recoveredSections: null,
@@ -424,6 +489,50 @@ export async function startSolDesignBenchRun(
   await saveRun(run);
   setTimeout(() => void runJob(runId), 0);
   return run;
+}
+
+export async function startSolStructuredOutputProof(
+  proofMode: 'TINY_LIVE_SCHEMA_SMOKE' | 'LARGE_OUTPUT_STRESS',
+): Promise<SolDesignBenchRun> {
+  const proof = await readStructuredOutputProof();
+  if (
+    (proofMode === 'TINY_LIVE_SCHEMA_SMOKE' && proof.tinyLiveSchemaSmokePassed) ||
+    (proofMode === 'LARGE_OUTPUT_STRESS' && proof.largeOutputStressPassed)
+  ) {
+    throw new Error(`SOL_STRUCTURED_OUTPUT_PROOF_ALREADY_PASSED:${proofMode}`);
+  }
+  if (activeProofModes.has(proofMode)) {
+    throw new Error(`SOL_STRUCTURED_OUTPUT_PROOF_ALREADY_RUNNING:${proofMode}`);
+  }
+  activeProofModes.add(proofMode);
+  const bytes = await sharp({
+    create: {
+      width: 32,
+      height: 32,
+      channels: 4,
+      background: proofMode === 'LARGE_OUTPUT_STRESS' ? '#d7ff3f' : '#ffffff',
+    },
+  }).png().toBuffer();
+  const sha256 = createHash('sha256').update(bytes).digest('hex');
+  try {
+    return await startSolDesignBenchRun({
+      action: 'START_SOL_TEST',
+      reference: {
+        filename: proofMode === 'LARGE_OUTPUT_STRESS'
+          ? 'sol-large-output-stress.png'
+          : 'sol-tiny-schema-smoke.png',
+        mime: 'image/png',
+        bytes: bytes.length,
+        width: 32,
+        height: 32,
+        sha256,
+        dataUrl: `data:image/png;base64,${bytes.toString('base64')}`,
+      },
+    }, { proofMode });
+  } catch (error) {
+    activeProofModes.delete(proofMode);
+    throw error;
+  }
 }
 
 export async function retrySolDesignBenchRun(sourceRunId: string): Promise<SolDesignBenchRun> {
@@ -470,7 +579,15 @@ export function setSolDesignBenchExecutorForTests(next: SolExecutor | null): voi
   executor = next ?? executeSolDesignAnalysis;
 }
 
+export function setSolStructuredOutputProofForTests(
+  proof: StructuredOutputProofState | null,
+): void {
+  structuredOutputProofOverride = proof;
+}
+
 export async function resetSolDesignBenchForTests(): Promise<void> {
   runCache.clear();
   activeJobs.clear();
+  activeProofModes.clear();
+  structuredOutputProofOverride = null;
 }

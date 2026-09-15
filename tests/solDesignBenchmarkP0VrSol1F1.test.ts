@@ -180,7 +180,17 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
         id: 'resp_sol_exact',
         model: 'gpt-5.6-sol',
         status: 'completed',
-        output_text: JSON.stringify(providerPayload),
+        output: [{
+          type: 'message',
+          id: 'msg_sol_exact',
+          status: 'completed',
+          role: 'assistant',
+          content: [{
+            type: 'output_text',
+            text: JSON.stringify(providerPayload),
+            annotations: [],
+          }],
+        }],
       }), { status: 200, headers: { 'content-type': 'application/json' } });
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -198,6 +208,8 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
       imageInputAttached: true,
       structuredOutputRequested: true,
       structuredOutputMode: 'json_schema',
+      schemaName: 'figma_style_interface_translation_package',
+      strict: true,
       schemaVersion: 'figma-interface-translation-v1',
       jsonInstructionPresent: true,
       requestedModelId: 'gpt-5.6-sol',
@@ -223,8 +235,9 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
     const fetchMock = vi.fn(async () => new Response(JSON.stringify({
       id: 'resp_wrong',
       model: 'gpt-5.6-luna',
-      output_text: '{}',
-    }), { status: 200 }));
+      status: 'completed',
+      output: [],
+    }), { status: 200, headers: { 'content-type': 'application/json' } }));
     vi.stubGlobal('fetch', fetchMock);
     await expect(executeSolDesignAnalysis({
       runId: 'sol_test',
@@ -236,7 +249,7 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
 
   it('blocks before run creation when the server credential is absent', async () => {
     const { request } = await inputFixture();
-    const readiness = getSolDesignBenchProviderReadiness({
+    const readiness = await getSolDesignBenchProviderReadiness({
       referenceImageAvailable: true,
       imageInputAttachmentPathValid: true,
     });

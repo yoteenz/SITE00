@@ -10,6 +10,7 @@ import {
   retrySolDesignBenchRun,
   SolDesignBenchProviderBlockedError,
   startSolDesignBenchRun,
+  startSolStructuredOutputProof,
 } from '../_lib/site00SolDesignBench/service.js';
 import { SOL_PROMPT_HASH, SOL_PROMPT_VERSION } from '../_lib/site00SolDesignBench/provider.js';
 
@@ -29,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         reasoningEffort: SolDesignBenchModelContract.reasoningEffort,
         fallbackAllowed: SolDesignBenchModelContract.fallbackAllowed,
         webSearchEnabled: SolDesignBenchModelContract.webSearchAllowed,
-        providerReadiness: getSolDesignBenchProviderReadiness(),
+        providerReadiness: await getSolDesignBenchProviderReadiness(),
         promptVersion: SOL_PROMPT_VERSION,
         promptHash: SOL_PROMPT_HASH,
         composerInvokedDuringTest: false,
@@ -77,7 +78,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const body = req.body as StartSolDesignBenchRequest | {
     action: 'RETRY_SOL_TEST';
     sourceRunId: string;
+  } | {
+    action: 'RUN_SOL_STRUCTURED_OUTPUT_PROOF';
+    proofMode: 'TINY_LIVE_SCHEMA_SMOKE' | 'LARGE_OUTPUT_STRESS';
   };
+  if (body?.action === 'RUN_SOL_STRUCTURED_OUTPUT_PROOF') {
+    if (!['TINY_LIVE_SCHEMA_SMOKE', 'LARGE_OUTPUT_STRESS'].includes(body.proofMode)) {
+      res.status(400).json({ error: 'SOL_PROOF_MODE_INVALID' });
+      return;
+    }
+    try {
+      const run = await startSolStructuredOutputProof(body.proofMode);
+      res.status(202).json({ ok: true, run });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(500).json({ error: message, code: 'SOL_STRUCTURED_OUTPUT_PROOF_FAILED' });
+    }
+    return;
+  }
   if (body?.action === 'RETRY_SOL_TEST') {
     try {
       const run = await retrySolDesignBenchRun(body.sourceRunId);
