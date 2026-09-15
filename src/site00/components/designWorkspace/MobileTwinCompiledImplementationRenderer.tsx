@@ -4,7 +4,9 @@ import type {
   MobileTwinImplementationRenderTreeNode,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
 import { isSemanticDebugLabel } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M1/semanticDebugLabelFirewall.js';
+import { assertRuntimeImageSourceAllowed } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/runtimeAuthorityRasterFirewall.js';
 import '../../styles/site00-mobile-twin-implementation-r8m1.css';
+import '../../styles/site00-mobile-twin-implementation-r8m2.css';
 
 type Props = {
   document: CompiledMobileTwinImplementationDocument;
@@ -34,8 +36,11 @@ function visibleCopy(node: { displayText?: string | null; semanticRole: string }
   return null;
 }
 
-/** R8M1 visual implementation — real copy/assets; never semantic role labels. */
+/** R8M2 visual implementation — canonical assets + fidelity; never authority raster at runtime. */
 export function MobileTwinCompiledImplementationRenderer({ document, onNodeActivate }: Props) {
+  const assetTraceByObjectId = new Map(
+    (document.assetTraceability ?? []).map((t) => [t.objectId, t]),
+  );
   const tree = document.renderTree;
   const sections = tree?.sections ?? [];
   const nodes: MobileTwinImplementationRenderTreeNode[] =
@@ -92,13 +97,29 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
             {meta ?
               <p className="site00-mobile-twin-compiled-impl__section-title">{meta.label}</p>
             : null}
-            <div className={rowClass(sectionId)}>
+            <div
+              className={
+                sectionId === 'readiness' ?
+                  `${rowClass(sectionId)} site00-mobile-twin-compiled-impl__readiness-row`
+                : rowClass(sectionId)
+              }
+            >
               {sectionNodes.map((node) => {
                 const copy = visibleCopy({ displayText: node.displayText, semanticRole: '' });
                 const interactive = Boolean(node.interactionIntent || node.functionBinding);
-                const isImage = Boolean(node.imageUri);
+                let safeImageUri: string | null = node.imageUri ?? null;
+                if (safeImageUri) {
+                  try {
+                    assertRuntimeImageSourceAllowed(safeImageUri);
+                  } catch {
+                    safeImageUri = null;
+                  }
+                }
+                const isImage = Boolean(safeImageUri);
                 const isGauge = node.componentType === 'GAUGE';
                 const Tag = interactive ? 'button' : 'div';
+                const trace = assetTraceByObjectId.get(node.objectId);
+                const controlRole = node.styles?.['--twin-control-role'] as string | undefined;
                 return (
                   <Tag
                     key={node.objectId}
@@ -107,6 +128,10 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                     data-object-id={node.objectId}
                     data-primitive={node.primitive}
                     data-component={node.componentType}
+                    data-control-role={controlRole}
+                    data-asset-slot={trace?.assetSlotId ?? undefined}
+                    data-canonical-asset={trace?.canonicalAssetId ?? undefined}
+                    data-asset-source={trace?.sourceCategory ?? undefined}
                     data-testid={`compiled-node-${node.objectId}`}
                     onClick={interactive ? () => onNodeActivate?.(node.objectId) : undefined}
                     style={node.styles as CSSProperties}
@@ -115,7 +140,7 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                       <div
                         className={`site00-mobile-twin-compiled-impl__image-wrap${node.componentType === 'CARD' ? ' site00-mobile-twin-compiled-impl__thumb' : ''}`}
                       >
-                        <img src={node.imageUri!} alt="" draggable={false} />
+                        <img src={safeImageUri!} alt="" draggable={false} />
                       </div>
                     : null}
                     {isGauge ?

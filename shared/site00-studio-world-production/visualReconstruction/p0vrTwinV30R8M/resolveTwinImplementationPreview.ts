@@ -12,6 +12,7 @@ import {
 } from './implementationApiAvailability.js';
 import type { CompiledMobileTwinImplementationDocument } from './types.js';
 import { ensureNdxbookTwinImplementationReady } from './ensureNdxbookTwinAutobuild.js';
+import { documentRequiresR8M2Recompile } from '../p0vrTwinV30R8M2/invalidatePriorR8M1Build.js';
 import { DESIGN_PAGE_V3_PILOT_PROJECT_ID, MOBILE_TWIN_NDXBOOK_AUTOBUILD_NO_MANUAL_GATES_V1 } from '../p0vrTwinV30/constants.js';
 
 export type TwinImplementationPreviewLoad = {
@@ -26,6 +27,7 @@ export type TwinImplementationPreviewLoad = {
 };
 
 function fromCache(entry: TwinImplementationCacheEntry): TwinImplementationPreviewLoad | null {
+  if (documentRequiresR8M2Recompile(entry.document)) return null;
   if (!isProductionReadyImplementationDocument(entry.document)) return null;
   return {
     source: 'LOCAL_CACHE',

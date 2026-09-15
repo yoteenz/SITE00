@@ -9,8 +9,13 @@ export function isWireframeImplementationDocument(doc: CompiledMobileTwinImpleme
 }
 
 export function isProductionReadyImplementationDocument(doc: CompiledMobileTwinImplementationDocument): boolean {
+  const generationOk = doc.compilerGeneration === 'R8M2' || doc.compilerGeneration === 'R8M1';
+  const regionOk =
+    doc.compilerGeneration !== 'R8M2' ||
+    Boolean(doc.regionFidelityReceipts?.length && doc.visualFidelityEvaluation?.machinePass);
   return (
-    doc.compilerGeneration === 'R8M1' &&
+    generationOk &&
+    regionOk &&
     Boolean(doc.renderTree?.nodes?.length) &&
     Boolean(doc.authoritiesLoaded?.actualRenderUri) &&
     Boolean(doc.authoritiesLoaded?.blueprintRenderUri)

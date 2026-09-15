@@ -31,8 +31,13 @@ import { evaluateMobileTwinPromotionReadiness } from '../shared/site00-studio-wo
 import {
   P0_VR_TWIN_V30R8M1_LINEAGE,
   REJECTED_WIREFRAME_REASON,
-  MOBILE_TWIN_IMPL_COMPILER_GENERATION,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M1/constants.js';
+import {
+  MOBILE_TWIN_IMPL_COMPILER_GENERATION,
+  P0_VR_TWIN_V30R8M2_LINEAGE,
+  MOBILE_TWIN_IMPLEMENTATION_VERSION,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/constants.js';
+import { classifyRuntimeImageSource } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/runtimeAuthorityRasterFirewall.js';
 import {
   isSemanticDebugLabel,
   scanDocumentForSemanticLabelViolations,
@@ -113,6 +118,7 @@ describe('P0.VR.TWINV3.0R8M1 visual implementation compiler', () => {
     const byKey = (suffix: string) => doc.nodes.find((n) => n.objectId.endsWith(suffix));
     expect(byKey('dominant-headline')?.displayText).toBe('THE SIGNAL IS THE INDEX');
     expect(byKey('dominant-artifact-image')?.imageUri).toBeTruthy();
+    expect(classifyRuntimeImageSource(byKey('dominant-artifact-image')?.imageUri)).toBe('CANONICAL_PROJECT_ASSET');
     expect(doc.nodes.filter((n) => n.objectId.includes('gallery-thumb')).length).toBeGreaterThan(0);
     expect(byKey('grounding-card')?.displayText).toBe('GROUNDING');
     expect(byKey('readiness-gauge')?.displayText).toBe('82%');
@@ -170,10 +176,10 @@ describe('P0.VR.TWINV3.0R8M1 visual implementation compiler', () => {
       status: 'FOUNDER_IMPLEMENTATION_REVIEW',
     });
     const v2 = await compileMobileTwinImplementationService(session);
-    expect(v2.document.lineage).toBe(P0_VR_TWIN_V30R8M1_LINEAGE);
+    expect(v2.document.lineage).toBe(P0_VR_TWIN_V30R8M2_LINEAGE);
     expect(v2.visual.result).toBe('PASS');
     expect(v2.structural.result).toBe('PASS');
-    expect(v2.build.implementationVersion).toBe('mobile-twin-impl-v2');
+    expect(v2.build.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION);
     const rejected = await mobileTwinImplementationStore.getBuild(wireBuildId);
     expect(rejected?.build.buildStatus).toBe('REJECTED_IMPLEMENTATION');
     expect(rejected?.build.rejectionReason).toBe(REJECTED_WIREFRAME_REASON);
