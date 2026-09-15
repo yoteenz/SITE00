@@ -63,6 +63,7 @@ import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
 import '../site00/astral-world/styles/astral-world.css';
+import '../site00/styles/site00-twin-test-a.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const Site00LocationsPage = lazy(() => import('../site00/pages/LocationsPage'));
@@ -174,6 +175,9 @@ const DesignTwinImplementationPage = lazy(() =>
 );
 const DesignTwinV4ProofPage = lazy(() =>
   import('../site00/pages/DesignTwinV4ProofPage').then((m) => ({ default: m.DesignTwinV4ProofPage })),
+);
+const DesignTwinTestAPage = lazy(() =>
+  import('../site00/pages/DesignTwinTestAPage').then((m) => ({ default: m.DesignTwinTestAPage })),
 );
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
@@ -1127,6 +1131,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <DesignTwinV4ProofPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinTestA}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignTwinTestAPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
