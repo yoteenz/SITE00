@@ -172,6 +172,9 @@ const LegacyProjectDesignRedirectPage = lazy(() =>
 const DesignTwinImplementationPage = lazy(() =>
   import('../site00/pages/DesignTwinImplementationPage').then((m) => ({ default: m.DesignTwinImplementationPage })),
 );
+const DesignTwinV4ProofPage = lazy(() =>
+  import('../site00/pages/DesignTwinV4ProofPage').then((m) => ({ default: m.DesignTwinV4ProofPage })),
+);
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
@@ -1112,6 +1115,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <DesignTwinImplementationPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinV4}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignTwinV4ProofPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
