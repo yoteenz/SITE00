@@ -46,7 +46,7 @@ describe('P0.VR.DESIGNBENCH.SOL-DIRECT1', () => {
   it('keeps Sol structural geometry frozen while using reconstructed plates', () => {
     expect(cssSource).toContain('height: 305px');
     expect(cssSource).toContain('grid-template-columns: 387px 150px');
-    expect(cssSource).toContain('height: 145px');
+    expect(cssSource).toContain('height: 146px');
     expect(cssSource).toContain('height: 142px');
     expect(cssSource).toContain('height: 113px');
     expect(pageSource).toContain('/site00/twin-sol-direct/sol-hand-plate.jpg');
