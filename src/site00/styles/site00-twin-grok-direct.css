@@ -26,6 +26,7 @@
 .tgd-board {
   width: 768px;
   min-height: 1376px;
+  height: 1376px;
   margin: 0 auto;
   background: var(--tgd-bg);
   overflow: hidden;
@@ -651,9 +652,13 @@
 }
 
 .tgd-mini__copy strong {
-  font-size: 8px;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  font-size: 7px;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+
+.tgd-master .tgd-mini__copy strong {
+  font-size: 4.5px;
 }
 
 .tgd-mini__hand {
@@ -762,12 +767,16 @@
 
 .tgd-doc__portrait {
   position: absolute;
-  right: 8px;
-  top: 8px;
-  width: 22px;
-  height: 28px;
-  background: #c8c2b8;
-  border-radius: 1px;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 36px;
+  transform: translate(-50%, -54%);
+  background:
+    radial-gradient(circle at 50% 32%, #4a433c 0 7px, transparent 8px),
+    linear-gradient(#6a635c, #2c2824);
+  border-radius: 2px;
+  box-shadow: 0 0 0 4px #efe8dc;
 }
 
 .tgd-doc__grid {

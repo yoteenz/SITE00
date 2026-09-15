@@ -121,36 +121,35 @@ function ArchivalHand() {
     <svg className="tgd-hand" viewBox="0 0 240 300" aria-hidden="true">
       <defs>
         <filter id="tgd-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" result="n" />
+          <feTurbulence type="fractalNoise" baseFrequency="1.15" numOctaves="3" result="n" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
-        <filter id="tgd-xerox">
-          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" result="g" />
-          <feDisplacementMap in="SourceGraphic" in2="g" scale="1.6" />
-        </filter>
       </defs>
-      <rect width="240" height="300" fill="#efe6d8" />
-      <rect width="240" height="300" fill="#cfc3b2" opacity="0.28" filter="url(#tgd-grain)" />
-      <g stroke="#b7aa98" strokeWidth="0.4" opacity="0.35">
-        {Array.from({ length: 16 }, (_, i) => (
-          <line key={`v${i}`} x1={16 + i * 14} y1="8" x2={16 + i * 14} y2="292" />
+      <rect width="240" height="300" fill="#f3ebde" />
+      <rect width="240" height="300" fill="#c8bca9" opacity="0.22" filter="url(#tgd-grain)" />
+      <g stroke="#c2b6a4" strokeWidth="0.35" opacity="0.4">
+        {Array.from({ length: 14 }, (_, i) => (
+          <line key={`v${i}`} x1={20 + i * 15} y1="10" x2={20 + i * 15} y2="290" />
         ))}
-        {Array.from({ length: 20 }, (_, i) => (
-          <line key={`h${i}`} x1="8" y1={12 + i * 14} x2="232" y2={12 + i * 14} />
+        {Array.from({ length: 18 }, (_, i) => (
+          <line key={`h${i}`} x1="12" y1={14 + i * 15} x2="228" y2={14 + i * 15} />
         ))}
       </g>
-      <g fill="#6a5f52" opacity="0.28" fontFamily="Inter, sans-serif" fontSize="6.2" letterSpacing="0.16em">
-        <text x="154" y="38">CHECK REF</text>
-        <text x="154" y="50">P.1377</text>
-        <text x="154" y="62">P.208</text>
-        <text x="154" y="74">P.311</text>
-        <text x="168" y="168">8758</text>
+      <g fill="#7a6e60" opacity="0.32" fontFamily="Inter, sans-serif" fontSize="6" letterSpacing="0.18em">
+        <text x="158" y="36">CHECK REF</text>
+        <text x="158" y="48">P.1377</text>
+        <text x="158" y="60">P.208</text>
+        <text x="158" y="72">P.311</text>
+        <text x="172" y="176">8758</text>
       </g>
-      <g filter="url(#tgd-xerox)" fill="#111">
-        <path d="M118 14c-5.2 0-8.8 4.2-8.8 9.6v86c-16 3-38 22-41 46-3 22 10 40 32 46 3 16 7 38 16 52 10 16 30 22 46 10 13-9 18-28 16-46 20-3 34-20 32-40-2-18-16-30-34-28l6-80c.4-8-3.6-14-9.6-14-3.4 0-6.4 2.2-7.6 5.4V24c0-5.6-3.8-10-8.6-10z" />
-        <path d="M78 168c-10 2-22 0-30-8-2 8 2 16 12 20 8 4 16 4 22 2z" opacity="0.85" />
-        <path d="M86 188c-12 1-24-2-32-12 2 10 10 18 24 20 8 2 16 1 22-2z" opacity="0.75" />
-        <path d="M92 206c-12 2-22-2-30-12 4 12 14 18 28 18 8 0 14-2 18-6z" opacity="0.65" />
+      <g fill="#111">
+        <path d="M117 16c-6 1-9 6-9 12v92c0 6 1 10 5 14-18 8-36 26-38 48-2 24 14 41 36 46 2 14 6 34 14 48 9 16 28 22 44 12 14-8 19-26 17-44 18-4 30-20 28-38-2-17-15-28-32-27 1-8 3-18 4-30 1-10-2-16-8-18-4-1-7 1-8 5V28c0-7-4-13-10-13-1.6 0-3.2.4-4.4 1.1z" />
+        <ellipse cx="118" cy="20" rx="8.4" ry="9.2" />
+        <ellipse cx="76" cy="172" rx="15" ry="20" transform="rotate(-38 76 172)" />
+        <ellipse cx="70" cy="196" rx="12" ry="16" transform="rotate(-18 70 196)" />
+        <ellipse cx="76" cy="216" rx="11" ry="14" transform="rotate(-8 76 216)" />
+        <ellipse cx="154" cy="208" rx="13" ry="17" />
+        <path d="M96 230c8 18 22 28 40 26 16-2 28-14 30-28-12 10-28 14-46 10-10-2-18-6-24-8z" />
       </g>
     </svg>
   );
@@ -200,7 +199,9 @@ function MiniSignalCard({ dark }: { dark?: boolean }) {
     <div className={`tgd-mini${dark ? ' tgd-mini--dark' : ''}`} aria-hidden="true">
       <div className="tgd-mini__copy">
         <strong>
-          THE SIGNAL
+          THE
+          <br />
+          SIGNAL
           <br />
           IS THE
           <br />
