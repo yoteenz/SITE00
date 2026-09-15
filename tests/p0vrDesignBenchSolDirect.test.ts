@@ -52,4 +52,20 @@ describe('P0.VR.DESIGNBENCH.SOL-DIRECT1', () => {
     expect(pageSource).not.toContain('ndx-entry-002-pre-sba-ndx-hands-001.jpg');
     expect(pageSource).not.toContain('sol-hand-silhouette');
   });
+
+  it('uses reference-traced SVG marks instead of generic unicode icons', () => {
+    expect(pageSource).toContain('function Mark');
+    expect(pageSource).toContain('name="sliders"');
+    expect(pageSource).toContain('name="target"');
+    expect(pageSource).toContain('name="expand"');
+    expect(pageSource).toContain('name="lock"');
+    expect(pageSource).toContain('name="grid"');
+    expect(pageSource).toContain('name="clock"');
+    expect(pageSource).toContain('name="bolt"');
+    expect(pageSource).not.toContain('☰');
+    expect(pageSource).not.toContain('☷');
+    expect(pageSource).not.toContain('▦');
+    expect(pageSource).not.toContain('ϟ');
+    expect(cssSource).toContain('grid-template-columns: 387px 150px');
+  });
 });

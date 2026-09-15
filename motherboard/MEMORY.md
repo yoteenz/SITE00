@@ -9705,3 +9705,15 @@ Summary of the **whole conversation so far** in this chat: founder ran three Gro
 - **Decisions / outcomes:** Sol geometry locked (`386px/150px` stage, section heights unchanged). `SOL_STRUCTURE_CHANGED: NO`. Top asset gaps were silhouette hero, text-only authority thumbs, CSS-only gallery, empty structured tiles, and a text-only history thumb. Recreated xerox hand / blueprint / 001 plates; reused grok-direct form, overlay, and portrait. Three browser asset QA passes on local Vite. Cloudflare target URL is another agent’s tunnel and will not show this pass until merge + that preview refreshes.
 - **Changes:** `public/site00/twin-sol-direct/*` plates; `NdxbookSolDirectPage.tsx` / `site00-ndxbook-sol-direct.css` image hooks only; Sol isolation tests extended; CORE sol-direct row; this MEMORY entry. PR **#938**.
 - **Conventions:** After a Sol structural pass, Grok asset sprints must not move shell/section geometry. If a larger layout change seems necessary, report `STRUCTURAL_CONFLICT` and stop. Do not use an incorrect existing photo just because it is already in the repo.
+
+---
+
+## 2026-09-15 — GROK-ASSET1R1 Sol icon / micro-graphic fidelity
+
+Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 Cursor sprints on one NDXBOOK DESIGN golden. DIRECT1 + DIRECT1R1 built `twin-grok-direct`. ASSET1 rebuilt Sol-direct plates on frozen Sol structure (PR #938 / v493). ASSET1R1 then expanded Grok’s ownership to icons, symbols, and micro-graphics on the same Sol page.
+
+- **Context:** `/projects/ndxbook/design/twin-sol-direct`. Sol owns structure, live text, spacing. Grok owns physical visual material, including glyphs. No Composer. No major geometry change.
+- **Topics covered:** Icon/symbol audit vs golden; filled device marks; lock/check/hamburger; gallery action glyphs (sliders/refresh/target/expand); readiness check-circles; bottom-nav grid/clock/doc/status/bolt; three browser icon QA passes.
+- **Decisions / outcomes:** Generic unicode (☰ ☷ ▦ ϟ ✓ ● etc.) replaced with reference-traced inline SVGs. Inspect is a target/reticle, not a magnifying glass. Devices are filled silhouettes. `SOL_STRUCTURE_CHANGED: NO`.
+- **Changes:** `NdxbookSolDirectPage.tsx` Mark/DeviceMark/CheckDot; icon-only CSS sizing; Sol tests assert SVG marks; CORE sol-direct row; this MEMORY entry. PR **#941**.
+- **Conventions:** If a mark is perceived as a shape rather than live text, Grok redraws it. Keep the function, rebuild the shape. Do not drop in Lucide/emoji when the golden shows a different silhouette.
