@@ -1,7 +1,11 @@
 import {
   GROK_TWIN_TEST_A_API_PATH,
+  GROK_TWIN_TEST_A_PRODUCTION_API_ORIGIN,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
-import type { GrokDesignBenchProviderReadinessReceipt } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import type {
+  GrokDesignBenchHostDiagnostic,
+  GrokDesignBenchProviderReadinessReceipt,
+} from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import type { GrokDesignBenchRun } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
 import { site00ClientApiUrl } from '../../../shared/site00-studio-world-production/site00ClientApiBase.js';
 
@@ -10,14 +14,47 @@ function isPreviewHost(hostname: string): boolean {
   return host.includes('fsbw-dev.com') || host.endsWith('.trycloudflare.com') || host === 'localhost' || host === '127.0.0.1';
 }
 
-export function listGrokTwinTestAApiUrls(): string[] {
+/** Railway first. Same-origin Vite is fallback only — it does not hold production secrets. */
+export function listGrokTwinTestAApiUrls(hostname?: string, origin?: string): string[] {
+  const host =
+    hostname ?? (typeof window !== 'undefined' ? window.location.hostname : '');
+  const pageOrigin =
+    origin ?? (typeof window !== 'undefined' ? window.location.origin.replace(/\/$/, '') : '');
   const urls: string[] = [];
-  if (typeof window !== 'undefined' && isPreviewHost(window.location.hostname)) {
-    urls.push(`${window.location.origin.replace(/\/$/, '')}${GROK_TWIN_TEST_A_API_PATH}`);
-  }
   const production = site00ClientApiUrl(GROK_TWIN_TEST_A_API_PATH);
-  if (!urls.includes(production)) urls.push(production);
-  return urls;
+  const railway = `${GROK_TWIN_TEST_A_PRODUCTION_API_ORIGIN}${GROK_TWIN_TEST_A_API_PATH}`;
+  if (production) urls.push(production);
+  if (!urls.includes(railway)) urls.unshift(railway);
+  if (host && isPreviewHost(host) && pageOrigin) {
+    const sameOrigin = `${pageOrigin}${GROK_TWIN_TEST_A_API_PATH}`;
+    if (!urls.includes(sameOrigin)) urls.push(sameOrigin);
+  }
+  return [...new Set(urls)];
+}
+
+export function grokTwinTestAPayloadReportsMissingHostKey(payload: unknown): boolean {
+  if (!payload || typeof payload !== 'object') return false;
+  const rec = payload as Record<string, unknown>;
+  const readiness =
+    rec.readiness && typeof rec.readiness === 'object'
+      ? (rec.readiness as Record<string, unknown>)
+      : null;
+  if (readiness?.xaiApiKeyPresent === false) return true;
+  const diagnostic =
+    rec.hostDiagnostic && typeof rec.hostDiagnostic === 'object'
+      ? (rec.hostDiagnostic as Record<string, unknown>)
+      : null;
+  if (diagnostic?.xaiKeyPresent === false) return true;
+  const reason = String(readiness?.reason ?? rec.error ?? '');
+  return /missing on the API host/i.test(reason);
+}
+
+async function inspectJson(res: Response): Promise<unknown> {
+  try {
+    return await res.clone().json();
+  } catch {
+    return null;
+  }
 }
 
 async function postFirstOk(body: unknown): Promise<Response> {
@@ -31,6 +68,8 @@ async function postFirstOk(body: unknown): Promise<Response> {
       });
       last = res;
       if (res.ok || res.status === 202) return res;
+      const payload = await inspectJson(res);
+      if (grokTwinTestAPayloadReportsMissingHostKey(payload)) continue;
       if (res.status !== 404) return res;
     } catch {
       /* try next origin */
@@ -40,13 +79,19 @@ async function postFirstOk(body: unknown): Promise<Response> {
   throw new Error('GROK_API_UNREACHABLE');
 }
 
-async function getFirstOk(search: string): Promise<Response> {
+async function getFirstReadyHost(search: string): Promise<Response> {
   let last: Response | null = null;
   for (const url of listGrokTwinTestAApiUrls()) {
     try {
       const res = await fetch(`${url}${search}`, { cache: 'no-store' });
       last = res;
-      if (res.ok) return res;
+      if (res.ok) {
+        const payload = await inspectJson(res);
+        if (search.includes('action=readiness') && grokTwinTestAPayloadReportsMissingHostKey(payload)) {
+          continue;
+        }
+        return res;
+      }
       if (res.status !== 404) return res;
     } catch {
       /* try next */
@@ -73,15 +118,26 @@ export async function startGrokTwinTestARun(input: {
   return json.run;
 }
 
-export async function fetchGrokTwinTestAReadiness(): Promise<GrokDesignBenchProviderReadinessReceipt> {
-  const res = await getFirstOk('?action=readiness');
-  const json = (await res.json()) as { ok?: boolean; readiness?: GrokDesignBenchProviderReadinessReceipt; error?: string };
+export async function fetchGrokTwinTestAReadiness(): Promise<{
+  readiness: GrokDesignBenchProviderReadinessReceipt;
+  hostDiagnostic: GrokDesignBenchHostDiagnostic | null;
+}> {
+  const res = await getFirstReadyHost('?action=readiness');
+  const json = (await res.json()) as {
+    ok?: boolean;
+    readiness?: GrokDesignBenchProviderReadinessReceipt;
+    hostDiagnostic?: GrokDesignBenchHostDiagnostic;
+    error?: string;
+  };
   if (!res.ok || !json.readiness) throw new Error(json.error ?? 'GROK_READINESS_FAILED');
-  return json.readiness;
+  return {
+    readiness: json.readiness,
+    hostDiagnostic: json.hostDiagnostic ?? null,
+  };
 }
 
 export async function pollGrokTwinTestARun(runId: string): Promise<GrokDesignBenchRun> {
-  const res = await getFirstOk(`?action=run&runId=${encodeURIComponent(runId)}`);
+  const res = await getFirstReadyHost(`?action=run&runId=${encodeURIComponent(runId)}`);
   const json = (await res.json()) as { ok?: boolean; run?: GrokDesignBenchRun; error?: string };
   if (!res.ok || !json.run) throw new Error(json.error ?? 'GROK_POLL_FAILED');
   return json.run;

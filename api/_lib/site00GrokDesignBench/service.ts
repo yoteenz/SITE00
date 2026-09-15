@@ -15,6 +15,7 @@ import type {
 import {
   auditGrokDesignBenchProvider,
   evaluateGrokDesignBenchReadiness,
+  grokDesignBenchHostDiagnostic,
   grokDesignBenchProviderModel,
   isGrokTestHarnessEnabled,
 } from './grokVisionProvider.js';
@@ -167,4 +168,8 @@ export function grokDesignBenchAudit() {
 
 export function grokDesignBenchReadiness() {
   return evaluateGrokDesignBenchReadiness();
+}
+
+export function grokDesignBenchHostIdentity(requestHost?: string) {
+  return grokDesignBenchHostDiagnostic({ requestHost });
 }

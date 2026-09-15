@@ -9506,3 +9506,16 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Verification:** 40 focused/current-Twin tests passed; typecheck and production build passed. A GUI subagent could not start because its retained attachment history exceeded the provider limit; deterministic retry/request tests remain conclusive. Real tiny-image OpenAI smoke is deferred until the corrected server revision is deployed.
 - **Conventions:** `json_object` requests must place the literal JSON instruction in provider-validated user input, not only system instructions/comments. A malformed Responses request is not a model-binding failure.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F2 API host environment boundary (v485)
+
+Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound it to **xAI grok-4.6** (GROK1F1), then founder reported Test A still saying **XAI_API_KEY MISSING ON THE API HOST** even after the key existed on Railway production SITE00 and the service was redeployed.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK1F2**. Surgical diagnostic only. Do not recreate the bench, change provider/model/design contract, or ask for another xAI key. Route **`/projects/ndxbook/design/twin-testA`**.
+- **Topics covered:** Which runtime executes `POST /api/site00/twin-test-a-design-bench`; env read site; Railway vs Vite process boundary; safe non-secret readiness diagnostic; frontend v484/v485 vs API release identity.
+- **Decisions / outcomes:** Railway **`site00-api`** at **`https://api.site00.com`** (`npm run start:api` / Express) **does** execute the design-bench endpoint and **already has** `XAI_API_KEY` (`readiness=READY`, `xaiApiKeyPresent=true`, model `grok-4.6`). The false missing-key UI came from preview/Vite **same-origin first**: local API returned HTTP 200 BLOCKED and the client stopped before Railway. Env name is only **`XAI_API_KEY`** (no `XAI_KEY` / `GROK_API_KEY` / `XAI_TOKEN` / `VITE_XAI_API_KEY`). Key stays server-side.
+- **Changes:** Client prefers Railway then skips missing-key 200s; readiness JSON may include `hostDiagnostic` (`runtime`, `host`, `environment`, `xaiKeyPresent` boolean, `modelId`); UI shows **XAI KEY PRESENT**; stale persisted Vite missing-key FAILED runs clear once Railway reports READY. Build **v485**. Tests **`tests/p0vrDesignBenchGrok1F2.test.ts`**.
+- **Live proof:** `GET https://api.site00.com/api/site00/twin-test-a-design-bench?action=readiness` → READY / xai / grok-4.6 / key true. Vite same-origin remains BLOCKED (no production secret). Browser on local Vite page (Railway-first client) shows READY + XAI KEY PRESENT: YES.
+- **Conventions:** Secret-backed Test A calls must target the Railway API host that holds `XAI_API_KEY`. Do not put the key in `VITE_*`. A 200 from Vite is not a usable readiness host if `xaiApiKeyPresent` is false.
+

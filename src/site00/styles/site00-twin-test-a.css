@@ -46,6 +46,30 @@
   font-size: 12px;
 }
 
+.twin-test-a__host-diagnostic {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.twin-test-a__host-diagnostic div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 8px;
+}
+
+.twin-test-a__host-diagnostic dt {
+  margin: 0;
+  color: var(--tta-muted);
+  letter-spacing: 0.08em;
+  font-size: 10px;
+}
+
+.twin-test-a__host-diagnostic dd {
+  margin: 0;
+  word-break: break-all;
+}
+
 .twin-test-a__failure-details {
   margin-top: 10px;
   font-size: 11px;

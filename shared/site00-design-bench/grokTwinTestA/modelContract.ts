@@ -53,6 +53,15 @@ export interface GrokDesignBenchProviderReadinessReceipt {
   competitorAccessAllowed: false;
 }
 
+/** Non-secret host identity for GROK1F2. Never includes key material. */
+export interface GrokDesignBenchHostDiagnostic {
+  runtime: string;
+  host: string;
+  environment: string;
+  xaiKeyPresent: boolean;
+  modelId: typeof GROK_DESIGN_BENCH_MODEL_ID;
+}
+
 export interface GrokDesignBenchProviderFailure {
   code: typeof GROK_4_6_PROVIDER_BINDING_FAILED;
   providerResponseCode: number | null;

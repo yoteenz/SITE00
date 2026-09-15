@@ -10,6 +10,7 @@ import {
   formatGrok46BindingFailure,
   isForbiddenGrokBenchModel,
   type GrokBenchmarkInputReceipt,
+  type GrokDesignBenchHostDiagnostic,
   type GrokDesignBenchProviderFailure,
   type GrokDesignBenchProviderReadinessReceipt,
 } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
@@ -51,6 +52,27 @@ export function grokDesignBenchProviderModel(): typeof GROK_DESIGN_BENCH_MODEL_I
 export function grokDesignBenchApiKey(): string | null {
   const key = process.env.XAI_API_KEY?.trim();
   return key || null;
+}
+
+export function grokDesignBenchHostDiagnostic(input?: { requestHost?: string }): GrokDesignBenchHostDiagnostic {
+  const requestHost = input?.requestHost?.split(':')[0]?.trim() || '';
+  const railwayService = process.env.RAILWAY_SERVICE_NAME?.trim() || '';
+  const railwayEnv = process.env.RAILWAY_ENVIRONMENT?.trim() || process.env.RAILWAY_ENVIRONMENT_NAME?.trim() || '';
+  const railwayDomain = process.env.RAILWAY_PUBLIC_DOMAIN?.trim() || '';
+  const onRailway = Boolean(
+    railwayEnv || railwayService || process.env.RAILWAY_PROJECT_ID || process.env.RAILWAY_GIT_COMMIT_SHA,
+  );
+  let runtime = 'node-express';
+  if (onRailway) runtime = 'railway-node-express';
+  else if (process.env.SITE00_VITE_LOCAL_API === '1') runtime = 'vite-local-api';
+  else if (process.env.VITEST === 'true') runtime = 'vitest-node';
+  return {
+    runtime,
+    host: requestHost || railwayDomain || railwayService || 'local',
+    environment: railwayEnv || process.env.NODE_ENV || 'unknown',
+    xaiKeyPresent: Boolean(grokDesignBenchApiKey()),
+    modelId: GROK_DESIGN_BENCH_MODEL_ID,
+  };
 }
 
 export function isGrokTestHarnessEnabled(): boolean {

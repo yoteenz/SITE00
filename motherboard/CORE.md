@@ -35,7 +35,7 @@ Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content 
 - **Backend / Auth / DB:** Supabase (shared Frontal Slayer project `hyycomvcaqxxvyrfupes` during migration; target = dedicated SITE 00 project). Migrations: `supabase/migrations/*site00*`.
 - **API:** Vercel-style serverless handlers under `api/` (admin site00 production, ASSTS, etc.). **Do not run on cPanel static hosting alone** — host separately or use Supabase Edge Functions; see `docs/DEPLOYMENT.md`.
 - **Env (browser):** `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_API_BASE`, `VITE_ADMIN_EMAILS`. `VITE_SITE00_ROOT=1` set at build time in `vite.config.ts`.
-- **Env (server only):** `SUPABASE_SERVICE_ROLE_KEY`, `FAL_KEY`, `ADMIN_EMAILS`, ASSTS bucket secrets — never `VITE_*`.
+- **Env (server only):** `SUPABASE_SERVICE_ROLE_KEY`, `FAL_KEY`, `XAI_API_KEY` (Railway `site00-api` / twin-testA), `ADMIN_EMAILS`, ASSTS bucket secrets — never `VITE_*`.
 - **Local dev:** `npm run dev` → port **5174**. ASSTS local API plugin in dev via `scripts/vite-site00-assts-local-api.mjs`.
 
 ---
@@ -51,7 +51,7 @@ Sprint prompts may include their own `FINAL CONCLUSION FORMAT` — that content 
 | `/evolve/state` | Evolve path selector |
 | `/assts` | Asset factory / vault |
 | `/control` | Client control panel |
-| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (P0.VR.DESIGNBENCH.GROK1 / GROK1F1). Hard-bound to **xAI grok-4.6** — no model fallback. Does not share state with `/design/twin`, `/design/twin-v4`, `/projects/site00/design`, or twin-testB. |
+| `/projects/:slug/design/twin-testA` | Isolated Grok visual/Figma translation bench (P0.VR.DESIGNBENCH.GROK1 / GROK1F1 / GROK1F2). Hard-bound to **xAI grok-4.6** — no model fallback. Secret-backed calls prefer Railway `https://api.site00.com` (`XAI_API_KEY` server-only). Vite same-origin is fallback only. Does not share state with `/design/twin`, `/design/twin-v4`, `/projects/site00/design`, or twin-testB. |
 
 Desktop preview paths use `/desktop` suffix (artboard preview mode).
 
