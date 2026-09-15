@@ -310,6 +310,23 @@
   font-style: normal;
 }
 
+.sol-bench-retry {
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px;
+  border: 1px solid #fff;
+  background: #fff;
+  color: #11110f;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.sol-bench-retry:disabled {
+  cursor: wait;
+  opacity: .55;
+}
+
 .sol-bench-error {
   padding: 12px;
   background: #ffd3d3;

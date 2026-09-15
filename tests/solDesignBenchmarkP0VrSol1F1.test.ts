@@ -7,6 +7,7 @@ import { SolDesignBenchModelContract } from '../shared/site00-sol-design-bench/m
 import {
   SOL_PROMPT_HASH,
   SOL_PROMPT_VERSION,
+  assertSolStructuredOutputRequest,
   buildSolOpenAiRequestBody,
   executeSolDesignAnalysis,
 } from '../api/_lib/site00SolDesignBench/provider';
@@ -149,12 +150,21 @@ describe('P0.VR.DESIGNBENCH.SOL1F1 hard binding', () => {
     expect(body.reasoning).toEqual({ effort: 'high' });
     expect(body.tools).toEqual([]);
     expect(body.tool_choice).toBe('none');
+    expect(body.input[0].content.find((part) => part.type === 'input_text')?.text)
+      .toMatch(/\bJSON\b/);
+    expect(() => assertSolStructuredOutputRequest(body)).not.toThrow();
     expect(body.input[0].content).toContainEqual(expect.objectContaining({
       type: 'input_image',
       image_url: request.reference.dataUrl,
     }));
     expect(SolDesignBenchModelContract).toEqual(expect.objectContaining({
       provider: 'openai',
+      modelId: 'gpt-5.6-sol',
+      reasoningEffort: 'high',
+      imageInputAttached: true,
+      structuredOutputRequested: true,
+      structuredOutputMode: 'json_object',
+      jsonInstructionPresent: true,
       modelId: 'gpt-5.6-sol',
       fallbackAllowed: false,
       webSearchAllowed: false,

@@ -467,6 +467,29 @@ export function SolDesignBenchmarkPage() {
     }
   };
 
+  const retry = async () => {
+    if (!run || run.status !== 'FAILED') return;
+    setError('');
+    setIsUploading(true);
+    try {
+      const response = await fetch(site00ApiUrl('/api/site00/sol-design-bench'), {
+        method: 'POST',
+        credentials: 'omit',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'RETRY_SOL_TEST', sourceRunId: run.runId }),
+      });
+      const body = await response.json() as { run?: SolDesignBenchRun; error?: string };
+      if (!response.ok || !body.run) throw new Error(body.error || `Could not retry Sol test (${response.status}).`);
+      setRun(body.run);
+      localStorage.setItem(LAST_RUN_KEY, body.run.runId);
+      setElapsed(0);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : String(reason));
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const frozen = run?.authority;
   const progressLabel = useMemo(() => run?.stageLabel || 'Waiting for reference', [run?.stageLabel]);
 
@@ -541,7 +564,7 @@ export function SolDesignBenchmarkPage() {
 
       {run && run.status !== 'COMPLETE' ? (
         <section className={`sol-bench-progress ${run.status === 'FAILED' ? 'is-failed' : ''}`} data-testid="sol-progress">
-          <span className="sol-bench-progress__eyebrow">{run.status === 'FAILED' ? 'SOL_RUN_FAILED' : 'SOL IS TRANSLATING YOUR INTERFACE'}</span>
+          <span className="sol-bench-progress__eyebrow">{run.status === 'FAILED' ? run.error?.code || 'SOL_RUN_FAILED' : 'SOL IS TRANSLATING YOUR INTERFACE'}</span>
           <div className="sol-bench-progress__bar"><i style={{ width: `${run.progress}%` }} /></div>
           <div className="sol-bench-progress__metrics">
             <div><small>STAGE</small><strong>{progressLabel}</strong></div>
@@ -549,6 +572,11 @@ export function SolDesignBenchmarkPage() {
             <div><small>ESTIMATED REMAINING</small><strong>{run.etaSeconds == null ? 'Estimating…' : `~${formatDuration(run.etaSeconds * 1000)}`}</strong><em>Stage-derived estimate</em></div>
           </div>
           {run.error ? <p className="sol-bench-error">{run.error.code}: {run.error.message}</p> : null}
+          {run.status === 'FAILED' ? (
+            <button className="sol-bench-retry" disabled={isUploading} onClick={() => void retry()}>
+              {isUploading ? 'CREATING RETRY RUN…' : 'RETRY SOL TEST'}
+            </button>
+          ) : null}
         </section>
       ) : null}
       {isUploading ? (
