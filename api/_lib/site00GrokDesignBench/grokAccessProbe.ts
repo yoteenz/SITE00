@@ -55,9 +55,9 @@ export interface Grok46AccessProbe {
   notAvailableCode: typeof GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM | null;
 }
 
-/** 8x8 red PNG — xAI rejects images smaller than 8px on either edge. */
+/** 32x32 red PNG — xAI requires ≥8px edges and ≥512 total pixels. */
 export const GROK46_SMOKE_PNG_B64 =
-  'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAEklEQVR4nGP4z8DwHx9mGBkKAMLXf4EvceABAAAAAElFTkSuQmCC';
+  'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAK0lEQVR42u3OIQEAAAwEoetfeovxBoGnq1tKQEBAQEBAQEBAQEBAQEBgHXhUDfhqeP5ugAAAAABJRU5ErkJggg==';
 
 type FetchLike = typeof fetch;
 
