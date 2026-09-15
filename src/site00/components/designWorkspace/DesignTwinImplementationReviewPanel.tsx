@@ -4,8 +4,12 @@ import {
   compileMobileTwinImplementationRoute,
   requestMobileTwinImplementationCorrectionOnServer,
 } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/requestMobileTwinImplementation.js';
-import type { MobileTwinImplementationCorrectionReason } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
+import type {
+  CompiledMobileTwinImplementationDocument,
+  MobileTwinImplementationCorrectionReason,
+} from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/types.js';
 import { mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/constants.js';
+import { DesignTwinImplementationExpressionTrace } from './DesignTwinImplementationExpressionTrace.js';
 
 type ReviewMode = 'LIVE' | 'ACTUAL' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE';
 
@@ -18,6 +22,7 @@ type Props = {
   founderStatus: string;
   promotionStatus: string;
   serverBacked?: boolean;
+  implementationDocument?: CompiledMobileTwinImplementationDocument | null;
   onUpdated: () => void;
 };
 
@@ -51,6 +56,7 @@ export function DesignTwinImplementationReviewPanel({
   founderStatus,
   promotionStatus,
   serverBacked = true,
+  implementationDocument = null,
   onUpdated,
 }: Props) {
   const [busy, setBusy] = useState(false);
@@ -127,6 +133,9 @@ export function DesignTwinImplementationReviewPanel({
         <p data-testid="ready-for-promotion">READY FOR PROMOTION (explicit promote sprint required)</p>
       : null}
       {msg ? <p role="status">{msg}</p> : null}
+      {implementationDocument ?
+        <DesignTwinImplementationExpressionTrace document={implementationDocument} />
+      : null}
     </section>
   );
 }
