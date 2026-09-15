@@ -4,16 +4,14 @@ import {
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import { finalizeGrokTiming, grokStageLabel, grokStageProgress } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import type { GrokDesignBenchRun, GrokDesignBenchStage } from '../../../shared/site00-design-bench/grokTwinTestA/types.js';
-import {
-  classifyGrok46ProviderError,
-  GROK_4_6_PROVIDER_BINDING_FAILED,
-  GROK_DESIGN_BENCH_MODEL_ID,
-} from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
+import { GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
 import {
   GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS,
   GROK_PROVIDER_TIMEOUT,
+  GROK_RUN_STALLED,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import { translateInterfaceWithGrok } from './grokVisionProvider.js';
+import { GrokProviderError } from './grokProviderRetry.js';
 import {
   clearGrokRunControl,
   isGrokRunCancelRequested,
@@ -74,6 +72,7 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
     }
 
     const controller = registerGrokRunAbort(runId);
+    const deadlineMs = Date.now() + GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS;
     const timeout = setTimeout(() => controller.abort(), GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS);
     let translated;
     try {
@@ -86,6 +85,21 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
         height: run.reference.height,
         sha256: run.reference.sha256,
         signal: controller.signal,
+        deadlineMs,
+        onProviderEvent: ({ retryState }) => {
+          const current = requireRun(runId);
+          patchRun(current, {
+            lastStateChangeAt: new Date().toISOString(),
+            providerRequestStatus: 'IN_FLIGHT',
+            providerRetry: retryState,
+            stall: {
+              stalled: false,
+              stalledStage: current.stage,
+              lastStateChange: new Date().toISOString(),
+              providerRequestStatus: 'IN_FLIGHT',
+            },
+          });
+        },
       });
     } catch (err) {
       if (isGrokRunCancelRequested(runId) || (err instanceof Error && err.name === 'AbortError')) {
@@ -112,6 +126,7 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
       finishStatus: translated.finishStatus,
       maxOutputTokens: translated.maxOutputTokens,
       responseTruncated: translated.responseTruncated,
+      providerRetry: translated.providerRetry,
       timing: { ...requireRun(runId).timing, providerCompletedAt },
       cost: {
         reported: translated.costReported,
@@ -153,22 +168,25 @@ export async function executeGrokDesignBenchJob(runId: string): Promise<GrokDesi
     const message = err instanceof Error ? err.message : 'GROK_JOB_FAILED';
     const cancelled = message === 'CANCEL_REQUESTED';
     const timedOut = message === GROK_PROVIDER_TIMEOUT;
-    const bindingFailed = message.includes(GROK_4_6_PROVIDER_BINDING_FAILED);
-    const codeMatch = message.match(/providerResponseCode=(\d+|none)/);
-    const status = codeMatch && codeMatch[1] !== 'none' ? Number(codeMatch[1]) : null;
+    const stalled = message === GROK_RUN_STALLED;
+    const providerErr = err instanceof GrokProviderError ? err : null;
+    let benchmarkFailureClass = providerErr?.benchmarkFailureClass ?? null;
+    if (cancelled) benchmarkFailureClass = 'USER_CANCELLED';
+    else if (timedOut) benchmarkFailureClass = 'PROVIDER_TIMEOUT';
+    else if (stalled) benchmarkFailureClass = 'RUN_STALLED';
+    else if (!benchmarkFailureClass && /truncat|OUTPUT_TRUNCATED/i.test(message)) benchmarkFailureClass = 'OUTPUT_TRUNCATED';
+    else if (!benchmarkFailureClass && /FIGMA_STYLE|validation|assertFigma/i.test(message)) {
+      benchmarkFailureClass = 'OUTPUT_VALIDATION_FAILED';
+    }
     return patchRun(requireRun(runId), {
       stage: cancelled ? 'CANCELLED' : 'FAILED',
       error: message,
       cancelStatus: cancelled ? 'CANCELLED' : requireRun(runId).cancelStatus ?? null,
       providerRequestStatus: timedOut ? 'TIMEOUT' : cancelled ? 'CANCELLED' : 'FAILED',
-      providerFailure: bindingFailed
-        ? {
-            code: GROK_4_6_PROVIDER_BINDING_FAILED,
-            providerResponseCode: status,
-            classification: classifyGrok46ProviderError(status, message),
-            runId,
-            detail: message,
-          }
+      benchmarkFailureClass,
+      providerRetry: providerErr?.retryState ?? requireRun(runId).providerRetry ?? null,
+      providerFailure: providerErr
+        ? providerErr.providerFailure
         : null,
       timing: finalizeGrokTiming(requireRun(runId).timing, new Date().toISOString()),
     });
