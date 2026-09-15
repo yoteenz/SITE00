@@ -9609,3 +9609,14 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 - **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
 - **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
+
+Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1R1**. Same route `/projects/ndxbook/design/twin-grok-direct`. Do not rebuild architecture.
+- **Top initial gaps:** blob SVG hand; hero plate scale; 768 artboard on gray surround; gallery/doc placeholders; authority thumbs; rail button size; type scale; section heights; extra bottom air; dirty xerox missing.
+- **Changes:** Generated missing xerox plates into `public/site00/twin-grok-direct/`; traced 768×1376 / 512+208 hero-rail; inset darker plate; condensed type; existing Twin/DESIGN still untouched. Build **v491**.
+- **Conventions:** Direct-reconstruction follow-ups replace conflicting visual code. Do not add analog markup that is not in the golden. Do not slice the golden into the page.
+
