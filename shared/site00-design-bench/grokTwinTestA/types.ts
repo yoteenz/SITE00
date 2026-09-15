@@ -29,6 +29,7 @@ export interface GrokDesignBenchTiming {
   modelDurationMs: number | null;
   postProcessingDurationMs: number | null;
   totalDurationMs: number | null;
+  uploadDurationMs?: number | null;
 }
 
 export interface GrokVisualPreviewLayer {
@@ -275,6 +276,22 @@ export interface GrokDesignBenchRun {
   composerInvoked: false;
   otherModelOutputAccessed: false;
   testBDataRead: false;
+  lastStateChangeAt?: string | null;
+  providerRequestStatus?: 'NOT_STARTED' | 'IN_FLIGHT' | 'RETURNED' | 'TIMEOUT' | 'CANCELLED' | 'FAILED';
+  cancelStatus?: null | 'CANCEL_REQUESTED' | 'CANCELLED';
+  etaKind?: 'COUNTDOWN' | 'TAKING_LONGER' | 'POSSIBLE_STALL';
+  stall?: {
+    stalled: boolean;
+    stalledStage: string | null;
+    lastStateChange: string | null;
+    providerRequestStatus: string;
+  } | null;
+  outputBytes?: number | null;
+  requestInputBytes?: number | null;
+  responseId?: string | null;
+  finishStatus?: string | null;
+  maxOutputTokens?: number | null;
+  responseTruncated?: boolean;
 }
 
 export interface GrokDesignBenchIsolationContract {

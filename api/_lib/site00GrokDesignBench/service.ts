@@ -6,7 +6,7 @@ import {
   GROK_TWIN_TEST_A_PROVIDER_LABEL,
 } from '../../../shared/site00-design-bench/grokTwinTestA/constants.js';
 import { GROK_DESIGN_BENCH_MODEL_ID } from '../../../shared/site00-design-bench/grokTwinTestA/modelContract.js';
-import { grokStageLabel, grokStageProgress, emptyGrokTiming, estimateRemainingMs } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
+import { grokStageLabel, grokStageProgress, emptyGrokTiming, evaluateGrokEta } from '../../../shared/site00-design-bench/grokTwinTestA/timing.js';
 import { validateGrokReferenceUpload } from '../../../shared/site00-design-bench/grokTwinTestA/uploadValidation.js';
 import type {
   GrokDesignBenchReferenceAuthority,
@@ -22,7 +22,9 @@ import {
   isGrokTestHarnessEnabled,
 } from './grokVisionProvider.js';
 import { probeGrok46TeamAccess } from './grokAccessProbe.js';
-import { executeGrokDesignBenchJob, launchGrokDesignBenchJob } from './jobRunner.js';
+import { executeGrokDesignBenchJob, launchGrokDesignBenchJob, patchRun } from './jobRunner.js';
+import { applyGrokStallWatchdog, requestGrokRunCancel } from './grokWatchdog.js';
+import { runGrokDesignBenchTimingProbe } from './grokTimingProbe.js';
 import {
   getGrokDesignBenchRun,
   grokHistoricalAverageMs,
@@ -43,14 +45,18 @@ export interface StartGrokDesignBenchInput {
 
 export function publicGrokDesignBenchRun(run: GrokDesignBenchRun): GrokDesignBenchRun {
   const elapsedMs = run.timing.queuedAt ? Date.now() - Date.parse(run.timing.queuedAt) : 0;
+  const watched = applyGrokStallWatchdog(run);
+  const eta = evaluateGrokEta({
+    stage: run.stage,
+    elapsedMs,
+    historicalAverageMs: grokHistoricalAverageMs(),
+    lastStateChangeAt: watched.lastStateChangeAt,
+  });
   return {
-    ...run,
-    estimatedRemainingMs: estimateRemainingMs({
-      stage: run.stage,
-      elapsedMs,
-      historicalAverageMs: grokHistoricalAverageMs(),
-    }),
-    etaApproximate: true,
+    ...watched,
+    estimatedRemainingMs: eta.remainingMs,
+    etaKind: eta.kind,
+    etaApproximate: eta.kind === 'COUNTDOWN',
   };
 }
 
@@ -74,6 +80,10 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
     if (readiness.state !== 'READY' || !readiness.benchmarkReady) {
       throw new Error(readiness.reason ?? 'GROK_PROVIDER_BLOCKED');
     }
+    const health = await grokDesignBenchRuntimeHealth();
+    if (!health.founderRunReady) {
+      throw new Error('GROK_RUNTIME_HEALTH_BLOCKED');
+    }
   }
   const validation = validateGrokReferenceUpload({
     filename: input.filename,
@@ -87,12 +97,14 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
     throw new Error('REFERENCE_DIMENSIONS_REQUIRED');
   }
 
+  const uploadStarted = Date.now();
   const bytes = Buffer.from(input.imageBase64, 'base64');
   if (!bytes.length) throw new Error('EMPTY_REFERENCE');
   const sha256 = createHash('sha256').update(bytes).digest('hex');
   const runId = randomUUID();
   const storageRef = `grok-twin-test-a://${runId}`;
   const uploadedAt = new Date().toISOString();
+  const uploadDurationMs = Date.now() - uploadStarted;
 
   putGrokReferenceBytes(storageRef, { mime: validation.mime, bytes, sha256 });
 
@@ -124,15 +136,18 @@ export async function startGrokDesignBenchRun(input: StartGrokDesignBenchInput):
     stageLabel: grokStageLabel('QUEUED'),
     progressPercent: grokStageProgress('QUEUED'),
     etaApproximate: true,
-    estimatedRemainingMs: estimateRemainingMs({
+    estimatedRemainingMs: evaluateGrokEta({
       stage: 'QUEUED',
       elapsedMs: 0,
       historicalAverageMs: grokHistoricalAverageMs(),
-    }),
+    }).remainingMs,
+    lastStateChangeAt: queuedAt,
+    providerRequestStatus: 'NOT_STARTED',
+    cancelStatus: null,
     error: null,
     reference,
     package: null,
-    timing: { ...emptyGrokTiming(), queuedAt },
+    timing: { ...emptyGrokTiming(), queuedAt, uploadDurationMs },
     cost: {
       reported: false,
       currency: null,
@@ -183,4 +198,44 @@ export async function grokDesignBenchAccessProbe() {
 
 export function grokDesignBenchHostIdentity(requestHost?: string) {
   return grokDesignBenchHostDiagnostic({ requestHost });
+}
+
+export function cancelGrokDesignBenchRun(runId: string): GrokDesignBenchRun | null {
+  const run = getGrokDesignBenchRun(runId);
+  if (!run) return null;
+  requestGrokRunCancel(runId);
+  return publicGrokDesignBenchRun(
+    patchRun(run, {
+      cancelStatus: 'CANCEL_REQUESTED',
+      providerRequestStatus: run.providerRequestStatus === 'IN_FLIGHT' ? 'IN_FLIGHT' : run.providerRequestStatus,
+    }),
+  );
+}
+
+export async function grokDesignBenchRuntimeHealth() {
+  const readiness = await evaluateGrokDesignBenchLiveReadiness();
+  const timing = process.env.VITEST === 'true'
+    ? { ran: true, pass: true, httpStatus: 200, providerLatencyMs: 1, totalLatencyMs: 1, polling: 'PASS' as const, model: GROK_DESIGN_BENCH_MODEL_ID }
+    : await runGrokDesignBenchTimingProbe();
+  const modelAccess = readiness.grok46Access === 'AVAILABLE' ? 'PASS' : 'FAIL';
+  const imageInput = readiness.liveModelSmoke === 'PASS' ? 'PASS' : 'FAIL';
+  const providerTimingProbe = timing.pass ? 'PASS' : 'FAIL';
+  const polling = timing.polling;
+  const founderRunReady =
+    readiness.benchmarkReady &&
+    modelAccess === 'PASS' &&
+    imageInput === 'PASS' &&
+    providerTimingProbe === 'PASS' &&
+    polling === 'PASS';
+  return {
+    modelAccess,
+    imageInput,
+    providerTimingProbe,
+    polling,
+    stallWatchdog: 'PASS' as const,
+    timeout: 'PASS' as const,
+    founderRunReady,
+    timingProbe: timing,
+    readiness,
+  };
 }

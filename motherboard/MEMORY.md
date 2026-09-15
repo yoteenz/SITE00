@@ -9540,3 +9540,26 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Changes:** Access probe + readiness split (XAI KEY / GROK 4.6 ACCESS / LIVE MODEL SMOKE / BENCHMARK READY). Bench inference moved to **`POST https://api.x.ai/v1/responses`**. Unavailable teams get `GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM` plus listed Grok models. 32x32 smoke PNG. Build **v486**. PRs **#924 #925 #926**.
 - **Conventions:** Key-present is not READY. Do not substitute another Grok model. Image smokes must meet xAI pixel floors. Query `/v1/models` for this key instead of assuming public docs.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog + provider/polling diagnostic (v487)
+
+Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed Railway vs Vite host boundary (GROK1F2), proved team access on `POST /v1/responses` (GROK1F3), then founder started a real golden run that sat **54+ minutes** on ANALYZING VISUAL HIERARCHY with a fake **~00:05** ETA.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK1F4**. Surgical runtime diagnostic. Do not rerun founder golden until `GROK_RUNTIME_HEALTH` / `FOUNDER_RUN_READY` pass. No Composer. 14-part Figma contract unchanged.
+- **Incident evidence:** Railway `GET ?action=latest&projectId=ndxbook` returned `run: null` after F3 deploys (in-memory store). Job waits at `ANALYZING_VISUAL` on unbounded `translateInterfaceWithGrok` fetch. No 10-min timeout existed. Poll 404 previously kept last known UI state. ETA leftover clamp could show ~00:05 after elapsed >> expected.
+- **Root cause class:** **A+E** during the live wait (backend blocked on in-flight xAI `/responses`, no provider timeout). **F** likely contributing (no `max_output_tokens`, large golden + 14-part dense JSON). **D** after Railway recycle (frontend persist + 404 keep-last-known). xAI return metadata was never recorded (`HAS_XAI_ALREADY_RETURNED=NO` on server).
+- **Changes:** 10-min `GrokDesignBenchExecutionTimeout` → `GROK_PROVIDER_TIMEOUT` + AbortController; 5-min `GrokDesignBenchStallWatchdog` → `RUN_STALLED`; ETA kinds `TAKING LONGER THAN EXPECTED` / `POSSIBLE STALL`; `CANCEL TEST`; real QUEUE/UPLOAD/PROVIDER/POST/TOTAL timing; output size/truncation metadata (diagnose only); `GROK_RUNTIME_HEALTH` + tiny-image timing probe; poll `RUN_NOT_FOUND` archives incident as `SERVER_RUN_LOST`; long runs archived, not used as ETA average. Build **v487**.
+- **Conventions:** Never show a fake short ETA after a stage exceeds 2× expected. Founder golden stays blocked until runtime health passes. Preserve 54+ minute runs in incident history. Do not auto-retry. Do not add `max_output_tokens` until diagnosed and founder asks.
+
+---
+
+## 2026-09-15 — twin-testA preview boot: remove CTRL ROOM sign-in gate (v488)
+
+Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA through GROK1–F4 (watchdog, timeout, cancel, runtime health). Founder then reported **the test page isn’t booting**.
+
+- **Context:** Follow-up after F4 v487. Founder is on mobile. Do not rerun the golden.
+- **Live diagnosis:** Local Vite (`127.0.0.1:5174`) booted TWIN DESIGN BENCHMARK v487. Preview `site00.fsbw-dev.com/projects/ndxbook/design/twin-testA` redirected to `/origin/sign-in?returnTo=…` because Test A sat behind `Site00AccountRouteGuard`. Production `site00.com` same path is a stale/broken ZIP (loader then boot-recovery), not this Vite.
+- **Fix:** Remove the account guard from the twin-testA route so the isolated bench boots without CTRL ROOM session. Persist strips `data:` image URLs so a huge golden cannot freeze iOS localStorage parse. Build **v488**.
+- **Conventions:** Isolated design-bench routes must boot on the preview tunnel without sign-in. Production deep links still need the v488 ZIP + `.htaccess`.
+

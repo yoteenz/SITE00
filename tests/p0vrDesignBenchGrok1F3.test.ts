@@ -57,7 +57,7 @@ describe('P0.VR.DESIGNBENCH.GROK1F3 grok-4.6 team access probe', () => {
     expect(probe.modelListRequest).toContain('/models');
     expect(probe.availableLanguageModels).toContain('grok-4.6');
     expect(P0_VR_DESIGNBENCH_GROK1F3_LINEAGE).toBe('P0.VR.DESIGNBENCH.GROK1F3');
-    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v486');
+    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v488');
   });
 
   it('2. grok-4.6 access is explicitly checked', () => {

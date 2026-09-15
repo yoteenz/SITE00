@@ -1,10 +1,16 @@
 /** P0.VR.DESIGNBENCH.GROK1 — isolated Grok visual translation lab. */
 
-export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v486' as const;
+export const P0_VR_DESIGNBENCH_GROK1_BUILD = 'v488' as const;
 export const P0_VR_DESIGNBENCH_GROK1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F1_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F1' as const;
 export const P0_VR_DESIGNBENCH_GROK1F2_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F2' as const;
 export const P0_VR_DESIGNBENCH_GROK1F3_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F3' as const;
+export const P0_VR_DESIGNBENCH_GROK1F4_LINEAGE = 'P0.VR.DESIGNBENCH.GROK1F4' as const;
+export const GROK_DESIGN_BENCH_EXECUTION_TIMEOUT_MS = 10 * 60 * 1000;
+export const GROK_DESIGN_BENCH_STALL_MS = 5 * 60 * 1000;
+export const GROK_PROVIDER_TIMEOUT = 'GROK_PROVIDER_TIMEOUT' as const;
+export const GROK_RUN_STALLED = 'RUN_STALLED' as const;
+export const GROK_TWIN_TEST_A_INCIDENT_KEY = 'site00:twin-test-a:v1:incidentHistory' as const;
 export const GROK_XAI_API_BASE = 'https://api.x.ai/v1' as const;
 export const GROK_DESIGN_BENCH_INFERENCE_PATH = '/responses' as const;
 export const GROK_DESIGN_BENCH_INFERENCE_METHOD = 'POST' as const;
@@ -31,6 +37,8 @@ export const GROK_TWIN_TEST_A_ACCEPTED_EXT = ['.png', '.jpg', '.jpeg', '.webp'] 
 export const GROK_TWIN_TEST_A_MAX_BYTES = 18 * 1024 * 1024;
 
 export const GROK_TWIN_TEST_A_DEFAULT_ETA_MS = 90_000;
+export const GROK_DESIGN_BENCH_POLL_INTERVAL_MS = 1200;
+export const GROK_TERMINAL_STAGES = ['IDLE', 'COMPLETE', 'FAILED', 'CANCELLED'] as const;
 
 export const GROK_TWIN_TEST_A_FORBIDDEN_STORAGE_PREFIXES = [
   'site00:twin-test-b:',
@@ -69,6 +77,7 @@ export const GROK_JOB_STAGES = [
   'FINALIZING',
   'COMPLETE',
   'FAILED',
+  'CANCELLED',
 ] as const;
 
 export const GROK_ACTIVE_STAGES = [
@@ -97,6 +106,7 @@ export const GROK_STAGE_PROGRESS: Record<string, number> = {
   FINALIZING: 96,
   COMPLETE: 100,
   FAILED: 0,
+  CANCELLED: 0,
 };
 
 export const GROK_STAGE_LABELS: Record<string, string> = {
@@ -113,6 +123,7 @@ export const GROK_STAGE_LABELS: Record<string, string> = {
   FINALIZING: 'Finalizing Figma-style package…',
   COMPLETE: 'Complete',
   FAILED: 'Failed',
+  CANCELLED: 'Cancelled',
 };
 
 export const FIGMA_STYLE_PACKAGE_KEYS = [
