@@ -1153,11 +1153,9 @@ export function Site00Routes() {
         path={SITE00_ROUTES.projectDesignTwinTestA}
         element={
           <Site00Layout>
-            <Site00AccountRouteGuard>
-              <Site00Suspense>
-                <DesignTwinTestAPage />
-              </Site00Suspense>
-            </Site00AccountRouteGuard>
+            <Site00Suspense>
+              <DesignTwinTestAPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />

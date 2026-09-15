@@ -95,7 +95,7 @@ describe('P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog', () => {
   });
 
   it('1. build and lineage', () => {
-    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v487');
+    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v488');
     expect(P0_VR_DESIGNBENCH_GROK1F4_LINEAGE).toBe('P0.VR.DESIGNBENCH.GROK1F4');
   });
 
@@ -199,6 +199,30 @@ describe('P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog', () => {
     expect(readGrokTwinTestAIncidents().filter((item) => item.runId === 'incident-54m')).toHaveLength(1);
   });
 
+  it('7b. persist strips data-URL images so boot cannot choke on a golden', () => {
+    const store = mockLocalStorage();
+    persistGrokTwinTestARun(
+      sampleRun({
+        reference: {
+          runId: 'incident-54m',
+          imageUrl: `data:image/png;base64,${'A'.repeat(2000)}`,
+          storageRef: 'grok-twin-test-a://incident-54m',
+          sha256: 'abc',
+          width: 10,
+          height: 10,
+          mime: 'image/png',
+          filename: 'golden.png',
+          byteLength: 12,
+          uploadedAt: new Date().toISOString(),
+          immutableForRun: true,
+        },
+      }),
+    );
+    const raw = store.get('site00:twin-test-a:v1:latestRun') ?? '';
+    expect(raw).not.toContain('data:image/png;base64');
+    expect(raw).toContain('"sha256":"abc"');
+  });
+
   it('8. poll 404 becomes SERVER_RUN_LOST without erasing the incident', () => {
     mockLocalStorage();
     const lost = markGrokTwinTestAServerLost(sampleRun());
@@ -274,6 +298,12 @@ describe('P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog', () => {
     expect(page).toContain('cancelGrokTwinTestARun');
     expect(GROK_DESIGN_BENCH_POLL_INTERVAL_MS).toBe(1200);
     expect(page).toContain('GROK_DESIGN_BENCH_POLL_INTERVAL_MS');
+  });
+
+  it('13a. twin-testA boots without CTRL ROOM account guard', () => {
+    const routes = read('src/routes/Site00Routes.tsx');
+    expect(routes).toMatch(/projectDesignTwinTestA[\s\S]{0,280}DesignTwinTestAPage/);
+    expect(routes).not.toMatch(/projectDesignTwinTestA[\s\S]{0,280}Site00AccountRouteGuard/);
   });
 
   it('13. Composer is not invoked and Sol route is untouched', () => {
