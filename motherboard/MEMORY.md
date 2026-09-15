@@ -9587,3 +9587,14 @@ Summary of the **whole conversation so far** in this chat: founder supplied a 57
 - **Changes:** Added **`NdxbookSolDirectPage.tsx`**, scoped **`site00-ndxbook-sol-direct.css`**, route constant/wiring, and focused isolation/raster-firewall tests. Browser proof captured at 572×1024. Implementation ran 21:06:53–21:24:48 UTC; first render 21:12:24 UTC.
 - **Conventions:** Direct visual benchmarks should use isolated page/CSS modules, preserve reference-first geometry, test against the exact authority viewport, and state missing-asset gaps honestly rather than extracting screenshot pixels.
 
+---
+
+## 2026-09-15 — Public Sol-direct route intermittently served by stale tunnel connectors
+
+Summary of the **whole conversation so far** in this chat: user requested a runtime-only diagnosis of why the new public **`/projects/ndxbook/design/twin-sol-direct`** route sometimes falls through to the homepage while the same route works on local Vite, with all existing Twin visual implementations explicitly off limits.
+
+- **Context:** Route constant and public `Site00Layout` wiring were already present; no account guard was involved. Investigation stayed at route-table, HTTP, Vite, process, and Cloudflare tunnel layers.
+- **Topics covered:** Local/public deep-link responses, Vite transformed-module parity, active process and tunnel topology, repeated cache-busted public requests, and the application catch-all.
+- **Decisions / outcomes:** Confirmed multiple simultaneously active connectors behind the same named Cloudflare tunnel. Repeated public requests alternated among three Vite dependency revisions; only the current revision contained `projectDesignTwinSolDirect`, while stale revisions did not and returned the SPA HTML for the missing page module. On those stale revisions, App's `path="*"` navigation sends the unknown route to `/`. Cloudflare itself does not issue an HTTP redirect.
+- **Changes:** Diagnostic documentation only; no route, page, visual implementation, tunnel process, or application behavior changed.
+- **Conventions:** A stable named preview tunnel must have one active Cloud Agent connector (or all connectors must serve the same revision). Cache-busted transformed-module sampling is the concrete check when a public Vite hostname behaves inconsistently with localhost.
