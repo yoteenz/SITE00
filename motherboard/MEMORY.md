@@ -9611,6 +9611,17 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
+
+Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-DIRECT1R1**. Same route `/projects/ndxbook/design/twin-grok-direct`. Do not rebuild architecture.
+- **Top initial gaps:** blob SVG hand; hero plate scale; 768 artboard on gray surround; gallery/doc placeholders; authority thumbs; rail button size; type scale; section heights; extra bottom air; dirty xerox missing.
+- **Changes:** Generated missing xerox plates into `public/site00/twin-grok-direct/`; traced 768×1376 / 512+208 hero-rail; inset darker plate; condensed type; existing Twin/DESIGN still untouched. Build **v491**.
+- **Conventions:** Direct-reconstruction follow-ups replace conflicting visual code. Do not add analog markup that is not in the golden. Do not slice the golden into the page.
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SOL1F6R2 durable structured-output proof receipt
 
 Summary of the **whole conversation so far** in this chat: after Test B’s signed-out boot fix, the verified F6 structured-output gate regressed on Railway because runs and `structured-output-proof.json` lived under process-local `/tmp`. Both historical proof run IDs became `SOL_RUN_NOT_FOUND`, and readiness fell back to tiny PASS / large FAIL despite the completed F6R1 evidence. The fix moved proof authority to existing SITE 00 Supabase persistence, separated provider readiness from reference selection, exposed explicit UI readiness states, reconciled stale browser runs, and survived repeated API restarts.

@@ -39,9 +39,11 @@ describe('P0.VR.DESIGNBENCH.GROK-DIRECT1 isolated reconstruction', () => {
     expect(page).toContain('STRUCTURED OUTPUT REVIEW');
     expect(page).not.toContain('01a0a6e3-aaa5-7bb3-9b94-2399d56a1d76');
     expect(page).not.toMatch(/backgroundImage:\s*['"]url\(/);
-    expect(css).toContain('width: 768px');
-    expect(css).toContain('min-height: 1376px');
+    expect(css).toContain('--tgd-page: 768px');
+    expect(css).toContain('height: 1376px');
+    expect(page).toContain('/site00/twin-grok-direct/tgd-hand-plate.png');
     expect(css).not.toMatch(/01a0a6e3-aaa5-7bb3-9b94-2399d56a1d76/);
+    expect(css).not.toMatch(/01a0a6ff-1786-73ec-9452-05834517823e/);
     expect(css).not.toMatch(/mobile-master\.jpg/);
   });
 
