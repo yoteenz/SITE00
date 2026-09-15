@@ -213,7 +213,7 @@ export function DesignTwinTestAPage() {
       </header>
 
       <main className="twin-test-a__main">
-        {run && GROK_ACTIVE_STAGES.includes(run.stage as (typeof GROK_ACTIVE_STAGES)[number]) ? (
+        {starting || (run && GROK_ACTIVE_STAGES.includes(run.stage as (typeof GROK_ACTIVE_STAGES)[number])) ? (
           <section className="twin-test-a__progress" data-testid="twin-test-a-progress">
             <h2>GROK IS TRANSLATING YOUR INTERFACE</h2>
             <div className="twin-test-a__bar" data-testid="twin-test-a-progress-bar">
