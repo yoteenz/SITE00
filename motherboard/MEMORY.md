@@ -9481,3 +9481,15 @@ Summary of this chat: Grok built isolated twin-testA (GROK1), then founder requi
 - **Founder ops:** Redeploy Railway + set `XAI_API_KEY`. Deploy v484 ZIP. Then upload the golden on twin-testA and START.
 - **Conventions:** Benchmark integrity > successful execution. Never silently change Test A model ID.
 
+---
+
+## 2026-09-15 — CI fix: V3 twin tests (R5F2/R6 paths + R7MF3 regenerate)
+
+Summary of this chat: founder shared GitHub Actions **Production Release / test** failures — 3 files (`p0vrTwinV30R5F2`, `p0vrTwinV30R6`, `p0vrTwinV30R7MF3`).
+
+- **Context:** ENOENT on `mobile-master.jpg` / `desktop-master.jpg`; R7MF3 `visualPairs.length` did not grow on `REGENERATE_MOBILE_TWIN`.
+- **Root causes:** R5F2/R6 used hardcoded **`/workspace/public/...`** (Cursor cloud path); GitHub Actions cwd is **`$GITHUB_WORKSPACE`** (e.g. `/home/runner/work/SITE00/SITE00`). Regenerate hit **`resolveMobileTwinGenerationGate` → RETURN_READY** (same composition hash as prior atomic run) so no second visual pair was appended.
+- **Fixes:** Tests use **`join(process.cwd(), 'public/site00/...')`**. **`runMobileAtomicTwinGeneration`** skips `RETURN_READY` when **`regeneration: true`** so founder regenerate preserves pair history.
+- **Verification:** All 46 tests in those three files pass locally.
+- **Conventions:** Never hardcode `/workspace` in vitest file paths; use `process.cwd()` or repo-root helper like other VR tests.
+
