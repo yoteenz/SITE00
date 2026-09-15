@@ -5,6 +5,8 @@ export const TWIN_V42_GOLDEN_AUTHORITY_KEY = `${TWIN_V42_STORAGE_PREFIX}golden-a
 export const TWIN_V42_GATE_BUNDLE_KEY = `${TWIN_V42_STORAGE_PREFIX}golden-diff-gate:v1` as const;
 
 export const TWIN_V4_GOLDEN_AUTHORITY_INVALID = 'TWIN_V4_GOLDEN_AUTHORITY_INVALID' as const;
+/** No loadable https forensic on device yet (prime/cache) — not a corrupt pin. */
+export const TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE = 'TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE' as const;
 export const DIFF_CONVERGENCE_STALLED = 'DIFF_CONVERGENCE_STALLED' as const;
 
 export const TWIN_V42_FULL_PAGE_DIFF_THRESHOLD = 0.015 as const;

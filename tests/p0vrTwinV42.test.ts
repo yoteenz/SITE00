@@ -18,6 +18,7 @@ import {
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/testForensicBlueprintFixture.js';
 import {
   TWIN_V4_GOLDEN_AUTHORITY_INVALID,
+  TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE,
   TWIN_V42_FULL_PAGE_DIFF_THRESHOLD,
   TWIN_V42_PLAYWRIGHT_DEVICE_SCALE,
   MIN_TWIN_V42_GOLDEN_DIFF_ITERATIONS,
@@ -44,6 +45,7 @@ import sharp from 'sharp';
 import { clearTwinV42PersistenceForTests } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/twinV42Persistence.js';
 import { captureTwinV4LiveReconstructionScreenshot } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/captureTwinV4PlaywrightScreenshot.js';
 import { compileTwinV42GoldenDiffGate } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/compileTwinV42GoldenDiffGate.js';
+import { TwinV42GoldenBootError } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/twinV42GoldenBootError.js';
 import { buildTwinV42FixturePlaywrightSeed } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV42/twinV42PlaywrightSeed.js';
 
 const ACTUAL_HASH = 'c'.repeat(32);
@@ -69,6 +71,9 @@ describe('P0.VR.TWINV4.1F1 golden authority hard pin', () => {
     await expect(resolveTwinV4GoldenAuthority({ allowSeal: false, candidate: null })).rejects.toThrow(
       TWIN_V4_GOLDEN_AUTHORITY_INVALID,
     );
+    await expect(
+      compileTwinV42PageBoot({ projectId: 'ndxbook', allowSeal: false }),
+    ).rejects.toMatchObject({ code: TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE });
   });
 
   it('2 https required in production node context', () => {
