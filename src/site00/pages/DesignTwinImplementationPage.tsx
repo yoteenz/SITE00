@@ -5,6 +5,7 @@ import { MobileTwinCompiledImplementationRenderer } from '../components/designWo
 import { DesignTwinImplementationReviewPanel } from '../components/designWorkspace/DesignTwinImplementationReviewPanel.js';
 import { resolveTwinImplementationPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
 import {
+  FORENSIC_API_NOT_DEPLOYED,
   FORENSIC_BLUEPRINT_GENERATION_FAILED,
   P0_VR_TWIN_V30R8M2R5F1_LINEAGE,
   P0_VR_TWIN_V30R8M2R5_LINEAGE,
@@ -73,8 +74,10 @@ export function DesignTwinImplementationPage() {
   if (!loaded) {
     const forensicFailed =
       err?.includes(FORENSIC_BLUEPRINT_GENERATION_FAILED) ||
+      err?.includes(FORENSIC_API_NOT_DEPLOYED) ||
       err?.includes('FORENSIC_BLUEPRINT_NOT_PRIMED') ||
-      err?.includes('FORENSIC_BLUEPRINT');
+      err?.includes('FORENSIC_BLUEPRINT') ||
+      err?.includes('FAL_KEY');
     return (
       <div
         className="site00-page site00-page--twin-implementation"
@@ -95,8 +98,8 @@ export function DesignTwinImplementationPage() {
         : null}
         <p data-testid="twin-implementation-gate">{err ?? 'TWIN_IMPLEMENTATION_NOT_BUILT'}</p>
         <p className="site00-dw-v3-authority__hint">
-          NDXBOOK twin autobuild runs on load — deploy build {P0_VR_TWIN_V30_BUILD} or hard refresh once. Forensic
-          blueprint generation runs on api.site00.com (Fal server-side).
+          On fsbw-dev preview, forensic Fal runs via this tab&apos;s origin (Vite local API). On site00.com, redeploy
+          Railway after merge so api.site00.com serves twin-v3-forensic-ui-blueprint. Build {P0_VR_TWIN_V30_BUILD}.
         </p>
       </div>
     );
