@@ -45,7 +45,7 @@ describe('P0.VR.DESIGNBENCH.GROK1F2 API host boundary', () => {
     expect(preview[0]).toBe(railway);
     expect(preview).toContain(`https://preview.fsbw-dev.com${GROK_TWIN_TEST_A_API_PATH}`);
     expect(P0_VR_DESIGNBENCH_GROK1F2_LINEAGE).toBe('P0.VR.DESIGNBENCH.GROK1F2');
-    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toBe('v485');
+    expect(P0_VR_DESIGNBENCH_GROK1_BUILD).toMatch(/^v48[5-9]$|^v49/);
   });
 
   it('2. missing-key 200 is not treated as a usable host', () => {

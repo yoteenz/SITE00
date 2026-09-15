@@ -9529,3 +9529,14 @@ Summary of the **whole conversation so far** in this chat: Grok built isolated t
 - **Result:** Parsed package type **`FigmaStyleInterfaceTranslationPackage`**, four components, no error. Timing: 2 ms queue, 115,291 ms model, 2 ms post-processing, 115,297 ms total.
 - **Conclusion:** The observed OpenAI 400 JSON-instruction failure is fixed in production. Founder may retry the preserved golden reference through **`/projects/ndxbook/design/twin-testB`**.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.GROK1F3 grok-4.6 team access probe (v486)
+
+Summary of the **whole conversation so far** in this chat: Grok built isolated twin-testA (GROK1), hard-bound **grok-4.6** (GROK1F1), fixed the Railway vs Vite host boundary (GROK1F2), then founder hit live **410 MODEL_REJECTED** after the key and host were already correct.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK1F3**. Surgical provider access diagnostic. Do not recreate the key, change the Figma contract, silently downgrade models, or invoke Composer.
+- **Live provider evidence:** `GET /v1/models` for this Railway `XAI_API_KEY` includes **grok-4.6**. Model detail 200, 500k context, image input priced. Text smoke `POST /v1/responses` HTTP 200 accepted. Original 410 was **`/v1/chat/completions`** (wrong endpoint). Image smoke first failed on 1x1 then 8x8 fixtures (xAI min 8px edge and 512 pixels) — fixture size, not team entitlement.
+- **Changes:** Access probe + readiness split (XAI KEY / GROK 4.6 ACCESS / LIVE MODEL SMOKE / BENCHMARK READY). Bench inference moved to **`POST https://api.x.ai/v1/responses`**. Unavailable teams get `GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM` plus listed Grok models. 32x32 smoke PNG. Build **v486**. PRs **#924 #925 #926**.
+- **Conventions:** Key-present is not READY. Do not substitute another Grok model. Image smokes must meet xAI pixel floors. Query `/v1/models` for this key instead of assuming public docs.
+
