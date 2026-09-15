@@ -42,6 +42,9 @@ interface SolProviderStatus {
   providerReadiness: {
     state: 'READY' | 'BLOCKED';
     openAiCredentialPresentServerSide: boolean;
+    tinyLiveSchemaSmokePassed: boolean;
+    largeOutputStressPassed: boolean;
+    structuredOutputPipelineProofPassed: boolean;
     blockingReasons: string[];
   };
   promptVersion: string;
@@ -354,6 +357,10 @@ function ResultsWorkspace({
             <div><dt>STRUCTURED OUTPUT</dt><dd>{run.providerDispatchReceipt?.structuredOutputMode?.toUpperCase() || 'PENDING'}</dd></div>
             <div><dt>SCHEMA VERSION</dt><dd>{run.providerDispatchReceipt?.schemaVersion || 'PENDING'}</dd></div>
             <div><dt>SCHEMA VALIDATION</dt><dd>{run.structuredOutputValidationReceipt?.schemaValidationPass ? 'PASS' : 'PENDING'}</dd></div>
+            <div><dt>STRUCTURED RESULT DIRECT</dt><dd>{run.structuredOutputRuntimeReceipt?.structuredResultDirect ? 'YES' : 'PENDING'}</dd></div>
+            <div><dt>MANUAL JSON PARSE USED</dt><dd>{run.structuredOutputRuntimeReceipt ? String(run.structuredOutputRuntimeReceipt.manualJsonParseUsed).toUpperCase() : 'PENDING'}</dd></div>
+            <div><dt>OUTPUT TEXT PRIMARY</dt><dd>{run.structuredOutputRuntimeReceipt ? String(run.structuredOutputRuntimeReceipt.outputTextUsedAsPrimaryResult).toUpperCase() : 'PENDING'}</dd></div>
+            <div><dt>LIVE API BUILD</dt><dd>{run.structuredOutputRuntimeReceipt?.liveApiBuild || 'PENDING'}</dd></div>
             <div><dt>OUTPUT COMPLETE</dt><dd>{run.outputCompletenessReceipt?.complete ? 'YES' : 'PENDING'}</dd></div>
             <div><dt>VISUAL PREVIEW REF</dt><dd>{pkg.VISUAL_INTERFACE_PREVIEW.visualPreviewRef}</dd></div>
             <div><dt>FALLBACK ALLOWED</dt><dd>FALSE</dd></div>
@@ -514,11 +521,11 @@ export function SolDesignBenchmarkPage() {
         <div><small>WEB SEARCH</small><strong>OFF</strong></div>
         <div>
           <small>PROVIDER READINESS</small>
-          <strong className={providerStatus?.providerReadiness.openAiCredentialPresentServerSide ? 'is-ready' : 'is-blocked'}>
+          <strong className={providerStatus?.providerReadiness.structuredOutputPipelineProofPassed ? 'is-ready' : 'is-blocked'}>
             {providerStatus
-              ? providerStatus.providerReadiness.openAiCredentialPresentServerSide
-                ? 'CREDENTIAL READY'
-                : 'BLOCKED · OPENAI CREDENTIAL'
+              ? providerStatus.providerReadiness.structuredOutputPipelineProofPassed
+                ? 'STRICT PIPELINE PROVEN'
+                : 'BLOCKED · STRICT PIPELINE PROOF'
               : 'CHECKING…'}
           </strong>
         </div>
@@ -562,9 +569,9 @@ export function SolDesignBenchmarkPage() {
           </div>
         ) : null}
 
-        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading || !providerStatus?.providerReadiness.openAiCredentialPresentServerSide} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
-        {!run && providerStatus && !providerStatus.providerReadiness.openAiCredentialPresentServerSide ? (
-          <p className="sol-bench-readiness-blocked">START BLOCKED · Railway must provide the server-side OpenAI credential for exact gpt-5.6-sol dispatch.</p>
+        {!run ? <button className="sol-bench-start" disabled={!reference || isInspecting || isUploading || !providerStatus?.providerReadiness.structuredOutputPipelineProofPassed} onClick={() => void start()}>{isUploading ? 'UPLOADING…' : 'START SOL TEST'}</button> : null}
+        {!run && providerStatus && !providerStatus.providerReadiness.structuredOutputPipelineProofPassed ? (
+          <p className="sol-bench-readiness-blocked">START BLOCKED · Tiny live schema and large-output runtime proofs must pass on the Railway API build.</p>
         ) : null}
         {error ? <p className="sol-bench-error" role="alert">{error}</p> : null}
       </section>

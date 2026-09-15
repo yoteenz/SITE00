@@ -12,6 +12,7 @@ import {
   resetSolDesignBenchForTests,
   retrySolDesignBenchRun,
   setSolDesignBenchExecutorForTests,
+  setSolStructuredOutputProofForTests,
   startSolDesignBenchRun,
 } from '../api/_lib/site00SolDesignBench/service';
 
@@ -115,6 +116,10 @@ describe('P0.VR.DESIGNBENCH.SOL1F2 Responses JSON request fix', () => {
 
   it('retry creates a new run using the frozen SHA while retaining the failed run', async () => {
     process.env.OPENAI_API_KEY = 'server-test-key';
+    setSolStructuredOutputProofForTests({
+      tinyLiveSchemaSmokePassed: true,
+      largeOutputStressPassed: true,
+    });
     const { request } = await fixture();
     setSolDesignBenchExecutorForTests(async () => {
       throw new Error('SOL_RUN_FAILED_TEST');

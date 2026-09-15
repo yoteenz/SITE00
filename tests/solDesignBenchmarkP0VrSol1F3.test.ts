@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import sharp from 'sharp';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   executeSolDesignAnalysis,
   buildSolOpenAiRequestBody,
@@ -10,10 +10,10 @@ import {
   getSolDesignBenchRun,
   resetSolDesignBenchForTests,
   retrySolDesignBenchRun,
+  setSolStructuredOutputProofForTests,
   startSolDesignBenchRun,
 } from '../api/_lib/site00SolDesignBench/service';
 import {
-  FigmaStyleInterfaceTranslationPackageSchema,
   SOL_DESIGN_BENCH_SCHEMA_VERSION,
   SOL_TRANSLATION_PACKAGE_KEYS,
   validateSolTranslationPackage,
@@ -56,6 +56,27 @@ async function fixture() {
   return { request, authority };
 }
 
+function parsedResponseBody(
+  text: string,
+  options: { status?: 'completed' | 'incomplete'; reason?: string; outputTokens?: number } = {},
+) {
+  const status = options.status ?? 'completed';
+  return {
+    id: 'resp_f3',
+    model: 'gpt-5.6-sol',
+    status,
+    incomplete_details: options.reason ? { reason: options.reason } : null,
+    output: status === 'incomplete' ? [] : [{
+      type: 'message',
+      id: 'msg_f3',
+      status: 'completed',
+      role: 'assistant',
+      content: [{ type: 'output_text', text, annotations: [] }],
+    }],
+    usage: { output_tokens: options.outputTokens ?? 100 },
+  };
+}
+
 async function waitForTerminal(runId: string) {
   for (let attempt = 0; attempt < 100; attempt += 1) {
     const run = await getSolDesignBenchRun(runId);
@@ -73,6 +94,13 @@ afterEach(async () => {
   await resetSolDesignBenchForTests();
 });
 
+beforeEach(() => {
+  setSolStructuredOutputProofForTests({
+    tinyLiveSchemaSmokePassed: true,
+    largeOutputStressPassed: true,
+  });
+});
+
 describe('P0.VR.DESIGNBENCH.SOL1F3 strict schema and recovery', () => {
   it('sends a strict closed JSON Schema with the unchanged 14-key contract', async () => {
     const { request, authority } = await fixture();
@@ -85,7 +113,6 @@ describe('P0.VR.DESIGNBENCH.SOL1F3 strict schema and recovery', () => {
       strict: true,
       name: 'figma_style_interface_translation_package',
     });
-    expect(body.text.format.schema).toBe(FigmaStyleInterfaceTranslationPackageSchema);
     expect(body.text.format.schema.required).toEqual(SOL_TRANSLATION_PACKAGE_KEYS);
     expect(Object.keys(body.text.format.schema.properties)).toEqual(SOL_TRANSLATION_PACKAGE_KEYS);
     expect(body.text.format.schema.additionalProperties).toBe(false);
@@ -116,18 +143,12 @@ describe('P0.VR.DESIGNBENCH.SOL1F3 strict schema and recovery', () => {
       .toContain('VISUAL_INTERFACE_PREVIEW.embeddedDataUrl');
   });
 
-  it('allows at most one deterministic repair and records its receipt', async () => {
+  it('uses the SDK-parsed strict result without an application repair pass', async () => {
     process.env.OPENAI_API_KEY = 'server-test-key';
     const { request, authority } = await fixture();
-    const malformed = JSON.stringify(strictSolPackageFixture(authority.sha256))
-      .replace('},"PAGE_FRAME_SPEC"', '}"PAGE_FRAME_SPEC"');
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({
-      id: 'resp_repaired',
-      model: 'gpt-5.6-sol',
-      status: 'completed',
-      output_text: malformed,
-      usage: { output_tokens: 100 },
-    }), { status: 200 })));
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify(
+      parsedResponseBody(JSON.stringify(strictSolPackageFixture(authority.sha256))),
+    ), { status: 200, headers: { 'content-type': 'application/json' } })));
     const result = await executeSolDesignAnalysis({
       runId: authority.runId,
       authority,
@@ -137,45 +158,40 @@ describe('P0.VR.DESIGNBENCH.SOL1F3 strict schema and recovery', () => {
       schemaVersion: SOL_DESIGN_BENCH_SCHEMA_VERSION,
       jsonParsePass: true,
       schemaValidationPass: true,
-      repairAttempted: true,
-      repairSucceeded: true,
+      repairAttempted: false,
+      repairSucceeded: false,
+    });
+    expect(result.runtimeReceipt).toMatchObject({
+      providerResponseType: 'openai.responses.parse.output_parsed',
+      structuredResultDirect: true,
+      manualJsonParseUsed: false,
+      outputTextUsedAsPrimaryResult: false,
+      schemaValidationPass: true,
     });
   });
 
-  it('preserves raw output and classifies parse validation separately from provider failure', async () => {
+  it('classifies SDK structured parse rejection separately from provider failure', async () => {
     process.env.OPENAI_API_KEY = 'server-test-key';
     const { request } = await fixture();
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({
-      id: 'resp_invalid',
-      model: 'gpt-5.6-sol',
-      status: 'completed',
-      output_text: '{"VISUAL_INTERFACE_PREVIEW":',
-    }), { status: 200 })));
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify(
+      parsedResponseBody('{"VISUAL_INTERFACE_PREVIEW":'),
+    ), { status: 200, headers: { 'content-type': 'application/json' } })));
     const run = await waitForTerminal((await startSolDesignBenchRun(request)).runId);
     expect(run.status).toBe('SOL_OUTPUT_VALIDATION_FAILED');
     expect(run.error?.code).toBe('SOL_OUTPUT_VALIDATION_FAILED');
-    expect(run.rawProviderResponseRef).toBe(`sol-raw://${run.runId}`);
-    expect(run.structuredOutputValidationReceipt).toMatchObject({
-      responseReceived: true,
-      jsonParsePass: true,
-      schemaValidationPass: false,
-      rawResponsePersistedSafely: true,
-      repairAttempted: true,
-      repairSucceeded: true,
-    });
+    expect(run.error?.message).toContain('OPENAI_PARSED_RESPONSE');
   });
 
   it('detects truncation independently and preserves retry lineage and SHA', async () => {
     process.env.OPENAI_API_KEY = 'server-test-key';
     const { request } = await fixture();
-    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({
-      id: 'resp_truncated',
-      model: 'gpt-5.6-sol',
-      status: 'incomplete',
-      incomplete_details: { reason: 'max_output_tokens' },
-      output_text: '{"partial":true',
-      usage: { output_tokens: 24000 },
-    }), { status: 200 })));
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify(
+      parsedResponseBody('', {
+        status: 'incomplete',
+        reason: 'max_output_tokens',
+        outputTokens: 16000,
+      }),
+    ), { status: 200, headers: { 'content-type': 'application/json' } })));
     const failed = await waitForTerminal((await startSolDesignBenchRun(request)).runId);
     expect(failed.status).toBe('SOL_OUTPUT_TRUNCATED');
     expect(failed.outputCompletenessReceipt).toMatchObject({

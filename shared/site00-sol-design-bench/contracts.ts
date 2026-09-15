@@ -3,6 +3,7 @@ import type {
   SolOutputCompletenessReceipt,
   SolBenchmarkProviderDispatchReceipt,
   SolDesignBenchProviderReadinessReceipt,
+  SolStructuredOutputRuntimeReceipt,
   SolStructuredOutputValidationReceipt,
 } from './modelContract.js';
 
@@ -153,6 +154,8 @@ export interface SolDesignBenchTiming {
 
 export interface SolDesignBenchRun {
   runId: string;
+  proofMode: 'TINY_LIVE_SCHEMA_SMOKE' | 'LARGE_OUTPUT_STRESS' | null;
+  proofPassed: boolean | null;
   retryOfRunId: string | null;
   retryRunIds: string[];
   status: SolDesignBenchStage;
@@ -167,6 +170,7 @@ export interface SolDesignBenchRun {
   providerDispatchReceipt: SolBenchmarkProviderDispatchReceipt | null;
   inputReceipt: SolBenchmarkInputReceipt;
   structuredOutputValidationReceipt: SolStructuredOutputValidationReceipt | null;
+  structuredOutputRuntimeReceipt: SolStructuredOutputRuntimeReceipt | null;
   outputCompletenessReceipt: SolOutputCompletenessReceipt | null;
   rawProviderResponseRef: string | null;
   recoveredSections: Partial<FigmaStyleInterfaceTranslationPackage> | null;

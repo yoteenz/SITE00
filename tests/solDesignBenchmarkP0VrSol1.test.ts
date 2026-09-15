@@ -17,6 +17,7 @@ import {
   getSolDesignBenchRun,
   resetSolDesignBenchForTests,
   setSolDesignBenchExecutorForTests,
+  setSolStructuredOutputProofForTests,
   startSolDesignBenchRun,
 } from '../api/_lib/site00SolDesignBench/service';
 import {
@@ -122,6 +123,10 @@ async function waitForTerminal(runId: string) {
 
 beforeEach(() => {
   process.env.OPENAI_API_KEY = 'test-server-only-key';
+  setSolStructuredOutputProofForTests({
+    tinyLiveSchemaSmokePassed: true,
+    largeOutputStressPassed: true,
+  });
 });
 
 afterEach(async () => {
@@ -157,6 +162,8 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
         imageInputAttached: true,
         structuredOutputRequested: true,
         structuredOutputMode: 'json_schema',
+        schemaName: 'figma_style_interface_translation_package',
+        strict: true,
         schemaVersion: 'figma-interface-translation-v1',
         jsonInstructionPresent: true,
         requestedModelId: 'gpt-5.6-sol',
@@ -169,6 +176,24 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
         dispatchedAt: new Date().toISOString(),
       },
       inputReceipt: buildSolBenchmarkInputReceipt({ runId, authority }),
+      runtimeReceipt: {
+        receiptType: 'SolStructuredOutputRuntimeReceipt',
+        runId,
+        liveApiBuild: 'test',
+        provider: 'openai',
+        model: 'gpt-5.6-sol',
+        reasoning: 'high',
+        structuredOutputMode: 'json_schema',
+        schemaName: 'figma_style_interface_translation_package',
+        strict: true,
+        imageInputAttached: true,
+        providerResponseType: 'openai.responses.parse.output_parsed',
+        providerResponseSuccess: true,
+        structuredResultDirect: true,
+        manualJsonParseUsed: false,
+        outputTextUsedAsPrimaryResult: false,
+        schemaValidationPass: true,
+      },
       validationReceipt: {
         receiptType: 'SolStructuredOutputValidationReceipt',
         runId,

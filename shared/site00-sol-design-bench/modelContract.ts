@@ -22,6 +22,8 @@ export interface SolBenchmarkProviderDispatchReceipt {
   imageInputAttached: true;
   structuredOutputRequested: true;
   structuredOutputMode: 'json_schema';
+  schemaName: 'figma_style_interface_translation_package';
+  strict: true;
   schemaVersion: string;
   jsonInstructionPresent: true;
   requestedModelId: 'gpt-5.6-sol';
@@ -60,6 +62,25 @@ export interface SolOutputCompletenessReceipt {
   complete: boolean;
 }
 
+export interface SolStructuredOutputRuntimeReceipt {
+  receiptType: 'SolStructuredOutputRuntimeReceipt';
+  runId: string;
+  liveApiBuild: string;
+  provider: 'openai';
+  model: 'gpt-5.6-sol';
+  reasoning: 'high';
+  structuredOutputMode: 'json_schema';
+  schemaName: 'figma_style_interface_translation_package';
+  strict: true;
+  imageInputAttached: true;
+  providerResponseType: 'openai.responses.parse.output_parsed';
+  providerResponseSuccess: boolean;
+  structuredResultDirect: true;
+  manualJsonParseUsed: false;
+  outputTextUsedAsPrimaryResult: false;
+  schemaValidationPass: boolean;
+}
+
 export interface SolBenchmarkInputReceipt {
   receiptType: 'SolBenchmarkInputReceipt';
   runId: string;
@@ -84,5 +105,8 @@ export interface SolDesignBenchProviderReadinessReceipt {
   imageInputAttachmentPathValid: boolean;
   noFallbackConfigured: boolean;
   webSearchDisabled: boolean;
+  tinyLiveSchemaSmokePassed: boolean;
+  largeOutputStressPassed: boolean;
+  structuredOutputPipelineProofPassed: boolean;
   blockingReasons: string[];
 }
