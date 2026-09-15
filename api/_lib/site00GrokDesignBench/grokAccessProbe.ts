@@ -55,8 +55,9 @@ export interface Grok46AccessProbe {
   notAvailableCode: typeof GROK_4_6_NOT_AVAILABLE_TO_CURRENT_XAI_TEAM | null;
 }
 
-const SMOKE_PNG_B64 =
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
+/** 8x8 red PNG — xAI rejects images smaller than 8px on either edge. */
+export const GROK46_SMOKE_PNG_B64 =
+  'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAEklEQVR4nGP4z8DwHx9mGBkKAMLXf4EvceABAAAAAElFTkSuQmCC';
 
 type FetchLike = typeof fetch;
 
@@ -239,7 +240,7 @@ export async function probeGrok46TeamAccess(opts?: {
           {
             role: 'user',
             content: [
-              { type: 'input_image', image_url: `data:image/png;base64,${SMOKE_PNG_B64}` },
+              { type: 'input_image', image_url: `data:image/png;base64,${GROK46_SMOKE_PNG_B64}` },
               { type: 'input_text', text: 'What is the dominant color in this image?' },
             ],
           },
