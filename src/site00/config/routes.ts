@@ -136,6 +136,7 @@ export const SITE00_ROUTES = {
   projectDesign: '/projects/:projectSlug/design',
   projectDesignTwin: '/projects/:projectSlug/design/twin',
   projectDesignTwinV4: '/projects/:projectSlug/design/twin-v4',
+  projectDesignTwinSolDirect: '/projects/:projectSlug/design/twin-sol-direct',
   /** P0.VR.DESIGNBENCH.SOL1 — isolated Sol reference-to-Figma benchmark */
   projectDesignTwinTestB: '/projects/:projectSlug/design/twin-testB',
   projectDesignTwinTestA: '/projects/:projectSlug/design/twin-testA',
