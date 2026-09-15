@@ -11,6 +11,7 @@ import {
 import { escalateFounderMobileTwinPackageFromCanonicalAssets } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/mobileTwinPipeline/escalateFounderMobileTwinPackageFromCanonicalAssets.js';
 import { compileApprovedMobileTwinPackage } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/compileApprovedMobileTwinPackage.js';
 import { compileVisualMobileTwinImplementationR8M2 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2/compileVisualMobileTwinImplementationR8M2.js';
+import { compileVisualMobileTwinImplementationR8M2R1 } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M2R1/compileVisualMobileTwinImplementationR8M2R1.js';
 import {
   MOBILE_TWIN_IMPLEMENTATION_VERSION_EXPRESSION,
   MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R1,
@@ -152,7 +153,7 @@ describe('P0.VR.TWINV3.0R8M2R1 expression IR pipeline', () => {
   });
 
   it('22–25 translator consumes IR + render nodes reference expression + compile gate', () => {
-    const doc = compileApprovedMobileTwinPackage(founderCompileInput());
+    const doc = compileVisualMobileTwinImplementationR8M2R1(founderCompileInput());
     expect(doc.compilerGeneration).toBe(MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R1);
     expect(doc.implementationVersion).toBe(MOBILE_TWIN_IMPLEMENTATION_VERSION_EXPRESSION);
     expect(doc.lineage).toBe(P0_VR_TWIN_V30R8M2R1_LINEAGE);

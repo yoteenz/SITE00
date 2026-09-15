@@ -114,7 +114,7 @@ export type PriorBuildCorrectionRecord = {
 
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2';
   implementationVersion?: string;
   viewport: 'MOBILE';
   widthPx: number;
@@ -134,6 +134,14 @@ export type CompiledMobileTwinImplementationDocument = {
   implementationDriftAudit?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').ImplementationDriftAudit;
   genericFallbackAudit?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').GenericFallbackAudit;
   expressionReadiness?: import('../p0vrTwinV30R8M2R1/implementationExpressionTypes.js').ImplementationExpressionReadinessReceipt;
+  implementationTranslationBrief?: import('../p0vrTwinV30R8M2R2/implementationTranslationBriefTypes.js').ImplementationTranslationBrief;
+  visualImplementationCodingPrompt?: import('../p0vrTwinV30R8M2R2/implementationTranslationBriefTypes.js').VisualImplementationCodingPrompt;
+  translationReadiness?: import('../p0vrTwinV30R8M2R2/implementationTranslationBriefTypes.js').ImplementationTranslationReadinessReceipt;
+  implementationTranslationFidelityReceipt?: import('../p0vrTwinV30R8M2R2/implementationTranslationBriefTypes.js').ImplementationTranslationFidelityReceipt;
+  translationPromptTrace?: import('../p0vrTwinV30R8M2R2/implementationTranslationBriefTypes.js').TranslationPromptTraceLink[];
+  expressionChangesFromBrief?: import('../p0vrTwinV30R8M2R2/refineImplementationExpressionIRFromBrief.js').ExpressionChangesFromBrief;
+  translationBriefConsumed?: boolean;
+  codingPromptInjected?: boolean;
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';

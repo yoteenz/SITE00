@@ -10,9 +10,19 @@ export function isWireframeImplementationDocument(doc: CompiledMobileTwinImpleme
 
 export function isProductionReadyImplementationDocument(doc: CompiledMobileTwinImplementationDocument): boolean {
   const generationOk =
-    doc.compilerGeneration === 'R8M2R1' || doc.compilerGeneration === 'R8M2' || doc.compilerGeneration === 'R8M1';
+    doc.compilerGeneration === 'R8M2R2' ||
+    doc.compilerGeneration === 'R8M2R1' ||
+    doc.compilerGeneration === 'R8M2' ||
+    doc.compilerGeneration === 'R8M1';
   const regionOk =
-    doc.compilerGeneration === 'R8M2R1' ?
+    doc.compilerGeneration === 'R8M2R2' ?
+      Boolean(
+        doc.translationBriefConsumed &&
+          doc.codingPromptInjected &&
+          doc.translationReadiness?.status !== 'BLOCKED' &&
+          doc.implementationExpressionIr?.readiness.status !== 'BLOCKED',
+      )
+    : doc.compilerGeneration === 'R8M2R1' ?
       Boolean(doc.implementationExpressionIr?.readiness.status !== 'BLOCKED')
     : doc.compilerGeneration !== 'R8M2' ||
       Boolean(doc.regionFidelityReceipts?.length && doc.visualFidelityEvaluation?.machinePass);
