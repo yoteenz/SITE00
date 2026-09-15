@@ -74,7 +74,8 @@ describe('P0.VR.DESIGNBENCH.SOL1F2 Responses JSON request fix', () => {
       .map((part) => part.text)
       .join(' ');
     expect(userText).toContain('valid JSON');
-    expect(body.text.format.type).toBe('json_object');
+    expect(body.text.format.type).toBe('json_schema');
+    expect(body.text.format.strict).toBe(true);
     expect(body.model).toBe('gpt-5.6-sol');
     expect(body.reasoning).toEqual({ effort: 'high' });
     expect(body.input[0].content.some((part) => part.type === 'input_image')).toBe(true);

@@ -21,7 +21,8 @@ export interface SolBenchmarkProviderDispatchReceipt {
   reasoningEffort: 'high';
   imageInputAttached: true;
   structuredOutputRequested: true;
-  structuredOutputMode: 'json_object';
+  structuredOutputMode: 'json_schema';
+  schemaVersion: string;
   jsonInstructionPresent: true;
   requestedModelId: 'gpt-5.6-sol';
   actualDispatchedModelId: 'gpt-5.6-sol' | null;
@@ -31,6 +32,32 @@ export interface SolBenchmarkProviderDispatchReceipt {
   endpoint: 'https://api.openai.com/v1/responses';
   providerResponseId: string | null;
   dispatchedAt: string;
+}
+
+export interface SolStructuredOutputValidationReceipt {
+  receiptType: 'SolStructuredOutputValidationReceipt';
+  runId: string;
+  model: 'gpt-5.6-sol';
+  schemaVersion: string;
+  responseReceived: boolean;
+  jsonParsePass: boolean;
+  schemaValidationPass: boolean;
+  missingFields: string[];
+  invalidFields: string[];
+  rawResponsePersistedSafely: boolean;
+  recoverable: boolean;
+  repairAttempted: boolean;
+  repairSucceeded: boolean;
+}
+
+export interface SolOutputCompletenessReceipt {
+  receiptType: 'SolOutputCompletenessReceipt';
+  runId: string;
+  finishReason: string;
+  outputCharacters: number;
+  outputTokens: number | null;
+  truncated: boolean;
+  complete: boolean;
 }
 
 export interface SolBenchmarkInputReceipt {

@@ -86,6 +86,8 @@ const STAGE_LABELS: Record<SolDesignBenchStage, string> = {
   FINALIZING: 'Finalizing package…',
   COMPLETE: 'Translation complete',
   FAILED: 'Sol run failed',
+  SOL_OUTPUT_VALIDATION_FAILED: 'Sol output validation failed',
+  SOL_OUTPUT_TRUNCATED: 'Sol output truncated',
 };
 
 function runPath(runId: string): string {
@@ -95,6 +97,14 @@ function runPath(runId: string): string {
 function referencePath(runId: string, mime: string): string {
   const ext = mime === 'image/png' ? 'png' : mime === 'image/webp' ? 'webp' : 'jpg';
   return join(ROOT, `${runId}-reference.${ext}`);
+}
+
+function rawProviderResponsePath(runId: string): string {
+  return join(ROOT, `${runId}-provider-output.txt`);
+}
+
+function visualPreviewPath(runId: string): string {
+  return join(ROOT, `${runId}-visual-preview.svg`);
 }
 
 function historyPath(): string {
@@ -122,7 +132,9 @@ async function saveRun(run: SolDesignBenchRun): Promise<void> {
 async function updateStage(runId: string, status: SolDesignBenchStage): Promise<SolDesignBenchRun> {
   const run = await getSolDesignBenchRun(runId);
   if (!run) throw new Error('SOL_RUN_NOT_FOUND');
-  if (run.status === 'COMPLETE' || run.status === 'FAILED') return run;
+  if (['COMPLETE', 'FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED'].includes(run.status)) {
+    return run;
+  }
   run.status = status;
   run.stageLabel = STAGE_LABELS[status];
   run.progress = stageProgress(status);
@@ -145,6 +157,32 @@ function deriveTiming(run: SolDesignBenchRun): void {
     ? Date.parse(t.completedAt) - Date.parse(t.providerCompletedAt)
     : null;
   t.totalDuration = t.completedAt ? Date.parse(t.completedAt) - Date.parse(t.queuedAt) : null;
+}
+
+function escapeSvg(value: unknown): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/"/g, '&quot;');
+}
+
+async function persistVisualPreview(
+  runId: string,
+  result: SolDesignBenchRun['result'],
+): Promise<string> {
+  if (!result) throw new Error('SOL_PREVIEW_RESULT_MISSING');
+  const frame = result.VISUAL_INTERFACE_PREVIEW;
+  const nodes = result.COMPONENT_TREE.map((component) => {
+    const style = component.style ?? {};
+    const rect = `<rect x="${component.x}" y="${component.y}" width="${component.width}" height="${component.height}" rx="${style.borderRadius ?? 0}" fill="${escapeSvg(style.background ?? 'transparent')}" stroke="${escapeSvg(style.border?.match(/#[a-fA-F0-9]{3,8}/)?.[0] ?? 'transparent')}"/>`;
+    const text = component.text
+      ? `<text x="${component.x + 2}" y="${component.y + (style.fontSize ?? 16)}" fill="${escapeSvg(style.color ?? '#111')}" font-size="${style.fontSize ?? 16}" font-weight="${style.fontWeight ?? 400}">${escapeSvg(component.text.slice(0, 100))}</text>`
+      : '';
+    return `<g data-component-id="${escapeSvg(component.componentId)}">${rect}${text}</g>`;
+  }).join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${frame.artboardWidth} ${frame.artboardHeight}" width="${frame.artboardWidth}" height="${frame.artboardHeight}"><rect width="100%" height="100%" fill="${escapeSvg(frame.background || '#fff')}"/>${nodes}</svg>`;
+  await writeFile(visualPreviewPath(runId), svg, 'utf8');
+  return `/api/site00/sol-design-bench?runId=${encodeURIComponent(runId)}&preview=1`;
 }
 
 async function runJob(runId: string): Promise<void> {
@@ -185,10 +223,21 @@ async function runJob(runId: string): Promise<void> {
     run.cost = providerResult.cost;
     run.providerDispatchReceipt = providerResult.dispatchReceipt;
     run.inputReceipt = providerResult.inputReceipt;
+    await writeFile(rawProviderResponsePath(runId), providerResult.rawProviderResponse, {
+      encoding: 'utf8',
+      mode: 0o600,
+    });
+    run.rawProviderResponseRef = `sol-raw://${runId}`;
+    run.structuredOutputValidationReceipt = {
+      ...providerResult.validationReceipt,
+      rawResponsePersistedSafely: true,
+    };
+    run.outputCompletenessReceipt = providerResult.completenessReceipt;
     await saveRun(run);
 
     await updateStage(runId, 'RENDERING_INTERFACE_PREVIEW');
     const result = assertTranslationPackage(providerResult.package, run.authority);
+    result.VISUAL_INTERFACE_PREVIEW.visualPreviewRef = await persistVisualPreview(runId, result);
     await updateStage(runId, 'BUILDING_IMPLEMENTATION_HANDOFF');
     await updateStage(runId, 'FINALIZING');
 
@@ -218,23 +267,48 @@ async function runJob(runId: string): Promise<void> {
       if (error instanceof SolProviderRequestError) {
         run.providerDispatchReceipt = error.dispatchReceipt;
         run.inputReceipt = error.inputReceipt;
+        run.outputCompletenessReceipt = error.completenessReceipt;
+        run.recoveredSections = error.recoveredSections;
+        if (error.rawProviderResponse != null) {
+          await writeFile(rawProviderResponsePath(runId), error.rawProviderResponse, {
+            encoding: 'utf8',
+            mode: 0o600,
+          });
+          run.rawProviderResponseRef = `sol-raw://${runId}`;
+        }
+        run.structuredOutputValidationReceipt = error.validationReceipt
+          ? {
+              ...error.validationReceipt,
+              rawResponsePersistedSafely: error.rawProviderResponse != null,
+            }
+          : null;
       }
-      run.status = 'FAILED';
-      run.stageLabel = STAGE_LABELS.FAILED;
+      const message = error instanceof Error ? error.message : String(error);
+      run.status = message.startsWith('SOL_OUTPUT_TRUNCATED')
+        ? 'SOL_OUTPUT_TRUNCATED'
+        : message.startsWith('SOL_OUTPUT_VALIDATION_FAILED') ||
+            message.startsWith('SOL_STRUCTURED_OUTPUT_PARSE_FAILED')
+          ? 'SOL_OUTPUT_VALIDATION_FAILED'
+          : 'FAILED';
+      run.stageLabel = STAGE_LABELS[run.status];
       run.progress = 100;
       run.etaSeconds = 0;
       run.error = {
         code:
-          error instanceof Error && error.message.startsWith('GPT_5_6_SOL_PROVIDER_BINDING_FAILED')
+          message.startsWith('GPT_5_6_SOL_PROVIDER_BINDING_FAILED')
             ? 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
-            : error instanceof Error && error.message.startsWith('SOL_STRUCTURED_OUTPUT_REQUEST_INVALID')
+            : message.startsWith('SOL_STRUCTURED_OUTPUT_REQUEST_INVALID')
               ? 'SOL_STRUCTURED_OUTPUT_REQUEST_INVALID'
-              : error instanceof Error && error.message.startsWith('OPENAI_RESPONSES_REQUEST_INVALID')
+              : message.startsWith('OPENAI_RESPONSES_REQUEST_INVALID')
                 ? 'OPENAI_RESPONSES_REQUEST_INVALID'
-                : error instanceof Error && error.message.startsWith('SOL_STRUCTURED_OUTPUT_PARSE_FAILED')
-                  ? 'SOL_STRUCTURED_OUTPUT_PARSE_FAILED'
-                  : 'SOL_RUN_FAILED',
-        message: error instanceof Error ? error.message : String(error),
+                : message.startsWith('SOL_OUTPUT_TRUNCATED')
+                  ? 'SOL_OUTPUT_TRUNCATED'
+                  : message.startsWith('SOL_OUTPUT_VALIDATION_FAILED')
+                    ? 'SOL_OUTPUT_VALIDATION_FAILED'
+                    : message.startsWith('SOL_STRUCTURED_OUTPUT_PARSE_FAILED')
+                      ? 'SOL_STRUCTURED_OUTPUT_PARSE_FAILED'
+                      : 'SOL_RUN_FAILED',
+        message,
       };
       if (run.timing.providerStartedAt && !run.timing.providerCompletedAt) {
         run.timing.providerCompletedAt = new Date().toISOString();
@@ -322,6 +396,10 @@ export async function startSolDesignBenchRun(
         timestamp: now,
       },
     }),
+    structuredOutputValidationReceipt: null,
+    outputCompletenessReceipt: null,
+    rawProviderResponseRef: null,
+    recoveredSections: null,
     solPromptVersion: SOL_PROMPT_VERSION,
     solPromptHash: SOL_PROMPT_HASH,
     timing: {
@@ -351,7 +429,9 @@ export async function startSolDesignBenchRun(
 export async function retrySolDesignBenchRun(sourceRunId: string): Promise<SolDesignBenchRun> {
   const source = await getSolDesignBenchRun(sourceRunId);
   if (!source) throw new Error('SOL_RETRY_SOURCE_RUN_NOT_FOUND');
-  if (source.status !== 'FAILED') throw new Error('SOL_RETRY_SOURCE_NOT_FAILED');
+  if (!['FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED'].includes(source.status)) {
+    throw new Error('SOL_RETRY_SOURCE_NOT_FAILED');
+  }
   const bytes = await readFile(source.authority.storedFile);
   const retried = await startSolDesignBenchRun({
     action: 'START_SOL_TEST',
@@ -368,6 +448,10 @@ export async function retrySolDesignBenchRun(sourceRunId: string): Promise<SolDe
   source.retryRunIds = [...(source.retryRunIds ?? []), retried.runId];
   await saveRun(source);
   return retried;
+}
+
+export async function readSolDesignBenchPreview(runId: string): Promise<Buffer> {
+  return readFile(visualPreviewPath(runId));
 }
 
 export async function getSolDesignBenchRun(runId: string): Promise<SolDesignBenchRun | null> {
