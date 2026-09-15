@@ -9,6 +9,7 @@ import '../../styles/site00-mobile-twin-implementation-r8m1.css';
 import '../../styles/site00-mobile-twin-implementation-r8m2.css';
 import '../../styles/site00-mobile-twin-implementation-r8m2r3.css';
 import '../../styles/site00-mobile-twin-implementation-r8m2r4.css';
+import '../../styles/site00-mobile-twin-implementation-r8m2r5.css';
 
 type Props = {
   document: CompiledMobileTwinImplementationDocument;
@@ -21,7 +22,18 @@ function sectionClass(sectionId: string): string {
   return 'site00-mobile-twin-compiled-impl__section';
 }
 
-function rowClass(sectionId: string, layoutMode: 'legacy' | 'td' | 'af'): string {
+function rowClass(sectionId: string, layoutMode: 'legacy' | 'td' | 'af' | 'fb'): string {
+  if (layoutMode === 'fb') {
+    if (sectionId === 'fb-hero-workspace') return 'site00-twin-fb__hero-grid';
+    if (sectionId === 'fb-candidate-gallery') return 'site00-twin-fb__gallery-sheet';
+    if (sectionId === 'fb-structured-output') return 'site00-twin-fb__structured-band';
+    if (sectionId === 'fb-bottom-nav') return 'site00-twin-fb__bottom-nav';
+    if (sectionId === 'fb-readiness') return 'site00-twin-fb__readiness-row';
+    if (sectionId === 'fb-concept-data-history') return 'site00-twin-fb__metadata-strip';
+    if (sectionId === 'fb-authority-panel') return 'site00-twin-fb__authority-rail';
+    if (sectionId === 'fb-decision-bar') return 'site00-twin-fb__decision-row';
+    return 'site00-twin-fb__row';
+  }
   if (layoutMode === 'af') {
     if (sectionId === 'af-hero') return 'site00-twin-af__hero-grid';
     if (sectionId === 'af-gallery') return 'site00-twin-af__gallery-sheet';
@@ -52,7 +64,7 @@ function rowClass(sectionId: string, layoutMode: 'legacy' | 'td' | 'af'): string
 }
 
 function cssVarsFromDocument(document: CompiledMobileTwinImplementationDocument): CSSProperties | undefined {
-  const vars = document.actualFirstStyleContract?.cssVariables;
+  const vars = document.forensicStyleContract?.cssVariables ?? document.actualFirstStyleContract?.cssVariables;
   if (!vars) return undefined;
   return vars as CSSProperties;
 }
@@ -68,11 +80,17 @@ function visibleCopy(node: { displayText?: string | null; semanticRole: string }
 
 /** R8M2 visual implementation — canonical assets + fidelity; never authority raster at runtime. */
 export function MobileTwinCompiledImplementationRenderer({ document, onNodeActivate }: Props) {
+  const forensicDriven = document.compilerGeneration === 'R8M2R5';
   const actualFirst = document.compilerGeneration === 'R8M2R4';
   const translationDriven = document.compilerGeneration === 'R8M2R3';
-  const layoutMode = actualFirst ? 'af' : translationDriven ? 'td' : 'legacy';
+  const layoutMode =
+    forensicDriven ? 'fb'
+    : actualFirst ? 'af'
+    : translationDriven ? 'td'
+    : 'legacy';
   const rootClass =
-    actualFirst ? 'site00-twin-af'
+    forensicDriven ? 'site00-twin-fb'
+    : actualFirst ? 'site00-twin-af'
     : translationDriven ? 'site00-twin-td'
     : 'site00-mobile-twin-compiled-impl';
   const assetTraceByObjectId = new Map(
@@ -135,7 +153,8 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
           <section
             key={sectionId}
             className={
-              layoutMode === 'af' ? 'site00-twin-af__section'
+              layoutMode === 'fb' ? 'site00-twin-fb__section'
+              : layoutMode === 'af' ? 'site00-twin-af__section'
               : layoutMode === 'td' ? 'site00-twin-td__section'
               : sectionClass(sectionId)
             }
@@ -144,7 +163,8 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
             {meta ?
               <p
                 className={
-                  layoutMode === 'af' ? 'site00-twin-af__section-title'
+                  layoutMode === 'fb' ? 'site00-twin-fb__section-title'
+                  : layoutMode === 'af' ? 'site00-twin-af__section-title'
                   : layoutMode === 'td' ? 'site00-twin-td__section-title'
                   : 'site00-mobile-twin-compiled-impl__section-title'
                 }
@@ -180,7 +200,9 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                     key={node.objectId}
                     type={interactive ? 'button' : undefined}
                     className={
-                      layoutMode === 'af' ?
+                      layoutMode === 'fb' ?
+                        `site00-twin-fb__node${interactive ? ' site00-twin-fb__node--interactive' : ''}`
+                      : layoutMode === 'af' ?
                         `site00-twin-af__node${interactive ? ' site00-twin-af__node--interactive' : ''}`
                       : layoutMode === 'td' ?
                         `site00-twin-td__node${interactive ? ' site00-twin-td__node--interactive' : ''}`
@@ -200,7 +222,8 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                     {isImage ?
                       <div
                         className={
-                          layoutMode === 'af' ? 'site00-twin-af__image-wrap'
+                          layoutMode === 'fb' ? 'site00-twin-fb__image-wrap'
+                          : layoutMode === 'af' ? 'site00-twin-af__image-wrap'
                           : layoutMode === 'td' ? 'site00-twin-td__image-wrap'
                           : `site00-mobile-twin-compiled-impl__image-wrap${node.componentType === 'CARD' ? ' site00-mobile-twin-compiled-impl__thumb' : ''}`
                         }
@@ -211,7 +234,8 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                     {isGauge ?
                       <div
                         className={
-                          layoutMode === 'af' ? 'site00-twin-af__gauge'
+                          layoutMode === 'fb' ? 'site00-twin-fb__gauge'
+                          : layoutMode === 'af' ? 'site00-twin-af__gauge'
                           : layoutMode === 'td' ? 'site00-twin-td__gauge'
                           : 'site00-mobile-twin-compiled-impl__gauge'
                         }
@@ -219,7 +243,8 @@ export function MobileTwinCompiledImplementationRenderer({ document, onNodeActiv
                       >
                         <div
                           className={
-                            layoutMode === 'af' ? 'site00-twin-af__gauge-fill'
+                            layoutMode === 'fb' ? 'site00-twin-fb__gauge-fill'
+                            : layoutMode === 'af' ? 'site00-twin-af__gauge-fill'
                             : layoutMode === 'td' ? 'site00-twin-td__gauge-fill'
                             : 'site00-mobile-twin-compiled-impl__gauge-fill'
                           }

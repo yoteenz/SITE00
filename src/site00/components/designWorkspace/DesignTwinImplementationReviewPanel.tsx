@@ -12,8 +12,16 @@ import { mobileTwinTwinPreviewRoute } from '../../../../shared/site00-studio-wor
 import { DesignTwinImplementationExpressionTrace } from './DesignTwinImplementationExpressionTrace.js';
 import { DesignTwinImplementationTranslationInspector } from './DesignTwinImplementationTranslationInspector.js';
 import { DesignTwinImplementationAuthorityInspector } from './DesignTwinImplementationAuthorityInspector.js';
+import { DesignTwinForensicImplementationInspector } from './DesignTwinForensicImplementationInspector.js';
 
-type ReviewMode = 'LIVE' | 'ACTUAL' | 'BLUEPRINT' | 'COMPARE_ACTUAL' | 'COMPARE_BLUEPRINT' | 'PACKAGE';
+type ReviewMode =
+  | 'LIVE'
+  | 'ACTUAL'
+  | 'FORENSIC_BLUEPRINT'
+  | 'BLUEPRINT'
+  | 'COMPARE_ACTUAL'
+  | 'COMPARE_BLUEPRINT'
+  | 'PACKAGE';
 
 type Props = {
   projectId: string;
@@ -31,6 +39,7 @@ type Props = {
 const MODES: { id: ReviewMode; label: string }[] = [
   { id: 'LIVE', label: 'LIVE IMPLEMENTATION' },
   { id: 'ACTUAL', label: 'ACTUAL AUTHORITY' },
+  { id: 'FORENSIC_BLUEPRINT', label: 'FORENSIC BLUEPRINT' },
   { id: 'BLUEPRINT', label: 'BLUEPRINT AUTHORITY' },
   { id: 'COMPARE_ACTUAL', label: 'COMPARE ACTUAL ↔ LIVE' },
   { id: 'COMPARE_BLUEPRINT', label: 'COMPARE BLUEPRINT ↔ LIVE STRUCTURE' },
@@ -140,6 +149,9 @@ export function DesignTwinImplementationReviewPanel({
           <DesignTwinImplementationTranslationInspector document={implementationDocument} />
           {implementationDocument.compilerGeneration === 'R8M2R4' ?
             <DesignTwinImplementationAuthorityInspector document={implementationDocument} />
+          : null}
+          {implementationDocument.compilerGeneration === 'R8M2R5' ?
+            <DesignTwinForensicImplementationInspector document={implementationDocument} />
           : null}
           <DesignTwinImplementationExpressionTrace document={implementationDocument} />
         </>

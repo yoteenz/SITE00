@@ -115,7 +115,7 @@ export type PriorBuildCorrectionRecord = {
 
 export type CompiledMobileTwinImplementationDocument = {
   lineage: string;
-  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3' | 'R8M2R4';
+  compilerGeneration?: 'R8M' | 'R8M1' | 'R8M2' | 'R8M2R1' | 'R8M2R2' | 'R8M2R3' | 'R8M2R4' | 'R8M2R5';
   implementationGenerationMode?: import('../p0vrTwinV30R8M2R3/implementationGenerationMode.js').ImplementationGenerationMode;
   implementationVersion?: string;
   viewport: 'MOBILE';
@@ -176,6 +176,23 @@ export type CompiledMobileTwinImplementationDocument = {
   actualFirstComponentTree?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstImplementationArtifacts['actualFirstComponentTree'];
   actualFirstLayoutContract?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstImplementationArtifacts['actualFirstLayoutContract'];
   actualFirstStyleContract?: import('../p0vrTwinV30R8M2R4/actualFirstTypes.js').ActualFirstImplementationArtifacts['actualFirstStyleContract'];
+  forensicUiBlueprintAuthority?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicUiBlueprintAuthority;
+  forensicBlueprintGenerationReceipt?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicBlueprintGenerationReceipt;
+  forensicUiObjectMap?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicUiObjectMap;
+  forensicUiSectionMap?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicUiSectionMap;
+  forensicTypographyMap?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicTypographyMap;
+  forensicVisualStyleMap?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicVisualStyleMap;
+  forensicSpacingMap?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicSpacingMap;
+  forensicAssetPlacementMap?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicAssetPlacementMap;
+  forensicImplementationSpec?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicImplementationSpec;
+  forensicImplementationCodingPrompt?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicImplementationCodingPrompt;
+  forensicPromptInjected?: boolean;
+  forensicDomCorrectionIterations?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicDomCorrectionIteration[];
+  realBrowserTwinScreenshot?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').RealBrowserTwinScreenshot;
+  forensicFidelityGate?: import('../p0vrTwinV30R8M2R5/forensicTypes.js').ForensicFidelityGate;
+  syntheticScreenshotUsedAsProof?: boolean;
+  forensicComponentTree?: { id: string; hash: string; rootClass: string; sectionIds: string[] };
+  forensicStyleContract?: { id: string; hash: string; cssVariables: Record<string, string> };
   sourceArtifactIds: string[];
   forbiddenPrimitiveScan: { violations: string[]; count: number };
   structuredSource: 'COMPOSITION_AND_PACKAGE_ARTIFACTS';
