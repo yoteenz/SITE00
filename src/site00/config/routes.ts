@@ -141,6 +141,8 @@ export const SITE00_ROUTES = {
   projectDesignTwinTestA: '/projects/:projectSlug/design/twin-testA',
   /** P0.VR.DESIGNBENCH.GROK-DIRECT1 — isolated Grok direct reconstruction */
   projectDesignTwinGrokDirect: '/projects/:projectSlug/design/twin-grok-direct',
+  /** P0.VR.DESIGNBENCH.SPARK-DIRECT1 — isolated Spark direct reconstruction */
+  projectDesignTwinSparkDirect: '/projects/:projectSlug/design/twin-spark-direct',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
@@ -532,6 +534,10 @@ export function site00ProjectDesignTwinTestAPath(projectSlug: string): string {
 
 export function site00ProjectDesignTwinGrokDirectPath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/twin-grok-direct`;
+}
+
+export function site00ProjectDesignTwinSparkDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-direct`;
 }
 
 export function site00CanonicalDesignPath(params?: {
