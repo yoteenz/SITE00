@@ -6,6 +6,7 @@ import { SolDesignBenchModelContract } from '../../shared/site00-sol-design-benc
 import {
   getSolDesignBenchRun,
   getSolDesignBenchProviderReadiness,
+  readSolDesignBenchPreview,
   retrySolDesignBenchRun,
   SolDesignBenchProviderBlockedError,
   startSolDesignBenchRun,
@@ -49,6 +50,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         res.status(200).end(bytes);
       } catch {
         res.status(404).json({ error: 'SOL_REFERENCE_NOT_FOUND' });
+      }
+      return;
+    }
+    if (req.query.preview === '1') {
+      try {
+        const bytes = await readSolDesignBenchPreview(runId);
+        res.setHeader('Content-Type', 'image/svg+xml; charset=utf-8');
+        res.setHeader('Content-Length', String(bytes.length));
+        res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'");
+        res.status(200).end(bytes);
+      } catch {
+        res.status(404).json({ error: 'SOL_VISUAL_PREVIEW_NOT_FOUND' });
       }
       return;
     }

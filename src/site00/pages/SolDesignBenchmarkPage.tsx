@@ -351,6 +351,11 @@ function ResultsWorkspace({
             <div><dt>COST</dt><dd>{run.cost ? `${run.cost.currency} ${run.cost.amount.toFixed(4)}` : 'Not available'}</dd></div>
             <div><dt>PROMPT VERSION</dt><dd>{run.solPromptVersion}</dd></div>
             <div><dt>PROMPT SHA256</dt><dd>{run.solPromptHash}</dd></div>
+            <div><dt>STRUCTURED OUTPUT</dt><dd>{run.providerDispatchReceipt?.structuredOutputMode?.toUpperCase() || 'PENDING'}</dd></div>
+            <div><dt>SCHEMA VERSION</dt><dd>{run.providerDispatchReceipt?.schemaVersion || 'PENDING'}</dd></div>
+            <div><dt>SCHEMA VALIDATION</dt><dd>{run.structuredOutputValidationReceipt?.schemaValidationPass ? 'PASS' : 'PENDING'}</dd></div>
+            <div><dt>OUTPUT COMPLETE</dt><dd>{run.outputCompletenessReceipt?.complete ? 'YES' : 'PENDING'}</dd></div>
+            <div><dt>VISUAL PREVIEW REF</dt><dd>{pkg.VISUAL_INTERFACE_PREVIEW.visualPreviewRef}</dd></div>
             <div><dt>FALLBACK ALLOWED</dt><dd>FALSE</dd></div>
             <div><dt>WEB SEARCH ENABLED</dt><dd>FALSE</dd></div>
             <div><dt>COMPOSER_INVOKED_DURING_TEST</dt><dd>FALSE</dd></div>
@@ -373,7 +378,9 @@ export function SolDesignBenchmarkPage() {
   const pickerRef = useRef<HTMLInputElement>(null);
 
   const referenceUrl = reference?.objectUrl || (run ? site00ApiUrl(`/api/site00/sol-design-bench?runId=${encodeURIComponent(run.runId)}&reference=1`) : '');
-  const isRunning = Boolean(run && !['COMPLETE', 'FAILED'].includes(run.status));
+  const failureStatuses = ['FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED'];
+  const isFailure = Boolean(run && failureStatuses.includes(run.status));
+  const isRunning = Boolean(run && run.status !== 'COMPLETE' && !failureStatuses.includes(run.status));
 
   const loadRun = useCallback(async (runId: string) => {
     const response = await fetch(site00ApiUrl(`/api/site00/sol-design-bench?runId=${encodeURIComponent(runId)}`), { credentials: 'omit', cache: 'no-store' });
@@ -468,7 +475,7 @@ export function SolDesignBenchmarkPage() {
   };
 
   const retry = async () => {
-    if (!run || run.status !== 'FAILED') return;
+    if (!run || !failureStatuses.includes(run.status)) return;
     setError('');
     setIsUploading(true);
     try {
@@ -563,8 +570,8 @@ export function SolDesignBenchmarkPage() {
       </section>
 
       {run && run.status !== 'COMPLETE' ? (
-        <section className={`sol-bench-progress ${run.status === 'FAILED' ? 'is-failed' : ''}`} data-testid="sol-progress">
-          <span className="sol-bench-progress__eyebrow">{run.status === 'FAILED' ? run.error?.code || 'SOL_RUN_FAILED' : 'SOL IS TRANSLATING YOUR INTERFACE'}</span>
+        <section className={`sol-bench-progress ${isFailure ? 'is-failed' : ''}`} data-testid="sol-progress">
+          <span className="sol-bench-progress__eyebrow">{isFailure ? run.error?.code || run.status : 'SOL IS TRANSLATING YOUR INTERFACE'}</span>
           <div className="sol-bench-progress__bar"><i style={{ width: `${run.progress}%` }} /></div>
           <div className="sol-bench-progress__metrics">
             <div><small>STAGE</small><strong>{progressLabel}</strong></div>
@@ -572,7 +579,18 @@ export function SolDesignBenchmarkPage() {
             <div><small>ESTIMATED REMAINING</small><strong>{run.etaSeconds == null ? 'Estimating…' : `~${formatDuration(run.etaSeconds * 1000)}`}</strong><em>Stage-derived estimate</em></div>
           </div>
           {run.error ? <p className="sol-bench-error">{run.error.code}: {run.error.message}</p> : null}
-          {run.status === 'FAILED' ? (
+          {isFailure && (run.structuredOutputValidationReceipt || run.outputCompletenessReceipt) ? (
+            <details>
+              <summary>OUTPUT VALIDATION DETAILS</summary>
+              <pre className="sol-bench-handoff">{JSON.stringify({
+                validation: run.structuredOutputValidationReceipt,
+                completeness: run.outputCompletenessReceipt,
+                rawProviderResponseRef: run.rawProviderResponseRef,
+                recoveredSectionKeys: Object.keys(run.recoveredSections || {}),
+              }, null, 2)}</pre>
+            </details>
+          ) : null}
+          {isFailure ? (
             <button className="sol-bench-retry" disabled={isUploading} onClick={() => void retry()}>
               {isUploading ? 'CREATING RETRY RUN…' : 'RETRY SOL TEST'}
             </button>

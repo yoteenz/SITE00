@@ -35,6 +35,7 @@ function packageFixture(sha256: string): FigmaStyleInterfaceTranslationPackage {
       background: '#ffffff',
       componentIds: ['page'],
       renderingNotes: ['Literal test fixture'],
+      visualPreviewRef: 'sol-preview://fixture',
     },
     PAGE_FRAME_SPEC: {
       frame: { width: 40, height: 60 },
@@ -155,7 +156,8 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
         reasoningEffort: 'high',
         imageInputAttached: true,
         structuredOutputRequested: true,
-        structuredOutputMode: 'json_object',
+        structuredOutputMode: 'json_schema',
+        schemaVersion: 'figma-interface-translation-v1',
         jsonInstructionPresent: true,
         requestedModelId: 'gpt-5.6-sol',
         actualDispatchedModelId: 'gpt-5.6-sol',
@@ -167,6 +169,31 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
         dispatchedAt: new Date().toISOString(),
       },
       inputReceipt: buildSolBenchmarkInputReceipt({ runId, authority }),
+      validationReceipt: {
+        receiptType: 'SolStructuredOutputValidationReceipt',
+        runId,
+        model: 'gpt-5.6-sol',
+        schemaVersion: 'figma-interface-translation-v1',
+        responseReceived: true,
+        jsonParsePass: true,
+        schemaValidationPass: true,
+        missingFields: [],
+        invalidFields: [],
+        rawResponsePersistedSafely: false,
+        recoverable: false,
+        repairAttempted: false,
+        repairSucceeded: false,
+      },
+      completenessReceipt: {
+        receiptType: 'SolOutputCompletenessReceipt',
+        runId,
+        finishReason: 'completed',
+        outputCharacters: 100,
+        outputTokens: 25,
+        truncated: false,
+        complete: true,
+      },
+      rawProviderResponse: '{"fixture":true}',
     }));
     const started = await startSolDesignBenchRun(request);
     request.reference.filename = 'replacement.png';
@@ -216,7 +243,7 @@ describe('P0.VR.DESIGNBENCH.SOL1', () => {
       'IDLE', 'UPLOADING', 'QUEUED', 'INGESTING_REFERENCE', 'ANALYZING_VISUAL',
       'MEASURING_COMPOSITION', 'DERIVING_DESIGN_SYSTEM', 'DERIVING_COMPONENT_TREE',
       'RENDERING_INTERFACE_PREVIEW', 'BUILDING_IMPLEMENTATION_HANDOFF', 'FINALIZING',
-      'COMPLETE', 'FAILED',
+      'COMPLETE', 'FAILED', 'SOL_OUTPUT_VALIDATION_FAILED', 'SOL_OUTPUT_TRUNCATED',
     ]);
     expect(stageProgress('ANALYZING_VISUAL')).toBeGreaterThan(stageProgress('INGESTING_REFERENCE'));
     expect(estimateRemainingSeconds('ANALYZING_VISUAL', 10)).toBeGreaterThan(0);

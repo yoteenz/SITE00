@@ -1,7 +1,9 @@
 import type {
   SolBenchmarkInputReceipt,
+  SolOutputCompletenessReceipt,
   SolBenchmarkProviderDispatchReceipt,
   SolDesignBenchProviderReadinessReceipt,
+  SolStructuredOutputValidationReceipt,
 } from './modelContract.js';
 
 export const SOL_DESIGN_BENCH_MODEL = 'GPT-5.6 SOL' as const;
@@ -22,6 +24,8 @@ export const SOL_DESIGN_BENCH_STAGES = [
   'FINALIZING',
   'COMPLETE',
   'FAILED',
+  'SOL_OUTPUT_VALIDATION_FAILED',
+  'SOL_OUTPUT_TRUNCATED',
 ] as const;
 
 export type SolDesignBenchStage = (typeof SOL_DESIGN_BENCH_STAGES)[number];
@@ -40,6 +44,8 @@ export const SOL_DESIGN_BENCH_STAGE_WEIGHTS: Record<SolDesignBenchStage, number>
   FINALIZING: 97,
   COMPLETE: 100,
   FAILED: 100,
+  SOL_OUTPUT_VALIDATION_FAILED: 100,
+  SOL_OUTPUT_TRUNCATED: 100,
 };
 
 export interface SolDesignBenchReferenceAuthority {
@@ -102,6 +108,7 @@ export interface FigmaStyleInterfaceTranslationPackage {
     background: string;
     componentIds: string[];
     renderingNotes: string[];
+    visualPreviewRef: string;
   };
   PAGE_FRAME_SPEC: Record<string, unknown>;
   SECTION_TREE: Array<Record<string, unknown>>;
@@ -125,9 +132,9 @@ export interface SolComposerImplementationHandoff {
   inventionBudget: 'NONE';
   targetFrame: Record<string, unknown>;
   orderedBuildInstructions: string[];
-  componentContracts: Array<Record<string, unknown>>;
-  tokenContracts: Record<string, unknown>;
-  assetBindings: Array<Record<string, unknown>>;
+  componentContracts: Array<Record<string, unknown> | string>;
+  tokenContracts: Record<string, unknown> | string[];
+  assetBindings: Array<Record<string, unknown> | string>;
   acceptanceChecks: string[];
   composerInvoked: false;
 }
@@ -159,6 +166,10 @@ export interface SolDesignBenchRun {
   providerReadinessReceipt: SolDesignBenchProviderReadinessReceipt;
   providerDispatchReceipt: SolBenchmarkProviderDispatchReceipt | null;
   inputReceipt: SolBenchmarkInputReceipt;
+  structuredOutputValidationReceipt: SolStructuredOutputValidationReceipt | null;
+  outputCompletenessReceipt: SolOutputCompletenessReceipt | null;
+  rawProviderResponseRef: string | null;
+  recoveredSections: Partial<FigmaStyleInterfaceTranslationPackage> | null;
   solPromptVersion: string;
   solPromptHash: string;
   timing: SolDesignBenchTiming;
@@ -171,7 +182,9 @@ export interface SolDesignBenchRun {
       | 'GPT_5_6_SOL_PROVIDER_BINDING_FAILED'
       | 'SOL_STRUCTURED_OUTPUT_REQUEST_INVALID'
       | 'OPENAI_RESPONSES_REQUEST_INVALID'
-      | 'SOL_STRUCTURED_OUTPUT_PARSE_FAILED';
+      | 'SOL_STRUCTURED_OUTPUT_PARSE_FAILED'
+      | 'SOL_OUTPUT_VALIDATION_FAILED'
+      | 'SOL_OUTPUT_TRUNCATED';
     message: string;
   } | null;
   cost: { currency: string; amount: number } | null;
