@@ -163,7 +163,18 @@ export async function fetchGrokTwinTestARuntimeHealth(): Promise<{
 }> {
   const res = await getFirstReadyHost('?action=runtime_health');
   const json = (await res.json()) as { ok?: boolean; health?: Record<string, unknown> };
-  const health = json.health ?? {};
+  if (!json.health || typeof json.health !== 'object') {
+    return {
+      founderRunReady: false,
+      modelAccess: 'PENDING_API',
+      imageInput: 'PENDING_API',
+      providerTimingProbe: 'PENDING_API',
+      polling: 'PENDING_API',
+      stallWatchdog: 'PENDING_API',
+      timeout: 'PENDING_API',
+    };
+  }
+  const health = json.health;
   return {
     founderRunReady: health.founderRunReady === true,
     modelAccess: String(health.modelAccess ?? 'FAIL'),

@@ -437,6 +437,20 @@ export function DesignTwinTestAPage() {
                 ? GROK_4_6_PROVIDER_BINDING_FAILED
                 : run.error}
             </p>
+            {run.error === 'SERVER_RUN_LOST' || run.error === 'GROK_PROVIDER_TIMEOUT' || run.stall?.stalled ? (
+              <dl className="twin-test-a__metrics" data-testid="twin-test-a-incident-timing">
+                <dt>STALLED STAGE</dt>
+                <dd>{run.stall?.stalledStage ?? run.stage}</dd>
+                <dt>ELAPSED</dt>
+                <dd>{formatDurationMmSs(run.timing.totalDurationMs ?? elapsedMs)}</dd>
+                <dt>PROVIDER REQUEST</dt>
+                <dd>{run.providerRequestStatus ?? run.stall?.providerRequestStatus ?? 'UNKNOWN'}</dd>
+                <dt>LAST STATE CHANGE</dt>
+                <dd>{run.lastStateChangeAt ?? run.stall?.lastStateChange ?? '—'}</dd>
+                <dt>PRESERVED</dt>
+                <dd>YES</dd>
+              </dl>
+            ) : null}
             {run.providerFailure ? (
               <details
                 className="twin-test-a__failure-details"

@@ -208,6 +208,8 @@ describe('P0.VR.DESIGNBENCH.GROK1F4 long-run watchdog', () => {
     expect(readGrokTwinTestAIncidents()[0]?.runId).toBe('incident-54m');
     expect(read('src/site00/services/grokTwinTestAClient.ts')).toContain("throw new Error('RUN_NOT_FOUND')");
     expect(read('src/site00/pages/DesignTwinTestAPage.tsx')).toContain('markGrokTwinTestAServerLost');
+    expect(read('src/site00/pages/DesignTwinTestAPage.tsx')).toContain('twin-test-a-incident-timing');
+    expect(read('src/site00/services/grokTwinTestAClient.ts')).toContain('PENDING_API');
   });
 
   it('9. real timing fields are separated', () => {
