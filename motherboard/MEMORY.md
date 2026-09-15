@@ -9647,6 +9647,18 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SPARK-DIRECT1 isolated golden reconstruction
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh Muse Spark 1.3 (HIGH effort) Cursor sprint to directly recreate the attached NDXBOOK DESIGN golden as real DOM/CSS on an isolated route — no Composer, no other-model output, no raster cheat.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.SPARK-DIRECT1**. Golden attached in-chat. Isolated route **`/projects/ndxbook/design/twin-spark-direct`**. Do not mutate `/design/twin`, `twin-v4`, `twin-testA`, `twin-testB`, `twin-sol-direct`, `twin-grok-direct`, `twin-opus-direct`, `twin-fable-direct`, or current DESIGN.
+- **Topics covered:** Motherboard load; golden region inspection (13 regions); direct React+CSS implementation; 4 browser visual QA passes (hero scale, collage density, gallery card 3 paper, amendment alignment); mobile 390px check; tsc + vitest + production build.
+- **Decisions / outcomes:** Direct implementation only — no spec JSON, no translation engine. CSS-composed archival collage (no standalone pointing-hand photo asset in repo). Route boots without CTRL ROOM sign-in. Timing: START 22:26:17Z, FIRST RENDER 22:29:25Z, FINAL 22:31:03Z (~4m46s). No other direct-bench files opened (isolation held; mandatory motherboard read only).
+- **Changes:** `src/site00/pages/DesignTwinSparkDirectPage.tsx`, `src/site00/styles/site00-twin-spark-direct.css`, route constant + helper in `src/site00/config/routes.ts`, lazy route in `src/routes/Site00Routes.tsx` (+19 lines), this MEMORY entry.
+- **Conventions:** Spark-direct bench keeps the same no-guard isolated-route pattern as prior direct benches; visual authority is always the attached golden, never current DESIGN visuals.
+---
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.GROK-DIRECT1R1 reference-fidelity tightening (v491)
 
 Summary of the **whole conversation so far** in this chat: founder first asked Grok 4.6 to recreate the attached NDXBOOK DESIGN golden as an isolated DOM/CSS route (`twin-grok-direct`, v490), then sent a surgical follow-up to enforce reference-fidelity more strictly — golden is exact design authority, existing visual code has no protection, parent geometry before children, three rendered comparison passes, no Composer, no raster cheat.
@@ -9681,3 +9693,15 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Changes:** Calibrated primary-nav, target band, hero/rail, gallery cards/actions, five structured columns, four readiness columns, history tabs, concept-data row, and five bottom-nav cells. Hero headline pixel footprint moved from **169.5×90.5px** to **163×98px** against golden **162×97px**; tagline now **87×29px** exactly. Corrected `FUNCTION MAP` → `POSITION MAP`, added missing `F06_VERIFICATION`, and replaced the placeholder chess glyph with an accessible CSS lock control.
 - **Verification:** Three R2 browser passes at exact 572×1024; final screenshot/video show full real DOM page with no errors. Focused test **4/4**, typecheck, and production build pass. PR #939 contains only the R2 page/CSS/test delta after resolving simple add/add conflicts from PR #934 merging during the sprint.
 - **Conventions:** For mature visual convergence, reject guessed coordinates, measure DOM and authority pixels directly, correct upstream cumulative drift, and treat visible live copy as geometry. Embedded asset lettering stays flagged for **`GROK_ASSET_TEXT_CORRECTION`** rather than being redrawn by Sol.
+
+---
+
+## 2026-09-15 — Grok direct reconstruction + Sol asset fidelity (DIRECT1 / DIRECT1R1 / ASSET1)
+
+Summary of the **whole conversation so far** in this chat: founder ran three Grok 4.6 Cursor sprints on the same NDXBOOK DESIGN golden (768×1376). First two built and tightened an isolated Grok-direct route; the third kept Sol’s existing page as frozen structure and asked Grok only to rebuild weak visual material.
+
+- **Context:** Golden is design authority. No Composer. No new test route for the asset sprint. Do not mutate Twin / Twin V4 / Test A / Test B / current DESIGN. No raster cheat (no full-page golden as background/overlay/slices). Individual reconstructed plates are allowed.
+- **Topics covered:** (1) **P0.VR.DESIGNBENCH.GROK-DIRECT1** — isolated `/projects/ndxbook/design/twin-grok-direct` DOM/CSS reconstruction, shipped v490 / PR #935. (2) **P0.VR.DESIGNBENCH.GROK-DIRECT1R1** — surgical fidelity on the same route, xerox plates + 512/208 trace, shipped v491 / PR #936. (3) **P0.VR.DESIGNBENCH.GROK-ASSET1** — Sol page at `/projects/ndxbook/design/twin-sol-direct` is structural authority; Grok replaces hero/gallery/structured/lower plates only.
+- **Decisions / outcomes:** Sol geometry locked (`386px/150px` stage, section heights unchanged). `SOL_STRUCTURE_CHANGED: NO`. Top asset gaps were silhouette hero, text-only authority thumbs, CSS-only gallery, empty structured tiles, and a text-only history thumb. Recreated xerox hand / blueprint / 001 plates; reused grok-direct form, overlay, and portrait. Three browser asset QA passes on local Vite. Cloudflare target URL is another agent’s tunnel and will not show this pass until merge + that preview refreshes.
+- **Changes:** `public/site00/twin-sol-direct/*` plates; `NdxbookSolDirectPage.tsx` / `site00-ndxbook-sol-direct.css` image hooks only; Sol isolation tests extended; CORE sol-direct row; this MEMORY entry. PR **#938**.
+- **Conventions:** After a Sol structural pass, Grok asset sprints must not move shell/section geometry. If a larger layout change seems necessary, report `STRUCTURAL_CONFLICT` and stop. Do not use an incorrect existing photo just because it is already in the repo.
