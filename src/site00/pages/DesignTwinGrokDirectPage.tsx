@@ -118,49 +118,78 @@ function IconHistory() {
 
 function ArchivalHand() {
   return (
-    <svg className="tgd-hand" viewBox="0 0 280 360" aria-hidden="true">
+    <svg className="tgd-hand" viewBox="0 0 240 300" aria-hidden="true">
       <defs>
         <filter id="tgd-grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" result="n" />
+          <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="3" result="n" />
           <feColorMatrix type="saturate" values="0" />
         </filter>
+        <filter id="tgd-xerox">
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" result="g" />
+          <feDisplacementMap in="SourceGraphic" in2="g" scale="1.6" />
+        </filter>
       </defs>
-      <rect width="280" height="360" fill="#d8cfc4" />
-      <rect width="280" height="360" fill="#cfc4b6" opacity="0.35" filter="url(#tgd-grain)" />
-      <g fill="none" stroke="#1a1612" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M142 28c-6 38-8 72-6 108" strokeWidth="7.2" />
-        <path d="M132 34c-4 34-5 70-3 104" strokeWidth="2.2" opacity="0.55" />
-        <path d="M152 36c-3 32-4 68-2 100" strokeWidth="2" opacity="0.4" />
-        <path
-          d="M136 132c-18 8-38 28-42 52-3 18 4 34 22 44 10 6 18 18 20 34 2 18 1 38 8 54 8 18 26 28 44 24 16-4 28-18 32-34 6-22 8-48 4-70-3-16 2-28 14-36 14-10 24-26 22-44-2-16-16-28-32-26-10 1-18 8-22 16"
-          strokeWidth="6.4"
-        />
-        <path d="M108 198c8 10 18 16 30 18" strokeWidth="2" opacity="0.55" />
-        <path d="M118 230c10 8 22 12 34 12" strokeWidth="1.8" opacity="0.45" />
-        <path d="M154 168c10 14 14 30 12 48" strokeWidth="1.8" opacity="0.4" />
-        <path d="M96 178c-8 6-18 8-26 4" strokeWidth="3.2" />
-        <path d="M88 206c-10 2-20 0-28-8" strokeWidth="3.2" />
-        <path d="M92 228c-12 2-22-2-30-10" strokeWidth="3" />
-        <circle cx="141" cy="26" r="5.2" fill="#1a1612" stroke="none" />
+      <rect width="240" height="300" fill="#efe6d8" />
+      <rect width="240" height="300" fill="#cfc3b2" opacity="0.28" filter="url(#tgd-grain)" />
+      <g stroke="#b7aa98" strokeWidth="0.4" opacity="0.35">
+        {Array.from({ length: 16 }, (_, i) => (
+          <line key={`v${i}`} x1={16 + i * 14} y1="8" x2={16 + i * 14} y2="292" />
+        ))}
+        {Array.from({ length: 20 }, (_, i) => (
+          <line key={`h${i}`} x1="8" y1={12 + i * 14} x2="232" y2={12 + i * 14} />
+        ))}
       </g>
-      <g fill="#2a241c" opacity="0.18" fontFamily="Inter, sans-serif" fontSize="7" letterSpacing="0.12em">
-        <text x="18" y="48">CHECK REF</text>
-        <text x="18" y="62">P.1377</text>
-        <text x="18" y="76">F.208</text>
-        <text x="18" y="90">P.311</text>
+      <g fill="#6a5f52" opacity="0.28" fontFamily="Inter, sans-serif" fontSize="6.2" letterSpacing="0.16em">
+        <text x="154" y="38">CHECK REF</text>
+        <text x="154" y="50">P.1377</text>
+        <text x="154" y="62">P.208</text>
+        <text x="154" y="74">P.311</text>
+        <text x="168" y="168">8758</text>
+      </g>
+      <g filter="url(#tgd-xerox)" fill="#111">
+        <path d="M118 14c-5.2 0-8.8 4.2-8.8 9.6v86c-16 3-38 22-41 46-3 22 10 40 32 46 3 16 7 38 16 52 10 16 30 22 46 10 13-9 18-28 16-46 20-3 34-20 32-40-2-18-16-30-34-28l6-80c.4-8-3.6-14-9.6-14-3.4 0-6.4 2.2-7.6 5.4V24c0-5.6-3.8-10-8.6-10z" />
+        <path d="M78 168c-10 2-22 0-30-8-2 8 2 16 12 20 8 4 16 4 22 2z" opacity="0.85" />
+        <path d="M86 188c-12 1-24-2-32-12 2 10 10 18 24 20 8 2 16 1 22-2z" opacity="0.75" />
+        <path d="M92 206c-12 2-22-2-30-12 4 12 14 18 28 18 8 0 14-2 18-6z" opacity="0.65" />
       </g>
     </svg>
   );
 }
 
 function PaperDoc({ kind }: { kind: 'ground' | 'blue' | 'overlay' | 'assets' | 'fn' }) {
+  if (kind === 'fn') {
+    return (
+      <div className="tgd-doc tgd-doc--fn" aria-hidden="true">
+        <p>
+          FBE_INDEX_SIGNAL
+          <br />
+          FBE_CULTURAL_REF
+          <br />
+          F05_ARCHIVAL_LEX
+          <br />
+          FBA_CONTEST_IDEAS
+          <br />
+          F05_SOURCE_TRACE
+          <br />
+          F06_XERIFICATION
+        </p>
+      </div>
+    );
+  }
+  if (kind === 'blue') {
+    return (
+      <div className="tgd-doc tgd-doc--blue" aria-hidden="true">
+        <span />
+      </div>
+    );
+  }
   return (
     <div className={`tgd-doc tgd-doc--${kind}`} aria-hidden="true">
       <img src={PAPER} alt="" />
       <div className="tgd-doc__marks">
+        {kind === 'ground' ? <span className="tgd-doc__form" /> : null}
         {kind === 'overlay' ? <span className="tgd-doc__big">001</span> : null}
-        {kind === 'fn' ? <span className="tgd-doc__portrait" /> : null}
-        {kind === 'blue' ? <span className="tgd-doc__grid" /> : null}
+        {kind === 'assets' ? <span className="tgd-doc__portrait" /> : null}
       </div>
     </div>
   );
@@ -274,22 +303,24 @@ export function DesignTwinGrokDirectPage() {
                   NDXBOOK.
                 </p>
               </div>
-              <div className="tgd-hero__image">
+              <div className="tgd-hero__plate">
                 <ArchivalHand />
               </div>
             </div>
             <footer className="tgd-hero__foot">
               <div>
-                <small>INDEX SIGNAL ·</small>
+                <small>INDEX SIGNAL</small>
                 <span>PAGE 001 INDEXED</span>
               </div>
+              <i className="tgd-dot" />
               <div>
                 <small>ARCHIVAL EVIDENCE</small>
                 <span>ATTACHED</span>
               </div>
               <button type="button" className="tgd-chip">
-                EVIDENCE <em>+12</em>
+                EVIDENCE
               </button>
+              <em>+12</em>
             </footer>
           </article>
 
@@ -310,16 +341,18 @@ export function DesignTwinGrokDirectPage() {
                 <span>AUTHORITY PAIR</span>
                 <i>∧</i>
               </header>
-              <div className="tgd-master">
+              <div className="tgd-master tgd-master--ink">
                 <div className="tgd-master__thumb">
                   <MiniSignalCard />
                 </div>
                 <div className="tgd-master__meta">
                   <strong>MOBILE MASTER</strong>
-                  <em>V1.3.3</em>
                   <small>THE SIGNAL IS THE INDEX</small>
                 </div>
-                <b>SELECTED</b>
+                <div className="tgd-master__side">
+                  <em>V1.3.3</em>
+                  <b>SELECTED</b>
+                </div>
               </div>
               <div className="tgd-master">
                 <div className="tgd-master__thumb">
@@ -327,10 +360,12 @@ export function DesignTwinGrokDirectPage() {
                 </div>
                 <div className="tgd-master__meta">
                   <strong>DESKTOP MASTER</strong>
-                  <em>V1.1.1</em>
                   <small>THE SIGNAL IS THE INDEX</small>
                 </div>
-                <button type="button">REPLACE</button>
+                <div className="tgd-master__side">
+                  <em>V1.1.1</em>
+                  <button type="button">REPLACE</button>
+                </div>
               </div>
             </div>
 
@@ -376,7 +411,7 @@ export function DesignTwinGrokDirectPage() {
                 <IconDesktop />
               </span>
               <em>V1.1</em>
-              <MiniSignalCard dark />
+              <div className="tgd-card__zero">001</div>
             </article>
             <article className="tgd-card tgd-card--clip">
               <div className="tgd-card__stamp">
