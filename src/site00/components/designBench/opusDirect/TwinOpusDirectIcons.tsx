@@ -26,7 +26,7 @@ export function TodIconMenu({ className }: IconProps) {
 export function TodIconCaretDown({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M6 9.5 12 15.5 18 9.5" {...STROKE} strokeWidth={2.2} />
+      <path d="M5 9h14l-7 7.5z" fill="currentColor" />
     </svg>
   );
 }
@@ -59,27 +59,34 @@ export function TodIconEllipsisVertical({ className }: IconProps) {
   );
 }
 
+/* Handset outline traced from the golden: 13 x 22 body, speaker slot, home mark. */
 export function TodIconPhone({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="7.5" y="2.5" width="9" height="19" rx="2.2" {...STROKE} />
+    <svg className={className} viewBox="0 0 13 22" aria-hidden="true" focusable="false">
+      <rect x="0.75" y="0.75" width="11.5" height="20.5" rx="1.8" {...STROKE} strokeWidth={1.5} />
+      <path d="M4.9 3.05h3.2" {...STROKE} strokeWidth={1.1} />
+      <path d="M5.2 19.1h2.6" {...STROKE} strokeWidth={1.3} />
     </svg>
   );
 }
 
+/* Tablet: same construction, wider body, no home mark. */
 export function TodIconTablet({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="5.5" y="2.5" width="13" height="19" rx="2" {...STROKE} />
+    <svg className={className} viewBox="0 0 18 22" aria-hidden="true" focusable="false">
+      <rect x="0.75" y="0.75" width="16.5" height="20.5" rx="1.8" {...STROKE} strokeWidth={1.5} />
+      <path d="M7 3.05h4" {...STROKE} strokeWidth={1.1} />
     </svg>
   );
 }
 
+/* Monitor traced from the golden: 34 x 20 bezel, 6-wide neck, 12-wide base. */
 export function TodIconDesktop({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 26 24" aria-hidden="true" focusable="false">
-      <rect x="1.5" y="2.5" width="23" height="15" rx="1.4" {...STROKE} />
-      <path d="M9 21h8M13 17.5V21" {...STROKE} />
+    <svg className={className} viewBox="0 0 34 23" aria-hidden="true" focusable="false">
+      <rect x="0.7" y="0.7" width="32.6" height="18.6" rx="1" {...STROKE} strokeWidth={1.4} />
+      <path d="M17 19.3v3.1" {...STROKE} strokeWidth={5} />
+      <path d="M11 22.4h12" {...STROKE} strokeWidth={1.6} />
     </svg>
   );
 }
@@ -87,8 +94,10 @@ export function TodIconDesktop({ className }: IconProps) {
 export function TodIconLock({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="4.5" y="10.5" width="15" height="10" rx="2" {...STROKE} />
-      <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" {...STROKE} />
+      <rect x="3.6" y="10.6" width="16.8" height="11.4" rx="1.8" {...STROKE} strokeWidth={2.1} />
+      <path d="M7.3 10.6V6.9a4.7 4.7 0 0 1 9.4 0v3.7" {...STROKE} strokeWidth={2.1} />
+      <circle cx="12" cy="15.1" r="1.7" fill="currentColor" />
+      <path d="M12 15.6v3" {...STROKE} strokeWidth={2.1} />
     </svg>
   );
 }
@@ -115,6 +124,16 @@ export function TodIconCheckCircle({ className }: IconProps) {
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <circle cx="12" cy="12" r="10" fill="currentColor" />
       <path d="M7 12.4 10.6 16 17.2 8.6" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function TodIconWarnCircle({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M12 6.4v7.2" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" />
+      <circle cx="12" cy="17.6" r="1.35" fill="#ffffff" />
     </svg>
   );
 }
@@ -264,7 +283,7 @@ export function TodIconShieldCheck({ className }: IconProps) {
 export function TodIconBolt({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M13.6 2.5 5.2 13.4h5.4L9.8 21.5 18.8 10.2h-5.6z" fill="currentColor" />
+      <path d="M14.2 1.6 4.6 14.1h5.9l-1 8.3 9.9-12.8h-6.1z" fill="currentColor" />
     </svg>
   );
 }
@@ -273,9 +292,27 @@ export function TodIconBolt({ className }: IconProps) {
 export function TodPointingHandPlate({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 120 210" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMax meet">
-      <g fill="#111010">
-        <path d="M54.5 8c5.6 0 9.4 4.2 9.6 10l1.4 63.4 4.6-2.6c4.2-2.4 9-2.2 12.2.6 2.5 2.2 3.4 5.2 2.9 8.6l5.1 1.2c5.3 1.3 8.3 5.5 7.6 10.8l-.2 1.3 3.2 1.8c4.5 2.6 6.2 7.4 4.6 12.4l-8.6 26.8c-4.4 13.8-11.4 24.8-21.4 33.2l-2.4 2v14.2H36.2V176l-3.6-3.4c-8.4-8-13.6-17.2-16.6-27.8L9.4 120c-1.8-6.4 1-11.8 6.6-13.6 5-1.6 9.8.4 12.6 5l6.8 11 .8-52.6.6-51.2C36.8 12.4 40.6 8 46.2 8z" />
+      <defs>
+        <linearGradient id="tod-hand-ink" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#2a2724" />
+          <stop offset="55%" stopColor="#15130f" />
+          <stop offset="100%" stopColor="#060504" />
+        </linearGradient>
+      </defs>
+      <g fill="url(#tod-hand-ink)">
+        <path d="M63 5c3.6 0 6.2 2.8 6.2 6.6V97H56.8V11.6C56.8 7.8 59.4 5 63 5z" />
+        <path d="M45 92h31c4.4 0 7.4 3 7.4 7.4v45.8c0 12-5.4 20.4-14.6 24.6V206H51.6v-36.2C42.8 165.6 37.6 157.2 37.6 145.2V99.4c0-4.4 3-7.4 7.4-7.4z" />
+        <path d="M39.4 114c-6 1.4-9 6.4-7.2 12.6l4.8 15.2c1.8 6 6.6 9.2 11.8 8.2l3.4-.8-3-35.2z" />
       </g>
+      {/* Knuckle creases and the nail break the silhouette so it reads as a photographed hand. */}
+      <g fill="none" stroke="#bdb5a7" strokeWidth={1.5} strokeLinecap="round" opacity={0.5}>
+        <path d="M52 108c8-3.6 16.4-3.6 22 1" />
+        <path d="M52 124c8-2.8 16.4-2 22 3" />
+        <path d="M54 140c8-1.8 15.4 0 20 4" />
+        <path d="M56 22c0-4 4-6.5 8-5.5" />
+        <path d="M56 36h13" />
+      </g>
+      <ellipse cx="63" cy="17" rx="4.6" ry="6.6" fill="#8d867a" opacity={0.45} />
     </svg>
   );
 }

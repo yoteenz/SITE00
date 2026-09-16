@@ -62,6 +62,7 @@ import {
   TodIconPhone,
   TodIconShieldCheck,
   TodIconSliders,
+  TodIconWarnCircle,
   TodIconTablet,
 } from './TwinOpusDirectIcons';
 
@@ -88,14 +89,21 @@ const BOTTOM_ICONS = {
   bolt: TodIconBolt,
 } as const;
 
-function useArtboardScale() {
-  const [scale, setScale] = useState(1);
+/**
+ * The golden is a full-screen reference, so the shell is full-bleed: the design
+ * width drives the scale and the design height is stretched to the viewport, so
+ * the page never letterboxes and never gains an outer frame. At the reference
+ * viewport (768 x 1376) the scale is exactly 1 and the height is exactly 1376.
+ */
+function useFullBleedShell() {
+  const [shell, setShell] = useState<{ scale: number; height: number }>({ scale: 1, height: ART_H });
 
   useEffect(() => {
     const measure = () => {
       const vw = window.innerWidth || ART_W;
       const vh = window.innerHeight || ART_H;
-      setScale(Math.min(vw / ART_W, vh / ART_H));
+      const scale = vw / ART_W;
+      setShell({ scale, height: vh / scale });
     };
     measure();
     window.addEventListener('resize', measure);
@@ -106,7 +114,7 @@ function useArtboardScale() {
     };
   }, []);
 
-  return scale;
+  return shell;
 }
 
 /** Archival plate: xerox hand photograph. Wrapper / marks API stays Opus-owned. */
@@ -188,18 +196,20 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
           draggable={false}
           data-tod-slot="candidate-collage"
         />
-        <div className="tod-card__collage" aria-hidden="true">
+        <div className="tod-card__stack" aria-hidden="true">
           <span className="tod-card__scrap tod-card__scrap--1" />
           <span className="tod-card__scrap tod-card__scrap--2" />
           <span className="tod-card__scrap tod-card__scrap--3" />
           <span className="tod-card__scrap tod-card__scrap--4" />
           <span className="tod-card__scrap tod-card__scrap--5" />
         </div>
+        <div className="tod-card__sheet" aria-hidden="true" />
         <div className="tod-card__collageCopy">
-          <span className="tod-card__collageLead">CULTURE AS EVIDENCE.</span>
+          <span className="tod-card__collageLead">CULTURE AS</span>
+          <span className="tod-card__collageLead">EVIDENCE.</span>
           <span className="tod-card__collageLead">IDEAS AS INDEX.</span>
-          <span className="tod-card__stamp">001</span>
         </div>
+        <span className="tod-card__stamp">001</span>
       </div>
     );
   }
@@ -212,8 +222,10 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
         draggable={false}
         data-tod-slot="candidate-archive"
       />
-      <div className="tod-card__archiveCol tod-card__archiveCol--a" aria-hidden="true" />
-      <div className="tod-card__archiveCol tod-card__archiveCol--b">
+      <div className="tod-card__archivePaper" aria-hidden="true" />
+      <div className="tod-card__archiveInk">
+        <span className="tod-card__archiveStamp" aria-hidden="true">001</span>
+        <span className="tod-card__archiveRule" aria-hidden="true" />
         <span className="tod-card__archiveHead">
           <span>THE</span>
           <span>SIGNAL</span>
@@ -221,9 +233,7 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
           <span>INDEX</span>
         </span>
       </div>
-      <div className="tod-card__archiveCol tod-card__archiveCol--c" aria-hidden="true">
-        <span className="tod-card__stamp tod-card__stamp--corner">001</span>
-      </div>
+      <span className="tod-card__archiveChip" aria-hidden="true">001</span>
     </div>
   );
 }
@@ -242,13 +252,11 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
         <span className="tod-out__manifestTitle">index_signal:page_001_indexed</span>
         <span className="tod-out__manifestRule" />
         <span className="tod-out__manifestRule" />
+        <span className="tod-out__manifestRule" />
         <span className="tod-out__manifestGrid">
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
+          {Array.from({ length: 12 }).map((_, index) => (
+            <i key={index} />
+          ))}
         </span>
         <span className="tod-out__manifestStamp">01204</span>
       </div>
@@ -315,7 +323,7 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
 }
 
 export function TwinOpusDirectScreen() {
-  const scale = useArtboardScale();
+  const shell = useFullBleedShell();
   const [viewport, setViewport] = useState<TwinOpusDirectViewportId>('MOBILE');
   const [navIndex, setNavIndex] = useState(0);
   const [candidateId, setCandidateId] = useState(TWIN_OPUS_DIRECT_CANDIDATES[0].id);
@@ -340,14 +348,11 @@ export function TwinOpusDirectScreen() {
 
   return (
     <div className="tod-root">
-      <div
-        className="tod-stage"
-        style={{ width: ART_W * scale, height: ART_H * scale }}
-      >
+      <div className="tod-stage">
         <div
           className="tod-screen"
           data-testid="twin-opus-direct-screen"
-          style={{ transform: `scale(${scale})` }}
+          style={{ height: `${shell.height}px`, transform: `scale(${shell.scale})` }}
         >
           {/* 01 SITE00_HEADER */}
           <header className="tod-header">
@@ -589,50 +594,56 @@ export function TwinOpusDirectScreen() {
                   <TodIconCompare className="tod-ico tod-gallery__compareIco" />
                 </button>
               </header>
-              <div className="tod-gallery__rail" ref={galleryRef}>
-                {TWIN_OPUS_DIRECT_CANDIDATES.map((candidate) => {
-                  const active = candidate.id === candidateId;
+              <div className="tod-gallery__body">
+                <div className="tod-gallery__rail" ref={galleryRef}>
+                  {TWIN_OPUS_DIRECT_CANDIDATES.map((candidate) => {
+                    const active = candidate.id === candidateId;
+                    return (
+                      <button
+                        key={candidate.id}
+                        type="button"
+                        className={`tod-card${active ? ' is-active' : ''}`}
+                        aria-pressed={active}
+                        onClick={() => setCandidateId(candidate.id)}
+                      >
+                        {candidate.versionTag === 'none' ? null : (
+                          <span className={`tod-card__version tod-card__version--${candidate.versionTag}`}>
+                            {candidate.version}
+                          </span>
+                        )}
+                        {active ? (
+                          <span className="tod-card__tick" aria-hidden="true">
+                            <TodIconCheck className="tod-ico" />
+                          </span>
+                        ) : null}
+                        <TodCandidateSurface surface={candidate.surface} />
+                      </button>
+                    );
+                  })}
+                </div>
+                <button
+                  type="button"
+                  className="tod-gallery__next"
+                  aria-label="Show more concept candidates"
+                  onClick={scrollGallery}
+                >
+                  <TodIconChevronRight className="tod-ico" />
+                </button>
+              </div>
+
+              {/* 08 CANDIDATE_ACTION_ROW — inside the gallery panel in the golden */}
+              <div className="tod-actions" role="group" aria-label="Concept candidate actions">
+                {TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS.map((action) => {
+                  const Icon = ACTION_ICONS[action.icon];
                   return (
-                    <button
-                      key={candidate.id}
-                      type="button"
-                      className={`tod-card${active ? ' is-active' : ''}`}
-                      aria-pressed={active}
-                      onClick={() => setCandidateId(candidate.id)}
-                    >
-                      <span className="tod-card__version">{candidate.version}</span>
-                      {active ? (
-                        <span className="tod-card__tick" aria-hidden="true">
-                          <TodIconCheck className="tod-ico" />
-                        </span>
-                      ) : null}
-                      <TodCandidateSurface surface={candidate.surface} />
+                    <button key={action.id} type="button" className="tod-actions__cell">
+                      <Icon className="tod-ico tod-actions__ico" />
+                      {action.label}
                     </button>
                   );
                 })}
               </div>
-              <button
-                type="button"
-                className="tod-gallery__next"
-                aria-label="Show more concept candidates"
-                onClick={scrollGallery}
-              >
-                <TodIconChevronRight className="tod-ico" />
-              </button>
             </section>
-
-            {/* 08 CANDIDATE_ACTION_BAR */}
-            <div className="tod-actions" role="group" aria-label="Concept candidate actions">
-              {TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS.map((action) => {
-                const Icon = ACTION_ICONS[action.icon];
-                return (
-                  <button key={action.id} type="button" className="tod-actions__cell">
-                    <Icon className="tod-ico tod-actions__ico" />
-                    {action.label}
-                  </button>
-                );
-              })}
-            </div>
 
             {/* 09 STRUCTURED_OUTPUT_REVIEW */}
             <section className="tod-out" aria-label={TWIN_OPUS_DIRECT_OUTPUT_TITLE}>
@@ -702,7 +713,7 @@ export function TwinOpusDirectScreen() {
                         {check.state === 'pass' ? (
                           <TodIconCheckCircle className="tod-ico tod-pipe__checkPass" />
                         ) : (
-                          <span className="tod-pipe__checkWarn" aria-hidden="true" />
+                          <TodIconWarnCircle className="tod-ico tod-pipe__checkWarn" />
                         )}
                       </li>
                     ))}
