@@ -2455,3 +2455,117 @@
     font-size: 18.7px;
 }
 
+
+/* P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 — approved Grok plate presentation (LIST).
+   Restored from GROK-ASSET-OPUS1 (e6dff158), which never reached main. LIST shares canonical asset
+   identity; only crop and framing differ. */
+
+.tod-lv-plate__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 38%;
+  display: block;
+}
+
+.tod-lv-plate--photo .tod-lv-plate__paper,
+.tod-lv-plate--photo .tod-lv-plate__rules,
+.tod-lv-plate--photo .tod-lv-plate__hand,
+.tod-lv-plate--photo .tod-lv-plate__marks,
+.tod-lv-plate--photo::after {
+  display: none;
+}
+
+.tod-lv-hero__plate .tod-lv-plate__photo {
+  object-position: 48% 36%;
+}
+
+.tod-lv-card__plate .tod-lv-plate__photo,
+.tod-lv-pair__thumbPlate .tod-lv-plate__photo,
+.tod-lv-concept__thumbPlate .tod-lv-plate__photo {
+  object-position: 50% 34%;
+}
+
+.tod-lv-pair__thumbPhoto {
+  position: absolute;
+  left: 36px;
+  top: 0;
+  width: 68px;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 34%;
+  display: block;
+}
+
+.tod-lv-pair__thumb:has(.tod-lv-pair__thumbPhoto) .tod-lv-pair__thumbWedge {
+  display: none;
+}
+
+.tod-lv-card__raster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.tod-lv-card__raster--grain {
+  object-position: 52% 36%;
+}
+
+.tod-lv-card__raster--collage {
+  object-position: 72% 48%;
+  z-index: 1;
+}
+
+.tod-lv-card__surface--collage .tod-lv-card__collageCopy,
+.tod-lv-card__surface--collage .tod-lv-card__stamp {
+  display: none;
+}
+
+.tod-lv-card__surface--collage .tod-lv-card__stack,
+.tod-lv-card__surface--collage .tod-lv-card__sheet {
+  opacity: 0;
+}
+
+.tod-lv-card__raster--archive {
+  object-position: 50% 50%;
+  z-index: 0;
+}
+
+.tod-lv-card__archiveInk,
+.tod-lv-card__archiveChip {
+  z-index: 2;
+}
+
+.tod-lv-out__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+
+.tod-lv-out__preview--manifest .tod-lv-out__photo {
+  object-position: 50% 18%;
+}
+
+.tod-lv-out__preview--blueprint .tod-lv-out__photo {
+  object-position: 50% 50%;
+}
+
+.tod-lv-out__preview--overlay .tod-lv-out__photo {
+  object-position: 82% 70%;
+}
+
+.tod-lv-out__photo--evidence {
+  object-fit: contain;
+  object-position: 50% 50%;
+  background: #111;
+}

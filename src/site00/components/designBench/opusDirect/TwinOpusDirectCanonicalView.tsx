@@ -12,7 +12,11 @@
 import { useCallback, useRef } from 'react';
 
 import {
-  TWIN_OPUS_DIRECT_PAPER_TEXTURE,
+  resolveTwinOpusDirectAsset,
+  twinOpusDirectAssetEntry,
+  type TwinOpusDirectAssetSlotId,
+} from './twinOpusDirectAssetManifest';
+import {
   type TwinOpusDirectCandidateSurface,
   type TwinOpusDirectOutputColumn,
 } from './twinOpusDirectContent';
@@ -41,16 +45,40 @@ const ACTION_ICONS = {
   expand: TodIconExpand,
 } as const;
 
-/** Archival plate: repo paper scan + inline ink silhouette + annotation marks. */
-export function TodArchivalPlate({ className, marks = true }: { className?: string; marks?: boolean }) {
+/** Paints one manifest slot. Renders nothing when the slot resolves to no source. */
+function TodSlotImage({ slot, className }: { slot: TwinOpusDirectAssetSlotId; className: string }) {
+  const src = resolveTwinOpusDirectAsset(slot);
+  if (!src) return null;
+  return <img className={className} src={src} alt="" draggable={false} data-tod-slot={slot} />;
+}
+
+/** Archival plate: approved Grok xerox plate, with the drawn plate as fallback. */
+export function TodArchivalPlate({
+  className,
+  marks = true,
+  slot,
+}: {
+  className?: string;
+  marks?: boolean;
+  slot: TwinOpusDirectAssetSlotId;
+}) {
+  const entry = twinOpusDirectAssetEntry(slot);
+  const approved = entry.approved && entry.src ? entry.src : null;
+  const base = approved ? 'tod-plate tod-plate--photo' : 'tod-plate';
   return (
-    <div className={className ? `tod-plate ${className}` : 'tod-plate'}>
-      <div
-        className="tod-plate__paper"
-        style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
-      />
-      <div className="tod-plate__rules" aria-hidden="true" />
-      <TodPointingHandPlate className="tod-plate__hand" />
+    <div className={className ? `${base} ${className}` : base}>
+      {approved ? (
+        <img className="tod-plate__photo" src={approved} alt="" draggable={false} data-tod-slot={slot} />
+      ) : (
+        <>
+          <div
+            className="tod-plate__paper"
+            style={entry.fallbackSrc ? { backgroundImage: `url(${entry.fallbackSrc})` } : undefined}
+          />
+          <div className="tod-plate__rules" aria-hidden="true" />
+          <TodPointingHandPlate className="tod-plate__hand" />
+        </>
+      )}
       {marks ? (
         <div className="tod-plate__marks" aria-hidden="true">
           <span className="tod-plate__mark tod-plate__mark--a">green</span>
@@ -79,7 +107,7 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
             <span>NDXBOOK.</span>
           </p>
         </div>
-        <TodArchivalPlate className="tod-card__plate" marks={false} />
+        <TodArchivalPlate className="tod-card__plate" marks={false} slot="candidatePlate" />
       </div>
     );
   }
@@ -97,13 +125,16 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
             <span>NDXBOOK.</span>
           </p>
         </div>
-        <div className="tod-card__grid" aria-hidden="true" />
+        <div className="tod-card__grid" aria-hidden="true">
+          <TodSlotImage slot="candidateGrain" className="tod-card__raster tod-card__raster--grain" />
+        </div>
       </div>
     );
   }
   if (surface === 'collage') {
     return (
       <div className="tod-card__surface tod-card__surface--collage">
+        <TodSlotImage slot="candidateCollage" className="tod-card__raster tod-card__raster--collage" />
         <div className="tod-card__stack" aria-hidden="true">
           <span className="tod-card__scrap tod-card__scrap--1" />
           <span className="tod-card__scrap tod-card__scrap--2" />
@@ -123,6 +154,7 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
   }
   return (
     <div className="tod-card__surface tod-card__surface--archive">
+      <TodSlotImage slot="candidateArchive" className="tod-card__raster tod-card__raster--archive" />
       <div className="tod-card__archivePaper" aria-hidden="true" />
       <div className="tod-card__archiveInk">
         <span className="tod-card__archiveStamp" aria-hidden="true">001</span>
@@ -143,6 +175,7 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'manifest') {
     return (
       <div className="tod-out__preview tod-out__preview--manifest" aria-hidden="true">
+        <TodSlotImage slot="grounding" className="tod-out__photo" />
         <span className="tod-out__manifestTitle">index_signal:page_001_indexed</span>
         <span className="tod-out__manifestRule" />
         <span className="tod-out__manifestRule" />
@@ -159,6 +192,7 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'blueprint') {
     return (
       <div className="tod-out__preview tod-out__preview--blueprint" aria-hidden="true">
+        <TodSlotImage slot="blueprint" className="tod-out__photo" />
         <span className="tod-out__blueGrid" />
         <span className="tod-out__blueCross" />
       </div>
@@ -167,10 +201,8 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'overlay') {
     return (
       <div className="tod-out__preview tod-out__preview--overlay" aria-hidden="true">
-        <span
-          className="tod-out__overlayPaper"
-          style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
-        />
+        <TodSlotImage slot="overlay" className="tod-out__photo" />
+        <span className="tod-out__overlayPaper" />
         <span className="tod-out__overlayNote">CULTURE AS EVIDENCE.</span>
         <span className="tod-out__overlayInk">001</span>
         <span className="tod-out__overlayMark" />
@@ -180,12 +212,9 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'evidence') {
     return (
       <div className="tod-out__preview tod-out__preview--evidence" aria-hidden="true">
+        <TodSlotImage slot="assetPack" className="tod-out__photo tod-out__photo--evidence" />
         {Array.from({ length: 9 }).map((_, index) => (
-          <span
-            key={index}
-            className={`tod-out__evidenceTile tod-out__evidenceTile--${index + 1}`}
-            style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
-          />
+          <span key={index} className={`tod-out__evidenceTile tod-out__evidenceTile--${index + 1}`} />
         ))}
       </div>
     );
@@ -234,7 +263,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               <span key={line}>{line}</span>
             ))}
           </p>
-          <TodArchivalPlate className="tod-hero__plate" />
+          <TodArchivalPlate className="tod-hero__plate" slot="hero" />
           <div className="tod-hero__footer">
             <span className="tod-hero__footerBlock">
               {data.hero.footerLeft.map((line) => (
@@ -287,7 +316,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                     <span>THE SIGNAL</span>
                     <span>IS THE INDEX</span>
                   </span>
-                  <TodArchivalPlate className="tod-pair__thumbPlate" marks={false} />
+                  <TodArchivalPlate className="tod-pair__thumbPlate" marks={false} slot="authorityMobile" />
                 </div>
                 <span className="tod-pair__state">{data.authorityPair.mobile.state}</span>
               </div>
@@ -299,6 +328,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                     <span>THE SIGNAL</span>
                     <span>IS THE INDEX</span>
                   </span>
+                  <TodSlotImage slot="authorityDesktop" className="tod-pair__thumbPhoto" />
                   <span className="tod-pair__thumbWedge" aria-hidden="true" />
                 </div>
                 <button type="button" className="tod-pair__replace">
@@ -544,7 +574,7 @@ export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOp
             <span>IDEAS AS INDEX.</span>
             <span>NDXBOOK.</span>
           </span>
-          <TodArchivalPlate className="tod-concept__thumbPlate" marks={false} />
+          <TodArchivalPlate className="tod-concept__thumbPlate" marks={false} slot="conceptRecord" />
         </div>
         <dl className="tod-concept__fields">
           {data.conceptFields.map((field) => (

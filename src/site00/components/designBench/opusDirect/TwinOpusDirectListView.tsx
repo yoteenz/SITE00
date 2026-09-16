@@ -12,7 +12,11 @@
 import { useCallback, useRef } from 'react';
 
 import {
-  TWIN_OPUS_DIRECT_PAPER_TEXTURE,
+  resolveTwinOpusDirectAsset,
+  twinOpusDirectAssetEntry,
+  type TwinOpusDirectAssetSlotId,
+} from './twinOpusDirectAssetManifest';
+import {
   type TwinOpusDirectCandidateSurface,
   type TwinOpusDirectOutputColumn,
   type TwinOpusDirectViewportId,
@@ -52,15 +56,39 @@ const ACTION_ICONS = {
   expand: TodIconExpand,
 } as const;
 
-function LvArchivalPlate({ className, marks = true }: { className?: string; marks?: boolean }) {
+/** Paints one manifest slot. LIST shares canonical asset identity; only crop differs. */
+function LvSlotImage({ slot, className }: { slot: TwinOpusDirectAssetSlotId; className: string }) {
+  const src = resolveTwinOpusDirectAsset(slot);
+  if (!src) return null;
+  return <img className={className} src={src} alt="" draggable={false} data-tod-slot={slot} />;
+}
+
+function LvArchivalPlate({
+  className,
+  marks = true,
+  slot,
+}: {
+  className?: string;
+  marks?: boolean;
+  slot: TwinOpusDirectAssetSlotId;
+}) {
+  const entry = twinOpusDirectAssetEntry(slot);
+  const approved = entry.approved && entry.src ? entry.src : null;
+  const base = approved ? 'tod-lv-plate tod-lv-plate--photo' : 'tod-lv-plate';
   return (
-    <div className={className ? `tod-lv-plate ${className}` : 'tod-lv-plate'}>
-      <div
-        className="tod-lv-plate__paper"
-        style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
-      />
-      <div className="tod-lv-plate__rules" aria-hidden="true" />
-      <TodPointingHandPlate className="tod-lv-plate__hand" />
+    <div className={className ? `${base} ${className}` : base}>
+      {approved ? (
+        <img className="tod-lv-plate__photo" src={approved} alt="" draggable={false} data-tod-slot={slot} />
+      ) : (
+        <>
+          <div
+            className="tod-lv-plate__paper"
+            style={entry.fallbackSrc ? { backgroundImage: `url(${entry.fallbackSrc})` } : undefined}
+          />
+          <div className="tod-lv-plate__rules" aria-hidden="true" />
+          <TodPointingHandPlate className="tod-lv-plate__hand" />
+        </>
+      )}
       {marks ? (
         <div className="tod-lv-plate__marks" aria-hidden="true">
           <span className="tod-lv-plate__mark tod-lv-plate__mark--a">green</span>
@@ -89,7 +117,7 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
             <span>NDXBOOK.</span>
           </p>
         </div>
-        <LvArchivalPlate className="tod-lv-card__plate" marks={false} />
+        <LvArchivalPlate className="tod-lv-card__plate" marks={false} slot="candidatePlate" />
       </div>
     );
   }
@@ -107,13 +135,16 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
             <span>NDXBOOK.</span>
           </p>
         </div>
-        <div className="tod-lv-card__grid" aria-hidden="true" />
+        <div className="tod-lv-card__grid" aria-hidden="true">
+          <LvSlotImage slot="candidateGrain" className="tod-lv-card__raster tod-lv-card__raster--grain" />
+        </div>
       </div>
     );
   }
   if (surface === 'collage') {
     return (
       <div className="tod-lv-card__surface tod-lv-card__surface--collage">
+        <LvSlotImage slot="candidateCollage" className="tod-lv-card__raster tod-lv-card__raster--collage" />
         <div className="tod-lv-card__stack" aria-hidden="true">
           <span className="tod-lv-card__scrap tod-lv-card__scrap--1" />
           <span className="tod-lv-card__scrap tod-lv-card__scrap--2" />
@@ -133,6 +164,7 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
   }
   return (
     <div className="tod-lv-card__surface tod-lv-card__surface--archive">
+      <LvSlotImage slot="candidateArchive" className="tod-lv-card__raster tod-lv-card__raster--archive" />
       <div className="tod-lv-card__archivePaper" aria-hidden="true" />
       <div className="tod-lv-card__archiveInk">
         <span className="tod-lv-card__archiveStamp" aria-hidden="true">001</span>
@@ -153,6 +185,7 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'manifest') {
     return (
       <div className="tod-lv-out__preview tod-lv-out__preview--manifest" aria-hidden="true">
+        <LvSlotImage slot="grounding" className="tod-lv-out__photo" />
         <span className="tod-lv-out__manifestTitle">index_signal:page_001_indexed</span>
         <span className="tod-lv-out__manifestRule" />
         <span className="tod-lv-out__manifestRule" />
@@ -169,6 +202,7 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'blueprint') {
     return (
       <div className="tod-lv-out__preview tod-lv-out__preview--blueprint" aria-hidden="true">
+        <LvSlotImage slot="blueprint" className="tod-lv-out__photo" />
         <span className="tod-lv-out__blueGrid" />
         <span className="tod-lv-out__blueCross" />
       </div>
@@ -177,10 +211,8 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'overlay') {
     return (
       <div className="tod-lv-out__preview tod-lv-out__preview--overlay" aria-hidden="true">
-        <span
-          className="tod-lv-out__overlayPaper"
-          style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
-        />
+        <LvSlotImage slot="overlay" className="tod-lv-out__photo" />
+        <span className="tod-lv-out__overlayPaper" />
         <span className="tod-lv-out__overlayNote">CULTURE AS EVIDENCE.</span>
         <span className="tod-lv-out__overlayInk">001</span>
         <span className="tod-lv-out__overlayMark" />
@@ -190,11 +222,11 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'evidence') {
     return (
       <div className="tod-lv-out__preview tod-lv-out__preview--evidence" aria-hidden="true">
+        <LvSlotImage slot="assetPack" className="tod-lv-out__photo tod-lv-out__photo--evidence" />
         {Array.from({ length: 9 }).map((_, index) => (
           <span
             key={index}
             className={`tod-lv-out__evidenceTile tod-lv-out__evidenceTile--${index + 1}`}
-            style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
           />
         ))}
       </div>
@@ -286,7 +318,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                   <span key={line}>{line}</span>
                 ))}
               </p>
-              <LvArchivalPlate className="tod-lv-hero__plate" />
+              <LvArchivalPlate className="tod-lv-hero__plate" slot="hero" />
               <div className="tod-lv-hero__footer">
                 <span className="tod-lv-hero__footerBlock">
                   {data.hero.footerLeft.map((line) => (
@@ -341,7 +373,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                         <span>THE SIGNAL</span>
                         <span>IS THE INDEX</span>
                       </span>
-                      <LvArchivalPlate className="tod-lv-pair__thumbPlate" marks={false} />
+                      <LvArchivalPlate className="tod-lv-pair__thumbPlate" marks={false} slot="authorityMobile" />
                     </div>
                     <span className="tod-lv-pair__state">
                       {data.authorityPair.mobile.state}
@@ -357,6 +389,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                         <span>THE SIGNAL</span>
                         <span>IS THE INDEX</span>
                       </span>
+                      <LvSlotImage slot="authorityDesktop" className="tod-lv-pair__thumbPhoto" />
                       <span className="tod-lv-pair__thumbWedge" aria-hidden="true" />
                     </div>
                     <button type="button" className="tod-lv-pair__replace">
@@ -575,7 +608,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
               <span>IDEAS AS INDEX.</span>
               <span>NDXBOOK.</span>
             </span>
-            <LvArchivalPlate className="tod-lv-concept__thumbPlate" marks={false} />
+            <LvArchivalPlate className="tod-lv-concept__thumbPlate" marks={false} slot="conceptRecord" />
           </div>
           <dl className="tod-lv-concept__fields">
             {data.conceptFields.map((field) => (

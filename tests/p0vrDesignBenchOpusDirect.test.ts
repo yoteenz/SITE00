@@ -446,7 +446,9 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
 
   it('reuses the opus asset and icon family instead of inventing one', () => {
     expect(listView).toContain('LvArchivalPlate');
-    expect(listView).toContain('TWIN_OPUS_DIRECT_PAPER_TEXTURE');
+    // OPUS-ASSET-PERSISTENCE1: asset identity moved behind the shared manifest,
+    // so LIST must resolve slots rather than reach for a texture constant.
+    expect(listView).toContain('twinOpusDirectAssetManifest');
     expect(listView).toContain('TwinOpusDirectIcons');
     expect(listCss).toContain('var(--tod-lime)');
     expect(listCss).toContain('var(--tod-border-major)');
