@@ -97,7 +97,7 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 .sol-authority section > header .sol-icon { width: 10px; height: 10px; }
 .sol-lock .sol-icon { width: 10px; height: 10px; margin-right: 5px; }
 .sol-select-mobile > span { flex: 1; padding-top: 9px; }
-.sol-select-mobile small { display: block; margin: 9px -1px -1px -29px; padding: 3px; background: #050505; color: #eee; }
+.sol-select-mobile small { display: block; margin: 9px -1px -1px -29px; padding: 3px; background: #050505; color: var(--lime); text-align: center; }
 .sol-authority section { border: 1px solid #888; border-radius: 4px; background: #f7f7f4; overflow: hidden; }
 .sol-authority section > header { height: 18px; display: flex; align-items: center; justify-content: space-between; padding: 0 7px; border-bottom: 1px solid #bbb; font-size: 6px; }
 .sol-master-row { position: relative; height: 49px; padding: 4px 5px; }
