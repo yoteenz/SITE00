@@ -327,22 +327,23 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
     expect(setter).toContain('sessionStorage.setItem');
   });
 
-  it('presents the control as a labelled radiogroup in the workspace context strip', () => {
+  it('presents the control as a labelled radiogroup in its own workspace row', () => {
     expect(control).toContain('role="radiogroup"');
     expect(control).toContain('role="radio"');
     expect(control).toContain('aria-checked={active}');
     expect(control).toContain('ArrowRight');
     expect(control).toContain('ArrowLeft');
     expect(screen).toContain('<TwinOpusDirectViewModeControl mode={viewMode} onChange={setViewMode} />');
-    // OPUS-LIST-REFINE1 moved it out of the crumb/compiler squeeze into the
-    // NDXBOOK context strip, chrome that both renderers share.
+    // OPUS-VIEWMODE1R1: not in the header squeeze and not inside the context
+    // strip either — it renders after the strip closes and before the band.
     const header = screen.slice(screen.indexOf('<header className="tod-header">'), screen.indexOf('</header>'));
     expect(header).not.toContain('TwinOpusDirectViewModeControl');
-    const context = screen.slice(
-      screen.indexOf('<div className="tod-context">'),
-      screen.indexOf('tod-band', screen.indexOf('<div className="tod-context">')),
-    );
-    expect(context).toContain('TwinOpusDirectViewModeControl');
+    const contextOpen = screen.indexOf('<div className="tod-context">');
+    const contextClose = screen.indexOf('</div>', screen.indexOf('tod-context__right'));
+    const strip = screen.slice(contextOpen, contextClose);
+    expect(strip).not.toContain('TwinOpusDirectViewModeControl');
+    const betweenStripAndBand = screen.slice(contextClose, screen.indexOf('<section className="tod-band"'));
+    expect(betweenStripAndBand).toContain('TwinOpusDirectViewModeControl');
     // Never in hero / candidate / readiness / dock / primary nav.
     for (const zone of ['tod-hero', 'tod-bottom', 'tod-pipe', 'tod-nav__cell']) {
       const slice = screen.slice(screen.indexOf(zone), screen.indexOf(zone) + 400);
@@ -353,13 +354,13 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
   it('styles the control in the existing workspace language and keeps it usable at every width', () => {
     expect(css).toContain('.tod-viewmode__cell.is-active');
     const active = css.slice(css.indexOf('.tod-viewmode__cell.is-active'), css.indexOf('}', css.indexOf('.tod-viewmode__cell.is-active')));
-    // Lime fill on the black context strip — the bar's own active grammar.
+    // Black fill + lime text on the off-white row.
+    expect(active).toContain('var(--tod-black)');
     expect(active).toContain('var(--tod-lime)');
-    expect(active).toContain('var(--tod-lime-ink)');
     expect(css).toContain('.tod-viewmode__cell:focus-visible');
-    // Counter-scales against the artboard scale so it never renders microscopic.
-    expect(css).toContain('scale(var(--tod-viewmode-boost, 1))');
-    expect(screen).toContain('VIEW_MODE_MAX_BOOST');
+    // Sizes divide the artboard scale back out so it never renders microscopic.
+    expect(css).toContain('var(--tod-viewrow-boost, 1)');
+    expect(screen).toContain('viewRowBoost(shell.scale)');
   });
 
   it('freezes the canonical renderer behind the mode boundary', () => {
@@ -484,13 +485,14 @@ describe('P0.VR.DESIGNBENCH.OPUS-LIST-REFINE1 — control reposition + list clea
   const canonicalView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
   const listCss = readRepo('src/site00/styles/site00-twin-opus-list.css');
 
-  it('anchors the control in the context strip without displacing the strip content', () => {
-    expect(css).toContain('.tod-context {\n  position: relative;');
-    const rule = css.slice(css.indexOf('.tod-viewmode {'), css.indexOf('}', css.indexOf('.tod-viewmode {')));
-    // Out of flow, so the chip / stream / status keep their measured positions.
-    expect(rule).toContain('position: absolute');
-    expect(rule).toContain('transform-origin: right center');
-    // The header is back to its two-child balance.
+  it('gives the control its own in-flow row instead of anchoring it to a strip', () => {
+    const rule = css.slice(css.indexOf('.tod-viewrow {'), css.indexOf('}', css.indexOf('.tod-viewrow {')));
+    expect(rule).toContain('flex: 0 0 auto');
+    // No out-of-flow anchoring, no origin trick, no dependence on a neighbour.
+    expect(rule).not.toContain('position: absolute');
+    expect(css).not.toContain('transform-origin: right center');
+    expect(css).not.toContain('--tod-viewmode-boost');
+    expect(css).not.toContain('.tod-context {\n  position: relative;');
     expect(css).not.toContain('.tod-header {\n  position: relative;');
   });
 
@@ -523,5 +525,45 @@ describe('P0.VR.DESIGNBENCH.OPUS-LIST-REFINE1 — control reposition + list clea
     // Section headings no longer sit lighter than the labels nested inside them.
     const title = listCss.slice(listCss.indexOf('.tod-lv-gallery__title {'));
     expect(title.slice(0, title.indexOf('}'))).toContain('font-weight: var(--tod-weight-ui)');
+  });
+});
+
+describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 — visible dedicated view row', () => {
+  it('sits between the project context strip and the workspace band', () => {
+    const order = ['tod-context__right', 'TwinOpusDirectViewModeControl', 'className="tod-band"'];
+    let at = 0;
+    for (const marker of order) {
+      const found = screen.indexOf(marker, at);
+      expect(found).toBeGreaterThan(at);
+      at = found;
+    }
+    // One control in the tree, no hidden duplicate left behind.
+    expect(screen.split('TwinOpusDirectViewModeControl mode=').length - 1).toBe(1);
+  });
+
+  it('holds a readable size instead of halving with the artboard', () => {
+    const control = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectViewModeControl.tsx');
+    expect(control).toContain('className="tod-viewrow"');
+    // Below the reference width the row divides the artboard scale back out.
+    expect(screen).toContain('return scale < 1 ? 1 / scale : 1;');
+    expect(screen).toContain("['--tod-viewrow-boost' as string]: viewRowBoost(shell.scale)");
+    expect(screen).not.toContain('VIEW_MODE_MAX_BOOST');
+    for (const prop of ['height: calc(32px * var(--tod-viewrow-boost, 1))', 'font-size: calc(9.6px * var(--tod-viewrow-boost, 1))']) {
+      expect(css).toContain(prop);
+    }
+  });
+
+  it('keeps the grabber removed and the renderers untouched', () => {
+    const canonicalView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
+    const listView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
+    const listCss = readRepo('src/site00/styles/site00-twin-opus-list.css');
+    for (const source of [canonicalView, listView, css, listCss]) {
+      expect(source).not.toContain('tabs__handle');
+    }
+    // The row is shell chrome: neither renderer knows about it.
+    for (const source of [canonicalView, listView]) {
+      expect(source).not.toContain('tod-viewrow');
+      expect(source).not.toContain('TwinOpusDirectViewModeControl');
+    }
   });
 });
