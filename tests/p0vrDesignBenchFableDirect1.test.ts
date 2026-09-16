@@ -58,21 +58,65 @@ describe('P0.VR.DESIGNBENCH.FABLE-DIRECT1 — raster-cheat firewall', () => {
       expect(src).not.toContain('desktop-master');
       expect(src).not.toContain('founder-r5f2-ndxbook');
       expect(src).not.toContain('twin-v3-design-page-authority');
-      expect(src).not.toMatch(/<img\b/);
       expect(src).not.toMatch(/<iframe\b/);
       expect(src).not.toMatch(/<canvas\b/);
       expect(src).not.toMatch(/data:image/);
     }
+    // No screenshot slices: the stylesheet carries no raster urls at all (R1 moved every
+    // texture to inline SVG plates), and the page only embeds one approved project photo.
+    expect(css).not.toMatch(/url\('\/[^']*\.(jpg|jpeg|png|webp)'\)/);
   });
 
-  it('only references approved NDXBOOK creative-direction texture assets', () => {
+  it('only embeds genuine imagery from the approved NDXBOOK project photo', () => {
+    const page = read(PAGE);
+    const imgs = Array.from(page.matchAll(/<img\b[^>]*src=\{([A-Z_]+)\}/g)).map((m) => m[1]);
+    expect(imgs.length).toBeGreaterThan(0);
+    for (const ref of imgs) expect(ref).toBe('ARCHIVE_PHOTO');
+    expect(page).toContain("const ARCHIVE_PHOTO = '/site00/creative-direction/ndxbook/is-signal-scan.webp'");
+    expect(page).not.toMatch(/<img\b[^>]*src="/);
+  });
+});
+
+describe('P0.VR.DESIGNBENCH.FABLE-DIRECT1R1 — convergence layer', () => {
+  it('recreates the xerox plate and pointing hand as inline SVG (no raster)', () => {
+    const page = read(PAGE);
+    expect(page).toContain('function PointingHand');
+    expect(page).toContain('function Newsprint');
+    expect(page).toMatch(/<feTurbulence/);
+    expect(page).toMatch(/<pattern id=\{`\$\{id\}-type`\}/);
+    expect(page).toContain('preserveAspectRatio="xMidYMid slice"');
+  });
+
+  it('keeps the candidate action row inside the gallery panel like the golden', () => {
+    const page = read(PAGE);
+    const gallery = page.indexOf('className="fd-panel fd-gallery"');
+    const actions = page.indexOf('className="fd-actions"');
+    const structured = page.indexOf('09 STRUCTURED_OUTPUT_REVIEW');
+    expect(gallery).toBeGreaterThan(-1);
+    expect(actions).toBeGreaterThan(gallery);
+    expect(actions).toBeLessThan(structured);
     const css = read(CSS);
-    const urls = Array.from(css.matchAll(/url\('([^']+)'\)/g)).map((m) => m[1]);
-    const assetUrls = urls.filter((u) => !u.startsWith('https://fonts.googleapis.com'));
-    expect(assetUrls.length).toBeGreaterThan(0);
-    for (const u of assetUrls) {
-      expect(u.startsWith('/site00/creative-direction/ndxbook/')).toBe(true);
-    }
+    expect(css).toMatch(/\.fd-gallery \{[^}]*height: 153px;/s);
+    expect(css).toMatch(/\.fd-actions \{[^}]*position: absolute;[^}]*bottom: 0;[^}]*height: 30px;/s);
+    expect(css).toMatch(/\.fd-structured \{[^}]*height: 150px;/s);
+    expect(css).toMatch(/\.fd-readiness \{[^}]*height: 119px;/s);
+  });
+
+  it('locks the authority rail rhythm measured from the golden', () => {
+    const css = read(CSS);
+    expect(css).toMatch(/\.fd-rail__select \{[^}]*height: 43px;/s);
+    expect(css).toMatch(/\.fd-rail__desktop \{[^}]*height: 25px;/s);
+    expect(css).toMatch(/\.fd-pair \{[^}]*height: 112px;/s);
+    expect(css).toMatch(/\.fd-btn \{[^}]*height: 17px;/s);
+    expect(css).toMatch(/\.fd-rail__lock \{[^}]*height: 26px;/s);
+  });
+
+  it('carries the golden hero notes and lime meta row', () => {
+    const page = read(PAGE);
+    for (const copy of ['Cects Bef:', 'P.137', 'P 208', 'P.311', 'B°ob!', 'A B 1 8 8']) expect(page).toContain(copy);
+    const css = read(CSS);
+    expect(css).toMatch(/\.fd-hero__top \{[^}]*color: #c9d66a;/s);
+    expect(css).toMatch(/\.fd-hero__num \{[^}]*font-size: 9\.6px;/s);
   });
 });
 

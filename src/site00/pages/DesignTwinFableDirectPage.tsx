@@ -86,7 +86,7 @@ function IconKebab() {
 }
 function IconCaret() {
   return (
-    <svg viewBox="0 0 10 6" width="9" height="6" aria-hidden="true">
+    <svg viewBox="0 0 10 6" width="7" height="4.5" aria-hidden="true">
       <path d="M0 0h10L5 6z" fill="currentColor" />
     </svg>
   );
@@ -233,28 +233,152 @@ function IconBolt() {
 
 /* ------------------------------------------------------------- hero art */
 
+let plateSeq = 0;
+
+/** NDXBOOK creative-direction archive interior — the only project photo used on this route. */
+const ARCHIVE_PHOTO = '/site00/creative-direction/ndxbook/is-signal-scan.webp';
+
+/**
+ * Photocopied pointing hand (palm side, index raised, thumb folded across the
+ * curled fingers, wrist running out of frame). Pure vector — the xerox grain
+ * comes from an SVG turbulence filter, not from a raster.
+ */
 function PointingHand({ className }: { className?: string }) {
+  const id = useMemo(() => `fd-hand-${++plateSeq}`, []);
   return (
     <svg className={className} viewBox="0 0 120 240" aria-hidden="true">
-      {/* raised index finger + folded fist + thumb + forearm */}
-      <path
-        d="M57 4c6.5 0 11 4.5 11 11v83l7-2c9-2.5 18 1 24 8 6 7 8 17 5 26l-1 22c0 13-5 24-14 32l-2 2-1 54H31l-2-56c-9-6-14-16-15-27l-2-30c-1-9 4-17 12-20l22-8V15c0-6.5 4.5-11 11-11z"
-        fill="#0a0a0a"
-      />
-      <path
-        d="M68 100c11-4 22 0 29 9M66 122c12-3 24 1 31 10M64 144c11-1 22 3 29 9M30 116c-9 5-13 15-11 26"
-        fill="none"
-        stroke="#4a4a4a"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path d="M50 20v66M63 26v58" fill="none" stroke="#3a3a3a" strokeWidth="1.2" opacity="0.8" />
+      <defs>
+        <radialGradient id={`${id}-skin`} cx="0.42" cy="0.55" r="0.75">
+          <stop offset="0" stopColor="#101010" />
+          <stop offset="0.7" stopColor="#1a1a1a" />
+          <stop offset="1" stopColor="#3a3835" />
+        </radialGradient>
+        <filter id={`${id}-grain`} x="-5%" y="-5%" width="110%" height="110%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="n" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3.2 1.3" result="a" />
+          <feComposite in="SourceGraphic" in2="a" operator="out" />
+        </filter>
+      </defs>
+      <g filter={`url(#${id}-grain)`}>
+        {/* wrist + sleeve */}
+        <path d="M40 164h44l6 76H34z" fill="#151515" stroke="#8d877b" strokeWidth="0.7" />
+        <path d="M34 218h56l1 22H33z" fill="#0b0b0b" />
+        <path d="M35 218h54" stroke="#5a5650" strokeWidth="0.9" />
+        {/* fist */}
+        <path
+          d="M22 110c2-10 12-14 24-12l20 2c12 0 22 4 25 14 3 12 2 26-1 36-3 10-11 16-23 16H38c-10 0-16-8-17-20-1-12-1-26 1-36z"
+          fill={`url(#${id}-skin)`}
+          stroke="#c4bdad"
+          strokeWidth="0.9"
+        />
+        {/* curled finger separations */}
+        <path
+          d="M70 100c12 2 20 10 21 20M70 122c12 0 20 6 22 16M68 142c12 0 20 6 22 14"
+          fill="none"
+          stroke="#514d48"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
+        <ellipse cx="84" cy="116" rx="3.6" ry="4.8" fill="#a9a498" transform="rotate(-20 84 116)" />
+        <ellipse cx="83" cy="137" rx="3.2" ry="4.2" fill="#8e8a80" transform="rotate(-22 83 137)" />
+        {/* raised index finger */}
+        <path
+          d="M48 104l2-52c0-8 3-13 8-13s8 5 8 13l-1 52c-5 3-12 3-17 0z"
+          fill={`url(#${id}-skin)`}
+          stroke="#c4bdad"
+          strokeWidth="0.9"
+        />
+        <path d="M53 50l-1 50M63 52l-1 48" stroke="#3b3835" strokeWidth="1" strokeLinecap="round" />
+        <ellipse cx="58" cy="43" rx="3.4" ry="2.8" fill="#6a665e" />
+        {/* thumb folded across the fist */}
+        <path
+          d="M22 124c4-9 14-12 22-7l22 14c7 5 8 14 2 19-5 4-12 4-18 0l-22-13c-6-4-8-8-6-13z"
+          fill="#1d1c1a"
+          stroke="#8a847a"
+          strokeWidth="0.8"
+        />
+        <path d="M28 126c7-4 14-3 21 1" stroke="#6a655d" strokeWidth="1.1" strokeLinecap="round" fill="none" />
+        <ellipse cx="66" cy="146" rx="3" ry="4" fill="#a19c90" transform="rotate(35 66 146)" />
+      </g>
     </svg>
   );
 }
 
+const NEWSPRINT_LINE =
+  'ARCHIVE 001 — INDEX SIGNAL — CULTURE AS EVIDENCE — IDEAS AS INDEX — CULTURAL RECEIPT — REF P.137 P.208 P.311 — NDXBOOK — ';
+
+/**
+ * Xerox newsprint collage plate. Columns of real (tiny) live text, boxed
+ * clippings, black photo blocks and a turbulence grain — all inline SVG so
+ * every thumbnail shares one faithful recreation of the golden paper.
+ */
 function Newsprint({ dense = false }: { dense?: boolean }) {
-  return <div className={`fd-newsprint${dense ? ' fd-newsprint--dense' : ''}`} aria-hidden="true" />;
+  const id = useMemo(() => `fd-np-${++plateSeq}`, []);
+  const rows = Array.from({ length: 9 }, (_, i) => i);
+  return (
+    <svg
+      className={`fd-newsprint${dense ? ' fd-newsprint--dense' : ''}`}
+      viewBox="0 0 160 230"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern id={`${id}-type`} width="120" height="36" patternUnits="userSpaceOnUse">
+          {rows.map((r) => (
+            <text
+              key={r}
+              x={r % 2 ? -14 : -3}
+              y={3.4 + r * 4}
+              fontFamily="'Martian Mono', 'Courier New', monospace"
+              fontSize="2.5"
+              fill="#2a2a2a"
+              opacity={r % 3 === 1 ? 0.72 : 0.5}
+            >
+              {NEWSPRINT_LINE.slice((r * 17) % 40) + NEWSPRINT_LINE}
+            </text>
+          ))}
+        </pattern>
+        <pattern id={`${id}-rule`} width="120" height="7" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="120" height="0.7" fill="#2a2a2a" opacity="0.45" />
+          <rect x="0" y="3.5" width="88" height="0.5" fill="#3a3a3a" opacity="0.35" />
+        </pattern>
+        <filter id={`${id}-grain`} x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="3" result="n" />
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3.4 1.55" result="a" />
+          <feComposite in="SourceGraphic" in2="a" operator="out" />
+        </filter>
+      </defs>
+      <rect width="160" height="230" fill="#cdc6b7" />
+      <g filter={`url(#${id}-grain)`}>
+        {/* type columns */}
+        <rect x="6" y="10" width="54" height="72" fill={`url(#${id}-type)`} />
+        <rect x="64" y="6" width="42" height="40" fill={`url(#${id}-type)`} />
+        <rect x="110" y="14" width="46" height="60" fill={`url(#${id}-type)`} />
+        <rect x="4" y="92" width="48" height="40" fill={`url(#${id}-rule)`} />
+        <rect x="58" y="56" width="60" height="70" fill={`url(#${id}-type)`} transform="rotate(-2 88 91)" />
+        <rect x="6" y="140" width="66" height="62" fill={`url(#${id}-type)`} />
+        <rect x="112" y="98" width="46" height="46" fill={`url(#${id}-rule)`} />
+        <rect x="80" y="150" width="76" height="60" fill={`url(#${id}-type)`} transform="rotate(1.5 118 180)" />
+        <rect x="10" y="206" width="140" height="22" fill={`url(#${id}-type)`} />
+        {/* clipping frames */}
+        <rect x="62" y="4" width="46" height="44" fill="none" stroke="#141414" strokeWidth="1.3" />
+        <rect x="108" y="92" width="52" height="54" fill="none" stroke="#141414" strokeWidth="1" />
+        <rect x="2" y="88" width="52" height="48" fill="none" stroke="#141414" strokeWidth="1" />
+        <path d="M0 0h160M0 0v230" stroke="#111" strokeWidth="2.4" />
+        {/* black photo blocks + heavy rules */}
+        <rect x="0" y="22" width="26" height="10" fill="#111" opacity="0.85" />
+        <rect x="8" y="44" width="30" height="14" fill="#161616" opacity="0.75" />
+        <rect x="0" y="166" width="56" height="5" fill="#0d0d0d" />
+        <rect x="120" y="60" width="36" height="22" fill="#151515" opacity="0.85" />
+        <rect x="126" y="200" width="30" height="18" fill="#141414" />
+        <rect x="0" y="226" width="160" height="4" fill="#111" />
+        <rect x="150" y="0" width="10" height="230" fill="#0c0c0c" opacity="0.9" />
+        {/* halftone smear */}
+        <rect x="70" y="120" width="40" height="26" fill="#2b2b2b" opacity={dense ? 0.55 : 0.35} />
+        {dense ? <rect x="14" y="120" width="64" height="24" fill="#1a1a1a" opacity="0.7" /> : null}
+      </g>
+    </svg>
+  );
 }
 
 function MiniSignalCard({ className }: { className?: string }) {
@@ -431,16 +555,17 @@ export function DesignTwinFableDirectPage() {
                 <Newsprint dense />
                 <div className="fd-hero__photo-notes">
                   <span className="fd-hero__note fd-hero__note--a">
-                    CRITIC REF:
+                    Cects Bef:
                     <br />
-                    P.197
+                    P.137
                     <br />
-                    P.208
+                    P 208
                     <br />
                     P.311
                   </span>
+                  <span className="fd-hero__note fd-hero__note--d">B°ob!</span>
                   <span className="fd-hero__note fd-hero__note--b">ARCHIVE</span>
-                  <span className="fd-hero__note fd-hero__note--c">S 8 3 8</span>
+                  <span className="fd-hero__note fd-hero__note--c">A B 1 8 8</span>
                 </div>
                 <PointingHand className="fd-hero__hand" />
               </div>
@@ -509,8 +634,10 @@ export function DesignTwinFableDirectPage() {
                             <br />
                             IS THE INDEX
                           </span>
-                          <span className="fd-pair__thumb-block" />
-                          <span className="fd-pair__thumb-block fd-pair__thumb-block--b" />
+                          <span className="fd-pair__thumb-plate fd-pair__thumb-plate--mobile">
+                            <Newsprint />
+                            <PointingHand className="fd-pair__thumb-hand" />
+                          </span>
                         </div>
                         <div className="fd-pair__master-meta">
                           <span>V1.3</span>
@@ -527,7 +654,9 @@ export function DesignTwinFableDirectPage() {
                             <br />
                             IS THE INDEX
                           </span>
-                          <span className="fd-pair__thumb-block" />
+                          <span className="fd-pair__thumb-plate fd-pair__thumb-plate--desktop">
+                            <Newsprint dense />
+                          </span>
                         </div>
                         <div className="fd-pair__master-meta">
                           <span>V1.1</span>
@@ -611,6 +740,7 @@ export function DesignTwinFableDirectPage() {
                     {c.kind === 'collage' && (
                       <span className="fd-card__collage" aria-hidden="true">
                         <span className="fd-card__collage-dark">
+                          <img className="fd-card__collage-photo" src={ARCHIVE_PHOTO} alt="" />
                           <span className="fd-card__collage-window" />
                         </span>
                         <span className="fd-card__collage-paper">
@@ -647,23 +777,23 @@ export function DesignTwinFableDirectPage() {
             <button type="button" className="fd-gallery__next" aria-label="Next candidates">
               <IconChevronRight />
             </button>
-          </section>
 
-          {/* 08 CANDIDATE_ACTION_BAR */}
-          <div className="fd-actions" role="toolbar" aria-label="Candidate actions">
-            <button type="button" className="fd-actions__item">
-              <IconSliders /> <span>REFINE CONCEPT</span>
-            </button>
-            <button type="button" className="fd-actions__item">
-              <IconRefresh /> <span>REGENERATE CONCEPT</span>
-            </button>
-            <button type="button" className="fd-actions__item">
-              <IconInspect /> <span>INSPECT CANDIDATE</span>
-            </button>
-            <button type="button" className="fd-actions__item">
-              <IconExpand /> <span>VIEW FULLSCREEN</span>
-            </button>
-          </div>
+            {/* 08 CANDIDATE_ACTION_BAR — golden keeps it inside the gallery panel, under a divider */}
+            <div className="fd-actions" role="toolbar" aria-label="Candidate actions">
+              <button type="button" className="fd-actions__item">
+                <IconSliders /> <span>REFINE CONCEPT</span>
+              </button>
+              <button type="button" className="fd-actions__item">
+                <IconRefresh /> <span>REGENERATE CONCEPT</span>
+              </button>
+              <button type="button" className="fd-actions__item">
+                <IconInspect /> <span>INSPECT CANDIDATE</span>
+              </button>
+              <button type="button" className="fd-actions__item">
+                <IconExpand /> <span>VIEW FULLSCREEN</span>
+              </button>
+            </div>
+          </section>
 
           {/* 09 STRUCTURED_OUTPUT_REVIEW */}
           <section className="fd-panel fd-structured" aria-label="Structured output review">
@@ -690,17 +820,25 @@ export function DesignTwinFableDirectPage() {
                     {col.kind === 'overlay' && (
                       <>
                         <Newsprint />
+                        <span className="fd-overlay__photo" />
                         <span className="fd-overlay__num">001</span>
                         <span className="fd-overlay__mark" />
                       </>
                     )}
                     {col.kind === 'pack' && (
                       <>
-                        <span className="fd-pack__tile fd-pack__tile--1" />
+                        <img className="fd-pack__photo" src={ARCHIVE_PHOTO} alt="" />
+                        <span className="fd-pack__tile fd-pack__tile--1">
+                          <Newsprint />
+                        </span>
                         <span className="fd-pack__tile fd-pack__tile--2" />
-                        <span className="fd-pack__tile fd-pack__tile--3" />
+                        <span className="fd-pack__tile fd-pack__tile--3">
+                          <Newsprint dense />
+                        </span>
                         <span className="fd-pack__tile fd-pack__tile--4" />
-                        <span className="fd-pack__tile fd-pack__tile--5" />
+                        <span className="fd-pack__tile fd-pack__tile--5">
+                          <Newsprint />
+                        </span>
                       </>
                     )}
                     {col.kind === 'functions' && (
@@ -730,14 +868,14 @@ export function DesignTwinFableDirectPage() {
                 <div className="fd-label">READINESS</div>
                 <div className="fd-gauge">
                   <svg viewBox="0 0 56 56" width="56" height="56" role="img" aria-label="82 percent ready">
-                    <circle cx="28" cy="28" r="24" fill="none" stroke="#d9d9d9" strokeWidth="4" />
+                    <circle cx="28" cy="28" r="24" fill="none" stroke="#d9d9d9" strokeWidth="3.2" />
                     <circle
                       cx="28"
                       cy="28"
                       r="24"
                       fill="none"
                       stroke="#4f8a32"
-                      strokeWidth="4"
+                      strokeWidth="3.2"
                       strokeDasharray={`${(readiness.circumference * readiness.percent) / 100} ${readiness.circumference}`}
                       transform="rotate(-90 28 28)"
                     />
