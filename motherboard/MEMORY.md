@@ -9731,3 +9731,39 @@ Summary of the **whole conversation so far** in this chat: founder commissioned 
 - **Copy/status:** Golden strings remain exact, including `POSITION MAP`, `F01_INDEX_SIGNAL` through `F06_VERIFICATION`, amendment metadata, counts, and actions. The yellow readiness warning now belongs to `POSITION MAP` (row four), while `ACCESSIBILITY` is green. Function mapping gained the visible bordered/padded panel shown by the golden.
 - **Verification:** Exact browser-bound assertions pass for all 14 measured selectors and `scrollHeight=1024`; focused Vitest **6/6**, TypeScript, and production build pass. Remaining visible differences are restricted to approved asset artwork/crops and SVG mark rendering and are deferred to the Grok-owned visual layer.
 - **Conventions:** When macro geometry already converges, measure internal control edges, text pixel bounding boxes, overflow, status semantics, and asset-container bounds separately. A section envelope matching the golden does not prove its internal grid is correct.
+
+---
+
+## 2026-09-15 — GROK-ASSET1R2 exhaustive Sol icon slot completeness
+
+Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 Cursor sprints on one NDXBOOK DESIGN golden. DIRECT1/R1 built `twin-grok-direct`. ASSET1 rebuilt Sol-direct plates (PR #938). ASSET1R1 redrew icon *style* (PR #941) but claimed audit complete while slots were still missing. ASSET1R2 required a literal slot-by-slot inventory.
+
+- **Context:** Same route `/projects/ndxbook/design/twin-sol-direct`. Completeness, not a new icon style. Sol structure frozen. No Composer.
+- **Topics covered:** GoldenIconSlotMap (45 slots A–I); live visibility vs Cloudflare stale tunnel; STATUS-column marks missing; structured footers independently; five dock slots independently; presence before polish.
+- **Decisions / outcomes:** Missing before: G8–G11 STATUS checks/warn. Wrong: I1 outline grid, I3/F1–F5 lined doc vs folded file, dock marks too light. After: every golden slot tagged (`data-slot` / `slot`) and asserted. `missingSlotCount = 0` in source. `SOL_STRUCTURE_CHANGED: NO`.
+- **Changes:** `NdxbookSolDirectPage.tsx` file/gridFill marks, STATUS CheckDots, per-panel footer slots, heavier dock CSS; slot inventory test (6 tests); CORE row; this MEMORY entry. PR **#944**.
+- **Conventions:** Do not report ICON_SYMBOL_AUDIT COMPLETE by category. Audit LOCATION + ROLE + SLOT. One footer icon on one card does not prove the other four. All five dock slots must pass independently.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-DIRECT1 isolated golden reconstruction (v495)
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh Claude Fable 5.1 High sprint to recreate the attached NDXBOOK DESIGN golden directly in code with high structural/visual fidelity — no Composer, no Sol/Grok/Opus direct code or results consulted, real DOM/CSS only.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.FABLE-DIRECT1**. New isolated route **`/projects/ndxbook/design/twin-fable-direct`**. Do not mutate `/design/twin`, `twin-v4`, `twin-testA`, `twin-testB`, `twin-sol-direct`, `twin-grok-direct`, or current DESIGN. Golden = exact design authority; existing visual code has no authority.
+- **Topics covered:** Outside-in decomposition of 13 regions; pixel measurement of the golden (`public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg` is the same composition as the attached golden, 608×1088) via Pillow row/column luminance profiles; Martian Mono `font-stretch: 75%` calibration against golden text extents; Anton + `scaleX(0.7)` for the ultra-condensed 47px-cap headline; seven Playwright renders at 608×1088 with numeric border-row and text-extent diffs.
+- **Decisions / outcomes:** Reference viewport **608×1088** (artboard scales down on narrower phones via transform). Hero 410 / gap 13 / rail 156. Section borders land within 1–3px of the golden in every band. The golden/mobile-master is never rendered by the route (raster firewall test). Hero photograph (pointing hand on xerox newsprint) is an SVG/CSS approximation — no standalone source asset exists; only `eu-branch-receipts-isolated.webp` used as muted texture. Route boots without CTRL ROOM sign-in.
+- **Changes:** `src/site00/pages/DesignTwinFableDirectPage.tsx`, `src/site00/styles/site00-twin-fable-direct.css`, route constant + `site00ProjectDesignTwinFableDirectPath` in `routes.ts`, lazy route in `Site00Routes.tsx`, `tests/p0vrDesignBenchFableDirect1.test.ts` (9 tests). PR **#943**. Build **v495**.
+- **Conventions:** Inside a scoped stylesheet, element resets (`button`, `dl`, `ul`) must use `:where(.scope) el` so component classes can override them. `.fd-viewport` is `position: fixed; inset: 0` so body default margin cannot offset/scale the artboard. Golden-derived text sizes on this page are 6–10px medium weight; measure ink extents, not guessed sizes.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-TEXT1 live text / highlight fidelity on Sol direct
+
+Summary of the **whole conversation so far** in this chat: after FABLE-DIRECT1 shipped (v495), founder reported the shared tunnel `site00.fsbw-dev.com` "keeps rerouting to the homepage"; diagnosed as two agent VMs (Fable + Opus) running `cloudflared` on the same token so Cloudflare round-robins to a Vite server lacking the route and `App.tsx` `path="*"` sends `/`. Workaround: VM-unique quick tunnel (`cloudflared tunnel --url http://localhost:5174`, tmux `fable-quick-tunnel`). Founder then ran sprint **P0.VR.DESIGNBENCH.FABLE-TEXT1**: Fable owns live text / typography / text highlights on `/projects/ndxbook/design/twin-sol-direct`; Sol structure frozen; Grok owns plates and icons; no Composer.
+
+- **Context:** Golden (768×1376 attachment = 572×1024 Sol artboard ×1.343). Audit slot-by-slot (GoldenLiveTextMap, 172 slots A–K), correct wording / breaks / size / weight / tracking / alignment / highlight, minimum 3 browser passes, `missingTextSlots = 0` required.
+- **Topics covered:** Pillow ink-extent measurement of golden text rows/columns; Martian Mono metrics (advance 0.70em, cap 0.81em; `wdth` 75–112.5 loaded) so golden footprint is fit with size + letter-spacing per slot; host-bar bug where `.sol-hostbar > span { margin-left: auto }` also hit crumb chevron spans; `.sol-select-mobile > span` matched the icon span too; readiness columns overflowing the 92px grid (inline-block button line box, last-row margins).
+- **Decisions / outcomes:** Golden AI-garble (`PAIR REVIEN`, `POSETION NAP`, `F02_CRONI_REFRENCE`) is not copied; sprint canonical spelling used, but visible facts are (6 function rows, `_v1` lowercase suffixes, `NAA-RSF1-…`, warning dot on FUNCTION MAP). Hero headline and candidate titles use Anton (already imported by fable-direct) with `scaleX(.7)`. Mobile-master row rebuilt as black block + lime border with V1.3/SELECTED at right (thumb narrowed to 62% — reported as tiny local adjustment). STATUS-column check dots kept (Grok icon slots) though the golden shows none. LIVE_TEXT_COMPLETENESS 151/172 → 172/172. Nav item x-centers differ from golden because Sol's 6×1fr nav grid is frozen (SOL_STRUCTURAL_CONFLICT noted, not applied).
+- **Changes:** `NdxbookSolDirectPage.tsx` (copy, hero meta `<b>001</b>`, master rows, candidate `copy` lines, `functionMap`, amendment `dl`), `site00-ndxbook-sol-direct.css` (Anton import + appended FABLE-TEXT1 layer; Sol geometry rules untouched), `tests/p0vrDesignBenchFableText1.test.ts` (7 tests). Removed stray `<<<<<<<`/`>>>>>>>` markers left in MEMORY.md by the #944 merge. PR **#946**.
+- **Conventions:** Parallel benchmark agents must not share one Cloudflare tunnel token — use a quick tunnel per VM or separate hostnames. When layering on a frozen route, append an override block instead of editing structural rules, and probe computed boxes (`getBoundingClientRect`) rather than trusting the screenshot when a column overflows.
