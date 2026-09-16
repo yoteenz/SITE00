@@ -64,9 +64,47 @@ export function opusNativeWorkDir(): string {
   return process.env.SITE00_OPUS_NATIVE_WORKDIR?.trim() || '/tmp/site00-opus-native';
 }
 
-/** Base URL the preview/screenshot tools drive. */
+/**
+ * P0.VR.OPUS-NATIVE2 — Phase 17. Where the runtime is executing, which decides
+ * whether a visual loop is even possible.
+ *
+ * LOCAL means a workstation or cloud dev VM: repository on disk, a dev server
+ * that can be started, a browser that can be installed. DEPLOYED means a
+ * stateless API container with none of those. The distinction is inferred from
+ * platform-provided variables rather than asked for, because the failure mode
+ * being fixed here was precisely a default that assumed LOCAL everywhere.
+ */
+export type OpusNativeEnvironment = 'LOCAL' | 'DEPLOYED' | 'UNKNOWN';
+
+export function runtimeEnvironment(): OpusNativeEnvironment {
+  const declared = process.env.SITE00_OPUS_NATIVE_ENV?.trim().toUpperCase();
+  if (declared === 'LOCAL' || declared === 'DEPLOYED') return declared;
+  if (process.env.RAILWAY_ENVIRONMENT || process.env.RAILWAY_SERVICE_ID || process.env.VERCEL) {
+    return 'DEPLOYED';
+  }
+  if (process.env.NODE_ENV === 'production') return 'DEPLOYED';
+  return 'LOCAL';
+}
+
+export function previewOriginConfigured(): boolean {
+  return Boolean(process.env.SITE00_OPUS_NATIVE_PREVIEW_URL?.trim());
+}
+
+/**
+ * Base URL the preview/screenshot tools drive.
+ *
+ * NATIVE1 hardcoded the Vite dev port as the default in every environment,
+ * which is the whole of the PREVIEW FAILED defect: a deployed container dialled
+ * its own loopback for a server that only exists on a developer's machine. The
+ * dev-server default is now scoped to environments where a dev server can
+ * plausibly exist, and DEPLOYED gets an empty origin so the readiness probe
+ * reports PREVIEW_NOT_SUPPORTED_IN_THIS_ENVIRONMENT instead of a network error
+ * that reads like an outage.
+ */
 export function previewBaseUrl(): string {
-  return process.env.SITE00_OPUS_NATIVE_PREVIEW_URL?.trim() || 'http://127.0.0.1:5174';
+  const configured = process.env.SITE00_OPUS_NATIVE_PREVIEW_URL?.trim();
+  if (configured) return configured;
+  return runtimeEnvironment() === 'DEPLOYED' ? '' : 'http://127.0.0.1:5174';
 }
 
 export function tokenRates(): OpusTokenRates {

@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true, "noUnusedLocals": false },
+  "include": [
+    "api/_lib/site00OpusNative/**/*.ts",
+    "api/site00/opus-native.ts",
+    "shared/site00-opus-native/**/*.ts"
+  ]
+}

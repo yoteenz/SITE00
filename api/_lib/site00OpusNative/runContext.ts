@@ -25,9 +25,21 @@ import type {
   OpusNativeToolCallRecord,
 } from '../../../shared/site00-opus-native/types.js';
 import type { CompiledAgentContext } from '../../../shared/site00-opus-native/types.js';
+import type { DesignAgentIntent } from '../../../shared/site00-opus-native/writePolicy.js';
+import type {
+  ComponentDecision,
+  RegionClassification,
+} from '../../../shared/site00-opus-native/pageCreation.js';
 import { opusNativeWorkDir, redactSecrets } from './config.js';
 import type { RunCostMeter } from './costLedger.js';
 import type { DesignSurfaceEntry } from './designSurfaceRegistry.js';
+import type { ResolvedWriteAuthority } from './writeAuthority.js';
+
+export interface PageCreationPlanRecord {
+  route: string;
+  regions: RegionClassification[];
+  components: ComponentDecision[];
+}
 
 export class RunContextHandle {
   status: OpusNativeRunStatus = 'READY';
@@ -49,6 +61,13 @@ export class RunContextHandle {
   private receiptRecord: OpusNativeCostReceipt | null = null;
   cachePosture: 'HIT' | 'MISS' | 'PARTIAL' | 'UNKNOWN' = 'UNKNOWN';
 
+  /**
+   * P0.VR.OPUS-NATIVE2 — Phase 12. Creation tools stay locked until a plan has
+   * passed route-grammar, collision and inheritance validation. Held on the
+   * run rather than on the model's word so the lock is enforced, not asked for.
+   */
+  private creationPlan: PageCreationPlanRecord | null = null;
+
   constructor(
     readonly runId: string,
     readonly mode: OpusNativeMode,
@@ -59,7 +78,24 @@ export class RunContextHandle {
     readonly meter: RunCostMeter,
     readonly providerId: 'anthropic' | 'scripted',
     private readonly projectContext: string,
+    readonly authority: ResolvedWriteAuthority,
+    readonly intent: DesignAgentIntent,
+    readonly sessionId: string | null = null,
+    readonly parentRunId: string | null = null,
   ) {}
+
+  creationPlanApproved(): boolean {
+    return this.creationPlan !== null;
+  }
+
+  approveCreationPlan(plan: PageCreationPlanRecord): void {
+    this.creationPlan = plan;
+    this.touch();
+  }
+
+  creationPlanRecord(): PageCreationPlanRecord | null {
+    return this.creationPlan;
+  }
 
   touch(status?: OpusNativeRunStatus): void {
     if (status) this.status = status;
@@ -184,6 +220,9 @@ export class RunContextHandle {
         cacheableEstimatedTokens: this.compiled.cacheableEstimatedTokens,
         fileAllowlist: this.compiled.fileAllowlist,
         writeAllowlist: this.compiled.writeAllowlist,
+        createDirectories: this.compiled.createDirectories,
+        writeMode: this.compiled.writeMode,
+        intent: this.compiled.intent,
         protocolVersion: this.compiled.protocolVersion,
         protocolHash: this.compiled.protocolHash,
         blockSummary: this.compiled.blocks.map((block) => ({
@@ -202,6 +241,12 @@ export class RunContextHandle {
       lineage: this.lineageRecord,
       transcript: this.transcript,
       providerId: this.providerId,
+      intent: this.intent,
+      writeMode: this.authority.permittedMode,
+      writeGrantApplied: this.authority.grantApplied,
+      sessionId: this.sessionId,
+      parentRunId: this.parentRunId,
+      creationPlan: this.creationPlan,
     };
   }
 }

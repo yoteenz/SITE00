@@ -7,7 +7,14 @@
  * belong to a route by searching the repository on every run. SITE 00 already
  * knows, so the answer is declared once here and compiled into context
  * directly. Adding a surface is a registry entry, not a code change.
+ *
+ * P0.VR.OPUS-NATIVE2 — Phase 31 widened every entry to carry its own write
+ * authority, asset ownership, create directories and inheritance rules, so
+ * that intelligence lives in the registry rather than being restated in a
+ * prompt for every run.
  */
+
+import type { DesignWriteMode } from '../../../shared/site00-opus-native/writePolicy.js';
 
 export interface DesignSurfaceEntry {
   pageId: string;
@@ -37,6 +44,43 @@ export interface DesignSurfaceEntry {
   writable: string[];
   /** Why a surface is read-only, shown to the agent so it does not try. */
   writeFirewallReason: string | null;
+
+  // ---- P0.VR.OPUS-NATIVE2 — Phase 31 ---------------------------------------
+
+  /** Phase 13 — the approved authority a derivative inherits from. */
+  parentPageId: string | null;
+  /** Phase 9 — the module that owns asset identity for this surface. */
+  assetManifestPath: string | null;
+  /**
+   * Phase 9 — paths whose *content* is approved asset identity. A run may edit
+   * a file listed here for unrelated reasons and still be refused if the edit
+   * touches an asset reference; the check is on the edit, not the file.
+   */
+  protectedAssets: string[];
+  /** The capability that applies with no founder involvement. */
+  standingWriteMode: DesignWriteMode;
+  /** The ceiling a founder may raise this surface to for a single run. */
+  maxGrantableWriteMode: DesignWriteMode;
+  /** Phase 10 — directories new files may be created in, at create modes. */
+  allowedCreateDirectories: string[];
+  /** Phase 14 — files a route may be registered in, at create modes. */
+  routeRegistryFiles: string[];
+  /** Phase 13 — what a child of this surface must inherit rather than restate. */
+  inheritanceRules: SurfaceInheritanceRules | null;
+}
+
+/**
+ * Phase 13 — inheritance is declared by the parent, so a derivative is not
+ * free to decide that it "needs" its own shell. Opus must classify every major
+ * region as INHERITED, OVERRIDDEN or NEW, and `mustInherit` is the list it may
+ * not classify as NEW.
+ */
+export interface SurfaceInheritanceRules {
+  mustInherit: string[];
+  mayOverride: string[];
+  mustDeclareNew: string[];
+  sharedModules: string[];
+  note: string;
 }
 
 /**
@@ -89,6 +133,41 @@ export const DESIGN_SURFACES: DesignSurfaceEntry[] = [
     writable: [],
     writeFirewallReason:
       'Canonical reconstruction under firewall: converged to 2.0px max drift against the approved golden across seven sprints. Inspect freely; propose changes as a sprint, not as an agent patch.',
+
+    parentPageId: null,
+    assetManifestPath:
+      'src/site00/components/designBench/opusDirect/twinOpusDirectAssetManifest.ts',
+    protectedAssets: [
+      'src/site00/components/designBench/opusDirect/twinOpusDirectAssetManifest.ts',
+      'public/site00/twin-opus-direct/',
+    ],
+    /**
+     * Phase 8 — the canonical page stays READ_ONLY by default, which is the
+     * protection seven sprints earned. What NATIVE2 adds is that the founder
+     * can raise it to COMPONENT_ONLY for one run. It deliberately stops there:
+     * PAGE_EDIT would open the state hook, and a surface whose value is a
+     * frozen visual authority has no business having its behaviour rewritten
+     * by an agent run that was asked to darken a border.
+     */
+    standingWriteMode: 'READ_ONLY',
+    maxGrantableWriteMode: 'COMPONENT_ONLY',
+    allowedCreateDirectories: [],
+    routeRegistryFiles: [],
+    inheritanceRules: {
+      mustInherit: [
+        'workspace shell (utility row, primary nav, context bar, target/viewport/stage band, bottom navigation)',
+        'full-bleed proportional scaling model',
+        'NDXBOOK type scale and icon family',
+        'view-mode control semantics',
+      ],
+      mayOverride: ['body region between the band and the dock', 'concept record content'],
+      mustDeclareNew: ['any region with no counterpart in the parent'],
+      sharedModules: [
+        'src/site00/components/designBench/opusDirect/TwinOpusDirectIcons.tsx',
+        'src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts',
+      ],
+      note: 'A child of the canonical authority reuses the shell and differs only in the body and record regions. Recreating the shell is the failure mode this rule exists to prevent.',
+    },
   },
 
   {
@@ -125,6 +204,30 @@ export const DESIGN_SURFACES: DesignSurfaceEntry[] = [
      */
     writable: ['src/site00/styles/site00-opus-native.css'],
     writeFirewallReason: null,
+
+    parentPageId: 'twin-opus-direct',
+    assetManifestPath: null,
+    protectedAssets: [],
+    /**
+     * The proof surface is the sprint's designated live-fire range. It stands
+     * at STYLE_ONLY so an unattended run can only ever change appearance, and
+     * a founder can raise it all the way to DERIVATIVE_CREATE because Phase 30
+     * requires a real page-creation proof somewhere that is not production.
+     */
+    standingWriteMode: 'STYLE_ONLY',
+    maxGrantableWriteMode: 'DERIVATIVE_CREATE',
+    allowedCreateDirectories: [
+      'src/site00/components/designBench/opusNativeGenerated/',
+      'src/site00/styles/generated/',
+    ],
+    routeRegistryFiles: ['src/site00/config/opusNativeGeneratedRoutes.ts'],
+    inheritanceRules: {
+      mustInherit: ['NDXBOOK colour tokens', 'condensed mono type family', 'sharp geometry, no rounded outer frame'],
+      mayOverride: ['page body composition', 'panel arrangement'],
+      mustDeclareNew: ['any region with no counterpart in the parent'],
+      sharedModules: ['src/site00/styles/site00-opus-native.css'],
+      note: 'Generated proof pages inherit the NDXBOOK visual language and nothing structural; they exist to exercise the creation path, not to ship.',
+    },
   },
 ];
 

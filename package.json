@@ -20,7 +20,8 @@
     "test:watch": "vitest",
     "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
     "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts",
-    "postinstall": "node scripts/ensure-playwright-chromium.mjs"
+    "postinstall": "node scripts/ensure-playwright-chromium.mjs",
+    "typecheck:opus-native": "tsc --noEmit -p tsconfig.opusnative.json"
   },
   "dependencies": {
     "@fal-ai/client": "^1.4.0",

@@ -32,8 +32,21 @@ import type {
   OpusNativeViewport,
 } from '../../../shared/site00-opus-native/types.js';
 import type { OpusNativeTargetRef } from '../../../shared/site00-opus-native/contracts.js';
+import {
+  DESIGN_AGENT_INTENT_SPECS,
+  describeWriteMode,
+  writeModeAtLeast,
+  type DesignAgentIntent,
+  type FounderWriteGrant,
+} from '../../../shared/site00-opus-native/writePolicy.js';
+import type { PageCreationContract } from '../../../shared/site00-opus-native/pageCreation.js';
+import {
+  renderCompaction,
+  type DesignSessionCompaction,
+} from '../../../shared/site00-opus-native/session.js';
 import { repoRoot } from './config.js';
 import { DESIGN_SURFACES, defaultSurface, findSurface, type DesignSurfaceEntry } from './designSurfaceRegistry.js';
+import { resolveWriteAuthority, type ResolvedWriteAuthority } from './writeAuthority.js';
 
 const MAX_FILE_CHARS = 24_000;
 
@@ -212,12 +225,21 @@ export interface CompileInput {
   mode: OpusNativeMode;
   task: string;
   target?: OpusNativeTargetRef;
+  /** P0.VR.OPUS-NATIVE2 — Phase 5. Declared by the founder, never inferred. */
+  intent?: DesignAgentIntent;
+  /** Phase 7. A run-scoped capability grant, if the founder issued one. */
+  grant?: FounderWriteGrant | null;
+  /** Phase 12. Required for creation intents, refused for edit intents. */
+  creationContract?: PageCreationContract | null;
+  /** Phase 25. Replaces a parent run's transcript on a continuation. */
+  sessionCompaction?: DesignSessionCompaction | null;
 }
 
 export interface CompileResult {
   context: DesignAgentContext;
   compiled: CompiledAgentContext;
   surface: DesignSurfaceEntry;
+  authority: ResolvedWriteAuthority;
 }
 
 export async function compileAgentContext(input: CompileInput): Promise<CompileResult> {
@@ -225,6 +247,13 @@ export async function compileAgentContext(input: CompileInput): Promise<CompileR
   const contract = modeContract(input.mode);
   const golden = await resolveGolden(surface);
   const context = buildDesignAgentContext(input.target, surface, golden);
+  const intent: DesignAgentIntent = input.intent ?? 'REFINE_CURRENT';
+  const authority = resolveWriteAuthority({
+    surface,
+    intent,
+    route: context.route,
+    grant: input.grant ?? null,
+  });
 
   const blocks: OpusContextBlock[] = [];
 
@@ -283,25 +312,61 @@ export async function compileAgentContext(input: CompileInput): Promise<CompileR
   blocks.push(makeBlock(
     'PAGE_CONTEXT',
     `PAGE:${surface.pageId}`,
-    pageContext(context, surface, fileAllowlist),
+    pageContext(context, surface, fileAllowlist, authority),
     false,
     [surface.route],
   ));
+
+  // Phase 13 — inheritance is page context, not task context: it describes the
+  // parent authority and is identical for every derivative of it.
+  if (writeModeAtLeast(authority.permittedMode, 'PAGE_CREATE') && surface.inheritanceRules) {
+    blocks.push(makeBlock(
+      'PAGE_CONTEXT',
+      'PARENT_INHERITANCE',
+      inheritanceContext(surface),
+      false,
+      ['api/_lib/site00OpusNative/designSurfaceRegistry.ts'],
+    ));
+  }
+
+  // Phase 25 — a continuation gets the compacted thread in place of the
+  // parent's raw turns. Placed before the task so the task reads as the
+  // follow-up it is rather than as a fresh instruction.
+  if (input.sessionCompaction) {
+    blocks.push(makeBlock(
+      'PAGE_CONTEXT',
+      'SESSION_STATE',
+      renderCompaction(input.sessionCompaction),
+      false,
+      [],
+    ));
+  }
 
   // ---- Tier 4: TASK_CONTEXT ------------------------------------------------
   blocks.push(makeBlock(
     'TASK_CONTEXT',
     'TASK',
-    taskContext(input, surface, contract.maxVisualLoops),
+    taskContext(input, surface, contract.maxVisualLoops, intent, authority),
     false,
     [],
   ));
+
+  if (input.creationContract) {
+    blocks.push(makeBlock(
+      'TASK_CONTEXT',
+      'PAGE_CREATION_CONTRACT',
+      creationContext(input.creationContract, surface),
+      false,
+      [],
+    ));
+  }
 
   const trimmed = trimToBudget(blocks, contract.contextBudgetTokens);
 
   return {
     context,
     surface,
+    authority,
     compiled: {
       blocks: trimmed,
       totalEstimatedTokens: trimmed.reduce((sum, block) => sum + block.estimatedTokens, 0),
@@ -309,7 +374,16 @@ export async function compileAgentContext(input: CompileInput): Promise<CompileR
         .filter((block) => block.cacheable)
         .reduce((sum, block) => sum + block.estimatedTokens, 0),
       fileAllowlist,
-      writeAllowlist: surface.writable.filter((file) => isInspectablePath(file)),
+      /**
+       * P0.VR.OPUS-NATIVE2 — the write allowlist is now derived from the
+       * resolved capability rather than read straight off the registry, so an
+       * ungranted run against a protected surface compiles to an empty list
+       * instead of a warning the model is asked to honour.
+       */
+      writeAllowlist: authority.policy.allowedFiles,
+      createDirectories: authority.policy.allowedDirectories,
+      writeMode: authority.permittedMode,
+      intent,
       protocolVersion: OPUS_DESIGN_EXECUTION_PROTOCOL_VERSION,
       protocolHash: OPUS_DESIGN_EXECUTION_PROTOCOL_HASH,
     },
@@ -384,6 +458,7 @@ function pageContext(
   context: DesignAgentContext,
   surface: DesignSurfaceEntry,
   allowlist: string[],
+  authority: ResolvedWriteAuthority,
 ): string {
   const golden = context.goldenReference;
   return `# ACTIVE PAGE
@@ -409,19 +484,100 @@ Call read_golden_reference to load it as an image. Do not describe it from memor
 ## Files you may read (${allowlist.length})
 ${allowlist.map((file) => `  - ${file}`).join('\n')}
 
-## Files you may write
-${surface.writable.length > 0
-  ? surface.writable.map((file) => `  - ${file}`).join('\n')
-  : `  NONE. ${surface.writeFirewallReason ?? 'This surface is read-only.'}`}
+## Write authority for this run
+Mode: ${authority.permittedMode} — ${describeWriteMode(authority.permittedMode)}
+${authority.grantApplied ? `This run is operating under an explicit founder grant. The grant applies to this run only.` : `This is the surface's standing authority (${authority.standingMode}); no grant was issued.`}
+
+Files you may write${authority.policy.allowedFiles.length > 0 ? ` (${authority.policy.allowedFiles.length})` : ''}:
+${authority.policy.allowedFiles.length > 0
+  ? authority.policy.allowedFiles.map((file) => `  - ${file}`).join('\n')
+  : `  NONE. ${surface.writeFirewallReason ?? 'This surface is read-only at its standing authority.'}`}
+
+${authority.policy.allowNewFiles
+  ? `New files may be created in:\n${authority.policy.allowedDirectories.map((dir) => `  - ${dir}`).join('\n') || '  - none declared'}`
+  : 'You may not create files in this run.'}
+
+## Asset authority
+ASSET_MUTATION: ${authority.policy.allowAssetReferenceChanges ? 'GRANTED for this run' : 'BLOCKED'}
+${surface.assetManifestPath ? `Asset identity is owned by ${surface.assetManifestPath}.` : 'No asset manifest is registered for this surface.'}
+Approved raster assets belong to Grok; you own structure, typography, icons and interaction. Do not substitute, re-path or remove an approved asset reference${authority.policy.allowAssetReferenceChanges ? '' : ' — the tool layer refuses it'}.
+${surface.protectedAssets.length > 0 ? `Protected paths:\n${surface.protectedAssets.map((p) => `  - ${p}`).join('\n')}` : ''}
+
+State changes: ${authority.policy.allowStateChanges ? 'permitted' : 'NOT permitted'}
+Route creation: ${authority.policy.allowRouteCreation ? 'permitted' : 'NOT permitted'}
+Shared/parent component changes: NOT permitted (they belong to the parent authority)
 
 Any attempt to read or write outside these lists is refused by the tool layer and recorded as a scope violation.`;
 }
 
-function taskContext(input: CompileInput, surface: DesignSurfaceEntry, maxLoops: number): string {
+/** Phase 13 — what the parent requires of any derivative. */
+function inheritanceContext(surface: DesignSurfaceEntry): string {
+  const rules = surface.inheritanceRules;
+  if (!rules) return 'No inheritance rules registered for this surface.';
+  return `# PARENT INHERITANCE — deriving from ${surface.pageId}
+
+${rules.note}
+
+## Must be INHERITED (you may not classify these as NEW)
+${rules.mustInherit.map((item) => `  - ${item}`).join('\n')}
+
+## May be OVERRIDDEN, with justification
+${rules.mayOverride.map((item) => `  - ${item}`).join('\n')}
+
+## Must be declared NEW if present
+${rules.mustDeclareNew.map((item) => `  - ${item}`).join('\n')}
+
+## Shared modules — import these, never copy them
+${rules.sharedModules.map((item) => `  - ${item}`).join('\n')}
+
+For every major region of the page you create, state INHERITED, OVERRIDDEN or NEW. An OVERRIDDEN or NEW region with no justification will be rejected. Before creating any component, search the existing design system and state REUSE, EXTEND, FORK or CREATE with the candidate you found.`;
+}
+
+/** Phase 12 — the creation contract, rendered as instruction rather than JSON. */
+function creationContext(contract: PageCreationContract, surface: DesignSurfaceEntry): string {
+  return `# PAGE CREATION CONTRACT
+
+You are creating a page. These values are given, not chosen.
+
+Project: ${contract.project}
+Page id: ${contract.pageId}
+Page role: ${contract.pageRole}
+Parent page: ${contract.parentPage ?? 'none'}
+Inheritance source: ${contract.inheritanceSource ?? 'none'}
+Route intent: ${contract.routeIntent}
+Design authority: ${contract.designAuthority}
+Viewport authorities: ${contract.viewportAuthorities.join(', ')}
+
+## Interaction patterns to follow
+${contract.interactionPatterns.map((item) => `  - ${item}`).join('\n') || '  - none specified'}
+
+## Required modules
+${contract.requiredModules.map((item) => `  - ${item}`).join('\n') || '  - none specified'}
+
+## Asset slots
+${contract.assetSlots.map((slot) => `  - ${slot.slot} (${slot.role}) — ${slot.source}`).join('\n') || '  - none'}
+A slot marked PLACEHOLDER takes a drawn or CSS placeholder. You may not introduce a raster asset for it${surface.assetManifestPath ? `; asset identity is owned by ${surface.assetManifestPath}` : ''}.
+
+## Regions you are permitted to diverge on
+${contract.allowedOverrides.map((item) => `  - ${item}`).join('\n') || '  - none'}
+
+Do not create this page from generic defaults. Everything not listed as an allowed override inherits from the parent.`;
+}
+
+function taskContext(
+  input: CompileInput,
+  surface: DesignSurfaceEntry,
+  maxLoops: number,
+  intent: DesignAgentIntent,
+  authority: ResolvedWriteAuthority,
+): string {
   const contract = modeContract(input.mode);
+  const spec = DESIGN_AGENT_INTENT_SPECS[intent];
   return `# TASK
 
+Intent: ${intent} — ${spec.description}
 Mode: ${input.mode} — ${contract.purpose}
+Write authority: ${authority.permittedMode}
 Visual loop budget: ${maxLoops}
 Iteration ceiling: ${contract.limits.maxIterations}
 Spend ceiling: $${contract.limits.maxRunCostUsd}
@@ -438,7 +594,10 @@ ${input.task}
 6. Run a typecheck and the targeted tests for what you touched.
 7. Stop and hand to founder review. Do not attempt to approve or apply.
 
-${surface.writable.length === 0
-  ? 'This surface is READ ONLY. If the task requires an edit here, stop immediately and report the firewall rather than patching anything.'
+${intent === 'INSPECT_ONLY'
+  ? 'This run is INSPECT_ONLY. Produce findings and measurements. Do not patch anything, even if the fix is obvious — say what you would change and stop.'
+  : ''}
+${authority.policy.allowedFiles.length === 0 && intent !== 'INSPECT_ONLY'
+  ? `This run has NO write authority. ${surface.writeFirewallReason ?? ''} Report what would need to change and which capability it would require, then stop. Do not attempt a patch.`
   : ''}`;
 }

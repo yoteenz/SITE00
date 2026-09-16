@@ -17,6 +17,7 @@ import { randomUUID } from 'node:crypto';
 
 import type { OpusNativeScreenshot, OpusNativeViewport } from '../../../shared/site00-opus-native/types.js';
 import { opusNativeWorkDir, previewBaseUrl } from './config.js';
+import { resolvePreviewReadiness, type PreviewReadiness } from './previewEnvironment.js';
 
 export const VIEWPORT_SIZES: Record<OpusNativeViewport, { width: number; height: number }> = {
   MOBILE: { width: 390, height: 844 },
@@ -49,25 +50,13 @@ async function loadChromium() {
   }
 }
 
-export async function previewReadiness(): Promise<{ ready: boolean; detail: string }> {
-  let chromium;
-  try {
-    chromium = await loadChromium();
-  } catch (error) {
-    return { ready: false, detail: (error as Error).message };
-  }
-
-  const base = previewBaseUrl();
-  try {
-    const response = await fetch(base, { method: 'GET', signal: AbortSignal.timeout(4000) });
-    if (!response.ok) {
-      return { ready: false, detail: `preview server at ${base} returned ${response.status}` };
-    }
-  } catch (error) {
-    return { ready: false, detail: `preview server at ${base} unreachable: ${(error as Error).message}` };
-  }
-
-  return { ready: Boolean(chromium), detail: `chromium ready, preview at ${base}` };
+/**
+ * P0.VR.OPUS-NATIVE2 — Phase 18. Delegates to the environment-aware resolver
+ * so every caller gets the same named reason and remedy instead of a bare
+ * boolean and a sentence.
+ */
+export async function previewReadiness(probeRoute?: string): Promise<PreviewReadiness> {
+  return resolvePreviewReadiness(probeRoute);
 }
 
 function screenshotDir(): string {
@@ -82,10 +71,24 @@ export interface CaptureInput {
   waitMs?: number;
 }
 
+/**
+ * Resolves a route against the preview origin, refusing rather than throwing
+ * an opaque `Invalid URL` when no origin exists for this environment.
+ */
+function previewUrl(route: string): string {
+  const base = previewBaseUrl();
+  if (!base) {
+    throw new PreviewUnavailableError(
+      'PREVIEW_NOT_SUPPORTED_IN_THIS_ENVIRONMENT: no preview origin is configured for this deployment',
+    );
+  }
+  return new URL(route, base).toString();
+}
+
 export async function captureScreenshot(input: CaptureInput): Promise<OpusNativeScreenshot> {
   const chromium = await loadChromium();
   const size = VIEWPORT_SIZES[input.viewport] ?? VIEWPORT_SIZES.MOBILE;
-  const url = new URL(input.route, previewBaseUrl()).toString();
+  const url = previewUrl(input.route);
   const screenshotId = `shot-${input.label ? `${input.label}-` : ''}${randomUUID().slice(0, 8)}`;
   const dir = screenshotDir();
   await mkdir(dir, { recursive: true });
@@ -124,7 +127,7 @@ export async function inspectDom(input: {
 }): Promise<Array<{ selector: string; found: boolean; box: { x: number; y: number; width: number; height: number } | null; styles: Record<string, string> | null }>> {
   const chromium = await loadChromium();
   const size = VIEWPORT_SIZES[input.viewport] ?? VIEWPORT_SIZES.MOBILE;
-  const url = new URL(input.route, previewBaseUrl()).toString();
+  const url = previewUrl(input.route);
   const browser = await chromium.launch({ args: ['--no-sandbox'] });
   try {
     const page = await browser.newPage({ viewport: size, deviceScaleFactor: 1 });

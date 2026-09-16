@@ -44,8 +44,18 @@ export async function collectDiagnostics(): Promise<OpusNativeDiagnostics> {
     promptCache: run?.cachePosture ?? 'UNKNOWN',
     tools: OPUS_TOOL_DEFINITIONS.length > 0 ? 'READY' : 'FAILED',
     toolsDetail: `${OPUS_TOOL_DEFINITIONS.length} tools registered; no arbitrary shell capability`,
-    preview: preview.ready ? 'READY' : 'FAILED',
+    /**
+     * P0.VR.OPUS-NATIVE2 — Phase 18. "FAILED" was the field that made the
+     * original defect unactionable: it read as a fault when the common case
+     * is a deployment that legitimately cannot host a browser. BLOCKED plus a
+     * named reason and a remedy replaces it.
+     */
+    preview: preview.ready ? 'READY' : 'BLOCKED',
+    previewReason: preview.reason,
     previewDetail: preview.detail,
+    previewOrigin: preview.origin || '(none configured)',
+    previewRemedy: preview.remedy,
+    environment: preview.environment,
     costGuard: run ? run.meter.check().state : 'OK',
     protocolVersion: OPUS_DESIGN_EXECUTION_PROTOCOL_VERSION,
     protocolHash: OPUS_DESIGN_EXECUTION_PROTOCOL_HASH,
