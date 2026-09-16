@@ -9,6 +9,7 @@
  */
 
 import { useEffect } from 'react';
+import { DesignAgentDock } from '../components/designBench/designAgent/DesignAgentDock';
 import { TwinOpusDirectScreen } from '../components/designBench/opusDirect/TwinOpusDirectScreen';
 import '../styles/site00-twin-opus-direct.css';
 import '../styles/site00-twin-opus-list.css';
@@ -29,7 +30,19 @@ export function DesignTwinOpusDirectPage() {
     };
   }, []);
 
-  return <TwinOpusDirectScreen />;
+  /**
+   * P0.VR.OPUS-NATIVE2 — Phase 2. The dock is a sibling of the artboard, not a
+   * child of it. `TwinOpusDirectScreen` is the frozen canonical reconstruction
+   * under a write firewall and is scaled by a transform; mounting the agent
+   * inside it would both modify a protected component and inherit a scale that
+   * makes the panel illegible on a phone.
+   */
+  return (
+    <>
+      <TwinOpusDirectScreen />
+      <DesignAgentDock />
+    </>
+  );
 }
 
 export default DesignTwinOpusDirectPage;

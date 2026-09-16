@@ -109,6 +109,15 @@ export async function applyPatch(input: {
   assetGuard?: (edits: Array<{ file: string; find: string; replace: string }>) => { blocked: boolean; reason: string | null };
   /** Baseline captured by an earlier patch in the same run, so revert reaches the true origin. */
   existingBaseline?: Record<string, string | null>;
+  /**
+   * Files created by earlier patches in the same run. Carried forward for the
+   * same reason as the baseline: a run that creates a component and then a
+   * stylesheet produces two patch records, and the review package reads the
+   * latest one. Without this the founder is shown one new file when two were
+   * made — revert still removed both, because that follows the baseline, so
+   * the discrepancy was invisible until it was counted.
+   */
+  existingCreatedFiles?: string[];
 }): Promise<DesignAgentPatch> {
   const { runId, edits, reason, writeAllowlist } = input;
   const creates = input.creates ?? [];
@@ -192,16 +201,22 @@ export async function applyPatch(input: {
   // ---- Phase 2: commit. Validation is complete, so this pass cannot reject.
   const baseline: Record<string, string | null> = { ...(input.existingBaseline ?? {}) };
   const filesChanged: string[] = [];
-  const createdFiles: string[] = [];
+  const createdFiles: string[] = [...(input.existingCreatedFiles ?? [])];
 
   for (const entry of planned) {
     if (!(entry.file in baseline)) baseline[entry.file] = entry.before;
     if (entry.created) {
       await mkdir(path.dirname(entry.abs), { recursive: true });
-      createdFiles.push(entry.file);
+      if (!createdFiles.includes(entry.file)) createdFiles.push(entry.file);
     }
     await writeFile(entry.abs, entry.after, 'utf8');
     filesChanged.push(entry.file);
+  }
+
+  // Files an earlier patch in this run touched are still part of what the
+  // founder is being asked to review, even if this patch did not revisit them.
+  for (const file of Object.keys(baseline)) {
+    if (!filesChanged.includes(file)) filesChanged.push(file);
   }
 
   const patch: DesignAgentPatch = {

@@ -40,7 +40,8 @@ export type OpusNativeAction =
   | 'surfaces'
   | 'agent_context'
   | 'sessions'
-  | 'continue';
+  | 'continue'
+  | 'screenshot';
 
 export interface OpusNativeEstimateRequest {
   action: 'estimate';
@@ -91,6 +92,14 @@ export interface OpusNativeEstimateResponse {
   writeAuthorization: WriteAuthorizationRequest | null;
   previewReady: boolean;
   previewReason: string | null;
+  /**
+   * Phase 21/22. False when the projection is close enough to the mode's
+   * ceiling that the run will be cut off mid-loop, which is worse than not
+   * running: the patch lands and the verification does not.
+   */
+  modeFitsBudget: boolean;
+  recommendedMode: OpusNativeMode;
+  modeFitDetail: string | null;
 }
 
 export interface OpusNativeStartRequest {

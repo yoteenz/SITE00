@@ -10,6 +10,7 @@
 import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { DesignAgentDock } from '../components/designBench/designAgent/DesignAgentDock';
 import { OpusNativeAgentPanel } from '../components/designBench/opusNative/OpusNativeAgentPanel';
 import { OpusNativeProofSurface } from '../components/designBench/opusNative/OpusNativeProofSurface';
 import type { OpusNativeRun } from '../../../shared/site00-opus-native/types';
@@ -26,7 +27,9 @@ export function DesignOpusNativePage() {
     <main className="s00-opus-native">
       <header className="s00-opus-native__head">
         <span className="s00-opus-native__title">Native Opus design runtime</span>
-        <span className="s00-opus-native__sub">P0.VR.OPUS-NATIVE1 · internal</span>
+        <span className="s00-opus-native__sub">
+          P0.VR.OPUS-NATIVE2 · internal diagnostic route · the founder workflow lives in DESIGN
+        </span>
       </header>
 
       <div className="s00-opus-native__grid">
@@ -38,6 +41,13 @@ export function DesignOpusNativePage() {
         />
         <OpusNativeProofSurface projectSlug={projectSlug} runtimeStatus={run?.status ?? 'READY'} />
       </div>
+
+      {/*
+        P0.VR.OPUS-NATIVE2 — Phase 1/28. The dock is mounted here too, which
+        makes this route the live-fire range: the embedded surface the founder
+        actually uses, pointed at a page that is safe to write to.
+      */}
+      <DesignAgentDock />
     </main>
   );
 }

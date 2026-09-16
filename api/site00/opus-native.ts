@@ -7,6 +7,8 @@
  * response this file produces.
  */
 
+import { readFile } from 'node:fs/promises';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
@@ -105,6 +107,29 @@ async function handleGet(req: VercelRequest, res: VercelResponse) {
         allowedCreateDirectories: surface.allowedCreateDirectories,
       })),
     });
+  }
+
+  /**
+   * Phase 26 — the review surface compares BEFORE, AFTER and GOLDEN, so the
+   * captures have to be reachable from the browser. Served by id from the run
+   * store rather than by path, so the endpoint cannot be turned into a
+   * general file reader: an id that is not a screenshot of a retained run
+   * simply does not resolve.
+   */
+  if (action === 'screenshot') {
+    const id = stringParam(req.query.id);
+    const runId = stringParam(req.query.runId);
+    const run = runId ? getRun(runId) : latestRun();
+    const shot = id && run ? run.screenshotById(id) : null;
+    if (!shot) return send(res, 404, { ok: false, error: 'SCREENSHOT_NOT_FOUND' });
+    try {
+      const bytes = await readFile(shot.path);
+      res.setHeader('Content-Type', 'image/png');
+      res.status(200).send(bytes);
+      return;
+    } catch {
+      return send(res, 404, { ok: false, error: 'SCREENSHOT_UNREADABLE' });
+    }
   }
 
   if (action === 'sessions') {
@@ -245,6 +270,16 @@ async function handlePost(req: VercelRequest, res: VercelResponse) {
         writeAuthorization: authority.authorizationRequest,
         previewReady: preview.ready,
         previewReason: preview.reason,
+        /**
+         * P0.VR.OPUS-NATIVE2 — Phase 21/22, added after a proof run exposed
+         * it. A QUICK visual loop on the canonical page projected $0.616
+         * against QUICK's $0.75 ceiling, dispatched, and was stopped by the
+         * guard mid-loop with the patch applied but never compared. The guard
+         * was right; the estimate was useless, because a projection inside
+         * the ceiling is not the same as a projection that will finish. The
+         * founder now sees the mode that fits before spending anything.
+         */
+        ...modeFit(estimatedUsd, mode, contract.limits.hardStopAtCostUsd),
       });
     }
 
@@ -430,6 +465,30 @@ function sendStartError(res: VercelResponse, error: unknown) {
     return send(res, 400, { ok: false, error: error.kind, detail: error.message });
   }
   throw error;
+}
+
+/**
+ * A run is at risk long before its projection crosses the ceiling: the
+ * projection is a model, and the tail of an agent loop — the comparison and
+ * the guards — is the part that gets cut off when it under-projects. 80% is
+ * treated as "will not finish" rather than "nearly fine".
+ */
+const MODE_FIT_MARGIN = 0.8;
+
+function modeFit(estimatedUsd: number, mode: OpusNativeMode, ceiling: number) {
+  const fits = estimatedUsd <= ceiling * MODE_FIT_MARGIN;
+  if (fits) return { modeFitsBudget: true, recommendedMode: mode, modeFitDetail: null };
+
+  const better = OPUS_NATIVE_MODES.find(
+    (candidate) => estimatedUsd <= modeContract(candidate).limits.hardStopAtCostUsd * MODE_FIT_MARGIN,
+  );
+  return {
+    modeFitsBudget: false,
+    recommendedMode: better ?? mode,
+    modeFitDetail: better
+      ? `${mode} will stop mid-loop on this surface: the projection is $${estimatedUsd.toFixed(3)} against a $${ceiling.toFixed(2)} ceiling. ${better} has the headroom to finish and compare.`
+      : `This surface projects $${estimatedUsd.toFixed(3)}, above every mode's ceiling. Narrow the task or the target.`,
+  };
 }
 
 function stringParam(value: unknown): string | undefined {

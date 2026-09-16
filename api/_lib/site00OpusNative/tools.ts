@@ -446,6 +446,7 @@ async function dispatchInner(
         canCreate: (file) => isCreatablePath(file, ctx.policy),
         assetGuard: (candidate) => checkAssetMutation(candidate, ctx.surface, ctx.policy),
         existingBaseline: ctx.run.patch()?.baseline,
+        existingCreatedFiles: ctx.run.patch()?.createdFiles,
       });
       ctx.run.setPatch(patch);
       return textResult(
@@ -487,6 +488,7 @@ async function dispatchInner(
         canCreate: (candidate) => isCreatablePath(candidate, ctx.policy),
         assetGuard: (candidate) => checkAssetMutation(candidate, ctx.surface, ctx.policy),
         existingBaseline: ctx.run.patch()?.baseline,
+        existingCreatedFiles: ctx.run.patch()?.createdFiles,
       });
       ctx.run.setPatch(patch);
       return textResult(
