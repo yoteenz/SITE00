@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useDesignProductionEmbedded } from './DesignProductionEmbeddedContext';
 import { useDesignProductionNavigation } from './useDesignProductionNavigation';
 
 type Props = {
@@ -10,7 +11,16 @@ type Props = {
 };
 
 export function DesignProductionChildShell({ title, subtitle, children }: Props) {
+  const embedded = useDesignProductionEmbedded();
   const { workspacePath } = useDesignProductionNavigation();
+
+  if (embedded) {
+    return (
+      <div className="tod-child-embedded" data-testid="design-production-child-embedded">
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="tod-root tod-root--child" data-testid="design-production-child">

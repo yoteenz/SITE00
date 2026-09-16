@@ -7,12 +7,12 @@ import { Navigate, Outlet, useParams, useSearchParams } from 'react-router-dom';
 
 import { DesignAgentDock } from '../components/designBench/designAgent/DesignAgentDock';
 import { DesignAgentDockProvider } from '../components/designBench/designAgent/DesignAgentDockContext';
-import { useDesignProductionNavigation } from '../components/designBench/production/useDesignProductionNavigation';
 import { TwinOpusDirectScreen } from '../components/designBench/opusDirect/TwinOpusDirectScreen';
 import { resolveLegacyProjectDesignRedirect } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import '../styles/site00-twin-opus-direct.css';
 import '../styles/site00-twin-opus-list.css';
 import '../styles/site00-design-production-child.css';
+import '../styles/site00-design-child-surface.css';
 
 function DesignProductionBodyEffects() {
   useEffect(() => {
@@ -48,14 +48,11 @@ export function DesignProductionRouteGate() {
 export function DesignProductionWorkspaceLayout() {
   const { projectSlug } = useParams<{ projectSlug: string }>();
   const slug = (projectSlug ?? 'ndxbook').toLowerCase();
-  const { activeSection } = useDesignProductionNavigation();
 
   return (
     <DesignAgentDockProvider>
       <DesignProductionBodyEffects />
-      {activeSection ?
-        <Outlet />
-      : <TwinOpusDirectScreen projectSlug={slug} surface="production" />}
+      <TwinOpusDirectScreen projectSlug={slug} surface="production" />
       <DesignAgentDock />
     </DesignAgentDockProvider>
   );
