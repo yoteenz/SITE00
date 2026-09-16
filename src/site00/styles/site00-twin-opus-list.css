@@ -1,19 +1,25 @@
 /**
- * P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — LIST presentation styles.
+ * P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 (+ R1 visual-grammar restoration)
+ * LIST presentation styles. Spark-owned.
  *
- * Spark-owned. Styles ONLY the tod-lv-* digest renderer (plus the
- * tod-main--list mount reset that un-centres the placeholder surface).
- * Canonical tod-* rules live in site00-twin-opus-direct.css and are never
- * overridden here. Artboard-native: the shell scales the 768px stage, so LIST
- * composes at the same coordinates and inherits identical shell behaviour —
- * same chrome, same pinned dock, same scale. LIST is a presentation mode, not
- * a breakpoint; the layers at the end adapt its grouping on wider viewports.
+ * R1 restores Spark's own digest grammar instead of Opus panels stacked
+ * vertically: a numbered inspection sequence (01-08 eyebrows), one breathing
+ * module per beat, larger digest type, taller full-width controls, and
+ * independently framed output/pipeline cards. Same workspace, same assets,
+ * same handlers — a different presentation mode.
+ *
+ * Styles ONLY the tod-lv-* digest renderer (plus the tod-main--list mount
+ * reset). Canonical tod-* rules live in site00-twin-opus-direct.css and are
+ * never overridden here. Artboard-native: the shell scales the 768px stage,
+ * so LIST composes at the same coordinates — same chrome, same pinned dock,
+ * same scale. LIST stays LIST at every width; the layer at the end only
+ * widens secondary groupings, never re-densifies into canonical grids.
  */
 
 /* Mount reset: the placeholder centred a fixed card; LIST is a scroll column. */
 .tod-main.tod-main--list {
   display: block;
-  padding: 12px var(--tod-pad-r) 12px var(--tod-pad-l);
+  padding: 16px var(--tod-pad-r) 20px var(--tod-pad-l);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -21,23 +27,50 @@
 .tod-lv {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 26px;
   font-variant-ligatures: none;
 }
+
+/* Numbered inspection eyebrows — the LIST sequence signature. */
+.tod-lv-band::before,
+.tod-lv-hero::before,
+.tod-lv-authority::before,
+.tod-lv-gallery::before,
+.tod-lv-actions::before,
+.tod-lv-out::before,
+.tod-lv-pipe::before {
+  display: block;
+  margin-bottom: 10px;
+  padding-left: 9px;
+  border-left: 4px solid var(--tod-lime);
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: 1.6px;
+  font-weight: 700;
+  color: var(--tod-ink);
+}
+
+.tod-lv-band::before { content: '01 · TARGET / VIEWPORT / STAGE'; }
+.tod-lv-hero::before { content: '02 · ACTIVE CONCEPT'; color: #f2f2f2; }
+.tod-lv-authority::before { content: '03 · AUTHORITY'; }
+.tod-lv-gallery::before { content: '04 · CANDIDATES'; }
+.tod-lv-actions::before { content: '05 · CANDIDATE ACTIONS'; grid-column: 1 / -1; }
+.tod-lv-out::before { content: '06 · STRUCTURED OUTPUT'; }
+.tod-lv-pipe::before { content: '07 · PIPELINE / READINESS'; }
 
 /* 01 WORKSPACE CONTEXT — single digest strip, no chrome repeat. */
 .tod-lv-context {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 10px 12px;
+  gap: 6px;
+  padding: 14px 16px;
   background: #000;
   color: #f2f2f2;
   border: 1px solid #000;
 }
 
 .tod-lv-context__project {
-  font-size: 9.5px;
+  font-size: 11px;
   line-height: 1;
   font-weight: 700;
   letter-spacing: 0.6px;
@@ -49,23 +82,21 @@
 }
 
 .tod-lv-context__entry {
-  font-size: 8px;
-  line-height: 1.5;
+  font-size: 9.5px;
+  line-height: 1.6;
   color: #cfcfcf;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-context__stage {
-  font-size: 8px;
-  line-height: 1;
+  font-size: 9.5px;
+  line-height: 1.4;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
 }
 
-/* 02 TARGET / VIEWPORT / STAGE — labelled digest rows, shared controls. */
+/* 02 TARGET / VIEWPORT / STAGE — inspection rows, shared controls. */
 .tod-lv-band {
-  display: flex;
-  flex-direction: column;
   border: 1.6px solid var(--tod-border-major);
   border-radius: 4px;
   background: var(--tod-panel);
@@ -75,8 +106,8 @@
 .tod-lv-band__row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 9px 12px;
+  gap: 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--tod-border-column);
 }
 
@@ -85,113 +116,118 @@
 }
 
 .tod-lv-band__label {
-  flex: 0 0 92px;
-  font-size: 8px;
-  line-height: 1;
-  letter-spacing: 0.5px;
+  flex: 0 0 120px;
+  font-size: 9.5px;
+  line-height: 1.4;
+  letter-spacing: 0.8px;
   color: #3c3c40;
-  font-weight: var(--tod-weight-ui);
+  font-weight: 700;
 }
 
 .tod-lv-band__value {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 9.5px;
-  line-height: 1.4;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.5;
   color: var(--tod-ink);
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-band__lock {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 .tod-lv-band__devices {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .tod-lv-device {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px 6px 8px;
+  gap: 8px;
+  min-height: 42px;
+  padding: 8px 16px 8px 12px;
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
   background: #fff;
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: var(--tod-weight-ui);
   color: #202020;
 }
 
 .tod-lv-device__ico {
-  width: 16px;
-  height: 16px;
+  width: 19px;
+  height: 19px;
 }
 
 .tod-lv-device.is-active {
   background: #000;
   border-color: #000;
   color: var(--tod-lime);
+  box-shadow: inset 0 -3px 0 var(--tod-lime);
 }
 
-/* 03 HERO — black-field digest, same plate asset as canonical. */
+/* 03 HERO — stacked digest composition, same plate asset as canonical. */
 .tod-lv-hero {
   background: #000;
   color: #f5f5f5;
   border: 1px solid #000;
   border-radius: 4px;
-  padding: 14px 14px 12px;
+  padding: 22px 20px 18px;
   overflow: hidden;
 }
 
 .tod-lv-hero__eyebrow {
   display: flex;
   justify-content: space-between;
-  font-size: 8.5px;
-  line-height: 1;
-  letter-spacing: 0.8px;
+  gap: 12px;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 1px;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-hero__headline {
-  margin-top: 10px;
+  margin-top: 14px;
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 52px;
-  line-height: 0.94;
+  font-size: 64px;
+  line-height: 0.96;
   letter-spacing: 0.5px;
   color: #fff;
 }
 
 .tod-lv-hero__standfirst {
-  margin-top: 10px;
+  margin-top: 14px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-size: 9.5px;
-  line-height: 1.4;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.55;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-hero__plate {
   width: 100%;
-  height: 190px;
-  margin-top: 12px;
+  height: 230px;
+  margin-top: 18px;
 }
 
 .tod-lv-hero__footer {
-  margin-top: 10px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 8px;
-  line-height: 1.5;
+  gap: 14px;
+  font-size: 9.5px;
+  line-height: 1.6;
   color: #c9c9c9;
   font-weight: var(--tod-weight-ui);
 }
@@ -203,25 +239,25 @@
 
 .tod-lv-hero__footerChip {
   margin-left: auto;
-  padding: 3px 7px;
+  padding: 4px 9px;
   background: var(--tod-lime);
   color: #111;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .tod-lv-hero__footerCount {
   color: #8a8a8a;
 }
 
-/* 04 AUTHORITY — vertical digest, shared pair state. */
+/* 04 AUTHORITY — sequential digest, shared pair state. */
 .tod-lv-authority {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   border: 1.6px solid var(--tod-border-major);
   border-radius: 4px;
   background: var(--tod-panel);
-  padding: 12px;
+  padding: 18px;
 }
 
 .tod-lv-authority__select {
@@ -233,26 +269,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 34px;
+  gap: 10px;
+  min-height: 46px;
   background: var(--tod-lime);
   color: #111;
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: var(--tod-weight-ui);
   border-radius: 3px;
 }
 
 .tod-lv-authority__selectCheck {
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
 }
 
 .tod-lv-authority__selectState {
-  padding: 5px 0 2px;
+  padding: 7px 0 3px;
   text-align: center;
   background: #000;
   color: #96a04e;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: var(--tod-weight-ui);
   border-radius: 0 0 3px 3px;
 }
@@ -261,11 +297,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
+  min-height: 44px;
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
   background: #fff;
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: var(--tod-weight-ui);
   color: #202020;
 }
@@ -282,16 +318,16 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 9px 10px 9px 12px;
-  font-size: 8.5px;
-  letter-spacing: 0.5px;
+  padding: 13px 12px 13px 16px;
+  font-size: 10px;
+  letter-spacing: 0.8px;
   color: #1d1d1d;
-  font-weight: var(--tod-weight-ui);
+  font-weight: 700;
 }
 
 .tod-lv-pair__caret {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   transition: transform 0.15s ease;
 }
 
@@ -306,8 +342,9 @@
 .tod-lv-pair__row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 16px;
 }
 
 .tod-lv-pair__row--mobile {
@@ -320,7 +357,7 @@
 }
 
 .tod-lv-pair__label {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: var(--tod-weight-ui);
 }
 
@@ -329,25 +366,25 @@
 }
 
 .tod-lv-pair__version {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: var(--tod-weight-ui);
   color: inherit;
 }
 
 .tod-lv-pair__state {
   margin-left: auto;
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: var(--tod-weight-ui);
   color: var(--tod-lime);
 }
 
 .tod-lv-pair__replace {
   margin-left: auto;
-  padding: 6px 12px;
+  padding: 9px 18px;
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
   background: #fff;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: var(--tod-weight-ui);
 }
 
@@ -355,10 +392,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 34px;
-  padding: 6px 10px;
-  font-size: 9px;
+  gap: 10px;
+  min-height: 46px;
+  padding: 10px 12px;
+  font-size: 10.5px;
   font-weight: var(--tod-weight-ui);
   border-radius: 3px;
   text-align: center;
@@ -383,15 +420,15 @@
 .tod-lv-authority__actionLines {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .tod-lv-authority__lockIco {
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
 }
 
-/* 05 CANDIDATE GALLERY — horizontal digest browsing, shared selection. */
+/* 05 CANDIDATE GALLERY — large digest cards, shared selection. */
 .tod-lv-gallery {
   border: 1.6px solid var(--tod-border-major);
   border-radius: 4px;
@@ -403,13 +440,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 9px 12px;
+  gap: 12px;
+  padding: 13px 16px;
   border-bottom: 1.6px solid var(--tod-border-panel);
 }
 
 .tod-lv-gallery__title {
-  font-size: 9.5px;
-  letter-spacing: 0.5px;
+  font-size: 11.5px;
+  letter-spacing: 0.6px;
   color: #2a2a2a;
   font-weight: 700;
 }
@@ -417,15 +455,15 @@
 .tod-lv-gallery__compare {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 8.5px;
+  gap: 8px;
+  font-size: 10px;
   color: #2a2a2a;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-gallery__compareIco {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .tod-lv-gallery__body {
@@ -434,8 +472,8 @@
 
 .tod-lv-gallery__rail {
   display: flex;
-  gap: 10px;
-  padding: 12px;
+  gap: 14px;
+  padding: 16px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -449,11 +487,11 @@
 
 .tod-lv-gallery__next {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: #fff;
   border: 1px solid var(--tod-border-control);
@@ -463,22 +501,22 @@
 }
 
 .tod-lv-gallery__next .tod-ico {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .tod-lv-gallery__selected {
-  padding: 0 12px 10px;
-  font-size: 8px;
-  letter-spacing: 0.5px;
+  padding: 0 16px 14px;
+  font-size: 9.5px;
+  letter-spacing: 0.8px;
   color: #3c3c40;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-card {
   position: relative;
-  flex: 0 0 208px;
-  height: 168px;
+  flex: 0 0 260px;
+  height: 200px;
   scroll-snap-align: start;
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
@@ -488,22 +526,22 @@
 }
 
 .tod-lv-card.is-active {
-  border: 2px solid var(--tod-lime);
-  outline: 1px solid #000;
-  outline-offset: -1px;
+  border: 2.5px solid var(--tod-lime);
+  outline: 1.5px solid #000;
+  outline-offset: -1.5px;
 }
 
 .tod-lv-card__version {
   position: absolute;
-  top: 7px;
-  left: 8px;
+  top: 9px;
+  left: 10px;
   z-index: 3;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-card__version--chip {
-  padding: 2px 6px;
+  padding: 3px 8px;
   border: 1px solid var(--tod-lime);
   color: var(--tod-lime);
   background: rgba(0, 0, 0, 0.55);
@@ -515,11 +553,11 @@
 
 .tod-lv-card__tick {
   position: absolute;
-  top: 6px;
-  right: 7px;
+  top: 8px;
+  right: 9px;
   z-index: 3;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: var(--tod-lime);
   display: flex;
@@ -528,8 +566,8 @@
 }
 
 .tod-lv-card__tick .tod-ico {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   color: #111;
 }
 
@@ -547,9 +585,9 @@
 
 .tod-lv-card__copy {
   position: absolute;
-  top: 26px;
-  left: 8px;
-  width: 104px;
+  top: 34px;
+  left: 10px;
+  width: 128px;
   z-index: 2;
 }
 
@@ -557,17 +595,17 @@
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 17px;
+  font-size: 21px;
   line-height: 1;
   letter-spacing: 0.3px;
 }
 
 .tod-lv-card__standfirst {
-  margin-top: 6px;
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  font-size: 5px;
-  line-height: 1.5;
+  font-size: 6px;
+  line-height: 1.55;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
 }
@@ -578,17 +616,17 @@
 
 .tod-lv-card__plate {
   position: absolute;
-  top: 24px;
+  top: 30px;
   right: 0;
-  width: 96px;
-  height: 144px;
+  width: 120px;
+  height: 170px;
 }
 
 .tod-lv-card__grid {
   position: absolute;
   top: 0;
   right: 0;
-  width: 92px;
+  width: 112px;
   height: 100%;
   background-image:
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 7px),
@@ -620,7 +658,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 64px;
+  width: 78px;
   height: 100%;
   background: repeating-linear-gradient(180deg, rgba(26, 24, 22, 0.35) 0 1px, transparent 1px 5px);
   opacity: 0.5;
@@ -628,22 +666,22 @@
 
 .tod-lv-card__collageCopy {
   position: absolute;
-  left: 8px;
-  bottom: 10px;
+  left: 10px;
+  bottom: 12px;
   display: flex;
   flex-direction: column;
-  font-size: 8px;
-  line-height: 1.4;
+  font-size: 9.5px;
+  line-height: 1.45;
   color: #141414;
   font-weight: 700;
 }
 
 .tod-lv-card__stamp {
   position: absolute;
-  right: 10px;
-  bottom: 8px;
+  right: 12px;
+  bottom: 10px;
   font-family: var(--tod-display);
-  font-size: 22px;
+  font-size: 27px;
   color: #141414;
 }
 
@@ -659,22 +697,22 @@
 
 .tod-lv-card__archiveInk {
   position: absolute;
-  left: 10px;
-  top: 20px;
+  left: 12px;
+  top: 26px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
   color: #141414;
 }
 
 .tod-lv-card__archiveStamp {
   font-family: var(--tod-display);
-  font-size: 30px;
+  font-size: 38px;
   line-height: 1;
 }
 
 .tod-lv-card__archiveRule {
-  width: 60px;
+  width: 72px;
   height: 2px;
   background: #141414;
 }
@@ -682,130 +720,118 @@
 .tod-lv-card__archiveHead {
   display: flex;
   flex-direction: column;
-  font-size: 9px;
-  line-height: 1.3;
+  font-size: 10.5px;
+  line-height: 1.35;
   font-weight: 700;
   letter-spacing: 0.5px;
 }
 
 .tod-lv-card__archiveChip {
   position: absolute;
-  right: 10px;
-  top: 8px;
-  font-size: 8px;
+  right: 12px;
+  top: 10px;
+  font-size: 9px;
   font-weight: var(--tod-weight-ui);
   color: #141414;
   border: 1px solid #141414;
-  padding: 2px 6px;
+  padding: 2px 7px;
 }
 
-/* 06 CANDIDATE ACTIONS — digestible 2x2, canonical parity (inert). */
+/* 06 CANDIDATE ACTIONS — tappable digest grid, canonical parity (inert). */
 .tod-lv-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border: 1.6px solid var(--tod-border-major);
-  border-radius: 4px;
-  background: var(--tod-panel);
-  overflow: hidden;
+  gap: 10px;
 }
 
 .tod-lv-actions__cell {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px;
-  font-size: 8.5px;
+  gap: 12px;
+  min-height: 58px;
+  padding: 14px 16px;
+  font-size: 10.5px;
   font-weight: var(--tod-weight-ui);
   color: #1d1d1d;
-  border-bottom: 1px solid var(--tod-border-column);
-}
-
-.tod-lv-actions__cell:nth-child(odd) {
-  border-right: 1px solid var(--tod-border-column);
-}
-
-.tod-lv-actions__cell:nth-last-child(-n + 2) {
-  border-bottom: 0;
-}
-
-.tod-lv-actions__ico {
-  width: 18px;
-  height: 18px;
-  flex: none;
-}
-
-/* 07 STRUCTURED OUTPUT — stacked digest modules. */
-.tod-lv-out {
   border: 1.6px solid var(--tod-border-major);
   border-radius: 4px;
   background: var(--tod-panel);
-  overflow: hidden;
 }
 
+.tod-lv-actions__ico {
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+
+/* 07 STRUCTURED OUTPUT — one digest card per module. */
 .tod-lv-out__head {
-  padding: 9px 12px;
-  border-bottom: 1.6px solid var(--tod-border-panel);
+  margin-bottom: 12px;
+  padding: 13px 16px;
+  border: 1.6px solid var(--tod-border-major);
+  border-radius: 4px;
+  background: #000;
 }
 
 .tod-lv-out__title {
-  font-size: 9.5px;
-  letter-spacing: 0.5px;
-  color: #2a2a2a;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  color: var(--tod-lime);
   font-weight: 700;
 }
 
 .tod-lv-out__mods {
   display: flex;
   flex-direction: column;
+  gap: 14px;
 }
 
 .tod-lv-out__mod {
-  padding: 10px 12px 12px;
-  border-bottom: 1px solid var(--tod-border-column);
-}
-
-.tod-lv-out__mod:last-child {
-  border-bottom: 0;
+  padding: 16px 16px 14px;
+  border: 1.6px solid var(--tod-border-major);
+  border-radius: 4px;
+  background: var(--tod-panel);
 }
 
 .tod-lv-out__label {
-  font-size: 8.5px;
-  letter-spacing: 0.5px;
+  font-size: 11px;
+  letter-spacing: 0.8px;
   color: #171717;
   font-weight: 700;
 }
 
 .tod-lv-out__lines {
-  margin-top: 4px;
+  margin-top: 6px;
   display: flex;
-  gap: 8px;
-  font-size: 8px;
+  gap: 10px;
+  font-size: 9.5px;
+  line-height: 1.5;
   color: #2b2b2b;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-out__preview {
   position: relative;
-  margin-top: 8px;
-  height: 110px;
+  margin-top: 12px;
+  height: 150px;
   overflow: hidden;
 }
 
 .tod-lv-out__preview--manifest {
   background: #c9b892;
   border: 1px solid var(--tod-border-control);
-  padding: 8px 10px;
+  padding: 10px 12px;
 }
 
 .tod-lv-out__manifestTitle {
-  font-size: 7px;
+  font-size: 8px;
   color: #3a332a;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-out__manifestRule {
   display: block;
-  margin-top: 5px;
+  margin-top: 6px;
   height: 1px;
   background: rgba(40, 34, 26, 0.5);
 }
@@ -813,21 +839,21 @@
 .tod-lv-out__manifestGrid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 3px;
-  margin-top: 7px;
+  gap: 4px;
+  margin-top: 9px;
 }
 
 .tod-lv-out__manifestGrid i {
   display: block;
-  height: 12px;
+  height: 22px;
   border: 1px solid rgba(40, 34, 26, 0.45);
 }
 
 .tod-lv-out__manifestStamp {
   position: absolute;
-  right: 10px;
-  bottom: 6px;
-  font-size: 7.5px;
+  right: 12px;
+  bottom: 8px;
+  font-size: 8.5px;
   color: #3a332a;
   font-weight: var(--tod-weight-ui);
 }
@@ -866,30 +892,30 @@
 
 .tod-lv-out__overlayNote {
   position: absolute;
-  left: 10px;
-  top: 8px;
-  font-size: 6px;
-  letter-spacing: 1px;
+  left: 12px;
+  top: 10px;
+  font-size: 7px;
+  letter-spacing: 1.2px;
   color: #2c2c2c;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-out__overlayInk {
   position: absolute;
-  right: 16px;
+  right: 20px;
   bottom: 0;
   font-family: var(--tod-display);
-  font-size: 56px;
+  font-size: 76px;
   line-height: 1;
   color: #101010;
 }
 
 .tod-lv-out__overlayMark {
   position: absolute;
-  right: 40px;
-  top: 10px;
-  width: 26px;
-  height: 16px;
+  right: 52px;
+  top: 12px;
+  width: 32px;
+  height: 20px;
   border: 1.5px solid var(--tod-red);
 }
 
@@ -897,7 +923,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 2px;
+  gap: 3px;
 }
 
 .tod-lv-out__evidenceTile {
@@ -920,84 +946,81 @@
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
   background: #fff;
-  padding: 8px 10px;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  font-size: 8px;
+  gap: 7px;
+  font-size: 9.5px;
   color: #3a3a3a;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-out__source {
-  margin-top: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--tod-border-column);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .tod-lv-out__sourceText {
-  font-size: 8px;
+  font-size: 9.5px;
   color: #262626;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-out__sourceIco {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
-/* 08 PIPELINE / READINESS — vertical digest sequence. */
-.tod-lv-pipe {
+/* 08 PIPELINE / READINESS — one digest card per beat. */
+.tod-lv-pipe__head {
+  margin-bottom: 12px;
+  padding: 13px 16px;
   border: 1.6px solid var(--tod-border-major);
   border-radius: 4px;
-  background: var(--tod-panel);
-  overflow: hidden;
-}
-
-.tod-lv-pipe__head {
-  padding: 9px 12px;
-  border-bottom: 1.6px solid var(--tod-border-panel);
+  background: #000;
 }
 
 .tod-lv-pipe__title {
-  font-size: 9.5px;
-  letter-spacing: 0.5px;
-  color: #2a2a2a;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  color: var(--tod-lime);
   font-weight: 700;
 }
 
 .tod-lv-pipe__mods {
   display: flex;
   flex-direction: column;
+  gap: 14px;
 }
 
 .tod-lv-pipe__mod {
-  padding: 10px 12px 12px;
-  border-bottom: 1px solid var(--tod-border-column);
-}
-
-.tod-lv-pipe__mod:last-child {
-  border-bottom: 0;
+  padding: 16px 16px 14px;
+  border: 1.6px solid var(--tod-border-major);
+  border-radius: 4px;
+  background: var(--tod-panel);
 }
 
 .tod-lv-pipe__label {
-  font-size: 8px;
-  letter-spacing: 0.5px;
+  font-size: 10px;
+  letter-spacing: 0.8px;
   color: #3f3f43;
-  font-weight: var(--tod-weight-ui);
+  font-weight: 700;
 }
 
 .tod-lv-pipe__gauge {
-  margin-top: 8px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .tod-lv-pipe__ring {
-  width: 56px;
-  height: 56px;
+  width: 72px;
+  height: 72px;
   transform: rotate(-90deg);
 }
 
@@ -1015,23 +1038,23 @@
 }
 
 .tod-lv-pipe__gaugeValue {
-  font-size: 16px;
+  font-size: 20px;
   color: #1a1a1a;
   font-weight: 700;
 }
 
 .tod-lv-pipe__gaugeState {
-  font-size: 9px;
+  font-size: 10.5px;
   color: var(--tod-green);
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-pipe__compiler {
-  margin-top: 8px;
+  margin-top: 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 8px;
+  gap: 8px;
+  font-size: 9.5px;
   color: #3f3f43;
   font-weight: var(--tod-weight-ui);
 }
@@ -1041,7 +1064,7 @@
 }
 
 .tod-lv-pipe__checks {
-  margin-top: 8px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -1050,8 +1073,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 0;
-  font-size: 9px;
+  padding: 9px 0;
+  font-size: 10.5px;
   color: #212121;
   font-weight: var(--tod-weight-ui);
   border-bottom: 1px solid var(--tod-border-subtle);
@@ -1063,23 +1086,23 @@
 
 .tod-lv-pipe__checkPass,
 .tod-lv-pipe__checkWarn {
-  width: 14px;
-  height: 14px;
+  width: 17px;
+  height: 17px;
 }
 
 .tod-lv-pipe__details {
-  margin-top: 8px;
+  margin-top: 12px;
   width: 100%;
-  min-height: 32px;
+  min-height: 44px;
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
   background: #fff;
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-pipe__status {
-  margin-top: 8px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -1088,8 +1111,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 0;
-  font-size: 9px;
+  padding: 9px 0;
+  font-size: 10.5px;
   color: #212121;
   font-weight: var(--tod-weight-ui);
   border-bottom: 1px solid var(--tod-border-subtle);
@@ -1104,40 +1127,40 @@
 }
 
 .tod-lv-pipe__nextCopy {
-  margin-top: 8px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-size: 9.5px;
-  line-height: 1.5;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 1.6;
   color: #171717;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-pipe__primary {
-  margin-top: 10px;
+  margin-top: 14px;
   width: 100%;
-  min-height: 36px;
+  min-height: 48px;
   background: var(--tod-lime);
   color: #101505;
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: var(--tod-weight-ui);
   border-radius: 3px;
 }
 
 .tod-lv-pipe__secondary {
-  margin-top: 8px;
+  margin-top: 10px;
   width: 100%;
-  min-height: 34px;
+  min-height: 44px;
   border: 1px solid var(--tod-border-control);
   border-radius: 3px;
   background: #fff;
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: var(--tod-weight-ui);
 }
 
-/* 09 LIST RECORD — shared tabs + digest record. Natural height; the flex
- * shell pins the dock to the screen bottom in both modes. */
+/* 09 LIST RECORD — grouped digest metadata. Natural height; the flex shell
+ * pins the dock to the screen bottom in both modes. */
 .tod-lv-record {
   display: flex;
   flex-direction: column;
@@ -1145,9 +1168,21 @@
   background: var(--tod-paper);
 }
 
+.tod-lv-record::before {
+  content: '08 · CONCEPT RECORD';
+  display: block;
+  padding: 8px 12px 0;
+  font-size: 9px;
+  letter-spacing: 1.6px;
+  font-weight: 700;
+  color: var(--tod-ink);
+}
+
 .tod-lv-record__tabs {
   display: flex;
+  margin-top: 8px;
   background: var(--tod-tabbar);
+  border-top: 1px solid var(--tod-border-panel);
   border-bottom: 1px solid var(--tod-border-panel);
   overflow-x: auto;
   scrollbar-width: none;
@@ -1163,9 +1198,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 9px 12px;
-  font-size: 8px;
+  gap: 7px;
+  padding: 12px 14px;
+  font-size: 9.5px;
   white-space: nowrap;
   color: #2e2e2e;
   font-weight: var(--tod-weight-ui);
@@ -1173,8 +1208,8 @@
 }
 
 .tod-lv-record__tabIco {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 .tod-lv-record__tab.is-active {
@@ -1184,111 +1219,93 @@
 }
 
 .tod-lv-record__fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 16px;
-  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 16px;
 }
 
 .tod-lv-record__field {
   display: flex;
-  gap: 8px;
-  font-size: 8px;
+  gap: 12px;
+  padding: 7px 0;
+  font-size: 10px;
   line-height: 1.5;
   color: #333;
   font-weight: var(--tod-weight-ui);
+  border-bottom: 1px solid var(--tod-border-subtle);
+}
+
+.tod-lv-record__field:last-child {
+  border-bottom: 0;
 }
 
 .tod-lv-record__field dt {
-  flex: 0 0 auto;
+  flex: 0 0 170px;
   color: #5e5e60;
 }
 
 .tod-lv-record__amendment {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 12px;
-  border-top: 1px solid var(--tod-border-subtle);
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--tod-border-column);
   background: #fff;
 }
 
 .tod-lv-record__amendTitle {
-  font-size: 8px;
+  font-size: 9.5px;
   color: #1d1d1d;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-record__amendChip {
-  padding: 2px 6px;
+  padding: 3px 8px;
   background: var(--tod-lime);
   color: #111;
-  font-size: 7.5px;
+  font-size: 9px;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-record__amendMeta {
-  font-size: 7.5px;
+  font-size: 9px;
   color: #5e5e60;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-record__view {
   margin-left: auto;
-  padding: 5px 10px;
+  padding: 9px 16px;
   border: 1px solid var(--tod-border-control);
   border-radius: 2px;
   background: #fff;
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: var(--tod-weight-ui);
 }
 
-/* LIST is a mode, not a breakpoint: group wider on tablet/desktop widths. */
+/* LIST is a mode, not a breakpoint: widen secondary groupings on larger
+ * viewports, but never re-densify into canonical grids. Output and pipeline
+ * stay single-column digest stacks at every width. */
 @media (min-width: 641px) {
   .tod-lv-actions {
     grid-template-columns: repeat(4, 1fr);
   }
 
   .tod-lv-actions__cell {
-    border-bottom: 0;
-    border-right: 1px solid var(--tod-border-column);
+    font-size: 9.5px;
+    line-height: 1.45;
+    padding: 12px;
+    gap: 10px;
   }
 
-  .tod-lv-actions__cell:nth-child(odd) {
-    border-right: 1px solid var(--tod-border-column);
-  }
-
-  .tod-lv-actions__cell:last-child {
-    border-right: 0;
-  }
-
-  .tod-lv-out__mods {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .tod-lv-out__mod {
-    border-bottom: 1px solid var(--tod-border-column);
-  }
-
-  .tod-lv-out__mod:nth-child(odd) {
-    border-right: 1px solid var(--tod-border-column);
-  }
-
-  .tod-lv-pipe__mods {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .tod-lv-pipe__mod {
-    border-bottom: 1px solid var(--tod-border-column);
-  }
-
-  .tod-lv-pipe__mod:nth-child(odd) {
-    border-right: 1px solid var(--tod-border-column);
+  .tod-lv-hero__plate {
+    height: 260px;
   }
 
   .tod-lv-record__fields {
-    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
   }
 }
