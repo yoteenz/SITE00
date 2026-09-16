@@ -134,6 +134,12 @@ export const SITE00_ROUTES = {
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
   projectDesign: '/projects/:projectSlug/design',
+  projectDesignReferences: '/projects/:projectSlug/design/references',
+  projectDesignAssets: '/projects/:projectSlug/design/assets',
+  projectDesignPages: '/projects/:projectSlug/design/pages',
+  projectDesignSkins: '/projects/:projectSlug/design/skins',
+  projectDesignHistory: '/projects/:projectSlug/design/history',
+  projectDesignMore: '/projects/:projectSlug/design/more',
   projectDesignTwin: '/projects/:projectSlug/design/twin',
   projectDesignTwinV4: '/projects/:projectSlug/design/twin-v4',
   projectDesignTwinSolDirect: '/projects/:projectSlug/design/twin-sol-direct',
@@ -525,12 +531,20 @@ export function site00ProjectDesignPath(
   projectSlug: string,
   params?: { screen?: string; viewport?: string; tab?: string },
 ): string {
+  const slug = projectSlug.toLowerCase();
   const search = new URLSearchParams();
-  search.set('project', projectSlug);
   if (params?.screen) search.set('screen', params.screen);
   if (params?.viewport) search.set('viewport', params.viewport);
   if (params?.tab) search.set('tab', params.tab.toLowerCase());
-  return `${SITE00_ROUTES.site00Design}?${search.toString()}`;
+  const qs = search.toString();
+  return qs ? `/projects/${slug}/design?${qs}` : `/projects/${slug}/design`;
+}
+
+export function site00ProjectDesignSectionPath(
+  projectSlug: string,
+  section: 'references' | 'assets' | 'pages' | 'skins' | 'history' | 'more',
+): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/${section}`;
 }
 
 export function solDesignBenchmarkRoute(projectSlug: string): string {

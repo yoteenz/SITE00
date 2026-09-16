@@ -54,13 +54,19 @@ describe('P0.VR.3M design workspace ownership', () => {
     expect(read('src/site00/config/routes.ts')).toContain("site00Design: '/projects/site00/design'");
   });
 
-  it('legacy NDXBOOK design route redirects with context preserved', () => {
+  it('legacy NDXBOOK design route serves production workspace in place (P0.VR.DESIGN-INTEGRATION1)', () => {
     const resolution = resolveLegacyProjectDesignRedirect('ndxbook', '?screen=campaign-board&viewport=mobile');
-    expect(resolution.redirect).toBe(true);
+    expect(resolution.redirect).toBe(false);
     expect(resolution.loop).toBe(false);
-    expect(resolution.target.pathname).toBe(CANONICAL_SITE00_DESIGN_ROUTE);
-    expect(resolution.target.search).toContain('project=ndxbook');
+    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
     expect(resolution.target.search).toContain('screen=campaign-board');
+  });
+
+  it('host SITE00 design route redirects to per-project production DESIGN', () => {
+    const resolution = resolveLegacyProjectDesignRedirect('site00', '?project=ndxbook&viewport=mobile');
+    expect(resolution.redirect).toBe(true);
+    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
+    expect(resolution.target.search).toContain('viewport=mobile');
   });
 
   it('legacy /studio-world/design redirects to canonical route', () => {
@@ -131,9 +137,9 @@ describe('P0.VR.3M design workspace ownership', () => {
     expect(dropdown.some((p) => p.slug === 'site00')).toBe(true);
   });
 
-  it('route wiring includes canonical + legacy redirect pages', () => {
+  it('route wiring includes production DESIGN gate + host workspace', () => {
     expect(read('src/routes/Site00Routes.tsx')).toContain('Site00OwnedDesignWorkspacePage');
-    expect(read('src/routes/Site00Routes.tsx')).toContain('LegacyProjectDesignRedirectPage');
-    expect(read('src/site00/pages/StudioWorldDesignPage.tsx')).toContain('resolveLegacyProjectDesignRedirect');
+    expect(read('src/routes/Site00Routes.tsx')).toContain('DesignProductionRouteGate');
+    expect(read('src/site00/pages/DesignProductionWorkspacePage.tsx')).toContain('resolveLegacyProjectDesignRedirect');
   });
 });

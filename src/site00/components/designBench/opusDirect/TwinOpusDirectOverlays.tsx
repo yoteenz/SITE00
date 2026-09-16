@@ -174,7 +174,7 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
           <nav className="tod-ov__nav">
             <a href={`/projects/${slug}`}>PROJECT HUB</a>
             <a href={`/projects/${slug}/design`}>DESIGN (parent)</a>
-            <a href={`/projects/${slug}/design/twin-opus-direct`}>DESIGN · TWIN OPUS DIRECT</a>
+            <a href={`/projects/${slug}/design`}>DESIGN · PRODUCTION WORKSPACE</a>
           </nav>
           <p className="tod-ov__note">Host-level navigation — not DESIGN section tabs.</p>
         </aside>

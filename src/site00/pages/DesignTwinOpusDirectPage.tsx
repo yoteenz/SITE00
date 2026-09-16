@@ -1,22 +1,25 @@
 /**
  * P0.VR.DESIGNBENCH.OPUS-DIRECT1 — `/projects/:projectSlug/design/twin-opus-direct`
  *
- * Isolated benchmark route: Claude Opus 5 reconstructing the NDXBOOK DESIGN
- * golden reference directly in DOM/CSS. Deliberately does not read from, write
- * to, or share components with `/design/twin`, `twin-v4`, `twin-testA`,
- * `twin-testB`, `twin-sol-direct`, `twin-grok-direct`, or the current DESIGN
- * route. Boots without the CTRL ROOM account guard so preview/phone can load it.
+ * P0.VR.DESIGN-INTEGRATION1 — authority reference / QA route (production is
+ * `/projects/:projectSlug/design`).
  */
 
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 import { DesignAgentDock } from '../components/designBench/designAgent/DesignAgentDock';
+import { DesignAgentDockProvider } from '../components/designBench/designAgent/DesignAgentDockContext';
 import { TwinOpusDirectScreen } from '../components/designBench/opusDirect/TwinOpusDirectScreen';
+import { DESIGN_INTEGRATION_LINEAGE } from '../../../shared/site00-design-workspace-production/designIntegrationLineage.js';
+import { site00ProjectDesignPath } from '../config/routes';
 import '../styles/site00-twin-opus-direct.css';
 import '../styles/site00-twin-opus-list.css';
+import '../styles/site00-design-production-child.css';
 
 export function DesignTwinOpusDirectPage() {
   const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+  const slug = projectSlug.toLowerCase();
 
   useEffect(() => {
     const { body, documentElement } = document;
@@ -33,18 +36,18 @@ export function DesignTwinOpusDirectPage() {
     };
   }, []);
 
-  /**
-   * P0.VR.OPUS-NATIVE2 — Phase 2. The dock is a sibling of the artboard, not a
-   * child of it. `TwinOpusDirectScreen` is the frozen canonical reconstruction
-   * under a write firewall and is scaled by a transform; mounting the agent
-   * inside it would both modify a protected component and inherit a scale that
-   * makes the panel illegible on a phone.
-   */
   return (
-    <>
-      <TwinOpusDirectScreen projectSlug={projectSlug} />
+    <DesignAgentDockProvider>
+      <div className="tod-ref-banner" role="status" data-testid="design-twin-reference-banner">
+        <span>
+          TWIN REFERENCE / QA · SOURCE {DESIGN_INTEGRATION_LINEAGE.sourceDesign} · promoted to{' '}
+          {DESIGN_INTEGRATION_LINEAGE.promotedTo}
+        </span>
+        <Link to={site00ProjectDesignPath(slug)}>OPEN PRODUCTION DESIGN</Link>
+      </div>
+      <TwinOpusDirectScreen projectSlug={slug} surface="reference" />
       <DesignAgentDock />
-    </>
+    </DesignAgentDockProvider>
   );
 }
 

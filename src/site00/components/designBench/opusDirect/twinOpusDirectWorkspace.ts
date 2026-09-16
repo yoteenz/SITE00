@@ -36,6 +36,10 @@ import {
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
 import {
+  designPageTargetLines,
+  readDesignPageTarget,
+} from '../production/designProductionPageTarget';
+import {
   useTwinOpusDirectProduction,
   type TwinOpusDirectProduction,
 } from './useTwinOpusDirectProduction';
@@ -151,6 +155,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [recordTabIndex, setRecordTabIndex] = useState(0);
   const [dockIndex, setDockIndex] = useState(0);
   const [viewMode, setViewModeState] = useState<TwinOpusDirectViewMode>(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE);
+  const [pageTarget, setPageTarget] = useState(() => readDesignPageTarget(projectSlug));
+
+  useEffect(() => {
+    const onTarget = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectSlug?: string }>).detail;
+      if (!detail?.projectSlug || detail.projectSlug.toLowerCase() !== projectSlug.toLowerCase()) return;
+      setPageTarget(readDesignPageTarget(projectSlug));
+    };
+    window.addEventListener('site00:design-page-target', onTarget);
+    return () => window.removeEventListener('site00:design-page-target', onTarget);
+  }, [projectSlug]);
 
   useEffect(() => {
     setCandidateId(prodState.selectedCandidateId);
@@ -254,7 +269,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       },
       context: TWIN_OPUS_DIRECT_CONTEXT,
       primaryNav: TWIN_OPUS_DIRECT_PRIMARY_NAV,
-      target: TWIN_OPUS_DIRECT_TARGET,
+      target: {
+        ...TWIN_OPUS_DIRECT_TARGET,
+        lines: designPageTargetLines(pageTarget) as unknown as typeof TWIN_OPUS_DIRECT_TARGET.lines,
+      },
       stage: {
         ...TWIN_OPUS_DIRECT_STAGE,
         stageValue: prodState.workflowStage === 'BUILD' ? 'BUILD' : TWIN_OPUS_DIRECT_STAGE.stageValue,
@@ -285,7 +303,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
     };
-  }, [prodState.workflowStage, projection, projectSlug]);
+  }, [pageTarget, prodState.workflowStage, projection, projectSlug]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),

@@ -238,6 +238,11 @@ export function findSurface(ref: { route?: string; pageId?: string }): DesignSur
   }
   if (ref.route) {
     const normalized = ref.route.replace(/\/+$/, '');
+    /** P0.VR.DESIGN-INTEGRATION1 — production DESIGN route shares twin authority. */
+    if (/^\/projects\/[^/]+\/design$/.test(normalized)) {
+      const twin = DESIGN_SURFACES.find((surface) => surface.pageId === 'twin-opus-direct');
+      if (twin) return twin;
+    }
     const byRoute = DESIGN_SURFACES.find((surface) => {
       const pattern = surface.route.replace(/:[A-Za-z]+/g, '[^/]+');
       return new RegExp(`^${pattern}$`).test(normalized);

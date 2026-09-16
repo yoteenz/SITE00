@@ -14,6 +14,9 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { DesignAgentOpenButton } from '../designAgent/DesignAgentDockContext';
+import { useDesignProductionNavigation } from '../production/useDesignProductionNavigation';
+
 import { TWIN_OPUS_DIRECT_REFERENCE_VIEWPORT, type TwinOpusDirectViewportId } from './twinOpusDirectContent';
 import { TwinOpusDirectOverlays } from './TwinOpusDirectOverlays';
 import {
@@ -118,10 +121,22 @@ function viewRowBoost(scale: number) {
   return scale < 1 ? 1 / scale : 1;
 }
 
-export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?: string }) {
+export function TwinOpusDirectScreen({
+  projectSlug = 'ndxbook',
+  surface = 'production',
+}: {
+  projectSlug?: string;
+  surface?: 'production' | 'reference';
+}) {
   const shell = useFullBleedShell();
   const workspace = useTwinOpusDirectWorkspace(projectSlug);
   const { data, state, actions, viewMode, setViewMode, production } = workspace;
+  const nav = useDesignProductionNavigation();
+  const primaryNavActiveIndex =
+    nav.activeSection && nav.activeSection !== 'more' ?
+      data.primaryNav.findIndex((label) => label.toLowerCase() === nav.activeSection)
+    : -1;
+  const navIndex = primaryNavActiveIndex >= 0 ? primaryNavActiveIndex : state.navIndex;
   const renderer = VIEW_RENDERERS[viewMode];
   const ViewBody = renderer.body;
   const ViewRecord = renderer.record;
@@ -140,6 +155,7 @@ export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?
         <div
           className="tod-screen"
           data-testid="twin-opus-direct-screen"
+          data-design-surface={surface}
           data-view-mode={viewMode}
           style={{
             height: `${shell.height}px`,
@@ -163,6 +179,7 @@ export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?
             <div className="tod-header__status">
               <span className="tod-header__compiler">{data.header.compiler}</span>
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
+              <DesignAgentOpenButton />
               <button
                 type="button"
                 className="tod-header__more"
@@ -190,13 +207,21 @@ export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?
                 key={label}
                 type="button"
                 className="tod-nav__cell"
-                aria-current={state.navIndex === index ? 'page' : undefined}
-                onClick={() => actions.selectNavSection(index)}
+                aria-current={navIndex === index ? 'page' : undefined}
+                onClick={() => {
+                  actions.selectNavSection(index);
+                  if (surface === 'production') nav.goPrimaryNavIndex(index);
+                }}
               >
                 {label}
               </button>
             ))}
-            <button type="button" className="tod-nav__cell tod-nav__cell--more">
+            <button
+              type="button"
+              className="tod-nav__cell tod-nav__cell--more"
+              aria-current={nav.activeSection === 'more' ? 'page' : undefined}
+              onClick={() => surface === 'production' && nav.goSection('more')}
+            >
               MORE
               <TodIconCaretDown className="tod-ico tod-nav__caret" />
             </button>
@@ -221,10 +246,10 @@ export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?
 
           {/* 04 TARGET_VIEWPORT_STAGE_BAND */}
           <section className="tod-band" aria-label="Target, viewport and stage">
-            <div className="tod-band__col tod-band__col--target">
+            <div className="tod-band__col tod-band__col--target" aria-readonly="true">
               <span className="tod-band__label">{data.target.label}</span>
               {data.target.lines.map((line) => (
-                <span key={line} className="tod-band__value">
+                <span key={line} className="tod-band__value tod-band__value--readonly">
                   {line}
                 </span>
               ))}
@@ -278,7 +303,35 @@ export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?
                     type="button"
                     className={`tod-bottom__cell${active ? ' is-active' : ''}`}
                     aria-current={active ? 'page' : undefined}
-                    onClick={() => actions.selectDockDestination(index)}
+                    onClick={() => {
+                      actions.selectDockDestination(index);
+                      if (surface !== 'production') return;
+                      const item = data.bottomNav[index];
+                      if (!item) return;
+                      switch (item.id) {
+                        case 'workspace':
+                          nav.goWorkspace();
+                          break;
+                        case 'design-history':
+                          nav.goSection('history');
+                          break;
+                        case 'feature-change':
+                          nav.goSection('history');
+                          break;
+                        case 'master-amendment':
+                          production.actions.openCreativeContext();
+                          break;
+                        case 'next-action':
+                          if (production.projection.buildEligible) {
+                            production.actions.runMoveToBuild();
+                          } else {
+                            production.actions.openReadinessReceipt();
+                          }
+                          break;
+                        default:
+                          break;
+                      }
+                    }}
                   >
                     <Icon className="tod-ico tod-bottom__ico" />
                     <span className="tod-bottom__label">
