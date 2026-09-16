@@ -21,7 +21,10 @@ import {
   designProductionSectionSubtitle,
   designProductionSectionTitle,
 } from '../production/DesignProductionSectionInShell';
+import { founderReviewModeActive, TWIN_REVIEW_AUTHORITY_STATUS } from '../../../../../shared/site00-design-workspace-production/twinLifecycle.js';
 import { useDesignProductionNavigation } from '../production/useDesignProductionNavigation';
+
+export type DesignWorkspaceRole = 'twin-founder-review' | 'production-provisional';
 
 import { TWIN_OPUS_DIRECT_REFERENCE_VIEWPORT, type TwinOpusDirectViewportId } from './twinOpusDirectContent';
 import { TwinOpusDirectOverlays } from './TwinOpusDirectOverlays';
@@ -129,15 +132,18 @@ function viewRowBoost(scale: number) {
 
 export function TwinOpusDirectScreen({
   projectSlug = 'ndxbook',
-  surface = 'production',
+  workspaceRole = 'production-provisional',
 }: {
   projectSlug?: string;
-  surface?: 'production' | 'reference';
+  workspaceRole?: DesignWorkspaceRole;
 }) {
   const shell = useFullBleedShell();
   const workspace = useTwinOpusDirectWorkspace(projectSlug);
   const { data, state, actions, viewMode, setViewMode, production } = workspace;
   const nav = useDesignProductionNavigation();
+  const functionalWorkspace = nav.isTwinWorkspace || nav.isProductionWorkspace;
+  const founderReviewMode =
+    workspaceRole === 'twin-founder-review' && founderReviewModeActive(TWIN_REVIEW_AUTHORITY_STATUS);
   const primaryNavActiveIndex =
     nav.activeSection && nav.activeSection !== 'more' ?
       data.primaryNav.findIndex((label) => label.toLowerCase() === nav.activeSection)
@@ -148,7 +154,7 @@ export function TwinOpusDirectScreen({
   const ViewRecord = renderer.record;
 
   const sectionBody =
-    surface === 'production' && nav.activeSection ?
+    functionalWorkspace && nav.activeSection ?
       <DesignChildSurfaceFrame
         inline
         mode="WORKSPACE"
@@ -169,7 +175,8 @@ export function TwinOpusDirectScreen({
         <div
           className="tod-screen"
           data-testid="twin-opus-direct-screen"
-          data-design-surface={surface}
+          data-design-surface={workspaceRole}
+          data-founder-review-mode={founderReviewMode ? 'true' : 'false'}
           data-view-mode={viewMode}
           style={{
             height: `${shell.height}px`,
@@ -224,7 +231,7 @@ export function TwinOpusDirectScreen({
                 aria-current={navIndex === index ? 'page' : undefined}
                 onClick={() => {
                   actions.selectNavSection(index);
-                  if (surface === 'production') nav.goPrimaryNavIndex(index);
+                  if (functionalWorkspace) nav.goPrimaryNavIndex(index);
                 }}
               >
                 {label}
@@ -234,7 +241,7 @@ export function TwinOpusDirectScreen({
               type="button"
               className="tod-nav__cell tod-nav__cell--more"
               aria-current={nav.activeSection === 'more' ? 'page' : undefined}
-              onClick={() => surface === 'production' && nav.goSection('more')}
+              onClick={() => functionalWorkspace && nav.goSection('more')}
             >
               MORE
               <TodIconCaretDown className="tod-ico tod-nav__caret" />
@@ -319,7 +326,7 @@ export function TwinOpusDirectScreen({
                     aria-current={active ? 'page' : undefined}
                     onClick={() => {
                       actions.selectDockDestination(index);
-                      if (surface !== 'production') return;
+                      if (!functionalWorkspace) return;
                       const item = data.bottomNav[index];
                       if (!item) return;
                       switch (item.id) {
