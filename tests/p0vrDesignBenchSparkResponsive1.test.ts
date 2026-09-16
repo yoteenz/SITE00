@@ -81,6 +81,21 @@ describe('P0.VR.DESIGNBENCH.SPARK-RESPONSIVE-OPUSGROK1 — isolated route', () =
     expect(css).not.toMatch(/\.tod-/);
     expect(screen).not.toContain('tod-');
   });
+
+  it('carries the opus R2 border hierarchy and small-UI weight', () => {
+    for (const token of [
+      '--tsr-border-major: #a9a9a9',
+      '--tsr-border-panel: #b2b2b2',
+      '--tsr-border-column: #c4c4c4',
+      '--tsr-border-subtle: #dadada',
+      '--tsr-border-control: #b8b8b8',
+      '--tsr-weight-ui: 500',
+    ]) {
+      expect(css).toContain(token);
+    }
+    expect(css).not.toContain('var(--tsr-line)');
+    expect(css).not.toContain('var(--tsr-line-soft)');
+  });
 });
 
 describe('P0.VR.DESIGNBENCH.SPARK-RESPONSIVE-OPUSGROK1 — content freeze parity', () => {
