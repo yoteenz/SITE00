@@ -634,8 +634,10 @@ export function DesignTwinFableDirectPage() {
                             <br />
                             IS THE INDEX
                           </span>
-                          <span className="fd-pair__thumb-block" />
-                          <span className="fd-pair__thumb-block fd-pair__thumb-block--b" />
+                          <span className="fd-pair__thumb-plate fd-pair__thumb-plate--mobile">
+                            <Newsprint />
+                            <PointingHand className="fd-pair__thumb-hand" />
+                          </span>
                         </div>
                         <div className="fd-pair__master-meta">
                           <span>V1.3</span>
@@ -652,7 +654,9 @@ export function DesignTwinFableDirectPage() {
                             <br />
                             IS THE INDEX
                           </span>
-                          <span className="fd-pair__thumb-block" />
+                          <span className="fd-pair__thumb-plate fd-pair__thumb-plate--desktop">
+                            <Newsprint dense />
+                          </span>
                         </div>
                         <div className="fd-pair__master-meta">
                           <span>V1.1</span>
@@ -773,23 +777,23 @@ export function DesignTwinFableDirectPage() {
             <button type="button" className="fd-gallery__next" aria-label="Next candidates">
               <IconChevronRight />
             </button>
-          </section>
 
-          {/* 08 CANDIDATE_ACTION_BAR */}
-          <div className="fd-actions" role="toolbar" aria-label="Candidate actions">
-            <button type="button" className="fd-actions__item">
-              <IconSliders /> <span>REFINE CONCEPT</span>
-            </button>
-            <button type="button" className="fd-actions__item">
-              <IconRefresh /> <span>REGENERATE CONCEPT</span>
-            </button>
-            <button type="button" className="fd-actions__item">
-              <IconInspect /> <span>INSPECT CANDIDATE</span>
-            </button>
-            <button type="button" className="fd-actions__item">
-              <IconExpand /> <span>VIEW FULLSCREEN</span>
-            </button>
-          </div>
+            {/* 08 CANDIDATE_ACTION_BAR — golden keeps it inside the gallery panel, under a divider */}
+            <div className="fd-actions" role="toolbar" aria-label="Candidate actions">
+              <button type="button" className="fd-actions__item">
+                <IconSliders /> <span>REFINE CONCEPT</span>
+              </button>
+              <button type="button" className="fd-actions__item">
+                <IconRefresh /> <span>REGENERATE CONCEPT</span>
+              </button>
+              <button type="button" className="fd-actions__item">
+                <IconInspect /> <span>INSPECT CANDIDATE</span>
+              </button>
+              <button type="button" className="fd-actions__item">
+                <IconExpand /> <span>VIEW FULLSCREEN</span>
+              </button>
+            </div>
+          </section>
 
           {/* 09 STRUCTURED_OUTPUT_REVIEW */}
           <section className="fd-panel fd-structured" aria-label="Structured output review">

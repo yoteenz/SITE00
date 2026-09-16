@@ -536,10 +536,10 @@
   padding-top: 1px;
 }
 .fd-btn {
-  height: 14px;
+  height: 17px;
   border-radius: 3px;
   font-size: 7px;
-  font-weight: 500;
+  font-weight: 400;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -548,12 +548,12 @@
 }
 .fd-btn--outline {
   background: #fff;
-  border: 1px solid var(--fd-border-dark);
+  border: 1px solid #5a5a5a;
   color: var(--fd-ink);
 }
 .fd-btn--lime {
   background: var(--fd-lime);
-  border: 1px solid #a9c41a;
+  border: 1px solid #6f7a2a;
   color: var(--fd-lime-ink);
 }
 .fd-btn--black {
@@ -562,25 +562,24 @@
   color: #fff;
 }
 .fd-rail > .fd-btn {
-  margin-top: 6px;
+  margin-top: 3px;
 }
 .fd-rail > .fd-btn--lime {
-  margin-top: 10px;
+  margin-top: 7px;
 }
 .fd-rail__select {
   display: flex;
   flex-direction: column;
   border-radius: 3px;
   overflow: hidden;
-  height: 42px;
+  height: 43px;
   text-align: center;
+  border: 1px solid #3a3a3a;
 }
 .fd-rail__select-main {
   flex: 0 0 27px;
   background: #fff;
-  border: 1px solid var(--fd-border-dark);
-  border-bottom: 0;
-  border-radius: 3px 3px 0 0;
+  border: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -601,15 +600,14 @@
 }
 .fd-rail__select.is-selected .fd-rail__select-main {
   background: var(--fd-lime);
-  border-color: var(--fd-lime);
   color: var(--fd-lime-ink);
 }
 .fd-rail__select.is-selected .fd-rail__select-sub {
   color: var(--fd-lime);
 }
 .fd-rail__desktop {
-  margin-top: 6px;
-  height: 24px;
+  margin-top: 5px;
+  height: 25px;
   font-size: 7.8px;
   font-weight: 400;
 }
@@ -618,14 +616,15 @@
   border-color: var(--fd-lime);
 }
 .fd-pair {
-  margin-top: 12px;
+  margin-top: 11px;
+  height: 112px;
   border: 1px solid var(--fd-border-dark);
   border-radius: 3px;
   background: var(--fd-paper);
   overflow: hidden;
 }
 .fd-pair__head {
-  height: 16px;
+  height: 14px;
   width: 100%;
   background: var(--fd-paper);
   display: flex;
@@ -637,7 +636,7 @@
   font-weight: 400;
 }
 .fd-pair__body {
-  padding: 3px 3px 4px;
+  padding: 3px 3px 3px;
 }
 .fd-pair__master {
   border-radius: 2px;
@@ -645,13 +644,13 @@
 }
 .fd-pair__master--mobile {
   background: var(--fd-black);
-  border: 1px solid var(--fd-lime);
+  border: 1px solid #b9c9a4;
   color: #fff;
-  height: 41px;
+  height: 44px;
 }
 .fd-pair__master--desktop {
-  margin-top: 3px;
-  height: 40px;
+  margin-top: 2px;
+  height: 44px;
   padding-left: 4px;
 }
 .fd-pair__master-label {
@@ -670,14 +669,38 @@
 }
 .fd-pair__thumb {
   position: relative;
-  width: 83px;
-  height: 24px;
+  width: 100px;
+  height: 25px;
   background: #050505;
   overflow: hidden;
   border: 1px solid #3a3a3a;
 }
 .fd-pair__thumb--desktop {
-  height: 20px;
+  height: 26px;
+}
+.fd-pair__thumb-plate {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  right: 2px;
+  width: 50px;
+  overflow: hidden;
+  filter: grayscale(1) contrast(1.05);
+}
+.fd-pair__thumb-plate--mobile {
+  width: 56px;
+}
+.fd-pair__thumb-plate--desktop {
+  width: 40px;
+  right: 6px;
+  transform: rotate(-8deg);
+}
+.fd-pair__thumb-hand {
+  position: absolute;
+  left: 6px;
+  top: -2px;
+  width: 16px;
+  height: 32px;
 }
 .fd-pair__thumb-title {
   position: absolute;
@@ -695,26 +718,6 @@
 .fd-pair__thumb--desktop .fd-pair__thumb-title {
   font-size: 9px;
   line-height: 9px;
-}
-.fd-pair__thumb-block {
-  position: absolute;
-  right: 3px;
-  top: 3px;
-  width: 30px;
-  height: 16px;
-  background: #cfc8bc;
-  opacity: 0.85;
-}
-.fd-pair__thumb-block--b {
-  right: 36px;
-  width: 18px;
-  top: 12px;
-  height: 8px;
-  background: #8a8a8a;
-}
-.fd-pair__thumb--desktop .fd-pair__thumb-block {
-  width: 26px;
-  height: 12px;
 }
 .fd-pair__master-meta {
   display: flex;
@@ -736,12 +739,14 @@
   margin-top: 1px;
 }
 .fd-rail__lock {
-  height: 25px;
+  height: 26px;
   gap: 10px;
   font-size: 6.8px;
   line-height: 9px;
   text-align: center;
-  margin-top: 7px;
+}
+.fd-rail > .fd-rail__lock {
+  margin-top: 5px;
 }
 .fd-rail__lock span {
   display: inline-block;
@@ -776,7 +781,7 @@
 /* ----------------------------------------------------------- 07 gallery */
 .fd-gallery {
   margin-top: 13px;
-  height: 118px;
+  height: 153px;
 }
 .fd-gallery__track {
   display: flex;
@@ -1054,10 +1059,12 @@
 
 /* ----------------------------------------------------------- 08 actions */
 .fd-actions {
-  margin: 6px 16px 0 12px;
-  height: 27px;
-  border: 1px solid var(--fd-border);
-  border-radius: 3px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30px;
+  border-top: 1px solid var(--fd-border);
   background: var(--fd-paper);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1077,11 +1084,11 @@
 
 /* -------------------------------------------------------- 09 structured */
 .fd-structured {
-  margin-top: 17px;
-  height: 146px;
+  margin-top: 13px;
+  height: 150px;
 }
 .fd-structured .fd-panel__head {
-  height: 17px;
+  height: 19px;
 }
 .fd-structured__cols {
   display: grid;
@@ -1286,8 +1293,8 @@
 
 /* --------------------------------------------------------- 10 readiness */
 .fd-readiness {
-  margin-top: 13px;
-  height: 118px;
+  margin-top: 10px;
+  height: 119px;
 }
 .fd-readiness .fd-panel__head {
   height: 16px;
