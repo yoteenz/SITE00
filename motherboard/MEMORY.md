@@ -10058,3 +10058,15 @@ Founder asked to find and apply any repo migrations not yet on project `hyycomvc
 ## 2026-09-16 — P0.VR.DESIGN-INTEGRATION1 — Promote twin to production DESIGN workspace
 
 Sprint promoted approved `twin-opus-direct` UX to **`/projects/:projectSlug/design`** (e.g. `/projects/ndxbook/design`) with child routes (`references`, `assets`, `pages`, `skins`, `history`, `more`), wired primary/bottom nav, MOVE TO BUILD + readiness actions, page-target switching via PAGES + sessionStorage, Opus dock entry as compact header **OPUS** button (drawer + backdrop + close/ESC, diagnostics under ADVANCED). **`/design/twin-opus-direct`** remains QA reference with banner + link to production. **`resolveLegacyProjectDesignRedirect`**: ndxbook stays on per-project route; `/projects/site00/design?project=ndxbook` redirects to `/projects/ndxbook/design`. Opus surface registry aliases production route to `twin-opus-direct` authority. Tests: `tests/p0vrDesignIntegration1.test.ts`. Production DESIGN route has no account guard (same public QA posture as twin route).
+
+---
+
+## 2026-09-16 — P0.VR.DESIGN-INHERITANCE1 — child surfaces inherit DESIGN shell
+
+Founder correction: secondary DESIGN surfaces must not render as full-screen black debug pages; they inherit parent workspace grammar and keep project/nav context visible.
+
+- **Primitives:** `childSurfacePresentation.ts`, `DesignChildSurfaceFrame`, `designProductionOverlayPanels.tsx`, `site00-design-child-surface.css`.
+- **Overlays:** Refactored `TwinOpusDirectOverlays` to structured panels inside `.tod-dcs-layer` on `.tod-root` (no body portal). Readiness drawer with gate cards; pair review with thumbnail compare; provenance metadata groups; spend confirm as compact modal.
+- **Sections:** Production layout always mounts `TwinOpusDirectScreen`; section paths render in-shell via `DesignProductionSectionInShell` + embedded child shell (no full-page `Outlet` takeover).
+- **Tests/build:** `tests/p0vrDesignInheritance1.test.ts`; `npm run build` PASS. Cloud VM could not fully QA `/projects/ndxbook/design` (cold-start loader blank); verify on production ZIP or authenticated session.
+- **Founder next:** Deploy new cPanel ZIP from GitHub Release after merge.
