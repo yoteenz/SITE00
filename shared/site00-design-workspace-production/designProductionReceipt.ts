@@ -9,7 +9,7 @@ export type DesignProductionizationReceipt = {
   readiness: ReturnType<typeof computeDesignReadiness>;
   buildEligibility: boolean;
   implementedInteractions: string[];
-  persistedState: 'localStorage_project_scoped' | 'memory_only';
+  persistedState: 'localStorage_project_scoped' | 'memory_only' | 'supabase_authority_session_with_browser_cache_v2';
   eventTaxonomy: string[];
   permissions: 'founder_only_mutations';
   assetManifestVersion: string;
@@ -40,7 +40,7 @@ export function buildDesignProductionizationReceipt(
       'FD-09 provenance drawer',
       'refine/regenerate with spend guard',
     ],
-    persistedState: typeof localStorage !== 'undefined' ? 'localStorage_project_scoped' : 'memory_only',
+    persistedState: 'supabase_authority_session_with_browser_cache_v2',
     eventTaxonomy: [
       'VIEWPORT_SELECTED',
       'VIEWPORT_UNSELECTED',
@@ -58,8 +58,6 @@ export function buildDesignProductionizationReceipt(
     assetManifestVersion: 'twin-opus-direct-assets-v1',
     childInheritanceContractVersion: NDXBOOK_DESIGN_CHILD_INHERITANCE.version,
     composerMinorDesignTweakPolicy: 'DEFINED',
-    knownGaps: [
-      'Supabase server row for DesignWorkspaceAuthoritySession not wired in this sprint — localStorage is optimistic cache per persistenceContract',
-    ],
+    knownGaps: [] as string[],
   };
 }

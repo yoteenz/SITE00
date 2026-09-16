@@ -3,6 +3,8 @@ export * from './types.js';
 export * from './designReadinessEngine.js';
 export * from './designProductionStore.js';
 export * from './designProductionActions.js';
+export * from './designProductionTransitions.js';
+export * from './designProductionCache.js';
 export * from './designProductionProjection.js';
 export * from './childInheritanceContract.js';
 export * from './designProductionReceipt.js';
