@@ -10,7 +10,7 @@ const PAGE_URL = 'http://localhost:5174/projects/ndxbook/design/twin-opus-direct
 const DIR = '/tmp/vm/video';
 mkdirSync(DIR, { recursive: true });
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: '/usr/local/bin/google-chrome', args: ['--no-sandbox'] });
 const context = await browser.newContext({
   viewport: { width: 768, height: 1376 },
   deviceScaleFactor: 1,
