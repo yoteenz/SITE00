@@ -10003,6 +10003,17 @@ The R0 sprint mapped all 29 DESIGN workspace features and ended with nine questi
 
 ---
 
+## 2026-09-16 — P0.VR.DESIGN-PRODUCTION1R1 — server-authoritative design workspace persistence
+
+Follow-up closed the `AUTHORITY_PERSISTENCE: PARTIAL` gap from DESIGN-PRODUCTION1.
+
+- **Supabase:** `site00_design_workspace_authority_sessions` (canonical `(project_id, page_id)` + optimistic `session_version`), append-only `site00_design_workspace_authority_events`, durable `site00_design_workspace_build_packages`. Audit: `docs/design-workspace/DESIGN-PRODUCTION1R1-PERSISTENCE-AUDIT.md`.
+- **API:** `GET|POST /api/site00/design-workspace-production` — semantic commands (`START_PAIR_REVIEW`, `APPROVE_AUTHORITY`, `LOCK_AUTHORITY_PAIR`, `MOVE_TO_BUILD`, spend/refine/regenerate, `MIGRATE_FROM_LOCAL`). Founder-only enforced server-side; stale version → `409 STALE_STATE`.
+- **Client:** hydrates from server; `site00:design-workspace-production:cache:v2:*` is cache-only (shows STALE when server unreachable). One-time legacy `v1` localStorage migration via `MIGRATE_FROM_LOCAL` when server empty + founder. `authorityLockedBy` on lock.
+- **Tests:** `tests/p0vrDesignProduction1R1.test.ts` (multi-session sync, stale write, founder gate, build package).
+
+---
+
 ## 2026-09-16 — P0.VR.DESIGN-PRODUCTION1 — Composer productionizes twin-opus-direct workspace
 
 Founder sprint to freeze `composer-contract.json` v2.0.0 and wire production authority/readiness/workflow on `/projects/:projectSlug/design/twin-opus-direct` without Opus or visual redesign.
