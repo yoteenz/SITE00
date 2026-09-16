@@ -3,7 +3,7 @@
  */
 
 import { execSync } from 'node:child_process';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { readImageDimensionsFromBytes } from '../shared/site00-studio-world-production/visualReconstruction/imageBytesDimensions.js';
@@ -39,10 +39,13 @@ describe('P0.VR.RUNTIME.BUNDLE-BOOT1 client bundle guards', () => {
   });
 
   it('production dist assets exclude pngjs/sharp/node-only VR strings', () => {
-    execSync('node scripts/verify-production-dist.mjs', { cwd: ROOT, stdio: 'pipe', encoding: 'utf8' });
-    if (!readdirSync(DIST_ASSETS, { withFileTypes: true }).some((d) => d.isFile() && d.name.endsWith('.js'))) {
+    const hasDistJs =
+      existsSync(DIST_ASSETS) &&
+      readdirSync(DIST_ASSETS, { withFileTypes: true }).some((d) => d.isFile() && d.name.endsWith('.js'));
+    if (!hasDistJs) {
       execSync('npm run build', { cwd: ROOT, stdio: 'pipe', encoding: 'utf8' });
     }
+    execSync('node scripts/verify-production-dist.mjs', { cwd: ROOT, stdio: 'pipe', encoding: 'utf8' });
     const files = readdirSync(DIST_ASSETS).filter((f) => f.endsWith('.js'));
     expect(files.length).toBeGreaterThan(0);
     const hits: string[] = [];
