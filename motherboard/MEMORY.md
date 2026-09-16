@@ -10040,3 +10040,15 @@ NATIVE1 left the native runtime on a laboratory route with `PREVIEW: FAILED` and
 - **Guard > eyeball.** The "slightly darker" border tweak passed visual diff and failed a structural guard because it inverted the canonical luminance ordering of the border tokens. Visual QA does not replace structural guards.
 - **19/19 proofs pass** (`scripts/design-bench/opus-native2/proofs.mjs`), 43 new guards, working tree byte-clean after every proof. **Live Anthropic proof (Phase 28) is BLOCKED**: `ANTHROPIC_API_KEY` exists on Railway but not on the cloud VM. Add it to Cursor Dashboard → Cloud Agents → Secrets to unblock.
 - **Two environment traps worth remembering for any DESIGN UI work on the VM.** A Vite dev server without `VITE_DEV_PROXY_TARGET` serves `/api/...` as source modules, so any client that parses JSON fails silently — the dock used to hide itself, and now renders `AGENT UNAVAILABLE` with the remedy. And with `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME` set, the HMR client points at the tunnel, fails its handshake and reloads the page every few hundred milliseconds, which resets all panel state and looks exactly like a broken component.
+
+---
+
+## 2026-09-16 — Live Supabase: apply missing SITE00 migrations (post PRODUCTION1R1)
+
+Founder asked to find and apply any repo migrations not yet on project `hyycomvcaqxxvyrfupes` (FS Website / SITE 00).
+
+- **Applied on remote (5 logical migrations):** `site00_chapter_argument_grammar_b2`, `site00_campaign_package_persistence`, `site00_brand_creative_context`, `site00_mobile_twin_implementation_r8m`, `site00_design_workspace_authority_session` (PRODUCTION1R1 tables).
+- **Verified tables:** `site00_creative_chapters`, `site00_chapter_argument_grammars`, `site00_campaign_packages`, `site00_brand_creative_context`, `site00_mobile_twin_*`, `site00_design_workspace_authority_sessions/events/build_packages`.
+- **Caveat — campaign package deliverables:** Pre-existing marketing table `site00_campaign_deliverables` (`campaign_id`) blocked B5.6’s package-scoped deliverables DDL (`package_id`); `create table if not exists` skipped. `site00_campaign_deliverable_versions` exists but FKs to the marketing table — follow-up repo migration should rename B5.6 tables (e.g. `site00_campaign_package_deliverables`) before relying on entry campaign packages in prod.
+- **Design workspace migration history:** MCP `apply_migration` hit a version collision; DDL applied via `execute_sql` + `schema_migrations` row `20260916143000` / `site00_design_workspace_authority_session`.
+- **Founder next:** Redeploy Railway API so design-workspace-production routes use live Supabase; no cPanel ZIP needed for this task.
