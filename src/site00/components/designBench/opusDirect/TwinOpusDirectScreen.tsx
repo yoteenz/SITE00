@@ -12,8 +12,10 @@
  */
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { TWIN_OPUS_DIRECT_REFERENCE_VIEWPORT, type TwinOpusDirectViewportId } from './twinOpusDirectContent';
+import { TwinOpusDirectOverlays } from './TwinOpusDirectOverlays';
 import {
   useTwinOpusDirectWorkspace,
   type TwinOpusDirectViewMode,
@@ -116,13 +118,21 @@ function viewRowBoost(scale: number) {
   return scale < 1 ? 1 / scale : 1;
 }
 
-export function TwinOpusDirectScreen() {
+export function TwinOpusDirectScreen({ projectSlug = 'ndxbook' }: { projectSlug?: string }) {
   const shell = useFullBleedShell();
-  const workspace = useTwinOpusDirectWorkspace();
-  const { data, state, actions, viewMode, setViewMode } = workspace;
+  const workspace = useTwinOpusDirectWorkspace(projectSlug);
+  const { data, state, actions, viewMode, setViewMode, production } = workspace;
   const renderer = VIEW_RENDERERS[viewMode];
   const ViewBody = renderer.body;
   const ViewRecord = renderer.record;
+
+  const overlayPortal =
+    typeof document !== 'undefined' ?
+      createPortal(
+        <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />,
+        document.body,
+      )
+    : null;
 
   return (
     <div className="tod-root">
@@ -153,7 +163,13 @@ export function TwinOpusDirectScreen() {
             <div className="tod-header__status">
               <span className="tod-header__compiler">{data.header.compiler}</span>
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
-              <button type="button" className="tod-header__more" aria-label="Workspace options">
+              <button
+                type="button"
+                className="tod-header__more"
+                aria-label="Workspace options"
+                aria-haspopup="dialog"
+                onClick={() => production.actions.openOverflowMenu()}
+              >
                 <TodIconEllipsisVertical className="tod-ico" />
               </button>
             </div>
@@ -161,7 +177,12 @@ export function TwinOpusDirectScreen() {
 
           {/* 02 PRIMARY_NAV */}
           <nav className="tod-nav" aria-label="Design workspace sections">
-            <button type="button" className="tod-nav__cell tod-nav__cell--menu" aria-label="Open workspace menu">
+            <button
+              type="button"
+              className="tod-nav__cell tod-nav__cell--menu"
+              aria-label="Open workspace menu"
+              onClick={() => production.actions.openHostModuleNav()}
+            >
               <TodIconMenu className="tod-ico" />
             </button>
             {data.primaryNav.map((label, index) => (
@@ -185,10 +206,14 @@ export function TwinOpusDirectScreen() {
           <div className="tod-context">
             <span className="tod-context__chip">{data.context.chip}</span>
             <span className="tod-context__stream">{data.context.stream}</span>
-            <span className="tod-context__right">
+            <button
+              type="button"
+              className="tod-context__right tod-context__rightBtn"
+              onClick={() => production.actions.openCreativeContext()}
+            >
               {data.context.right}
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
-            </span>
+            </button>
           </div>
 
           {/* 03b WORKSPACE_VIEW_ROW — presentation control zone */}
@@ -268,6 +293,7 @@ export function TwinOpusDirectScreen() {
           </div>
         </div>
       </div>
+      {overlayPortal}
     </div>
   );
 }

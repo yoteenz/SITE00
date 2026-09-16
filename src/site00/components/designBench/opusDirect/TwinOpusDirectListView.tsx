@@ -406,6 +406,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                   className={`tod-lv-rail__action tod-lv-rail__action--${action.tone}${
                     action.lock ? ' tod-lv-rail__action--lock' : ''
                   }`}
+                  onClick={() => actions.onRailAction(action.id)}
                 >
                   {action.lock ? <TodIconLock className="tod-ico tod-lv-rail__lockIco" /> : null}
                   {action.lines ? (
@@ -473,7 +474,12 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
               {data.candidateActions.map((action) => {
                 const Icon = ACTION_ICONS[action.icon];
                 return (
-                  <button key={action.id} type="button" className="tod-lv-actions__cell">
+                  <button
+                    key={action.id}
+                    type="button"
+                    className="tod-lv-actions__cell"
+                    onClick={() => actions.onCandidateAction(action.id)}
+                  >
                     <Icon className="tod-ico tod-lv-actions__ico" />
                     {action.label}
                   </button>
@@ -496,14 +502,14 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     <span>{column.lines[1]}</span>
                   </span>
                   <LvOutputPreview column={column} />
-                  <span className="tod-lv-out__source">
+                  <button type="button" className="tod-lv-out__source" onClick={() => actions.openProvenance()}>
                     <span className="tod-lv-out__sourceText">{column.source}</span>
                     {column.preview === 'functions' ? (
                       <TodIconDocGear className="tod-ico tod-lv-out__sourceIco" />
                     ) : (
                       <TodIconDoc className="tod-ico tod-lv-out__sourceIco" />
                     )}
-                  </span>
+                  </button>
                 </div>
               ))}
             </div>
@@ -555,7 +561,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     </li>
                   ))}
                 </ul>
-                <button type="button" className="tod-lv-pipe__details">
+                <button type="button" className="tod-lv-pipe__details" onClick={() => actions.openReadinessReceipt()}>
                   {data.readiness.viewDetails}
                 </button>
               </div>

@@ -345,6 +345,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               className={`tod-rail__action tod-rail__action--${action.tone}${
                 action.lock ? ' tod-rail__action--lock' : ''
               }`}
+              onClick={() => actions.onRailAction(action.id)}
             >
               {action.lock ? <TodIconLock className="tod-ico tod-rail__lockIco" /> : null}
               {action.lines ? (
@@ -412,7 +413,12 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
           {data.candidateActions.map((action) => {
             const Icon = ACTION_ICONS[action.icon];
             return (
-              <button key={action.id} type="button" className="tod-actions__cell">
+              <button
+                key={action.id}
+                type="button"
+                className="tod-actions__cell"
+                onClick={() => actions.onCandidateAction(action.id)}
+              >
                 <Icon className="tod-ico tod-actions__ico" />
                 {action.label}
               </button>
@@ -435,14 +441,14 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 <span>{column.lines[1]}</span>
               </span>
               <TodOutputPreview column={column} />
-              <span className="tod-out__source">
+              <button type="button" className="tod-out__source" onClick={() => actions.openProvenance()}>
                 <span className="tod-out__sourceText">{column.source}</span>
                 {column.preview === 'functions' ? (
                   <TodIconDocGear className="tod-ico tod-out__sourceIco" />
                 ) : (
                   <TodIconDoc className="tod-ico tod-out__sourceIco" />
                 )}
-              </span>
+              </button>
             </div>
           ))}
         </div>
@@ -492,7 +498,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 </li>
               ))}
             </ul>
-            <button type="button" className="tod-pipe__details">
+            <button
+              type="button"
+              className="tod-pipe__details"
+              onClick={() => actions.openReadinessReceipt()}
+            >
               {data.readiness.viewDetails}
             </button>
           </div>

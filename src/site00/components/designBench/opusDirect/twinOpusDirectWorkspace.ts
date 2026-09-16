@@ -2,12 +2,9 @@
  * P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — shared workspace model for the NDXBOOK
  * DESIGN workspace.
  *
- * The workspace object below is the single source of truth for both
- * presentation modes. CANONICAL (the Opus spatial/editorial authority) and
- * LIST (the Spark digest renderer, wired in a later sprint) read the same
- * state and call the same actions; only presentation differs. A renderer must
- * never hold its own copy of candidate selection, authority, readiness or
- * record state.
+ * P0.VR.DESIGN-PRODUCTION1 — tier-A production state (authority, readiness,
+ * workflow) is merged from useTwinOpusDirectProduction so Canonical and List
+ * share one domain projection.
  */
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -31,14 +28,22 @@ import {
   TWIN_OPUS_DIRECT_PIPELINE_TITLE,
   TWIN_OPUS_DIRECT_PRIMARY_NAV,
   TWIN_OPUS_DIRECT_RAIL_ACTIONS,
-  TWIN_OPUS_DIRECT_READINESS,
+  TWIN_OPUS_DIRECT_READINESS_SHELL,
   TWIN_OPUS_DIRECT_SELECT_ACTIONS,
   TWIN_OPUS_DIRECT_STAGE,
-  TWIN_OPUS_DIRECT_STATUS_ROWS,
   TWIN_OPUS_DIRECT_TARGET,
   TWIN_OPUS_DIRECT_VIEWPORTS,
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
+import {
+  useTwinOpusDirectProduction,
+  type TwinOpusDirectProduction,
+} from './useTwinOpusDirectProduction';
+import {
+  refineConcept,
+  regenerateConcept,
+} from '../../../../../shared/site00-design-workspace-production/designProductionActions.js';
+import { loadDesignProductionState } from '../../../../../shared/site00-design-workspace-production/designProductionStore.js';
 
 export const TWIN_OPUS_DIRECT_VIEW_MODES = ['canonical', 'list'] as const;
 
@@ -51,7 +56,6 @@ export const TWIN_OPUS_DIRECT_VIEW_MODE_LABELS: Record<TwinOpusDirectViewMode, s
   list: 'LIST',
 };
 
-/** Presentation-only preference, so it survives a reload without touching workspace data. */
 const VIEW_MODE_STORAGE_KEY = 'site00:twin-opus-direct:view-mode:v1';
 
 function isViewMode(value: unknown): value is TwinOpusDirectViewMode {
@@ -68,16 +72,15 @@ function readStoredViewMode(): TwinOpusDirectViewMode {
   }
 }
 
-/**
- * Everything a presentation renderer is allowed to read. Spark receives this
- * object unchanged; the shape is the handoff contract for the LIST renderer.
- */
 export interface TwinOpusDirectWorkspaceData {
-  header: typeof TWIN_OPUS_DIRECT_HEADER;
+  header: Omit<typeof TWIN_OPUS_DIRECT_HEADER, 'project'> & { project: string };
   context: typeof TWIN_OPUS_DIRECT_CONTEXT;
   primaryNav: typeof TWIN_OPUS_DIRECT_PRIMARY_NAV;
   target: typeof TWIN_OPUS_DIRECT_TARGET;
-  stage: typeof TWIN_OPUS_DIRECT_STAGE;
+  stage: Omit<typeof TWIN_OPUS_DIRECT_STAGE, 'authorityValue' | 'stageValue'> & {
+    authorityValue: string;
+    stageValue: string;
+  };
   viewports: typeof TWIN_OPUS_DIRECT_VIEWPORTS;
   hero: typeof TWIN_OPUS_DIRECT_HERO;
   selectActions: typeof TWIN_OPUS_DIRECT_SELECT_ACTIONS;
@@ -89,9 +92,18 @@ export interface TwinOpusDirectWorkspaceData {
   outputTitle: typeof TWIN_OPUS_DIRECT_OUTPUT_TITLE;
   outputColumns: typeof TWIN_OPUS_DIRECT_OUTPUT_COLUMNS;
   pipelineTitle: typeof TWIN_OPUS_DIRECT_PIPELINE_TITLE;
-  readiness: typeof TWIN_OPUS_DIRECT_READINESS;
-  checks: typeof TWIN_OPUS_DIRECT_CHECKS;
-  statusRows: typeof TWIN_OPUS_DIRECT_STATUS_ROWS;
+  readiness: {
+    label: string;
+    percent: number;
+    state: string;
+    compiler: string;
+    compilerState: string;
+    checksLabel: string;
+    statusLabel: string;
+    viewDetails: string;
+  };
+  checks: readonly { id: string; label: string; state: 'pass' | 'fail' | 'pending' | 'warn' }[];
+  statusRows: readonly { id: string; label: string; value: string }[];
   nextAction: typeof TWIN_OPUS_DIRECT_NEXT_ACTION;
   conceptTabs: typeof TWIN_OPUS_DIRECT_CONCEPT_TABS;
   conceptFields: typeof TWIN_OPUS_DIRECT_CONCEPT_FIELDS;
@@ -115,57 +127,40 @@ export interface TwinOpusDirectWorkspaceActions {
   toggleAuthorityPair: () => void;
   selectRecordTab: (index: number) => void;
   selectDockDestination: (index: number) => void;
+  onRailAction: (actionId: string) => void;
+  onCandidateAction: (actionId: string) => void;
+  openProvenance: () => void;
+  openReadinessReceipt: () => void;
 }
 
 export interface TwinOpusDirectWorkspace {
   data: TwinOpusDirectWorkspaceData;
   state: TwinOpusDirectWorkspaceState;
   actions: TwinOpusDirectWorkspaceActions;
-  /** Derived: the candidate `state.candidateId` points at. */
   selectedCandidate: (typeof TWIN_OPUS_DIRECT_CANDIDATES)[number];
-  /** Derived: readiness ring geometry, shared so both renderers agree on the value. */
   readinessDash: { circumference: number; offset: number };
   viewMode: TwinOpusDirectViewMode;
   setViewMode: (mode: TwinOpusDirectViewMode) => void;
+  production: TwinOpusDirectProduction;
+  projectSlug: string;
 }
 
-const WORKSPACE_DATA: TwinOpusDirectWorkspaceData = {
-  header: TWIN_OPUS_DIRECT_HEADER,
-  context: TWIN_OPUS_DIRECT_CONTEXT,
-  primaryNav: TWIN_OPUS_DIRECT_PRIMARY_NAV,
-  target: TWIN_OPUS_DIRECT_TARGET,
-  stage: TWIN_OPUS_DIRECT_STAGE,
-  viewports: TWIN_OPUS_DIRECT_VIEWPORTS,
-  hero: TWIN_OPUS_DIRECT_HERO,
-  selectActions: TWIN_OPUS_DIRECT_SELECT_ACTIONS,
-  authorityPair: TWIN_OPUS_DIRECT_AUTHORITY_PAIR,
-  railActions: TWIN_OPUS_DIRECT_RAIL_ACTIONS,
-  gallery: TWIN_OPUS_DIRECT_GALLERY,
-  candidates: TWIN_OPUS_DIRECT_CANDIDATES,
-  candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
-  outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
-  outputColumns: TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
-  pipelineTitle: TWIN_OPUS_DIRECT_PIPELINE_TITLE,
-  readiness: TWIN_OPUS_DIRECT_READINESS,
-  checks: TWIN_OPUS_DIRECT_CHECKS,
-  statusRows: TWIN_OPUS_DIRECT_STATUS_ROWS,
-  nextAction: TWIN_OPUS_DIRECT_NEXT_ACTION,
-  conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
-  conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
-  amendment: TWIN_OPUS_DIRECT_AMENDMENT,
-  bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
-};
+export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectWorkspace {
+  const production = useTwinOpusDirectProduction(projectSlug);
+  const { state: prodState, projection, actions: prodActions, actor } = production;
 
-export function useTwinOpusDirectWorkspace(): TwinOpusDirectWorkspace {
   const [viewport, setViewport] = useState<TwinOpusDirectViewportId>('MOBILE');
   const [navIndex, setNavIndex] = useState(0);
-  const [candidateId, setCandidateId] = useState(TWIN_OPUS_DIRECT_CANDIDATES[0].id);
+  const [candidateId, setCandidateId] = useState(prodState.selectedCandidateId);
   const [authorityPairOpen, setAuthorityPairOpen] = useState(true);
   const [recordTabIndex, setRecordTabIndex] = useState(0);
   const [dockIndex, setDockIndex] = useState(0);
   const [viewMode, setViewModeState] = useState<TwinOpusDirectViewMode>(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE);
 
-  // Read after mount so the first paint matches the server/default render.
+  useEffect(() => {
+    setCandidateId(prodState.selectedCandidateId);
+  }, [prodState.selectedCandidateId]);
+
   useEffect(() => {
     const stored = readStoredViewMode();
     if (stored !== TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE) setViewModeState(stored);
@@ -176,7 +171,7 @@ export function useTwinOpusDirectWorkspace(): TwinOpusDirectWorkspace {
     try {
       window.sessionStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
     } catch {
-      /* presentation preference only — a storage failure must not break the switch */
+      /* presentation preference only */
     }
   }, []);
 
@@ -188,24 +183,126 @@ export function useTwinOpusDirectWorkspace(): TwinOpusDirectWorkspace {
       toggleAuthorityPair: () => setAuthorityPairOpen((open) => !open),
       selectRecordTab: setRecordTabIndex,
       selectDockDestination: setDockIndex,
+      onRailAction: (actionId: string) => {
+        switch (actionId) {
+          case 'pair-review':
+            prodActions.runPairReview();
+            break;
+          case 'review-authority':
+            if (actor.isFounder) prodActions.runReviewAuthority('APPROVE');
+            break;
+          case 'lock-pair':
+            prodActions.runLockAuthorityPair();
+            break;
+          default:
+            break;
+        }
+      },
+      onCandidateAction: (actionId: string) => {
+        const candidate = candidateId;
+        if (actionId === 'refine') {
+          prodActions.requestSpendConfirm({
+            action: 'REFINE',
+            estimatedUsd: 0.42,
+            onConfirmed: (spendConfirmationId) => {
+              try {
+                const fresh = loadDesignProductionState(projectSlug);
+                const next = refineConcept(fresh, actor, {
+                  parentCandidateId: candidate,
+                  spendConfirmationId,
+                  estimatedUsd: 0.42,
+                });
+                production.refresh();
+                setCandidateId(next.selectedCandidateId);
+              } catch {
+                production.refresh();
+              }
+            },
+          });
+        }
+        if (actionId === 'regenerate') {
+          prodActions.requestSpendConfirm({
+            action: 'REGENERATE',
+            estimatedUsd: 0.55,
+            onConfirmed: (spendConfirmationId) => {
+              try {
+                const fresh = loadDesignProductionState(projectSlug);
+                const next = regenerateConcept(fresh, actor, {
+                  siblingOfCandidateId: candidate,
+                  spendConfirmationId,
+                  estimatedUsd: 0.55,
+                });
+                production.refresh();
+                setCandidateId(next.selectedCandidateId);
+              } catch {
+                production.refresh();
+              }
+            },
+          });
+        }
+      },
+      openProvenance: prodActions.openProvenance,
+      openReadinessReceipt: prodActions.openReadinessReceipt,
     }),
-    [],
+    [actor, candidateId, prodActions, production, projectSlug],
   );
 
   const selectedCandidate = useMemo(
     () =>
-      TWIN_OPUS_DIRECT_CANDIDATES.find((candidate) => candidate.id === candidateId) ??
-      TWIN_OPUS_DIRECT_CANDIDATES[0],
+      TWIN_OPUS_DIRECT_CANDIDATES.find((c) => c.id === candidateId) ?? TWIN_OPUS_DIRECT_CANDIDATES[0],
     [candidateId],
   );
 
   const readinessDash = useMemo(() => {
     const circumference = 2 * Math.PI * 30;
+    const pct = projection.percent;
     return {
       circumference,
-      offset: circumference * (1 - TWIN_OPUS_DIRECT_READINESS.percent / 100),
+      offset: circumference * (1 - pct / 100),
     };
-  }, []);
+  }, [projection.percent]);
+
+  const data = useMemo<TwinOpusDirectWorkspaceData>(() => {
+    const slugLabel = (projectSlug || 'ndxbook').trim().toUpperCase();
+    return {
+      header: {
+        ...TWIN_OPUS_DIRECT_HEADER,
+        project: `PROJECT: ${slugLabel}`,
+      },
+      context: TWIN_OPUS_DIRECT_CONTEXT,
+      primaryNav: TWIN_OPUS_DIRECT_PRIMARY_NAV,
+      target: TWIN_OPUS_DIRECT_TARGET,
+      stage: {
+        ...TWIN_OPUS_DIRECT_STAGE,
+        stageValue: prodState.workflowStage === 'BUILD' ? 'BUILD' : TWIN_OPUS_DIRECT_STAGE.stageValue,
+        authorityValue: projection.stageAuthorityValue,
+      },
+      viewports: TWIN_OPUS_DIRECT_VIEWPORTS,
+      hero: TWIN_OPUS_DIRECT_HERO,
+      selectActions: TWIN_OPUS_DIRECT_SELECT_ACTIONS,
+      authorityPair: TWIN_OPUS_DIRECT_AUTHORITY_PAIR,
+      railActions: TWIN_OPUS_DIRECT_RAIL_ACTIONS,
+      gallery: TWIN_OPUS_DIRECT_GALLERY,
+      candidates: TWIN_OPUS_DIRECT_CANDIDATES,
+      candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
+      outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
+      outputColumns: TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
+      pipelineTitle: TWIN_OPUS_DIRECT_PIPELINE_TITLE,
+      readiness: {
+        ...TWIN_OPUS_DIRECT_READINESS_SHELL,
+        percent: projection.percent,
+        state: projection.state,
+        compilerState: projection.compilerState,
+      },
+      checks: projection.checks.length > 0 ? projection.checks : TWIN_OPUS_DIRECT_CHECKS,
+      statusRows: projection.statusRows,
+      nextAction: TWIN_OPUS_DIRECT_NEXT_ACTION,
+      conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
+      conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
+      amendment: TWIN_OPUS_DIRECT_AMENDMENT,
+      bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
+    };
+  }, [prodState.workflowStage, projection, projectSlug]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),
@@ -213,12 +310,14 @@ export function useTwinOpusDirectWorkspace(): TwinOpusDirectWorkspace {
   );
 
   return {
-    data: WORKSPACE_DATA,
+    data,
     state,
     actions,
     selectedCandidate,
     readinessDash,
     viewMode,
     setViewMode,
+    production,
+    projectSlug,
   };
 }
