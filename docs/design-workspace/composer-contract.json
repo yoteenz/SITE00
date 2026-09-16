@@ -1,0 +1,676 @@
+{
+  "$contract": "DesignWorkspaceComposerContract",
+  "version": "1.0.0",
+  "sprint": "P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1",
+  "status": "AWAITING_FOUNDER_APPROVAL",
+  "implementationAuthority": "Composer implements this contract plus the approved visual contract. Where a value is FOUNDER_DECISION_REQUIRED, Composer must stop rather than choose.",
+  "PAGE_IDENTITY": {
+    "name": "NDXBOOK Design Workspace",
+    "reconstructionRoute": "/projects/:projectSlug/design/twin-opus-direct",
+    "productionParent": "/projects/:projectSlug/design",
+    "pageComponent": "DesignTwinOpusDirectPage -> TwinOpusDirectScreen",
+    "knownDefect": "the reconstruction ignores :projectSlug and hardcodes PROJECT: NDXBOOK; productionization must bind the route param first",
+    "semanticAuthority": "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceFeatureAuthority/featureDefinitionsV1.ts",
+    "workflowAuthority": "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceAuthorityPipeline.ts",
+    "persistence": "browser localStorage key site00:design-page-v3-authority:v1; no Supabase table and no API endpoint exist for the authority pair"
+  },
+  "ROUTE": {
+    "param": "projectSlug",
+    "childRoutes": [],
+    "grandchildRoutes": [],
+    "note": "zero child pages by design. Every inspection surface is an overlay. See 04-ROUTES-AND-PAGES.md."
+  },
+  "VIEW_MODES": {
+    "stateKey": "workspace.viewMode",
+    "values": [
+      "canonical",
+      "list"
+    ],
+    "default": "canonical",
+    "persistence": "sessionStorage:site00:twin-opus-direct:view-mode:v1",
+    "sameRoute": true,
+    "presentationOnly": true,
+    "renderers": {
+      "canonical": "TwinOpusDirectCanonicalView (Opus)",
+      "list": "TwinOpusDirectListView (Spark, refined by Opus)"
+    },
+    "rule": "switching must not mutate any tier A or tier B state"
+  },
+  "STATE_MODEL": {
+    "tiers": {
+      "A": "workspace data — persisted, audited, shared",
+      "B": "workspace focus — shared, not persisted",
+      "C": "presentation — never affects data"
+    },
+    "keys": {
+      "workspace.viewMode": {
+        "tier": "C",
+        "type": "union",
+        "values": [
+          "canonical",
+          "list"
+        ],
+        "default": "canonical",
+        "persistence": "sessionStorage"
+      },
+      "viewport": {
+        "tier": "B",
+        "type": "union",
+        "values": [
+          "MOBILE",
+          "TABLET",
+          "DESKTOP"
+        ],
+        "default": "MOBILE",
+        "persistence": "none",
+        "unresolved": "FD-05"
+      },
+      "selectedCandidate": {
+        "tier": "B",
+        "type": "id",
+        "default": "first candidate",
+        "persistence": "none"
+      },
+      "candidateCollection": {
+        "tier": "A",
+        "type": "array",
+        "persistence": "session"
+      },
+      "viewportSelection": {
+        "tier": "A",
+        "type": "{ mobile: ref|null, desktop: ref|null }",
+        "persistence": "session"
+      },
+      "candidateViewportStates": {
+        "tier": "A",
+        "type": "map",
+        "values": [
+          "GENERATED",
+          "NOT_SELECTED",
+          "SELECTED",
+          "PROMOTED",
+          "SUPERSEDED",
+          "REJECTED"
+        ],
+        "persistence": "session"
+      },
+      "mobileMaster": {
+        "tier": "A",
+        "type": "ViewportMasterAuthority|null",
+        "values": [
+          "PROMOTED",
+          "PAIR_LOCKED",
+          "SUPERSEDED"
+        ],
+        "persistence": "session"
+      },
+      "desktopMaster": {
+        "tier": "A",
+        "type": "ViewportMasterAuthority|null",
+        "values": [
+          "PROMOTED",
+          "PAIR_LOCKED",
+          "SUPERSEDED"
+        ],
+        "persistence": "session"
+      },
+      "authorityPair": {
+        "tier": "A",
+        "type": "DesignWorkspaceAuthorityPair|null",
+        "values": [
+          "DRAFT",
+          "MOBILE_ONLY",
+          "DESKTOP_ONLY",
+          "PAIR_READY",
+          "PAIR_LOCKED",
+          "DERIVATION_READY",
+          "SUPERSEDED"
+        ],
+        "persistence": "session"
+      },
+      "authorityStatus": {
+        "tier": "A",
+        "type": "derived",
+        "source": "pairStatusLabel(session)"
+      },
+      "authorityCollapsed": {
+        "tier": "C",
+        "type": "boolean",
+        "default": false,
+        "persistence": "none"
+      },
+      "readiness": {
+        "tier": "A",
+        "type": "CompilerReadinessReceipt",
+        "persistence": "derived"
+      },
+      "checks": {
+        "tier": "A",
+        "type": "gate rows",
+        "values": [
+          "PASS",
+          "FAIL",
+          "BLOCKED",
+          "NOT_APPLICABLE"
+        ],
+        "persistence": "derived"
+      },
+      "statusCounts": {
+        "tier": "A",
+        "type": "derived",
+        "note": "blockers and warnings only; approved and pending are FD-07"
+      },
+      "currentHistoryTab": {
+        "tier": "C",
+        "type": "index 0-4",
+        "default": 0,
+        "persistence": "none"
+      },
+      "navSelection": {
+        "tier": "B",
+        "type": "index 0-5",
+        "default": 0,
+        "persistence": "url ?tab="
+      },
+      "dockSelection": {
+        "tier": "C",
+        "type": "index 0-4",
+        "default": 0,
+        "persistence": "none"
+      },
+      "currentStage": {
+        "tier": "A",
+        "type": "string",
+        "persistence": "session"
+      },
+      "currentEntry": {
+        "tier": "A",
+        "type": "object",
+        "persistence": "session"
+      },
+      "activeAmendment": {
+        "tier": "A",
+        "type": "MasterAuthorityAmendment|null",
+        "values": [
+          "DRAFT",
+          "APPROVED",
+          "APPLIED",
+          "SUPERSEDED"
+        ],
+        "persistence": "session"
+      },
+      "generationState": {
+        "tier": "B",
+        "type": "union",
+        "values": [
+          "IDLE",
+          "LOADING",
+          "SUCCESS",
+          "ERROR"
+        ],
+        "default": "IDLE",
+        "persistence": "none"
+      },
+      "overlay": {
+        "tier": "C",
+        "type": "overlay id|null",
+        "default": null,
+        "persistence": "none"
+      },
+      "compareSelection": {
+        "tier": "C",
+        "type": "{ left, right }",
+        "persistence": "none"
+      }
+    }
+  },
+  "INTERACTION_INVENTORY": {
+    "reference": "01-ELEMENT-INVENTORY.md",
+    "totals": {
+      "elements": 145,
+      "interactive": 56,
+      "nonInteractive": 89
+    },
+    "sections": {
+      "DW-HDR": {
+        "name": "SITE 00 host header",
+        "elements": 8,
+        "interactive": 3
+      },
+      "DW-NAV": {
+        "name": "primary design navigation",
+        "elements": 8,
+        "interactive": 7
+      },
+      "DW-CTX": {
+        "name": "NDXBOOK project context bar",
+        "elements": 4,
+        "interactive": 0
+      },
+      "DW-VIEW": {
+        "name": "view mode",
+        "elements": 4,
+        "interactive": 2
+      },
+      "DW-TGT": {
+        "name": "target",
+        "elements": 4,
+        "interactive": 0
+      },
+      "DW-VP": {
+        "name": "viewport selector",
+        "elements": 5,
+        "interactive": 3
+      },
+      "DW-STG": {
+        "name": "stage and authority status",
+        "elements": 5,
+        "interactive": 0
+      },
+      "DW-HERO": {
+        "name": "active concept hero",
+        "elements": 13,
+        "interactive": 3
+      },
+      "DW-AUTH": {
+        "name": "authority controls",
+        "elements": 19,
+        "interactive": 10
+      },
+      "DW-GAL": {
+        "name": "concept candidate gallery",
+        "elements": 9,
+        "interactive": 3
+      },
+      "DW-CAND": {
+        "name": "candidate actions",
+        "elements": 4,
+        "interactive": 4
+      },
+      "DW-OUT": {
+        "name": "structured output review",
+        "elements": 12,
+        "interactive": 2
+      },
+      "DW-PIPE": {
+        "name": "pipeline and readiness",
+        "elements": 23,
+        "interactive": 6
+      },
+      "DW-REC": {
+        "name": "concept tabs and record",
+        "elements": 14,
+        "interactive": 7
+      },
+      "DW-AMD": {
+        "name": "amendment",
+        "elements": 7,
+        "interactive": 1
+      },
+      "DW-DOCK": {
+        "name": "bottom dock",
+        "elements": 6,
+        "interactive": 5
+      }
+    },
+    "criticalSemantics": {
+      "DW-AUTH-001": "SELECT FOR MOBILE is reversible selection, NOT promotion",
+      "DW-AUTH-014": "PROMOTE is candidate -> viewport master; the pair forms automatically from two masters",
+      "DW-AUTH-013": "REPLACE is immediate, clears the slot, preserves lineage, dissolves the pair. No staged state.",
+      "DW-AUTH-018": "LOCK is irreversible. No unlock function exists.",
+      "DW-GAL-004": "the whole card selects; there is no double action",
+      "DW-VP-002": "the viewport selector chooses the authority slot being operated on, not a preview size",
+      "DW-PIPE-021": "PRIMARY ACTION is a derivation from workflow state, never hardcoded copy",
+      "DW-DOCK-005": "CONTEXTUAL NEXT ACTION uses the same resolver as DW-PIPE-021"
+    },
+    "mockStringsThatContradictArchitecture": [
+      {
+        "shown": "82% readiness ring and five check labels",
+        "reality": "compiler_readiness forbids fake metrics; real readiness is a PASS/FAIL/BLOCKED receipt",
+        "decision": "FD-07"
+      },
+      {
+        "shown": "APPROVED ELEMENTS 18 / PENDING DECISIONS 2",
+        "reality": "no computation exists",
+        "decision": "FD-07"
+      },
+      {
+        "shown": "AMENDMENT status ACTIVE",
+        "reality": "enum is DRAFT|APPROVED|APPLIED|SUPERSEDED; canonical record is APPROVED",
+        "decision": "render the record"
+      },
+      {
+        "shown": "AMENDMENT TYPE: AUTHORITY SELECTION",
+        "reality": "amendmentType is FEATURE_ADDITION",
+        "decision": "render the record"
+      },
+      {
+        "shown": "MAA-RSF1-...",
+        "reality": "canonical id is maa-r5f1-authority-selection-v1",
+        "decision": "render the record"
+      },
+      {
+        "shown": "PAIR: UNLOCKED",
+        "reality": "not a member of the status union; closest true value is PAIR_READY",
+        "decision": "render pairStatusLabel(session)"
+      }
+    ]
+  },
+  "ROUTE_MAP": {
+    "navigatingInteractions": 9,
+    "entries": [
+      {
+        "source": "DW-HDR-001",
+        "destination": "/",
+        "type": "EXTERNAL",
+        "exists": true
+      },
+      {
+        "source": "DW-HDR-003",
+        "destination": "/projects/:projectSlug",
+        "type": "CHILD_ROUTE",
+        "exists": true
+      },
+      {
+        "source": "DW-NAV-002",
+        "destination": "/projects/site00/design?project=<slug>&tab=references",
+        "type": "SAME_ROUTE_STATE",
+        "exists": true
+      },
+      {
+        "source": "DW-NAV-003",
+        "destination": "?tab=assets",
+        "type": "SAME_ROUTE_STATE",
+        "exists": true
+      },
+      {
+        "source": "DW-NAV-004",
+        "destination": "?tab=pages",
+        "type": "SAME_ROUTE_STATE",
+        "exists": true
+      },
+      {
+        "source": "DW-NAV-005",
+        "destination": "?tab=skins",
+        "type": "SAME_ROUTE_STATE",
+        "exists": true
+      },
+      {
+        "source": "DW-NAV-006",
+        "destination": "?tab=history",
+        "type": "SAME_ROUTE_STATE",
+        "exists": true
+      },
+      {
+        "source": "DW-NAV-007",
+        "destination": "?tab=more",
+        "type": "SAME_ROUTE_STATE",
+        "exists": true
+      },
+      {
+        "source": "DW-REC-014",
+        "destination": "UNRESOLVED",
+        "type": "UNRESOLVED",
+        "exists": false,
+        "decision": "FD-09"
+      }
+    ],
+    "newRoutesRequired": 0
+  },
+  "OVERLAY_MAP": {
+    "modals": [
+      "OV-CONFIRM-PROMOTE",
+      "OV-CONFIRM-REPLACE",
+      "OV-CONFIRM-LOCK",
+      "OV-COMPARE"
+    ],
+    "drawers": [
+      "OV-CANDIDATE-INSPECT",
+      "OV-MODULE-DETAIL",
+      "OV-ASSETS",
+      "OV-READINESS",
+      "OV-TECHNICAL",
+      "OV-HISTORY",
+      "OV-REFINE"
+    ],
+    "fullscreen": [
+      "OV-ARTIFACT-FULLSCREEN",
+      "OV-PAIR-FULLSCREEN"
+    ],
+    "counts": {
+      "modals": 4,
+      "drawers": 7,
+      "fullscreen": 2
+    },
+    "universalRules": [
+      "close via X, Escape, scrim (except confirmations), and browser back",
+      "browser back must close the topmost overlay, never leave the workspace",
+      "focus trapped on open, returned to the trigger on close",
+      "one overlay at a time, except a confirmation above an inspection overlay",
+      "overlays are tier C and never mutate workspace data",
+      "no approval, generation or destructive action inside a fullscreen surface"
+    ],
+    "reusableComponents": [
+      "DesignDetailsDrawer",
+      "DesignVisualComparisonDrawer",
+      "ReplaceDesignAuthorityDialog",
+      "DesignAuthorityHistoryDialog",
+      "Site00ImageInspectLightbox"
+    ]
+  },
+  "PERMISSIONS": {
+    "rolesThatExist": [
+      "FOUNDER",
+      "ADMIN",
+      "PROJECT_OWNER",
+      "CLIENT",
+      "COLLABORATOR",
+      "REVIEWER"
+    ],
+    "rolesThatDoNotExist": [
+      "EDITOR",
+      "VIEWER"
+    ],
+    "enforcedToday": "none — no design-workspace action checks a role",
+    "proposed": {
+      "read and focus": "any authenticated project member",
+      "select, promote, replace, lock, generate, move to build": "FOUNDER"
+    },
+    "basis": "pipeline attributes actions to promotedBy/lockedBy = 'founder'; client room restricts CAN_GENERATE and CAN_REGENERATE to admin",
+    "unresolved": "FD-06"
+  },
+  "ASYNC_STATES": {
+    "vocabulary": [
+      "IDLE",
+      "LOADING",
+      "SUCCESS",
+      "ERROR",
+      "EMPTY",
+      "BLOCKED",
+      "DISABLED",
+      "OFFLINE",
+      "PROVIDER_FAILURE",
+      "STALE",
+      "UNKNOWN",
+      "MISSING"
+    ],
+    "rule": "no fabricated value may appear in place of a missing one, on any status surface",
+    "generation": {
+      "concurrency": "at most one generation in flight per workspace",
+      "disabledWhen": [
+        "no candidate selected",
+        "authorityPair is PAIR_LOCKED",
+        "generationState is LOADING",
+        "FAL_KEY absent"
+      ]
+    },
+    "moveToBuild": "BLOCKED in every currently reachable state — scopedCompilerReadiness hardcodes buildPass = false"
+  },
+  "COST_GUARDS": {
+    "costBearingElements": [
+      "DW-CAND-001",
+      "DW-CAND-002"
+    ],
+    "serverGuard": "endpoints require founderConfirmedSpend; runMobileTwinFalPipeline throws SPEND_GUARD without it",
+    "gap": "client code currently sets founderConfirmedSpend: true automatically, satisfying the guard without a founder decision",
+    "required": [
+      "founderConfirmedSpend must originate from an explicit founder confirmation in the UI; Composer must not hardcode true",
+      "REFINE confirms inside OV-REFINE alongside the bounded input",
+      "REGENERATE confirms in a modal, having no input surface of its own",
+      "both actions disable while a generation is in flight — this prevents unbounded generation loops",
+      "provider failure is a first-class state and never creates a candidate",
+      "cost accounting reuses MobileProviderCostRecord"
+    ],
+    "unresolved": "whether a per-session or per-project spend ceiling should exist — no budget cap exists in the architecture"
+  },
+  "HISTORY_EVENTS": {
+    "existingUnion": [
+      "VIEWPORT_SELECTED",
+      "VIEWPORT_UNSELECTED",
+      "VIEWPORT_MASTER_PROMOTED",
+      "VIEWPORT_MASTER_SUPERSEDED",
+      "PAIR_LOCKED",
+      "PAIR_SUPERSEDED",
+      "DERIVATION_MARKED_STALE",
+      "FOUNDER_AUTHORITY_INJECTION"
+    ],
+    "storage": "DesignWorkspaceAuthorityPipelineState.events — in-session, no audit table",
+    "rule": "use these names exactly; add none without a schema decision",
+    "notEvents": [
+      "gallery candidate focus — not auditable; committing to a viewport is VIEWPORT_SELECTED",
+      "pair review — a disclosure, no AUTHORITY_REVIEW_STARTED type exists"
+    ],
+    "missingMembers": [
+      "move_to_build",
+      "candidate_refined",
+      "candidate_regenerated"
+    ],
+    "missingMembersDecision": "FD-08",
+    "designHistoryDataset": "pipeline.events",
+    "featureChangeHistoryDataset": "WorkspaceFeatureChangeSet"
+  },
+  "RESPONSIVE_BEHAVIOR": {
+    "breakpoints": {
+      "mobile": 390,
+      "tablet": 834,
+      "desktop": 1440
+    },
+    "rule": "semantics identical at every width; only presentation moves",
+    "nonNegotiablesOnMobile": [
+      "no horizontal page overflow",
+      "minimum 44 CSS pixel touch targets in real rendered size, which requires real-pixel sizing under the artboard scale",
+      "browser back closes overlays before leaving the page",
+      "no hover-only or pointer-only action"
+    ],
+    "presentationDifferences": {
+      "candidateGallery": "mobile swipe rail, desktop visible row — selection semantics identical",
+      "structuredOutput": "mobile scrollable, desktop five across",
+      "drawers": "mobile full-height bottom sheet, desktop side drawer",
+      "compare": "mobile one-at-a-time with swipe, desktop two up"
+    }
+  },
+  "ACCESSIBILITY": {
+    "reference": "06-PARITY-RESPONSIVE-ACCESSIBILITY.md",
+    "keyPatterns": {
+      "WORKSPACE_MODE": "radiogroup + radio, aria-checked, roving tabindex, arrow keys",
+      "SELECTOR": "radiogroup + radio",
+      "TAB": "tablist + tab + tabpanel, arrows, Home, End",
+      "SELECTABLE_CARD": "button with aria-pressed, Enter and Space",
+      "ACCORDION": "button with aria-expanded and aria-controls",
+      "APPROVAL_ACTION": "button with aria-disabled and the blocking gate named in aria-describedby",
+      "overlays": "role=dialog, aria-modal=true, aria-labelledby, focus trapped, focus returned to the trigger",
+      "confirmations": "focus CANCEL first so an accidental Enter cannot promote or lock"
+    },
+    "announcements": "polite live region for state results, assertive for errors and blocked actions",
+    "contrast": "no state is communicated by colour alone; lime active states pair colour with fill or weight"
+  },
+  "CHILD_PAGE_MAP": {
+    "confirmedChildPages": 0,
+    "confirmedGrandchildPages": 0,
+    "assessed": {
+      "/grounding": "DRAWER_DETAIL",
+      "/blueprint": "DRAWER_DETAIL",
+      "/overlay": "DRAWER_DETAIL",
+      "/assets": "DRAWER_DETAIL",
+      "/function-map": "DRAWER_DETAIL",
+      "design-history": "DRAWER_DETAIL",
+      "feature-change-history": "DRAWER_DETAIL",
+      "master-amendment-status": "DRAWER_DETAIL",
+      "technical-details": "DRAWER_DETAIL",
+      "compare": "MODAL_DETAIL",
+      "candidate-inspector": "DRAWER_DETAIL",
+      "build": "FOUNDER_DECISION_REQUIRED"
+    },
+    "reasoning": "every inspection feature in the manifest allows only INLINE, DOCK, SHEET and DRAWER presentation modes. A card is not a page."
+  },
+  "INHERITANCE_RULES": {
+    "patterns": [
+      "WorkspaceViewControl",
+      "SelectableCandidateCard",
+      "ViewportPartitionedAuthority",
+      "ApprovalControl",
+      "ReadinessBlock",
+      "InspectionAction",
+      "FullscreenMedia",
+      "RecordTabStrip",
+      "ContextualNextAction"
+    ],
+    "reference": "07-INHERITANCE-AND-FOUNDER-DECISIONS.md"
+  },
+  "UNRESOLVED_DECISIONS": [
+    {
+      "id": "FD-01",
+      "element": "DW-HDR-008",
+      "decision": "header overflow menu contents"
+    },
+    {
+      "id": "FD-02",
+      "element": "DW-NAV-001",
+      "decision": "hamburger versus the visible nav"
+    },
+    {
+      "id": "FD-03",
+      "element": "DW-CTX-003",
+      "decision": "is PROJECT CREATIVE CONTEXT a destination"
+    },
+    {
+      "id": "FD-04",
+      "element": "DW-TGT-002..004",
+      "decision": "is TARGET navigable or readonly context"
+    },
+    {
+      "id": "FD-05",
+      "element": "DW-VP-003",
+      "decision": "TABLET has no authority slot — highest impact"
+    },
+    {
+      "id": "FD-06",
+      "element": "DW-AUTH-017",
+      "decision": "REVIEW AUTHORITY semantics and the permission model"
+    },
+    {
+      "id": "FD-07",
+      "element": "DW-PIPE-003/004/015/016",
+      "decision": "the readiness percentage and status counts"
+    },
+    {
+      "id": "FD-08",
+      "element": "DW-PIPE-022",
+      "decision": "what MOVE TO BUILD does on success, and its event type"
+    },
+    {
+      "id": "FD-09",
+      "element": "DW-REC-014",
+      "decision": "where SOURCE resolves"
+    }
+  ],
+  "COMPOSER_PRECONDITIONS": [
+    "founder approval of this contract",
+    "resolution of all nine FOUNDER_DECISIONS_REQUIRED entries, or explicit deferral with the affected elements left unimplemented",
+    "do not create routes for any surface marked DRAWER_DETAIL or MODAL_DETAIL",
+    "do not invent state values outside the unions recorded in STATE_MODEL",
+    "do not invent event types outside HISTORY_EVENTS.existingUnion",
+    "do not render a value that has no computation behind it",
+    "implement every action once in the shared workspace hook so canonical and list cannot diverge"
+  ]
+}
