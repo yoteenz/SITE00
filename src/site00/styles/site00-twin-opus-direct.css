@@ -138,7 +138,6 @@
 /* ------------------------------------------------------------------ */
 
 .tod-header {
-  position: relative;
   flex: 0 0 41.1px;
   height: 41.1px;
   display: flex;
@@ -263,6 +262,7 @@
 /* ------------------------------------------------------------------ */
 
 .tod-context {
+  position: relative;
   flex: 0 0 36px;
   height: 36px;
   display: flex;
@@ -1997,17 +1997,6 @@
   border-bottom: 1px solid var(--tod-border-panel);
 }
 
-.tod-tabs__handle {
-  position: absolute;
-  left: 50%;
-  top: 7px;
-  transform: translateX(-50%);
-  width: 58px;
-  height: 4.4px;
-  border-radius: 2.2px;
-  background: #121212;
-}
-
 .tod-tabs__list {
   position: absolute;
   inset: 0;
@@ -2266,68 +2255,75 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* VIEW MODE — CANONICAL / LIST (P0.VR.DESIGNBENCH.OPUS-VIEWMODE1)      */
+/* VIEW MODE — CANONICAL / LIST                                        */
+/* OPUS-VIEWMODE1, repositioned by OPUS-LIST-REFINE1                   */
 /* ------------------------------------------------------------------ */
 
 /*
- * The control sits out of flow in the empty span of the utility row between
- * the crumbs (ends at 328.6) and the compiler status (starts at 575.3), so
- * adding it moves nothing in the canonical layout. It counter-scales against
- * the artboard scale, capped so the boosted width can never reach the status.
+ * The control lives in the NDXBOOK context bar: workspace-level chrome that
+ * both renderers share, sitting between the global host chrome above and the
+ * design workspace content below. It is anchored out of flow in the bar's
+ * empty span (the stream label ends at 267.4, the context status starts at
+ * 604.4), so relocating it displaces nothing in either presentation.
+ *
+ * It counter-scales against the artboard scale so it stays operable on a
+ * phone, growing leftwards into that empty span; the cap keeps the grown
+ * control clear of the stream label.
  */
 .tod-viewmode {
   position: absolute;
-  left: 342px;
-  top: 23.5px;
+  right: 188px;
+  top: 50%;
   display: flex;
   align-items: center;
-  gap: 6.4px;
+  gap: 7.4px;
   white-space: nowrap;
   transform: translateY(-50%) scale(var(--tod-viewmode-boost, 1));
-  transform-origin: left center;
+  transform-origin: right center;
 }
 
 .tod-viewmode__label {
   font-size: 7.9px;
   line-height: 1;
-  color: #3c3c40;
+  letter-spacing: 0.3px;
+  color: #8d8d8d;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-viewmode__group {
   display: flex;
   align-items: stretch;
-  border: 1px solid var(--tod-border-panel);
+  border: 1px solid #4c4c4c;
   border-radius: 2px;
-  background: #fff;
+  background: transparent;
   overflow: hidden;
 }
 
 .tod-viewmode__cell {
   display: flex;
   align-items: center;
-  height: 14px;
-  padding: 0 6.6px;
-  font-size: 6.8px;
+  height: 16.4px;
+  padding: 0 7.6px;
+  font-size: 7.2px;
   line-height: 1;
-  letter-spacing: 0.2px;
-  color: var(--tod-ink-2);
+  letter-spacing: 0.4px;
+  color: #d9d9d9;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-viewmode__cell + .tod-viewmode__cell {
-  border-left: 1px solid var(--tod-border-subtle);
+  border-left: 1px solid #4c4c4c;
 }
 
 .tod-viewmode__cell.is-active {
-  background: var(--tod-black);
-  color: var(--tod-lime);
+  background: var(--tod-lime);
+  color: var(--tod-lime-ink);
   font-weight: 700;
 }
 
 .tod-viewmode__cell:focus-visible {
-  outline: 1.5px solid var(--tod-ink);
-  outline-offset: 1px;
+  outline: 1.5px solid var(--tod-lime);
+  outline-offset: 1.5px;
 }
 
 /* ------------------------------------------------------------------ */

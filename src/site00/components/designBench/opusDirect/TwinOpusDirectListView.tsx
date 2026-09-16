@@ -615,7 +615,6 @@ export function TwinOpusDirectListRecord({ workspace }: { workspace: TwinOpusDir
   return (
     <div className="tod-lv-record" data-testid="twin-opus-direct-list-record">
         <div className="tod-lv-tabs">
-          <span className="tod-lv-tabs__handle" aria-hidden="true" />
           <div className="tod-lv-tabs__list" role="tablist" aria-label="Concept record">
             {data.conceptTabs.map((tab, index) => (
               <button

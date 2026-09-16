@@ -176,23 +176,38 @@ for (const [name, width, height] of [
   await vp.goto(PAGE_URL, { waitUntil: 'networkidle' });
   await vp.waitForTimeout(500);
   const box = await vp.evaluate(() => {
+    // The control lives in the context bar; its neighbours are the stream
+    // label on the left and the context status on the right.
     const el = document.querySelector('.tod-viewmode');
-    const status = document.querySelector('.tod-header__status');
-    if (!el || !status) return null;
+    const stream = document.querySelector('.tod-context__stream');
+    const right = document.querySelector('.tod-context__right');
+    if (!el || !stream || !right) return null;
     const r = el.getBoundingClientRect();
-    const s = status.getBoundingClientRect();
     return {
       w: Math.round(r.width * 10) / 10,
       h: Math.round(r.height * 10) / 10,
+      left: Math.round(r.left * 10) / 10,
       right: Math.round(r.right * 10) / 10,
-      statusLeft: Math.round(s.left * 10) / 10,
+      streamRight: Math.round(stream.getBoundingClientRect().right * 10) / 10,
+      rightLeft: Math.round(right.getBoundingClientRect().left * 10) / 10,
+      inHeader: Boolean(document.querySelector('.tod-header .tod-viewmode')),
+      inContext: Boolean(document.querySelector('.tod-context .tod-viewmode')),
     };
   });
-  const usable = box && box.h >= 13 && box.w >= 80 && box.right <= box.statusLeft;
+  const usable =
+    box &&
+    box.h >= 13 &&
+    box.w >= 80 &&
+    box.right <= box.rightLeft &&
+    box.left >= box.streamRight &&
+    box.inContext &&
+    !box.inHeader;
   check(
     `${name} (${width}px) toggle usable`,
     Boolean(usable),
-    box ? `${box.w}x${box.h} css px, right ${box.right} vs status ${box.statusLeft}` : 'not found',
+    box
+      ? `${box.w}x${box.h} css px, span ${box.left}-${box.right} between stream ${box.streamRight} and status ${box.rightLeft}`
+      : 'not found',
   );
   await vp.getByRole('radio', { name: 'LIST' }).click();
   await vp.waitForTimeout(300);

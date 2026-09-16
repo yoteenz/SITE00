@@ -717,6 +717,7 @@
   font-size: 16.6px;
   line-height: 1;
   color: #1d1d1d;
+  font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-gallery__compare {
@@ -1098,7 +1099,7 @@
   top: 103.4px;
   width: 44.7px;
   height: 44.7px;
-  border-radius: 50%;
+  border-radius: 3.9px;
   background: #fff;
   border: 2px solid var(--tod-border-control);
   display: flex;
@@ -1177,6 +1178,7 @@
   font-size: 17.1px;
   line-height: 1;
   color: #1d1d1d;
+  font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-out__cols {
@@ -1694,17 +1696,6 @@
   border-bottom: 2px solid var(--tod-border-panel);
 }
 
-.tod-lv-tabs__handle {
-  position: absolute;
-  left: 50%;
-  top: 13.8px;
-  transform: translateX(-50%);
-  width: 114.2px;
-  height: 8.7px;
-  border-radius: 4.3px;
-  background: #121212;
-}
-
 .tod-lv-tabs__list {
   position: absolute;
   inset: 0;
@@ -1905,13 +1896,14 @@
     height: auto;
     min-height: 78.8px;
     padding-top: 23.6px;
+    overflow-x: hidden;
 }
 
 .tod-lv-tabs__list {
     position: static;
     display: flex;
     gap: 51.2px;
-    justify-content: space-around;
+    justify-content: flex-start;
     overflow-x: auto;
     padding: 0 31.5px 0;
     scrollbar-width: none;
