@@ -144,12 +144,14 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — no raster cheat', () => {
   it('loads Grok rasters from the isolated opus-direct public folder via img tags', () => {
     const content = readRepo('src/site00/components/designBench/opusDirect/twinOpusDirectContent.ts');
     const assetPaths = Object.values(TWIN_OPUS_DIRECT_ASSETS);
-    expect(assetPaths).toHaveLength(9);
+    expect(assetPaths).toHaveLength(10);
     for (const assetPath of assetPaths) {
       expect(assetPath.startsWith('/site00/twin-opus-direct/')).toBe(true);
       expect(content).toContain(assetPath);
       expect(existsSync(path.join(repoRoot, 'public', assetPath.replace(/^\//, '')))).toBe(true);
     }
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.hero');
+    expect(screen).toContain('slot="hero-plate"');
     expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.hand');
     expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.form');
     expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.overlay');
@@ -165,8 +167,8 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — no raster cheat', () => {
 
 describe('P0.VR.DESIGNBENCH.GROK-ASSET-OPUS1 — image slot wiring', () => {
   it('tags every raster slot without touching live copy or icons', () => {
+    expect(screen).toContain("slot = 'hand-plate'");
     const slots = [
-      'hand-plate',
       'authority-desktop',
       'candidate-grain',
       'candidate-collage',
@@ -179,6 +181,7 @@ describe('P0.VR.DESIGNBENCH.GROK-ASSET-OPUS1 — image slot wiring', () => {
     for (const slot of slots) {
       expect(screen).toContain(`data-tod-slot="${slot}"`);
     }
+    expect(screen).toContain('slot="hero-plate"');
     expect(screen).not.toContain('TodPointingHandPlate');
     expect(screen).toContain('TWIN_OPUS_DIRECT_HERO.headline');
     expect(screen).toContain('TodIconMenu');
