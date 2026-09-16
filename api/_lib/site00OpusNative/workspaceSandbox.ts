@@ -99,7 +99,7 @@ interface PlannedWrite {
  */
 export async function applyPatch(input: {
   runId: string;
-  edits: PatchEdit[];
+  edits?: PatchEdit[];
   creates?: PatchCreate[];
   reason: string;
   writeAllowlist: string[];
@@ -119,7 +119,8 @@ export async function applyPatch(input: {
    */
   existingCreatedFiles?: string[];
 }): Promise<DesignAgentPatch> {
-  const { runId, edits, reason, writeAllowlist } = input;
+  const { runId, reason, writeAllowlist } = input;
+  const edits = input.edits ?? [];
   const creates = input.creates ?? [];
   if (edits.length === 0 && creates.length === 0) {
     throw new PatchConflictError('(none)', 'patch contained no edits and no creations');

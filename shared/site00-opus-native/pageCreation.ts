@@ -104,7 +104,7 @@ export function validateRouteIntent(
     };
   }
   const normalised = route.replace(/\/+$/, '');
-  if (existingRoutes.some((existing) => normaliseRoutePattern(existing) === normaliseRoutePattern(normalised))) {
+  if (existingRoutes.some((existing) => routePatternMatches(existing, normalised))) {
     return { valid: false, reason: `"${route}" collides with an existing route` };
   }
   if (parentRoute) {
@@ -119,8 +119,18 @@ export function validateRouteIntent(
   return { valid: true, reason: null };
 }
 
-function normaliseRoutePattern(route: string): string {
-  return route.replace(/:[A-Za-z]+/g, '*').replace(/\/+$/, '');
+/**
+ * Registered routes carry path params (`/projects/:projectSlug/design/x`) while
+ * a creation intent is always concrete, so the two are compared by expanding
+ * the registered pattern into a segment matcher rather than by string equality.
+ */
+function routePatternMatches(pattern: string, candidate: string): boolean {
+  const patternSegments = pattern.replace(/\/+$/, '').split('/');
+  const candidateSegments = candidate.replace(/\/+$/, '').split('/');
+  if (patternSegments.length !== candidateSegments.length) return false;
+  return patternSegments.every(
+    (segment, index) => segment.startsWith(':') || segment === candidateSegments[index],
+  );
 }
 
 /** Phase 13 — an override with no justification is rejected before it renders. */

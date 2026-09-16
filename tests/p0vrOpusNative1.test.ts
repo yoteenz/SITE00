@@ -427,7 +427,8 @@ describe('P0.VR.OPUS-NATIVE1 — tool surface and write boundary', () => {
 
   it('marks exactly the mutating tools as mutating', () => {
     const mutating = OPUS_TOOL_DEFINITIONS.filter((tool) => tool.mutating).map((tool) => tool.name).sort();
-    expect(mutating).toEqual(['compare_screenshot', 'revert_patch', 'write_patch']);
+    // create_file joined the mutating set in P0.VR.OPUS-NATIVE2.
+    expect(mutating).toEqual(['compare_screenshot', 'create_file', 'revert_patch', 'write_patch']);
   });
 
   it('keeps the canonical reconstruction read-only to the agent', async () => {
@@ -459,7 +460,7 @@ describe('P0.VR.OPUS-NATIVE1 — tool surface and write boundary', () => {
 
   it('captures an exact baseline so revert restores content, not an approximation', () => {
     const sandbox = read('api/_lib/site00OpusNative/workspaceSandbox.ts');
-    expect(sandbox).toContain('baseline[edit.file] = current');
+    expect(sandbox).toContain('baseline[entry.file] = entry.before');
     expect(sandbox).toContain('export async function revertPatch');
     // Ambiguous anchors are a conflict, not a silent first-match replacement.
     expect(sandbox).toContain('matches ${occurrences} times');

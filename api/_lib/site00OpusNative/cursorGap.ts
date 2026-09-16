@@ -6,6 +6,13 @@
  * be closed before Cursor stops being required for routine Opus design work;
  * a MISSING_NATIVE row that does not block exit is a convenience, not a
  * dependency.
+ *
+ * P0.VR.OPUS-NATIVE2 — Phase 33 reassessment. Three of the four exit blockers
+ * closed this sprint: editing now includes file creation and atomic
+ * multi-file patches, and request-changes continues a thread instead of
+ * ending it. Git remains open and remains deliberate. One row moved the other
+ * way: embedding the agent in DESIGN made "where the founder works" a real
+ * comparison rather than a hypothetical one, and native now wins it.
  */
 
 import type { NativeOpusVsCursorGapRow } from '../../../shared/site00-opus-native/types.js';
@@ -37,11 +44,11 @@ export const NATIVE_OPUS_VS_CURSOR_GAP: NativeOpusVsCursorGapRow[] = [
   },
   {
     capability: 'editing',
-    cursor: 'Arbitrary edits to any file, plus file creation and deletion.',
-    native: 'Surgical find/replace patches against a per-surface write allowlist. No creation, no deletion.',
-    status: 'MISSING_NATIVE',
-    blocksCursorExit: true,
-    note: 'Sufficient for refinement work, which is the target. Reconstruction sprints that add components still need Cursor until file creation and multi-file scaffolding exist.',
+    cursor: 'Arbitrary edits to any file, plus file creation and deletion, with no capability boundary.',
+    native: 'Surgical find/replace and create_file against a capability-resolved allowlist, under a run-scoped founder grant.',
+    status: 'BETTER_NATIVE',
+    blocksCursorExit: false,
+    note: 'Closed in NATIVE2. Cursor can edit more; native is the only one of the two that can state, before spending anything, exactly which files a run may touch and refuse the rest.',
   },
   {
     capability: 'browser render',
@@ -125,19 +132,62 @@ export const NATIVE_OPUS_VS_CURSOR_GAP: NativeOpusVsCursorGapRow[] = [
   },
   {
     capability: 'multi-file reasoning',
-    cursor: 'Handles large cross-cutting refactors across dozens of files.',
-    native: 'Single-surface scope with a dependency-expanded read boundary.',
-    status: 'MISSING_NATIVE',
+    cursor: 'Handles large cross-cutting refactors across dozens of files. Partial application on failure is normal.',
+    native: 'Atomic multi-file patch sets within one surface: planned and validated in full, then written, or not written at all.',
+    status: 'PARITY',
     blocksCursorExit: false,
-    note: 'Out of scope for design refinement. Not a blocker for the target workflow.',
+    note: 'Cursor still reaches further across the repo. Native is the safer of the two at the scope it covers, because a rejected patch leaves nothing behind.',
   },
   {
     capability: 'session continuity',
-    cursor: 'Long-lived conversation with memory across a sprint.',
-    native: 'Single-run. A follow-up starts a new run with freshly compiled context.',
+    cursor: 'Long-lived conversation. Context grows unbounded and is re-sent, so a late turn costs more than an early one.',
+    native: 'DesignAgentSession threads runs; request-changes dispatches a continuation against a derived compaction rather than a replayed transcript.',
+    status: 'BETTER_NATIVE',
+    blocksCursorExit: false,
+    note: 'Closed in NATIVE2. The compaction is derived from what happened — a tool call that failed is recorded as a rejected approach whether or not the model mentioned it, which a self-summarised chat history does not do.',
+  },
+
+  // ---- P0.VR.OPUS-NATIVE2 — rows this sprint made comparable -------------
+
+  {
+    capability: 'page creation',
+    cursor: 'Creates pages freely. Route, inheritance and component reuse are whatever the model decided that day.',
+    native: 'PAGE_CREATE behind a validated plan: route grammar and collision checked, every parent-required region classified INHERITED / OVERRIDDEN / NEW with justification, and component reuse decided before creation.',
+    status: 'BETTER_NATIVE',
+    blocksCursorExit: false,
+    note: 'Cursor is faster at creating a page. Native is the only one that can refuse to create the wrong one.',
+  },
+  {
+    capability: 'where the founder works',
+    cursor: 'A separate editor. The founder leaves DESIGN, describes the page in prose, and returns to look.',
+    native: 'A dock inside DESIGN. Project, page, view, viewport, golden and write scope are compiled from what is on screen.',
+    status: 'BETTER_NATIVE',
+    blocksCursorExit: false,
+    note: 'The point of the sprint. Describing a page you are already looking at is the tax this removes.',
+  },
+  {
+    capability: 'asset authority',
+    cursor: 'None. Nothing stops a design pass from replacing an approved raster reference.',
+    native: 'Asset mutation is BLOCKED by default at every capability level and checked against edit content, not file path.',
+    status: 'BETTER_NATIVE',
+    blocksCursorExit: false,
+    note: 'Directly answers the regression OPUS-ASSET-PERSISTENCE1 was called in to fix.',
+  },
+  {
+    capability: 'preview in deployed environments',
+    cursor: 'Not applicable; Cursor runs where the repository is.',
+    native: 'Environment-aware origin resolution. A deployed API container reports PREVIEW_NOT_SUPPORTED_IN_THIS_ENVIRONMENT rather than pretending.',
+    status: 'MISSING_NATIVE',
+    blocksCursorExit: false,
+    note: 'The visual loop needs a checkout, a dev server and a browser in the same place. A stateless API container is the wrong host for it, and an always-on preview service is not built.',
+  },
+  {
+    capability: 'live model access from the cloud VM',
+    cursor: 'Cursor supplies the model. No key management for the founder.',
+    native: 'Needs ANTHROPIC_API_KEY in the environment that runs the loop. It is set on Railway, which has no repository or browser, and absent from the cloud dev VM, which has both.',
     status: 'MISSING_NATIVE',
     blocksCursorExit: true,
-    note: 'Request-changes currently ends the run. Threading a review note into a continuation run is the next piece of work.',
+    note: 'The only remaining blocker that is not deliberate. It is a credential placement problem, not a code problem: the same key in Cursor Cloud secrets makes the live loop runnable where the tools already work.',
   },
 ];
 
