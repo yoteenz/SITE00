@@ -10052,3 +10052,9 @@ Founder asked to find and apply any repo migrations not yet on project `hyycomvc
 - **Caveat — campaign package deliverables:** Pre-existing marketing table `site00_campaign_deliverables` (`campaign_id`) blocked B5.6’s package-scoped deliverables DDL (`package_id`); `create table if not exists` skipped. `site00_campaign_deliverable_versions` exists but FKs to the marketing table — follow-up repo migration should rename B5.6 tables (e.g. `site00_campaign_package_deliverables`) before relying on entry campaign packages in prod.
 - **Design workspace migration history:** MCP `apply_migration` hit a version collision; DDL applied via `execute_sql` + `schema_migrations` row `20260916143000` / `site00_design_workspace_authority_session`.
 - **Founder next:** Redeploy Railway API so design-workspace-production routes use live Supabase; no cPanel ZIP needed for this task.
+
+---
+
+## 2026-09-16 — P0.VR.DESIGN-INTEGRATION1 — Promote twin to production DESIGN workspace
+
+Sprint promoted approved `twin-opus-direct` UX to **`/projects/:projectSlug/design`** (e.g. `/projects/ndxbook/design`) with child routes (`references`, `assets`, `pages`, `skins`, `history`, `more`), wired primary/bottom nav, MOVE TO BUILD + readiness actions, page-target switching via PAGES + sessionStorage, Opus dock entry as compact header **OPUS** button (drawer + backdrop + close/ESC, diagnostics under ADVANCED). **`/design/twin-opus-direct`** remains QA reference with banner + link to production. **`resolveLegacyProjectDesignRedirect`**: ndxbook stays on per-project route; `/projects/site00/design?project=ndxbook` redirects to `/projects/ndxbook/design`. Opus surface registry aliases production route to `twin-opus-direct` authority. Tests: `tests/p0vrDesignIntegration1.test.ts`. Production DESIGN route has no account guard (same public QA posture as twin route).

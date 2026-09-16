@@ -230,7 +230,7 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
 
 /** 05-10: hero, authority rail, candidate gallery, structured output, pipeline. */
 export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions, readinessDash } = workspace;
+  const { data, state, actions, readinessDash, production } = workspace;
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const scrollGallery = useCallback(() => {
@@ -526,11 +526,33 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 <span key={line}>{line}</span>
               ))}
             </p>
-            <button type="button" className="tod-pipe__primary">
+            <button
+              type="button"
+              className="tod-pipe__primary"
+              onClick={() => actions.onRailAction('pair-review')}
+            >
               {data.nextAction.primary}
             </button>
             {data.nextAction.secondary.map((label) => (
-              <button key={label} type="button" className="tod-pipe__secondary">
+              <button
+                key={label}
+                type="button"
+                className="tod-pipe__secondary"
+                disabled={label.startsWith('MOVE TO BUILD') && !production.projection.buildEligible}
+                title={
+                  label.startsWith('MOVE TO BUILD') && !production.projection.buildEligible ?
+                    'BLOCKED — readiness gates not passed'
+                  : undefined
+                }
+                onClick={() => {
+                  if (label.startsWith('MOVE TO BUILD')) {
+                    if (production.projection.buildEligible) production.actions.runMoveToBuild();
+                    else production.actions.openReadinessReceipt();
+                    return;
+                  }
+                  if (label.includes('TECHNICAL')) production.actions.openReadinessReceipt();
+                }}
+              >
                 {label}
               </button>
             ))}

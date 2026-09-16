@@ -47,6 +47,7 @@ import {
   WriteAccessRequiredError,
   type OpusNativeServiceInfo,
 } from '../opusNative/opusNativeClient';
+import { useDesignAgentDock } from './DesignAgentDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
 import '../../../styles/site00-design-agent.css';
 
@@ -85,7 +86,8 @@ function usd(value: number | null | undefined): string {
 
 export function DesignAgentDock() {
   const targeting = useDesignAgentTarget();
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useDesignAgentDock();
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [service, setService] = useState<OpusNativeServiceInfo | null>(null);
   const [serviceError, setServiceError] = useState<string | null>(null);
 
@@ -111,6 +113,15 @@ export function DesignAgentDock() {
       .then(setService)
       .catch((cause: Error) => setServiceError(cause.message));
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, setOpen]);
 
   // A change of page invalidates an estimate and a grant: both were scoped to
   // the surface that is no longer on screen.
@@ -240,22 +251,25 @@ export function DesignAgentDock() {
   if (targeting.registered === false && !targeting.registryError) return null;
 
   return (
-    <aside className={`s00-dad${open ? ' s00-dad--open' : ''}`} data-testid="design-agent-dock">
-      <button
-        type="button"
-        className="s00-dad__rail"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-controls="s00-dad-panel"
-      >
-        <span className="s00-dad__rail-mark">OPUS</span>
-        <span className={`s00-dad__rail-dot s00-dad__rail-dot--${status === 'READY' ? 'idle' : 'live'}`} aria-hidden="true" />
-      </button>
-
-      <div className="s00-dad__panel" id="s00-dad-panel" hidden={!open}>
+    <>
+      {open ?
+        <button
+          type="button"
+          className="s00-dad__backdrop"
+          aria-label="Close design agent"
+          onClick={() => setOpen(false)}
+        />
+      : null}
+      <aside className={`s00-dad${open ? ' s00-dad--open' : ''}`} data-testid="design-agent-dock">
+        <div className="s00-dad__panel" id="s00-dad-panel" hidden={!open} role="dialog" aria-modal="true" aria-label="Opus design agent">
         <header className="s00-dad__head">
           <span className="s00-dad__title">OPUS DESIGN AGENT</span>
-          <span className="s00-dad__model">{service?.model ?? 'claude-opus-5'}</span>
+          <div className="s00-dad__headActions">
+            <span className="s00-dad__model">{service?.model ?? 'claude-opus-5'}</span>
+            <button type="button" className="s00-dad__close" onClick={() => setOpen(false)} aria-label="Close">
+              ✕
+            </button>
+          </div>
         </header>
 
         {targeting.registryError ? (
@@ -275,22 +289,15 @@ export function DesignAgentDock() {
         {serviceError ? <p className="s00-dad__error">Runtime unreachable: {serviceError}</p> : null}
 
         {/* Phase 3/4 — the compiled target, shown rather than typed. */}
-        <section className="s00-dad__block">
-          <h3 className="s00-dad__h">TARGET</h3>
-          <dl className="s00-dad__dl">
-            <div><dt>PROJECT</dt><dd>{targeting.projectSlug.toUpperCase()}</dd></div>
-            <div><dt>PAGE</dt><dd>{targeting.pageId ?? '—'}</dd></div>
-            <div><dt>VIEW</dt><dd>{String(targeting.target.viewMode ?? '—').toUpperCase()}</dd></div>
-            <div><dt>VIEWPORT</dt><dd>{targeting.target.viewport}</dd></div>
-            <div><dt>GOLDEN</dt><dd>{targeting.goldenVersion ?? '—'}</dd></div>
-            <div>
-              <dt>WRITE SCOPE</dt>
-              <dd>{estimate?.permittedMode ?? targeting.standingWriteMode ?? '—'}</dd>
-            </div>
-          </dl>
-          {targeting.firewallReason ? (
-            <p className="s00-dad__note">PROTECTED · {targeting.firewallReason}</p>
-          ) : null}
+        <section className="s00-dad__block s00-dad__block--compact">
+          <h3 className="s00-dad__h">WHAT AM I EDITING?</h3>
+          <p className="s00-dad__lead">
+            {targeting.projectSlug.toUpperCase()} · {targeting.pageId ?? 'design workspace'} ·{' '}
+            {String(targeting.target.viewMode ?? 'canonical').toUpperCase()} · {targeting.target.viewport}
+          </p>
+          <p className="s00-dad__note">
+            Write scope: {estimate?.permittedMode ?? targeting.standingWriteMode ?? '—'}
+          </p>
         </section>
 
         {/* Phase 5 — intent is chosen, never inferred from the task text. */}
@@ -555,25 +562,39 @@ export function DesignAgentDock() {
           </section>
         ) : null}
 
-        {/* Phase 32 — what Opus knows, on request, without chain-of-thought. */}
         <section className="s00-dad__block">
-          <button type="button" className="s00-dad__link" onClick={() => setShowContext((value) => !value)}>
-            {showContext ? 'HIDE' : 'SHOW'} AGENT CONTEXT
+          <button type="button" className="s00-dad__link" onClick={() => setShowAdvanced((value) => !value)}>
+            {showAdvanced ? 'HIDE' : 'SHOW'} ADVANCED / DIAGNOSTICS
           </button>
-          {showContext ? (
-            <AgentContextView route={targeting.route} pageId={targeting.pageId} mode={mode} intent={intent} />
-          ) : null}
+          {showAdvanced ?
+            <>
+              <dl className="s00-dad__dl">
+                <div><dt>ROUTE</dt><dd className="s00-dad__mono">{targeting.route}</dd></div>
+                <div><dt>PAGE ID</dt><dd>{targeting.pageId ?? '—'}</dd></div>
+                <div><dt>GOLDEN</dt><dd>{targeting.goldenVersion ?? '—'}</dd></div>
+              </dl>
+              {targeting.firewallReason ?
+                <p className="s00-dad__note">PROTECTED · {targeting.firewallReason}</p>
+              : null}
+              <button type="button" className="s00-dad__link" onClick={() => setShowContext((value) => !value)}>
+                {showContext ? 'HIDE' : 'SHOW'} AGENT CONTEXT
+              </button>
+              {showContext ?
+                <AgentContextView route={targeting.route} pageId={targeting.pageId} mode={mode} intent={intent} />
+              : null}
+              <footer className="s00-dad__foot">
+                <span>PREVIEW {diagnostics?.preview ?? '—'}</span>
+                <span>API {diagnostics?.anthropicApi ?? '—'}</span>
+                <a className="s00-dad__link" href={`/projects/${targeting.projectSlug}/design/opus-native`}>
+                  DIAGNOSTIC ROUTE
+                </a>
+              </footer>
+            </>
+          : null}
         </section>
-
-        <footer className="s00-dad__foot">
-          <span>PREVIEW {diagnostics?.preview ?? '—'}</span>
-          <span>API {diagnostics?.anthropicApi ?? '—'}</span>
-          <a className="s00-dad__link" href={`/projects/${targeting.projectSlug}/design/opus-native`}>
-            DIAGNOSTIC ROUTE
-          </a>
-        </footer>
       </div>
     </aside>
+    </>
   );
 }
 

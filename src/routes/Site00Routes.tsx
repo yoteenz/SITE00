@@ -167,8 +167,45 @@ const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage')
 const Site00OwnedDesignWorkspacePage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.Site00OwnedDesignWorkspacePage })),
 );
-const LegacyProjectDesignRedirectPage = lazy(() =>
-  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.LegacyProjectDesignRedirectPage })),
+const DesignProductionRouteGate = lazy(() =>
+  import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
+    default: m.DesignProductionRouteGate,
+  })),
+);
+const DesignProductionWorkspaceLayout = lazy(() =>
+  import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
+    default: m.DesignProductionWorkspaceLayout,
+  })),
+);
+const DesignProductionSectionReferences = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionReferences,
+  })),
+);
+const DesignProductionSectionAssets = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionAssets,
+  })),
+);
+const DesignProductionSectionPages = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSectionPages').then((m) => ({
+    default: m.DesignProductionSectionPages,
+  })),
+);
+const DesignProductionSectionSkins = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionSkins,
+  })),
+);
+const DesignProductionSectionHistory = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionHistory,
+  })),
+);
+const DesignProductionSectionMore = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionMore,
+  })),
 );
 const DesignTwinImplementationPage = lazy(() =>
   import('../site00/pages/DesignTwinImplementationPage').then((m) => ({ default: m.DesignTwinImplementationPage })),
@@ -1250,14 +1287,69 @@ export function Site00Routes() {
         path={SITE00_ROUTES.projectDesign}
         element={
           <Site00Layout>
-            <Site00AccountRouteGuard>
-              <Site00Suspense>
-                <LegacyProjectDesignRedirectPage />
-              </Site00Suspense>
-            </Site00AccountRouteGuard>
+            <Site00Suspense>
+              <DesignProductionRouteGate />
+            </Site00Suspense>
           </Site00Layout>
         }
-      />
+      >
+        <Route
+          element={
+            <Site00Suspense>
+              <DesignProductionWorkspaceLayout />
+            </Site00Suspense>
+          }
+        >
+          <Route
+            path="references"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionReferences />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="assets"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionAssets />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="pages"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionPages />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="skins"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionSkins />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="history"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionHistory />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="more"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionMore />
+              </Site00Suspense>
+            }
+          />
+        </Route>
+      </Route>
       <Route
         path={SITE00_ROUTES.projectExperiments}
         element={

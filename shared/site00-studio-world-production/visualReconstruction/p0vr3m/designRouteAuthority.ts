@@ -6,7 +6,10 @@ import { parseDesignWorkspaceUrlState } from '../p0vr2b/designWorkspaceUrlState.
 import type { DesignViewportClass } from '../p0vr2/types.js';
 import type { DesignWorkspaceTab } from '../p0vr2b/types.js';
 import { CANONICAL_SITE00_DESIGN_ROUTE } from './constants.js';
-import { getSite00ManagedProject, listDesignEnabledManagedProjects } from './managedProjectRegistry.js';
+import {
+  getSite00ManagedProject,
+  listDesignEnabledManagedProjects,
+} from './managedProjectRegistry.js';
 import type {
   CanonicalDesignWorkspaceLocation,
   DesignRouteAuthorityRecord,
@@ -69,30 +72,55 @@ function mergeLocation(
   return { pathname, search: search.startsWith('?') || search === '' ? search : `?${search}` };
 }
 
+function stripProjectQueryParam(search: string): string {
+  const params = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search);
+  params.delete('project');
+  const qs = params.toString();
+  return qs ? `?${qs}` : '';
+}
+
+function perProjectDesignPath(projectId: string): string {
+  return `/projects/${projectId}/design`;
+}
+
 export function resolveLegacyProjectDesignRedirect(
   projectSlug: string,
   search: string,
 ): LegacyDesignRouteResolution {
   const state = parseDesignWorkspaceUrlState(search);
+  const managed = getSite00ManagedProject(projectSlug);
+  const normalizedSearch =
+    search.startsWith('?') || search === '' ? search : search ? `?${search}` : '';
 
+  /** P0.VR.DESIGN-INTEGRATION1 — host route ?project=ndxbook → /projects/ndxbook/design */
   if (projectSlug === SITE00_DESIGN_PROJECT_ID) {
-    const project = resolveManagedProjectForDesignContext(state.project ?? SITE00_DESIGN_PROJECT_ID);
-    const needsProjectParam = !state.project;
-    const searchOut = needsProjectParam
-      ? buildCanonicalDesignWorkspacePath({
-          project,
-          screen: state.screen,
-          viewport: state.viewport,
-          tab: state.tab,
-        }).slice(CANONICAL_SITE00_DESIGN_ROUTE.length)
-      : search.startsWith('?')
-        ? search
-        : search
-          ? `?${search}`
-          : '';
+    const subject = resolveManagedProjectForDesignContext(state.project ?? null);
+    if (subject && subject !== SITE00_DESIGN_PROJECT_ID) {
+      return {
+        redirect: true,
+        target: mergeLocation(perProjectDesignPath(subject), stripProjectQueryParam(normalizedSearch)),
+        loop: false,
+      };
+    }
+    const defaultSubject = resolveManagedProjectForDesignContext('ndxbook');
+    if (!state.project && defaultSubject !== SITE00_DESIGN_PROJECT_ID) {
+      return {
+        redirect: true,
+        target: mergeLocation(perProjectDesignPath(defaultSubject), normalizedSearch),
+        loop: false,
+      };
+    }
     return {
-      redirect: needsProjectParam,
-      target: mergeLocation(CANONICAL_SITE00_DESIGN_ROUTE, searchOut),
+      redirect: false,
+      target: mergeLocation(CANONICAL_SITE00_DESIGN_ROUTE, normalizedSearch),
+      loop: false,
+    };
+  }
+
+  if (managed?.designEnabled) {
+    return {
+      redirect: false,
+      target: mergeLocation(perProjectDesignPath(projectSlug), normalizedSearch),
       loop: false,
     };
   }
