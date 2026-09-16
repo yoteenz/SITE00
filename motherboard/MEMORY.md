@@ -9815,3 +9815,15 @@ Summary of the **whole conversation so far** in this chat: founder ran a multi-s
 - **Decisions / outcomes:** Headline is a designed Inter Tight 800 lockup — family, weight, condensation, breaks, leading, and tracking all new. Live at 768×1376: block x18.9 y56 w268.9 h126.3; lines 268.9 / 138.6 / 138.7; 54px / lh 0.78 / tracking −0.078em / cream `#f3eee4`; standGap 29.4. Hero stays 517.9×395.4. Plate, standfirst CSS, and other regions unchanged. `ONLY_RESIZED: NO`.
 - **Changes:** `twinOpusDirectContent.ts` headline `['THE SIGNAL','IS THE','INDEX']`; `.tod-hero__headline*` rules in `site00-twin-opus-direct.css`; R2 test replaces HERO-TEXT1; CORE opus-direct row; this MEMORY entry.
 - **Conventions:** When a prior headline pass only scaled Anton, do not iterate on that CSS. Rebuild the typographic block. Measure Grok-direct and live ink boxes with Playwright at 768×1376 — do not treat a computer-use crop of the golden as live. Leave standfirst top locked unless a tiny local gap tweak is required.
+
+---
+
+## 2026-09-16 — GROK-ASSET2 golden-crop refresh on twin-opus-direct
+
+Summary of the **whole conversation so far** in this chat: Grok pairing sprints (DIRECT1 → ASSET-OPUS1) then HERO-TEXT1 (Anton shrink, rejected) then HERO-TEXT-R2 (3-line Inter Tight lockup, PR #950). Founder then ran **GROK-ASSET2**: refresh stale image material on `/projects/ndxbook/design/twin-opus-direct` against the current 768×1376 golden. Not a redesign.
+
+- **Context:** Attached golden `01a0a846-f604-7b29-9a5b-508e51483961.jpg` (768×1376) is asset authority. Opus layout, wiring, icons, live type, and state stay frozen. No list/canonical views exist on this route.
+- **Topics covered:** ASSET-OPUS1 plates were AI xerox with garbled type (`Cecett Befef`, office-form tables). Golden uses a high-contrast xerox index finger, 001 split/collage thumbs, faded receipt, black grid, cream 001 overlay, and a photo contact sheet.
+- **Decisions / outcomes:** Cropped each live `[data-tod-slot]` box from the golden and wrote those rasters over `public/site00/twin-opus-direct/*` (plus `tod-grain-plate.jpg` for candidate 2). CSS only `object-fit: fill` and hide of baked-in DOM duplicates. Hero 517.9×395.4 / plate 204.6×269.1 / gallery 195.3 unchanged. Plate-vs-golden mean abs ~3.8. No broken images. Viewport / card / tab clicks still set `is-active`.
+- **Changes:** plate JPEGs/PNGs; `TWIN_OPUS_DIRECT_ASSETS.grain`; grain `src`; photo-fit + hide rules; tests length 9; CORE row; this MEMORY entry.
+- **Conventions:** For asset-refresh sprints, crop the golden at live slot coordinates in the shared 768×1376 space. Do not generate a new AI family. Hide DOM marks that the crop already contains. Do not reorder gallery cards to match golden semantics — match the pixels at that screen position.

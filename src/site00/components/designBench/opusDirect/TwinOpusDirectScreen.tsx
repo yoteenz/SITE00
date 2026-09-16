@@ -177,7 +177,7 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
         <div className="tod-card__grid" aria-hidden="true">
           <img
             className="tod-card__raster tod-card__raster--grain"
-            src={TWIN_OPUS_DIRECT_ASSETS.hand}
+            src={TWIN_OPUS_DIRECT_ASSETS.grain}
             alt=""
             draggable={false}
             data-tod-slot="candidate-grain"
