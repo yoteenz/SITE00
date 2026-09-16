@@ -176,37 +176,52 @@ for (const [name, width, height] of [
   await vp.goto(PAGE_URL, { waitUntil: 'networkidle' });
   await vp.waitForTimeout(500);
   const box = await vp.evaluate(() => {
-    // The control lives in the context bar; its neighbours are the stream
-    // label on the left and the context status on the right.
-    const el = document.querySelector('.tod-viewmode');
-    const stream = document.querySelector('.tod-context__stream');
-    const right = document.querySelector('.tod-context__right');
-    if (!el || !stream || !right) return null;
-    const r = el.getBoundingClientRect();
+    // OPUS-VIEWMODE1R1: the control owns a full-width row of its own, so the
+    // check is that it is really visible and legibly sized, not that it fits
+    // inside some neighbour's leftover span.
+    const row = document.querySelector('.tod-viewrow');
+    const group = document.querySelector('.tod-viewmode__group');
+    const active = document.querySelector('.tod-viewmode__cell.is-active');
+    const screenEl = document.querySelector('.tod-screen');
+    if (!row || !group || !active || !screenEl) return null;
+    const r = row.getBoundingClientRect();
+    const g = group.getBoundingClientRect();
+    const s = screenEl.getBoundingClientRect();
+    const rowStyle = getComputedStyle(row);
+    // Rendered type size, i.e. after the artboard transform.
+    const ratio = g.height / parseFloat(getComputedStyle(group).height);
     return {
-      w: Math.round(r.width * 10) / 10,
-      h: Math.round(r.height * 10) / 10,
-      left: Math.round(r.left * 10) / 10,
-      right: Math.round(r.right * 10) / 10,
-      streamRight: Math.round(stream.getBoundingClientRect().right * 10) / 10,
-      rightLeft: Math.round(right.getBoundingClientRect().left * 10) / 10,
-      inHeader: Boolean(document.querySelector('.tod-header .tod-viewmode')),
-      inContext: Boolean(document.querySelector('.tod-context .tod-viewmode')),
+      rowH: Math.round(r.height * 10) / 10,
+      groupW: Math.round(g.width * 10) / 10,
+      groupH: Math.round(g.height * 10) / 10,
+      cellPx: Math.round(parseFloat(getComputedStyle(active).fontSize) * ratio * 10) / 10,
+      insideRow:
+        g.left >= r.left - 0.5 && g.right <= r.right + 0.5 && g.top >= r.top - 0.5 && g.bottom <= r.bottom + 0.5,
+      insideScreen: g.left >= s.left - 0.5 && g.right <= s.right + 0.5,
+      hidden: rowStyle.display === 'none' || rowStyle.visibility === 'hidden',
+      duplicates: document.querySelectorAll('.tod-viewmode__group').length,
+      misplaced: Boolean(
+        document.querySelector('.tod-context .tod-viewmode__group, .tod-header .tod-viewmode__group'),
+      ),
+      overflow: screenEl.scrollWidth - screenEl.clientWidth,
     };
   });
   const usable =
     box &&
-    box.h >= 13 &&
-    box.w >= 80 &&
-    box.right <= box.rightLeft &&
-    box.left >= box.streamRight &&
-    box.inContext &&
-    !box.inHeader;
+    !box.hidden &&
+    box.duplicates === 1 &&
+    !box.misplaced &&
+    box.insideRow &&
+    box.insideScreen &&
+    box.overflow <= 0 &&
+    box.cellPx >= 9 &&
+    box.groupH >= 20 &&
+    box.groupW >= 100;
   check(
     `${name} (${width}px) toggle usable`,
     Boolean(usable),
     box
-      ? `${box.w}x${box.h} css px, span ${box.left}-${box.right} between stream ${box.streamRight} and status ${box.rightLeft}`
+      ? `row ${box.rowH}px, group ${box.groupW}x${box.groupH}, rendered type ${box.cellPx}px, overflow ${box.overflow}`
       : 'not found',
   );
   await vp.getByRole('radio', { name: 'LIST' }).click();

@@ -99,16 +99,21 @@ function useFullBleedShell() {
 }
 
 /**
- * The artboard is scaled by viewport width, which would leave the view-mode
- * control at half size on a phone. It is the one control that has to stay
- * operable at every width, so it counter-scales back towards its own pixel
- * size, capped so it can never outgrow the empty span of the utility row.
+ * The artboard is scaled by viewport width, so on a phone every rule in the
+ * stylesheet renders at roughly half its written size. That is correct for a
+ * design reproduction and wrong for the one control the workspace has to
+ * operate, which is why the view row sizes itself in real pixels: below the
+ * reference width it divides the artboard scale back out, so the row keeps
+ * the same physical height and type size a phone can actually read and tap.
+ *
+ * Above the reference width it is left alone and grows with the rest of the
+ * chrome, which keeps it a peer of the nav row rather than a shrunken inset.
+ * The row spans the full width, so this sizing depends on no neighbour and
+ * cannot be squeezed by another element's label.
  */
-const VIEW_MODE_MAX_BOOST = 1.72;
-
-function viewModeBoost(scale: number) {
+function viewRowBoost(scale: number) {
   if (!Number.isFinite(scale) || scale <= 0) return 1;
-  return Math.min(Math.max(1 / scale, 1), VIEW_MODE_MAX_BOOST);
+  return scale < 1 ? 1 / scale : 1;
 }
 
 export function TwinOpusDirectScreen() {
@@ -129,7 +134,7 @@ export function TwinOpusDirectScreen() {
           style={{
             height: `${shell.height}px`,
             transform: `scale(${shell.scale})`,
-            ['--tod-viewmode-boost' as string]: viewModeBoost(shell.scale),
+            ['--tod-viewrow-boost' as string]: viewRowBoost(shell.scale),
           }}
         >
           {/* 01 SITE00_HEADER */}
@@ -176,16 +181,18 @@ export function TwinOpusDirectScreen() {
             </button>
           </nav>
 
-          {/* 03 NDXBOOK_CONTEXT_BAR — also the workspace presentation-control strip */}
+          {/* 03 NDXBOOK_CONTEXT_BAR */}
           <div className="tod-context">
             <span className="tod-context__chip">{data.context.chip}</span>
             <span className="tod-context__stream">{data.context.stream}</span>
-            <TwinOpusDirectViewModeControl mode={viewMode} onChange={setViewMode} />
             <span className="tod-context__right">
               {data.context.right}
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
             </span>
           </div>
+
+          {/* 03b WORKSPACE_VIEW_ROW — presentation control zone */}
+          <TwinOpusDirectViewModeControl mode={viewMode} onChange={setViewMode} />
 
           {/* 04 TARGET_VIEWPORT_STAGE_BAND */}
           <section className="tod-band" aria-label="Target, viewport and stage">

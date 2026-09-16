@@ -262,7 +262,6 @@
 /* ------------------------------------------------------------------ */
 
 .tod-context {
-  position: relative;
   flex: 0 0 36px;
   height: 36px;
   display: flex;
@@ -2255,75 +2254,72 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* VIEW MODE — CANONICAL / LIST                                        */
-/* OPUS-VIEWMODE1, repositioned by OPUS-LIST-REFINE1                   */
+/* WORKSPACE VIEW ROW — CANONICAL / LIST                               */
+/* OPUS-VIEWMODE1, rebuilt as its own row by OPUS-VIEWMODE1R1          */
 /* ------------------------------------------------------------------ */
 
 /*
- * The control lives in the NDXBOOK context bar: workspace-level chrome that
- * both renderers share, sitting between the global host chrome above and the
- * design workspace content below. It is anchored out of flow in the bar's
- * empty span (the stream label ends at 267.4, the context status starts at
- * 604.4), so relocating it displaces nothing in either presentation.
+ * A slim row of its own between the project context strip and the workspace
+ * band: the control that changes how the workspace is presented sits between
+ * project context and workspace content, in flow, owning its full width.
  *
- * It counter-scales against the artboard scale so it stays operable on a
- * phone, growing leftwards into that empty span; the cap keeps the grown
- * control clear of the stream label.
+ * Its own sizes are multiplied by the row boost so the row renders at a fixed
+ * physical height and type size below the reference width instead of halving
+ * with the artboard (see viewRowBoost). The horizontal padding is deliberately
+ * left unboosted so VIEW stays on the same left margin as the NDXBOOK chip
+ * above it and TARGET below it.
  */
-.tod-viewmode {
-  position: absolute;
-  right: 188px;
-  top: 50%;
+.tod-viewrow {
+  flex: 0 0 auto;
+  height: calc(32px * var(--tod-viewrow-boost, 1));
   display: flex;
   align-items: center;
-  gap: 7.4px;
-  white-space: nowrap;
-  transform: translateY(-50%) scale(var(--tod-viewmode-boost, 1));
-  transform-origin: right center;
+  justify-content: space-between;
+  padding: 0 14.6px 0 var(--tod-pad-l);
+  background: var(--tod-paper);
+  border-bottom: 1px solid var(--tod-border-major);
 }
 
 .tod-viewmode__label {
-  font-size: 7.9px;
+  font-size: calc(9px * var(--tod-viewrow-boost, 1));
   line-height: 1;
-  letter-spacing: 0.3px;
-  color: #8d8d8d;
+  letter-spacing: calc(0.9px * var(--tod-viewrow-boost, 1));
+  color: #6b6b6b;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-viewmode__group {
   display: flex;
   align-items: stretch;
-  border: 1px solid #4c4c4c;
-  border-radius: 2px;
-  background: transparent;
-  overflow: hidden;
+  border: 1px solid var(--tod-border-major);
+  background: var(--tod-paper);
 }
 
 .tod-viewmode__cell {
   display: flex;
   align-items: center;
-  height: 16.4px;
-  padding: 0 7.6px;
-  font-size: 7.2px;
+  height: calc(20px * var(--tod-viewrow-boost, 1));
+  padding: 0 calc(11px * var(--tod-viewrow-boost, 1));
+  font-size: calc(9.6px * var(--tod-viewrow-boost, 1));
   line-height: 1;
-  letter-spacing: 0.4px;
-  color: #d9d9d9;
+  letter-spacing: calc(0.5px * var(--tod-viewrow-boost, 1));
+  color: #3f3f43;
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-viewmode__cell + .tod-viewmode__cell {
-  border-left: 1px solid #4c4c4c;
+  border-left: 1px solid var(--tod-border-major);
 }
 
 .tod-viewmode__cell.is-active {
-  background: var(--tod-lime);
-  color: var(--tod-lime-ink);
+  background: var(--tod-black);
+  color: var(--tod-lime);
   font-weight: 700;
 }
 
 .tod-viewmode__cell:focus-visible {
-  outline: 1.5px solid var(--tod-lime);
-  outline-offset: 1.5px;
+  outline: 2px solid var(--tod-black);
+  outline-offset: 2px;
 }
 
 /* ------------------------------------------------------------------ */

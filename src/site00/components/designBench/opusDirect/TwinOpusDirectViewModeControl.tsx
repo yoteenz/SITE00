@@ -1,9 +1,10 @@
 /**
- * P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — CANONICAL / LIST view-mode control.
+ * P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 — CANONICAL / LIST view-mode control.
  *
  * Presentation switch only: it never touches candidate, authority, readiness
- * or record state. It sits in the empty span of the workspace utility row
- * between the crumbs and the compiler status, so no existing element moves.
+ * or record state. It is its own full-width row between the project context
+ * strip and the workspace band, so it depends on no neighbour's leftover
+ * space and cannot be squeezed by another element's label.
  */
 
 import { useRef } from 'react';
@@ -33,7 +34,7 @@ export function TwinOpusDirectViewModeControl({ mode, onChange }: TwinOpusDirect
   };
 
   return (
-    <div className="tod-viewmode">
+    <div className="tod-viewrow">
       <span className="tod-viewmode__label" id="tod-viewmode-label">
         VIEW
       </span>
