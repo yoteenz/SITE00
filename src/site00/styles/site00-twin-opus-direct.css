@@ -138,6 +138,7 @@
 /* ------------------------------------------------------------------ */
 
 .tod-header {
+  position: relative;
   flex: 0 0 41.1px;
   height: 41.1px;
   display: flex;
@@ -2262,4 +2263,180 @@
   bottom: 8.8px;
   height: 3px;
   background: var(--tod-lime);
+}
+
+/* ------------------------------------------------------------------ */
+/* VIEW MODE — CANONICAL / LIST (P0.VR.DESIGNBENCH.OPUS-VIEWMODE1)      */
+/* ------------------------------------------------------------------ */
+
+/*
+ * The control sits out of flow in the empty span of the utility row between
+ * the crumbs (ends at 328.6) and the compiler status (starts at 575.3), so
+ * adding it moves nothing in the canonical layout. It counter-scales against
+ * the artboard scale, capped so the boosted width can never reach the status.
+ */
+.tod-viewmode {
+  position: absolute;
+  left: 342px;
+  top: 23.5px;
+  display: flex;
+  align-items: center;
+  gap: 6.4px;
+  white-space: nowrap;
+  transform: translateY(-50%) scale(var(--tod-viewmode-boost, 1));
+  transform-origin: left center;
+}
+
+.tod-viewmode__label {
+  font-size: 7.9px;
+  line-height: 1;
+  color: #3c3c40;
+  font-weight: var(--tod-weight-ui);
+}
+
+.tod-viewmode__group {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--tod-border-panel);
+  border-radius: 2px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.tod-viewmode__cell {
+  display: flex;
+  align-items: center;
+  height: 14px;
+  padding: 0 6.6px;
+  font-size: 6.8px;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  color: var(--tod-ink-2);
+  font-weight: var(--tod-weight-ui);
+}
+
+.tod-viewmode__cell + .tod-viewmode__cell {
+  border-left: 1px solid var(--tod-border-subtle);
+}
+
+.tod-viewmode__cell.is-active {
+  background: var(--tod-black);
+  color: var(--tod-lime);
+  font-weight: 700;
+}
+
+.tod-viewmode__cell:focus-visible {
+  outline: 1.5px solid var(--tod-ink);
+  outline-offset: 1px;
+}
+
+/* ------------------------------------------------------------------ */
+/* LIST MOUNT — temporary surface, replaced by the Spark renderer       */
+/* ------------------------------------------------------------------ */
+
+.tod-main--list {
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.tod-listmount {
+  width: 420px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px 22px 22px;
+  border: 1.6px solid var(--tod-border-major);
+  background: var(--tod-panel);
+}
+
+.tod-listmount__title {
+  font-size: 12.4px;
+  line-height: 1;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+  color: var(--tod-ink);
+}
+
+.tod-listmount__notice {
+  margin-top: 7px;
+  font-size: 8.4px;
+  line-height: 1;
+  letter-spacing: 1px;
+  font-weight: var(--tod-weight-ui);
+  color: var(--tod-red);
+}
+
+.tod-listmount__note {
+  margin-top: 11px;
+  max-width: 330px;
+  font-size: 7px;
+  line-height: 12px;
+  color: var(--tod-ink-3);
+  font-weight: var(--tod-weight-ui);
+}
+
+.tod-listmount__state {
+  margin-top: 16px;
+  padding-top: 12px;
+  width: 100%;
+  border-top: 1px solid var(--tod-border-column);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+}
+
+.tod-listmount__state div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tod-listmount__state dt {
+  font-size: 6.5px;
+  line-height: 1;
+  color: #5e5e60;
+  font-weight: var(--tod-weight-ui);
+}
+
+.tod-listmount__state dd {
+  font-size: 7.4px;
+  line-height: 1;
+  color: #262626;
+  font-weight: var(--tod-weight-ui);
+}
+
+/* Same height as the canonical tabs + concept row, so the dock never jumps. */
+.tod-listrecord {
+  flex: 0 0 126.6px;
+  height: 126.6px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 var(--tod-pad-r) 0 25.3px;
+  border-bottom: 1px solid var(--tod-border-panel);
+  background: var(--tod-tabbar);
+}
+
+.tod-listrecord__label {
+  font-size: 7.9px;
+  line-height: 1;
+  color: #3c3c40;
+  font-weight: var(--tod-weight-ui);
+}
+
+.tod-listrecord__value {
+  font-size: 8.4px;
+  line-height: 1;
+  color: var(--tod-ink);
+  font-weight: 700;
+}
+
+.tod-listrecord__notice {
+  font-size: 7px;
+  line-height: 1;
+  letter-spacing: 0.8px;
+  color: var(--tod-red);
+  font-weight: var(--tod-weight-ui);
 }
