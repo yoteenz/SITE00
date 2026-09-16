@@ -11,6 +11,7 @@
 import { useEffect } from 'react';
 import { TwinOpusDirectScreen } from '../components/designBench/opusDirect/TwinOpusDirectScreen';
 import '../styles/site00-twin-opus-direct.css';
+import '../styles/site00-twin-opus-list.css';
 
 export function DesignTwinOpusDirectPage() {
   useEffect(() => {

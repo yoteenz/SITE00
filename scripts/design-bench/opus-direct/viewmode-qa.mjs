@@ -38,14 +38,20 @@ const readState = (page) =>
       recordTab: document.querySelector('.tod-tabs__tab[aria-selected="true"]')?.textContent?.trim() ?? null,
       dock: document.querySelector('.tod-bottom__cell[aria-current="page"]')?.textContent?.trim() ?? null,
       navSection: document.querySelector('.tod-nav__cell[aria-current="page"]')?.textContent?.trim() ?? null,
-      listReadout: [...document.querySelectorAll('.tod-listmount__state div')].map((d) =>
-        d.textContent.trim(),
-      ),
+      listReadout: [
+        document.querySelector('.tod-lv-gallery__selected')?.textContent?.trim() ?? null,
+        document.querySelector('.tod-lv-record__tab[aria-selected="true"]')?.textContent?.trim() ?? null,
+        document.querySelector('.tod-lv-pair__head')?.getAttribute('aria-expanded') ?? null,
+        document.querySelector('.tod-lv-device[aria-pressed="true"]')?.textContent?.trim() ?? null,
+      ],
       dockTop: Math.round((document.querySelector('.tod-bottom')?.getBoundingClientRect().y ?? 0) * 10) / 10,
+      dockGap:
+        (document.querySelector('[data-view-mode]')?.getBoundingClientRect().bottom ?? 0) -
+        (document.querySelector('.tod-bottom')?.getBoundingClientRect().bottom ?? 0),
     };
   });
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: '/usr/local/bin/google-chrome', args: ['--no-sandbox'] });
 
 // ---------------------------------------------------------------- QA 1-3 ---
 const page = await browser.newPage({ viewport: { width: 768, height: 1376 }, deviceScaleFactor: 1 });
@@ -88,7 +94,8 @@ await page.waitForTimeout(350);
 const listState = await readState(page);
 check('QA2 mode switched to list', listState.mode === 'list');
 check('QA2 canonical body unmounted', (await page.locator('.tod-herorow').count()) === 0);
-check('QA2 list mount present', (await page.locator('.tod-listmount').count()) === 1);
+check('QA2 list renderer present', (await page.locator('[data-testid="twin-opus-direct-list-body"]').count()) === 1);
+check('QA2 placeholder fully replaced', (await page.locator('.tod-listmount, .tod-listrecord').count()) === 0);
 check(
   'QA2 shared shell intact (header, nav, context, band, bottom nav)',
   (await page.locator('.tod-header').count()) === 1 &&
@@ -103,9 +110,9 @@ check(
 );
 check(
   'QA2 list read-out reflects live shared state',
-  listState.listReadout.some((row) => row.includes('TABLET')) &&
-    listState.listReadout.some((row) => row.includes('CHANGE HISTORY')) &&
-    listState.listReadout.some((row) => row.includes('COLLAPSED')),
+  listState.listReadout.some((row) => row?.includes('TABLET')) &&
+    listState.listReadout.some((row) => row?.includes('CHANGE HISTORY')) &&
+    listState.listReadout.includes('false'),
   JSON.stringify(listState.listReadout),
 );
 check(
@@ -114,9 +121,9 @@ check(
   String(listState.viewport),
 );
 check(
-  'QA2 dock does not jump when the record swaps',
-  Math.abs(listState.dockTop - before.dockTop) < 0.5,
-  `canonical ${before.dockTop} / list ${listState.dockTop}`,
+  'QA2 dock stays pinned to the screen bottom when the record swaps',
+  Math.abs(listState.dockGap) < 1.5 && Math.abs(before.dockGap) < 1.5,
+  `canonical gap ${before.dockGap} / list gap ${listState.dockGap}`,
 );
 await page.screenshot({ path: `${OUT}/qa-list.png` });
 

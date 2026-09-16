@@ -350,15 +350,108 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
     expect(screen).toContain('VIEW_MODE_MAX_BOOST');
   });
 
-  it('freezes the canonical renderer and leaves the list surface a mount point', () => {
+  it('freezes the canonical renderer behind the mode boundary', () => {
     for (const marker of ['tod-herorow', 'tod-gallery', 'tod-out', 'tod-pipe', 'tod-actions']) {
       expect(canonicalView).toContain(marker);
     }
-    // Opus must not design the list view: no canonical panels rebuilt in another shape.
+    // Spark authors the list view in its own namespace: no canonical panels
+    // rebuilt under canonical classes.
     for (const marker of ['tod-herorow', 'tod-gallery', 'tod-card', 'tod-out__col', 'tod-pipe__col', 'tod-rail']) {
       expect(listView).not.toContain(marker);
     }
-    expect(listView).toContain('SPARK PRESENTATION PENDING');
-    expect(listView).toContain('tod-listmount');
+  });
+
+  it('replaces the list placeholder with the Spark digest renderer', () => {
+    expect(listView).not.toContain('SPARK PRESENTATION PENDING');
+    expect(listView).not.toContain('tod-listmount');
+    expect(listView).not.toContain('tod-listrecord');
+    expect(listView).toContain('twin-opus-direct-list-body');
+    expect(listView).toContain('twin-opus-direct-list-record');
+  });
+});
+
+describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — Spark digest renderer', () => {
+  const listView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
+  const listCss = readRepo('src/site00/styles/site00-twin-opus-list.css');
+
+  it('renders the digest sequence in its own namespace', () => {
+    for (const marker of [
+      'tod-lv-context',
+      'tod-lv-band',
+      'tod-lv-hero',
+      'tod-lv-authority',
+      'tod-lv-gallery',
+      'tod-lv-actions',
+      'tod-lv-out',
+      'tod-lv-pipe',
+      'tod-lv-record',
+    ]) {
+      expect(listView).toContain(marker);
+      expect(listCss).toContain(marker);
+    }
+  });
+
+  it('consumes shared state and shared actions only', () => {
+    expect(listView).not.toContain('useState');
+    expect(listView).not.toContain('useTwinOpusDirectWorkspace(');
+    for (const action of [
+      'actions.selectViewport',
+      'actions.selectCandidate',
+      'actions.toggleAuthorityPair',
+      'actions.selectRecordTab',
+    ]) {
+      expect(listView).toContain(action);
+    }
+    for (const forbidden of [
+      'listSelectedCandidate',
+      'listAuthorityState',
+      'listReadiness',
+      'listDockState',
+      'listNavState',
+      'listHistoryState',
+    ]) {
+      expect(listView).not.toContain(forbidden);
+    }
+  });
+
+  it('shares selection, pair, tab and viewport state with canonical controls', () => {
+    expect(listView).toContain('state.candidateId');
+    expect(listView).toContain('state.authorityPairOpen');
+    expect(listView).toContain('state.recordTabIndex');
+    expect(listView).toContain('state.viewport');
+    expect(listView).toContain('aria-pressed={active}');
+    expect(listView).toContain('aria-expanded={state.authorityPairOpen}');
+    expect(listView).toContain('aria-selected={state.recordTabIndex === index}');
+  });
+
+  it('reuses the opus asset and icon family instead of inventing one', () => {
+    expect(listView).toContain('TodArchivalPlate');
+    expect(listView).toContain('TWIN_OPUS_DIRECT_PAPER_TEXTURE');
+    expect(listView).toContain('TwinOpusDirectIcons');
+    expect(listCss).toContain('var(--tod-lime)');
+    expect(listCss).toContain('var(--tod-border-major)');
+    expect(listCss).toContain('var(--tod-weight-ui)');
+  });
+
+  it('mounts on the same route with no new paths', () => {
+    expect(screen).toContain('list: { body: TwinOpusDirectListBody, record: TwinOpusDirectListRecord }');
+    expect(routeTable).not.toContain('twin-opus-direct/list');
+    expect(listView).not.toContain('/list');
+    expect(page).toContain('site00-twin-opus-list.css');
+  });
+
+  it('adapts list grouping on wider viewports without becoming canonical', () => {
+    expect(listCss).toContain('@media (min-width: 641px)');
+    expect(listCss).toContain('tod-lv-out__mods');
+    expect(listView).not.toContain('tod-herorow');
+  });
+
+  it('keeps the record naturally sized so the flex shell pins the dock', () => {
+    const recordRule = listCss.slice(
+      listCss.indexOf('.tod-lv-record {'),
+      listCss.indexOf('}', listCss.indexOf('.tod-lv-record {')),
+    );
+    expect(recordRule).not.toContain('height: 126.6px');
+    expect(recordRule).not.toContain('flex: 0 0');
   });
 });
