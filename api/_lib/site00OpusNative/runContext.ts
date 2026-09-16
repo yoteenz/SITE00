@@ -109,8 +109,19 @@ export class RunContextHandle {
     this.touch();
   }
 
+  /**
+   * Exact id first, then the capture label. Labels matter because the agent
+   * chooses them ("before", "after") and can refer to them without having to
+   * carry a generated id across turns, which is the most common way a
+   * comparison call goes wrong.
+   */
   screenshotById(id: string): OpusNativeScreenshot | null {
-    return this.screenshots.find((shot) => shot.screenshotId === id) ?? null;
+    if (!id) return null;
+    const exact = this.screenshots.find((shot) => shot.screenshotId === id);
+    if (exact) return exact;
+    const label = id.trim().toLowerCase();
+    const byLabel = this.screenshots.filter((shot) => shot.screenshotId.startsWith(`shot-${label}-`));
+    return byLabel.length > 0 ? byLabel[byLabel.length - 1] : null;
   }
 
   recordComparison(afterId: string, beforeId: string, diffPercent: number): void {

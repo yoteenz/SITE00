@@ -92,6 +92,47 @@ export function estimateTokens(text: string): number {
   return Math.ceil(text.length / 3.6);
 }
 
+/**
+ * Pre-dispatch projection for a whole run, not a single request.
+ *
+ * A naive estimate that prices one turn is badly wrong, because an agent loop
+ * resends the growing conversation on every iteration: the second turn pays
+ * for the first turn's tool results again, and so on. The first version of
+ * this runtime under-projected a real proof run by roughly five times for
+ * exactly that reason.
+ *
+ * So the projection models the loop. The stable prefix is written once and
+ * read thereafter; the volatile context is resent every turn; and tool results
+ * accumulate, which is the quadratic term. It is deliberately conservative.
+ * The estimate informs the founder — the cost guard, which checks real usage
+ * before every dispatch, is what actually protects them.
+ */
+export function projectRunCost(input: {
+  volatileTokens: number;
+  cacheableTokens: number;
+  expectedTurns: number;
+  maxOutputTokens: number;
+  rates?: OpusTokenRates;
+  /** true once the stable prefix is already warm from an earlier run. */
+  cacheWarm: boolean;
+}): number {
+  const rates = input.rates ?? OPUS_NATIVE_DEFAULT_RATES;
+  const turns = Math.max(1, input.expectedTurns);
+
+  // Each turn adds roughly this much tool-result text that later turns resend.
+  const TOOL_RESULT_PER_TURN = 1_800;
+  const accumulatedToolResults = TOOL_RESULT_PER_TURN * ((turns * (turns - 1)) / 2);
+  const inputTokens = input.volatileTokens * turns + accumulatedToolResults;
+
+  // Agents rarely emit their full output allowance on every turn.
+  const outputTokens = (input.maxOutputTokens / 4) * Math.min(turns, 3);
+
+  const cacheWriteTokens = input.cacheWarm ? 0 : input.cacheableTokens;
+  const cacheReadTokens = input.cacheableTokens * (input.cacheWarm ? turns : turns - 1);
+
+  return usageCostUsd({ inputTokens, outputTokens, cacheWriteTokens, cacheReadTokens }, rates);
+}
+
 export function formatUsd(value: number): string {
   if (value >= 1) return `$${value.toFixed(2)}`;
   if (value >= 0.01) return `$${value.toFixed(3)}`;

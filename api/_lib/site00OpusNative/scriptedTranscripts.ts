@@ -64,6 +64,7 @@ export const FIRST_PROOF_TRANSCRIPT: ScriptedTranscript = {
     {
       text: 'Comparing the two captures and running the guards for the surface I touched.',
       toolUses: [
+        { name: 'compare_screenshot', input: { beforeId: 'before', afterId: 'after' } },
         { name: 'run_targeted_tests', input: { pattern: 'p0vrOpusNativeProofSurface' } },
       ],
     },

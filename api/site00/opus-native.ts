@@ -16,7 +16,7 @@ import type {
   OpusNativeTargetRef,
 } from '../../shared/site00-opus-native/contracts.js';
 import { modeContract } from '../../shared/site00-opus-native/modeContracts.js';
-import { usageCostUsd } from '../../shared/site00-opus-native/pricing.js';
+import { projectRunCost } from '../../shared/site00-opus-native/pricing.js';
 import { OPUS_NATIVE_MODES, type OpusNativeMode } from '../../shared/site00-opus-native/types.js';
 import { approveRun, requestChanges, ReviewStateError, revertRun } from '../_lib/site00OpusNative/approval.js';
 import { OPUS_NATIVE_MODEL, scriptedProviderEnabled, tokenRates } from '../_lib/site00OpusNative/config.js';
@@ -96,28 +96,20 @@ async function handlePost(req: VercelRequest, res: VercelResponse) {
       const rates = tokenRates();
       const contract = modeContract(mode);
 
-      // Cold: the whole prefix is a cache write. Warm: it is a cache read.
+      // Cold: the stable prefix is a cache write. Warm: it is a cache read.
       // Showing both is the honest way to present the cost of a second run on
       // the same page, which is the common case during refinement.
       const volatileTokens = compiled.totalEstimatedTokens - compiled.cacheableEstimatedTokens;
-      const estimatedUsd = usageCostUsd(
-        {
-          inputTokens: volatileTokens,
-          outputTokens: contract.maxOutputTokens / 4,
-          cacheWriteTokens: compiled.cacheableEstimatedTokens,
-          cacheReadTokens: 0,
-        },
+      const expectedTurns = Math.min(contract.limits.maxIterations, contract.maxVisualLoops + 4);
+      const projection = {
+        volatileTokens,
+        cacheableTokens: compiled.cacheableEstimatedTokens,
+        expectedTurns,
+        maxOutputTokens: contract.maxOutputTokens,
         rates,
-      );
-      const estimatedUsdCached = usageCostUsd(
-        {
-          inputTokens: volatileTokens,
-          outputTokens: contract.maxOutputTokens / 4,
-          cacheWriteTokens: 0,
-          cacheReadTokens: compiled.cacheableEstimatedTokens,
-        },
-        rates,
-      );
+      };
+      const estimatedUsd = projectRunCost({ ...projection, cacheWarm: false });
+      const estimatedUsdCached = projectRunCost({ ...projection, cacheWarm: true });
 
       return send(res, 200, {
         ok: true,

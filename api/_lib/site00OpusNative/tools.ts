@@ -363,7 +363,7 @@ async function dispatchInner(
       if (!/^[\w.\-/]+$/.test(pattern)) {
         return failure('test pattern may only contain letters, numbers, dot, dash, underscore and slash');
       }
-      const result = await runNpm(['test', '--', '--run', pattern]);
+      const result = await runNpm(['test', '--', pattern]);
       ctx.run.setTests(result);
       return {
         ok: result.ok,

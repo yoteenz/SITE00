@@ -221,10 +221,10 @@ export function createScriptedProvider(transcript: ScriptedTranscript): OpusProv
         .filter((block) => block.cache_control)
         .map((block) => block.text)
         .join('\n');
-      const volatileText = [
-        ...request.system.filter((block) => !block.cache_control).map((block) => block.text),
-        JSON.stringify(request.messages),
-      ].join('\n');
+      const volatileText = request.system
+        .filter((block) => !block.cache_control)
+        .map((block) => block.text)
+        .join('\n');
 
       const cacheableTokens = estimateTokens(cacheableText);
       const firstTurn = index === 1;
@@ -233,7 +233,7 @@ export function createScriptedProvider(transcript: ScriptedTranscript): OpusProv
         stopReason: turn.stopReason ?? ((turn.toolUses?.length ?? 0) > 0 ? 'tool_use' : 'end_turn'),
         content,
         usage: {
-          inputTokens: estimateTokens(volatileText),
+          inputTokens: estimateTokens(volatileText) + estimateMessageTokens(request.messages),
           outputTokens: estimateTokens(JSON.stringify(content)),
           cacheWriteTokens: firstTurn ? cacheableTokens : 0,
           cacheReadTokens: firstTurn ? 0 : cacheableTokens,
@@ -241,4 +241,36 @@ export function createScriptedProvider(transcript: ScriptedTranscript): OpusProv
       };
     },
   };
+}
+
+/**
+ * An image costs roughly (width x height) / 750 tokens, which for the viewport
+ * captures this runtime takes is on the order of 1,500 — nothing like the
+ * length of its base64 encoding. Measuring images as text would inflate a
+ * receipt by an order of magnitude and make the spend guard fire on runs that
+ * were never expensive, so image blocks are counted at a flat realistic rate
+ * and their payload is excluded from the text estimate.
+ */
+const APPROX_TOKENS_PER_VIEWPORT_IMAGE = 1_600;
+
+export function estimateMessageTokens(messages: ProviderMessage[]): number {
+  let total = 0;
+  for (const message of messages) {
+    for (const block of message.content) {
+      if (block.type === 'image') {
+        total += APPROX_TOKENS_PER_VIEWPORT_IMAGE;
+      } else if (block.type === 'text') {
+        total += estimateTokens(block.text);
+      } else if (block.type === 'tool_use') {
+        total += estimateTokens(JSON.stringify(block.input));
+      } else if (block.type === 'tool_result') {
+        for (const inner of block.content) {
+          total += inner.type === 'image'
+            ? APPROX_TOKENS_PER_VIEWPORT_IMAGE
+            : estimateTokens(inner.text);
+        }
+      }
+    }
+  }
+  return total;
 }

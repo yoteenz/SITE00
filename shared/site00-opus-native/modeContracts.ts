@@ -47,7 +47,10 @@ export const OPUS_NATIVE_MODE_CONTRACTS: Record<OpusNativeMode, OpusNativeModeCo
     maxOutputTokens: 4_000,
     dependencyDepth: 0,
     limits: {
-      maxIterations: 4,
+      // The protocol's own required method is inspect, render, patch, render,
+      // verify, report. Six turns is the floor for a correct QUICK run, so the
+      // ceiling sits just above it; spend, not turn count, is the real guard.
+      maxIterations: 8,
       maxInputTokens: 60_000,
       maxOutputTokens: 8_000,
       maxRunCostUsd: 0.75,
