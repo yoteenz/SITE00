@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
 body:has(.sol-direct) { margin: 0; background: #dededb; }
 
 .sol-direct {
@@ -195,3 +197,130 @@ body:has(.sol-direct) { margin: 0; background: #dededb; }
 @media (max-width: 571px) {
   .sol-direct { width: 572px; transform-origin: top left; transform: scale(calc(100vw / 572)); }
 }
+
+/* ==========================================================================
+ * P0.VR.DESIGNBENCH.FABLE-TEXT1 — live text / highlight fidelity layer.
+ * Sol structure above is frozen; everything below only touches live DOM text:
+ * size, weight, tracking, line-height, breaks, alignment and text highlights.
+ * Measurements are golden px at the 572×1024 reference artboard.
+ * ========================================================================== */
+.sol-direct { --display: "Anton", Impact, "Arial Narrow", sans-serif; }
+
+/* A. host bar — crumbs sit tight (chevron inline), compiler + kebab hug the right edge */
+.sol-hostbar { gap: 5px; letter-spacing: .35px; }
+.sol-hostbar > b { font-size: 8.5px; font-weight: 600; }
+.sol-hostbar > .sol-icon { width: 6px; height: 6px; margin-left: 0; }
+.sol-hostbar > .sol-icon:last-child { width: 8px; height: 8px; margin-left: 30px; }
+.sol-hostbar > span { margin-left: auto; font-size: 6.5px; letter-spacing: .2px; }
+
+/* B. primary nav */
+.sol-primary-nav button { font-size: 7px; letter-spacing: .3px; }
+.sol-primary-nav button:first-child { font-size: 7px; }
+
+/* C. context bar */
+.sol-context b { font-size: 6.5px; font-weight: 600; letter-spacing: .2px; }
+.sol-context span { font-size: 6px; letter-spacing: .1px; }
+.sol-context em { font-size: 5px; letter-spacing: .1px; }
+
+/* D. target / viewport / stage */
+.sol-target-band > div { padding-top: 4px; }
+.sol-target-band small { font-size: 6px; font-weight: 400; letter-spacing: .2px; margin-bottom: 5px; color: #2b2b2a; }
+.sol-target-band strong { font-size: 7px; font-weight: 400; line-height: 1.8; letter-spacing: .2px; }
+.sol-target-band > div:last-child small + strong + small { margin-top: 6px; }
+.sol-viewport { padding-top: 4px !important; }
+.sol-viewport button { font-size: 6px; letter-spacing: .2px; }
+.sol-viewport button.active::after { width: 33px; height: 2px; }
+
+/* E. hero */
+.sol-hero-meta { font-size: 6.5px; letter-spacing: .2px; }
+.sol-hero-meta-right { display: inline-flex; align-items: baseline; gap: 22px; }
+.sol-hero-meta-right b { font-size: 8px; font-weight: 700; }
+.sol-hero-copy { top: 48px; }
+.sol-hero-copy h1 {
+  font-family: var(--display);
+  font-size: 48.5px;
+  font-weight: 400;
+  line-height: 51px;
+  letter-spacing: 0;
+  -webkit-text-stroke: .6px #f3f1e9;
+  filter: none;
+  transform: scaleX(.7);
+}
+.sol-hero-copy p { margin-top: 8px; font-size: 7px; font-weight: 600; line-height: 1.5; letter-spacing: .1px; }
+.sol-hero-foot { grid-template-columns: 80px 31px 106px 1fr 20px; font-size: 5.5px; line-height: 1.35; letter-spacing: .1px; }
+.sol-hero-foot b { padding: 3px 4px; font-size: 4.5px; font-weight: 600; letter-spacing: .3px; }
+.sol-hero-foot span:last-child { margin-right: 8px; }
+
+/* F. authority rail */
+.sol-authority > button { font-size: 6.5px; letter-spacing: .15px; }
+.sol-authority .sol-select-mobile { position: relative; }
+.sol-select-mobile .sol-icon { position: absolute; left: 8px; top: 6px; width: 14px; height: 14px; }
+.sol-select-mobile > .sol-icon { flex: none; padding: 0; }
+.sol-select-mobile > span:not(.sol-icon) { padding-top: 9px; text-align: center; font-size: 7px; font-stretch: 90%; letter-spacing: .1px; }
+.sol-select-mobile small { margin: 7px -1px -1px; padding: 3px 0; color: var(--lime); font-size: 6px; font-stretch: 100%; text-align: center; letter-spacing: .2px; }
+.sol-authority section > header { font-size: 6.5px; letter-spacing: .15px; }
+.sol-master-row { padding: 4px 6px; }
+.sol-master-row > small { display: block; font-size: 5px; letter-spacing: .15px; }
+.sol-master-row-mobile { height: 43px; margin: 0 3px; border: 1px solid var(--lime); border-radius: 2px; background: #050505; color: #f2f2ee; }
+.sol-master-row-mobile > small { color: var(--lime); }
+.sol-master-row-mobile .selected-mini { border: 0; }
+.sol-master-row .sol-mini { width: 62%; }
+.sol-master-row .sol-mini span { width: 60%; white-space: nowrap; }
+.sol-master-row > strong { position: absolute; right: 8px; top: 16px; font-size: 5.5px; font-weight: 500; letter-spacing: .1px; }
+.sol-master-row em { right: 8px; bottom: 7px; font-size: 5px; letter-spacing: .2px; }
+.sol-master-row > button { right: 6px; bottom: 5px; padding: 2px 5px; font-size: 5px; }
+.sol-authority .sol-lock { font-size: 6px; line-height: 1.3; }
+
+/* G. candidate gallery */
+.sol-panel > header { font-size: 6.5px; letter-spacing: .15px; }
+.sol-gallery > header > span:last-child { font-size: 5.5px; }
+.sol-candidate small { font-size: 5px; letter-spacing: .1px; }
+.sol-candidate.selected small { padding: 1px 3px; border: 1px solid var(--lime); border-radius: 2px; }
+.sol-candidate strong { margin-top: 6px; font-family: var(--display); font-size: 11px; line-height: 12px; font-weight: 400; letter-spacing: 0; }
+.sol-candidate-copy { position: relative; z-index: 2; margin: 5px 0 0; font-size: 3.6px; line-height: 1.55; color: var(--lime); letter-spacing: 0; }
+.sol-candidate-copy span { display: block; }
+.sol-candidate.grid .sol-candidate-copy { color: #d8dcc4; }
+.sol-candidate.receipt .sol-candidate-copy { position: absolute; right: 9px; top: 20px; margin: 0; color: #f1ede2; font-size: 4px; font-weight: 600; text-shadow: 0 0 2px #000, 0 0 1px #000; }
+.sol-candidate.type strong { margin-top: 22px; font-size: 9.5px; line-height: 10.5px; }
+.sol-gallery-actions button { font-size: 5.5px; letter-spacing: .1px; }
+
+/* H. structured output */
+.sol-review-grid small { font-size: 5.7px; letter-spacing: .15px; }
+.sol-review-grid strong { font-size: 5.5px; font-weight: 400; line-height: 1.6; letter-spacing: .1px; }
+.sol-review-grid footer { font-size: 5px; letter-spacing: .1px; }
+.sol-review-art.functions { padding: 4px 5px; border: 1px solid #555; font-size: 4.3px; line-height: 1.55; letter-spacing: 0; }
+.sol-review-art.functions span { display: block; }
+
+/* I. pipeline / readiness */
+.sol-ready-grid > div { padding: 3px 9px 6px; }
+.sol-ready-grid small { margin-bottom: 6px; font-size: 5.5px; letter-spacing: .15px; }
+.sol-score > div b { font-size: 9px; font-weight: 700; }
+.sol-score > span { margin-top: 23px; font-size: 7.5px; font-weight: 600; letter-spacing: .2px; }
+.sol-score footer { bottom: 6px; font-size: 5.5px; letter-spacing: .1px; }
+.sol-checks p { margin: 0 0 1.5px; font-size: 5.5px; letter-spacing: .1px; }
+.sol-status p { margin: 0 0 10px; font-size: 5.5px; letter-spacing: .1px; }
+.sol-status p:last-child { margin-bottom: 0; }
+.sol-status p b { font-weight: 500; }
+.sol-ready-grid button { font-size: 5.5px; letter-spacing: .1px; }
+.sol-checks button { display: block; margin-top: 3px; }
+.sol-next small { margin-bottom: 5px; }
+.sol-next strong { margin-bottom: 3px; font-size: 6.5px; line-height: 1.35; letter-spacing: .1px; }
+.sol-next button:last-child { margin-bottom: 0; }
+
+/* J. concept data dock */
+.sol-detail-tabs { display: flex; gap: 44px; align-items: flex-end; padding: 3px 0 0 120px; }
+.sol-detail-tabs span { display: block; padding-bottom: 3px; border-bottom: 0; font-size: 5.5px; letter-spacing: .15px; }
+.sol-detail-tabs .active { border-bottom: 2px solid #9c302f; font-weight: 600; }
+.sol-detail dl { grid-template-columns: 58px 1fr; font-size: 5px; line-height: 1.78; letter-spacing: .1px; }
+.sol-amend { font-size: 4.8px; letter-spacing: .1px; }
+.sol-amend strong { display: block; margin-bottom: 4px; font-size: 5.5px; font-weight: 700; white-space: nowrap; }
+.sol-amend dl { display: grid; grid-template-columns: 60px 1fr; margin: 0; font-size: 4.4px; line-height: 1.85; }
+.sol-amend dt { white-space: nowrap; }
+.sol-amend dd { margin: 0; }
+.sol-amend mark { margin-left: 6px; padding: 1px 4px; border-radius: 6px; font-size: 4.5px; font-weight: 700; }
+.sol-detail > button { font-size: 5px; letter-spacing: .1px; }
+
+/* K. bottom dock */
+.sol-bottom-nav button { font-size: 5.5px; letter-spacing: .1px; }
+.sol-bottom-nav .active { font-weight: 700; }
+.sol-bottom-nav .active::before { top: auto; bottom: 6px; left: 18px; right: 33px; height: 2px; }
