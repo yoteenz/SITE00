@@ -1,0 +1,319 @@
+/**
+ * P0.VR.OPUS-NATIVE1 — native Opus design agent surface.
+ *
+ * Two things live here: the internal agent panel, and the small proof surface
+ * the runtime performs its first controlled task against.
+ *
+ * This file is the ONLY file on the native runtime's write allowlist. It is
+ * deliberately self-contained and shares no selector namespace with the
+ * canonical NDXBOOK reconstruction, so an agent patch here cannot reach
+ * approved design work.
+ */
+
+.s00-opus-native {
+  --on-ink: #0a0a0a;
+  --on-paper: #ffffff;
+  --on-lime: #ccff00;
+  --on-frame: #0a0a0a;
+  --on-panel-border: #c2c2c2;
+  --on-micro: #e6e6e6;
+  --on-muted: #6b6b6b;
+  --on-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  min-height: 100vh;
+  background: #f4f4f2;
+  color: var(--on-ink);
+  font-family: var(--on-mono);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.s00-opus-native__head {
+  border: 1.5px solid var(--on-frame);
+  background: var(--on-ink);
+  color: var(--on-paper);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.s00-opus-native__title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.s00-opus-native__sub {
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: #9a9a9a;
+  text-transform: uppercase;
+}
+
+.s00-opus-native__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 1100px) {
+  .s00-opus-native__grid {
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+/* ---- agent panel -------------------------------------------------------- */
+
+.s00-opus-panel {
+  border: 1.5px solid var(--on-frame);
+  background: var(--on-paper);
+  display: flex;
+  flex-direction: column;
+}
+
+.s00-opus-panel__bar {
+  border-bottom: 1px solid var(--on-panel-border);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.s00-opus-panel__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.s00-opus-status {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border: 1px solid var(--on-frame);
+}
+
+.s00-opus-status[data-state='READY'] { background: var(--on-paper); }
+.s00-opus-status[data-state='THINKING'],
+.s00-opus-status[data-state='TOOL_USE'],
+.s00-opus-status[data-state='RENDERING'] { background: var(--on-lime); }
+.s00-opus-status[data-state='WAITING_FOR_FOUNDER_REVIEW'] { background: var(--on-ink); color: var(--on-lime); }
+.s00-opus-status[data-state='APPROVED'] { background: var(--on-ink); color: var(--on-lime); }
+.s00-opus-status[data-state='ERROR'] { background: #ffd7d7; }
+.s00-opus-status[data-state='REVERTED'],
+.s00-opus-status[data-state='CANCELLED'] { background: #ededed; color: var(--on-muted); }
+
+.s00-opus-panel__body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.s00-opus-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.s00-opus-field__label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-muted);
+}
+
+.s00-opus-field textarea {
+  font-family: var(--on-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  padding: 8px;
+  border: 1px solid var(--on-panel-border);
+  background: var(--on-paper);
+  color: var(--on-ink);
+  resize: vertical;
+  min-height: 72px;
+}
+
+.s00-opus-field textarea:focus-visible {
+  outline: 2px solid var(--on-ink);
+  outline-offset: 1px;
+}
+
+.s00-opus-modes {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--on-frame);
+  width: fit-content;
+}
+
+.s00-opus-modes button {
+  font-family: var(--on-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border: 0;
+  border-right: 1px solid var(--on-frame);
+  background: var(--on-paper);
+  color: var(--on-ink);
+  cursor: pointer;
+  min-height: 30px;
+}
+
+.s00-opus-modes button:last-child { border-right: 0; }
+.s00-opus-modes button[aria-checked='true'] { background: var(--on-ink); color: var(--on-lime); }
+.s00-opus-modes button:focus-visible { outline: 2px solid var(--on-ink); outline-offset: 2px; }
+
+.s00-opus-meta {
+  border: 1px solid var(--on-panel-border);
+  padding: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 3px 10px;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.s00-opus-meta dt { color: var(--on-muted); letter-spacing: 0.08em; text-transform: uppercase; font-size: 9px; }
+.s00-opus-meta dd { margin: 0; word-break: break-word; }
+
+.s00-opus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.s00-opus-btn {
+  font-family: var(--on-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 10px;
+  min-height: 32px;
+  border: 1px solid var(--on-frame);
+  background: var(--on-paper);
+  color: var(--on-ink);
+  cursor: pointer;
+}
+
+.s00-opus-btn--primary { background: var(--on-ink); color: var(--on-lime); }
+.s00-opus-btn--approve { background: var(--on-lime); }
+.s00-opus-btn--danger { background: var(--on-paper); border-color: #a11; color: #a11; }
+.s00-opus-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.s00-opus-btn:focus-visible { outline: 2px solid var(--on-ink); outline-offset: 2px; }
+
+.s00-opus-log {
+  border: 1px solid var(--on-panel-border);
+  background: #fafafa;
+  padding: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  font-size: 10px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.s00-opus-log__entry { border-bottom: 1px solid var(--on-micro); padding-bottom: 5px; margin-bottom: 5px; }
+.s00-opus-log__entry:last-child { border-bottom: 0; margin-bottom: 0; }
+.s00-opus-log__kind { font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; font-size: 8.5px; color: var(--on-muted); }
+
+.s00-opus-diag {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.s00-opus-diag__chip {
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border: 1px solid var(--on-panel-border);
+  background: var(--on-paper);
+}
+
+.s00-opus-diag__chip[data-ok='false'] { background: #ffe9e9; border-color: #a11; color: #a11; }
+.s00-opus-diag__chip[data-ok='true'] { background: #f2ffd4; }
+
+/* ---- proof surface ------------------------------------------------------ */
+/*
+ * The Phase 23 target. The divider token below is intentionally the smallest
+ * possible meaningful visual knob: one colour, one compartment boundary,
+ * reversible in one edit.
+ */
+
+.s00-opus-proof {
+  --proof-divider: #d8d8d8;
+
+  border: 1.5px solid var(--on-frame);
+  background: var(--on-paper);
+}
+
+.s00-opus-proof__bar {
+  background: var(--on-ink);
+  color: var(--on-paper);
+  padding: 8px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.s00-opus-proof__bar span:last-child { color: var(--on-lime); }
+
+.s00-opus-proof__panel {
+  padding: 10px;
+}
+
+.s00-opus-proof__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--proof-divider);
+}
+
+.s00-opus-proof__row:last-child { border-bottom: 0; }
+
+.s00-opus-proof__key {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--on-muted);
+}
+
+.s00-opus-proof__value {
+  font-size: 11.5px;
+  font-weight: 500;
+  text-align: right;
+  word-break: break-word;
+}
+
+.s00-opus-proof__note {
+  border-top: 1px solid var(--proof-divider);
+  padding: 9px 10px;
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--on-muted);
+}
