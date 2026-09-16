@@ -9645,6 +9645,22 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 - **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
 - **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
 
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.OPUS-DIRECT1 isolated Opus golden reconstruction
+
+Summary of the **whole conversation so far** in this chat: founder ran a fresh **Claude Opus 5** Cursor sprint asking whether Opus can look at the NDXBOOK DESIGN golden and directly recreate the page's structure in code, weighted toward structural fidelity rather than asset recreation.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.OPUS-DIRECT1**. New isolated route **`/projects/:projectSlug/design/twin-opus-direct`**. Blind and independent of Sol Direct, Grok Direct, Sol Test B, Grok Test A, Twin V3 and Twin V4 — their implementations were not read. No Composer.
+- **Golden resolution:** The founder's in-chat attachment did not reach the agent. The same golden exists in-repo as `public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg` (608×1088 — identical aspect to the 768×1376 attachment recorded for GROK-DIRECT1) and its region list matches the sprint's Phase 1 list exactly, so it was used as the design authority. **Future design-bench sprints can resolve "the golden" from that path when an attachment is missing.**
+- **Topics covered:** Motherboard load; pixel-scan decomposition of the golden (band boundaries, column dividers, ink spans, region luminance); font metric solving; 11 real-browser QA passes with pixel diff; isolation and accessibility verification.
+- **Decisions / outcomes:** Artboard locked to **768×1376**, scaled to fit any viewport on a black backdrop with an 18px frame radius. All geometry measured off the golden and encoded directly. Chrome bands 40.4 / 34.1 / 36 / 92.3 / 34.4 / 92.2 / 49.7; content grid 15.2 / 732.6 / 20.2; hero 517.9 + gap 12.6 + rail 202.1; section heights 395.4 / 156.6 / 36.6 / 190.7 / 151.6. Live-text ink spans land within ±4% of the golden. Route boots without the CTRL ROOM account guard. No raster cheat.
+- **Typography learning:** Martian Mono advance is exactly **0.70em**, so `font-size = goldenPxPerChar / 0.70` reproduces text footprints directly. The golden's display headline is an ultra-condensed poster face reproduced as **Anton at `scaleX(0.692)`** (font-size 69.03px, line-height 69.5px) — matched on both cap height and string width.
+- **CSS gotcha:** A `.tod-screen button { font: inherit }` reset out-specifies single-class component rules and silently forced every control to 16px. Use zero-specificity `:where(.tod-screen) :where(button, …)` for resets inside a scoped design surface.
+- **Changes:** `DesignTwinOpusDirectPage.tsx`, `components/designBench/opusDirect/{TwinOpusDirectScreen.tsx, TwinOpusDirectIcons.tsx, twinOpusDirectContent.ts}`, `styles/site00-twin-opus-direct.css`, route constant + `site00ProjectDesignTwinOpusDirectPath`, route registration, `tests/p0vrDesignBenchOpusDirect.test.ts` (16 tests), CORE route row, this MEMORY entry. Only 19 lines changed in pre-existing files.
+- **Known gap:** The archival pointing-hand photograph and the newsprint collages behind candidates V1.1/V1.0 are not standalone repo assets; boxes, tone and density are reconstructed from `eu-branch-receipts-isolated.webp` plus CSS, so the candidate gallery keeps the largest residual pixel difference.
+- **Conventions:** For design-bench reconstruction sprints, measure the golden programmatically (row/column edge scans + ink spans) before writing CSS, and converge with a scripted browser screenshot → pixel-diff loop rather than by eye.
 ---
 
 ## 2026-09-15 — P0.VR.DESIGNBENCH.SPARK-DIRECT1 isolated golden reconstruction
@@ -9683,6 +9699,19 @@ Summary of the **whole conversation so far** in this chat: after Test B’s sign
 
 ---
 
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1R2 forensic structural convergence
+
+Summary of the **whole conversation so far** in this chat: founder commissioned the isolated 572×1024 Sol direct reconstruction, requested R1 reference-fidelity tightening, reported and worked around stale shared preview connectors, then directed R2 to stop designing and calibrate section boundaries plus live DOM text as two measured coordinate systems.
+
+- **Context:** Same public **`/projects/ndxbook/design/twin-sol-direct`** route. R2 changes only geometry, typography footprint, and legible DOM copy. No Composer, provider benchmark, image regeneration, business logic, or route architecture; concurrently approved Grok asset hooks from PR #938 were preserved when syncing `main`.
+- **Topics covered:** Golden and browser-DOM structural maps; exact `getBoundingClientRect` measurements; screenshot edge/column detection; section-start drift; unequal shell/nav/grid columns; candidate bounds; history/detail/bottom-nav geometry; pixel bounding boxes for hero copy; visible function/check labels; three same-viewport browser passes.
+- **Decisions / outcomes:** Rejected an inconsistent visual estimate that claimed a 15px header, then measured the live DOM directly. Golden map at 572×1024 established: shell **31/26/26/69px**, hero **x11 y161 387×294**, rail **x407 y161 150×294**, gallery **x11 y467 546×145**, structured **x11 y623 546×142**, readiness **x11 y775 546×113**, tabs/data/bottom **y895/922/987**. Maximum major section-start drift fell from 2px to 0px and page height from 1027px to 1024px.
+- **Changes:** Calibrated primary-nav, target band, hero/rail, gallery cards/actions, five structured columns, four readiness columns, history tabs, concept-data row, and five bottom-nav cells. Hero headline pixel footprint moved from **169.5×90.5px** to **163×98px** against golden **162×97px**; tagline now **87×29px** exactly. Corrected `FUNCTION MAP` → `POSITION MAP`, added missing `F06_VERIFICATION`, and replaced the placeholder chess glyph with an accessible CSS lock control.
+- **Verification:** Three R2 browser passes at exact 572×1024 plus a post-sync browser proof; final screenshot/video show the full real DOM page and approved Grok plates with no errors. Focused test **5/5**, typecheck, production build, and cPanel packaging pass. PR #939 is CLEAN/MERGEABLE after a semantic conflict resolution that retained PR #938’s image hooks and R2’s measured geometry.
+- **Conventions:** For mature visual convergence, reject guessed coordinates, measure DOM and authority pixels directly, correct upstream cumulative drift, and treat visible live copy as geometry. Embedded asset lettering stays flagged for **`GROK_ASSET_TEXT_CORRECTION`** rather than being redrawn by Sol.
+
+---
+
 ## 2026-09-15 — Grok direct reconstruction + Sol asset fidelity (DIRECT1 / DIRECT1R1 / ASSET1)
 
 Summary of the **whole conversation so far** in this chat: founder ran three Grok 4.6 Cursor sprints on the same NDXBOOK DESIGN golden (768×1376). First two built and tightened an isolated Grok-direct route; the third kept Sol’s existing page as frozen structure and asked Grok only to rebuild weak visual material.
@@ -9704,6 +9733,20 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Decisions / outcomes:** Generic unicode (☰ ☷ ▦ ϟ ✓ ● etc.) replaced with reference-traced inline SVGs. Inspect is a target/reticle, not a magnifying glass. Devices are filled silhouettes. `SOL_STRUCTURE_CHANGED: NO`.
 - **Changes:** `NdxbookSolDirectPage.tsx` Mark/DeviceMark/CheckDot; icon-only CSS sizing; Sol tests assert SVG marks; CORE sol-direct row; this MEMORY entry. PR **#941**.
 - **Conventions:** If a mark is perceived as a shape rather than live text, Grok redraws it. Keep the function, rebuild the shape. Do not drop in Lucide/emoji when the golden shows a different silhouette.
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.SOL-DIRECT1R3 max-effort forensic convergence
+
+Summary of the **whole conversation so far** in this chat: founder commissioned the isolated Sol-direct golden reconstruction, tightened it through R1 and measured R2, then requested a final maximum-effort R3 that preserved approved image/icon work while correcting every remaining reasonably measurable structural, live-copy, and typographic discrepancy.
+
+- **Context:** Existing route **`/projects/ndxbook/design/twin-sol-direct`**, exact 572×1024 golden/live viewport, no Composer, no Grok invocation during R3, no route/experiment/business-logic changes, and no asset-file edits. PR #941’s icon baseline was merged before the R3 audit; later `main` sync retained PR #944’s complete 45-slot inventory and valid PR #946 candidate-copy additions while R3 preserved measured geometry.
+- **Initial top drift:** Authority controls/panel differed by up to ~15px; `CULTURAL RECEIPT` metadata was ~75px left; readiness internals were ~5px low; structured previews were ~4px low; gallery/readiness outer starts were +1px; header breadcrumb/compiler/menu were displaced by 4–8px; hero image pane edges were 1–3px off; hero headline footprint was +1px wide/high and -1px Y; footer labels/badge/count were displaced by up to 22px; candidate text began ~8px low and was too wide; lower thumbnail was 2px short; tab handle was 22px too wide and 1px low.
+- **Five rendered loops:** (1) shell/bands; (2) hero/authority; (3) gallery/structured output; (4) readiness/lower page; (5) copy/typography/status semantics. Every loop changed the rendered DOM/CSS and was recaptured at 572×1024.
+- **Final geometry:** Major starts are **0, 31, 57, 83, 152, 466, 580, 623, 774, 895, 922, 987** with page bottom **1024**. Hero remains **x11 y161 387×294**; authority **x407 y161 150×294**. Authority controls now occupy exact measured edges **161–203, 208–225, 231–347, 353–370, 373–389, 392–408, 410–427, 430–455**. Hero headline pixel footprint matches golden exactly at **x26 y208 162×97**; tagline remains **x26 y320 87×29**.
+- **Copy/status:** Golden strings remain exact, including `POSITION MAP`, `F01_INDEX_SIGNAL` through `F06_VERIFICATION`, `F04_CONTEXT_BRIDGE`, `F05_SOURCE_TOGGLE`, `NAA-R5F1…`, amendment metadata, counts, and actions. Candidate gallery gains the tiny reference taglines and lowercase structured `_v1` suffixes from the text pass. The yellow readiness warning belongs to `POSITION MAP` (row four), while `ACCESSIBILITY` is green. Function mapping has the visible bordered/padded panel shown by the golden.
+- **Verification:** Exact browser-bound assertions pass for all 14 measured selectors and `scrollHeight=1024`; focused Sol/Fable compatibility Vitest **14/14**, TypeScript, production build, and cPanel packaging pass. Full repository Vitest remains red in 46 unrelated legacy files (63 of 8,092 tests) whose source-string expectations already disagree with current `main`. Remaining visual differences are restricted to approved asset artwork/crops and SVG mark rendering and are deferred to the Grok-owned visual layer.
+- **Conventions:** When macro geometry already converges, measure internal control edges, text pixel bounding boxes, overflow, status semantics, and asset-container bounds separately. A section envelope matching the golden does not prove its internal grid is correct. Concurrent “fidelity” layers must be checked against the actual golden before merge: PR #946’s `FUNCTION MAP` warning, `F04_CONTEXT_THREAD`, `F05_SOURCE_TRACE`, `NAA-RSF1`, Anton headline, and geometry-changing overrides contradicted the measured reference and were not retained.
 
 ---
 
@@ -9729,6 +9772,17 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh C
 - **Changes:** `src/site00/pages/DesignTwinFableDirectPage.tsx`, `src/site00/styles/site00-twin-fable-direct.css`, route constant + `site00ProjectDesignTwinFableDirectPath` in `routes.ts`, lazy route in `Site00Routes.tsx`, `tests/p0vrDesignBenchFableDirect1.test.ts` (9 tests). PR **#943**. Build **v495**.
 - **Conventions:** Inside a scoped stylesheet, element resets (`button`, `dl`, `ul`) must use `:where(.scope) el` so component classes can override them. `.fd-viewport` is `position: fixed; inset: 0` so body default margin cannot offset/scale the artboard. Golden-derived text sizes on this page are 6–10px medium weight; measure ink extents, not guessed sizes.
 
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.OPUS-DIRECT1R1 forensic reference-fidelity cleanup
+
+Summary of the **whole conversation so far** in this chat: founder ran **OPUS-DIRECT1** (Claude Opus 5 alone recreates the NDXBOOK DESIGN golden directly in code at `/projects/ndxbook/design/twin-opus-direct`, no Composer, no other twin implementations consulted), then asked for the tunnel link (it kept bouncing to the homepage), then asked for a merge-conflict review against `main`, then ran **OPUS-DIRECT1R1** — a full structural refinement of the same route — and finally "continue working".
+
+- **Context:** Same isolated route, 768×1376 reference artboard, golden master `public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg`. Critical founder defect: the invented **rounded outer page frame / dark backdrop is not in the golden** and had to go.
+- **Topics covered:** Full-bleed shell (no radius, no letterbox); same-viewport normalization (golden upscaled 608×1088 → 768×1376) so golden and live share one coordinate space; section boundary map for all 14 regions; horizontal-rule detection to find real panel/divider rows; per-region and per-card tonal statistics (mean RGB + stdev) instead of eyeballing crops; typography ink-span probes for every text band.
+- **Decisions / outcomes:** `MAX_ABS_DRIFT` across all 14 sections is **2.0 px**. Overall mean abs pixel delta **25.4** (from 27.9), structural bands **16.69**. The four corner regions still differ on purpose — the golden master shows a rounded device corner the founder ruled out. Remaining large deltas are photographic (gallery cards 44.9, hero plate 32) and are covered by the asset firewall.
+- **Changes:** Candidate card 3 rebuilt as a light sheet-stack plus cream sheet; card 4 rebuilt as a left ink panel over full-bleed newsprint (golden's column order); card 2 and the plate filters retoned to the golden's warm mid-greys; band device icons pinned to measured centres with the lime underline row; nav caret is a filled triangle; panel borders 1 → 1.6px with gallery/structured/pipeline heads and dividers on the measured rows; concept tabs absolutely pinned to the golden's uneven centres with a larger bold active tab; rail `SELECTED` recoloured to the golden's dark olive; concept label/value greys lightened; the lock glyph redrawn taller with a keyhole. Audit harness moved to `scripts/design-bench/opus-direct/{audit,rows,crop}.mjs`. Test fixtures corrected (header 41.1, nav 33.5, gallery 195.3). Leftover `<<<<<<<`/`>>>>>>>` conflict markers in this file (from the earlier `main` merge) removed.
+- **Conventions:** sharp's `stats()` reads the **input** image and ignores a pending `extract()` — always `toBuffer()` the crop first or every region reports identical numbers. Judge texture work by mean/stdev against the golden region, not by how the crop looks at 4× nearest-neighbour. When a shared class (`.tod-plate__paper`) serves two contexts, scope the tonal override rather than retuning the base and breaking the other.
 ---
 
 ## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-TEXT1 live text / highlight fidelity on Sol direct
