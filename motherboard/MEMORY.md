@@ -10003,6 +10003,18 @@ The R0 sprint mapped all 29 DESIGN workspace features and ended with nine questi
 
 ---
 
+## 2026-09-16 — P0.VR.DESIGN-PRODUCTION1 — Composer productionizes twin-opus-direct workspace
+
+Founder sprint to freeze `composer-contract.json` v2.0.0 and wire production authority/readiness/workflow on `/projects/:projectSlug/design/twin-opus-direct` without Opus or visual redesign.
+
+- **Contract:** `COMPOSER_CONTRACT_STATUS: FROZEN_FOR_PRODUCTIONIZATION`, `status: COMPOSER_PRODUCTIONIZED`, `contractFreezeMetadata.contractHash` on docs JSON; browser-safe snapshot in `shared/site00-design-workspace-production/composerContractEmbedded.ts`.
+- **Production module:** `shared/site00-design-workspace-production/` — readiness engine (`passedGates/applicableGates`, no 82%), project-scoped `localStorage` store, founder-only actions (pair review, review authority, lock, move to build, refine/regenerate with spend confirm), build package on `MOVED_TO_BUILD`, child inheritance contract + `DesignProductionizationReceipt`.
+- **UI wiring:** `useTwinOpusDirectProduction` + merged `useTwinOpusDirectWorkspace(projectSlug)`; overlays portaled to `document.body` (overflow menu, readiness receipt, contract versions, creative context, provenance, host module nav, spend confirm); `:projectSlug` bound via `useParams`; decorative `TWIN_OPUS_DIRECT_READINESS.percent: 82` removed.
+- **Tests:** `tests/p0vrDesignProduction1.test.ts`; R1 contract test updated for frozen status; Opus Direct guards still pass (104 tests in bundle).
+- **Known gap (documented in receipt):** Supabase server row for `DesignWorkspaceAuthoritySession` not wired — localStorage is optimistic cache per contract `persistenceContract`.
+
+---
+
 ## 2026-09-16 — P0.VR.OPUS-NATIVE2 — native Opus embedded in DESIGN, controlled page creation/editing, preview fixed
 
 NATIVE1 left the native runtime on a laboratory route with `PREVIEW: FAILED` and a binary write model. This sprint made it a DESIGN capability.

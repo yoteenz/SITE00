@@ -2,14 +2,15 @@
   "$contract": "DesignWorkspaceComposerContract",
   "version": "2.0.0",
   "sprint": "P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1R1",
-  "status": "FOUNDER_APPROVAL_PENDING",
+  "status": "COMPOSER_PRODUCTIONIZED",
+  "COMPOSER_CONTRACT_STATUS": "FROZEN_FOR_PRODUCTIONIZATION",
   "implementationAuthority": "Composer implements this contract plus the approved visual contract. Every FD-01..FD-09 decision is resolved; no product decision is left for Composer to invent. Where this contract and a mock string disagree, this contract wins.",
   "PAGE_IDENTITY": {
     "name": "NDXBOOK Design Workspace",
     "reconstructionRoute": "/projects/:projectSlug/design/twin-opus-direct",
     "productionParent": "/projects/:projectSlug/design",
     "pageComponent": "DesignTwinOpusDirectPage -> TwinOpusDirectScreen",
-    "knownDefect": "the reconstruction ignores :projectSlug and hardcodes PROJECT: NDXBOOK; productionization must bind the route param first",
+    "knownDefect": null,
     "semanticAuthority": "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceFeatureAuthority/featureDefinitionsV1.ts",
     "workflowAuthority": "shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30/designWorkspaceAuthorityPipeline.ts",
     "persistence": "browser localStorage key site00:design-page-v3-authority:v1; no Supabase table and no API endpoint exist for the authority pair"
@@ -629,7 +630,6 @@
     "implement every action once in the shared workspace hook so canonical and list cannot diverge"
   ],
   "supersedes": "P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1",
-  "COMPOSER_CONTRACT_STATUS": "FOUNDER_APPROVAL_PENDING",
   "resolutionsDocument": "docs/design-workspace/08-FOUNDER-DECISION-RESOLUTIONS.md",
   "founderDecisions": [
     {
@@ -1112,5 +1112,14 @@
     "localCache": "localStorage becomes an optimistic cache only, invalidated when the server version differs or buildRef differs — the rule recoverDesignPageAuthorityGallery already applies",
     "cacheMayNeverBeAuthority": "for a locked pair",
     "migration": "first server read adopts the local session if the server has none; thereafter the server wins permanently"
+  },
+  "contractFreezeMetadata": {
+    "contractVersion": "2.0.0",
+    "contractHash": "2e96937727052b0fc5e868fb3a8ab3d2152ccf1d2e2b045028395fcfc567d9e8",
+    "frozenAt": "2026-09-16T00:00:00.000Z",
+    "frozenBy": "COMPOSER",
+    "sourcePR": null,
+    "designAuthorityVersion": "design-authority-v1",
+    "COMPOSER_CONTRACT_STATUS": "FROZEN_FOR_PRODUCTIONIZATION"
   }
 }

@@ -9,12 +9,15 @@
  */
 
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { DesignAgentDock } from '../components/designBench/designAgent/DesignAgentDock';
 import { TwinOpusDirectScreen } from '../components/designBench/opusDirect/TwinOpusDirectScreen';
 import '../styles/site00-twin-opus-direct.css';
 import '../styles/site00-twin-opus-list.css';
 
 export function DesignTwinOpusDirectPage() {
+  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+
   useEffect(() => {
     const { body, documentElement } = document;
     const previousBodyOverflow = body.style.overflow;
@@ -39,7 +42,7 @@ export function DesignTwinOpusDirectPage() {
    */
   return (
     <>
-      <TwinOpusDirectScreen />
+      <TwinOpusDirectScreen projectSlug={projectSlug} />
       <DesignAgentDock />
     </>
   );

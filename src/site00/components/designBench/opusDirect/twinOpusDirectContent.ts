@@ -170,11 +170,12 @@ export const TWIN_OPUS_DIRECT_CHECKS = [
   { id: 'a11y', label: 'ACCESSIBILITY', state: 'pass' as const },
 ];
 
+/** Static fallback only — production workspace replaces with computed gate counts. */
 export const TWIN_OPUS_DIRECT_STATUS_ROWS = [
-  { id: 'approved', label: 'APPROVED ELEMENTS', value: '18' },
-  { id: 'pending', label: 'PENDING DECISIONS', value: '2' },
+  { id: 'approved', label: 'APPROVED ELEMENTS', value: '0' },
+  { id: 'pending', label: 'PENDING DECISIONS', value: '0' },
   { id: 'blockers', label: 'BLOCKERS', value: '0' },
-  { id: 'warnings', label: 'WARNINGS', value: '1' },
+  { id: 'warnings', label: 'WARNINGS', value: '0' },
 ] as const;
 
 export const TWIN_OPUS_DIRECT_NEXT_ACTION = {
@@ -184,12 +185,11 @@ export const TWIN_OPUS_DIRECT_NEXT_ACTION = {
   secondary: ['MOVE TO BUILD WHEN READY', 'VIEW TECHNICAL DETAILS'],
 } as const;
 
-export const TWIN_OPUS_DIRECT_READINESS = {
+export const TWIN_OPUS_DIRECT_READINESS_SHELL = {
   label: 'READINESS',
-  percent: 82,
-  state: 'READY',
+  state: 'UNKNOWN',
   compiler: 'COMPILER:',
-  compilerState: 'READY',
+  compilerState: 'UNKNOWN',
   checksLabel: 'CHECKS',
   statusLabel: 'STATUS',
   viewDetails: 'VIEW DETAILS',

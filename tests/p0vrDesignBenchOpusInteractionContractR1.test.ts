@@ -49,10 +49,10 @@ describe('OPUS-INTERACTION-CONTRACT1R1 — every founder decision is resolved', 
     expect(serialised).not.toContain('"unresolved":');
   });
 
-  it('sits at FOUNDER_APPROVAL_PENDING, not production-ready', () => {
-    expect(contract.status).toBe('FOUNDER_APPROVAL_PENDING');
-    expect(contract.COMPOSER_CONTRACT_STATUS).toBe('FOUNDER_APPROVAL_PENDING');
-    expect(serialised).not.toContain('FROZEN_FOR_PRODUCTIONIZATION');
+  it('is frozen for Composer productionization (DESIGN-PRODUCTION1)', () => {
+    expect(contract.COMPOSER_CONTRACT_STATUS).toBe('FROZEN_FOR_PRODUCTIONIZATION');
+    expect(contract.status).toBe('COMPOSER_PRODUCTIONIZED');
+    expect(contract.contractFreezeMetadata?.contractHash).toBeTruthy();
   });
 
   it('supersedes the R0 contract and records where the reasoning lives', () => {
