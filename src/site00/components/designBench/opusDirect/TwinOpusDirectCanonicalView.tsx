@@ -1,0 +1,578 @@
+/**
+ * P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — CANONICAL presentation renderer.
+ *
+ * This is the frozen Opus spatial/editorial authority reconstructed in
+ * OPUS-DIRECT1/R1/R2, moved behind the view-mode boundary unchanged. It owns
+ * no workspace state: everything comes from the shared workspace model.
+ *
+ * Real DOM + CSS only. The golden is never painted into the page as a raster:
+ * every band, panel, column and control below is live markup.
+ */
+
+import { useCallback, useRef } from 'react';
+
+import {
+  TWIN_OPUS_DIRECT_PAPER_TEXTURE,
+  type TwinOpusDirectCandidateSurface,
+  type TwinOpusDirectOutputColumn,
+} from './twinOpusDirectContent';
+import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
+import {
+  TodIconCheck,
+  TodIconCheckCircle,
+  TodIconChevronRight,
+  TodIconChevronUp,
+  TodIconCompare,
+  TodIconCycle,
+  TodIconDoc,
+  TodIconDocGear,
+  TodIconExpand,
+  TodIconInspect,
+  TodIconLock,
+  TodIconSliders,
+  TodIconWarnCircle,
+  TodPointingHandPlate,
+} from './TwinOpusDirectIcons';
+
+const ACTION_ICONS = {
+  sliders: TodIconSliders,
+  cycle: TodIconCycle,
+  inspect: TodIconInspect,
+  expand: TodIconExpand,
+} as const;
+
+/** Archival plate: repo paper scan + inline ink silhouette + annotation marks. */
+export function TodArchivalPlate({ className, marks = true }: { className?: string; marks?: boolean }) {
+  return (
+    <div className={className ? `tod-plate ${className}` : 'tod-plate'}>
+      <div
+        className="tod-plate__paper"
+        style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
+      />
+      <div className="tod-plate__rules" aria-hidden="true" />
+      <TodPointingHandPlate className="tod-plate__hand" />
+      {marks ? (
+        <div className="tod-plate__marks" aria-hidden="true">
+          <span className="tod-plate__mark tod-plate__mark--a">green</span>
+          <span className="tod-plate__mark tod-plate__mark--b">Cert. Ref:</span>
+          <span className="tod-plate__mark tod-plate__mark--c">P.137</span>
+          <span className="tod-plate__mark tod-plate__mark--d">P. 208</span>
+          <span className="tod-plate__mark tod-plate__mark--e">P. 311</span>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurface }) {
+  if (surface === 'plate') {
+    return (
+      <div className="tod-card__surface tod-card__surface--plate">
+        <div className="tod-card__copy">
+          <p className="tod-card__headline">
+            <span>THE SIGNAL</span>
+            <span>IS THE INDEX</span>
+          </p>
+          <p className="tod-card__standfirst">
+            <span>CULTURE AS EVIDENCE.</span>
+            <span>IDEAS AS INDEX.</span>
+            <span>NDXBOOK.</span>
+          </p>
+        </div>
+        <TodArchivalPlate className="tod-card__plate" marks={false} />
+      </div>
+    );
+  }
+  if (surface === 'grain') {
+    return (
+      <div className="tod-card__surface tod-card__surface--grain">
+        <div className="tod-card__copy">
+          <p className="tod-card__headline">
+            <span>THE SIGNAL</span>
+            <span>IS THE INDEX</span>
+          </p>
+          <p className="tod-card__standfirst tod-card__standfirst--dim">
+            <span>CULTURE AS EVIDENCE.</span>
+            <span>IDEAS AS INDEX.</span>
+            <span>NDXBOOK.</span>
+          </p>
+        </div>
+        <div className="tod-card__grid" aria-hidden="true" />
+      </div>
+    );
+  }
+  if (surface === 'collage') {
+    return (
+      <div className="tod-card__surface tod-card__surface--collage">
+        <div className="tod-card__stack" aria-hidden="true">
+          <span className="tod-card__scrap tod-card__scrap--1" />
+          <span className="tod-card__scrap tod-card__scrap--2" />
+          <span className="tod-card__scrap tod-card__scrap--3" />
+          <span className="tod-card__scrap tod-card__scrap--4" />
+          <span className="tod-card__scrap tod-card__scrap--5" />
+        </div>
+        <div className="tod-card__sheet" aria-hidden="true" />
+        <div className="tod-card__collageCopy">
+          <span className="tod-card__collageLead">CULTURE AS</span>
+          <span className="tod-card__collageLead">EVIDENCE.</span>
+          <span className="tod-card__collageLead">IDEAS AS INDEX.</span>
+        </div>
+        <span className="tod-card__stamp">001</span>
+      </div>
+    );
+  }
+  return (
+    <div className="tod-card__surface tod-card__surface--archive">
+      <div className="tod-card__archivePaper" aria-hidden="true" />
+      <div className="tod-card__archiveInk">
+        <span className="tod-card__archiveStamp" aria-hidden="true">001</span>
+        <span className="tod-card__archiveRule" aria-hidden="true" />
+        <span className="tod-card__archiveHead">
+          <span>THE</span>
+          <span>SIGNAL</span>
+          <span>IS THE</span>
+          <span>INDEX</span>
+        </span>
+      </div>
+      <span className="tod-card__archiveChip" aria-hidden="true">001</span>
+    </div>
+  );
+}
+
+function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
+  if (column.preview === 'manifest') {
+    return (
+      <div className="tod-out__preview tod-out__preview--manifest" aria-hidden="true">
+        <span className="tod-out__manifestTitle">index_signal:page_001_indexed</span>
+        <span className="tod-out__manifestRule" />
+        <span className="tod-out__manifestRule" />
+        <span className="tod-out__manifestRule" />
+        <span className="tod-out__manifestGrid">
+          {Array.from({ length: 12 }).map((_, index) => (
+            <i key={index} />
+          ))}
+        </span>
+        <span className="tod-out__manifestStamp">01204</span>
+      </div>
+    );
+  }
+  if (column.preview === 'blueprint') {
+    return (
+      <div className="tod-out__preview tod-out__preview--blueprint" aria-hidden="true">
+        <span className="tod-out__blueGrid" />
+        <span className="tod-out__blueCross" />
+      </div>
+    );
+  }
+  if (column.preview === 'overlay') {
+    return (
+      <div className="tod-out__preview tod-out__preview--overlay" aria-hidden="true">
+        <span
+          className="tod-out__overlayPaper"
+          style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
+        />
+        <span className="tod-out__overlayNote">CULTURE AS EVIDENCE.</span>
+        <span className="tod-out__overlayInk">001</span>
+        <span className="tod-out__overlayMark" />
+      </div>
+    );
+  }
+  if (column.preview === 'evidence') {
+    return (
+      <div className="tod-out__preview tod-out__preview--evidence" aria-hidden="true">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <span
+            key={index}
+            className={`tod-out__evidenceTile tod-out__evidenceTile--${index + 1}`}
+            style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
+          />
+        ))}
+      </div>
+    );
+  }
+  return (
+    <ul className="tod-out__preview tod-out__preview--functions">
+      {(column.functions ?? []).map((fn) => (
+        <li key={fn}>{fn}</li>
+      ))}
+    </ul>
+  );
+}
+
+/** 05-10: hero, authority rail, candidate gallery, structured output, pipeline. */
+export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
+  const { data, state, actions, readinessDash } = workspace;
+  const galleryRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollGallery = useCallback(() => {
+    const node = galleryRef.current;
+    if (!node) return;
+    node.scrollBy({ left: node.clientWidth * 0.6, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <main className="tod-main">
+      {/* 05 MAIN_HERO + 06 AUTHORITY_RAIL */}
+      <section className="tod-herorow" aria-label="Active concept and authority controls">
+        <article className="tod-hero">
+          <div className="tod-hero__eyebrow">
+            <span>{data.hero.eyebrowLeft}</span>
+            <span className="tod-hero__eyebrowRight">
+              <span>{data.hero.eyebrowCentre}</span>
+              <span>{data.hero.eyebrowRight}</span>
+            </span>
+          </div>
+          <h1 className="tod-hero__headline">
+            {data.hero.headline.map((line) => (
+              <span key={line} className="tod-hero__headlineLine">
+                <span className="tod-hero__headlineInk">{line}</span>
+              </span>
+            ))}
+          </h1>
+          <p className="tod-hero__standfirst">
+            {data.hero.standfirst.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </p>
+          <TodArchivalPlate className="tod-hero__plate" />
+          <div className="tod-hero__footer">
+            <span className="tod-hero__footerBlock">
+              {data.hero.footerLeft.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </span>
+            <span className="tod-hero__footerPip" aria-hidden="true">
+              <TodIconChevronRight className="tod-ico" />
+            </span>
+            <span className="tod-hero__footerBlock">
+              {data.hero.footerMid.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </span>
+            <span className="tod-hero__footerChip">{data.hero.chip}</span>
+            <span className="tod-hero__footerCount">{data.hero.overflow}</span>
+          </div>
+        </article>
+
+        <aside className="tod-rail" aria-label="Authority rail">
+          <div className="tod-rail__select">
+            <button type="button" className="tod-rail__selectBtn" aria-pressed>
+              <TodIconCheck className="tod-ico tod-rail__selectCheck" />
+              {data.selectActions.mobile.label}
+            </button>
+            <span className="tod-rail__selectState">{data.selectActions.mobile.state}</span>
+          </div>
+          <button type="button" className="tod-rail__ghost">
+            {data.selectActions.desktop.label}
+          </button>
+
+          <section className="tod-pair">
+            <button
+              type="button"
+              className="tod-pair__head"
+              aria-expanded={state.authorityPairOpen}
+              onClick={actions.toggleAuthorityPair}
+            >
+              {data.authorityPair.title}
+              <TodIconChevronUp
+                className={`tod-ico tod-pair__caret${state.authorityPairOpen ? '' : ' is-closed'}`}
+              />
+            </button>
+            <div className="tod-pair__body" hidden={!state.authorityPairOpen}>
+              <div className="tod-pair__row tod-pair__row--mobile">
+                <span className="tod-pair__label">{data.authorityPair.mobile.label}</span>
+                <span className="tod-pair__version">{data.authorityPair.mobile.version}</span>
+                <div className="tod-pair__thumb tod-pair__thumb--mobile">
+                  <span className="tod-pair__thumbCopy">
+                    <span>THE SIGNAL</span>
+                    <span>IS THE INDEX</span>
+                  </span>
+                  <TodArchivalPlate className="tod-pair__thumbPlate" marks={false} />
+                </div>
+                <span className="tod-pair__state">{data.authorityPair.mobile.state}</span>
+              </div>
+              <div className="tod-pair__row tod-pair__row--desktop">
+                <span className="tod-pair__label">{data.authorityPair.desktop.label}</span>
+                <span className="tod-pair__version">{data.authorityPair.desktop.version}</span>
+                <div className="tod-pair__thumb tod-pair__thumb--desktop">
+                  <span className="tod-pair__thumbCopy">
+                    <span>THE SIGNAL</span>
+                    <span>IS THE INDEX</span>
+                  </span>
+                  <span className="tod-pair__thumbWedge" aria-hidden="true" />
+                </div>
+                <button type="button" className="tod-pair__replace">
+                  {data.authorityPair.desktop.action}
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {data.railActions.map((action) => (
+            <button
+              key={action.id}
+              type="button"
+              className={`tod-rail__action tod-rail__action--${action.tone}${
+                action.lock ? ' tod-rail__action--lock' : ''
+              }`}
+            >
+              {action.lock ? <TodIconLock className="tod-ico tod-rail__lockIco" /> : null}
+              {action.lines ? (
+                <span className="tod-rail__actionLines">
+                  {action.lines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </span>
+              ) : (
+                action.label
+              )}
+            </button>
+          ))}
+        </aside>
+      </section>
+
+      {/* 07 CANDIDATE_GALLERY */}
+      <section className="tod-gallery" aria-label={data.gallery.title}>
+        <header className="tod-gallery__head">
+          <h2 className="tod-gallery__title">{data.gallery.title}</h2>
+          <button type="button" className="tod-gallery__compare">
+            {data.gallery.compare}
+            <TodIconCompare className="tod-ico tod-gallery__compareIco" />
+          </button>
+        </header>
+        <div className="tod-gallery__body">
+          <div className="tod-gallery__rail" ref={galleryRef}>
+            {data.candidates.map((candidate) => {
+              const active = candidate.id === state.candidateId;
+              return (
+                <button
+                  key={candidate.id}
+                  type="button"
+                  className={`tod-card${active ? ' is-active' : ''}`}
+                  aria-pressed={active}
+                  onClick={() => actions.selectCandidate(candidate.id)}
+                >
+                  {candidate.versionTag === 'none' ? null : (
+                    <span className={`tod-card__version tod-card__version--${candidate.versionTag}`}>
+                      {candidate.version}
+                    </span>
+                  )}
+                  {active ? (
+                    <span className="tod-card__tick" aria-hidden="true">
+                      <TodIconCheck className="tod-ico" />
+                    </span>
+                  ) : null}
+                  <TodCandidateSurface surface={candidate.surface} />
+                </button>
+              );
+            })}
+          </div>
+          <button
+            type="button"
+            className="tod-gallery__next"
+            aria-label="Show more concept candidates"
+            onClick={scrollGallery}
+          >
+            <TodIconChevronRight className="tod-ico" />
+          </button>
+        </div>
+
+        {/* 08 CANDIDATE_ACTION_ROW — inside the gallery panel in the golden */}
+        <div className="tod-actions" role="group" aria-label="Concept candidate actions">
+          {data.candidateActions.map((action) => {
+            const Icon = ACTION_ICONS[action.icon];
+            return (
+              <button key={action.id} type="button" className="tod-actions__cell">
+                <Icon className="tod-ico tod-actions__ico" />
+                {action.label}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 09 STRUCTURED_OUTPUT_REVIEW */}
+      <section className="tod-out" aria-label={data.outputTitle}>
+        <header className="tod-out__head">
+          <h2 className="tod-out__title">{data.outputTitle}</h2>
+        </header>
+        <div className="tod-out__cols">
+          {data.outputColumns.map((column) => (
+            <div key={column.id} className="tod-out__col">
+              <span className="tod-out__label">{column.label}</span>
+              <span className="tod-out__lines">
+                <span>{column.lines[0]}</span>
+                <span>{column.lines[1]}</span>
+              </span>
+              <TodOutputPreview column={column} />
+              <span className="tod-out__source">
+                <span className="tod-out__sourceText">{column.source}</span>
+                {column.preview === 'functions' ? (
+                  <TodIconDocGear className="tod-ico tod-out__sourceIco" />
+                ) : (
+                  <TodIconDoc className="tod-ico tod-out__sourceIco" />
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 10 PIPELINE_READINESS */}
+      <section className="tod-pipe" aria-label={data.pipelineTitle}>
+        <header className="tod-pipe__head">
+          <h2 className="tod-pipe__title">{data.pipelineTitle}</h2>
+        </header>
+        <div className="tod-pipe__cols">
+          <div className="tod-pipe__col tod-pipe__col--readiness">
+            <span className="tod-pipe__label">{data.readiness.label}</span>
+            <div className="tod-pipe__gauge">
+              <svg viewBox="0 0 68 68" className="tod-pipe__ring" aria-hidden="true">
+                <circle cx="34" cy="34" r="30" className="tod-pipe__ringTrack" />
+                <circle
+                  cx="34"
+                  cy="34"
+                  r="30"
+                  className="tod-pipe__ringValue"
+                  strokeDasharray={readinessDash.circumference}
+                  strokeDashoffset={readinessDash.offset}
+                />
+              </svg>
+              <span className="tod-pipe__gaugeValue">{data.readiness.percent}%</span>
+              <span className="tod-pipe__gaugeState">{data.readiness.state}</span>
+            </div>
+            <span className="tod-pipe__compiler">
+              {data.readiness.compiler}
+              <span className="tod-pipe__compilerState">{data.readiness.compilerState}</span>
+              <span className="tod-dot tod-dot--green" aria-hidden="true" />
+            </span>
+          </div>
+
+          <div className="tod-pipe__col tod-pipe__col--checks">
+            <span className="tod-pipe__label">{data.readiness.checksLabel}</span>
+            <ul className="tod-pipe__checks">
+              {data.checks.map((check) => (
+                <li key={check.id}>
+                  <span>{check.label}</span>
+                  {check.state === 'pass' ? (
+                    <TodIconCheckCircle className="tod-ico tod-pipe__checkPass" />
+                  ) : (
+                    <TodIconWarnCircle className="tod-ico tod-pipe__checkWarn" />
+                  )}
+                </li>
+              ))}
+            </ul>
+            <button type="button" className="tod-pipe__details">
+              {data.readiness.viewDetails}
+            </button>
+          </div>
+
+          <div className="tod-pipe__col tod-pipe__col--status">
+            <span className="tod-pipe__label">{data.readiness.statusLabel}</span>
+            <ul className="tod-pipe__status">
+              {data.statusRows.map((row) => (
+                <li key={row.id}>
+                  <span>{row.label}</span>
+                  <span className="tod-pipe__statusValue">{row.value}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="tod-pipe__col tod-pipe__col--next">
+            <span className="tod-pipe__label">{data.nextAction.label}</span>
+            <p className="tod-pipe__nextCopy">
+              {data.nextAction.lines.map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </p>
+            <button type="button" className="tod-pipe__primary">
+              {data.nextAction.primary}
+            </button>
+            {data.nextAction.secondary.map((label) => (
+              <button key={label} type="button" className="tod-pipe__secondary">
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+/** 11-12: concept record tabs and the concept data row, inside the shared dock. */
+export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
+  const { data, state, actions } = workspace;
+
+  return (
+    <>
+      <div className="tod-tabs">
+        <span className="tod-tabs__handle" aria-hidden="true" />
+        <div className="tod-tabs__list" role="tablist" aria-label="Concept record">
+          {data.conceptTabs.map((tab, index) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              id={`tod-tab-${index}`}
+              aria-selected={state.recordTabIndex === index}
+              aria-controls="tod-concept-panel"
+              tabIndex={state.recordTabIndex === index ? 0 : -1}
+              className={`tod-tabs__tab${state.recordTabIndex === index ? ' is-active' : ''}`}
+              onClick={() => actions.selectRecordTab(index)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="tod-concept"
+        id="tod-concept-panel"
+        role="tabpanel"
+        aria-labelledby={`tod-tab-${state.recordTabIndex}`}
+      >
+        <div className="tod-concept__thumb">
+          <span className="tod-concept__thumbVersion">V1.3</span>
+          <span className="tod-concept__thumbCopy">
+            <span>THE SIGNAL</span>
+            <span>IS THE INDEX</span>
+          </span>
+          <span className="tod-concept__thumbStandfirst">
+            <span>CULTURE AS EVIDENCE.</span>
+            <span>IDEAS AS INDEX.</span>
+            <span>NDXBOOK.</span>
+          </span>
+          <TodArchivalPlate className="tod-concept__thumbPlate" marks={false} />
+        </div>
+        <dl className="tod-concept__fields">
+          {data.conceptFields.map((field) => (
+            <div key={field.label} className="tod-concept__field">
+              <dt>{field.label}</dt>
+              <dd>{field.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <div className="tod-concept__amendment">
+          <div className="tod-concept__amendHead">
+            <span className="tod-concept__amendTitle">{data.amendment.title}</span>
+            <span className="tod-concept__amendChip">{data.amendment.chip}</span>
+          </div>
+          <dl className="tod-concept__fields tod-concept__fields--amend">
+            {data.amendment.fields.map((field) => (
+              <div key={field.label} className="tod-concept__field">
+                <dt>{field.label}</dt>
+                <dd>{field.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <button type="button" className="tod-concept__view">
+          {data.amendment.action}
+        </button>
+      </div>
+    </>
+  );
+}

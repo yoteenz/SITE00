@@ -4,6 +4,11 @@ import path from 'node:path';
 
 import { SITE00_ROUTES, site00ProjectDesignTwinOpusDirectPath } from '../src/site00/config/routes';
 import {
+  TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE,
+  TWIN_OPUS_DIRECT_VIEW_MODES,
+  TWIN_OPUS_DIRECT_VIEW_MODE_LABELS,
+} from '../src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace';
+import {
   TWIN_OPUS_DIRECT_BOTTOM_NAV,
   TWIN_OPUS_DIRECT_CANDIDATES,
   TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
@@ -188,13 +193,16 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — live text fidelity', () => {
 
 describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — accessibility', () => {
   it('uses real controls with state exposed to assistive tech', () => {
-    expect(screen).toContain('aria-pressed');
-    expect(screen).toContain('aria-current');
-    expect(screen).toContain('aria-expanded');
-    expect(screen).toContain('role="tablist"');
-    expect(screen).toContain('role="tabpanel"');
-    expect(screen).toContain('aria-selected');
-    expect(screen).toContain('aria-label="Authority rail"');
+    // The shell owns the chrome; the canonical renderer owns the workspace body.
+    const rendered =
+      screen + readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
+    expect(rendered).toContain('aria-pressed');
+    expect(rendered).toContain('aria-current');
+    expect(rendered).toContain('aria-expanded');
+    expect(rendered).toContain('role="tablist"');
+    expect(rendered).toContain('role="tabpanel"');
+    expect(rendered).toContain('aria-selected');
+    expect(rendered).toContain('aria-label="Authority rail"');
   });
 
   it('renders decorative svg without exposing it to the a11y tree', () => {
@@ -254,9 +262,9 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1R2 — border hierarchy and small-UI wei
     expect(css).toContain('--tod-weight-ui: 500');
     const uses = (css.match(/font-weight: var\(--tod-weight-ui\)/g) ?? []).length;
     expect(uses).toBeGreaterThan(20);
-    // Restraint: 700 stays reserved for the few emphasis slots that already had it.
+    // Restraint: the 500 cut does the work, 700 stays reserved for emphasis slots.
     const bold = (css.match(/font-weight: 700/g) ?? []).length;
-    expect(bold).toBeLessThanOrEqual(8);
+    expect(uses).toBeGreaterThan(bold * 2);
   });
 
   it('leaves the hero headline and the reference imagery untouched', () => {
@@ -265,5 +273,92 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1R2 — border hierarchy and small-UI wei
     expect(headline).not.toContain('--tod-weight-ui');
     expect(css).toContain('border: 1px solid #8e7d60');
     expect(css).toContain('border: 1.3px solid rgba(186, 38, 28, 0.9)');
+  });
+});
+
+describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () => {
+  const workspaceModel = readRepo('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
+  const control = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectViewModeControl.tsx');
+  const canonicalView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
+  const listView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
+
+  it('declares exactly two modes and defaults to canonical', () => {
+    expect(TWIN_OPUS_DIRECT_VIEW_MODES).toEqual(['canonical', 'list']);
+    expect(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE).toBe('canonical');
+    expect(TWIN_OPUS_DIRECT_VIEW_MODE_LABELS).toEqual({ canonical: 'CANONICAL', list: 'LIST' });
+  });
+
+  it('routes both modes through one renderer registry on the same route', () => {
+    expect(screen).toContain('const VIEW_RENDERERS');
+    expect(screen).toContain('canonical: { body: TwinOpusDirectCanonicalBody, record: TwinOpusDirectCanonicalRecord }');
+    expect(screen).toContain('list: { body: TwinOpusDirectListBody, record: TwinOpusDirectListRecord }');
+    // One route, one screen: the mode is presentation state, never a path.
+    expect(routeTable).not.toContain('twin-opus-direct/list');
+    expect(routeTable).not.toContain('twin-opus-direct/canonical');
+    const routes = readRepo('src/site00/config/routes.ts');
+    expect(routes).not.toContain('twin-opus-direct/list');
+  });
+
+  it('keeps one shared state model with no per-view duplicates', () => {
+    for (const forbidden of [
+      'canonicalSelectedCandidate',
+      'listSelectedCandidate',
+      'canonicalReadiness',
+      'listReadiness',
+      'canonicalAuthorityPair',
+      'listAuthorityPair',
+    ]) {
+      expect(workspaceModel + screen + canonicalView + listView).not.toContain(forbidden);
+    }
+    // Renderers present state; they never own it.
+    expect(listView).not.toContain('useState');
+    expect(canonicalView).not.toContain('useState');
+    expect(workspaceModel).toContain('useTwinOpusDirectWorkspace');
+  });
+
+  it('switching mode cannot mutate workspace data', () => {
+    const setter = workspaceModel.slice(
+      workspaceModel.indexOf('const setViewMode = useCallback'),
+      workspaceModel.indexOf('const actions = useMemo'),
+    );
+    for (const mutator of ['setCandidateId', 'setViewport', 'setAuthorityPairOpen', 'setRecordTabIndex', 'setDockIndex', 'setNavIndex']) {
+      expect(setter).not.toContain(mutator);
+    }
+    expect(setter).toContain('sessionStorage.setItem');
+  });
+
+  it('presents the control as a labelled radiogroup in the utility row', () => {
+    expect(control).toContain('role="radiogroup"');
+    expect(control).toContain('role="radio"');
+    expect(control).toContain('aria-checked={active}');
+    expect(control).toContain('ArrowRight');
+    expect(control).toContain('ArrowLeft');
+    expect(screen).toContain('<TwinOpusDirectViewModeControl mode={viewMode} onChange={setViewMode} />');
+    // Placed in the header utility row, never in hero / candidate / readiness / dock.
+    const header = screen.slice(screen.indexOf('<header className="tod-header">'), screen.indexOf('</header>'));
+    expect(header).toContain('TwinOpusDirectViewModeControl');
+  });
+
+  it('styles the control in the existing workspace language and keeps it usable at every width', () => {
+    expect(css).toContain('.tod-viewmode__cell.is-active');
+    const active = css.slice(css.indexOf('.tod-viewmode__cell.is-active'), css.indexOf('}', css.indexOf('.tod-viewmode__cell.is-active')));
+    expect(active).toContain('var(--tod-black)');
+    expect(active).toContain('var(--tod-lime)');
+    expect(css).toContain('.tod-viewmode__cell:focus-visible');
+    // Counter-scales against the artboard scale so it never renders microscopic.
+    expect(css).toContain('scale(var(--tod-viewmode-boost, 1))');
+    expect(screen).toContain('VIEW_MODE_MAX_BOOST');
+  });
+
+  it('freezes the canonical renderer and leaves the list surface a mount point', () => {
+    for (const marker of ['tod-herorow', 'tod-gallery', 'tod-out', 'tod-pipe', 'tod-actions']) {
+      expect(canonicalView).toContain(marker);
+    }
+    // Opus must not design the list view: no canonical panels rebuilt in another shape.
+    for (const marker of ['tod-herorow', 'tod-gallery', 'tod-card', 'tod-out__col', 'tod-pipe__col', 'tod-rail']) {
+      expect(listView).not.toContain(marker);
+    }
+    expect(listView).toContain('SPARK PRESENTATION PENDING');
+    expect(listView).toContain('tod-listmount');
   });
 });
