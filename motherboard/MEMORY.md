@@ -9795,7 +9795,7 @@ Summary of the **whole conversation so far** in this chat: after FABLE-DIRECT1 s
 - **Changes:** `NdxbookSolDirectPage.tsx` (copy, hero meta `<b>001</b>`, master rows, candidate `copy` lines, `functionMap`, amendment `dl`), `site00-ndxbook-sol-direct.css` (Anton import + appended FABLE-TEXT1 layer; Sol geometry rules untouched), `tests/p0vrDesignBenchFableText1.test.ts` (7 tests). Removed stray `<<<<<<<`/`>>>>>>>` markers left in MEMORY.md by the #944 merge. PR **#946**.
 - **Conventions:** Parallel benchmark agents must not share one Cloudflare tunnel token — use a quick tunnel per VM or separate hostnames. When layering on a frozen route, append an override block instead of editing structural rules, and probe computed boxes (`getBoundingClientRect`) rather than trusting the screenshot when a column overflows.
 
-### 2026-09-16 — P0.VR.DESIGNBENCH.FABLE-DIRECT1R1 max reference-fidelity convergence on the Fable direct route
+## 2026-09-16 — P0.VR.DESIGNBENCH.FABLE-DIRECT1R1 max reference-fidelity convergence on the Fable direct route
 
 Summary of the **whole conversation so far** in this chat: FABLE-DIRECT1 (isolated `/projects/ndxbook/design/twin-fable-direct`, v495) → shared-tunnel diagnosis + VM-unique quick tunnel → FABLE-TEXT1 live-text layer on Sol direct (#946, v499) → founder ran **P0.VR.DESIGNBENCH.FABLE-DIRECT1R1**: push the Fable route as far as Fable alone can on structure, text, highlights, assets, icons, density; golden is exact authority; no Composer / Sol / Grok / Opus / Spark code or screenshots; five browser QA passes; Fable may now improve imagery.
 
