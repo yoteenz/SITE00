@@ -97,7 +97,7 @@ const BOTTOM_ICONS = {
  * viewport (768 x 1376) the scale is exactly 1 and the height is exactly 1376.
  */
 function useFullBleedShell() {
-  const [shell, setShell] = useState({ scale: 1, height: ART_H });
+  const [shell, setShell] = useState<{ scale: number; height: number }>({ scale: 1, height: ART_H });
 
   useEffect(() => {
     const measure = () => {

@@ -684,7 +684,7 @@
 
 .tod-rail__select {
   flex: 0 0 54.3px;
-  border-radius: 4px;
+  border-radius: 5.5px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -718,7 +718,7 @@
   justify-content: center;
   padding-top: 4px;
   background: #000;
-  color: var(--tod-lime);
+  color: #96a04e;
   font-size: 8px;
   line-height: 1;
 }
@@ -978,8 +978,8 @@
 
 .tod-gallery__body {
   position: relative;
-  flex: 0 0 131.5px;
-  height: 131.5px;
+  flex: 0 0 130.3px;
+  height: 130.3px;
 }
 
 .tod-gallery__head {
@@ -1395,8 +1395,8 @@
 /* ------------------------------------------------------------------ */
 
 .tod-actions {
-  flex: 0 0 35.4px;
-  height: 35.4px;
+  flex: 0 0 36.6px;
+  height: 36.6px;
   display: flex;
   border-top: 2px solid var(--tod-line-soft);
   background: var(--tod-panel);
@@ -1735,7 +1735,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 11.4px 10px 0 12.6px;
+  padding: 8.4px 10px 0 12.6px;
   border-right: 1px solid var(--tod-line-soft);
 }
 
@@ -1975,21 +1975,39 @@
 .tod-tabs__list {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 0 83.4px 0 164.2px;
 }
 
+/* Tab centres are uneven in the golden, so each one is pinned individually. */
 .tod-tabs__tab {
-  position: relative;
-  padding-bottom: 6.4px;
-  font-size: 7.4px;
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  padding-bottom: 3.4px;
+  font-size: 6.95px;
   line-height: 1;
+  white-space: nowrap;
   color: #2e2e2e;
 }
 
+.tod-tabs__tab:nth-child(1) {
+  left: 194.5px;
+}
+.tod-tabs__tab:nth-child(2) {
+  left: 331px;
+}
+.tod-tabs__tab:nth-child(3) {
+  left: 452px;
+}
+.tod-tabs__tab:nth-child(4) {
+  left: 561.5px;
+}
+.tod-tabs__tab:nth-child(5) {
+  left: 664.5px;
+}
+
 .tod-tabs__tab.is-active {
+  font-size: 7.75px;
+  font-weight: 700;
   color: #111;
 }
 
@@ -2084,12 +2102,12 @@
   display: flex;
   font-size: 6.5px;
   line-height: 1;
-  color: #262626;
+  color: #333333;
 }
 
 .tod-concept__field dt {
   flex: 0 0 65.6px;
-  color: #3a3a3a;
+  color: #5e5e60;
 }
 
 .tod-concept__amendment {

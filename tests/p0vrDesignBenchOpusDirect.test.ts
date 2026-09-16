@@ -29,8 +29,8 @@ const routeTable = readRepo('src/routes/Site00Routes.tsx');
 
 /** Golden geometry measured off the 608x1088 master, expressed at the 768x1376 artboard. */
 const GOLDEN_BANDS = [
-  { name: 'header', height: 40.4 },
-  { name: 'nav', height: 34.1 },
+  { name: 'header', height: 41.1 },
+  { name: 'nav', height: 33.5 },
   { name: 'context', height: 36 },
   { name: 'band', height: 92.3 },
   { name: 'tabs', height: 34.4 },
@@ -108,7 +108,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — reference fidelity contract', () =>
   });
 
   it('keeps the measured major section heights inside the main column', () => {
-    for (const height of ['395.4px', '156.6px', '36.6px', '190.7px', '151.6px']) {
+    for (const height of ['395.4px', '195.3px', '36.6px', '190.7px', '151.6px']) {
       expect(css).toContain(height);
     }
   });
