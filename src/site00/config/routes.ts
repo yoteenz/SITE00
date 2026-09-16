@@ -563,6 +563,13 @@ export function site00ProjectDesignTwinOpusDirectPath(projectSlug: string): stri
   return `/projects/${projectSlug.toLowerCase()}/design/twin-opus-direct`;
 }
 
+export function site00ProjectDesignTwinSectionPath(
+  projectSlug: string,
+  section: 'references' | 'assets' | 'pages' | 'skins' | 'history' | 'more',
+): string {
+  return `${site00ProjectDesignTwinOpusDirectPath(projectSlug)}/${section}`;
+}
+
 export function site00ProjectDesignTwinFableDirectPath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/twin-fable-direct`;
 }

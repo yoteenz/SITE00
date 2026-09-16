@@ -224,8 +224,11 @@ const DesignTwinGrokDirectPage = lazy(() =>
 const DesignOpusNativePage = lazy(() =>
   import('../site00/pages/DesignOpusNativePage').then((m) => ({ default: m.DesignOpusNativePage })),
 );
-const DesignTwinOpusDirectPage = lazy(() =>
-  import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinOpusDirectPage })),
+const DesignTwinOpusDirectRouteGate = lazy(() =>
+  import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinOpusDirectRouteGate })),
+);
+const DesignTwinWorkspaceLayout = lazy(() =>
+  import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinWorkspaceLayout })),
 );
 const DesignTwinFableDirectPage = lazy(() =>
   import('../site00/pages/DesignTwinFableDirectPage').then((m) => ({ default: m.DesignTwinFableDirectPage })),
@@ -1248,11 +1251,68 @@ export function Site00Routes() {
         element={
           <Site00Layout>
             <Site00Suspense>
-              <DesignTwinOpusDirectPage />
+              <DesignTwinOpusDirectRouteGate />
             </Site00Suspense>
           </Site00Layout>
         }
-      />
+      >
+        <Route
+          element={
+            <Site00Suspense>
+              <DesignTwinWorkspaceLayout />
+            </Site00Suspense>
+          }
+        >
+          <Route
+            path="references"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionReferences />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="assets"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionAssets />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="pages"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionPages />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="skins"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionSkins />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="history"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionHistory />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="more"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionMore />
+              </Site00Suspense>
+            }
+          />
+        </Route>
+      </Route>
       <Route
         path={SITE00_ROUTES.projectDesignTwinFableDirect}
         element={

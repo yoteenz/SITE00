@@ -5,9 +5,7 @@
 import { useEffect } from 'react';
 import { Navigate, Outlet, useParams, useSearchParams } from 'react-router-dom';
 
-import { DesignAgentDock } from '../components/designBench/designAgent/DesignAgentDock';
-import { DesignAgentDockProvider } from '../components/designBench/designAgent/DesignAgentDockContext';
-import { TwinOpusDirectScreen } from '../components/designBench/opusDirect/TwinOpusDirectScreen';
+import { DesignWorkspaceCore } from '../components/designBench/production/DesignWorkspaceCore';
 import { resolveLegacyProjectDesignRedirect } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import '../styles/site00-twin-opus-direct.css';
 import '../styles/site00-twin-opus-list.css';
@@ -50,11 +48,10 @@ export function DesignProductionWorkspaceLayout() {
   const slug = (projectSlug ?? 'ndxbook').toLowerCase();
 
   return (
-    <DesignAgentDockProvider>
+    <>
       <DesignProductionBodyEffects />
-      <TwinOpusDirectScreen projectSlug={slug} surface="production" />
-      <DesignAgentDock />
-    </DesignAgentDockProvider>
+      <DesignWorkspaceCore projectSlug={slug} role="production-provisional" />
+    </>
   );
 }
 

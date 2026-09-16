@@ -40,10 +40,12 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
     expect(routes).toContain('DesignProductionSectionReferences');
   });
 
-  it('twin-opus-direct remains reference route with banner', () => {
+  it('twin-opus-direct remains founder review route with functional banner', () => {
     const page = read('src/site00/pages/DesignTwinOpusDirectPage.tsx');
-    expect(page).toContain('design-twin-reference-banner');
-    expect(page).toContain('OPEN PRODUCTION DESIGN');
+    const banner = read('src/site00/components/designBench/production/DesignTwinReviewBanner.tsx');
+    expect(page).toContain('DesignTwinReviewBanner');
+    expect(banner).toContain('design-twin-review-banner');
+    expect(banner).toContain('TWIN REVIEW AUTHORITY');
   });
 
   it('design agent dock uses integrated open control not vertical rail', () => {

@@ -10082,3 +10082,11 @@ Element-level interaction audit + wiring so visible controls map to real behavio
 - **UI:** `DesignArtifactFullscreenViewer`, new overlay panels (inspect/compare/structured/amendment), concept record tabs show tab-specific content, bottom nav uses contextual next action.
 - **Tests:** `tests/p0vrDesignInteractionCoverage1.test.ts`; build PASS.
 - **Founder next:** Full functional walkthrough on v523 ZIP; Railway redeploy if using server authority sync.
+
+---
+
+## 2026-09-16 — P0.VR.DESIGN-TWIN-FUNCTIONALITY1 — twin route functional parity restored
+
+**Root cause:** Twin used `surface="reference"` after INTEGRATION1; `TwinOpusDirectScreen` gated bottom nav, primary nav sections, and in-shell children on `surface === 'production'` only. Twin had no nested section routes or shared core with production.
+
+**Fix:** `DesignWorkspaceCore` for twin + production; roles `twin-founder-review` / `production-provisional`; `functionalWorkspace` enables all interactions on both routes; twin nested section routes; `DesignTwinReviewBanner`; `twinLifecycle.ts` promotion guard; navigation `site00ProjectDesignTwinSectionPath`. Tests: `p0vrDesignTwinFunctionality1.test.ts`. Verify on cPanel ZIP (cloud dev loader blocked click QA).
