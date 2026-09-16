@@ -39,11 +39,6 @@ import {
   useTwinOpusDirectProduction,
   type TwinOpusDirectProduction,
 } from './useTwinOpusDirectProduction';
-import {
-  refineConcept,
-  regenerateConcept,
-} from '../../../../../shared/site00-design-workspace-production/designProductionActions.js';
-import { loadDesignProductionState } from '../../../../../shared/site00-design-workspace-production/designProductionStore.js';
 
 export const TWIN_OPUS_DIRECT_VIEW_MODES = ['canonical', 'list'] as const;
 
@@ -159,7 +154,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
 
   useEffect(() => {
     setCandidateId(prodState.selectedCandidateId);
-  }, [prodState.selectedCandidateId]);
+  }, [prodState.selectedCandidateId, prodState.updatedAt]);
 
   useEffect(() => {
     const stored = readStoredViewMode();
@@ -205,18 +200,12 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             action: 'REFINE',
             estimatedUsd: 0.42,
             onConfirmed: (spendConfirmationId) => {
-              try {
-                const fresh = loadDesignProductionState(projectSlug);
-                const next = refineConcept(fresh, actor, {
-                  parentCandidateId: candidate,
-                  spendConfirmationId,
-                  estimatedUsd: 0.42,
-                });
-                production.refresh();
-                setCandidateId(next.selectedCandidateId);
-              } catch {
-                production.refresh();
-              }
+              prodActions.runRefineConcept({
+                parentCandidateId: candidate,
+                spendConfirmationId,
+                estimatedUsd: 0.42,
+              });
+              production.refresh();
             },
           });
         }
@@ -225,18 +214,12 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             action: 'REGENERATE',
             estimatedUsd: 0.55,
             onConfirmed: (spendConfirmationId) => {
-              try {
-                const fresh = loadDesignProductionState(projectSlug);
-                const next = regenerateConcept(fresh, actor, {
-                  siblingOfCandidateId: candidate,
-                  spendConfirmationId,
-                  estimatedUsd: 0.55,
-                });
-                production.refresh();
-                setCandidateId(next.selectedCandidateId);
-              } catch {
-                production.refresh();
-              }
+              prodActions.runRegenerateConcept({
+                siblingOfCandidateId: candidate,
+                spendConfirmationId,
+                estimatedUsd: 0.55,
+              });
+              production.refresh();
             },
           });
         }

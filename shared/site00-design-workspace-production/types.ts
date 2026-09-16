@@ -4,6 +4,8 @@ export const DESIGN_PRODUCTION_STORE_VERSION = 1 as const;
 
 export const DESIGN_PRODUCTION_PAGE_ID = 'design-twin-opus-direct' as const;
 
+export type FounderActor = { email: string | null; isFounder: boolean };
+
 export type DesignWorkflowStage = 'DESIGN' | 'BUILD';
 
 export type DesignPackageStatus =
@@ -92,6 +94,7 @@ export type DesignProductionState = {
   authorityReviewDecision: AuthorityReviewDecision;
   authorityReviewedAt: string | null;
   pairLockedAt: string | null;
+  authorityLockedBy: string | null;
   designAuthorityVersion: string;
   tabletMode: TabletAuthorityMode;
   tabletDerivedOk: boolean;

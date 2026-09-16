@@ -1,21 +1,26 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { createInitialDesignProductionState } from '../../../../../shared/site00-design-workspace-production/designProductionStore.js';
 import {
-  lockAuthorityPair,
-  moveToBuild,
-  openPairReview,
-  recordSpendConfirmation,
-  submitAuthorityReview,
-  type FounderActor,
-} from '../../../../../shared/site00-design-workspace-production/designProductionActions.js';
-import { loadDesignProductionState } from '../../../../../shared/site00-design-workspace-production/designProductionStore.js';
+  readDesignProductionCache,
+  readLegacyDesignProductionLocal,
+  writeDesignProductionCache,
+} from '../../../../../shared/site00-design-workspace-production/designProductionCache.js';
 import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
 import type {
   AuthorityReviewDecision,
   DesignProductionState,
   DesignProductionUiOverlay,
+  FounderActor,
 } from '../../../../../shared/site00-design-workspace-production/types.js';
 import { getCurrentUser, isAdminFounderAccount } from '../../../../utils/adminAuth';
+import {
+  fetchDesignWorkspaceProductionSession,
+  postDesignWorkspaceProductionCommand,
+  type DesignWorkspaceProductionCommand,
+} from './designWorkspaceProductionClient.js';
+
+export type AuthoritySyncStatus = 'HYDRATING' | 'SYNCED' | 'STALE' | 'UNAVAILABLE';
 
 export type TwinOpusDirectProductionActions = {
   setOverlay: (overlay: DesignProductionUiOverlay) => void;
@@ -36,6 +41,16 @@ export type TwinOpusDirectProductionActions = {
   }) => void;
   confirmPendingSpend: () => void;
   cancelPendingSpend: () => void;
+  runRefineConcept: (input: {
+    parentCandidateId: string;
+    spendConfirmationId: string;
+    estimatedUsd: number;
+  }) => void;
+  runRegenerateConcept: (input: {
+    siblingOfCandidateId: string;
+    spendConfirmationId: string;
+    estimatedUsd: number;
+  }) => void;
 };
 
 export type TwinOpusDirectProduction = {
@@ -45,6 +60,8 @@ export type TwinOpusDirectProduction = {
   actor: FounderActor;
   actions: TwinOpusDirectProductionActions;
   productionError: string | null;
+  syncStatus: AuthoritySyncStatus;
+  serverSessionVersion: number | null;
   pendingSpend: {
     action: 'REFINE' | 'REGENERATE';
     estimatedUsd: number;
@@ -61,35 +78,125 @@ function resolveActor(): FounderActor {
 
 export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirectProduction {
   const projectId = (projectSlug || 'ndxbook').trim().toLowerCase();
-  const [state, setState] = useState<DesignProductionState>(() => loadDesignProductionState(projectId));
+  const [state, setState] = useState<DesignProductionState>(() => createInitialDesignProductionState(projectId));
+  const [serverSessionVersion, setServerSessionVersion] = useState<number | null>(null);
+  const [syncStatus, setSyncStatus] = useState<AuthoritySyncStatus>('HYDRATING');
   const [overlay, setOverlay] = useState<DesignProductionUiOverlay>(null);
   const [productionError, setProductionError] = useState<string | null>(null);
   const [pendingSpend, setPendingSpend] = useState<TwinOpusDirectProduction['pendingSpend']>(null);
+  const stateRef = useRef(state);
+  stateRef.current = state;
+  const versionRef = useRef<number | null>(null);
+  versionRef.current = serverSessionVersion;
 
-  const refresh = useCallback(() => {
-    setState(loadDesignProductionState(projectId));
-  }, [projectId]);
+  const applyServerState = useCallback(
+    (next: DesignProductionState, version: number) => {
+      setState(next);
+      setServerSessionVersion(version);
+      writeDesignProductionCache(projectId, next, version);
+      setSyncStatus('SYNCED');
+    },
+    [projectId],
+  );
+
+  const hydrate = useCallback(async () => {
+    setSyncStatus('HYDRATING');
+    const fetched = await fetchDesignWorkspaceProductionSession(projectId);
+    if (fetched.unavailable) {
+      const cache = readDesignProductionCache(projectId);
+      if (cache) {
+        setState(cache.state);
+        setServerSessionVersion(cache.serverSessionVersion);
+        setSyncStatus('STALE');
+        setProductionError('AUTHORITY STATE UNAVAILABLE — showing last synced cache');
+      } else {
+        setState(createInitialDesignProductionState(projectId));
+        setServerSessionVersion(null);
+        setSyncStatus('UNAVAILABLE');
+        setProductionError('AUTHORITY STATE UNAVAILABLE');
+      }
+      return;
+    }
+
+    if (fetched.state && fetched.sessionVersion !== null) {
+      applyServerState(fetched.state, fetched.sessionVersion);
+      setProductionError(null);
+      return;
+    }
+
+    const legacy = readLegacyDesignProductionLocal(projectId);
+    const actor = resolveActor();
+    if (legacy && actor.isFounder) {
+      try {
+        const migrated = await postDesignWorkspaceProductionCommand({
+          projectId,
+          command: 'MIGRATE_FROM_LOCAL',
+          expectedSessionVersion: null,
+          payload: { localState: legacy },
+        });
+        if (migrated.unavailable) throw new Error('UNAVAILABLE');
+        applyServerState(migrated.state, migrated.sessionVersion);
+        setProductionError(null);
+        return;
+      } catch {
+        /* fall through */
+      }
+    }
+
+    setState(createInitialDesignProductionState(projectId));
+    setServerSessionVersion(null);
+    setSyncStatus('SYNCED');
+    setProductionError(null);
+  }, [applyServerState, projectId]);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    void hydrate();
+  }, [hydrate]);
+
+  const runCommand = useCallback(
+    async (command: DesignWorkspaceProductionCommand, payload?: Record<string, unknown>) => {
+      if (syncStatus === 'UNAVAILABLE') {
+        setProductionError('AUTHORITY STATE UNAVAILABLE');
+        return;
+      }
+      const previous = stateRef.current;
+      const expected = versionRef.current;
+      try {
+        setProductionError(null);
+        const result = await postDesignWorkspaceProductionCommand({
+          projectId,
+          command,
+          expectedSessionVersion: expected,
+          payload,
+        });
+        if (result.unavailable) {
+          setSyncStatus('UNAVAILABLE');
+          setProductionError('AUTHORITY STATE UNAVAILABLE');
+          setState(previous);
+          return;
+        }
+        if (result.forbidden) {
+          setProductionError(`FOUNDER_ONLY:${command}`);
+          return;
+        }
+        if (result.stale) {
+          setSyncStatus('STALE');
+          setProductionError('STALE_STATE — refreshing authority');
+          await hydrate();
+          return;
+        }
+        applyServerState(result.state, result.sessionVersion);
+      } catch (err) {
+        setState(previous);
+        setProductionError(err instanceof Error ? err.message : String(err));
+      }
+    },
+    [applyServerState, hydrate, projectId, syncStatus],
+  );
 
   const actor = useMemo(() => resolveActor(), [state.sessionVersion, overlay]);
 
   const projection = useMemo(() => projectDesignProductionProjection(state), [state]);
-
-  const runSafe = useCallback(
-    (fn: () => DesignProductionState) => {
-      try {
-        setProductionError(null);
-        const next = fn();
-        setState(next);
-      } catch (err) {
-        setProductionError(err instanceof Error ? err.message : String(err));
-      }
-    },
-    [],
-  );
 
   const actions = useMemo<TwinOpusDirectProductionActions>(
     () => ({
@@ -101,15 +208,15 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       openProvenance: () => setOverlay('OV-PROVENANCE'),
       openHostModuleNav: () => setOverlay('OV-HOST-MODULE-NAV'),
       runPairReview: () => {
-        runSafe(() => openPairReview(state, actor));
+        void runCommand('START_PAIR_REVIEW');
         setOverlay('OV-PAIR-REVIEW');
       },
       runReviewAuthority: (decision) => {
-        runSafe(() => submitAuthorityReview(state, actor, decision));
+        void runCommand('APPROVE_AUTHORITY', { decision });
         setOverlay(null);
       },
-      runLockAuthorityPair: () => runSafe(() => lockAuthorityPair(state, actor)),
-      runMoveToBuild: () => runSafe(() => moveToBuild(state, actor)),
+      runLockAuthorityPair: () => void runCommand('LOCK_AUTHORITY_PAIR'),
+      runMoveToBuild: () => void runCommand('MOVE_TO_BUILD'),
       requestSpendConfirm: (input) => {
         setPendingSpend(input);
         setOverlay('OV-SPEND-CONFIRM');
@@ -117,22 +224,20 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       confirmPendingSpend: () => {
         if (!pendingSpend) return;
         const id = `spend-${Date.now()}`;
-        try {
-          setProductionError(null);
-          const next = recordSpendConfirmation(state, {
-            id,
-            action: pendingSpend.action,
-            estimatedUsd: pendingSpend.estimatedUsd,
-            runId: null,
-            actualUsd: null,
-            provider: 'site00-design',
-            model: 'design-concept',
+        void (async () => {
+          await runCommand('RECORD_SPEND_CONFIRMATION', {
+            record: {
+              id,
+              action: pendingSpend.action,
+              estimatedUsd: pendingSpend.estimatedUsd,
+              runId: null,
+              actualUsd: null,
+              provider: 'site00-design',
+              model: 'design-concept',
+            },
           });
-          setState(next);
           pendingSpend.onConfirmed(id);
-        } catch (err) {
-          setProductionError(err instanceof Error ? err.message : String(err));
-        }
+        })();
         setPendingSpend(null);
         setOverlay(null);
       },
@@ -140,8 +245,14 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setPendingSpend(null);
         setOverlay(null);
       },
+      runRefineConcept: (input) => {
+        void runCommand('REFINE_CONCEPT', input);
+      },
+      runRegenerateConcept: (input) => {
+        void runCommand('REGENERATE_CONCEPT', input);
+      },
     }),
-    [actor, pendingSpend, runSafe, state],
+    [pendingSpend, runCommand],
   );
 
   return {
@@ -151,7 +262,11 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
     actor,
     actions,
     productionError,
+    syncStatus,
+    serverSessionVersion,
     pendingSpend,
-    refresh,
+    refresh: () => {
+      void hydrate();
+    },
   };
 }

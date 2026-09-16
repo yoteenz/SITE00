@@ -27,6 +27,7 @@ export function createInitialDesignProductionState(projectId: string): DesignPro
     authorityReviewDecision: null,
     authorityReviewedAt: null,
     pairLockedAt: null,
+    authorityLockedBy: null,
     designAuthorityVersion: 'design-authority-v1',
     tabletMode: 'DERIVED',
     tabletDerivedOk: true,
