@@ -508,7 +508,6 @@ export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOp
   return (
     <>
       <div className="tod-tabs">
-        <span className="tod-tabs__handle" aria-hidden="true" />
         <div className="tod-tabs__list" role="tablist" aria-label="Concept record">
           {data.conceptTabs.map((tab, index) => (
             <button

@@ -132,7 +132,7 @@ export function TwinOpusDirectScreen() {
             ['--tod-viewmode-boost' as string]: viewModeBoost(shell.scale),
           }}
         >
-          {/* 01 SITE00_HEADER — workspace utility row */}
+          {/* 01 SITE00_HEADER */}
           <header className="tod-header">
             <div className="tod-header__crumbs">
               <span className="tod-header__brand">{data.header.brand}</span>
@@ -145,7 +145,6 @@ export function TwinOpusDirectScreen() {
               </span>
               <span className="tod-header__page">{data.header.page}</span>
             </div>
-            <TwinOpusDirectViewModeControl mode={viewMode} onChange={setViewMode} />
             <div className="tod-header__status">
               <span className="tod-header__compiler">{data.header.compiler}</span>
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
@@ -177,10 +176,11 @@ export function TwinOpusDirectScreen() {
             </button>
           </nav>
 
-          {/* 03 NDXBOOK_CONTEXT_BAR */}
+          {/* 03 NDXBOOK_CONTEXT_BAR — also the workspace presentation-control strip */}
           <div className="tod-context">
             <span className="tod-context__chip">{data.context.chip}</span>
             <span className="tod-context__stream">{data.context.stream}</span>
+            <TwinOpusDirectViewModeControl mode={viewMode} onChange={setViewMode} />
             <span className="tod-context__right">
               {data.context.right}
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
