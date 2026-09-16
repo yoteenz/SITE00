@@ -21,9 +21,9 @@ import {
   TWIN_OPUS_DIRECT_HEADER,
   TWIN_OPUS_DIRECT_HERO,
   TWIN_OPUS_DIRECT_NEXT_ACTION,
+  TWIN_OPUS_DIRECT_ASSETS,
   TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
   TWIN_OPUS_DIRECT_OUTPUT_TITLE,
-  TWIN_OPUS_DIRECT_PAPER_TEXTURE,
   TWIN_OPUS_DIRECT_PIPELINE_TITLE,
   TWIN_OPUS_DIRECT_PRIMARY_NAV,
   TWIN_OPUS_DIRECT_RAIL_ACTIONS,
@@ -64,7 +64,6 @@ import {
   TodIconSliders,
   TodIconWarnCircle,
   TodIconTablet,
-  TodPointingHandPlate,
 } from './TwinOpusDirectIcons';
 
 const { width: ART_W, height: ART_H } = TWIN_OPUS_DIRECT_REFERENCE_VIEWPORT;
@@ -118,16 +117,17 @@ function useFullBleedShell() {
   return shell;
 }
 
-/** Archival plate: repo paper scan + inline ink silhouette + annotation marks. */
+/** Archival plate: xerox hand photograph. Wrapper / marks API stays Opus-owned. */
 function TodArchivalPlate({ className, marks = true }: { className?: string; marks?: boolean }) {
   return (
-    <div className={className ? `tod-plate ${className}` : 'tod-plate'}>
-      <div
-        className="tod-plate__paper"
-        style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
+    <div className={className ? `tod-plate tod-plate--photo ${className}` : 'tod-plate tod-plate--photo'}>
+      <img
+        className="tod-plate__photo"
+        src={TWIN_OPUS_DIRECT_ASSETS.hand}
+        alt=""
+        draggable={false}
+        data-tod-slot="hand-plate"
       />
-      <div className="tod-plate__rules" aria-hidden="true" />
-      <TodPointingHandPlate className="tod-plate__hand" />
       {marks ? (
         <div className="tod-plate__marks" aria-hidden="true">
           <span className="tod-plate__mark tod-plate__mark--a">green</span>
@@ -174,13 +174,28 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
             <span>NDXBOOK.</span>
           </p>
         </div>
-        <div className="tod-card__grid" aria-hidden="true" />
+        <div className="tod-card__grid" aria-hidden="true">
+          <img
+            className="tod-card__raster tod-card__raster--grain"
+            src={TWIN_OPUS_DIRECT_ASSETS.hand}
+            alt=""
+            draggable={false}
+            data-tod-slot="candidate-grain"
+          />
+        </div>
       </div>
     );
   }
   if (surface === 'collage') {
     return (
       <div className="tod-card__surface tod-card__surface--collage">
+        <img
+          className="tod-card__raster tod-card__raster--collage"
+          src={TWIN_OPUS_DIRECT_ASSETS.collage}
+          alt=""
+          draggable={false}
+          data-tod-slot="candidate-collage"
+        />
         <div className="tod-card__stack" aria-hidden="true">
           <span className="tod-card__scrap tod-card__scrap--1" />
           <span className="tod-card__scrap tod-card__scrap--2" />
@@ -200,6 +215,13 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
   }
   return (
     <div className="tod-card__surface tod-card__surface--archive">
+      <img
+        className="tod-card__raster tod-card__raster--archive"
+        src={TWIN_OPUS_DIRECT_ASSETS.split001}
+        alt=""
+        draggable={false}
+        data-tod-slot="candidate-archive"
+      />
       <div className="tod-card__archivePaper" aria-hidden="true" />
       <div className="tod-card__archiveInk">
         <span className="tod-card__archiveStamp" aria-hidden="true">001</span>
@@ -220,6 +242,13 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'manifest') {
     return (
       <div className="tod-out__preview tod-out__preview--manifest" aria-hidden="true">
+        <img
+          className="tod-out__photo"
+          src={TWIN_OPUS_DIRECT_ASSETS.form}
+          alt=""
+          draggable={false}
+          data-tod-slot="output-grounding"
+        />
         <span className="tod-out__manifestTitle">index_signal:page_001_indexed</span>
         <span className="tod-out__manifestRule" />
         <span className="tod-out__manifestRule" />
@@ -236,6 +265,13 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'blueprint') {
     return (
       <div className="tod-out__preview tod-out__preview--blueprint" aria-hidden="true">
+        <img
+          className="tod-out__photo"
+          src={TWIN_OPUS_DIRECT_ASSETS.blueprint}
+          alt=""
+          draggable={false}
+          data-tod-slot="output-blueprint"
+        />
         <span className="tod-out__blueGrid" />
         <span className="tod-out__blueCross" />
       </div>
@@ -244,10 +280,14 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'overlay') {
     return (
       <div className="tod-out__preview tod-out__preview--overlay" aria-hidden="true">
-        <span
-          className="tod-out__overlayPaper"
-          style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
+        <img
+          className="tod-out__photo"
+          src={TWIN_OPUS_DIRECT_ASSETS.overlay}
+          alt=""
+          draggable={false}
+          data-tod-slot="output-overlay"
         />
+        <span className="tod-out__overlayPaper" />
         <span className="tod-out__overlayNote">CULTURE AS EVIDENCE.</span>
         <span className="tod-out__overlayInk">001</span>
         <span className="tod-out__overlayMark" />
@@ -257,11 +297,17 @@ function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
   if (column.preview === 'evidence') {
     return (
       <div className="tod-out__preview tod-out__preview--evidence" aria-hidden="true">
+        <img
+          className="tod-out__photo tod-out__photo--evidence"
+          src={TWIN_OPUS_DIRECT_ASSETS.evidence}
+          alt=""
+          draggable={false}
+          data-tod-slot="output-assets"
+        />
         {Array.from({ length: 9 }).map((_, index) => (
           <span
             key={index}
             className={`tod-out__evidenceTile tod-out__evidenceTile--${index + 1}`}
-            style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
           />
         ))}
       </div>
@@ -500,6 +546,13 @@ export function TwinOpusDirectScreen() {
                           <span>THE SIGNAL</span>
                           <span>IS THE INDEX</span>
                         </span>
+                        <img
+                          className="tod-pair__thumbPhoto"
+                          src={TWIN_OPUS_DIRECT_ASSETS.hand}
+                          alt=""
+                          draggable={false}
+                          data-tod-slot="authority-desktop"
+                        />
                         <span className="tod-pair__thumbWedge" aria-hidden="true" />
                       </div>
                       <button type="button" className="tod-pair__replace">
