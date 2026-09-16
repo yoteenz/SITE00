@@ -164,8 +164,11 @@ const ProjectWorkspaceVisualDevelopmentPage = lazy(
 );
 const ProjectExperimentsHubPage = lazy(() => import('../site00/pages/ProjectExperimentsHubPage'));
 const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage'));
-const Site00OwnedDesignWorkspacePage = lazy(() =>
-  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.Site00OwnedDesignWorkspacePage })),
+const Site00DesignHostRouteGate = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.Site00DesignHostRouteGate })),
+);
+const DesignReconstructionLabPage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.DesignReconstructionLabPage })),
 );
 const DesignProductionRouteGate = lazy(() =>
   import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
@@ -1130,7 +1133,19 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00AccountRouteGuard>
               <Site00Suspense>
-                <Site00OwnedDesignWorkspacePage />
+                <Site00DesignHostRouteGate />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignReconstructionLab}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignReconstructionLabPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

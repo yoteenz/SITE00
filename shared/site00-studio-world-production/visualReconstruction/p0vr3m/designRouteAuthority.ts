@@ -43,12 +43,18 @@ export type BuildCanonicalDesignPathInput = {
 
 export function buildCanonicalDesignWorkspacePath(input?: BuildCanonicalDesignPathInput): string {
   const params = new URLSearchParams();
-  if (input?.project) params.set('project', input.project);
   if (input?.screen) params.set('screen', input.screen);
   if (input?.viewport) params.set('viewport', input.viewport);
   if (input?.tab) params.set('tab', String(input.tab).toLowerCase());
   const qs = params.toString();
-  return qs ? `${CANONICAL_SITE00_DESIGN_ROUTE}?${qs}` : CANONICAL_SITE00_DESIGN_ROUTE;
+  const subject = resolveManagedProjectForDesignContext(input?.project ?? null);
+  if (subject && subject !== SITE00_DESIGN_PROJECT_ID) {
+    const base = perProjectDesignPath(subject);
+    return qs ? `${base}?${qs}` : base;
+  }
+  if (input?.project) params.set('project', input.project);
+  const hostQs = params.toString();
+  return hostQs ? `${CANONICAL_SITE00_DESIGN_ROUTE}?${hostQs}` : CANONICAL_SITE00_DESIGN_ROUTE;
 }
 
 export function buildDesignWorkspaceBreadcrumb(projectId?: string | null): string {
@@ -80,7 +86,12 @@ function stripProjectQueryParam(search: string): string {
 }
 
 function perProjectDesignPath(projectId: string): string {
-  return `/projects/${projectId}/design`;
+  return `/projects/${projectId.toLowerCase()}/design`;
+}
+
+/** P0.VR.DESIGN-ROUTE-AUTHORITY1 — legacy Design Reconstruction lab (not product DESIGN route). */
+export function designReconstructionLabPath(projectId: string): string {
+  return `${perProjectDesignPath(projectId)}/reconstruction-lab`;
 }
 
 export function resolveLegacyProjectDesignRedirect(
@@ -111,8 +122,8 @@ export function resolveLegacyProjectDesignRedirect(
       };
     }
     return {
-      redirect: false,
-      target: mergeLocation(CANONICAL_SITE00_DESIGN_ROUTE, normalizedSearch),
+      redirect: true,
+      target: mergeLocation(designReconstructionLabPath(SITE00_DESIGN_PROJECT_ID), normalizedSearch),
       loop: false,
     };
   }
@@ -125,18 +136,18 @@ export function resolveLegacyProjectDesignRedirect(
     };
   }
 
-  const path = buildCanonicalDesignWorkspacePath({
-    project: projectSlug,
-    screen: state.screen,
-    viewport: state.viewport,
-    tab: state.tab,
-  });
+  const labSearch = new URLSearchParams();
+  if (state.screen) labSearch.set('screen', state.screen);
+  if (state.viewport) labSearch.set('viewport', state.viewport);
+  if (state.tab) labSearch.set('tab', String(state.tab).toLowerCase());
+  labSearch.set('project', projectSlug);
+  const qs = labSearch.toString();
 
   return {
     redirect: true,
     target: mergeLocation(
-      CANONICAL_SITE00_DESIGN_ROUTE,
-      path.slice(CANONICAL_SITE00_DESIGN_ROUTE.length),
+      designReconstructionLabPath(SITE00_DESIGN_PROJECT_ID),
+      qs ? `?${qs}` : '',
     ),
     loop: false,
   };
@@ -151,10 +162,12 @@ export function resolveStudioWorldDesignLegacyRedirect(search: string): LegacyDe
     viewport: state.viewport,
     tab: state.tab,
   });
+  const pathname = path.split('?')[0] ?? path;
+  const pathSearch = path.includes('?') ? `?${path.split('?')[1]}` : '';
 
   return {
     redirect: true,
-    target: mergeLocation(CANONICAL_SITE00_DESIGN_ROUTE, path.slice(CANONICAL_SITE00_DESIGN_ROUTE.length)),
+    target: mergeLocation(pathname, pathSearch),
     loop: false,
   };
 }

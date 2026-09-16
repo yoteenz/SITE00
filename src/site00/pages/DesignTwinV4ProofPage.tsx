@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { SITE00_ROUTES } from '../config/routes.js';
+import { site00ProjectDesignPath } from '../config/routes.js';
 import {
   P0_VR_TWIN_V41_LINEAGE,
   PIXEL_EXTRACTION_REVIEW_REQUIRED,
@@ -136,7 +136,7 @@ export function DesignTwinV4ProofPage() {
       {!goldenDiffCapture ?
         <header className={`${TWIN_V4_CSS_NAMESPACE}__topbar`} data-testid="twin-v4-topbar">
           <span>TWIN V4.2R1 · PRODUCTION GOLDEN + DIFF-DRIVEN RECONSTRUCTION</span>
-          <Link to={SITE00_ROUTES.site00Design + `?project=${projectId}`}>← DESIGN WORKSPACE</Link>
+          <Link to={site00ProjectDesignPath(projectId)}>← DESIGN WORKSPACE</Link>
         </header>
       : null}
       {!goldenDiffCapture ?

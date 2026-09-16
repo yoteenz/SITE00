@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { SITE00_ROUTES } from '../config/routes.js';
+import { site00ProjectDesignPath } from '../config/routes.js';
 import { MobileTwinCompiledImplementationRenderer } from '../components/designWorkspace/MobileTwinCompiledImplementationRenderer.js';
 import { DesignTwinImplementationReviewPanel } from '../components/designWorkspace/DesignTwinImplementationReviewPanel.js';
 import { resolveTwinImplementationPreview } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV30R8M/resolveTwinImplementationPreview.js';
@@ -52,7 +52,7 @@ export function DesignTwinImplementationPage() {
         <span>TWIN IMPLEMENTATION</span>
         <span>MOBILE REVIEW</span>
         <span data-testid="twin-implementation-status">IMPLEMENTATION_REVIEW</span>
-        <Link to={SITE00_ROUTES.site00Design + `?project=${projectId}`}>← DESIGN WORKSPACE</Link>
+        <Link to={site00ProjectDesignPath(projectId)}>← DESIGN WORKSPACE</Link>
       </header>
     ),
     [projectId],

@@ -48,9 +48,7 @@ describe('P0.VR.3M design workspace ownership', () => {
 
   it('canonical Design route resolves under SITE 00', () => {
     expect(CANONICAL_SITE00_DESIGN_ROUTE).toBe('/projects/site00/design');
-    expect(buildCanonicalDesignWorkspacePath({ project: 'ndxbook' })).toBe(
-      '/projects/site00/design?project=ndxbook',
-    );
+    expect(buildCanonicalDesignWorkspacePath({ project: 'ndxbook' })).toBe('/projects/ndxbook/design');
     expect(read('src/site00/config/routes.ts')).toContain("site00Design: '/projects/site00/design'");
   });
 
@@ -69,12 +67,12 @@ describe('P0.VR.3M design workspace ownership', () => {
     expect(resolution.target.search).toContain('viewport=mobile');
   });
 
-  it('legacy /studio-world/design redirects to canonical route', () => {
+  it('legacy /studio-world/design redirects to per-project production DESIGN', () => {
     const resolution = resolveStudioWorldDesignLegacyRedirect('?project=ndxbook&tab=review');
     expect(resolution.redirect).toBe(true);
     expect(resolution.loop).toBe(false);
-    expect(resolution.target.pathname).toBe(CANONICAL_SITE00_DESIGN_ROUTE);
-    expect(resolution.target.search).toContain('project=ndxbook');
+    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
+    expect(resolution.target.search).toContain('tab=review');
   });
 
   it('SITE 00 red host persists — project accent does not recolor host shell', () => {
@@ -137,8 +135,9 @@ describe('P0.VR.3M design workspace ownership', () => {
     expect(dropdown.some((p) => p.slug === 'site00')).toBe(true);
   });
 
-  it('route wiring includes production DESIGN gate + host workspace', () => {
-    expect(read('src/routes/Site00Routes.tsx')).toContain('Site00OwnedDesignWorkspacePage');
+  it('route wiring includes production DESIGN gate + reconstruction lab + host redirect', () => {
+    expect(read('src/routes/Site00Routes.tsx')).toContain('DesignReconstructionLabPage');
+    expect(read('src/routes/Site00Routes.tsx')).toContain('Site00DesignHostRouteGate');
     expect(read('src/routes/Site00Routes.tsx')).toContain('DesignProductionRouteGate');
     expect(read('src/site00/pages/DesignProductionWorkspacePage.tsx')).toContain('resolveLegacyProjectDesignRedirect');
   });
