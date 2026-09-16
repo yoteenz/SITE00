@@ -142,6 +142,8 @@ export const SITE00_ROUTES = {
   projectDesignTwinTestA: '/projects/:projectSlug/design/twin-testA',
   /** P0.VR.DESIGNBENCH.GROK-DIRECT1 — isolated Grok direct reconstruction */
   projectDesignTwinGrokDirect: '/projects/:projectSlug/design/twin-grok-direct',
+  /** P0.VR.DESIGNBENCH.OPUS-DIRECT1 — isolated Opus direct reconstruction */
+  projectDesignTwinOpusDirect: '/projects/:projectSlug/design/twin-opus-direct',
   /** P0.VR.DESIGNBENCH.FABLE-DIRECT1 — isolated Claude Fable direct reconstruction */
   projectDesignTwinFableDirect: '/projects/:projectSlug/design/twin-fable-direct',
   /** P0.VR.DESIGNBENCH.SPARK-DIRECT1 — isolated Spark direct reconstruction */
@@ -537,6 +539,10 @@ export function site00ProjectDesignTwinTestAPath(projectSlug: string): string {
 
 export function site00ProjectDesignTwinGrokDirectPath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/twin-grok-direct`;
+}
+
+export function site00ProjectDesignTwinOpusDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-opus-direct`;
 }
 
 export function site00ProjectDesignTwinFableDirectPath(projectSlug: string): string {
