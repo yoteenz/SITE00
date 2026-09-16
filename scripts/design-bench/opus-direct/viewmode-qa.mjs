@@ -39,8 +39,8 @@ const readState = (page) =>
       dock: document.querySelector('.tod-bottom__cell[aria-current="page"]')?.textContent?.trim() ?? null,
       navSection: document.querySelector('.tod-nav__cell[aria-current="page"]')?.textContent?.trim() ?? null,
       listReadout: [
-        document.querySelector('.tod-lv-gallery__selected')?.textContent?.trim() ?? null,
-        document.querySelector('.tod-lv-record__tab[aria-selected="true"]')?.textContent?.trim() ?? null,
+        document.querySelector('.tod-lv-card[aria-pressed="true"] .tod-lv-card__version')?.textContent?.trim() ?? null,
+        document.querySelector('.tod-lv-tabs__tab[aria-selected="true"]')?.textContent?.trim() ?? null,
         document.querySelector('.tod-lv-pair__head')?.getAttribute('aria-expanded') ?? null,
         document.querySelector('.tod-lv-device[aria-pressed="true"]')?.textContent?.trim() ?? null,
       ],

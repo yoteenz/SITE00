@@ -1,14 +1,12 @@
 /**
- * P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — LIST presentation renderer.
+ * P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — LIST presentation renderer.
  *
- * Spark owns this file. It renders the SAME shared workspace object as the
- * frozen canonical renderer, as a digestible sequential list: context, hero,
- * authority, candidates, actions, structured output, pipeline, record. It
- * holds no state of its own — every value comes from `workspace.data` /
- * `workspace.state`, every interaction calls `workspace.actions`. Imagery and
- * icons are the opus/grok family (TodArchivalPlate, TodIcon*, paper texture);
- * the tod-lv-* classes below are Spark's list choreography, styled in
- * site00-twin-opus-list.css. Canonical markup, classes and styles are untouched.
+ * TRANSPLANT: structure forked from TwinSparkResponsiveScreen (band through
+ * concept record) into tod-lv- classes, with every value and handler
+ * rebound to the shared opus workspace model. Spark owns the presentation
+ * grammar; the workspace owns state, data, actions and assets. This file
+ * holds no React state of its own, creates no duplicate state, adds no routes. Styled by site00-twin-opus-list.css
+ * (transplanted + x1.969-scaled Spark rules). Canonical files untouched.
  */
 
 import { useCallback, useRef } from 'react';
@@ -20,9 +18,7 @@ import {
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
-import { TodArchivalPlate } from './TwinOpusDirectCanonicalView';
 import {
-  TodIconBolt,
   TodIconCheck,
   TodIconCheckCircle,
   TodIconChevronRight,
@@ -33,15 +29,14 @@ import {
   TodIconDoc,
   TodIconDocGear,
   TodIconExpand,
-  TodIconHistory,
   TodIconInspect,
   TodIconLock,
   TodIconLockOpen,
   TodIconPhone,
-  TodIconShieldCheck,
   TodIconSliders,
   TodIconTablet,
   TodIconWarnCircle,
+  TodPointingHandPlate,
 } from './TwinOpusDirectIcons';
 
 const VIEWPORT_ICONS: Record<TwinOpusDirectViewportId, (props: { className?: string }) => JSX.Element> = {
@@ -57,7 +52,27 @@ const ACTION_ICONS = {
   expand: TodIconExpand,
 } as const;
 
-const RECORD_TAB_ICONS = [TodIconDoc, TodIconHistory, TodIconCycle, TodIconShieldCheck, TodIconBolt] as const;
+function LvArchivalPlate({ className, marks = true }: { className?: string; marks?: boolean }) {
+  return (
+    <div className={className ? `tod-lv-plate ${className}` : 'tod-lv-plate'}>
+      <div
+        className="tod-lv-plate__paper"
+        style={{ backgroundImage: `url(${TWIN_OPUS_DIRECT_PAPER_TEXTURE})` }}
+      />
+      <div className="tod-lv-plate__rules" aria-hidden="true" />
+      <TodPointingHandPlate className="tod-lv-plate__hand" />
+      {marks ? (
+        <div className="tod-lv-plate__marks" aria-hidden="true">
+          <span className="tod-lv-plate__mark tod-lv-plate__mark--a">green</span>
+          <span className="tod-lv-plate__mark tod-lv-plate__mark--b">Cert. Ref:</span>
+          <span className="tod-lv-plate__mark tod-lv-plate__mark--c">P.137</span>
+          <span className="tod-lv-plate__mark tod-lv-plate__mark--d">P. 208</span>
+          <span className="tod-lv-plate__mark tod-lv-plate__mark--e">P. 311</span>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurface }) {
   if (surface === 'plate') {
@@ -74,7 +89,7 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
             <span>NDXBOOK.</span>
           </p>
         </div>
-        <TodArchivalPlate className="tod-lv-card__plate" marks={false} />
+        <LvArchivalPlate className="tod-lv-card__plate" marks={false} />
       </div>
     );
   }
@@ -108,9 +123,9 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
         </div>
         <div className="tod-lv-card__sheet" aria-hidden="true" />
         <div className="tod-lv-card__collageCopy">
-          <span>CULTURE AS</span>
-          <span>EVIDENCE.</span>
-          <span>IDEAS AS INDEX.</span>
+          <span className="tod-lv-card__collageLead">CULTURE AS</span>
+          <span className="tod-lv-card__collageLead">EVIDENCE.</span>
+          <span className="tod-lv-card__collageLead">IDEAS AS INDEX.</span>
         </div>
         <span className="tod-lv-card__stamp">001</span>
       </div>
@@ -120,9 +135,7 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
     <div className="tod-lv-card__surface tod-lv-card__surface--archive">
       <div className="tod-lv-card__archivePaper" aria-hidden="true" />
       <div className="tod-lv-card__archiveInk">
-        <span className="tod-lv-card__archiveStamp" aria-hidden="true">
-          001
-        </span>
+        <span className="tod-lv-card__archiveStamp" aria-hidden="true">001</span>
         <span className="tod-lv-card__archiveRule" aria-hidden="true" />
         <span className="tod-lv-card__archiveHead">
           <span>THE</span>
@@ -131,9 +144,7 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
           <span>INDEX</span>
         </span>
       </div>
-      <span className="tod-lv-card__archiveChip" aria-hidden="true">
-        001
-      </span>
+      <span className="tod-lv-card__archiveChip" aria-hidden="true">001</span>
     </div>
   );
 }
@@ -143,6 +154,7 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
     return (
       <div className="tod-lv-out__preview tod-lv-out__preview--manifest" aria-hidden="true">
         <span className="tod-lv-out__manifestTitle">index_signal:page_001_indexed</span>
+        <span className="tod-lv-out__manifestRule" />
         <span className="tod-lv-out__manifestRule" />
         <span className="tod-lv-out__manifestRule" />
         <span className="tod-lv-out__manifestGrid">
@@ -196,10 +208,9 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
     </ul>
   );
 }
-
-/** LIST body: the workspace as a digestible vertical sequence. */
+/** LIST body: the transplanted Spark digest, bound to shared state. */
 export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions, selectedCandidate, readinessDash } = workspace;
+  const { data, state, actions, readinessDash } = workspace;
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const scrollGallery = useCallback(() => {
@@ -211,22 +222,17 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
   return (
     <main className="tod-main tod-main--list">
       <div className="tod-lv" data-testid="twin-opus-direct-list-body">
-        {/* 01 WORKSPACE CONTEXT */}
-        <section className="tod-lv-context" aria-label="Workspace context">
-          <span className="tod-lv-context__project">{data.header.project}</span>
-          <span className="tod-lv-context__entry">{data.target.lines.join(' / ')}</span>
-          <span className="tod-lv-context__stage">
-            {data.stage.stageValue} · {data.stage.authorityValue}
-          </span>
-        </section>
-
-        {/* 02 TARGET / VIEWPORT / STAGE */}
+        {/* 04 TARGET_VIEWPORT_STAGE_BAND */}
         <section className="tod-lv-band" aria-label="Target, viewport and stage">
-          <div className="tod-lv-band__row">
+          <div className="tod-lv-band__col tod-lv-band__col--target">
             <span className="tod-lv-band__label">{data.target.label}</span>
-            <span className="tod-lv-band__value">{data.target.lines.join(' / ')}</span>
+            {data.target.lines.map((line) => (
+              <span key={line} className="tod-lv-band__value">
+                {line}
+              </span>
+            ))}
           </div>
-          <div className="tod-lv-band__row">
+          <div className="tod-lv-band__col tod-lv-band__col--viewport">
             <span className="tod-lv-band__label">VIEWPORT</span>
             <div className="tod-lv-band__devices" role="group" aria-label="Target viewport">
               {data.viewports.map((id) => {
@@ -247,333 +253,388 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
               })}
             </div>
           </div>
-          <div className="tod-lv-band__row">
+          <div className="tod-lv-band__col tod-lv-band__col--stage">
             <span className="tod-lv-band__label">{data.stage.stageLabel}</span>
-            <span className="tod-lv-band__value">{data.stage.stageValue}</span>
-          </div>
-          <div className="tod-lv-band__row">
-            <span className="tod-lv-band__label">{data.stage.authorityLabel}</span>
-            <span className="tod-lv-band__value">
+            <span className="tod-lv-band__stage">{data.stage.stageValue}</span>
+            <span className="tod-lv-band__label tod-lv-band__label--second">
+              {data.stage.authorityLabel}
+            </span>
+            <span className="tod-lv-band__stage tod-lv-band__stage--lock">
               {data.stage.authorityValue}
               <TodIconLockOpen className="tod-ico tod-lv-band__lock" />
             </span>
           </div>
-        </section>
-
-        {/* 03 HERO */}
-        <article className="tod-lv-hero" aria-label="Active concept">
-          <div className="tod-lv-hero__eyebrow">
-            <span>{data.hero.eyebrowLeft}</span>
-            <span>{data.hero.eyebrowCentre}</span>
-            <span>{data.hero.eyebrowRight}</span>
-          </div>
-          <h1 className="tod-lv-hero__headline">
-            {data.hero.headline.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </h1>
-          <p className="tod-lv-hero__standfirst">
-            {data.hero.standfirst.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </p>
-          <TodArchivalPlate className="tod-lv-hero__plate" />
-          <div className="tod-lv-hero__footer">
-            <span className="tod-lv-hero__footerBlock">
-              {data.hero.footerLeft.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </span>
-            <span className="tod-lv-hero__footerBlock">
-              {data.hero.footerMid.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </span>
-            <span className="tod-lv-hero__footerChip">{data.hero.chip}</span>
-            <span className="tod-lv-hero__footerCount">{data.hero.overflow}</span>
-          </div>
-        </article>
-
-        {/* 04 AUTHORITY */}
-        <section className="tod-lv-authority" aria-label="Authority">
-          <div className="tod-lv-authority__select">
-            <button type="button" className="tod-lv-authority__selectBtn" aria-pressed>
-              <TodIconCheck className="tod-ico tod-lv-authority__selectCheck" />
-              {data.selectActions.mobile.label}
-            </button>
-            <span className="tod-lv-authority__selectState">{data.selectActions.mobile.state}</span>
-          </div>
-          <button type="button" className="tod-lv-authority__ghost">
-            {data.selectActions.desktop.label}
-          </button>
-
-          <div className="tod-lv-pair">
-            <button
-              type="button"
-              className="tod-lv-pair__head"
-              aria-expanded={state.authorityPairOpen}
-              onClick={actions.toggleAuthorityPair}
-            >
-              {data.authorityPair.title}
-              <TodIconChevronUp
-                className={`tod-ico tod-lv-pair__caret${state.authorityPairOpen ? '' : ' is-closed'}`}
-              />
-            </button>
-            <div className="tod-lv-pair__body" hidden={!state.authorityPairOpen}>
-              <div className="tod-lv-pair__row tod-lv-pair__row--mobile">
-                <span className="tod-lv-pair__label">{data.authorityPair.mobile.label}</span>
-                <span className="tod-lv-pair__version">{data.authorityPair.mobile.version}</span>
-                <span className="tod-lv-pair__state">{data.authorityPair.mobile.state}</span>
+        </section>          {/* 05 MAIN_HERO + 06 AUTHORITY_RAIL */}
+          <section className="tod-lv-herorow" aria-label="Active concept and authority controls">
+            <article className="tod-lv-hero">
+              <div className="tod-lv-hero__eyebrow">
+                <span>{data.hero.eyebrowLeft}</span>
+                <span className="tod-lv-hero__eyebrowRight">
+                  <span>{data.hero.eyebrowCentre}</span>
+                  <span>{data.hero.eyebrowRight}</span>
+                </span>
               </div>
-              <div className="tod-lv-pair__row tod-lv-pair__row--desktop">
-                <span className="tod-lv-pair__label">{data.authorityPair.desktop.label}</span>
-                <span className="tod-lv-pair__version">{data.authorityPair.desktop.version}</span>
-                <button type="button" className="tod-lv-pair__replace">
-                  {data.authorityPair.desktop.action}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {data.railActions.map((action) => (
-            <button
-              key={action.id}
-              type="button"
-              className={`tod-lv-authority__action tod-lv-authority__action--${action.tone}${
-                action.lock ? ' tod-lv-authority__action--lock' : ''
-              }`}
-            >
-              {action.lock ? <TodIconLock className="tod-ico tod-lv-authority__lockIco" /> : null}
-              {action.lines ? (
-                <span className="tod-lv-authority__actionLines">
-                  {action.lines.map((line) => (
+              <h1 className="tod-lv-hero__headline">
+                {data.hero.headline.map((line) => (
+                  <span key={line} className="tod-lv-hero__headlineLine">
+                    <span className="tod-lv-hero__headlineInk">{line}</span>
+                  </span>
+                ))}
+              </h1>
+              <p className="tod-lv-hero__standfirst">
+                {data.hero.standfirst.map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </p>
+              <LvArchivalPlate className="tod-lv-hero__plate" />
+              <div className="tod-lv-hero__footer">
+                <span className="tod-lv-hero__footerBlock">
+                  {data.hero.footerLeft.map((line) => (
                     <span key={line}>{line}</span>
                   ))}
                 </span>
-              ) : (
-                action.label
-              )}
-            </button>
-          ))}
-        </section>
+                <span className="tod-lv-hero__footerPip" aria-hidden="true">
+                  <TodIconChevronRight className="tod-ico" />
+                </span>
+                <span className="tod-lv-hero__footerBlock">
+                  {data.hero.footerMid.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </span>
+                <span className="tod-lv-hero__footerChip">{data.hero.chip}</span>
+                <span className="tod-lv-hero__footerCount">{data.hero.overflow}</span>
+              </div>
+            </article>
 
-        {/* 05 CANDIDATE GALLERY */}
-        <section className="tod-lv-gallery" aria-label={data.gallery.title}>
-          <header className="tod-lv-gallery__head">
-            <h2 className="tod-lv-gallery__title">{data.gallery.title}</h2>
-            <button type="button" className="tod-lv-gallery__compare">
-              {data.gallery.compare}
-              <TodIconCompare className="tod-ico tod-lv-gallery__compareIco" />
-            </button>
-          </header>
-          <div className="tod-lv-gallery__body">
-            <div className="tod-lv-gallery__rail" ref={galleryRef}>
-              {data.candidates.map((candidate) => {
-                const active = candidate.id === state.candidateId;
+            <aside className="tod-lv-rail" aria-label="Authority rail">
+              <div className="tod-lv-rail__select">
+                <button type="button" className="tod-lv-rail__selectBtn" aria-pressed>
+                  <TodIconCheck className="tod-ico tod-lv-rail__selectCheck" />
+                  {data.selectActions.mobile.label}
+                </button>
+                <span className="tod-lv-rail__selectState">
+                  {data.selectActions.mobile.state}
+                </span>
+              </div>
+              <button type="button" className="tod-lv-rail__ghost">
+                {data.selectActions.desktop.label}
+              </button>
+
+              <section className="tod-lv-pair">
+                <button
+                  type="button"
+                  className="tod-lv-pair__head"
+                  aria-expanded={state.authorityPairOpen}
+                  onClick={() => actions.toggleAuthorityPair()}
+                >
+                  {data.authorityPair.title}
+                  <TodIconChevronUp className={`tod-ico tod-lv-pair__caret${state.authorityPairOpen ? '' : ' is-closed'}`} />
+                </button>
+                <div className="tod-lv-pair__body" hidden={!state.authorityPairOpen}>
+                  <div className="tod-lv-pair__row tod-lv-pair__row--mobile">
+                    <span className="tod-lv-pair__label">{data.authorityPair.mobile.label}</span>
+                    <span className="tod-lv-pair__version">
+                      {data.authorityPair.mobile.version}
+                    </span>
+                    <div className="tod-lv-pair__thumb tod-lv-pair__thumb--mobile">
+                      <span className="tod-lv-pair__thumbCopy">
+                        <span>THE SIGNAL</span>
+                        <span>IS THE INDEX</span>
+                      </span>
+                      <LvArchivalPlate className="tod-lv-pair__thumbPlate" marks={false} />
+                    </div>
+                    <span className="tod-lv-pair__state">
+                      {data.authorityPair.mobile.state}
+                    </span>
+                  </div>
+                  <div className="tod-lv-pair__row tod-lv-pair__row--desktop">
+                    <span className="tod-lv-pair__label">{data.authorityPair.desktop.label}</span>
+                    <span className="tod-lv-pair__version">
+                      {data.authorityPair.desktop.version}
+                    </span>
+                    <div className="tod-lv-pair__thumb tod-lv-pair__thumb--desktop">
+                      <span className="tod-lv-pair__thumbCopy">
+                        <span>THE SIGNAL</span>
+                        <span>IS THE INDEX</span>
+                      </span>
+                      <span className="tod-lv-pair__thumbWedge" aria-hidden="true" />
+                    </div>
+                    <button type="button" className="tod-lv-pair__replace">
+                      {data.authorityPair.desktop.action}
+                    </button>
+                  </div>
+                </div>
+              </section>
+
+              {data.railActions.map((action) => (
+                <button
+                  key={action.id}
+                  type="button"
+                  className={`tod-lv-rail__action tod-lv-rail__action--${action.tone}${
+                    action.lock ? ' tod-lv-rail__action--lock' : ''
+                  }`}
+                >
+                  {action.lock ? <TodIconLock className="tod-ico tod-lv-rail__lockIco" /> : null}
+                  {action.lines ? (
+                    <span className="tod-lv-rail__actionLines">
+                      {action.lines.map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                    </span>
+                  ) : (
+                    action.label
+                  )}
+                </button>
+              ))}
+            </aside>
+          </section>
+
+          {/* 07 CANDIDATE_GALLERY */}
+          <section className="tod-lv-gallery" aria-label={data.gallery.title}>
+            <header className="tod-lv-gallery__head">
+              <h2 className="tod-lv-gallery__title">{data.gallery.title}</h2>
+              <button type="button" className="tod-lv-gallery__compare">
+                {data.gallery.compare}
+                <TodIconCompare className="tod-ico tod-lv-gallery__compareIco" />
+              </button>
+            </header>
+            <div className="tod-lv-gallery__body">
+              <div className="tod-lv-gallery__rail" ref={galleryRef}>
+                {data.candidates.map((candidate) => {
+                  const active = candidate.id === state.candidateId;
+                  return (
+                    <button
+                      key={candidate.id}
+                      type="button"
+                      className={`tod-lv-card${active ? ' is-active' : ''}`}
+                      aria-pressed={active}
+                      onClick={() => actions.selectCandidate(candidate.id)}
+                    >
+                      {candidate.versionTag === 'none' ? null : (
+                        <span className={`tod-lv-card__version tod-lv-card__version--${candidate.versionTag}`}>
+                          {candidate.version}
+                        </span>
+                      )}
+                      {active ? (
+                        <span className="tod-lv-card__tick" aria-hidden="true">
+                          <TodIconCheck className="tod-ico" />
+                        </span>
+                      ) : null}
+                      <LvCandidateSurface surface={candidate.surface} />
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                type="button"
+                className="tod-lv-gallery__next"
+                aria-label="Show more concept candidates"
+                onClick={scrollGallery}
+              >
+                <TodIconChevronRight className="tod-ico" />
+              </button>
+            </div>
+
+            {/* 08 CANDIDATE_ACTION_ROW — inside the gallery panel in the golden */}
+            <div className="tod-lv-actions" role="group" aria-label="Concept candidate actions">
+              {data.candidateActions.map((action) => {
+                const Icon = ACTION_ICONS[action.icon];
                 return (
-                  <button
-                    key={candidate.id}
-                    type="button"
-                    className={`tod-lv-card${active ? ' is-active' : ''}`}
-                    aria-pressed={active}
-                    onClick={() => actions.selectCandidate(candidate.id)}
-                  >
-                    {candidate.versionTag === 'none' ? null : (
-                      <span className={`tod-lv-card__version tod-lv-card__version--${candidate.versionTag}`}>
-                        {candidate.version}
-                      </span>
-                    )}
-                    {active ? (
-                      <span className="tod-lv-card__tick" aria-hidden="true">
-                        <TodIconCheck className="tod-ico" />
-                      </span>
-                    ) : null}
-                    <LvCandidateSurface surface={candidate.surface} />
+                  <button key={action.id} type="button" className="tod-lv-actions__cell">
+                    <Icon className="tod-ico tod-lv-actions__ico" />
+                    {action.label}
                   </button>
                 );
               })}
             </div>
-            <button
-              type="button"
-              className="tod-lv-gallery__next"
-              aria-label="Show more concept candidates"
-              onClick={scrollGallery}
-            >
-              <TodIconChevronRight className="tod-ico" />
-            </button>
-          </div>
-          <p className="tod-lv-gallery__selected">
-            SELECTED · {selectedCandidate.id.toUpperCase()} / {selectedCandidate.version}
-          </p>
-        </section>
+          </section>
 
-        {/* 06 CANDIDATE ACTIONS */}
-        <div className="tod-lv-actions" role="group" aria-label="Concept candidate actions">
-          {data.candidateActions.map((action) => {
-            const Icon = ACTION_ICONS[action.icon];
-            return (
-              <button key={action.id} type="button" className="tod-lv-actions__cell">
-                <Icon className="tod-ico tod-lv-actions__ico" />
-                {action.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 07 STRUCTURED OUTPUT */}
-        <section className="tod-lv-out" aria-label={data.outputTitle}>
-          <header className="tod-lv-out__head">
-            <h2 className="tod-lv-out__title">{data.outputTitle}</h2>
-          </header>
-          <div className="tod-lv-out__mods">
-            {data.outputColumns.map((column) => (
-              <div key={column.id} className="tod-lv-out__mod">
-                <span className="tod-lv-out__label">{column.label}</span>
-                <span className="tod-lv-out__lines">
-                  <span>{column.lines[0]}</span>
-                  <span>{column.lines[1]}</span>
-                </span>
-                <LvOutputPreview column={column} />
-                <span className="tod-lv-out__source">
-                  <span className="tod-lv-out__sourceText">{column.source}</span>
-                  {column.preview === 'functions' ? (
-                    <TodIconDocGear className="tod-ico tod-lv-out__sourceIco" />
-                  ) : (
-                    <TodIconDoc className="tod-ico tod-lv-out__sourceIco" />
-                  )}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 08 PIPELINE / READINESS */}
-        <section className="tod-lv-pipe" aria-label={data.pipelineTitle}>
-          <header className="tod-lv-pipe__head">
-            <h2 className="tod-lv-pipe__title">{data.pipelineTitle}</h2>
-          </header>
-          <div className="tod-lv-pipe__mods">
-            <div className="tod-lv-pipe__mod tod-lv-pipe__mod--readiness">
-              <span className="tod-lv-pipe__label">{data.readiness.label}</span>
-              <div className="tod-lv-pipe__gauge">
-                <svg viewBox="0 0 68 68" className="tod-lv-pipe__ring" aria-hidden="true">
-                  <circle cx="34" cy="34" r="30" className="tod-lv-pipe__ringTrack" />
-                  <circle
-                    cx="34"
-                    cy="34"
-                    r="30"
-                    className="tod-lv-pipe__ringValue"
-                    strokeDasharray={readinessDash.circumference}
-                    strokeDashoffset={readinessDash.offset}
-                  />
-                </svg>
-                <span className="tod-lv-pipe__gaugeValue">{data.readiness.percent}%</span>
-                <span className="tod-lv-pipe__gaugeState">{data.readiness.state}</span>
-              </div>
-              <span className="tod-lv-pipe__compiler">
-                {data.readiness.compiler}
-                <span className="tod-lv-pipe__compilerState">{data.readiness.compilerState}</span>
-                <span className="tod-dot tod-dot--green" aria-hidden="true" />
-              </span>
-            </div>
-
-            <div className="tod-lv-pipe__mod tod-lv-pipe__mod--checks">
-              <span className="tod-lv-pipe__label">{data.readiness.checksLabel}</span>
-              <ul className="tod-lv-pipe__checks">
-                {data.checks.map((check) => (
-                  <li key={check.id}>
-                    <span>{check.label}</span>
-                    {check.state === 'pass' ? (
-                      <TodIconCheckCircle className="tod-ico tod-lv-pipe__checkPass" />
+          {/* 09 STRUCTURED_OUTPUT_REVIEW */}
+          <section className="tod-lv-out" aria-label={data.outputTitle}>
+            <header className="tod-lv-out__head">
+              <h2 className="tod-lv-out__title">{data.outputTitle}</h2>
+            </header>
+            <div className="tod-lv-out__cols">
+              {data.outputColumns.map((column) => (
+                <div key={column.id} className="tod-lv-out__col">
+                  <span className="tod-lv-out__label">{column.label}</span>
+                  <span className="tod-lv-out__lines">
+                    <span>{column.lines[0]}</span>
+                    <span>{column.lines[1]}</span>
+                  </span>
+                  <LvOutputPreview column={column} />
+                  <span className="tod-lv-out__source">
+                    <span className="tod-lv-out__sourceText">{column.source}</span>
+                    {column.preview === 'functions' ? (
+                      <TodIconDocGear className="tod-ico tod-lv-out__sourceIco" />
                     ) : (
-                      <TodIconWarnCircle className="tod-ico tod-lv-pipe__checkWarn" />
+                      <TodIconDoc className="tod-ico tod-lv-out__sourceIco" />
                     )}
-                  </li>
-                ))}
-              </ul>
-              <button type="button" className="tod-lv-pipe__details">
-                {data.readiness.viewDetails}
-              </button>
-            </div>
-
-            <div className="tod-lv-pipe__mod tod-lv-pipe__mod--status">
-              <span className="tod-lv-pipe__label">{data.readiness.statusLabel}</span>
-              <ul className="tod-lv-pipe__status">
-                {data.statusRows.map((row) => (
-                  <li key={row.id}>
-                    <span>{row.label}</span>
-                    <span className="tod-lv-pipe__statusValue">{row.value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="tod-lv-pipe__mod tod-lv-pipe__mod--next">
-              <span className="tod-lv-pipe__label">{data.nextAction.label}</span>
-              <p className="tod-lv-pipe__nextCopy">
-                {data.nextAction.lines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </p>
-              <button type="button" className="tod-lv-pipe__primary">
-                {data.nextAction.primary}
-              </button>
-              {data.nextAction.secondary.map((label) => (
-                <button key={label} type="button" className="tod-lv-pipe__secondary">
-                  {label}
-                </button>
+                  </span>
+                </div>
               ))}
             </div>
+          </section>
+
+          {/* 10 PIPELINE_READINESS */}
+          <section className="tod-lv-pipe" aria-label={data.pipelineTitle}>
+            <header className="tod-lv-pipe__head">
+              <h2 className="tod-lv-pipe__title">{data.pipelineTitle}</h2>
+            </header>
+            <div className="tod-lv-pipe__cols">
+              <div className="tod-lv-pipe__col tod-lv-pipe__col--readiness">
+                <span className="tod-lv-pipe__label">{data.readiness.label}</span>
+                <div className="tod-lv-pipe__gauge">
+                  <svg viewBox="0 0 68 68" className="tod-lv-pipe__ring" aria-hidden="true">
+                    <circle cx="34" cy="34" r="30" className="tod-lv-pipe__ringTrack" />
+                    <circle
+                      cx="34"
+                      cy="34"
+                      r="30"
+                      className="tod-lv-pipe__ringValue"
+                      strokeDasharray={readinessDash.circumference}
+                      strokeDashoffset={readinessDash.offset}
+                    />
+                  </svg>
+                  <span className="tod-lv-pipe__gaugeValue">{data.readiness.percent}%</span>
+                  <span className="tod-lv-pipe__gaugeState">{data.readiness.state}</span>
+                </div>
+                <span className="tod-lv-pipe__compiler">
+                  {data.readiness.compiler}
+                  <span className="tod-lv-pipe__compilerState">
+                    {data.readiness.compilerState}
+                  </span>
+                  <span className="tod-dot tod-dot--green" aria-hidden="true" />
+                </span>
+              </div>
+
+              <div className="tod-lv-pipe__col tod-lv-pipe__col--checks">
+                <span className="tod-lv-pipe__label">{data.readiness.checksLabel}</span>
+                <ul className="tod-lv-pipe__checks">
+                  {data.checks.map((check) => (
+                    <li key={check.id}>
+                      <span>{check.label}</span>
+                      {check.state === 'pass' ? (
+                        <TodIconCheckCircle className="tod-ico tod-lv-pipe__checkPass" />
+                      ) : (
+                        <TodIconWarnCircle className="tod-ico tod-lv-pipe__checkWarn" />
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <button type="button" className="tod-lv-pipe__details">
+                  {data.readiness.viewDetails}
+                </button>
+              </div>
+
+              <div className="tod-lv-pipe__col tod-lv-pipe__col--status">
+                <span className="tod-lv-pipe__label">{data.readiness.statusLabel}</span>
+                <ul className="tod-lv-pipe__status">
+                  {data.statusRows.map((row) => (
+                    <li key={row.id}>
+                      <span>{row.label}</span>
+                      <span className="tod-lv-pipe__statusValue">{row.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="tod-lv-pipe__col tod-lv-pipe__col--next">
+                <span className="tod-lv-pipe__label">{data.nextAction.label}</span>
+                <p className="tod-lv-pipe__nextCopy">
+                  {data.nextAction.lines.map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </p>
+                <button type="button" className="tod-lv-pipe__primary">
+                  {data.nextAction.primary}
+                </button>
+                {data.nextAction.secondary.map((label) => (
+                  <button key={label} type="button" className="tod-lv-pipe__secondary">
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </section>
+
+        <div
+          className="tod-lv-concept"
+          id="tod-lv-concept-panel"
+          role="tabpanel"
+          aria-labelledby={`tod-lv-tab-${state.recordTabIndex}`}
+        >
+          <div className="tod-lv-concept__thumb">
+            <span className="tod-lv-concept__thumbVersion">V1.3</span>
+            <span className="tod-lv-concept__thumbCopy">
+              <span>THE SIGNAL</span>
+              <span>IS THE INDEX</span>
+            </span>
+            <span className="tod-lv-concept__thumbStandfirst">
+              <span>CULTURE AS EVIDENCE.</span>
+              <span>IDEAS AS INDEX.</span>
+              <span>NDXBOOK.</span>
+            </span>
+            <LvArchivalPlate className="tod-lv-concept__thumbPlate" marks={false} />
           </div>
-        </section>
+          <dl className="tod-lv-concept__fields">
+            {data.conceptFields.map((field) => (
+              <div key={field.label} className="tod-lv-concept__field">
+                <dt>{field.label}</dt>
+                <dd>{field.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="tod-lv-concept__amendment">
+            <div className="tod-lv-concept__amendHead">
+              <span className="tod-lv-concept__amendTitle">{data.amendment.title}</span>
+              <span className="tod-lv-concept__amendChip">{data.amendment.chip}</span>
+            </div>
+            <dl className="tod-lv-concept__fields tod-lv-concept__fields--amend">
+              {data.amendment.fields.map((field) => (
+                <div key={field.label} className="tod-lv-concept__field">
+                  <dt>{field.label}</dt>
+                  <dd>{field.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <button type="button" className="tod-lv-concept__view">
+            {data.amendment.action}
+          </button>
+        </div>
       </div>
     </main>
   );
 }
 
-/** LIST record: shared tabs + a digestible concept record. Natural height — the flex shell pins the dock. */
+/** LIST record: transplanted Spark tabs + concept digest. Natural height. */
 export function TwinOpusDirectListRecord({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
   const { data, state, actions } = workspace;
 
   return (
     <div className="tod-lv-record" data-testid="twin-opus-direct-list-record">
-      <div className="tod-lv-record__tabs" role="tablist" aria-label="Concept record">
-        {data.conceptTabs.map((tab, index) => {
-          const Icon = RECORD_TAB_ICONS[index] ?? TodIconDoc;
-          return (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={state.recordTabIndex === index}
-              tabIndex={state.recordTabIndex === index ? 0 : -1}
-              className={`tod-lv-record__tab${state.recordTabIndex === index ? ' is-active' : ''}`}
-              onClick={() => actions.selectRecordTab(index)}
-            >
-              <Icon className="tod-ico tod-lv-record__tabIco" />
-              {tab}
-            </button>
-          );
-        })}
-      </div>
-      <dl className="tod-lv-record__fields">
-        {data.conceptFields.map((field) => (
-          <div key={field.label} className="tod-lv-record__field">
-            <dt>{field.label}</dt>
-            <dd>{field.value}</dd>
+        <div className="tod-lv-tabs">
+          <span className="tod-lv-tabs__handle" aria-hidden="true" />
+          <div className="tod-lv-tabs__list" role="tablist" aria-label="Concept record">
+            {data.conceptTabs.map((tab, index) => (
+              <button
+                key={tab}
+                type="button"
+                role="tab"
+                id={`tod-lv-tab-${index}`}
+                aria-selected={state.recordTabIndex === index}
+                aria-controls="tod-lv-concept-panel"
+                tabIndex={state.recordTabIndex === index ? 0 : -1}
+                className={`tod-lv-tabs__tab${state.recordTabIndex === index ? ' is-active' : ''}`}
+                onClick={() => actions.selectRecordTab(index)}
+              >
+                {tab}
+              </button>
+            ))}
           </div>
-        ))}
-      </dl>
-      <div className="tod-lv-record__amendment">
-        <span className="tod-lv-record__amendTitle">{data.amendment.title}</span>
-        <span className="tod-lv-record__amendChip">{data.amendment.chip}</span>
-        <span className="tod-lv-record__amendMeta">
-          {data.amendment.fields[0].value} · {data.amendment.fields[2].value}
-        </span>
-        <button type="button" className="tod-lv-record__view">
-          {data.amendment.action}
-        </button>
-      </div>
+        </div>
+
     </div>
   );
 }

@@ -370,25 +370,32 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
   });
 });
 
-describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — Spark digest renderer', () => {
+describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark renderer', () => {
   const listView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
   const listCss = readRepo('src/site00/styles/site00-twin-opus-list.css');
 
-  it('renders the digest sequence in its own namespace', () => {
+  it('renders the transplanted Spark sequence in its own namespace', () => {
     for (const marker of [
-      'tod-lv-context',
       'tod-lv-band',
+      'tod-lv-device',
       'tod-lv-hero',
-      'tod-lv-authority',
+      'tod-lv-rail',
+      'tod-lv-pair',
       'tod-lv-gallery',
+      'tod-lv-card',
       'tod-lv-actions',
       'tod-lv-out',
       'tod-lv-pipe',
-      'tod-lv-record',
+      'tod-lv-tabs',
+      'tod-lv-concept',
     ]) {
       expect(listView).toContain(marker);
       expect(listCss).toContain(marker);
     }
+    // No source-namespace remnants and no R1 inventions survive.
+    expect(listCss).not.toContain('tsr-');
+    expect(listView).not.toContain('tsr-');
+    expect(listCss).not.toContain('01 ·');
   });
 
   it('consumes shared state and shared actions only', () => {
@@ -425,7 +432,7 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — Spark digest renderer', 
   });
 
   it('reuses the opus asset and icon family instead of inventing one', () => {
-    expect(listView).toContain('TodArchivalPlate');
+    expect(listView).toContain('LvArchivalPlate');
     expect(listView).toContain('TWIN_OPUS_DIRECT_PAPER_TEXTURE');
     expect(listView).toContain('TwinOpusDirectIcons');
     expect(listCss).toContain('var(--tod-lime)');
@@ -440,38 +447,22 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — Spark digest renderer', 
     expect(page).toContain('site00-twin-opus-list.css');
   });
 
-  it('adapts list grouping on wider viewports without becoming canonical', () => {
-    expect(listCss).toContain('@media (min-width: 641px)');
-    expect(listCss).toContain('tod-lv-out__mods');
-    expect(listView).not.toContain('tod-herorow');
+  it('scales source values x1.969 so LIST matches the source at 390', () => {
+    // Hero headline clamp(52px, 15.5vw, 76px) x 768/390, mobile card 210px wide.
+    expect(listCss).toContain('clamp(102.4px, 30.5vw, 149.7px)');
+    expect(listCss).toContain('flex: 0 0 413.5px');
+    expect(listCss).toContain('.tod-screen[data-view-mode="list"] .tod-band');
   });
 
-  it('restores the Spark digest grammar (R1), not opus panels stacked', () => {
-    // Numbered inspection sequence is the LIST signature.
-    for (const eyebrow of [
-      "'01 · TARGET / VIEWPORT / STAGE'",
-      "'04 · CANDIDATES'",
-      "'06 · STRUCTURED OUTPUT'",
-      "'07 · PIPELINE / READINESS'",
-      "'08 · CONCEPT RECORD'",
-    ]) {
-      expect(listCss).toContain(eyebrow);
-    }
-    // Output and pipeline are independent digest cards, stacked at every width.
-    expect(listCss).toContain('.tod-lv-out__mods {\n  display: flex;\n  flex-direction: column;');
-    expect(listCss).toContain('.tod-lv-pipe__mods {\n  display: flex;\n  flex-direction: column;');
-    // Digest type and controls are larger than the canonical micro-scale.
-    expect(listCss).toContain('font-size: 64px');
-    expect(listCss).toContain('min-height: 48px');
-    expect(listCss).toContain('min-height: 58px');
-  });
-
-  it('keeps the record naturally sized so the flex shell pins the dock', () => {
-    const recordRule = listCss.slice(
-      listCss.indexOf('.tod-lv-record {'),
-      listCss.indexOf('}', listCss.indexOf('.tod-lv-record {')),
+  it('keeps the concept digest in the scrolling body and the record strip compact', () => {
+    const bodyFn = listView.slice(
+      listView.indexOf('export function TwinOpusDirectListBody'),
+      listView.indexOf('export function TwinOpusDirectListRecord'),
     );
-    expect(recordRule).not.toContain('height: 126.6px');
-    expect(recordRule).not.toContain('flex: 0 0');
+    const recordFn = listView.slice(listView.indexOf('export function TwinOpusDirectListRecord'));
+    expect(bodyFn).toContain('tod-lv-concept');
+    expect(recordFn).not.toContain('className="tod-lv-concept"');
+    expect(recordFn).toContain('tod-lv-tabs');
+    expect(listCss).not.toContain('126.6');
   });
 });
