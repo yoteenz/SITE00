@@ -277,6 +277,7 @@ export const TWIN_OPUS_DIRECT_PAPER_TEXTURE =
  * Paths only — live copy above stays Opus-owned and must not change.
  */
 export const TWIN_OPUS_DIRECT_ASSETS = {
+  hero: '/site00/twin-opus-direct/tod-hero-plate.jpg',
   hand: '/site00/twin-opus-direct/tod-hand-plate.jpg',
   form: '/site00/twin-opus-direct/tod-form.png',
   overlay: '/site00/twin-opus-direct/tod-overlay-001.png',

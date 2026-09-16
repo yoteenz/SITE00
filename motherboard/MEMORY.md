@@ -9827,3 +9827,15 @@ Summary of the **whole conversation so far** in this chat: Grok pairing sprints 
 - **Decisions / outcomes:** Cropped each live `[data-tod-slot]` box from the golden and wrote those rasters over `public/site00/twin-opus-direct/*` (plus `tod-grain-plate.jpg` for candidate 2). CSS only `object-fit: fill` and hide of baked-in DOM duplicates. Hero 517.9×395.4 / plate 204.6×269.1 / gallery 195.3 unchanged. Plate-vs-golden mean abs ~3.8. No broken images. Viewport / card / tab clicks still set `is-active`.
 - **Changes:** plate JPEGs/PNGs; `TWIN_OPUS_DIRECT_ASSETS.grain`; grain `src`; photo-fit + hide rules; tests length 9; CORE row; this MEMORY entry.
 - **Conventions:** For asset-refresh sprints, crop the golden at live slot coordinates in the shared 768×1376 space. Do not generate a new AI family. Hide DOM marks that the crop already contains. Do not reorder gallery cards to match golden semantics — match the pixels at that screen position.
+
+---
+
+## 2026-09-16 — GROK-HERO-ASSET2R1 hero-only xerox plate
+
+Summary of the **whole conversation so far** in this chat: Grok pairing sprints through ASSET-OPUS1, HERO-TEXT1 (rejected Anton shrink), HERO-TEXT-R2 (3-line Inter Tight), and GROK-ASSET2 (golden crops). Founder then ran **GROK-HERO-ASSET2R1**: refresh only the main hero visual. Do not touch gallery, rail thumbs, structured output, headline, or geometry.
+
+- **Context:** Target `/projects/ndxbook/design/twin-opus-direct`. ASSET2’s hero was a 204×269 golden CSS-box crop, 3× upscaled, `object-fit: fill`, irregular clip-path — soft, black-barred, torn edges. Shared `tod-hand-plate.jpg` also fed thumbs; overwriting it would mutate other regions.
+- **Topics covered:** Phase 1 audit vs 768 golden. Existing sources: ASSET2 crop (soft), Sol 3D hand (wrong), Grok grid-hand (wrong). No exact high-res approved plate. Faithful regeneration from the golden crop/hero card.
+- **Decisions / outcomes:** New `tod-hero-plate.jpg` (864×1152 xerox, P.137/P.208/P.311). Hero `TodArchivalPlate` takes `src`/`slot` so thumbs keep `tod-hand-plate.jpg`. Hero clip-path removed so the plate is a rectangle like the golden. Cover + `object-position: 68% 30%`. Hero 517.9×395.4 / plate 204.6×269.1 unchanged. Gallery 195.3 unchanged. No list/canonical view.
+- **Changes:** `tod-hero-plate.jpg`; `TWIN_OPUS_DIRECT_ASSETS.hero`; hero-only src; `.tod-hero__plate` clip/fit; tests; CORE; this MEMORY entry.
+- **Conventions:** Hero-only asset micro-passes must not overwrite a shared plate file. Give the hero its own path. Clip-path on the hero plate is crop/frame, not page structure — match the golden rectangle.

@@ -118,15 +118,25 @@ function useFullBleedShell() {
 }
 
 /** Archival plate: xerox hand photograph. Wrapper / marks API stays Opus-owned. */
-function TodArchivalPlate({ className, marks = true }: { className?: string; marks?: boolean }) {
+function TodArchivalPlate({
+  className,
+  marks = true,
+  src = TWIN_OPUS_DIRECT_ASSETS.hand,
+  slot = 'hand-plate',
+}: {
+  className?: string;
+  marks?: boolean;
+  src?: string;
+  slot?: string;
+}) {
   return (
     <div className={className ? `tod-plate tod-plate--photo ${className}` : 'tod-plate tod-plate--photo'}>
       <img
         className="tod-plate__photo"
-        src={TWIN_OPUS_DIRECT_ASSETS.hand}
+        src={src}
         alt=""
         draggable={false}
-        data-tod-slot="hand-plate"
+        data-tod-slot={slot}
       />
       {marks ? (
         <div className="tod-plate__marks" aria-hidden="true">
@@ -475,7 +485,11 @@ export function TwinOpusDirectScreen() {
                     <span key={line}>{line}</span>
                   ))}
                 </p>
-                <TodArchivalPlate className="tod-hero__plate" />
+                <TodArchivalPlate
+                  className="tod-hero__plate"
+                  src={TWIN_OPUS_DIRECT_ASSETS.hero}
+                  slot="hero-plate"
+                />
                 <div className="tod-hero__footer">
                   <span className="tod-hero__footerBlock">
                     {TWIN_OPUS_DIRECT_HERO.footerLeft.map((line) => (
