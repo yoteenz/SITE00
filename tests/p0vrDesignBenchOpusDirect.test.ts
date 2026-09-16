@@ -229,6 +229,17 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — live text fidelity', () => {
   });
 });
 
+describe('P0.VR.DESIGNBENCH.HERO-TEXT1 — hero headline treatment', () => {
+  it('keeps the golden two-line wording and poster condensation', () => {
+    expect(TWIN_OPUS_DIRECT_HERO.headline).toEqual(['THE SIGNAL', 'IS THE INDEX']);
+    expect(css).toContain('.tod-hero__headline');
+    expect(css).toMatch(/\.tod-hero__headlineInk\s*\{[^}]*scaleX\(0\.694\)/);
+    expect(css).toContain('letter-spacing: -0.018em');
+    expect(css).toContain('#f3ebe1');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_HERO.headline.map');
+  });
+});
+
 describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — accessibility', () => {
   it('uses real controls with state exposed to assistive tech', () => {
     expect(screen).toContain('aria-pressed');
