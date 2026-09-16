@@ -2432,3 +2432,117 @@
   color: var(--tod-red);
   font-weight: var(--tod-weight-ui);
 }
+
+/* P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 — approved Grok plate presentation.
+   Restored from GROK-ASSET-OPUS1 (e6dff158), which never reached main. Crop and
+   framing only: slot identity lives in twinOpusDirectAssetManifest.ts. */
+
+.tod-plate__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 38%;
+  display: block;
+}
+
+.tod-plate--photo .tod-plate__paper,
+.tod-plate--photo .tod-plate__rules,
+.tod-plate--photo .tod-plate__hand,
+.tod-plate--photo .tod-plate__marks,
+.tod-plate--photo::after {
+  display: none;
+}
+
+.tod-hero__plate .tod-plate__photo {
+  object-position: 48% 36%;
+}
+
+.tod-card__plate .tod-plate__photo,
+.tod-pair__thumbPlate .tod-plate__photo,
+.tod-concept__thumbPlate .tod-plate__photo {
+  object-position: 50% 34%;
+}
+
+.tod-pair__thumbPhoto {
+  position: absolute;
+  left: 36px;
+  top: 0;
+  width: 68px;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 34%;
+  display: block;
+}
+
+.tod-pair__thumb:has(.tod-pair__thumbPhoto) .tod-pair__thumbWedge {
+  display: none;
+}
+
+.tod-card__raster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.tod-card__raster--grain {
+  object-position: 52% 36%;
+}
+
+.tod-card__raster--collage {
+  object-position: 72% 48%;
+  z-index: 1;
+}
+
+.tod-card__surface--collage .tod-card__collageCopy,
+.tod-card__surface--collage .tod-card__stamp {
+  display: none;
+}
+
+.tod-card__surface--collage .tod-card__stack,
+.tod-card__surface--collage .tod-card__sheet {
+  opacity: 0;
+}
+
+.tod-card__raster--archive {
+  object-position: 50% 50%;
+  z-index: 0;
+}
+
+.tod-card__archiveInk,
+.tod-card__archiveChip {
+  z-index: 2;
+}
+
+.tod-out__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+
+.tod-out__preview--manifest .tod-out__photo {
+  object-position: 50% 18%;
+}
+
+.tod-out__preview--blueprint .tod-out__photo {
+  object-position: 50% 50%;
+}
+
+.tod-out__preview--overlay .tod-out__photo {
+  object-position: 82% 70%;
+}
+
+.tod-out__photo--evidence {
+  object-fit: contain;
+  object-position: 50% 50%;
+  background: #111;
+}
