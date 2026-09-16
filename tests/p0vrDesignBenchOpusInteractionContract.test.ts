@@ -207,8 +207,8 @@ describe('P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1 — contract discipline',
     expect(parity).not.toContain('| FAIL |');
   });
 
-  it('is documentation only — it declares no implementation', () => {
-    expect(contract.status).toBe('FOUNDER_APPROVAL_PENDING');
-    expect(contract.COMPOSER_PRECONDITIONS.join(' ')).toContain('founder approval');
+  it('documents productionized composer contract (P0.VR.DESIGN-PRODUCTION1)', () => {
+    expect(contract.status).toBe('COMPOSER_PRODUCTIONIZED');
+    expect(contract.COMPOSER_CONTRACT_STATUS).toBe('FROZEN_FOR_PRODUCTIONIZATION');
   });
 });

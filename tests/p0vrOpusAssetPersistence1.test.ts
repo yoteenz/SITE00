@@ -156,9 +156,11 @@ describe('P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 — persistence and storage'
     }
   });
 
-  it('keeps view mode the only persisted key on the route', () => {
-    const keys = workspace.match(/'site00:[^']+'/g) ?? [];
-    expect(keys).toEqual(["'site00:twin-opus-direct:view-mode:v1'"]);
+  it('keeps view mode the only sessionStorage key in the workspace hook', () => {
+    expect(workspace).toContain("VIEW_MODE_STORAGE_KEY = 'site00:twin-opus-direct:view-mode:v1'");
+    expect(workspace).toMatch(/sessionStorage\.setItem\(VIEW_MODE_STORAGE_KEY/);
+    expect(workspace).toMatch(/sessionStorage\.getItem\(VIEW_MODE_STORAGE_KEY/);
+    expect(workspace).not.toMatch(/sessionStorage\.(?:setItem|getItem)\([^)]*asset/i);
   });
 
   it('holds asset identity in module scope, so remount cannot mutate it', () => {
