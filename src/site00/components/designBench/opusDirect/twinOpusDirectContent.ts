@@ -285,4 +285,5 @@ export const TWIN_OPUS_DIRECT_ASSETS = {
   split001: '/site00/twin-opus-direct/tod-001-split.jpg',
   collage: '/site00/twin-opus-direct/tod-collage-plate.jpg',
   evidence: '/site00/twin-opus-direct/tod-evidence-pack.jpg',
+  grain: '/site00/twin-opus-direct/tod-grain-plate.jpg',
 } as const;

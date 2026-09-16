@@ -642,7 +642,8 @@
 }
 
 .tod-hero__plate .tod-plate__photo {
-  object-position: 48% 36%;
+  object-fit: fill;
+  object-position: 0 0;
 }
 
 .tod-card__plate .tod-plate__photo,
@@ -1204,11 +1205,13 @@
 }
 
 .tod-card__raster--grain {
-  object-position: 52% 36%;
+  object-fit: fill;
+  object-position: 0 0;
 }
 
 .tod-card__raster--collage {
-  object-position: 72% 48%;
+  object-fit: fill;
+  object-position: 0 0;
   z-index: 1;
 }
 
@@ -1218,13 +1221,15 @@
 }
 
 .tod-card__raster--archive {
-  object-position: 50% 50%;
+  object-fit: fill;
+  object-position: 0 0;
   z-index: 0;
 }
 
+.tod-card__archivePaper,
 .tod-card__archiveInk,
 .tod-card__archiveChip {
-  z-index: 2;
+  display: none;
 }
 
 .tod-card__surface--collage .tod-card__stack,
@@ -1775,26 +1780,26 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   display: block;
   z-index: 2;
 }
 
 .tod-out__preview--manifest .tod-out__photo {
-  object-position: 50% 18%;
+  object-position: 0 0;
 }
 
 .tod-out__preview--blueprint .tod-out__photo {
-  object-position: 50% 50%;
+  object-position: 0 0;
 }
 
 .tod-out__preview--overlay .tod-out__photo {
-  object-position: 82% 70%;
+  object-position: 0 0;
 }
 
 .tod-out__photo--evidence {
-  object-fit: contain;
-  object-position: 50% 50%;
+  object-fit: fill;
+  object-position: 0 0;
   background: #111;
 }
 
@@ -2346,4 +2351,27 @@
   bottom: 8.8px;
   height: 3px;
   background: var(--tod-lime);
+}
+
+/* GROK-ASSET2: hide DOM marks already baked into golden-cropped rasters. */
+.tod-card__surface--grain::after {
+  display: none;
+}
+.tod-card__surface--grain .tod-card__grid {
+  background-image: none;
+  background-color: transparent;
+  border-left: 0;
+}
+.tod-out__manifestTitle,
+.tod-out__manifestRule,
+.tod-out__manifestGrid,
+.tod-out__manifestStamp,
+.tod-out__blueGrid,
+.tod-out__blueCross,
+.tod-out__overlayPaper,
+.tod-out__overlayNote,
+.tod-out__overlayInk,
+.tod-out__overlayMark,
+.tod-out__evidenceTile {
+  display: none;
 }

@@ -144,7 +144,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — no raster cheat', () => {
   it('loads Grok rasters from the isolated opus-direct public folder via img tags', () => {
     const content = readRepo('src/site00/components/designBench/opusDirect/twinOpusDirectContent.ts');
     const assetPaths = Object.values(TWIN_OPUS_DIRECT_ASSETS);
-    expect(assetPaths).toHaveLength(8);
+    expect(assetPaths).toHaveLength(9);
     for (const assetPath of assetPaths) {
       expect(assetPath.startsWith('/site00/twin-opus-direct/')).toBe(true);
       expect(content).toContain(assetPath);
@@ -157,6 +157,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — no raster cheat', () => {
     expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.split001');
     expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.collage');
     expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.evidence');
+    expect(screen).toContain('TWIN_OPUS_DIRECT_ASSETS.grain');
     expect(css).not.toContain('/site00/twin-opus-direct/');
     expect(screen).not.toMatch(/style=\{\{\s*backgroundImage/);
   });
