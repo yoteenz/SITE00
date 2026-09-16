@@ -324,23 +324,19 @@ export function TwinOpusDirectScreen({
                       if (!item) return;
                       switch (item.id) {
                         case 'workspace':
-                          nav.goWorkspace();
+                          actions.goWorkspace();
                           break;
                         case 'design-history':
-                          nav.goSection('history');
+                          actions.goDesignHistory();
                           break;
                         case 'feature-change':
-                          nav.goSection('history');
+                          actions.goChangeHistory();
                           break;
                         case 'master-amendment':
-                          production.actions.openCreativeContext();
+                          actions.goMasterAmendment();
                           break;
                         case 'next-action':
-                          if (production.projection.buildEligible) {
-                            production.actions.runMoveToBuild();
-                          } else {
-                            production.actions.openReadinessReceipt();
-                          }
+                          actions.runContextualNextAction();
                           break;
                         default:
                           break;

@@ -10070,3 +10070,15 @@ Founder correction: secondary DESIGN surfaces must not render as full-screen bla
 - **Sections:** Production layout always mounts `TwinOpusDirectScreen`; section paths render in-shell via `DesignProductionSectionInShell` + embedded child shell (no full-page `Outlet` takeover).
 - **Tests/build:** `tests/p0vrDesignInheritance1.test.ts`; `npm run build` PASS. Cloud VM could not fully QA `/projects/ndxbook/design` (cold-start loader blank); verify on production ZIP or authenticated session.
 - **Founder next:** Deploy new cPanel ZIP from GitHub Release after merge.
+
+---
+
+## 2026-09-16 — P0.VR.DESIGN-INTERACTION-COVERAGE1 — wire all DESIGN workspace controls
+
+Element-level interaction audit + wiring so visible controls map to real behavior (inheritance1 shell preserved).
+
+- **Registry:** `designInteractionRegistry.ts` (43+ interactions) + `designInteractionEligibility.ts` (disabled reasons, contextual next action).
+- **Authority/gallery:** SELECT/PROMOTE viewport commands (`SELECT_GALLERY_CANDIDATE`, `SELECT_VIEWPORT_CANDIDATE`, `PROMOTE_VIEWPORT_MASTER`) with local fallback when API unavailable; hero rail, compare, inspect, fullscreen, review authority modal.
+- **UI:** `DesignArtifactFullscreenViewer`, new overlay panels (inspect/compare/structured/amendment), concept record tabs show tab-specific content, bottom nav uses contextual next action.
+- **Tests:** `tests/p0vrDesignInteractionCoverage1.test.ts`; build PASS.
+- **Founder next:** Full functional walkthrough on v523 ZIP; Railway redeploy if using server authority sync.

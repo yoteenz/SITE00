@@ -474,6 +474,71 @@
   color: var(--tod-ink-2, #45454a);
 }
 
+.tod-dcs-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 903;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 5, 5, 0.96);
+  color: #f4f4f4;
+  padding: env(safe-area-inset-top, 12px) 12px env(safe-area-inset-bottom, 12px);
+}
+
+.tod-dcs-fullscreen__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.tod-dcs-fullscreen__meta {
+  margin: 0 0 4px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: #9a9a9a;
+}
+
+.tod-dcs-fullscreen__title {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
+.tod-dcs-fullscreen__sub {
+  margin: 4px 0 0;
+  font-size: 10px;
+  color: #bdbdbd;
+}
+
+.tod-dcs-fullscreen__stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 12px 0;
+}
+
+.tod-dcs-fullscreen__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tod-out__previewBtn {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: inherit;
+}
+
 .tod-dcs-toast {
   position: fixed;
   left: 12px;

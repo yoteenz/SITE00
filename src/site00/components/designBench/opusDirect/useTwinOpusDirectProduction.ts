@@ -7,10 +7,19 @@ import {
   writeDesignProductionCache,
 } from '../../../../../shared/site00-design-workspace-production/designProductionCache.js';
 import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
+import {
+  transitionOpenPairReview,
+  transitionPromoteViewportMaster,
+  transitionSelectGalleryCandidate,
+  transitionSelectViewportCandidate,
+  transitionSubmitAuthorityReview,
+} from '../../../../../shared/site00-design-workspace-production/designProductionTransitions.js';
 import type {
   AuthorityReviewDecision,
   DesignProductionState,
   DesignProductionUiOverlay,
+  DesignProductionUiPayload,
+  DesignWorkspaceArtifactView,
   FounderActor,
 } from '../../../../../shared/site00-design-workspace-production/types.js';
 import { getCurrentUser, isAdminFounderAccount } from '../../../../utils/adminAuth';
@@ -51,11 +60,22 @@ export type TwinOpusDirectProductionActions = {
     spendConfirmationId: string;
     estimatedUsd: number;
   }) => void;
+  openReviewAuthority: () => void;
+  openFullscreenArtifact: (artifact: DesignWorkspaceArtifactView) => void;
+  openInspectCandidate: (candidateId: string) => void;
+  openCompareConcepts: (leftId: string, rightId: string) => void;
+  openStructuredArtifact: (columnId: string) => void;
+  openAmendmentDetail: () => void;
+  selectGalleryCandidate: (candidateId: string) => void;
+  selectViewportCandidate: (viewport: 'MOBILE' | 'DESKTOP', candidateId: string, candidateVersion: string) => void;
+  promoteViewportMaster: (viewport: 'MOBILE' | 'DESKTOP') => void;
+  clearUiPayload: () => void;
 };
 
 export type TwinOpusDirectProduction = {
   state: DesignProductionState;
   overlay: DesignProductionUiOverlay;
+  uiPayload: DesignProductionUiPayload;
   projection: ReturnType<typeof projectDesignProductionProjection>;
   actor: FounderActor;
   actions: TwinOpusDirectProductionActions;
@@ -82,6 +102,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
   const [serverSessionVersion, setServerSessionVersion] = useState<number | null>(null);
   const [syncStatus, setSyncStatus] = useState<AuthoritySyncStatus>('HYDRATING');
   const [overlay, setOverlay] = useState<DesignProductionUiOverlay>(null);
+  const [uiPayload, setUiPayload] = useState<DesignProductionUiPayload>({});
   const [productionError, setProductionError] = useState<string | null>(null);
   const [pendingSpend, setPendingSpend] = useState<TwinOpusDirectProduction['pendingSpend']>(null);
   const stateRef = useRef(state);
@@ -153,9 +174,31 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
     void hydrate();
   }, [hydrate]);
 
+  const applyLocalState = useCallback(
+    (next: DesignProductionState) => {
+      setState(next);
+      writeDesignProductionCache(projectId, next, versionRef.current ?? next.sessionVersion);
+    },
+    [projectId],
+  );
+
   const runCommand = useCallback(
-    async (command: DesignWorkspaceProductionCommand, payload?: Record<string, unknown>) => {
-      if (syncStatus === 'UNAVAILABLE') {
+    async (
+      command: DesignWorkspaceProductionCommand,
+      payload?: Record<string, unknown>,
+      localFallback?: (current: DesignProductionState, actor: FounderActor) => DesignProductionState,
+    ) => {
+      const act = resolveActor();
+      if (syncStatus === 'UNAVAILABLE' || syncStatus === 'STALE') {
+        if (localFallback) {
+          try {
+            applyLocalState(localFallback(stateRef.current, act));
+            setProductionError(null);
+          } catch (err) {
+            setProductionError(err instanceof Error ? err.message : String(err));
+          }
+          return;
+        }
         setProductionError('AUTHORITY STATE UNAVAILABLE');
         return;
       }
@@ -208,12 +251,57 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       openProvenance: () => setOverlay('OV-PROVENANCE'),
       openHostModuleNav: () => setOverlay('OV-HOST-MODULE-NAV'),
       runPairReview: () => {
-        void runCommand('START_PAIR_REVIEW');
+        void runCommand('START_PAIR_REVIEW', undefined, (current, act) => transitionOpenPairReview(current, act));
         setOverlay('OV-PAIR-REVIEW');
       },
+      openReviewAuthority: () => setOverlay('OV-REVIEW-AUTHORITY'),
       runReviewAuthority: (decision) => {
-        void runCommand('APPROVE_AUTHORITY', { decision });
+        void runCommand(
+          'APPROVE_AUTHORITY',
+          { decision },
+          (current, act) => transitionSubmitAuthorityReview(current, act, decision),
+        );
         setOverlay(null);
+      },
+      openFullscreenArtifact: (artifact) => {
+        setUiPayload({ artifact });
+        setOverlay('OV-FULLSCREEN-ARTIFACT');
+      },
+      openInspectCandidate: (candidateId) => {
+        setUiPayload({ inspectCandidateId: candidateId });
+        setOverlay('OV-INSPECT-CANDIDATE');
+      },
+      openCompareConcepts: (leftId, rightId) => {
+        setUiPayload({ compareCandidateIds: [leftId, rightId] });
+        setOverlay('OV-COMPARE-CONCEPTS');
+      },
+      openStructuredArtifact: (columnId) => {
+        setUiPayload({ structuredColumnId: columnId });
+        setOverlay('OV-STRUCTURED-ARTIFACT');
+      },
+      openAmendmentDetail: () => setOverlay('OV-AMENDMENT-DETAIL'),
+      clearUiPayload: () => setUiPayload({}),
+      selectGalleryCandidate: (candidateId) => {
+        void runCommand(
+          'SELECT_GALLERY_CANDIDATE',
+          { candidateId },
+          (current) => transitionSelectGalleryCandidate(current, candidateId),
+        );
+      },
+      selectViewportCandidate: (viewport, candidateId, candidateVersion) => {
+        void runCommand(
+          'SELECT_VIEWPORT_CANDIDATE',
+          { viewport, candidateId, candidateVersion },
+          (current, act) =>
+            transitionSelectViewportCandidate(current, act, { viewport, candidateId, candidateVersion }),
+        );
+      },
+      promoteViewportMaster: (viewport) => {
+        void runCommand(
+          'PROMOTE_VIEWPORT_MASTER',
+          { viewport },
+          (current, act) => transitionPromoteViewportMaster(current, act, viewport),
+        );
       },
       runLockAuthorityPair: () => void runCommand('LOCK_AUTHORITY_PAIR'),
       runMoveToBuild: () => void runCommand('MOVE_TO_BUILD'),
@@ -258,6 +346,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
   return {
     state,
     overlay,
+    uiPayload,
     projection,
     actor,
     actions,

@@ -1,6 +1,13 @@
+import type { AuthorityReviewDecision } from '../../../../../shared/site00-design-workspace-production/types.js';
+import {
+  TWIN_OPUS_DIRECT_AMENDMENT,
+  TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
+} from '../opusDirect/twinOpusDirectContent';
+import { twinOpusDirectCandidateArtifactView, twinOpusDirectCandidateById } from '../opusDirect/twinOpusDirectCandidateArtifacts';
 import type { TwinOpusDirectProduction } from '../opusDirect/useTwinOpusDirectProduction';
 import { resolveTwinOpusDirectAsset } from '../opusDirect/twinOpusDirectAssetManifest';
 import { TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH } from '../opusDirect/twinOpusDirectContent';
+import { DesignArtifactFullscreenViewer } from './DesignArtifactFullscreenViewer';
 import { DesignGateBadge } from './DesignChildSurfaceFrame';
 
 export function ReadinessReceiptPanel({ production }: { production: TwinOpusDirectProduction }) {
@@ -201,6 +208,183 @@ export function ContractVersionsPanel({ production }: { production: TwinOpusDire
         <dd>{state.contractFreeze.COMPOSER_CONTRACT_STATUS}</dd>
       </div>
     </dl>
+  );
+}
+
+export function InspectCandidatePanel({
+  production,
+  candidateId,
+}: {
+  production: TwinOpusDirectProduction;
+  candidateId: string;
+}) {
+  const { state } = production;
+  const candidate = twinOpusDirectCandidateById(candidateId);
+  const artifact = twinOpusDirectCandidateArtifactView(candidateId);
+
+  return (
+    <>
+      {artifact.src ?
+        <img src={artifact.src} alt="" className="tod-dcs-compare__img" />
+      : null}
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>CANDIDATE ID</dt>
+          <dd>{candidate.id}</dd>
+        </div>
+        <div>
+          <dt>VERSION</dt>
+          <dd>{candidate.version}</dd>
+        </div>
+        <div>
+          <dt>AUTHORITY ELIGIBILITY</dt>
+          <dd>
+            Mobile {state.mobileVersion} · Desktop {state.desktopVersion}
+          </dd>
+        </div>
+        <div>
+          <dt>LINEAGE</dt>
+          <dd>ENTRY001 campaign archive · Grok-approved plate family</dd>
+        </div>
+        <div>
+          <dt>SELECTED</dt>
+          <dd>{state.selectedCandidateId === candidateId ? 'YES' : 'NO'}</dd>
+        </div>
+      </dl>
+    </>
+  );
+}
+
+export function CompareConceptsPanel({
+  production,
+  leftId,
+  rightId,
+}: {
+  production: TwinOpusDirectProduction;
+  leftId: string;
+  rightId: string;
+}) {
+  const left = twinOpusDirectCandidateById(leftId);
+  const right = twinOpusDirectCandidateById(rightId);
+
+  return (
+    <div className="tod-dcs-compare tod-dcs-compare--dual">
+      {[left, right].map((candidate) => (
+        <article key={candidate.id} className="tod-dcs-compare__card">
+          <header>{candidate.version}</header>
+          <img
+            src={twinOpusDirectCandidateArtifactView(candidate.id).src}
+            alt=""
+            className="tod-dcs-compare__img"
+          />
+          <span className="tod-dcs-compare__ver">{candidate.id}</span>
+          <DesignGateBadge
+            result={production.state.selectedCandidateId === candidate.id ? 'SELECTED' : 'NOT_APPLICABLE'}
+          />
+        </article>
+      ))}
+    </div>
+  );
+}
+
+export function ReviewAuthorityPanel({ production }: { production: TwinOpusDirectProduction }) {
+  const { actions } = production;
+
+  const submit = (decision: AuthorityReviewDecision) => {
+    if (!decision) return;
+    actions.runReviewAuthority(decision);
+  };
+
+  return (
+    <>
+      <p className="tod-dcs-lead">Formal founder decision — requires pair review opened first.</p>
+      <div className="tod-dcs-stackActions">
+        <button type="button" className="tod-dcs__primary" onClick={() => submit('APPROVE')}>
+          APPROVE AUTHORITY
+        </button>
+        <button type="button" className="tod-dcs__ghost" onClick={() => submit('REQUEST_CHANGES')}>
+          REQUEST CHANGES
+        </button>
+        <button type="button" className="tod-dcs__ghost" onClick={() => submit('REJECT')}>
+          REJECT
+        </button>
+      </div>
+    </>
+  );
+}
+
+export function StructuredArtifactPanel({ columnId }: { columnId: string }) {
+  const column = TWIN_OPUS_DIRECT_OUTPUT_COLUMNS.find((c) => c.id === columnId) ?? TWIN_OPUS_DIRECT_OUTPUT_COLUMNS[0];
+  const slot =
+    column.preview === 'manifest' ? 'grounding'
+    : column.preview === 'blueprint' ? 'blueprint'
+    : column.preview === 'overlay' ? 'overlay'
+    : column.preview === 'evidence' ? 'assetPack'
+    : 'grounding';
+  const src = resolveTwinOpusDirectAsset(slot);
+
+  return (
+    <>
+      <p className="tod-dcs-lead">{column.label} · {column.source}</p>
+      {src ?
+        <img src={src} alt="" className="tod-dcs-compare__img" />
+      : null}
+      {column.preview === 'functions' && column.functions ?
+        <ul className="tod-dcs-gates">
+          {column.functions.map((fn) => (
+            <li key={fn} className="tod-dcs-gate">
+              <strong className="tod-dcs-gate__name">{fn}</strong>
+            </li>
+          ))}
+        </ul>
+      : null}
+    </>
+  );
+}
+
+export function AmendmentDetailPanel() {
+  const a = TWIN_OPUS_DIRECT_AMENDMENT;
+  return (
+    <dl className="tod-dcs-meta">
+      <div>
+        <dt>TYPE</dt>
+        <dd>{a.fields.find((f) => f.label.includes('TYPE'))?.value ?? 'AUTHORITY SELECTION'}</dd>
+      </div>
+      <div>
+        <dt>SCOPE</dt>
+        <dd>{a.fields.find((f) => f.label.includes('SCOPE'))?.value}</dd>
+      </div>
+      <div>
+        <dt>EFFECTIVE</dt>
+        <dd>{a.fields.find((f) => f.label.includes('EFFECTIVE'))?.value}</dd>
+      </div>
+      <div>
+        <dt>STATUS</dt>
+        <dd>{a.chip}</dd>
+      </div>
+      <div>
+        <dt>REFERENCE</dt>
+        <dd>{a.title}</dd>
+      </div>
+    </dl>
+  );
+}
+
+export function FullscreenArtifactOverlay({
+  production,
+}: {
+  production: TwinOpusDirectProduction;
+}) {
+  const artifact = production.uiPayload.artifact;
+  if (!artifact) return null;
+  return (
+    <DesignArtifactFullscreenViewer
+      artifact={artifact}
+      onClose={() => {
+        production.actions.clearUiPayload();
+        production.actions.setOverlay(null);
+      }}
+    />
   );
 }
 

@@ -24,6 +24,9 @@ export type DesignWorkspaceProductionCommandName =
   | 'RECORD_SPEND_CONFIRMATION'
   | 'REFINE_CONCEPT'
   | 'REGENERATE_CONCEPT'
+  | 'SELECT_GALLERY_CANDIDATE'
+  | 'SELECT_VIEWPORT_CANDIDATE'
+  | 'PROMOTE_VIEWPORT_MASTER'
   | 'MIGRATE_FROM_LOCAL';
 
 export type ApplyDesignWorkspaceCommandInput = {
