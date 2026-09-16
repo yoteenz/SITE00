@@ -446,6 +446,26 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1 — Spark digest renderer', 
     expect(listView).not.toContain('tod-herorow');
   });
 
+  it('restores the Spark digest grammar (R1), not opus panels stacked', () => {
+    // Numbered inspection sequence is the LIST signature.
+    for (const eyebrow of [
+      "'01 · TARGET / VIEWPORT / STAGE'",
+      "'04 · CANDIDATES'",
+      "'06 · STRUCTURED OUTPUT'",
+      "'07 · PIPELINE / READINESS'",
+      "'08 · CONCEPT RECORD'",
+    ]) {
+      expect(listCss).toContain(eyebrow);
+    }
+    // Output and pipeline are independent digest cards, stacked at every width.
+    expect(listCss).toContain('.tod-lv-out__mods {\n  display: flex;\n  flex-direction: column;');
+    expect(listCss).toContain('.tod-lv-pipe__mods {\n  display: flex;\n  flex-direction: column;');
+    // Digest type and controls are larger than the canonical micro-scale.
+    expect(listCss).toContain('font-size: 64px');
+    expect(listCss).toContain('min-height: 48px');
+    expect(listCss).toContain('min-height: 58px');
+  });
+
   it('keeps the record naturally sized so the flex shell pins the dock', () => {
     const recordRule = listCss.slice(
       listCss.indexOf('.tod-lv-record {'),
