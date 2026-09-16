@@ -1,12 +1,18 @@
 import { DESIGN_CHILD_SURFACE_PLACEMENT } from '../../../../../shared/site00-design-workspace-production/childSurfacePresentation.js';
 import { DesignChildSurfaceFrame } from '../production/DesignChildSurfaceFrame';
 import {
+  AmendmentDetailPanel,
+  CompareConceptsPanel,
   ContractVersionsPanel,
   CreativeContextPanel,
+  FullscreenArtifactOverlay,
+  InspectCandidatePanel,
   PairReviewPanel,
   ProvenancePanel,
   ReadinessReceiptPanel,
+  ReviewAuthorityPanel,
   SpendConfirmPanel,
+  StructuredArtifactPanel,
 } from '../production/designProductionOverlayPanels';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
 
@@ -24,7 +30,10 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
   if (!overlay && !productionError) return null;
 
   const slug = projectSlug.toLowerCase();
-  const close = () => actions.setOverlay(null);
+  const close = () => {
+    actions.clearUiPayload();
+    actions.setOverlay(null);
+  };
 
   return (
     <div className="tod-dcs-layer" data-testid="design-child-surface-layer">
@@ -137,6 +146,75 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
         >
           <SpendConfirmPanel production={production} />
         </DesignChildSurfaceFrame>
+      : null}
+
+      {overlay === 'OV-REVIEW-AUTHORITY' ?
+        <DesignChildSurfaceFrame
+          mode="MODAL"
+          title="REVIEW AUTHORITY"
+          overlayId="OV-REVIEW-AUTHORITY"
+          onClose={close}
+        >
+          <ReviewAuthorityPanel production={production} />
+        </DesignChildSurfaceFrame>
+      : null}
+
+      {overlay === 'OV-INSPECT-CANDIDATE' && production.uiPayload.inspectCandidateId ?
+        <DesignChildSurfaceFrame
+          mode="INSPECTOR"
+          title="INSPECT CANDIDATE"
+          overlayId="OV-INSPECT-CANDIDATE"
+          onClose={close}
+        >
+          <InspectCandidatePanel
+            production={production}
+            candidateId={production.uiPayload.inspectCandidateId}
+          />
+        </DesignChildSurfaceFrame>
+      : null}
+
+      {overlay === 'OV-COMPARE-CONCEPTS' && production.uiPayload.compareCandidateIds ?
+        <DesignChildSurfaceFrame
+          mode="WORKSPACE"
+          title="COMPARE CONCEPTS"
+          overlayId="OV-COMPARE-CONCEPTS"
+          onClose={close}
+        >
+          <CompareConceptsPanel
+            production={production}
+            leftId={production.uiPayload.compareCandidateIds[0]}
+            rightId={production.uiPayload.compareCandidateIds[1]}
+          />
+        </DesignChildSurfaceFrame>
+      : null}
+
+      {overlay === 'OV-STRUCTURED-ARTIFACT' && production.uiPayload.structuredColumnId ?
+        <DesignChildSurfaceFrame
+          mode="DRAWER"
+          title="STRUCTURED ARTIFACT"
+          overlayId="OV-STRUCTURED-ARTIFACT"
+          onClose={close}
+        >
+          <StructuredArtifactPanel columnId={production.uiPayload.structuredColumnId} />
+        </DesignChildSurfaceFrame>
+      : null}
+
+      {overlay === 'OV-AMENDMENT-DETAIL' ?
+        <DesignChildSurfaceFrame
+          mode="DRAWER"
+          title="VIEW AMENDMENT"
+          overlayId="OV-AMENDMENT-DETAIL"
+          onClose={close}
+        >
+          <AmendmentDetailPanel />
+        </DesignChildSurfaceFrame>
+      : null}
+
+      {overlay === 'OV-FULLSCREEN-ARTIFACT' && production.uiPayload.artifact ?
+        <>
+          <button type="button" className="tod-dcs-backdrop" aria-label="Close fullscreen" onClick={close} />
+          <FullscreenArtifactOverlay production={production} />
+        </>
       : null}
     </div>
   );

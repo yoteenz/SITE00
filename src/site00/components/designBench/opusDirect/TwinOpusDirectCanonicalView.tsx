@@ -285,13 +285,25 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
 
         <aside className="tod-rail" aria-label="Authority rail">
           <div className="tod-rail__select">
-            <button type="button" className="tod-rail__selectBtn" aria-pressed>
+            <button
+              type="button"
+              className="tod-rail__selectBtn"
+              aria-pressed={production.state.mobileAuthority === 'SELECTED'}
+              data-interaction-id="rail-select-mobile"
+              onClick={() => actions.selectForMobile()}
+              title={actions.railDisabledReason('promote-mobile') ?? undefined}
+            >
               <TodIconCheck className="tod-ico tod-rail__selectCheck" />
               {data.selectActions.mobile.label}
             </button>
-            <span className="tod-rail__selectState">{data.selectActions.mobile.state}</span>
+            <span className="tod-rail__selectState">{production.state.mobileAuthority}</span>
           </div>
-          <button type="button" className="tod-rail__ghost">
+          <button
+            type="button"
+            className="tod-rail__ghost"
+            data-interaction-id="rail-select-desktop"
+            onClick={() => actions.selectForDesktop()}
+          >
             {data.selectActions.desktop.label}
           </button>
 
@@ -331,20 +343,30 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                   <TodSlotImage slot="authorityDesktop" className="tod-pair__thumbPhoto" />
                   <span className="tod-pair__thumbWedge" aria-hidden="true" />
                 </div>
-                <button type="button" className="tod-pair__replace">
+                <button
+                  type="button"
+                  className="tod-pair__replace"
+                  data-interaction-id="pair-replace-desktop"
+                  onClick={() => actions.selectForDesktop()}
+                >
                   {data.authorityPair.desktop.action}
                 </button>
               </div>
             </div>
           </section>
 
-          {data.railActions.map((action) => (
+          {data.railActions.map((action) => {
+            const disabledReason = actions.railDisabledReason(action.id);
+            return (
             <button
               key={action.id}
               type="button"
               className={`tod-rail__action tod-rail__action--${action.tone}${
                 action.lock ? ' tod-rail__action--lock' : ''
               }`}
+              data-interaction-id={`rail-${action.id}`}
+              disabled={Boolean(disabledReason)}
+              title={disabledReason ?? undefined}
               onClick={() => actions.onRailAction(action.id)}
             >
               {action.lock ? <TodIconLock className="tod-ico tod-rail__lockIco" /> : null}
@@ -358,7 +380,8 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 action.label
               )}
             </button>
-          ))}
+          );
+          })}
         </aside>
       </section>
 
@@ -366,7 +389,12 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
       <section className="tod-gallery" aria-label={data.gallery.title}>
         <header className="tod-gallery__head">
           <h2 className="tod-gallery__title">{data.gallery.title}</h2>
-          <button type="button" className="tod-gallery__compare">
+          <button
+            type="button"
+            className="tod-gallery__compare"
+            data-interaction-id="gallery-compare"
+            onClick={() => actions.openCompareConcepts()}
+          >
             {data.gallery.compare}
             <TodIconCompare className="tod-ico tod-gallery__compareIco" />
           </button>
@@ -440,7 +468,15 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 <span>{column.lines[0]}</span>
                 <span>{column.lines[1]}</span>
               </span>
-              <TodOutputPreview column={column} />
+              <button
+                type="button"
+                className="tod-out__previewBtn"
+                data-interaction-id={`output-${column.id}`}
+                aria-label={`Inspect ${column.label}`}
+                onClick={() => actions.openStructuredArtifact(column.id)}
+              >
+                <TodOutputPreview column={column} />
+              </button>
               <button type="button" className="tod-out__source" onClick={() => actions.openProvenance()}>
                 <span className="tod-out__sourceText">{column.source}</span>
                 {column.preview === 'functions' ? (
@@ -529,7 +565,8 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             <button
               type="button"
               className="tod-pipe__primary"
-              onClick={() => actions.onRailAction('pair-review')}
+              data-interaction-id="pipeline-next-primary"
+              onClick={() => actions.runContextualNextAction()}
             >
               {data.nextAction.primary}
             </button>
@@ -565,7 +602,8 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
 
 /** 11-12: concept record tabs and the concept data row, inside the shared dock. */
 export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions } = workspace;
+  const { data, state, actions, production } = workspace;
+  const tab = data.conceptTabs[state.recordTabIndex] ?? data.conceptTabs[0];
 
   return (
     <>
@@ -608,14 +646,54 @@ export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOp
           </span>
           <TodArchivalPlate className="tod-concept__thumbPlate" marks={false} slot="conceptRecord" />
         </div>
-        <dl className="tod-concept__fields">
-          {data.conceptFields.map((field) => (
-            <div key={field.label} className="tod-concept__field">
-              <dt>{field.label}</dt>
-              <dd>{field.value}</dd>
+        {tab === 'CONCEPT DATA' ?
+          <dl className="tod-concept__fields">
+            {data.conceptFields.map((field) => (
+              <div key={field.label} className="tod-concept__field">
+                <dt>{field.label}</dt>
+                <dd>{field.value}</dd>
+              </div>
+            ))}
+          </dl>
+        : null}
+        {tab === 'VERSION HISTORY' ?
+          <ul className="tod-dcs-gates">
+            {[production.state.mobileVersion, production.state.desktopVersion, production.state.designAuthorityVersion].map(
+              (ver) => (
+                <li key={ver} className="tod-dcs-gate">
+                  <strong className="tod-dcs-gate__name">{ver}</strong>
+                </li>
+              ),
+            )}
+          </ul>
+        : null}
+        {tab === 'CHANGE HISTORY' ?
+          <ul className="tod-dcs-gates">
+            {production.state.history.slice(-6).reverse().map((entry) => (
+              <li key={entry.id} className="tod-dcs-gate">
+                <strong className="tod-dcs-gate__name">{entry.type.replace(/_/g, ' ')}</strong>
+                <p className="tod-dcs-gate__reason">{entry.summary}</p>
+              </li>
+            ))}
+          </ul>
+        : null}
+        {tab === 'MASTER UPDATE' ?
+          <dl className="tod-concept__fields">
+            <div className="tod-concept__field">
+              <dt>MOBILE AUTHORITY</dt>
+              <dd>{production.state.mobileAuthority}</dd>
             </div>
-          ))}
-        </dl>
+            <div className="tod-concept__field">
+              <dt>DESKTOP AUTHORITY</dt>
+              <dd>{production.state.desktopAuthority}</dd>
+            </div>
+            <div className="tod-concept__field">
+              <dt>DESIGN AUTHORITY VERSION</dt>
+              <dd>{production.state.designAuthorityVersion}</dd>
+            </div>
+          </dl>
+        : null}
+        {tab === 'AMENDMENT' ?
         <div className="tod-concept__amendment">
           <div className="tod-concept__amendHead">
             <span className="tod-concept__amendTitle">{data.amendment.title}</span>
@@ -630,9 +708,17 @@ export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOp
             ))}
           </dl>
         </div>
-        <button type="button" className="tod-concept__view">
+        : null}
+        {tab === 'AMENDMENT' ?
+        <button
+          type="button"
+          className="tod-concept__view"
+          data-interaction-id="concept-amendment-view"
+          onClick={() => actions.openAmendmentDetail()}
+        >
           {data.amendment.action}
         </button>
+        : null}
       </div>
     </>
   );

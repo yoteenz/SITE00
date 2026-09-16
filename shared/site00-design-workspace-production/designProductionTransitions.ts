@@ -196,6 +196,94 @@ export function transitionRegenerateConcept(
   };
 }
 
+export function transitionSelectGalleryCandidate(
+  state: DesignProductionState,
+  candidateId: string,
+): DesignProductionState {
+  const now = new Date().toISOString();
+  return {
+    ...state,
+    selectedCandidateId: candidateId,
+    updatedAt: now,
+    sessionVersion: state.sessionVersion + 1,
+  };
+}
+
+export function transitionSelectViewportCandidate(
+  state: DesignProductionState,
+  actor: FounderActor,
+  input: { viewport: 'MOBILE' | 'DESKTOP'; candidateId: string; candidateVersion: string },
+): DesignProductionState {
+  requireFounder(actor, 'SELECT_VIEWPORT_CANDIDATE');
+  if (state.pairLockedAt) throw new Error('PAIR_LOCKED');
+  const now = new Date().toISOString();
+  const base = {
+    ...state,
+    selectedCandidateId: input.candidateId,
+    updatedAt: now,
+    sessionVersion: state.sessionVersion + 1,
+  };
+  if (input.viewport === 'MOBILE') {
+    let next: DesignProductionState = {
+      ...base,
+      mobileVersion: input.candidateVersion,
+      mobileAuthority: 'SELECTED',
+    };
+    next = withHistoryEntry(next, {
+      type: 'VIEWPORT_SELECTED',
+      at: now,
+      actorEmail: actor.email,
+      summary: `Mobile candidate ${input.candidateId} selected`,
+      payload: { viewport: 'MOBILE', candidateId: input.candidateId },
+    });
+    return next;
+  }
+  let next: DesignProductionState = {
+    ...base,
+    desktopVersion: input.candidateVersion,
+    desktopAuthority: 'SELECTED',
+  };
+  next = withHistoryEntry(next, {
+    type: 'VIEWPORT_SELECTED',
+    at: now,
+    actorEmail: actor.email,
+    summary: `Desktop candidate ${input.candidateId} selected`,
+    payload: { viewport: 'DESKTOP', candidateId: input.candidateId },
+  });
+  return next;
+}
+
+export function transitionPromoteViewportMaster(
+  state: DesignProductionState,
+  actor: FounderActor,
+  viewport: 'MOBILE' | 'DESKTOP',
+): DesignProductionState {
+  requireFounder(actor, 'PROMOTE_VIEWPORT_MASTER');
+  if (state.pairLockedAt) throw new Error('PAIR_LOCKED');
+  const now = new Date().toISOString();
+  if (viewport === 'MOBILE' && state.mobileAuthority !== 'SELECTED') {
+    throw new Error('MOBILE_NOT_SELECTED');
+  }
+  if (viewport === 'DESKTOP' && state.desktopAuthority !== 'SELECTED') {
+    throw new Error('DESKTOP_NOT_SELECTED');
+  }
+  let next: DesignProductionState = {
+    ...state,
+    updatedAt: now,
+    sessionVersion: state.sessionVersion + 1,
+    mobileAuthority: viewport === 'MOBILE' ? 'PROMOTED' : state.mobileAuthority,
+    desktopAuthority: viewport === 'DESKTOP' ? 'PROMOTED' : state.desktopAuthority,
+  };
+  next = withHistoryEntry(next, {
+    type: 'VIEWPORT_MASTER_PROMOTED',
+    at: now,
+    actorEmail: actor.email,
+    summary: `${viewport} master promoted to authority review path`,
+    payload: { viewport },
+  });
+  return next;
+}
+
 export function transitionCreateTabletOverride(
   state: DesignProductionState,
   actor: FounderActor,

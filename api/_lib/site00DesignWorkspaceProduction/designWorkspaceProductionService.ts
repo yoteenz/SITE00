@@ -8,6 +8,9 @@ import {
   transitionRecordSpendConfirmation,
   transitionRefineConcept,
   transitionRegenerateConcept,
+  transitionPromoteViewportMaster,
+  transitionSelectGalleryCandidate,
+  transitionSelectViewportCandidate,
   transitionSubmitAuthorityReview,
 } from '../../../shared/site00-design-workspace-production/designProductionTransitions.js';
 import type { DesignProductionState, FounderActor } from '../../../shared/site00-design-workspace-production/types.js';
@@ -51,6 +54,12 @@ async function applyTransition(
       return transitionRefineConcept(current, act, payload as Parameters<typeof transitionRefineConcept>[2]);
     case 'REGENERATE_CONCEPT':
       return transitionRegenerateConcept(current, act, payload as Parameters<typeof transitionRegenerateConcept>[2]);
+    case 'SELECT_GALLERY_CANDIDATE':
+      return transitionSelectGalleryCandidate(current, String(payload.candidateId ?? ''));
+    case 'SELECT_VIEWPORT_CANDIDATE':
+      return transitionSelectViewportCandidate(current, act, payload as Parameters<typeof transitionSelectViewportCandidate>[2]);
+    case 'PROMOTE_VIEWPORT_MASTER':
+      return transitionPromoteViewportMaster(current, act, payload.viewport as 'MOBILE' | 'DESKTOP');
     case 'MIGRATE_FROM_LOCAL': {
       if (!act.isFounder) throw new Error('FOUNDER_ONLY:MIGRATE_FROM_LOCAL');
       const local = payload.localState as DesignProductionState | undefined;
@@ -71,6 +80,8 @@ function founderOnlyCommands(): Set<ApplyDesignWorkspaceCommandInput['command']>
     'RECORD_SPEND_CONFIRMATION',
     'REFINE_CONCEPT',
     'REGENERATE_CONCEPT',
+    'SELECT_VIEWPORT_CANDIDATE',
+    'PROMOTE_VIEWPORT_MASTER',
     'MIGRATE_FROM_LOCAL',
   ]);
 }

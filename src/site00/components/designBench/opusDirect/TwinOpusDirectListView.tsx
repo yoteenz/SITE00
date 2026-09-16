@@ -242,7 +242,7 @@ function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
 }
 /** LIST body: the transplanted Spark digest, bound to shared state. */
 export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions, readinessDash } = workspace;
+  const { data, state, actions, readinessDash, production } = workspace;
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const scrollGallery = useCallback(() => {
@@ -340,15 +340,18 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
 
             <aside className="tod-lv-rail" aria-label="Authority rail">
               <div className="tod-lv-rail__select">
-                <button type="button" className="tod-lv-rail__selectBtn" aria-pressed>
+                <button
+                  type="button"
+                  className="tod-lv-rail__selectBtn"
+                  aria-pressed={production.state.mobileAuthority === 'SELECTED'}
+                  onClick={() => actions.selectForMobile()}
+                >
                   <TodIconCheck className="tod-ico tod-lv-rail__selectCheck" />
                   {data.selectActions.mobile.label}
                 </button>
-                <span className="tod-lv-rail__selectState">
-                  {data.selectActions.mobile.state}
-                </span>
+                <span className="tod-lv-rail__selectState">{production.state.mobileAuthority}</span>
               </div>
-              <button type="button" className="tod-lv-rail__ghost">
+              <button type="button" className="tod-lv-rail__ghost" onClick={() => actions.selectForDesktop()}>
                 {data.selectActions.desktop.label}
               </button>
 
@@ -392,20 +395,24 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                       <LvSlotImage slot="authorityDesktop" className="tod-lv-pair__thumbPhoto" />
                       <span className="tod-lv-pair__thumbWedge" aria-hidden="true" />
                     </div>
-                    <button type="button" className="tod-lv-pair__replace">
+                    <button type="button" className="tod-lv-pair__replace" onClick={() => actions.selectForDesktop()}>
                       {data.authorityPair.desktop.action}
                     </button>
                   </div>
                 </div>
               </section>
 
-              {data.railActions.map((action) => (
+              {data.railActions.map((action) => {
+                const disabledReason = actions.railDisabledReason(action.id);
+                return (
                 <button
                   key={action.id}
                   type="button"
                   className={`tod-lv-rail__action tod-lv-rail__action--${action.tone}${
                     action.lock ? ' tod-lv-rail__action--lock' : ''
                   }`}
+                  disabled={Boolean(disabledReason)}
+                  title={disabledReason ?? undefined}
                   onClick={() => actions.onRailAction(action.id)}
                 >
                   {action.lock ? <TodIconLock className="tod-ico tod-lv-rail__lockIco" /> : null}
@@ -419,7 +426,8 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     action.label
                   )}
                 </button>
-              ))}
+              );
+              })}
             </aside>
           </section>
 
@@ -427,7 +435,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
           <section className="tod-lv-gallery" aria-label={data.gallery.title}>
             <header className="tod-lv-gallery__head">
               <h2 className="tod-lv-gallery__title">{data.gallery.title}</h2>
-              <button type="button" className="tod-lv-gallery__compare">
+              <button type="button" className="tod-lv-gallery__compare" onClick={() => actions.openCompareConcepts()}>
                 {data.gallery.compare}
                 <TodIconCompare className="tod-ico tod-lv-gallery__compareIco" />
               </button>
@@ -585,11 +593,22 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     <span key={line}>{line}</span>
                   ))}
                 </p>
-                <button type="button" className="tod-lv-pipe__primary">
+                <button type="button" className="tod-lv-pipe__primary" onClick={() => actions.runContextualNextAction()}>
                   {data.nextAction.primary}
                 </button>
                 {data.nextAction.secondary.map((label) => (
-                  <button key={label} type="button" className="tod-lv-pipe__secondary">
+                  <button
+                    key={label}
+                    type="button"
+                    className="tod-lv-pipe__secondary"
+                    onClick={() => {
+                      if (label.includes('BUILD') && production.projection.buildEligible) {
+                        production.actions.runMoveToBuild();
+                      } else if (label.includes('TECHNICAL')) {
+                        actions.openReadinessReceipt();
+                      }
+                    }}
+                  >
                     {label}
                   </button>
                 ))}
@@ -638,7 +657,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
               ))}
             </dl>
           </div>
-          <button type="button" className="tod-lv-concept__view">
+          <button type="button" className="tod-lv-concept__view" onClick={() => actions.openAmendmentDetail()}>
             {data.amendment.action}
           </button>
         </div>

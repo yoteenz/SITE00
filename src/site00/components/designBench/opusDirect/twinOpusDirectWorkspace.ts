@@ -22,7 +22,6 @@ import {
   TWIN_OPUS_DIRECT_GALLERY,
   TWIN_OPUS_DIRECT_HEADER,
   TWIN_OPUS_DIRECT_HERO,
-  TWIN_OPUS_DIRECT_NEXT_ACTION,
   TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
   TWIN_OPUS_DIRECT_OUTPUT_TITLE,
   TWIN_OPUS_DIRECT_PIPELINE_TITLE,
@@ -39,6 +38,15 @@ import {
   designPageTargetLines,
   readDesignPageTarget,
 } from '../production/designProductionPageTarget';
+import {
+  computeContextualNextAction,
+  railActionDisabledReason,
+} from '../../../../../shared/site00-design-workspace-production/designInteractionEligibility.js';
+import { useDesignProductionNavigation } from '../production/useDesignProductionNavigation';
+import {
+  twinOpusDirectCandidateArtifactView,
+  twinOpusDirectCandidateById,
+} from './twinOpusDirectCandidateArtifacts';
 import {
   useTwinOpusDirectProduction,
   type TwinOpusDirectProduction,
@@ -103,7 +111,12 @@ export interface TwinOpusDirectWorkspaceData {
   };
   checks: readonly { id: string; label: string; state: 'pass' | 'fail' | 'pending' | 'warn' }[];
   statusRows: readonly { id: string; label: string; value: string }[];
-  nextAction: typeof TWIN_OPUS_DIRECT_NEXT_ACTION;
+  nextAction: {
+    label: string;
+    lines: readonly string[];
+    primary: string;
+    secondary: readonly string[];
+  };
   conceptTabs: typeof TWIN_OPUS_DIRECT_CONCEPT_TABS;
   conceptFields: typeof TWIN_OPUS_DIRECT_CONCEPT_FIELDS;
   amendment: typeof TWIN_OPUS_DIRECT_AMENDMENT;
@@ -130,6 +143,17 @@ export interface TwinOpusDirectWorkspaceActions {
   onCandidateAction: (actionId: string) => void;
   openProvenance: () => void;
   openReadinessReceipt: () => void;
+  selectForMobile: () => void;
+  selectForDesktop: () => void;
+  openCompareConcepts: () => void;
+  openStructuredArtifact: (columnId: string) => void;
+  openAmendmentDetail: () => void;
+  runContextualNextAction: () => void;
+  railDisabledReason: (actionId: string) => string | null;
+  goWorkspace: () => void;
+  goDesignHistory: () => void;
+  goChangeHistory: () => void;
+  goMasterAmendment: () => void;
 }
 
 export interface TwinOpusDirectWorkspace {
@@ -147,6 +171,7 @@ export interface TwinOpusDirectWorkspace {
 export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectWorkspace {
   const production = useTwinOpusDirectProduction(projectSlug);
   const { state: prodState, projection, actions: prodActions, actor } = production;
+  const nav = useDesignProductionNavigation();
 
   const [viewport, setViewport] = useState<TwinOpusDirectViewportId>('MOBILE');
   const [navIndex, setNavIndex] = useState(0);
@@ -185,21 +210,93 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     }
   }, []);
 
+  const selectForViewport = useCallback(
+    (viewport: 'MOBILE' | 'DESKTOP') => {
+      const candidate = twinOpusDirectCandidateById(candidateId);
+      prodActions.selectViewportCandidate(viewport, candidate.id, candidate.version);
+    },
+    [candidateId, prodActions],
+  );
+
   const actions = useMemo<TwinOpusDirectWorkspaceActions>(
     () => ({
       selectViewport: setViewport,
       selectNavSection: setNavIndex,
-      selectCandidate: setCandidateId,
+      selectCandidate: (id: string) => {
+        setCandidateId(id);
+        prodActions.selectGalleryCandidate(id);
+      },
       toggleAuthorityPair: () => setAuthorityPairOpen((open) => !open),
       selectRecordTab: setRecordTabIndex,
       selectDockDestination: setDockIndex,
+      selectForMobile: () => selectForViewport('MOBILE'),
+      selectForDesktop: () => selectForViewport('DESKTOP'),
+      openCompareConcepts: () => {
+        const ids = TWIN_OPUS_DIRECT_CANDIDATES.map((c) => c.id);
+        const idx = Math.max(0, ids.indexOf(candidateId));
+        const other = ids[(idx + 1) % ids.length] ?? candidateId;
+        prodActions.openCompareConcepts(candidateId, other);
+      },
+      openStructuredArtifact: (columnId) => prodActions.openStructuredArtifact(columnId),
+      openAmendmentDetail: () => prodActions.openAmendmentDetail(),
+      runContextualNextAction: () => {
+        const next = computeContextualNextAction(prodState, actor);
+        switch (next.handler) {
+          case 'runPairReview':
+            prodActions.runPairReview();
+            break;
+          case 'openReviewAuthority':
+            prodActions.openReviewAuthority();
+            break;
+          case 'runLockAuthorityPair':
+            prodActions.runLockAuthorityPair();
+            break;
+          case 'openReadinessReceipt':
+            prodActions.openReadinessReceipt();
+            break;
+          case 'runMoveToBuild':
+            prodActions.runMoveToBuild();
+            break;
+          case 'selectForMobile':
+            selectForViewport('MOBILE');
+            break;
+          case 'selectForDesktop':
+            selectForViewport('DESKTOP');
+            break;
+          case 'promoteMobile':
+            prodActions.promoteViewportMaster('MOBILE');
+            break;
+          case 'promoteDesktop':
+            prodActions.promoteViewportMaster('DESKTOP');
+            break;
+          default:
+            break;
+        }
+      },
+      railDisabledReason: (actionId: string) => railActionDisabledReason(actionId, prodState, actor),
+      goWorkspace: () => nav.goWorkspace(),
+      goDesignHistory: () => nav.goSection('history'),
+      goChangeHistory: () => {
+        nav.goSection('history');
+        setRecordTabIndex(2);
+      },
+      goMasterAmendment: () => {
+        setRecordTabIndex(4);
+        prodActions.openAmendmentDetail();
+      },
       onRailAction: (actionId: string) => {
         switch (actionId) {
+          case 'promote-mobile':
+            prodActions.promoteViewportMaster('MOBILE');
+            break;
+          case 'promote-desktop':
+            prodActions.promoteViewportMaster('DESKTOP');
+            break;
           case 'pair-review':
             prodActions.runPairReview();
             break;
           case 'review-authority':
-            if (actor.isFounder) prodActions.runReviewAuthority('APPROVE');
+            prodActions.openReviewAuthority();
             break;
           case 'lock-pair':
             prodActions.runLockAuthorityPair();
@@ -238,11 +335,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             },
           });
         }
+        if (actionId === 'inspect') {
+          prodActions.openInspectCandidate(candidate);
+        }
+        if (actionId === 'fullscreen') {
+          prodActions.openFullscreenArtifact(twinOpusDirectCandidateArtifactView(candidate, viewport));
+        }
       },
       openProvenance: prodActions.openProvenance,
       openReadinessReceipt: prodActions.openReadinessReceipt,
     }),
-    [actor, candidateId, prodActions, production, projectSlug],
+    [actor, candidateId, nav, prodActions, prodState, production, selectForViewport, viewport],
   );
 
   const selectedCandidate = useMemo(
@@ -297,13 +400,21 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       },
       checks: projection.checks.length > 0 ? projection.checks : TWIN_OPUS_DIRECT_CHECKS,
       statusRows: projection.statusRows,
-      nextAction: TWIN_OPUS_DIRECT_NEXT_ACTION,
+      nextAction: (() => {
+        const next = computeContextualNextAction(prodState, actor);
+        return {
+          label: next.label,
+          lines: next.lines,
+          primary: next.lines[0] ?? 'NEXT ACTION',
+          secondary: ['VIEW TECHNICAL DETAILS'],
+        };
+      })(),
       conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
     };
-  }, [pageTarget, prodState.workflowStage, projection, projectSlug]);
+  }, [actor, pageTarget, prodState, projection, projectSlug]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),

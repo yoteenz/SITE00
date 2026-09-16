@@ -133,6 +133,16 @@ export type DesignReadinessReceipt = {
   readyLabel: 'READY' | 'BLOCKED' | 'UNKNOWN';
 };
 
+export type DesignWorkspaceArtifactView = {
+  src: string;
+  title: string;
+  subtitle?: string;
+  role?: string;
+  viewport?: string;
+  candidateId?: string;
+  version?: string;
+};
+
 export type DesignProductionUiOverlay =
   | null
   | 'OV-OVERFLOW-MENU'
@@ -143,4 +153,16 @@ export type DesignProductionUiOverlay =
   | 'OV-HOST-MODULE-NAV'
   | 'OV-PAIR-REVIEW'
   | 'OV-REVIEW-AUTHORITY'
-  | 'OV-SPEND-CONFIRM';
+  | 'OV-SPEND-CONFIRM'
+  | 'OV-FULLSCREEN-ARTIFACT'
+  | 'OV-INSPECT-CANDIDATE'
+  | 'OV-COMPARE-CONCEPTS'
+  | 'OV-STRUCTURED-ARTIFACT'
+  | 'OV-AMENDMENT-DETAIL';
+
+export type DesignProductionUiPayload = {
+  artifact?: DesignWorkspaceArtifactView;
+  inspectCandidateId?: string;
+  compareCandidateIds?: [string, string];
+  structuredColumnId?: string;
+};
