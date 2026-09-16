@@ -44,6 +44,7 @@ export {
   getCanonicalDesignRouteAuthority,
   buildCanonicalDesignWorkspacePath,
   buildDesignWorkspaceBreadcrumb,
+  designReconstructionLabPath,
   resolveManagedProjectForDesignContext,
   resolveLegacyProjectDesignRedirect,
   resolveStudioWorldDesignLegacyRedirect,

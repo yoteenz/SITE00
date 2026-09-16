@@ -32,7 +32,7 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     projectAccent: 'PROJECT_CANONICAL',
     routeAuthority: 'SITE00',
     status: 'ACTIVE',
-    legacyDesignRoutes: ['/projects/frontal-slayer/design'],
+    legacyDesignRoutes: ['/projects/frontal-slayer/design/reconstruction-lab'],
   },
   {
     projectId: 'studio-world',
@@ -47,7 +47,7 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     sourceRepo: 'external/studio-world',
     routeAuthority: 'SITE00',
     status: 'ACTIVE',
-    legacyDesignRoutes: ['/projects/studio-world/design'],
+    legacyDesignRoutes: ['/projects/studio-world/design/reconstruction-lab'],
   },
   {
     projectId: 'ndxbook',
@@ -61,7 +61,7 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     projectAccent: 'NDX_LIME',
     routeAuthority: 'SITE00',
     status: 'ACTIVE',
-    legacyDesignRoutes: ['/projects/ndxbook/design'],
+    legacyDesignRoutes: ['/projects/ndxbook/design/reconstruction-lab'],
   },
   {
     projectId: 'all-in-one-enterprises',
@@ -75,7 +75,7 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     projectAccent: 'PROJECT_CANONICAL',
     routeAuthority: 'SITE00',
     status: 'ACTIVE',
-    legacyDesignRoutes: ['/projects/all-in-one-enterprises/design'],
+    legacyDesignRoutes: ['/projects/all-in-one-enterprises/design/reconstruction-lab'],
   },
   {
     projectId: 'astral-world',
@@ -89,7 +89,7 @@ const MANAGED_PROJECTS: Site00ManagedProjectRecord[] = [
     projectAccent: 'PROJECT_CANONICAL',
     routeAuthority: 'SITE00',
     status: 'ACTIVE',
-    legacyDesignRoutes: ['/projects/astral-world/design'],
+    legacyDesignRoutes: ['/projects/astral-world/design/reconstruction-lab'],
   },
 ];
 

@@ -10090,3 +10090,14 @@ Element-level interaction audit + wiring so visible controls map to real behavio
 **Root cause:** Twin used `surface="reference"` after INTEGRATION1; `TwinOpusDirectScreen` gated bottom nav, primary nav sections, and in-shell children on `surface === 'production'` only. Twin had no nested section routes or shared core with production.
 
 **Fix:** `DesignWorkspaceCore` for twin + production; roles `twin-founder-review` / `production-provisional`; `functionalWorkspace` enables all interactions on both routes; twin nested section routes; `DesignTwinReviewBanner`; `twinLifecycle.ts` promotion guard; navigation `site00ProjectDesignTwinSectionPath`. Tests: `p0vrDesignTwinFunctionality1.test.ts`. Verify on cPanel ZIP (cloud dev loader blocked click QA).
+
+---
+
+## 2026-09-16 — P0.VR.DESIGN-ROUTE-AUTHORITY1 — forensic route ownership + NDXBOOK entry correction
+
+Founder saw legacy **DESIGN RECONSTRUCTION / BATCH 2 · LIVE FAL GALLERY** on DESIGN instead of promoted twin-opus-direct workspace.
+
+- **Root cause:** `/projects/site00/design?project=ndxbook` (and `/studio-world/design?project=ndxbook`) still mounted **`Site00OwnedDesignWorkspacePage` → `StudioWorldDesignWorkspace`** with no redirect gate. Product route `/projects/ndxbook/design` was already wired to **`DesignProductionRouteGate` → `DesignWorkspaceCore`** after INTEGRATION1, but founder-facing links and canonical path helpers still targeted the host query URL.
+- **Fix:** `Site00DesignHostRouteGate` on `/projects/site00/design` applies `resolveLegacyProjectDesignRedirect`; legacy lab isolated at **`/projects/:projectSlug/design/reconstruction-lab`**; `buildCanonicalDesignWorkspacePath` + project index DESIGN links use **`/projects/{slug}/design`** for managed brands; studio-world legacy redirect targets per-project production path; dev-only markers `NEW_WORKSPACE` / `LEGACY_RECONSTRUCTION_LAB` (`import.meta.env.DEV` only).
+- **Tests:** `tests/p0vrDesignRouteAuthority1.test.ts`; updated `visualReconstructionP0VR3M.test.ts`. Cloud VM Playwright could not mount React (empty `#root`); verify routes on fresh GitHub Release ZIP.
+- **Routes:** Production `/projects/ndxbook/design`; twin `/projects/ndxbook/design/twin-opus-direct`; native `/projects/ndxbook/design/opus-native`; lab `/projects/ndxbook/design/reconstruction-lab`.

@@ -140,6 +140,8 @@ export const SITE00_ROUTES = {
   projectDesignSkins: '/projects/:projectSlug/design/skins',
   projectDesignHistory: '/projects/:projectSlug/design/history',
   projectDesignMore: '/projects/:projectSlug/design/more',
+  /** P0.VR.DESIGN-ROUTE-AUTHORITY1 — legacy Design Reconstruction lab (internal tooling) */
+  projectDesignReconstructionLab: '/projects/:projectSlug/design/reconstruction-lab',
   projectDesignTwin: '/projects/:projectSlug/design/twin',
   projectDesignTwinV4: '/projects/:projectSlug/design/twin-v4',
   projectDesignTwinSolDirect: '/projects/:projectSlug/design/twin-sol-direct',
@@ -547,6 +549,10 @@ export function site00ProjectDesignSectionPath(
   return `/projects/${projectSlug.toLowerCase()}/design/${section}`;
 }
 
+export function site00ProjectDesignReconstructionLabPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/reconstruction-lab`;
+}
+
 export function solDesignBenchmarkRoute(projectSlug: string): string {
   return `/projects/${projectSlug}/design/twin-testB`;
 }
@@ -592,6 +598,10 @@ export function site00CanonicalDesignPath(params?: {
   viewport?: string;
   tab?: string;
 }): string {
+  const slug = params?.project?.toLowerCase();
+  if (slug && slug !== 'site00') {
+    return site00ProjectDesignPath(slug, params);
+  }
   const search = new URLSearchParams();
   if (params?.project) search.set('project', params.project);
   if (params?.screen) search.set('screen', params.screen);
