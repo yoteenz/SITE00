@@ -15,11 +15,25 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 
 import type { OpusNativeToolName, OpusNativeViewport } from '../../../shared/site00-opus-native/types.js';
+import type { DesignSurfaceWritePolicy } from '../../../shared/site00-opus-native/writePolicy.js';
+import {
+  validateRegionPlan,
+  validateRouteIntent,
+  type ComponentDecision,
+  type RegionClassification,
+} from '../../../shared/site00-opus-native/pageCreation.js';
 import { redactSecrets, repoRoot } from './config.js';
 import { isInspectablePath } from './contextCompiler.js';
-import type { DesignSurfaceEntry } from './designSurfaceRegistry.js';
+import { DESIGN_SURFACES, type DesignSurfaceEntry } from './designSurfaceRegistry.js';
 import { captureScreenshot, compareScreenshots, inspectDom, previewReadiness } from './preview.js';
-import { applyPatch, revertPatch, ScopeViolationError, type PatchEdit } from './workspaceSandbox.js';
+import { checkAssetMutation, isCreatablePath } from './writeAuthority.js';
+import {
+  applyPatch,
+  AssetFirewallError,
+  revertPatch,
+  ScopeViolationError,
+  type PatchEdit,
+} from './workspaceSandbox.js';
 import type { RunContextHandle } from './runContext.js';
 
 const execFileAsync = promisify(execFile);
@@ -135,6 +149,88 @@ export const OPUS_TOOL_DEFINITIONS: ToolDefinition[] = [
     },
     mutating: true,
   },
+  /**
+   * P0.VR.OPUS-NATIVE2 — Phase 10. Deliberately not "write a file anywhere".
+   * Creation is confined to the surface's declared create directories, refuses
+   * to clobber an existing file unless told to, and produces the same
+   * reversible patch record as an edit — so a created file is revertible by
+   * deletion rather than left behind.
+   */
+  {
+    name: 'create_file',
+    description:
+      'Create one new file inside this run\'s allowed create directories. Fails if the run has no creation authority, if the path is outside those directories, or if the file already exists and overwrite is not set. Produces a reversible patch entry.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string' },
+        content: { type: 'string' },
+        reason: { type: 'string' },
+        overwrite: { type: 'boolean' },
+      },
+      required: ['file', 'content', 'reason'],
+    },
+    mutating: true,
+  },
+  /**
+   * Phase 15. The cheapest thing for a model to do is create a component it
+   * could have imported, which is how a design system acquires four buttons.
+   * This makes looking first a tool call rather than a hope.
+   */
+  {
+    name: 'discover_components',
+    description:
+      'Search the existing design system for components matching a need, before creating a new one. Returns candidates with their paths and exported names so you can decide REUSE, EXTEND, FORK or CREATE.',
+    input_schema: {
+      type: 'object',
+      properties: { need: { type: 'string' }, maxResults: { type: 'number' } },
+      required: ['need'],
+    },
+    mutating: false,
+  },
+  /**
+   * Phase 12/13/14. The gate a creation run must pass before it is allowed to
+   * write anything: route grammar, collision, and the inheritance
+   * classification for every region the parent requires.
+   */
+  {
+    name: 'propose_page_plan',
+    description:
+      'Submit the creation plan for validation before creating any file: the route, the region classification (INHERITED / OVERRIDDEN / NEW with justification) and the component dispositions (REUSE / EXTEND / FORK / CREATE). Creation tools stay locked until this passes.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        route: { type: 'string' },
+        regions: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              region: { type: 'string' },
+              classification: { type: 'string', enum: ['INHERITED', 'OVERRIDDEN', 'NEW'] },
+              justification: { type: 'string' },
+            },
+            required: ['region', 'classification'],
+          },
+        },
+        components: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              need: { type: 'string' },
+              disposition: { type: 'string', enum: ['REUSE', 'EXTEND', 'FORK', 'CREATE'] },
+              existingCandidate: { type: 'string' },
+              justification: { type: 'string' },
+            },
+            required: ['need', 'disposition', 'justification'],
+          },
+        },
+      },
+      required: ['route', 'regions', 'components'],
+    },
+    mutating: false,
+  },
   {
     name: 'run_typecheck',
     description: 'Run the repository TypeScript typecheck and return the result.',
@@ -203,6 +299,8 @@ export interface ToolContext {
   surface: DesignSurfaceEntry;
   fileAllowlist: string[];
   writeAllowlist: string[];
+  /** P0.VR.OPUS-NATIVE2 — resolved capability, not just a file list. */
+  policy: DesignSurfaceWritePolicy;
   viewport: OpusNativeViewport;
   route: string;
 }
@@ -219,7 +317,14 @@ export async function dispatchTool(
       return {
         ok: false,
         summary: `scope violation: ${error.file}`,
-        content: `SCOPE_VIOLATION. ${error.file} is not on the write allowlist for this run. Writable files: ${error.allowed.join(', ') || 'none'}. ${ctx.surface.writeFirewallReason ?? ''}`,
+        content: `SCOPE_VIOLATION. ${error.file} is not on the write allowlist for this run (mode ${ctx.policy.mode}). Writable files: ${error.allowed.join(', ') || 'none'}. ${ctx.surface.writeFirewallReason ?? ''}\n\nNothing was written: the patch was rejected before any file was touched.`,
+      };
+    }
+    if (error instanceof AssetFirewallError) {
+      return {
+        ok: false,
+        summary: 'asset mutation blocked',
+        content: `ASSET_MUTATION_BLOCKED. ${error.detail}\n\nYou own structure, typography, icons and interaction. Approved raster assets belong to Grok and their identity is not yours to change. Nothing was written. If the task genuinely requires an asset change, stop and say so — the founder must grant it explicitly.`,
       };
     }
     const message = redactSecrets((error as Error).message ?? String(error));
@@ -338,12 +443,160 @@ async function dispatchInner(
         edits,
         reason,
         writeAllowlist: ctx.writeAllowlist,
+        canCreate: (file) => isCreatablePath(file, ctx.policy),
+        assetGuard: (candidate) => checkAssetMutation(candidate, ctx.surface, ctx.policy),
         existingBaseline: ctx.run.patch()?.baseline,
+        existingCreatedFiles: ctx.run.patch()?.createdFiles,
       });
       ctx.run.setPatch(patch);
       return textResult(
         `patched ${patch.filesChanged.join(', ')}`,
         `Patch ${patch.patchId} applied to the sandbox working tree.\nFiles: ${patch.filesChanged.join(', ')}\nReversible: yes.\n\nThis is NOT approved. Render the route, screenshot it, compare, and run the guards before handing to founder review.`,
+      );
+    }
+
+    /** Phase 10 — creation, gated on capability, directory and plan. */
+    case 'create_file': {
+      const file = String(input.file ?? '');
+      const content = String(input.content ?? '');
+      const reason = String(input.reason ?? '').trim();
+      if (!reason) return failure('create_file requires a reason');
+      if (!ctx.policy.allowNewFiles) {
+        return failure(
+          `WRITE_AUTHORITY_INSUFFICIENT. This run is at ${ctx.policy.mode}, which cannot create files. File creation requires PAGE_CREATE or DERIVATIVE_CREATE, granted by the founder.`,
+        );
+      }
+      if (!isCreatablePath(file, ctx.policy)) {
+        return failure(
+          `SCOPE_VIOLATION. ${file} is outside this run's create directories: ${ctx.policy.allowedDirectories.join(', ') || 'none'}.`,
+        );
+      }
+      // Phase 12/14 — creating files before the plan is validated is how a
+      // page acquires a route nobody agreed to.
+      if (!ctx.run.creationPlanApproved()) {
+        return failure(
+          'PLAN_REQUIRED. Call propose_page_plan and pass its validation before creating files.',
+        );
+      }
+
+      const patch = await applyPatch({
+        runId: ctx.run.runId,
+        edits: [],
+        creates: [{ file, content, overwrite: input.overwrite === true }],
+        reason,
+        writeAllowlist: ctx.writeAllowlist,
+        canCreate: (candidate) => isCreatablePath(candidate, ctx.policy),
+        assetGuard: (candidate) => checkAssetMutation(candidate, ctx.surface, ctx.policy),
+        existingBaseline: ctx.run.patch()?.baseline,
+        existingCreatedFiles: ctx.run.patch()?.createdFiles,
+      });
+      ctx.run.setPatch(patch);
+      return textResult(
+        `created ${file}`,
+        `Created ${file} (${content.length} bytes) as part of patch ${patch.patchId}. Reverting this run deletes it.`,
+      );
+    }
+
+    /** Phase 15 — look before you build. */
+    case 'discover_components': {
+      const need = String(input.need ?? '').trim();
+      if (!need) return failure('discover_components requires a need');
+      const maxResults = Math.min(Number(input.maxResults ?? 12) || 12, 40);
+      const terms = need
+        .toLowerCase()
+        .split(/[^a-z0-9]+/)
+        .filter((term) => term.length > 2);
+
+      const candidates: Array<{ file: string; exports: string[]; score: number }> = [];
+      for (const file of ctx.fileAllowlist) {
+        if (!/\.tsx$/.test(file)) continue;
+        const text = await safeRead(file);
+        if (!text) continue;
+        const exported = [...text.matchAll(/export\s+function\s+([A-Z]\w+)/g)].map((match) => match[1]);
+        if (exported.length === 0) continue;
+        const haystack = `${file} ${exported.join(' ')}`.toLowerCase();
+        const score = terms.reduce((sum, term) => sum + (haystack.includes(term) ? 1 : 0), 0);
+        if (score > 0) candidates.push({ file, exports: exported, score });
+      }
+      candidates.sort((a, b) => b.score - a.score);
+      const top = candidates.slice(0, maxResults);
+
+      return textResult(
+        `${top.length} candidate component file(s) for "${need}"`,
+        top.length > 0
+          ? `Existing components that may already meet "${need}":\n${top
+              .map((entry) => `  - ${entry.file}\n      exports: ${entry.exports.join(', ')}`)
+              .join('\n')}\n\nDecide REUSE, EXTEND, FORK or CREATE for each need and justify it in propose_page_plan. Creating a duplicate of one of these is a rejected outcome.`
+          : `No existing component matched "${need}" in the ${ctx.fileAllowlist.length} allowlisted files. CREATE is defensible here; say so in your plan.`,
+      );
+    }
+
+    /** Phase 12/13/14 — the creation gate. */
+    case 'propose_page_plan': {
+      if (!ctx.policy.allowNewFiles) {
+        return failure(
+          `WRITE_AUTHORITY_INSUFFICIENT. propose_page_plan applies to creation runs; this run is at ${ctx.policy.mode}.`,
+        );
+      }
+      const route = String(input.route ?? '').trim();
+      const regions = (Array.isArray(input.regions) ? input.regions : []).map((raw) => {
+        const record = raw as Record<string, unknown>;
+        return {
+          region: String(record.region ?? ''),
+          classification: String(record.classification ?? 'NEW') as RegionClassification['classification'],
+          justification: record.justification ? String(record.justification) : null,
+        };
+      });
+      const components = (Array.isArray(input.components) ? input.components : []).map((raw) => {
+        const record = raw as Record<string, unknown>;
+        return {
+          need: String(record.need ?? ''),
+          disposition: String(record.disposition ?? 'CREATE') as ComponentDecision['disposition'],
+          existingCandidate: record.existingCandidate ? String(record.existingCandidate) : null,
+          justification: String(record.justification ?? ''),
+        };
+      });
+
+      const problems: string[] = [];
+
+      const routeCheck = validateRouteIntent(
+        route,
+        DESIGN_SURFACES.map((surface) => surface.route),
+        ctx.surface.route,
+      );
+      if (!routeCheck.valid) problems.push(`ROUTE: ${routeCheck.reason}`);
+      if (!ctx.policy.allowRouteCreation && route) {
+        problems.push('ROUTE: this run has no route-creation authority');
+      }
+
+      const regionCheck = validateRegionPlan(regions, ctx.surface.inheritanceRules?.mustInherit ?? []);
+      problems.push(...regionCheck.problems.map((problem) => `INHERITANCE: ${problem}`));
+
+      for (const decision of components) {
+        if (decision.disposition === 'CREATE' && !decision.justification.trim()) {
+          problems.push(`COMPONENT: "${decision.need}" is CREATE with no justification`);
+        }
+        if (decision.disposition !== 'CREATE' && !decision.existingCandidate) {
+          problems.push(`COMPONENT: "${decision.need}" is ${decision.disposition} but names no existing candidate`);
+        }
+      }
+
+      if (problems.length > 0) {
+        return {
+          ok: false,
+          summary: `plan rejected (${problems.length} problem(s))`,
+          content: `PLAN_REJECTED. Fix these and resubmit:\n${problems.map((problem) => `  - ${problem}`).join('\n')}`,
+        };
+      }
+
+      ctx.run.approveCreationPlan({ route, regions, components });
+      return textResult(
+        'plan accepted',
+        `PLAN_ACCEPTED.\nRoute: ${route}\nRegions: ${regions
+          .map((region) => `${region.region}=${region.classification}`)
+          .join(', ')}\nComponents: ${components
+          .map((decision) => `${decision.need}=${decision.disposition}`)
+          .join(', ')}\n\ncreate_file is now unlocked for this run.`,
       );
     }
 
@@ -373,13 +626,13 @@ async function dispatchInner(
     }
 
     case 'launch_or_refresh_preview': {
-      const readiness = await previewReadiness();
+      const readiness = await previewReadiness(ctx.route);
       return {
         ok: readiness.ready,
-        summary: `preview ${readiness.ready ? 'ready' : 'unavailable'}`,
+        summary: `preview ${readiness.ready ? 'ready' : `blocked: ${readiness.reason}`}`,
         content: readiness.ready
           ? `PREVIEW READY. ${readiness.detail}`
-          : `PREVIEW_FAILURE. ${readiness.detail}. You cannot self-certify this change visually; say so in your summary.`,
+          : `PREVIEW BLOCKED\nreason: ${readiness.reason}\ndetail: ${readiness.detail}\norigin: ${readiness.origin || '(none configured)'}\nenvironment: ${readiness.environment}\nremedy: ${readiness.remedy ?? 'none'}\n\nYou cannot see the render, so you cannot certify this change visually. Say so explicitly in your summary rather than inferring the result from the source.`,
       };
     }
 

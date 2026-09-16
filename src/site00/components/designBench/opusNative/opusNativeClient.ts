@@ -9,11 +9,18 @@
 import { apiFetch } from '../../../../utils/api';
 import { OPUS_NATIVE_API_PATH } from '../../../../../shared/site00-opus-native/contracts';
 import type {
+  OpusNativeAgentContextResponse,
   OpusNativeEstimateResponse,
   OpusNativeGapResponse,
   OpusNativeLedgerResponse,
+  OpusNativeSurfacesResponse,
   OpusNativeTargetRef,
 } from '../../../../../shared/site00-opus-native/contracts';
+import type {
+  DesignAgentIntent,
+  FounderWriteGrant,
+  WriteAuthorizationRequest,
+} from '../../../../../shared/site00-opus-native/writePolicy';
 import type {
   OpusNativeDiagnostics,
   OpusNativeMode,
@@ -66,6 +73,8 @@ export async function estimateRun(input: {
   mode: OpusNativeMode;
   task: string;
   target?: OpusNativeTargetRef;
+  intent?: DesignAgentIntent;
+  writeGrant?: FounderWriteGrant | null;
 }): Promise<OpusNativeEstimateResponse> {
   return readJson(
     await apiFetch(OPUS_NATIVE_API_PATH, { method: 'POST', body: { action: 'estimate', ...input } }),
@@ -78,10 +87,76 @@ export async function startRun(input: {
   target?: OpusNativeTargetRef;
   founderConfirmedSpend: boolean;
   scriptedProviderId?: string;
+  intent?: DesignAgentIntent;
+  writeGrant?: FounderWriteGrant | null;
+  sessionId?: string | null;
 }): Promise<{ ok: true; run: OpusNativeRun }> {
   return readJson(
     await apiFetch(OPUS_NATIVE_API_PATH, { method: 'POST', body: { action: 'start', ...input } }),
   );
+}
+
+/**
+ * P0.VR.OPUS-NATIVE2 — Phase 23. Request changes and continue in one call, so
+ * the founder's follow-up lands on the existing thread instead of starting a
+ * cold run that has to rediscover everything.
+ */
+export async function continueRun(input: {
+  runId: string;
+  note: string;
+  founderConfirmedSpend: boolean;
+  scriptedProviderId?: string;
+}): Promise<{ ok: true; run: OpusNativeRun }> {
+  return readJson(
+    await apiFetch(OPUS_NATIVE_API_PATH, { method: 'POST', body: { action: 'continue', ...input } }),
+  );
+}
+
+export async function fetchSurfaces(): Promise<OpusNativeSurfacesResponse> {
+  return readJson(await apiFetch(`${OPUS_NATIVE_API_PATH}?action=surfaces`));
+}
+
+/** Phase 32 — compiled operational context. Never reasoning. */
+export async function fetchAgentContext(input: {
+  route?: string;
+  pageId?: string;
+  mode?: OpusNativeMode;
+  intent?: DesignAgentIntent;
+}): Promise<OpusNativeAgentContextResponse> {
+  const query = new URLSearchParams({ action: 'agent_context' });
+  if (input.route) query.set('route', input.route);
+  if (input.pageId) query.set('pageId', input.pageId);
+  if (input.mode) query.set('mode', input.mode);
+  if (input.intent) query.set('intent', input.intent);
+  return readJson(await apiFetch(`${OPUS_NATIVE_API_PATH}?${query.toString()}`));
+}
+
+/**
+ * Phase 7. A start that needs authorization comes back as a structured 409,
+ * and `readJson` would flatten it to a message. This preserves the
+ * authorization request so the panel can render the grant prompt.
+ */
+export class WriteAccessRequiredError extends Error {
+  constructor(public readonly authorization: WriteAuthorizationRequest) {
+    super(`WRITE_ACCESS_REQUIRED: ${authorization.requestedMode} needed on ${authorization.pageId}`);
+    this.name = 'WriteAccessRequiredError';
+  }
+}
+
+export async function startRunAuthorised(input: Parameters<typeof startRun>[0]) {
+  const response = await apiFetch(OPUS_NATIVE_API_PATH, {
+    method: 'POST',
+    body: { action: 'start', ...input },
+  });
+  const text = await response.text();
+  const payload = JSON.parse(text) as Record<string, unknown>;
+  if (payload.error === 'WRITE_ACCESS_REQUIRED' && payload.writeAuthorization) {
+    throw new WriteAccessRequiredError(payload.writeAuthorization as WriteAuthorizationRequest);
+  }
+  if (!response.ok || payload.ok === false) {
+    throw new Error(String(payload.detail ?? payload.error ?? `request failed (${response.status})`));
+  }
+  return payload as { ok: true; run: OpusNativeRun };
 }
 
 export async function runAction(

@@ -8,6 +8,7 @@
  */
 
 import type { OpusNativeCostGuardLimits, OpusNativeMode } from './types.js';
+import type { DesignWriteMode } from './writePolicy.js';
 
 export type OpusModelEffort = 'low' | 'medium' | 'high';
 
@@ -27,6 +28,14 @@ export interface OpusNativeModeContract {
   limits: OpusNativeCostGuardLimits;
   /** Dependency expansion depth for the code access boundary (Phase 9). */
   dependencyDepth: number;
+  /**
+   * P0.VR.OPUS-NATIVE2 — Phase 21. The capability this mode is shaped for.
+   * Advisory: it drives the default intent the dock offers and nothing else.
+   * Permission comes from the surface policy and the founder's grant, never
+   * from the mode — otherwise picking FORENSIC would be a way to widen write
+   * access without anyone approving it.
+   */
+  expectedWriteMode: DesignWriteMode;
 }
 
 export const OPUS_NATIVE_MODE_CONTRACTS: Record<OpusNativeMode, OpusNativeModeContract> = {
@@ -39,6 +48,17 @@ export const OPUS_NATIVE_MODE_CONTRACTS: Record<OpusNativeMode, OpusNativeModeCo
       'small spacing adjustments',
       'tiny component polish',
     ],
+    /**
+     * P0.VR.OPUS-NATIVE2 — Phase 21. QUICK stays cheap on purpose and is
+     * therefore not viable on every surface. A QUICK visual loop on the
+     * canonical NDXBOOK page projects around $0.61 against this $0.75
+     * ceiling, because two full-page screenshots plus the page context cost
+     * most of the budget before the model does any work; a proof run of
+     * exactly that shape was stopped by the guard after the patch landed and
+     * before the comparison. The fix is not a bigger ceiling — that would
+     * make QUICK a second DESIGN — it is that the estimate now refuses a mode
+     * that cannot finish and names the one that can.
+     */
     contextBudgetTokens: 12_000,
     includeProjectContext: false,
     includeInteractionContract: false,
@@ -46,6 +66,8 @@ export const OPUS_NATIVE_MODE_CONTRACTS: Record<OpusNativeMode, OpusNativeModeCo
     defaultEffort: 'low',
     maxOutputTokens: 4_000,
     dependencyDepth: 0,
+    /** Phase 21 — capability the mode expects to need. Not a permission. */
+    expectedWriteMode: 'STYLE_ONLY',
     limits: {
       // The protocol's own required method is inspect, render, patch, render,
       // verify, report. Six turns is the floor for a correct QUICK run, so the
@@ -74,6 +96,7 @@ export const OPUS_NATIVE_MODE_CONTRACTS: Record<OpusNativeMode, OpusNativeModeCo
     defaultEffort: 'medium',
     maxOutputTokens: 16_000,
     dependencyDepth: 1,
+    expectedWriteMode: 'PAGE_EDIT',
     limits: {
       maxIterations: 12,
       maxInputTokens: 400_000,
@@ -99,6 +122,7 @@ export const OPUS_NATIVE_MODE_CONTRACTS: Record<OpusNativeMode, OpusNativeModeCo
     defaultEffort: 'high',
     maxOutputTokens: 32_000,
     dependencyDepth: 2,
+    expectedWriteMode: 'PAGE_EDIT',
     limits: {
       maxIterations: 30,
       maxInputTokens: 1_500_000,

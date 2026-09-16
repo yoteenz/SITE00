@@ -33,8 +33,16 @@ import {
   type ProviderSystemBlock,
   type ProviderToolResultBlock,
 } from './provider.js';
+import {
+  DESIGN_AGENT_INTENT_SPECS,
+  type DesignAgentIntent,
+  type FounderWriteGrant,
+  type WriteAuthorizationRequest,
+} from '../../../shared/site00-opus-native/writePolicy.js';
+import type { PageCreationContract } from '../../../shared/site00-opus-native/pageCreation.js';
 import { getScriptedTranscript } from './scriptedTranscripts.js';
 import { persistLineage, RunContextHandle, storeRun } from './runContext.js';
+import { getSession, recordRunInSession } from './sessionStore.js';
 import { dispatchTool, OPUS_TOOL_DEFINITIONS } from './tools.js';
 import { isAnthropicConfigured, scriptedProviderEnabled } from './config.js';
 import { PatchConflictError } from './workspaceSandbox.js';
@@ -47,6 +55,16 @@ export interface StartRunInput {
   founderConfirmedSpend: boolean;
   scriptedProviderId?: string;
   maxRunCostUsd?: number;
+  // ---- P0.VR.OPUS-NATIVE2 --------------------------------------------------
+  /** Phase 5 — declared by the founder. Defaults to the most conservative edit intent. */
+  intent?: DesignAgentIntent;
+  /** Phase 7 — run-scoped capability grant. Absent means standing authority only. */
+  writeGrant?: FounderWriteGrant | null;
+  /** Phase 12 — required for creation intents. */
+  creationContract?: PageCreationContract | null;
+  /** Phase 23/24 — continue an existing thread instead of starting one. */
+  sessionId?: string | null;
+  parentRunId?: string | null;
 }
 
 export class SpendNotConfirmedError extends Error {
@@ -56,15 +74,58 @@ export class SpendNotConfirmedError extends Error {
   }
 }
 
+/**
+ * Phase 7 — thrown before any spend when an intent outruns the surface's
+ * permitted capability. Carries the whole authorization request so the panel
+ * can render the grant prompt without a second round trip.
+ */
+export class WriteAuthorizationRequiredError extends Error {
+  constructor(public readonly request: WriteAuthorizationRequest) {
+    super(
+      `WRITE_ACCESS_REQUIRED: ${request.intent} on ${request.pageId} needs ${request.requestedMode}; permitted is ${request.permittedMode}`,
+    );
+    this.name = 'WriteAuthorizationRequiredError';
+  }
+}
+
+/** Phase 12 — a creation intent with no contract would create from defaults. */
+export class CreationContractRequiredError extends Error {
+  constructor(intent: DesignAgentIntent) {
+    super(`CREATION_CONTRACT_REQUIRED: ${intent} requires a PageCreationContract`);
+    this.name = 'CreationContractRequiredError';
+  }
+}
+
 export async function startRun(input: StartRunInput): Promise<RunContextHandle> {
   if (!input.founderConfirmedSpend) throw new SpendNotConfirmedError();
 
+  const intent: DesignAgentIntent = input.intent ?? 'REFINE_CURRENT';
+  const spec = DESIGN_AGENT_INTENT_SPECS[intent];
+  if (spec.requiresCreationContract && !input.creationContract) {
+    throw new CreationContractRequiredError(intent);
+  }
+
+  // Phase 25 — a continuation inherits its thread's compacted state rather
+  // than the parent run's raw transcript.
+  const session = input.sessionId ? getSession(input.sessionId) : null;
+  const compaction = input.parentRunId ? (session?.compaction ?? null) : null;
+
   const runId = `opus-${new Date().toISOString().slice(0, 10)}-${randomUUID().slice(0, 8)}`;
-  const { context, compiled, surface } = await compileAgentContext({
+  const { context, compiled, surface, authority } = await compileAgentContext({
     mode: input.mode,
     task: input.task,
     target: input.target,
+    intent,
+    grant: input.writeGrant ?? null,
+    creationContract: input.creationContract ?? null,
+    sessionCompaction: compaction,
   });
+
+  // Phase 7 — refuse before the provider is constructed, so an unauthorised
+  // run costs nothing at all rather than costing one turn to be told no.
+  if (authority.authorizationRequest) {
+    throw new WriteAuthorizationRequiredError(authority.authorizationRequest);
+  }
 
   const projectContextBlock = compiled.blocks.find((block) => block.label.startsWith('PROJECT_CANON'));
   const meter = new RunCostMeter(
@@ -101,8 +162,27 @@ export async function startRun(input: StartRunInput): Promise<RunContextHandle> 
     meter,
     provider.id,
     projectContextBlock?.text ?? 'No project canon compiled for this mode.',
+    authority,
+    intent,
+    session?.sessionId ?? null,
+    input.parentRunId ?? null,
   );
   storeRun(run);
+
+  if (session) {
+    run.note(
+      'system',
+      input.parentRunId
+        ? `Continuation of ${input.parentRunId} in session ${session.sessionId}. Compacted thread state supplied in place of the parent transcript.`
+        : `Session ${session.sessionId} opened for this thread.`,
+    );
+  }
+  if (authority.grantApplied) {
+    run.note(
+      'system',
+      `Founder granted ${authority.permittedMode} for this run only (standing authority is ${authority.standingMode}). Asset mutation ${authority.policy.allowAssetReferenceChanges ? 'GRANTED' : 'remains BLOCKED'}.`,
+    );
+  }
 
   // The loop is intentionally not awaited: the panel polls status, and a
   // FORENSIC run can legitimately take many minutes.
@@ -175,6 +255,7 @@ async function executeRun(
     surface: run.surface,
     fileAllowlist: run.compiled.fileAllowlist,
     writeAllowlist: run.compiled.writeAllowlist,
+    policy: run.authority.policy,
     viewport: run.context.viewport as OpusNativeViewport,
     route: run.context.route,
   };
@@ -308,10 +389,21 @@ async function finalise(run: RunContextHandle, summary: string): Promise<void> {
     patch: run.patch(),
     before,
     after,
+    /**
+     * P0.VR.OPUS-NATIVE2 — Phase 20/26. The founder review surface shows
+     * BEFORE, AFTER and GOLDEN together. A diff percentage answers "did
+     * something change"; only the reference answers "is it now right", and
+     * the two questions are routinely confused when only the number is shown.
+     */
+    golden: run.context.goldenReference,
+    createdFiles: run.patch()?.createdFiles ?? [],
     typecheck: run.typecheckResult(),
     tests: run.testResult(),
     receipt,
     guard: run.meter.check(),
+    previewBlocked: run.toolCalls.some(
+      (call) => call.tool === 'launch_or_refresh_preview' && !call.ok,
+    ),
   };
   run.setReview(review);
 
@@ -332,6 +424,13 @@ async function finalise(run: RunContextHandle, summary: string): Promise<void> {
 
   if (run.status !== 'ERROR' && run.status !== 'CANCELLED') {
     run.touch('WAITING_FOR_FOUNDER_REVIEW');
+  }
+
+  // Phase 24/25 — fold the finished run into its thread and recompact, so a
+  // continuation dispatched a second later already has the state.
+  const session = run.sessionId ? getSession(run.sessionId) : null;
+  if (session) {
+    recordRunInSession(session, run, run.status === 'ERROR' ? 'ERROR' : 'PENDING');
   }
 }
 

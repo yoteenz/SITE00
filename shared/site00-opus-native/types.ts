@@ -117,8 +117,12 @@ export interface CompiledAgentContext {
   cacheableEstimatedTokens: number;
   /** Files the run is permitted to read, from the dependency-aware boundary. */
   fileAllowlist: string[];
-  /** Files the run is permitted to patch. Always a subset of the allowlist. */
+  /** Files the run is permitted to patch. Resolved from the write capability. */
   writeAllowlist: string[];
+  /** P0.VR.OPUS-NATIVE2 — directories new files may be created in. */
+  createDirectories: string[];
+  writeMode: string;
+  intent: string;
   protocolVersion: string;
   protocolHash: string;
 }
@@ -135,6 +139,13 @@ export interface DesignAgentPatch {
   /** Baseline content per file, which is what makes revert exact rather than approximate. */
   baseline: Record<string, string | null>;
   applied: boolean;
+  /**
+   * P0.VR.OPUS-NATIVE2 — Phase 10. Files this patch brought into existence.
+   * Tracked separately because reverting them means deleting rather than
+   * restoring, and because the founder should see creation distinctly from
+   * modification in the review package.
+   */
+  createdFiles?: string[];
 }
 
 /** Phase 6 — cost receipt. */
@@ -201,6 +212,10 @@ export const OPUS_NATIVE_TOOLS = [
   'capture_screenshot',
   'compare_screenshot',
   'revert_patch',
+  // P0.VR.OPUS-NATIVE2 — Phase 10, 12, 15.
+  'create_file',
+  'discover_components',
+  'propose_page_plan',
 ] as const;
 export type OpusNativeToolName = (typeof OPUS_NATIVE_TOOLS)[number];
 
@@ -247,6 +262,11 @@ export interface OpusNativeReviewPackage {
   patch: DesignAgentPatch | null;
   before: OpusNativeScreenshot | null;
   after: OpusNativeScreenshot | null;
+  /** P0.VR.OPUS-NATIVE2 — Phase 20/26. Shown alongside before/after. */
+  golden: OpusNativeGoldenReference | null;
+  createdFiles: string[];
+  /** True when the run could not see its own render, so nothing is certified visually. */
+  previewBlocked: boolean;
   typecheck: { ran: boolean; ok: boolean; output: string } | null;
   tests: { ran: boolean; ok: boolean; output: string } | null;
   receipt: OpusNativeCostReceipt;
@@ -275,6 +295,14 @@ export interface OpusNativeRun {
   /** Human-readable trace of what the agent did. Never contains provider secrets. */
   transcript: Array<{ at: string; kind: 'assistant' | 'tool' | 'system'; text: string }>;
   providerId: 'anthropic' | 'scripted';
+  // ---- P0.VR.OPUS-NATIVE2 --------------------------------------------------
+  intent: string;
+  writeMode: string;
+  /** True when a founder grant, not the standing policy, opened this scope. */
+  writeGrantApplied: boolean;
+  sessionId: string | null;
+  parentRunId: string | null;
+  creationPlan: unknown | null;
 }
 
 /** Phase 20 — observability. Never contains a secret or any part of one. */
@@ -286,8 +314,16 @@ export interface OpusNativeDiagnostics {
   promptCache: 'HIT' | 'MISS' | 'PARTIAL' | 'UNKNOWN';
   tools: 'READY' | 'FAILED';
   toolsDetail: string;
-  preview: 'READY' | 'FAILED';
+  /**
+   * P0.VR.OPUS-NATIVE2 — Phase 18. BLOCKED carries a named reason and a
+   * remedy; FAILED carried neither and could not be acted on.
+   */
+  preview: 'READY' | 'BLOCKED';
+  previewReason: string | null;
   previewDetail: string;
+  previewOrigin: string;
+  previewRemedy: string | null;
+  environment: string;
   costGuard: OpusNativeCostGuardState;
   protocolVersion: string;
   protocolHash: string;

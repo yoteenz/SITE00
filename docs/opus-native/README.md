@@ -1,9 +1,10 @@
 # Native Opus design runtime
 
-**Sprint:** `P0.VR.OPUS-NATIVE1`
+**Sprints:** `P0.VR.OPUS-NATIVE1`, `P0.VR.OPUS-NATIVE2`
 **Model:** `claude-opus-5`, hard-bound
 **Endpoint:** `/api/site00/opus-native`
-**Surface:** `/projects/:projectSlug/design/opus-native` (internal)
+**Founder surface:** the OPUS dock on any registered DESIGN page
+**Diagnostic surface:** `/projects/:projectSlug/design/opus-native` (internal)
 
 The runtime that lets SITE 00's DESIGN workspace talk to Claude Opus directly
 through the Anthropic API, so routine Opus design work no longer requires
@@ -14,6 +15,7 @@ Cursor.
 | [`01-EXECUTION-PROTOCOL.md`](./01-EXECUTION-PROTOCOL.md) | Phase 1 — `OPUS_DESIGN_EXECUTION_PROTOCOL_V1`, the observed methodology, as runtime policy |
 | [`02-ARCHITECTURE.md`](./02-ARCHITECTURE.md) | Phases 2–21 — how the runtime is built and why |
 | [`03-CURSOR-GAP.md`](./03-CURSOR-GAP.md) | Phase 24 — `NativeOpusVsCursorGap` and what blocks Cursor exit |
+| [`04-EMBEDDED-DESIGN-AGENT.md`](./04-EMBEDDED-DESIGN-AGENT.md) | `P0.VR.OPUS-NATIVE2` — the dock in DESIGN, the write ladder, page creation, preview, sessions |
 
 ## The shape of it
 
@@ -41,10 +43,13 @@ and leaves it in the working tree for a human to commit. The runtime invokes no
 git command anywhere — the only process it ever launches is `npm`, for
 typecheck and tests.
 
-**Writes are boundary-enforced, not requested.** Each design surface declares
-its own write allowlist. The canonical NDXBOOK reconstruction declares none, so
-an agent can read it in full and cannot modify a byte of it. Attempting to is
-recorded as a scope violation and refused by the tool layer.
+**Writes are boundary-enforced, not requested.** Each design surface declares a
+standing capability and a ceiling on what a founder may grant. The canonical
+NDXBOOK reconstruction stands at `READ_ONLY`, so an agent can read it in full
+and cannot modify a byte of it without an explicit, run-scoped grant that can
+never exceed `COMPONENT_ONLY`. Attempting more is recorded as a scope violation
+and refused by the tool layer. See
+[`04-EMBEDDED-DESIGN-AGENT.md`](./04-EMBEDDED-DESIGN-AGENT.md).
 
 ## Operating it
 
@@ -80,7 +85,11 @@ deliberately.
 
 ## Status
 
-The credential is not yet configured in any environment, so no live Opus call
-has been made. Everything else in the pipeline is exercised end to end and
-covered by 54 guard tests. Add `ANTHROPIC_API_KEY` to the Railway environment
-and the same loop runs with Opus choosing the tool calls.
+The credential is configured on Railway but not on the cloud VM, so no live
+Opus call has been made from here. Everything else in the pipeline — including
+the real Chromium render → screenshot → patch → re-render → compare loop, the
+canonical scoped edit and the derivative page creation — is exercised end to
+end by `scripts/design-bench/opus-native2/proofs.mjs` and covered by guard
+tests in `tests/p0vrOpusNative1.test.ts` and `tests/p0vrOpusNative2.test.ts`.
+Add `ANTHROPIC_API_KEY` to the environment and the same loop runs with Opus
+choosing the tool calls.
