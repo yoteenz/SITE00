@@ -162,6 +162,7 @@
   grid-template-columns: 55px 109px 90px 82px 75px 91px 1fr;
   font-size: 9px;
   font-weight: 400;
+  color: #2c2c2c;
   background: var(--fd-paper);
 }
 .fd-nav__menu,
@@ -248,8 +249,9 @@
   display: flex;
   flex-direction: column;
   font-size: 9px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 12.5px;
+  color: #2a2a2a;
 }
 .fd-stage__devices {
   position: absolute;
@@ -324,7 +326,7 @@
 
 .fd-hero {
   position: relative;
-  background: var(--fd-black);
+  background: #121110;
   color: #fff;
   border-radius: 4px;
   overflow: hidden;
@@ -338,8 +340,8 @@
   display: flex;
   justify-content: space-between;
   font-size: 7.8px;
-  font-weight: 500;
-  color: var(--fd-cream);
+  font-weight: 400;
+  color: #c9d66a;
   line-height: 10px;
 }
 .fd-hero__top-right {
@@ -479,7 +481,7 @@
   display: flex;
   align-items: flex-start;
   font-size: 6.9px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 8.5px;
   color: var(--fd-cream);
 }
@@ -525,7 +527,7 @@
   margin-left: auto;
   margin-top: 5px;
   font-size: 7.5px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* rail */
@@ -1075,7 +1077,7 @@
   justify-content: center;
   gap: 12px;
   font-size: 7.2px;
-  font-weight: 400;
+  font-weight: 300;
   border-right: 1px solid var(--fd-border);
 }
 .fd-actions__item:last-child {
@@ -1111,7 +1113,7 @@
 .fd-structured__title {
   margin-top: 4px;
   font-size: 6.9px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 9px;
   height: 18px;
 }
@@ -1380,7 +1382,7 @@
   flex-direction: column;
   gap: 2.5px;
   font-size: 7.5px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 9px;
 }
 .fd-checks li {
@@ -1435,7 +1437,7 @@
   flex-direction: column;
   gap: 11px;
   font-size: 7.2px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 9px;
 }
 .fd-status__row {
@@ -1448,19 +1450,19 @@
 .fd-readiness__next-text {
   margin-top: 4px;
   font-size: 7.7px;
-  font-weight: 400;
+  font-weight: 300;
   line-height: 10.5px;
   height: 21px;
 }
 .fd-readiness__col--next .fd-btn {
-  margin-top: 5px;
-  height: 14px;
-}
-.fd-readiness__col--next .fd-btn--lime {
-  margin-top: 4px;
+  margin-top: 3px;
+  height: 12px;
 }
 .fd-readiness__col--next .fd-btn + .fd-btn {
-  margin-top: 9px;
+  margin-top: 7px;
+}
+.fd-readiness__col--next .fd-btn + .fd-btn + .fd-btn {
+  margin-top: 10px;
 }
 
 /* ------------------------------------------------- 11 + 12 lower sheet */

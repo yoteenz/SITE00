@@ -868,14 +868,14 @@ export function DesignTwinFableDirectPage() {
                 <div className="fd-label">READINESS</div>
                 <div className="fd-gauge">
                   <svg viewBox="0 0 56 56" width="56" height="56" role="img" aria-label="82 percent ready">
-                    <circle cx="28" cy="28" r="24" fill="none" stroke="#d9d9d9" strokeWidth="4" />
+                    <circle cx="28" cy="28" r="24" fill="none" stroke="#d9d9d9" strokeWidth="3.2" />
                     <circle
                       cx="28"
                       cy="28"
                       r="24"
                       fill="none"
                       stroke="#4f8a32"
-                      strokeWidth="4"
+                      strokeWidth="3.2"
                       strokeDasharray={`${(readiness.circumference * readiness.percent) / 100} ${readiness.circumference}`}
                       transform="rotate(-90 28 28)"
                     />
