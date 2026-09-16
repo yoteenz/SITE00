@@ -100,7 +100,6 @@ export {
 } from './captureWorkerTestJob.js';
 export { probePlaywrightReadiness } from './playwrightReadiness.js';
 export { checkBrowserReadiness } from './browserReadiness.js';
-export { runBrowserBootProbe, CAPTURE_WORKER_TEST_SCREENSHOT_REL } from './browserBootProbe.js';
 export { resolveChromiumExecutable, validateChromiumExecutable } from './chromiumExecutable.js';
 export {
   detectMissingSharedLibraries,

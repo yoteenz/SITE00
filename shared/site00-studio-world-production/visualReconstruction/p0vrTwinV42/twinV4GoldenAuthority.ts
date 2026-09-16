@@ -1,6 +1,7 @@
 import { isLoadableForensicBlueprintUri } from '../p0vrTwinV30R8M2R5/forensicBlueprintCache.js';
 import { site00IsBrowser } from '../../runtime/site00RuntimeEnv.js';
 import { TWIN_V4_GOLDEN_AUTHORITY_INVALID, TWIN_V42_GOLDEN_AUTHORITY_KEY } from './constants.js';
+import { readImageDimensionsFromBytes } from '../imageBytesDimensions.js';
 import { sha256Hex } from './sha256Hex.js';
 import type { TwinV4GoldenAuthority } from './twinV42Types.js';
 
@@ -28,8 +29,8 @@ export async function fetchGoldenAuthorityBytes(url: string): Promise<{ bytes: U
   if (url.startsWith('file://')) {
     if (site00IsBrowser()) throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
     const { readFileSync } = await import('node:fs');
-    const path = decodeURIComponent(url.slice('file://'.length));
-    return { bytes: new Uint8Array(readFileSync(path)), httpStatus: 200 };
+    const filePath = decodeURIComponent(url.slice('file://'.length));
+    return { bytes: new Uint8Array(readFileSync(filePath)), httpStatus: 200 };
   }
   const res = await fetch(url);
   if (!res.ok) throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
@@ -50,9 +51,7 @@ export async function measurePngDimensions(bytes: Uint8Array): Promise<{ width: 
     bitmap.close();
     return dims;
   }
-  const { PNG } = await import('pngjs');
-  const png = PNG.sync.read(Buffer.from(bytes));
-  return { width: png.width, height: png.height };
+  return readImageDimensionsFromBytes(bytes);
 }
 
 const memoryPinnedGolden: { authority: TwinV4GoldenAuthority | null } = { authority: null };
@@ -77,6 +76,7 @@ export function writePinnedTwinV4GoldenAuthority(authority: TwinV4GoldenAuthorit
 
 export async function validateTwinV4GoldenAuthority(
   pin: TwinV4GoldenAuthority,
+  options?: { preloadedBytes?: Uint8Array },
 ): Promise<TwinV4GoldenAuthority> {
   if (!pin.immutable || !pin.approvedByFounder) {
     throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
@@ -88,7 +88,16 @@ export async function validateTwinV4GoldenAuthority(
   ) {
     throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
   }
-  const { bytes, httpStatus } = await fetchGoldenAuthorityBytes(pin.artifactUrl);
+  let bytes: Uint8Array;
+  let httpStatus: number;
+  if (options?.preloadedBytes) {
+    bytes = options.preloadedBytes;
+    httpStatus = 200;
+  } else {
+    const fetched = await fetchGoldenAuthorityBytes(pin.artifactUrl);
+    bytes = fetched.bytes;
+    httpStatus = fetched.httpStatus;
+  }
   const hash = await sha256Hex(bytes);
   if (hash !== pin.sha256) throw new Error(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
   const dims = await measurePngDimensions(bytes);

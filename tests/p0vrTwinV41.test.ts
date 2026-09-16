@@ -22,7 +22,7 @@ import { clearTwinV41PersistenceForTests } from '../shared/site00-studio-world-p
 import {
   buildFounderApprovedForensicAuthorityForFixture,
   ensureTwinV41ForensicBlueprintFixturePng,
-} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/testForensicBlueprintFixture.js';
+} from './helpers/twinV41ForensicBlueprintFixture.js';
 import { extractTwinV4VisualSceneGraph, TWIN_V40_SCENE_GRAPH_STATUS } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/extractTwinV4VisualSceneGraph.js';
 import { compileTwinV4ForensicReconstruction } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV40/compileTwinV4ForensicReconstruction.js';
 import { TWIN_V41_PROJECT_STYLE_FIREWALL } from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/compileTwinV41PixelExtraction.js';

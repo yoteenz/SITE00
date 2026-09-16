@@ -9,7 +9,7 @@ import type { ForensicUiBlueprintAuthority } from '../p0vrTwinV30R8M2R5/forensic
 import { DESIGN_PAGE_V3_PILOT_PROJECT_ID } from '../p0vrTwinV30/constants.js';
 import { TWIN_V41_FORENSIC_PIXEL_AUTHORITY_UNAVAILABLE } from './constants.js';
 import type { TwinV41ForensicPixelAuthorityLock } from './twinV41Types.js';
-import { loadForensicRasterFromUri } from './loadForensicRaster.js';
+import { loadForensicRasterFromUri } from './loadForensicRaster.browser.js';
 
 function isPixelAuthorityUriLoadable(uri: string): boolean {
   if (isLoadableForensicBlueprintUri(uri)) return true;

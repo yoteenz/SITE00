@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { TwinV41PixelExtractionBundle } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/twinV41Types.js';
-import { TWIN_V41_PROJECT_STYLE_FIREWALL } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/compileTwinV41PixelExtraction.js';
+import { TWIN_V41_PROJECT_STYLE_FIREWALL } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/twinV41StyleFirewall.js';
 
 type Props = {
   bundle: TwinV41PixelExtractionBundle;

@@ -15,7 +15,7 @@ import { clearTwinV41PersistenceForTests } from '../shared/site00-studio-world-p
 import {
   buildFounderApprovedForensicAuthorityForFixture,
   ensureTwinV41ForensicBlueprintFixturePng,
-} from '../shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/testForensicBlueprintFixture.js';
+} from './helpers/twinV41ForensicBlueprintFixture.js';
 import {
   TWIN_V4_GOLDEN_AUTHORITY_INVALID,
   TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE,
@@ -92,7 +92,7 @@ describe('P0.VR.TWINV4.1F1 golden authority hard pin', () => {
     });
     expect(pin.immutable).toBe(true);
     expect(pin.approvedByFounder).toBe(true);
-    await validateTwinV4GoldenAuthority(pin);
+    await validateTwinV4GoldenAuthority(pin, { preloadedBytes: bytes });
     const bad = { ...pin, sha256: '0'.repeat(64) };
     await expect(validateTwinV4GoldenAuthority(bad)).rejects.toThrow(TWIN_V4_GOLDEN_AUTHORITY_INVALID);
   });
