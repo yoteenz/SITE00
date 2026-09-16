@@ -73,16 +73,20 @@ describe('P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1 — document set', () => 
 });
 
 describe('P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1 — bound to real architecture', () => {
-  it('uses the real authority event union and invents no members', () => {
+  it('keeps every shipped authority event and adds only the three R1 authorised it', () => {
     const source = readRepo(AUTHORITY_TYPES);
-    const union = source
+    const shipped = source
       .split('export type AuthorityPipelineEventType =')[1]
       .split(';')[0]
       .match(/'([A-Z_]+)'/g)!
       .map((member) => member.replace(/'/g, ''));
 
-    expect(union.length).toBeGreaterThan(0);
-    expect([...contract.HISTORY_EVENTS.existingUnion].sort()).toEqual([...union].sort());
+    expect(shipped.length).toBeGreaterThan(0);
+    // R1 (FD-08) authorised exactly three additions as a typed schema change.
+    const authorisedAdditions = ['MOVED_TO_BUILD', 'CANDIDATE_REFINED', 'CANDIDATE_REGENERATED'];
+    const union = contract.HISTORY_EVENTS.existingUnion as string[];
+    for (const member of shipped) expect(union).toContain(member);
+    expect([...union].sort()).toEqual([...shipped, ...authorisedAdditions].sort());
   });
 
   it('cites only feature ids that exist in the design workspace feature manifest', () => {
@@ -167,11 +171,11 @@ describe('P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1 — contract discipline',
     expect(contract.CHILD_PAGE_MAP.confirmedGrandchildPages).toBe(0);
   });
 
-  it('documents every unresolved decision it declares', () => {
-    const ids = (contract.UNRESOLVED_DECISIONS as Array<{ id: string; element: string }>).map(
-      (entry) => entry.id,
-    );
-    expect(ids.length).toBeGreaterThan(0);
+  it('documents every decision it declares', () => {
+    // R1 resolved all nine, so the open list is empty and the resolved list carries them.
+    expect(contract.UNRESOLVED_DECISIONS).toEqual([]);
+    const ids = (contract.founderDecisions as Array<{ id: string }>).map((entry) => entry.id);
+    expect(ids.length).toBe(9);
     expect(new Set(ids).size).toBe(ids.length);
 
     for (const id of ids) {
@@ -204,7 +208,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1 — contract discipline',
   });
 
   it('is documentation only — it declares no implementation', () => {
-    expect(contract.status).toBe('AWAITING_FOUNDER_APPROVAL');
+    expect(contract.status).toBe('FOUNDER_APPROVAL_PENDING');
     expect(contract.COMPOSER_PRECONDITIONS.join(' ')).toContain('founder approval');
   });
 });
