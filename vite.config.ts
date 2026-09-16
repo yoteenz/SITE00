@@ -159,6 +159,10 @@ export default defineConfig(({ mode, command }) => {
           find: /^sharp(\/.*)?$/,
           replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/sharp.ts'),
         },
+        {
+          find: /^pngjs(\/.*)?$/,
+          replacement: path.resolve(__dirname, 'scripts/vite-browser-stubs/pngjs.ts'),
+        },
       ],
     },
     plugins: [

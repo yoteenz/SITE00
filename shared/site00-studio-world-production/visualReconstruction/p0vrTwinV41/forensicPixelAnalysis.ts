@@ -10,7 +10,7 @@ import type {
 } from './twinV41Types.js';
 import type { TwinV41RequiredMajorRegionId } from './constants.js';
 import { TWIN_V41_EXTRACTION_VERSION } from './constants.js';
-import { type ForensicRaster, rgbaAt, rgbToHex } from './loadForensicRaster.js';
+import { type ForensicRaster, rgbaAt, rgbToHex } from './loadForensicRaster.browser.js';
 
 function isBlueLine(r: number, g: number, b: number): boolean {
   return b > 140 && b > r + 30 && b > g + 10 && r < 120;

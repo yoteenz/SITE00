@@ -30,12 +30,31 @@ const ciSprintSnapshotExcludes =
       ]
     : [];
 
+const FORENSIC_RASTER_NODE = path.resolve(
+  __dirname,
+  'shared/site00-studio-world-production/visualReconstruction/p0vrTwinV41/loadForensicRaster.node.ts',
+);
+
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
+  plugins: [
+    react(),
+    {
+      name: 'vitest-forensic-raster-node',
+      enforce: 'pre',
+      resolveId(source) {
+        if (
+          source.endsWith('loadForensicRaster.browser.js') ||
+          source.endsWith('loadForensicRaster.browser.ts') ||
+          source === FORENSIC_RASTER_NODE.replace(/\.ts$/, '.js')
+        ) {
+          return FORENSIC_RASTER_NODE;
+        }
+        return null;
+      },
     },
+  ],
+  resolve: {
+    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
   },
   test: {
     setupFiles: ['tests/setup/primeNdxbookAuthorityIngestion.ts'],

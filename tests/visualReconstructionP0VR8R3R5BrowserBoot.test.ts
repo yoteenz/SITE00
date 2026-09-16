@@ -7,7 +7,6 @@ import { join } from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   buildDeploymentBuildReceipt,
-  CAPTURE_WORKER_TEST_SCREENSHOT_REL,
   checkBrowserReadiness,
   classifyBrowserBootError,
   clearCaptureOrchestrationRegistryForTest,
@@ -22,13 +21,16 @@ import {
   resolveChromiumExecutable,
   resolveDeploymentSourceOfTruth,
   resetWorkerHealthStoreForTest,
-  runBrowserBootProbe,
   startCaptureWorker,
   stopCaptureWorkerForTest,
   systemDependenciesReady,
   validateChromiumExecutable,
   workerHealthStore,
 } from '../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/client.js';
+import {
+  CAPTURE_WORKER_TEST_SCREENSHOT_REL,
+  runBrowserBootProbe,
+} from '../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/serverClient.js';
 import { resetCaptureWorkerRuntimeForTest } from '../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/captureWorkerRuntime.js';
 import {
   createCaptureWorkerTestJob,

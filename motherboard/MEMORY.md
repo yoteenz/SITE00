@@ -9483,6 +9483,17 @@ Summary of this chat: Grok built isolated twin-testA (GROK1), then founder requi
 
 ---
 
+## 2026-09-16 — P0.VR.RUNTIME.BUNDLE-BOOT1 (QT.inherits / pngjs vendor leak)
+
+Summary: production SPA boot failed with **`QT.inherits is not a function`** — full **pngjs** tree bundled into **`vendor.*.js`** via dynamic `import('pngjs')` from Twin V4 client graph.
+
+- **Root import chain:** `src` routes (Design Twin V4 / design workspace) → `compileTwinV42PageBoot.ts` → `compileTwinV41PixelExtraction.ts` → `loadForensicRaster.ts` (dynamic pngjs) and `twinV4GoldenAuthority.ts` (dynamic pngjs); also `p0vr8r3/client.ts` exported `browserBootProbe.ts` (static pngjs) for API/tests only.
+- **Why tree-shaking failed:** Rollup/Vite always emits chunks for static analysis of `import('pngjs')` and static `pngjs` imports even behind `site00IsBrowser()` branches.
+- **Fix:** Split **`loadForensicRaster.browser.ts`** (canvas/fetch only) vs **`loadForensicRaster.node.ts`** (pngjs, vitest plugin redirect); **`readImageDimensionsFromBytes`** client-safe; moved test fixture PNG writer to **`tests/helpers/twinV41ForensicBlueprintFixture.ts`**; **`twinV41StyleFirewall.ts`** for UI imports; **`p0vr8r3/serverClient.ts`** for boot probe; Vite **`pngjs` → browser stub**; extended **`verify-production-dist.mjs`** + **`tests/p0vrRuntimeBundleBoot1.test.ts`**.
+- **Evidence:** `vendor` chunk no longer contains pngjs/inherits; preview **`/projects/ndxbook/design/twin-opus-direct`** Canonical/List switch OK; no QT.inherits in console.
+
+---
+
 ## 2026-09-15 — CI fix: V3 twin tests (R5F2/R6 paths + R7MF3 regenerate)
 
 Summary of this chat: founder shared GitHub Actions **Production Release / test** failures — 3 files (`p0vrTwinV30R5F2`, `p0vrTwinV30R6`, `p0vrTwinV30R7MF3`).

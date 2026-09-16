@@ -13,6 +13,12 @@ const forbidden = [
   '.env.VITEST',
   'debuglog("sharp")',
   'process.report',
+  'pngjs',
+  '.inherits(',
+  'TYPE_IHDR',
+  'PNG_SIGNATURE',
+  'node:fs',
+  'node:child_process',
 ];
 
 let files;
@@ -30,6 +36,7 @@ if (files.length === 0) {
 
 const hits = [];
 for (const file of files) {
+  if (file.startsWith('__vite-browser-external_')) continue;
   const src = readFileSync(join(distAssets, file), 'utf8');
   for (const needle of forbidden) {
     if (src.includes(needle)) hits.push(`${file}: ${needle}`);
