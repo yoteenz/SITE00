@@ -1,14 +1,16 @@
 # Design Workspace Interaction Contract
 
-**Sprint:** `P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1`
+**Sprint:** `P0.VR.DESIGNBENCH.OPUS-INTERACTION-CONTRACT1`, resolved by `…1R1`
 **Subject route:** `/projects/:projectSlug/design/twin-opus-direct`
-**Status:** pre-Composer functional contract. Nothing here is implemented by this sprint.
+**Status:** `FOUNDER_APPROVAL_PENDING`. All nine founder decisions are resolved in
+section 08; nothing here is implemented by either sprint.
 
 The design tells us what exists. This contract defines what it means.
 
 Composer implements the approved visual contract plus this approved interaction
-contract, and nothing else. Where this contract says `FOUNDER_DECISION_REQUIRED`,
-Composer must stop rather than choose.
+contract, and nothing else. R1 closed every `FOUNDER_DECISION_REQUIRED` marker, so
+there is no longer a case where Composer must stop — but it must not reopen a
+resolved decision either.
 
 ## Document set
 
@@ -20,7 +22,8 @@ Composer must stop rather than choose.
 | [`04-ROUTES-AND-PAGES.md`](./04-ROUTES-AND-PAGES.md) | 3 Route map · 4 Page hierarchy |
 | [`05-OVERLAYS-ASYNC-PERMISSIONS-EVENTS.md`](./05-OVERLAYS-ASYNC-PERMISSIONS-EVENTS.md) | 8 Overlay map · 9 Permissions · 10 Async states · 11 Cost guards · 12 History events |
 | [`06-PARITY-RESPONSIVE-ACCESSIBILITY.md`](./06-PARITY-RESPONSIVE-ACCESSIBILITY.md) | 7 Interaction surfaces · 13 Canonical/List parity · 14 Responsive · 15 Accessibility |
-| [`07-INHERITANCE-AND-FOUNDER-DECISIONS.md`](./07-INHERITANCE-AND-FOUNDER-DECISIONS.md) | 16 Inherited patterns · 17 Unresolved founder decisions |
+| [`07-INHERITANCE-AND-FOUNDER-DECISIONS.md`](./07-INHERITANCE-AND-FOUNDER-DECISIONS.md) | 16 Inherited patterns · 17 Founder decisions, as originally raised |
+| [`08-FOUNDER-DECISION-RESOLUTIONS.md`](./08-FOUNDER-DECISION-RESOLUTIONS.md) | R1 resolutions for FD-01…FD-09 · authority persistence · spend guard · event taxonomy |
 | [`composer-contract.json`](./composer-contract.json) | 18 Composer handoff contract (machine-readable) |
 
 ## The one thing to understand first
@@ -62,7 +65,8 @@ entry cites which rung it came from.
    labelled as such.
 
 Where rung 6 was the only available evidence for something load-bearing, the
-element is marked `FOUNDER_DECISION_REQUIRED` instead of guessed.
+element was marked `FOUNDER_DECISION_REQUIRED` instead of guessed. Section 08
+resolves each of those nine, arguing from the same rungs.
 
 ## Vocabulary warning: the mock strings lie in three places
 
