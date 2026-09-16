@@ -205,3 +205,65 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — accessibility', () => {
     expect(hiddenCount).toBe(svgCount);
   });
 });
+
+describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1R2 — border hierarchy and small-UI weight', () => {
+  const token = (name: string) => {
+    const match = css.match(new RegExp(`--tod-border-${name}:\\s*#([0-9a-f]{6});`));
+    if (!match) throw new Error(`missing --tod-border-${name}`);
+    return parseInt(match[1].slice(0, 2), 16);
+  };
+
+  it('defines four border tiers ordered darkest to lightest', () => {
+    const major = token('major');
+    const panel = token('panel');
+    const column = token('column');
+    const subtle = token('subtle');
+    expect(major).toBeLessThan(panel);
+    expect(panel).toBeLessThan(column);
+    expect(column).toBeLessThan(subtle);
+    // Strong enough to read as a technical divider, never a heavy black frame.
+    expect(major).toBeGreaterThan(130);
+    expect(subtle).toBeLessThan(230);
+  });
+
+  it('puts every major panel frame on the strongest tier', () => {
+    for (const selector of ['.tod-gallery {', '.tod-out {', '.tod-pipe {']) {
+      const block = css.slice(css.indexOf(selector), css.indexOf('}', css.indexOf(selector)));
+      expect(block).toContain('var(--tod-border-major)');
+    }
+  });
+
+  it('keeps in-panel dividers subordinate to the frames that contain them', () => {
+    for (const selector of ['.tod-out__col {', '.tod-pipe__col {', '.tod-actions__cell {']) {
+      const block = css.slice(css.indexOf(selector), css.indexOf('}', css.indexOf(selector)));
+      expect(block).toContain('var(--tod-border-column)');
+    }
+    for (const selector of ['.tod-nav__cell {', '.tod-band__col {', '.tod-bottom__cell {']) {
+      const block = css.slice(css.indexOf(selector), css.indexOf('}', css.indexOf(selector)));
+      expect(block).toContain('var(--tod-border-subtle)');
+    }
+  });
+
+  it('routes every chrome border through the hierarchy instead of ad-hoc greys', () => {
+    expect(css).not.toContain('--tod-line');
+    expect(css).not.toContain('border-right: 1px solid #d6d6d6');
+    expect(css).not.toContain('border-right: 1px solid #e2e2e2');
+  });
+
+  it('raises small UI text to a real variable-font cut without bolding it', () => {
+    expect(css).toContain('--tod-weight-ui: 500');
+    const uses = (css.match(/font-weight: var\(--tod-weight-ui\)/g) ?? []).length;
+    expect(uses).toBeGreaterThan(20);
+    // Restraint: 700 stays reserved for the few emphasis slots that already had it.
+    const bold = (css.match(/font-weight: 700/g) ?? []).length;
+    expect(bold).toBeLessThanOrEqual(8);
+  });
+
+  it('leaves the hero headline and the reference imagery untouched', () => {
+    const headline = css.slice(css.indexOf('.tod-hero__headline {'), css.indexOf('}', css.indexOf('.tod-hero__headline {')));
+    expect(headline).toContain('font-weight: 400');
+    expect(headline).not.toContain('--tod-weight-ui');
+    expect(css).toContain('border: 1px solid #8e7d60');
+    expect(css).toContain('border: 1.3px solid rgba(186, 38, 28, 0.9)');
+  });
+});
