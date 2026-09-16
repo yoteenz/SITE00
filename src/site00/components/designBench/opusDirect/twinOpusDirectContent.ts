@@ -47,7 +47,7 @@ export const TWIN_OPUS_DIRECT_HERO = {
   eyebrowLeft: 'ENTRY 001',
   eyebrowCentre: 'CULTURAL RECEIPT',
   eyebrowRight: '001',
-  headline: ['THE SIGNAL', 'IS THE INDEX'],
+  headline: ['THE SIGNAL', 'IS THE', 'INDEX'],
   standfirst: ['CULTURE AS EVIDENCE.', 'IDEAS AS INDEX.', 'NDXBOOK.'],
   footerLeft: ['INDEX SIGNAL:', 'PAGE 001 INDEXED'],
   footerMid: ['ARCHIVAL EVIDENCE', 'ATTACHED'],

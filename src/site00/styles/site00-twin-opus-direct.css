@@ -7,7 +7,7 @@
  * scaled to fit the viewport; nothing here paints the reference as a raster.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@800&display=swap');
 
 .tod-root {
   --tod-w: 768px;
@@ -479,35 +479,42 @@
   gap: 49px;
 }
 
+/* HERO-TEXT-R2: designed 3-line editorial lockup. Not a resized Anton two-liner. */
 .tod-hero__headline {
   position: absolute;
-  top: 59.7px;
+  top: 56px;
   left: 18.9px;
-  width: 380px;
-  font-family: var(--tod-display);
-  font-weight: 400;
-  color: #f3ebe1;
-  letter-spacing: -0.018em;
+  width: max-content;
+  max-width: 270px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-family: 'Inter Tight', Inter, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 54px;
+  line-height: 0.78;
+  letter-spacing: -0.078em;
+  color: #f3eee4;
+  text-transform: uppercase;
+  font-stretch: condensed;
+  font-kerning: normal;
 }
 
 .tod-hero__headlineLine {
   display: block;
-  height: 66.4px;
-  line-height: 66.4px;
-  font-size: 67.2px;
+  width: max-content;
+  height: auto;
+  line-height: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
   white-space: nowrap;
 }
 
 .tod-hero__headlineInk {
-  display: inline-block;
-  transform: scaleX(0.694);
-  transform-origin: 0 50%;
-  -webkit-text-stroke: 0.35px #f3ebe1;
-  paint-order: stroke fill;
-}
-
-.tod-hero__headlineLine:nth-child(2) .tod-hero__headlineInk {
-  transform: scaleX(0.704);
+  display: block;
+  transform: none;
 }
 
 .tod-hero__standfirst {
