@@ -1146,8 +1146,12 @@
 }
 
 .tod-card__raster--collage {
-  object-position: 62% 48%;
+  object-position: 72% 48%;
   z-index: 1;
+}
+
+.tod-card__surface--collage .tod-card__collageCopy {
+  display: none;
 }
 
 .tod-card__raster--archive {
@@ -1648,8 +1652,9 @@
 }
 
 .tod-out__photo--evidence {
-  object-fit: cover;
+  object-fit: contain;
   object-position: 50% 50%;
+  background: #111;
 }
 
 .tod-out__preview--functions {
