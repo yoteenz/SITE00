@@ -42,7 +42,7 @@ const readBoth = (page) =>
         return cards.findIndex((c) => c.getAttribute('aria-pressed') === 'true');
       })(),
       listPairOpen: document.querySelector('.tod-lv-pair__head')?.getAttribute('aria-expanded') ?? null,
-      listTab: document.querySelector('.tod-lv-record__tab[aria-selected="true"]')?.textContent?.trim() ?? null,
+      listTab: document.querySelector('.tod-lv-tabs__tab[aria-selected="true"]')?.textContent?.trim() ?? null,
       // Shared chrome (identical selectors in both modes).
       viewport:
         document.querySelector('.tod-device[aria-pressed="true"]')?.textContent?.trim() ?? null,
@@ -94,7 +94,7 @@ check('placeholder fully replaced', (await page.locator('.tod-listmount, .tod-li
 // Mutate inside LIST through the shared actions.
 await page.locator('.tod-lv-card').nth(3).click();
 await page.locator('.tod-lv-pair__head').click();
-await page.locator('.tod-lv-record__tab').nth(3).click();
+await page.locator('.tod-lv-tabs__tab').nth(3).click();
 await page.locator('.tod-lv-device').nth(1).click();
 await page.locator('.tod-bottom__cell').nth(4).click();
 await page.waitForTimeout(250);
