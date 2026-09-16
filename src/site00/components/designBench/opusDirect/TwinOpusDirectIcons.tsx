@@ -292,9 +292,27 @@ export function TodIconBolt({ className }: IconProps) {
 export function TodPointingHandPlate({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 120 210" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMax meet">
-      <g fill="#111010">
-        <path d="M54.5 8c5.6 0 9.4 4.2 9.6 10l1.4 63.4 4.6-2.6c4.2-2.4 9-2.2 12.2.6 2.5 2.2 3.4 5.2 2.9 8.6l5.1 1.2c5.3 1.3 8.3 5.5 7.6 10.8l-.2 1.3 3.2 1.8c4.5 2.6 6.2 7.4 4.6 12.4l-8.6 26.8c-4.4 13.8-11.4 24.8-21.4 33.2l-2.4 2v14.2H36.2V176l-3.6-3.4c-8.4-8-13.6-17.2-16.6-27.8L9.4 120c-1.8-6.4 1-11.8 6.6-13.6 5-1.6 9.8.4 12.6 5l6.8 11 .8-52.6.6-51.2C36.8 12.4 40.6 8 46.2 8z" />
+      <defs>
+        <linearGradient id="tod-hand-ink" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#2a2724" />
+          <stop offset="55%" stopColor="#15130f" />
+          <stop offset="100%" stopColor="#060504" />
+        </linearGradient>
+      </defs>
+      <g fill="url(#tod-hand-ink)">
+        <path d="M63 5c3.6 0 6.2 2.8 6.2 6.6V97H56.8V11.6C56.8 7.8 59.4 5 63 5z" />
+        <path d="M45 92h31c4.4 0 7.4 3 7.4 7.4v45.8c0 12-5.4 20.4-14.6 24.6V206H51.6v-36.2C42.8 165.6 37.6 157.2 37.6 145.2V99.4c0-4.4 3-7.4 7.4-7.4z" />
+        <path d="M39.4 114c-6 1.4-9 6.4-7.2 12.6l4.8 15.2c1.8 6 6.6 9.2 11.8 8.2l3.4-.8-3-35.2z" />
       </g>
+      {/* Knuckle creases and the nail break the silhouette so it reads as a photographed hand. */}
+      <g fill="none" stroke="#bdb5a7" strokeWidth={1.5} strokeLinecap="round" opacity={0.5}>
+        <path d="M52 108c8-3.6 16.4-3.6 22 1" />
+        <path d="M52 124c8-2.8 16.4-2 22 3" />
+        <path d="M54 140c8-1.8 15.4 0 20 4" />
+        <path d="M56 22c0-4 4-6.5 8-5.5" />
+        <path d="M56 36h13" />
+      </g>
+      <ellipse cx="63" cy="17" rx="4.6" ry="6.6" fill="#8d867a" opacity={0.45} />
     </svg>
   );
 }

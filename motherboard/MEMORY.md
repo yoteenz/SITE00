@@ -9721,7 +9721,6 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Changes:** `NdxbookSolDirectPage.tsx` Mark/DeviceMark/CheckDot; icon-only CSS sizing; Sol tests assert SVG marks; CORE sol-direct row; this MEMORY entry. PR **#941**.
 - **Conventions:** If a mark is perceived as a shape rather than live text, Grok redraws it. Keep the function, rebuild the shape. Do not drop in Lucide/emoji when the golden shows a different silhouette.
 
-<<<<<<< HEAD
 ---
 
 ## 2026-09-15 — GROK-ASSET1R2 exhaustive Sol icon slot completeness
@@ -9733,7 +9732,9 @@ Summary of the **whole conversation so far** in this chat: founder ran Grok 4.6 
 - **Decisions / outcomes:** Missing before: G8–G11 STATUS checks/warn. Wrong: I1 outline grid, I3/F1–F5 lined doc vs folded file, dock marks too light. After: every golden slot tagged (`data-slot` / `slot`) and asserted. `missingSlotCount = 0` in source. `SOL_STRUCTURE_CHANGED: NO`.
 - **Changes:** `NdxbookSolDirectPage.tsx` file/gridFill marks, STATUS CheckDots, per-panel footer slots, heavier dock CSS; slot inventory test (6 tests); CORE row; this MEMORY entry. PR **#944**.
 - **Conventions:** Do not report ICON_SYMBOL_AUDIT COMPLETE by category. Audit LOCATION + ROLE + SLOT. One footer icon on one card does not prove the other four. All five dock slots must pass independently.
-=======
+
+---
+
 ## 2026-09-15 — P0.VR.DESIGNBENCH.FABLE-DIRECT1 isolated golden reconstruction (v495)
 
 Summary of the **whole conversation so far** in this chat: founder ran a fresh Claude Fable 5.1 High sprint to recreate the attached NDXBOOK DESIGN golden directly in code with high structural/visual fidelity — no Composer, no Sol/Grok/Opus direct code or results consulted, real DOM/CSS only.
@@ -9743,4 +9744,15 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh C
 - **Decisions / outcomes:** Reference viewport **608×1088** (artboard scales down on narrower phones via transform). Hero 410 / gap 13 / rail 156. Section borders land within 1–3px of the golden in every band. The golden/mobile-master is never rendered by the route (raster firewall test). Hero photograph (pointing hand on xerox newsprint) is an SVG/CSS approximation — no standalone source asset exists; only `eu-branch-receipts-isolated.webp` used as muted texture. Route boots without CTRL ROOM sign-in.
 - **Changes:** `src/site00/pages/DesignTwinFableDirectPage.tsx`, `src/site00/styles/site00-twin-fable-direct.css`, route constant + `site00ProjectDesignTwinFableDirectPath` in `routes.ts`, lazy route in `Site00Routes.tsx`, `tests/p0vrDesignBenchFableDirect1.test.ts` (9 tests). PR **#943**. Build **v495**.
 - **Conventions:** Inside a scoped stylesheet, element resets (`button`, `dl`, `ul`) must use `:where(.scope) el` so component classes can override them. `.fd-viewport` is `position: fixed; inset: 0` so body default margin cannot offset/scale the artboard. Golden-derived text sizes on this page are 6–10px medium weight; measure ink extents, not guessed sizes.
->>>>>>> origin/main
+
+---
+
+## 2026-09-15 — P0.VR.DESIGNBENCH.OPUS-DIRECT1R1 forensic reference-fidelity cleanup
+
+Summary of the **whole conversation so far** in this chat: founder ran **OPUS-DIRECT1** (Claude Opus 5 alone recreates the NDXBOOK DESIGN golden directly in code at `/projects/ndxbook/design/twin-opus-direct`, no Composer, no other twin implementations consulted), then asked for the tunnel link (it kept bouncing to the homepage), then asked for a merge-conflict review against `main`, then ran **OPUS-DIRECT1R1** — a full structural refinement of the same route — and finally "continue working".
+
+- **Context:** Same isolated route, 768×1376 reference artboard, golden master `public/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg`. Critical founder defect: the invented **rounded outer page frame / dark backdrop is not in the golden** and had to go.
+- **Topics covered:** Full-bleed shell (no radius, no letterbox); same-viewport normalization (golden upscaled 608×1088 → 768×1376) so golden and live share one coordinate space; section boundary map for all 14 regions; horizontal-rule detection to find real panel/divider rows; per-region and per-card tonal statistics (mean RGB + stdev) instead of eyeballing crops; typography ink-span probes for every text band.
+- **Decisions / outcomes:** `MAX_ABS_DRIFT` across all 14 sections is **2.0 px**. Overall mean abs pixel delta **26.0** (from 27.9), structural bands **17.16**. The four corner regions still differ on purpose — the golden master shows a rounded device corner the founder ruled out. Remaining large deltas are photographic (gallery cards 44.9, hero plate 32) and are covered by the asset firewall.
+- **Changes:** Candidate card 3 rebuilt as a light sheet-stack plus cream sheet; card 4 rebuilt as a left ink panel over full-bleed newsprint (golden's column order); card 2 and the plate filters retoned to the golden's warm mid-greys; band device icons pinned to measured centres with the lime underline row; nav caret is a filled triangle; panel borders 1 → 1.6px with gallery/structured/pipeline heads and dividers on the measured rows; concept tabs absolutely pinned to the golden's uneven centres with a larger bold active tab; rail `SELECTED` recoloured to the golden's dark olive; concept label/value greys lightened; the lock glyph redrawn taller with a keyhole. Audit harness moved to `scripts/design-bench/opus-direct/{audit,rows,crop}.mjs`. Test fixtures corrected (header 41.1, nav 33.5, gallery 195.3). Leftover `<<<<<<<`/`>>>>>>>` conflict markers in this file (from the earlier `main` merge) removed.
+- **Conventions:** sharp's `stats()` reads the **input** image and ignores a pending `extract()` — always `toBuffer()` the crop first or every region reports identical numbers. Judge texture work by mean/stdev against the golden region, not by how the crop looks at 4× nearest-neighbour. When a shared class (`.tod-plate__paper`) serves two contexts, scope the tonal override rather than retuning the base and breaking the other.
