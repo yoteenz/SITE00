@@ -9791,3 +9791,15 @@ Summary of the **whole conversation so far** in this chat: after GROK-ASSET-OPUS
 - **Classification:** All three were **simple**. No conflicting-intent leftover. Opus R1 retraced the SVG hand and rebuilt collage/archive card chrome, but R1 MEMORY already deferred photographic deltas to the asset firewall; Grok rasters stay in those slots.
 - **Resolutions:** CORE row keeps both OPUS-DIRECT1R1 and GROK-ASSET-OPUS1 facts. MEMORY keeps OPUS-DIRECT1R1, FABLE-TEXT1, and GROK-ASSET-OPUS1. Screen collage/archive keep Opus R1 class structure (`tod-card__stack` / `tod-card__archivePaper`) plus Grok `<img>` rasters. CSS hide rules retargeted to the new class names.
 - **Verification:** `tests/p0vrDesignBenchOpusDirect.test.ts` (18) and `tests/p0vrDesignBenchFableText1.test.ts` (7) passed. Playwright 768×1376 still shows xerox hero + four candidate plates.
+
+---
+
+## 2026-09-16 — HERO-TEXT1 headline treatment on twin-opus-direct
+
+Summary of the **whole conversation so far** in this chat: Grok pairing sprints (DIRECT1 → ASSET-OPUS1) then a founder micro-pass to correct only the main hero headline on `/projects/ndxbook/design/twin-opus-direct`.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.HERO-TEXT1**. Golden is authority for the hero headline only. Do not touch the hero image, other copy, icons, or other regions.
+- **Topics covered:** Measured golden (572×1024 → 768) ink boxes vs live Anton lines; wording already `THE SIGNAL` / `IS THE INDEX`; remaining gap was cream tone, tracking, stem weight after scaleX, and per-line condensation.
+- **Decisions / outcomes:** Copy constants unchanged. CSS-only: brighter `#f3ebe1`, `-0.018em` tracking, 0.35px stroke, line scaleX 0.694 / 0.704. Live widths 188.9 / 214 vs golden 189 / 214. Position left/top unchanged.
+- **Changes:** `site00-twin-opus-direct.css` headline rules; one HERO-TEXT1 test; this MEMORY entry.
+- **Conventions:** Hero-text micro-passes must not reopen asset or structure work. Measure ink widths per line; do not “fix” standfirst or the plate.
