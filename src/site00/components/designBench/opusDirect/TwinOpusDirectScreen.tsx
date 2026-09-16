@@ -12,9 +12,15 @@
  */
 
 import { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
 
 import { DesignAgentOpenButton } from '../designAgent/DesignAgentDockContext';
+import { DesignChildSurfaceFrame } from '../production/DesignChildSurfaceFrame';
+import { DesignProductionEmbeddedProvider } from '../production/DesignProductionEmbeddedContext';
+import {
+  DesignProductionSectionInShell,
+  designProductionSectionSubtitle,
+  designProductionSectionTitle,
+} from '../production/DesignProductionSectionInShell';
 import { useDesignProductionNavigation } from '../production/useDesignProductionNavigation';
 
 import { TWIN_OPUS_DIRECT_REFERENCE_VIEWPORT, type TwinOpusDirectViewportId } from './twinOpusDirectContent';
@@ -141,12 +147,20 @@ export function TwinOpusDirectScreen({
   const ViewBody = renderer.body;
   const ViewRecord = renderer.record;
 
-  const overlayPortal =
-    typeof document !== 'undefined' ?
-      createPortal(
-        <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />,
-        document.body,
-      )
+  const sectionBody =
+    surface === 'production' && nav.activeSection ?
+      <DesignChildSurfaceFrame
+        inline
+        mode="WORKSPACE"
+        title={designProductionSectionTitle(nav.activeSection)}
+        subtitle={designProductionSectionSubtitle(nav.activeSection)}
+        overlayId={`section-${nav.activeSection}`}
+        onClose={() => nav.goWorkspace()}
+      >
+        <DesignProductionEmbeddedProvider embedded>
+          <DesignProductionSectionInShell section={nav.activeSection} />
+        </DesignProductionEmbeddedProvider>
+      </DesignChildSurfaceFrame>
     : null;
 
   return (
@@ -287,7 +301,7 @@ export function TwinOpusDirectScreen({
           </section>
 
           {/* 05-10 WORKSPACE BODY — supplied by the active presentation renderer */}
-          <ViewBody workspace={workspace} />
+          {sectionBody ?? <ViewBody workspace={workspace} />}
 
           {/* 11-12 CONCEPT RECORD (renderer-supplied) + 13 BOTTOM_NAVIGATION (shared) */}
           <div className="tod-dock">
@@ -346,7 +360,7 @@ export function TwinOpusDirectScreen({
           </div>
         </div>
       </div>
-      {overlayPortal}
+      <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />
     </div>
   );
 }
