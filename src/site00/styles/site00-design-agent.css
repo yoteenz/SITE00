@@ -252,6 +252,20 @@
   color: #9a9a9a;
 }
 
+.s00-dad__blocked {
+  margin: 0 0 10px;
+  padding: 8px;
+  border: 1px solid #ff6a3d;
+  font-size: 10px;
+  line-height: 1.45;
+  color: #ff6a3d;
+}
+
+.s00-dad__blocked code {
+  font-family: inherit;
+  color: #ffffff;
+}
+
 .s00-dad__warn {
   margin: 6px 0;
   padding: 6px 8px;

@@ -237,7 +237,7 @@ export function DesignAgentDock() {
     [run?.runId],
   );
 
-  if (targeting.registered === false) return null;
+  if (targeting.registered === false && !targeting.registryError) return null;
 
   return (
     <aside className={`s00-dad${open ? ' s00-dad--open' : ''}`} data-testid="design-agent-dock">
@@ -257,6 +257,14 @@ export function DesignAgentDock() {
           <span className="s00-dad__title">OPUS DESIGN AGENT</span>
           <span className="s00-dad__model">{service?.model ?? 'claude-opus-5'}</span>
         </header>
+
+        {targeting.registryError ? (
+          <p className="s00-dad__blocked">
+            AGENT UNAVAILABLE — the surface registry could not be read ({targeting.registryError}). In local
+            development the Vite server must proxy /api to the runtime: run <code>npm run dev:proxy</code> or set
+            VITE_DEV_PROXY_TARGET.
+          </p>
+        ) : null}
 
         {/* Phase 3 — status is the first thing, always. */}
         <div className="s00-dad__status" data-status={status}>

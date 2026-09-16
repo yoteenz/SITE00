@@ -9,7 +9,7 @@
  */
 
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
@@ -504,5 +504,29 @@ describe('P0.VR.OPUS-NATIVE2 — Phase 5: intents map to capability, not to pros
 
   it('keeps INSPECT_ONLY at READ_ONLY', () => {
     expect(DESIGN_AGENT_INTENT_SPECS.INSPECT_ONLY.requiredMode).toBe('READ_ONLY');
+  });
+});
+
+describe('P0.VR.OPUS-NATIVE2 — Phase 2: an unreachable registry is visible, not silent', () => {
+  const dock = readFileSync(
+    path.join(process.cwd(), 'src/site00/components/designBench/designAgent/DesignAgentDock.tsx'),
+    'utf8',
+  );
+  const hook = readFileSync(
+    path.join(process.cwd(), 'src/site00/components/designBench/designAgent/useDesignAgentTarget.ts'),
+    'utf8',
+  );
+
+  it('separates a registry failure from an unregistered page', () => {
+    expect(hook).toContain('registryError');
+    // Hiding the dock on a registry failure produced a page with no agent and
+    // no explanation, which is how the dev-proxy misconfiguration stayed
+    // invisible until it was looked for in the DOM.
+    expect(dock).toContain('targeting.registered === false && !targeting.registryError');
+  });
+
+  it('names the local remedy in the unavailable state', () => {
+    expect(dock).toContain('AGENT UNAVAILABLE');
+    expect(dock).toContain('VITE_DEV_PROXY_TARGET');
   });
 });

@@ -27,6 +27,13 @@ export interface DesignAgentTarget {
   projectSlug: string;
   /** Null while the registry is loading, false when this route is unregistered. */
   registered: boolean | null;
+  /**
+   * Set when the registry could not be read at all. An unreachable registry
+   * and an unregistered page both leave `registered` false, and the two must
+   * not look the same: the first is a broken runtime the founder needs to see,
+   * the second is a page the agent legitimately has nothing to say about.
+   */
+  registryError: string | null;
   standingWriteMode: string | null;
   firewallReason: string | null;
   goldenVersion: string | null;
@@ -65,17 +72,20 @@ export function useDesignAgentTarget(): DesignAgentTarget {
   const [surfaces, setSurfaces] = useState<Awaited<ReturnType<typeof fetchSurfaces>>['surfaces'] | null>(null);
   const [viewport, setViewport] = useState<OpusNativeViewport>(() => readViewport());
   const [viewMode, setViewMode] = useState<string>(() => readViewMode());
+  const [registryError, setRegistryError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     fetchSurfaces()
       .then((response) => {
-        if (!cancelled) setSurfaces(response.surfaces);
+        if (cancelled) return;
+        setSurfaces(response.surfaces);
+        setRegistryError(null);
       })
-      .catch(() => {
-        // An unreachable registry means the dock renders as unavailable
-        // rather than as an unregistered page, which would be a lie.
-        if (!cancelled) setSurfaces([]);
+      .catch((error: unknown) => {
+        if (cancelled) return;
+        setSurfaces([]);
+        setRegistryError(error instanceof Error ? error.message : 'surface registry unreachable');
       });
     return () => {
       cancelled = true;
@@ -103,6 +113,7 @@ export function useDesignAgentTarget(): DesignAgentTarget {
       projectSlug,
       pageId: match?.pageId ?? null,
       registered: surfaces === null ? null : Boolean(match),
+      registryError,
       standingWriteMode: match?.standingWriteMode ?? null,
       firewallReason: match?.writeFirewallReason ?? null,
       goldenVersion: match?.goldenReferenceVersion ?? null,
@@ -114,5 +125,5 @@ export function useDesignAgentTarget(): DesignAgentTarget {
         viewMode,
       },
     };
-  }, [location.pathname, projectSlug, surfaces, viewport, viewMode]);
+  }, [location.pathname, projectSlug, surfaces, viewport, viewMode, registryError]);
 }
