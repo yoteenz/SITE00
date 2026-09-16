@@ -150,6 +150,8 @@ export const SITE00_ROUTES = {
   projectDesignTwinSparkDirect: '/projects/:projectSlug/design/twin-spark-direct',
   /** P0.VR.DESIGNBENCH.SPARK-RESPONSIVE-OPUSGROK1 — isolated Spark responsive translation of twin-opus-direct */
   projectDesignTwinSparkResponsive: '/projects/:projectSlug/design/twin-spark-responsive',
+  /** P0.VR.OPUS-NATIVE1 — internal native Opus design agent runtime surface */
+  projectDesignOpusNative: '/projects/:projectSlug/design/opus-native',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
@@ -557,6 +559,10 @@ export function site00ProjectDesignTwinSparkDirectPath(projectSlug: string): str
 
 export function site00ProjectDesignTwinSparkResponsivePath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-responsive`;
+}
+
+export function site00ProjectDesignOpusNativePath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/opus-native`;
 }
 
 export function site00CanonicalDesignPath(params?: {

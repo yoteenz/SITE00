@@ -184,6 +184,9 @@ const DesignTwinTestAPage = lazy(() =>
 const DesignTwinGrokDirectPage = lazy(() =>
   import('../site00/pages/DesignTwinGrokDirectPage').then((m) => ({ default: m.DesignTwinGrokDirectPage })),
 );
+const DesignOpusNativePage = lazy(() =>
+  import('../site00/pages/DesignOpusNativePage').then((m) => ({ default: m.DesignOpusNativePage })),
+);
 const DesignTwinOpusDirectPage = lazy(() =>
   import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinOpusDirectPage })),
 );
@@ -1189,6 +1192,16 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00Suspense>
               <DesignTwinGrokDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignOpusNative}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignOpusNativePage />
             </Site00Suspense>
           </Site00Layout>
         }
