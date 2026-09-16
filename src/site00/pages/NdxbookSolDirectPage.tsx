@@ -19,7 +19,7 @@ const archiveCards = [
   { version: '', title: 'THE\nSIGNAL\nIS THE\nINDEX', copy: '', kind: 'type', art: SOL.overlay },
 ];
 
-const functionMap = ['F01_INDEX_SIGNAL', 'F02_ERROR_REFERENCE', 'F03_ARCHIVAL_LINK', 'F04_CONTEXT_THREAD', 'F05_SOURCE_TRACE', 'F06_VERIFICATION'];
+const functionMap = ['F01_INDEX_SIGNAL', 'F02_ERROR_REFERENCE', 'F03_ARCHIVAL_LINK', 'F04_CONTEXT_BRIDGE', 'F05_SOURCE_TOGGLE', 'F06_VERIFICATION'];
 
 const reviewCards = [
   { eyebrow: 'GROUNDING', title: 'INDEX SIGNAL\nMANIFEST', asset: 'receipt', art: SOL.form, foot: 'SOURCE: APP.ASSET', slot: 'F1-grounding-file' },
@@ -157,7 +157,7 @@ function Plate({ src, className }: { src: string; className?: string }) {
 function HeroArtifact() {
   return (
     <article className="sol-hero-artifact">
-      <div className="sol-hero-meta"><span>ENTRY 001</span><span className="sol-hero-meta-right"><span>CULTURAL RECEIPT</span><b>001</b></span></div>
+      <div className="sol-hero-meta"><span>ENTRY 001</span><span>CULTURAL RECEIPT</span><span>001</span></div>
       <div className="sol-hero-copy">
         <h1>THE SIGNAL<br />IS THE INDEX</h1>
         <p>CULTURE AS EVIDENCE.<br />IDEAS AS INDEX.<br />NDXBOOK.</p>
@@ -181,16 +181,14 @@ function AuthorityRail() {
       <button>SELECT FOR DESKTOP</button>
       <section>
         <header>AUTHORITY PAIR <Mark name="chevronUp" slot="C2-pair-caret" /></header>
-        <div className="sol-master-row sol-master-row-mobile">
-          <small>MOBILE MASTER</small>
+        <div className="sol-master-row">
+          <div><small>MOBILE MASTER</small><strong>V1.3</strong></div>
           <div className="sol-mini selected-mini"><span>THE SIGNAL<br />IS THE INDEX</span><Plate src={SOL.hand} /><i /></div>
-          <strong>V1.3</strong>
           <em>SELECTED</em>
         </div>
-        <div className="sol-master-row sol-master-row-desktop">
-          <small>DESKTOP MASTER</small>
+        <div className="sol-master-row">
+          <div><small>DESKTOP MASTER</small><strong>V1.1</strong></div>
           <div className="sol-mini desktop-mini"><span>THE SIGNAL /<br />IS THE INDEX</span><Plate src={SOL.hand} /></div>
-          <strong>V1.1</strong>
           <button>REPLACE</button>
         </div>
       </section>
@@ -260,7 +258,7 @@ function Readiness() {
           ['LAYOUT SYSTEM', 'G3-check-layout', false],
           ['TYPE SCALE', 'G4-check-type', false],
           ['ASSET LINKS', 'G5-check-assets', false],
-          ['FUNCTION MAP', 'G6-check-function', true],
+          ['POSITION MAP', 'G6-check-function', true],
           ['ACCESSIBILITY', 'G7-check-a11y', false],
         ].map(([x, slot, warn]) => <p key={String(x)}>{x}<CheckDot slot={String(slot)} warn={warn === true} /></p>)}<button>VIEW DETAILS</button></div>
         <div className="sol-status"><small>STATUS</small>
@@ -282,10 +280,7 @@ function DetailDock() {
       <section className="sol-detail">
         <div className="sol-detail-thumb"><span>THE SIGNAL<br />IS THE INDEX</span><Plate src={SOL.hand} /></div>
         <dl><dt>CONCEPT ID:</dt><dd>ENTRY001_V1.3</dd><dt>CREATED:</dt><dd>2024-05-18</dd><dt>UPDATED:</dt><dd>2024-05-18</dd><dt>AUTHOR:</dt><dd>DESIGN SYSTEM</dd><dt>ARTIFACT TYPE:</dt><dd>ENTRY COVER</dd><dt>SOURCE:</dt><dd>ENTRY001-CAMPAIGN-ARCHIVE</dd></dl>
-        <div className="sol-amend">
-          <strong>NAA-RSF1-AUTHORITY-SELECTION-V1 <mark>ACTIVE</mark></strong>
-          <dl><dt>AMENDMENT TYPE:</dt><dd>AUTHORITY SELECTION</dd><dt>EFFECTIVE:</dt><dd>2024-05-15</dd><dt>SCOPE:</dt><dd>DESIGN WORKSPACE</dd><dt>AUTHORITY WORKFLOW:</dt><dd>ENABLED</dd></dl>
-        </div>
+        <div className="sol-amend"><strong>NAA-R5F1-AUTHORITY-SELECTION-V1 <mark>ACTIVE</mark></strong><p>AMENDMENT TYPE:　AUTHORITY SELECTION</p><p>EFFECTIVE:　　　2024-05-15</p><p>SCOPE:　　　　 DESIGN WORKSPACE</p><p>AUTHORITY WORKFLOW: ENABLED</p></div>
         <button>VIEW AMENDMENT</button>
       </section>
     </>

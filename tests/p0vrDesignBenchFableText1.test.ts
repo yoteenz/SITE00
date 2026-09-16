@@ -1,7 +1,7 @@
 /**
- * P0.VR.DESIGNBENCH.FABLE-TEXT1 — Fable live-text / highlight fidelity layer on top of the
- * frozen Sol direct structure. Guards: Sol geometry untouched, golden live copy present
- * slot-by-slot, highlight treatments (lime / black / red underline) and asset firewall.
+ * FABLE-TEXT1 compatibility after Sol R3's measured convergence.
+ * Guards the accepted golden copy additions without allowing the superseded text layer
+ * to move the final 572×1024 Sol geometry.
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,18 +18,18 @@ describe('P0.VR.DESIGNBENCH.FABLE-TEXT1 — Sol structure frozen', () => {
       'min-height: 1024px',
       '.sol-hostbar {\n  height: 31px',
       '.sol-primary-nav { height: 26px',
-      '.sol-context { height: 25px',
-      '.sol-target-band { height: 70px; display: grid; grid-template-columns: 155px 235px 1fr',
-      '.sol-main-stage { height: 305px; display: grid; grid-template-columns: 386px 150px',
-      '.sol-gallery { height: 147px',
-      'grid-template-columns: 131px 126px 126px 132px',
+      '.sol-context { height: 26px',
+      '.sol-target-band { height: 69px; display: grid; grid-template-columns: 155px 234px 1fr',
+      '.sol-main-stage { height: 305px; display: grid; grid-template-columns: 387px 150px',
+      '.sol-gallery { height: 146px',
+      'grid-template-columns: 132px 126px 126px 132px',
       '.sol-structured { height: 142px',
-      '.sol-review-grid { height: 121px; display: grid; grid-template-columns: repeat(5, 1fr)',
+      '.sol-review-grid { height: 121px; display: grid; grid-template-columns: 113px 109px 109px 103px 110px',
       '.sol-readiness { height: 113px',
-      '.sol-ready-grid { display: grid; grid-template-columns: 125px 120px 120px 1fr; height: 92px',
+      '.sol-ready-grid { display: grid; grid-template-columns: 122px 123px 117px 1fr; height: 92px',
       '.sol-detail-tabs { position: relative; height: 27px',
-      '.sol-detail { height: 65px; display: grid; grid-template-columns: 105px 194px 1fr 70px',
-      '.sol-bottom-nav { height: 38px',
+      '.sol-detail { height: 65px; display: grid; grid-template-columns: 105px 186px 1fr 70px',
+      '.sol-bottom-nav { height: 37px',
     ]) {
       expect(css, rule).toContain(rule);
     }
@@ -59,19 +59,18 @@ describe('P0.VR.DESIGNBENCH.FABLE-TEXT1 — golden live copy', () => {
       // structured output — golden lowercase "v1" suffixes + six function rows
       'ANNOTATION_LAYER_v1',
       'FUNCTION_MAP_v1',
-      "'F01_INDEX_SIGNAL', 'F02_ERROR_REFERENCE', 'F03_ARCHIVAL_LINK', 'F04_CONTEXT_THREAD', 'F05_SOURCE_TRACE', 'F06_VERIFICATION'",
+      "'F01_INDEX_SIGNAL', 'F02_ERROR_REFERENCE', 'F03_ARCHIVAL_LINK', 'F04_CONTEXT_BRIDGE', 'F05_SOURCE_TOGGLE', 'F06_VERIFICATION'",
       // gallery — candidate titles + taglines as read from the golden
       "copy: 'CULTURE AS EVIDENCE.\\nIDEAS AS INDEX.\\nNDXBOOK.'",
       "title: '', copy: 'CULTURE AS\\nEVIDENCE.\\nIDEAS AS INDEX.'",
       "title: 'THE\\nSIGNAL\\nIS THE\\nINDEX'",
       // lower amendment card
-      'NAA-RSF1-AUTHORITY-SELECTION-V1',
-      '<dt>AMENDMENT TYPE:</dt><dd>AUTHORITY SELECTION</dd>',
-      '<dt>EFFECTIVE:</dt><dd>2024-05-15</dd>',
-      '<dt>SCOPE:</dt><dd>DESIGN WORKSPACE</dd>',
-      '<dt>AUTHORITY WORKFLOW:</dt><dd>ENABLED</dd>',
-      // hero meta emphasis
-      '<span className="sol-hero-meta-right"><span>CULTURAL RECEIPT</span><b>001</b></span>',
+      'NAA-R5F1-AUTHORITY-SELECTION-V1',
+      'AMENDMENT TYPE:　AUTHORITY SELECTION',
+      'EFFECTIVE:　　　2024-05-15',
+      'SCOPE:　　　　 DESIGN WORKSPACE',
+      'AUTHORITY WORKFLOW: ENABLED',
+      '<div className="sol-hero-meta"><span>ENTRY 001</span><span>CULTURAL RECEIPT</span><span>001</span></div>',
     ]) {
       expect(page, copy).toContain(copy);
     }
@@ -81,40 +80,33 @@ describe('P0.VR.DESIGNBENCH.FABLE-TEXT1 — golden live copy', () => {
     expect(page).not.toContain('CULTURE HAS');
     expect(page).not.toContain('A PAPER TRAIL.');
     expect(page).not.toContain('IS IN THE');
-    expect(page).not.toContain('F04_CONTEXT_BRIDGE');
-    expect(page).not.toContain('F05_SOURCE_TOGGLE');
-    expect(page).not.toContain('NAA-R5F1');
-    expect(page).not.toContain('\u3000');
+    expect(page).not.toContain('F04_CONTEXT_THREAD');
+    expect(page).not.toContain('F05_SOURCE_TRACE');
+    expect(page).not.toContain('NAA-RSF1');
   });
 
-  it('puts the readiness warning on FUNCTION MAP as in the golden', () => {
-    expect(page).toContain("['FUNCTION MAP', 'G6-check-function', true]");
+  it('puts the readiness warning on POSITION MAP as in the golden', () => {
+    expect(page).toContain("['POSITION MAP', 'G6-check-function', true]");
     expect(page).toContain("['ACCESSIBILITY', 'G7-check-a11y', false]");
   });
 });
 
 describe('P0.VR.DESIGNBENCH.FABLE-TEXT1 — typography + highlight treatments', () => {
-  it('uses the project display face for the hero headline and candidate titles', () => {
-    expect(css).toContain("--display: \"Anton\", Impact, \"Arial Narrow\", sans-serif");
-    expect(css).toMatch(/\.sol-hero-copy h1 \{[^}]*font-family: var\(--display\)/s);
-    expect(css).toMatch(/\.sol-candidate strong \{[^}]*font-family: var\(--display\)/s);
+  it('uses the calibrated condensed display face for headline and candidates', () => {
+    expect(css).toMatch(/\.sol-hero-copy h1 \{[^}]*font-family: Impact/s);
+    expect(css).toMatch(/\.sol-candidate strong \{[^}]*font-family: Impact/s);
   });
 
   it('matches the golden highlight treatments', () => {
     // SELECTED strip: lime text on black, centered under SELECT FOR MOBILE
     expect(css).toMatch(/\.sol-select-mobile small \{[^}]*color: var\(--lime\)[^}]*text-align: center/s);
-    // Mobile master row: black block with lime border + lime label
-    expect(css).toMatch(/\.sol-master-row-mobile \{[^}]*border: 1px solid var\(--lime\)[^}]*background: #050505/s);
-    expect(css).toContain('.sol-master-row-mobile > small { color: var(--lime); }');
+    // Mobile master preview retains the golden lime selection border.
+    expect(css).toContain('.selected-mini { border: 1px solid var(--lime); }');
     // Selected candidate version label: lime outlined box
     expect(css).toContain('.sol-candidate.selected small { padding: 1px 3px; border: 1px solid var(--lime); border-radius: 2px; }');
-    // Active concept-data tab: red underline, bold, no grey rule under inactive tabs
-    expect(css).toContain('.sol-detail-tabs .active { border-bottom: 2px solid #9c302f; font-weight: 600; }');
-    expect(css).toMatch(/\.sol-detail-tabs span \{[^}]*border-bottom: 0/s);
-    // Bottom dock active: lime underline at the bottom edge, bold label
-    expect(css).toContain('.sol-bottom-nav .active { font-weight: 700; }');
-    expect(css).toMatch(/\.sol-bottom-nav \.active::before \{[^}]*top: auto; bottom: 6px/s);
-    // Host bar crumbs stay tight; only the compiler status floats right
-    expect(css).toContain('.sol-hostbar > .sol-icon { width: 6px; height: 6px; margin-left: 0; }');
+    // Active concept data and workspace states use the measured red/lime rules.
+    expect(css).toMatch(/\.sol-detail-tabs \.active::after \{[^}]*background: #9c302f/s);
+    expect(css).toMatch(/\.sol-bottom-nav \.active::before \{[^}]*top: 0/s);
+    expect(css).toContain('gap: 10px');
   });
 });

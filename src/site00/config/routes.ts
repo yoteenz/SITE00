@@ -148,6 +148,8 @@ export const SITE00_ROUTES = {
   projectDesignTwinFableDirect: '/projects/:projectSlug/design/twin-fable-direct',
   /** P0.VR.DESIGNBENCH.SPARK-DIRECT1 — isolated Spark direct reconstruction */
   projectDesignTwinSparkDirect: '/projects/:projectSlug/design/twin-spark-direct',
+  /** P0.VR.DESIGNBENCH.SPARK-RESPONSIVE-OPUSGROK1 — isolated Spark responsive translation of twin-opus-direct */
+  projectDesignTwinSparkResponsive: '/projects/:projectSlug/design/twin-spark-responsive',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
@@ -551,6 +553,10 @@ export function site00ProjectDesignTwinFableDirectPath(projectSlug: string): str
 
 export function site00ProjectDesignTwinSparkDirectPath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-direct`;
+}
+
+export function site00ProjectDesignTwinSparkResponsivePath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-responsive`;
 }
 
 export function site00CanonicalDesignPath(params?: {
