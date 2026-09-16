@@ -44,15 +44,13 @@
 
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #050505;
+  background: var(--tod-paper);
   overflow: hidden;
 }
 
 .tod-stage {
-  position: relative;
+  position: absolute;
+  inset: 0;
 }
 
 .tod-screen {
@@ -60,12 +58,12 @@
   top: 0;
   left: 0;
   width: var(--tod-w);
-  height: var(--tod-h);
+  min-height: var(--tod-h);
   transform-origin: 0 0;
   display: flex;
   flex-direction: column;
   background: var(--tod-paper);
-  border-radius: 18px;
+  border-radius: 0;
   overflow: hidden;
   color: var(--tod-ink);
   font-family: var(--tod-mono);
@@ -128,12 +126,12 @@
 /* ------------------------------------------------------------------ */
 
 .tod-header {
-  flex: 0 0 40.4px;
-  height: 40.4px;
+  flex: 0 0 41.1px;
+  height: 41.1px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24.4px 0 18.9px;
+  padding: 6px 24.4px 0 18.9px;
   background: #fcfcfc;
   border-bottom: 1px solid var(--tod-line);
 }
@@ -187,8 +185,8 @@
 /* ------------------------------------------------------------------ */
 
 .tod-nav {
-  flex: 0 0 34.1px;
-  height: 34.1px;
+  flex: 0 0 33.5px;
+  height: 33.5px;
   display: flex;
   align-items: stretch;
   background: var(--tod-navbar);
@@ -199,6 +197,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 5px;
   font-size: 9.7px;
   line-height: 1;
   color: #1d1d1d;
@@ -331,7 +330,7 @@
   font-size: 7.9px;
   line-height: 1;
   letter-spacing: 0;
-  color: #55555a;
+  color: #3c3c40;
   margin-bottom: 7.1px;
 }
 
@@ -362,36 +361,60 @@
 }
 
 .tod-band__lock {
-  width: 11.4px;
-  height: 11.4px;
-  color: #2a2a2a;
+  width: 12.6px;
+  height: 12.6px;
+  color: #141414;
+  stroke-width: 2.1;
 }
 
+/* Device centres and the lime underline row are measured off the golden. */
 .tod-band__devices {
-  display: flex;
-  align-items: flex-end;
-  gap: 58px;
-  padding-left: 20px;
+  position: relative;
+  height: 56px;
+  padding-top: 1.5px;
 }
 
 .tod-device {
+  position: absolute;
+  top: 1.5px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  transform: translateX(-50%);
   color: #1a1a1a;
 }
 
+.tod-device:nth-child(1) {
+  left: 20.5px;
+}
+.tod-device:nth-child(2) {
+  left: 118.5px;
+}
+.tod-device:nth-child(3) {
+  left: 226px;
+}
+
 .tod-device__ico {
-  width: 20px;
-  height: 25px;
+  width: auto;
+  height: 29px;
+}
+
+.tod-device:nth-child(1) .tod-device__ico {
+  width: 15.5px;
+}
+.tod-device:nth-child(2) .tod-device__ico {
+  width: 17.5px;
+}
+.tod-device:nth-child(3) .tod-device__ico {
+  width: 42px;
 }
 
 .tod-device__label {
+  margin-top: 7px;
   font-size: 7.9px;
   line-height: 1;
-  padding-bottom: 5px;
-  border-bottom: 2.4px solid transparent;
+  padding-bottom: 10.1px;
+  border-bottom: 3px solid transparent;
 }
 
 .tod-device.is-active .tod-device__label {
@@ -409,7 +432,14 @@
   flex-direction: column;
   padding: 13.2px var(--tod-pad-r) 5.8px var(--tod-pad-l);
   background: var(--tod-paper);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+
+.tod-main::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 /* 05 MAIN_HERO + 06 AUTHORITY_RAIL */
@@ -547,7 +577,7 @@
   inset: 0;
   background-size: 235% 178%;
   background-position: 50% 52%;
-  filter: grayscale(1) contrast(1.55) brightness(0.82);
+  filter: sepia(0.18) contrast(1.3) brightness(0.86);
 }
 
 .tod-plate__rules {
@@ -871,6 +901,7 @@
   font-size: 7.6px;
   line-height: 1.32;
   text-align: center;
+  color: #101010;
 }
 
 .tod-rail__action--lime {
@@ -923,9 +954,9 @@
 
 .tod-rail__lockIco {
   position: absolute;
-  left: 12px;
-  width: 13px;
-  height: 13px;
+  left: 11px;
+  width: 14.5px;
+  height: 14.5px;
 }
 
 /* ------------------------------------------------------------------ */
@@ -934,26 +965,34 @@
 
 .tod-gallery {
   position: relative;
-  flex: 0 0 156.6px;
-  height: 156.6px;
-  border: 1px solid var(--tod-line);
+  flex: 0 0 195.3px;
+  height: 195.3px;
+  border: 1.6px solid var(--tod-line);
   border-radius: 4px;
   background: var(--tod-panel);
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.3px;
+  margin-bottom: 16.4px;
+  overflow: hidden;
+}
+
+.tod-gallery__body {
+  position: relative;
+  flex: 0 0 131.5px;
+  height: 131.5px;
 }
 
 .tod-gallery__head {
-  flex: 0 0 25.3px;
+  flex: 0 0 26.5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 26.5px 0 11.4px;
-  border-bottom: 1px solid var(--tod-line-soft);
+  border-bottom: 1.6px solid var(--tod-line-soft);
 }
 
 .tod-gallery__title {
+  margin-top: 1.5px;
   font-size: 8.45px;
   line-height: 1;
   color: #1d1d1d;
@@ -974,7 +1013,8 @@
 }
 
 .tod-gallery__rail {
-  flex: 1 1 auto;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: flex-start;
   gap: 10.1px;
@@ -1000,15 +1040,19 @@
   left: 7px;
   top: 6px;
   z-index: 3;
-  padding: 1.6px 3px;
   font-size: 6.8px;
   line-height: 1;
-  color: var(--tod-lime);
-  border: 1px solid rgba(205, 238, 48, 0.55);
 }
 
-.tod-card.is-active .tod-card__version {
+.tod-card__version--chip {
+  padding: 2.4px 3.4px;
   color: var(--tod-lime);
+  border: 1px solid rgba(205, 238, 48, 0.75);
+}
+
+.tod-card__version--plain {
+  padding: 2.4px 0;
+  color: #e8e8e4;
 }
 
 .tod-card__tick {
@@ -1066,9 +1110,9 @@
 .tod-card__standfirst {
   display: flex;
   flex-direction: column;
-  margin-top: 5px;
-  font-size: 4.4px;
-  line-height: 6.6px;
+  margin-top: 6px;
+  font-size: 3.8px;
+  line-height: 5.6px;
   color: var(--tod-lime);
 }
 
@@ -1084,8 +1128,12 @@
   height: 99.8px;
 }
 
+.tod-card__plate .tod-plate__paper {
+  filter: sepia(0.18) contrast(1.42) brightness(0.95);
+}
+
 .tod-card__surface--grain {
-  background: radial-gradient(120% 90% at 22% 10%, #2c2c2a 0%, #141413 46%, #0b0b0b 100%);
+  background: radial-gradient(120% 90% at 22% 10%, #46443f 0%, #26251f 48%, #131210 100%);
 }
 
 .tod-card__surface--grain::after {
@@ -1108,172 +1156,223 @@
   top: 0;
   width: 84px;
   height: 100%;
-  background-color: #090909;
+  background-color: #16150f;
   background-image: repeating-linear-gradient(
       90deg,
-      rgba(215, 215, 215, 0.4) 0,
-      rgba(215, 215, 215, 0.4) 0.6px,
+      rgba(226, 224, 214, 0.52) 0,
+      rgba(226, 224, 214, 0.52) 0.6px,
       transparent 0.6px,
-      transparent 4.4px
+      transparent 3.4px
     ),
     repeating-linear-gradient(
       180deg,
-      rgba(215, 215, 215, 0.3) 0,
-      rgba(215, 215, 215, 0.3) 0.6px,
+      rgba(226, 224, 214, 0.42) 0,
+      rgba(226, 224, 214, 0.42) 0.6px,
       transparent 0.6px,
-      transparent 4.4px
+      transparent 3.4px
     ),
     linear-gradient(203deg, transparent 47%, rgba(235, 235, 235, 0.55) 47.4%, transparent 47.8%);
   border-left: 1px solid rgba(220, 220, 220, 0.35);
 }
 
 .tod-card__surface--collage {
-  background: #100f0e;
+  background: #6f6b63;
 }
 
-.tod-card__collage {
+/* Left half: photographed stack of printed sheets. */
+.tod-card__stack {
   position: absolute;
-  inset: 0;
-  background-color: #121110;
+  left: 0;
+  top: 0;
+  width: 106px;
+  height: 100%;
+  background-color: #4b473f;
   background-image: repeating-linear-gradient(
       180deg,
-      rgba(210, 205, 196, 0.16) 0 0.8px,
-      transparent 0.8px 3.4px
-    );
+      rgba(14, 13, 11, 0.5) 0 0.8px,
+      transparent 0.8px 3.2px
+    ),
+    linear-gradient(162deg, rgba(222, 216, 204, 0.42), rgba(14, 13, 11, 0.75));
 }
 
 .tod-card__scrap {
   position: absolute;
-  background-color: #8d8579;
+  background-color: #918b80;
   background-image: repeating-linear-gradient(
       180deg,
-      rgba(22, 20, 18, 0.7) 0 0.8px,
-      transparent 0.8px 2.6px
+      rgba(16, 15, 13, 0.72) 0 0.9px,
+      transparent 0.9px 2.4px
     ),
-    linear-gradient(168deg, rgba(225, 219, 208, 0.85) 0%, rgba(120, 113, 102, 0.9) 100%);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    linear-gradient(168deg, rgba(238, 234, 226, 0.92) 0%, rgba(78, 74, 67, 0.92) 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 .tod-card__scrap--1 {
-  left: 8px;
-  top: 12px;
-  width: 42px;
-  height: 52px;
-  transform: rotate(-4deg);
+  left: 4px;
+  top: 8px;
+  width: 52px;
+  height: 58px;
+  transform: rotate(-3deg);
 }
 .tod-card__scrap--2 {
-  left: 36px;
-  top: 30px;
-  width: 34px;
-  height: 46px;
-  transform: rotate(5deg);
+  left: 44px;
+  top: 20px;
+  width: 46px;
+  height: 52px;
+  transform: rotate(4deg);
 }
 .tod-card__scrap--3 {
-  left: 10px;
-  top: 58px;
-  width: 50px;
-  height: 38px;
+  left: 2px;
+  top: 54px;
+  width: 58px;
+  height: 48px;
   transform: rotate(-1.5deg);
 }
 .tod-card__scrap--4 {
-  left: 58px;
-  top: 66px;
-  width: 30px;
-  height: 40px;
-  transform: rotate(3deg);
+  left: 52px;
+  top: 62px;
+  width: 44px;
+  height: 46px;
+  transform: rotate(2.5deg);
 }
 .tod-card__scrap--5 {
-  left: 2px;
-  top: 40px;
-  width: 26px;
-  height: 34px;
+  left: 24px;
+  top: 34px;
+  width: 40px;
+  height: 40px;
   transform: rotate(6deg);
+}
+
+/* Right half: the cream sheet the lead copy and 001 stamp sit on. */
+.tod-card__sheet {
+  position: absolute;
+  left: 96px;
+  top: 4px;
+  right: 0;
+  bottom: 0;
+  background-color: #a49d8f;
+  background-image: repeating-linear-gradient(
+      180deg,
+      rgba(24, 22, 19, 0.2) 0 0.8px,
+      transparent 0.8px 4.2px
+    ),
+    linear-gradient(190deg, rgba(244, 240, 232, 0.6), rgba(84, 79, 71, 0.6));
 }
 
 .tod-card__collageCopy {
   position: absolute;
-  right: 6px;
-  top: 14px;
-  width: 78px;
+  left: 104px;
+  top: 18px;
+  width: 62px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
   z-index: 2;
 }
 
 .tod-card__collageLead {
   font-size: 4.6px;
-  line-height: 6.4px;
-  color: #efe9dd;
+  line-height: 6.3px;
+  color: #22201c;
 }
 
 .tod-card__stamp {
-  margin-top: 26px;
+  position: absolute;
+  left: 122px;
+  top: 74px;
+  z-index: 2;
   font-family: var(--tod-display);
-  font-size: 30px;
-  line-height: 26px;
-  color: #17140f;
-  background: linear-gradient(180deg, #e9e2d4, #cfc6b4);
-  padding: 4px 6px;
-  align-self: flex-start;
+  font-size: 26px;
+  line-height: 23px;
+  color: #100e0b;
+  background: linear-gradient(180deg, #ece6d9, #d4cbba);
+  padding: 2px 4px;
 }
 
+/* Card 4 — left ink panel over a full-bleed newsprint plate. */
 .tod-card__surface--archive {
-  background: #9a9184;
+  background: #b3ac9e;
 }
 
-.tod-card__archiveCol {
-  flex: 1 1 0;
-  position: relative;
+.tod-card__archivePaper {
+  position: absolute;
+  inset: 0;
+  background-color: #d5cec0;
   background-image: repeating-linear-gradient(
       180deg,
-      rgba(22, 20, 18, 0.62) 0 0.8px,
-      transparent 0.8px 2.4px
+      rgba(28, 25, 22, 0.38) 0 0.7px,
+      transparent 0.7px 2.4px
     ),
     repeating-linear-gradient(
       90deg,
-      rgba(22, 20, 18, 0.34) 0 0.8px,
-      transparent 0.8px 15px
+      rgba(28, 25, 22, 0.3) 0 0.8px,
+      transparent 0.8px 17px
     ),
-    linear-gradient(196deg, rgba(18, 16, 14, 0.5), rgba(18, 16, 14, 0.12));
-  border-right: 1px solid rgba(22, 20, 18, 0.55);
+    linear-gradient(198deg, rgba(250, 247, 240, 0.55), rgba(120, 114, 103, 0.35));
 }
 
-.tod-card__archiveCol--b {
-  background-color: #100f0d;
+.tod-card__archiveInk {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 92px;
+  height: 100%;
+  background: #0c0b0a;
+}
+
+.tod-card__archiveStamp {
+  position: absolute;
+  right: 3px;
+  top: 7px;
+  font-family: var(--tod-display);
+  font-size: 27px;
+  line-height: 24px;
+  letter-spacing: 0.5px;
+  color: #f4f1e9;
+}
+
+.tod-card__archiveRule {
+  position: absolute;
+  left: 58px;
+  top: 53px;
+  width: 27px;
+  height: 1.6px;
+  background: #f4f1e9;
 }
 
 .tod-card__archiveHead {
   position: absolute;
-  left: 4px;
-  top: 34px;
+  left: 17px;
+  top: 54px;
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 13px;
-  line-height: 11px;
+  font-size: 11.5px;
+  line-height: 10.2px;
   color: #ece5da;
 }
 
 .tod-card__archiveHead span {
-  transform: scaleX(0.55);
+  transform: scaleX(0.7);
   transform-origin: 0 50%;
 }
 
-.tod-card__stamp--corner {
+.tod-card__archiveChip {
   position: absolute;
-  right: 4px;
-  top: 4px;
-  margin: 0;
-  font-size: 24px;
-  line-height: 20px;
-  padding: 1px 3px;
+  right: 12px;
+  top: 6px;
+  z-index: 2;
+  font-family: var(--tod-display);
+  font-size: 11px;
+  line-height: 9px;
+  color: #100e0b;
+  background: #ece6d9;
+  padding: 1.5px 2.5px;
 }
 
 .tod-gallery__next {
   position: absolute;
   right: -9px;
-  top: 90px;
+  top: 52.5px;
   width: 22.7px;
   height: 22.7px;
   border-radius: 50%;
@@ -1296,13 +1395,11 @@
 /* ------------------------------------------------------------------ */
 
 .tod-actions {
-  flex: 0 0 36.6px;
-  height: 36.6px;
+  flex: 0 0 35.4px;
+  height: 35.4px;
   display: flex;
-  border: 1px solid var(--tod-line);
-  border-radius: 4px;
+  border-top: 2px solid var(--tod-line-soft);
   background: var(--tod-panel);
-  margin-bottom: 15.2px;
 }
 
 .tod-actions__cell {
@@ -1323,8 +1420,8 @@
 }
 
 .tod-actions__ico {
-  width: 21.5px;
-  height: 21.5px;
+  width: 22.7px;
+  height: 22.7px;
   color: #141414;
 }
 
@@ -1335,7 +1432,7 @@
 .tod-out {
   flex: 0 0 190.7px;
   height: 190.7px;
-  border: 1px solid var(--tod-line);
+  border: 1.6px solid var(--tod-line);
   border-radius: 4px;
   background: var(--tod-panel);
   display: flex;
@@ -1349,9 +1446,14 @@
   flex: 0 0 24px;
   display: flex;
   align-items: center;
-  padding-top: 5px;
+  padding-top: 2px;
   padding-left: 11.4px;
-  border-bottom: 1px solid var(--tod-line-soft);
+  border-bottom: 1.6px solid var(--tod-line-soft);
+}
+
+.tod-pipe__head {
+  flex: 0 0 20px;
+  padding-top: 0;
 }
 
 .tod-out__title,
@@ -1409,7 +1511,7 @@
   background: linear-gradient(170deg, #c0b199 0%, #b4a488 60%, #a89679 100%);
   border: 1px solid #8e7d60;
   display: block;
-  padding: 5px 5px 0;
+  padding: 4px 4px 0;
 }
 
 .tod-out__manifestTitle {
@@ -1421,24 +1523,24 @@
 
 .tod-out__manifestRule {
   display: block;
-  margin-top: 5px;
-  height: 0.6px;
-  background: rgba(58, 50, 38, 0.5);
+  margin-top: 3.4px;
+  height: 0.7px;
+  background: rgba(52, 44, 33, 0.62);
 }
 
 .tod-out__manifestGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr 0.8fr;
   gap: 0;
-  margin-top: 5px;
-  border-top: 0.6px solid rgba(58, 50, 38, 0.5);
+  margin-top: 3.4px;
+  border-top: 0.7px solid rgba(52, 44, 33, 0.62);
 }
 
 .tod-out__manifestGrid i {
   display: block;
-  height: 11px;
-  border-right: 0.6px solid rgba(58, 50, 38, 0.45);
-  border-bottom: 0.6px solid rgba(58, 50, 38, 0.45);
+  height: 8.6px;
+  border-right: 0.7px solid rgba(52, 44, 33, 0.55);
+  border-bottom: 0.7px solid rgba(52, 44, 33, 0.55);
 }
 
 .tod-out__manifestStamp {
@@ -1458,17 +1560,18 @@
   inset: 0;
   background-image: repeating-linear-gradient(
       90deg,
-      rgba(200, 200, 200, 0.35) 0,
-      rgba(200, 200, 200, 0.35) 0.5px,
-      transparent 0.5px,
-      transparent 7px
+      rgba(206, 206, 206, 0.34) 0 0.7px,
+      transparent 0.7px 3.6px
     ),
     repeating-linear-gradient(
       180deg,
-      rgba(200, 200, 200, 0.26) 0,
-      rgba(200, 200, 200, 0.26) 0.5px,
-      transparent 0.5px,
-      transparent 7px
+      rgba(206, 206, 206, 0.26) 0 0.7px,
+      transparent 0.7px 3.6px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(232, 232, 232, 0.5) 0 0.8px,
+      transparent 0.8px 21px
     );
 }
 
@@ -1478,13 +1581,13 @@
   background-image: linear-gradient(
       to top right,
       transparent calc(50% - 0.5px),
-      rgba(235, 235, 235, 0.8) 50%,
+      rgba(240, 240, 240, 0.62) 50%,
       transparent calc(50% + 0.5px)
     ),
     linear-gradient(
       to bottom right,
       transparent calc(50% - 0.5px),
-      rgba(235, 235, 235, 0.8) 50%,
+      rgba(240, 240, 240, 0.62) 50%,
       transparent calc(50% + 0.5px)
     );
 }
@@ -1498,7 +1601,7 @@
   inset: -12%;
   background-size: 190% 150%;
   background-position: 45% 40%;
-  filter: grayscale(1) contrast(1.6) brightness(0.62);
+  filter: grayscale(1) contrast(1.45) brightness(0.72);
 }
 
 .tod-out__overlayNote {
@@ -1513,8 +1616,8 @@
 
 .tod-out__overlayInk {
   position: absolute;
-  left: 8px;
-  bottom: 2px;
+  left: 46px;
+  bottom: 1px;
   font-family: var(--tod-display);
   font-size: 30px;
   line-height: 26px;
@@ -1523,35 +1626,52 @@
 
 .tod-out__overlayMark {
   position: absolute;
-  right: 8px;
-  top: 16px;
-  width: 30px;
-  height: 20px;
-  border: 1.4px solid rgba(190, 40, 30, 0.85);
-  transform: rotate(-6deg);
+  right: 10px;
+  top: 12px;
+  width: 26px;
+  height: 17px;
+  border: 1.3px solid rgba(186, 38, 28, 0.9);
+  transform: rotate(-7deg);
 }
 
 .tod-out__preview--evidence {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 1px;
-  background: #1a1916;
+  grid-template-columns: 1.15fr 0.9fr 1fr 0.85fr;
+  grid-template-rows: 1fr 1.25fr 0.95fr;
+  gap: 1.2px;
+  background: #15140f;
+}
+
+.tod-out__evidenceTile:nth-child(2) {
+  grid-row: span 2;
+}
+.tod-out__evidenceTile:nth-child(5) {
+  grid-column: span 2;
 }
 
 .tod-out__evidenceTile {
   display: block;
-  background-size: cover;
-  background-position: center;
-  filter: grayscale(1) contrast(1.35) brightness(0.74);
+  background-size: 260% 240%;
+  background-repeat: no-repeat;
+  filter: grayscale(1) contrast(1.5) brightness(0.52);
 }
+
+.tod-out__evidenceTile--1 { background-position: 12% 18%; }
+.tod-out__evidenceTile--2 { background-position: 64% 30%; }
+.tod-out__evidenceTile--3 { background-position: 30% 72%; }
+.tod-out__evidenceTile--4 { background-position: 82% 54%; }
+.tod-out__evidenceTile--5 { background-position: 46% 40%; }
+.tod-out__evidenceTile--6 { background-position: 8% 86%; }
+.tod-out__evidenceTile--7 { background-position: 70% 10%; }
+.tod-out__evidenceTile--8 { background-position: 24% 48%; }
+.tod-out__evidenceTile--9 { background-position: 90% 78%; }
 
 .tod-out__evidenceTile--2,
 .tod-out__evidenceTile--6 {
-  filter: grayscale(1) contrast(1.5) brightness(0.55);
+  filter: grayscale(1) contrast(1.6) brightness(0.38);
 }
 .tod-out__evidenceTile--5 {
-  filter: grayscale(1) contrast(1.15) brightness(0.92);
+  filter: grayscale(1) contrast(1.25) brightness(0.66);
 }
 
 .tod-out__preview--functions {
@@ -1597,7 +1717,7 @@
 .tod-pipe {
   flex: 0 0 151.6px;
   height: 151.6px;
-  border: 1px solid var(--tod-line);
+  border: 1.6px solid var(--tod-line);
   border-radius: 4px;
   background: var(--tod-panel);
   display: flex;
@@ -1615,7 +1735,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 6.4px 10px 0 12.6px;
+  padding: 11.4px 10px 0 12.6px;
   border-right: 1px solid var(--tod-line-soft);
 }
 
@@ -1648,17 +1768,17 @@
 
 .tod-pipe__ring {
   position: absolute;
-  left: 19.7px;
+  left: 4px;
   top: 0;
-  width: 64.4px;
-  height: 64.4px;
+  width: 66px;
+  height: 66px;
   transform: rotate(-90deg);
 }
 
 .tod-pipe__ringTrack,
 .tod-pipe__ringValue {
   fill: none;
-  stroke-width: 4;
+  stroke-width: 2.7;
 }
 
 .tod-pipe__ringTrack {
@@ -1672,9 +1792,9 @@
 
 .tod-pipe__gaugeValue {
   position: absolute;
-  left: 19.7px;
+  left: 4px;
   top: 26px;
-  width: 64.4px;
+  width: 66px;
   text-align: center;
   font-size: 9.6px;
   line-height: 1;
@@ -1683,7 +1803,7 @@
 
 .tod-pipe__gaugeState {
   position: absolute;
-  left: 97.7px;
+  left: 84px;
   top: 26px;
   font-size: 8.8px;
   line-height: 1;
@@ -1738,15 +1858,14 @@
 .tod-pipe__checkWarn {
   width: 11px;
   height: 11px;
-  border-radius: 50%;
-  background: var(--tod-amber);
+  color: var(--tod-amber);
   flex: 0 0 auto;
 }
 
 .tod-pipe__details {
   position: absolute;
   left: 12.6px;
-  right: 14px;
+  width: 101.1px;
   bottom: 9.1px;
   height: 20.2px;
   display: flex;
@@ -1867,7 +1986,7 @@
   padding-bottom: 6.4px;
   font-size: 7.4px;
   line-height: 1;
-  color: #3c3c3c;
+  color: #2e2e2e;
 }
 
 .tod-tabs__tab.is-active {
@@ -1922,14 +2041,13 @@
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 15px;
-  line-height: 13px;
+  font-size: 11px;
+  line-height: 12px;
+  letter-spacing: 0.4px;
   color: var(--tod-cream);
 }
 
 .tod-concept__thumbCopy span {
-  transform: scaleX(0.5);
-  transform-origin: 0 50%;
   white-space: nowrap;
 }
 
@@ -1940,8 +2058,8 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  font-size: 3.4px;
-  line-height: 4.6px;
+  font-size: 3px;
+  line-height: 4.2px;
   color: var(--tod-lime);
 }
 
@@ -2038,7 +2156,7 @@
   align-items: center;
   gap: 12.4px;
   padding-left: 29px;
-  border-right: 1px solid #dadada;
+  border-right: 1px solid #e2e2e2;
   font-size: 7.0px;
   line-height: 12.6px;
   color: #1f1f1f;
@@ -2062,10 +2180,15 @@
 }
 
 .tod-bottom__ico {
-  width: 18px;
-  height: 18px;
+  width: 18.9px;
+  height: 18.9px;
   flex: 0 0 auto;
-  color: #171717;
+  color: #131313;
+}
+
+.tod-bottom__cell:nth-child(5) .tod-bottom__ico {
+  width: 16.4px;
+  height: 21.5px;
 }
 
 .tod-bottom__label {

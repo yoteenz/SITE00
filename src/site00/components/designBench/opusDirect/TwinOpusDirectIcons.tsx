@@ -26,7 +26,7 @@ export function TodIconMenu({ className }: IconProps) {
 export function TodIconCaretDown({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M6 9.5 12 15.5 18 9.5" {...STROKE} strokeWidth={2.2} />
+      <path d="M5 9h14l-7 7.5z" fill="currentColor" />
     </svg>
   );
 }
@@ -59,27 +59,34 @@ export function TodIconEllipsisVertical({ className }: IconProps) {
   );
 }
 
+/* Handset outline traced from the golden: 13 x 22 body, speaker slot, home mark. */
 export function TodIconPhone({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="7.5" y="2.5" width="9" height="19" rx="2.2" {...STROKE} />
+    <svg className={className} viewBox="0 0 13 22" aria-hidden="true" focusable="false">
+      <rect x="0.75" y="0.75" width="11.5" height="20.5" rx="1.8" {...STROKE} strokeWidth={1.5} />
+      <path d="M4.9 3.05h3.2" {...STROKE} strokeWidth={1.1} />
+      <path d="M5.2 19.1h2.6" {...STROKE} strokeWidth={1.3} />
     </svg>
   );
 }
 
+/* Tablet: same construction, wider body, no home mark. */
 export function TodIconTablet({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="5.5" y="2.5" width="13" height="19" rx="2" {...STROKE} />
+    <svg className={className} viewBox="0 0 18 22" aria-hidden="true" focusable="false">
+      <rect x="0.75" y="0.75" width="16.5" height="20.5" rx="1.8" {...STROKE} strokeWidth={1.5} />
+      <path d="M7 3.05h4" {...STROKE} strokeWidth={1.1} />
     </svg>
   );
 }
 
+/* Monitor traced from the golden: 34 x 20 bezel, 6-wide neck, 12-wide base. */
 export function TodIconDesktop({ className }: IconProps) {
   return (
-    <svg className={className} viewBox="0 0 26 24" aria-hidden="true" focusable="false">
-      <rect x="1.5" y="2.5" width="23" height="15" rx="1.4" {...STROKE} />
-      <path d="M9 21h8M13 17.5V21" {...STROKE} />
+    <svg className={className} viewBox="0 0 34 23" aria-hidden="true" focusable="false">
+      <rect x="0.7" y="0.7" width="32.6" height="18.6" rx="1" {...STROKE} strokeWidth={1.4} />
+      <path d="M17 19.3v3.1" {...STROKE} strokeWidth={5} />
+      <path d="M11 22.4h12" {...STROKE} strokeWidth={1.6} />
     </svg>
   );
 }
@@ -87,8 +94,10 @@ export function TodIconDesktop({ className }: IconProps) {
 export function TodIconLock({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <rect x="4.5" y="10.5" width="15" height="10" rx="2" {...STROKE} />
-      <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" {...STROKE} />
+      <rect x="3.6" y="10.6" width="16.8" height="11.4" rx="1.8" {...STROKE} strokeWidth={2.1} />
+      <path d="M7.3 10.6V6.9a4.7 4.7 0 0 1 9.4 0v3.7" {...STROKE} strokeWidth={2.1} />
+      <circle cx="12" cy="15.1" r="1.7" fill="currentColor" />
+      <path d="M12 15.6v3" {...STROKE} strokeWidth={2.1} />
     </svg>
   );
 }
@@ -115,6 +124,16 @@ export function TodIconCheckCircle({ className }: IconProps) {
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <circle cx="12" cy="12" r="10" fill="currentColor" />
       <path d="M7 12.4 10.6 16 17.2 8.6" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function TodIconWarnCircle({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="10" fill="currentColor" />
+      <path d="M12 6.4v7.2" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" />
+      <circle cx="12" cy="17.6" r="1.35" fill="#ffffff" />
     </svg>
   );
 }
@@ -264,7 +283,7 @@ export function TodIconShieldCheck({ className }: IconProps) {
 export function TodIconBolt({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M13.6 2.5 5.2 13.4h5.4L9.8 21.5 18.8 10.2h-5.6z" fill="currentColor" />
+      <path d="M14.2 1.6 4.6 14.1h5.9l-1 8.3 9.9-12.8h-6.1z" fill="currentColor" />
     </svg>
   );
 }

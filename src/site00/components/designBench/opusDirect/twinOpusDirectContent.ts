@@ -79,17 +79,25 @@ export const TWIN_OPUS_DIRECT_RAIL_ACTIONS: readonly TwinOpusDirectRailAction[] 
 
 export type TwinOpusDirectCandidateSurface = 'plate' | 'grain' | 'collage' | 'archive';
 
+/**
+ * Version-tag treatment differs per card in the golden: the selected concept
+ * carries a lime outlined chip, the next two carry plain light labels, and the
+ * archive card carries none at all.
+ */
+export type TwinOpusDirectVersionTag = 'chip' | 'plain' | 'none';
+
 export type TwinOpusDirectCandidate = {
   readonly id: string;
   readonly version: string;
   readonly surface: TwinOpusDirectCandidateSurface;
+  readonly versionTag: TwinOpusDirectVersionTag;
 };
 
 export const TWIN_OPUS_DIRECT_CANDIDATES: readonly TwinOpusDirectCandidate[] = [
-  { id: 'v13', version: 'V1.3', surface: 'plate' },
-  { id: 'v12', version: 'V1.2', surface: 'grain' },
-  { id: 'v11', version: 'V1.1', surface: 'collage' },
-  { id: 'v10', version: 'V1.0', surface: 'archive' },
+  { id: 'v13', version: 'V1.3', surface: 'plate', versionTag: 'chip' },
+  { id: 'v12', version: 'V1.2', surface: 'grain', versionTag: 'plain' },
+  { id: 'v11', version: 'V1.1', surface: 'collage', versionTag: 'plain' },
+  { id: 'v10', version: 'V1.0', surface: 'archive', versionTag: 'none' },
 ];
 
 export const TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS = [
