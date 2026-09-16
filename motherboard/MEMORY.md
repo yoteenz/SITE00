@@ -9803,3 +9803,15 @@ Summary of the **whole conversation so far** in this chat: Grok pairing sprints 
 - **Decisions / outcomes:** Copy constants unchanged. CSS-only: brighter `#f3ebe1`, `-0.018em` tracking, 0.35px stroke, line scaleX 0.694 / 0.704. Live widths 188.9 / 214 vs golden 189 / 214. Position left/top unchanged.
 - **Changes:** `site00-twin-opus-direct.css` headline rules; one HERO-TEXT1 test; this MEMORY entry.
 - **Conventions:** Hero-text micro-passes must not reopen asset or structure work. Measure ink widths per line; do not “fix” standfirst or the plate.
+
+---
+
+## 2026-09-16 — GROK-HERO-TEXT-R2 rebuilds the Opus hero headline treatment
+
+Summary of the **whole conversation so far** in this chat: founder ran a multi-sprint Grok 4.6 pipeline on one NDXBOOK DESIGN golden. DIRECT1/R1 built `twin-grok-direct`. ASSET1–R2 rebuilt Sol plates then icons. GROK-ASSET-OPUS1 put xerox plates on frozen Opus structure (PR #945). A merge-conflict rebase onto OPUS-DIRECT1R1 landed. HERO-TEXT1 (PR #948) only retuned Anton `scaleX` on the two-line `THE SIGNAL` / `IS THE INDEX` lockup. Founder rejected that as failing intent — it shrank the Opus headline instead of reconstructing it.
+
+- **Context:** Sprint **P0.VR.DESIGNBENCH.GROK-HERO-TEXT-R2**. Target `/projects/ndxbook/design/twin-opus-direct`. Keep the hero container. Rebuild the headline inside it to match Grok-direct’s stronger 3-line composition. Do not shrink font-size to fit. Do not touch the plate, rail, gallery, structured output, readiness, dock, other copy, icons, routing, or state.
+- **Topics covered:** Grok-direct reference is Inter 800, 30px, line-height 0.84, tracking −0.05em, hard breaks `THE SIGNAL` / `IS THE` / `INDEX` (block 226×75.6, standGap 22). Failed HERO-TEXT1 was Anton 67.2px + scaleX 0.694/0.704 on two lines. R2 replaces that implementation.
+- **Decisions / outcomes:** Headline is a designed Inter Tight 800 lockup — family, weight, condensation, breaks, leading, and tracking all new. Live at 768×1376: block x18.9 y56 w268.9 h126.3; lines 268.9 / 138.6 / 138.7; 54px / lh 0.78 / tracking −0.078em / cream `#f3eee4`; standGap 29.4. Hero stays 517.9×395.4. Plate, standfirst CSS, and other regions unchanged. `ONLY_RESIZED: NO`.
+- **Changes:** `twinOpusDirectContent.ts` headline `['THE SIGNAL','IS THE','INDEX']`; `.tod-hero__headline*` rules in `site00-twin-opus-direct.css`; R2 test replaces HERO-TEXT1; CORE opus-direct row; this MEMORY entry.
+- **Conventions:** When a prior headline pass only scaled Anton, do not iterate on that CSS. Rebuild the typographic block. Measure Grok-direct and live ink boxes with Playwright at 768×1376 — do not treat a computer-use crop of the golden as live. Leave standfirst top locked unless a tiny local gap tweak is required.
