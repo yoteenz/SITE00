@@ -56,7 +56,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — isolated route', () => {
   it('mounts the route without the CTRL ROOM account guard', () => {
     const start = routeTable.indexOf('SITE00_ROUTES.projectDesignTwinOpusDirect');
     const block = routeTable.slice(start, routeTable.indexOf('<Route', start));
-    expect(block).toContain('<DesignTwinOpusDirectPage />');
+    expect(block).toContain('<DesignTwinOpusDirectRouteGate />');
     expect(block).not.toContain('Site00AccountRouteGuard');
   });
 
