@@ -86,8 +86,6 @@ export type TwinSparkResponsiveCandidateSurface = 'plate' | 'grain' | 'collage' 
  */
 export type TwinSparkResponsiveVersionTag = 'chip' | 'plain' | 'none';
 
-export type TwinSparkResponsiveViewportId = 'MOBILE' | 'TABLET' | 'DESKTOP';
-
 export type TwinSparkResponsiveCandidate = {
   readonly id: string;
   readonly version: string;
