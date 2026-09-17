@@ -492,7 +492,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       context: {
         chip: (intel?.displayName ?? slug.toUpperCase()).toString(),
         stream: intel?.primaryCreativeStream ?? TWIN_OPUS_DIRECT_CONTEXT.stream,
-        right: 'PROJECT CREATIVE CONTEXT',
+        right: shellTarget.pageLabel.toUpperCase(),
       },
       primaryNav: TWIN_OPUS_DIRECT_PRIMARY_NAV,
       target: {

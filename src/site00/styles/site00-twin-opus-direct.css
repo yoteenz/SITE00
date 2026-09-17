@@ -2678,6 +2678,112 @@
 }
 
 /* P0.VR.DESIGN-PRODUCTION1 — contract overlays (no route navigation) */
+.tod-pagetree {
+  position: relative;
+  margin-left: auto;
+}
+
+.tod-pagetree__trigger .tod-pagetree__caret {
+  width: 10px;
+  height: 10px;
+}
+
+.tod-pagetree__trigger.is-open .tod-pagetree__caret {
+  transform: rotate(180deg);
+}
+
+.tod-pagetree__menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 40;
+  width: min(320px, calc(100vw - 24px));
+  max-height: min(60vh, 420px);
+  overflow: auto;
+  background: #050505;
+  border: 1px solid #2c2c2c;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 45%);
+  padding: 8px 0 10px;
+}
+
+.tod-pagetree__menuTitle {
+  margin: 0 10px 6px;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: #888;
+}
+
+.tod-pagetree__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tod-pagetree__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.tod-pagetree__row.is-active .tod-pagetree__name {
+  color: var(--tod-lime);
+}
+
+.tod-pagetree__expand {
+  flex: 0 0 16px;
+  border: 0;
+  background: transparent;
+  color: #aaa;
+  font-size: 10px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.tod-pagetree__expand--spacer {
+  display: inline-block;
+}
+
+.tod-pagetree__select {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: #f4f4f4;
+  text-align: left;
+  padding: 4px 8px 4px 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.tod-pagetree__select:hover {
+  background: rgb(255 255 255 / 4%);
+}
+
+.tod-pagetree__name {
+  display: block;
+  font-size: 8.4px;
+  letter-spacing: 0.08em;
+}
+
+.tod-pagetree__meta {
+  display: block;
+  font-size: 7.5px;
+  color: #888;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .tod-pagetree__menu {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 12px;
+    width: auto;
+    max-height: 55vh;
+  }
+}
+
 .tod-context__rightBtn {
   border: 0;
   background: transparent;

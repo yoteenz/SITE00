@@ -4,6 +4,7 @@ import { listCanonicalReferences } from '../../../../../shared/site00-studio-wor
 import { TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH } from '../opusDirect/twinOpusDirectContent';
 import { TWIN_OPUS_DIRECT_ASSET_MANIFEST } from '../opusDirect/twinOpusDirectAssetManifest';
 import { DesignProductionChildShell } from './DesignProductionChildShell';
+import { useTwinOpusDirectProduction } from '../opusDirect/useTwinOpusDirectProduction';
 import { useDesignProductionNavigation } from './useDesignProductionNavigation';
 import { site00ProjectProductAssetsPath } from '../../../config/routes';
 
@@ -120,11 +121,24 @@ export function DesignProductionSectionHistory() {
 }
 
 export function DesignProductionSectionMore() {
-  const { goReferenceTwin, projectSlug } = useDesignProductionNavigation();
+  const { goReferenceTwin, projectSlug, goWorkspace } = useDesignProductionNavigation();
+  const production = useTwinOpusDirectProduction(projectSlug);
 
   return (
     <DesignProductionChildShell title="MORE" subtitle="Secondary DESIGN utilities — not duplicated in top nav.">
       <ul className="tod-child__actions">
+        <li>
+          <button
+            type="button"
+            className="tod-child__action"
+            onClick={() => {
+              production.actions.openCreativeContext();
+              goWorkspace();
+            }}
+          >
+            PROJECT CREATIVE CONTEXT
+          </button>
+        </li>
         <li>
           <button type="button" className="tod-child__action" onClick={goReferenceTwin}>
             OPEN TWIN REFERENCE (QA)
