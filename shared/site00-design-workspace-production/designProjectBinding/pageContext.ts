@@ -4,11 +4,15 @@
 
 import { buildDesignProjectIntelligence } from './projectIntelligence.js';
 import { getDesignBoundPage } from './designPageRegistry.js';
+import {
+  CREATIVE_LAYER_MODEL,
+  listCampaignEntriesForProject,
+  listPageConceptCandidates,
+} from './designPageConceptModel.js';
 import type { CompiledDesignPageContext, DesignPageInheritanceClass, OpusPageContextContract } from './types.js';
 
 function inheritanceForPage(pageRole: string): DesignPageInheritanceClass {
-  if (pageRole === 'CONCEPT_CANDIDATE') return 'NEW';
-  if (pageRole === 'PROJECT_HUB') return 'NEW';
+  if (pageRole === 'PROJECT_OVERVIEW' || pageRole === 'PROJECT_HUB') return 'NEW';
   return 'INHERITED';
 }
 
@@ -41,10 +45,18 @@ export function buildOpusPageContextContract(projectId: string, pageId: string):
   const intel = buildDesignProjectIntelligence(projectId);
   if (!base || !page || !intel) return null;
 
+  const concepts = listPageConceptCandidates(projectId, pageId);
+  const selected = concepts.find((c) => c.status === 'SELECTED' || c.status === 'PROMOTED') ?? null;
+  const campaignInputs = listCampaignEntriesForProject(projectId).map((e) => e.entryId);
+
   return {
     ...base,
     projectCanon: intel.description,
     pageContentSummary: `${page.pageName} (${page.screenId}) — ${page.pageRole}`,
     currentImplementationRoute: page.route,
+    pageConceptCreativeLayer: CREATIVE_LAYER_MODEL,
+    selectedPageConceptId: selected?.conceptId ?? null,
+    selectedPageConceptTitle: selected?.conceptTitle ?? null,
+    campaignContentInputs: campaignInputs,
   };
 }

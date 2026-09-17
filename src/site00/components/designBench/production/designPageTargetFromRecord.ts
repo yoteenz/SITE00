@@ -1,20 +1,20 @@
 import type { DesignBoundPageRecord } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/types.js';
+import { buildDesignProjectIntelligence } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/projectIntelligence.js';
 import type { DesignProductionPageTarget } from './designProductionPageTarget';
 
 export function designProductionPageTargetFromRecord(page: DesignBoundPageRecord): DesignProductionPageTarget {
-  const entryId =
-    page.screenId === 'entry-001-concept' ? 'ENTRY-001' : (
-      page.screenId.replace(/-/g, ' ').toUpperCase().replace(/\s+/g, '-').slice(0, 24)
-    );
-  const surfaceLabel =
-    page.screenId === 'entry-001-concept' ? 'HOMEPAGE HERO' : page.pageRole.replace(/_/g, ' ');
+  const intel = buildDesignProjectIntelligence(page.projectId);
+  const projectLine = intel?.displayName ?? page.projectId.toUpperCase();
+  const pageLine = page.pageName.toUpperCase();
+  const roleLine =
+    page.pageRole === 'PROJECT_OVERVIEW' ? 'PROJECT OVERVIEW' : page.pageRole.replace(/_/g, ' ');
 
   return {
     pageId: page.pageId,
     screenId: page.screenId,
-    entryId,
-    pageLabel: page.pageName,
-    surfaceLabel,
+    entryId: projectLine,
+    pageLabel: pageLine,
+    surfaceLabel: roleLine,
     route: page.route,
     pageRole: page.pageRole,
     designStatus: page.designStatus,

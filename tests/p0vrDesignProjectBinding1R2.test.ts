@@ -31,10 +31,10 @@ describe('P0.VR.DESIGN-PROJECT-BINDING1R2', () => {
     expect(crumb).toBe('PROJECTS > DESIGN > NDXBOOK');
   });
 
-  it('restores approved TARGET band line geometry for default shell', () => {
+  it('TARGET band uses project · page · page role for default shell', () => {
     const target = defaultConceptPageTargetForShell('ndxbook');
-    expect(designPageTargetLines(target)).toEqual(['ENTRY 001', 'ENTRY COVER', 'HOMEPAGE HERO']);
-    expect(resolveDesignPageTargetForShell('ndxbook').entryId).toBe('ENTRY-001');
+    expect(designPageTargetLines(target)).toEqual(['NDXBOOK', 'OVERVIEW', 'PROJECT OVERVIEW']);
+    expect(resolveDesignPageTargetForShell('ndxbook').screenId).toBe('overview');
   });
 
   it('does not mount card-stack overview on main twin screen', () => {

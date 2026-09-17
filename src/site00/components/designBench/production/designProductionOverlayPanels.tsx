@@ -1,7 +1,10 @@
 import {
+  buildDesignPageProvenancePresentation,
   buildDesignProjectIntelligence,
   compileDesignPageContext,
+  getDesignBoundPage,
 } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
+import { resolveDesignPageTargetForShell } from './designProductionPageTarget';
 import type { AuthorityReviewDecision } from '../../../../../shared/site00-design-workspace-production/types.js';
 import {
   TWIN_OPUS_DIRECT_AMENDMENT,
@@ -120,21 +123,32 @@ export function ProvenancePanel({
 }) {
   const { state } = production;
   const slug = projectSlug.toUpperCase();
+  const pageTarget = resolveDesignPageTargetForShell(projectSlug);
+  const pageRecord = getDesignBoundPage(projectSlug, pageTarget.pageId);
+  const provenance =
+    pageRecord ?
+      buildDesignPageProvenancePresentation(
+        projectSlug,
+        pageTarget.pageId,
+        pageRecord.pageName,
+        pageRecord.pageRole,
+      )
+    : null;
 
   return (
     <>
       <figure className="tod-dcs-provenanceGolden">
         <img src={TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH} alt="Approved golden reference" />
-        <figcaption>GOLDEN AUTHORITY · founder-r5f2-ndxbook</figcaption>
+        <figcaption>PAGE DESIGN REFERENCE · {pageTarget.pageLabel}</figcaption>
       </figure>
       <dl className="tod-dcs-meta">
         <div>
-          <dt>SOURCE RECORD</dt>
-          <dd>ENTRY001-CAMPAIGN-ARCHIVE</dd>
+          <dt>PAGE</dt>
+          <dd>{provenance?.activePageLabel ?? pageTarget.pageLabel}</dd>
         </div>
         <div>
-          <dt>CREATIVE ENTRY</dt>
-          <dd>ENTRY 001 · ENTRY COVER · HOMEPAGE HERO</dd>
+          <dt>INFORMED BY</dt>
+          <dd>{provenance?.informedBy.join(' · ') ?? 'campaign content · brand intelligence'}</dd>
         </div>
         <div>
           <dt>GOLDEN AUTHORITY</dt>
