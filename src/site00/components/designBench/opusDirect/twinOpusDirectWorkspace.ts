@@ -87,10 +87,10 @@ function readStoredViewMode(): TwinOpusDirectViewMode {
 }
 
 export interface TwinOpusDirectWorkspaceData {
-  header: Omit<typeof TWIN_OPUS_DIRECT_HEADER, 'project'> & { project: string };
-  context: typeof TWIN_OPUS_DIRECT_CONTEXT;
+  header: { brand: string; project: string; page: string; compiler: string };
+  context: { chip: string; stream: string; right: string };
   primaryNav: typeof TWIN_OPUS_DIRECT_PRIMARY_NAV;
-  target: typeof TWIN_OPUS_DIRECT_TARGET;
+  target: { label: string; lines: readonly string[] };
   stage: Omit<typeof TWIN_OPUS_DIRECT_STAGE, 'authorityValue' | 'stageValue'> & {
     authorityValue: string;
     stageValue: string;
