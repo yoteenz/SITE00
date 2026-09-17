@@ -40,6 +40,17 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
     expect(routes).toContain('DesignProductionSectionReferences');
   });
 
+  it('registers index route so bare /design mounts the workspace layout', () => {
+    const routes = read('src/routes/Site00Routes.tsx');
+    const productionStart = routes.indexOf('path={SITE00_ROUTES.projectDesign}');
+    expect(productionStart).toBeGreaterThan(-1);
+    const productionBlock = routes.slice(productionStart, routes.indexOf('path={SITE00_ROUTES.projectExperiments}', productionStart));
+    expect(productionBlock).toMatch(/<Route\s+index\s+element=\{null\}\s*\/>/);
+    const twinStart = routes.indexOf('path={SITE00_ROUTES.projectDesignTwinOpusDirect}');
+    const twinBlock = routes.slice(twinStart, routes.indexOf('path={SITE00_ROUTES.projectDesignTwinFableDirect}', twinStart));
+    expect(twinBlock).toMatch(/<Route\s+index\s+element=\{null\}\s*\/>/);
+  });
+
   it('twin-opus-direct remains founder review route with functional banner', () => {
     const page = read('src/site00/pages/DesignTwinOpusDirectPage.tsx');
     const banner = read('src/site00/components/designBench/production/DesignTwinReviewBanner.tsx');

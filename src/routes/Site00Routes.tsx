@@ -1278,6 +1278,8 @@ export function Site00Routes() {
             </Site00Suspense>
           }
         >
+          {/* Index required — pathless layout does not match bare /design without a child route */}
+          <Route index element={null} />
           <Route
             path="references"
             element={
@@ -1375,6 +1377,8 @@ export function Site00Routes() {
             </Site00Suspense>
           }
         >
+          {/* Index required — pathless layout does not match bare /design without a child route */}
+          <Route index element={null} />
           <Route
             path="references"
             element={
