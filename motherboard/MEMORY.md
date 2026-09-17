@@ -10124,3 +10124,12 @@ Founder: cloud tunnel URLs for `/projects/ndxbook/design` and `/design/twin-opus
 - **Fix:** `<Route index element={null} />` inside both pathless layout groups in `Site00Routes.tsx` so index URL activates the workspace layout.
 - **Tests:** `tests/p0vrDesignIntegration1.test.ts` index-route assertion. Verified Playwright on localhost + cloud preview tunnel `/projects/ndxbook/design` (`.tod-root` present).
 - **Founder next:** Upload fresh cPanel ZIP after merge for site00.com; tunnel dev server picks up fix immediately.
+
+---
+
+## 2026-09-17 — DESIGN viewport desktop icon −10%
+
+Founder asked to shrink **desktop only** viewport device icon in twin-opus-direct DESIGN band (canonical + list view).
+
+- **Change:** `.tod-device:nth-child(3) .tod-device__ico` 42×29 → 37.8×26.1px (`site00-twin-opus-direct.css`); list band `.tod-lv-device:nth-child(3)` 82.7 → 74.43px width, height 51.39px (`site00-twin-opus-list.css`). Mobile/tablet unchanged.
+- **Founder next:** cPanel ZIP after merge for site00.com; tunnel dev reflects CSS immediately.
