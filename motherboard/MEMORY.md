@@ -10113,3 +10113,14 @@ Full `npm test` on GitHub Actions failed on four files whose string assertions s
 - **Inheritance1:** production layout page composes `DesignWorkspaceCore` (screen lives inside core).
 - **Runtime bundle boot1:** skip `__vite-browser-external_*` assets when scanning for forbidden strings — same rule as `scripts/verify-production-dist.mjs` (Vite stub references `node:fs` label without shipping fs code).
 - **Branch:** `cursor/ci-design-test-fixes-2da5`; test-only diff, no product route changes.
+
+---
+
+## 2026-09-17 — DESIGN bare `/design` index route boot fix
+
+Founder: cloud tunnel URLs for `/projects/ndxbook/design` and `/design/twin-opus-direct` showed blank page (React mounted, `#root` empty).
+
+- **Root cause:** React Router v6 nested layout under `projectDesign` / `projectDesignTwinOpusDirect` used a pathless layout + section child routes only (`references`, `pages`, …). Bare `/projects/:slug/design` matched the gate but **no child route**, so `DesignProductionWorkspaceLayout` / `DesignTwinWorkspaceLayout` never rendered. Section URLs (e.g. `/design/references`) worked.
+- **Fix:** `<Route index element={null} />` inside both pathless layout groups in `Site00Routes.tsx` so index URL activates the workspace layout.
+- **Tests:** `tests/p0vrDesignIntegration1.test.ts` index-route assertion. Verified Playwright on localhost + cloud preview tunnel `/projects/ndxbook/design` (`.tod-root` present).
+- **Founder next:** Upload fresh cPanel ZIP after merge for site00.com; tunnel dev server picks up fix immediately.
