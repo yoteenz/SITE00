@@ -10192,3 +10192,18 @@ Founder: black context bar wasted on “PROJECT CREATIVE CONTEXT” CTA; needed 
 - **Relocate:** Project Creative Context → workspace overflow menu + MORE section (same `openCreativeContext` drawer).
 - **Breadcrumb:** `activePageName` in module hierarchy → header third slot shows page (e.g. PROJECTS > DESIGN > ENTRY COVER).
 - **Tests:** `p0vrDesignPageNav1.test.ts`.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-PAGE-CONCEPT-MODEL1 — site pages vs campaigns + page-scoped concepts
+
+Founder sprint: Entry 001 was incorrectly acting as the active SITE page; DESIGN must target real pages (default NDXBOOK Overview) with campaigns as provenance only.
+
+- **Domain:** `designPageConceptModel.ts` — `ProjectPage`, `CampaignEntry`, `PageConceptCandidate`, `PageDesignAuthority`, `PageImplementation`, GPT2 contract (`CREATIVE_LAYER_MODEL: GPT2`); no fabricated concept store.
+- **Registry:** Removed `entry-001-concept` orphan from navigable pages; `listSiteDesignPagesForProject`; Overview `pageRole` → `PROJECT_OVERVIEW`.
+- **Target:** `defaultDesignPageTargetForShell` → Overview; session migration off legacy Entry-as-page; TARGET lines project · page · role.
+- **Workspace:** Gallery scoped `projectId + pageId`; empty `NO PAGE CONCEPT SET YET` + disabled `GENERATE PAGE CONCEPTS`; hero preview/viewport/readiness unchanged page-scoped path; hero eyebrow bound to page target.
+- **Opus contract:** `buildOpusPageContextContract` adds selected page concept fields + campaign content inputs.
+- **Provenance panel:** PAGE / INFORMED BY (campaign entries), not Entry Cover as page identity.
+- **Tests:** `p0vrDesignPageConceptModel1.test.ts`; R1R2 default target expectation updated.
+- **Next:** Run GPT2 page-concept generation for NDXBOOK Overview → founder select → Opus page framework.
