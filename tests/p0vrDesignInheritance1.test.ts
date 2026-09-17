@@ -51,7 +51,7 @@ describe('P0.VR.DESIGN-INHERITANCE1', () => {
 
   it('keeps production workspace shell mounted for section routes', () => {
     const layout = read('src/site00/pages/DesignProductionWorkspacePage.tsx');
-    expect(layout).toContain('TwinOpusDirectScreen');
+    expect(layout).toContain('DesignWorkspaceCore');
     expect(layout).not.toMatch(/activeSection\s*\?\s*\n\s*<Outlet/);
   });
 

@@ -50,6 +50,7 @@ describe('P0.VR.RUNTIME.BUNDLE-BOOT1 client bundle guards', () => {
     expect(files.length).toBeGreaterThan(0);
     const hits: string[] = [];
     for (const file of files) {
+      if (file.startsWith('__vite-browser-external_')) continue;
       const src = readFileSync(join(DIST_ASSETS, file), 'utf8');
       for (const needle of FORBIDDEN_IN_CLIENT) {
         if (src.includes(needle)) hits.push(`${file}: ${needle}`);

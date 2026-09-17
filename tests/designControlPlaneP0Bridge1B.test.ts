@@ -265,7 +265,7 @@ describe('P0.BRIDGE.1B NDXBOOK repo authority correction', () => {
 
   it('Voice Lab and design workspace ownership preserved (no route changes)', () => {
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.ts')).toContain(
-      "legacyDesignRoutes: ['/projects/ndxbook/design']",
+      "legacyDesignRoutes: ['/projects/ndxbook/design/reconstruction-lab']",
     );
     expect(read('src/site00/pages/StudioWorldDesignPage.tsx')).toContain("searchParams.get('project')");
   });

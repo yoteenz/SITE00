@@ -10101,3 +10101,15 @@ Founder saw legacy **DESIGN RECONSTRUCTION / BATCH 2 · LIVE FAL GALLERY** on DE
 - **Fix:** `Site00DesignHostRouteGate` on `/projects/site00/design` applies `resolveLegacyProjectDesignRedirect`; legacy lab isolated at **`/projects/:projectSlug/design/reconstruction-lab`**; `buildCanonicalDesignWorkspacePath` + project index DESIGN links use **`/projects/{slug}/design`** for managed brands; studio-world legacy redirect targets per-project production path; dev-only markers `NEW_WORKSPACE` / `LEGACY_RECONSTRUCTION_LAB` (`import.meta.env.DEV` only).
 - **Tests:** `tests/p0vrDesignRouteAuthority1.test.ts`; updated `visualReconstructionP0VR3M.test.ts`. Cloud VM Playwright could not mount React (empty `#root`); verify routes on fresh GitHub Release ZIP.
 - **Routes:** Production `/projects/ndxbook/design`; twin `/projects/ndxbook/design/twin-opus-direct`; native `/projects/ndxbook/design/opus-native`; lab `/projects/ndxbook/design/reconstruction-lab`.
+
+---
+
+## 2026-09-17 — CI test alignment after DESIGN-ROUTE-AUTHORITY1
+
+Full `npm test` on GitHub Actions failed on four files whose string assertions still described pre–INTEGRATION1 / pre–TWIN-FUNCTIONALITY1 wiring.
+
+- **Bridge1B:** expect `legacyDesignRoutes` for ndxbook at `/projects/ndxbook/design/reconstruction-lab` (not bare `/design`).
+- **Opus Direct bench:** route table mounts `DesignTwinOpusDirectRouteGate` (lazy gate), not raw `<DesignTwinOpusDirectPage />`.
+- **Inheritance1:** production layout page composes `DesignWorkspaceCore` (screen lives inside core).
+- **Runtime bundle boot1:** skip `__vite-browser-external_*` assets when scanning for forbidden strings — same rule as `scripts/verify-production-dist.mjs` (Vite stub references `node:fs` label without shipping fs code).
+- **Branch:** `cursor/ci-design-test-fixes-2da5`; test-only diff, no product route changes.
