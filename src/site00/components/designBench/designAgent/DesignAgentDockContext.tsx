@@ -33,13 +33,15 @@ export function DesignAgentOpenButton(props: { className?: string }) {
   return (
     <button
       type="button"
-      className={props.className ?? 'tod-agent-open'}
+      className={`${props.className ?? 'tod-agent-open'}${open ? ' is-open' : ''}`}
       aria-expanded={open}
       aria-controls="s00-dad-panel"
+      aria-label={open ? 'Close Opus design agent panel' : 'Open Opus design agent panel'}
       data-testid="design-agent-open"
+      data-interaction-id="header-opus"
       onClick={toggle}
     >
-      OPUS
+      {open ? 'OPUS · OPEN' : 'OPUS'}
     </button>
   );
 }

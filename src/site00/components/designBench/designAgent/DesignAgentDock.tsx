@@ -248,8 +248,6 @@ export function DesignAgentDock() {
     [run?.runId],
   );
 
-  if (targeting.registered === false && !targeting.registryError) return null;
-
   return (
     <>
       {open ?
@@ -292,9 +290,13 @@ export function DesignAgentDock() {
         <section className="s00-dad__block s00-dad__block--compact">
           <h3 className="s00-dad__h">WHAT AM I EDITING?</h3>
           <p className="s00-dad__lead">
-            {targeting.projectSlug.toUpperCase()} · {targeting.pageId ?? 'design workspace'} ·{' '}
+            {targeting.projectSlug.toUpperCase()} ·{' '}
+            {targeting.pageLabel ?? targeting.pageId ?? 'design workspace'} ·{' '}
             {String(targeting.target.viewMode ?? 'canonical').toUpperCase()} · {targeting.target.viewport}
           </p>
+          {targeting.registered === false && !targeting.registryError ?
+            <p className="s00-dad__note">Route not registered — agent runs with compiled DESIGN shell context only.</p>
+          : null}
           <p className="s00-dad__note">
             Write scope: {estimate?.permittedMode ?? targeting.standingWriteMode ?? '—'}
           </p>

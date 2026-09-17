@@ -53,4 +53,11 @@ describe('P0.VR.DESIGN-INTERACTION-COVERAGE1', () => {
   it('registry inventory is non-empty', () => {
     expect(DESIGN_INTERACTION_REGISTRY.length).toBeGreaterThanOrEqual(40);
   });
+
+  it('header OPUS entry is wired to design agent open button', () => {
+    const opus = DESIGN_INTERACTION_REGISTRY.find((e) => e.id === 'header-opus');
+    expect(opus?.handler).toBe('openOpusDock');
+    const ctx = read('src/site00/components/designBench/designAgent/DesignAgentDockContext.tsx');
+    expect(ctx).toContain('data-interaction-id="header-opus"');
+  });
 });

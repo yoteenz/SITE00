@@ -10170,3 +10170,14 @@ Founder: MOBILE/TABLET/DESKTOP toggles all showed the same mobile hero (misleadi
 - **Readiness:** `mergePageViewportIntoReadiness` blocks desktop gate when active page lacks desktop authority; tablet gate N/A while waiting for desktop.
 - **Tests:** `p0vrDesignViewportAuthority1.test.ts`; dev QA Entry Cover MOBILE → image, TABLET → waiting, DESKTOP → missing.
 - **Next:** Create first Desktop authority for Entry Cover → verify tablet derivation.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-OPUS-LAUNCHER1 — header OPUS opens embedded agent
+
+Founder: header OPUS control was a no-op on `/projects/design/:slug`.
+
+- **Root cause:** `useDesignAgentTarget` only matched legacy surface routes; canonical `/projects/design/ndxbook` left `registered=false`, and `DesignAgentDock` returned `null` (toggle changed state with no visible panel).
+- **Fix:** `resolveDesignAgentSurfaceMatch` for module + legacy production routes; dock always mounted; page label/viewport from `readDesignPageTarget` + session viewport key; server `findSurface` alias for module routes; header button `data-interaction-id=header-opus`, aria-label, OPUS · OPEN when open.
+- **Tests:** `p0vrDesignOpusLauncher1.test.ts`; interaction coverage guard for header-opus.
+- **Next:** Founder Opus module UX review (dispatch still $0 until founder confirms spend in panel).
