@@ -281,16 +281,21 @@ export function TwinOpusDirectScreen({
                 {data.viewports.map((id) => {
                   const Icon = VIEWPORT_ICONS[id];
                   const active = state.viewport === id;
+                  const vpStatus = data.viewportControls.find((c) => c.viewport === id);
                   return (
                     <button
                       key={id}
                       type="button"
                       className={`tod-device${active ? ' is-active' : ''}`}
                       aria-pressed={active}
+                      data-vp-status={vpStatus?.status ?? undefined}
                       onClick={() => actions.selectViewport(id)}
                     >
                       <Icon className="tod-device__ico" />
                       <span className="tod-device__label">{id}</span>
+                      {vpStatus ?
+                        <span className="tod-device__status">{vpStatus.statusShort}</span>
+                      : null}
                     </button>
                   );
                 })}

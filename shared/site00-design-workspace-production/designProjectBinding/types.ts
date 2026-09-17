@@ -39,6 +39,10 @@ export type DesignBoundPageRecord = {
   assetManifestVersion: string | null;
   mobilePreviewUrl: string | null;
   desktopPreviewUrl: string | null;
+  /** Founder-approved tablet override when Mobile+Desktop pair is insufficient. */
+  tabletOverridePreviewUrl?: string | null;
+  /** Precomputed responsive tablet preview when Mobile + Desktop authorities both exist. */
+  tabletDerivedPreviewUrl?: string | null;
   isConceptOrphan: boolean;
   mirrorStatus: string;
 };

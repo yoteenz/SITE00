@@ -22,6 +22,7 @@ import {
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
+import { TodAuthorityThumbPreview, TodHeroViewportPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
   TodIconCheckCircle,
@@ -318,7 +319,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                   <span key={line}>{line}</span>
                 ))}
               </p>
-              <LvArchivalPlate className="tod-lv-hero__plate" slot="hero" />
+              <TodHeroViewportPreview preview={data.heroPreview} className="tod-lv-hero__plate" />
               <div className="tod-lv-hero__footer">
                 <span className="tod-lv-hero__footerBlock">
                   {data.hero.footerLeft.map((line) => (
@@ -362,41 +363,72 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                   aria-expanded={state.authorityPairOpen}
                   onClick={() => actions.toggleAuthorityPair()}
                 >
-                  {data.authorityPair.title}
+                  {data.authorityPairPresentation.title}
                   <TodIconChevronUp className={`tod-ico tod-lv-pair__caret${state.authorityPairOpen ? '' : ' is-closed'}`} />
                 </button>
                 <div className="tod-lv-pair__body" hidden={!state.authorityPairOpen}>
                   <div className="tod-lv-pair__row tod-lv-pair__row--mobile">
-                    <span className="tod-lv-pair__label">{data.authorityPair.mobile.label}</span>
+                    <span className="tod-lv-pair__label">{data.authorityPairPresentation.mobile.label}</span>
                     <span className="tod-lv-pair__version">
-                      {data.authorityPair.mobile.version}
+                      {data.authorityPairPresentation.mobile.version}
                     </span>
                     <div className="tod-lv-pair__thumb tod-lv-pair__thumb--mobile">
                       <span className="tod-lv-pair__thumbCopy">
                         <span>THE SIGNAL</span>
                         <span>IS THE INDEX</span>
                       </span>
-                      <LvArchivalPlate className="tod-lv-pair__thumbPlate" marks={false} slot="authorityMobile" />
+                      <TodAuthorityThumbPreview
+                        className="tod-lv-pair__thumbPlate"
+                        previewSrc={data.authorityPairPresentation.mobile.previewSrc}
+                        missing={data.authorityPairPresentation.mobile.missing}
+                        slot="authorityMobile"
+                        variant="mobile"
+                      />
                     </div>
                     <span className="tod-lv-pair__state">
-                      {data.authorityPair.mobile.state}
+                      {data.authorityPairPresentation.mobile.state}
                     </span>
                   </div>
                   <div className="tod-lv-pair__row tod-lv-pair__row--desktop">
-                    <span className="tod-lv-pair__label">{data.authorityPair.desktop.label}</span>
+                    <span className="tod-lv-pair__label">{data.authorityPairPresentation.desktop.label}</span>
                     <span className="tod-lv-pair__version">
-                      {data.authorityPair.desktop.version}
+                      {data.authorityPairPresentation.desktop.version}
                     </span>
                     <div className="tod-lv-pair__thumb tod-lv-pair__thumb--desktop">
                       <span className="tod-lv-pair__thumbCopy">
                         <span>THE SIGNAL</span>
                         <span>IS THE INDEX</span>
                       </span>
-                      <LvSlotImage slot="authorityDesktop" className="tod-lv-pair__thumbPhoto" />
-                      <span className="tod-lv-pair__thumbWedge" aria-hidden="true" />
+                      {data.authorityPairPresentation.desktop.missing ?
+                        <TodAuthorityThumbPreview
+                          className="tod-lv-pair__thumbPhoto"
+                          previewSrc={null}
+                          missing
+                          slot="authorityDesktop"
+                          variant="desktop"
+                        />
+                      : <>
+                          <TodAuthorityThumbPreview
+                            className="tod-lv-pair__thumbPhoto"
+                            previewSrc={data.authorityPairPresentation.desktop.previewSrc}
+                            missing={false}
+                            slot="authorityDesktop"
+                            variant="desktop"
+                          />
+                          <span className="tod-lv-pair__thumbWedge" aria-hidden="true" />
+                        </>
+                      }
                     </div>
-                    <button type="button" className="tod-lv-pair__replace" onClick={() => actions.selectForDesktop()}>
-                      {data.authorityPair.desktop.action}
+                    <span className="tod-lv-pair__meta">{data.authorityPairPresentation.tabletLabel}</span>
+                    <button
+                      type="button"
+                      className="tod-lv-pair__replace"
+                      onClick={() => actions.selectForDesktop()}
+                      disabled={data.authorityPairPresentation.desktop.missing}
+                    >
+                      {data.authorityPairPresentation.desktop.missing ?
+                        'CREATE DESKTOP DESIGN'
+                      : data.authorityPair.desktop.action}
                     </button>
                   </div>
                 </div>
@@ -441,7 +473,12 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
               </button>
             </header>
             <div className="tod-lv-gallery__body">
-              <div className="tod-lv-gallery__rail" ref={galleryRef}>
+              {data.galleryEmptyMessage ?
+                <p className="tod-gallery__empty" data-testid="gallery-viewport-empty">
+                  {data.galleryEmptyMessage}
+                </p>
+              : null}
+              <div className="tod-lv-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
                 {data.candidates.map((candidate) => {
                   const active = candidate.id === state.candidateId;
                   return (

@@ -392,6 +392,10 @@
   );
 }
 
+.tod-lv-hero__plate.tod-vp-preview {
+  font-size: 17px;
+}
+
 .tod-lv-rail {
   flex: 0 0 var(--tod-rail-w);
   height: 100%;
