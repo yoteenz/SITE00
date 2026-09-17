@@ -532,7 +532,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-LIST-REFINE1 — control reposition + list clea
 
 describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 — visible dedicated view row', () => {
   it('sits between the project context strip and the workspace band', () => {
-    const order = ['tod-context__right', 'TwinOpusDirectViewModeControl', 'className="tod-band"'];
+    const order = ['DesignPageTreeNavigator', 'TwinOpusDirectViewModeControl', 'className="tod-band"'];
     let at = 0;
     for (const marker of order) {
       const found = screen.indexOf(marker, at);

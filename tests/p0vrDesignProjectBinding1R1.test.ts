@@ -12,6 +12,8 @@ import {
   buildProjectDesignPageRegistry,
   compileDesignPageContext,
   formatDesignModuleBreadcrumb,
+  listCampaignEntriesForProject,
+  listSiteDesignPagesForProject,
 } from '../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import { resolveLegacyProjectDesignRedirect } from '../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
 import { site00ProjectDesignPath } from '../src/site00/config/routes';
@@ -44,11 +46,13 @@ describe('P0.VR.DESIGN-PROJECT-BINDING1R1', () => {
     expect(pages.some((p) => p.screenId === 'cultural-intelligence')).toBe(true);
   });
 
-  it('separates concept candidates from real site pages on overview model', () => {
-    const all = buildProjectDesignPageRegistry('ndxbook');
-    const concept = all.find((p) => p.isConceptOrphan);
-    expect(concept?.pageRole).toBe('CONCEPT_CANDIDATE');
-    expect(all.filter((p) => !p.isConceptOrphan).every((p) => p.pageRole !== 'CONCEPT_CANDIDATE')).toBe(true);
+  it('keeps campaign entries out of the site page registry (PAGE-CONCEPT-MODEL1)', () => {
+    const sitePages = listSiteDesignPagesForProject('ndxbook');
+    expect(sitePages.some((p) => p.screenId === 'entry-001-concept')).toBe(false);
+    expect(sitePages.every((p) => !p.isConceptOrphan)).toBe(true);
+    const campaigns = listCampaignEntriesForProject('ndxbook');
+    expect(campaigns.some((e) => e.entryId === 'entry-001')).toBe(true);
+    expect(sitePages.every((p) => !campaigns.some((e) => p.pageId.includes(e.entryId)))).toBe(true);
   });
 
   it('project intelligence summarizes page design completion', () => {
