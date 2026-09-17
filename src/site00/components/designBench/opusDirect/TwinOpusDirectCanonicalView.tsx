@@ -21,6 +21,7 @@ import {
   type TwinOpusDirectOutputColumn,
 } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
+import { TodAuthorityThumbPreview, TodHeroViewportPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
   TodIconCheckCircle,
@@ -263,7 +264,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               <span key={line}>{line}</span>
             ))}
           </p>
-          <TodArchivalPlate className="tod-hero__plate" slot="hero" />
+          <TodHeroViewportPreview preview={data.heroPreview} className="tod-hero__plate" />
           <div className="tod-hero__footer">
             <span className="tod-hero__footerBlock">
               {data.hero.footerLeft.map((line) => (
@@ -314,42 +315,69 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               aria-expanded={state.authorityPairOpen}
               onClick={actions.toggleAuthorityPair}
             >
-              {data.authorityPair.title}
+              {data.authorityPairPresentation.title}
               <TodIconChevronUp
                 className={`tod-ico tod-pair__caret${state.authorityPairOpen ? '' : ' is-closed'}`}
               />
             </button>
             <div className="tod-pair__body" hidden={!state.authorityPairOpen}>
               <div className="tod-pair__row tod-pair__row--mobile">
-                <span className="tod-pair__label">{data.authorityPair.mobile.label}</span>
-                <span className="tod-pair__version">{data.authorityPair.mobile.version}</span>
+                <span className="tod-pair__label">{data.authorityPairPresentation.mobile.label}</span>
+                <span className="tod-pair__version">{data.authorityPairPresentation.mobile.version}</span>
                 <div className="tod-pair__thumb tod-pair__thumb--mobile">
                   <span className="tod-pair__thumbCopy">
                     <span>THE SIGNAL</span>
                     <span>IS THE INDEX</span>
                   </span>
-                  <TodArchivalPlate className="tod-pair__thumbPlate" marks={false} slot="authorityMobile" />
+                  <TodAuthorityThumbPreview
+                    className="tod-pair__thumbPlate"
+                    previewSrc={data.authorityPairPresentation.mobile.previewSrc}
+                    missing={data.authorityPairPresentation.mobile.missing}
+                    slot="authorityMobile"
+                    variant="mobile"
+                  />
                 </div>
-                <span className="tod-pair__state">{data.authorityPair.mobile.state}</span>
+                <span className="tod-pair__state">{data.authorityPairPresentation.mobile.state}</span>
               </div>
               <div className="tod-pair__row tod-pair__row--desktop">
-                <span className="tod-pair__label">{data.authorityPair.desktop.label}</span>
-                <span className="tod-pair__version">{data.authorityPair.desktop.version}</span>
+                <span className="tod-pair__label">{data.authorityPairPresentation.desktop.label}</span>
+                <span className="tod-pair__version">{data.authorityPairPresentation.desktop.version}</span>
                 <div className="tod-pair__thumb tod-pair__thumb--desktop">
                   <span className="tod-pair__thumbCopy">
                     <span>THE SIGNAL</span>
                     <span>IS THE INDEX</span>
                   </span>
-                  <TodSlotImage slot="authorityDesktop" className="tod-pair__thumbPhoto" />
-                  <span className="tod-pair__thumbWedge" aria-hidden="true" />
+                  {data.authorityPairPresentation.desktop.missing ?
+                    <TodAuthorityThumbPreview
+                      className="tod-pair__thumbPhoto"
+                      previewSrc={null}
+                      missing
+                      slot="authorityDesktop"
+                      variant="desktop"
+                    />
+                  : <>
+                      <TodAuthorityThumbPreview
+                        className="tod-pair__thumbPhoto"
+                        previewSrc={data.authorityPairPresentation.desktop.previewSrc}
+                        missing={false}
+                        slot="authorityDesktop"
+                        variant="desktop"
+                      />
+                      <span className="tod-pair__thumbWedge" aria-hidden="true" />
+                    </>
+                  }
                 </div>
+                <span className="tod-pair__meta">{data.authorityPairPresentation.tabletLabel}</span>
                 <button
                   type="button"
                   className="tod-pair__replace"
                   data-interaction-id="pair-replace-desktop"
                   onClick={() => actions.selectForDesktop()}
+                  disabled={data.authorityPairPresentation.desktop.missing}
                 >
-                  {data.authorityPair.desktop.action}
+                  {data.authorityPairPresentation.desktop.missing ?
+                    'CREATE DESKTOP DESIGN'
+                  : data.authorityPair.desktop.action}
                 </button>
               </div>
             </div>
@@ -400,7 +428,12 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
           </button>
         </header>
         <div className="tod-gallery__body">
-          <div className="tod-gallery__rail" ref={galleryRef}>
+          {data.galleryEmptyMessage ?
+            <p className="tod-gallery__empty" data-testid="gallery-viewport-empty">
+              {data.galleryEmptyMessage}
+            </p>
+          : null}
+          <div className="tod-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
             {data.candidates.map((candidate) => {
               const active = candidate.id === state.candidateId;
               return (
@@ -459,6 +492,9 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
       <section className="tod-out" aria-label={data.outputTitle}>
         <header className="tod-out__head">
           <h2 className="tod-out__title">{data.outputTitle}</h2>
+          {data.outputViewportNote ?
+            <p className="tod-out__viewportNote">{data.outputViewportNote}</p>
+          : null}
         </header>
         <div className="tod-out__cols">
           {data.outputColumns.map((column) => (

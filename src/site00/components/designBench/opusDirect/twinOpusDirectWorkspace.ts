@@ -42,7 +42,14 @@ import {
   buildDesignModuleHierarchy,
   buildDesignProjectIntelligence,
   designHeaderCrumbLabels,
+  mergePageViewportIntoReadiness,
+  resolveAuthorityRailRows,
+  resolveHeroPreviewForViewport,
+  resolvePageViewportBundle,
+  type HeroPreviewResolution,
+  type ViewportControlPresentation,
 } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
+import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
 import { site00ProjectsDesignModulePath } from '../../../config/routes';
 import {
   computeContextualNextAction,
@@ -127,6 +134,16 @@ export interface TwinOpusDirectWorkspaceData {
   conceptFields: typeof TWIN_OPUS_DIRECT_CONCEPT_FIELDS;
   amendment: typeof TWIN_OPUS_DIRECT_AMENDMENT;
   bottomNav: typeof TWIN_OPUS_DIRECT_BOTTOM_NAV;
+  heroPreview: HeroPreviewResolution;
+  viewportControls: readonly ViewportControlPresentation[];
+  galleryEmptyMessage: string | null;
+  authorityPairPresentation: {
+    title: string;
+    mobile: { label: string; version: string; state: string; previewSrc: string | null; missing: boolean };
+    desktop: { label: string; version: string; state: string; previewSrc: string | null; missing: boolean };
+    tabletLabel: string;
+  };
+  outputViewportNote: string | null;
 }
 
 export interface TwinOpusDirectWorkspaceState {
@@ -176,7 +193,7 @@ export interface TwinOpusDirectWorkspace {
 
 export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectWorkspace {
   const production = useTwinOpusDirectProduction(projectSlug);
-  const { state: prodState, projection, actions: prodActions, actor, syncStatus } = production;
+  const { state: prodState, actions: prodActions, actor, syncStatus } = production;
   const nav = useDesignProductionNavigation();
 
   const [viewport, setViewport] = useState<TwinOpusDirectViewportId>('MOBILE');
@@ -360,14 +377,48 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     [candidateId],
   );
 
+  const pageViewportBundle = useMemo(
+    () => resolvePageViewportBundle(projectSlug, pageTarget.pageId),
+    [pageTarget.pageId, projectSlug],
+  );
+
+  const pageAwareProjection = useMemo(() => {
+    const base = projectDesignProductionProjection(prodState);
+    if (!pageViewportBundle) return base;
+    const receipt = mergePageViewportIntoReadiness(base.receipt, pageViewportBundle.coverage);
+    const pending = receipt.checks.filter((c) => c.result === 'BLOCKED' || c.result === 'FAIL').length;
+    return {
+      ...base,
+      receipt,
+      percent: receipt.readinessPercent,
+      state: receipt.readyLabel,
+      compilerState: receipt.buildEligible ? 'BUILD_ELIGIBLE' : receipt.readyLabel,
+      statusRows: [
+        { id: 'approved', label: 'APPROVED ELEMENTS', value: String(receipt.passedGates) },
+        { id: 'pending', label: 'PENDING DECISIONS', value: String(pending) },
+        { id: 'blockers', label: 'BLOCKERS', value: String(receipt.blockers.length) },
+        { id: 'warnings', label: 'WARNINGS', value: String(receipt.warnings.length) },
+      ],
+      checks: receipt.checks
+        .filter((c) => c.result !== 'NOT_APPLICABLE')
+        .slice(0, 5)
+        .map((c) => ({
+          id: c.id,
+          label: c.label.toUpperCase(),
+          state: c.result === 'PASS' ? 'pass' as const : c.result === 'FAIL' ? 'fail' as const : 'pending' as const,
+        })),
+      buildEligible: receipt.buildEligible,
+    };
+  }, [pageViewportBundle, prodState]);
+
   const readinessDash = useMemo(() => {
     const circumference = 2 * Math.PI * 30;
-    const pct = projection.percent;
+    const pct = pageAwareProjection.percent;
     return {
       circumference,
       offset: circumference * (1 - pct / 100),
     };
-  }, [projection.percent]);
+  }, [pageAwareProjection.percent]);
 
   const data = useMemo<TwinOpusDirectWorkspaceData>(() => {
     const slug = (projectSlug || 'ndxbook').trim().toLowerCase();
@@ -381,6 +432,39 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     });
     const crumbs = designHeaderCrumbLabels(hierarchy);
     const shellTarget = pageTarget ?? resolveDesignPageTargetForShell(slug);
+    const vpAuth = pageViewportBundle?.auth ?? null;
+    const heroPreview =
+      vpAuth ?
+        resolveHeroPreviewForViewport(vpAuth, viewport)
+      : resolveHeroPreviewForViewport(
+          {
+            projectId: slug,
+            pageId: shellTarget.pageId,
+            mobileAuthorityUrl: null,
+            desktopAuthorityUrl: null,
+            tabletOverrideUrl: null,
+            tabletDerivedUrl: null,
+          },
+          viewport,
+        );
+    const viewportControls = pageViewportBundle?.controls ?? [];
+    const scopedCandidates = TWIN_OPUS_DIRECT_CANDIDATES.filter((c) => c.viewportScope === viewport);
+    const galleryEmptyMessage =
+      scopedCandidates.length === 0 ?
+        viewport === 'DESKTOP' ? 'NO DESKTOP CANDIDATES YET'
+        : viewport === 'TABLET' ? 'NO TABLET CANDIDATES YET'
+        : 'NO CANDIDATES FOR THIS VIEWPORT'
+      : null;
+    const railRows =
+      vpAuth ?
+        resolveAuthorityRailRows(
+          vpAuth,
+          prodState.mobileVersion,
+          prodState.desktopVersion,
+          prodState.mobileAuthority,
+          prodState.desktopAuthority,
+        )
+      : null;
 
     return {
       header: {
@@ -407,27 +491,52 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       stage: {
         ...TWIN_OPUS_DIRECT_STAGE,
         stageValue: prodState.workflowStage === 'BUILD' ? 'BUILD' : TWIN_OPUS_DIRECT_STAGE.stageValue,
-        authorityValue: projection.stageAuthorityValue,
+        authorityValue: pageAwareProjection.stageAuthorityValue,
       },
       viewports: TWIN_OPUS_DIRECT_VIEWPORTS,
       hero: TWIN_OPUS_DIRECT_HERO,
+      heroPreview,
+      viewportControls,
       selectActions: TWIN_OPUS_DIRECT_SELECT_ACTIONS,
       authorityPair: TWIN_OPUS_DIRECT_AUTHORITY_PAIR,
+      authorityPairPresentation: {
+        title: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.title,
+        mobile: railRows?.mobile ?? {
+          label: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.mobile.label,
+          version: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.mobile.version,
+          state: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.mobile.state,
+          previewSrc: null,
+          missing: false,
+        },
+        desktop: railRows?.desktop ?? {
+          label: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.desktop.label,
+          version: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.desktop.version,
+          state: 'MISSING',
+          previewSrc: null,
+          missing: true,
+        },
+        tabletLabel: railRows?.tabletLabel ?? 'TABLET: WAITING',
+      },
       railActions: TWIN_OPUS_DIRECT_RAIL_ACTIONS,
       gallery: TWIN_OPUS_DIRECT_GALLERY,
-      candidates: TWIN_OPUS_DIRECT_CANDIDATES,
+      galleryEmptyMessage,
+      candidates: scopedCandidates,
       candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
       outputColumns: TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
       pipelineTitle: TWIN_OPUS_DIRECT_PIPELINE_TITLE,
       readiness: {
         ...TWIN_OPUS_DIRECT_READINESS_SHELL,
-        percent: projection.percent,
-        state: projection.state,
-        compilerState: projection.compilerState,
+        percent: pageAwareProjection.percent,
+        state: pageAwareProjection.state,
+        compilerState: pageAwareProjection.compilerState,
       },
-      checks: projection.checks.length > 0 ? projection.checks : TWIN_OPUS_DIRECT_CHECKS,
-      statusRows: projection.statusRows,
+      checks: pageAwareProjection.checks.length > 0 ? pageAwareProjection.checks : TWIN_OPUS_DIRECT_CHECKS,
+      statusRows: pageAwareProjection.statusRows,
+      outputViewportNote:
+        viewport === 'MOBILE' ? null : (
+          `Structured output review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
+        ),
       nextAction: (() => {
         const next = computeContextualNextAction(prodState, actor);
         return {
@@ -442,7 +551,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
     };
-  }, [actor, pageTarget, prodState, projection, projectSlug, syncStatus]);
+  }, [actor, pageAwareProjection, pageTarget, pageViewportBundle, prodState, projectSlug, syncStatus, viewport]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),

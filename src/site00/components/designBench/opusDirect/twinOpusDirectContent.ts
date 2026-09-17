@@ -91,13 +91,15 @@ export type TwinOpusDirectCandidate = {
   readonly version: string;
   readonly surface: TwinOpusDirectCandidateSurface;
   readonly versionTag: TwinOpusDirectVersionTag;
+  /** Viewport scope for concept candidates — mobile-only until desktop candidates exist. */
+  readonly viewportScope: TwinOpusDirectViewportId;
 };
 
 export const TWIN_OPUS_DIRECT_CANDIDATES: readonly TwinOpusDirectCandidate[] = [
-  { id: 'v13', version: 'V1.3', surface: 'plate', versionTag: 'chip' },
-  { id: 'v12', version: 'V1.2', surface: 'grain', versionTag: 'plain' },
-  { id: 'v11', version: 'V1.1', surface: 'collage', versionTag: 'plain' },
-  { id: 'v10', version: 'V1.0', surface: 'archive', versionTag: 'none' },
+  { id: 'v13', version: 'V1.3', surface: 'plate', versionTag: 'chip', viewportScope: 'MOBILE' },
+  { id: 'v12', version: 'V1.2', surface: 'grain', versionTag: 'plain', viewportScope: 'MOBILE' },
+  { id: 'v11', version: 'V1.1', surface: 'collage', versionTag: 'plain', viewportScope: 'MOBILE' },
+  { id: 'v10', version: 'V1.0', surface: 'archive', versionTag: 'none', viewportScope: 'MOBILE' },
 ];
 
 export const TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS = [
