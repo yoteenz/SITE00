@@ -224,6 +224,12 @@
   cursor: pointer;
 }
 
+.tod-agent-open.is-open {
+  border-color: #d8ff3e;
+  color: #050505;
+  background: #d8ff3e;
+}
+
 .tod-header__status {
   display: flex;
   align-items: center;

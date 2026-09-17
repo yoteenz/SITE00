@@ -243,6 +243,11 @@ export function findSurface(ref: { route?: string; pageId?: string }): DesignSur
       const twin = DESIGN_SURFACES.find((surface) => surface.pageId === 'twin-opus-direct');
       if (twin) return twin;
     }
+    /** P0.VR.DESIGN-PROJECT-BINDING1R1 — module routes `/projects/design/:slug`. */
+    if (/^\/projects\/design\/[^/]+/.test(normalized)) {
+      const twin = DESIGN_SURFACES.find((surface) => surface.pageId === 'twin-opus-direct');
+      if (twin) return twin;
+    }
     const byRoute = DESIGN_SURFACES.find((surface) => {
       const pattern = surface.route.replace(/:[A-Za-z]+/g, '[^/]+');
       return new RegExp(`^${pattern}$`).test(normalized);

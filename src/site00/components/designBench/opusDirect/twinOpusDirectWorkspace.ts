@@ -56,6 +56,7 @@ import {
   railActionDisabledReason,
 } from '../../../../../shared/site00-design-workspace-production/designInteractionEligibility.js';
 import { useDesignProductionNavigation } from '../production/useDesignProductionNavigation';
+import { readDesignAgentViewport, writeDesignAgentViewport } from '../designAgent/designAgentSessionPrefs';
 import {
   twinOpusDirectCandidateArtifactView,
   twinOpusDirectCandidateById,
@@ -196,7 +197,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const { state: prodState, actions: prodActions, actor, syncStatus } = production;
   const nav = useDesignProductionNavigation();
 
-  const [viewport, setViewport] = useState<TwinOpusDirectViewportId>('MOBILE');
+  const [viewport, setViewport] = useState<TwinOpusDirectViewportId>(() => {
+    const stored = readDesignAgentViewport();
+    return stored === 'TABLET' || stored === 'DESKTOP' ? stored : 'MOBILE';
+  });
   const [navIndex, setNavIndex] = useState(0);
   const [candidateId, setCandidateId] = useState(prodState.selectedCandidateId);
   const [authorityPairOpen, setAuthorityPairOpen] = useState(true);
@@ -204,6 +208,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [dockIndex, setDockIndex] = useState(0);
   const [viewMode, setViewModeState] = useState<TwinOpusDirectViewMode>(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE);
   const [pageTarget, setPageTarget] = useState(() => resolveDesignPageTargetForShell(projectSlug));
+
+  useEffect(() => {
+    writeDesignAgentViewport(viewport);
+  }, [viewport]);
 
   useEffect(() => {
     const onTarget = (event: Event) => {
@@ -243,7 +251,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
 
   const actions = useMemo<TwinOpusDirectWorkspaceActions>(
     () => ({
-      selectViewport: setViewport,
+      selectViewport: (next) => {
+        setViewport(next);
+        writeDesignAgentViewport(next);
+      },
       selectNavSection: setNavIndex,
       selectCandidate: (id: string) => {
         setCandidateId(id);

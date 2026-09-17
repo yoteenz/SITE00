@@ -1,16 +1,5 @@
 /**
  * P0.VR.OPUS-NATIVE2 — Phase 4: the agent targets what the founder is looking at.
- *
- * The NATIVE1 panel made the founder type a route. That is acceptable on a
- * laboratory page and absurd inside the workspace: the founder is already
- * standing on the page, and the route, project, view mode and viewport are all
- * on screen. Requiring them to be restated is how a native surface ends up
- * feeling worse than a chat window.
- *
- * The target is derived from the router, the registry and the presentation
- * state the DESIGN shell already persists, and it recomputes when any of them
- * change — so switching view mode or viewport retargets the agent without a
- * second thought from the founder.
  */
 
 import { useEffect, useMemo, useState } from 'react';
@@ -18,60 +7,45 @@ import { useLocation, useParams } from 'react-router-dom';
 
 import type { OpusNativeTargetRef } from '../../../../../shared/site00-opus-native/contracts';
 import type { OpusNativeViewport } from '../../../../../shared/site00-opus-native/types';
+import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import { fetchSurfaces } from '../opusNative/opusNativeClient';
+import {
+  readDesignAgentViewMode,
+  readDesignAgentViewport,
+} from './designAgentSessionPrefs';
+import { resolveDesignAgentSurfaceMatch } from './resolveDesignAgentSurface';
 
 export interface DesignAgentTarget {
   target: OpusNativeTargetRef;
   pageId: string | null;
+  pageLabel: string | null;
   route: string;
   projectSlug: string;
-  /** Null while the registry is loading, false when this route is unregistered. */
   registered: boolean | null;
-  /**
-   * Set when the registry could not be read at all. An unreachable registry
-   * and an unregistered page both leave `registered` false, and the two must
-   * not look the same: the first is a broken runtime the founder needs to see,
-   * the second is a page the agent legitimately has nothing to say about.
-   */
   registryError: string | null;
   standingWriteMode: string | null;
   firewallReason: string | null;
   goldenVersion: string | null;
 }
 
-/** Matches a concrete route against a registry pattern containing :params. */
-function routeMatches(pattern: string, actual: string): boolean {
-  const expression = pattern.replace(/:[A-Za-z]+/g, '[^/]+').replace(/\/+$/, '');
-  return new RegExp(`^${expression}$`).test(actual.replace(/\/+$/, ''));
-}
-
-/**
- * The DESIGN shell keeps presentation preferences in sessionStorage rather
- * than the URL, so they are read from there rather than re-plumbed through
- * props from a component the dock does not own.
- */
-function readViewMode(): string {
-  try {
-    return window.sessionStorage.getItem('site00:twin-opus-direct:view-mode:v1') ?? 'canonical';
-  } catch {
-    return 'canonical';
-  }
-}
-
-function readViewport(): OpusNativeViewport {
-  if (typeof window === 'undefined') return 'MOBILE';
-  const width = window.innerWidth;
-  if (width >= 1200) return 'DESKTOP';
-  if (width >= 820) return 'TABLET';
-  return 'MOBILE';
+function resolveProjectSlugFromRoute(route: string, paramSlug: string | undefined): string {
+  const fromParam = paramSlug?.trim().toLowerCase();
+  if (fromParam) return fromParam;
+  const moduleMatch = route.match(/^\/projects\/design\/([^/]+)/);
+  if (moduleMatch?.[1]) return moduleMatch[1].toLowerCase();
+  const legacyMatch = route.match(/^\/projects\/([^/]+)\/design/);
+  if (legacyMatch?.[1]) return legacyMatch[1].toLowerCase();
+  return 'ndxbook';
 }
 
 export function useDesignAgentTarget(): DesignAgentTarget {
   const location = useLocation();
-  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+  const params = useParams<{ projectSlug?: string }>();
+  const projectSlug = resolveProjectSlugFromRoute(location.pathname, params.projectSlug);
   const [surfaces, setSurfaces] = useState<Awaited<ReturnType<typeof fetchSurfaces>>['surfaces'] | null>(null);
-  const [viewport, setViewport] = useState<OpusNativeViewport>(() => readViewport());
-  const [viewMode, setViewMode] = useState<string>(() => readViewMode());
+  const [viewport, setViewport] = useState<OpusNativeViewport>(() => readDesignAgentViewport());
+  const [viewMode, setViewMode] = useState<string>(() => readDesignAgentViewMode());
+  const [pageRevision, setPageRevision] = useState(0);
   const [registryError, setRegistryError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -93,37 +67,52 @@ export function useDesignAgentTarget(): DesignAgentTarget {
   }, []);
 
   useEffect(() => {
-    const onResize = () => setViewport(readViewport());
-    const onStorage = () => setViewMode(readViewMode());
+    const refreshPresentation = () => {
+      setViewport(readDesignAgentViewport());
+      setViewMode(readDesignAgentViewMode());
+      setPageRevision((n) => n + 1);
+    };
+    const onResize = () => {
+      if (!window.sessionStorage.getItem('site00:twin-opus-direct:viewport:v1')) {
+        setViewport(readDesignAgentViewport());
+      }
+    };
     window.addEventListener('resize', onResize);
-    window.addEventListener('storage', onStorage);
-    // The shell writes view mode in the same tab, where `storage` does not
-    // fire, so the value is also re-read whenever the dock is interacted with.
+    window.addEventListener('storage', refreshPresentation);
+    window.addEventListener('site00:design-viewport', refreshPresentation);
+    window.addEventListener('site00:design-page-target', refreshPresentation);
     return () => {
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('storage', onStorage);
+      window.removeEventListener('storage', refreshPresentation);
+      window.removeEventListener('site00:design-viewport', refreshPresentation);
+      window.removeEventListener('site00:design-page-target', refreshPresentation);
     };
   }, []);
 
   return useMemo(() => {
     const route = location.pathname;
-    const match = surfaces?.find((surface) => routeMatches(surface.route, route)) ?? null;
+    const surfaceMatch = surfaces ? resolveDesignAgentSurfaceMatch(route, surfaces) : null;
+    const pageTarget = readDesignPageTarget(projectSlug);
+    const activePageId = pageTarget?.pageId ?? surfaceMatch?.pageId ?? null;
+    const pageLabel = pageTarget?.pageLabel ?? null;
+
     return {
       route,
       projectSlug,
-      pageId: match?.pageId ?? null,
-      registered: surfaces === null ? null : Boolean(match),
+      pageId: activePageId,
+      pageLabel,
+      registered: surfaces === null ? null : Boolean(surfaceMatch),
       registryError,
-      standingWriteMode: match?.standingWriteMode ?? null,
-      firewallReason: match?.writeFirewallReason ?? null,
-      goldenVersion: match?.goldenReferenceVersion ?? null,
+      standingWriteMode: surfaceMatch?.standingWriteMode ?? null,
+      firewallReason: surfaceMatch?.writeFirewallReason ?? null,
+      goldenVersion: surfaceMatch?.goldenReferenceVersion ?? null,
       target: {
         projectSlug,
         route,
-        pageId: match?.pageId,
+        pageId: activePageId ?? undefined,
         viewport,
         viewMode,
       },
     };
-  }, [location.pathname, projectSlug, surfaces, viewport, viewMode, registryError]);
+  }, [location.pathname, pageRevision, projectSlug, surfaces, viewport, viewMode, registryError]);
 }
