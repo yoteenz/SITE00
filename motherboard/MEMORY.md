@@ -10181,3 +10181,14 @@ Founder: header OPUS control was a no-op on `/projects/design/:slug`.
 - **Fix:** `resolveDesignAgentSurfaceMatch` for module + legacy production routes; dock always mounted; page label/viewport from `readDesignPageTarget` + session viewport key; server `findSurface` alias for module routes; header button `data-interaction-id=header-opus`, aria-label, OPUS · OPEN when open.
 - **Tests:** `p0vrDesignOpusLauncher1.test.ts`; interaction coverage guard for header-opus.
 - **Next:** Founder Opus module UX review (dispatch still $0 until founder confirms spend in panel).
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-PAGE-NAV1 — context bar page-tree navigator
+
+Founder: black context bar wasted on “PROJECT CREATIVE CONTEXT” CTA; needed fast in-project page navigation.
+
+- **Change:** `DesignPageTreeNavigator` replaces context-bar creative context button; shows active page + dropdown from real `buildProjectDesignPageRegistry` tree (expand/collapse, status hints). Selection writes `designProductionPageTarget`, rehydrates workspace/Opus/viewport via existing events.
+- **Relocate:** Project Creative Context → workspace overflow menu + MORE section (same `openCreativeContext` drawer).
+- **Breadcrumb:** `activePageName` in module hierarchy → header third slot shows page (e.g. PROJECTS > DESIGN > ENTRY COVER).
+- **Tests:** `p0vrDesignPageNav1.test.ts`.

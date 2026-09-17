@@ -14,6 +14,7 @@
 import { useEffect, useState } from 'react';
 
 import { DesignAgentOpenButton } from '../designAgent/DesignAgentDockContext';
+import { DesignPageTreeNavigator } from '../production/DesignPageTreeNavigator';
 import { DesignChildSurfaceFrame } from '../production/DesignChildSurfaceFrame';
 import { DesignProductionEmbeddedProvider } from '../production/DesignProductionEmbeddedContext';
 import {
@@ -252,14 +253,7 @@ export function TwinOpusDirectScreen({
           <div className="tod-context">
             <span className="tod-context__chip">{data.context.chip}</span>
             <span className="tod-context__stream">{data.context.stream}</span>
-            <button
-              type="button"
-              className="tod-context__right tod-context__rightBtn"
-              onClick={() => production.actions.openCreativeContext()}
-            >
-              {data.context.right}
-              <span className="tod-dot tod-dot--lime" aria-hidden="true" />
-            </button>
+            <DesignPageTreeNavigator projectSlug={projectSlug} />
           </div>
 
           {/* 03b WORKSPACE_VIEW_ROW — presentation control zone */}

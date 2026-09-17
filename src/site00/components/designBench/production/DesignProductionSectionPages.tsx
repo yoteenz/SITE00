@@ -2,11 +2,8 @@ import { useMemo } from 'react';
 
 import { buildProjectDesignPageRegistry } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import { DesignProductionChildShell } from './DesignProductionChildShell';
-import {
-  readDesignPageTarget,
-  writeDesignPageTarget,
-  type DesignProductionPageTarget,
-} from './designProductionPageTarget';
+import { designProductionPageTargetFromRecord } from './designPageTargetFromRecord';
+import { readDesignPageTarget, writeDesignPageTarget, type DesignProductionPageTarget } from './designProductionPageTarget';
 import { writeDesignWorkspaceSurface } from './designProductionWorkspaceMode';
 import { useDesignProductionNavigation } from './useDesignProductionNavigation';
 
@@ -60,18 +57,7 @@ function PageRow({
     <button
       type="button"
       className={`tod-child__row${indent ? ' tod-child__row--indent' : ''}${active ? ' is-active' : ''}`}
-      onClick={() =>
-        onSelect({
-          pageId: page.pageId,
-          screenId: page.screenId,
-          entryId: page.screenId,
-          pageLabel: page.pageName,
-          surfaceLabel: page.pageRole.replace(/_/g, ' '),
-          route: page.route,
-          pageRole: page.pageRole,
-          designStatus: page.designStatus,
-        })
-      }
+      onClick={() => onSelect(designProductionPageTargetFromRecord(page))}
     >
       <span className="tod-child__rowTitle">{page.pageName.toUpperCase()}</span>
       <span className="tod-child__muted">{page.route}</span>

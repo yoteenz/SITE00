@@ -84,6 +84,9 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
             onClose={close}
           >
             <div className="tod-dcs-stackActions">
+              <button type="button" className="tod-dcs__primary" onClick={actions.openCreativeContext}>
+                PROJECT CREATIVE CONTEXT
+              </button>
               <button type="button" className="tod-dcs__primary" onClick={actions.openReadinessReceipt}>
                 READINESS RECEIPT
               </button>
