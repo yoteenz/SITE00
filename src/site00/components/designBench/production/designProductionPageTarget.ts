@@ -17,6 +17,21 @@ export type DesignProductionPageTarget = {
 
 const STORAGE_PREFIX = 'site00:design-production:page-target:v2:';
 
+/** Approved twin TARGET band default (concept workspace — not a live site page row). */
+export function defaultConceptPageTargetForShell(projectSlug: string): DesignProductionPageTarget {
+  const slug = projectSlug.toLowerCase();
+  return {
+    pageId: `${slug}:entry-001-concept`,
+    screenId: 'entry-001-concept',
+    entryId: 'ENTRY-001',
+    pageLabel: 'ENTRY COVER',
+    surfaceLabel: 'HOMEPAGE HERO',
+    route: `/projects/${slug}`,
+    pageRole: 'CONCEPT_CANDIDATE',
+    designStatus: 'IN_REVIEW',
+  };
+}
+
 export function readDesignPageTarget(projectSlug: string): DesignProductionPageTarget | null {
   if (typeof window === 'undefined') return null;
   try {
@@ -48,6 +63,11 @@ export function clearDesignPageTarget(projectSlug: string): void {
   }
 }
 
+/** Matches pre–PROJECT-BINDING1R1 TARGET band copy geometry. */
 export function designPageTargetLines(target: DesignProductionPageTarget): readonly string[] {
-  return [target.pageLabel.toUpperCase(), target.pageRole.replace(/_/g, ' '), target.route];
+  return [target.entryId.replace(/-/g, ' '), target.pageLabel, target.surfaceLabel];
+}
+
+export function resolveDesignPageTargetForShell(projectSlug: string): DesignProductionPageTarget {
+  return readDesignPageTarget(projectSlug) ?? defaultConceptPageTargetForShell(projectSlug);
 }

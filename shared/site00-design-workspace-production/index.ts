@@ -9,3 +9,4 @@ export * from './designProductionProjection.js';
 export * from './childInheritanceContract.js';
 export * from './designProductionReceipt.js';
 export * from './designProjectBinding/index.js';
+export * from './designVisualCompositionGuard.js';

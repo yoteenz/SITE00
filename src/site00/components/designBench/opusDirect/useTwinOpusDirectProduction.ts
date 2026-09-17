@@ -50,6 +50,7 @@ export type TwinOpusDirectProductionActions = {
   }) => void;
   confirmPendingSpend: () => void;
   cancelPendingSpend: () => void;
+  dismissProductionError: () => void;
   runRefineConcept: (input: {
     parentCandidateId: string;
     spendConfirmationId: string;
@@ -129,12 +130,10 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setState(cache.state);
         setServerSessionVersion(cache.serverSessionVersion);
         setSyncStatus('STALE');
-        setProductionError('AUTHORITY STATE UNAVAILABLE — showing last synced cache');
       } else {
         setState(createInitialDesignProductionState(projectId));
         setServerSessionVersion(null);
         setSyncStatus('UNAVAILABLE');
-        setProductionError('AUTHORITY STATE UNAVAILABLE');
       }
       return;
     }
@@ -333,6 +332,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setPendingSpend(null);
         setOverlay(null);
       },
+      dismissProductionError: () => setProductionError(null),
       runRefineConcept: (input) => {
         void runCommand('REFINE_CONCEPT', input);
       },

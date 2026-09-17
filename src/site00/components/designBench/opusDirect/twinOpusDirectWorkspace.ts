@@ -36,9 +36,8 @@ import {
 } from './twinOpusDirectContent';
 import {
   designPageTargetLines,
-  readDesignPageTarget,
+  resolveDesignPageTargetForShell,
 } from '../production/designProductionPageTarget';
-import { readDesignWorkspaceSurface, writeDesignWorkspaceSurface } from '../production/designProductionWorkspaceMode';
 import {
   buildDesignModuleHierarchy,
   buildDesignProjectIntelligence,
@@ -173,12 +172,11 @@ export interface TwinOpusDirectWorkspace {
   setViewMode: (mode: TwinOpusDirectViewMode) => void;
   production: TwinOpusDirectProduction;
   projectSlug: string;
-  workspaceSurface: ReturnType<typeof readDesignWorkspaceSurface>;
 }
 
 export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectWorkspace {
   const production = useTwinOpusDirectProduction(projectSlug);
-  const { state: prodState, projection, actions: prodActions, actor } = production;
+  const { state: prodState, projection, actions: prodActions, actor, syncStatus } = production;
   const nav = useDesignProductionNavigation();
 
   const [viewport, setViewport] = useState<TwinOpusDirectViewportId>('MOBILE');
@@ -188,22 +186,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [recordTabIndex, setRecordTabIndex] = useState(0);
   const [dockIndex, setDockIndex] = useState(0);
   const [viewMode, setViewModeState] = useState<TwinOpusDirectViewMode>(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE);
-  const [pageTarget, setPageTarget] = useState(() => readDesignPageTarget(projectSlug));
-  const [workspaceSurface, setWorkspaceSurface] = useState(() => readDesignWorkspaceSurface(projectSlug));
+  const [pageTarget, setPageTarget] = useState(() => resolveDesignPageTargetForShell(projectSlug));
 
   useEffect(() => {
     const onTarget = (event: Event) => {
       const detail = (event as CustomEvent<{ projectSlug?: string }>).detail;
       if (!detail?.projectSlug || detail.projectSlug.toLowerCase() !== projectSlug.toLowerCase()) return;
-      setPageTarget(readDesignPageTarget(projectSlug));
-      setWorkspaceSurface(readDesignWorkspaceSurface(projectSlug));
+      setPageTarget(resolveDesignPageTargetForShell(projectSlug));
     };
     window.addEventListener('site00:design-page-target', onTarget);
-    window.addEventListener('site00:design-workspace-surface', onTarget);
-    return () => {
-      window.removeEventListener('site00:design-page-target', onTarget);
-      window.removeEventListener('site00:design-workspace-surface', onTarget);
-    };
+    return () => window.removeEventListener('site00:design-page-target', onTarget);
   }, [projectSlug]);
 
   useEffect(() => {
@@ -288,11 +280,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         }
       },
       railDisabledReason: (actionId: string) => railActionDisabledReason(actionId, prodState, actor),
-      goWorkspace: () => {
-        writeDesignWorkspaceSurface(projectSlug, 'project-overview');
-        setWorkspaceSurface('project-overview');
-        nav.goWorkspace();
-      },
+      goWorkspace: () => nav.goWorkspace(),
       goDesignHistory: () => nav.goSection('history'),
       goChangeHistory: () => {
         nav.goSection('history');
@@ -392,10 +380,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       activePageName: pageTarget?.pageLabel ?? null,
     });
     const crumbs = designHeaderCrumbLabels(hierarchy);
-    const targetLines =
-      workspaceSurface === 'page-workspace' && pageTarget ?
-        designPageTargetLines(pageTarget)
-      : ['PROJECT OVERVIEW', 'PAGE MAP', (intel?.displayName ?? slug.toUpperCase()).toString()];
+    const shellTarget = pageTarget ?? resolveDesignPageTargetForShell(slug);
 
     return {
       header: {
@@ -403,6 +388,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         brand: crumbs.brand,
         project: crumbs.module,
         page: crumbs.activeProject,
+        compiler:
+          syncStatus === 'SYNCED' ? TWIN_OPUS_DIRECT_HEADER.compiler
+          : syncStatus === 'HYDRATING' ? 'COMPILER: SYNC…'
+          : syncStatus === 'STALE' ? 'COMPILER: LOCAL CACHE'
+          : 'COMPILER: LOCAL',
       },
       context: {
         chip: (intel?.displayName ?? slug.toUpperCase()).toString(),
@@ -412,8 +402,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       primaryNav: TWIN_OPUS_DIRECT_PRIMARY_NAV,
       target: {
         ...TWIN_OPUS_DIRECT_TARGET,
-        label: workspaceSurface === 'page-workspace' ? 'TARGET' : 'MODULE',
-        lines: targetLines as unknown as typeof TWIN_OPUS_DIRECT_TARGET.lines,
+        lines: designPageTargetLines(shellTarget),
       },
       stage: {
         ...TWIN_OPUS_DIRECT_STAGE,
@@ -453,7 +442,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
     };
-  }, [actor, pageTarget, prodState, projection, projectSlug, workspaceSurface]);
+  }, [actor, pageTarget, prodState, projection, projectSlug, syncStatus]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),
@@ -470,6 +459,5 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     setViewMode,
     production,
     projectSlug,
-    workspaceSurface,
   };
 }
