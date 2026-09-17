@@ -8,3 +8,4 @@ export * from './designProductionCache.js';
 export * from './designProductionProjection.js';
 export * from './childInheritanceContract.js';
 export * from './designProductionReceipt.js';
+export * from './designProjectBinding/index.js';

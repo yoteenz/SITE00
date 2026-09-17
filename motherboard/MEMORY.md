@@ -10133,3 +10133,15 @@ Founder asked to shrink **desktop only** viewport device icon in twin-opus-direc
 
 - **Change:** `.tod-device:nth-child(3) .tod-device__ico` 42×29 → 37.8×26.1px (`site00-twin-opus-direct.css`); list band `.tod-lv-device:nth-child(3)` 82.7 → 74.43px width, height 51.39px (`site00-twin-opus-list.css`). Mobile/tablet unchanged.
 - **Founder next:** cPanel ZIP after merge for site00.com; tunnel dev reflects CSS immediately.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-PROJECT-BINDING1R1 — PROJECTS > DESIGN > active project
+
+Composer sprint: DESIGN module hierarchy, NDXBOOK project intelligence, page registry binding, project overview vs page workspace.
+
+- **Hierarchy:** Breadcrumb/header `PROJECTS > DESIGN > NDXBOOK`; hamburger → PROJECTS module nav + active project list. Canonical routes `/projects/design` (hub) and `/projects/design/:projectSlug`; legacy `/projects/:slug/design` redirects.
+- **Binding:** `shared/.../designProjectBinding/` connects P0.VR.8 page registry + managed project intel; real NDXBOOK screens (overview, cultural-intelligence, campaign-board, …); concept Entry Cover isolated as `CONCEPT_CANDIDATE` not site page.
+- **UI:** Default surface = **Project Design Overview** (page cards with real reference previews); PAGES tab = registry tree; page selection → page workspace; creative context drawer = project + page context; tests `p0vrDesignProjectBinding1R1.test.ts`.
+- **Gaps (next):** page workspace body still twin-opus shell for all pages; references/assets/history page-scope labels; reconstruction-lab URL still legacy pattern; sparse registry for non-ndxbook until route discovery runs.
+- **Founder next:** cPanel ZIP after merge; QA `/projects/design/ndxbook` → overview → PAGES → pick page → verify TARGET/context.

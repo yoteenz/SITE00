@@ -24,8 +24,8 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
   });
 
   it('production DESIGN path is per-project slug', () => {
-    expect(site00ProjectDesignPath('ndxbook')).toBe('/projects/ndxbook/design');
-    expect(site00ProjectDesignSectionPath('ndxbook', 'pages')).toBe('/projects/ndxbook/design/pages');
+    expect(site00ProjectDesignPath('ndxbook')).toBe('/projects/design/ndxbook');
+    expect(site00ProjectDesignSectionPath('ndxbook', 'pages')).toBe('/projects/design/ndxbook/pages');
   });
 
   it('registers production route against twin authority for Opus targeting', () => {
@@ -42,7 +42,7 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
 
   it('registers index route so bare /design mounts the workspace layout', () => {
     const routes = read('src/routes/Site00Routes.tsx');
-    const productionStart = routes.indexOf('path={SITE00_ROUTES.projectDesign}');
+    const productionStart = routes.indexOf('path={SITE00_ROUTES.projectsDesignActiveProject}');
     expect(productionStart).toBeGreaterThan(-1);
     const productionBlock = routes.slice(productionStart, routes.indexOf('path={SITE00_ROUTES.projectExperiments}', productionStart));
     expect(productionBlock).toMatch(/<Route\s+index\s+element=\{null\}\s*\/>/);
@@ -71,6 +71,6 @@ describe('P0.VR.DESIGN-INTEGRATION1', () => {
   it('ndxbook legacy redirect does not loop to site00 query route', () => {
     const resolution = resolveLegacyProjectDesignRedirect('ndxbook', '');
     expect(resolution.redirect).toBe(false);
-    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
+    expect(resolution.target.pathname).toBe('/projects/design/ndxbook');
   });
 });

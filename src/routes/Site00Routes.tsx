@@ -170,6 +170,16 @@ const Site00DesignHostRouteGate = lazy(() =>
 const DesignReconstructionLabPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.DesignReconstructionLabPage })),
 );
+const DesignProjectsDesignHubPage = lazy(() =>
+  import('../site00/pages/DesignProjectsDesignHubPage').then((m) => ({
+    default: m.DesignProjectsDesignHubPage,
+  })),
+);
+const DesignLegacyProjectDesignRedirect = lazy(() =>
+  import('../site00/pages/DesignLegacyProjectDesignRedirect').then((m) => ({
+    default: m.DesignLegacyProjectDesignRedirect,
+  })),
+);
 const DesignProductionRouteGate = lazy(() =>
   import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
     default: m.DesignProductionRouteGate,
@@ -1361,7 +1371,25 @@ export function Site00Routes() {
         }
       />
       <Route
-        path={SITE00_ROUTES.projectDesign}
+        path={SITE00_ROUTES.projectsDesignModule}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignProjectsDesignHubPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={`${SITE00_ROUTES.projectDesign}/*`}
+        element={
+          <Site00Suspense>
+            <DesignLegacyProjectDesignRedirect />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectsDesignActiveProject}
         element={
           <Site00Layout>
             <Site00Suspense>

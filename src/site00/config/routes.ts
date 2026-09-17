@@ -133,6 +133,10 @@ export const SITE00_ROUTES = {
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
+  /** P0.VR.DESIGN-PROJECT-BINDING1R1 — DESIGN module under PROJECTS (canonical). */
+  projectsDesignModule: '/projects/design',
+  projectsDesignActiveProject: '/projects/design/:projectSlug',
+  /** Legacy per-project path — redirects to projectsDesignActiveProject. */
   projectDesign: '/projects/:projectSlug/design',
   projectDesignReferences: '/projects/:projectSlug/design/references',
   projectDesignAssets: '/projects/:projectSlug/design/assets',
@@ -529,6 +533,14 @@ export function site00ProjectLabPath(projectSlug: string): string {
   return `/projects/${projectSlug}/lab`;
 }
 
+export function site00ProjectsDesignModulePath(): string {
+  return SITE00_ROUTES.projectsDesignModule;
+}
+
+export function site00ProjectsDesignActiveProjectPath(projectSlug: string): string {
+  return `/projects/design/${projectSlug.toLowerCase()}`;
+}
+
 export function site00ProjectDesignPath(
   projectSlug: string,
   params?: { screen?: string; viewport?: string; tab?: string },
@@ -539,14 +551,19 @@ export function site00ProjectDesignPath(
   if (params?.viewport) search.set('viewport', params.viewport);
   if (params?.tab) search.set('tab', params.tab.toLowerCase());
   const qs = search.toString();
-  return qs ? `/projects/${slug}/design?${qs}` : `/projects/${slug}/design`;
+  const base = site00ProjectsDesignActiveProjectPath(slug);
+  return qs ? `${base}?${qs}` : base;
 }
 
 export function site00ProjectDesignSectionPath(
   projectSlug: string,
   section: 'references' | 'assets' | 'pages' | 'skins' | 'history' | 'more',
 ): string {
-  return `/projects/${projectSlug.toLowerCase()}/design/${section}`;
+  return `${site00ProjectsDesignActiveProjectPath(projectSlug)}/${section}`;
+}
+
+export function site00LegacyProjectDesignPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design`;
 }
 
 export function site00ProjectDesignReconstructionLabPath(projectSlug: string): string {

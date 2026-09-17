@@ -86,12 +86,17 @@ function stripProjectQueryParam(search: string): string {
 }
 
 function perProjectDesignPath(projectId: string): string {
-  return `/projects/${projectId.toLowerCase()}/design`;
+  return `/projects/design/${projectId.toLowerCase()}`;
 }
 
 /** P0.VR.DESIGN-ROUTE-AUTHORITY1 — legacy Design Reconstruction lab (not product DESIGN route). */
 export function designReconstructionLabPath(projectId: string): string {
   return `${perProjectDesignPath(projectId)}/reconstruction-lab`;
+}
+
+/** @deprecated Legacy URL segment — prefer designReconstructionLabPath */
+export function legacyDesignReconstructionLabPath(projectId: string): string {
+  return `/projects/${projectId.toLowerCase()}/design/reconstruction-lab`;
 }
 
 export function resolveLegacyProjectDesignRedirect(

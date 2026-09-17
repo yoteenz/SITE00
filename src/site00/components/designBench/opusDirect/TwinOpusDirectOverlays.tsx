@@ -14,6 +14,8 @@ import {
   SpendConfirmPanel,
   StructuredArtifactPanel,
 } from '../production/designProductionOverlayPanels';
+import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNavPanel';
+import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
 
 type Props = {
@@ -95,7 +97,7 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
           overlayId="OV-CREATIVE-CONTEXT"
           onClose={close}
         >
-          <CreativeContextPanel projectSlug={slug} />
+          <CreativeContextPanel projectSlug={slug} pageId={readDesignPageTarget(slug)?.pageId ?? null} />
         </DesignChildSurfaceFrame>
       : null}
 
@@ -114,15 +116,12 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
       {overlay === 'OV-HOST-MODULE-NAV' ?
         <DesignChildSurfaceFrame
           mode={placementMode('OV-HOST-MODULE-NAV')}
-          title="PROJECT MODULES"
-          subtitle="Host-level navigation — not DESIGN section tabs."
+          title="PROJECTS MODULE NAV"
+          subtitle="DESIGN is a module inside PROJECTS — switch module or active project."
           overlayId="OV-HOST-MODULE-NAV"
           onClose={close}
         >
-          <nav className="tod-dcs-nav">
-            <a href={`/projects/${slug}`}>PROJECT HUB</a>
-            <a href={`/projects/${slug}/design`}>DESIGN · PRODUCTION WORKSPACE</a>
-          </nav>
+          <DesignProjectModuleNavPanel activeProjectSlug={slug} />
         </DesignChildSurfaceFrame>
       : null}
 
