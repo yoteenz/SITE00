@@ -86,18 +86,21 @@ export type TwinSparkResponsiveCandidateSurface = 'plate' | 'grain' | 'collage' 
  */
 export type TwinSparkResponsiveVersionTag = 'chip' | 'plain' | 'none';
 
+export type TwinSparkResponsiveViewportId = 'MOBILE' | 'TABLET' | 'DESKTOP';
+
 export type TwinSparkResponsiveCandidate = {
   readonly id: string;
   readonly version: string;
   readonly surface: TwinSparkResponsiveCandidateSurface;
   readonly versionTag: TwinSparkResponsiveVersionTag;
+  readonly viewportScope: TwinSparkResponsiveViewportId;
 };
 
 export const TWIN_SPARK_RESPONSIVE_CANDIDATES: readonly TwinSparkResponsiveCandidate[] = [
-  { id: 'v13', version: 'V1.3', surface: 'plate', versionTag: 'chip' },
-  { id: 'v12', version: 'V1.2', surface: 'grain', versionTag: 'plain' },
-  { id: 'v11', version: 'V1.1', surface: 'collage', versionTag: 'plain' },
-  { id: 'v10', version: 'V1.0', surface: 'archive', versionTag: 'none' },
+  { id: 'v13', version: 'V1.3', surface: 'plate', versionTag: 'chip', viewportScope: 'MOBILE' },
+  { id: 'v12', version: 'V1.2', surface: 'grain', versionTag: 'plain', viewportScope: 'MOBILE' },
+  { id: 'v11', version: 'V1.1', surface: 'collage', versionTag: 'plain', viewportScope: 'MOBILE' },
+  { id: 'v10', version: 'V1.0', surface: 'archive', versionTag: 'none', viewportScope: 'MOBILE' },
 ];
 
 export const TWIN_SPARK_RESPONSIVE_CANDIDATE_ACTIONS = [

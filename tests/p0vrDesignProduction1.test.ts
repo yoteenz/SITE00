@@ -105,11 +105,12 @@ describe('DESIGN-PRODUCTION1 — UI wiring guards', () => {
   it('binds projectSlug and production overlays', () => {
     const page = read('src/site00/pages/DesignTwinOpusDirectPage.tsx');
     const screen = read('src/site00/components/designBench/opusDirect/TwinOpusDirectScreen.tsx');
+    const overlays = read('src/site00/components/designBench/opusDirect/TwinOpusDirectOverlays.tsx');
     expect(page).toContain('useParams');
     expect(page).toContain('projectSlug');
     expect(screen).toContain('TwinOpusDirectOverlays');
     expect(screen).toContain('openOverflowMenu');
-    expect(screen).toContain('openCreativeContext');
+    expect(overlays).toContain('openCreativeContext');
     expect(screen).toContain('openHostModuleNav');
   });
 

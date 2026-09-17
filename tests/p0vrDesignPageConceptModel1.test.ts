@@ -22,9 +22,12 @@ import { resolvePageViewportBundle } from '../shared/site00-design-workspace-pro
 
 describe('P0.VR.DESIGN-PAGE-CONCEPT-MODEL1', () => {
   it('default active target is NDXBOOK Overview — not Entry 001', () => {
+    const overview = listSiteDesignPagesForProject('ndxbook').find((p) => p.screenId === 'overview');
+    expect(overview).toBeTruthy();
     const target = defaultDesignPageTargetForShell('ndxbook');
     expect(target.screenId).toBe('overview');
-    expect(target.pageId).toBe('ndxbook:overview');
+    expect(target.pageId).toBe(overview!.pageId);
+    expect(target.pageId).not.toContain('entry-001');
     expect(designPageTargetLines(target)).toEqual(['NDXBOOK', 'OVERVIEW', 'PROJECT OVERVIEW']);
     expect(resolveDesignPageTargetForShell('ndxbook').pageRole).toBe('PROJECT_OVERVIEW');
   });

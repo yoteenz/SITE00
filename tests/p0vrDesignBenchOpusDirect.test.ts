@@ -339,7 +339,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
     const header = screen.slice(screen.indexOf('<header className="tod-header">'), screen.indexOf('</header>'));
     expect(header).not.toContain('TwinOpusDirectViewModeControl');
     const contextOpen = screen.indexOf('<div className="tod-context">');
-    const contextClose = screen.indexOf('</div>', screen.indexOf('tod-context__right'));
+    const contextClose = screen.indexOf('</div>', screen.indexOf('DesignPageTreeNavigator'));
     const strip = screen.slice(contextOpen, contextClose);
     expect(strip).not.toContain('TwinOpusDirectViewModeControl');
     const betweenStripAndBand = screen.slice(contextClose, screen.indexOf('<section className="tod-band"'));
