@@ -750,6 +750,38 @@
   overflow: hidden;
 }
 
+.tod-lv-gallery__emptyWrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 120px;
+  margin: 0 12px;
+}
+
+.tod-lv-gallery__empty {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+}
+
+.tod-lv-gallery__generate {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tod-lv-gallery__generate:disabled {
+  opacity: 0.55;
+}
+
 .tod-lv-card {
   position: relative;
   flex: 0 0 330.8px;
