@@ -10158,3 +10158,15 @@ Urgent visual rollback after R1 (#980/#981) replaced approved twin composition w
 - **Authority UX:** hydrate no longer sets persistent `productionError` when API unavailable (local/cache); compact dismissible toast outside full overlay layer; compiler status from `syncStatus`.
 - **Guard:** `DESIGN_VISUAL_COMPOSITION_MUTATION_ALLOWED = false` in `designVisualCompositionGuard.ts`; tests `p0vrDesignProjectBinding1R2.test.ts`.
 - **Founder next:** cPanel ZIP v530+; tunnel `/projects/design/ndxbook` — twin hero/gallery, page map only under PAGES.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-VIEWPORT-AUTHORITY1 — page-scoped hero viewport binding
+
+Founder: MOBILE/TABLET/DESKTOP toggles all showed the same mobile hero (misleading).
+
+- **Model:** `designProjectBinding/pageViewportAuthority.ts` — lookup projectId + pageId + viewport; mobile/desktop URLs from page registry; tablet override/derived/waiting rules (no mobile fallback for tablet/desktop).
+- **UI binding only:** Hero plate, authority rail thumbs, viewport band status chips, gallery filtered by viewport (empty “NO DESKTOP CANDIDATES YET”), structured output viewport note; missing desktop + tablet waiting surfaces with CREATE action disabled until inception flow.
+- **Readiness:** `mergePageViewportIntoReadiness` blocks desktop gate when active page lacks desktop authority; tablet gate N/A while waiting for desktop.
+- **Tests:** `p0vrDesignViewportAuthority1.test.ts`; dev QA Entry Cover MOBILE → image, TABLET → waiting, DESKTOP → missing.
+- **Next:** Create first Desktop authority for Entry Cover → verify tablet derivation.
