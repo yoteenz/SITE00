@@ -1,3 +1,7 @@
+import {
+  buildDesignProjectIntelligence,
+  compileDesignPageContext,
+} from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import type { AuthorityReviewDecision } from '../../../../../shared/site00-design-workspace-production/types.js';
 import {
   TWIN_OPUS_DIRECT_AMENDMENT,
@@ -159,26 +163,84 @@ export function ProvenancePanel({
   );
 }
 
-export function CreativeContextPanel({ projectSlug }: { projectSlug: string }) {
+export function CreativeContextPanel({
+  projectSlug,
+  pageId,
+}: {
+  projectSlug: string;
+  pageId?: string | null;
+}) {
+  const intel = buildDesignProjectIntelligence(projectSlug);
+  const pageCtx = pageId ? compileDesignPageContext(projectSlug, pageId) : null;
+
+  if (!intel) {
+    return <p className="tod-dcs-lead">No project intelligence for this slug.</p>;
+  }
+
   return (
-    <dl className="tod-dcs-meta">
-      <div>
-        <dt>PROJECT</dt>
-        <dd>{projectSlug.toUpperCase()}</dd>
-      </div>
-      <div>
-        <dt>CREATIVE STREAM</dt>
-        <dd>CULTURAL_INTELLIGENCE_EDITORIAL</dd>
-      </div>
-      <div>
-        <dt>CONTEXT PACKAGE</dt>
-        <dd>projectCreativeContextVersion · compiled (read-only)</dd>
-      </div>
-      <div>
-        <dt>STALE GATE</dt>
-        <dd>DESIGN_AUTHORITY_CONTEXT_STALE surfaces here when blocking lock</dd>
-      </div>
-    </dl>
+    <>
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>MODULE</dt>
+          <dd>PROJECTS → DESIGN</dd>
+        </div>
+        <div>
+          <dt>ACTIVE PROJECT</dt>
+          <dd>{intel.displayName}</dd>
+        </div>
+        <div>
+          <dt>PROJECT DEFINITION</dt>
+          <dd>{intel.description}</dd>
+        </div>
+        <div>
+          <dt>BRAND / EXPRESSION</dt>
+          <dd>{intel.brandExpression}</dd>
+        </div>
+        <div>
+          <dt>PRIMARY EXPRESSION CONTEXT</dt>
+          <dd>{intel.primaryCreativeStream}</dd>
+        </div>
+        <div>
+          <dt>PAGE REGISTRY</dt>
+          <dd>
+            {intel.pageRegistryId} · {intel.totalPages} pages tracked
+          </dd>
+        </div>
+        <div>
+          <dt>PROJECT DESIGN COMPLETION</dt>
+          <dd>
+            {intel.pagesApproved} approved · {intel.pagesNeedingDesign} need design · {intel.pagesInReview} in review
+          </dd>
+        </div>
+      </dl>
+      {pageCtx ?
+        <section className="tod-dcs-notes">
+          <h3 className="tod-dcs-notes__title">PAGE CONTEXT</h3>
+          <dl className="tod-dcs-meta">
+            <div>
+              <dt>PAGE</dt>
+              <dd>{pageCtx.activePageId}</dd>
+            </div>
+            <div>
+              <dt>ROLE</dt>
+              <dd>{pageCtx.pageRole}</dd>
+            </div>
+            <div>
+              <dt>ROUTE</dt>
+              <dd>{pageCtx.route}</dd>
+            </div>
+            <div>
+              <dt>INHERITANCE</dt>
+              <dd>{pageCtx.inheritance}</dd>
+            </div>
+            <div>
+              <dt>CURRENT AUTHORITY</dt>
+              <dd>{pageCtx.currentAuthority}</dd>
+            </div>
+          </dl>
+        </section>
+      : null}
+    </>
   );
 }
 

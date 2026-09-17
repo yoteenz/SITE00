@@ -1,32 +1,32 @@
 /**
- * P0.VR.DESIGN-INTEGRATION1 — founder page target selection (PAGES surface).
- * TARGET band on the main workspace stays readonly; switching happens on PAGES.
+ * P0.VR.DESIGN-INTEGRATION1 + P0.VR.DESIGN-PROJECT-BINDING1R1 — active page target in DESIGN.
  */
 
+import type { DesignPageDesignStatus } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/types.js';
+
 export type DesignProductionPageTarget = {
+  pageId: string;
+  screenId: string;
   entryId: string;
   pageLabel: string;
   surfaceLabel: string;
+  route: string;
+  pageRole: string;
+  designStatus: DesignPageDesignStatus;
 };
 
-const STORAGE_PREFIX = 'site00:design-production:page-target:v1:';
+const STORAGE_PREFIX = 'site00:design-production:page-target:v2:';
 
-export const DEFAULT_DESIGN_PAGE_TARGET: DesignProductionPageTarget = {
-  entryId: 'ENTRY-001',
-  pageLabel: 'ENTRY COVER',
-  surfaceLabel: 'HOMEPAGE HERO',
-};
-
-export function readDesignPageTarget(projectSlug: string): DesignProductionPageTarget {
-  if (typeof window === 'undefined') return DEFAULT_DESIGN_PAGE_TARGET;
+export function readDesignPageTarget(projectSlug: string): DesignProductionPageTarget | null {
+  if (typeof window === 'undefined') return null;
   try {
     const raw = window.sessionStorage.getItem(`${STORAGE_PREFIX}${projectSlug.toLowerCase()}`);
-    if (!raw) return DEFAULT_DESIGN_PAGE_TARGET;
+    if (!raw) return null;
     const parsed = JSON.parse(raw) as DesignProductionPageTarget;
-    if (!parsed.entryId || !parsed.pageLabel || !parsed.surfaceLabel) return DEFAULT_DESIGN_PAGE_TARGET;
+    if (!parsed.pageId || !parsed.pageLabel) return null;
     return parsed;
   } catch {
-    return DEFAULT_DESIGN_PAGE_TARGET;
+    return null;
   }
 }
 
@@ -39,6 +39,15 @@ export function writeDesignPageTarget(projectSlug: string, target: DesignProduct
   }
 }
 
+export function clearDesignPageTarget(projectSlug: string): void {
+  try {
+    window.sessionStorage.removeItem(`${STORAGE_PREFIX}${projectSlug.toLowerCase()}`);
+    window.dispatchEvent(new CustomEvent('site00:design-page-target', { detail: { projectSlug } }));
+  } catch {
+    /* session preference */
+  }
+}
+
 export function designPageTargetLines(target: DesignProductionPageTarget): readonly string[] {
-  return [target.entryId.replace(/-/g, ' '), target.pageLabel, target.surfaceLabel];
+  return [target.pageLabel.toUpperCase(), target.pageRole.replace(/_/g, ' '), target.route];
 }

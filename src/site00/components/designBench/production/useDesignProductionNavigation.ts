@@ -19,17 +19,21 @@ export function useDesignProductionNavigation() {
   const slug = projectSlug.toLowerCase();
 
   const productionPath = site00ProjectDesignPath(slug);
+  const legacyProductionPath = `/projects/${slug}/design`;
   const twinPath = site00ProjectDesignTwinOpusDirectPath(slug);
   const isTwinWorkspace =
     location.pathname === twinPath || location.pathname.startsWith(`${twinPath}/`);
   const isProductionWorkspace =
-    location.pathname === productionPath || location.pathname.startsWith(`${productionPath}/`);
+    location.pathname === productionPath ||
+    location.pathname.startsWith(`${productionPath}/`) ||
+    location.pathname === legacyProductionPath ||
+    location.pathname.startsWith(`${legacyProductionPath}/`);
   const workspacePath = isTwinWorkspace ? twinPath : productionPath;
   /** @deprecated use isTwinWorkspace */
   const isReferenceTwin = isTwinWorkspace;
 
   const activeSection = useMemo((): DesignProductionSection | null => {
-    const prefixes = [`${productionPath}/`, `${twinPath}/`];
+    const prefixes = [`${productionPath}/`, `${legacyProductionPath}/`, `${twinPath}/`];
     const prefix = prefixes.find((p) => location.pathname.startsWith(p));
     if (!prefix) return null;
     const rest = location.pathname.slice(prefix.length).split('/')[0];
