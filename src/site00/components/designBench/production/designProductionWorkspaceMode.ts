@@ -7,13 +7,13 @@ import type { DesignWorkspaceSurface } from '../../../../../shared/site00-design
 const STORAGE_PREFIX = 'site00:design-workspace-surface:v1:';
 
 export function readDesignWorkspaceSurface(projectSlug: string): DesignWorkspaceSurface {
-  if (typeof window === 'undefined') return 'project-overview';
+  if (typeof window === 'undefined') return 'page-workspace';
   try {
     const raw = window.sessionStorage.getItem(`${STORAGE_PREFIX}${projectSlug.toLowerCase()}`);
     if (raw === 'page-workspace' || raw === 'project-overview') return raw;
-    return 'project-overview';
+    return 'page-workspace';
   } catch {
-    return 'project-overview';
+    return 'page-workspace';
   }
 }
 

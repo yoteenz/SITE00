@@ -10145,3 +10145,16 @@ Composer sprint: DESIGN module hierarchy, NDXBOOK project intelligence, page reg
 - **UI:** Default surface = **Project Design Overview** (page cards with real reference previews); PAGES tab = registry tree; page selection → page workspace; creative context drawer = project + page context; tests `p0vrDesignProjectBinding1R1.test.ts`.
 - **Gaps (next):** page workspace body still twin-opus shell for all pages; references/assets/history page-scope labels; reconstruction-lab URL still legacy pattern; sparse registry for non-ndxbook until route discovery runs.
 - **Founder next:** cPanel ZIP after merge; QA `/projects/design/ndxbook` → overview → PAGES → pick page → verify TARGET/context.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-PROJECT-BINDING1R2 — restore twin visual shell + keep binding
+
+Urgent visual rollback after R1 (#980/#981) replaced approved twin composition with stacked `DesignProjectOverviewPanel` cards and dominant AUTHORITY toast.
+
+- **Visual authority baseline:** commit `395f36e0` (pre–#980) twin-opus-direct shell; R2 removes overview-on-main, always renders `ViewBody` (Canonical/List).
+- **Intelligence preserved:** `designProjectBinding`, routes `/projects/design/:slug`, hierarchy crumbs `PROJECTS > DESIGN > NDXBOOK`, PAGES tab registry, page target in drawers; `DesignProjectOverviewPanel` kept for optional use but not mounted on main screen.
+- **TARGET band:** `designPageTargetLines` restored to ENTRY 001 / ENTRY COVER / HOMEPAGE HERO via `resolveDesignPageTargetForShell`; default workspace surface `page-workspace`.
+- **Authority UX:** hydrate no longer sets persistent `productionError` when API unavailable (local/cache); compact dismissible toast outside full overlay layer; compiler status from `syncStatus`.
+- **Guard:** `DESIGN_VISUAL_COMPOSITION_MUTATION_ALLOWED = false` in `designVisualCompositionGuard.ts`; tests `p0vrDesignProjectBinding1R2.test.ts`.
+- **Founder next:** cPanel ZIP v530+; tunnel `/projects/design/ndxbook` — twin hero/gallery, page map only under PAGES.

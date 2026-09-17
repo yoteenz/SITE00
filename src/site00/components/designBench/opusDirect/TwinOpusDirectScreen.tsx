@@ -22,9 +22,7 @@ import {
   designProductionSectionTitle,
 } from '../production/DesignProductionSectionInShell';
 import { founderReviewModeActive, TWIN_REVIEW_AUTHORITY_STATUS } from '../../../../../shared/site00-design-workspace-production/twinLifecycle.js';
-import { DesignProjectOverviewPanel } from '../production/DesignProjectOverviewPanel';
 import { useDesignProductionNavigation } from '../production/useDesignProductionNavigation';
-import { useDesignProjectBinding } from '../production/useDesignProjectBinding';
 
 export type DesignWorkspaceRole = 'twin-founder-review' | 'production-provisional';
 
@@ -143,13 +141,7 @@ export function TwinOpusDirectScreen({
   const workspace = useTwinOpusDirectWorkspace(projectSlug);
   const { data, state, actions, viewMode, setViewMode, production } = workspace;
   const nav = useDesignProductionNavigation();
-  const projectBinding = useDesignProjectBinding();
   const functionalWorkspace = nav.isTwinWorkspace || nav.isProductionWorkspace;
-  const showProjectOverview =
-    functionalWorkspace &&
-    workspace.workspaceSurface === 'project-overview' &&
-    !nav.activeSection &&
-    viewMode === 'canonical';
   const founderReviewMode =
     workspaceRole === 'twin-founder-review' && founderReviewModeActive(TWIN_REVIEW_AUTHORITY_STATUS);
   const primaryNavActiveIndex =
@@ -315,12 +307,8 @@ export function TwinOpusDirectScreen({
             </div>
           </section>
 
-          {/* 05-10 WORKSPACE BODY — project overview vs page workspace */}
-          {sectionBody ?
-            sectionBody
-          : showProjectOverview ?
-            <DesignProjectOverviewPanel binding={projectBinding} />
-          : <ViewBody workspace={workspace} />}
+          {/* 05-10 WORKSPACE BODY — approved twin presentation (data-bound, composition frozen) */}
+          {sectionBody ?? <ViewBody workspace={workspace} />}
 
           {/* 11-12 CONCEPT RECORD (renderer-supplied) + 13 BOTTOM_NAVIGATION (shared) */}
           <div className="tod-dock">
