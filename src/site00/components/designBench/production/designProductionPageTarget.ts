@@ -1,12 +1,16 @@
 /**
  * P0.VR.DESIGN-INTEGRATION1 + P0.VR.DESIGN-PROJECT-BINDING1R1 — active page target in DESIGN.
+ * P0.VR.DESIGN-PAGE-CONCEPT-MODEL1 — default active target is a real site page (Overview), not a campaign entry.
  */
 
 import type { DesignPageDesignStatus } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/types.js';
+import { getDesignBoundPageByScreen } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageRegistry.js';
+import { buildDesignProjectIntelligence } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/projectIntelligence.js';
 
 export type DesignProductionPageTarget = {
   pageId: string;
   screenId: string;
+  /** TARGET band line 1 — project display (not campaign entry id). */
   entryId: string;
   pageLabel: string;
   surfaceLabel: string;
@@ -17,19 +21,39 @@ export type DesignProductionPageTarget = {
 
 const STORAGE_PREFIX = 'site00:design-production:page-target:v2:';
 
-/** Approved twin TARGET band default (concept workspace — not a live site page row). */
-export function defaultConceptPageTargetForShell(projectSlug: string): DesignProductionPageTarget {
+const LEGACY_CAMPAIGN_AS_PAGE_SCREEN = 'entry-001-concept';
+
+function projectLineForSlug(projectSlug: string): string {
   const slug = projectSlug.toLowerCase();
+  const intel = buildDesignProjectIntelligence(slug);
+  return intel?.displayName ?? slug.toUpperCase();
+}
+
+/** Default DESIGN workspace target: project Overview page. */
+export function defaultDesignPageTargetForShell(projectSlug: string): DesignProductionPageTarget {
+  const slug = projectSlug.toLowerCase();
+  const overviewPage = getDesignBoundPageByScreen(slug, 'overview');
   return {
-    pageId: `${slug}:entry-001-concept`,
-    screenId: 'entry-001-concept',
-    entryId: 'ENTRY-001',
-    pageLabel: 'ENTRY COVER',
-    surfaceLabel: 'HOMEPAGE HERO',
-    route: `/projects/${slug}`,
-    pageRole: 'CONCEPT_CANDIDATE',
-    designStatus: 'IN_REVIEW',
+    pageId: overviewPage?.pageId ?? `${slug}:overview`,
+    screenId: 'overview',
+    entryId: projectLineForSlug(slug),
+    pageLabel: overviewPage?.pageName.toUpperCase() ?? 'OVERVIEW',
+    surfaceLabel: 'PROJECT OVERVIEW',
+    route: overviewPage?.route ?? `/projects/${slug}`,
+    pageRole: 'PROJECT_OVERVIEW',
+    designStatus: overviewPage?.designStatus ?? 'APPROVED',
   };
+}
+
+/** @deprecated Use defaultDesignPageTargetForShell — kept for tests importing legacy name. */
+export const defaultConceptPageTargetForShell = defaultDesignPageTargetForShell;
+
+function isLegacyCampaignPageTarget(target: DesignProductionPageTarget): boolean {
+  return (
+    target.screenId === LEGACY_CAMPAIGN_AS_PAGE_SCREEN
+    || target.pageId.includes(LEGACY_CAMPAIGN_AS_PAGE_SCREEN)
+    || target.entryId === 'ENTRY-001'
+  );
 }
 
 export function readDesignPageTarget(projectSlug: string): DesignProductionPageTarget | null {
@@ -63,11 +87,24 @@ export function clearDesignPageTarget(projectSlug: string): void {
   }
 }
 
-/** Matches pre–PROJECT-BINDING1R1 TARGET band copy geometry. */
+/** TARGET band: project · page · page role (not campaign entry cover). */
 export function designPageTargetLines(target: DesignProductionPageTarget): readonly string[] {
-  return [target.entryId.replace(/-/g, ' '), target.pageLabel, target.surfaceLabel];
+  return [
+    target.entryId.replace(/-/g, ' '),
+    target.pageLabel,
+    target.surfaceLabel,
+  ];
 }
 
 export function resolveDesignPageTargetForShell(projectSlug: string): DesignProductionPageTarget {
-  return readDesignPageTarget(projectSlug) ?? defaultConceptPageTargetForShell(projectSlug);
+  const stored = readDesignPageTarget(projectSlug);
+  if (stored) {
+    if (isLegacyCampaignPageTarget(stored)) {
+      const migrated = defaultDesignPageTargetForShell(projectSlug);
+      writeDesignPageTarget(projectSlug, migrated);
+      return migrated;
+    }
+    return stored;
+  }
+  return defaultDesignPageTargetForShell(projectSlug);
 }

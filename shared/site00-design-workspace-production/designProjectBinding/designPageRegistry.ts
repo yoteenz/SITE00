@@ -38,10 +38,7 @@ const NDX_PARENT_BY_SCREEN: Record<string, string | null> = {
   'bottom-nav-icons': null,
 };
 
-const ENTRY_COVER_CONCEPT_SCREEN = 'entry-001-concept';
-
 function inferDesignStatus(screenId: string, mirrorStatus: string): DesignPageDesignStatus {
-  if (screenId === ENTRY_COVER_CONCEPT_SCREEN) return 'IN_REVIEW';
   if (mirrorStatus === 'ROUTE_MISSING') return 'PLANNED';
   if (screenId === 'overview' || screenId === 'desktop-overview') return 'APPROVED';
   if (screenId === 'cultural-intelligence') return 'IN_REVIEW';
@@ -59,14 +56,14 @@ function inferBuildStatus(designStatus: DesignPageDesignStatus): DesignPageBuild
 }
 
 function pageRoleForScreen(screenId: string, pageType: string): string {
-  if (screenId === 'overview' || screenId === 'desktop-overview') return 'PROJECT_HUB';
+  if (screenId === 'overview') return 'PROJECT_OVERVIEW';
+  if (screenId === 'desktop-overview') return 'PROJECT_HUB';
   if (screenId === 'campaign-board') return 'CAMPAIGN_SURFACE';
   if (screenId === 'content-ops') return 'OPERATIONS_HUB';
   if (screenId === 'cultural-intelligence') return 'EDITORIAL_INTELLIGENCE';
   if (screenId === 'experiment-01') return 'MARKETING_EXPERIMENT';
   if (screenId === 'character-lab') return 'CHARACTER_DISCOVERY';
   if (screenId === 'bottom-nav-icons') return 'DESIGN_SYSTEM_ICONS';
-  if (screenId === ENTRY_COVER_CONCEPT_SCREEN) return 'CONCEPT_CANDIDATE';
   return pageType || 'PAGE';
 }
 
@@ -116,29 +113,6 @@ export function buildProjectDesignPageRegistry(projectId: string): DesignBoundPa
     });
   }
 
-  if (projectId === 'ndxbook') {
-    rows.push({
-      projectId,
-      pageId: `${projectId}:${ENTRY_COVER_CONCEPT_SCREEN}`,
-      screenId: ENTRY_COVER_CONCEPT_SCREEN,
-      pageName: 'Entry Cover (Concept)',
-      route: '/projects/ndxbook',
-      pageRole: 'CONCEPT_CANDIDATE',
-      parentPageId: rows.find((r) => r.screenId === 'overview')?.pageId ?? null,
-      childPageIds: [],
-      designStatus: 'IN_REVIEW',
-      buildStatus: 'DESIGN',
-      authorityStatus: 'PAIR V1.3 · UNLOCKED',
-      designAuthorityVersion: 'V1.3',
-      interactionContractVersion: 'composer-freeze-v1',
-      assetManifestVersion: 'twin-opus-direct-v1',
-      mobilePreviewUrl: '/site00/twin-v3-design-page-authority/founder-r5f2-ndxbook/mobile-master.jpg',
-      desktopPreviewUrl: null,
-      isConceptOrphan: true,
-      mirrorStatus: 'CONCEPT',
-    });
-  }
-
   const byScreenId = new Map(rows.map((r) => [r.screenId, r]));
   for (const row of rows) {
     const parentScreenId = NDX_PARENT_BY_SCREEN[row.screenId];
@@ -158,4 +132,9 @@ export function getDesignBoundPage(projectId: string, pageId: string): DesignBou
 
 export function getDesignBoundPageByScreen(projectId: string, screenId: string): DesignBoundPageRecord | null {
   return buildProjectDesignPageRegistry(projectId).find((p) => p.screenId === screenId) ?? null;
+}
+
+/** Site pages only — campaign entries are not navigable pages. */
+export function listSiteDesignPagesForProject(projectId: string): DesignBoundPageRecord[] {
+  return buildProjectDesignPageRegistry(projectId).filter((p) => !p.isConceptOrphan);
 }

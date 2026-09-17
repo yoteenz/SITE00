@@ -474,9 +474,19 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             </header>
             <div className="tod-lv-gallery__body">
               {data.galleryEmptyMessage ?
-                <p className="tod-gallery__empty" data-testid="gallery-viewport-empty">
-                  {data.galleryEmptyMessage}
-                </p>
+                <div className="tod-gallery__emptyWrap" data-testid="gallery-page-concept-empty">
+                  <p className="tod-gallery__empty">{data.galleryEmptyMessage}</p>
+                  <button
+                    type="button"
+                    className="tod-gallery__generate"
+                    data-interaction-id="generate-page-concepts"
+                    disabled={data.galleryGenerateDisabled}
+                    title="GPT2 creative layer contract — generation not invoked in this sprint"
+                    onClick={() => actions.generatePageConcepts()}
+                  >
+                    {data.galleryGenerateLabel}
+                  </button>
+                </div>
               : null}
               <div className="tod-lv-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
                 {data.candidates.map((candidate) => {

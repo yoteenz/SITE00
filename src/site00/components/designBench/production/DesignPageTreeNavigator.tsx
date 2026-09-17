@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { buildProjectDesignPageRegistry } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
+import { listSiteDesignPagesForProject } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import { TodIconCaretDown } from '../opusDirect/TwinOpusDirectIcons';
 import { buildDesignPageTree, type DesignPageTreeNode } from './buildDesignPageTree';
 import { designProductionPageTargetFromRecord } from './designPageTargetFromRecord';
@@ -93,7 +93,7 @@ function TreeRows({
 export function DesignPageTreeNavigator({ projectSlug }: { projectSlug: string }) {
   const { goWorkspace } = useDesignProductionNavigation();
   const slug = projectSlug.toLowerCase();
-  const registry = useMemo(() => buildProjectDesignPageRegistry(slug), [slug]);
+  const registry = useMemo(() => listSiteDesignPagesForProject(slug), [slug]);
   const tree = useMemo(() => buildDesignPageTree(registry), [registry]);
   const [open, setOpen] = useState(false);
   const [pageTarget, setPageTarget] = useState(() => resolveDesignPageTargetForShell(slug));

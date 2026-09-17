@@ -96,4 +96,9 @@ export type OpusPageContextContract = CompiledDesignPageContext & {
   projectCanon: string;
   pageContentSummary: string;
   currentImplementationRoute: string;
+  /** GPT2 creative layer — page concept territories (handoff when founder selects). */
+  pageConceptCreativeLayer: 'GPT2';
+  selectedPageConceptId: string | null;
+  selectedPageConceptTitle: string | null;
+  campaignContentInputs: readonly string[];
 };
