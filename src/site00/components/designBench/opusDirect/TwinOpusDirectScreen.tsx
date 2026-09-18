@@ -35,6 +35,8 @@ import {
 } from './twinOpusDirectWorkspace';
 import { TwinOpusDirectCanonicalBody, TwinOpusDirectCanonicalRecord } from './TwinOpusDirectCanonicalView';
 import { TwinOpusDirectListBody, TwinOpusDirectListRecord } from './TwinOpusDirectListView';
+import { DesignGrokEligibilityProvider } from './DesignGrokEligibilityProvider';
+import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import { TwinOpusDirectViewModeControl } from './TwinOpusDirectViewModeControl';
 import {
   TodIconBolt,
@@ -152,6 +154,7 @@ export function TwinOpusDirectScreen({
   const renderer = VIEW_RENDERERS[viewMode];
   const ViewBody = renderer.body;
   const ViewRecord = renderer.record;
+  const pageTarget = resolveDesignPageTargetForShell(projectSlug);
 
   const sectionBody =
     functionalWorkspace && nav.activeSection ?
@@ -170,6 +173,12 @@ export function TwinOpusDirectScreen({
     : null;
 
   return (
+    <DesignGrokEligibilityProvider
+      projectSlug={projectSlug}
+      pageId={pageTarget.pageId}
+      viewport={state.viewport}
+      productionState={production.state}
+    >
     <div className="tod-root">
       <div className="tod-stage">
         <div
@@ -362,5 +371,6 @@ export function TwinOpusDirectScreen({
       </div>
       <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />
     </div>
+    </DesignGrokEligibilityProvider>
   );
 }

@@ -98,6 +98,8 @@ export type DesignProductionState = {
   mobileVersion: string;
   desktopVersion: string;
   twinImplementationStatus: 'NONE' | 'IMPLEMENTING' | 'READY_FOR_REVIEW';
+  /** Set when founder completes twin page review gate (Grok gating). */
+  twinPageReviewedAt: string | null;
   pairReviewOpenedAt: string | null;
   authorityReviewDecision: AuthorityReviewDecision;
   authorityReviewedAt: string | null;

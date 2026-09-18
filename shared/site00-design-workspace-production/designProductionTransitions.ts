@@ -111,6 +111,21 @@ export function transitionConfirmComposerHandoff(
   return transitionLockAuthorityPair(state, actor);
 }
 
+export function transitionMarkTwinPageReviewed(
+  state: DesignProductionState,
+  actor: FounderActor,
+): DesignProductionState {
+  requireFounder(actor, 'REVIEW_TWIN_PAGE');
+  const now = new Date().toISOString();
+  return {
+    ...state,
+    twinPageReviewedAt: now,
+    twinImplementationStatus: 'READY_FOR_REVIEW',
+    updatedAt: now,
+    sessionVersion: state.sessionVersion + 1,
+  };
+}
+
 export function transitionMoveToBuild(state: DesignProductionState, actor: FounderActor): DesignProductionState {
   requireFounder(actor, 'MOVE_TO_BUILD');
   const receipt = computeDesignReadiness(state);
