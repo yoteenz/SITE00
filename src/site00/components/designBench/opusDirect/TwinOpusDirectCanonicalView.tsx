@@ -20,10 +20,10 @@ import { type TwinOpusDirectCandidateSurface } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
+import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
-  TodIconCheckCircle,
   TodIconChevronRight,
   TodIconChevronUp,
   TodIconCompare,
@@ -32,7 +32,6 @@ import {
   TodIconInspect,
   TodIconLock,
   TodIconSliders,
-  TodIconWarnCircle,
   TodPointingHandPlate,
 } from './TwinOpusDirectIcons';
 
@@ -413,111 +412,12 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
       />
 
       {/* 10 PIPELINE_READINESS */}
-      <section className="tod-pipe" aria-label={data.pipelineTitle}>
-        <header className="tod-pipe__head">
-          <h2 className="tod-pipe__title">{data.pipelineTitle}</h2>
-        </header>
-        <div className="tod-pipe__cols">
-          <div className="tod-pipe__col tod-pipe__col--readiness">
-            <span className="tod-pipe__label">{data.readiness.label}</span>
-            <div className="tod-pipe__gauge">
-              <svg viewBox="0 0 68 68" className="tod-pipe__ring" aria-hidden="true">
-                <circle cx="34" cy="34" r="30" className="tod-pipe__ringTrack" />
-                <circle
-                  cx="34"
-                  cy="34"
-                  r="30"
-                  className="tod-pipe__ringValue"
-                  strokeDasharray={readinessDash.circumference}
-                  strokeDashoffset={readinessDash.offset}
-                />
-              </svg>
-              <span className="tod-pipe__gaugeValue">{data.readiness.percent}%</span>
-              <span className="tod-pipe__gaugeState">{data.readiness.state}</span>
-            </div>
-            <span className="tod-pipe__compiler">
-              {data.readiness.compiler}
-              <span className="tod-pipe__compilerState">{data.readiness.compilerState}</span>
-              <span className="tod-dot tod-dot--green" aria-hidden="true" />
-            </span>
-          </div>
-
-          <div className="tod-pipe__col tod-pipe__col--checks">
-            <span className="tod-pipe__label">{data.readiness.checksLabel}</span>
-            <ul className="tod-pipe__checks">
-              {data.checks.map((check) => (
-                <li key={check.id}>
-                  <span>{check.label}</span>
-                  {check.state === 'pass' ? (
-                    <TodIconCheckCircle className="tod-ico tod-pipe__checkPass" />
-                  ) : (
-                    <TodIconWarnCircle className="tod-ico tod-pipe__checkWarn" />
-                  )}
-                </li>
-              ))}
-            </ul>
-            <button
-              type="button"
-              className="tod-pipe__details"
-              onClick={() => actions.openReadinessReceipt()}
-            >
-              {data.readiness.viewDetails}
-            </button>
-          </div>
-
-          <div className="tod-pipe__col tod-pipe__col--status">
-            <span className="tod-pipe__label">{data.readiness.statusLabel}</span>
-            <ul className="tod-pipe__status">
-              {data.statusRows.map((row) => (
-                <li key={row.id}>
-                  <span>{row.label}</span>
-                  <span className="tod-pipe__statusValue">{row.value}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="tod-pipe__col tod-pipe__col--next">
-            <span className="tod-pipe__label">{data.nextAction.label}</span>
-            <p className="tod-pipe__nextCopy">
-              {data.nextAction.lines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </p>
-            <button
-              type="button"
-              className="tod-pipe__primary"
-              data-interaction-id="pipeline-next-primary"
-              onClick={() => actions.runContextualNextAction()}
-            >
-              {data.nextAction.primary}
-            </button>
-            {data.nextAction.secondary.map((label) => (
-              <button
-                key={label}
-                type="button"
-                className="tod-pipe__secondary"
-                disabled={label.startsWith('MOVE TO BUILD') && !production.projection.buildEligible}
-                title={
-                  label.startsWith('MOVE TO BUILD') && !production.projection.buildEligible ?
-                    'BLOCKED — readiness gates not passed'
-                  : undefined
-                }
-                onClick={() => {
-                  if (label.startsWith('MOVE TO BUILD')) {
-                    if (production.projection.buildEligible) production.actions.runMoveToBuild();
-                    else production.actions.openReadinessReceipt();
-                    return;
-                  }
-                  if (label.includes('TECHNICAL')) production.actions.openReadinessReceipt();
-                }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+      <DesignPipelineReadinessPanel
+        title={data.pipelineTitle}
+        model={data.pagePipeline}
+        readinessDash={readinessDash}
+        actions={actions}
+      />
     </main>
   );
 }

@@ -3434,3 +3434,34 @@
 .tod-psr__primary:disabled {
   opacity: 0.4;
 }
+
+.tod-pipe__stageLine {
+  font-size: 8px;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  color: #aaa;
+}
+
+.tod-pipe__stageBtn {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.tod-pipe__stageGlyph {
+  width: 12px;
+  flex-shrink: 0;
+}
+
+.tod-pipe__blocker {
+  font-size: 8px;
+  color: #ffb347;
+  margin: 4px 0;
+}

@@ -13,9 +13,14 @@ import {
   LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS,
 } from '../opusDirect/twinOpusDirectContent';
 import {
+  buildPagePipelineControllerModel,
+  type PagePipelineStageId,
+} from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
+import {
   buildPageSystemReviewModel,
   PAGE_SYSTEM_REVIEW_TITLE,
 } from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
+import { loadPageAuthorityWorkflow } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 import { listApprovedGrokAssets, listStagedGrokAssets } from '../../../../../shared/site00-design-workspace-production/designGrokAssetModel.js';
 import { twinOpusDirectCandidateArtifactView, twinOpusDirectCandidateById } from '../opusDirect/twinOpusDirectCandidateArtifacts';
 import type { TwinOpusDirectProduction } from '../opusDirect/useTwinOpusDirectProduction';
@@ -24,13 +29,27 @@ import { TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH } from '../opusDirect/twinOpusDirec
 import { DesignArtifactFullscreenViewer } from './DesignArtifactFullscreenViewer';
 import { DesignGateBadge } from './DesignChildSurfaceFrame';
 
-export function ReadinessReceiptPanel({ production }: { production: TwinOpusDirectProduction }) {
-  const { state, projection } = production;
-  const { receipt } = projection;
-  const passed = receipt.checks.filter((c) => c.result === 'PASS').length;
-  const blocked = receipt.checks.filter((c) => c.result === 'BLOCKED' || c.result === 'FAIL').length;
-  const warnings = receipt.warnings.length;
-  const na = receipt.checks.filter((c) => c.result === 'NOT_APPLICABLE').length;
+export function ReadinessReceiptPanel({
+  production,
+  projectSlug,
+  pageId,
+}: {
+  production: TwinOpusDirectProduction;
+  projectSlug: string;
+  pageId: string;
+}) {
+  const { state } = production;
+  const pipeline = buildPagePipelineControllerModel({
+    projectId: projectSlug,
+    pageId,
+    production: state,
+    twinRouteReachable: null,
+  });
+  const checks = pipeline.receiptGates;
+  const passed = checks.filter((c) => c.result === 'PASS').length;
+  const blocked = checks.filter((c) => c.result === 'BLOCKED' || c.result === 'FAIL').length;
+  const warnings = checks.filter((c) => !c.blocking && c.result !== 'PASS' && c.result !== 'NOT_APPLICABLE').length;
+  const na = checks.filter((c) => c.result === 'NOT_APPLICABLE').length;
 
   return (
     <>
@@ -38,7 +57,7 @@ export function ReadinessReceiptPanel({ production }: { production: TwinOpusDire
         <div className="tod-dcs-summary__metric">
           <span className="tod-dcs-summary__label">GATES</span>
           <strong>
-            {receipt.passedGates} / {receipt.applicableGates}
+            {passed} / {checks.filter((c) => c.result !== 'NOT_APPLICABLE').length}
           </strong>
         </div>
         <div className="tod-dcs-summary__metric">
@@ -57,7 +76,7 @@ export function ReadinessReceiptPanel({ production }: { production: TwinOpusDire
         <span>N/A {na}</span>
       </div>
       <ul className="tod-dcs-gates" data-testid="readiness-gate-list">
-        {receipt.checks.map((gate) => (
+        {checks.map((gate) => (
           <li key={gate.id} className="tod-dcs-gate" data-result={gate.result}>
             <div className="tod-dcs-gate__top">
               <strong className="tod-dcs-gate__name">{gate.label}</strong>
@@ -732,6 +751,134 @@ export function PageInteractionsInspectorPanel({ projectSlug, pageId }: { projec
           </li>
         ))}
       </ul>
+    </>
+  );
+}
+
+export function PagePipelineTimelinePanel({
+  projectSlug,
+  pageId,
+  production,
+}: {
+  projectSlug: string;
+  pageId: string;
+  production: TwinOpusDirectProduction;
+}) {
+  const model = buildPagePipelineControllerModel({
+    projectId: projectSlug,
+    pageId,
+    production: production.state,
+    twinRouteReachable: null,
+  });
+  return (
+    <ul className="tod-dcs-gates">
+      {model.stages.map((stage) => (
+        <li key={stage.id} className="tod-dcs-gate">
+          <strong className="tod-dcs-gate__name">
+            {stage.order.toString().padStart(2, '0')} {stage.label}
+          </strong>
+          <DesignGateBadge
+            result={
+              stage.status === 'COMPLETE' || stage.status === 'NOT_REQUIRED' ? 'PASS'
+              : stage.status === 'ACTIVE' || stage.status === 'BLOCKED' ? 'BLOCKED'
+              : 'NOT_APPLICABLE'
+            }
+          />
+          <p className="tod-dcs-gate__reason">{stage.purpose}</p>
+          {stage.missingItems.length ?
+            <p className="tod-dcs-gate__reason">Missing: {stage.missingItems.join(' · ')}</p>
+          : null}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function PipelineTechnicalDetailsPanel({
+  projectSlug,
+  pageId,
+  production,
+}: {
+  projectSlug: string;
+  pageId: string;
+  production: TwinOpusDirectProduction;
+}) {
+  const wf = loadPageAuthorityWorkflow(projectSlug, pageId);
+  const ctx = compileDesignPageContext(projectSlug, pageId);
+  return (
+    <dl className="tod-dcs-meta">
+      <div>
+        <dt>projectId</dt>
+        <dd>{projectSlug}</dd>
+      </div>
+      <div>
+        <dt>pageId</dt>
+        <dd>{pageId}</dd>
+      </div>
+      <div>
+        <dt>workflowStage</dt>
+        <dd>{production.state.workflowStage}</dd>
+      </div>
+      <div>
+        <dt>sessionVersion</dt>
+        <dd>{production.state.sessionVersion}</dd>
+      </div>
+      <div>
+        <dt>contractVersion</dt>
+        <dd>{production.state.contractFreeze.contractVersion}</dd>
+      </div>
+      <div>
+        <dt>twinRoute</dt>
+        <dd>{ctx?.route ?? '—'}</dd>
+      </div>
+      <div>
+        <dt>twinImplementationStatus</dt>
+        <dd>{production.state.twinImplementationStatus ?? wf.twinImplementationStatus}</dd>
+      </div>
+      <div>
+        <dt>composerHandoffPackageId</dt>
+        <dd>{wf.composerHandoffPackage?.packageId ?? '—'}</dd>
+      </div>
+      <div>
+        <dt>syncStatus</dt>
+        <dd>{production.syncStatus}</dd>
+      </div>
+    </dl>
+  );
+}
+
+export function PipelineStageDetailPanel({
+  projectSlug,
+  pageId,
+  production,
+  stageId,
+}: {
+  projectSlug: string;
+  pageId: string;
+  production: TwinOpusDirectProduction;
+  stageId: PagePipelineStageId;
+}) {
+  const model = buildPagePipelineControllerModel({
+    projectId: projectSlug,
+    pageId,
+    production: production.state,
+    twinRouteReachable: null,
+  });
+  const stage = model.stages.find((s) => s.id === stageId);
+  if (!stage) return <p className="tod-dcs-lead">Stage not found.</p>;
+  return (
+    <>
+      <p className="tod-dcs-lead">{stage.label}</p>
+      <p className="tod-dcs-lead">{stage.purpose}</p>
+      {stage.completedItems.length ?
+        <p className="tod-dcs-lead">Completed: {stage.completedItems.join(' · ')}</p>
+      : null}
+      {stage.missingItems.length ?
+        <p className="tod-dcs-lead">Missing: {stage.missingItems.join(' · ')}</p>
+      : null}
+      {stage.actionLabel ?
+        <p className="tod-dcs-lead">Action: {stage.actionLabel}</p>
+      : null}
     </>
   );
 }
