@@ -10207,3 +10207,18 @@ Founder sprint: Entry 001 was incorrectly acting as the active SITE page; DESIGN
 - **Provenance panel:** PAGE / INFORMED BY (campaign entries), not Entry Cover as page identity.
 - **Tests:** `p0vrDesignPageConceptModel1.test.ts`; R1R2 default target expectation updated.
 - **Next:** Run GPT2 page-concept generation for NDXBOOK Overview → founder select → Opus page framework.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 — CURRENT|CONCEPT hero + view-row agents + Grok fixture panel
+
+Founder sprint: hero must compare **current implementation capture** vs **selected page concept**; embed Grok as page-asset agent (fixture pipeline, no live spend unless founder authorizes); move Opus + Grok to view row (remove redundant VIEW label and header OPUS).
+
+- **Hero:** `DesignHeroComparePanel` — LEFT current capture (`useDesignPageCapture` → `/api/site00/implementation-snapshots` `capture_screen` + `designPageCapture.ts` localStorage history); RIGHT selected `PageConceptCandidate`; fullscreen via existing `openFullscreenArtifact`; viewport-scoped empty states.
+- **View row:** `DesignWorkspaceAgentButtons` — compact O/G icons (`view-row-opus`, `view-row-grok`); CANONICAL|LIST unchanged on right; no `VIEW` label.
+- **Header:** Removed `DesignAgentOpenButton` from `TwinOpusDirectScreen` header (no duplicate Opus entry).
+- **Grok:** `DesignGrokDock` + provider — modes, uploads PNG/JPEG/WEBP, cost ack, `createFixtureGrokStagedAsset`, approve → manifest (`designGrokAssetModel.ts`); mutual close with Opus via events.
+- **Registry:** `header-opus` → `view-row-opus`; added `view-row-grok` / `openGrokDock` on handler allowlist.
+- **Tests:** `p0vrDesignVisualCompareGrok1R1.test.ts`; updated Opus launcher + interaction coverage tests.
+- **QA:** Live proof on `/projects/ndxbook/design/twin-opus-direct` (module path `/projects/design/ndxbook` is overview, not twin workspace).
+- **Next:** Founder hero/agent-row review → Grok panel UX → one cost-controlled Grok live smoke when authorized.
