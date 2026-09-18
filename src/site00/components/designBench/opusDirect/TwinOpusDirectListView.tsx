@@ -22,7 +22,8 @@ import {
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
-import { TodAuthorityThumbPreview, TodHeroViewportPreview } from './twinOpusDirectViewportPreview';
+import { DesignHeroComparePanel } from './DesignHeroComparePanel';
+import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
   TodIconCheckCircle,
@@ -299,45 +300,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
           </div>
         </section>          {/* 05 MAIN_HERO + 06 AUTHORITY_RAIL */}
           <section className="tod-lv-herorow" aria-label="Active concept and authority controls">
-            <article className="tod-lv-hero">
-              <div className="tod-lv-hero__eyebrow">
-                <span>{data.hero.eyebrowLeft}</span>
-                <span className="tod-lv-hero__eyebrowRight">
-                  <span>{data.hero.eyebrowCentre}</span>
-                  <span>{data.hero.eyebrowRight}</span>
-                </span>
-              </div>
-              <h1 className="tod-lv-hero__headline">
-                {data.hero.headline.map((line) => (
-                  <span key={line} className="tod-lv-hero__headlineLine">
-                    <span className="tod-lv-hero__headlineInk">{line}</span>
-                  </span>
-                ))}
-              </h1>
-              <p className="tod-lv-hero__standfirst">
-                {data.hero.standfirst.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </p>
-              <TodHeroViewportPreview preview={data.heroPreview} className="tod-lv-hero__plate" />
-              <div className="tod-lv-hero__footer">
-                <span className="tod-lv-hero__footerBlock">
-                  {data.hero.footerLeft.map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </span>
-                <span className="tod-lv-hero__footerPip" aria-hidden="true">
-                  <TodIconChevronRight className="tod-ico" />
-                </span>
-                <span className="tod-lv-hero__footerBlock">
-                  {data.hero.footerMid.map((line) => (
-                    <span key={line}>{line}</span>
-                  ))}
-                </span>
-                <span className="tod-lv-hero__footerChip">{data.hero.chip}</span>
-                <span className="tod-lv-hero__footerCount">{data.hero.overflow}</span>
-              </div>
-            </article>
+            <DesignHeroComparePanel workspace={workspace} variant="list" />
 
             <aside className="tod-lv-rail" aria-label="Authority rail">
               <div className="tod-lv-rail__select">

@@ -68,6 +68,7 @@ import {
   useTwinOpusDirectProduction,
   type TwinOpusDirectProduction,
 } from './useTwinOpusDirectProduction';
+import { useDesignPageCapture } from './useDesignPageCapture';
 
 export const TWIN_OPUS_DIRECT_VIEW_MODES = ['canonical', 'list'] as const;
 
@@ -150,6 +151,15 @@ export interface TwinOpusDirectWorkspaceData {
     tabletLabel: string;
   };
   outputViewportNote: string | null;
+  heroCompare: {
+    currentSrc: string | null;
+    currentMeta: string;
+    currentEmptyLabel: string;
+    conceptSrc: string | null;
+    conceptMeta: string;
+    conceptEmptyLabel: string;
+    captureBusy: boolean;
+  };
 }
 
 export interface TwinOpusDirectWorkspaceState {
@@ -184,6 +194,8 @@ export interface TwinOpusDirectWorkspaceActions {
   goChangeHistory: () => void;
   goMasterAmendment: () => void;
   generatePageConcepts: () => void;
+  captureScreen: () => Promise<void>;
+  openHeroCompareFullscreen: (side: 'current' | 'concept') => void;
 }
 
 export interface TwinOpusDirectWorkspace {
@@ -214,6 +226,13 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [dockIndex, setDockIndex] = useState(0);
   const [viewMode, setViewModeState] = useState<TwinOpusDirectViewMode>(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE);
   const [pageTarget, setPageTarget] = useState(() => resolveDesignPageTargetForShell(projectSlug));
+
+  const pageCapture = useDesignPageCapture(
+    projectSlug,
+    pageTarget.pageId,
+    pageTarget.screenId,
+    viewport,
+  );
 
   useEffect(() => {
     writeDesignAgentViewport(viewport);
@@ -285,6 +304,24 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       },
       generatePageConcepts: () => {
         /* GPT2 creative layer — contract only; no model invoke this sprint */
+      },
+      captureScreen: async () => {
+        await pageCapture.captureScreen();
+      },
+      openHeroCompareFullscreen: (side) => {
+        const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
+        const selected = concepts.find((c) => c.conceptId === candidateId) ?? null;
+        const currentSrc = pageCapture.latest?.artifactPath ?? null;
+        const conceptSrc = selected?.visualReference ?? null;
+        const src = side === 'current' ? currentSrc : conceptSrc;
+        if (!src) return;
+        prodActions.openFullscreenArtifact({
+          src,
+          title: side === 'current' ? 'CURRENT · PAGE CAPTURE' : 'CONCEPT · PAGE TERRITORY',
+          subtitle: pageTarget.pageLabel,
+          role: 'hero-compare',
+          viewport,
+        });
       },
       openStructuredArtifact: (columnId) => prodActions.openStructuredArtifact(columnId),
       openAmendmentDetail: () => prodActions.openAmendmentDetail(),
@@ -394,7 +431,19 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openProvenance: prodActions.openProvenance,
       openReadinessReceipt: prodActions.openReadinessReceipt,
     }),
-    [actor, candidateId, nav, pageTarget.pageId, prodActions, prodState, production, projectSlug, selectForViewport, viewport],
+    [
+      actor,
+      candidateId,
+      nav,
+      pageCapture,
+      pageTarget,
+      prodActions,
+      prodState,
+      production,
+      projectSlug,
+      selectForViewport,
+      viewport,
+    ],
   );
 
   const selectedCandidate = useMemo(() => {
@@ -494,6 +543,21 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         )
       : null;
 
+    const pageConcepts = listPageConceptCandidates(slug, shellTarget.pageId);
+    const selectedPageConcept = pageConcepts.find((c) => c.conceptId === candidateId) ?? null;
+    const currentSrc = pageCapture.latest?.artifactPath ?? null;
+    const conceptSrc = selectedPageConcept?.visualReference ?? null;
+    const capturedLabel =
+      pageCapture.latest?.timestamp ?
+        `CAPTURED ${new Date(pageCapture.latest.timestamp).toLocaleString()}`
+      : 'NO CAPTURE YET';
+    const conceptEmptyLabel =
+      pageConcepts.length === 0 ? 'NO PAGE CONCEPT SET YET'
+      : !selectedPageConcept ? 'NO PAGE CONCEPT SELECTED'
+      : viewport === 'DESKTOP' ? 'NO DESKTOP CONCEPT YET'
+      : viewport === 'TABLET' ? 'NO TABLET CONCEPT YET'
+      : 'NO CONCEPT PREVIEW';
+
     return {
       header: {
         ...TWIN_OPUS_DIRECT_HEADER,
@@ -585,8 +649,29 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
+      heroCompare: {
+        currentSrc,
+        currentMeta: capturedLabel,
+        currentEmptyLabel: 'NO CURRENT CAPTURE',
+        conceptSrc,
+        conceptMeta: selectedPageConcept?.conceptTitle?.toUpperCase() ?? '—',
+        conceptEmptyLabel,
+        captureBusy: pageCapture.capturing,
+      },
     };
-  }, [actor, pageAwareProjection, pageTarget, pageViewportBundle, prodState, projectSlug, syncStatus, viewport]);
+  }, [
+    actor,
+    candidateId,
+    pageAwareProjection,
+    pageCapture.capturing,
+    pageCapture.latest,
+    pageTarget,
+    pageViewportBundle,
+    prodState,
+    projectSlug,
+    syncStatus,
+    viewport,
+  ]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),

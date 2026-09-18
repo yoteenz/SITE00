@@ -13,7 +13,6 @@
 
 import { useEffect, useState } from 'react';
 
-import { DesignAgentOpenButton } from '../designAgent/DesignAgentDockContext';
 import { DesignPageTreeNavigator } from '../production/DesignPageTreeNavigator';
 import { DesignChildSurfaceFrame } from '../production/DesignChildSurfaceFrame';
 import { DesignProductionEmbeddedProvider } from '../production/DesignProductionEmbeddedContext';
@@ -201,7 +200,6 @@ export function TwinOpusDirectScreen({
             <div className="tod-header__status">
               <span className="tod-header__compiler">{data.header.compiler}</span>
               <span className="tod-dot tod-dot--lime" aria-hidden="true" />
-              <DesignAgentOpenButton />
               <button
                 type="button"
                 className="tod-header__more"

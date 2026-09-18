@@ -54,10 +54,15 @@ describe('P0.VR.DESIGN-INTERACTION-COVERAGE1', () => {
     expect(DESIGN_INTERACTION_REGISTRY.length).toBeGreaterThanOrEqual(40);
   });
 
-  it('header OPUS entry is wired to design agent open button', () => {
-    const opus = DESIGN_INTERACTION_REGISTRY.find((e) => e.id === 'header-opus');
+  it('view-row OPUS and Grok entries are wired to agent open buttons', () => {
+    const opus = DESIGN_INTERACTION_REGISTRY.find((e) => e.id === 'view-row-opus');
     expect(opus?.handler).toBe('openOpusDock');
-    const ctx = read('src/site00/components/designBench/designAgent/DesignAgentDockContext.tsx');
-    expect(ctx).toContain('data-interaction-id="header-opus"');
+    const grok = DESIGN_INTERACTION_REGISTRY.find((e) => e.id === 'view-row-grok');
+    expect(grok?.handler).toBe('openGrokDock');
+    const agents = read('src/site00/components/designBench/opusDirect/DesignWorkspaceAgentButtons.tsx');
+    expect(agents).toContain('view-row-opus');
+    expect(agents).toContain('DesignGrokOpenButton');
+    const grokBtn = read('src/site00/components/designBench/designAgent/DesignGrokDockContext.tsx');
+    expect(grokBtn).toContain('data-interaction-id="view-row-grok"');
   });
 });

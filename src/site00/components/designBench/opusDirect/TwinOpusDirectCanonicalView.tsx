@@ -21,7 +21,8 @@ import {
   type TwinOpusDirectOutputColumn,
 } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
-import { TodAuthorityThumbPreview, TodHeroViewportPreview } from './twinOpusDirectViewportPreview';
+import { DesignHeroComparePanel } from './DesignHeroComparePanel';
+import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
   TodIconCheckCircle,
@@ -244,45 +245,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
     <main className="tod-main">
       {/* 05 MAIN_HERO + 06 AUTHORITY_RAIL */}
       <section className="tod-herorow" aria-label="Active concept and authority controls">
-        <article className="tod-hero">
-          <div className="tod-hero__eyebrow">
-            <span>{data.hero.eyebrowLeft}</span>
-            <span className="tod-hero__eyebrowRight">
-              <span>{data.hero.eyebrowCentre}</span>
-              <span>{data.hero.eyebrowRight}</span>
-            </span>
-          </div>
-          <h1 className="tod-hero__headline">
-            {data.hero.headline.map((line) => (
-              <span key={line} className="tod-hero__headlineLine">
-                <span className="tod-hero__headlineInk">{line}</span>
-              </span>
-            ))}
-          </h1>
-          <p className="tod-hero__standfirst">
-            {data.hero.standfirst.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </p>
-          <TodHeroViewportPreview preview={data.heroPreview} className="tod-hero__plate" />
-          <div className="tod-hero__footer">
-            <span className="tod-hero__footerBlock">
-              {data.hero.footerLeft.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </span>
-            <span className="tod-hero__footerPip" aria-hidden="true">
-              <TodIconChevronRight className="tod-ico" />
-            </span>
-            <span className="tod-hero__footerBlock">
-              {data.hero.footerMid.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </span>
-            <span className="tod-hero__footerChip">{data.hero.chip}</span>
-            <span className="tod-hero__footerCount">{data.hero.overflow}</span>
-          </div>
-        </article>
+        <DesignHeroComparePanel workspace={workspace} variant="canonical" />
 
         <aside className="tod-rail" aria-label="Authority rail">
           <div className="tod-rail__select">
