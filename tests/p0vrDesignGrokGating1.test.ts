@@ -181,5 +181,15 @@ describe('P0.VR.DESIGN-GROK-GATING1', () => {
     expect(src).toContain('GROK ASSET PRODUCTION · NOT READY');
     expect(src).toContain('modeAllowedForEligibility');
     expect(src).toContain('NO GROK ASSETS NEEDED');
+    const screen = readFileSync(
+      join(import.meta.dirname, '../src/site00/components/designBench/opusDirect/TwinOpusDirectScreen.tsx'),
+      'utf8',
+    );
+    expect(screen).toMatch(/DesignGrokEligibilityProvider[\s\S]*DesignGrokDock/);
+    const core = readFileSync(
+      join(import.meta.dirname, '../src/site00/components/designBench/production/DesignWorkspaceCore.tsx'),
+      'utf8',
+    );
+    expect(core).not.toContain('DesignGrokDock');
   });
 });
