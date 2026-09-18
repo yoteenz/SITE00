@@ -252,15 +252,17 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             <button
               type="button"
               className="tod-rail__selectBtn"
-              aria-pressed={production.state.mobileAuthority === 'SELECTED'}
+              aria-pressed={production.state.preferredMobileConceptId === state.candidateId}
               data-interaction-id="rail-select-mobile"
               onClick={() => actions.selectForMobile()}
-              title={actions.railDisabledReason('promote-mobile') ?? undefined}
+              title={actions.railDisabledReason('promote-mobile') ?? 'Preferred mobile concept — not final approval'}
             >
               <TodIconCheck className="tod-ico tod-rail__selectCheck" />
               {data.selectActions.mobile.label}
             </button>
-            <span className="tod-rail__selectState">{production.state.mobileAuthority}</span>
+            <span className="tod-rail__selectState">
+              {production.state.mobileAuthority === 'PROMOTED' ? 'PROMOTED' : production.state.preferredMobileConceptId ? 'PREFERRED' : '—'}
+            </span>
           </div>
           <button
             type="button"
@@ -284,14 +286,16 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               />
             </button>
             <div className="tod-pair__body" hidden={!state.authorityPairOpen}>
+              <p className="tod-pair__sectionLabel">UPSTREAM CREATIVE AUTHORITIES</p>
               <div className="tod-pair__row tod-pair__row--mobile">
                 <span className="tod-pair__label">{data.authorityPairPresentation.mobile.label}</span>
                 <span className="tod-pair__version">{data.authorityPairPresentation.mobile.version}</span>
-                <div className="tod-pair__thumb tod-pair__thumb--mobile">
-                  <span className="tod-pair__thumbCopy">
-                    <span>THE SIGNAL</span>
-                    <span>IS THE INDEX</span>
-                  </span>
+                <button
+                  type="button"
+                  className="tod-pair__thumb tod-pair__thumb--mobile"
+                  onClick={() => actions.openViewportAuthorityEditor('MOBILE')}
+                  aria-label="Open mobile authority editor"
+                >
                   <TodAuthorityThumbPreview
                     className="tod-pair__thumbPlate"
                     previewSrc={data.authorityPairPresentation.mobile.previewSrc}
@@ -299,17 +303,18 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                     slot="authorityMobile"
                     variant="mobile"
                   />
-                </div>
+                </button>
                 <span className="tod-pair__state">{data.authorityPairPresentation.mobile.state}</span>
               </div>
               <div className="tod-pair__row tod-pair__row--desktop">
                 <span className="tod-pair__label">{data.authorityPairPresentation.desktop.label}</span>
                 <span className="tod-pair__version">{data.authorityPairPresentation.desktop.version}</span>
-                <div className="tod-pair__thumb tod-pair__thumb--desktop">
-                  <span className="tod-pair__thumbCopy">
-                    <span>THE SIGNAL</span>
-                    <span>IS THE INDEX</span>
-                  </span>
+                <button
+                  type="button"
+                  className="tod-pair__thumb tod-pair__thumb--desktop"
+                  onClick={() => actions.openViewportAuthorityEditor('DESKTOP')}
+                  aria-label="Open desktop authority editor"
+                >
                   {data.authorityPairPresentation.desktop.missing ?
                     <TodAuthorityThumbPreview
                       className="tod-pair__thumbPhoto"
@@ -329,19 +334,13 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                       <span className="tod-pair__thumbWedge" aria-hidden="true" />
                     </>
                   }
-                </div>
-                <span className="tod-pair__meta">{data.authorityPairPresentation.tabletLabel}</span>
-                <button
-                  type="button"
-                  className="tod-pair__replace"
-                  data-interaction-id="pair-replace-desktop"
-                  onClick={() => actions.selectForDesktop()}
-                  disabled={data.authorityPairPresentation.desktop.missing}
-                >
-                  {data.authorityPairPresentation.desktop.missing ?
-                    'CREATE DESKTOP DESIGN'
-                  : data.authorityPair.desktop.action}
                 </button>
+                <span className="tod-pair__meta">{data.authorityPairPresentation.tabletLabel}</span>
+              </div>
+              <p className="tod-pair__sectionLabel">PROMOTED DESIGNS</p>
+              <div className="tod-pair__promotedRow">
+                <span>MOBILE {data.authorityPairPresentation.promotedMobile.conceptId ?? 'NOT PROMOTED'}</span>
+                <span>DESKTOP {data.authorityPairPresentation.promotedDesktop.conceptId ?? 'NOT PROMOTED'}</span>
               </div>
             </div>
           </section>
@@ -422,6 +421,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                       {candidate.version}
                     </span>
                   )}
+                  {data.viewportPreferenceBadges(candidate.id).map((badge) => (
+                    <span key={badge} className="tod-card__prefBadge">
+                      {badge}
+                    </span>
+                  ))}
                   {active ? (
                     <span className="tod-card__tick" aria-hidden="true">
                       <TodIconCheck className="tod-ico" />

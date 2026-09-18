@@ -28,13 +28,23 @@ export function railActionDisabledReason(
     return 'Disabled: founder-only action';
   }
   if (actionId === 'promote-mobile') {
-    if (state.mobileAuthority !== 'SELECTED') return 'Disabled: mobile master not selected for promotion';
+    if (!state.preferredMobileConceptId) return 'Disabled: select a mobile preferred concept first';
+    if (state.mobileAuthority !== 'SELECTED') return 'Disabled: mobile has no preferred concept';
   }
   if (actionId === 'promote-desktop') {
-    if (state.desktopAuthority !== 'SELECTED') return 'Disabled: no desktop candidate selected';
+    if (!state.preferredDesktopConceptId) return 'Disabled: select a desktop preferred concept first';
+    if (state.desktopAuthority !== 'SELECTED') return 'Disabled: desktop has no preferred concept';
+  }
+  if (actionId === 'pair-review') {
+    if (state.mobileAuthority !== 'PROMOTED' || state.desktopAuthority !== 'PROMOTED') {
+      return 'Disabled: promote mobile and desktop designs first';
+    }
   }
   if (actionId === 'lock-pair') {
-    if (state.authorityReviewDecision !== 'APPROVE') return 'Disabled: authority review not approved';
+    if (state.mobileAuthority !== 'PROMOTED' || state.desktopAuthority !== 'PROMOTED') {
+      return 'Disabled: both viewport designs must be promoted';
+    }
+    if (!state.pairReviewOpenedAt) return 'Disabled: complete pair review first';
   }
   if (actionId === 'review-authority') {
     if (!state.pairReviewOpenedAt) return 'Disabled: open pair review first';
@@ -73,45 +83,75 @@ export function computeContextualNextAction(
       handler: 'openReadinessReceipt',
     };
   }
-  if (state.authorityReviewDecision === 'APPROVE' && !state.pairLockedAt && actor.isFounder) {
+  if (
+    state.mobileAuthority === 'PROMOTED' &&
+    state.desktopAuthority === 'PROMOTED' &&
+    state.pairReviewOpenedAt &&
+    !state.pairLockedAt &&
+    actor.isFounder
+  ) {
     return {
       label: 'NEXT ACTION',
-      lines: ['LOCK AUTHORITY PAIR', state.designAuthorityVersion],
+      lines: ['LOCK DESIGN PAIR', 'SEND TO COMPOSER'],
       handler: 'runLockAuthorityPair',
     };
   }
-  if (state.pairReviewOpenedAt && !state.authorityReviewedAt && actor.isFounder) {
+  if (state.pairReviewOpenedAt && !state.pairLockedAt && actor.isFounder) {
     return {
       label: 'NEXT ACTION',
-      lines: ['REVIEW AUTHORITY', 'FORMAL DECISION'],
+      lines: ['REVIEW TWIN PAGE', 'ACTUAL IMPLEMENTATION'],
       handler: 'openReviewAuthority',
     };
   }
-  if (!state.pairReviewOpenedAt) {
+  if (
+    state.mobileAuthority === 'PROMOTED' &&
+    state.desktopAuthority === 'PROMOTED' &&
+    !state.pairReviewOpenedAt
+  ) {
     return {
       label: 'NEXT ACTION',
-      lines: ['OPEN PAIR REVIEW', 'VISUAL INSPECTION'],
+      lines: ['OPEN PAIR REVIEW', 'PROMOTED DESIGNS'],
       handler: 'runPairReview',
     };
   }
-  if (state.desktopAuthority !== 'SELECTED' && state.desktopAuthority !== 'PROMOTED') {
+  if (state.mobileAuthority === 'SELECTED') {
+    const reason = railActionDisabledReason('promote-mobile', state, actor);
+    if (!reason) {
+      return {
+        label: 'NEXT ACTION',
+        lines: ['PROMOTE MOBILE', 'FINAL VIEWPORT APPROVAL'],
+        handler: 'promoteMobile',
+      };
+    }
+  }
+  if (state.desktopAuthority === 'SELECTED') {
+    const reason = railActionDisabledReason('promote-desktop', state, actor);
+    if (!reason) {
+      return {
+        label: 'NEXT ACTION',
+        lines: ['PROMOTE DESKTOP', 'FINAL VIEWPORT APPROVAL'],
+        handler: 'promoteDesktop',
+      };
+    }
+  }
+  if (!state.preferredDesktopConceptId) {
     return {
       label: 'NEXT ACTION',
-      lines: ['SELECT DESKTOP MASTER', 'FROM GALLERY'],
+      lines: ['SELECT FOR DESKTOP', 'PREFERRED CONCEPT'],
       handler: 'selectForDesktop',
     };
   }
-  if (state.mobileAuthority !== 'SELECTED') {
+  if (!state.preferredMobileConceptId) {
     return {
       label: 'NEXT ACTION',
-      lines: ['SELECT MOBILE MASTER', 'FROM GALLERY'],
+      lines: ['SELECT FOR MOBILE', 'PREFERRED CONCEPT'],
       handler: 'selectForMobile',
     };
   }
   return {
     label: 'NEXT ACTION',
-    lines: ['PROMOTE MOBILE MASTER', 'TO AUTHORITY PAIR'],
-    handler: 'promoteMobile' as ContextualNextAction['handler'],
+    lines: ['PROMOTE VIEWPORT', 'FINAL APPROVAL'],
+    handler: 'promoteMobile',
     disabledReason: railActionDisabledReason('promote-mobile', state, actor) ?? undefined,
   };
 }

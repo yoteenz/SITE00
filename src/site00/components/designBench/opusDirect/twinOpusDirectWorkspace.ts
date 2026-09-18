@@ -69,6 +69,10 @@ import {
   type TwinOpusDirectProduction,
 } from './useTwinOpusDirectProduction';
 import { useDesignPageCapture } from './useDesignPageCapture';
+import { usePageAuthorityWorkflow } from './usePageAuthorityWorkflow';
+import {
+  resolveActiveAuthorityImage,
+} from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 
 export const TWIN_OPUS_DIRECT_VIEW_MODES = ['canonical', 'list'] as const;
 
@@ -149,7 +153,10 @@ export interface TwinOpusDirectWorkspaceData {
     mobile: { label: string; version: string; state: string; previewSrc: string | null; missing: boolean };
     desktop: { label: string; version: string; state: string; previewSrc: string | null; missing: boolean };
     tabletLabel: string;
+    promotedMobile: { conceptId: string | null; previewSrc: string | null; version: string };
+    promotedDesktop: { conceptId: string | null; previewSrc: string | null; version: string };
   };
+  viewportPreferenceBadges: (candidateId: string) => readonly string[];
   outputViewportNote: string | null;
   heroCompare: {
     currentSrc: string | null;
@@ -196,6 +203,7 @@ export interface TwinOpusDirectWorkspaceActions {
   generatePageConcepts: () => void;
   captureScreen: () => Promise<void>;
   openHeroCompareFullscreen: (side: 'current' | 'concept') => void;
+  openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
 }
 
 export interface TwinOpusDirectWorkspace {
@@ -233,6 +241,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageTarget.screenId,
     viewport,
   );
+  const pageAuthority = usePageAuthorityWorkflow(projectSlug, pageTarget.pageId);
 
   useEffect(() => {
     writeDesignAgentViewport(viewport);
@@ -268,11 +277,19 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
 
   const selectForViewport = useCallback(
     (viewport: 'MOBILE' | 'DESKTOP') => {
+      const pageConcepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
+      const pageConcept = pageConcepts.find((c) => c.conceptId === candidateId);
+      if (pageConcept) {
+        pageAuthority.preferConcept(viewport, pageConcept.conceptId);
+        prodActions.selectViewportCandidate(viewport, pageConcept.conceptId, pageConcept.conceptTitle.slice(0, 8).toUpperCase());
+        return;
+      }
       const legacy = twinOpusDirectCandidateById(candidateId);
       if (!TWIN_OPUS_DIRECT_CANDIDATES.some((c) => c.id === candidateId)) return;
+      pageAuthority.preferConcept(viewport, legacy.id);
       prodActions.selectViewportCandidate(viewport, legacy.id, legacy.version);
     },
-    [candidateId, prodActions],
+    [candidateId, pageAuthority, pageTarget.pageId, prodActions, projectSlug],
   );
 
   const actions = useMemo<TwinOpusDirectWorkspaceActions>(
@@ -370,18 +387,23 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         setRecordTabIndex(4);
         prodActions.openAmendmentDetail();
       },
+      openViewportAuthorityEditor: (vp) => prodActions.openViewportAuthorityEditor(vp),
       onRailAction: (actionId: string) => {
         switch (actionId) {
           case 'promote-mobile':
+            pageAuthority.promoteDesign('MOBILE');
             prodActions.promoteViewportMaster('MOBILE');
             break;
           case 'promote-desktop':
+            pageAuthority.promoteDesign('DESKTOP');
             prodActions.promoteViewportMaster('DESKTOP');
             break;
           case 'pair-review':
+            pageAuthority.openPairReview();
             prodActions.runPairReview();
             break;
           case 'review-authority':
+            pageAuthority.markTwinReviewed();
             prodActions.openReviewAuthority();
             break;
           case 'lock-pair':
@@ -596,23 +618,54 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       viewportControls,
       selectActions: TWIN_OPUS_DIRECT_SELECT_ACTIONS,
       authorityPair: TWIN_OPUS_DIRECT_AUTHORITY_PAIR,
-      authorityPairPresentation: {
-        title: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.title,
-        mobile: railRows?.mobile ?? {
-          label: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.mobile.label,
-          version: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.mobile.version,
-          state: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.mobile.state,
-          previewSrc: null,
-          missing: false,
-        },
-        desktop: railRows?.desktop ?? {
-          label: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.desktop.label,
-          version: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.desktop.version,
-          state: 'MISSING',
-          previewSrc: null,
-          missing: true,
-        },
-        tabletLabel: railRows?.tabletLabel ?? 'TABLET: WAITING',
+      authorityPairPresentation: (() => {
+        const wf = pageAuthority.workflow;
+        const mobileRef = resolveActiveAuthorityImage(wf.mobileAuthority);
+        const desktopRef = resolveActiveAuthorityImage(wf.desktopAuthority);
+        const promotedMobileArt =
+          prodState.promotedMobileConceptId ?
+            twinOpusDirectCandidateArtifactView(prodState.promotedMobileConceptId)
+          : null;
+        const promotedDesktopArt =
+          prodState.promotedDesktopConceptId ?
+            twinOpusDirectCandidateArtifactView(prodState.promotedDesktopConceptId)
+          : null;
+        return {
+          title: TWIN_OPUS_DIRECT_AUTHORITY_PAIR.title,
+          mobile: {
+            label: 'MOBILE AUTHORITY',
+            version: wf.mobileAuthority.versions.find((v) => v.versionId === wf.mobileAuthority.activeVersionId)?.label ?? '—',
+            state: 'UPSTREAM REF',
+            previewSrc: mobileRef,
+            missing: !mobileRef,
+          },
+          desktop: {
+            label: 'DESKTOP AUTHORITY',
+            version: wf.desktopAuthority.versions.find((v) => v.versionId === wf.desktopAuthority.activeVersionId)?.label ?? '—',
+            state: 'UPSTREAM REF',
+            previewSrc: desktopRef,
+            missing: !desktopRef,
+          },
+          tabletLabel: railRows?.tabletLabel ?? 'TABLET: DERIVED WHEN PAIR PROMOTED',
+          promotedMobile: {
+            conceptId: prodState.promotedMobileConceptId,
+            previewSrc: promotedMobileArt?.src ?? null,
+            version: prodState.mobileVersion,
+          },
+          promotedDesktop: {
+            conceptId: prodState.promotedDesktopConceptId,
+            previewSrc: promotedDesktopArt?.src ?? null,
+            version: prodState.desktopVersion,
+          },
+        };
+      })(),
+      viewportPreferenceBadges: (id: string) => {
+        const badges: string[] = [];
+        if (prodState.preferredMobileConceptId === id) badges.push('SELECTED FOR MOBILE');
+        if (prodState.preferredDesktopConceptId === id) badges.push('SELECTED FOR DESKTOP');
+        if (prodState.promotedMobileConceptId === id) badges.push('PROMOTED MOBILE');
+        if (prodState.promotedDesktopConceptId === id) badges.push('PROMOTED DESKTOP');
+        return badges;
       },
       railActions: TWIN_OPUS_DIRECT_RAIL_ACTIONS,
       gallery: TWIN_OPUS_DIRECT_GALLERY,
@@ -668,6 +721,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageTarget,
     pageViewportBundle,
     prodState,
+    pageAuthority.workflow,
     projectSlug,
     syncStatus,
     viewport,

@@ -1,6 +1,6 @@
 import type { ComposerContractFreezeMetadata } from './composerContractFreeze.js';
 
-export const DESIGN_PRODUCTION_STORE_VERSION = 1 as const;
+export const DESIGN_PRODUCTION_STORE_VERSION = 2 as const;
 
 export const DESIGN_PRODUCTION_PAGE_ID = 'design-twin-opus-direct' as const;
 
@@ -42,7 +42,9 @@ export type DesignProductionEventType =
   | 'CANDIDATE_REGENERATED'
   | 'AUTHORITY_REVIEWED'
   | 'PAIR_REVIEW_OPENED'
-  | 'TABLET_OVERRIDE_CREATED';
+  | 'TABLET_OVERRIDE_CREATED'
+  | 'COMPOSER_HANDOFF_CREATED'
+  | 'TWIN_IMPLEMENTATION_STARTED';
 
 export type DesignProductionHistoryEntry = {
   id: string;
@@ -86,10 +88,16 @@ export type DesignProductionState = {
   workflowStage: DesignWorkflowStage;
   packageStatus: DesignPackageStatus;
   selectedCandidateId: string;
+  /** Gallery highlight only — not the same as viewport preference. */
+  preferredMobileConceptId: string | null;
+  preferredDesktopConceptId: string | null;
+  promotedMobileConceptId: string | null;
+  promotedDesktopConceptId: string | null;
   mobileAuthority: ViewportAuthorityState;
   desktopAuthority: ViewportAuthorityState;
   mobileVersion: string;
   desktopVersion: string;
+  twinImplementationStatus: 'NONE' | 'IMPLEMENTING' | 'READY_FOR_REVIEW';
   pairReviewOpenedAt: string | null;
   authorityReviewDecision: AuthorityReviewDecision;
   authorityReviewedAt: string | null;
@@ -158,11 +166,16 @@ export type DesignProductionUiOverlay =
   | 'OV-INSPECT-CANDIDATE'
   | 'OV-COMPARE-CONCEPTS'
   | 'OV-STRUCTURED-ARTIFACT'
-  | 'OV-AMENDMENT-DETAIL';
+  | 'OV-AMENDMENT-DETAIL'
+  | 'OV-VIEWPORT-AUTHORITY-EDITOR'
+  | 'OV-COMPOSER-HANDOFF'
+  | 'OV-REVIEW-TWIN-PAGE';
 
 export type DesignProductionUiPayload = {
   artifact?: DesignWorkspaceArtifactView;
   inspectCandidateId?: string;
   compareCandidateIds?: [string, string];
   structuredColumnId?: string;
+  authorityEditorViewport?: 'MOBILE' | 'DESKTOP';
+  reviewTwinRoute?: string;
 };

@@ -8,6 +8,7 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/designProductionCache.js';
 import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
 import {
+  transitionConfirmComposerHandoff,
   transitionOpenPairReview,
   transitionPromoteViewportMaster,
   transitionSelectGalleryCandidate,
@@ -22,7 +23,13 @@ import type {
   DesignWorkspaceArtifactView,
   FounderActor,
 } from '../../../../../shared/site00-design-workspace-production/types.js';
+import {
+  createComposerHandoffPackage,
+  loadPageAuthorityWorkflow,
+  savePageAuthorityWorkflow,
+} from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 import { getCurrentUser, isAdminFounderAccount } from '../../../../utils/adminAuth';
+import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import {
   fetchDesignWorkspaceProductionSession,
   postDesignWorkspaceProductionCommand,
@@ -62,6 +69,9 @@ export type TwinOpusDirectProductionActions = {
     estimatedUsd: number;
   }) => void;
   openReviewAuthority: () => void;
+  openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
+  openComposerHandoff: () => void;
+  confirmComposerHandoff: () => void;
   openFullscreenArtifact: (artifact: DesignWorkspaceArtifactView) => void;
   openInspectCandidate: (candidateId: string) => void;
   openCompareConcepts: (leftId: string, rightId: string) => void;
@@ -253,7 +263,31 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         void runCommand('START_PAIR_REVIEW', undefined, (current, act) => transitionOpenPairReview(current, act));
         setOverlay('OV-PAIR-REVIEW');
       },
-      openReviewAuthority: () => setOverlay('OV-REVIEW-AUTHORITY'),
+      openReviewAuthority: () => {
+        setOverlay('OV-REVIEW-TWIN-PAGE');
+      },
+      openViewportAuthorityEditor: (viewport) => {
+        setUiPayload({ authorityEditorViewport: viewport });
+        setOverlay('OV-VIEWPORT-AUTHORITY-EDITOR');
+      },
+      openComposerHandoff: () => setOverlay('OV-COMPOSER-HANDOFF'),
+      confirmComposerHandoff: () => {
+        const pageId = readDesignPageTarget(projectId)?.pageId ?? `${projectId}:overview`;
+        const wf = loadPageAuthorityWorkflow(projectId, pageId);
+        const { state: wfNext } = createComposerHandoffPackage(wf, {
+          projectId,
+          pageId,
+          interactionContractVersion: stateRef.current.contractFreeze.contractVersion,
+          assetManifestVersion: 'twin-opus-direct-assets-v1',
+          pageContextVersion: pageId,
+          tabletPolicy: stateRef.current.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED',
+        });
+        savePageAuthorityWorkflow(projectId, pageId, wfNext);
+        void runCommand('LOCK_AUTHORITY_PAIR', undefined, (current, act) =>
+          transitionConfirmComposerHandoff(current, act),
+        );
+        setOverlay(null);
+      },
       runReviewAuthority: (decision) => {
         void runCommand(
           'APPROVE_AUTHORITY',
@@ -302,7 +336,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
           (current, act) => transitionPromoteViewportMaster(current, act, viewport),
         );
       },
-      runLockAuthorityPair: () => void runCommand('LOCK_AUTHORITY_PAIR'),
+      runLockAuthorityPair: () => setOverlay('OV-COMPOSER-HANDOFF'),
       runMoveToBuild: () => void runCommand('MOVE_TO_BUILD'),
       requestSpendConfirm: (input) => {
         setPendingSpend(input);

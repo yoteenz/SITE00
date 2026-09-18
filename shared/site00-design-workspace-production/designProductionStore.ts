@@ -19,10 +19,15 @@ export function createInitialDesignProductionState(projectId: string): DesignPro
     workflowStage: 'DESIGN',
     packageStatus: 'DESIGN_IN_PROGRESS',
     selectedCandidateId: 'v13',
-    mobileAuthority: 'SELECTED',
-    desktopAuthority: 'PROMOTED',
-    mobileVersion: 'V1.3',
-    desktopVersion: 'V1.1',
+    preferredMobileConceptId: null,
+    preferredDesktopConceptId: null,
+    promotedMobileConceptId: null,
+    promotedDesktopConceptId: null,
+    mobileAuthority: 'MISSING',
+    desktopAuthority: 'MISSING',
+    mobileVersion: '—',
+    desktopVersion: '—',
+    twinImplementationStatus: 'NONE',
     pairReviewOpenedAt: null,
     authorityReviewDecision: null,
     authorityReviewedAt: null,
@@ -61,7 +66,7 @@ export function loadDesignProductionState(projectId: string): DesignProductionSt
     if (!raw) return createInitialDesignProductionState(projectId);
     const parsed = JSON.parse(raw) as DesignProductionState;
     if (parsed.storeVersion !== DESIGN_PRODUCTION_STORE_VERSION) {
-      return createInitialDesignProductionState(projectId);
+      return migrateDesignProductionState(parsed, projectId);
     }
     return parsed;
   } catch {
@@ -75,6 +80,23 @@ export function saveDesignProductionState(state: DesignProductionState): DesignP
     localStorage.setItem(designProductionStorageKey(state.projectId), JSON.stringify(next));
   }
   return next;
+}
+
+function migrateDesignProductionState(raw: DesignProductionState, projectId: string): DesignProductionState {
+  const base = createInitialDesignProductionState(projectId);
+  const version = (raw as { storeVersion?: number }).storeVersion;
+  if (version !== 1) return base;
+  return {
+    ...raw,
+    storeVersion: DESIGN_PRODUCTION_STORE_VERSION,
+    preferredMobileConceptId:
+      raw.mobileAuthority === 'SELECTED' || raw.mobileAuthority === 'PROMOTED' ? raw.selectedCandidateId : null,
+    preferredDesktopConceptId:
+      raw.desktopAuthority === 'SELECTED' || raw.desktopAuthority === 'PROMOTED' ? raw.selectedCandidateId : null,
+    promotedMobileConceptId: raw.mobileAuthority === 'PROMOTED' ? raw.selectedCandidateId : null,
+    promotedDesktopConceptId: raw.desktopAuthority === 'PROMOTED' ? raw.selectedCandidateId : null,
+    twinImplementationStatus: 'NONE',
+  };
 }
 
 export function withHistory(

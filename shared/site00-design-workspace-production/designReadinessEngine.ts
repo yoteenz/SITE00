@@ -70,10 +70,14 @@ export function computeDesignReadiness(state: DesignProductionState): DesignRead
   checks.push(
     gate(
       'authority_formally_reviewed',
-      'Review authority decision recorded',
+      'Twin page reviewed or formal approval',
       'DESIGN_AUTHORITY',
-      state.authorityReviewDecision === 'APPROVE' ? 'PASS' : 'BLOCKED',
-      state.authorityReviewDecision ?? 'no decision',
+      state.authorityReviewDecision === 'APPROVE' || state.twinImplementationStatus !== 'NONE' ?
+        'PASS'
+      : 'BLOCKED',
+      state.twinImplementationStatus !== 'NONE' ?
+        'twin implementation handoff started'
+      : (state.authorityReviewDecision ?? 'review twin page after pair review'),
       true,
     ),
   );

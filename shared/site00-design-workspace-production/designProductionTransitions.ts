@@ -25,12 +25,15 @@ function requireFounder(actor: FounderActor, action: string): void {
 }
 
 export function transitionOpenPairReview(state: DesignProductionState, actor: FounderActor): DesignProductionState {
+  if (state.mobileAuthority !== 'PROMOTED' || state.desktopAuthority !== 'PROMOTED') {
+    throw new Error('BOTH_VIEWPORTS_MUST_BE_PROMOTED');
+  }
   const now = new Date().toISOString();
   let next = withHistoryEntry(state, {
     type: 'PAIR_REVIEW_OPENED',
     at: now,
     actorEmail: actor.email,
-    summary: 'Pair review opened (inspection only)',
+    summary: 'Promoted mobile + desktop design pair review opened',
   });
   next = { ...next, pairReviewOpenedAt: next.pairReviewOpenedAt ?? now, updatedAt: now };
   return { ...next, sessionVersion: next.sessionVersion + 1 };
@@ -65,8 +68,11 @@ export function transitionSubmitAuthorityReview(
 
 export function transitionLockAuthorityPair(state: DesignProductionState, actor: FounderActor): DesignProductionState {
   requireFounder(actor, 'LOCK_AUTHORITY_PAIR');
-  if (state.authorityReviewDecision !== 'APPROVE') {
-    throw new Error('AUTHORITY_NOT_APPROVED');
+  if (state.mobileAuthority !== 'PROMOTED' || state.desktopAuthority !== 'PROMOTED') {
+    throw new Error('PROMOTED_PAIR_REQUIRED');
+  }
+  if (!state.pairReviewOpenedAt) {
+    throw new Error('PAIR_REVIEW_REQUIRED');
   }
   const now = new Date().toISOString();
   const nextVersion = `design-authority-v${state.sessionVersion + 1}`;
@@ -79,6 +85,7 @@ export function transitionLockAuthorityPair(state: DesignProductionState, actor:
     designAuthorityVersion: nextVersion,
     packageStatus: 'BUILD_REVIEW_READY',
     translationApproved: true,
+    twinImplementationStatus: 'IMPLEMENTING',
     updatedAt: now,
     sessionVersion: state.sessionVersion + 1,
   };
@@ -86,9 +93,22 @@ export function transitionLockAuthorityPair(state: DesignProductionState, actor:
     type: 'PAIR_LOCKED',
     at: now,
     actorEmail: actor.email,
-    summary: 'Mobile + Desktop authority pair locked',
+    summary: 'Promoted design pair locked for Composer handoff',
+  });
+  next = withHistoryEntry(next, {
+    type: 'TWIN_IMPLEMENTATION_STARTED',
+    at: now,
+    actorEmail: actor.email,
+    summary: 'Composer twin implementation started',
   });
   return next;
+}
+
+export function transitionConfirmComposerHandoff(
+  state: DesignProductionState,
+  actor: FounderActor,
+): DesignProductionState {
+  return transitionLockAuthorityPair(state, actor);
 }
 
 export function transitionMoveToBuild(state: DesignProductionState, actor: FounderActor): DesignProductionState {
@@ -219,13 +239,13 @@ export function transitionSelectViewportCandidate(
   const now = new Date().toISOString();
   const base = {
     ...state,
-    selectedCandidateId: input.candidateId,
     updatedAt: now,
     sessionVersion: state.sessionVersion + 1,
   };
   if (input.viewport === 'MOBILE') {
     let next: DesignProductionState = {
       ...base,
+      preferredMobileConceptId: input.candidateId,
       mobileVersion: input.candidateVersion,
       mobileAuthority: 'SELECTED',
     };
@@ -233,13 +253,14 @@ export function transitionSelectViewportCandidate(
       type: 'VIEWPORT_SELECTED',
       at: now,
       actorEmail: actor.email,
-      summary: `Mobile candidate ${input.candidateId} selected`,
-      payload: { viewport: 'MOBILE', candidateId: input.candidateId },
+      summary: `Mobile preferred concept ${input.candidateId} (not final approval)`,
+      payload: { viewport: 'MOBILE', candidateId: input.candidateId, semantic: 'PREFERRED' },
     });
     return next;
   }
   let next: DesignProductionState = {
     ...base,
+    preferredDesktopConceptId: input.candidateId,
     desktopVersion: input.candidateVersion,
     desktopAuthority: 'SELECTED',
   };
@@ -247,8 +268,8 @@ export function transitionSelectViewportCandidate(
     type: 'VIEWPORT_SELECTED',
     at: now,
     actorEmail: actor.email,
-    summary: `Desktop candidate ${input.candidateId} selected`,
-    payload: { viewport: 'DESKTOP', candidateId: input.candidateId },
+    summary: `Desktop preferred concept ${input.candidateId} (not final approval)`,
+    payload: { viewport: 'DESKTOP', candidateId: input.candidateId, semantic: 'PREFERRED' },
   });
   return next;
 }
@@ -261,10 +282,9 @@ export function transitionPromoteViewportMaster(
   requireFounder(actor, 'PROMOTE_VIEWPORT_MASTER');
   if (state.pairLockedAt) throw new Error('PAIR_LOCKED');
   const now = new Date().toISOString();
-  if (viewport === 'MOBILE' && state.mobileAuthority !== 'SELECTED') {
-    throw new Error('MOBILE_NOT_SELECTED');
-  }
-  if (viewport === 'DESKTOP' && state.desktopAuthority !== 'SELECTED') {
+  if (viewport === 'MOBILE') {
+    if (!state.preferredMobileConceptId) throw new Error('MOBILE_NOT_SELECTED');
+  } else if (!state.preferredDesktopConceptId) {
     throw new Error('DESKTOP_NOT_SELECTED');
   }
   let next: DesignProductionState = {
@@ -273,13 +293,17 @@ export function transitionPromoteViewportMaster(
     sessionVersion: state.sessionVersion + 1,
     mobileAuthority: viewport === 'MOBILE' ? 'PROMOTED' : state.mobileAuthority,
     desktopAuthority: viewport === 'DESKTOP' ? 'PROMOTED' : state.desktopAuthority,
+    promotedMobileConceptId:
+      viewport === 'MOBILE' ? state.preferredMobileConceptId : state.promotedMobileConceptId,
+    promotedDesktopConceptId:
+      viewport === 'DESKTOP' ? state.preferredDesktopConceptId : state.promotedDesktopConceptId,
   };
   next = withHistoryEntry(next, {
     type: 'VIEWPORT_MASTER_PROMOTED',
     at: now,
     actorEmail: actor.email,
-    summary: `${viewport} master promoted to authority review path`,
-    payload: { viewport },
+    summary: `${viewport} design promoted (final viewport approval)`,
+    payload: { viewport, semantic: 'PROMOTED_DESIGN' },
   });
   return next;
 }

@@ -2558,6 +2558,97 @@
   font-weight: 700;
 }
 
+.tod-pair__sectionLabel {
+  font-size: calc(8px * var(--tod-viewrow-boost, 1));
+  letter-spacing: 0.08em;
+  color: var(--tod-ink-3);
+  margin: 6px 0 4px;
+}
+
+.tod-pair__promotedRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: calc(8.5px * var(--tod-viewrow-boost, 1));
+  color: var(--tod-ink-2);
+}
+
+.tod-card__prefBadge {
+  display: block;
+  font-size: calc(7px * var(--tod-viewrow-boost, 1));
+  letter-spacing: 0.04em;
+  color: var(--tod-lime-ink);
+  background: var(--tod-lime);
+  padding: 1px 4px;
+  margin-bottom: 2px;
+}
+
+.tod-auth-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: min(80vh, 720px);
+}
+
+.tod-auth-editor__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.tod-auth-editor__eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--tod-ink-3);
+}
+
+.tod-auth-editor__title {
+  font-size: 14px;
+  margin: 0;
+}
+
+.tod-auth-editor__img {
+  width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+  border: 1px solid var(--tod-border-panel);
+}
+
+.tod-auth-editor__thread {
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid var(--tod-border-subtle);
+  padding: 8px;
+}
+
+.tod-auth-editor__input {
+  width: 100%;
+  min-height: 72px;
+  font-family: var(--tod-mono);
+  font-size: 11px;
+}
+
+.tod-auth-editor__compose {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tod-dcs-twinFrame {
+  width: 100%;
+  min-height: 320px;
+  border: 1px solid var(--tod-border-panel);
+  background: var(--tod-paper);
+}
+
+.tod-dcs-compare__tap {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
 .tod-viewmode__cell:focus-visible {
   outline: 2px solid var(--tod-black);
   outline-offset: 2px;

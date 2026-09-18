@@ -10222,3 +10222,16 @@ Founder sprint: hero must compare **current implementation capture** vs **select
 - **Tests:** `p0vrDesignVisualCompareGrok1R1.test.ts`; updated Opus launcher + interaction coverage tests.
 - **QA:** Live proof on `/projects/ndxbook/design/twin-opus-direct` (module path `/projects/design/ndxbook` is overview, not twin workspace).
 - **Next:** Founder hero/agent-row review → Grok panel UX → one cost-controlled Grok live smoke when authorized.
+
+---
+
+## 2026-09-17 — P0.VR.DESIGN-AUTHORITY-WORKFLOW2 — rail semantics + CGPT authority + Composer handoff
+
+Founder sprint: authority rail conflated concept preference, upstream references, promotion, and handoff. Rebuilt workflow: CGPT authority refs → GPT2 concepts → independent mobile/desktop **preferred** → **promote** (final) → pair review (promoted designs) → review twin page → lock + Composer package.
+
+- **Domain:** `designPageAuthorityWorkflow.ts` — `ViewportAuthorityReference`, preferences, promotions, CGPT chat fixture, `TwinImplementationPackage`, page-scoped localStorage.
+- **Production v2:** `preferredMobileConceptId` / `preferredDesktopConceptId` / promoted IDs; select no longer overwrites gallery + other viewport; pair review requires both PROMOTED; lock opens `OV-COMPOSER-HANDOFF` confirmation → `twinImplementationStatus: IMPLEMENTING`.
+- **UI:** Authority pair shows **upstream** CGPT authority thumbs (open `ViewportAuthorityEditor`); promoted design IDs separate; gallery badges `SELECTED FOR MOBILE/DESKTOP`; `ReviewTwinPagePanel` iframe; pair review uses promoted concept previews.
+- **GPT2 contract:** `MOBILE_AUTHORITY_REFERENCE` + `DESKTOP_AUTHORITY_REFERENCE` input fields.
+- **Tests:** `p0vrDesignAuthorityWorkflow2.test.ts` (Concept A mobile + Concept C desktop mandatory path).
+- **Next:** Founder authority workflow review → define first real mobile/desktop authority pair → GPT2 page concepts.
