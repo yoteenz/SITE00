@@ -53,6 +53,8 @@ export function buildDesignProductionizationReceipt(
       'MOVED_TO_BUILD',
       'CANDIDATE_REFINED',
       'CANDIDATE_REGENERATED',
+      'COMPOSER_HANDOFF_CREATED',
+      'TWIN_IMPLEMENTATION_STARTED',
     ],
     permissions: 'founder_only_mutations',
     assetManifestVersion: 'twin-opus-direct-assets-v1',

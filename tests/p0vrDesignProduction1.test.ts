@@ -21,8 +21,11 @@ import {
   lockAuthorityPair,
   moveToBuild,
   openPairReview,
-  submitAuthorityReview,
 } from '../shared/site00-design-workspace-production/designProductionActions.js';
+import {
+  transitionPromoteViewportMaster,
+  transitionSelectViewportCandidate,
+} from '../shared/site00-design-workspace-production/designProductionTransitions.js';
 import { buildDesignProductionizationReceipt } from '../shared/site00-design-workspace-production/designProductionReceipt.js';
 import { NDXBOOK_DESIGN_CHILD_INHERITANCE } from '../shared/site00-design-workspace-production/childInheritanceContract.js';
 
@@ -83,8 +86,19 @@ describe('DESIGN-PRODUCTION1 — readiness engine', () => {
     let state = createInitialDesignProductionState('ndxbook');
     expect(() => moveToBuild(state, founder)).toThrow(/MOVE_TO_BUILD_BLOCKED/);
 
+    state = transitionSelectViewportCandidate(state, founder, {
+      viewport: 'MOBILE',
+      candidateId: 'v13',
+      candidateVersion: 'V1.3',
+    });
+    state = transitionPromoteViewportMaster(state, founder, 'MOBILE');
+    state = transitionSelectViewportCandidate(state, founder, {
+      viewport: 'DESKTOP',
+      candidateId: 'v11',
+      candidateVersion: 'V1.1',
+    });
+    state = transitionPromoteViewportMaster(state, founder, 'DESKTOP');
     state = openPairReview(state, founder);
-    state = submitAuthorityReview(state, founder, 'APPROVE');
     state = lockAuthorityPair(state, founder);
     expect(state.packageStatus).toBe('BUILD_REVIEW_READY');
 
@@ -131,7 +145,7 @@ describe('DESIGN-PRODUCTION1 — inheritance + receipt', () => {
     const receipt = buildDesignProductionizationReceipt(state);
     expect(receipt.contractVersion).toBe('2.0.0');
     expect(receipt.implementedInteractions.length).toBeGreaterThanOrEqual(9);
-    expect(receipt.eventTaxonomy).toHaveLength(11);
+    expect(receipt.eventTaxonomy).toHaveLength(13);
   });
 });
 
@@ -141,6 +155,6 @@ describe('DESIGN-PRODUCTION1 — persistence key', () => {
     const saved = saveDesignProductionState(state);
     const loaded = loadDesignProductionState('ndxbook');
     expect(loaded.projectId).toBe('ndxbook');
-    expect(saved.storeVersion).toBe(1);
+    expect(saved.storeVersion).toBe(2);
   });
 });

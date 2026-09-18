@@ -7,15 +7,18 @@ import {
   CreativeContextPanel,
   FullscreenArtifactOverlay,
   InspectCandidatePanel,
+  ComposerHandoffPanel,
   PairReviewPanel,
   ProvenancePanel,
   ReadinessReceiptPanel,
   ReviewAuthorityPanel,
+  ReviewTwinPagePanel,
   SpendConfirmPanel,
   StructuredArtifactPanel,
 } from '../production/designProductionOverlayPanels';
 import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNavPanel';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
+import { DesignViewportAuthorityEditorOverlay } from './DesignViewportAuthorityEditorOverlay';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
 
 type Props = {
@@ -175,6 +178,52 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
             onClose={actions.cancelPendingSpend}
           >
             <SpendConfirmPanel production={production} />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-REVIEW-TWIN-PAGE' ?
+          <DesignChildSurfaceFrame
+            mode="MODAL"
+            title="REVIEW TWIN PAGE"
+            overlayId="OV-REVIEW-TWIN-PAGE"
+            onClose={close}
+          >
+            <ReviewTwinPagePanel projectSlug={slug} production={production} />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-VIEWPORT-AUTHORITY-EDITOR' && production.uiPayload.authorityEditorViewport ?
+          <DesignChildSurfaceFrame
+            mode="MODAL"
+            title="VIEWPORT AUTHORITY"
+            overlayId="OV-VIEWPORT-AUTHORITY-EDITOR"
+            onClose={close}
+          >
+            <DesignViewportAuthorityEditorOverlay
+              projectSlug={slug}
+              production={production}
+              viewport={production.uiPayload.authorityEditorViewport}
+              onClose={close}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-COMPOSER-HANDOFF' ?
+          <DesignChildSurfaceFrame
+            mode="MODAL"
+            title="IMPLEMENTATION HANDOFF"
+            overlayId="OV-COMPOSER-HANDOFF"
+            onClose={close}
+          >
+            <ComposerHandoffPanel
+              projectSlug={slug}
+              production={production}
+              onConfirm={() => {
+                actions.confirmComposerHandoff();
+                close();
+              }}
+              onCancel={close}
+            />
           </DesignChildSurfaceFrame>
         : null}
 

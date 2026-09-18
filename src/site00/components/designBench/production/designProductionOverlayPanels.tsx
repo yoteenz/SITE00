@@ -67,30 +67,45 @@ export function ReadinessReceiptPanel({ production }: { production: TwinOpusDire
   );
 }
 
+function promotedConceptPreview(conceptId: string | null) {
+  if (!conceptId) return null;
+  return twinOpusDirectCandidateArtifactView(conceptId);
+}
+
 export function PairReviewPanel({ production }: { production: TwinOpusDirectProduction }) {
-  const { state, projection } = production;
-  const mobileSrc = resolveTwinOpusDirectAsset('authorityMobile');
-  const desktopSrc = resolveTwinOpusDirectAsset('authorityDesktop');
+  const { state, projection, actions } = production;
+  const mobile = promotedConceptPreview(state.promotedMobileConceptId);
+  const desktop = promotedConceptPreview(state.promotedDesktopConceptId);
 
   return (
     <>
-      <p className="tod-dcs-lead">Visual inspection only — does not approve or lock authority.</p>
-      <div className="tod-dcs-compare">
+      <p className="tod-dcs-lead">Side-by-side review of promoted mobile and desktop designs (final viewport approvals).</p>
+      <div className="tod-dcs-compare tod-dcs-compare--dual">
         <article className="tod-dcs-compare__card">
-          <header>MOBILE MASTER</header>
-          {mobileSrc ?
-            <img src={mobileSrc} alt="" className="tod-dcs-compare__img" />
-          : null}
-          <DesignGateBadge result={state.mobileAuthority} />
-          <span className="tod-dcs-compare__ver">{state.mobileVersion}</span>
+          <header>PROMOTED MOBILE DESIGN</header>
+          {mobile?.src ?
+            <button
+              type="button"
+              className="tod-dcs-compare__tap"
+              onClick={() => actions.openFullscreenArtifact(mobile)}
+            >
+              <img src={mobile.src} alt="" className="tod-dcs-compare__img" />
+            </button>
+          : <p>No mobile promoted design</p>}
+          <span className="tod-dcs-compare__ver">{state.promotedMobileConceptId ?? '—'} · {state.mobileVersion}</span>
         </article>
         <article className="tod-dcs-compare__card">
-          <header>DESKTOP MASTER</header>
-          {desktopSrc ?
-            <img src={desktopSrc} alt="" className="tod-dcs-compare__img" />
-          : null}
-          <DesignGateBadge result={state.desktopAuthority} />
-          <span className="tod-dcs-compare__ver">{state.desktopVersion}</span>
+          <header>PROMOTED DESKTOP DESIGN</header>
+          {desktop?.src ?
+            <button
+              type="button"
+              className="tod-dcs-compare__tap"
+              onClick={() => actions.openFullscreenArtifact(desktop)}
+            >
+              <img src={desktop.src} alt="" className="tod-dcs-compare__img" />
+            </button>
+          : <p>No desktop promoted design</p>}
+          <span className="tod-dcs-compare__ver">{state.promotedDesktopConceptId ?? '—'} · {state.desktopVersion}</span>
         </article>
         <article className="tod-dcs-compare__card">
           <header>TABLET DERIVED</header>
@@ -363,6 +378,91 @@ export function CompareConceptsPanel({
   );
 }
 
+export function ReviewTwinPagePanel({ projectSlug, production }: { projectSlug: string; production: TwinOpusDirectProduction }) {
+  const pageTarget = resolveDesignPageTargetForShell(projectSlug);
+  const pageRecord = getDesignBoundPage(projectSlug, pageTarget.pageId);
+  const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
+  const route = pageCtx?.route ?? pageRecord?.route ?? '/';
+  const src = typeof window !== 'undefined' ? `${window.location.origin}${route}` : route;
+
+  return (
+    <>
+      <p className="tod-dcs-lead">
+        REVIEW AUTHORITY opens the actual twin / working page for {pageTarget.pageLabel} — not upstream CGPT authority
+        references.
+      </p>
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>ROUTE</dt>
+          <dd>{route}</dd>
+        </div>
+        <div>
+          <dt>TWIN STATUS</dt>
+          <dd>{production.state.twinImplementationStatus}</dd>
+        </div>
+      </dl>
+      <iframe title="Twin page preview" className="tod-dcs-twinFrame" src={src} />
+      <div className="tod-dcs-stackActions">
+        <a className="tod-dcs__primary" href={route} target="_blank" rel="noreferrer">
+          OPEN TWIN IN NEW TAB
+        </a>
+      </div>
+    </>
+  );
+}
+
+export function ComposerHandoffPanel({
+  projectSlug,
+  production,
+  onConfirm,
+  onCancel,
+}: {
+  projectSlug: string;
+  production: TwinOpusDirectProduction;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  const { state } = production;
+  const pageTarget = resolveDesignPageTargetForShell(projectSlug);
+
+  return (
+    <>
+      <p className="tod-dcs-lead">Lock this design pair and send the page to Composer for twin implementation?</p>
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>PAGE</dt>
+          <dd>{pageTarget.pageLabel}</dd>
+        </div>
+        <div>
+          <dt>MOBILE PROMOTED</dt>
+          <dd>{state.promotedMobileConceptId ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>DESKTOP PROMOTED</dt>
+          <dd>{state.promotedDesktopConceptId ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>TABLET</dt>
+          <dd>{state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED'}</dd>
+        </div>
+        <div>
+          <dt>INTERACTION CONTRACT</dt>
+          <dd>{state.contractFreeze.contractVersion}</dd>
+        </div>
+      </dl>
+      <div className="tod-dcs-stackActions">
+        <button type="button" className="tod-dcs__primary" onClick={onConfirm}>
+          CONFIRM + SEND TO COMPOSER
+        </button>
+        <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
+          CANCEL
+        </button>
+      </div>
+    </>
+  );
+}
+
+/** Legacy formal review — retained for API compatibility; twin review is primary UX. */
 export function ReviewAuthorityPanel({ production }: { production: TwinOpusDirectProduction }) {
   const { actions } = production;
 

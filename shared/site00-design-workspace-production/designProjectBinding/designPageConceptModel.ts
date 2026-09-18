@@ -77,6 +77,8 @@ export type Gpt2PageConceptGenerationInput = {
   founderCreativeAppetite: string | null;
   currentReferences: readonly string[];
   relevantCampaignContentInputs: readonly string[];
+  mobileAuthorityReference: string | null;
+  desktopAuthorityReference: string | null;
 };
 
 export type Gpt2PageConceptGenerationOutput = {
@@ -99,6 +101,8 @@ export const GPT2_PAGE_CONCEPT_GENERATION_CONTRACT = {
     'FOUNDER_CREATIVE_APPETITE',
     'CURRENT_REFERENCES',
     'RELEVANT_CAMPAIGN_CONTENT_INPUTS',
+    'MOBILE_AUTHORITY_REFERENCE',
+    'DESKTOP_AUTHORITY_REFERENCE',
   ] as const,
   outputShape: 'MULTIPLE_PAGE_CONCEPT_TERRITORIES' as const,
 } as const;
