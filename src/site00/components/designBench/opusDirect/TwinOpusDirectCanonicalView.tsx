@@ -16,12 +16,10 @@ import {
   twinOpusDirectAssetEntry,
   type TwinOpusDirectAssetSlotId,
 } from './twinOpusDirectAssetManifest';
-import {
-  type TwinOpusDirectCandidateSurface,
-  type TwinOpusDirectOutputColumn,
-} from './twinOpusDirectContent';
+import { type TwinOpusDirectCandidateSurface } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
+import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
@@ -30,8 +28,6 @@ import {
   TodIconChevronUp,
   TodIconCompare,
   TodIconCycle,
-  TodIconDoc,
-  TodIconDocGear,
   TodIconExpand,
   TodIconInspect,
   TodIconLock,
@@ -173,64 +169,7 @@ function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurf
   );
 }
 
-function TodOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
-  if (column.preview === 'manifest') {
-    return (
-      <div className="tod-out__preview tod-out__preview--manifest" aria-hidden="true">
-        <TodSlotImage slot="grounding" className="tod-out__photo" />
-        <span className="tod-out__manifestTitle">index_signal:page_001_indexed</span>
-        <span className="tod-out__manifestRule" />
-        <span className="tod-out__manifestRule" />
-        <span className="tod-out__manifestRule" />
-        <span className="tod-out__manifestGrid">
-          {Array.from({ length: 12 }).map((_, index) => (
-            <i key={index} />
-          ))}
-        </span>
-        <span className="tod-out__manifestStamp">01204</span>
-      </div>
-    );
-  }
-  if (column.preview === 'blueprint') {
-    return (
-      <div className="tod-out__preview tod-out__preview--blueprint" aria-hidden="true">
-        <TodSlotImage slot="blueprint" className="tod-out__photo" />
-        <span className="tod-out__blueGrid" />
-        <span className="tod-out__blueCross" />
-      </div>
-    );
-  }
-  if (column.preview === 'overlay') {
-    return (
-      <div className="tod-out__preview tod-out__preview--overlay" aria-hidden="true">
-        <TodSlotImage slot="overlay" className="tod-out__photo" />
-        <span className="tod-out__overlayPaper" />
-        <span className="tod-out__overlayNote">CULTURE AS EVIDENCE.</span>
-        <span className="tod-out__overlayInk">001</span>
-        <span className="tod-out__overlayMark" />
-      </div>
-    );
-  }
-  if (column.preview === 'evidence') {
-    return (
-      <div className="tod-out__preview tod-out__preview--evidence" aria-hidden="true">
-        <TodSlotImage slot="assetPack" className="tod-out__photo tod-out__photo--evidence" />
-        {Array.from({ length: 9 }).map((_, index) => (
-          <span key={index} className={`tod-out__evidenceTile tod-out__evidenceTile--${index + 1}`} />
-        ))}
-      </div>
-    );
-  }
-  return (
-    <ul className="tod-out__preview tod-out__preview--functions">
-      {(column.functions ?? []).map((fn) => (
-        <li key={fn}>{fn}</li>
-      ))}
-    </ul>
-  );
-}
-
-/** 05-10: hero, authority rail, candidate gallery, structured output, pipeline. */
+/** 05-10: hero, authority rail, candidate gallery, page system review, pipeline. */
 export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
   const { data, state, actions, readinessDash, production } = workspace;
   const galleryRef = useRef<HTMLDivElement | null>(null);
@@ -465,43 +404,13 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
         </div>
       </section>
 
-      {/* 09 STRUCTURED_OUTPUT_REVIEW */}
-      <section className="tod-out" aria-label={data.outputTitle}>
-        <header className="tod-out__head">
-          <h2 className="tod-out__title">{data.outputTitle}</h2>
-          {data.outputViewportNote ?
-            <p className="tod-out__viewportNote">{data.outputViewportNote}</p>
-          : null}
-        </header>
-        <div className="tod-out__cols">
-          {data.outputColumns.map((column) => (
-            <div key={column.id} className="tod-out__col">
-              <span className="tod-out__label">{column.label}</span>
-              <span className="tod-out__lines">
-                <span>{column.lines[0]}</span>
-                <span>{column.lines[1]}</span>
-              </span>
-              <button
-                type="button"
-                className="tod-out__previewBtn"
-                data-interaction-id={`output-${column.id}`}
-                aria-label={`Inspect ${column.label}`}
-                onClick={() => actions.openStructuredArtifact(column.id)}
-              >
-                <TodOutputPreview column={column} />
-              </button>
-              <button type="button" className="tod-out__source" onClick={() => actions.openProvenance()}>
-                <span className="tod-out__sourceText">{column.source}</span>
-                {column.preview === 'functions' ? (
-                  <TodIconDocGear className="tod-ico tod-out__sourceIco" />
-                ) : (
-                  <TodIconDoc className="tod-ico tod-out__sourceIco" />
-                )}
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* 09 PAGE_SYSTEM_REVIEW */}
+      <DesignPageSystemReviewSection
+        projectSlug={workspace.projectSlug}
+        model={data.pageSystemReview}
+        viewportNote={data.outputViewportNote}
+        actions={actions}
+      />
 
       {/* 10 PIPELINE_READINESS */}
       <section className="tod-pipe" aria-label={data.pipelineTitle}>

@@ -10255,3 +10255,29 @@ Founder sprint: authority rail conflated concept preference, upstream references
 - **GPT2 contract:** `MOBILE_AUTHORITY_REFERENCE` + `DESKTOP_AUTHORITY_REFERENCE` input fields.
 - **Tests:** `p0vrDesignAuthorityWorkflow2.test.ts` (Concept A mobile + Concept C desktop mandatory path).
 - **Next:** Founder authority workflow review → define first real mobile/desktop authority pair → GPT2 page concepts.
+
+---
+
+## 2026-09-18 — P0.VR.DESIGN-GROK-GATING1 — downstream Grok asset generation gates
+
+Founder sprint (follow-up correction): Grok must not generate production/page-specific assets until upstream DESIGN workflow completes, twin route is reachable and reviewable, and a current page capture exists for the active viewport.
+
+- **Eligibility model:** `designGrokAssetEligibility.ts` — `GrokAssetGenerationEligibility` + page-scoped `computeGrokAssetEligibility()` (concepts promoted → pair locked + Composer handoff → twin HEAD/reachable → twin reviewable → current capture); `grokOptOut` → NOT_REQUIRED; `modeAllowedForEligibility` blocks PAGE_ASSET_PACK / ICON_SYSTEM / etc. until ELIGIBLE.
+- **UI:** Grok icon stays visible (`is-gated`, `data-grok-eligibility`, reason in title); `DesignGrokDock` shows NOT READY checklist + gates receipt; generation disabled until eligible; **NO GROK ASSETS NEEDED** opt-out; fixture pipeline unchanged (no live Grok).
+- **Runtime:** `DesignGrokEligibilityProvider` + HEAD probe on twin route; `markTwinRouteVerified` on successful HEAD; capture updates refresh eligibility via `DESIGN_PAGE_CAPTURE_UPDATED_EVENT`; twin review via `twinPageReviewedAt` / `ReviewTwinPagePanel`.
+- **Capture storage:** `designPageCapture.ts` uses shared localStorage accessor (tests + browser); dispatches capture-updated event after append.
+- **Tests:** `p0vrDesignGrokGating1.test.ts` (pre-twin, no capture, full eligibility, opt-out, dock receipt strings).
+- **Next:** Founder reviews twin → CAPTURE SCREEN → decide if Grok asset work needed → cost-controlled generation only when ELIGIBLE.
+
+---
+
+## 2026-09-18 — P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 — PAGE SYSTEM REVIEW replaces structured output
+
+Founder sprint: retire GROUNDING/BLUEPRINT/OVERLAY/Entry001 evidence FUNCTION strip from primary DESIGN workflow; replace with descendant audit, batch inheritance, Grok manifest assets, interaction inspector.
+
+- **Section:** `PAGE SYSTEM REVIEW` (`designPageSystemReview.ts` + `DesignPageSystemReviewSection.tsx`) — CHILDREN, GRANDCHILDREN, BATCH/INHERITANCE (select all similar, batch confirm drawer), ASSETS (Grok staged/approved manifest only), INTERACTIONS (registry-based coverage + inspector drawer).
+- **Registry:** Direct children/grandchildren from `buildProjectDesignPageRegistry` parentPageId; thumbnails from page capture → concept → authority refs; open child via `writeDesignPageTarget`.
+- **Legacy:** `LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS` retained for historical artifact drawer only — not in primary UI.
+- **Overlays:** `OV-PAGE-BATCH-EDIT`, `OV-PAGE-ASSET-INSPECT`, `OV-PAGE-INTERACTIONS`.
+- **Tests:** `p0vrDesignPageSystemReview1.test.ts` (content-ops → campaign-board child).
+- **Next:** Founder page-system-review UX → test batch edit on one real page family.

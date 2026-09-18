@@ -22,7 +22,6 @@ import {
   TWIN_OPUS_DIRECT_GALLERY,
   TWIN_OPUS_DIRECT_HEADER,
   TWIN_OPUS_DIRECT_HERO,
-  TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
   TWIN_OPUS_DIRECT_OUTPUT_TITLE,
   TWIN_OPUS_DIRECT_PIPELINE_TITLE,
   TWIN_OPUS_DIRECT_PRIMARY_NAV,
@@ -35,8 +34,15 @@ import {
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
 import {
+  buildPageSystemReviewModel,
+  type PageSystemReviewModel,
+} from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
+import { getDesignBoundPage } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageRegistry.js';
+import { designProductionPageTargetFromRecord } from '../production/designPageTargetFromRecord';
+import {
   designPageTargetLines,
   resolveDesignPageTargetForShell,
+  writeDesignPageTarget,
 } from '../production/designProductionPageTarget';
 import {
   buildDesignModuleHierarchy,
@@ -119,7 +125,7 @@ export interface TwinOpusDirectWorkspaceData {
   candidates: typeof TWIN_OPUS_DIRECT_CANDIDATES;
   candidateActions: typeof TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS;
   outputTitle: typeof TWIN_OPUS_DIRECT_OUTPUT_TITLE;
-  outputColumns: typeof TWIN_OPUS_DIRECT_OUTPUT_COLUMNS;
+  pageSystemReview: PageSystemReviewModel;
   pipelineTitle: typeof TWIN_OPUS_DIRECT_PIPELINE_TITLE;
   readiness: {
     label: string;
@@ -193,6 +199,10 @@ export interface TwinOpusDirectWorkspaceActions {
   selectForDesktop: () => void;
   openCompareConcepts: () => void;
   openStructuredArtifact: (columnId: string) => void;
+  openDesignPage: (pageId: string) => void;
+  openPageBatchEdit: (input: { sourcePageId: string; pageIds: string[]; scope: string }) => void;
+  openPageAssetInspect: (assetId: string) => void;
+  openPageInteractionsInspector: () => void;
   openAmendmentDetail: () => void;
   runContextualNextAction: () => void;
   railDisabledReason: (actionId: string) => string | null;
@@ -341,6 +351,15 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         });
       },
       openStructuredArtifact: (columnId) => prodActions.openStructuredArtifact(columnId),
+      openDesignPage: (pageId) => {
+        const page = getDesignBoundPage(projectSlug, pageId);
+        if (!page) return;
+        writeDesignPageTarget(projectSlug, designProductionPageTargetFromRecord(page));
+        window.dispatchEvent(new CustomEvent('site00:design-page-target', { detail: { projectSlug } }));
+      },
+      openPageBatchEdit: (input) => prodActions.openPageBatchEdit(input),
+      openPageAssetInspect: (assetId) => prodActions.openPageAssetInspect(assetId),
+      openPageInteractionsInspector: () => prodActions.openPageInteractionsInspector(),
       openAmendmentDetail: () => prodActions.openAmendmentDetail(),
       runContextualNextAction: () => {
         const next = computeContextualNextAction(prodState, actor);
@@ -675,7 +694,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       candidates: scopedCandidates,
       candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
-      outputColumns: TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
+      pageSystemReview: buildPageSystemReviewModel(projectSlug, pageTarget.pageId, viewport),
       pipelineTitle: TWIN_OPUS_DIRECT_PIPELINE_TITLE,
       readiness: {
         ...TWIN_OPUS_DIRECT_READINESS_SHELL,
@@ -687,7 +706,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       statusRows: pageAwareProjection.statusRows,
       outputViewportNote:
         viewport === 'MOBILE' ? null : (
-          `Structured output review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
+          `Page system review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
         ),
       nextAction: (() => {
         const next = computeContextualNextAction(prodState, actor);

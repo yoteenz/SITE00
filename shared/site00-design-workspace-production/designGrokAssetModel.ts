@@ -51,10 +51,17 @@ export type GrokAssetRun = {
 const STAGED_KEY = 'site00:design-grok-staged:v1';
 const RUNS_KEY = 'site00:design-grok-runs:v1';
 
+function grokAssetStorage(): Storage | null {
+  if (typeof window !== 'undefined' && window.localStorage) return window.localStorage;
+  if (typeof globalThis.localStorage !== 'undefined') return globalThis.localStorage;
+  return null;
+}
+
 export function listStagedGrokAssets(projectId: string, pageId: string): GrokStagedAsset[] {
-  if (typeof window === 'undefined') return [];
+  const storage = grokAssetStorage();
+  if (!storage) return [];
   try {
-    const raw = window.localStorage.getItem(STAGED_KEY);
+    const raw = storage.getItem(STAGED_KEY);
     if (!raw) return [];
     const all = JSON.parse(raw) as GrokStagedAsset[];
     return all.filter((a) => a.projectId === projectId && a.pageId === pageId && a.status === 'STAGED');
@@ -64,9 +71,10 @@ export function listStagedGrokAssets(projectId: string, pageId: string): GrokSta
 }
 
 export function listApprovedGrokAssets(projectId: string, pageId: string): GrokStagedAsset[] {
-  if (typeof window === 'undefined') return [];
+  const storage = grokAssetStorage();
+  if (!storage) return [];
   try {
-    const raw = window.localStorage.getItem(STAGED_KEY);
+    const raw = storage.getItem(STAGED_KEY);
     if (!raw) return [];
     const all = JSON.parse(raw) as GrokStagedAsset[];
     return all.filter((a) => a.projectId === projectId && a.pageId === pageId && a.status === 'APPROVED');

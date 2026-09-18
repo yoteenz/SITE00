@@ -28,6 +28,7 @@ export function createInitialDesignProductionState(projectId: string): DesignPro
     mobileVersion: '—',
     desktopVersion: '—',
     twinImplementationStatus: 'NONE',
+    twinPageReviewedAt: null,
     pairReviewOpenedAt: null,
     authorityReviewDecision: null,
     authorityReviewedAt: null,
@@ -96,6 +97,7 @@ function migrateDesignProductionState(raw: DesignProductionState, projectId: str
     promotedMobileConceptId: raw.mobileAuthority === 'PROMOTED' ? raw.selectedCandidateId : null,
     promotedDesktopConceptId: raw.desktopAuthority === 'PROMOTED' ? raw.selectedCandidateId : null,
     twinImplementationStatus: 'NONE',
+    twinPageReviewedAt: null,
   };
 }
 

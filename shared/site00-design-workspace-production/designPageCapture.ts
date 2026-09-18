@@ -29,10 +29,19 @@ function storageKey(projectId: string, pageId: string, viewport: PageViewportId)
   return `${STORAGE_PREFIX}${projectId}:${pageId}:${viewport}`;
 }
 
+function captureStorage(): Storage | null {
+  if (typeof window !== 'undefined' && window.localStorage) return window.localStorage;
+  if (typeof globalThis.localStorage !== 'undefined') return globalThis.localStorage;
+  return null;
+}
+
+export const DESIGN_PAGE_CAPTURE_UPDATED_EVENT = 'site00:design-page-capture-updated';
+
 function readBucket(key: string): PageCaptureHistory {
-  if (typeof window === 'undefined') return { latest: null, history: [] };
+  const storage = captureStorage();
+  if (!storage) return { latest: null, history: [] };
   try {
-    const raw = window.localStorage.getItem(key);
+    const raw = storage.getItem(key);
     if (!raw) return { latest: null, history: [] };
     const parsed = JSON.parse(raw) as PageCaptureHistory;
     return {
@@ -45,9 +54,10 @@ function readBucket(key: string): PageCaptureHistory {
 }
 
 function writeBucket(key: string, bucket: PageCaptureHistory): void {
-  if (typeof window === 'undefined') return;
+  const storage = captureStorage();
+  if (!storage) return;
   try {
-    window.localStorage.setItem(key, JSON.stringify(bucket));
+    storage.setItem(key, JSON.stringify(bucket));
   } catch {
     /* quota */
   }
@@ -66,6 +76,13 @@ export function appendPageCapture(record: PageCaptureRecord, maxHistory = 20): P
   const bucket = readBucket(key);
   const history = [record, ...bucket.history.filter((h) => h.captureId !== record.captureId)].slice(0, maxHistory);
   writeBucket(key, { latest: record, history });
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, {
+        detail: { projectId: record.projectId, pageId: record.pageId, viewport: record.viewport },
+      }),
+    );
+  }
   return record;
 }
 

@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
+import { useDesignGrokEligibility } from '../opusDirect/DesignGrokEligibilityProvider';
 import { useDesignAgentDock } from './DesignAgentDockContext';
 
 const GROK_CLOSE_EVENT = 'site00:design-grok-close';
@@ -49,21 +50,33 @@ export function useDesignGrokDock(): DesignGrokDockContextValue {
 /** Must render inside DesignAgentDockProvider + DesignGrokDockProvider. */
 export function DesignGrokOpenButton(props: { className?: string }) {
   const { toggle, open } = useDesignGrokDock();
+  const { eligibility } = useDesignGrokEligibility();
+  const gated = !eligibility.canGenerateProductionAssets;
+  const title =
+    gated ?
+      `Grok · ${eligibility.shortReason}${eligibility.nextAction ? ` · ${eligibility.nextAction}` : ''}`
+    : 'Open Grok asset agent';
   return (
     <button
       type="button"
-      className={`${props.className ?? 'tod-agent-iconBtn tod-agent-iconBtn--grok'}${open ? ' is-open' : ''}`}
+      className={`${props.className ?? 'tod-agent-iconBtn tod-agent-iconBtn--grok'}${open ? ' is-open' : ''}${gated ? ' is-gated' : ''}`}
       aria-expanded={open}
       aria-controls="s00-grok-panel"
-      aria-label="Open Grok asset agent"
-      title="Open Grok asset agent"
+      aria-label={gated ? `Grok asset agent locked: ${eligibility.shortReason}` : 'Open Grok asset agent'}
+      title={title}
       data-testid="design-grok-open"
       data-interaction-id="view-row-grok"
+      data-grok-eligibility={eligibility.eligibility}
       onClick={toggle}
     >
       <span className="tod-agent-iconBtn__glyph" aria-hidden="true">
         G
       </span>
+      {gated ?
+        <span className="tod-agent-iconBtn__lock" aria-hidden="true">
+          ·
+        </span>
+      : null}
     </button>
   );
 }

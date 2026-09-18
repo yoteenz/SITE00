@@ -98,6 +98,8 @@ export type DesignProductionState = {
   mobileVersion: string;
   desktopVersion: string;
   twinImplementationStatus: 'NONE' | 'IMPLEMENTING' | 'READY_FOR_REVIEW';
+  /** Set when founder completes twin page review gate (Grok gating). */
+  twinPageReviewedAt: string | null;
   pairReviewOpenedAt: string | null;
   authorityReviewDecision: AuthorityReviewDecision;
   authorityReviewedAt: string | null;
@@ -166,6 +168,9 @@ export type DesignProductionUiOverlay =
   | 'OV-INSPECT-CANDIDATE'
   | 'OV-COMPARE-CONCEPTS'
   | 'OV-STRUCTURED-ARTIFACT'
+  | 'OV-PAGE-BATCH-EDIT'
+  | 'OV-PAGE-ASSET-INSPECT'
+  | 'OV-PAGE-INTERACTIONS'
   | 'OV-AMENDMENT-DETAIL'
   | 'OV-VIEWPORT-AUTHORITY-EDITOR'
   | 'OV-COMPOSER-HANDOFF'
@@ -176,6 +181,8 @@ export type DesignProductionUiPayload = {
   inspectCandidateId?: string;
   compareCandidateIds?: [string, string];
   structuredColumnId?: string;
+  pageBatchEdit?: { sourcePageId: string; pageIds: string[]; scope: string };
+  pageAssetId?: string;
   authorityEditorViewport?: 'MOBILE' | 'DESKTOP';
   reviewTwinRoute?: string;
 };

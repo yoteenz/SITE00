@@ -9,6 +9,7 @@ import {
 import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
 import {
   transitionConfirmComposerHandoff,
+  transitionMarkTwinPageReviewed,
   transitionOpenPairReview,
   transitionPromoteViewportMaster,
   transitionSelectGalleryCandidate,
@@ -72,10 +73,14 @@ export type TwinOpusDirectProductionActions = {
   openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
   openComposerHandoff: () => void;
   confirmComposerHandoff: () => void;
+  markTwinPageReviewed: () => void;
   openFullscreenArtifact: (artifact: DesignWorkspaceArtifactView) => void;
   openInspectCandidate: (candidateId: string) => void;
   openCompareConcepts: (leftId: string, rightId: string) => void;
   openStructuredArtifact: (columnId: string) => void;
+  openPageBatchEdit: (input: { sourcePageId: string; pageIds: string[]; scope: string }) => void;
+  openPageAssetInspect: (assetId: string) => void;
+  openPageInteractionsInspector: () => void;
   openAmendmentDetail: () => void;
   selectGalleryCandidate: (candidateId: string) => void;
   selectViewportCandidate: (viewport: 'MOBILE' | 'DESKTOP', candidateId: string, candidateVersion: string) => void;
@@ -271,6 +276,13 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setOverlay('OV-VIEWPORT-AUTHORITY-EDITOR');
       },
       openComposerHandoff: () => setOverlay('OV-COMPOSER-HANDOFF'),
+      markTwinPageReviewed: () => {
+        try {
+          applyLocalState(transitionMarkTwinPageReviewed(stateRef.current, resolveActor()));
+        } catch (err) {
+          setProductionError(err instanceof Error ? err.message : String(err));
+        }
+      },
       confirmComposerHandoff: () => {
         const pageId = readDesignPageTarget(projectId)?.pageId ?? `${projectId}:overview`;
         const wf = loadPageAuthorityWorkflow(projectId, pageId);
@@ -311,6 +323,18 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       openStructuredArtifact: (columnId) => {
         setUiPayload({ structuredColumnId: columnId });
         setOverlay('OV-STRUCTURED-ARTIFACT');
+      },
+      openPageBatchEdit: (input) => {
+        setUiPayload({ pageBatchEdit: input });
+        setOverlay('OV-PAGE-BATCH-EDIT');
+      },
+      openPageAssetInspect: (assetId) => {
+        setUiPayload({ pageAssetId: assetId });
+        setOverlay('OV-PAGE-ASSET-INSPECT');
+      },
+      openPageInteractionsInspector: () => {
+        setUiPayload({});
+        setOverlay('OV-PAGE-INTERACTIONS');
       },
       openAmendmentDetail: () => setOverlay('OV-AMENDMENT-DETAIL'),
       clearUiPayload: () => setUiPayload({}),
