@@ -35,6 +35,7 @@ import {
 } from './twinOpusDirectWorkspace';
 import { TwinOpusDirectCanonicalBody, TwinOpusDirectCanonicalRecord } from './TwinOpusDirectCanonicalView';
 import { TwinOpusDirectListBody, TwinOpusDirectListRecord } from './TwinOpusDirectListView';
+import DesignGrokDock from '../designAgent/DesignGrokDock';
 import { DesignGrokEligibilityProvider } from './DesignGrokEligibilityProvider';
 import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import { TwinOpusDirectViewModeControl } from './TwinOpusDirectViewModeControl';
@@ -370,6 +371,7 @@ export function TwinOpusDirectScreen({
         </div>
       </div>
       <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />
+      <DesignGrokDock projectSlug={projectSlug} />
     </div>
     </DesignGrokEligibilityProvider>
   );
