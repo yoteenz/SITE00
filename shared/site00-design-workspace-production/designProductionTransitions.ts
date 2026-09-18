@@ -66,9 +66,16 @@ export function transitionSubmitAuthorityReview(
   return next;
 }
 
+function viewportReadyForAuthorityLock(authority: DesignProductionState['mobileAuthority']): boolean {
+  return authority === 'PROMOTED' || authority === 'APPROVED';
+}
+
 export function transitionLockAuthorityPair(state: DesignProductionState, actor: FounderActor): DesignProductionState {
   requireFounder(actor, 'LOCK_AUTHORITY_PAIR');
-  if (state.mobileAuthority !== 'PROMOTED' || state.desktopAuthority !== 'PROMOTED') {
+  if (
+    !viewportReadyForAuthorityLock(state.mobileAuthority) ||
+    !viewportReadyForAuthorityLock(state.desktopAuthority)
+  ) {
     throw new Error('PROMOTED_PAIR_REQUIRED');
   }
   if (!state.pairReviewOpenedAt) {

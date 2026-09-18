@@ -10116,6 +10116,16 @@ Full `npm test` on GitHub Actions failed on four files whose string assertions s
 
 ---
 
+## 2026-09-18 — CI fix DESIGN-PRODUCTION1R1 (BOTH_VIEWPORTS_MUST_BE_PROMOTED)
+
+GitHub Actions failed `tests/p0vrDesignProduction1R1.test.ts` (4 tests) after AUTHORITY-WORKFLOW2 tightened `transitionOpenPairReview` to require both viewports **PROMOTED** before `START_PAIR_REVIEW`.
+
+- **Tests:** added `promoteBothViewports()` helper (SELECT + PROMOTE mobile/desktop) before pair review in R1 multi-session tests.
+- **Product:** `transitionLockAuthorityPair` accepts **APPROVED** or **PROMOTED** viewports so `APPROVE_AUTHORITY` → `LOCK_AUTHORITY_PAIR` server path matches UI/tests.
+- **Branch:** `cursor/ci-design-production1r1-fix-2da5`. Railway redeploy recommended for API lock path; no cPanel ZIP unless UI changed.
+
+---
+
 ## 2026-09-17 — DESIGN bare `/design` index route boot fix
 
 Founder: cloud tunnel URLs for `/projects/ndxbook/design` and `/design/twin-opus-direct` showed blank page (React mounted, `#root` empty).
