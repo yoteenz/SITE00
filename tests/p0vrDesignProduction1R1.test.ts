@@ -19,6 +19,42 @@ const read = (relative: string) => readFileSync(resolve(root, relative), 'utf8')
 const founder = { actorEmail: 'kateenaarmstrong@gmail.com', actorIsFounder: true };
 const guest = { actorEmail: 'guest@example.com', actorIsFounder: false };
 
+const PAGE_ID = 'design-twin-opus-direct';
+
+/** AUTHORITY-WORKFLOW2: both viewports must be promoted before START_PAIR_REVIEW. */
+async function promoteBothViewports(
+  projectId: string,
+  expectedSessionVersion: number | null,
+): Promise<number> {
+  let version = expectedSessionVersion;
+  const base = { projectId, pageId: PAGE_ID, ...founder };
+
+  for (const [viewport, candidateId, candidateVersion] of [
+    ['MOBILE', 'concept-a', 'A'],
+    ['DESKTOP', 'concept-c', 'C'],
+  ] as const) {
+    const selected = await applyDesignWorkspaceProductionCommand({
+      ...base,
+      command: 'SELECT_VIEWPORT_CANDIDATE',
+      expectedSessionVersion: version,
+      payload: { viewport, candidateId, candidateVersion },
+    });
+    version = selected.session.sessionVersion;
+  }
+
+  for (const viewport of ['MOBILE', 'DESKTOP'] as const) {
+    const promoted = await applyDesignWorkspaceProductionCommand({
+      ...base,
+      command: 'PROMOTE_VIEWPORT_MASTER',
+      expectedSessionVersion: version,
+      payload: { viewport },
+    });
+    version = promoted.session.sessionVersion;
+  }
+
+  return version;
+}
+
 describe('DESIGN-PRODUCTION1R1 — schema + wiring', () => {
   it('documents persistence audit', () => {
     const audit = read('docs/design-workspace/DESIGN-PRODUCTION1R1-PERSISTENCE-AUDIT.md');
@@ -46,11 +82,12 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
   });
 
   it('syncs lock state across sessions', async () => {
+    const promotedVersion = await promoteBothViewports('ndxbook', null);
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'START_PAIR_REVIEW',
-      expectedSessionVersion: null,
+      expectedSessionVersion: promotedVersion,
       ...founder,
     });
     let session = await getDesignWorkspaceProductionSession('ndxbook');
@@ -58,7 +95,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
 
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'APPROVE_AUTHORITY',
       expectedSessionVersion: v1,
       payload: { decision: 'APPROVE' },
@@ -69,7 +106,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
 
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'LOCK_AUTHORITY_PAIR',
       expectedSessionVersion: v2,
       ...founder,
@@ -82,18 +119,19 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
   });
 
   it('rejects stale writes', async () => {
+    const promotedVersion = await promoteBothViewports('ndxbook', null);
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'START_PAIR_REVIEW',
-      expectedSessionVersion: null,
+      expectedSessionVersion: promotedVersion,
       ...founder,
     });
     let session = await getDesignWorkspaceProductionSession('ndxbook');
     const staleVersion = session!.sessionVersion;
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'APPROVE_AUTHORITY',
       expectedSessionVersion: session!.sessionVersion,
       payload: { decision: 'APPROVE' },
@@ -102,7 +140,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
     await expect(
       applyDesignWorkspaceProductionCommand({
         projectId: 'ndxbook',
-        pageId: 'design-twin-opus-direct',
+        pageId: PAGE_ID,
         command: 'LOCK_AUTHORITY_PAIR',
         expectedSessionVersion: staleVersion,
         ...founder,
@@ -111,17 +149,18 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
   });
 
   it('enforces founder-only lock server-side', async () => {
+    const promotedVersion = await promoteBothViewports('ndxbook', null);
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'START_PAIR_REVIEW',
-      expectedSessionVersion: null,
+      expectedSessionVersion: promotedVersion,
       ...founder,
     });
     const session = await getDesignWorkspaceProductionSession('ndxbook');
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'APPROVE_AUTHORITY',
       expectedSessionVersion: session!.sessionVersion,
       payload: { decision: 'APPROVE' },
@@ -131,7 +170,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
     await expect(
       applyDesignWorkspaceProductionCommand({
         projectId: 'ndxbook',
-        pageId: 'design-twin-opus-direct',
+        pageId: PAGE_ID,
         command: 'LOCK_AUTHORITY_PAIR',
         expectedSessionVersion: session2!.sessionVersion,
         ...guest,
@@ -144,7 +183,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
     if (!session) {
       await applyDesignWorkspaceProductionCommand({
         projectId: 'ndxbook',
-        pageId: 'design-twin-opus-direct',
+        pageId: PAGE_ID,
         command: 'MIGRATE_FROM_LOCAL',
         expectedSessionVersion: null,
         payload: { localState: createInitialDesignProductionState('ndxbook') },
@@ -152,10 +191,10 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
       });
     }
     session = await getDesignWorkspaceProductionSession('ndxbook');
-    let v = session!.sessionVersion;
+    let v = await promoteBothViewports('ndxbook', session!.sessionVersion);
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'START_PAIR_REVIEW',
       expectedSessionVersion: v,
       ...founder,
@@ -164,7 +203,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
     v = session!.sessionVersion;
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'APPROVE_AUTHORITY',
       expectedSessionVersion: v,
       payload: { decision: 'APPROVE' },
@@ -174,7 +213,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
     v = session!.sessionVersion;
     await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'LOCK_AUTHORITY_PAIR',
       expectedSessionVersion: v,
       ...founder,
@@ -183,7 +222,7 @@ describe('DESIGN-PRODUCTION1R1 — multi-session memory store', () => {
     v = session!.sessionVersion;
     const moved = await applyDesignWorkspaceProductionCommand({
       projectId: 'ndxbook',
-      pageId: 'design-twin-opus-direct',
+      pageId: PAGE_ID,
       command: 'MOVE_TO_BUILD',
       expectedSessionVersion: v,
       ...founder,
