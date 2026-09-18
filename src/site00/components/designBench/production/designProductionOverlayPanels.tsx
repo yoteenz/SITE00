@@ -10,8 +10,13 @@ import { resolveDesignPageTargetForShell } from './designProductionPageTarget';
 import type { AuthorityReviewDecision } from '../../../../../shared/site00-design-workspace-production/types.js';
 import {
   TWIN_OPUS_DIRECT_AMENDMENT,
-  TWIN_OPUS_DIRECT_OUTPUT_COLUMNS,
+  LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS,
 } from '../opusDirect/twinOpusDirectContent';
+import {
+  buildPageSystemReviewModel,
+  PAGE_SYSTEM_REVIEW_TITLE,
+} from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
+import { listApprovedGrokAssets, listStagedGrokAssets } from '../../../../../shared/site00-design-workspace-production/designGrokAssetModel.js';
 import { twinOpusDirectCandidateArtifactView, twinOpusDirectCandidateById } from '../opusDirect/twinOpusDirectCandidateArtifacts';
 import type { TwinOpusDirectProduction } from '../opusDirect/useTwinOpusDirectProduction';
 import { resolveTwinOpusDirectAsset } from '../opusDirect/twinOpusDirectAssetManifest';
@@ -496,7 +501,8 @@ export function ReviewAuthorityPanel({ production }: { production: TwinOpusDirec
 }
 
 export function StructuredArtifactPanel({ columnId }: { columnId: string }) {
-  const column = TWIN_OPUS_DIRECT_OUTPUT_COLUMNS.find((c) => c.id === columnId) ?? TWIN_OPUS_DIRECT_OUTPUT_COLUMNS[0];
+  const column =
+    LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS.find((c) => c.id === columnId) ?? LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS[0];
   const slot =
     column.preview === 'manifest' ? 'grounding'
     : column.preview === 'blueprint' ? 'blueprint'
@@ -610,6 +616,122 @@ export function SpendConfirmPanel({
           CONFIRM
         </button>
       </div>
+    </>
+  );
+}
+
+export function PageBatchEditConfirmPanel({
+  projectSlug,
+  batch,
+  onCancel,
+  onApply,
+}: {
+  projectSlug: string;
+  batch: { sourcePageId: string; pageIds: string[]; scope: string };
+  onCancel: () => void;
+  onApply: () => void;
+}) {
+  const source = getDesignBoundPage(projectSlug, batch.sourcePageId);
+  const targets = batch.pageIds
+    .map((id) => getDesignBoundPage(projectSlug, id))
+    .filter(Boolean);
+  return (
+    <>
+      <p className="tod-dcs-lead">Composer implements batch changes — no automatic mutation.</p>
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>SOURCE PAGE</dt>
+          <dd>{source?.pageName ?? batch.sourcePageId}</dd>
+        </div>
+        <div>
+          <dt>CHANGE TYPE</dt>
+          <dd>{batch.scope}</dd>
+        </div>
+        <div>
+          <dt>SELECTED DESCENDANTS</dt>
+          <dd>{targets.map((t) => t!.pageName).join(' · ') || '—'}</dd>
+        </div>
+        <div>
+          <dt>OVERRIDES AT RISK</dt>
+          <dd>
+            {targets.some((t) => t!.designStatus === 'AMENDMENT_REQUIRED') ?
+              'Review pages with overrides before apply'
+            : 'None flagged'}
+          </dd>
+        </div>
+      </dl>
+      <div className="tod-dcs-modalActions">
+        <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
+          CANCEL
+        </button>
+        <button type="button" className="tod-dcs__primary" onClick={onApply}>
+          APPLY TO SELECTED
+        </button>
+      </div>
+    </>
+  );
+}
+
+export function PageAssetInspectPanel({
+  projectSlug,
+  pageId,
+  assetId,
+}: {
+  projectSlug: string;
+  pageId: string;
+  assetId: string;
+}) {
+  const assets = [...listApprovedGrokAssets(projectSlug, pageId), ...listStagedGrokAssets(projectSlug, pageId)];
+  const asset = assets.find((a) => a.assetId === assetId);
+  if (!asset) return <p className="tod-dcs-lead">Asset not found in active page manifest.</p>;
+  return (
+    <>
+      <p className="tod-dcs-lead">
+        {asset.slot} · {asset.origin} · {asset.status}
+      </p>
+      <img src={asset.previewDataUrl} alt="" className="tod-dcs-compare__img" />
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>VERSION</dt>
+          <dd>{asset.createdAt}</dd>
+        </div>
+        <div>
+          <dt>USAGE</dt>
+          <dd>Active twin / live page slot</dd>
+        </div>
+        <div>
+          <dt>GROK LINEAGE</dt>
+          <dd>{asset.runId ? `Run ${asset.runId}` : '—'}</dd>
+        </div>
+      </dl>
+    </>
+  );
+}
+
+export function PageInteractionsInspectorPanel({ projectSlug, pageId }: { projectSlug: string; pageId: string }) {
+  const model = buildPageSystemReviewModel(projectSlug, pageId, 'MOBILE');
+  return (
+    <>
+      <p className="tod-dcs-lead">
+        {PAGE_SYSTEM_REVIEW_TITLE} · {model.activePageName}
+      </p>
+      <p className="tod-dcs-lead">
+        COVERAGE {model.interactionSummary.covered}/{model.interactionSummary.total}
+        {model.interactionSummary.unmapped > 0 ? ` · ${model.interactionSummary.unmapped} UNMAPPED` : ''}
+      </p>
+      <ul className="tod-dcs-gates">
+        {model.interactions.map((row) => (
+          <li key={row.id} className="tod-dcs-gate">
+            <strong className="tod-dcs-gate__name">{row.label}</strong>
+            <span>
+              {row.category} · {row.action} · {row.inheritance} · {row.status}
+            </span>
+            {row.destination ?
+              <span> → {row.destination}</span>
+            : null}
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

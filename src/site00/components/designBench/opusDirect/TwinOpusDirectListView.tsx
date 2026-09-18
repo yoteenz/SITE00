@@ -16,13 +16,10 @@ import {
   twinOpusDirectAssetEntry,
   type TwinOpusDirectAssetSlotId,
 } from './twinOpusDirectAssetManifest';
-import {
-  type TwinOpusDirectCandidateSurface,
-  type TwinOpusDirectOutputColumn,
-  type TwinOpusDirectViewportId,
-} from './twinOpusDirectContent';
+import { type TwinOpusDirectCandidateSurface, type TwinOpusDirectViewportId } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
+import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
@@ -32,8 +29,6 @@ import {
   TodIconCompare,
   TodIconCycle,
   TodIconDesktop,
-  TodIconDoc,
-  TodIconDocGear,
   TodIconExpand,
   TodIconInspect,
   TodIconLock,
@@ -183,65 +178,6 @@ function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurfa
   );
 }
 
-function LvOutputPreview({ column }: { column: TwinOpusDirectOutputColumn }) {
-  if (column.preview === 'manifest') {
-    return (
-      <div className="tod-lv-out__preview tod-lv-out__preview--manifest" aria-hidden="true">
-        <LvSlotImage slot="grounding" className="tod-lv-out__photo" />
-        <span className="tod-lv-out__manifestTitle">index_signal:page_001_indexed</span>
-        <span className="tod-lv-out__manifestRule" />
-        <span className="tod-lv-out__manifestRule" />
-        <span className="tod-lv-out__manifestRule" />
-        <span className="tod-lv-out__manifestGrid">
-          {Array.from({ length: 12 }).map((_, index) => (
-            <i key={index} />
-          ))}
-        </span>
-        <span className="tod-lv-out__manifestStamp">01204</span>
-      </div>
-    );
-  }
-  if (column.preview === 'blueprint') {
-    return (
-      <div className="tod-lv-out__preview tod-lv-out__preview--blueprint" aria-hidden="true">
-        <LvSlotImage slot="blueprint" className="tod-lv-out__photo" />
-        <span className="tod-lv-out__blueGrid" />
-        <span className="tod-lv-out__blueCross" />
-      </div>
-    );
-  }
-  if (column.preview === 'overlay') {
-    return (
-      <div className="tod-lv-out__preview tod-lv-out__preview--overlay" aria-hidden="true">
-        <LvSlotImage slot="overlay" className="tod-lv-out__photo" />
-        <span className="tod-lv-out__overlayPaper" />
-        <span className="tod-lv-out__overlayNote">CULTURE AS EVIDENCE.</span>
-        <span className="tod-lv-out__overlayInk">001</span>
-        <span className="tod-lv-out__overlayMark" />
-      </div>
-    );
-  }
-  if (column.preview === 'evidence') {
-    return (
-      <div className="tod-lv-out__preview tod-lv-out__preview--evidence" aria-hidden="true">
-        <LvSlotImage slot="assetPack" className="tod-lv-out__photo tod-lv-out__photo--evidence" />
-        {Array.from({ length: 9 }).map((_, index) => (
-          <span
-            key={index}
-            className={`tod-lv-out__evidenceTile tod-lv-out__evidenceTile--${index + 1}`}
-          />
-        ))}
-      </div>
-    );
-  }
-  return (
-    <ul className="tod-lv-out__preview tod-lv-out__preview--functions">
-      {(column.functions ?? []).map((fn) => (
-        <li key={fn}>{fn}</li>
-      ))}
-    </ul>
-  );
-}
 /** LIST body: the transplanted Spark digest, bound to shared state. */
 export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
   const { data, state, actions, readinessDash, production } = workspace;
@@ -506,32 +442,13 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             </div>
           </section>
 
-          {/* 09 STRUCTURED_OUTPUT_REVIEW */}
-          <section className="tod-lv-out" aria-label={data.outputTitle}>
-            <header className="tod-lv-out__head">
-              <h2 className="tod-lv-out__title">{data.outputTitle}</h2>
-            </header>
-            <div className="tod-lv-out__cols">
-              {data.outputColumns.map((column) => (
-                <div key={column.id} className="tod-lv-out__col">
-                  <span className="tod-lv-out__label">{column.label}</span>
-                  <span className="tod-lv-out__lines">
-                    <span>{column.lines[0]}</span>
-                    <span>{column.lines[1]}</span>
-                  </span>
-                  <LvOutputPreview column={column} />
-                  <button type="button" className="tod-lv-out__source" onClick={() => actions.openProvenance()}>
-                    <span className="tod-lv-out__sourceText">{column.source}</span>
-                    {column.preview === 'functions' ? (
-                      <TodIconDocGear className="tod-ico tod-lv-out__sourceIco" />
-                    ) : (
-                      <TodIconDoc className="tod-ico tod-lv-out__sourceIco" />
-                    )}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </section>
+          {/* 09 PAGE_SYSTEM_REVIEW */}
+          <DesignPageSystemReviewSection
+            projectSlug={workspace.projectSlug}
+            model={data.pageSystemReview}
+            viewportNote={data.outputViewportNote}
+            actions={actions}
+          />
 
           {/* 10 PIPELINE_READINESS */}
           <section className="tod-lv-pipe" aria-label={data.pipelineTitle}>

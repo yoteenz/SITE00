@@ -118,7 +118,8 @@ export type TwinOpusDirectOutputColumn = {
   readonly functions?: readonly string[];
 };
 
-export const TWIN_OPUS_DIRECT_OUTPUT_COLUMNS: readonly TwinOpusDirectOutputColumn[] = [
+/** @deprecated LEGACY_RECONSTRUCTION_ARTIFACT — not shown in primary PAGE SYSTEM REVIEW workflow. */
+export const LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS: readonly TwinOpusDirectOutputColumn[] = [
   {
     id: 'grounding',
     label: 'GROUNDING',
@@ -163,6 +164,17 @@ export const TWIN_OPUS_DIRECT_OUTPUT_COLUMNS: readonly TwinOpusDirectOutputColum
     ],
   },
 ];
+
+/** @deprecated alias for legacy tests — use PAGE SYSTEM REVIEW panels in workspace. */
+export const TWIN_OPUS_DIRECT_OUTPUT_COLUMNS = LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS;
+
+export const TWIN_OPUS_DIRECT_PAGE_SYSTEM_PANELS = [
+  { id: 'children', label: 'CHILDREN' },
+  { id: 'grandchildren', label: 'GRANDCHILDREN' },
+  { id: 'batch', label: 'BATCH / INHERITANCE' },
+  { id: 'assets', label: 'ASSETS' },
+  { id: 'interactions', label: 'INTERACTIONS' },
+] as const;
 
 export const TWIN_OPUS_DIRECT_CHECKS = [
   { id: 'layout', label: 'LAYOUT SYSTEM', state: 'pass' as const },
@@ -263,7 +275,7 @@ export const TWIN_OPUS_DIRECT_GALLERY = {
   compare: 'COMPARE CONCEPTS',
 } as const;
 
-export const TWIN_OPUS_DIRECT_OUTPUT_TITLE = 'STRUCTURED OUTPUT REVIEW';
+export const TWIN_OPUS_DIRECT_OUTPUT_TITLE = 'PAGE SYSTEM REVIEW';
 export const TWIN_OPUS_DIRECT_PIPELINE_TITLE = 'PIPELINE / READINESS';
 
 /**

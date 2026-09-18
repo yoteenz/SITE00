@@ -15,6 +15,9 @@ import {
   ReviewTwinPagePanel,
   SpendConfirmPanel,
   StructuredArtifactPanel,
+  PageAssetInspectPanel,
+  PageBatchEditConfirmPanel,
+  PageInteractionsInspectorPanel,
 } from '../production/designProductionOverlayPanels';
 import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNavPanel';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
@@ -270,11 +273,56 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
         {overlay === 'OV-STRUCTURED-ARTIFACT' && production.uiPayload.structuredColumnId ?
           <DesignChildSurfaceFrame
             mode="DRAWER"
-            title="STRUCTURED ARTIFACT"
+            title="LEGACY RECONSTRUCTION ARTIFACT"
             overlayId="OV-STRUCTURED-ARTIFACT"
             onClose={close}
           >
             <StructuredArtifactPanel columnId={production.uiPayload.structuredColumnId} />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PAGE-BATCH-EDIT' && production.uiPayload.pageBatchEdit ?
+          <DesignChildSurfaceFrame
+            mode="DRAWER"
+            title="BATCH EDIT SELECTED"
+            overlayId="OV-PAGE-BATCH-EDIT"
+            onClose={close}
+          >
+            <PageBatchEditConfirmPanel
+              projectSlug={slug}
+              batch={production.uiPayload.pageBatchEdit}
+              onCancel={close}
+              onApply={close}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PAGE-ASSET-INSPECT' && production.uiPayload.pageAssetId ?
+          <DesignChildSurfaceFrame
+            mode="DRAWER"
+            title="PAGE ASSET"
+            overlayId="OV-PAGE-ASSET-INSPECT"
+            onClose={close}
+          >
+            <PageAssetInspectPanel
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+              assetId={production.uiPayload.pageAssetId}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PAGE-INTERACTIONS' ?
+          <DesignChildSurfaceFrame
+            mode="DRAWER"
+            title="INTERACTION INSPECTOR"
+            overlayId="OV-PAGE-INTERACTIONS"
+            onClose={close}
+          >
+            <PageInteractionsInspectorPanel
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+            />
           </DesignChildSurfaceFrame>
         : null}
 
