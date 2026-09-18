@@ -7,11 +7,6 @@ import { Outlet, useParams } from 'react-router-dom';
 
 import { DesignTwinReviewBanner } from '../components/designBench/production/DesignTwinReviewBanner';
 import { DesignWorkspaceCore } from '../components/designBench/production/DesignWorkspaceCore';
-import '../styles/site00-twin-opus-direct.css';
-import '../styles/site00-twin-opus-list.css';
-import '../styles/site00-design-production-child.css';
-import '../styles/site00-design-child-surface.css';
-
 function DesignTwinBodyEffects() {
   useEffect(() => {
     const { body, documentElement } = document;

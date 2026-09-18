@@ -30,6 +30,7 @@ const readRepo = (relative: string) => readFileSync(path.join(repoRoot, relative
 const css = readRepo('src/site00/styles/site00-twin-opus-direct.css');
 const screen = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectScreen.tsx');
 const page = readRepo('src/site00/pages/DesignTwinOpusDirectPage.tsx');
+const workspaceCore = readRepo('src/site00/components/designBench/production/DesignWorkspaceCore.tsx');
 const routeTable = readRepo('src/routes/Site00Routes.tsx');
 
 /** Golden geometry measured off the 608x1088 master, expressed at the 768x1376 artboard. */
@@ -459,12 +460,12 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
     expect(screen).toContain('list: { body: TwinOpusDirectListBody, record: TwinOpusDirectListRecord }');
     expect(routeTable).not.toContain('twin-opus-direct/list');
     expect(listView).not.toContain('/list');
-    expect(page).toContain('site00-twin-opus-list.css');
+    expect(workspaceCore).toContain('site00-twin-opus-list.css');
   });
 
   it('scales source values x1.969 so LIST matches the source at 390', () => {
     // Hero headline clamp(52px, 15.5vw, 76px) x 768/390, mobile card 210px wide.
-    expect(listCss).toContain('clamp(102.4px, 30.5vw, 149.7px)');
+    expect(listCss).toContain('clamp(104.4px, 30.5vw, 151.7px)');
     expect(listCss).toContain('flex: 0 0 413.5px');
     expect(listCss).toContain('.tod-screen[data-view-mode="list"] .tod-band');
   });
@@ -550,7 +551,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 — visible dedicated view row', ()
     expect(screen).toContain('return scale < 1 ? 1 / scale : 1;');
     expect(screen).toContain("['--tod-viewrow-boost' as string]: viewRowBoost(shell.scale)");
     expect(screen).not.toContain('VIEW_MODE_MAX_BOOST');
-    for (const prop of ['height: calc(32px * var(--tod-viewrow-boost, 1))', 'font-size: calc(9.6px * var(--tod-viewrow-boost, 1))']) {
+    for (const prop of ['height: calc(32px * var(--tod-viewrow-boost, 1))', 'font-size: calc(11.6px * var(--tod-viewrow-boost, 1))']) {
       expect(css).toContain(prop);
     }
   });
