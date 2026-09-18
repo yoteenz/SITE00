@@ -15,7 +15,6 @@ import {
   TWIN_OPUS_DIRECT_BOTTOM_NAV,
   TWIN_OPUS_DIRECT_CANDIDATES,
   TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
-  TWIN_OPUS_DIRECT_CHECKS,
   TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
   TWIN_OPUS_DIRECT_CONCEPT_TABS,
   TWIN_OPUS_DIRECT_CONTEXT,
@@ -26,13 +25,17 @@ import {
   TWIN_OPUS_DIRECT_PIPELINE_TITLE,
   TWIN_OPUS_DIRECT_PRIMARY_NAV,
   TWIN_OPUS_DIRECT_RAIL_ACTIONS,
-  TWIN_OPUS_DIRECT_READINESS_SHELL,
   TWIN_OPUS_DIRECT_SELECT_ACTIONS,
   TWIN_OPUS_DIRECT_STAGE,
   TWIN_OPUS_DIRECT_TARGET,
   TWIN_OPUS_DIRECT_VIEWPORTS,
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
+import {
+  buildPagePipelineControllerModel,
+  type PagePipelineControllerModel,
+  type PipelineResolutionHandler,
+} from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import {
   buildPageSystemReviewModel,
   type PageSystemReviewModel,
@@ -127,24 +130,7 @@ export interface TwinOpusDirectWorkspaceData {
   outputTitle: typeof TWIN_OPUS_DIRECT_OUTPUT_TITLE;
   pageSystemReview: PageSystemReviewModel;
   pipelineTitle: typeof TWIN_OPUS_DIRECT_PIPELINE_TITLE;
-  readiness: {
-    label: string;
-    percent: number;
-    state: string;
-    compiler: string;
-    compilerState: string;
-    checksLabel: string;
-    statusLabel: string;
-    viewDetails: string;
-  };
-  checks: readonly { id: string; label: string; state: 'pass' | 'fail' | 'pending' | 'warn' }[];
-  statusRows: readonly { id: string; label: string; value: string }[];
-  nextAction: {
-    label: string;
-    lines: readonly string[];
-    primary: string;
-    secondary: readonly string[];
-  };
+  pagePipeline: PagePipelineControllerModel;
   conceptTabs: typeof TWIN_OPUS_DIRECT_CONCEPT_TABS;
   conceptFields: typeof TWIN_OPUS_DIRECT_CONCEPT_FIELDS;
   amendment: typeof TWIN_OPUS_DIRECT_AMENDMENT;
@@ -195,6 +181,11 @@ export interface TwinOpusDirectWorkspaceActions {
   onCandidateAction: (actionId: string) => void;
   openProvenance: () => void;
   openReadinessReceipt: () => void;
+  openViewReadiness: () => void;
+  openViewPipeline: () => void;
+  openTechnicalDetails: () => void;
+  openPipelineStage: (stageId: string) => void;
+  runPipelineHandler: (handler: PipelineResolutionHandler) => void;
   selectForMobile: () => void;
   selectForDesktop: () => void;
   openCompareConcepts: () => void;
@@ -471,6 +462,72 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       },
       openProvenance: prodActions.openProvenance,
       openReadinessReceipt: prodActions.openReadinessReceipt,
+      openViewReadiness: prodActions.openViewReadiness,
+      openViewPipeline: prodActions.openViewPipeline,
+      openTechnicalDetails: prodActions.openTechnicalDetails,
+      openPipelineStage: (stageId) => prodActions.openPipelineStage(stageId),
+      runPipelineHandler: (handler) => {
+        switch (handler) {
+          case 'openReadinessReceipt':
+          case 'openViewReadiness':
+            prodActions.openViewReadiness();
+            break;
+          case 'openViewPipeline':
+            prodActions.openViewPipeline();
+            break;
+          case 'openTechnicalDetails':
+            prodActions.openTechnicalDetails();
+            break;
+          case 'openPipelineStage':
+            if (pagePipeline.primaryBlocker) {
+              prodActions.openPipelineStage(pagePipeline.primaryBlocker.stageId);
+            } else {
+              prodActions.openViewPipeline();
+            }
+            break;
+          case 'runPairReview':
+            prodActions.runPairReview();
+            break;
+          case 'runLockAuthorityPair':
+            prodActions.runLockAuthorityPair();
+            break;
+          case 'openReviewTwin':
+            prodActions.setOverlay('OV-REVIEW-TWIN-PAGE');
+            break;
+          case 'openComposerHandoff':
+            prodActions.openComposerHandoff();
+            break;
+          case 'selectForMobile':
+            selectForViewport('MOBILE');
+            break;
+          case 'selectForDesktop':
+            selectForViewport('DESKTOP');
+            break;
+          case 'promoteMobile':
+            prodActions.promoteViewportMaster('MOBILE');
+            break;
+          case 'promoteDesktop':
+            prodActions.promoteViewportMaster('DESKTOP');
+            break;
+          case 'openViewportAuthorityEditorMobile':
+            prodActions.openViewportAuthorityEditor('MOBILE');
+            break;
+          case 'openViewportAuthorityEditorDesktop':
+            prodActions.openViewportAuthorityEditor('DESKTOP');
+            break;
+          case 'captureScreen':
+            void pageCapture.captureScreen();
+            break;
+          case 'openGrokDock':
+            (document.querySelector('[data-interaction-id="view-row-grok"]') as HTMLButtonElement | null)?.click();
+            break;
+          case 'scrollGallery':
+            document.querySelector('.tod-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            break;
+          default:
+            break;
+        }
+      },
     }),
     [
       actor,
@@ -500,6 +557,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const pageViewportBundle = useMemo(
     () => resolvePageViewportBundle(projectSlug, pageTarget.pageId),
     [pageTarget.pageId, projectSlug],
+  );
+
+  const pagePipeline = useMemo(
+    () =>
+      buildPagePipelineControllerModel({
+        projectId: projectSlug,
+        pageId: pageTarget.pageId,
+        production: prodState,
+        twinRouteReachable: pageAuthority.workflow.twinRouteVerifiedAt ? true : null,
+      }),
+    [pageAuthority.workflow.twinRouteVerifiedAt, pageTarget.pageId, prodState, projectSlug],
   );
 
   const pageAwareProjection = useMemo(() => {
@@ -533,12 +601,12 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
 
   const readinessDash = useMemo(() => {
     const circumference = 2 * Math.PI * 30;
-    const pct = pageAwareProjection.percent;
+    const pct = pagePipeline.readinessPercent;
     return {
       circumference,
       offset: circumference * (1 - pct / 100),
     };
-  }, [pageAwareProjection.percent]);
+  }, [pagePipeline.readinessPercent]);
 
   const data = useMemo<TwinOpusDirectWorkspaceData>(() => {
     const slug = (projectSlug || 'ndxbook').trim().toLowerCase();
@@ -696,27 +764,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
       pageSystemReview: buildPageSystemReviewModel(projectSlug, pageTarget.pageId, viewport),
       pipelineTitle: TWIN_OPUS_DIRECT_PIPELINE_TITLE,
-      readiness: {
-        ...TWIN_OPUS_DIRECT_READINESS_SHELL,
-        percent: pageAwareProjection.percent,
-        state: pageAwareProjection.state,
-        compilerState: pageAwareProjection.compilerState,
-      },
-      checks: pageAwareProjection.checks.length > 0 ? pageAwareProjection.checks : TWIN_OPUS_DIRECT_CHECKS,
-      statusRows: pageAwareProjection.statusRows,
+      pagePipeline,
       outputViewportNote:
         viewport === 'MOBILE' ? null : (
           `Page system review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
         ),
-      nextAction: (() => {
-        const next = computeContextualNextAction(prodState, actor);
-        return {
-          label: next.label,
-          lines: next.lines,
-          primary: next.lines[0] ?? 'NEXT ACTION',
-          secondary: ['VIEW TECHNICAL DETAILS'],
-        };
-      })(),
       conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
@@ -734,7 +786,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   }, [
     actor,
     candidateId,
-    pageAwareProjection,
+    pagePipeline,
     pageCapture.capturing,
     pageCapture.latest,
     pageTarget,

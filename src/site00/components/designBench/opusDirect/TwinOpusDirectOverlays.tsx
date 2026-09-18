@@ -18,8 +18,12 @@ import {
   PageAssetInspectPanel,
   PageBatchEditConfirmPanel,
   PageInteractionsInspectorPanel,
+  PagePipelineTimelinePanel,
+  PipelineStageDetailPanel,
+  PipelineTechnicalDetailsPanel,
 } from '../production/designProductionOverlayPanels';
 import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNavPanel';
+import type { PagePipelineStageId } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import { DesignViewportAuthorityEditorOverlay } from './DesignViewportAuthorityEditorOverlay';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
@@ -58,7 +62,7 @@ function ProductionErrorToast({
 }
 
 export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
-  const { overlay, actions, projection, pendingSpend, productionError } = production;
+  const { overlay, actions, pendingSpend, productionError } = production;
   const toast =
     productionError ?
       <ProductionErrorToast
@@ -107,11 +111,61 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
           <DesignChildSurfaceFrame
             mode={placementMode('OV-READINESS-RECEIPT')}
             title="READINESS RECEIPT"
-            subtitle={`${projection.receipt.passedGates} / ${projection.receipt.applicableGates} gates`}
+            subtitle="Page workflow gate audit"
             overlayId="OV-READINESS-RECEIPT"
             onClose={close}
           >
-            <ReadinessReceiptPanel production={production} />
+            <ReadinessReceiptPanel
+              production={production}
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PAGE-PIPELINE' ?
+          <DesignChildSurfaceFrame
+            mode={placementMode('OV-PAGE-PIPELINE')}
+            title="PAGE PIPELINE"
+            overlayId="OV-PAGE-PIPELINE"
+            onClose={close}
+          >
+            <PagePipelineTimelinePanel
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+              production={production}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PIPELINE-TECHNICAL' ?
+          <DesignChildSurfaceFrame
+            mode={placementMode('OV-PIPELINE-TECHNICAL')}
+            title="TECHNICAL DETAILS"
+            overlayId="OV-PIPELINE-TECHNICAL"
+            onClose={close}
+          >
+            <PipelineTechnicalDetailsPanel
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+              production={production}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PIPELINE-STAGE' && production.uiPayload.pipelineStageId ?
+          <DesignChildSurfaceFrame
+            mode={placementMode('OV-PIPELINE-STAGE')}
+            title="PIPELINE STAGE"
+            overlayId="OV-PIPELINE-STAGE"
+            onClose={close}
+          >
+            <PipelineStageDetailPanel
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+              production={production}
+              stageId={production.uiPayload.pipelineStageId as PagePipelineStageId}
+            />
           </DesignChildSurfaceFrame>
         : null}
 

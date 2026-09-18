@@ -43,6 +43,10 @@ export type TwinOpusDirectProductionActions = {
   setOverlay: (overlay: DesignProductionUiOverlay) => void;
   openOverflowMenu: () => void;
   openReadinessReceipt: () => void;
+  openViewReadiness: () => void;
+  openViewPipeline: () => void;
+  openTechnicalDetails: () => void;
+  openPipelineStage: (stageId: string) => void;
   openContractVersions: () => void;
   openCreativeContext: () => void;
   openProvenance: () => void;
@@ -260,6 +264,13 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       setOverlay,
       openOverflowMenu: () => setOverlay('OV-OVERFLOW-MENU'),
       openReadinessReceipt: () => setOverlay('OV-READINESS-RECEIPT'),
+      openViewReadiness: () => setOverlay('OV-READINESS-RECEIPT'),
+      openViewPipeline: () => setOverlay('OV-PAGE-PIPELINE'),
+      openTechnicalDetails: () => setOverlay('OV-PIPELINE-TECHNICAL'),
+      openPipelineStage: (stageId) => {
+        setUiPayload({ pipelineStageId: stageId });
+        setOverlay('OV-PIPELINE-STAGE');
+      },
       openContractVersions: () => setOverlay('OV-CONTRACT-VERSIONS'),
       openCreativeContext: () => setOverlay('OV-CREATIVE-CONTEXT'),
       openProvenance: () => setOverlay('OV-PROVENANCE'),

@@ -10281,3 +10281,16 @@ Founder sprint: retire GROUNDING/BLUEPRINT/OVERLAY/Entry001 evidence FUNCTION st
 - **Overlays:** `OV-PAGE-BATCH-EDIT`, `OV-PAGE-ASSET-INSPECT`, `OV-PAGE-INTERACTIONS`.
 - **Tests:** `p0vrDesignPageSystemReview1.test.ts` (content-ops → campaign-board child).
 - **Next:** Founder page-system-review UX → test batch edit on one real page family.
+
+---
+
+## 2026-09-18 — P0.VR.DESIGN-PIPELINE-READINESS2 — page pipeline workflow controller
+
+Founder sprint: rebuild PIPELINE / READINESS as real page workflow controller with distinct action surfaces (not all opening Readiness Receipt).
+
+- **Model:** `designPagePipelineController.ts` — 11 stages (authority → concepts → selection → promotion → pair review → handoff → twin build/review → optional Grok → asset impl → page ready), `PageWorkflowBlocker`, applicable-gate readiness %, contextual next action + handlers.
+- **UI:** `DesignPipelineReadinessPanel` — READINESS gauge + current stage, PIPELINE ladder (tap → stage detail), STATUS summary, NEXT ACTION + RESOLVE BLOCKER + VIEW READINESS / VIEW PIPELINE / VIEW TECHNICAL DETAILS (four distinct overlays).
+- **Receipt:** `ReadinessReceiptPanel` uses page-scoped `receiptGates` (mobile/desktop concept selected, promoted, pair review, twin, optional Grok) — removed stale “mobile authority approved or locked” semantics from primary receipt.
+- **Overlays:** `OV-PAGE-PIPELINE`, `OV-PIPELINE-TECHNICAL`, `OV-PIPELINE-STAGE`.
+- **Tests:** `p0vrDesignPipelineReadiness2.test.ts`.
+- **Next:** Founder pipeline/readiness UX review on NDXBOOK Overview.
