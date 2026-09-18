@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import {
   buildDesignPageProvenancePresentation,
   buildDesignProjectIntelligence,
@@ -384,6 +386,10 @@ export function ReviewTwinPagePanel({ projectSlug, production }: { projectSlug: 
   const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
   const route = pageCtx?.route ?? pageRecord?.route ?? '/';
   const src = typeof window !== 'undefined' ? `${window.location.origin}${route}` : route;
+
+  useEffect(() => {
+    production.actions.markTwinPageReviewed();
+  }, [production.actions]);
 
   return (
     <>

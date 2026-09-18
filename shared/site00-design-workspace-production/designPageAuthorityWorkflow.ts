@@ -77,6 +77,9 @@ export type PageAuthorityWorkflowState = {
   pairLockedAt: string | null;
   twinImplementationStatus: TwinImplementationStatus;
   composerHandoffPackage: TwinImplementationPackage | null;
+  /** Founder declined Grok asset work for this page. */
+  grokOptOut: boolean;
+  twinRouteVerifiedAt: string | null;
   history: readonly { type: string; at: string; summary: string }[];
 };
 
@@ -138,6 +141,8 @@ export function createInitialPageAuthorityWorkflow(projectId: string, pageId: st
     pairLockedAt: null,
     twinImplementationStatus: 'NONE',
     composerHandoffPackage: null,
+    grokOptOut: false,
+    twinRouteVerifiedAt: null,
     history: [],
   };
 }
@@ -358,6 +363,23 @@ export const GPT2_AUTHORITY_REFERENCE_INPUT_FIELDS = [
   'MOBILE_AUTHORITY_REFERENCE',
   'DESKTOP_AUTHORITY_REFERENCE',
 ] as const;
+
+export function setGrokOptOut(state: PageAuthorityWorkflowState, optOut: boolean): PageAuthorityWorkflowState {
+  return appendHistory(
+    { ...state, grokOptOut: optOut },
+    optOut ? 'grok_opt_out' : 'grok_opt_in',
+    optOut ? 'Founder: no Grok assets needed' : 'Grok asset production re-enabled',
+  );
+}
+
+export function markTwinRouteVerified(state: PageAuthorityWorkflowState): PageAuthorityWorkflowState {
+  return {
+    ...state,
+    twinRouteVerifiedAt: new Date().toISOString(),
+    twinImplementationStatus:
+      state.twinImplementationStatus === 'NONE' ? 'IMPLEMENTING' : state.twinImplementationStatus,
+  };
+}
 
 export function buildGpt2AuthorityInputs(state: PageAuthorityWorkflowState) {
   return {
