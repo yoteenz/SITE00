@@ -47,7 +47,8 @@ export type DesignInteractionEntry = {
 export const DESIGN_INTERACTION_REGISTRY: readonly DesignInteractionEntry[] = [
   { id: 'header-overflow', label: 'Workspace overflow', surface: 'header', semanticRole: 'utility-menu', actionType: 'OVERLAY', handler: 'openOverflowMenu' },
   { id: 'header-host-nav', label: 'Host module nav', surface: 'header', semanticRole: 'host-navigation', actionType: 'OVERLAY', handler: 'openHostModuleNav' },
-  { id: 'header-opus', label: 'Open Opus dock', surface: 'header', semanticRole: 'agent-entry', actionType: 'OVERLAY', handler: 'openOpusDock' },
+  { id: 'view-row-opus', label: 'Open Opus design agent', surface: 'view-controls', semanticRole: 'agent-entry', actionType: 'OVERLAY', handler: 'openOpusDock' },
+  { id: 'view-row-grok', label: 'Open Grok asset agent', surface: 'view-controls', semanticRole: 'agent-entry', actionType: 'OVERLAY', handler: 'openGrokDock' },
   { id: 'context-creative', label: 'Project creative context', surface: 'context-bar', semanticRole: 'intelligence-drawer', actionType: 'OVERLAY', handler: 'openCreativeContext' },
   { id: 'view-mode-canonical', label: 'Canonical view', surface: 'view-controls', semanticRole: 'presentation-mode', actionType: 'STATE_MUTATION', handler: 'setViewModeCanonical' },
   { id: 'view-mode-list', label: 'List view', surface: 'view-controls', semanticRole: 'presentation-mode', actionType: 'STATE_MUTATION', handler: 'setViewModeList' },
@@ -96,6 +97,7 @@ export const DESIGN_INTERACTION_HANDLER_ALLOWLIST = [
   'openOverflowMenu',
   'openHostModuleNav',
   'openOpusDock',
+  'openGrokDock',
   'openCreativeContext',
   'setViewModeCanonical',
   'setViewModeList',

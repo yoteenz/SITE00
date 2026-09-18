@@ -31,10 +31,12 @@ describe('P0.VR.DESIGN-OPUS-LAUNCHER1', () => {
     expect(core).not.toContain('OpusNativeAgentPanel');
   });
 
-  it('header OPUS control has handler and interaction id', () => {
+  it('view-row OPUS control has handler and interaction id', () => {
+    const agents = read('src/site00/components/designBench/opusDirect/DesignWorkspaceAgentButtons.tsx');
+    expect(agents).toContain('interactionId="view-row-opus"');
     const ctx = read('src/site00/components/designBench/designAgent/DesignAgentDockContext.tsx');
     expect(ctx).toContain('onClick={toggle}');
-    expect(ctx).toContain('data-interaction-id="header-opus"');
+    expect(ctx).toContain('data-interaction-id={props.interactionId ?? \'view-row-opus\'}');
     expect(ctx).toContain('aria-label');
   });
 

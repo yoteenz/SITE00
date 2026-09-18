@@ -1,14 +1,11 @@
 /**
  * P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 — CANONICAL / LIST view-mode control.
- *
- * Presentation switch only: it never touches candidate, authority, readiness
- * or record state. It is its own full-width row between the project context
- * strip and the workspace band, so it depends on no neighbour's leftover
- * space and cannot be squeezed by another element's label.
+ * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 — Opus + Grok agents on the left; no redundant VIEW label.
  */
 
 import { useRef } from 'react';
 
+import { DesignWorkspaceAgentButtons } from './DesignWorkspaceAgentButtons';
 import {
   TWIN_OPUS_DIRECT_VIEW_MODES,
   TWIN_OPUS_DIRECT_VIEW_MODE_LABELS,
@@ -35,14 +32,12 @@ export function TwinOpusDirectViewModeControl({ mode, onChange }: TwinOpusDirect
 
   return (
     <div className="tod-viewrow">
-      <span className="tod-viewmode__label" id="tod-viewmode-label">
-        VIEW
-      </span>
+      <DesignWorkspaceAgentButtons />
       <div
         ref={groupRef}
         className="tod-viewmode__group"
         role="radiogroup"
-        aria-labelledby="tod-viewmode-label"
+        aria-label="Presentation view mode"
       >
         {TWIN_OPUS_DIRECT_VIEW_MODES.map((candidate) => {
           const active = candidate === mode;
