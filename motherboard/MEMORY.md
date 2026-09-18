@@ -10258,3 +10258,16 @@ Founder sprint (follow-up correction): Grok must not generate production/page-sp
 - **Capture storage:** `designPageCapture.ts` uses shared localStorage accessor (tests + browser); dispatches capture-updated event after append.
 - **Tests:** `p0vrDesignGrokGating1.test.ts` (pre-twin, no capture, full eligibility, opt-out, dock receipt strings).
 - **Next:** Founder reviews twin → CAPTURE SCREEN → decide if Grok asset work needed → cost-controlled generation only when ELIGIBLE.
+
+---
+
+## 2026-09-18 — P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 — PAGE SYSTEM REVIEW replaces structured output
+
+Founder sprint: retire GROUNDING/BLUEPRINT/OVERLAY/Entry001 evidence FUNCTION strip from primary DESIGN workflow; replace with descendant audit, batch inheritance, Grok manifest assets, interaction inspector.
+
+- **Section:** `PAGE SYSTEM REVIEW` (`designPageSystemReview.ts` + `DesignPageSystemReviewSection.tsx`) — CHILDREN, GRANDCHILDREN, BATCH/INHERITANCE (select all similar, batch confirm drawer), ASSETS (Grok staged/approved manifest only), INTERACTIONS (registry-based coverage + inspector drawer).
+- **Registry:** Direct children/grandchildren from `buildProjectDesignPageRegistry` parentPageId; thumbnails from page capture → concept → authority refs; open child via `writeDesignPageTarget`.
+- **Legacy:** `LEGACY_RECONSTRUCTION_OUTPUT_COLUMNS` retained for historical artifact drawer only — not in primary UI.
+- **Overlays:** `OV-PAGE-BATCH-EDIT`, `OV-PAGE-ASSET-INSPECT`, `OV-PAGE-INTERACTIONS`.
+- **Tests:** `p0vrDesignPageSystemReview1.test.ts` (content-ops → campaign-board child).
+- **Next:** Founder page-system-review UX → test batch edit on one real page family.
