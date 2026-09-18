@@ -10,7 +10,7 @@
   gap: 12px;
   padding: 8px 12px;
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   color: #f4f4f4;
   background: #1a1a1a;
@@ -46,19 +46,19 @@
   margin-bottom: 10px;
   color: #d8ff3e;
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.12em;
 }
 
 .tod-child__title {
   margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   letter-spacing: 0.14em;
 }
 
 .tod-child__sub {
   margin: 8px 0 0;
-  font-size: 11px;
+  font-size: 13px;
   color: #9a9a9a;
   line-height: 1.5;
 }
@@ -109,17 +109,17 @@
 
 .tod-child__muted {
   color: #8a8a8a;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .tod-child__meta {
-  font-size: 9px;
+  font-size: 11px;
   color: #6f6f6f;
 }
 
 .tod-child__note {
   margin-top: 16px;
-  font-size: 10px;
+  font-size: 12px;
   color: #8a8a8a;
   line-height: 1.5;
 }
@@ -129,7 +129,7 @@
 }
 
 .tod-child__mono {
-  font-size: 9px;
+  font-size: 11px;
   word-break: break-all;
   color: #bdbdbd;
 }
@@ -145,14 +145,14 @@
 }
 
 .tod-child__dl dt {
-  font-size: 9px;
+  font-size: 11px;
   color: #8a8a8a;
   letter-spacing: 0.14em;
 }
 
 .tod-child__dl dd {
   margin: 4px 0 0;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .tod-child__golden img {
@@ -163,7 +163,7 @@
 
 .tod-child__golden figcaption {
   margin-top: 6px;
-  font-size: 10px;
+  font-size: 12px;
   color: #8a8a8a;
 }
 
@@ -185,7 +185,7 @@
 }
 
 .tod-child__timeline time {
-  font-size: 9px;
+  font-size: 11px;
   color: #8a8a8a;
 }
 
@@ -219,7 +219,7 @@
   background: #0a0a0a;
   color: #d8ff3e;
   font-family: inherit;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   cursor: pointer;
 }
@@ -246,20 +246,20 @@
 }
 
 .tod-dpo__eyebrow {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.14em;
   color: #8a8a8a;
   margin: 0 0 6px;
 }
 
 .tod-dpo__title {
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.08em;
   margin: 0 0 8px;
 }
 
 .tod-dpo__sub {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.5;
   color: #bdbdbd;
   margin: 0 0 16px;
@@ -274,7 +274,7 @@
 
 .tod-dpo__statLabel {
   display: block;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.12em;
   color: #7a7a7a;
 }
@@ -294,7 +294,7 @@
   background: #101010;
   color: #d8ff3e;
   font: inherit;
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   cursor: pointer;
 }
@@ -319,18 +319,18 @@
 
 .tod-dpo__cardHead h3 {
   margin: 0;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .tod-dpo__status {
-  font-size: 8px;
+  font-size: 10px;
   color: #d8ff3e;
 }
 
 .tod-dpo__route,
 .tod-dpo__role,
 .tod-dpo__missing {
-  font-size: 9px;
+  font-size: 11px;
   color: #9a9a9a;
   margin: 4px 0;
 }
@@ -347,7 +347,7 @@
 }
 
 .tod-dpo__preview figcaption {
-  font-size: 8px;
+  font-size: 10px;
   color: #777;
   margin-top: 4px;
 }
@@ -359,7 +359,7 @@
 }
 
 .tod-dpo__conceptsTitle {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.12em;
   color: #888;
 }
@@ -372,7 +372,7 @@
 }
 
 .site00-design-module-hub__crumb {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   color: #666;
 }

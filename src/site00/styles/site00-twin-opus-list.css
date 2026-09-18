@@ -61,7 +61,7 @@
 
 .tod-lv-band__label {
   display: block;
-  font-size: 15.6px;
+  font-size: 17.6px;
   line-height: 1;
   letter-spacing: 0;
   color: #3c3c40;
@@ -76,7 +76,7 @@
 
 .tod-lv-band__value {
   display: block;
-  font-size: 20.1px;
+  font-size: 22.1px;
   line-height: 31.1px;
   color: var(--tod-ink);
 }
@@ -85,14 +85,14 @@
   display: flex;
   align-items: center;
   gap: 11px;
-  font-size: 16.1px;
+  font-size: 18.1px;
   line-height: 26.8px;
   color: var(--tod-ink);
   font-weight: var(--tod-weight-ui);
 }
 
 .tod-lv-band__stage--lock {
-  font-size: 18.3px;
+  font-size: 20.3px;
   gap: 19.7px;
 }
 
@@ -151,7 +151,7 @@
 
 .tod-lv-device__label {
   margin-top: 13.8px;
-  font-size: 15.6px;
+  font-size: 17.6px;
   line-height: 1;
   padding-bottom: 19.9px;
   border-bottom: 5.9px solid transparent;
@@ -207,7 +207,7 @@
 .tod-lv-hero-compare__paneHead {
   display: flex;
   justify-content: space-between;
-  font-size: 15.7px;
+  font-size: 17.7px;
   letter-spacing: 0.08em;
   margin-bottom: 11.8px;
   color: var(--tod-lime);
@@ -215,7 +215,7 @@
 
 .tod-lv-hero-compare__paneMeta {
   color: rgba(255, 255, 255, 0.55);
-  font-size: 13.8px;
+  font-size: 15.8px;
   max-width: 55%;
   text-align: right;
   overflow: hidden;
@@ -247,7 +247,7 @@
 }
 
 .tod-lv-hero-compare__empty {
-  font-size: 15.7px;
+  font-size: 17.7px;
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.5);
   padding: 15.7px;
@@ -256,7 +256,7 @@
 
 .tod-lv-hero-compare__captureBtn {
   margin-top: 11.8px;
-  font-size: 15.7px;
+  font-size: 17.7px;
   letter-spacing: 0.08em;
   padding: 11.8px 15.7px;
   border: 1px solid var(--tod-lime);
@@ -275,7 +275,7 @@
   right: 34.9px;
   display: flex;
   justify-content: space-between;
-  font-size: 17.7px;
+  font-size: 19.7px;
   line-height: 1;
   color: var(--tod-lime);
 }
@@ -299,7 +299,7 @@
   display: block;
   height: 136.9px;
   line-height: 136.9px;
-  font-size: 135.9px;
+  font-size: 137.9px;
   white-space: nowrap;
 }
 
@@ -315,7 +315,7 @@
   left: 37.2px;
   display: flex;
   flex-direction: column;
-  font-size: 17.4px;
+  font-size: 19.4px;
   line-height: 31.1px;
   color: var(--tod-lime);
 }
@@ -327,7 +327,7 @@
   top: 692.2px;
   display: flex;
   align-items: center;
-  font-size: 16.5px;
+  font-size: 18.5px;
   line-height: 22.6px;
   color: var(--tod-cream);
 }
@@ -360,14 +360,14 @@
   padding: 5.1px 7.9px;
   background: var(--tod-lime);
   color: var(--tod-lime-ink);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
   font-weight: 700;
 }
 
 .tod-lv-hero__footerCount {
   margin-left: auto;
-  font-size: 16.5px;
+  font-size: 18.5px;
 }
 
 .tod-lv-plate {
@@ -433,7 +433,7 @@
 
 .tod-lv-plate__mark {
   position: absolute;
-  font-size: 12.6px;
+  font-size: 14.6px;
   line-height: 1;
   white-space: nowrap;
 }
@@ -446,25 +446,25 @@
 .tod-lv-plate__mark--b {
   top: 28%;
   right: 4%;
-  font-size: 13.4px;
+  font-size: 15.4px;
 }
 
 .tod-lv-plate__mark--c {
   top: 35%;
   right: 8%;
-  font-size: 18.5px;
+  font-size: 20.5px;
 }
 
 .tod-lv-plate__mark--d {
   top: 42%;
   right: 8%;
-  font-size: 18.5px;
+  font-size: 20.5px;
 }
 
 .tod-lv-plate__mark--e {
   top: 49%;
   right: 8%;
-  font-size: 18.5px;
+  font-size: 20.5px;
 }
 
 .tod-lv-hero__plate {
@@ -482,7 +482,7 @@
 }
 
 .tod-lv-hero__plate.tod-vp-preview {
-  font-size: 17px;
+  font-size: 19px;
 }
 
 .tod-lv-rail {
@@ -511,7 +511,7 @@
   background: var(--tod-lime);
   color: #111;
   font-weight: var(--tod-weight-ui);
-  font-size: 16.9px;
+  font-size: 18.9px;
   line-height: 1;
 }
 
@@ -531,7 +531,7 @@
   background: #000;
   color: #96a04e;
   font-weight: var(--tod-weight-ui);
-  font-size: 15.8px;
+  font-size: 17.8px;
   line-height: 1;
 }
 
@@ -545,7 +545,7 @@
   border: 2px solid var(--tod-border-control);
   border-radius: 7.9px;
   background: var(--tod-panel);
-  font-size: 16.7px;
+  font-size: 18.7px;
   line-height: 1;
 }
 
@@ -566,7 +566,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 13.8px 0 22.4px;
-  font-size: 14.2px;
+  font-size: 16.2px;
   line-height: 1;
   border-bottom: 2px solid var(--tod-border-subtle);
 }
@@ -613,7 +613,7 @@
 }
 
 .tod-lv-pair__label {
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1;
   font-weight: 700;
 }
@@ -627,7 +627,7 @@
   position: absolute;
   right: 15.8px;
   top: 11.8px;
-  font-size: 15.4px;
+  font-size: 17.4px;
   line-height: 1;
   color: inherit;
   font-weight: var(--tod-weight-ui);
@@ -641,7 +641,7 @@
   position: absolute;
   right: 15.8px;
   bottom: 11.8px;
-  font-size: 15.4px;
+  font-size: 17.4px;
   line-height: 1;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
@@ -665,7 +665,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 17.7px;
+  font-size: 19.7px;
   line-height: 15.8px;
   color: var(--tod-cream);
   z-index: 2;
@@ -702,7 +702,7 @@
   font-weight: var(--tod-weight-ui);
   border-radius: 5.9px;
   background: #fff;
-  font-size: 14.6px;
+  font-size: 16.6px;
   line-height: 1;
 }
 
@@ -713,7 +713,7 @@
   padding-top: 7.9px;
   padding-right: 18.7px;
   border-radius: 5.9px;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.32;
   text-align: center;
   color: #101010;
@@ -808,7 +808,7 @@
 
 .tod-lv-gallery__title {
   margin-top: 3px;
-  font-size: 16.6px;
+  font-size: 18.6px;
   line-height: 1;
   color: #1d1d1d;
   font-weight: var(--tod-weight-ui);
@@ -818,7 +818,7 @@
   display: inline-flex;
   align-items: center;
   gap: 25.6px;
-  font-size: 15.2px;
+  font-size: 17.2px;
   line-height: 1;
   color: #2a2a2a;
   font-weight: var(--tod-weight-ui);
@@ -851,14 +851,14 @@
 }
 
 .tod-lv-gallery__empty {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.65);
   text-align: center;
 }
 
 .tod-lv-gallery__generate {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   padding: 8px 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -889,7 +889,7 @@
   left: 13.8px;
   top: 11.8px;
   z-index: 3;
-  font-size: 13.4px;
+  font-size: 15.4px;
   line-height: 1;
 }
 
@@ -946,7 +946,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 23px;
+  font-size: 25px;
   line-height: 26.6px;
   letter-spacing: 1.5px;
   color: var(--tod-cream);
@@ -960,7 +960,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 11.8px;
-  font-size: 7.5px;
+  font-size: 9.5px;
   line-height: 11px;
   color: var(--tod-lime);
 }
@@ -1121,7 +1121,7 @@
 }
 
 .tod-lv-card__collageLead {
-  font-size: 9.1px;
+  font-size: 11.1px;
   line-height: 12.4px;
   color: #22201c;
 }
@@ -1132,7 +1132,7 @@
   top: 145.7px;
   z-index: 2;
   font-family: var(--tod-display);
-  font-size: 51.2px;
+  font-size: 53.2px;
   line-height: 45.3px;
   color: #100e0b;
   background: linear-gradient(180deg, #ece6d9, #d4cbba);
@@ -1174,7 +1174,7 @@
   right: 5.9px;
   top: 13.8px;
   font-family: var(--tod-display);
-  font-size: 53.2px;
+  font-size: 55.2px;
   line-height: 47.3px;
   letter-spacing: 1px;
   color: #f4f1e9;
@@ -1196,7 +1196,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 22.6px;
+  font-size: 24.6px;
   line-height: 20.1px;
   color: #ece5da;
 }
@@ -1212,7 +1212,7 @@
   top: 11.8px;
   z-index: 2;
   font-family: var(--tod-display);
-  font-size: 21.7px;
+  font-size: 23.7px;
   line-height: 17.7px;
   color: #100e0b;
   background: #ece6d9;
@@ -1255,7 +1255,7 @@
   justify-content: center;
   padding-right: 25.6px;
   gap: 37.4px;
-  font-size: 14.8px;
+  font-size: 16.8px;
   line-height: 1;
   color: #1d1d1d;
   font-weight: var(--tod-weight-ui);
@@ -1301,7 +1301,7 @@
 
 .tod-lv-out__title,
 .tod-lv-pipe__title {
-  font-size: 17.1px;
+  font-size: 19.1px;
   line-height: 1;
   color: #1d1d1d;
   font-weight: var(--tod-weight-ui);
@@ -1327,7 +1327,7 @@
 }
 
 .tod-lv-out__label {
-  font-size: 15.4px;
+  font-size: 17.4px;
   line-height: 1;
   font-weight: 700;
   color: #131313;
@@ -1337,7 +1337,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 19.1px;
-  font-size: 14.6px;
+  font-size: 16.6px;
   line-height: 22.4px;
   color: #2b2b2b;
   font-weight: var(--tod-weight-ui);
@@ -1361,7 +1361,7 @@
 
 .tod-lv-out__manifestTitle {
   display: block;
-  font-size: 8.9px;
+  font-size: 10.9px;
   line-height: 1;
   color: #3a3226;
 }
@@ -1392,7 +1392,7 @@
   position: absolute;
   right: 43.3px;
   bottom: 15.8px;
-  font-size: 13.8px;
+  font-size: 15.8px;
   color: #3a3226;
 }
 
@@ -1453,7 +1453,7 @@
   position: absolute;
   left: 11.8px;
   top: 9.8px;
-  font-size: 8.3px;
+  font-size: 10.3px;
   line-height: 11.8px;
   color: #2c2822;
   width: 102.4px;
@@ -1464,7 +1464,7 @@
   left: 90.6px;
   bottom: 2px;
   font-family: var(--tod-display);
-  font-size: 59.1px;
+  font-size: 61.1px;
   line-height: 51.2px;
   color: #141210;
 }
@@ -1546,7 +1546,7 @@
   display: flex;
   flex-direction: column;
   gap: 4.7px;
-  font-size: 11.7px;
+  font-size: 13.7px;
   line-height: 1;
   color: #3a3a3a;
   font-weight: var(--tod-weight-ui);
@@ -1563,7 +1563,7 @@
 }
 
 .tod-lv-out__sourceText {
-  font-size: 13.8px;
+  font-size: 15.8px;
   line-height: 1;
   color: #262626;
   font-weight: var(--tod-weight-ui);
@@ -1620,7 +1620,7 @@
 }
 
 .tod-lv-pipe__label {
-  font-size: 14.6px;
+  font-size: 16.6px;
   line-height: 1;
   color: #3f3f43;
   font-weight: var(--tod-weight-ui);
@@ -1662,7 +1662,7 @@
   top: 51.2px;
   width: 130px;
   text-align: center;
-  font-size: 18.9px;
+  font-size: 20.9px;
   line-height: 1;
   color: #1f1f1f;
 }
@@ -1671,7 +1671,7 @@
   position: absolute;
   left: 165.4px;
   top: 51.2px;
-  font-size: 17.3px;
+  font-size: 19.3px;
   line-height: 1;
   color: var(--tod-green);
 }
@@ -1683,7 +1683,7 @@
   display: inline-flex;
   align-items: center;
   gap: 9.8px;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1;
   color: #1f1f1f;
 }
@@ -1709,7 +1709,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 19.7px;
-  font-size: 15.2px;
+  font-size: 17.2px;
   line-height: 1;
   color: #212121;
   font-weight: var(--tod-weight-ui);
@@ -1742,7 +1742,7 @@
   font-weight: var(--tod-weight-ui);
   border-radius: 3.9px;
   background: #fff;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1;
 }
 
@@ -1758,7 +1758,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 15.8px;
-  font-size: 14.4px;
+  font-size: 16.4px;
   line-height: 1;
   color: #212121;
   font-weight: var(--tod-weight-ui);
@@ -1773,7 +1773,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 11.6px;
-  font-size: 16.9px;
+  font-size: 18.9px;
   line-height: 24.8px;
   color: #171717;
   font-weight: var(--tod-weight-ui);
@@ -1789,7 +1789,7 @@
   background: var(--tod-lime);
   color: #101505;
   font-weight: var(--tod-weight-ui);
-  font-size: 14.2px;
+  font-size: 16.2px;
   line-height: 1;
   border-radius: 3.9px;
 }
@@ -1810,7 +1810,7 @@
   font-weight: var(--tod-weight-ui);
   border-radius: 3.9px;
   background: #fff;
-  font-size: 14.2px;
+  font-size: 16.2px;
   line-height: 1;
 }
 
@@ -1832,7 +1832,7 @@
   bottom: 0;
   transform: translateX(-50%);
   padding-bottom: 6.7px;
-  font-size: 13.7px;
+  font-size: 15.7px;
   line-height: 1;
   white-space: nowrap;
   color: #2e2e2e;
@@ -1860,7 +1860,7 @@
 }
 
 .tod-lv-tabs__tab.is-active {
-  font-size: 15.3px;
+  font-size: 17.3px;
   font-weight: 700;
   color: #111;
 }
@@ -1900,7 +1900,7 @@
   left: 7.9px;
   top: 7.9px;
   z-index: 3;
-  font-size: 10.6px;
+  font-size: 12.6px;
   line-height: 1;
   color: var(--tod-lime);
 }
@@ -1913,7 +1913,7 @@
   display: flex;
   flex-direction: column;
   font-family: var(--tod-display);
-  font-size: 21.7px;
+  font-size: 23.7px;
   line-height: 23.6px;
   letter-spacing: 0.8px;
   color: var(--tod-cream);
@@ -1930,7 +1930,7 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  font-size: 5.9px;
+  font-size: 7.9px;
   line-height: 8.3px;
   color: var(--tod-lime);
 }
@@ -1954,7 +1954,7 @@
 
 .tod-lv-concept__field {
   display: flex;
-  font-size: 12.8px;
+  font-size: 14.8px;
   line-height: 1;
   color: #333333;
   font-weight: var(--tod-weight-ui);
@@ -1980,7 +1980,7 @@
 }
 
 .tod-lv-concept__amendTitle {
-  font-size: 14.6px;
+  font-size: 16.6px;
   line-height: 1;
   font-weight: 700;
   color: #141414;
@@ -1990,7 +1990,7 @@
   padding: 4.7px 7.9px;
   background: var(--tod-lime);
   color: var(--tod-lime-ink);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1;
 }
 
@@ -2014,7 +2014,7 @@
   font-weight: var(--tod-weight-ui);
   border-radius: 3.9px;
   background: #fff;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
 }
 
@@ -2045,11 +2045,11 @@
     transform: none;
     flex: 0 0 auto;
     padding-bottom: 15.8px;
-    font-size: 15.8px;
+    font-size: 17.8px;
 }
 
 .tod-lv-tabs__tab.is-active {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-band {
@@ -2070,20 +2070,20 @@
 }
 
 .tod-lv-band__label {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-band__value {
-    font-size: 21.7px;
+    font-size: 23.7px;
     line-height: 1.6;
 }
 
 .tod-lv-band__stage {
-    font-size: 18.7px;
+    font-size: 20.7px;
 }
 
 .tod-lv-band__stage--lock {
-    font-size: 19.7px;
+    font-size: 21.7px;
 }
 
 .tod-lv-band__devices {
@@ -2106,7 +2106,7 @@
 }
 
 .tod-lv-device__label {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-herorow {
@@ -2128,14 +2128,14 @@
 .tod-lv-hero__eyebrow {
     position: static;
     display: flex;
-    font-size: 17.7px;
+    font-size: 19.7px;
     margin-bottom: 19.7px;
 }
 
 .tod-lv-hero__headline {
     position: static;
     width: auto;
-    font-size: clamp(102.4px, 30.5vw, 149.7px);
+    font-size: clamp(104.4px, 30.5vw, 151.7px);
 }
 
 .tod-lv-hero__headlineLine {
@@ -2147,7 +2147,7 @@
 
 .tod-lv-hero__standfirst {
     position: static;
-    font-size: 19.7px;
+    font-size: 21.7px;
     line-height: 1.6;
     margin-top: 19.7px;
 }
@@ -2166,12 +2166,12 @@
     flex-wrap: wrap;
     gap: 11.8px 19.7px;
     margin-top: 23.6px;
-    font-size: 17.7px;
+    font-size: 19.7px;
 }
 
 .tod-lv-hero__footerChip {
     margin-left: 0;
-    font-size: 14.8px;
+    font-size: 16.8px;
     padding: 5.9px 9.8px;
 }
 
@@ -2191,17 +2191,17 @@
 
 .tod-lv-rail__selectBtn {
     flex-basis: 86.6px;
-    font-size: 19.7px;
+    font-size: 21.7px;
 }
 
 .tod-lv-rail__selectState {
     padding: 11.8px 0;
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-rail__ghost {
     flex-basis: 86.6px;
-    font-size: 19.7px;
+    font-size: 21.7px;
 }
 
 .tod-lv-pair {
@@ -2210,16 +2210,16 @@
 
 .tod-lv-pair__head {
     flex-basis: 67px;
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-pair__label {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-pair__version,
   .tod-lv-pair__state {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-pair__row--mobile {
@@ -2237,7 +2237,7 @@
 }
 
 .tod-lv-pair__replace {
-    font-size: 16.7px;
+    font-size: 18.7px;
     padding: 15.8px 23.6px;
     min-height: 70.9px;
 }
@@ -2249,7 +2249,7 @@
   .tod-lv-rail > .tod-lv-rail__action:nth-child(8) {
     flex-basis: auto;
     min-height: 78.8px;
-    font-size: 18.7px;
+    font-size: 20.7px;
     padding: 15.8px 23.6px 15.8px 67px;
 }
 
@@ -2267,11 +2267,11 @@
 }
 
 .tod-lv-gallery__title {
-    font-size: 17.7px;
+    font-size: 19.7px;
 }
 
 .tod-lv-gallery__compare {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-gallery__body {
@@ -2306,12 +2306,12 @@
 }
 
 .tod-lv-card__headline {
-    font-size: 25.6px;
+    font-size: 27.6px;
     line-height: 29.5px;
 }
 
 .tod-lv-card__standfirst {
-    font-size: 9.8px;
+    font-size: 11.8px;
     line-height: 13.8px;
 }
 
@@ -2345,7 +2345,7 @@
 
 .tod-lv-actions__cell {
     min-height: 86.6px;
-    font-size: 16.7px;
+    font-size: 18.7px;
     gap: 19.7px;
     padding: 15.8px 11.8px;
     border-bottom: 2px solid var(--tod-border-column);
@@ -2366,7 +2366,7 @@
 }
 
 .tod-lv-out__title {
-    font-size: 17.7px;
+    font-size: 19.7px;
 }
 
 .tod-lv-out__cols {
@@ -2384,11 +2384,11 @@
 }
 
 .tod-lv-out__label {
-    font-size: 17.7px;
+    font-size: 19.7px;
 }
 
 .tod-lv-out__lines {
-    font-size: 17.7px;
+    font-size: 19.7px;
     line-height: 1.45;
 }
 
@@ -2398,7 +2398,7 @@
 }
 
 .tod-lv-out__preview--functions {
-    font-size: 15.8px;
+    font-size: 17.8px;
     gap: 9.8px;
     padding: 15.8px 19.7px;
 }
@@ -2406,11 +2406,11 @@
 .tod-lv-out__overlayInk {
     left: auto;
     right: 35.4px;
-    font-size: 74.8px;
+    font-size: 76.8px;
 }
 
 .tod-lv-out__overlayNote {
-    font-size: 10.8px;
+    font-size: 12.8px;
     width: 157.5px;
 }
 
@@ -2420,11 +2420,11 @@
 }
 
 .tod-lv-out__sourceText {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-out__manifestTitle {
-    font-size: 11.8px;
+    font-size: 13.8px;
 }
 
 .tod-lv-pipe {
@@ -2437,7 +2437,7 @@
 }
 
 .tod-lv-pipe__title {
-    font-size: 17.7px;
+    font-size: 19.7px;
 }
 
 .tod-lv-pipe__cols {
@@ -2456,11 +2456,11 @@
 }
 
 .tod-lv-pipe__label {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-pipe__checks li {
-    font-size: 18.7px;
+    font-size: 20.7px;
     padding: 3.9px 0;
 }
 
@@ -2469,11 +2469,11 @@
     width: 100%;
     height: 78.8px;
     margin-top: 15.8px;
-    font-size: 18.7px;
+    font-size: 20.7px;
 }
 
 .tod-lv-pipe__status li {
-    font-size: 18.7px;
+    font-size: 20.7px;
     padding: 3.9px 0;
 }
 
@@ -2484,23 +2484,23 @@
 .tod-lv-pipe__compiler {
     position: static;
     margin-top: 19.7px;
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-pipe__nextCopy {
-    font-size: 19.7px;
+    font-size: 21.7px;
     line-height: 1.55;
 }
 
 .tod-lv-pipe__primary {
     height: 86.6px;
-    font-size: 19.7px;
+    font-size: 21.7px;
     margin-top: 15.8px;
 }
 
 .tod-lv-pipe__secondary {
     height: 78.8px;
-    font-size: 18.7px;
+    font-size: 20.7px;
 }
 
 .tod-lv-pipe__secondary + .tod-lv-pipe__secondary {
@@ -2523,14 +2523,14 @@
 }
 
 .tod-lv-concept__thumbCopy {
-    font-size: 35.4px;
+    font-size: 37.4px;
     line-height: 39.4px;
     top: 39.4px;
     left: 19.7px;
 }
 
 .tod-lv-concept__thumbStandfirst {
-    font-size: 10.8px;
+    font-size: 12.8px;
     line-height: 14.8px;
     top: 137.8px;
     left: 19.7px;
@@ -2543,7 +2543,7 @@
 }
 
 .tod-lv-concept__thumbVersion {
-    font-size: 13.8px;
+    font-size: 15.8px;
 }
 
 .tod-lv-concept__fields {
@@ -2553,7 +2553,7 @@
 }
 
 .tod-lv-concept__field {
-    font-size: 18.7px;
+    font-size: 20.7px;
 }
 
 .tod-lv-concept__field dt {
@@ -2567,7 +2567,7 @@
 }
 
 .tod-lv-concept__amendTitle {
-    font-size: 16.7px;
+    font-size: 18.7px;
 }
 
 .tod-lv-concept__fields--amend .tod-lv-concept__field dt {
@@ -2578,7 +2578,7 @@
     position: static;
     width: 100%;
     padding: 19.7px;
-    font-size: 18.7px;
+    font-size: 20.7px;
 }
 
 

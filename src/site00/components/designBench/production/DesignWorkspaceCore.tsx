@@ -8,8 +8,16 @@ import type { ReactNode } from 'react';
 
 import { DesignAgentDock } from '../designAgent/DesignAgentDock';
 import { DesignAgentDockProvider } from '../designAgent/DesignAgentDockContext';
+import DesignGrokDock from '../designAgent/DesignGrokDock';
 import { DesignGrokDockProvider } from '../designAgent/DesignGrokDockContext';
 import { TwinOpusDirectScreen, type DesignWorkspaceRole } from '../opusDirect/TwinOpusDirectScreen';
+
+import '../../../styles/site00-twin-opus-direct.css';
+import '../../../styles/site00-twin-opus-list.css';
+import '../../../styles/site00-design-production-child.css';
+import '../../../styles/site00-design-child-surface.css';
+import '../../../styles/site00-design-agent.css';
+import '../../../styles/site00-design-workspace-typography.css';
 
 export type { DesignWorkspaceRole };
 
@@ -34,13 +42,16 @@ function DesignWorkspaceDevMarker() {
 
 export function DesignWorkspaceCore({ projectSlug, role, banner }: Props) {
   return (
-    <DesignAgentDockProvider>
-      <DesignGrokDockProvider>
-        <DesignWorkspaceDevMarker />
-        {banner}
-        <TwinOpusDirectScreen projectSlug={projectSlug} workspaceRole={role} />
-        <DesignAgentDock />
-      </DesignGrokDockProvider>
-    </DesignAgentDockProvider>
+    <div className="site00-design-workspace" data-design-workspace-typography="uppercase-plus-2px">
+      <DesignAgentDockProvider>
+        <DesignGrokDockProvider>
+          <DesignWorkspaceDevMarker />
+          {banner}
+          <TwinOpusDirectScreen projectSlug={projectSlug} workspaceRole={role} />
+          <DesignAgentDock />
+          <DesignGrokDock projectSlug={projectSlug} />
+        </DesignGrokDockProvider>
+      </DesignAgentDockProvider>
+    </div>
   );
 }

@@ -10126,6 +10126,16 @@ GitHub Actions failed `tests/p0vrDesignProduction1R1.test.ts` (4 tests) after AU
 
 ---
 
+## 2026-09-18 — Design workspace typography (+2px, all uppercase)
+
+Founder requested larger, all-caps copy across production/twin DESIGN workspace (shell, drawers, pop-ups, Opus/Grok rails).
+
+- **+2px:** bumped `font-size` in `site00-twin-opus-direct.css`, `site00-twin-opus-list.css`, `site00-design-production-child.css`, `site00-design-child-surface.css`, `site00-design-agent.css` (+ viewrow `calc()` bases).
+- **Uppercase:** `site00-design-workspace-typography.css` on `.site00-design-workspace` wrapper in `DesignWorkspaceCore`; stylesheet imports consolidated in core (removed duplicate page imports).
+- **Tests:** updated `p0vrDesignBenchOpusDirect` clamp/viewrow expectations.
+
+---
+
 ## 2026-09-17 — DESIGN bare `/design` index route boot fix
 
 Founder: cloud tunnel URLs for `/projects/ndxbook/design` and `/design/twin-opus-direct` showed blank page (React mounted, `#root` empty).

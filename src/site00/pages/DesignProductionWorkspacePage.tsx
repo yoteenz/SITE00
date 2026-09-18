@@ -7,12 +7,6 @@ import { Navigate, Outlet, useParams, useSearchParams } from 'react-router-dom';
 
 import { DesignWorkspaceCore } from '../components/designBench/production/DesignWorkspaceCore';
 import { resolveLegacyProjectDesignRedirect } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/client.js';
-import '../styles/site00-twin-opus-direct.css';
-import '../styles/site00-twin-opus-list.css';
-import '../styles/site00-design-production-child.css';
-import '../styles/site00-design-child-surface.css';
-import '../styles/site00-design-agent.css';
-
 function DesignProductionBodyEffects() {
   useEffect(() => {
     const { body, documentElement } = document;
