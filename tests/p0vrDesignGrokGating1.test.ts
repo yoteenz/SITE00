@@ -190,6 +190,7 @@ describe('P0.VR.DESIGN-GROK-GATING1', () => {
       join(import.meta.dirname, '../src/site00/components/designBench/production/DesignWorkspaceCore.tsx'),
       'utf8',
     );
-    expect(core).not.toContain('DesignGrokDock');
+    expect(core).not.toMatch(/import DesignGrokDock|<DesignGrokDock[\s/>]/);
+    expect(core).toContain('DesignGrokDockProvider');
   });
 });
