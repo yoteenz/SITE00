@@ -10346,3 +10346,19 @@ Production Release test: `p0vrDesignVisualCompareGrok1R1` expected literal `CAPT
 
 - **Fix:** Assert `assembly.*.label`, hero interaction ids, and `'CAPTURE SCREEN'` in shared assembly module.
 - **Also:** Removed stray `<<<<<<<` conflict markers in `MEMORY.md`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 (overlay visual system rebuild)
+
+Founder sprint with four visual references as design authority: keep every DESIGN function, rebuild the look of **every** secondary surface so popups/drawers/docks belong to the same premium product as the main workspace. Main workspace structure (breadcrumb, module nav, project bar, control band, hero, gallery, page system review, pipeline/readiness, record dock, bottom nav) preserved; the reference mobile artboard choreography and the artboard scaling model were left untouched by design.
+
+- **Overlay kit:** `src/site00/styles/site00-design-overlay-kit.css` + `production/designOverlayKit.tsx` (`tod-ok-*`) are now the only vocabulary an overlay body should need. Added `OverlayColumns` (two-column creative workbench, split by **container query** at 720px so an 880px modal and a 620px dock on the same screen resolve differently) and `tod-ok-navRow` destination lists.
+- **Agent docks re-themed:** `site00-design-agent.css` and `.s00-grok-dock` were black consoles, which left kit content dark-on-dark. Both now use the paper/ink/lime palette, black-on-light headers, and widen to 620px above 1100px. Agent launchers are labelled OPUS/GROK marks (`TodIconCube`, `TodIconBurst`) instead of single letters.
+- **Status tone bug (important):** `overlayTone` matched unanchored, so **BLOCKED matched LOCKED** and every hard blocker rendered green. Now whole-word matching with negatives tested first; `NOT_PROMOTED` is blocked, `NOT_APPLICABLE`/`NOT SELECTED` are n/a. Readiness gauge carries the same tone.
+- **Placement fixes:** the desktop width media query sat *before* the base `.tod-dcs--modal/--inspector` rules and lost on source order; moved after. Phones now get near-full-height sheets for modals and inspectors too, not centred desktop windows. Disabled actions drop out of lime entirely.
+- **Stale UI audit:** removed dead `tod-dcs-summary/gates/gate/lead/compare/notes/meta/provenanceGolden/modalActions/stackActions/nav` CSS (REMOVE); migrated record-dock version/change history off borrowed overlay gate classes onto `tod-rec__*` (MIGRATE); rebuilt `DesignProjectModuleNavPanel` off inline anchors that wrapped through project names.
+- **Inventory:** `DESIGN_CHILD_SURFACE_PLACEMENT` now covers every rendered overlay — added `OV-REVIEW-TWIN-PAGE`, `OV-VIEWPORT-AUTHORITY-EDITOR`, `OV-GROK-PAGE-ASSET-PRODUCTION`, `OV-RESOLVE-BLOCKER`.
+- **QA harness:** `scripts/design-bench/workspace-system1/capture.mjs` opens 22 overlays + 6 section routes at 1440x1024 and 390x844 through the controls a founder would press, and verifies a surface actually appeared. 56/56 reached.
+- **Tests:** `tests/designOverlaySystemWorkspaceSystem1.test.ts` (13) locks tone mapping, the overlay inventory, dock palette, launcher labels and placement order. Suite parity with base: 40 files / 60 tests failing before and after (all pre-existing).
+- **Convention:** overlay bodies compose kit components only; a panel reaching for its own layout CSS is a panel that will drift. Never let a status chip resolve a negative state to the positive colour.
