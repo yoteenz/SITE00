@@ -10545,3 +10545,14 @@ Founder sprint: **exact** DESIGN authority = production release **#429** / commi
 - **Tests:** `p0vrDesignRelease429ExactRestore1.test.ts` pins allowlist + dock/icon/EXPERIENCE markers.
 - **Visual QA:** `scripts/design-bench/release429-exact-restore1/capture.mjs` → `/opt/cursor/artifacts/design-release429-exact-restore1/` (Overview mobile/desktop, tabs, hamburger, panel dock, view-mode glyphs, Build-A-Wig mobile/desktop).
 - **Branch:** `cursor/design-release429-exact-restore1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-PROJECT-TABS-RELEASE429-RESTORE1
+
+Founder: six project-level tabs (References…More) showed empty white panel + dock only after dock/scroll split.
+
+- **Root cause:** Tab components unchanged since **441ae433**; `DesignProductionChildShell` wraps content in `.tod-child-embedded` but post-dock flex column on `.tod-dcs__body` did not give that wrapper `flex: 1`, so `.tod-ps__main` collapsed to **0px** (zoomed content existed but was not scroll-visible).
+- **Fix:** `site00-design-project-surface.css` — flex column participation for `.tod-child-embedded` and `> .tod-ps` under `:has(.tod-ps)`.
+- **Tests/capture:** `p0vrDesignProjectTabsRelease429Restore1.test.ts`; `scripts/design-bench/project-tabs-release429-restore1/capture.mjs`.
+- **Branch:** `cursor/design-project-tabs-release429-restore1-9f72`.

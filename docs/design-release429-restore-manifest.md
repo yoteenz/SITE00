@@ -28,6 +28,7 @@
 | `src/site00/components/designBench/production/designProjectSurfaceKit.tsx` | RESTORE 441ae433 → REAPPLY dock/scroll split |
 | `src/site00/styles/site00-design-project-surface.css` | RESTORE 441ae433 → REAPPLY dock/scroll CSS |
 | `src/site00/styles/site00-design-child-surface.css` | RESTORE 441ae433 → REAPPLY inline flex (dock) |
+| `src/site00/styles/site00-design-project-surface.css` (`.tod-child-embedded`) | FIX flex chain so in-shell tab content fills panel (P0 project-tabs restore) |
 | `src/site00/components/designBench/opusDirect/TwinOpusDirectViewModeControl.tsx` | RESTORE 441ae433 → REAPPLY Grok icons |
 | `src/site00/components/designBench/opusDirect/designViewModeGrokIcons.tsx` | PRESERVE (post-429 intentional) |
 | `src/site00/styles/site00-twin-opus-direct.css` | RESTORE 441ae433 → REAPPLY viewmode icon CSS if needed |
