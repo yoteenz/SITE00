@@ -54,12 +54,20 @@ function e(
 
 export const DVS_MANIFEST: DvsManifestEntry[] = [
   e('canonical', 'CANONICAL VIEW', 'design-workspace.view-toggle.canonical', 'view-modes', {
-    defaultState: '2×2 spatial frames — designed arrangement',
-    activeState: 'lime fill-none stroke on selected toggle',
+    defaultState: 'framed editorial field + secondary column',
+    activeState: 'lime stroke on selected black field',
   }),
   e('list', 'LIST VIEW', 'design-workspace.view-toggle.list', 'view-modes', {
-    defaultState: 'index rail + sequential rules',
-    activeState: 'lime stroke on selected toggle',
+    defaultState: 'three indexed records — sequential inspection',
+    activeState: 'lime stroke on selected black field',
+  }),
+  e('canonical-view', 'CANONICAL VIEW FILE', 'design-workspace.view-toggle.canonical-svg', 'view-modes', {
+    defaultState: 'public SVG currentColor pair',
+    activeState: 'lime via currentColor',
+  }),
+  e('list-view', 'LIST VIEW FILE', 'design-workspace.view-toggle.list-svg', 'view-modes', {
+    defaultState: 'public SVG currentColor pair',
+    activeState: 'lime via currentColor',
   }),
 
   e('opus', 'OPUS', 'design-workspace.agent-launcher.opus', 'agent-marks', {

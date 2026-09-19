@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <!-- SITE 00 / NDXBOOK — LIST VIEW. Stroke 1.5 / square / miter. currentColor. -->
+  <g
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+    stroke-miterlimit="2"
+  >
+    <path d="M9.5 6h10.5" />
+    <path d="M9.5 12h10.5" />
+    <path d="M9.5 18h7" />
+  </g>
+  <g fill="currentColor" stroke="none">
+    <rect x="4" y="4.75" width="2.5" height="2.5" />
+    <rect x="4" y="10.75" width="2.5" height="2.5" />
+    <rect x="4" y="16.75" width="2.5" height="2.5" />
+  </g>
+</svg>

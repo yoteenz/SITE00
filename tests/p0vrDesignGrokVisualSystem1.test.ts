@@ -76,10 +76,14 @@ describe('P0.VR.DESIGN.GROK-VISUAL-SYSTEM1 staged icon family', () => {
 
   it('keeps canonical and list related but distinct', () => {
     const glyphs = read('src/site00/visualSystem/glyphs.tsx');
-    expect(glyphs).toMatch(/canonical:[\s\S]+rect[\s\S]+list:/);
+    const pair = read('src/site00/visualSystem/viewModeIcons.tsx');
     expect(glyphs).toContain('canonical:');
     expect(glyphs).toContain('list:');
     expect(glyphs.indexOf('canonical:')).not.toBe(glyphs.indexOf('list:'));
+    expect(pair).toContain('ViewModeCanonicalGlyph');
+    expect(pair).toContain('ViewModeListGlyph');
+    expect(pair).toMatch(/rect[\s\S]+width="16" height="16"/);
+    expect(pair).toContain('M9.5 6h10.5');
   });
 
   it('does not mutate live Twin, DESIGN, or approved benches', () => {
@@ -101,6 +105,7 @@ describe('P0.VR.DESIGN.GROK-VISUAL-SYSTEM1 staged icon family', () => {
       'src/site00/visualSystem/glyphs.tsx',
       'src/site00/visualSystem/DesignVisualIcon.tsx',
       'src/site00/visualSystem/manifest.ts',
+      'src/site00/visualSystem/viewModeIcons.tsx',
       'src/site00/pages/DesignVisualSystemPage.tsx',
       'src/site00/styles/site00-design-visual-system.css',
     ];

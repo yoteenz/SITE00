@@ -1,0 +1,265 @@
+/* P0.VR.DESIGN.GROK-VIEWMODE-ICONS1 — isolated staging sheet. Not imported by live DESIGN. */
+
+.dvm {
+  --dvm-ink: #111111;
+  --dvm-paper: #f7f7f5;
+  --dvm-lime: #cdee30;
+  --dvm-mute: #6b6b6b;
+  --dvm-line: #d8d8d4;
+  min-height: 100vh;
+  background: var(--dvm-paper);
+  color: var(--dvm-ink);
+  font-family: 'Martian Mono', ui-monospace, monospace;
+  padding: 28px 20px 80px;
+}
+
+.dvm * {
+  box-sizing: border-box;
+}
+
+.dvm-kicker,
+.dvm-sub,
+.dvm-facts,
+.dvm-semantic,
+.dvm-file,
+.dvm-state-row figcaption,
+.dvm-size-row figcaption {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dvm-mast {
+  border-bottom: 1px solid var(--dvm-ink);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.dvm-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: var(--dvm-mute);
+}
+
+.dvm-mast h1,
+.dvm h2 {
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.dvm-mast h1 {
+  font-size: 28px;
+}
+
+.dvm-sub {
+  margin: 10px 0 16px;
+  font-size: 11px;
+}
+
+.dvm-facts,
+.dvm-handoff ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dvm-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dvm-facts li {
+  border: 1px solid var(--dvm-ink);
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.dvm h2 {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--dvm-line);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.dvm-slot,
+.dvm-pair,
+.dvm-states,
+.dvm-sizes,
+.dvm-handoff {
+  margin-bottom: 36px;
+}
+
+.dvm-slot p,
+.dvm-card p,
+.dvm-sizes > p,
+.dvm-handoff li {
+  font-size: 12px;
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+.dvm-rail {
+  width: 168px;
+  border: 1px solid var(--dvm-ink);
+  background: #fff;
+  padding: 10px;
+}
+
+.dvm-rail__modes,
+.dvm-rail__agents {
+  display: flex;
+  gap: 8px;
+}
+
+.dvm-rail__agents {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--dvm-line);
+}
+
+.dvm-ghost {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--dvm-line);
+  color: var(--dvm-mute);
+}
+
+.dvm-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--dvm-ink);
+  background: #fff;
+  color: var(--dvm-ink);
+  cursor: pointer;
+}
+
+.dvm-btn--hover,
+.dvm-btn:hover:not(:disabled):not(.dvm-btn--active):not(.dvm-btn--disabled) {
+  border-color: var(--dvm-ink);
+  background: #fff;
+  color: var(--dvm-ink);
+  box-shadow: inset 0 0 0 1px var(--dvm-lime);
+}
+
+.dvm-btn--active,
+.dvm-btn[aria-pressed='true'] {
+  background: var(--dvm-ink);
+  color: var(--dvm-lime);
+  border-color: var(--dvm-ink);
+}
+
+.dvm-btn--disabled,
+.dvm-btn:disabled {
+  opacity: 0.34;
+  cursor: not-allowed;
+  background: #eee;
+  color: #444;
+}
+
+.dvm-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.dvm-card {
+  border: 1px solid var(--dvm-ink);
+  padding: 16px;
+  background: #fff;
+}
+
+.dvm-semantic {
+  margin: 8px 0;
+  font-size: 10px;
+  color: var(--dvm-mute);
+}
+
+.dvm-preview {
+  display: grid;
+  place-items: center;
+  height: 88px;
+  margin: 12px 0;
+}
+
+.dvm-preview--ink {
+  background: var(--dvm-ink);
+  color: var(--dvm-paper);
+}
+
+.dvm-file {
+  margin: 0;
+  font-size: 9px;
+  color: var(--dvm-mute);
+  word-break: break-all;
+}
+
+.dvm-state-row,
+.dvm-size-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.dvm-state-row h3,
+.dvm-size-row h3 {
+  width: 92px;
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dvm-state-row figure,
+.dvm-size-row figure {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.dvm-state-row figcaption,
+.dvm-size-row figcaption {
+  font-size: 9px;
+}
+
+.dvm-size-ink,
+.dvm-size-paper {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--dvm-ink);
+}
+
+.dvm-size-ink {
+  background: var(--dvm-ink);
+  color: var(--dvm-paper);
+}
+
+.dvm-size-paper {
+  background: #fff;
+  color: var(--dvm-lime);
+}
+
+.dvm-handoff li {
+  margin-bottom: 6px;
+}
+
+@media (max-width: 720px) {
+  .dvm {
+    padding: 16px 12px 64px;
+  }
+
+  .dvm-mast h1 {
+    font-size: 22px;
+  }
+}
