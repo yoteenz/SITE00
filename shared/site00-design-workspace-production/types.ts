@@ -175,6 +175,12 @@ export type DesignProductionUiOverlay =
   | 'OV-PAGE-PIPELINE'
   | 'OV-PIPELINE-TECHNICAL'
   | 'OV-PIPELINE-STAGE'
+  /**
+   * Blocker resolution is its own surface. Routing RESOLVE BLOCKER into the
+   * readiness receipt made the founder re-derive "what is actually stopping
+   * me" from a list of every gate on the page.
+   */
+  | 'OV-RESOLVE-BLOCKER'
   | 'OV-AMENDMENT-DETAIL'
   | 'OV-VIEWPORT-AUTHORITY-EDITOR'
   | 'OV-COMPOSER-HANDOFF'

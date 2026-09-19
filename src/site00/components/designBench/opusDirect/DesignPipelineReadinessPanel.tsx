@@ -142,7 +142,7 @@ export function DesignPipelineReadinessPanel({
             className="tod-pipe__secondary"
             data-interaction-id="pipeline-resolve-blocker"
             disabled={!model.primaryBlocker}
-            onClick={() => model.primaryBlocker && actions.runPipelineHandler(model.primaryBlocker.resolutionHandler)}
+            onClick={() => actions.openResolveBlocker()}
           >
             RESOLVE BLOCKER
           </button>

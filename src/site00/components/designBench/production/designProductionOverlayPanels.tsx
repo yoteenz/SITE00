@@ -1,4 +1,17 @@
-import { useEffect } from 'react';
+/**
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — founder-facing overlay bodies.
+ *
+ * Rebuilt on `designOverlayKit`. The previous version of this file was a
+ * collection of definition lists: correct data, presented the way a database
+ * client presents it. Each panel here now leads with the artifact under
+ * discussion, states status as a chip rather than a sentence, pairs metadata
+ * on single lines, and pushes identifiers and hashes into ADVANCED.
+ *
+ * Nothing invented: where the page has no capture, no concept or no assets,
+ * the panel says so in an explicit empty state rather than filling the space.
+ */
+
+import { useEffect, useMemo, useState } from 'react';
 
 import {
   buildDesignPageProvenancePresentation,
@@ -15,22 +28,73 @@ import {
 import {
   buildPagePipelineControllerModel,
   type PagePipelineStageId,
+  type PagePipelineStageRow,
 } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import {
   buildPageSystemReviewModel,
   PAGE_SYSTEM_REVIEW_TITLE,
 } from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
-import { loadPageAuthorityWorkflow } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
+import {
+  loadPageAuthorityWorkflow,
+  resolveActiveAuthorityImage,
+} from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 import { loadPageCaptureHistory } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import { buildFixtureGrokPageAssetPlan } from '../../../../../shared/site00-design-workspace-production/designGrokPageAssetPlan.js';
 import { resolveOpusFrameworkRoutes } from '../../../../../shared/site00-design-workspace-production/designOpusFrameworkHandoff.js';
-import { listApprovedGrokAssets, listStagedGrokAssets } from '../../../../../shared/site00-design-workspace-production/designGrokAssetModel.js';
-import { twinOpusDirectCandidateArtifactView, twinOpusDirectCandidateById } from '../opusDirect/twinOpusDirectCandidateArtifacts';
+import {
+  listApprovedGrokAssets,
+  listStagedGrokAssets,
+} from '../../../../../shared/site00-design-workspace-production/designGrokAssetModel.js';
+import {
+  twinOpusDirectCandidateArtifactView,
+  twinOpusDirectCandidateById,
+} from '../opusDirect/twinOpusDirectCandidateArtifacts';
 import type { TwinOpusDirectProduction } from '../opusDirect/useTwinOpusDirectProduction';
 import { resolveTwinOpusDirectAsset } from '../opusDirect/twinOpusDirectAssetManifest';
 import { TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH } from '../opusDirect/twinOpusDirectContent';
 import { DesignArtifactFullscreenViewer } from './DesignArtifactFullscreenViewer';
-import { DesignGateBadge } from './DesignChildSurfaceFrame';
+import {
+  OverlayActions,
+  OverlayAdvanced,
+  OverlayBody,
+  OverlayCallout,
+  OverlayCompare,
+  OverlayDial,
+  OverlayEmpty,
+  OverlayMeta,
+  OverlayNote,
+  OverlayPreview,
+  OverlayRows,
+  OverlaySection,
+  OverlayStages,
+  OverlayStatus,
+  OverlayTabs,
+  OverlayThumbs,
+  OverlayTimeline,
+  overlayTone,
+  type OverlayStageState,
+} from './designOverlayKit';
+
+export { DesignGateBadge } from './DesignChildSurfaceFrame';
+
+function stageState(row: PagePipelineStageRow): OverlayStageState {
+  if (row.status === 'COMPLETE') return 'COMPLETE';
+  if (row.status === 'ACTIVE') return 'ACTIVE';
+  if (row.status === 'BLOCKED') return 'BLOCKED';
+  if (row.status === 'NOT_REQUIRED' || row.status === 'OPTIONAL') return 'NOT_REQUIRED';
+  return 'PENDING';
+}
+
+function pipelineModel(projectSlug: string, pageId: string, production: TwinOpusDirectProduction) {
+  return buildPagePipelineControllerModel({
+    projectId: projectSlug,
+    pageId,
+    production: production.state,
+    twinRouteReachable: null,
+  });
+}
+
+/* ---- 06 READINESS RECEIPT ------------------------------------------------ */
 
 export function ReadinessReceiptPanel({
   production,
@@ -42,121 +106,220 @@ export function ReadinessReceiptPanel({
   pageId: string;
 }) {
   const { state } = production;
-  const pipeline = buildPagePipelineControllerModel({
-    projectId: projectSlug,
-    pageId,
-    production: state,
-    twinRouteReachable: null,
-  });
-  const checks = pipeline.receiptGates;
-  const passed = checks.filter((c) => c.result === 'PASS').length;
-  const blocked = checks.filter((c) => c.result === 'BLOCKED' || c.result === 'FAIL').length;
-  const warnings = checks.filter((c) => !c.blocking && c.result !== 'PASS' && c.result !== 'NOT_APPLICABLE').length;
-  const na = checks.filter((c) => c.result === 'NOT_APPLICABLE').length;
+  const model = pipelineModel(projectSlug, pageId, production);
+  const checks = model.receiptGates;
+  const applicable = checks.filter((check) => check.result !== 'NOT_APPLICABLE');
+  const passed = checks.filter((check) => check.result === 'PASS');
+  const blocked = checks.filter((check) => check.result === 'BLOCKED' || check.result === 'FAIL');
+  const warnings = checks.filter(
+    (check) => !check.blocking && check.result !== 'PASS' && check.result !== 'NOT_APPLICABLE',
+  );
+  const na = checks.filter((check) => check.result === 'NOT_APPLICABLE');
+
+  const [filter, setFilter] = useState<'ALL' | 'BLOCKED' | 'PASSED' | 'NA'>('ALL');
+  const visible =
+    filter === 'BLOCKED' ? blocked
+    : filter === 'PASSED' ? passed
+    : filter === 'NA' ? na
+    : checks;
 
   return (
-    <>
-      <div className="tod-dcs-summary">
-        <div className="tod-dcs-summary__metric">
-          <span className="tod-dcs-summary__label">GATES</span>
-          <strong>
-            {passed} / {checks.filter((c) => c.result !== 'NOT_APPLICABLE').length}
-          </strong>
-        </div>
-        <div className="tod-dcs-summary__metric">
-          <span className="tod-dcs-summary__label">CONTRACT</span>
-          <strong>{state.contractFreeze.contractVersion}</strong>
-        </div>
-        <div className="tod-dcs-summary__metric">
-          <span className="tod-dcs-summary__label">AUTHORITY</span>
-          <strong>{state.designAuthorityVersion}</strong>
-        </div>
-      </div>
-      <div className="tod-dcs-summaryRow">
-        <span>PASSED {passed}</span>
-        <span>BLOCKED {blocked}</span>
-        <span>WARNINGS {warnings}</span>
-        <span>N/A {na}</span>
-      </div>
-      <ul className="tod-dcs-gates" data-testid="readiness-gate-list">
-        {checks.map((gate) => (
-          <li key={gate.id} className="tod-dcs-gate" data-result={gate.result}>
-            <div className="tod-dcs-gate__top">
-              <strong className="tod-dcs-gate__name">{gate.label}</strong>
-              <DesignGateBadge result={gate.result} />
-            </div>
-            {gate.reason ?
-              <p className="tod-dcs-gate__reason">{gate.reason}</p>
-            : null}
-            <span className="tod-dcs-gate__cat">{gate.scope.replace(/_/g, ' ')}</span>
-          </li>
-        ))}
-      </ul>
-    </>
+    <OverlayBody>
+      <OverlaySection title="AUDIT" meta={`${passed.length} / ${applicable.length} GATES`}>
+        <OverlayDial
+          percent={applicable.length === 0 ? 0 : (passed.length / applicable.length) * 100}
+          facts={[
+            { label: 'PASSED', value: passed.length },
+            { label: 'BLOCKED', value: blocked.length },
+            { label: 'WARNINGS', value: warnings.length },
+            { label: 'NOT APPLICABLE', value: na.length },
+          ]}
+        />
+        <OverlayNote>
+          This is the audit receipt for the page, not the workflow. PAGE PIPELINE is where you move the page forward.
+        </OverlayNote>
+      </OverlaySection>
+
+      <OverlayTabs
+        label="Gate filter"
+        active={filter}
+        onSelect={(id) => setFilter(id as typeof filter)}
+        tabs={[
+          { id: 'ALL', label: `ALL ${checks.length}` },
+          { id: 'BLOCKED', label: `BLOCKED ${blocked.length}` },
+          { id: 'PASSED', label: `PASSED ${passed.length}` },
+          { id: 'NA', label: `N/A ${na.length}` },
+        ]}
+      />
+
+      <OverlaySection title="GATES" flat>
+        <OverlayRows
+          emptyLabel="NO GATES IN THIS FILTER"
+          rows={visible.map((gate) => ({
+            id: gate.id,
+            name: gate.label,
+            sub: gate.reason ? `${gate.scope.replace(/_/g, ' ')} · ${gate.reason}` : gate.scope.replace(/_/g, ' '),
+            side: <OverlayStatus label={gate.result} />,
+          }))}
+        />
+      </OverlaySection>
+
+      <OverlayAdvanced>
+        <OverlayMeta
+          entries={[
+            { k: 'CONTRACT', v: state.contractFreeze.contractVersion },
+            { k: 'AUTHORITY', v: state.designAuthorityVersion },
+            { k: 'SESSION', v: String(state.sessionVersion) },
+            { k: 'STAGE', v: model.currentStageLabel },
+          ]}
+        />
+      </OverlayAdvanced>
+    </OverlayBody>
   );
 }
 
-function promotedConceptPreview(conceptId: string | null) {
-  if (!conceptId) return null;
-  return twinOpusDirectCandidateArtifactView(conceptId);
+/* ---- 07 RESOLVE BLOCKER -------------------------------------------------- */
+
+export function ResolveBlockerPanel({
+  production,
+  projectSlug,
+  pageId,
+}: {
+  production: TwinOpusDirectProduction;
+  projectSlug: string;
+  pageId: string;
+}) {
+  const model = pipelineModel(projectSlug, pageId, production);
+  const blocker = model.primaryBlocker;
+  const stage = model.stages.find((row) => row.id === blocker?.stageId) ?? null;
+
+  if (!blocker) {
+    return (
+      <OverlayBody>
+        <OverlayEmpty
+          label="NOTHING IS BLOCKED"
+          hint={`The page is at ${model.currentStageLabel}. Use PAGE PIPELINE for the next step.`}
+        />
+        <OverlayActions
+          primary={{ label: 'OPEN PAGE PIPELINE', onClick: production.actions.openViewPipeline, tone: 'dark' }}
+        />
+      </OverlayBody>
+    );
+  }
+
+  return (
+    <OverlayBody>
+      <OverlayCallout title="WHAT IS BLOCKED" tone="blocked">
+        {stage?.label ?? blocker.stageId.replace(/_/g, ' ').toUpperCase()}
+      </OverlayCallout>
+      <OverlayCallout title="WHY">{blocker.message}</OverlayCallout>
+
+      {stage && stage.missingItems.length ?
+        <OverlaySection title="WHAT IS NEEDED" flat>
+          <OverlayRows
+            rows={stage.missingItems.map((item, index) => ({
+              id: `${stage.id}-${index}`,
+              name: item,
+              side: <OverlayStatus label="MISSING" />,
+            }))}
+          />
+        </OverlaySection>
+      : null}
+
+      <OverlaySection title="STAGE CONTEXT" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'STAGE', v: stage?.label ?? '—' },
+            { k: 'SEVERITY', v: <OverlayStatus label={blocker.isBlocking ? 'BLOCKING' : 'WARNING'} /> },
+            { k: 'RESOLVE ON', v: blocker.resolutionSurface },
+            { k: 'OTHER BLOCKERS', v: Math.max(0, model.blockers.length - 1) },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlayActions
+        primary={{
+          label: blocker.resolutionSurface ? `GO TO ${blocker.resolutionSurface.toUpperCase()}` : 'RESOLVE',
+          onClick: () => production.actions.runPipelineHandler(blocker.resolutionHandler),
+        }}
+        secondary={[{ label: 'VIEW FULL PIPELINE', onClick: production.actions.openViewPipeline }]}
+      />
+    </OverlayBody>
+  );
 }
+
+/* ---- 09 PAIR REVIEW ------------------------------------------------------ */
 
 export function PairReviewPanel({ production }: { production: TwinOpusDirectProduction }) {
   const { state, projection, actions } = production;
-  const mobile = promotedConceptPreview(state.promotedMobileConceptId);
-  const desktop = promotedConceptPreview(state.promotedDesktopConceptId);
+  const mobile = state.promotedMobileConceptId ? twinOpusDirectCandidateArtifactView(state.promotedMobileConceptId) : null;
+  const desktop =
+    state.promotedDesktopConceptId ? twinOpusDirectCandidateArtifactView(state.promotedDesktopConceptId) : null;
+  const [layout, setLayout] = useState<'SIDE' | 'STACK'>('SIDE');
 
   return (
-    <>
-      <p className="tod-dcs-lead">Side-by-side review of promoted mobile and desktop designs (final viewport approvals).</p>
-      <div className="tod-dcs-compare tod-dcs-compare--dual">
-        <article className="tod-dcs-compare__card">
-          <header>PROMOTED MOBILE DESIGN</header>
-          {mobile?.src ?
-            <button
-              type="button"
-              className="tod-dcs-compare__tap"
-              onClick={() => actions.openFullscreenArtifact(mobile)}
-            >
-              <img src={mobile.src} alt="" className="tod-dcs-compare__img" />
-            </button>
-          : <p>No mobile promoted design</p>}
-          <span className="tod-dcs-compare__ver">{state.promotedMobileConceptId ?? '—'} · {state.mobileVersion}</span>
-        </article>
-        <article className="tod-dcs-compare__card">
-          <header>PROMOTED DESKTOP DESIGN</header>
-          {desktop?.src ?
-            <button
-              type="button"
-              className="tod-dcs-compare__tap"
-              onClick={() => actions.openFullscreenArtifact(desktop)}
-            >
-              <img src={desktop.src} alt="" className="tod-dcs-compare__img" />
-            </button>
-          : <p>No desktop promoted design</p>}
-          <span className="tod-dcs-compare__ver">{state.promotedDesktopConceptId ?? '—'} · {state.desktopVersion}</span>
-        </article>
-        <article className="tod-dcs-compare__card">
-          <header>TABLET DERIVED</header>
-          <div className="tod-dcs-compare__derived">
-            {state.tabletMode === 'OVERRIDE' ? 'TABLET OVERRIDE' : 'DERIVED FROM PAIR'}
-          </div>
-          <DesignGateBadge
-            result={state.tabletDerivedOk || state.tabletOverrideApprovedAt ? 'PASS' : 'BLOCKED'}
-          />
-        </article>
-      </div>
-      <section className="tod-dcs-notes">
-        <h3 className="tod-dcs-notes__title">READINESS IMPLICATIONS</h3>
-        <p>{projection.pairStatusLabel}</p>
-        <p>Workflow stage: {state.workflowStage}</p>
-        {projection.buildEligible ?
-          <p className="tod-dcs-notes__ok">Build transition eligible when founder confirms.</p>
-        : <p className="tod-dcs-notes__warn">Resolve blocked gates before MOVE TO BUILD.</p>}
-      </section>
-    </>
+    <OverlayBody>
+      <OverlayTabs
+        label="Comparison layout"
+        active={layout}
+        onSelect={(id) => setLayout(id as typeof layout)}
+        tabs={[
+          { id: 'SIDE', label: 'SIDE BY SIDE' },
+          { id: 'STACK', label: 'STACKED' },
+        ]}
+      />
+
+      <OverlayCompare stack={layout === 'STACK'}>
+        <OverlayPreview
+          src={mobile?.src}
+          caption={`MOBILE · ${state.mobileVersion}`}
+          side={<OverlayStatus label={state.promotedMobileConceptId ? 'PROMOTED' : 'MISSING'} />}
+          onOpen={mobile?.src ? () => actions.openFullscreenArtifact(mobile) : undefined}
+          emptyLabel="NO MOBILE PROMOTION YET"
+          emptyHint="Promote a mobile concept before pair review can compare."
+        />
+        <OverlayPreview
+          src={desktop?.src}
+          caption={`DESKTOP · ${state.desktopVersion}`}
+          side={<OverlayStatus label={state.promotedDesktopConceptId ? 'PROMOTED' : 'MISSING'} />}
+          onOpen={desktop?.src ? () => actions.openFullscreenArtifact(desktop) : undefined}
+          emptyLabel="NO DESKTOP PROMOTION YET"
+          emptyHint="Promote a desktop concept before pair review can compare."
+        />
+      </OverlayCompare>
+
+      <OverlaySection title="RESPONSIVE CONTRACT" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'TABLET', v: state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED FROM PAIR' },
+            {
+              k: 'TABLET STATE',
+              v: <OverlayStatus label={state.tabletDerivedOk || state.tabletOverrideApprovedAt ? 'PASS' : 'BLOCKED'} />,
+            },
+            { k: 'PAIR STATUS', v: projection.pairStatusLabel },
+            { k: 'WORKFLOW STAGE', v: state.workflowStage.replace(/_/g, ' ') },
+          ]}
+        />
+      </OverlaySection>
+
+      {projection.buildEligible ?
+        <OverlayCallout title="READINESS" tone="next">
+          Build transition is eligible once you confirm.
+        </OverlayCallout>
+      : <OverlayCallout title="READINESS" tone="blocked">
+          Resolve blocked gates before MOVE TO BUILD.
+        </OverlayCallout>
+      }
+
+      <OverlayActions
+        primary={{ label: 'REVIEW AUTHORITY', onClick: actions.openReviewAuthority }}
+        secondary={[{ label: 'LOCK AUTHORITY PAIR', onClick: actions.runLockAuthorityPair }]}
+      />
+    </OverlayBody>
   );
 }
+
+/* ---- SOURCE / PROVENANCE ------------------------------------------------- */
 
 export function ProvenancePanel({
   production,
@@ -166,60 +329,36 @@ export function ProvenancePanel({
   projectSlug: string;
 }) {
   const { state } = production;
-  const slug = projectSlug.toUpperCase();
   const pageTarget = resolveDesignPageTargetForShell(projectSlug);
   const pageRecord = getDesignBoundPage(projectSlug, pageTarget.pageId);
   const provenance =
     pageRecord ?
-      buildDesignPageProvenancePresentation(
-        projectSlug,
-        pageTarget.pageId,
-        pageRecord.pageName,
-        pageRecord.pageRole,
-      )
+      buildDesignPageProvenancePresentation(projectSlug, pageTarget.pageId, pageRecord.pageName, pageRecord.pageRole)
     : null;
 
   return (
-    <>
-      <figure className="tod-dcs-provenanceGolden">
-        <img src={TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH} alt="Approved golden reference" />
-        <figcaption>PAGE DESIGN REFERENCE · {pageTarget.pageLabel}</figcaption>
-      </figure>
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>PAGE</dt>
-          <dd>{provenance?.activePageLabel ?? pageTarget.pageLabel}</dd>
-        </div>
-        <div>
-          <dt>INFORMED BY</dt>
-          <dd>{provenance?.informedBy.join(' · ') ?? 'campaign content · brand intelligence'}</dd>
-        </div>
-        <div>
-          <dt>GOLDEN AUTHORITY</dt>
-          <dd>
-            {state.mobileVersion} mobile · {state.desktopVersion} desktop
-          </dd>
-        </div>
-        <div>
-          <dt>AUTHORITY VERSION</dt>
-          <dd>{state.designAuthorityVersion}</dd>
-        </div>
-        <div>
-          <dt>ASSET LINEAGE</dt>
-          <dd>twin-opus-direct-assets-v1 · Grok-approved plates</dd>
-        </div>
-        <div>
-          <dt>UPSTREAM PROJECT INTELLIGENCE</dt>
-          <dd>{slug} · CULTURAL_INTELLIGENCE_EDITORIAL</dd>
-        </div>
-        <div>
-          <dt>RELATED HISTORY</dt>
-          <dd>Authority events persisted via design-workspace-production API</dd>
-        </div>
-      </dl>
-    </>
+    <OverlayBody>
+      <OverlayPreview
+        src={TWIN_OPUS_DIRECT_GOLDEN_MASTER_PATH}
+        caption={`PAGE DESIGN REFERENCE · ${pageTarget.pageLabel}`}
+        side={<OverlayStatus label="APPROVED" />}
+      />
+      <OverlaySection title="LINEAGE" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'PAGE', v: provenance?.activePageLabel ?? pageTarget.pageLabel },
+            { k: 'INFORMED BY', v: provenance?.informedBy.join(' · ') ?? '—' },
+            { k: 'GOLDEN', v: `${state.mobileVersion} · ${state.desktopVersion}` },
+            { k: 'AUTHORITY', v: state.designAuthorityVersion },
+            { k: 'PROJECT', v: `${projectSlug.toUpperCase()} · CULTURAL_INTELLIGENCE_EDITORIAL` },
+          ]}
+        />
+      </OverlaySection>
+    </OverlayBody>
   );
 }
+
+/* ---- PROJECT CREATIVE CONTEXT -------------------------------------------- */
 
 export function CreativeContextPanel({
   projectSlug,
@@ -232,104 +371,81 @@ export function CreativeContextPanel({
   const pageCtx = pageId ? compileDesignPageContext(projectSlug, pageId) : null;
 
   if (!intel) {
-    return <p className="tod-dcs-lead">No project intelligence for this slug.</p>;
+    return (
+      <OverlayBody>
+        <OverlayEmpty label="NO PROJECT INTELLIGENCE" hint="This project slug has no creative context bound yet." />
+      </OverlayBody>
+    );
   }
 
   return (
-    <>
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>MODULE</dt>
-          <dd>PROJECTS → DESIGN</dd>
-        </div>
-        <div>
-          <dt>ACTIVE PROJECT</dt>
-          <dd>{intel.displayName}</dd>
-        </div>
-        <div>
-          <dt>PROJECT DEFINITION</dt>
-          <dd>{intel.description}</dd>
-        </div>
-        <div>
-          <dt>BRAND / EXPRESSION</dt>
-          <dd>{intel.brandExpression}</dd>
-        </div>
-        <div>
-          <dt>PRIMARY EXPRESSION CONTEXT</dt>
-          <dd>{intel.primaryCreativeStream}</dd>
-        </div>
-        <div>
-          <dt>PAGE REGISTRY</dt>
-          <dd>
-            {intel.pageRegistryId} · {intel.totalPages} pages tracked
-          </dd>
-        </div>
-        <div>
-          <dt>PROJECT DESIGN COMPLETION</dt>
-          <dd>
-            {intel.pagesApproved} approved · {intel.pagesNeedingDesign} need design · {intel.pagesInReview} in review
-          </dd>
-        </div>
-      </dl>
+    <OverlayBody>
+      <OverlaySection title="PROJECT" meta={intel.pageRegistryId}>
+        <OverlayMeta
+          entries={[
+            { k: 'ACTIVE PROJECT', v: intel.displayName },
+            { k: 'DEFINITION', v: intel.description },
+            { k: 'BRAND EXPRESSION', v: intel.brandExpression },
+            { k: 'PRIMARY CONTEXT', v: intel.primaryCreativeStream },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlaySection title="DESIGN COMPLETION" meta={`${intel.totalPages} PAGES`}>
+        <OverlayRows
+          rows={[
+            { id: 'approved', name: 'APPROVED', side: <OverlayStatus label={`${intel.pagesApproved}`} tone="ok" /> },
+            { id: 'review', name: 'IN REVIEW', side: <OverlayStatus label={`${intel.pagesInReview}`} tone="warn" /> },
+            {
+              id: 'needed',
+              name: 'NEED DESIGN',
+              side: <OverlayStatus label={`${intel.pagesNeedingDesign}`} tone="blocked" />,
+            },
+          ]}
+        />
+      </OverlaySection>
+
       {pageCtx ?
-        <section className="tod-dcs-notes">
-          <h3 className="tod-dcs-notes__title">PAGE CONTEXT</h3>
-          <dl className="tod-dcs-meta">
-            <div>
-              <dt>PAGE</dt>
-              <dd>{pageCtx.activePageId}</dd>
-            </div>
-            <div>
-              <dt>ROLE</dt>
-              <dd>{pageCtx.pageRole}</dd>
-            </div>
-            <div>
-              <dt>ROUTE</dt>
-              <dd>{pageCtx.route}</dd>
-            </div>
-            <div>
-              <dt>INHERITANCE</dt>
-              <dd>{pageCtx.inheritance}</dd>
-            </div>
-            <div>
-              <dt>CURRENT AUTHORITY</dt>
-              <dd>{pageCtx.currentAuthority}</dd>
-            </div>
-          </dl>
-        </section>
+        <OverlaySection title="ACTIVE PAGE" flat>
+          <OverlayMeta
+            entries={[
+              { k: 'PAGE', v: pageCtx.activePageId },
+              { k: 'ROLE', v: pageCtx.pageRole },
+              { k: 'ROUTE', v: pageCtx.route },
+              { k: 'INHERITANCE', v: pageCtx.inheritance },
+              { k: 'AUTHORITY', v: pageCtx.currentAuthority },
+            ]}
+          />
+        </OverlaySection>
       : null}
-    </>
+    </OverlayBody>
   );
 }
+
+/* ---- 08 TECHNICAL: CONTRACT VERSIONS ------------------------------------- */
 
 export function ContractVersionsPanel({ production }: { production: TwinOpusDirectProduction }) {
   const { state } = production;
-
   return (
-    <dl className="tod-dcs-meta">
-      <div>
-        <dt>INTERACTION CONTRACT</dt>
-        <dd>{state.contractFreeze.contractVersion}</dd>
-      </div>
-      <div>
-        <dt>CONTRACT HASH</dt>
-        <dd className="tod-dcs-compare__ver">{state.contractFreeze.contractHash.slice(0, 16)}…</dd>
-      </div>
-      <div>
-        <dt>DESIGN AUTHORITY</dt>
-        <dd>{state.designAuthorityVersion}</dd>
-      </div>
-      <div>
-        <dt>FROZEN AT</dt>
-        <dd>{state.contractFreeze.frozenAt}</dd>
-      </div>
-      <div>
-        <dt>STATUS</dt>
-        <dd>{state.contractFreeze.COMPOSER_CONTRACT_STATUS}</dd>
-      </div>
-    </dl>
+    <OverlayBody>
+      <OverlaySection title="CONTRACTS" meta={state.contractFreeze.COMPOSER_CONTRACT_STATUS.replace(/_/g, ' ')}>
+        <OverlayMeta
+          entries={[
+            { k: 'INTERACTION CONTRACT', v: state.contractFreeze.contractVersion },
+            { k: 'DESIGN AUTHORITY', v: state.designAuthorityVersion },
+            { k: 'FROZEN AT', v: state.contractFreeze.frozenAt },
+            { k: 'STATUS', v: <OverlayStatus label={state.contractFreeze.COMPOSER_CONTRACT_STATUS} /> },
+          ]}
+        />
+      </OverlaySection>
+      <OverlayAdvanced title="CONTRACT HASH">
+        <p className="tod-ok-code">{state.contractFreeze.contractHash}</p>
+      </OverlayAdvanced>
+    </OverlayBody>
   );
 }
+
+/* ---- 12 CONCEPT INSPECTOR ------------------------------------------------ */
 
 export function InspectCandidatePanel({
   production,
@@ -338,42 +454,55 @@ export function InspectCandidatePanel({
   production: TwinOpusDirectProduction;
   candidateId: string;
 }) {
-  const { state } = production;
+  const { state, actions } = production;
   const candidate = twinOpusDirectCandidateById(candidateId);
   const artifact = twinOpusDirectCandidateArtifactView(candidateId);
+  const selectedMobile = state.preferredMobileConceptId === candidateId;
+  const selectedDesktop = state.preferredDesktopConceptId === candidateId;
 
   return (
-    <>
-      {artifact.src ?
-        <img src={artifact.src} alt="" className="tod-dcs-compare__img" />
-      : null}
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>CANDIDATE ID</dt>
-          <dd>{candidate.id}</dd>
-        </div>
-        <div>
-          <dt>VERSION</dt>
-          <dd>{candidate.version}</dd>
-        </div>
-        <div>
-          <dt>AUTHORITY ELIGIBILITY</dt>
-          <dd>
-            Mobile {state.mobileVersion} · Desktop {state.desktopVersion}
-          </dd>
-        </div>
-        <div>
-          <dt>LINEAGE</dt>
-          <dd>ENTRY001 campaign archive · Grok-approved plate family</dd>
-        </div>
-        <div>
-          <dt>SELECTED</dt>
-          <dd>{state.selectedCandidateId === candidateId ? 'YES' : 'NO'}</dd>
-        </div>
-      </dl>
-    </>
+    <OverlayBody>
+      <OverlayPreview
+        src={artifact.src}
+        caption={`${candidate.version} · ${candidate.id}`}
+        side={<OverlayStatus label={state.selectedCandidateId === candidateId ? 'SELECTED' : 'CANDIDATE'} />}
+        onOpen={artifact.src ? () => actions.openFullscreenArtifact(artifact) : undefined}
+        emptyLabel="NO CONCEPT ARTIFACT"
+      />
+
+      <OverlaySection title="CANDIDATE" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'VERSION', v: candidate.version },
+            { k: 'MOBILE SELECTION', v: <OverlayStatus label={selectedMobile ? 'SELECTED' : 'NOT SELECTED'} /> },
+            { k: 'DESKTOP SELECTION', v: <OverlayStatus label={selectedDesktop ? 'SELECTED' : 'NOT SELECTED'} /> },
+            { k: 'AUTHORITY', v: `${state.mobileVersion} mobile · ${state.desktopVersion} desktop` },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlayActions
+        primary={{
+          label: 'SELECT FOR MOBILE',
+          onClick: () => actions.selectViewportCandidate('MOBILE', candidate.id, candidate.version),
+        }}
+        secondary={[
+          {
+            label: 'SELECT FOR DESKTOP',
+            onClick: () => actions.selectViewportCandidate('DESKTOP', candidate.id, candidate.version),
+          },
+          {
+            label: 'FULLSCREEN',
+            onClick: () => artifact.src && actions.openFullscreenArtifact(artifact),
+            disabled: !artifact.src,
+          },
+        ]}
+      />
+    </OverlayBody>
   );
 }
+
+/* ---- 13 COMPARE CONCEPTS ------------------------------------------------- */
 
 export function CompareConceptsPanel({
   production,
@@ -384,85 +513,104 @@ export function CompareConceptsPanel({
   leftId: string;
   rightId: string;
 }) {
-  const left = twinOpusDirectCandidateById(leftId);
-  const right = twinOpusDirectCandidateById(rightId);
-
+  const { actions, state } = production;
   return (
-    <div className="tod-dcs-compare tod-dcs-compare--dual">
-      {[left, right].map((candidate) => (
-        <article key={candidate.id} className="tod-dcs-compare__card">
-          <header>{candidate.version}</header>
-          <img
-            src={twinOpusDirectCandidateArtifactView(candidate.id).src}
-            alt=""
-            className="tod-dcs-compare__img"
-          />
-          <span className="tod-dcs-compare__ver">{candidate.id}</span>
-          <DesignGateBadge
-            result={production.state.selectedCandidateId === candidate.id ? 'SELECTED' : 'NOT_APPLICABLE'}
-          />
-        </article>
-      ))}
-    </div>
+    <OverlayBody>
+      <OverlayCompare>
+        {[leftId, rightId].map((id) => {
+          const candidate = twinOpusDirectCandidateById(id);
+          const artifact = twinOpusDirectCandidateArtifactView(id);
+          return (
+            <OverlayPreview
+              key={id}
+              src={artifact.src}
+              caption={`${candidate.version} · ${candidate.id}`}
+              side={<OverlayStatus label={state.selectedCandidateId === id ? 'SELECTED' : 'CANDIDATE'} />}
+              onOpen={artifact.src ? () => actions.openFullscreenArtifact(artifact) : undefined}
+              emptyLabel="NO ARTIFACT"
+            />
+          );
+        })}
+      </OverlayCompare>
+      <OverlayNote>
+        Compare is visual. Selection stays with SELECT FOR MOBILE / SELECT FOR DESKTOP so a comparison never silently
+        changes the authority pair.
+      </OverlayNote>
+    </OverlayBody>
   );
 }
 
-export function ReviewTwinPagePanel({ projectSlug, production }: { projectSlug: string; production: TwinOpusDirectProduction }) {
+/* ---- 10 TWIN REVIEW ------------------------------------------------------ */
+
+export function ReviewTwinPagePanel({
+  projectSlug,
+  production,
+}: {
+  projectSlug: string;
+  production: TwinOpusDirectProduction;
+}) {
   const pageTarget = resolveDesignPageTargetForShell(projectSlug);
   const pageRecord = getDesignBoundPage(projectSlug, pageTarget.pageId);
   const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
   const route = pageCtx?.route ?? pageRecord?.route ?? '/';
   const src = typeof window !== 'undefined' ? `${window.location.origin}${route}` : route;
+  const [viewport, setViewport] = useState<'MOBILE' | 'TABLET' | 'DESKTOP'>('MOBILE');
 
   useEffect(() => {
     production.actions.markTwinPageReviewed();
   }, [production.actions]);
 
+  const width = viewport === 'MOBILE' ? 390 : viewport === 'TABLET' ? 834 : 1280;
+
   return (
-    <>
-      <p className="tod-dcs-lead">
-        REVIEW AUTHORITY opens the actual twin / working page for {pageTarget.pageLabel} — not upstream CGPT authority
-        references.
-      </p>
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>ROUTE</dt>
-          <dd>{route}</dd>
+    <OverlayBody>
+      <OverlayTabs
+        label="Twin viewport"
+        active={viewport}
+        onSelect={(id) => setViewport(id as typeof viewport)}
+        tabs={[
+          { id: 'MOBILE', label: 'MOBILE' },
+          { id: 'TABLET', label: 'TABLET' },
+          { id: 'DESKTOP', label: 'DESKTOP' },
+        ]}
+      />
+
+      <OverlaySection title="LIVE TWIN" meta={`${width}px`}>
+        <div className="tod-ok-twinStage" data-viewport={viewport}>
+          <iframe title="Twin page preview" className="tod-ok-twinFrame" src={src} style={{ width }} />
         </div>
-        <div>
-          <dt>TWIN STATUS</dt>
-          <dd>{production.state.twinImplementationStatus}</dd>
-        </div>
-      </dl>
-      <iframe title="Twin page preview" className="tod-dcs-twinFrame" src={src} />
-      <div className="tod-dcs-stackActions">
-        <a className="tod-dcs__primary" href={route} target="_blank" rel="noreferrer">
-          OPEN TWIN IN NEW TAB
-        </a>
-      </div>
-    </>
+      </OverlaySection>
+
+      <OverlaySection title="TWIN" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'ROUTE', v: route },
+            { k: 'STATUS', v: <OverlayStatus label={production.state.twinImplementationStatus ?? 'NONE'} /> },
+            { k: 'PAGE', v: pageTarget.pageLabel },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlayActions
+        primary={{ label: 'APPROVE TWIN', onClick: () => production.actions.runReviewAuthority('APPROVE') }}
+        secondary={[
+          { label: 'REQUEST CHANGES', onClick: () => production.actions.runReviewAuthority('REQUEST_CHANGES') },
+          { label: 'OPEN IN NEW TAB', onClick: () => window.open(route, '_blank', 'noreferrer') },
+        ]}
+      />
+    </OverlayBody>
   );
 }
 
-export function ComposerHandoffPanel({
-  projectSlug,
-  production,
-  onConfirm,
-  onCancel,
-}: {
+/* ---- 17 / 18 FRAMEWORK CONFIRMATION + COMPOSER HANDOFF ------------------- */
+
+export function ComposerHandoffPanel(props: {
   projectSlug: string;
   production: TwinOpusDirectProduction;
   onConfirm: () => void;
   onCancel: () => void;
 }) {
-  return (
-    <CreatePageFrameworkPanel
-      projectSlug={projectSlug}
-      production={production}
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-    />
-  );
+  return <CreatePageFrameworkPanel {...props} />;
 }
 
 export function CreatePageFrameworkPanel({
@@ -480,58 +628,61 @@ export function CreatePageFrameworkPanel({
   const pageTarget = resolveDesignPageTargetForShell(projectSlug);
   const wf = loadPageAuthorityWorkflow(projectSlug, pageTarget.pageId);
   const routes = resolveOpusFrameworkRoutes(projectSlug, pageTarget.pageId);
+  const mobileId = state.promotedMobileConceptId ?? wf.promoted.mobileConceptId ?? null;
+  const desktopId = state.promotedDesktopConceptId ?? wf.promoted.desktopConceptId ?? null;
+  const mobile = mobileId ? twinOpusDirectCandidateArtifactView(mobileId) : null;
+  const desktop = desktopId ? twinOpusDirectCandidateArtifactView(desktopId) : null;
+  const ready = Boolean(mobileId && desktopId);
 
   return (
-    <>
-      <p className="tod-dcs-lead">
-        Queue Opus page framework assembly from the promoted mobile + desktop design pair. No automatic Opus run —
-        dispatch occurs only after you confirm.
-      </p>
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>PROJECT</dt>
-          <dd>{projectSlug.toUpperCase()}</dd>
-        </div>
-        <div>
-          <dt>PAGE</dt>
-          <dd>{pageTarget.pageLabel}</dd>
-        </div>
-        <div>
-          <dt>MOBILE PROMOTED DESIGN</dt>
-          <dd>{state.promotedMobileConceptId ?? wf.promoted.mobileConceptId ?? '—'}</dd>
-        </div>
-        <div>
-          <dt>DESKTOP PROMOTED DESIGN</dt>
-          <dd>{state.promotedDesktopConceptId ?? wf.promoted.desktopConceptId ?? '—'}</dd>
-        </div>
-        <div>
-          <dt>TABLET POLICY</dt>
-          <dd>{state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED'}</dd>
-        </div>
-        <div>
-          <dt>INTERACTION CONTRACT</dt>
-          <dd>{state.contractFreeze.contractVersion}</dd>
-        </div>
-        <div>
-          <dt>CURRENT ASSET MANIFEST</dt>
-          <dd>twin-opus-direct-assets-v1</dd>
-        </div>
-        <div>
-          <dt>TARGET TWIN ROUTE</dt>
-          <dd>{routes.targetTwinRoute}</dd>
-        </div>
-      </dl>
-      <div className="tod-dcs-stackActions">
-        <button type="button" className="tod-dcs__primary" onClick={onConfirm}>
-          CREATE FRAMEWORK
-        </button>
-        <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
-          CANCEL
-        </button>
-      </div>
-    </>
+    <OverlayBody>
+      <OverlayNote>
+        Locks the promoted pair and queues Opus page framework assembly. Nothing dispatches until you confirm.
+      </OverlayNote>
+
+      <OverlayCompare>
+        <OverlayPreview
+          src={mobile?.src}
+          caption="MOBILE PROMOTED"
+          side={<OverlayStatus label={mobileId ? 'PROMOTED' : 'MISSING'} />}
+          emptyLabel="NO MOBILE PROMOTION"
+        />
+        <OverlayPreview
+          src={desktop?.src}
+          caption="DESKTOP PROMOTED"
+          side={<OverlayStatus label={desktopId ? 'PROMOTED' : 'MISSING'} />}
+          emptyLabel="NO DESKTOP PROMOTION"
+        />
+      </OverlayCompare>
+
+      <OverlaySection title="HANDOFF PACKAGE" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'PROJECT', v: projectSlug.toUpperCase() },
+            { k: 'PAGE', v: pageTarget.pageLabel },
+            { k: 'TABLET', v: state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED' },
+            { k: 'INTERACTION CONTRACT', v: state.contractFreeze.contractVersion },
+            { k: 'ASSET MANIFEST', v: 'twin-opus-direct-assets-v1' },
+            { k: 'TARGET ROUTE', v: routes.targetTwinRoute },
+          ]}
+        />
+      </OverlaySection>
+
+      {ready ? null : (
+        <OverlayCallout title="NOT READY" tone="blocked">
+          Both viewports must be promoted before a framework can be created.
+        </OverlayCallout>
+      )}
+
+      <OverlayActions
+        primary={{ label: 'CREATE FRAMEWORK', onClick: onConfirm, disabled: !ready }}
+        secondary={[{ label: 'CANCEL', onClick: onCancel }]}
+      />
+    </OverlayBody>
   );
 }
+
+/* ---- 03 GROK ASSET PRODUCTION PLAN --------------------------------------- */
 
 export function GrokPageAssetProductionPanel({
   projectSlug,
@@ -549,92 +700,93 @@ export function GrokPageAssetProductionPanel({
   const plan = buildFixtureGrokPageAssetPlan(projectSlug, pageTarget.pageId);
   const routes = resolveOpusFrameworkRoutes(projectSlug, pageTarget.pageId);
   const capture = loadPageCaptureHistory(projectSlug, pageTarget.pageId, 'MOBILE');
+  const target = state.promotedMobileConceptId ? twinOpusDirectCandidateArtifactView(state.promotedMobileConceptId) : null;
 
   return (
-    <>
-      <p className="tod-dcs-lead">
-        Grok returns an asset plan first. Approve the plan before any generation spend. No live Grok invoke in this
-        sprint.
-      </p>
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>PROJECT</dt>
-          <dd>{projectSlug.toUpperCase()}</dd>
-        </div>
-        <div>
-          <dt>PAGE</dt>
-          <dd>{pageTarget.pageLabel}</dd>
-        </div>
-        <div>
-          <dt>CURRENT CAPTURE</dt>
-          <dd>{capture.latest?.artifactPath ? 'CAPTURE ON FILE' : 'MISSING'}</dd>
-        </div>
-        <div>
-          <dt>PROMOTED MOBILE DESIGN</dt>
-          <dd>{state.promotedMobileConceptId ?? '—'}</dd>
-        </div>
-        <div>
-          <dt>PROMOTED DESKTOP DESIGN</dt>
-          <dd>{state.promotedDesktopConceptId ?? '—'}</dd>
-        </div>
-        <div>
-          <dt>TWIN ROUTE</dt>
-          <dd>{routes.targetTwinRoute}</dd>
-        </div>
-        <div>
-          <dt>CURRENT ASSET MANIFEST</dt>
-          <dd>twin-opus-direct-assets-v1</dd>
-        </div>
-      </dl>
-      <section className="tod-dcs-lead" aria-label="Asset plan">
-        <strong>ASSET PLAN</strong>
-        <p>{plan.summary}</p>
-        <ul>
-          {plan.slots.map((slot) => (
-            <li key={slot.slotId}>
-              {slot.label} · {slot.format} — {slot.purpose}
-            </li>
-          ))}
-        </ul>
-      </section>
-      <div className="tod-dcs-stackActions">
-        <button type="button" className="tod-dcs__primary" onClick={onConfirmPlan}>
-          APPROVE ASSET PLAN + OPEN GROK
-        </button>
-        <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
-          CANCEL
-        </button>
-      </div>
-    </>
+    <OverlayBody>
+      <OverlayCompare>
+        <OverlayPreview
+          src={capture.latest?.artifactPath}
+          caption="CURRENT CAPTURE"
+          side={<OverlayStatus label={capture.latest ? 'ON FILE' : 'MISSING'} />}
+          emptyLabel="NO CAPTURE YET"
+          emptyHint="Capture the live page so Grok can see what exists."
+        />
+        <OverlayPreview
+          src={target?.src}
+          caption="APPROVED DESIGN TARGET"
+          side={<OverlayStatus label={state.promotedMobileConceptId ? 'PROMOTED' : 'MISSING'} />}
+          emptyLabel="NO PROMOTED DESIGN"
+        />
+      </OverlayCompare>
+
+      <OverlaySection title="ASSET PLAN" meta={`${plan.slots.length} SLOTS`}>
+        <OverlayNote>{plan.summary}</OverlayNote>
+        <OverlayRows
+          rows={plan.slots.map((slot) => ({
+            id: slot.slotId,
+            name: slot.label,
+            sub: slot.purpose,
+            side: <OverlayStatus label={slot.format} tone="idle" />,
+          }))}
+        />
+      </OverlaySection>
+
+      <OverlaySection title="TARGET" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'PAGE', v: pageTarget.pageLabel },
+            { k: 'TWIN ROUTE', v: routes.targetTwinRoute },
+            { k: 'ASSET MANIFEST', v: 'twin-opus-direct-assets-v1' },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlayCallout title="SPEND" tone="next">
+        Grok returns a plan first. Approving the plan opens the asset desk; generation still needs its own confirmation.
+      </OverlayCallout>
+
+      <OverlayActions
+        primary={{ label: 'APPROVE PLAN + OPEN GROK', onClick: onConfirmPlan }}
+        secondary={[{ label: 'CANCEL', onClick: onCancel }]}
+      />
+    </OverlayBody>
   );
 }
 
-/** Legacy formal review — retained for API compatibility; twin review is primary UX. */
-export function ReviewAuthorityPanel({ production }: { production: TwinOpusDirectProduction }) {
-  const { actions } = production;
+/* ---- REVIEW AUTHORITY DECISION ------------------------------------------- */
 
+export function ReviewAuthorityPanel({ production }: { production: TwinOpusDirectProduction }) {
+  const { actions, state } = production;
   const submit = (decision: AuthorityReviewDecision) => {
     if (!decision) return;
     actions.runReviewAuthority(decision);
   };
 
   return (
-    <>
-      <p className="tod-dcs-lead">Formal founder decision — requires pair review opened first.</p>
-      <div className="tod-dcs-stackActions">
-        <button type="button" className="tod-dcs__primary" onClick={() => submit('APPROVE')}>
-          APPROVE AUTHORITY
-        </button>
-        <button type="button" className="tod-dcs__ghost" onClick={() => submit('REQUEST_CHANGES')}>
-          REQUEST CHANGES
-        </button>
-        <button type="button" className="tod-dcs__ghost" onClick={() => submit('REJECT')}>
-          REJECT
-        </button>
-      </div>
-    </>
+    <OverlayBody>
+      <OverlaySection title="DECISION SCOPE" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'MOBILE', v: state.promotedMobileConceptId ?? '—' },
+            { k: 'DESKTOP', v: state.promotedDesktopConceptId ?? '—' },
+            { k: 'PAIR', v: <OverlayStatus label={production.projection.pairStatusLabel} /> },
+          ]}
+        />
+      </OverlaySection>
+      <OverlayNote>A decision here is the founder's formal record. It does not build or deploy anything.</OverlayNote>
+      <OverlayActions
+        primary={{ label: 'APPROVE AUTHORITY', onClick: () => submit('APPROVE') }}
+        secondary={[
+          { label: 'REQUEST CHANGES', onClick: () => submit('REQUEST_CHANGES') },
+          { label: 'REJECT', onClick: () => submit('REJECT'), tone: 'danger' },
+        ]}
+      />
+    </OverlayBody>
   );
 }
+
+/* ---- HISTORY-ONLY legacy reconstruction artifact -------------------------- */
 
 export function StructuredArtifactPanel({ columnId }: { columnId: string }) {
   const column =
@@ -648,57 +800,85 @@ export function StructuredArtifactPanel({ columnId }: { columnId: string }) {
   const src = resolveTwinOpusDirectAsset(slot);
 
   return (
-    <>
-      <p className="tod-dcs-lead">{column.label} · {column.source}</p>
-      {src ?
-        <img src={src} alt="" className="tod-dcs-compare__img" />
-      : null}
+    <OverlayBody>
+      <OverlayCallout title="HISTORY ONLY">
+        Superseded by {PAGE_SYSTEM_REVIEW_TITLE}. Kept so past reconstruction records stay readable; it is not part of
+        the current workflow.
+      </OverlayCallout>
+      <OverlayPreview src={src} caption={`${column.label} · ${column.source}`} emptyLabel="NO ARCHIVED ARTIFACT" />
       {column.preview === 'functions' && column.functions ?
-        <ul className="tod-dcs-gates">
-          {column.functions.map((fn) => (
-            <li key={fn} className="tod-dcs-gate">
-              <strong className="tod-dcs-gate__name">{fn}</strong>
-            </li>
-          ))}
-        </ul>
+        <OverlaySection title="ARCHIVED FUNCTION MAP" flat>
+          <OverlayRows rows={column.functions.map((fn) => ({ id: fn, name: fn }))} />
+        </OverlaySection>
       : null}
-    </>
+    </OverlayBody>
   );
 }
 
-export function AmendmentDetailPanel() {
-  const a = TWIN_OPUS_DIRECT_AMENDMENT;
-  return (
-    <dl className="tod-dcs-meta">
-      <div>
-        <dt>TYPE</dt>
-        <dd>{a.fields.find((f) => f.label.includes('TYPE'))?.value ?? 'AUTHORITY SELECTION'}</dd>
-      </div>
-      <div>
-        <dt>SCOPE</dt>
-        <dd>{a.fields.find((f) => f.label.includes('SCOPE'))?.value}</dd>
-      </div>
-      <div>
-        <dt>EFFECTIVE</dt>
-        <dd>{a.fields.find((f) => f.label.includes('EFFECTIVE'))?.value}</dd>
-      </div>
-      <div>
-        <dt>STATUS</dt>
-        <dd>{a.chip}</dd>
-      </div>
-      <div>
-        <dt>REFERENCE</dt>
-        <dd>{a.title}</dd>
-      </div>
-    </dl>
-  );
-}
+/* ---- 16 VIEW AMENDMENT ---------------------------------------------------- */
 
-export function FullscreenArtifactOverlay({
+export function AmendmentDetailPanel({
+  projectSlug,
   production,
 }: {
+  projectSlug: string;
   production: TwinOpusDirectProduction;
 }) {
+  const amendment = TWIN_OPUS_DIRECT_AMENDMENT;
+  const field = (needle: string) => amendment.fields.find((entry) => entry.label.includes(needle))?.value ?? '—';
+  const pageTarget = resolveDesignPageTargetForShell(projectSlug);
+  const wf = loadPageAuthorityWorkflow(projectSlug, pageTarget.pageId);
+  const mobileRef = resolveActiveAuthorityImage(wf.mobileAuthority);
+  const history = wf.history.slice(-6).reverse();
+
+  return (
+    <OverlayBody>
+      <OverlaySection title="AMENDMENT" meta={<OverlayStatus label={amendment.chip} />}>
+        <OverlayPreview
+          src={mobileRef}
+          caption={amendment.title}
+          side={<OverlayStatus label={field('TYPE')} tone="idle" />}
+          emptyLabel="NO VISUAL REFERENCE"
+          emptyHint="This amendment has no attached authority image."
+        />
+        <OverlayMeta
+          entries={[
+            { k: 'TYPE', v: field('TYPE') },
+            { k: 'SCOPE', v: field('SCOPE') },
+            { k: 'EFFECTIVE', v: field('EFFECTIVE') },
+            { k: 'REFERENCE', v: amendment.title },
+            { k: 'PAGE', v: pageTarget.pageLabel },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlaySection title="SUMMARY" flat>
+        <OverlayNote>{field('SUMMARY') === '—' ? 'Authority selection recorded against the active page.' : field('SUMMARY')}</OverlayNote>
+      </OverlaySection>
+
+      <OverlaySection title="HISTORY" flat>
+        <OverlayTimeline
+          entries={history.map((entry, index) => ({
+            id: `${entry.type}-${entry.at}-${index}`,
+            when: entry.at.slice(0, 16).replace('T', ' '),
+            what: entry.type.replace(/_/g, ' '),
+            who: entry.summary,
+            current: index === 0,
+          }))}
+        />
+      </OverlaySection>
+
+      <OverlayActions
+        primary={{ label: 'OPEN RELATED PAGE ASSETS', onClick: () => production.actions.openPageAssetsPanel() }}
+        secondary={[{ label: 'VIEW AUTHORITY', onClick: () => production.actions.openViewportAuthorityEditor('MOBILE') }]}
+      />
+    </OverlayBody>
+  );
+}
+
+/* ---- 11 FULLSCREEN ARTIFACT ---------------------------------------------- */
+
+export function FullscreenArtifactOverlay({ production }: { production: TwinOpusDirectProduction }) {
   const artifact = production.uiPayload.artifact;
   if (!artifact) return null;
   return (
@@ -712,49 +892,34 @@ export function FullscreenArtifactOverlay({
   );
 }
 
-export function SpendConfirmPanel({
-  production,
-}: {
-  production: TwinOpusDirectProduction;
-}) {
+/* ---- SPEND CONFIRMATION --------------------------------------------------- */
+
+export function SpendConfirmPanel({ production }: { production: TwinOpusDirectProduction }) {
   const { pendingSpend, actions } = production;
   if (!pendingSpend) return null;
 
   return (
-    <>
-      <dl className="tod-dcs-meta tod-dcs-meta--compact">
-        <div>
-          <dt>ACTION</dt>
-          <dd>{pendingSpend.action}</dd>
-        </div>
-        <div>
-          <dt>MODEL / PROVIDER</dt>
-          <dd>site00-design · design-concept</dd>
-        </div>
-        <div>
-          <dt>ESTIMATED COST</dt>
-          <dd>${pendingSpend.estimatedUsd.toFixed(2)} USD</dd>
-        </div>
-        <div>
-          <dt>PROJECT RUNNING TOTAL</dt>
-          <dd>Tracked server-side per spend confirmation</dd>
-        </div>
-        <div>
-          <dt>WHAT WILL BE CREATED</dt>
-          <dd>New concept candidate branch under current gallery selection</dd>
-        </div>
-      </dl>
-      <div className="tod-dcs-modalActions">
-        <button type="button" className="tod-dcs__ghost" onClick={actions.cancelPendingSpend}>
-          CANCEL
-        </button>
-        <button type="button" className="tod-dcs__primary" onClick={actions.confirmPendingSpend}>
-          CONFIRM
-        </button>
-      </div>
-    </>
+    <OverlayBody>
+      <OverlaySection title="THIS RUN" meta={`$${pendingSpend.estimatedUsd.toFixed(2)}`}>
+        <OverlayMeta
+          entries={[
+            { k: 'ACTION', v: pendingSpend.action.replace(/_/g, ' ') },
+            { k: 'PROVIDER', v: 'site00-design · design-concept' },
+            { k: 'ESTIMATE', v: `$${pendingSpend.estimatedUsd.toFixed(2)} USD` },
+            { k: 'PRODUCES', v: 'A new concept candidate in the gallery' },
+          ]}
+        />
+      </OverlaySection>
+      <OverlayNote>Nothing is charged until you confirm. Cancelling leaves the gallery untouched.</OverlayNote>
+      <OverlayActions
+        primary={{ label: 'CONFIRM SPEND', onClick: actions.confirmPendingSpend }}
+        secondary={[{ label: 'CANCEL', onClick: actions.cancelPendingSpend }]}
+      />
+    </OverlayBody>
   );
 }
+
+/* ---- 14 BATCH / INHERITANCE EDIT ------------------------------------------ */
 
 export function PageBatchEditConfirmPanel({
   projectSlug,
@@ -768,45 +933,58 @@ export function PageBatchEditConfirmPanel({
   onApply: () => void;
 }) {
   const source = getDesignBoundPage(projectSlug, batch.sourcePageId);
-  const targets = batch.pageIds
-    .map((id) => getDesignBoundPage(projectSlug, id))
-    .filter(Boolean);
+  const review = buildPageSystemReviewModel(projectSlug, batch.sourcePageId, 'MOBILE');
+  const cards = [...review.children, ...review.grandchildren];
+  const targets = batch.pageIds.map((id) => ({
+    id,
+    page: getDesignBoundPage(projectSlug, id),
+    card: cards.find((entry) => entry.pageId === id) ?? null,
+  }));
+  const atRisk = targets.filter((entry) => entry.page?.designStatus === 'AMENDMENT_REQUIRED');
+
   return (
-    <>
-      <p className="tod-dcs-lead">Composer implements batch changes — no automatic mutation.</p>
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>SOURCE PAGE</dt>
-          <dd>{source?.pageName ?? batch.sourcePageId}</dd>
-        </div>
-        <div>
-          <dt>CHANGE TYPE</dt>
-          <dd>{batch.scope}</dd>
-        </div>
-        <div>
-          <dt>SELECTED DESCENDANTS</dt>
-          <dd>{targets.map((t) => t!.pageName).join(' · ') || '—'}</dd>
-        </div>
-        <div>
-          <dt>OVERRIDES AT RISK</dt>
-          <dd>
-            {targets.some((t) => t!.designStatus === 'AMENDMENT_REQUIRED') ?
-              'Review pages with overrides before apply'
-            : 'None flagged'}
-          </dd>
-        </div>
-      </dl>
-      <div className="tod-dcs-modalActions">
-        <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
-          CANCEL
-        </button>
-        <button type="button" className="tod-dcs__primary" onClick={onApply}>
-          APPLY TO SELECTED
-        </button>
-      </div>
-    </>
+    <OverlayBody>
+      <OverlaySection title="SOURCE" meta={batch.scope.replace(/_/g, ' ')}>
+        <OverlayMeta
+          entries={[
+            { k: 'SOURCE PAGE', v: source?.pageName ?? batch.sourcePageId },
+            { k: 'CHANGE TYPE', v: batch.scope.replace(/_/g, ' ') },
+            { k: 'SELECTED', v: `${targets.length} PAGES` },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlaySection title="AFFECTED PAGES" meta={`${targets.length}`}>
+        <OverlayThumbs
+          items={targets.map((entry) => ({
+            id: entry.id,
+            src: entry.card?.thumbnailSrc,
+            label: entry.page?.pageName ?? entry.id,
+            sub: entry.card?.inheritanceStatus ?? entry.page?.designStatus ?? 'INHERITED',
+            selected: true,
+          }))}
+          emptyLabel="NO PAGES SELECTED"
+          emptyHint="Select similar pages in PAGE SYSTEM REVIEW first."
+        />
+      </OverlaySection>
+
+      {atRisk.length ?
+        <OverlayCallout title="OVERRIDES AT RISK" tone="blocked">
+          {atRisk.map((entry) => entry.page?.pageName ?? entry.id).join(' · ')}
+        </OverlayCallout>
+      : <OverlayCallout title="OVERRIDES AT RISK">None flagged on the selected pages.</OverlayCallout>}
+
+      <OverlayNote>Composer implements batch changes. Applying records intent; it does not mutate pages here.</OverlayNote>
+
+      <OverlayActions
+        primary={{ label: 'APPLY TO SELECTED', onClick: onApply, disabled: targets.length === 0 }}
+        secondary={[{ label: 'CANCEL', onClick: onCancel }]}
+      />
+    </OverlayBody>
   );
 }
+
+/* ---- 04 PAGE ASSET INSPECT ------------------------------------------------ */
 
 export function PageAssetInspectPanel({
   projectSlug,
@@ -818,59 +996,108 @@ export function PageAssetInspectPanel({
   assetId: string;
 }) {
   const assets = [...listApprovedGrokAssets(projectSlug, pageId), ...listStagedGrokAssets(projectSlug, pageId)];
-  const asset = assets.find((a) => a.assetId === assetId);
-  if (!asset) return <p className="tod-dcs-lead">Asset not found in active page manifest.</p>;
+  const asset = assets.find((entry) => entry.assetId === assetId);
+  if (!asset) {
+    return (
+      <OverlayBody>
+        <OverlayEmpty label="ASSET NOT IN MANIFEST" hint="It may have been replaced or reverted since this panel opened." />
+      </OverlayBody>
+    );
+  }
+
   return (
-    <>
-      <p className="tod-dcs-lead">
-        {asset.slot} · {asset.origin} · {asset.status}
-      </p>
-      <img src={asset.previewDataUrl} alt="" className="tod-dcs-compare__img" />
-      <dl className="tod-dcs-meta">
-        <div>
-          <dt>VERSION</dt>
-          <dd>{asset.createdAt}</dd>
-        </div>
-        <div>
-          <dt>USAGE</dt>
-          <dd>Active twin / live page slot</dd>
-        </div>
-        <div>
-          <dt>GROK LINEAGE</dt>
-          <dd>{asset.runId ? `Run ${asset.runId}` : '—'}</dd>
-        </div>
-      </dl>
-    </>
+    <OverlayBody>
+      <OverlayPreview
+        src={asset.previewDataUrl}
+        caption={asset.slot}
+        side={<OverlayStatus label={asset.status} />}
+        emptyLabel="NO PREVIEW"
+      />
+      <OverlaySection title="ASSET" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'SLOT', v: asset.slot },
+            { k: 'ORIGIN', v: asset.origin },
+            { k: 'STATUS', v: <OverlayStatus label={asset.status} /> },
+            { k: 'CREATED', v: asset.createdAt.slice(0, 16).replace('T', ' ') },
+            { k: 'LINEAGE', v: asset.runId ? `Run ${asset.runId}` : 'Founder upload' },
+          ]}
+        />
+      </OverlaySection>
+    </OverlayBody>
   );
 }
 
+/* ---- 15 INTERACTION INSPECTOR --------------------------------------------- */
+
 export function PageInteractionsInspectorPanel({ projectSlug, pageId }: { projectSlug: string; pageId: string }) {
   const model = buildPageSystemReviewModel(projectSlug, pageId, 'MOBILE');
+  const categories = useMemo(() => {
+    const seen = new Map<string, number>();
+    for (const row of model.interactions) {
+      seen.set(row.category, (seen.get(row.category) ?? 0) + 1);
+    }
+    return [...seen.entries()].map(([id, count]) => ({ id, label: `${id} ${count}` }));
+  }, [model.interactions]);
+  const [tab, setTab] = useState<string>('ALL');
+  const rows = tab === 'ALL' ? model.interactions : model.interactions.filter((row) => row.category === tab);
+
   return (
-    <>
-      <p className="tod-dcs-lead">
-        {PAGE_SYSTEM_REVIEW_TITLE} · {model.activePageName}
-      </p>
-      <p className="tod-dcs-lead">
-        COVERAGE {model.interactionSummary.covered}/{model.interactionSummary.total}
-        {model.interactionSummary.unmapped > 0 ? ` · ${model.interactionSummary.unmapped} UNMAPPED` : ''}
-      </p>
-      <ul className="tod-dcs-gates">
-        {model.interactions.map((row) => (
-          <li key={row.id} className="tod-dcs-gate">
-            <strong className="tod-dcs-gate__name">{row.label}</strong>
-            <span>
-              {row.category} · {row.action} · {row.inheritance} · {row.status}
-            </span>
-            {row.destination ?
-              <span> → {row.destination}</span>
-            : null}
-          </li>
-        ))}
-      </ul>
-    </>
+    <OverlayBody>
+      <OverlaySection title="COVERAGE" meta={`${model.interactionSummary.covered} / ${model.interactionSummary.total}`}>
+        <OverlayDial
+          percent={
+            model.interactionSummary.total === 0 ?
+              0
+            : (model.interactionSummary.covered / model.interactionSummary.total) * 100
+          }
+          facts={[
+            { label: 'ACTIVE', value: model.interactionSummary.active },
+            { label: 'INHERITED', value: model.interactionSummary.inherited },
+            { label: 'OVERRIDDEN', value: model.interactionSummary.overridden },
+            { label: 'UNMAPPED', value: model.interactionSummary.unmapped },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlayTabs
+        label="Interaction category"
+        active={tab}
+        onSelect={setTab}
+        tabs={[{ id: 'ALL', label: `ALL ${model.interactions.length}` }, ...categories]}
+      />
+
+      <OverlaySection title={tab === 'ALL' ? 'ALL INTERACTIONS' : tab} flat>
+        <OverlayRows
+          emptyLabel="NO INTERACTIONS IN THIS CATEGORY"
+          rows={rows.map((row) => ({
+            id: row.id,
+            name: row.label,
+            sub: `${row.element} → ${row.action}${row.destination ? ` · ${row.destination}` : ''}`,
+            side: (
+              <>
+                <OverlayStatus label={row.inheritance} tone={row.inheritance === 'MISSING' ? 'blocked' : 'idle'} />
+                <OverlayStatus label={row.status} />
+              </>
+            ),
+          }))}
+        />
+      </OverlaySection>
+
+      <OverlayAdvanced title="CONTRACT DETAIL">
+        <OverlayRows
+          rows={rows.map((row) => ({
+            id: `${row.id}-adv`,
+            name: row.id,
+            sub: `${row.stateEffect} · ${row.permission}`,
+          }))}
+        />
+      </OverlayAdvanced>
+    </OverlayBody>
   );
 }
+
+/* ---- 05 PAGE PIPELINE ----------------------------------------------------- */
 
 export function PagePipelineTimelinePanel({
   projectSlug,
@@ -881,33 +1108,80 @@ export function PagePipelineTimelinePanel({
   pageId: string;
   production: TwinOpusDirectProduction;
 }) {
-  const model = buildPagePipelineControllerModel({
-    projectId: projectSlug,
-    pageId,
-    production: production.state,
-    twinRouteReachable: null,
-  });
+  const model = pipelineModel(projectSlug, pageId, production);
+
   return (
-    <ul className="tod-dcs-gates">
-      {model.stages.map((stage) => (
-        <li key={stage.id} className="tod-dcs-gate">
-          <strong className="tod-dcs-gate__name">
-            {stage.order.toString().padStart(2, '0')} {stage.label}
-          </strong>
-          <DesignGateBadge
-            result={
-              stage.status === 'COMPLETE' || stage.status === 'NOT_REQUIRED' ? 'PASS'
-              : stage.status === 'ACTIVE' || stage.status === 'BLOCKED' ? 'BLOCKED'
-              : 'NOT_APPLICABLE'
-            }
-          />
-          <p className="tod-dcs-gate__reason">{stage.purpose}</p>
-          {stage.missingItems.length ?
-            <p className="tod-dcs-gate__reason">Missing: {stage.missingItems.join(' · ')}</p>
-          : null}
-        </li>
-      ))}
-    </ul>
+    <OverlayBody>
+      <OverlaySection title="PAGE PROGRESS" meta={model.readyLabel}>
+        <OverlayDial
+          percent={model.readinessPercent}
+          facts={[
+            { label: 'STAGE', value: model.currentStageLabel },
+            { label: 'GATES', value: `${model.passedGateCount} / ${model.applicableGateCount}` },
+            { label: 'BLOCKERS', value: model.blockerCount },
+          ]}
+        />
+      </OverlaySection>
+
+      <OverlayStages
+        stages={model.stages.map((row) => ({
+          id: row.id,
+          order: row.order,
+          name: row.shortLabel || row.label,
+          state: stageState(row),
+          statusLabel: row.status,
+          purpose: row.purpose,
+          missing: [...row.missingItems],
+          action:
+            row.actionLabel && row.actionHandler ?
+              {
+                label: row.actionLabel,
+                onClick: () => production.actions.runPipelineHandler(row.actionHandler!),
+              }
+            : undefined,
+        }))}
+      />
+
+      <OverlayCallout title={model.nextAction.label} tone="next">
+        {model.nextAction.lines.join(' · ')}
+      </OverlayCallout>
+
+      <OverlayActions
+        primary={{
+          label: model.nextAction.buttonLabel,
+          onClick: () => production.actions.runPipelineHandler(model.nextAction.handler),
+          disabled: Boolean(model.nextAction.disabledReason),
+        }}
+        secondary={[{ label: 'READINESS RECEIPT', onClick: production.actions.openViewReadiness }]}
+      />
+    </OverlayBody>
+  );
+}
+
+/* ---- 08 TECHNICAL DETAILS -------------------------------------------------- */
+
+function CopyableRow({ label, value }: { label: string; value: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <li className="tod-ok-row">
+      <div className="tod-ok-row__main">
+        <span className="tod-ok-row__name">{label}</span>
+        <span className="tod-ok-row__sub">{value}</span>
+      </div>
+      <div className="tod-ok-row__side">
+        <button
+          type="button"
+          className="tod-ok-copy"
+          onClick={() => {
+            void navigator.clipboard?.writeText(value);
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 1200);
+          }}
+        >
+          {copied ? 'COPIED' : 'COPY'}
+        </button>
+      </div>
+    </li>
   );
 }
 
@@ -922,45 +1196,56 @@ export function PipelineTechnicalDetailsPanel({
 }) {
   const wf = loadPageAuthorityWorkflow(projectSlug, pageId);
   const ctx = compileDesignPageContext(projectSlug, pageId);
+  const groups: Array<{ title: string; rows: Array<[string, string]> }> = [
+    {
+      title: 'IDENTITY',
+      rows: [
+        ['projectId', projectSlug],
+        ['pageId', pageId],
+        ['route', ctx?.route ?? '—'],
+      ],
+    },
+    {
+      title: 'STATE',
+      rows: [
+        ['workflowStage', production.state.workflowStage],
+        ['twinImplementationStatus', production.state.twinImplementationStatus ?? wf.twinImplementationStatus],
+        ['syncStatus', production.syncStatus],
+      ],
+    },
+    {
+      title: 'VERSIONS',
+      rows: [
+        ['sessionVersion', String(production.state.sessionVersion)],
+        ['contractVersion', production.state.contractFreeze.contractVersion],
+        ['designAuthorityVersion', production.state.designAuthorityVersion],
+      ],
+    },
+    {
+      title: 'HANDOFF',
+      rows: [
+        ['composerHandoffPackageId', wf.composerHandoffPackage?.packageId ?? '—'],
+        ['pairLockedAt', wf.pairLockedAt ?? '—'],
+        ['twinRouteVerifiedAt', wf.twinRouteVerifiedAt ?? '—'],
+      ],
+    },
+  ];
+
   return (
-    <dl className="tod-dcs-meta">
-      <div>
-        <dt>projectId</dt>
-        <dd>{projectSlug}</dd>
-      </div>
-      <div>
-        <dt>pageId</dt>
-        <dd>{pageId}</dd>
-      </div>
-      <div>
-        <dt>workflowStage</dt>
-        <dd>{production.state.workflowStage}</dd>
-      </div>
-      <div>
-        <dt>sessionVersion</dt>
-        <dd>{production.state.sessionVersion}</dd>
-      </div>
-      <div>
-        <dt>contractVersion</dt>
-        <dd>{production.state.contractFreeze.contractVersion}</dd>
-      </div>
-      <div>
-        <dt>twinRoute</dt>
-        <dd>{ctx?.route ?? '—'}</dd>
-      </div>
-      <div>
-        <dt>twinImplementationStatus</dt>
-        <dd>{production.state.twinImplementationStatus ?? wf.twinImplementationStatus}</dd>
-      </div>
-      <div>
-        <dt>composerHandoffPackageId</dt>
-        <dd>{wf.composerHandoffPackage?.packageId ?? '—'}</dd>
-      </div>
-      <div>
-        <dt>syncStatus</dt>
-        <dd>{production.syncStatus}</dd>
-      </div>
-    </dl>
+    <OverlayBody>
+      <OverlayNote>
+        Diagnostics for support and handoff. Founder-facing state lives in PAGE PIPELINE and READINESS RECEIPT.
+      </OverlayNote>
+      {groups.map((group) => (
+        <OverlaySection key={group.title} title={group.title} flat>
+          <ul className="tod-ok-rows">
+            {group.rows.map(([label, value]) => (
+              <CopyableRow key={label} label={label} value={value} />
+            ))}
+          </ul>
+        </OverlaySection>
+      ))}
+    </OverlayBody>
   );
 }
 
@@ -975,27 +1260,55 @@ export function PipelineStageDetailPanel({
   production: TwinOpusDirectProduction;
   stageId: PagePipelineStageId;
 }) {
-  const model = buildPagePipelineControllerModel({
-    projectId: projectSlug,
-    pageId,
-    production: production.state,
-    twinRouteReachable: null,
-  });
-  const stage = model.stages.find((s) => s.id === stageId);
-  if (!stage) return <p className="tod-dcs-lead">Stage not found.</p>;
+  const model = pipelineModel(projectSlug, pageId, production);
+  const stage = model.stages.find((row) => row.id === stageId);
+  if (!stage) {
+    return (
+      <OverlayBody>
+        <OverlayEmpty label="STAGE NOT FOUND" />
+      </OverlayBody>
+    );
+  }
+
   return (
-    <>
-      <p className="tod-dcs-lead">{stage.label}</p>
-      <p className="tod-dcs-lead">{stage.purpose}</p>
-      {stage.completedItems.length ?
-        <p className="tod-dcs-lead">Completed: {stage.completedItems.join(' · ')}</p>
+    <OverlayBody>
+      <OverlaySection
+        title={`${stage.order.toString().padStart(2, '0')} ${stage.label}`}
+        meta={<OverlayStatus label={stage.status} tone={overlayTone(stage.status)} />}
+      >
+        <OverlayNote>{stage.purpose}</OverlayNote>
+      </OverlaySection>
+
+      <OverlaySection title="DONE" flat>
+        <OverlayRows
+          emptyLabel="NOTHING COMPLETED YET"
+          rows={stage.completedItems.map((item, index) => ({
+            id: `done-${index}`,
+            name: item,
+            side: <OverlayStatus label="PASS" />,
+          }))}
+        />
+      </OverlaySection>
+
+      <OverlaySection title="OUTSTANDING" flat>
+        <OverlayRows
+          emptyLabel="NOTHING OUTSTANDING"
+          rows={stage.missingItems.map((item, index) => ({
+            id: `missing-${index}`,
+            name: item,
+            side: <OverlayStatus label="MISSING" />,
+          }))}
+        />
+      </OverlaySection>
+
+      {stage.actionLabel && stage.actionHandler ?
+        <OverlayActions
+          primary={{
+            label: stage.actionLabel,
+            onClick: () => production.actions.runPipelineHandler(stage.actionHandler!),
+          }}
+        />
       : null}
-      {stage.missingItems.length ?
-        <p className="tod-dcs-lead">Missing: {stage.missingItems.join(' · ')}</p>
-      : null}
-      {stage.actionLabel ?
-        <p className="tod-dcs-lead">Action: {stage.actionLabel}</p>
-      : null}
-    </>
+    </OverlayBody>
   );
 }

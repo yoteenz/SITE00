@@ -80,6 +80,7 @@ import {
   twinOpusDirectCandidateById,
 } from './twinOpusDirectCandidateArtifacts';
 import {
+  DESIGN_PIPELINE_HANDLER_EVENT,
   useTwinOpusDirectProduction,
   type TwinOpusDirectProduction,
 } from './useTwinOpusDirectProduction';
@@ -193,6 +194,7 @@ export interface TwinOpusDirectWorkspaceActions {
   openTechnicalDetails: () => void;
   openPipelineStage: (stageId: string) => void;
   runPipelineHandler: (handler: PipelineResolutionHandler) => void;
+  openResolveBlocker: () => void;
   selectForMobile: () => void;
   selectForDesktop: () => void;
   openCompareConcepts: () => void;
@@ -485,6 +487,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openViewPipeline: prodActions.openViewPipeline,
       openTechnicalDetails: prodActions.openTechnicalDetails,
       openPipelineStage: (stageId) => prodActions.openPipelineStage(stageId),
+      openResolveBlocker: prodActions.openResolveBlocker,
       runPipelineHandler: (handler) => {
         switch (handler) {
           case 'openReadinessReceipt':
@@ -847,6 +850,15 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),
     [viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex],
   );
+
+  useEffect(() => {
+    const onHandler = (event: Event) => {
+      const handler = (event as CustomEvent<{ handler?: PipelineResolutionHandler }>).detail?.handler;
+      if (handler) actions.runPipelineHandler(handler);
+    };
+    window.addEventListener(DESIGN_PIPELINE_HANDLER_EVENT, onHandler);
+    return () => window.removeEventListener(DESIGN_PIPELINE_HANDLER_EVENT, onHandler);
+  }, [actions]);
 
   return {
     data,
