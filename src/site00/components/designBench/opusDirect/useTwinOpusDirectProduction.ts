@@ -97,6 +97,7 @@ export type TwinOpusDirectProductionActions = {
   openStructuredArtifact: (columnId: string) => void;
   openPageBatchEdit: (input: { sourcePageId: string; pageIds: string[]; scope: string }) => void;
   openPageAssetInspect: (assetId: string) => void;
+  openPageAssetsPanel: (assetId?: string) => void;
   openPageInteractionsInspector: () => void;
   openAmendmentDetail: () => void;
   selectGalleryCandidate: (candidateId: string) => void;
@@ -376,8 +377,12 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setOverlay('OV-PAGE-BATCH-EDIT');
       },
       openPageAssetInspect: (assetId) => {
-        setUiPayload({ pageAssetId: assetId });
-        setOverlay('OV-PAGE-ASSET-INSPECT');
+        setUiPayload({ pageAssetsSelectedId: assetId });
+        setOverlay('OV-PAGE-ASSETS');
+      },
+      openPageAssetsPanel: (assetId?: string) => {
+        setUiPayload(assetId ? { pageAssetsSelectedId: assetId } : {});
+        setOverlay('OV-PAGE-ASSETS');
       },
       openPageInteractionsInspector: () => {
         setUiPayload({});

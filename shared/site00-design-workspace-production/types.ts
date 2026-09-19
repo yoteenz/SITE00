@@ -170,6 +170,7 @@ export type DesignProductionUiOverlay =
   | 'OV-STRUCTURED-ARTIFACT'
   | 'OV-PAGE-BATCH-EDIT'
   | 'OV-PAGE-ASSET-INSPECT'
+  | 'OV-PAGE-ASSETS'
   | 'OV-PAGE-INTERACTIONS'
   | 'OV-PAGE-PIPELINE'
   | 'OV-PIPELINE-TECHNICAL'
@@ -188,6 +189,7 @@ export type DesignProductionUiPayload = {
   structuredColumnId?: string;
   pageBatchEdit?: { sourcePageId: string; pageIds: string[]; scope: string };
   pageAssetId?: string;
+  pageAssetsSelectedId?: string;
   pipelineStageId?: string;
   authorityEditorViewport?: 'MOBILE' | 'DESKTOP';
   reviewTwinRoute?: string;

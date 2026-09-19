@@ -60,6 +60,7 @@ export const DESIGN_CHILD_SURFACE_PLACEMENT: Record<
   'OV-STRUCTURED-ARTIFACT': { mode: 'DRAWER', kind: 'legacy reconstruction artifact' },
   'OV-PAGE-BATCH-EDIT': { mode: 'DRAWER', kind: 'page batch edit confirmation' },
   'OV-PAGE-ASSET-INSPECT': { mode: 'DRAWER', kind: 'page asset inspector' },
+  'OV-PAGE-ASSETS': { mode: 'DRAWER', kind: 'page assets management' },
   'OV-PAGE-INTERACTIONS': { mode: 'DRAWER', kind: 'page interaction inspector' },
   'OV-PAGE-PIPELINE': { mode: 'DRAWER', kind: 'page pipeline timeline' },
   'OV-PIPELINE-TECHNICAL': { mode: 'DRAWER', kind: 'pipeline technical diagnostics' },
