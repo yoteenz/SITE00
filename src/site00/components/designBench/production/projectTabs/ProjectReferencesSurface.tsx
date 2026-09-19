@@ -36,6 +36,10 @@ import {
   useShellFormat,
 } from '../designProjectSurfaceKit';
 import { useDesignProductionNavigation } from '../useDesignProductionNavigation';
+import {
+  PTV_COLLECTION_PLATE,
+  projectTabVisualUrl,
+} from '../../../../../../shared/site00-design-workspace-production/designProjectTabVisuals.js';
 import { PsIconCompare, PsIconLink, PsIconSearch, PsIconUpload } from './projectTabIcons';
 
 export function ProjectReferencesSurface() {
@@ -63,12 +67,19 @@ export function ProjectReferencesSurface() {
   const selected = library.all.find((ref) => ref.referenceId === selectedId) ?? scoped[0] ?? null;
 
   const railItems = [
-    { id: 'all', label: 'ALL REFERENCES', count: library.total, src: library.featured?.src ?? null },
+    {
+      id: 'all',
+      label: 'ALL REFERENCES',
+      count: library.total,
+      src: library.featured?.src ?? projectTabVisualUrl(PTV_COLLECTION_PLATE.all),
+    },
     ...library.collections.map((collection) => ({
       id: collection.id,
       label: collection.label,
       count: collection.references.length,
-      src: collection.references[0]?.src ?? null,
+      src:
+        collection.references[0]?.src ??
+        projectTabVisualUrl(PTV_COLLECTION_PLATE[collection.id] ?? 'plate-ref-empty.svg'),
     })),
   ];
 
@@ -102,7 +113,7 @@ export function ProjectReferencesSurface() {
       {library.featured && collectionId === 'all' && !query ? (
         <ProjectFeature
           eyebrow="FEATURED REFERENCE"
-          src={library.featured.src}
+          src={library.featured.src ?? projectTabVisualUrl(PTV_COLLECTION_PLATE.brand)}
           title={library.featured.label}
           source={`${library.featured.scope} · ${library.featured.viewport} · v${library.featured.version}`}
           body={library.featured.notes ?? `Bound to ${library.featured.route}.`}
@@ -222,7 +233,7 @@ export function ProjectReferencesSurface() {
 function toCard(ref: ProjectReferenceRecord) {
   return {
     id: ref.referenceId,
-    src: ref.src,
+    src: ref.src ?? projectTabVisualUrl(PTV_COLLECTION_PLATE[ref.collection] ?? 'plate-ref-empty.svg'),
     title: ref.label,
     sub: `${ref.viewport} · v${ref.version}`,
     badge: ref.status,

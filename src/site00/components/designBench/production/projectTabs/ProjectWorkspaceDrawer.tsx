@@ -171,9 +171,14 @@ export function ProjectWorkspaceDrawer({
   return (
     <div className="tod-ps-drawer" data-testid="design-projects-module-nav">
       <header className="tod-ps-drawer__hero">
-        {architecture.families[0]?.previewUrl ? (
-          <img src={architecture.families[0].previewUrl} alt="" loading="lazy" />
-        ) : null}
+        <img
+          src={
+            architecture.families[0]?.previewUrl ??
+            '/site00/project-tabs/staged/raster/plate-ref-brand.jpg'
+          }
+          alt=""
+          loading="lazy"
+        />
         <div className="tod-ps-drawer__heroText">
           <strong>{intelligence?.displayName ?? activeProjectSlug.toUpperCase()}</strong>
           <span>DESIGN WORKSPACE · SITE 00</span>
