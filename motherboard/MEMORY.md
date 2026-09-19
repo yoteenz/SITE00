@@ -10590,3 +10590,13 @@ Closed WORKSPACE_SELF gap: real Playwright capture of live DESIGN workspace for 
 - **State:** `WorkspaceSelfCaptureSet`, capture statuses, append-only history, `evaluateNbpHandoffReadiness`, auto `syncNbpPackageFromCaptures` when contract + READY pair exist.
 - **UI:** RECAPTURE CURRENT WORKSPACE, preview + fullscreen, failure/retry; artifacts in localStorage via `workspaceSelfArtifactStorage`.
 - **Branch:** `cursor/design-workspace-self-capture1-9f72`.
+
+---
+
+## 2026-09-19 — CAPTURE SCREEN Safari / site00.com API routing fix
+
+Founder **CAPTURE SCREEN** (hero compare / `useDesignPageCapture`) failed on production with Safari message **"The string did not match the expected pattern."** — root cause: relative `fetch('/api/site00/implementation-snapshots')` hit **GoDaddy SPA HTML**, and `Response.json()` on WebKit throws that opaque error.
+
+- **Fix:** Route implementation-snapshot + workspace-self capture client through **`captureApiFetch`** → `api.site00.com` with safe HTML-vs-JSON classification and founder-readable errors (`INVALID_API_RESPONSE`, etc.).
+- **Files:** `useDesignPageCapture.ts`, `useImplementationSnapshots.ts`, `workspaceSelfCaptureClient.ts`.
+- **Branch:** `cursor/design-capture-screen-api-routing-9f72`.

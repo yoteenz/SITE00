@@ -5,6 +5,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ImplementationSnapshotRecord, ImplementationSnapshotCoverage } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
 import type { DesignViewportClass } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr2/client.js';
+import { resolveFounderCaptureBaseUrl } from '../../../utils/site00CaptureBase.js';
+import { captureApiFetch, CAPTURE_CURRENT_PAGE_TIMEOUT_MS } from '../../services/captureApiFetch.js';
+
+const IMPLEMENTATION_SNAPSHOTS_PATH = '/api/site00/implementation-snapshots';
 
 function snapshotKey(projectId: string, screenId: string, viewport: DesignViewportClass) {
   return `${projectId}:${screenId}:${viewport}`;
@@ -18,13 +22,12 @@ export function useImplementationSnapshots(projectId: string) {
 
   const refreshCoverage = useCallback(async () => {
     try {
-      const res = await fetch(`/api/site00/implementation-snapshots?projectId=${encodeURIComponent(projectId)}`);
-      if (!res.ok) return;
-      const data = (await res.json()) as {
+      const result = await captureApiFetch<{
         coverage: ImplementationSnapshotCoverage;
         hydration?: { hydrated: number; reused: number };
-      };
-      setCoverage(data.coverage);
+      }>(`${IMPLEMENTATION_SNAPSHOTS_PATH}?projectId=${encodeURIComponent(projectId)}`);
+      if (!result.ok || !result.data?.coverage) return;
+      setCoverage(result.data.coverage);
     } catch {
       /* dev offline */
     }
@@ -32,12 +35,12 @@ export function useImplementationSnapshots(projectId: string) {
 
   const loadComposerDraftReview = useCallback(async () => {
     try {
-      const res = await fetch('/api/site00/implementation-snapshots?view=composer_draft_review');
-      if (!res.ok) return null;
-      return (await res.json()) as {
+      const result = await captureApiFetch<{
         queue: Array<{ pageId: string; screenshots: Record<DesignViewportClass, string | null> }>;
         health: { valid: number; expected: number };
-      };
+      }>(`${IMPLEMENTATION_SNAPSHOTS_PATH}?view=composer_draft_review`);
+      if (!result.ok) return null;
+      return result.data;
     } catch {
       return null;
     }
@@ -105,21 +108,26 @@ export function useImplementationSnapshots(projectId: string) {
     async (screenId: string, viewportClass: DesignViewportClass) => {
       setCapturing(true);
       try {
-        const res = await fetch('/api/site00/implementation-snapshots', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'capture_screen',
-            projectId,
-            screenId,
-            viewportClass,
-            baseUrl: window.location.origin,
-          }),
-        });
-        const data = (await res.json()) as { snapshot: ImplementationSnapshotRecord };
-        mergeSnapshot(data.snapshot);
+        const result = await captureApiFetch<{ snapshot: ImplementationSnapshotRecord; error?: string }>(
+          IMPLEMENTATION_SNAPSHOTS_PATH,
+          {
+            method: 'POST',
+            timeoutMs: CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
+            body: {
+              action: 'capture_screen',
+              projectId,
+              screenId,
+              viewportClass,
+              baseUrl: resolveFounderCaptureBaseUrl(),
+            },
+          },
+        );
+        if (!result.ok || !result.data?.snapshot) {
+          throw new Error(result.data?.error ?? 'CAPTURE_FAILED');
+        }
+        mergeSnapshot(result.data.snapshot);
         await refreshCoverage();
-        return data.snapshot;
+        return result.data.snapshot;
       } finally {
         setCapturing(false);
       }
@@ -132,23 +140,23 @@ export function useImplementationSnapshots(projectId: string) {
       setCapturing(true);
       setBatchProgress('CAPTURING…');
       try {
-        const res = await fetch('/api/site00/implementation-snapshots', {
+        const result = await captureApiFetch<{
+          batch: { complete: number; failed: number; planned: number };
+          snapshots: ImplementationSnapshotRecord[];
+        }>(IMPLEMENTATION_SNAPSHOTS_PATH, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+          timeoutMs: CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
+          body: {
             action: 'capture_project',
             projectId,
             screenSetMode,
-            baseUrl: window.location.origin,
-          }),
+            baseUrl: resolveFounderCaptureBaseUrl(),
+          },
         });
-        const data = (await res.json()) as {
-          batch: { complete: number; failed: number; planned: number };
-          snapshots: ImplementationSnapshotRecord[];
-        };
-        for (const snap of data.snapshots ?? []) mergeSnapshot(snap);
+        const data = result.data;
+        for (const snap of data?.snapshots ?? []) mergeSnapshot(snap);
         setBatchProgress(
-          `COMPLETE ${data.batch?.complete ?? 0} · FAILED ${data.batch?.failed ?? 0} · PLANNED ${data.batch?.planned ?? 0}`,
+          `COMPLETE ${data?.batch?.complete ?? 0} · FAILED ${data?.batch?.failed ?? 0} · PLANNED ${data?.batch?.planned ?? 0}`,
         );
         await refreshCoverage();
       } finally {
