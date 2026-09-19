@@ -18,6 +18,7 @@ import { appendPersistentImplementationSnapshot } from './implementationSnapshot
 import { resolveCaptureTarget, resolveRepresentativeRoute } from './routeRepresentativeResolver.js';
 import { isComposerDraftImplementationRoute } from '../p0vr3h/composerDraftSnapshots.js';
 import { COMPOSER_DRAFT_SNAPSHOT_LABEL } from '../p0vr3h/constants.js';
+import { bootstrapManagedDesignProject } from '../p0vr3m/managedProjectDesignBootstrap.js';
 
 import { execSync } from 'node:child_process';
 
@@ -80,6 +81,7 @@ async function uploadSnapshotBuffer(storagePath: string, pngPath: string): Promi
 }
 
 export async function captureImplementationSnapshot(input: CaptureScreenInput): Promise<ImplementationSnapshotRecord | null> {
+  bootstrapManagedDesignProject(input.projectId);
   const target = resolveCaptureTarget({
     projectId: input.projectId,
     screenId: input.screenId,

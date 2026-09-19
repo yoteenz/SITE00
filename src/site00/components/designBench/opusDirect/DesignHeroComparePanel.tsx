@@ -107,8 +107,8 @@ export function DesignHeroComparePanel({
           label={assembly.capture.label}
           busyLabel={compare.captureBusy ? 'CAPTURING…' : undefined}
           disabled={compare.captureBusy}
-          statusLine={null}
-          disabledReason={null}
+          statusLine={compare.captureError ? compare.captureError.slice(0, 48) : null}
+          disabledReason={compare.captureError}
           interactionId="hero-capture-screen"
           onClick={() => void actions.captureScreen()}
         />

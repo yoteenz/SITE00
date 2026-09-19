@@ -6,12 +6,14 @@ import { useCallback, useEffect, useState } from 'react';
 
 import {
   appendPageCapture,
+  DESIGN_PAGE_CAPTURE_UPDATED_EVENT,
   loadPageCaptureHistory,
   viewportToDesignViewportClass,
   type PageCaptureRecord,
 } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type { PageViewportId } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageViewportAuthority.js';
 import type { ImplementationSnapshotRecord } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
+import { resolveFounderCaptureBaseUrl } from '../../../../utils/site00CaptureBase.js';
 
 function snapshotToCapture(
   snap: ImplementationSnapshotRecord,
@@ -33,21 +35,49 @@ function snapshotToCapture(
   };
 }
 
-export function useDesignPageCapture(projectId: string, pageId: string, screenId: string, viewport: PageViewportId) {
+function formatCaptureFailure(snapshot: ImplementationSnapshotRecord | null | undefined): string {
+  if (!snapshot) return 'CAPTURE_TARGET_UNKNOWN — design screen not registered for this page';
+  if (snapshot.error?.trim()) return snapshot.error.trim().slice(0, 120);
+  if (snapshot.captureStatus) return `CAPTURE_${snapshot.captureStatus}`;
+  return 'CAPTURE_EMPTY';
+}
+
+export function useDesignPageCapture(
+  projectId: string,
+  pageId: string,
+  screenId: string,
+  viewport: PageViewportId,
+  route?: string | null,
+) {
   const [capturing, setCapturing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [latest, setLatest] = useState<PageCaptureRecord | null>(() =>
     loadPageCaptureHistory(projectId, pageId, viewport).latest,
   );
 
-  useEffect(() => {
+  const refreshLatest = useCallback(() => {
     setLatest(loadPageCaptureHistory(projectId, pageId, viewport).latest);
   }, [pageId, projectId, viewport]);
+
+  useEffect(() => {
+    refreshLatest();
+  }, [refreshLatest]);
+
+  useEffect(() => {
+    const onUpdated = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectId?: string; pageId?: string; viewport?: PageViewportId }>).detail;
+      if (detail?.projectId !== projectId || detail?.pageId !== pageId || detail?.viewport !== viewport) return;
+      refreshLatest();
+    };
+    window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, onUpdated);
+    return () => window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, onUpdated);
+  }, [pageId, projectId, refreshLatest, viewport]);
 
   const captureScreen = useCallback(async () => {
     setCapturing(true);
     setError(null);
     const viewportClass = viewportToDesignViewportClass(viewport);
+    const captureRoute = route?.trim() || undefined;
     try {
       const res = await fetch('/api/site00/implementation-snapshots', {
         method: 'POST',
@@ -57,17 +87,19 @@ export function useDesignPageCapture(projectId: string, pageId: string, screenId
           projectId,
           screenId,
           viewportClass,
-          baseUrl: typeof window !== 'undefined' ? window.location.origin : undefined,
+          route: captureRoute,
+          baseUrl: resolveFounderCaptureBaseUrl(),
         }),
       });
+      const data = (await res.json()) as { snapshot?: ImplementationSnapshotRecord | null; error?: string };
       if (!res.ok) {
-        throw new Error(`CAPTURE_FAILED_${res.status}`);
+        throw new Error(data.error?.trim() || `CAPTURE_FAILED_${res.status}`);
       }
-      const data = (await res.json()) as { snapshot?: ImplementationSnapshotRecord };
-      if (!data.snapshot?.publicUrl && !data.snapshot?.capturedUrl) {
-        throw new Error('CAPTURE_EMPTY');
+      const snapshot = data.snapshot ?? null;
+      if (!snapshot?.publicUrl && !snapshot?.capturedUrl) {
+        throw new Error(formatCaptureFailure(snapshot));
       }
-      const record = appendPageCapture(snapshotToCapture(data.snapshot, pageId, viewport));
+      const record = appendPageCapture(snapshotToCapture(snapshot, pageId, viewport));
       setLatest(record);
       return record;
     } catch (err) {
@@ -77,7 +109,7 @@ export function useDesignPageCapture(projectId: string, pageId: string, screenId
     } finally {
       setCapturing(false);
     }
-  }, [pageId, projectId, screenId, viewport]);
+  }, [pageId, projectId, route, screenId, viewport]);
 
   return { latest, capturing, error, captureScreen };
 }

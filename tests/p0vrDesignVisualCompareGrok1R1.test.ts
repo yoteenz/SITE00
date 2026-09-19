@@ -70,6 +70,12 @@ describe('P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1', () => {
     expect(workspace).toContain('captureScreen');
     expect(workspace).toContain('openHeroCompareFullscreen');
     expect(workspace).toContain('useDesignPageCapture');
+    expect(read('src/site00/components/designBench/opusDirect/useDesignPageCapture.ts')).toContain(
+      'resolveFounderCaptureBaseUrl',
+    );
+    expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotCaptureEngine.ts')).toContain(
+      'bootstrapManagedDesignProject',
+    );
   });
 
   it('mounts Grok dock with fixture model (no live spend in sprint)', () => {
