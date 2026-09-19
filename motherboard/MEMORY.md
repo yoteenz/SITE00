@@ -10463,3 +10463,16 @@ Founder sprint with 14 mobile + desktop reference images as design authority: th
 - **QA harness:** `scripts/design-bench/project-tabs1/capture.mjs` shoots all 7 tabs at 1440x1024 and 390x844, asserts format and content blocks, and also un-clips the frame to photograph each full surface. 14/14.
 - **Suite parity with base:** 40 files / 60 tests failing before and after (all pre-existing).
 - **Branch:** `cursor/opus-project-tabs1-e65d` · PR #1009.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1 (visual support pack)
+
+Full conversation: founder first had Opus rebuild the seven project-level Design Workspace tabs (hamburger, references, assets, pages, skins, history, more) as project-wide surfaces. This follow-up is **Grok visual support only** — generate/curate/stage the asset layer those live surfaces need so they feel editorial rather than empty. Do not redesign layout, routing, or shell.
+
+- **Role boundary:** Opus owns the surfaces. Grok fills existing slots. No fabricated founder-capture library (that would teach distrust). Support drawings are labelled STAGED fallbacks.
+- **Catalog:** `designProjectTabVisuals.ts` — 75 line icons (24×24 / 1.5 stroke / square caps / currentColor), labelled 320×200 SVG plates, 10 family fallback plates, 8 editorial rasters (brand, authority, mood, material, more banner, empty library, page map, history milestone).
+- **Dump:** `public/site00/project-tabs/staged/` + `review.html` + `manifest.json`. Approved-asset mutation: NONE.
+- **Wiring (slots only):** collection rail/card fallbacks, asset category cards, page-family thumbnails, skins material tiles + expression hero, history kind marks + empty plate, More banner, hamburger hero. `projectTabIcons.tsx` now renders the catalog so hamburger/action bars/More share one family.
+- **Review:** `/site00/project-tabs/staged/review.html`. Tests: `tests/p0vrDesignGrokProjectTabAssets1.test.ts` (10).
+- **Branch:** `cursor/grok-project-tab-assets-e65d` · PR #1010.
