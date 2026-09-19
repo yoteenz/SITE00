@@ -10303,3 +10303,15 @@ Production release test run failed (6 tests): view-mode boundary tests still exp
 
 - **Tests updated:** `p0vrDesignBenchOpusDirect.test.ts` (shared panel imports + markers in panel modules); `p0vrOpusAssetPersistence1.test.ts` (forbid manifest/resolver in hook, allow inspect action).
 - **No app code changes** — CI green only.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-HERO-ASSEMBLY-ACTIONS1 — hero CREATE FRAMEWORK + GENERATE ASSETS
+
+Founder sprint: hero compare toolbar gets CAPTURE SCREEN + CREATE FRAMEWORK + GENERATE ASSETS on one row; Opus framework handoff after mobile+desktop promoted; Grok asset production after twin reviewable + capture; no live Opus/Grok invoke.
+
+- **Shared:** `designHeroAssemblyActions.ts` (gates CASE A–D), `designOpusFrameworkHandoff.ts` (`OpusFrameworkHandoffPackage`, FRAMEWORK_BUILDING), `designGrokPageAssetPlan.ts` (fixture ASSET PLAN + founder approval before dock).
+- **UI:** `DesignHeroComparePanel` action row; modals `OV-CREATE-PAGE-FRAMEWORK`, `OV-GROK-PAGE-ASSET-PRODUCTION`; pipeline handlers `openCreateFramework` / `openGenerateAssets`.
+- **CSS:** hero compare flex + absolute action strip so buttons stay visible in fixed herorow.
+- **Tests:** `p0vrDesignHeroAssemblyActions1.test.ts`.
+- **Next:** Founder full flow CREATE FRAMEWORK → review twin → CAPTURE → GENERATE ASSETS.
