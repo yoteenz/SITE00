@@ -2,6 +2,9 @@
  * Builder Experience Translation — client-facing question registry.
  */
 
+import { IDNTY_LORE_ROLE_OPTIONS } from './idnty-lore-questions.js';
+import { formatCompoundLabels, resolveOptionLabels } from './loreAnswerTypes.js';
+
 export type ExperienceQuestionOption = {
   id: string;
   label: string;
@@ -235,10 +238,49 @@ export function bldrExperienceNextStep(currentStepId: string): string | null {
   return BLDR_EXPERIENCE_QUESTIONS[idx + 1]!.id;
 }
 
+/** Identity lore context Builder may inherit from Identity intake (raw answer shape). */
+export type BuilderInheritedLoreContext = {
+  worldMetaphor?: string | null;
+  audienceRelationship?: string | string[] | null;
+};
+
+/** Normalize localStorage / server inherited lore snapshot for Builder UI. */
+export function parseBuilderInheritedLoreContext(snap: unknown): BuilderInheritedLoreContext | null {
+  if (!snap || typeof snap !== 'object') return null;
+  const raw = snap as Record<string, unknown>;
+
+  const worldMetaphor = typeof raw.worldMetaphor === 'string' && raw.worldMetaphor.trim()
+    ? raw.worldMetaphor
+    : null;
+
+  let audienceRelationship: string | string[] | null = null;
+  const role = raw.audienceRelationship;
+  if (typeof role === 'string' && role.trim()) {
+    audienceRelationship = role;
+  } else if (Array.isArray(role)) {
+    const ids = role.filter((v): v is string => typeof v === 'string' && v.trim().length > 0);
+    audienceRelationship = ids.length > 0 ? ids : null;
+  }
+
+  if (!worldMetaphor && !audienceRelationship) return null;
+  return { worldMetaphor, audienceRelationship };
+}
+
+/** Format inherited role answer (option ids or synthesized labels) for display. */
+export function formatInheritedAudienceRelationship(
+  value: string | string[] | null | undefined,
+): string | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'string') return value.trim() || null;
+  if (!Array.isArray(value) || value.length === 0) return null;
+  const labels = resolveOptionLabels(value, IDNTY_LORE_ROLE_OPTIONS);
+  return formatCompoundLabels(labels);
+}
+
 /** Contextualize Builder prompt when Identity lore is available. */
 export function contextualizeExperienceTitle(
   stepId: string,
-  inheritedLore: { worldMetaphor?: string | null; audienceRelationship?: string | null } | null,
+  inheritedLore: BuilderInheritedLoreContext | null,
 ): string {
   const base = BLDR_EXPERIENCE_QUESTIONS.find((q) => q.id === stepId)?.title ?? '';
   if (!inheritedLore?.worldMetaphor) return base;
