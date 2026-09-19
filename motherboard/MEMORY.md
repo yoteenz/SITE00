@@ -10294,3 +10294,12 @@ Founder sprint: rebuild PIPELINE / READINESS as real page workflow controller wi
 - **Overlays:** `OV-PAGE-PIPELINE`, `OV-PIPELINE-TECHNICAL`, `OV-PIPELINE-STAGE`.
 - **Tests:** `p0vrDesignPipelineReadiness2.test.ts`.
 - **Next:** Founder pipeline/readiness UX review on NDXBOOK Overview.
+
+---
+
+## 2026-09-19 — CI fix after PAGE-SYSTEM-REVIEW1 + PIPELINE-READINESS2
+
+Production release test run failed (6 tests): view-mode boundary tests still expected inline `tod-out` / `tod-pipe` in `TwinOpusDirectCanonicalView` and `tod-lv-out` / `tod-lv-pipe` in list view after panels moved to `DesignPageSystemReviewSection` + `DesignPipelineReadinessPanel`. `p0vrOpusAssetPersistence1` blanket `/asset/i` ban on workspace hook broke on `openPageAssetInspect`.
+
+- **Tests updated:** `p0vrDesignBenchOpusDirect.test.ts` (shared panel imports + markers in panel modules); `p0vrOpusAssetPersistence1.test.ts` (forbid manifest/resolver in hook, allow inspect action).
+- **No app code changes** — CI green only.
