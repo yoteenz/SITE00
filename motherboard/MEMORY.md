@@ -10433,7 +10433,6 @@ Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no
 - **Tests:** `tests/heroCaptureScreenBootstrap.test.ts`.
 - **Branch:** `cursor/fix-hero-capture-screen-2dd8`.
 
-<<<<<<< HEAD
 ---
 
 ## 2026-09-19 — P0.EXPERIENCE.MODULE-WIRING1
@@ -10447,5 +10446,20 @@ Full conversation: founder sprint to make **EXPERIENCE** a first-class PROJECTS 
 - **Tests:** `tests/p0vrExperienceModuleWiring1.test.ts` (12). Updated astral path helper test for `/play/home`.
 - **QA:** Playwright screenshots with `?goldenDiffCapture=1` at `/opt/cursor/artifacts/projects-page-{desktop,mobile}.png`, `experience-baw-{desktop,mobile}.png`.
 - **Branch:** `cursor/experience-module-wiring1-9f72`.
-=======
->>>>>>> origin/main
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN.OPUS-PROJECT-TABS1 (project-level tab surfaces)
+
+Founder sprint with 14 mobile + desktop reference images as design authority: the seven top-row destinations (hamburger, references, assets, pages, skins, history, more) had to stop being page-local receipts and become **project-wide** workspace surfaces, on both formats, without touching routing or the page shell.
+
+- **The correction that drove the whole sprint:** the page surface owns page review; the tabs own the project. Every tab now reads the whole registry for the selected project, not the active page.
+- **Project data layer:** `shared/site00-design-workspace-production/designProjectLibraries.ts` (reference library, asset library, page architecture, project history) and `designProjectSkinSystem.ts` (palette / typography / materials / texture / panel grammar / application coverage). Nothing is fabricated — an empty project renders an empty library and says so.
+- **Page families:** registry `parentPageId` is almost always null (NDXBOOK: 45 pages, 1 declared parent), so parentage falls back to the longest page route that is a proper prefix, and families group on the **first hyphen-token of the first route segment**. Grouping on the root page gave one family of 45; on the whole segment it split `content-library` from `content-operations`. 20 coherent families now.
+- **Surface kit:** `designProjectSurfaceKit.tsx` + `site00-design-project-surface.css` (`tod-ps-*`) — identity line, search, filter chips, feature block, groups, card grids, rows + readiness dials, panes (rail / main / inspector), modules, timeline, activity strip, action bar.
+- **Layout does not key off viewport width.** The artboard is always 768 logical px; `TwinOpusDirectScreen` publishes `data-shell-format` (`wide` / `tall`) from the artboard aspect and `ShellFormatProvider` hands it to the surfaces. The project frame also applies `zoom` so a wide surface lays out in ~1280 units and a tall one in ~390. Any future project surface must read `useShellFormat()`, never a media query.
+- **Empty-data problem, and the honest fix:** on a fresh browser NDXBOOK has zero manifest assets and zero workflow events, so ASSETS and HISTORY rendered as blank consoles. Rather than seed fixtures, both now read **more real sources**: assets adds captured page media and slot-demand coverage against the Grok plan slots; history merges the project-scoped `designProductionStore` log and canonical reference captures (with thumbnails) alongside authority and asset events. 8 events and 7 captures for NDXBOOK out of the box.
+- **Hamburger:** `ProjectWorkspaceDrawer` replaces `DesignProjectModuleNavPanel` — identity + status, destinations with live counts, pinned tools, project switch, utilities.
+- **QA harness:** `scripts/design-bench/project-tabs1/capture.mjs` shoots all 7 tabs at 1440x1024 and 390x844, asserts format and content blocks, and also un-clips the frame to photograph each full surface. 14/14.
+- **Suite parity with base:** 40 files / 60 tests failing before and after (all pre-existing).
+- **Branch:** `cursor/opus-project-tabs1-e65d` · PR #1009.
