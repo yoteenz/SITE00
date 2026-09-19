@@ -133,7 +133,7 @@ export function createFixtureGrokStagedAsset(input: {
   runId: string;
 }): GrokStagedAsset {
   const asset: GrokStagedAsset = {
-    assetId: `grok-fixture-${Date.now()}`,
+    assetId: `grok-fixture-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     projectId: input.projectId,
     pageId: input.pageId,
     slot: input.slot,

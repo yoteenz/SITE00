@@ -2,7 +2,8 @@
  * P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 — descendant audit, batch inheritance, assets, interactions.
  */
 
-import { listApprovedGrokAssets, listStagedGrokAssets, type GrokStagedAsset } from './designGrokAssetModel.js';
+import { listActivePageAssets } from './designPageActiveAssetManifest.js';
+import type { PageAssetLifecycleStatus, PageAssetOrigin } from './designPageActiveAssetManifest.js';
 import { DESIGN_INTERACTION_REGISTRY, type DesignInteractionEntry } from './designInteractionRegistry.js';
 import { loadPageCaptureHistory } from './designPageCapture.js';
 import { listPageConceptCandidates } from './designProjectBinding/designPageConceptModel.js';
@@ -47,8 +48,9 @@ export type PageSystemDescendantCard = {
 export type PageSystemAssetRow = {
   assetId: string;
   slot: string;
-  origin: 'GROK' | 'PROJECT' | 'FOUNDER' | 'OTHER';
-  status: 'STAGED' | 'APPROVED' | 'IMPLEMENTED' | 'REPLACED';
+  displayName: string;
+  origin: PageAssetOrigin;
+  status: PageAssetLifecycleStatus;
   previewSrc: string;
   version: string;
   runId: string | null;
@@ -193,14 +195,15 @@ function interactionInheritance(
   return 'INHERITED FROM PARENT';
 }
 
-function grokAssetsToRows(assets: GrokStagedAsset[]): PageSystemAssetRow[] {
-  return assets.map((a) => ({
+function manifestAssetsToRows(projectId: string, pageId: string): PageSystemAssetRow[] {
+  return listActivePageAssets(projectId, pageId).map((a) => ({
     assetId: a.assetId,
     slot: a.slot,
-    origin: 'GROK',
-    status: a.status === 'APPROVED' ? 'APPROVED' : 'STAGED',
+    displayName: a.displayName,
+    origin: a.origin,
+    status: a.status,
     previewSrc: a.previewDataUrl,
-    version: a.createdAt.slice(0, 10),
+    version: `v${a.versionNumber}`,
     runId: a.runId,
   }));
 }
@@ -245,9 +248,7 @@ export function buildPageSystemReviewModel(
     members,
   }));
 
-  const staged = listStagedGrokAssets(projectId, pageId);
-  const approved = listApprovedGrokAssets(projectId, pageId);
-  const assets = [...grokAssetsToRows(approved), ...grokAssetsToRows(staged)];
+  const assets = manifestAssetsToRows(projectId, pageId);
 
   const page = active ?? registry[0];
   const interactions: PageSystemInteractionRow[] = DESIGN_INTERACTION_REGISTRY.map((entry) => {

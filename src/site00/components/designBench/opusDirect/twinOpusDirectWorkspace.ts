@@ -193,6 +193,7 @@ export interface TwinOpusDirectWorkspaceActions {
   openDesignPage: (pageId: string) => void;
   openPageBatchEdit: (input: { sourcePageId: string; pageIds: string[]; scope: string }) => void;
   openPageAssetInspect: (assetId: string) => void;
+  openPageAssetsPanel: (assetId?: string) => void;
   openPageInteractionsInspector: () => void;
   openAmendmentDetail: () => void;
   runContextualNextAction: () => void;
@@ -350,6 +351,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       },
       openPageBatchEdit: (input) => prodActions.openPageBatchEdit(input),
       openPageAssetInspect: (assetId) => prodActions.openPageAssetInspect(assetId),
+      openPageAssetsPanel: (assetId) => prodActions.openPageAssetsPanel(assetId),
       openPageInteractionsInspector: () => prodActions.openPageInteractionsInspector(),
       openAmendmentDetail: () => prodActions.openAmendmentDetail(),
       runContextualNextAction: () => {

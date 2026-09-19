@@ -167,8 +167,15 @@ export function DesignPageSystemReviewSection({ projectSlug, model, viewportNote
           </button>
         </div>
 
-        <div className="tod-out__col tod-psr__col">
-          <span className="tod-out__label">ASSETS</span>
+        <div className="tod-out__col tod-psr__col tod-psr__col--assets">
+          <button
+            type="button"
+            className="tod-out__label tod-psr__assetsOpen"
+            onClick={() => actions.openPageAssetsPanel()}
+            data-interaction-id="page-system-open-assets"
+          >
+            ASSETS
+          </button>
           <div className="tod-psr__stack">
             {model.assets.length === 0 ?
               <p className="tod-psr__empty">NO PAGE ASSETS IN MANIFEST</p>
@@ -177,15 +184,15 @@ export function DesignPageSystemReviewSection({ projectSlug, model, viewportNote
                   key={a.assetId}
                   type="button"
                   className="tod-psr-card tod-psr-card--asset"
-                  onClick={() => actions.openPageAssetInspect(a.assetId)}
+                  onClick={() => actions.openPageAssetsPanel(a.assetId)}
                   data-interaction-id="page-system-inspect-asset"
                 >
                   <span className="tod-psr-card__thumb">
                     <img src={a.previewSrc} alt="" draggable={false} />
                   </span>
-                  <span className="tod-psr-card__name">{a.slot}</span>
+                  <span className="tod-psr-card__name">{a.displayName || a.slot}</span>
                   <span className="tod-psr-card__meta">
-                    {a.origin} · {a.status} · v{a.version}
+                    {a.origin} · {a.status} · {a.version}
                   </span>
                 </button>
               ))

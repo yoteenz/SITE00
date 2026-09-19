@@ -26,6 +26,7 @@ import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNa
 import type { PagePipelineStageId } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import { DesignViewportAuthorityEditorOverlay } from './DesignViewportAuthorityEditorOverlay';
+import { PageAssetsManagementPanel } from './PageAssetsManagementPanel';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
 
 type Props = {
@@ -362,6 +363,22 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
               projectSlug={slug}
               pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
               assetId={production.uiPayload.pageAssetId}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PAGE-ASSETS' ?
+          <DesignChildSurfaceFrame
+            mode="DRAWER"
+            title="PAGE ASSETS"
+            overlayId="OV-PAGE-ASSETS"
+            onClose={close}
+          >
+            <PageAssetsManagementPanel
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+              viewport="MOBILE"
+              initialSelectedAssetId={production.uiPayload.pageAssetsSelectedId}
             />
           </DesignChildSurfaceFrame>
         : null}
