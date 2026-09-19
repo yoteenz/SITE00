@@ -35,9 +35,10 @@ describe('P0.VR.DESIGN-INTERACTION-COVERAGE1', () => {
     expect(workspace).toContain('openCompareConcepts');
     expect(workspace).toContain('runContextualNextAction');
     expect(workspace).toContain('selectForMobile');
+    expect(workspace).toContain('openStructuredArtifact');
     const canonical = read('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
     expect(canonical).toContain('openCompareConcepts');
-    expect(canonical).toContain('openStructuredArtifact');
+    expect(canonical).toContain('DesignPipelineReadinessPanel');
     expect(canonical).toContain('data-interaction-id');
     const production = read('src/site00/components/designBench/opusDirect/useTwinOpusDirectProduction.ts');
     expect(production).toContain('openFullscreenArtifact');
