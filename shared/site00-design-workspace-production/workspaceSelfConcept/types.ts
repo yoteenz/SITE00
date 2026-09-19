@@ -3,18 +3,49 @@
  */
 
 import type { DesignTargetType } from '../designTargetModel.js';
+import type { WorkspaceSelfSourceContext } from './sourceContext.js';
+
+export type NbpHandoffReadiness =
+  | 'READY_FOR_NBP'
+  | 'BLOCKED_NO_MOBILE_CAPTURE'
+  | 'BLOCKED_NO_DESKTOP_CAPTURE'
+  | 'BLOCKED_NO_FUNCTION_CONTRACT';
 
 export type WorkspaceViewport = 'MOBILE' | 'DESKTOP' | 'TABLET';
+
+export type WorkspaceSelfCaptureStatus = 'CAPTURING' | 'READY' | 'FAILED' | 'SUPERSEDED';
 
 export type WorkspaceSelfCapture = {
   captureId: string;
   targetId: string;
   viewport: WorkspaceViewport;
   route: string;
+  projectId?: string;
+  pageId?: string;
   build: string;
   artifactPath: string | null;
   timestamp: string;
   createdBy: string;
+  status: WorkspaceSelfCaptureStatus;
+  failureReason?: string;
+  captureSetId?: string;
+};
+
+export type WorkspaceSelfCaptureSetStatus = 'CAPTURING' | 'READY' | 'FAILED' | 'SUPERSEDED';
+
+export type WorkspaceSelfCaptureSet = {
+  captureSetId: string;
+  targetId: string;
+  mobileCaptureId: string | null;
+  desktopCaptureId: string | null;
+  sourceBuild: string;
+  sourceRoute: string;
+  sourceProjectId: string;
+  sourcePageId: string;
+  createdAt: string;
+  createdBy: string;
+  status: WorkspaceSelfCaptureSetStatus;
+  failureReason?: string;
 };
 
 export type WorkspaceFunctionContract = {
@@ -58,7 +89,11 @@ export type WorkspaceConceptCandidate = {
   status: WorkspaceConceptCandidateStatus;
 };
 
-export type WorkspaceConceptGenerationPackageStatus = 'DRAFT' | 'READY_FOR_NBP' | 'GENERATION_REQUESTED';
+export type WorkspaceConceptGenerationPackageStatus =
+  | 'DRAFT'
+  | 'READY_FOR_NBP'
+  | 'GENERATION_REQUESTED'
+  | 'BLOCKED';
 
 export type WorkspaceConceptGenerationPackage = {
   packageId: string;
@@ -70,6 +105,7 @@ export type WorkspaceConceptGenerationPackage = {
   workspaceArchitectureVersion: string;
   generationCount: 3;
   status: WorkspaceConceptGenerationPackageStatus;
+  readiness: NbpHandoffReadiness;
   createdAt: string;
 };
 
@@ -111,10 +147,20 @@ export type ComposerWorkspaceHandoffPackage = {
   createdAt: string;
 };
 
+export type WorkspaceSelfCaptureFailure = {
+  message: string;
+  at: string;
+  captureSetId?: string;
+};
+
 export type WorkspaceSelfWorkflowState = {
   targetId: string;
   targetType: DesignTargetType;
+  sourceContext: WorkspaceSelfSourceContext;
   captures: readonly WorkspaceSelfCapture[];
+  captureSets: readonly WorkspaceSelfCaptureSet[];
+  activeCaptureSetId: string | null;
+  lastCaptureFailure: WorkspaceSelfCaptureFailure | null;
   functionContract: WorkspaceFunctionContract | null;
   nbpPackage: WorkspaceConceptGenerationPackage | null;
   concepts: readonly WorkspaceConceptCandidate[];

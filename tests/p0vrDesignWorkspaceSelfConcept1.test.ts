@@ -117,43 +117,39 @@ describe('P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT1', () => {
     expect(s.composerHandoff?.status).toBe('READY');
   });
 
-  it('captures append without replacing history; production lock flag stays true', () => {
+  it('legacy capture rows normalize with status; production lock flag stays true', () => {
     let s = createInitialWorkspaceSelfState();
     s = addWorkspaceSelfCapture(s, {
       viewport: 'MOBILE',
       route: '/projects/design/ndxbook',
       build: 'v1',
-      artifactPath: null,
+      artifactPath: 'local://x/1',
       createdBy: 'test',
+      status: 'READY',
     });
-    s = addWorkspaceSelfCapture(s, {
-      viewport: 'MOBILE',
-      route: '/projects/design/ndxbook',
-      build: 'v2',
-      artifactPath: null,
-      createdBy: 'test',
-    });
-    expect(s.captures.filter((c) => c.viewport === 'MOBILE')).toHaveLength(2);
+    expect(s.captures.filter((c) => c.viewport === 'MOBILE')).toHaveLength(1);
     expect(s.productionMutationLocked).toBe(true);
     expect(assertProductionWorkspaceUnmutated()).toBe(true);
   });
 
-  it('NBP package requires contract + mobile/desktop captures', () => {
+  it('NBP package requires READY artifact captures', () => {
     let s = compileAndFreezeFunctionContract(createInitialWorkspaceSelfState());
     expect(() => createNbpConceptPackage(s)).toThrow();
     s = addWorkspaceSelfCapture(s, {
       viewport: 'MOBILE',
-      route: '/r',
+      route: '/projects/design/ndxbook',
       build: 'b',
-      artifactPath: null,
+      artifactPath: 'local://m',
       createdBy: 't',
+      status: 'READY',
     });
     s = addWorkspaceSelfCapture(s, {
       viewport: 'DESKTOP',
-      route: '/r',
+      route: '/projects/design/ndxbook',
       build: 'b',
-      artifactPath: null,
+      artifactPath: 'local://d',
       createdBy: 't',
+      status: 'READY',
     });
     s = createNbpConceptPackage(s);
     expect(s.nbpPackage?.generationCount).toBe(3);

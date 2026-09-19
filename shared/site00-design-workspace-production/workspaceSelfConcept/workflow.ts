@@ -1,16 +1,17 @@
 import { WORKSPACE_SELF_TARGET, WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
+import { syncNbpPackageFromCaptures } from './captureWorkflow.js';
+import { DEFAULT_WORKSPACE_SELF_SOURCE } from './sourceContext.js';
+import { evaluateNbpHandoffReadiness } from './readiness.js';
 import { compileWorkspaceFunctionContract } from './functionContract.js';
 import {
   OPUS_ALLOWED_MUTATION_SCOPE,
   OPUS_FORBIDDEN_MUTATION_SCOPE,
-  WORKSPACE_CONCEPT_GENERATION_COUNT,
   seedWorkspaceConceptSlots,
 } from './constants.js';
 import type {
   ComposerWorkspaceHandoffPackage,
   OpusDesignShellPackage,
   WorkspaceConceptCandidate,
-  WorkspaceConceptGenerationPackage,
   WorkspaceConceptSlotId,
   WorkspaceSelfCapture,
   WorkspaceSelfWorkflowState,
@@ -32,7 +33,11 @@ export function createInitialWorkspaceSelfState(): WorkspaceSelfWorkflowState {
   return {
     targetId: WORKSPACE_SELF_TARGET_ID,
     targetType: 'WORKSPACE_SELF',
+    sourceContext: DEFAULT_WORKSPACE_SELF_SOURCE,
     captures: [],
+    captureSets: [],
+    activeCaptureSetId: null,
+    lastCaptureFailure: null,
     functionContract: null,
     nbpPackage: null,
     concepts: seedWorkspaceConceptSlots(),
@@ -63,6 +68,7 @@ export function addWorkspaceSelfCapture(
     targetId: WORKSPACE_SELF_TARGET_ID,
     timestamp: new Date().toISOString(),
     ...input,
+    status: input.status ?? 'READY',
   };
   return appendHistory(
     { ...state, captures: [...state.captures, capture] },
@@ -73,37 +79,20 @@ export function addWorkspaceSelfCapture(
 
 export function compileAndFreezeFunctionContract(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {
   const functionContract = compileWorkspaceFunctionContract();
-  return appendHistory(
+  const withContract = appendHistory(
     { ...state, functionContract },
     'workspace_function_contract_compiled',
     functionContract.version,
   );
+  return syncNbpPackageFromCaptures(withContract);
 }
 
 export function createNbpConceptPackage(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {
-  if (!state.functionContract) throw new Error('FUNCTION_CONTRACT_REQUIRED');
-  const mobile = [...state.captures].reverse().find((c) => c.viewport === 'MOBILE');
-  const desktop = [...state.captures].reverse().find((c) => c.viewport === 'DESKTOP');
-  if (!mobile || !desktop) throw new Error('CURRENT_CAPTURES_REQUIRED');
-
-  const nbpPackage: WorkspaceConceptGenerationPackage = {
-    packageId: `wsgp-${Date.now()}`,
-    targetId: WORKSPACE_SELF_TARGET_ID,
-    currentMobileCaptureId: mobile.captureId,
-    currentDesktopCaptureId: desktop.captureId,
-    functionContractId: state.functionContract.contractId,
-    hostDesignSystemVersion: 'site00-host-v1',
-    workspaceArchitectureVersion: 'twin-opus-direct-v1',
-    generationCount: WORKSPACE_CONCEPT_GENERATION_COUNT,
-    status: 'READY_FOR_NBP',
-    createdAt: new Date().toISOString(),
-  };
-
-  return appendHistory(
-    { ...state, nbpPackage },
-    'workspace_concept_package_created',
-    nbpPackage.packageId,
-  );
+  const readiness = evaluateNbpHandoffReadiness(state);
+  if (readiness === 'BLOCKED_NO_FUNCTION_CONTRACT') throw new Error('FUNCTION_CONTRACT_REQUIRED');
+  if (readiness === 'BLOCKED_NO_MOBILE_CAPTURE') throw new Error('BLOCKED_NO_MOBILE_CAPTURE');
+  if (readiness === 'BLOCKED_NO_DESKTOP_CAPTURE') throw new Error('BLOCKED_NO_DESKTOP_CAPTURE');
+  return syncNbpPackageFromCaptures(state);
 }
 
 export function requestConceptGeneration(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {
@@ -334,5 +323,7 @@ export function latestCaptureForViewport(
   state: WorkspaceSelfWorkflowState,
   viewport: WorkspaceViewport,
 ): WorkspaceSelfCapture | null {
-  return [...state.captures].reverse().find((c) => c.viewport === viewport) ?? null;
+  return (
+    [...state.captures].reverse().find((c) => c.viewport === viewport && c.status === 'READY') ?? null
+  );
 }
