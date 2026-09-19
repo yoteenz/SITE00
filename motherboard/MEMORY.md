@@ -10346,3 +10346,16 @@ Production Release test: `p0vrDesignVisualCompareGrok1R1` expected literal `CAPT
 
 - **Fix:** Assert `assembly.*.label`, hero interaction ids, and `'CAPTURE SCREEN'` in shared assembly module.
 - **Also:** Removed stray `<<<<<<<` conflict markers in `MEMORY.md`.
+
+
+---
+
+## 2026-09-19 — DESIGN workspace visual-system map (exploration)
+
+Summary of the **whole conversation so far** in this chat: founder asked for a thorough exploration of the SITE 00 repo to identify the real founder-facing DESIGN workspace and every overlay reachable from it, ahead of rebuilding the visual system of that workspace and its popups/drawers/modals/sheets.
+
+- **Context:** Rebuild visual system of DESIGN workspace + every overlay inside it; need precise routes, component tree, overlay inventory, shared CSS/primitives, stale labels, line counts, mobile vs desktop variants.
+- **Topics covered:** Route authority on `origin/main`; distinction between production DESIGN vs legacy reconstruction lab vs isolated benches; overlay catalog via `TwinOpusDirectOverlays` + agent docks; shared `DesignChildSurfaceFrame` primitive; stale Structured Output / Grounding / Entry001 surfaces.
+- **Decisions / outcomes:** Real founder-facing DESIGN is **`/projects/design/:projectSlug`** (`projectsDesignActiveProject`) via `DesignProductionWorkspacePage` → `DesignWorkspaceCore` → `TwinOpusDirectScreen`. Twin review twin is **`/projects/:projectSlug/design/twin-opus-direct`** sharing the same core. Legacy `StudioWorldDesignWorkspace` is reconstruction-lab only. Overlays use shared `DesignChildSurfaceFrame` (`tod-dcs--drawer|sheet|modal|workspace|inspector`) plus Opus/Grok docks outside the artboard transform. CANONICAL/LIST are **text** radiogroup labels (not icons yet). Header crumbs resolve to `PROJECTS > DESIGN > {page|project}` (default page OVERVIEW).
+- **Changes:** docs only — `motherboard/CORE.md` route table + this MEMORY entry. No UI/code change.
+- **Conventions:** Prefer `origin/main` DESIGN production paths for visual rebuild work; do not treat `StudioWorldDesignWorkspace` or isolated Sol/Grok/Fable/Spark directs as the product DESIGN shell.
