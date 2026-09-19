@@ -51,8 +51,14 @@ describe('P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1', () => {
     const panel = read('src/site00/components/designBench/opusDirect/DesignHeroComparePanel.tsx');
     expect(panel).toContain('CURRENT');
     expect(panel).toContain('CONCEPT');
-    expect(panel).toContain('CAPTURE SCREEN');
+    expect(panel).toContain('assembly.capture.label');
+    expect(panel).toContain('assembly.createFramework.label');
+    expect(panel).toContain('assembly.generateAssets.label');
     expect(panel).toContain('hero-capture-screen');
+    expect(panel).toContain('hero-create-framework');
+    expect(panel).toContain('hero-generate-assets');
+    const assembly = read('shared/site00-design-workspace-production/designHeroAssemblyActions.ts');
+    expect(assembly).toContain("'CAPTURE SCREEN'");
     for (const view of [
       'src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx',
       'src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx',
