@@ -30,13 +30,13 @@ describe('P0.DESIGN.IN-SHELL-DOCK-POSITIONING-FIX1', () => {
     expect(kit).toContain('child.type === ProjectActionBar');
   });
 
-  it('zoom applies to scroll main only (not frame or action bar)', () => {
+  it('zoom applies to main-zoom wrapper; scroll main stays un-zoomed for touch scroll', () => {
     const css = read('src/site00/styles/site00-design-project-surface.css');
     const psBlock = css.slice(css.indexOf('.tod-ps {'), css.indexOf('.tod-ps__main'));
     expect(psBlock).not.toMatch(/zoom:/);
     const mainBlock = css.slice(css.indexOf('.tod-ps__main {'), css.indexOf('.tod-ps__main-zoom'));
     expect(mainBlock).not.toMatch(/zoom:/);
-    expect(css).toMatch(/\.tod-ps__main-zoom[\s\S]*zoom:/);
+    expect(css).toMatch(/\.tod-ps__main-zoom[\s\S]*zoom:\s*calc/);
     const frameBlock = css.slice(
       css.indexOf('.tod-dcs--workspace-inline:has(.tod-ps)'),
       css.indexOf('.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__head'),
