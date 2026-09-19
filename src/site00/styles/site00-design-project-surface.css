@@ -667,7 +667,8 @@
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
-  min-width: 0;
+  /* Never let the dial and the status badge squeeze the name out of the row. */
+  min-width: 96px;
 }
 
 .tod-ps-row__id strong {

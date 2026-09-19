@@ -42,7 +42,11 @@ async function captureViewport(browser, { label, viewport, format }) {
     // A surface that renders only its identity line is a surface with no
     // content; count the blocks so the run says so out loud.
     const blocks = present
-      ? await page.locator(`.tod-ps[data-surface="${section}"] .tod-ps-group, .tod-ps[data-surface="${section}"] .tod-ps-module`).count()
+      ? await page
+          .locator(
+            `.tod-ps[data-surface="${section}"] .tod-ps-group, .tod-ps[data-surface="${section}"] .tod-ps-module, .tod-ps[data-surface="${section}"] .tod-ps-event`,
+          )
+          .count()
       : 0;
 
     const shot = path.join(OUT, `${section}-${label}.png`);
