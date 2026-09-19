@@ -23,7 +23,10 @@ const DESKTOP = { width: 1440, height: 1024 };
 const MOBILE = { width: 390, height: 844 };
 
 /** Surfaces that count as "an overlay is on screen". */
-const SURFACE = '.tod-dcs, .s00-dad__panel, .s00-grok-dock__panel, .tod-fsv';
+// Every surface root a DESIGN overlay can mount under. If a new shell lands
+// and is not listed here the run silently leaves it open and every later click
+// hits its scrim instead of the workspace.
+const SURFACE = '.tod-dcs, .s00-aic-layer, .s00-dad__panel, .s00-grok-dock__panel, .tod-fsv';
 
 /**
  * Each overlay is opened through the control a founder would press. `pre`
@@ -60,7 +63,14 @@ const OVERLAYS = [
   { id: '18-composer-handoff', css: ['[data-interaction-id="rail-lock-pair"]'] },
   { id: '19-overflow-menu', css: ['.tod-header__more'] },
   { id: '20-grok-asset-production', css: ['[data-interaction-id="hero-generate-assets"]'] },
-  { id: '21-inspect-asset', css: ['[data-interaction-id="page-system-inspect-asset"]'] },
+  // INSPECT is a nested action inside the PAGE ASSETS drawer, not a workspace
+  // control, and it stays disabled until an asset is selected.
+  {
+    id: '21-inspect-asset',
+    pre: ['[data-interaction-id="page-system-open-assets"]'],
+    css: ['.tod-ok-btn'],
+    text: ['INSPECT'],
+  },
   { id: '22-module-nav', css: ['.tod-nav__cell--menu'] },
 ];
 
@@ -145,4 +155,12 @@ const report = [
 ];
 await browser.close();
 await writeFile(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2), 'utf8');
-console.log(`\n${report.filter((row) => row.open).length}/${report.length} surfaces reached`);
+
+// A gated control is the workspace working, not the harness failing: pair
+// review, fullscreen and framework handoff are all disabled until the page has
+// something to review. Only `missing` means a surface could not be reached.
+const opened = report.filter((row) => row.open).length;
+const gated = report.filter((row) => !row.open && row.outcome === 'disabled').length;
+const missing = report.filter((row) => !row.open && row.outcome === 'missing');
+console.log(`\n${opened} reached · ${gated} gated by page state · ${missing.length} unreachable`);
+for (const row of missing) console.log(`  unreachable: ${row.overlay} (${row.viewport})`);
