@@ -184,9 +184,9 @@ describe('P0.E.1 Astral World Experience Prototype', () => {
   });
 
   it('Route helpers resolve experience paths', () => {
-    expect(site00ProjectExperiencePath('astral-world')).toBe('/projects/astral-world/experience/home');
+    expect(site00ProjectExperiencePath('astral-world')).toBe('/projects/astral-world/experience/play/home');
     expect(site00ProjectExperiencePath('astral-world', 'astrea/coffee-shop')).toBe(
-      '/projects/astral-world/experience/astrea/coffee-shop',
+      '/projects/astral-world/experience/play/astrea/coffee-shop',
     );
     expect(site00ProjectExperienceRoute('astral-world', 'readers')).toBe(
       '/projects/astral-world/experience/readers',

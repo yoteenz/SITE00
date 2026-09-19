@@ -1,6 +1,7 @@
 /** Astral World prototype route bases — experience vs founder fast track */
 
-export const ASTRAL_EXPERIENCE_BASE = '/projects/astral-world/experience' as const;
+/** Client runtime lives under /play so production workspace can own /experience/:experienceSlug. */
+export const ASTRAL_EXPERIENCE_BASE = '/projects/astral-world/experience/play' as const;
 export const ASTRAL_FAST_TRACK_BASE = '/projects/astral-world/debug/world' as const;
 
 export type AstralWorldRouteMode = 'experience' | 'fast-track';

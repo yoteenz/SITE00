@@ -6,6 +6,7 @@ import { useSite00 } from '../../state/Site00Context';
 import { SITE00_ROUTES } from '../../config/routes';
 import { ProjectsPageShell } from './ProjectsPageShell';
 import { ProjectIndexDesignCard } from './ProjectIndexDesignCard';
+import { ProjectIndexExperienceCard } from './ProjectIndexExperienceCard';
 import { ProjectIndexProjectCard } from './ProjectIndexProjectCard';
 import { ProjectIndexNewProjectCard } from './ProjectIndexNewProjectCard';
 import { ProjectIndexSkeletonGrid } from './ProjectIndexSkeleton';
@@ -56,6 +57,9 @@ export function ProjectIndexPage() {
   const designRender = designItem
     ? resolveProjectsDesignItemForRender({ viewMode, designItem })
     : null;
+  const experienceRender = viewData.experienceItem
+    ? resolveProjectsDesignItemForRender({ viewMode, designItem: viewData.experienceItem })
+    : null;
 
   return (
     <div
@@ -89,6 +93,13 @@ export function ProjectIndexPage() {
           <>
             {viewData.showDesignCard && designRender ? (
               <ProjectIndexDesignCard item={designRender.item} interactive={designRender.interactive} />
+            ) : null}
+
+            {viewData.showExperienceCard && experienceRender ? (
+              <ProjectIndexExperienceCard
+                item={experienceRender.item}
+                interactive={experienceRender.interactive}
+              />
             ) : null}
 
             {state === 'error' ? (
