@@ -10565,3 +10565,16 @@ GitHub Actions shallow checkout lacks commit `441ae433`, so `p0vrDesignRelease42
 
 - **Fix:** `tests/helpers/release429Git.ts` resolves ref when present; git-diff/`git show` tests use `it.skip` when absent; filesystem guards always run.
 - **Branch:** `cursor/design-release429-ci-test-fix-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT1
+
+Wired isolated **WORKSPACE_SELF** concept workflow so SITE 00 DESIGN can later concept itself via NBP → Opus shell → Composer without mutating live workspace.
+
+- **Target model:** `DesignTargetType` PAGE | PROJECT_SYSTEM | WORKSPACE_SELF; target `site00-design-workspace`.
+- **Route:** `/system/design/workspace-concepts` (founder-gated page; does not replace `/projects/:slug/design`).
+- **State:** fixture localStorage `site00:workspace-self-concept:v1` — captures, function contract, 3 concept slots, selection/promotion/pair-review/lock, Opus shell + Composer handoff packages; `productionMutationLocked: true`.
+- **Entry:** MORE → SYSTEM DESIGN → REDESIGN DESIGN WORKSPACE (founder only).
+- **Tests:** `p0vrDesignWorkspaceSelfConcept1.test.ts` (9 cases). No provider invoke.
+- **Branch:** `cursor/design-workspace-self-concept1-9f72`.
