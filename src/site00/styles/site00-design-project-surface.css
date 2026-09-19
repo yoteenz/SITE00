@@ -87,8 +87,9 @@
   --ps-actionbar-h: 44px;
 
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1 1 auto;
-  height: 100%;
   min-height: 0;
   padding: 0;
   overflow: hidden;
@@ -98,17 +99,23 @@
   color: var(--tod-ink, #161616);
 }
 
+/* Scroll lives here; zoom on a descendant — zoom on the overflow element breaks
+   touch scrolling (especially iOS Safari). */
 .tod-ps__main {
-  height: 100%;
+  flex: 1 1 0;
   min-height: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tod-ps__main-zoom {
   display: flex;
   flex-direction: column;
   gap: var(--ps-gap);
-  padding-bottom: calc(var(--ps-actionbar-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: 8px;
   box-sizing: border-box;
-  -webkit-overflow-scrolling: touch;
   zoom: calc(var(--tod-viewrow-boost, 1) * var(--tod-ps-zoom, 1));
 }
 
@@ -1285,10 +1292,8 @@
    content scrolled underneath. */
 
 .tod-ps-actionbar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+  flex: 0 0 auto;
   z-index: 2;
   display: grid;
   grid-auto-flow: column;
