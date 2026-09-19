@@ -1355,13 +1355,15 @@
     padding-right: 11px;
   }
 
+  /*
+   * These rows hold at most three tabs plus a version selector. Scrolling them
+   * parked the selector half off the right edge, where it read as a clipped
+   * fragment ("V1 · AC") rather than as something you could scroll to. There
+   * is room to wrap, so they wrap and nothing is cut.
+   */
   .s00-aic__tabs {
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .s00-aic__tabs::-webkit-scrollbar {
-    display: none;
+    flex-wrap: wrap;
+    row-gap: 6px;
   }
 
   .s00-aic__tab {
@@ -1370,6 +1372,13 @@
 
   .s00-aic__tabsTrail {
     flex: 0 0 auto;
+    margin-left: 0;
+  }
+
+  /* On its own row the select has width to spare, so the option reads whole
+     instead of being cut by the control's own box. */
+  .s00-aic__select {
+    min-width: 150px;
   }
 
   /* Grok's mode is already a chip row in the body; repeating it in the tab

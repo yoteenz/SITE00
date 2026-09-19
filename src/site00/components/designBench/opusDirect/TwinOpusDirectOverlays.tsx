@@ -22,8 +22,10 @@ import {
   PagePipelineTimelinePanel,
   PipelineStageDetailPanel,
   PipelineTechnicalDetailsPanel,
+  ResolveBlockerPanel,
 } from '../production/designProductionOverlayPanels';
 import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNavPanel';
+import { OverlayBody, OverlayRows } from '../production/designOverlayKit';
 import type { PagePipelineStageId } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import { DesignViewportAuthorityEditorOverlay } from './DesignViewportAuthorityEditorOverlay';
@@ -95,17 +97,52 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
             overlayId="OV-OVERFLOW-MENU"
             onClose={close}
           >
-            <div className="tod-dcs-stackActions">
-              <button type="button" className="tod-dcs__primary" onClick={actions.openCreativeContext}>
-                PROJECT CREATIVE CONTEXT
-              </button>
-              <button type="button" className="tod-dcs__primary" onClick={actions.openReadinessReceipt}>
-                READINESS RECEIPT
-              </button>
-              <button type="button" className="tod-dcs__ghost" onClick={actions.openContractVersions}>
-                CONTRACT VERSIONS
-              </button>
-            </div>
+            <OverlayBody>
+              <OverlayRows
+                rows={[
+                  {
+                    id: 'creative-context',
+                    name: 'PROJECT CREATIVE CONTEXT',
+                    sub: 'Brand, expression and page registry for this project',
+                    side: (
+                      <button type="button" className="tod-ok-btn" onClick={actions.openCreativeContext}>
+                        OPEN
+                      </button>
+                    ),
+                  },
+                  {
+                    id: 'readiness',
+                    name: 'READINESS RECEIPT',
+                    sub: 'Gate-by-gate audit of the active page',
+                    side: (
+                      <button type="button" className="tod-ok-btn" onClick={actions.openReadinessReceipt}>
+                        OPEN
+                      </button>
+                    ),
+                  },
+                  {
+                    id: 'contracts',
+                    name: 'CONTRACT VERSIONS',
+                    sub: 'Interaction contract and design authority versions',
+                    side: (
+                      <button type="button" className="tod-ok-btn" onClick={actions.openContractVersions}>
+                        OPEN
+                      </button>
+                    ),
+                  },
+                  {
+                    id: 'technical',
+                    name: 'TECHNICAL DETAILS',
+                    sub: 'Diagnostics for support and handoff',
+                    side: (
+                      <button type="button" className="tod-ok-btn" onClick={actions.openTechnicalDetails}>
+                        OPEN
+                      </button>
+                    ),
+                  },
+                ]}
+              />
+            </OverlayBody>
           </DesignChildSurfaceFrame>
         : null}
 
@@ -167,6 +204,22 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
               pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
               production={production}
               stageId={production.uiPayload.pipelineStageId as PagePipelineStageId}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-RESOLVE-BLOCKER' ?
+          <DesignChildSurfaceFrame
+            mode={placementMode('OV-RESOLVE-BLOCKER')}
+            title="RESOLVE BLOCKER"
+            subtitle="What is stopping this page, and the one action that clears it."
+            overlayId="OV-RESOLVE-BLOCKER"
+            onClose={close}
+          >
+            <ResolveBlockerPanel
+              production={production}
+              projectSlug={slug}
+              pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
             />
           </DesignChildSurfaceFrame>
         : null}
@@ -419,7 +472,7 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
             overlayId="OV-AMENDMENT-DETAIL"
             onClose={close}
           >
-            <AmendmentDetailPanel />
+            <AmendmentDetailPanel projectSlug={slug} production={production} />
           </DesignChildSurfaceFrame>
         : null}
 

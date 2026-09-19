@@ -954,6 +954,61 @@
   margin: 0 12px;
 }
 
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — the contact sheet's own empty state.
+ * It had no rules of its own, so the generate control inherited the panel's
+ * display type and spilled a headline across the workspace. An empty gallery
+ * is the founder's most common first view of a new page; it has to read as a
+ * deliberate state, not as broken chrome.
+ */
+.tod-gallery__emptyWrap {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  margin: 8px 12px;
+  border: 1px dashed var(--tod-border-column);
+  background: var(--tod-paper);
+}
+
+.tod-gallery__emptyWrap .tod-gallery__empty {
+  flex: 0 0 auto;
+  display: block;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  font-family: var(--tod-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  color: var(--tod-ink-3);
+}
+
+.tod-gallery__generate {
+  flex: 0 0 auto;
+  border: 1px solid var(--tod-black);
+  background: var(--tod-black);
+  color: var(--tod-lime);
+  font-family: var(--tod-mono);
+  font-size: 10.5px;
+  font-weight: var(--tod-weight-ui);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.tod-gallery__generate:disabled {
+  border-color: var(--tod-border-control);
+  background: var(--tod-panel);
+  color: var(--tod-ink-3);
+  cursor: not-allowed;
+}
+
 /* Authority rail */
 
 .tod-rail {
@@ -1108,12 +1163,20 @@
   color: #efefef;
 }
 
+/*
+ * The golden's state word was PROMOTED. Live authority state can read
+ * UPSTREAM REF, which is wide enough to cross the thumbnail beside it, so the
+ * chip wraps inside the column the thumb leaves free rather than overprinting.
+ */
 .tod-pair__state {
   position: absolute;
   right: 8px;
   bottom: 6px;
-  font-size: 9.8px;
-  line-height: 1;
+  max-width: 76px;
+  text-align: right;
+  white-space: normal;
+  font-size: 8.6px;
+  line-height: 1.15;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
 }
@@ -2083,6 +2146,31 @@
   stroke-linecap: butt;
 }
 
+/*
+ * The golden read READY in green. Live pages are usually mid-pipeline, so the
+ * gauge has to carry the real state: a blocked page shown in the ready colour
+ * is worse than no gauge at all.
+ */
+.tod-pipe__ringValue[data-tone='blocked'],
+.tod-pipe__gaugeState[data-tone='blocked'] {
+  stroke: var(--tod-red);
+  color: var(--tod-red);
+}
+
+.tod-pipe__ringValue[data-tone='warn'],
+.tod-pipe__gaugeState[data-tone='warn'] {
+  stroke: var(--tod-amber);
+  color: #8a6a00;
+}
+
+.tod-pipe__ringValue[data-tone='idle'],
+.tod-pipe__ringValue[data-tone='na'],
+.tod-pipe__gaugeState[data-tone='idle'],
+.tod-pipe__gaugeState[data-tone='na'] {
+  stroke: var(--tod-ink-3);
+  color: var(--tod-ink-3);
+}
+
 .tod-pipe__gaugeValue {
   position: absolute;
   left: 4px;
@@ -2402,6 +2490,67 @@
   font-weight: var(--tod-weight-ui);
 }
 
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — the record dock's own list. Version
+ * and change history borrowed the overlay's gate-card classes, which are sized
+ * for a real-pixel drawer and rendered oversized inside the scaled artboard.
+ */
+.tod-rec__list {
+  flex: 0 0 221px;
+  display: flex;
+  flex-direction: column;
+  gap: 4.4px;
+  margin: 0;
+  padding: 8.9px 12px 0 0;
+  list-style: none;
+  border-right: 1px solid var(--tod-border-column);
+  overflow-y: auto;
+}
+
+.tod-rec__row {
+  display: flex;
+  gap: 8px;
+  font-size: 8.5px;
+  line-height: 1.2;
+  color: #333333;
+  font-weight: var(--tod-weight-ui);
+  padding-bottom: 3.4px;
+  border-bottom: 1px solid var(--tod-border-subtle);
+}
+
+.tod-rec__row--stack {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tod-rec__rowLabel {
+  flex: 0 0 65.6px;
+  color: #5e5e60;
+}
+
+.tod-rec__row--stack .tod-rec__rowLabel {
+  flex: 0 0 auto;
+  color: #232323;
+}
+
+.tod-rec__rowValue {
+  color: #232323;
+}
+
+.tod-rec__rowSub {
+  color: #5e5e60;
+}
+
+.tod-rec__empty {
+  flex: 0 0 221px;
+  margin: 0;
+  padding-top: 8.9px;
+  font-size: 8.5px;
+  line-height: 1.2;
+  color: var(--tod-ink-3);
+  border-right: 1px solid var(--tod-border-column);
+}
+
 .tod-concept__amendment {
   flex: 1 1 auto;
   padding-left: 14.3px;
@@ -2551,18 +2700,34 @@
   gap: calc(6px * var(--tod-viewrow-boost, 1));
 }
 
+/*
+ * Reference images 1-2 show the agent launchers as labelled marks sitting with
+ * the view-mode control, not as single-letter chips. The label carries the
+ * name so the founder never has to hover to learn which agent a button opens.
+ */
 .tod-agent-iconBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: calc(22px * var(--tod-viewrow-boost, 1));
+  gap: calc(5px * var(--tod-viewrow-boost, 1));
   height: calc(22px * var(--tod-viewrow-boost, 1));
+  padding: 0 calc(9px * var(--tod-viewrow-boost, 1));
   border: 1px solid var(--tod-border-major);
   background: var(--tod-paper);
   color: var(--tod-black);
-  font-size: calc(12px * var(--tod-viewrow-boost, 1));
+  font-size: calc(10.5px * var(--tod-viewrow-boost, 1));
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+}
+
+.tod-agent-iconBtn__ico {
+  width: calc(13px * var(--tod-viewrow-boost, 1));
+  height: calc(13px * var(--tod-viewrow-boost, 1));
+  flex: 0 0 auto;
+}
+
+.tod-agent-iconBtn__label {
+  line-height: 1;
 }
 
 .tod-agent-iconBtn.is-open {
@@ -2581,8 +2746,9 @@
 }
 
 .tod-agent-iconBtn__lock {
-  font-size: 8px;
-  margin-left: 1px;
+  width: calc(10px * var(--tod-viewrow-boost, 1));
+  height: calc(10px * var(--tod-viewrow-boost, 1));
+  flex: 0 0 auto;
 }
 
 

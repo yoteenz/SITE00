@@ -81,6 +81,27 @@
   width: min(360px, calc(100vw - 24px));
 }
 
+/**
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — desktop overlays use the width they
+ * have. A 440px drawer on a 1440px workstation forced comparison content into
+ * a phone column on a machine with room for two panes. These rules sit after
+ * the base placements because they share their specificity.
+ */
+@media (min-width: 1100px) {
+  .tod-dcs--drawer {
+    width: min(620px, 46vw);
+  }
+
+  .tod-dcs--inspector {
+    width: min(460px, 36vw);
+  }
+
+  .tod-dcs--modal {
+    width: min(880px, calc(100vw - 96px));
+    max-height: min(86dvh, 100%);
+  }
+}
+
 .tod-dcs--workspace-inline {
   position: relative;
   z-index: 1;
@@ -163,78 +184,6 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.tod-dcs-summary {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.tod-dcs-summary__metric {
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  padding: 8px 10px;
-  background: var(--tod-panel, #f7f7f7);
-}
-
-.tod-dcs-summary__label {
-  display: block;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--tod-ink-3, #6a6a70);
-  margin-bottom: 4px;
-}
-
-.tod-dcs-summaryRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  margin-bottom: 14px;
-  font-size: 12px;
-  color: var(--tod-ink-2, #45454a);
-}
-
-.tod-dcs-gates {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tod-dcs-gate {
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  padding: 10px 12px;
-  background: var(--tod-paper, #fdfdfd);
-}
-
-.tod-dcs-gate__top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.tod-dcs-gate__name {
-  font-size: 13px;
-  font-weight: var(--tod-weight-ui, 500);
-}
-
-.tod-dcs-gate__reason {
-  margin: 8px 0 0;
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--tod-ink-2, #45454a);
-}
-
-.tod-dcs-gate__cat {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--tod-ink-3, #6a6a70);
-}
-
 .tod-dcs-badge {
   display: inline-block;
   font-size: 11px;
@@ -273,173 +222,33 @@
   color: var(--tod-ink-3, #6a6a70);
 }
 
-.tod-dcs-lead {
-  margin: 0 0 12px;
-  font-size: 12px;
-  color: var(--tod-ink-2, #45454a);
-  line-height: 1.45;
-}
-
-.tod-dcs-compare {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — phone overlays are purpose-built
+ * sheets, not centred desktop windows. A centred 366px modal inside a 390px
+ * screen wastes the margin on every side and leaves the founder scrolling a
+ * creative workbench through a letterbox.
+ */
 @media (max-width: 720px) {
-  .tod-dcs--drawer {
+  .tod-dcs--drawer,
+  .tod-dcs--modal,
+  .tod-dcs--inspector {
     top: auto;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    max-height: min(85dvh, 100%);
+    max-width: 100%;
+    transform: none;
+    max-height: min(92dvh, 100%);
     border-radius: 12px 12px 0 0;
   }
 
-  .tod-dcs-compare {
-    grid-template-columns: 1fr;
+  .tod-dcs--workspace {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
-}
-
-.tod-dcs-compare__card {
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  padding: 10px;
-  background: var(--tod-paper, #fdfdfd);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.tod-dcs-compare__card header {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--tod-ink-3, #6a6a70);
-}
-
-.tod-dcs-compare__img {
-  width: 100%;
-  height: auto;
-  max-height: 160px;
-  object-fit: contain;
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  background: #fff;
-}
-
-.tod-dcs-compare__derived {
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed var(--tod-border-column, #c4c4c4);
-  font-size: 12px;
-  text-align: center;
-  padding: 8px;
-}
-
-.tod-dcs-compare__ver {
-  font-size: 12px;
-  color: var(--tod-ink-2, #45454a);
-}
-
-.tod-dcs-notes {
-  border-top: 1px solid var(--tod-border-subtle, #dadada);
-  padding-top: 12px;
-}
-
-.tod-dcs-notes__title {
-  margin: 0 0 8px;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-}
-
-.tod-dcs-notes__ok {
-  color: var(--tod-green, #3f8f36);
-}
-
-.tod-dcs-notes__warn {
-  color: var(--tod-red, #c2281d);
-}
-
-.tod-dcs-meta {
-  display: grid;
-  gap: 12px;
-  margin: 0;
-}
-
-.tod-dcs-meta > div {
-  border-bottom: 1px solid var(--tod-border-subtle, #dadada);
-  padding-bottom: 10px;
-}
-
-.tod-dcs-meta dt {
-  margin: 0 0 4px;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--tod-ink-3, #6a6a70);
-}
-
-.tod-dcs-meta dd {
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.tod-dcs-meta--compact {
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.tod-dcs-provenanceGolden {
-  margin: 0 0 16px;
-}
-
-.tod-dcs-provenanceGolden img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: contain;
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  background: #fff;
-}
-
-.tod-dcs-provenanceGolden figcaption {
-  margin-top: 8px;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--tod-ink-3, #6a6a70);
-}
-
-.tod-dcs-modalActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.tod-dcs-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.tod-dcs-nav a {
-  color: var(--tod-ink, #161616);
-  text-decoration: none;
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  padding: 10px 12px;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-}
-
-.tod-dcs-nav a:hover {
-  border-color: var(--tod-lime, #cdee30);
-}
-
-.tod-dcs-stackActions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
 .tod-child-embedded {
