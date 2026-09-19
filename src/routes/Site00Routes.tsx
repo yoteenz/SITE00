@@ -85,6 +85,9 @@ const EvolveOperationsPage = lazy(() => import('../site00/pages/control/EvolveOp
 const SitesPortfolioPage = lazy(() => import('../site00/pages/SitesPortfolioPage'));
 const ServicesPage = lazy(() => import('../site00/pages/ServicesPage'));
 const SystemPage = lazy(() => import('../site00/pages/SystemPage'));
+const SystemDesignWorkspaceConceptsPage = lazy(
+  () => import('../site00/pages/SystemDesignWorkspaceConceptsPage'),
+);
 const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
@@ -771,6 +774,16 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.sites, SitesPortfolioPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.services, ServicesPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.system, SystemPage)}
+      <Route
+        path={SITE00_ROUTES.systemDesignWorkspaceConcepts}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <SystemDesignWorkspaceConceptsPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
       {Site00PublicPageRoutes(SITE00_ROUTES.about, AboutPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.journal, JournalPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.support, SupportPage)}

@@ -1,0 +1,25 @@
+export const WORKSPACE_SELF_EVENT_TYPES = [
+  'workspace_self_target_opened',
+  'workspace_self_capture_created',
+  'workspace_function_contract_compiled',
+  'workspace_concept_package_created',
+  'workspace_concept_generation_requested',
+  'workspace_concept_generated',
+  'workspace_mobile_concept_selected',
+  'workspace_desktop_concept_selected',
+  'workspace_mobile_design_promoted',
+  'workspace_desktop_design_promoted',
+  'workspace_pair_review_opened',
+  'workspace_pair_review_completed',
+  'workspace_authority_locked',
+  'workspace_opus_shell_requested',
+  'workspace_opus_shell_created',
+  'workspace_opus_shell_approved',
+  'workspace_composer_handoff_created',
+  'workspace_implementation_started',
+  'workspace_implementation_ready',
+  'workspace_capture_created',
+  'workspace_visual_review_completed',
+] as const;
+
+export type WorkspaceSelfEventType = (typeof WORKSPACE_SELF_EVENT_TYPES)[number];

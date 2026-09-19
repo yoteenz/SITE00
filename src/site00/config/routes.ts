@@ -35,6 +35,8 @@ export const SITE00_ROUTES = {
   sites: '/sites',
   services: '/services',
   system: '/system',
+  /** P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT1 — internal WORKSPACE_SELF concept review */
+  systemDesignWorkspaceConcepts: '/system/design/workspace-concepts',
   about: '/about',
   journal: '/journal',
   signIn: '/origin/sign-in',

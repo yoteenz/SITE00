@@ -1,0 +1,101 @@
+/**
+ * Frozen functional contract for WORKSPACE_SELF — presentation may change; behavior may not.
+ */
+
+import { WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
+import type { WorkspaceFunctionContract } from './types.js';
+
+export const WORKSPACE_FUNCTION_CONTRACT_VERSION = 'wsfc-2026-09-19-v1';
+
+export function compileWorkspaceFunctionContract(now = new Date().toISOString()): WorkspaceFunctionContract {
+  return {
+    contractId: `wsfc-${Date.now()}`,
+    targetId: WORKSPACE_SELF_TARGET_ID,
+    version: WORKSPACE_FUNCTION_CONTRACT_VERSION,
+    routes: [
+      '/projects/:projectSlug/design',
+      '/projects/:projectSlug/design/references',
+      '/projects/:projectSlug/design/assets',
+      '/projects/:projectSlug/design/pages',
+      '/projects/:projectSlug/design/skins',
+      '/projects/:projectSlug/design/history',
+      '/projects/:projectSlug/design/more',
+      '/system/design/workspace-concepts',
+    ],
+    regions: [
+      'project-page-hierarchy',
+      'project-selector',
+      'page-selector',
+      'project-tabs-references-assets-pages-skins-history-more',
+      'hamburger-module-nav',
+      'viewport-selectors-mobile-tablet-desktop',
+      'canonical-list-view-mode',
+      'opus-grok-launchers',
+      'current-vs-concept',
+      'capture-screen',
+      'concept-gallery',
+      'viewport-concept-preferences',
+      'viewport-design-promotions',
+      'pair-review',
+      'authority-pair-editor',
+      'authority-lock',
+      'page-system-review',
+      'pipeline-readiness',
+      'concept-data-rail',
+      'hero-current-vs-concept',
+      'drawers-modals-overlays',
+    ],
+    interactions: [
+      'select-project',
+      'select-page',
+      'switch-project-tab',
+      'open-hamburger',
+      'toggle-canonical-list',
+      'launch-opus-console',
+      'launch-grok-console',
+      'capture-screen',
+      'select-concept-for-mobile',
+      'select-concept-for-desktop',
+      'promote-mobile-design',
+      'promote-desktop-design',
+      'open-pair-review',
+      'complete-pair-review',
+      'lock-design-authority',
+      'page-system-review-navigation',
+      'pipeline-blocker-resolution',
+      'fullscreen-review',
+      'persistence-read-write-design-production-state',
+    ],
+    states: [
+      'active-page-target',
+      'active-project-tab',
+      'viewport-format-wide-tall',
+      'view-mode-canonical-list',
+      'concept-gallery-selection',
+      'mobile-desktop-preferred-concepts',
+      'mobile-desktop-promoted-designs',
+      'authority-pair-locked',
+      'staged-workspace-self-concepts',
+    ],
+    immutableBehaviors: [
+      'Projects > Design > Active Page hierarchy must remain navigable',
+      'Project-level tabs must remain distinct from page-level workspace',
+      'Mobile and Desktop concept preferences remain independent',
+      'Selection is preference only — not approval',
+      'Promotion is explicit per viewport',
+      'Pair Review does not auto-lock authority',
+      'Live DESIGN workspace must not mutate from staged WORKSPACE_SELF workflow',
+      'Only Composer may integrate approved shells into production',
+      'NBP generates concepts only — no production code',
+      'Opus produces visual shell artifacts only — no routes/state/persistence',
+    ],
+    responsiveRequirements: [
+      'Mobile shell format (tall artboard)',
+      'Desktop shell format (wide artboard)',
+      'Optional tablet derived preview where supported',
+      'Touch scroll on in-shell project tab surfaces',
+      'Local panel action dock — not viewport-fixed',
+    ],
+    createdAt: now,
+  };
+}
