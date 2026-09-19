@@ -69,7 +69,8 @@ describe('P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1', () => {
   it('mounts Grok dock with fixture model (no live spend in sprint)', () => {
     const core = read('src/site00/components/designBench/production/DesignWorkspaceCore.tsx');
     expect(core).toContain('DesignGrokDockProvider');
-    expect(core).toContain('DesignGrokDock');
+    const screen = read('src/site00/components/designBench/opusDirect/TwinOpusDirectScreen.tsx');
+    expect(screen).toContain('DesignGrokDock');
     const grok = read('src/site00/components/designBench/designAgent/DesignGrokDock.tsx');
     expect(grok).toContain('createFixtureGrokStagedAsset');
     expect(grok).toContain('approveGrokStagedAsset');
