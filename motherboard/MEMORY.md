@@ -10306,6 +10306,17 @@ Production release test run failed (6 tests): view-mode boundary tests still exp
 
 ---
 
+<<<<<<< HEAD
+## 2026-09-19 — P0.VR.DESIGN-HERO-ASSEMBLY-ACTIONS1 — hero CREATE FRAMEWORK + GENERATE ASSETS
+
+Founder sprint: hero compare toolbar gets CAPTURE SCREEN + CREATE FRAMEWORK + GENERATE ASSETS on one row; Opus framework handoff after mobile+desktop promoted; Grok asset production after twin reviewable + capture; no live Opus/Grok invoke.
+
+- **Shared:** `designHeroAssemblyActions.ts` (gates CASE A–D), `designOpusFrameworkHandoff.ts` (`OpusFrameworkHandoffPackage`, FRAMEWORK_BUILDING), `designGrokPageAssetPlan.ts` (fixture ASSET PLAN + founder approval before dock).
+- **UI:** `DesignHeroComparePanel` action row; modals `OV-CREATE-PAGE-FRAMEWORK`, `OV-GROK-PAGE-ASSET-PRODUCTION`; pipeline handlers `openCreateFramework` / `openGenerateAssets`.
+- **CSS:** hero compare flex + absolute action strip so buttons stay visible in fixed herorow.
+- **Tests:** `p0vrDesignHeroAssemblyActions1.test.ts`.
+- **Next:** Founder full flow CREATE FRAMEWORK → review twin → CAPTURE → GENERATE ASSETS.
+=======
 ## 2026-09-19 — CI Grok gating + interaction coverage (Production Release test)
 
 Founder screenshot: Production Release **test** job — 2 failures (`DesignGrokDock` / `openStructuredArtifact`).
@@ -10313,6 +10324,7 @@ Founder screenshot: Production Release **test** job — 2 failures (`DesignGrokD
 - **Cause:** Typography merge mounted **duplicate** `DesignGrokDock` in `DesignWorkspaceCore` while screen already mounts dock under `DesignGrokEligibilityProvider`; gating test `not.toContain('DesignGrokDock')` false-failed on `DesignGrokDockProvider`. Pipeline-readiness2 refactor moved structured output wiring off canonical view — test still expected `openStructuredArtifact` in `TwinOpusDirectCanonicalView`.
 - **Fix:** Remove core-level `DesignGrokDock` (keep `DesignGrokDockProvider` + screen mount). Tests: gating uses regex for component mount; visual-compare expects dock on screen; interaction-coverage asserts `openStructuredArtifact` on workspace + `DesignPipelineReadinessPanel` on canonical.
 - **PR:** `cursor/ci-grok-pipeline-test-fix-2da5`.
+<<<<<<< HEAD
 
 ---
 
@@ -10325,3 +10337,6 @@ Sprint: SELECT / REGENERATE / REPLACE on active page assets in PAGE SYSTEM REVIE
 - **Gating:** REGENERATE uses `useDesignGrokEligibility` (P0.VR.DESIGN-GROK-GATING1).
 - **Tests:** `p0vrDesignAssetManagement1.test.ts` (6 tests, localStorage fixture flow).
 - **Branch:** `cursor/design-asset-management1-2da5`.
+=======
+>>>>>>> origin/main
+>>>>>>> origin/main

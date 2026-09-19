@@ -178,6 +178,8 @@ export type DesignProductionUiOverlay =
   | 'OV-AMENDMENT-DETAIL'
   | 'OV-VIEWPORT-AUTHORITY-EDITOR'
   | 'OV-COMPOSER-HANDOFF'
+  | 'OV-CREATE-PAGE-FRAMEWORK'
+  | 'OV-GROK-PAGE-ASSET-PRODUCTION'
   | 'OV-REVIEW-TWIN-PAGE';
 
 export type DesignProductionUiPayload = {

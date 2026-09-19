@@ -12,6 +12,7 @@ import { compileDesignPageContext } from './designProjectBinding/pageContext.js'
 import type { DesignProductionState } from './types.js';
 import type { ReadinessGateCheck, ReadinessGateResult } from './types.js';
 import { listApprovedGrokAssets } from './designGrokAssetModel.js';
+import { isOpusFrameworkHandoffPackage } from './designOpusFrameworkHandoff.js';
 
 export type PagePipelineStageId =
   | 'authority_direction'
@@ -51,6 +52,8 @@ export type PipelineResolutionHandler =
   | 'openViewportAuthorityEditorMobile'
   | 'openViewportAuthorityEditorDesktop'
   | 'captureScreen'
+  | 'openCreateFramework'
+  | 'openGenerateAssets'
   | 'openGrokDock'
   | 'scrollGallery';
 
@@ -132,6 +135,9 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
   const pairReview = Boolean(input.production.pairReviewOpenedAt ?? wf.pairReviewOpenedAt);
   const pairLocked = Boolean(input.production.pairLockedAt ?? wf.pairLockedAt);
   const handoff = Boolean(wf.composerHandoffPackage);
+  const frameworkHandoff = isOpusFrameworkHandoffPackage(wf.composerHandoffPackage) ?
+    wf.composerHandoffPackage
+  : null;
   const twinStatus = input.production.twinImplementationStatus ?? wf.twinImplementationStatus;
   const twinBuilt =
     twinStatus !== 'NONE' &&
@@ -157,7 +163,7 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
   const s03Complete = Boolean(prefM && prefD);
   const s04Complete = Boolean(promM && promD);
   const s05Complete = pairReview;
-  const s06Complete = pairLocked && handoff;
+  const s06Complete = handoff;
   const s07Complete = twinBuilt;
   const s08Complete = twinReviewed;
   const s09Complete =
@@ -238,8 +244,8 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
         ...(!promM ? ['Mobile not promoted'] : []),
         ...(!promD ? ['Desktop not promoted'] : []),
       ],
-      actionLabel: !promM ? 'PROMOTE MOBILE' : !promD ? 'PROMOTE DESKTOP' : null,
-      actionHandler: !promM ? 'promoteMobile' : !promD ? 'promoteDesktop' : null,
+      actionLabel: !promM ? 'PROMOTE MOBILE' : !promD ? 'PROMOTE DESKTOP' : 'CREATE FRAMEWORK',
+      actionHandler: !promM ? 'promoteMobile' : !promD ? 'promoteDesktop' : 'openCreateFramework',
     },
     {
       id: 'pair_review',
@@ -270,21 +276,21 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
         ...(!pairLocked ? ['Lock authority pair'] : []),
         ...(!handoff ? ['Composer handoff package'] : []),
       ],
-      actionLabel: !pairLocked ? 'LOCK AUTHORITY PAIR' : !handoff ? 'CONFIRM HANDOFF' : null,
-      actionHandler: !pairLocked ? 'runLockAuthorityPair' : !handoff ? 'openComposerHandoff' : null,
+      actionLabel: !handoff ? 'CREATE FRAMEWORK' : pairLocked ? null : 'LOCK AUTHORITY PAIR',
+      actionHandler: !handoff ? 'openCreateFramework' : !pairLocked ? 'runLockAuthorityPair' : null,
     },
     {
       id: 'twin_build',
       order: 7,
       shortLabel: 'TWIN BUILD',
       label: 'TWIN BUILD',
-      status: !s06Complete ? 'PENDING' : s07Complete ? 'COMPLETE' : 'ACTIVE',
-      purpose: 'Composer twin route loadable',
-      requirements: ['Twin implementation', 'Route reachable'],
-      completedItems: s07Complete ? ['Twin route reachable'] : [],
-      missingItems: s07Complete ? [] : ['Await Composer twin build'],
-      actionLabel: s07Complete ? null : 'VIEW COMPOSER HANDOFF',
-      actionHandler: s07Complete ? null : 'openComposerHandoff',
+      status: !handoff ? 'PENDING' : s07Complete ? 'COMPLETE' : 'ACTIVE',
+      purpose: 'Opus page framework / twin assembly',
+      requirements: ['Framework handoff dispatched', 'Twin route reachable'],
+      completedItems: s07Complete ? ['Twin route reachable'] : frameworkHandoff ? ['Framework handoff queued'] : [],
+      missingItems: s07Complete ? [] : handoff ? ['Await Opus framework build'] : ['Create page framework'],
+      actionLabel: s07Complete ? null : handoff ? 'REVIEW FRAMEWORK STATUS' : 'CREATE FRAMEWORK',
+      actionHandler: s07Complete ? null : 'openCreateFramework',
     },
     {
       id: 'twin_review',
@@ -319,12 +325,16 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
         : grokAssets.length === 0 ? ['Generate/approve Grok assets'] : [],
       actionLabel:
         s09NotRequired ? null
+        : grokEligibility.canGenerateProductionAssets ? 'GENERATE ASSETS'
         : grokEligibility.nextAction === 'CAPTURE SCREEN' ? 'CAPTURE SCREEN'
-        : 'OPEN GROK ASSETS',
+        : !handoff ? 'CREATE FRAMEWORK'
+        : 'GENERATE ASSETS',
       actionHandler:
         s09NotRequired ? null
+        : grokEligibility.canGenerateProductionAssets ? 'openGenerateAssets'
         : grokEligibility.nextAction === 'CAPTURE SCREEN' ? 'captureScreen'
-        : 'openGrokDock',
+        : !handoff ? 'openCreateFramework'
+        : 'openGenerateAssets',
     },
     {
       id: 'asset_implementation',

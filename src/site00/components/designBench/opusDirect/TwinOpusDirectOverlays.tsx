@@ -7,7 +7,8 @@ import {
   CreativeContextPanel,
   FullscreenArtifactOverlay,
   InspectCandidatePanel,
-  ComposerHandoffPanel,
+  CreatePageFrameworkPanel,
+  GrokPageAssetProductionPanel,
   PairReviewPanel,
   ProvenancePanel,
   ReadinessReceiptPanel,
@@ -266,19 +267,36 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
           </DesignChildSurfaceFrame>
         : null}
 
-        {overlay === 'OV-COMPOSER-HANDOFF' ?
+        {overlay === 'OV-COMPOSER-HANDOFF' || overlay === 'OV-CREATE-PAGE-FRAMEWORK' ?
           <DesignChildSurfaceFrame
             mode="MODAL"
-            title="IMPLEMENTATION HANDOFF"
-            overlayId="OV-COMPOSER-HANDOFF"
+            title="CREATE PAGE FRAMEWORK"
+            overlayId={overlay === 'OV-COMPOSER-HANDOFF' ? 'OV-COMPOSER-HANDOFF' : 'OV-CREATE-PAGE-FRAMEWORK'}
             onClose={close}
           >
-            <ComposerHandoffPanel
+            <CreatePageFrameworkPanel
               projectSlug={slug}
               production={production}
               onConfirm={() => {
-                actions.confirmComposerHandoff();
-                close();
+                actions.confirmCreatePageFramework();
+              }}
+              onCancel={close}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-GROK-PAGE-ASSET-PRODUCTION' ?
+          <DesignChildSurfaceFrame
+            mode="MODAL"
+            title="GROK PAGE ASSET PRODUCTION"
+            overlayId="OV-GROK-PAGE-ASSET-PRODUCTION"
+            onClose={close}
+          >
+            <GrokPageAssetProductionPanel
+              projectSlug={slug}
+              production={production}
+              onConfirmPlan={() => {
+                actions.confirmGrokAssetPlanAndOpenDock();
               }}
               onCancel={close}
             />
