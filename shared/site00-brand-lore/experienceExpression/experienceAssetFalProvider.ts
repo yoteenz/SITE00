@@ -1,0 +1,460 @@
+/**
+ * Live FAL generation for Experience visual development assets.
+ * Reuses @fal-ai/client + Supabase storage — GPT Image 2 via FAL.
+ */
+
+import { createHash } from 'node:crypto';
+import {
+  downloadUrlToBuffer,
+  getSite00AssetPublicUrl,
+  site00StorageObjectExists,
+  uploadSite00AssetBuffer,
+} from '../../../api/_lib/site00Assts/storage.js';
+import { EXPERIENCE_VISUAL_COST_ESTIMATE_USD } from './constants.js';
+import type { DesignProofAssetRequirement } from './designProofManifest.js';
+import {
+  buildFalImageInput,
+  EXPERIENCE_FAL_MODEL,
+  SITE00_FAL_TEXT_TO_IMAGE_MODEL,
+} from '../../site00-visual-generation/falImageModels.js';
+import type { VisualReferencePackage, VisualGenerationMode } from '../../site00-visual-reference/types.js';
+import { compileReferenceConditionedPrompt } from '../../site00-visual-reference/referencePromptCompiler.js';
+import {
+  assertReferenceConditioningSupported,
+  getCurrentExperienceProviderCapability,
+} from '../../site00-visual-reference/providerCapabilityRegistry.js';
+import {
+  resolveVisualGenerationMode,
+  shouldFailWithoutReferenceConditioning,
+} from '../../site00-visual-reference/generationModeResolver.js';
+import {
+  assertNoLiteralMetaphorLeakage,
+  compileBehavioralVisualTranslation,
+  sanitizeProviderPrompt,
+} from '../../site00-studio-world-production/p1/generationBoundary/behavioralVisualTranslation.js';
+import { isFalAccessibleReferenceUrl } from '../../site00-visual-reference/referencePublicUrl.js';
+
+export { EXPERIENCE_FAL_MODEL, SITE00_FAL_TEXT_TO_IMAGE_MODEL };
+export const EXPERIENCE_FAL_PROVIDER = 'fal';
+
+export type FalGenerationResult =
+  | {
+      ok: true;
+      storagePath: string;
+      publicUrl: string;
+      requestId: string | null;
+      promptHash: string;
+      costUsd: number;
+      provider: string;
+      model: string;
+    }
+  | { ok: false; error: string; requirementId: string };
+
+export function buildDesignProofAssetPrompt(params: {
+  requirement: DesignProofAssetRequirement;
+  artDirectionSummary: string;
+  proofConcept: string;
+  owner: string;
+  functionalSummary: string;
+  antiDirection: string[];
+  compositionalHierarchy?: string[];
+}): { prompt: string; negativePrompt: string; promptHash: string } {
+  const behavioral = compileBehavioralVisualTranslation({
+    compositionalHierarchy: params.compositionalHierarchy ?? [],
+    informationHierarchy: params.functionalSummary.split(',').map((s) => s.trim()).filter(Boolean),
+  });
+
+  const prompt = sanitizeProviderPrompt(
+    [
+      'Isolated visual production asset for SITE 00 Studio World — NOT a full page design.',
+      `Surface owner: ${params.owner}`,
+      `Asset role: ${sanitizeProviderPrompt(params.requirement.assetRole.replace(/_/g, ' '))}`,
+      `Category: ${params.requirement.category}`,
+      `Production purpose: ${params.requirement.purpose}`,
+      behavioral,
+      `Visual behavior summary: ${params.artDirectionSummary}`,
+      'Requirements: material depth, asymmetric hierarchy, authored graphic layer, no SaaS dashboard, no equal card grid, no wireframe, no placeholder rectangles, no literal workshop, no literal detective case file, no dark command center.',
+      'Asset fragment suitable for Composer assembly into an existing SITE 00 interface.',
+    ].join('\n'),
+  );
+
+  const negativePrompt = [
+    ...params.antiDirection,
+    'wireframe',
+    'placeholder',
+    'stock photo',
+    'generic admin dashboard',
+    'equal cards',
+    'white document page only',
+    'text-only',
+    'full page ui',
+    'dark command center',
+    'cyberpunk dashboard',
+  ].join(', ');
+
+  const promptHash = createHash('sha256').update(prompt).digest('hex').slice(0, 16);
+  return { prompt, negativePrompt, promptHash };
+}
+
+export function buildComposedDesignProofPrompt(params: {
+  proofId: string;
+  proofConcept: string;
+  owner: string;
+  artDirectionSummary: string;
+  functionalSummary: string;
+  componentAssetDescriptions: string[];
+}): { prompt: string; negativePrompt: string; promptHash: string } {
+  const prompt = sanitizeProviderPrompt(
+    [
+      'Single complete desktop page design proof image for SITE 00 — VISUAL PROOF mode only.',
+      `Surface: ${params.proofId}`,
+      `Owner: ${params.owner}`,
+      params.artDirectionSummary,
+      `Functional categories to represent: ${params.functionalSummary}`,
+      `Component assets integrated: ${params.componentAssetDescriptions.join('; ')}`,
+      'ONE coherent full-page design — evidence frame for founder comparison, NOT automatic implementation spec.',
+      'Asymmetric focal hierarchy, layered evidence structure, authored graphic layer, environmental depth.',
+      '16:9 desktop aspect ratio design review frame.',
+      'No wireframe, no CSS mockup, no bordered equal cards, no SaaS dashboard.',
+    ].join('\n'),
+  );
+  assertNoLiteralMetaphorLeakage(prompt);
+
+  const negativePrompt =
+    'wireframe, placeholder, screenshot of existing page, equal cards, admin portal, literal workshop, literal case file, text-only layout';
+
+  const promptHash = createHash('sha256').update(prompt).digest('hex').slice(0, 16);
+  return { prompt, negativePrompt, promptHash };
+}
+
+async function runFalGeneration(params: {
+  prompt: string;
+  negativePrompt: string;
+  promptHash: string;
+  storagePath: string;
+  aspectRatio?: string;
+  requirementId: string;
+  referenceImageUrls?: string[];
+  strictHostRequired?: boolean;
+}): Promise<FalGenerationResult> {
+  const isVitest = process.env.VITEST === 'true';
+  const falKey = process.env.FAL_KEY?.trim();
+
+  if (isVitest) {
+    return {
+      ok: true,
+      storagePath: params.storagePath,
+      publicUrl: `https://vitest.local/${params.storagePath}`,
+      requestId: `vitest-${params.requirementId}`,
+      promptHash: params.promptHash,
+      costUsd: 0,
+      provider: 'vitest-mock',
+      model: 'vitest-mock',
+    };
+  }
+
+  if (!falKey) {
+    return { ok: false, error: 'FAL_KEY not configured on server', requirementId: params.requirementId };
+  }
+
+  if (await site00StorageObjectExists(params.storagePath)) {
+    return {
+      ok: true,
+      storagePath: params.storagePath,
+      publicUrl: getSite00AssetPublicUrl(params.storagePath),
+      requestId: null,
+      promptHash: params.promptHash,
+      costUsd: 0,
+      provider: 'storage-reuse',
+      model: 'existing-object',
+    };
+  }
+
+  try {
+    const { fal } = await import('@fal-ai/client');
+    fal.config({ credentials: falKey });
+
+    const refUrls = params.referenceImageUrls?.filter(Boolean) ?? [];
+    const profile = getCurrentExperienceProviderCapability();
+    const supportCheck = assertReferenceConditioningSupported({
+      providerId: profile.providerId,
+      modelId: profile.modelId,
+      referenceCount: refUrls.length,
+      strictHostRequired: Boolean(params.strictHostRequired && refUrls.length > 0),
+    });
+    if (!supportCheck.ok) {
+      return { ok: false, error: supportCheck.error, requirementId: params.requirementId };
+    }
+
+    const fullPrompt = `${params.prompt}\n\nAvoid: ${params.negativePrompt}`;
+    const { model, input } = buildFalImageInput({
+      prompt: fullPrompt,
+      aspectRatio: params.aspectRatio ?? '16:9',
+      outputFormat: 'webp',
+      referenceImageUrls: refUrls.length > 0 ? refUrls : undefined,
+    });
+
+    const result = (await fal.subscribe(model, { input: input as never, logs: false })) as {
+      request_id?: string;
+      data?: { images?: Array<{ url?: string }> };
+    };
+
+    const imageUrl = result?.data?.images?.[0]?.url;
+    if (!imageUrl) {
+      return { ok: false, error: 'FAL returned no image URL', requirementId: params.requirementId };
+    }
+
+    const buffer = await downloadUrlToBuffer(imageUrl);
+    const upload = await uploadSite00AssetBuffer(params.storagePath, buffer, 'image/webp', { upsert: true });
+
+    return {
+      ok: true,
+      storagePath: upload.storagePath,
+      publicUrl: upload.publicUrl,
+      requestId: result.request_id ?? null,
+      promptHash: params.promptHash,
+      costUsd: EXPERIENCE_VISUAL_COST_ESTIMATE_USD,
+      provider: EXPERIENCE_FAL_PROVIDER,
+      model,
+    };
+  } catch (err) {
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : 'FAL generation failed',
+      requirementId: params.requirementId,
+    };
+  }
+}
+
+/** Server-only — invokes real FAL when FAL_KEY configured. Asset-level generation only. */
+export async function generateDesignProofAssetViaFal(params: {
+  requirement: DesignProofAssetRequirement;
+  storagePath: string;
+  artDirectionSummary: string;
+  proofConcept: string;
+  owner: string;
+  functionalSummary: string;
+  antiDirection: string[];
+  aspectRatio?: string;
+  compositionalHierarchy?: string[];
+  referencePackage?: VisualReferencePackage | null;
+}): Promise<FalGenerationResult & { generationMode?: VisualGenerationMode }> {
+  const { prompt, negativePrompt, promptHash } = buildDesignProofAssetPrompt({
+    requirement: params.requirement,
+    artDirectionSummary: params.artDirectionSummary,
+    proofConcept: params.proofConcept,
+    owner: params.owner,
+    functionalSummary: params.functionalSummary,
+    antiDirection: params.antiDirection,
+    compositionalHierarchy: params.compositionalHierarchy,
+  });
+
+  let referenceImageUrls: string[] | undefined;
+  let generationMode: VisualGenerationMode = 'TEXT_TO_IMAGE';
+  let strictHostRequired = false;
+
+  if (params.referencePackage) {
+    strictHostRequired = params.referencePackage.strictHostVisualConditioning;
+    generationMode = resolveVisualGenerationMode({ referencePackage: params.referencePackage });
+    referenceImageUrls = params.referencePackage.references
+      .map((r) => r.publicUrl)
+      .filter((u): u is string => Boolean(u));
+
+    const invalidRefs = params.referencePackage.references.filter((r) => !isFalAccessibleReferenceUrl(r.publicUrl));
+    if (strictHostRequired && invalidRefs.length > 0) {
+      return {
+        ok: false,
+        error: `REFERENCE_CAPTURE_REQUIRED — FAL cannot download: ${invalidRefs.map((r) => r.referenceId).join(', ')}. Refresh visual references first.`,
+        requirementId: params.requirement.id,
+        generationMode,
+      };
+    }
+
+    if (
+      shouldFailWithoutReferenceConditioning({
+        strictHostVisualConditioning: strictHostRequired,
+        generationMode,
+        referenceCount: referenceImageUrls.length,
+      })
+    ) {
+      return {
+        ok: false,
+        error: 'STRICT_HOST_VISUAL_CONDITIONING requires reference-conditioned asset generation',
+        requirementId: params.requirement.id,
+        generationMode,
+      };
+    }
+
+    if (strictHostRequired && referenceImageUrls.length > 0) {
+      const compiled = compileReferenceConditionedPrompt({
+        referencePackage: params.referencePackage,
+        basePrompt: prompt,
+        negativePrompt,
+      });
+      const result = await runFalGeneration({
+        prompt: compiled.prompt,
+        negativePrompt: compiled.negativePrompt,
+        promptHash,
+        storagePath: params.storagePath,
+        aspectRatio: params.aspectRatio,
+        requirementId: params.requirement.id,
+        referenceImageUrls,
+        strictHostRequired,
+      });
+      return { ...result, generationMode };
+    }
+  }
+
+  const result = await runFalGeneration({
+    prompt,
+    negativePrompt,
+    promptHash,
+    storagePath: params.storagePath,
+    aspectRatio: params.aspectRatio,
+    requirementId: params.requirement.id,
+    referenceImageUrls,
+    strictHostRequired,
+  });
+  return { ...result, generationMode };
+}
+
+export async function composeDesignProofViaFal(params: {
+  proofId: string;
+  storagePath: string;
+  proofConcept: string;
+  owner: string;
+  artDirectionSummary: string;
+  functionalSummary: string;
+  componentAssetDescriptions: string[];
+  referencePackage?: VisualReferencePackage | null;
+  surfaceGenerationMode?: import('../../site00-studio-world-production/p1/generationBoundary/surfaceGenerationMode.js').SurfaceGenerationMode;
+}): Promise<FalGenerationResult & { requirementId: string; generationMode?: VisualGenerationMode }> {
+  if (params.surfaceGenerationMode === 'COMPOSED_INTERFACE') {
+    return {
+      ok: false,
+      error: 'FULL_PAGE_GENERATION_NOT_ALLOWED_FOR_COMPOSED_INTERFACE',
+      requirementId: `compose-${params.proofId}`,
+      generationMode: 'TEXT_TO_IMAGE',
+    };
+  }
+
+  const { prompt: basePrompt, negativePrompt: baseNegative, promptHash } = buildComposedDesignProofPrompt(params);
+
+  let prompt = basePrompt;
+  let negativePrompt = baseNegative;
+  let referenceImageUrls: string[] | undefined;
+  let generationMode: VisualGenerationMode = 'TEXT_TO_IMAGE';
+  let strictHostRequired = false;
+
+  if (params.referencePackage) {
+    strictHostRequired = params.referencePackage.strictHostVisualConditioning;
+    generationMode = resolveVisualGenerationMode({ referencePackage: params.referencePackage });
+    referenceImageUrls = params.referencePackage.references
+      .map((r) => r.publicUrl)
+      .filter((u): u is string => Boolean(u));
+
+    if (
+      shouldFailWithoutReferenceConditioning({
+        strictHostVisualConditioning: strictHostRequired,
+        generationMode,
+        referenceCount: referenceImageUrls.length,
+      })
+    ) {
+      return {
+        ok: false,
+        error: 'STRICT_HOST_VISUAL_CONDITIONING requires reference-conditioned generation; cannot fall back to text-to-image',
+        requirementId: `compose-${params.proofId}`,
+        generationMode,
+      };
+    }
+
+    const compiled = compileReferenceConditionedPrompt({
+      referencePackage: params.referencePackage,
+      basePrompt,
+      negativePrompt: baseNegative,
+    });
+    prompt = compiled.prompt;
+    negativePrompt = compiled.negativePrompt;
+  }
+
+  const result = await runFalGeneration({
+    prompt,
+    negativePrompt,
+    promptHash,
+    storagePath: params.storagePath,
+    aspectRatio: '16:9',
+    requirementId: `compose-${params.proofId}`,
+    referenceImageUrls,
+    strictHostRequired,
+  });
+
+  return { ...result, requirementId: `compose-${params.proofId}`, generationMode };
+}
+
+export function buildNdxbookHeroFrameComposePrompt(params: {
+  workspaceConceptLabel: string;
+  clientExpressionSummary: string;
+  componentAssetDescriptions: string[];
+}): { prompt: string; negativePrompt: string; promptHash: string } {
+  const prompt = [
+    'Single complete desktop hero frame design proof for NDXBOOK project home inside SITE 00 Project Workspace.',
+    `Workspace canon: ${params.workspaceConceptLabel}`,
+    `Client expression: ${params.clientExpressionSummary}`,
+    `Hero component assets: ${params.componentAssetDescriptions.join('; ') || 'authored client artwork + environment plate'}`,
+    'ONE coherent project-home hero — active workbench + dossier structural sophistication.',
+    'Client-native expressive typography and artwork participation; not a generic SaaS dashboard.',
+    '16:9 desktop design review frame.',
+    'No wireframe, no equal card grid, no literal workshop carpentry, no literal detective case file.',
+  ].join('\n');
+
+  const negativePrompt =
+    'wireframe, placeholder, screenshot of existing page, equal cards, admin portal, literal workshop, generic dashboard, text-only layout';
+
+  const promptHash = createHash('sha256').update(prompt).digest('hex').slice(0, 16);
+  return { prompt, negativePrompt, promptHash };
+}
+
+/** Server-only — composes NDXBOOK project-home hero frame via FAL when configured. */
+export async function composeNdxbookHeroFrameViaFal(params: {
+  storagePath: string;
+  workspaceConceptLabel: string;
+  clientExpressionSummary: string;
+  componentAssetDescriptions: string[];
+}): Promise<FalGenerationResult> {
+  const { prompt, negativePrompt, promptHash } = buildNdxbookHeroFrameComposePrompt(params);
+  return runFalGeneration({
+    prompt,
+    negativePrompt,
+    promptHash,
+    storagePath: params.storagePath,
+    aspectRatio: '16:9',
+    requirementId: 'compose-ndxbook-hero',
+  });
+}
+
+/** Server-only — generates one experience hero component asset via FAL when configured. */
+export async function generateExperienceHeroAssetViaFal(params: {
+  compiledPrompt: string;
+  promptHash: string;
+  storagePath: string;
+  requirementId: string;
+}): Promise<FalGenerationResult> {
+  const negativePrompt =
+    'wireframe, placeholder, stock photo, generic admin dashboard, equal cards, literal workshop, literal case file, text-only layout';
+  return runFalGeneration({
+    prompt: params.compiledPrompt,
+    negativePrompt,
+    promptHash: params.promptHash,
+    storagePath: params.storagePath,
+    aspectRatio: '16:9',
+    requirementId: params.requirementId,
+  });
+}
+
+export function cssFallbackBlocked(): true {
+  return true;
+}
+
+export function failedGenerationCannotMarkDesignProofReady(lifecycle: string): boolean {
+  return lifecycle === 'GENERATION_FAILED' || lifecycle === 'GENERATING';
+}

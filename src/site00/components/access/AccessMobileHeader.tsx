@@ -21,7 +21,7 @@ export function AccessMobileHeader() {
   return (
     <>
       <header className="site00-access-header site00-access-header--mobile">
-        <Site00LogoBlock showBracket={false} />
+        <Site00LogoBlock showBracket={false} diamondMode="HOST_DEFAULT" />
         <div className="site00-access-header__controls">
           <AccessTargetMark />
           <FastTravelTrigger

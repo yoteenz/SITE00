@@ -8,12 +8,17 @@ import { IdntyExpandedPanel } from '../components/homepage/IdntyExpandedPanel';
 import { BldrExpandedPanel } from '../components/homepage/BldrExpandedPanel';
 import { EvolveExpandedPanel } from '../components/homepage/EvolveExpandedPanel';
 import { SITE00_ORIGIN_COPY } from '../config/status';
-import { SITE00_ORIGIN_DESKTOP_COMPOSITION } from '../config/origin-home-composition';
+import {
+  SITE00_ORIGIN_DESKTOP_COMPOSITION,
+  SITE00_ORIGIN_MOBILE_COMPOSITION,
+} from '../config/origin-home-composition';
 import { useSite00DesktopArtboardPreview } from '../components/shell/Site00DesktopArtboardContext';
 import { useSite00 } from '../state/Site00Context';
 import { useOriginStatusStripLayout } from '../hooks/useOriginStatusStripLayout';
 import { useOriginLocationsTransition } from '../hooks/useOriginLocationsTransition';
 import { useOriginExpandedDismiss } from '../hooks/useOriginExpandedDismiss';
+import { useOriginBackgroundPreload } from '../hooks/useOriginBackgroundPreload';
+import { deriveOriginPanelState } from '../config/origin-panel-state';
 
 export default function OriginPage() {
   const { state, setHomeMode } = useSite00();
@@ -22,13 +27,21 @@ export default function OriginPage() {
   const locationsTransition = useOriginLocationsTransition();
   const isMobileOrigin = !isDesktopArtboardLayout;
   const collapseExpandedPanel = useCallback(() => setHomeMode('origin'), [setHomeMode]);
+  const originPanelState = deriveOriginPanelState(state.homeMode);
+  const mobileComposition = SITE00_ORIGIN_MOBILE_COMPOSITION;
+  const desktopComposition = SITE00_ORIGIN_DESKTOP_COMPOSITION;
+  const composition = isDesktopArtboardLayout ? desktopComposition : mobileComposition;
+
+  useOriginBackgroundPreload(state.homeMode, isDesktopArtboardLayout ? 'desktop' : 'mobile');
 
   useOriginExpandedDismiss(state.homeMode, collapseExpandedPanel, !isMobileOrigin);
 
   return (
     <EnvironmentShell environmentId="ORIGIN_ENVIRONMENT">
       <div
-        className={`site00-origin-page ${isDesktopArtboardLayout ? 'site00-origin-page--desktop-artboard' : 'site00-origin-page--mobile-layout'}`.trim()}
+        className={`site00-origin-page ${isDesktopArtboardLayout ? 'site00-origin-page--desktop-artboard' : 'site00-origin-page--mobile-layout'}${state.homeMode !== 'origin' ? ' site00-origin-page--panel-expanded' : ''}`.trim()}
+        data-origin-expanded-panel={originPanelState.expandedPanel}
+        data-origin-background-variant={originPanelState.backgroundVariant}
         style={
           isDesktopArtboardLayout
             ? {
@@ -36,7 +49,20 @@ export default function OriginPage() {
                 ['--site00-origin-status-strip-cell-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripCellPaddingYPx}px`,
                 ['--site00-origin-status-strip-guidance-padding-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.statusStripGuidancePaddingYPx}px`,
               }
-            : undefined
+            : {
+                ['--site00-origin-cards-top' as string]: `${mobileComposition.cardsTopPercent}%`,
+                ['--site00-origin-cards-offset-y' as string]: `${mobileComposition.cardsTopOffsetPx}px`,
+                ['--site00-origin-cards-max-w' as string]: `${mobileComposition.cardsMaxWidthPx}px`,
+                ['--site00-origin-cards-row-gap' as string]: `${mobileComposition.cardsRowGapPx}px`,
+                ['--site00-origin-card-scale' as string]: String(mobileComposition.cardScale),
+                ['--site00-origin-panel-icon-size-px' as string]: `${mobileComposition.panelIconSizePx}px`,
+                ['--site00-origin-panel-icon-offset-y' as string]: `${mobileComposition.panelIconOffsetYPx}px`,
+                ['--site00-origin-expanded-max-w' as string]: `${mobileComposition.expandedMaxWidthPx}px`,
+                ['--site00-origin-expanded-panel-scale' as string]: String(mobileComposition.expandedPanelScale),
+                ['--site00-origin-teaser-min-w' as string]: `${mobileComposition.teaserMinWidthPx}px`,
+                ['--site00-origin-teaser-min-h' as string]: `${mobileComposition.teaserMinHeightPx}px`,
+                ['--site00-origin-teaser-padding' as string]: `${mobileComposition.teaserPaddingPx}px`,
+              }
         }
       >
         <Site00AppShell
@@ -59,29 +85,31 @@ export default function OriginPage() {
           <div
             className="site00-home-stage"
             style={{
-              ['--site00-origin-hero-left' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroLeftPercent}%`,
-              ['--site00-origin-hero-top' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTopPx}px`,
-              ['--site00-origin-hero-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroMaxWidthPx}px`,
-              ['--site00-origin-hero-offset-x' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroOffsetXPx}px`,
-              ['--site00-origin-cards-top' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.cardsTopPercent}%`,
-              ['--site00-origin-cards-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.cardsTopOffsetPx}px`,
-              ['--site00-origin-cards-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.cardsMaxWidthPx}px`,
-              ['--site00-origin-cards-row-gap' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.cardsRowGapPx}px`,
-              ['--site00-origin-card-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.cardScale),
-              ['--site00-origin-panel-icon-size-px' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.panelIconSizePx}px`,
-              ['--site00-origin-panel-icon-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.panelIconOffsetYPx}px`,
-              ['--site00-origin-panel-icon-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.panelIconScale),
-              ['--site00-origin-expanded-max-w' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedMaxWidthPx}px`,
-              ['--site00-origin-expanded-panel-scale' as string]: String(SITE00_ORIGIN_DESKTOP_COMPOSITION.expandedPanelScale),
-              ['--site00-origin-framework-icon-size' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.frameworkIconSizePx}px`,
-              ['--site00-origin-hero-block-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroBlockOffsetYPx}px`,
-              ['--site00-origin-hero-eyebrow-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroEyebrowOffsetYPx}px`,
-              ['--site00-origin-hero-headline-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroHeadlineOffsetYPx}px`,
-              ['--site00-origin-hero-tagline-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroTaglineOffsetYPx}px`,
-              ['--site00-origin-hero-desc1-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription1OffsetYPx}px`,
-              ['--site00-origin-hero-desc2-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription2OffsetYPx}px`,
-              ['--site00-origin-hero-desc3-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroDescription3OffsetYPx}px`,
-              ['--site00-origin-hero-coordinate-offset-y' as string]: `${SITE00_ORIGIN_DESKTOP_COMPOSITION.heroCoordinateOffsetYPx}px`,
+              ['--site00-origin-hero-left' as string]: `${desktopComposition.heroLeftPercent}%`,
+              ['--site00-origin-hero-top' as string]: `${desktopComposition.heroTopPx}px`,
+              ['--site00-origin-hero-max-w' as string]: `${desktopComposition.heroMaxWidthPx}px`,
+              ['--site00-origin-hero-offset-x' as string]: `${desktopComposition.heroOffsetXPx}px`,
+              ['--site00-origin-cards-top' as string]: `${composition.cardsTopPercent}%`,
+              ['--site00-origin-cards-offset-y' as string]: `${composition.cardsTopOffsetPx}px`,
+              ['--site00-origin-cards-max-w' as string]: `${composition.cardsMaxWidthPx}px`,
+              ['--site00-origin-cards-row-gap' as string]: `${composition.cardsRowGapPx}px`,
+              ['--site00-origin-card-scale' as string]: String(composition.cardScale),
+              ['--site00-origin-panel-icon-size-px' as string]: `${composition.panelIconSizePx}px`,
+              ['--site00-origin-panel-icon-offset-y' as string]: `${composition.panelIconOffsetYPx}px`,
+              ['--site00-origin-panel-icon-scale' as string]: String(
+                'panelIconScale' in composition ? composition.panelIconScale : desktopComposition.panelIconScale,
+              ),
+              ['--site00-origin-expanded-max-w' as string]: `${composition.expandedMaxWidthPx}px`,
+              ['--site00-origin-expanded-panel-scale' as string]: String(composition.expandedPanelScale),
+              ['--site00-origin-framework-icon-size' as string]: `${desktopComposition.frameworkIconSizePx}px`,
+              ['--site00-origin-hero-block-offset-y' as string]: `${desktopComposition.heroBlockOffsetYPx}px`,
+              ['--site00-origin-hero-eyebrow-offset-y' as string]: `${desktopComposition.heroEyebrowOffsetYPx}px`,
+              ['--site00-origin-hero-headline-offset-y' as string]: `${desktopComposition.heroHeadlineOffsetYPx}px`,
+              ['--site00-origin-hero-tagline-offset-y' as string]: `${desktopComposition.heroTaglineOffsetYPx}px`,
+              ['--site00-origin-hero-desc1-offset-y' as string]: `${desktopComposition.heroDescription1OffsetYPx}px`,
+              ['--site00-origin-hero-desc2-offset-y' as string]: `${desktopComposition.heroDescription2OffsetYPx}px`,
+              ['--site00-origin-hero-desc3-offset-y' as string]: `${desktopComposition.heroDescription3OffsetYPx}px`,
+              ['--site00-origin-hero-coordinate-offset-y' as string]: `${desktopComposition.heroCoordinateOffsetYPx}px`,
             }}
           >
             <div className="site00-home-grid">
@@ -118,7 +146,7 @@ export default function OriginPage() {
               ) : null}
             </div>
 
-            {state.homeMode !== 'origin' && !isMobileOrigin ? (
+            {state.homeMode !== 'origin' ? (
               <button
                 type="button"
                 className="site00-home-expanded-backdrop"

@@ -1,0 +1,708 @@
+/* P0.CLIENT.1 — Client Project Room shell (reference-faithful SITE 00 white environment) */
+
+.site00-cpr {
+  --site00-cpr-accent: var(--site00-cpr-project-accent, #e8192c);
+  --site00-cpr-bg: #ffffff;
+  --site00-cpr-border: rgba(0, 0, 0, 0.08);
+  --site00-cpr-muted: rgba(0, 0, 0, 0.45);
+  --site00-cpr-text: #111111;
+  --site00-cpr-panel: #fafafa;
+  min-height: 100dvh;
+  background: var(--site00-cpr-bg);
+  color: var(--site00-cpr-text);
+  font-family: var(--site00-font-sans, 'Inter', system-ui, sans-serif);
+}
+
+.site00-cpr-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.site00-cpr-shell__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--site00-cpr-border);
+  background: var(--site00-cpr-bg);
+}
+
+.site00-cpr-shell__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.site00-cpr-shell__brand-mark {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.site00-cpr-shell__brand-project {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.site00-cpr-shell__brand-project .site00-cpr-accent {
+  color: var(--site00-cpr-accent);
+}
+
+.site00-cpr-shell__brand-meta {
+  font-size: 11px;
+  color: var(--site00-cpr-muted);
+  letter-spacing: 0.08em;
+}
+
+.site00-cpr-shell__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site00-cpr-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--site00-cpr-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--site00-cpr-text);
+  cursor: pointer;
+}
+
+.site00-cpr-icon-btn--notify {
+  position: relative;
+}
+
+.site00-cpr-icon-btn__dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--site00-cpr-accent);
+}
+
+.site00-cpr-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.site00-cpr-sidebar {
+  display: none;
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--site00-cpr-border);
+  padding: 16px 12px;
+}
+
+.site00-cpr-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.site00-cpr-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--site00-cpr-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.site00-cpr-sidebar__link.is-active {
+  color: var(--site00-cpr-accent);
+  background: rgba(232, 25, 44, 0.06);
+}
+
+.site00-cpr-main-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  min-height: 0;
+}
+
+.site00-cpr-main {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 16px 16px calc(88px + env(safe-area-inset-bottom, 0px));
+}
+
+.site00-cpr-rail {
+  display: none;
+  width: 280px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--site00-cpr-border);
+  padding: 16px;
+  overflow: auto;
+  background: var(--site00-cpr-bg);
+}
+
+.site00-cpr-bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  border-top: 1px solid var(--site00-cpr-border);
+  background: var(--site00-cpr-bg);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.site00-cpr-bottom-nav__link {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 56px;
+  padding: 8px 4px;
+  text-decoration: none;
+  color: var(--site00-cpr-muted);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.site00-cpr-bottom-nav__link.is-active {
+  color: var(--site00-cpr-accent);
+}
+
+.site00-cpr-bottom-nav__badge {
+  position: absolute;
+  margin-top: -18px;
+  margin-left: 14px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--site00-cpr-accent);
+  color: #fff;
+  font-size: 9px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.site00-cpr-bottom-nav__icon-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Header block */
+.site00-cpr-header {
+  margin-bottom: 20px;
+}
+
+.site00-cpr-header__eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--site00-cpr-accent);
+  margin-bottom: 6px;
+}
+
+.site00-cpr-header__title {
+  font-size: clamp(28px, 6vw, 40px);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.site00-cpr-header__meta {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--site00-cpr-muted);
+  margin-bottom: 4px;
+}
+
+.site00-cpr-header__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.site00-cpr-header__status-block {
+  text-align: right;
+}
+
+.site00-cpr-header__status-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--site00-cpr-accent);
+}
+
+.site00-cpr-header__status-value {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 2px 0 10px;
+}
+
+.site00-cpr-header__phase-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--site00-cpr-muted);
+}
+
+.site00-cpr-header__phase-value {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--site00-cpr-accent);
+}
+
+.site00-cpr-pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--site00-cpr-accent);
+  margin-left: 6px;
+}
+
+/* Panels */
+.site00-cpr-panel {
+  border: 1px solid var(--site00-cpr-border);
+  border-radius: 10px;
+  background: var(--site00-cpr-panel);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.site00-cpr-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--site00-cpr-border);
+}
+
+.site00-cpr-panel__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--site00-cpr-accent);
+}
+
+.site00-cpr-panel__link {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--site00-cpr-accent);
+  text-decoration: none;
+}
+
+.site00-cpr-panel__body {
+  padding: 14px;
+}
+
+/* Current moment */
+.site00-cpr-moment {
+  display: grid;
+  gap: 14px;
+}
+
+.site00-cpr-moment__grid {
+  display: grid;
+  gap: 14px;
+}
+
+.site00-cpr-moment__copy .site00-cpr-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--site00-cpr-accent);
+  margin-bottom: 6px;
+}
+
+.site00-cpr-moment__title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 0 8px;
+}
+
+.site00-cpr-moment__summary {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--site00-cpr-muted);
+  margin: 0;
+}
+
+.site00-cpr-moment__preview {
+  min-height: 160px;
+  border: 1px solid var(--site00-cpr-border);
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.site00-cpr-moment__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.site00-cpr-moment__placeholder {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--site00-cpr-muted);
+  text-align: center;
+  padding: 24px;
+}
+
+.site00-cpr-moment__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--site00-cpr-accent);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--site00-cpr-text);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* Project map */
+.site00-cpr-map {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  padding: 4px 0 8px;
+}
+
+.site00-cpr-map__step {
+  flex: 1;
+  min-width: 72px;
+  text-align: center;
+  position: relative;
+}
+
+.site00-cpr-map__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: calc(50% + 14px);
+  width: calc(100% - 28px);
+  height: 2px;
+  background: var(--site00-cpr-border);
+  z-index: 0;
+}
+
+.site00-cpr-map__step.is-complete:not(:last-child)::after,
+.site00-cpr-map__step.is-active:not(:last-child)::after {
+  background: var(--site00-cpr-accent);
+}
+
+.site00-cpr-map__node {
+  position: relative;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  border: 2px solid var(--site00-cpr-border);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--site00-cpr-muted);
+}
+
+.site00-cpr-map__step.is-complete .site00-cpr-map__node {
+  border-color: var(--site00-cpr-accent);
+  background: var(--site00-cpr-accent);
+  color: #fff;
+}
+
+.site00-cpr-map__step.is-active .site00-cpr-map__node {
+  border-color: var(--site00-cpr-accent);
+  box-shadow: inset 0 0 0 4px #fff;
+  background: var(--site00-cpr-accent);
+}
+
+.site00-cpr-map__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.site00-cpr-map__state {
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  color: var(--site00-cpr-muted);
+  margin-top: 2px;
+}
+
+.site00-cpr-map__step.is-active .site00-cpr-map__state {
+  color: var(--site00-cpr-accent);
+}
+
+/* Next for you */
+.site00-cpr-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(232, 25, 44, 0.25);
+  border-radius: 10px;
+  background: rgba(232, 25, 44, 0.04);
+}
+
+.site00-cpr-next__icon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--site00-cpr-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--site00-cpr-accent);
+  flex-shrink: 0;
+}
+
+.site00-cpr-next__copy {
+  flex: 1;
+  min-width: 180px;
+}
+
+.site00-cpr-next__title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin: 0 0 4px;
+}
+
+.site00-cpr-next__desc {
+  font-size: 12px;
+  color: var(--site00-cpr-muted);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.site00-cpr-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--site00-cpr-accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.site00-cpr-btn--ghost {
+  background: transparent;
+  border: 1px solid var(--site00-cpr-accent);
+  color: var(--site00-cpr-accent);
+}
+
+/* Activity */
+.site00-cpr-activity__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--site00-cpr-border);
+}
+
+.site00-cpr-activity__item:last-child {
+  border-bottom: none;
+}
+
+.site00-cpr-activity__date {
+  width: 48px;
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--site00-cpr-muted);
+}
+
+.site00-cpr-activity__icon {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--site00-cpr-border);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--site00-cpr-accent);
+  flex-shrink: 0;
+}
+
+.site00-cpr-activity__text {
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.site00-cpr-activity__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--site00-cpr-accent);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+/* Right rail cards */
+.site00-cpr-rail-card {
+  border: 1px solid var(--site00-cpr-border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: var(--site00-cpr-panel);
+}
+
+.site00-cpr-rail-card__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--site00-cpr-accent);
+  margin-bottom: 8px;
+}
+
+.site00-cpr-rail-card__value {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.site00-cpr-rail-card__detail {
+  font-size: 12px;
+  color: var(--site00-cpr-muted);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.site00-cpr-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site00-cpr-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.site00-cpr-checklist li svg {
+  color: var(--site00-cpr-accent);
+  flex-shrink: 0;
+}
+
+.site00-cpr-section-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--site00-cpr-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.site00-cpr-loading,
+.site00-cpr-error {
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+
+.site00-cpr-error button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border: 1px solid var(--site00-cpr-border);
+  background: #fff;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .site00-cpr-main {
+    padding: 24px 24px 24px;
+  }
+
+  .site00-cpr-moment__grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .site00-cpr-bottom-nav {
+    display: none;
+  }
+
+  .site00-cpr-sidebar {
+    display: block;
+  }
+}
+
+@media (min-width: 1100px) {
+  .site00-cpr-rail {
+    display: block;
+  }
+
+  .site00-cpr-shell__top .site00-cpr-shell__brand-mark {
+    display: inline;
+  }
+}
+
+@media (max-width: 767px) {
+  .site00-cpr-header__status-block {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .site00-cpr-shell__brand-mark {
+    display: none;
+  }
+}

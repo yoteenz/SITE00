@@ -1,0 +1,47 @@
+{
+  "specId": "SITE00-P0.5A-EXPERIENCE-SCOPE-CORRECTION",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "oldScopeProblems": [
+    "Determined site route inventory",
+    "Carried site navigation architecture responsibilities",
+    "Decided what pages exist",
+    "Owned business conversion architecture",
+    "Owned basic content model"
+  ],
+  "correctedScope": {
+    "owns": [
+      "interaction grammar",
+      "information behavior",
+      "spatial/structural metaphor when behavior-serving",
+      "hierarchy behavior",
+      "attention behavior",
+      "transition behavior",
+      "responsive experience philosophy",
+      "motion behavior",
+      "material behavior",
+      "user-information relationship",
+      "host-client expression relationship"
+    ],
+    "doesNotOwn": [
+      "site route inventory",
+      "site navigation architecture",
+      "page existence decisions",
+      "business conversion architecture",
+      "basic content model",
+      "product state models",
+      "factual SEO content architecture"
+    ]
+  },
+  "formationPolicy": {
+    "model": "ExperienceConceptFormationPolicy",
+    "actor": "ANTHROPIC_REASONING",
+    "founderTriggered": true,
+    "liveDispatchInP05A": false
+  },
+  "gates": {
+    "conceptVsLayout": "evaluateExperienceConceptVsLayout",
+    "metaphorBehavior": "EXPERIENCE_METAPHOR_MUST_SERVE_BEHAVIOR"
+  },
+  "deterministicFormationRemainsForHistoricalRecords": true,
+  "experimentEHistoryPreserved": true
+}

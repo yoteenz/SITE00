@@ -4,9 +4,9 @@
 import { createClient, type SupabaseClient, type SupabaseClientOptions } from '@supabase/supabase-js';
 import WebSocket from 'ws';
 
-let serverOptions: SupabaseClientOptions | null = null;
+let serverOptions: SupabaseClientOptions<any> | null = null;
 
-export function getServerSupabaseOptions(): SupabaseClientOptions {
+export function getServerSupabaseOptions(): SupabaseClientOptions<any> {
   if (!serverOptions) {
     serverOptions = {
       auth: {
@@ -14,12 +14,14 @@ export function getServerSupabaseOptions(): SupabaseClientOptions {
         autoRefreshToken: false,
         detectSessionInUrl: false,
       },
-      global: {
-        WebSocket: WebSocket as unknown as typeof globalThis.WebSocket,
+      realtime: {
+        transport: WebSocket as unknown as NonNullable<
+          NonNullable<SupabaseClientOptions<any>['realtime']>['transport']
+        >,
       },
     };
   }
-  return serverOptions;
+  return serverOptions!;
 }
 
 export function createServerSupabaseClient(url: string, key: string): SupabaseClient {

@@ -1,0 +1,122 @@
+{
+  "generatedAt": "2026-08-26T00:39:01.676Z",
+  "icons": [
+    {
+      "iconName": "overview",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/overview.svg",
+      "publicPath": "/icons/ndx/v3/overview.cde497fb.svg",
+      "sourceHash": "sha256:cde497fbf7e745ddfc71769ae2f648e30fba543b4fa32685e6ae14d69c1795c0",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:overview",
+      "filename": "overview.svg"
+    },
+    {
+      "iconName": "campaigns",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/campaigns.svg",
+      "publicPath": "/icons/ndx/v3/campaigns.331051f1.svg",
+      "sourceHash": "sha256:331051f1507a0c64bdfdf9a60e0a800ebdfc5e365abfcd5b47521cd64d6b432e",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:campaigns",
+      "filename": "campaigns.svg"
+    },
+    {
+      "iconName": "content_ops",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/content-ops.svg",
+      "publicPath": "/icons/ndx/v3/content-ops.a96082e3.svg",
+      "sourceHash": "sha256:a96082e30b8e5e414e136425f444bcfa5950262b460da201e09023cb0dc7688d",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:content_ops",
+      "filename": "content-ops.svg"
+    },
+    {
+      "iconName": "lab",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/lab.svg",
+      "publicPath": "/icons/ndx/v3/lab.e03cb634.svg",
+      "sourceHash": "sha256:e03cb63428206522401f378a09e91c39a7cbacf9d43e5ba4113f79997ebf2a03",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:lab",
+      "filename": "lab.svg"
+    },
+    {
+      "iconName": "more",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/more.svg",
+      "publicPath": "/icons/ndx/v3/more.0b8786fa.svg",
+      "sourceHash": "sha256:0b8786faa8737892acb6517e2d2a0be8c9ef2283322c0ac1c914d33303a4b412",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:more",
+      "filename": "more.svg"
+    },
+    {
+      "iconName": "notifications",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/notifications.svg",
+      "publicPath": "/icons/ndx/v3/notifications.7b1830d0.svg",
+      "sourceHash": "sha256:7b1830d00523d4af4f5c87105b0426773c3da4b1aac6c2741d5acc9ef02fe47a",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:notifications",
+      "filename": "notifications.svg"
+    },
+    {
+      "iconName": "ellipsis",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/project-menu.svg",
+      "publicPath": "/icons/ndx/v3/project-menu.1be6acc7.svg",
+      "sourceHash": "sha256:1be6acc7284ff16099da9cb10df0919aae407d31737a690d133d6e9f8c9dd016",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:ellipsis",
+      "filename": "project-menu.svg"
+    },
+    {
+      "iconName": "project_overview",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/project-overview.svg",
+      "publicPath": "/icons/ndx/v3/project-overview.f86ec459.svg",
+      "sourceHash": "sha256:f86ec459956fe68c2971c70c5bb3bac22302d1bb3574bf4a57de63164839564c",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:project_overview",
+      "filename": "project-overview.svg"
+    },
+    {
+      "iconName": "project_settings",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/project-settings.svg",
+      "publicPath": "/icons/ndx/v3/project-settings.7f850dd3.svg",
+      "sourceHash": "sha256:7f850dd3e189bfe967252497da4a13d2bbf4761511abc0dc78f03c393314a349",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:project_settings",
+      "filename": "project-settings.svg"
+    },
+    {
+      "iconName": "back_to_projects",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/back-to-projects.svg",
+      "publicPath": "/icons/ndx/v3/back-to-projects.3dc856d6.svg",
+      "sourceHash": "sha256:3dc856d6355c61601d582451daf6def3dce6ffb7a65c93d4c9a973199551ec20",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:back_to_projects",
+      "filename": "back-to-projects.svg"
+    },
+    {
+      "iconName": "return_to_origin",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/return-to-origin.svg",
+      "publicPath": "/icons/ndx/v3/return-to-origin.baeeb1e4.svg",
+      "sourceHash": "sha256:baeeb1e45dabc071147eec5b807064d8439aab04a304c396d97b9f077550eb8c",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:return_to_origin",
+      "filename": "return-to-origin.svg"
+    },
+    {
+      "iconName": "inspect",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/inspect.svg",
+      "publicPath": "/icons/ndx/v3/inspect.9e7dcae3.svg",
+      "sourceHash": "sha256:9e7dcae3ea67a437fa1284a052d275674d9868ca8054ba151b60a9e28342b167",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:inspect",
+      "filename": "inspect.svg"
+    },
+    {
+      "iconName": "help",
+      "version": "v3",
+      "sourcePath": "shared/site00-studio-world-ui/icons/ndx/v3/help.svg",
+      "publicPath": "/icons/ndx/v3/help.d34286a2.svg",
+      "sourceHash": "sha256:d34286a250ebf67589ed17cf8d9b92e1b1c9c4a87d3fd47533ece5602f10e3f9",
+      "referenceId": "ndx-icon-reference-sheet-p0ui3d:help",
+      "filename": "help.svg"
+    }
+  ]
+}

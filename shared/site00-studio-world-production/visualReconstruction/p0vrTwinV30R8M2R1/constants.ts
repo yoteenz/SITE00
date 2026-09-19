@@ -1,0 +1,13 @@
+export const P0_VR_TWIN_V30R8M2R1_LINEAGE = 'P0.VR.TWINV3.0R8M2R1' as const;
+export const MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R1 = 'R8M2R1' as const;
+export const MOBILE_TWIN_IMPLEMENTATION_VERSION_EXPRESSION = 'mobile-twin-impl-v3-expression' as const;
+export const IMPLEMENTATION_EXPRESSION_VERSION = 'implementation-expression-v1' as const;
+
+export const VISUAL_INGESTION_PROVIDER = 'SITE00_PIXEL_GROUNDED_COMPOSITION_ANCHORED' as const;
+export const VISUAL_INGESTION_ANALYSIS_MODE = 'COMPOSITION_OBJECT_ANCHORED_SHARP_ROW_BANDS' as const;
+
+/** Max generic fallbacks allowed on CRITICAL/HIGH objects before readiness BLOCKED. */
+export const CRITICAL_GENERIC_FALLBACK_THRESHOLD = 0 as const;
+
+export const R8M2_CORRECTION_REQUIRED_REASON =
+  'IMPLEMENTATION_MISSING_EXPRESSION_IR_VISUAL_INGESTION' as const;

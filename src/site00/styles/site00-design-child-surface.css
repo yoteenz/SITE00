@@ -1,0 +1,382 @@
+/**
+ * P0.VR.DESIGN-INHERITANCE1 — child surfaces inherit DESIGN workspace grammar.
+ */
+
+.tod-dcs-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+}
+
+.tod-dcs-layer > * {
+  pointer-events: auto;
+}
+
+.tod-dcs-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 901;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: rgba(10, 10, 10, 0.42);
+}
+
+.tod-dcs {
+  position: fixed;
+  z-index: 902;
+  display: flex;
+  flex-direction: column;
+  max-height: min(92dvh, 100%);
+  background: var(--tod-panel, #f7f7f7);
+  color: var(--tod-ink, #161616);
+  border: 1px solid var(--tod-border-panel, #b2b2b2);
+  font-family: var(--tod-mono, ui-monospace, monospace);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.tod-dcs--drawer {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(440px, 100vw);
+  border-right: 0;
+}
+
+.tod-dcs--sheet {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: min(72dvh, 100%);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.tod-dcs--modal {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(420px, calc(100vw - 24px));
+  max-height: min(80dvh, 100%);
+  border-radius: 4px;
+}
+
+.tod-dcs--workspace {
+  left: 12px;
+  right: 12px;
+  top: 12px;
+  bottom: 12px;
+  max-height: none;
+}
+
+.tod-dcs--inspector {
+  right: 12px;
+  top: 12px;
+  bottom: 12px;
+  width: min(360px, calc(100vw - 24px));
+}
+
+/**
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — desktop overlays use the width they
+ * have. A 440px drawer on a 1440px workstation forced comparison content into
+ * a phone column on a machine with room for two panes. These rules sit after
+ * the base placements because they share their specificity.
+ */
+@media (min-width: 1100px) {
+  .tod-dcs--drawer {
+    width: min(620px, 46vw);
+  }
+
+  .tod-dcs--inspector {
+    width: min(460px, 36vw);
+  }
+
+  .tod-dcs--modal {
+    width: min(880px, calc(100vw - 96px));
+    max-height: min(86dvh, 100%);
+  }
+}
+
+.tod-dcs--workspace-inline {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0 var(--tod-pad-l, 15px) 8px;
+  border: 1px solid var(--tod-border-panel, #b2b2b2);
+  background: var(--tod-paper, #fdfdfd);
+  box-shadow: none;
+  max-height: none;
+}
+
+.tod-dcs__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--tod-border-subtle, #dadada);
+  background: var(--tod-navbar, #f2f2f2);
+  flex-shrink: 0;
+}
+
+.tod-dcs__context {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--tod-ink-3, #6a6a70);
+  text-transform: uppercase;
+}
+
+.tod-dcs__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: var(--tod-weight-ui, 500);
+  letter-spacing: 0.1em;
+}
+
+.tod-dcs__sub {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--tod-ink-2, #45454a);
+  line-height: 1.45;
+}
+
+.tod-dcs__headActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tod-dcs__close,
+.tod-dcs__ghost {
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--tod-paper, #fdfdfd);
+  color: var(--tod-ink, #161616);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.tod-dcs__primary {
+  border: 1px solid var(--tod-lime, #cdee30);
+  background: var(--tod-lime, #cdee30);
+  color: var(--tod-lime-ink, #101505);
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: var(--tod-weight-ui, 500);
+}
+
+.tod-dcs__body {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 14px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tod-dcs-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--tod-panel, #f7f7f7);
+  white-space: nowrap;
+}
+
+.tod-dcs-badge--pass,
+.tod-dcs-badge--approved,
+.tod-dcs-badge--promoted,
+.tod-dcs-badge--locked {
+  border-color: var(--tod-green, #3f8f36);
+  color: var(--tod-green, #3f8f36);
+}
+
+.tod-dcs-badge--blocked,
+.tod-dcs-badge--fail,
+.tod-dcs-badge--rejected {
+  border-color: var(--tod-red, #c2281d);
+  color: var(--tod-red, #c2281d);
+}
+
+.tod-dcs-badge--warn,
+.tod-dcs-badge--under_review,
+.tod-dcs-badge--selected {
+  border-color: var(--tod-amber, #e8b40b);
+  color: #8a6a00;
+}
+
+.tod-dcs-badge--not_applicable,
+.tod-dcs-badge--missing,
+.tod-dcs-badge--superseded {
+  color: var(--tod-ink-3, #6a6a70);
+}
+
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — phone overlays are purpose-built
+ * sheets, not centred desktop windows. A centred 366px modal inside a 390px
+ * screen wastes the margin on every side and leaves the founder scrolling a
+ * creative workbench through a letterbox.
+ */
+@media (max-width: 720px) {
+  .tod-dcs--drawer,
+  .tod-dcs--modal,
+  .tod-dcs--inspector {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    transform: none;
+    max-height: min(92dvh, 100%);
+    border-radius: 12px 12px 0 0;
+  }
+
+  .tod-dcs--workspace {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+}
+
+.tod-child-embedded {
+  font-size: 13px;
+  color: var(--tod-ink, #161616);
+}
+
+.tod-child-embedded .tod-child__card,
+.tod-child-embedded .tod-child__dl div,
+.tod-child-embedded .tod-child__row {
+  border-color: var(--tod-border-subtle, #dadada);
+  background: var(--tod-paper, #fdfdfd);
+  color: var(--tod-ink, #161616);
+}
+
+.tod-child-embedded .tod-child__row.is-active {
+  border-color: var(--tod-lime, #cdee30);
+}
+
+.tod-child-embedded .tod-child__muted,
+.tod-child-embedded .tod-child__meta,
+.tod-child-embedded .tod-child__note {
+  color: var(--tod-ink-3, #6a6a70);
+}
+
+.tod-child-embedded .tod-child__link {
+  color: var(--tod-lime-ink, #101505);
+  text-decoration: underline;
+}
+
+.tod-child-embedded .tod-child__mono {
+  color: var(--tod-ink-2, #45454a);
+}
+
+.tod-dcs-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 903;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 5, 5, 0.96);
+  color: #f4f4f4;
+  padding: env(safe-area-inset-top, 12px) 12px env(safe-area-inset-bottom, 12px);
+}
+
+.tod-dcs-fullscreen__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #333;
+}
+
+.tod-dcs-fullscreen__meta {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #9a9a9a;
+}
+
+.tod-dcs-fullscreen__title {
+  margin: 0;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+}
+
+.tod-dcs-fullscreen__sub {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #bdbdbd;
+}
+
+.tod-dcs-fullscreen__stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 12px 0;
+}
+
+.tod-dcs-fullscreen__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tod-out__previewBtn {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: inherit;
+}
+
+.tod-dcs-toast {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 903;
+  padding: 12px 14px;
+  background: var(--tod-black, #0a0a0a);
+  color: #f4f4f4;
+  border: 1px solid var(--tod-red, #c2281d);
+  font-family: var(--tod-mono, ui-monospace, monospace);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tod-dcs-toast--compact {
+  max-width: min(420px, calc(100vw - 24px));
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 11px;
+  padding: 8px 10px;
+  opacity: 0.94;
+}
+
+.tod-dcs-toast__actions {
+  display: inline-flex;
+  gap: 8px;
+  flex-shrink: 0;
+}

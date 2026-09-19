@@ -18,10 +18,11 @@ describe('site00ProjectsApi response handling', () => {
     expect(SERVER_ROUTES).toContain('site00ProjectsHandler');
   });
 
-  it('ProjectsPage does not hardcode LIVE metrics during error state', () => {
-    expect(PROJECTS_PAGE).toContain("showMetrics = state === 'ready' || state === 'partial'");
-    expect(PROJECTS_PAGE).toContain('sourceLabel');
-    expect(PROJECTS_PAGE).not.toMatch(/value="LIVE"/);
+  it('ProjectsPage uses B5.9R2 project index presentation', () => {
+    expect(PROJECTS_PAGE).toContain('ProjectIndexPage');
+    expect(PROJECTS_PAGE).toContain('ProjectViewModeProvider');
+    expect(PROJECTS_PAGE).not.toContain('ACTIVE PRODUCTION FLOOR');
+    expect(PROJECTS_PAGE).not.toContain('Site00ProjectWorkspace');
   });
 
   it('classifies valid JSON success body', () => {

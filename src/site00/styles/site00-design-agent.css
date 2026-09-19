@@ -1,0 +1,36 @@
+/**
+ * P0.VR.DESIGN.OPUS-AI-CONSOLES1 — Opus console specifics.
+ *
+ * The shell, chrome, tabs, previews and action hierarchy all come from
+ * `site00-ai-consoles.css`; this file only carries what is particular to the
+ * Opus workbench. The previous dark terminal drawer (`s00-dad--open` rail,
+ * black panel, mono green) is gone: Opus now inherits the DESIGN workspace
+ * grammar like the other two consoles.
+ */
+
+@import url('./site00-ai-consoles.css');
+
+/* The close control keeps its historical hook so the workspace integration
+   guards continue to match the element they were written against. */
+.s00-dad__close {
+  letter-spacing: 0;
+}
+
+/* Opus is the widest of the three consoles on desktop: its context block pairs
+   a page preview with six metadata rows, and the intent grid needs three
+   columns before it starts wrapping into a list. */
+@media (min-width: 861px) {
+  .s00-aic--opus {
+    width: min(920px, 92vw);
+  }
+
+  .s00-aic--opus .s00-aic__previewImg {
+    max-height: 230px;
+  }
+}
+
+/* Intent is the one control founders scan rather than read, so its chips keep a
+   fixed three-up rhythm at every width instead of reflowing by label length. */
+.s00-aic--opus .s00-aic__chipGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}

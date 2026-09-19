@@ -28,6 +28,7 @@ export const SITE00_ROUTES = {
   evolveMarketingBrief: '/evolve/marketing/brief/:engagementId',
   evolveMarketingEngagement: '/evolve/marketing/engagement/:engagementId',
   evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
+  evolvePlans: '/evolve/plans',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
@@ -49,19 +50,147 @@ export const SITE00_ROUTES = {
   controlTeam: '/control/team',
   controlSettings: '/control/settings',
   controlSecurity: '/control/security',
+  controlEvolveOperations: '/control/evolve-operations',
   /** Founder/admin operator dashboard — gated by AdminGuard */
   adminDashboard: '/admin/site00',
   projects: '/projects',
   projectDetail: '/projects/:projectSlug',
+  /** B5.9R1 — Universal project operating system module routes */
+  projectOverview: '/projects/:projectSlug/overview',
+  projectBuilder: '/projects/:projectSlug/builder',
+  projectProductionModule: '/projects/:projectSlug/production',
+  projectReviewsModule: '/projects/:projectSlug/reviews',
+  projectLibraryModule: '/projects/:projectSlug/library',
+  projectMoreModule: '/projects/:projectSlug/more',
+  projectOrigin: '/projects/:projectSlug/origin',
+  projectIdentity: '/projects/:projectSlug/identity',
+  projectExperience: '/projects/:projectSlug/experience/*',
+  projectDebugWorld: '/projects/:projectSlug/debug/world/*',
+  /** P0.VR.UPGRADE.2 — Protected reconstruction twin preview (non-indexable) */
+  projectReconstructionTwin:
+    '/projects/:projectSlug/debug/reconstruction/:pageScope/:sessionId',
+  /** P0.VR.TWINV2.1 — Concept-directed twin preview (experimental, not live) */
+  projectTwinV2Concept: '/projects/:projectSlug/debug/twin-v2/:sessionId',
+  projectReader: '/projects/:projectSlug/reader/*',
+  projectSetup: '/projects/:projectSlug/setup',
   projectEvolve: '/projects/:projectSlug/evolve',
   projectCreativeDirection: '/projects/:projectSlug/creative-direction',
+  projectCampaignFlavor: '/projects/:projectSlug/campaign-flavor',
+  projectCampaignDirector: '/projects/:projectSlug/campaign-director',
   projectLoreCalibration: '/projects/:projectSlug/calibrate',
+  projectCreativeAppetite: '/projects/:projectSlug/creative-appetite',
+  projectPersonalityReplay: '/projects/:projectSlug/personality-replay',
+  projectPersonalityReplayConsistency: '/projects/:projectSlug/personality-replay/consistency',
+  projectCanonicalCreativeRange: '/projects/:projectSlug/canonical-creative-range',
+  projectCanonicalCarouselExpansion: '/projects/:projectSlug/canonical-carousel-expansion',
+  projectExperimentD: '/projects/:projectSlug/experiment-d-concept-territory',
+  projectExperimentF: '/projects/:projectSlug/experiment-f-six-concept-reformation',
+  projectExperimentG: '/projects/:projectSlug/experiment-g-brand-presentation-concepts',
+  projectExperimentGDirections:
+    '/projects/:projectSlug/experiment-g-brand-presentation-concepts/directions',
+  projectExperimentGFinalists:
+    '/projects/:projectSlug/experiment-g-brand-presentation-concepts/finalists',
+  projectExperimentH: '/projects/:projectSlug/brand-character-formation',
+  projectBrandCharacterDevelopment: '/projects/:projectSlug/brand-character-development',
+  projectBrandCharacterReadiness: '/projects/:projectSlug/brand-character-readiness',
+  projectBrandCharacterDeepening: '/projects/:projectSlug/brand-character-deepening',
+  projectBrandCharacterSynthesis: '/projects/:projectSlug/brand-character-synthesis',
+  projectBrandCharacterArtifactProofs: '/projects/:projectSlug/brand-character-artifact-proofs',
+  projectBrandMarketingExpression: '/projects/:projectSlug/marketing-expression',
+  projectBrandMarketingExpressionExperiment01: '/projects/:projectSlug/marketing-expression/experiment-01',
+  projectContentOperations: '/projects/:projectSlug/content-operations',
+  projectContentOperationsPerformance: '/projects/:projectSlug/content-operations/performance',
+  projectContentOperationsCampaignBoard: '/projects/:projectSlug/content-operations/campaign-board',
+  projectCampaignBoardEntry: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber',
+  projectCampaignBoardEntryPreview: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/preview',
+  projectCampaignBoardEntryFormat: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/format/:formatFamily',
+  projectCampaignBoardEntryDeliverable: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/deliverable/:deliverableId',
+  projectCampaignBoardEntryCarousel: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/carousel',
+  projectCampaignBoardEntryStory: '/projects/:projectSlug/content-operations/campaign-board/entry/:entryNumber/story',
+  projectExpressionEngineCampaign: '/projects/:projectSlug/content-operations/expression-engine',
+  projectFounderCreativeIngestion: '/projects/:projectSlug/content-operations/founder-creative-ingest',
+  projectFilmProduction: '/projects/:projectSlug/content-operations/film-production',
+  projectFilmProductionDailies: '/projects/:projectSlug/content-operations/film-production/dailies',
+  projectFilmProductionSceneDeck: '/projects/:projectSlug/content-operations/film-production/scene-deck',
+  projectContentOperationsDailyPlan: '/projects/:projectSlug/content-operations/daily-plan',
+  projectRealismLab: '/projects/:projectSlug/realism-lab',
+  projectRealismLabBrief: '/projects/:projectSlug/realism-lab/brief',
+  projectRealismLabProviders: '/projects/:projectSlug/realism-lab/providers',
+  projectRealismLabRuns: '/projects/:projectSlug/realism-lab/runs',
+  projectRealismLabReview: '/projects/:projectSlug/realism-lab/review',
+  projectRealismLabContinuity: '/projects/:projectSlug/realism-lab/continuity',
+  projectRealismLabDecision: '/projects/:projectSlug/realism-lab/decision',
+  projectCulturalIntelligence: '/projects/:projectSlug/cultural-intelligence',
+  projectCulturalIntelligenceSources: '/projects/:projectSlug/cultural-intelligence/sources',
+  projectCulturalIntelligenceWeeklyForecast: '/projects/:projectSlug/cultural-intelligence/weekly-forecast',
+  projectMotionCharacter: '/projects/:projectSlug/motion-character',
+  projectEmbodiedCharacterDiscovery: '/projects/:projectSlug/embodied-character',
+  projectFounderCharacterDiscovery: '/projects/:projectSlug/character/discovery',
+  projectCharacterContinuity: '/projects/:projectSlug/character/continuity',
+  projectCharacterContinuityReview: '/projects/:projectSlug/character/continuity/review',
+  projectCharacterCasting: '/projects/:projectSlug/character/casting',
+  projectExperimentE: '/projects/:projectSlug/experience-expression',
+  projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
+  projectExperiments: '/projects/:projectSlug/experiments',
+  projectLab: '/projects/:projectSlug/lab',
+  /** P0.VR.DESIGN-PROJECT-BINDING1R1 — DESIGN module under PROJECTS (canonical). */
+  projectsDesignModule: '/projects/design',
+  projectsDesignActiveProject: '/projects/design/:projectSlug',
+  /** Legacy per-project path — redirects to projectsDesignActiveProject. */
+  projectDesign: '/projects/:projectSlug/design',
+  projectDesignReferences: '/projects/:projectSlug/design/references',
+  projectDesignAssets: '/projects/:projectSlug/design/assets',
+  projectDesignPages: '/projects/:projectSlug/design/pages',
+  projectDesignSkins: '/projects/:projectSlug/design/skins',
+  projectDesignHistory: '/projects/:projectSlug/design/history',
+  projectDesignMore: '/projects/:projectSlug/design/more',
+  /** P0.VR.DESIGN-ROUTE-AUTHORITY1 — legacy Design Reconstruction lab (internal tooling) */
+  projectDesignReconstructionLab: '/projects/:projectSlug/design/reconstruction-lab',
+  projectDesignTwin: '/projects/:projectSlug/design/twin',
+  projectDesignTwinV4: '/projects/:projectSlug/design/twin-v4',
+  projectDesignTwinSolDirect: '/projects/:projectSlug/design/twin-sol-direct',
+  /** P0.VR.DESIGNBENCH.SOL1 — isolated Sol reference-to-Figma benchmark */
+  projectDesignTwinTestB: '/projects/:projectSlug/design/twin-testB',
+  projectDesignTwinTestA: '/projects/:projectSlug/design/twin-testA',
+  /** P0.VR.DESIGNBENCH.GROK-DIRECT1 — isolated Grok direct reconstruction */
+  projectDesignTwinGrokDirect: '/projects/:projectSlug/design/twin-grok-direct',
+  /** P0.VR.DESIGNBENCH.OPUS-DIRECT1 — isolated Opus direct reconstruction */
+  projectDesignTwinOpusDirect: '/projects/:projectSlug/design/twin-opus-direct',
+  /** P0.VR.DESIGNBENCH.FABLE-DIRECT1 — isolated Claude Fable direct reconstruction */
+  projectDesignTwinFableDirect: '/projects/:projectSlug/design/twin-fable-direct',
+  /** P0.VR.DESIGNBENCH.SPARK-DIRECT1 — isolated Spark direct reconstruction */
+  projectDesignTwinSparkDirect: '/projects/:projectSlug/design/twin-spark-direct',
+  /** P0.VR.DESIGNBENCH.SPARK-RESPONSIVE-OPUSGROK1 — isolated Spark responsive translation of twin-opus-direct */
+  projectDesignTwinSparkResponsive: '/projects/:projectSlug/design/twin-spark-responsive',
+  /** P0.VR.OPUS-NATIVE1 — internal native Opus design agent runtime surface */
+  projectDesignOpusNative: '/projects/:projectSlug/design/opus-native',
+  /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
+  site00Design: '/projects/site00/design',
+  masterSkinPreview: '/projects/site00/master-skin-preview',
+  /** Frontal Slayer product asset factory (P0.PAF.1) */
+  projectProductAssets: '/projects/:projectSlug/product-assets',
+  projectFounderWorkspaceArchive: '/projects/:projectSlug/archive',
+  projectNdxIconSheet: '/projects/:projectSlug/inspect/icons',
+  projectNotifications: '/projects/:projectSlug/notifications',
+  projectContentLibrary: '/projects/:projectSlug/content-library',
+  projectPersonalityReplayStep: '/projects/:projectSlug/personality-replay/:stepId',
   projectConnections: '/projects/:projectSlug/connections',
   support: '/support',
+  guide: '/guide',
+  sound: '/sound',
+  faq: '/faq',
+  contact: '/contact',
+  blueprints: '/blueprints',
+  forgotPassword: '/origin/forgot-password',
+  resetPassword: '/origin/reset-password',
+  brand: '/brand',
+  accountProfile: '/account',
   /** Client post-payment provisioning — project slug in path */
   projectProvisioning: '/project/:projectSlug/provisioning',
   /** Client Studio operating environment — project slug in path */
   studio: '/studio/:projectSlug',
+  /** Studio World master design reconstruction workspace */
+  studioWorldDesign: '/studio-world/design',
   studioInput: '/studio/:projectSlug/input',
   studioOperations: '/studio/:projectSlug/operations',
   studioBlueprint: '/studio/:projectSlug/blueprint',
@@ -73,8 +202,23 @@ export const SITE00_ROUTES = {
   /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
   accountIntakes: '/account/intakes',
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
+  /** Client-facing Project Room — authenticated project-scoped client experience */
+  clientProjectRoom: '/client/projects/:projectSlug',
+  clientProjectRoomReviews: '/client/projects/:projectSlug/reviews',
+  clientProjectRoomReviewDetail: '/client/projects/:projectSlug/reviews/:reviewId',
+  clientProjectRoomLibrary: '/client/projects/:projectSlug/library',
+  clientProjectRoomActivity: '/client/projects/:projectSlug/activity',
+  clientProjectRoomMessages: '/client/projects/:projectSlug/messages',
+  /** P0.APP.1 — Client mobile app (dedicated app surface) */
+  appSplash: '/app',
+  appProjects: '/app/projects',
+  appProjectRoot: '/app/projects/:projectSlug/*',
+  appPreviewSelect: '/app/preview/select',
+  appPreviewRoot: '/app/preview/:projectSlug/*',
   /** Guest secure intake access/resume — no sign-in required */
   intakeGuestAccess: '/intake/access/:token',
+  /** World-class client guest discovery — private token link */
+  worldIntakeGuest: '/intake/:token',
 } as const;
 
 export function site00AccountIntakeDetailPath(intakeType: string, intakeId: string): string {
@@ -86,11 +230,86 @@ export function site00IntakeGuestAccessPath(token: string): string {
 }
 
 export function site00ProjectPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/overview`;
+}
+
+export function site00ProjectOverviewPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/overview`;
+}
+
+export function site00ProjectBuilderPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/builder`;
+}
+
+export function site00ProjectProductionModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/production`;
+}
+
+export function site00ProjectReviewsModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/reviews`;
+}
+
+export function site00ProjectLibraryModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/library`;
+}
+
+export function site00ProjectMoreModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/more`;
+}
+
+/** Legacy detail path — redirects to overview */
+export function site00ProjectLegacyDetailPath(projectSlug: string): string {
   return `/projects/${projectSlug}`;
+}
+
+export function site00ProjectOriginPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/origin`;
+}
+
+export function site00ProjectIdentityPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/identity`;
+}
+
+export function site00ProjectExperiencePath(projectSlug: string, section?: string): string {
+  const base = `/projects/${projectSlug}/experience`;
+  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
+}
+
+export function site00ProjectFastTrackWorldPath(projectSlug: string, section?: string): string {
+  const base = `/projects/${projectSlug}/debug/world`;
+  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
+}
+
+export function site00ProjectSetupPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/setup`;
 }
 
 export function site00ProjectLoreCalibrationPath(projectSlug: string): string {
   return `/projects/${projectSlug}/calibrate`;
+}
+
+export function site00ProjectCreativeAppetitePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/creative-appetite`;
+}
+
+export function site00ProjectPersonalityReplayPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/personality-replay`;
+}
+
+export function site00ProjectPersonalityReplayConsistencyPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/personality-replay/consistency`;
+}
+
+export function site00ProjectCanonicalCreativeRangePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/canonical-creative-range`;
+}
+
+export function site00ProjectCanonicalCarouselExpansionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/canonical-carousel-expansion`;
+}
+
+export function site00ProjectPersonalityReplayStepPath(projectSlug: string, stepId: string): string {
+  return `/projects/${projectSlug}/personality-replay/${stepId}`;
 }
 
 export function site00ProjectEvolvePath(projectSlug: string): string {
@@ -99,6 +318,338 @@ export function site00ProjectEvolvePath(projectSlug: string): string {
 
 export function site00ProjectCreativeDirectionPath(projectSlug: string): string {
   return `/projects/${projectSlug}/creative-direction`;
+}
+
+export function site00ProjectCampaignFlavorPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/campaign-flavor`;
+}
+
+export function site00ProjectCampaignDirectorPath(projectSlug: string, mode?: 'forensic'): string {
+  const base = `/projects/${projectSlug}/campaign-director`;
+  return mode === 'forensic' ? `${base}?mode=forensic` : base;
+}
+
+export function site00ProjectExperimentEPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experience-expression`;
+}
+
+export function site00ProjectExperimentDPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-d-concept-territory`;
+}
+
+export function site00ProjectExperimentFPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-f-six-concept-reformation`;
+}
+
+export function site00ProjectExperimentGPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts`;
+}
+
+export function site00ProjectExperimentGDirectionsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts/directions`;
+}
+
+export function site00ProjectExperimentGFinalistsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiment-g-brand-presentation-concepts/finalists`;
+}
+
+export function site00ProjectExperimentHPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-formation`;
+}
+
+export function site00ProjectBrandCharacterFormationPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-formation`;
+}
+
+export function site00ProjectBrandCharacterDevelopmentPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-development`;
+}
+
+export function site00ProjectBrandCharacterReadinessPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-readiness`;
+}
+
+export function site00ProjectBrandCharacterDeepeningPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-deepening`;
+}
+
+export function site00ProjectBrandCharacterSynthesisPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-synthesis`;
+}
+
+export function site00ProjectBrandCharacterArtifactProofsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/brand-character-artifact-proofs`;
+}
+
+export function site00ProjectBrandMarketingExpressionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/marketing-expression`;
+}
+
+export function site00ProjectBrandMarketingExpressionExperiment01Path(projectSlug: string): string {
+  return `/projects/${projectSlug}/marketing-expression/experiment-01`;
+}
+
+export function site00ProjectContentOperationsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations`;
+}
+
+export function site00ProjectContentOperationsPerformancePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/performance`;
+}
+
+export function site00ProjectContentOperationsCampaignBoardPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board`;
+}
+
+export function site00ProjectCampaignBoardEntryPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}`;
+}
+
+export function site00ProjectCampaignBoardEntryPreviewPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/preview`;
+}
+
+export function site00ProjectCampaignBoardEntryFormatPath(
+  projectSlug: string,
+  entryNumber: string,
+  formatFamily: string,
+): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/format/${formatFamily}`;
+}
+
+export function site00ProjectCampaignBoardEntryDeliverablePath(
+  projectSlug: string,
+  entryNumber: string,
+  deliverableId: string,
+): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/deliverable/${deliverableId}`;
+}
+
+export function site00ProjectCampaignBoardEntryCarouselPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/carousel`;
+}
+
+export function site00ProjectCampaignBoardEntryStoryPath(projectSlug: string, entryNumber: string): string {
+  return `/projects/${projectSlug}/content-operations/campaign-board/entry/${entryNumber}/story`;
+}
+
+export function site00ProjectExpressionEngineCampaignPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/expression-engine`;
+}
+
+export function site00ProjectFounderCreativeIngestionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/founder-creative-ingest`;
+}
+
+export function site00ProjectFilmProductionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/film-production`;
+}
+
+export function site00ProjectFilmProductionDailiesPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/film-production/dailies`;
+}
+
+export function site00ProjectFilmProductionSceneDeckPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/film-production/scene-deck`;
+}
+
+export function site00ProjectContentOperationsDailyPlanPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-operations/daily-plan`;
+}
+
+export function site00ProjectRealismLabPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab`;
+}
+
+export function site00ProjectRealismLabBriefPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/brief`;
+}
+
+export function site00ProjectRealismLabProvidersPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/providers`;
+}
+
+export function site00ProjectRealismLabRunsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/runs`;
+}
+
+export function site00ProjectRealismLabReviewPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/review`;
+}
+
+export function site00ProjectRealismLabContinuityPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/continuity`;
+}
+
+export function site00ProjectRealismLabDecisionPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/realism-lab/decision`;
+}
+
+export function site00ProjectCulturalIntelligencePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence`;
+}
+
+export function site00ProjectCulturalIntelligenceSourcesPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence/sources`;
+}
+
+export function site00ProjectCulturalIntelligenceWeeklyForecastPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/cultural-intelligence/weekly-forecast`;
+}
+
+export function site00ProjectMotionCharacterPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/motion-character`;
+}
+
+export function site00ProjectEmbodiedCharacterDiscoveryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/embodied-character`;
+}
+
+export function site00ProjectFounderCharacterDiscoveryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/discovery`;
+}
+
+export function site00ProjectCharacterContinuityPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/continuity`;
+}
+
+export function site00ProjectCharacterContinuityReviewPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/continuity/review`;
+}
+
+export function site00ProjectCharacterCastingPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/character/casting`;
+}
+
+export function site00ProjectExperimentEVisualDevelopmentPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experience-expression/visual-development`;
+}
+
+export function site00ProjectExperimentsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/experiments`;
+}
+
+export function site00ProjectLabPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/lab`;
+}
+
+export function site00ProjectsDesignModulePath(): string {
+  return SITE00_ROUTES.projectsDesignModule;
+}
+
+export function site00ProjectsDesignActiveProjectPath(projectSlug: string): string {
+  return `/projects/design/${projectSlug.toLowerCase()}`;
+}
+
+export function site00ProjectDesignPath(
+  projectSlug: string,
+  params?: { screen?: string; viewport?: string; tab?: string },
+): string {
+  const slug = projectSlug.toLowerCase();
+  const search = new URLSearchParams();
+  if (params?.screen) search.set('screen', params.screen);
+  if (params?.viewport) search.set('viewport', params.viewport);
+  if (params?.tab) search.set('tab', params.tab.toLowerCase());
+  const qs = search.toString();
+  const base = site00ProjectsDesignActiveProjectPath(slug);
+  return qs ? `${base}?${qs}` : base;
+}
+
+export function site00ProjectDesignSectionPath(
+  projectSlug: string,
+  section: 'references' | 'assets' | 'pages' | 'skins' | 'history' | 'more',
+): string {
+  return `${site00ProjectsDesignActiveProjectPath(projectSlug)}/${section}`;
+}
+
+export function site00LegacyProjectDesignPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design`;
+}
+
+export function site00ProjectDesignReconstructionLabPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/reconstruction-lab`;
+}
+
+export function solDesignBenchmarkRoute(projectSlug: string): string {
+  return `/projects/${projectSlug}/design/twin-testB`;
+}
+
+export function site00ProjectDesignTwinTestAPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-testA`;
+}
+
+export function site00ProjectDesignTwinGrokDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-grok-direct`;
+}
+
+export function site00ProjectDesignTwinOpusDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-opus-direct`;
+}
+
+export function site00ProjectDesignTwinSectionPath(
+  projectSlug: string,
+  section: 'references' | 'assets' | 'pages' | 'skins' | 'history' | 'more',
+): string {
+  return `${site00ProjectDesignTwinOpusDirectPath(projectSlug)}/${section}`;
+}
+
+export function site00ProjectDesignTwinFableDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-fable-direct`;
+}
+
+export function site00ProjectDesignTwinSparkDirectPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-direct`;
+}
+
+export function site00ProjectDesignTwinSparkResponsivePath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/twin-spark-responsive`;
+}
+
+export function site00ProjectDesignOpusNativePath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/opus-native`;
+}
+
+export function site00CanonicalDesignPath(params?: {
+  project?: string;
+  screen?: string;
+  viewport?: string;
+  tab?: string;
+}): string {
+  const slug = params?.project?.toLowerCase();
+  if (slug && slug !== 'site00') {
+    return site00ProjectDesignPath(slug, params);
+  }
+  const search = new URLSearchParams();
+  if (params?.project) search.set('project', params.project);
+  if (params?.screen) search.set('screen', params.screen);
+  if (params?.viewport) search.set('viewport', params.viewport);
+  if (params?.tab) search.set('tab', params.tab.toLowerCase());
+  const qs = search.toString();
+  return qs ? `${SITE00_ROUTES.site00Design}?${qs}` : SITE00_ROUTES.site00Design;
+}
+
+export function site00ProjectProductAssetsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/product-assets`;
+}
+
+export function site00StudioWorldDesignPath(projectSlug?: string): string {
+  return site00CanonicalDesignPath({ project: projectSlug ?? 'site00' });
+}
+
+export function site00ProjectFounderWorkspaceArchivePath(projectSlug: string): string {
+  return `/projects/${projectSlug}/archive`;
+}
+
+export function site00ProjectNdxIconSheetPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/inspect/icons`;
+}
+
+export function site00ProjectNotificationsPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/notifications`;
+}
+
+export function site00ProjectContentLibraryPath(projectSlug: string): string {
+  return `/projects/${projectSlug}/content-library`;
 }
 
 export function site00CreateAccountHrefWithReturnTo(returnToPath: string): string {
@@ -133,6 +684,19 @@ export function site00StudioPath(projectSlug: string, section?: 'input' | 'opera
   return section ? `${base}/${section}` : base;
 }
 
+export function site00ClientProjectRoomPath(
+  projectSlug: string,
+  section?: 'overview' | 'reviews' | 'library' | 'activity' | 'messages',
+): string {
+  const base = `/client/projects/${projectSlug}`;
+  if (!section || section === 'overview') return base;
+  return `${base}/${section}`;
+}
+
+export function isSite00ClientProjectRoomPath(pathname: string): boolean {
+  return pathname.startsWith('/client/projects/');
+}
+
 export function site00StudioReviewPath(projectSlug: string, reviewId: string): string {
   return `/studio/${projectSlug}/reviews/${reviewId}`;
 }
@@ -148,6 +712,19 @@ export const SITE00_FUTURE_ROUTES = {
   live: '/live',
   account: '/account',
 } as const;
+
+/** Composer draft routes (P0.VR.3H) — preview-only until founder approval. */
+export const SITE00_COMPOSER_DRAFT_ROUTES = [
+  SITE00_ROUTES.guide,
+  SITE00_ROUTES.sound,
+  SITE00_ROUTES.faq,
+  SITE00_ROUTES.contact,
+  SITE00_ROUTES.blueprints,
+  SITE00_ROUTES.forgotPassword,
+  SITE00_ROUTES.resetPassword,
+  SITE00_ROUTES.accountProfile,
+  SITE00_ROUTES.brand,
+] as const;
 
 export type Site00RouteKey = keyof typeof SITE00_ROUTES;
 

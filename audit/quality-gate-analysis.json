@@ -1,0 +1,43 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "currentGates": [
+    {"gate": "DISCOVERY_SYNTHESIS_BLOCKED", "location": "intakeSynthesisGate.ts", "blocks": true},
+    {"gate": "PROJECT_INTELLIGENCE_READY", "location": "project-intelligence/readiness.ts", "blocks": true},
+    {"gate": "CORE_DIRECTION_READY", "location": "brand-lore/readiness.ts", "blocks": true},
+    {"gate": "CONCEPT_VS_DIRECTION", "location": "conceptTerritoryV2/conceptVsDirection.ts", "blocks": true},
+    {"gate": "ORTHOGONALITY_V2", "location": "conceptTerritoryV2/orthogonalityV2.ts", "blocks": true},
+    {"gate": "DIRECTION_DEVELOPMENT_ALLOWED", "location": "conceptTerritoryV2/types directionDevelopmentAllowed", "blocks": true},
+    {"gate": "EXPERIENCE_EXPRESSION_READINESS", "location": "experienceExpression/readiness.ts", "blocks": "partial"},
+    {"gate": "EXPERIENCE_DISTINCTIVENESS", "location": "experienceExpression/distinctiveness.ts", "blocks": "post-formation"},
+    {"gate": "DESIGN_PROOF_QA", "location": "designProofQA.ts", "blocks": "partial"},
+    {"gate": "IMPLEMENTATION_CONTRACT_READY", "location": "surfaceDesignLifecycle.ts", "blocks": true},
+    {"gate": "WORLD_INTAKE_READY", "location": "world-intake/readiness.ts", "blocks": "intake only"},
+    {"gate": "FORMATION_AUTOMATIC_ON_READINESS", "location": "types.ts", "value": false}
+  ],
+  "falseReadiness": [
+    {"id": "FR-001", "claimed": "PROJECT_INTELLIGENCE_READY ndxbook", "actual": "Legacy modules faked COMPLETE", "severity": "HIGH", "path": "projectIntelligenceService.ts LEGACY_COMPLETED_MODULES"},
+    {"id": "FR-002", "claimed": "ACTIVATED commercial", "actual": "Pilot slug shortcut", "severity": "HIGH", "path": "projectIntelligenceService.ts getCommercialStateForProject"},
+    {"id": "FR-003", "claimed": "Orchestration complete", "actual": "ORCHESTRATION_NOT_CONNECTED", "severity": "CRITICAL", "path": "visualDevelopmentService.ts"},
+    {"id": "FR-004", "claimed": "Fidelity evaluated", "actual": "NOT_EVALUATED default", "severity": "HIGH", "path": "implementationEvaluation.ts"},
+    {"id": "FR-005", "claimed": "1535 tests production ready", "actual": "Mock provider paths", "severity": "HIGH", "path": "capabilityVerification.ts"},
+    {"id": "FR-006", "claimed": "Direction distinctiveness PASS", "actual": "Non-blocking informational", "severity": "MEDIUM", "path": "directionDistinctivenessGate.ts"},
+    {"id": "FR-007", "claimed": "WORLD_FORMATION_READY", "actual": "Intake readiness only", "severity": "MEDIUM", "path": "worldIntakeService.ts"}
+  ],
+  "missingGates": [
+    "SITE_ARCHITECTURE_READY",
+    "PAGE_FAMILY_COHERENCE_READY",
+    "IDENTITY_CONCEPT_DISTINCTIVENESS_READY",
+    "PRODUCT_EXPRESSION_READY",
+    "CROSS_MEDIUM_PROMOTION_REQUIRED",
+    "VISUAL_REFERENCE_LIVE_VERIFIED",
+    "COMPOSER_DISPATCH_READY",
+    "IMPLEMENTATION_FIDELITY_PASS",
+    "CONTENT_PLAN_READY",
+    "BUDGET_ENVELOPE_APPROVED"
+  ],
+  "notEvaluatedHandling": "Correctly preserved in fidelity, reference adherence, sequence cohesion — but UI may not distinguish NOT_EVALUATED from blocked",
+  "recommendedArchitecture": {
+    "gateRecord": ["status", "evidence", "blockers", "warnings", "notEvaluated", "provenance", "version", "fingerprint"],
+    "principle": "TEST_VERIFIED ≠ PRODUCTION_VERIFIED ≠ FOUNDER_APPROVED ≠ PRODUCTION_READY"
+  }
+}

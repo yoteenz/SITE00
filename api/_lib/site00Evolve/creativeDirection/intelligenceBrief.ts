@@ -6,6 +6,14 @@ import type { BrandLoreProfile } from '../../../shared/site00-brand-lore/types.j
 import type { CreativeBrief, IntelligenceBriefSection } from './types.js';
 import { randomUUID } from 'node:crypto';
 import { brandLoreLineageEntries } from '../../site00BrandLore/brandLoreBridge.js';
+import {
+  buildContentBrainPersonalityInput,
+  summarizeContentBrainPersonalityInput,
+} from '../../../../shared/site00-brand-lore/contentBrainPersonalityBridge.js';
+import {
+  deriveFormatNativeExpressionProfile,
+  summarizeFormatNativeExpression,
+} from '../../../../shared/site00-brand-lore/formatNativeExpression.js';
 
 const OPEN_QUESTIONS = [
   'Visual language',
@@ -158,6 +166,37 @@ export function synthesizeCreativeBrief(
     };
   }
 
+  const personalityInput = buildContentBrainPersonalityInput(brandLore.brandPersonality);
+  if (personalityInput) {
+    merged.voiceConstraints = {
+      ...merged.voiceConstraints,
+      preserve: [
+        ...Object.values(personalityInput).filter(Boolean).slice(0, 3).map(String),
+        ...merged.voiceConstraints.preserve,
+      ],
+    };
+  }
+
+  if (brandLore.contextClassification) {
+    const formatProfile = deriveFormatNativeExpressionProfile({
+      context: brandLore.contextClassification,
+      profile: brandLore,
+      personality: brandLore.brandPersonality,
+    });
+    merged.primaryContext = brandLore.contextClassification;
+    merged.scaleConsiderations = [
+      ...formatProfile.proofRequirements,
+      ...merged.scaleConsiderations,
+    ];
+    if (personalityInput) {
+      merged.differentiation = [
+        summarizeContentBrainPersonalityInput(personalityInput).slice(0, 200),
+        summarizeFormatNativeExpression(formatProfile).slice(0, 200),
+        ...merged.differentiation,
+      ];
+    }
+  }
+
   return merged;
 }
 
@@ -222,6 +261,10 @@ function ndxbookContentBrainBrief(
     },
     classification: 'PROPOSED',
     provenance: { source: 'CONTENT_BRAIN', entryCount },
+    // NDXBOOK's primary public expression is social content, not a website — see
+    // docs/site00/CREATIVE_DIRECTION_METHODOLOGY.md §1. Other orgs remain unclassified
+    // until their own Creative Direction pass explicitly sets this.
+    primaryContext: orgSlug === 'ndxbook' ? 'SOCIAL_FIRST_EDITORIAL' : undefined,
   };
 }
 

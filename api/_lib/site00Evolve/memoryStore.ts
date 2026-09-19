@@ -133,6 +133,17 @@ export function getProfileByOrgId(orgId: string): MarketingProfileRow | undefine
   return getEvolveStore().profiles.find((p) => p.organization_id === orgId);
 }
 
+export function updateProfileCommercialMetadata(
+  orgId: string,
+  patch: Record<string, unknown>,
+): MarketingProfileRow | undefined {
+  const profile = getEvolveStore().profiles.find((p) => p.organization_id === orgId);
+  if (!profile) return undefined;
+  const existingCommercial = (profile.metadata?.commercial as Record<string, unknown>) ?? {};
+  profile.metadata = { ...profile.metadata, commercial: { ...existingCommercial, ...patch } };
+  return profile;
+}
+
 export function getChannelsByOrgId(orgId: string): MarketingChannelRow[] {
   return getEvolveStore().channels.filter((c) => c.organization_id === orgId);
 }

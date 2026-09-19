@@ -337,13 +337,36 @@ describe('SITE 00 canonical Identity + Builder intake service', () => {
     await expect(submitIntake('IDENTITY', started.id, { kind: 'ANONYMOUS_DIRECT' })).rejects.toThrow();
   });
 
-  it('Identity autosave with loreAnswers synthesizes BrandLoreProfile server-side', async () => {
+  it('public Identity autosave with loreAnswers does not synthesize Brand Lore (discovery provenance)', async () => {
     const { startIntake, autosaveIntake } = await importService();
     const { getLoreForIntake, resetBrandLoreMemoryStore } = await import('../site00BrandLore/loreService.js');
     resetBrandLoreMemoryStore();
     const started = await startIntake({ intakeType: 'IDENTITY', domainLabel: 'starting-at-zero', userId: null });
     const detail = await autosaveIntake('IDENTITY', started.id, { kind: 'ANONYMOUS_DIRECT' }, {
       draftPayload: {
+        loreAnswers: {
+          feeling: ['curious'],
+          role: 'guide',
+          belief: 'Knowledge should be accessible.',
+        },
+        identityState: 'starting-at-zero',
+      },
+    });
+    expect((detail.draftPayload as Record<string, unknown>).brandLoreProfileId).toBeUndefined();
+    const lore = await getLoreForIntake('IDENTITY', started.id);
+    expect(lore).toBeNull();
+    expect((detail.draftPayload as Record<string, unknown>).discoveryProvenance).toBe('PRE_PURCHASE_DISCOVERY');
+  });
+
+  it('post-purchase Identity autosave with loreAnswers synthesizes Brand Lore when explicitly authorized', async () => {
+    const { startIntake, autosaveIntake } = await importService();
+    const { getLoreForIntake, resetBrandLoreMemoryStore } = await import('../site00BrandLore/loreService.js');
+    resetBrandLoreMemoryStore();
+    const started = await startIntake({ intakeType: 'IDENTITY', domainLabel: 'starting-at-zero', userId: null });
+    const detail = await autosaveIntake('IDENTITY', started.id, { kind: 'ANONYMOUS_DIRECT' }, {
+      draftPayload: {
+        discoveryProvenance: 'POST_PURCHASE_INTELLIGENCE',
+        allowProductionIntelligenceSynthesis: true,
         loreAnswers: {
           feeling: ['curious'],
           role: 'guide',

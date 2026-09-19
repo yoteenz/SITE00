@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import {
   getIdntyAssessmentState,
   idntyAssessmentPath,
+  idntyDiscoveryResultPath,
   type IdntyAssessmentStateId,
 } from '../../../config/idnty-assessment';
-import { idntyLorePath, idntyLoreFirstStep } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
 import {
   IdntyAssessmentShell,
@@ -32,7 +32,7 @@ export default function IdntyAssessmentReviewPage({ stateSlug }: IdntyAssessment
   };
 
   const handleSubmit = () => {
-    navigateTo(idntyLorePath(stateSlug, idntyLoreFirstStep()));
+    navigateTo(idntyDiscoveryResultPath(stateSlug));
   };
 
   if (!isDesktop) {
@@ -68,7 +68,7 @@ export default function IdntyAssessmentReviewPage({ stateSlug }: IdntyAssessment
       </dl>
 
       <IdntyAssessmentActions
-        primaryLabel="CONTINUE TO BRAND WORLD →"
+        primaryLabel="VIEW RECOMMENDATION →"
         onPrimary={handleSubmit}
         secondaryLabel="BACK"
         onSecondary={() => {

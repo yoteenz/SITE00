@@ -1,0 +1,26 @@
+/**
+ * DesignReferencePurpose — prevents routing ambiguity between screen authority and asset jobs.
+ */
+
+export const DESIGN_REFERENCE_PURPOSES = [
+  'SCREEN_AUTHORITY',
+  'ASSET_SOURCE',
+  'PAGE_REFERENCE',
+  'INSPIRATION',
+  'CONTENT_REFERENCE',
+] as const;
+export type DesignReferencePurpose = (typeof DESIGN_REFERENCE_PURPOSES)[number];
+
+export const REFERENCE_JOB_TYPES = ['SCREEN_AUTHORITY', 'ASSET_RECONSTRUCTION', 'PAGE_REFERENCE'] as const;
+export type ReferenceJobType = (typeof REFERENCE_JOB_TYPES)[number];
+
+export const SCREEN_AUTHORITY_INGESTION_FAILURE_CODES = [
+  'SCREEN_AUTHORITY_INGESTION_MISSING',
+  'SCREEN_AUTHORITY_ROUTED_TO_ASSET_PIPELINE',
+  'REFERENCE_PURPOSE_MISSING',
+  'SCREEN_AUTHORITY_CONTEXT_NOT_PREFILLED',
+  'SCREEN_AUTHORITY_FIDELITY_NOT_EXACT',
+  'SCREEN_AUTHORITY_CONVERGENCE_NOT_REQUIRED',
+  'SCREEN_AUTHORITY_IMPLEMENTATION_JOB_MISSING',
+] as const;
+export type ScreenAuthorityIngestionFailureCode = (typeof SCREEN_AUTHORITY_INGESTION_FAILURE_CODES)[number];

@@ -1,0 +1,47 @@
+{
+  "auditId": "SITE00-STUDIO-WORLD-MASTER-ASSURANCE-2026-08-23",
+  "providers": [
+    {
+      "provider": "Anthropic",
+      "models": ["claude-sonnet (ANTHROPIC_CREATIVE_MODEL config)"],
+      "roles": ["Core Direction", "Direction Expression", "Creative Expression", "Board Director", "Creative Concept Director (Experiment F)", "Copy Quality Gate"],
+      "referenceSupport": false,
+      "structuredOutput": "JSON via parseStructuredJson",
+      "costAccounting": "Per-run input/output tokens on some services",
+      "liveVerified": "PARTIAL — formation paths exist; not all roles production-smoked",
+      "capabilityRegistryMismatch": false
+    },
+    {
+      "provider": "FAL",
+      "models": ["openai/gpt-image-2", "openai/gpt-image-2/edit"],
+      "roles": ["Experience design proof assets", "Composed design proof", "ASSTS generation"],
+      "referenceSupport": "edit model supports image_urls[]",
+      "liveVerified": false,
+      "capabilityRegistryMismatch": false,
+      "notes": "Registry correctly marks T2I vs edit capabilities; vitest bypasses real calls"
+    },
+    {
+      "provider": "Playwright",
+      "roles": ["Visual reference capture"],
+      "liveVerified": false,
+      "capabilityRegistryMismatch": "N/A — not in provider registry",
+      "failureBehavior": "Returns incomplete capture error"
+    },
+    {
+      "provider": "Supabase",
+      "roles": ["Auth", "DB", "Storage"],
+      "liveVerified": true,
+      "notes": "Service role required for server persistence; many subsystems skip"
+    }
+  ],
+  "gaps": [
+    {"id": "LV-001", "pipeline": "Reference-conditioned GPT Image edit", "status": "LIVE_VERIFICATION_REQUIRED"},
+    {"id": "LV-002", "pipeline": "Multi-reference strict host package", "status": "LIVE_VERIFICATION_REQUIRED"},
+    {"id": "LV-003", "pipeline": "Real FAL asset generation on Railway", "status": "LIVE_VERIFICATION_REQUIRED"},
+    {"id": "LV-004", "pipeline": "Playwright capture in deployed API", "status": "LIVE_VERIFICATION_REQUIRED"},
+    {"id": "LV-005", "pipeline": "Composer orchestration dispatch", "status": "NOT_IMPLEMENTED"},
+    {"id": "LV-006", "pipeline": "Implementation screenshot fidelity review", "status": "NOT_IMPLEMENTED"},
+    {"id": "LV-007", "pipeline": "Experiment F Sonnet formation on production", "status": "LIVE_VERIFICATION_REQUIRED"},
+    {"id": "LV-008", "pipeline": "Cross-client project experiment isolation", "status": "LIVE_VERIFICATION_REQUIRED"}
+  ]
+}

@@ -1,0 +1,55 @@
+export const P0_VR_TWIN_V42_LINEAGE = 'P0.VR.TWINV4.2' as const;
+export const P0_VR_TWIN_V42R1_LINEAGE = 'P0.VR.TWINV4.2R1' as const;
+export const P0_VR_TWIN_V41F1_LINEAGE = 'P0.VR.TWINV4.1F1' as const;
+export const TWIN_V42_STORAGE_PREFIX = 'site00:twin-v4:' as const;
+export const TWIN_V42_GOLDEN_AUTHORITY_KEY = `${TWIN_V42_STORAGE_PREFIX}golden-authority:v1` as const;
+export const TWIN_V42_GATE_BUNDLE_KEY = `${TWIN_V42_STORAGE_PREFIX}golden-diff-gate:v1` as const;
+
+export const TWIN_V4_GOLDEN_AUTHORITY_INVALID = 'TWIN_V4_GOLDEN_AUTHORITY_INVALID' as const;
+/** No loadable https forensic on device yet (prime/cache) — not a corrupt pin. */
+export const TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE = 'TWIN_V4_GOLDEN_AUTHORITY_UNAVAILABLE' as const;
+export const PRODUCTION_GOLDEN_AUTHORITY_UNAVAILABLE = 'PRODUCTION_GOLDEN_AUTHORITY_UNAVAILABLE' as const;
+export const CORRECTION_LOOP_DID_NOT_MUTATE_IMPLEMENTATION =
+  'CORRECTION_LOOP_DID_NOT_MUTATE_IMPLEMENTATION' as const;
+export const MUTATION_DID_NOT_CHANGE_RENDER = 'MUTATION_DID_NOT_CHANGE_RENDER' as const;
+
+export const PRIOR_LIVE_STATUS = 'CORRECTION_REQUIRED' as const;
+export const PRIOR_LIVE_REJECTION_REASON = 'LIVE_OUTPUT_DOES_NOT_RESEMBLE_REFERENCE' as const;
+
+export const TWIN_V42_RECONSTRUCTION_CONTRACT_KEY =
+  `${TWIN_V42_STORAGE_PREFIX}reconstruction-contract:v42r1` as const;
+
+export const MAX_TWIN_V42R1_MUTATION_ITERATIONS = 10 as const;
+export const TWIN_V42R1_STALL_DELTA_THRESHOLD = 0.001 as const;
+
+export const TWIN_V42_REGION_MUTATION_PRIORITY = [
+  'RIGHT_SPEC_TABLE',
+  'TITLE_HEADER',
+  'LEFT_MAIN_BLUEPRINT',
+  'LOWER_COLOR_PALETTE',
+  'LOWER_NOTES_CONTEXT',
+  'LOWER_TYPOGRAPHY_KEY',
+  'LOWER_DIVIDER_SPECS',
+] as const;
+export const DIFF_CONVERGENCE_STALLED = 'DIFF_CONVERGENCE_STALLED' as const;
+
+export const TWIN_V42_FULL_PAGE_DIFF_THRESHOLD = 0.015 as const;
+export const TWIN_V42_CRITICAL_REGION_DIFF_THRESHOLD = 0.01 as const;
+export const TWIN_V42_SECONDARY_REGION_DIFF_THRESHOLD = 0.02 as const;
+
+/** @deprecated V4.2R1 uses valid mutation iterations only (see convergence loop). */
+export const MIN_TWIN_V42_GOLDEN_DIFF_ITERATIONS = 3 as const;
+
+export const TWIN_V42_SEGMENTATION_VERSION = 'v41-pixel-1' as const;
+
+export const TWIN_V42_CRITICAL_REGION_IDS = [
+  'TITLE_HEADER',
+  'LEFT_MAIN_BLUEPRINT',
+  'RIGHT_SPEC_TABLE',
+  'LOWER_COLOR_PALETTE',
+  'LOWER_TYPOGRAPHY_KEY',
+  'LOWER_DIVIDER_SPECS',
+  'LOWER_NOTES_CONTEXT',
+] as const;
+
+export const TWIN_V42_PLAYWRIGHT_DEVICE_SCALE = 1 as const;

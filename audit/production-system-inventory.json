@@ -1,0 +1,244 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "generatedAt": "2026-08-23T21:30:00Z",
+  "baseline": "P0 durable persistence complete; live Supabase migration may be pending deploy",
+  "systems": [
+    {
+      "id": "business-intelligence",
+      "name": "Business Intelligence / Discovery",
+      "disciplines": ["ALL"],
+      "classification": "PARTIAL",
+      "evidence": ["shared/site00-project-discovery/", "shared/site00-world-intake/"],
+      "notes": "Discovery intake and synthesis gates exist; no unified business intelligence formation engine"
+    },
+    {
+      "id": "brand-lore",
+      "name": "Brand Lore",
+      "disciplines": ["IDENTITY", "CONTENT", "SITE", "EXPERIENCE"],
+      "classification": "PRODUCTION_READY",
+      "evidence": ["api/_lib/site00BrandLore/", "shared/site00-brand-lore/loreSynthesis.ts"],
+      "notes": "Supabase durable; deterministic synthesis; fail-loud adapter"
+    },
+    {
+      "id": "brand-personality",
+      "name": "Brand Personality",
+      "disciplines": ["IDENTITY", "CONTENT", "CREATIVE"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-brand-lore/personalitySynthesis.ts", "shared/site00-brand-lore/personalityReadiness.ts"],
+      "notes": "Gates Core Direction formation"
+    },
+    {
+      "id": "founder-creative-appetite",
+      "name": "Founder Creative Appetite",
+      "disciplines": ["CREATIVE", "EXPERIENCE"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-brand-lore/founderCreativeAppetite/", "api/_lib/site00BrandLore/creativeAppetiteService.ts"],
+      "notes": "Excluded from Experiment D; feeds Experiment F/E snapshots"
+    },
+    {
+      "id": "content-brain",
+      "name": "Content Brain",
+      "disciplines": ["CONTENT"],
+      "classification": "METHODOLOGY_ONLY",
+      "evidence": ["shared/site00-brand-lore/contentBrainPersonalityBridge.ts"],
+      "notes": "Bridge/export only; no topic strategy, calendar, or campaign engine"
+    },
+    {
+      "id": "core-direction-formation",
+      "name": "Core Direction Formation",
+      "disciplines": ["CREATIVE", "IDENTITY"],
+      "classification": "LIVE_PATH_UNVERIFIED",
+      "evidence": ["api/_lib/site00Evolve/creativeDirection/creativeIntelligence/formationService.ts"],
+      "notes": "Sonnet formation + deterministic critic; production path for new clients"
+    },
+    {
+      "id": "experiment-d",
+      "name": "Experiment D Concept Territory V1",
+      "disciplines": ["CREATIVE"],
+      "classification": "HISTORICAL",
+      "evidence": ["api/_lib/site00Evolve/creativeDirection/conceptTerritoryExperiment/"],
+      "notes": "Frozen snapshot v1; parent-collapse documented; superseded by F methodology"
+    },
+    {
+      "id": "experiment-f",
+      "name": "Experiment F Six-Concept Reformation",
+      "disciplines": ["CREATIVE"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-brand-lore/conceptTerritoryV2/", "api/_lib/site00Evolve/creativeDirection/conceptTerritoryV2Experiment/"],
+      "notes": "Concept-before-direction; durable; orthogonality V2 is heuristic not model-audited"
+    },
+    {
+      "id": "experiment-e",
+      "name": "Experiment E Experience Expression",
+      "disciplines": ["EXPERIENCE", "SITE"],
+      "classification": "LIVE_PATH_UNVERIFIED",
+      "evidence": ["shared/site00-brand-lore/experienceExpression/", "api/_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/"],
+      "notes": "Durable after P0; deterministic concept formation; page-centric"
+    },
+    {
+      "id": "sequence-creative",
+      "name": "Sequence Creative System",
+      "disciplines": ["CONTENT"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-brand-lore/sequenceCreative/"],
+      "notes": "Downstream carousel/frame cohesion; not used in concept formation"
+    },
+    {
+      "id": "project-intelligence",
+      "name": "Project Intelligence Manifest",
+      "disciplines": ["SITE", "APPLICATION", "WORLD"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-project-intelligence/", "api/_lib/site00ProjectIntelligence/"],
+      "notes": "Module registry strong; ndxbook legacy shortcuts weaken truth"
+    },
+    {
+      "id": "visual-reference",
+      "name": "Visual Reference Intelligence",
+      "disciplines": ["SITE", "EXPERIENCE"],
+      "classification": "LIVE_PATH_UNVERIFIED",
+      "evidence": ["shared/site00-visual-reference/", "api/_lib/site00VisualReference/"],
+      "notes": "Contracts mature; Playwright + FAL live path unverified"
+    },
+    {
+      "id": "visual-development",
+      "name": "Visual Development / Design Proofs",
+      "disciplines": ["SITE", "EXPERIENCE"],
+      "classification": "LIVE_PATH_UNVERIFIED",
+      "evidence": ["api/_lib/site00Evolve/creativeDirection/experienceExpressionExperiment/visualDevelopmentService.ts"],
+      "notes": "Two surface proofs only; no page-family or site-wide grammar"
+    },
+    {
+      "id": "implementation-contract",
+      "name": "Implementation Contract Compiler",
+      "disciplines": ["SITE"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-brand-lore/experienceExpression/designProofImplementationContract.ts"],
+      "notes": "Real compiled contracts; durable after P0"
+    },
+    {
+      "id": "composer-orchestration",
+      "name": "Composer Orchestration",
+      "disciplines": ["SITE"],
+      "classification": "SCAFFOLDED",
+      "evidence": ["visualDevelopmentService.ts orchestrateVisualDevelopmentImplementation"],
+      "notes": "ORCHESTRATION_NOT_CONNECTED; returns package ID only"
+    },
+    {
+      "id": "fidelity-evaluation",
+      "name": "Implementation Fidelity Evaluation",
+      "disciplines": ["SITE"],
+      "classification": "SCAFFOLDED",
+      "evidence": ["shared/site00-brand-lore/experienceExpression/implementationEvaluation.ts"],
+      "notes": "NOT_EVALUATED unless rendered evidence supplied"
+    },
+    {
+      "id": "product-expression",
+      "name": "Product Expression",
+      "disciplines": ["APPLICATION"],
+      "classification": "MISSING",
+      "evidence": ["shared/site00-project-intelligence/moduleRegistry.ts APPLICATION_* modules only"],
+      "notes": "Intake scaffolding only; no formation pipeline"
+    },
+    {
+      "id": "motion-expression",
+      "name": "Motion Expression",
+      "disciplines": ["MOTION"],
+      "classification": "METHODOLOGY_ONLY",
+      "evidence": ["moduleRegistry MOTION_INTENT", "shared/site00-brand-lore/creativeLineage/types MOTION_*"],
+      "notes": "Intent module + lineage types; no motion formation or evaluation"
+    },
+    {
+      "id": "physical-expression",
+      "name": "Physical Experience",
+      "disciplines": ["PHYSICAL"],
+      "classification": "SCAFFOLDED",
+      "evidence": ["creativeLineage PHYSICAL_ARTIFACT salvage types"],
+      "notes": "Lineage classification only"
+    },
+    {
+      "id": "world-formation",
+      "name": "World Formation",
+      "disciplines": ["WORLD"],
+      "classification": "SCAFFOLDED",
+      "evidence": ["shared/site00-brand-lore/worldFormation/futureContracts.ts", "WORLD_FORMATION_IMPLEMENTED=false"],
+      "notes": "Extensive contracts; guest intake only; zero runtime"
+    },
+    {
+      "id": "creative-lineage",
+      "name": "Creative Lineage + Founder Judgment",
+      "disciplines": ["ALL"],
+      "classification": "INTEGRATED",
+      "evidence": ["api/_lib/site00Evolve/creativeLineage/", "shared/site00-brand-lore/creativeLineage/"],
+      "notes": "Strong surgical revision; canon vs preference separation enforced in types"
+    },
+    {
+      "id": "asset-vault",
+      "name": "ASSTS Asset Factory / Vault",
+      "disciplines": ["CONTENT", "SITE"],
+      "classification": "LIVE_PATH_UNVERIFIED",
+      "evidence": ["api/_lib/site00Assts/"],
+      "notes": "Generation + idempotency; separate from Studio World run telemetry"
+    },
+    {
+      "id": "studio-world-execution",
+      "name": "Studio World Execution Truth",
+      "disciplines": ["ALL"],
+      "classification": "INTEGRATED",
+      "evidence": ["shared/site00-studio-world-execution/", "api/_lib/site00StudioWorldExecution/"],
+      "notes": "P0 foundation; not yet wired as universal consumer for all pipelines"
+    },
+    {
+      "id": "cost-ledger",
+      "name": "Unified Cost Ledger",
+      "disciplines": ["ALL"],
+      "classification": "MISSING",
+      "evidence": ["audit/readiness-matrix.json"],
+      "notes": "Per-run accounting fragments only"
+    },
+    {
+      "id": "content-calendar",
+      "name": "Content Calendar / Campaign Engine",
+      "disciplines": ["CONTENT"],
+      "classification": "MISSING",
+      "evidence": [],
+      "notes": "No system decides what brand should say next"
+    },
+    {
+      "id": "identity-concept-territory",
+      "name": "Identity Concept Territory",
+      "disciplines": ["IDENTITY"],
+      "classification": "MISSING",
+      "evidence": ["IDENTITY_DIRECTION module references calibrate only"],
+      "notes": "Risk: Brand Intelligence → Style without identity concept layer"
+    },
+    {
+      "id": "site-architecture",
+      "name": "Site Architecture / Page Inventory",
+      "disciplines": ["SITE"],
+      "classification": "PARTIAL",
+      "evidence": ["functionalCanon.ts", "projectsIndexFunctionalCanon.ts"],
+      "notes": "Functional canon per surface; no site-wide IA or page-family system"
+    },
+    {
+      "id": "accessibility-methodology",
+      "name": "Accessibility Production Methodology",
+      "disciplines": ["SITE", "EXPERIENCE", "APPLICATION", "WORLD"],
+      "classification": "METHODOLOGY_ONLY",
+      "evidence": ["hostExperienceCanon hostAccessibilityRules", "worldFormation future accessibility fields"],
+      "notes": "Captured in canon fields; not integrated as formation gates"
+    }
+  ],
+  "summary": {
+    "discovered": 28,
+    "productionReady": 1,
+    "integrated": 8,
+    "partial": 2,
+    "scaffolded": 5,
+    "methodologyOnly": 3,
+    "livePathUnverified": 5,
+    "experimentOnly": 1,
+    "historical": 1,
+    "deprecated": 1,
+    "missing": 4
+  }
+}

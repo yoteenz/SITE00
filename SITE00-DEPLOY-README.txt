@@ -1,67 +1,54 @@
-SITE 00 — GoDaddy cPanel deploy bundle (2026-08-22 v5)
-========================================================
+SITE 00 — GoDaddy cPanel deploy bundle
+======================================
 
-WHAT THIS IS
-------------
-Production static SPA for https://site00.com (Architecture C: static GoDaddy + API on Railway).
+WHAT TO UPLOAD
+--------------
+1. Download the latest site00-production-dist-YYYY-MM-DD-vN.zip from GitHub Releases
+2. cPanel File Manager → open the **Document Root** for site00.com
+   (Domains → site00.com → Document Root — often public_html OR public_html/site00.com)
+3. Delete OLD SPA files inside that folder (index.html, assets/, release-manifest.json, .htaccess)
+4. Upload ZIP into that same folder → Extract here (NOT into a new subfolder)
+5. Confirm index.html and .htaccess sit directly in the document root
+6. Confirm projects/.htaccess exists (nested SPA fallback for /projects/... URLs)
+7. If deep links still 404 — cPanel often skips dotfiles on extract/FTP:
+   a. Rename htaccess-deploy.txt → .htaccess (document root)
+   b. In projects/: rename htaccess-nested.txt → .htaccess (required for /projects/... URLs)
+   c. CI runs FTP .htaccess upload after deploy — if verify still fails, do (a)+(b) manually in File Manager
+   d. Test: https://site00.com/projects/site00/design must NOT show plain "404 Not Found"
+8. Hard refresh site00.com (Safari: hold reload → Empty Cache)
 
-Includes (merged main as of 2026-08-22):
-- Create Account at /origin/create-account (sign-in CREATE ACCOUNT link fixed)
-- Mobile NDX BOOK Brand Lore calibration (/projects/:slug/calibrate)
-- Railway auth WebSocket fix (Projects API when signed in)
-- index.html no-cache headers (new deploys take effect immediately)
+DEEP LINK SMOKE TEST
+--------------------
+https://site00.com/projects/site00/design must load the React app (not plain "404 Not Found").
+View source must contain id="root".
 
-WHY CREATE ACCOUNT STILL GOES TO ORIGIN HOMEPAGE
--------------------------------------------------
-**Merging to GitHub does NOT update site00.com.** As of the last check, live files were
-still from **2026-08-21 20:49 UTC** with bundle `index.BT7zuSxb.js`.
+VERIFY YOU HAVE THE RIGHT BUILD
+-------------------------------
+View Page Source on site00.com. The script tag must reference the bundle from the release notes.
 
-That old bundle:
-- Has NO /origin/create-account route
-- CREATE ACCOUNT link goes to /sign-in?returnTo=... (also missing route)
-- Unmatched paths fall through to / (Origin homepage)
+BOOT FIX (2026-09-12 — site stuck on loader animation):
+  WRONG: any index.*.js that still breaks in console with "chromium-bidi" or
+         "Failed to resolve module specifier" (e.g. index.BB6PY5fd.js, index.BYksM3jN.js).
+  RIGHT: v325+ or v326+ from GitHub Releases AFTER PR #741 (Playwright stub fix).
+  Page source must include site00-assts-boot-recovery.js (v327+).
+  app-build-id meta should NOT be 38dbcb1381cf (pre-fix CI artifact).
 
-Quick check (View Page Source on site00.com):
-  STILL OLD (broken):  /assets/index.BT7zuSxb.js
-  DEPLOYED (fixed):    /assets/index.CNB6EHR2.js or newer hash
+WRONG (stale — capture fix NOT included):
+  index.BjMnKpdX.js  (v295 — htaccess only)
 
-WHAT TO UPLOAD (mobile cPanel — ~5 min)
----------------------------------------
-1. Download site00-production-dist-2026-08-22.zip from this GitHub Release
-2. GoDaddy app → My Products → Web Hosting → Manage → File Manager
-3. Open **public_html** (web root — NOT a subfolder)
-4. **Select all existing files** → Delete (or move to a backup folder dated today)
-   - Skipping this step leaves old index.html pointing at the old bundle
-5. Upload the ZIP to public_html
-6. Select the ZIP → **Extract** → confirm files land directly in public_html
-   - You should see index.html, .htaccess, assets/, site00/ at the top level
-7. Open site00.com in a private/incognito tab
-8. View Source — confirm script src is NOT index.BT7zuSxb.js
-9. Test https://site00.com/origin/create-account → CREATE ACCOUNT form
+RIGHT (capture pipeline fix included):
+  index.DufA8Ifn.js or newer (v296+)
 
-VERIFY AFTER UPLOAD
--------------------
-- https://site00.com/origin/create-account shows CREATE ACCOUNT form (not homepage)
-- https://site00.com/origin/sign-in → CREATE ACCOUNT → same form
-- View source: meta app-build-id is NOT __APP_BUILD_ID__
-- Sign in → /projects loads (requires api.site00.com healthy)
+Also check: https://site00.com/release-manifest.json
+  commitSha should start with 894665b or later (not 1c472ec)
 
-TROUBLESHOOTING
----------------
-- Still see BT7zuSxb? Extract went to a subfolder — move contents up to public_html
-- Still old on phone? Safari → Settings → Safari → Clear History and Website Data
-- Create account works in Cursor preview but not site00.com? Preview ≠ production — upload this ZIP
+CAPTURE NOW smoke test (SITE 00 project → PAGES tab)
+----------------------------------------------------
+- Root should show EXISTING (not PROPOSED) when mirror rows load
+- CAPTURE NOW must NOT say "CAPTURE INDEX MISSING FOR OVERVIEW"
+- If it still does, you are on an old bundle — re-upload the correct ZIP
 
-API
----
-This bundle expects VITE_API_BASE=https://api.site00.com (baked in at build time).
-Confirm https://api.site00.com/api/health returns {"ok":true,"service":"site00-api"}.
-
-AUTO DEPLOY (optional)
-----------------------
-Enable GitHub Actions FTP: set repo variable GODADDY_DEPLOY_ENABLED=true and secrets
-GODADDY_FTP_HOST, GODADDY_FTP_USERNAME, GODADDY_FTP_PASSWORD. Pushes to main then deploy automatically.
-
-ROLLBACK
---------
-Previous release ZIPs: https://github.com/yoteenz/SITE00/releases
+RAILWAY
+-------
+API changes only: redeploy api.site00.com from main.
+Frontend-only ZIP: no Railway redeploy needed.

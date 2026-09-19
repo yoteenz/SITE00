@@ -10,12 +10,13 @@ import {
   resolveProjectLoreCalibrationResume,
   writeProjectLoreCalibrationResume,
 } from './projectLoreCalibrationResume';
+import { buildNdxbookReconciledProfile } from '../../../../api/_lib/site00BrandLore/ndxbookReconciliation.js';
 
-const SESSION_STEP_IDS = ['role', 'feeling', 'enemy'];
+const SESSION_STEP_IDS = ['feeling', 'role', 'enemy'];
 
 const STEPS: LoreQuestionStep[] = [
-  { id: 'role', domain: 'AUDIENCE_RELATIONSHIP', title: 'ROLE', type: 'multi', required: false, skippable: true },
   { id: 'feeling', domain: 'EMOTIONAL_FIRST_IMPRESSION', title: 'FEELING', type: 'multi', required: false, skippable: true },
+  { id: 'role', domain: 'AUDIENCE_RELATIONSHIP', title: 'ROLE', type: 'multi', required: false, skippable: true },
   { id: 'enemy', domain: 'CULTURAL_OPPOSITION', title: 'ENEMY', type: 'multi', required: false, skippable: true },
 ];
 
@@ -50,24 +51,42 @@ describe('resolveProjectLoreCalibrationStepIndex', () => {
   });
 
   it('resumes at first unanswered step after server saves', () => {
-    expect(resolveProjectLoreCalibrationStepIndex(STEPS, { role: ['guide'] })).toBe(1);
+    expect(resolveProjectLoreCalibrationStepIndex(STEPS, { feeling: ['curious'] })).toBe(1);
     expect(
-      resolveProjectLoreCalibrationStepIndex(STEPS, { role: ['guide'], feeling: ['curious'] }),
+      resolveProjectLoreCalibrationStepIndex(STEPS, { feeling: ['curious'], role: ['guide'] }),
     ).toBe(2);
   });
 
   it('treats skip as answered and advances', () => {
-    expect(resolveProjectLoreCalibrationStepIndex(STEPS, { role: LORE_SKIP_VALUE })).toBe(1);
+    expect(resolveProjectLoreCalibrationStepIndex(STEPS, { feeling: LORE_SKIP_VALUE })).toBe(1);
   });
 
   it('lands on last step when every step is saved', () => {
     expect(
       resolveProjectLoreCalibrationStepIndex(STEPS, {
-        role: ['guide'],
         feeling: ['curious'],
+        role: ['guide'],
         enemy: ['boring'],
       }),
     ).toBe(2);
+  });
+});
+
+describe('NDXBOOK calibration manifest', () => {
+  it('requires eight lore steps after content-brain reconciliation', () => {
+    const profile = buildNdxbookReconciledProfile('org-ndxbook');
+    const steps = missingDomainsToLoreSteps(profile.readinessMissingDomains);
+    expect(steps).toHaveLength(8);
+    expect(steps).toEqual([
+      'feeling',
+      'role',
+      'enemy',
+      'world',
+      'objects',
+      'lineage',
+      'now',
+      'contradiction',
+    ]);
   });
 });
 
@@ -79,6 +98,48 @@ describe('resolveCalibrationSessionStepIds', () => {
       { feeling: ['curious'], world: 'an index of everything' },
     );
     expect(ids).toEqual(['feeling', 'role', 'world']);
+  });
+
+  it('expands a stale 6-step frozen session back to the full 8-step NDXBOOK scope', () => {
+    mockLocalStorage();
+
+    const sixStepSession = ['feeling', 'role', 'enemy', 'world', 'objects', 'contradiction'];
+    writeProjectLoreCalibrationResume('ndxbook', {
+      stepIds: sixStepSession,
+      stepId: 'contradiction',
+      answers: {
+        feeling: ['curious'],
+        role: ['guide'],
+        world: 'an index',
+        enemy: ['boring'],
+      },
+    });
+
+    const merged = resolveCalibrationSessionStepIds(
+      'ndxbook',
+      ['REFERENCE_CONTEXT'],
+      {
+        feeling: ['curious'],
+        role: ['guide'],
+        world: 'an index',
+        enemy: ['boring'],
+        objects: ['tools'],
+      },
+    );
+
+    expect(merged).toEqual([
+      'feeling',
+      'role',
+      'enemy',
+      'world',
+      'objects',
+      'lineage',
+      'now',
+      'contradiction',
+    ]);
+    expect(readProjectLoreCalibrationResume('ndxbook')?.stepIds).toHaveLength(8);
+
+    vi.unstubAllGlobals();
   });
 
   it('freezes the initial step list for the session', () => {
@@ -99,11 +160,11 @@ describe('resolveProjectLoreCalibrationResume', () => {
   it('uses server-only resume when no local draft exists', () => {
     const result = resolveProjectLoreCalibrationResume(
       STEPS,
-      { role: ['guide'] },
+      { feeling: ['curious'] },
       'ndxbook',
     );
     expect(result.stepIndex).toBe(1);
-    expect(result.answers).toEqual({ role: ['guide'] });
+    expect(result.answers).toEqual({ feeling: ['curious'] });
   });
 
   it('restores in-progress draft from localStorage on refresh', () => {
@@ -111,13 +172,40 @@ describe('resolveProjectLoreCalibrationResume', () => {
 
     writeProjectLoreCalibrationResume('ndxbook', {
       stepIds: SESSION_STEP_IDS,
-      stepId: 'feeling',
-      answers: { role: ['guide'], feeling: ['curious', 'calm'] },
+      stepId: 'role',
+      answers: { feeling: ['curious'], role: ['guide', 'teacher'] },
     });
 
-    const result = resolveProjectLoreCalibrationResume(STEPS, { role: ['guide'] }, 'ndxbook');
+    const result = resolveProjectLoreCalibrationResume(STEPS, { feeling: ['curious'] }, 'ndxbook');
     expect(result.stepIndex).toBe(1);
-    expect(result.answers.feeling).toEqual(['curious', 'calm']);
+    expect(result.answers.role).toEqual(['guide', 'teacher']);
+
+    vi.unstubAllGlobals();
+  });
+
+  it('does not silently drop an earlier locally-answered step whose server save has not landed yet on refresh', () => {
+    // Reproduces the forensic root cause: founder answers "role" (an earlier step), then
+    // refreshes before that save round-trip lands, then continues answering later steps. The
+    // resumed session must never lose "role" for the rest of the session just because the
+    // server hasn't confirmed it yet — only the CURRENT step ("enemy") would previously survive.
+    mockLocalStorage();
+
+    writeProjectLoreCalibrationResume('ndxbook', {
+      stepIds: SESSION_STEP_IDS,
+      stepId: 'enemy',
+      answers: {
+        role: ['guide', 'tastemaker'],
+        feeling: ['curious'],
+        enemy: ['boring'],
+      },
+    });
+
+    // Server has NOT yet confirmed "role" — simulates the slow/failed first save round-trip.
+    const result = resolveProjectLoreCalibrationResume(STEPS, { feeling: ['curious'] }, 'ndxbook');
+
+    expect(result.answers.role).toEqual(['guide', 'tastemaker']);
+    expect(result.answers.enemy).toEqual(['boring']);
+    expect(result.answers.feeling).toEqual(['curious']);
 
     vi.unstubAllGlobals();
   });

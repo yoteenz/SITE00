@@ -8,6 +8,7 @@ import type {
   ReadinessDomain,
 } from './types.js';
 import { IDNTY_LORE_QUESTIONS } from './idnty-lore-questions.js';
+import { isLoreStepAnswered } from './adaptivity.js';
 
 const REQUIRED_DOMAINS: ReadinessDomain[] = [
   'PURPOSE',
@@ -103,6 +104,55 @@ export function missingDomainsToLoreSteps(missing: ReadinessDomain[]): string[] 
     for (const step of map[domain] ?? []) ids.add(step);
   }
   return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
+}
+
+/** Lore step id → readiness domain for calibration scope (inverse of missingDomainsToLoreSteps). */
+const LORE_STEP_TO_READINESS_DOMAIN: Partial<Record<string, ReadinessDomain>> = {
+  feeling: 'EMOTIONAL_PROMISE',
+  role: 'AUDIENCE_RELATIONSHIP',
+  belief: 'PURPOSE',
+  obsession: 'PURPOSE',
+  world: 'WORLDVIEW',
+  enemy: 'CULTURAL_TENSION',
+  contradiction: 'CULTURAL_TENSION',
+  lineage: 'REFERENCE_CONTEXT',
+  now: 'REFERENCE_CONTEXT',
+  objects: 'REFERENCE_CONTEXT',
+  'no-go': 'ANTI_DIRECTION',
+  line: 'ANTI_DIRECTION',
+};
+
+/** Domains in scope for this calibration session — current gaps plus any domain with saved answers. */
+export function calibrationScopeDomains(
+  missingDomains: ReadinessDomain[],
+  serverAnswers: Record<string, string | string[]>,
+): ReadinessDomain[] {
+  const domains = new Set(missingDomains);
+  for (const question of IDNTY_LORE_QUESTIONS) {
+    if (serverAnswers[question.id] === undefined) continue;
+    const domain = LORE_STEP_TO_READINESS_DOMAIN[question.id];
+    if (domain) domains.add(domain);
+  }
+  return REQUIRED_DOMAINS.filter((d) => domains.has(d));
+}
+
+/** Merge step id lists preserving canonical lore flow order. */
+export function mergeCanonicalCalibrationStepIds(...lists: string[][]): string[] {
+  const ids = new Set<string>();
+  for (const list of lists) {
+    for (const id of list) ids.add(id);
+  }
+  return IDNTY_LORE_QUESTIONS.filter((q) => ids.has(q.id)).map((q) => q.id);
+}
+
+/** Lore steps still missing answers within the current calibration scope. */
+export function remainingCalibrationStepIds(
+  missingDomains: ReadinessDomain[],
+  serverAnswers: Record<string, string | string[]>,
+): string[] {
+  const scoped = calibrationScopeDomains(missingDomains, serverAnswers);
+  const stepIds = missingDomainsToLoreSteps(scoped);
+  return stepIds.filter((id) => !isLoreStepAnswered(serverAnswers, id));
 }
 
 export function canBeginCreativeDirection(readiness: CreativeDirectionReadinessState): boolean {

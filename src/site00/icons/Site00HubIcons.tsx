@@ -110,3 +110,14 @@ export function Site00GlobeIcon({ size = 20, className }: Site00LineIconProps) {
     </svg>
   );
 }
+
+/** Vertical overflow / more menu — host shell 3-dot control. */
+export function Site00MoreIcon({ size = 20, className }: Site00LineIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} aria-hidden="true">
+      <circle cx="12" cy="6" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="18" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}

@@ -154,11 +154,12 @@ type IdntyOptionRowsProps = {
   options: IdntyAssessmentOption[];
   selected: string[];
   onToggle: (id: string) => void;
+  mode?: 'multi' | 'single';
 };
 
-export function IdntyOptionRows({ options, selected, onToggle }: IdntyOptionRowsProps) {
+export function IdntyOptionRows({ options, selected, onToggle, mode = 'single' }: IdntyOptionRowsProps) {
   return (
-    <ul className="site00-idnty-option-rows" role="list">
+    <ul className="site00-idnty-option-rows" role={mode === 'single' ? 'radiogroup' : 'group'}>
       {options.map((option) => {
         const isSelected = selected.includes(option.id);
         return (
@@ -167,7 +168,8 @@ export function IdntyOptionRows({ options, selected, onToggle }: IdntyOptionRows
               type="button"
               className={`site00-idnty-option-rows__row ${isSelected ? 'site00-idnty-option-rows__row--selected' : ''}`.trim()}
               onClick={() => onToggle(option.id)}
-              aria-pressed={isSelected}
+              role={mode === 'single' ? 'radio' : 'checkbox'}
+              aria-checked={isSelected}
             >
               <GeometricIcon variant="crosshair" size="sm" />
               <span className="site00-idnty-option-rows__label">{option.label}</span>

@@ -19,9 +19,19 @@ export default function EvolveCreativeDirectionPage() {
       <CreativeDirectionExperience
         orgSlug={orgSlug}
         api={adminCreativeDirectionApi}
+        boardProductionLink={
+          orgSlug === 'ndxbook' ? (
+            <Link
+              className="site00-cd__readiness-banner-cta"
+              to={SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug}
+            >
+              GENERATE BOARDS →
+            </Link>
+          ) : undefined
+        }
         adminFooter={
           <>
-            <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug}>DEBUG / QA →</Link>
+            <Link to={SITE00_ADMIN_ROUTES.evolveCreativeDirectionDebug}>PRODUCTION CONTROLS →</Link>
             <Link to={SITE00_ADMIN_ROUTES.evolvePilot(orgSlug)}>PILOT CONTROL →</Link>
           </>
         }

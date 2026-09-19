@@ -1,0 +1,199 @@
+/* P0.CBI.1 — Brand Creative Context panel */
+
+.site00-brand-context {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  background: #fafafa;
+}
+
+.site00-brand-context--ready {
+  border-left: 3px solid #2ecc71;
+}
+
+.site00-brand-context--partial {
+  border-left: 3px solid #f39c12;
+}
+
+.site00-brand-context--missing_critical,
+.site00-brand-context--conflicted {
+  border-left: 3px solid #c0392b;
+}
+
+.site00-brand-context__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.site00-brand-context__eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #888;
+  margin: 0 0 0.25rem;
+}
+
+.site00-brand-context__brand {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+  letter-spacing: 0.04em;
+}
+
+.site00-brand-context__status {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.site00-brand-context__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.site00-brand-context__chip {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  background: #eee;
+}
+
+.site00-brand-context__chip--ok {
+  background: #e8f8ef;
+  color: #1e8449;
+}
+
+.site00-brand-context__chip--partial {
+  background: #fef5e7;
+  color: #b9770e;
+}
+
+.site00-brand-context__chip--missing {
+  background: #fdecea;
+  color: #922b21;
+}
+
+.site00-brand-context__alert {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.site00-brand-context__alert--block {
+  background: #fdecea;
+  border: 1px solid #f5b7b1;
+}
+
+.site00-brand-context__alert--warn {
+  background: #fef5e7;
+  border: 1px solid #f8c471;
+}
+
+.site00-brand-context__alert--info {
+  background: #ebf5fb;
+  border: 1px solid #aed6f1;
+}
+
+.site00-brand-context__actions {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.site00-brand-context__btn {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.site00-brand-context__btn--primary {
+  background: #c0392b;
+  color: #fff;
+  border-color: #c0392b;
+}
+
+.site00-brand-context__btn--secondary {
+  border-color: #111;
+}
+
+.site00-brand-context-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.site00-brand-context-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.site00-brand-context-drawer__body {
+  padding: 1rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.site00-brand-context-drawer > div,
+.site00-brand-context-drawer__header,
+.site00-brand-context-drawer__body {
+  /* drawer panel */
+}
+
+.site00-brand-context-drawer {
+  align-items: stretch;
+}
+
+.site00-brand-context-drawer__header,
+.site00-brand-context-drawer__body {
+  background: #fff;
+  width: min(420px, 100vw);
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.site00-brand-context__section {
+  margin-bottom: 1rem;
+}
+
+.site00-brand-context__section h3 {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.35rem;
+  color: #666;
+}
+
+.site00-brand-context__section ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+}
+
+.site00-brand-context__source-badge {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  background: #eee;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  margin-right: 0.35rem;
+}
+
+.site00-campaign-flavor-workspace__blocked {
+  padding: 1rem;
+  background: #fdecea;
+  border: 1px solid #f5b7b1;
+  border-radius: 6px;
+}

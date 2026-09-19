@@ -8,5 +8,7 @@ export {
   mergeCalibrationIntoProfile,
   extractOperationalProjectTypes,
   extractOperationalGoals,
+  LORE_FIELD_KEYS,
+  fieldHasContent,
   type LoreSynthesisInput,
 } from '../../../shared/site00-brand-lore/loreSynthesis.js';

@@ -1,0 +1,40 @@
+.site00-bp-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 9996;
+}
+
+.site00-bp-overlay__label {
+  position: fixed;
+  top: 0.25rem;
+  right: 0.25rem;
+  margin: 0;
+  padding: 0.25rem 0.5rem;
+  font-size: 9px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #b7f75f;
+  z-index: 9997;
+}
+
+.site00-bp-overlay__box {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 160, 255, 0.85);
+  background: rgba(0, 160, 255, 0.08);
+}
+
+.site00-bp-overlay--blink .site00-bp-overlay__box {
+  animation: site00-bp-blink 1s step-end infinite;
+}
+
+@keyframes site00-bp-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.site00-bp-overlay--difference .site00-bp-overlay__box {
+  mix-blend-mode: difference;
+  border-color: #ff00ff;
+}

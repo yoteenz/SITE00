@@ -14,6 +14,7 @@ Founder codes primarily from **mobile**. Default workflow: **code lands on `main
 3. **Merge the PR to `main` in the same agent session** after push — do not leave it open for the founder to merge manually.
 4. Resolve merge conflicts with `main` **before** merging (fetch `origin/main` first).
 5. After merge, confirm `main` has the commits; remind founder that **site00.com** still needs GoDaddy deploy (GitHub Actions artifact/ZIP or FTP) unless auto-FTP is enabled.
+6. **Session close:** Before your final message, follow `.cursor/rules/session-close.mdc` — prose summary + conclusion code box + deploy links (each on its own line). Merging the PR is not the end of the session.
 
 ## When NOT to auto-merge
 

@@ -17,6 +17,12 @@ import {
   upsertExperienceFromBuilderIntake,
   getLoreForIntake,
 } from '../site00BrandLore/loreService.js';
+import {
+  resolveIntakeSynthesisContext,
+  shouldSynthesizeBrandLoreFromIntake,
+  shouldSynthesizeExperienceFromBuilderIntake,
+  tagDraftPayloadDiscoveryProvenance,
+} from '../../../shared/site00-project-discovery/intakeSynthesisGate.js';
 
 /**
  * Canonical guest resume/view URL — reuses the existing secure guest access token, same origin
@@ -252,11 +258,24 @@ export async function autosaveIntake(
 
   let finalRecord = updated;
 
-  if (intakeType === 'IDENTITY' && input.draftPayload?.loreAnswers) {
+  const mergedDraft = input.draftPayload !== undefined
+    ? tagDraftPayloadDiscoveryProvenance({ ...record.draftPayload, ...input.draftPayload })
+    : record.draftPayload;
+
+  if (input.draftPayload !== undefined) {
+    finalRecord = await store.updateIntake(intakeType, id, { draftPayload: mergedDraft });
+  }
+
+  const synthesisCtx = resolveIntakeSynthesisContext({
+    draftPayload: mergedDraft as Record<string, unknown>,
+    projectId: record.projectId,
+    intakeType,
+  });
+
+  if (intakeType === 'IDENTITY' && input.draftPayload?.loreAnswers && shouldSynthesizeBrandLoreFromIntake(synthesisCtx)) {
     const profile = await upsertLoreFromIdentityIntake({
       intakeId: id,
-      draftPayload: { ...record.draftPayload, ...input.draftPayload },
-      // IntakeRecord has no organizationId column — loreService resolves it from projectId.
+      draftPayload: mergedDraft as Record<string, unknown>,
       projectId: record.projectId,
     });
     if (profile) {
@@ -266,10 +285,10 @@ export async function autosaveIntake(
     }
   }
 
-  if (intakeType === 'BUILDER' && input.draftPayload?.experienceAnswers) {
+  if (intakeType === 'BUILDER' && input.draftPayload?.experienceAnswers && shouldSynthesizeExperienceFromBuilderIntake(synthesisCtx)) {
     const experience = await upsertExperienceFromBuilderIntake({
       intakeId: id,
-      draftPayload: { ...record.draftPayload, ...input.draftPayload },
+      draftPayload: mergedDraft as Record<string, unknown>,
     });
     if (experience) {
       finalRecord = await store.updateIntake(intakeType, id, {
@@ -320,11 +339,18 @@ export async function submitIntake(
   const nextVersion = record.version + 1;
 
   if (intakeType === 'IDENTITY' && (record.draftPayload as Record<string, unknown>).loreAnswers) {
-    await upsertLoreFromIdentityIntake({
-      intakeId: id,
-      draftPayload: record.draftPayload,
+    const synthesisCtx = resolveIntakeSynthesisContext({
+      draftPayload: record.draftPayload as Record<string, unknown>,
       projectId: record.projectId,
+      intakeType,
     });
+    if (shouldSynthesizeBrandLoreFromIntake(synthesisCtx)) {
+      await upsertLoreFromIdentityIntake({
+        intakeId: id,
+        draftPayload: record.draftPayload,
+        projectId: record.projectId,
+      });
+    }
   }
 
   const updated = await store.updateIntake(intakeType, id, {

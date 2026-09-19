@@ -2,9 +2,7 @@
  * NDXBOOK Creative Direction — governed FAL asset generation.
  *
  * Reuses the existing SITE 00 pipeline rather than inventing a second one:
- *   - same FAL client (@fal-ai/client), same text-to-image model already used
- *     elsewhere in the repo (fal-ai/nano-banana-pro, see api/_lib/site00Assts/generation.ts
- *     and api/_lib/studioBuilderGeneration.ts)
+ *   - same FAL client (@fal-ai/client), GPT Image 2 (openai/gpt-image-2 via FAL)
  *   - same Supabase storage upload helper pattern as ASSTS
  *     (api/_lib/site00Assts/storage.ts — uploadSite00AssetBuffer/downloadUrlToBuffer)
  *
@@ -23,7 +21,7 @@ import { getSupabaseAdmin } from '../../supabase.js';
 import { buildGenerationPrompt, NDXBOOK_CREATIVE_ASSET_BRIEFS, type CreativeAssetBrief } from './visualAssetStrategy.js';
 import type { TerritorySpecimenImageAsset } from './types.js';
 
-export const CREATIVE_DIRECTION_FAL_MODEL = 'fal-ai/nano-banana-pro';
+export const CREATIVE_DIRECTION_FAL_MODEL = 'openai/gpt-image-2';
 const CREATIVE_DIRECTION_STORAGE_ROOT = 'site00/creative-direction';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

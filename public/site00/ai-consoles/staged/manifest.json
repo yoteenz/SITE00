@@ -1,0 +1,1235 @@
+{
+  "status": "STAGED",
+  "version": "P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1",
+  "family": "SITE00_AI_CONSOLE_LINE_V1",
+  "viewBox": 24,
+  "stroke": 1.5,
+  "count": 136,
+  "approvedAssetMutation": "NONE",
+  "icons": [
+    {
+      "id": "mark-opus",
+      "console": "opus",
+      "usage": "Opus agent mark — construction corners, set-out axes, assembled center.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "mark-grok",
+      "console": "grok",
+      "usage": "Grok agent mark — generator node with four radiating asset tiles.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "mark-cgpt",
+      "console": "authority",
+      "usage": "CGPT mark — framed direction. Stays quieter than founder content.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "mark-authority",
+      "console": "authority",
+      "usage": "Viewport Authority mark — outer frame with an inner aligned plate.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-ready",
+      "console": "shared",
+      "usage": "READY — shape plus colour.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-online",
+      "console": "shared",
+      "usage": "ONLINE — solid presence square.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-not-ready",
+      "console": "shared",
+      "usage": "NOT READY — empty frame.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-blocked",
+      "console": "shared",
+      "usage": "BLOCKED — frame with deny cross.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-thinking",
+      "console": "shared",
+      "usage": "THINKING — three paced nodes.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-generating",
+      "console": "shared",
+      "usage": "GENERATING — synthesis ticks around a node.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-review",
+      "console": "shared",
+      "usage": "REVIEW — stacked plates.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-approved",
+      "console": "shared",
+      "usage": "APPROVED — frame plus check. Fill comes from the status plate.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-error",
+      "console": "shared",
+      "usage": "ERROR — architectural bang inside a frame.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "status-pending",
+      "console": "shared",
+      "usage": "PENDING — incomplete corners only.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "preview-fullscreen",
+      "console": "shared",
+      "usage": "Open preview fullscreen.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "preview-fit",
+      "console": "shared",
+      "usage": "Fit preview to frame.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "preview-zoom-in",
+      "console": "shared",
+      "usage": "Zoom in.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "preview-zoom-out",
+      "console": "shared",
+      "usage": "Zoom out.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "preview-prev",
+      "console": "shared",
+      "usage": "Previous preview.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "preview-next",
+      "console": "shared",
+      "usage": "Next preview.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "attach-image",
+      "console": "shared",
+      "usage": "Image attachment.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "attach-document",
+      "console": "shared",
+      "usage": "PDF / document attachment.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "attach-screenshot",
+      "console": "shared",
+      "usage": "Screenshot / capture attachment.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "attach-golden",
+      "console": "shared",
+      "usage": "Golden / authority reference.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "attach-style",
+      "console": "shared",
+      "usage": "Style reference.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "attach-modify",
+      "console": "shared",
+      "usage": "Asset to modify.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "upload",
+      "console": "shared",
+      "usage": "Upload / drop-zone glyph.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "upload-progress",
+      "console": "shared",
+      "usage": "Upload in progress.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "upload-success",
+      "console": "shared",
+      "usage": "Upload succeeded.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "upload-invalid",
+      "console": "shared",
+      "usage": "Upload rejected.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "upload-replace",
+      "console": "shared",
+      "usage": "Replace uploaded file.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "badge-selected",
+      "console": "shared",
+      "usage": "Thumbnail SELECTED overlay.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "badge-staged",
+      "console": "shared",
+      "usage": "Thumbnail STAGED overlay.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "badge-approved",
+      "console": "shared",
+      "usage": "Thumbnail APPROVED overlay.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "badge-current",
+      "console": "shared",
+      "usage": "Thumbnail CURRENT overlay.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "badge-promoted",
+      "console": "shared",
+      "usage": "Thumbnail PROMOTED overlay.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "badge-replaced",
+      "console": "shared",
+      "usage": "Thumbnail REPLACED overlay.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-context",
+      "console": "shared",
+      "usage": "No current context.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-authority",
+      "console": "shared",
+      "usage": "No authority image.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-messages",
+      "console": "shared",
+      "usage": "No messages.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-attachments",
+      "console": "shared",
+      "usage": "No attachments.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-concept",
+      "console": "shared",
+      "usage": "No concept reference.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-assets",
+      "console": "shared",
+      "usage": "No assets.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "empty-staged",
+      "console": "shared",
+      "usage": "No staged output.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-send",
+      "console": "shared",
+      "usage": "Send message.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-add",
+      "console": "shared",
+      "usage": "Add.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-remove",
+      "console": "shared",
+      "usage": "Remove.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-close",
+      "console": "shared",
+      "usage": "Close console.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-inspect",
+      "console": "shared",
+      "usage": "Inspect.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-view-workspace",
+      "console": "shared",
+      "usage": "View in workspace.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-mention",
+      "console": "shared",
+      "usage": "Mention page.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "action-context-assist",
+      "console": "shared",
+      "usage": "Append compiled context.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-design",
+      "console": "opus",
+      "usage": "DESIGN tab / mode.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-edit",
+      "console": "opus",
+      "usage": "EDIT.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-refine",
+      "console": "opus",
+      "usage": "REFINE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-explore",
+      "console": "opus",
+      "usage": "EXPLORE / FORENSIC.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-context",
+      "console": "opus",
+      "usage": "CURRENT CONTEXT.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-edit-scope",
+      "console": "opus",
+      "usage": "EDIT SCOPE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-refine-current",
+      "console": "opus",
+      "usage": "REFINE CURRENT.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-fix-visual",
+      "console": "opus",
+      "usage": "FIX VISUAL.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-fix-interaction",
+      "console": "opus",
+      "usage": "FIX INTERACTION.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-inspect-only",
+      "console": "opus",
+      "usage": "INSPECT ONLY.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-create-page",
+      "console": "opus",
+      "usage": "CREATE PAGE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-create-child",
+      "console": "opus",
+      "usage": "CREATE CHILD.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-create-grandchild",
+      "console": "opus",
+      "usage": "CREATE GRANDCHILD.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-quick",
+      "console": "opus",
+      "usage": "QUICK mode.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-mode-design",
+      "console": "opus",
+      "usage": "DESIGN mode.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-forensic",
+      "console": "opus",
+      "usage": "FORENSIC mode.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-attach-reference",
+      "console": "opus",
+      "usage": "ATTACH REFERENCE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-cost",
+      "console": "opus",
+      "usage": "COST.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-scope",
+      "console": "opus",
+      "usage": "SCOPE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-impact",
+      "console": "opus",
+      "usage": "IMPACT.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-run",
+      "console": "opus",
+      "usage": "RUN OPUS — restrained action chevron.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-thinking",
+      "console": "opus",
+      "usage": "THINKING phase.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-tool",
+      "console": "opus",
+      "usage": "TOOL phase.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-render",
+      "console": "opus",
+      "usage": "RENDER phase.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-review",
+      "console": "opus",
+      "usage": "REVIEW phase.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-proposed",
+      "console": "opus",
+      "usage": "PROPOSED CHANGE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-before-after",
+      "console": "opus",
+      "usage": "BEFORE / AFTER.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-approve",
+      "console": "opus",
+      "usage": "APPROVE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-request-change",
+      "console": "opus",
+      "usage": "REQUEST CHANGE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "opus-revert",
+      "console": "opus",
+      "usage": "REVERT.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-generate",
+      "console": "grok",
+      "usage": "GENERATE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-variations",
+      "console": "grok",
+      "usage": "VARIATIONS.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-edit",
+      "console": "grok",
+      "usage": "EDIT assets.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-library",
+      "console": "grok",
+      "usage": "LIBRARY.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-page-pack",
+      "console": "grok",
+      "usage": "PAGE ASSET PACK.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-single",
+      "console": "grok",
+      "usage": "SINGLE ASSET.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-icon-system",
+      "console": "grok",
+      "usage": "ICON SYSTEM.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-replace",
+      "console": "grok",
+      "usage": "REPLACE ASSET.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-variation",
+      "console": "grok",
+      "usage": "ASSET VARIATION.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-images",
+      "console": "grok",
+      "usage": "IMAGES filter.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-icons",
+      "console": "grok",
+      "usage": "ICONS filter.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-textures",
+      "console": "grok",
+      "usage": "TEXTURES filter.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-layouts",
+      "console": "grok",
+      "usage": "GRAPHICS / LAYOUTS filter.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-asset-selected",
+      "console": "grok",
+      "usage": "Asset selected.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-asset-staged",
+      "console": "grok",
+      "usage": "Asset staged.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-asset-approved",
+      "console": "grok",
+      "usage": "Asset approved.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-asset-implemented",
+      "console": "grok",
+      "usage": "Asset implemented.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-regenerate",
+      "console": "grok",
+      "usage": "REGENERATE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-inspect",
+      "console": "grok",
+      "usage": "INSPECT asset.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-generate-more",
+      "console": "grok",
+      "usage": "GENERATE MORE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-manifest",
+      "console": "grok",
+      "usage": "MANIFEST.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-view-requirements",
+      "console": "grok",
+      "usage": "VIEW REQUIREMENTS.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-current",
+      "console": "grok",
+      "usage": "CURRENT capture.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-target",
+      "console": "grok",
+      "usage": "TARGET design.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-stage-concept",
+      "console": "grok",
+      "usage": "PAGE CONCEPT readiness.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-stage-pair",
+      "console": "grok",
+      "usage": "AUTHORITY PAIR readiness.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-stage-handoff",
+      "console": "grok",
+      "usage": "COMPOSER HANDOFF readiness.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-stage-ready",
+      "console": "grok",
+      "usage": "READY FOR ASSETS.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-hero",
+      "console": "grok",
+      "usage": "Hero asset type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-portrait",
+      "console": "grok",
+      "usage": "Portrait asset type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-background",
+      "console": "grok",
+      "usage": "Background asset type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-texture",
+      "console": "grok",
+      "usage": "Texture asset type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-icon",
+      "console": "grok",
+      "usage": "Icon asset type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-illustration",
+      "console": "grok",
+      "usage": "Illustration asset type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-layout",
+      "console": "grok",
+      "usage": "Layout graphic type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-device",
+      "console": "grok",
+      "usage": "Device / mockup type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "grok-type-uploaded",
+      "console": "grok",
+      "usage": "Uploaded reference type.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-mobile",
+      "console": "authority",
+      "usage": "MOBILE AUTHORITY.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-desktop",
+      "console": "authority",
+      "usage": "DESKTOP AUTHORITY.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-reference",
+      "console": "authority",
+      "usage": "REFERENCE PREVIEW.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-details",
+      "console": "authority",
+      "usage": "AUTHORITY DETAILS.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-founder",
+      "console": "authority",
+      "usage": "Founder message mark.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-cgpt-message",
+      "console": "authority",
+      "usage": "CGPT message mark.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-attachments",
+      "console": "authority",
+      "usage": "ATTACHMENTS.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-upload-reference",
+      "console": "authority",
+      "usage": "UPLOAD REFERENCE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-send-message",
+      "console": "authority",
+      "usage": "SEND MESSAGE.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-view-versions",
+      "console": "authority",
+      "usage": "VIEW VERSIONS.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-send-update",
+      "console": "authority",
+      "usage": "SEND TO UPDATE AUTHORITY.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-active",
+      "console": "authority",
+      "usage": "ACTIVE version.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-approved",
+      "console": "authority",
+      "usage": "APPROVED version.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-draft",
+      "console": "authority",
+      "usage": "DRAFT version.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-new-version",
+      "console": "authority",
+      "usage": "NEW VERSION.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-version-current",
+      "console": "authority",
+      "usage": "CURRENT version mark.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    },
+    {
+      "id": "auth-version-previous",
+      "console": "authority",
+      "usage": "PREVIOUS version mark.",
+      "defaultState": "default",
+      "activeState": "active",
+      "disabledState": "disabled",
+      "darkVariant": "currentColor"
+    }
+  ]
+}

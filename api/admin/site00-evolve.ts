@@ -75,8 +75,34 @@ import {
   ensureCreativeDirectionEngagement,
   queueFalGenerationJobs,
   resetCreativeDirectionMemory,
+  getCoreDirectionFormationInspector,
+  reformCoreDirections,
+  retryFailedCoreDirectionFormation,
 } from '../_lib/site00Evolve/creativeDirection/engagementService.js';
 import { generateNdxbookVisualAssetPass } from '../_lib/site00Evolve/creativeDirection/assetGeneration.js';
+import { completeNdxbookV1Directions } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/directionCompletionService.js';
+import { runSixDirectionProductionPipeline } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionOrchestrator.js';
+import { runMarkedUpCopyBoardPilotV4 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBoardPilotV4.js';
+import { runMarkedUpCopyBrandNativeVisualPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyBrandNativeVisualPilot.js';
+import { runMarkedUpCopyIdentityNativeHeroPilot } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilot.js';
+import { runMarkedUpCopyIdentityNativeHeroPilotV2 } from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/markedUpCopyIdentityNativeHeroPilotV2.js';
+import {
+  createNdxbookPersonalityReplay,
+  saveReplayPersonalityAnswers,
+  completeReplayPersonalityIntake,
+  getPersonalityReplay,
+  listPersonalityReplays,
+  setFounderReplayValidationJudgment,
+} from '../_lib/site00Evolve/creativeDirection/personalityReplay/replayService.js';
+import {
+  getLatestProductionJob,
+  getProductionJobById,
+  startCreativeDirectionProductionJob,
+} from '../_lib/site00Evolve/creativeDirection/creativeIntelligence/sixDirectionProductionJobService.js';
+import { resolveEvolveCommercialState } from '../_lib/site00Evolve/commercial/commercialState.js';
+import { setEvolveCommercialPlan, markEvolveFoundationCompleted } from '../_lib/site00Evolve/commercial/governedActions.js';
+import { getEvolveServiceCatalog } from '../../shared/site00-evolve-commercial/catalog.js';
+import { EVOLVE_PLAN_IDS } from '../../shared/site00-evolve-commercial/types.js';
 
 function parseBody(req: VercelRequest): Record<string, unknown> | null {
   if (typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)) {
@@ -196,6 +222,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             ...(await getCreativeDirectionPayload(orgSlug)),
             debug: true,
           });
+        case 'creative_direction_formation_inspector':
+          return res.status(200).json(await getCoreDirectionFormationInspector(orgSlug));
+        case 'creative_direction_production_job': {
+          const jobId = String(req.query.jobId ?? '');
+          if (jobId) {
+            const job = await getProductionJobById(jobId);
+            return job ? res.status(200).json({ job }) : res.status(404).json({ error: 'JOB_NOT_FOUND' });
+          }
+          const job = await getLatestProductionJob(orgSlug);
+          return res.status(200).json({ job });
+        }
         case 'provider_config':
           return res.status(200).json(getOwnerConfigurationChecklist());
         case 'fence_readiness':
@@ -217,6 +254,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         case 'sprint03_schema':
           return res.status(200).json(await verifySprint03Schema());
+        case 'commercial_catalog':
+          return res.status(200).json({ catalog: getEvolveServiceCatalog() });
+        case 'commercial_state':
+          return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
+        case 'personality_replay_list': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const orgId = orgIdFromSlug(orgSlug)!;
+          const replays = await listPersonalityReplays(orgId);
+          return res.status(200).json({ replays });
+        }
+        case 'personality_replay_get': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(req.query.replayId ?? '');
+          const replay = await getPersonalityReplay(replayId);
+          return replay ? res.status(200).json({ replay }) : res.status(404).json({ error: 'REPLAY_NOT_FOUND' });
+        }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }
@@ -404,6 +457,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             await recordFounderDecision(orgSlug, {
               type: String(body.type ?? 'REFINE') as 'APPROVE' | 'REFINE' | 'HYBRIDIZE' | 'REJECT',
               selectedTerritoryId: body.selectedTerritoryId ? String(body.selectedTerritoryId) : undefined,
+              selectedComparisonDirectionId: body.selectedComparisonDirectionId
+                ? String(body.selectedComparisonDirectionId)
+                : undefined,
               hybridSelections: body.hybridSelections as never,
               refinementNotes: body.refinementNotes ? String(body.refinementNotes) : undefined,
               rejectedTerritoryIds: body.rejectedTerritoryIds as string[] | undefined,
@@ -417,10 +473,204 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           if (result.generated.length > 0) resetCreativeDirectionMemory();
           return res.status(200).json(result);
         }
+        case 'creative_direction_reform':
+          return res.status(200).json(await reformCoreDirections(orgSlug));
+        case 'creative_direction_formation_retry':
+          return res.status(200).json(await retryFailedCoreDirectionFormation(orgSlug));
+        case 'creative_direction_complete_v1_directions': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const result = await completeNdxbookV1Directions();
+          resetCreativeDirectionMemory();
+          return res.status(200).json(result);
+        }
+        case 'creative_direction_run_six_direction_production': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const result = await runSixDirectionProductionPipeline({
+            completeV1: body.completeV1 !== false,
+            dryRun: body.dryRun === true,
+            includeAllProofTypes: body.includeAllProofTypes === true,
+          });
+          resetCreativeDirectionMemory();
+          return res.status(200).json(result);
+        }
+        case 'creative_direction_start_production_job': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          const jobType = String(body.jobType ?? 'full_pipeline') as
+            | 'v1_completion'
+            | 'six_direction_proofs'
+            | 'full_pipeline'
+            | 'marked_up_copy_board_v4'
+            | 'marked_up_copy_brand_native_visual_pilot'
+            | 'marked_up_copy_identity_native_hero_pilot'
+            | 'marked_up_copy_identity_native_hero_pilot_v2';
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType,
+            requestedBy: auth.user.email,
+            options: {
+              includeAllProofTypes: body.includeAllProofTypes !== false,
+              completeV1InProofStep: body.completeV1InProofStep === true,
+              dryRun: body.dryRun === true,
+            },
+          });
+          return res.status(202).json({ job, message: 'Production job started on server — safe to leave this page.' });
+        }
+        case 'creative_direction_marked_up_copy_board_pilot': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyBoardPilotV4({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType: 'marked_up_copy_board_v4',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
+          });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message: 'Board v4 production runs on server — poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
+        }
+        case 'creative_direction_marked_up_copy_brand_native_visual_pilot': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyBrandNativeVisualPilot({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType: 'marked_up_copy_brand_native_visual_pilot',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
+          });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message:
+              'Brand-native visual pilot runs on server — ONE hero only. Poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
+        }
+        case 'creative_direction_marked_up_copy_identity_native_hero_pilot': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyIdentityNativeHeroPilot({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType: 'marked_up_copy_identity_native_hero_pilot',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
+          });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message:
+              'Identity-native hero pilot runs on server — ONE hero only. Poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
+        }
+        case 'creative_direction_marked_up_copy_identity_native_hero_pilot_v2': {
+          if (orgSlug !== 'ndxbook') {
+            return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          }
+          if (body.dryRun === true) {
+            const result = await runMarkedUpCopyIdentityNativeHeroPilotV2({
+              orgSlug,
+              dryRun: true,
+            });
+            return res.status(200).json({ ...result, credentialExposed: false });
+          }
+          const job = await startCreativeDirectionProductionJob({
+            orgSlug,
+            jobType: 'marked_up_copy_identity_native_hero_pilot_v2',
+            requestedBy: auth.user.email,
+            options: { dryRun: false },
+          });
+          return res.status(202).json({
+            status: 'JOB_STARTED',
+            job,
+            message:
+              'Creative-refined identity hero V2 runs on server — ONE hero only. Poll creative_direction_production_job.',
+            credentialExposed: false,
+          });
+        }
+        case 'personality_replay_create': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const orgId = orgIdFromSlug(orgSlug)!;
+          const replay = await createNdxbookPersonalityReplay({
+            organizationId: orgId,
+            orgSlug,
+            createdBy: auth.user.email,
+          });
+          return res.status(201).json({ replay });
+        }
+        case 'personality_replay_save_answers': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(body.replayId ?? '');
+          const replay = await saveReplayPersonalityAnswers({
+            replayId,
+            answers: (body.answers ?? {}) as Record<string, string | string[]>,
+            completedSteps: body.completedSteps as string[] | undefined,
+          });
+          return res.status(200).json({ replay });
+        }
+        case 'personality_replay_complete_intake': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(body.replayId ?? '');
+          const replay = await completeReplayPersonalityIntake(replayId);
+          return res.status(200).json({ replay });
+        }
+        case 'personality_replay_set_judgment': {
+          if (orgSlug !== 'ndxbook') return res.status(400).json({ error: 'NDXBOOK_ONLY' });
+          const replayId = String(body.replayId ?? '');
+          const replay = await setFounderReplayValidationJudgment({
+            replayId,
+            judgment: String(body.judgment ?? '') as never,
+          });
+          return res.status(200).json({ replay });
+        }
         case 'analytics_baseline_sync':
           return res.status(200).json(
             await runAnalyticsBaseline(orgSlug, String(body.connectionId ?? '')),
           );
+        case 'commercial_set_plan': {
+          const planId = String(body.planId ?? '');
+          if (!EVOLVE_PLAN_IDS.includes(planId as never)) {
+            return res.status(400).json({ error: `Unknown EVOLVE plan id: ${planId}` });
+          }
+          await setEvolveCommercialPlan(orgSlug, planId as never, auth.user.email);
+          return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
+        }
+        case 'commercial_mark_foundation_completed': {
+          await markEvolveFoundationCompleted(orgSlug, auth.user.email);
+          return res.status(200).json({ orgSlug, commercial: await resolveEvolveCommercialState(orgSlug) });
+        }
         default:
           return res.status(400).json({ error: 'UNKNOWN ACTION' });
       }

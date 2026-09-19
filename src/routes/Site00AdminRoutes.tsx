@@ -16,6 +16,7 @@ const IdentityDetailPage = lazy(() => import('../site00/admin/pages/operations/I
 const BldrIntakesPage = lazy(() => import('../site00/admin/pages/operations/BldrIntakesPage'));
 const BldrIntakeDetailPage = lazy(() => import('../site00/admin/pages/operations/BldrIntakeDetailPage'));
 const IntakesPage = lazy(() => import('../site00/admin/pages/operations/IntakesPage'));
+const ClientIntakesPage = lazy(() => import('../site00/admin/pages/operations/ClientIntakesPage'));
 const IntakeDetailPage = lazy(() => import('../site00/admin/pages/operations/IntakeDetailPage'));
 const LeadsPage = lazy(() => import('../site00/admin/pages/operations/LeadsPage'));
 const LeadDetailPage = lazy(() => import('../site00/admin/pages/operations/LeadDetailPage'));
@@ -55,6 +56,10 @@ const EvolveOrgConnectionsPage = lazy(() => import('../site00/admin/pages/evolve
 const EvolvePilotControlPage = lazy(() => import('../site00/admin/pages/evolve/EvolvePilotControlPage'));
 const EvolveCreativeDirectionPage = lazy(() => import('../site00/admin/pages/evolve/EvolveCreativeDirectionPage'));
 const EvolveCreativeDirectionDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveCreativeDirectionDebugPage'));
+const CaptureAuthBootstrapPage = lazy(() => import('../site00/admin/pages/debug/CaptureAuthBootstrapPage'));
+const NdxbookPipelineReplayValidationPage = lazy(
+  () => import('../site00/admin/pages/evolve/NdxbookPipelineReplayValidationPage'),
+);
 const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
@@ -160,6 +165,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <IntakesPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/client-intakes"
+        element={
+          <AdminSuspense>
+            <ClientIntakesPage />
           </AdminSuspense>
         }
       />
@@ -368,6 +381,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EvolveCreativeDirectionDebugPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/debug/capture-auth"
+        element={
+          <AdminSuspense>
+            <CaptureAuthBootstrapPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/orchestration/:orgSlug/evolve/pipeline-replay-validation/:replayId?"
+        element={
+          <AdminSuspense>
+            <NdxbookPipelineReplayValidationPage />
           </AdminSuspense>
         }
       />

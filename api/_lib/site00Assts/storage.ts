@@ -20,23 +20,71 @@ export function buildThumbnailPath(fullPath: string): string {
   return fullPath.replace(/(\.[a-z]+)$/i, '_thumb$1');
 }
 
+export function getSite00AssetPublicUrl(storagePath: string): string {
+  const supabase = getSupabaseAdmin();
+  const { data } = supabase.storage.from(SITE00_ASSETS_BUCKET).getPublicUrl(storagePath);
+  return data.publicUrl;
+}
+
 export async function uploadSite00AssetBuffer(
   storagePath: string,
   buffer: Buffer,
   contentType: string,
+  options?: { upsert?: boolean },
 ): Promise<{ publicUrl: string; storagePath: string }> {
   const supabase = getSupabaseAdmin();
   const { error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).upload(storagePath, buffer, {
     contentType,
-    upsert: false,
+    upsert: options?.upsert === true,
   });
   if (error) throw new Error(`Storage upload failed: ${error.message}`);
-  const { data } = supabase.storage.from(SITE00_ASSETS_BUCKET).getPublicUrl(storagePath);
-  return { publicUrl: data.publicUrl, storagePath };
+  return { publicUrl: getSite00AssetPublicUrl(storagePath), storagePath };
 }
 
 export async function downloadUrlToBuffer(url: string): Promise<Buffer> {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Download failed (${res.status})`);
   return Buffer.from(await res.arrayBuffer());
+}
+
+/** Returns true when the object exists in the configured assets bucket. */
+export async function downloadSite00StorageText(storagePath: string): Promise<string | null> {
+  const normalized = storagePath.replace(/^\/+/, '').trim();
+  if (!normalized) return null;
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).download(normalized);
+  if (error || !data) return null;
+  return await data.text();
+}
+
+export async function listSite00StorageFiles(
+  folderPrefix: string,
+  limit = 100,
+): Promise<{ name: string; id: string | null; createdAt: string | null }[]> {
+  const normalized = folderPrefix.replace(/^\/+/, '').replace(/\/+$/, '');
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).list(normalized, {
+    limit,
+    sortBy: { column: 'name', order: 'asc' },
+  });
+  if (error || !data) return [];
+  return data
+    .filter((entry) => entry.name && !entry.name.endsWith('/'))
+    .map((entry) => ({
+      name: entry.name,
+      id: entry.id ?? null,
+      createdAt: entry.created_at ?? null,
+    }));
+}
+
+export async function site00StorageObjectExists(storagePath: string): Promise<boolean> {
+  const normalized = storagePath.replace(/^\/+/, '').trim();
+  if (!normalized) return false;
+  const supabase = getSupabaseAdmin();
+  const lastSlash = normalized.lastIndexOf('/');
+  const folder = lastSlash >= 0 ? normalized.slice(0, lastSlash) : '';
+  const name = lastSlash >= 0 ? normalized.slice(lastSlash + 1) : normalized;
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).list(folder, { limit: 100 });
+  if (error) return false;
+  return (data ?? []).some((entry) => entry.name === name);
 }

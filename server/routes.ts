@@ -10,6 +10,7 @@ import site00AccessHandler from '../api/site00-access.js';
 import site00AccessCredentialsAdminHandler from '../api/admin/site00-access-credentials.js';
 import site00ClientProductionHandler from '../api/site00/client-production.js';
 import site00ProjectsHandler from '../api/site00/projects.js';
+import site00ProjectTechnicalIntelligenceHandler from '../api/site00/project-technical-intelligence.js';
 import site00MarketingEngagementsHandler from '../api/site00/marketing-engagements.js';
 import site00StudioWorldWebhookHandler from '../api/site00/studio-world-webhook.js';
 import site00MarketingAdminHandler from '../api/admin/site00-marketing.js';
@@ -19,6 +20,38 @@ import site00EvolveOAuthCallbackHandler from '../api/admin/site00-evolve-oauth-c
 import site00IntakesHandler from '../api/site00/intakes.js';
 import site00IntakeAccessHandler from '../api/site00/intake-access.js';
 import site00IntakesAdminHandler from '../api/admin/site00-intakes.js';
+import site00ClientIntakesAdminHandler from '../api/admin/site00-client-intakes.js';
+import site00ClientAppHandler from '../api/site00/client-app.js';
+import site00WorldIntakeHandler from '../api/site00/world-intake.js';
+import site00AstralWorldGenerationHandler from '../api/admin/site00-astral-world-generation.js';
+import site00AstralWorldAssetsHandler from '../api/site00/astral-world-assets.js';
+import site00AstralWorldReaderAccountHandler from '../api/site00/astral-world-reader-account.js';
+import site00AstralWorldAvatarLibraryHandler from '../api/site00/astral-world-avatar-library.js';
+import site00ClientProjectRoomHandler from '../api/site00/client-project-room.js';
+import site00ClientReviewsHandler from '../api/site00/client-reviews.js';
+import site00ImplementationSnapshotsHandler from '../api/site00/implementation-snapshots.js';
+import site00PageMirrorHandler from '../api/site00/page-mirror.js';
+import site00ExperienceEngineHandler from '../api/site00/experience-engine.js';
+import site00ExpressionEngineHandler from '../api/site00/expression-engine.js';
+import site00CampaignPackageHandler from '../api/site00/campaign-package.js';
+import site00DesignControlPlaneHandler from '../api/site00/design-control-plane.js';
+import site00DesignAssetReconstructionHandler from '../api/site00/design-asset-reconstruction.js';
+import site00MasterSkinHandler from '../api/site00/master-skin.js';
+import site00BrandFamilySkinHandler from '../api/site00/brand-family-skin.js';
+import site00TwinV2VisualConceptHandler from '../api/site00/twin-v2-visual-concept.js';
+import site00TwinV2ConceptGenerationsHandler from '../api/site00/twin-v2-concept-generations.js';
+import site00TwinV2ImportConceptHandler from '../api/site00/twin-v2-import-concept.js';
+import site00TwinV2FalParallelTwinProofHandler from '../api/site00/twin-v2-fal-parallel-twin-proof.js';
+import site00TwinV2AtomicConceptGenerationHandler from '../api/site00/twin-v2-atomic-concept-generation.js';
+import site00TwinV3DesignPageAuthorityHandler from '../api/site00/twin-v3-design-page-authority.js';
+import site00TwinV3MobileTwinPipelineHandler from '../api/site00/twin-v3-mobile-twin-pipeline.js';
+import site00TwinV3MobileTwinImplementationHandler from '../api/site00/twin-v3-mobile-twin-implementation.js';
+import site00DesignWorkspaceProductionHandler from '../api/site00/design-workspace-production.js';
+import site00TwinV3ForensicUiBlueprintHandler from '../api/site00/twin-v3-forensic-ui-blueprint.js';
+import site00SolDesignBenchHandler from '../api/site00/sol-design-bench.js';
+import site00OpusNativeHandler from '../api/site00/opus-native.js';
+import site00TwinTestADesignBenchHandler from '../api/site00/twin-test-a-design-bench.js';
+import captureAuthBootstrapHandler from '../api/capture-auth-bootstrap.js';
 
 /** Express path → Vercel-style default export handler */
 export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = [
@@ -28,7 +61,11 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/session-restore', handler: sessionRestoreHandler },
   { path: '/api/site00-access', handler: site00AccessHandler },
   { path: '/api/site00/client-production', handler: site00ClientProductionHandler },
+  { path: '/api/site00/client-project-room', handler: site00ClientProjectRoomHandler },
+  { path: '/api/site00/client-reviews', handler: site00ClientReviewsHandler },
+  { path: '/api/site00/client-app', handler: site00ClientAppHandler },
   { path: '/api/site00/projects', handler: site00ProjectsHandler },
+  { path: '/api/site00/project-technical-intelligence', handler: site00ProjectTechnicalIntelligenceHandler },
   { path: '/api/site00/marketing-engagements', handler: site00MarketingEngagementsHandler },
   { path: '/api/site00/studio-world-webhook', handler: site00StudioWorldWebhookHandler },
   { path: '/api/admin/site00-marketing', handler: site00MarketingAdminHandler },
@@ -40,5 +77,34 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-evolve/oauth/callback', handler: site00EvolveOAuthCallbackHandler },
   { path: '/api/site00/intakes', handler: site00IntakesHandler },
   { path: '/api/site00/intake-access', handler: site00IntakeAccessHandler },
+  { path: '/api/site00/world-intake', handler: site00WorldIntakeHandler },
   { path: '/api/admin/site00-intakes', handler: site00IntakesAdminHandler },
+  { path: '/api/admin/site00-client-intakes', handler: site00ClientIntakesAdminHandler },
+  { path: '/api/admin/site00-astral-world-generation', handler: site00AstralWorldGenerationHandler },
+  { path: '/api/site00/astral-world-assets', handler: site00AstralWorldAssetsHandler },
+  { path: '/api/site00/astral-world-reader-account', handler: site00AstralWorldReaderAccountHandler },
+  { path: '/api/site00/astral-world-avatar-library', handler: site00AstralWorldAvatarLibraryHandler },
+  { path: '/api/site00/implementation-snapshots', handler: site00ImplementationSnapshotsHandler },
+  { path: '/api/site00/page-mirror', handler: site00PageMirrorHandler },
+  { path: '/api/site00/experience-engine', handler: site00ExperienceEngineHandler },
+  { path: '/api/site00/expression-engine', handler: site00ExpressionEngineHandler },
+  { path: '/api/site00/campaign-package', handler: site00CampaignPackageHandler },
+  { path: '/api/site00/design-control-plane', handler: site00DesignControlPlaneHandler },
+  { path: '/api/site00/design-asset-reconstruction', handler: site00DesignAssetReconstructionHandler },
+  { path: '/api/site00/master-skin', handler: site00MasterSkinHandler },
+  { path: '/api/site00/brand-family-skin', handler: site00BrandFamilySkinHandler },
+  { path: '/api/site00/twin-v2-visual-concept', handler: site00TwinV2VisualConceptHandler },
+  { path: '/api/site00/twin-v2-concept-generations', handler: site00TwinV2ConceptGenerationsHandler },
+  { path: '/api/site00/twin-v2-import-concept', handler: site00TwinV2ImportConceptHandler },
+  { path: '/api/site00/twin-v2-fal-parallel-twin-proof', handler: site00TwinV2FalParallelTwinProofHandler },
+  { path: '/api/site00/twin-v2-atomic-concept-generation', handler: site00TwinV2AtomicConceptGenerationHandler },
+  { path: '/api/site00/twin-v3-design-page-authority', handler: site00TwinV3DesignPageAuthorityHandler },
+  { path: '/api/site00/twin-v3-mobile-twin-pipeline', handler: site00TwinV3MobileTwinPipelineHandler },
+  { path: '/api/site00/twin-v3-mobile-twin-implementation', handler: site00TwinV3MobileTwinImplementationHandler },
+  { path: '/api/site00/design-workspace-production', handler: site00DesignWorkspaceProductionHandler },
+  { path: '/api/site00/twin-v3-forensic-ui-blueprint', handler: site00TwinV3ForensicUiBlueprintHandler },
+  { path: '/api/site00/sol-design-bench', handler: site00SolDesignBenchHandler },
+  { path: '/api/site00/opus-native', handler: site00OpusNativeHandler },
+  { path: '/api/site00/twin-test-a-design-bench', handler: site00TwinTestADesignBenchHandler },
+  { path: '/api/capture-auth-bootstrap', handler: captureAuthBootstrapHandler },
 ];

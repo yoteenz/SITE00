@@ -74,7 +74,7 @@ export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShe
     ));
 
   return (
-    <div className="site00-auth-shell">
+    <div className="site00-auth-shell" data-site00-surface="sign-in">
       <div className="site00-auth-shell__desktop">
         <aside
           className="site00-auth-shell__brand"

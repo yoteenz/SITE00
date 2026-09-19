@@ -1,4 +1,8 @@
 import type { Site00BatchManifest } from './types.js';
+import {
+  SITE00_FAL_REFERENCE_EDIT_MODEL,
+  SITE00_FAL_TEXT_TO_IMAGE_MODEL,
+} from '../../../shared/site00-visual-generation/falImageModels.js';
 
 /** Active environment production batch — canonical reference test. */
 export const ACTIVE_ASSTS_ENV_BATCH_KEY = 'BATCH-ASSTS-ENV-003';
@@ -24,7 +28,7 @@ export const BATCH_ASSTS_ENV_001: Site00BatchManifest = {
   promptVersion: 'v1.1',
   aspectRatio: '9:16',
   outputFormat: 'webp',
-  model: 'fal-ai/nano-banana-pro',
+  model: SITE00_FAL_TEXT_TO_IMAGE_MODEL,
   assets: [
     {
       assetKey: 's00_env_assts_library_mobile',
@@ -82,7 +86,7 @@ export const BATCH_ASSTS_ENV_002: Site00BatchManifest = {
   promptVersion: 'v2.0',
   aspectRatio: '9:16',
   outputFormat: 'webp',
-  model: 'fal-ai/nano-banana-pro',
+  model: SITE00_FAL_TEXT_TO_IMAGE_MODEL,
   useVaultLineage: true,
   forceNewVersion: true,
   replacementBatch: true,
@@ -154,7 +158,7 @@ export const BATCH_ASSTS_ENV_003: Site00BatchManifest = {
   promptVersion: 'v3.0',
   aspectRatio: '9:16',
   outputFormat: 'webp',
-  model: 'fal-ai/nano-banana-pro/edit',
+  model: SITE00_FAL_REFERENCE_EDIT_MODEL,
   useCanonicalReference: true,
   worldIdentity: 'ASSTS_ASSET_VAULT_V1',
   forceNewVersion: true,

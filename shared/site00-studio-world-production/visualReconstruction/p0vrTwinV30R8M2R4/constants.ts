@@ -1,0 +1,37 @@
+export const P0_VR_TWIN_V30R8M2R4_LINEAGE = 'P0.VR.TWINV3.0R8M2R4' as const;
+export const MOBILE_TWIN_IMPL_COMPILER_GENERATION_R8M2R4 = 'R8M2R4' as const;
+export const MOBILE_TWIN_IMPLEMENTATION_VERSION_ACTUAL_FIRST =
+  'mobile-twin-impl-v6-actual-first-reconstruction' as const;
+
+export const ACTUAL_FIRST_CSS_PREFIX = 'site00-twin-af' as const;
+
+export const R8M2R3_CORRECTION_REQUIRED_REASON = 'TRANSLATION_REBUILD_NOT_PIXEL_AUTHORITATIVE' as const;
+
+export const CANONICAL_ASSET_DOES_NOT_MATCH_ACTUAL = 'CANONICAL_ASSET_DOES_NOT_MATCH_ACTUAL' as const;
+export const GENERIC_COMPONENT_SUBSTITUTION_DRIFT = 'GENERIC_COMPONENT_SUBSTITUTION_DRIFT' as const;
+export const VISUAL_WEIGHT_TRANSLATION_DRIFT = 'VISUAL_WEIGHT_TRANSLATION_DRIFT' as const;
+export const REBUILD_CHANGED_BUT_DID_NOT_CONVERGE = 'REBUILD_CHANGED_BUT_DID_NOT_CONVERGE' as const;
+
+export const TRANSLATION_BRIEF_EXPLANATORY_PREFIX =
+  'Replicate the visible Actual first. Use the following text to understand what the visible relationships mean and how to encode them.' as const;
+
+export const ACTUAL_FIRST_PROMPT_OPENING =
+  'YOUR PRIMARY TASK IS TO RECONSTRUCT THE APPROVED ACTUAL IMAGE AS CLOSELY AS POSSIBLE IN LIVE DOM/CSS.' as const;
+
+export const CRITICAL_RECONSTRUCTION_REGIONS = [
+  'HOST_SHELL',
+  'PROJECT_CONTEXT',
+  'TARGET_VIEWPORT_STAGE',
+  'HERO_WORKSPACE',
+  'AUTHORITY_PANEL',
+  'CANDIDATE_GALLERY',
+  'DECISION_BAR',
+  'STRUCTURED_OUTPUT',
+  'READINESS',
+  'CONCEPT_DATA',
+  'BOTTOM_NAV',
+] as const;
+
+export type CriticalReconstructionRegionId = (typeof CRITICAL_RECONSTRUCTION_REGIONS)[number];
+
+export const MIN_RECONSTRUCTION_ITERATIONS = 2 as const;

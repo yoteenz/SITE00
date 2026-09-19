@@ -59,7 +59,7 @@ export function Site00AppShell({
           paddingTop: 20,
         }}
       >
-        <Site00LogoBlock locationLabel={locationLabel} />
+        <Site00LogoBlock locationLabel={locationLabel} diamondMode="HOST_DEFAULT" />
         <div style={{ justifySelf: 'center', paddingTop: 4 }}>
           <GlobalNav />
         </div>

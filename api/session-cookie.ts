@@ -1,30 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { createHmac } from 'crypto';
 import { getAuthUser } from './_lib/auth.js';
 import { useSecureSessionCookieAttribute } from './_lib/sessionCookieSecure.js';
+import {
+  buildSignedRefreshCookieToken,
+  SESSION_REFRESH_COOKIE_MAX_AGE_SECONDS,
+  SESSION_REFRESH_COOKIE_NAME,
+} from './_lib/sessionRefreshCookie.js';
 
-const COOKIE_NAME = 'baw_session_rt';
-const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
-
-type RefreshCookiePayload = {
-  rt: string;
-  uid: string;
-  iat: number;
-};
-
-function base64UrlEncode(input: string): string {
-  return Buffer.from(input, 'utf8').toString('base64url');
-}
-
-function signPayload(encodedPayload: string, secret: string): string {
-  return createHmac('sha256', secret).update(encodedPayload).digest('base64url');
-}
-
-function buildSignedToken(payload: RefreshCookiePayload, secret: string): string {
-  const encodedPayload = base64UrlEncode(JSON.stringify(payload));
-  const sig = signPayload(encodedPayload, secret);
-  return `${encodedPayload}.${sig}`;
-}
+const COOKIE_NAME = SESSION_REFRESH_COOKIE_NAME;
+const COOKIE_MAX_AGE = SESSION_REFRESH_COOKIE_MAX_AGE_SECONDS;
 
 function setRefreshCookie(res: VercelResponse, token: string, secure: boolean): void {
   const parts = [
@@ -76,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const user = await getAuthUser(req);
   if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
-  const token = buildSignedToken(
+  const token = buildSignedRefreshCookieToken(
     { rt: refreshToken, uid: user.id, iat: Date.now() },
     secret
   );

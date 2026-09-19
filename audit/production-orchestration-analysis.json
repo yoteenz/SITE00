@@ -1,0 +1,34 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "policyExists": false,
+  "recommendedPolicy": "ProductionOrchestrationPolicy",
+  "recommendedFields": ["stageId", "discipline", "executionOwner", "triggerBehavior", "costClass", "idempotencyRequired", "founderGateRequired", "parallelizable", "invalidatesOnUpstreamChange"],
+  "stages": [
+    {"stage": "Brand Lore synthesis", "owner": "DETERMINISTIC_CODE", "trigger": "CONDITION_TRIGGERED", "cost": "FREE_LOCAL", "automatic": true, "founderGate": false, "parallelizable": false},
+    {"stage": "Project intelligence compile", "owner": "DETERMINISTIC_CODE", "trigger": "FOUNDER_TRIGGERED", "cost": "FREE_LOCAL", "automatic": false, "founderGate": true, "parallelizable": false},
+    {"stage": "Concept formation (F)", "owner": "ANTHROPIC_REASONING", "trigger": "FOUNDER_TRIGGERED", "cost": "MEDIUM_COST_PROVIDER", "automatic": false, "founderGate": true, "parallelizable": false, "sequentialOnly": true},
+    {"stage": "Concept distinctiveness", "owner": "HYBRID", "trigger": "AUTOMATIC", "cost": "LOW_COST_PROVIDER", "automatic": true, "founderGate": false, "parallelizable": false},
+    {"stage": "Visual reference capture", "owner": "DETERMINISTIC_CODE", "trigger": "FOUNDER_TRIGGERED", "cost": "FREE_LOCAL", "automatic": false, "founderGate": true, "parallelizable": true},
+    {"stage": "Design proof generation", "owner": "IMAGE_GENERATION", "trigger": "FOUNDER_TRIGGERED", "cost": "HIGH_COST_PROVIDER", "automatic": false, "founderGate": true, "parallelizable": false, "sequentialOnly": true},
+    {"stage": "Implementation contract compile", "owner": "DETERMINISTIC_CODE", "trigger": "FOUNDER_TRIGGERED", "cost": "FREE_LOCAL", "automatic": false, "founderGate": true, "parallelizable": false},
+    {"stage": "Composer dispatch", "owner": "COMPOSER", "trigger": "FOUNDER_TRIGGERED", "cost": "UNKNOWN", "automatic": false, "founderGate": true, "parallelizable": false, "status": "NOT_CONNECTED"},
+    {"stage": "Fidelity evaluation", "owner": "VISION_MODEL", "trigger": "CONDITION_TRIGGERED", "cost": "MEDIUM_COST_PROVIDER", "automatic": false, "founderGate": false, "status": "SCAFFOLDED"},
+    {"stage": "Asset revision generation", "owner": "IMAGE_GENERATION", "trigger": "FOUNDER_TRIGGERED", "cost": "HIGH_COST_PROVIDER", "automatic": false, "founderGate": true, "parallelizable": false}
+  ],
+  "majorGaps": [
+    "No formal ProductionOrchestrationPolicy type in runtime",
+    "FORMATION_AUTOMATIC_ON_READINESS=false everywhere — correct but no orchestration planner",
+    "No project-level budget envelope before parallel generation",
+    "StudioWorldRunRecord.triggerType not uniformly populated",
+    "No cross-discipline orchestration (identity + site + content concurrent)",
+    "Composer dispatch undefined — highest-risk automation gap"
+  ],
+  "costSensitiveStages": [
+    "Concept formation (Sonnet)",
+    "Hero/slide FAL generation",
+    "Design proof composition",
+    "Reference-conditioned edit",
+    "Revision generation",
+    "Vision fidelity evaluation (future)"
+  ]
+}

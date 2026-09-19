@@ -1,0 +1,21 @@
+{
+  "auditId": "SITE00-P0.5-PRODUCTION-METHODOLOGY-2026-08-23",
+  "failureModes": [
+    {"id": "FM-01", "mode": "Concept/direction collapse (six directions not six concepts)", "disciplines": ["CREATIVE"], "severity": "CRITICAL", "mitigation": "Experiment F + conceptVsDirection gate", "residual": "MEDIUM"},
+    {"id": "FM-02", "mode": "Composer becomes creative director for un-specified pages", "disciplines": ["SITE"], "severity": "CRITICAL", "mitigation": "None until page-family contracts", "residual": "CRITICAL"},
+    {"id": "FM-03", "mode": "One hero proof copied across entire site", "disciplines": ["SITE"], "severity": "CRITICAL", "mitigation": "None", "residual": "CRITICAL"},
+    {"id": "FM-04", "mode": "Experience Expression solves site IA via visual metaphor", "disciplines": ["EXPERIENCE", "SITE"], "severity": "HIGH", "mitigation": "Functional canon partial", "residual": "HIGH"},
+    {"id": "FM-05", "mode": "False readiness from tests/mock providers", "disciplines": ["ALL"], "severity": "HIGH", "mitigation": "P0 capability verification registry", "residual": "MEDIUM"},
+    {"id": "FM-06", "mode": "Stale downstream artifacts after upstream intelligence change", "disciplines": ["ALL"], "severity": "HIGH", "mitigation": "Engagement cache invalidation only", "residual": "HIGH"},
+    {"id": "FM-07", "mode": "Generic SaaS UI / template resemblance", "disciplines": ["EXPERIENCE", "SITE"], "severity": "HIGH", "mitigation": "Heuristic audits", "residual": "MEDIUM"},
+    {"id": "FM-08", "mode": "Product projects forced through page/experience pipeline", "disciplines": ["APPLICATION"], "severity": "CRITICAL", "mitigation": "None", "residual": "CRITICAL"},
+    {"id": "FM-09", "mode": "Content repetition across formats without strategy", "disciplines": ["CONTENT"], "severity": "HIGH", "mitigation": "None", "residual": "HIGH"},
+    {"id": "FM-10", "mode": "Cost explosion via responsive/concept/page multiplication", "disciplines": ["ALL"], "severity": "HIGH", "mitigation": "Idempotency per action only", "residual": "HIGH"},
+    {"id": "FM-11", "mode": "Mobile = stacked desktop", "disciplines": ["SITE", "EXPERIENCE"], "severity": "MEDIUM", "mitigation": "Documented principle; weak enforcement", "residual": "MEDIUM"},
+    {"id": "FM-12", "mode": "World contracts imply formability without blocker domains", "disciplines": ["WORLD"], "severity": "MEDIUM", "mitigation": "WORLD_FORMATION_IMPLEMENTED=false", "residual": "LOW"},
+    {"id": "FM-13", "mode": "Preference evidence → Brand Canon leakage", "disciplines": ["ALL"], "severity": "HIGH", "mitigation": "Type system + founder gates", "residual": "LOW"},
+    {"id": "FM-14", "mode": "NDXBOOK pilot assumptions block multi-client", "disciplines": ["ALL"], "severity": "HIGH", "mitigation": "Project-scoped persistence (P0)", "residual": "MEDIUM"},
+    {"id": "FM-15", "mode": "Founder bottleneck on every generation", "disciplines": ["ALL"], "severity": "MEDIUM", "mitigation": "Intentional for cost control", "residual": "ACCEPTABLE"}
+  ],
+  "rankedCritical": ["FM-02", "FM-03", "FM-08", "FM-01"]
+}

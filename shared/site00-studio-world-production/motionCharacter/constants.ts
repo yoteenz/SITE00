@@ -1,0 +1,34 @@
+/**
+ * Generic Studio World — Motion Character System foundation.
+ */
+
+export const MOTION_CHARACTER_SYSTEM_V1 = 'MOTION_CHARACTER_SYSTEM_V1' as const;
+
+export const GENERIC_MOTION_FAILURE_MODES = [
+  'FAIL_AI_PRESENTER',
+  'FAIL_GENERIC_INFLUENCER',
+  'FAIL_MOTION_POSTER',
+  'FAIL_ANIMATED_CAROUSEL',
+  'FAIL_STOCK_BROLL_EXPLAINER',
+  'FAIL_FAKE_HUMAN_IMPERFECTION',
+] as const;
+
+export const GENERIC_MOTION_PLATFORM_SURFACES = [
+  'FEED',
+  'STORY',
+  'REEL',
+  'TIKTOK',
+  'SHORT_FORM_VIDEO',
+  'LONG_FORM_VIDEO',
+] as const;
+
+export const PHYSICAL_BOOK_PRESENCE_DECISIONS = [
+  'CENTRAL',
+  'SUPPORTING',
+  'TRACE_ONLY',
+  'NOT_NEEDED',
+] as const;
+
+export const GENERIC_MOTION_CHARACTER_SYSTEM_IMPLEMENTED = true as const;
+export const HUMAN_MOTION_TRACE_SYSTEM_IMPLEMENTED = true as const;
+export const PHYSICAL_BOOK_BEHAVIOR_MODELED = true as const;

@@ -1,0 +1,245 @@
+/* Evolve Operations — functional scaffold; VISUAL_AUTHORITY_REQUIRED */
+
+.site00-evolve-ops-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site00-evolve-ops-card__badge {
+  font-family: var(--site00-font-mono, monospace);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.site00-evolve-ops-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.site00-evolve-ops-card__metrics div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.site00-evolve-ops-card__metrics strong {
+  font-family: var(--site00-font-mono, monospace);
+  font-size: 20px;
+}
+
+.site00-evolve-ops-card__metrics span {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+.site00-evolve-ops-card__cta {
+  display: inline-block;
+}
+
+.site00-evolve-ops {
+  padding: 24px 16px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: var(--site00-font-mono, monospace);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.site00-evolve-ops__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.site00-evolve-ops__eyebrow {
+  font-size: 11px;
+  opacity: 0.65;
+  margin: 0 0 8px;
+}
+
+.site00-evolve-ops__title {
+  font-size: clamp(24px, 4vw, 36px);
+  margin: 0 0 8px;
+}
+
+.site00-evolve-ops__subtitle {
+  font-size: 12px;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.site00-evolve-ops__signals {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.site00-evolve-ops-signal {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.site00-evolve-ops-signal__label {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.site00-evolve-ops-signal__value {
+  font-size: 22px;
+}
+
+.site00-evolve-ops__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.site00-evolve-ops__tabs button {
+  font-family: inherit;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.site00-evolve-ops__tabs button.is-active {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.site00-evolve-ops__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 960px) {
+  .site00-evolve-ops__grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.site00-evolve-ops-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 16px;
+}
+
+.site00-evolve-ops-panel h2 {
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.site00-evolve-ops-panel h3 {
+  font-size: 11px;
+  margin: 16px 0 8px;
+  opacity: 0.8;
+}
+
+.site00-evolve-ops-queue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.site00-evolve-ops-queue li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.site00-evolve-ops-queue strong {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.site00-evolve-ops-queue p,
+.site00-evolve-ops-queue small {
+  font-size: 11px;
+  opacity: 0.85;
+  text-transform: none;
+  margin: 0;
+}
+
+.site00-evolve-ops-brief__title {
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.site00-evolve-ops-panel ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 11px;
+  text-transform: none;
+}
+
+.site00-evolve-ops-incident {
+  border: 1px solid rgba(255, 120, 80, 0.35);
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.site00-evolve-ops__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  font-size: 11px;
+}
+
+.site00-evolve-ops__scale-note {
+  margin-top: 12px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.site00-sd-home__ops-signals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.site00-sd-ops-signal {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  font-size: 11px;
+}
+
+.site00-sd-ops-signal strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.site00-project-ops-panel {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px;
+  margin-top: 16px;
+}
+
+.site00-project-ops-panel h3 {
+  font-size: 12px;
+  margin: 0 0 8px;
+}

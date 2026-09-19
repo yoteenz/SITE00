@@ -10,10 +10,13 @@ import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00Ro
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
+import { AstralWorldRouteGuard } from '../site00/components/guards/AstralWorldRouteGuard';
+import { Site00ComposerDraftRouteGuard } from '../site00/components/guards/Site00ComposerDraftRouteGuard';
 import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicRouteShell';
 import { Site00PublicDesktopLegacyRedirect } from '../site00/components/shell/Site00PublicWideDesktopRedirect';
 import { Site00OriginDesktopLegacyRedirect } from '../site00/components/shell/Site00OriginDesktopLegacyRedirect';
 import { Site00WorkflowDesktopLegacyRedirect } from '../site00/components/shell/Site00WorkflowDesktopLegacyRedirect';
+import { Site00IdentityAliasRedirect, Site00SignInAliasRedirect } from '../site00/components/routing/Site00RouteAliases';
 import { Site00TypographyBootstrap } from '../site00/components/Site00TypographyBootstrap';
 import { site00PublicDesktopPath } from '../site00/config/site00-public-pages';
 /* Eager-load SITE 00 + ASSTS styles (lazy route CSS was not applying on mobile preview). */
@@ -27,6 +30,9 @@ import '../site00/styles/site00-bldr-intake-mobile.css';
 import '../site00/styles/site00-idnty-diagnostic-mobile.css';
 import '../site00/styles/site00-evolve-mobile.css';
 import '../site00/styles/site00-evolve-hub-mobile.css';
+import '../site00/styles/site00-evolve-hub-desktop.css';
+import '../site00/styles/site00-evolve-pricing.css';
+import '../site00/styles/site00-self-directed-client.css';
 import '../site00/styles/site00-evolve-assessment-mobile.css';
 import '../site00/styles/site00-marketing.css';
 import '../site00/styles/site00-loader.css';
@@ -38,6 +44,7 @@ import '../site00/styles/site00-auth-create-account.css';
 import '../site00/styles/site00-access.css';
 import '../site00/styles/site00-ctrl-room.css';
 import '../site00/styles/site00-ctrl-room-mobile.css';
+import '../site00/styles/site00-evolve-operations.css';
 import '../site00/styles/site00-ecosystem.css';
 import '../site00/styles/site00-experience-context.css';
 import '../site00/styles/site00-idnty-assessment.css';
@@ -48,10 +55,15 @@ import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
+import '../site00/styles/site00-client-project-room-p0client1.css';
+import '../site00/styles/site00-client-reviews-p0client2.css';
+import '../site00/styles/site00-client-app.css';
 import '../site00/assts/styles/assts.css';
 import '../site00/assts/styles/assts-depth.css';
 import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
+import '../site00/astral-world/styles/astral-world.css';
+import '../site00/styles/site00-twin-test-a.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const Site00LocationsPage = lazy(() => import('../site00/pages/LocationsPage'));
@@ -69,6 +81,7 @@ const AccessCredentialDebugPage = lazy(() => import('../site00/pages/access/Acce
 const ControlOverviewPage = lazy(() => import('../site00/pages/control/ControlOverviewPage'));
 const ControlSectionPage = lazy(() => import('../site00/pages/control/ControlSectionPage'));
 const ControlSitesPage = lazy(() => import('../site00/pages/control/ControlSitesPage'));
+const EvolveOperationsPage = lazy(() => import('../site00/pages/control/EvolveOperationsPage'));
 const SitesPortfolioPage = lazy(() => import('../site00/pages/SitesPortfolioPage'));
 const ServicesPage = lazy(() => import('../site00/pages/ServicesPage'));
 const SystemPage = lazy(() => import('../site00/pages/SystemPage'));
@@ -76,13 +89,202 @@ const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
 const ProjectDetailPage = lazy(() => import('../site00/pages/ProjectDetailPage'));
+const ProjectOperatingModulePage = lazy(() => import('../site00/pages/ProjectOperatingModulePage'));
+const ProjectEvolveTabRedirectPage = lazy(() => import('../site00/pages/ProjectEvolveTabRedirectPage'));
+const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage'));
+const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
+const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
+const ProjectAstralWorldFastTrackPage = lazy(() => import('../site00/pages/ProjectAstralWorldFastTrackPage'));
+const ReconstructionTwinPreviewPage = lazy(() => import('../site00/pages/ReconstructionTwinPreviewPage'));
+const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/ConceptDirectedTwinV2PreviewPage'));
+const HeroOutlierMeasureHarnessPage = import.meta.env.DEV
+  ? lazy(() => import('../site00/pages/HeroOutlierMeasureHarnessPage'))
+  : null;
+const ProjectAstralWorldReaderPage = lazy(() => import('../site00/pages/ProjectAstralWorldReaderPage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
 const IntakeGuestAccessPage = lazy(() => import('../site00/pages/intake/IntakeGuestAccessPage'));
+const WorldIntakeGuestPage = lazy(() => import('../site00/pages/world-intake/WorldIntakeGuestPage'));
 const ProjectEvolvePage = lazy(() => import('../site00/pages/ProjectEvolvePage'));
 const ProjectCreativeDirectionPage = lazy(() => import('../site00/pages/ProjectCreativeDirectionPage'));
+const ProjectCampaignFlavorPage = lazy(() => import('../site00/pages/ProjectCampaignFlavorPage'));
+const EvolveCampaignFlavorPage = lazy(() => import('../site00/pages/evolve/EvolveCampaignFlavorPage'));
+const ProjectCampaignDirectorPage = lazy(() => import('../site00/pages/ProjectCampaignDirectorPage'));
+const EvolveCampaignDirectorPage = lazy(() => import('../site00/pages/evolve/EvolveCampaignDirectorPage'));
+const ProjectPersonalityReplayPage = lazy(() => import('../site00/pages/ProjectPersonalityReplayPage'));
+const ProjectSixDirectionConsistencyPage = lazy(() => import('../site00/pages/ProjectSixDirectionConsistencyPage'));
+const ProjectCanonicalCreativeRangePage = lazy(() => import('../site00/pages/ProjectCanonicalCreativeRangePage'));
+const ProjectCanonicalCarouselExpansionPage = lazy(() => import('../site00/pages/ProjectCanonicalCarouselExpansionPage'));
+const ProjectExperimentDPage = lazy(() => import('../site00/pages/ProjectExperimentDPage'));
+const ProjectExperimentFPage = lazy(() => import('../site00/pages/ProjectExperimentFPage'));
+const ProjectExperimentGPage = lazy(() => import('../site00/pages/ProjectExperimentGPage'));
+const ProjectExperimentHPage = lazy(() => import('../site00/pages/ProjectExperimentHPage'));
+const ProjectExperimentHDevelopmentPage = lazy(() => import('../site00/pages/ProjectExperimentHDevelopmentPage'));
+const ProjectBrandCharacterReadinessPage = lazy(() => import('../site00/pages/ProjectBrandCharacterReadinessPage'));
+const ProjectBrandCharacterDeepeningPage = lazy(() => import('../site00/pages/ProjectBrandCharacterDeepeningPage'));
+const ProjectBrandCharacterSynthesisPage = lazy(() => import('../site00/pages/ProjectBrandCharacterSynthesisPage'));
+const ProjectBrandCharacterArtifactProofsPage = lazy(() => import('../site00/pages/ProjectBrandCharacterArtifactProofsPage'));
+const ProjectBrandMarketingExpressionPage = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionPage'));
+const ProjectBrandMarketingExpressionExperiment01Page = lazy(() => import('../site00/pages/ProjectBrandMarketingExpressionExperiment01Page'));
+const ProjectContentOperationsPage = lazy(() => import('../site00/pages/ProjectContentOperationsPage'));
+const ProjectContentOperationsPerformancePage = lazy(() => import('../site00/pages/ProjectContentOperationsPerformancePage'));
+const ProjectContentOperationsCampaignBoardPage = lazy(() => import('../site00/pages/ProjectContentOperationsCampaignBoardPage'));
+const ProjectCampaignBoardEntryPackagePage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryPackagePage'));
+const ProjectCampaignBoardEntryPreviewPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryPreviewPage'));
+const ProjectCampaignBoardEntryFormatPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryFormatPage'));
+const ProjectCampaignBoardEntryDeliverablePage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryDeliverablePage'));
+const ProjectCampaignBoardEntryCarouselPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryCarouselPage'));
+const ProjectCampaignBoardEntryStoryPage = lazy(() => import('../site00/pages/ProjectCampaignBoardEntryStoryPage'));
+const ProjectExpressionEngineCampaignPage = lazy(() => import('../site00/pages/ProjectExpressionEngineCampaignPage'));
+const ProjectFounderCreativeIngestionPage = lazy(() => import('../site00/pages/ProjectFounderCreativeIngestionPage'));
+const ProjectFilmProductionPage = lazy(() => import('../site00/pages/ProjectFilmProductionPage'));
+const ProjectContentOperationsDailyPlanPage = lazy(() => import('../site00/pages/ProjectContentOperationsDailyPlanPage'));
+const ProjectRealismLabPage = lazy(() => import('../site00/pages/ProjectRealismLabPage'));
+const ProjectCulturalIntelligencePage = lazy(() => import('../site00/pages/ProjectCulturalIntelligencePage'));
+const ProjectCulturalIntelligenceSourcesPage = lazy(() => import('../site00/pages/ProjectCulturalIntelligenceSourcesPage'));
+const ProjectCulturalIntelligenceWeeklyForecastPage = lazy(() => import('../site00/pages/ProjectCulturalIntelligenceWeeklyForecastPage'));
+const ProjectMotionCharacterPage = lazy(() => import('../site00/pages/ProjectMotionCharacterPage'));
+const ProjectEmbodiedCharacterDiscoveryPage = lazy(
+  () => import('../site00/pages/ProjectEmbodiedCharacterDiscoveryPage'),
+);
+const ProjectFounderCharacterDiscoveryPage = lazy(
+  () => import('../site00/pages/ProjectFounderCharacterDiscoveryPage'),
+);
+const ProjectCharacterContinuityPage = lazy(
+  () => import('../site00/pages/ProjectCharacterContinuityPage'),
+);
+const ProjectCharacterCastingPage = lazy(
+  () => import('../site00/pages/ProjectCharacterCastingPage'),
+);
+const ProjectExperimentGDirectionsPage = lazy(() => import('../site00/pages/ProjectExperimentGDirectionsPage'));
+const ProjectExperimentGFinalistsPage = lazy(() => import('../site00/pages/ProjectExperimentGFinalistsPage'));
+const ProjectExperimentEPage = lazy(() => import('../site00/pages/ProjectExperimentEPage'));
+const ProjectWorkspaceVisualDevelopmentPage = lazy(
+  () => import('../site00/pages/ProjectWorkspaceVisualDevelopmentPage'),
+);
+const ProjectExperimentsHubPage = lazy(() => import('../site00/pages/ProjectExperimentsHubPage'));
+const ProjectLabHubPage = lazy(() => import('../site00/pages/ProjectLabHubPage'));
+const Site00DesignHostRouteGate = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.Site00DesignHostRouteGate })),
+);
+const DesignReconstructionLabPage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.DesignReconstructionLabPage })),
+);
+const DesignProjectsDesignHubPage = lazy(() =>
+  import('../site00/pages/DesignProjectsDesignHubPage').then((m) => ({
+    default: m.DesignProjectsDesignHubPage,
+  })),
+);
+const DesignLegacyProjectDesignRedirect = lazy(() =>
+  import('../site00/pages/DesignLegacyProjectDesignRedirect').then((m) => ({
+    default: m.DesignLegacyProjectDesignRedirect,
+  })),
+);
+const DesignProductionRouteGate = lazy(() =>
+  import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
+    default: m.DesignProductionRouteGate,
+  })),
+);
+const DesignProductionWorkspaceLayout = lazy(() =>
+  import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
+    default: m.DesignProductionWorkspaceLayout,
+  })),
+);
+const DesignProductionSectionReferences = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionReferences,
+  })),
+);
+const DesignProductionSectionAssets = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionAssets,
+  })),
+);
+const DesignProductionSectionPages = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSectionPages').then((m) => ({
+    default: m.DesignProductionSectionPages,
+  })),
+);
+const DesignProductionSectionSkins = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionSkins,
+  })),
+);
+const DesignProductionSectionHistory = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionHistory,
+  })),
+);
+const DesignProductionSectionMore = lazy(() =>
+  import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
+    default: m.DesignProductionSectionMore,
+  })),
+);
+const DesignTwinImplementationPage = lazy(() =>
+  import('../site00/pages/DesignTwinImplementationPage').then((m) => ({ default: m.DesignTwinImplementationPage })),
+);
+const DesignTwinV4ProofPage = lazy(() =>
+  import('../site00/pages/DesignTwinV4ProofPage').then((m) => ({ default: m.DesignTwinV4ProofPage })),
+);
+const NdxbookSolDirectPage = lazy(() => import('../site00/pages/NdxbookSolDirectPage'));
+const SolDesignBenchmarkPage = lazy(() => import('../site00/pages/SolDesignBenchmarkPage'));
+const DesignTwinTestAPage = lazy(() =>
+  import('../site00/pages/DesignTwinTestAPage').then((m) => ({ default: m.DesignTwinTestAPage })),
+);
+const DesignTwinGrokDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinGrokDirectPage').then((m) => ({ default: m.DesignTwinGrokDirectPage })),
+);
+const DesignOpusNativePage = lazy(() =>
+  import('../site00/pages/DesignOpusNativePage').then((m) => ({ default: m.DesignOpusNativePage })),
+);
+const DesignTwinOpusDirectRouteGate = lazy(() =>
+  import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinOpusDirectRouteGate })),
+);
+const DesignTwinWorkspaceLayout = lazy(() =>
+  import('../site00/pages/DesignTwinOpusDirectPage').then((m) => ({ default: m.DesignTwinWorkspaceLayout })),
+);
+const DesignTwinFableDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinFableDirectPage').then((m) => ({ default: m.DesignTwinFableDirectPage })),
+);
+const DesignTwinSparkDirectPage = lazy(() =>
+  import('../site00/pages/DesignTwinSparkDirectPage').then((m) => ({ default: m.DesignTwinSparkDirectPage })),
+);
+const DesignTwinSparkResponsivePage = lazy(() =>
+  import('../site00/pages/DesignTwinSparkResponsivePage').then((m) => ({ default: m.DesignTwinSparkResponsivePage })),
+);
+const StudioWorldDesignLegacyRedirectPage = lazy(() =>
+  import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
+);
+const ProjectProductAssetFactoryPage = lazy(() =>
+  import('../site00/pages/ProjectProductAssetFactoryPage').then((m) => ({
+    default: m.ProjectProductAssetFactoryPage,
+  })),
+);
+const ProjectFounderWorkspaceArchivePage = lazy(() => import('../site00/pages/ProjectFounderWorkspaceArchivePage'));
+const ProjectNotificationsPage = lazy(() => import('../site00/pages/ProjectNotificationsPage'));
+const ProjectNdxIconSheetPage = lazy(() => import('../site00/pages/ProjectNdxIconSheetPage'));
+const ProjectContentLibraryPage = lazy(() => import('../site00/pages/ProjectContentLibraryPage'));
+const PersonalityReplayIntakeRouterPage = lazy(
+  () => import('../site00/pages/validation/PersonalityReplayIntakeRouterPage'),
+);
 const ProjectLoreCalibrationPage = lazy(() => import('../site00/pages/ProjectLoreCalibrationPage'));
+const ProjectCreativeAppetitePage = lazy(() => import('../site00/pages/ProjectCreativeAppetitePage'));
+const ProjectSetupPage = lazy(() => import('../site00/pages/ProjectSetupPage'));
+const MasterSkinExperiencePreviewPage = lazy(() =>
+  import('../site00/pages/MasterSkinExperiencePreviewPage').then((m) => ({
+    default: m.MasterSkinExperiencePreviewPage,
+  })),
+);
 const SupportPage = lazy(() => import('../site00/pages/SupportPage'));
+const GuidePage = lazy(() => import('../site00/pages/information/GuidePage'));
+const SoundPage = lazy(() => import('../site00/pages/information/SoundPage'));
+const FaqPage = lazy(() => import('../site00/pages/information/FaqPage'));
+const ContactPage = lazy(() => import('../site00/pages/information/ContactPage'));
+const Site00ForgotPasswordPage = lazy(() => import('../site00/pages/auth/Site00ForgotPasswordPage'));
+const Site00ResetPasswordPage = lazy(() => import('../site00/pages/auth/Site00ResetPasswordPage'));
+const BlueprintsPage = lazy(() => import('../site00/pages/complex/BlueprintsPage'));
+const AccountPage = lazy(() => import('../site00/pages/complex/AccountPage'));
+const BrandPage = lazy(() => import('../site00/pages/complex/BrandPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
 const BldrStartPage = lazy(() => import('../site00/pages/bldr/BldrStartPage'));
@@ -99,6 +301,60 @@ const ProjectProvisioningPage = lazy(() => import('../site00/pages/provisioning/
 const StudioDashboardPage = lazy(() => import('../site00/pages/studio/StudioDashboardPage'));
 const StudioWorkspaceRouterPage = lazy(() => import('../site00/pages/studio/StudioWorkspaceRouterPage'));
 const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioReviewDetailPage'));
+const ClientProjectRoomOverviewPage = lazy(
+  () => import('../site00/pages/clientProjectRoom/ClientProjectRoomOverviewPage'),
+);
+const ClientProjectRoomReviewsPage = lazy(
+  () => import('../site00/pages/clientProjectRoom/ClientProjectRoomReviewsPages'),
+);
+const ClientReviewDetailPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomReviewsPages').then((m) => ({
+    default: m.ClientReviewDetailPage,
+  })),
+);
+const ClientProjectRoomLibraryPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomLibraryPage,
+  })),
+);
+const ClientProjectRoomActivityPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomActivityPage,
+  })),
+);
+const ClientProjectRoomMessagesPage = lazy(() =>
+  import('../site00/pages/clientProjectRoom/ClientProjectRoomSectionPages').then((m) => ({
+    default: m.ClientProjectRoomMessagesPage,
+  })),
+);
+const AppSplashPage = lazy(() => import('../site00/pages/clientApp/AppSplashPage'));
+const AppProjectSelectPage = lazy(() => import('../site00/pages/clientApp/AppProjectSelectPage'));
+const AppHomePage = lazy(() => import('../site00/pages/clientApp/AppHomePage'));
+const AppProjectHubPage = lazy(() => import('../site00/pages/clientApp/AppProjectHubPage'));
+const AppReviewsQueuePage = lazy(() => import('../site00/pages/clientApp/AppReviewsQueuePage'));
+const AppInboxPage = lazy(() => import('../site00/pages/clientApp/AppInboxPage'));
+const AppLibraryPage = lazy(() => import('../site00/pages/clientApp/AppLibraryPage'));
+const AppProjectsTabPage = lazy(() => import('../site00/pages/clientApp/AppProjectsTabPage'));
+const AppProfilePage = lazy(() => import('../site00/pages/clientApp/AppProfilePage'));
+const AppProjectLayout = lazy(() =>
+  import('../site00/pages/clientApp/AppProjectLayout').then((m) => ({ default: m.AppProjectLayout })),
+);
+const AppReviewDetailPage = lazy(() =>
+  import('../site00/pages/clientApp/AppReviewsQueuePage').then((m) => ({ default: m.AppReviewDetailPage })),
+);
+const AppInboxThreadPage = lazy(() =>
+  import('../site00/pages/clientApp/AppInboxPage').then((m) => ({ default: m.AppInboxThreadPage })),
+);
+const AppLibraryCategoryPage = lazy(() =>
+  import('../site00/pages/clientApp/AppLibraryPage').then((m) => ({ default: m.AppLibraryCategoryPage })),
+);
+const AppPreviewLayout = lazy(() =>
+  import('../site00/pages/clientApp/AppPreviewLayout').then((m) => ({ default: m.AppPreviewLayout })),
+);
+const AppPreviewSelectPage = lazy(() => import('../site00/pages/clientApp/AppPreviewSelectPage'));
+const AppFileViewerPage = lazy(() =>
+  import('../site00/pages/clientApp/AppLibraryPage').then((m) => ({ default: m.AppFileViewerPage })),
+);
 const IdntyAssessmentRouterPage = lazy(() => import('../site00/pages/idnty/assessment/IdntyAssessmentRouterPage'));
 const BldrAssessmentRouterPage = lazy(() => import('../site00/pages/bldr/assessment/BldrAssessmentRouterPage'));
 const EvolveAssessmentRouterPage = lazy(() => import('../site00/pages/evolve/assessment/EvolveAssessmentRouterPage'));
@@ -107,10 +363,61 @@ const MarketingServicesPage = lazy(() => import('../site00/pages/evolve/marketin
 const MarketingIntakePage = lazy(() => import('../site00/pages/evolve/marketing/MarketingIntakePage'));
 const MarketingBriefPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingBriefPage'));
 const MarketingEngagementPage = lazy(() => import('../site00/pages/evolve/marketing/MarketingEngagementPage'));
+const EvolvePricingPage = lazy(() => import('../site00/pages/evolve/EvolvePricingPage'));
 const LoaderPreviewPage = lazy(() => import('../site00/pages/LoaderPreviewPage'));
 
 function Site00Suspense({ children }: { children: ReactNode }) {
   return <Suspense fallback={<Site00RouteLoadingFallback />}>{children}</Suspense>;
+}
+
+function Site00ComposerDraftPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
+  const page = (
+    <Site00Suspense>
+      <Page />
+    </Site00Suspense>
+  );
+  const body = auth ? <Site00AccountRouteGuard>{page}</Site00AccountRouteGuard> : page;
+  const desktopPath = site00PublicDesktopPath(path);
+
+  return (
+    <>
+      <Route
+        path={path}
+        element={
+          <Site00Layout>
+            <Site00ComposerDraftRouteGuard>
+              <Site00PublicRouteShell>{body}</Site00PublicRouteShell>
+            </Site00ComposerDraftRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={desktopPath}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
+    </>
+  );
+}
+
+function Site00ComposerDraftAuthRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>) {
+  return (
+    <Route
+      path={path}
+      element={
+        <Site00Layout>
+          <Site00ComposerDraftRouteGuard>
+            <Site00Suspense>
+              <Page />
+            </Site00Suspense>
+          </Site00ComposerDraftRouteGuard>
+        </Site00Layout>
+      }
+    />
+  );
 }
 
 function Site00PublicPageRoutes(path: string, Page: React.LazyExoticComponent<() => JSX.Element>, auth = false) {
@@ -176,6 +483,9 @@ export function Site00Routes() {
 
   return (
     <>
+      <Route path="/sign-in" element={<Site00SignInAliasRedirect />} />
+      <Route path="/identity/*" element={<Site00IdentityAliasRedirect />} />
+      <Route path="/identity" element={<Navigate to={SITE00_ROUTES.idnty} replace />} />
       {site00Root ? (
         <Route
           index
@@ -235,7 +545,7 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
-      <Route path="/sign-in" element={<Navigate to={SITE00_ROUTES.signIn} replace />} />
+
       <Route path="/register" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route path="/create-account" element={<Navigate to={SITE00_ROUTES.createAccount} replace />} />
       <Route
@@ -464,6 +774,15 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.about, AboutPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.journal, JournalPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.support, SupportPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.guide, GuidePage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.sound, SoundPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.faq, FaqPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.contact, ContactPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.blueprints, BlueprintsPage)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.accountProfile, AccountPage, true)}
+      {Site00ComposerDraftPageRoutes(SITE00_ROUTES.brand, BrandPage)}
+      {Site00ComposerDraftAuthRoutes(SITE00_ROUTES.forgotPassword, Site00ForgotPasswordPage)}
+      {Site00ComposerDraftAuthRoutes(SITE00_ROUTES.resetPassword, Site00ResetPasswordPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.idntySignInSecurity, IdntySignInSecurityPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrTemplates, BldrTemplatesPage)}
       <Route
@@ -511,12 +830,212 @@ export function Site00Routes() {
         }
       />
       <Route
-        path={SITE00_ROUTES.projectEvolve}
+        path={SITE00_ROUTES.projectOverview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="OVERVIEW" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBuilder}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="BUILDER" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectProductionModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="PRODUCTION" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectReviewsModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="REVIEWS" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectLibraryModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="LIBRARY" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectMoreModule}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="MORE" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectOrigin}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOriginPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectIdentity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="IDENTITY" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/projects/:projectSlug/identity/explore"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectIdentityPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperience}
+        element={
+          <AstralWorldRouteGuard>
+            <Site00Suspense>
+              <ProjectAstralWorldExperiencePage />
+            </Site00Suspense>
+          </AstralWorldRouteGuard>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDebugWorld}
+        element={
+          <AstralWorldRouteGuard>
+            <Site00Suspense>
+              <ProjectAstralWorldFastTrackPage />
+            </Site00Suspense>
+          </AstralWorldRouteGuard>
+        }
+      />
+      {HeroOutlierMeasureHarnessPage ? (
+        <Route
+          path="/__dev/hero-outlier-measure"
+          element={
+            <Site00Suspense>
+              <HeroOutlierMeasureHarnessPage />
+            </Site00Suspense>
+          }
+        />
+      ) : null}
+      <Route
+        path={SITE00_ROUTES.projectReconstructionTwin}
+        element={
+          <Site00Suspense>
+            <ReconstructionTwinPreviewPage />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectTwinV2Concept}
+        element={
+          <Site00Suspense>
+            <ConceptDirectedTwinV2PreviewPage />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectReader}
+        element={
+          <AstralWorldRouteGuard>
+            <Site00Suspense>
+              <ProjectAstralWorldReaderPage />
+            </Site00Suspense>
+          </AstralWorldRouteGuard>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectSetup}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectSetupPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/projects/:projectSlug/evolve/plans"
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectEvolvePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/projects/:projectSlug/evolve/:evolveTab"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectOperatingModulePage forcedModule="EVOLVE" />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectEvolve}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectEvolveTabRedirectPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
@@ -535,12 +1054,1100 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.projectCampaignFlavor}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignFlavorPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/evolve/campaign-flavor"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <EvolveCampaignFlavorPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignDirector}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignDirectorPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/evolve/campaign-director"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <EvolveCampaignDirectorPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/validation/ndxbook/replay/:replayId/personality/:stepId"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <PersonalityReplayIntakeRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path="/validation/ndxbook/replay/:replayId/personality/review"
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <PersonalityReplayIntakeRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectLab}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectLabHubPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.site00Design}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <Site00DesignHostRouteGate />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignReconstructionLab}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignReconstructionLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.masterSkinPreview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <MasterSkinExperiencePreviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioWorldDesign}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <StudioWorldDesignLegacyRedirectPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectProductAssets}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectProductAssetFactoryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwin}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignTwinImplementationPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinV4}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <DesignTwinV4ProofPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinSolDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <NdxbookSolDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinTestB}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <SolDesignBenchmarkPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinTestA}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinTestAPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinGrokDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinGrokDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignOpusNative}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignOpusNativePage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinOpusDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinOpusDirectRouteGate />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      >
+        <Route
+          element={
+            <Site00Suspense>
+              <DesignTwinWorkspaceLayout />
+            </Site00Suspense>
+          }
+        >
+          {/* Index required — pathless layout does not match bare /design without a child route */}
+          <Route index element={null} />
+          <Route
+            path="references"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionReferences />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="assets"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionAssets />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="pages"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionPages />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="skins"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionSkins />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="history"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionHistory />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="more"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionMore />
+              </Site00Suspense>
+            }
+          />
+        </Route>
+      </Route>
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinFableDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinFableDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinSparkDirect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinSparkDirectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignTwinSparkResponsive}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignTwinSparkResponsivePage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectsDesignModule}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignProjectsDesignHubPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={`${SITE00_ROUTES.projectDesign}/*`}
+        element={
+          <Site00Suspense>
+            <DesignLegacyProjectDesignRedirect />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectsDesignActiveProject}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignProductionRouteGate />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      >
+        <Route
+          element={
+            <Site00Suspense>
+              <DesignProductionWorkspaceLayout />
+            </Site00Suspense>
+          }
+        >
+          {/* Index required — pathless layout does not match bare /design without a child route */}
+          <Route index element={null} />
+          <Route
+            path="references"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionReferences />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="assets"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionAssets />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="pages"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionPages />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="skins"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionSkins />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="history"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionHistory />
+              </Site00Suspense>
+            }
+          />
+          <Route
+            path="more"
+            element={
+              <Site00Suspense>
+                <DesignProductionSectionMore />
+              </Site00Suspense>
+            }
+          />
+        </Route>
+      </Route>
+      <Route
+        path={SITE00_ROUTES.projectExperiments}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentsHubPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFounderWorkspaceArchive}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFounderWorkspaceArchivePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectNotifications}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectNotificationsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectNdxIconSheet}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectNdxIconSheetPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.projectLoreCalibration}
         element={
           <Site00Layout>
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectLoreCalibrationPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCreativeAppetite}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCreativeAppetitePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectPersonalityReplay}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectPersonalityReplayPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectPersonalityReplayConsistency}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectSixDirectionConsistencyPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCanonicalCreativeRange}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCanonicalCreativeRangePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCanonicalCarouselExpansion}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCanonicalCarouselExpansionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentD}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentDPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentF}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentFPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentGDirections}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGDirectionsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentGFinalists}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGFinalistsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentH}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentHPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterDevelopment}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentHDevelopmentPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterReadiness}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterReadinessPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterDeepening}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterDeepeningPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterSynthesis}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterSynthesisPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandCharacterArtifactProofs}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandCharacterArtifactProofsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandMarketingExpression}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandMarketingExpressionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectBrandMarketingExpressionExperiment01}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectBrandMarketingExpressionExperiment01Page />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperations}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsPerformance}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsPerformancePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryPreview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryPreviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryFormat}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryFormatPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryDeliverable}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryDeliverablePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryCarousel}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryCarouselPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntryStory}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryStoryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCampaignBoardEntry}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCampaignBoardEntryPackagePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsCampaignBoard}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsCampaignBoardPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExpressionEngineCampaign}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExpressionEngineCampaignPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFounderCreativeIngestion}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFounderCreativeIngestionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFilmProduction}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFilmProductionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFilmProductionDailies}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFilmProductionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFilmProductionSceneDeck}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFilmProductionPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentOperationsDailyPlan}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentOperationsDailyPlanPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLabBrief}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLabProviders}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLabRuns}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLabReview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLabContinuity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLabDecision}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectRealismLab}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectRealismLabPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCulturalIntelligence}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCulturalIntelligencePage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCulturalIntelligenceSources}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCulturalIntelligenceSourcesPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCulturalIntelligenceWeeklyForecast}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCulturalIntelligenceWeeklyForecastPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectMotionCharacter}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectMotionCharacterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectEmbodiedCharacterDiscovery}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectEmbodiedCharacterDiscoveryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectFounderCharacterDiscovery}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectFounderCharacterDiscoveryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCharacterCasting}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCharacterCastingPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCharacterContinuityReview}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCharacterContinuityPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectCharacterContinuity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectCharacterContinuityPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentG}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentGPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentE}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectExperimentEPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectExperimentEVisualDevelopment}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectWorkspaceVisualDevelopmentPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectContentLibrary}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectContentLibraryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectPersonalityReplayStep}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ProjectPersonalityReplayPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
@@ -571,12 +2178,30 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.worldIntakeGuest}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <WorldIntakeGuestPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.intakeGuestAccess}
         element={
           <Site00Layout>
             <Site00Suspense>
               <IntakeGuestAccessPage />
             </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={site00PublicDesktopPath(SITE00_ROUTES.projects)}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
           </Site00Layout>
         }
       />
@@ -625,6 +2250,7 @@ export function Site00Routes() {
           </Site00Layout>
         }
       />
+      {Site00PublicPageRoutes(SITE00_ROUTES.evolvePlans, EvolvePricingPage)}
       <Route
         path={SITE00_ROUTES.evolveMarketingIntake}
         element={
@@ -802,6 +2428,285 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.clientProjectRoom}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomOverviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomReviews}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomReviewsPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomReviewDetail}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientReviewDetailPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomLibrary}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomLibraryPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomActivity}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomActivityPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.clientProjectRoomMessages}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ClientProjectRoomMessagesPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.appSplash}
+        element={
+          <Site00Suspense>
+            <AppSplashPage />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.appProjects}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AppProjectSelectPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.appProjectRoot}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <AppProjectLayout />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      >
+        <Route
+          index
+          element={
+            <Site00Suspense>
+              <AppHomePage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="projects"
+          element={
+            <Site00Suspense>
+              <AppProjectsTabPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="profile"
+          element={
+            <Site00Suspense>
+              <AppProfilePage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="project/:section"
+          element={
+            <Site00Suspense>
+              <AppProjectHubPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews"
+          element={
+            <Site00Suspense>
+              <AppReviewsQueuePage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/compare"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/comments"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/annotations"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/approve"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/revision"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="reviews/:reviewId/history"
+          element={
+            <Site00Suspense>
+              <AppReviewDetailPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="inbox"
+          element={
+            <Site00Suspense>
+              <AppInboxPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="inbox/:threadId"
+          element={
+            <Site00Suspense>
+              <AppInboxThreadPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="library"
+          element={
+            <Site00Suspense>
+              <AppLibraryPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="library/:categoryId"
+          element={
+            <Site00Suspense>
+              <AppLibraryCategoryPage />
+            </Site00Suspense>
+          }
+        />
+        <Route
+          path="library/:categoryId/:fileId"
+          element={
+            <Site00Suspense>
+              <AppFileViewerPage />
+            </Site00Suspense>
+          }
+        />
+      </Route>
+      <Route
+        path={SITE00_ROUTES.appPreviewSelect}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AppPreviewSelectPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.appPreviewRoot}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <AppPreviewLayout />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      >
+        <Route index element={<Site00Suspense><AppHomePage /></Site00Suspense>} />
+        <Route path="projects" element={<Site00Suspense><AppProjectsTabPage /></Site00Suspense>} />
+        <Route path="profile" element={<Site00Suspense><AppProfilePage /></Site00Suspense>} />
+        <Route path="project/:section" element={<Site00Suspense><AppProjectHubPage /></Site00Suspense>} />
+        <Route path="reviews" element={<Site00Suspense><AppReviewsQueuePage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/compare" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/comments" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/annotations" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/approve" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/revision" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="reviews/:reviewId/history" element={<Site00Suspense><AppReviewDetailPage /></Site00Suspense>} />
+        <Route path="inbox" element={<Site00Suspense><AppInboxPage /></Site00Suspense>} />
+        <Route path="inbox/:threadId" element={<Site00Suspense><AppInboxThreadPage /></Site00Suspense>} />
+        <Route path="library" element={<Site00Suspense><AppLibraryPage /></Site00Suspense>} />
+        <Route path="library/:categoryId" element={<Site00Suspense><AppLibraryCategoryPage /></Site00Suspense>} />
+        <Route path="library/:categoryId/:fileId" element={<Site00Suspense><AppFileViewerPage /></Site00Suspense>} />
+      </Route>
+      <Route
         path={SITE00_ROUTES.accessDebug}
         element={
           <Site00Layout>
@@ -828,6 +2733,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ControlOverviewPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.controlEvolveOperations}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <EvolveOperationsPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>

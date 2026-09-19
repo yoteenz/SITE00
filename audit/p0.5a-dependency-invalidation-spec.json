@@ -1,0 +1,64 @@
+{
+  "specId": "SITE00-P0.5A-DEPENDENCY-INVALIDATION",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "formalGraphExists": true,
+  "graphModel": "StudioWorldDependencyGraph",
+  "edgeModel": "ProductionDependencyEdge",
+  "invalidationEventModel": "ProductionInvalidationEvent",
+  "resolver": "resolveDownstreamInvalidation",
+  "effectiveReadiness": "computeEffectiveReadiness",
+  "invalidationPolicies": [
+    "NO_INVALIDATION",
+    "RECOMPILE_ONLY",
+    "SOFT_REVIEW_REQUIRED",
+    "EVIDENCE_STALE",
+    "REGENERATION_REQUIRED",
+    "FOUNDER_REVIEW_REQUIRED",
+    "HARD_INVALIDATION",
+    "SUPERSEDE_REQUIRED",
+    "BLOCK_DOWNSTREAM_EXECUTION"
+  ],
+  "relationshipTypes": [
+    "DERIVED_FROM",
+    "COMPILED_FROM",
+    "VISUALLY_CONDITIONED_BY",
+    "FUNCTIONALLY_DEPENDS_ON",
+    "USES_ASSET",
+    "USES_REFERENCE",
+    "USES_CANON",
+    "USES_EXPERIMENT_EVIDENCE",
+    "IMPLEMENTS",
+    "SUPERSEDES",
+    "REVISION_OF",
+    "PROMOTED_FROM"
+  ],
+  "firstCoverage": [
+    "BRAND_LORE_CHANGE",
+    "FOUNDER_CREATIVE_APPETITE_CHANGE",
+    "FUNCTIONAL_CANON_CHANGE",
+    "SITE_ARCHITECTURE_CHANGE",
+    "VISUAL_REFERENCE_STALENESS",
+    "APPROVED_DESIGN_PROOF_REVISION",
+    "PROJECT_SCOPE_EXPANSION"
+  ],
+  "frozenExperimentProtection": {
+    "experimentD": "immutable",
+    "experimentFFormationSnapshot": "immutable",
+    "historicalEvidenceStatus": "HISTORICAL_EVIDENCE",
+    "noLongerCurrentInputStatus": "NO_LONGER_CURRENT_INPUT"
+  },
+  "automaticRegeneration": false,
+  "automaticDeletion": false,
+  "durablePersistence": {
+    "supabaseTables": [
+      "site00_production_invalidation_events",
+      "site00_production_dependency_edges"
+    ],
+    "migration": "20260823210000_site00_production_invalidation.sql"
+  },
+  "majorRemainingGaps": [
+    "Live invalidation event wiring into all domain stores",
+    "Automatic graph edge registration from production runs",
+    "Cross-project invalidation fan-out at scale"
+  ]
+}

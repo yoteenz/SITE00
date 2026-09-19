@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  dispatchSite00ForceRevealLoader,
+  shouldBypassImmersiveColdStartGate,
+  SITE00_FORCE_REVEAL_LOADER_EVENT,
+} from './site00ForceRevealAfterMount';
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import { acquireLoadingScreenDocumentLock } from '../../../platform-stabilization/loadingScreenLock';
@@ -11,9 +16,10 @@ import { resolveSite00LoaderBackgroundUrl, resolveSite00LoaderMediaPresentation 
 import { loaderLifecycleLog } from './loaderLifecycleLog';
 import {
   markSite00ImmersiveComplete,
+  purgeSite00ImmersiveLoaderDomAfterGateReveal,
   shouldShowSite00ImmersiveLoader,
 } from './site00LoaderSession';
-import { isSite00LoaderPreviewPath, isSite00SignInPath } from './site00LoaderPaths';
+import { isSite00LoaderPreviewPath, isSite00SignInPath, isSite00PublicHubPath } from './site00LoaderPaths';
 import {
   advanceLoaderStagesFromTasks,
   waitForLoaderAnimationOpeningHold,
@@ -28,6 +34,9 @@ import {
 } from './site00LoaderAnimationPlayback';
 
 const COMPLETE_HOLD_MS = 680;
+/** Never leave founder on cinematic loader past this wall clock (mobile networks, cancelled bootstrap). */
+const LOADER_WALL_CLOCK_FAILSAFE_MS = 6_000;
+const LOADER_EXIT_BACKUP_MS = 900;
 
 initSite00ImmersiveLoaderBoot();
 
@@ -40,9 +49,11 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
   const skipForRoute =
     isSite00LoaderPreviewPath(pathname) ||
     isSite00SignInPath(pathname) ||
+    isSite00PublicHubPath(pathname) ||
     pathname === '/control' ||
     pathname.startsWith('/control/');
-  const immersive = !skipForRoute && shouldShowSite00ImmersiveLoader();
+  const bypassColdStart = shouldBypassImmersiveColdStartGate();
+  const immersive = !bypassColdStart && !skipForRoute && shouldShowSite00ImmersiveLoader();
   const [phase, setPhase] = useState<Site00ImmersiveLoaderPhase>(immersive ? 'loading' : 'exiting');
   const [revealed, setRevealed] = useState(!immersive);
   const [pageUnderlayReady, setPageUnderlayReady] = useState(!immersive);
@@ -68,16 +79,46 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     openingHoldAt.current = Date.now();
   }, []);
 
+  const forceRevealApp = useCallback((reason: string) => {
+    loaderLifecycleLog('ROUTE_COMPLETE', { forceReveal: reason });
+    markSite00ImmersiveComplete();
+    releaseSite00ImmersiveBootRoot();
+    teardownSite00ImmersiveBootShell();
+    setPageUnderlayReady(true);
+    setPhase('exiting');
+    setRevealed(true);
+  }, []);
+
+  const handleExitComplete = useCallback(() => {
+    forceRevealApp('exit-animation');
+  }, [forceRevealApp]);
+
+  useLayoutEffect(() => {
+    if (bypassColdStart) {
+      forceRevealApp('preview-tunnel-bypass');
+    }
+  }, [bypassColdStart, forceRevealApp]);
+
   useEffect(() => {
     if (!immersive || revealed) return;
     return acquireLoadingScreenDocumentLock();
   }, [immersive, revealed]);
 
+  useLayoutEffect(() => {
+    if (immersive) return;
+    releaseSite00ImmersiveBootRoot();
+    teardownSite00ImmersiveBootShell();
+  }, [immersive]);
+
+  useLayoutEffect(() => {
+    if (!revealed) return;
+    purgeSite00ImmersiveLoaderDomAfterGateReveal('gate-revealed');
+  }, [revealed]);
+
   useEffect(() => {
     if (!immersive) {
       loaderLifecycleLog('ROUTE_COMPLETE', { skipped: true });
       markSite00ImmersiveComplete();
-      teardownSite00ImmersiveBootShell();
       return;
     }
 
@@ -129,12 +170,10 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
 
-        releaseSite00ImmersiveBootRoot();
-        setPageUnderlayReady(true);
         await waitForLoaderExitPaint();
         if (cancelled) return;
 
-        setPhase('exiting');
+        forceRevealApp('bootstrap-complete');
       } catch (err) {
         loaderLifecycleLog('ROUTE_COMPLETE', { error: err });
         if (cancelled) return;
@@ -143,11 +182,9 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
         setPhase('complete-hold');
         await sleep(COMPLETE_HOLD_MS);
         if (cancelled) return;
-        releaseSite00ImmersiveBootRoot();
-        setPageUnderlayReady(true);
         await waitForLoaderExitPaint();
         if (cancelled) return;
-        setPhase('exiting');
+        forceRevealApp('bootstrap-error');
       }
     }
 
@@ -155,13 +192,33 @@ export function Site00WorldColdStartGate({ children }: { children: ReactNode }) 
     return () => {
       cancelled = true;
     };
-  }, [immersive, pathname, completeStage, forceComplete]);
+  }, [immersive, pathname, completeStage, forceComplete, forceRevealApp]);
 
-  const handleExitComplete = () => {
-    markSite00ImmersiveComplete();
-    teardownSite00ImmersiveBootShell();
-    setRevealed(true);
-  };
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onForce = (ev: Event) => {
+      const reason =
+        (ev as CustomEvent<{ reason?: string }>).detail?.reason ?? 'external-force-reveal';
+      forceRevealApp(reason);
+    };
+    window.addEventListener(SITE00_FORCE_REVEAL_LOADER_EVENT, onForce);
+    return () => window.removeEventListener(SITE00_FORCE_REVEAL_LOADER_EVENT, onForce);
+  }, [forceRevealApp]);
+
+  useEffect(() => {
+    if (phase !== 'exiting' || revealed) return;
+    const backup = window.setTimeout(() => forceRevealApp('exit-backup-timer'), LOADER_EXIT_BACKUP_MS);
+    return () => window.clearTimeout(backup);
+  }, [phase, revealed, forceRevealApp]);
+
+  useEffect(() => {
+    if (!immersive || revealed) return;
+    const failsafe = window.setTimeout(() => {
+      dispatchSite00ForceRevealLoader('wall-clock-failsafe');
+      forceRevealApp('wall-clock-failsafe');
+    }, LOADER_WALL_CLOCK_FAILSAFE_MS);
+    return () => window.clearTimeout(failsafe);
+  }, [immersive, revealed, forceRevealApp]);
 
   if (revealed) return <>{children}</>;
 

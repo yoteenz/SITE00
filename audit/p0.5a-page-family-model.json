@@ -1,0 +1,54 @@
+{
+  "specId": "SITE00-P0.5A-PAGE-FAMILY-MODEL",
+  "methodologyVersion": "P0.5A_PRODUCTION_METHODOLOGY_CORRECTIONS",
+  "model": "SitePageFamily",
+  "purpose": "Bridge approved direction to coherent multi-page site without hero cloning or Composer invention",
+  "coreRule": "SHARED_GRAMMAR_NOT_IDENTICAL_LAYOUT",
+  "fields": [
+    "familyId",
+    "familyName",
+    "familyThesis",
+    "surfaceMembers",
+    "layoutGrammar",
+    "hierarchyGrammar",
+    "interactionGrammar",
+    "contentBehavior",
+    "responsivePhilosophy",
+    "artworkBehavior",
+    "assetFamilyRequirements",
+    "hostBehavior",
+    "clientExpressionBehavior",
+    "visualProofPolicy",
+    "accessibilityRequirements",
+    "implementationRequirements"
+  ],
+  "layoutGrammarModel": "LayoutGrammar",
+  "componentGrammarModel": "ComponentGrammar",
+  "designSystemBoundary": "SiteDesignSystemContract",
+  "exampleFamiliesNotHardcoded": [
+    "ENTRY_LANDING",
+    "PROJECT_WORKSPACE",
+    "DETAIL_INTELLIGENCE",
+    "REVIEW_DECISION",
+    "CONTENT_EDITORIAL",
+    "COMMERCE",
+    "ACCOUNT",
+    "UTILITY",
+    "FORM_INTAKE",
+    "APPLICATION_LIKE_WORKSPACE"
+  ],
+  "failurePrevention": {
+    "failureA": "ONE_HERO_COPIED_EVERYWHERE",
+    "failureB": "EVERY_PAGE_INVENTED_BY_COMPOSER"
+  },
+  "distinctivenessRule": "Families justified by shared production behavior, not URL alone",
+  "contracts": {
+    "PageFamilyImplementationContract": true,
+    "SiteSurfaceImplementationContract": true
+  },
+  "projectWorkspaceCanon": {
+    "owner": "SITE_00",
+    "family": "PROJECT_WORKSPACE",
+    "notNdxbookBrandCanon": true
+  }
+}

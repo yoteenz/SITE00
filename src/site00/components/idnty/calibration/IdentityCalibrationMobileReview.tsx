@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import {
   getIdntyAssessmentState,
   idntyAssessmentPath,
+  idntyDiscoveryResultPath,
   type IdntyAssessmentStateId,
 } from '../../../config/idnty-assessment';
-import { idntyLorePath, idntyLoreFirstStep } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
 import { useIdntyAssessment } from '../../../hooks/useIdntyAssessment';
 import { formatAnswerLabel } from '../../idnty-assessment/IdntyStepForm';
 import { IdentityStateHero } from '../state-v2/IdentityStateProgress';
@@ -31,7 +31,7 @@ export function IdentityCalibrationMobileReview({ stateSlug }: IdentityCalibrati
   };
 
   const handleSubmit = () => {
-    navigateTo(idntyLorePath(stateSlug, idntyLoreFirstStep()));
+    navigateTo(idntyDiscoveryResultPath(stateSlug));
   };
 
   const lastStep = state.steps[state.steps.length - 1];

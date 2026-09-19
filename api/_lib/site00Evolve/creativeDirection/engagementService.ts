@@ -11,12 +11,36 @@ import {
 } from './intelligenceBrief.js';
 import { brandLoreReadinessGate, shouldEnforceLoreReadinessGate } from '../../site00BrandLore/brandLoreBridge.js';
 import { getOrReconcileBrandLoreForOrg } from '../../site00BrandLore/loreService.js';
+import { computeBrandLoreFingerprint } from '../../../../shared/site00-brand-lore/fingerprint.js';
+import type { BrandLoreProfile } from '../../../../shared/site00-brand-lore/types.js';
 import { generateTerritories, buildComparison } from './territories.js';
 import {
   emptyVisualDnaContract,
   buildProposedVisualDnaFromTerritory,
   promoteVisualDnaToApproved,
 } from './visualDnaContract.js';
+import {
+  resolveCanonicalCoreDirectionFormation,
+  syncEngagementFormationVersionFromCanonical,
+} from './creativeIntelligence/canonicalFormationResolver.js';
+import { assessFormationProductionCompleteness } from './creativeIntelligence/directionFieldContract.js';
+import { resolveNdxbookFounderComparisonSet } from './creativeIntelligence/founderComparisonSet.js';
+import { attachProofAssetsToComparisonSet } from './creativeIntelligence/comparisonProofProduction.js';
+import { attachCreativeDirectionBoardsToComparisonSet } from './creativeIntelligence/boardStore.js';
+import { findLatestBrandNativeVisualPilot, getVisualPilotComparisonPayload } from './creativeIntelligence/brandNativeVisualPilotStore.js';
+import { deriveVisualProductionState } from './creativeIntelligence/visualProductionState.js';
+import {
+  getCreativeIntelligenceInspectorSummary,
+  getOrRunCoreDirectionFormation,
+  incrementFormationVersion,
+  resetCoreDirectionFormationMemory,
+  retryCoreDirectionFormation,
+} from './creativeIntelligence/formationService.js';
+import { resolveCreativeIntelligenceProviderConfig } from './creativeIntelligence/providerConfig.js';
+import { getCreativeIntelligenceProvider } from './creativeIntelligence/providerRegistry.js';
+import type {
+  CoreDirectionFormationRecord,
+} from './creativeIntelligence/types.js';
 import type {
   CreativeDirectionEngagement,
   CreativeDirectionLifecycle,
@@ -30,6 +54,7 @@ const engagements = new Map<string, CreativeDirectionEngagement>();
 
 export function resetCreativeDirectionMemory(): void {
   engagements.clear();
+  resetCoreDirectionFormationMemory();
 }
 
 /** Evicts only one org's cached engagement — used after a lore calibration submission so the next
@@ -48,6 +73,20 @@ function assertOrg(orgSlug: string): string {
   return orgId;
 }
 
+function buildBrandLoreFormation(
+  profile: BrandLoreProfile | null,
+  formedAt: string,
+): CreativeDirectionEngagement['brandLoreFormation'] {
+  if (!profile) return null;
+  return {
+    brandLoreProfileId: profile.id,
+    brandLoreProfileVersion: profile.profileVersion,
+    brandLoreFingerprint: computeBrandLoreFingerprint(profile),
+    formedAt,
+    formationVersion: 1,
+  };
+}
+
 function page001Gate(visualDnaStatus: string): CreativeDirectionEngagement['page001Gate'] {
   const approved = visualDnaStatus === 'APPROVED';
   return {
@@ -63,7 +102,10 @@ export async function ensureCreativeDirectionEngagement(
 ): Promise<CreativeDirectionEngagement> {
   const orgId = assertOrg(orgSlug);
   const existing = engagements.get(orgId);
-  if (existing) return existing;
+  if (existing) {
+    await syncEngagementBrandLoreReadiness(existing, orgSlug);
+    return existing;
+  }
 
   // No bypass (XXIV): when the caller doesn't explicitly pass a profile, load the real one — for
   // ndxbook this reconciles existing Content Brain intelligence into an honest, possibly-partial
@@ -79,6 +121,8 @@ export async function ensureCreativeDirectionEngagement(
 
   const readinessGate = brandLoreReadinessGate(resolvedBrandLore ?? null);
   const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, resolvedBrandLore ?? null);
+  const formedAt = new Date().toISOString();
+  const brandLoreFormation = buildBrandLoreFormation(resolvedBrandLore ?? null, formedAt);
 
   const engagement: CreativeDirectionEngagement = {
     id: randomUUID(),
@@ -111,6 +155,8 @@ export async function ensureCreativeDirectionEngagement(
           missingDomains: readinessGate.missingDomains,
         }
       : null,
+    brandLoreFormation,
+    intelligenceStatus: brandLoreFormation ? 'CURRENT' : 'UNKNOWN',
     legacyReference: {
       indigoSlate: { status: 'REFERENCE_ONLY', promotedToCanon: false },
       laceMastery: { status: 'REJECTED_MISATTRIBUTED' },
@@ -124,19 +170,257 @@ export async function ensureCreativeDirectionEngagement(
   return engagement;
 }
 
-export async function getCreativeDirectionPayload(orgSlug: string) {
+/** Re-resolve Brand Lore readiness from the durable profile on every read — cached engagements
+ * must not keep stale `blocked` after lore calibration writes (XXIX). Also re-evaluates the
+ * intelligence-staleness signal (Section IV/V): if the founder's calibration answers have changed
+ * since these territories were formed, and no territory has been approved yet, the engagement is
+ * truthfully labeled STALE_INTELLIGENCE instead of silently presenting pre-calibration proposals
+ * as current. Once a territory is APPROVED the status freezes — approval is a governance boundary
+ * and must never be silently relabeled by a later lore change. */
+async function syncEngagementBrandLoreReadiness(
+  engagement: CreativeDirectionEngagement,
+  orgSlug: string,
+): Promise<void> {
+  const orgId = orgIdFromSlug(orgSlug);
+  if (!orgId) return;
+
+  const profile = await getOrReconcileBrandLoreForOrg(orgId, orgSlug);
+  const enforceGate = shouldEnforceLoreReadinessGate(orgSlug, profile);
+  engagement.brandLoreReadiness = enforceGate
+    ? (() => {
+        const readinessGate = brandLoreReadinessGate(profile);
+        return {
+          state: readinessGate.state,
+          blocked: readinessGate.blocked,
+          message: readinessGate.message,
+          missingDomains: readinessGate.missingDomains,
+        };
+      })()
+    : null;
+
+  if (engagement.lifecycle_state === 'APPROVED') return;
+
+  const currentFingerprint = profile ? computeBrandLoreFingerprint(profile) : null;
+  if (!engagement.brandLoreFormation) {
+    if (profile) {
+      engagement.brandLoreFormation = buildBrandLoreFormation(profile, new Date().toISOString());
+      engagement.intelligenceStatus = 'CURRENT';
+    }
+    return;
+  }
+
+  engagement.intelligenceStatus =
+    currentFingerprint && currentFingerprint !== engagement.brandLoreFormation.brandLoreFingerprint
+      ? 'STALE_INTELLIGENCE'
+      : 'CURRENT';
+}
+
+function clientFormationSurface(
+  record: CoreDirectionFormationRecord | null,
+  providerConfigured: boolean,
+) {
+  if (!providerConfigured) {
+    return {
+      surface: 'PROVIDER_UNAVAILABLE' as const,
+      clientState: 'CREATIVE INTELLIGENCE NOT CONFIGURED' as const,
+      headline: 'YOUR BRAND INTELLIGENCE IS READY.',
+      message: 'CREATIVE FORMATION IS WAITING ON THE PRODUCTION ENGINE.',
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (!record) {
+    return {
+      surface: 'STATIC_PREVIEW' as const,
+      clientState: 'CREATIVE INTELLIGENCE READY' as const,
+      headline: null,
+      message: null,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'FORMING') {
+    return {
+      surface: 'FORMING' as const,
+      clientState: 'FORMING YOUR DIRECTIONS' as const,
+      headline: 'FORMING YOUR DIRECTIONS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'CRITIQUING') {
+    return {
+      surface: 'FORMING' as const,
+      clientState: 'REVIEWING THE WORLDS' as const,
+      headline: 'REVIEWING THE WORLDS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'REVISING') {
+    return {
+      surface: 'FORMING' as const,
+      clientState: 'REFINING THE DIRECTIONS' as const,
+      headline: 'REFINING THE DIRECTIONS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'READY_FOR_VISUAL_PRODUCTION') {
+    return {
+      surface: 'PROPOSED_FORMATION' as const,
+      clientState: 'READY FOR REVIEW' as const,
+      headline: 'FORMED FROM YOUR BRAND INTELLIGENCE',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'NEEDS_HUMAN_REVIEW') {
+    return {
+      surface: 'PROPOSED_FORMATION' as const,
+      clientState: 'NEEDS HUMAN REVIEW' as const,
+      headline: 'REVIEWING THE WORLDS',
+      message: record.status,
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  if (record.status === 'FAILED') {
+    return {
+      surface: 'FORMATION_FAILED' as const,
+      clientState: 'FORMATION FAILED' as const,
+      headline: 'FORMATION FAILED',
+      message: record.error ?? 'Formation could not complete',
+      staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+    };
+  }
+  return {
+    surface: 'STATIC_PREVIEW' as const,
+    clientState: 'CREATIVE INTELLIGENCE READY' as const,
+    headline: null,
+    message: record.error,
+    staticPreviewLabel: 'LEGACY_PROPOSED_EXPLORATION',
+  };
+}
+
+export async function getCreativeDirectionPayload(
+  orgSlug: string,
+  options?: { runFormation?: boolean },
+) {
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  await syncEngagementBrandLoreReadiness(engagement, orgSlug);
   const profile = await getProfileByOrgId(engagement.organization_id);
   const page001 = orgSlug === 'ndxbook' ? getPage001Candidate(orgSlug) : null;
 
+  const brandLoreProfile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
+  let formationRecord: CoreDirectionFormationRecord | null = null;
+  let formationInspector = getCreativeIntelligenceInspectorSummary(null);
+  const providerConfig = resolveCreativeIntelligenceProviderConfig();
+  const provider = getCreativeIntelligenceProvider();
+  const providerConfigured = provider.providerId !== 'unavailable';
+  const shouldRunFormation = options?.runFormation !== false;
+
+  const canonicalResolution = await resolveCanonicalCoreDirectionFormation({
+    organizationId: engagement.organization_id,
+    projectId: brandLoreProfile?.projectId ?? null,
+    brandLoreProfile,
+    currentBrandLoreFingerprint: brandLoreProfile
+      ? computeBrandLoreFingerprint(brandLoreProfile)
+      : engagement.brandLoreFormation?.brandLoreFingerprint,
+    preferredFormationVersion: engagement.brandLoreFormation?.formationVersion,
+  });
+
+  if (brandLoreProfile && !engagement.brandLoreReadiness?.blocked && shouldRunFormation) {
+    const engagementVersion = syncEngagementFormationVersionFromCanonical(
+      engagement.brandLoreFormation?.formationVersion,
+      canonicalResolution.record,
+    );
+    if (engagement.brandLoreFormation) {
+      engagement.brandLoreFormation.formationVersion = engagementVersion;
+    }
+
+    const canonicalReady =
+      canonicalResolution.record?.status === 'READY_FOR_VISUAL_PRODUCTION' &&
+      canonicalResolution.record.brandLoreFingerprint === computeBrandLoreFingerprint(brandLoreProfile);
+
+    if (canonicalReady) {
+      formationRecord = canonicalResolution.record;
+    } else {
+      const formationResult = await getOrRunCoreDirectionFormation({
+        orgSlug,
+        profile: brandLoreProfile,
+        formationVersion: engagementVersion,
+        engagementId: engagement.id,
+      });
+      formationRecord = formationResult.record;
+    }
+    formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
+    engagement.coreDirectionFormationRecordId = formationRecord.formationId;
+  } else {
+    formationRecord = canonicalResolution.record;
+    formationInspector = getCreativeIntelligenceInspectorSummary(formationRecord);
+    if (engagement.brandLoreFormation && formationRecord) {
+      engagement.brandLoreFormation.formationVersion = syncEngagementFormationVersionFromCanonical(
+        engagement.brandLoreFormation.formationVersion,
+        formationRecord,
+      );
+    }
+  }
+
+  const productionCompleteness = formationRecord?.finalDirections?.length
+    ? assessFormationProductionCompleteness(formationRecord.finalDirections)
+    : null;
+
+  const formationSurface = clientFormationSurface(formationRecord, providerConfigured);
+
+  const founderComparisonSetRaw =
+    orgSlug === 'ndxbook'
+      ? await resolveNdxbookFounderComparisonSet({
+          orgSlug,
+          organizationId: engagement.organization_id,
+          brandLoreFingerprint:
+            formationRecord?.brandLoreFingerprint ??
+            (brandLoreProfile
+              ? computeBrandLoreFingerprint(brandLoreProfile)
+              : engagement.brandLoreFormation?.brandLoreFingerprint ?? '5e71f429'),
+          brandLoreProfileVersion:
+            formationRecord?.brandLoreProfileVersion ??
+            brandLoreProfile?.profileVersion ??
+            engagement.brandLoreFormation?.brandLoreProfileVersion ??
+            24,
+          canonicalFormation: formationRecord,
+        })
+      : null;
+
+  const founderComparisonSet = founderComparisonSetRaw
+    ? attachCreativeDirectionBoardsToComparisonSet(attachProofAssetsToComparisonSet(founderComparisonSetRaw))
+    : null;
+
   return {
     engagement,
+    coreDirectionFormation: formationRecord
+      ? {
+          record: formationRecord,
+          inspector: formationInspector,
+          legacyStaticTerritoriesPreserved: true,
+          canonicalSelection: {
+            reason: canonicalResolution.selectionReason,
+            candidatesConsidered: canonicalResolution.candidatesConsidered,
+          },
+          productionCompleteness,
+          visualProductionState: deriveVisualProductionState(formationRecord),
+        }
+      : null,
     meta: {
       organization: { slug: orgSlug, uuid: engagement.organization_id },
       duplicateOrgCreated: false,
       visualDnaStatus: engagement.visualDna.status,
       providerBlocksCreativeDirection: false,
       publishingEnabled: false,
+      creativeIntelligence: {
+        providerConfigured: providerConfig.status === 'CONFIGURED',
+        providerStatus: providerConfig.status,
+        providerId: provider.providerId,
+        modelId: provider.capability.modelId,
+        formationSurface,
+      },
     },
     page001: page001
       ? {
@@ -148,6 +432,11 @@ export async function getCreativeDirectionPayload(orgSlug: string) {
         }
       : null,
     profileVisualDna: (profile?.metadata as Record<string, unknown>)?.visual_dna_status ?? 'INCOMPLETE_REFERENCE_ONLY',
+    founderComparisonSet,
+    brandNativeVisualPilot: getVisualPilotComparisonPayload().brandNativePilot,
+    identityNativeVisualPilot: getVisualPilotComparisonPayload().identityNativePilot,
+    identityNativeV2VisualPilot: getVisualPilotComparisonPayload().identityNativeV2Pilot,
+    visualPilotComparison: getVisualPilotComparisonPayload(),
   };
 }
 
@@ -160,11 +449,56 @@ export async function recordFounderDecision(
     refinementNotes?: string;
     rejectedTerritoryIds?: string[];
     by: string;
+    /** Select any direction from the NDX BOOK six-direction comparison set. */
+    selectedComparisonDirectionId?: string;
   },
 ): Promise<CreativeDirectionEngagement> {
   const orgId = assertOrg(orgSlug);
   const engagement = await ensureCreativeDirectionEngagement(orgSlug);
   const now = new Date().toISOString();
+
+  let selectedDirectionLineage: import('./types.js').FounderSelectedDirectionLineage | null = null;
+  if (input.selectedComparisonDirectionId && orgSlug === 'ndxbook') {
+    const brandLoreProfile = await getOrReconcileBrandLoreForOrg(orgId, orgSlug);
+    const canonicalResolution = await resolveCanonicalCoreDirectionFormation({
+      organizationId: orgId,
+      brandLoreProfile,
+      currentBrandLoreFingerprint: brandLoreProfile
+        ? computeBrandLoreFingerprint(brandLoreProfile)
+        : undefined,
+    });
+    if (canonicalResolution.record || orgSlug === 'ndxbook') {
+      const comparisonSet = await resolveNdxbookFounderComparisonSet({
+        orgSlug,
+        organizationId: orgId,
+        brandLoreFingerprint:
+          canonicalResolution.record?.brandLoreFingerprint ??
+          (brandLoreProfile
+            ? computeBrandLoreFingerprint(brandLoreProfile)
+            : '5e71f429'),
+        brandLoreProfileVersion:
+          canonicalResolution.record?.brandLoreProfileVersion ??
+          brandLoreProfile?.profileVersion ??
+          24,
+        canonicalFormation: canonicalResolution.record,
+      });
+      const match = comparisonSet?.directions.find(
+        (d) => d.directionId === input.selectedComparisonDirectionId,
+      );
+      if (match) {
+        selectedDirectionLineage = {
+          selectedDirectionId: match.directionId,
+          directionName: match.directionName,
+          sourceFormationId: match.sourceFormationId,
+          sourceFormationVersion: match.sourceFormationVersion,
+          sourceDirectionIndex: match.sourceDirectionIndex,
+          brandLoreProfileVersion: match.brandLoreProfileVersion,
+          brandLoreFingerprint: match.brandLoreFingerprint,
+          comparisonIndex: match.comparisonIndex,
+        };
+      }
+    }
+  }
 
   const decision: FounderDecision = {
     type: input.type,
@@ -175,6 +509,7 @@ export async function recordFounderDecision(
     refinementNotes: input.refinementNotes ?? null,
     rejectedTerritoryIds: input.rejectedTerritoryIds ?? [],
     provenance: { source: 'FOUNDER_DECISION', engagementId: engagement.id },
+    selectedDirectionLineage,
   };
 
   engagement.founderDecision = decision;
@@ -213,6 +548,7 @@ export async function recordFounderDecision(
       engagement.visualDna = promoteVisualDnaToApproved(
         buildProposedVisualDnaFromTerritory(territory, input.hybridSelections ?? [], input.by),
         decision,
+        territory,
       );
       engagement.page001Gate = page001Gate('APPROVED');
 
@@ -266,4 +602,49 @@ export async function queueFalGenerationJobs(orgSlug: string): Promise<{ queued:
     }
   }
   return { queued, skipped: false };
+}
+
+export async function reformCoreDirections(orgSlug: string) {
+  const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  const profile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
+  if (!profile) throw new Error('Brand Lore profile required for reformation');
+  const nextVersion = incrementFormationVersion(engagement.brandLoreFormation?.formationVersion ?? 1);
+  const result = await getOrRunCoreDirectionFormation({
+    orgSlug,
+    profile,
+    formationVersion: nextVersion,
+    forceReform: true,
+    engagementId: engagement.id,
+  });
+  if (engagement.brandLoreFormation) {
+    engagement.brandLoreFormation.formationVersion = nextVersion;
+  }
+  engagement.coreDirectionFormationRecordId = result.record.formationId;
+  engagements.set(engagement.organization_id, engagement);
+  return result;
+}
+
+export async function retryFailedCoreDirectionFormation(orgSlug: string) {
+  const engagement = await ensureCreativeDirectionEngagement(orgSlug);
+  const profile = await getOrReconcileBrandLoreForOrg(engagement.organization_id, orgSlug);
+  if (!profile) throw new Error('Brand Lore profile required for formation retry');
+  const result = await retryCoreDirectionFormation({
+    orgSlug,
+    profile,
+    formationVersion: engagement.brandLoreFormation?.formationVersion ?? 1,
+    engagementId: engagement.id,
+    retryFailed: true,
+  });
+  engagement.coreDirectionFormationRecordId = result.record.formationId;
+  engagements.set(engagement.organization_id, engagement);
+  return result;
+}
+
+export async function getCoreDirectionFormationInspector(orgSlug: string) {
+  const payload = await getCreativeDirectionPayload(orgSlug);
+  return {
+    inspector: payload.coreDirectionFormation?.inspector ?? getCreativeIntelligenceInspectorSummary(null),
+    formation: payload.coreDirectionFormation?.record ?? null,
+    creativeIntelligence: payload.meta.creativeIntelligence,
+  };
 }

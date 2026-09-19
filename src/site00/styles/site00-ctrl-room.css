@@ -6,12 +6,35 @@
   min-height: 100dvh;
   display: grid;
   place-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
   background: #fff;
-  font-family: var(--site00-font-label);
-  font-size: var(--site00-size-label);
+  font-family: var(--site00-font-label, system-ui, sans-serif);
+  font-size: var(--site00-size-label, 0.75rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--site-text-muted);
+  color: var(--site-text-muted, #666);
+  text-align: center;
+}
+
+.site00-ctrl-room-loading__hint {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: #888;
+}
+
+.site00-ctrl-room-loading--sign-in {
+  gap: 1rem;
+}
+
+.site00-ctrl-room-loading__cta {
+  color: #111;
+  text-decoration: none;
+  border: 1px solid #111;
+  padding: 0.65rem 1rem;
+  letter-spacing: 0.12em;
 }
 
 .site00-ctrl-room-shell {

@@ -1,0 +1,47 @@
+/**
+ * P0.VR.3E — Implementation snapshot constants.
+ */
+
+export const P0_VR_3E_LINEAGE = 'P0.VR.3E' as const;
+
+export const IMPLEMENTATION_SNAPSHOT_STORAGE_ROOT = 'studio-world/design/implementation-snapshots' as const;
+
+/** P0.VR.3J.1 — Durable snapshot metadata registry (image bytes remain in Supabase). */
+export const IMPLEMENTATION_SNAPSHOT_PERSISTENT_REGISTRY_RELATIVE_PATH =
+  'public/studio-world/design/implementation-snapshot-persistent-registry.json' as const;
+
+export const IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE = 2 as const;
+
+/** Mobile viewport captures below this WebP size are blank/error shells (not real pages). */
+export const IMPLEMENTATION_SNAPSHOT_MIN_WEBP_BYTES = 12_000 as const;
+
+export const SCREENSHOT_CAPTURE_CONCURRENCY_DEFAULT = 3 as const;
+
+export const P0_VR_3E_FAILURE_CODES = [
+  'FAIL_SCREENSHOT_BLANK',
+  'FAIL_SCREENSHOT_WRONG_ROUTE',
+  'FAIL_SCREENSHOT_AUTH_REDIRECT',
+  'FAIL_SCREENSHOT_LEGACY_LOADING_SHELL',
+  'FAIL_SCREENSHOT_BROKEN_IMAGES',
+  'FAIL_SCREENSHOT_FONT_NOT_READY',
+  'FAIL_SCREENSHOT_RUNTIME_ERROR',
+  'FAIL_SCREENSHOT_WRONG_VIEWPORT',
+  'FAIL_SCREENSHOT_STORAGE_UPLOAD',
+  'FAIL_SCREENSHOT_STALE_POINTER',
+  'FAIL_IMPLEMENTATION_SNAPSHOT_PROMOTED_TO_REFERENCE',
+  'FAIL_FAL_USED_FOR_IMPLEMENTATION_CAPTURE',
+] as const;
+
+export const IMPLEMENTATION_SNAPSHOT_QA_FAILURES = [
+  'BLANK_PAGE',
+  'WRONG_ROUTE',
+  'AUTH_REDIRECT',
+  'LEGACY_LOADING_SHELL',
+  'BROKEN_IMAGES',
+  'FONT_NOT_READY',
+  'RUNTIME_ERROR',
+  'WRONG_VIEWPORT',
+  'ZERO_CONTENT',
+  'PAGE_NOT_FOUND',
+  'CAPTURE_ANCHOR_MISSING',
+] as const;

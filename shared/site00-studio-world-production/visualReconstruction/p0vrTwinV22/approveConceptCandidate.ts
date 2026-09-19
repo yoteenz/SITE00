@@ -1,0 +1,337 @@
+import type { ConceptDirectedTwinSession } from '../p0vrTwinV21/types.js';
+import type {
+  ConceptAssetManifest,
+  ConceptBlueprint,
+  ConceptCandidate,
+  ConceptFunctionBindingPlan,
+} from './types.js';
+import { buildApprovedVisualToCodePlan } from '../p0vrTwinV21/buildApprovedVisualToCodePlan.js';
+import { buildTwinV2VisualSpec } from '../p0vrTwinV21/buildTwinV2VisualSpec.js';
+import { buildExecutableConceptPackage } from './buildExecutableConceptPackage.js';
+import {
+  computeConceptBuildReadiness,
+  canBuildConcept,
+  isConceptTechnicallyReadyForBuild,
+} from './computeConceptBuildReadiness.js';
+import { ensureConceptGallery, getActiveConceptCandidate } from './conceptGalleryState.js';
+import { applyBlueprintOwnershipTags } from '../p0vrTwinV22R2/applyBlueprintOwnershipTags.js';
+import { sanitizeConceptForHostBoundary } from '../p0vrTwinV22R2/sanitizeConceptForHostBoundary.js';
+import { assertActiveConceptUsesExecutionBlueprint } from '../p0vrTwinV22R2/assertActiveConceptUsesExecutionBlueprint.js';
+import { assertPairedConceptApprovalGate } from '../p0vrTwinV25/assertPairedConceptApprovalGate.js';
+import { lockApprovedDesignBundle } from '../p0vrTwinV26/lockApprovedDesignBundle.js';
+import { assertNotStaleReview } from '../p0vrTwinV26/staleReviewGuard.js';
+import { assertBuildCompilerContracts } from '../p0vrTwinV26/assertBuildCompilerContracts.js';
+function activeConceptHasExecutablePackage(session: ConceptDirectedTwinSession): boolean {
+  const gallery = session.conceptGallery;
+  const active = gallery ? getActiveConceptCandidate(session) : null;
+  if (!gallery || !active) return false;
+  return Object.values(gallery.packages).some((p) => p.conceptId === active.conceptId);
+}
+
+function findExecutablePackageForConcept(
+  session: ConceptDirectedTwinSession,
+  conceptId: string,
+): import('./types.js').ExecutableConceptPackage | null {
+  const gallery = session.conceptGallery;
+  if (!gallery) return null;
+  return Object.values(gallery.packages).find((p) => p.conceptId === conceptId) ?? null;
+}
+
+/** True when gallery visual changed but ExecutableConceptPackage still locks the old image URL. */
+export function executablePackageVisualDrift(session: ConceptDirectedTwinSession): boolean {
+  const active = getActiveConceptCandidate(session);
+  if (!active?.visualAssetUrl) return false;
+  const pkg = findExecutablePackageForConcept(session, active.conceptId);
+  if (!pkg) return false;
+  return (
+    pkg.visualAuthority.imageUrl !== active.visualAssetUrl ||
+    (active.visualAsset != null && pkg.visualAuthority.imageStorageRef !== active.visualAsset)
+  );
+}
+
+/** Sync package visual authority + READY status from active candidate (rebuild / regenerate without re-approve). */
+export function refreshExecutablePackageForActiveCandidate(
+  session: ConceptDirectedTwinSession,
+): ConceptDirectedTwinSession {
+  const gallery = session.conceptGallery;
+  if (!gallery) return session;
+  const active = getActiveConceptCandidate(session);
+  if (!active?.visualAssetUrl) return session;
+
+  const existing = findExecutablePackageForConcept(session, active.conceptId);
+  if (!existing) return session;
+  if (!executablePackageVisualDrift(session)) return session;
+
+  const lockedAt = new Date().toISOString();
+  const pkg = {
+    ...existing,
+    visualAuthority: {
+      imageUrl: active.visualAssetUrl,
+      imageStorageRef: active.visualAsset,
+      lockedAt,
+    },
+    status: 'READY' as const,
+  };
+
+  const blueprintRaw =
+    (active.executionBlueprintId ? gallery.sanitizedBlueprints[active.executionBlueprintId] : null) ??
+    gallery.blueprints[active.conceptBlueprintId];
+  let clientCanvasBoundaries = gallery.clientCanvasBoundaries;
+  if (blueprintRaw) {
+    const hostBoundary = sanitizeConceptForHostBoundary({
+      conceptId: active.conceptId,
+      pageId: active.pageId,
+      blueprint: applyBlueprintOwnershipTags(blueprintRaw, { fullPageConceptImage: true }),
+      originalConceptImageUrl: active.visualAssetUrl,
+    });
+    clientCanvasBoundaries = {
+      ...gallery.clientCanvasBoundaries,
+      [active.conceptId]: hostBoundary.clientCanvasBoundary,
+    };
+  }
+
+  return {
+    ...session,
+    approvedVisualAuthority: {
+      versionId: active.legacyVersionId ?? active.conceptId,
+      imageUrl: active.visualAssetUrl,
+      imageStorageRef: active.visualAsset,
+      lockedAt,
+    },
+    conceptGallery: {
+      ...gallery,
+      packages: { ...gallery.packages, [pkg.packageId]: pkg },
+      clientCanvasBoundaries,
+    },
+    updatedAt: lockedAt,
+  };
+}
+
+function upsertExecutablePackageForActiveConcept(
+  session: ConceptDirectedTwinSession,
+  input: {
+    candidate: ConceptCandidate;
+    executableBlueprint: ConceptBlueprint;
+    manifest: ConceptAssetManifest;
+    bindingPlan: ConceptFunctionBindingPlan;
+    hostBoundary: import('../p0vrTwinV22R2/types.js').SanitizedConceptBoundaryResult;
+  },
+): ConceptDirectedTwinSession {
+  const gallery = session.conceptGallery!;
+  const existing = Object.values(gallery.packages).find((p) => p.conceptId === input.candidate.conceptId);
+
+  if (!canBuildConcept(input.candidate.buildReadiness, input.candidate.founderJudgment === 'APPROVED')) {
+    return session;
+  }
+
+  const pkg = buildExecutableConceptPackage({
+    candidate: input.candidate,
+    blueprint: input.executableBlueprint,
+    manifest: input.manifest,
+    bindingPlan: input.bindingPlan,
+    shellContract: existing?.shellContract ?? [
+      session.brandContext.hostClientFirewall,
+      'SITE 00 bottom nav — TwinSite00HostBottomNav (canonical, not generated)',
+    ],
+    hostShellContract: input.hostBoundary.hostShellContract ?? existing?.hostShellContract,
+    hostBoundary: input.hostBoundary,
+  });
+
+  const packageId = existing?.packageId ?? pkg.packageId;
+  const merged = {
+    ...pkg,
+    packageId,
+    createdAt: existing?.createdAt ?? pkg.createdAt,
+    status: 'READY' as const,
+  };
+
+  return {
+    ...session,
+    conceptGallery: {
+      ...gallery,
+      packages: { ...gallery.packages, [packageId]: merged },
+    },
+  };
+}
+
+/** Approve (if needed), ensure executable package, then return session ready for compose. */
+export function prepareConceptDirectedTwinV2Build(
+  session: ConceptDirectedTwinSession,
+): ConceptDirectedTwinSession {
+  let working =
+    session.conceptGallery?.candidates.length && session.conceptGallery.buildRef
+      ? session
+      : ensureConceptGallery(session);
+  if (executablePackageVisualDrift(working)) {
+    working = refreshExecutablePackageForActiveCandidate(working);
+  }
+  const active = getActiveConceptCandidate(working);
+  if (!active) {
+    throw new Error('TWIN_V2_BUILD_BLOCKED: no active concept');
+  }
+  if (!isConceptTechnicallyReadyForBuild(active.buildReadiness)) {
+    throw new Error(
+      'TWIN_V2_BUILD_BLOCKED: complete VISUAL, BLUEPRINT, ASSETS, FUNCTIONS, and HOST BOUNDARY before build',
+    );
+  }
+
+  if (active.founderJudgment !== 'APPROVED') {
+    working = approveActiveConceptCandidate(working);
+  } else if (!activeConceptHasExecutablePackage(working)) {
+    working = approveActiveConceptCandidate(working);
+  }
+
+  if (!activeConceptHasExecutablePackage(working)) {
+    throw new Error('TWIN_V2_CODE_BLOCKED: ExecutableConceptPackage required — approve failed or concept not build-ready');
+  }
+
+  assertBuildCompilerContracts(working);
+
+  return working;
+}
+
+export function approveActiveConceptCandidate(session: ConceptDirectedTwinSession): ConceptDirectedTwinSession {
+  const base = ensureConceptGallery(session);
+  const gallery = base.conceptGallery!;
+  const active = getActiveConceptCandidate(base);
+  if (!active?.visualAssetUrl && !active?.visualAsset) {
+    throw new Error('Cannot approve concept without persistent image');
+  }
+
+  const blueprintRaw = gallery.blueprints[active.conceptBlueprintId];
+  const manifest = gallery.manifests[active.assetManifestId];
+  const bindingPlan = gallery.bindingPlans[active.functionBindingPlanId];
+  const blueprint = applyBlueprintOwnershipTags(blueprintRaw, {
+    fullPageConceptImage: Boolean(active.visualAssetUrl),
+  });
+  const hostBoundary = sanitizeConceptForHostBoundary({
+    conceptId: active.conceptId,
+    pageId: active.pageId,
+    blueprint,
+    originalConceptImageUrl: active.visualAssetUrl,
+  });
+  const executableBlueprint = hostBoundary.sanitizedBlueprint;
+  if (!blueprint || !executableBlueprint || !manifest || !bindingPlan) {
+    throw new Error('TWIN_V22: missing blueprint lineage for approve');
+  }
+
+  assertPairedConceptApprovalGate({ candidate: active, gallery });
+
+  const compilerBundle = gallery.designCompilerBundles?.[active.conceptId];
+  if (active.conceptOrigin === 'DUAL_OUTPUT_PAIRED' && compilerBundle) {
+    assertNotStaleReview({ bundle: compilerBundle, uiBundleChecksum: compilerBundle.bundleChecksum.checksum });
+    if (compilerBundle.compilerReadiness?.status !== 'PASS') {
+      throw new Error('COMPILER_NOT_READY: cannot approve before compiler readiness pass');
+    }
+  }
+
+  assertActiveConceptUsesExecutionBlueprint({
+    candidate: { ...active, executionBlueprintId: executableBlueprint.blueprintId, originalBlueprintId: blueprint.blueprintId },
+    gallery: {
+      ...gallery,
+      sanitizedBlueprints: {
+        ...gallery.sanitizedBlueprints,
+        [executableBlueprint.blueprintId]: executableBlueprint,
+      },
+    },
+  });
+
+  const now = new Date().toISOString();
+  const updatedCandidate = {
+    ...active,
+    originalBlueprintId: blueprint.blueprintId,
+    executionBlueprintId: executableBlueprint.blueprintId,
+    founderJudgment: 'APPROVED' as const,
+    visualAuthorityStatus: 'LOCKED_FOR_BUILD' as const,
+    status: 'APPROVED' as const,
+    buildReadiness: computeConceptBuildReadiness({
+      candidate: { ...active, founderJudgment: 'APPROVED', visualAuthorityStatus: 'LOCKED_FOR_BUILD' },
+      blueprint: executableBlueprint,
+      manifest,
+      bindingPlan,
+      hostBoundary,
+    }),
+    updatedAt: now,
+  };
+
+  const candidates = gallery.candidates.map((c) => (c.conceptId === active.conceptId ? updatedCandidate : c));
+
+  const legacyVersionId = active.legacyVersionId ?? active.conceptId;
+  const approvedVisualAuthority = {
+    versionId: legacyVersionId,
+    imageUrl: active.visualAssetUrl,
+    imageStorageRef: active.visualAsset,
+    lockedAt: now,
+  };
+
+  let next: ConceptDirectedTwinSession = {
+    ...base,
+    status: 'TWIN_V2_APPROVED',
+    founderJudgment: {
+      ...base.founderJudgment,
+      lastAction: 'APPROVE',
+      approvedVersionId: legacyVersionId,
+      updatedAt: now,
+    },
+    approvedVisualAuthority,
+    approvedVisualToCodePlan: buildApprovedVisualToCodePlan(base, legacyVersionId),
+    twinV2VisualSpec: buildTwinV2VisualSpec(base, approvedVisualAuthority),
+    sourceGeneration: {
+      codeAllowed: canBuildConcept(updatedCandidate.buildReadiness, true),
+      lastBuildAt: base.sourceGeneration.lastBuildAt,
+    },
+    conceptGallery: {
+      ...gallery,
+      candidates,
+      activeConceptId: active.conceptId,
+      sanitizedBlueprints: {
+        ...gallery.sanitizedBlueprints,
+        [executableBlueprint.blueprintId]: executableBlueprint,
+      },
+      generatedHostArtifacts: {
+        ...gallery.generatedHostArtifacts,
+        [active.conceptId]: hostBoundary.generatedHostArtifacts,
+      },
+      clientCanvasBoundaries: {
+        ...gallery.clientCanvasBoundaries,
+        [active.conceptId]: hostBoundary.clientCanvasBoundary,
+      },
+    },
+    updatedAt: now,
+  };
+
+  next = upsertExecutablePackageForActiveConcept(next, {
+    candidate: updatedCandidate,
+    executableBlueprint,
+    manifest,
+    bindingPlan,
+    hostBoundary,
+  });
+
+  if (active.conceptOrigin === 'DUAL_OUTPUT_PAIRED' && compilerBundle) {
+    const locked = lockApprovedDesignBundle(compilerBundle, 'APPROVE_PAIRED_CONCEPT');
+    next = {
+      ...next,
+      conceptGallery: {
+        ...next.conceptGallery!,
+        designCompilerBundles: {
+          ...(next.conceptGallery!.designCompilerBundles ?? {}),
+          [active.conceptId]: locked,
+        },
+      },
+    };
+  }
+
+  if (active.legacyVersionId) {
+    next = {
+      ...next,
+      history: next.history.map((h) =>
+        h.versionId === active.legacyVersionId
+          ? { ...h, status: 'APPROVED' as const }
+          : { ...h, status: 'SUPERSEDED' as const },
+      ),
+    };
+  }
+
+  return next;
+}

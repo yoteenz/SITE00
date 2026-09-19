@@ -5,6 +5,7 @@ import {
   idntyLorePath,
   idntyLoreReviewPath,
 } from '../../../../../shared/site00-brand-lore/idnty-lore-questions';
+import { idntyPersonalityPath, personalityFirstStep } from '../../../../../shared/site00-brand-lore/idnty-personality-questions';
 import { resolveResponseMode } from '../../../../../shared/site00-brand-lore/loreAnswerTypes';
 import { resolveActiveLoreSteps, LORE_SKIP_VALUE } from '../../../../../shared/site00-brand-lore/adaptivity';
 import type { IdntyAssessmentStateId } from '../../../config/idnty-assessment';
@@ -90,7 +91,7 @@ export function IdentityLoreMobileStep({ stateSlug, stepId, calibrationMode }: I
     if (remaining.length > 0) {
       navigateTo(idntyLorePath(stateSlug, remaining[0]!.id));
     } else {
-      navigateTo(idntyLoreReviewPath(stateSlug));
+      navigateTo(idntyPersonalityPath(stateSlug, personalityFirstStep().id));
     }
   };
 

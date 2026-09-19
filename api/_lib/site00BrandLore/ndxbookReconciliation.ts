@@ -21,6 +21,7 @@ import { randomUUID } from 'node:crypto';
 import type { BrandLoreField, BrandLoreProfile } from '../../../shared/site00-brand-lore/types.js';
 import { classifyBrandExpressionContext } from '../../../shared/site00-brand-lore/contextClassification.js';
 import { evaluateCreativeDirectionReadiness } from '../../../shared/site00-brand-lore/readiness.js';
+import { reconcileNdxbookPersonality } from '../../../shared/site00-brand-lore/ndxbookPersonalityReconciliation.js';
 
 const HANDOFF_PATH = 'docs/studio-world/ndxbook/NDXBOOK_SITE00_HANDOFF.json';
 
@@ -136,6 +137,13 @@ export function buildNdxbookReconciledProfile(orgId: string): BrandLoreProfile {
   const readiness = evaluateCreativeDirectionReadiness(profile);
   profile.readinessState = readiness.state;
   profile.readinessMissingDomains = readiness.missingDomains;
+
+  const { personality } = reconcileNdxbookPersonality({
+    orgId,
+    loreProfile: profile,
+    existingPersonality: null,
+  });
+  profile.brandPersonality = personality;
 
   return profile;
 }

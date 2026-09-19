@@ -85,6 +85,33 @@ a.site00-btn-ghost:active {
   text-transform: none;
 }
 
+/* Form controls do not reliably inherit shell uppercase (notably mobile textarea). */
+:is(
+  .site00-shell,
+  .site00-assts-shell,
+  .site00-loader,
+  .site00-public-shell,
+  .site00-ctrl-room-shell,
+  .site00-desktop-artboard-shell,
+  .site00-mobile-shell,
+  .site00-immersive-loader,
+  .site00-fast-travel,
+  .site00-origin-layout-switch,
+  .site00-mobile-artboard,
+  .site00-mobile-artboard-shell,
+  .site00-mobile-device,
+  .site00-page,
+  .site00-ecosystem-shell,
+  .site00-signin-page,
+  .composition-studio
+)
+  :is(
+    input:not([type='password']):not(.site00-signin-form__input--password),
+    textarea:not(.site00-signin-form__input--password)
+  ) {
+  text-transform: uppercase;
+}
+
 .site00-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
 .site00-assts-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,
 .site00-public-shell input:not([type='password']):not(.site00-signin-form__input--password)::placeholder,

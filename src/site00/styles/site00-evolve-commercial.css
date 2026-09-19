@@ -1,0 +1,143 @@
+.site00-evolve-commercial {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3.5rem;
+}
+
+.site00-evolve-commercial__section {
+  margin-top: 2.5rem;
+}
+
+.site00-evolve-commercial__section-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: #808080;
+  margin-bottom: 0.75rem;
+}
+
+.site00-evolve-commercial__foundation {
+  border: 1px solid #eb1c24;
+  background: #fff5f5;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.site00-evolve-commercial__foundation-price {
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.site00-evolve-commercial__plans {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-top: 1rem;
+}
+
+.site00-evolve-plan-card {
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.site00-evolve-plan-card--recommended {
+  border: 2px solid #eb1c24;
+}
+
+.site00-evolve-plan-card__recommended-tag {
+  position: absolute;
+  top: -0.65rem;
+  right: 0.75rem;
+  background: #eb1c24;
+  color: #fff;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+}
+
+.site00-evolve-plan-card__hierarchy {
+  color: #eb1c24;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.site00-evolve-plan-card__price {
+  font-size: 1.35rem;
+  letter-spacing: 0.01em;
+}
+
+.site00-evolve-plan-card__service-model {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #333;
+}
+
+.site00-evolve-plan-card__capacity {
+  font-size: 0.7rem;
+  color: #808080;
+  letter-spacing: 0.04em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.site00-evolve-plan-card__features {
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.site00-evolve-commercial__project-services {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 1rem;
+}
+
+.site00-evolve-project-service-card {
+  border: 1px solid #e5e5e5;
+  background: #fff;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.site00-evolve-project-service-card__price {
+  font-size: 1.1rem;
+}
+
+.site00-evolve-commercial__paid-media {
+  border: 1px solid #e5e5e5;
+  padding: 1rem 1rem;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.site00-evolve-commercial__governance-note {
+  font-size: 0.65rem;
+  color: #808080;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 480px) {
+  .site00-evolve-commercial {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .site00-evolve-plan-card__price {
+    font-size: 1.15rem;
+  }
+}

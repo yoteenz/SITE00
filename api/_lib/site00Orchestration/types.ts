@@ -248,6 +248,7 @@ export type IngestionInput = {
   organizationName?: string;
   projectClassification?: string;
   projectType?: string;
+  projectSlug?: string;
   existingOrNew?: 'EXISTING' | 'NEW';
   currentState?: string;
   repositoryReference?: string;

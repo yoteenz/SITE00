@@ -8,6 +8,8 @@ A Cursor rule (`.cursor/rules/motherboard.mdc`) is set to **always apply**, so a
 
 Quick reference for humans: `docs/MOTHERBOARD_COMMANDS.md`.
 
+**Cloud Agents:** also read repo-root `AGENTS.md` — session close, git shipping, and cloud VM instructions (handoff-safe layer on top of `.cursor/rules/`).
+
 ---
 
 ## Auto-load and when you need to prompt

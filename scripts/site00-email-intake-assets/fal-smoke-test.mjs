@@ -1,4 +1,4 @@
-// One-off smoke test: confirm FAL_KEY is live and fal-ai/nano-banana-pro responds.
+// One-off smoke test: confirm FAL_KEY is live and openai/gpt-image-2 responds.
 // Not part of the production pipeline — safe to delete after the pilot.
 import { fal } from '@fal-ai/client';
 
@@ -11,13 +11,13 @@ fal.config({ credentials: falKey });
 
 const started = Date.now();
 try {
-  const result = await fal.subscribe('fal-ai/nano-banana-pro', {
+  const result = await fal.subscribe('openai/gpt-image-2', {
     input: {
       prompt:
         'A single minimal line drawing of a small cube on a plain white background, extremely simple, no text, no shadow.',
-      aspect_ratio: '1:1',
+      image_size: 'square_hd',
+      quality: 'high',
       output_format: 'png',
-      resolution: '1K',
       num_images: 1,
     },
     logs: false,
