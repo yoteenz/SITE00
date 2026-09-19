@@ -10532,3 +10532,16 @@ Founder sprint: recovered DESIGN must match **this morning immediately before do
 - **Recovery action:** restore morning **wide zoom selector** (`.tod-dcs--workspace-inline:has(.tod-ps[data-format='wide'])`); keep scroll on `.tod-ps__main`, zoom on `.tod-ps__main-zoom`, flex dock, Grok icons. Frame/body zoom from 441ae433 collapses flex scroll — documented, not re-applied.
 - **Tests:** `p0vrDesignMorningGoodStateRecovery1.test.ts`.
 - **Branch:** `cursor/design-morning-good-state-recovery1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-RELEASE429-EXACT-RESTORE1
+
+Founder sprint: **exact** DESIGN authority = production release **#429** / commit **441ae433** (GROK seven project tabs pack), without whole-repo rollback; keep EXPERIENCE + in-shell dock fix + Grok Canonical/List icons only.
+
+- **Inventory:** 69 `designBench/**` files at 441ae433; **7 paths** differ on main — manifest `docs/design-release429-restore-manifest.md`.
+- **Restore strategy:** No `git reset`; main already matched selective restore (bench byte-identical except allowlisted post-429 layers). Wide unit-space from 429 lives on `.tod-ps__main-zoom`; frame zoom from 429 not re-applied (breaks tab scroll).
+- **Stale audit:** Single production winner — `DesignWorkspaceCore` → `TwinOpusDirectScreen`; no duplicate DesignWorkspace route target.
+- **Tests:** `p0vrDesignRelease429ExactRestore1.test.ts` pins allowlist + dock/icon/EXPERIENCE markers.
+- **Visual QA:** `scripts/design-bench/release429-exact-restore1/capture.mjs` → `/opt/cursor/artifacts/design-release429-exact-restore1/` (Overview mobile/desktop, tabs, hamburger, panel dock, view-mode glyphs, Build-A-Wig mobile/desktop).
+- **Branch:** `cursor/design-release429-exact-restore1-9f72`.
