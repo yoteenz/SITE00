@@ -7,10 +7,10 @@ import { useRef } from 'react';
 
 import { DesignWorkspaceAgentButtons } from './DesignWorkspaceAgentButtons';
 import {
-  TWIN_OPUS_DIRECT_VIEW_MODES,
-  TWIN_OPUS_DIRECT_VIEW_MODE_LABELS,
-  type TwinOpusDirectViewMode,
-} from './twinOpusDirectWorkspace';
+  DesignViewModeGrokIcon,
+  TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS,
+} from './designViewModeGrokIcons';
+import { TWIN_OPUS_DIRECT_VIEW_MODES, type TwinOpusDirectViewMode } from './twinOpusDirectWorkspace';
 
 interface TwinOpusDirectViewModeControlProps {
   mode: TwinOpusDirectViewMode;
@@ -49,8 +49,8 @@ export function TwinOpusDirectViewModeControl({ mode, onChange }: TwinOpusDirect
               aria-checked={active}
               tabIndex={active ? 0 : -1}
               className={`tod-viewmode__cell${active ? ' is-active' : ''}`}
-              aria-label={TWIN_OPUS_DIRECT_VIEW_MODE_LABELS[candidate]}
-              title={TWIN_OPUS_DIRECT_VIEW_MODE_LABELS[candidate]}
+              aria-label={TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS[candidate]}
+              title={TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS[candidate]}
               onClick={() => onChange(candidate)}
               onKeyDown={(event) => {
                 if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
@@ -63,20 +63,9 @@ export function TwinOpusDirectViewModeControl({ mode, onChange }: TwinOpusDirect
               }}
             >
               <span className="tod-viewmode__icon" aria-hidden="true">
-                {candidate === 'canonical' ?
-                  <svg viewBox="0 0 16 16" focusable="false">
-                    <rect x="1.5" y="1.5" width="13" height="13" />
-                    <line x1="1.5" y1="5.5" x2="14.5" y2="5.5" />
-                    <line x1="6" y1="5.5" x2="6" y2="14.5" />
-                  </svg>
-                : <svg viewBox="0 0 16 16" focusable="false">
-                    <line x1="1.5" y1="4" x2="14.5" y2="4" />
-                    <line x1="1.5" y1="8" x2="14.5" y2="8" />
-                    <line x1="1.5" y1="12" x2="14.5" y2="12" />
-                  </svg>
-                }
+                <DesignViewModeGrokIcon mode={candidate} />
               </span>
-              <span className="tod-viewmode__sr">{TWIN_OPUS_DIRECT_VIEW_MODE_LABELS[candidate]}</span>
+              <span className="tod-viewmode__sr">{TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS[candidate]}</span>
             </button>
           );
         })}
