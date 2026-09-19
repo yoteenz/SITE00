@@ -282,6 +282,13 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
   const control = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectViewModeControl.tsx');
   const canonicalView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
   const listView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
+  const pageSystemReviewSection = readRepo(
+    'src/site00/components/designBench/opusDirect/DesignPageSystemReviewSection.tsx',
+  );
+  const pipelineReadinessPanel = readRepo(
+    'src/site00/components/designBench/opusDirect/DesignPipelineReadinessPanel.tsx',
+  );
+  const canonicalWorkspacePanels = pageSystemReviewSection + pipelineReadinessPanel;
 
   it('declares exactly two modes and defaults to canonical', () => {
     expect(TWIN_OPUS_DIRECT_VIEW_MODES).toEqual(['canonical', 'list']);
@@ -365,14 +372,22 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
   });
 
   it('freezes the canonical renderer behind the mode boundary', () => {
-    for (const marker of ['tod-herorow', 'tod-gallery', 'tod-out', 'tod-pipe', 'tod-actions']) {
+    for (const marker of ['tod-herorow', 'tod-gallery', 'tod-actions']) {
       expect(canonicalView).toContain(marker);
+    }
+    // P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 / PIPELINE-READINESS2: shared panels own tod-out / tod-pipe.
+    expect(canonicalView).toContain('DesignPageSystemReviewSection');
+    expect(canonicalView).toContain('DesignPipelineReadinessPanel');
+    for (const marker of ['tod-out', 'tod-pipe', 'tod-out__col', 'tod-pipe__col']) {
+      expect(canonicalWorkspacePanels).toContain(marker);
     }
     // Spark authors the list view in its own namespace: no canonical panels
     // rebuilt under canonical classes.
     for (const marker of ['tod-herorow', 'tod-gallery', 'tod-card', 'tod-out__col', 'tod-pipe__col', 'tod-rail']) {
       expect(listView).not.toContain(marker);
     }
+    expect(listView).toContain('DesignPageSystemReviewSection');
+    expect(listView).toContain('DesignPipelineReadinessPanel');
   });
 
   it('replaces the list placeholder with the Spark digest renderer', () => {
@@ -398,14 +413,15 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
       'tod-lv-gallery',
       'tod-lv-card',
       'tod-lv-actions',
-      'tod-lv-out',
-      'tod-lv-pipe',
       'tod-lv-tabs',
       'tod-lv-concept',
     ]) {
       expect(listView).toContain(marker);
       expect(listCss).toContain(marker);
     }
+    // Page system + pipeline panels are shared with canonical (tod-out / tod-pipe), not tod-lv-out forks.
+    expect(listView).toContain('DesignPageSystemReviewSection');
+    expect(listView).toContain('DesignPipelineReadinessPanel');
     // No source-namespace remnants and no R1 inventions survive.
     expect(listCss).not.toContain('tsr-');
     expect(listView).not.toContain('tsr-');
@@ -518,9 +534,11 @@ describe('P0.VR.DESIGNBENCH.OPUS-LIST-REFINE1 — control reposition + list clea
 
   it('keeps Spark grammar while aligning controls and heading weight', () => {
     // Digest sequencing, sectioning and module scale stay Spark's.
-    for (const marker of ['tod-lv-band', 'tod-lv-herorow', 'tod-lv-gallery', 'tod-lv-out', 'tod-lv-pipe']) {
+    for (const marker of ['tod-lv-band', 'tod-lv-herorow', 'tod-lv-gallery']) {
       expect(listView).toContain(marker);
     }
+    expect(listView).toContain('DesignPageSystemReviewSection');
+    expect(listView).toContain('DesignPipelineReadinessPanel');
     // The one circular control becomes sharp; the circular badges stay round.
     const next = listCss.slice(listCss.indexOf('.tod-lv-gallery__next {'));
     expect(next.slice(0, next.indexOf('}'))).not.toContain('50%');
