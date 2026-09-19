@@ -14,7 +14,7 @@
  */
 
 import type { CSSProperties, ReactNode } from 'react';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { Children, createContext, isValidElement, useContext, useEffect, useState } from 'react';
 
 import { overlayTone } from './designOverlayKit';
 
@@ -65,9 +65,23 @@ export function ProjectSurface({
   children: ReactNode;
 }) {
   const format = useShellFormat();
+  const content: ReactNode[] = [];
+  let actionBar: ReactNode = null;
+
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && child.type === ProjectActionBar) {
+      actionBar = child;
+      return;
+    }
+    if (child != null && child !== false) {
+      content.push(child);
+    }
+  });
+
   return (
     <div className="tod-ps" data-surface={id} data-format={format}>
-      {children}
+      <div className="tod-ps__main">{content}</div>
+      {actionBar}
     </div>
   );
 }
