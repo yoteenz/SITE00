@@ -164,6 +164,7 @@ export interface TwinOpusDirectWorkspaceData {
     conceptMeta: string;
     conceptEmptyLabel: string;
     captureBusy: boolean;
+    captureError: string | null;
   };
   heroAssembly: HeroAssemblyActionsModel;
 }
@@ -251,6 +252,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageTarget.pageId,
     pageTarget.screenId,
     viewport,
+    pageTarget.route,
   );
   const pageAuthority = usePageAuthorityWorkflow(projectSlug, pageTarget.pageId);
 
@@ -800,12 +802,13 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
       heroCompare: {
         currentSrc,
-        currentMeta: capturedLabel,
-        currentEmptyLabel: 'NO CURRENT CAPTURE',
+        currentMeta: pageCapture.error ? 'CAPTURE FAILED' : capturedLabel,
+        currentEmptyLabel: pageCapture.error ? pageCapture.error : 'NO CURRENT CAPTURE',
         conceptSrc,
         conceptMeta: selectedPageConcept?.conceptTitle?.toUpperCase() ?? '—',
         conceptEmptyLabel,
         captureBusy: pageCapture.capturing,
+        captureError: pageCapture.error,
       },
       heroAssembly: (() => {
         const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
@@ -833,6 +836,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     candidateId,
     pagePipeline,
     pageCapture.capturing,
+    pageCapture.error,
     pageCapture.latest,
     pageTarget,
     pageViewportBundle,

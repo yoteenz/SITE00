@@ -3,6 +3,7 @@
  */
 
 import { registerProjectDesignScreens, listDesignScreensForProject } from '../p0vr2/designScreenRegistry.js';
+import { registerNdxbookDesignPilot } from '../p0vr2/ndxPilotRegistration.js';
 import { registerSite00DesignPilot } from '../p0vr3a/site00PilotRegistration.js';
 import type { DesignScreenDefinition } from '../p0vr2/types.js';
 import { syncAstralScreensToDesignRegistry } from '../../../site00-astral-world/screen-masters/vr2Adapter.js';
@@ -146,7 +147,9 @@ export function bootstrapManagedDesignProject(projectId: string): void {
       BOOTSTRAPPED.add(projectId);
       return;
     case 'ndxbook':
-      // P0.VR.8R2 recovery already registers pilot + full routeInventory merge — do not overwrite.
+      if (listDesignScreensForProject('ndxbook').length === 0) {
+        registerNdxbookDesignPilot();
+      }
       markProjectPagesSynced(projectId);
       BOOTSTRAPPED.add(projectId);
       return;
