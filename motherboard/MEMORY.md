@@ -10510,3 +10510,13 @@ Micro follow-up after DESIGN regression recovery: Canonical/List view-mode contr
 - **Tests:** `p0vrDesignViewmodeIconReapply1.test.ts`; updated view-row size guard in `p0vrDesignBenchOpusDirect.test.ts`.
 - **QA:** `/opt/cursor/artifacts/design-viewmode-icon-reapply1/viewmode-{mobile,desktop}.png`.
 - **Branch:** `cursor/design-viewmode-icon-reapply1-9f72`.
+
+---
+
+## 2026-09-19 — P0.DESIGN.IN-SHELL-TAB-SCROLL-FIX1 (follow-up to dock fix)
+
+Founder: in-shell project tabs lost scroll after dock positioning fix — content clipped, action bar pinned but main area would not scroll.
+
+- **Root cause:** `zoom` on `.tod-ps__main` (the overflow scroll container) breaks touch/overflow scrolling; absolute action bar + `height: 100%` compounded the flex chain.
+- **Fix:** Flex column on `.tod-ps`; scroll on `.tod-ps__main`; zoom moved to inner `.tod-ps__main-zoom`; action bar `flex: 0 0 auto` (panel bottom, not sticky/fixed/absolute).
+- **Branch:** `cursor/in-shell-tab-scroll-fix1-9f72`.
