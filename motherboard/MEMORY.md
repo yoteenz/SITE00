@@ -10498,3 +10498,15 @@ Founder sprint: after **EXPERIENCE.MODULE-WIRING1** (PR #1008 @ `3986143e`), DES
 - **Guards:** `tests/p0vrDesignRegressionRecovery1.test.ts`; capture harness `scripts/design-bench/regression-recovery1/capture.mjs` (short waits, `goldenDiffCapture=1` for EXPERIENCE auth bypass in CI/headless).
 - **QA screenshots:** `/opt/cursor/artifacts/design-regression-recovery1/*.png` — NDXBOOK DESIGN overview/references/assets/history + Build-A-Wig mobile/desktop.
 - **Branch:** `cursor/design-regression-recovery1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-VIEWMODE-ICON-REAPPLY1
+
+Micro follow-up after DESIGN regression recovery: Canonical/List view-mode controls showed visible **CANONICAL** / **LIST** text and placeholder 16×16 SVGs instead of approved Grok marks.
+
+- **Root cause:** Overlay sprint (`cd995de4`) swapped text labels for inline placeholder SVGs but never wired **P0.VR.DESIGN.GROK-VISUAL-SYSTEM1** (`f291ae0f`) canonical/list glyphs; `.tod-viewmode__sr` had no visually-hidden CSS so uppercase labels stayed visible.
+- **Fix:** `designViewModeGrokIcons.tsx` — exact canonical/list paths from Grok visual-system family; `TwinOpusDirectViewModeControl` uses `DesignViewModeGrokIcon`; a11y `Canonical view` / `List view`; CSS sr-only + icon sizing (active black/lime, inactive paper/black).
+- **Tests:** `p0vrDesignViewmodeIconReapply1.test.ts`; updated view-row size guard in `p0vrDesignBenchOpusDirect.test.ts`.
+- **QA:** `/opt/cursor/artifacts/design-viewmode-icon-reapply1/viewmode-{mobile,desktop}.png`.
+- **Branch:** `cursor/design-viewmode-icon-reapply1-9f72`.
