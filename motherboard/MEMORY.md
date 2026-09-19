@@ -10520,3 +10520,15 @@ Founder: in-shell project tabs lost scroll after dock positioning fix — conten
 - **Root cause:** `zoom` on `.tod-ps__main` (the overflow scroll container) breaks touch/overflow scrolling; absolute action bar + `height: 100%` compounded the flex chain.
 - **Fix:** Flex column on `.tod-ps`; scroll on `.tod-ps__main`; zoom moved to inner `.tod-ps__main-zoom`; action bar `flex: 0 0 auto` (panel bottom, not sticky/fixed/absolute).
 - **Branch:** `cursor/in-shell-tab-scroll-fix1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-MORNING-GOOD-STATE-RECOVERY1
+
+Founder sprint: recovered DESIGN must match **this morning immediately before dock + Canonical/List icon work**, not an older pre-EXPERIENCE snapshot.
+
+- **Forensic chronology (UTC 2026-09-19):** `LAST_GOOD_MORNING` = **441ae433** (merge #1010 Grok tab assets, after #1009 project tabs + #1008 EXPERIENCE). **FIRST_DOCK_FIX** = 438a196a (#1012). **FIRST_VIEW_ICON** = 31344bbd (#1014). **STALE_RECOVERY** = 977ca298 (#1013 — EXPERIENCE `Site00Layout` + guard tests only; did **not** revert DESIGN bench to pre-#1009).
+- **Diff 441ae433 → main:** only `designProjectSurfaceKit.tsx` (scroll/dock split), `site00-design-project-surface.css` + child-surface flex, view-mode Grok icons, EXPERIENCE route wrapper. Twin shell / hero / overlays / projectTabs unchanged since morning.
+- **Recovery action:** restore morning **wide zoom selector** (`.tod-dcs--workspace-inline:has(.tod-ps[data-format='wide'])`); keep scroll on `.tod-ps__main`, zoom on `.tod-ps__main-zoom`, flex dock, Grok icons. Frame/body zoom from 441ae433 collapses flex scroll — documented, not re-applied.
+- **Tests:** `p0vrDesignMorningGoodStateRecovery1.test.ts`.
+- **Branch:** `cursor/design-morning-good-state-recovery1-9f72`.
