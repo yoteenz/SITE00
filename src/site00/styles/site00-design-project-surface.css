@@ -71,6 +71,23 @@
   flex-direction: column;
 }
 
+/* In-shell tabs render through DesignProductionChildShell embedded wrapper;
+   it must participate in the flex column or .tod-ps collapses to the dock only. */
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-child-embedded {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  align-self: stretch;
+}
+
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-child-embedded > .tod-ps {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
 .tod-screen > .tod-dcs--workspace-inline:has(.tod-ps) {
   flex: 1 1 auto;
   min-height: 0;
