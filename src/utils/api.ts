@@ -102,6 +102,27 @@ export async function getAccessToken(): Promise<string | null> {
   return null;
 }
 
+/** Force Supabase refresh (e.g. after API 401) before retrying authenticated fetches. */
+export async function refreshAccessTokenForApi(): Promise<string | null> {
+  const supabase = (await import('./supabase')).getSupabase();
+  if (!supabase) return readAccessTokenFromSupabaseStorage();
+
+  await hydrateSupabaseSessionFromStorageIfNeeded(supabase);
+
+  const blob = readSupabaseSessionBlobFromStorage();
+  try {
+    if (blob?.refresh_token) {
+      await supabase.auth.refreshSession({ refresh_token: blob.refresh_token });
+    } else {
+      await supabase.auth.refreshSession();
+    }
+  } catch {
+    /* fall through to getAccessToken */
+  }
+
+  return getAccessToken();
+}
+
 type ApiFetchOptions = Omit<RequestInit, 'body'> & { body?: unknown };
 
 /** Serialize apiFetch body once — callers may pass objects or pre-stringified JSON. */
