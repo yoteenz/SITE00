@@ -7,4 +7,4 @@ Approved asset mutation: NONE
 
 These files are for founder review only.
 Do not copy them into an approved manifest without an explicit approve.
-Open index.html to inspect paper / lime / ink variants.
+Open review.html to inspect paper / lime / ink variants.

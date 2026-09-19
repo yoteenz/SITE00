@@ -72,7 +72,7 @@ const tiles = defs
   .join('');
 
 writeFileSync(
-  join(outDir, 'index.html'),
+  join(outDir, 'review.html'),
   `<!doctype html>
 <html lang="en">
 <meta charset="utf-8"/>
@@ -128,7 +128,7 @@ writeFileSync(
     '',
     'These files are for founder review only.',
     'Do not copy them into an approved manifest without an explicit approve.',
-    'Open index.html to inspect paper / lime / ink variants.',
+    'Open review.html to inspect paper / lime / ink variants.',
     '',
   ].join('\n'),
 );
