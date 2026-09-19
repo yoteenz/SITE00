@@ -14,7 +14,8 @@ export function DesignViewportAuthorityEditorOverlay({
   viewport: 'MOBILE' | 'DESKTOP';
   onClose: () => void;
 }) {
-  const pageId = readDesignPageTarget(projectSlug)?.pageId ?? `${projectSlug}:overview`;
+  const pageTarget = readDesignPageTarget(projectSlug);
+  const pageId = pageTarget?.pageId ?? `${projectSlug}:overview`;
   const workflowApi = usePageAuthorityWorkflow(projectSlug, pageId);
   const reference =
     viewport === 'MOBILE' ? workflowApi.workflow.mobileAuthority : workflowApi.workflow.desktopAuthority;
@@ -24,6 +25,7 @@ export function DesignViewportAuthorityEditorOverlay({
       viewport={viewport}
       reference={reference}
       workflowApi={workflowApi}
+      pageLabel={pageTarget?.pageLabel ?? pageId}
       onClose={onClose}
       onFullscreen={(src, title, subtitle) =>
         production.actions.openFullscreenArtifact({ src, title, subtitle, role: 'authority-reference', viewport })

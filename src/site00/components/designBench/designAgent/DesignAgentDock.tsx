@@ -1,26 +1,20 @@
 /**
- * P0.VR.OPUS-NATIVE2 — Phase 2, 3, 4, 7, 22, 26, 32: Opus inside DESIGN.
+ * P0.VR.OPUS-NATIVE2 + P0.VR.DESIGN.OPUS-AI-CONSOLES1 — the Opus design agent console.
  *
  * Presentation decision, and the reason for it:
  *
- * A right-edge drawer, mounted outside the artboard's transform and collapsed
- * to a narrow rail by default. The DESIGN workspace is a proportionally scaled
- * full-bleed artboard — anything rendered inside it inherits `transform:
- * scale()` and stops being legible at small viewports, and anything floating
- * on top of it covers the thing being designed. A rail costs a strip of gutter
- * and never occludes the canvas, which is the one thing a design surface
- * cannot afford to lose.
+ * Opus is the interface/page-framework design agent, so its console is a design
+ * workbench: what it is looking at comes first as a real page preview, what it
+ * may change is a visible scope, and the request is a composed brief rather
+ * than a bare prompt. It is deliberately not a chat window — the agent's inputs
+ * are structured (intent, mode, scope, spend) and a free-text box would hide
+ * all four behind a sentence the model then has to guess the meaning of.
  *
- * It is deliberately not a chat window. There is no message list and no
- * conversational affordance, because the agent's inputs are structured —
- * intent, mode, scope, spend — and a free-text box would hide all four behind
- * a sentence the model then has to guess the meaning of. The founder types the
- * change they want; everything else is a control with a visible current value.
- *
- * The flow is fixed and always in this order: TARGET is shown, INTENT and MODE
- * are chosen, ESTIMATE is required before DISPATCH, authorization is requested
- * if the intent outruns the page's standing authority, and the run ends at a
- * review the founder has to answer.
+ * The flow is fixed and always in this order: context is shown, INTENT and MODE
+ * are chosen, an ESTIMATE is required before the run, authorization is
+ * requested if the intent outruns the page's standing authority, and the run
+ * ends at a review the founder has to answer — in this console, not on a
+ * separate diagnostic page.
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -37,6 +31,21 @@ import {
   type WriteAuthorizationRequest,
 } from '../../../../../shared/site00-opus-native/writePolicy';
 import {
+  composeOpusRequest,
+  opusConsoleStatus,
+  opusContextAssistText,
+  opusEditScopeRows,
+  OPUS_CONSOLE_TABS,
+  OPUS_INTENT_PRESENTATION,
+  OPUS_MODE_PRESENTATION,
+  type OpusConsoleTabId,
+  type OpusReferenceInput,
+} from '../../../../../shared/site00-design-workspace-production/designAiConsolePresentation.js';
+import { loadPageCaptureHistory } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
+import { loadPageAuthorityWorkflow } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
+import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import { compileDesignPageContext } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageContext.js';
+import {
   continueRun,
   estimateRun,
   fetchRunStatus,
@@ -47,46 +56,42 @@ import {
   WriteAccessRequiredError,
   type OpusNativeServiceInfo,
 } from '../opusNative/opusNativeClient';
+import {
+  AiConsoleButton,
+  AiConsoleEmptyState,
+  AiConsoleMeta,
+  AiConsolePreview,
+  AiConsoleSection,
+  AiConsoleSectionAction,
+  AiConsoleSurface,
+  AiConsoleTab,
+} from '../aiConsoles/AiConsoleShell';
 import { useDesignAgentDock } from './DesignAgentDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
 import '../../../styles/site00-design-agent.css';
 
-/**
- * Phase 3 — the status vocabulary the sprint specifies, mapped from the
- * runtime's own union. The runtime reports what it is doing at tool
- * granularity; the founder wants the phase.
- */
-function phaseLabel(run: OpusNativeRun | null, estimating: boolean): string {
-  if (estimating) return 'COMPILING CONTEXT';
-  if (!run) return 'READY';
-  switch (run.status) {
-    case 'THINKING':
-      return 'THINKING';
-    case 'RENDERING':
-      return 'RENDERING';
-    case 'TOOL_USE': {
-      const last = run.toolCalls.at(-1)?.tool ?? '';
-      if (last.includes('compare')) return 'COMPARING';
-      if (last.includes('test') || last.includes('typecheck')) return 'TESTING';
-      if (last.includes('patch') || last.includes('create_file')) return 'PATCHING';
-      if (last.includes('read') || last.includes('search') || last.includes('discover')) return 'READING';
-      return 'WORKING';
-    }
-    case 'WAITING_FOR_FOUNDER_REVIEW':
-      return 'WAITING FOR FOUNDER REVIEW';
-    default:
-      return run.status;
-  }
-}
+const DRAFT_KEY = 'site00:opus-console-draft:v1:';
 
 function usd(value: number | null | undefined): string {
   if (value === null || value === undefined) return '—';
   return `$${value.toFixed(3)}`;
 }
 
+function readDraft(pageKey: string): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    return window.sessionStorage.getItem(DRAFT_KEY + pageKey) ?? '';
+  } catch {
+    return '';
+  }
+}
+
 export function DesignAgentDock() {
   const targeting = useDesignAgentTarget();
   const { open, setOpen } = useDesignAgentDock();
+  const [tab, setTab] = useState<OpusConsoleTabId>('DESIGN');
+  const [showScope, setShowScope] = useState(false);
+  const [showReferences, setShowReferences] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [service, setService] = useState<OpusNativeServiceInfo | null>(null);
   const [serviceError, setServiceError] = useState<string | null>(null);
@@ -94,6 +99,8 @@ export function DesignAgentDock() {
   const [intent, setIntent] = useState<DesignAgentIntent>('REFINE_CURRENT');
   const [mode, setMode] = useState<OpusNativeMode>('DESIGN');
   const [task, setTask] = useState('');
+  const [selectedReferenceIds, setSelectedReferenceIds] = useState<string[]>([]);
+  const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null);
 
   const [estimate, setEstimate] = useState<OpusNativeEstimateResponse | null>(null);
   const [estimating, setEstimating] = useState(false);
@@ -104,9 +111,9 @@ export function DesignAgentDock() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [changeNote, setChangeNote] = useState('');
-  const [showContext, setShowContext] = useState(false);
 
   const pollRef = useRef<number | null>(null);
+  const pageKey = `${targeting.projectSlug}:${targeting.pageId ?? 'workspace'}`;
 
   useEffect(() => {
     fetchServiceInfo()
@@ -114,22 +121,15 @@ export function DesignAgentDock() {
       .catch((cause: Error) => setServiceError(cause.message));
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, setOpen]);
-
   // A change of page invalidates an estimate and a grant: both were scoped to
-  // the surface that is no longer on screen.
+  // the surface that is no longer on screen. The draft is page-scoped too.
   useEffect(() => {
     setEstimate(null);
     setAuthorization(null);
     setGrant(null);
-  }, [targeting.pageId]);
+    setTask(readDraft(pageKey));
+    setSelectedReferenceIds([]);
+  }, [pageKey]);
 
   useEffect(() => {
     if (!run || TERMINAL_STATUSES.has(run.status)) {
@@ -147,8 +147,63 @@ export function DesignAgentDock() {
     };
   }, [run?.runId, run?.status]);
 
+  useEffect(() => {
+    if (run?.status === 'WAITING_FOR_FOUNDER_REVIEW') setTab('REVIEW');
+  }, [run?.status]);
+
   const spec = DESIGN_AGENT_INTENT_SPECS[intent];
   const diagnostics = service?.diagnostics ?? null;
+  const pageId = targeting.pageId ?? `${targeting.projectSlug}:overview`;
+  const viewport = targeting.target.viewport ?? 'MOBILE';
+  const viewMode = String(targeting.target.viewMode ?? 'canonical');
+
+  const pageContext = useMemo(
+    () => compileDesignPageContext(targeting.projectSlug, pageId),
+    [pageId, targeting.projectSlug],
+  );
+
+  /** What Opus is looking at — the real page artefacts, in fallback order. */
+  const references = useMemo<OpusReferenceInput[]>(() => {
+    if (!open) return [];
+    const capture = loadPageCaptureHistory(targeting.projectSlug, pageId, viewport);
+    const concepts = listPageConceptCandidates(targeting.projectSlug, pageId);
+    const concept = concepts.find((entry) => entry.status === 'SELECTED' || entry.status === 'PROMOTED') ?? concepts[0] ?? null;
+    const workflow = loadPageAuthorityWorkflow(targeting.projectSlug, pageId);
+    const authority = viewport === 'DESKTOP' ? workflow.desktopAuthority : workflow.mobileAuthority;
+    const authorityVersion = authority.versions.find((version) => version.versionId === authority.activeVersionId);
+
+    const rows: OpusReferenceInput[] = [];
+    if (capture.latest?.artifactPath) {
+      rows.push({
+        id: 'current-capture',
+        label: 'CURRENT CAPTURE',
+        src: capture.latest.artifactPath,
+        origin: `capture ${capture.latest.timestamp.slice(0, 10)}`,
+      });
+    }
+    if (concept?.visualReference) {
+      rows.push({
+        id: 'page-concept',
+        label: 'PAGE CONCEPT',
+        src: concept.visualReference,
+        origin: concept.conceptTitle,
+      });
+    }
+    if (authorityVersion?.imageUrl) {
+      rows.push({
+        id: 'authority-reference',
+        label: `${viewport} AUTHORITY`,
+        src: authorityVersion.imageUrl,
+        origin: authorityVersion.label,
+      });
+    }
+    return rows;
+  }, [open, pageId, targeting.projectSlug, viewport]);
+
+  const selectedReferences = references.filter((reference) => selectedReferenceIds.includes(reference.id));
+  const heroReference = references[0] ?? null;
+
+  const composedTask = composeOpusRequest(task, selectedReferences);
 
   const onEstimate = useCallback(async () => {
     setEstimating(true);
@@ -157,7 +212,7 @@ export function DesignAgentDock() {
     try {
       const response = await estimateRun({
         mode,
-        task: task.trim() || spec.description,
+        task: composedTask || spec.description,
         target: targeting.target,
         intent,
         writeGrant: grant,
@@ -169,7 +224,7 @@ export function DesignAgentDock() {
     } finally {
       setEstimating(false);
     }
-  }, [mode, task, spec.description, targeting.target, intent, grant]);
+  }, [mode, composedTask, spec.description, targeting.target, intent, grant]);
 
   const onDispatch = useCallback(async () => {
     setBusy(true);
@@ -177,7 +232,7 @@ export function DesignAgentDock() {
     try {
       const response = await startRunAuthorised({
         mode,
-        task: task.trim(),
+        task: composedTask,
         target: targeting.target,
         founderConfirmedSpend: true,
         intent,
@@ -191,7 +246,7 @@ export function DesignAgentDock() {
     } finally {
       setBusy(false);
     }
-  }, [mode, task, targeting.target, intent, grant]);
+  }, [mode, composedTask, targeting.target, intent, grant]);
 
   const onReview = useCallback(
     async (action: 'approve' | 'revert' | 'cancel') => {
@@ -229,8 +284,17 @@ export function DesignAgentDock() {
     }
   }, [run, changeNote]);
 
-  // Phase 22 — dispatch is gated on a current estimate, so the price is
-  // always something the founder saw rather than something they accepted.
+  const saveDraft = useCallback(() => {
+    try {
+      window.sessionStorage.setItem(DRAFT_KEY + pageKey, task);
+      setDraftSavedAt(new Date().toISOString());
+    } catch {
+      setError('Draft could not be saved in this browser.');
+    }
+  }, [pageKey, task]);
+
+  // Dispatch is gated on a current estimate, so the price is always something
+  // the founder saw rather than something they accepted.
   const dispatchDisabled =
     !estimate ||
     busy ||
@@ -238,9 +302,26 @@ export function DesignAgentDock() {
     task.trim().length === 0 ||
     !estimate.modeFitsBudget;
 
-  const status = phaseLabel(run, estimating);
+  const dispatchReason =
+    task.trim().length === 0 ? 'Describe the change first.'
+    : !estimate ? 'Estimate the run first — Opus never spends before you see the price.'
+    : authorization ? 'Write access must be granted or denied first.'
+    : !estimate.modeFitsBudget ? estimate.modeFitDetail
+    : busy ? 'Run in progress.'
+    : null;
+
+  const status = opusConsoleStatus({
+    runStatus: run?.status ?? null,
+    lastTool: run?.toolCalls.at(-1)?.tool ?? null,
+    estimating,
+    failed: Boolean(run?.failure) || Boolean(error),
+  });
   const review = run?.review ?? null;
   const cost = run?.receipt?.actualUsd ?? run?.guard.spentUsd ?? null;
+  const permittedMode = estimate?.permittedMode ?? targeting.standingWriteMode ?? 'READ_ONLY';
+  const scopeRows = opusEditScopeRows(permittedMode);
+  const intentPresentation = OPUS_INTENT_PRESENTATION[intent];
+  const modePresentation = OPUS_MODE_PRESENTATION[mode];
 
   const shotUrl = useMemo(
     () => (id: string) =>
@@ -248,355 +329,563 @@ export function DesignAgentDock() {
     [run?.runId],
   );
 
+  if (!open) return <div data-testid="design-agent-dock" hidden />;
+
+  const runProgressLabel =
+    run && !TERMINAL_STATUSES.has(run.status) ?
+      `${status.label} · ${run.guard.iterations} ITER · ${usd(cost)}`
+    : null;
+
   return (
-    <>
-      {open ?
-        <button
-          type="button"
-          className="s00-dad__backdrop"
-          aria-label="Close design agent"
-          onClick={() => setOpen(false)}
-        />
-      : null}
-      <aside className={`s00-dad${open ? ' s00-dad--open' : ''}`} data-testid="design-agent-dock">
-        <div className="s00-dad__panel" id="s00-dad-panel" hidden={!open} role="dialog" aria-modal="true" aria-label="Opus design agent">
-        <header className="s00-dad__head">
-          <span className="s00-dad__title">OPUS DESIGN AGENT</span>
-          <div className="s00-dad__headActions">
-            <span className="s00-dad__model">{service?.model ?? 'claude-opus-5'}</span>
-            <button type="button" className="s00-dad__close" onClick={() => setOpen(false)} aria-label="Close">
-              ✕
-            </button>
-          </div>
-        </header>
-
-        {targeting.registryError ? (
-          <p className="s00-dad__blocked">
-            AGENT UNAVAILABLE — the surface registry could not be read ({targeting.registryError}). In local
-            development the Vite server must proxy /api to the runtime: run <code>npm run dev:proxy</code> or set
-            VITE_DEV_PROXY_TARGET.
-          </p>
-        ) : null}
-
-        {/* Phase 3 — status is the first thing, always. */}
-        <div className="s00-dad__status" data-status={status}>
-          <span className="s00-dad__status-label">STATUS</span>
-          <span className="s00-dad__status-value">{status}</span>
-        </div>
-
-        {serviceError ? <p className="s00-dad__error">Runtime unreachable: {serviceError}</p> : null}
-
-        {/* Phase 3/4 — the compiled target, shown rather than typed. */}
-        <section className="s00-dad__block s00-dad__block--compact">
-          <h3 className="s00-dad__h">WHAT AM I EDITING?</h3>
-          <p className="s00-dad__lead">
-            {targeting.projectSlug.toUpperCase()} ·{' '}
-            {targeting.pageLabel ?? targeting.pageId ?? 'design workspace'} ·{' '}
-            {String(targeting.target.viewMode ?? 'canonical').toUpperCase()} · {targeting.target.viewport}
-          </p>
-          {targeting.registered === false && !targeting.registryError ?
-            <p className="s00-dad__note">Route not registered — agent runs with compiled DESIGN shell context only.</p>
-          : null}
-          <p className="s00-dad__note">
-            Write scope: {estimate?.permittedMode ?? targeting.standingWriteMode ?? '—'}
-          </p>
-        </section>
-
-        {/* Phase 5 — intent is chosen, never inferred from the task text. */}
-        <section className="s00-dad__block">
-          <h3 className="s00-dad__h">INTENT</h3>
-          <div className="s00-dad__chips" role="radiogroup" aria-label="Agent intent">
-            {DESIGN_AGENT_INTENTS.map((value) => (
-              <button
-                key={value}
-                type="button"
-                role="radio"
-                aria-checked={intent === value}
-                className={`s00-dad__chip${intent === value ? ' is-on' : ''}`}
-                onClick={() => {
-                  setIntent(value);
-                  setEstimate(null);
-                }}
-              >
-                {value.replace(/_/g, ' ')}
-              </button>
-            ))}
-          </div>
-          <p className="s00-dad__note">{spec.description}</p>
-        </section>
-
-        {/* Phase 21 — mode decides context budget, loops and spend ceiling. */}
-        <section className="s00-dad__block">
-          <h3 className="s00-dad__h">MODE</h3>
-          <div className="s00-dad__chips" role="radiogroup" aria-label="Execution mode">
-            {OPUS_NATIVE_MODES.map((value) => (
-              <button
-                key={value}
-                type="button"
-                role="radio"
-                aria-checked={mode === value}
-                className={`s00-dad__chip${mode === value ? ' is-on' : ''}`}
-                onClick={() => {
-                  setMode(value);
-                  setEstimate(null);
-                }}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section className="s00-dad__block">
-          <h3 className="s00-dad__h">CHANGE</h3>
-          <textarea
-            className="s00-dad__task"
-            value={task}
-            placeholder="Describe the change. The page, view, viewport and golden are already known."
-            onChange={(event) => {
-              setTask(event.target.value);
-              setEstimate(null);
-            }}
-            rows={4}
+    <AiConsoleSurface
+      console="opus"
+      testId="design-agent-dock"
+      panelId="s00-dad-panel"
+      name="OPUS DESIGN AGENT"
+      model={(service?.model ?? 'claude-opus-5').toUpperCase()}
+      status={status.label}
+      statusTone={status.tone}
+      title="OPUS DESIGN AGENT"
+      purpose={`AI-powered design editing for ${targeting.projectSlug.toUpperCase()}`}
+      ariaLabel="Opus design agent console"
+      onClose={() => setOpen(false)}
+      closeClassName="s00-aic__close s00-dad__close"
+      tabs={
+        <>
+          {OPUS_CONSOLE_TABS.map((entry) => (
+            <AiConsoleTab
+              key={entry.id}
+              label={entry.label}
+              active={tab === entry.id}
+              disabled={entry.id === 'REVIEW' && !review}
+              disabledReason="No proposal yet — run Opus to produce one."
+              onClick={() => setTab(entry.id)}
+            />
+          ))}
+          <span className="s00-aic__tabsTrail">
+            <span className="s00-aic__modelChip" title="The only model this runtime dispatches to.">
+              {(service?.model ?? 'CLAUDE-OPUS-5').toUpperCase()}
+            </span>
+          </span>
+        </>
+      }
+      footer={
+        <>
+          <AiConsoleButton label="CANCEL" onClick={() => setOpen(false)} />
+          <AiConsoleButton
+            label={draftSavedAt ? 'DRAFT SAVED' : 'SAVE DRAFT'}
+            onClick={saveDraft}
+            disabled={task.trim().length === 0}
+            disabledReason="Nothing to save yet."
           />
-        </section>
+          <AiConsoleButton
+            label={runProgressLabel ?? 'RUN OPUS AGENT →'}
+            primary
+            onClick={() => void onDispatch()}
+            disabled={dispatchDisabled}
+            disabledReason={dispatchReason}
+            interactionId="opus-run-agent"
+          />
+        </>
+      }
+    >
+      {targeting.registryError ? (
+        <p className="s00-aic__notice s00-aic__notice--error">
+          AGENT UNAVAILABLE — the surface registry could not be read ({targeting.registryError}). In local
+          development the Vite server must proxy /api to the runtime: run <code>npm run dev:proxy</code> or set
+          VITE_DEV_PROXY_TARGET.
+        </p>
+      ) : null}
+      {serviceError ? (
+        <p className="s00-aic__notice s00-aic__notice--error">Runtime unreachable: {serviceError}</p>
+      ) : null}
 
-        {/* Phase 22 — nothing dispatches before the price is on screen. */}
-        <section className="s00-dad__block">
-          <h3 className="s00-dad__h">COST</h3>
-          {estimate ? (
-            <dl className="s00-dad__dl">
-              <div><dt>CONTEXT</dt><dd>{estimate.estimatedTokens.toLocaleString()} tok</dd></div>
-              <div><dt>CACHE</dt><dd>{estimate.cacheableTokens.toLocaleString()} cacheable</dd></div>
-              <div><dt>EST MAX</dt><dd>{usd(estimate.estimatedUsd)}</dd></div>
-              <div><dt>IF CACHED</dt><dd>{usd(estimate.estimatedUsdCached)}</dd></div>
-              <div><dt>ASSETS</dt><dd>{estimate.assetMutation}</dd></div>
-              <div><dt>PREVIEW</dt><dd>{estimate.previewReady ? 'READY' : (estimate.previewReason ?? 'BLOCKED')}</dd></div>
-            </dl>
-          ) : (
-            <p className="s00-dad__note">Estimate to see context size, cache posture and the spend ceiling.</p>
-          )}
-
-          {/* Phase 21/22 — a mode that cannot finish is worse than no run. */}
-          {estimate && !estimate.modeFitsBudget ? (
-            <div className="s00-dad__warn">
-              <p>{estimate.modeFitDetail}</p>
-              {estimate.recommendedMode !== mode ? (
-                <button
-                  type="button"
-                  className="s00-dad__btn"
-                  onClick={() => {
-                    setMode(estimate.recommendedMode);
-                    setEstimate(null);
-                  }}
-                >
-                  SWITCH TO {estimate.recommendedMode}
-                </button>
-              ) : null}
+      {tab === 'DESIGN' ? (
+        <>
+          <AiConsoleSection
+            label="CURRENT CONTEXT"
+            action={
+              <AiConsoleSectionAction
+                label="VIEW IN WORKSPACE ↗"
+                onClick={() => setOpen(false)}
+                interactionId="opus-view-in-workspace"
+              />
+            }
+          >
+            <div className="s00-aic__split s00-aic__split--wide">
+              <AiConsolePreview
+                src={heroReference?.src ?? null}
+                alt={heroReference?.label ?? 'Active design target'}
+                emptyLabel="NO PAGE PREVIEW YET"
+                emptyNote="Capture the current screen or select a page concept to give Opus a visual target."
+                interactionId="opus-context-preview"
+              />
+              <div>
+                <p className="s00-aic__metaTitle">{(targeting.pageLabel ?? pageId).toUpperCase()}</p>
+                <p className="s00-aic__metaSub">
+                  {(pageContext?.creativeContext ?? pageContext?.pageRole ?? 'PAGE TARGET').toUpperCase()}
+                </p>
+                <AiConsoleMeta
+                  rows={[
+                    { label: 'PROJECT', value: targeting.projectSlug.toUpperCase() },
+                    { label: 'VIEW', value: viewMode.toUpperCase() },
+                    { label: 'VIEWPORT', value: viewport },
+                    { label: 'WRITE SCOPE', value: permittedMode.replace(/_/g, ' ') },
+                    { label: 'AUTHORITY', value: (pageContext?.currentAuthority ?? 'UNRESOLVED').toUpperCase() },
+                    { label: 'REFERENCE', value: heroReference?.label ?? 'NONE' },
+                  ]}
+                />
+              </div>
             </div>
-          ) : null}
-          <div className="s00-dad__actions">
-            <button type="button" className="s00-dad__btn" onClick={onEstimate} disabled={estimating || busy}>
-              ESTIMATE
-            </button>
-            <button
-              type="button"
-              className="s00-dad__btn s00-dad__btn--primary"
-              onClick={onDispatch}
-              disabled={dispatchDisabled}
-            >
-              DISPATCH
-            </button>
-            {run && !TERMINAL_STATUSES.has(run.status) ? (
-              <button type="button" className="s00-dad__btn" onClick={() => onReview('cancel')}>
-                STOP
-              </button>
+            {targeting.registered === false && !targeting.registryError ? (
+              <p className="s00-aic__notice">
+                Route not registered — Opus runs with the compiled DESIGN shell context only.
+              </p>
             ) : null}
-          </div>
-        </section>
+          </AiConsoleSection>
 
-        {/* Phase 7 — the grant prompt. Page, capability, paths, reason. */}
-        {authorization ? (
-          <section className="s00-dad__block s00-dad__block--warn">
-            <h3 className="s00-dad__h">WRITE ACCESS REQUIRED</h3>
-            <dl className="s00-dad__dl">
-              <div><dt>PAGE</dt><dd>{authorization.pageId}</dd></div>
-              <div><dt>NEEDS</dt><dd>{authorization.requestedMode}</dd></div>
-              <div><dt>HAS</dt><dd>{authorization.permittedMode}</dd></div>
-            </dl>
-            <p className="s00-dad__note">{authorization.reason}</p>
-            <p className="s00-dad__note">{describeWriteMode(authorization.requestedMode)}</p>
-            {authorization.additionalFiles.length > 0 ? (
-              <ul className="s00-dad__files">
-                {authorization.additionalFiles.map((file) => (
-                  <li key={file}>{file}</li>
+          <AiConsoleSection
+            label="WHAT AM I EDITING?"
+            action={
+              <AiConsoleSectionAction
+                label={showScope ? 'HIDE SCOPE' : 'EDIT SCOPE'}
+                onClick={() => setShowScope((value) => !value)}
+                interactionId="opus-edit-scope"
+              />
+            }
+          >
+            <p className="s00-aic__metaSub">
+              {targeting.projectSlug.toUpperCase()} · {(targeting.pageLabel ?? pageId).toUpperCase()} ·{' '}
+              {viewMode.toUpperCase()} · {viewport}
+            </p>
+            {showScope ? (
+              <div className="s00-aic__chipGrid">
+                {scopeRows.map((row) => (
+                  <span
+                    key={row.id}
+                    className={`s00-aic__chip${row.allowed ? ' is-on' : ''}`}
+                    title={`${row.detail} ${row.allowed ? 'Permitted at ' : 'Locked at '}${permittedMode.replace(/_/g, ' ')}.`}
+                  >
+                    {row.allowed ? '✓ ' : '· '}
+                    {row.label}
+                  </span>
                 ))}
-              </ul>
+              </div>
             ) : null}
-            {authorization.grantable ? (
-              <div className="s00-dad__actions">
+          </AiConsoleSection>
+
+          <AiConsoleSection label="INTENT">
+            <div className="s00-aic__chipGrid" role="radiogroup" aria-label="Agent intent">
+              {DESIGN_AGENT_INTENTS.map((value) => (
                 <button
+                  key={value}
                   type="button"
-                  className="s00-dad__btn s00-dad__btn--primary"
+                  role="radio"
+                  aria-checked={intent === value}
+                  className={`s00-aic__chip${intent === value ? ' is-on' : ''}`}
+                  title={DESIGN_AGENT_INTENT_SPECS[value].description}
                   onClick={() => {
-                    setGrant({ mode: authorization.requestedMode });
-                    setAuthorization(null);
+                    setIntent(value);
                     setEstimate(null);
                   }}
                 >
-                  GRANT FOR THIS RUN
+                  {OPUS_INTENT_PRESENTATION[value]?.label ?? value.replace(/_/g, ' ')}
                 </button>
-                <button type="button" className="s00-dad__btn" onClick={() => setAuthorization(null)}>
-                  DENY
+              ))}
+            </div>
+          </AiConsoleSection>
+
+          <AiConsoleSection label="MODE">
+            <div className="s00-aic__chips" role="radiogroup" aria-label="Execution mode">
+              {OPUS_NATIVE_MODES.map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  role="radio"
+                  aria-checked={mode === value}
+                  className={`s00-aic__chip${mode === value ? ' is-on' : ''}`}
+                  title={OPUS_MODE_PRESENTATION[value]?.note}
+                  onClick={() => {
+                    setMode(value);
+                    setEstimate(null);
+                  }}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+          </AiConsoleSection>
+
+          <AiConsoleSection label="CHANGE REQUEST">
+            <div className="s00-aic__composer">
+              <textarea
+                className="s00-aic__composerInput"
+                value={task}
+                placeholder="Describe the change you want to make… Be specific about the page, view, viewport or component."
+                onChange={(event) => {
+                  setTask(event.target.value);
+                  setEstimate(null);
+                  setDraftSavedAt(null);
+                }}
+                rows={4}
+                aria-label="Change request"
+              />
+              <div className="s00-aic__composerTools">
+                <button
+                  type="button"
+                  className="s00-aic__tool"
+                  onClick={() => setShowReferences((value) => !value)}
+                  disabled={references.length === 0}
+                  title={
+                    references.length === 0 ?
+                      'No page references yet — capture the screen or select a concept.'
+                    : 'Attach a workspace reference to this request.'
+                  }
+                >
+                  <span className="s00-aic__toolGlyph" aria-hidden="true">
+                    ⬚
+                  </span>
+                  ADD REFERENCE
+                </button>
+                <button
+                  type="button"
+                  className="s00-aic__tool"
+                  onClick={() => setTask((value) => `${value}${value.endsWith(' ') || value === '' ? '' : ' '}@${pageId} `)}
+                  title="Insert the active page id into the request."
+                >
+                  <span className="s00-aic__toolGlyph" aria-hidden="true">
+                    @
+                  </span>
+                  MENTION
+                </button>
+                <button
+                  type="button"
+                  className="s00-aic__tool s00-aic__tool--trail"
+                  onClick={() =>
+                    setTask((value) =>
+                      `${value.trim()}${value.trim() ? ' ' : ''}${opusContextAssistText({
+                        projectSlug: targeting.projectSlug,
+                        pageLabel: (targeting.pageLabel ?? pageId).toUpperCase(),
+                        viewport,
+                        viewMode,
+                        route: targeting.route,
+                      })}`.trim(),
+                    )
+                  }
+                  title="Append the compiled page context to your request. Deterministic — no model spend."
+                >
+                  <span className="s00-aic__toolGlyph" aria-hidden="true">
+                    ✦
+                  </span>
+                  CONTEXT ASSIST
                 </button>
               </div>
-            ) : (
-              <p className="s00-dad__note">
-                Not grantable here: this surface allows at most {authorization.maxGrantableMode}.
-              </p>
-            )}
-          </section>
-        ) : null}
-
-        {grant ? (
-          <p className="s00-dad__grant">
-            GRANTED {grant.mode} · this run only ·{' '}
-            <button type="button" className="s00-dad__link" onClick={() => setGrant(null)}>
-              revoke
-            </button>
-          </p>
-        ) : null}
-
-        {error ? <p className="s00-dad__error">{error}</p> : null}
-
-        {/* Phase 3 — live run telemetry. */}
-        {run ? (
-          <section className="s00-dad__block">
-            <h3 className="s00-dad__h">RUN</h3>
-            <dl className="s00-dad__dl">
-              <div><dt>ITERATIONS</dt><dd>{run.guard.iterations}</dd></div>
-              <div><dt>TOOL CALLS</dt><dd>{run.toolCalls.length}</dd></div>
-              <div><dt>SPENT</dt><dd>{usd(cost)}</dd></div>
-              <div><dt>CACHE</dt><dd>{diagnostics?.promptCache ?? 'UNKNOWN'}</dd></div>
-              <div><dt>SCOPE</dt><dd>{run.writeMode}{run.writeGrantApplied ? ' (granted)' : ''}</dd></div>
-            </dl>
-            {run.failure ? (
-              <p className="s00-dad__error">
-                {run.failure} · {run.failureDetail}
-              </p>
-            ) : null}
-          </section>
-        ) : null}
-
-        {/* Phase 26 — founder review: before, after, golden, files, tests, cost. */}
-        {review && run?.status === 'WAITING_FOR_FOUNDER_REVIEW' ? (
-          <section className="s00-dad__block s00-dad__block--review">
-            <h3 className="s00-dad__h">FOUNDER REVIEW</h3>
-            <p className="s00-dad__note">{review.summary}</p>
-
-            {review.previewBlocked ? (
-              <p className="s00-dad__warn">
-                The run could not render this page, so nothing here is visually certified.
-              </p>
-            ) : null}
-
-            <div className="s00-dad__shots">
-              {review.before ? (
-                <figure><img src={shotUrl(review.before.screenshotId)} alt="Before" /><figcaption>BEFORE</figcaption></figure>
-              ) : null}
-              {review.after ? (
-                <figure><img src={shotUrl(review.after.screenshotId)} alt="After" /><figcaption>AFTER</figcaption></figure>
-              ) : null}
-              {review.golden ? (
-                <figure><img src={`/${review.golden.path.replace(/^public\//, '')}`} alt="Golden" /><figcaption>GOLDEN</figcaption></figure>
-              ) : null}
             </div>
-
-            {typeof review.after?.diffPercent === 'number' ? (
-              <p className="s00-dad__note">Changed pixels: {review.after.diffPercent}%</p>
+            {showReferences ? (
+              <div className="s00-aic__thumbs" style={{ marginTop: 8 }}>
+                {references.map((reference) => {
+                  const on = selectedReferenceIds.includes(reference.id);
+                  return (
+                    <span key={reference.id}>
+                      <button
+                        type="button"
+                        className={`s00-aic__thumb${on ? ' is-on' : ''}`}
+                        aria-pressed={on}
+                        title={`${reference.label} · ${reference.origin}`}
+                        onClick={() => {
+                          setSelectedReferenceIds((current) =>
+                            current.includes(reference.id) ?
+                              current.filter((id) => id !== reference.id)
+                            : [...current, reference.id],
+                          );
+                          setEstimate(null);
+                        }}
+                      >
+                        {reference.src ? <img src={reference.src} alt="" /> : null}
+                      </button>
+                      <span className="s00-aic__thumbCap">{reference.label}</span>
+                    </span>
+                  );
+                })}
+              </div>
             ) : null}
+          </AiConsoleSection>
 
-            {review.patch ? (
-              <>
-                <p className="s00-dad__note">{review.patch.reason}</p>
-                <ul className="s00-dad__files">
-                  {review.patch.filesChanged.map((file) => (
-                    <li key={file}>
-                      {review.createdFiles.includes(file) ? 'NEW  ' : 'EDIT '}
-                      {file}
-                    </li>
+          <AiConsoleSection
+            label="COST · SCOPE · IMPACT"
+            action={
+              <AiConsoleSectionAction
+                label={estimating ? 'ESTIMATING…' : 'ESTIMATE'}
+                onClick={() => void onEstimate()}
+                disabled={estimating || busy}
+                interactionId="opus-estimate"
+              />
+            }
+          >
+            <div className="s00-aic__cells">
+              <div className="s00-aic__cell">
+                <span className="s00-aic__cellLabel">ESTIMATED COST</span>
+                <span className="s00-aic__cellValue">
+                  {estimate ? usd(estimate.estimatedUsd) : '—'}
+                </span>
+                <span className="s00-aic__cellNote">
+                  {estimate ? `${modePresentation?.time ?? ''} · IF CACHED ${usd(estimate.estimatedUsdCached)}` : 'ESTIMATE TO PRICE THIS RUN'}
+                </span>
+              </div>
+              <div className="s00-aic__cell">
+                <span className="s00-aic__cellLabel">SCOPE</span>
+                <span className="s00-aic__cellValue">{permittedMode.replace(/_/g, ' ')}</span>
+                <span className="s00-aic__cellNote">{scopeRows.filter((row) => row.allowed).length} OF 5 CAPABILITIES</span>
+              </div>
+              <div className="s00-aic__cell">
+                <span className="s00-aic__cellLabel">IMPACT</span>
+                <span className="s00-aic__cellValue s00-aic__cellValue--lime">{intentPresentation?.impact ?? 'LOW'}</span>
+                <span className="s00-aic__cellNote">{intentPresentation?.impactNote ?? ''}</span>
+              </div>
+            </div>
+            {estimate && !estimate.modeFitsBudget ? (
+              <p className="s00-aic__notice s00-aic__notice--error">
+                {estimate.modeFitDetail}{' '}
+                {estimate.recommendedMode !== mode ? (
+                  <button
+                    type="button"
+                    className="s00-aic__inlineLink"
+                    onClick={() => {
+                      setMode(estimate.recommendedMode);
+                      setEstimate(null);
+                    }}
+                  >
+                    SWITCH TO {estimate.recommendedMode}
+                  </button>
+                ) : null}
+              </p>
+            ) : null}
+          </AiConsoleSection>
+
+          {authorization ? (
+            <AiConsoleSection label="WRITE ACCESS REQUIRED">
+              <AiConsoleMeta
+                rows={[
+                  { label: 'PAGE', value: authorization.pageId },
+                  { label: 'NEEDS', value: authorization.requestedMode },
+                  { label: 'HAS', value: authorization.permittedMode },
+                ]}
+              />
+              <p className="s00-aic__notice">{authorization.reason}</p>
+              <p className="s00-aic__notice">{describeWriteMode(authorization.requestedMode)}</p>
+              {authorization.additionalFiles.length > 0 ? (
+                <ul className="s00-aic__files">
+                  {authorization.additionalFiles.map((file) => (
+                    <li key={file}>{file}</li>
                   ))}
                 </ul>
-              </>
-            ) : (
-              <p className="s00-dad__note">No patch was produced.</p>
-            )}
+              ) : null}
+              {authorization.grantable ? (
+                <div className="s00-aic__chips" style={{ marginTop: 8 }}>
+                  <AiConsoleButton
+                    label="GRANT FOR THIS RUN"
+                    primary
+                    onClick={() => {
+                      setGrant({ mode: authorization.requestedMode });
+                      setAuthorization(null);
+                      setEstimate(null);
+                    }}
+                  />
+                  <AiConsoleButton label="DENY" onClick={() => setAuthorization(null)} />
+                </div>
+              ) : (
+                <p className="s00-aic__notice">
+                  Not grantable here: this surface allows at most {authorization.maxGrantableMode}.
+                </p>
+              )}
+            </AiConsoleSection>
+          ) : null}
 
-            <dl className="s00-dad__dl">
-              <div><dt>TYPECHECK</dt><dd>{review.typecheck ? (review.typecheck.ok ? 'PASS' : 'FAIL') : 'not run'}</dd></div>
-              <div><dt>TESTS</dt><dd>{review.tests ? (review.tests.ok ? 'PASS' : 'FAIL') : 'not run'}</dd></div>
-              <div><dt>COST</dt><dd>{usd(review.receipt.actualUsd)}</dd></div>
-            </dl>
-
-            <div className="s00-dad__actions">
-              <button type="button" className="s00-dad__btn s00-dad__btn--primary" onClick={() => onReview('approve')} disabled={busy}>
-                APPROVE
+          {grant ? (
+            <p className="s00-aic__notice s00-aic__notice--grant">
+              GRANTED {grant.mode} · this run only ·{' '}
+              <button type="button" className="s00-aic__inlineLink" onClick={() => setGrant(null)}>
+                revoke
               </button>
-              <button type="button" className="s00-dad__btn" onClick={() => onReview('revert')} disabled={busy}>
-                REVERT
-              </button>
-            </div>
-
-            <textarea
-              className="s00-dad__task"
-              rows={2}
-              placeholder="Request changes — continues this thread, keeps the context."
-              value={changeNote}
-              onChange={(event) => setChangeNote(event.target.value)}
-            />
-            <button type="button" className="s00-dad__btn" onClick={onRequestChanges} disabled={busy || !changeNote.trim()}>
-              REQUEST CHANGES
-            </button>
-            {/* Phase 27 — approval is acceptance, not a merge. */}
-            <p className="s00-dad__note">
-              APPROVE marks the patch accepted and leaves it in the working tree. It does not commit or deploy.
             </p>
-          </section>
-        ) : null}
+          ) : null}
 
-        <section className="s00-dad__block">
-          <button type="button" className="s00-dad__link" onClick={() => setShowAdvanced((value) => !value)}>
-            {showAdvanced ? 'HIDE' : 'SHOW'} ADVANCED / DIAGNOSTICS
-          </button>
-          {showAdvanced ?
-            <>
-              <dl className="s00-dad__dl">
-                <div><dt>ROUTE</dt><dd className="s00-dad__mono">{targeting.route}</dd></div>
-                <div><dt>PAGE ID</dt><dd>{targeting.pageId ?? '—'}</dd></div>
-                <div><dt>GOLDEN</dt><dd>{targeting.goldenVersion ?? '—'}</dd></div>
-              </dl>
-              {targeting.firewallReason ?
-                <p className="s00-dad__note">PROTECTED · {targeting.firewallReason}</p>
-              : null}
-              <button type="button" className="s00-dad__link" onClick={() => setShowContext((value) => !value)}>
-                {showContext ? 'HIDE' : 'SHOW'} AGENT CONTEXT
-              </button>
-              {showContext ?
-                <AgentContextView route={targeting.route} pageId={targeting.pageId} mode={mode} intent={intent} />
-              : null}
-              <footer className="s00-dad__foot">
-                <span>PREVIEW {diagnostics?.preview ?? '—'}</span>
-                <span>API {diagnostics?.anthropicApi ?? '—'}</span>
-                <a className="s00-dad__link" href={`/projects/${targeting.projectSlug}/design/opus-native`}>
-                  DIAGNOSTIC ROUTE
-                </a>
-              </footer>
-            </>
-          : null}
-        </section>
-      </div>
-    </aside>
-    </>
+          {error ? <p className="s00-aic__notice s00-aic__notice--error">{error}</p> : null}
+
+          {run && !TERMINAL_STATUSES.has(run.status) ? (
+            <AiConsoleSection label="RUN IN PROGRESS">
+              <AiConsoleMeta
+                rows={[
+                  { label: 'PHASE', value: status.label },
+                  { label: 'ITERATIONS', value: String(run.guard.iterations) },
+                  { label: 'TOOL CALLS', value: String(run.toolCalls.length) },
+                  { label: 'SPENT', value: usd(cost) },
+                ]}
+              />
+              <div className="s00-aic__chips" style={{ marginTop: 8 }}>
+                <AiConsoleButton label="STOP RUN" onClick={() => void onReview('cancel')} />
+              </div>
+            </AiConsoleSection>
+          ) : null}
+        </>
+      ) : null}
+
+      {tab === 'REVIEW' ? (
+        review ? (
+          <>
+            <AiConsoleSection label="PROPOSED CHANGE">
+              <p className="s00-aic__msgText">{review.summary}</p>
+              {review.previewBlocked ? (
+                <p className="s00-aic__notice s00-aic__notice--error">
+                  The run could not render this page, so nothing here is visually certified.
+                </p>
+              ) : null}
+            </AiConsoleSection>
+
+            <AiConsoleSection label="BEFORE / AFTER">
+              <div className="s00-aic__split s00-aic__split--wide">
+                <AiConsolePreview
+                  src={review.before ? shotUrl(review.before.screenshotId) : null}
+                  alt="Before"
+                  emptyLabel="NO BEFORE CAPTURE"
+                  contain
+                />
+                <AiConsolePreview
+                  src={review.after ? shotUrl(review.after.screenshotId) : null}
+                  alt="After"
+                  emptyLabel="NO AFTER CAPTURE"
+                  contain
+                />
+              </div>
+              {typeof review.after?.diffPercent === 'number' ? (
+                <p className="s00-aic__metaSub">CHANGED PIXELS: {review.after.diffPercent}%</p>
+              ) : null}
+            </AiConsoleSection>
+
+            <AiConsoleSection label="FILES AFFECTED">
+              {review.patch ? (
+                <>
+                  <p className="s00-aic__msgText">{review.patch.reason}</p>
+                  <ul className="s00-aic__files">
+                    {review.patch.filesChanged.map((file) => (
+                      <li key={file}>
+                        {review.createdFiles.includes(file) ? 'NEW · ' : 'EDIT · '}
+                        {file}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : (
+                <AiConsoleEmptyState title="NO PATCH PRODUCED" note="This run produced findings only." />
+              )}
+              <AiConsoleMeta
+                rows={[
+                  { label: 'TYPECHECK', value: review.typecheck ? (review.typecheck.ok ? 'PASS' : 'FAIL') : 'NOT RUN' },
+                  { label: 'TESTS', value: review.tests ? (review.tests.ok ? 'PASS' : 'FAIL') : 'NOT RUN' },
+                  { label: 'COST', value: usd(review.receipt.actualUsd) },
+                ]}
+              />
+            </AiConsoleSection>
+
+            <AiConsoleSection label="REQUEST CHANGES">
+              <div className="s00-aic__composer">
+                <textarea
+                  className="s00-aic__composerInput"
+                  rows={2}
+                  placeholder="Request changes — continues this thread and keeps the context."
+                  value={changeNote}
+                  onChange={(event) => setChangeNote(event.target.value)}
+                  aria-label="Request changes"
+                />
+                <div className="s00-aic__composerTools">
+                  <button
+                    type="button"
+                    className="s00-aic__tool"
+                    onClick={() => void onRequestChanges()}
+                    disabled={busy || !changeNote.trim()}
+                    title={!changeNote.trim() ? 'Describe the change first.' : undefined}
+                  >
+                    SEND FOLLOW-UP
+                  </button>
+                </div>
+              </div>
+              <div className="s00-aic__chips" style={{ marginTop: 8 }}>
+                <AiConsoleButton
+                  label="APPROVE"
+                  primary
+                  onClick={() => void onReview('approve')}
+                  disabled={busy}
+                />
+                <AiConsoleButton label="REVERT" onClick={() => void onReview('revert')} disabled={busy} />
+              </div>
+              <p className="s00-aic__notice">
+                APPROVE marks the patch accepted and leaves it in the working tree. It does not commit or deploy.
+              </p>
+            </AiConsoleSection>
+          </>
+        ) : (
+          <AiConsoleSection label="REVIEW">
+            <AiConsoleEmptyState
+              title="NO PROPOSAL YET"
+              note="Run Opus from the DESIGN tab. The proposal, before/after and files land here — you are never routed to a separate debug page."
+            />
+          </AiConsoleSection>
+        )
+      ) : null}
+
+      {tab === 'CONTEXT' ? (
+        <>
+          <AiConsoleSection label="EDIT SCOPE">
+            <div className="s00-aic__chipGrid">
+              {scopeRows.map((row) => (
+                <span key={row.id} className={`s00-aic__chip${row.allowed ? ' is-on' : ''}`} title={row.detail}>
+                  {row.allowed ? '✓ ' : '· '}
+                  {row.label}
+                </span>
+              ))}
+            </div>
+            <p className="s00-aic__notice">{describeWriteMode(permittedMode as never)}</p>
+            {targeting.firewallReason ? (
+              <p className="s00-aic__notice">PROTECTED · {targeting.firewallReason}</p>
+            ) : null}
+          </AiConsoleSection>
+
+          <AiConsoleSection label="SURFACE">
+            <AiConsoleMeta
+              rows={[
+                { label: 'ROUTE', value: targeting.route },
+                { label: 'PAGE ID', value: targeting.pageId ?? '—' },
+                { label: 'GOLDEN', value: targeting.goldenVersion ?? '—' },
+                { label: 'PREVIEW', value: diagnostics?.preview ?? '—' },
+                { label: 'API', value: diagnostics?.anthropicApi ?? '—' },
+              ]}
+            />
+          </AiConsoleSection>
+
+          <AiConsoleSection
+            label="DIAGNOSTICS"
+            action={
+              <AiConsoleSectionAction
+                label={showAdvanced ? 'HIDE COMPILED CONTEXT' : 'SHOW COMPILED CONTEXT'}
+                onClick={() => setShowAdvanced((value) => !value)}
+              />
+            }
+          >
+            {showAdvanced ?
+              <AgentContextView route={targeting.route} pageId={targeting.pageId} mode={mode} intent={intent} />
+            : <p className="s00-aic__notice">
+                The compiled blocks Opus receives, their sizes and cache posture. Recessed on purpose.
+              </p>
+            }
+            <p className="s00-aic__metaSub" style={{ marginTop: 8 }}>
+              <a className="s00-aic__inlineLink" href={`/projects/${targeting.projectSlug}/design/opus-native`}>
+                DIAGNOSTIC ROUTE ↗
+              </a>
+            </p>
+          </AiConsoleSection>
+        </>
+      ) : null}
+    </AiConsoleSurface>
   );
 }
 
@@ -637,31 +926,31 @@ function AgentContextView(props: {
     };
   }, [props.route, props.pageId, props.mode, props.intent]);
 
-  if (failed) return <p className="s00-dad__error">{failed}</p>;
-  if (!data) return <p className="s00-dad__note">Compiling…</p>;
+  if (failed) return <p className="s00-aic__notice s00-aic__notice--error">{failed}</p>;
+  if (!data) return <p className="s00-aic__notice">Compiling…</p>;
 
   return (
-    <div className="s00-dad__ctx">
-      <dl className="s00-dad__dl">
-        <div><dt>TOTAL</dt><dd>{data.totalEstimatedTokens.toLocaleString()} tok</dd></div>
-        <div><dt>CACHEABLE</dt><dd>{data.cacheableEstimatedTokens.toLocaleString()} tok</dd></div>
-        <div><dt>WRITE</dt><dd>{data.policy.mode}</dd></div>
-        <div><dt>ASSETS</dt><dd>{data.assetAuthority.mutation}</dd></div>
-      </dl>
-      <ul className="s00-dad__blocks">
+    <div>
+      <AiConsoleMeta
+        rows={[
+          { label: 'TOTAL', value: `${data.totalEstimatedTokens.toLocaleString()} TOK` },
+          { label: 'CACHEABLE', value: `${data.cacheableEstimatedTokens.toLocaleString()} TOK` },
+          { label: 'WRITE', value: data.policy.mode },
+          { label: 'ASSETS', value: data.assetAuthority.mutation },
+        ]}
+      />
+      <ul className="s00-aic__files">
         {data.blocks.map((block) => (
           <li key={block.label}>
-            <span className="s00-dad__block-label">
-              {block.label} · {block.estimatedTokens.toLocaleString()} tok · {block.cacheable ? 'cacheable' : 'volatile'}
-            </span>
-            <pre>{block.preview}</pre>
+            {block.label} · {block.estimatedTokens.toLocaleString()} tok · {block.cacheable ? 'cacheable' : 'volatile'}
+            <pre className="s00-aic__pre">{block.preview}</pre>
           </li>
         ))}
       </ul>
       {data.inheritance ? (
         <>
-          <h4 className="s00-dad__h">INHERITS FROM {data.inheritance.parentPageId ?? '—'}</h4>
-          <ul className="s00-dad__files">
+          <p className="s00-aic__metaSub">INHERITS FROM {data.inheritance.parentPageId ?? '—'}</p>
+          <ul className="s00-aic__files">
             {data.inheritance.mustInherit.map((item) => (
               <li key={item}>{item}</li>
             ))}
