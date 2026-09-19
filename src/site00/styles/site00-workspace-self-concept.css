@@ -1,0 +1,103 @@
+.site00-wssc {
+  --wssc-pad: 14px;
+  font-family: var(--tod-mono, ui-monospace, Menlo, monospace);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--tod-ink, #161616);
+  padding: var(--wssc-pad);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.site00-wssc__banner {
+  border: 1px solid var(--tod-border-panel, #b2b2b2);
+  background: var(--tod-panel, #f7f7f7);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.site00-wssc__banner strong {
+  display: block;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.site00-wssc section {
+  border: 1px solid var(--tod-border-subtle, #dadada);
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--tod-paper, #fdfdfd);
+}
+
+.site00-wssc h2 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site00-wssc__grid {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 900px) {
+  .site00-wssc__grid--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+  .site00-wssc__grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.site00-wssc__slot {
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  padding: 8px;
+  min-height: 88px;
+}
+
+.site00-wssc__slot[data-active='true'] {
+  border-color: var(--tod-lime, #cdee30);
+  box-shadow: inset 0 0 0 1px var(--tod-lime, #cdee30);
+}
+
+.site00-wssc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.site00-wssc__actions button {
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--tod-paper, #fdfdfd);
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.site00-wssc__actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.site00-wssc__actions button[data-primary='true'] {
+  border-color: var(--tod-lime, #cdee30);
+  background: var(--tod-lime, #cdee30);
+  color: var(--tod-lime-ink, #101505);
+}
+
+.site00-wssc__muted {
+  color: var(--tod-ink-3, #6a6a70);
+  font-size: 10px;
+}
+
+.site00-wssc__history {
+  max-height: 160px;
+  overflow: auto;
+  font-size: 10px;
+  margin: 0;
+  padding-left: 16px;
+}

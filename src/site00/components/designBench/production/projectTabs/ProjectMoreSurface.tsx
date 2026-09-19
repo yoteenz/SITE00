@@ -11,6 +11,9 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
+import { SITE00_ROUTES } from '../../../../config/routes';
+import { getCurrentUser, isAdminFounderAccount } from '../../../../../utils/adminAuth';
+
 import {
   buildProjectAssetLibrary,
   buildProjectHistory,
@@ -61,6 +64,8 @@ export function ProjectMoreSurface() {
       : Math.round(
           ((architecture.totalPages - pagesMissingAuthority) / architecture.totalPages) * 100,
         );
+
+  const showWorkspaceSelfEntry = isAdminFounderAccount(getCurrentUser());
 
   return (
     <ProjectSurface id="more">
@@ -235,6 +240,18 @@ export function ProjectMoreSurface() {
             ]}
           />
         </ProjectModule>
+
+        {showWorkspaceSelfEntry ? (
+          <ProjectModule
+            icon={<PsIconSliders />}
+            title="SYSTEM DESIGN"
+            lede="Internal WORKSPACE_SELF concept workflow — does not change live DESIGN."
+          >
+            <Link to={SITE00_ROUTES.systemDesignWorkspaceConcepts} className="tod-child__link">
+              REDESIGN DESIGN WORKSPACE →
+            </Link>
+          </ProjectModule>
+        ) : null}
 
         <ProjectModule
           icon={<PsIconArchive />}
