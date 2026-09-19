@@ -11,10 +11,10 @@ export function ViewModeCanonicalGlyph() {
   return (
     <>
       <rect {...S} x="4" y="4" width="16" height="16" />
-      <rect {...S} x="6" y="6" width="8" height="12" />
-      <rect {...S} x="15.5" y="6" width="2.5" height="5" />
-      <path {...S} d="M15.5 14h2.5" />
-      <path {...S} d="M15.5 16.5h2" />
+      <rect {...S} x="6" y="6" width="9" height="8" />
+      <rect {...S} x="16" y="6" width="2" height="12" />
+      <path {...S} d="M6 16.5h7" />
+      <path {...S} d="M6 18.5h4" />
     </>
   );
 }
@@ -22,12 +22,12 @@ export function ViewModeCanonicalGlyph() {
 export function ViewModeListGlyph() {
   return (
     <>
-      <path {...S} d="M8 6h12" />
-      <path {...S} d="M8 12h12" />
-      <path {...S} d="M8 18h8" />
-      <rect {...F} x="4" y="5" width="2" height="2" />
-      <rect {...F} x="4" y="11" width="2" height="2" />
-      <rect {...F} x="4" y="17" width="2" height="2" />
+      <path {...S} d="M9.5 6h10.5" />
+      <path {...S} d="M9.5 12h10.5" />
+      <path {...S} d="M9.5 18h7" />
+      <rect {...F} x="4" y="4.75" width="2.5" height="2.5" />
+      <rect {...F} x="4" y="10.75" width="2.5" height="2.5" />
+      <rect {...F} x="4" y="16.75" width="2.5" height="2.5" />
     </>
   );
 }

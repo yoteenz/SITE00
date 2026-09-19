@@ -39,7 +39,7 @@ describe('P0.VR.DESIGN.GROK-VIEWMODE-ICONS1 staged Canonical / List pair', () =>
       expect(svg).not.toContain('<image');
     }
     expect(canonical).toContain('width="16" height="16"');
-    expect(list).toContain('h12');
+    expect(list).toContain('M9.5 6h10.5');
     expect(list).not.toContain('M3 6h18M3 12h18M3 18h18');
   });
 

@@ -83,7 +83,7 @@ describe('P0.VR.DESIGN.GROK-VISUAL-SYSTEM1 staged icon family', () => {
     expect(pair).toContain('ViewModeCanonicalGlyph');
     expect(pair).toContain('ViewModeListGlyph');
     expect(pair).toMatch(/rect[\s\S]+width="16" height="16"/);
-    expect(pair).toContain('h12');
+    expect(pair).toContain('M9.5 6h10.5');
   });
 
   it('does not mutate live Twin, DESIGN, or approved benches', () => {
