@@ -47,8 +47,13 @@ import { listPageConceptCandidates } from '../../../../../shared/site00-design-w
 import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import { useDesignGrokEligibility } from '../opusDirect/DesignGrokEligibilityProvider';
 import {
+  AIC_READINESS_ICON,
+  AIC_STAGE_ICON,
+} from '../../../../../shared/site00-design-workspace-production/designAiConsoleIconography.js';
+import {
   AiConsoleButton,
   AiConsoleEmptyState,
+  AiConsoleLightboxControls,
   AiConsoleMeta,
   AiConsolePreview,
   AiConsoleSection,
@@ -56,6 +61,7 @@ import {
   AiConsoleSurface,
   AiConsoleTab,
 } from '../aiConsoles/AiConsoleShell';
+import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import { useDesignGrokDock } from './DesignGrokDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
 
@@ -299,7 +305,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
           <AiConsoleButton label="CANCEL" onClick={() => setOpen(false)} />
           <AiConsoleButton
             label="REGENERATE"
-            glyph="⟳"
+            icon="grok-regenerate"
             onClick={() => selectedAsset && setRegenerate({ assetId: selectedAsset.assetId, note: '' })}
             disabled={!selectedAsset || !eligibility.canGenerateProductionAssets}
             disabledReason={
@@ -308,7 +314,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
           />
           <AiConsoleButton
             label="INSPECT"
-            glyph="⌕"
+            icon="grok-inspect"
             onClick={() => setShowInspect((value) => !value)}
             disabled={!selectedAsset}
             disabledReason="Select an asset first."
@@ -328,7 +334,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
         <AiConsoleSection label="ASSET PRODUCTION" ariaLabel="Grok readiness">
           <div className="s00-aic__blocker">
             <span className="s00-aic__blockerGlyph" aria-hidden="true">
-              !
+              <AiConsoleIcon name="status-blocked" size={14} />
             </span>
             <span className="s00-aic__blockerText">
               <span className="s00-aic__blockerTitle">{status.headline}</span>
@@ -347,7 +353,10 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
             {readiness.map((cell) => (
               <div className="s00-aic__readyCell" key={cell.id} data-state={cell.state}>
                 <span className="s00-aic__readyMark" aria-hidden="true">
-                  ✓
+                  <AiConsoleIcon
+                    name={AIC_STAGE_ICON[cell.id] ?? AIC_READINESS_ICON[cell.state]}
+                    size={13}
+                  />
                 </span>
                 <span>
                   <span className="s00-aic__readyLabel">{cell.label}</span>
@@ -401,6 +410,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
             alt="Selected page concept"
             emptyLabel="NO CONCEPT SELECTED"
             emptyNote="Select a page concept in the workspace gallery before producing assets."
+            emptyIcon="empty-concept"
             onOpen={() => conceptSrc && setLightbox({ src: conceptSrc, label: 'CONCEPT REFERENCE' })}
           />
           <div>
@@ -598,9 +608,19 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
                 onClick={() => setSelectedAssetId(asset.assetId)}
               >
                 <img className="s00-aic__tileImg" src={asset.previewDataUrl} alt="" />
+                <span className="s00-aic__tileBadge" data-badge={asset.status} aria-hidden="true">
+                  <AiConsoleIcon
+                    name={
+                      asset.status === 'APPROVED' ? 'badge-approved'
+                      : asset.status === 'STAGED' ? 'badge-staged'
+                      : 'badge-current'
+                    }
+                    size={10}
+                  />
+                </span>
                 {selectedAssetId === asset.assetId ? (
                   <span className="s00-aic__tileCheck" aria-hidden="true">
-                    ✓
+                    <AiConsoleIcon name="badge-selected" size={10} />
                   </span>
                 ) : null}
                 <span className="s00-aic__tileCap">{grokAssetDisplayName(asset)}</span>
@@ -613,6 +633,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
               disabled={Boolean(generateDisabledReason)}
               title={generateDisabledReason ?? 'Stage one more asset for this page.'}
             >
+              <AiConsoleIcon name="grok-generate-more" size={16} />
               + GENERATE MORE
             </button>
           </div>
@@ -624,6 +645,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
                 'Approved assets appear here once you accept a staged output.'
               : 'Generate assets to see results here. Every output is staged for your review before it reaches the page.'
             }
+            icon={tab === 'LIBRARY' ? 'empty-staged' : 'empty-assets'}
           />
         )}
       </AiConsoleSection>
@@ -661,10 +683,10 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
               />
               <div className="s00-aic__chips" style={{ marginTop: 8 }}>
                 <button type="button" className="s00-aic__chip" onClick={() => replaceInputRef.current?.click()}>
-                  ⬆ REPLACE
+                  <AiConsoleIcon name="upload-replace" size={11} /> REPLACE
                 </button>
                 <button type="button" className="s00-aic__chip" onClick={() => setShowInspect((value) => !value)}>
-                  ⌕ INSPECT
+                  <AiConsoleIcon name="grok-inspect" size={11} /> INSPECT
                 </button>
                 <button
                   type="button"
@@ -677,7 +699,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
                   }
                   onClick={() => setRegenerate({ assetId: selectedAsset.assetId, note: '' })}
                 >
-                  ⟳ REGENERATE
+                  <AiConsoleIcon name="grok-regenerate" size={11} /> REGENERATE
                 </button>
                 {selectedAsset.status === 'STAGED' ? (
                   <button
@@ -691,7 +713,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
                       )
                     }
                   >
-                    ✓ APPROVE
+                    <AiConsoleIcon name="badge-approved" size={11} /> APPROVE
                   </button>
                 ) : null}
               </div>
@@ -808,6 +830,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
             onClick={() => setLightbox(null)}
           />
           <figure className="s00-aic__lightboxFrame">
+            <AiConsoleLightboxControls onClose={() => setLightbox(null)} />
             <img src={lightbox.src} alt={lightbox.label} />
             <figcaption>{lightbox.label}</figcaption>
           </figure>
