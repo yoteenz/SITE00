@@ -36,6 +36,7 @@ import {
   opusContextAssistText,
   opusEditScopeRows,
   OPUS_CONSOLE_TABS,
+  OPUS_INTENT_ORDER,
   OPUS_INTENT_PRESENTATION,
   OPUS_MODE_PRESENTATION,
   type OpusConsoleTabId,
@@ -45,6 +46,7 @@ import { loadPageCaptureHistory } from '../../../../../shared/site00-design-work
 import { loadPageAuthorityWorkflow } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import { compileDesignPageContext } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageContext.js';
+import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import {
   continueRun,
   estimateRun,
@@ -153,7 +155,12 @@ export function DesignAgentDock() {
 
   const spec = DESIGN_AGENT_INTENT_SPECS[intent];
   const diagnostics = service?.diagnostics ?? null;
-  const pageId = targeting.pageId ?? `${targeting.projectSlug}:overview`;
+  const shellTarget = useMemo(
+    () => resolveDesignPageTargetForShell(targeting.projectSlug),
+    [targeting.projectSlug],
+  );
+  const pageId = targeting.pageId ?? shellTarget.pageId;
+  const pageLabel = targeting.pageLabel ?? shellTarget.pageLabel;
   const viewport = targeting.target.viewport ?? 'MOBILE';
   const viewMode = String(targeting.target.viewMode ?? 'canonical');
 
@@ -396,7 +403,9 @@ export function DesignAgentDock() {
           VITE_DEV_PROXY_TARGET.
         </p>
       ) : null}
-      {serviceError ? (
+      {/* One unreachable runtime, one notice: the registry failure already names
+          the cause and the remedy, so the service probe's copy of it is noise. */}
+      {serviceError && !targeting.registryError ? (
         <p className="s00-aic__notice s00-aic__notice--error">Runtime unreachable: {serviceError}</p>
       ) : null}
 
@@ -421,7 +430,7 @@ export function DesignAgentDock() {
                 interactionId="opus-context-preview"
               />
               <div>
-                <p className="s00-aic__metaTitle">{(targeting.pageLabel ?? pageId).toUpperCase()}</p>
+                <p className="s00-aic__metaTitle">{pageLabel.toUpperCase()}</p>
                 <p className="s00-aic__metaSub">
                   {(pageContext?.creativeContext ?? pageContext?.pageRole ?? 'PAGE TARGET').toUpperCase()}
                 </p>
@@ -455,7 +464,7 @@ export function DesignAgentDock() {
             }
           >
             <p className="s00-aic__metaSub">
-              {targeting.projectSlug.toUpperCase()} · {(targeting.pageLabel ?? pageId).toUpperCase()} ·{' '}
+              {targeting.projectSlug.toUpperCase()} · {pageLabel.toUpperCase()} ·{' '}
               {viewMode.toUpperCase()} · {viewport}
             </p>
             {showScope ? (
@@ -476,7 +485,7 @@ export function DesignAgentDock() {
 
           <AiConsoleSection label="INTENT">
             <div className="s00-aic__chipGrid" role="radiogroup" aria-label="Agent intent">
-              {DESIGN_AGENT_INTENTS.map((value) => (
+              {OPUS_INTENT_ORDER.filter((value) => DESIGN_AGENT_INTENTS.includes(value)).map((value) => (
                 <button
                   key={value}
                   type="button"
@@ -565,7 +574,7 @@ export function DesignAgentDock() {
                     setTask((value) =>
                       `${value.trim()}${value.trim() ? ' ' : ''}${opusContextAssistText({
                         projectSlug: targeting.projectSlug,
-                        pageLabel: (targeting.pageLabel ?? pageId).toUpperCase(),
+                        pageLabel: pageLabel.toUpperCase(),
                         viewport,
                         viewMode,
                         route: targeting.route,

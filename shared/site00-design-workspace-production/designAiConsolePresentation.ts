@@ -71,6 +71,21 @@ export function opusConsoleStatus(input: {
   }
 }
 
+/**
+ * Display order for the intent control. The runtime lists intents by write-mode
+ * rank; the founder scans them by how often they are used, so the two refine
+ * intents lead and the three creation intents trail.
+ */
+export const OPUS_INTENT_ORDER = [
+  'REFINE_CURRENT',
+  'FIX_VISUAL',
+  'FIX_INTERACTION',
+  'INSPECT_ONLY',
+  'CREATE_PAGE',
+  'CREATE_CHILD',
+  'CREATE_GRANDCHILD',
+] as const;
+
 /** Compact founder wording for an intent — the long spec description stays in a tooltip. */
 export const OPUS_INTENT_PRESENTATION: Record<
   string,

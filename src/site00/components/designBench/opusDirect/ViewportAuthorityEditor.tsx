@@ -48,6 +48,7 @@ export function ViewportAuthorityEditor({
   reference,
   workflowApi,
   pageLabel,
+  conceptLabel,
   onClose,
   onFullscreen,
 }: {
@@ -56,6 +57,7 @@ export function ViewportAuthorityEditor({
   reference: ViewportAuthorityReference;
   workflowApi: WorkflowApi;
   pageLabel?: string;
+  conceptLabel?: string | null;
   onClose: () => void;
   onFullscreen: (src: string, title: string, subtitle?: string) => void;
 }) {
@@ -82,7 +84,7 @@ export function ViewportAuthorityEditor({
 
   const detailRows = authorityDetailRows({
     pageLabel: pageLabel ?? source.pageId,
-    conceptLabel: shownVersion?.label ?? null,
+    conceptLabel: conceptLabel ?? null,
     viewport,
     versionLabel: shownVersion?.label ?? null,
     versionStatus: shownVersion?.status ?? null,
@@ -159,7 +161,7 @@ export function ViewportAuthorityEditor({
       testId="design-viewport-authority-console"
       panelId="s00-authority-panel"
       name="CGPT AUTHORITY COLLABORATION"
-      model="FIXTURE"
+      model="CGPT"
       status="FIXTURE"
       statusTone="IDLE"
       title="VIEWPORT AUTHORITY"

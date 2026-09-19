@@ -425,10 +425,14 @@
   font-weight: 700;
 }
 
-.s00-aic__chip:disabled {
+.s00-aic__chip:disabled,
+.s00-aic__chip.is-on:disabled {
+  background: var(--aic-sunken);
+  border-color: var(--aic-border-subtle);
   color: #a8a8ac;
   border-style: dashed;
   cursor: not-allowed;
+  font-weight: 500;
 }
 
 .s00-aic__chipGrid {
@@ -666,6 +670,7 @@
 
 .s00-aic__tileCheck {
   position: absolute;
+  z-index: 1;
   top: 3px;
   right: 3px;
   width: 15px;
@@ -680,6 +685,7 @@
 }
 
 .s00-aic__tile--more {
+  align-self: start;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1248,6 +1254,28 @@
 
   .s00-aic__tab {
     flex: 0 0 auto;
+  }
+
+  .s00-aic__tabsTrail {
+    flex: 0 0 auto;
+  }
+
+  /* Grok's mode is already a chip row in the body; repeating it in the tab
+     trail only pushes the tabs off a 430px screen. */
+  .s00-aic--grok .s00-aic__tabsTrail {
+    display: none;
+  }
+
+  .s00-aic__composerTools {
+    flex-wrap: wrap;
+  }
+
+  .s00-aic__modelChip {
+    white-space: nowrap;
+  }
+
+  .s00-aic__select {
+    max-width: 104px;
   }
 
   .s00-aic__split,

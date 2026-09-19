@@ -44,6 +44,7 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 import { compileDesignPageContext } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageContext.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import { useDesignGrokEligibility } from '../opusDirect/DesignGrokEligibilityProvider';
 import {
   AiConsoleButton,
@@ -71,7 +72,12 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
   const { eligibility, refresh } = useDesignGrokEligibility();
   const agentTarget = useDesignAgentTarget();
   const target = agentTarget.projectSlug === projectSlug ? agentTarget : { ...agentTarget, projectSlug };
-  const pageId = target.pageId ?? `${projectSlug}:overview`;
+  // The registry page id carries its route, so the console must resolve the
+  // shell target the same way the workspace does. Guessing `slug:overview`
+  // pointed the console at a page id the eligibility provider never uses, and
+  // the concept and staged assets silently came back empty.
+  const shellTarget = useMemo(() => resolveDesignPageTargetForShell(projectSlug), [projectSlug]);
+  const pageId = target.pageId ?? shellTarget.pageId;
   const viewport = (agentTarget.target.viewport === 'DESKTOP' || agentTarget.target.viewport === 'TABLET' ?
     agentTarget.target.viewport
   : 'MOBILE') as 'MOBILE' | 'TABLET' | 'DESKTOP';
@@ -265,7 +271,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
       status={status.label}
       statusTone={status.tone}
       title="GROK ASSET AGENT"
-      purpose={`AI asset production for ${projectSlug.toUpperCase()} · ${(target.pageLabel ?? pageCtx?.route ?? pageId).toUpperCase()}`}
+      purpose={`AI asset production for ${projectSlug.toUpperCase()} · ${(target.pageLabel ?? shellTarget.pageLabel).toUpperCase()}`}
       ariaLabel="Grok asset agent console"
       onClose={() => setOpen(false)}
       tabs={
@@ -401,9 +407,10 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
             <p className="s00-aic__metaTitle">{(selectedConcept?.conceptTitle ?? 'NO CONCEPT').toUpperCase()}</p>
             <AiConsoleMeta
               rows={[
-                { label: 'PAGE', value: (target.pageLabel ?? pageId).toUpperCase() },
+                { label: 'PAGE', value: (target.pageLabel ?? shellTarget.pageLabel).toUpperCase() },
                 { label: 'VIEWPORT', value: viewport },
                 { label: 'STATUS', value: selectedConcept?.status ?? 'NONE' },
+                { label: 'ROUTE', value: pageCtx?.route ?? '—' },
                 { label: 'CONCEPT ID', value: selectedConcept?.conceptId ?? '—' },
               ]}
             />
