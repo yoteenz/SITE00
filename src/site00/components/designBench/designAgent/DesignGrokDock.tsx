@@ -207,7 +207,10 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
           </OverlayCompare>
 
           {ready ? null : (
-            <OverlaySection title="ASSET PRODUCTION NOT READY" meta={eligibility.eligibility.replace(/_/g, ' ')}>
+            <OverlaySection
+              title="GROK ASSET PRODUCTION · NOT READY"
+              meta={eligibility.eligibility.replace(/_/g, ' ')}
+            >
               <OverlayCallout title="WHY" tone="blocked">
                 {eligibility.shortReason}
               </OverlayCallout>

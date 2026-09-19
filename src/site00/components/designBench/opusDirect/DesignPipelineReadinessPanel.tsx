@@ -3,6 +3,7 @@
  */
 
 import type { PagePipelineControllerModel, PagePipelineStageRow } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
+import { overlayTone } from '../production/designOverlayKit';
 import type { TwinOpusDirectWorkspaceActions } from './twinOpusDirectWorkspace';
 
 function stageGlyph(row: PagePipelineStageRow): string {
@@ -40,12 +41,15 @@ export function DesignPipelineReadinessPanel({
                 cy="34"
                 r="30"
                 className="tod-pipe__ringValue"
+                data-tone={overlayTone(model.readyLabel)}
                 strokeDasharray={readinessDash.circumference}
                 strokeDashoffset={readinessDash.offset}
               />
             </svg>
             <span className="tod-pipe__gaugeValue">{model.readinessPercent}%</span>
-            <span className="tod-pipe__gaugeState">{model.readyLabel}</span>
+            <span className="tod-pipe__gaugeState" data-tone={overlayTone(model.readyLabel)}>
+              {model.readyLabel}
+            </span>
           </div>
           <p className="tod-pipe__stageLine">
             CURRENT STAGE: <strong>{model.currentStageLabel}</strong>

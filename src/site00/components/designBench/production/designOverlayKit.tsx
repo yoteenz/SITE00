@@ -19,15 +19,31 @@ import type { ReactNode } from 'react';
 
 export type OverlayStatusTone = 'ok' | 'active' | 'blocked' | 'warn' | 'idle' | 'na';
 
-/** Maps the production vocabularies onto the four things a founder can see. */
+/**
+ * Maps the production vocabularies onto the handful of states a founder can
+ * see. Matching is on whole words: an unanchored search reads BLOCKED as
+ * LOCKED and paints a hard stop green, which is the one mistake a status chip
+ * must never make. Negative states are tested first for the same reason —
+ * NOT PROMOTED is not a promotion.
+ */
 export function overlayTone(value: string | null | undefined): OverlayStatusTone {
-  const token = (value ?? '').toUpperCase();
+  const token = (value ?? '').toUpperCase().replace(/[_·]+/g, ' ').trim();
   if (!token) return 'idle';
-  if (/(PASS|COMPLETE|APPROVED|PROMOTED|LOCKED|READY|OK|IMPLEMENTED)/.test(token)) return 'ok';
-  if (/(ACTIVE|CURRENT|SELECTED|IN_PROGRESS|STAGED|PENDING_REVIEW)/.test(token)) return 'active';
-  if (/(BLOCKED|FAIL|REJECTED|MISSING|ERROR)/.test(token)) return 'blocked';
-  if (/(WARN|PENDING|WAITING|UNDER_REVIEW|AMENDMENT)/.test(token)) return 'warn';
-  if (/(NOT_APPLICABLE|N\/A|NONE|NOT_REQUIRED|NOT_STARTED)/.test(token)) return 'na';
+  const has = (...phrases: readonly string[]) =>
+    phrases.some((phrase) => new RegExp(`(^|[^A-Z/])${phrase}([^A-Z/]|$)`).test(token));
+  if (has('N/A', 'NONE', 'NOT APPLICABLE', 'NOT REQUIRED', 'NOT STARTED', 'NOT SELECTED', 'UNSET')) {
+    return 'na';
+  }
+  if (has('BLOCKED', 'BLOCKING', 'FAIL', 'FAILED', 'REJECTED', 'MISSING', 'ERROR', 'NOT')) {
+    return 'blocked';
+  }
+  if (has('WARN', 'WARNING', 'PENDING', 'WAITING', 'UNDER REVIEW', 'AMENDMENT', 'OPTIONAL')) {
+    return 'warn';
+  }
+  if (has('PASS', 'PASSED', 'COMPLETE', 'COMPLETED', 'APPROVED', 'PROMOTED', 'LOCKED', 'READY', 'OK', 'IMPLEMENTED')) {
+    return 'ok';
+  }
+  if (has('ACTIVE', 'CURRENT', 'SELECTED', 'IN PROGRESS', 'STAGED')) return 'active';
   return 'idle';
 }
 

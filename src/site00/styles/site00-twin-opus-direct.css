@@ -2146,6 +2146,31 @@
   stroke-linecap: butt;
 }
 
+/*
+ * The golden read READY in green. Live pages are usually mid-pipeline, so the
+ * gauge has to carry the real state: a blocked page shown in the ready colour
+ * is worse than no gauge at all.
+ */
+.tod-pipe__ringValue[data-tone='blocked'],
+.tod-pipe__gaugeState[data-tone='blocked'] {
+  stroke: var(--tod-red);
+  color: var(--tod-red);
+}
+
+.tod-pipe__ringValue[data-tone='warn'],
+.tod-pipe__gaugeState[data-tone='warn'] {
+  stroke: var(--tod-amber);
+  color: #8a6a00;
+}
+
+.tod-pipe__ringValue[data-tone='idle'],
+.tod-pipe__ringValue[data-tone='na'],
+.tod-pipe__gaugeState[data-tone='idle'],
+.tod-pipe__gaugeState[data-tone='na'] {
+  stroke: var(--tod-ink-3);
+  color: var(--tod-ink-3);
+}
+
 .tod-pipe__gaugeValue {
   position: absolute;
   left: 4px;
@@ -2463,6 +2488,67 @@
   flex: 0 0 65.6px;
   color: #5e5e60;
   font-weight: var(--tod-weight-ui);
+}
+
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — the record dock's own list. Version
+ * and change history borrowed the overlay's gate-card classes, which are sized
+ * for a real-pixel drawer and rendered oversized inside the scaled artboard.
+ */
+.tod-rec__list {
+  flex: 0 0 221px;
+  display: flex;
+  flex-direction: column;
+  gap: 4.4px;
+  margin: 0;
+  padding: 8.9px 12px 0 0;
+  list-style: none;
+  border-right: 1px solid var(--tod-border-column);
+  overflow-y: auto;
+}
+
+.tod-rec__row {
+  display: flex;
+  gap: 8px;
+  font-size: 8.5px;
+  line-height: 1.2;
+  color: #333333;
+  font-weight: var(--tod-weight-ui);
+  padding-bottom: 3.4px;
+  border-bottom: 1px solid var(--tod-border-subtle);
+}
+
+.tod-rec__row--stack {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tod-rec__rowLabel {
+  flex: 0 0 65.6px;
+  color: #5e5e60;
+}
+
+.tod-rec__row--stack .tod-rec__rowLabel {
+  flex: 0 0 auto;
+  color: #232323;
+}
+
+.tod-rec__rowValue {
+  color: #232323;
+}
+
+.tod-rec__rowSub {
+  color: #5e5e60;
+}
+
+.tod-rec__empty {
+  flex: 0 0 221px;
+  margin: 0;
+  padding-top: 8.9px;
+  font-size: 8.5px;
+  line-height: 1.2;
+  color: var(--tod-ink-3);
+  border-right: 1px solid var(--tod-border-column);
 }
 
 .tod-concept__amendment {

@@ -978,9 +978,69 @@
   color: var(--tod-red);
 }
 
+/*
+ * A gated action must not keep the colour of the action the founder is meant
+ * to take. A faded lime bar still reads as "press this" from across a room,
+ * so disabled drops out of the accent entirely.
+ */
 .tod-ok-btn:disabled {
-  opacity: 0.45;
   cursor: not-allowed;
+  border-color: var(--tod-border-subtle);
+  background: var(--tod-panel);
+  color: var(--tod-ink-3);
+  font-weight: 400;
+}
+
+/* ---- navigation rows -----------------------------------------------------
+   A destination list. Same row rhythm as OverlayRows, but each row is the
+   target, which is why it is an anchor and not a list item with a link in it. */
+
+.tod-ok-navList {
+  display: flex;
+  flex-direction: column;
+}
+
+.tod-ok-navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--tod-border-subtle);
+  color: var(--tod-ink);
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.tod-ok-navRow:last-child {
+  border-bottom: 0;
+}
+
+.tod-ok-navRow:hover {
+  background: var(--tod-panel);
+}
+
+.tod-ok-navRow.is-active {
+  border-left: 3px solid var(--tod-lime);
+  padding-left: 9px;
+}
+
+.tod-ok-navRow__main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.tod-ok-navRow__name {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.tod-ok-navRow__sub {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--tod-ink-3);
 }
 
 /* ---- responsive ----------------------------------------------------------
