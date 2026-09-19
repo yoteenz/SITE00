@@ -37,6 +37,12 @@ import {
   type PipelineResolutionHandler,
 } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import {
+  computeHeroAssemblyActions,
+  type HeroAssemblyActionsModel,
+} from '../../../../../shared/site00-design-workspace-production/designHeroAssemblyActions.js';
+import { listStagedGrokAssets } from '../../../../../shared/site00-design-workspace-production/designGrokAssetModel.js';
+import { compileDesignPageContext } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageContext.js';
+import {
   buildPageSystemReviewModel,
   type PageSystemReviewModel,
 } from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
@@ -159,6 +165,7 @@ export interface TwinOpusDirectWorkspaceData {
     conceptEmptyLabel: string;
     captureBusy: boolean;
   };
+  heroAssembly: HeroAssemblyActionsModel;
 }
 
 export interface TwinOpusDirectWorkspaceState {
@@ -204,6 +211,8 @@ export interface TwinOpusDirectWorkspaceActions {
   generatePageConcepts: () => void;
   captureScreen: () => Promise<void>;
   openHeroCompareFullscreen: (side: 'current' | 'concept') => void;
+  openCreatePageFramework: () => void;
+  openGrokPageAssetProduction: () => void;
   openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
 }
 
@@ -261,6 +270,12 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   useEffect(() => {
     setCandidateId(prodState.selectedCandidateId);
   }, [prodState.selectedCandidateId, prodState.updatedAt]);
+
+  useEffect(() => {
+    const refresh = () => pageAuthority.reload();
+    window.addEventListener('site00:design-framework-handoff', refresh);
+    return () => window.removeEventListener('site00:design-framework-handoff', refresh);
+  }, [pageAuthority]);
 
   useEffect(() => {
     const stored = readStoredViewMode();
@@ -326,6 +341,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       captureScreen: async () => {
         await pageCapture.captureScreen();
       },
+      openCreatePageFramework: () => prodActions.openCreatePageFramework(),
+      openGrokPageAssetProduction: () => prodActions.openGrokPageAssetProduction(),
       openHeroCompareFullscreen: (side) => {
         const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
         const selected = concepts.find((c) => c.conceptId === candidateId) ?? null;
@@ -518,8 +535,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           case 'captureScreen':
             void pageCapture.captureScreen();
             break;
+          case 'openCreateFramework':
+            prodActions.openCreatePageFramework();
+            break;
+          case 'openGenerateAssets':
+            prodActions.openGrokPageAssetProduction();
+            break;
           case 'openGrokDock':
-            (document.querySelector('[data-interaction-id="view-row-grok"]') as HTMLButtonElement | null)?.click();
+            prodActions.openGrokPageAssetProduction();
             break;
           case 'scrollGallery':
             document.querySelector('.tod-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -782,6 +805,26 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         conceptEmptyLabel,
         captureBusy: pageCapture.capturing,
       },
+      heroAssembly: (() => {
+        const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
+        const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
+        const staged = listStagedGrokAssets(projectSlug, pageTarget.pageId);
+        const model = computeHeroAssemblyActions({
+          projectId: projectSlug,
+          pageId: pageTarget.pageId,
+          viewport,
+          production: prodState,
+          pageWorkflow: pageAuthority.workflow,
+          twinRouteReachable: pageAuthority.workflow.twinRouteVerifiedAt ? true : null,
+          twinRoute: pageCtx?.route ?? null,
+          hasPageConceptCandidates: concepts.length > 0,
+          grokGenerationInProgress: staged.some((a) => a.status === 'STAGED'),
+        });
+        return {
+          ...model,
+          capture: { ...model.capture, busy: pageCapture.capturing },
+        };
+      })(),
     };
   }, [
     actor,

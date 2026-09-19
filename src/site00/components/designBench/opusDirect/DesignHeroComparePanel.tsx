@@ -1,7 +1,8 @@
 /**
- * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 — CURRENT implementation capture vs selected page concept.
+ * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 + HERO-ASSEMBLY-ACTIONS1 — CURRENT vs CONCEPT + assembly toolbar.
  */
 
+import type { HeroAssemblyActionsModel } from '../../../../../shared/site00-design-workspace-production/designHeroAssemblyActions.js';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 
 type Variant = 'canonical' | 'list';
@@ -10,6 +11,43 @@ const PREFIX: Record<Variant, string> = {
   canonical: 'tod-hero-compare',
   list: 'tod-lv-hero-compare',
 };
+
+function HeroAssemblyActionButton({
+  prefix,
+  label,
+  disabled,
+  busyLabel,
+  statusLine,
+  disabledReason,
+  onClick,
+  interactionId,
+}: {
+  prefix: string;
+  label: string;
+  disabled: boolean;
+  busyLabel?: string;
+  statusLine: string | null;
+  disabledReason: string | null;
+  onClick: () => void;
+  interactionId: string;
+}) {
+  const title = disabled && disabledReason ? disabledReason : statusLine ?? undefined;
+  return (
+    <button
+      type="button"
+      className={`${prefix}__actionBtn${disabled ? ` ${prefix}__actionBtn--disabled` : ''}`}
+      data-interaction-id={interactionId}
+      disabled={disabled}
+      title={title}
+      onClick={onClick}
+    >
+      <span className={`${prefix}__actionLabel`}>{busyLabel ?? label}</span>
+      {statusLine && !disabled ?
+        <span className={`${prefix}__actionMeta`}>{statusLine}</span>
+      : null}
+    </button>
+  );
+}
 
 export function DesignHeroComparePanel({
   workspace,
@@ -21,6 +59,7 @@ export function DesignHeroComparePanel({
   const { data, actions } = workspace;
   const p = PREFIX[variant];
   const compare = data.heroCompare;
+  const assembly: HeroAssemblyActionsModel = data.heroAssembly;
 
   return (
     <article className={p} aria-label="Current page capture versus selected page concept">
@@ -41,15 +80,6 @@ export function DesignHeroComparePanel({
               <img src={compare.currentSrc} alt="" className={`${p}__img`} draggable={false} />
             : <span className={`${p}__empty`}>{compare.currentEmptyLabel}</span>}
           </button>
-          <button
-            type="button"
-            className={`${p}__captureBtn`}
-            data-interaction-id="hero-capture-screen"
-            disabled={compare.captureBusy}
-            onClick={() => void actions.captureScreen()}
-          >
-            {compare.captureBusy ? 'CAPTURING…' : 'CAPTURE SCREEN'}
-          </button>
         </div>
 
         <div className={`${p}__pane`}>
@@ -69,6 +99,37 @@ export function DesignHeroComparePanel({
             : <span className={`${p}__empty`}>{compare.conceptEmptyLabel}</span>}
           </button>
         </div>
+      </div>
+
+      <div className={`${p}__actions`} role="group" aria-label="Hero page assembly actions">
+        <HeroAssemblyActionButton
+          prefix={p}
+          label={assembly.capture.label}
+          busyLabel={compare.captureBusy ? 'CAPTURING…' : undefined}
+          disabled={compare.captureBusy}
+          statusLine={null}
+          disabledReason={null}
+          interactionId="hero-capture-screen"
+          onClick={() => void actions.captureScreen()}
+        />
+        <HeroAssemblyActionButton
+          prefix={p}
+          label={assembly.createFramework.label}
+          disabled={assembly.createFramework.disabled}
+          statusLine={assembly.createFramework.statusLine}
+          disabledReason={assembly.createFramework.disabledReason}
+          interactionId="hero-create-framework"
+          onClick={() => actions.openCreatePageFramework()}
+        />
+        <HeroAssemblyActionButton
+          prefix={p}
+          label={assembly.generateAssets.label}
+          disabled={assembly.generateAssets.disabled}
+          statusLine={assembly.generateAssets.statusLine}
+          disabledReason={assembly.generateAssets.disabledReason}
+          interactionId="hero-generate-assets"
+          onClick={() => actions.openGrokPageAssetProduction()}
+        />
       </div>
     </article>
   );

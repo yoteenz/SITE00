@@ -25,10 +25,19 @@ import type {
   FounderActor,
 } from '../../../../../shared/site00-design-workspace-production/types.js';
 import {
-  createComposerHandoffPackage,
   loadPageAuthorityWorkflow,
   savePageAuthorityWorkflow,
 } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
+import {
+  createOpusFrameworkHandoffPackage,
+  resolveOpusFrameworkRoutes,
+} from '../../../../../shared/site00-design-workspace-production/designOpusFrameworkHandoff.js';
+import {
+  approveGrokPageAssetPlan,
+  buildFixtureGrokPageAssetPlan,
+  saveGrokPageAssetPlan,
+} from '../../../../../shared/site00-design-workspace-production/designGrokPageAssetPlan.js';
+import { buildOpusPageContextContract } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageContext.js';
 import { getCurrentUser, isAdminFounderAccount } from '../../../../utils/adminAuth';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import {
@@ -77,6 +86,10 @@ export type TwinOpusDirectProductionActions = {
   openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
   openComposerHandoff: () => void;
   confirmComposerHandoff: () => void;
+  openCreatePageFramework: () => void;
+  confirmCreatePageFramework: () => void;
+  openGrokPageAssetProduction: () => void;
+  confirmGrokAssetPlanAndOpenDock: () => void;
   markTwinPageReviewed: () => void;
   openFullscreenArtifact: (artifact: DesignWorkspaceArtifactView) => void;
   openInspectCandidate: (candidateId: string) => void;
@@ -259,6 +272,41 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
 
   const projection = useMemo(() => projectDesignProductionProjection(state), [state]);
 
+  const dispatchCreatePageFramework = useCallback(() => {
+    const pageId = readDesignPageTarget(projectId)?.pageId ?? `${projectId}:overview`;
+    const wf = loadPageAuthorityWorkflow(projectId, pageId);
+    const routes = resolveOpusFrameworkRoutes(projectId, pageId);
+    const opusContract = buildOpusPageContextContract(projectId, pageId);
+    const { state: wfNext } = createOpusFrameworkHandoffPackage(wf, {
+      projectId,
+      pageId,
+      interactionContractVersion: stateRef.current.contractFreeze.contractVersion,
+      assetManifestVersion: 'twin-opus-direct-assets-v1',
+      pageContextVersion: pageId,
+      projectContextVersion: opusContract?.projectCanon?.slice(0, 32) ?? projectId,
+      tabletPolicy: stateRef.current.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED',
+      currentImplementationRoute: routes.currentImplementationRoute,
+      targetTwinRoute: routes.targetTwinRoute,
+    });
+    savePageAuthorityWorkflow(projectId, pageId, wfNext);
+    void runCommand('LOCK_AUTHORITY_PAIR', undefined, (current, act) =>
+      transitionConfirmComposerHandoff(current, act),
+    );
+    setOverlay(null);
+    window.dispatchEvent(new CustomEvent('site00:design-framework-handoff', { detail: { projectId, pageId } }));
+  }, [projectId, runCommand]);
+
+  const dispatchGrokAssetPlanApproval = useCallback(() => {
+    const pageId = readDesignPageTarget(projectId)?.pageId ?? `${projectId}:overview`;
+    const plan = buildFixtureGrokPageAssetPlan(projectId, pageId);
+    saveGrokPageAssetPlan(plan);
+    approveGrokPageAssetPlan(projectId, pageId);
+    setOverlay(null);
+    window.dispatchEvent(
+      new CustomEvent('site00:design-grok-asset-plan-approved', { detail: { projectId, pageId } }),
+    );
+  }, [projectId]);
+
   const actions = useMemo<TwinOpusDirectProductionActions>(
     () => ({
       setOverlay,
@@ -286,7 +334,9 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setUiPayload({ authorityEditorViewport: viewport });
         setOverlay('OV-VIEWPORT-AUTHORITY-EDITOR');
       },
-      openComposerHandoff: () => setOverlay('OV-COMPOSER-HANDOFF'),
+      openComposerHandoff: () => setOverlay('OV-CREATE-PAGE-FRAMEWORK'),
+      openCreatePageFramework: () => setOverlay('OV-CREATE-PAGE-FRAMEWORK'),
+      openGrokPageAssetProduction: () => setOverlay('OV-GROK-PAGE-ASSET-PRODUCTION'),
       markTwinPageReviewed: () => {
         try {
           applyLocalState(transitionMarkTwinPageReviewed(stateRef.current, resolveActor()));
@@ -294,23 +344,9 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
           setProductionError(err instanceof Error ? err.message : String(err));
         }
       },
-      confirmComposerHandoff: () => {
-        const pageId = readDesignPageTarget(projectId)?.pageId ?? `${projectId}:overview`;
-        const wf = loadPageAuthorityWorkflow(projectId, pageId);
-        const { state: wfNext } = createComposerHandoffPackage(wf, {
-          projectId,
-          pageId,
-          interactionContractVersion: stateRef.current.contractFreeze.contractVersion,
-          assetManifestVersion: 'twin-opus-direct-assets-v1',
-          pageContextVersion: pageId,
-          tabletPolicy: stateRef.current.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED',
-        });
-        savePageAuthorityWorkflow(projectId, pageId, wfNext);
-        void runCommand('LOCK_AUTHORITY_PAIR', undefined, (current, act) =>
-          transitionConfirmComposerHandoff(current, act),
-        );
-        setOverlay(null);
-      },
+      confirmComposerHandoff: dispatchCreatePageFramework,
+      confirmCreatePageFramework: dispatchCreatePageFramework,
+      confirmGrokAssetPlanAndOpenDock: dispatchGrokAssetPlanApproval,
       runReviewAuthority: (decision) => {
         void runCommand(
           'APPROVE_AUTHORITY',
@@ -371,7 +407,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
           (current, act) => transitionPromoteViewportMaster(current, act, viewport),
         );
       },
-      runLockAuthorityPair: () => setOverlay('OV-COMPOSER-HANDOFF'),
+      runLockAuthorityPair: () => setOverlay('OV-CREATE-PAGE-FRAMEWORK'),
       runMoveToBuild: () => void runCommand('MOVE_TO_BUILD'),
       requestSpendConfirm: (input) => {
         setPendingSpend(input);
@@ -409,7 +445,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         void runCommand('REGENERATE_CONCEPT', input);
       },
     }),
-    [pendingSpend, runCommand],
+    [dispatchCreatePageFramework, dispatchGrokAssetPlanApproval, pendingSpend, projectId, runCommand],
   );
 
   return {

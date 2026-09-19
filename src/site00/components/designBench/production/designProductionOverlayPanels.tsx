@@ -21,6 +21,9 @@ import {
   PAGE_SYSTEM_REVIEW_TITLE,
 } from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
 import { loadPageAuthorityWorkflow } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
+import { loadPageCaptureHistory } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
+import { buildFixtureGrokPageAssetPlan } from '../../../../../shared/site00-design-workspace-production/designGrokPageAssetPlan.js';
+import { resolveOpusFrameworkRoutes } from '../../../../../shared/site00-design-workspace-production/designOpusFrameworkHandoff.js';
 import { listApprovedGrokAssets, listStagedGrokAssets } from '../../../../../shared/site00-design-workspace-production/designGrokAssetModel.js';
 import { twinOpusDirectCandidateArtifactView, twinOpusDirectCandidateById } from '../opusDirect/twinOpusDirectCandidateArtifacts';
 import type { TwinOpusDirectProduction } from '../opusDirect/useTwinOpusDirectProduction';
@@ -452,37 +455,151 @@ export function ComposerHandoffPanel({
   onConfirm: () => void;
   onCancel: () => void;
 }) {
+  return (
+    <CreatePageFrameworkPanel
+      projectSlug={projectSlug}
+      production={production}
+      onConfirm={onConfirm}
+      onCancel={onCancel}
+    />
+  );
+}
+
+export function CreatePageFrameworkPanel({
+  projectSlug,
+  production,
+  onConfirm,
+  onCancel,
+}: {
+  projectSlug: string;
+  production: TwinOpusDirectProduction;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
   const { state } = production;
   const pageTarget = resolveDesignPageTargetForShell(projectSlug);
+  const wf = loadPageAuthorityWorkflow(projectSlug, pageTarget.pageId);
+  const routes = resolveOpusFrameworkRoutes(projectSlug, pageTarget.pageId);
 
   return (
     <>
-      <p className="tod-dcs-lead">Lock this design pair and send the page to Composer for twin implementation?</p>
+      <p className="tod-dcs-lead">
+        Queue Opus page framework assembly from the promoted mobile + desktop design pair. No automatic Opus run —
+        dispatch occurs only after you confirm.
+      </p>
       <dl className="tod-dcs-meta">
+        <div>
+          <dt>PROJECT</dt>
+          <dd>{projectSlug.toUpperCase()}</dd>
+        </div>
         <div>
           <dt>PAGE</dt>
           <dd>{pageTarget.pageLabel}</dd>
         </div>
         <div>
-          <dt>MOBILE PROMOTED</dt>
-          <dd>{state.promotedMobileConceptId ?? '—'}</dd>
+          <dt>MOBILE PROMOTED DESIGN</dt>
+          <dd>{state.promotedMobileConceptId ?? wf.promoted.mobileConceptId ?? '—'}</dd>
         </div>
         <div>
-          <dt>DESKTOP PROMOTED</dt>
-          <dd>{state.promotedDesktopConceptId ?? '—'}</dd>
+          <dt>DESKTOP PROMOTED DESIGN</dt>
+          <dd>{state.promotedDesktopConceptId ?? wf.promoted.desktopConceptId ?? '—'}</dd>
         </div>
         <div>
-          <dt>TABLET</dt>
+          <dt>TABLET POLICY</dt>
           <dd>{state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED'}</dd>
         </div>
         <div>
           <dt>INTERACTION CONTRACT</dt>
           <dd>{state.contractFreeze.contractVersion}</dd>
         </div>
+        <div>
+          <dt>CURRENT ASSET MANIFEST</dt>
+          <dd>twin-opus-direct-assets-v1</dd>
+        </div>
+        <div>
+          <dt>TARGET TWIN ROUTE</dt>
+          <dd>{routes.targetTwinRoute}</dd>
+        </div>
       </dl>
       <div className="tod-dcs-stackActions">
         <button type="button" className="tod-dcs__primary" onClick={onConfirm}>
-          CONFIRM + SEND TO COMPOSER
+          CREATE FRAMEWORK
+        </button>
+        <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
+          CANCEL
+        </button>
+      </div>
+    </>
+  );
+}
+
+export function GrokPageAssetProductionPanel({
+  projectSlug,
+  production,
+  onConfirmPlan,
+  onCancel,
+}: {
+  projectSlug: string;
+  production: TwinOpusDirectProduction;
+  onConfirmPlan: () => void;
+  onCancel: () => void;
+}) {
+  const pageTarget = resolveDesignPageTargetForShell(projectSlug);
+  const { state } = production;
+  const plan = buildFixtureGrokPageAssetPlan(projectSlug, pageTarget.pageId);
+  const routes = resolveOpusFrameworkRoutes(projectSlug, pageTarget.pageId);
+  const capture = loadPageCaptureHistory(projectSlug, pageTarget.pageId, 'MOBILE');
+
+  return (
+    <>
+      <p className="tod-dcs-lead">
+        Grok returns an asset plan first. Approve the plan before any generation spend. No live Grok invoke in this
+        sprint.
+      </p>
+      <dl className="tod-dcs-meta">
+        <div>
+          <dt>PROJECT</dt>
+          <dd>{projectSlug.toUpperCase()}</dd>
+        </div>
+        <div>
+          <dt>PAGE</dt>
+          <dd>{pageTarget.pageLabel}</dd>
+        </div>
+        <div>
+          <dt>CURRENT CAPTURE</dt>
+          <dd>{capture.latest?.artifactPath ? 'CAPTURE ON FILE' : 'MISSING'}</dd>
+        </div>
+        <div>
+          <dt>PROMOTED MOBILE DESIGN</dt>
+          <dd>{state.promotedMobileConceptId ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>PROMOTED DESKTOP DESIGN</dt>
+          <dd>{state.promotedDesktopConceptId ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>TWIN ROUTE</dt>
+          <dd>{routes.targetTwinRoute}</dd>
+        </div>
+        <div>
+          <dt>CURRENT ASSET MANIFEST</dt>
+          <dd>twin-opus-direct-assets-v1</dd>
+        </div>
+      </dl>
+      <section className="tod-dcs-lead" aria-label="Asset plan">
+        <strong>ASSET PLAN</strong>
+        <p>{plan.summary}</p>
+        <ul>
+          {plan.slots.map((slot) => (
+            <li key={slot.slotId}>
+              {slot.label} · {slot.format} — {slot.purpose}
+            </li>
+          ))}
+        </ul>
+      </section>
+      <div className="tod-dcs-stackActions">
+        <button type="button" className="tod-dcs__primary" onClick={onConfirmPlan}>
+          APPROVE ASSET PLAN + OPEN GROK
         </button>
         <button type="button" className="tod-dcs__ghost" onClick={onCancel}>
           CANCEL
