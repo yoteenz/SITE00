@@ -112,6 +112,9 @@
   background: var(--tod-paper, #fdfdfd);
   box-shadow: none;
   max-height: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .tod-dcs__head {

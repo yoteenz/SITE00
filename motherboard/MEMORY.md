@@ -10476,3 +10476,13 @@ Full conversation: founder first had Opus rebuild the seven project-level Design
 - **Wiring (slots only):** collection rail/card fallbacks, asset category cards, page-family thumbnails, skins material tiles + expression hero, history kind marks + empty plate, More banner, hamburger hero. `projectTabIcons.tsx` now renders the catalog so hamburger/action bars/More share one family.
 - **Review:** `/site00/project-tabs/staged/review.html`. Tests: `tests/p0vrDesignGrokProjectTabAssets1.test.ts` (10).
 - **Branch:** `cursor/grok-project-tab-assets-e65d` · PR #1010.
+
+---
+
+## 2026-09-19 — P0.DESIGN.IN-SHELL-DOCK-POSITIONING-FIX1
+
+Founder bug: project-level tab action dock (HISTORY, SKINS, etc.) floated mid-viewport while content scrolled — caused by `position: sticky` on `.tod-ps-actionbar` plus `zoom` on the inline frame breaking overflow/flex.
+
+- **Fix:** `ProjectSurface` splits `tod-ps__main` (scroll) from `ProjectActionBar`; inline frame is flex column with `height: 0` body flex trick; action bar `position: absolute; bottom: 0` inside `.tod-ps`; zoom only on `.tod-ps__main`.
+- **Tests:** `tests/p0vrDesignInShellDockPositioningFix1.test.ts`; Playwright all six tabs OK.
+- **Branch:** `cursor/in-shell-dock-positioning-fix1-9f72`.
