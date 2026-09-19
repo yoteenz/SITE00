@@ -15,6 +15,13 @@ export {
 } from './geometry';
 export { DVS_GLYPHS, DVS_GLYPH_NAMES } from './glyphs';
 export {
+  VIEW_MODE_CANONICAL_NAME,
+  VIEW_MODE_ICON_PUBLIC,
+  VIEW_MODE_LIST_NAME,
+  ViewModeCanonicalGlyph,
+  ViewModeListGlyph,
+} from './viewModeIcons';
+export {
   assertDvsManifestCoverage,
   DVS_GROUPS,
   DVS_MANIFEST,

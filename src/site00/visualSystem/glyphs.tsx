@@ -1,30 +1,16 @@
 import type { ReactNode } from 'react';
 import { dvsFill, dvsStroke } from './geometry';
+import { ViewModeCanonicalGlyph, ViewModeListGlyph } from './viewModeIcons';
 
 const S = dvsStroke;
 const F = dvsFill;
 
 /** Compact architectural marks. Drawn in the 4–20 optical box of a 24 viewBox. */
 export const DVS_GLYPHS: Record<string, () => ReactNode> = {
-  canonical: () => (
-    <>
-      <rect {...S} x="4" y="4" width="8" height="10" />
-      <rect {...S} x="14" y="4" width="6" height="6" />
-      <rect {...S} x="14" y="12" width="6" height="8" />
-      <path {...S} d="M4 9h8" />
-    </>
-  ),
-  list: () => (
-    <>
-      <path {...S} d="M5 5v14" />
-      <path {...S} d="M9 6h11" />
-      <path {...S} d="M9 12h11" />
-      <path {...S} d="M9 18h8" />
-      <rect {...F} x="4" y="4.5" width="2" height="2" />
-      <rect {...F} x="4" y="11" width="2" height="2" />
-      <rect {...F} x="4" y="17" width="2" height="2" />
-    </>
-  ),
+  canonical: () => <ViewModeCanonicalGlyph />,
+  list: () => <ViewModeListGlyph />,
+  'canonical-view': () => <ViewModeCanonicalGlyph />,
+  'list-view': () => <ViewModeListGlyph />,
   opus: () => (
     <>
       <path {...S} d="M12 4l8 4.5v7L12 20l-8-4.5v-7L12 4z" />

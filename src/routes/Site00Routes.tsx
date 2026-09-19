@@ -186,6 +186,9 @@ const DesignTwinGrokDirectPage = lazy(() =>
 const DesignVisualSystemPage = lazy(() =>
   import('../site00/pages/DesignVisualSystemPage').then((m) => ({ default: m.DesignVisualSystemPage })),
 );
+const DesignViewModeIconsPage = lazy(() =>
+  import('../site00/pages/DesignViewModeIconsPage').then((m) => ({ default: m.DesignViewModeIconsPage })),
+);
 const StudioWorldDesignLegacyRedirectPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.StudioWorldDesignPage })),
 );
@@ -1179,6 +1182,16 @@ export function Site00Routes() {
           <Site00Layout>
             <Site00Suspense>
               <DesignVisualSystemPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.projectDesignViewModeIcons}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DesignViewModeIconsPage />
             </Site00Suspense>
           </Site00Layout>
         }

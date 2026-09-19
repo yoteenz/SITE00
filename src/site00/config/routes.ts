@@ -143,6 +143,8 @@ export const SITE00_ROUTES = {
   projectDesignTwinGrokDirect: '/projects/:projectSlug/design/twin-grok-direct',
   /** P0.VR.DESIGN.GROK-VISUAL-SYSTEM1 — staged DESIGN workspace icon family */
   projectDesignVisualSystem: '/projects/:projectSlug/design/visual-system',
+  /** P0.VR.DESIGN.GROK-VIEWMODE-ICONS1 — staged Canonical / List icon-only pair */
+  projectDesignViewModeIcons: '/projects/:projectSlug/design/viewmode-icons',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
   site00Design: '/projects/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
@@ -538,6 +540,10 @@ export function site00ProjectDesignTwinGrokDirectPath(projectSlug: string): stri
 
 export function site00ProjectDesignVisualSystemPath(projectSlug: string): string {
   return `/projects/${projectSlug.toLowerCase()}/design/visual-system`;
+}
+
+export function site00ProjectDesignViewModeIconsPath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/design/viewmode-icons`;
 }
 
 export function site00CanonicalDesignPath(params?: {
