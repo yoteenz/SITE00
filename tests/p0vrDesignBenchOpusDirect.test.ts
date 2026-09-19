@@ -569,9 +569,14 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1R1 — visible dedicated view row', ()
     expect(screen).toContain('return scale < 1 ? 1 / scale : 1;');
     expect(screen).toContain("['--tod-viewrow-boost' as string]: viewRowBoost(shell.scale)");
     expect(screen).not.toContain('VIEW_MODE_MAX_BOOST');
-    for (const prop of ['height: calc(32px * var(--tod-viewrow-boost, 1))', 'font-size: calc(11.6px * var(--tod-viewrow-boost, 1))']) {
+    for (const prop of [
+      'height: calc(28px * var(--tod-viewrow-boost, 1))',
+      'width: calc(18px * var(--tod-viewrow-boost, 1))',
+      '.tod-viewmode__glyph',
+    ]) {
       expect(css).toContain(prop);
     }
+    expect(control).toContain('DesignViewModeGrokIcon');
   });
 
   it('keeps the grabber removed and the renderers untouched', () => {
