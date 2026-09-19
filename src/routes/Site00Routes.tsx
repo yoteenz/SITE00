@@ -940,11 +940,13 @@ export function Site00Routes() {
       <Route
         path={SITE00_ROUTES.projectExperience}
         element={
-          <AstralWorldRouteGuard>
-            <Site00Suspense>
-              <ProjectExperienceModuleGate />
-            </Site00Suspense>
-          </AstralWorldRouteGuard>
+          <Site00Layout>
+            <AstralWorldRouteGuard>
+              <Site00Suspense>
+                <ProjectExperienceModuleGate />
+              </Site00Suspense>
+            </AstralWorldRouteGuard>
+          </Site00Layout>
         }
       />
       <Route

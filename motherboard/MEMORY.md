@@ -10486,3 +10486,15 @@ Founder bug: project-level tab action dock (HISTORY, SKINS, etc.) floated mid-vi
 - **Fix:** `ProjectSurface` splits `tod-ps__main` (scroll) from `ProjectActionBar`; inline frame is flex column with `height: 0` body flex trick; action bar `position: absolute; bottom: 0` inside `.tod-ps`; zoom only on `.tod-ps__main`.
 - **Tests:** `tests/p0vrDesignInShellDockPositioningFix1.test.ts`; Playwright all six tabs OK.
 - **Branch:** `cursor/in-shell-dock-positioning-fix1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-REGRESSION-RECOVERY1
+
+Founder sprint: after **EXPERIENCE.MODULE-WIRING1** (PR #1008 @ `3986143e`), DESIGN looked like an older implementation — overlay-only tab sections and deleted project surface kit/CSS on the merge commit.
+
+- **Root cause (DESIGN):** EXPERIENCE branch merge dropped `designProjectSurfaceKit.tsx`, all `projectTabs/*`, and `site00-design-project-surface.css`; `DesignProductionSections.tsx` reverted to OPUS-WORKSPACE-SYSTEM1 `OverlayBody` grammar. **Recovery on main:** PR #1009 (OPUS-PROJECT-TABS1), #1010 (Grok tab assets), #1012 (dock fix) restored approved DESIGN surfaces.
+- **Root cause (EXPERIENCE bug found in QA):** `/projects/:slug/experience/*` route rendered **outside** `Site00Layout` → `useSite00 must be used within Site00Provider` blank screen. **Fix:** wrap `ProjectExperienceModuleGate` in `Site00Layout` (module shell only; experience CSS stays `.site00-expws`).
+- **Guards:** `tests/p0vrDesignRegressionRecovery1.test.ts`; capture harness `scripts/design-bench/regression-recovery1/capture.mjs` (short waits, `goldenDiffCapture=1` for EXPERIENCE auth bypass in CI/headless).
+- **QA screenshots:** `/opt/cursor/artifacts/design-regression-recovery1/*.png` — NDXBOOK DESIGN overview/references/assets/history + Build-A-Wig mobile/desktop.
+- **Branch:** `cursor/design-regression-recovery1-9f72`.
