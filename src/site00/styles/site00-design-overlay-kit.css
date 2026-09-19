@@ -991,6 +991,44 @@
   font-weight: 400;
 }
 
+/* ---- two-column workbench ------------------------------------------------
+   Desktop overlays that are actual workspaces rather than inspections.
+
+   The split is a container query, not a viewport query: the same body renders
+   inside an 880px modal and a 620px dock on the same 1440px screen, so asking
+   the viewport how wide the panel is gives the wrong answer in one of them.
+   Below the split this collapses to the single scroll every sheet uses, so a
+   phone never inherits a column it cannot use. */
+
+.tod-ok-colsWrap {
+  container-type: inline-size;
+}
+
+.tod-ok-cols {
+  display: grid;
+  gap: 14px;
+}
+
+.tod-ok-cols__main,
+.tod-ok-cols__side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+@container (min-width: 720px) {
+  .tod-ok-cols {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .tod-ok-cols__side {
+    border-left: 1px solid var(--tod-border-subtle);
+    padding-left: 14px;
+  }
+}
+
 /* ---- navigation rows -----------------------------------------------------
    A destination list. Same row rhythm as OverlayRows, but each row is the
    target, which is why it is an anchor and not a list item with a link in it. */

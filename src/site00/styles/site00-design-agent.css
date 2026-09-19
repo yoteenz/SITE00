@@ -278,9 +278,13 @@
   border-color: var(--dad-lime);
 }
 
+/* A gated action drops out of the accent entirely — see the overlay kit. */
 .s00-dad__btn:disabled {
-  opacity: 0.4;
   cursor: not-allowed;
+  border-color: var(--dad-rule);
+  background: var(--dad-panel);
+  color: var(--dad-ink-3);
+  font-weight: 400;
 }
 
 .s00-dad__btn--primary {

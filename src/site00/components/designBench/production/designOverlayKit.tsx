@@ -246,6 +246,28 @@ export function OverlayThumbs({
   );
 }
 
+/**
+ * Two working columns on a workstation, one scroll on a phone. Used by the
+ * creative surfaces where a desktop overlay would otherwise waste half its
+ * width running a phone column down the middle of a 1440px screen.
+ */
+export function OverlayColumns({
+  main,
+  side,
+}: {
+  main: ReactNode;
+  side: ReactNode;
+}) {
+  return (
+    <div className="tod-ok-colsWrap">
+      <div className="tod-ok-cols">
+        <div className="tod-ok-cols__main">{main}</div>
+        <div className="tod-ok-cols__side">{side}</div>
+      </div>
+    </div>
+  );
+}
+
 export function OverlayCompare({ stack = false, children }: { stack?: boolean; children: ReactNode }) {
   return <div className={`tod-ok-compare${stack ? ' tod-ok-compare--stack' : ''}`}>{children}</div>;
 }

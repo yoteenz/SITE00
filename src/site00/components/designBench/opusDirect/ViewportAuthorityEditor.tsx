@@ -17,6 +17,7 @@ import {
 import {
   OverlayActions,
   OverlayBody,
+  OverlayColumns,
   OverlayComposer,
   OverlayDropzone,
   OverlayEmpty,
@@ -96,80 +97,99 @@ export function ViewportAuthorityEditor({
         />
       : null}
 
-      <OverlayPreview
-        src={image}
-        caption={`${viewport} AUTHORITY · ${active?.label ?? 'NO VERSION'}`}
-        side={<OverlayStatus label={active?.status ?? 'DRAFT'} />}
-        onOpen={image ? () => onFullscreen(image, `${viewport} AUTHORITY`, active?.label) : undefined}
-        emptyLabel="NO AUTHORITY IMAGE YET"
-        emptyHint="Upload a reference or describe the direction to stage the first version."
-      />
+      <OverlayColumns
+        main={
+          <>
+            <OverlaySection title="REFERENCE PREVIEW" flat>
+              <OverlayPreview
+                src={image}
+                caption={`${viewport} AUTHORITY · ${active?.label ?? 'NO VERSION'}`}
+                side={<OverlayStatus label={active?.status ?? 'DRAFT'} />}
+                onOpen={
+                  image ?
+                    () => onFullscreen(image, `${viewport} AUTHORITY`, active?.label)
+                  : undefined
+                }
+                emptyLabel="NO AUTHORITY IMAGE YET"
+                emptyHint="Upload a reference or describe the direction to stage the first version."
+              />
+            </OverlaySection>
 
-      {active?.notes ?
-        <OverlaySection title="DIRECTION" flat>
-          <p className="tod-ok-note">{active.notes}</p>
-        </OverlaySection>
-      : null}
+            {active?.notes ?
+              <OverlaySection title="DIRECTION" flat>
+                <p className="tod-ok-note">{active.notes}</p>
+              </OverlaySection>
+            : null}
 
-      <OverlayTabs
-        label="Authority workspace"
-        active={tab}
-        onSelect={(id) => setTab(id as typeof tab)}
-        tabs={[
-          { id: 'COLLAB', label: `CGPT ${reference.messages.length}` },
-          { id: 'VERSIONS', label: `VERSIONS ${reference.versions.length}` },
-        ]}
-      />
-
-      {tab === 'COLLAB' ?
-        <>
-          <OverlaySection title="AI COLLABORATION" flat>
-            <OverlayThread
-              messages={reference.messages.map((message) => ({
-                id: message.id,
-                who: message.role === 'founder' ? 'FOUNDER' : 'CGPT',
-                agent: message.role !== 'founder',
-                text: message.text,
-                media: message.attachmentDataUrl ? [message.attachmentDataUrl] : undefined,
-              }))}
+            <OverlaySection title="REFERENCE FILES" flat>
+              <OverlayDropzone
+                label="DROP REFERENCE OR TAP TO UPLOAD"
+                hint="PNG · JPG · WEBP"
+                accept="image/png,image/jpeg,image/webp"
+                onFiles={(files) => onFiles(files)}
+              />
+            </OverlaySection>
+          </>
+        }
+        side={
+          <>
+            <OverlayTabs
+              label="Authority workspace"
+              active={tab}
+              onSelect={(id) => setTab(id as typeof tab)}
+              tabs={[
+                { id: 'COLLAB', label: `CGPT ${reference.messages.length}` },
+                { id: 'VERSIONS', label: `VERSIONS ${reference.versions.length}` },
+              ]}
             />
-          </OverlaySection>
 
-          <OverlaySection title="REFERENCE FILES" flat>
-            <OverlayDropzone
-              label="DROP REFERENCE OR TAP TO UPLOAD"
-              hint="PNG · JPG · WEBP"
-              accept="image/png,image/jpeg,image/webp"
-              onFiles={(files) => onFiles(files)}
-            />
-          </OverlaySection>
-
-          <OverlayComposer
-            value={draft}
-            onChange={setDraft}
-            onSend={send}
-            placeholder="Describe or refine this viewport authority…"
-            sendLabel="SEND"
-          />
-        </>
-      : <OverlaySection title="VERSION HISTORY" flat>
-          {reference.versions.length === 0 ?
-            <OverlayEmpty label="NO VERSIONS YET" />
-          : <OverlayRows
-              rows={reference.versions.map((version) => ({
-                id: version.versionId,
-                name: version.label,
-                sub: version.notes,
-                side: (
-                  <OverlayStatus
-                    label={version.versionId === reference.activeVersionId ? 'ACTIVE' : version.status}
+            {tab === 'COLLAB' ?
+              <>
+                <OverlaySection title="AI COLLABORATION" flat>
+                  <OverlayThread
+                    messages={reference.messages.map((message) => ({
+                      id: message.id,
+                      who: message.role === 'founder' ? 'FOUNDER' : 'CGPT',
+                      agent: message.role !== 'founder',
+                      text: message.text,
+                      media: message.attachmentDataUrl ? [message.attachmentDataUrl] : undefined,
+                    }))}
                   />
-                ),
-              }))}
-            />
-          }
-        </OverlaySection>
-      }
+                </OverlaySection>
+
+                <OverlayComposer
+                  value={draft}
+                  onChange={setDraft}
+                  onSend={send}
+                  placeholder="Describe or refine this viewport authority…"
+                  sendLabel="SEND"
+                />
+              </>
+            : <OverlaySection title="VERSION HISTORY" flat>
+                {reference.versions.length === 0 ?
+                  <OverlayEmpty label="NO VERSIONS YET" />
+                : <OverlayRows
+                    rows={reference.versions.map((version) => ({
+                      id: version.versionId,
+                      name: version.label,
+                      sub: version.notes,
+                      side: (
+                        <OverlayStatus
+                          label={
+                            version.versionId === reference.activeVersionId ?
+                              'ACTIVE'
+                            : version.status
+                          }
+                        />
+                      ),
+                    }))}
+                  />
+                }
+              </OverlaySection>
+            }
+          </>
+        }
+      />
 
       <OverlayActions
         primary={{ label: 'UPDATE AUTHORITY', onClick: send, disabled: draft.trim().length === 0 }}
