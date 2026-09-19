@@ -35,6 +35,12 @@ export function DesignGrokDockProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener(GROK_CLOSE_EVENT, close);
   }, []);
 
+  useEffect(() => {
+    const openDock = () => setOpen(true);
+    window.addEventListener('site00:design-grok-asset-plan-approved', openDock);
+    return () => window.removeEventListener('site00:design-grok-asset-plan-approved', openDock);
+  }, [setOpen]);
+
   const value = useMemo(() => ({ open, setOpen, toggle }), [open, setOpen, toggle]);
   return <DesignGrokDockContext.Provider value={value}>{children}</DesignGrokDockContext.Provider>;
 }
