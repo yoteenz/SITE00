@@ -10346,3 +10346,15 @@ Production Release test: `p0vrDesignVisualCompareGrok1R1` expected literal `CAPT
 
 - **Fix:** Assert `assembly.*.label`, hero interaction ids, and `'CAPTURE SCREEN'` in shared assembly module.
 - **Also:** Removed stray `<<<<<<<` conflict markers in `MEMORY.md`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1 + prior OPUS-AI-CONSOLES1
+
+Full conversation: founder first requested a high-fidelity rebuild of the three DESIGN AI consoles (OPUS / GROK / VIEWPORT AUTHORITY) against desktop + mobile authority attachments; that work landed as `AiConsoleShell` + presentation model (PR #1005). This follow-up sprint is an **iconography / visual micro-asset pass only**.
+
+- **Context:** Consoles already have approved geometry. Do not move panels, change mobile/desktop composition, rewrite text, or alter workflow/gating. Create a coherent staged SVG family.
+- **Delivered:** `designAiConsoleIconography.ts` — 136 semantic IDs, 24×24 / 1.5 stroke / square caps / currentColor. Distinct marks: Opus (construction corners + axes), Grok (radiating asset tiles), CGPT (framed direction). Shared status, upload, empty, badge, preview-control sets. Dumped to `public/site00/ai-consoles/staged/` (STAGED, approved mutation NONE). Wired into existing glyph slots only (chrome marks, status, close, composer tools, cost/scope/impact, readiness strip, blocker, empty states, upload drop, send, thread avatars, thumbnail badges).
+- **Not changed:** console width/height, 860px sheet, intent/mode chips as type-first, Grok eligibility, fixtures, Opus write policy.
+- **Tests:** `tests/p0vrDesignGrokAiConsoleAssets1.test.ts`.
+- **Branch:** `cursor/design-grok-ai-console-assets1-2dd8`.
