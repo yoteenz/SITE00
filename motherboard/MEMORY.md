@@ -10600,3 +10600,13 @@ Founder **CAPTURE SCREEN** (hero compare / `useDesignPageCapture`) failed on pro
 - **Fix:** Route implementation-snapshot + workspace-self capture client through **`captureApiFetch`** → `api.site00.com` with safe HTML-vs-JSON classification and founder-readable errors (`INVALID_API_RESPONSE`, etc.).
 - **Files:** `useDesignPageCapture.ts`, `useImplementationSnapshots.ts`, `workspaceSelfCaptureClient.ts`.
 - **Branch:** `cursor/design-capture-screen-api-routing-9f72`.
+
+---
+
+## 2026-09-19 — Projects index “SESSION EXPIRED” (Safari auth desync)
+
+Founder saw **PROJECT INDEX UNAVAILABLE** / **SESSION EXPIRED OR NOT SIGNED IN** on `/projects` while DESIGN/EXPERIENCE cards still rendered — not a capture regression.
+
+- **Cause:** `Site00AccountRouteGuard` could restore **UI-only** auth backup (`isSignedIn`) without a valid Supabase JWT; `GET api.site00.com/.../projects?action=index` returns **401**. Session-restore cookie calls could miss Railway when `VITE_API_BASE` empty (now uses `site00ClientApiUrl`).
+- **Fix:** `refreshAccessTokenForApi` + one retry on 401 in `site00ProjectsApi`; guard stops backup-only pass-through and redirects to sign-in when no API token; Projects error adds **SIGN IN AGAIN** link.
+- **Branch:** `cursor/projects-index-session-reauth-9f72`.

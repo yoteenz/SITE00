@@ -1,4 +1,4 @@
-import { apiFetch } from '../../utils/api';
+import { apiFetch, refreshAccessTokenForApi } from '../../utils/api';
 import type { Site00ProjectDetail, Site00ProjectsIndexPayload } from '../../../shared/site00-projects/types';
 import type { CreativeDirectionPayload, CreativeDirectionDecisionInput } from '../components/evolve/creative-direction/CreativeDirectionExperience';
 
@@ -62,7 +62,7 @@ function developerDiagnostic(diagnostics: Site00ProjectsApiDiagnostics): string 
   return `[projects-api] ${diagnostics.endpoint} status=${diagnostics.status} type=${diagnostics.contentType ?? 'unknown'} category=${diagnostics.responseCategory}`;
 }
 
-async function projectsFetch<T>(path: string, init?: RequestInit): Promise<T> {
+async function projectsFetch<T>(path: string, init?: RequestInit, attempt = 0): Promise<T> {
   const res = await apiFetch(path, init);
   const contentType = res.headers.get('content-type');
   const raw = await res.text();
@@ -101,6 +101,12 @@ async function projectsFetch<T>(path: string, init?: RequestInit): Promise<T> {
 
   if (!res.ok) {
     const code = typeof data.error === 'object' && data.error?.code ? data.error.code : '';
+    if ((res.status === 401 || code === 'UNAUTHORIZED') && attempt === 0) {
+      const refreshed = await refreshAccessTokenForApi();
+      if (refreshed) {
+        return projectsFetch(path, init, 1);
+      }
+    }
     let message =
       typeof data.error === 'string'
         ? data.error
