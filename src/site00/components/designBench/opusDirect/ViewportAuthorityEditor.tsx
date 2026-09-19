@@ -320,7 +320,8 @@ export function ViewportAuthorityEditor({
                     <AiConsoleIcon
                       name={
                         version.versionId === source.activeVersionId ? 'auth-version-current'
-                        : version.status === 'APPROVED' ? 'auth-approved'
+                        : version.status === 'SUPERSEDED' ? 'auth-version-previous'
+                        : version.status === 'ACTIVE' ? 'auth-active'
                         : 'auth-draft'
                       }
                       size={10}
