@@ -135,16 +135,9 @@
   gap: 8px;
   min-height: 140px;
   border: 1px solid var(--dvs-ink);
-  background:
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 0 / 12px 1px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 0 / 1px 12px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 0 / 12px 1px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 0 / 1px 12px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 100% / 12px 1px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 100% / 1px 12px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 100% / 12px 1px no-repeat,
-    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 100% / 1px 12px no-repeat,
-    var(--dvs-paper);
+  outline: 1px solid var(--dvs-ink);
+  outline-offset: -8px;
+  background: var(--dvs-paper);
   text-align: center;
   padding: 20px;
 }

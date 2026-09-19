@@ -739,15 +739,16 @@ export const DVS_GLYPHS: Record<string, () => ReactNode> = {
 function Stage({ n }: { n: string }) {
   return (
     <>
-      <rect {...S} x="3.5" y="3.5" width="17" height="17" />
+      <rect {...S} x="2.5" y="2.5" width="19" height="19" />
       <text
         x="12"
-        y="15.4"
+        y="16.4"
         textAnchor="middle"
         fill="currentColor"
-        fontSize="8"
+        fontSize="9.2"
         fontFamily="Martian Mono, ui-monospace, monospace"
-        fontWeight="700"
+        fontWeight="800"
+        letterSpacing="-0.08em"
       >
         {n}
       </text>
