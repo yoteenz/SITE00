@@ -2751,47 +2751,19 @@
   flex: 0 0 auto;
 }
 
-.s00-grok-dock__readiness {
-  border: 1px solid var(--tod-border-panel);
-  padding: 10px;
-  margin-bottom: 12px;
-}
 
-.s00-grok-dock__readiness h3 {
-  font-size: 11px;
-  margin: 0 0 6px;
-}
 
-.s00-grok-dock__readinessReason {
-  font-size: 11px;
-  font-weight: 600;
-}
 
-.s00-grok-dock__next {
-  font-size: 10px;
-  color: var(--tod-ink-2);
-}
 
-.s00-grok-dock__gates {
-  font-size: 10px;
-  margin: 8px 0;
-  padding-left: 16px;
-}
 
-.s00-grok-dock__optional {
-  font-size: 10px;
-  color: var(--tod-ink-3);
-  margin-bottom: 8px;
-}
 
-.s00-grok-dock__compareHint {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  margin-bottom: 8px;
-}
+
+
+
+
+
+
+
 
 .tod-viewmode__group {
   display: flex;
@@ -2847,57 +2819,21 @@
   margin-bottom: 2px;
 }
 
-.tod-auth-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: min(80vh, 720px);
-}
 
-.tod-auth-editor__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
-}
 
-.tod-auth-editor__eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--tod-ink-3);
-}
 
-.tod-auth-editor__title {
-  font-size: 16px;
-  margin: 0;
-}
 
-.tod-auth-editor__img {
-  width: 100%;
-  max-height: 240px;
-  object-fit: contain;
-  border: 1px solid var(--tod-border-panel);
-}
 
-.tod-auth-editor__thread {
-  max-height: 160px;
-  overflow-y: auto;
-  border: 1px solid var(--tod-border-subtle);
-  padding: 8px;
-}
 
-.tod-auth-editor__input {
-  width: 100%;
-  min-height: 72px;
-  font-family: var(--tod-mono);
-  font-size: 13px;
-}
 
-.tod-auth-editor__compose {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+
+
+
+
+
+
+
+
 
 .tod-dcs-twinFrame {
   width: 100%;
@@ -3387,141 +3323,49 @@
 
 .tod-ov__primary,
 .tod-ov__ghost {
-  border: 1px solid var(--tod-border-control, #b8b8b8);
+  border: 1px solid #333;
   padding: 10px 12px;
   font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
-  font-family: inherit;
 }
 
 .tod-ov__primary {
-  background: var(--tod-lime, #cdee30);
-  color: var(--tod-lime-ink, #101505);
-  border-color: var(--tod-lime, #cdee30);
+  background: #b8ff4a;
+  color: #050505;
+  border-color: #b8ff4a;
 }
 
 .tod-ov__ghost {
-  background: var(--tod-paper, #fdfdfd);
-  color: var(--tod-ink, #161616);
-}
-
-/*
- * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — Grok was a black console, which left
- * the overlay-kit content it now renders dark-on-dark and made the asset desk
- * read as a different product from the workspace behind it.
- */
-.s00-grok-dock {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: min(440px, 100vw);
-  height: 100dvh;
-  z-index: 1200;
-  background: var(--tod-panel, #f7f7f7);
-  border-left: 1px solid var(--tod-border-panel, #b2b2b2);
-  color: var(--tod-ink, #161616);
-  display: flex;
-  flex-direction: column;
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);
-}
-
-@media (min-width: 1100px) {
-  .s00-grok-dock {
-    width: min(620px, 46vw);
-  }
-}
-
-.s00-grok-dock__head {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--tod-border-panel, #b2b2b2);
-  background: var(--tod-navbar, #f2f2f2);
-}
-
-.s00-grok-dock__eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--tod-ink-3, #6a6a70);
-  margin: 0 0 4px;
-}
-
-.s00-grok-dock__title {
-  margin: 0;
-  font-size: 16px;
-  letter-spacing: 0.06em;
-}
-
-.s00-grok-dock__meta {
-  margin: 6px 0 0;
-  font-size: 11px;
-  color: var(--tod-ink-3, #6a6a70);
-}
-
-.s00-grok-dock__close {
-  border: 1px solid var(--tod-border-control, #b8b8b8);
-  background: var(--tod-paper, #fdfdfd);
+  background: #111;
   color: inherit;
-  font-size: 12px;
-  padding: 6px 10px;
-  height: fit-content;
 }
 
-.s00-grok-dock__body {
-  padding: 12px 16px 24px;
-  overflow: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
 
-.s00-grok-dock__field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-}
 
-.s00-grok-dock__field select,
-.s00-grok-dock__field textarea {
-  font-size: 14px;
-  padding: 8px;
-  background: var(--tod-paper, #fdfdfd);
-  border: 1px solid var(--tod-border-control, #b8b8b8);
-  color: var(--tod-ink, #161616);
-  font-family: inherit;
-}
 
-.s00-grok-dock__warn {
-  color: #8a6a00;
-  font-size: 12px;
-}
 
-.s00-grok-dock__primary {
-  padding: 10px;
-  background: var(--tod-lime, #cdee30);
-  color: var(--tod-lime-ink, #101505);
-  border: 1px solid var(--tod-lime, #cdee30);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
 
-.s00-grok-dock__ghost {
-  background: var(--tod-paper, #fdfdfd);
-  border: 1px solid var(--tod-border-control, #b8b8b8);
-  color: var(--tod-ink, #161616);
-  padding: 8px;
-}
 
-.s00-grok-dock__previewImg {
-  max-width: 100%;
-  border: 1px solid var(--tod-border-subtle, #dadada);
-  background: #fff;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 */
 .tod-psr__cols {
@@ -3821,36 +3665,4 @@
 .tod-page-assets__file {
   font-size: 9px;
   margin: 8px 0;
-}
-
-/**
- * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — CANONICAL / LIST are icons.
- * The words were placeholder scaffolding; the reference workspace states the
- * presentation mode with a glyph, and the label survives for assistive tech.
- */
-.tod-viewmode__icon {
-  display: inline-flex;
-  width: calc(14px * var(--tod-viewrow-boost, 1));
-  height: calc(14px * var(--tod-viewrow-boost, 1));
-}
-
-.tod-viewmode__icon svg {
-  width: 100%;
-  height: 100%;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-}
-
-.tod-viewmode__cell.is-active .tod-viewmode__icon svg {
-  stroke: var(--tod-lime);
-}
-
-.tod-viewmode__sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
 }

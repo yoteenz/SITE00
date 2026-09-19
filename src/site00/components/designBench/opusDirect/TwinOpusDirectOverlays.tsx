@@ -304,20 +304,17 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
           </DesignChildSurfaceFrame>
         : null}
 
+        {/* The authority console carries its own console shell (header, tabs,
+            close, sticky action row), so it is not wrapped in the generic child
+            surface modal — that wrapper produced the plain white modal with a
+            duplicated title this sprint replaced. */}
         {overlay === 'OV-VIEWPORT-AUTHORITY-EDITOR' && production.uiPayload.authorityEditorViewport ?
-          <DesignChildSurfaceFrame
-            mode="MODAL"
-            title="VIEWPORT AUTHORITY"
-            overlayId="OV-VIEWPORT-AUTHORITY-EDITOR"
+          <DesignViewportAuthorityEditorOverlay
+            projectSlug={slug}
+            production={production}
+            viewport={production.uiPayload.authorityEditorViewport}
             onClose={close}
-          >
-            <DesignViewportAuthorityEditorOverlay
-              projectSlug={slug}
-              production={production}
-              viewport={production.uiPayload.authorityEditorViewport}
-              onClose={close}
-            />
-          </DesignChildSurfaceFrame>
+          />
         : null}
 
         {overlay === 'OV-COMPOSER-HANDOFF' || overlay === 'OV-CREATE-PAGE-FRAMEWORK' ?

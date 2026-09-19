@@ -86,14 +86,15 @@ describe('P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 overlay inventory', () => {
 });
 
 describe('P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 agent surfaces', () => {
-  it('keeps both agent docks on the light overlay palette, not a console', () => {
-    const dock = read('src/site00/styles/site00-design-agent.css');
-    expect(dock).not.toMatch(/background:\s*#0a0a0a/);
-    expect(dock).toContain('--dad-paper');
+  it('keeps the agent consoles on a designed paper shell, not a black terminal', () => {
+    // OPUS-AI-CONSOLES1 owns the three agent surfaces; this only guards that
+    // they stay on that shell's paper palette rather than drifting back to the
+    // dark console the docks used to be.
+    const shell = read('src/site00/styles/site00-ai-consoles.css');
+    expect(shell).toContain('background: var(--aic-paper)');
 
-    const grok = read('src/site00/styles/site00-twin-opus-direct.css');
-    const block = grok.slice(grok.indexOf('.s00-grok-dock {'));
-    expect(block.slice(0, 400)).not.toMatch(/background:\s*#0c0c0c/);
+    const legacy = read('src/site00/styles/site00-design-agent.css');
+    expect(legacy).not.toMatch(/background:\s*#0a0a0a/);
   });
 
   it('labels the agent launchers instead of using single letters', () => {
@@ -105,12 +106,13 @@ describe('P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 agent surfaces', () => {
     expect(grokButton).toContain('tod-agent-iconBtn__label');
   });
 
-  it('renders both agent panels through the kit', () => {
+  it('renders every agent surface through one shared shell', () => {
     for (const rel of [
       'src/site00/components/designBench/designAgent/DesignAgentDock.tsx',
       'src/site00/components/designBench/designAgent/DesignGrokDock.tsx',
+      'src/site00/components/designBench/opusDirect/ViewportAuthorityEditor.tsx',
     ]) {
-      expect(read(rel)).toContain('designOverlayKit');
+      expect(read(rel)).toContain('AiConsoleShell');
     }
   });
 });
