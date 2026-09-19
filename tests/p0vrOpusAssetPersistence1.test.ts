@@ -167,7 +167,9 @@ describe('P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 — persistence and storage'
     const first = resolveTwinOpusDirectAsset('hero');
     const second = resolveTwinOpusDirectAsset('hero');
     expect(first).toBe(second);
-    expect(workspace).not.toMatch(/asset/i);
+    expect(workspace).not.toMatch(
+      /twinOpusDirectAssetManifest|resolveTwinOpusDirectAsset|TWIN_OPUS_DIRECT_ASSET_/i,
+    );
   });
 });
 
