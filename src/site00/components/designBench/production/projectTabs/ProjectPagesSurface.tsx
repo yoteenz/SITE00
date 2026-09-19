@@ -37,6 +37,10 @@ import { designProductionPageTargetFromRecord } from '../designPageTargetFromRec
 import { readDesignPageTarget, writeDesignPageTarget } from '../designProductionPageTarget';
 import { writeDesignWorkspaceSurface } from '../designProductionWorkspaceMode';
 import { useDesignProductionNavigation } from '../useDesignProductionNavigation';
+import {
+  pageFamilyPlateId,
+  projectTabVisualUrl,
+} from '../../../../../../shared/site00-design-workspace-production/designProjectTabVisuals.js';
 import { PsIconCheck, PsIconDoc, PsIconFilter, PsIconPlus } from './projectTabIcons';
 
 type FilterId = 'all' | 'root' | 'children' | 'needs-design' | 'approved';
@@ -202,7 +206,7 @@ export function ProjectPagesSurface() {
             <ProjectCards
               items={architecture.families.map((family) => ({
                 id: family.root.pageId,
-                src: family.previewUrl,
+                src: family.previewUrl ?? projectTabVisualUrl(`${pageFamilyPlateId(family.label)}.svg`),
                 title: family.label,
                 sub: `${family.total} PAGES · ${family.readiness}% READY`,
                 badge: family.needsDesign > 0 ? `${family.needsDesign} NEED DESIGN` : 'ON TRACK',

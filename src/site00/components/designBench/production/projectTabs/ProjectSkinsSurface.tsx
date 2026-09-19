@@ -13,6 +13,7 @@ import { useMemo, useState } from 'react';
 
 import { buildProjectSkinSystem } from '../../../../../../shared/site00-design-workspace-production/designProjectSkinSystem.js';
 import { buildProjectPageArchitecture } from '../../../../../../shared/site00-design-workspace-production/designProjectLibraries.js';
+import { pageFamilyPlateId } from '../../../../../../shared/site00-design-workspace-production/designProjectTabVisuals.js';
 import { OverlayStatus } from '../designOverlayKit';
 import {
   ProjectActionBar,
@@ -44,7 +45,9 @@ export function ProjectSkinsSurface() {
   const [query, setQuery] = useState('');
 
   const expressionCapture = useMemo(
-    () => architecture.families.map((family) => family.previewUrl).find(Boolean) ?? null,
+    () =>
+      architecture.families.map((family) => family.previewUrl).find(Boolean) ??
+      '/site00/project-tabs/staged/raster/plate-ref-brand.jpg',
     [architecture.families],
   );
 
@@ -159,6 +162,7 @@ export function ProjectSkinsSurface() {
                   <span
                     className="tod-ps-tile__swatch"
                     data-texture={material.name.toLowerCase().replace(/\s+/g, '-')}
+                    data-ptv-plate="material"
                   />
                   <strong>{material.name}</strong>
                   <em>{material.role}</em>
@@ -261,7 +265,9 @@ export function ProjectSkinsSurface() {
             <ProjectCards
               items={architecture.families.map((family) => ({
                 id: family.id,
-                src: family.previewUrl,
+                src:
+                  family.previewUrl ??
+                  `/site00/project-tabs/staged/${pageFamilyPlateId(family.label)}.svg`,
                 title: family.label,
                 sub: `${family.total} PAGES`,
                 badge: family.needsDesign > 0 ? 'PARTIAL' : 'APPLIED',

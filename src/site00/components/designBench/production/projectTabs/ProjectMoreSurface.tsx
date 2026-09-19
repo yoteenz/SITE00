@@ -85,7 +85,10 @@ export function ProjectMoreSurface() {
           { label: 'TOOLS', lines: ['INSIGHTS', 'SYSTEMS', 'PROGRESS'] },
         ]}
         mark={(intelligence?.displayName ?? projectSlug).slice(0, 3).toUpperCase()}
-        src={architecture.families[0]?.previewUrl ?? null}
+        src={
+          architecture.families[0]?.previewUrl ??
+          '/site00/project-tabs/staged/raster/plate-more-banner.jpg'
+        }
       />
 
       <ProjectModules>

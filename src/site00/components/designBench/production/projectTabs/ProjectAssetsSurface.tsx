@@ -18,6 +18,10 @@ import {
   buildProjectAssetLibrary,
   type ProjectAssetRecord,
 } from '../../../../../../shared/site00-design-workspace-production/designProjectLibraries.js';
+import {
+  PTV_ASSET_CATEGORY_PLATE,
+  projectTabVisualUrl,
+} from '../../../../../../shared/site00-design-workspace-production/designProjectTabVisuals.js';
 import { buildDesignProjectIntelligence } from '../../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import { OverlayStatus } from '../designOverlayKit';
 import {
@@ -190,7 +194,7 @@ export function ProjectAssetsSurface() {
         ) : captures[0] && !query ? (
           <ProjectFeature
             eyebrow="LATEST PROJECT MEDIA"
-            src={captures[0].src}
+            src={captures[0].src ?? projectTabVisualUrl('raster/plate-empty-library.jpg')}
             title={captures[0].pageName}
             source={`${captures[0].viewport} CAPTURE · ${captures[0].route}`}
             body="No generated or uploaded assets exist for this project yet. Captured page media is the media the project currently holds."
@@ -326,7 +330,7 @@ export function ProjectAssetsSurface() {
 function toCard(asset: ProjectAssetRecord) {
   return {
     id: asset.versionId,
-    src: asset.previewDataUrl || null,
+    src: asset.previewDataUrl || projectTabVisualUrl(PTV_ASSET_CATEGORY_PLATE[asset.category] ?? 'plate-asset-empty.svg'),
     title: asset.displayName,
     sub: `${asset.format} · ${asset.width}×${asset.height}`,
     badge: asset.status,

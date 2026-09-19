@@ -1381,6 +1381,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 4px;
   padding: 3px 6px;
   border: 1px solid var(--tod-border-control, #b8b8b8);
   background: var(--tod-panel, #f7f7f7);
@@ -1389,6 +1390,25 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+
+.tod-ps-event__kind::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  -webkit-mask: var(--ptv-kind) center / contain no-repeat;
+  mask: var(--ptv-kind) center / contain no-repeat;
+}
+
+.tod-ps-event__kind[data-kind='concept'] { --ptv-kind: url('/site00/project-tabs/staged/hist-concept.svg'); }
+.tod-ps-event__kind[data-kind='authority'] { --ptv-kind: url('/site00/project-tabs/staged/hist-authority.svg'); }
+.tod-ps-event__kind[data-kind='promotion'] { --ptv-kind: url('/site00/project-tabs/staged/hist-promotion.svg'); }
+.tod-ps-event__kind[data-kind='review'] { --ptv-kind: url('/site00/project-tabs/staged/hist-review.svg'); }
+.tod-ps-event__kind[data-kind='handoff'] { --ptv-kind: url('/site00/project-tabs/staged/hist-handoff.svg'); }
+.tod-ps-event__kind[data-kind='lock'] { --ptv-kind: url('/site00/project-tabs/staged/hist-lock.svg'); }
+.tod-ps-event__kind[data-kind='asset'] { --ptv-kind: url('/site00/project-tabs/staged/hist-asset.svg'); }
+.tod-ps-event__kind[data-kind='build'] { --ptv-kind: url('/site00/project-tabs/staged/hist-build.svg'); }
+.tod-ps-event__kind[data-kind='event'] { --ptv-kind: url('/site00/project-tabs/staged/hist-event.svg'); }
 
 .tod-ps-event__kind[data-kind='promotion'],
 .tod-ps-event__kind[data-kind='concept'] {
@@ -1694,7 +1714,18 @@
 }
 
 .tod-ps-tile__swatch[data-texture='concrete'] {
-  background: linear-gradient(135deg, #9a9a9a, #cdcdcd 40%, #8f8f8f);
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.08), rgba(10, 10, 10, 0.28)),
+    url('/site00/project-tabs/staged/raster/plate-material-atmosphere.jpg') center / cover;
+}
+
+.tod-ps-emptyPlate {
+  display: block;
+  width: min(100%, 420px);
+  aspect-ratio: 16 / 9;
+  margin: 0 auto 10px;
+  object-fit: cover;
+  border: 1px solid var(--tod-border-subtle, #dadada);
 }
 
 .tod-ps-tile__swatch[data-texture='brushed-metal'] {
@@ -1706,9 +1737,15 @@
 }
 
 .tod-ps-tile__swatch[data-texture='paper'] {
-  background: #efece4;
-  background-image: radial-gradient(#dcd8cc 0.8px, transparent 0.9px);
-  background-size: 4px 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(10, 10, 10, 0.22)),
+    url('/site00/project-tabs/staged/raster/plate-ref-mood.jpg') center / cover;
+}
+
+.tod-ps-tile__swatch[data-texture='architectural'] {
+  background:
+    linear-gradient(180deg, rgba(10, 10, 10, 0.15), rgba(10, 10, 10, 0.4)),
+    url('/site00/project-tabs/staged/raster/plate-material-atmosphere.jpg') center / cover;
 }
 
 .tod-ps-tile__swatch[data-texture='matte'] {

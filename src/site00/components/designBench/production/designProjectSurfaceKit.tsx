@@ -772,14 +772,17 @@ export function ProjectTimeline({
   groups,
   emptyLabel = 'NO PROJECT HISTORY YET',
   emptyHint,
+  emptyPlate,
 }: {
   groups: Array<{ id: string; label: string; count: number; entries: ProjectTimelineEntry[] }>;
   emptyLabel?: string;
   emptyHint?: string;
+  emptyPlate?: string | null;
 }) {
   if (groups.length === 0) {
     return (
       <div className="tod-ok-empty">
+        {emptyPlate ? <img className="tod-ps-emptyPlate" src={emptyPlate} alt="" /> : null}
         <span className="tod-ok-empty__label">{emptyLabel}</span>
         {emptyHint ? <p className="tod-ok-empty__hint">{emptyHint}</p> : null}
       </div>

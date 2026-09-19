@@ -140,6 +140,7 @@ export function ProjectHistorySurface() {
               ? 'Authority updates, concept promotions, reviews and asset approvals across every page in this project are recorded here as they happen.'
               : undefined
           }
+          emptyPlate="/site00/project-tabs/staged/raster/plate-hist-milestone.jpg"
         />
 
         {format === 'tall' && history.total > 0 ? (

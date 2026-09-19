@@ -1,0 +1,1070 @@
+{
+  "status": "STAGED",
+  "version": "P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1",
+  "family": "SITE00_PROJECT_TAB_LINE_V1",
+  "approvedAssetMutation": "NONE",
+  "icons": [
+    {
+      "id": "dest-workspace",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "WORKSPACE HOME",
+      "intended": "Hamburger destination · workspace",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-references",
+      "tab": "references",
+      "usage": "icon",
+      "label": "REFERENCES",
+      "intended": "Hamburger + references tab",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-assets",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "ASSETS",
+      "intended": "Hamburger + assets tab",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-pages",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "PAGES",
+      "intended": "Hamburger + pages tab",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-skins",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "SKINS",
+      "intended": "Hamburger + skins tab",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-history",
+      "tab": "history",
+      "usage": "icon",
+      "label": "HISTORY",
+      "intended": "Hamburger + history tab",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-more",
+      "tab": "more",
+      "usage": "icon",
+      "label": "MORE",
+      "intended": "Hamburger + more tab",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-twin-qa",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "TWIN / QA",
+      "intended": "Pinned tool · twin review",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-opus-native",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "OPUS NATIVE",
+      "intended": "Pinned tool · diagnostics",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-icons",
+      "tab": "more",
+      "usage": "icon",
+      "label": "ICON SHEET",
+      "intended": "Pinned tool · icon sheet",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-archive",
+      "tab": "more",
+      "usage": "icon",
+      "label": "ARCHIVE",
+      "intended": "Pinned tool · archive",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-projects",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "PROJECTS INDEX",
+      "intended": "Utility · projects index",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-design",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "DESIGN MODULE",
+      "intended": "Utility · design module",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-experience",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "EXPERIENCE MODULE",
+      "intended": "Utility · experience module",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-account",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "ACCOUNT",
+      "intended": "Utility · account",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-exit",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "EXIT PROJECT",
+      "intended": "Utility · exit",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-pipeline",
+      "tab": "hamburger",
+      "usage": "icon",
+      "label": "PIPELINE",
+      "intended": "Pinned · pipeline / readiness",
+      "ready": "STAGED"
+    },
+    {
+      "id": "dest-creative",
+      "tab": "more",
+      "usage": "icon",
+      "label": "CREATIVE CONTEXT",
+      "intended": "Pinned · creative brief",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-all",
+      "tab": "references",
+      "usage": "icon",
+      "label": "ALL REFERENCES",
+      "intended": "References rail · all",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-authority",
+      "tab": "references",
+      "usage": "icon",
+      "label": "AUTHORITY",
+      "intended": "References collection · authority",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-brand",
+      "tab": "references",
+      "usage": "icon",
+      "label": "BRAND",
+      "intended": "References collection · brand",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-page",
+      "tab": "references",
+      "usage": "icon",
+      "label": "PAGE",
+      "intended": "References collection · page",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-component",
+      "tab": "references",
+      "usage": "icon",
+      "label": "COMPONENT",
+      "intended": "References collection · component",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-icon",
+      "tab": "references",
+      "usage": "icon",
+      "label": "ICON / SYMBOL",
+      "intended": "References collection · icon",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-archived",
+      "tab": "references",
+      "usage": "icon",
+      "label": "ARCHIVED",
+      "intended": "References collection · archived",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-upload",
+      "tab": "references",
+      "usage": "icon",
+      "label": "UPLOAD",
+      "intended": "References action bar",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-assign",
+      "tab": "references",
+      "usage": "icon",
+      "label": "ASSIGN",
+      "intended": "References action · assign to pages",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-compare",
+      "tab": "references",
+      "usage": "icon",
+      "label": "COMPARE",
+      "intended": "References / assets / history compare",
+      "ready": "STAGED"
+    },
+    {
+      "id": "ref-inspect",
+      "tab": "references",
+      "usage": "icon",
+      "label": "INSPECT",
+      "intended": "References / assets inspect",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-hero",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "HERO",
+      "intended": "Assets category · hero",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-photo",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "PHOTOGRAPHY",
+      "intended": "Assets category · photography",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-texture",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "TEXTURE",
+      "intended": "Assets category · texture",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-icon",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "ICON",
+      "intended": "Assets category · icon",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-layout",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "LAYOUT",
+      "intended": "Assets category · layout",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-other",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "OTHER",
+      "intended": "Assets category · other",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-replace",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "REPLACE",
+      "intended": "Assets workflow · replace",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-regenerate",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "REGENERATE",
+      "intended": "Assets workflow · regenerate",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-inspect",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "INSPECT ASSET",
+      "intended": "Assets workflow · inspect",
+      "ready": "STAGED"
+    },
+    {
+      "id": "asset-upload",
+      "tab": "assets",
+      "usage": "icon",
+      "label": "UPLOAD ASSET",
+      "intended": "Assets action · upload",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-root",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "ROOT",
+      "intended": "Pages filter · root",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-child",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "CHILD",
+      "intended": "Pages filter · child",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-grandchild",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "GRANDCHILD",
+      "intended": "Pages filter · grandchild",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-family",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "FAMILY",
+      "intended": "Pages family card mark",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-needed",
+      "tab": "pages",
+      "usage": "badge",
+      "label": "NEEDS DESIGN",
+      "intended": "Pages status · needs design",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-approved",
+      "tab": "pages",
+      "usage": "badge",
+      "label": "APPROVED",
+      "intended": "Pages status · approved",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-map",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "PROJECT MAP",
+      "intended": "Pages architecture map",
+      "ready": "STAGED"
+    },
+    {
+      "id": "page-create",
+      "tab": "pages",
+      "usage": "icon",
+      "label": "CREATE PAGE",
+      "intended": "Pages action · create",
+      "ready": "STAGED"
+    },
+    {
+      "id": "skin-palette",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "PALETTE",
+      "intended": "Skins foundations · palette",
+      "ready": "STAGED"
+    },
+    {
+      "id": "skin-type",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "TYPE",
+      "intended": "Skins foundations · typography",
+      "ready": "STAGED"
+    },
+    {
+      "id": "skin-material",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "MATERIAL",
+      "intended": "Skins · materials",
+      "ready": "STAGED"
+    },
+    {
+      "id": "skin-texture",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "TEXTURE",
+      "intended": "Skins · texture language",
+      "ready": "STAGED"
+    },
+    {
+      "id": "skin-component",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "COMPONENT",
+      "intended": "Skins · component grammar",
+      "ready": "STAGED"
+    },
+    {
+      "id": "skin-coverage",
+      "tab": "skins",
+      "usage": "icon",
+      "label": "COVERAGE",
+      "intended": "Skins · application coverage",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-concept",
+      "tab": "history",
+      "usage": "badge",
+      "label": "CONCEPT",
+      "intended": "History event · concept",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-authority",
+      "tab": "history",
+      "usage": "badge",
+      "label": "AUTHORITY",
+      "intended": "History event · authority",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-promotion",
+      "tab": "history",
+      "usage": "badge",
+      "label": "PROMOTION",
+      "intended": "History event · promotion",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-review",
+      "tab": "history",
+      "usage": "badge",
+      "label": "REVIEW",
+      "intended": "History event · review",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-handoff",
+      "tab": "history",
+      "usage": "badge",
+      "label": "HANDOFF",
+      "intended": "History event · handoff",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-lock",
+      "tab": "history",
+      "usage": "badge",
+      "label": "LOCK",
+      "intended": "History event · lock",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-asset",
+      "tab": "history",
+      "usage": "badge",
+      "label": "ASSET",
+      "intended": "History event · asset",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-build",
+      "tab": "history",
+      "usage": "badge",
+      "label": "BUILD",
+      "intended": "History event · build",
+      "ready": "STAGED"
+    },
+    {
+      "id": "hist-event",
+      "tab": "history",
+      "usage": "badge",
+      "label": "EVENT",
+      "intended": "History event · generic",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-context",
+      "tab": "more",
+      "usage": "icon",
+      "label": "CREATIVE CONTEXT",
+      "intended": "More module · creative context",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-health",
+      "tab": "more",
+      "usage": "icon",
+      "label": "SYSTEM HEALTH",
+      "intended": "More module · health",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-qa",
+      "tab": "more",
+      "usage": "icon",
+      "label": "TWIN QA",
+      "intended": "More module · twin QA",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-diagnostic",
+      "tab": "more",
+      "usage": "icon",
+      "label": "DIAGNOSTIC",
+      "intended": "More module · opus native",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-icons",
+      "tab": "more",
+      "usage": "icon",
+      "label": "ICON SHEET",
+      "intended": "More module · icon sheet",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-manifest",
+      "tab": "more",
+      "usage": "icon",
+      "label": "MANIFEST",
+      "intended": "More module · manifest inspector",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-settings",
+      "tab": "more",
+      "usage": "icon",
+      "label": "SETTINGS",
+      "intended": "More module · project settings",
+      "ready": "STAGED"
+    },
+    {
+      "id": "more-archive",
+      "tab": "more",
+      "usage": "icon",
+      "label": "ARCHIVE",
+      "intended": "More module · archive",
+      "ready": "STAGED"
+    },
+    {
+      "id": "stamp-approved",
+      "tab": "shared",
+      "usage": "badge",
+      "label": "APPROVED",
+      "intended": "Status stamp · approved",
+      "ready": "STAGED"
+    },
+    {
+      "id": "stamp-staged",
+      "tab": "shared",
+      "usage": "badge",
+      "label": "STAGED",
+      "intended": "Status stamp · staged",
+      "ready": "STAGED"
+    },
+    {
+      "id": "stamp-needed",
+      "tab": "shared",
+      "usage": "badge",
+      "label": "NEEDED",
+      "intended": "Status stamp · needs design",
+      "ready": "STAGED"
+    },
+    {
+      "id": "stamp-review",
+      "tab": "shared",
+      "usage": "badge",
+      "label": "REVIEW",
+      "intended": "Status stamp · in review",
+      "ready": "STAGED"
+    },
+    {
+      "id": "stamp-empty",
+      "tab": "shared",
+      "usage": "placeholder",
+      "label": "EMPTY",
+      "intended": "Empty-state mark",
+      "ready": "STAGED"
+    }
+  ],
+  "plates": [
+    {
+      "id": "plate-ref-authority",
+      "tab": "references",
+      "usage": "cover",
+      "label": "AUTHORITY",
+      "intended": "THE SIGNAL IS THE INDEX.",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-authority.svg"
+    },
+    {
+      "id": "plate-ref-brand",
+      "tab": "references",
+      "usage": "cover",
+      "label": "BRAND / IDENTITY",
+      "intended": "NDX",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-brand.svg"
+    },
+    {
+      "id": "plate-ref-page",
+      "tab": "references",
+      "usage": "cover",
+      "label": "PAGE REFERENCE",
+      "intended": "SCREEN AUTHORITY",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-page.svg"
+    },
+    {
+      "id": "plate-ref-component",
+      "tab": "references",
+      "usage": "cover",
+      "label": "COMPONENT",
+      "intended": "REGION GRAMMAR",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-component.svg"
+    },
+    {
+      "id": "plate-ref-icon",
+      "tab": "references",
+      "usage": "cover",
+      "label": "ICON / SYMBOL",
+      "intended": "MARK SYSTEM",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-icon.svg"
+    },
+    {
+      "id": "plate-ref-archived",
+      "tab": "references",
+      "usage": "cover",
+      "label": "ARCHIVED",
+      "intended": "SUPERSEDED LINEAGE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-archived.svg"
+    },
+    {
+      "id": "plate-ref-empty",
+      "tab": "references",
+      "usage": "placeholder",
+      "label": "LIBRARY",
+      "intended": "NO PREVIEW",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-ref-empty.svg"
+    },
+    {
+      "id": "plate-asset-hero",
+      "tab": "assets",
+      "usage": "preview",
+      "label": "HERO PLATE",
+      "intended": "PRIMARY IMAGE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-hero.svg"
+    },
+    {
+      "id": "plate-asset-photo",
+      "tab": "assets",
+      "usage": "preview",
+      "label": "PHOTOGRAPHY",
+      "intended": "EDITORIAL STILL",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-photo.svg"
+    },
+    {
+      "id": "plate-asset-texture",
+      "tab": "assets",
+      "usage": "preview",
+      "label": "TEXTURE",
+      "intended": "GRAIN / PLATE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-texture.svg"
+    },
+    {
+      "id": "plate-asset-icon",
+      "tab": "assets",
+      "usage": "preview",
+      "label": "ICON SYSTEM",
+      "intended": "SYMBOL SET",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-icon.svg"
+    },
+    {
+      "id": "plate-asset-layout",
+      "tab": "assets",
+      "usage": "preview",
+      "label": "LAYOUT",
+      "intended": "GRID / TEMPLATE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-layout.svg"
+    },
+    {
+      "id": "plate-asset-empty",
+      "tab": "assets",
+      "usage": "placeholder",
+      "label": "ASSET DESK",
+      "intended": "NO ASSET YET",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-empty.svg"
+    },
+    {
+      "id": "plate-asset-demand",
+      "tab": "assets",
+      "usage": "preview",
+      "label": "SLOT COVERAGE",
+      "intended": "DEMAND MAP",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-asset-demand.svg"
+    },
+    {
+      "id": "plate-page-family",
+      "tab": "pages",
+      "usage": "preview",
+      "label": "PAGE FAMILY",
+      "intended": "CLUSTER",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-page-family.svg"
+    },
+    {
+      "id": "plate-page-map",
+      "tab": "pages",
+      "usage": "preview",
+      "label": "ARCHITECTURE",
+      "intended": "PROJECT MAP",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-page-map.svg"
+    },
+    {
+      "id": "plate-skin-palette",
+      "tab": "skins",
+      "usage": "preview",
+      "label": "PALETTE",
+      "intended": "INK / PAPER / LIME",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-skin-palette.svg"
+    },
+    {
+      "id": "plate-skin-type",
+      "tab": "skins",
+      "usage": "preview",
+      "label": "TYPOGRAPHY",
+      "intended": "Aa",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-skin-type.svg"
+    },
+    {
+      "id": "plate-skin-material",
+      "tab": "skins",
+      "usage": "preview",
+      "label": "MATERIAL",
+      "intended": "SURFACE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-skin-material.svg"
+    },
+    {
+      "id": "plate-skin-texture",
+      "tab": "skins",
+      "usage": "preview",
+      "label": "TEXTURE",
+      "intended": "TREATMENT",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-skin-texture.svg"
+    },
+    {
+      "id": "plate-hist-empty",
+      "tab": "history",
+      "usage": "placeholder",
+      "label": "HISTORY",
+      "intended": "NO EVENTS YET",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-hist-empty.svg"
+    },
+    {
+      "id": "plate-hist-milestone",
+      "tab": "history",
+      "usage": "preview",
+      "label": "MILESTONE",
+      "intended": "PROMOTION",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-hist-milestone.svg"
+    },
+    {
+      "id": "plate-more-context",
+      "tab": "more",
+      "usage": "utility-tile",
+      "label": "CREATIVE",
+      "intended": "CONTEXT",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-more-context.svg"
+    },
+    {
+      "id": "plate-more-qa",
+      "tab": "more",
+      "usage": "utility-tile",
+      "label": "TWIN / QA",
+      "intended": "SIDE BY SIDE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-more-qa.svg"
+    },
+    {
+      "id": "plate-more-diagnostic",
+      "tab": "more",
+      "usage": "utility-tile",
+      "label": "DIAGNOSTIC",
+      "intended": "OPUS NATIVE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-more-diagnostic.svg"
+    },
+    {
+      "id": "plate-more-icons",
+      "tab": "more",
+      "usage": "utility-tile",
+      "label": "ICON SHEET",
+      "intended": "SYMBOL LIBRARY",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-more-icons.svg"
+    },
+    {
+      "id": "plate-more-banner",
+      "tab": "more",
+      "usage": "utility-tile",
+      "label": "UTILITIES",
+      "intended": "DESIGN WORKSPACE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-more-banner.svg"
+    },
+    {
+      "id": "plate-hamburger-hero",
+      "tab": "hamburger",
+      "usage": "cover",
+      "label": "PROJECT",
+      "intended": "NDX",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "plate-hamburger-hero.svg"
+    },
+    {
+      "id": "raster-ref-brand",
+      "tab": "references",
+      "usage": "cover",
+      "label": "BRAND / IDENTITY",
+      "intended": "References collection cover + hamburger hero fallback",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-ref-brand.jpg"
+    },
+    {
+      "id": "raster-ref-authority",
+      "tab": "references",
+      "usage": "cover",
+      "label": "AUTHORITY",
+      "intended": "References authority collection cover",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-ref-authority.jpg"
+    },
+    {
+      "id": "raster-ref-mood",
+      "tab": "references",
+      "usage": "cover",
+      "label": "FOUNDER / MOOD",
+      "intended": "References mood / founder collection cover",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-ref-mood.jpg"
+    },
+    {
+      "id": "raster-material",
+      "tab": "skins",
+      "usage": "preview",
+      "label": "MATERIAL / ATMOSPHERE",
+      "intended": "Skins material tiles + texture fallback",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-material-atmosphere.jpg"
+    },
+    {
+      "id": "raster-more-banner",
+      "tab": "more",
+      "usage": "utility-tile",
+      "label": "DESIGN WORKSPACE",
+      "intended": "More tab banner when the project has no family capture",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-more-banner.jpg"
+    },
+    {
+      "id": "raster-empty-library",
+      "tab": "shared",
+      "usage": "placeholder",
+      "label": "LIBRARY EMPTY",
+      "intended": "Empty-state plate for references / assets with no media",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-empty-library.jpg"
+    },
+    {
+      "id": "raster-page-map",
+      "tab": "pages",
+      "usage": "preview",
+      "label": "PAGE ARCHITECTURE",
+      "intended": "Pages map support + family fallback",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-page-architecture.jpg"
+    },
+    {
+      "id": "raster-hist-milestone",
+      "tab": "history",
+      "usage": "thumbnail",
+      "label": "MILESTONE",
+      "intended": "History empty / latest-milestone thumbnail",
+      "ready": "STAGED",
+      "kind": "raster",
+      "file": "raster/plate-hist-milestone.jpg"
+    },
+    {
+      "id": "family-root",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "ROOT",
+      "intended": "Pages family fallback for ROOT",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-root.svg"
+    },
+    {
+      "id": "family-brand",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "BRAND",
+      "intended": "Pages family fallback for BRAND",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-brand.svg"
+    },
+    {
+      "id": "family-content",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "CONTENT",
+      "intended": "Pages family fallback for CONTENT",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-content.svg"
+    },
+    {
+      "id": "family-experiment",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "EXPERIMENT",
+      "intended": "Pages family fallback for EXPERIMENT",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-experiment.svg"
+    },
+    {
+      "id": "family-personal",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "PERSONAL",
+      "intended": "Pages family fallback for PERSONAL",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-personal.svg"
+    },
+    {
+      "id": "family-archive",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "ARCHIVE",
+      "intended": "Pages family fallback for ARCHIVE",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-archive.svg"
+    },
+    {
+      "id": "family-inspect",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "INSPECT",
+      "intended": "Pages family fallback for INSPECT",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-inspect.svg"
+    },
+    {
+      "id": "family-cultural",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "CULTURAL",
+      "intended": "Pages family fallback for CULTURAL",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-cultural.svg"
+    },
+    {
+      "id": "family-marketing",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "MARKETING",
+      "intended": "Pages family fallback for MARKETING",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-marketing.svg"
+    },
+    {
+      "id": "family-overview",
+      "tab": "pages",
+      "usage": "thumbnail",
+      "label": "OVERVIEW",
+      "intended": "Pages family fallback for OVERVIEW",
+      "ready": "STAGED",
+      "kind": "svg",
+      "file": "family-overview.svg"
+    }
+  ]
+}
