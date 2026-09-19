@@ -9621,3 +9621,15 @@ Summary of the **whole conversation so far** in this chat: founder ran a multi-s
 - **Changes:** `src/site00/visualSystem/*`, `DesignVisualSystemPage.tsx`, `site00-design-visual-system.css`, route + helper, `tests/p0vrDesignGrokVisualSystem1.test.ts`, CORE route row, this MEMORY entry.
 - **Conventions:** Grok visual-system work stays on an isolated staging route. Do not swap these marks into live DESIGN until founder approves. Canonical = spatial 2×2 frames; List = index rail + rules. Opus = isometric wire cube; Grok = 8-ray asterisk + center node. Replace = stacked frames; Regenerate = frame + return arrow. Pipeline stages = numbered 18×18 squares, not mascots. Empty states stay lightweight frames. Do not use generic stroke kits, emoji, or campaign artwork as placeholders.
 
+---
+
+## 2026-09-19 — P0.VR.DESIGN.GROK-VIEWMODE-ICONS1 staged Canonical / List pair
+
+Summary of the **whole conversation so far** in this chat: founder ran the Grok 4.6 Cursor pipeline from isolated golden reconstruction (GROK-DIRECT1 / R1) through Sol and Opus pairing rasters, then a full DESIGN visual-system family (GROK-VISUAL-SYSTEM1, 128 staged marks). This sprint tightens only the **Canonical / List view-mode control** that still shows as text in the live DESIGN chrome.
+
+- **Context:** Sprint **P0.VR.DESIGN.GROK-VIEWMODE-ICONS1**. Icon design only. Replace the text CANONICAL / LIST toggle with two compact icon-only marks. Do not redesign the toolbar, move Opus/Grok, alter viewport controls, or wire into the live UI until founder APPROVE.
+- **Topics covered:** Motherboard load; existing visual-system 24-grid; Canonical as framed editorial composition vs List as indexed sequential records; state treatment (default / hover / active / disabled); SVG + currentColor handoff.
+- **Decisions / outcomes:** Canonical = outer authority frame + dominant plate + secondary column (not a dashboard grid). List = three horizontal records with leading index marks (not a hamburger). One SVG each, `currentColor`, square/miter 1.5 stroke. Review route **`/projects/ndxbook/design/viewmode-icons`**. Live DESIGN toolbar untouched.
+- **Changes:** `public/site00/design-visual-system/canonical-view.svg`, `list-view.svg`, `viewModeIcons.tsx`, `DesignViewModeIconsPage.tsx`, route + helper, `tests/p0vrDesignGrokViewModeIcons1.test.ts`, CORE route row, this MEMORY entry.
+- **Conventions:** View-mode control is icon-only after approval. Composer implements via CSS/currentColor on the existing slot above Opus / Grok. Do not add text labels back onto the buttons.
+
