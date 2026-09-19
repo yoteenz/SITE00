@@ -1,0 +1,297 @@
+/* P0.VR.DESIGN.GROK-VISUAL-SYSTEM1 — isolated staging sheet. Do not import into live DESIGN workspace. */
+
+.dvs {
+  --dvs-ink: #111111;
+  --dvs-paper: #f7f7f5;
+  --dvs-lime: #cdee30;
+  --dvs-mute: #6b6b6b;
+  --dvs-line: #d8d8d4;
+  min-height: 100vh;
+  background: var(--dvs-paper);
+  color: var(--dvs-ink);
+  font-family: 'Martian Mono', ui-monospace, monospace;
+  padding: 28px 20px 80px;
+}
+
+.dvs * {
+  box-sizing: border-box;
+}
+
+.dvs-mast {
+  border-bottom: 1px solid var(--dvs-ink);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.dvs-kicker,
+.dvs-sub,
+.dvs-facts,
+.dvs-card__meta dt,
+.dvs-state figcaption,
+.dvs-size figcaption,
+.dvs-card__status {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dvs-kicker {
+  margin: 0 0 8px;
+  font-size: 11px;
+  color: var(--dvs-mute);
+}
+
+.dvs-mast h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.dvs-sub {
+  margin: 10px 0 16px;
+  font-size: 11px;
+}
+
+.dvs-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dvs-facts li {
+  border: 1px solid var(--dvs-ink);
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+.dvs-spec,
+.dvs-upload-demo,
+.dvs-group {
+  margin-bottom: 36px;
+}
+
+.dvs h2 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--dvs-line);
+  padding-bottom: 8px;
+}
+
+.dvs-spec p {
+  margin: 0 0 16px;
+  max-width: 68ch;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.dvs-hero-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dvs-hero {
+  margin: 0;
+  width: 92px;
+}
+
+.dvs-hero__ink,
+.dvs-hero__paper {
+  display: grid;
+  place-items: center;
+  height: 56px;
+  border: 1px solid var(--dvs-ink);
+}
+
+.dvs-hero__ink {
+  background: var(--dvs-ink);
+  color: var(--dvs-paper);
+}
+
+.dvs-hero__paper {
+  background: var(--dvs-paper);
+  color: var(--dvs-lime);
+  border-top: 0;
+}
+
+.dvs-hero figcaption {
+  margin-top: 6px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.dvs-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 140px;
+  border: 1px solid var(--dvs-ink);
+  background:
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 0 / 12px 1px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 0 / 1px 12px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 0 / 12px 1px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 0 / 1px 12px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 100% / 12px 1px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 0 100% / 1px 12px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 100% / 12px 1px no-repeat,
+    linear-gradient(var(--dvs-ink), var(--dvs-ink)) 100% 100% / 1px 12px no-repeat,
+    var(--dvs-paper);
+  text-align: center;
+  padding: 20px;
+}
+
+.dvs-drop p {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.dvs-drop span {
+  font-size: 10px;
+  color: var(--dvs-mute);
+}
+
+.dvs-upload-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dvs-upload-badges span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--dvs-ink);
+  padding: 4px 8px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.dvs-upload-badges span.is-invalid {
+  color: #111;
+  background: #eee;
+}
+
+.dvs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.dvs-card {
+  border: 1px solid var(--dvs-ink);
+  padding: 12px;
+  background: #fff;
+}
+
+.dvs-card__head {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 10px;
+}
+
+.dvs-card__head h3 {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.dvs-card__head p {
+  margin: 4px 0 0;
+  font-size: 9px;
+  color: var(--dvs-mute);
+  word-break: break-all;
+}
+
+.dvs-card__status {
+  font-size: 9px;
+  background: var(--dvs-lime);
+  color: var(--dvs-ink);
+  padding: 3px 6px;
+  align-self: start;
+}
+
+.dvs-card__meta {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 10px;
+}
+
+.dvs-card__meta div {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+}
+
+.dvs-card__meta dt {
+  color: var(--dvs-mute);
+  font-size: 9px;
+}
+
+.dvs-card__meta dd {
+  margin: 0;
+}
+
+.dvs-states,
+.dvs-sizes {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  margin-bottom: 6px;
+}
+
+.dvs-states--paper,
+.dvs-sizes--paper {
+  background: var(--dvs-paper);
+  color: var(--dvs-ink);
+  border: 1px solid var(--dvs-line);
+}
+
+.dvs-states--ink,
+.dvs-sizes--ink {
+  background: var(--dvs-ink);
+  color: var(--dvs-paper);
+}
+
+.dvs-state,
+.dvs-size {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  min-width: 36px;
+}
+
+.dvs-state figcaption,
+.dvs-size figcaption {
+  font-size: 8px;
+  color: inherit;
+  opacity: 0.7;
+}
+
+@media (max-width: 720px) {
+  .dvs {
+    padding: 16px 12px 64px;
+  }
+
+  .dvs-mast h1 {
+    font-size: 22px;
+  }
+
+  .dvs-grid {
+    grid-template-columns: 1fr;
+  }
+}

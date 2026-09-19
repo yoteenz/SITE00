@@ -9609,3 +9609,15 @@ Summary of the **whole conversation so far** in this chat: founder ran a fresh G
 - **Changes:** `DesignTwinGrokDirectPage.tsx`, `site00-twin-grok-direct.css`, route + helper, `tests/p0vrDesignBenchGrokDirect1.test.ts`, CORE route row, this MEMORY entry. Build **v490**.
 - **Conventions:** Design-bench “direct reconstruction” sprints implement the golden in isolated DOM/CSS. Do not stand up IR/compilers/provider adapters for this class of sprint.
 
+---
+
+## 2026-09-19 — P0.VR.DESIGN.GROK-VISUAL-SYSTEM1 staged DESIGN icon family
+
+Summary of the **whole conversation so far** in this chat: founder ran a multi-sprint Grok 4.6 Cursor pipeline from isolated golden reconstruction through Opus pairing rasters, then commissioned a **visual-asset / iconography** pass for the live DESIGN workspace. Opus owns interface structure. Grok owns marks placed inside those structures. Composer implements only after founder APPROVE.
+
+- **Context:** Chat started with GROK-DIRECT1 (`/projects/ndxbook/design/twin-grok-direct`), then DIRECT1R1 fidelity, Sol pairing plates (ASSET1–R2), Opus pairing rasters (ASSET-OPUS1, HERO-TEXT1 / rejected HERO-TEXT-R2 rebuild, ASSET2 crop, HERO-ASSET2R1 dedicated hero plate). Latest sprint **P0.VR.DESIGN.GROK-VISUAL-SYSTEM1** uses four attached DESIGN workspace goldens (mobile main, desktop main, desktop drawers, mobile drawers). Do not redesign page geometry, move panels, change IA, rewrite workflow, replace real page images, or overwrite founder-approved assets.
+- **Topics covered:** Motherboard load; existing `Site00IconFrame` / hub / Design workspace Lucide-adjacent marks (audit only); 24-grid architectural family; Canonical vs List; Opus cube vs Grok asterisk; viewport / workflow / pipeline 01–11 / readiness / asset console / upload / review / inspector / empty / placeholder systems; isolated staging route.
+- **Decisions / outcomes:** Family construction: viewBox 24, stroke 1.5, square cap, miter join, 4px inset, `currentColor`, lime `#cdee30` only for active/selected/approved. **128 STAGED** marks in `DVS_MANIFEST`. Review route **`/projects/ndxbook/design/visual-system`** boots without CTRL ROOM sign-in. Not wired into the live DESIGN shell. Interface geometry not mutated. Founder review is next: APPROVE / REJECT / REGENERATE / REQUEST CHANGE. Composer does not implement until approved.
+- **Changes:** `src/site00/visualSystem/*`, `DesignVisualSystemPage.tsx`, `site00-design-visual-system.css`, route + helper, `tests/p0vrDesignGrokVisualSystem1.test.ts`, CORE route row, this MEMORY entry.
+- **Conventions:** Grok visual-system work stays on an isolated staging route. Do not swap these marks into live DESIGN until founder approves. Canonical = spatial 2×2 frames; List = index rail + rules. Opus = isometric wire cube; Grok = 8-ray asterisk + center node. Replace = stacked frames; Regenerate = frame + return arrow. Pipeline stages = numbered 18×18 squares, not mascots. Empty states stay lightweight frames. Do not use generic stroke kits, emoji, or campaign artwork as placeholders.
+
