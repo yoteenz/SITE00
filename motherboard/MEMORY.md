@@ -10556,3 +10556,12 @@ Founder: six project-level tabs (References…More) showed empty white panel + d
 - **Fix:** `site00-design-project-surface.css` — flex column participation for `.tod-child-embedded` and `> .tod-ps` under `:has(.tod-ps)`.
 - **Tests/capture:** `p0vrDesignProjectTabsRelease429Restore1.test.ts`; `scripts/design-bench/project-tabs-release429-restore1/capture.mjs`.
 - **Branch:** `cursor/design-project-tabs-release429-restore1-9f72`.
+
+---
+
+## 2026-09-19 — CI fix: release #429 git guards
+
+GitHub Actions shallow checkout lacks commit `441ae433`, so `p0vrDesignRelease429ExactRestore1` / project-tabs restore tests failed with `fatal: bad revision`.
+
+- **Fix:** `tests/helpers/release429Git.ts` resolves ref when present; git-diff/`git show` tests use `it.skip` when absent; filesystem guards always run.
+- **Branch:** `cursor/design-release429-ci-test-fix-9f72`.

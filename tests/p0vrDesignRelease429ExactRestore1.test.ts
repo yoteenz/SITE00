@@ -4,19 +4,20 @@
  * SOURCE: production release #429 / commit 441ae433
  * ("GROK: staged visual support pack for the seven project-level tabs")
  *
- * Selective restore: DESIGN bench matches 441ae433 except intentional post-429 layers
- * (dock/scroll, Grok view-mode icons, EXPERIENCE Site00Layout).
+ * Git comparisons run only when the authority commit exists locally (full clone).
+ * CI shallow checkouts use filesystem guards instead.
  */
 
-import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
+import { gitDiffNames, gitShowFile, resolveRelease429Ref } from './helpers/release429Git';
+
 const ROOT = join(import.meta.dirname, '..');
 
-const SOURCE_RELEASE429 = '441ae433';
+const SOURCE_RELEASE429_LABEL = '441ae433';
 
 /** Paths allowed to differ from SOURCE_RELEASE429 on main (manifest). */
 const POST429_DESIGN_ALLOWLIST = [
@@ -37,51 +38,50 @@ const DESIGN_DIFF_PATHS = [
   'src/routes/Site00Routes.tsx',
 ];
 
+const release429Ref = resolveRelease429Ref(ROOT);
+const itWithRelease429Git = release429Ref ? it : it.skip;
+
 function read(rel: string): string {
   return readFileSync(join(ROOT, rel), 'utf8');
 }
 
-function gitDiffNames(base: string): string[] {
-  const out = execSync(`git diff --name-only ${base} HEAD -- ${DESIGN_DIFF_PATHS.join(' ')}`, {
-    cwd: ROOT,
-    encoding: 'utf8',
-  });
-  return out
-    .split('\n')
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .sort();
-}
-
 describe('P0.VR.DESIGN-RELEASE429-EXACT-RESTORE1', () => {
   it('documents release #429 source commit', () => {
-    expect(SOURCE_RELEASE429).toBe('441ae433');
-    expect(read('docs/design-release429-restore-manifest.md')).toContain(SOURCE_RELEASE429);
+    expect(SOURCE_RELEASE429_LABEL).toBe('441ae433');
+    const manifest = read('docs/design-release429-restore-manifest.md');
+    expect(manifest).toContain('441ae433');
+    expect(manifest).toContain('441ae43');
   });
 
-  it('only allowlisted DESIGN paths differ from 441ae433 (no stale bench drift)', () => {
-    const changed = gitDiffNames(SOURCE_RELEASE429);
+  itWithRelease429Git('only allowlisted DESIGN paths differ from 441ae433 (no stale bench drift)', () => {
+    const changed = gitDiffNames(ROOT, release429Ref!, DESIGN_DIFF_PATHS);
     expect(changed).toEqual(POST429_DESIGN_ALLOWLIST);
   });
 
-  it('441ae433 ProjectSurface baseline is preserved inside dock/scroll split', () => {
-    const kitAt429 = execSync(`git show ${SOURCE_RELEASE429}:src/site00/components/designBench/production/designProjectSurfaceKit.tsx`, {
-      cwd: ROOT,
-      encoding: 'utf8',
-    });
-    expect(kitAt429).toMatch(/return \(\s*\n\s*<div className="tod-ps"/);
-    expect(kitAt429).not.toContain('tod-ps__main');
-
+  it('ProjectSurface dock/scroll split preserves release #429 content model', () => {
     const kit = read('src/site00/components/designBench/production/designProjectSurfaceKit.tsx');
     expect(kit).toContain('tod-ps__main');
     expect(kit).toContain('tod-ps__main-zoom');
     expect(kit).toContain('child.type === ProjectActionBar');
+    expect(kit).toContain('ProjectIdentity');
+    expect(kit).toContain('ProjectModules');
+  });
+
+  itWithRelease429Git('441ae433 ProjectSurface had flat children before dock split', () => {
+    const kitAt429 = gitShowFile(
+      ROOT,
+      release429Ref!,
+      'src/site00/components/designBench/production/designProjectSurfaceKit.tsx',
+    );
+    expect(kitAt429).toMatch(/return \(\s*\n\s*<div className="tod-ps"/);
+    expect(kitAt429).not.toContain('tod-ps__main');
   });
 
   it('reapplies dock fix + release #429 wide zoom on main-zoom (not frame)', () => {
     const css = read('src/site00/styles/site00-design-project-surface.css');
     expect(css).toContain('.tod-dcs--workspace-inline:has(.tod-ps[data-format=\'wide\'])');
     expect(css).toMatch(/\.tod-ps__main-zoom[\s\S]*zoom:\s*calc/);
+    expect(css).toMatch(/\.tod-child-embedded[\s\S]*flex:\s*1\s*1\s*0/);
     const frameBlock = css.slice(
       css.indexOf('.tod-dcs--workspace-inline:has(.tod-ps)'),
       css.indexOf('.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__head'),
