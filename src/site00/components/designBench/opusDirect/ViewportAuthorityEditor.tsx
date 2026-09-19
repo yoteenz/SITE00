@@ -38,6 +38,7 @@ import {
   AiConsoleSurface,
   AiConsoleTab,
 } from '../aiConsoles/AiConsoleShell';
+import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import type { usePageAuthorityWorkflow } from './usePageAuthorityWorkflow';
 
 type WorkflowApi = ReturnType<typeof usePageAuthorityWorkflow>;
@@ -205,7 +206,7 @@ export function ViewportAuthorityEditor({
         <>
           <AiConsoleButton
             label={`VIEW VERSIONS (${source.versions.length})`}
-            glyph="⟲"
+            icon="auth-view-versions"
             onClick={() => setShowVersions((value) => !value)}
           />
           <AiConsoleButton
@@ -236,6 +237,7 @@ export function ViewportAuthorityEditor({
             alt={`${viewport} authority reference`}
             emptyLabel="NO AUTHORITY IMAGE"
             emptyNote="Upload a reference or describe the direction — CGPT stages a new version from it."
+            emptyIcon="empty-authority"
             onOpen={() => image && onFullscreen(image, `${viewport} AUTHORITY`, shownVersion?.label)}
             contain
           />
@@ -251,7 +253,7 @@ export function ViewportAuthorityEditor({
                   setNotesDraft(shownVersion?.notes ?? '');
                 }}
               >
-                ✎ EDIT DETAILS
+                <AiConsoleIcon name="opus-edit" size={11} /> EDIT DETAILS
               </button>
             </div>
             {editDetails ? (
@@ -314,6 +316,17 @@ export function ViewportAuthorityEditor({
                   onClick={() => setPreviewVersionId(version.versionId)}
                 >
                   {version.imageUrl ? <img src={version.imageUrl} alt="" /> : null}
+                  <span className="s00-aic__thumbType" aria-hidden="true">
+                    <AiConsoleIcon
+                      name={
+                        version.versionId === source.activeVersionId ? 'auth-version-current'
+                        : version.status === 'SUPERSEDED' ? 'auth-version-previous'
+                        : version.status === 'ACTIVE' ? 'auth-active'
+                        : 'auth-draft'
+                      }
+                      size={10}
+                    />
+                  </span>
                 </button>
                 <span className="s00-aic__thumbCap">
                   {version.label}
@@ -330,6 +343,7 @@ export function ViewportAuthorityEditor({
           <AiConsoleEmptyState
             title="NO MESSAGES YET"
             note="Describe the direction you want for this viewport. CGPT answers with a staged authority version you can accept or refine."
+            icon="empty-messages"
           />
         ) : (
           <div className="s00-aic__thread">
@@ -338,7 +352,10 @@ export function ViewportAuthorityEditor({
               return (
                 <article key={message.id} className={`s00-aic__msg s00-aic__msg--${message.role}`}>
                   <span className="s00-aic__avatar" aria-hidden="true">
-                    {message.role === 'founder' ? 'F' : 'C'}
+                    <AiConsoleIcon
+                      name={message.role === 'founder' ? 'auth-founder' : 'mark-cgpt'}
+                      size={12}
+                    />
                   </span>
                   <div>
                     <div className="s00-aic__msgHead">
@@ -393,6 +410,7 @@ export function ViewportAuthorityEditor({
               <AiConsoleEmptyState
                 title="NO ATTACHMENTS"
                 note="Attached references travel with your next message and become part of the authority record."
+                icon="empty-attachments"
               />
             ) : (
               <div className="s00-aic__thumbs">
@@ -406,7 +424,7 @@ export function ViewportAuthorityEditor({
                         aria-label={`Remove ${attachment.name}`}
                         onClick={() => setPending((prev) => prev.filter((_, i) => i !== index))}
                       >
-                        ✕
+                        <AiConsoleIcon name="action-remove" size={9} />
                       </button>
                     </span>
                     <button
@@ -425,7 +443,7 @@ export function ViewportAuthorityEditor({
             <p className="s00-aic__secLabel">ADD REFERENCE FILES</p>
             <button
               type="button"
-              className={`s00-aic__drop${dragging ? ' is-dragging' : ''}`}
+              className={`s00-aic__drop${dragging ? ' is-dragging' : ''}${uploadError ? ' is-invalid' : ''}`}
               onClick={() => fileRef.current?.click()}
               onDragOver={(event) => {
                 event.preventDefault();
@@ -440,7 +458,7 @@ export function ViewportAuthorityEditor({
               }}
             >
               <span className="s00-aic__dropGlyph" aria-hidden="true">
-                ⬆
+                <AiConsoleIcon name={uploadError ? 'upload-invalid' : dragging ? 'upload' : 'auth-upload-reference'} size={18} />
               </span>
               <span className="s00-aic__dropTitle">Drop images here or click to upload</span>
               <span className="s00-aic__dropFormats">
@@ -471,7 +489,7 @@ export function ViewportAuthorityEditor({
             aria-label="Attach a reference image"
             title="Attach a reference image"
           >
-            ⬚
+            <AiConsoleIcon name="attach-image" size={14} />
           </button>
           <input
             className="s00-aic__barInput"
@@ -494,7 +512,7 @@ export function ViewportAuthorityEditor({
             aria-label="Send message"
             title={sendDisabled ? 'Write a message or attach a reference first.' : 'Send'}
           >
-            ▶
+            <AiConsoleIcon name="action-send" size={14} />
           </button>
         </div>
         <p className="s00-aic__notice">

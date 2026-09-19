@@ -68,6 +68,7 @@ import {
   AiConsoleSurface,
   AiConsoleTab,
 } from '../aiConsoles/AiConsoleShell';
+import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import { useDesignAgentDock } from './DesignAgentDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
 import '../../../styles/site00-design-agent.css';
@@ -427,6 +428,7 @@ export function DesignAgentDock() {
                 alt={heroReference?.label ?? 'Active design target'}
                 emptyLabel="NO PAGE PREVIEW YET"
                 emptyNote="Capture the current screen or select a page concept to give Opus a visual target."
+                emptyIcon="empty-context"
                 interactionId="opus-context-preview"
               />
               <div>
@@ -552,7 +554,7 @@ export function DesignAgentDock() {
                   }
                 >
                   <span className="s00-aic__toolGlyph" aria-hidden="true">
-                    ⬚
+                    <AiConsoleIcon name="opus-attach-reference" size={12} />
                   </span>
                   ADD REFERENCE
                 </button>
@@ -563,7 +565,7 @@ export function DesignAgentDock() {
                   title="Insert the active page id into the request."
                 >
                   <span className="s00-aic__toolGlyph" aria-hidden="true">
-                    @
+                    <AiConsoleIcon name="action-mention" size={12} />
                   </span>
                   MENTION
                 </button>
@@ -584,7 +586,7 @@ export function DesignAgentDock() {
                   title="Append the compiled page context to your request. Deterministic — no model spend."
                 >
                   <span className="s00-aic__toolGlyph" aria-hidden="true">
-                    ✦
+                    <AiConsoleIcon name="action-context-assist" size={12} />
                   </span>
                   CONTEXT ASSIST
                 </button>
@@ -633,7 +635,12 @@ export function DesignAgentDock() {
           >
             <div className="s00-aic__cells">
               <div className="s00-aic__cell">
-                <span className="s00-aic__cellLabel">ESTIMATED COST</span>
+                <span className="s00-aic__cellLabel">
+                  <span className="s00-aic__cellIcon" aria-hidden="true">
+                    <AiConsoleIcon name="opus-cost" size={12} />
+                  </span>
+                  ESTIMATED COST
+                </span>
                 <span className="s00-aic__cellValue">
                   {estimate ? usd(estimate.estimatedUsd) : '—'}
                 </span>
@@ -642,12 +649,22 @@ export function DesignAgentDock() {
                 </span>
               </div>
               <div className="s00-aic__cell">
-                <span className="s00-aic__cellLabel">SCOPE</span>
+                <span className="s00-aic__cellLabel">
+                  <span className="s00-aic__cellIcon" aria-hidden="true">
+                    <AiConsoleIcon name="opus-scope" size={12} />
+                  </span>
+                  SCOPE
+                </span>
                 <span className="s00-aic__cellValue">{permittedMode.replace(/_/g, ' ')}</span>
                 <span className="s00-aic__cellNote">{scopeRows.filter((row) => row.allowed).length} OF 5 CAPABILITIES</span>
               </div>
               <div className="s00-aic__cell">
-                <span className="s00-aic__cellLabel">IMPACT</span>
+                <span className="s00-aic__cellLabel">
+                  <span className="s00-aic__cellIcon" aria-hidden="true">
+                    <AiConsoleIcon name="opus-impact" size={12} />
+                  </span>
+                  IMPACT
+                </span>
                 <span className="s00-aic__cellValue s00-aic__cellValue--lime">{intentPresentation?.impact ?? 'LOW'}</span>
                 <span className="s00-aic__cellNote">{intentPresentation?.impactNote ?? ''}</span>
               </div>
@@ -785,7 +802,11 @@ export function DesignAgentDock() {
                   </ul>
                 </>
               ) : (
-                <AiConsoleEmptyState title="NO PATCH PRODUCED" note="This run produced findings only." />
+                <AiConsoleEmptyState
+                  title="NO PATCH PRODUCED"
+                  note="This run produced findings only."
+                  icon="empty-staged"
+                />
               )}
               <AiConsoleMeta
                 rows={[
@@ -837,6 +858,7 @@ export function DesignAgentDock() {
             <AiConsoleEmptyState
               title="NO PROPOSAL YET"
               note="Run Opus from the DESIGN tab. The proposal, before/after and files land here — you are never routed to a separate debug page."
+              icon="empty-staged"
             />
           </AiConsoleSection>
         )

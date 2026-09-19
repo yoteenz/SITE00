@@ -11,7 +11,13 @@
 import { useEffect, type ReactNode } from 'react';
 
 import type { ConsoleStatusTone } from '../../../../../shared/site00-design-workspace-production/designAiConsolePresentation.js';
+import {
+  AIC_CONSOLE_MARK,
+  statusIconForLabel,
+  type AiConsoleIconId,
+} from '../../../../../shared/site00-design-workspace-production/designAiConsoleIconography.js';
 import '../../../styles/site00-ai-consoles.css';
+import { AiConsoleIcon } from './AiConsoleIcon';
 
 export function AiConsoleSurface({
   console: consoleId,
@@ -69,6 +75,9 @@ export function AiConsoleSurface({
       >
         <span className="s00-aic__grabber" aria-hidden="true" />
         <div className="s00-aic__chrome">
+          <span className="s00-aic__mark" aria-hidden="true">
+            <AiConsoleIcon name={AIC_CONSOLE_MARK[consoleId]} size={14} />
+          </span>
           <span className="s00-aic__chromeName">{name}</span>
           {model ?
             <>
@@ -79,7 +88,9 @@ export function AiConsoleSurface({
             </>
           : null}
           <span className="s00-aic__state" data-tone={statusTone} data-console-status={status}>
-            <span className="s00-aic__dot" aria-hidden="true" />
+            <span className="s00-aic__dot" aria-hidden="true">
+              <AiConsoleIcon name={statusIconForLabel(status)} size={12} />
+            </span>
             {status}
           </span>
           <button
@@ -88,7 +99,7 @@ export function AiConsoleSurface({
             onClick={onClose}
             aria-label={`Close ${name}`}
           >
-            ✕
+            <AiConsoleIcon name="action-close" size={12} />
           </button>
         </div>
 
@@ -207,6 +218,7 @@ export function AiConsolePreview({
   alt,
   emptyLabel,
   emptyNote,
+  emptyIcon = 'empty-concept',
   onOpen,
   contain,
   interactionId,
@@ -215,6 +227,7 @@ export function AiConsolePreview({
   alt: string;
   emptyLabel: string;
   emptyNote?: string;
+  emptyIcon?: AiConsoleIconId;
   onOpen?: () => void;
   contain?: boolean;
   interactionId?: string;
@@ -236,7 +249,9 @@ export function AiConsolePreview({
           draggable={false}
         />
       : <span className="s00-aic__previewEmpty">
-          <span className="s00-aic__previewEmptyGlyph" aria-hidden="true" />
+          <span className="s00-aic__previewEmptyGlyph" aria-hidden="true">
+            <AiConsoleIcon name={emptyIcon} size={22} />
+          </span>
           <span>{emptyLabel}</span>
           {emptyNote ? <span className="s00-aic__emptyNote">{emptyNote}</span> : null}
         </span>
@@ -249,14 +264,18 @@ export function AiConsoleEmptyState({
   title,
   note,
   action,
+  icon = 'empty-assets',
 }: {
   title: string;
   note: string;
   action?: ReactNode;
+  icon?: AiConsoleIconId;
 }) {
   return (
     <div className="s00-aic__empty">
-      <span className="s00-aic__emptyGlyph" aria-hidden="true" />
+      <span className="s00-aic__emptyGlyph" aria-hidden="true">
+        <AiConsoleIcon name={icon} size={22} />
+      </span>
       <span className="s00-aic__emptyTitle">{title}</span>
       <span className="s00-aic__emptyNote">{note}</span>
       {action}
@@ -272,6 +291,7 @@ export function AiConsoleButton({
   disabledReason,
   interactionId,
   glyph,
+  icon,
 }: {
   label: string;
   onClick: () => void;
@@ -280,6 +300,7 @@ export function AiConsoleButton({
   disabledReason?: string | null;
   interactionId?: string;
   glyph?: string;
+  icon?: AiConsoleIconId;
 }) {
   return (
     <button
@@ -290,12 +311,67 @@ export function AiConsoleButton({
       title={disabled ? disabledReason ?? undefined : undefined}
       data-interaction-id={interactionId}
     >
-      {glyph ? (
+      {icon ? (
+        <span className="s00-aic__toolGlyph" aria-hidden="true">
+          <AiConsoleIcon name={icon} size={12} />
+        </span>
+      ) : glyph ? (
         <span className="s00-aic__toolGlyph" aria-hidden="true">
           {glyph}
         </span>
       ) : null}
       {label}
     </button>
+  );
+}
+
+export function AiConsoleLightboxControls({
+  onFit,
+  onZoomIn,
+  onZoomOut,
+  onPrev,
+  onNext,
+  onClose,
+}: {
+  onFit?: () => void;
+  onZoomIn?: () => void;
+  onZoomOut?: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+  onClose?: () => void;
+}) {
+  return (
+    <div className="s00-aic__previewTools" role="toolbar" aria-label="Preview controls">
+      {onPrev ? (
+        <button type="button" className="s00-aic__previewTool" onClick={onPrev} aria-label="Previous">
+          <AiConsoleIcon name="preview-prev" size={14} />
+        </button>
+      ) : null}
+      {onFit ? (
+        <button type="button" className="s00-aic__previewTool" onClick={onFit} aria-label="Fit">
+          <AiConsoleIcon name="preview-fit" size={14} />
+        </button>
+      ) : null}
+      {onZoomOut ? (
+        <button type="button" className="s00-aic__previewTool" onClick={onZoomOut} aria-label="Zoom out">
+          <AiConsoleIcon name="preview-zoom-out" size={14} />
+        </button>
+      ) : null}
+      {onZoomIn ? (
+        <button type="button" className="s00-aic__previewTool" onClick={onZoomIn} aria-label="Zoom in">
+          <AiConsoleIcon name="preview-zoom-in" size={14} />
+        </button>
+      ) : null}
+      {onNext ? (
+        <button type="button" className="s00-aic__previewTool" onClick={onNext} aria-label="Next">
+          <AiConsoleIcon name="preview-next" size={14} />
+        </button>
+      ) : null}
+      {onClose ? (
+        <button type="button" className="s00-aic__previewTool" onClick={onClose} aria-label="Close preview">
+          <AiConsoleIcon name="preview-fullscreen" size={14} />
+        </button>
+      ) : null}
+    </div>
   );
 }
