@@ -10578,3 +10578,15 @@ Wired isolated **WORKSPACE_SELF** concept workflow so SITE 00 DESIGN can later c
 - **Entry:** MORE → SYSTEM DESIGN → REDESIGN DESIGN WORKSPACE (founder only).
 - **Tests:** `p0vrDesignWorkspaceSelfConcept1.test.ts` (9 cases). No provider invoke.
 - **Branch:** `cursor/design-workspace-self-concept1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1
+
+Closed WORKSPACE_SELF gap: real Playwright capture of live DESIGN workspace for NBP source authority.
+
+- **API:** `POST /api/site00/workspace-self-capture` (founder-only) — headless Mobile + Desktop from `/projects/design/{slug}?goldenDiffCapture=1`, waits for `twin-opus-direct-screen`.
+- **Viewports:** MOBILE = canonical 390×844 (dsf 2); DESKTOP = DESIGN bench 1440×1024 (central `viewports.ts`).
+- **State:** `WorkspaceSelfCaptureSet`, capture statuses, append-only history, `evaluateNbpHandoffReadiness`, auto `syncNbpPackageFromCaptures` when contract + READY pair exist.
+- **UI:** RECAPTURE CURRENT WORKSPACE, preview + fullscreen, failure/retry; artifacts in localStorage via `workspaceSelfArtifactStorage`.
+- **Branch:** `cursor/design-workspace-self-capture1-9f72`.

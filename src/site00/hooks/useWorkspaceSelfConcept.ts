@@ -1,13 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import {
-  addWorkspaceSelfCapture,
+  applyWorkspaceSelfCapturePair,
   approveOpusShell,
+  beginWorkspaceSelfCaptureSet,
   compileAndFreezeFunctionContract,
   completePairReview,
   createComposerHandoff,
   createInitialWorkspaceSelfState,
   createNbpConceptPackage,
+  failWorkspaceSelfCaptureSet,
   lockWorkspaceAuthority,
   loadWorkspaceSelfState,
   markImplementationReady,
@@ -21,14 +23,18 @@ import {
   saveWorkspaceSelfState,
   selectViewportConcept,
   stageConceptArtifact,
+  evaluateNbpHandoffReadiness,
   type WorkspaceConceptSlotId,
   type WorkspaceSelfWorkflowState,
 } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/index.js';
 import { WORKSPACE_SELF_TARGET } from '../../../shared/site00-design-workspace-production/designTargetModel.js';
 import { getCurrentUser, isAdminFounderAccount } from '../../utils/adminAuth';
+import { persistCaptureArtifact } from '../services/workspaceSelfArtifactStorage';
+import { requestWorkspaceSelfDesignCapture } from '../services/workspaceSelfCaptureClient';
 
 export function useWorkspaceSelfConcept() {
   const [state, setState] = useState<WorkspaceSelfWorkflowState>(() => createInitialWorkspaceSelfState());
+  const [capturing, setCapturing] = useState(false);
 
   useEffect(() => {
     setState(loadWorkspaceSelfState());
@@ -43,31 +49,60 @@ export function useWorkspaceSelfConcept() {
   }, []);
 
   const actorEmail = getCurrentUser()?.email ?? 'founder@unknown';
+  const buildLabel = import.meta.env.VITE_SITE00_BUILD ?? import.meta.env.MODE ?? 'dev';
+
+  const recaptureCurrentWorkspace = useCallback(async () => {
+    setCapturing(true);
+    let captureSetId: string | null = null;
+    try {
+      const started = beginWorkspaceSelfCaptureSet(loadWorkspaceSelfState(), {
+        build: buildLabel,
+        createdBy: actorEmail,
+      });
+      captureSetId = started.activeCaptureSetId;
+      if (!captureSetId) throw new Error('CAPTURE_SET_START_FAILED');
+      saveWorkspaceSelfState(started);
+      setState(started);
+
+      const result = await requestWorkspaceSelfDesignCapture({
+        build: buildLabel,
+        sourceContext: started.sourceContext,
+      });
+
+      const mobilePath = persistCaptureArtifact(result.mobile.captureId, result.mobile.artifactBase64);
+      const desktopPath = persistCaptureArtifact(result.desktop.captureId, result.desktop.artifactBase64);
+
+      const setId = captureSetId;
+      run((s) =>
+        applyWorkspaceSelfCapturePair(s, {
+          captureSetId: setId,
+          build: result.build,
+          createdBy: actorEmail,
+          route: result.route,
+          mobile: { captureId: result.mobile.captureId, artifactPath: mobilePath },
+          desktop: { captureId: result.desktop.captureId, artifactPath: desktopPath },
+        }),
+      );
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Capture failed';
+      if (captureSetId) {
+        const failedId = captureSetId;
+        run((s) => failWorkspaceSelfCaptureSet(s, { captureSetId: failedId, reason: message }));
+      }
+      throw err;
+    } finally {
+      setCapturing(false);
+    }
+  }, [actorEmail, buildLabel, run]);
 
   return {
     state,
     target: WORKSPACE_SELF_TARGET,
     isFounder: isAdminFounderAccount(getCurrentUser()),
+    capturing,
+    nbpReadiness: evaluateNbpHandoffReadiness(state),
     open: () => run(markWorkspaceSelfOpened),
-    recordCurrentCaptures: (build: string) => {
-      run((s) => {
-        let next = addWorkspaceSelfCapture(s, {
-          viewport: 'MOBILE',
-          route: '/projects/design/ndxbook',
-          build,
-          artifactPath: null,
-          createdBy: actorEmail,
-        });
-        next = addWorkspaceSelfCapture(next, {
-          viewport: 'DESKTOP',
-          route: '/projects/design/ndxbook',
-          build,
-          artifactPath: null,
-          createdBy: actorEmail,
-        });
-        return next;
-      });
-    },
+    recaptureCurrentWorkspace,
     compileContract: () => run(compileAndFreezeFunctionContract),
     createNbpPackage: () => run(createNbpConceptPackage),
     requestGeneration: () => run(requestConceptGeneration),

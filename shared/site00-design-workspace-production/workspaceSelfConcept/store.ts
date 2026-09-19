@@ -1,3 +1,4 @@
+import { normalizeWorkspaceSelfState } from './captureWorkflow.js';
 import { createInitialWorkspaceSelfState } from './workflow.js';
 import type { WorkspaceSelfWorkflowState } from './types.js';
 import { WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
@@ -11,7 +12,7 @@ export function loadWorkspaceSelfState(): WorkspaceSelfWorkflowState {
     if (!raw) return createInitialWorkspaceSelfState();
     const parsed = JSON.parse(raw) as WorkspaceSelfWorkflowState;
     if (parsed.targetId !== WORKSPACE_SELF_TARGET_ID) return createInitialWorkspaceSelfState();
-    return parsed;
+    return normalizeWorkspaceSelfState(parsed);
   } catch {
     return createInitialWorkspaceSelfState();
   }
