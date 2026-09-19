@@ -1030,6 +1030,19 @@ export function PageAssetInspectPanel({
 
 /* ---- 15 INTERACTION INSPECTOR --------------------------------------------- */
 
+/**
+ * Contract destinations are handler identifiers (`openCreativeContext`). The
+ * founder reads this panel to understand where a control leads, so the id is
+ * spoken as words here and kept verbatim under ADVANCED.
+ */
+function humanizeDestination(destination: string): string {
+  if (destination.startsWith('/')) return destination;
+  return destination
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .toUpperCase();
+}
+
 export function PageInteractionsInspectorPanel({ projectSlug, pageId }: { projectSlug: string; pageId: string }) {
   const model = buildPageSystemReviewModel(projectSlug, pageId, 'MOBILE');
   const categories = useMemo(() => {
@@ -1073,7 +1086,7 @@ export function PageInteractionsInspectorPanel({ projectSlug, pageId }: { projec
           rows={rows.map((row) => ({
             id: row.id,
             name: row.label,
-            sub: `${row.element} → ${row.action}${row.destination ? ` · ${row.destination}` : ''}`,
+            sub: `${row.element} → ${row.action}${row.destination ? ` · ${humanizeDestination(row.destination)}` : ''}`,
             side: (
               <>
                 <OverlayStatus label={row.inheritance} tone={row.inheritance === 'MISSING' ? 'blocked' : 'idle'} />

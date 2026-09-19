@@ -1,11 +1,12 @@
 /**
  * P0.VR.OPUS-NATIVE2 — Phase 2: the embedded design agent dock.
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — re-themed onto the overlay grammar.
  *
- * Fixed to the right edge, above the artboard but never over it: the panel
- * occupies gutter, and the rail is 28px when closed. The visual language is
- * the DESIGN workspace's own — black, white, lime, condensed mono, sharp
- * corners, hierarchical borders — because a consumer-chat panel bolted onto an
- * editorial technical workspace reads as a different product.
+ * Fixed to the right edge, above the artboard but never over it. The panel
+ * used to be a black console, which made it read as a developer tool sitting
+ * inside an editorial workspace and left kit content dark-on-dark. It now
+ * inherits the same paper/ink/lime palette, border hierarchy and sharp corners
+ * as every other DESIGN overlay, so the founder sees one product.
  *
  * Deliberately no rounded corners, no shadow, no bubble, no avatar.
  */
@@ -15,7 +16,7 @@
   inset: 0;
   z-index: 59;
   border: 0;
-  background: rgb(0 0 0 / 55%);
+  background: rgba(10, 10, 10, 0.42);
   cursor: pointer;
 }
 
@@ -25,11 +26,22 @@
   right: 0;
   z-index: 60;
   height: 100dvh;
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  color: #f4f4f4;
+  font-family: var(--tod-mono, 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace);
+  color: var(--tod-ink, #161616);
   pointer-events: none;
   transform: translateX(100%);
   transition: transform 0.2s ease;
+
+  --dad-paper: var(--tod-paper, #fdfdfd);
+  --dad-panel: var(--tod-panel, #f7f7f7);
+  --dad-ink: var(--tod-ink, #161616);
+  --dad-ink-2: var(--tod-ink-2, #45454a);
+  --dad-ink-3: var(--tod-ink-3, #6a6a70);
+  --dad-rule: var(--tod-border-subtle, #dadada);
+  --dad-rule-strong: var(--tod-border-panel, #b2b2b2);
+  --dad-lime: var(--tod-lime, #cdee30);
+  --dad-lime-ink: var(--tod-lime-ink, #101505);
+  --dad-red: var(--tod-red, #c2281d);
 }
 
 .s00-dad--open {
@@ -45,15 +57,21 @@
 
 .s00-dad__panel {
   box-sizing: border-box;
-  width: min(400px, 100vw);
+  width: min(440px, 100vw);
   max-width: 100%;
   height: 100dvh;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 16px max(16px, env(safe-area-inset-right)) 32px max(16px, env(safe-area-inset-left));
-  border-left: 1px solid #2c2c2c;
-  background: #0a0a0a;
+  border-left: 1px solid var(--dad-rule-strong);
+  background: var(--dad-panel);
   margin: 0 auto;
+}
+
+@media (min-width: 1100px) {
+  .s00-dad__panel {
+    width: min(620px, 46vw);
+  }
 }
 
 @media (max-width: 640px) {
@@ -65,7 +83,7 @@
   .s00-dad__panel {
     width: 100%;
     border-left: 0;
-    border-top: 1px solid #2c2c2c;
+    border-top: 1px solid var(--dad-rule-strong);
   }
 }
 
@@ -79,7 +97,7 @@
   justify-content: space-between;
   gap: 12px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2c2c2c;
+  border-bottom: 1px solid var(--dad-rule-strong);
 }
 
 .s00-dad__headActions {
@@ -90,9 +108,9 @@
 }
 
 .s00-dad__close {
-  border: 1px solid #3a3a3a;
-  background: #101010;
-  color: #f4f4f4;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--dad-paper);
+  color: var(--dad-ink);
   width: 32px;
   height: 32px;
   font-size: 16px;
@@ -105,6 +123,7 @@
   font-size: 13px;
   line-height: 1.45;
   letter-spacing: 0.06em;
+  color: var(--dad-ink-2);
 }
 
 .s00-dad__block--compact {
@@ -124,7 +143,7 @@
 .s00-dad__model {
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: #8a8a8a;
+  color: var(--dad-ink-3);
 }
 
 .s00-dad__status {
@@ -133,35 +152,37 @@
   justify-content: space-between;
   margin: 10px 0;
   padding: 8px 10px;
-  border: 1px solid #2c2c2c;
-  background: #101010;
+  border: 1px solid var(--dad-rule);
+  background: var(--dad-paper);
 }
 
 .s00-dad__status-label {
   font-size: 11px;
   letter-spacing: 0.18em;
-  color: #8a8a8a;
+  color: var(--dad-ink-3);
 }
 
 .s00-dad__status-value {
   font-size: 13px;
   letter-spacing: 0.1em;
-  color: #d8ff3e;
+  color: var(--dad-ink);
+  background: var(--dad-lime);
+  padding: 2px 8px;
 }
 
 .s00-dad__block {
   margin: 14px 0;
   padding-top: 10px;
-  border-top: 1px solid #1e1e1e;
+  border-top: 1px solid var(--dad-rule);
 }
 
 .s00-dad__block--warn {
-  border: 1px solid #d8ff3e;
+  border: 1px solid var(--dad-lime);
   padding: 10px;
 }
 
 .s00-dad__block--review {
-  border: 1px solid #3a3a3a;
+  border: 1px solid var(--dad-rule-strong);
   padding: 10px;
 }
 
@@ -170,7 +191,7 @@
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.2em;
-  color: #8a8a8a;
+  color: var(--dad-ink-3);
 }
 
 .s00-dad__dl {
@@ -188,13 +209,13 @@
 }
 
 .s00-dad__dl dt {
-  color: #7a7a7a;
+  color: var(--dad-ink-3);
   letter-spacing: 0.12em;
 }
 
 .s00-dad__dl dd {
   margin: 0;
-  color: #e8e8e8;
+  color: var(--dad-ink);
   text-align: right;
   overflow-wrap: anywhere;
 }
@@ -207,9 +228,9 @@
 
 .s00-dad__chip {
   padding: 4px 7px;
-  border: 1px solid #2c2c2c;
-  background: transparent;
-  color: #b4b4b4;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--dad-paper);
+  color: var(--dad-ink-2);
   font: inherit;
   font-size: 11px;
   letter-spacing: 0.1em;
@@ -217,17 +238,18 @@
 }
 
 .s00-dad__chip.is-on {
-  border-color: #d8ff3e;
-  background: #d8ff3e;
-  color: #0a0a0a;
+  border-color: var(--dad-lime);
+  background: var(--dad-lime);
+  color: var(--dad-lime-ink);
 }
 
 .s00-dad__task {
   width: 100%;
+  box-sizing: border-box;
   padding: 8px;
-  border: 1px solid #2c2c2c;
-  background: #101010;
-  color: #f4f4f4;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--dad-paper);
+  color: var(--dad-ink);
   font: inherit;
   font-size: 13px;
   resize: vertical;
@@ -243,9 +265,9 @@
 .s00-dad__btn {
   flex: 1 1 auto;
   padding: 7px 9px;
-  border: 1px solid #3a3a3a;
-  background: transparent;
-  color: #e8e8e8;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--dad-paper);
+  color: var(--dad-ink);
   font: inherit;
   font-size: 12px;
   letter-spacing: 0.12em;
@@ -253,69 +275,72 @@
 }
 
 .s00-dad__btn:hover:not(:disabled) {
-  border-color: #d8ff3e;
-  color: #d8ff3e;
+  border-color: var(--dad-lime);
 }
 
 .s00-dad__btn:disabled {
-  opacity: 0.35;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
 .s00-dad__btn--primary {
-  border-color: #d8ff3e;
-  background: #d8ff3e;
-  color: #0a0a0a;
+  border-color: var(--dad-lime);
+  background: var(--dad-lime);
+  color: var(--dad-lime-ink);
+  font-weight: 600;
 }
 
 .s00-dad__btn--primary:hover:not(:disabled) {
-  background: #e6ff6b;
-  color: #0a0a0a;
+  background: #d9f558;
 }
 
 .s00-dad__note {
   margin: 6px 0 0;
   font-size: 12px;
   line-height: 1.45;
-  color: #9a9a9a;
+  color: var(--dad-ink-3);
 }
 
 .s00-dad__blocked {
   margin: 0 0 10px;
   padding: 8px;
-  border: 1px solid #ff6a3d;
+  border: 1px solid var(--dad-red);
+  border-left-width: 3px;
+  background: var(--dad-paper);
   font-size: 12px;
   line-height: 1.45;
-  color: #ff6a3d;
+  color: var(--dad-red);
 }
 
 .s00-dad__blocked code {
   font-family: inherit;
-  color: #ffffff;
+  color: var(--dad-ink);
 }
 
 .s00-dad__warn {
   margin: 6px 0;
   padding: 6px 8px;
-  border-left: 2px solid #d8ff3e;
+  border-left: 3px solid var(--dad-lime);
+  background: var(--dad-paper);
   font-size: 12px;
   line-height: 1.45;
-  color: #d8ff3e;
+  color: var(--dad-ink-2);
 }
 
 .s00-dad__error {
   margin: 6px 0;
   padding: 6px 8px;
-  border-left: 2px solid #ff5d5d;
+  border-left: 3px solid var(--dad-red);
+  background: var(--dad-paper);
   font-size: 12px;
   line-height: 1.45;
-  color: #ff9b9b;
+  color: var(--dad-red);
 }
 
 .s00-dad__grant {
   margin: 6px 0;
   font-size: 12px;
-  color: #d8ff3e;
+  color: var(--dad-ink-2);
 }
 
 .s00-dad__files {
@@ -323,7 +348,7 @@
   padding-left: 14px;
   font-size: 12px;
   line-height: 1.5;
-  color: #c4c4c4;
+  color: var(--dad-ink-2);
   overflow-wrap: anywhere;
 }
 
@@ -331,11 +356,12 @@
   border: 0;
   background: none;
   padding: 0;
-  color: #d8ff3e;
+  color: var(--dad-ink);
   font: inherit;
   font-size: 12px;
   letter-spacing: 0.1em;
   text-decoration: underline;
+  text-decoration-color: var(--dad-lime);
   cursor: pointer;
 }
 
@@ -356,15 +382,15 @@
   display: block;
   width: 100%;
   height: auto;
-  border: 1px solid #2c2c2c;
-  background: #101010;
+  border: 1px solid var(--dad-rule);
+  background: #fff;
 }
 
 .s00-dad__shots figcaption {
   margin-top: 3px;
   font-size: 10px;
   letter-spacing: 0.16em;
-  color: #7a7a7a;
+  color: var(--dad-ink-3);
   text-align: center;
 }
 
@@ -378,7 +404,7 @@
 
 .s00-dad__blocks li {
   margin-bottom: 8px;
-  border-left: 1px solid #2c2c2c;
+  border-left: 1px solid var(--dad-rule-strong);
   padding-left: 8px;
 }
 
@@ -386,7 +412,7 @@
   display: block;
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: #d8ff3e;
+  color: var(--dad-ink);
 }
 
 .s00-dad__blocks pre {
@@ -395,7 +421,7 @@
   overflow: auto;
   font-size: 11px;
   line-height: 1.4;
-  color: #8a8a8a;
+  color: var(--dad-ink-3);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -405,10 +431,10 @@
   flex-wrap: wrap;
   gap: 10px;
   padding-top: 10px;
-  border-top: 1px solid #1e1e1e;
+  border-top: 1px solid var(--dad-rule);
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: #7a7a7a;
+  color: var(--dad-ink-3);
 }
 
 /* On a phone the panel takes the screen while open, because a 360px drawer

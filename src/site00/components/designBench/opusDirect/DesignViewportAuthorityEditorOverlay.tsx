@@ -28,6 +28,7 @@ export function DesignViewportAuthorityEditorOverlay({
       onFullscreen={(src, title, subtitle) =>
         production.actions.openFullscreenArtifact({ src, title, subtitle, role: 'authority-reference', viewport })
       }
+      onSwitchViewport={(next) => production.actions.openViewportAuthorityEditor(next)}
     />
   );
 }

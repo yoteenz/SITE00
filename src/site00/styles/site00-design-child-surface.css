@@ -81,6 +81,27 @@
   width: min(360px, calc(100vw - 24px));
 }
 
+/**
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — desktop overlays use the width they
+ * have. A 440px drawer on a 1440px workstation forced comparison content into
+ * a phone column on a machine with room for two panes. These rules sit after
+ * the base placements because they share their specificity.
+ */
+@media (min-width: 1100px) {
+  .tod-dcs--drawer {
+    width: min(620px, 46vw);
+  }
+
+  .tod-dcs--inspector {
+    width: min(460px, 36vw);
+  }
+
+  .tod-dcs--modal {
+    width: min(880px, calc(100vw - 96px));
+    max-height: min(86dvh, 100%);
+  }
+}
+
 .tod-dcs--workspace-inline {
   position: relative;
   z-index: 1;

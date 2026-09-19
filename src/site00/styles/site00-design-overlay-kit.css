@@ -17,10 +17,14 @@
  * panel that will drift.
  */
 
-.tod-dcs {
-  /* Overlays mount outside the scaled artboard, so the token scope on
-     `.tod-root` does not reach them. Redeclared here rather than repeated as
-     per-property fallbacks, which is how the old panels silently diverged. */
+.tod-dcs,
+.s00-dad,
+.s00-grok-dock,
+.tod-ok {
+  /* Overlays and agent docks mount outside the scaled artboard, so the token
+     scope on `.tod-root` does not reach them. Redeclared here rather than
+     repeated as per-property fallbacks, which is how the old panels silently
+     diverged from the workspace. */
   --tod-paper: #fdfdfd;
   --tod-panel: #f7f7f7;
   --tod-navbar: #f2f2f2;
@@ -917,7 +921,7 @@
 .tod-ok-actions {
   position: sticky;
   bottom: 0;
-  margin: 4px -14px -14px;
+  margin: 4px -14px calc(-1 * var(--tod-ok-actions-inset, 14px));
   padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
   background: var(--tod-navbar);
   border-top: 1px solid var(--tod-border-panel);
@@ -988,6 +992,23 @@
     grid-template-columns: 1fr;
   }
 
+  /* Truncated tab labels ("MOD…", "STA…") hide the very thing the tab is for,
+     so on a phone the strip scrolls instead of compressing. */
+  .tod-ok-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tod-ok-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tod-ok-tabs__tab {
+    flex: 0 0 auto;
+    min-width: 0;
+    padding: 9px 12px;
+  }
+
   .tod-ok-meta {
     grid-template-columns: minmax(84px, 42%) 1fr;
   }
@@ -1021,4 +1042,35 @@
   height: 44dvh;
   background: #ffffff;
   flex: none;
+}
+
+/* ---- fullscreen viewer controls ------------------------------------------ */
+
+.tod-dcs-fullscreen__controls {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.tod-dcs-fullscreen__zoom {
+  border: 1px solid #3a3a3a;
+  background: transparent;
+  color: #d8d8d8;
+  font-family: var(--tod-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.tod-dcs-fullscreen__zoom.is-on {
+  border-color: #cdee30;
+  color: #cdee30;
+}
+
+.tod-dcs-fullscreen__stage.is-zoomed {
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow: auto;
 }

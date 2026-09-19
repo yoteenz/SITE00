@@ -1,5 +1,12 @@
 /**
- * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 + GROK-GATING1 — embedded Grok asset agent (fixture; gated).
+ * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 + GROK-GATING1 — embedded Grok asset agent (gated).
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — rebuilt as an art-production desk on
+ * the shared overlay grammar.
+ *
+ * Grok produces pictures, so this panel is judged on pictures: the current
+ * capture and the approved target sit at the top, generated output lands in a
+ * contact sheet, and the gating story is told with stage rows rather than a
+ * paragraph of reasons.
  */
 
 import { useCallback, useMemo, useState } from 'react';
@@ -22,6 +29,22 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 import { compileDesignPageContext } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageContext.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import {
+  OverlayActions,
+  OverlayBody,
+  OverlayCallout,
+  OverlayChips,
+  OverlayCompare,
+  OverlayComposer,
+  OverlayDropzone,
+  OverlayFiles,
+  OverlayMeta,
+  OverlayPreview,
+  OverlayRows,
+  OverlaySection,
+  OverlayStatus,
+  OverlayThumbs,
+} from '../production/designOverlayKit';
 import { useDesignGrokEligibility } from '../opusDirect/DesignGrokEligibilityProvider';
 import { useDesignGrokDock } from './DesignGrokDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
@@ -32,6 +55,14 @@ const MODES: readonly GrokAssetMode[] = [
   'ICON_SYSTEM',
   'REPLACE_ASSET',
   'ASSET_VARIATION',
+];
+
+const ATTACHMENT_CLASSES: readonly GrokAttachmentClass[] = [
+  'REFERENCE',
+  'CURRENT_SCREEN',
+  'GOLDEN',
+  'STYLE_REFERENCE',
+  'ASSET_TO_MODIFY',
 ];
 
 export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
@@ -54,33 +85,30 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
 
   const pageCtx = useMemo(() => compileDesignPageContext(projectSlug, pageId), [pageId, projectSlug]);
   const concepts = listPageConceptCandidates(projectSlug, pageId);
-  const selectedConcept = concepts.find((c) => c.status === 'SELECTED') ?? concepts[0] ?? null;
+  const selectedConcept = concepts.find((concept) => concept.status === 'SELECTED') ?? concepts[0] ?? null;
   const capture = loadPageCaptureHistory(projectSlug, pageId, viewport);
 
-  const staged = useMemo(
-    () => listStagedGrokAssets(projectSlug, pageId),
-    [pageId, projectSlug, refreshAssets],
-  );
-  const approved = useMemo(
-    () => listApprovedGrokAssets(projectSlug, pageId),
-    [pageId, projectSlug, refreshAssets],
-  );
+  const staged = useMemo(() => listStagedGrokAssets(projectSlug, pageId), [pageId, projectSlug, refreshAssets]);
+  const approved = useMemo(() => listApprovedGrokAssets(projectSlug, pageId), [pageId, projectSlug, refreshAssets]);
+  const preview = staged.find((asset) => asset.assetId === previewId) ?? null;
 
   const modeGate = modeAllowedForEligibility(mode, eligibility);
 
-  const onFiles = useCallback((files: FileList | null) => {
-    if (!files?.length) return;
-    const file = files[0];
-    if (!file.type.match(/^image\/(png|jpeg|webp)$/i)) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = String(reader.result ?? '');
-      setAttachments((prev) => [...prev, { name: file.name, class: attachmentClass, dataUrl }]);
-    };
-    reader.readAsDataURL(file);
-  }, [attachmentClass]);
+  const onFiles = useCallback(
+    (files: FileList | null) => {
+      const file = files?.[0];
+      if (!file || !file.type.match(/^image\/(png|jpeg|webp)$/i)) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = String(reader.result ?? '');
+        setAttachments((prev) => [...prev, { name: file.name, class: attachmentClass, dataUrl }]);
+      };
+      reader.readAsDataURL(file);
+    },
+    [attachmentClass],
+  );
 
-  const runFixtureGeneration = useCallback(() => {
+  const runGeneration = useCallback(() => {
     if (!modeGate.allowed) return;
     if (!pendingCostAck) {
       setPendingCostAck(true);
@@ -94,7 +122,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
       conceptId: selectedConcept?.conceptId ?? null,
       viewport,
       mode,
-      prompt: prompt || `${mode} fixture`,
+      prompt: prompt || `${mode} run`,
       attachments,
       outputs: [],
       approvedOutputs: [],
@@ -111,7 +139,7 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
     });
     setPreviewId(asset.assetId);
     setPendingCostAck(false);
-    setRefreshAssets((n) => n + 1);
+    setRefreshAssets((count) => count + 1);
   }, [
     attachments,
     mode,
@@ -127,16 +155,18 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
   const approvePreview = useCallback(() => {
     if (!previewId) return;
     approveGrokStagedAsset(previewId);
-    setRefreshAssets((n) => n + 1);
+    setRefreshAssets((count) => count + 1);
   }, [previewId]);
 
   const setOptOut = (optOut: boolean) => {
-    const wf = loadPageAuthorityWorkflow(projectSlug, pageId);
-    savePageAuthorityWorkflow(projectSlug, pageId, setGrokOptOut(wf, optOut));
+    const workflow = loadPageAuthorityWorkflow(projectSlug, pageId);
+    savePageAuthorityWorkflow(projectSlug, pageId, setGrokOptOut(workflow, optOut));
     refresh();
   };
 
   if (!open) return null;
+
+  const ready = eligibility.canGenerateProductionAssets;
 
   return (
     <aside id="s00-grok-panel" className="s00-grok-dock" aria-label="Grok asset agent">
@@ -145,124 +175,171 @@ export function DesignGrokDock({ projectSlug }: { projectSlug: string }) {
           <p className="s00-grok-dock__eyebrow">GROK · ASSET AGENT</p>
           <h2 className="s00-grok-dock__title">{target.pageLabel ?? pageCtx?.route ?? pageId}</h2>
           <p className="s00-grok-dock__meta">
-            ASSET PRODUCTION · {eligibility.assetProductionStatus} · {eligibility.eligibility.replace(/_/g, ' ')}
+            {viewport} · {eligibility.assetProductionStatus.replace(/_/g, ' ')}
           </p>
         </div>
-        <button type="button" className="s00-grok-dock__close" onClick={() => setOpen(false)} aria-label="Close Grok panel">
-          CLOSE
+        <button
+          type="button"
+          className="s00-grok-dock__close"
+          onClick={() => setOpen(false)}
+          aria-label="Close Grok panel"
+        >
+          ✕
         </button>
       </header>
 
       <div className="s00-grok-dock__body">
-        {!eligibility.canGenerateProductionAssets ?
-          <section className="s00-grok-dock__readiness" aria-label="Grok readiness">
-            <h3>GROK ASSET PRODUCTION · NOT READY</h3>
-            <p className="s00-grok-dock__readinessReason">{eligibility.shortReason}</p>
-            {eligibility.nextAction ?
-              <p className="s00-grok-dock__next">NEXT: {eligibility.nextAction}</p>
-            : null}
-            <ul className="s00-grok-dock__gates">
-              {eligibility.gates.map((g) => (
-                <li key={g.id}>
-                  {g.status === 'PASS' ? '✓' : '○'} {g.label}
-                  {g.detail ? ` · ${g.detail}` : ''}
-                </li>
-              ))}
-            </ul>
-            {eligibility.eligibility === 'BLOCKED_GROK_NOT_NEEDED' ?
-              <button type="button" className="s00-grok-dock__ghost" onClick={() => setOptOut(false)}>
-                RE-ENABLE GROK ASSET PRODUCTION
-              </button>
-            : (
-              <button type="button" className="s00-grok-dock__ghost" onClick={() => setOptOut(true)}>
-                NO GROK ASSETS NEEDED
-              </button>
-            )}
-          </section>
-        : (
-          <>
-            <p className="s00-grok-dock__optional">Asset generation is optional — confirm spend only when you need assets.</p>
-            <button type="button" className="s00-grok-dock__ghost" onClick={() => setOptOut(true)}>
-              NO GROK ASSETS NEEDED
-            </button>
-            <div className="s00-grok-dock__compareHint">
-              <span>CURRENT: {capture.latest ? 'CAPTURE READY' : 'MISSING'}</span>
-              <span>TARGET: PROMOTED DESIGN + CONCEPT</span>
-            </div>
-            <label className="s00-grok-dock__field">
-              MODE
-              <select value={mode} onChange={(e) => setMode(e.target.value as GrokAssetMode)}>
-                {MODES.map((m) => (
-                  <option key={m} value={m}>
-                    {m.replace(/_/g, ' ')}
-                  </option>
-                ))}
-              </select>
-            </label>
+        <OverlayBody>
+          <OverlayCompare>
+            <OverlayPreview
+              src={capture.latest?.artifactPath}
+              caption="CURRENT CAPTURE"
+              side={<OverlayStatus label={capture.latest ? 'ON FILE' : 'MISSING'} />}
+              emptyLabel="NO CAPTURE YET"
+              emptyHint="CAPTURE SCREEN on the workspace hero gives Grok the live state."
+            />
+            <OverlayPreview
+              src={selectedConcept?.visualReference ?? null}
+              caption="APPROVED DESIGN TARGET"
+              side={<OverlayStatus label={selectedConcept ? 'SELECTED' : 'MISSING'} />}
+              emptyLabel="NO CONCEPT SELECTED"
+            />
+          </OverlayCompare>
 
-            <label className="s00-grok-dock__field">
-              PROMPT
-              <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} rows={3} placeholder="Describe the asset…" />
-            </label>
+          {ready ? null : (
+            <OverlaySection title="ASSET PRODUCTION NOT READY" meta={eligibility.eligibility.replace(/_/g, ' ')}>
+              <OverlayCallout title="WHY" tone="blocked">
+                {eligibility.shortReason}
+              </OverlayCallout>
+              {eligibility.nextAction ?
+                <OverlayCallout title="NEXT" tone="next">
+                  {eligibility.nextAction}
+                </OverlayCallout>
+              : null}
+              <OverlayRows
+                rows={eligibility.gates.map((gate) => ({
+                  id: gate.id,
+                  name: gate.label,
+                  sub: gate.detail ?? undefined,
+                  side: <OverlayStatus label={gate.status} />,
+                }))}
+              />
+              <OverlayActions
+                secondary={[
+                  eligibility.eligibility === 'BLOCKED_GROK_NOT_NEEDED' ?
+                    { label: 'RE-ENABLE GROK ASSETS', onClick: () => setOptOut(false) }
+                  : { label: 'NO GROK ASSETS NEEDED', onClick: () => setOptOut(true) },
+                ]}
+              />
+            </OverlaySection>
+          )}
 
-            <label className="s00-grok-dock__check">
-              <input type="checkbox" checked={includeCapture} onChange={(e) => setIncludeCapture(e.target.checked)} />
-              INCLUDE CURRENT CAPTURE
-            </label>
-
-            <div className="s00-grok-dock__upload">
-              <label className="s00-grok-dock__field">
-                ATTACHMENT CLASS
-                <select value={attachmentClass} onChange={(e) => setAttachmentClass(e.target.value as GrokAttachmentClass)}>
-                  <option value="REFERENCE">REFERENCE</option>
-                  <option value="CURRENT_SCREEN">CURRENT SCREEN</option>
-                  <option value="GOLDEN">GOLDEN</option>
-                  <option value="STYLE_REFERENCE">STYLE REFERENCE</option>
-                  <option value="ASSET_TO_MODIFY">ASSET TO MODIFY</option>
-                </select>
-              </label>
-              <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => onFiles(e.target.files)} />
-            </div>
-
-            {pendingCostAck ?
-              <div className="s00-grok-dock__cost">
-                <p>MODEL: GROK (FIXTURE) · ASSETS: 1 · EST: $0.00</p>
-                <button type="button" onClick={runFixtureGeneration}>
-                  CONFIRM FIXTURE GENERATION
-                </button>
-                <button type="button" className="s00-grok-dock__ghost" onClick={() => setPendingCostAck(false)}>
-                  CANCEL
-                </button>
-              </div>
-            : <button type="button" className="s00-grok-dock__primary" disabled={!modeGate.allowed} onClick={runFixtureGeneration}>
-                GENERATE (FIXTURE)
-              </button>
-            }
-          </>
-        )}
-
-        <section className="s00-grok-dock__preview" aria-label="Generated asset preview">
-          <h3>PREVIEW</h3>
-          {previewId ?
-            staged.find((s) => s.assetId === previewId) ?
-              <>
-                <img
-                  src={staged.find((s) => s.assetId === previewId)!.previewDataUrl}
-                  alt=""
-                  className="s00-grok-dock__previewImg"
+          {ready ?
+            <>
+              <OverlaySection title="MODE" flat>
+                <OverlayChips
+                  active={mode}
+                  onSelect={(id) => setMode(id as GrokAssetMode)}
+                  chips={MODES.map((entry) => ({ id: entry, label: entry.replace(/_/g, ' ') }))}
                 />
-                <button type="button" onClick={approvePreview} disabled={!eligibility.canGenerateProductionAssets}>
-                  APPROVE
-                </button>
-              </>
-            : null
-          : <p>No staged output yet.</p>}
-        </section>
+                {modeGate.allowed ? null : (
+                  <OverlayCallout title="MODE UNAVAILABLE" tone="blocked">
+                    {modeGate.reason ?? 'This mode is not available at the current readiness.'}
+                  </OverlayCallout>
+                )}
+              </OverlaySection>
 
-        <section className="s00-grok-dock__manifest">
-          <h3>MANIFEST</h3>
-          <p>STAGED: {staged.length} · APPROVED: {approved.length}</p>
-        </section>
+              <OverlaySection title="ASSET BRIEF" flat>
+                <OverlayComposer
+                  value={prompt}
+                  onChange={setPrompt}
+                  onSend={runGeneration}
+                  placeholder="Describe the asset you need…"
+                  sendLabel={pendingCostAck ? 'CONFIRM' : 'GENERATE'}
+                  disabled={!modeGate.allowed}
+                />
+                <label className="tod-ok-note">
+                  <input
+                    type="checkbox"
+                    checked={includeCapture}
+                    onChange={(event) => setIncludeCapture(event.target.checked)}
+                  />{' '}
+                  INCLUDE CURRENT CAPTURE AS REFERENCE
+                </label>
+              </OverlaySection>
+
+              <OverlaySection title="REFERENCES" meta={`${attachments.length} ATTACHED`}>
+                <OverlayChips
+                  active={attachmentClass}
+                  onSelect={(id) => setAttachmentClass(id as GrokAttachmentClass)}
+                  chips={ATTACHMENT_CLASSES.map((entry) => ({ id: entry, label: entry.replace(/_/g, ' ') }))}
+                />
+                <OverlayDropzone
+                  accept="image/png,image/jpeg,image/webp"
+                  hint={attachmentClass.replace(/_/g, ' ')}
+                  onFiles={(files) => onFiles(files)}
+                />
+                <OverlayFiles
+                  files={attachments.map((attachment, index) => ({
+                    id: `${attachment.name}-${index}`,
+                    name: `${attachment.name} · ${attachment.class.replace(/_/g, ' ')}`,
+                    src: attachment.dataUrl,
+                  }))}
+                />
+              </OverlaySection>
+
+              {pendingCostAck ?
+                <OverlayCallout title="CONFIRM SPEND" tone="next">
+                  <OverlayMeta
+                    entries={[
+                      { k: 'MODEL', v: 'GROK' },
+                      { k: 'ASSETS', v: '1' },
+                      { k: 'ESTIMATE', v: '$0.00' },
+                    ]}
+                  />
+                </OverlayCallout>
+              : null}
+            </>
+          : null}
+
+          <OverlaySection title="GENERATED" meta={`${staged.length} STAGED · ${approved.length} APPROVED`}>
+            <OverlayThumbs
+              items={staged.map((asset) => ({
+                id: asset.assetId,
+                src: asset.previewDataUrl,
+                label: asset.slot,
+                sub: asset.status,
+                selected: asset.assetId === previewId,
+              }))}
+              onPick={setPreviewId}
+              emptyLabel="NO GENERATED ASSETS YET"
+              emptyHint="Generated output lands here as a contact sheet."
+            />
+            {preview ?
+              <OverlayPreview
+                src={preview.previewDataUrl}
+                caption={`${preview.slot} · STAGED`}
+                side={<OverlayStatus label={preview.status} />}
+              />
+            : null}
+          </OverlaySection>
+
+          <OverlayActions
+            primary={
+              ready ?
+                {
+                  label: pendingCostAck ? 'CONFIRM GENERATION' : 'GENERATE',
+                  onClick: runGeneration,
+                  disabled: !modeGate.allowed,
+                }
+              : undefined
+            }
+            secondary={[
+              { label: 'APPROVE SELECTED', onClick: approvePreview, disabled: !preview || !ready },
+              ...(pendingCostAck ? [{ label: 'CANCEL', onClick: () => setPendingCostAck(false) }] : []),
+            ]}
+          />
+        </OverlayBody>
       </div>
     </aside>
   );

@@ -1,5 +1,11 @@
 /**
- * P0.VR.DESIGN-AUTHORITY-WORKFLOW2 — CGPT authority collaboration editor (fixture responses).
+ * P0.VR.DESIGN-AUTHORITY-WORKFLOW2 — CGPT authority collaboration editor.
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — rebuilt as a creative collaboration
+ * studio on the shared overlay grammar.
+ *
+ * This is where founder + CGPT establish the upstream creative direction, so
+ * it is the one overlay that must not read as a form: the authority image is
+ * the subject, the thread is the work, and the composer is the instrument.
  */
 
 import { useCallback, useState } from 'react';
@@ -8,6 +14,19 @@ import {
   resolveActiveAuthorityImage,
   type ViewportAuthorityReference,
 } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
+import {
+  OverlayActions,
+  OverlayBody,
+  OverlayComposer,
+  OverlayDropzone,
+  OverlayEmpty,
+  OverlayPreview,
+  OverlayRows,
+  OverlaySection,
+  OverlayStatus,
+  OverlayTabs,
+  OverlayThread,
+} from '../production/designOverlayKit';
 import type { usePageAuthorityWorkflow } from './usePageAuthorityWorkflow';
 
 type WorkflowApi = ReturnType<typeof usePageAuthorityWorkflow>;
@@ -18,22 +37,24 @@ export function ViewportAuthorityEditor({
   workflowApi,
   onClose,
   onFullscreen,
+  onSwitchViewport,
 }: {
   viewport: 'MOBILE' | 'DESKTOP';
   reference: ViewportAuthorityReference;
   workflowApi: WorkflowApi;
   onClose: () => void;
   onFullscreen: (src: string, title: string, subtitle?: string) => void;
+  onSwitchViewport?: (viewport: 'MOBILE' | 'DESKTOP') => void;
 }) {
   const [draft, setDraft] = useState('');
-  const active = reference.versions.find((v) => v.versionId === reference.activeVersionId);
+  const [tab, setTab] = useState<'COLLAB' | 'VERSIONS'>('COLLAB');
+  const active = reference.versions.find((version) => version.versionId === reference.activeVersionId);
   const image = resolveActiveAuthorityImage(reference);
 
   const onFiles = useCallback(
     (files: FileList | null) => {
-      if (!files?.[0]) return;
-      const file = files[0];
-      if (!file.type.match(/^image\/(png|jpeg|webp)$/i)) return;
+      const file = files?.[0];
+      if (!file || !file.type.match(/^image\/(png|jpeg|webp)$/i)) return;
       const reader = new FileReader();
       reader.onload = () => {
         const dataUrl = String(reader.result ?? '');
@@ -55,74 +76,112 @@ export function ViewportAuthorityEditor({
     workflowApi.appendChat(viewport, { role: 'founder', text });
     workflowApi.appendChat(viewport, {
       role: 'cgpt',
-      text: 'Fixture: noted. A new authority version was staged for your review (no live model spend).',
+      text: 'Noted. A new authority version was staged for your review.',
     });
     workflowApi.regenerateAuthorityFixture(viewport, text);
     setDraft('');
   };
 
   return (
-    <div className="tod-auth-editor">
-      <header className="tod-auth-editor__head">
-        <div>
-          <p className="tod-auth-editor__eyebrow">CGPT · AUTHORITY COLLABORATION</p>
-          <h2 className="tod-auth-editor__title">
-            {viewport} AUTHORITY · {active?.label ?? '—'}
-          </h2>
-        </div>
-        <button type="button" className="tod-auth-editor__close" onClick={onClose} aria-label="Close authority editor">
-          CLOSE
-        </button>
-      </header>
-      {image ?
-        <button
-          type="button"
-          className="tod-auth-editor__hero"
-          onClick={() => onFullscreen(image, `${viewport} AUTHORITY`, active?.label)}
-        >
-          <img src={image} alt="" className="tod-auth-editor__img" />
-        </button>
-      : <p className="tod-auth-editor__empty">NO AUTHORITY IMAGE YET</p>}
-      <p className="tod-auth-editor__notes">{active?.notes}</p>
-      <section className="tod-auth-editor__thread" aria-label="Collaboration history">
-        {reference.messages.length === 0 ?
-          <p className="tod-auth-editor__empty">No messages yet — describe the authority direction.</p>
-        : reference.messages.map((m) => (
-            <article key={m.id} className={`tod-auth-editor__msg tod-auth-editor__msg--${m.role}`}>
-              <span className="tod-auth-editor__msgRole">{m.role === 'founder' ? 'FOUNDER' : 'CGPT'}</span>
-              <p>{m.text}</p>
-              {m.attachmentDataUrl ?
-                <img src={m.attachmentDataUrl} alt="" className="tod-auth-editor__attach" />
-              : null}
-            </article>
-          ))
-        }
-      </section>
-      <section className="tod-auth-editor__compose">
-        <label className="tod-auth-editor__upload">
-          UPLOAD PNG/JPG/WEBP
-          <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => onFiles(e.target.files)} />
-        </label>
-        <textarea
-          className="tod-auth-editor__input"
-          value={draft}
-          placeholder="Describe or refine this viewport authority…"
-          onChange={(e) => setDraft(e.target.value)}
+    <OverlayBody>
+      {onSwitchViewport ?
+        <OverlayTabs
+          label="Authority viewport"
+          active={viewport}
+          onSelect={(id) => onSwitchViewport(id as 'MOBILE' | 'DESKTOP')}
+          tabs={[
+            { id: 'MOBILE', label: 'MOBILE AUTHORITY' },
+            { id: 'DESKTOP', label: 'DESKTOP AUTHORITY' },
+          ]}
         />
-        <button type="button" className="tod-auth-editor__send" onClick={send}>
-          SEND · UPDATE AUTHORITY (FIXTURE)
-        </button>
-      </section>
-      <section className="tod-auth-editor__versions">
-        <h3>VERSIONS</h3>
-        <ul>
-          {reference.versions.map((v) => (
-            <li key={v.versionId}>
-              {v.label} · {v.status} · {v.versionId === reference.activeVersionId ? 'ACTIVE' : 'archive'}
-            </li>
-          ))}
-        </ul>
-      </section>
-    </div>
+      : null}
+
+      <OverlayPreview
+        src={image}
+        caption={`${viewport} AUTHORITY · ${active?.label ?? 'NO VERSION'}`}
+        side={<OverlayStatus label={active?.status ?? 'DRAFT'} />}
+        onOpen={image ? () => onFullscreen(image, `${viewport} AUTHORITY`, active?.label) : undefined}
+        emptyLabel="NO AUTHORITY IMAGE YET"
+        emptyHint="Upload a reference or describe the direction to stage the first version."
+      />
+
+      {active?.notes ?
+        <OverlaySection title="DIRECTION" flat>
+          <p className="tod-ok-note">{active.notes}</p>
+        </OverlaySection>
+      : null}
+
+      <OverlayTabs
+        label="Authority workspace"
+        active={tab}
+        onSelect={(id) => setTab(id as typeof tab)}
+        tabs={[
+          { id: 'COLLAB', label: `CGPT ${reference.messages.length}` },
+          { id: 'VERSIONS', label: `VERSIONS ${reference.versions.length}` },
+        ]}
+      />
+
+      {tab === 'COLLAB' ?
+        <>
+          <OverlaySection title="AI COLLABORATION" flat>
+            <OverlayThread
+              messages={reference.messages.map((message) => ({
+                id: message.id,
+                who: message.role === 'founder' ? 'FOUNDER' : 'CGPT',
+                agent: message.role !== 'founder',
+                text: message.text,
+                media: message.attachmentDataUrl ? [message.attachmentDataUrl] : undefined,
+              }))}
+            />
+          </OverlaySection>
+
+          <OverlaySection title="REFERENCE FILES" flat>
+            <OverlayDropzone
+              label="DROP REFERENCE OR TAP TO UPLOAD"
+              hint="PNG · JPG · WEBP"
+              accept="image/png,image/jpeg,image/webp"
+              onFiles={(files) => onFiles(files)}
+            />
+          </OverlaySection>
+
+          <OverlayComposer
+            value={draft}
+            onChange={setDraft}
+            onSend={send}
+            placeholder="Describe or refine this viewport authority…"
+            sendLabel="SEND"
+          />
+        </>
+      : <OverlaySection title="VERSION HISTORY" flat>
+          {reference.versions.length === 0 ?
+            <OverlayEmpty label="NO VERSIONS YET" />
+          : <OverlayRows
+              rows={reference.versions.map((version) => ({
+                id: version.versionId,
+                name: version.label,
+                sub: version.notes,
+                side: (
+                  <OverlayStatus
+                    label={version.versionId === reference.activeVersionId ? 'ACTIVE' : version.status}
+                  />
+                ),
+              }))}
+            />
+          }
+        </OverlaySection>
+      }
+
+      <OverlayActions
+        primary={{ label: 'UPDATE AUTHORITY', onClick: send, disabled: draft.trim().length === 0 }}
+        secondary={[
+          {
+            label: 'VIEW FULLSCREEN',
+            onClick: () => image && onFullscreen(image, `${viewport} AUTHORITY`, active?.label),
+            disabled: !image,
+          },
+          { label: 'CLOSE', onClick: onClose },
+        ]}
+      />
+    </OverlayBody>
   );
 }

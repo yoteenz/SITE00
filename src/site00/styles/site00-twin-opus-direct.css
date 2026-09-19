@@ -954,6 +954,61 @@
   margin: 0 12px;
 }
 
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — the contact sheet's own empty state.
+ * It had no rules of its own, so the generate control inherited the panel's
+ * display type and spilled a headline across the workspace. An empty gallery
+ * is the founder's most common first view of a new page; it has to read as a
+ * deliberate state, not as broken chrome.
+ */
+.tod-gallery__emptyWrap {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px;
+  margin: 8px 12px;
+  border: 1px dashed var(--tod-border-column);
+  background: var(--tod-paper);
+}
+
+.tod-gallery__emptyWrap .tod-gallery__empty {
+  flex: 0 0 auto;
+  display: block;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  font-family: var(--tod-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  color: var(--tod-ink-3);
+}
+
+.tod-gallery__generate {
+  flex: 0 0 auto;
+  border: 1px solid var(--tod-black);
+  background: var(--tod-black);
+  color: var(--tod-lime);
+  font-family: var(--tod-mono);
+  font-size: 10.5px;
+  font-weight: var(--tod-weight-ui);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.tod-gallery__generate:disabled {
+  border-color: var(--tod-border-control);
+  background: var(--tod-panel);
+  color: var(--tod-ink-3);
+  cursor: not-allowed;
+}
+
 /* Authority rail */
 
 .tod-rail {
@@ -1108,12 +1163,20 @@
   color: #efefef;
 }
 
+/*
+ * The golden's state word was PROMOTED. Live authority state can read
+ * UPSTREAM REF, which is wide enough to cross the thumbnail beside it, so the
+ * chip wraps inside the column the thumb leaves free rather than overprinting.
+ */
 .tod-pair__state {
   position: absolute;
   right: 8px;
   bottom: 6px;
-  font-size: 9.8px;
-  line-height: 1;
+  max-width: 76px;
+  text-align: right;
+  white-space: normal;
+  font-size: 8.6px;
+  line-height: 1.15;
   color: var(--tod-lime);
   font-weight: var(--tod-weight-ui);
 }
@@ -2551,18 +2614,34 @@
   gap: calc(6px * var(--tod-viewrow-boost, 1));
 }
 
+/*
+ * Reference images 1-2 show the agent launchers as labelled marks sitting with
+ * the view-mode control, not as single-letter chips. The label carries the
+ * name so the founder never has to hover to learn which agent a button opens.
+ */
 .tod-agent-iconBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: calc(22px * var(--tod-viewrow-boost, 1));
+  gap: calc(5px * var(--tod-viewrow-boost, 1));
   height: calc(22px * var(--tod-viewrow-boost, 1));
+  padding: 0 calc(9px * var(--tod-viewrow-boost, 1));
   border: 1px solid var(--tod-border-major);
   background: var(--tod-paper);
   color: var(--tod-black);
-  font-size: calc(12px * var(--tod-viewrow-boost, 1));
+  font-size: calc(10.5px * var(--tod-viewrow-boost, 1));
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+}
+
+.tod-agent-iconBtn__ico {
+  width: calc(13px * var(--tod-viewrow-boost, 1));
+  height: calc(13px * var(--tod-viewrow-boost, 1));
+  flex: 0 0 auto;
+}
+
+.tod-agent-iconBtn__label {
+  line-height: 1;
 }
 
 .tod-agent-iconBtn.is-open {
@@ -2581,8 +2660,9 @@
 }
 
 .tod-agent-iconBtn__lock {
-  font-size: 8px;
-  margin-left: 1px;
+  width: calc(10px * var(--tod-viewrow-boost, 1));
+  height: calc(10px * var(--tod-viewrow-boost, 1));
+  flex: 0 0 auto;
 }
 
 .s00-grok-dock__readiness {
@@ -3221,37 +3301,49 @@
 
 .tod-ov__primary,
 .tod-ov__ghost {
-  border: 1px solid #333;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
   padding: 10px 12px;
   font-size: 12px;
   letter-spacing: 0.06em;
   cursor: pointer;
+  font-family: inherit;
 }
 
 .tod-ov__primary {
-  background: #b8ff4a;
-  color: #050505;
-  border-color: #b8ff4a;
+  background: var(--tod-lime, #cdee30);
+  color: var(--tod-lime-ink, #101505);
+  border-color: var(--tod-lime, #cdee30);
 }
 
 .tod-ov__ghost {
-  background: #111;
-  color: inherit;
+  background: var(--tod-paper, #fdfdfd);
+  color: var(--tod-ink, #161616);
 }
 
+/*
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — Grok was a black console, which left
+ * the overlay-kit content it now renders dark-on-dark and made the asset desk
+ * read as a different product from the workspace behind it.
+ */
 .s00-grok-dock {
   position: fixed;
   top: 0;
   right: 0;
-  width: min(420px, 100vw);
-  height: 100vh;
+  width: min(440px, 100vw);
+  height: 100dvh;
   z-index: 1200;
-  background: #0c0c0c;
-  border-left: 1px solid #2a2a2a;
-  color: #eee;
+  background: var(--tod-panel, #f7f7f7);
+  border-left: 1px solid var(--tod-border-panel, #b2b2b2);
+  color: var(--tod-ink, #161616);
   display: flex;
   flex-direction: column;
-  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.45);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);
+}
+
+@media (min-width: 1100px) {
+  .s00-grok-dock {
+    width: min(620px, 46vw);
+  }
 }
 
 .s00-grok-dock__head {
@@ -3259,13 +3351,14 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid var(--tod-border-panel, #b2b2b2);
+  background: var(--tod-navbar, #f2f2f2);
 }
 
 .s00-grok-dock__eyebrow {
   font-size: 11px;
   letter-spacing: 0.12em;
-  color: #c8ff00;
+  color: var(--tod-ink-3, #6a6a70);
   margin: 0 0 4px;
 }
 
@@ -3278,12 +3371,12 @@
 .s00-grok-dock__meta {
   margin: 6px 0 0;
   font-size: 11px;
-  color: #888;
+  color: var(--tod-ink-3, #6a6a70);
 }
 
 .s00-grok-dock__close {
-  border: 1px solid #333;
-  background: #111;
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--tod-paper, #fdfdfd);
   color: inherit;
   font-size: 12px;
   padding: 6px 10px;
@@ -3311,35 +3404,37 @@
 .s00-grok-dock__field textarea {
   font-size: 14px;
   padding: 8px;
-  background: #111;
-  border: 1px solid #333;
-  color: #eee;
+  background: var(--tod-paper, #fdfdfd);
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  color: var(--tod-ink, #161616);
+  font-family: inherit;
 }
 
 .s00-grok-dock__warn {
-  color: #ffb347;
+  color: #8a6a00;
   font-size: 12px;
 }
 
 .s00-grok-dock__primary {
   padding: 10px;
-  background: #c8ff00;
-  color: #050505;
-  border: none;
+  background: var(--tod-lime, #cdee30);
+  color: var(--tod-lime-ink, #101505);
+  border: 1px solid var(--tod-lime, #cdee30);
   font-weight: 700;
   letter-spacing: 0.06em;
 }
 
 .s00-grok-dock__ghost {
-  background: transparent;
-  border: 1px solid #444;
-  color: #ccc;
+  background: var(--tod-paper, #fdfdfd);
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  color: var(--tod-ink, #161616);
   padding: 8px;
 }
 
 .s00-grok-dock__previewImg {
   max-width: 100%;
-  border: 1px solid #333;
+  border: 1px solid var(--tod-border-subtle, #dadada);
+  background: #fff;
 }
 
 /* P0.VR.DESIGN-PAGE-SYSTEM-REVIEW1 */
@@ -3640,4 +3735,36 @@
 .tod-page-assets__file {
   font-size: 9px;
   margin: 8px 0;
+}
+
+/**
+ * P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 — CANONICAL / LIST are icons.
+ * The words were placeholder scaffolding; the reference workspace states the
+ * presentation mode with a glyph, and the label survives for assistive tech.
+ */
+.tod-viewmode__icon {
+  display: inline-flex;
+  width: calc(14px * var(--tod-viewrow-boost, 1));
+  height: calc(14px * var(--tod-viewrow-boost, 1));
+}
+
+.tod-viewmode__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+
+.tod-viewmode__cell.is-active .tod-viewmode__icon svg {
+  stroke: var(--tod-lime);
+}
+
+.tod-viewmode__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

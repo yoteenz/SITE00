@@ -47,9 +47,24 @@ import {
   WriteAccessRequiredError,
   type OpusNativeServiceInfo,
 } from '../opusNative/opusNativeClient';
+import { loadPageCaptureHistory } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
+import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import {
+  loadPageAuthorityWorkflow,
+  resolveActiveAuthorityImage,
+} from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
+import {
+  OverlayCompare,
+  OverlayMeta,
+  OverlayPreview,
+  OverlayRows,
+  OverlaySection,
+  OverlayStatus,
+} from '../production/designOverlayKit';
 import { useDesignAgentDock } from './DesignAgentDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
 import '../../../styles/site00-design-agent.css';
+import '../../../styles/site00-design-overlay-kit.css';
 
 /**
  * Phase 3 — the status vocabulary the sprint specifies, mapped from the
@@ -242,6 +257,28 @@ export function DesignAgentDock() {
   const review = run?.review ?? null;
   const cost = run?.receipt?.actualUsd ?? run?.guard.spentUsd ?? null;
 
+  /**
+   * The agent's visual context, read from the same stores the workspace reads.
+   * Absent artifacts stay absent: an empty state is information, a placeholder
+   * is a lie about what the agent can see.
+   */
+  const agentContextArtifacts = useMemo(() => {
+    const pageId = targeting.pageId;
+    if (!pageId) return { capture: null, concept: null, authority: null };
+    const viewport =
+      targeting.target.viewport === 'DESKTOP' || targeting.target.viewport === 'TABLET' ?
+        targeting.target.viewport
+      : 'MOBILE';
+    const capture = loadPageCaptureHistory(targeting.projectSlug, pageId, viewport).latest?.artifactPath ?? null;
+    const concepts = listPageConceptCandidates(targeting.projectSlug, pageId);
+    const selected = concepts.find((entry) => entry.status === 'SELECTED') ?? concepts[0] ?? null;
+    const workflow = loadPageAuthorityWorkflow(targeting.projectSlug, pageId);
+    const authority = resolveActiveAuthorityImage(
+      viewport === 'DESKTOP' ? workflow.desktopAuthority : workflow.mobileAuthority,
+    );
+    return { capture, concept: selected?.visualReference ?? null, authority };
+  }, [targeting.pageId, targeting.projectSlug, targeting.target.viewport]);
+
   const shotUrl = useMemo(
     () => (id: string) =>
       `${OPUS_NATIVE_API_PATH}?action=screenshot&runId=${encodeURIComponent(run?.runId ?? '')}&id=${encodeURIComponent(id)}`,
@@ -286,20 +323,39 @@ export function DesignAgentDock() {
 
         {serviceError ? <p className="s00-dad__error">Runtime unreachable: {serviceError}</p> : null}
 
-        {/* Phase 3/4 — the compiled target, shown rather than typed. */}
+        {/* Phase 3/4 — the compiled target, shown rather than typed. A design
+            agent that states its target in words alone asks the founder to
+            trust that the words match the page on screen. */}
         <section className="s00-dad__block s00-dad__block--compact">
           <h3 className="s00-dad__h">WHAT AM I EDITING?</h3>
-          <p className="s00-dad__lead">
-            {targeting.projectSlug.toUpperCase()} ·{' '}
-            {targeting.pageLabel ?? targeting.pageId ?? 'design workspace'} ·{' '}
-            {String(targeting.target.viewMode ?? 'canonical').toUpperCase()} · {targeting.target.viewport}
-          </p>
+          <OverlayCompare>
+            <OverlayPreview
+              src={agentContextArtifacts.capture}
+              caption="CURRENT CAPTURE"
+              side={<OverlayStatus label={agentContextArtifacts.capture ? 'ON FILE' : 'MISSING'} />}
+              emptyLabel="NO CAPTURE YET"
+            />
+            <OverlayPreview
+              src={agentContextArtifacts.concept ?? agentContextArtifacts.authority}
+              caption={agentContextArtifacts.concept ? 'ACTIVE CONCEPT' : 'AUTHORITY REFERENCE'}
+              side={<OverlayStatus label={agentContextArtifacts.concept ? 'SELECTED' : 'AUTHORITY'} />}
+              emptyLabel="NO DESIGN TARGET YET"
+            />
+          </OverlayCompare>
+          <OverlayMeta
+            entries={[
+              { k: 'PROJECT', v: targeting.projectSlug.toUpperCase() },
+              { k: 'PAGE', v: targeting.pageLabel ?? targeting.pageId ?? 'design workspace' },
+              {
+                k: 'VIEW',
+                v: `${String(targeting.target.viewMode ?? 'canonical').toUpperCase()} · ${targeting.target.viewport}`,
+              },
+              { k: 'WRITE SCOPE', v: estimate?.permittedMode ?? targeting.standingWriteMode ?? '—' },
+            ]}
+          />
           {targeting.registered === false && !targeting.registryError ?
             <p className="s00-dad__note">Route not registered — agent runs with compiled DESIGN shell context only.</p>
           : null}
-          <p className="s00-dad__note">
-            Write scope: {estimate?.permittedMode ?? targeting.standingWriteMode ?? '—'}
-          </p>
         </section>
 
         {/* Phase 5 — intent is chosen, never inferred from the task text. */}
@@ -365,14 +421,19 @@ export function DesignAgentDock() {
         <section className="s00-dad__block">
           <h3 className="s00-dad__h">COST</h3>
           {estimate ? (
-            <dl className="s00-dad__dl">
-              <div><dt>CONTEXT</dt><dd>{estimate.estimatedTokens.toLocaleString()} tok</dd></div>
-              <div><dt>CACHE</dt><dd>{estimate.cacheableTokens.toLocaleString()} cacheable</dd></div>
-              <div><dt>EST MAX</dt><dd>{usd(estimate.estimatedUsd)}</dd></div>
-              <div><dt>IF CACHED</dt><dd>{usd(estimate.estimatedUsdCached)}</dd></div>
-              <div><dt>ASSETS</dt><dd>{estimate.assetMutation}</dd></div>
-              <div><dt>PREVIEW</dt><dd>{estimate.previewReady ? 'READY' : (estimate.previewReason ?? 'BLOCKED')}</dd></div>
-            </dl>
+            <OverlayMeta
+              entries={[
+                { k: 'CONTEXT', v: `${estimate.estimatedTokens.toLocaleString()} tok` },
+                { k: 'CACHE', v: `${estimate.cacheableTokens.toLocaleString()} cacheable` },
+                { k: 'EST MAX', v: usd(estimate.estimatedUsd) },
+                { k: 'IF CACHED', v: usd(estimate.estimatedUsdCached) },
+                { k: 'ASSETS', v: <OverlayStatus label={estimate.assetMutation} /> },
+                {
+                  k: 'PREVIEW',
+                  v: <OverlayStatus label={estimate.previewReady ? 'READY' : (estimate.previewReason ?? 'BLOCKED')} />,
+                },
+              ]}
+            />
           ) : (
             <p className="s00-dad__note">Estimate to see context size, cache posture and the spend ceiling.</p>
           )}
@@ -419,11 +480,13 @@ export function DesignAgentDock() {
         {authorization ? (
           <section className="s00-dad__block s00-dad__block--warn">
             <h3 className="s00-dad__h">WRITE ACCESS REQUIRED</h3>
-            <dl className="s00-dad__dl">
-              <div><dt>PAGE</dt><dd>{authorization.pageId}</dd></div>
-              <div><dt>NEEDS</dt><dd>{authorization.requestedMode}</dd></div>
-              <div><dt>HAS</dt><dd>{authorization.permittedMode}</dd></div>
-            </dl>
+            <OverlayMeta
+              entries={[
+                { k: 'PAGE', v: authorization.pageId },
+                { k: 'NEEDS', v: <OverlayStatus label={authorization.requestedMode} tone="warn" /> },
+                { k: 'HAS', v: <OverlayStatus label={authorization.permittedMode} tone="idle" /> },
+              ]}
+            />
             <p className="s00-dad__note">{authorization.reason}</p>
             <p className="s00-dad__note">{describeWriteMode(authorization.requestedMode)}</p>
             {authorization.additionalFiles.length > 0 ? (
@@ -473,13 +536,15 @@ export function DesignAgentDock() {
         {run ? (
           <section className="s00-dad__block">
             <h3 className="s00-dad__h">RUN</h3>
-            <dl className="s00-dad__dl">
-              <div><dt>ITERATIONS</dt><dd>{run.guard.iterations}</dd></div>
-              <div><dt>TOOL CALLS</dt><dd>{run.toolCalls.length}</dd></div>
-              <div><dt>SPENT</dt><dd>{usd(cost)}</dd></div>
-              <div><dt>CACHE</dt><dd>{diagnostics?.promptCache ?? 'UNKNOWN'}</dd></div>
-              <div><dt>SCOPE</dt><dd>{run.writeMode}{run.writeGrantApplied ? ' (granted)' : ''}</dd></div>
-            </dl>
+            <OverlayMeta
+              entries={[
+                { k: 'ITERATIONS', v: run.guard.iterations },
+                { k: 'TOOL CALLS', v: run.toolCalls.length },
+                { k: 'SPENT', v: usd(cost) },
+                { k: 'CACHE', v: diagnostics?.promptCache ?? 'UNKNOWN' },
+                { k: 'SCOPE', v: `${run.writeMode}${run.writeGrantApplied ? ' (granted)' : ''}` },
+              ]}
+            />
             {run.failure ? (
               <p className="s00-dad__error">
                 {run.failure} · {run.failureDetail}
@@ -500,43 +565,60 @@ export function DesignAgentDock() {
               </p>
             ) : null}
 
-            <div className="s00-dad__shots">
-              {review.before ? (
-                <figure><img src={shotUrl(review.before.screenshotId)} alt="Before" /><figcaption>BEFORE</figcaption></figure>
-              ) : null}
-              {review.after ? (
-                <figure><img src={shotUrl(review.after.screenshotId)} alt="After" /><figcaption>AFTER</figcaption></figure>
-              ) : null}
-              {review.golden ? (
-                <figure><img src={`/${review.golden.path.replace(/^public\//, '')}`} alt="Golden" /><figcaption>GOLDEN</figcaption></figure>
-              ) : null}
-            </div>
-
-            {typeof review.after?.diffPercent === 'number' ? (
-              <p className="s00-dad__note">Changed pixels: {review.after.diffPercent}%</p>
+            <OverlayCompare>
+              <OverlayPreview
+                src={review.before ? shotUrl(review.before.screenshotId) : null}
+                caption="BEFORE"
+                emptyLabel="NO BEFORE SHOT"
+              />
+              <OverlayPreview
+                src={review.after ? shotUrl(review.after.screenshotId) : null}
+                caption="AFTER"
+                side={
+                  typeof review.after?.diffPercent === 'number' ?
+                    <OverlayStatus label={`${review.after.diffPercent}% CHANGED`} tone="active" />
+                  : undefined
+                }
+                emptyLabel="NO AFTER SHOT"
+              />
+            </OverlayCompare>
+            {review.golden ? (
+              <OverlayPreview
+                src={`/${review.golden.path.replace(/^public\//, '')}`}
+                caption="GOLDEN"
+                side={<OverlayStatus label="AUTHORITY" tone="idle" />}
+              />
             ) : null}
 
             {review.patch ? (
-              <>
+              <OverlaySection title="CHANGED FILES" meta={`${review.patch.filesChanged.length}`}>
                 <p className="s00-dad__note">{review.patch.reason}</p>
-                <ul className="s00-dad__files">
-                  {review.patch.filesChanged.map((file) => (
-                    <li key={file}>
-                      {review.createdFiles.includes(file) ? 'NEW  ' : 'EDIT '}
-                      {file}
-                    </li>
-                  ))}
-                </ul>
-              </>
+                <OverlayRows
+                  rows={review.patch.filesChanged.map((file) => ({
+                    id: file,
+                    name: file.split('/').at(-1) ?? file,
+                    sub: file,
+                    side: <OverlayStatus label={review.createdFiles.includes(file) ? 'NEW' : 'EDIT'} />,
+                  }))}
+                />
+              </OverlaySection>
             ) : (
               <p className="s00-dad__note">No patch was produced.</p>
             )}
 
-            <dl className="s00-dad__dl">
-              <div><dt>TYPECHECK</dt><dd>{review.typecheck ? (review.typecheck.ok ? 'PASS' : 'FAIL') : 'not run'}</dd></div>
-              <div><dt>TESTS</dt><dd>{review.tests ? (review.tests.ok ? 'PASS' : 'FAIL') : 'not run'}</dd></div>
-              <div><dt>COST</dt><dd>{usd(review.receipt.actualUsd)}</dd></div>
-            </dl>
+            <OverlayMeta
+              entries={[
+                {
+                  k: 'TYPECHECK',
+                  v: <OverlayStatus label={review.typecheck ? (review.typecheck.ok ? 'PASS' : 'FAIL') : 'NOT RUN'} />,
+                },
+                {
+                  k: 'TESTS',
+                  v: <OverlayStatus label={review.tests ? (review.tests.ok ? 'PASS' : 'FAIL') : 'NOT RUN'} />,
+                },
+                { k: 'COST', v: usd(review.receipt.actualUsd) },
+              ]}
+            />
 
             <div className="s00-dad__actions">
               <button type="button" className="s00-dad__btn s00-dad__btn--primary" onClick={() => onReview('approve')} disabled={busy}>
@@ -570,11 +652,13 @@ export function DesignAgentDock() {
           </button>
           {showAdvanced ?
             <>
-              <dl className="s00-dad__dl">
-                <div><dt>ROUTE</dt><dd className="s00-dad__mono">{targeting.route}</dd></div>
-                <div><dt>PAGE ID</dt><dd>{targeting.pageId ?? '—'}</dd></div>
-                <div><dt>GOLDEN</dt><dd>{targeting.goldenVersion ?? '—'}</dd></div>
-              </dl>
+              <OverlayMeta
+                entries={[
+                  { k: 'ROUTE', v: targeting.route },
+                  { k: 'PAGE ID', v: targeting.pageId ?? '—' },
+                  { k: 'GOLDEN', v: targeting.goldenVersion ?? '—' },
+                ]}
+              />
               {targeting.firewallReason ?
                 <p className="s00-dad__note">PROTECTED · {targeting.firewallReason}</p>
               : null}
@@ -642,12 +726,14 @@ function AgentContextView(props: {
 
   return (
     <div className="s00-dad__ctx">
-      <dl className="s00-dad__dl">
-        <div><dt>TOTAL</dt><dd>{data.totalEstimatedTokens.toLocaleString()} tok</dd></div>
-        <div><dt>CACHEABLE</dt><dd>{data.cacheableEstimatedTokens.toLocaleString()} tok</dd></div>
-        <div><dt>WRITE</dt><dd>{data.policy.mode}</dd></div>
-        <div><dt>ASSETS</dt><dd>{data.assetAuthority.mutation}</dd></div>
-      </dl>
+      <OverlayMeta
+        entries={[
+          { k: 'TOTAL', v: `${data.totalEstimatedTokens.toLocaleString()} tok` },
+          { k: 'CACHEABLE', v: `${data.cacheableEstimatedTokens.toLocaleString()} tok` },
+          { k: 'WRITE', v: data.policy.mode },
+          { k: 'ASSETS', v: data.assetAuthority.mutation },
+        ]}
+      />
       <ul className="s00-dad__blocks">
         {data.blocks.map((block) => (
           <li key={block.label}>
