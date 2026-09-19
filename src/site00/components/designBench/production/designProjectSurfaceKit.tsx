@@ -80,7 +80,9 @@ export function ProjectSurface({
 
   return (
     <div className="tod-ps" data-surface={id} data-format={format}>
-      <div className="tod-ps__main">{content}</div>
+      <div className="tod-ps__main">
+        <div className="tod-ps__main-zoom">{content}</div>
+      </div>
       {actionBar}
     </div>
   );
