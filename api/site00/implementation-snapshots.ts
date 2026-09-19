@@ -74,6 +74,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           projectId: body.projectId,
           screenId: body.screenId,
           viewportClass: body.viewportClass,
+          route: body.route ? String(body.route) : undefined,
           visualStateId: body.visualStateId ?? null,
           baseUrl: body.baseUrl,
         });

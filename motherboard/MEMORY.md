@@ -10358,3 +10358,14 @@ Full conversation: founder first requested a high-fidelity rebuild of the three 
 - **Not changed:** console width/height, 860px sheet, intent/mode chips as type-first, Grok eligibility, fixtures, Opus write policy.
 - **Tests:** `tests/p0vrDesignGrokAiConsoleAssets1.test.ts`.
 - **Branch:** `cursor/design-grok-ai-console-assets1-2dd8`.
+
+---
+
+## 2026-09-19 — Hero CAPTURE SCREEN fix (Twin Opus Direct)
+
+Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no CURRENT image for mobile/desktop compare.
+
+- **Root cause:** `capture_screen` ran before design-screen registry hydration → `findDesignScreen` null → `{ snapshot: null }`; client failed silently (errors not shown in hero UI).
+- **Fix:** Bootstrap managed design project (+ ndxbook pilot fallback) in `captureImplementationSnapshot`; optional `route` on API; `useDesignPageCapture` uses `resolveFounderCaptureBaseUrl`, passes page route, surfaces errors on hero button/CURRENT pane.
+- **Tests:** `tests/heroCaptureScreenBootstrap.test.ts`.
+- **Branch:** `cursor/fix-hero-capture-screen-2dd8`.
