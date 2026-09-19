@@ -24,7 +24,7 @@ import {
   PipelineTechnicalDetailsPanel,
   ResolveBlockerPanel,
 } from '../production/designProductionOverlayPanels';
-import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNavPanel';
+import { ProjectWorkspaceDrawer } from '../production/projectTabs/ProjectWorkspaceDrawer';
 import { OverlayBody, OverlayRows } from '../production/designOverlayKit';
 import type { PagePipelineStageId } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
@@ -262,12 +262,12 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
         {overlay === 'OV-HOST-MODULE-NAV' ?
           <DesignChildSurfaceFrame
             mode={placementMode('OV-HOST-MODULE-NAV')}
-            title="PROJECTS MODULE NAV"
-            subtitle="DESIGN is a module inside PROJECTS — switch module or active project."
+            title="PROJECT WORKSPACE"
+            subtitle="Project destinations, pinned tools and project switching."
             overlayId="OV-HOST-MODULE-NAV"
             onClose={close}
           >
-            <DesignProjectModuleNavPanel activeProjectSlug={slug} />
+            <ProjectWorkspaceDrawer activeProjectSlug={slug} onNavigate={close} />
           </DesignChildSurfaceFrame>
         : null}
 
