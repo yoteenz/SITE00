@@ -30,6 +30,7 @@ import {
   ProjectPanes,
   ProjectRail,
   ProjectSearch,
+  ProjectShot,
   ProjectSurface,
   ProjectViewAll,
   useShellFormat,
@@ -124,7 +125,7 @@ export function ProjectReferencesSurface() {
             meta={`${collection.references.length}`}
             action={<ProjectViewAll onClick={() => setCollectionId(collection.id)} />}
             collapsible={format === 'tall' && collection.references.length > 4}
-            defaultOpen={collection.references.length <= 4 || format === 'wide'}
+            defaultOpen
           >
             <ProjectCards
               items={collection.references.slice(0, format === 'wide' ? 8 : 4).map(toCard)}
@@ -154,9 +155,7 @@ export function ProjectReferencesSurface() {
       title="REFERENCE INSPECTOR"
       counter={`${library.all.findIndex((ref) => ref.referenceId === selected.referenceId) + 1} / ${library.total}`}
     >
-      <div className="tod-ps-card__shot" style={{ aspectRatio: '16 / 11' }}>
-        {selected.src ? <img src={selected.src} alt={selected.label} loading="lazy" /> : null}
-      </div>
+      <ProjectShot src={selected.src} alt={selected.label} ratio="16 / 11" empty="NO REFERENCE IMAGE" />
       <strong style={{ fontSize: 12, letterSpacing: '0.04em' }}>{selected.label}</strong>
       <div className="tod-ps-tags">
         <span>{selected.scope}</span>

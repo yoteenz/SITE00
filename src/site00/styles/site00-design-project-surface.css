@@ -36,6 +36,37 @@
   --tod-ps-zoom: 0.6;
 }
 
+/* The frame's own chrome is now in the same unit space as the surface, so it
+   has to be re-sized for it: at artboard scale these values were fine, at
+   phone scale they were a third of the screen before any content. The tab row
+   above already names the section, so the head stays one compact line. */
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__head {
+  padding: 8px 10px;
+}
+
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__context {
+  margin-bottom: 1px;
+  font-size: 8px;
+}
+
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__title {
+  font-size: 13px;
+}
+
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__sub {
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__close {
+  font-size: 9px;
+  padding: 4px 8px;
+}
+
+.tod-dcs--workspace-inline:has(.tod-ps) .tod-dcs__body {
+  padding: 10px;
+}
+
 .tod-ps {
   --ps-gap: 10px;
   --ps-pad: 12px;
@@ -77,6 +108,28 @@
   border-bottom: 2px solid var(--tod-black, #0a0a0a);
 }
 
+/* A phone cannot carry the stream column beside the name; the name and the
+   counts are what orient the founder, so the stream drops rather than
+   squeezing the title into two words per line. */
+.tod-ps[data-format='tall'] .tod-ps-identity {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-identity__stream {
+  display: none;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-identity__name strong {
+  font-size: 22px;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-identity__auth {
+  grid-column: 2;
+  grid-row: 1;
+  align-items: flex-end;
+  text-align: right;
+}
+
 .tod-ps[data-format='wide'] .tod-ps-identity {
   grid-template-columns: minmax(0, 1fr) auto auto auto;
   align-items: center;
@@ -114,14 +167,13 @@
 }
 
 .tod-ps-identity__stats {
-  display: grid;
-  grid-auto-flow: column;
-  gap: 0 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
   margin: 0;
   padding: 0 0 0 14px;
   border-left: 1px solid var(--tod-border-column, #c4c4c4);
   grid-column: 1 / -1;
-  grid-auto-columns: max-content;
 }
 
 .tod-ps[data-format='wide'] .tod-ps-identity__stats {
@@ -288,14 +340,16 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-.tod-ps[data-format='wide'] .tod-ps-feature__body,
-.tod-ps-feature__body {
+.tod-ps[data-format='wide'] .tod-ps-feature__body {
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
 }
 
 .tod-ps-feature__shot {
   position: relative;
   aspect-ratio: 16 / 9;
+  /* Capped: a wide column would otherwise give the feature plate a 340px
+     height and push every group below the fold. */
+  max-height: 220px;
   background: #141414;
   overflow: hidden;
 }
@@ -354,6 +408,20 @@
   background: #1e1e1e;
   border-color: #3a3a3a;
   color: #e8e8e8;
+}
+
+.tod-ps-skinPlate {
+  display: grid !important;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tod-ps-skinPlate i {
+  display: block;
+  height: 100%;
 }
 
 /* ---- tags ---------------------------------------------------------------- */
@@ -616,6 +684,34 @@
   font-size: 9px;
   letter-spacing: 0.05em;
   color: var(--tod-ink-3, #6a6a70);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Routes are long and statuses are fixed width; without this the dial and the
+   status badge slide over the page name on a narrow row. */
+.tod-ps-row .tod-ok-status {
+  flex: none;
+  white-space: nowrap;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-row {
+  gap: 7px;
+  padding: 7px 8px;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-row__shot {
+  width: 40px;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-dial__ring {
+  width: 28px;
+  height: 28px;
+}
+
+.tod-ps[data-format='tall'] .tod-ps-dial em {
+  display: none;
 }
 
 .tod-ps-row__cells {
@@ -872,6 +968,13 @@
   flex-direction: column;
   gap: 8px;
   padding: 10px;
+}
+
+.tod-ps-inspector__note {
+  margin: 0;
+  font-size: 9px;
+  line-height: 1.5;
+  color: var(--tod-ink-3, #6a6a70);
 }
 
 .tod-ps-facts {
@@ -1186,6 +1289,19 @@
 .tod-ps-actionbar__btn:disabled {
   color: var(--tod-ink-3, #6a6a70);
   cursor: default;
+}
+
+/* On a phone four labels wrap to three lines each and the bar eats the
+   surface. Stack icon over label, one line, and let the text shrink. */
+.tod-ps[data-format='tall'] .tod-ps-actionbar__btn {
+  flex-direction: column;
+  gap: 3px;
+  min-height: 42px;
+  padding: 5px 4px;
+  font-size: 7.5px;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .tod-ps-actionbar__icon svg {

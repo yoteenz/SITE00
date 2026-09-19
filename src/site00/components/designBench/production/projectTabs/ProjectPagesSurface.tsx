@@ -28,6 +28,7 @@ import {
   ProjectPanes,
   ProjectRows,
   ProjectSearch,
+  ProjectShot,
   ProjectSurface,
   ProjectViewAll,
   useShellFormat,
@@ -48,6 +49,7 @@ export function ProjectPagesSurface() {
 
   const [filter, setFilter] = useState<FilterId>('all');
   const [query, setQuery] = useState('');
+  const [expanded, setExpanded] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(
     current?.pageId ?? architecture.all[0]?.pageId ?? null,
   );
@@ -76,6 +78,14 @@ export function ProjectPagesSurface() {
 
   const selected = architecture.all.find((page) => page.pageId === selectedId) ?? scoped[0] ?? null;
 
+  /*
+   * A 45-row list on a phone is the monolith this surface exists to replace.
+   * The families above already carry the shape of the project, so the
+   * hierarchy opens on a readable slice and expands on request.
+   */
+  const rowBudget = format === 'wide' ? 24 : 10;
+  const hierarchyRows = expanded ? scoped : scoped.slice(0, rowBudget);
+
   const open = (page: DesignBoundPageRecord) => {
     writeDesignPageTarget(projectSlug, designProductionPageTargetFromRecord(page));
     writeDesignWorkspaceSurface(projectSlug, 'page-workspace');
@@ -96,15 +106,11 @@ export function ProjectPagesSurface() {
 
   const inspector = selected ? (
     <ProjectInspector title="PAGE INSPECTOR">
-      <div className="tod-ps-card__shot" style={{ aspectRatio: '16 / 10' }}>
-        {selected.desktopPreviewUrl || selected.mobilePreviewUrl ? (
-          <img
-            src={(selected.desktopPreviewUrl ?? selected.mobilePreviewUrl) as string}
-            alt={selected.pageName}
-            loading="lazy"
-          />
-        ) : null}
-      </div>
+      <ProjectShot
+        src={selected.desktopPreviewUrl ?? selected.mobilePreviewUrl}
+        alt={selected.pageName}
+        empty="NO PAGE CAPTURE"
+      />
       <strong style={{ fontSize: 12 }}>{selected.pageName.toUpperCase()}</strong>
       <ProjectFacts
         entries={[
@@ -191,7 +197,7 @@ export function ProjectPagesSurface() {
           onPick={(next) => setFilter(next as FilterId)}
         />
 
-        {filter === 'all' && !query && format === 'wide' && architecture.families.length > 0 ? (
+        {filter === 'all' && !query && architecture.families.length > 0 ? (
           <ProjectGroup title="PAGE FAMILIES" meta={`${architecture.families.length}`}>
             <ProjectCards
               items={architecture.families.map((family) => ({
@@ -204,19 +210,24 @@ export function ProjectPagesSurface() {
               }))}
               activeId={selected?.pageId ?? null}
               onPick={setSelectedId}
-              columns={6}
+              columns={format === 'wide' ? 6 : 2}
             />
           </ProjectGroup>
         ) : null}
 
         <ProjectGroup
           title="PAGES / HIERARCHY"
-          meta={`${scoped.length}`}
-          action={<ProjectViewAll label="EXPAND ALL" onClick={() => setFilter('all')} />}
+          meta={hierarchyRows.length < scoped.length ? `${hierarchyRows.length} / ${scoped.length}` : `${scoped.length}`}
+          action={
+            <ProjectViewAll
+              label={expanded ? 'COLLAPSE' : 'EXPAND ALL'}
+              onClick={() => setExpanded((prev) => !prev)}
+            />
+          }
           tight
         >
           <ProjectRows
-            rows={scoped.map((page) => ({
+            rows={hierarchyRows.map((page) => ({
               id: page.pageId,
               src: page.mobilePreviewUrl ?? page.desktopPreviewUrl ?? null,
               name: page.pageName.toUpperCase(),
@@ -239,7 +250,7 @@ export function ProjectPagesSurface() {
         {architecture.needsDesign.length > 0 ? (
           <ProjectGroup title="INCOMPLETE PAGES / NEEDS DESIGN" meta={`${architecture.needsDesign.length}`} tight>
             <ProjectRows
-              rows={architecture.needsDesign.map((page) => ({
+              rows={architecture.needsDesign.slice(0, format === 'wide' ? 10 : 5).map((page) => ({
                 id: `needs-${page.pageId}`,
                 src: page.mobilePreviewUrl ?? page.desktopPreviewUrl ?? null,
                 name: page.pageName.toUpperCase(),

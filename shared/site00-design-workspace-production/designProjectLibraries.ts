@@ -22,6 +22,7 @@ import {
   type PageAssetVersionRecord,
 } from './designPageActiveAssetManifest.js';
 import { loadPageAuthorityWorkflow } from './designPageAuthorityWorkflow.js';
+import { loadDesignProductionState } from './designProductionStore.js';
 import { buildProjectDesignPageRegistry } from './designProjectBinding/designPageRegistry.js';
 import { buildDesignProjectIntelligence } from './designProjectBinding/projectIntelligence.js';
 import type {
@@ -175,6 +176,31 @@ export type ProjectAssetCategory = {
   assets: ProjectAssetRecord[];
 };
 
+/**
+ * A page capture is real project media — the screenshot the workspace holds
+ * for a route — so the asset desk lists it. It is kept in its own band rather
+ * than mixed into the asset grid, because a capture is evidence of a page,
+ * not an asset the founder can replace or regenerate.
+ */
+export type ProjectCaptureRecord = {
+  id: string;
+  pageId: string;
+  pageName: string;
+  route: string;
+  viewport: 'MOBILE' | 'DESKTOP';
+  src: string;
+  designStatus: string;
+};
+
+/** Slot coverage across the registry: what the project still owes itself. */
+export type ProjectAssetDemandRow = {
+  slotId: string;
+  label: string;
+  format: string;
+  filled: number;
+  pages: number;
+};
+
 export type ProjectAssetLibrary = {
   projectId: string;
   total: number;
@@ -188,7 +214,21 @@ export type ProjectAssetLibrary = {
   categories: ProjectAssetCategory[];
   byStatus: Record<string, number>;
   all: ProjectAssetRecord[];
+  captures: ProjectCaptureRecord[];
+  demand: ProjectAssetDemandRow[];
 };
+
+/**
+ * The slots every designed page is expected to carry. This mirrors the Grok
+ * page asset plan, which is the contract the generation step works to; naming
+ * them here lets the asset desk show what is missing as well as what exists.
+ */
+const DEMAND_SLOTS: { slotId: string; label: string; format: string }[] = [
+  { slotId: 'hero', label: 'HERO PLATE', format: 'WEBP' },
+  { slotId: 'texture', label: 'PAPER TEXTURE', format: 'WEBP' },
+  { slotId: 'icon-set', label: 'ICON SYSTEM', format: 'SVG' },
+  { slotId: 'evidence', label: 'EVIDENCE TILES', format: 'WEBP' },
+];
 
 const ASSET_CATEGORIES: { id: ProjectAssetCategoryId; label: string }[] = [
   { id: 'hero', label: 'HERO' },
@@ -255,7 +295,38 @@ export function buildProjectAssetLibrary(projectId: string): ProjectAssetLibrary
     })).filter((category) => category.assets.length > 0),
     byStatus,
     all,
+    captures: buildProjectCaptures(pages),
+    demand: DEMAND_SLOTS.map((slot) => ({
+      ...slot,
+      pages: pages.length,
+      filled: pages.filter((page) =>
+        all.some((asset) => asset.pageId === page.pageId && asset.slot === slot.slotId),
+      ).length,
+    })),
   };
+}
+
+function buildProjectCaptures(pages: DesignBoundPageRecord[]): ProjectCaptureRecord[] {
+  const captures: ProjectCaptureRecord[] = [];
+  for (const page of pages) {
+    const shots: Array<['MOBILE' | 'DESKTOP', string | null]> = [
+      ['MOBILE', page.mobilePreviewUrl],
+      ['DESKTOP', page.desktopPreviewUrl],
+    ];
+    for (const [viewport, src] of shots) {
+      if (!src) continue;
+      captures.push({
+        id: `${page.pageId}-${viewport.toLowerCase()}`,
+        pageId: page.pageId,
+        pageName: page.pageName,
+        route: page.route,
+        viewport,
+        src,
+        designStatus: page.designStatus,
+      });
+    }
+  }
+  return captures;
 }
 
 /* ------------------------------------------------------- page architecture */
@@ -309,33 +380,86 @@ function pageReadiness(page: DesignBoundPageRecord): number {
   return Math.round((checks.filter(Boolean).length / checks.length) * 100);
 }
 
+/**
+ * Registered pages carry their hierarchy in the route far more often than in
+ * `parentPageId` — NDXBOOK has 45 pages and one declared parent, but routes
+ * like `/character/continuity/review` describe the tree exactly. So parentage
+ * falls back to the longest page route that is a proper prefix of this one.
+ * Reading the declared link first keeps any explicit parenting authoritative.
+ */
+function resolveParent(
+  page: DesignBoundPageRecord,
+  all: DesignBoundPageRecord[],
+): DesignBoundPageRecord | null {
+  if (page.parentPageId) {
+    const declared = all.find((candidate) => candidate.pageId === page.parentPageId);
+    if (declared) return declared;
+  }
+
+  let best: DesignBoundPageRecord | null = null;
+  for (const candidate of all) {
+    if (candidate.pageId === page.pageId) continue;
+    if (!page.route.startsWith(`${candidate.route}/`)) continue;
+    if (!best || candidate.route.length > best.route.length) best = candidate;
+  }
+  return best;
+}
+
+/**
+ * Family key: the first word of a page's first route segment. Projects name
+ * areas with a shared prefix far more reliably than they nest them, so
+ * `content-library` and `content-operations/campaign-board` belong to the same
+ * family even though only one of them is nested. Grouping on the whole segment
+ * would split them; grouping on the root page would put all 45 in one.
+ */
+function familyKey(route: string, projectId: string): string {
+  const base = `/projects/${projectId}/`;
+  const tail = route.startsWith(base) ? route.slice(base.length) : route.replace(/^\//, '');
+  const segments = tail.split('/').filter(Boolean);
+  if (segments.length === 0) return 'root';
+  return segments[0].split('-')[0];
+}
+
 export function buildProjectPageArchitecture(projectId: string): ProjectPageArchitecture {
   const all = buildProjectDesignPageRegistry(projectId);
-  const byId = new Map(all.map((page) => [page.pageId, page]));
+  const parents = new Map(all.map((page) => [page.pageId, resolveParent(page, all)]));
   const depth = (page: DesignBoundPageRecord): number => {
     let level = 0;
-    let cursor: DesignBoundPageRecord | undefined = page;
-    while (cursor?.parentPageId && level < 6) {
-      cursor = byId.get(cursor.parentPageId);
-      level += 1;
+    let cursor: DesignBoundPageRecord | null = page;
+    while (cursor && level < 6) {
+      cursor = parents.get(cursor.pageId) ?? null;
+      if (cursor) level += 1;
     }
     return level;
   };
 
   const roots = all.filter((page) => depth(page) === 0);
 
-  const families: ProjectPageFamily[] = roots.map((root) => {
-    const children = all.filter((page) => page.parentPageId === root.pageId);
-    const childIds = new Set(children.map((page) => page.pageId));
-    const grandchildren = all.filter(
-      (page) => page.parentPageId && childIds.has(page.parentPageId),
-    );
-    const members = [root, ...children, ...grandchildren];
+  /*
+   * Families group by the first route segment, not by root page. A project
+   * whose registry contains a page at its own base route has exactly one root
+   * and therefore exactly one family, which tells the founder nothing; the
+   * segment is what actually names an area of the site.
+   */
+  const groups = new Map<string, DesignBoundPageRecord[]>();
+  for (const page of all) {
+    const key = familyKey(page.route, projectId);
+    const group = groups.get(key);
+    if (group) group.push(page);
+    else groups.set(key, [page]);
+  }
+
+  const families: ProjectPageFamily[] = [...groups.entries()].map(([key, members]) => {
+    const ranked = [...members].sort((left, right) => depth(left) - depth(right));
+    const root = ranked[0];
+    const headDepth = depth(root);
+    const children = ranked.filter((page) => depth(page) === headDepth + 1);
+    const grandchildren = ranked.filter((page) => depth(page) > headDepth + 1);
     const readinessTotal = members.reduce((sum, page) => sum + pageReadiness(page), 0);
 
     return {
       id: root.pageId,
-      label: titleCase(root.pageName),
+      label: titleCase(key),
       route: root.route,
       root,
       children,
@@ -344,9 +468,12 @@ export function buildProjectPageArchitecture(projectId: string): ProjectPageArch
       approved: members.filter((page) => APPROVED_STATUSES.includes(page.designStatus)).length,
       needsDesign: members.filter((page) => page.designStatus === 'DESIGN_NEEDED').length,
       readiness: members.length === 0 ? 0 : Math.round(readinessTotal / members.length),
-      previewUrl: root.desktopPreviewUrl ?? root.mobilePreviewUrl ?? null,
+      previewUrl:
+        members.map((page) => page.desktopPreviewUrl ?? page.mobilePreviewUrl).find(Boolean) ?? null,
     };
   });
+
+  families.sort((left, right) => right.total - left.total || left.label.localeCompare(right.label));
 
   return {
     projectId,
@@ -394,6 +521,9 @@ export type ProjectHistoryEvent = {
   pageId: string;
   pageName: string;
   actor: string;
+  /** Thumbnails when the event has a visual record; the timeline shows them. */
+  before?: string | null;
+  after?: string | null;
 };
 
 export type ProjectHistory = {
@@ -425,6 +555,43 @@ function assetEventActor(event: PageAssetHistoryEvent): string {
 export function buildProjectHistory(projectId: string): ProjectHistory {
   const pages = buildProjectDesignPageRegistry(projectId);
   const events: ProjectHistoryEvent[] = [];
+
+  /*
+   * Three real sources, in widening scope: the workspace's own production log
+   * (project-scoped, every promotion / refine / lock the founder performed),
+   * the canonical reference captures (the moment a screen entered the
+   * project's authority), and then the per-page authority and asset records.
+   */
+  for (const entry of loadDesignProductionState(projectId).history) {
+    events.push({
+      id: `dp-${entry.id}`,
+      at: entry.at,
+      kind: historyKind(entry.type),
+      title: titleCase(entry.type),
+      detail: entry.summary,
+      pageId: 'project',
+      pageName: 'PROJECT',
+      actor: entry.actorEmail ? entry.actorEmail.split('@')[0]!.toUpperCase() : 'FOUNDER',
+    });
+  }
+
+  const pageByRoute = new Map(pages.map((page) => [page.route, page]));
+  for (const ref of listCanonicalReferences(projectId)) {
+    const page = pageByRoute.get(ref.route) ?? null;
+    events.push({
+      id: `ref-${ref.referenceId}`,
+      at: ref.createdAt,
+      kind: 'AUTHORITY',
+      title: 'REFERENCE CAPTURED',
+      detail: `${titleCase(ref.screenId)} · ${String(ref.viewportClass).toUpperCase()} · v${ref.version}${
+        ref.notes ? ` — ${ref.notes}` : ''
+      }`,
+      pageId: page?.pageId ?? ref.referenceId,
+      pageName: page?.pageName ?? ref.route,
+      actor: ref.createdBy.toUpperCase(),
+      after: referenceSrc(ref.storagePath),
+    });
+  }
 
   for (const page of pages) {
     const workflow = loadPageAuthorityWorkflow(projectId, page.pageId);

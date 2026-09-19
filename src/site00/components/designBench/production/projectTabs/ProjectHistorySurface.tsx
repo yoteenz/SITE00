@@ -195,6 +195,8 @@ function groupByDay(events: ProjectHistoryEvent[]) {
       detail: event.detail,
       actor: event.actor,
       tags: [event.pageName.toUpperCase()],
+      before: event.before ?? null,
+      after: event.after ?? null,
     })),
   }));
 }

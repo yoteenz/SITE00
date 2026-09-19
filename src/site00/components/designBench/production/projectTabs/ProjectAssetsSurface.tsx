@@ -30,7 +30,9 @@ import {
   ProjectIdentity,
   ProjectInspector,
   ProjectPanes,
+  ProjectRows,
   ProjectSearch,
+  ProjectShot,
   ProjectSurface,
   ProjectViewAll,
   useShellFormat,
@@ -83,14 +85,16 @@ export function ProjectAssetsSurface() {
 
   const staged = library.all.filter((asset) => asset.status === 'STAGED');
   const unused = library.all.filter((asset) => !asset.isActiveForSlot);
+  const captures = library.captures.slice(0, format === 'wide' ? 12 : 6);
 
   const inspector = selected ? (
     <ProjectInspector title="SELECTED ASSET">
-      <div className="tod-ps-card__shot" style={{ aspectRatio: '16 / 11' }}>
-        {selected.previewDataUrl ? (
-          <img src={selected.previewDataUrl} alt={selected.displayName} loading="lazy" />
-        ) : null}
-      </div>
+      <ProjectShot
+        src={selected.previewDataUrl}
+        alt={selected.displayName}
+        ratio="16 / 11"
+        empty="NO ASSET PREVIEW"
+      />
       <strong style={{ fontSize: 12 }}>{selected.displayName}</strong>
       <div className="tod-ps-tags">
         <span>{selected.slot}</span>
@@ -111,7 +115,31 @@ export function ProjectAssetsSurface() {
         OPEN OWNING PAGE →
       </button>
     </ProjectInspector>
-  ) : null;
+  ) : (
+    <ProjectInspector title="ASSET DESK">
+      <ProjectShot
+        src={captures[0]?.src ?? null}
+        alt={captures[0]?.pageName ?? 'Project media'}
+        ratio="16 / 11"
+        empty="NO PROJECT MEDIA"
+      />
+      <ProjectFacts
+        entries={[
+          { k: 'GENERATED', v: library.generated },
+          { k: 'UPLOADED', v: library.uploaded },
+          { k: 'CAPTURES', v: library.captures.length },
+          { k: 'PAGES', v: registry.length },
+          {
+            k: 'SLOTS STARTED',
+            v: `${library.demand.filter((slot) => slot.filled > 0).length} / ${library.demand.length}`,
+          },
+        ]}
+      />
+      <p className="tod-ps-inspector__note">
+        Select an asset to inspect it, or open a page to generate the slots this project still owes itself.
+      </p>
+    </ProjectInspector>
+  );
 
   return (
     <ProjectSurface id="assets">
@@ -124,11 +152,12 @@ export function ProjectAssetsSurface() {
           { label: 'STAGED', value: library.staged },
           { label: 'GENERATED', value: library.generated },
           { label: 'UPLOADED', value: library.uploaded },
+          { label: 'CAPTURES', value: library.captures.length },
         ]}
         authority={{ label: 'ASSET AUTHORITY', state: library.staged > 0 ? 'REVIEW PENDING' : 'CLEAN', locked: false }}
       />
 
-      <ProjectPanes inspector={inspector ?? undefined}>
+      <ProjectPanes inspector={format === 'wide' || selected ? inspector : undefined}>
         <ProjectSearch
           placeholder="Search assets, slots, or filenames…"
           value={query}
@@ -158,6 +187,16 @@ export function ProjectAssetsSurface() {
             status={library.featured.status}
             onOpen={() => setSelectedId(library.featured?.versionId ?? null)}
           />
+        ) : captures[0] && !query ? (
+          <ProjectFeature
+            eyebrow="LATEST PROJECT MEDIA"
+            src={captures[0].src}
+            title={captures[0].pageName}
+            source={`${captures[0].viewport} CAPTURE · ${captures[0].route}`}
+            body="No generated or uploaded assets exist for this project yet. Captured page media is the media the project currently holds."
+            tags={[captures[0].viewport, 'CAPTURE']}
+            status={captures[0].designStatus.replace(/_/g, ' ')}
+          />
         ) : null}
 
         {filter === 'all' && !query ? (
@@ -169,7 +208,7 @@ export function ProjectAssetsSurface() {
                 meta={`${category.assets.length}`}
                 action={<ProjectViewAll onClick={() => setQuery(category.label.toLowerCase())} />}
                 collapsible={format === 'tall' && category.assets.length > 4}
-                defaultOpen={format === 'wide' || category.assets.length <= 4}
+                defaultOpen
               >
                 <ProjectCards
                   items={category.assets.slice(0, format === 'wide' ? 8 : 4).map(toCard)}
@@ -222,8 +261,51 @@ export function ProjectAssetsSurface() {
           <ProjectGroup title="PROJECT ASSET LIBRARY" meta="0">
             <ProjectCards
               items={[]}
-              emptyLabel="NO PROJECT ASSETS YET"
-              emptyHint="Generate or upload assets on a page and they are catalogued here for the whole project."
+              emptyLabel="NO GENERATED OR UPLOADED ASSETS YET"
+              emptyHint="Generate or upload assets on a page and they are catalogued here for the whole project. The project's captured page media is listed below in the meantime."
+            />
+          </ProjectGroup>
+        ) : null}
+
+        {!query ? (
+          <ProjectGroup
+            title="ASSET DEMAND · SLOT COVERAGE"
+            meta={`${library.demand.filter((slot) => slot.filled > 0).length}/${library.demand.length} SLOTS STARTED`}
+          >
+            <ProjectRows
+              rows={library.demand.map((slot) => ({
+                id: slot.slotId,
+                name: slot.label,
+                sub: `${slot.slotId} · ${slot.format}`,
+                readiness: slot.pages === 0 ? 0 : Math.round((slot.filled / slot.pages) * 100),
+                cells: [
+                  { label: 'FILLED', value: slot.filled },
+                  { label: 'PAGES', value: slot.pages },
+                  { label: 'MISSING', value: Math.max(0, slot.pages - slot.filled) },
+                ],
+                status: slot.filled === 0 ? 'NEEDS GENERATION' : slot.filled < slot.pages ? 'PARTIAL' : 'COMPLETE',
+              }))}
+            />
+          </ProjectGroup>
+        ) : null}
+
+        {captures.length > 0 && !query ? (
+          <ProjectGroup
+            title="CAPTURED PAGE MEDIA"
+            meta={`${library.captures.length}`}
+            collapsible={format === 'tall'}
+            defaultOpen
+          >
+            <ProjectCards
+              items={captures.map((capture) => ({
+                id: capture.id,
+                src: capture.src,
+                title: capture.pageName,
+                sub: `${capture.viewport} CAPTURE`,
+                badge: capture.designStatus.replace(/_/g, ' '),
+                footer: capture.route,
+              }))}
+              columns={4}
             />
           </ProjectGroup>
         ) : null}

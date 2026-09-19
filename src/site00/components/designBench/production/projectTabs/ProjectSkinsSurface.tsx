@@ -43,6 +43,11 @@ export function ProjectSkinsSurface() {
   const [group, setGroup] = useState('all');
   const [query, setQuery] = useState('');
 
+  const expressionCapture = useMemo(
+    () => architecture.families.map((family) => family.previewUrl).find(Boolean) ?? null,
+    [architecture.families],
+  );
+
   const show = (id: string) => group === 'all' || group === id;
   const matches = (label: string) =>
     !query.trim() || label.toLowerCase().includes(query.trim().toLowerCase());
@@ -66,10 +71,16 @@ export function ProjectSkinsSurface() {
           <span className="tod-ps-feature__eyebrow">ACTIVE PROJECT SKIN</span>
           <div className="tod-ps-feature__body">
             <div className="tod-ps-feature__shot">
-              {architecture.families[0]?.previewUrl ? (
-                <img src={architecture.families[0].previewUrl} alt={skin.skinName} loading="lazy" />
+              {expressionCapture ? (
+                <img src={expressionCapture} alt={skin.skinName} loading="lazy" />
               ) : (
-                <span>NO EXPRESSION CAPTURE</span>
+                /* No page in this project has been captured yet, so the plate
+                   shows the expression itself rather than an empty frame. */
+                <span className="tod-ps-skinPlate">
+                  {skin.palette.map((swatch) => (
+                    <i key={swatch.token} style={{ background: swatch.value }} />
+                  ))}
+                </span>
               )}
             </div>
             <div className="tod-ps-feature__meta">

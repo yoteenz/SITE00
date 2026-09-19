@@ -585,6 +585,33 @@ export function ProjectInspector({
   );
 }
 
+/**
+ * A preview slot that admits when it is empty. A bare black box reads as a
+ * broken image; "NO CAPTURE" reads as work still to do, which is the truth
+ * for most pages in a project that has not been through design yet.
+ */
+export function ProjectShot({
+  src,
+  alt,
+  ratio = '16 / 10',
+  empty = 'NO CAPTURE',
+}: {
+  src?: string | null;
+  alt: string;
+  ratio?: string;
+  empty?: string;
+}) {
+  return (
+    <span className="tod-ps-card__shot" style={{ aspectRatio: ratio }}>
+      {src ? (
+        <img src={src} alt={alt} loading="lazy" />
+      ) : (
+        <span className="tod-ps-card__none">{empty}</span>
+      )}
+    </span>
+  );
+}
+
 export function ProjectFacts({ entries }: { entries: Array<{ k: string; v: ReactNode }> }) {
   return (
     <dl className="tod-ps-facts">
