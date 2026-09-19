@@ -10303,3 +10303,13 @@ Production release test run failed (6 tests): view-mode boundary tests still exp
 
 - **Tests updated:** `p0vrDesignBenchOpusDirect.test.ts` (shared panel imports + markers in panel modules); `p0vrOpusAssetPersistence1.test.ts` (forbid manifest/resolver in hook, allow inspect action).
 - **No app code changes** — CI green only.
+
+---
+
+## 2026-09-19 — CI Grok gating + interaction coverage (Production Release test)
+
+Founder screenshot: Production Release **test** job — 2 failures (`DesignGrokDock` / `openStructuredArtifact`).
+
+- **Cause:** Typography merge mounted **duplicate** `DesignGrokDock` in `DesignWorkspaceCore` while screen already mounts dock under `DesignGrokEligibilityProvider`; gating test `not.toContain('DesignGrokDock')` false-failed on `DesignGrokDockProvider`. Pipeline-readiness2 refactor moved structured output wiring off canonical view — test still expected `openStructuredArtifact` in `TwinOpusDirectCanonicalView`.
+- **Fix:** Remove core-level `DesignGrokDock` (keep `DesignGrokDockProvider` + screen mount). Tests: gating uses regex for component mount; visual-compare expects dock on screen; interaction-coverage asserts `openStructuredArtifact` on workspace + `DesignPipelineReadinessPanel` on canonical.
+- **PR:** `cursor/ci-grok-pipeline-test-fix-2da5`.
