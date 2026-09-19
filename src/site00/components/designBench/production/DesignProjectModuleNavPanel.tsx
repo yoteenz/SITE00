@@ -13,12 +13,18 @@ import { listDesignEnabledManagedProjects } from '../../../../../shared/site00-s
 import {
   site00ProjectsDesignActiveProjectPath,
   site00ProjectsDesignModulePath,
+  site00ProjectsExperienceModulePath,
 } from '../../../config/routes';
 import { OverlayBody, OverlaySection, OverlayStatus } from './designOverlayKit';
 
 const PROJECTS_MODULE_LINKS = [
   { label: 'PROJECTS INDEX', href: '/projects', sub: 'ALL MODULES AND PROJECTS' },
   { label: 'DESIGN MODULE', href: site00ProjectsDesignModulePath(), sub: 'DESIGN ACROSS PROJECTS' },
+  {
+    label: 'EXPERIENCE MODULE',
+    href: site00ProjectsExperienceModulePath('frontal-slayer'),
+    sub: 'RUNTIME · CONFIGURATORS · WORLDS',
+  },
 ] as const;
 
 function NavLinkRow({

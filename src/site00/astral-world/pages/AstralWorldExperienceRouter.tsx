@@ -19,7 +19,8 @@ import CoffeeShopPage from './destinations/CoffeeShopPage';
 export default function AstralWorldExperienceRouter({ mode = 'experience' }: { mode?: AstralWorldRouteMode }) {
   return (
     <Routes>
-      <Route element={<AstralWorldExperienceShell mode={mode} />}>
+      <Route index element={<Navigate to="play/home" replace />} />
+      <Route path="play" element={<AstralWorldExperienceShell mode={mode} />}>
         <Route index element={<Navigate to="home" replace />} />
         <Route path="home" element={<AstralWorldHomePage />} />
         <Route path="astrea" element={<AstralWorldAstreaPage />} />
@@ -36,6 +37,7 @@ export default function AstralWorldExperienceRouter({ mode = 'experience' }: { m
         <Route path="create-deck" element={<AstralWorldCreateDeckPage />} />
         <Route path="notification-demo" element={<AstralWorldNotificationDemoPage />} />
       </Route>
+      <Route path="*" element={<Navigate to="play/home" replace />} />
     </Routes>
   );
 }

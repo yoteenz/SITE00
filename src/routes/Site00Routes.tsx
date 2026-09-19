@@ -93,7 +93,7 @@ const ProjectOperatingModulePage = lazy(() => import('../site00/pages/ProjectOpe
 const ProjectEvolveTabRedirectPage = lazy(() => import('../site00/pages/ProjectEvolveTabRedirectPage'));
 const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage'));
 const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
-const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
+const ProjectExperienceModuleGate = lazy(() => import('../site00/experience/ProjectExperienceModuleGate'));
 const ProjectAstralWorldFastTrackPage = lazy(() => import('../site00/pages/ProjectAstralWorldFastTrackPage'));
 const ReconstructionTwinPreviewPage = lazy(() => import('../site00/pages/ReconstructionTwinPreviewPage'));
 const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/ConceptDirectedTwinV2PreviewPage'));
@@ -942,7 +942,7 @@ export function Site00Routes() {
         element={
           <AstralWorldRouteGuard>
             <Site00Suspense>
-              <ProjectAstralWorldExperiencePage />
+              <ProjectExperienceModuleGate />
             </Site00Suspense>
           </AstralWorldRouteGuard>
         }

@@ -10433,3 +10433,19 @@ Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no
 - **Tests:** `tests/heroCaptureScreenBootstrap.test.ts`.
 - **Branch:** `cursor/fix-hero-capture-screen-2dd8`.
 
+<<<<<<< HEAD
+---
+
+## 2026-09-19 — P0.EXPERIENCE.MODULE-WIRING1
+
+Full conversation: founder sprint to make **EXPERIENCE** a first-class PROJECTS module (separate from DESIGN): routing, fixture-backed entities, `/projects` Design + Experience cards, module availability per project, production workspace (tabs, overview, pipeline, tools registry, Build-A-Wig + Astréa fixtures), tests, browser QA.
+
+- **Architecture:** `shared/site00-experience-workspace/` — types, fixtures, store (localStorage active experience), pipeline (11 stages + applicability), tool registry (honest NOT_CONFIGURED), paths/gate. Routes: `/projects/:slug/experience`, `/projects/:slug/experience/:experienceSlug[/tab]`.
+- **Gate:** `ProjectExperienceModuleGate` — workspace vs Astral client runtime. Astral client moved under `/experience/play/*` so workspace can own `/experience/astrea` (WORLD fixture).
+- **UI:** `ProjectExperienceWorkspacePage` + shell/panels + CSS; `ProjectIndexExperienceCard`; project cards show DESIGN/EXPERIENCE tags + module links.
+- **Fixtures:** Build-A-Wig (CONFIGURATOR, Frontal Slayer); Astréa (WORLD, Astral World scenes Threshold/Tarot/Coffee/Mall).
+- **Tests:** `tests/p0vrExperienceModuleWiring1.test.ts` (12). Updated astral path helper test for `/play/home`.
+- **QA:** Playwright screenshots with `?goldenDiffCapture=1` at `/opt/cursor/artifacts/projects-page-{desktop,mobile}.png`, `experience-baw-{desktop,mobile}.png`.
+- **Branch:** `cursor/experience-module-wiring1-9f72`.
+=======
+>>>>>>> origin/main
