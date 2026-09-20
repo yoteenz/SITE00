@@ -1,13 +1,15 @@
 import { WORKSPACE_SELF_NBP_MODEL } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/generationPlan.js';
 import type {
-  WorkspaceCreativeDirection,
-  WorkspaceSingleConceptBrief,
+  WorkspaceCreativeContext,
+  WorkspaceGPT2AuthorityConcept,
 } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/creativePipelineTypes.js';
-import type { WorkspaceFunctionContract } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/types.js';
+import type { WorkspaceConceptSlotId, WorkspaceFunctionContract } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/types.js';
 
 export type NbpRenderInput = {
-  concept: WorkspaceSingleConceptBrief;
-  direction: WorkspaceCreativeDirection;
+  gpt2Authority: WorkspaceGPT2AuthorityConcept;
+  creativeContext: WorkspaceCreativeContext;
+  renditionSlot: WorkspaceConceptSlotId;
+  renditionDirective: string;
   viewport: 'MOBILE' | 'DESKTOP';
   referenceImageBase64: string;
   width: number;
@@ -28,20 +30,23 @@ function mockPngBase64(label: string): string {
 
 function buildNbpPrompt(input: NbpRenderInput): string {
   const v = input.viewport;
-  const c = input.concept;
-  const d = input.direction;
+  const g = input.gpt2Authority;
+  const c = input.creativeContext;
   return [
     'SITE 00 DESIGN WORKSPACE — NBP visual authority render (presentation only).',
     `Viewport: ${v} (${input.width}x${input.height}).`,
-    `CGPT direction ${d.directionId}: ${d.creativeIntent}`,
-    `GPT2 concept ${c.gpt2ConceptId}: ${c.name}`,
-    `Premise: ${c.premise}`,
-    `Visual system: ${c.visualSystem}`,
-    `Hierarchy: ${c.hierarchyStrategy}`,
-    `Layout: ${c.layoutStrategy}`,
-    v === 'MOBILE' ? `Mobile composition: ${c.mobileComposition}` : `Desktop composition: ${c.desktopComposition}`,
-    `Preserved: ${c.preservedFunctions.join('; ')}`,
-    `Prohibited: ${c.prohibitedChanges.join('; ')}`,
+    `Rendition slot: ${input.renditionSlot}.`,
+    `Rendition directive: ${input.renditionDirective}`,
+    `CGPT context ${c.creativeContextId}: ${c.visualDirection}`,
+    `GPT2 authority ${g.conceptId}: ${g.name}`,
+    `Premise: ${g.premise}`,
+    `Visual language: ${g.visualLanguage}`,
+    `Hierarchy: ${g.hierarchyStrategy}`,
+    `Composition: ${g.compositionStrategy}`,
+    v === 'MOBILE' ? `Mobile composition: ${g.mobileComposition}` : `Desktop composition: ${g.desktopComposition}`,
+    `Preserved: ${g.preservedFunctions.join('; ')}`,
+    `Prohibited: ${g.prohibitedChanges.join('; ')}`,
+    'Interpret the SAME GPT2 authority concept — do not invent a new product idea.',
     'Preserve all functional regions from reference screenshot.',
     `Contract: ${input.functionContract.version}`,
   ].join('\n');
@@ -50,8 +55,8 @@ function buildNbpPrompt(input: NbpRenderInput): string {
 export async function renderWorkspaceNbpJob(input: NbpRenderInput): Promise<NbpRenderResult> {
   if (process.env.VITEST === 'true') {
     return {
-      providerJobId: `vitest-nbp-${input.concept.conceptSlot}-${input.viewport}`,
-      imageBase64: mockPngBase64(`${input.concept.conceptSlot}-${input.viewport}`),
+      providerJobId: `vitest-nbp-${input.renditionSlot}-${input.viewport}`,
+      imageBase64: mockPngBase64(`${input.renditionSlot}-${input.viewport}`),
       model: 'vitest-nbp',
     };
   }
@@ -78,14 +83,14 @@ export async function renderWorkspaceNbpJob(input: NbpRenderInput): Promise<NbpR
   })) as { request_id?: string; data?: { images?: { url?: string }[] } };
 
   const imageUrl = result.data?.images?.[0]?.url;
-  if (!imageUrl) throw new Error('NBP_JOB_FAILED: empty image response');
+  if (!imageUrl) throw new Error('NBP_JOB_FAILED: no image returned');
 
   const imgRes = await fetch(imageUrl);
-  if (!imgRes.ok) throw new Error('NBP_JOB_FAILED: could not download image');
+  if (!imgRes.ok) throw new Error(`NBP_JOB_FAILED: fetch ${imgRes.status}`);
   const buf = Buffer.from(await imgRes.arrayBuffer());
 
   return {
-    providerJobId: result.request_id ?? `nbp-${Date.now()}`,
+    providerJobId: result.request_id ?? `fal-${Date.now()}`,
     imageBase64: buf.toString('base64'),
     model,
   };

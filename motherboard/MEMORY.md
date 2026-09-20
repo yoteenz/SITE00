@@ -10652,6 +10652,18 @@ Authority Pair rail on `/system/design/workspace-concepts` now binds to **GPT2/N
 
 ---
 
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CREATIVE-PIPELINE-R3
+
+Architectural correction: WORKSPACE_SELF generation is **1 CGPT creative context → 1 GPT2 authority concept → 3 NBP renditions (A/B/C) × Mobile + Desktop = 6 outputs** — not three independent CGPT/GPT2 concept chains.
+
+- **Models:** `WorkspaceCreativeContext`, `WorkspaceGPT2AuthorityConcept`, `WorkspaceConceptRendition`, `WorkspaceSelfConceptSet.schemaVersion` (`SINGLE_CONCEPT_MULTI_RENDITION` vs `LEGACY_MULTI_CONCEPT`); legacy `slots[]` preserved read-only via `pipelineLegacy.ts` + `normalizeWorkspaceSelfState`.
+- **API:** `generateWorkspaceCreativeContext.ts`, `generateWorkspaceGpt2AuthorityConcept.ts`; orchestrator `runWorkspaceSelfGeneration.ts` (CGPT×1, GPT2×1, NBP×6); `renditionPlanner.ts` for A/B/C directives; NBP prompt uses shared GPT2 authority.
+- **Plan/UI:** `cgptCalls: 1`, `gpt2Calls: 1`, `nbpRenditions: 3`; **GENERATE WORKSPACE CONCEPT**, **COMPARE RENDITIONS**, confirm panel 1/1/3/6; authority rail GPT2 source `<details>`; inspect lineage CGPT→GPT2→NBP.
+- **Tests:** `p0vrDesignWorkspaceSelfCreativePipelineR3.test.ts`; audit2 + nbp audit1 updated. **No provider spend** in vitest.
+- **Branch:** `cursor/design-workspace-self-creative-pipeline-r3-9f72`.
+
+---
+
 ## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT-SELECTION-SYNC1
 
 Unified WORKSPACE_SELF review UX on `/system/design/workspace-concepts`: one persisted `reviewUi` + shared selection/promotion state across gallery, authority rail, Compare Concepts overlay, Inspect, and Fullscreen.

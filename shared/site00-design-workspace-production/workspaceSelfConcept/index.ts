@@ -15,3 +15,5 @@ export * from './generationWorkflow.js';
 export * from './viewportAuthorityPreview.js';
 export * from './conceptArtifacts.js';
 export * from './reviewState.js';
+export * from './renditionPlanner.js';
+export * from './pipelineLegacy.js';

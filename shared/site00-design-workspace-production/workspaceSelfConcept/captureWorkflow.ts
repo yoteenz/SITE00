@@ -8,6 +8,12 @@ import type {
 import { WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
 import { WORKSPACE_CONCEPT_GENERATION_COUNT } from './constants.js';
 import { defaultReviewUiState, normalizeReviewUi } from './reviewState.js';
+import {
+  WORKSPACE_SELF_PIPELINE_SCHEMA_LEGACY,
+  WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE,
+} from './pipelineLegacy.js';
+import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
+import type { WorkspaceSelfConceptSet } from './generationTypes.js';
 
 function appendHistory(
   state: WorkspaceSelfWorkflowState,
@@ -20,6 +26,34 @@ function appendHistory(
   };
 }
 
+function normalizeConceptSet(conceptSet: WorkspaceSelfConceptSet | null): WorkspaceSelfConceptSet | null {
+  if (!conceptSet) return null;
+  if (conceptSet.schemaVersion) return conceptSet;
+  return { ...conceptSet, schemaVersion: WORKSPACE_SELF_PIPELINE_SCHEMA_LEGACY };
+}
+
+function normalizeCreativePipelineSet(
+  pipeline: WorkspaceSelfCreativePipelineSet | null,
+): WorkspaceSelfCreativePipelineSet | null {
+  if (!pipeline) return null;
+  if (pipeline.schemaVersion) return pipeline;
+  if (pipeline.slots?.length) {
+    return {
+      ...pipeline,
+      schemaVersion: WORKSPACE_SELF_PIPELINE_SCHEMA_LEGACY,
+      creativeContext: pipeline.creativeContext ?? null,
+      gpt2AuthorityConcept: pipeline.gpt2AuthorityConcept ?? null,
+      renditions: pipeline.renditions ?? [],
+    };
+  }
+  return {
+    ...pipeline,
+    schemaVersion: WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE,
+    renditions: pipeline.renditions ?? [],
+    slots: pipeline.slots,
+  };
+}
+
 export function normalizeWorkspaceSelfState(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {
   return {
     ...state,
@@ -27,8 +61,8 @@ export function normalizeWorkspaceSelfState(state: WorkspaceSelfWorkflowState): 
     captureSets: state.captureSets ?? [],
     activeCaptureSetId: state.activeCaptureSetId ?? null,
     lastCaptureFailure: state.lastCaptureFailure ?? null,
-    conceptSet: state.conceptSet ?? null,
-    creativePipelineSet: state.creativePipelineSet ?? null,
+    conceptSet: normalizeConceptSet(state.conceptSet ?? null),
+    creativePipelineSet: normalizeCreativePipelineSet(state.creativePipelineSet ?? null),
     generationJobs: state.generationJobs ?? [],
     generationStatus: state.generationStatus ?? 'IDLE',
     lastGenerationFailure: state.lastGenerationFailure ?? null,

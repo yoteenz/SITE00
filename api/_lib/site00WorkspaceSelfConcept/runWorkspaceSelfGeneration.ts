@@ -1,21 +1,22 @@
 import { WORKSPACE_CONCEPT_SLOT_IDS } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/constants.js';
 import type {
-  WorkspaceConceptPipelineSlot,
-  WorkspaceDiversityLedgerEntry,
+  WorkspaceConceptRendition,
   WorkspaceSelfCreativePipelineSet,
 } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/creativePipelineTypes.js';
+import { WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/pipelineLegacy.js';
 import {
   WORKSPACE_SELF_NBP_MODEL,
   buildWorkspaceSelfGenerationPlan,
 } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/generationPlan.js';
+import { planWorkspaceNbpRenditions } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/renditionPlanner.js';
 import type {
   WorkspaceSelfGeneratedArtifact,
   WorkspaceSelfGenerationPlan,
   WorkspaceSelfGenerationRunResult,
 } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/generationTypes.js';
 import type { WorkspaceSelfWorkflowState } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/types.js';
-import { generateWorkspaceCreativeDirection } from './generateWorkspaceCreativeDirection.js';
-import { generateWorkspaceSingleConcept } from './generateWorkspaceSingleConcept.js';
+import { generateWorkspaceCreativeContext } from './generateWorkspaceCreativeContext.js';
+import { generateWorkspaceGpt2AuthorityConcept } from './generateWorkspaceGpt2AuthorityConcept.js';
 import { renderWorkspaceNbpJob } from './renderWorkspaceNbpJob.js';
 
 export type GenerationCapturePayload = {
@@ -59,9 +60,8 @@ export async function runWorkspaceSelfGeneration(
   const retrySet = new Set(input.retryArtifactIds ?? []);
   const isRetry = retrySet.size > 0;
 
-  const slots: WorkspaceConceptPipelineSlot[] = [];
   const completed: WorkspaceSelfGeneratedArtifact[] = [];
-  const diversityLedger: WorkspaceDiversityLedgerEntry[] = [];
+  const conceptSetId = input.state.conceptSet?.conceptSetId ?? `wscs-pending-${Date.now()}`;
 
   const baseCtx = {
     functionContract: input.state.functionContract!,
@@ -71,113 +71,153 @@ export async function runWorkspaceSelfGeneration(
     ...SHARED_CTX,
   };
 
-  for (const conceptSlot of WORKSPACE_CONCEPT_SLOT_IDS) {
-    const slotState: WorkspaceConceptPipelineSlot = {
-      conceptSlot,
-      direction: null,
-      concept: null,
-    };
+  let creativeContext = input.state.creativePipelineSet?.creativeContext ?? null;
+  let gpt2Authority = input.state.creativePipelineSet?.gpt2AuthorityConcept ?? null;
+  let creativeContextError = input.state.creativePipelineSet?.creativeContextError;
+  let gpt2AuthorityError = input.state.creativePipelineSet?.gpt2AuthorityError;
 
-    let direction = input.state.creativePipelineSet?.slots.find((s) => s.conceptSlot === conceptSlot)?.direction ?? null;
-    let concept = input.state.creativePipelineSet?.slots.find((s) => s.conceptSlot === conceptSlot)?.concept ?? null;
+  const pipelineSetId = input.state.creativePipelineSet?.pipelineSetId ?? `wsp-${Date.now()}`;
 
-    const slotRetry = isRetry && [...retrySet].some((id) => id.includes(conceptSlot));
+  const reusePipeline = input.state.creativePipelineSet?.schemaVersion === WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE;
 
-    if (!isRetry || (slotRetry && !concept)) {
+  if (!isRetry || !reusePipeline || !creativeContext) {
+    try {
+      creativeContext = await generateWorkspaceCreativeContext({
+        captureSetId: plan.captureSetId,
+        ...baseCtx,
+      });
+      creativeContextError = undefined;
+    } catch (err) {
+      creativeContextError = err instanceof Error ? err.message : 'CGPT_CONTEXT_FAILED';
+      creativeContext = null;
+    }
+  }
+
+  if (creativeContext && !gpt2Authority && !gpt2AuthorityError) {
+    if (!isRetry || !reusePipeline) {
       try {
-        direction = await generateWorkspaceCreativeDirection({
-          conceptSlot,
-          diversityLedger: [...diversityLedger],
-          ...baseCtx,
+        gpt2Authority = await generateWorkspaceGpt2AuthorityConcept({
+          creativeContext,
+          functionContract: input.state.functionContract!,
+          sourceRoute: baseCtx.sourceRoute,
         });
-        slotState.direction = direction;
-        concept = await generateWorkspaceSingleConcept({ direction, ...baseCtx });
-        slotState.concept = concept;
-        diversityLedger.push({
-          conceptSlot,
-          name: concept.name,
-          spatialDirection: direction.spatialDirection,
-          hierarchyPriority: direction.hierarchyPriority,
-        });
+        gpt2AuthorityError = undefined;
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'CREATIVE_FAILED';
-        if (message.includes('CGPT')) slotState.directionError = message;
-        else slotState.conceptError = message;
-        slots.push(slotState);
-        continue;
+        gpt2AuthorityError = err instanceof Error ? err.message : 'GPT2_AUTHORITY_FAILED';
+        gpt2Authority = null;
       }
     } else {
-      slotState.direction = direction;
-      slotState.concept = concept;
+      gpt2Authority = input.state.creativePipelineSet?.gpt2AuthorityConcept ?? null;
     }
+  }
 
-    slots.push(slotState);
+  const renditionPlans = planWorkspaceNbpRenditions();
+  const renditions: WorkspaceConceptRendition[] = [];
 
-    if (!concept || !direction) continue;
+  if (creativeContext && gpt2Authority) {
+    for (const rp of renditionPlans) {
+      const renditionId = `wrend-${rp.slot}-${pipelineSetId}`;
+      let mobileArtifactId: string | null = null;
+      let desktopArtifactId: string | null = null;
+      let renditionFailed = false;
 
-    for (const viewport of ['MOBILE', 'DESKTOP'] as const) {
-      const artifactId = `wsga-${conceptSlot}-${viewport}`;
-      if (isRetry && !retrySet.has(artifactId)) continue;
+      for (const viewport of ['MOBILE', 'DESKTOP'] as const) {
+        const artifactId = `wsga-${rp.slot}-${viewport}`;
+        if (isRetry && !retrySet.has(artifactId)) {
+          const existing = input.state.generationJobs.find((j) => j.artifactId === artifactId && j.status === 'READY');
+          if (existing) {
+            if (viewport === 'MOBILE') mobileArtifactId = artifactId;
+            else desktopArtifactId = artifactId;
+          }
+          continue;
+        }
 
-      const running: WorkspaceSelfGeneratedArtifact = {
-        artifactId,
-        conceptId: conceptSlot,
-        territoryId: concept.gpt2ConceptId,
-        viewport,
-        captureSetId: plan.captureSetId,
-        functionContractId: plan.functionContractId,
-        creativeBriefSetId: `wsp-${plan.captureSetId}`,
-        creativeDirectionId: direction.directionId,
-        gpt2ConceptId: concept.gpt2ConceptId,
-        provider: 'NBP',
-        model: WORKSPACE_SELF_NBP_MODEL,
-        providerJobId: null,
-        promptVersion: plan.nbpPromptVersion,
-        createdAt: new Date().toISOString(),
-        status: 'RUNNING',
-        artifactPath: null,
-        imageUri: null,
-        width: viewport === 'MOBILE' ? input.mobileCapture.width : input.desktopCapture.width,
-        height: viewport === 'MOBILE' ? input.mobileCapture.height : input.desktopCapture.height,
-      };
-
-      try {
-        const ref =
-          viewport === 'MOBILE' ? input.mobileCapture.artifactBase64 : input.desktopCapture.artifactBase64;
-        const dims = viewport === 'MOBILE' ? input.mobileCapture : input.desktopCapture;
-        const render = await renderWorkspaceNbpJob({
-          concept,
-          direction,
+        const running: WorkspaceSelfGeneratedArtifact = {
+          artifactId,
+          conceptId: rp.slot,
+          renditionSlot: rp.slot,
+          territoryId: gpt2Authority.conceptId,
           viewport,
-          referenceImageBase64: ref,
-          width: dims.width,
-          height: dims.height,
-          functionContract: input.state.functionContract!,
-        });
-        completed.push({
-          ...running,
-          status: 'READY',
-          providerJobId: render.providerJobId,
-          imageUri: `data:image/png;base64,${render.imageBase64}`,
-        });
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'NBP_JOB_FAILED';
-        const stage = viewport === 'MOBILE' ? 'NBP_MOBILE_FAILED' : 'NBP_DESKTOP_FAILED';
-        completed.push({
-          ...running,
-          status: 'FAILED',
-          failureReason: `${stage}: ${message}`,
-        });
+          captureSetId: plan.captureSetId,
+          functionContractId: plan.functionContractId,
+          creativeBriefSetId: pipelineSetId,
+          creativeContextId: creativeContext.creativeContextId,
+          creativeDirectionId: creativeContext.creativeContextId,
+          gpt2ConceptId: gpt2Authority.conceptId,
+          sourceGpt2ConceptId: gpt2Authority.conceptId,
+          provider: 'NBP',
+          model: WORKSPACE_SELF_NBP_MODEL,
+          providerJobId: null,
+          promptVersion: plan.nbpPromptVersion,
+          createdAt: new Date().toISOString(),
+          status: 'RUNNING',
+          artifactPath: null,
+          imageUri: null,
+          width: viewport === 'MOBILE' ? input.mobileCapture.width : input.desktopCapture.width,
+          height: viewport === 'MOBILE' ? input.mobileCapture.height : input.desktopCapture.height,
+          renditionDirective: rp.renditionDirective,
+        };
+
+        try {
+          const ref =
+            viewport === 'MOBILE' ? input.mobileCapture.artifactBase64 : input.desktopCapture.artifactBase64;
+          const dims = viewport === 'MOBILE' ? input.mobileCapture : input.desktopCapture;
+          const render = await renderWorkspaceNbpJob({
+            gpt2Authority,
+            creativeContext,
+            renditionSlot: rp.slot,
+            renditionDirective: rp.renditionDirective,
+            viewport,
+            referenceImageBase64: ref,
+            width: dims.width,
+            height: dims.height,
+            functionContract: input.state.functionContract!,
+          });
+          completed.push({
+            ...running,
+            status: 'READY',
+            providerJobId: render.providerJobId,
+            imageUri: `data:image/png;base64,${render.imageBase64}`,
+          });
+          if (viewport === 'MOBILE') mobileArtifactId = artifactId;
+          else desktopArtifactId = artifactId;
+        } catch (err) {
+          renditionFailed = true;
+          const message = err instanceof Error ? err.message : 'NBP_JOB_FAILED';
+          const stage = viewport === 'MOBILE' ? 'NBP_MOBILE_FAILED' : 'NBP_DESKTOP_FAILED';
+          completed.push({
+            ...running,
+            status: 'FAILED',
+            failureReason: `${stage}: ${message}`,
+          });
+        }
       }
+
+      const readyBoth = Boolean(mobileArtifactId && desktopArtifactId);
+      renditions.push({
+        renditionId,
+        conceptSetId,
+        slot: rp.slot,
+        sourceGpt2ConceptId: gpt2Authority.conceptId,
+        mobileArtifactId,
+        desktopArtifactId,
+        status: readyBoth ? 'READY' : renditionFailed ? 'FAILED' : mobileArtifactId || desktopArtifactId ? 'PARTIAL' : 'PENDING',
+        renditionDirective: rp.renditionDirective,
+      });
     }
   }
 
   const pipelineSet: WorkspaceSelfCreativePipelineSet = {
-    pipelineSetId: `wsp-${Date.now()}`,
+    pipelineSetId,
     targetId: input.state.targetId,
     captureSetId: plan.captureSetId,
     functionContractId: plan.functionContractId,
-    slots,
+    schemaVersion: WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE,
+    creativeContext,
+    gpt2AuthorityConcept: gpt2Authority,
+    renditions,
+    creativeContextError,
+    gpt2AuthorityError,
     createdAt: new Date().toISOString(),
   };
 

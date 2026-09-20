@@ -1,4 +1,5 @@
-import { WORKSPACE_CONCEPT_SLOT_IDS } from './constants.js';
+import { WORKSPACE_CONCEPT_SLOT_IDS, workspaceRenditionLabel } from './constants.js';
+import { isLegacyMultiConceptPipeline } from './pipelineLegacy.js';
 import { resolveConceptArtifactId, resolveConceptArtifactRef, readyConceptJob } from './conceptArtifacts.js';
 import type {
   WorkspaceConceptSlotId,
@@ -226,7 +227,7 @@ export function promoteViewportConceptForReview(
   );
 }
 
-export type CompareConceptColumn = {
+export type CompareRenditionColumn = {
   conceptId: WorkspaceConceptSlotId;
   conceptName: string;
   premise: string;
@@ -234,35 +235,64 @@ export type CompareConceptColumn = {
   artifactId: string | null;
   badge: ConceptViewportBadge;
   isActive: boolean;
+  renditionDirective?: string | null;
 };
 
-export function buildCompareConceptColumns(
+/** @deprecated alias */
+export type CompareConceptColumn = CompareRenditionColumn;
+
+export function buildCompareRenditionColumns(
   state: WorkspaceSelfWorkflowState,
   viewport: 'MOBILE' | 'DESKTOP',
-): CompareConceptColumn[] {
+): CompareRenditionColumn[] {
   const reviewUi = normalizeReviewUi(state.reviewUi);
+  const gpt2Premise = state.creativePipelineSet?.gpt2AuthorityConcept?.premise ?? '';
   return WORKSPACE_CONCEPT_SLOT_IDS.map((conceptId) => {
     const concept = state.concepts.find((c) => c.conceptId === conceptId);
+    const rendition = state.creativePipelineSet?.renditions.find((r) => r.slot === conceptId);
     return {
       conceptId,
-      conceptName: concept?.conceptName ?? conceptId,
-      premise: concept?.conceptTerritory?.slice(0, 160) ?? '',
+      conceptName: concept?.conceptName ?? workspaceRenditionLabel(conceptId),
+      premise: (concept?.conceptTerritory ?? gpt2Premise).slice(0, 160),
       imageRef: resolveConceptArtifactRef(state, conceptId, viewport),
       artifactId: resolveConceptArtifactId(state, conceptId, viewport),
       badge: conceptViewportBadge(state, conceptId, viewport),
       isActive: reviewUi.activeConceptId === conceptId,
+      renditionDirective: rendition?.renditionDirective ?? null,
     };
   });
 }
 
+export function buildCompareConceptColumns(
+  state: WorkspaceSelfWorkflowState,
+  viewport: 'MOBILE' | 'DESKTOP',
+): CompareRenditionColumn[] {
+  return buildCompareRenditionColumns(state, viewport);
+}
+
 export function resolveInspectLineage(state: WorkspaceSelfWorkflowState, conceptId: WorkspaceConceptSlotId) {
-  const slot = state.creativePipelineSet?.slots.find((s) => s.conceptSlot === conceptId);
+  const pipeline = state.creativePipelineSet;
+  const legacy = isLegacyMultiConceptPipeline(pipeline);
+  const slot = legacy ? pipeline?.slots?.find((s) => s.conceptSlot === conceptId) : null;
+  const rendition = pipeline?.renditions.find((r) => r.slot === conceptId) ?? null;
   const mobileJob = readyConceptJob(state, conceptId, 'MOBILE');
   const desktopJob = readyConceptJob(state, conceptId, 'DESKTOP');
   return {
+    schemaVersion: pipeline?.schemaVersion ?? null,
+    cgptCreativeContext: pipeline?.creativeContext ?? null,
+    gpt2AuthorityConcept: pipeline?.gpt2AuthorityConcept ?? null,
+    nbpRendition: rendition,
+    /** @deprecated LEGACY_MULTI_CONCEPT */
     cgptDirection: slot?.direction ?? null,
+    /** @deprecated LEGACY_MULTI_CONCEPT */
     gpt2Concept: slot?.concept ?? null,
     mobileJob,
     desktopJob,
   };
+}
+
+export function resolveGpt2AuthoritySource(state: WorkspaceSelfWorkflowState) {
+  const gpt2 = state.creativePipelineSet?.gpt2AuthorityConcept ?? null;
+  const ctx = state.creativePipelineSet?.creativeContext ?? null;
+  return { creativeContext: ctx, gpt2AuthorityConcept: gpt2 };
 }

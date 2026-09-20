@@ -28,7 +28,7 @@ const read = (rel: string) => readFileSync(join(process.cwd(), rel), 'utf8');
 describe('WORKSPACE_SELF NBP integration audit', () => {
   it('workspace-concepts page uses WORKSPACE_SELF generate label, not PAGE path', () => {
     const page = read('src/site00/pages/SystemDesignWorkspaceConceptsPage.tsx');
-    expect(page).toContain('GENERATE 3 WORKSPACE CONCEPTS');
+    expect(page).toContain('GENERATE WORKSPACE CONCEPT');
     expect(page).not.toContain('GENERATE PAGE CONCEPTS');
     expect(read('src/site00/hooks/useWorkspaceSelfConcept.ts')).toContain('runWorkspaceSelfConceptGeneration');
   });
@@ -52,13 +52,14 @@ describe('WORKSPACE_SELF NBP integration audit', () => {
     s = compileAndFreezeFunctionContract(s);
     const plan = buildWorkspaceSelfGenerationPlan(s);
     expect(plan.targetType).toBe('WORKSPACE_SELF');
-    expect(plan.cgptCalls).toBe(3);
-    expect(plan.gpt2Calls).toBe(3);
+    expect(plan.cgptCalls).toBe(1);
+    expect(plan.gpt2Calls).toBe(1);
+    expect(plan.nbpRenditions).toBe(3);
     expect(plan.nbpJobs).toBe(6);
     expect(listExpectedNbpJobKeys()).toHaveLength(6);
   });
 
-  it('sequential pipeline produces 3 GPT2 concepts and 6 NBP jobs under vitest', async () => {
+  it('sequential pipeline produces 1 GPT2 authority and 6 NBP jobs under vitest', async () => {
     let s = createInitialWorkspaceSelfState();
     s = compileAndFreezeFunctionContract(s);
     s = beginWorkspaceSelfCaptureSet(s, { build: 'test', createdBy: 'f' });
@@ -80,9 +81,10 @@ describe('WORKSPACE_SELF NBP integration audit', () => {
       desktopCapture: { captureId: 'd1', artifactBase64: 'bbb', width: 1440, height: 1024 },
     });
 
-    expect(result.pipelineSet.slots.filter((x) => x.concept).length).toBe(3);
+    expect(result.pipelineSet.gpt2AuthorityConcept).toBeTruthy();
+    expect(result.pipelineSet.renditions).toHaveLength(3);
     expect(result.jobs).toHaveLength(6);
-    expect(new Set(result.jobs.map((j) => j.gpt2ConceptId)).size).toBe(3);
+    expect(new Set(result.jobs.map((j) => j.gpt2ConceptId)).size).toBe(1);
     expect(result.plan.functionContractVersion).toBe(WORKSPACE_FUNCTION_CONTRACT_VERSION);
   });
 

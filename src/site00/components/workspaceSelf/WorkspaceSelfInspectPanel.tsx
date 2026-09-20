@@ -68,6 +68,15 @@ export function WorkspaceSelfInspectPanel({
             VIEW FULLSCREEN
           </button>
         </div>
+        <div className="site00-wssc__lineageChain" data-testid="workspace-self-inspect-lineage">
+          <p>
+            <strong>CGPT context</strong> → <strong>GPT2 concept</strong> →{' '}
+            <strong>NBP rendition {conceptId.replace('CONCEPT_', '')}</strong>
+          </p>
+          {lineage.gpt2AuthorityConcept ?
+            <p className="site00-wssc__muted">Shared GPT2: {lineage.gpt2AuthorityConcept.name}</p>
+          : null}
+        </div>
         <details className="site00-wssc__technical">
           <summary>TECHNICAL DETAILS / GENERATION LINEAGE</summary>
           <pre className="site00-wssc__lineagePre">{JSON.stringify(lineage, null, 2)}</pre>
