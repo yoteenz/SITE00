@@ -2,8 +2,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   DESIGN_PAGE_CAPTURE_UPDATED_EVENT,
+  getPageConceptSourceCaptures,
   isPageCaptureDisplayableArtifact,
-  loadPageCaptureHistory,
 } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import {
   applyPageConceptPipelineSet,
@@ -55,7 +55,7 @@ async function buildPageConceptCapturePayload(
   const dims =
     viewport === 'MOBILE' ?
       { width: 390, height: 844 }
-    : { width: 1440, height: 1024 };
+    : { width: 1440, height: 900 };
   const path = record.artifactPath;
   if (!isPageCaptureDisplayableArtifact(path)) {
     throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
@@ -116,6 +116,14 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
 
   const openGenerationConfirm = useCallback(async () => {
     setError(null);
+    const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
+    if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION') {
+      setError(currentReadiness);
+      setOverlayOpen(true);
+      setOverlayMode('confirm');
+      setPendingPlan(null);
+      return;
+    }
     let localPlan: PageConceptGenerationPlan;
     try {
       localPlan = buildPageConceptGenerationPlan(projectId, pageId);
@@ -152,13 +160,16 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     if (generating) return;
     setGenerating(true);
     setError(null);
-    setOverlayMode('progress');
     try {
+      const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
+      if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION') {
+        throw new Error(currentReadiness);
+      }
       const current = loadPageConceptGenerationState(projectId, pageId);
-      const mobile = loadPageCaptureHistory(projectId, pageId, 'MOBILE').latest;
-      const desktop = loadPageCaptureHistory(projectId, pageId, 'DESKTOP').latest;
+      const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
       if (!mobile?.artifactPath || !desktop?.artifactPath) throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
 
+      setOverlayMode('progress');
       persist((s) => ({ ...s, generationStatus: 'CGPT_RUNNING' }));
 
       const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');

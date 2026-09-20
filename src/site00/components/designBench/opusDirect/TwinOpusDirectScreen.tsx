@@ -398,6 +398,7 @@ export function TwinOpusDirectScreen({
         status={workspace.pageConceptGeneration.generationStatus}
         error={workspace.pageConceptGeneration.error}
         generating={workspace.pageConceptGeneration.generating}
+        confirmReady={workspace.pageConceptGeneration.ready}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
         onConfirm={() => void workspace.pageConceptGeneration.confirmGeneration()}
       />
