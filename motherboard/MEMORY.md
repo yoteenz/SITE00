@@ -10759,3 +10759,14 @@ Founder on **site00.fsbw-dev.com** (Vite tunnel): pipeline overlay showed **UNAU
 - **Cause:** **`/api/site00/implementation-snapshots`** (CAPTURE) has **no auth**; **`/api/site00/page-concept-generation`** requires **Supabase Bearer** on **api.site00.com**. Preview tunnel can show DESIGN signed-in locally without a valid API token (iOS reload / no Ctrl Room session).
 - **Fix:** `ensurePageConceptApiAccessToken` preflight; GENERATE disabled until token; 401 retry + human **`SIGN IN REQUIRED`** copy (not raw UNAUTHORIZED); auth fail resets overlay to confirm/IDLE.
 - **Branch:** `cursor/page-concept-api-auth-9f72`. Founder: sign in on the **same tab** before GENERATE, or use **production ZIP** on site00.com; still need **Mobile + Desktop** captures.
+
+---
+
+## 2026-09-20 — Page capture Supabase hydrate (tunnel vs prod localStorage leak)
+
+Founder: **both screenshots exist** but **GENERATE PAGE CONCEPTS** still disabled; **DESKTOP NEEDED** / **DESKTOP AUTHORITY** blocker after refresh; re-capture on every reload.
+
+- **Leak:** Page concept readiness reads **`localStorage`** (`site00:design-page-capture:v1:*`). Railway CAPTURE uploads to **Supabase** (`publicUrl`) but the UI **never re-hydrated** from `GET /api/site00/implementation-snapshots` on load. **fsbw-dev.com** vs **site00.com** = different origins → different buckets. Viewport band **DESKTOP NEEDED** was also **registry-only** (`overview` had no `desktopPreviewUrl`; only `desktop-overview` screen had static ref) — separate from implementation CURRENT captures.
+- **Fix:** `designPageCaptureHydrate.ts` + `useHydrateDesignPageCaptures` on DESIGN workspace mount (fetch latest mobile/desktop snapshots → `appendPageCapture`); `enrichAuthoritiesWithImplementationCaptures` + `syncAuthorityRefsFromPageCaptures` tie Supabase captures into authority refs / pipeline; NDX **overview** maps to desktop composite ref.
+- **Still required for GENERATE on tunnel:** **Supabase session** on same tab (`SIGN IN REQUIRED` copy from #1037). CAPTURE base URL already follows tunnel origin (`resolveFounderCaptureBaseUrl`).
+- **Branch:** `cursor/design-page-capture-supabase-hydrate-9f72`.

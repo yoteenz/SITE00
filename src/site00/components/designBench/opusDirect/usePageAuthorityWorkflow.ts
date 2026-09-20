@@ -22,6 +22,16 @@ export function usePageAuthorityWorkflow(projectId: string, pageId: string) {
     setWorkflow(loadPageAuthorityWorkflow(projectId, pageId));
   }, [pageId, projectId]);
 
+  useEffect(() => {
+    const reload = () => setWorkflow(loadPageAuthorityWorkflow(projectId, pageId));
+    window.addEventListener('site00:design-page-authority-hydrated', reload);
+    window.addEventListener('site00:design-page-capture-updated', reload);
+    return () => {
+      window.removeEventListener('site00:design-page-authority-hydrated', reload);
+      window.removeEventListener('site00:design-page-capture-updated', reload);
+    };
+  }, [pageId, projectId]);
+
   const persist = useCallback(
     (next: PageAuthorityWorkflowState) => {
       savePageAuthorityWorkflow(projectId, pageId, next);

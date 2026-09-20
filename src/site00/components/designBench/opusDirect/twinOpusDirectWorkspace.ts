@@ -88,6 +88,7 @@ import {
 } from './useTwinOpusDirectProduction';
 import { useDesignPageCapture } from './useDesignPageCapture';
 import { usePageAuthorityWorkflow } from './usePageAuthorityWorkflow';
+import { useHydrateDesignPageCaptures } from './useHydrateDesignPageCaptures';
 import { usePageConceptGeneration } from './usePageConceptGeneration';
 import {
   resolveActiveAuthorityImage,
@@ -259,6 +260,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [pageConceptRevision, setPageConceptRevision] = useState(0);
 
   const pageConceptGeneration = usePageConceptGeneration(projectSlug, pageTarget.pageId);
+
+  useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId);
 
   const pageCapture = useDesignPageCapture(
     projectSlug,

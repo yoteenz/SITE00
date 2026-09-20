@@ -124,6 +124,7 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     expect(hook).toContain('usePageConceptGeneration(projectId: string, pageId: string)');
     const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
     expect(workspace).toContain('usePageConceptGeneration(projectSlug, pageTarget.pageId)');
+    expect(workspace).toContain('useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId)');
   });
 
   it('PAGE target never routes into WORKSPACE_SELF generation API', () => {

@@ -3,6 +3,10 @@
  * promotions, CGPT collaboration, and Composer handoff packages.
  */
 
+import {
+  getPageConceptSourceCaptures,
+  isPageCaptureDisplayableArtifact,
+} from './designPageCapture.js';
 import { loadPageViewportAuthorities } from './designProjectBinding/pageViewportAuthority.js';
 
 export type ViewportAuthorityReferenceStatus = 'DRAFT' | 'ACTIVE' | 'SUPERSEDED';
@@ -158,14 +162,58 @@ function appendHistory(
   };
 }
 
+function patchAuthorityRefFromCapture(
+  ref: ViewportAuthorityReference,
+  artifactPath: string | null | undefined,
+): ViewportAuthorityReference {
+  const url = artifactPath?.trim();
+  if (!url || !isPageCaptureDisplayableArtifact(url)) return ref;
+  if (resolveActiveAuthorityImage(ref)) return ref;
+  return {
+    ...ref,
+    updatedAt: new Date().toISOString(),
+    versions: ref.versions.map((v) =>
+      v.versionId === ref.activeVersionId ? { ...v, imageUrl: url, status: 'ACTIVE' } : v,
+    ),
+  };
+}
+
+/** When registry/static refs are empty, bind Supabase implementation captures into authority refs. */
+export function syncAuthorityRefsFromPageCaptures(
+  projectId: string,
+  pageId: string,
+  state: PageAuthorityWorkflowState,
+): PageAuthorityWorkflowState {
+  const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+  const next: PageAuthorityWorkflowState = {
+    ...state,
+    mobileAuthority: patchAuthorityRefFromCapture(state.mobileAuthority, mobile?.artifactPath),
+    desktopAuthority: patchAuthorityRefFromCapture(state.desktopAuthority, desktop?.artifactPath),
+  };
+  if (
+    next.mobileAuthority === state.mobileAuthority &&
+    next.desktopAuthority === state.desktopAuthority
+  ) {
+    return state;
+  }
+  return appendHistory(next, 'authority_synced_from_capture', 'Authority refs synced from implementation captures');
+}
+
 export function loadPageAuthorityWorkflow(projectId: string, pageId: string): PageAuthorityWorkflowState {
   if (typeof localStorage === 'undefined') {
     return createInitialPageAuthorityWorkflow(projectId, pageId);
   }
   try {
     const raw = localStorage.getItem(storageKey(projectId, pageId));
-    if (!raw) return createInitialPageAuthorityWorkflow(projectId, pageId);
-    return JSON.parse(raw) as PageAuthorityWorkflowState;
+    const base =
+      raw ?
+        (JSON.parse(raw) as PageAuthorityWorkflowState)
+      : createInitialPageAuthorityWorkflow(projectId, pageId);
+    const synced = syncAuthorityRefsFromPageCaptures(projectId, pageId, base);
+    if (synced !== base) {
+      localStorage.setItem(storageKey(projectId, pageId), JSON.stringify(synced));
+    }
+    return synced;
   } catch {
     return createInitialPageAuthorityWorkflow(projectId, pageId);
   }
