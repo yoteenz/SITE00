@@ -46,7 +46,7 @@ export type PageConceptGeneratorResultSlots = {
 export type PageConceptSourceCapturePresentation = {
   viewport: 'MOBILE' | 'DESKTOP';
   label: string;
-  state: 'READY' | 'MISSING';
+  state: 'READY' | 'MISSING' | 'CHECKING';
 };
 
 export type PageConceptGeneratorPanelProps = {
@@ -320,7 +320,7 @@ export function PageConceptGeneratorPanel({
               data-viewport={line.viewport}
               data-state={line.state}
             >
-              {line.label} · {line.state}
+              {line.state === 'CHECKING' ? line.label : `${line.label} · ${line.state}`}
             </span>
           ))}
         </div>

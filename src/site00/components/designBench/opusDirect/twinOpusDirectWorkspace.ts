@@ -265,6 +265,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     projectSlug,
     pageTarget.pageId,
     pageTarget.screenId,
+    pageTarget.route,
   );
 
   useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId);
