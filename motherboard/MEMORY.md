@@ -10749,3 +10749,13 @@ Founder: overlay reached step 06 but **`BLOCKED_NO_SOURCE_CAPTURE`** — mobile 
 - **Fix:** `getPageConceptSourceCaptures` + canonical pageId on append; readiness/confirm use resolver; GENERATE disabled when not `ready`; progress overlay only after validation; desktop capture dims 1440×900.
 - **Verified:** `tests/pageConceptPipelineFounderReviewLive.test.ts` + `scripts/qa/page-concept-pipeline-founder-review-smoke.ts` → **`READY_FOR_FOUNDER_REVIEW`** (6/6 jobs, real Playwright captures, vitest provider mocks).
 - **Branch:** `cursor/page-concept-pipeline-founder-review-9f72`. Founder: **CAPTURE SCREEN on DESKTOP viewport** then GENERATE; deploy v571+.
+
+---
+
+## 2026-09-20 — Page concept GENERATE UNAUTHORIZED on fsbw-dev tunnel
+
+Founder on **site00.fsbw-dev.com** (Vite tunnel): pipeline overlay showed **UNAUTHORIZED** at step 06.
+
+- **Cause:** **`/api/site00/implementation-snapshots`** (CAPTURE) has **no auth**; **`/api/site00/page-concept-generation`** requires **Supabase Bearer** on **api.site00.com**. Preview tunnel can show DESIGN signed-in locally without a valid API token (iOS reload / no Ctrl Room session).
+- **Fix:** `ensurePageConceptApiAccessToken` preflight; GENERATE disabled until token; 401 retry + human **`SIGN IN REQUIRED`** copy (not raw UNAUTHORIZED); auth fail resets overlay to confirm/IDLE.
+- **Branch:** `cursor/page-concept-api-auth-9f72`. Founder: sign in on the **same tab** before GENERATE, or use **production ZIP** on site00.com; still need **Mobile + Desktop** captures.
