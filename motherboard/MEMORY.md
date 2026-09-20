@@ -10910,3 +10910,15 @@ Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgi
 - **CSS:** rail descriptions wrap on mobile; tighter metric/card typography; `pageConceptGeneratorFootSpendShowsMicroSummary()`.
 - **Tests:** `p0vrPageConceptGeneratorRollbackOverflowFix2.test.ts` (replaces FIX1 test).
 - **Branch:** `cursor/page-concept-generator-rollback-overflow-fix2-9f72`.
+
+---
+
+## 2026-09-20 — Tunnel GENERATE auth + GROK icon passes (CLEANUP2 then ICONS-ONLY3)
+
+Chat started with founder on **site00.fsbw-dev.com** unable to generate page concepts despite mobile + desktop captures. Screenshot showed **SIGN IN REQUIRED — GENERATE calls api.site00.com**.
+
+- **Why:** Captures were ready. GENERATE needs a Supabase Bearer on the **tunnel tab**; CAPTURE SCREEN does not. fsbw-dev does not share site00.com cookies. Viewport OK is design-authority, not source captures.
+- **CLEANUP2:** Staged tag/chip flattening + icon refine (`SITE00_PCG_LINE_V2`) on a separate branch; live panel not replaced.
+- **ICONS-ONLY3 (this pass):** Layout approved. Icon assets only. New family `SITE00_PCG_LINE_V3` as `site00-*.svg` under `public/site00/page-concept-generator/staged/icons-only3/`. CGPT/GPT2/NBP distinct; custom placeholders; related output family; no sparkle/lightbulb/speech/mountain. Live `AiConsoleIcon` bindings, copy, chip/button geometry, and pipeline unchanged.
+- **Tests:** `tests/p0vrPageConceptGeneratorGrokIconsOnly3.test.ts`.
+- **Branch:** `cursor/page-concept-generator-grok-icons-only3-b747`.
