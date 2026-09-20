@@ -10787,9 +10787,19 @@ Founder still saw **GENERATE** disabled with **`BLOCKED_NO_SOURCE_CAPTURE`** whi
 
 ## 2026-09-20 — Tunnel showed older Design than GoDaddy (dev vs production dist)
 
-Founder: **site00.fsbw-dev.com** regressed to an **older Design** than **site00.com**.
+Founder: cloud **preview tunnel** regressed to an **older Design** than **site00.com**.
 
 - **Cause (not a Design code rollback):** Tunnel pointed at **Vite dev** (`npm run dev` on :5174) from a **stale cloud VM checkout** / long-lived `site00_vite` tmux session. **GoDaddy** serves **production `dist/`** from manual/GitHub Release ZIP. Different bundle + different commit → tunnel looked “behind.”
 - **Fix:** `.cursor/scripts/run-site00-cloud-preview-server.sh` — default **`vite preview`** of production **`dist/`** after `git fetch` + ff-only **`main`** + rebuild when HEAD ≠ `dist/release-manifest.json` `commitSha`. `environment.json` `site00-vite` terminal uses this script. Parity check: `/release-manifest.json` on tunnel vs site00.com.
 - **HMR for agents:** `SITE00_CLOUD_PREVIEW_MODE=dev`.
 - **Branch:** `cursor/tunnel-production-parity-9f72`.
+
+---
+
+## 2026-09-20 — Tunnel still wrong Design despite same commitSha (CI artifact vs VM build)
+
+Founder: CI **#462** deploy **2f78b3b** succeeded; preview tunnel still looked **older** than site00.com.
+
+- **Cause:** Preview served **VM `npm run build`** (`index.D42wYVRS.js`, `app-build-id=mu9w3hn0`) while GoDaddy had **CI artifact** (`index.CtFQ3tLv.js`, `app-build-id=2f78b3b403f2`). Same `commitSha` in manifest, **different bundles** — local build without `GITHUB_SHA` + different env ≠ Actions `deploy_frontend` output.
+- **Fix:** `download-site00-ci-production-dist.sh` + preview server mode **`ci`** (default): `gh run download` artifact `site00-production-dist` from latest successful `site00-production-deploy.yml` run for HEAD (else latest main). Copied to `dist/` → `vite preview :5174`. Verified public preview HTML matches site00.com bundle entry.
+- **Branch:** `cursor/tunnel-ci-artifact-sync-9f72`.
