@@ -61,6 +61,8 @@ export type PageConceptGeneratorPanelProps = {
   generateDisabled?: boolean;
   generateDisabledReason?: string | null;
   generateBusyLabel?: string | null;
+  /** Overrides default GENERATE label (e.g. RETRY GENERATION after failure). */
+  generateLabel?: string;
   /** Surfaced verbatim in the footer; the shell never interprets it. */
   notice?: string | null;
   noticeTestId?: string;
@@ -273,6 +275,7 @@ export function PageConceptGeneratorPanel({
   generateDisabled,
   generateDisabledReason,
   generateBusyLabel,
+  generateLabel,
   notice,
   noticeTestId,
   reviewBanner,
@@ -429,7 +432,7 @@ export function PageConceptGeneratorPanel({
             <span className="s00-pcg__generateGlyph" aria-hidden="true">
               <AiConsoleIcon name="grok-generate" size={13} />
             </span>
-            {generateBusyLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
+            {generateBusyLabel || generateLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
           </button>
           <button
             type="button"

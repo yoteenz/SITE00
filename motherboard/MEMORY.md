@@ -10995,3 +10995,14 @@ CI **SITE 00 Production Release** failed `p0vrPageConceptGeneratorOpusShell1` �
 - **Cause:** IMPOSSIBLE-BLOCKER added `fetch('/release-manifest.json')` inside `PageConceptGenerationOverlay.tsx` for Technical details forensics.
 - **Fix:** `usePageConceptReleaseForensics.ts` holds manifest fetch; overlay imports hook only (behavior unchanged).
 - **Branch:** `cursor/opus-shell-release-manifest-hook-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-PANEL-WIDTH-AND-ERROR-RECOVERY1
+
+Production: narrow left GENERATE PAGE CONCEPTS modal + silent generation failures.
+
+- **Width root cause:** `PageConceptGenerationOverlay` added `<details class="s00-pcg__forensics">` as flex **row** sibling of `PageConceptGeneratorPanel` inside `.s00-pcg-layer__box` (default `display:flex`), shrinking panel ~50%. Fix: `flex-direction:column`, wrap panel in `.s00-pcg-layer__main` (`width:100%`), forensics `position:absolute`.
+- **Silent failure:** (1) `derivePageConceptGenerationBlockingState` confirm+`canGenerate` forced `founderNotice` null ignoring `executionError`; (2) sanitizer `isPageConceptSourceCaptureRelatedNotice` too broad (stripped real payload errors mentioning “source capture”); (3) `openGenerationConfirm` cleared errors; plan API catch swallowed failures. Fix: narrow `isPageConceptStaleCaptureEligibilityNotice`, show execution errors in confirm, restore persisted `lastFailure`, surface plan errors, `RETRY GENERATION` label, attempt forensics helper.
+- **Tests:** `p0vrPageConceptPanelWidthAndErrorRecovery1.test.ts`.
+- **Branch:** `cursor/page-concept-panel-width-error-recovery1-b747`.

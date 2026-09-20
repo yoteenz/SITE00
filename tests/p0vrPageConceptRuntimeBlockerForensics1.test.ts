@@ -96,6 +96,25 @@ describe('P0.VR.PAGE-CONCEPT-RUNTIME-BLOCKER-FORENSICS1', () => {
     expect(blocking.founderNotice).toBeNull();
   });
 
+  it('confirm mode + canGenerate + execution API error → founder notice visible', () => {
+    const pageId = overviewPageId();
+    seedBoth(pageId);
+    const eligibility = buildPageConceptGenerationEligibility({
+      projectSlug: 'ndxbook',
+      pageId,
+      screenId: 'overview',
+      sessionReady: true,
+      hydrationStatus: 'ready',
+    });
+    const apiError = 'OPENAI API REQUEST FAILED';
+    const blocking = derivePageConceptGenerationBlockingState({
+      eligibility,
+      executionError: apiError,
+      mode: 'confirm',
+    });
+    expect(blocking.founderNotice).toBe(apiError);
+  });
+
   it('regression: READY captures cannot render source-capture founder notice', () => {
     const pageId = overviewPageId();
     seedBoth(pageId);

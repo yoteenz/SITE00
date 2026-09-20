@@ -6,7 +6,11 @@ import {
   assertPageConceptEligibilityInvariants,
   type PageConceptGenerationEligibility,
 } from './pageConceptGenerationEligibility.js';
-import { sanitizePageConceptFounderNotice } from './pageConceptFounderNotice.js';
+import {
+  isPageConceptStaleCaptureEligibilityNotice,
+  sanitizePageConceptFounderNotice,
+} from './pageConceptFounderNotice.js';
+
 export type PageConceptGenerationBlockingState = {
   /** Eligibility-only notice (confirm gate). */
   eligibilityNotice: string | null;
@@ -17,22 +21,9 @@ export type PageConceptGenerationBlockingState = {
   primaryBlockerCode: string | null;
 };
 
+/** @deprecated Prefer isPageConceptStaleCaptureEligibilityNotice for sanitization. */
 export function isPageConceptSourceCaptureRelatedNotice(notice: string | null | undefined): boolean {
-  if (!notice?.trim()) return false;
-  const raw = notice.trim();
-  return (
-    raw === 'BLOCKED_NO_SOURCE_CAPTURE' ||
-    raw === 'BLOCKED_NO_MOBILE_CAPTURE' ||
-    raw === 'BLOCKED_NO_DESKTOP_CAPTURE' ||
-    /capture the current mobile/i.test(raw) ||
-    /capture the current desktop/i.test(raw) ||
-    /implementation source capture missing/i.test(raw) ||
-    /missing implementation source capture/i.test(raw) ||
-    /source capture required/i.test(raw) ||
-    /mobile capture required/i.test(raw) ||
-    /desktop capture required/i.test(raw) ||
-    /blocked · source capture required/i.test(raw)
-  );
+  return isPageConceptStaleCaptureEligibilityNotice(notice);
 }
 
 function finalizeFounderNotice(
@@ -53,7 +44,7 @@ export function sanitizePageConceptExecutionError(
   if (!executionError) return null;
   if (
     eligibility.sourceCaptureValidation.allRequiredReady &&
-    isPageConceptSourceCaptureRelatedNotice(executionError)
+    isPageConceptStaleCaptureEligibilityNotice(executionError)
   ) {
     if (import.meta.env?.DEV) {
       console.warn('STALE_CONFIRM_NOTICE_CLEARED', executionError);
@@ -73,12 +64,13 @@ export function derivePageConceptGenerationBlockingState(input: {
 
   if (input.mode === 'confirm') {
     if (eligibility.canGenerate) {
-      assertNoImpossibleSourceBlocker(eligibility, null);
+      const founderNotice = finalizeFounderNotice(eligibility, executionError);
+      assertNoImpossibleSourceBlocker(eligibility, founderNotice);
       return {
         eligibilityNotice: null,
         executionError,
-        founderNotice: finalizeFounderNotice(eligibility, null),
-        primaryBlockerCode: null,
+        founderNotice,
+        primaryBlockerCode: executionError ? 'EXECUTION_ERROR' : null,
       };
     }
     const eligibilityNotice =
@@ -126,11 +118,11 @@ function assertNoImpossibleSourceBlocker(
     v.mobile.ready &&
     v.desktop.ready &&
     renderedNotice &&
-    isPageConceptSourceCaptureRelatedNotice(renderedNotice)
+    isPageConceptStaleCaptureEligibilityNotice(renderedNotice)
   ) {
     console.error('PAGE_CONCEPT_IMPOSSIBLE_SOURCE_BLOCKER', { eligibility, renderedNotice });
   }
-  if (eligibility.canGenerate && renderedNotice && isPageConceptSourceCaptureRelatedNotice(renderedNotice)) {
+  if (eligibility.canGenerate && renderedNotice && isPageConceptStaleCaptureEligibilityNotice(renderedNotice)) {
     console.error('PAGE_CONCEPT_IMPOSSIBLE_SOURCE_BLOCKER', { eligibility, renderedNotice });
   }
 }

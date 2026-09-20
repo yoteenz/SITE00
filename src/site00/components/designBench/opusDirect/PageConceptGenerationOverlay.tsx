@@ -184,6 +184,7 @@ export function PageConceptGenerationOverlay({
         onClick={() => !generating && onCancel()}
       />
       <div className="s00-pcg-layer__box">
+        <div className="s00-pcg-layer__main">
         <PageConceptGeneratorPanel
           projectLabel={plan?.projectLabel ?? generationState.projectId}
           pageLabel={plan?.pageLabel ?? generationState.pageId}
@@ -192,7 +193,13 @@ export function PageConceptGenerationOverlay({
           stageStates={stageStates}
           results={results}
           notice={founderNotice}
-          noticeTestId={mode === 'confirm' && !plan && founderNotice ? 'page-concept-generation-blocked' : undefined}
+          noticeTestId={
+            founderNotice ?
+              blockingState?.executionError ?
+                'page-concept-generation-error'
+              : 'page-concept-generation-blocked'
+            : undefined
+          }
           reviewBanner={
             reviewReady && !generating ? 'READY FOR FOUNDER REVIEW — CLOSE TO USE GALLERY & AUTHORITY RAIL.' : null
           }
@@ -200,6 +207,11 @@ export function PageConceptGenerationOverlay({
           generateDisabled={generateDisabled}
           generateDisabledReason={founderNotice}
           generateBusyLabel={generateBusyLabel}
+          generateLabel={
+            !generating && blockingState?.executionError && !failedNbp ?
+              'RETRY GENERATION'
+            : undefined
+          }
           secondaryAction={
             failedNbp && !generating ?
               {
@@ -214,6 +226,7 @@ export function PageConceptGenerationOverlay({
           onCancel={onCancel}
           onClose={onCancel}
         />
+        </div>
         {generationEligibility && blockingState ?
           <details className="s00-pcg__forensics" data-testid="page-concept-forensics">
             <summary>Technical details</summary>

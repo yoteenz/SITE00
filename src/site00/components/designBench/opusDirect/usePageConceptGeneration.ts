@@ -16,10 +16,11 @@ import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-des
 import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
   derivePageConceptGenerationBlockingState,
-  isPageConceptSourceCaptureRelatedNotice,
   sanitizePageConceptExecutionError,
   type PageConceptGenerationBlockingState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
+import { isPageConceptStaleCaptureEligibilityNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
+import { recordPageConceptGenerationAttemptForensics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationAttemptForensics.js';
 import {
   buildPageConceptGenerationEligibility,
   type PageConceptCaptureHydrationStatus,
@@ -234,7 +235,7 @@ export function usePageConceptGeneration(
     if (!generationEligibility.sourceCaptureValidation.allRequiredReady) return;
     setExecutionError((prev) => sanitizePageConceptExecutionError(generationEligibility, prev));
     persist((s) => {
-      if (!s.lastFailure?.message || !isPageConceptSourceCaptureRelatedNotice(s.lastFailure.message)) {
+      if (!s.lastFailure?.message || !isPageConceptStaleCaptureEligibilityNotice(s.lastFailure.message)) {
         return s;
       }
       return { ...s, lastFailure: null };
@@ -242,7 +243,6 @@ export function usePageConceptGeneration(
   }, [generationEligibility, persist]);
 
   const openGenerationConfirm = useCallback(async () => {
-    setExecutionError(null);
     setOverlayOpen(true);
     setOverlayMode('confirm');
     setPendingPlan(null);
@@ -263,6 +263,14 @@ export function usePageConceptGeneration(
       sessionReady: !!token,
       hydrationStatus: 'ready',
     });
+
+    const loadedForError = loadPageConceptGenerationState(projectId, pageId);
+    setExecutionError((prev) =>
+      sanitizePageConceptExecutionError(
+        eligibility,
+        prev ?? loadedForError.lastFailure?.message ?? null,
+      ),
+    );
 
     if (!eligibility.canGenerate) {
       return;
@@ -288,8 +296,19 @@ export function usePageConceptGeneration(
     try {
       const remotePlan = await planPageConceptGenerationApi(current);
       setPendingPlan(remotePlan);
-    } catch {
-      /* local plan already shown — no provider spend */
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'PLAN_FAILED';
+      setExecutionError(message);
+      recordPageConceptGenerationAttemptForensics({
+        requestId: `plan-${Date.now()}`,
+        generationRunId: `${projectId}:${pageId}`,
+        stage: 'PLAN',
+        endpoint: '/api/page-concept-generation/plan',
+        httpStatus: null,
+        errorCode: message,
+        founderMessage: message,
+        retryable: true,
+      });
     }
   }, [pageId, persist, projectId, route, screenId]);
 
@@ -368,6 +387,16 @@ export function usePageConceptGeneration(
       const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
       setExecutionError(message);
       setOverlayMode('review');
+      recordPageConceptGenerationAttemptForensics({
+        requestId: `run-${Date.now()}`,
+        generationRunId: `${projectId}:${pageId}`,
+        stage: 'GENERATION',
+        endpoint: '/api/page-concept-generation/run',
+        httpStatus: null,
+        errorCode: message,
+        founderMessage: message,
+        retryable: true,
+      });
       if (message.includes('UNAUTHORIZED') || message.includes('SIGN IN')) {
         setApiSessionReady(false);
       }
