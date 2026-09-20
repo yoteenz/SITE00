@@ -27,9 +27,14 @@ import type {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import type { PageConceptCapturePayload } from '../../../services/pageConceptGenerationClient.js';
 import {
+  ensurePageConceptApiAccessToken,
+  PAGE_CONCEPT_SIGN_IN_REQUIRED,
+} from '../../../services/pageConceptApiSession.js';
+import {
   planPageConceptGenerationApi,
   runPageConceptGenerationApi,
 } from '../../../services/pageConceptGenerationClient.js';
+import { getAccessToken } from '../../../../utils/api.js';
 
 async function artifactPathToBase64(path: string): Promise<string> {
   if (path.startsWith('data:')) {
@@ -84,6 +89,17 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [captureRevision, setCaptureRevision] = useState(0);
+  const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void getAccessToken().then((token) => {
+      if (!cancelled) setApiSessionReady(!!token);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [captureRevision, pageId, projectId]);
 
   useEffect(() => {
     const onCapture = (event: Event) => {
@@ -99,9 +115,15 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     () => evaluatePageConceptReadiness(projectId, pageId),
     [projectId, pageId, captureRevision],
   );
-  const blockedReason = pageConceptBlockedReason(readiness);
+  const captureBlockedReason = pageConceptBlockedReason(readiness);
   const blockedResolution = pageConceptBlockedResolution(readiness);
-  const ready = readiness === 'READY_FOR_CREATIVE_INJECTION';
+  const blockedReason =
+    readiness !== 'READY_FOR_CREATIVE_INJECTION' ?
+      captureBlockedReason
+    : apiSessionReady === false ?
+      PAGE_CONCEPT_SIGN_IN_REQUIRED
+    : captureBlockedReason;
+  const ready = readiness === 'READY_FOR_CREATIVE_INJECTION' && apiSessionReady === true;
 
   const persist = useCallback(
     (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => {
@@ -117,8 +139,12 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
   const openGenerationConfirm = useCallback(async () => {
     setError(null);
     const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
-    if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION') {
-      setError(currentReadiness);
+    if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' || apiSessionReady !== true) {
+      setError(
+        currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' ?
+          currentReadiness
+        : PAGE_CONCEPT_SIGN_IN_REQUIRED,
+      );
       setOverlayOpen(true);
       setOverlayMode('confirm');
       setPendingPlan(null);
@@ -146,7 +172,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     } catch {
       /* local plan already shown — no provider spend */
     }
-  }, [blockedReason, pageId, persist, projectId]);
+  }, [apiSessionReady, blockedReason, pageId, persist, projectId]);
 
   const cancelGeneration = useCallback(() => {
     if (generating) return;
@@ -165,6 +191,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
       if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION') {
         throw new Error(currentReadiness);
       }
+      await ensurePageConceptApiAccessToken();
       const current = loadPageConceptGenerationState(projectId, pageId);
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
       if (!mobile?.artifactPath || !desktop?.artifactPath) throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
@@ -197,9 +224,11 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     } catch (e) {
       const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
       setError(message);
+      setOverlayMode('confirm');
+      setApiSessionReady(false);
       persist((s) => ({
         ...s,
-        generationStatus: 'FAILED',
+        generationStatus: 'IDLE',
         lastFailure: { message, at: new Date().toISOString() },
       }));
     } finally {
