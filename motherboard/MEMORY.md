@@ -10637,3 +10637,15 @@ Sprint corrected WORKSPACE_SELF creative cardinality before founder spend: **CGP
 - **Tests:** `p0vrDesignWorkspaceSelfCreativePipelineAudit2.test.ts` (+ audit1 updated); **no provider spend** in vitest (`VITEST=true` mocks).
 - **OPUS/GROK:** not invoked in this pipeline.
 - **Branch:** `cursor/design-workspace-self-creative-pipeline-audit2-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-AUTHORITY-PAIR-BINDING1
+
+Authority Pair rail on `/system/design/workspace-concepts` now binds to **GPT2/NBP generation jobs** + selection/promotion/lock state — not design-bench CGPT authority fixtures.
+
+- **Resolver:** `viewportAuthorityPreview.ts` — `resolveViewportAuthorityPreview` / `resolveWorkspaceSelfAuthorityPairPresentation` (EMPTY → SELECTED → PROMOTED → PAIR_REVIEW → LOCKED; current `conceptSet.captureSetId` only).
+- **UI:** `WorkspaceSelfAuthorityPairPanel.tsx` sticky right rail beside concept gallery; mobile/desktop responsive grid.
+- **Merge tweak:** partial READY NBP jobs mark concept `STAGED` so gallery + rail stay selectable in sync.
+- **Tests:** `p0vrDesignWorkspaceSelfAuthorityPairBinding1.test.ts` (11).
+- **Branch:** `cursor/design-workspace-self-authority-pair-binding1-9f72`.
