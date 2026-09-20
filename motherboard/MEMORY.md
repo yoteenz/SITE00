@@ -10951,3 +10951,14 @@ Sprint: GENERATE PAGE CONCEPTS showed **MOBILE/DESKTOP · READY** while footer s
 - **Fix:** Canonical **`validatePageConceptSourceCaptures`** + **`buildPageConceptGenerationEligibility`** (`pageConceptSourceCaptureValidation.ts`, `pageConceptGenerationEligibility.ts`); hook exposes single `generationEligibility`, live `confirmNotice`, hydration gate (`checking` → no source blocker, SOURCE **CHECKING CAPTURES…**); overlay confirm mode uses `confirmNotice`; `readiness.ts` delegates capture gates to validator + canonical page id; package parity fingerprint helper; dev invariants `PAGE_CONCEPT_READINESS_STATE_DIVERGENCE` / `PAGE_CONCEPT_PREHYDRATION_BLOCKER`; fixed `site00:page-concept-generation-updated` listener via `designPageCaptureEventMatches`.
 - **Tests:** `p0vrPageConceptCaptureReadinessUnification1.test.ts` (13 cases).
 - **Branch:** `cursor/page-concept-capture-readiness-unification1-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1
+
+Sprint: Concept Candidate Gallery showed **Capture the current Mobile and Desktop…** with GENERATE disabled while Pipeline said **GENERATE PAGE CONCEPTS** (duplicate gates).
+
+- **Screenshot trace:** `TwinOpusDirectCanonicalView` / `TwinOpusDirectListView` empty gallery → `data.galleryGenerateBlockedReason` from `!pageConceptGeneration.ready` + `blockedReason`; copy from `pageConceptSourceCaptureBlockMessage`. Pipeline `buildPagePipelineControllerModel` used concept count only (`scrollGallery`) — no eligibility.
+- **Fix:** **`pageConceptGenerationGateFromEligibility`** — sole CTA gate; workspace exposes `pageConceptGenerationEligibility` + `pageConceptGenerationGate` (removed `galleryGenerateDisabled` / blocked reason duplicates); pipeline + `generatePageConcepts` handler consume same eligibility; hook hydrates captures on mount + sets ready on capture events; dev invariants `PAGE_CONCEPT_GENERATION_GATE_DIVERGENCE` / `STALE_CAPTURE_BLOCKER_COPY_RENDERED`.
+- **Tests:** `p0vrPageConceptGenerationGateSingleSource1.test.ts` (5 cases).
+- **Branch:** `cursor/page-concept-generation-gate-single-source1-b747`.
