@@ -62,7 +62,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('formats blocked capture notices for compact footer display only', () => {
     expect(pageConceptGeneratorNoticeLines('BLOCKED_NO_SOURCE_CAPTURE')).toEqual({
       headline: 'BLOCKED · SOURCE CAPTURE REQUIRED',
-      hint: 'CAPTURE MOBILE + DESKTOP BEFORE GENERATION',
+      hint: 'CAPTURE THE CURRENT MOBILE + DESKTOP PAGE BEFORE GENERATING CONCEPTS',
     });
   });
 

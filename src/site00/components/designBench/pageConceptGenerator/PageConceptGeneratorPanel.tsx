@@ -43,9 +43,16 @@ export type PageConceptGeneratorResultSlots = {
   nbpStageOverride?: ReactNode;
 };
 
+export type PageConceptSourceCapturePresentation = {
+  viewport: 'MOBILE' | 'DESKTOP';
+  label: string;
+  state: 'READY' | 'MISSING';
+};
+
 export type PageConceptGeneratorPanelProps = {
   projectLabel: string;
   pageLabel: string;
+  sourceCaptureLines?: readonly PageConceptSourceCapturePresentation[];
   stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
@@ -256,6 +263,7 @@ function StageCard({
 export function PageConceptGeneratorPanel({
   projectLabel,
   pageLabel,
+  sourceCaptureLines,
   stageStates,
   results = {},
   generateDisabled,
@@ -301,6 +309,22 @@ export function PageConceptGeneratorPanel({
         </div>
         <p className="s00-pcg__target">{pageConceptGeneratorTargetLine(projectLabel, pageLabel)}</p>
       </header>
+
+      {sourceCaptureLines && sourceCaptureLines.length > 0 ?
+        <div className="s00-pcg__source" aria-label="Implementation source captures" data-testid="page-concept-source-captures">
+          <span className="s00-pcg__sourceTitle">SOURCE</span>
+          {sourceCaptureLines.map((line) => (
+            <span
+              className="s00-pcg__sourceLine"
+              key={line.viewport}
+              data-viewport={line.viewport}
+              data-state={line.state}
+            >
+              {line.label} · {line.state}
+            </span>
+          ))}
+        </div>
+      : null}
 
       <div className="s00-pcg__summary" aria-label="Concept generation plan">
         <span className="s00-pcg__summaryGlyph" aria-hidden="true">

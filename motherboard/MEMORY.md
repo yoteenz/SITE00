@@ -10918,3 +10918,14 @@ Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgi
 - **Issue:** `p0vrDesignOpusAiConsoles1.test.ts` expected `OPUS_CONSOLE_TABS` ids `DESIGN/REVIEW/CONTEXT`; production model adds **SHELL** first (`OpusDesignShellPanel` in `DesignAgentDock`).
 - **Fix:** Test expects `['SHELL','DESIGN','REVIEW','CONTEXT']` + asserts `OpusDesignShellPanel` wiring.
 - **Branch:** `cursor/fix-opus-console-tabs-shell-test-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-SOURCE-CAPTURE-RESOLUTION-FIX1
+
+Sprint: **BLOCKED_NO_SOURCE_CAPTURE** while CURRENT showed a capture — unify CAPTURE SCREEN write path with GENERATE readiness read path.
+
+- **Root cause:** `appendPageCapture` canonicalizes `pageId` (e.g. `ndxbook:overview` → `ndxbook:/projects/ndxbook`) but `DESIGN_PAGE_CAPTURE_UPDATED_EVENT` carried canonical id while hooks compared strict registry id → **`captureRevision` never bumped** after capture (stale GENERATE block until modal reopen/hydrate).
+- **Fix:** `designPageIdentity.ts` (`resolveDesignPageIdentity`, `designPageCaptureEventMatches`); `resolveCurrentPageCapture`; readiness emits **`BLOCKED_NO_MOBILE_CAPTURE` / `BLOCKED_NO_DESKTOP_CAPTURE`** when one viewport missing (both Mobile+Desktop required); overlay **SOURCE · MOBILE/DESKTOP CAPTURE · READY/MISSING** strip; founder copy via `pageConceptSourceCaptureBlockMessage` (no raw enums); `sourceCaptureRefs.ts` documents client→API artifact refs (server cannot read localStorage).
+- **Tests:** `p0vrPageConceptSourceCaptureResolutionFix1.test.ts` (13 cases).
+- **Branch:** `cursor/page-concept-source-capture-resolution-fix1-b747`.
