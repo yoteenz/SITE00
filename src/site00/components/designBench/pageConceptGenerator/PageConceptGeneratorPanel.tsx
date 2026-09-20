@@ -142,7 +142,9 @@ function RenditionGroup({
       <div className="s00-pcg__groupRail">
         {group.slots.map((slot) => (
           <figure className="s00-pcg__rendition" key={slot.id}>
-            <ResultFrame slotId={slot.id} ratio="thumb" emptyLabel={slot.label}>
+            {/* A desktop rendition is a landscape frame — showing it in a phone
+                aspect would misrepresent what the founder is approving. */}
+            <ResultFrame slotId={slot.id} ratio={group.id === 'MOBILE' ? 'thumb' : 'wide'} emptyLabel={slot.label}>
               {slots[slot.id]}
             </ResultFrame>
             <figcaption className="s00-pcg__renditionCap">{slot.label}</figcaption>
@@ -183,7 +185,7 @@ function StageCard({
               stage.briefRows.map((row) => (
                 <li className="s00-pcg__briefRow" key={row.id} data-lead={row.lead ? 'true' : undefined}>
                   <span className="s00-pcg__briefGlyph" aria-hidden="true">
-                    <AiConsoleIcon name={row.icon} size={12} />
+                    <AiConsoleIcon name={row.icon} size={10} />
                   </span>
                   {row.label}
                 </li>
