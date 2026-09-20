@@ -148,7 +148,16 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     expect(overlay).toContain('PageConceptGeneratorPanel');
     expect(overlay).toContain('data-testid="page-concept-generation-overlay"');
     expect(overlay).toContain('page-concept-generation-blocked');
-    for (const prop of ['plan', 'generationState', 'error', 'generating', 'confirmReady', 'onCancel', 'onConfirm']) {
+    for (const prop of [
+      'plan',
+      'generationState',
+      'error',
+      'confirmNotice',
+      'generating',
+      'confirmReady',
+      'onCancel',
+      'onConfirm',
+    ]) {
       expect(overlay).toContain(prop);
     }
     const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
