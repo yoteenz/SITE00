@@ -8,6 +8,8 @@ import {
   OPUS_FORBIDDEN_MUTATION_SCOPE,
   seedWorkspaceConceptSlots,
 } from './constants.js';
+import { resolveConceptArtifactId, resolveConceptArtifactRef } from './conceptArtifacts.js';
+import { defaultReviewUiState } from './reviewState.js';
 import type {
   ComposerWorkspaceHandoffPackage,
   OpusDesignShellPackage,
@@ -55,6 +57,7 @@ export function createInitialWorkspaceSelfState(): WorkspaceSelfWorkflowState {
     generationJobs: [],
     generationStatus: 'IDLE',
     lastGenerationFailure: null,
+    reviewUi: defaultReviewUiState(),
     productionMutationLocked: true,
     history: [],
   };
@@ -179,7 +182,7 @@ export function openPairReview(state: WorkspaceSelfWorkflowState): WorkspaceSelf
   }
   return appendHistory(
     { ...state, pairReviewOpenedAt: state.pairReviewOpenedAt ?? new Date().toISOString() },
-    'workspace_pair_review_opened',
+    'workspace_self_pair_review_opened',
     'Pair review opened',
   );
 }
@@ -188,7 +191,7 @@ export function completePairReview(state: WorkspaceSelfWorkflowState): Workspace
   if (!state.pairReviewOpenedAt) throw new Error('PAIR_REVIEW_NOT_OPENED');
   return appendHistory(
     { ...state, pairReviewCompletedAt: new Date().toISOString() },
-    'workspace_pair_review_completed',
+    'workspace_self_pair_review_completed',
     'Pair review completed (no auto-lock)',
   );
 }
@@ -206,20 +209,34 @@ export function lockWorkspaceAuthority(
   const mobileConcept = state.concepts.find((c) => c.conceptId === state.promotedMobileConceptId);
   const desktopConcept = state.concepts.find((c) => c.conceptId === state.promotedDesktopConceptId);
 
+  const mobileArtifact =
+    resolveConceptArtifactRef(state, state.promotedMobileConceptId, 'MOBILE') ??
+    mobileConcept?.mobileArtifactPath ??
+    null;
+  const desktopArtifact =
+    resolveConceptArtifactRef(state, state.promotedDesktopConceptId, 'DESKTOP') ??
+    desktopConcept?.desktopArtifactPath ??
+    null;
+
   const authorityPair = {
     authorityPairId: `wsap-${Date.now()}`,
     targetId: WORKSPACE_SELF_TARGET_ID,
     mobileConceptId: state.promotedMobileConceptId,
     desktopConceptId: state.promotedDesktopConceptId,
-    mobileArtifact: mobileConcept?.mobileArtifactPath ?? null,
-    desktopArtifact: desktopConcept?.desktopArtifactPath ?? null,
+    mobileArtifact,
+    desktopArtifact,
+    mobileArtifactId: resolveConceptArtifactId(state, state.promotedMobileConceptId, 'MOBILE'),
+    desktopArtifactId: resolveConceptArtifactId(state, state.promotedDesktopConceptId, 'DESKTOP'),
+    captureSetId: state.conceptSet?.captureSetId ?? state.activeCaptureSetId,
+    conceptSetId: state.conceptSet?.conceptSetId ?? null,
     functionContractId: state.functionContract.contractId,
+    pairReviewCompletedAt: state.pairReviewCompletedAt,
     status: 'LOCKED' as const,
     lockedAt: new Date().toISOString(),
     lockedBy,
   };
 
-  return appendHistory({ ...state, authorityPair }, 'workspace_authority_locked', authorityPair.authorityPairId);
+  return appendHistory({ ...state, authorityPair }, 'workspace_self_authority_locked', authorityPair.authorityPairId);
 }
 
 export function requestOpusDesignShell(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {

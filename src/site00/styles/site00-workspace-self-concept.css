@@ -112,6 +112,240 @@
   cursor: not-allowed;
 }
 
+.site00-wssc__galleryTrack {
+  display: grid;
+  gap: 8px;
+}
+
+@media (max-width: 899px) {
+  .site00-wssc__galleryTrack {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 85vw);
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+}
+
+@media (min-width: 900px) {
+  .site00-wssc__galleryTrack {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.site00-wssc__galleryCard[data-active='true'] {
+  border-color: var(--tod-lime, #cdee30);
+  box-shadow: inset 0 0 0 1px var(--tod-lime, #cdee30);
+}
+
+.site00-wssc__galleryActivate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: none;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}
+
+.site00-wssc__badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-size: 10px;
+  margin: 6px 0;
+}
+
+.site00-wssc__badge {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--tod-border-subtle, #dadada);
+  padding: 1px 4px;
+}
+
+.site00-wssc__badge--active {
+  background: var(--tod-lime, #cdee30);
+  border-color: var(--tod-lime, #cdee30);
+}
+
+.site00-wssc__badge--muted {
+  opacity: 0.5;
+}
+
+.site00-wssc__thumbPlaceholder {
+  min-height: 80px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--tod-border-subtle, #dadada);
+  font-size: 10px;
+  color: var(--tod-ink-3, #6a6a70);
+}
+
+.site00-wssc__reviewToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.site00-wssc__viewportToggle button {
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  background: var(--tod-paper, #fdfdfd);
+  font: inherit;
+  font-size: 10px;
+  padding: 4px 8px;
+  margin-right: 4px;
+}
+
+.site00-wssc__viewportToggle button[aria-pressed='true'] {
+  background: var(--tod-lime, #cdee30);
+}
+
+.site00-wssc__actions--sticky {
+  position: sticky;
+  bottom: 0;
+  background: var(--tod-paper, #fdfdfd);
+  padding-top: 8px;
+}
+
+.site00-wssc__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+}
+
+@media (min-width: 900px) {
+  .site00-wssc__overlay {
+    align-items: center;
+  }
+}
+
+.site00-wssc__overlayPanel {
+  background: var(--tod-paper, #fdfdfd);
+  border: 1px solid var(--tod-border-panel, #b2b2b2);
+  max-height: 92vh;
+  overflow: auto;
+  width: min(1100px, 100%);
+  padding: 12px;
+}
+
+.site00-wssc__overlayHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.site00-wssc__compareGrid {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 900px) {
+  .site00-wssc__compareGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.site00-wssc__compareArt {
+  background: #050505;
+  min-height: 140px;
+  display: grid;
+  place-items: center;
+  margin: 8px 0;
+}
+
+.site00-wssc__compareArt img {
+  max-width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+}
+
+.site00-wssc__inspectArt {
+  background: #050505;
+  min-height: 200px;
+  display: grid;
+  place-items: center;
+  margin: 8px 0;
+}
+
+.site00-wssc__inspectArt img {
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+.site00-wssc__technical summary {
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.site00-wssc__lineagePre {
+  font-size: 10px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.site00-wssc__fullscreenBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+}
+
+.site00-wssc__fullscreenConcept {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.site00-wssc__authorityThumbBtn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.site00-wssc__pendingNote {
+  font-size: 10px;
+  color: var(--tod-red, #c2281d);
+  margin: 4px 0;
+}
+
+.site00-wssc__pendingThumb {
+  margin-top: 8px;
+  border: 1px dashed var(--tod-red, #c2281d);
+  padding: 4px;
+}
+
+.site00-wssc__pairReview {
+  border: 1px solid var(--tod-border-subtle, #dadada);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
 .site00-wssc__banner {
   border: 1px solid var(--tod-border-panel, #b2b2b2);
   background: var(--tod-panel, #f7f7f7);

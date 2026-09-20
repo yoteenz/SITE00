@@ -5,13 +5,17 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
-import { WORKSPACE_CONCEPT_SLOT_IDS } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/constants.js';
 import { resolveWorkspaceSelfDesignRoute } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/sourceContext.js';
 import { latestCaptureForViewport } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/workflow.js';
 import { SITE00_ROUTES } from '../config/routes';
 import { useWorkspaceSelfConcept } from '../hooks/useWorkspaceSelfConcept';
 import { resolveCaptureArtifactDisplayUrl } from '../services/workspaceSelfArtifactStorage';
 import { WorkspaceSelfAuthorityPairPanel } from '../components/workspaceSelf/WorkspaceSelfAuthorityPairPanel';
+import { WorkspaceSelfCompareConcepts } from '../components/workspaceSelf/WorkspaceSelfCompareConcepts';
+import { WorkspaceSelfConceptGallery } from '../components/workspaceSelf/WorkspaceSelfConceptGallery';
+import { WorkspaceSelfFullscreenReview } from '../components/workspaceSelf/WorkspaceSelfFullscreenReview';
+import { WorkspaceSelfInspectPanel } from '../components/workspaceSelf/WorkspaceSelfInspectPanel';
+import { WorkspaceSelfPairReviewPanel } from '../components/workspaceSelf/WorkspaceSelfPairReviewPanel';
 import '../styles/site00-workspace-self-concept.css';
 
 function CapturePreview({ capture }: { capture: ReturnType<typeof latestCaptureForViewport> }) {
@@ -65,8 +69,16 @@ export function SystemDesignWorkspaceConceptsPage() {
   const desktopCapture = latestCaptureForViewport(ws.state, 'DESKTOP');
   const sourceRoute = resolveWorkspaceSelfDesignRoute(ws.state.sourceContext);
 
+  const review = ws.review;
+  const activeConceptId = review.activeConceptId;
+  const activeViewport = review.activeViewport;
+  const inspectedId = review.inspectedConceptId;
   const canPromoteMobile = Boolean(ws.state.preferredMobileConceptId);
   const canPromoteDesktop = Boolean(ws.state.preferredDesktopConceptId);
+  const canPromoteActiveViewport =
+    activeViewport === 'MOBILE' ?
+      canPromoteMobile && ws.state.preferredMobileConceptId === activeConceptId
+    : canPromoteDesktop && ws.state.preferredDesktopConceptId === activeConceptId;
   const canPairReview = Boolean(ws.state.promotedMobileConceptId && ws.state.promotedDesktopConceptId);
   const canCompletePair = Boolean(ws.state.pairReviewOpenedAt && !ws.state.pairReviewCompletedAt);
   const canLock = Boolean(ws.state.pairReviewCompletedAt && !ws.state.authorityPair);
@@ -215,61 +227,50 @@ export function SystemDesignWorkspaceConceptsPage() {
 
       <div className="site00-wssc__mainWithRail">
         <section className="site00-wssc__mainCol">
-        <h2>Workspace concept candidates (3 slots)</h2>
-        <div className="site00-wssc__grid site00-wssc__grid--3">
-          {WORKSPACE_CONCEPT_SLOT_IDS.map((id) => {
-            const concept = ws.state.concepts.find((c) => c.conceptId === id);
-            const activeMobile = ws.state.preferredMobileConceptId === id;
-            const activeDesktop = ws.state.preferredDesktopConceptId === id;
-            return (
-              <div
-                key={id}
-                className="site00-wssc__slot"
-                data-active={activeMobile || activeDesktop ? 'true' : 'false'}
+          <div className="site00-wssc__reviewToolbar">
+            <h2>Workspace concept candidates</h2>
+            <div className="site00-wssc__viewportToggle">
+              <button
+                type="button"
+                aria-pressed={activeViewport === 'MOBILE'}
+                onClick={() => ws.setReviewViewport('MOBILE')}
               >
-                <strong>{concept?.conceptName || id}</strong>
-                <p className="site00-wssc__muted">Status: {concept?.status ?? 'EMPTY'}</p>
-                {concept?.conceptTerritory ?
-                  <p className="site00-wssc__muted">{concept.conceptTerritory.slice(0, 120)}</p>
-                : null}
-                <div className="site00-wssc__grid site00-wssc__grid--2">
-                  {concept?.mobileArtifactPath ?
-                    <img
-                      className="site00-wssc__capture"
-                      src={resolveCaptureArtifactDisplayUrl(concept.mobileArtifactPath) ?? undefined}
-                      alt={`${id} mobile`}
-                    />
-                  : null}
-                  {concept?.desktopArtifactPath ?
-                    <img
-                      className="site00-wssc__capture"
-                      src={resolveCaptureArtifactDisplayUrl(concept.desktopArtifactPath) ?? undefined}
-                      alt={`${id} desktop`}
-                    />
-                  : null}
-                </div>
-                <div className="site00-wssc__actions">
-                  <button type="button" onClick={() => ws.selectMobile(id)} disabled={concept?.status === 'EMPTY'}>
-                    SELECT FOR MOBILE
-                  </button>
-                  <button type="button" onClick={() => ws.selectDesktop(id)} disabled={concept?.status === 'EMPTY'}>
-                    SELECT FOR DESKTOP
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <p className="site00-wssc__muted">Selection = preference only — not approval.</p>
-        <div className="site00-wssc__actions">
-          <button type="button" onClick={() => ws.promoteMobile()} disabled={!canPromoteMobile}>
-            PROMOTE MOBILE
-          </button>
-          <button type="button" onClick={() => ws.promoteDesktop()} disabled={!canPromoteDesktop}>
-            PROMOTE DESKTOP
-          </button>
-        </div>
-      </section>
+                MOBILE
+              </button>
+              <button
+                type="button"
+                aria-pressed={activeViewport === 'DESKTOP'}
+                onClick={() => ws.setReviewViewport('DESKTOP')}
+              >
+                DESKTOP
+              </button>
+            </div>
+          </div>
+          <WorkspaceSelfConceptGallery
+            state={ws.state}
+            activeConceptId={activeConceptId}
+            onActivate={(id) => ws.activateConcept(id)}
+            onInspect={(id) => ws.inspectConcept(id)}
+            onFullscreen={(id) => {
+              ws.activateConcept(id);
+              ws.openFullscreen();
+            }}
+            onSelectMobile={(id) => ws.selectMobile(id)}
+            onSelectDesktop={(id) => ws.selectDesktop(id)}
+          />
+          <p className="site00-wssc__muted">Active = reviewing · Selected = viewport preference · Promoted = authority.</p>
+          <div className="site00-wssc__actions site00-wssc__actions--sticky">
+            <button type="button" onClick={() => ws.openCompare(activeViewport)}>
+              COMPARE CONCEPTS
+            </button>
+            <button type="button" onClick={() => ws.promoteMobile()} disabled={!canPromoteMobile}>
+              PROMOTE MOBILE
+            </button>
+            <button type="button" onClick={() => ws.promoteDesktop()} disabled={!canPromoteDesktop}>
+              PROMOTE DESKTOP
+            </button>
+          </div>
+        </section>
 
         <WorkspaceSelfAuthorityPairPanel
           state={ws.state}
@@ -277,8 +278,63 @@ export function SystemDesignWorkspaceConceptsPage() {
           canPromoteDesktop={canPromoteDesktop}
           onPromoteMobile={() => ws.promoteMobile()}
           onPromoteDesktop={() => ws.promoteDesktop()}
+          onViewportClick={(vp) => {
+            ws.setReviewViewport(vp);
+            const promoted = vp === 'MOBILE' ? ws.state.promotedMobileConceptId : ws.state.promotedDesktopConceptId;
+            const selected = vp === 'MOBILE' ? ws.state.preferredMobileConceptId : ws.state.preferredDesktopConceptId;
+            const target = promoted ?? selected ?? activeConceptId ?? 'CONCEPT_A';
+            ws.inspectConcept(target);
+          }}
         />
       </div>
+
+      {review.compareOpen ?
+        <WorkspaceSelfCompareConcepts
+          state={ws.state}
+          viewport={review.compareViewport}
+          onClose={() => ws.closeCompare()}
+          onSelectViewport={(vp) => ws.openCompare(vp)}
+          onSelectForViewport={(id) => {
+            if (review.compareViewport === 'MOBILE') ws.selectMobile(id);
+            else ws.selectDesktop(id);
+          }}
+          onInspect={(id) => ws.inspectConcept(id)}
+          onFullscreen={(id) => {
+            ws.activateConcept(id);
+            ws.openFullscreen();
+          }}
+        />
+      : null}
+
+      {inspectedId && !review.fullscreenOpen ?
+        <WorkspaceSelfInspectPanel
+          state={ws.state}
+          conceptId={inspectedId}
+          viewport={activeViewport}
+          onClose={() => ws.closeInspect()}
+          onSelectMobile={() => ws.selectMobile(inspectedId)}
+          onSelectDesktop={() => ws.selectDesktop(inspectedId)}
+          onPromote={() => (activeViewport === 'MOBILE' ? ws.promoteMobile() : ws.promoteDesktop())}
+          canPromote={canPromoteActiveViewport}
+          onFullscreen={() => ws.openFullscreen()}
+        />
+      : null}
+
+      {review.fullscreenOpen && activeConceptId ?
+        <WorkspaceSelfFullscreenReview
+          state={ws.state}
+          conceptId={activeConceptId}
+          viewport={activeViewport}
+          onClose={() => ws.closeFullscreen()}
+          onSelectForViewport={() =>
+            activeViewport === 'MOBILE' ? ws.selectMobile(activeConceptId) : ws.selectDesktop(activeConceptId)
+          }
+          onPromote={() => (activeViewport === 'MOBILE' ? ws.promoteMobile() : ws.promoteDesktop())}
+          canPromote={canPromoteActiveViewport}
+        />
+      : null}
+
+      <WorkspaceSelfPairReviewPanel state={ws.state} />
 
       <section>
         <h2>Pair review &amp; authority</h2>

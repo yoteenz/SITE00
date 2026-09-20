@@ -7,6 +7,7 @@ import type {
 } from './types.js';
 import { WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
 import { WORKSPACE_CONCEPT_GENERATION_COUNT } from './constants.js';
+import { defaultReviewUiState, normalizeReviewUi } from './reviewState.js';
 
 function appendHistory(
   state: WorkspaceSelfWorkflowState,
@@ -35,6 +36,7 @@ export function normalizeWorkspaceSelfState(state: WorkspaceSelfWorkflowState): 
       ...c,
       status: c.status ?? (c.artifactPath ? 'READY' : 'FAILED'),
     })),
+    reviewUi: normalizeReviewUi(state.reviewUi ?? defaultReviewUiState()),
   };
 }
 

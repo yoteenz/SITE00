@@ -1,8 +1,11 @@
+import { resolveConceptArtifactRef } from './conceptArtifacts.js';
+import { hasPendingAuthorityChange, normalizeReviewUi } from './reviewState.js';
 import type { WorkspaceConceptSlotId, WorkspaceSelfWorkflowState } from './types.js';
-import type { WorkspaceSelfGeneratedArtifact } from './generationTypes.js';
+import { readyConceptJob } from './conceptArtifacts.js';
 
 export type ViewportAuthorityPreviewState =
   | 'EMPTY'
+  | 'PREVIEWING'
   | 'GENERATED_UNSELECTED'
   | 'SELECTED_PENDING_PROMOTION'
   | 'PROMOTED'
@@ -21,105 +24,30 @@ export type ViewportAuthorityPreview = {
   titleLabel: string;
   statePill: string;
   emptyMessage: string | null;
+  pendingConceptSlot: WorkspaceConceptSlotId | null;
+  pendingConceptName: string | null;
+  pendingImageRef: string | null;
+  authorityConceptSlot: WorkspaceConceptSlotId | null;
 };
-
-function readyJob(
-  state: WorkspaceSelfWorkflowState,
-  conceptId: WorkspaceConceptSlotId,
-  viewport: 'MOBILE' | 'DESKTOP',
-): WorkspaceSelfGeneratedArtifact | null {
-  const job = state.generationJobs.find(
-    (j) => j.conceptId === conceptId && j.viewport === viewport && j.status === 'READY',
-  );
-  if (!job) return null;
-  if (state.conceptSet && job.captureSetId !== state.conceptSet.captureSetId) return null;
-  return job;
-}
-
-function artifactRefForConcept(
-  state: WorkspaceSelfWorkflowState,
-  conceptId: WorkspaceConceptSlotId,
-  viewport: 'MOBILE' | 'DESKTOP',
-): string | null {
-  const job = readyJob(state, conceptId, viewport);
-  if (job?.artifactPath) return job.artifactPath;
-  if (job?.imageUri) return job.imageUri;
-
-  if (state.conceptSet) {
-    return null;
-  }
-
-  const concept = state.concepts.find((c) => c.conceptId === conceptId);
-  return viewport === 'MOBILE' ? concept?.mobileArtifactPath ?? null : concept?.desktopArtifactPath ?? null;
-}
 
 function gpt2Lineage(
   state: WorkspaceSelfWorkflowState,
   conceptId: WorkspaceConceptSlotId,
   viewport: 'MOBILE' | 'DESKTOP',
-): { gpt2ConceptId: string | null; creativeDirectionId: string | null } {
-  const job = readyJob(state, conceptId, viewport);
+) {
+  const job = readyConceptJob(state, conceptId, viewport);
   return {
     gpt2ConceptId: job?.gpt2ConceptId ?? null,
     creativeDirectionId: job?.creativeDirectionId ?? null,
   };
 }
 
-function resolveActiveConceptId(
-  state: WorkspaceSelfWorkflowState,
-  viewport: 'MOBILE' | 'DESKTOP',
-): WorkspaceConceptSlotId | null {
-  if (state.authorityPair) {
-    return viewport === 'MOBILE' ?
-        state.authorityPair.mobileConceptId
-      : state.authorityPair.desktopConceptId;
-  }
-  const promoted = viewport === 'MOBILE' ? state.promotedMobileConceptId : state.promotedDesktopConceptId;
-  if (promoted) return promoted;
-  const preferred = viewport === 'MOBILE' ? state.preferredMobileConceptId : state.preferredDesktopConceptId;
-  return preferred;
-}
-
-function resolvePreviewState(
-  state: WorkspaceSelfWorkflowState,
-  viewport: 'MOBILE' | 'DESKTOP',
-  conceptId: WorkspaceConceptSlotId | null,
-  hasImage: boolean,
-): ViewportAuthorityPreviewState {
-  if (!conceptId || !hasImage) return 'EMPTY';
-
-  if (state.authorityPair) return 'LOCKED';
-
-  const promoted = viewport === 'MOBILE' ? state.promotedMobileConceptId : state.promotedDesktopConceptId;
-  const preferred = viewport === 'MOBILE' ? state.preferredMobileConceptId : state.preferredDesktopConceptId;
-
-  if (state.pairReviewOpenedAt && promoted === conceptId) return 'PAIR_REVIEW';
-  if (promoted === conceptId) return 'PROMOTED';
-  if (preferred === conceptId) return 'SELECTED_PENDING_PROMOTION';
-  return 'GENERATED_UNSELECTED';
-}
-
-function titleForState(viewport: 'MOBILE' | 'DESKTOP', previewState: ViewportAuthorityPreviewState): string {
-  const vp = viewport === 'MOBILE' ? 'Mobile' : 'Desktop';
-  switch (previewState) {
-    case 'LOCKED':
-      return `${vp} Authority (Locked)`;
-    case 'PROMOTED':
-    case 'PAIR_REVIEW':
-      return `${vp} Authority`;
-    case 'SELECTED_PENDING_PROMOTION':
-      return `Selected ${vp} Concept`;
-    case 'GENERATED_UNSELECTED':
-      return `${vp} Concept`;
-    default:
-      return `${vp} Concept`;
-  }
-}
-
 function pillForState(previewState: ViewportAuthorityPreviewState): string {
   switch (previewState) {
     case 'EMPTY':
       return 'EMPTY';
+    case 'PREVIEWING':
+      return 'PREVIEWING';
     case 'GENERATED_UNSELECTED':
       return 'GENERATED';
     case 'SELECTED_PENDING_PROMOTION':
@@ -133,46 +61,89 @@ function pillForState(previewState: ViewportAuthorityPreviewState): string {
   }
 }
 
+function titleForState(viewport: 'MOBILE' | 'DESKTOP', previewState: ViewportAuthorityPreviewState): string {
+  const vp = viewport === 'MOBILE' ? 'Mobile' : 'Desktop';
+  switch (previewState) {
+    case 'LOCKED':
+      return `${vp} Authority (Locked)`;
+    case 'PROMOTED':
+    case 'PAIR_REVIEW':
+      return `${vp} Authority`;
+    case 'SELECTED_PENDING_PROMOTION':
+      return `Selected ${vp} Concept`;
+    case 'PREVIEWING':
+      return `Previewing ${vp} Concept`;
+    default:
+      return `${vp} Concept`;
+  }
+}
+
 export function resolveViewportAuthorityPreview(
   state: WorkspaceSelfWorkflowState,
   viewport: 'MOBILE' | 'DESKTOP',
 ): ViewportAuthorityPreview {
-  let conceptId = resolveActiveConceptId(state, viewport);
+  const reviewUi = normalizeReviewUi(state.reviewUi);
+  const promoted = viewport === 'MOBILE' ? state.promotedMobileConceptId : state.promotedDesktopConceptId;
+  const selected = viewport === 'MOBILE' ? state.preferredMobileConceptId : state.preferredDesktopConceptId;
+  const active = reviewUi.activeConceptId;
+  const pending = hasPendingAuthorityChange(state, viewport);
 
   if (state.authorityPair) {
+    const conceptId = viewport === 'MOBILE' ? state.authorityPair.mobileConceptId : state.authorityPair.desktopConceptId;
     const lockedRef =
       viewport === 'MOBILE' ? state.authorityPair.mobileArtifact : state.authorityPair.desktopArtifact;
-    const lineage = conceptId ? gpt2Lineage(state, conceptId, viewport) : { gpt2ConceptId: null, creativeDirectionId: null };
-    const concept = conceptId ? state.concepts.find((c) => c.conceptId === conceptId) : null;
+    const concept = state.concepts.find((c) => c.conceptId === conceptId);
+    const lineage = gpt2Lineage(state, conceptId, viewport);
     return {
       viewport,
       state: 'LOCKED',
       conceptSlot: conceptId,
       conceptName: concept?.conceptName ?? conceptId,
       ...lineage,
-      imageRef: lockedRef ?? (conceptId ? artifactRefForConcept(state, conceptId, viewport) : null),
+      imageRef: lockedRef ?? resolveConceptArtifactRef(state, conceptId, viewport),
       versionLabel: state.conceptSet?.conceptSetId ?? '—',
       titleLabel: titleForState(viewport, 'LOCKED'),
       statePill: pillForState('LOCKED'),
       emptyMessage: null,
+      pendingConceptSlot: null,
+      pendingConceptName: null,
+      pendingImageRef: null,
+      authorityConceptSlot: conceptId,
     };
   }
 
-  if (conceptId) {
-    const imageRef = artifactRefForConcept(state, conceptId, viewport);
-    if (!imageRef) {
-      const preferred = viewport === 'MOBILE' ? state.preferredMobileConceptId : state.preferredDesktopConceptId;
-      const promoted = viewport === 'MOBILE' ? state.promotedMobileConceptId : state.promotedDesktopConceptId;
-      if (promoted && artifactRefForConcept(state, promoted, viewport)) conceptId = promoted;
-      else if (preferred && artifactRefForConcept(state, preferred, viewport)) conceptId = preferred;
-      else conceptId = null;
-    }
+  let conceptId: WorkspaceConceptSlotId | null = null;
+  let previewState: ViewportAuthorityPreviewState = 'EMPTY';
+
+  if (promoted && resolveConceptArtifactRef(state, promoted, viewport)) {
+    conceptId = promoted;
+    previewState =
+      state.pairReviewOpenedAt && !state.pairReviewCompletedAt ? 'PAIR_REVIEW'
+      : state.pairReviewOpenedAt ? 'PAIR_REVIEW'
+      : 'PROMOTED';
+  } else if (selected && resolveConceptArtifactRef(state, selected, viewport)) {
+    conceptId = selected;
+    previewState = 'SELECTED_PENDING_PROMOTION';
+  } else if (active && resolveConceptArtifactRef(state, active, viewport)) {
+    conceptId = active;
+    previewState = 'PREVIEWING';
   }
 
-  const imageRef = conceptId ? artifactRefForConcept(state, conceptId, viewport) : null;
-  const previewState = resolvePreviewState(state, viewport, conceptId, Boolean(imageRef));
+  const imageRef = conceptId ? resolveConceptArtifactRef(state, conceptId, viewport) : null;
+  if (!imageRef) {
+    previewState = 'EMPTY';
+    conceptId = null;
+  }
+
   const concept = conceptId ? state.concepts.find((c) => c.conceptId === conceptId) : null;
   const lineage = conceptId ? gpt2Lineage(state, conceptId, viewport) : { gpt2ConceptId: null, creativeDirectionId: null };
+
+  let pendingConceptSlot: WorkspaceConceptSlotId | null = null;
+  let pendingImageRef: string | null = null;
+  if (pending && selected && promoted && selected !== promoted) {
+    pendingConceptSlot = selected;
+    pendingImageRef = resolveConceptArtifactRef(state, selected, viewport);
+  }
 
   return {
     viewport,
@@ -190,6 +161,11 @@ export function resolveViewportAuthorityPreview(
           'No mobile concept generated yet'
         : 'No desktop concept generated yet'
       : null,
+    pendingConceptSlot,
+    pendingConceptName:
+      pendingConceptSlot ? state.concepts.find((c) => c.conceptId === pendingConceptSlot)?.conceptName ?? pendingConceptSlot : null,
+    pendingImageRef,
+    authorityConceptSlot: promoted,
   };
 }
 

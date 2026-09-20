@@ -17,11 +17,19 @@ import {
   markOpusShellCreated,
   markWorkspaceSelfOpened,
   openPairReview,
-  promoteViewportConcept,
   requestConceptGeneration,
   requestOpusDesignShell,
   saveWorkspaceSelfState,
-  selectViewportConcept,
+  activateWorkspaceConcept,
+  closeWorkspaceCompare,
+  closeWorkspaceInspect,
+  deriveWorkspaceSelfReviewState,
+  inspectWorkspaceConcept,
+  openWorkspaceCompare,
+  promoteViewportConceptForReview,
+  selectViewportConceptForReview,
+  setWorkspaceFullscreenOpen,
+  setWorkspaceReviewViewport,
   stageConceptArtifact,
   evaluateNbpHandoffReadiness,
   applyCreativePipelineSet,
@@ -185,6 +193,7 @@ export function useWorkspaceSelfConcept() {
         });
         next = registerGenerationJobs(next, jobsWithPaths);
         next = mergeGenerationArtifactsIntoConcepts(next);
+        next = activateWorkspaceConcept(next, 'CONCEPT_A');
         return next;
       });
       setPendingPlan(null);
@@ -273,10 +282,19 @@ export function useWorkspaceSelfConcept() {
           rationale: 'Staged slot — NBP defines composition later.',
         }),
       ),
-    selectMobile: (id: WorkspaceConceptSlotId) => run((s) => selectViewportConcept(s, 'MOBILE', id)),
-    selectDesktop: (id: WorkspaceConceptSlotId) => run((s) => selectViewportConcept(s, 'DESKTOP', id)),
-    promoteMobile: () => run((s) => promoteViewportConcept(s, 'MOBILE')),
-    promoteDesktop: () => run((s) => promoteViewportConcept(s, 'DESKTOP')),
+    review: deriveWorkspaceSelfReviewState(state),
+    activateConcept: (id: WorkspaceConceptSlotId) => run((s) => activateWorkspaceConcept(s, id)),
+    setReviewViewport: (vp: 'MOBILE' | 'DESKTOP') => run((s) => setWorkspaceReviewViewport(s, vp)),
+    openCompare: (vp: 'MOBILE' | 'DESKTOP') => run((s) => openWorkspaceCompare(s, vp)),
+    closeCompare: () => run(closeWorkspaceCompare),
+    inspectConcept: (id: WorkspaceConceptSlotId) => run((s) => inspectWorkspaceConcept(s, id)),
+    closeInspect: () => run(closeWorkspaceInspect),
+    openFullscreen: () => run((s) => setWorkspaceFullscreenOpen(s, true)),
+    closeFullscreen: () => run((s) => setWorkspaceFullscreenOpen(s, false)),
+    selectMobile: (id: WorkspaceConceptSlotId) => run((s) => selectViewportConceptForReview(s, 'MOBILE', id)),
+    selectDesktop: (id: WorkspaceConceptSlotId) => run((s) => selectViewportConceptForReview(s, 'DESKTOP', id)),
+    promoteMobile: () => run((s) => promoteViewportConceptForReview(s, 'MOBILE')),
+    promoteDesktop: () => run((s) => promoteViewportConceptForReview(s, 'DESKTOP')),
     openPairReview: () => run(openPairReview),
     completePairReview: () => run(completePairReview),
     lockAuthority: () => run((s) => lockWorkspaceAuthority(s, actorEmail)),
