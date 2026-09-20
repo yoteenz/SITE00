@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   DESIGN_PAGE_CAPTURE_UPDATED_EVENT,
+  isPageCaptureDisplayableArtifact,
   loadPageCaptureHistory,
 } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import {
@@ -56,6 +57,9 @@ async function buildPageConceptCapturePayload(
       { width: 390, height: 844 }
     : { width: 1440, height: 1024 };
   const path = record.artifactPath;
+  if (!isPageCaptureDisplayableArtifact(path)) {
+    throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
+  }
   if (path.startsWith('data:') || path.startsWith('blob:')) {
     return {
       captureId: record.captureId,

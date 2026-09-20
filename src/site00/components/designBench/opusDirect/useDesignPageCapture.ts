@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   appendPageCapture,
   DESIGN_PAGE_CAPTURE_UPDATED_EVENT,
+  isPageCaptureDisplayableArtifact,
   loadPageCaptureHistory,
   viewportToDesignViewportClass,
   type PageCaptureRecord,
@@ -36,7 +37,7 @@ function snapshotToCapture(
     route: snap.resolvedRoute || snap.route,
     timestamp: snap.capturedAt || new Date().toISOString(),
     buildVersion: snap.sourceBuildId,
-    artifactPath: snap.publicUrl || snap.capturedUrl,
+    artifactPath: snap.publicUrl?.trim() || '',
     createdBy: 'founder',
     source: 'IMPLEMENTATION_SNAPSHOT_API',
   };
@@ -109,7 +110,8 @@ export function useDesignPageCapture(
         );
       }
       const snapshot = result.data?.snapshot ?? null;
-      if (!snapshot?.publicUrl && !snapshot?.capturedUrl) {
+      const publicUrl = snapshot?.publicUrl?.trim() ?? '';
+      if (!publicUrl || !isPageCaptureDisplayableArtifact(publicUrl)) {
         throw new Error(formatCaptureFailure(snapshot));
       }
       const record = appendPageCapture(snapshotToCapture(snapshot, pageId, viewport));
