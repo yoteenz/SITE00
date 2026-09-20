@@ -10887,3 +10887,14 @@ Sprint: icon-system refinement for **GENERATE PAGE CONCEPTS** only. Live shell/g
 - **Proposal map:** live AIC ids → `pcg-*` in `PAGE_CONCEPT_GENERATOR_ICON_PROPOSAL`. Panel still uses existing `AiConsoleIcon` names.
 - **Tests:** `tests/p0vrPageConceptGeneratorGrokIconCleanup1.test.ts`.
 - **Branch:** `cursor/page-concept-generator-grok-icon-cleanup1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-MOBILE-OVERFLOW-FIX1
+
+Sprint: **GENERATE PAGE CONCEPTS** modal — mobile responsive containment only (no pipeline/provider changes).
+
+- **CSS:** `@media (max-width: 899px)` — 2×2 summary strip; rail descriptions unwrap (no line-clamp); stage cards horizontal scroll-snap (~86vw); foot notes column stack; reduced metadata letter-spacing; `min-width: 0` / `overflow-x: clip` containment.
+- **Display:** `pageConceptGeneratorFootSpendSegments()` splits `estimatedCostNote` on `\s+\+\s+(?=\d+\s)`; panel renders stacked `s00-pcg__footSpendStack` on mobile, inline `+` on desktop (900px+).
+- **Tests:** `p0vrPageConceptGeneratorMobileOverflowFix1.test.ts`; QA script `capture-mobile-overflow-qa.mjs` (390/393/430/desktop).
+- **Branch:** `cursor/page-concept-generator-mobile-overflow-fix1-9f72`.
