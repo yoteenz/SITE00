@@ -10864,3 +10864,14 @@ Sprint: native **claude-opus-5** workflow for DESIGN **visual shell only** (not 
 - **Firewall:** staged `STAGED_VISUAL_SHELL` proposals only; `productionWriteAccess: false`; no IMPLEMENT WITH OPUS.
 - **Tests:** `tests/p0vrOpusNativeShellService1.test.ts` (17 guards).
 - **Branch:** `cursor/opus-native-shell-service1-9f72`.
+
+---
+
+## 2026-09-20 — P1 PAGE-CONCEPT-GENERATOR-VISUAL-FIDELITY-CLEANUP1
+
+Sprint: **GENERATE PAGE CONCEPTS** Opus shell — CSS/presentation only (reference screenshot authority); no CGPT/GPT2/NBP pipeline changes.
+
+- **CSS:** `site00-page-concept-generator.css` — shorter modal (`88vh`/780px cap), header inset + rounded dismiss, compact summary strip + metrics row layout, smaller progression nodes/chips, lighter card borders, tighter CGPT/GPT2/NBP frames, compact footer + 40px actions, slim blocked notice styling.
+- **Display:** `pageConceptGeneratorNoticeLines()` + panel maps capture block to **BLOCKED · SOURCE CAPTURE REQUIRED** + hint (display-only).
+- **Tests:** `p0vrPageConceptGeneratorOpusShell1.test.ts` (notice formatter + modal height guard).
+- **Branch:** `cursor/page-concept-generator-visual-fidelity-cleanup1-9f72`.

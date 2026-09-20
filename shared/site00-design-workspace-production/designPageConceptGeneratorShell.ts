@@ -283,3 +283,32 @@ export const PAGE_CONCEPT_GENERATOR_HOOK_MAP = [
     binds: 'Close without dispatch.',
   },
 ] as const;
+
+export type PageConceptGeneratorNoticeLines = {
+  headline: string;
+  hint?: string;
+};
+
+/** Display-only footer notice copy — does not affect readiness or pipeline. */
+export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGeneratorNoticeLines {
+  const raw = notice.trim();
+  if (!raw) return { headline: '' };
+  if (
+    raw === 'BLOCKED_NO_SOURCE_CAPTURE' ||
+    /missing implementation source capture/i.test(raw) ||
+    /implementation source capture missing/i.test(raw)
+  ) {
+    return {
+      headline: 'BLOCKED · SOURCE CAPTURE REQUIRED',
+      hint: 'CAPTURE MOBILE + DESKTOP BEFORE GENERATION',
+    };
+  }
+  const sentenceBreak = raw.indexOf('. ');
+  if (sentenceBreak > 24 && raw.length > 72) {
+    return {
+      headline: raw.slice(0, sentenceBreak).toUpperCase(),
+      hint: raw.slice(sentenceBreak + 2).toUpperCase(),
+    };
+  }
+  return { headline: raw.toUpperCase() };
+}
