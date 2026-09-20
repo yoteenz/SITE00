@@ -64,7 +64,7 @@ describe('Capture 404 root cause guards', () => {
         screenId: 'overview',
         previewDeviceMode: 'desktop',
       }),
-    ).toBe('[data-visual-reconstruction="project-hub-desktop-board"]');
+    ).toBe('[data-visual-reconstruction="project-overview-desktop"]');
   });
 
   it('repairMishostedStorageHttpUrl maps site-host paths to Supabase', () => {

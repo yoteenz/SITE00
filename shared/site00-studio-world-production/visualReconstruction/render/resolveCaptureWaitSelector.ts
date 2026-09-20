@@ -6,7 +6,8 @@
 const CAPTURE_WAIT_SELECTORS_MOBILE: Record<string, string> = {
   overview: '[data-visual-reconstruction="mobile-overview"]',
   'content-ops': '[data-visual-reconstruction="mobile-content-ops"]',
-  'cultural-intelligence': '[data-visual-reconstruction="mobile-cultural-intelligence"]',
+  'cultural-intelligence':
+    '[data-visual-reconstruction="mobile-cultural-intelligence"], [data-visual-reconstruction="cultural-intelligence-desktop"]',
   'character-lab': '[data-visual-reconstruction="mobile-character-lab"]',
   'campaign-board': '[data-visual-reconstruction="mobile-campaign-board-v1d13"]',
   'experiment-01': '[data-visual-reconstruction="mobile-lab-experiment-01"]',
@@ -14,9 +15,9 @@ const CAPTURE_WAIT_SELECTORS_MOBILE: Record<string, string> = {
 };
 
 const CAPTURE_WAIT_SELECTORS_DESKTOP: Record<string, string> = {
-  overview: '[data-visual-reconstruction="project-hub-desktop-board"]',
+  overview: '[data-visual-reconstruction="project-overview-desktop"]',
   'content-ops': '[data-visual-reconstruction="content-operations"]',
-  'cultural-intelligence': '[data-visual-reconstruction="mobile-cultural-intelligence"]',
+  'cultural-intelligence': '[data-visual-reconstruction="cultural-intelligence-desktop"]',
   'character-lab': '[data-visual-reconstruction="mobile-character-lab"]',
   'campaign-board': '[data-visual-reconstruction="campaign-board"]',
   'experiment-01': '[data-visual-reconstruction="mobile-lab-experiment-01"]',
