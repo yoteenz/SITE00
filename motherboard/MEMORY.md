@@ -10828,3 +10828,14 @@ Chat started with the hero **CAPTURE SCREEN** bug fix (registry bootstrap + surf
 - **Incidental fix:** `.tod-gallery__rail[hidden]` / `.tod-lv-gallery__rail[hidden]` now set `display: none` — the absolutely positioned rail kept its flex display and swallowed clicks on the gallery empty state's generate button.
 - **Tests:** `tests/p0vrPageConceptGeneratorOpusShell1.test.ts` (10). Full suite has 64 pre-existing failures also present on `main`.
 - **Branch:** `cursor/design-page-concept-generator-shell1-2dd8`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1 (Opus shell → live pipeline)
+
+Follow-on to **PAGE-CONCEPT-GENERATOR-OPUS-SHELL1** (merged PR #1044): wire the locked Opus **GENERATE PAGE CONCEPTS** shell to the existing page-concept pipeline (1× CGPT → 1× GPT2 → 3× NBP → 6 viewport outputs) without redesigning typography, layout, or stage geometry.
+
+- **Context:** Shell was presentation-only; `usePageConceptGeneration` + `/api/site00/page-concept-generation` already ran the sequential pipeline. Composer sprint owned binding, progression, outputs, swipe, retry, persistence, cost gate, tests, QA.
+- **Delivered:** `pageConceptGeneratorBinding.ts` (pipeline → stage chips, CGPT brief rows, NBP slot keys); `PageConceptGeneratorResults.tsx` + `PageConceptGeneratorNbpStage.tsx` (CGPT/GPT2/NBP views, separate Mobile/Desktop A–C carousel with sessionStorage indices, tap-to-fullscreen); `PageConceptGenerationOverlay.tsx` rewired to `generationState`, review mode (no auto-close), spend note from plan, **RETRY FAILED ONLY**, full-brief sheet; hook updates (`overlayMode` confirm/progress/review, `retryFailedGeneration`, cancel no longer wipes pipeline); API `retryFailedOnly` skips successful CGPT/GPT2/READY NBP jobs; `mergePageConceptGenerationJobs` for partial retry merges.
+- **Tests:** `tests/p0vrPageConceptGeneratorComposerIntegration1.test.ts`; Opus shell test firewall updated (overlay may hold UI state, not provider calls).
+- **Branch:** `cursor/page-concept-generator-composer-integration1-2dd8`.

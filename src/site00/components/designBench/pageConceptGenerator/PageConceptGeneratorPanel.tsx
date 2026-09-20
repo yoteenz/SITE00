@@ -38,6 +38,8 @@ export type PageConceptGeneratorResultSlots = {
   cgptBrief?: ReactNode;
   authorityImage?: ReactNode;
   renditions?: Partial<Record<string, ReactNode>>;
+  /** When set, replaces the static NBP groups (Composer carousel / live slots). */
+  nbpStageOverride?: ReactNode;
 };
 
 export type PageConceptGeneratorPanelProps = {
@@ -51,6 +53,14 @@ export type PageConceptGeneratorPanelProps = {
   /** Surfaced verbatim in the footer; the shell never interprets it. */
   notice?: string | null;
   noticeTestId?: string;
+  reviewBanner?: string | null;
+  footSpendNote?: string | null;
+  secondaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
   onGenerate?: () => void;
   onCancel?: () => void;
   onClose?: () => void;
@@ -206,24 +216,26 @@ function StageCard({
         : null}
 
         {stage.resultKind === 'RENDITION_GROUPS' && stage.renditionGroups ?
-          <div className="s00-pcg__groups" data-result-slot={stage.resultSlotId}>
-            {stage.renditionGroups.map((group) => (
-              <RenditionGroup key={group.id} group={group} slots={results.renditions ?? {}} />
-            ))}
-            <div className="s00-pcg__paging" aria-hidden="true">
-              <span className="s00-pcg__pageArrow" data-dir="prev">
-                <AiConsoleIcon name="preview-prev" size={10} />
-              </span>
-              <span className="s00-pcg__dots">
-                {Array.from({ length: stage.pagingDots ?? 3 }).map((_, index) => (
-                  <span className="s00-pcg__dot" key={index} data-active={index === 0 ? 'true' : undefined} />
-                ))}
-              </span>
-              <span className="s00-pcg__pageArrow" data-dir="next">
-                <AiConsoleIcon name="preview-next" size={10} />
-              </span>
+          results.nbpStageOverride ?? (
+            <div className="s00-pcg__groups" data-result-slot={stage.resultSlotId}>
+              {stage.renditionGroups.map((group) => (
+                <RenditionGroup key={group.id} group={group} slots={results.renditions ?? {}} />
+              ))}
+              <div className="s00-pcg__paging" aria-hidden="true">
+                <span className="s00-pcg__pageArrow" data-dir="prev">
+                  <AiConsoleIcon name="preview-prev" size={10} />
+                </span>
+                <span className="s00-pcg__dots">
+                  {Array.from({ length: stage.pagingDots ?? 3 }).map((_, index) => (
+                    <span className="s00-pcg__dot" key={index} data-active={index === 0 ? 'true' : undefined} />
+                  ))}
+                </span>
+                <span className="s00-pcg__pageArrow" data-dir="next">
+                  <AiConsoleIcon name="preview-next" size={10} />
+                </span>
+              </div>
             </div>
-          </div>
+          )
         : null}
       </div>
 
@@ -250,6 +262,9 @@ export function PageConceptGeneratorPanel({
   generateBusyLabel,
   notice,
   noticeTestId,
+  reviewBanner,
+  footSpendNote,
+  secondaryAction,
   onGenerate,
   onCancel,
   onClose,
@@ -310,6 +325,11 @@ export function PageConceptGeneratorPanel({
       </div>
 
       <footer className="s00-pcg__foot">
+        {reviewBanner ?
+          <p className="s00-pcg__reviewBanner" role="status" data-testid="page-concept-review-banner">
+            {reviewBanner}
+          </p>
+        : null}
         {notice ?
           <p className="s00-pcg__notice" role="status" data-testid={noticeTestId}>
             <span className="s00-pcg__noticeGlyph" aria-hidden="true">
@@ -325,9 +345,21 @@ export function PageConceptGeneratorPanel({
             </span>
             {PAGE_CONCEPT_GENERATOR_FOOTER.progressionNote}
           </span>
-          <span className="s00-pcg__footSpend">{PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
+          <span className="s00-pcg__footSpend">{footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
         </p>
         <div className="s00-pcg__actions">
+          {secondaryAction ?
+            <button
+              type="button"
+              className="s00-pcg__retry"
+              data-interaction-id="page-concepts-retry-failed"
+              data-testid={secondaryAction.testId}
+              disabled={secondaryAction.disabled}
+              onClick={() => secondaryAction.onClick()}
+            >
+              {secondaryAction.label}
+            </button>
+          : null}
           <button
             type="button"
             className="s00-pcg__generate"

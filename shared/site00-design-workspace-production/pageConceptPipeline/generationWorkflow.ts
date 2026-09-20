@@ -28,8 +28,16 @@ export function applyPageConceptPipelineSet(
   state: PageConceptGenerationState,
   pipelineSet: PageConceptPipelineSet,
 ): PageConceptGenerationState {
+  let generationStatus = state.generationStatus;
+  if (pipelineSet.creativeInjectionError && !pipelineSet.creativeInjection) {
+    generationStatus = 'FAILED';
+  } else if (pipelineSet.gpt2AuthorityError && !pipelineSet.gpt2AuthorityConcept) {
+    generationStatus = 'FAILED';
+  } else if (pipelineSet.creativeInjection && pipelineSet.gpt2AuthorityConcept) {
+    generationStatus = 'NBP_RUNNING';
+  }
   return appendHistory(
-    { ...state, pipelineSet, generationStatus: 'NBP_RUNNING' },
+    { ...state, pipelineSet, generationStatus },
     'page_creative_pipeline_ready',
     pipelineSet.gpt2AuthorityConcept?.conceptId ?? 'gpt2-pending',
   );
@@ -40,6 +48,16 @@ export function registerPageConceptGenerationJobs(
   jobs: readonly PageConceptGeneratedArtifact[],
 ): PageConceptGenerationState {
   return { ...state, generationJobs: [...jobs] };
+}
+
+/** Retry merges new job rows over existing ones by artifactId. */
+export function mergePageConceptGenerationJobs(
+  state: PageConceptGenerationState,
+  jobs: readonly PageConceptGeneratedArtifact[],
+): PageConceptGenerationState {
+  const byId = new Map(state.generationJobs.map((j) => [j.artifactId, j]));
+  for (const job of jobs) byId.set(job.artifactId, job);
+  return { ...state, generationJobs: [...byId.values()] };
 }
 
 export function mergePageConceptArtifactsIntoGallery(

@@ -57,6 +57,7 @@ export async function runPageConceptGenerationApi(input: {
   mobileCapture: PageConceptCapturePayload;
   desktopCapture: PageConceptCapturePayload;
   founderConfirmedSpend: boolean;
+  retryFailedOnly?: boolean;
 }): Promise<PageConceptGenerationRunResult> {
   const result = await pageConceptApiFetch<PageConceptGenerationRunResult & { ok: boolean; error?: string }>(
     {
@@ -65,6 +66,7 @@ export async function runPageConceptGenerationApi(input: {
       mobileCapture: input.mobileCapture,
       desktopCapture: input.desktopCapture,
       founderConfirmedSpend: input.founderConfirmedSpend,
+      retryFailedOnly: input.retryFailedOnly === true,
     },
     CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
   );

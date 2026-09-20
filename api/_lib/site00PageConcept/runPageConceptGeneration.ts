@@ -29,6 +29,8 @@ export type RunPageConceptGenerationInput = {
   mobileCapture: PageGenerationCapturePayload;
   desktopCapture: PageGenerationCapturePayload;
   founderConfirmedSpend: boolean;
+  /** Re-run only failed/missing NBP jobs; preserve successful CGPT/GPT2/NBP artifacts. */
+  retryFailedOnly?: boolean;
 };
 
 export function planPageConceptGeneration(
@@ -67,29 +69,39 @@ export async function runPageConceptGeneration(
 
   const pipelineSetId = input.state.pipelineSet?.pipelineSetId ?? `pps-${Date.now()}`;
 
-  try {
-    creativeInjection = await generatePageCreativeInjection({
-      projectContext,
-      pageContext,
-      functionContract,
-    });
+  const retryFailedOnly = input.retryFailedOnly === true;
+
+  if (!retryFailedOnly || !creativeInjection) {
+    try {
+      creativeInjection = await generatePageCreativeInjection({
+        projectContext,
+        pageContext,
+        functionContract,
+      });
+      creativeInjectionError = undefined;
+    } catch (err) {
+      creativeInjectionError = err instanceof Error ? err.message : 'CGPT_INJECTION_FAILED';
+      creativeInjection = null;
+    }
+  } else {
     creativeInjectionError = undefined;
-  } catch (err) {
-    creativeInjectionError = err instanceof Error ? err.message : 'CGPT_INJECTION_FAILED';
-    creativeInjection = null;
   }
 
-  if (creativeInjection && !gpt2Authority && !gpt2AuthorityError) {
-    try {
-      gpt2Authority = await generatePageGpt2AuthorityConcept({ injection: creativeInjection, functionContract });
-      gpt2AuthorityError = undefined;
-    } catch (err) {
-      gpt2AuthorityError = err instanceof Error ? err.message : 'GPT2_AUTHORITY_FAILED';
-      gpt2Authority = null;
+  if (creativeInjection && (!gpt2Authority || !retryFailedOnly) && !gpt2AuthorityError) {
+    if (!gpt2Authority) {
+      try {
+        gpt2Authority = await generatePageGpt2AuthorityConcept({ injection: creativeInjection, functionContract });
+        gpt2AuthorityError = undefined;
+      } catch (err) {
+        gpt2AuthorityError = err instanceof Error ? err.message : 'GPT2_AUTHORITY_FAILED';
+        gpt2Authority = null;
+      }
     }
   }
 
-  const completed: PageConceptGeneratedArtifact[] = [];
+  const completed: PageConceptGeneratedArtifact[] = retryFailedOnly ?
+    input.state.generationJobs.filter((j) => j.status === 'READY')
+  : [];
   const renditions: PageConceptRendition[] = [];
 
   if (creativeInjection && gpt2Authority) {
@@ -101,6 +113,17 @@ export async function runPageConceptGeneration(
 
       for (const viewport of ['MOBILE', 'DESKTOP'] as const) {
         const artifactId = `pcga-${rp.slot}-${viewport}`;
+        const existing = input.state.generationJobs.find((j) => j.artifactId === artifactId);
+        if (existing?.status === 'READY') {
+          completed.push(existing);
+          if (viewport === 'MOBILE') mobileArtifactId = artifactId;
+          else desktopArtifactId = artifactId;
+          continue;
+        }
+        if (retryFailedOnly && existing?.status === 'READY') {
+          continue;
+        }
+
         const running: PageConceptGeneratedArtifact = {
           artifactId,
           projectId: input.state.projectId,
