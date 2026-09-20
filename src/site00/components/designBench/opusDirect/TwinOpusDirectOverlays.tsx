@@ -27,6 +27,7 @@ import { DesignProjectModuleNavPanel } from '../production/DesignProjectModuleNa
 import type { PagePipelineStageId } from '../../../../../shared/site00-design-workspace-production/designPagePipelineController.js';
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import { DesignViewportAuthorityEditorOverlay } from './DesignViewportAuthorityEditorOverlay';
+import { PageConceptGeneratorOverlay } from '../pageConceptGenerator/PageConceptGeneratorOverlay';
 import { PageAssetsManagementPanel } from './PageAssetsManagementPanel';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
 
@@ -298,6 +299,16 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
               onCancel={close}
             />
           </DesignChildSurfaceFrame>
+        : null}
+
+        {/* The generator carries its own header, target line and action row —
+            wrapping it in the generic child surface would duplicate the title. */}
+        {overlay === 'OV-GENERATE-PAGE-CONCEPTS' ?
+          <PageConceptGeneratorOverlay
+            projectLabel={slug}
+            pageLabel={readDesignPageTarget(slug)?.pageLabel ?? 'OVERVIEW'}
+            onClose={close}
+          />
         : null}
 
         {overlay === 'OV-REVIEW-AUTHORITY' ?

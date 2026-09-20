@@ -180,6 +180,7 @@ export type DesignProductionUiOverlay =
   | 'OV-COMPOSER-HANDOFF'
   | 'OV-CREATE-PAGE-FRAMEWORK'
   | 'OV-GROK-PAGE-ASSET-PRODUCTION'
+  | 'OV-GENERATE-PAGE-CONCEPTS'
   | 'OV-REVIEW-TWIN-PAGE';
 
 export type DesignProductionUiPayload = {

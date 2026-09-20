@@ -339,7 +339,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         prodActions.openCompareConcepts(candidateId, other);
       },
       generatePageConcepts: () => {
-        /* GPT2 creative layer — contract only; no model invoke this sprint */
+        /* Opens the generator shell only — CGPT/GPT2/NBP invocation is Composer's. */
+        prodActions.setOverlay('OV-GENERATE-PAGE-CONCEPTS');
       },
       captureScreen: async () => {
         await pageCapture.captureScreen();
@@ -785,7 +786,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       gallery: TWIN_OPUS_DIRECT_GALLERY,
       galleryEmptyMessage,
       galleryGenerateLabel: 'GENERATE PAGE CONCEPTS',
-      galleryGenerateDisabled: true,
+      galleryGenerateDisabled: false,
       candidates: scopedCandidates,
       candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,

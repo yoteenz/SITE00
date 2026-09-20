@@ -66,6 +66,7 @@ export const DESIGN_CHILD_SURFACE_PLACEMENT: Record<
   'OV-PIPELINE-TECHNICAL': { mode: 'DRAWER', kind: 'pipeline technical diagnostics' },
   'OV-PIPELINE-STAGE': { mode: 'DRAWER', kind: 'pipeline stage detail' },
   'OV-AMENDMENT-DETAIL': { mode: 'DRAWER', kind: 'amendment detail' },
+  'OV-GENERATE-PAGE-CONCEPTS': { mode: 'MODAL', kind: 'page concept generation plan' },
   references: { mode: 'WORKSPACE', kind: 'durable child workspace' },
   assets: { mode: 'WORKSPACE', kind: 'durable child workspace' },
   pages: { mode: 'WORKSPACE', kind: 'durable child workspace' },

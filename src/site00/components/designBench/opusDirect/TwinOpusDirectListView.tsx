@@ -379,7 +379,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     className="tod-lv-gallery__generate"
                     data-interaction-id="generate-page-concepts"
                     disabled={data.galleryGenerateDisabled}
-                    title="GPT2 creative layer contract — generation not invoked in this sprint"
+                    title="Opens the concept generation plan — nothing is generated until confirmed"
                     onClick={() => actions.generatePageConcepts()}
                   >
                     {data.galleryGenerateLabel}
