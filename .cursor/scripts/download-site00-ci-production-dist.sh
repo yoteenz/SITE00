@@ -11,7 +11,13 @@ REPO="${GITHUB_REPOSITORY:-yoteenz/SITE00}"
 mkdir -p "$OUT_DIR"
 cd "$ROOT"
 
-HEAD_SHA="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+git fetch origin main 2>>"$LOG" || true
+MATCH_REF="${SITE00_PREVIEW_MATCH_REF:-origin/main}"
+if git rev-parse "$MATCH_REF" >/dev/null 2>&1; then
+  HEAD_SHA="$(git rev-parse "$MATCH_REF")"
+else
+  HEAD_SHA="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+fi
 SHORT="${HEAD_SHA:0:12}"
 
 log() {
