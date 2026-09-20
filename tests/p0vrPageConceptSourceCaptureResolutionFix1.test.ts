@@ -137,6 +137,13 @@ describe('P0.VR.PAGE-CONCEPT-SOURCE-CAPTURE-RESOLUTION-FIX1', () => {
     expect(evaluatePageConceptReadiness('ndxbook', pageId)).toBe('BLOCKED_NO_DESKTOP_CAPTURE');
   });
 
+  it('9b. mirror registry page id overview:/projects/… resolves to same capture bucket', () => {
+    const mirrorPageId = 'ndxbook:overview:/projects/ndxbook';
+    appendPageCapture(captureRecord('MOBILE', CDN_MOBILE, mirrorPageId, 'm1', '2026-01-01T00:00:00.000Z'));
+    expect(resolveCurrentPageCapture('ndxbook', 'ndxbook:overview', 'MOBILE').ready).toBe(true);
+    expect(evaluatePageConceptReadiness('ndxbook', mirrorPageId)).toBe('BLOCKED_NO_DESKTOP_CAPTURE');
+  });
+
   it('9. writer and reader share canonical page identity', () => {
     const pageId = overviewPageId();
     const identity = resolveDesignPageIdentity({
