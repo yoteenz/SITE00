@@ -1,7 +1,11 @@
 # Nested SPA fallback — GoDaddy/cPanel often ignores root .htaccess rewrites.
-# This copy lives under each app route prefix (projects/, services/, etc.).
+# Physical directories (e.g. projects/) with -Indexes return 403 without this file.
+DirectoryIndex index.html
+Options -Indexes +SymLinksIfOwnerMatch
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^.*$ /index.html [L,QSA]
 </IfModule>
+ErrorDocument 403 /index.html
 ErrorDocument 404 /index.html

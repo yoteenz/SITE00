@@ -254,6 +254,7 @@ export function migrateHistoricalRootCapturePageId(
     (isSite00WebsiteProject(projectId) &&
       (normalizedSuffix === SITE00_WEBSITE_ROOT_ROUTE || lower === SITE00_WEBSITE_ROOT_SCREEN_ID)) ||
     lower === 'overview' ||
+    lower.startsWith('overview:') && lower.includes(projectPrefix) ||
     lower === 'root' ||
     lower === 'desktop-overview' ||
     lower === 'desktop overview hub'

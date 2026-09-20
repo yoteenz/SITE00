@@ -13,12 +13,15 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
 import { pageConceptReviewReady } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
   evaluatePageConceptReadiness,
   pageConceptBlockedReason,
   pageConceptBlockedResolution,
   pageConceptCaptureConfirmBlockMessage,
+  pageConceptReadinessIsSourceCaptureBlocked,
   pageConceptSourceCaptureBlockMessage,
+  pageConceptSourceCaptureLines,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import {
   loadPageConceptGenerationState,
@@ -89,7 +92,7 @@ async function buildPageConceptCapturePayload(
 
 function readinessBlockMessage(projectId: string, pageId: string): string {
   const readiness = evaluatePageConceptReadiness(projectId, pageId);
-  if (readiness === 'BLOCKED_NO_SOURCE_CAPTURE') {
+  if (pageConceptReadinessIsSourceCaptureBlocked(readiness)) {
     return pageConceptSourceCaptureBlockMessage(projectId, pageId) || pageConceptBlockedReason(readiness);
   }
   return pageConceptBlockedReason(readiness) || readiness;
@@ -142,7 +145,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
   useEffect(() => {
     const bump = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
-      if (detail?.projectId !== projectId || detail?.pageId !== pageId) return;
+      if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
       setCaptureRevision((v) => v + 1);
     };
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
@@ -159,9 +162,14 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
   );
   const captureBlockedReason = pageConceptBlockedReason(readiness);
   const blockedResolution = pageConceptBlockedResolution(readiness);
+  const sourceCaptureLines = useMemo(
+    () => pageConceptSourceCaptureLines(projectId, pageId),
+    [projectId, pageId, captureRevision],
+  );
+
   const blockedReason =
     readiness !== 'READY_FOR_CREATIVE_INJECTION' ?
-      readiness === 'BLOCKED_NO_SOURCE_CAPTURE' ?
+      pageConceptReadinessIsSourceCaptureBlocked(readiness) ?
         pageConceptSourceCaptureBlockMessage(projectId, pageId) || captureBlockedReason
       : captureBlockedReason
     : apiSessionReady === false ?
@@ -374,5 +382,6 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     cancelGeneration,
     confirmGeneration,
     retryFailedGeneration,
+    sourceCaptureLines,
   };
 }

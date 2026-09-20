@@ -19,6 +19,7 @@ import {
   pageConceptReviewReady,
   pageConceptStageStatesFromPipeline,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import type { PageConceptSourceCaptureLine } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import type {
   PageConceptGenerationPlan,
   PageConceptGenerationState,
@@ -36,6 +37,7 @@ export function PageConceptGenerationOverlay({
   error,
   generating,
   confirmReady,
+  sourceCaptureLines,
   onCancel,
   onConfirm,
   onRetryFailed,
@@ -48,6 +50,7 @@ export function PageConceptGenerationOverlay({
   error: string | null;
   generating: boolean;
   confirmReady: boolean;
+  sourceCaptureLines?: readonly PageConceptSourceCaptureLine[];
   onCancel: () => void;
   onConfirm: () => void;
   onRetryFailed: () => void;
@@ -166,6 +169,7 @@ export function PageConceptGenerationOverlay({
         <PageConceptGeneratorPanel
           projectLabel={plan?.projectLabel ?? generationState.projectId}
           pageLabel={plan?.pageLabel ?? generationState.pageId}
+          sourceCaptureLines={sourceCaptureLines}
           stageStates={stageStates}
           results={results}
           notice={error}

@@ -196,6 +196,8 @@ export const PAGE_CONCEPT_GENERATOR_STAGES: readonly PageConceptStageShell[] = [
 export const PAGE_CONCEPT_GENERATOR_FOOTER = {
   progressionNote: 'OUTPUTS WILL POPULATE BELOW AS EACH STAGE COMPLETES.',
   spendNote: 'CONFIRM BEFORE SEND.',
+  /** Compact mobile footer — display only; full plan line stays on desktop. */
+  spendMicroSummary: '1 CGPT + 1 GPT2 + 3 NBP · 6 OUTPUTS',
   generateLabel: 'GENERATE',
   cancelLabel: 'CANCEL',
 } as const;
@@ -295,12 +297,21 @@ export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGene
   if (!raw) return { headline: '' };
   if (
     raw === 'BLOCKED_NO_SOURCE_CAPTURE' ||
+    raw === 'BLOCKED_NO_MOBILE_CAPTURE' ||
+    raw === 'BLOCKED_NO_DESKTOP_CAPTURE' ||
     /missing implementation source capture/i.test(raw) ||
-    /implementation source capture missing/i.test(raw)
+    /implementation source capture missing/i.test(raw) ||
+    /capture the current mobile/i.test(raw) ||
+    /capture the current desktop/i.test(raw)
   ) {
+    const mobileOnly = /mobile page before generating/i.test(raw) || raw === 'BLOCKED_NO_MOBILE_CAPTURE';
+    const desktopOnly = /desktop page before generating/i.test(raw) || raw === 'BLOCKED_NO_DESKTOP_CAPTURE';
     return {
       headline: 'BLOCKED · SOURCE CAPTURE REQUIRED',
-      hint: 'CAPTURE MOBILE + DESKTOP BEFORE GENERATION',
+      hint:
+        mobileOnly ? 'CAPTURE THE CURRENT MOBILE PAGE BEFORE GENERATING CONCEPTS'
+        : desktopOnly ? 'CAPTURE THE CURRENT DESKTOP PAGE BEFORE GENERATING CONCEPTS'
+        : 'CAPTURE THE CURRENT MOBILE + DESKTOP PAGE BEFORE GENERATING CONCEPTS',
     };
   }
   const sentenceBreak = raw.indexOf('. ');
@@ -311,4 +322,10 @@ export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGene
     };
   }
   return { headline: raw.toUpperCase() };
+}
+
+/** Display-only: true when the shell should show the micro plan summary on mobile. */
+export function pageConceptGeneratorFootSpendShowsMicroSummary(note: string | null | undefined): boolean {
+  if (!note?.trim()) return false;
+  return /\d+\s+cgpt/i.test(note) && /gpt2/i.test(note) && /nbp/i.test(note);
 }

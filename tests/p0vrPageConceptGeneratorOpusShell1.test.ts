@@ -62,7 +62,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('formats blocked capture notices for compact footer display only', () => {
     expect(pageConceptGeneratorNoticeLines('BLOCKED_NO_SOURCE_CAPTURE')).toEqual({
       headline: 'BLOCKED · SOURCE CAPTURE REQUIRED',
-      hint: 'CAPTURE MOBILE + DESKTOP BEFORE GENERATION',
+      hint: 'CAPTURE THE CURRENT MOBILE + DESKTOP PAGE BEFORE GENERATING CONCEPTS',
     });
   });
 
@@ -107,7 +107,8 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     expect(panel).toContain('preview-next');
     const css = read(CSS);
     expect(css).toContain('.s00-pcg__dot[data-active');
-    expect(css).toContain('scroll-snap-type');
+    expect(css).toContain('scroll-snap-align');
+    expect(css).toContain('.s00-pcg__nbpSwipe');
   });
 
   it('locks typography to uppercase Martian Mono', () => {
@@ -120,8 +121,8 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('composes mobile sheet and desktop workbench separately', () => {
     const css = read(CSS);
     expect(css).toContain('@media (min-width: 900px)');
-    expect(css).toMatch(/grid-auto-flow: column/);
     expect(css).toMatch(/grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+    expect(css).toMatch(/@media \(max-width: 899px\)[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
     expect(css).toMatch(/max-height: min\(88vh/);
   });
 

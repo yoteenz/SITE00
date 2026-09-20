@@ -17,8 +17,21 @@ export type PageConceptReadiness =
   | 'BLOCKED_NO_PAGE_CONTEXT'
   | 'BLOCKED_NO_FUNCTION_CONTRACT'
   | 'BLOCKED_NO_SOURCE_CAPTURE'
+  | 'BLOCKED_NO_MOBILE_CAPTURE'
+  | 'BLOCKED_NO_DESKTOP_CAPTURE'
   | 'BLOCKED_NO_PROVIDER_CONFIG'
   | 'READY_FOR_CREATIVE_INJECTION';
+
+/** Explicit capture refs sent to API (server cannot read browser localStorage). */
+export type PageConceptSourceCaptureRef = {
+  captureId: string;
+  viewport: 'MOBILE' | 'DESKTOP';
+  artifactPath: string;
+  route: string;
+  buildVersion: string | null;
+  timestamp: string;
+  screenId: string;
+};
 
 export type ProjectCreativeContext = {
   projectId: string;

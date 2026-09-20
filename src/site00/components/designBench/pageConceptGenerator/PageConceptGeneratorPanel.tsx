@@ -8,10 +8,9 @@
  * passed straight through, so Composer can bind the real pipeline without
  * touching the composition.
  *
- * Mobile and desktop are composed, not scaled. On phones the panel is a
- * full-height editorial sheet whose stage cards scroll horizontally in a
- * snapping rail; from 900px the same cards sit in a balanced three-column
- * workbench with the progression rail spanning above them.
+ * Mobile and desktop are composed, not scaled. Phones keep the same three-stage
+ * workbench in one view; from 900px the cards gain desktop spacing and the
+ * progression rail uses a tighter two-line clamp.
  */
 
 import type { ReactNode } from 'react';
@@ -24,6 +23,7 @@ import {
   PAGE_CONCEPT_GENERATOR_TITLE,
   PAGE_CONCEPT_STATE_ICON,
   PAGE_CONCEPT_STATE_LABEL,
+  pageConceptGeneratorFootSpendShowsMicroSummary,
   pageConceptGeneratorNoticeLines,
   pageConceptGeneratorTargetLine,
   type PageConceptRenditionGroup,
@@ -43,9 +43,16 @@ export type PageConceptGeneratorResultSlots = {
   nbpStageOverride?: ReactNode;
 };
 
+export type PageConceptSourceCapturePresentation = {
+  viewport: 'MOBILE' | 'DESKTOP';
+  label: string;
+  state: 'READY' | 'MISSING';
+};
+
 export type PageConceptGeneratorPanelProps = {
   projectLabel: string;
   pageLabel: string;
+  sourceCaptureLines?: readonly PageConceptSourceCapturePresentation[];
   stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
@@ -256,6 +263,7 @@ function StageCard({
 export function PageConceptGeneratorPanel({
   projectLabel,
   pageLabel,
+  sourceCaptureLines,
   stageStates,
   results = {},
   generateDisabled,
@@ -275,6 +283,8 @@ export function PageConceptGeneratorPanel({
     ...stageStates,
   };
   const dismiss = onCancel ?? onClose;
+  const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
+  const footSpendMicro = pageConceptGeneratorFootSpendShowsMicroSummary(footSpendNote);
 
   return (
     <section
@@ -299,6 +309,22 @@ export function PageConceptGeneratorPanel({
         </div>
         <p className="s00-pcg__target">{pageConceptGeneratorTargetLine(projectLabel, pageLabel)}</p>
       </header>
+
+      {sourceCaptureLines && sourceCaptureLines.length > 0 ?
+        <div className="s00-pcg__source" aria-label="Implementation source captures" data-testid="page-concept-source-captures">
+          <span className="s00-pcg__sourceTitle">SOURCE</span>
+          {sourceCaptureLines.map((line) => (
+            <span
+              className="s00-pcg__sourceLine"
+              key={line.viewport}
+              data-viewport={line.viewport}
+              data-state={line.state}
+            >
+              {line.label} · {line.state}
+            </span>
+          ))}
+        </div>
+      : null}
 
       <div className="s00-pcg__summary" aria-label="Concept generation plan">
         <span className="s00-pcg__summaryGlyph" aria-hidden="true">
@@ -361,7 +387,15 @@ export function PageConceptGeneratorPanel({
             </span>
             {PAGE_CONCEPT_GENERATOR_FOOTER.progressionNote}
           </span>
-          <span className="s00-pcg__footSpend">{footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
+          <span className="s00-pcg__footSpend" data-testid="page-concept-foot-spend">
+            <span className="s00-pcg__footSpendFull">{footSpendRaw}</span>
+            <span className="s00-pcg__footSpendCompact">
+              <span className="s00-pcg__footSpendConfirm">{PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
+              {footSpendMicro ?
+                <span className="s00-pcg__footSpendMicro">{PAGE_CONCEPT_GENERATOR_FOOTER.spendMicroSummary}</span>
+              : null}
+            </span>
+          </span>
         </p>
         <div className="s00-pcg__actions">
           {secondaryAction ?

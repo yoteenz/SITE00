@@ -1,6 +1,7 @@
 # SITE 00 SPA — Apache/cPanel (GoDaddy). Hard refresh on deep links must serve index.html.
 # SymLinksIfOwnerMatch is safer than FollowSymLinks on many GoDaddy shared plans.
 Options +SymLinksIfOwnerMatch -MultiViews -Indexes
+DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -10,7 +11,7 @@ Options +SymLinksIfOwnerMatch -MultiViews -Indexes
   RewriteRule ^index\.html$ - [L]
 
   # App route prefixes — rewrite even when a physical directory exists on the host (e.g. projects/).
-  RewriteRule ^(projects|services|control|origin|studio-world|admin|app|assts|idnty|bldr|evolve|validation|astral-world|bluprint|build|live|sign-in|identity|register|create-account)(/.*)?$ index.html [L,QSA]
+  RewriteRule ^(projects|services|control|origin|studio-world|admin|app|assts|idnty|bldr|evolve|validation|astral-world|bluprint|build|live|system|sign-in|identity|register|create-account)(/.*)?$ index.html [L,QSA]
 
   # Static assets and real files/directories.
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -24,6 +25,7 @@ Options +SymLinksIfOwnerMatch -MultiViews -Indexes
 </IfModule>
 
 # Last-resort: custom error page still bootstraps the SPA.
+ErrorDocument 403 /index.html
 ErrorDocument 404 /index.html
 
 # Always revalidate SPA shell so new deploys take effect immediately (assets stay hashed).

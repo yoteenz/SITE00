@@ -348,6 +348,8 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1', () => {
 
   it('overlay wires binding, results, spend gate, retry, persistence hooks', () => {
     const overlay = read('src/site00/components/designBench/opusDirect/PageConceptGenerationOverlay.tsx');
+    expect(overlay).toContain('sourceCaptureLines');
+    expect(overlay).toContain('page-concept-source-captures');
     expect(overlay).toContain('pageConceptStageStatesFromPipeline');
     expect(overlay).toContain('PageConceptGeneratorResults');
     expect(overlay).toContain('PageConceptGeneratorNbpStage');

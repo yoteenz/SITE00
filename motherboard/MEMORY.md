@@ -10890,6 +10890,59 @@ Sprint: icon-system refinement for **GENERATE PAGE CONCEPTS** only. Live shell/g
 
 ---
 
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-MOBILE-OVERFLOW-FIX1
+
+Sprint: **GENERATE PAGE CONCEPTS** modal — mobile responsive containment only (no pipeline/provider changes).
+
+- **CSS:** `@media (max-width: 899px)` — 2×2 summary strip; rail descriptions unwrap (no line-clamp); stage cards horizontal scroll-snap (~86vw); foot notes column stack; reduced metadata letter-spacing; `min-width: 0` / `overflow-x: clip` containment.
+- **Display:** `pageConceptGeneratorFootSpendSegments()` splits `estimatedCostNote` on `\s+\+\s+(?=\d+\s)`; panel renders stacked `s00-pcg__footSpendStack` on mobile, inline `+` on desktop (900px+).
+- **Tests:** `p0vrPageConceptGeneratorMobileOverflowFix1.test.ts`; QA script `capture-mobile-overflow-qa.mjs` (390/393/430/desktop).
+- **Branch:** `cursor/page-concept-generator-mobile-overflow-fix1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-ROLLBACK-OVERFLOW-FIX2
+
+Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgical text containment only.
+
+- **Restored:** horizontal 4-metric summary (5-col grid with glyph), 3-column stage cards (no ≤899px carousel), compact footer row (no stacked giant plan lines).
+- **Mobile footer display:** `footSpendFull` hidden ≤899px; `footSpendCompact` shows `CONFIRM BEFORE SEND` + optional `spendMicroSummary`; desktop keeps full plan line.
+- **CSS:** rail descriptions wrap on mobile; tighter metric/card typography; `pageConceptGeneratorFootSpendShowsMicroSummary()`.
+- **Tests:** `p0vrPageConceptGeneratorRollbackOverflowFix2.test.ts` (replaces FIX1 test).
+- **Branch:** `cursor/page-concept-generator-rollback-overflow-fix2-9f72`.
+
+---
+
+## 2026-09-20 — CI: Opus console tabs test (SHELL tab)
+
+- **Issue:** `p0vrDesignOpusAiConsoles1.test.ts` expected `OPUS_CONSOLE_TABS` ids `DESIGN/REVIEW/CONTEXT`; production model adds **SHELL** first (`OpusDesignShellPanel` in `DesignAgentDock`).
+- **Fix:** Test expects `['SHELL','DESIGN','REVIEW','CONTEXT']` + asserts `OpusDesignShellPanel` wiring.
+- **Branch:** `cursor/fix-opus-console-tabs-shell-test-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-SOURCE-CAPTURE-RESOLUTION-FIX1
+
+Sprint: **BLOCKED_NO_SOURCE_CAPTURE** while CURRENT showed a capture — unify CAPTURE SCREEN write path with GENERATE readiness read path.
+
+- **Root cause:** `appendPageCapture` canonicalizes `pageId` (e.g. `ndxbook:overview` → `ndxbook:/projects/ndxbook`) but `DESIGN_PAGE_CAPTURE_UPDATED_EVENT` carried canonical id while hooks compared strict registry id → **`captureRevision` never bumped** after capture (stale GENERATE block until modal reopen/hydrate).
+- **Fix:** `designPageIdentity.ts` (`resolveDesignPageIdentity`, `designPageCaptureEventMatches`); `resolveCurrentPageCapture`; readiness emits **`BLOCKED_NO_MOBILE_CAPTURE` / `BLOCKED_NO_DESKTOP_CAPTURE`** when one viewport missing (both Mobile+Desktop required); overlay **SOURCE · MOBILE/DESKTOP CAPTURE · READY/MISSING** strip; founder copy via `pageConceptSourceCaptureBlockMessage` (no raw enums); `sourceCaptureRefs.ts` documents client→API artifact refs (server cannot read localStorage).
+- **Tests:** `p0vrPageConceptSourceCaptureResolutionFix1.test.ts` (13 cases).
+- **Branch:** `cursor/page-concept-source-capture-resolution-fix1-b747`.
+
+---
+
+## 2026-09-20 — P0.PROD.PROJECTS-ROUTE-RELIABILITY1 (403 /projects)
+
+Recurring raw **403 Forbidden** on `/projects` (Apache, before React).
+
+- **403 issuer:** GoDaddy **Apache** on `site00.com` (not Railway/API).
+- **Root cause:** Physical `projects/` directory + `Options -Indexes` + missing/inactive nested `projects/.htaccess` after ZIP upload (dotfiles skipped) → directory access denied **403** (same class as past **404** deep links when rewrite inactive).
+- **Fix:** `ErrorDocument 403 /index.html`; nested `DirectoryIndex` + `-Indexes`; copy **SPA `index.html` stub** into every route-prefix folder at build; unified **`scripts/spa-route-prefixes.mjs`** (+ `system`, `bluprint`, `build`, `live`); CI **`site00-production-route-smoke.mjs`** (20× `/projects`); verify release probes multiple shell routes; `docs/PRODUCTION_ROUTING.md`.
+- **Branch:** `cursor/projects-route-reliability1-b747`.
+
+---
+
 ## 2026-09-20 — Tunnel GENERATE blocked by sign-in + GROK-ICON-LABEL-CLEANUP2
 
 Chat started with founder on **site00.fsbw-dev.com** unable to generate page concepts even with mobile + desktop CAPTURE SCREEN. Screenshot showed **SIGN IN REQUIRED — GENERATE calls api.site00.com**, viewport **MOBILE OK / DESKTOP OK**, and empty gallery.
