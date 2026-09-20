@@ -206,6 +206,7 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     expect(screen).toContain('pageConceptGeneration.cancelGeneration');
     const overlay = read('src/site00/components/designBench/opusDirect/PageConceptGenerationOverlay.tsx');
     expect(overlay).toContain('data-testid="page-concept-generation-overlay"');
+    expect(overlay).toContain('confirmReady');
     expect(overlay).toContain('PHASE 1');
     expect(overlay).toContain('CGPT Creative Injection');
     expect(overlay).toContain('GPT2 Authority Concept');

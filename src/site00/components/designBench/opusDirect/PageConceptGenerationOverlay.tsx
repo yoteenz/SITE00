@@ -34,6 +34,7 @@ export function PageConceptGenerationOverlay({
   status,
   error,
   generating,
+  confirmReady,
   onCancel,
   onConfirm,
 }: {
@@ -43,6 +44,7 @@ export function PageConceptGenerationOverlay({
   status: PageConceptGenerationStatus;
   error: string | null;
   generating: boolean;
+  confirmReady: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 }) {
@@ -84,7 +86,7 @@ export function PageConceptGenerationOverlay({
             </p>
             <p className="tod-pageGenOverlay__muted">{plan.estimatedCostNote}</p>
             <div className="tod-pageGenOverlay__actions">
-              <button type="button" data-primary onClick={onConfirm} disabled={generating}>
+              <button type="button" data-primary onClick={onConfirm} disabled={generating || !confirmReady}>
                 {generating ? 'PREPARING…' : 'GENERATE'}
               </button>
             </div>
