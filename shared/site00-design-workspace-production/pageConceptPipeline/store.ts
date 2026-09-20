@@ -1,5 +1,5 @@
 import type { PageConceptGenerationState } from './types.js';
-import { isPageConceptSourceCaptureRelatedNotice } from './pageConceptGenerationBlockingState.js';
+import { isPageConceptStaleCaptureEligibilityNotice } from './pageConceptFounderNotice.js';
 import { hydratePageConceptGenerationState } from './readiness.js';
 
 const STORAGE_PREFIX_V1 = 'site00:page-concept-generation:v1:';
@@ -18,7 +18,7 @@ export function sanitizePersistedPageConceptGenerationPartial(
   partial: Partial<PageConceptGenerationState>,
 ): Partial<PageConceptGenerationState> {
   if (!partial.lastFailure?.message) return partial;
-  if (!isPageConceptSourceCaptureRelatedNotice(partial.lastFailure.message)) return partial;
+  if (!isPageConceptStaleCaptureEligibilityNotice(partial.lastFailure.message)) return partial;
   return { ...partial, lastFailure: null };
 }
 
