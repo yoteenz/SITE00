@@ -6,6 +6,12 @@ export function persistCaptureArtifact(captureId: string, artifactBase64: string
   return `local://${ARTIFACT_KEY_PREFIX}${captureId}`;
 }
 
+export function loadCaptureArtifactBase64(artifactPath: string | null): string | null {
+  if (!artifactPath?.startsWith('local://') || typeof localStorage === 'undefined') return null;
+  const key = artifactPath.slice('local://'.length);
+  return localStorage.getItem(key);
+}
+
 export function resolveCaptureArtifactDisplayUrl(artifactPath: string | null): string | null {
   if (!artifactPath) return null;
   if (artifactPath.startsWith('data:') || artifactPath.startsWith('http') || artifactPath.startsWith('/')) {

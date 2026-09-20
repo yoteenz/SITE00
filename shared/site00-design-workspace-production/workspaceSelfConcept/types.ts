@@ -4,6 +4,12 @@
 
 import type { DesignTargetType } from '../designTargetModel.js';
 import type { WorkspaceSelfSourceContext } from './sourceContext.js';
+import type {
+  WorkspaceSelfConceptSet,
+  WorkspaceSelfCreativeBriefSet,
+  WorkspaceSelfGeneratedArtifact,
+  WorkspaceSelfGenerationStatus,
+} from './generationTypes.js';
 
 export type NbpHandoffReadiness =
   | 'READY_FOR_NBP'
@@ -173,6 +179,11 @@ export type WorkspaceSelfWorkflowState = {
   authorityPair: WorkspaceSelfAuthorityPair | null;
   opusShellPackage: OpusDesignShellPackage | null;
   composerHandoff: ComposerWorkspaceHandoffPackage | null;
+  conceptSet: WorkspaceSelfConceptSet | null;
+  creativeBriefSet: WorkspaceSelfCreativeBriefSet | null;
+  generationJobs: readonly WorkspaceSelfGeneratedArtifact[];
+  generationStatus: WorkspaceSelfGenerationStatus;
+  lastGenerationFailure: WorkspaceSelfCaptureFailure | null;
   productionMutationLocked: true;
   history: readonly { type: string; at: string; summary: string }[];
 };

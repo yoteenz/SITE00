@@ -74,6 +74,7 @@ export function SystemDesignWorkspaceConceptsPage() {
   const canApproveOpus = ws.state.opusShellPackage?.status === 'STAGED';
   const canComposer = ws.state.opusShellPackage?.status === 'APPROVED' && !ws.state.composerHandoff;
   const nbpReady = ws.nbpReadiness === 'READY_FOR_NBP';
+  const canGenerateConcepts = nbpReady && !ws.generating;
 
   return (
     <div className="site00-wssc" data-testid="workspace-self-concept-page">
@@ -132,7 +133,74 @@ export function SystemDesignWorkspaceConceptsPage() {
           >
             SYNC NBP HANDOFF PACKAGE
           </button>
+          <button
+            type="button"
+            data-primary="true"
+            disabled={!canGenerateConcepts}
+            onClick={() => {
+              void ws.prepareGenerationPlan().catch((err) =>
+                setCaptureError(err instanceof Error ? err.message : 'Plan failed'),
+              );
+            }}
+          >
+            GENERATE 3 WORKSPACE CONCEPTS
+          </button>
         </div>
+        {ws.generationError ? <p className="site00-wssc__error">{ws.generationError}</p> : null}
+        {ws.state.generationStatus !== 'IDLE' ?
+          <p className="site00-wssc__muted">
+            Generation status: <strong>{ws.state.generationStatus}</strong>
+            {ws.state.generationJobs.length ? ` · ${ws.state.generationJobs.filter((j) => j.status === 'READY').length}/6 artifacts` : ''}
+          </p>
+        : null}
+        {ws.pendingPlan ?
+          <div className="site00-wssc__confirm" data-testid="workspace-self-generation-confirm">
+            <p>
+              <strong>TARGET:</strong> {ws.pendingPlan.targetLabel}
+            </p>
+            <p>
+              <strong>CONCEPTS:</strong> {ws.pendingPlan.conceptCount} · <strong>OUTPUTS:</strong>{' '}
+              {ws.pendingPlan.outputCount} · <strong>VIEWPORTS:</strong> Mobile + Desktop
+            </p>
+            <p>
+              <strong>CREATIVE LAYER:</strong> {ws.pendingPlan.creativeLayer} · <strong>RENDERER:</strong>{' '}
+              {ws.pendingPlan.renderer}
+            </p>
+            <p className="site00-wssc__muted">{ws.pendingPlan.estimatedCostNote}</p>
+            <div className="site00-wssc__actions">
+              <button type="button" onClick={() => ws.cancelGenerationPlan()}>
+                CANCEL
+              </button>
+              <button
+                type="button"
+                data-primary="true"
+                disabled={ws.generating}
+                onClick={() => {
+                  void ws.confirmWorkspaceConceptGeneration().catch((err) =>
+                    setCaptureError(err instanceof Error ? err.message : 'Generation failed'),
+                  );
+                }}
+              >
+                {ws.generating ? 'GENERATING…' : 'GENERATE'}
+              </button>
+            </div>
+          </div>
+        : null}
+        {ws.state.generationJobs.length ?
+          <ul className="site00-wssc__jobList">
+            {ws.state.generationJobs.map((job) => (
+              <li key={job.artifactId}>
+                {job.conceptId} {job.viewport}: {job.status}
+                {job.failureReason ? ` — ${job.failureReason}` : ''}
+              </li>
+            ))}
+          </ul>
+        : null}
+        {ws.state.generationStatus === 'PARTIAL_GENERATION' ?
+          <button type="button" onClick={() => void ws.retryFailedGenerationJobs()}>
+            RETRY FAILED ONLY
+          </button>
+        : null}
         <p className="site00-wssc__muted">
           Historical capture sets preserved: {ws.state.captureSets.length} · Active set{' '}
           {ws.state.activeCaptureSetId ?? '—'}
@@ -152,12 +220,28 @@ export function SystemDesignWorkspaceConceptsPage() {
                 className="site00-wssc__slot"
                 data-active={activeMobile || activeDesktop ? 'true' : 'false'}
               >
-                <strong>{id}</strong>
+                <strong>{concept?.conceptName || id}</strong>
                 <p className="site00-wssc__muted">Status: {concept?.status ?? 'EMPTY'}</p>
+                {concept?.conceptTerritory ?
+                  <p className="site00-wssc__muted">{concept.conceptTerritory.slice(0, 120)}</p>
+                : null}
+                <div className="site00-wssc__grid site00-wssc__grid--2">
+                  {concept?.mobileArtifactPath ?
+                    <img
+                      className="site00-wssc__capture"
+                      src={resolveCaptureArtifactDisplayUrl(concept.mobileArtifactPath) ?? undefined}
+                      alt={`${id} mobile`}
+                    />
+                  : null}
+                  {concept?.desktopArtifactPath ?
+                    <img
+                      className="site00-wssc__capture"
+                      src={resolveCaptureArtifactDisplayUrl(concept.desktopArtifactPath) ?? undefined}
+                      alt={`${id} desktop`}
+                    />
+                  : null}
+                </div>
                 <div className="site00-wssc__actions">
-                  <button type="button" onClick={() => ws.stageConcept(id)}>
-                    STAGE SLOT
-                  </button>
                   <button type="button" onClick={() => ws.selectMobile(id)} disabled={concept?.status === 'EMPTY'}>
                     SELECT FOR MOBILE
                   </button>

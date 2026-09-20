@@ -50,6 +50,11 @@ export function createInitialWorkspaceSelfState(): WorkspaceSelfWorkflowState {
     authorityPair: null,
     opusShellPackage: null,
     composerHandoff: null,
+    conceptSet: null,
+    creativeBriefSet: null,
+    generationJobs: [],
+    generationStatus: 'IDLE',
+    lastGenerationFailure: null,
     productionMutationLocked: true,
     history: [],
   };
@@ -95,15 +100,17 @@ export function createNbpConceptPackage(state: WorkspaceSelfWorkflowState): Work
   return syncNbpPackageFromCaptures(state);
 }
 
+/** @deprecated Use workspace-self-concept-generation API — local flag only. */
 export function requestConceptGeneration(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {
   if (!state.nbpPackage) throw new Error('NBP_PACKAGE_REQUIRED');
   return appendHistory(
     {
       ...state,
       nbpPackage: { ...state.nbpPackage, status: 'GENERATION_REQUESTED' },
+      generationStatus: 'PLANNED',
     },
     'workspace_concept_generation_requested',
-    'NBP generation requested (no provider invoke in wiring sprint)',
+    'Generation planned — confirm in UI to dispatch providers',
   );
 }
 

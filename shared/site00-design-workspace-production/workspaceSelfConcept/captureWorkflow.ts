@@ -26,6 +26,11 @@ export function normalizeWorkspaceSelfState(state: WorkspaceSelfWorkflowState): 
     captureSets: state.captureSets ?? [],
     activeCaptureSetId: state.activeCaptureSetId ?? null,
     lastCaptureFailure: state.lastCaptureFailure ?? null,
+    conceptSet: state.conceptSet ?? null,
+    creativeBriefSet: state.creativeBriefSet ?? null,
+    generationJobs: state.generationJobs ?? [],
+    generationStatus: state.generationStatus ?? 'IDLE',
+    lastGenerationFailure: state.lastGenerationFailure ?? null,
     captures: (state.captures ?? []).map((c) => ({
       ...c,
       status: c.status ?? (c.artifactPath ? 'READY' : 'FAILED'),
@@ -151,6 +156,15 @@ export function failWorkspaceSelfCaptureSet(
     'workspace_capture_failed',
     input.reason,
   );
+}
+
+export function activeReadyCaptureSet(state: WorkspaceSelfWorkflowState): WorkspaceSelfCaptureSet | null {
+  const id = state.activeCaptureSetId;
+  if (id) {
+    const active = state.captureSets.find((s) => s.captureSetId === id && s.status === 'READY');
+    if (active) return active;
+  }
+  return [...state.captureSets].reverse().find((s) => s.status === 'READY') ?? null;
 }
 
 export function syncNbpPackageFromCaptures(state: WorkspaceSelfWorkflowState): WorkspaceSelfWorkflowState {
