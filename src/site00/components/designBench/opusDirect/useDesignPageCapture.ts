@@ -112,9 +112,9 @@ export function useDesignPageCapture(
       const snapshot = result.data?.snapshot ?? null;
       const publicUrl = snapshot?.publicUrl?.trim() ?? '';
       if (!publicUrl || !isPageCaptureDisplayableArtifact(publicUrl)) {
-        throw new Error(formatCaptureFailure(snapshot));
+        throw new Error(formatCaptureFailure(snapshot ?? undefined));
       }
-      const record = appendPageCapture(snapshotToCapture(snapshot, pageId, viewport));
+      const record = appendPageCapture(snapshotToCapture(snapshot!, pageId, viewport));
       setLatest(record);
       return record;
     } catch (err) {
