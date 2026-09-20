@@ -2,7 +2,7 @@
   "name": "SITE 00",
   "user": "ubuntu",
   "install": "npm ci && bash .cursor/scripts/install-cloudflared.sh",
-  "start": "bash .cursor/scripts/ensure-site00-preview-url.sh",
+  "start": "bash .cursor/scripts/bootstrap-cloud-preview-from-ci.sh && bash .cursor/scripts/ensure-site00-preview-url.sh",
   "terminals": [
     {
       "name": "site00-vite",
