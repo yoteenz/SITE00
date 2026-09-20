@@ -31,6 +31,7 @@ import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-d
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
+import { usePageConceptReleaseForensics } from './usePageConceptReleaseForensics';
 
 export function PageConceptGenerationOverlay({
   open,
@@ -168,26 +169,7 @@ export function PageConceptGenerationOverlay({
       'READY FOR REVIEW'
     : null;
 
-  const [releaseForensics, setReleaseForensics] = useState<string>('RELEASE —');
-
-  useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
-    void fetch('/release-manifest.json', { cache: 'no-store' })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((manifest: { releaseId?: string; commitSha?: string; bundleEntry?: string } | null) => {
-        if (cancelled || !manifest) return;
-        setReleaseForensics(
-          `RELEASE ${manifest.releaseId ?? '—'}\nCOMMIT ${manifest.commitSha ?? '—'}\nBUNDLE ${manifest.bundleEntry ?? '—'}`,
-        );
-      })
-      .catch(() => {
-        if (!cancelled) setReleaseForensics('RELEASE — (manifest unavailable)');
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [open]);
+  const releaseForensics = usePageConceptReleaseForensics(open);
 
   if (!open) return null;
 
