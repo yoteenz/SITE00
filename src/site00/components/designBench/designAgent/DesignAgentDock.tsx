@@ -71,6 +71,7 @@ import {
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import { useDesignAgentDock } from './DesignAgentDockContext';
 import { useDesignAgentTarget } from './useDesignAgentTarget';
+import { OpusDesignShellPanel } from '../opusDesignShell/OpusDesignShellPanel';
 import '../../../styles/site00-design-agent.css';
 
 const DRAFT_KEY = 'site00:opus-console-draft:v1:';
@@ -409,6 +410,10 @@ export function DesignAgentDock() {
       {serviceError && !targeting.registryError ? (
         <p className="s00-aic__notice s00-aic__notice--error">Runtime unreachable: {serviceError}</p>
       ) : null}
+
+      {tab === 'SHELL' ?
+        <OpusDesignShellPanel />
+      : null}
 
       {tab === 'DESIGN' ? (
         <>

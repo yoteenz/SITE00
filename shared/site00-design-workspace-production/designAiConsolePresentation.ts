@@ -26,6 +26,7 @@ export type ConsoleStatus = {
 /* ------------------------------------------------------------------ OPUS -- */
 
 export const OPUS_CONSOLE_TABS = [
+  { id: 'SHELL', label: 'SHELL', purpose: 'Create or refine a staged visual design shell (Opus 5).' },
   { id: 'DESIGN', label: 'DESIGN', purpose: 'Compose and dispatch a page change.' },
   { id: 'REVIEW', label: 'REVIEW', purpose: 'Inspect the proposal Opus produced.' },
   { id: 'CONTEXT', label: 'CONTEXT', purpose: 'What Opus is given, and what it may write.' },
