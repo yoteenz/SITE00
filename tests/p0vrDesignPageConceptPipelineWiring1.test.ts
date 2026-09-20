@@ -107,7 +107,8 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     seedMobileDesktopCaptures(PROJECT, pageId);
     expect(evaluatePageConceptReadiness(PROJECT, pageId)).toBe('READY_FOR_CREATIVE_INJECTION');
     const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
-    expect(workspace).toContain('galleryGenerateDisabled: !pageConceptGeneration.ready');
+    expect(workspace).toContain('pageConceptGenerationGateFromEligibility');
+    expect(workspace).toContain('pageConceptGenerationEligibility');
   });
 
   it('blocked button exposes exact reason copy', () => {
@@ -116,7 +117,7 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     expect(reason).toContain('Implementation source capture missing');
     const canonical = read('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
     expect(canonical).toContain('generate-page-concepts-blocked-reason');
-    expect(canonical).toContain('galleryGenerateBlockedReason');
+    expect(canonical).toContain('pageConceptGenerationGate.blockerMessage');
   });
 
   it('click path resolves active project and page via hook', () => {

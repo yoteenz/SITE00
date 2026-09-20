@@ -15,15 +15,22 @@ import {
   type PageConceptSourceCaptureValidation,
   validatePageConceptSourceCaptures,
 } from './pageConceptSourceCaptureValidation.js';
+import type { PageCaptureRecord } from '../designPageCapture.js';
 import type { PageConceptReadiness } from './types.js';
 import type { PageConceptSourceCaptureLine } from './readiness.js';
 
 export type PageConceptCaptureHydrationStatus = 'idle' | 'checking' | 'ready';
 
 export type PageConceptGenerationEligibility = {
+  /** Active design project slug (same as projectId). */
+  activeProjectId: string;
+  /** Registry page id for the active DESIGN target. */
+  activePageId: string;
   projectId: string;
   pageId: string;
   canonicalPageId: string;
+  mobileCapture: PageCaptureRecord | null;
+  desktopCapture: PageCaptureRecord | null;
   sourceCaptureValidation: PageConceptSourceCaptureValidation;
   sourceCaptureLines: PageConceptSourceCaptureLine[];
   hydrationStatus: PageConceptCaptureHydrationStatus;
@@ -33,8 +40,14 @@ export type PageConceptGenerationEligibility = {
   sessionReady: boolean | null;
   readiness: PageConceptReadiness;
   blockerCode: PageConceptReadiness | null;
+  /** Founder-facing blocker copy (gallery, pipeline, overlay confirm). */
+  blockerMessage: string | null;
+  /** Founder-facing resolution hint. */
+  resolutionAction: string | null;
   confirmNotice: string | null;
+  /** @deprecated use blockerMessage */
   blockedReason: string | null;
+  /** @deprecated use resolutionAction */
   blockedResolution: string | null;
   canGenerate: boolean;
 };
@@ -64,9 +77,12 @@ export function pageConceptConfirmNoticeFromEligibility(eligibility: PageConcept
     return 'SIGN IN REQUIRED — GENERATE calls api.site00.com. Open Ctrl Room on this tab and sign in, then retry.';
   }
   if (eligibility.sourceCaptureValidation.allRequiredReady) {
-    return eligibility.blockedReason;
+    return eligibility.blockerMessage;
   }
-  return pageConceptSourceCaptureBlockMessage(eligibility.projectId, eligibility.pageId) || eligibility.blockedReason;
+  return (
+    pageConceptSourceCaptureBlockMessage(eligibility.projectId, eligibility.canonicalPageId) ||
+    eligibility.blockerMessage
+  );
 }
 
 export function buildPageConceptGenerationEligibility(input: {
@@ -124,10 +140,16 @@ export function buildPageConceptGenerationEligibility(input: {
     functionContractReady &&
     input.sessionReady === true;
 
+  const resolutionAction = pageConceptBlockedResolution(readiness);
+
   const eligibility: PageConceptGenerationEligibility = {
+    activeProjectId: projectId,
+    activePageId: pageId,
     projectId,
     pageId,
     canonicalPageId,
+    mobileCapture: sourceCaptureValidation.mobile.record,
+    desktopCapture: sourceCaptureValidation.desktop.record,
     sourceCaptureValidation,
     sourceCaptureLines,
     hydrationStatus: input.hydrationStatus,
@@ -139,8 +161,10 @@ export function buildPageConceptGenerationEligibility(input: {
     blockerCode:
       input.hydrationStatus !== 'ready' || readiness === 'READY_FOR_CREATIVE_INJECTION' ? null : readiness,
     confirmNotice: null,
+    blockerMessage: blockedReason,
+    resolutionAction,
     blockedReason,
-    blockedResolution: pageConceptBlockedResolution(readiness),
+    blockedResolution: resolutionAction,
     canGenerate,
   };
 
@@ -174,5 +198,41 @@ export function assertPageConceptEligibilityInvariants(eligibility: PageConceptG
   }
   if (eligibility.hydrationStatus !== 'ready' && eligibility.confirmNotice?.includes('Capture the current')) {
     console.warn('PAGE_CONCEPT_PREHYDRATION_BLOCKER', eligibility);
+  }
+}
+
+/** Gallery / pipeline CTA — only source for disabled state and blocker copy. */
+export function pageConceptGenerationGateFromEligibility(
+  eligibility: PageConceptGenerationEligibility,
+  generationInFlight: boolean,
+): {
+  canPressGenerate: boolean;
+  blockerMessage: string | null;
+  resolutionAction: string | null;
+} {
+  const checking = eligibility.hydrationStatus === 'checking';
+  return {
+    canPressGenerate: eligibility.canGenerate && !generationInFlight,
+    blockerMessage: checking ? null : eligibility.blockerMessage,
+    resolutionAction: checking ? null : eligibility.resolutionAction,
+  };
+}
+
+export function assertPageConceptGenerationGateDivergence(input: {
+  eligibility: PageConceptGenerationEligibility;
+  generateButtonDisabled: boolean;
+  renderedBlockerText: string | null;
+}): void {
+  const { eligibility } = input;
+  if (eligibility.canGenerate && input.generateButtonDisabled) {
+    console.error('PAGE_CONCEPT_GENERATION_GATE_DIVERGENCE', input);
+  }
+  const text = input.renderedBlockerText ?? '';
+  if (
+    eligibility.hydrationStatus === 'ready' &&
+    eligibility.sourceCaptureValidation.allRequiredReady &&
+    /capture the current mobile and desktop/i.test(text)
+  ) {
+    console.error('STALE_CAPTURE_BLOCKER_COPY_RENDERED', input);
   }
 }

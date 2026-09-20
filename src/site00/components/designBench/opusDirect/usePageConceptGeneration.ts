@@ -140,9 +140,23 @@ export function usePageConceptGeneration(
   }, [captureRevision, pageId, projectId]);
 
   useEffect(() => {
+    let cancelled = false;
+    setCaptureHydrationStatus('checking');
+    void ensurePageConceptSourceCaptures(projectId, pageId, screenId).then(() => {
+      if (cancelled) return;
+      setCaptureHydrationStatus('ready');
+      setCaptureRevision((v) => v + 1);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [pageId, projectId, screenId]);
+
+  useEffect(() => {
     const bump = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
       if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
+      setCaptureHydrationStatus('ready');
       setCaptureRevision((v) => v + 1);
     };
     const onHydrated = (event: Event) => {
@@ -398,8 +412,8 @@ export function usePageConceptGeneration(
   return {
     readiness: generationEligibility.readiness,
     ready: generationEligibility.canGenerate,
-    blockedReason: generationEligibility.blockedReason,
-    blockedResolution: generationEligibility.blockedResolution,
+    blockedReason: generationEligibility.blockerMessage,
+    blockedResolution: generationEligibility.resolutionAction,
     generationEligibility,
     overlayOpen,
     overlayMode,
