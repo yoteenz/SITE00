@@ -5,8 +5,111 @@
   line-height: 1.4;
   color: var(--tod-ink, #161616);
   padding: var(--wssc-pad);
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
+}
+
+.site00-wssc__mainWithRail {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 960px) {
+  .site00-wssc__mainWithRail {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+    align-items: start;
+  }
+}
+
+.site00-wssc__mainCol {
+  border: 1px solid var(--tod-border-subtle, #dadada);
+  padding: 10px 12px;
+  background: var(--tod-paper, #fdfdfd);
+}
+
+.site00-wssc__authorityRail {
+  border: 1px solid var(--tod-border-panel, #b2b2b2);
+  background: var(--tod-panel, #f7f7f7);
+  padding: 10px 12px;
+  position: sticky;
+  top: 8px;
+}
+
+.site00-wssc__authorityTitle {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site00-wssc__authorityCard {
+  border: 1px solid var(--tod-border-control, #b8b8b8);
+  padding: 8px;
+  margin-top: 10px;
+  background: var(--tod-paper, #fdfdfd);
+}
+
+.site00-wssc__authorityCardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.site00-wssc__authorityPill {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--tod-border-subtle, #dadada);
+  padding: 2px 4px;
+}
+
+.site00-wssc__authorityThumbFrame {
+  margin-top: 8px;
+  min-height: 120px;
+  border: 1px dashed var(--tod-border-subtle, #dadada);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050505;
+}
+
+.site00-wssc__authorityThumbFrame[data-empty='true'] {
+  background: #f0f0f0;
+  min-height: 100px;
+}
+
+.site00-wssc__authorityThumb {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.site00-wssc__authorityEmpty {
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  color: var(--tod-ink-3, #6a6a70);
+  font-size: 10px;
+}
+
+.site00-wssc__authorityPromote {
+  margin-top: 8px;
+  width: 100%;
+  border: 1px solid var(--tod-lime, #cdee30);
+  background: var(--tod-lime, #cdee30);
+  color: var(--tod-lime-ink, #101505);
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.site00-wssc__authorityPromote:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .site00-wssc__banner {
