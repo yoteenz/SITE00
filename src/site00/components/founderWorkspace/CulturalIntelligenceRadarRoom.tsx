@@ -38,12 +38,16 @@ export function CulturalIntelligenceRadarRoom({
   onPromoteItem,
 }: Props) {
   if (loading) {
-    return <p className="site00-fws-empty">Loading live signals…</p>;
+    return (
+      <div data-visual-reconstruction="cultural-intelligence-desktop">
+        <p className="site00-fws-empty">Loading live signals…</p>
+      </div>
+    );
   }
 
   if (!run?.sourceAdapters.length) {
     return (
-      <>
+      <div data-visual-reconstruction="cultural-intelligence-desktop">
         <FounderEmptyState
           title="NOT ENOUGH SIGNAL YET"
           body="NDX is watching. Configure the intelligence layer to begin acquiring live cultural signals."
@@ -51,7 +55,7 @@ export function CulturalIntelligenceRadarRoom({
         <button type="button" className="site00-fws-pulse__cta" disabled={busy} onClick={onConfigure} style={{ marginTop: 12 }}>
           CONFIGURE INTELLIGENCE LAYER →
         </button>
-      </>
+      </div>
     );
   }
 
@@ -65,7 +69,7 @@ export function CulturalIntelligenceRadarRoom({
   const keywords = [...new Set(run.signals.flatMap((s) => s.keywords ?? []).slice(0, 12))] as string[];
 
   return (
-    <>
+    <div data-visual-reconstruction="cultural-intelligence-desktop">
       <div className="site00-fws-pulse" style={{ marginBottom: 16 }}>
         <div className="site00-fws-pulse__metrics">
           <div className="site00-fws-pulse__metric">
@@ -148,7 +152,7 @@ export function CulturalIntelligenceRadarRoom({
           SOURCE HEALTH →
         </Link>
       </FounderWorkspacePanel>
-    </>
+    </div>
   );
 }
 

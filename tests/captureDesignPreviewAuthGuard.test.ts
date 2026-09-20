@@ -22,6 +22,6 @@ describe('designPreview capture auth guard', () => {
         screenId: 'overview',
         previewDeviceMode: 'desktop',
       }),
-    ).toBe('[data-visual-reconstruction="project-hub-desktop-board"]');
+    ).toBe('[data-visual-reconstruction="project-overview-desktop"]');
   });
 });

@@ -10720,3 +10720,13 @@ Founder on **site00.com** mobile: **CAPTURE SCREEN** failed with **`CAPTURE_ANCH
 - **Cause:** Railway Playwright opens routes with **`?designPreview=1`** + init-script local auth, but **`Site00AccountRouteGuard`** still required Supabase API token → **`Navigate` to sign-in** while `isSignedIn()` true from localStorage → wrong surface, missing NDX anchors, triple QA failure.
 - **Fix:** `allowUnauthenticatedCaptureSurface` (`designPreview=1` | `goldenDiffCapture=1`) skips api-token redirect and renders children; desktop capture wait selectors (`project-hub-desktop-board`, etc.); QA **`AUTH_REDIRECT`** only on sign-in URLs (not generic route mismatch).
 - **Branch:** `cursor/design-capture-designpreview-auth-9f72`. **Railway redeploy** for capture engine QA tweak + **cPanel ZIP** for guard fix.
+
+---
+
+## 2026-09-20 — Desktop CAPTURE_ANCHOR_MISSING (overview POV vs legacy board)
+
+Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_MISSING`** on overview.
+
+- **Cause:** Live `/projects/:slug/overview` desktop uses **`ProjectOverviewModuleSurface` POV** (B59R7), not **`OverviewFounderWorkspaceBoard`** (`project-hub-desktop-board`). Playwright waited for a marker that is not in the DOM.
+- **Fix:** `data-visual-reconstruction="project-overview-desktop"` on wide POV; desktop wait selector → `project-overview-desktop`; CI radar room `cultural-intelligence-desktop` + dual mobile/desktop selectors.
+- **Branch:** `cursor/capture-desktop-overview-anchor-9f72`. **Both** Railway (wait selector) **and** cPanel (DOM markers) required.
