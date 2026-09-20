@@ -52,10 +52,13 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     typeof window !== 'undefined' &&
     new URLSearchParams(location.search).get('goldenDiffCapture') === '1';
 
+  const designPreviewCapture =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(location.search).get('designPreview') === '1';
+
+  const allowUnauthenticatedCaptureSurface = goldenDiffCapture || designPreviewCapture;
+
   useEffect(() => {
-    const designPreviewCapture =
-      typeof window !== 'undefined' &&
-      new URLSearchParams(location.search).get('designPreview') === '1';
     if (designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
@@ -174,10 +177,10 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview, goldenDiffCapture, location.search]);
+  }, [cloudPreview, designPreviewCapture, goldenDiffCapture, location.search]);
 
   useEffect(() => {
-    if (!recoveryDone || cloudPreview || goldenDiffCapture || !isSupabaseConfigured()) {
+    if (!recoveryDone || cloudPreview || allowUnauthenticatedCaptureSurface || !isSupabaseConfigured()) {
       setApiTokenReady(true);
       return;
     }
@@ -188,7 +191,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview, goldenDiffCapture, recoveryDone]);
+  }, [allowUnauthenticatedCaptureSurface, cloudPreview, goldenDiffCapture, recoveryDone]);
 
   if (timedOut && isLoading) {
     return (
@@ -209,12 +212,12 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     );
   }
 
-  if (apiTokenReady === false && isSignedIn()) {
+  if (apiTokenReady === false && isSignedIn() && !allowUnauthenticatedCaptureSurface) {
     return <Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />;
   }
 
   if (!isSignedIn()) {
-    if (goldenDiffCapture) {
+    if (allowUnauthenticatedCaptureSurface) {
       return <>{children}</>;
     }
     if (cloudPreview) {
