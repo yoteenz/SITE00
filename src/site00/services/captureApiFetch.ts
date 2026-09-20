@@ -175,7 +175,7 @@ export async function captureApiFetch<T = Record<string, unknown>>(
         workerBuild,
         contractVersion,
         errorCode,
-        errorMessage: errorCode ? apiErrorMessage ?? raw.slice(0, 200) || res.statusText : null,
+        errorMessage: errorCode ? (apiErrorMessage ?? (raw.slice(0, 200) || res.statusText)) : null,
       }),
     };
   } catch (error) {

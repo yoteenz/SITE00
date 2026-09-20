@@ -10689,3 +10689,14 @@ Wired **GENERATE PAGE CONCEPTS** in normal DESIGN workspace (PROJECT → DESIGN 
 - **QA:** `scripts/qa/page-concept-pipeline-wiring1-qa.mjs` — confirm + cancel, 0 generate calls; Playwright receipt PASS (no live provider spend).
 - **Tests:** `p0vrDesignPageConceptPipelineWiring1.test.ts` (16); model test outputShape updated.
 - **Branch:** `cursor/design-page-concept-pipeline-wiring1-9f72`. **READY_FOR_FIRST_PAGE_GENERATION:** YES (confirm wiring; spend only after GENERATE).
+
+---
+
+## 2026-09-20 — PAGE concept GENERATE transport fix (production UNKNOWN_TRANSPORT_ERROR)
+
+Founder screenshot on **site00.com**: progress overlay after **GENERATE** showed **`UNKNOWN_TRANSPORT_ERROR`**.
+
+- **Cause:** `captureApiFetch` did not parse JSON error bodies on 4xx (422/400 → generic UNKNOWN); large inline base64 capture payloads could also fail at the edge.
+- **Fix:** Parse API `{ error }` on all JSON responses; map 422/413; `formatCaptureTransportError` guidance for UNKNOWN; page concept client uses `throwPageConceptApiFailure`.
+- **Payload:** Client sends **`artifactUrl`** for server-hosted captures (CAPTURE SCREEN `publicUrl`); API **`resolvePageGenerationCaptureBase64`** fetches server-side. Inline base64 only for data/blob.
+- **Branch:** `cursor/page-concept-generate-transport-fix-9f72`. **Requires Railway redeploy** + cPanel ZIP for client URL path.
