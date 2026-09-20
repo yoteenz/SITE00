@@ -10875,3 +10875,15 @@ Sprint: **GENERATE PAGE CONCEPTS** Opus shell — CSS/presentation only (referen
 - **Display:** `pageConceptGeneratorNoticeLines()` + panel maps capture block to **BLOCKED · SOURCE CAPTURE REQUIRED** + hint (display-only).
 - **Tests:** `p0vrPageConceptGeneratorOpusShell1.test.ts` (notice formatter + modal height guard).
 - **Branch:** `cursor/page-concept-generator-visual-fidelity-cleanup1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1 (staged)
+
+Sprint: icon-system refinement for **GENERATE PAGE CONCEPTS** only. Live shell/geometry/pipeline untouched. Founder approval required before Composer wiring.
+
+- **Staged family:** `shared/site00-design-workspace-production/pageConceptGeneratorIconography.ts` — 28 currentColor 24×24 / 1.5-stroke glyphs (`SITE00_PCG_LINE_V1`).
+- **Dump:** `public/site00/page-concept-generator/staged/` (SVGs, `manifest.json`, `review.html` icon sheet + before/after + panel preview).
+- **Proposal map:** live AIC ids → `pcg-*` in `PAGE_CONCEPT_GENERATOR_ICON_PROPOSAL`. Panel still uses existing `AiConsoleIcon` names.
+- **Tests:** `tests/p0vrPageConceptGeneratorGrokIconCleanup1.test.ts`.
+- **Branch:** `cursor/page-concept-generator-grok-icon-cleanup1-9f72`.
