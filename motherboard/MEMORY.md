@@ -10985,3 +10985,13 @@ Impossible modal: SOURCE **READY/READY** + red **SOURCE CAPTURE REQUIRED** (prod
 - **Fix:** `sanitizePageConceptFounderNotice` at overlay + panel render boundary; `finalizeFounderNotice` in blocking state; v2 localStorage (`site00:page-concept-generation:v2:`) strips capture `lastFailure` on load/migrate; sync purge when `allRequiredReady`; production Technical details shows RELEASE/BUNDLE/COMMIT from `/release-manifest.json`; index.html cache already no-cache in `public/.htaccess`.
 - **Tests:** `p0vrPageConceptImpossibleBlockerEradication1.test.tsx` (7 cases).
 - **Branch:** `cursor/page-concept-impossible-blocker-eradication1-b747`.
+
+---
+
+## 2026-09-20 — Opus shell CI: release-manifest fetch out of overlay
+
+CI **SITE 00 Production Release** failed `p0vrPageConceptGeneratorOpusShell1` — overlay firewall must not contain `fetch(` (shell design authority).
+
+- **Cause:** IMPOSSIBLE-BLOCKER added `fetch('/release-manifest.json')` inside `PageConceptGenerationOverlay.tsx` for Technical details forensics.
+- **Fix:** `usePageConceptReleaseForensics.ts` holds manifest fetch; overlay imports hook only (behavior unchanged).
+- **Branch:** `cursor/opus-shell-release-manifest-hook-b747`.
