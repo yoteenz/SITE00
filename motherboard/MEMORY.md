@@ -10898,3 +10898,15 @@ Sprint: **GENERATE PAGE CONCEPTS** modal — mobile responsive containment only 
 - **Display:** `pageConceptGeneratorFootSpendSegments()` splits `estimatedCostNote` on `\s+\+\s+(?=\d+\s)`; panel renders stacked `s00-pcg__footSpendStack` on mobile, inline `+` on desktop (900px+).
 - **Tests:** `p0vrPageConceptGeneratorMobileOverflowFix1.test.ts`; QA script `capture-mobile-overflow-qa.mjs` (390/393/430/desktop).
 - **Branch:** `cursor/page-concept-generator-mobile-overflow-fix1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-ROLLBACK-OVERFLOW-FIX2
+
+Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgical text containment only.
+
+- **Restored:** horizontal 4-metric summary (5-col grid with glyph), 3-column stage cards (no ≤899px carousel), compact footer row (no stacked giant plan lines).
+- **Mobile footer display:** `footSpendFull` hidden ≤899px; `footSpendCompact` shows `CONFIRM BEFORE SEND` + optional `spendMicroSummary`; desktop keeps full plan line.
+- **CSS:** rail descriptions wrap on mobile; tighter metric/card typography; `pageConceptGeneratorFootSpendShowsMicroSummary()`.
+- **Tests:** `p0vrPageConceptGeneratorRollbackOverflowFix2.test.ts` (replaces FIX1 test).
+- **Branch:** `cursor/page-concept-generator-rollback-overflow-fix2-9f72`.

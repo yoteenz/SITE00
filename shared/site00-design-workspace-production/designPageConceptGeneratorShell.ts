@@ -196,6 +196,8 @@ export const PAGE_CONCEPT_GENERATOR_STAGES: readonly PageConceptStageShell[] = [
 export const PAGE_CONCEPT_GENERATOR_FOOTER = {
   progressionNote: 'OUTPUTS WILL POPULATE BELOW AS EACH STAGE COMPLETES.',
   spendNote: 'CONFIRM BEFORE SEND.',
+  /** Compact mobile footer — display only; full plan line stays on desktop. */
+  spendMicroSummary: '1 CGPT + 1 GPT2 + 3 NBP · 6 OUTPUTS',
   generateLabel: 'GENERATE',
   cancelLabel: 'CANCEL',
 } as const;
@@ -313,13 +315,8 @@ export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGene
   return { headline: raw.toUpperCase() };
 }
 
-/** Display-only: split long plan cost lines for mobile footer stacking. */
-export function pageConceptGeneratorFootSpendSegments(note: string): readonly string[] {
-  const raw = note.trim();
-  if (!raw) return [];
-  const parts = raw.split(/\s+\+\s+(?=\d+\s)/);
-  if (parts.length > 1) {
-    return parts.map((part) => part.trim()).filter(Boolean);
-  }
-  return [raw];
+/** Display-only: true when the shell should show the micro plan summary on mobile. */
+export function pageConceptGeneratorFootSpendShowsMicroSummary(note: string | null | undefined): boolean {
+  if (!note?.trim()) return false;
+  return /\d+\s+cgpt/i.test(note) && /gpt2/i.test(note) && /nbp/i.test(note);
 }
