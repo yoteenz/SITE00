@@ -4,8 +4,8 @@
 set -euo pipefail
 
 REMOTE="${GODADDY_SSH_REMOTE_DIR:-public_html}"
-PREFIXES="projects services control origin studio-world admin app assts idnty bldr evolve validation astral-world sign-in identity register create-account"
 DIST="${DIST_DIR:-dist}"
+PREFIXES="$(node --input-type=module -e "import { SPA_ROUTE_PREFIXES } from './scripts/spa-route-prefixes.mjs'; process.stdout.write(SPA_ROUTE_PREFIXES.join(' '));")"
 
 normalize_ftp_server_dir() {
   local dir="${1:-}"

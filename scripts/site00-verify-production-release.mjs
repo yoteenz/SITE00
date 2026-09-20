@@ -98,6 +98,14 @@ async function pollBackend(expectedReleaseId) {
 
 const SPA_DEEP_LINK_PROBE = '/projects/site00/design';
 
+const SPA_SHELL_ROUTES = [
+  '/',
+  '/projects',
+  '/projects/',
+  '/projects/ndxbook/design',
+  '/system/design/workspace-concepts',
+];
+
 async function verifySpaDeepLinkOnce() {
   const res = await fetch(`${FRONTEND_URL}${SPA_DEEP_LINK_PROBE}`, {
     headers: { Accept: 'text/html' },
@@ -116,11 +124,38 @@ async function verifySpaDeepLinkOnce() {
   return true;
 }
 
+function isRawApache403(html) {
+  const t = html.slice(0, 800).toLowerCase();
+  return t.includes('403 forbidden') && !html.includes('id="root"');
+}
+
+async function verifySpaShellRoutesOnce() {
+  const failures = [];
+  for (const route of SPA_SHELL_ROUTES) {
+    const res = await fetch(`${FRONTEND_URL}${route}`, {
+      headers: { Accept: 'text/html' },
+      redirect: 'follow',
+    });
+    const html = await res.text();
+    const shell = html.includes('id="root"') || html.includes("id='root'");
+    if (!res.ok || !shell || isRawApache403(html)) {
+      failures.push({ route, status: res.status, shell, raw403: isRawApache403(html) });
+    }
+  }
+  if (failures.length) {
+    const err = new Error(`SPA shell routes failed: ${JSON.stringify(failures)}`);
+    err.status = failures[0]?.status ?? 403;
+    throw err;
+  }
+  return true;
+}
+
 async function verifyFrontendOnce(expectedReleaseId) {
   const manifest = await fetchJson(`${FRONTEND_URL}/release-manifest.json`);
   const html = await fetchText(`${FRONTEND_URL}/`);
   const smokeOk = html.includes('id="root"') || html.includes("id='root'");
   const deepLinkOk = await verifySpaDeepLinkOnce();
+  const shellRoutesOk = await verifySpaShellRoutesOnce();
   const frontend = {
     ok: true,
     releaseId: manifest.releaseId ?? null,
@@ -129,7 +164,15 @@ async function verifyFrontendOnce(expectedReleaseId) {
     bundleEntry: manifest.bundleEntry ?? null,
   };
   const releaseMatch = !expectedReleaseId || frontend.releaseId === expectedReleaseId;
-  return { ok: smokeOk && deepLinkOk && releaseMatch, manifest, frontend, smokeOk, deepLinkOk, releaseMatch };
+  return {
+    ok: smokeOk && deepLinkOk && shellRoutesOk && releaseMatch,
+    manifest,
+    frontend,
+    smokeOk,
+    deepLinkOk,
+    shellRoutesOk,
+    releaseMatch,
+  };
 }
 
 async function pollFrontend(expectedReleaseId) {

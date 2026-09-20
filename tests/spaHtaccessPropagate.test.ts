@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { SPA_ROUTE_PREFIXES } from '../scripts/site00-propagate-spa-htaccess.mjs';
+import { SPA_ROUTE_PREFIXES } from '../scripts/spa-route-prefixes.mjs';
 
 describe('SPA htaccess propagation', () => {
   it('defines route prefixes including projects', () => {
@@ -13,6 +13,7 @@ describe('SPA htaccess propagation', () => {
     const body = readFileSync('scripts/spa-htaccess-nested.txt', 'utf8');
     expect(body).toContain('/index.html');
     expect(body).toContain('RewriteEngine On');
+    expect(body).toContain('ErrorDocument 403');
   });
 
   it('public root htaccess uses SymLinksIfOwnerMatch', () => {
@@ -29,6 +30,7 @@ describe('SPA htaccess propagation', () => {
     }
     expect(readFileSync(nested, 'utf8')).toContain('/index.html');
     expect(existsSync(join('dist', 'htaccess-deploy.txt'))).toBe(true);
+    expect(existsSync(join('dist', 'projects', 'index.html'))).toBe(true);
   });
 
   it('dist contains visible htaccess-nested.txt for FTP activation', () => {
