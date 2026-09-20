@@ -22,6 +22,15 @@ import { bootstrapManagedDesignProject } from '../p0vr3m/managedProjectDesignBoo
 
 import { execSync } from 'node:child_process';
 
+function captureFinalUrlIndicatesAuthRedirect(finalUrl: string): boolean {
+  try {
+    const path = new URL(finalUrl).pathname.toLowerCase();
+    return path.includes('sign-in');
+  } catch {
+    return /sign-in/i.test(finalUrl);
+  }
+}
+
 function currentSourceCommit(): string | null {
   try {
     return execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
@@ -176,7 +185,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       requestedRoute: target.route,
       expectedWidth: viewport.width,
       expectedHeight: viewport.height,
-      hasAuthRedirect: !render.finalUrl.includes(target.route.split('?')[0] ?? target.route),
+      hasAuthRedirect: captureFinalUrlIndicatesAuthRedirect(render.finalUrl),
       hasLoadingShell: render.finalUrl.includes('/enter') && target.route === '/',
       brokenImageCount: 0,
       fontsReady: stability.checks.fontsReady,
