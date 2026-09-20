@@ -208,10 +208,13 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     const overlay = read('src/site00/components/designBench/opusDirect/PageConceptGenerationOverlay.tsx');
     expect(overlay).toContain('data-testid="page-concept-generation-overlay"');
     expect(overlay).toContain('confirmReady');
-    expect(overlay).toContain('PHASE 1');
-    expect(overlay).toContain('CGPT Creative Injection');
-    expect(overlay).toContain('GPT2 Authority Concept');
-    expect(overlay).toContain('NBP Renditions');
+    // P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1 moved the stage copy into the
+    // shared shell model; the overlay now renders that shell.
+    expect(overlay).toContain('PageConceptGeneratorPanel');
+    const shell = read('shared/site00-design-workspace-production/designPageConceptGeneratorShell.ts');
+    expect(shell).toContain('CGPT CREATIVE INJECTION');
+    expect(shell).toContain('GPT2 AUTHORITY CONCEPT');
+    expect(shell).toContain('NBP RENDITIONS');
   });
 
   it('client confirm path passes founderConfirmedSpend only on generate action', () => {

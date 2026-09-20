@@ -1,31 +1,25 @@
-import type { PageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
-import type { PageConceptGenerationStatus } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+/**
+ * P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1 — the GENERATE PAGE CONCEPTS pop-up.
+ *
+ * The pipeline (plan, spend confirmation, provider calls, run status) is
+ * unchanged and still owned by `usePageConceptGeneration`. This file is the
+ * presentation of that pipeline: it maps the run status onto the shell's stage
+ * states and hands the existing handlers to the shell's actions. It decides
+ * nothing about generation itself.
+ */
 
-const STAGE_LABELS: { id: string; label: string }[] = [
-  { id: '01', label: 'INJECTING CREATIVE CONTEXT' },
-  { id: '02', label: 'CREATING GPT2 CONCEPT' },
-  { id: '03', label: 'GENERATING RENDITION A · Mobile / Desktop' },
-  { id: '04', label: 'GENERATING RENDITION B · Mobile / Desktop' },
-  { id: '05', label: 'GENERATING RENDITION C · Mobile / Desktop' },
-  { id: '06', label: 'READY FOR FOUNDER REVIEW' },
-];
+import { useEffect } from 'react';
 
-function activeStageIndex(status: PageConceptGenerationStatus): number {
-  switch (status) {
-    case 'CGPT_RUNNING':
-      return 0;
-    case 'GPT2_RUNNING':
-      return 1;
-    case 'NBP_RUNNING':
-      return 2;
-    case 'READY_FOR_FOUNDER_REVIEW':
-      return 5;
-    case 'PARTIAL_GENERATION':
-      return 4;
-    default:
-      return -1;
-  }
-}
+import {
+  pageConceptStageStatesForRun,
+  type PageConceptStageId,
+  type PageConceptStageState,
+} from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
+import type {
+  PageConceptGenerationPlan,
+  PageConceptGenerationStatus,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 
 export function PageConceptGenerationOverlay({
   open,
@@ -48,66 +42,44 @@ export function PageConceptGenerationOverlay({
   onCancel: () => void;
   onConfirm: () => void;
 }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !generating) onCancel();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [generating, onCancel, open]);
+
   if (!open) return null;
-  const stageIdx = activeStageIndex(status);
+
+  const stageStates: Record<PageConceptStageId, PageConceptStageState> =
+    mode === 'progress' || status !== 'IDLE' ?
+      pageConceptStageStatesForRun({ status, failed: Boolean(error) && mode === 'progress' })
+    : pageConceptStageStatesForRun({ status: 'IDLE' });
 
   return (
-    <div className="tod-pageGenOverlay" role="dialog" data-testid="page-concept-generation-overlay">
-      <div className="tod-pageGenOverlay__panel">
-        <header className="tod-pageGenOverlay__head">
-          <h2>{mode === 'confirm' ? 'Generate page concepts' : 'Page concept pipeline'}</h2>
-          <button type="button" onClick={onCancel} disabled={generating}>
-            {mode === 'confirm' ? 'CANCEL' : 'CLOSE'}
-          </button>
-        </header>
-
-        {mode === 'confirm' && !plan && error ?
-          <p className="tod-pageGenOverlay__error" data-testid="page-concept-generation-blocked">
-            {error}
-          </p>
-        : null}
-
-        {mode === 'confirm' && plan ?
-          <>
-            <p>
-              <strong>TARGET</strong> {plan.projectLabel} / {plan.pageLabel}
-            </p>
-            <p>
-              <strong>PHASE 1</strong> CGPT Creative Injection — {plan.cgptCalls} call
-            </p>
-            <p>
-              <strong>PHASE 2</strong> GPT2 Authority Concept — {plan.gpt2Calls} call
-            </p>
-            <p>
-              <strong>PHASE 3</strong> NBP Renditions — {plan.nbpRenditions} ({plan.nbpJobs} viewport renders)
-            </p>
-            <p>
-              <strong>OUTPUT</strong> 1 source concept · 3 renditions · Mobile + Desktop each
-            </p>
-            <p className="tod-pageGenOverlay__muted">{plan.estimatedCostNote}</p>
-            <div className="tod-pageGenOverlay__actions">
-              <button type="button" data-primary onClick={onConfirm} disabled={generating || !confirmReady}>
-                {generating ? 'PREPARING…' : 'GENERATE'}
-              </button>
-            </div>
-          </>
-        : null}
-
-        {mode === 'progress' ?
-          <ol className="tod-pageGenOverlay__stages">
-            {STAGE_LABELS.map((row, idx) => (
-              <li
-                key={row.id}
-                data-active={idx === stageIdx ? 'true' : 'false'}
-                data-done={idx < stageIdx ? 'true' : 'false'}
-              >
-                <span>{row.id}</span> {row.label}
-              </li>
-            ))}
-          </ol>
-        : null}
-
-        {error ? <p className="tod-pageGenOverlay__error">{error}</p> : null}
+    <div className="s00-pcg-layer" role="dialog" data-testid="page-concept-generation-overlay">
+      <button
+        type="button"
+        className="s00-pcg__scrim"
+        aria-label="Close generate page concepts"
+        onClick={() => !generating && onCancel()}
+      />
+      <div className="s00-pcg-layer__box">
+        <PageConceptGeneratorPanel
+          projectLabel={plan?.projectLabel ?? '—'}
+          pageLabel={plan?.pageLabel ?? '—'}
+          stageStates={stageStates}
+          notice={error}
+          noticeTestId={mode === 'confirm' && !plan && error ? 'page-concept-generation-blocked' : undefined}
+          generateDisabled={generating || !confirmReady}
+          generateDisabledReason={error}
+          generateBusyLabel={generating ? 'PREPARING…' : null}
+          onGenerate={onConfirm}
+          onCancel={onCancel}
+          onClose={onCancel}
+        />
       </div>
     </div>
   );
