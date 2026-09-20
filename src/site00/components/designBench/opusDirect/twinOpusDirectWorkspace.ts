@@ -743,8 +743,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         project: crumbs.module,
         page: crumbs.activeProject,
         compiler:
-          syncStatus === 'SYNCED' ?
-            `${TWIN_OPUS_DIRECT_HEADER.compiler} · ${import.meta.env.VITE_APP_BUILD_ID ?? 'build?'}`
+          syncStatus === 'SYNCED' ? TWIN_OPUS_DIRECT_HEADER.compiler
           : syncStatus === 'HYDRATING' ? 'COMPILER: SYNC…'
           : syncStatus === 'STALE' ? 'COMPILER: LOCAL CACHE'
           : 'COMPILER: LOCAL',

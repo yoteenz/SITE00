@@ -39,7 +39,7 @@ describe('page concept capture preflight UX', () => {
     vi.stubGlobal('window', { localStorage, dispatchEvent: () => undefined });
   });
 
-  it('viewport band shows CAPTURE when only design authority exists (mobile only impl capture)', () => {
+  it('viewport band stays on design authority OK (Release #455) while GENERATE still blocks without both captures', () => {
     const pageId = overviewPageId();
     appendPageCapture({
       captureId: 'm-only',
@@ -59,7 +59,7 @@ describe('page concept capture preflight UX', () => {
     const mobile = bundle?.controls.find((c) => c.viewport === 'MOBILE');
     const desktop = bundle?.controls.find((c) => c.viewport === 'DESKTOP');
     expect(mobile?.statusShort).toBe('OK');
-    expect(desktop?.statusShort).toBe('CAPTURE');
+    expect(desktop?.statusShort).toBe('OK');
     expect(pageConceptSourceCaptureBlockMessage('ndxbook', pageId)).toContain('Desktop');
   });
 });

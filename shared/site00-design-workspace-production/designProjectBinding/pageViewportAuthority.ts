@@ -349,14 +349,9 @@ export function mergePageViewportIntoReadiness(
 export function resolvePageViewportBundle(projectId: string, pageId: string) {
   const auth = loadPageViewportAuthorities(projectId, pageId);
   if (!auth) return null;
-  const controls = viewportControlsWithImplementationSource(
-    projectId,
-    pageId,
-    viewportControlPresentations(auth),
-  );
   return {
     auth,
-    controls,
+    controls: viewportControlPresentations(auth),
     coverage: summarizePageViewportCoverage(auth),
   };
 }

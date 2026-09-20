@@ -10803,3 +10803,15 @@ Founder: CI **#462** deploy **2f78b3b** succeeded; preview tunnel still looked *
 - **Cause:** Preview served **VM `npm run build`** (`index.D42wYVRS.js`, `app-build-id=mu9w3hn0`) while GoDaddy had **CI artifact** (`index.CtFQ3tLv.js`, `app-build-id=2f78b3b403f2`). Same `commitSha` in manifest, **different bundles** — local build without `GITHUB_SHA` + different env ≠ Actions `deploy_frontend` output.
 - **Fix:** `download-site00-ci-production-dist.sh` + preview server mode **`ci`** (default): `gh run download` artifact `site00-production-dist` from latest successful `site00-production-deploy.yml` run for HEAD (else latest main). Copied to `dist/` → `vite preview :5174`. Verified public preview HTML matches site00.com bundle entry.
 - **Branch:** `cursor/tunnel-ci-artifact-sync-9f72`.
+
+---
+
+## 2026-09-20 — Restore Release #455 Design UX (11736da) vs #1039 viewport CAPTURE band
+
+Founder: agent sent **links not images**; tunnel/preview did not match **site00.com** reference (COMPILER **READY**, MOBILE/TABLET DERIVED/DESKTOP **OK**, filled **CURRENT**, authority **UNDER REVIEW**, concept **ENTRY001_v1.3**). Pointed to **Production Release #455** / commit **`11736da`** (PR #1032).
+
+- **Clarification:** Reference screenshot mixes **CI bundle** + **founder session** (Supabase production session → COMPILER READY; localStorage captures → CURRENT; authority workflow state). Preview `?designPreview=1` without sign-in shows **COMPILER: LOCAL/SYNC…** and **UNLOCKED** even on #455 artifact — not a wrong commit alone.
+- **UX regression after #455:** #1039 **`viewportControlsWithImplementationSource`** replaced viewport **OK** with **CAPTURE** when design authority existed but implementation source capture missing; #1042 added **build id** on COMPILER READY line.
+- **Restore (keep #1038 hydrate + GENERATE preflight logic):** `resolvePageViewportBundle` uses **`viewportControlPresentations` only** (Release #455 band); compiler header back to **`TWIN_OPUS_DIRECT_HEADER.compiler`** without `VITE_APP_BUILD_ID`. Test updated in `pageConceptCapturePreflight.test.ts`.
+- **Proof:** Pinned CI dist run **35510136949** (`index.bAGB-l_b.js`); Playwright screenshots under `/opt/cursor/artifacts/` (`design-restore-release455-proof-mobile.png`, founder reference copy).
+- **Branch:** `cursor/design-restore-release455-9f72`.
