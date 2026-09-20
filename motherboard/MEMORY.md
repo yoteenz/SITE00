@@ -10674,3 +10674,18 @@ Unified WORKSPACE_SELF review UX on `/system/design/workspace-concepts`: one per
 - **New concept set:** clears selection/promotion/review (scoped to `conceptSetId`).
 - **Tests:** `p0vrDesignWorkspaceSelfConceptSelectionSync1.test.ts` (10).
 - **Branch:** `cursor/design-workspace-self-concept-selection-sync1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1
+
+Wired **GENERATE PAGE CONCEPTS** in normal DESIGN workspace (PROJECT → DESIGN → active page) to **PAGE-only** pipeline **1 CGPT → 1 GPT2 → 3 NBP renditions (6 outputs)** — isolated from WORKSPACE_SELF.
+
+- **Audit root cause:** `generatePageConcepts` was empty stub; `galleryGenerateDisabled: true` hardcoded in `twinOpusDirectWorkspace.ts`.
+- **Shared:** `pageConceptPipeline/` (context compilers, readiness, plan, store, workflow, rendition planner); `designPageConceptModel` → `SINGLE_AUTHORITY_MULTI_RENDITION` + `registerPageConceptRenditions`.
+- **API:** `api/site00/page-concept-generation.ts` + `api/_lib/site00PageConcept/*` (vitest mocks; `SPEND_GUARD` without founder confirm).
+- **UI:** `usePageConceptGeneration`, `PageConceptGenerationOverlay` on `TwinOpusDirectScreen`; local plan opens confirm immediately; blocked reason on button; capture-update refreshes readiness; CSS fix `.tod-gallery__rail[hidden]` so empty-state **GENERATE** is clickable.
+- **Active page id** uses mirror registry form (e.g. `ndxbook:overview:/projects/ndxbook`) — captures must match that pageId.
+- **QA:** `scripts/qa/page-concept-pipeline-wiring1-qa.mjs` — confirm + cancel, 0 generate calls; Playwright receipt PASS (no live provider spend).
+- **Tests:** `p0vrDesignPageConceptPipelineWiring1.test.ts` (16); model test outputShape updated.
+- **Branch:** `cursor/design-page-concept-pipeline-wiring1-9f72`. **READY_FOR_FIRST_PAGE_GENERATION:** YES (confirm wiring; spend only after GENERATE).
