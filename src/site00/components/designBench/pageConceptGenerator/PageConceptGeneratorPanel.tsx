@@ -8,10 +8,9 @@
  * passed straight through, so Composer can bind the real pipeline without
  * touching the composition.
  *
- * Mobile and desktop are composed, not scaled. On phones the panel is a
- * full-height editorial sheet whose stage cards scroll horizontally in a
- * snapping rail; from 900px the same cards sit in a balanced three-column
- * workbench with the progression rail spanning above them.
+ * Mobile and desktop are composed, not scaled. Phones keep the same three-stage
+ * workbench in one view; from 900px the cards gain desktop spacing and the
+ * progression rail uses a tighter two-line clamp.
  */
 
 import type { ReactNode } from 'react';
@@ -24,7 +23,7 @@ import {
   PAGE_CONCEPT_GENERATOR_TITLE,
   PAGE_CONCEPT_STATE_ICON,
   PAGE_CONCEPT_STATE_LABEL,
-  pageConceptGeneratorFootSpendSegments,
+  pageConceptGeneratorFootSpendShowsMicroSummary,
   pageConceptGeneratorNoticeLines,
   pageConceptGeneratorTargetLine,
   type PageConceptRenditionGroup,
@@ -277,7 +276,7 @@ export function PageConceptGeneratorPanel({
   };
   const dismiss = onCancel ?? onClose;
   const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
-  const footSpendSegments = pageConceptGeneratorFootSpendSegments(footSpendRaw);
+  const footSpendMicro = pageConceptGeneratorFootSpendShowsMicroSummary(footSpendNote);
 
   return (
     <section
@@ -364,12 +363,14 @@ export function PageConceptGeneratorPanel({
             </span>
             {PAGE_CONCEPT_GENERATOR_FOOTER.progressionNote}
           </span>
-          <span className="s00-pcg__footSpendStack" data-testid="page-concept-foot-spend">
-            {footSpendSegments.map((line) => (
-              <span className="s00-pcg__footSpendLine" key={line}>
-                {line}
-              </span>
-            ))}
+          <span className="s00-pcg__footSpend" data-testid="page-concept-foot-spend">
+            <span className="s00-pcg__footSpendFull">{footSpendRaw}</span>
+            <span className="s00-pcg__footSpendCompact">
+              <span className="s00-pcg__footSpendConfirm">{PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
+              {footSpendMicro ?
+                <span className="s00-pcg__footSpendMicro">{PAGE_CONCEPT_GENERATOR_FOOTER.spendMicroSummary}</span>
+              : null}
+            </span>
           </span>
         </p>
         <div className="s00-pcg__actions">

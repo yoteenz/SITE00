@@ -43,7 +43,7 @@ body{margin:0;background:#333}
 </div>
 <footer class="s00-pcg__foot">
 <p class="s00-pcg__footNotes"><span class="s00-pcg__footNote">OUTPUTS WILL POPULATE BELOW AS EACH STAGE COMPLETES.</span>
-<span class="s00-pcg__footSpendStack">${planFoot.split(' + ').map((l) => `<span class="s00-pcg__footSpendLine">${l.trim()}</span>`).join('')}</span></p>
+<span class="s00-pcg__footSpend"><span class="s00-pcg__footSpendFull">${planFoot.toUpperCase()} · CONFIRM BEFORE SEND.</span><span class="s00-pcg__footSpendCompact"><span class="s00-pcg__footSpendConfirm">CONFIRM BEFORE SEND.</span><span class="s00-pcg__footSpendMicro">1 CGPT + 1 GPT2 + 3 NBP · 6 OUTPUTS</span></span></span></p>
 <div class="s00-pcg__actions"><button class="s00-pcg__generate">GENERATE</button><button class="s00-pcg__cancel">CANCEL</button></div>
 </footer>
 </section></div></div></div></body></html>`;
@@ -68,7 +68,7 @@ for (const [w, h, name] of [
     throw new Error(`overflow at ${name}: ${JSON.stringify(metrics)}`);
   }
   await page.locator('[data-testid="page-concept-generator-shell"]').screenshot({
-    path: `/opt/cursor/artifacts/pcg-mobile-overflow-fix-${name}.png`,
+    path: `/opt/cursor/artifacts/pcg-rollback-overflow-fix2-${name}.png`,
     type: 'png',
   });
 }

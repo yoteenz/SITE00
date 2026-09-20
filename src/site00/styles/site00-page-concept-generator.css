@@ -4,7 +4,7 @@
  * Same grammar as the DESIGN AI consoles: paper white, thin graded borders,
  * square geometry, Martian Mono, uppercase, lime reserved for the one state
  * that is actionable. Mobile is a full-height editorial sheet with a snapping
- * stage rail; from 900px the same cards become a three-column workbench.
+ * three-column stage workbench; from 900px spacing and clamps tighten for desktop.
  */
 
 .s00-pcg-layer {
@@ -324,15 +324,14 @@
 }
 
 .s00-pcg__railNote {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  max-width: 12ch;
-  font-size: 7px;
+  display: block;
+  max-width: 100%;
+  font-size: 6.5px;
   line-height: 1.35;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--pcg-ink-3);
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 /* ---- status chip --------------------------------------------------------- */
@@ -384,10 +383,7 @@
 
 /* ---- stage cards --------------------------------------------------------- */
 
-/* The authority keeps all three stages on screen at phone width — the founder
-   reads the plan as one object, not as a carousel they have to hunt through.
-   Below 360px there is no honest way to do that, so the cards become a
-   snapping rail instead of clipping. */
+/* Phones keep all three stages visible — the founder reads the plan as one object. */
 .s00-pcg__cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -770,11 +766,43 @@
 }
 
 .s00-pcg__footSpend {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--pcg-ink-2);
+}
+
+.s00-pcg__footSpendFull {
+  display: inline;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.s00-pcg__footSpendCompact {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 0;
+}
+
+.s00-pcg__footSpendConfirm {
+  font-size: 7.5px;
+  letter-spacing: 0.08em;
+}
+
+.s00-pcg__footSpendMicro {
+  font-size: 6.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--pcg-ink-3);
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: right;
 }
 
 .s00-pcg__actions {
@@ -824,29 +852,9 @@
   background: var(--pcg-panel);
 }
 
-.s00-pcg__footSpendStack {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.s00-pcg__footSpendLine {
-  display: block;
-  min-width: 0;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-/* ---- mobile containment (≤899px — phones keep approved height) ---------- */
+/* ---- mobile text containment (layout unchanged — approved 3-col shell) --- */
 
 @media (max-width: 899px) {
-  .s00-pcg-layer__box {
-    width: 100%;
-    max-width: 100%;
-    padding: 0 6px 8px;
-  }
-
   .s00-pcg {
     min-width: 0;
     max-width: 100%;
@@ -860,134 +868,133 @@
   .s00-pcg__cards,
   .s00-pcg__card,
   .s00-pcg__railItem,
-  .s00-pcg__metric {
+  .s00-pcg__metric,
+  .s00-pcg__footNotes {
     min-width: 0;
     max-width: 100%;
   }
 
-  .s00-pcg__headRow {
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-
   .s00-pcg__title {
-    flex: 1 1 12rem;
+    font-size: 13px;
+    letter-spacing: 0.012em;
     min-width: 0;
-    overflow-wrap: anywhere;
   }
 
-  .s00-pcg__scroll {
-    overflow-x: hidden;
+  .s00-pcg__dismiss {
+    padding: 0 7px;
+    letter-spacing: 0.08em;
   }
 
   .s00-pcg__summary {
     display: grid;
-    grid-template-columns: 36px repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto auto;
+    grid-template-columns: 28px repeat(4, minmax(0, 1fr));
     overflow-x: visible;
   }
 
   .s00-pcg__summaryGlyph {
-    grid-row: 1 / span 2;
-    align-self: stretch;
+    width: 28px;
   }
 
   .s00-pcg__metric {
     flex: none;
-    overflow-wrap: anywhere;
+    padding: 6px 3px;
+    gap: 2px 3px;
   }
 
-  .s00-pcg__metric:nth-child(2) {
-    grid-column: 2;
-    grid-row: 1;
+  .s00-pcg__metric:last-child {
+    flex: none;
   }
 
-  .s00-pcg__metric:nth-child(3) {
-    grid-column: 3;
-    grid-row: 1;
+  .s00-pcg__metricCount {
+    font-size: 8px;
+    letter-spacing: 0.015em;
   }
 
-  .s00-pcg__metric:nth-child(4) {
-    grid-column: 2;
-    grid-row: 2;
+  .s00-pcg__metricLabel {
+    font-size: 7px;
+    letter-spacing: 0.05em;
   }
 
-  .s00-pcg__metric:nth-child(5) {
-    grid-column: 3;
-    grid-row: 2;
-    border-right: 0;
-  }
-
-  .s00-pcg__metricCount,
-  .s00-pcg__metricLabel,
   .s00-pcg__metricNote {
-    white-space: normal;
-    overflow-wrap: anywhere;
+    font-size: 6.5px;
+    letter-spacing: 0.04em;
+  }
+
+  .s00-pcg__rail {
+    padding: 8px 6px 6px;
+  }
+
+  .s00-pcg__railItem {
+    padding: 0 2px;
   }
 
   .s00-pcg__railTitle {
-    max-width: 100%;
-    overflow-wrap: anywhere;
+    font-size: 7px;
+    letter-spacing: 0.05em;
+    overflow-wrap: break-word;
   }
 
   .s00-pcg__railNote {
-    display: block;
-    -webkit-line-clamp: unset;
-    -webkit-box-orient: unset;
-    overflow: visible;
-    text-overflow: unset;
-    max-width: 100%;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    font-size: 6.5px;
-    letter-spacing: 0.04em;
-    line-height: 1.4;
+    line-height: 1.32;
   }
 
   .s00-pcg__cards {
-    grid-template-columns: none;
-    grid-auto-flow: column;
-    grid-auto-columns: min(86vw, 320px);
-    gap: 10px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+    gap: 5px;
+    padding: 6px 8px 8px;
   }
 
-  .s00-pcg__cardTitle,
-  .s00-pcg__cardSub,
-  .s00-pcg__briefRow,
+  .s00-pcg__card {
+    padding: 5px 4px;
+  }
+
+  .s00-pcg__cardTitle {
+    font-size: 8px;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .s00-pcg__cardSub {
+    font-size: 6px;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .s00-pcg__briefRow {
+    min-height: 20px;
+    padding: 3px 4px;
+    font-size: 6px;
+    letter-spacing: 0.04em;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
   .s00-pcg__groupHead,
   .s00-pcg__outLabel,
   .s00-pcg__outNote,
   .s00-pcg__renditionCap {
     white-space: normal;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 
   .s00-pcg__groupRail {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .s00-pcg__footNotes {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-  }
-
   .s00-pcg__footNote {
-    display: flex;
-    align-items: flex-start;
+    flex: 1 1 auto;
     min-width: 0;
     white-space: normal;
-    overflow-wrap: anywhere;
-    letter-spacing: 0.06em;
-    line-height: 1.4;
-  }
-
-  .s00-pcg__footSpendStack {
+    overflow-wrap: break-word;
     letter-spacing: 0.06em;
     line-height: 1.35;
+  }
+
+  .s00-pcg__footSpendFull {
+    display: none;
+  }
+
+  .s00-pcg__footSpendCompact {
+    display: flex;
   }
 
   .s00-pcg__actions {
@@ -1165,15 +1172,12 @@
     gap: 18px;
   }
 
-  .s00-pcg__footSpendStack {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0;
+  .s00-pcg__footSpendCompact {
+    display: none;
   }
 
-  .s00-pcg__footSpendLine + .s00-pcg__footSpendLine::before {
-    content: ' + ';
-    white-space: pre;
+  .s00-pcg__footSpendFull {
+    display: inline;
   }
 
   .s00-pcg__actions {
