@@ -53,7 +53,7 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-MODEL1', () => {
 
   it('GPT2 page concept generation contract is defined', () => {
     expect(CREATIVE_LAYER_MODEL).toBe('GPT2');
-    expect(GPT2_PAGE_CONCEPT_GENERATION_CONTRACT.outputShape).toBe('MULTIPLE_PAGE_CONCEPT_TERRITORIES');
+    expect(GPT2_PAGE_CONCEPT_GENERATION_CONTRACT.outputShape).toBe('SINGLE_AUTHORITY_MULTI_RENDITION');
   });
 
   it('Overview hero resolves to page reference — not Entry 001 mobile-master', () => {

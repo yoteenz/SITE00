@@ -331,12 +331,25 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
           {data.galleryEmptyMessage ?
             <div className="tod-gallery__emptyWrap" data-testid="gallery-page-concept-empty">
               <p className="tod-gallery__empty">{data.galleryEmptyMessage}</p>
+              {data.galleryGenerateBlockedReason ?
+                <p className="tod-gallery__blocked" data-testid="generate-page-concepts-blocked-reason">
+                  {data.galleryGenerateBlockedReason}
+                  {data.galleryGenerateBlockedResolution ?
+                    ` ${data.galleryGenerateBlockedResolution}`
+                  : null}
+                </p>
+              : null}
               <button
                 type="button"
                 className="tod-gallery__generate"
                 data-interaction-id="generate-page-concepts"
+                data-active-page-id={data.pageConceptTargetPageId}
+                data-page-concept-readiness={data.pageConceptReadiness}
                 disabled={data.galleryGenerateDisabled}
-                title="GPT2 creative layer contract — generation not invoked in this sprint"
+                title={
+                  data.galleryGenerateBlockedReason ??
+                  'CGPT → GPT2 → NBP page concept pipeline (confirm before spend)'
+                }
                 onClick={() => actions.generatePageConcepts()}
               >
                 {data.galleryGenerateLabel}

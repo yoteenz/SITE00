@@ -1,0 +1,102 @@
+import {
+  registerPageConceptRenditions,
+  type PageConceptRenditionRegistration,
+} from '../designProjectBinding/designPageConceptModel.js';
+import type {
+  PageConceptGeneratedArtifact,
+  PageConceptGenerationState,
+  PageConceptPipelineSet,
+} from './types.js';
+import {
+  galleryConceptIdToRenditionSlot,
+  renditionDisplayLabel,
+  renditionSlotToGalleryConceptId,
+} from './constants.js';
+
+function appendHistory(
+  state: PageConceptGenerationState,
+  type: string,
+  summary: string,
+): PageConceptGenerationState {
+  return {
+    ...state,
+    history: [...state.history, { type, at: new Date().toISOString(), summary }],
+  };
+}
+
+export function applyPageConceptPipelineSet(
+  state: PageConceptGenerationState,
+  pipelineSet: PageConceptPipelineSet,
+): PageConceptGenerationState {
+  return appendHistory(
+    { ...state, pipelineSet, generationStatus: 'NBP_RUNNING' },
+    'page_creative_pipeline_ready',
+    pipelineSet.gpt2AuthorityConcept?.conceptId ?? 'gpt2-pending',
+  );
+}
+
+export function registerPageConceptGenerationJobs(
+  state: PageConceptGenerationState,
+  jobs: readonly PageConceptGeneratedArtifact[],
+): PageConceptGenerationState {
+  return { ...state, generationJobs: [...jobs] };
+}
+
+export function mergePageConceptArtifactsIntoGallery(
+  state: PageConceptGenerationState,
+): PageConceptGenerationState {
+  const gpt2 = state.pipelineSet?.gpt2AuthorityConcept ?? null;
+  if (!gpt2) return state;
+
+  const registrations: PageConceptRenditionRegistration[] = [];
+  for (const slot of ['RENDITION_A', 'RENDITION_B', 'RENDITION_C'] as const) {
+    const conceptId = renditionSlotToGalleryConceptId(slot);
+    const mobileJob = state.generationJobs.find(
+      (j) => j.renditionSlot === slot && j.viewport === 'MOBILE' && j.status === 'READY',
+    );
+    const desktopJob = state.generationJobs.find(
+      (j) => j.renditionSlot === slot && j.viewport === 'DESKTOP' && j.status === 'READY',
+    );
+    registrations.push({
+      conceptId,
+      projectId: state.projectId,
+      pageId: state.pageId,
+      conceptTitle: renditionDisplayLabel(slot),
+      conceptTerritory: gpt2.premise,
+      creativeRationale: gpt2.visualLanguage,
+      mobileVisualReference: mobileJob?.imageUri ?? mobileJob?.artifactPath ?? null,
+      desktopVisualReference: desktopJob?.imageUri ?? desktopJob?.artifactPath ?? null,
+      gpt2AuthorityConceptId: gpt2.conceptId,
+      creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
+      renditionSlot: slot,
+    });
+  }
+
+  registerPageConceptRenditions(state.projectId, state.pageId, registrations);
+
+  const readyCount = state.generationJobs.filter((j) => j.status === 'READY').length;
+  const failedCount = state.generationJobs.filter((j) => j.status === 'FAILED').length;
+  let generationStatus = state.generationStatus;
+  if (readyCount === 6) generationStatus = 'READY_FOR_FOUNDER_REVIEW';
+  else if (readyCount > 0 && failedCount > 0) generationStatus = 'PARTIAL_GENERATION';
+  else if (failedCount > 0 && readyCount === 0) generationStatus = 'FAILED';
+
+  return appendHistory(
+    { ...state, generationStatus },
+    'page_concept_generation_completed',
+    `${readyCount}/6 NBP artifacts ready`,
+  );
+}
+
+export function pageConceptVisualForViewport(
+  conceptId: string,
+  registrations: readonly PageConceptRenditionRegistration[],
+  viewport: 'MOBILE' | 'DESKTOP' | 'TABLET',
+): string | null {
+  const row = registrations.find((r) => r.conceptId === conceptId);
+  if (!row) return null;
+  if (viewport === 'DESKTOP') return row.desktopVisualReference ?? row.mobileVisualReference;
+  return row.mobileVisualReference ?? row.desktopVisualReference;
+}
+
+export { galleryConceptIdToRenditionSlot };
