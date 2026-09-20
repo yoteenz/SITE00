@@ -10649,3 +10649,16 @@ Authority Pair rail on `/system/design/workspace-concepts` now binds to **GPT2/N
 - **Merge tweak:** partial READY NBP jobs mark concept `STAGED` so gallery + rail stay selectable in sync.
 - **Tests:** `p0vrDesignWorkspaceSelfAuthorityPairBinding1.test.ts` (11).
 - **Branch:** `cursor/design-workspace-self-authority-pair-binding1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT-SELECTION-SYNC1
+
+Unified WORKSPACE_SELF review UX on `/system/design/workspace-concepts`: one persisted `reviewUi` + shared selection/promotion state across gallery, authority rail, Compare Concepts overlay, Inspect, and Fullscreen.
+
+- **`reviewState.ts`:** activate/viewport/compare/inspect/fullscreen; `selectViewportConceptForReview` stores artifact ids + pending authority events; promotion from **selected** not active highlight.
+- **Rail:** promoted → selected → active **PREVIEWING**; pending selection after re-select post-promote.
+- **UI:** carousel gallery w/ MOBILE/DESKTOP badges; compare 3-up per viewport; pair review panel shows promoted pair only.
+- **New concept set:** clears selection/promotion/review (scoped to `conceptSetId`).
+- **Tests:** `p0vrDesignWorkspaceSelfConceptSelectionSync1.test.ts` (10).
+- **Branch:** `cursor/design-workspace-self-concept-selection-sync1-9f72`.

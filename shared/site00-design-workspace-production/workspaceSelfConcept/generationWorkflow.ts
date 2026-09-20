@@ -8,6 +8,7 @@ import type {
 } from './generationTypes.js';
 import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
 import type { WorkspaceConceptCandidate, WorkspaceSelfWorkflowState } from './types.js';
+import { defaultReviewUiState } from './reviewState.js';
 
 function appendHistory(
   state: WorkspaceSelfWorkflowState,
@@ -49,7 +50,20 @@ export function beginWorkspaceConceptSet(
     createdBy: input.createdBy,
   };
   return appendHistory(
-    { ...state, conceptSet, generationStatus: 'NBP_RUNNING', generationJobs: [] },
+    {
+      ...state,
+      conceptSet,
+      generationStatus: 'NBP_RUNNING',
+      generationJobs: [],
+      preferredMobileConceptId: null,
+      preferredDesktopConceptId: null,
+      promotedMobileConceptId: null,
+      promotedDesktopConceptId: null,
+      pairReviewOpenedAt: null,
+      pairReviewCompletedAt: null,
+      authorityPair: null,
+      reviewUi: { ...defaultReviewUiState(), activeConceptId: 'CONCEPT_A' },
+    },
     'workspace_concept_set_started',
     conceptSet.conceptSetId,
   );

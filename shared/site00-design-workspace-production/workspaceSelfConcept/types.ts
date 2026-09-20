@@ -122,10 +122,30 @@ export type WorkspaceSelfAuthorityPair = {
   desktopConceptId: WorkspaceConceptSlotId;
   mobileArtifact: string | null;
   desktopArtifact: string | null;
+  mobileArtifactId: string | null;
+  desktopArtifactId: string | null;
+  captureSetId: string | null;
+  conceptSetId: string | null;
   functionContractId: string;
+  pairReviewCompletedAt: string | null;
   status: 'LOCKED';
   lockedAt: string;
   lockedBy: string;
+};
+
+export type WorkspaceSelfReviewViewport = 'MOBILE' | 'DESKTOP';
+
+export type WorkspaceSelfPairReviewStatus = 'NOT_READY' | 'READY' | 'IN_REVIEW' | 'COMPLETE';
+
+export type WorkspaceSelfReviewUiState = {
+  activeConceptId: WorkspaceConceptSlotId | null;
+  activeViewport: WorkspaceSelfReviewViewport;
+  inspectedConceptId: WorkspaceConceptSlotId | null;
+  compareOpen: boolean;
+  compareViewport: WorkspaceSelfReviewViewport;
+  fullscreenOpen: boolean;
+  selectedMobileArtifactId: string | null;
+  selectedDesktopArtifactId: string | null;
 };
 
 export type OpusDesignShellPackageStatus = 'DRAFT' | 'REQUESTED' | 'STAGED' | 'APPROVED';
@@ -184,6 +204,7 @@ export type WorkspaceSelfWorkflowState = {
   generationJobs: readonly WorkspaceSelfGeneratedArtifact[];
   generationStatus: WorkspaceSelfGenerationStatus;
   lastGenerationFailure: WorkspaceSelfCaptureFailure | null;
+  reviewUi: WorkspaceSelfReviewUiState;
   productionMutationLocked: true;
   history: readonly { type: string; at: string; summary: string }[];
 };
