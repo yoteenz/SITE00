@@ -145,6 +145,26 @@ export function viewportToDesignViewportClass(viewport: PageViewportId): 'mobile
 
 const IMAGE_EXT = /\.(png|webp|jpg|jpeg|gif)(\?|#|$)/i;
 
+/** App routes saved by mistake from failed snapshots — not image artifacts. */
+const SPA_ROUTE_PREFIXES = [
+  '/projects/',
+  '/services/',
+  '/control/',
+  '/origin/',
+  '/studio-world/',
+  '/admin/',
+  '/app/',
+  '/assts/',
+  '/sign-in',
+  '/register',
+  '/create-account',
+] as const;
+
+function pathnameLooksLikeSpaRoute(pathname: string): boolean {
+  const p = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  return SPA_ROUTE_PREFIXES.some((prefix) => p.startsWith(prefix) || p === prefix.replace(/\/$/, ''));
+}
+
 /** True when artifactPath can be used as an img src (not a live route URL). */
 export function isPageCaptureDisplayableArtifact(artifactPath: string | null | undefined): boolean {
   const path = artifactPath?.trim();
@@ -153,10 +173,12 @@ export function isPageCaptureDisplayableArtifact(artifactPath: string | null | u
   if (path.startsWith('/visual-references/') || path.startsWith('/site00/')) return true;
   if (IMAGE_EXT.test(path)) return true;
   if (!path.startsWith('http://') && !path.startsWith('https://')) {
-    return path.startsWith('/');
+    if (pathnameLooksLikeSpaRoute(path.split('?')[0] ?? path)) return false;
+    return path.startsWith('/') && IMAGE_EXT.test(path);
   }
   try {
     const url = new URL(path);
+    if (pathnameLooksLikeSpaRoute(url.pathname)) return false;
     if (IMAGE_EXT.test(url.pathname)) return true;
     if (url.hostname.includes('cdn.site00.com')) return true;
     if (url.hostname.includes('supabase.co') && url.pathname.includes('/storage/')) return true;

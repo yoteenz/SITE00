@@ -38,6 +38,15 @@ export function pageConceptSourceCaptureBlockMessage(projectId: string, pageId: 
   return `Missing implementation source capture (${list}). Viewport “OK” is design authority — GENERATE requires CAPTURE SCREEN for both Mobile and Desktop (saved to Supabase, then hydrated on load).`;
 }
 
+/** Human copy for overlay confirm — never emit raw BLOCKED_* codes to founders. */
+export function pageConceptCaptureConfirmBlockMessage(projectId: string, pageId: string): string {
+  const fromCaptures = pageConceptSourceCaptureBlockMessage(projectId, pageId);
+  if (fromCaptures) return fromCaptures;
+  const readiness = evaluatePageConceptReadiness(projectId, pageId);
+  if (readiness === 'READY_FOR_CREATIVE_INJECTION') return '';
+  return pageConceptBlockedReason(readiness) || readiness;
+}
+
 export function pageConceptBlockedReason(readiness: PageConceptReadiness): string {
   switch (readiness) {
     case 'BLOCKED_NO_PROJECT_CONTEXT':
