@@ -24,6 +24,7 @@ import {
   PAGE_CONCEPT_GENERATOR_TITLE,
   PAGE_CONCEPT_STATE_ICON,
   PAGE_CONCEPT_STATE_LABEL,
+  pageConceptGeneratorNoticeLines,
   pageConceptGeneratorTargetLine,
   type PageConceptRenditionGroup,
   type PageConceptStageId,
@@ -70,7 +71,7 @@ function StatusChip({ state }: { state: PageConceptStageState }) {
   return (
     <span className="s00-pcg__chip" data-state={state}>
       <span className="s00-pcg__chipGlyph" aria-hidden="true">
-        <AiConsoleIcon name={PAGE_CONCEPT_STATE_ICON[state]} size={10} />
+        <AiConsoleIcon name={PAGE_CONCEPT_STATE_ICON[state]} size={9} />
       </span>
       {PAGE_CONCEPT_STATE_LABEL[state]}
     </span>
@@ -292,7 +293,7 @@ export function PageConceptGeneratorPanel({
             data-interaction-id="page-concepts-dismiss"
             onClick={() => (onClose ?? onCancel)?.()}
           >
-            <AiConsoleIcon name="action-close" size={11} />
+            <AiConsoleIcon name="action-close" size={10} />
             {PAGE_CONCEPT_GENERATOR_FOOTER.cancelLabel}
           </button>
         </div>
@@ -301,7 +302,7 @@ export function PageConceptGeneratorPanel({
 
       <div className="s00-pcg__summary" aria-label="Concept generation plan">
         <span className="s00-pcg__summaryGlyph" aria-hidden="true">
-          <AiConsoleIcon name="grok-library" size={16} />
+          <AiConsoleIcon name="grok-library" size={13} />
         </span>
         {PAGE_CONCEPT_GENERATOR_SUMMARY.map((metric) => (
           <span className="s00-pcg__metric" key={metric.id}>
@@ -331,17 +332,32 @@ export function PageConceptGeneratorPanel({
           </p>
         : null}
         {notice ?
-          <p className="s00-pcg__notice" role="status" data-testid={noticeTestId}>
-            <span className="s00-pcg__noticeGlyph" aria-hidden="true">
-              <AiConsoleIcon name="status-error" size={11} />
-            </span>
-            {notice}
-          </p>
+          (() => {
+            const lines = pageConceptGeneratorNoticeLines(notice);
+            return (
+              <p
+                className="s00-pcg__notice"
+                role="status"
+                data-testid={noticeTestId}
+                data-compact={lines.hint ? 'true' : undefined}
+              >
+                <span className="s00-pcg__noticeGlyph" aria-hidden="true">
+                  <AiConsoleIcon name="status-error" size={10} />
+                </span>
+                <span className="s00-pcg__noticeCopy">
+                  <span className="s00-pcg__noticeHead">{lines.headline}</span>
+                  {lines.hint ?
+                    <span className="s00-pcg__noticeHint">{lines.hint}</span>
+                  : null}
+                </span>
+              </p>
+            );
+          })()
         : null}
         <p className="s00-pcg__footNotes">
           <span className="s00-pcg__footNote">
             <span className="s00-pcg__footGlyph" aria-hidden="true">
-              <AiConsoleIcon name="status-pending" size={11} />
+              <AiConsoleIcon name="status-pending" size={10} />
             </span>
             {PAGE_CONCEPT_GENERATOR_FOOTER.progressionNote}
           </span>
@@ -369,7 +385,7 @@ export function PageConceptGeneratorPanel({
             onClick={() => onGenerate?.()}
           >
             <span className="s00-pcg__generateGlyph" aria-hidden="true">
-              <AiConsoleIcon name="grok-generate" size={14} />
+              <AiConsoleIcon name="grok-generate" size={13} />
             </span>
             {generateBusyLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
           </button>

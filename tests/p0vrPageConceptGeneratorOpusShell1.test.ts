@@ -17,6 +17,7 @@ import {
   PAGE_CONCEPT_GENERATOR_SUMMARY,
   PAGE_CONCEPT_STAGE_STATES,
   PAGE_CONCEPT_STATE_LABEL,
+  pageConceptGeneratorNoticeLines,
   pageConceptGeneratorTargetLine,
   pageConceptStageStatesForRun,
 } from '../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
@@ -56,6 +57,13 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
       'nbp.desktop.b',
       'nbp.desktop.c',
     ]);
+  });
+
+  it('formats blocked capture notices for compact footer display only', () => {
+    expect(pageConceptGeneratorNoticeLines('BLOCKED_NO_SOURCE_CAPTURE')).toEqual({
+      headline: 'BLOCKED · SOURCE CAPTURE REQUIRED',
+      hint: 'CAPTURE MOBILE + DESKTOP BEFORE GENERATION',
+    });
   });
 
   it('carries the reference summary strip and target line', () => {
@@ -114,7 +122,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     expect(css).toContain('@media (min-width: 900px)');
     expect(css).toMatch(/grid-auto-flow: column/);
     expect(css).toMatch(/grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
-    expect(css).toContain('height: 94vh');
+    expect(css).toMatch(/max-height: min\(88vh/);
   });
 
   it('holds no provider, generation or persistence logic in shell files', () => {
