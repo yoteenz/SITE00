@@ -12,6 +12,7 @@ import {
   runPageConceptGeneration,
   type PageGenerationCapturePayload,
 } from '../_lib/site00PageConcept/runPageConceptGeneration.js';
+import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/resolvePageGenerationCapture.js';
 import type { PageConceptGenerationState } from '../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 type Body = {
@@ -55,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (body.action === 'generate') {
-      if (!body.mobileCapture?.artifactBase64 || !body.desktopCapture?.artifactBase64) {
+      if (!pageGenerationCapturePayloadValid(body.mobileCapture) || !pageGenerationCapturePayloadValid(body.desktopCapture)) {
         res.status(400).json({ error: 'CAPTURE_ARTIFACTS_REQUIRED' });
         return;
       }

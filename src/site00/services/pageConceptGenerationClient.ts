@@ -4,12 +4,14 @@ import type {
   PageConceptGenerationState,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { captureApiFetch, CAPTURE_API_TIMEOUT_MS, CAPTURE_CURRENT_PAGE_TIMEOUT_MS } from './captureApiFetch.js';
+import { throwPageConceptApiFailure } from './pageConceptGenerationErrors.js';
 
 const PATH = '/api/site00/page-concept-generation';
 
 export type PageConceptCapturePayload = {
   captureId: string;
-  artifactBase64: string;
+  artifactBase64?: string;
+  artifactUrl?: string;
   width: number;
   height: number;
 };
@@ -23,7 +25,7 @@ export async function planPageConceptGenerationApi(
     body: { action: 'plan', state },
   });
   if (!result.ok || !result.data?.plan) {
-    throw new Error(result.data?.error ?? result.errorCode ?? 'PLAN_FAILED');
+    throwPageConceptApiFailure(result, 'PLAN_FAILED');
   }
   return result.data.plan;
 }
@@ -46,7 +48,7 @@ export async function runPageConceptGenerationApi(input: {
     },
   });
   if (!result.ok || !result.data?.pipelineSet) {
-    throw new Error(result.data?.error ?? result.errorCode ?? 'GENERATION_FAILED');
+    throwPageConceptApiFailure(result, 'GENERATION_FAILED');
   }
   return result.data;
 }
