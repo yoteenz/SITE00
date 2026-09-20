@@ -395,12 +395,14 @@ export function TwinOpusDirectScreen({
         open={workspace.pageConceptGeneration.overlayOpen}
         mode={workspace.pageConceptGeneration.overlayMode}
         plan={workspace.pageConceptGeneration.pendingPlan}
-        status={workspace.pageConceptGeneration.generationStatus}
+        generationState={workspace.pageConceptGeneration.generationState}
         error={workspace.pageConceptGeneration.error}
         generating={workspace.pageConceptGeneration.generating}
         confirmReady={workspace.pageConceptGeneration.ready}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
         onConfirm={() => void workspace.pageConceptGeneration.confirmGeneration()}
+        onRetryFailed={() => void workspace.pageConceptGeneration.retryFailedGeneration()}
+        onOpenFullscreen={production.actions.openFullscreenArtifact}
       />
       <DesignGrokDock projectSlug={projectSlug} />
     </div>

@@ -8,8 +8,10 @@ import {
 import {
   applyPageConceptPipelineSet,
   mergePageConceptArtifactsIntoGallery,
+  mergePageConceptGenerationJobs,
   registerPageConceptGenerationJobs,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
+import { pageConceptReviewReady } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import {
   evaluatePageConceptReadiness,
@@ -95,19 +97,32 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
   );
   const [pendingPlan, setPendingPlan] = useState<PageConceptGenerationPlan | null>(null);
   const [overlayOpen, setOverlayOpen] = useState(false);
-  const [overlayMode, setOverlayMode] = useState<'confirm' | 'progress'>('confirm');
+  const [overlayMode, setOverlayMode] = useState<'confirm' | 'progress' | 'review'>('confirm');
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [captureRevision, setCaptureRevision] = useState(0);
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setState(loadPageConceptGenerationState(projectId, pageId));
+    const loaded = loadPageConceptGenerationState(projectId, pageId);
+    setState(loaded);
     setPendingPlan(null);
     setOverlayOpen(false);
-    setOverlayMode('confirm');
+    setOverlayMode(pageConceptReviewReady(loaded.generationStatus) ? 'review' : 'confirm');
     setError(null);
     setGenerating(false);
+  }, [pageId, projectId]);
+
+  useEffect(() => {
+    const onUpdated = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
+      if (detail?.projectId !== projectId || detail?.pageId !== pageId) return;
+      const loaded = loadPageConceptGenerationState(projectId, pageId);
+      setState(loaded);
+      if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
+    };
+    window.addEventListener('site00:page-concept-generation-updated', onUpdated);
+    return () => window.removeEventListener('site00:page-concept-generation-updated', onUpdated);
   }, [pageId, projectId]);
 
   useEffect(() => {
@@ -192,9 +207,14 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
       return;
     }
     setPendingPlan(localPlan);
-    setOverlayMode('confirm');
+    const loadedForMode = loadPageConceptGenerationState(projectId, pageId);
+    setOverlayMode(
+      pageConceptReviewReady(loadedForMode.generationStatus) || loadedForMode.pipelineSet?.creativeInjection ?
+        'review'
+      : 'confirm',
+    );
     setOverlayOpen(true);
-    persist((s) => ({ ...s, generationStatus: 'PLANNED' }));
+    persist((s) => ({ ...s, generationStatus: s.generationStatus === 'IDLE' ? 'PLANNED' : s.generationStatus }));
 
     const current = loadPageConceptGenerationState(projectId, pageId);
     try {
@@ -210,8 +230,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     setPendingPlan(null);
     setOverlayOpen(false);
     setError(null);
-    persist((s) => ({ ...s, generationStatus: 'IDLE' }));
-  }, [generating, persist]);
+  }, [generating]);
 
   const confirmGeneration = useCallback(async () => {
     if (generating) return;
@@ -226,7 +245,6 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
         throw new Error(readinessBlockMessage(projectId, pageId));
       }
       await ensurePageConceptApiAccessToken();
-      const current = loadPageConceptGenerationState(projectId, pageId);
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
       if (!mobile?.artifactPath || !desktop?.artifactPath) {
         throw new Error(pageConceptSourceCaptureBlockMessage(projectId, pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
@@ -238,10 +256,8 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
       const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
       const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
 
-      persist((s) => ({ ...s, generationStatus: 'GPT2_RUNNING' }));
-
       const result = await runPageConceptGenerationApi({
-        state: current,
+        state: loadPageConceptGenerationState(projectId, pageId),
         founderConfirmedSpend: true,
         mobileCapture,
         desktopCapture,
@@ -251,16 +267,25 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
         let next = applyPageConceptPipelineSet(s, result.pipelineSet);
         next = registerPageConceptGenerationJobs(next, result.jobs);
         next = mergePageConceptArtifactsIntoGallery(next);
+        if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
+          next = { ...next, generationStatus: 'FAILED' };
+        } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
+          next = { ...next, generationStatus: 'FAILED' };
+        }
         return next;
       });
 
-      setPendingPlan(null);
-      setOverlayOpen(false);
+      setOverlayMode('review');
+      setError(
+        result.pipelineSet.creativeInjectionError ??
+          result.pipelineSet.gpt2AuthorityError ??
+          null,
+      );
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
     } catch (e) {
       const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
       setError(message);
-      setOverlayMode('confirm');
+      setOverlayMode('review');
       if (message.includes('UNAUTHORIZED') || message.includes('SIGN IN')) {
         setApiSessionReady(false);
       }
@@ -269,6 +294,49 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
         generationStatus: 'IDLE',
         lastFailure: { message, at: new Date().toISOString() },
       }));
+    } finally {
+      setGenerating(false);
+    }
+  }, [generating, pageId, persist, projectId, screenId]);
+
+  const retryFailedGeneration = useCallback(async () => {
+    if (generating) return;
+    setGenerating(true);
+    setError(null);
+    try {
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      await ensurePageConceptApiAccessToken();
+      const current = loadPageConceptGenerationState(projectId, pageId);
+      const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+      if (!mobile?.artifactPath || !desktop?.artifactPath) {
+        throw new Error(pageConceptSourceCaptureBlockMessage(projectId, pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
+      }
+      setOverlayMode('progress');
+      persist((s) => ({ ...s, generationStatus: 'NBP_RUNNING' }));
+
+      const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
+      const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
+
+      const result = await runPageConceptGenerationApi({
+        state: current,
+        founderConfirmedSpend: true,
+        retryFailedOnly: true,
+        mobileCapture,
+        desktopCapture,
+      });
+
+      persist((s) => {
+        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
+        next = mergePageConceptGenerationJobs(next, result.jobs);
+        next = mergePageConceptArtifactsIntoGallery(next);
+        return next;
+      });
+      setOverlayMode('review');
+      window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'RETRY_FAILED';
+      setError(message);
+      setOverlayMode('review');
     } finally {
       setGenerating(false);
     }
@@ -286,8 +354,11 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     error,
     generationStatus: state.generationStatus,
     pipelineSet: state.pipelineSet,
+    generationJobs: state.generationJobs,
+    generationState: state,
     openGenerationConfirm,
     cancelGeneration,
     confirmGeneration,
+    retryFailedGeneration,
   };
 }

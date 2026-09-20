@@ -18,6 +18,7 @@ import type { PageConceptGenerationState } from '../../shared/site00-design-work
 type Body = {
   action: 'plan' | 'generate';
   founderConfirmedSpend?: boolean;
+  retryFailedOnly?: boolean;
   state: PageConceptGenerationState;
   mobileCapture?: PageGenerationCapturePayload;
   desktopCapture?: PageGenerationCapturePayload;
@@ -65,6 +66,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         mobileCapture: body.mobileCapture,
         desktopCapture: body.desktopCapture,
         founderConfirmedSpend: body.founderConfirmedSpend === true,
+        retryFailedOnly: body.retryFailedOnly === true,
       });
       res.status(200).json({ ok: true, ...result });
       return;

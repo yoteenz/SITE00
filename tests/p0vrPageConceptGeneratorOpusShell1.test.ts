@@ -117,8 +117,8 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     expect(css).toContain('height: 94vh');
   });
 
-  it('holds no provider, generation or persistence logic', () => {
-    for (const file of [PANEL, OVERLAY, 'shared/site00-design-workspace-production/designPageConceptGeneratorShell.ts']) {
+  it('holds no provider, generation or persistence logic in shell files', () => {
+    for (const file of [PANEL, 'shared/site00-design-workspace-production/designPageConceptGeneratorShell.ts']) {
       const source = read(file);
       expect(source).not.toContain('fetch(');
       expect(source).not.toContain('/api/');
@@ -126,6 +126,12 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
       expect(source).not.toContain('supabase');
       expect(source).not.toContain('useState');
     }
+    const overlay = read(OVERLAY);
+    expect(overlay).not.toContain('fetch(');
+    expect(overlay).not.toContain('/api/');
+    expect(overlay).not.toContain('localStorage');
+    expect(overlay).not.toContain('supabase');
+    expect(overlay).not.toContain('runPageConceptGeneration');
   });
 
   it('is the presentation of the existing pipeline pop-up, with its props intact', () => {
@@ -133,7 +139,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     expect(overlay).toContain('PageConceptGeneratorPanel');
     expect(overlay).toContain('data-testid="page-concept-generation-overlay"');
     expect(overlay).toContain('page-concept-generation-blocked');
-    for (const prop of ['plan', 'status', 'error', 'generating', 'confirmReady', 'onCancel', 'onConfirm']) {
+    for (const prop of ['plan', 'generationState', 'error', 'generating', 'confirmReady', 'onCancel', 'onConfirm']) {
       expect(overlay).toContain(prop);
     }
     const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
