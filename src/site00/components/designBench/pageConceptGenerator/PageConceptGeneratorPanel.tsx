@@ -117,7 +117,7 @@ function ResultFrame({
           <span className="s00-pcg__frameGlyph" aria-hidden="true">
             <AiConsoleIcon name="empty-concept" size={18} />
           </span>
-          {emptyLabel}
+          {emptyLabel ? <span>{emptyLabel}</span> : null}
         </span>
       )}
     </div>
@@ -144,7 +144,9 @@ function RenditionGroup({
           <figure className="s00-pcg__rendition" key={slot.id}>
             {/* A desktop rendition is a landscape frame — showing it in a phone
                 aspect would misrepresent what the founder is approving. */}
-            <ResultFrame slotId={slot.id} ratio={group.id === 'MOBILE' ? 'thumb' : 'wide'} emptyLabel={slot.label}>
+            {/* The caption already names the rendition — repeating it inside the
+                frame reads as content that isn't there yet. */}
+            <ResultFrame slotId={slot.id} ratio={group.id === 'MOBILE' ? 'thumb' : 'wide'} emptyLabel="">
               {slots[slot.id]}
             </ResultFrame>
             <figcaption className="s00-pcg__renditionCap">{slot.label}</figcaption>
