@@ -1373,6 +1373,11 @@
   overflow: hidden;
 }
 
+.tod-gallery__rail[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+}
+
 .tod-card {
   position: relative;
   flex: 0 0 168px;
@@ -3700,4 +3705,85 @@
 .tod-page-assets__file {
   font-size: 9px;
   margin: 8px 0;
+}
+
+.tod-gallery__blocked,
+.tod-lv-gallery__blocked {
+  font-size: 9px;
+  line-height: 1.35;
+  margin: 0 0 8px;
+  max-width: 42ch;
+  opacity: 0.85;
+}
+
+.tod-pageGenOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .tod-pageGenOverlay {
+    align-items: center;
+  }
+}
+
+.tod-pageGenOverlay__panel {
+  background: var(--tod-paper, #fdfdfd);
+  border: 1px solid var(--tod-border-panel, #b2b2b2);
+  max-height: 92vh;
+  overflow: auto;
+  width: min(640px, 100%);
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.tod-pageGenOverlay__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tod-pageGenOverlay__head h2 {
+  font-size: 11px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.tod-pageGenOverlay__muted {
+  font-size: 9px;
+  opacity: 0.75;
+}
+
+.tod-pageGenOverlay__actions {
+  margin-top: 12px;
+}
+
+.tod-pageGenOverlay__stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 9px;
+}
+
+.tod-pageGenOverlay__stages li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--tod-border-panel, #ddd);
+}
+
+.tod-pageGenOverlay__stages li[data-active='true'] {
+  font-weight: 700;
+}
+
+.tod-pageGenOverlay__error {
+  color: #8b0000;
+  font-size: 9px;
 }

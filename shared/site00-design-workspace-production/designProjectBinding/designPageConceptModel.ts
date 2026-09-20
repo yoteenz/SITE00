@@ -43,11 +43,30 @@ export type PageConceptCandidate = {
   conceptTerritory: string;
   creativeRationale: string;
   visualReference: string | null;
+  mobileVisualReference?: string | null;
+  desktopVisualReference?: string | null;
+  gpt2AuthorityConceptId?: string | null;
+  creativeInjectionId?: string | null;
+  renditionSlot?: 'RENDITION_A' | 'RENDITION_B' | 'RENDITION_C';
   generatedBy: typeof CREATIVE_LAYER_MODEL;
   createdAt: string | null;
   lineage: PageConceptLineage;
   status: PageConceptCandidateStatus;
   viewportScope: PageViewportId;
+};
+
+export type PageConceptRenditionRegistration = {
+  conceptId: string;
+  projectId: string;
+  pageId: string;
+  conceptTitle: string;
+  conceptTerritory: string;
+  creativeRationale: string;
+  mobileVisualReference: string | null;
+  desktopVisualReference: string | null;
+  gpt2AuthorityConceptId: string;
+  creativeInjectionId: string | null;
+  renditionSlot: 'RENDITION_A' | 'RENDITION_B' | 'RENDITION_C';
 };
 
 export type PageDesignAuthority = {
@@ -104,7 +123,7 @@ export const GPT2_PAGE_CONCEPT_GENERATION_CONTRACT = {
     'MOBILE_AUTHORITY_REFERENCE',
     'DESKTOP_AUTHORITY_REFERENCE',
   ] as const,
-  outputShape: 'MULTIPLE_PAGE_CONCEPT_TERRITORIES' as const,
+  outputShape: 'SINGLE_AUTHORITY_MULTI_RENDITION' as const,
 } as const;
 
 const NDXBOOK_CAMPAIGN_ENTRIES: readonly CampaignEntry[] = [
@@ -150,13 +169,53 @@ export function listPageConceptCandidates(projectId: string, pageId: string): re
   return PAGE_CONCEPT_STORE[conceptStoreKey(projectId, pageId)] ?? [];
 }
 
+export function registerPageConceptRenditions(
+  projectId: string,
+  pageId: string,
+  rows: readonly PageConceptRenditionRegistration[],
+): void {
+  const now = new Date().toISOString();
+  const candidates: PageConceptCandidate[] = rows.map((row) => ({
+    conceptId: row.conceptId,
+    projectId: row.projectId,
+    pageId: row.pageId,
+    conceptTitle: row.conceptTitle,
+    conceptTerritory: row.conceptTerritory,
+    creativeRationale: row.creativeRationale,
+    visualReference: row.mobileVisualReference ?? row.desktopVisualReference,
+    mobileVisualReference: row.mobileVisualReference,
+    desktopVisualReference: row.desktopVisualReference,
+    gpt2AuthorityConceptId: row.gpt2AuthorityConceptId,
+    creativeInjectionId: row.creativeInjectionId,
+    renditionSlot: row.renditionSlot,
+    generatedBy: CREATIVE_LAYER_MODEL,
+    createdAt: now,
+    lineage: {
+      brandIntelligence: ['project-intelligence', 'page-intelligence'],
+      creativeTerritories: [row.renditionSlot],
+    },
+    status: 'CANDIDATE',
+    viewportScope: 'MOBILE',
+  }));
+  PAGE_CONCEPT_STORE[conceptStoreKey(projectId, pageId)] = candidates;
+}
+
+export function pageConceptUsesRenditionModel(projectId: string, pageId: string): boolean {
+  return listPageConceptCandidates(projectId, pageId).some((c) => Boolean(c.renditionSlot));
+}
+
 export function pageConceptGalleryEmptyMessage(
   projectId: string,
   pageId: string,
   viewport: PageViewportId,
 ): string | null {
-  const scoped = listPageConceptCandidates(projectId, pageId).filter((c) => c.viewportScope === viewport);
-  if (scoped.length > 0) return null;
+  const all = listPageConceptCandidates(projectId, pageId);
+  if (pageConceptUsesRenditionModel(projectId, pageId)) {
+    if (all.length > 0) return null;
+  } else {
+    const scoped = all.filter((c) => c.viewportScope === viewport);
+    if (scoped.length > 0) return null;
+  }
   const anyForPage = listPageConceptCandidates(projectId, pageId);
   if (anyForPage.length === 0) return 'NO PAGE CONCEPT SET YET';
   if (viewport === 'DESKTOP') return 'NO DESKTOP PAGE CONCEPTS YET';

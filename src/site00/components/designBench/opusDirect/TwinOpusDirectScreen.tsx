@@ -40,6 +40,7 @@ import DesignGrokDock from '../designAgent/DesignGrokDock';
 import { DesignGrokEligibilityProvider } from './DesignGrokEligibilityProvider';
 import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import { TwinOpusDirectViewModeControl } from './TwinOpusDirectViewModeControl';
+import { PageConceptGenerationOverlay } from './PageConceptGenerationOverlay';
 import {
   TodIconBolt,
   TodIconCaretDown,
@@ -390,6 +391,16 @@ export function TwinOpusDirectScreen({
         </div>
       </div>
       <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />
+      <PageConceptGenerationOverlay
+        open={workspace.pageConceptGeneration.overlayOpen}
+        mode={workspace.pageConceptGeneration.overlayMode}
+        plan={workspace.pageConceptGeneration.pendingPlan}
+        status={workspace.pageConceptGeneration.generationStatus}
+        error={workspace.pageConceptGeneration.error}
+        generating={workspace.pageConceptGeneration.generating}
+        onCancel={workspace.pageConceptGeneration.cancelGeneration}
+        onConfirm={() => void workspace.pageConceptGeneration.confirmGeneration()}
+      />
       <DesignGrokDock projectSlug={projectSlug} />
     </div>
     </DesignGrokEligibilityProvider>
