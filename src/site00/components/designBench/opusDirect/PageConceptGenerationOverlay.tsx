@@ -21,6 +21,7 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import type { PageConceptGenerationBlockingState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
 import type { PageConceptGenerationEligibility } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
+import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
 import type { PageConceptSourceCaptureLine } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import type {
   PageConceptGenerationPlan,
@@ -36,8 +37,8 @@ export function PageConceptGenerationOverlay({
   mode,
   plan,
   generationState,
-  error,
-  confirmNotice,
+  error: _executionErrorProp,
+  confirmNotice: _confirmNoticeProp,
   blockingState,
   generationEligibility,
   generating,
@@ -145,7 +146,11 @@ export function PageConceptGenerationOverlay({
     return `${plan.estimatedCostNote.toUpperCase()} · CONFIRM BEFORE SEND.`;
   }, [plan?.estimatedCostNote]);
 
-  const founderNotice = blockingState?.founderNotice ?? confirmNotice ?? (mode === 'confirm' ? null : error);
+  const founderNotice = sanitizePageConceptFounderNotice({
+    notice: blockingState?.founderNotice ?? null,
+    sourceCapturesReady: generationEligibility?.sourceCaptureValidation.allRequiredReady === true,
+    generationEligibility: generationEligibility ?? null,
+  });
 
   const generateDisabled =
     inFlight ||
@@ -162,6 +167,27 @@ export function PageConceptGenerationOverlay({
     : mode === 'review' && reviewReady ?
       'READY FOR REVIEW'
     : null;
+
+  const [releaseForensics, setReleaseForensics] = useState<string>('RELEASE —');
+
+  useEffect(() => {
+    if (!open) return;
+    let cancelled = false;
+    void fetch('/release-manifest.json', { cache: 'no-store' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((manifest: { releaseId?: string; commitSha?: string; bundleEntry?: string } | null) => {
+        if (cancelled || !manifest) return;
+        setReleaseForensics(
+          `RELEASE ${manifest.releaseId ?? '—'}\nCOMMIT ${manifest.commitSha ?? '—'}\nBUNDLE ${manifest.bundleEntry ?? '—'}`,
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setReleaseForensics('RELEASE — (manifest unavailable)');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open]);
 
   if (!open) return null;
 
@@ -180,6 +206,7 @@ export function PageConceptGenerationOverlay({
           projectLabel={plan?.projectLabel ?? generationState.projectId}
           pageLabel={plan?.pageLabel ?? generationState.pageId}
           sourceCaptureLines={sourceCaptureLines}
+          sourceCapturesReady={generationEligibility?.sourceCaptureValidation.allRequiredReady === true}
           stageStates={stageStates}
           results={results}
           notice={founderNotice}
@@ -205,11 +232,12 @@ export function PageConceptGenerationOverlay({
           onCancel={onCancel}
           onClose={onCancel}
         />
-        {import.meta.env.DEV && generationEligibility && blockingState ?
+        {generationEligibility && blockingState ?
           <details className="s00-pcg__forensics" data-testid="page-concept-forensics">
             <summary>Technical details</summary>
             <pre>
               {[
+                releaseForensics,
                 `PAGE ${generationEligibility.canonicalPageId}`,
                 `MOBILE ${generationEligibility.mobileCapture?.captureId ?? '—'}`,
                 `DESKTOP ${generationEligibility.desktopCapture?.captureId ?? '—'}`,

@@ -6,6 +6,7 @@ import {
   assertPageConceptEligibilityInvariants,
   type PageConceptGenerationEligibility,
 } from './pageConceptGenerationEligibility.js';
+import { sanitizePageConceptFounderNotice } from './pageConceptFounderNotice.js';
 export type PageConceptGenerationBlockingState = {
   /** Eligibility-only notice (confirm gate). */
   eligibilityNotice: string | null;
@@ -26,8 +27,23 @@ export function isPageConceptSourceCaptureRelatedNotice(notice: string | null | 
     /capture the current mobile/i.test(raw) ||
     /capture the current desktop/i.test(raw) ||
     /implementation source capture missing/i.test(raw) ||
-    /missing implementation source capture/i.test(raw)
+    /missing implementation source capture/i.test(raw) ||
+    /source capture required/i.test(raw) ||
+    /mobile capture required/i.test(raw) ||
+    /desktop capture required/i.test(raw) ||
+    /blocked · source capture required/i.test(raw)
   );
+}
+
+function finalizeFounderNotice(
+  eligibility: PageConceptGenerationEligibility,
+  notice: string | null,
+): string | null {
+  return sanitizePageConceptFounderNotice({
+    notice,
+    sourceCapturesReady: eligibility.sourceCaptureValidation.allRequiredReady,
+    generationEligibility: eligibility,
+  });
 }
 
 export function sanitizePageConceptExecutionError(
@@ -61,7 +77,7 @@ export function derivePageConceptGenerationBlockingState(input: {
       return {
         eligibilityNotice: null,
         executionError,
-        founderNotice: null,
+        founderNotice: finalizeFounderNotice(eligibility, null),
         primaryBlockerCode: null,
       };
     }
@@ -69,28 +85,31 @@ export function derivePageConceptGenerationBlockingState(input: {
       eligibility.hydrationStatus === 'checking' ?
         null
       : eligibility.confirmNotice ?? eligibility.blockerMessage;
-    assertNoImpossibleSourceBlocker(eligibility, eligibilityNotice);
+    const founderNotice = finalizeFounderNotice(eligibility, eligibilityNotice);
+    assertNoImpossibleSourceBlocker(eligibility, founderNotice);
     return {
       eligibilityNotice,
       executionError,
-      founderNotice: eligibilityNotice,
+      founderNotice,
       primaryBlockerCode: eligibility.blockerCode,
     };
   }
 
   if (input.mode === 'progress') {
+    const founderNotice = finalizeFounderNotice(eligibility, executionError);
     return {
       eligibilityNotice: null,
       executionError,
-      founderNotice: executionError,
+      founderNotice,
       primaryBlockerCode: executionError ? 'EXECUTION_ERROR' : null,
     };
   }
 
+  const founderNotice = finalizeFounderNotice(eligibility, executionError);
   return {
     eligibilityNotice: null,
     executionError,
-    founderNotice: executionError,
+    founderNotice,
     primaryBlockerCode: executionError ? 'EXECUTION_ERROR' : null,
   };
 }
