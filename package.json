@@ -14,6 +14,7 @@
     "build": "tsc --noEmit && vite build && node scripts/site00-generate-release-manifest.mjs && node scripts/site00-propagate-spa-htaccess.mjs",
     "build:emergency-zip": "bash scripts/package-cpanel-deploy.sh",
     "preview": "vite preview --port 4174 --host",
+    "preview:tunnel": "vite preview --port 5174 --host --strictPort",
     "start:api": "tsx server/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
