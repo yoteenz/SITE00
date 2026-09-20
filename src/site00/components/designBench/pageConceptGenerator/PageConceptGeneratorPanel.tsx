@@ -24,6 +24,7 @@ import {
   PAGE_CONCEPT_GENERATOR_TITLE,
   PAGE_CONCEPT_STATE_ICON,
   PAGE_CONCEPT_STATE_LABEL,
+  pageConceptGeneratorFootSpendSegments,
   pageConceptGeneratorNoticeLines,
   pageConceptGeneratorTargetLine,
   type PageConceptRenditionGroup,
@@ -275,6 +276,8 @@ export function PageConceptGeneratorPanel({
     ...stageStates,
   };
   const dismiss = onCancel ?? onClose;
+  const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
+  const footSpendSegments = pageConceptGeneratorFootSpendSegments(footSpendRaw);
 
   return (
     <section
@@ -361,7 +364,13 @@ export function PageConceptGeneratorPanel({
             </span>
             {PAGE_CONCEPT_GENERATOR_FOOTER.progressionNote}
           </span>
-          <span className="s00-pcg__footSpend">{footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote}</span>
+          <span className="s00-pcg__footSpendStack" data-testid="page-concept-foot-spend">
+            {footSpendSegments.map((line) => (
+              <span className="s00-pcg__footSpendLine" key={line}>
+                {line}
+              </span>
+            ))}
+          </span>
         </p>
         <div className="s00-pcg__actions">
           {secondaryAction ?

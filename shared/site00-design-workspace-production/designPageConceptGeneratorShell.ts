@@ -312,3 +312,14 @@ export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGene
   }
   return { headline: raw.toUpperCase() };
 }
+
+/** Display-only: split long plan cost lines for mobile footer stacking. */
+export function pageConceptGeneratorFootSpendSegments(note: string): readonly string[] {
+  const raw = note.trim();
+  if (!raw) return [];
+  const parts = raw.split(/\s+\+\s+(?=\d+\s)/);
+  if (parts.length > 1) {
+    return parts.map((part) => part.trim()).filter(Boolean);
+  }
+  return [raw];
+}
