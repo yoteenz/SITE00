@@ -15,6 +15,7 @@ import {
   evaluatePageConceptReadiness,
   pageConceptBlockedReason,
   pageConceptBlockedResolution,
+  pageConceptSourceCaptureBlockMessage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import {
   loadPageConceptGenerationState,
@@ -25,6 +26,7 @@ import type {
   PageConceptGenerationPlan,
   PageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { ensurePageConceptSourceCaptures } from '../../../services/designPageCaptureHydrateClient.js';
 import type { PageConceptCapturePayload } from '../../../services/pageConceptGenerationClient.js';
 import {
   ensurePageConceptApiAccessToken,
@@ -63,7 +65,7 @@ async function buildPageConceptCapturePayload(
     : { width: 1440, height: 900 };
   const path = record.artifactPath;
   if (!isPageCaptureDisplayableArtifact(path)) {
-    throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
+    throw new Error(pageConceptSourceCaptureBlockMessage(record.projectId, record.pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
   }
   if (path.startsWith('data:') || path.startsWith('blob:')) {
     return {
@@ -79,7 +81,15 @@ async function buildPageConceptCapturePayload(
   };
 }
 
-export function usePageConceptGeneration(projectId: string, pageId: string) {
+function readinessBlockMessage(projectId: string, pageId: string): string {
+  const readiness = evaluatePageConceptReadiness(projectId, pageId);
+  if (readiness === 'BLOCKED_NO_SOURCE_CAPTURE') {
+    return pageConceptSourceCaptureBlockMessage(projectId, pageId) || pageConceptBlockedReason(readiness);
+  }
+  return pageConceptBlockedReason(readiness) || readiness;
+}
+
+export function usePageConceptGeneration(projectId: string, pageId: string, screenId: string) {
   const [state, setState] = useState<PageConceptGenerationState>(() =>
     loadPageConceptGenerationState(projectId, pageId),
   );
@@ -92,6 +102,15 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
 
   useEffect(() => {
+    setState(loadPageConceptGenerationState(projectId, pageId));
+    setPendingPlan(null);
+    setOverlayOpen(false);
+    setOverlayMode('confirm');
+    setError(null);
+    setGenerating(false);
+  }, [pageId, projectId]);
+
+  useEffect(() => {
     let cancelled = false;
     void getAccessToken().then((token) => {
       if (!cancelled) setApiSessionReady(!!token);
@@ -102,13 +121,17 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
   }, [captureRevision, pageId, projectId]);
 
   useEffect(() => {
-    const onCapture = (event: Event) => {
+    const bump = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
       if (detail?.projectId !== projectId || detail?.pageId !== pageId) return;
       setCaptureRevision((v) => v + 1);
     };
-    window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, onCapture);
-    return () => window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, onCapture);
+    window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
+    window.addEventListener('site00:page-concept-captures-hydrated', bump);
+    return () => {
+      window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
+      window.removeEventListener('site00:page-concept-captures-hydrated', bump);
+    };
   }, [pageId, projectId]);
 
   const readiness = useMemo(
@@ -119,7 +142,9 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
   const blockedResolution = pageConceptBlockedResolution(readiness);
   const blockedReason =
     readiness !== 'READY_FOR_CREATIVE_INJECTION' ?
-      captureBlockedReason
+      readiness === 'BLOCKED_NO_SOURCE_CAPTURE' ?
+        pageConceptSourceCaptureBlockMessage(projectId, pageId) || captureBlockedReason
+      : captureBlockedReason
     : apiSessionReady === false ?
       PAGE_CONCEPT_SIGN_IN_REQUIRED
     : captureBlockedReason;
@@ -138,11 +163,17 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
 
   const openGenerationConfirm = useCallback(async () => {
     setError(null);
+    await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+    setCaptureRevision((v) => v + 1);
+
+    const token = await getAccessToken();
+    setApiSessionReady(!!token);
+
     const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
-    if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' || apiSessionReady !== true) {
+    if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' || !token) {
       setError(
         currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' ?
-          currentReadiness
+          readinessBlockMessage(projectId, pageId)
         : PAGE_CONCEPT_SIGN_IN_REQUIRED,
       );
       setOverlayOpen(true);
@@ -154,7 +185,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     try {
       localPlan = buildPageConceptGenerationPlan(projectId, pageId);
     } catch (e) {
-      setError(e instanceof Error ? e.message : blockedReason);
+      setError(e instanceof Error ? e.message : readinessBlockMessage(projectId, pageId));
       setOverlayOpen(true);
       setOverlayMode('confirm');
       setPendingPlan(null);
@@ -172,7 +203,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     } catch {
       /* local plan already shown — no provider spend */
     }
-  }, [apiSessionReady, blockedReason, pageId, persist, projectId]);
+  }, [pageId, persist, projectId, screenId]);
 
   const cancelGeneration = useCallback(() => {
     if (generating) return;
@@ -187,14 +218,19 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     setGenerating(true);
     setError(null);
     try {
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      setCaptureRevision((v) => v + 1);
+
       const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
       if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION') {
-        throw new Error(currentReadiness);
+        throw new Error(readinessBlockMessage(projectId, pageId));
       }
       await ensurePageConceptApiAccessToken();
       const current = loadPageConceptGenerationState(projectId, pageId);
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
-      if (!mobile?.artifactPath || !desktop?.artifactPath) throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
+      if (!mobile?.artifactPath || !desktop?.artifactPath) {
+        throw new Error(pageConceptSourceCaptureBlockMessage(projectId, pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
+      }
 
       setOverlayMode('progress');
       persist((s) => ({ ...s, generationStatus: 'CGPT_RUNNING' }));
@@ -225,7 +261,9 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
       const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
       setError(message);
       setOverlayMode('confirm');
-      setApiSessionReady(false);
+      if (message.includes('UNAUTHORIZED') || message.includes('SIGN IN')) {
+        setApiSessionReady(false);
+      }
       persist((s) => ({
         ...s,
         generationStatus: 'IDLE',
@@ -234,7 +272,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
     } finally {
       setGenerating(false);
     }
-  }, [generating, pageId, persist, projectId]);
+  }, [generating, pageId, persist, projectId, screenId]);
 
   return {
     readiness,

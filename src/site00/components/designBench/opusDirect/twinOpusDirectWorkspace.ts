@@ -259,7 +259,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [pageTarget, setPageTarget] = useState(() => resolveDesignPageTargetForShell(projectSlug));
   const [pageConceptRevision, setPageConceptRevision] = useState(0);
 
-  const pageConceptGeneration = usePageConceptGeneration(projectSlug, pageTarget.pageId);
+  const pageConceptGeneration = usePageConceptGeneration(
+    projectSlug,
+    pageTarget.pageId,
+    pageTarget.screenId,
+  );
 
   useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId);
 

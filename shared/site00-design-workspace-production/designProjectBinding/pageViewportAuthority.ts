@@ -129,6 +129,28 @@ function tabletPreviewFromAuthorities(auth: PageViewportAuthorities): {
   return { mode: 'waiting', src: null };
 }
 
+/** Viewport band: show CAPTURE when design authority exists but implementation source capture does not. */
+export function viewportControlsWithImplementationSource(
+  projectId: string,
+  pageId: string,
+  controls: readonly ViewportControlPresentation[],
+): ViewportControlPresentation[] {
+  const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+  const hasSource = (viewport: PageViewportId): boolean => {
+    const rec = viewport === 'MOBILE' ? mobile : viewport === 'DESKTOP' ? desktop : null;
+    return Boolean(rec?.artifactPath && isPageCaptureDisplayableArtifact(rec.artifactPath));
+  };
+  return controls.map((row) => {
+    if (row.viewport === 'MOBILE' && !hasSource('MOBILE') && row.statusShort === 'OK') {
+      return { viewport: 'MOBILE', status: 'DESIGN_NEEDED', statusShort: 'CAPTURE' };
+    }
+    if (row.viewport === 'DESKTOP' && !hasSource('DESKTOP') && row.statusShort === 'OK') {
+      return { viewport: 'DESKTOP', status: 'DESIGN_NEEDED', statusShort: 'CAPTURE' };
+    }
+    return row;
+  });
+}
+
 export function viewportControlPresentations(auth: PageViewportAuthorities): ViewportControlPresentation[] {
   const tablet = tabletPreviewFromAuthorities(auth);
   const mobileStatus: ViewportAuthorityStatus =
@@ -327,9 +349,14 @@ export function mergePageViewportIntoReadiness(
 export function resolvePageViewportBundle(projectId: string, pageId: string) {
   const auth = loadPageViewportAuthorities(projectId, pageId);
   if (!auth) return null;
+  const controls = viewportControlsWithImplementationSource(
+    projectId,
+    pageId,
+    viewportControlPresentations(auth),
+  );
   return {
     auth,
-    controls: viewportControlPresentations(auth),
+    controls,
     coverage: summarizePageViewportCoverage(auth),
   };
 }
