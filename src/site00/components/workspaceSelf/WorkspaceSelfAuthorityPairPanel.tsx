@@ -2,6 +2,7 @@ import {
   resolveWorkspaceSelfAuthorityPairPresentation,
   type ViewportAuthorityPreview,
 } from '../../../../shared/site00-design-workspace-production/workspaceSelfConcept/viewportAuthorityPreview.js';
+import { resolveGpt2AuthoritySource } from '../../../../shared/site00-design-workspace-production/workspaceSelfConcept/reviewState.js';
 import type { WorkspaceSelfWorkflowState } from '../../../../shared/site00-design-workspace-production/workspaceSelfConcept/types.js';
 import { resolveCaptureArtifactDisplayUrl } from '../../services/workspaceSelfArtifactStorage';
 
@@ -78,11 +79,25 @@ export function WorkspaceSelfAuthorityPairPanel({
   onViewportClick: (viewport: 'MOBILE' | 'DESKTOP') => void;
 }) {
   const { mobile, desktop } = resolveWorkspaceSelfAuthorityPairPresentation(state);
+  const { gpt2AuthorityConcept } = resolveGpt2AuthoritySource(state);
+  const gpt2Src =
+    gpt2AuthorityConcept?.authorityImage ?
+      resolveCaptureArtifactDisplayUrl(gpt2AuthorityConcept.authorityImage)
+    : null;
 
   return (
     <aside className="site00-wssc__authorityRail" aria-label="Authority pair" data-testid="workspace-self-authority-pair">
       <h2 className="site00-wssc__authorityTitle">Authority pair</h2>
-      <p className="site00-wssc__muted">Live GPT2/NBP concept previews for each viewport.</p>
+      <p className="site00-wssc__muted">Selected NBP rendition per viewport (from one GPT2 concept).</p>
+      {gpt2AuthorityConcept ?
+        <details className="site00-wssc__gpt2Source" data-testid="workspace-self-gpt2-source">
+          <summary>GPT2 concept source</summary>
+          <p className="site00-wssc__muted">{gpt2AuthorityConcept.name}</p>
+          {gpt2Src ?
+            <img src={gpt2Src} alt="" className="site00-wssc__authorityThumb" />
+          : <p className="site00-wssc__muted">Authority image pending provider run.</p>}
+        </details>
+      : null}
       <ViewportAuthorityCard
         preview={mobile}
         onPromote={onPromoteMobile}

@@ -156,7 +156,7 @@ export function SystemDesignWorkspaceConceptsPage() {
               );
             }}
           >
-            GENERATE 3 WORKSPACE CONCEPTS
+            GENERATE WORKSPACE CONCEPT
           </button>
         </div>
         {ws.generationError ? <p className="site00-wssc__error">{ws.generationError}</p> : null}
@@ -172,13 +172,15 @@ export function SystemDesignWorkspaceConceptsPage() {
               <strong>TARGET:</strong> {ws.pendingPlan.targetLabel}
             </p>
             <p>
-              <strong>CREATIVE CONTEXT CALLS:</strong> {ws.pendingPlan.cgptCalls} CGPT ·{' '}
-              <strong>CONCEPT AUTHORING:</strong> {ws.pendingPlan.gpt2Calls} GPT2 ·{' '}
-              <strong>NBP IMAGE JOBS:</strong> {ws.pendingPlan.nbpJobs}
+              <strong>CGPT CREATIVE CONTEXT:</strong> {ws.pendingPlan.cgptCalls} call ·{' '}
+              <strong>GPT2 CONCEPT:</strong> {ws.pendingPlan.gpt2Calls} call ·{' '}
+              <strong>NBP RENDITIONS:</strong> {ws.pendingPlan.nbpRenditions}
             </p>
             <p>
-              <strong>CONCEPTS:</strong> {ws.pendingPlan.conceptCount} · <strong>ARTIFACTS:</strong>{' '}
-              {ws.pendingPlan.outputCount} (Mobile + Desktop per concept)
+              <strong>VIEWPORT OUTPUTS:</strong> {ws.pendingPlan.outputCount} total (3 Mobile · 3 Desktop)
+            </p>
+            <p className="site00-wssc__muted">
+              Stages: 1 COMPILE CREATIVE CONTEXT → 2 CREATE GPT2 CONCEPT → 3 GENERATE 3 NBP RENDITIONS
             </p>
             <p>
               <strong>CREATIVE LAYER:</strong> {ws.pendingPlan.creativeLayer} · <strong>RENDERER:</strong>{' '}
@@ -228,7 +230,7 @@ export function SystemDesignWorkspaceConceptsPage() {
       <div className="site00-wssc__mainWithRail">
         <section className="site00-wssc__mainCol">
           <div className="site00-wssc__reviewToolbar">
-            <h2>Workspace concept candidates</h2>
+            <h2>NBP renditions (one GPT2 concept)</h2>
             <div className="site00-wssc__viewportToggle">
               <button
                 type="button"
@@ -261,7 +263,7 @@ export function SystemDesignWorkspaceConceptsPage() {
           <p className="site00-wssc__muted">Active = reviewing · Selected = viewport preference · Promoted = authority.</p>
           <div className="site00-wssc__actions site00-wssc__actions--sticky">
             <button type="button" onClick={() => ws.openCompare(activeViewport)}>
-              COMPARE CONCEPTS
+              COMPARE RENDITIONS
             </button>
             <button type="button" onClick={() => ws.promoteMobile()} disabled={!canPromoteMobile}>
               PROMOTE MOBILE

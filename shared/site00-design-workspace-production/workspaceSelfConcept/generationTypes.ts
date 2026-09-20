@@ -1,5 +1,5 @@
 import type { WorkspaceConceptSlotId } from './types.js';
-import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
+import type { WorkspaceSelfCreativePipelineSet, WorkspaceSelfPipelineSchemaVersion } from './creativePipelineTypes.js';
 
 export type WorkspaceSelfGenerationStatus =
   | 'IDLE'
@@ -34,13 +34,18 @@ export type WorkspaceSelfNbpJobStatus = 'PENDING' | 'RUNNING' | 'READY' | 'FAILE
 export type WorkspaceSelfGeneratedArtifact = {
   artifactId: string;
   conceptId: WorkspaceConceptSlotId;
+  /** NBP rendition slot (same as conceptId for WORKSPACE_SELF) */
+  renditionSlot?: WorkspaceConceptSlotId;
   territoryId: string;
   viewport: 'MOBILE' | 'DESKTOP';
   captureSetId: string;
   functionContractId: string;
   creativeBriefSetId: string;
+  creativeContextId?: string;
   creativeDirectionId: string;
   gpt2ConceptId: string;
+  sourceGpt2ConceptId?: string;
+  renditionDirective?: string;
   provider: 'NBP';
   model: string;
   providerJobId: string | null;
@@ -60,6 +65,13 @@ export type WorkspaceSelfConceptSet = {
   captureSetId: string;
   functionContractId: string;
   creativeBriefSetId: string;
+  schemaVersion: WorkspaceSelfPipelineSchemaVersion;
+  creativeContextId: string | null;
+  gpt2AuthorityConceptId: string | null;
+  renditionA: string | null;
+  renditionB: string | null;
+  renditionC: string | null;
+  /** Slot ids for A/B/C renditions (stable keys in UI) */
   conceptA: WorkspaceConceptSlotId;
   conceptB: WorkspaceConceptSlotId;
   conceptC: WorkspaceConceptSlotId;
@@ -78,10 +90,12 @@ export type WorkspaceSelfGenerationPlan = {
   targetId: string;
   targetType: 'WORKSPACE_SELF';
   targetLabel: string;
-  conceptCount: 3;
+  conceptCount: 1;
+  renditionCount: 3;
   outputCount: 6;
-  cgptCalls: 3;
-  gpt2Calls: 3;
+  cgptCalls: 1;
+  gpt2Calls: 1;
+  nbpRenditions: 3;
   nbpJobs: 6;
   viewports: readonly ['MOBILE', 'DESKTOP'];
   creativeLayer: 'CGPT + GPT2';

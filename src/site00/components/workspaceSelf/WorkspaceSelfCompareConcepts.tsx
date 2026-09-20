@@ -25,7 +25,7 @@ export function WorkspaceSelfCompareConcepts({
     <div className="site00-wssc__overlay" role="dialog" data-testid="workspace-self-compare">
       <div className="site00-wssc__overlayPanel site00-wssc__compare">
         <header className="site00-wssc__overlayHead">
-          <h2>Compare concepts — {viewport}</h2>
+          <h2>Compare renditions — {viewport}</h2>
           <button type="button" onClick={onClose}>
             CLOSE
           </button>

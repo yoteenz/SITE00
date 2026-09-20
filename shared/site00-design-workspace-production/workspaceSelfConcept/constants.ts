@@ -31,11 +31,21 @@ export const OPUS_FORBIDDEN_MUTATION_SCOPE = [
   'business rules',
 ] as const;
 
+const RENDITION_LABEL: Record<WorkspaceConceptSlotId, string> = {
+  CONCEPT_A: 'RENDITION A',
+  CONCEPT_B: 'RENDITION B',
+  CONCEPT_C: 'RENDITION C',
+};
+
+export function workspaceRenditionLabel(slot: WorkspaceConceptSlotId): string {
+  return RENDITION_LABEL[slot];
+}
+
 export function seedWorkspaceConceptSlots(): WorkspaceConceptCandidate[] {
   return WORKSPACE_CONCEPT_SLOT_IDS.map((conceptId) => ({
     conceptId,
     targetId: WORKSPACE_SELF_TARGET_ID,
-    conceptName: conceptId.replace('_', ' '),
+    conceptName: RENDITION_LABEL[conceptId],
     conceptTerritory: '',
     rationale: '',
     mobileArtifactPath: null,

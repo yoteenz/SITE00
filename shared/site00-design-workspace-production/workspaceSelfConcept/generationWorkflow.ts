@@ -1,6 +1,7 @@
 import { WORKSPACE_CONCEPT_SLOT_IDS } from './constants.js';
 import { WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
-import type { WorkspaceSingleConceptBrief } from './creativePipelineTypes.js';
+import type { WorkspaceGPT2AuthorityConcept } from './creativePipelineTypes.js';
+import { WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE } from './pipelineLegacy.js';
 import type {
   WorkspaceSelfConceptSet,
   WorkspaceSelfGeneratedArtifact,
@@ -9,6 +10,7 @@ import type {
 import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
 import type { WorkspaceConceptCandidate, WorkspaceSelfWorkflowState } from './types.js';
 import { defaultReviewUiState } from './reviewState.js';
+import { planWorkspaceNbpRenditions } from './renditionPlanner.js';
 
 function appendHistory(
   state: WorkspaceSelfWorkflowState,
@@ -25,10 +27,11 @@ export function applyCreativePipelineSet(
   state: WorkspaceSelfWorkflowState,
   pipelineSet: WorkspaceSelfCreativePipelineSet,
 ): WorkspaceSelfWorkflowState {
+  const gpt2Id = pipelineSet.gpt2AuthorityConcept?.conceptId ?? '—';
   return appendHistory(
     { ...state, creativePipelineSet: pipelineSet, generationStatus: 'NBP_RUNNING' },
     'workspace_creative_pipeline_ready',
-    `${pipelineSet.slots.filter((s) => s.concept).length} GPT2 concepts`,
+    `1 GPT2 authority · ${pipelineSet.renditions.length} NBP renditions · ${gpt2Id}`,
   );
 }
 
@@ -42,6 +45,12 @@ export function beginWorkspaceConceptSet(
     captureSetId: input.captureSetId,
     functionContractId: input.functionContractId,
     creativeBriefSetId: input.creativeBriefSetId,
+    schemaVersion: WORKSPACE_SELF_PIPELINE_SCHEMA_SINGLE,
+    creativeContextId: null,
+    gpt2AuthorityConceptId: null,
+    renditionA: null,
+    renditionB: null,
+    renditionC: null,
     conceptA: 'CONCEPT_A',
     conceptB: 'CONCEPT_B',
     conceptC: 'CONCEPT_C',
@@ -87,15 +96,18 @@ export function applyGenerationJobResult(
   return { ...state, generationJobs };
 }
 
-function gpt2ToConceptFields(t: WorkspaceSingleConceptBrief): Partial<WorkspaceConceptCandidate> {
+function gpt2AuthorityToConceptFields(
+  t: WorkspaceGPT2AuthorityConcept,
+  slotLabel: string,
+): Partial<WorkspaceConceptCandidate> {
   return {
-    conceptName: t.name,
+    conceptName: slotLabel,
     conceptTerritory: t.premise,
-    rationale: t.visualSystem,
-    visualStrategy: t.visualSystem,
+    rationale: t.visualLanguage,
+    visualStrategy: t.visualLanguage,
     layoutStrategy: t.layoutStrategy,
     informationHierarchyStrategy: t.hierarchyStrategy,
-    responsiveStrategy: t.responsiveStrategy,
+    responsiveStrategy: t.responsiveIntent,
     status: 'STAGED',
     createdAt: new Date().toISOString(),
   };
@@ -105,16 +117,23 @@ export function mergeGenerationArtifactsIntoConcepts(
   state: WorkspaceSelfWorkflowState,
 ): WorkspaceSelfWorkflowState {
   const jobs = state.generationJobs;
-  const pipelineSlots = state.creativePipelineSet?.slots ?? [];
+  const pipeline = state.creativePipelineSet;
+  const gpt2 = pipeline?.gpt2AuthorityConcept ?? null;
+  const renditionLabels = Object.fromEntries(
+    planWorkspaceNbpRenditions().map((r) => [r.slot, r.label]),
+  ) as Record<string, string>;
+
   let concepts = [...state.concepts];
 
   for (const slotId of WORKSPACE_CONCEPT_SLOT_IDS) {
-    const brief = pipelineSlots.find((s) => s.conceptSlot === slotId)?.concept;
     const mobileJob = jobs.find((j) => j.conceptId === slotId && j.viewport === 'MOBILE' && j.status === 'READY');
     const desktopJob = jobs.find((j) => j.conceptId === slotId && j.viewport === 'DESKTOP' && j.status === 'READY');
     concepts = concepts.map((c) => {
       if (c.conceptId !== slotId) return c;
-      const base = brief ? gpt2ToConceptFields(brief) : {};
+      const base =
+        gpt2 ?
+          gpt2AuthorityToConceptFields(gpt2, renditionLabels[slotId] ?? slotId)
+        : {};
       return {
         ...c,
         ...base,
@@ -136,9 +155,19 @@ export function mergeGenerationArtifactsIntoConcepts(
   else if (readyCount > 0 && failedCount > 0) generationStatus = 'PARTIAL_GENERATION';
   else if (failedCount > 0 && readyCount === 0) generationStatus = 'NBP_JOB_FAILED';
 
+  const renditions = pipeline?.renditions ?? [];
   const conceptSet =
     state.conceptSet ?
-      { ...state.conceptSet, status: generationStatus }
+      {
+        ...state.conceptSet,
+        status: generationStatus,
+        creativeContextId: pipeline?.creativeContext?.creativeContextId ?? state.conceptSet.creativeContextId,
+        gpt2AuthorityConceptId: gpt2?.conceptId ?? state.conceptSet.gpt2AuthorityConceptId,
+        renditionA: renditions.find((r) => r.slot === 'CONCEPT_A')?.renditionId ?? state.conceptSet.renditionA,
+        renditionB: renditions.find((r) => r.slot === 'CONCEPT_B')?.renditionId ?? state.conceptSet.renditionB,
+        renditionC: renditions.find((r) => r.slot === 'CONCEPT_C')?.renditionId ?? state.conceptSet.renditionC,
+        schemaVersion: pipeline?.schemaVersion ?? state.conceptSet.schemaVersion,
+      }
     : state.conceptSet;
 
   return appendHistory(
@@ -156,7 +185,7 @@ export function mergeGenerationArtifactsIntoConcepts(
         : null,
     },
     'workspace_concept_generation_completed',
-    `${readyCount}/6 artifacts ready`,
+    `${readyCount}/6 NBP artifacts ready`,
   );
 }
 
