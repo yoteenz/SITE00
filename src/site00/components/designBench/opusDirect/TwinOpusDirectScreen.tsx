@@ -397,6 +397,7 @@ export function TwinOpusDirectScreen({
         plan={workspace.pageConceptGeneration.pendingPlan}
         generationState={workspace.pageConceptGeneration.generationState}
         error={workspace.pageConceptGeneration.error}
+        confirmNotice={workspace.pageConceptGeneration.confirmNotice}
         generating={workspace.pageConceptGeneration.generating}
         confirmReady={workspace.pageConceptGeneration.ready}
         sourceCaptureLines={workspace.pageConceptGeneration.sourceCaptureLines}

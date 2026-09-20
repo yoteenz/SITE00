@@ -35,6 +35,7 @@ export function PageConceptGenerationOverlay({
   plan,
   generationState,
   error,
+  confirmNotice,
   generating,
   confirmReady,
   sourceCaptureLines,
@@ -48,6 +49,7 @@ export function PageConceptGenerationOverlay({
   plan: PageConceptGenerationPlan | null;
   generationState: PageConceptGenerationState;
   error: string | null;
+  confirmNotice?: string | null;
   generating: boolean;
   confirmReady: boolean;
   sourceCaptureLines?: readonly PageConceptSourceCaptureLine[];
@@ -137,6 +139,8 @@ export function PageConceptGenerationOverlay({
     return `${plan.estimatedCostNote.toUpperCase()} · CONFIRM BEFORE SEND.`;
   }, [plan?.estimatedCostNote]);
 
+  const founderNotice = mode === 'confirm' ? (confirmNotice ?? error) : error;
+
   const generateDisabled =
     inFlight ||
     (mode === 'review' && reviewReady && !failedNbp) ||
@@ -172,14 +176,14 @@ export function PageConceptGenerationOverlay({
           sourceCaptureLines={sourceCaptureLines}
           stageStates={stageStates}
           results={results}
-          notice={error}
-          noticeTestId={mode === 'confirm' && !plan && error ? 'page-concept-generation-blocked' : undefined}
+          notice={founderNotice}
+          noticeTestId={mode === 'confirm' && !plan && founderNotice ? 'page-concept-generation-blocked' : undefined}
           reviewBanner={
             reviewReady && !generating ? 'READY FOR FOUNDER REVIEW — CLOSE TO USE GALLERY & AUTHORITY RAIL.' : null
           }
           footSpendNote={mode === 'confirm' && plan ? spendNote : null}
           generateDisabled={generateDisabled}
-          generateDisabledReason={error}
+          generateDisabledReason={founderNotice}
           generateBusyLabel={generateBusyLabel}
           secondaryAction={
             failedNbp && !generating ?

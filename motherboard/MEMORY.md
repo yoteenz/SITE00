@@ -10940,3 +10940,14 @@ Recurring raw **403 Forbidden** on `/projects` (Apache, before React).
 - **Root cause:** Physical `projects/` directory + `Options -Indexes` + missing/inactive nested `projects/.htaccess` after ZIP upload (dotfiles skipped) → directory access denied **403** (same class as past **404** deep links when rewrite inactive).
 - **Fix:** `ErrorDocument 403 /index.html`; nested `DirectoryIndex` + `-Indexes`; copy **SPA `index.html` stub** into every route-prefix folder at build; unified **`scripts/spa-route-prefixes.mjs`** (+ `system`, `bluprint`, `build`, `live`); CI **`site00-production-route-smoke.mjs`** (20× `/projects`); verify release probes multiple shell routes; `docs/PRODUCTION_ROUTING.md`.
 - **Branch:** `cursor/projects-route-reliability1-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-CAPTURE-READINESS-UNIFICATION1
+
+Sprint: GENERATE PAGE CONCEPTS showed **MOBILE/DESKTOP · READY** while footer still **BLOCKED · SOURCE CAPTURE REQUIRED** (stale confirm `error` vs live SOURCE strip).
+
+- **Root cause:** `PageConceptGenerationOverlay` used frozen `error` from first `openGenerationConfirm` while `sourceCaptureLines` recomputed on `captureRevision`; duplicate readiness paths (`evaluatePageConceptReadiness`, `pageConceptSourceCaptureLines`, `blockedReason`, confirm re-checks).
+- **Fix:** Canonical **`validatePageConceptSourceCaptures`** + **`buildPageConceptGenerationEligibility`** (`pageConceptSourceCaptureValidation.ts`, `pageConceptGenerationEligibility.ts`); hook exposes single `generationEligibility`, live `confirmNotice`, hydration gate (`checking` → no source blocker, SOURCE **CHECKING CAPTURES…**); overlay confirm mode uses `confirmNotice`; `readiness.ts` delegates capture gates to validator + canonical page id; package parity fingerprint helper; dev invariants `PAGE_CONCEPT_READINESS_STATE_DIVERGENCE` / `PAGE_CONCEPT_PREHYDRATION_BLOCKER`; fixed `site00:page-concept-generation-updated` listener via `designPageCaptureEventMatches`.
+- **Tests:** `p0vrPageConceptCaptureReadinessUnification1.test.ts` (13 cases).
+- **Branch:** `cursor/page-concept-capture-readiness-unification1-b747`.

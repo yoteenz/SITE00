@@ -15,14 +15,11 @@ import { pageConceptReviewReady } from '../../../../../shared/site00-design-work
 import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
-  evaluatePageConceptReadiness,
-  pageConceptBlockedReason,
-  pageConceptBlockedResolution,
-  pageConceptCaptureConfirmBlockMessage,
-  pageConceptReadinessIsSourceCaptureBlocked,
-  pageConceptSourceCaptureBlockMessage,
-  pageConceptSourceCaptureLines,
-} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
+  buildPageConceptGenerationEligibility,
+  type PageConceptCaptureHydrationStatus,
+  type PageConceptGenerationEligibility,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
+import { pageConceptCaptureConfirmBlockMessage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import {
   loadPageConceptGenerationState,
   savePageConceptGenerationState,
@@ -90,15 +87,12 @@ async function buildPageConceptCapturePayload(
   };
 }
 
-function readinessBlockMessage(projectId: string, pageId: string): string {
-  const readiness = evaluatePageConceptReadiness(projectId, pageId);
-  if (pageConceptReadinessIsSourceCaptureBlocked(readiness)) {
-    return pageConceptSourceCaptureBlockMessage(projectId, pageId) || pageConceptBlockedReason(readiness);
-  }
-  return pageConceptBlockedReason(readiness) || readiness;
-}
-
-export function usePageConceptGeneration(projectId: string, pageId: string, screenId: string) {
+export function usePageConceptGeneration(
+  projectId: string,
+  pageId: string,
+  screenId: string,
+  route?: string | null,
+) {
   const [state, setState] = useState<PageConceptGenerationState>(() =>
     loadPageConceptGenerationState(projectId, pageId),
   );
@@ -109,6 +103,8 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
   const [error, setError] = useState<string | null>(null);
   const [captureRevision, setCaptureRevision] = useState(0);
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
+  const [captureHydrationStatus, setCaptureHydrationStatus] =
+    useState<PageConceptCaptureHydrationStatus>('checking');
 
   useEffect(() => {
     const loaded = loadPageConceptGenerationState(projectId, pageId);
@@ -118,12 +114,13 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     setOverlayMode(pageConceptReviewReady(loaded.generationStatus) ? 'review' : 'confirm');
     setError(null);
     setGenerating(false);
+    setCaptureHydrationStatus('checking');
   }, [pageId, projectId]);
 
   useEffect(() => {
     const onUpdated = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
-      if (detail?.projectId !== projectId || detail?.pageId !== pageId) return;
+      if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
       const loaded = loadPageConceptGenerationState(projectId, pageId);
       setState(loaded);
       if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
@@ -148,34 +145,47 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
       if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
       setCaptureRevision((v) => v + 1);
     };
+    const onHydrated = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
+      if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
+      setCaptureHydrationStatus('ready');
+      setCaptureRevision((v) => v + 1);
+    };
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
-    window.addEventListener('site00:page-concept-captures-hydrated', bump);
+    window.addEventListener('site00:page-concept-captures-hydrated', onHydrated);
     return () => {
       window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
-      window.removeEventListener('site00:page-concept-captures-hydrated', bump);
+      window.removeEventListener('site00:page-concept-captures-hydrated', onHydrated);
     };
   }, [pageId, projectId]);
 
-  const readiness = useMemo(
-    () => evaluatePageConceptReadiness(projectId, pageId),
-    [projectId, pageId, captureRevision],
-  );
-  const captureBlockedReason = pageConceptBlockedReason(readiness);
-  const blockedResolution = pageConceptBlockedResolution(readiness);
-  const sourceCaptureLines = useMemo(
-    () => pageConceptSourceCaptureLines(projectId, pageId),
-    [projectId, pageId, captureRevision],
+  const generationEligibility: PageConceptGenerationEligibility = useMemo(
+    () =>
+      buildPageConceptGenerationEligibility({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route,
+        sessionReady: apiSessionReady,
+        hydrationStatus: captureHydrationStatus,
+      }),
+    [apiSessionReady, captureHydrationStatus, captureRevision, pageId, projectId, route, screenId],
   );
 
-  const blockedReason =
-    readiness !== 'READY_FOR_CREATIVE_INJECTION' ?
-      pageConceptReadinessIsSourceCaptureBlocked(readiness) ?
-        pageConceptSourceCaptureBlockMessage(projectId, pageId) || captureBlockedReason
-      : captureBlockedReason
-    : apiSessionReady === false ?
-      PAGE_CONCEPT_SIGN_IN_REQUIRED
-    : captureBlockedReason;
-  const ready = readiness === 'READY_FOR_CREATIVE_INJECTION' && apiSessionReady === true;
+  useEffect(() => {
+    if (!overlayOpen || overlayMode !== 'confirm') return;
+    if (captureHydrationStatus === 'ready' && generationEligibility.confirmNotice) {
+      setError(generationEligibility.confirmNotice);
+    } else if (captureHydrationStatus === 'ready' && generationEligibility.canGenerate) {
+      setError(null);
+    }
+  }, [
+    captureHydrationStatus,
+    generationEligibility.canGenerate,
+    generationEligibility.confirmNotice,
+    overlayMode,
+    overlayOpen,
+  ]);
 
   const persist = useCallback(
     (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => {
@@ -190,42 +200,47 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
 
   const openGenerationConfirm = useCallback(async () => {
     setError(null);
+    setOverlayOpen(true);
+    setOverlayMode('confirm');
+    setPendingPlan(null);
+    setCaptureHydrationStatus('checking');
+
     await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+    setCaptureHydrationStatus('ready');
     setCaptureRevision((v) => v + 1);
 
     const token = await getAccessToken();
     setApiSessionReady(!!token);
 
-    const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
-    if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' || !token) {
-      setError(
-        currentReadiness !== 'READY_FOR_CREATIVE_INJECTION' ?
-          readinessBlockMessage(projectId, pageId)
-        : PAGE_CONCEPT_SIGN_IN_REQUIRED,
-      );
-      setOverlayOpen(true);
-      setOverlayMode('confirm');
-      setPendingPlan(null);
+    const eligibility = buildPageConceptGenerationEligibility({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route,
+      sessionReady: !!token,
+      hydrationStatus: 'ready',
+    });
+
+    if (!eligibility.canGenerate) {
+      setError(eligibility.confirmNotice);
       return;
     }
+
     let localPlan: PageConceptGenerationPlan;
     try {
       localPlan = buildPageConceptGenerationPlan(projectId, pageId);
     } catch (e) {
-      setError(e instanceof Error ? e.message : readinessBlockMessage(projectId, pageId));
-      setOverlayOpen(true);
-      setOverlayMode('confirm');
-      setPendingPlan(null);
+      setError(e instanceof Error ? e.message : eligibility.confirmNotice);
       return;
     }
     setPendingPlan(localPlan);
+    setError(null);
     const loadedForMode = loadPageConceptGenerationState(projectId, pageId);
     setOverlayMode(
       pageConceptReviewReady(loadedForMode.generationStatus) || loadedForMode.pipelineSet?.creativeInjection ?
         'review'
       : 'confirm',
     );
-    setOverlayOpen(true);
     persist((s) => ({ ...s, generationStatus: s.generationStatus === 'IDLE' ? 'PLANNED' : s.generationStatus }));
 
     const current = loadPageConceptGenerationState(projectId, pageId);
@@ -235,7 +250,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     } catch {
       /* local plan already shown — no provider spend */
     }
-  }, [pageId, persist, projectId, screenId]);
+  }, [pageId, persist, projectId, route, screenId]);
 
   const cancelGeneration = useCallback(() => {
     if (generating) return;
@@ -249,12 +264,21 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     setGenerating(true);
     setError(null);
     try {
+      setCaptureHydrationStatus('checking');
       await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      setCaptureHydrationStatus('ready');
       setCaptureRevision((v) => v + 1);
 
-      const currentReadiness = evaluatePageConceptReadiness(projectId, pageId);
-      if (currentReadiness !== 'READY_FOR_CREATIVE_INJECTION') {
-        throw new Error(readinessBlockMessage(projectId, pageId));
+      const eligibility = buildPageConceptGenerationEligibility({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route,
+        sessionReady: true,
+        hydrationStatus: 'ready',
+      });
+      if (!eligibility.canGenerate) {
+        throw new Error(eligibility.confirmNotice ?? PAGE_CONCEPT_SIGN_IN_REQUIRED);
       }
       await ensurePageConceptApiAccessToken();
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
@@ -314,7 +338,7 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     } finally {
       setGenerating(false);
     }
-  }, [generating, pageId, persist, projectId, screenId]);
+  }, [generating, pageId, persist, projectId, route, screenId]);
 
   const retryFailedGeneration = useCallback(async () => {
     if (generating) return;
@@ -322,6 +346,8 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     setError(null);
     try {
       await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      setCaptureHydrationStatus('ready');
+      setCaptureRevision((v) => v + 1);
       await ensurePageConceptApiAccessToken();
       const current = loadPageConceptGenerationState(projectId, pageId);
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
@@ -364,16 +390,23 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     }
   }, [generating, pageId, persist, projectId, screenId]);
 
+  const confirmNotice =
+    overlayMode === 'confirm' && overlayOpen ?
+      generationEligibility.confirmNotice ?? error
+    : error;
+
   return {
-    readiness,
-    ready,
-    blockedReason,
-    blockedResolution,
+    readiness: generationEligibility.readiness,
+    ready: generationEligibility.canGenerate,
+    blockedReason: generationEligibility.blockedReason,
+    blockedResolution: generationEligibility.blockedResolution,
+    generationEligibility,
     overlayOpen,
     overlayMode,
     pendingPlan,
     generating,
     error,
+    confirmNotice,
     generationStatus: state.generationStatus,
     pipelineSet: state.pipelineSet,
     generationJobs: state.generationJobs,
@@ -382,6 +415,6 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
     cancelGeneration,
     confirmGeneration,
     retryFailedGeneration,
-    sourceCaptureLines,
+    sourceCaptureLines: generationEligibility.sourceCaptureLines,
   };
 }
