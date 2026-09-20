@@ -10369,3 +10369,16 @@ Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no
 - **Fix:** Bootstrap managed design project (+ ndxbook pilot fallback) in `captureImplementationSnapshot`; optional `route` on API; `useDesignPageCapture` uses `resolveFounderCaptureBaseUrl`, passes page route, surfaces errors on hero button/CURRENT pane.
 - **Tests:** `tests/heroCaptureScreenBootstrap.test.ts`.
 - **Branch:** `cursor/fix-hero-capture-screen-2dd8`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1 (GENERATE PAGE CONCEPTS shell)
+
+Chat started with the hero **CAPTURE SCREEN** bug fix (registry bootstrap + surfaced capture errors, merged as PR #1007), then moved to a design-shell sprint: rebuild the **GENERATE PAGE CONCEPTS** pop-up to match an approved mobile reference, visual shell only.
+
+- **Context:** The pop-up did not exist in code — `generatePageConcepts()` was a disabled stub. The reference image is design authority: white editorial modal, uppercase Martian Mono, black/white/gray/lime, thin borders, three-stage wizard.
+- **Delivered:** `designPageConceptGeneratorShell.ts` (stages, states, summary strip, rendition slot ids, hook map), `PageConceptGeneratorPanel.tsx`, `PageConceptGeneratorOverlay.tsx`, `site00-page-concept-generator.css`. Overlay id `OV-GENERATE-PAGE-CONCEPTS` (MODAL placement) mounted from the gallery control; the in-panel GENERATE stays disabled — no CGPT/GPT2/NBP invocation, no spend, no persistence.
+- **Composition:** mobile is a full-height sheet with the three stage cards side by side (authority geometry; snapping rail only below 360px); desktop is a centred workbench where cards fill the body so every card shows its OUTPUT footer without an internal scroll. Desktop renditions use a landscape frame, mobile renditions portrait.
+- **Incidental fix:** `.tod-gallery__rail[hidden]` / `.tod-lv-gallery__rail[hidden]` now set `display: none` — the absolutely positioned rail kept its flex display and swallowed clicks on the gallery empty state's generate button.
+- **Tests:** `tests/p0vrPageConceptGeneratorOpusShell1.test.ts` (10). Full suite has 64 pre-existing failures also present on `main`.
+- **Branch:** `cursor/design-page-concept-generator-shell1-2dd8`.

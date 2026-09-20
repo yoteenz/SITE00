@@ -1300,6 +1300,13 @@
   height: 17.7px;
 }
 
+/* The rail is absolutely positioned over the gallery, so `display: flex` beats
+   the `hidden` attribute and an invisible rail swallows clicks on the empty
+   state's GENERATE PAGE CONCEPTS button. */
+.tod-gallery__rail[hidden] {
+  display: none;
+}
+
 .tod-gallery__rail {
   position: absolute;
   inset: 0;

@@ -875,6 +875,12 @@
   height: 34.9px;
 }
 
+/* Same trap as the canonical view: an absolutely positioned rail keeps its flex
+   display over `hidden` and intercepts the empty state's generate button. */
+.tod-lv-gallery__rail[hidden] {
+  display: none;
+}
+
 .tod-lv-gallery__rail {
   position: absolute;
   inset: 0;
