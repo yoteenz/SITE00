@@ -10851,3 +10851,16 @@ Founder: **GENERATE PAGE CONCEPTS** overlay (Opus shell) shows plan + red **`BLO
 - **Fix:** Reject SPA route paths in `isPageCaptureDisplayableArtifact`; hydrate replaces non-displayable existing; confirm/retry use `pageConceptCaptureConfirmBlockMessage` (human copy, no raw `BLOCKED_*`).
 - **Founder unblock:** Select **DESKTOP** viewport → **CAPTURE SCREEN**, then **MOBILE** → **CAPTURE SCREEN**; hard refresh (hydrate from API) → retry GENERATE.
 - **Branch:** `cursor/page-concept-generate-capture-confirm-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.OPUS-NATIVE-SHELL-SERVICE1 (Anthropic staged visual shell)
+
+Sprint: native **claude-opus-5** workflow for DESIGN **visual shell only** (not production implementation).
+
+- **API:** `POST /api/site00/opus-design-shell` — preflight, create_package, run (founderConfirmedRun), request_changes, approve, composer_handoff. Key server-side only; scripted when `SITE00_OPUS_DESIGN_SHELL_SCRIPTED=1` or no key.
+- **Shared:** `shared/site00-opus-design-shell/` — OpusDesignShellPackage/Result/Revision, eligibility, scoped context compiler (max 24 presentation paths), stable cached prompt prefix + dynamic target block, events.
+- **UI:** OPUS dock **SHELL** tab → `OpusDesignShellPanel` — CREATE/REFINE DESIGN SHELL, cost confirm RUN OPUS, review, REQUEST CHANGES, APPROVE SHELL, SEND TO COMPOSER; telemetry under technical details.
+- **Firewall:** staged `STAGED_VISUAL_SHELL` proposals only; `productionWriteAccess: false`; no IMPLEMENT WITH OPUS.
+- **Tests:** `tests/p0vrOpusNativeShellService1.test.ts` (17 guards).
+- **Branch:** `cursor/opus-native-shell-service1-9f72`.
