@@ -9,8 +9,8 @@ WHAT TO UPLOAD
 3. Delete OLD SPA files inside that folder (index.html, assets/, release-manifest.json, .htaccess)
 4. Upload ZIP into that same folder → Extract here (NOT into a new subfolder)
 5. Confirm index.html and .htaccess sit directly in the document root
-6. Confirm projects/.htaccess exists (nested SPA fallback for /projects/... URLs)
-7. If deep links still 404 — cPanel often skips dotfiles on extract/FTP:
+6. Confirm projects/.htaccess AND projects/index.html exist (nested SPA fallback — prevents raw 403 Forbidden)
+7. If deep links still 404 or /projects shows raw 403 Forbidden — cPanel often skips dotfiles on extract/FTP:
    a. Rename htaccess-deploy.txt → .htaccess (document root)
    b. In projects/: rename htaccess-nested.txt → .htaccess (required for /projects/... URLs)
    c. CI runs FTP .htaccess upload after deploy — if verify still fails, do (a)+(b) manually in File Manager

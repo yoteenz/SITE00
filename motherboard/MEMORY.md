@@ -10929,3 +10929,14 @@ Sprint: **BLOCKED_NO_SOURCE_CAPTURE** while CURRENT showed a capture — unify C
 - **Fix:** `designPageIdentity.ts` (`resolveDesignPageIdentity`, `designPageCaptureEventMatches`); `resolveCurrentPageCapture`; readiness emits **`BLOCKED_NO_MOBILE_CAPTURE` / `BLOCKED_NO_DESKTOP_CAPTURE`** when one viewport missing (both Mobile+Desktop required); overlay **SOURCE · MOBILE/DESKTOP CAPTURE · READY/MISSING** strip; founder copy via `pageConceptSourceCaptureBlockMessage` (no raw enums); `sourceCaptureRefs.ts` documents client→API artifact refs (server cannot read localStorage).
 - **Tests:** `p0vrPageConceptSourceCaptureResolutionFix1.test.ts` (13 cases).
 - **Branch:** `cursor/page-concept-source-capture-resolution-fix1-b747`.
+
+---
+
+## 2026-09-20 — P0.PROD.PROJECTS-ROUTE-RELIABILITY1 (403 /projects)
+
+Recurring raw **403 Forbidden** on `/projects` (Apache, before React).
+
+- **403 issuer:** GoDaddy **Apache** on `site00.com` (not Railway/API).
+- **Root cause:** Physical `projects/` directory + `Options -Indexes` + missing/inactive nested `projects/.htaccess` after ZIP upload (dotfiles skipped) → directory access denied **403** (same class as past **404** deep links when rewrite inactive).
+- **Fix:** `ErrorDocument 403 /index.html`; nested `DirectoryIndex` + `-Indexes`; copy **SPA `index.html` stub** into every route-prefix folder at build; unified **`scripts/spa-route-prefixes.mjs`** (+ `system`, `bluprint`, `build`, `live`); CI **`site00-production-route-smoke.mjs`** (20× `/projects`); verify release probes multiple shell routes; `docs/PRODUCTION_ROUTING.md`.
+- **Branch:** `cursor/projects-route-reliability1-b747`.
