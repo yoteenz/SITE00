@@ -10610,3 +10610,15 @@ Founder saw **PROJECT INDEX UNAVAILABLE** / **SESSION EXPIRED OR NOT SIGNED IN**
 - **Cause:** `Site00AccountRouteGuard` could restore **UI-only** auth backup (`isSignedIn`) without a valid Supabase JWT; `GET api.site00.com/.../projects?action=index` returns **401**. Session-restore cookie calls could miss Railway when `VITE_API_BASE` empty (now uses `site00ClientApiUrl`).
 - **Fix:** `refreshAccessTokenForApi` + one retry on 401 in `site00ProjectsApi`; guard stops backup-only pass-through and redirects to sign-in when no API token; Projects error adds **SIGN IN AGAIN** link.
 - **Branch:** `cursor/projects-index-session-reauth-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-NBP-INTEGRATION-AUDIT1
+
+Forensic: `/system/design/workspace-concepts` had **no provider pipeline** — only manual STAGE SLOT + `requestConceptGeneration` flag; DESIGN bench **GENERATE PAGE CONCEPTS** remains a **PAGE no-op stub** in `twinOpusDirectWorkspace.ts`.
+
+- **WORKSPACE_SELF path:** `POST /api/site00/workspace-self-concept-generation` — plan → founder confirm → Anthropic (CGPT/GPT2) **3 territories** → **6× NBP** (`fal-ai/nano-banana-pro/edit`) with capture references.
+- **UI:** **GENERATE 3 WORKSPACE CONCEPTS**, cost confirmation, job progress, gallery images, **RETRY FAILED ONLY**, statuses through `READY_FOR_REVIEW`.
+- **Models:** `WorkspaceSelfConceptSet`, `WorkspaceSelfCreativeBriefSet`, `WorkspaceSelfGeneratedArtifact`.
+- **Tests:** `p0vrDesignWorkspaceSelfNbpIntegrationAudit1.test.ts`.
+- **Branch:** `cursor/design-workspace-self-nbp-integration-audit1-9f72`.
