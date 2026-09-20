@@ -22,6 +22,8 @@ export function formatCaptureTransportError(code: string | null | undefined): st
       return 'CAPTURE API SERVER ERROR — check Railway logs.';
     case 'AUTH_FAILED':
       return 'SIGN IN REQUIRED for cloud upload.';
+    case 'UNKNOWN_TRANSPORT_ERROR':
+      return 'API REQUEST FAILED — redeploy Railway from latest main, then retry. If this persists, check Railway logs for page-concept-generation.';
     default:
       return code ? `CAPTURE API ERROR — ${code}` : 'REFERENCE UPLOAD FAILED';
   }

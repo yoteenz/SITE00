@@ -121,13 +121,31 @@ export async function captureApiFetch<T = Record<string, unknown>>(
     const httpError = classifyHttpStatus(res.status);
     let errorCode = httpError ?? bodyError;
     let data: T | null = null;
+    let apiErrorMessage: string | null = null;
 
-    if (!errorCode && res.ok) {
+    const looksJson =
+      raw.trim().startsWith('{') ||
+      raw.trim().startsWith('[') ||
+      Boolean(contentType?.toLowerCase().includes('json'));
+    if (looksJson) {
       try {
-        data = JSON.parse(raw) as T;
+        const parsed = JSON.parse(raw) as T & { error?: string; ok?: boolean };
+        data = parsed;
+        if (typeof parsed.error === 'string' && parsed.error.trim()) {
+          apiErrorMessage = parsed.error.trim();
+        }
+        if (!res.ok && parsed && typeof parsed === 'object' && 'ok' in parsed && parsed.ok === false && !errorCode) {
+          errorCode = 'INVALID_API_RESPONSE';
+        }
       } catch {
-        errorCode = 'INVALID_API_RESPONSE';
+        if (!errorCode) errorCode = 'INVALID_API_RESPONSE';
       }
+    } else if (!res.ok && bodyError) {
+      errorCode = bodyError;
+    }
+
+    if (!res.ok && !errorCode) {
+      errorCode = 'UNKNOWN_TRANSPORT_ERROR';
     }
 
     const apiBuild = data && typeof data === 'object' && 'apiBuild' in data ? String((data as { apiBuild?: string }).apiBuild ?? '') : null;
@@ -137,10 +155,6 @@ export async function captureApiFetch<T = Record<string, unknown>>(
       data && typeof data === 'object' && 'contractVersion' in data
         ? String((data as { contractVersion?: string }).contractVersion ?? '')
         : null;
-
-    if (!res.ok && !errorCode) {
-      errorCode = 'UNKNOWN_TRANSPORT_ERROR';
-    }
 
     return {
       ok: res.ok && !errorCode,
@@ -161,7 +175,7 @@ export async function captureApiFetch<T = Record<string, unknown>>(
         workerBuild,
         contractVersion,
         errorCode,
-        errorMessage: errorCode ? raw.slice(0, 200) || res.statusText : null,
+        errorMessage: errorCode ? apiErrorMessage ?? raw.slice(0, 200) || res.statusText : null,
       }),
     };
   } catch (error) {

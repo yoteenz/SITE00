@@ -14,10 +14,12 @@ import { PAGE_CONCEPT_TARGET_TYPE } from '../../../shared/site00-design-workspac
 import { generatePageCreativeInjection } from './generatePageCreativeInjection.js';
 import { generatePageGpt2AuthorityConcept } from './generatePageGpt2AuthorityConcept.js';
 import { renderPageNbpJob } from './renderPageNbpJob.js';
+import { resolvePageGenerationCaptureBase64 } from './resolvePageGenerationCapture.js';
 
 export type PageGenerationCapturePayload = {
   captureId: string;
-  artifactBase64: string;
+  artifactBase64?: string;
+  artifactUrl?: string;
   width: number;
   height: number;
 };
@@ -54,6 +56,9 @@ export async function runPageConceptGeneration(
   const projectContext = input.state.projectContext!;
   const pageContext = input.state.pageContext!;
   const functionContract = input.state.functionContract!;
+
+  const mobileCaptureBase64 = await resolvePageGenerationCaptureBase64(input.mobileCapture);
+  const desktopCaptureBase64 = await resolvePageGenerationCaptureBase64(input.desktopCapture);
 
   let creativeInjection = input.state.pipelineSet?.creativeInjection ?? null;
   let gpt2Authority = input.state.pipelineSet?.gpt2AuthorityConcept ?? null;
@@ -122,8 +127,7 @@ export async function runPageConceptGeneration(
         };
 
         try {
-          const ref =
-            viewport === 'MOBILE' ? input.mobileCapture.artifactBase64 : input.desktopCapture.artifactBase64;
+          const ref = viewport === 'MOBILE' ? mobileCaptureBase64 : desktopCaptureBase64;
           const dims = viewport === 'MOBILE' ? input.mobileCapture : input.desktopCapture;
           const render = await renderPageNbpJob({
             gpt2Authority,

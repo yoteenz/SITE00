@@ -19,10 +19,12 @@ import {
   loadPageConceptGenerationState,
   savePageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
+import type { PageCaptureRecord } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type {
   PageConceptGenerationPlan,
   PageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import type { PageConceptCapturePayload } from '../../../services/pageConceptGenerationClient.js';
 import {
   planPageConceptGenerationApi,
   runPageConceptGenerationApi,
@@ -37,6 +39,35 @@ async function artifactPathToBase64(path: string): Promise<string> {
   if (!res.ok) throw new Error(`CAPTURE_FETCH_${res.status}`);
   const buf = await res.arrayBuffer();
   return btoa(String.fromCharCode(...new Uint8Array(buf)));
+}
+
+function resolveCaptureArtifactUrl(path: string): string {
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://site00.com';
+  return `${origin}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
+async function buildPageConceptCapturePayload(
+  record: PageCaptureRecord,
+  viewport: 'MOBILE' | 'DESKTOP',
+): Promise<PageConceptCapturePayload> {
+  const dims =
+    viewport === 'MOBILE' ?
+      { width: 390, height: 844 }
+    : { width: 1440, height: 1024 };
+  const path = record.artifactPath;
+  if (path.startsWith('data:') || path.startsWith('blob:')) {
+    return {
+      captureId: record.captureId,
+      ...dims,
+      artifactBase64: await artifactPathToBase64(path),
+    };
+  }
+  return {
+    captureId: record.captureId,
+    ...dims,
+    artifactUrl: resolveCaptureArtifactUrl(path),
+  };
 }
 
 export function usePageConceptGeneration(projectId: string, pageId: string) {
@@ -125,26 +156,17 @@ export function usePageConceptGeneration(projectId: string, pageId: string) {
       if (!mobile?.artifactPath || !desktop?.artifactPath) throw new Error('BLOCKED_NO_SOURCE_CAPTURE');
 
       persist((s) => ({ ...s, generationStatus: 'CGPT_RUNNING' }));
-      const mobileB64 = await artifactPathToBase64(mobile.artifactPath);
-      const desktopB64 = await artifactPathToBase64(desktop.artifactPath);
+
+      const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
+      const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
 
       persist((s) => ({ ...s, generationStatus: 'GPT2_RUNNING' }));
 
       const result = await runPageConceptGenerationApi({
         state: current,
         founderConfirmedSpend: true,
-        mobileCapture: {
-          captureId: mobile.captureId,
-          artifactBase64: mobileB64,
-          width: 390,
-          height: 844,
-        },
-        desktopCapture: {
-          captureId: desktop.captureId,
-          artifactBase64: desktopB64,
-          width: 1440,
-          height: 1024,
-        },
+        mobileCapture,
+        desktopCapture,
       });
 
       persist((s) => {
