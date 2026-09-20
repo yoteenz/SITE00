@@ -19,6 +19,8 @@ import {
   pageConceptReviewReady,
   pageConceptStageStatesFromPipeline,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import type { PageConceptGenerationBlockingState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
+import type { PageConceptGenerationEligibility } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
 import type { PageConceptSourceCaptureLine } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import type {
   PageConceptGenerationPlan,
@@ -36,6 +38,8 @@ export function PageConceptGenerationOverlay({
   generationState,
   error,
   confirmNotice,
+  blockingState,
+  generationEligibility,
   generating,
   confirmReady,
   sourceCaptureLines,
@@ -50,6 +54,8 @@ export function PageConceptGenerationOverlay({
   generationState: PageConceptGenerationState;
   error: string | null;
   confirmNotice?: string | null;
+  blockingState?: PageConceptGenerationBlockingState;
+  generationEligibility?: PageConceptGenerationEligibility;
   generating: boolean;
   confirmReady: boolean;
   sourceCaptureLines?: readonly PageConceptSourceCaptureLine[];
@@ -139,7 +145,7 @@ export function PageConceptGenerationOverlay({
     return `${plan.estimatedCostNote.toUpperCase()} · CONFIRM BEFORE SEND.`;
   }, [plan?.estimatedCostNote]);
 
-  const founderNotice = mode === 'confirm' ? (confirmNotice ?? error) : error;
+  const founderNotice = blockingState?.founderNotice ?? confirmNotice ?? (mode === 'confirm' ? null : error);
 
   const generateDisabled =
     inFlight ||
@@ -199,6 +205,22 @@ export function PageConceptGenerationOverlay({
           onCancel={onCancel}
           onClose={onCancel}
         />
+        {import.meta.env.DEV && generationEligibility && blockingState ?
+          <details className="s00-pcg__forensics" data-testid="page-concept-forensics">
+            <summary>Technical details</summary>
+            <pre>
+              {[
+                `PAGE ${generationEligibility.canonicalPageId}`,
+                `MOBILE ${generationEligibility.mobileCapture?.captureId ?? '—'}`,
+                `DESKTOP ${generationEligibility.desktopCapture?.captureId ?? '—'}`,
+                `CAPTURES_READY ${generationEligibility.sourceCaptureValidation.allRequiredReady}`,
+                `CAN_GENERATE ${generationEligibility.canGenerate}`,
+                `BLOCKER ${blockingState.primaryBlockerCode ?? '—'}`,
+                `NOTICE ${founderNotice ?? '—'}`,
+              ].join('\n')}
+            </pre>
+          </details>
+        : null}
       </div>
       {fullBriefOpen && injection ?
         <div className="s00-pcg__briefLayer" role="dialog" aria-label="Full creative brief">
