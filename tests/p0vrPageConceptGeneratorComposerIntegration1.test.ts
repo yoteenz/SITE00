@@ -349,7 +349,8 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1', () => {
   it('overlay wires binding, results, spend gate, retry, persistence hooks', () => {
     const overlay = read('src/site00/components/designBench/opusDirect/PageConceptGenerationOverlay.tsx');
     expect(overlay).toContain('sourceCaptureLines');
-    expect(overlay).toContain('page-concept-source-captures');
+    const panel = read('src/site00/components/designBench/pageConceptGenerator/PageConceptGeneratorPanel.tsx');
+    expect(panel).toContain('page-concept-source-captures');
     expect(overlay).toContain('pageConceptStageStatesFromPipeline');
     expect(overlay).toContain('PageConceptGeneratorResults');
     expect(overlay).toContain('PageConceptGeneratorNbpStage');
@@ -364,7 +365,11 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1', () => {
 
     const screen = read('src/site00/components/designBench/opusDirect/TwinOpusDirectScreen.tsx');
     expect(screen).toContain('generationState={workspace.pageConceptGeneration.generationState}');
+    expect(screen).toContain('confirmNotice={workspace.pageConceptGeneration.confirmNotice}');
     expect(screen).toContain('retryFailedGeneration');
+
+    expect(hook).toContain('generationEligibility');
+    expect(hook).toContain('designPageCaptureEventMatches');
   });
 
   it('visual shell CSS/classes remain intact', () => {
