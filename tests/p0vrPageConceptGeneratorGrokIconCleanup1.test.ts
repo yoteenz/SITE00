@@ -36,9 +36,9 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1', () => {
   it('keeps one construction grid and stays staged', () => {
     expect(PCG_ICON_VIEWBOX).toBe(24);
     expect(PCG_ICON_STROKE).toBe(1.5);
-    expect(PCG_ICON_FAMILY).toBe('SITE00_PCG_LINE_V1');
+    expect(PCG_ICON_FAMILY).toMatch(/^SITE00_PCG_LINE_V/);
     expect(PCG_ICON_STATUS).toBe('STAGED');
-    expect(PCG_ICON_VERSION).toBe('P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1');
+    expect(PCG_ICON_VERSION).toMatch(/PAGE-CONCEPT-GENERATOR-GROK-ICON/);
   });
 
   it('defines every requested semantic icon as currentColor SVG', () => {

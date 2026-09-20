@@ -10887,3 +10887,16 @@ Sprint: icon-system refinement for **GENERATE PAGE CONCEPTS** only. Live shell/g
 - **Proposal map:** live AIC ids → `pcg-*` in `PAGE_CONCEPT_GENERATOR_ICON_PROPOSAL`. Panel still uses existing `AiConsoleIcon` names.
 - **Tests:** `tests/p0vrPageConceptGeneratorGrokIconCleanup1.test.ts`.
 - **Branch:** `cursor/page-concept-generator-grok-icon-cleanup1-9f72`.
+
+---
+
+## 2026-09-20 — Tunnel GENERATE blocked by sign-in + GROK-ICON-LABEL-CLEANUP2
+
+Chat started with founder on **site00.fsbw-dev.com** unable to generate page concepts even with mobile + desktop CAPTURE SCREEN. Screenshot showed **SIGN IN REQUIRED — GENERATE calls api.site00.com**, viewport **MOBILE OK / DESKTOP OK**, and empty gallery.
+
+- **Why:** Captures are not the blocker. `evaluatePageConceptReadiness` was already `READY_FOR_CREATIVE_INJECTION`. GENERATE stays disabled until a **Supabase Bearer** exists on the **tunnel tab** (`apiSessionReady === false`). CAPTURE SCREEN has no auth; `POST /api/site00/page-concept-generation` on **api.site00.com** does. fsbw-dev does not share site00.com cookies. Viewport OK is design-authority, not the source-capture pair.
+- **Founder unblock:** Ctrl Room sign-in on the same fsbw-dev tab, then retry. Production site00.com is the simpler origin if tunnel session is stale.
+- **Sprint:** **P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-LABEL-CLEANUP2** — second staged pass after CLEANUP1. Live panel/geometry/pipeline **not** replaced.
+- **Staged:** `pageConceptGeneratorIconography.ts` → `SITE00_PCG_LINE_V2` (31 glyphs). Model tags (CGPT/GPT2/NBP) flattened; status chips informational (no thick black/lime button fill); output family + authority/rendition placeholders + square carousel dots. Drop-in `public/site00/page-concept-generator/staged/s00-pcg-cleanup2.css`. Review: classification, tag/chip specimens, icon sheet, panel before/after.
+- **Tests:** `tests/p0vrPageConceptGeneratorGrokIconLabelCleanup2.test.ts` (live lock + staged dump).
+- **Branch:** `cursor/page-concept-generator-grok-icon-label-cleanup2-b747`.

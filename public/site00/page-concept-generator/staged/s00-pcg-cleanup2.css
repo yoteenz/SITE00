@@ -1,0 +1,165 @@
+/**
+ * P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-LABEL-CLEANUP2
+ *
+ * STAGED drop-in. Composer may import this AFTER site00-page-concept-generator.css
+ * once the founder approves. Live panel does not load this file.
+ *
+ * Scope: model tags, status chips, placeholders, carousel glyphs.
+ * Forbidden: modal size, card grid, typography, action geometry, pipeline.
+ */
+
+/* ---- MODEL TAG (CGPT / GPT2 / NBP) — system labels, not buttons -------- */
+
+.s00-pcg__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+  margin-left: auto;
+  padding: 0 3px 0 4px;
+  border: 0;
+  border-left: 2px solid var(--pcg-ink-3);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--pcg-ink-2);
+  pointer-events: none;
+  cursor: default;
+}
+
+.s00-pcg__tag:hover,
+.s00-pcg__tag:focus,
+.s00-pcg__tag:active {
+  background: transparent;
+  box-shadow: none;
+}
+
+.s00-pcg__card[data-stage-state='READY'] .s00-pcg__tag,
+.s00-pcg__card[data-stage-state='ACTIVE'] .s00-pcg__tag {
+  border-left-color: var(--pcg-lime);
+  background: transparent;
+  color: var(--pcg-ink);
+}
+
+.s00-pcg__tagGlyph {
+  display: inline-flex;
+  color: currentColor;
+}
+
+/* ---- STATUS CHIP — informational, not clickable ------------------------ */
+
+.s00-pcg__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 13px;
+  margin-top: 2px;
+  padding: 0 5px;
+  border: 1px solid #e4e4e4;
+  border-radius: 2px;
+  background: #f1f1f1;
+  box-shadow: none;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--pcg-ink-3);
+  pointer-events: none;
+  cursor: default;
+}
+
+.s00-pcg__chip:hover,
+.s00-pcg__chip:focus,
+.s00-pcg__chip:active {
+  box-shadow: none;
+}
+
+.s00-pcg__chip[data-state='READY'] {
+  border-color: rgb(205 238 48 / 55%);
+  background: rgb(205 238 48 / 28%);
+  color: var(--pcg-lime-ink);
+}
+
+.s00-pcg__chip[data-state='ACTIVE'] {
+  border-color: rgb(16 16 16 / 18%);
+  background: rgb(205 238 48 / 16%);
+  color: var(--pcg-lime-ink);
+}
+
+.s00-pcg__chip[data-state='COMPLETE'] {
+  border-color: #d8d8d8;
+  background: #efefef;
+  color: var(--pcg-ink);
+}
+
+.s00-pcg__chip[data-state='FAILED'] {
+  border-color: rgb(194 40 29 / 28%);
+  background: rgb(194 40 29 / 8%);
+  color: var(--pcg-red);
+}
+
+.s00-pcg__chip[data-state='PARTIAL'] {
+  border-color: rgb(224 169 10 / 35%);
+  background: rgb(224 169 10 / 12%);
+  color: var(--pcg-ink-2);
+}
+
+.s00-pcg__chip[data-state='PENDING'],
+.s00-pcg__chip[data-state='NOT_STARTED'] {
+  border-color: #e4e4e4;
+  background: #f1f1f1;
+  color: var(--pcg-ink-3);
+}
+
+/* ---- PLACEHOLDER — technical frame, not broken-image ------------------- */
+
+.s00-pcg__frameEmpty {
+  color: var(--pcg-ink-3);
+}
+
+.s00-pcg__frameGlyph {
+  color: var(--pcg-ink-3);
+  opacity: 0.72;
+}
+
+/* ---- CAROUSEL — quiet, no button boxes --------------------------------- */
+
+.s00-pcg__pageArrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+  color: var(--pcg-ink-3);
+  box-shadow: none;
+}
+
+.s00-pcg__dot {
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--pcg-ink-3);
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+}
+
+.s00-pcg__dot[data-active='true'] {
+  background: var(--pcg-ink);
+  border-color: var(--pcg-ink);
+  outline: none;
+}
+
+/* ---- ACTION CONTROLS stay actionable (do not flatten) ------------------ */
+
+.s00-pcg__generate,
+.s00-pcg__cancel,
+.s00-pcg__dismiss,
+.s00-pcg__retry {
+  pointer-events: auto;
+  cursor: pointer;
+}

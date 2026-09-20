@@ -1,10 +1,11 @@
 /**
- * P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1 — staged icon family for
- * the GENERATE PAGE CONCEPTS pop-up.
+ * P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-LABEL-CLEANUP2 — staged icon +
+ * non-interactive label family for the GENERATE PAGE CONCEPTS pop-up.
  *
- * STAGED ONLY. These drawings do not replace live `AiConsoleIcon` bindings
- * in the Opus shell. Founder approval is required before Composer wires
- * `PAGE_CONCEPT_GENERATOR_ICON_PROPOSAL` into the panel.
+ * Second pass after GROK-ICON-CLEANUP1. STAGED ONLY. Live Opus shell,
+ * geometry, and pipeline stay locked. Founder approval is required before
+ * Composer wires `PAGE_CONCEPT_GENERATOR_ICON_PROPOSAL` or imports
+ * `s00-pcg-cleanup2.css`.
  *
  * Construction: 24×24 viewBox, 1.5 stroke, square caps, miter joins,
  * 5–19 content inset, currentColor. One technical/editorial family.
@@ -14,8 +15,9 @@ export const PCG_ICON_VIEWBOX = 24;
 export const PCG_ICON_STROKE = 1.5;
 export const PCG_ICON_INSET = 5;
 export const PCG_ICON_STATUS = 'STAGED' as const;
-export const PCG_ICON_VERSION = 'P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1';
-export const PCG_ICON_FAMILY = 'SITE00_PCG_LINE_V1';
+export const PCG_ICON_VERSION = 'P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-LABEL-CLEANUP2';
+export const PCG_ICON_FAMILY = 'SITE00_PCG_LINE_V2';
+export const PCG_PREVIOUS_PASS = 'P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1';
 
 export type PcgIconState = 'default' | 'active' | 'disabled';
 export type PcgIconGroup =
@@ -25,7 +27,11 @@ export type PcgIconGroup =
   | 'nbp'
   | 'status'
   | 'footer'
-  | 'shared';
+  | 'shared'
+  | 'carousel'
+  | 'placeholder';
+
+export type PcgVisualRole = 'ACTION' | 'STATUS' | 'MODEL_TAG' | 'ICON' | 'PLACEHOLDER' | 'CAROUSEL';
 
 export type PcgIconPrimitive =
   | { kind: 'path'; d: string; fill?: boolean }
@@ -37,6 +43,8 @@ export type PcgIconDef = {
   group: PcgIconGroup;
   location: string;
   meaning: string;
+  visualRole: PcgVisualRole;
+  interactive: boolean;
   recommendedSize: number;
   defaultState: PcgIconState;
   activeState: PcgIconState;
@@ -58,11 +66,14 @@ export const PCG_ICON_IDS = [
   'pcg-output-brief',
   'pcg-authority-empty',
   'pcg-output-authority',
+  'pcg-rendition-empty',
   'pcg-mobile',
   'pcg-desktop',
   'pcg-output-rendition',
   'pcg-prev',
   'pcg-next',
+  'pcg-dot-active',
+  'pcg-dot-inactive',
   'pcg-status-ready',
   'pcg-status-pending',
   'pcg-status-running',
@@ -99,6 +110,8 @@ function def(
   group: PcgIconGroup,
   location: string,
   meaning: string,
+  visualRole: PcgVisualRole,
+  interactive: boolean,
   recommendedSize: number,
   primitives: readonly PcgIconPrimitive[],
 ): PcgIconDef {
@@ -107,6 +120,8 @@ function def(
     group,
     location,
     meaning,
+    visualRole,
+    interactive,
     recommendedSize,
     defaultState: 'default',
     activeState: 'active',
@@ -124,8 +139,8 @@ const CORNERS: readonly PcgIconPrimitive[] = [
 const FRAME = [R(5, 5, 14, 14)];
 const CHECK = [P('M7.5 12.2 10.6 15.4 16.6 8.6')];
 const CROSS = [L(8, 8, 16, 16), L(16, 8, 8, 16)];
-const CHEVRON_R = [P('M10 7.5 16 12 10 16.5')];
-const CHEVRON_L = [P('M14 7.5 8 12 14 16.5')];
+const CHEVRON_R = [P('M11 8 16 12 11 16')];
+const CHEVRON_L = [P('M13 8 8 12 13 16')];
 const NODE = [R(10.5, 10.5, 3, 3, true)];
 
 const DEFS: Record<PcgIconId, PcgIconDef> = {
@@ -133,47 +148,67 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'pcg-system',
     'summary',
     'Summary strip — source / system glyph',
-    'Generator origin: construction corners around a synthesis node.',
+    'Pipeline plan: one creative pass → one authority → three renditions. Not a database stack.',
+    'ICON',
+    false,
     13,
-    [...CORNERS, ...NODE],
+    [
+      R(5, 9, 3.5, 6),
+      L(8.5, 12, 10, 12),
+      R(10, 9, 3.5, 6),
+      L(13.5, 12, 15, 12),
+      R(15, 6.5, 3.5, 3),
+      R(15, 10.5, 3.5, 3),
+      R(15, 14.5, 3.5, 3),
+    ],
   ),
   'pcg-cgpt': def(
     'pcg-cgpt',
-    'summary',
-    'Summary + STEP 1 chip — CGPT creative intelligence',
-    'Directional node: alignment box, crosshair ticks, synthesized center.',
+    'cgpt',
+    'Summary + STEP 1 model tag — CGPT creative intelligence',
+    'Layered context nodes synthesizing into one directional mark.',
+    'MODEL_TAG',
+    false,
     10,
     [
-      R(8.5, 8.5, 7, 7),
-      L(12, 5, 12, 8.5),
-      L(12, 15.5, 12, 19),
-      L(5, 12, 8.5, 12),
-      L(15.5, 12, 19, 12),
-      ...NODE,
+      R(5, 6, 3, 3),
+      R(5, 10.5, 3, 3),
+      R(5, 15, 3, 3),
+      L(8, 7.5, 11.5, 12),
+      L(8, 12, 11.5, 12),
+      L(8, 16.5, 11.5, 12),
+      R(11.5, 10.5, 3, 3, true),
+      L(14.5, 12, 19, 12),
+      P('M16.6 9.8 19 12 16.6 14.2'),
     ],
   ),
   'pcg-gpt2': def(
     'pcg-gpt2',
-    'summary',
-    'Summary + STEP 2 chip — GPT2 authority concept',
-    'Single framed field with an inner plate and one authority mark.',
+    'gpt2',
+    'Summary + STEP 2 model tag — GPT2 authority concept',
+    'One page composition: framed visual field + singular authority mark. Not a nested square.',
+    'MODEL_TAG',
+    false,
     10,
-    [...FRAME, R(8, 8, 8, 8), R(11, 11, 2, 2, true)],
+    [R(6, 4.5, 12, 15), R(8, 7, 8, 8), R(11, 10, 2, 2, true), L(8, 17.2, 16, 17.2)],
   ),
   'pcg-nbp': def(
     'pcg-nbp',
-    'summary',
-    'Summary + STEP 3 chip — NBP renditions',
-    'One source node branching into three structured outputs.',
+    'nbp',
+    'Summary + STEP 3 model tag — NBP renditions',
+    'One source plate branching into three controlled outputs.',
+    'MODEL_TAG',
+    false,
     10,
     [
-      R(10.5, 5, 3, 3, true),
-      L(12, 8, 12, 11),
-      L(12, 11, 7, 14),
-      L(12, 11, 17, 14),
-      R(5, 14, 4, 4),
-      R(10, 14, 4, 4),
-      R(15, 14, 4, 4),
+      R(5, 8, 5, 8),
+      L(10, 12, 13, 12),
+      L(13, 12, 16, 7),
+      L(13, 12, 16, 12),
+      L(13, 12, 16, 17),
+      R(16, 5.5, 3, 3),
+      R(16, 10.5, 3, 3),
+      R(16, 15.5, 3, 3),
     ],
   ),
   'pcg-viewport': def(
@@ -181,6 +216,8 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'summary',
     'Summary — 6 VIEWPORT OUTPUTS',
     'Paired mobile + desktop glyphs, same stroke and baseline.',
+    'ICON',
+    false,
     10,
     [
       R(5, 6, 6, 12),
@@ -194,83 +231,99 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'pcg-creative-direction',
     'cgpt',
     'CGPT row — CREATIVE DIRECTION',
-    'Axis / compass: guiding mark on a technical crosshair.',
+    'Steering axis: technical crosshair with a north tick. Not a play triangle.',
+    'ICON',
+    false,
     10,
-    [
-      L(12, 5, 12, 19),
-      L(5, 12, 19, 12),
-      P('M12 5 14.2 8.2 9.8 8.2Z', true),
-      R(10.5, 10.5, 3, 3),
-    ],
+    [L(12, 5, 12, 19), L(5, 12, 19, 12), L(10.2, 6.6, 13.8, 6.6), R(11, 11, 2, 2, true)],
   ),
   'pcg-page-intelligence': def(
     'pcg-page-intelligence',
     'cgpt',
     'CGPT row — PAGE INTELLIGENCE',
-    'Page IA map: framed page with stacked hierarchy bars.',
+    'Modular page map: header band, column split, stacked module.',
+    'ICON',
+    false,
     10,
-    [R(7, 4.5, 10, 15), L(9, 8, 15, 8), L(9, 11.5, 15, 11.5), L(9, 15, 13, 15)],
+    [R(6, 4.5, 12, 15), L(6, 8.5, 18, 8.5), L(12, 8.5, 12, 19.5), L(6, 14.2, 12, 14.2)],
   ),
   'pcg-brand-context': def(
     'pcg-brand-context',
     'cgpt',
     'CGPT row — BRAND CONTEXT',
-    'Modular identity: two offset system planes.',
+    'Identity stack: tapering system plates with a core mark. Not generic app layers.',
+    'ICON',
+    false,
     10,
-    [R(5, 8, 11, 11), R(8, 5, 11, 11)],
+    [R(5, 5.5, 14, 4), R(6.5, 10.2, 11, 3.4), R(8, 14.8, 8, 3.2), R(6.2, 6.4, 1.8, 1.8, true)],
   ),
   'pcg-key-messages': def(
     'pcg-key-messages',
     'cgpt',
     'CGPT row — KEY MESSAGES',
-    'Message hierarchy: ranked bars with leading ticks.',
+    'Text hierarchy: lead mark + ranked lines. Not a chat bubble.',
+    'ICON',
+    false,
     10,
-    [
-      L(6, 8, 8, 8),
-      L(9.5, 8, 18, 8),
-      L(6, 12, 8, 12),
-      L(9.5, 12, 16, 12),
-      L(6, 16, 8, 16),
-      L(9.5, 16, 13.5, 16),
-    ],
+    [R(5, 6.4, 2, 2, true), L(8.5, 7.4, 19, 7.4), L(8.5, 12, 16.2, 12), L(8.5, 16.6, 13.2, 16.6)],
   ),
   'pcg-visual-moodboard': def(
     'pcg-visual-moodboard',
     'cgpt',
     'CGPT row — VISUAL MOODBOARD',
-    'Visual board: 2×2 mosaic, one selected plate.',
+    'Framed reference mosaic: uneven board tiles, not a stock photo.',
+    'ICON',
+    false,
     10,
-    [R(5, 5, 6, 6), R(13, 5, 6, 6), R(5, 13, 6, 6), R(13, 13, 6, 6, true)],
+    [R(5, 5, 8, 8), R(14, 5, 5, 5), R(14, 11, 5, 8), R(5, 14, 8, 5)],
   ),
   'pcg-output-brief': def(
     'pcg-output-brief',
     'cgpt',
     'CGPT card footer — structured brief output',
-    'Brief artifact: ranked lines plus a completion node.',
+    'Output family · brief: ranked lines plus a completion node.',
+    'ICON',
+    false,
     12,
-    [L(5, 8, 18, 8), L(5, 12, 18, 12), L(5, 16, 13, 16), R(16, 14.5, 3, 3, true)],
+    [L(6, 7, 18, 7), L(6, 11, 18, 11), L(6, 15, 13, 15), R(16, 13.5, 3, 3, true)],
   ),
   'pcg-authority-empty': def(
     'pcg-authority-empty',
-    'gpt2',
-    'GPT2 card — authority placeholder',
-    'Empty concept field waiting for a single authority plate.',
+    'placeholder',
+    'GPT2 card — AUTHORITY CONCEPT PENDING',
+    'Subtle framed visual field waiting for one authority plate. Not a broken-image glyph.',
+    'PLACEHOLDER',
+    false,
     18,
-    [...FRAME, R(8, 7.5, 8, 9)],
+    [...FRAME, R(8, 7.2, 8, 7), L(8, 16.6, 16, 16.6)],
   ),
   'pcg-output-authority': def(
     'pcg-output-authority',
     'gpt2',
     'GPT2 card footer — authority artifact',
-    'One distilled visual: frame + inner plate + center mark.',
+    'Output family · authority: page frame + inner field + center mark.',
+    'ICON',
+    false,
     12,
-    [...FRAME, R(8.5, 8.5, 7, 7), ...NODE],
+    [R(6, 4.5, 12, 15), R(8, 7, 8, 8), ...NODE],
+  ),
+  'pcg-rendition-empty': def(
+    'pcg-rendition-empty',
+    'placeholder',
+    'NBP card — RENDITION PENDING',
+    'Landscape frame with a technical crosshair. Not a browser broken-image icon.',
+    'PLACEHOLDER',
+    false,
+    16,
+    [R(5, 6.5, 14, 11), L(12, 9, 12, 15), L(8.5, 12, 15.5, 12), R(11.25, 11.25, 1.5, 1.5, true)],
   ),
   'pcg-mobile': def(
     'pcg-mobile',
     'nbp',
     'NBP group — MOBILE',
     'Phone silhouette: same stroke, scale, and baseline as desktop.',
+    'ICON',
+    false,
     11,
     [R(8, 4.5, 8, 15), L(10.5, 6.5, 13.5, 6.5), L(10.5, 17.5, 13.5, 17.5)],
   ),
@@ -279,6 +332,8 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'nbp',
     'NBP group — DESKTOP',
     'Display: landscape plate + centered stand, matched to mobile.',
+    'ICON',
+    false,
     11,
     [R(4.5, 5.5, 15, 10), L(12, 15.5, 12, 17.5), L(8.5, 17.5, 15.5, 17.5)],
   ),
@@ -286,65 +341,119 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'pcg-output-rendition',
     'nbp',
     'NBP card footer — rendition groups',
-    'Three sibling frames from one generation pass.',
+    'Output family · rendition set: one source plus three sibling frames.',
+    'ICON',
+    false,
     12,
-    [R(4, 8, 4.5, 8), R(9.75, 8, 4.5, 8), R(15.5, 8, 4.5, 8)],
+    [R(5, 8, 4, 8), L(9, 12, 10.4, 12), R(10.4, 6, 3.4, 5), R(10.4, 13, 3.4, 5), R(15.2, 8, 3.8, 8)],
   ),
-  'pcg-prev': def('pcg-prev', 'nbp', 'NBP carousel — previous', 'Precise left chevron.', 10, CHEVRON_L),
-  'pcg-next': def('pcg-next', 'nbp', 'NBP carousel — next', 'Precise right chevron.', 10, CHEVRON_R),
+  'pcg-prev': def(
+    'pcg-prev',
+    'carousel',
+    'NBP carousel — previous',
+    'Quiet left chevron. No enclosing button box.',
+    'CAROUSEL',
+    true,
+    10,
+    CHEVRON_L,
+  ),
+  'pcg-next': def(
+    'pcg-next',
+    'carousel',
+    'NBP carousel — next',
+    'Quiet right chevron. No enclosing button box.',
+    'CAROUSEL',
+    true,
+    10,
+    CHEVRON_R,
+  ),
+  'pcg-dot-active': def(
+    'pcg-dot-active',
+    'carousel',
+    'NBP carousel — active page',
+    'Technical square, filled. Quiet against rendition frames.',
+    'CAROUSEL',
+    true,
+    6,
+    [R(9, 9, 6, 6, true)],
+  ),
+  'pcg-dot-inactive': def(
+    'pcg-dot-inactive',
+    'carousel',
+    'NBP carousel — inactive page',
+    'Technical square, hollow. Same optical size as active.',
+    'CAROUSEL',
+    true,
+    6,
+    [R(9, 9, 6, 6)],
+  ),
   'pcg-status-ready': def(
     'pcg-status-ready',
     'status',
-    'Progression pill — READY',
-    'Available to begin: open frame + check.',
+    'Status chip — READY',
+    'Compact check only. Colour lives on the chip fill, not a heavy outline.',
+    'STATUS',
+    false,
     9,
-    [R(6.5, 6.5, 11, 11), ...CHECK],
+    CHECK,
   ),
   'pcg-status-pending': def(
     'pcg-status-pending',
     'status',
-    'Progression pill — PENDING',
+    'Status chip — PENDING',
     'Waiting: incomplete construction corners only.',
+    'STATUS',
+    false,
     9,
     CORNERS,
   ),
   'pcg-status-running': def(
     'pcg-status-running',
     'status',
-    'Progression pill — RUNNING / ACTIVE',
-    'Active process: synthesis ticks around a node.',
+    'Status chip — RUNNING / ACTIVE',
+    'Active process: four ticks around a node. No animation in this pass.',
+    'STATUS',
+    false,
     9,
     [...NODE, L(12, 5, 12, 8), L(12, 16, 12, 19), L(5, 12, 8, 12), L(16, 12, 19, 12)],
   ),
   'pcg-status-complete': def(
     'pcg-status-complete',
     'status',
-    'Progression pill — COMPLETE',
-    'Finished: check only — text carries the status.',
+    'Status chip — COMPLETE',
+    'Finished: check plus a quiet baseline.',
+    'STATUS',
+    false,
     9,
-    CHECK,
+    [...CHECK, L(8, 17.6, 16, 17.6)],
   ),
   'pcg-status-failed': def(
     'pcg-status-failed',
     'status',
-    'Progression pill — FAILED',
-    'Failed: technical bang, no heavy box.',
+    'Status chip — FAILED',
+    'Compact technical cross. Informational — not a destructive action.',
+    'STATUS',
+    false,
     9,
-    [L(12, 6.5, 12, 13.5), R(11.25, 16, 1.5, 1.5, true)],
+    CROSS,
   ),
   'pcg-status-partial': def(
     'pcg-status-partial',
     'status',
-    'Progression pill — PARTIAL',
-    'Mixed / incomplete: two offset plates.',
+    'Status chip — PARTIAL',
+    'Mixed state: full rule over a shorter rule.',
+    'STATUS',
+    false,
     9,
-    [R(6, 7, 12, 7), R(8, 11, 12, 7)],
+    [L(6, 9, 18, 9), L(6, 15, 12.5, 15)],
   ),
   'pcg-info': def(
     'pcg-info',
     'footer',
-    'Footer — informational note',
+    'Footer — informational note / outputs progress',
     'Quiet technical mark: corners plus an i-stem.',
+    'ICON',
+    false,
     10,
     [...CORNERS, R(11.25, 7, 1.5, 1.5, true), L(12, 10, 12, 16)],
   ),
@@ -352,25 +461,19 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'pcg-generate',
     'footer',
     'Footer — GENERATE action',
-    'Synthesis burst: center node with eight system ticks.',
+    'Action synthesis: center node with four orthogonal ticks. Not a sparkle.',
+    'ACTION',
+    true,
     13,
-    [
-      ...NODE,
-      L(12, 5, 12, 8),
-      L(12, 16, 12, 19),
-      L(5, 12, 8, 12),
-      L(16, 12, 19, 12),
-      L(7.4, 7.4, 9.4, 9.4),
-      L(14.6, 14.6, 16.6, 16.6),
-      L(16.6, 7.4, 14.6, 9.4),
-      L(9.4, 14.6, 7.4, 16.6),
-    ],
+    [...NODE, L(12, 5, 12, 8), L(12, 16, 12, 19), L(5, 12, 8, 12), L(16, 12, 19, 12)],
   ),
   'pcg-close': def(
     'pcg-close',
     'footer',
     'Header Cancel / close',
-    'Optically centered cross, same 1.5 stroke.',
+    'Optically centered cross, same 1.5 stroke. Lives on an action control.',
+    'ACTION',
+    true,
     10,
     CROSS,
   ),
@@ -379,6 +482,8 @@ const DEFS: Record<PcgIconId, PcgIconDef> = {
     'footer',
     'Footer blocked / error strip',
     'Compact bang for capture-block and failures.',
+    'STATUS',
+    false,
     10,
     [L(12, 6.5, 12, 13.5), R(11.25, 16, 1.5, 1.5, true)],
   ),
@@ -412,6 +517,18 @@ export const PAGE_CONCEPT_GENERATOR_ICON_PROPOSAL = {
   'grok-generate': 'pcg-generate',
 } as const;
 
+/** Per-stage output family — Composer must not reuse one glyph for all three footers. */
+export const PAGE_CONCEPT_GENERATOR_OUTPUT_ICON_FAMILY = {
+  CGPT: 'pcg-output-brief',
+  GPT2: 'pcg-output-authority',
+  NBP: 'pcg-output-rendition',
+} as const;
+
+export const PAGE_CONCEPT_GENERATOR_PLACEHOLDER_SET = {
+  AUTHORITY_CONCEPT_PENDING: 'pcg-authority-empty',
+  RENDITION_PENDING: 'pcg-rendition-empty',
+} as const;
+
 export const PAGE_CONCEPT_GENERATOR_LIVE_ICON_LOCK = [
   'grok-library',
   'mark-cgpt',
@@ -433,6 +550,179 @@ export const PAGE_CONCEPT_GENERATOR_LIVE_ICON_LOCK = [
   'status-pending',
   'grok-generate',
 ] as const;
+
+/**
+ * Interaction classification for the pop-up. ACTION may look clickable.
+ * STATUS / MODEL_TAG / ICON / PLACEHOLDER must not.
+ */
+export const PCG_INTERACTION_CLASSIFICATION = [
+  {
+    semanticName: 'GENERATE',
+    visualRole: 'ACTION' as const,
+    interactive: true,
+    intendedSize: 40,
+    svgFilename: 'pcg-generate.svg',
+    states: 'enabled lime fill / disabled muted',
+  },
+  {
+    semanticName: 'CANCEL',
+    visualRole: 'ACTION' as const,
+    interactive: true,
+    intendedSize: 40,
+    svgFilename: null,
+    states: 'paper fill + major border',
+  },
+  {
+    semanticName: 'HEADER CLOSE',
+    visualRole: 'ACTION' as const,
+    interactive: true,
+    intendedSize: 28,
+    svgFilename: 'pcg-close.svg',
+    states: 'pill dismiss — remains an action',
+  },
+  {
+    semanticName: 'CGPT',
+    visualRole: 'MODEL_TAG' as const,
+    interactive: false,
+    intendedSize: 14,
+    svgFilename: 'pcg-cgpt.svg',
+    states: 'flat technical tag',
+  },
+  {
+    semanticName: 'GPT2',
+    visualRole: 'MODEL_TAG' as const,
+    interactive: false,
+    intendedSize: 14,
+    svgFilename: 'pcg-gpt2.svg',
+    states: 'flat technical tag',
+  },
+  {
+    semanticName: 'NBP',
+    visualRole: 'MODEL_TAG' as const,
+    interactive: false,
+    intendedSize: 14,
+    svgFilename: 'pcg-nbp.svg',
+    states: 'flat technical tag',
+  },
+  {
+    semanticName: 'READY',
+    visualRole: 'STATUS' as const,
+    interactive: false,
+    intendedSize: 13,
+    svgFilename: 'pcg-status-ready.svg',
+    states: 'light lime fill, no thick black outline',
+  },
+  {
+    semanticName: 'PENDING',
+    visualRole: 'STATUS' as const,
+    interactive: false,
+    intendedSize: 13,
+    svgFilename: 'pcg-status-pending.svg',
+    states: 'light gray + subtle outline',
+  },
+  {
+    semanticName: 'RUNNING',
+    visualRole: 'STATUS' as const,
+    interactive: false,
+    intendedSize: 13,
+    svgFilename: 'pcg-status-running.svg',
+    states: 'restrained lime/black, no motion this pass',
+  },
+  {
+    semanticName: 'COMPLETE',
+    visualRole: 'STATUS' as const,
+    interactive: false,
+    intendedSize: 13,
+    svgFilename: 'pcg-status-complete.svg',
+    states: 'compact check + baseline',
+  },
+  {
+    semanticName: 'FAILED',
+    visualRole: 'STATUS' as const,
+    interactive: false,
+    intendedSize: 13,
+    svgFilename: 'pcg-status-failed.svg',
+    states: 'red mark, not a destructive button',
+  },
+  {
+    semanticName: 'PARTIAL',
+    visualRole: 'STATUS' as const,
+    interactive: false,
+    intendedSize: 13,
+    svgFilename: 'pcg-status-partial.svg',
+    states: 'muted amber/gray technical state',
+  },
+  {
+    semanticName: 'CAROUSEL PREV/NEXT',
+    visualRole: 'CAROUSEL' as const,
+    interactive: true,
+    intendedSize: 10,
+    svgFilename: 'pcg-prev.svg / pcg-next.svg',
+    states: 'quiet chevron, no box',
+  },
+  {
+    semanticName: 'CAROUSEL DOTS',
+    visualRole: 'CAROUSEL' as const,
+    interactive: true,
+    intendedSize: 6,
+    svgFilename: 'pcg-dot-active.svg / pcg-dot-inactive.svg',
+    states: 'square technical, filled vs hollow',
+  },
+] as const;
+
+export const PCG_MODEL_TAG_STYLE = {
+  height: '14px',
+  padding: '0 3px 0 4px',
+  border: 'none',
+  background: 'transparent',
+  accent: '2px lime left rule on the ready stage only; otherwise ink-3 hairline',
+  borderRadius: '0',
+  shadow: 'none',
+  hover: 'none',
+  cursor: 'default',
+  pointerEvents: 'none',
+  fontSize: '7px',
+} as const;
+
+export const PCG_STATUS_CHIP_STYLE = {
+  height: '13px',
+  padding: '0 5px',
+  borderRadius: '2px',
+  shadow: 'none',
+  cursor: 'default',
+  pointerEvents: 'none',
+  fontSize: '7px',
+  READY: {
+    background: 'rgb(205 238 48 / 28%)',
+    border: '1px solid rgb(205 238 48 / 55%)',
+    color: '#131a04',
+  },
+  PENDING: {
+    background: '#f1f1f1',
+    border: '1px solid #e4e4e4',
+    color: '#77777d',
+  },
+  RUNNING: {
+    background: 'rgb(205 238 48 / 16%)',
+    border: '1px solid rgb(16 16 16 / 18%)',
+    color: '#131a04',
+  },
+  COMPLETE: {
+    background: '#efefef',
+    border: '1px solid #d8d8d8',
+    color: '#101010',
+  },
+  FAILED: {
+    background: 'rgb(194 40 29 / 8%)',
+    border: '1px solid rgb(194 40 29 / 28%)',
+    color: '#c2281d',
+  },
+  PARTIAL: {
+    background: 'rgb(224 169 10 / 12%)',
+    border: '1px solid rgb(224 169 10 / 35%)',
+    color: '#454549',
+  },
+} as const;
 
 export function getPcgIconDef(id: PcgIconId): PcgIconDef {
   const found = DEFS[id];
