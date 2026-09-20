@@ -10730,3 +10730,11 @@ Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_M
 - **Cause:** Live `/projects/:slug/overview` desktop uses **`ProjectOverviewModuleSurface` POV** (B59R7), not **`OverviewFounderWorkspaceBoard`** (`project-hub-desktop-board`). Playwright waited for a marker that is not in the DOM.
 - **Fix:** `data-visual-reconstruction="project-overview-desktop"` on wide POV; desktop wait selector → `project-overview-desktop`; CI radar room `cultural-intelligence-desktop` + dual mobile/desktop selectors.
 - **Branch:** `cursor/capture-desktop-overview-anchor-9f72`. **Both** Railway (wait selector) **and** cPanel (DOM markers) required.
+
+---
+
+## 2026-09-20 — Desktop capture live smoke (agent-verified)
+
+- **Verified:** Real Playwright `captureImplementationSnapshot` for `ndxbook` / `overview` / **desktop** against Vite — `qaPassed: true`, empty `qaIssues`, `anchorFound: true`, 1440×900, `designPreview=1` URL.
+- **Regression:** `tests/desktopOverviewCaptureLive.test.ts` (skips if :5174 down); `scripts/qa/desktop-overview-capture-smoke.ts`.
+- **PR:** #1034 merged. Production still requires **v570 cPanel + Railway** for founder device.
