@@ -10839,3 +10839,15 @@ Follow-on to **PAGE-CONCEPT-GENERATOR-OPUS-SHELL1** (merged PR #1044): wire the 
 - **Delivered:** `pageConceptGeneratorBinding.ts` (pipeline → stage chips, CGPT brief rows, NBP slot keys); `PageConceptGeneratorResults.tsx` + `PageConceptGeneratorNbpStage.tsx` (CGPT/GPT2/NBP views, separate Mobile/Desktop A–C carousel with sessionStorage indices, tap-to-fullscreen); `PageConceptGenerationOverlay.tsx` rewired to `generationState`, review mode (no auto-close), spend note from plan, **RETRY FAILED ONLY**, full-brief sheet; hook updates (`overlayMode` confirm/progress/review, `retryFailedGeneration`, cancel no longer wipes pipeline); API `retryFailedOnly` skips successful CGPT/GPT2/READY NBP jobs; `mergePageConceptGenerationJobs` for partial retry merges.
 - **Tests:** `tests/p0vrPageConceptGeneratorComposerIntegration1.test.ts`; Opus shell test firewall updated (overlay may hold UI state, not provider calls).
 - **Branch:** `cursor/page-concept-generator-composer-integration1-2dd8`.
+
+---
+
+## 2026-09-20 — GENERATE confirm BLOCKED_NO_SOURCE_CAPTURE on site00.com (route URL false capture)
+
+Founder: **GENERATE PAGE CONCEPTS** overlay (Opus shell) shows plan + red **`BLOCKED_NO_SOURCE_CAPTURE`** on confirm despite **CAPTURED** in CURRENT and viewport **OK**.
+
+- **Cause:** GENERATE sends **two implementation snapshots** (Mobile + Desktop Supabase `publicUrl` in localStorage), not design-authority refs. Stale buckets could store **SPA route paths** (`/projects/…`) that incorrectly passed `isPageCaptureDisplayableArtifact` via bare `path.startsWith('/')` — readiness/confirm then diverged; raw error code shown in overlay.
+- **API:** `GET implementation-snapshots` for ndxbook/overview **mobile + desktop** both `qaPassed` with public URLs — hydrate should merge on confirm; bad local route artifacts blocked merge priority.
+- **Fix:** Reject SPA route paths in `isPageCaptureDisplayableArtifact`; hydrate replaces non-displayable existing; confirm/retry use `pageConceptCaptureConfirmBlockMessage` (human copy, no raw `BLOCKED_*`).
+- **Founder unblock:** Select **DESKTOP** viewport → **CAPTURE SCREEN**, then **MOBILE** → **CAPTURE SCREEN**; hard refresh (hydrate from API) → retry GENERATE.
+- **Branch:** `cursor/page-concept-generate-capture-confirm-9f72`.
