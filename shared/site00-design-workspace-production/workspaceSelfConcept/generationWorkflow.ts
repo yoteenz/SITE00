@@ -1,12 +1,12 @@
 import { WORKSPACE_CONCEPT_SLOT_IDS } from './constants.js';
 import { WORKSPACE_SELF_TARGET_ID } from '../designTargetModel.js';
+import type { WorkspaceSingleConceptBrief } from './creativePipelineTypes.js';
 import type {
   WorkspaceSelfConceptSet,
-  WorkspaceSelfCreativeBriefSet,
   WorkspaceSelfGeneratedArtifact,
   WorkspaceSelfGenerationStatus,
-  WorkspaceSelfTerritoryBrief,
 } from './generationTypes.js';
+import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
 import type { WorkspaceConceptCandidate, WorkspaceSelfWorkflowState } from './types.js';
 
 function appendHistory(
@@ -20,14 +20,14 @@ function appendHistory(
   };
 }
 
-export function applyCreativeBriefSet(
+export function applyCreativePipelineSet(
   state: WorkspaceSelfWorkflowState,
-  briefSet: WorkspaceSelfCreativeBriefSet,
+  pipelineSet: WorkspaceSelfCreativePipelineSet,
 ): WorkspaceSelfWorkflowState {
   return appendHistory(
-    { ...state, creativeBriefSet: briefSet, generationStatus: 'NBP_RUNNING' },
-    'workspace_creative_brief_ready',
-    `${briefSet.territories.length} territories`,
+    { ...state, creativePipelineSet: pipelineSet, generationStatus: 'NBP_RUNNING' },
+    'workspace_creative_pipeline_ready',
+    `${pipelineSet.slots.filter((s) => s.concept).length} GPT2 concepts`,
   );
 }
 
@@ -73,15 +73,15 @@ export function applyGenerationJobResult(
   return { ...state, generationJobs };
 }
 
-function territoryToConceptFields(t: WorkspaceSelfTerritoryBrief): Partial<WorkspaceConceptCandidate> {
+function gpt2ToConceptFields(t: WorkspaceSingleConceptBrief): Partial<WorkspaceConceptCandidate> {
   return {
     conceptName: t.name,
     conceptTerritory: t.premise,
-    rationale: t.spatialPhilosophy,
-    visualStrategy: t.visualDirection,
+    rationale: t.visualSystem,
+    visualStrategy: t.visualSystem,
     layoutStrategy: t.layoutStrategy,
     informationHierarchyStrategy: t.hierarchyStrategy,
-    responsiveStrategy: `${t.mobileStrategy} | ${t.desktopStrategy}`,
+    responsiveStrategy: t.responsiveStrategy,
     status: 'STAGED',
     createdAt: new Date().toISOString(),
   };
@@ -91,16 +91,16 @@ export function mergeGenerationArtifactsIntoConcepts(
   state: WorkspaceSelfWorkflowState,
 ): WorkspaceSelfWorkflowState {
   const jobs = state.generationJobs;
-  const briefTerritories = state.creativeBriefSet?.territories ?? [];
+  const pipelineSlots = state.creativePipelineSet?.slots ?? [];
   let concepts = [...state.concepts];
 
   for (const slotId of WORKSPACE_CONCEPT_SLOT_IDS) {
-    const territory = briefTerritories.find((t) => t.conceptSlotId === slotId);
+    const brief = pipelineSlots.find((s) => s.conceptSlot === slotId)?.concept;
     const mobileJob = jobs.find((j) => j.conceptId === slotId && j.viewport === 'MOBILE' && j.status === 'READY');
     const desktopJob = jobs.find((j) => j.conceptId === slotId && j.viewport === 'DESKTOP' && j.status === 'READY');
     concepts = concepts.map((c) => {
       if (c.conceptId !== slotId) return c;
-      const base = territory ? territoryToConceptFields(territory) : {};
+      const base = brief ? gpt2ToConceptFields(brief) : {};
       return {
         ...c,
         ...base,

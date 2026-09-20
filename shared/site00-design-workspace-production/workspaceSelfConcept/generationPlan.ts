@@ -5,7 +5,10 @@ import type { WorkspaceSelfWorkflowState } from './types.js';
 import { activeReadyCaptureSet } from './captureWorkflow.js';
 
 export const WORKSPACE_SELF_NBP_MODEL = 'fal-ai/nano-banana-pro/edit';
-export const WORKSPACE_SELF_CREATIVE_PROMPT_VERSION = 'workspace-self-cgpt-v1';
+export const WORKSPACE_SELF_CGPT_PROMPT_VERSION = 'workspace-self-cgpt-v2-single-direction';
+export const WORKSPACE_SELF_GPT2_PROMPT_VERSION = 'workspace-self-gpt2-v2-single-concept';
+export const WORKSPACE_SELF_NBP_PROMPT_VERSION = 'workspace-self-nbp-v2-lineage';
+/** @deprecated */ export const WORKSPACE_SELF_CREATIVE_PROMPT_VERSION = WORKSPACE_SELF_CGPT_PROMPT_VERSION;
 
 export function assertWorkspaceSelfGenerationTarget(state: WorkspaceSelfWorkflowState): void {
   if (state.targetType !== 'WORKSPACE_SELF' || state.targetId !== WORKSPACE_SELF_TARGET_ID) {
@@ -32,13 +35,18 @@ export function buildWorkspaceSelfGenerationPlan(state: WorkspaceSelfWorkflowSta
     conceptCount: 3,
     outputCount: 6,
     viewports: ['MOBILE', 'DESKTOP'],
-    creativeLayer: 'CGPT/GPT2',
+    cgptCalls: 3,
+    gpt2Calls: 3,
+    nbpJobs: 6,
+    creativeLayer: 'CGPT + GPT2',
     renderer: 'NBP',
+    nbpPromptVersion: WORKSPACE_SELF_NBP_PROMPT_VERSION,
     captureSetId: captureSet.captureSetId,
     functionContractId: state.functionContract.contractId,
     functionContractVersion: state.functionContract.version,
     nbpModel: WORKSPACE_SELF_NBP_MODEL,
-    estimatedCostNote: 'Six NBP edit jobs (3 concepts × Mobile + Desktop). Billed via FAL when keys are configured.',
+    estimatedCostNote:
+      '3 CGPT direction calls (Anthropic) + 3 GPT2 single-concept calls (OpenAI text) + 6 NBP image jobs (FAL). No spend until founder confirms GENERATE.',
   };
 }
 

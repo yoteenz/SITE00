@@ -10622,3 +10622,18 @@ Forensic: `/system/design/workspace-concepts` had **no provider pipeline** — o
 - **Models:** `WorkspaceSelfConceptSet`, `WorkspaceSelfCreativeBriefSet`, `WorkspaceSelfGeneratedArtifact`.
 - **Tests:** `p0vrDesignWorkspaceSelfNbpIntegrationAudit1.test.ts`.
 - **Branch:** `cursor/design-workspace-self-nbp-integration-audit1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CREATIVE-PIPELINE-AUDIT2
+
+Sprint corrected WORKSPACE_SELF creative cardinality before founder spend: **CGPT → GPT2 (1 concept/call) → NBP (2 jobs/concept)** — not Anthropic **3 territories in one call** (`generateWorkspaceTerritories.ts` removed).
+
+- **CGPT:** `generateWorkspaceCreativeDirection.ts` — **Anthropic** (`ANTHROPIC_API_KEY`); **one** `WorkspaceCreativeDirection` per call; diversity ledger snapshot passed per slot (A → B → C).
+- **GPT2:** `generateWorkspaceSingleConcept.ts` — **OpenAI** text (`OPENAI_API_KEY`, `gpt-4o-mini`); rejects multi-concept JSON arrays; **one** `WorkspaceSingleConceptBrief` per call.
+- **NBP:** `renderWorkspaceNbpJob.ts` — **FAL** `fal-ai/nano-banana-pro/edit`; Mobile + Desktop per slot share `gpt2ConceptId` + `creativeDirectionId`.
+- **Orchestrator:** `runWorkspaceSelfGeneration.ts` sequential A→B→C; GPT2 failure skips NBP for that slot; lineage fields on artifacts.
+- **UI/plan:** confirmation shows **3 CGPT + 3 GPT2 + 6 NBP**; `creativePipelineSet` replaces `creativeBriefSet`.
+- **Tests:** `p0vrDesignWorkspaceSelfCreativePipelineAudit2.test.ts` (+ audit1 updated); **no provider spend** in vitest (`VITEST=true` mocks).
+- **OPUS/GROK:** not invoked in this pipeline.
+- **Branch:** `cursor/design-workspace-self-creative-pipeline-audit2-9f72`.

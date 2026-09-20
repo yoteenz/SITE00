@@ -1,9 +1,13 @@
 import { WORKSPACE_SELF_NBP_MODEL } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/generationPlan.js';
-import type { WorkspaceSelfTerritoryBrief } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/generationTypes.js';
+import type {
+  WorkspaceCreativeDirection,
+  WorkspaceSingleConceptBrief,
+} from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/creativePipelineTypes.js';
 import type { WorkspaceFunctionContract } from '../../../shared/site00-design-workspace-production/workspaceSelfConcept/types.js';
 
 export type NbpRenderInput = {
-  territory: WorkspaceSelfTerritoryBrief;
+  concept: WorkspaceSingleConceptBrief;
+  direction: WorkspaceCreativeDirection;
   viewport: 'MOBILE' | 'DESKTOP';
   referenceImageBase64: string;
   width: number;
@@ -24,27 +28,30 @@ function mockPngBase64(label: string): string {
 
 function buildNbpPrompt(input: NbpRenderInput): string {
   const v = input.viewport;
-  const t = input.territory;
+  const c = input.concept;
+  const d = input.direction;
   return [
-    'SITE 00 DESIGN WORKSPACE concept render (presentation only).',
+    'SITE 00 DESIGN WORKSPACE — NBP visual authority render (presentation only).',
     `Viewport: ${v} (${input.width}x${input.height}).`,
-    `Concept: ${t.name}.`,
-    `Premise: ${t.premise}.`,
-    `Hierarchy: ${t.hierarchyStrategy}.`,
-    `Layout: ${t.layoutStrategy}.`,
-    `Visual direction: ${t.visualDirection}.`,
-    v === 'MOBILE' ? `Mobile strategy: ${t.mobileStrategy}` : `Desktop strategy: ${t.desktopStrategy}`,
-    'Preserve all functional regions and interactions from reference screenshot.',
-    `Immutable behaviors include: ${input.functionContract.immutableBehaviors.slice(0, 4).join('; ')}.`,
-    'Do not remove navigation, tabs, or pipeline modules.',
+    `CGPT direction ${d.directionId}: ${d.creativeIntent}`,
+    `GPT2 concept ${c.gpt2ConceptId}: ${c.name}`,
+    `Premise: ${c.premise}`,
+    `Visual system: ${c.visualSystem}`,
+    `Hierarchy: ${c.hierarchyStrategy}`,
+    `Layout: ${c.layoutStrategy}`,
+    v === 'MOBILE' ? `Mobile composition: ${c.mobileComposition}` : `Desktop composition: ${c.desktopComposition}`,
+    `Preserved: ${c.preservedFunctions.join('; ')}`,
+    `Prohibited: ${c.prohibitedChanges.join('; ')}`,
+    'Preserve all functional regions from reference screenshot.',
+    `Contract: ${input.functionContract.version}`,
   ].join('\n');
 }
 
 export async function renderWorkspaceNbpJob(input: NbpRenderInput): Promise<NbpRenderResult> {
   if (process.env.VITEST === 'true') {
     return {
-      providerJobId: `vitest-nbp-${input.territory.conceptSlotId}-${input.viewport}`,
-      imageBase64: mockPngBase64(`${input.territory.conceptSlotId}-${input.viewport}`),
+      providerJobId: `vitest-nbp-${input.concept.conceptSlot}-${input.viewport}`,
+      imageBase64: mockPngBase64(`${input.concept.conceptSlot}-${input.viewport}`),
       model: 'vitest-nbp',
     };
   }

@@ -27,7 +27,7 @@ export function normalizeWorkspaceSelfState(state: WorkspaceSelfWorkflowState): 
     activeCaptureSetId: state.activeCaptureSetId ?? null,
     lastCaptureFailure: state.lastCaptureFailure ?? null,
     conceptSet: state.conceptSet ?? null,
-    creativeBriefSet: state.creativeBriefSet ?? null,
+    creativePipelineSet: state.creativePipelineSet ?? null,
     generationJobs: state.generationJobs ?? [],
     generationStatus: state.generationStatus ?? 'IDLE',
     lastGenerationFailure: state.lastGenerationFailure ?? null,
