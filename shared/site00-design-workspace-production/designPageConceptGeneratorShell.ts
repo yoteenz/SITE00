@@ -297,12 +297,21 @@ export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGene
   if (!raw) return { headline: '' };
   if (
     raw === 'BLOCKED_NO_SOURCE_CAPTURE' ||
+    raw === 'BLOCKED_NO_MOBILE_CAPTURE' ||
+    raw === 'BLOCKED_NO_DESKTOP_CAPTURE' ||
     /missing implementation source capture/i.test(raw) ||
-    /implementation source capture missing/i.test(raw)
+    /implementation source capture missing/i.test(raw) ||
+    /capture the current mobile/i.test(raw) ||
+    /capture the current desktop/i.test(raw)
   ) {
+    const mobileOnly = /mobile page before generating/i.test(raw) || raw === 'BLOCKED_NO_MOBILE_CAPTURE';
+    const desktopOnly = /desktop page before generating/i.test(raw) || raw === 'BLOCKED_NO_DESKTOP_CAPTURE';
     return {
       headline: 'BLOCKED · SOURCE CAPTURE REQUIRED',
-      hint: 'CAPTURE MOBILE + DESKTOP BEFORE GENERATION',
+      hint:
+        mobileOnly ? 'CAPTURE THE CURRENT MOBILE PAGE BEFORE GENERATING CONCEPTS'
+        : desktopOnly ? 'CAPTURE THE CURRENT DESKTOP PAGE BEFORE GENERATING CONCEPTS'
+        : 'CAPTURE THE CURRENT MOBILE + DESKTOP PAGE BEFORE GENERATING CONCEPTS',
     };
   }
   const sentenceBreak = raw.indexOf('. ');

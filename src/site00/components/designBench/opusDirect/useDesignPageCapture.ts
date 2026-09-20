@@ -12,6 +12,7 @@ import {
   viewportToDesignViewportClass,
   type PageCaptureRecord,
 } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
+import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import type { PageViewportId } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageViewportAuthority.js';
 import type { ImplementationSnapshotRecord } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
 import { formatCaptureTransportError } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/formatCaptureTransportError.js';
@@ -74,7 +75,7 @@ export function useDesignPageCapture(
   useEffect(() => {
     const onUpdated = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string; viewport?: PageViewportId }>).detail;
-      if (detail?.projectId !== projectId || detail?.pageId !== pageId || detail?.viewport !== viewport) return;
+      if (!designPageCaptureEventMatches(projectId, pageId, detail) || detail?.viewport !== viewport) return;
       refreshLatest();
     };
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, onUpdated);

@@ -84,6 +84,31 @@ export function loadPageCaptureHistory(
   return primary;
 }
 
+export type ResolvedPageCapture = {
+  record: PageCaptureRecord | null;
+  ready: boolean;
+};
+
+/** Newest displayable READY capture for one viewport (same store as CAPTURE SCREEN). */
+export function resolveCurrentPageCapture(
+  projectId: string,
+  pageId: string,
+  viewport: PageViewportId,
+): ResolvedPageCapture {
+  const canonical = canonicalDesignPageCapturePageId(projectId, pageId);
+  const tryIds = [...new Set([canonical, pageId])];
+  let newest: PageCaptureRecord | null = null;
+  for (const id of tryIds) {
+    const bucket = loadPageCaptureHistory(projectId, id, viewport);
+    const candidates = [bucket.latest, ...bucket.history].filter(Boolean) as PageCaptureRecord[];
+    for (const candidate of candidates) {
+      if (!isPageCaptureDisplayableArtifact(candidate.artifactPath)) continue;
+      if (!newest || candidate.timestamp > newest.timestamp) newest = candidate;
+    }
+  }
+  return { record: newest, ready: newest != null };
+}
+
 /** Latest displayable Mobile + Desktop captures for page concept pipeline (aliases + screenId scan). */
 export function getPageConceptSourceCaptures(
   projectId: string,
@@ -94,6 +119,8 @@ export function getPageConceptSourceCaptures(
   const screenId = page?.screenId ?? null;
 
   const pick = (viewport: PageViewportId): PageCaptureRecord | null => {
+    const resolved = resolveCurrentPageCapture(projectId, pageId, viewport);
+    if (resolved.record) return resolved.record;
     const tryIds = [...new Set([canonical, pageId])];
     for (const id of tryIds) {
       const latest = loadPageCaptureHistory(projectId, id, viewport).latest;
