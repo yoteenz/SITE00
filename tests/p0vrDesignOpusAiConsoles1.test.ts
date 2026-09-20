@@ -289,7 +289,9 @@ describe('P0.VR.DESIGN.OPUS-AI-CONSOLES1 — consoles share one shell and no sta
   });
 
   it('every console tab and console preview has a real surface behind it', () => {
-    expect(OPUS_CONSOLE_TABS.map((tab) => tab.id)).toEqual(['DESIGN', 'REVIEW', 'CONTEXT']);
+    expect(OPUS_CONSOLE_TABS.map((tab) => tab.id)).toEqual(['SHELL', 'DESIGN', 'REVIEW', 'CONTEXT']);
+    expect(opus).toContain("tab === 'SHELL'");
+    expect(opus).toContain('OpusDesignShellPanel');
     // REVIEW is the only tab that can be unavailable, and it says why.
     expect(opus).toContain("disabled={entry.id === 'REVIEW' && !review}");
     expect(opus).toContain('No proposal yet');

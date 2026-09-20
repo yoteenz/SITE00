@@ -10910,3 +10910,11 @@ Sprint: rollback **FIX1** layout overcorrection on GENERATE PAGE CONCEPTS; surgi
 - **CSS:** rail descriptions wrap on mobile; tighter metric/card typography; `pageConceptGeneratorFootSpendShowsMicroSummary()`.
 - **Tests:** `p0vrPageConceptGeneratorRollbackOverflowFix2.test.ts` (replaces FIX1 test).
 - **Branch:** `cursor/page-concept-generator-rollback-overflow-fix2-9f72`.
+
+---
+
+## 2026-09-20 — CI: Opus console tabs test (SHELL tab)
+
+- **Issue:** `p0vrDesignOpusAiConsoles1.test.ts` expected `OPUS_CONSOLE_TABS` ids `DESIGN/REVIEW/CONTEXT`; production model adds **SHELL** first (`OpusDesignShellPanel` in `DesignAgentDock`).
+- **Fix:** Test expects `['SHELL','DESIGN','REVIEW','CONTEXT']` + asserts `OpusDesignShellPanel` wiring.
+- **Branch:** `cursor/fix-opus-console-tabs-shell-test-b747`.
