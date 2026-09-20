@@ -10782,3 +10782,14 @@ Founder still saw **GENERATE** disabled with **`BLOCKED_NO_SOURCE_CAPTURE`** whi
 - **Production API check:** `GET api.site00.com/.../ndxbook/overview` **mobile + desktop snapshot: null** — hydrate cannot restore what Railway registry never stored; founder must **CAPTURE SCREEN** per viewport (successful POST → Supabase `publicUrl`).
 - **Fix (#1039 follow-up):** `ensurePageConceptSourceCaptures` before open/confirm; viewport band **CAPTURE** when authority OK but source missing; human blocker copy naming missing Mobile/Desktop; reset overlay on page change.
 - **Branch:** `cursor/page-concept-capture-preflight-9f72`.
+
+---
+
+## 2026-09-20 — Tunnel showed older Design than GoDaddy (dev vs production dist)
+
+Founder: **site00.fsbw-dev.com** regressed to an **older Design** than **site00.com**.
+
+- **Cause (not a Design code rollback):** Tunnel pointed at **Vite dev** (`npm run dev` on :5174) from a **stale cloud VM checkout** / long-lived `site00_vite` tmux session. **GoDaddy** serves **production `dist/`** from manual/GitHub Release ZIP. Different bundle + different commit → tunnel looked “behind.”
+- **Fix:** `.cursor/scripts/run-site00-cloud-preview-server.sh` — default **`vite preview`** of production **`dist/`** after `git fetch` + ff-only **`main`** + rebuild when HEAD ≠ `dist/release-manifest.json` `commitSha`. `environment.json` `site00-vite` terminal uses this script. Parity check: `/release-manifest.json` on tunnel vs site00.com.
+- **HMR for agents:** `SITE00_CLOUD_PREVIEW_MODE=dev`.
+- **Branch:** `cursor/tunnel-production-parity-9f72`.
