@@ -1,8 +1,4 @@
-import {
-  getPageConceptSourceCaptures,
-  isPageCaptureDisplayableArtifact,
-  resolveCurrentPageCapture,
-} from '../designPageCapture.js';
+import { isPageCaptureDisplayableArtifact, resolveCurrentPageCapture } from '../designPageCapture.js';
 import type { PageCaptureRecord } from '../designPageCapture.js';
 import type { PageConceptGenerationState, PageConceptReadiness } from './types.js';
 import { compilePageCreativeContext, compileProjectCreativeContext } from './contextCompilers.js';
