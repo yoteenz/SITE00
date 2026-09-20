@@ -91,3 +91,33 @@ export function viewportToDesignViewportClass(viewport: PageViewportId): 'mobile
   if (viewport === 'DESKTOP') return 'desktop';
   return 'mobile';
 }
+
+const IMAGE_EXT = /\.(png|webp|jpg|jpeg|gif)(\?|#|$)/i;
+
+/** True when artifactPath can be used as an img src (not a live route URL). */
+export function isPageCaptureDisplayableArtifact(artifactPath: string | null | undefined): boolean {
+  const path = artifactPath?.trim();
+  if (!path) return false;
+  if (path.startsWith('data:image/') || path.startsWith('blob:')) return true;
+  if (path.startsWith('/visual-references/') || path.startsWith('/site00/')) return true;
+  if (IMAGE_EXT.test(path)) return true;
+  if (!path.startsWith('http://') && !path.startsWith('https://')) {
+    return path.startsWith('/');
+  }
+  try {
+    const url = new URL(path);
+    if (IMAGE_EXT.test(url.pathname)) return true;
+    if (url.hostname.includes('cdn.site00.com')) return true;
+    if (url.hostname.includes('supabase.co') && url.pathname.includes('/storage/')) return true;
+    if (url.pathname.includes('/object/public/')) return true;
+  } catch {
+    return false;
+  }
+  return false;
+}
+
+/** Safe img src for CURRENT capture pane; null hides broken route URLs from failed snapshots. */
+export function pageCaptureDisplaySrc(artifactPath: string | null | undefined): string | null {
+  if (!isPageCaptureDisplayableArtifact(artifactPath)) return null;
+  return artifactPath!.trim();
+}

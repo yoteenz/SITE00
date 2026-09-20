@@ -10700,3 +10700,13 @@ Founder screenshot on **site00.com**: progress overlay after **GENERATE** showed
 - **Fix:** Parse API `{ error }` on all JSON responses; map 422/413; `formatCaptureTransportError` guidance for UNKNOWN; page concept client uses `throwPageConceptApiFailure`.
 - **Payload:** Client sends **`artifactUrl`** for server-hosted captures (CAPTURE SCREEN `publicUrl`); API **`resolvePageGenerationCaptureBase64`** fetches server-side. Inline base64 only for data/blob.
 - **Branch:** `cursor/page-concept-generate-transport-fix-9f72`. **Requires Railway redeploy** + cPanel ZIP for client URL path.
+
+---
+
+## 2026-09-20 — DESIGN capture CURRENT pane broken image fix
+
+Founder: **capture screens showing broken** in CURRENT vs CONCEPT after recent deploys.
+
+- **Cause:** Failed/partial implementation snapshots stored `artifactPath` as **`capturedUrl` (live page route)** when `publicUrl` was empty — valid for `<img>` → broken icon. Legacy localStorage rows same issue.
+- **Fix:** `isPageCaptureDisplayableArtifact` / `pageCaptureDisplaySrc`; CAPTURE SCREEN only persists **`publicUrl`**; hero CURRENT uses display src; stale route rows prompt **CAPTURE NEEDS RECAPTURE**; page concept readiness ignores non-image artifacts.
+- **Branch:** `cursor/capture-display-fix-9f72`.

@@ -1,4 +1,4 @@
-import { loadPageCaptureHistory } from '../designPageCapture.js';
+import { isPageCaptureDisplayableArtifact, loadPageCaptureHistory } from '../designPageCapture.js';
 import type { PageConceptGenerationState, PageConceptReadiness } from './types.js';
 import { compilePageCreativeContext, compileProjectCreativeContext } from './contextCompilers.js';
 import { compilePageFunctionContract } from './functionContract.js';
@@ -9,7 +9,14 @@ export function evaluatePageConceptReadiness(projectId: string, pageId: string):
   if (!compilePageFunctionContract(projectId, pageId)) return 'BLOCKED_NO_FUNCTION_CONTRACT';
   const mobile = loadPageCaptureHistory(projectId, pageId, 'MOBILE').latest;
   const desktop = loadPageCaptureHistory(projectId, pageId, 'DESKTOP').latest;
-  if (!mobile?.artifactPath || !desktop?.artifactPath) return 'BLOCKED_NO_SOURCE_CAPTURE';
+  if (
+    !mobile?.artifactPath ||
+    !desktop?.artifactPath ||
+    !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
+    !isPageCaptureDisplayableArtifact(desktop.artifactPath)
+  ) {
+    return 'BLOCKED_NO_SOURCE_CAPTURE';
+  }
   return 'READY_FOR_CREATIVE_INJECTION';
 }
 

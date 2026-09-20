@@ -68,6 +68,7 @@ import {
   type HeroPreviewResolution,
   type ViewportControlPresentation,
 } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
+import { pageCaptureDisplaySrc } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
 import { site00ProjectsDesignModulePath } from '../../../config/routes';
 import {
@@ -371,7 +372,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openHeroCompareFullscreen: (side) => {
         const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
         const selected = concepts.find((c) => c.conceptId === candidateId) ?? null;
-        const currentSrc = pageCapture.latest?.artifactPath ?? null;
+        const currentSrc = pageCaptureDisplaySrc(pageCapture.latest?.artifactPath);
         const conceptSrc = selected?.visualReference ?? null;
         const src = side === 'current' ? currentSrc : conceptSrc;
         if (!src) return;
@@ -708,7 +709,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
 
     const pageConcepts = listPageConceptCandidates(slug, shellTarget.pageId);
     const selectedPageConcept = pageConcepts.find((c) => c.conceptId === candidateId) ?? null;
-    const currentSrc = pageCapture.latest?.artifactPath ?? null;
+    const captureArtifactPath = pageCapture.latest?.artifactPath ?? null;
+    const currentSrc = pageCaptureDisplaySrc(captureArtifactPath);
     const conceptSrc =
       selectedPageConcept ?
         viewport === 'DESKTOP' ?
@@ -841,8 +843,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
       heroCompare: {
         currentSrc,
-        currentMeta: pageCapture.error ? 'CAPTURE FAILED' : capturedLabel,
-        currentEmptyLabel: pageCapture.error ? pageCapture.error : 'NO CURRENT CAPTURE',
+        currentMeta:
+          pageCapture.error ? 'CAPTURE FAILED'
+          : currentSrc ? capturedLabel
+          : captureArtifactPath ? 'CAPTURE NEEDS RECAPTURE'
+          : capturedLabel,
+        currentEmptyLabel:
+          pageCapture.error ? pageCapture.error
+          : captureArtifactPath && !currentSrc ?
+            'Previous capture has no image artifact — use CAPTURE SCREEN again.'
+          : 'NO CURRENT CAPTURE',
         conceptSrc,
         conceptMeta: selectedPageConcept?.conceptTitle?.toUpperCase() ?? '—',
         conceptEmptyLabel,
