@@ -10710,3 +10710,13 @@ Founder: **capture screens showing broken** in CURRENT vs CONCEPT after recent d
 - **Cause:** Failed/partial implementation snapshots stored `artifactPath` as **`capturedUrl` (live page route)** when `publicUrl` was empty — valid for `<img>` → broken icon. Legacy localStorage rows same issue.
 - **Fix:** `isPageCaptureDisplayableArtifact` / `pageCaptureDisplaySrc`; CAPTURE SCREEN only persists **`publicUrl`**; hero CURRENT uses display src; stale route rows prompt **CAPTURE NEEDS RECAPTURE**; page concept readiness ignores non-image artifacts.
 - **Branch:** `cursor/capture-display-fix-9f72`.
+
+---
+
+## 2026-09-20 — CAPTURE SCREEN auth redirect (CAPTURE_ANCHOR_MISSING + WRONG_ROUTE + AUTH_REDIRECT)
+
+Founder on **site00.com** mobile: **CAPTURE SCREEN** failed with **`CAPTURE_ANCHOR_MISSING, WRONG_ROUTE, AUTH_REDIRECT`** on NDXBOOK DESIGN overview.
+
+- **Cause:** Railway Playwright opens routes with **`?designPreview=1`** + init-script local auth, but **`Site00AccountRouteGuard`** still required Supabase API token → **`Navigate` to sign-in** while `isSignedIn()` true from localStorage → wrong surface, missing NDX anchors, triple QA failure.
+- **Fix:** `allowUnauthenticatedCaptureSurface` (`designPreview=1` | `goldenDiffCapture=1`) skips api-token redirect and renders children; desktop capture wait selectors (`project-hub-desktop-board`, etc.); QA **`AUTH_REDIRECT`** only on sign-in URLs (not generic route mismatch).
+- **Branch:** `cursor/design-capture-designpreview-auth-9f72`. **Railway redeploy** for capture engine QA tweak + **cPanel ZIP** for guard fix.
