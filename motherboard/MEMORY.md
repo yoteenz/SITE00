@@ -10738,3 +10738,14 @@ Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_M
 - **Verified:** Real Playwright `captureImplementationSnapshot` for `ndxbook` / `overview` / **desktop** against Vite — `qaPassed: true`, empty `qaIssues`, `anchorFound: true`, 1440×900, `designPreview=1` URL.
 - **Regression:** `tests/desktopOverviewCaptureLive.test.ts` (skips if :5174 down); `scripts/qa/desktop-overview-capture-smoke.ts`.
 - **PR:** #1034 merged. Production still requires **v570 cPanel + Railway** for founder device.
+
+---
+
+## 2026-09-20 — Page concept pipeline BLOCKED_NO_SOURCE_CAPTURE + founder review smoke
+
+Founder: overlay reached step 06 but **`BLOCKED_NO_SOURCE_CAPTURE`** — mobile capture in CURRENT, **DESKTOP NEEDED**.
+
+- **Cause:** Pipeline requires **both** displayable Mobile + Desktop captures; confirm could run without re-check; legacy **`ndxbook:overview`** vs canonical **`ndxbook:overview:/projects/ndxbook`** pageId keys could split buckets.
+- **Fix:** `getPageConceptSourceCaptures` + canonical pageId on append; readiness/confirm use resolver; GENERATE disabled when not `ready`; progress overlay only after validation; desktop capture dims 1440×900.
+- **Verified:** `tests/pageConceptPipelineFounderReviewLive.test.ts` + `scripts/qa/page-concept-pipeline-founder-review-smoke.ts` → **`READY_FOR_FOUNDER_REVIEW`** (6/6 jobs, real Playwright captures, vitest provider mocks).
+- **Branch:** `cursor/page-concept-pipeline-founder-review-9f72`. Founder: **CAPTURE SCREEN on DESKTOP viewport** then GENERATE; deploy v571+.
