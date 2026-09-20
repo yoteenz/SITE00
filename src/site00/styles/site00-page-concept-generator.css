@@ -153,6 +153,34 @@
 
 /* ---- summary strip ------------------------------------------------------- */
 
+.s00-pcg__source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--pcg-border-subtle);
+  background: var(--pcg-panel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pcg-ink-2);
+}
+
+.s00-pcg__sourceTitle {
+  font-weight: 600;
+  color: var(--pcg-ink);
+}
+
+.s00-pcg__sourceLine[data-state='READY'] {
+  color: var(--pcg-ink);
+}
+
+.s00-pcg__sourceLine[data-state='MISSING'] {
+  color: var(--pcg-danger, #c0392b);
+}
+
 .s00-pcg__summary {
   display: flex;
   align-items: stretch;

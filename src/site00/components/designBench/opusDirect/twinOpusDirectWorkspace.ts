@@ -46,6 +46,8 @@ import {
   buildPageSystemReviewModel,
   type PageSystemReviewModel,
 } from '../../../../../shared/site00-design-workspace-production/designPageSystemReview.js';
+import { DESIGN_PAGE_CAPTURE_UPDATED_EVENT } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
+import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import { getDesignBoundPage } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageRegistry.js';
 import { designProductionPageTargetFromRecord } from '../production/designPageTargetFromRecord';
 import {
@@ -281,13 +283,19 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   }, [viewport]);
 
   useEffect(() => {
-    const onUpdated = (event: Event) => {
+    const bump = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
-      if (detail?.projectId !== projectSlug || detail?.pageId !== pageTarget.pageId) return;
+      if (!designPageCaptureEventMatches(projectSlug, pageTarget.pageId, detail)) return;
       setPageConceptRevision((v) => v + 1);
     };
-    window.addEventListener('site00:page-concept-generation-updated', onUpdated);
-    return () => window.removeEventListener('site00:page-concept-generation-updated', onUpdated);
+    window.addEventListener('site00:page-concept-generation-updated', bump);
+    window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
+    window.addEventListener('site00:page-concept-captures-hydrated', bump);
+    return () => {
+      window.removeEventListener('site00:page-concept-generation-updated', bump);
+      window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
+      window.removeEventListener('site00:page-concept-captures-hydrated', bump);
+    };
   }, [pageTarget.pageId, projectSlug]);
 
   useEffect(() => {
