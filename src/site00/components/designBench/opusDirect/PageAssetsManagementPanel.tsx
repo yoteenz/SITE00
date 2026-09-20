@@ -18,6 +18,21 @@ import {
   validatePageAssetUpload,
   type PageAssetVersionRecord,
 } from '../../../../../shared/site00-design-workspace-production/designPageActiveAssetManifest.js';
+import {
+  OverlayActions,
+  OverlayBody,
+  OverlayCallout,
+  OverlayChips,
+  OverlayCompare,
+  OverlayDropzone,
+  OverlayEmpty,
+  OverlayMeta,
+  OverlayPreview,
+  OverlaySection,
+  OverlayStatus,
+  OverlayThumbs,
+  OverlayTimeline,
+} from '../production/designOverlayKit';
 import { useDesignGrokEligibility } from './DesignGrokEligibilityProvider';
 
 type Props = {
@@ -197,303 +212,286 @@ export function PageAssetsManagementPanel({
     : [];
   const eventHistory = listPageAssetHistory(projectSlug, pageId, selected?.slot);
 
+  const originFilters = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const asset of assets) counts.set(asset.origin, (counts.get(asset.origin) ?? 0) + 1);
+    return [...counts.entries()].map(([id, count]) => ({ id, label: `${id.replace(/_/g, ' ')} ${count}` }));
+  }, [assets]);
+  const [originFilter, setOriginFilter] = useState('ALL');
+  const visibleAssets = originFilter === 'ALL' ? assets : assets.filter((asset) => asset.origin === originFilter);
+
   return (
     <div className="tod-page-assets" data-testid="page-assets-management">
-      <p className="tod-dcs-lead">
-        PAGE ASSETS · {pageId} · {viewport}
-      </p>
-      {statusMessage ?
-        <p className="tod-page-assets__hint" role="status">
-          {statusMessage}
-        </p>
-      : null}
+      <OverlayBody>
+        {statusMessage ?
+          <OverlayCallout title="NEXT" tone="next">
+            {statusMessage}
+          </OverlayCallout>
+        : null}
 
-      {step === 'grid' ?
-        <>
-          <div className="tod-page-assets__grid" role="list">
-            {assets.length === 0 ?
-              <p className="tod-psr__empty">NO PAGE ASSETS IN MANIFEST</p>
-            : assets.map((asset) => {
-                const active = asset.assetId === selectedAssetId;
-                return (
-                  <button
-                    key={asset.assetId}
-                    type="button"
-                    role="listitem"
-                    className={`tod-page-assets__cell${active ? ' is-selected' : ''}`}
-                    onClick={() => setSelectedAssetId(asset.assetId)}
-                    data-interaction-id="page-asset-select"
-                    aria-pressed={active}
-                  >
-                    <span className="tod-page-assets__thumb">
-                      <img src={asset.previewDataUrl} alt="" draggable={false} />
-                    </span>
-                    <span className="tod-page-assets__name">{asset.displayName}</span>
-                    <span className="tod-page-assets__meta">
-                      {asset.slot} · {asset.origin} · v{asset.versionNumber} · {asset.status}
-                    </span>
-                  </button>
-                );
-              })
-            }
-          </div>
-
-          {selected ?
-            <div className="tod-page-assets__actions" role="toolbar" aria-label="Selected asset actions">
-              <button
-                type="button"
-                className="tod-dcs__primary"
-                data-interaction-id="page-asset-regenerate"
-                disabled={regenerateBlocked}
-                title={regenerateBlockReason ?? undefined}
-                onClick={openRegenerateConfirm}
-              >
-                REGENERATE
-              </button>
-              <button
-                type="button"
-                className="tod-dcs__ghost"
-                data-interaction-id="page-asset-replace"
-                onClick={() => {
-                  setUploadPreview(null);
-                  setStep('replace-upload');
-                }}
-              >
-                REPLACE
-              </button>
-              <button
-                type="button"
-                className="tod-dcs__ghost"
-                data-interaction-id="page-asset-inspect"
-                onClick={() => setStep('inspect')}
-              >
-                INSPECT
-              </button>
-              <button type="button" className="tod-dcs__ghost" onClick={() => setStep('history')}>
-                VIEW HISTORY
-              </button>
-            </div>
-          : (
-            <p className="tod-page-assets__hint">SELECT AN ASSET TO REGENERATE OR REPLACE.</p>
-          )}
-          {regenerateBlocked && selected ?
-            <p className="tod-page-assets__block">{regenerateBlockReason}</p>
-          : null}
-        </>
-      : null}
-
-      {step === 'inspect' && selected ?
-        <div className="tod-page-assets__history">
-          <h3 className="tod-page-assets__modalTitle">INSPECT · {selected.displayName}</h3>
-          <img src={selected.previewDataUrl} alt="" className="tod-dcs-compare__img" />
-          <dl className="tod-dcs-meta">
-            <div>
-              <dt>SLOT</dt>
-              <dd>{selected.slot}</dd>
-            </div>
-            <div>
-              <dt>ORIGIN</dt>
-              <dd>{selected.origin}</dd>
-            </div>
-            <div>
-              <dt>STATUS</dt>
-              <dd>{selected.status}</dd>
-            </div>
-            <div>
-              <dt>VERSION</dt>
-              <dd>v{selected.versionNumber}</dd>
-            </div>
-          </dl>
-          <button type="button" className="tod-dcs__ghost" onClick={() => setStep('grid')}>
-            BACK
-          </button>
-        </div>
-      : null}
-
-      {step === 'regenerate-confirm' && regenConfirmModel ?
-        <div className="tod-page-assets__modal" data-testid="page-asset-regenerate-confirm">
-          <h3 className="tod-page-assets__modalTitle">REGENERATE SIMILAR ASSET</h3>
-          <dl className="tod-dcs-meta">
-            <div>
-              <dt>ASSET</dt>
-              <dd>{regenConfirmModel.asset.displayName}</dd>
-            </div>
-            <div>
-              <dt>SLOT</dt>
-              <dd>{regenConfirmModel.slot}</dd>
-            </div>
-            <div>
-              <dt>CURRENT VERSION</dt>
-              <dd>{regenConfirmModel.currentVersionLabel}</dd>
-            </div>
-            <div>
-              <dt>MODEL</dt>
-              <dd>{regenConfirmModel.model}</dd>
-            </div>
-            <div>
-              <dt>ESTIMATED COST</dt>
-              <dd>${regenConfirmModel.estimatedCostUsd.toFixed(2)}</dd>
-            </div>
-          </dl>
-          <p className="tod-page-assets__hint">
-            A new candidate asset will be generated. The current asset stays active until you approve the replacement.
-          </p>
-          <label className="tod-page-assets__field">
-            OPTIONAL INSTRUCTION
-            <textarea
-              value={regenInstruction}
-              onChange={(e) => setRegenInstruction(e.target.value)}
-              placeholder={regenConfirmModel.defaultInstruction}
-              rows={3}
+        {step === 'grid' ?
+          <>
+            <OverlayChips
+              active={originFilter}
+              onSelect={setOriginFilter}
+              chips={[{ id: 'ALL', label: `ALL ${assets.length}` }, ...originFilters]}
             />
-          </label>
-          {regenConfirmModel.eligibilityBlocked ?
-            <p className="tod-page-assets__block">{regenConfirmModel.blockReason}</p>
-          : null}
-          <div className="tod-dcs-modalActions">
-            <button type="button" className="tod-dcs__ghost" onClick={() => setStep('grid')}>
-              CANCEL
-            </button>
-            <button
-              type="button"
-              className="tod-dcs__primary"
-              data-interaction-id="page-asset-regenerate-confirm"
-              disabled={regenConfirmModel.eligibilityBlocked}
-              onClick={confirmRegenerate}
-            >
-              CONFIRM REGENERATE
-            </button>
-          </div>
-        </div>
-      : null}
 
-      {step === 'regenerate-review' && selected && stagedCandidate ?
-        <div className="tod-page-assets__compare" data-testid="page-asset-old-new">
-          <h3 className="tod-page-assets__modalTitle">OLD VS NEW · REVIEW</h3>
-          <div className="tod-page-assets__compareRow">
-            <figure>
-              <figcaption>OLD · v{selected.versionNumber}</figcaption>
-              <img src={selected.previewDataUrl} alt="" className="tod-dcs-compare__img" />
-            </figure>
-            <figure>
-              <figcaption>NEW · STAGED</figcaption>
-              <img src={stagedCandidate.previewDataUrl} alt="" className="tod-dcs-compare__img" />
-            </figure>
-          </div>
-          <div className="tod-dcs-modalActions">
-            <button type="button" className="tod-dcs__ghost" onClick={() => setStep('grid')}>
-              CANCEL
-            </button>
-            <button type="button" className="tod-dcs__ghost" onClick={openRegenerateConfirm}>
-              REGENERATE AGAIN
-            </button>
-            <button
-              type="button"
-              className="tod-dcs__primary"
-              data-interaction-id="page-asset-approve-regen"
-              onClick={approveRegen}
-            >
-              APPROVE REPLACEMENT
-            </button>
-          </div>
-        </div>
-      : null}
+            <OverlaySection title="PAGE ASSETS" meta={`${pageId} · ${viewport}`}>
+              <OverlayThumbs
+                items={visibleAssets.map((asset) => ({
+                  id: asset.assetId,
+                  src: asset.previewDataUrl,
+                  label: asset.displayName,
+                  sub: `${asset.slot} · v${asset.versionNumber}`,
+                  selected: asset.assetId === selectedAssetId,
+                }))}
+                onPick={setSelectedAssetId}
+                emptyLabel="NO PAGE ASSETS IN MANIFEST"
+                emptyHint="Assets appear here once Grok production or a founder upload lands on this page."
+              />
+            </OverlaySection>
 
-      {step === 'replace-upload' && selected ?
-        <div className="tod-page-assets__modal" data-testid="page-asset-replace-upload">
-          <h3 className="tod-page-assets__modalTitle">REPLACE · {selected.slot}</h3>
-          <p className="tod-page-assets__hint">Upload PNG, JPG, WEBP, or SVG for this slot.</p>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/png,image/jpeg,image/webp,image/svg+xml"
-            className="tod-page-assets__file"
-            data-interaction-id="page-asset-file-picker"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void onPickReplaceFile(file);
-            }}
-          />
-          <div className="tod-dcs-modalActions">
-            <button type="button" className="tod-dcs__ghost" onClick={() => setStep('grid')}>
-              CANCEL
-            </button>
-          </div>
-        </div>
-      : null}
+            {selected ?
+              <OverlaySection title="SELECTED" meta={<OverlayStatus label={selected.status} />}>
+                <OverlayPreview
+                  src={selected.previewDataUrl}
+                  caption={selected.displayName}
+                  side={<OverlayStatus label={`V${selected.versionNumber}`} tone="idle" />}
+                />
+                <OverlayMeta
+                  entries={[
+                    { k: 'SLOT', v: selected.slot },
+                    { k: 'ORIGIN', v: selected.origin.replace(/_/g, ' ') },
+                    { k: 'FORMAT', v: `${selected.format} · ${selected.width}×${selected.height}` },
+                  ]}
+                />
+              </OverlaySection>
+            : <OverlayEmpty label="SELECT AN ASSET" hint="Pick an asset above to regenerate, replace or inspect it." />}
 
-      {step === 'replace-review' && selected && uploadPreview ?
-        <div className="tod-page-assets__compare" data-testid="page-asset-replace-preview">
-          <h3 className="tod-page-assets__modalTitle">REPLACE THIS ASSET?</h3>
-          <p className="tod-page-assets__hint">
-            The new file will become the active asset for {pageId} · {selected.slot}. Previous version stays in history.
-          </p>
-          <div className="tod-page-assets__compareRow">
-            <figure>
-              <figcaption>CURRENT</figcaption>
-              <img src={selected.previewDataUrl} alt="" className="tod-dcs-compare__img" />
-            </figure>
-            <figure>
-              <figcaption>UPLOADED · {uploadPreview.format}</figcaption>
-              <img src={uploadPreview.dataUrl} alt="" className="tod-dcs-compare__img" />
-            </figure>
-          </div>
-          <p className="tod-page-assets__meta">
-            {uploadPreview.width}×{uploadPreview.height} · {Math.round(uploadPreview.byteSize / 1024)} KB
-          </p>
-          {uploadPreview.validation.errors.map((err) => (
-            <p key={err} className="tod-page-assets__block">
-              {err}
-            </p>
-          ))}
-          {uploadPreview.validation.warnings.map((warn) => (
-            <p key={warn} className="tod-page-assets__hint">
-              {warn}
-            </p>
-          ))}
-          <div className="tod-dcs-modalActions">
-            <button type="button" className="tod-dcs__ghost" onClick={() => setStep('replace-upload')}>
-              CANCEL
-            </button>
-            <button
-              type="button"
-              className="tod-dcs__primary"
-              data-interaction-id="page-asset-replace-confirm"
-              disabled={!uploadPreview.validation.ok}
-              onClick={confirmReplace}
-            >
-              CONFIRM REPLACEMENT
-            </button>
-          </div>
-        </div>
-      : null}
+            {regenerateBlocked && selected ?
+              <OverlayCallout title="REGENERATE BLOCKED" tone="blocked">
+                {regenerateBlockReason}
+              </OverlayCallout>
+            : null}
 
-      {step === 'history' && selected ?
-        <div className="tod-page-assets__history">
-          <h3 className="tod-page-assets__modalTitle">ASSET HISTORY · {selected.slot}</h3>
-          <ul className="tod-dcs-gates">
-            {slotHistory.map((v: PageAssetVersionRecord) => (
-              <li key={v.versionId} className="tod-dcs-gate">
-                <strong className="tod-dcs-gate__name">
-                  v{v.versionNumber} · {v.origin} · {v.status}
-                </strong>
-                <span>{v.createdAt}</span>
-              </li>
-            ))}
-          </ul>
-          <ul className="tod-dcs-gates">
-            {eventHistory.map((ev) => (
-              <li key={ev.id} className="tod-dcs-gate">
-                <strong className="tod-dcs-gate__name">{ev.type.replace(/_/g, ' ').toUpperCase()}</strong>
-                <p className="tod-dcs-gate__reason">{ev.detail}</p>
-              </li>
-            ))}
-          </ul>
-          <button type="button" className="tod-dcs__ghost" onClick={() => setStep('grid')}>
-            BACK
-          </button>
-        </div>
-      : null}
+            <OverlayActions
+              primary={{
+                label: 'REGENERATE',
+                onClick: openRegenerateConfirm,
+                disabled: !selected || regenerateBlocked,
+              }}
+              secondary={[
+                {
+                  label: 'REPLACE',
+                  onClick: () => {
+                    setUploadPreview(null);
+                    setStep('replace-upload');
+                  },
+                  disabled: !selected,
+                },
+                { label: 'INSPECT', onClick: () => setStep('inspect'), disabled: !selected },
+                { label: 'HISTORY', onClick: () => setStep('history'), disabled: !selected },
+              ]}
+            />
+          </>
+        : null}
+
+        {step === 'inspect' && selected ?
+          <>
+            <OverlayPreview
+              src={selected.previewDataUrl}
+              caption={selected.displayName}
+              side={<OverlayStatus label={selected.status} />}
+            />
+            <OverlayMeta
+              entries={[
+                { k: 'SLOT', v: selected.slot },
+                { k: 'ORIGIN', v: selected.origin.replace(/_/g, ' ') },
+                { k: 'VERSION', v: `v${selected.versionNumber}` },
+                { k: 'FORMAT', v: `${selected.format} · ${selected.width}×${selected.height}` },
+              ]}
+            />
+            <OverlayActions secondary={[{ label: 'BACK TO ASSETS', onClick: () => setStep('grid') }]} />
+          </>
+        : null}
+
+        {step === 'regenerate-confirm' && regenConfirmModel ?
+          <div data-testid="page-asset-regenerate-confirm">
+            <OverlayBody>
+              <OverlayPreview
+                src={regenConfirmModel.asset.previewDataUrl}
+                caption={`CURRENT · ${regenConfirmModel.currentVersionLabel}`}
+                side={<OverlayStatus label={regenConfirmModel.asset.status} />}
+              />
+              <OverlayMeta
+                entries={[
+                  { k: 'SLOT', v: regenConfirmModel.slot },
+                  { k: 'MODEL', v: regenConfirmModel.model },
+                  { k: 'ESTIMATE', v: `$${regenConfirmModel.estimatedCostUsd.toFixed(2)}` },
+                ]}
+              />
+              <OverlayCallout title="WHAT HAPPENS">
+                A new candidate is generated. The current asset stays active until you approve the replacement.
+              </OverlayCallout>
+              <OverlaySection title="OPTIONAL INSTRUCTION" flat>
+                <textarea
+                  className="tod-ok-composer__field"
+                  value={regenInstruction}
+                  onChange={(event) => setRegenInstruction(event.target.value)}
+                  placeholder={regenConfirmModel.defaultInstruction}
+                  rows={3}
+                />
+              </OverlaySection>
+              {regenConfirmModel.eligibilityBlocked ?
+                <OverlayCallout title="BLOCKED" tone="blocked">
+                  {regenConfirmModel.blockReason}
+                </OverlayCallout>
+              : null}
+              <OverlayActions
+                primary={{
+                  label: 'CONFIRM REGENERATE',
+                  onClick: confirmRegenerate,
+                  disabled: regenConfirmModel.eligibilityBlocked,
+                }}
+                secondary={[{ label: 'CANCEL', onClick: () => setStep('grid') }]}
+              />
+            </OverlayBody>
+          </div>
+        : null}
+
+        {step === 'regenerate-review' && selected && stagedCandidate ?
+          <div data-testid="page-asset-old-new">
+            <OverlayBody>
+              <OverlayCompare>
+                <OverlayPreview
+                  src={selected.previewDataUrl}
+                  caption={`OLD · v${selected.versionNumber}`}
+                  side={<OverlayStatus label="ACTIVE" />}
+                />
+                <OverlayPreview
+                  src={stagedCandidate.previewDataUrl}
+                  caption="NEW · STAGED"
+                  side={<OverlayStatus label="STAGED" />}
+                />
+              </OverlayCompare>
+              <OverlayActions
+                primary={{ label: 'APPROVE REPLACEMENT', onClick: approveRegen }}
+                secondary={[
+                  { label: 'REGENERATE AGAIN', onClick: openRegenerateConfirm },
+                  { label: 'CANCEL', onClick: () => setStep('grid') },
+                ]}
+              />
+            </OverlayBody>
+          </div>
+        : null}
+
+        {step === 'replace-upload' && selected ?
+          <div data-testid="page-asset-replace-upload">
+            <OverlayBody>
+              <OverlayPreview
+                src={selected.previewDataUrl}
+                caption={`REPLACING · ${selected.slot}`}
+                side={<OverlayStatus label={`V${selected.versionNumber}`} tone="idle" />}
+              />
+              <OverlayDropzone
+                label="DROP REPLACEMENT OR TAP TO UPLOAD"
+                hint={`${selected.format} · ${selected.width}×${selected.height}`}
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                onFiles={(files) => {
+                  const file = files[0];
+                  if (file) void onPickReplaceFile(file);
+                }}
+              />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                className="tod-page-assets__file"
+                data-interaction-id="page-asset-file-picker"
+                hidden
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  if (file) void onPickReplaceFile(file);
+                }}
+              />
+              <OverlayActions secondary={[{ label: 'CANCEL', onClick: () => setStep('grid') }]} />
+            </OverlayBody>
+          </div>
+        : null}
+
+        {step === 'replace-review' && selected && uploadPreview ?
+          <div data-testid="page-asset-replace-preview">
+            <OverlayBody>
+              <OverlayCompare>
+                <OverlayPreview
+                  src={selected.previewDataUrl}
+                  caption="CURRENT"
+                  side={<OverlayStatus label="ACTIVE" />}
+                />
+                <OverlayPreview
+                  src={uploadPreview.dataUrl}
+                  caption={`UPLOADED · ${uploadPreview.format}`}
+                  side={<OverlayStatus label={uploadPreview.validation.ok ? 'COMPATIBLE' : 'BLOCKED'} />}
+                />
+              </OverlayCompare>
+              <OverlayMeta
+                entries={[
+                  { k: 'SLOT', v: selected.slot },
+                  { k: 'DIMENSIONS', v: `${uploadPreview.width}×${uploadPreview.height}` },
+                  { k: 'SIZE', v: `${Math.round(uploadPreview.byteSize / 1024)} KB` },
+                  { k: 'EXPECTED', v: `${selected.format} · ${selected.width}×${selected.height}` },
+                ]}
+              />
+              {uploadPreview.validation.errors.length ?
+                <OverlayCallout title="CANNOT REPLACE" tone="blocked">
+                  {uploadPreview.validation.errors.join(' · ')}
+                </OverlayCallout>
+              : null}
+              {uploadPreview.validation.warnings.length ?
+                <OverlayCallout title="CHECK">{uploadPreview.validation.warnings.join(' · ')}</OverlayCallout>
+              : null}
+              <OverlayActions
+                primary={{
+                  label: 'CONFIRM REPLACEMENT',
+                  onClick: confirmReplace,
+                  disabled: !uploadPreview.validation.ok,
+                }}
+                secondary={[{ label: 'CANCEL', onClick: () => setStep('replace-upload') }]}
+              />
+            </OverlayBody>
+          </div>
+        : null}
+
+        {step === 'history' && selected ?
+          <>
+            <OverlaySection title={`VERSIONS · ${selected.slot}`} meta={`${slotHistory.length}`}>
+              <OverlayThumbs
+                items={slotHistory.map((version: PageAssetVersionRecord) => ({
+                  id: version.versionId,
+                  src: version.previewDataUrl,
+                  label: `v${version.versionNumber}`,
+                  sub: version.origin.replace(/_/g, ' '),
+                  selected: version.assetId === selected.assetId,
+                }))}
+                emptyLabel="NO VERSION HISTORY"
+              />
+            </OverlaySection>
+            <OverlaySection title="EVENTS" flat>
+              <OverlayTimeline
+                entries={eventHistory.map((event, index) => ({
+                  id: event.id,
+                  when: event.timestamp.slice(0, 16).replace('T', ' '),
+                  what: event.type.replace(/_/g, ' ').toUpperCase(),
+                  who: event.detail,
+                  current: index === 0,
+                }))}
+              />
+            </OverlaySection>
+            <OverlayActions secondary={[{ label: 'BACK TO ASSETS', onClick: () => setStep('grid') }]} />
+          </>
+        : null}
+      </OverlayBody>
     </div>
   );
 }

@@ -891,6 +891,11 @@
   overflow: hidden;
 }
 
+.tod-lv-gallery__rail[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+}
+
 .tod-lv-gallery__emptyWrap {
   flex: 1;
   display: flex;

@@ -3,15 +3,29 @@
  * Must match live DOM markers (data-visual-reconstruction / data-vr-region), not legacy region ids.
  */
 
-export const CAPTURE_WAIT_SELECTORS_BY_SCREEN: Record<string, string> = {
+const CAPTURE_WAIT_SELECTORS_MOBILE: Record<string, string> = {
   overview: '[data-visual-reconstruction="mobile-overview"]',
   'content-ops': '[data-visual-reconstruction="mobile-content-ops"]',
-  'cultural-intelligence': '[data-visual-reconstruction="mobile-cultural-intelligence"]',
+  'cultural-intelligence':
+    '[data-visual-reconstruction="mobile-cultural-intelligence"], [data-visual-reconstruction="cultural-intelligence-desktop"]',
   'character-lab': '[data-visual-reconstruction="mobile-character-lab"]',
   'campaign-board': '[data-visual-reconstruction="mobile-campaign-board-v1d13"]',
   'experiment-01': '[data-visual-reconstruction="mobile-lab-experiment-01"]',
   'expression-engine': '[data-visual-reconstruction="mobile-expression-engine"]',
 };
+
+const CAPTURE_WAIT_SELECTORS_DESKTOP: Record<string, string> = {
+  overview: '[data-visual-reconstruction="project-overview-desktop"]',
+  'content-ops': '[data-visual-reconstruction="content-operations"]',
+  'cultural-intelligence': '[data-visual-reconstruction="cultural-intelligence-desktop"]',
+  'character-lab': '[data-visual-reconstruction="mobile-character-lab"]',
+  'campaign-board': '[data-visual-reconstruction="campaign-board"]',
+  'experiment-01': '[data-visual-reconstruction="mobile-lab-experiment-01"]',
+  'expression-engine': '[data-visual-reconstruction="mobile-expression-engine"]',
+};
+
+/** @deprecated Use resolveCaptureWaitSelector — kept for tests that import the mobile map. */
+export const CAPTURE_WAIT_SELECTORS_BY_SCREEN = CAPTURE_WAIT_SELECTORS_MOBILE;
 
 function normalizeRoutePath(route: string): string {
   return (route.split('?')[0] ?? route).replace(/\/+$/, '') || '/';
@@ -42,9 +56,11 @@ export function resolveCaptureWaitSelector(input: {
 
   const path = normalizeRoutePath(input.route);
   const screenId = input.screenId?.trim() || resolveScreenIdFromRoute(path);
+  const selectorMap =
+    input.previewDeviceMode === 'desktop' ? CAPTURE_WAIT_SELECTORS_DESKTOP : CAPTURE_WAIT_SELECTORS_MOBILE;
 
-  if (screenId && CAPTURE_WAIT_SELECTORS_BY_SCREEN[screenId]) {
-    return CAPTURE_WAIT_SELECTORS_BY_SCREEN[screenId];
+  if (screenId && selectorMap[screenId]) {
+    return selectorMap[screenId];
   }
 
   if (input.previewDeviceMode === 'mobile' && path.startsWith('/projects/')) {

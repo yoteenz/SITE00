@@ -6,6 +6,7 @@ import { evaluateProjectsApiResponse } from '../../../src/site00/services/site00
 const VITE_LOCAL_API = readFileSync(join(process.cwd(), 'scripts/vite-site00-local-api.mjs'), 'utf8');
 const SERVER_ROUTES = readFileSync(join(process.cwd(), 'server/routes.ts'), 'utf8');
 const PROJECTS_PAGE = readFileSync(join(process.cwd(), 'src/site00/pages/ProjectsPage.tsx'), 'utf8');
+const PROJECTS_API = readFileSync(join(process.cwd(), 'src/site00/services/site00ProjectsApi.ts'), 'utf8');
 
 describe('site00ProjectsApi response handling', () => {
   it('registers /api/site00/projects in vite local API plugin', () => {
@@ -16,6 +17,11 @@ describe('site00ProjectsApi response handling', () => {
   it('registers /api/site00/projects in server routes', () => {
     expect(SERVER_ROUTES).toContain("path: '/api/site00/projects'");
     expect(SERVER_ROUTES).toContain('site00ProjectsHandler');
+  });
+
+  it('retries project index once after refreshing API access token on 401', () => {
+    expect(PROJECTS_API).toContain('refreshAccessTokenForApi');
+    expect(PROJECTS_API).toContain('attempt === 0');
   });
 
   it('ProjectsPage uses B5.9R2 project index presentation', () => {

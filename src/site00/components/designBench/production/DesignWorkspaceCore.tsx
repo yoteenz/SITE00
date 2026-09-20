@@ -15,6 +15,8 @@ import '../../../styles/site00-twin-opus-direct.css';
 import '../../../styles/site00-twin-opus-list.css';
 import '../../../styles/site00-design-production-child.css';
 import '../../../styles/site00-design-child-surface.css';
+import '../../../styles/site00-design-overlay-kit.css';
+import '../../../styles/site00-design-project-surface.css';
 import '../../../styles/site00-design-agent.css';
 import '../../../styles/site00-design-workspace-typography.css';
 

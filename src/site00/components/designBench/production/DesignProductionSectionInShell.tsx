@@ -18,12 +18,12 @@ const TITLES: Record<DesignProductionSection, string> = {
 };
 
 const SUBTITLES: Record<DesignProductionSection, string> = {
-  references: 'Approved golden, authorities, and visual sources.',
-  assets: 'Approved Grok manifest slots — read-only; authority is not mutated here.',
-  pages: 'Design pages bound to this project target.',
-  skins: 'Current NDXBOOK design expression — not a generic theme builder.',
-  history: 'Durable design workspace events (founder-readable).',
-  more: 'Secondary DESIGN utilities — not duplicated in top nav.',
+  references: 'Project reference library — collections, authorities and sources.',
+  assets: "Project asset workspace — every page's assets in one library.",
+  pages: 'Project page architecture — families, readiness and coverage.',
+  skins: 'Project design expression system — not a generic theme builder.',
+  history: 'Project design history — every page, in sequence.',
+  more: 'Project utilities — creative context, QA, diagnostics and tools.',
 };
 
 export function designProductionSectionSubtitle(section: DesignProductionSection): string {

@@ -331,12 +331,25 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
           {data.galleryEmptyMessage ?
             <div className="tod-gallery__emptyWrap" data-testid="gallery-page-concept-empty">
               <p className="tod-gallery__empty">{data.galleryEmptyMessage}</p>
+              {data.galleryGenerateBlockedReason ?
+                <p className="tod-gallery__blocked" data-testid="generate-page-concepts-blocked-reason">
+                  {data.galleryGenerateBlockedReason}
+                  {data.galleryGenerateBlockedResolution ?
+                    ` ${data.galleryGenerateBlockedResolution}`
+                  : null}
+                </p>
+              : null}
               <button
                 type="button"
                 className="tod-gallery__generate"
                 data-interaction-id="generate-page-concepts"
+                data-active-page-id={data.pageConceptTargetPageId}
+                data-page-concept-readiness={data.pageConceptReadiness}
                 disabled={data.galleryGenerateDisabled}
-                title="Opens the concept generation plan — nothing is generated until confirmed"
+                title={
+                  data.galleryGenerateBlockedReason ??
+                  'CGPT → GPT2 → NBP page concept pipeline (confirm before spend)'
+                }
                 onClick={() => actions.generatePageConcepts()}
               >
                 {data.galleryGenerateLabel}
@@ -479,25 +492,31 @@ export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOp
           </dl>
         : null}
         {tab === 'VERSION HISTORY' ?
-          <ul className="tod-dcs-gates">
-            {[production.state.mobileVersion, production.state.desktopVersion, production.state.designAuthorityVersion].map(
-              (ver) => (
-                <li key={ver} className="tod-dcs-gate">
-                  <strong className="tod-dcs-gate__name">{ver}</strong>
-                </li>
-              ),
-            )}
-          </ul>
-        : null}
-        {tab === 'CHANGE HISTORY' ?
-          <ul className="tod-dcs-gates">
-            {production.state.history.slice(-6).reverse().map((entry) => (
-              <li key={entry.id} className="tod-dcs-gate">
-                <strong className="tod-dcs-gate__name">{entry.type.replace(/_/g, ' ')}</strong>
-                <p className="tod-dcs-gate__reason">{entry.summary}</p>
+          <ul className="tod-rec__list">
+            {[
+              { label: 'MOBILE', value: production.state.mobileVersion },
+              { label: 'DESKTOP', value: production.state.desktopVersion },
+              { label: 'AUTHORITY', value: production.state.designAuthorityVersion },
+            ].map((row) => (
+              <li key={row.label} className="tod-rec__row">
+                <span className="tod-rec__rowLabel">{row.label}</span>
+                <span className="tod-rec__rowValue">{row.value || '—'}</span>
               </li>
             ))}
           </ul>
+        : null}
+        {tab === 'CHANGE HISTORY' ?
+          production.state.history.length === 0 ?
+            <p className="tod-rec__empty">NO CHANGES RECORDED YET</p>
+          : <ul className="tod-rec__list">
+              {production.state.history.slice(-6).reverse().map((entry) => (
+                <li key={entry.id} className="tod-rec__row tod-rec__row--stack">
+                  <span className="tod-rec__rowLabel">{entry.type.replace(/_/g, ' ')}</span>
+                  <span className="tod-rec__rowSub">{entry.summary}</span>
+                </li>
+              ))}
+            </ul>
+
         : null}
         {tab === 'MASTER UPDATE' ?
           <dl className="tod-concept__fields">

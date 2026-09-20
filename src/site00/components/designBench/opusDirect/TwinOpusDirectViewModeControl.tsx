@@ -7,10 +7,10 @@ import { useRef } from 'react';
 
 import { DesignWorkspaceAgentButtons } from './DesignWorkspaceAgentButtons';
 import {
-  TWIN_OPUS_DIRECT_VIEW_MODES,
-  TWIN_OPUS_DIRECT_VIEW_MODE_LABELS,
-  type TwinOpusDirectViewMode,
-} from './twinOpusDirectWorkspace';
+  DesignViewModeGrokIcon,
+  TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS,
+} from './designViewModeGrokIcons';
+import { TWIN_OPUS_DIRECT_VIEW_MODES, type TwinOpusDirectViewMode } from './twinOpusDirectWorkspace';
 
 interface TwinOpusDirectViewModeControlProps {
   mode: TwinOpusDirectViewMode;
@@ -49,6 +49,8 @@ export function TwinOpusDirectViewModeControl({ mode, onChange }: TwinOpusDirect
               aria-checked={active}
               tabIndex={active ? 0 : -1}
               className={`tod-viewmode__cell${active ? ' is-active' : ''}`}
+              aria-label={TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS[candidate]}
+              title={TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS[candidate]}
               onClick={() => onChange(candidate)}
               onKeyDown={(event) => {
                 if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
@@ -60,7 +62,10 @@ export function TwinOpusDirectViewModeControl({ mode, onChange }: TwinOpusDirect
                 }
               }}
             >
-              {TWIN_OPUS_DIRECT_VIEW_MODE_LABELS[candidate]}
+              <span className="tod-viewmode__icon" aria-hidden="true">
+                <DesignViewModeGrokIcon mode={candidate} />
+              </span>
+              <span className="tod-viewmode__sr">{TWIN_OPUS_DIRECT_VIEW_MODE_A11Y_LABELS[candidate]}</span>
             </button>
           );
         })}

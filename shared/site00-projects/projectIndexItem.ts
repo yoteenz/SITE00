@@ -10,6 +10,7 @@ import { getProjectOperatingAdapter } from './adapters/index.js';
 import { buildProjectProgressSummary, type ProjectProgressSummary } from './projectProgressSummary.js';
 import { resolveProjectIndexVisual } from './projectIndexVisual.js';
 import { getProjectRepositoryBinding } from './technical/projectRepositoryRegistry.js';
+import { getProjectModuleAvailability } from '../site00-experience-workspace/moduleAvailability.js';
 
 export type ProjectIndexOwnerType = 'FOUNDER' | 'CLIENT';
 
@@ -59,6 +60,9 @@ export type ProjectIndexItem = {
   repositoryStatus: string | null;
   commitsAhead: number | null;
   openPullRequests: number | null;
+  /** P0.EXPERIENCE.MODULE-WIRING1 — project module availability flags */
+  designModuleEnabled: boolean;
+  experienceModuleEnabled: boolean;
 };
 
 export function projectInitialsFromName(name: string): string {
@@ -161,6 +165,7 @@ export function buildProjectIndexItem(
   const ownerType = options?.ownerType ?? (entry.classification.includes('CLIENT') ? 'CLIENT' : 'FOUNDER');
   const visual = resolveProjectIndexVisual(entry.slug, entry.displayName);
   const repoBinding = getProjectRepositoryBinding(entry.slug);
+  const moduleAvailability = getProjectModuleAvailability(entry.slug);
 
   return {
     projectId: entry.slug,
@@ -197,5 +202,7 @@ export function buildProjectIndexItem(
     repositoryStatus: repoBinding.status === 'BOUND' ? 'CONNECTED' : repoBinding.status,
     commitsAhead: null,
     openPullRequests: null,
+    designModuleEnabled: moduleAvailability.designEnabled,
+    experienceModuleEnabled: moduleAvailability.experienceEnabled,
   };
 }

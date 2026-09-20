@@ -118,6 +118,7 @@ export function ProjectOverviewModuleSurface({
   return (
     <div
       className={`site00-pov site00-pov--${model.visual.visualClass}${isWide ? ' site00-pov--desktop' : ' site00-pov--mobile'}`}
+      data-visual-reconstruction={isWide ? 'project-overview-desktop' : 'project-overview-mobile'}
       data-adapter={model.adapterId}
       data-partial={model.partialState ? 'true' : 'false'}
     >

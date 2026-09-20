@@ -7,13 +7,21 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   appendPageCapture,
   DESIGN_PAGE_CAPTURE_UPDATED_EVENT,
+  isPageCaptureDisplayableArtifact,
   loadPageCaptureHistory,
   viewportToDesignViewportClass,
   type PageCaptureRecord,
 } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type { PageViewportId } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/pageViewportAuthority.js';
 import type { ImplementationSnapshotRecord } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/client.js';
+import { formatCaptureTransportError } from '../../../../../shared/site00-studio-world-production/visualReconstruction/p0vr8r3/formatCaptureTransportError.js';
 import { resolveFounderCaptureBaseUrl } from '../../../../utils/site00CaptureBase.js';
+import {
+  captureApiFetch,
+  CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
+} from '../../../services/captureApiFetch.js';
+
+const IMPLEMENTATION_SNAPSHOTS_PATH = '/api/site00/implementation-snapshots';
 
 function snapshotToCapture(
   snap: ImplementationSnapshotRecord,
@@ -29,7 +37,7 @@ function snapshotToCapture(
     route: snap.resolvedRoute || snap.route,
     timestamp: snap.capturedAt || new Date().toISOString(),
     buildVersion: snap.sourceBuildId,
-    artifactPath: snap.publicUrl || snap.capturedUrl,
+    artifactPath: snap.publicUrl?.trim() || '',
     createdBy: 'founder',
     source: 'IMPLEMENTATION_SNAPSHOT_API',
   };
@@ -79,27 +87,34 @@ export function useDesignPageCapture(
     const viewportClass = viewportToDesignViewportClass(viewport);
     const captureRoute = route?.trim() || undefined;
     try {
-      const res = await fetch('/api/site00/implementation-snapshots', {
+      const result = await captureApiFetch<{
+        snapshot?: ImplementationSnapshotRecord | null;
+        error?: string;
+      }>(IMPLEMENTATION_SNAPSHOTS_PATH, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        timeoutMs: CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
+        body: {
           action: 'capture_screen',
           projectId,
           screenId,
           viewportClass,
           route: captureRoute,
           baseUrl: resolveFounderCaptureBaseUrl(),
-        }),
+        },
       });
-      const data = (await res.json()) as { snapshot?: ImplementationSnapshotRecord | null; error?: string };
-      if (!res.ok) {
-        throw new Error(data.error?.trim() || `CAPTURE_FAILED_${res.status}`);
+      if (!result.ok) {
+        const apiMessage = result.data?.error?.trim();
+        throw new Error(
+          apiMessage ||
+            (result.errorCode ? formatCaptureTransportError(result.errorCode) : `CAPTURE_FAILED_${result.status}`),
+        );
       }
-      const snapshot = data.snapshot ?? null;
-      if (!snapshot?.publicUrl && !snapshot?.capturedUrl) {
-        throw new Error(formatCaptureFailure(snapshot));
+      const snapshot = result.data?.snapshot ?? null;
+      const publicUrl = snapshot?.publicUrl?.trim() ?? '';
+      if (!publicUrl || !isPageCaptureDisplayableArtifact(publicUrl)) {
+        throw new Error(formatCaptureFailure(snapshot ?? undefined));
       }
-      const record = appendPageCapture(snapshotToCapture(snapshot, pageId, viewport));
+      const record = appendPageCapture(snapshotToCapture(snapshot!, pageId, viewport));
       setLatest(record);
       return record;
     } catch (err) {

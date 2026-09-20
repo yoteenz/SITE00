@@ -189,6 +189,15 @@ export default defineConfig(({ mode, command }) => {
       },
       chunkSizeWarningLimit: 1000,
     },
+    preview: {
+      port: 5174,
+      host: '0.0.0.0',
+      strictPort: true,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        Pragma: 'no-cache',
+      },
+    },
     server: {
       port: 5174,
       host: '0.0.0.0',

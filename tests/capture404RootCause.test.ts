@@ -58,6 +58,13 @@ describe('Capture 404 root cause guards', () => {
         previewDeviceMode: 'mobile',
       }),
     ).toBe('[data-visual-reconstruction="mobile-overview"]');
+    expect(
+      resolveCaptureWaitSelector({
+        route: '/projects/ndxbook/overview',
+        screenId: 'overview',
+        previewDeviceMode: 'desktop',
+      }),
+    ).toBe('[data-visual-reconstruction="project-overview-desktop"]');
   });
 
   it('repairMishostedStorageHttpUrl maps site-host paths to Supabase', () => {

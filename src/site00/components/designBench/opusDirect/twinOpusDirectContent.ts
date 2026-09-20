@@ -272,7 +272,7 @@ export const TWIN_OPUS_DIRECT_CONTEXT = {
 
 export const TWIN_OPUS_DIRECT_GALLERY = {
   title: 'CONCEPT CANDIDATE GALLERY',
-  compare: 'COMPARE CONCEPTS',
+  compare: 'COMPARE RENDITIONS',
 } as const;
 
 export const TWIN_OPUS_DIRECT_OUTPUT_TITLE = 'PAGE SYSTEM REVIEW';

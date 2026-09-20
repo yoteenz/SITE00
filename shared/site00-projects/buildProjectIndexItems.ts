@@ -10,6 +10,11 @@ import { resolveProjectIndexVisual } from './projectIndexVisual.js';
 import { CANONICAL_SITE00_DESIGN_ROUTE } from '../site00-studio-world-production/visualReconstruction/p0vr3m/constants.js';
 
 export const SITE00_PLATFORM_DESIGN_PROJECT_ID = 'site00';
+export const SITE00_PLATFORM_EXPERIENCE_DEFAULT_PROJECT_ID = 'frontal-slayer';
+
+export function site00PlatformExperienceOpenRoute(): string {
+  return `/projects/${SITE00_PLATFORM_EXPERIENCE_DEFAULT_PROJECT_ID}/experience/build-a-wig`;
+}
 
 export function isSite00PlatformDesignIndexItem(item: ProjectIndexItem): boolean {
   return (
@@ -71,6 +76,27 @@ export function buildSite00PlatformDesignIndexItem(): ProjectIndexItem {
     repositoryStatus: null,
     commitsAhead: null,
     openPullRequests: null,
+    designModuleEnabled: true,
+    experienceModuleEnabled: false,
+  };
+}
+
+/** Pinned founder entry — SITE 00 Experience module workspace selector. */
+export function buildSite00PlatformExperienceIndexItem(): ProjectIndexItem {
+  const designItem = buildSite00PlatformDesignIndexItem();
+  return {
+    ...designItem,
+    projectId: 'site00-experience-module',
+    projectName: 'EXPERIENCE',
+    projectType: 'SITE 00 EXPERIENCE WORKSPACE',
+    projectClassification: 'SYSTEM · PRODUCTION MODULE',
+    projectInitials: 'E',
+    currentPhase: 'APPS · CONFIGURATORS · WORLDS',
+    currentFocus: 'INTERACTIVE · SIMULATIONS · RUNTIME',
+    descriptor: 'CONFIGURATORS · WORLDS · SIMULATIONS · INTERACTIVE',
+    openRoute: site00PlatformExperienceOpenRoute(),
+    designModuleEnabled: false,
+    experienceModuleEnabled: true,
   };
 }
 

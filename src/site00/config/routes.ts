@@ -35,6 +35,8 @@ export const SITE00_ROUTES = {
   sites: '/sites',
   services: '/services',
   system: '/system',
+  /** P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT1 — internal WORKSPACE_SELF concept review */
+  systemDesignWorkspaceConcepts: '/system/design/workspace-concepts',
   about: '/about',
   journal: '/journal',
   signIn: '/origin/sign-in',
@@ -65,6 +67,9 @@ export const SITE00_ROUTES = {
   projectOrigin: '/projects/:projectSlug/origin',
   projectIdentity: '/projects/:projectSlug/identity',
   projectExperience: '/projects/:projectSlug/experience/*',
+  /** P0.EXPERIENCE.MODULE-WIRING1 — production Experience workspace module */
+  projectsExperienceModule: '/projects/:projectSlug/experience',
+  projectExperienceWorkspace: '/projects/:projectSlug/experience/:experienceSlug/*',
   projectDebugWorld: '/projects/:projectSlug/debug/world/*',
   /** P0.VR.UPGRADE.2 — Protected reconstruction twin preview (non-indexable) */
   projectReconstructionTwin:
@@ -272,7 +277,10 @@ export function site00ProjectIdentityPath(projectSlug: string): string {
 
 export function site00ProjectExperiencePath(projectSlug: string, section?: string): string {
   const base = `/projects/${projectSlug}/experience`;
-  return section ? `${base}/${section.replace(/^\//, '')}` : `${base}/home`;
+  if (!section) return `${base}/play/home`;
+  const clean = section.replace(/^\//, '');
+  if (clean.startsWith('play/')) return `${base}/${clean}`;
+  return `${base}/play/${clean}`;
 }
 
 export function site00ProjectFastTrackWorldPath(projectSlug: string, section?: string): string {
@@ -535,6 +543,20 @@ export function site00ProjectLabPath(projectSlug: string): string {
 
 export function site00ProjectsDesignModulePath(): string {
   return SITE00_ROUTES.projectsDesignModule;
+}
+
+export function site00ProjectsExperienceModulePath(projectSlug: string): string {
+  return `/projects/${projectSlug.toLowerCase()}/experience`;
+}
+
+export function site00ProjectExperienceWorkspacePath(
+  projectSlug: string,
+  experienceSlug: string,
+  tab?: string,
+): string {
+  const base = `/projects/${projectSlug.toLowerCase()}/experience/${experienceSlug.toLowerCase()}`;
+  if (!tab || tab === 'overview') return base;
+  return `${base}/${tab.toLowerCase()}`;
 }
 
 export function site00ProjectsDesignActiveProjectPath(projectSlug: string): string {

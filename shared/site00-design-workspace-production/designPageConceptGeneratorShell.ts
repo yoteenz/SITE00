@@ -216,6 +216,38 @@ export const PAGE_CONCEPT_DEFAULT_STAGE_STATE: Record<PageConceptStageId, PageCo
 };
 
 /**
+ * Presentation-only projection of the pipeline's run status onto the three
+ * stage cards. It reads the status the pipeline already publishes; it never
+ * advances, retries or infers anything the pipeline has not reported.
+ */
+export function pageConceptStageStatesForRun(input: {
+  status: string;
+  failed?: boolean;
+}): Record<PageConceptStageId, PageConceptStageState> {
+  const failedStage = (stage: PageConceptStageState): PageConceptStageState =>
+    input.failed ? 'FAILED' : stage;
+
+  switch (input.status) {
+    case 'CGPT_RUNNING':
+      return { CGPT: failedStage('ACTIVE'), GPT2: 'PENDING', NBP: 'PENDING' };
+    case 'GPT2_RUNNING':
+      return { CGPT: 'COMPLETE', GPT2: failedStage('ACTIVE'), NBP: 'PENDING' };
+    case 'NBP_RUNNING':
+      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: failedStage('ACTIVE') };
+    case 'PARTIAL_GENERATION':
+      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PARTIAL' };
+    case 'READY_FOR_FOUNDER_REVIEW':
+      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' };
+    case 'FAILED':
+      return { CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
+    default:
+      return input.failed ?
+          { CGPT: 'FAILED', GPT2: 'PENDING', NBP: 'PENDING' }
+        : PAGE_CONCEPT_DEFAULT_STAGE_STATE;
+  }
+}
+
+/**
  * Where Composer binds behaviour. The shell renders every one of these slots
  * and leaves them empty — it never fetches, stores or derives their contents.
  */

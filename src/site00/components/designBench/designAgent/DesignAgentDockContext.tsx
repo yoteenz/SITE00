@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
 
+import { TodIconCube } from '../opusDirect/TwinOpusDirectIcons';
+
 const GROK_CLOSE_EVENT = 'site00:design-grok-close';
 
 type DesignAgentDockContextValue = {
@@ -50,9 +52,10 @@ export function DesignAgentOpenButton(props: { className?: string; interactionId
       onClick={toggle}
     >
       {compact ?
-        <span className="tod-agent-iconBtn__glyph" aria-hidden="true">
-          O
-        </span>
+        <>
+          <TodIconCube className="tod-ico tod-agent-iconBtn__ico" />
+          <span className="tod-agent-iconBtn__label">OPUS</span>
+        </>
       : open ?
         'OPUS · OPEN'
       : 'OPUS'}

@@ -687,6 +687,26 @@
   background: var(--pcg-paper);
 }
 
+.s00-pcg__notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 8px 9px;
+  border: 1px solid var(--pcg-red);
+  background: var(--pcg-paper);
+  font-size: 8.5px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: var(--pcg-red);
+}
+
+.s00-pcg__noticeGlyph {
+  display: inline-flex;
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
 .s00-pcg__footNotes {
   display: flex;
   align-items: center;
@@ -907,6 +927,15 @@
     justify-content: space-between;
     gap: 24px;
     padding: 14px 24px;
+  }
+
+  .s00-pcg__foot {
+    flex-wrap: wrap;
+  }
+
+  .s00-pcg__notice {
+    flex: 1 0 100%;
+    font-size: 9px;
   }
 
   .s00-pcg__footNotes {

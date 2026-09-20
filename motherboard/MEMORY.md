@@ -2405,6 +2405,31 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 
 ---
 
+## 2026-08-21 — Brand Lore semantic multi-selection + compound identity intelligence
+
+- **Context:** NDX BOOK calibration QA exposed intelligence-loss defect: `role` and other lore questions behaved as single-select when multiple answers can coexist. Sprint upgrades question model at data-contract level — brand-agnostic, no NDX hardcoding.
+
+- **Forensic audit:** `role` was `type: 'single'` in question registry; synthesis used `strAnswer()` flattening role to scalar; `audienceRelationship` was `BrandLoreField<string>`. UI (`IdentityLoreStepForm`) already supported multi toggle when `type: 'multi'` but role was mis-typed. No `ProjectLoreCalibrationPage` exists — Identity lore routes at `/idnty/:slug/world/:stepId`. ProjectLoreCalibration not in repo.
+
+- **Implementation:**
+  - `LoreResponseMode`: SINGLE_SELECT | MULTI_SELECT | RANKED_MULTI_SELECT | FREE_TEXT on every question definition
+  - `role` → MULTI_SELECT; feeling, enemy, contradiction, objects, ritual remain MULTI; status stays SINGLE; free-text questions explicit FREE_TEXT
+  - `shared/site00-brand-lore/loreAnswerTypes.ts` — normalization, serialization, compound label formatting, backward-compat scalar→array migration
+  - `audienceRelationship` → `BrandLoreField<string[]>` with `sourceSelectionIds` per option provenance
+  - Synthesis uses compound select fields — all selections preserved as label arrays, no flattening to first/last
+  - Founder confirmation invalidated when underlying selections change (`priorProfile` compare in synthesis)
+  - WHAT WE HEARD uses ` + ` compound presentation with resolved option labels
+  - Removed NDXBOOK readiness gate bypass — gate enforced whenever Brand Lore profile exists
+  - UI: selection guidance copy, SELECTED marker on multi-select rows
+
+- **Tests:** 20 new `loreAnswerTypes.test.ts` cases. **558/558 PASS**. Build PASS. Browser QA on role multi-select at 390px.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR opened, not merged.
+
+- **Conventions:** Question definition owns `responseMode` — never infer from option count. Multi-select persists as JSON arrays in `loreAnswers` / `rawLoreAnswers`. Do not comma-delimit or flatten before persistence.
+
+---
+
 ## 2026-08-21 — Cloud Agent auto-start preview + GoDaddy deploy bundle
 
 - **Context:** Founder asked how to extend preview tunnel uptime; requested `.cursor/environment.json` for auto-start (close to always-on) and a direct cPanel deploy download link.
@@ -2576,6 +2601,28 @@ This chat covered two sequential founder sprints: (1) adding ALL IN ONE ENTERPRI
 - **Branch:** `cursor/calibration-frozen-steps-4f59`.
 
 ---
+
+## 2026-08-22 — Merge origin/main into brand-lore semantic multi-select branch
+
+- **Context:** Founder requested merge conflict review on `cursor/brand-lore-semantic-multi-select-1983` vs latest `origin/main` (includes productionization, calibration resume, frozen session steps).
+
+- **Conflict classification:**
+  - **Simple (resolved):** `brandLoreBridge.ts` — comment-only; kept main's richer XXIV comment, identical implementation. `brandLore.test.ts` test 26 — same intent; kept main's fuller null+profile assertions. `MEMORY.md` — append-only; kept both multi-select sprint entry and all main entries.
+  - **Complicated (resolved in branch):** Test 34 and downstream code assumed scalar `audienceRelationship` (`'guide'`) after calibration; multi-select branch uses `BrandLoreField<string[]>`. Updated test 34 to expect `['THE GUIDE SHOWING THE WAY']`, `ndxbookReconciliation.ts` unknown field to `string[]`, `buildInheritedLoreSummary` to join compound roles. Post-merge bug: `deriveReferenceEvidence` still called removed `strAnswer` — fixed to use `freeText`.
+
+- **Verification:** Merged `origin/main` twice (initial conflict resolution + new commits through calibration frozen steps). **635/635 tests PASS**. Build PASS.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`. PR #205 updated, not merged.
+
+---
+
+## 2026-08-22 — Builder inherited lore multi-select typing
+
+- **Context:** Post-merge follow-up — `BldrExperienceMobileStep` cast `audienceRelationship` as scalar `string` though Identity role is multi-select (`string | string[]`).
+
+- **Fix:** Added `BuilderInheritedLoreContext`, `parseBuilderInheritedLoreContext()`, and `formatInheritedAudienceRelationship()` in `bldr-experience-questions.ts`. Builder mobile step uses shared parser instead of inline cast. Tests 17b/17c cover scalar + compound role ids.
+
+- **Branch:** `cursor/brand-lore-semantic-multi-select-1983`.
 
 ## 2026-08-22 — Batch merge conflict resolution + #103 mobile routes
 
@@ -10349,6 +10396,22 @@ Production Release test: `p0vrDesignVisualCompareGrok1R1` expected literal `CAPT
 
 ---
 
+## 2026-09-19 — P0.VR.DESIGN.OPUS-WORKSPACE-SYSTEM1 (overlay visual system rebuild)
+
+Founder sprint with four visual references as design authority: keep every DESIGN function, rebuild the look of **every** secondary surface so popups/drawers/docks belong to the same premium product as the main workspace. Main workspace structure (breadcrumb, module nav, project bar, control band, hero, gallery, page system review, pipeline/readiness, record dock, bottom nav) preserved; the reference mobile artboard choreography and the artboard scaling model were left untouched by design.
+
+- **Overlay kit:** `src/site00/styles/site00-design-overlay-kit.css` + `production/designOverlayKit.tsx` (`tod-ok-*`) are now the only vocabulary an overlay body should need. Added `OverlayColumns` (two-column creative workbench, split by **container query** at 720px so an 880px modal and a 620px dock on the same screen resolve differently) and `tod-ok-navRow` destination lists.
+- **Agent docks:** this branch first re-themed the black Opus/Grok consoles onto the kit palette, but `OPUS-AI-CONSOLES1` / `GROK-AI-CONSOLE-ASSETS1` (PRs #1005/#1006) landed on `main` first and rebuilt those same three surfaces on a dedicated `AiConsoleShell` + `site00-ai-consoles.css`. **That system wins for the docks** — the merge took `main` wholesale for `DesignAgentDock`, `DesignGrokDock`, `ViewportAuthorityEditor` and `site00-design-agent.css`. What survived here is the launcher: labelled OPUS/GROK marks (`TodIconCube`, `TodIconBurst`) in the control band instead of single letters.
+- **Status tone bug (important):** `overlayTone` matched unanchored, so **BLOCKED matched LOCKED** and every hard blocker rendered green. Now whole-word matching with negatives tested first; `NOT_PROMOTED` is blocked, `NOT_APPLICABLE`/`NOT SELECTED` are n/a. Readiness gauge carries the same tone.
+- **Placement fixes:** the desktop width media query sat *before* the base `.tod-dcs--modal/--inspector` rules and lost on source order; moved after. Phones now get near-full-height sheets for modals and inspectors too, not centred desktop windows. Disabled actions drop out of lime entirely.
+- **Stale UI audit:** removed dead `tod-dcs-summary/gates/gate/lead/compare/notes/meta/provenanceGolden/modalActions/stackActions/nav` CSS (REMOVE); migrated record-dock version/change history off borrowed overlay gate classes onto `tod-rec__*` (MIGRATE); rebuilt `DesignProjectModuleNavPanel` off inline anchors that wrapped through project names.
+- **Inventory:** `DESIGN_CHILD_SURFACE_PLACEMENT` now covers every rendered overlay — added `OV-REVIEW-TWIN-PAGE`, `OV-VIEWPORT-AUTHORITY-EDITOR`, `OV-GROK-PAGE-ASSET-PRODUCTION`, `OV-RESOLVE-BLOCKER`.
+- **QA harness:** `scripts/design-bench/workspace-system1/capture.mjs` opens 22 overlays + 6 section routes at 1440x1024 and 390x844 through the controls a founder would press, and verifies a surface actually appeared. 56/56 reached.
+- **Tests:** `tests/designOverlaySystemWorkspaceSystem1.test.ts` (13) locks tone mapping, the overlay inventory, dock palette, launcher labels and placement order. Suite parity with base: 40 files / 60 tests failing before and after (all pre-existing).
+- **Convention:** overlay bodies compose kit components only; a panel reaching for its own layout CSS is a panel that will drift. Never let a status chip resolve a negative state to the positive colour.
+
+---
+
 ## 2026-09-19 — P0.VR.DESIGN.GROK-AI-CONSOLE-ASSETS1 + prior OPUS-AI-CONSOLES1
 
 Full conversation: founder first requested a high-fidelity rebuild of the three DESIGN AI consoles (OPUS / GROK / VIEWPORT AUTHORITY) against desktop + mobile authority attachments; that work landed as `AiConsoleShell` + presentation model (PR #1005). This follow-up sprint is an **iconography / visual micro-asset pass only**.
@@ -10369,6 +10432,389 @@ Founder report: **CAPTURE SCREEN** in hero CURRENT vs CONCEPT did nothing — no
 - **Fix:** Bootstrap managed design project (+ ndxbook pilot fallback) in `captureImplementationSnapshot`; optional `route` on API; `useDesignPageCapture` uses `resolveFounderCaptureBaseUrl`, passes page route, surfaces errors on hero button/CURRENT pane.
 - **Tests:** `tests/heroCaptureScreenBootstrap.test.ts`.
 - **Branch:** `cursor/fix-hero-capture-screen-2dd8`.
+
+---
+
+## 2026-09-19 — P0.EXPERIENCE.MODULE-WIRING1
+
+Full conversation: founder sprint to make **EXPERIENCE** a first-class PROJECTS module (separate from DESIGN): routing, fixture-backed entities, `/projects` Design + Experience cards, module availability per project, production workspace (tabs, overview, pipeline, tools registry, Build-A-Wig + Astréa fixtures), tests, browser QA.
+
+- **Architecture:** `shared/site00-experience-workspace/` — types, fixtures, store (localStorage active experience), pipeline (11 stages + applicability), tool registry (honest NOT_CONFIGURED), paths/gate. Routes: `/projects/:slug/experience`, `/projects/:slug/experience/:experienceSlug[/tab]`.
+- **Gate:** `ProjectExperienceModuleGate` — workspace vs Astral client runtime. Astral client moved under `/experience/play/*` so workspace can own `/experience/astrea` (WORLD fixture).
+- **UI:** `ProjectExperienceWorkspacePage` + shell/panels + CSS; `ProjectIndexExperienceCard`; project cards show DESIGN/EXPERIENCE tags + module links.
+- **Fixtures:** Build-A-Wig (CONFIGURATOR, Frontal Slayer); Astréa (WORLD, Astral World scenes Threshold/Tarot/Coffee/Mall).
+- **Tests:** `tests/p0vrExperienceModuleWiring1.test.ts` (12). Updated astral path helper test for `/play/home`.
+- **QA:** Playwright screenshots with `?goldenDiffCapture=1` at `/opt/cursor/artifacts/projects-page-{desktop,mobile}.png`, `experience-baw-{desktop,mobile}.png`.
+- **Branch:** `cursor/experience-module-wiring1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN.OPUS-PROJECT-TABS1 (project-level tab surfaces)
+
+Founder sprint with 14 mobile + desktop reference images as design authority: the seven top-row destinations (hamburger, references, assets, pages, skins, history, more) had to stop being page-local receipts and become **project-wide** workspace surfaces, on both formats, without touching routing or the page shell.
+
+- **The correction that drove the whole sprint:** the page surface owns page review; the tabs own the project. Every tab now reads the whole registry for the selected project, not the active page.
+- **Project data layer:** `shared/site00-design-workspace-production/designProjectLibraries.ts` (reference library, asset library, page architecture, project history) and `designProjectSkinSystem.ts` (palette / typography / materials / texture / panel grammar / application coverage). Nothing is fabricated — an empty project renders an empty library and says so.
+- **Page families:** registry `parentPageId` is almost always null (NDXBOOK: 45 pages, 1 declared parent), so parentage falls back to the longest page route that is a proper prefix, and families group on the **first hyphen-token of the first route segment**. Grouping on the root page gave one family of 45; on the whole segment it split `content-library` from `content-operations`. 20 coherent families now.
+- **Surface kit:** `designProjectSurfaceKit.tsx` + `site00-design-project-surface.css` (`tod-ps-*`) — identity line, search, filter chips, feature block, groups, card grids, rows + readiness dials, panes (rail / main / inspector), modules, timeline, activity strip, action bar.
+- **Layout does not key off viewport width.** The artboard is always 768 logical px; `TwinOpusDirectScreen` publishes `data-shell-format` (`wide` / `tall`) from the artboard aspect and `ShellFormatProvider` hands it to the surfaces. The project frame also applies `zoom` so a wide surface lays out in ~1280 units and a tall one in ~390. Any future project surface must read `useShellFormat()`, never a media query.
+- **Empty-data problem, and the honest fix:** on a fresh browser NDXBOOK has zero manifest assets and zero workflow events, so ASSETS and HISTORY rendered as blank consoles. Rather than seed fixtures, both now read **more real sources**: assets adds captured page media and slot-demand coverage against the Grok plan slots; history merges the project-scoped `designProductionStore` log and canonical reference captures (with thumbnails) alongside authority and asset events. 8 events and 7 captures for NDXBOOK out of the box.
+- **Hamburger:** `ProjectWorkspaceDrawer` replaces `DesignProjectModuleNavPanel` — identity + status, destinations with live counts, pinned tools, project switch, utilities.
+- **QA harness:** `scripts/design-bench/project-tabs1/capture.mjs` shoots all 7 tabs at 1440x1024 and 390x844, asserts format and content blocks, and also un-clips the frame to photograph each full surface. 14/14.
+- **Suite parity with base:** 40 files / 60 tests failing before and after (all pre-existing).
+- **Branch:** `cursor/opus-project-tabs1-e65d` · PR #1009.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN.GROK-PROJECT-TAB-ASSETS1 (visual support pack)
+
+Full conversation: founder first had Opus rebuild the seven project-level Design Workspace tabs (hamburger, references, assets, pages, skins, history, more) as project-wide surfaces. This follow-up is **Grok visual support only** — generate/curate/stage the asset layer those live surfaces need so they feel editorial rather than empty. Do not redesign layout, routing, or shell.
+
+- **Role boundary:** Opus owns the surfaces. Grok fills existing slots. No fabricated founder-capture library (that would teach distrust). Support drawings are labelled STAGED fallbacks.
+- **Catalog:** `designProjectTabVisuals.ts` — 75 line icons (24×24 / 1.5 stroke / square caps / currentColor), labelled 320×200 SVG plates, 10 family fallback plates, 8 editorial rasters (brand, authority, mood, material, more banner, empty library, page map, history milestone).
+- **Dump:** `public/site00/project-tabs/staged/` + `review.html` + `manifest.json`. Approved-asset mutation: NONE.
+- **Wiring (slots only):** collection rail/card fallbacks, asset category cards, page-family thumbnails, skins material tiles + expression hero, history kind marks + empty plate, More banner, hamburger hero. `projectTabIcons.tsx` now renders the catalog so hamburger/action bars/More share one family.
+- **Review:** `/site00/project-tabs/staged/review.html`. Tests: `tests/p0vrDesignGrokProjectTabAssets1.test.ts` (10).
+- **Branch:** `cursor/grok-project-tab-assets-e65d` · PR #1010.
+
+---
+
+## 2026-09-19 — P0.DESIGN.IN-SHELL-DOCK-POSITIONING-FIX1
+
+Founder bug: project-level tab action dock (HISTORY, SKINS, etc.) floated mid-viewport while content scrolled — caused by `position: sticky` on `.tod-ps-actionbar` plus `zoom` on the inline frame breaking overflow/flex.
+
+- **Fix:** `ProjectSurface` splits `tod-ps__main` (scroll) from `ProjectActionBar`; inline frame is flex column with `height: 0` body flex trick; action bar `position: absolute; bottom: 0` inside `.tod-ps`; zoom only on `.tod-ps__main`.
+- **Tests:** `tests/p0vrDesignInShellDockPositioningFix1.test.ts`; Playwright all six tabs OK.
+- **Branch:** `cursor/in-shell-dock-positioning-fix1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-REGRESSION-RECOVERY1
+
+Founder sprint: after **EXPERIENCE.MODULE-WIRING1** (PR #1008 @ `3986143e`), DESIGN looked like an older implementation — overlay-only tab sections and deleted project surface kit/CSS on the merge commit.
+
+- **Root cause (DESIGN):** EXPERIENCE branch merge dropped `designProjectSurfaceKit.tsx`, all `projectTabs/*`, and `site00-design-project-surface.css`; `DesignProductionSections.tsx` reverted to OPUS-WORKSPACE-SYSTEM1 `OverlayBody` grammar. **Recovery on main:** PR #1009 (OPUS-PROJECT-TABS1), #1010 (Grok tab assets), #1012 (dock fix) restored approved DESIGN surfaces.
+- **Root cause (EXPERIENCE bug found in QA):** `/projects/:slug/experience/*` route rendered **outside** `Site00Layout` → `useSite00 must be used within Site00Provider` blank screen. **Fix:** wrap `ProjectExperienceModuleGate` in `Site00Layout` (module shell only; experience CSS stays `.site00-expws`).
+- **Guards:** `tests/p0vrDesignRegressionRecovery1.test.ts`; capture harness `scripts/design-bench/regression-recovery1/capture.mjs` (short waits, `goldenDiffCapture=1` for EXPERIENCE auth bypass in CI/headless).
+- **QA screenshots:** `/opt/cursor/artifacts/design-regression-recovery1/*.png` — NDXBOOK DESIGN overview/references/assets/history + Build-A-Wig mobile/desktop.
+- **Branch:** `cursor/design-regression-recovery1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-VIEWMODE-ICON-REAPPLY1
+
+Micro follow-up after DESIGN regression recovery: Canonical/List view-mode controls showed visible **CANONICAL** / **LIST** text and placeholder 16×16 SVGs instead of approved Grok marks.
+
+- **Root cause:** Overlay sprint (`cd995de4`) swapped text labels for inline placeholder SVGs but never wired **P0.VR.DESIGN.GROK-VISUAL-SYSTEM1** (`f291ae0f`) canonical/list glyphs; `.tod-viewmode__sr` had no visually-hidden CSS so uppercase labels stayed visible.
+- **Fix:** `designViewModeGrokIcons.tsx` — exact canonical/list paths from Grok visual-system family; `TwinOpusDirectViewModeControl` uses `DesignViewModeGrokIcon`; a11y `Canonical view` / `List view`; CSS sr-only + icon sizing (active black/lime, inactive paper/black).
+- **Tests:** `p0vrDesignViewmodeIconReapply1.test.ts`; updated view-row size guard in `p0vrDesignBenchOpusDirect.test.ts`.
+- **QA:** `/opt/cursor/artifacts/design-viewmode-icon-reapply1/viewmode-{mobile,desktop}.png`.
+- **Branch:** `cursor/design-viewmode-icon-reapply1-9f72`.
+
+---
+
+## 2026-09-19 — P0.DESIGN.IN-SHELL-TAB-SCROLL-FIX1 (follow-up to dock fix)
+
+Founder: in-shell project tabs lost scroll after dock positioning fix — content clipped, action bar pinned but main area would not scroll.
+
+- **Root cause:** `zoom` on `.tod-ps__main` (the overflow scroll container) breaks touch/overflow scrolling; absolute action bar + `height: 100%` compounded the flex chain.
+- **Fix:** Flex column on `.tod-ps`; scroll on `.tod-ps__main`; zoom moved to inner `.tod-ps__main-zoom`; action bar `flex: 0 0 auto` (panel bottom, not sticky/fixed/absolute).
+- **Branch:** `cursor/in-shell-tab-scroll-fix1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-MORNING-GOOD-STATE-RECOVERY1
+
+Founder sprint: recovered DESIGN must match **this morning immediately before dock + Canonical/List icon work**, not an older pre-EXPERIENCE snapshot.
+
+- **Forensic chronology (UTC 2026-09-19):** `LAST_GOOD_MORNING` = **441ae433** (merge #1010 Grok tab assets, after #1009 project tabs + #1008 EXPERIENCE). **FIRST_DOCK_FIX** = 438a196a (#1012). **FIRST_VIEW_ICON** = 31344bbd (#1014). **STALE_RECOVERY** = 977ca298 (#1013 — EXPERIENCE `Site00Layout` + guard tests only; did **not** revert DESIGN bench to pre-#1009).
+- **Diff 441ae433 → main:** only `designProjectSurfaceKit.tsx` (scroll/dock split), `site00-design-project-surface.css` + child-surface flex, view-mode Grok icons, EXPERIENCE route wrapper. Twin shell / hero / overlays / projectTabs unchanged since morning.
+- **Recovery action:** restore morning **wide zoom selector** (`.tod-dcs--workspace-inline:has(.tod-ps[data-format='wide'])`); keep scroll on `.tod-ps__main`, zoom on `.tod-ps__main-zoom`, flex dock, Grok icons. Frame/body zoom from 441ae433 collapses flex scroll — documented, not re-applied.
+- **Tests:** `p0vrDesignMorningGoodStateRecovery1.test.ts`.
+- **Branch:** `cursor/design-morning-good-state-recovery1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-RELEASE429-EXACT-RESTORE1
+
+Founder sprint: **exact** DESIGN authority = production release **#429** / commit **441ae433** (GROK seven project tabs pack), without whole-repo rollback; keep EXPERIENCE + in-shell dock fix + Grok Canonical/List icons only.
+
+- **Inventory:** 69 `designBench/**` files at 441ae433; **7 paths** differ on main — manifest `docs/design-release429-restore-manifest.md`.
+- **Restore strategy:** No `git reset`; main already matched selective restore (bench byte-identical except allowlisted post-429 layers). Wide unit-space from 429 lives on `.tod-ps__main-zoom`; frame zoom from 429 not re-applied (breaks tab scroll).
+- **Stale audit:** Single production winner — `DesignWorkspaceCore` → `TwinOpusDirectScreen`; no duplicate DesignWorkspace route target.
+- **Tests:** `p0vrDesignRelease429ExactRestore1.test.ts` pins allowlist + dock/icon/EXPERIENCE markers.
+- **Visual QA:** `scripts/design-bench/release429-exact-restore1/capture.mjs` → `/opt/cursor/artifacts/design-release429-exact-restore1/` (Overview mobile/desktop, tabs, hamburger, panel dock, view-mode glyphs, Build-A-Wig mobile/desktop).
+- **Branch:** `cursor/design-release429-exact-restore1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-PROJECT-TABS-RELEASE429-RESTORE1
+
+Founder: six project-level tabs (References…More) showed empty white panel + dock only after dock/scroll split.
+
+- **Root cause:** Tab components unchanged since **441ae433**; `DesignProductionChildShell` wraps content in `.tod-child-embedded` but post-dock flex column on `.tod-dcs__body` did not give that wrapper `flex: 1`, so `.tod-ps__main` collapsed to **0px** (zoomed content existed but was not scroll-visible).
+- **Fix:** `site00-design-project-surface.css` — flex column participation for `.tod-child-embedded` and `> .tod-ps` under `:has(.tod-ps)`.
+- **Tests/capture:** `p0vrDesignProjectTabsRelease429Restore1.test.ts`; `scripts/design-bench/project-tabs-release429-restore1/capture.mjs`.
+- **Branch:** `cursor/design-project-tabs-release429-restore1-9f72`.
+
+---
+
+## 2026-09-19 — CI fix: release #429 git guards
+
+GitHub Actions shallow checkout lacks commit `441ae433`, so `p0vrDesignRelease429ExactRestore1` / project-tabs restore tests failed with `fatal: bad revision`.
+
+- **Fix:** `tests/helpers/release429Git.ts` resolves ref when present; git-diff/`git show` tests use `it.skip` when absent; filesystem guards always run.
+- **Branch:** `cursor/design-release429-ci-test-fix-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT1
+
+Wired isolated **WORKSPACE_SELF** concept workflow so SITE 00 DESIGN can later concept itself via NBP → Opus shell → Composer without mutating live workspace.
+
+- **Target model:** `DesignTargetType` PAGE | PROJECT_SYSTEM | WORKSPACE_SELF; target `site00-design-workspace`.
+- **Route:** `/system/design/workspace-concepts` (founder-gated page; does not replace `/projects/:slug/design`).
+- **State:** fixture localStorage `site00:workspace-self-concept:v1` — captures, function contract, 3 concept slots, selection/promotion/pair-review/lock, Opus shell + Composer handoff packages; `productionMutationLocked: true`.
+- **Entry:** MORE → SYSTEM DESIGN → REDESIGN DESIGN WORKSPACE (founder only).
+- **Tests:** `p0vrDesignWorkspaceSelfConcept1.test.ts` (9 cases). No provider invoke.
+- **Branch:** `cursor/design-workspace-self-concept1-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-CAPTURE1
+
+Closed WORKSPACE_SELF gap: real Playwright capture of live DESIGN workspace for NBP source authority.
+
+- **API:** `POST /api/site00/workspace-self-capture` (founder-only) — headless Mobile + Desktop from `/projects/design/{slug}?goldenDiffCapture=1`, waits for `twin-opus-direct-screen`.
+- **Viewports:** MOBILE = canonical 390×844 (dsf 2); DESKTOP = DESIGN bench 1440×1024 (central `viewports.ts`).
+- **State:** `WorkspaceSelfCaptureSet`, capture statuses, append-only history, `evaluateNbpHandoffReadiness`, auto `syncNbpPackageFromCaptures` when contract + READY pair exist.
+- **UI:** RECAPTURE CURRENT WORKSPACE, preview + fullscreen, failure/retry; artifacts in localStorage via `workspaceSelfArtifactStorage`.
+- **Branch:** `cursor/design-workspace-self-capture1-9f72`.
+
+---
+
+## 2026-09-19 — CAPTURE SCREEN Safari / site00.com API routing fix
+
+Founder **CAPTURE SCREEN** (hero compare / `useDesignPageCapture`) failed on production with Safari message **"The string did not match the expected pattern."** — root cause: relative `fetch('/api/site00/implementation-snapshots')` hit **GoDaddy SPA HTML**, and `Response.json()` on WebKit throws that opaque error.
+
+- **Fix:** Route implementation-snapshot + workspace-self capture client through **`captureApiFetch`** → `api.site00.com` with safe HTML-vs-JSON classification and founder-readable errors (`INVALID_API_RESPONSE`, etc.).
+- **Files:** `useDesignPageCapture.ts`, `useImplementationSnapshots.ts`, `workspaceSelfCaptureClient.ts`.
+- **Branch:** `cursor/design-capture-screen-api-routing-9f72`.
+
+---
+
+## 2026-09-19 — Projects index “SESSION EXPIRED” (Safari auth desync)
+
+Founder saw **PROJECT INDEX UNAVAILABLE** / **SESSION EXPIRED OR NOT SIGNED IN** on `/projects` while DESIGN/EXPERIENCE cards still rendered — not a capture regression.
+
+- **Cause:** `Site00AccountRouteGuard` could restore **UI-only** auth backup (`isSignedIn`) without a valid Supabase JWT; `GET api.site00.com/.../projects?action=index` returns **401**. Session-restore cookie calls could miss Railway when `VITE_API_BASE` empty (now uses `site00ClientApiUrl`).
+- **Fix:** `refreshAccessTokenForApi` + one retry on 401 in `site00ProjectsApi`; guard stops backup-only pass-through and redirects to sign-in when no API token; Projects error adds **SIGN IN AGAIN** link.
+- **Branch:** `cursor/projects-index-session-reauth-9f72`.
+
+---
+
+## 2026-09-19 — P0.VR.DESIGN-WORKSPACE-SELF-NBP-INTEGRATION-AUDIT1
+
+Forensic: `/system/design/workspace-concepts` had **no provider pipeline** — only manual STAGE SLOT + `requestConceptGeneration` flag; DESIGN bench **GENERATE PAGE CONCEPTS** remains a **PAGE no-op stub** in `twinOpusDirectWorkspace.ts`.
+
+- **WORKSPACE_SELF path:** `POST /api/site00/workspace-self-concept-generation` — plan → founder confirm → Anthropic (CGPT/GPT2) **3 territories** → **6× NBP** (`fal-ai/nano-banana-pro/edit`) with capture references.
+- **UI:** **GENERATE 3 WORKSPACE CONCEPTS**, cost confirmation, job progress, gallery images, **RETRY FAILED ONLY**, statuses through `READY_FOR_REVIEW`.
+- **Models:** `WorkspaceSelfConceptSet`, `WorkspaceSelfCreativeBriefSet`, `WorkspaceSelfGeneratedArtifact`.
+- **Tests:** `p0vrDesignWorkspaceSelfNbpIntegrationAudit1.test.ts`.
+- **Branch:** `cursor/design-workspace-self-nbp-integration-audit1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CREATIVE-PIPELINE-AUDIT2
+
+Sprint corrected WORKSPACE_SELF creative cardinality before founder spend: **CGPT → GPT2 (1 concept/call) → NBP (2 jobs/concept)** — not Anthropic **3 territories in one call** (`generateWorkspaceTerritories.ts` removed).
+
+- **CGPT:** `generateWorkspaceCreativeDirection.ts` — **Anthropic** (`ANTHROPIC_API_KEY`); **one** `WorkspaceCreativeDirection` per call; diversity ledger snapshot passed per slot (A → B → C).
+- **GPT2:** `generateWorkspaceSingleConcept.ts` — **OpenAI** text (`OPENAI_API_KEY`, `gpt-4o-mini`); rejects multi-concept JSON arrays; **one** `WorkspaceSingleConceptBrief` per call.
+- **NBP:** `renderWorkspaceNbpJob.ts` — **FAL** `fal-ai/nano-banana-pro/edit`; Mobile + Desktop per slot share `gpt2ConceptId` + `creativeDirectionId`.
+- **Orchestrator:** `runWorkspaceSelfGeneration.ts` sequential A→B→C; GPT2 failure skips NBP for that slot; lineage fields on artifacts.
+- **UI/plan:** confirmation shows **3 CGPT + 3 GPT2 + 6 NBP**; `creativePipelineSet` replaces `creativeBriefSet`.
+- **Tests:** `p0vrDesignWorkspaceSelfCreativePipelineAudit2.test.ts` (+ audit1 updated); **no provider spend** in vitest (`VITEST=true` mocks).
+- **OPUS/GROK:** not invoked in this pipeline.
+- **Branch:** `cursor/design-workspace-self-creative-pipeline-audit2-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-AUTHORITY-PAIR-BINDING1
+
+Authority Pair rail on `/system/design/workspace-concepts` now binds to **GPT2/NBP generation jobs** + selection/promotion/lock state — not design-bench CGPT authority fixtures.
+
+- **Resolver:** `viewportAuthorityPreview.ts` — `resolveViewportAuthorityPreview` / `resolveWorkspaceSelfAuthorityPairPresentation` (EMPTY → SELECTED → PROMOTED → PAIR_REVIEW → LOCKED; current `conceptSet.captureSetId` only).
+- **UI:** `WorkspaceSelfAuthorityPairPanel.tsx` sticky right rail beside concept gallery; mobile/desktop responsive grid.
+- **Merge tweak:** partial READY NBP jobs mark concept `STAGED` so gallery + rail stay selectable in sync.
+- **Tests:** `p0vrDesignWorkspaceSelfAuthorityPairBinding1.test.ts` (11).
+- **Branch:** `cursor/design-workspace-self-authority-pair-binding1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CREATIVE-PIPELINE-R3
+
+Architectural correction: WORKSPACE_SELF generation is **1 CGPT creative context → 1 GPT2 authority concept → 3 NBP renditions (A/B/C) × Mobile + Desktop = 6 outputs** — not three independent CGPT/GPT2 concept chains.
+
+- **Models:** `WorkspaceCreativeContext`, `WorkspaceGPT2AuthorityConcept`, `WorkspaceConceptRendition`, `WorkspaceSelfConceptSet.schemaVersion` (`SINGLE_CONCEPT_MULTI_RENDITION` vs `LEGACY_MULTI_CONCEPT`); legacy `slots[]` preserved read-only via `pipelineLegacy.ts` + `normalizeWorkspaceSelfState`.
+- **API:** `generateWorkspaceCreativeContext.ts`, `generateWorkspaceGpt2AuthorityConcept.ts`; orchestrator `runWorkspaceSelfGeneration.ts` (CGPT×1, GPT2×1, NBP×6); `renditionPlanner.ts` for A/B/C directives; NBP prompt uses shared GPT2 authority.
+- **Plan/UI:** `cgptCalls: 1`, `gpt2Calls: 1`, `nbpRenditions: 3`; **GENERATE WORKSPACE CONCEPT**, **COMPARE RENDITIONS**, confirm panel 1/1/3/6; authority rail GPT2 source `<details>`; inspect lineage CGPT→GPT2→NBP.
+- **Tests:** `p0vrDesignWorkspaceSelfCreativePipelineR3.test.ts`; audit2 + nbp audit1 updated. **No provider spend** in vitest.
+- **Branch:** `cursor/design-workspace-self-creative-pipeline-r3-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-WORKSPACE-SELF-CONCEPT-SELECTION-SYNC1
+
+Unified WORKSPACE_SELF review UX on `/system/design/workspace-concepts`: one persisted `reviewUi` + shared selection/promotion state across gallery, authority rail, Compare Concepts overlay, Inspect, and Fullscreen.
+
+- **`reviewState.ts`:** activate/viewport/compare/inspect/fullscreen; `selectViewportConceptForReview` stores artifact ids + pending authority events; promotion from **selected** not active highlight.
+- **Rail:** promoted → selected → active **PREVIEWING**; pending selection after re-select post-promote.
+- **UI:** carousel gallery w/ MOBILE/DESKTOP badges; compare 3-up per viewport; pair review panel shows promoted pair only.
+- **New concept set:** clears selection/promotion/review (scoped to `conceptSetId`).
+- **Tests:** `p0vrDesignWorkspaceSelfConceptSelectionSync1.test.ts` (10).
+- **Branch:** `cursor/design-workspace-self-concept-selection-sync1-9f72`.
+
+---
+
+## 2026-09-20 — P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1
+
+Wired **GENERATE PAGE CONCEPTS** in normal DESIGN workspace (PROJECT → DESIGN → active page) to **PAGE-only** pipeline **1 CGPT → 1 GPT2 → 3 NBP renditions (6 outputs)** — isolated from WORKSPACE_SELF.
+
+- **Audit root cause:** `generatePageConcepts` was empty stub; `galleryGenerateDisabled: true` hardcoded in `twinOpusDirectWorkspace.ts`.
+- **Shared:** `pageConceptPipeline/` (context compilers, readiness, plan, store, workflow, rendition planner); `designPageConceptModel` → `SINGLE_AUTHORITY_MULTI_RENDITION` + `registerPageConceptRenditions`.
+- **API:** `api/site00/page-concept-generation.ts` + `api/_lib/site00PageConcept/*` (vitest mocks; `SPEND_GUARD` without founder confirm).
+- **UI:** `usePageConceptGeneration`, `PageConceptGenerationOverlay` on `TwinOpusDirectScreen`; local plan opens confirm immediately; blocked reason on button; capture-update refreshes readiness; CSS fix `.tod-gallery__rail[hidden]` so empty-state **GENERATE** is clickable.
+- **Active page id** uses mirror registry form (e.g. `ndxbook:overview:/projects/ndxbook`) — captures must match that pageId.
+- **QA:** `scripts/qa/page-concept-pipeline-wiring1-qa.mjs` — confirm + cancel, 0 generate calls; Playwright receipt PASS (no live provider spend).
+- **Tests:** `p0vrDesignPageConceptPipelineWiring1.test.ts` (16); model test outputShape updated.
+- **Branch:** `cursor/design-page-concept-pipeline-wiring1-9f72`. **READY_FOR_FIRST_PAGE_GENERATION:** YES (confirm wiring; spend only after GENERATE).
+
+---
+
+## 2026-09-20 — PAGE concept GENERATE transport fix (production UNKNOWN_TRANSPORT_ERROR)
+
+Founder screenshot on **site00.com**: progress overlay after **GENERATE** showed **`UNKNOWN_TRANSPORT_ERROR`**.
+
+- **Cause:** `captureApiFetch` did not parse JSON error bodies on 4xx (422/400 → generic UNKNOWN); large inline base64 capture payloads could also fail at the edge.
+- **Fix:** Parse API `{ error }` on all JSON responses; map 422/413; `formatCaptureTransportError` guidance for UNKNOWN; page concept client uses `throwPageConceptApiFailure`.
+- **Payload:** Client sends **`artifactUrl`** for server-hosted captures (CAPTURE SCREEN `publicUrl`); API **`resolvePageGenerationCaptureBase64`** fetches server-side. Inline base64 only for data/blob.
+- **Branch:** `cursor/page-concept-generate-transport-fix-9f72`. **Requires Railway redeploy** + cPanel ZIP for client URL path.
+
+---
+
+## 2026-09-20 — DESIGN capture CURRENT pane broken image fix
+
+Founder: **capture screens showing broken** in CURRENT vs CONCEPT after recent deploys.
+
+- **Cause:** Failed/partial implementation snapshots stored `artifactPath` as **`capturedUrl` (live page route)** when `publicUrl` was empty — valid for `<img>` → broken icon. Legacy localStorage rows same issue.
+- **Fix:** `isPageCaptureDisplayableArtifact` / `pageCaptureDisplaySrc`; CAPTURE SCREEN only persists **`publicUrl`**; hero CURRENT uses display src; stale route rows prompt **CAPTURE NEEDS RECAPTURE**; page concept readiness ignores non-image artifacts.
+- **Branch:** `cursor/capture-display-fix-9f72`.
+
+---
+
+## 2026-09-20 — CAPTURE SCREEN auth redirect (CAPTURE_ANCHOR_MISSING + WRONG_ROUTE + AUTH_REDIRECT)
+
+Founder on **site00.com** mobile: **CAPTURE SCREEN** failed with **`CAPTURE_ANCHOR_MISSING, WRONG_ROUTE, AUTH_REDIRECT`** on NDXBOOK DESIGN overview.
+
+- **Cause:** Railway Playwright opens routes with **`?designPreview=1`** + init-script local auth, but **`Site00AccountRouteGuard`** still required Supabase API token → **`Navigate` to sign-in** while `isSignedIn()` true from localStorage → wrong surface, missing NDX anchors, triple QA failure.
+- **Fix:** `allowUnauthenticatedCaptureSurface` (`designPreview=1` | `goldenDiffCapture=1`) skips api-token redirect and renders children; desktop capture wait selectors (`project-hub-desktop-board`, etc.); QA **`AUTH_REDIRECT`** only on sign-in URLs (not generic route mismatch).
+- **Branch:** `cursor/design-capture-designpreview-auth-9f72`. **Railway redeploy** for capture engine QA tweak + **cPanel ZIP** for guard fix.
+
+---
+
+## 2026-09-20 — Desktop CAPTURE_ANCHOR_MISSING (overview POV vs legacy board)
+
+Founder after v569: **MOBILE capture OK**, **DESKTOP** still **`CAPTURE_ANCHOR_MISSING`** on overview.
+
+- **Cause:** Live `/projects/:slug/overview` desktop uses **`ProjectOverviewModuleSurface` POV** (B59R7), not **`OverviewFounderWorkspaceBoard`** (`project-hub-desktop-board`). Playwright waited for a marker that is not in the DOM.
+- **Fix:** `data-visual-reconstruction="project-overview-desktop"` on wide POV; desktop wait selector → `project-overview-desktop`; CI radar room `cultural-intelligence-desktop` + dual mobile/desktop selectors.
+- **Branch:** `cursor/capture-desktop-overview-anchor-9f72`. **Both** Railway (wait selector) **and** cPanel (DOM markers) required.
+
+---
+
+## 2026-09-20 — Desktop capture live smoke (agent-verified)
+
+- **Verified:** Real Playwright `captureImplementationSnapshot` for `ndxbook` / `overview` / **desktop** against Vite — `qaPassed: true`, empty `qaIssues`, `anchorFound: true`, 1440×900, `designPreview=1` URL.
+- **Regression:** `tests/desktopOverviewCaptureLive.test.ts` (skips if :5174 down); `scripts/qa/desktop-overview-capture-smoke.ts`.
+- **PR:** #1034 merged. Production still requires **v570 cPanel + Railway** for founder device.
+
+---
+
+## 2026-09-20 — Page concept pipeline BLOCKED_NO_SOURCE_CAPTURE + founder review smoke
+
+Founder: overlay reached step 06 but **`BLOCKED_NO_SOURCE_CAPTURE`** — mobile capture in CURRENT, **DESKTOP NEEDED**.
+
+- **Cause:** Pipeline requires **both** displayable Mobile + Desktop captures; confirm could run without re-check; legacy **`ndxbook:overview`** vs canonical **`ndxbook:overview:/projects/ndxbook`** pageId keys could split buckets.
+- **Fix:** `getPageConceptSourceCaptures` + canonical pageId on append; readiness/confirm use resolver; GENERATE disabled when not `ready`; progress overlay only after validation; desktop capture dims 1440×900.
+- **Verified:** `tests/pageConceptPipelineFounderReviewLive.test.ts` + `scripts/qa/page-concept-pipeline-founder-review-smoke.ts` → **`READY_FOR_FOUNDER_REVIEW`** (6/6 jobs, real Playwright captures, vitest provider mocks).
+- **Branch:** `cursor/page-concept-pipeline-founder-review-9f72`. Founder: **CAPTURE SCREEN on DESKTOP viewport** then GENERATE; deploy v571+.
+
+---
+
+## 2026-09-20 — Page concept GENERATE UNAUTHORIZED on fsbw-dev tunnel
+
+Founder on **site00.fsbw-dev.com** (Vite tunnel): pipeline overlay showed **UNAUTHORIZED** at step 06.
+
+- **Cause:** **`/api/site00/implementation-snapshots`** (CAPTURE) has **no auth**; **`/api/site00/page-concept-generation`** requires **Supabase Bearer** on **api.site00.com**. Preview tunnel can show DESIGN signed-in locally without a valid API token (iOS reload / no Ctrl Room session).
+- **Fix:** `ensurePageConceptApiAccessToken` preflight; GENERATE disabled until token; 401 retry + human **`SIGN IN REQUIRED`** copy (not raw UNAUTHORIZED); auth fail resets overlay to confirm/IDLE.
+- **Branch:** `cursor/page-concept-api-auth-9f72`. Founder: sign in on the **same tab** before GENERATE, or use **production ZIP** on site00.com; still need **Mobile + Desktop** captures.
+
+---
+
+## 2026-09-20 — Page capture Supabase hydrate (tunnel vs prod localStorage leak)
+
+Founder: **both screenshots exist** but **GENERATE PAGE CONCEPTS** still disabled; **DESKTOP NEEDED** / **DESKTOP AUTHORITY** blocker after refresh; re-capture on every reload.
+
+- **Leak:** Page concept readiness reads **`localStorage`** (`site00:design-page-capture:v1:*`). Railway CAPTURE uploads to **Supabase** (`publicUrl`) but the UI **never re-hydrated** from `GET /api/site00/implementation-snapshots` on load. **fsbw-dev.com** vs **site00.com** = different origins → different buckets. Viewport band **DESKTOP NEEDED** was also **registry-only** (`overview` had no `desktopPreviewUrl`; only `desktop-overview` screen had static ref) — separate from implementation CURRENT captures.
+- **Fix:** `designPageCaptureHydrate.ts` + `useHydrateDesignPageCaptures` on DESIGN workspace mount (fetch latest mobile/desktop snapshots → `appendPageCapture`); `enrichAuthoritiesWithImplementationCaptures` + `syncAuthorityRefsFromPageCaptures` tie Supabase captures into authority refs / pipeline; NDX **overview** maps to desktop composite ref.
+- **Still required for GENERATE on tunnel:** **Supabase session** on same tab (`SIGN IN REQUIRED` copy from #1037). CAPTURE base URL already follows tunnel origin (`resolveFounderCaptureBaseUrl`).
+- **Branch:** `cursor/design-page-capture-supabase-hydrate-9f72`.
+
+---
+
+## 2026-09-20 — Page concept “success” benchmark vs founder tunnel
+
+Founder still saw **GENERATE** disabled with **`BLOCKED_NO_SOURCE_CAPTURE`** while viewport band showed **MOBILE OK / DESKTOP OK** and CURRENT had a capture.
+
+- **Agent “success” criteria (prior runs):** Vitest + optional Playwright on cloud VM: **both** QA-passed snapshots **`appendPageCapture`**’d into localStorage for canonical `overview` `pageId`, then `evaluatePageConceptReadiness === READY` and orchestrator reaches **`READY_FOR_FOUNDER_REVIEW`**. **Not** founder fsbw-dev tab unless same conditions met.
+- **UI leak:** Viewport **OK** = **design authority refs** (registry / enriched URLs), **not** implementation **source captures** required for GENERATE. Pipeline **scrollGallery** could open confirm overlay even when gallery button disabled.
+- **Production API check:** `GET api.site00.com/.../ndxbook/overview` **mobile + desktop snapshot: null** — hydrate cannot restore what Railway registry never stored; founder must **CAPTURE SCREEN** per viewport (successful POST → Supabase `publicUrl`).
+- **Fix (#1039 follow-up):** `ensurePageConceptSourceCaptures` before open/confirm; viewport band **CAPTURE** when authority OK but source missing; human blocker copy naming missing Mobile/Desktop; reset overlay on page change.
+- **Branch:** `cursor/page-concept-capture-preflight-9f72`.
+
+---
+
+## 2026-09-20 — Tunnel showed older Design than GoDaddy (dev vs production dist)
+
+Founder: cloud **preview tunnel** regressed to an **older Design** than **site00.com**.
+
+- **Cause (not a Design code rollback):** Tunnel pointed at **Vite dev** (`npm run dev` on :5174) from a **stale cloud VM checkout** / long-lived `site00_vite` tmux session. **GoDaddy** serves **production `dist/`** from manual/GitHub Release ZIP. Different bundle + different commit → tunnel looked “behind.”
+- **Fix:** `.cursor/scripts/run-site00-cloud-preview-server.sh` — default **`vite preview`** of production **`dist/`** after `git fetch` + ff-only **`main`** + rebuild when HEAD ≠ `dist/release-manifest.json` `commitSha`. `environment.json` `site00-vite` terminal uses this script. Parity check: `/release-manifest.json` on tunnel vs site00.com.
+- **HMR for agents:** `SITE00_CLOUD_PREVIEW_MODE=dev`.
+- **Branch:** `cursor/tunnel-production-parity-9f72`.
+
+---
+
+## 2026-09-20 — Tunnel still wrong Design despite same commitSha (CI artifact vs VM build)
+
+Founder: CI **#462** deploy **2f78b3b** succeeded; preview tunnel still looked **older** than site00.com.
+
+- **Cause:** Preview served **VM `npm run build`** (`index.D42wYVRS.js`, `app-build-id=mu9w3hn0`) while GoDaddy had **CI artifact** (`index.CtFQ3tLv.js`, `app-build-id=2f78b3b403f2`). Same `commitSha` in manifest, **different bundles** — local build without `GITHUB_SHA` + different env ≠ Actions `deploy_frontend` output.
+- **Fix:** `download-site00-ci-production-dist.sh` + preview server mode **`ci`** (default): `gh run download` artifact `site00-production-dist` from latest successful `site00-production-deploy.yml` run for HEAD (else latest main). Copied to `dist/` → `vite preview :5174`. Verified public preview HTML matches site00.com bundle entry.
+- **Branch:** `cursor/tunnel-ci-artifact-sync-9f72`.
+
+---
+
+## 2026-09-20 — Restore Release #455 Design UX (11736da) vs #1039 viewport CAPTURE band
+
+Founder: agent sent **links not images**; tunnel/preview did not match **site00.com** reference (COMPILER **READY**, MOBILE/TABLET DERIVED/DESKTOP **OK**, filled **CURRENT**, authority **UNDER REVIEW**, concept **ENTRY001_v1.3**). Pointed to **Production Release #455** / commit **`11736da`** (PR #1032).
+
+- **Clarification:** Reference screenshot mixes **CI bundle** + **founder session** (Supabase production session → COMPILER READY; localStorage captures → CURRENT; authority workflow state). Preview `?designPreview=1` without sign-in shows **COMPILER: LOCAL/SYNC…** and **UNLOCKED** even on #455 artifact — not a wrong commit alone.
+- **UX regression after #455:** #1039 **`viewportControlsWithImplementationSource`** replaced viewport **OK** with **CAPTURE** when design authority existed but implementation source capture missing; #1042 added **build id** on COMPILER READY line.
+- **Restore (keep #1038 hydrate + GENERATE preflight logic):** `resolvePageViewportBundle` uses **`viewportControlPresentations` only** (Release #455 band); compiler header back to **`TWIN_OPUS_DIRECT_HEADER.compiler`** without `VITE_APP_BUILD_ID`. Test updated in `pageConceptCapturePreflight.test.ts`.
+- **Proof:** Pinned CI dist run **35510136949** (`index.bAGB-l_b.js`); Playwright screenshots under `/opt/cursor/artifacts/` (`design-restore-release455-proof-mobile.png`, founder reference copy).
+- **Branch:** `cursor/design-restore-release455-9f72`.
 
 ---
 

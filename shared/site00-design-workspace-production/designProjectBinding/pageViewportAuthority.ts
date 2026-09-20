@@ -2,6 +2,10 @@
  * P0.VR.DESIGN-VIEWPORT-AUTHORITY1 — page-scoped viewport design authority lookup.
  */
 
+import {
+  getPageConceptSourceCaptures,
+  isPageCaptureDisplayableArtifact,
+} from '../designPageCapture.js';
 import type { DesignBoundPageRecord } from './types.js';
 import { getDesignBoundPage } from './designPageRegistry.js';
 import type { DesignReadinessReceipt, ReadinessGateCheck } from '../types.js';
@@ -81,13 +85,31 @@ export function loadPageViewportAuthorities(
 }
 
 export function pageRecordToAuthorities(page: DesignBoundPageRecord): PageViewportAuthorities {
-  return {
+  return enrichAuthoritiesWithImplementationCaptures({
     projectId: page.projectId,
     pageId: page.pageId,
     mobileAuthorityUrl: page.mobilePreviewUrl,
     desktopAuthorityUrl: page.desktopPreviewUrl,
     tabletOverrideUrl: page.tabletOverridePreviewUrl ?? null,
     tabletDerivedUrl: page.tabletDerivedPreviewUrl ?? null,
+  });
+}
+
+/** Overlay Supabase/Railway implementation captures when static registry refs are missing. */
+export function enrichAuthoritiesWithImplementationCaptures(
+  auth: PageViewportAuthorities,
+): PageViewportAuthorities {
+  const { mobile, desktop } = getPageConceptSourceCaptures(auth.projectId, auth.pageId);
+  const pick = (registry: string | null, capture: string | null | undefined): string | null => {
+    if (registry?.trim()) return registry;
+    const path = capture?.trim();
+    if (path && isPageCaptureDisplayableArtifact(path)) return path;
+    return null;
+  };
+  return {
+    ...auth,
+    mobileAuthorityUrl: pick(auth.mobileAuthorityUrl, mobile?.artifactPath),
+    desktopAuthorityUrl: pick(auth.desktopAuthorityUrl, desktop?.artifactPath),
   };
 }
 
@@ -105,6 +127,28 @@ function tabletPreviewFromAuthorities(auth: PageViewportAuthorities): {
     return { mode: 'derived', src: auth.desktopAuthorityUrl };
   }
   return { mode: 'waiting', src: null };
+}
+
+/** Viewport band: show CAPTURE when design authority exists but implementation source capture does not. */
+export function viewportControlsWithImplementationSource(
+  projectId: string,
+  pageId: string,
+  controls: readonly ViewportControlPresentation[],
+): ViewportControlPresentation[] {
+  const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+  const hasSource = (viewport: PageViewportId): boolean => {
+    const rec = viewport === 'MOBILE' ? mobile : viewport === 'DESKTOP' ? desktop : null;
+    return Boolean(rec?.artifactPath && isPageCaptureDisplayableArtifact(rec.artifactPath));
+  };
+  return controls.map((row) => {
+    if (row.viewport === 'MOBILE' && !hasSource('MOBILE') && row.statusShort === 'OK') {
+      return { viewport: 'MOBILE', status: 'DESIGN_NEEDED', statusShort: 'CAPTURE' };
+    }
+    if (row.viewport === 'DESKTOP' && !hasSource('DESKTOP') && row.statusShort === 'OK') {
+      return { viewport: 'DESKTOP', status: 'DESIGN_NEEDED', statusShort: 'CAPTURE' };
+    }
+    return row;
+  });
 }
 
 export function viewportControlPresentations(auth: PageViewportAuthorities): ViewportControlPresentation[] {

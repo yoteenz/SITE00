@@ -316,3 +316,27 @@ export function TodPointingHandPlate({ className }: IconProps) {
     </svg>
   );
 }
+
+/** Opus launcher mark — an isometric cube, per the workspace control band reference. */
+export function TodIconCube({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <g {...STROKE}>
+        <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" />
+        <path d="M4 7.5l8 4.5 8-4.5M12 12v9" />
+      </g>
+    </svg>
+  );
+}
+
+/** Grok launcher mark — a six-point burst, per the workspace control band reference. */
+export function TodIconBurst({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <g {...STROKE}>
+        <path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9" />
+        <circle cx="12" cy="12" r="3.1" />
+      </g>
+    </svg>
+  );
+}

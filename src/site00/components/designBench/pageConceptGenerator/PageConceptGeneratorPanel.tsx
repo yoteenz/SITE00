@@ -47,6 +47,10 @@ export type PageConceptGeneratorPanelProps = {
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
   generateDisabledReason?: string | null;
+  generateBusyLabel?: string | null;
+  /** Surfaced verbatim in the footer; the shell never interprets it. */
+  notice?: string | null;
+  noticeTestId?: string;
   onGenerate?: () => void;
   onCancel?: () => void;
   onClose?: () => void;
@@ -243,6 +247,9 @@ export function PageConceptGeneratorPanel({
   results = {},
   generateDisabled,
   generateDisabledReason,
+  generateBusyLabel,
+  notice,
+  noticeTestId,
   onGenerate,
   onCancel,
   onClose,
@@ -303,6 +310,14 @@ export function PageConceptGeneratorPanel({
       </div>
 
       <footer className="s00-pcg__foot">
+        {notice ?
+          <p className="s00-pcg__notice" role="status" data-testid={noticeTestId}>
+            <span className="s00-pcg__noticeGlyph" aria-hidden="true">
+              <AiConsoleIcon name="status-error" size={11} />
+            </span>
+            {notice}
+          </p>
+        : null}
         <p className="s00-pcg__footNotes">
           <span className="s00-pcg__footNote">
             <span className="s00-pcg__footGlyph" aria-hidden="true">
@@ -324,7 +339,7 @@ export function PageConceptGeneratorPanel({
             <span className="s00-pcg__generateGlyph" aria-hidden="true">
               <AiConsoleIcon name="grok-generate" size={14} />
             </span>
-            {PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
+            {generateBusyLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
           </button>
           <button
             type="button"

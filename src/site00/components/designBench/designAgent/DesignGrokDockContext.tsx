@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 import { useDesignGrokEligibility } from '../opusDirect/DesignGrokEligibilityProvider';
+import { TodIconBurst, TodIconLock } from '../opusDirect/TwinOpusDirectIcons';
 import { useDesignAgentDock } from './DesignAgentDockContext';
 
 const GROK_CLOSE_EVENT = 'site00:design-grok-close';
@@ -75,14 +76,9 @@ export function DesignGrokOpenButton(props: { className?: string }) {
       data-grok-eligibility={eligibility.eligibility}
       onClick={toggle}
     >
-      <span className="tod-agent-iconBtn__glyph" aria-hidden="true">
-        G
-      </span>
-      {gated ?
-        <span className="tod-agent-iconBtn__lock" aria-hidden="true">
-          ·
-        </span>
-      : null}
+      <TodIconBurst className="tod-ico tod-agent-iconBtn__ico" />
+      <span className="tod-agent-iconBtn__label">GROK</span>
+      {gated ? <TodIconLock className="tod-ico tod-agent-iconBtn__lock" /> : null}
     </button>
   );
 }

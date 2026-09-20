@@ -48,6 +48,9 @@ import {
 
 export type AuthoritySyncStatus = 'HYDRATING' | 'SYNCED' | 'STALE' | 'UNAVAILABLE';
 
+/** Overlay → workspace channel for pipeline stage resolution requests. */
+export const DESIGN_PIPELINE_HANDLER_EVENT = 'site00:design-pipeline-handler';
+
 export type TwinOpusDirectProductionActions = {
   setOverlay: (overlay: DesignProductionUiOverlay) => void;
   openOverflowMenu: () => void;
@@ -100,6 +103,14 @@ export type TwinOpusDirectProductionActions = {
   openPageAssetsPanel: (assetId?: string) => void;
   openPageInteractionsInspector: () => void;
   openAmendmentDetail: () => void;
+  openResolveBlocker: () => void;
+  /**
+   * Overlays need the same stage/blocker resolution the main pipeline panel
+   * has. The switch lives once, in the workspace hook (it owns capture and
+   * scroll); this re-raises the request so a drawer CTA and the panel button
+   * cannot drift apart.
+   */
+  runPipelineHandler: (handler: string) => void;
   selectGalleryCandidate: (candidateId: string) => void;
   selectViewportCandidate: (viewport: 'MOBILE' | 'DESKTOP', candidateId: string, candidateVersion: string) => void;
   promoteViewportMaster: (viewport: 'MOBILE' | 'DESKTOP') => void;
@@ -389,6 +400,12 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         setOverlay('OV-PAGE-INTERACTIONS');
       },
       openAmendmentDetail: () => setOverlay('OV-AMENDMENT-DETAIL'),
+      openResolveBlocker: () => setOverlay('OV-RESOLVE-BLOCKER'),
+      runPipelineHandler: (handler) => {
+        window.dispatchEvent(
+          new CustomEvent(DESIGN_PIPELINE_HANDLER_EVENT, { detail: { handler } }),
+        );
+      },
       clearUiPayload: () => setUiPayload({}),
       selectGalleryCandidate: (candidateId) => {
         void runCommand(

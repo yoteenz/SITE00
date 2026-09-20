@@ -36,6 +36,8 @@ export function classifyHttpStatus(status: number): CaptureTransportErrorCode | 
   if (status === 401 || status === 403) return 'AUTH_FAILED';
   if (status === 404) return 'ENDPOINT_NOT_FOUND';
   if (status === 405) return 'METHOD_NOT_ALLOWED';
+  if (status === 413) return 'SERVER_5XX';
+  if (status === 422) return 'INVALID_API_RESPONSE';
   if (status >= 500) return 'SERVER_5XX';
   return null;
 }

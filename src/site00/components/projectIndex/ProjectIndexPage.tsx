@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { EmptyState } from '../pages/Site00PagePrimitives';
 import { useProjectIndex } from '../../hooks/useProjectIndex';
+import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
 import { useSite00 } from '../../state/Site00Context';
 import { SITE00_ROUTES } from '../../config/routes';
 import { ProjectsPageShell } from './ProjectsPageShell';
 import { ProjectIndexDesignCard } from './ProjectIndexDesignCard';
+import { ProjectIndexExperienceCard } from './ProjectIndexExperienceCard';
 import { ProjectIndexProjectCard } from './ProjectIndexProjectCard';
 import { ProjectIndexNewProjectCard } from './ProjectIndexNewProjectCard';
 import { ProjectIndexSkeletonGrid } from './ProjectIndexSkeleton';
@@ -34,6 +36,8 @@ function ProjectIndexProjectGrid({
 }
 
 export function ProjectIndexPage() {
+  const location = useLocation();
+  const signInHref = site00SignInHrefWithReturnTo(location);
   const isWide = useSite00OriginWideViewport();
   const { isPreviewDesktop } = useSite00();
   const isDesktop = isPreviewDesktop || isWide;
@@ -55,6 +59,9 @@ export function ProjectIndexPage() {
 
   const designRender = designItem
     ? resolveProjectsDesignItemForRender({ viewMode, designItem })
+    : null;
+  const experienceRender = viewData.experienceItem
+    ? resolveProjectsDesignItemForRender({ viewMode, designItem: viewData.experienceItem })
     : null;
 
   return (
@@ -91,6 +98,13 @@ export function ProjectIndexPage() {
               <ProjectIndexDesignCard item={designRender.item} interactive={designRender.interactive} />
             ) : null}
 
+            {viewData.showExperienceCard && experienceRender ? (
+              <ProjectIndexExperienceCard
+                item={experienceRender.item}
+                interactive={experienceRender.interactive}
+              />
+            ) : null}
+
             {state === 'error' ? (
               <div className="site00-pidx__error">
                 <EmptyState
@@ -103,6 +117,11 @@ export function ProjectIndexPage() {
                 <button type="button" className="site00-pidx__retry" onClick={reload}>
                   RETRY →
                 </button>
+                {error?.includes('SESSION EXPIRED') || error?.includes('NOT SIGNED IN') ? (
+                  <Link to={signInHref} className="site00-pidx__retry site00-pidx__retry--sign-in">
+                    SIGN IN AGAIN →
+                  </Link>
+                ) : null}
               </div>
             ) : null}
 

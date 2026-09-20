@@ -9,6 +9,7 @@ import {
   buildProfilePayloadForBackend,
   didLastProfileSyncError,
 } from '../../../utils/syncFromApi';
+import { getAccessToken } from '../../../utils/api';
 import { registerServerSessionCookie } from '../../../utils/sessionRestore';
 import { tryServerSessionRestore } from '../../../utils/sessionRestore';
 import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav';
@@ -41,6 +42,7 @@ function finishLocalAuthRecovery(): void {
 export function Site00AccountRouteGuard({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [recoveryDone, setRecoveryDone] = useState(false);
+  const [apiTokenReady, setApiTokenReady] = useState<boolean | null>(null);
   const isLoading = !recoveryDone;
   const timedOut = useGuardLoadingTimeout(isLoading, 'Site00AccountRouteGuard');
   const cloudPreview = isSite00CloudPreviewBuild();
@@ -50,10 +52,13 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     typeof window !== 'undefined' &&
     new URLSearchParams(location.search).get('goldenDiffCapture') === '1';
 
+  const designPreviewCapture =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(location.search).get('designPreview') === '1';
+
+  const allowUnauthenticatedCaptureSurface = goldenDiffCapture || designPreviewCapture;
+
   useEffect(() => {
-    const designPreviewCapture =
-      typeof window !== 'undefined' &&
-      new URLSearchParams(location.search).get('designPreview') === '1';
     if (designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
@@ -116,7 +121,25 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
           setRecoveryDone(true);
           return;
         }
-        finishLocalAuthRecovery();
+        const accessToken = await promiseWithTimeout(getAccessToken(), AUTH_STEP_TIMEOUT_MS, null);
+        if (cancelled) return;
+        if (accessToken) {
+          const { data: { session: recovered } } = await promiseWithTimeout(
+            supabase.auth.getSession(),
+            AUTH_STEP_TIMEOUT_MS,
+            { data: { session: null }, error: null },
+          );
+          if (recovered?.user) {
+            const minimal = buildMinimalUserFromSupabaseSession(recovered.user);
+            applyMinimalUserToStorage(minimal);
+            onSignInSuccess('session_restore');
+            registerServerSessionCookie(recovered.access_token, recovered.refresh_token);
+            localStorage.setItem('isSignedIn', 'true');
+            window.dispatchEvent(new CustomEvent('signInStateChanged', { detail: 'true' }));
+            setRecoveryDone(true);
+            return;
+          }
+        }
         setRecoveryDone(true);
         return;
       }
@@ -154,7 +177,21 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview, goldenDiffCapture, location.search]);
+  }, [cloudPreview, designPreviewCapture, goldenDiffCapture, location.search]);
+
+  useEffect(() => {
+    if (!recoveryDone || cloudPreview || allowUnauthenticatedCaptureSurface || !isSupabaseConfigured()) {
+      setApiTokenReady(true);
+      return;
+    }
+    let cancelled = false;
+    void getAccessToken().then((token) => {
+      if (!cancelled) setApiTokenReady(!!token);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [allowUnauthenticatedCaptureSurface, cloudPreview, goldenDiffCapture, recoveryDone]);
 
   if (timedOut && isLoading) {
     return (
@@ -175,8 +212,12 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     );
   }
 
+  if (apiTokenReady === false && isSignedIn() && !allowUnauthenticatedCaptureSurface) {
+    return <Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />;
+  }
+
   if (!isSignedIn()) {
-    if (goldenDiffCapture) {
+    if (allowUnauthenticatedCaptureSurface) {
       return <>{children}</>;
     }
     if (cloudPreview) {

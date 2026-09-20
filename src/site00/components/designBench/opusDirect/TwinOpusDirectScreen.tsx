@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { DesignPageTreeNavigator } from '../production/DesignPageTreeNavigator';
 import { DesignChildSurfaceFrame } from '../production/DesignChildSurfaceFrame';
 import { DesignProductionEmbeddedProvider } from '../production/DesignProductionEmbeddedContext';
+import { ShellFormatProvider } from '../production/designProjectSurfaceKit';
 import {
   DesignProductionSectionInShell,
   designProductionSectionSubtitle,
@@ -39,6 +40,7 @@ import DesignGrokDock from '../designAgent/DesignGrokDock';
 import { DesignGrokEligibilityProvider } from './DesignGrokEligibilityProvider';
 import { resolveDesignPageTargetForShell } from '../production/designProductionPageTarget';
 import { TwinOpusDirectViewModeControl } from './TwinOpusDirectViewModeControl';
+import { PageConceptGenerationOverlay } from './PageConceptGenerationOverlay';
 import {
   TodIconBolt,
   TodIconCaretDown,
@@ -133,6 +135,21 @@ function viewRowBoost(scale: number) {
   return scale < 1 ? 1 / scale : 1;
 }
 
+/**
+ * P0.VR.DESIGN.OPUS-PROJECT-TABS1 — the artboard is always 768 logical pixels
+ * wide; only its logical *height* changes with the viewport. A CSS media query
+ * inside it therefore always sees the same width and can never tell a phone
+ * from a workstation. The shell publishes the format instead, so a project
+ * surface can lay out as a two- or three-pane workbench on a wide screen and
+ * as a single scroll on a tall one.
+ *
+ * `wide` is decided by the artboard's own aspect rather than by device width,
+ * because that is the thing that actually determines whether columns fit.
+ */
+function shellFormat(height: number): 'wide' | 'tall' {
+  return height > 0 && ART_W / height >= 1.05 ? 'wide' : 'tall';
+}
+
 export function TwinOpusDirectScreen({
   projectSlug = 'ndxbook',
   workspaceRole = 'production-provisional',
@@ -168,7 +185,9 @@ export function TwinOpusDirectScreen({
         onClose={() => nav.goWorkspace()}
       >
         <DesignProductionEmbeddedProvider embedded>
-          <DesignProductionSectionInShell section={nav.activeSection} />
+          <ShellFormatProvider format={shellFormat(shell.height)}>
+            <DesignProductionSectionInShell section={nav.activeSection} />
+          </ShellFormatProvider>
         </DesignProductionEmbeddedProvider>
       </DesignChildSurfaceFrame>
     : null;
@@ -188,6 +207,7 @@ export function TwinOpusDirectScreen({
           data-design-surface={workspaceRole}
           data-founder-review-mode={founderReviewMode ? 'true' : 'false'}
           data-view-mode={viewMode}
+          data-shell-format={shellFormat(shell.height)}
           style={{
             height: `${shell.height}px`,
             transform: `scale(${shell.scale})`,
@@ -371,6 +391,17 @@ export function TwinOpusDirectScreen({
         </div>
       </div>
       <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />
+      <PageConceptGenerationOverlay
+        open={workspace.pageConceptGeneration.overlayOpen}
+        mode={workspace.pageConceptGeneration.overlayMode}
+        plan={workspace.pageConceptGeneration.pendingPlan}
+        status={workspace.pageConceptGeneration.generationStatus}
+        error={workspace.pageConceptGeneration.error}
+        generating={workspace.pageConceptGeneration.generating}
+        confirmReady={workspace.pageConceptGeneration.ready}
+        onCancel={workspace.pageConceptGeneration.cancelGeneration}
+        onConfirm={() => void workspace.pageConceptGeneration.confirmGeneration()}
+      />
       <DesignGrokDock projectSlug={projectSlug} />
     </div>
     </DesignGrokEligibilityProvider>

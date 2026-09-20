@@ -73,6 +73,10 @@ describe('P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1', () => {
     expect(read('src/site00/components/designBench/opusDirect/useDesignPageCapture.ts')).toContain(
       'resolveFounderCaptureBaseUrl',
     );
+    expect(read('src/site00/components/designBench/opusDirect/useDesignPageCapture.ts')).toContain('captureApiFetch');
+    expect(read('src/site00/components/designBench/opusDirect/useDesignPageCapture.ts')).not.toMatch(
+      /fetch\s*\(\s*['`]\/api\/site00\/implementation-snapshots/,
+    );
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr3e/implementationSnapshotCaptureEngine.ts')).toContain(
       'bootstrapManagedDesignProject',
     );

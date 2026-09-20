@@ -85,6 +85,9 @@ const EvolveOperationsPage = lazy(() => import('../site00/pages/control/EvolveOp
 const SitesPortfolioPage = lazy(() => import('../site00/pages/SitesPortfolioPage'));
 const ServicesPage = lazy(() => import('../site00/pages/ServicesPage'));
 const SystemPage = lazy(() => import('../site00/pages/SystemPage'));
+const SystemDesignWorkspaceConceptsPage = lazy(
+  () => import('../site00/pages/SystemDesignWorkspaceConceptsPage'),
+);
 const AboutPage = lazy(() => import('../site00/pages/AboutPage'));
 const JournalPage = lazy(() => import('../site00/pages/JournalPage'));
 const ProjectsPage = lazy(() => import('../site00/pages/ProjectsPage'));
@@ -93,7 +96,7 @@ const ProjectOperatingModulePage = lazy(() => import('../site00/pages/ProjectOpe
 const ProjectEvolveTabRedirectPage = lazy(() => import('../site00/pages/ProjectEvolveTabRedirectPage'));
 const ProjectOriginPage = lazy(() => import('../site00/pages/ProjectOriginPage'));
 const ProjectIdentityPage = lazy(() => import('../site00/pages/ProjectIdentityPage'));
-const ProjectAstralWorldExperiencePage = lazy(() => import('../site00/pages/ProjectAstralWorldExperiencePage'));
+const ProjectExperienceModuleGate = lazy(() => import('../site00/experience/ProjectExperienceModuleGate'));
 const ProjectAstralWorldFastTrackPage = lazy(() => import('../site00/pages/ProjectAstralWorldFastTrackPage'));
 const ReconstructionTwinPreviewPage = lazy(() => import('../site00/pages/ReconstructionTwinPreviewPage'));
 const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/ConceptDirectedTwinV2PreviewPage'));
@@ -771,6 +774,16 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.sites, SitesPortfolioPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.services, ServicesPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.system, SystemPage)}
+      <Route
+        path={SITE00_ROUTES.systemDesignWorkspaceConcepts}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <SystemDesignWorkspaceConceptsPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
       {Site00PublicPageRoutes(SITE00_ROUTES.about, AboutPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.journal, JournalPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.support, SupportPage)}
@@ -940,11 +953,13 @@ export function Site00Routes() {
       <Route
         path={SITE00_ROUTES.projectExperience}
         element={
-          <AstralWorldRouteGuard>
-            <Site00Suspense>
-              <ProjectAstralWorldExperiencePage />
-            </Site00Suspense>
-          </AstralWorldRouteGuard>
+          <Site00Layout>
+            <AstralWorldRouteGuard>
+              <Site00Suspense>
+                <ProjectExperienceModuleGate />
+              </Site00Suspense>
+            </AstralWorldRouteGuard>
+          </Site00Layout>
         }
       />
       <Route

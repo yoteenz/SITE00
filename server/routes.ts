@@ -47,6 +47,9 @@ import site00TwinV3DesignPageAuthorityHandler from '../api/site00/twin-v3-design
 import site00TwinV3MobileTwinPipelineHandler from '../api/site00/twin-v3-mobile-twin-pipeline.js';
 import site00TwinV3MobileTwinImplementationHandler from '../api/site00/twin-v3-mobile-twin-implementation.js';
 import site00DesignWorkspaceProductionHandler from '../api/site00/design-workspace-production.js';
+import site00WorkspaceSelfCaptureHandler from '../api/site00/workspace-self-capture.js';
+import site00WorkspaceSelfConceptGenerationHandler from '../api/site00/workspace-self-concept-generation.js';
+import site00PageConceptGenerationHandler from '../api/site00/page-concept-generation.js';
 import site00TwinV3ForensicUiBlueprintHandler from '../api/site00/twin-v3-forensic-ui-blueprint.js';
 import site00SolDesignBenchHandler from '../api/site00/sol-design-bench.js';
 import site00OpusNativeHandler from '../api/site00/opus-native.js';
@@ -102,6 +105,9 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/twin-v3-mobile-twin-pipeline', handler: site00TwinV3MobileTwinPipelineHandler },
   { path: '/api/site00/twin-v3-mobile-twin-implementation', handler: site00TwinV3MobileTwinImplementationHandler },
   { path: '/api/site00/design-workspace-production', handler: site00DesignWorkspaceProductionHandler },
+  { path: '/api/site00/workspace-self-capture', handler: site00WorkspaceSelfCaptureHandler },
+  { path: '/api/site00/workspace-self-concept-generation', handler: site00WorkspaceSelfConceptGenerationHandler },
+  { path: '/api/site00/page-concept-generation', handler: site00PageConceptGenerationHandler },
   { path: '/api/site00/twin-v3-forensic-ui-blueprint', handler: site00TwinV3ForensicUiBlueprintHandler },
   { path: '/api/site00/sol-design-bench', handler: site00SolDesignBenchHandler },
   { path: '/api/site00/opus-native', handler: site00OpusNativeHandler },

@@ -18,8 +18,8 @@ import {
   PAGE_CONCEPT_STAGE_STATES,
   PAGE_CONCEPT_STATE_LABEL,
   pageConceptGeneratorTargetLine,
+  pageConceptStageStatesForRun,
 } from '../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
-import { DESIGN_CHILD_SURFACE_PLACEMENT } from '../shared/site00-design-workspace-production/childSurfacePresentation.js';
 
 const ROOT = join(import.meta.dirname, '..');
 
@@ -28,7 +28,7 @@ function read(rel: string): string {
 }
 
 const PANEL = 'src/site00/components/designBench/pageConceptGenerator/PageConceptGeneratorPanel.tsx';
-const OVERLAY = 'src/site00/components/designBench/pageConceptGenerator/PageConceptGeneratorOverlay.tsx';
+const OVERLAY = 'src/site00/components/designBench/opusDirect/PageConceptGenerationOverlay.tsx';
 const CSS = 'src/site00/styles/site00-page-concept-generator.css';
 
 describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
@@ -128,12 +128,35 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     }
   });
 
-  it('mounts as a modal child surface from the gallery control', () => {
-    expect(DESIGN_CHILD_SURFACE_PLACEMENT['OV-GENERATE-PAGE-CONCEPTS']?.mode).toBe('MODAL');
-    const overlays = read('src/site00/components/designBench/opusDirect/TwinOpusDirectOverlays.tsx');
-    expect(overlays).toContain('OV-GENERATE-PAGE-CONCEPTS');
-    expect(overlays).toContain('PageConceptGeneratorOverlay');
+  it('is the presentation of the existing pipeline pop-up, with its props intact', () => {
+    const overlay = read(OVERLAY);
+    expect(overlay).toContain('PageConceptGeneratorPanel');
+    expect(overlay).toContain('data-testid="page-concept-generation-overlay"');
+    expect(overlay).toContain('page-concept-generation-blocked');
+    for (const prop of ['plan', 'status', 'error', 'generating', 'confirmReady', 'onCancel', 'onConfirm']) {
+      expect(overlay).toContain(prop);
+    }
     const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
-    expect(workspace).toContain("setOverlay('OV-GENERATE-PAGE-CONCEPTS')");
+    expect(workspace).toContain('openGenerationConfirm');
+  });
+
+  it('projects run status onto stage states without inventing progress', () => {
+    expect(pageConceptStageStatesForRun({ status: 'IDLE' })).toEqual({
+      CGPT: 'READY',
+      GPT2: 'PENDING',
+      NBP: 'PENDING',
+    });
+    expect(pageConceptStageStatesForRun({ status: 'GPT2_RUNNING' })).toEqual({
+      CGPT: 'COMPLETE',
+      GPT2: 'ACTIVE',
+      NBP: 'PENDING',
+    });
+    expect(pageConceptStageStatesForRun({ status: 'PARTIAL_GENERATION' }).NBP).toBe('PARTIAL');
+    expect(pageConceptStageStatesForRun({ status: 'READY_FOR_FOUNDER_REVIEW' })).toEqual({
+      CGPT: 'COMPLETE',
+      GPT2: 'COMPLETE',
+      NBP: 'COMPLETE',
+    });
+    expect(pageConceptStageStatesForRun({ status: 'NBP_RUNNING', failed: true }).NBP).toBe('FAILED');
   });
 });
