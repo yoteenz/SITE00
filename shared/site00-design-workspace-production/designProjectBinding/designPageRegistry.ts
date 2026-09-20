@@ -22,8 +22,12 @@ const NDX_MOBILE_REFERENCE: Record<string, string> = {
   'bottom-nav-icons': '/visual-references/founder/ndxbook/ndx-icon-reference-sheet-p0ui3d.jpg',
 };
 
+const NDX_DESKTOP_OVERVIEW_REF =
+  '/visual-references/founder/ndxbook/desktop-overview-composite-reference.png';
+
 const NDX_DESKTOP_REFERENCE: Partial<Record<string, string>> = {
-  'desktop-overview': '/visual-references/founder/ndxbook/desktop-overview-composite-reference.png',
+  overview: NDX_DESKTOP_OVERVIEW_REF,
+  'desktop-overview': NDX_DESKTOP_OVERVIEW_REF,
 };
 
 /** Parent map derived from NDXBOOK route structure (not invented pages). */

@@ -2,6 +2,10 @@
  * P0.VR.DESIGN-VIEWPORT-AUTHORITY1 — page-scoped viewport design authority lookup.
  */
 
+import {
+  getPageConceptSourceCaptures,
+  isPageCaptureDisplayableArtifact,
+} from '../designPageCapture.js';
 import type { DesignBoundPageRecord } from './types.js';
 import { getDesignBoundPage } from './designPageRegistry.js';
 import type { DesignReadinessReceipt, ReadinessGateCheck } from '../types.js';
@@ -81,13 +85,31 @@ export function loadPageViewportAuthorities(
 }
 
 export function pageRecordToAuthorities(page: DesignBoundPageRecord): PageViewportAuthorities {
-  return {
+  return enrichAuthoritiesWithImplementationCaptures({
     projectId: page.projectId,
     pageId: page.pageId,
     mobileAuthorityUrl: page.mobilePreviewUrl,
     desktopAuthorityUrl: page.desktopPreviewUrl,
     tabletOverrideUrl: page.tabletOverridePreviewUrl ?? null,
     tabletDerivedUrl: page.tabletDerivedPreviewUrl ?? null,
+  });
+}
+
+/** Overlay Supabase/Railway implementation captures when static registry refs are missing. */
+export function enrichAuthoritiesWithImplementationCaptures(
+  auth: PageViewportAuthorities,
+): PageViewportAuthorities {
+  const { mobile, desktop } = getPageConceptSourceCaptures(auth.projectId, auth.pageId);
+  const pick = (registry: string | null, capture: string | null | undefined): string | null => {
+    if (registry?.trim()) return registry;
+    const path = capture?.trim();
+    if (path && isPageCaptureDisplayableArtifact(path)) return path;
+    return null;
+  };
+  return {
+    ...auth,
+    mobileAuthorityUrl: pick(auth.mobileAuthorityUrl, mobile?.artifactPath),
+    desktopAuthorityUrl: pick(auth.desktopAuthorityUrl, desktop?.artifactPath),
   };
 }
 
