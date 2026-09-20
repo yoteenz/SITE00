@@ -31,6 +31,7 @@ import {
   type PageConceptStageShell,
   type PageConceptStageState,
 } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
+import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import '../../../styles/site00-page-concept-generator.css';
 
@@ -53,6 +54,8 @@ export type PageConceptGeneratorPanelProps = {
   projectLabel: string;
   pageLabel: string;
   sourceCaptureLines?: readonly PageConceptSourceCapturePresentation[];
+  /** Final render guard — when true, capture-related notices are suppressed. */
+  sourceCapturesReady?: boolean;
   stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
@@ -264,6 +267,7 @@ export function PageConceptGeneratorPanel({
   projectLabel,
   pageLabel,
   sourceCaptureLines,
+  sourceCapturesReady = false,
   stageStates,
   results = {},
   generateDisabled,
@@ -285,6 +289,10 @@ export function PageConceptGeneratorPanel({
   const dismiss = onCancel ?? onClose;
   const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
   const footSpendMicro = pageConceptGeneratorFootSpendShowsMicroSummary(footSpendNote);
+  const founderNotice = sanitizePageConceptFounderNotice({
+    notice,
+    sourceCapturesReady,
+  });
 
   return (
     <section
@@ -357,9 +365,9 @@ export function PageConceptGeneratorPanel({
             {reviewBanner}
           </p>
         : null}
-        {notice ?
+        {founderNotice ?
           (() => {
-            const lines = pageConceptGeneratorNoticeLines(notice);
+            const lines = pageConceptGeneratorNoticeLines(founderNotice);
             return (
               <p
                 className="s00-pcg__notice"

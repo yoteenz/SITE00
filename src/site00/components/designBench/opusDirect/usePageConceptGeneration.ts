@@ -16,6 +16,7 @@ import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-des
 import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
   derivePageConceptGenerationBlockingState,
+  isPageConceptSourceCaptureRelatedNotice,
   sanitizePageConceptExecutionError,
   type PageConceptGenerationBlockingState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
@@ -228,6 +229,17 @@ export function usePageConceptGeneration(
     },
     [],
   );
+
+  useEffect(() => {
+    if (!generationEligibility.sourceCaptureValidation.allRequiredReady) return;
+    setExecutionError((prev) => sanitizePageConceptExecutionError(generationEligibility, prev));
+    persist((s) => {
+      if (!s.lastFailure?.message || !isPageConceptSourceCaptureRelatedNotice(s.lastFailure.message)) {
+        return s;
+      }
+      return { ...s, lastFailure: null };
+    });
+  }, [generationEligibility, persist]);
 
   const openGenerationConfirm = useCallback(async () => {
     setExecutionError(null);
