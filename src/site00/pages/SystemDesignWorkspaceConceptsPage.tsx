@@ -11,6 +11,7 @@ import { latestCaptureForViewport } from '../../../shared/site00-design-workspac
 import { SITE00_ROUTES } from '../config/routes';
 import { useWorkspaceSelfConcept } from '../hooks/useWorkspaceSelfConcept';
 import { resolveCaptureArtifactDisplayUrl } from '../services/workspaceSelfArtifactStorage';
+import { WorkspaceSelfAuthorityPairPanel } from '../components/workspaceSelf/WorkspaceSelfAuthorityPairPanel';
 import '../styles/site00-workspace-self-concept.css';
 
 function CapturePreview({ capture }: { capture: ReturnType<typeof latestCaptureForViewport> }) {
@@ -212,7 +213,8 @@ export function SystemDesignWorkspaceConceptsPage() {
         </p>
       </section>
 
-      <section>
+      <div className="site00-wssc__mainWithRail">
+        <section className="site00-wssc__mainCol">
         <h2>Workspace concept candidates (3 slots)</h2>
         <div className="site00-wssc__grid site00-wssc__grid--3">
           {WORKSPACE_CONCEPT_SLOT_IDS.map((id) => {
@@ -268,6 +270,15 @@ export function SystemDesignWorkspaceConceptsPage() {
           </button>
         </div>
       </section>
+
+        <WorkspaceSelfAuthorityPairPanel
+          state={ws.state}
+          canPromoteMobile={canPromoteMobile}
+          canPromoteDesktop={canPromoteDesktop}
+          onPromoteMobile={() => ws.promoteMobile()}
+          onPromoteDesktop={() => ws.promoteDesktop()}
+        />
+      </div>
 
       <section>
         <h2>Pair review &amp; authority</h2>

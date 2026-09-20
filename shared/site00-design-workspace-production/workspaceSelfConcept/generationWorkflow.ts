@@ -108,10 +108,9 @@ export function mergeGenerationArtifactsIntoConcepts(
         mobileArtifactPath: mobileJob?.artifactPath ?? mobileJob?.imageUri ?? c.mobileArtifactPath,
         desktopArtifactPath: desktopJob?.artifactPath ?? desktopJob?.imageUri ?? c.desktopArtifactPath,
         status:
-          mobileJob?.status === 'READY' && desktopJob?.status === 'READY' ?
+          mobileJob?.status === 'READY' || desktopJob?.status === 'READY' ?
             ('STAGED' as const)
-          : c.status === 'EMPTY' ? c.status
-          : ('STAGED' as const),
+          : c.status,
       };
     });
   }
