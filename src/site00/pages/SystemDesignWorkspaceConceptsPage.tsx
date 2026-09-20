@@ -159,8 +159,13 @@ export function SystemDesignWorkspaceConceptsPage() {
               <strong>TARGET:</strong> {ws.pendingPlan.targetLabel}
             </p>
             <p>
-              <strong>CONCEPTS:</strong> {ws.pendingPlan.conceptCount} · <strong>OUTPUTS:</strong>{' '}
-              {ws.pendingPlan.outputCount} · <strong>VIEWPORTS:</strong> Mobile + Desktop
+              <strong>CREATIVE CONTEXT CALLS:</strong> {ws.pendingPlan.cgptCalls} CGPT ·{' '}
+              <strong>CONCEPT AUTHORING:</strong> {ws.pendingPlan.gpt2Calls} GPT2 ·{' '}
+              <strong>NBP IMAGE JOBS:</strong> {ws.pendingPlan.nbpJobs}
+            </p>
+            <p>
+              <strong>CONCEPTS:</strong> {ws.pendingPlan.conceptCount} · <strong>ARTIFACTS:</strong>{' '}
+              {ws.pendingPlan.outputCount} (Mobile + Desktop per concept)
             </p>
             <p>
               <strong>CREATIVE LAYER:</strong> {ws.pendingPlan.creativeLayer} · <strong>RENDERER:</strong>{' '}

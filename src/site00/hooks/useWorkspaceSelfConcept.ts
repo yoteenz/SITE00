@@ -24,7 +24,7 @@ import {
   selectViewportConcept,
   stageConceptArtifact,
   evaluateNbpHandoffReadiness,
-  applyCreativeBriefSet,
+  applyCreativePipelineSet,
   beginWorkspaceConceptSet,
   mergeGenerationArtifactsIntoConcepts,
   registerGenerationJobs,
@@ -176,11 +176,11 @@ export function useWorkspaceSelfConcept() {
       const jobsWithPaths = persistJobArtifacts([...result.jobs]);
 
       run((s) => {
-        let next = applyCreativeBriefSet(s, result.creativeBriefSet);
+        let next = applyCreativePipelineSet(s, result.pipelineSet);
         next = beginWorkspaceConceptSet(next, {
           captureSetId: result.plan.captureSetId,
           functionContractId: result.plan.functionContractId,
-          creativeBriefSetId: result.creativeBriefSet.creativeBriefSetId,
+          creativeBriefSetId: result.pipelineSet.pipelineSetId,
           createdBy: actorEmail,
         });
         next = registerGenerationJobs(next, jobsWithPaths);

@@ -6,10 +6,10 @@ import type { DesignTargetType } from '../designTargetModel.js';
 import type { WorkspaceSelfSourceContext } from './sourceContext.js';
 import type {
   WorkspaceSelfConceptSet,
-  WorkspaceSelfCreativeBriefSet,
   WorkspaceSelfGeneratedArtifact,
   WorkspaceSelfGenerationStatus,
 } from './generationTypes.js';
+import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
 
 export type NbpHandoffReadiness =
   | 'READY_FOR_NBP'
@@ -180,7 +180,7 @@ export type WorkspaceSelfWorkflowState = {
   opusShellPackage: OpusDesignShellPackage | null;
   composerHandoff: ComposerWorkspaceHandoffPackage | null;
   conceptSet: WorkspaceSelfConceptSet | null;
-  creativeBriefSet: WorkspaceSelfCreativeBriefSet | null;
+  creativePipelineSet: WorkspaceSelfCreativePipelineSet | null;
   generationJobs: readonly WorkspaceSelfGeneratedArtifact[];
   generationStatus: WorkspaceSelfGenerationStatus;
   lastGenerationFailure: WorkspaceSelfCaptureFailure | null;

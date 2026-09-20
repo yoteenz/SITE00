@@ -45,7 +45,7 @@ export async function runWorkspaceSelfConceptGeneration(input: {
       retryArtifactIds: input.retryArtifactIds,
     },
   });
-  if (!result.ok || !result.data?.creativeBriefSet) {
+  if (!result.ok || !result.data?.pipelineSet) {
     throw new Error(result.data?.error ?? result.errorCode ?? 'GENERATION_FAILED');
   }
   return result.data;

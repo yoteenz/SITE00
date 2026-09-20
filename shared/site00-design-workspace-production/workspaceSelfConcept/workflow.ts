@@ -51,7 +51,7 @@ export function createInitialWorkspaceSelfState(): WorkspaceSelfWorkflowState {
     opusShellPackage: null,
     composerHandoff: null,
     conceptSet: null,
-    creativeBriefSet: null,
+    creativePipelineSet: null,
     generationJobs: [],
     generationStatus: 'IDLE',
     lastGenerationFailure: null,

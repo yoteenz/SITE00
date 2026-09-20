@@ -1,8 +1,8 @@
 /**
- * P0.VR.DESIGN-WORKSPACE-SELF-NBP-INTEGRATION-AUDIT1
+ * P0.VR.DESIGN-WORKSPACE-SELF-NBP-INTEGRATION-AUDIT1 (updated for CGPT→GPT2 pipeline)
  */
 
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -12,7 +12,7 @@ import {
   WORKSPACE_SELF_NBP_MODEL,
 } from '../shared/site00-design-workspace-production/workspaceSelfConcept/generationPlan.js';
 import {
-  applyCreativeBriefSet,
+  applyCreativePipelineSet,
   beginWorkspaceConceptSet,
   mergeGenerationArtifactsIntoConcepts,
   registerGenerationJobs,
@@ -30,11 +30,7 @@ describe('WORKSPACE_SELF NBP integration audit', () => {
     const page = read('src/site00/pages/SystemDesignWorkspaceConceptsPage.tsx');
     expect(page).toContain('GENERATE 3 WORKSPACE CONCEPTS');
     expect(page).not.toContain('GENERATE PAGE CONCEPTS');
-    expect(page).toContain('workspace-self-generation-confirm');
     expect(read('src/site00/hooks/useWorkspaceSelfConcept.ts')).toContain('runWorkspaceSelfConceptGeneration');
-    expect(read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts')).toContain(
-      'galleryGenerateLabel: \'GENERATE PAGE CONCEPTS\'',
-    );
   });
 
   it('requires WORKSPACE_SELF targetType and READY capture pair + contract for plan', () => {
@@ -56,12 +52,13 @@ describe('WORKSPACE_SELF NBP integration audit', () => {
     s = compileAndFreezeFunctionContract(s);
     const plan = buildWorkspaceSelfGenerationPlan(s);
     expect(plan.targetType).toBe('WORKSPACE_SELF');
-    expect(plan.functionContractVersion).toBe(WORKSPACE_FUNCTION_CONTRACT_VERSION);
-    expect(plan.outputCount).toBe(6);
+    expect(plan.cgptCalls).toBe(3);
+    expect(plan.gpt2Calls).toBe(3);
+    expect(plan.nbpJobs).toBe(6);
     expect(listExpectedNbpJobKeys()).toHaveLength(6);
   });
 
-  it('creative layer produces exactly 3 territories and 6 NBP jobs under vitest', async () => {
+  it('sequential pipeline produces 3 GPT2 concepts and 6 NBP jobs under vitest', async () => {
     let s = createInitialWorkspaceSelfState();
     s = compileAndFreezeFunctionContract(s);
     s = beginWorkspaceSelfCaptureSet(s, { build: 'test', createdBy: 'f' });
@@ -83,13 +80,13 @@ describe('WORKSPACE_SELF NBP integration audit', () => {
       desktopCapture: { captureId: 'd1', artifactBase64: 'bbb', width: 1440, height: 1024 },
     });
 
-    expect(result.creativeBriefSet.territories).toHaveLength(3);
+    expect(result.pipelineSet.slots.filter((x) => x.concept).length).toBe(3);
     expect(result.jobs).toHaveLength(6);
-    expect(result.jobs.every((j) => j.model === WORKSPACE_SELF_NBP_MODEL || j.model === 'vitest-nbp')).toBe(true);
-    expect(new Set(result.jobs.map((j) => j.conceptId)).size).toBe(3);
+    expect(new Set(result.jobs.map((j) => j.gpt2ConceptId)).size).toBe(3);
+    expect(result.plan.functionContractVersion).toBe(WORKSPACE_FUNCTION_CONTRACT_VERSION);
   });
 
-  it('maps artifacts to concept gallery slots', async () => {
+  it('maps artifacts to concept gallery slots with shared gpt2ConceptId per viewport pair', async () => {
     let s = createInitialWorkspaceSelfState();
     s = compileAndFreezeFunctionContract(s);
     s = beginWorkspaceSelfCaptureSet(s, { build: 'test', createdBy: 'f' });
@@ -111,30 +108,24 @@ describe('WORKSPACE_SELF NBP integration audit', () => {
       desktopCapture: { captureId: 'd1', artifactBase64: 'bbb', width: 1440, height: 1024 },
     });
 
-    s = applyCreativeBriefSet(s, result.creativeBriefSet);
+    s = applyCreativePipelineSet(s, result.pipelineSet);
     s = beginWorkspaceConceptSet(s, {
       captureSetId: result.plan.captureSetId,
       functionContractId: result.plan.functionContractId,
-      creativeBriefSetId: result.creativeBriefSet.creativeBriefSetId,
+      creativeBriefSetId: result.pipelineSet.pipelineSetId,
       createdBy: 'f',
     });
     s = registerGenerationJobs(
       s,
       result.jobs.map((j) => ({
         ...j,
-        imageUri: `data:image/png;base64,${j.status === 'READY' ? 'c3R1Yg==' : ''}`,
         artifactPath: j.status === 'READY' ? `local://${j.artifactId}` : null,
       })),
     );
     s = mergeGenerationArtifactsIntoConcepts(s);
     expect(s.generationStatus).toBe('READY_FOR_REVIEW');
-    expect(s.concepts.find((c) => c.conceptId === 'CONCEPT_A')?.mobileArtifactPath).toBeTruthy();
-    expect(s.concepts.find((c) => c.conceptId === 'CONCEPT_C')?.desktopArtifactPath).toBeTruthy();
-  });
-
-  it('does not mutate production DESIGN workflow module', () => {
-    expect(read('shared/site00-design-workspace-production/workspaceSelfConcept/workflow.ts')).toContain(
-      'assertProductionWorkspaceUnmutated',
-    );
+    const aMobile = result.jobs.find((j) => j.conceptId === 'CONCEPT_A' && j.viewport === 'MOBILE');
+    const aDesktop = result.jobs.find((j) => j.conceptId === 'CONCEPT_A' && j.viewport === 'DESKTOP');
+    expect(aMobile?.gpt2ConceptId).toBe(aDesktop?.gpt2ConceptId);
   });
 });

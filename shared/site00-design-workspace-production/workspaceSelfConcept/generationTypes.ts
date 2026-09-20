@@ -1,4 +1,5 @@
 import type { WorkspaceConceptSlotId } from './types.js';
+import type { WorkspaceSelfCreativePipelineSet } from './creativePipelineTypes.js';
 
 export type WorkspaceSelfGenerationStatus =
   | 'IDLE'
@@ -13,6 +14,7 @@ export type WorkspaceSelfGenerationStatus =
   | 'PARTIAL_GENERATION'
   | 'READY_FOR_REVIEW';
 
+/** @deprecated Use WorkspaceSingleConceptBrief — kept for migration reads */
 export type WorkspaceSelfTerritoryBrief = {
   territoryId: string;
   conceptSlotId: WorkspaceConceptSlotId;
@@ -27,17 +29,6 @@ export type WorkspaceSelfTerritoryBrief = {
   visualDirection: string;
 };
 
-export type WorkspaceSelfCreativeBriefSet = {
-  creativeBriefSetId: string;
-  targetId: string;
-  captureSetId: string;
-  functionContractId: string;
-  creativeLayerModel: 'CGPT/GPT2';
-  provider: string;
-  territories: readonly WorkspaceSelfTerritoryBrief[];
-  createdAt: string;
-};
-
 export type WorkspaceSelfNbpJobStatus = 'PENDING' | 'RUNNING' | 'READY' | 'FAILED';
 
 export type WorkspaceSelfGeneratedArtifact = {
@@ -48,6 +39,8 @@ export type WorkspaceSelfGeneratedArtifact = {
   captureSetId: string;
   functionContractId: string;
   creativeBriefSetId: string;
+  creativeDirectionId: string;
+  gpt2ConceptId: string;
   provider: 'NBP';
   model: string;
   providerJobId: string | null;
@@ -77,7 +70,7 @@ export type WorkspaceSelfConceptSet = {
 
 export type WorkspaceSelfGenerationRunResult = {
   plan: WorkspaceSelfGenerationPlan;
-  creativeBriefSet: WorkspaceSelfCreativeBriefSet;
+  pipelineSet: WorkspaceSelfCreativePipelineSet;
   jobs: readonly WorkspaceSelfGeneratedArtifact[];
 };
 
@@ -87,12 +80,16 @@ export type WorkspaceSelfGenerationPlan = {
   targetLabel: string;
   conceptCount: 3;
   outputCount: 6;
+  cgptCalls: 3;
+  gpt2Calls: 3;
+  nbpJobs: 6;
   viewports: readonly ['MOBILE', 'DESKTOP'];
-  creativeLayer: 'CGPT/GPT2';
+  creativeLayer: 'CGPT + GPT2';
   renderer: 'NBP';
   captureSetId: string;
   functionContractId: string;
   functionContractVersion: string;
   nbpModel: string;
+  nbpPromptVersion: string;
   estimatedCostNote: string;
 };
