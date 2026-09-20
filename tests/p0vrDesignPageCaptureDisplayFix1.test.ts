@@ -14,6 +14,7 @@ describe('page capture display artifact guard', () => {
 
   it('rejects live route URLs saved from failed snapshots', () => {
     expect(isPageCaptureDisplayableArtifact('https://site00.com/projects/ndxbook')).toBe(false);
+    expect(isPageCaptureDisplayableArtifact('/projects/ndxbook/overview')).toBe(false);
     expect(pageCaptureDisplaySrc('https://site00.com/projects/ndxbook')).toBeNull();
   });
 });

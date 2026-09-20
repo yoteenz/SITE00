@@ -55,11 +55,9 @@ export function mergeImplementationSnapshotIntoPageCapture(
   if (existing?.captureId === incoming.captureId && existing.artifactPath === incoming.artifactPath) {
     return existing;
   }
-  if (
-    existing?.artifactPath &&
-    isPageCaptureDisplayableArtifact(existing.artifactPath) &&
-    existing.timestamp >= incoming.timestamp
-  ) {
+  const existingDisplayable =
+    existing?.artifactPath && isPageCaptureDisplayableArtifact(existing.artifactPath);
+  if (existingDisplayable && existing.timestamp >= incoming.timestamp) {
     return existing;
   }
   return appendPageCapture(incoming);

@@ -17,6 +17,7 @@ import {
   evaluatePageConceptReadiness,
   pageConceptBlockedReason,
   pageConceptBlockedResolution,
+  pageConceptCaptureConfirmBlockMessage,
   pageConceptSourceCaptureBlockMessage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import {
@@ -67,7 +68,10 @@ async function buildPageConceptCapturePayload(
     : { width: 1440, height: 900 };
   const path = record.artifactPath;
   if (!isPageCaptureDisplayableArtifact(path)) {
-    throw new Error(pageConceptSourceCaptureBlockMessage(record.projectId, record.pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
+    throw new Error(
+      pageConceptCaptureConfirmBlockMessage(record.projectId, record.pageId) ||
+        'Implementation source capture is not a displayable image for this viewport.',
+    );
   }
   if (path.startsWith('data:') || path.startsWith('blob:')) {
     return {
@@ -246,8 +250,13 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
       }
       await ensurePageConceptApiAccessToken();
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
-      if (!mobile?.artifactPath || !desktop?.artifactPath) {
-        throw new Error(pageConceptSourceCaptureBlockMessage(projectId, pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
+      if (
+        !mobile?.artifactPath ||
+        !desktop?.artifactPath ||
+        !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
+        !isPageCaptureDisplayableArtifact(desktop.artifactPath)
+      ) {
+        throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
       }
 
       setOverlayMode('progress');
@@ -308,8 +317,13 @@ export function usePageConceptGeneration(projectId: string, pageId: string, scre
       await ensurePageConceptApiAccessToken();
       const current = loadPageConceptGenerationState(projectId, pageId);
       const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
-      if (!mobile?.artifactPath || !desktop?.artifactPath) {
-        throw new Error(pageConceptSourceCaptureBlockMessage(projectId, pageId) || 'BLOCKED_NO_SOURCE_CAPTURE');
+      if (
+        !mobile?.artifactPath ||
+        !desktop?.artifactPath ||
+        !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
+        !isPageCaptureDisplayableArtifact(desktop.artifactPath)
+      ) {
+        throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
       }
       setOverlayMode('progress');
       persist((s) => ({ ...s, generationStatus: 'NBP_RUNNING' }));
