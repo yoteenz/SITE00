@@ -398,6 +398,8 @@ export function TwinOpusDirectScreen({
         generationState={workspace.pageConceptGeneration.generationState}
         error={workspace.pageConceptGeneration.error}
         confirmNotice={workspace.pageConceptGeneration.confirmNotice}
+        blockingState={workspace.pageConceptGeneration.blockingState}
+        generationEligibility={workspace.pageConceptGeneration.generationEligibility}
         generating={workspace.pageConceptGeneration.generating}
         confirmReady={workspace.pageConceptGeneration.ready}
         sourceCaptureLines={workspace.pageConceptGeneration.sourceCaptureLines}

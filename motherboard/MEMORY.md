@@ -10962,3 +10962,15 @@ Sprint: Concept Candidate Gallery showed **Capture the current Mobile and Deskto
 - **Fix:** **`pageConceptGenerationGateFromEligibility`** — sole CTA gate; workspace exposes `pageConceptGenerationEligibility` + `pageConceptGenerationGate` (removed `galleryGenerateDisabled` / blocked reason duplicates); pipeline + `generatePageConcepts` handler consume same eligibility; hook hydrates captures on mount + sets ready on capture events; dev invariants `PAGE_CONCEPT_GENERATION_GATE_DIVERGENCE` / `STALE_CAPTURE_BLOCKER_COPY_RENDERED`.
 - **Tests:** `p0vrPageConceptGenerationGateSingleSource1.test.ts` (5 cases).
 - **Branch:** `cursor/page-concept-generation-gate-single-source1-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-RUNTIME-BLOCKER-FORENSICS1
+
+Production modal: SOURCE **READY/READY** + red **BLOCKED · SOURCE CAPTURE REQUIRED** simultaneously.
+
+- **Forensics:** Red block = `PageConceptGeneratorPanel` footer `notice` → `pageConceptGeneratorNoticeLines(notice)` (`designPageConceptGeneratorShell.ts`). Overlay passed `founderNotice = confirmNotice ?? error`; hook used `confirmNotice = eligibility.confirmNotice ?? error` — **stale `error` from earlier open** when eligibility later `canGenerate`.
+- **Not API preflight:** plan API does not return capture blocker; server validates client-supplied captures on generate only.
+- **Fix:** `pageConceptGenerationBlockingState.ts` — `derivePageConceptGenerationBlockingState`; separate **executionError** from eligibility; sanitize/discard stale capture copy when `allRequiredReady`; removed effect that copied confirmNotice into error; dev forensics `<details>` on overlay.
+- **Tests:** `p0vrPageConceptRuntimeBlockerForensics1.test.ts`.
+- **Branch:** `cursor/page-concept-runtime-blocker-forensics1-b747`.

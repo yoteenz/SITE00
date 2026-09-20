@@ -15,6 +15,11 @@ import { pageConceptReviewReady } from '../../../../../shared/site00-design-work
 import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
+  derivePageConceptGenerationBlockingState,
+  sanitizePageConceptExecutionError,
+  type PageConceptGenerationBlockingState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
+import {
   buildPageConceptGenerationEligibility,
   type PageConceptCaptureHydrationStatus,
   type PageConceptGenerationEligibility,
@@ -100,7 +105,8 @@ export function usePageConceptGeneration(
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [overlayMode, setOverlayMode] = useState<'confirm' | 'progress' | 'review'>('confirm');
   const [generating, setGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  /** Provider/runtime failures only — never eligibility gate copy (see blockingState). */
+  const [executionError, setExecutionError] = useState<string | null>(null);
   const [captureRevision, setCaptureRevision] = useState(0);
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
   const [captureHydrationStatus, setCaptureHydrationStatus] =
@@ -112,10 +118,22 @@ export function usePageConceptGeneration(
     setPendingPlan(null);
     setOverlayOpen(false);
     setOverlayMode(pageConceptReviewReady(loaded.generationStatus) ? 'review' : 'confirm');
-    setError(null);
+    setExecutionError(
+      sanitizePageConceptExecutionError(
+        buildPageConceptGenerationEligibility({
+          projectSlug: projectId,
+          pageId,
+          screenId,
+          route,
+          sessionReady: null,
+          hydrationStatus: 'ready',
+        }),
+        loaded.lastFailure?.message ?? null,
+      ),
+    );
     setGenerating(false);
     setCaptureHydrationStatus('checking');
-  }, [pageId, projectId]);
+  }, [pageId, projectId, route, screenId]);
 
   useEffect(() => {
     const onUpdated = (event: Event) => {
@@ -187,19 +205,18 @@ export function usePageConceptGeneration(
   );
 
   useEffect(() => {
-    if (!overlayOpen || overlayMode !== 'confirm') return;
-    if (captureHydrationStatus === 'ready' && generationEligibility.confirmNotice) {
-      setError(generationEligibility.confirmNotice);
-    } else if (captureHydrationStatus === 'ready' && generationEligibility.canGenerate) {
-      setError(null);
-    }
-  }, [
-    captureHydrationStatus,
-    generationEligibility.canGenerate,
-    generationEligibility.confirmNotice,
-    overlayMode,
-    overlayOpen,
-  ]);
+    setExecutionError((prev) => sanitizePageConceptExecutionError(generationEligibility, prev));
+  }, [generationEligibility]);
+
+  const blockingState: PageConceptGenerationBlockingState = useMemo(
+    () =>
+      derivePageConceptGenerationBlockingState({
+        eligibility: generationEligibility,
+        executionError,
+        mode: overlayMode,
+      }),
+    [executionError, generationEligibility, overlayMode],
+  );
 
   const persist = useCallback(
     (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => {
@@ -213,7 +230,7 @@ export function usePageConceptGeneration(
   );
 
   const openGenerationConfirm = useCallback(async () => {
-    setError(null);
+    setExecutionError(null);
     setOverlayOpen(true);
     setOverlayMode('confirm');
     setPendingPlan(null);
@@ -236,7 +253,6 @@ export function usePageConceptGeneration(
     });
 
     if (!eligibility.canGenerate) {
-      setError(eligibility.confirmNotice);
       return;
     }
 
@@ -244,11 +260,10 @@ export function usePageConceptGeneration(
     try {
       localPlan = buildPageConceptGenerationPlan(projectId, pageId);
     } catch (e) {
-      setError(e instanceof Error ? e.message : eligibility.confirmNotice);
+      setExecutionError(e instanceof Error ? e.message : 'PLAN_FAILED');
       return;
     }
     setPendingPlan(localPlan);
-    setError(null);
     const loadedForMode = loadPageConceptGenerationState(projectId, pageId);
     setOverlayMode(
       pageConceptReviewReady(loadedForMode.generationStatus) || loadedForMode.pipelineSet?.creativeInjection ?
@@ -270,13 +285,13 @@ export function usePageConceptGeneration(
     if (generating) return;
     setPendingPlan(null);
     setOverlayOpen(false);
-    setError(null);
+    setExecutionError(null);
   }, [generating]);
 
   const confirmGeneration = useCallback(async () => {
     if (generating) return;
     setGenerating(true);
-    setError(null);
+    setExecutionError(null);
     try {
       setCaptureHydrationStatus('checking');
       await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
@@ -331,7 +346,7 @@ export function usePageConceptGeneration(
       });
 
       setOverlayMode('review');
-      setError(
+      setExecutionError(
         result.pipelineSet.creativeInjectionError ??
           result.pipelineSet.gpt2AuthorityError ??
           null,
@@ -339,7 +354,7 @@ export function usePageConceptGeneration(
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
     } catch (e) {
       const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
-      setError(message);
+      setExecutionError(message);
       setOverlayMode('review');
       if (message.includes('UNAUTHORIZED') || message.includes('SIGN IN')) {
         setApiSessionReady(false);
@@ -357,7 +372,7 @@ export function usePageConceptGeneration(
   const retryFailedGeneration = useCallback(async () => {
     if (generating) return;
     setGenerating(true);
-    setError(null);
+    setExecutionError(null);
     try {
       await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
       setCaptureHydrationStatus('ready');
@@ -397,17 +412,12 @@ export function usePageConceptGeneration(
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
     } catch (e) {
       const message = e instanceof Error ? e.message : 'RETRY_FAILED';
-      setError(message);
+      setExecutionError(message);
       setOverlayMode('review');
     } finally {
       setGenerating(false);
     }
   }, [generating, pageId, persist, projectId, screenId]);
-
-  const confirmNotice =
-    overlayMode === 'confirm' && overlayOpen ?
-      generationEligibility.confirmNotice ?? error
-    : error;
 
   return {
     readiness: generationEligibility.readiness,
@@ -415,12 +425,14 @@ export function usePageConceptGeneration(
     blockedReason: generationEligibility.blockerMessage,
     blockedResolution: generationEligibility.resolutionAction,
     generationEligibility,
+    blockingState,
     overlayOpen,
     overlayMode,
     pendingPlan,
     generating,
-    error,
-    confirmNotice,
+    error: executionError,
+    confirmNotice: blockingState.founderNotice,
+    executionError,
     generationStatus: state.generationStatus,
     pipelineSet: state.pipelineSet,
     generationJobs: state.generationJobs,
