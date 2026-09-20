@@ -19,6 +19,25 @@ export function evaluatePageConceptReadiness(projectId: string, pageId: string):
   return 'READY_FOR_CREATIVE_INJECTION';
 }
 
+/** Which implementation captures are missing for GENERATE (not design-authority refs). */
+export function pageConceptMissingSourceCaptureViewports(
+  projectId: string,
+  pageId: string,
+): readonly ('MOBILE' | 'DESKTOP')[] {
+  const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+  const missing: ('MOBILE' | 'DESKTOP')[] = [];
+  if (!mobile?.artifactPath || !isPageCaptureDisplayableArtifact(mobile.artifactPath)) missing.push('MOBILE');
+  if (!desktop?.artifactPath || !isPageCaptureDisplayableArtifact(desktop.artifactPath)) missing.push('DESKTOP');
+  return missing;
+}
+
+export function pageConceptSourceCaptureBlockMessage(projectId: string, pageId: string): string {
+  const missing = pageConceptMissingSourceCaptureViewports(projectId, pageId);
+  if (missing.length === 0) return '';
+  const list = missing.join(' + ');
+  return `Missing implementation source capture (${list}). Viewport “OK” is design authority — GENERATE requires CAPTURE SCREEN for both Mobile and Desktop (saved to Supabase, then hydrated on load).`;
+}
+
 export function pageConceptBlockedReason(readiness: PageConceptReadiness): string {
   switch (readiness) {
     case 'BLOCKED_NO_PROJECT_CONTEXT':
@@ -28,7 +47,7 @@ export function pageConceptBlockedReason(readiness: PageConceptReadiness): strin
     case 'BLOCKED_NO_FUNCTION_CONTRACT':
       return 'Function contract has not been compiled for this page.';
     case 'BLOCKED_NO_SOURCE_CAPTURE':
-      return 'Capture the current page first (Mobile and Desktop).';
+      return 'Implementation source capture missing for Mobile and/or Desktop.';
     case 'BLOCKED_NO_PROVIDER_CONFIG':
       return 'Provider configuration is missing on the API host.';
     case 'READY_FOR_CREATIVE_INJECTION':

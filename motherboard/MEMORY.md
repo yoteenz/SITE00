@@ -10770,3 +10770,15 @@ Founder: **both screenshots exist** but **GENERATE PAGE CONCEPTS** still disable
 - **Fix:** `designPageCaptureHydrate.ts` + `useHydrateDesignPageCaptures` on DESIGN workspace mount (fetch latest mobile/desktop snapshots → `appendPageCapture`); `enrichAuthoritiesWithImplementationCaptures` + `syncAuthorityRefsFromPageCaptures` tie Supabase captures into authority refs / pipeline; NDX **overview** maps to desktop composite ref.
 - **Still required for GENERATE on tunnel:** **Supabase session** on same tab (`SIGN IN REQUIRED` copy from #1037). CAPTURE base URL already follows tunnel origin (`resolveFounderCaptureBaseUrl`).
 - **Branch:** `cursor/design-page-capture-supabase-hydrate-9f72`.
+
+---
+
+## 2026-09-20 — Page concept “success” benchmark vs founder tunnel
+
+Founder still saw **GENERATE** disabled with **`BLOCKED_NO_SOURCE_CAPTURE`** while viewport band showed **MOBILE OK / DESKTOP OK** and CURRENT had a capture.
+
+- **Agent “success” criteria (prior runs):** Vitest + optional Playwright on cloud VM: **both** QA-passed snapshots **`appendPageCapture`**’d into localStorage for canonical `overview` `pageId`, then `evaluatePageConceptReadiness === READY` and orchestrator reaches **`READY_FOR_FOUNDER_REVIEW`**. **Not** founder fsbw-dev tab unless same conditions met.
+- **UI leak:** Viewport **OK** = **design authority refs** (registry / enriched URLs), **not** implementation **source captures** required for GENERATE. Pipeline **scrollGallery** could open confirm overlay even when gallery button disabled.
+- **Production API check:** `GET api.site00.com/.../ndxbook/overview` **mobile + desktop snapshot: null** — hydrate cannot restore what Railway registry never stored; founder must **CAPTURE SCREEN** per viewport (successful POST → Supabase `publicUrl`).
+- **Fix (#1039 follow-up):** `ensurePageConceptSourceCaptures` before open/confirm; viewport band **CAPTURE** when authority OK but source missing; human blocker copy naming missing Mobile/Desktop; reset overlay on page change.
+- **Branch:** `cursor/page-concept-capture-preflight-9f72`.

@@ -113,7 +113,7 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
   it('blocked button exposes exact reason copy', () => {
     const pageId = overviewPageId();
     const reason = pageConceptBlockedReason(evaluatePageConceptReadiness(PROJECT, pageId));
-    expect(reason).toBe('Capture the current page first (Mobile and Desktop).');
+    expect(reason).toContain('Implementation source capture missing');
     const canonical = read('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
     expect(canonical).toContain('generate-page-concepts-blocked-reason');
     expect(canonical).toContain('galleryGenerateBlockedReason');
@@ -121,9 +121,9 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
 
   it('click path resolves active project and page via hook', () => {
     const hook = read('src/site00/components/designBench/opusDirect/usePageConceptGeneration.ts');
-    expect(hook).toContain('usePageConceptGeneration(projectId: string, pageId: string)');
+    expect(hook).toContain('usePageConceptGeneration(projectId: string, pageId: string, screenId: string)');
     const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
-    expect(workspace).toContain('usePageConceptGeneration(projectSlug, pageTarget.pageId)');
+    expect(workspace).toContain('pageTarget.screenId');
     expect(workspace).toContain('useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId)');
   });
 
