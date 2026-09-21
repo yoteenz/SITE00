@@ -1,11 +1,11 @@
 import type { PageConceptIncomingCapturePayload } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationRequest.js';
 import type {
   PageConceptGenerationPlan,
-  PageConceptGenerationRunResult,
   PageConceptGenerationState,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { refreshAccessTokenForApi } from '../../utils/api.js';
-import { captureApiFetch, CAPTURE_API_TIMEOUT_MS, CAPTURE_CURRENT_PAGE_TIMEOUT_MS } from './captureApiFetch.js';
+import { PAGE_CONCEPT_START_TIMEOUT_MS } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptApiTimeouts.js';
+import { captureApiFetch, CAPTURE_API_TIMEOUT_MS } from './captureApiFetch.js';
 import { throwPageConceptApiFailure } from './pageConceptGenerationErrors.js';
 
 const PATH = '/api/site00/page-concept-generation';
@@ -71,31 +71,8 @@ export async function tracePageConceptGenerationApi(input: {
       mobileCapture: input.mobileCapture,
       desktopCapture: input.desktopCapture,
     },
-    CAPTURE_API_TIMEOUT_MS,
+    PAGE_CONCEPT_START_TIMEOUT_MS,
   );
   return { ok: result.ok, trace: Boolean(result.data?.trace), receipt: result };
 }
 
-export async function runPageConceptGenerationApi(input: {
-  state: PageConceptGenerationState;
-  mobileCapture: PageConceptCapturePayload;
-  desktopCapture: PageConceptCapturePayload;
-  founderConfirmedSpend: boolean;
-  retryFailedOnly?: boolean;
-}): Promise<PageConceptGenerationRunResult> {
-  const result = await pageConceptApiFetch<PageConceptGenerationRunResult & { ok: boolean; error?: string }>(
-    {
-      action: 'generate',
-      state: input.state,
-      mobileCapture: input.mobileCapture,
-      desktopCapture: input.desktopCapture,
-      founderConfirmedSpend: input.founderConfirmedSpend,
-      retryFailedOnly: input.retryFailedOnly === true,
-    },
-    CAPTURE_CURRENT_PAGE_TIMEOUT_MS,
-  );
-  if (!result.ok || !result.data?.pipelineSet) {
-    throwPageConceptApiFailure(result, 'GENERATION_FAILED');
-  }
-  return result.data as PageConceptGenerationRunResult;
-}

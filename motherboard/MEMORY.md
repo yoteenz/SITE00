@@ -11044,3 +11044,16 @@ Chat started with founder on **site00.fsbw-dev.com** unable to generate page con
 - **ICONS-ONLY3 (this pass):** Layout approved. Icon assets only. New family `SITE00_PCG_LINE_V3` as `site00-*.svg` under `public/site00/page-concept-generator/staged/icons-only3/`. CGPT/GPT2/NBP distinct; custom placeholders; related output family; no sparkle/lightbulb/speech/mountain. Live `AiConsoleIcon` bindings, copy, chip/button geometry, and pipeline unchanged.
 - **Tests:** `tests/p0vrPageConceptGeneratorGrokIconsOnly3.test.ts`.
 - **Branch:** `cursor/page-concept-generator-grok-icons-only3-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-FETCH-ABORT-ASYNC-RUN1
+
+Production after v594 capture fix: **GENERATION COULD NOT START · FETCH IS ABORTED** (Safari message from client `AbortController` timeout).
+
+- **Abort origin:** `captureApiFetch.ts` — `setTimeout(() => controller.abort(), timeoutMs)`. Generate used **`CAPTURE_CURRENT_PAGE_TIMEOUT_MS` (90s)** on a **synchronous** `action: generate` holding CGPT+GPT2+6×NBP + large **artifactBase64** upload → client abort before server finished.
+- **Fix:** Async **`action: start`** → **202 + runId** immediately; background `executePageConceptGeneration` updates in-memory **`PageConceptServerRun`**; **GET ?runId=** status; client **polls** with 30s per-request timeout. Prefer **`snapshotId`** (+ optional url) over megabyte base64. Hook resumes run after refresh via `site00:page-concept-server-run:v1:*` localStorage key.
+- **Timeouts:** START 45s, POLL 30s, legacy sync 90s (API `generate` retained for tests only).
+- **Tests:** `p0vrPageConceptFetchAbortAsyncRun1.test.ts`.
+- **Deploy:** Railway API + GoDaddy v595 (hook/client).
+- **Branch:** `cursor/page-concept-fetch-abort-async-run1-b747`.

@@ -6,6 +6,7 @@ import type { PageConceptGenerationState } from './types.js';
 
 export type PageConceptIncomingCapturePayload = {
   captureId: string;
+  snapshotId?: string;
   viewport?: 'MOBILE' | 'DESKTOP';
   artifactBase64?: string;
   artifactUrl?: string;
@@ -14,7 +15,7 @@ export type PageConceptIncomingCapturePayload = {
 };
 
 export type PageConceptGenerationRequest = {
-  action: 'plan' | 'generate' | 'trace';
+  action: 'plan' | 'generate' | 'trace' | 'start';
   founderConfirmedSpend?: boolean;
   retryFailedOnly?: boolean;
   traceOnly?: boolean;
@@ -24,12 +25,18 @@ export type PageConceptGenerationRequest = {
   desktopCapture?: PageConceptIncomingCapturePayload;
 };
 
-export type PageConceptCaptureTransportKind = 'base64' | 'url' | 'missing' | 'unsupported_url';
+export type PageConceptCaptureTransportKind =
+  | 'base64'
+  | 'url'
+  | 'snapshot'
+  | 'missing'
+  | 'unsupported_url';
 
 export function classifyPageConceptCaptureTransport(
   payload: PageConceptIncomingCapturePayload | undefined,
 ): PageConceptCaptureTransportKind {
   if (!payload?.captureId?.trim()) return 'missing';
+  if (payload.snapshotId?.trim()) return 'snapshot';
   const b64 = payload.artifactBase64?.trim();
   if (b64) return 'base64';
   const url = payload.artifactUrl?.trim();

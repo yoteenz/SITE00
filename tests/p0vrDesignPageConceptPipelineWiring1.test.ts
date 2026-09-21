@@ -229,8 +229,10 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     expect(hook).toContain('cancelGeneration');
     expect(hook).toContain('founderConfirmedSpend: true');
     const client = read('src/site00/services/pageConceptGenerationClient.ts');
+    const runClient = read('src/site00/services/pageConceptGenerationRunClient.ts');
     expect(client).toContain("action: 'plan'");
-    expect(client).toContain("action: 'generate'");
+    expect(runClient).toContain("action: 'start'");
+    expect(runClient).toContain('founderConfirmedSpend');
   });
 
   it('Mobile/Desktop founder selection remains independent in production state', () => {
