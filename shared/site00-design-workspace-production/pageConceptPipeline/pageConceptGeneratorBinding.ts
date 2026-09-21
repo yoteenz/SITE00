@@ -70,6 +70,8 @@ export function pageConceptStageStatesFromPipeline(state: PageConceptGenerationS
       return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
     case 'PARTIAL_GENERATION':
       return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PARTIAL' };
+    case 'GPT2_MOBILE_AWAITING_SELECTION':
+      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
     case 'READY_FOR_FOUNDER_REVIEW':
       return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' };
     case 'FAILED':
@@ -185,7 +187,7 @@ export function pageConceptGenerationInFlight(status: PageConceptGenerationStatu
     status === 'GPT2_RUNNING' ||
     status === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
     status === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
-    status === 'DUAL_RENDER_TEST_RUNNING' ||
+    status === 'GPT2_MOBILE_AWAITING_SELECTION' ||
     status === 'NBP_RUNNING'
   );
 }

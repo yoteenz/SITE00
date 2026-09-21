@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import {
   buildCgptBriefRows,
   buildNbpSlotPresentations,
@@ -122,6 +124,8 @@ const gpt2Concept: PageGPT2AuthorityConcept = {
 };
 
 describe('P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1', () => {
+  useLegacyPageConceptNbpPipeline();
+
   beforeEach(() => {
     vi.restoreAllMocks();
     vi.stubGlobal('localStorage', new MemoryStorage());

@@ -4,6 +4,8 @@
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import { executePageConceptGeneration } from '../api/_lib/site00PageConcept/executePageConceptGenerationRun.js';
 import { buildRuntimePageGpt2AuthorityPackage } from '../api/_lib/site00PageConcept/generatePageGpt2AuthorityConcept.js';
 import { clearPageConceptServerRuns } from '../api/_lib/site00PageConcept/pageConceptGenerationRunStore.js';
@@ -29,6 +31,8 @@ function overviewPageId(): string {
 }
 
 describe('P0.VR.PAGE-CONCEPT-RUN-TRUTH-AND-CREATIVE-GROUNDING1', () => {
+  useLegacyPageConceptNbpPipeline();
+
   beforeEach(() => {
     clearPageConceptServerRuns();
     vi.restoreAllMocks();

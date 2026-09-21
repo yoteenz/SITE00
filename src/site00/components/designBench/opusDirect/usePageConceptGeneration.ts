@@ -29,10 +29,6 @@ import {
   archivePageConceptRunBranch,
   pageConceptRunHistoryLines,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptRunArchive.js';
-import {
-  createInitialDualRenderTestRun,
-  syncDualRenderLaneFromJobs,
-} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptDualRenderTest.js';
 import { applyPageConceptNewGenerationBranchReset } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNewGenerationBranch.js';
 import {
   createPageConceptGenerationRunId,
@@ -194,24 +190,6 @@ function applyServerRunSnapshotToState(
     if (run.jobs.length > 0) {
       next = registerPageConceptGenerationJobs(next, run.jobs);
       next = mergePageConceptArtifactsIntoGallery(next);
-    }
-    const ps = run.pipelineSet;
-    if (
-      ps?.renderMode === 'DUAL_RENDER_TEST' &&
-      ps.creativeInjection &&
-      ps.gpt2AuthorityConcept &&
-      ps.nbpLineage
-    ) {
-      const base =
-        next.dualRenderTestRun ??
-        createInitialDualRenderTestRun({
-          testRunId: `pdrt-${ps.pipelineSetId}`,
-          authorityApprovalId: ps.nbpLineage.authorityApprovalId,
-          approvedAuthorityArtifactId: ps.gpt2AuthorityConcept.conceptId,
-          upstreamCgptRunId: ps.creativeInjection.injectionId,
-          upstreamGpt2AuthorityRunId: ps.gpt2AuthorityConcept.conceptId,
-        });
-      next = { ...next, dualRenderTestRun: syncDualRenderLaneFromJobs(base, run.jobs) };
     }
     const snapshotMap =
       run.panelProgress?.substepStatusById ??
@@ -488,7 +466,7 @@ export function usePageConceptGeneration(
         if (
           update.run.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
           update.run.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
-          update.run.generationStatus === 'DUAL_RENDER_TEST_REVIEW'
+          update.run.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION'
         ) {
           setGenerating(false);
           setOverlayMode('review');
@@ -1169,167 +1147,6 @@ export function usePageConceptGeneration(
     }
   }, [applyPollUpdate, generating, pageId, persist, projectId, screenId, state.activeGenerationRunId]);
 
-  const runDualRenderSpendConfirm = useCallback((): boolean => {
-    return window.confirm(
-      'RUN DUAL RENDER TEST\n\nExpected provider spend:\n2 GPT2 direct renders + 2 NBP renders (4 jobs)\nSame approved authority for all outputs.\n\nConfirm to continue.',
-    );
-  }, []);
-
-  const continueDualRenderTestAfterGpt2Review = useCallback(async () => {
-    if (generating) {
-      setExecutionError('GENERATION ALREADY IN PROGRESS');
-      return;
-    }
-    if (!runDualRenderSpendConfirm()) return;
-    const resumeRunId =
-      state.activeGenerationRunId ?? loadPageConceptActiveServerRunId(projectId, pageId);
-    if (!resumeRunId) {
-      setExecutionError('DUAL RENDER TEST REQUIRES ACTIVE GENERATION RUN');
-      return;
-    }
-    setGenerating(true);
-    setExecutionError(null);
-    setOverlayMode('progress');
-    try {
-      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
-      await ensurePageConceptApiAccessToken();
-      const current = loadPageConceptGenerationState(projectId, pageId);
-      const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
-      if (
-        !mobile?.artifactPath ||
-        !desktop?.artifactPath ||
-        !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
-        !isPageCaptureDisplayableArtifact(desktop.artifactPath)
-      ) {
-        throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
-      }
-      const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
-      const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
-      persist((s) => ({ ...s, generationStatus: 'DUAL_RENDER_TEST_RUNNING' }));
-
-      emitPageConceptGenerateTelemetry('page_concept_dual_render_test_requested', {
-        projectId,
-        pageId,
-        generationRunId: resumeRunId,
-      });
-
-      const { runId } = await startPageConceptGenerationRunApi({
-        state: current,
-        founderConfirmedSpend: true,
-        continueDualRenderTest: true,
-        resumeRunId,
-        mobileCapture,
-        desktopCapture,
-      });
-      savePageConceptActiveServerRunId(projectId, pageId, runId);
-      markPageConceptFounderRunSession(projectId, pageId, runId);
-
-      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
-        runId,
-        afterSequence: lastObservedSequenceRef.current,
-        onUpdate: (update) => {
-          void applyPollUpdate(update, () => false);
-        },
-      });
-      clearPageConceptActiveServerRunId(projectId, pageId);
-      clearPageConceptFounderRunSession(projectId, pageId);
-      const result = pageConceptServerRunToResult(terminalRun);
-      if (!result) throw new Error(terminalRun.error ?? 'DUAL_RENDER_TEST_FAILED');
-
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next = registerPageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        return { ...next, generationStatus: terminalRun.generationStatus };
-      });
-      setOverlayMode('review');
-      window.dispatchEvent(
-        new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
-      );
-    } catch (e) {
-      const message = e instanceof Error ? e.message : 'DUAL_RENDER_TEST_FAILED';
-      setExecutionError(message);
-      setOverlayMode('review');
-    } finally {
-      setGenerating(false);
-    }
-  }, [
-    applyPollUpdate,
-    generating,
-    pageId,
-    persist,
-    projectId,
-    runDualRenderSpendConfirm,
-    screenId,
-    state.activeGenerationRunId,
-  ]);
-
-  const regenerateDualRenderLaneOnly = useCallback(
-    async (lane: 'GPT2_DIRECT' | 'NBP') => {
-      if (generating) return;
-      const spend =
-        lane === 'GPT2_DIRECT' ?
-          '2 GPT2 direct jobs (mobile + desktop)'
-        : '2 NBP jobs (mobile + desktop)';
-      if (!window.confirm(`Regenerate ${lane} lane only?\n\nExpected spend: ${spend}`)) return;
-      const resumeRunId =
-        state.activeGenerationRunId ?? loadPageConceptActiveServerRunId(projectId, pageId);
-      if (!resumeRunId) {
-        setExecutionError('LANE REGEN REQUIRES ACTIVE RUN');
-        return;
-      }
-      setGenerating(true);
-      setExecutionError(null);
-      setOverlayMode('progress');
-      try {
-        await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
-        await ensurePageConceptApiAccessToken();
-        const current = loadPageConceptGenerationState(projectId, pageId);
-        const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
-        const mobileCapture = await buildPageConceptCapturePayload(mobile!, 'MOBILE');
-        const desktopCapture = await buildPageConceptCapturePayload(desktop!, 'DESKTOP');
-        const { runId } = await startPageConceptGenerationRunApi({
-          state: current,
-          founderConfirmedSpend: true,
-          regenerateDualRenderLane: lane,
-          resumeRunId,
-          mobileCapture,
-          desktopCapture,
-        });
-        const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
-          runId,
-          afterSequence: lastObservedSequenceRef.current,
-          onUpdate: (update) => void applyPollUpdate(update, () => false),
-        });
-        const result = pageConceptServerRunToResult(terminalRun);
-        if (!result) throw new Error(terminalRun.error ?? 'LANE_REGEN_FAILED');
-        persist((s) => {
-          let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-          next = registerPageConceptGenerationJobs(next, result.jobs);
-          next = mergePageConceptArtifactsIntoGallery(next);
-          return { ...next, generationStatus: terminalRun.generationStatus };
-        });
-        setOverlayMode('review');
-      } finally {
-        setGenerating(false);
-      }
-    },
-    [applyPollUpdate, generating, pageId, persist, projectId, screenId, state.activeGenerationRunId],
-  );
-
-  const setDualRenderFounderDecision = useCallback(
-    (decision: 'GPT2_SELECTED' | 'NBP_SELECTED' | 'BOTH_KEPT' | 'ESCALATED_TO_FULL_RUN') => {
-      persist((s) => {
-        if (!s.dualRenderTestRun) return s;
-        return {
-          ...s,
-          dualRenderTestRun: { ...s.dualRenderTestRun, founderDecisionStatus: decision },
-        };
-      });
-    },
-    [persist],
-  );
-
   const continueNbpAfterGpt2Review = useCallback(async () => {
     if (generating) {
       setExecutionError('GENERATION ALREADY IN PROGRESS');
@@ -1494,8 +1311,7 @@ export function usePageConceptGeneration(
     pageConceptReviewReady(state.generationStatus) &&
     state.generationStatus !== 'CGPT_AWAITING_FOUNDER_REVIEW' &&
     state.generationStatus !== 'GPT2_AWAITING_FOUNDER_REVIEW' &&
-    state.generationStatus !== 'DUAL_RENDER_TEST_REVIEW' &&
-    state.generationStatus !== 'DUAL_RENDER_TEST_RUNNING';
+    state.generationStatus !== 'GPT2_MOBILE_AWAITING_SELECTION';
 
   const postRunActions = useMemo(
     () => (postRunReviewReady ? buildPageConceptPostRunActions(state) : []),
@@ -1568,8 +1384,8 @@ export function usePageConceptGeneration(
           next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
         } else if (terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
           next = { ...next, generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW' };
-        } else if (terminalRun.generationStatus === 'DUAL_RENDER_TEST_REVIEW') {
-          next = { ...next, generationStatus: 'DUAL_RENDER_TEST_REVIEW' };
+        } else if (terminalRun.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION') {
+          next = { ...next, generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION' };
         }
         return next;
       });
@@ -1780,11 +1596,8 @@ export function usePageConceptGeneration(
     runHealth,
     continueNbpAfterGpt2Review,
     continueGpt2AfterCgptReview,
-    continueDualRenderTestAfterGpt2Review,
-    regenerateDualRenderLaneOnly,
     regenerateGpt2AuthorityFromReview,
-    setDualRenderFounderDecision,
-    dualRenderTestReview: state.generationStatus === 'DUAL_RENDER_TEST_REVIEW',
+    gpt2MobileAwaitingSelection: state.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION',
     cgptAwaitingFounderReview: state.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW',
     gpt2AwaitingFounderReview: state.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW',
     postRunReviewReady,

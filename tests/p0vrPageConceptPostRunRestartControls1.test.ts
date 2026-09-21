@@ -145,7 +145,10 @@ describe('P0.VR PAGE-CONCEPT POST-RUN RESTART CONTROLS', () => {
     expect(pageConceptPostRunSecondaryAction(actions)?.id).toBe('new_generation');
     expect(actions.some((a) => a.id === 'regenerate_cgpt')).toBe(true);
     expect(actions.some((a) => a.id === 'regenerate_gpt2')).toBe(true);
-    expect(actions.some((a) => a.id === 'regenerate_nbp')).toBe(true);
+    expect(actions.some((a) => a.id === 'regenerate_nbp')).toBe(false);
+    process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP = 'true';
+    expect(buildPageConceptPostRunActions(reviewState()).some((a) => a.id === 'regenerate_nbp')).toBe(true);
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
   });
 
   it('archives prior run without deleting jobs', () => {
@@ -158,14 +161,17 @@ describe('P0.VR PAGE-CONCEPT POST-RUN RESTART CONTROLS', () => {
   });
 
   it('spend actions require confirm copy with provider counts', () => {
+    process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP = 'true';
     const regen = buildPageConceptPostRunActions(reviewState()).find((a) => a.id === 'regenerate_nbp');
     expect(regen?.spendNote).toContain('6 NBP');
     expect(pageConceptPostRunConfirmMessage(regen!)).toContain('Expected provider spend');
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
     const view = buildPageConceptPostRunActions(reviewState()).find((a) => a.id === 'view_renditions');
     expect(view?.spendNote).toBeNull();
   });
 
   it('regenerate GPT2 only skips CGPT provider stage', async () => {
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
     process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP = 'false';
     process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
     const pageId =
@@ -190,10 +196,12 @@ describe('P0.VR PAGE-CONCEPT POST-RUN RESTART CONTROLS', () => {
       { dryRun: true, retryGpt2Only: true },
     );
     expect(result.pipelineSet.creativeInjection?.injectionId).toBe('inj-1');
-    expect(result.pipelineSet.gpt2AuthorityConcept?.conceptId).toBeTruthy();
+    expect(result.pipelineSet.mobileConcepts?.length).toBe(3);
+    expect(result.pipelineSet.gpt2AuthorityConcept).toBeNull();
   });
 
   it('regenerate NBP only skips CGPT/GPT2 provider stages', async () => {
+    process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP = 'true';
     process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP = 'false';
     process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
     const pageId =
@@ -220,6 +228,7 @@ describe('P0.VR PAGE-CONCEPT POST-RUN RESTART CONTROLS', () => {
     expect(result.pipelineSet.creativeInjection?.injectionId).toBe('inj-1');
     expect(result.pipelineSet.gpt2AuthorityConcept?.conceptId).toBe('gpt2-1');
     expect(result.jobs.length).toBeGreaterThan(0);
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
   });
 
   it('UI wires post-run footer controls', () => {

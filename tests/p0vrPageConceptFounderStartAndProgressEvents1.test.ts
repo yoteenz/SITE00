@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import {
   clearPageConceptServerRuns,
   getPageConceptServerRun,
@@ -33,6 +35,8 @@ function overviewPageId(): string {
 }
 
 describe('P0.VR.PAGE-CONCEPT-FOUNDER-START-AND-PROGRESS-EVENTS1', () => {
+  useLegacyPageConceptNbpPipeline();
+
   beforeEach(() => {
     clearPageConceptServerRuns();
     vi.restoreAllMocks();

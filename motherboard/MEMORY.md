@@ -11222,3 +11222,16 @@ Founder **NEW GENERATION** confirm on iPhone Safari → blank white site00.com (
 - **Fix:** `applyPageConceptNewGenerationBranchReset` archives run + clears active jobs; `requestNewPageConceptGeneration` → try/catch → `runPostSpendDispatch({})` (CGPT start), overlay stays open/progress; errors show `NEW GENERATION COULD NOT START`.
 - **Tests:** `p0vrPageConceptNewGenerationBlankNavigationFix1.test.ts`.
 - **Branch:** `cursor/page-concept-new-generation-blank-nav-fix1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-GPT2-CANONICAL-VIEWPORT-FAMILY1R1
+
+Canonical page-concept pipeline is **GPT2 viewport family → twin-first**; **DUAL_RENDER_TEST removed**; canonical orchestration no longer runs NBP (legacy behind `SITE00_PAGE_CONCEPT_LEGACY_NBP=true`).
+
+- **Pipeline id:** `GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE` — after CGPT → `executePageConceptGpt2MobileConcepts` (3 `GPT2_MOBILE` jobs) → status `GPT2_MOBILE_AWAITING_SELECTION`; tablet/desktop/family lock/twin packages scaffolded in shared modules.
+- **Removed:** dual-render test orchestration, UI panel, API flags, `pageConceptDualRenderTest.ts`, `pageConceptRenderMode.ts`.
+- **Twin/live firewall:** `pageConceptTwinLiveFirewall.ts`, `pageConceptLivePromotion.ts`, `resolveDesignTwinRoute()` — Opus/Composer/Grok must target `TWIN`; live write requires founder approval + explicit promotion action.
+- **Shell/post-run copy:** 1 CGPT + 3 GPT2 mobile + viewport family → twin; NBP regen hidden unless legacy env.
+- **Tests:** `p0vrPageConceptGpt2CanonicalViewportFamily1r1.test.ts`; legacy suites opt-in via `tests/helpers/pageConceptLegacyNbpTestEnv.ts`.
+- **Branch:** `cursor/page-concept-gpt2-canonical-viewport-family1r1-b747`.

@@ -96,6 +96,7 @@ function mockFunctionContract(): PageFunctionContract {
 
 describe('P0.VR PAGE-CONCEPT NBP AUTHORITY-FIRST', () => {
   beforeEach(() => {
+    process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP = 'true';
     process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
     process.env.SITE00_PAGE_CONCEPT_NBP_OMIT_CURRENT_SCREENSHOT = 'true';
     delete process.env.SITE00_PAGE_CONCEPT_NBP_QA_SINGLE;

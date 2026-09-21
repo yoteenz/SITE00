@@ -4,6 +4,8 @@
 
 import { describe, expect, it } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import { executePageConceptGeneration } from '../api/_lib/site00PageConcept/executePageConceptGenerationRun.js';
 import { generatePageCreativeInjection } from '../api/_lib/site00PageConcept/generatePageCreativeInjection.js';
 import {
@@ -42,6 +44,8 @@ function fixtures() {
 }
 
 describe('P0.VR PAGE-CONCEPT CGPT CREATIVE SYNTHESIS LEAK FIX', () => {
+  useLegacyPageConceptNbpPipeline();
+
   it('validateCgptCreativeSynthesis rejects empty mandatory fields', () => {
     const { projectContext, pageContext, functionContract } = fixtures();
     const full = buildVitestCgptCreativeInjection({ projectContext, pageContext, functionContract });
@@ -210,6 +214,7 @@ describe('P0.VR PAGE-CONCEPT CGPT CREATIVE SYNTHESIS LEAK FIX', () => {
   });
 
   it('continueGpt2AfterCgptReview runs GPT2 after QA stop', async () => {
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
     const { pageId } = fixtures();
     process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP = 'true';
     process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
@@ -237,7 +242,7 @@ describe('P0.VR PAGE-CONCEPT CGPT CREATIVE SYNTHESIS LEAK FIX', () => {
       },
       { dryRun: true, continueGpt2AfterCgptReview: true },
     );
-    expect(continued.pipelineSet.gpt2AuthorityConcept).toBeTruthy();
+    expect(continued.pipelineSet.mobileConcepts?.length).toBe(3);
   });
 
   it('uses creative synthesis prompt version in generation plan export', () => {
