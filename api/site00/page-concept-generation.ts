@@ -152,6 +152,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         desktopCapture: body.desktopCapture,
         founderConfirmedSpend: body.founderConfirmedSpend === true,
         retryFailedOnly: body.retryFailedOnly === true,
+        retryCgptOnly: body.retryCgptOnly === true,
+        resumeRunId: body.resumeRunId,
         founderEmail: email,
         dryRun: isDryRun,
       });

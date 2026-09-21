@@ -56,6 +56,8 @@ export async function startPageConceptGenerationRunApi(input: {
   desktopCapture: PageConceptCapturePayload;
   founderConfirmedSpend: boolean;
   retryFailedOnly?: boolean;
+  retryCgptOnly?: boolean;
+  resumeRunId?: string;
   dryRun?: boolean;
 }): Promise<{ runId: string; status: string; dryRun: boolean }> {
   const result = await captureApiFetch<{
@@ -74,6 +76,8 @@ export async function startPageConceptGenerationRunApi(input: {
       desktopCapture: input.desktopCapture,
       founderConfirmedSpend: input.founderConfirmedSpend,
       retryFailedOnly: input.retryFailedOnly === true,
+      retryCgptOnly: input.retryCgptOnly === true,
+      resumeRunId: input.resumeRunId,
       dryRun: input.dryRun === true,
     },
   });

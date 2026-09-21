@@ -8,10 +8,13 @@ import {
   putPageConceptServerRun,
 } from './pageConceptGenerationRunStore.js';
 import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
+import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
 
 export type StartPageConceptGenerationRunInput = RunPageConceptGenerationInput & {
   founderEmail: string;
   dryRun?: boolean;
+  retryCgptOnly?: boolean;
+  resumeRunId?: string;
 };
 
 export function createPageConceptGenerationRunId(): string {
@@ -37,7 +40,14 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     throw new Error(captureValidation.code);
   }
 
-  const runId = createPageConceptGenerationRunId();
+  const resumeRunId = input.resumeRunId?.trim() || null;
+  const existing =
+    resumeRunId && input.retryCgptOnly ? getPageConceptServerRun(resumeRunId) : null;
+  if (resumeRunId && input.retryCgptOnly && !existing) {
+    throw new Error('RUN_NOT_FOUND');
+  }
+
+  const runId = existing?.runId ?? createPageConceptGenerationRunId();
   const now = new Date().toISOString();
   const run: PageConceptServerRun = {
     runId,
@@ -47,10 +57,11 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     dryRun: input.dryRun === true,
     status: 'QUEUED',
     currentStage: 'QUEUED',
-    cgptStatus: 'PENDING',
-    gpt2Status: 'PENDING',
-    nbpStatus: 'PENDING',
-    createdAt: now,
+    cgptStatus: existing && input.retryCgptOnly ? 'PENDING' : 'PENDING',
+    gpt2Status: existing?.gpt2Status ?? 'PENDING',
+    nbpStatus: existing?.nbpStatus ?? 'PENDING',
+    cgptMeta: input.retryCgptOnly ? null : (existing?.cgptMeta ?? null),
+    createdAt: existing?.createdAt ?? now,
     startedAt: null,
     updatedAt: now,
     completedAt: null,
@@ -59,17 +70,24 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     pipelineSet: null,
     jobs: [],
     generationStatus: input.dryRun ? 'CGPT_RUNNING' : 'CGPT_RUNNING',
-    inputState: input.state,
+    inputState: input.retryCgptOnly && existing ? existing.inputState : input.state,
   };
   putPageConceptServerRun(run);
 
-  void runPageConceptGenerationInBackground(runId, input);
+  if (input.retryCgptOnly) {
+    clearPageConceptCgptStageLock(runId);
+  }
+
+  void runPageConceptGenerationInBackground(runId, input, {
+    retryCgptOnly: input.retryCgptOnly === true,
+  });
   return { runId, status: 'QUEUED' };
 }
 
 async function runPageConceptGenerationInBackground(
   runId: string,
   input: StartPageConceptGenerationRunInput,
+  flags: { retryCgptOnly?: boolean } = {},
 ): Promise<void> {
   const startedAt = new Date().toISOString();
   patchPageConceptServerRun(runId, {
@@ -88,7 +106,9 @@ async function runPageConceptGenerationInBackground(
 
   try {
     await executePageConceptGeneration(input, {
+      runId,
       dryRun: input.dryRun,
+      retryCgptOnly: flags.retryCgptOnly === true,
       onProgress: (patch) => {
         patchPageConceptServerRun(runId, patch);
       },
@@ -123,6 +143,7 @@ export function snapshotPageConceptServerRun(runId: string) {
     plan: run.plan,
     pipelineSet: run.pipelineSet,
     jobs: run.jobs,
+    cgptMeta: run.cgptMeta,
     updatedAt: run.updatedAt,
     completedAt: run.completedAt,
   };

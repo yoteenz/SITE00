@@ -25,6 +25,9 @@ export function pageConceptStageStatesForPanel(input: {
     if (status === 'NBP_RUNNING') {
       return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
     }
+    if (status === 'CGPT_RATE_LIMITED') {
+      return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
+    }
     return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
   }
 

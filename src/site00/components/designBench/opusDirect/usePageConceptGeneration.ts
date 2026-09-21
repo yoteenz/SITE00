@@ -13,6 +13,7 @@ import {
   registerPageConceptGenerationJobs,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
 import {
+  pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
@@ -296,6 +297,7 @@ export function usePageConceptGeneration(
   );
 
   const failedNbp = pageConceptHasFailedNbpJobs(state);
+  const cgptRetryEligible = pageConceptCgptManualRetryEligible(state);
 
   const modalGeneratePress = useMemo(
     () =>
@@ -797,6 +799,71 @@ export function usePageConceptGeneration(
     state.generationStatus,
   ]);
 
+  const retryCgptGeneration = useCallback(async () => {
+    if (generating) {
+      setExecutionError('GENERATION ALREADY IN PROGRESS');
+      return;
+    }
+    const resumeRunId = state.activeGenerationRunId ?? loadPageConceptActiveServerRunId(projectId, pageId);
+    if (!resumeRunId) {
+      setExecutionError('CGPT RETRY REQUIRES ACTIVE GENERATION RUN');
+      return;
+    }
+    setGenerating(true);
+    setExecutionError(null);
+    setOverlayMode('progress');
+    try {
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      await ensurePageConceptApiAccessToken();
+      const current = loadPageConceptGenerationState(projectId, pageId);
+      const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+      if (
+        !mobile?.artifactPath ||
+        !desktop?.artifactPath ||
+        !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
+        !isPageCaptureDisplayableArtifact(desktop.artifactPath)
+      ) {
+        throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
+      }
+      const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
+      const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
+      persist((s) => ({ ...s, generationStatus: 'CGPT_RUNNING' }));
+
+      const { runId } = await startPageConceptGenerationRunApi({
+        state: current,
+        founderConfirmedSpend: true,
+        retryCgptOnly: true,
+        resumeRunId,
+        mobileCapture,
+        desktopCapture,
+      });
+      savePageConceptActiveServerRunId(projectId, pageId, runId);
+      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+        runId,
+        onUpdate: (run) => applyServerRunSnapshotToState(run, persist),
+      });
+      clearPageConceptActiveServerRunId(projectId, pageId);
+      const result = pageConceptServerRunToResult(terminalRun);
+      if (!result) throw new Error(terminalRun.error ?? 'CGPT_RETRY_FAILED');
+
+      persist((s) => {
+        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
+        next = registerPageConceptGenerationJobs(next, result.jobs);
+        next = mergePageConceptArtifactsIntoGallery(next);
+        return next;
+      });
+      setOverlayMode('review');
+      setExecutionError(result.pipelineSet.creativeInjectionError ?? null);
+      window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'CGPT_RETRY_FAILED';
+      setExecutionError(message);
+      setOverlayMode('review');
+    } finally {
+      setGenerating(false);
+    }
+  }, [generating, pageId, persist, projectId, screenId, state.activeGenerationRunId]);
+
   const retryFailedGeneration = useCallback(async () => {
     if (generating) {
       setExecutionError('GENERATION ALREADY IN PROGRESS');
@@ -881,6 +948,8 @@ export function usePageConceptGeneration(
     handleGenerateClick,
     confirmGeneration: handleGenerateClick,
     retryFailedGeneration,
+    retryCgptGeneration,
+    cgptRetryEligible,
     modalGeneratePress,
     generateClickTrace,
     liveProductionTrace,

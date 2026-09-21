@@ -183,7 +183,18 @@ export function pageConceptGenerationInFlight(status: PageConceptGenerationStatu
   return (
     generating ||
     status === 'CGPT_RUNNING' ||
+    status === 'CGPT_RATE_LIMITED' ||
     status === 'GPT2_RUNNING' ||
     status === 'NBP_RUNNING'
+  );
+}
+
+export function pageConceptCgptManualRetryEligible(state: PageConceptGenerationState): boolean {
+  const err = state.pipelineSet?.creativeInjectionError ?? '';
+  return (
+    !state.pipelineSet?.creativeInjection &&
+    (err.includes('CGPT_FAILED_RATE_LIMIT') ||
+      err.includes('CGPT TEMPORARILY UNAVAILABLE') ||
+      err.includes('CGPT_RATE_LIMITED'))
   );
 }

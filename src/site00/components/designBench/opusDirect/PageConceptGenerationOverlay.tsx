@@ -10,6 +10,7 @@ import {
   buildCgptBriefRows,
   buildCgptFullBriefMarkdown,
   buildNbpSlotPresentations,
+  pageConceptCgptManualRetryEligible,
   pageConceptGenerationInFlight,
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
@@ -50,6 +51,7 @@ export function PageConceptGenerationOverlay({
   onCancel,
   onConfirm,
   onRetryFailed,
+  onRetryCgpt,
   onOpenFullscreen,
 }: {
   open: boolean;
@@ -69,6 +71,7 @@ export function PageConceptGenerationOverlay({
   onCancel: () => void;
   onConfirm: () => void;
   onRetryFailed: () => void;
+  onRetryCgpt: () => void;
   onOpenFullscreen: (artifact: DesignWorkspaceArtifactView) => void;
 }) {
   const [fullBriefOpen, setFullBriefOpen] = useState(false);
@@ -145,6 +148,7 @@ export function PageConceptGenerationOverlay({
   const reviewReady = pageConceptReviewReady(generationState.generationStatus);
   const inFlight = pageConceptGenerationInFlight(generationState.generationStatus, generating);
   const failedNbp = pageConceptHasFailedNbpJobs(generationState);
+  const cgptRetry = pageConceptCgptManualRetryEligible(generationState);
 
   const spendNote = useMemo(() => {
     if (!plan?.estimatedCostNote) return null;
@@ -162,12 +166,21 @@ export function PageConceptGenerationOverlay({
     modalGeneratePress?.blockReason ??
     (generateDisabled ? founderNotice : null);
 
+  const cgptStageLine =
+    generationState.activeGenerationStage?.includes('CGPT_RETRY_WAIT') ?
+      generationState.activeGenerationStage.replace(/ · /g, ' · ').toUpperCase()
+    : null;
+
   const generateBusyLabel =
     generating ?
-      generationState.generationStatus === 'NBP_RUNNING' ?
+      generationState.generationStatus === 'CGPT_RATE_LIMITED' && cgptStageLine ?
+        cgptStageLine
+      : generationState.generationStatus === 'NBP_RUNNING' ?
         'NBP RENDERING…'
       : generationState.generationStatus === 'GPT2_RUNNING' ?
         'GPT2 RUNNING…'
+      : generationState.generationStatus === 'CGPT_RATE_LIMITED' ?
+        'CGPT · RATE LIMITED · AUTOMATIC RETRY'
       : 'GENERATING…'
     : mode === 'review' && reviewReady ?
       'READY FOR REVIEW'
@@ -212,7 +225,9 @@ export function PageConceptGenerationOverlay({
           generateDisabledReason={generateBlockReason ?? founderNotice}
           generateBusyLabel={generateBusyLabel}
           generateLabel={
-            !generating && blockingState?.executionError && !failedNbp ?
+            !generating && cgptRetry ?
+              'RETRY CGPT'
+            : !generating && blockingState?.executionError && !failedNbp ?
               'RETRY GENERATION'
             : undefined
           }
@@ -226,7 +241,7 @@ export function PageConceptGenerationOverlay({
               }
             : null
           }
-          onGenerate={onConfirm}
+          onGenerate={cgptRetry && !generating ? onRetryCgpt : onConfirm}
           onCancel={onCancel}
           onClose={onCancel}
         />
