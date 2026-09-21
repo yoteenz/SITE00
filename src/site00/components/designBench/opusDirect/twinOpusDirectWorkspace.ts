@@ -763,7 +763,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           const d = new Date(pageCapture.latest!.timestamp);
           const date = d.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
           const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-          return `CAPTURED ${date} ${time}`;
+          return `${date} ${time}`;
         })()
       : 'NO CAPTURE YET';
     const conceptEmptyLabel =
