@@ -100,7 +100,7 @@ export async function loadPersistentImplementationSnapshotRegistryDurable(
 }
 
 export async function persistRegistryToSupabaseStorage(
-  repoRoot: string,
+  _repoRoot: string,
   registry: ImplementationSnapshotPersistentRegistry,
 ): Promise<void> {
   if (process.env.VITEST === 'true') return;
