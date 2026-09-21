@@ -11099,3 +11099,15 @@ Panel felt frozen on **CREATIVE DIRECTION** (lime `data-lead`) during CGPT even 
 - **UI:** `data-substep-state` lime ACTIVE on brief rows; rail/card ACTIVE emphasis; busy label `RUNNING {SUBSTEP}`; refresh via poll → `liveProgress` persist.
 - **Tests:** `p0vrPageConceptLiveStageProgression1.test.ts`.
 - **Branch:** `cursor/page-concept-live-stage-progression1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-REAL-SUBSTEP-EMISSION1
+
+UI had `liveProgress` bindings but CGPT prep emitted all substeps in one synchronous tick (wrong order: creative-direction first).
+
+- **Order fix:** Step 1 rows reordered to PAGE INTELLIGENCE → BRAND CONTEXT → KEY MESSAGES → VISUAL MOODBOARD → CREATIVE DIRECTION (synthesis last).
+- **Real checkpoints:** `runSubstepCheckpoint` RUNNING → compile slice → COMPLETE + `setImmediate` yield between writes; `PageConceptCgptSubstepRunDetail` persisted on run (`cgptSubsteps`); GET snapshot exposes `cgptSubstepsStatus` + `currentCgptSubstep`.
+- **429:** context substeps stay COMPLETE; `creative-direction` → `RATE_LIMITED` / retry resumes synthesis only.
+- **Tests:** `p0vrPageConceptCgptRealSubstepEmission1.test.ts` dry-run poll proves sequential substeps.
+- **Branch:** `cursor/page-concept-cgpt-real-substep-emission1-b747`.
