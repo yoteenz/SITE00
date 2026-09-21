@@ -88,7 +88,9 @@ export function pageConceptServerRunIsTerminal(status: PageConceptServerRunStatu
   );
 }
 
-export function pageConceptServerRunToResult(run: PageConceptServerRun): PageConceptGenerationRunResult | null {
+export function pageConceptServerRunToResult(
+  run: Pick<PageConceptServerRun, 'plan' | 'pipelineSet' | 'jobs'>,
+): PageConceptGenerationRunResult | null {
   if (!run.plan || !run.pipelineSet) return null;
   return { plan: run.plan, pipelineSet: run.pipelineSet, jobs: run.jobs };
 }
