@@ -214,8 +214,10 @@ export async function executePageConceptGeneration(
     });
   }
 
+  const nbpRetryOnly = retryFailedOnly && skipCgpt && skipGpt2;
+
   const synthesisCheck = validateCgptCreativeSynthesis(creativeInjection);
-  if (!synthesisCheck.ok && !dryRun) {
+  if (!synthesisCheck.ok && !dryRun && !nbpRetryOnly) {
     creativeInjectionError = `CGPT_SYNTHESIS_INCOMPLETE: ${synthesisCheck.missingFields.join(', ')}`;
     const pipelineSet: PageConceptPipelineSet = {
       pipelineSetId,
@@ -295,7 +297,7 @@ export async function executePageConceptGeneration(
     brief: cgptCreativeBrief!,
     package: preGpt2HandoffPackage,
   });
-  if (!handoffIntegrity.ok && !dryRun) {
+  if (!handoffIntegrity.ok && !dryRun && !nbpRetryOnly) {
     const pipelineSet: PageConceptPipelineSet = {
       pipelineSetId,
       projectId: input.state.projectId,
