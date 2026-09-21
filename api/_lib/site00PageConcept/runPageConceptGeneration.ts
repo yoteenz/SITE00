@@ -27,6 +27,7 @@ export type RunPageConceptGenerationInput = {
   retryCgptOnly?: boolean;
   /** Founder approved GPT2 authority — continue to NBP on same run. */
   continueNbpAfterGpt2Review?: boolean;
+  continueGpt2AfterCgptReview?: boolean;
 };
 
 export function planPageConceptGeneration(

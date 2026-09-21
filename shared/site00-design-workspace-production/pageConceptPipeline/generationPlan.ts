@@ -4,7 +4,7 @@ import type { PageConceptGenerationPlan } from './types.js';
 import { evaluatePageConceptReadiness, evaluatePageConceptServerReadiness } from './readiness.js';
 import { PAGE_CONCEPT_TARGET_TYPE } from './constants.js';
 
-export const PAGE_CGPT_PROMPT_VERSION = 'page-concept-cgpt-v1-injection';
+export { PAGE_CGPT_SYNTHESIS_PROMPT_VERSION as PAGE_CGPT_PROMPT_VERSION } from './pageConceptCgptCreativeSynthesis.js';
 export const PAGE_GPT2_PROMPT_VERSION = 'page-concept-gpt2-v1-authority';
 export { PAGE_NBP_PROMPT_VERSION } from './pageConceptNbpAuthorityPolicy.js';
 export const PAGE_NBP_MODEL = 'fal-ai/nano-banana-pro/edit';

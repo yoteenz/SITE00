@@ -11,6 +11,17 @@ import type {
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PAGE_CGPT_PROMPT_VERSION } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import {
+  buildCgptCreativeDirectorSystemPrompt,
+  buildCgptProviderUserPayload,
+  buildCgptSynthesisRepairUserMessage,
+  buildVitestCgptCreativeInjection,
+  validateCgptCreativeSynthesis,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeSynthesis.js';
+import {
+  buildPageCreativeInjectionFromParsed,
+  mergeCgptParsedRecords,
+} from './buildPageCreativeInjectionFromParsed.js';
+import {
   classifyAnthropic429,
   estimateJsonTokenCount,
   founderCodeForHardQuota429,
@@ -37,40 +48,6 @@ export type PageCgptTokenAudit = {
 
 export const PAGE_CGPT_MAX_OUTPUT_TOKENS = 4096;
 
-function vitestInjection(input: PageCgptInput): PageCreativeInjection {
-  const now = new Date().toISOString();
-  return {
-    injectionId: `pinj-vitest-${input.pageContext.pageId}`,
-    projectId: input.pageContext.projectId,
-    pageId: input.pageContext.pageId,
-    projectContextVersion: input.projectContext.contextVersion,
-    pageContextVersion: input.pageContext.contextVersion,
-    functionContractVersion: input.functionContract.version,
-    creativeThesis: `${input.projectContext.brandTruth} expressed on ${input.pageContext.pageName}`,
-    pagePurposeInterpretation: input.pageContext.purpose,
-    visualOpportunity: input.pageContext.creativeLatitude,
-    hierarchyDirection: 'Project identity before utility chrome',
-    spatialDirection: 'Editorial panels with breathable gutters',
-    informationPriority: input.pageContext.requiredContent.join(' · '),
-    imageDataBalance: 'Hero evidence over dense tables',
-    responsiveDirection: 'Mobile stack · Desktop split authority rail',
-    mobileDirection: input.pageContext.responsiveRequirements.includes('MOBILE') ? 'Stack' : '—',
-    desktopDirection: input.pageContext.responsiveRequirements.includes('DESKTOP') ? 'Split' : '—',
-    creativeLatitude: input.pageContext.creativeLatitude,
-    immutableRequirements: [...input.functionContract.immutableBehaviors],
-    audienceIntent: input.projectContext.audience,
-    distinctiveMove: 'Evidence-first editorial hierarchy',
-    typographyStrategy: 'Project skin typography — display authority over generic SaaS',
-    colorStrategy: input.projectContext.palette,
-    materialStrategy: input.projectContext.materials,
-    avoidList: ['generic SaaS dashboard', 'beige admin card grid'],
-    referenceStrategy: 'Upstream authority references + current capture',
-    assetStrategy: 'Project assets within host firewall',
-    createdAt: now,
-    cgptProvider: 'vitest',
-    cgptModel: 'mock-page-cgpt',
-  };
-}
 
 export function auditPageCgptInputTokens(input: PageCgptInput): PageCgptTokenAudit {
   const system = `You are CGPT for SITE 00 PAGE design. Return exactly ONE JSON object PageCreativeInjection.
@@ -114,15 +91,8 @@ export async function fetchAnthropicPageCreativeJson(
   const fetchImpl = options.fetchImpl ?? fetch;
   const tokenAudit = auditPageCgptInputTokens(input);
 
-  const system = `You are CGPT for SITE 00 PAGE design. Return exactly ONE JSON object PageCreativeInjection.
-Combine project brand intelligence and page role. Do NOT return arrays of concepts.`;
-
-  const userPayload = {
-    promptVersion: PAGE_CGPT_PROMPT_VERSION,
-    projectContext: input.projectContext,
-    pageContext: input.pageContext,
-    functionContract: input.functionContract,
-  };
+  const system = buildCgptCreativeDirectorSystemPrompt();
+  const userPayload = buildCgptProviderUserPayload(input);
   const user = JSON.stringify(userPayload);
 
   const res = await fetchImpl(ANTHROPIC_API_URL, {
@@ -214,41 +184,64 @@ Combine project brand intelligence and page role. Do NOT return arrays of concep
   return { parsed, model: ANTHROPIC_CREATIVE_MODEL, tokenAudit };
 }
 
+export async function fetchAnthropicCgptSynthesisRepair(
+  input: PageCgptInput,
+  missingFields: readonly string[],
+  options: { fetchImpl?: typeof fetch } = {},
+): Promise<{ parsed: Record<string, unknown>; model: string }> {
+  const fetchImpl = options.fetchImpl ?? fetch;
+  const system = buildCgptCreativeDirectorSystemPrompt();
+  const user = buildCgptSynthesisRepairUserMessage(missingFields);
+  const context = JSON.stringify(buildCgptProviderUserPayload(input));
+
+  const res = await fetchImpl(ANTHROPIC_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.ANTHROPIC_API_KEY!.trim(),
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: ANTHROPIC_CREATIVE_MODEL,
+      max_tokens: PAGE_CGPT_MAX_OUTPUT_TOKENS,
+      system,
+      messages: [
+        { role: 'user', content: context },
+        { role: 'assistant', content: '{}' },
+        { role: 'user', content: user },
+      ],
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(`CGPT_SYNTHESIS_REPAIR_FAILED: ${res.status}`);
+  }
+  const data = (await res.json()) as { content?: { type: string; text?: string }[] };
+  const text = data.content?.find((c) => c.type === 'text')?.text ?? '';
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('CGPT_SYNTHESIS_REPAIR_FAILED: invalid JSON');
+  return { parsed: JSON.parse(jsonMatch[0]) as Record<string, unknown>, model: ANTHROPIC_CREATIVE_MODEL };
+}
+
 export async function generatePageCreativeInjection(input: PageCgptInput): Promise<PageCreativeInjection> {
   if (process.env.VITEST === 'true') {
-    return vitestInjection(input);
+    return buildVitestCgptCreativeInjection(input);
   }
   if (!isAnthropicConfigured()) {
     throw new Error('CGPT_INJECTION_FAILED: ANTHROPIC_API_KEY not configured');
   }
 
-  const { parsed, model } = await fetchAnthropicPageCreativeJson(input);
-  const now = new Date().toISOString();
-  return {
-    injectionId: `pinj-${Date.now()}`,
-    projectId: input.pageContext.projectId,
-    pageId: input.pageContext.pageId,
-    projectContextVersion: input.projectContext.contextVersion,
-    pageContextVersion: input.pageContext.contextVersion,
-    functionContractVersion: input.functionContract.version,
-    creativeThesis: String(parsed.creativeThesis ?? ''),
-    pagePurposeInterpretation: String(parsed.pagePurposeInterpretation ?? ''),
-    visualOpportunity: String(parsed.visualOpportunity ?? ''),
-    hierarchyDirection: String(parsed.hierarchyDirection ?? ''),
-    spatialDirection: String(parsed.spatialDirection ?? ''),
-    informationPriority: String(parsed.informationPriority ?? ''),
-    imageDataBalance: String(parsed.imageDataBalance ?? ''),
-    responsiveDirection: String(parsed.responsiveDirection ?? ''),
-    mobileDirection: String(parsed.mobileDirection ?? ''),
-    desktopDirection: String(parsed.desktopDirection ?? ''),
-    creativeLatitude: String(parsed.creativeLatitude ?? ''),
-    immutableRequirements: Array.isArray(parsed.immutableRequirements) ?
-      parsed.immutableRequirements.map(String)
-    : [],
-    referenceStrategy: String(parsed.referenceStrategy ?? ''),
-    assetStrategy: String(parsed.assetStrategy ?? ''),
-    createdAt: now,
-    cgptProvider: 'anthropic',
-    cgptModel: model,
-  };
+  let { parsed, model } = await fetchAnthropicPageCreativeJson(input);
+  let injection = buildPageCreativeInjectionFromParsed(input, parsed, model);
+  let validation = validateCgptCreativeSynthesis(injection);
+  if (!validation.ok) {
+    const repair = await fetchAnthropicCgptSynthesisRepair(input, validation.missingFields);
+    parsed = mergeCgptParsedRecords(parsed, repair.parsed);
+    injection = buildPageCreativeInjectionFromParsed(input, parsed, model);
+    validation = validateCgptCreativeSynthesis(injection);
+  }
+  if (!validation.ok) {
+    throw new Error(`CGPT_SYNTHESIS_INCOMPLETE: ${validation.missingFields.join(', ')}`);
+  }
+  return injection;
 }

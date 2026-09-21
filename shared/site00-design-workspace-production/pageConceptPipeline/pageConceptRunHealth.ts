@@ -38,6 +38,7 @@ export function isPageConceptPipelineExecutionActive(input: {
   return (
     input.generationStatus === 'CGPT_RUNNING' ||
     input.generationStatus === 'CGPT_RATE_LIMITED' ||
+    input.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
     input.generationStatus === 'GPT2_RUNNING' ||
     input.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
     input.generationStatus === 'NBP_RUNNING' ||

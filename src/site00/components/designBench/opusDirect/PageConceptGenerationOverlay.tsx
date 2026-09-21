@@ -69,7 +69,9 @@ export function PageConceptGenerationOverlay({
   progressForensics,
   presentedSubstepStates,
   runHealth,
+  cgptAwaitingFounderReview,
   gpt2AwaitingFounderReview,
+  onContinueGpt2,
   onContinueNbp,
 }: {
   open: boolean;
@@ -94,7 +96,9 @@ export function PageConceptGenerationOverlay({
   progressForensics?: PageConceptProgressObservationForensics;
   presentedSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
   runHealth?: PageConceptRunHealth;
+  cgptAwaitingFounderReview?: boolean;
   gpt2AwaitingFounderReview?: boolean;
+  onContinueGpt2?: () => void;
   onContinueNbp?: () => void;
 }) {
   const [fullBriefOpen, setFullBriefOpen] = useState(false);
@@ -315,6 +319,8 @@ export function PageConceptGenerationOverlay({
           generateLabel={
             gpt2AwaitingFounderReview && !generating ?
               'REGENERATE AUTHORITY'
+            : cgptAwaitingFounderReview && !generating ?
+              'REGENERATE CGPT'
             : !generating && cgptRetry ?
               'RETRY CGPT'
             : !generating && blockingState?.executionError && !failedNbp ?
@@ -322,7 +328,7 @@ export function PageConceptGenerationOverlay({
             : undefined
           }
           tertiaryAction={
-            gpt2AwaitingFounderReview && !generating && cgptBrief ?
+            (cgptAwaitingFounderReview || gpt2AwaitingFounderReview) && !generating && cgptBrief ?
               {
                 label: 'RETURN TO CREATIVE DIRECTION',
                 onClick: () => setFullBriefOpen(true),
@@ -332,7 +338,14 @@ export function PageConceptGenerationOverlay({
             : null
           }
           secondaryAction={
-            gpt2AwaitingFounderReview && !generating && onContinueNbp ?
+            cgptAwaitingFounderReview && !generating && onContinueGpt2 ?
+              {
+                label: 'CONTINUE TO GPT2',
+                onClick: onContinueGpt2,
+                disabled: generating,
+                testId: 'page-concept-continue-gpt2',
+              }
+            : gpt2AwaitingFounderReview && !generating && onContinueNbp ?
               {
                 label: 'CONTINUE TO NBP',
                 onClick: onContinueNbp,

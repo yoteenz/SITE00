@@ -57,16 +57,7 @@ function cgptContractFromInjection(
   brief?: PageConceptCgptCreativeBrief | null,
 ): Record<string, string> {
   if (brief) {
-    const handoff = cgptCreativeDirectionHandoffFromBrief(brief, injection);
-    return {
-      ...handoff,
-      visualTerritory: injection.visualOpportunity,
-      imageStrategy: injection.assetStrategy,
-      mandatoryBrandSignals: brief.brandSignals.join(' · '),
-      mobileDirection: injection.mobileDirection,
-      desktopDirection: injection.desktopDirection,
-      pageSurprise: injection.informationPriority,
-    };
+    return cgptCreativeDirectionHandoffFromBrief(brief);
   }
   const immutableRequirements = injection.immutableRequirements ?? [];
   const avoid =

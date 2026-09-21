@@ -1,5 +1,5 @@
 /**
- * P0.VR.PAGE-CONCEPT-CGPT-BRIEF-INSPECTOR1 — persisted CGPT creative direction brief.
+ * P0.VR.PAGE-CONCEPT-CGPT-BRIEF-INSPECTOR1 + CREATIVE-SYNTHESIS-LEAK-FIX1
  */
 
 import type {
@@ -23,8 +23,14 @@ import {
   buildPageConceptGpt2AuthorityPackage,
   type PageConceptGpt2AuthorityPackage,
 } from './pageConceptGpt2AuthorityPackage.js';
+import {
+  GPT2_HANDOFF_INTEGRITY_REQUIRED_KEYS,
+  sanitizeBrandSignalLines,
+  sanitizeProjectCreativeContextForCgpt,
+  translateFunctionContractToCreativeRequirements,
+} from './pageConceptCgptCreativeSynthesis.js';
 
-export const PAGE_CGPT_BRIEF_VERSION = 'page-concept-cgpt-brief-v1';
+export const PAGE_CGPT_BRIEF_VERSION = 'page-concept-cgpt-brief-v2-synthesis';
 
 export type PageConceptCreativeLeakageDiagnostic = {
   identityGrounding: 'PRESENT' | 'MISSING';
@@ -73,6 +79,12 @@ function skinSignalLines(skin: ProjectSkinContract): string[] {
   ];
 }
 
+function synthesisText(primary: string | undefined, legacy: string): string {
+  const p = primary?.trim();
+  if (p) return p;
+  return legacy.trim();
+}
+
 export function compilePageConceptCgptCreativeBrief(input: {
   injection: PageCreativeInjection;
   projectContext: ProjectCreativeContext;
@@ -80,44 +92,74 @@ export function compilePageConceptCgptCreativeBrief(input: {
   functionContract: PageFunctionContract;
   captureSetId?: string | null;
 }): PageConceptCgptCreativeBrief {
-  const { injection, projectContext, pageContext, functionContract } = input;
+  const { injection, pageContext, functionContract } = input;
+  const projectContext = sanitizeProjectCreativeContextForCgpt(input.projectContext);
   const skin = compileProjectSkinContract(projectContext.projectId);
   const visualIdentity = resolvePageConceptProjectVisualIdentity(projectContext.projectId);
 
   const avoidList =
     injection.avoidList && injection.avoidList.length > 0 ?
-      injection.avoidList
-    : visualIdentity?.forbiddenDrift?.slice(0, 6) ?? [];
+      sanitizeBrandSignalLines([...injection.avoidList])
+    : sanitizeBrandSignalLines(visualIdentity?.forbiddenDrift?.slice(0, 6) ?? []);
 
-  const identitySignals = [
+  const mandatoryBrandSignals =
+    injection.mandatoryBrandSignals && injection.mandatoryBrandSignals.length > 0 ?
+      sanitizeBrandSignalLines([...injection.mandatoryBrandSignals])
+    : sanitizeBrandSignalLines(visualIdentity?.mandatoryBrandSignals?.slice(0, 6) ?? []);
+
+  const identitySignals = sanitizeBrandSignalLines([
     projectContext.brandTruth,
     projectContext.brandPersonality,
     projectContext.projectPurpose,
     projectContext.audience,
     projectContext.designLanguage,
-  ].filter(Boolean);
+  ]);
 
-  const brandSignals = [
+  const brandSignals = sanitizeBrandSignalLines([
     projectContext.tone,
     projectContext.creativeAppetite,
     projectContext.forbiddenPatterns,
-    visualIdentity?.mandatoryBrandSignals?.join(' · ') ?? '',
-  ].filter(Boolean);
+  ]);
+
+  const creativeFunctionalRequirements = translateFunctionContractToCreativeRequirements({
+    functionContract,
+    pageContext,
+  });
+
+  const creativePremise = synthesisText(injection.creativePremise, injection.creativeThesis);
+  const pageStory = synthesisText(injection.pageStory, injection.pagePurposeInterpretation);
+  const compositionStrategy = synthesisText(injection.compositionStrategy, injection.spatialDirection);
+  const hierarchyStrategy = synthesisText(injection.hierarchyStrategy, injection.hierarchyDirection);
+  const typographyStrategy = synthesisText(injection.typographyStrategy, '');
+  const colorStrategy = synthesisText(injection.colorStrategy, injection.visualOpportunity);
+  const materialStrategy = synthesisText(injection.materialStrategy, injection.referenceStrategy);
+  const imageryStrategy = synthesisText(injection.imageryStrategy, injection.assetStrategy);
+  const imageStrategy = synthesisText(injection.imageStrategy, injection.imageDataBalance);
+  const interactionCharacter = synthesisText(injection.interactionCharacter, injection.responsiveDirection);
+  const visualTerritory = synthesisText(injection.visualTerritory, injection.visualOpportunity);
+  const distinctiveMove = synthesisText(injection.distinctiveMove, '');
+  const pageSurprise = synthesisText(injection.pageSurprise, '');
 
   const briefCore = {
     injectionId: injection.injectionId,
-    creativePremise: injection.creativeThesis,
+    creativePremise,
     pagePurpose: injection.pagePurposeInterpretation,
     audienceIntent: injection.audienceIntent ?? projectContext.audience,
-    pageStory: injection.pagePurposeInterpretation,
-    compositionStrategy: injection.spatialDirection,
-    hierarchyStrategy: injection.hierarchyDirection,
-    typographyStrategy: injection.typographyStrategy ?? injection.hierarchyDirection,
-    colorStrategy: injection.colorStrategy ?? injection.visualOpportunity,
-    materialStrategy: injection.materialStrategy ?? injection.referenceStrategy,
-    imageryStrategy: injection.assetStrategy,
-    interactionCharacter: injection.responsiveDirection,
-    distinctiveMove: injection.distinctiveMove ?? injection.informationPriority,
+    pageStory,
+    compositionStrategy,
+    hierarchyStrategy,
+    typographyStrategy,
+    colorStrategy,
+    materialStrategy,
+    imageryStrategy,
+    imageStrategy,
+    visualTerritory,
+    interactionCharacter,
+    distinctiveMove,
+    pageSurprise,
+    mobileDirection: injection.mobileDirection,
+    desktopDirection: injection.desktopDirection,
+    mandatoryBrandSignals,
     avoidList,
   };
 
@@ -143,16 +185,16 @@ export function compilePageConceptCgptCreativeBrief(input: {
     colorStrategy: briefCore.colorStrategy,
     materialStrategy: briefCore.materialStrategy,
     imageryStrategy: briefCore.imageryStrategy,
+    imageStrategy: briefCore.imageStrategy,
+    visualTerritory: briefCore.visualTerritory,
     interactionCharacter: briefCore.interactionCharacter,
-    keyMessages: [
-      injection.informationPriority,
-      injection.imageDataBalance,
-    ].filter(Boolean),
-    requiredContent: [...pageContext.requiredContent],
-    functionalRequirements: [
-      ...pageContext.functionalRequirements,
-      ...functionContract.immutableBehaviors,
-    ],
+    pageSurprise: briefCore.pageSurprise,
+    mobileDirection: briefCore.mobileDirection,
+    desktopDirection: briefCore.desktopDirection,
+    mandatoryBrandSignals: briefCore.mandatoryBrandSignals,
+    keyMessages: [injection.informationPriority, injection.imageDataBalance].filter(Boolean),
+    requiredContent: [...pageContext.requiredContent].filter((c) => c.trim().length > 0),
+    functionalRequirements: creativeFunctionalRequirements,
     creativeLatitude: injection.creativeLatitude,
     distinctiveMove: briefCore.distinctiveMove,
     avoidList: briefCore.avoidList,
@@ -169,7 +211,7 @@ export function compilePageConceptCgptCreativeBrief(input: {
       { sectionId: 'identitySignals', sourceLabel: 'IDENTITY + INTAKE' },
       { sectionId: 'skinSignals', sourceLabel: 'SKINS' },
       { sectionId: 'pageStory', sourceLabel: 'PAGE ROLE + CGPT SYNTHESIS' },
-      { sectionId: 'functionalRequirements', sourceLabel: 'FUNCTION CONTRACT' },
+      { sectionId: 'functionalRequirements', sourceLabel: 'CREATIVE FUNCTION REQUIREMENTS' },
       { sectionId: 'currentImplementation', sourceLabel: 'FUNCTIONAL REFERENCE ONLY' },
     ],
     createdAt: injection.createdAt,
@@ -178,39 +220,30 @@ export function compilePageConceptCgptCreativeBrief(input: {
 
 export function cgptCreativeDirectionHandoffFromBrief(
   brief: PageConceptCgptCreativeBrief,
-  injection?: PageCreativeInjection,
 ): Record<string, string> {
   return {
     creativePremise: brief.creativePremise,
     pageStory: brief.pageStory,
+    visualTerritory: brief.visualTerritory,
     compositionStrategy: brief.compositionStrategy,
     hierarchyStrategy: brief.hierarchyStrategy,
     typographyStrategy: brief.typographyStrategy,
     colorStrategy: brief.colorStrategy,
     materialStrategy: brief.materialStrategy,
     imageryStrategy: brief.imageryStrategy,
+    imageStrategy: brief.imageStrategy,
     interactionCharacter: brief.interactionCharacter,
     identitySignals: brief.identitySignals.join(' · '),
     skinSignals: brief.skinSignals.join(' · '),
     distinctiveMove: brief.distinctiveMove,
+    pageSurprise: brief.pageSurprise,
     avoidList: brief.avoidList.join(' · '),
+    mandatoryBrandSignals: brief.mandatoryBrandSignals.join(' · '),
     creativeLatitude: brief.creativeLatitude,
-    mobileDirection: injection?.mobileDirection ?? '',
-    desktopDirection: injection?.desktopDirection ?? '',
+    mobileDirection: brief.mobileDirection,
+    desktopDirection: brief.desktopDirection,
   };
 }
-
-const HANDOFF_REQUIRED_KEYS = [
-  'creativePremise',
-  'compositionStrategy',
-  'typographyStrategy',
-  'colorStrategy',
-  'imageryStrategy',
-  'identitySignals',
-  'skinSignals',
-  'avoidList',
-  'distinctiveMove',
-] as const;
 
 export function verifyGpt2HandoffContextIntegrity(input: {
   brief: PageConceptCgptCreativeBrief;
@@ -220,7 +253,7 @@ export function verifyGpt2HandoffContextIntegrity(input: {
   const missing: string[] = [];
   if (!cgpt) return { ok: false, errorCode: 'GPT2_HANDOFF_CONTEXT_LOSS', missing: ['CGPT_HANDOFF'] };
 
-  for (const key of HANDOFF_REQUIRED_KEYS) {
+  for (const key of GPT2_HANDOFF_INTEGRITY_REQUIRED_KEYS) {
     const value = cgpt[key]?.trim();
     if (!value) missing.push(key);
   }

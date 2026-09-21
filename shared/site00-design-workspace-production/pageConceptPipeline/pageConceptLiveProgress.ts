@@ -159,6 +159,20 @@ export function derivePageConceptLiveProgress(input: {
   if (input.panelProgress) return input.panelProgress;
 
   const now = new Date().toISOString();
+  if (input.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
+    return {
+      currentStage: 'CGPT',
+      currentSubstep: null,
+      stageStatusById: { CGPT: 'COMPLETE', GPT2: 'PENDING', NBP: 'PENDING' },
+      substepStatusById: Object.fromEntries(
+        PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.map((id) => [id, 'COMPLETE' as const]),
+      ) as Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>,
+      nbpActiveLabel: null,
+      updatedAt: now,
+      failureStage: null,
+      failureSubstep: null,
+    };
+  }
   if (input.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
     return {
       currentStage: 'NBP',

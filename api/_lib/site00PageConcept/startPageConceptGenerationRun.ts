@@ -44,12 +44,28 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
 
   const resumeRunId = input.resumeRunId?.trim() || null;
   const continueNbpAfterGpt2Review = input.continueNbpAfterGpt2Review === true;
+  const continueGpt2AfterCgptReview = input.continueGpt2AfterCgptReview === true;
   const existing =
-    resumeRunId && (input.retryCgptOnly || continueNbpAfterGpt2Review) ?
+    resumeRunId && (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) ?
       getPageConceptServerRun(resumeRunId)
     : null;
-  if (resumeRunId && (input.retryCgptOnly || continueNbpAfterGpt2Review) && !existing) {
+  if (
+    resumeRunId &&
+    (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) &&
+    !existing
+  ) {
     throw new Error('RUN_NOT_FOUND');
+  }
+  if (continueGpt2AfterCgptReview && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW',
+      },
+    };
   }
   if (continueNbpAfterGpt2Review && existing?.pipelineSet) {
     input = {
@@ -101,6 +117,7 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
   void runPageConceptGenerationInBackground(runId, input, {
     retryCgptOnly: input.retryCgptOnly === true,
     continueNbpAfterGpt2Review,
+    continueGpt2AfterCgptReview,
   });
   return { runId, status: 'QUEUED' };
 }
@@ -108,7 +125,11 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
 async function runPageConceptGenerationInBackground(
   runId: string,
   input: StartPageConceptGenerationRunInput,
-  flags: { retryCgptOnly?: boolean; continueNbpAfterGpt2Review?: boolean } = {},
+  flags: {
+    retryCgptOnly?: boolean;
+    continueNbpAfterGpt2Review?: boolean;
+    continueGpt2AfterCgptReview?: boolean;
+  } = {},
 ): Promise<void> {
   const startedAt = new Date().toISOString();
   patchPageConceptServerRun(runId, {
@@ -131,6 +152,7 @@ async function runPageConceptGenerationInBackground(
       dryRun: input.dryRun,
       retryCgptOnly: flags.retryCgptOnly === true,
       continueNbpAfterGpt2Review: flags.continueNbpAfterGpt2Review === true,
+      continueGpt2AfterCgptReview: flags.continueGpt2AfterCgptReview === true,
       onProgress: (patch) => {
         patchPageConceptServerRun(runId, patch);
       },

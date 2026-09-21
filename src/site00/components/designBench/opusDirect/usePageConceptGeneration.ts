@@ -450,7 +450,10 @@ export function usePageConceptGeneration(
             : s,
           );
         }
-        if (update.run.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+        if (
+          update.run.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
+          update.run.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW'
+        ) {
           setGenerating(false);
           setOverlayMode('review');
         }
@@ -1051,6 +1054,85 @@ export function usePageConceptGeneration(
     }
   }, [generating, pageId, persist, projectId, screenId, state.activeGenerationRunId]);
 
+  const continueGpt2AfterCgptReview = useCallback(async () => {
+    if (generating) {
+      setExecutionError('GENERATION ALREADY IN PROGRESS');
+      return;
+    }
+    const resumeRunId =
+      state.activeGenerationRunId ?? loadPageConceptActiveServerRunId(projectId, pageId);
+    if (!resumeRunId) {
+      setExecutionError('CONTINUE TO GPT2 REQUIRES ACTIVE GENERATION RUN');
+      return;
+    }
+    setGenerating(true);
+    setExecutionError(null);
+    setOverlayMode('progress');
+    try {
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      await ensurePageConceptApiAccessToken();
+      const current = loadPageConceptGenerationState(projectId, pageId);
+      const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+      if (
+        !mobile?.artifactPath ||
+        !desktop?.artifactPath ||
+        !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
+        !isPageCaptureDisplayableArtifact(desktop.artifactPath)
+      ) {
+        throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
+      }
+      const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
+      const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
+      persist((s) => ({ ...s, generationStatus: 'GPT2_RUNNING' }));
+
+      emitPageConceptGenerateTelemetry('page_concept_founder_generation_confirmed', {
+        projectId,
+        pageId,
+        generationRunId: resumeRunId,
+      });
+
+      const { runId } = await startPageConceptGenerationRunApi({
+        state: current,
+        founderConfirmedSpend: true,
+        continueGpt2AfterCgptReview: true,
+        resumeRunId,
+        mobileCapture,
+        desktopCapture,
+      });
+      savePageConceptActiveServerRunId(projectId, pageId, runId);
+      markPageConceptFounderRunSession(projectId, pageId, runId);
+
+      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+        runId,
+        afterSequence: lastObservedSequenceRef.current,
+        onUpdate: (update) => {
+          void applyPollUpdate(update, () => false);
+        },
+      });
+      clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
+      const result = pageConceptServerRunToResult(terminalRun);
+      if (!result) throw new Error(terminalRun.error ?? 'GPT2_CONTINUE_FAILED');
+
+      persist((s) => {
+        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
+        next = registerPageConceptGenerationJobs(next, result.jobs);
+        next = mergePageConceptArtifactsIntoGallery(next);
+        return next;
+      });
+      setOverlayMode('review');
+      window.dispatchEvent(
+        new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+      );
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'GPT2_CONTINUE_FAILED';
+      setExecutionError(message);
+      setOverlayMode('review');
+    } finally {
+      setGenerating(false);
+    }
+  }, [applyPollUpdate, generating, pageId, persist, projectId, screenId, state.activeGenerationRunId]);
+
   const continueNbpAfterGpt2Review = useCallback(async () => {
     if (generating) {
       setExecutionError('GENERATION ALREADY IN PROGRESS');
@@ -1244,6 +1326,8 @@ export function usePageConceptGeneration(
     presentedSubstepStates,
     runHealth,
     continueNbpAfterGpt2Review,
+    continueGpt2AfterCgptReview,
+    cgptAwaitingFounderReview: state.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW',
     gpt2AwaitingFounderReview: state.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW',
   };
 }

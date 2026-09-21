@@ -23,10 +23,19 @@ import {
   type PageConceptCgptSubstepRunDetail,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptSubstepRun.js';
 import {
+  fetchAnthropicCgptSynthesisRepair,
   fetchAnthropicPageCreativeJson,
   generatePageCreativeInjection,
   type PageCgptInput,
 } from './generatePageCreativeInjection.js';
+import {
+  buildPageCreativeInjectionFromParsed,
+  mergeCgptParsedRecords,
+} from './buildPageCreativeInjectionFromParsed.js';
+import {
+  buildVitestCgptCreativeInjection,
+  validateCgptCreativeSynthesis,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeSynthesis.js';
 import {
   isPageConceptCgptProviderError,
   PageConceptCgptProviderError,
@@ -53,76 +62,35 @@ function yieldForStatusPoll(): Promise<void> {
   });
 }
 
-function injectionFromParsed(
-  input: PageCgptInput,
-  parsed: Record<string, unknown>,
-  model: string,
-): PageCreativeInjection {
-  const now = new Date().toISOString();
-  return {
-    injectionId: `pinj-${Date.now()}`,
-    projectId: input.pageContext.projectId,
-    pageId: input.pageContext.pageId,
-    projectContextVersion: input.projectContext.contextVersion,
-    pageContextVersion: input.pageContext.contextVersion,
-    functionContractVersion: input.functionContract.version,
-    creativeThesis: String(parsed.creativeThesis ?? ''),
-    pagePurposeInterpretation: String(parsed.pagePurposeInterpretation ?? ''),
-    visualOpportunity: String(parsed.visualOpportunity ?? ''),
-    hierarchyDirection: String(parsed.hierarchyDirection ?? ''),
-    spatialDirection: String(parsed.spatialDirection ?? ''),
-    informationPriority: String(parsed.informationPriority ?? ''),
-    imageDataBalance: String(parsed.imageDataBalance ?? ''),
-    responsiveDirection: String(parsed.responsiveDirection ?? ''),
-    mobileDirection: String(parsed.mobileDirection ?? ''),
-    desktopDirection: String(parsed.desktopDirection ?? ''),
-    creativeLatitude: String(parsed.creativeLatitude ?? ''),
-    immutableRequirements: Array.isArray(parsed.immutableRequirements) ?
-      parsed.immutableRequirements.map(String)
-    : [],
-    audienceIntent: parsed.audienceIntent != null ? String(parsed.audienceIntent) : undefined,
-    distinctiveMove: parsed.distinctiveMove != null ? String(parsed.distinctiveMove) : undefined,
-    typographyStrategy: parsed.typographyStrategy != null ? String(parsed.typographyStrategy) : undefined,
-    colorStrategy: parsed.colorStrategy != null ? String(parsed.colorStrategy) : undefined,
-    materialStrategy: parsed.materialStrategy != null ? String(parsed.materialStrategy) : undefined,
-    avoidList:
-      Array.isArray(parsed.avoidList) ? parsed.avoidList.map(String)
-      : typeof parsed.avoidList === 'string' ? [parsed.avoidList]
-      : undefined,
-    referenceStrategy: String(parsed.referenceStrategy ?? ''),
-    assetStrategy: String(parsed.assetStrategy ?? ''),
-    createdAt: now,
-    cgptProvider: 'anthropic',
-    cgptModel: model,
-  };
-}
-
 function dryRunInjection(input: PageCgptInput, pipelineSetId: string): PageCreativeInjection {
+  const base = buildVitestCgptCreativeInjection(input);
   return {
+    ...base,
     injectionId: `dry-cgpt-${pipelineSetId}`,
-    projectId: input.pageContext.projectId,
-    pageId: input.pageContext.pageId,
-    projectContextVersion: input.projectContext.contextVersion,
-    pageContextVersion: input.pageContext.contextVersion,
-    functionContractVersion: input.functionContract.version,
-    creativeThesis: 'DRY_RUN',
-    pagePurposeInterpretation: 'DRY_RUN',
-    visualOpportunity: 'DRY_RUN',
-    hierarchyDirection: 'DRY_RUN',
-    spatialDirection: 'DRY_RUN',
-    informationPriority: 'DRY_RUN',
-    imageDataBalance: 'DRY_RUN',
-    responsiveDirection: 'DRY_RUN',
-    mobileDirection: 'DRY_RUN',
-    desktopDirection: 'DRY_RUN',
-    creativeLatitude: 'DRY_RUN',
-    immutableRequirements: [],
-    referenceStrategy: 'DRY_RUN',
-    assetStrategy: 'DRY_RUN',
-    createdAt: new Date().toISOString(),
     cgptProvider: 'dry-run',
     cgptModel: 'dry-run',
   };
+}
+
+async function finalizeCgptInjectionFromProvider(
+  input: PageCgptInput,
+  parsed: Record<string, unknown>,
+  model: string,
+  fetchImpl?: typeof fetch,
+): Promise<PageCreativeInjection> {
+  let merged = parsed;
+  let injection = buildPageCreativeInjectionFromParsed(input, merged, model);
+  let validation = validateCgptCreativeSynthesis(injection);
+  if (!validation.ok) {
+    const repair = await fetchAnthropicCgptSynthesisRepair(input, validation.missingFields, { fetchImpl });
+    merged = mergeCgptParsedRecords(merged, repair.parsed);
+    injection = buildPageCreativeInjectionFromParsed(input, merged, model);
+    validation = validateCgptCreativeSynthesis(injection);
+  }
+  if (!validation.ok) {
+    throw new Error(`CGPT_SYNTHESIS_INCOMPLETE: ${validation.missingFields.join(', ')}`);
+  }
+  return injection;
 }
 
 export async function executePageConceptCgptStage(options: {
@@ -281,6 +249,12 @@ export async function executePageConceptCgptStage(options: {
         attempt: attemptNumber,
         fetchImpl: options.fetchImpl,
       });
+      const injection = await finalizeCgptInjectionFromProvider(
+        options.input,
+        parsed,
+        model,
+        options.fetchImpl,
+      );
       const durationMs = Date.now() - t0;
       logPageConceptCgptProviderTelemetry({
         generationRunId: options.runId,
@@ -327,18 +301,22 @@ export async function executePageConceptCgptStage(options: {
           lastTelemetry: null,
         },
       });
-      return { ok: true, injection: injectionFromParsed(options.input, parsed, model) };
+      return { ok: true, injection };
     } catch (caught) {
       const durationMs = Date.now() - t0;
       if (!isPageConceptCgptProviderError(caught)) {
         setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
         const message = caught instanceof Error ? caught.message : 'CGPT_INJECTION_FAILED';
+        const founderMessage =
+          message.startsWith('CGPT_SYNTHESIS_INCOMPLETE') ?
+            'CGPT CREATIVE SYNTHESIS INCOMPLETE — REQUIRED FIELDS MISSING'
+          : message;
         cgptSubsteps.substepStatusById['creative-direction'] = 'FAILED';
         emitCgptDetail({ status: 'FAILED', generationStatus: 'FAILED', error: message, completedAt: new Date().toISOString() });
         return {
           ok: false,
-          errorCode: message,
-          founderMessage: message,
+          errorCode: message.startsWith('CGPT_SYNTHESIS_INCOMPLETE') ? 'CGPT_SYNTHESIS_INCOMPLETE' : message,
+          founderMessage,
           technicalDetails: message,
         };
       }

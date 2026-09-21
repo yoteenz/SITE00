@@ -409,7 +409,9 @@ export function TwinOpusDirectScreen({
         progressForensics={workspace.pageConceptGeneration.progressForensics}
         presentedSubstepStates={workspace.pageConceptGeneration.presentedSubstepStates}
         runHealth={workspace.pageConceptGeneration.runHealth}
+        cgptAwaitingFounderReview={workspace.pageConceptGeneration.cgptAwaitingFounderReview}
         gpt2AwaitingFounderReview={workspace.pageConceptGeneration.gpt2AwaitingFounderReview}
+        onContinueGpt2={() => void workspace.pageConceptGeneration.continueGpt2AfterCgptReview()}
         onContinueNbp={() => void workspace.pageConceptGeneration.continueNbpAfterGpt2Review()}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
         onConfirm={() => void workspace.pageConceptGeneration.handleGenerateClick()}
