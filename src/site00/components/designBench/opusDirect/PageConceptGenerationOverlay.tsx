@@ -37,6 +37,7 @@ import type { PageConceptSubstepRunState } from '../../../../../shared/site00-de
 import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-design-workspace-production/types.js';
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
+import { PageConceptDualRenderReviewPanel } from '../pageConceptGenerator/PageConceptDualRenderReviewPanel';
 import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
 import { PageConceptCgptBriefInspector } from '../pageConceptGenerator/PageConceptCgptBriefInspector';
 import { usePageConceptReleaseForensics } from './usePageConceptReleaseForensics';
@@ -74,6 +75,14 @@ export function PageConceptGenerationOverlay({
   gpt2AwaitingFounderReview,
   onContinueGpt2,
   onContinueNbp,
+  onRunDualRenderTest,
+  onRegenerateGpt2Authority,
+  dualRenderTestReview,
+  onRegenerateDualRenderGpt2Lane,
+  onRegenerateDualRenderNbpLane,
+  onDualRenderSelectGpt2,
+  onDualRenderSelectNbp,
+  onDualRenderKeepBoth,
   postRunReviewReady,
   postRunPrimaryAction,
   postRunSecondaryAction,
@@ -106,6 +115,14 @@ export function PageConceptGenerationOverlay({
   gpt2AwaitingFounderReview?: boolean;
   onContinueGpt2?: () => void;
   onContinueNbp?: () => void;
+  onRunDualRenderTest?: () => void;
+  onRegenerateGpt2Authority?: () => void;
+  dualRenderTestReview?: boolean;
+  onRegenerateDualRenderGpt2Lane?: () => void;
+  onRegenerateDualRenderNbpLane?: () => void;
+  onDualRenderSelectGpt2?: () => void;
+  onDualRenderSelectNbp?: () => void;
+  onDualRenderKeepBoth?: () => void;
   postRunReviewReady?: boolean;
   postRunPrimaryAction?: { label: string; testId: string } | null;
   postRunSecondaryAction?: { label: string; testId: string } | null;
@@ -220,7 +237,19 @@ export function PageConceptGenerationOverlay({
           />
         : undefined,
       nbpStageOverride:
-        hasAnyOutput || mode !== 'confirm' ?
+        dualRenderTestReview ?
+          <PageConceptDualRenderReviewPanel
+            authorityImageUri={gpt2?.authorityArtifact ?? null}
+            jobs={generationState.generationJobs}
+            dualRun={generationState.dualRenderTestRun}
+            onRegenerateGpt2Lane={onRegenerateDualRenderGpt2Lane}
+            onRegenerateNbpLane={onRegenerateDualRenderNbpLane}
+            onRunFullNbp={onContinueNbp}
+            onSelectGpt2={onDualRenderSelectGpt2}
+            onSelectNbp={onDualRenderSelectNbp}
+            onKeepBoth={onDualRenderKeepBoth}
+          />
+        : hasAnyOutput || mode !== 'confirm' ?
           <PageConceptGeneratorNbpStage
             slots={nbpSlots}
             projectId={generationState.projectId}
@@ -229,7 +258,22 @@ export function PageConceptGenerationOverlay({
           />
         : undefined,
     };
-  }, [cgptBrief, generationState.pageId, generationState.projectId, gpt2, mode, nbpSlots, generating, openImage]);
+  }, [
+    cgptBrief,
+    dualRenderTestReview,
+    generationState,
+    gpt2,
+    mode,
+    nbpSlots,
+    generating,
+    onContinueNbp,
+    onDualRenderKeepBoth,
+    onDualRenderSelectGpt2,
+    onDualRenderSelectNbp,
+    onRegenerateDualRenderGpt2Lane,
+    onRegenerateDualRenderNbpLane,
+    openImage,
+  ]);
 
   const reviewReady = pageConceptReviewReady(generationState.generationStatus);
   const inFlight = pageConceptGenerationInFlight(generationState.generationStatus, generating);
@@ -340,7 +384,7 @@ export function PageConceptGenerationOverlay({
           generateBusyLabel={generateBusyLabel}
           generateLabel={
             gpt2AwaitingFounderReview && !generating ?
-              'REGENERATE AUTHORITY'
+              'RUN DUAL RENDER TEST'
             : cgptAwaitingFounderReview && !generating ?
               'REGENERATE CGPT'
             : !generating && cgptRetry ?
@@ -350,7 +394,14 @@ export function PageConceptGenerationOverlay({
             : undefined
           }
           tertiaryAction={
-            (cgptAwaitingFounderReview || gpt2AwaitingFounderReview) && !generating && cgptBrief ?
+            gpt2AwaitingFounderReview && !generating ?
+              {
+                label: 'REGENERATE AUTHORITY',
+                onClick: () => onRegenerateGpt2Authority?.(),
+                disabled: generating,
+                testId: 'page-concept-regenerate-gpt2-authority',
+              }
+            : (cgptAwaitingFounderReview || gpt2AwaitingFounderReview) && !generating && cgptBrief ?
               {
                 label: 'RETURN TO CREATIVE DIRECTION',
                 onClick: () => setFullBriefOpen(true),
@@ -398,7 +449,7 @@ export function PageConceptGenerationOverlay({
               }
             : gpt2AwaitingFounderReview && !generating && onContinueNbp ?
               {
-                label: 'CONTINUE TO NBP',
+                label: 'RUN FULL NBP SET',
                 onClick: onContinueNbp,
                 disabled: generating,
                 testId: 'page-concept-continue-nbp',
@@ -412,7 +463,13 @@ export function PageConceptGenerationOverlay({
               }
             : null
           }
-          onGenerate={cgptRetry && !generating ? onRetryCgpt : onConfirm}
+          onGenerate={
+            gpt2AwaitingFounderReview && !generating ?
+              () => onRunDualRenderTest?.()
+            : cgptRetry && !generating ?
+              onRetryCgpt
+            : onConfirm
+          }
           onCancel={onCancel}
           onClose={onCancel}
         />

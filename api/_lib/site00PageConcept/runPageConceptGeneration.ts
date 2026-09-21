@@ -30,6 +30,8 @@ export type RunPageConceptGenerationInput = {
   continueGpt2AfterCgptReview?: boolean;
   retryGpt2Only?: boolean;
   regenerateNbpOnly?: boolean;
+  continueDualRenderTest?: boolean;
+  regenerateDualRenderLane?: 'GPT2_DIRECT' | 'NBP' | null;
 };
 
 export function planPageConceptGeneration(
@@ -127,5 +129,9 @@ export async function runPageConceptGeneration(
     retryCgptOnly: input.retryCgptOnly === true,
     retryGpt2Only: input.retryGpt2Only === true,
     regenerateNbpOnly: input.regenerateNbpOnly === true,
+    continueDualRenderTest: input.continueDualRenderTest === true,
+    regenerateDualRenderLane: input.regenerateDualRenderLane ?? null,
+    continueNbpAfterGpt2Review: input.continueNbpAfterGpt2Review === true,
+    continueGpt2AfterCgptReview: input.continueGpt2AfterCgptReview === true,
   });
 }

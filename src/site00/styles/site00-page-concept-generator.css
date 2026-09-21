@@ -1682,3 +1682,56 @@
     grid-template-columns: auto auto auto;
   }
 }
+
+.s00-pcg__dualReview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.s00-pcg__dualTitle {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.s00-pcg__dualPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.s00-pcg__dualCard {
+  border: 1px solid rgb(20 20 20 / 12%);
+  padding: 6px;
+}
+
+.s00-pcg__dualImg,
+.s00-pcg__dualAuthority {
+  width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+  background: rgb(20 20 20 / 4%);
+}
+
+.s00-pcg__dualActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.s00-pcg__dualActions button {
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.s00-pcg__dualGrounding {
+  margin: 4px 0 0;
+  padding-left: 14px;
+  font-size: 6px;
+  opacity: 0.85;
+}

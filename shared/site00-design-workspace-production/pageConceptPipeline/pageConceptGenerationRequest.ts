@@ -24,6 +24,8 @@ export type PageConceptGenerationRequest = {
   continueGpt2AfterCgptReview?: boolean;
   retryGpt2Only?: boolean;
   regenerateNbpOnly?: boolean;
+  continueDualRenderTest?: boolean;
+  regenerateDualRenderLane?: 'GPT2_DIRECT' | 'NBP';
   traceOnly?: boolean;
   dryRun?: boolean;
   state: PageConceptGenerationState;

@@ -51,6 +51,9 @@ import {
   validateCgptCreativeSynthesis,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeSynthesis.js';
 import { buildPageConceptGpt2AuthorityPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2AuthorityPackage.js';
+import { parseAuthorityArtifactBase64 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNbpRequestPackage.js';
+import { executePageConceptDualRenderTest } from './executePageConceptDualRenderTest.js';
+import type { PageConceptRenderLaneType } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 export type ExecutePageConceptGenerationOptions = {
   runId?: string;
@@ -60,6 +63,8 @@ export type ExecutePageConceptGenerationOptions = {
   regenerateNbpOnly?: boolean;
   continueGpt2AfterCgptReview?: boolean;
   continueNbpAfterGpt2Review?: boolean;
+  continueDualRenderTest?: boolean;
+  regenerateDualRenderLane?: PageConceptRenderLaneType | null;
   onProgress?: (patch: PageConceptRunProgress) => void;
 };
 
@@ -86,6 +91,8 @@ export async function executePageConceptGeneration(
 
   const continueNbpAfterGpt2Review = options.continueNbpAfterGpt2Review === true;
   const continueGpt2AfterCgptReview = options.continueGpt2AfterCgptReview === true;
+  const continueDualRenderTest = options.continueDualRenderTest === true;
+  const regenerateDualRenderLane = options.regenerateDualRenderLane ?? null;
   const retryGpt2Only = options.retryGpt2Only === true;
   const regenerateNbpOnly = options.regenerateNbpOnly === true;
 
@@ -126,11 +133,15 @@ export async function executePageConceptGeneration(
   const skipCgpt =
     continueGpt2AfterCgptReview ||
     continueNbpAfterGpt2Review ||
+    continueDualRenderTest ||
+    Boolean(regenerateDualRenderLane) ||
     retryGpt2Only ||
     regenerateNbpOnly ||
     (retryFailedOnly && Boolean(creativeInjection) && !retryCgptOnly);
   const skipGpt2 =
     continueNbpAfterGpt2Review ||
+    continueDualRenderTest ||
+    Boolean(regenerateDualRenderLane) ||
     regenerateNbpOnly ||
     (retryFailedOnly && Boolean(creativeInjection) && Boolean(gpt2Authority) && !retryCgptOnly && !retryGpt2Only);
 
@@ -492,7 +503,11 @@ export async function executePageConceptGeneration(
   const pageContextSummary = Object.values(pageContextForGpt2Package(pageContext)).join(' · ');
 
   const skipGpt2FounderReviewGate =
-    continueNbpAfterGpt2Review || retryFailedOnly || regenerateNbpOnly;
+    continueNbpAfterGpt2Review ||
+    continueDualRenderTest ||
+    Boolean(regenerateDualRenderLane) ||
+    retryFailedOnly ||
+    regenerateNbpOnly;
   if (pageConceptRequiresGpt2FounderReview() && !skipGpt2FounderReviewGate) {
     const previewPkg = buildPageNbpRequestPackage({
       gpt2Authority,
@@ -543,7 +558,9 @@ export async function executePageConceptGeneration(
 
   let authorityApprovalId =
     input.state.pipelineSet?.nbpLineage?.authorityApprovalId ??
-    (continueNbpAfterGpt2Review ? createPageConceptAuthorityApprovalId(runId) : null);
+    (continueNbpAfterGpt2Review || continueDualRenderTest || regenerateDualRenderLane ?
+      createPageConceptAuthorityApprovalId(runId)
+    : null);
 
   if (!authorityApprovalId && !pageConceptRequiresGpt2FounderReview()) {
     authorityApprovalId = `pnaa-bypass-${pipelineSetId}`;
@@ -566,6 +583,42 @@ export async function executePageConceptGeneration(
     skinContractId: skinContract.contractId,
     skinContractVersion: skinContract.version,
   };
+
+  if (continueDualRenderTest || regenerateDualRenderLane) {
+    if (!parseAuthorityArtifactBase64(gpt2Authority.authorityArtifact)) {
+      throw new Error('DUAL_RENDER_TEST_BLOCKED: GPT2_AUTHORITY_IMAGE_REQUIRED');
+    }
+    const dual = await executePageConceptDualRenderTest(
+      {
+        plan,
+        pipelineSetId,
+        runId,
+        dryRun,
+        projectContext,
+        pageContext,
+        functionContract,
+        creativeInjection: creativeInjection!,
+        gpt2Authority,
+        skinContract,
+        pageContextSummary,
+        mobileCaptureBase64,
+        desktopCaptureBase64,
+        mobileDims: input.mobileCapture,
+        desktopDims: input.desktopCapture,
+        authorityApprovalId: authorityApprovalId!,
+        existingJobs: input.state.generationJobs,
+        existingDualRun: input.state.dualRenderTestRun,
+        regenerateLane: regenerateDualRenderLane,
+      },
+      (patch) => emit(onProgress, patch as PageConceptRunProgress),
+    );
+    const pipelineSet: PageConceptPipelineSet = {
+      ...dual.pipelineSet,
+      cgptCreativeBrief,
+      nbpLineage: frozenNbpLineage,
+    };
+    return { plan, pipelineSet, jobs: dual.jobs };
+  }
 
   const nbpStart = pageConceptProgressPatchForNbp('NBP_STARTING');
   emit(onProgress, {

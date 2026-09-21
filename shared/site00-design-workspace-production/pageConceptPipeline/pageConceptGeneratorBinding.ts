@@ -185,6 +185,7 @@ export function pageConceptGenerationInFlight(status: PageConceptGenerationStatu
     status === 'GPT2_RUNNING' ||
     status === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
     status === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
+    status === 'DUAL_RENDER_TEST_RUNNING' ||
     status === 'NBP_RUNNING'
   );
 }

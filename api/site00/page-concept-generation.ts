@@ -169,6 +169,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         continueGpt2AfterCgptReview: body.continueGpt2AfterCgptReview === true,
         retryGpt2Only: body.retryGpt2Only === true,
         regenerateNbpOnly: body.regenerateNbpOnly === true,
+        continueDualRenderTest: body.continueDualRenderTest === true,
+        regenerateDualRenderLane: body.regenerateDualRenderLane === 'GPT2_DIRECT' || body.regenerateDualRenderLane === 'NBP' ? body.regenerateDualRenderLane : undefined,
         founderEmail: email,
         dryRun: isDryRun,
       });

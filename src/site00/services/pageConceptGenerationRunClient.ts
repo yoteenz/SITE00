@@ -80,6 +80,8 @@ export async function startPageConceptGenerationRunApi(input: {
   continueGpt2AfterCgptReview?: boolean;
   retryGpt2Only?: boolean;
   regenerateNbpOnly?: boolean;
+  continueDualRenderTest?: boolean;
+  regenerateDualRenderLane?: 'GPT2_DIRECT' | 'NBP';
   dryRun?: boolean;
 }): Promise<{ runId: string; status: string; dryRun: boolean }> {
   const result = await captureApiFetch<{
@@ -104,6 +106,8 @@ export async function startPageConceptGenerationRunApi(input: {
       continueGpt2AfterCgptReview: input.continueGpt2AfterCgptReview === true,
       retryGpt2Only: input.retryGpt2Only === true,
       regenerateNbpOnly: input.regenerateNbpOnly === true,
+      continueDualRenderTest: input.continueDualRenderTest === true,
+      regenerateDualRenderLane: input.regenerateDualRenderLane,
       dryRun: input.dryRun === true,
     },
   });
@@ -152,7 +156,8 @@ export async function pollPageConceptGenerationRunUntilTerminal(input: {
     if (
       pageConceptServerRunIsTerminal(last.status) ||
       last.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
-      last.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW'
+      last.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
+      last.generationStatus === 'DUAL_RENDER_TEST_REVIEW'
     ) {
       return last;
     }
