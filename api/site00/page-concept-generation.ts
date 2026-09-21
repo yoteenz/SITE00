@@ -1,5 +1,5 @@
 /**
- * PAGE concept generation — CGPT injection → GPT2 authority → NBP renditions.
+ * PAGE concept generation — async START + status; legacy sync generate for tests.
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
@@ -14,6 +14,10 @@ import {
   type PageGenerationCapturePayload,
 } from '../_lib/site00PageConcept/runPageConceptGeneration.js';
 import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/resolvePageGenerationCapture.js';
+import {
+  snapshotPageConceptServerRun,
+  startPageConceptGenerationRun,
+} from '../_lib/site00PageConcept/startPageConceptGenerationRun.js';
 import type { PageConceptGenerationState } from '../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import type { PageConceptGenerationRequest } from '../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationRequest.js';
 
@@ -34,13 +38,22 @@ function incomingCapturesTrusted(body: Body): boolean {
   return dry.ok;
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (handleTwinV2VisualConceptCors(req, res)) return;
-
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'METHOD_NOT_ALLOWED' });
+async function handleGet(req: VercelRequest, res: VercelResponse, email: string) {
+  const runId = String(req.query.runId ?? '').trim();
+  if (!runId) {
+    res.status(400).json({ error: 'RUN_ID_REQUIRED' });
     return;
   }
+  const snapshot = snapshotPageConceptServerRun(runId);
+  if (!snapshot) {
+    res.status(404).json({ error: 'RUN_NOT_FOUND' });
+    return;
+  }
+  res.status(200).json({ ok: true, founderEmail: email, run: snapshot });
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (handleTwinV2VisualConceptCors(req, res)) return;
 
   const authed = await getAuthUser(req);
   const email = authed?.email ?? null;
@@ -50,6 +63,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
   if (!isFounderPrivilegedAccount(email)) {
     res.status(403).json({ error: 'FOUNDER_ONLY' });
+    return;
+  }
+
+  if (req.method === 'GET') {
+    await handleGet(req, res, email);
+    return;
+  }
+
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'METHOD_NOT_ALLOWED' });
     return;
   }
 
@@ -109,6 +132,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           captureSetId: dry.plan.captureSetId,
         },
         message: 'READY_FOR_PROVIDER_DISPATCH — no provider dispatch',
+      });
+      return;
+    }
+
+    if (body.action === 'start') {
+      if (!pageGenerationCapturePayloadValid(body.mobileCapture) || !pageGenerationCapturePayloadValid(body.desktopCapture)) {
+        res.status(400).json({ error: 'CAPTURE_ARTIFACTS_REQUIRED' });
+        return;
+      }
+      const isDryRun = body.dryRun === true;
+      if (!isDryRun && body.founderConfirmedSpend !== true) {
+        res.status(400).json({ error: 'SPEND_GUARD: founder confirmation required' });
+        return;
+      }
+      const { runId, status } = startPageConceptGenerationRun({
+        state: body.state,
+        mobileCapture: body.mobileCapture,
+        desktopCapture: body.desktopCapture,
+        founderConfirmedSpend: body.founderConfirmedSpend === true,
+        retryFailedOnly: body.retryFailedOnly === true,
+        founderEmail: email,
+        dryRun: isDryRun,
+      });
+      res.status(202).json({
+        ok: true,
+        runId,
+        status,
+        dryRun: isDryRun,
+        message: isDryRun ? 'DRY_RUN_QUEUED' : 'GENERATION_QUEUED',
       });
       return;
     }

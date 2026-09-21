@@ -8,7 +8,11 @@ import {
 } from './pageConceptGenerationRequest.js';
 
 export type IncomingPageConceptCaptureValidation =
-  | { ok: true; mobileTransport: 'base64' | 'url'; desktopTransport: 'base64' | 'url' }
+  | {
+      ok: true;
+      mobileTransport: 'base64' | 'url' | 'snapshot';
+      desktopTransport: 'base64' | 'url' | 'snapshot';
+    }
   | { ok: false; code: string; message: string };
 
 function validateOne(
@@ -75,10 +79,18 @@ export function validateIncomingPageConceptCaptures(input: {
 
   const mobileTransport = classifyPageConceptCaptureTransport(input.mobileCapture);
   const desktopTransport = classifyPageConceptCaptureTransport(input.desktopCapture);
-  if (mobileTransport !== 'base64' && mobileTransport !== 'url') {
+  if (
+    mobileTransport !== 'base64' &&
+    mobileTransport !== 'url' &&
+    mobileTransport !== 'snapshot'
+  ) {
     return { ok: false, code: 'BLOCKED_MOBILE_CAPTURE_ARTIFACT_UNREADABLE', message: 'mobile transport invalid' };
   }
-  if (desktopTransport !== 'base64' && desktopTransport !== 'url') {
+  if (
+    desktopTransport !== 'base64' &&
+    desktopTransport !== 'url' &&
+    desktopTransport !== 'snapshot'
+  ) {
     return { ok: false, code: 'BLOCKED_DESKTOP_CAPTURE_ARTIFACT_UNREADABLE', message: 'desktop transport invalid' };
   }
 

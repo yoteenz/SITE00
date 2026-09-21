@@ -62,9 +62,19 @@ import {
 } from '../../../services/pageConceptApiSession.js';
 import {
   planPageConceptGenerationApi,
-  runPageConceptGenerationApi,
   tracePageConceptGenerationApi,
 } from '../../../services/pageConceptGenerationClient.js';
+import {
+  clearPageConceptActiveServerRunId,
+  fetchPageConceptGenerationRunApi,
+  loadPageConceptActiveServerRunId,
+  pollPageConceptGenerationRunUntilTerminal,
+  savePageConceptActiveServerRunId,
+  startPageConceptGenerationRunApi,
+} from '../../../services/pageConceptGenerationRunClient.js';
+import type { PageConceptServerRunSnapshot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { pageConceptServerRunIsTerminal } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { pageConceptServerRunToResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { site00ApiUrl } from '../../../../utils/site00ApiBase.js';
 import { getAccessToken } from '../../../../utils/api.js';
 
@@ -100,18 +110,57 @@ async function buildPageConceptCapturePayload(
         'Implementation source capture is not a displayable image for this viewport.',
     );
   }
+  const snapshotBacked =
+    record.source === 'IMPLEMENTATION_SNAPSHOT_API' ||
+    record.captureId.startsWith('snap-') ||
+    (path.startsWith('http') && !path.includes('blob:'));
+  if (snapshotBacked && !path.startsWith('data:') && !path.startsWith('blob:')) {
+    return {
+      captureId: record.captureId,
+      snapshotId: record.captureId,
+      viewport,
+      ...dims,
+      ...(path.startsWith('http') || path.startsWith('/') ?
+        { artifactUrl: resolveCaptureArtifactUrl(path) }
+      : {}),
+    };
+  }
   if (path.startsWith('data:') || path.startsWith('blob:')) {
     return {
       captureId: record.captureId,
+      viewport,
       ...dims,
       artifactBase64: await artifactPathToBase64(path),
     };
   }
   return {
     captureId: record.captureId,
+    viewport,
     ...dims,
     artifactUrl: resolveCaptureArtifactUrl(path),
   };
+}
+
+function applyServerRunSnapshotToState(
+  run: PageConceptServerRunSnapshot,
+  persist: (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => void,
+): void {
+  persist((s) => {
+    let next = s;
+    if (run.pipelineSet) {
+      next = applyPageConceptPipelineSet(next, run.pipelineSet);
+    }
+    if (run.jobs.length > 0) {
+      next = registerPageConceptGenerationJobs(next, run.jobs);
+      next = mergePageConceptArtifactsIntoGallery(next);
+    }
+    return {
+      ...next,
+      generationStatus: run.generationStatus,
+      activeGenerationRunId: run.runId,
+      activeGenerationStage: run.currentStage,
+    };
+  });
 }
 
 export function usePageConceptGeneration(
@@ -282,6 +331,38 @@ export function usePageConceptGeneration(
       return { ...s, lastFailure: null };
     });
   }, [generationEligibility, persist]);
+
+  useEffect(() => {
+    const runId = loadPageConceptActiveServerRunId(projectId, pageId);
+    if (!runId || generating) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        await ensurePageConceptApiAccessToken();
+        const first = await fetchPageConceptGenerationRunApi(runId);
+        if (cancelled || pageConceptServerRunIsTerminal(first.status)) return;
+        setGenerating(true);
+        setOverlayMode('progress');
+        await pollPageConceptGenerationRunUntilTerminal({
+          runId,
+          onUpdate: (run) => {
+            if (!cancelled) applyServerRunSnapshotToState(run, persist);
+          },
+        });
+        if (!cancelled) {
+          clearPageConceptActiveServerRunId(projectId, pageId);
+          setOverlayMode('review');
+        }
+      } catch {
+        clearPageConceptActiveServerRunId(projectId, pageId);
+      } finally {
+        if (!cancelled) setGenerating(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [generating, pageId, persist, projectId]);
 
   const openGenerationConfirm = useCallback(async () => {
     setOverlayOpen(true);
@@ -589,13 +670,37 @@ export function usePageConceptGeneration(
         throw new Error(`GENERATION COULD NOT START · ${tracePayload.error}`);
       }
 
-      setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_DISPATCH_STARTED'));
-      const result = await runPageConceptGenerationApi({
+      setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_START_REQUEST'));
+      const startResult = await startPageConceptGenerationRunApi({
         state: loadPageConceptGenerationState(projectId, pageId),
         founderConfirmedSpend: true,
         mobileCapture,
         desktopCapture,
       });
+      savePageConceptActiveServerRunId(projectId, pageId, startResult.runId);
+      setLiveProductionTrace((prev) =>
+        appendPageConceptLiveTraceEvent(
+          { ...prev, apiRequestSent: true, apiStatus: 202, apiResponseSummary: `runId=${startResult.runId}` },
+          'API_START_ACCEPTED',
+          startResult.runId,
+        ),
+      );
+
+      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+        runId: startResult.runId,
+        onUpdate: (run) => {
+          applyServerRunSnapshotToState(run, persist);
+          setLiveProductionTrace((prev) =>
+            appendPageConceptLiveTraceEvent(prev, 'RUN_STATUS', `${run.status} · ${run.currentStage ?? '—'}`),
+          );
+        },
+      });
+      clearPageConceptActiveServerRunId(projectId, pageId);
+
+      const result = pageConceptServerRunToResult(terminalRun);
+      if (!result) {
+        throw new Error(terminalRun.error ?? `GENERATION ${terminalRun.status}`);
+      }
 
       persist((s) => {
         let next = applyPageConceptPipelineSet(s, result.pipelineSet);
@@ -720,13 +825,21 @@ export function usePageConceptGeneration(
       const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
       const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
 
-      const result = await runPageConceptGenerationApi({
+      const { runId } = await startPageConceptGenerationRunApi({
         state: current,
         founderConfirmedSpend: true,
         retryFailedOnly: true,
         mobileCapture,
         desktopCapture,
       });
+      savePageConceptActiveServerRunId(projectId, pageId, runId);
+      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+        runId,
+        onUpdate: (run) => applyServerRunSnapshotToState(run, persist),
+      });
+      clearPageConceptActiveServerRunId(projectId, pageId);
+      const result = pageConceptServerRunToResult(terminalRun);
+      if (!result) throw new Error(terminalRun.error ?? 'RETRY_FAILED');
 
       persist((s) => {
         let next = applyPageConceptPipelineSet(s, result.pipelineSet);
