@@ -33,6 +33,7 @@ import {
   createInitialDualRenderTestRun,
   syncDualRenderLaneFromJobs,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptDualRenderTest.js';
+import { applyPageConceptNewGenerationBranchReset } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNewGenerationBranch.js';
 import {
   createPageConceptGenerationRunId,
   emitPageConceptGenerateTelemetry,
@@ -1612,25 +1613,44 @@ export function usePageConceptGeneration(
   }, [pageId, projectId]);
 
   const requestNewPageConceptGeneration = useCallback(async () => {
+    if (generating) return;
     if (!confirmPostRunAction('new_generation')) return;
+
     emitPageConceptGenerateTelemetry('page_concept_new_generation_requested', { projectId, pageId });
-    persist((s) => {
-      const archived = archivePageConceptRunBranch(s, { reason: 'new_generation' });
-      return {
-        ...archived,
-        pipelineSet: null,
-        generationStatus: 'STARTING_NEW_RUN',
-        activeGenerationRunId: null,
-        liveProgress: null,
-        cgptSubsteps: null,
-        activeGenerationStage: null,
-        lastFailure: null,
-      };
-    });
     setExecutionError(null);
-    setOverlayMode('confirm');
-    await openGenerationConfirm();
-  }, [confirmPostRunAction, openGenerationConfirm, pageId, persist, projectId]);
+    setGenerating(true);
+    setOverlayOpen(true);
+    setOverlayMode('progress');
+
+    try {
+      clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
+
+      persist((s) => applyPageConceptNewGenerationBranchReset(s));
+
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      await ensurePageConceptApiAccessToken();
+
+      persist((s) => ({ ...s, generationStatus: 'CGPT_RUNNING' }));
+
+      await runPostSpendDispatch({});
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'NEW_GENERATION_FAILED';
+      setExecutionError(`NEW GENERATION COULD NOT START · ${message}`);
+      setOverlayMode('review');
+      setOverlayOpen(true);
+    } finally {
+      setGenerating(false);
+    }
+  }, [
+    confirmPostRunAction,
+    generating,
+    pageId,
+    persist,
+    projectId,
+    runPostSpendDispatch,
+    screenId,
+  ]);
 
   const requestRegenerateCgpt = useCallback(async () => {
     if (generating || !confirmPostRunAction('regenerate_cgpt')) return;
@@ -1706,7 +1726,9 @@ export function usePageConceptGeneration(
   const postRunControlHandlers = useMemo(
     () => ({
       view_renditions: viewPageConceptRenditions,
-      new_generation: () => void requestNewPageConceptGeneration(),
+      new_generation: () => {
+        void requestNewPageConceptGeneration();
+      },
       regenerate_cgpt: () => void requestRegenerateCgpt(),
       regenerate_gpt2: () => void requestRegenerateGpt2(),
       regenerate_nbp: () => void requestRegenerateNbp(),

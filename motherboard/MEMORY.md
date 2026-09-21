@@ -11211,3 +11211,14 @@ Founder A/B experiment: same approved GPT2 authority → **GPT2 direct render** 
 - **State:** `PageConceptDualRenderTestRun`, statuses `DUAL_RENDER_TEST_RUNNING` / `DUAL_RENDER_TEST_REVIEW`.
 - **Tests:** `p0vrPageConceptDualRenderEngineTest1.test.ts`.
 - **Branch:** `cursor/page-concept-dual-render-engine-test1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-NEW-GENERATION-BLANK-NAVIGATION-FIX1
+
+Founder **NEW GENERATION** confirm on iPhone Safari → blank white site00.com (SPA gone, no CGPT).
+
+- **Cause:** Post-confirm path called `openGenerationConfirm()` (second screen) instead of dispatching CGPT; unhandled async errors + partial reset (`pipelineSet` cleared but old `generationJobs` kept, `STARTING_NEW_RUN`) risked broken overlay/review mode — no navigation calls in handler.
+- **Fix:** `applyPageConceptNewGenerationBranchReset` archives run + clears active jobs; `requestNewPageConceptGeneration` → try/catch → `runPostSpendDispatch({})` (CGPT start), overlay stays open/progress; errors show `NEW GENERATION COULD NOT START`.
+- **Tests:** `p0vrPageConceptNewGenerationBlankNavigationFix1.test.ts`.
+- **Branch:** `cursor/page-concept-new-generation-blank-nav-fix1-b747`.
