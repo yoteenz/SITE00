@@ -11168,3 +11168,16 @@ Founder needed inspectable **real CGPT creative direction** before GPT2/NBP to d
 - **GPT2 review gate:** **RETURN TO CREATIVE DIRECTION** opens full brief (no CGPT rerun).
 - **Tests:** `p0vrPageConceptCgptBriefInspector1.test.ts`.
 - **Branch:** `cursor/page-concept-cgpt-brief-inspector1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-CREATIVE-SYNTHESIS-LEAK-FIX1
+
+CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 handoff reported **CONTEXT_LOSS** and system/implementation terms leaked into creative briefs.
+
+- **`pageConceptCgptCreativeSynthesis.ts`:** creative-director prompt v2 (`page-concept-cgpt-v2-creative-synthesis`), `validateCgptCreativeSynthesis()`, contamination filter, function-contract → creative requirements split, one repair attempt, vitest fixture.
+- **Pipeline:** `buildPageCreativeInjectionFromParsed` + validation/repair in CGPT stage and `generatePageCreativeInjection`; blocks GPT2 on `CGPT_SYNTHESIS_INCOMPLETE` or handoff loss.
+- **Brief v2:** explicit synthesis fields on `PageConceptCgptCreativeBrief`; handoff uses brief-only mapping (no wrong overrides); expanded `verifyGpt2HandoffContextIntegrity` (Part 26 keys).
+- **Founder QA:** default `SITE00_PAGE_CONCEPT_CGPT_QA_STOP` stops after CGPT — **CONTINUE TO GPT2** (`continueGpt2AfterCgptReview` API + overlay); tests default QA stop off via `pageConceptTestDefaults.ts`.
+- **Tests:** `p0vrPageConceptCgptCreativeSynthesisLeakFix1.test.ts`.
+- **Branch:** `cursor/page-concept-cgpt-creative-synthesis-leak-fix1-b747`.
