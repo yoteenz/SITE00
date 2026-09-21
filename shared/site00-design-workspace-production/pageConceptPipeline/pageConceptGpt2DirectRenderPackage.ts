@@ -3,6 +3,7 @@
  */
 
 import type {
+  PageConceptRenderMode,
   PageCreativeInjection,
   PageFunctionContract,
   PageGPT2AuthorityConcept,
@@ -26,7 +27,7 @@ export type PageGpt2DirectRenderPackage = {
   };
   lineage: {
     renderLaneType: 'GPT2_DIRECT';
-    renderMode: 'DUAL_RENDER_TEST';
+    renderMode: PageConceptRenderMode;
     viewport: 'MOBILE' | 'DESKTOP';
     authorityArtifactId: string;
     authoritySourceRunId: string;
@@ -93,7 +94,7 @@ export function buildPageGpt2DirectRenderPackage(input: {
     },
     lineage: {
       renderLaneType: 'GPT2_DIRECT',
-      renderMode: 'DUAL_RENDER_TEST',
+      renderMode: 'NBP_FULL_SET',
       viewport: input.viewport,
       authorityArtifactId: input.gpt2Authority.conceptId,
       authoritySourceRunId: input.authoritySourceRunId,

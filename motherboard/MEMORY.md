@@ -11235,3 +11235,18 @@ Canonical page-concept pipeline is **GPT2 viewport family → twin-first**; **DU
 - **Shell/post-run copy:** 1 CGPT + 3 GPT2 mobile + viewport family → twin; NBP regen hidden unless legacy env.
 - **Tests:** `p0vrPageConceptGpt2CanonicalViewportFamily1r1.test.ts`; legacy suites opt-in via `tests/helpers/pageConceptLegacyNbpTestEnv.ts`.
 - **Branch:** `cursor/page-concept-gpt2-canonical-viewport-family1r1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1
+
+Functional orchestration from **mobile selection → experience expression → GPT2 tablet/desktop → viewport family approve/lock → TwinImplementationPackage** (no live promotion).
+
+- **Orchestration:** `pageConceptViewportFamilyOrchestration.ts` — select mobile persists `selectedMobileConceptId`/artifact/version + family; approve experience compiles `PageExperienceExpressionContract`; tablet/desktop via `executePageConceptGpt2ViewportInterpretation` + `pageConceptGpt2ViewportInterpretationPackage` (`GPT2_TABLET` / `GPT2_DESKTOP` providers); family review/approve/lock; `TwinImplementationPackage` with `targetSurface: TWIN` + `resolveDesignTwinRoute()`; twin captures MOBILE/TABLET/DESKTOP; `invalidateApprovalIfNeeded` on regen.
+- **API:** `POST /api/site00/page-concept-viewport-family` + `runPageConceptViewportFamilyAction.ts`; client `pageConceptViewportFamilyClient.ts`; hook dispatches via API (founder token).
+- **UI:** `PageConceptViewportFamilyPanel` — mobile pick, continue experience, tablet/desktop gen/regen, family review, lock, create twin package, **CREATE TWIN SHELL WITH OPUS** link (Opus firewall assert).
+- **Live immutability:** `pageConceptLiveRouteHash.ts` — `LIVE_HASH_BEFORE`/`AFTER` on twin package + captures.
+- **Types/statuses:** `VIEWPORT_TABLET_RUNNING`, `VIEWPORT_DESKTOP_RUNNING`, `TWIN_IMPLEMENTATION_PACKAGE_READY`; pipeline fields for family lock, experience contract, twin package, live hash snapshots.
+- **Fix:** `PageGpt2DirectRenderPackage.lineage.renderMode` → `NBP_FULL_SET` (removed stale `DUAL_RENDER_TEST` type).
+- **Tests:** `p0vrGpt2ViewportFamilyTwinOrchestration1.test.ts` (7 cases: full path, gates, provider lineage, lock/package guards, firewalls, NBP=0, regen invalidates approval).
+- **Branch:** `cursor/gpt2-viewport-family-twin-orchestration1-b747`.

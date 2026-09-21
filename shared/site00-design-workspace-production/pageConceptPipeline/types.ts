@@ -2,7 +2,15 @@ import type { PageViewportId } from '../designProjectBinding/pageViewportAuthori
 import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
 import type { PageConceptCgptSubstepRunDetail } from './pageConceptCgptSubstepRun.js';
 import type { PageConceptPipelineLineageId } from './pageConceptCanonicalPipeline.js';
-import type { PageGpt2MobileConcept, PageViewportAuthorityFamily } from './pageConceptViewportAuthorityFamily.js';
+import type {
+  PageConceptLiveRouteHashSnapshot,
+  PageExperienceExpressionContract,
+  PageGpt2MobileConcept,
+  PageTwinViewportCapture,
+  PageViewportAuthorityFamily,
+  PageViewportAuthorityFamilyLock,
+  TwinImplementationPackage,
+} from './pageConceptViewportAuthorityFamily.js';
 
 export type PageConceptTargetType = 'PAGE';
 
@@ -16,8 +24,11 @@ export type PageConceptGenerationStatus =
   | 'GPT2_RUNNING'
   | 'GPT2_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_MOBILE_AWAITING_SELECTION'
+  | 'VIEWPORT_TABLET_RUNNING'
+  | 'VIEWPORT_DESKTOP_RUNNING'
   | 'VIEWPORT_FAMILY_REVIEW'
   | 'VIEWPORT_FAMILY_LOCKED'
+  | 'TWIN_IMPLEMENTATION_PACKAGE_READY'
   | 'TWIN_READY_FOR_REVIEW'
   | 'NBP_RUNNING'
   | 'PARTIAL_GENERATION'
@@ -308,7 +319,7 @@ export type PageConceptGeneratedArtifact = {
   creativeInjectionId: string;
   gpt2AuthorityConceptId: string;
   renditionId: string;
-  provider: 'NBP' | 'GPT2_DIRECT' | 'GPT2_MOBILE';
+  provider: 'NBP' | 'GPT2_DIRECT' | 'GPT2_MOBILE' | 'GPT2_TABLET' | 'GPT2_DESKTOP';
   model: string;
   providerJobId: string | null;
   promptVersion: string;
@@ -363,6 +374,11 @@ export type PageConceptPipelineSet = {
   mobileConcepts?: readonly PageGpt2MobileConcept[];
   selectedMobileConceptId?: string | null;
   viewportAuthorityFamily?: PageViewportAuthorityFamily | null;
+  viewportAuthorityFamilyLock?: PageViewportAuthorityFamilyLock | null;
+  experienceExpressionContract?: PageExperienceExpressionContract | null;
+  twinImplementationPackage?: TwinImplementationPackage | null;
+  liveRouteHashBefore?: PageConceptLiveRouteHashSnapshot | null;
+  liveRouteHashAfter?: PageConceptLiveRouteHashSnapshot | null;
   createdAt: string;
 };
 
@@ -403,6 +419,7 @@ export type PageConceptGenerationState = {
   cgptSubsteps: PageConceptCgptSubstepRunDetail | null;
   /** @deprecated Legacy dual-render test runs (read-only hydration). */
   dualRenderTestRun?: PageConceptDualRenderTestRun | null;
+  twinCaptures?: readonly PageTwinViewportCapture[];
 };
 
 export type PageConceptGenerationPlan = {

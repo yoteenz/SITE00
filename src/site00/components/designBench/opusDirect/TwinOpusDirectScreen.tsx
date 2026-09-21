@@ -415,6 +415,7 @@ export function TwinOpusDirectScreen({
         onContinueNbp={() => void workspace.pageConceptGeneration.continueNbpAfterGpt2Review()}
         onRegenerateGpt2Authority={() => void workspace.pageConceptGeneration.regenerateGpt2AuthorityFromReview()}
         gpt2MobileAwaitingSelection={workspace.pageConceptGeneration.gpt2MobileAwaitingSelection}
+        viewportFamilyHandlers={workspace.pageConceptGeneration.viewportFamilyHandlers}
         postRunReviewReady={workspace.pageConceptGeneration.postRunReviewReady}
         postRunPrimaryAction={workspace.pageConceptGeneration.postRunPrimaryAction}
         postRunSecondaryAction={workspace.pageConceptGeneration.postRunSecondaryAction}

@@ -30,6 +30,8 @@ import {
   pageConceptRunHistoryLines,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptRunArchive.js';
 import { applyPageConceptNewGenerationBranchReset } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNewGenerationBranch.js';
+import type { PageConceptViewportFamilyAction } from '../../../../../api/_lib/site00PageConcept/runPageConceptViewportFamilyAction.js';
+import { pageConceptViewportFamilyActionApi } from '../../../services/pageConceptViewportFamilyClient.js';
 import {
   createPageConceptGenerationRunId,
   emitPageConceptGenerateTelemetry,
@@ -1539,6 +1541,57 @@ export function usePageConceptGeneration(
     window.alert(lines.length ? lines.join('\n') : 'No archived runs yet.');
   }, [state]);
 
+  const dispatchViewportFamilyAction = useCallback(
+    async (action: PageConceptViewportFamilyAction) => {
+      setGenerating(true);
+      setExecutionError(null);
+      try {
+        await ensurePageConceptApiAccessToken();
+        const current = loadPageConceptGenerationState(projectId, pageId);
+        const result = await pageConceptViewportFamilyActionApi({
+          action: action.type,
+          state: current,
+          conceptId: action.type === 'selectMobileConcept' ? action.conceptId : undefined,
+          viewport: action.type === 'captureTwinViewport' ? action.viewport : undefined,
+          imageUri: action.type === 'captureTwinViewport' ? action.imageUri : undefined,
+          dryRun: 'dryRun' in action ? action.dryRun : undefined,
+        });
+        persist(() => {
+          let next = result.state;
+          if (result.jobs?.length) {
+            next = mergePageConceptGenerationJobs(next, result.jobs);
+            next = mergePageConceptArtifactsIntoGallery(next);
+          }
+          savePageConceptGenerationState(next);
+          return next;
+        });
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
+      } catch (e) {
+        setExecutionError(e instanceof Error ? e.message : 'VIEWPORT_FAMILY_ACTION_FAILED');
+      } finally {
+        setGenerating(false);
+      }
+    },
+    [pageId, persist, projectId],
+  );
+
+  const viewportFamilyHandlers = useMemo(
+    () => ({
+      selectMobile: (conceptId: string) => void dispatchViewportFamilyAction({ type: 'selectMobileConcept', conceptId }),
+      approveExperience: () => void dispatchViewportFamilyAction({ type: 'approveExperienceExpression' }),
+      runTablet: () => void dispatchViewportFamilyAction({ type: 'runTabletInterpretation' }),
+      runDesktop: () => void dispatchViewportFamilyAction({ type: 'runDesktopInterpretation' }),
+      regenerateTablet: () => void dispatchViewportFamilyAction({ type: 'regenerateTablet' }),
+      regenerateDesktop: () => void dispatchViewportFamilyAction({ type: 'regenerateDesktop' }),
+      approveFamily: () => void dispatchViewportFamilyAction({ type: 'approveViewportFamily' }),
+      lockFamily: () => void dispatchViewportFamilyAction({ type: 'lockViewportFamily' }),
+      createTwinPackage: () => void dispatchViewportFamilyAction({ type: 'createTwinImplementationPackage' }),
+    }),
+    [dispatchViewportFamilyAction],
+  );
+
   const postRunControlHandlers = useMemo(
     () => ({
       view_renditions: viewPageConceptRenditions,
@@ -1606,5 +1659,7 @@ export function usePageConceptGeneration(
     postRunSecondaryAction: pageConceptPostRunSecondaryAction(postRunActions),
     postRunMoreActions: pageConceptPostRunMoreActions(postRunActions),
     postRunControlHandlers,
+    viewportFamilyHandlers,
+    dispatchViewportFamilyAction,
   };
 }
