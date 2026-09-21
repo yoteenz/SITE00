@@ -36,7 +36,13 @@ export function applyPageConceptPipelineSet(
   } else if (pipelineSet.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE') {
     if (pipelineSet.twinImplementationPackage) generationStatus = 'TWIN_IMPLEMENTATION_PACKAGE_READY';
     else if (pipelineSet.viewportAuthorityFamily?.status === 'LOCKED') generationStatus = 'VIEWPORT_FAMILY_LOCKED';
-    else if (pipelineSet.viewportAuthorityFamily?.status === 'AWAITING_FOUNDER_FAMILY_REVIEW') {
+    else if (
+      pipelineSet.viewportAuthorityFamily?.status === 'APPROVED' &&
+      pipelineSet.pageFamilySkinBehaviorContract &&
+      !pipelineSet.pageFamilySkinBehaviorContract.approvedAt
+    ) {
+      generationStatus = 'PAGE_FAMILY_CONTRACT_REVIEW';
+    } else if (pipelineSet.viewportAuthorityFamily?.status === 'AWAITING_FOUNDER_FAMILY_REVIEW') {
       generationStatus = 'VIEWPORT_FAMILY_REVIEW';
     } else if (pipelineSet.mobileConcepts?.length) generationStatus = 'GPT2_MOBILE_AWAITING_SELECTION';
   } else if (pipelineSet.creativeInjection && pipelineSet.gpt2AuthorityConcept) {

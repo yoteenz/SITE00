@@ -106,6 +106,11 @@ export type TwinImplementationPackage = {
   functionContractId: string;
   pageContentContractSummary: string;
   interactionRequirements: readonly string[];
+  pageFamilySkinBehaviorContractId: string;
+  pageFamilyComponentExpressionMapId: string;
+  representativeShellSetId: string;
+  designDivergenceRulesSummary: string;
+  responsiveInheritanceRulesSummary: string;
   twinBuildId: string;
   liveRouteHashBefore: string;
   createdAt: string;

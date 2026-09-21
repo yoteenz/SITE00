@@ -7,9 +7,11 @@ import {
   pageConceptApplyTabletInterpretation,
   pageConceptApproveExperienceExpression,
   pageConceptApproveViewportFamily,
+  pageConceptApprovePageFamilySkinBehavior,
   pageConceptCreateTwinImplementationPackage,
   pageConceptDesktopArtifactIdForFamily,
   pageConceptLockViewportFamily,
+  pageConceptMarkOpusRepresentativeShellsReady,
   pageConceptRecordTwinCapture,
   pageConceptSelectMobileConcept,
   pageConceptTabletArtifactIdForFamily,
@@ -26,6 +28,8 @@ export type PageConceptViewportFamilyAction =
   | { type: 'regenerateTablet'; dryRun?: boolean }
   | { type: 'regenerateDesktop'; dryRun?: boolean }
   | { type: 'approveViewportFamily' }
+  | { type: 'approvePageFamilySkinBehavior' }
+  | { type: 'markOpusRepresentativeShellsReady' }
   | { type: 'lockViewportFamily' }
   | { type: 'createTwinImplementationPackage' }
   | { type: 'captureTwinViewport'; viewport: 'MOBILE' | 'TABLET' | 'DESKTOP'; imageUri: string };
@@ -197,6 +201,14 @@ export async function runPageConceptViewportFamilyAction(
 
   if (action.type === 'approveViewportFamily') {
     return pageConceptApproveViewportFamily(state);
+  }
+
+  if (action.type === 'approvePageFamilySkinBehavior') {
+    return pageConceptApprovePageFamilySkinBehavior(state);
+  }
+
+  if (action.type === 'markOpusRepresentativeShellsReady') {
+    return pageConceptMarkOpusRepresentativeShellsReady(state);
   }
 
   if (action.type === 'lockViewportFamily') {

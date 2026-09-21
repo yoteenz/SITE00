@@ -36,6 +36,7 @@ import type { PageConceptCgptSubstepId } from '../../../../../shared/site00-desi
 import type { PageConceptSubstepRunState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-design-workspace-production/types.js';
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
+import { PageConceptPageFamilyContractPanel } from '../pageConceptGenerator/PageConceptPageFamilyContractPanel';
 import { PageConceptViewportFamilyPanel } from '../pageConceptGenerator/PageConceptViewportFamilyPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
@@ -120,6 +121,8 @@ export function PageConceptGenerationOverlay({
     regenerateTablet: () => void;
     regenerateDesktop: () => void;
     approveFamily: () => void;
+    approvePageFamily: () => void;
+    markOpusShellsReady: () => void;
     lockFamily: () => void;
     createTwinPackage: () => void;
   };
@@ -456,23 +459,32 @@ export function PageConceptGenerationOverlay({
         </div>
         {(gpt2MobileAwaitingSelection ||
           generationState.generationStatus === 'VIEWPORT_FAMILY_REVIEW' ||
+          generationState.generationStatus === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
           generationState.generationStatus === 'VIEWPORT_FAMILY_LOCKED' ||
           generationState.generationStatus === 'TWIN_IMPLEMENTATION_PACKAGE_READY') &&
         viewportFamilyHandlers ?
-          <PageConceptViewportFamilyPanel
-            state={generationState}
-            busy={generating}
-            onSelectMobile={viewportFamilyHandlers.selectMobile}
-            onContinueExperience={viewportFamilyHandlers.approveExperience}
-            onRunTablet={viewportFamilyHandlers.runTablet}
-            onRunDesktop={viewportFamilyHandlers.runDesktop}
-            onRegenerateTablet={viewportFamilyHandlers.regenerateTablet}
-            onRegenerateDesktop={viewportFamilyHandlers.regenerateDesktop}
-            onApproveFamily={viewportFamilyHandlers.approveFamily}
-            onLockFamily={viewportFamilyHandlers.lockFamily}
-            onCreateTwinPackage={viewportFamilyHandlers.createTwinPackage}
-            onOpenImage={(src, title) => openImage(src, title)}
-          />
+          <>
+            <PageConceptViewportFamilyPanel
+              state={generationState}
+              busy={generating}
+              onSelectMobile={viewportFamilyHandlers.selectMobile}
+              onContinueExperience={viewportFamilyHandlers.approveExperience}
+              onRunTablet={viewportFamilyHandlers.runTablet}
+              onRunDesktop={viewportFamilyHandlers.runDesktop}
+              onRegenerateTablet={viewportFamilyHandlers.regenerateTablet}
+              onRegenerateDesktop={viewportFamilyHandlers.regenerateDesktop}
+              onApproveFamily={viewportFamilyHandlers.approveFamily}
+              onLockFamily={viewportFamilyHandlers.lockFamily}
+              onCreateTwinPackage={viewportFamilyHandlers.createTwinPackage}
+              onOpenImage={(src, title) => openImage(src, title)}
+            />
+            <PageConceptPageFamilyContractPanel
+              state={generationState}
+              busy={generating}
+              onApprovePageFamily={viewportFamilyHandlers.approvePageFamily}
+              onMarkOpusShellsReady={viewportFamilyHandlers.markOpusShellsReady}
+            />
+          </>
         : null}
         {generationEligibility && blockingState ?
           <details className="s00-pcg__forensics" data-testid="page-concept-forensics">

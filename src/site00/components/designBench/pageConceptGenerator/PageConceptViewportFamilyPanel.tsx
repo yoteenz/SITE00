@@ -123,7 +123,9 @@ export function PageConceptViewportFamilyPanel(props: PageConceptViewportFamilyP
               </button>
             </>
           : null}
-          {family.status === 'APPROVED' ?
+          {family.status === 'APPROVED' &&
+          props.state.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt &&
+          props.state.pipelineSet?.opusRepresentativeShellSet?.readyAt ?
             <button type="button" disabled={props.busy} data-testid="page-concept-lock-family" onClick={props.onLockFamily}>
               LOCK VIEWPORT FAMILY FOR TWIN
             </button>
@@ -142,13 +144,15 @@ export function PageConceptViewportFamilyPanel(props: PageConceptViewportFamilyP
           <p>
             TWIN PACKAGE {twinPkg.packageId} → {twinPkg.twinRoute}
           </p>
-          <Link
-            to={twinPkg.twinRoute}
-            data-testid="page-concept-create-twin-shell-opus"
-            onClick={() => assertOpusShellTargetSurface(twinPkg.targetSurface)}
-          >
-            CREATE TWIN SHELL WITH OPUS
-          </Link>
+          {twinPkg.pageFamilySkinBehaviorContractId ?
+            <Link
+              to={twinPkg.twinRoute}
+              data-testid="page-concept-create-twin-shell-opus"
+              onClick={() => assertOpusShellTargetSurface(twinPkg.targetSurface)}
+            >
+              CREATE TWIN SHELL WITH OPUS
+            </Link>
+          : null}
         </section>
       : null}
     </div>

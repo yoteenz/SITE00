@@ -101,6 +101,13 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
 
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveViewportFamily' });
     expect(r.state.pipelineSet?.viewportAuthorityFamily?.viewportFamilyApprovalId).toBeTruthy();
+    expect(r.state.pipelineSet?.pageFamilySkinBehaviorContract?.contractId).toBeTruthy();
+
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
+    expect(r.state.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt).toBeTruthy();
+
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'markOpusRepresentativeShellsReady' });
+    expect(r.state.pipelineSet?.opusRepresentativeShellSet?.readyAt).toBeTruthy();
 
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'lockViewportFamily' });
     expect(r.state.pipelineSet?.viewportAuthorityFamilyLock?.lockId).toBeTruthy();
@@ -109,6 +116,8 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
     const pkg = r.state.pipelineSet?.twinImplementationPackage;
     expect(pkg?.targetSurface).toBe('TWIN');
     expect(pkg?.packageId).toBeTruthy();
+    expect(pkg?.pageFamilySkinBehaviorContractId).toBeTruthy();
+    expect(pkg?.representativeShellSetId).toBeTruthy();
 
     const liveAfter = computePageConceptLiveImplementationHash(r.state);
     expect(liveAfter).toBe(liveBefore);
@@ -166,9 +175,15 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });
     expect(() => pageConceptLockViewportFamily(r.state)).toThrow(/FAMILY_APPROVAL_REQUIRED/);
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveViewportFamily' });
+    expect(() => pageConceptLockViewportFamily(r.state)).toThrow(/PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED/);
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'lockViewportFamily' });
     await expect(
       runPageConceptViewportFamilyAction(r.state, { type: 'createTwinImplementationPackage' }),
-    ).rejects.toThrow(/AUTHORITY_LOCK_REQUIRED/);
+    ).rejects.toThrow(/OPUS_REPRESENTATIVE_SHELLS_NOT_READY/);
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'markOpusRepresentativeShellsReady' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'createTwinImplementationPackage' });
+    expect(r.state.pipelineSet?.twinImplementationPackage?.packageId).toBeTruthy();
   });
 
   it('interpretation package encodes skin, experience, and drift rules', () => {

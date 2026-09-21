@@ -11250,3 +11250,16 @@ Functional orchestration from **mobile selection → experience expression → G
 - **Fix:** `PageGpt2DirectRenderPackage.lineage.renderMode` → `NBP_FULL_SET` (removed stale `DUAL_RENDER_TEST` type).
 - **Tests:** `p0vrGpt2ViewportFamilyTwinOrchestration1.test.ts` (7 cases: full path, gates, provider lineage, lock/package guards, firewalls, NBP=0, regen invalidates approval).
 - **Branch:** `cursor/gpt2-viewport-family-twin-orchestration1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-FAMILY-SKIN-BEHAVIOR-CONTRACT1
+
+After **viewport family approval**, pipeline compiles **PageFamilySkinBehaviorContract** + **PageFamilyComponentExpressionMap** + **OpusRepresentativeShellSet** (9 twin shells) before Opus/Composer twin work.
+
+- **Compile:** `pageConceptPageFamilySkinBehavior.ts` + `pageConceptPageFamilyComponentExpression.ts` — visual DNA, shell geometry, nav, overlays, parent/child/grandchild inheritance + `designDivergenceLevel` (child/grandchild default LOW), shell tokens, forbidden SaaS fallbacks; hierarchy from `buildPageSystemReviewModel` (Page System Review reused).
+- **Flow:** approve viewport family → `PAGE_FAMILY_CONTRACT_REVIEW` → founder **APPROVE PAGE FAMILY SYSTEM** → **CREATE OPUS REPRESENTATIVE SHELL SET (TWIN)** → lock → twin package (now includes `pageFamilySkinBehaviorContractId`, component map id, shell set id, divergence/responsive summaries).
+- **Composer guard:** `pageConceptComposerFamilyGuard.ts` — `COMPOSER_FAMILY_CONTRACT_REQUIRED`, `PAGE_FAMILY_PATTERN_UNDEFINED`, divergence budget checks; twin-only via existing firewall.
+- **UI:** `PageConceptPageFamilyContractPanel` + overlay wiring; lock gated on approved page family + Opus shells ready.
+- **Tests:** `p0vrPageFamilySkinBehaviorContract1.test.ts`; orchestration tests updated for new gates.
+- **Branch:** `cursor/page-family-skin-behavior-contract1-b747`.

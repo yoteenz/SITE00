@@ -1586,6 +1586,8 @@ export function usePageConceptGeneration(
       regenerateTablet: () => void dispatchViewportFamilyAction({ type: 'regenerateTablet' }),
       regenerateDesktop: () => void dispatchViewportFamilyAction({ type: 'regenerateDesktop' }),
       approveFamily: () => void dispatchViewportFamilyAction({ type: 'approveViewportFamily' }),
+      approvePageFamily: () => void dispatchViewportFamilyAction({ type: 'approvePageFamilySkinBehavior' }),
+      markOpusShellsReady: () => void dispatchViewportFamilyAction({ type: 'markOpusRepresentativeShellsReady' }),
       lockFamily: () => void dispatchViewportFamilyAction({ type: 'lockViewportFamily' }),
       createTwinPackage: () => void dispatchViewportFamilyAction({ type: 'createTwinImplementationPackage' }),
     }),
