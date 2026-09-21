@@ -11182,3 +11182,17 @@ CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 hand
 - **Tests:** `p0vrPageConceptCgptCreativeSynthesisLeakFix1.test.ts`.
 - **Branch:** `cursor/page-concept-cgpt-creative-synthesis-leak-fix1-b747`.
 - **CI hotfix:** `synthesisText`/`fieldValue` safe on undefined; NBP `retryFailedOnly` skips synthesis/handoff re-gates (`cursor/page-concept-cgpt-synthesis-ci-fix-b747`).
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-POST-RUN-RESTART-CONTROLS1
+
+**READY FOR REVIEW** was a dead primary CTA with no rerun/restart path.
+
+- **Post-run footer:** Primary **VIEW RENDITIONS** (scroll to candidate gallery via `site00:page-concept-focus-gallery`); secondary **NEW GENERATION**; **MORE ▾** for REGENERATE CGPT/GPT2/NBP, retry failed, run history. Mobile-friendly more menu CSS.
+- **Non-destructive lineage:** `pageConceptRunArchive.ts` archives pipeline + jobs; `activeReviewRunId` + `archivedRuns`; history lines show CGPT/GPT2/NBP counts per run.
+- **Actions:** NEW GENERATION → `STARTING_NEW_RUN`, clear active pipeline, founder must GENERATE again (captures reused). Regen CGPT archives + full rerun from CGPT. Regen GPT2 `retryGpt2Only` (reuse injection). Regen NBP `regenerateNbpOnly` (new `pipelineSetId`, versioned artifact suffix, skip CGPT/GPT2).
+- **Spend gates:** `pageConceptPostRunConfirmMessage` + `window.confirm` before provider spend; telemetry events for review/regen/new gen.
+- **Modal generate:** `pageConceptModalGeneratePress` no longer blocks with reason `READY FOR REVIEW`.
+- **Tests:** `p0vrPageConceptPostRunRestartControls1.test.ts`.
+- **Branch:** `cursor/page-concept-post-run-restart-controls1-b747`.

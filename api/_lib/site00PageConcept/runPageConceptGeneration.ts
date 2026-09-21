@@ -28,6 +28,8 @@ export type RunPageConceptGenerationInput = {
   /** Founder approved GPT2 authority — continue to NBP on same run. */
   continueNbpAfterGpt2Review?: boolean;
   continueGpt2AfterCgptReview?: boolean;
+  retryGpt2Only?: boolean;
+  regenerateNbpOnly?: boolean;
 };
 
 export function planPageConceptGeneration(
@@ -123,5 +125,7 @@ export async function runPageConceptGeneration(
 
   return executePageConceptGeneration(input, {
     retryCgptOnly: input.retryCgptOnly === true,
+    retryGpt2Only: input.retryGpt2Only === true,
+    regenerateNbpOnly: input.regenerateNbpOnly === true,
   });
 }

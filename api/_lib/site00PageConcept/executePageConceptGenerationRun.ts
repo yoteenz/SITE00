@@ -56,6 +56,8 @@ export type ExecutePageConceptGenerationOptions = {
   runId?: string;
   dryRun?: boolean;
   retryCgptOnly?: boolean;
+  retryGpt2Only?: boolean;
+  regenerateNbpOnly?: boolean;
   continueGpt2AfterCgptReview?: boolean;
   continueNbpAfterGpt2Review?: boolean;
   onProgress?: (patch: PageConceptRunProgress) => void;
@@ -84,6 +86,8 @@ export async function executePageConceptGeneration(
 
   const continueNbpAfterGpt2Review = options.continueNbpAfterGpt2Review === true;
   const continueGpt2AfterCgptReview = options.continueGpt2AfterCgptReview === true;
+  const retryGpt2Only = options.retryGpt2Only === true;
+  const regenerateNbpOnly = options.regenerateNbpOnly === true;
 
   const mobileCaptureBase64 =
     dryRun ? 'dry-run-mobile' : (
@@ -101,7 +105,10 @@ export async function executePageConceptGeneration(
   let creativeInjectionError = input.state.pipelineSet?.creativeInjectionError;
   let gpt2AuthorityError = input.state.pipelineSet?.gpt2AuthorityError;
 
-  const pipelineSetId = input.state.pipelineSet?.pipelineSetId ?? `pps-${Date.now()}`;
+  let pipelineSetId = input.state.pipelineSet?.pipelineSetId ?? `pps-${Date.now()}`;
+  if (regenerateNbpOnly) {
+    pipelineSetId = `pps-nbp-${Date.now()}`;
+  }
   const retryFailedOnly = input.retryFailedOnly === true;
   const retryCgptOnly = options.retryCgptOnly === true;
   const runId = options.runId ?? `pcgr-local-${pipelineSetId}`;
@@ -111,14 +118,21 @@ export async function executePageConceptGeneration(
     creativeInjection = null;
     creativeInjectionError = undefined;
   }
+  if (retryGpt2Only) {
+    gpt2Authority = null;
+    gpt2AuthorityError = undefined;
+  }
 
   const skipCgpt =
     continueGpt2AfterCgptReview ||
     continueNbpAfterGpt2Review ||
+    retryGpt2Only ||
+    regenerateNbpOnly ||
     (retryFailedOnly && Boolean(creativeInjection) && !retryCgptOnly);
   const skipGpt2 =
     continueNbpAfterGpt2Review ||
-    (retryFailedOnly && Boolean(creativeInjection) && Boolean(gpt2Authority) && !retryCgptOnly);
+    regenerateNbpOnly ||
+    (retryFailedOnly && Boolean(creativeInjection) && Boolean(gpt2Authority) && !retryCgptOnly && !retryGpt2Only);
 
   if (continueNbpAfterGpt2Review && (!creativeInjection || !gpt2Authority)) {
     throw new Error('GPT2_REVIEW_CONTINUE_MISSING_PIPELINE');
@@ -214,7 +228,7 @@ export async function executePageConceptGeneration(
     });
   }
 
-  const nbpRetryOnly = retryFailedOnly && skipCgpt && skipGpt2;
+  const nbpRetryOnly = (retryFailedOnly || regenerateNbpOnly) && skipCgpt && skipGpt2;
 
   const synthesisCheck = validateCgptCreativeSynthesis(creativeInjection);
   if (!synthesisCheck.ok && !dryRun && !nbpRetryOnly) {
@@ -477,7 +491,8 @@ export async function executePageConceptGeneration(
   const skinContract = compileProjectSkinContract(input.state.projectId);
   const pageContextSummary = Object.values(pageContextForGpt2Package(pageContext)).join(' · ');
 
-  const skipGpt2FounderReviewGate = continueNbpAfterGpt2Review || retryFailedOnly;
+  const skipGpt2FounderReviewGate =
+    continueNbpAfterGpt2Review || retryFailedOnly || regenerateNbpOnly;
   if (pageConceptRequiresGpt2FounderReview() && !skipGpt2FounderReviewGate) {
     const previewPkg = buildPageNbpRequestPackage({
       gpt2Authority,
@@ -566,7 +581,10 @@ export async function executePageConceptGeneration(
   });
 
   const completed: PageConceptGeneratedArtifact[] =
-    retryFailedOnly ? input.state.generationJobs.filter((j) => j.status === 'READY') : [];
+    retryFailedOnly && !regenerateNbpOnly ?
+      input.state.generationJobs.filter((j) => j.status === 'READY')
+    : [];
+  const nbpArtifactSuffix = regenerateNbpOnly ? pipelineSetId.slice(-10) : '';
   const renditions: PageConceptRendition[] = [];
   let anyNbpFailed = false;
 
@@ -580,8 +598,12 @@ export async function executePageConceptGeneration(
       if (!pageConceptNbpJobAllowedInQaMode(rp.slot, viewport)) {
         continue;
       }
-      const artifactId = `pcga-${rp.slot}-${viewport}`;
-      const existing = input.state.generationJobs.find((j) => j.artifactId === artifactId);
+      const artifactId =
+        nbpArtifactSuffix ?
+          `pcga-${rp.slot}-${viewport}-${nbpArtifactSuffix}`
+        : `pcga-${rp.slot}-${viewport}`;
+      const existing =
+        regenerateNbpOnly ? undefined : input.state.generationJobs.find((j) => j.artifactId === artifactId);
       if (existing?.status === 'READY') {
         completed.push(existing);
         if (viewport === 'MOBILE') mobileArtifactId = artifactId;

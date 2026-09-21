@@ -296,10 +296,20 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     window.addEventListener('site00:page-concept-generation-updated', bump);
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
     window.addEventListener('site00:page-concept-captures-hydrated', bump);
+    const onFocusGallery = (event: Event) => {
+      const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
+      if (!designPageCaptureEventMatches(projectSlug, pageTarget.pageId, detail)) return;
+      document.querySelector('[data-testid="page-concept-candidate-gallery"]')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    };
+    window.addEventListener('site00:page-concept-focus-gallery', onFocusGallery);
     return () => {
       window.removeEventListener('site00:page-concept-generation-updated', bump);
       window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
       window.removeEventListener('site00:page-concept-captures-hydrated', bump);
+      window.removeEventListener('site00:page-concept-focus-gallery', onFocusGallery);
     };
   }, [pageTarget.pageId, projectSlug]);
 

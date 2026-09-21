@@ -78,6 +78,8 @@ export async function startPageConceptGenerationRunApi(input: {
   resumeRunId?: string;
   continueNbpAfterGpt2Review?: boolean;
   continueGpt2AfterCgptReview?: boolean;
+  retryGpt2Only?: boolean;
+  regenerateNbpOnly?: boolean;
   dryRun?: boolean;
 }): Promise<{ runId: string; status: string; dryRun: boolean }> {
   const result = await captureApiFetch<{
@@ -100,6 +102,8 @@ export async function startPageConceptGenerationRunApi(input: {
       resumeRunId: input.resumeRunId,
       continueNbpAfterGpt2Review: input.continueNbpAfterGpt2Review === true,
       continueGpt2AfterCgptReview: input.continueGpt2AfterCgptReview === true,
+      retryGpt2Only: input.retryGpt2Only === true,
+      regenerateNbpOnly: input.regenerateNbpOnly === true,
       dryRun: input.dryRun === true,
     },
   });

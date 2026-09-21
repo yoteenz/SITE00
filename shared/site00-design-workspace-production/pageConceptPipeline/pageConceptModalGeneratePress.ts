@@ -39,7 +39,7 @@ export function computePageConceptModalGeneratePress(input: {
   if (input.mode === 'review' && reviewReady && !failedNbp) {
     return {
       canPress: false,
-      blockReason: 'READY FOR REVIEW',
+      blockReason: null,
       intendedAction: 'blocked',
       canGenerateAtClick,
     };
