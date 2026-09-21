@@ -4,6 +4,11 @@
 
 import { compileProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import {
+  compilePageFamilyContractBundle,
+  markOpusRepresentativeShellsReady,
+  type PageFamilySkinBehaviorContract,
+} from './pageConceptPageFamilySkinBehavior.js';
+import {
   assertLiveRouteUnchanged,
   computePageConceptLiveImplementationHash,
 } from './pageConceptLiveRouteHash.js';
@@ -54,22 +59,26 @@ function invalidateApprovalIfNeeded(family: PageViewportAuthorityFamily): PageVi
   };
 }
 
-function syncGenerationStatus(family: PageViewportAuthorityFamily): PageConceptGenerationStatus {
+function syncGenerationStatus(
+  family: PageViewportAuthorityFamily,
+  pipelineSet: PageConceptPipelineSet,
+): PageConceptGenerationStatus {
+  if (pipelineSet.twinImplementationPackage) return 'TWIN_IMPLEMENTATION_PACKAGE_READY';
+  if (family.status === 'LOCKED') return 'VIEWPORT_FAMILY_LOCKED';
+  if (family.status === 'APPROVED') {
+    const contract = pipelineSet.pageFamilySkinBehaviorContract;
+    if (contract && !contract.approvedAt) return 'PAGE_FAMILY_CONTRACT_REVIEW';
+  }
   switch (family.status) {
     case 'MOBILE_SELECTED':
       return 'GPT2_MOBILE_AWAITING_SELECTION';
     case 'EXPERIENCE_DEFINED':
       return 'GPT2_MOBILE_AWAITING_SELECTION';
     case 'TABLET_READY':
-      return 'VIEWPORT_FAMILY_REVIEW';
     case 'DESKTOP_READY':
-      return 'VIEWPORT_FAMILY_REVIEW';
     case 'AWAITING_FOUNDER_FAMILY_REVIEW':
-      return 'VIEWPORT_FAMILY_REVIEW';
     case 'APPROVED':
       return 'VIEWPORT_FAMILY_REVIEW';
-    case 'LOCKED':
-      return 'VIEWPORT_FAMILY_LOCKED';
     default:
       return 'VIEWPORT_FAMILY_REVIEW';
   }
@@ -88,7 +97,8 @@ function patchPipeline(
     ...patch,
     viewportAuthorityFamily: viewportAuthorityFamily ?? null,
   };
-  const generationStatus = viewportAuthorityFamily ? syncGenerationStatus(viewportAuthorityFamily) : state.generationStatus;
+  const generationStatus =
+    viewportAuthorityFamily ? syncGenerationStatus(viewportAuthorityFamily, next) : state.generationStatus;
   return { ...state, pipelineSet: next, generationStatus };
 }
 
@@ -119,13 +129,11 @@ export function pageConceptSelectMobileConcept(
     status: 'MOBILE_SELECTED',
     updatedAt: new Date().toISOString(),
   };
-  return {
-    state: patchPipeline(state, {
-      selectedMobileConceptId: selected.conceptId,
-      viewportAuthorityFamily: nextFamily,
-    }),
-    generationStatus: syncGenerationStatus(nextFamily),
-  };
+  const nextState = patchPipeline(state, {
+    selectedMobileConceptId: selected.conceptId,
+    viewportAuthorityFamily: nextFamily,
+  });
+  return { state: nextState, generationStatus: nextState.generationStatus };
 }
 
 export function pageConceptApproveExperienceExpression(
@@ -148,17 +156,15 @@ export function pageConceptApproveExperienceExpression(
     status: 'EXPERIENCE_DEFINED',
     updatedAt: new Date().toISOString(),
   };
-  return {
-    state: patchPipeline(
-      state,
-      {
-        experienceExpressionContract: approved,
-        viewportAuthorityFamily: nextFamily,
-      },
-      nextFamily,
-    ),
-    generationStatus: syncGenerationStatus(nextFamily),
-  };
+  const nextState = patchPipeline(
+    state,
+    {
+      experienceExpressionContract: approved,
+      viewportAuthorityFamily: nextFamily,
+    },
+    nextFamily,
+  );
+  return { state: nextState, generationStatus: nextState.generationStatus };
 }
 
 export function pageConceptApplyTabletInterpretation(
@@ -180,11 +186,8 @@ export function pageConceptApplyTabletInterpretation(
     status: 'TABLET_READY',
     updatedAt: new Date().toISOString(),
   };
-  return {
-    state: patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily),
-    jobs: [input.job],
-    generationStatus: syncGenerationStatus(nextFamily),
-  };
+  const nextState = patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily);
+  return { state: nextState, jobs: [input.job], generationStatus: nextState.generationStatus };
 }
 
 export function pageConceptApplyDesktopInterpretation(
@@ -206,18 +209,17 @@ export function pageConceptApplyDesktopInterpretation(
     status: 'AWAITING_FOUNDER_FAMILY_REVIEW',
     updatedAt: new Date().toISOString(),
   };
-  return {
-    state: patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily),
-    jobs: [input.job],
-    generationStatus: syncGenerationStatus(nextFamily),
-  };
+  const nextState = patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily);
+  return { state: nextState, jobs: [input.job], generationStatus: nextState.generationStatus };
 }
 
 export function pageConceptApproveViewportFamily(state: PageConceptGenerationState): ViewportFamilyOrchestrationResult {
-  const family = state.pipelineSet?.viewportAuthorityFamily;
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
   if (!family?.mobileArtifactId || !family.tabletArtifactId || !family.desktopArtifactId) {
     throw new Error('VIEWPORT_FAMILY_INCOMPLETE');
   }
+  if (!ps?.experienceExpressionContract?.approvedAt) throw new Error('EXPERIENCE_EXPRESSION_REQUIRED');
   const approvalId = `pvfa-${family.familyId}-${Date.now()}`;
   const nextFamily: PageViewportAuthorityFamily = {
     ...family,
@@ -225,15 +227,71 @@ export function pageConceptApproveViewportFamily(state: PageConceptGenerationSta
     status: 'APPROVED',
     updatedAt: new Date().toISOString(),
   };
+  const skin = compileProjectSkinContract(state.projectId);
+  const bundle = compilePageFamilyContractBundle({
+    projectId: state.projectId,
+    pageId: state.pageId,
+    parentPageRole: state.functionContract?.route ?? 'parent-page',
+    sourceViewportFamilyId: family.familyId,
+    experienceContract: ps.experienceExpressionContract,
+    skinContract: skin,
+    cgptBrief: ps.cgptCreativeBrief!,
+    functionContract: state.functionContract!,
+  });
+  const nextState = patchPipeline(
+    state,
+    {
+      viewportAuthorityFamily: nextFamily,
+      pageFamilySkinBehaviorContract: bundle.contract,
+      pageFamilyComponentExpressionMap: bundle.componentMap,
+      opusRepresentativeShellSet: bundle.representativeShellSet,
+      twinShellApprovalId: null,
+      twinImplementationPackage: null,
+    },
+    nextFamily,
+  );
+  return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptApprovePageFamilySkinBehavior(
+  state: PageConceptGenerationState,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  const contract = ps?.pageFamilySkinBehaviorContract;
+  if (!family?.viewportFamilyApprovalId || family.status !== 'APPROVED') {
+    throw new Error('VIEWPORT_FAMILY_APPROVAL_REQUIRED');
+  }
+  if (!contract) throw new Error('PAGE_FAMILY_CONTRACT_REQUIRED');
+  const approved: PageFamilySkinBehaviorContract = {
+    ...contract,
+    approvedAt: new Date().toISOString(),
+  };
+  const nextState = patchPipeline(state, { pageFamilySkinBehaviorContract: approved });
+  return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptMarkOpusRepresentativeShellsReady(
+  state: PageConceptGenerationState,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const set = ps?.opusRepresentativeShellSet;
+  const contract = ps?.pageFamilySkinBehaviorContract;
+  if (!contract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
+  if (!set) throw new Error('REPRESENTATIVE_SHELL_SET_REQUIRED');
+  assertOpusShellTargetSurface('TWIN');
+  const ready = markOpusRepresentativeShellsReady(set);
   return {
-    state: patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily),
-    generationStatus: syncGenerationStatus(nextFamily),
+    state: patchPipeline(state, { opusRepresentativeShellSet: ready }),
+    generationStatus: state.generationStatus,
   };
 }
 
 export function pageConceptLockViewportFamily(state: PageConceptGenerationState): ViewportFamilyOrchestrationResult {
-  const family = state.pipelineSet?.viewportAuthorityFamily;
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
   if (!family?.viewportFamilyApprovalId) throw new Error('FAMILY_APPROVAL_REQUIRED');
+  if (!ps?.pageFamilySkinBehaviorContract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
   const lock: PageViewportAuthorityFamilyLock = {
     lockId: `pvfl-${family.familyId}-${Date.now()}`,
     familyId: family.familyId,
@@ -268,6 +326,14 @@ export function pageConceptCreateTwinImplementationPackage(state: PageConceptGen
   const lock = ps?.viewportAuthorityFamilyLock;
   if (!family?.familyLockId || !lock) throw new Error('AUTHORITY_LOCK_REQUIRED');
   if (family.familyLockId !== lock.lockId) throw new Error('LOCK_MISMATCH');
+  const familyContract = ps?.pageFamilySkinBehaviorContract;
+  const componentMap = ps?.pageFamilyComponentExpressionMap;
+  const shellSet = ps?.opusRepresentativeShellSet;
+  if (!familyContract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
+  if (!componentMap || !shellSet) throw new Error('PAGE_FAMILY_CONTRACT_BUNDLE_INCOMPLETE');
+  if (!shellSet.readyAt || shellSet.shells.some((s) => s.status !== 'READY')) {
+    throw new Error('OPUS_REPRESENTATIVE_SHELLS_NOT_READY');
+  }
 
   const twinRoute = resolveDesignTwinRoute(state.projectId, state.pageId);
   assertOpusShellTargetSurface('TWIN');
@@ -314,6 +380,15 @@ export function pageConceptCreateTwinImplementationPackage(state: PageConceptGen
     functionContractId: ps!.functionContractId,
     pageContentContractSummary: ps!.creativeInjection?.immutableRequirements?.join(' · ') ?? '',
     interactionRequirements: state.functionContract?.interactions ?? [],
+    pageFamilySkinBehaviorContractId: familyContract.contractId,
+    pageFamilyComponentExpressionMapId: componentMap.mapId,
+    representativeShellSetId: shellSet.setId,
+    designDivergenceRulesSummary: `parent=${familyContract.inheritanceRules.parent.designDivergenceLevel};child=${familyContract.inheritanceRules.child.designDivergenceLevel};grandchild=${familyContract.inheritanceRules.grandchild.designDivergenceLevel}`,
+    responsiveInheritanceRulesSummary: [
+      familyContract.responsiveInheritance.mobile[0],
+      familyContract.responsiveInheritance.tablet[0],
+      familyContract.responsiveInheritance.desktop[0],
+    ].join(' | '),
     twinBuildId,
     liveRouteHashBefore: before,
     createdAt: new Date().toISOString(),

@@ -72,6 +72,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'approveViewportFamily':
         action = { type: 'approveViewportFamily' };
         break;
+      case 'approvePageFamilySkinBehavior':
+        action = { type: 'approvePageFamilySkinBehavior' };
+        break;
+      case 'markOpusRepresentativeShellsReady':
+        action = { type: 'markOpusRepresentativeShellsReady' };
+        break;
       case 'lockViewportFamily':
         action = { type: 'lockViewportFamily' };
         break;

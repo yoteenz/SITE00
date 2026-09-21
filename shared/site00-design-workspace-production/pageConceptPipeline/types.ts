@@ -11,6 +11,12 @@ import type {
   PageViewportAuthorityFamilyLock,
   TwinImplementationPackage,
 } from './pageConceptViewportAuthorityFamily.js';
+import type {
+  OpusRepresentativeShellSet,
+  PageFamilyContractExtension,
+  PageFamilySkinBehaviorContract,
+} from './pageConceptPageFamilySkinBehavior.js';
+import type { PageFamilyComponentExpressionMap } from './pageConceptPageFamilyComponentExpression.js';
 
 export type PageConceptTargetType = 'PAGE';
 
@@ -27,6 +33,7 @@ export type PageConceptGenerationStatus =
   | 'VIEWPORT_TABLET_RUNNING'
   | 'VIEWPORT_DESKTOP_RUNNING'
   | 'VIEWPORT_FAMILY_REVIEW'
+  | 'PAGE_FAMILY_CONTRACT_REVIEW'
   | 'VIEWPORT_FAMILY_LOCKED'
   | 'TWIN_IMPLEMENTATION_PACKAGE_READY'
   | 'TWIN_READY_FOR_REVIEW'
@@ -376,6 +383,11 @@ export type PageConceptPipelineSet = {
   viewportAuthorityFamily?: PageViewportAuthorityFamily | null;
   viewportAuthorityFamilyLock?: PageViewportAuthorityFamilyLock | null;
   experienceExpressionContract?: PageExperienceExpressionContract | null;
+  pageFamilySkinBehaviorContract?: PageFamilySkinBehaviorContract | null;
+  pageFamilyComponentExpressionMap?: PageFamilyComponentExpressionMap | null;
+  opusRepresentativeShellSet?: OpusRepresentativeShellSet | null;
+  pageFamilyContractExtensions?: readonly PageFamilyContractExtension[];
+  twinShellApprovalId?: string | null;
   twinImplementationPackage?: TwinImplementationPackage | null;
   liveRouteHashBefore?: PageConceptLiveRouteHashSnapshot | null;
   liveRouteHashAfter?: PageConceptLiveRouteHashSnapshot | null;
