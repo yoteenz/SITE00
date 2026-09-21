@@ -125,7 +125,9 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICONS-ONLY3', () => {
       expect(`${panel}\n${shell}`).toContain(id);
     }
     const hook = read('src/site00/components/designBench/opusDirect/usePageConceptGeneration.ts');
-    expect(hook).toContain('runPageConceptGenerationApi');
+    expect(hook).toContain('startPageConceptGenerationRunApi');
+    expect(hook).toContain('pollPageConceptGenerationRunUntilTerminal');
+    expect(hook).not.toContain('runPageConceptGenerationApi');
     expect(hook).not.toContain('pageConceptGeneratorIconsOnly3');
   });
 

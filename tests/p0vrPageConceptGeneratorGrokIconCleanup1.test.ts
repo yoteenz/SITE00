@@ -122,7 +122,8 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-GROK-ICON-CLEANUP1', () => {
     const hook = read('src/site00/components/designBench/opusDirect/usePageConceptGeneration.ts');
     expect(overlay).not.toContain('pageConceptGeneratorIconography');
     expect(hook).not.toContain('pageConceptGeneratorIconography');
-    expect(hook).toContain('runPageConceptGenerationApi');
+    expect(hook).toContain('startPageConceptGenerationRunApi');
+    expect(hook).not.toContain('runPageConceptGenerationApi');
   });
 
   it('dumps staged SVGs, manifest, and review surfaces', () => {
