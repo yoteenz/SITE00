@@ -36,6 +36,7 @@ import type { PageConceptCgptSubstepId } from '../../../../../shared/site00-desi
 import type { PageConceptSubstepRunState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-design-workspace-production/types.js';
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
+import { PageConceptViewportFamilyPanel } from '../pageConceptGenerator/PageConceptViewportFamilyPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
 import { PageConceptCgptBriefInspector } from '../pageConceptGenerator/PageConceptCgptBriefInspector';
@@ -76,6 +77,7 @@ export function PageConceptGenerationOverlay({
   onContinueNbp,
   onRegenerateGpt2Authority,
   gpt2MobileAwaitingSelection,
+  viewportFamilyHandlers,
   postRunReviewReady,
   postRunPrimaryAction,
   postRunSecondaryAction,
@@ -110,6 +112,17 @@ export function PageConceptGenerationOverlay({
   onContinueNbp?: () => void;
   onRegenerateGpt2Authority?: () => void;
   gpt2MobileAwaitingSelection?: boolean;
+  viewportFamilyHandlers?: {
+    selectMobile: (conceptId: string) => void;
+    approveExperience: () => void;
+    runTablet: () => void;
+    runDesktop: () => void;
+    regenerateTablet: () => void;
+    regenerateDesktop: () => void;
+    approveFamily: () => void;
+    lockFamily: () => void;
+    createTwinPackage: () => void;
+  };
   postRunReviewReady?: boolean;
   postRunPrimaryAction?: { label: string; testId: string } | null;
   postRunSecondaryAction?: { label: string; testId: string } | null;
@@ -344,7 +357,7 @@ export function PageConceptGenerationOverlay({
           generateBusyLabel={generateBusyLabel}
           generateLabel={
             gpt2AwaitingFounderReview && !generating ?
-              'RUN DUAL RENDER TEST'
+              'CONTINUE (LEGACY NBP)'
             : cgptAwaitingFounderReview && !generating ?
               'REGENERATE CGPT'
             : !generating && cgptRetry ?
@@ -441,6 +454,26 @@ export function PageConceptGenerationOverlay({
           onClose={onCancel}
         />
         </div>
+        {(gpt2MobileAwaitingSelection ||
+          generationState.generationStatus === 'VIEWPORT_FAMILY_REVIEW' ||
+          generationState.generationStatus === 'VIEWPORT_FAMILY_LOCKED' ||
+          generationState.generationStatus === 'TWIN_IMPLEMENTATION_PACKAGE_READY') &&
+        viewportFamilyHandlers ?
+          <PageConceptViewportFamilyPanel
+            state={generationState}
+            busy={generating}
+            onSelectMobile={viewportFamilyHandlers.selectMobile}
+            onContinueExperience={viewportFamilyHandlers.approveExperience}
+            onRunTablet={viewportFamilyHandlers.runTablet}
+            onRunDesktop={viewportFamilyHandlers.runDesktop}
+            onRegenerateTablet={viewportFamilyHandlers.regenerateTablet}
+            onRegenerateDesktop={viewportFamilyHandlers.regenerateDesktop}
+            onApproveFamily={viewportFamilyHandlers.approveFamily}
+            onLockFamily={viewportFamilyHandlers.lockFamily}
+            onCreateTwinPackage={viewportFamilyHandlers.createTwinPackage}
+            onOpenImage={(src, title) => openImage(src, title)}
+          />
+        : null}
         {generationEligibility && blockingState ?
           <details className="s00-pcg__forensics" data-testid="page-concept-forensics">
             <summary>Technical details</summary>

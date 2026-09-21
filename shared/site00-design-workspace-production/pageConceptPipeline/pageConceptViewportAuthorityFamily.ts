@@ -30,22 +30,59 @@ export type PageExperienceExpressionContract = {
   skinContractVersion: string;
   cgptBriefId: string;
   overlayPatterns: readonly string[];
+  version: string;
+  approvedAt: string | null;
   createdAt: string;
+};
+
+export type PageViewportAuthorityFamilyLock = {
+  lockId: string;
+  familyId: string;
+  viewportFamilyApprovalId: string;
+  frozenAt: string;
+  mobileArtifactVersion: string;
+  tabletArtifactVersion: string;
+  desktopArtifactVersion: string;
+  cgptBriefVersion: string;
+  skinContractVersion: string;
+  experienceExpressionVersion: string;
+};
+
+export type PageTwinViewportCapture = {
+  twinCaptureId: string;
+  viewport: 'MOBILE' | 'TABLET' | 'DESKTOP';
+  twinBuildId: string;
+  authorityArtifactId: string;
+  imageUri: string;
+  capturedAt: string;
+};
+
+export type PageConceptLiveRouteHashSnapshot = {
+  liveRoute: string;
+  hash: string;
+  capturedAt: string;
 };
 
 export type PageViewportAuthorityFamily = {
   familyId: string;
   cgptBriefId: string;
+  cgptBriefVersion: string | null;
   selectedMobileConceptId: string | null;
+  selectedMobileVersion: string | null;
   mobileArtifactId: string | null;
   tabletInterpretationId: string | null;
   tabletArtifactId: string | null;
+  tabletVersion: string | null;
   desktopInterpretationId: string | null;
   desktopArtifactId: string | null;
+  desktopVersion: string | null;
   experienceExpressionContractId: string | null;
+  experienceExpressionVersion: string | null;
   skinContractVersion: string;
+  skinContractId: string | null;
   status: PageViewportFamilyStatus;
   viewportFamilyApprovalId: string | null;
+  familyLockId: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -58,6 +95,19 @@ export type TwinImplementationPackage = {
   twinRoute: string;
   viewportFamilyApprovalId: string;
   viewportFamilyId: string;
+  familyLockId: string;
+  cgptBriefId: string;
+  cgptBriefVersion: string;
+  mobile: { artifactId: string; conceptId: string; version: string };
+  tablet: { artifactId: string; interpretationId: string; version: string };
+  desktop: { artifactId: string; interpretationId: string; version: string };
+  experience: { contractId: string; version: string };
+  skins: { contractId: string; version: string };
+  functionContractId: string;
+  pageContentContractSummary: string;
+  interactionRequirements: readonly string[];
+  twinBuildId: string;
+  liveRouteHashBefore: string;
   createdAt: string;
 };
 
@@ -85,4 +135,45 @@ export function mobileConceptArtifactId(slot: PageMobileConceptSlotId): string {
 
 export function resolveDesignTwinRoute(projectSlug: string, pageId: string): string {
   return `/projects/${projectSlug}/design/twin-opus-direct?page=${encodeURIComponent(pageId)}`;
+}
+
+export function tabletInterpretationArtifactId(familyId: string): string {
+  return `pcga-TABLET-INTERP-${familyId.slice(-12)}`;
+}
+
+export function desktopInterpretationArtifactId(familyId: string): string {
+  return `pcga-DESKTOP-INTERP-${familyId.slice(-12)}`;
+}
+
+export function createInitialViewportAuthorityFamily(input: {
+  familyId: string;
+  cgptBriefId: string;
+  cgptBriefVersion: string;
+  skinContractVersion: string;
+  skinContractId: string;
+}): PageViewportAuthorityFamily {
+  const now = new Date().toISOString();
+  return {
+    familyId: input.familyId,
+    cgptBriefId: input.cgptBriefId,
+    cgptBriefVersion: input.cgptBriefVersion,
+    selectedMobileConceptId: null,
+    selectedMobileVersion: null,
+    mobileArtifactId: null,
+    tabletInterpretationId: null,
+    tabletArtifactId: null,
+    tabletVersion: null,
+    desktopInterpretationId: null,
+    desktopArtifactId: null,
+    desktopVersion: null,
+    experienceExpressionContractId: null,
+    experienceExpressionVersion: null,
+    skinContractVersion: input.skinContractVersion,
+    skinContractId: input.skinContractId,
+    status: 'MOBILE_SELECTED',
+    viewportFamilyApprovalId: null,
+    familyLockId: null,
+    createdAt: now,
+    updatedAt: now,
+  };
 }
