@@ -11,6 +11,7 @@ import type {
   PageConceptPipelineSet,
 } from './types.js';
 import type { PageConceptCgptProviderTelemetry } from './pageConceptCgpt429.js';
+import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
 
 export type PageConceptServerRunStatus =
   | 'QUEUED'
@@ -54,6 +55,7 @@ export type PageConceptServerRun = {
   cgptStatus: PageConceptCgptStageStatus;
   gpt2Status: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'FAILED';
   cgptMeta: PageConceptCgptRunMeta | null;
+  panelProgress: PageConceptPanelProgress | null;
   nbpStatus: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'PARTIAL' | 'FAILED';
   createdAt: string;
   startedAt: string | null;
@@ -80,6 +82,7 @@ export type PageConceptRunProgress = Pick<
   | 'jobs'
   | 'error'
   | 'cgptMeta'
+  | 'panelProgress'
   | 'updatedAt'
   | 'completedAt'
 >;
@@ -94,6 +97,7 @@ export type PageConceptServerRunSnapshot = {
   gpt2Status: PageConceptServerRun['gpt2Status'];
   nbpStatus: PageConceptServerRun['nbpStatus'];
   cgptMeta: PageConceptCgptRunMeta | null;
+  panelProgress: PageConceptPanelProgress | null;
   dryRun: boolean;
   error: string | null;
   generationStatus: PageConceptGenerationStatus;

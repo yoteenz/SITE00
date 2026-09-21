@@ -5,14 +5,20 @@
 import type { ReactNode } from 'react';
 
 import type { CgptBriefRowPresentation, NbpSlotPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import type {
+  PageConceptCgptSubstepId,
+  PageConceptSubstepRunState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { PageGPT2AuthorityConcept } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 
 export function CgptBriefResult({
   rows,
+  substepStates,
   onViewFull,
 }: {
   rows: readonly CgptBriefRowPresentation[];
+  substepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
   onViewFull?: () => void;
 }) {
   if (rows.length === 0) return null;
@@ -20,7 +26,12 @@ export function CgptBriefResult({
     <>
       <ul className="s00-pcg__brief">
         {rows.map((row) => (
-          <li className="s00-pcg__briefRow" key={row.id} data-lead={row.lead ? 'true' : undefined}>
+          <li
+            className="s00-pcg__briefRow"
+            key={row.id}
+            data-substep-state={substepStates?.[row.id as PageConceptCgptSubstepId] ?? 'COMPLETE'}
+            data-lead={row.lead ? 'true' : undefined}
+          >
             <span className="s00-pcg__briefGlyph" aria-hidden="true">
               <AiConsoleIcon name="opus-context" size={10} />
             </span>

@@ -14,6 +14,12 @@ import type {
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PAGE_CONCEPT_TARGET_TYPE } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/constants.js';
 import { executePageConceptCgptStage } from './executePageConceptCgptStage.js';
+import {
+  pageConceptProgressPatchForCgptFailure,
+  pageConceptProgressPatchForCgptSubstep,
+  pageConceptProgressPatchForGpt2,
+  pageConceptProgressPatchForNbp,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
 import { generatePageGpt2AuthorityConcept } from './generatePageGpt2AuthorityConcept.js';
 import { renderPageNbpJob } from './renderPageNbpJob.js';
@@ -48,9 +54,11 @@ export async function executePageConceptGeneration(
   const pageContext = input.state.pageContext!;
   const functionContract = input.state.functionContract!;
 
+  const cgptStart = pageConceptProgressPatchForCgptSubstep('creative-direction');
   emit(onProgress, {
     status: 'CGPT_RUNNING',
-    currentStage: 'CGPT_STARTING',
+    currentStage: cgptStart.currentStage,
+    panelProgress: cgptStart.panelProgress,
     cgptStatus: 'RUNNING',
     gpt2Status: 'PENDING',
     nbpStatus: 'PENDING',
@@ -117,9 +125,11 @@ export async function executePageConceptGeneration(
       creativeInjectionError,
       createdAt: new Date().toISOString(),
     };
+    const cgptFail = pageConceptProgressPatchForCgptFailure('visual-moodboard');
     emit(onProgress, {
       status: 'FAILED',
-      currentStage: 'CGPT_FAILED',
+      currentStage: cgptFail.currentStage,
+      panelProgress: cgptFail.panelProgress,
       cgptStatus: 'FAILED',
       gpt2Status: 'PENDING',
       nbpStatus: 'PENDING',
@@ -132,9 +142,11 @@ export async function executePageConceptGeneration(
     return { plan, pipelineSet, jobs: [] };
   }
 
+  const gpt2Start = pageConceptProgressPatchForGpt2();
   emit(onProgress, {
     status: 'GPT2_RUNNING',
-    currentStage: 'GPT2_STARTING',
+    currentStage: gpt2Start.currentStage,
+    panelProgress: gpt2Start.panelProgress,
     cgptStatus: 'COMPLETE',
     gpt2Status: 'RUNNING',
     nbpStatus: 'PENDING',
@@ -219,9 +231,11 @@ export async function executePageConceptGeneration(
     return { plan, pipelineSet, jobs: [] };
   }
 
+  const nbpStart = pageConceptProgressPatchForNbp('NBP_STARTING');
   emit(onProgress, {
     status: 'NBP_RUNNING',
-    currentStage: 'NBP_STARTING',
+    currentStage: nbpStart.currentStage,
+    panelProgress: nbpStart.panelProgress,
     cgptStatus: 'COMPLETE',
     gpt2Status: 'COMPLETE',
     nbpStatus: 'RUNNING',
@@ -277,9 +291,12 @@ export async function executePageConceptGeneration(
       };
 
       completed.push(running);
+      const nbpStage = `NBP_${rp.slot}_${viewport}`;
+      const nbpPatch = pageConceptProgressPatchForNbp(nbpStage);
       emit(onProgress, {
         status: 'NBP_RUNNING',
-        currentStage: `NBP_${rp.slot}_${viewport}`,
+        currentStage: nbpPatch.currentStage,
+        panelProgress: nbpPatch.panelProgress,
         cgptStatus: 'COMPLETE',
         gpt2Status: 'COMPLETE',
         nbpStatus: 'RUNNING',

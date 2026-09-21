@@ -11087,3 +11087,15 @@ Live page-concept runs reached CGPT then failed with opaque **`CGPT_INJECTION_FA
 - **UI:** Overlay busy label shows rate-limit retry countdown; primary **RETRY CGPT** when CGPT failed transiently. GPT2/NBP still gated until CGPT **COMPLETE**.
 - **Tests:** `p0vrPageConceptCgpt429Resilience1.test.ts` (mocked 429 → retry → success; hard quota; max attempts; idempotency).
 - **Branch:** `cursor/page-concept-cgpt-429-resilience1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-LIVE-STAGE-PROGRESSION1
+
+Panel felt frozen on **CREATIVE DIRECTION** (lime `data-lead`) during CGPT even while async run progressed.
+
+- **Progress model:** `pageConceptLiveProgress.ts` — `panelProgress` on server run + client `liveProgress`; CGPT substeps `creative-direction` → `visual-moodboard` with PENDING/ACTIVE/COMPLETE/FAILED.
+- **Server:** `executePageConceptCgptStage` emits real prep milestones + `CGPT_SUB:*` before provider call; GPT2/NBP patches in orchestrator.
+- **UI:** `data-substep-state` lime ACTIVE on brief rows; rail/card ACTIVE emphasis; busy label `RUNNING {SUBSTEP}`; refresh via poll → `liveProgress` persist.
+- **Tests:** `p0vrPageConceptLiveStageProgression1.test.ts`.
+- **Branch:** `cursor/page-concept-live-stage-progression1-b747`.
