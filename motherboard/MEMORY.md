@@ -11032,3 +11032,15 @@ Founder: GENERATE still no visible change on live site00.com despite v592 receip
 - **Handler/panel same object:** `generationState` from hook `state` via TwinOpusDirectScreen.
 - **Founder browser QA:** requires signed-in session on site00.com — agent cannot complete Phase 10 without founder credentials; use Technical details after deploy.
 - **Branch:** `cursor/page-concept-live-production-trace1-b747`.
+
+---
+
+## 2026-09-20 — Tunnel GENERATE auth + GROK icon passes (CLEANUP2 then ICONS-ONLY3)
+
+Chat started with founder on **site00.fsbw-dev.com** unable to generate page concepts despite mobile + desktop captures. Screenshot showed **SIGN IN REQUIRED — GENERATE calls api.site00.com**.
+
+- **Why:** Captures were ready. GENERATE needs a Supabase Bearer on the **tunnel tab**; CAPTURE SCREEN does not. fsbw-dev does not share site00.com cookies. Viewport OK is design-authority, not source captures.
+- **CLEANUP2:** Staged tag/chip flattening + icon refine (`SITE00_PCG_LINE_V2`) on a separate branch; live panel not replaced.
+- **ICONS-ONLY3 (this pass):** Layout approved. Icon assets only. New family `SITE00_PCG_LINE_V3` as `site00-*.svg` under `public/site00/page-concept-generator/staged/icons-only3/`. CGPT/GPT2/NBP distinct; custom placeholders; related output family; no sparkle/lightbulb/speech/mountain. Live `AiConsoleIcon` bindings, copy, chip/button geometry, and pipeline unchanged.
+- **Tests:** `tests/p0vrPageConceptGeneratorGrokIconsOnly3.test.ts`.
+- **Branch:** `cursor/page-concept-generator-grok-icons-only3-b747`.
