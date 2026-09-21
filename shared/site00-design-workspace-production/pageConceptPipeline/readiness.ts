@@ -158,5 +158,6 @@ export function hydratePageConceptGenerationState(
     activeGenerationStage: partial.activeGenerationStage ?? null,
     liveProgress: partial.liveProgress ?? null,
     cgptSubsteps: partial.cgptSubsteps ?? null,
+    dualRenderTestRun: partial.dualRenderTestRun ?? null,
   };
 }

@@ -22,7 +22,11 @@ export type PageConceptPostRunAction = {
 };
 
 export function pageConceptPostRunReviewActive(status: PageConceptGenerationStatus): boolean {
-  return pageConceptReviewReady(status);
+  return (
+    pageConceptReviewReady(status) &&
+    status !== 'DUAL_RENDER_TEST_REVIEW' &&
+    status !== 'DUAL_RENDER_TEST_RUNNING'
+  );
 }
 
 export function buildPageConceptPostRunActions(state: PageConceptGenerationState): PageConceptPostRunAction[] {

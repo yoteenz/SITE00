@@ -413,6 +413,14 @@ export function TwinOpusDirectScreen({
         gpt2AwaitingFounderReview={workspace.pageConceptGeneration.gpt2AwaitingFounderReview}
         onContinueGpt2={() => void workspace.pageConceptGeneration.continueGpt2AfterCgptReview()}
         onContinueNbp={() => void workspace.pageConceptGeneration.continueNbpAfterGpt2Review()}
+        onRunDualRenderTest={() => void workspace.pageConceptGeneration.continueDualRenderTestAfterGpt2Review()}
+        onRegenerateGpt2Authority={() => void workspace.pageConceptGeneration.regenerateGpt2AuthorityFromReview()}
+        dualRenderTestReview={workspace.pageConceptGeneration.dualRenderTestReview}
+        onRegenerateDualRenderGpt2Lane={() => void workspace.pageConceptGeneration.regenerateDualRenderLaneOnly('GPT2_DIRECT')}
+        onRegenerateDualRenderNbpLane={() => void workspace.pageConceptGeneration.regenerateDualRenderLaneOnly('NBP')}
+        onDualRenderSelectGpt2={() => workspace.pageConceptGeneration.setDualRenderFounderDecision('GPT2_SELECTED')}
+        onDualRenderSelectNbp={() => workspace.pageConceptGeneration.setDualRenderFounderDecision('NBP_SELECTED')}
+        onDualRenderKeepBoth={() => workspace.pageConceptGeneration.setDualRenderFounderDecision('BOTH_KEPT')}
         postRunReviewReady={workspace.pageConceptGeneration.postRunReviewReady}
         postRunPrimaryAction={workspace.pageConceptGeneration.postRunPrimaryAction}
         postRunSecondaryAction={workspace.pageConceptGeneration.postRunSecondaryAction}

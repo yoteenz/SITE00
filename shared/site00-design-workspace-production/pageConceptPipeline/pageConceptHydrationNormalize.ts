@@ -15,7 +15,8 @@ export function normalizePageConceptStateOnPanelMount(
     state.generationStatus === 'CGPT_RUNNING' ||
     state.generationStatus === 'CGPT_RATE_LIMITED' ||
     state.generationStatus === 'GPT2_RUNNING' ||
-    state.generationStatus === 'NBP_RUNNING';
+    state.generationStatus === 'NBP_RUNNING' ||
+    state.generationStatus === 'DUAL_RENDER_TEST_RUNNING';
 
   if (!inFlight) return state;
 

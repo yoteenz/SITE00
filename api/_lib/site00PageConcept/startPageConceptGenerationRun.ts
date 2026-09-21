@@ -45,13 +45,24 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
   const resumeRunId = input.resumeRunId?.trim() || null;
   const continueNbpAfterGpt2Review = input.continueNbpAfterGpt2Review === true;
   const continueGpt2AfterCgptReview = input.continueGpt2AfterCgptReview === true;
+  const continueDualRenderTest = input.continueDualRenderTest === true;
+  const regenerateDualRenderLane = input.regenerateDualRenderLane ?? null;
   const existing =
-    resumeRunId && (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) ?
+    resumeRunId &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueDualRenderTest ||
+      regenerateDualRenderLane) ?
       getPageConceptServerRun(resumeRunId)
     : null;
   if (
     resumeRunId &&
-    (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueDualRenderTest ||
+      regenerateDualRenderLane) &&
     !existing
   ) {
     throw new Error('RUN_NOT_FOUND');
@@ -75,6 +86,21 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
         pipelineSet: existing.pipelineSet,
         generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
         generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW',
+      },
+    };
+  }
+  if ((continueDualRenderTest || regenerateDualRenderLane) && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        dualRenderTestRun: input.state.dualRenderTestRun ?? null,
+        generationStatus:
+          regenerateDualRenderLane ? 'DUAL_RENDER_TEST_RUNNING' : (
+            input.state.generationStatus
+          ),
       },
     };
   }
@@ -118,6 +144,8 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     retryCgptOnly: input.retryCgptOnly === true,
     continueNbpAfterGpt2Review,
     continueGpt2AfterCgptReview,
+    continueDualRenderTest,
+    regenerateDualRenderLane,
     retryGpt2Only: input.retryGpt2Only === true,
     regenerateNbpOnly: input.regenerateNbpOnly === true,
   });
@@ -133,6 +161,8 @@ async function runPageConceptGenerationInBackground(
     continueGpt2AfterCgptReview?: boolean;
     retryGpt2Only?: boolean;
     regenerateNbpOnly?: boolean;
+    continueDualRenderTest?: boolean;
+    regenerateDualRenderLane?: 'GPT2_DIRECT' | 'NBP' | null;
   } = {},
 ): Promise<void> {
   const startedAt = new Date().toISOString();
@@ -159,6 +189,8 @@ async function runPageConceptGenerationInBackground(
       continueGpt2AfterCgptReview: flags.continueGpt2AfterCgptReview === true,
       retryGpt2Only: flags.retryGpt2Only === true,
       regenerateNbpOnly: flags.regenerateNbpOnly === true,
+      continueDualRenderTest: flags.continueDualRenderTest === true,
+      regenerateDualRenderLane: flags.regenerateDualRenderLane ?? null,
       onProgress: (patch) => {
         patchPageConceptServerRun(runId, patch);
       },

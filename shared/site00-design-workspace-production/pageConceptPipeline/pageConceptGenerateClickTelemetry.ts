@@ -49,7 +49,8 @@ export function emitPageConceptGenerateTelemetry(
     | 'page_concept_gpt2_regeneration_requested'
     | 'page_concept_nbp_regeneration_requested'
     | 'page_concept_run_archived'
-    | 'page_concept_run_switched',
+    | 'page_concept_run_switched'
+    | 'page_concept_dual_render_test_requested',
   detail: {
     projectId: string;
     pageId: string;

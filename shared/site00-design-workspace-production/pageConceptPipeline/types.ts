@@ -13,6 +13,8 @@ export type PageConceptGenerationStatus =
   | 'CGPT_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_RUNNING'
   | 'GPT2_AWAITING_FOUNDER_REVIEW'
+  | 'DUAL_RENDER_TEST_RUNNING'
+  | 'DUAL_RENDER_TEST_REVIEW'
   | 'NBP_RUNNING'
   | 'PARTIAL_GENERATION'
   | 'READY_FOR_FOUNDER_REVIEW'
@@ -235,6 +237,60 @@ export type PageFunctionContract = {
   createdAt: string;
 };
 
+export type PageConceptRenderLaneType = 'GPT2_DIRECT' | 'NBP';
+
+export type PageConceptRenderMode = 'NBP_FULL_SET' | 'DUAL_RENDER_TEST';
+
+export type PageConceptRenderGroundingMeta = {
+  authorityPriorityUsed: boolean;
+  implementationCaptureRole: 'FUNCTIONAL_REFERENCE_ONLY' | 'OMITTED';
+  skinGroundingPresent: boolean;
+  identityGroundingPresent: boolean;
+  functionContractPresent: boolean;
+  forbiddenDriftApplied: boolean;
+  renderLaneType: PageConceptRenderLaneType;
+  renderMode: PageConceptRenderMode;
+  authoritySourceRunId: string;
+  authorityArtifactId: string;
+};
+
+export type PageConceptDualRenderLaneJobStatus = 'PENDING' | 'RUNNING' | 'COMPLETE' | 'FAILED';
+
+export type PageConceptDualRenderLaneJob = {
+  jobKey: string;
+  viewport: 'MOBILE' | 'DESKTOP';
+  status: PageConceptDualRenderLaneJobStatus;
+  artifactId: string | null;
+};
+
+export type PageConceptDualRenderLane = {
+  laneType: PageConceptRenderLaneType;
+  status: 'PENDING' | 'RUNNING' | 'PARTIAL' | 'READY' | 'FAILED';
+  mobile: PageConceptDualRenderLaneJob;
+  desktop: PageConceptDualRenderLaneJob;
+};
+
+export type PageConceptDualRenderFounderDecision =
+  | 'PENDING_REVIEW'
+  | 'GPT2_SELECTED'
+  | 'NBP_SELECTED'
+  | 'BOTH_KEPT'
+  | 'ESCALATED_TO_FULL_RUN';
+
+export type PageConceptDualRenderTestRun = {
+  id: string;
+  renderMode: 'DUAL_RENDER_TEST';
+  upstreamCgptRunId: string;
+  upstreamGpt2AuthorityRunId: string;
+  approvedAuthorityArtifactId: string;
+  authorityApprovalId: string;
+  status: 'RUNNING' | 'READY_FOR_REVIEW' | 'FAILED';
+  founderDecisionStatus: PageConceptDualRenderFounderDecision;
+  gpt2Lane: PageConceptDualRenderLane;
+  nbpLane: PageConceptDualRenderLane;
+  createdAt: string;
+};
+
 export type PageConceptGeneratedArtifact = {
   artifactId: string;
   projectId: string;
@@ -248,7 +304,7 @@ export type PageConceptGeneratedArtifact = {
   creativeInjectionId: string;
   gpt2AuthorityConceptId: string;
   renditionId: string;
-  provider: 'NBP';
+  provider: 'NBP' | 'GPT2_DIRECT';
   model: string;
   providerJobId: string | null;
   promptVersion: string;
@@ -259,6 +315,7 @@ export type PageConceptGeneratedArtifact = {
   width: number;
   height: number;
   failureReason?: string;
+  renderGrounding?: PageConceptRenderGroundingMeta;
 };
 
 export type PageConceptNbpLineage = {
@@ -297,6 +354,7 @@ export type PageConceptPipelineSet = {
   /** Frozen at founder continue-to-NBP (or test bypass). */
   nbpLineage?: PageConceptNbpLineage | null;
   nbpPreDispatchInspector?: PageConceptNbpPreDispatchInspector | null;
+  renderMode?: PageConceptRenderMode | null;
   createdAt: string;
 };
 
@@ -335,6 +393,8 @@ export type PageConceptGenerationState = {
   /** Latest panel progression snapshot (persisted for refresh/resume). */
   liveProgress: PageConceptPanelProgress | null;
   cgptSubsteps: PageConceptCgptSubstepRunDetail | null;
+  /** Active dual render A/B test (four outputs max). */
+  dualRenderTestRun?: PageConceptDualRenderTestRun | null;
 };
 
 export type PageConceptGenerationPlan = {
