@@ -1,9 +1,14 @@
 /**
- * In-memory server run store — survives client disconnect; not tied to fetch AbortSignal.
+ * Hybrid run store — in-memory hot path + Supabase durability for Railway restarts.
  */
 
 import { appendPageConceptProgressEvents } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
 import type { PageConceptServerRun, PageConceptRunProgress } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import {
+  findActivePageConceptServerRunForPage,
+  loadPageConceptServerRunDurable,
+  upsertPageConceptServerRunDurable,
+} from './pageConceptGenerationRunSupabaseStore.js';
 
 const runs = new Map<string, PageConceptServerRun>();
 
@@ -17,13 +22,56 @@ function pruneOldRuns(): void {
   }
 }
 
+function scheduleDurablePersist(run: PageConceptServerRun): void {
+  void upsertPageConceptServerRunDurable(run).catch(() => undefined);
+}
+
 export function putPageConceptServerRun(run: PageConceptServerRun): void {
   runs.set(run.runId, run);
   pruneOldRuns();
+  scheduleDurablePersist(run);
 }
 
 export function getPageConceptServerRun(runId: string): PageConceptServerRun | null {
   return runs.get(runId) ?? null;
+}
+
+export async function hydratePageConceptServerRun(runId: string): Promise<PageConceptServerRun | null> {
+  const cached = runs.get(runId);
+  if (cached) return cached;
+  const durable = await loadPageConceptServerRunDurable(runId);
+  if (durable) {
+    runs.set(runId, durable);
+    return durable;
+  }
+  return null;
+}
+
+export async function resolvePageConceptServerRun(input: {
+  runId: string;
+  projectId?: string;
+  pageId?: string;
+}): Promise<PageConceptServerRun | null> {
+  const fromMemory = runs.get(input.runId);
+  if (fromMemory) return fromMemory;
+
+  const fromDurable = await loadPageConceptServerRunDurable(input.runId);
+  if (fromDurable) {
+    runs.set(fromDurable.runId, fromDurable);
+    return fromDurable;
+  }
+
+  if (input.projectId && input.pageId) {
+    const active = await findActivePageConceptServerRunForPage({
+      projectId: input.projectId,
+      pageId: input.pageId,
+    });
+    if (active) {
+      runs.set(active.runId, active);
+      return active;
+    }
+  }
+  return null;
 }
 
 export function patchPageConceptServerRun(runId: string, patch: PageConceptRunProgress): PageConceptServerRun | null {
@@ -44,6 +92,7 @@ export function patchPageConceptServerRun(runId: string, patch: PageConceptRunPr
     updatedAt: patch.updatedAt ?? new Date().toISOString(),
   };
   runs.set(runId, next);
+  scheduleDurablePersist(next);
   return next;
 }
 

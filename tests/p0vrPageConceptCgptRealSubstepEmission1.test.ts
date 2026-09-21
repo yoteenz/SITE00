@@ -41,7 +41,7 @@ describe('P0.VR.PAGE-CONCEPT-CGPT-REAL-SUBSTEP-EMISSION1', () => {
     const state = loadPageConceptGenerationState(PROJECT, pageId);
     const seen = new Set<string>();
 
-    const { runId } = startPageConceptGenerationRun({
+    const { runId } = await startPageConceptGenerationRun({
       state,
       founderEmail: 'founder@test.com',
       founderConfirmedSpend: true,
@@ -51,14 +51,15 @@ describe('P0.VR.PAGE-CONCEPT-CGPT-REAL-SUBSTEP-EMISSION1', () => {
     });
 
     const poll = setInterval(() => {
-      const snap = snapshotPageConceptServerRun(runId);
-      const sub = snap?.currentCgptSubstep ?? snap?.cgptSubsteps?.currentCgptSubstep ?? null;
-      if (sub) seen.add(sub);
+      void snapshotPageConceptServerRun(runId).then((snap) => {
+        const sub = snap?.currentCgptSubstep ?? snap?.cgptSubsteps?.currentCgptSubstep ?? null;
+        if (sub) seen.add(sub);
+      });
     }, 8);
 
     await vi.waitFor(
-      () => {
-        const snap = snapshotPageConceptServerRun(runId);
+      async () => {
+        const snap = await snapshotPageConceptServerRun(runId);
         expect(snap?.status).toBe('READY_FOR_REVIEW');
       },
       { timeout: 15_000 },

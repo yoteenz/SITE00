@@ -41,11 +41,18 @@ export type PageConceptGenerationRunPollUpdate = {
   latestSequence: number;
 };
 
-async function pageConceptGetRun(runId: string, afterSequence: number, attempt = 0) {
+async function pageConceptGetRun(
+  runId: string,
+  afterSequence: number,
+  scope?: { projectId?: string; pageId?: string },
+  attempt = 0,
+) {
   const qs = new URLSearchParams({
     runId,
     afterSequence: String(Math.max(0, afterSequence)),
   });
+  if (scope?.projectId) qs.set('projectId', scope.projectId);
+  if (scope?.pageId) qs.set('pageId', scope.pageId);
   const result = await captureApiFetch<{
     ok: boolean;
     run?: PageConceptServerRunSnapshot;
@@ -63,7 +70,7 @@ async function pageConceptGetRun(runId: string, afterSequence: number, attempt =
     : '';
   if ((result.status === 401 || apiError === 'UNAUTHORIZED') && attempt === 0) {
     const refreshed = await refreshAccessTokenForApi();
-    if (refreshed) return pageConceptGetRun(runId, afterSequence, 1);
+    if (refreshed) return pageConceptGetRun(runId, afterSequence, scope, 1);
   }
   return result;
 }
@@ -120,8 +127,9 @@ export async function startPageConceptGenerationRunApi(input: {
 export async function fetchPageConceptGenerationRunApi(
   runId: string,
   afterSequence = 0,
+  scope?: { projectId?: string; pageId?: string },
 ): Promise<PageConceptGenerationRunPollUpdate> {
-  const result = await pageConceptGetRun(runId, afterSequence);
+  const result = await pageConceptGetRun(runId, afterSequence, scope);
   if (!result.ok || !result.data?.run) {
     throwPageConceptApiFailure(result, 'GENERATION_RUN_STATUS_FAILED');
   }
@@ -135,6 +143,8 @@ export async function fetchPageConceptGenerationRunApi(
 
 export async function pollPageConceptGenerationRunUntilTerminal(input: {
   runId: string;
+  projectId?: string;
+  pageId?: string;
   afterSequence?: number;
   onUpdate: (update: PageConceptGenerationRunPollUpdate) => void;
   intervalMs?: number;
@@ -145,7 +155,10 @@ export async function pollPageConceptGenerationRunUntilTerminal(input: {
   let lastObservedSequence = input.afterSequence ?? 0;
   let last: PageConceptServerRunSnapshot | null = null;
   for (let i = 0; i < maxPolls; i += 1) {
-    const update = await fetchPageConceptGenerationRunApi(input.runId, lastObservedSequence);
+    const update = await fetchPageConceptGenerationRunApi(input.runId, lastObservedSequence, {
+      projectId: input.projectId,
+      pageId: input.pageId,
+    });
     lastObservedSequence = Math.max(lastObservedSequence, update.latestSequence);
     last = update.run;
     input.onUpdate(update);

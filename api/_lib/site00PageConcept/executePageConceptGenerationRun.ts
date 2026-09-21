@@ -53,6 +53,10 @@ import {
 import { buildPageConceptGpt2AuthorityPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2AuthorityPackage.js';
 import { pageConceptCanonicalNbpDisabled } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
 import { executePageConceptCanonicalMobileStage } from './executePageConceptCanonicalMobileStage.js';
+import {
+  mobileConceptArtifactId,
+  PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
 
 export type ExecutePageConceptGenerationOptions = {
   runId?: string;
@@ -308,6 +312,7 @@ export async function executePageConceptGeneration(
       throw new Error('LEGACY_NBP_PATH_DISABLED: SET SITE00_PAGE_CONCEPT_LEGACY_NBP=true FOR LEGACY RUNS');
     }
     return executePageConceptCanonicalMobileStage({
+      runId,
       plan,
       pipelineSetId,
       dryRun,
@@ -317,7 +322,17 @@ export async function executePageConceptGeneration(
       creativeInjection: creativeInjection!,
       cgptCreativeBrief,
       creativeInjectionError,
-      mobileDims: input.mobileCapture,
+      mobileDims: { width: input.mobileCapture.width, height: input.mobileCapture.height },
+      functionalCaptureBase64: mobileCaptureBase64,
+      existingJobs: input.state.generationJobs,
+      retrySlots:
+        retryGpt2Only ?
+          PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.filter((slot) => {
+            const artifactId = mobileConceptArtifactId(slot);
+            const job = input.state.generationJobs.find((j) => j.artifactId === artifactId);
+            return !job || job.status !== 'READY';
+          })
+        : null,
       onProgress,
     });
   }
