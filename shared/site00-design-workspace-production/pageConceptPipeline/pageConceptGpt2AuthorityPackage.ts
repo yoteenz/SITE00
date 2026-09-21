@@ -51,6 +51,7 @@ export function pageConceptRequiresGpt2FounderReview(): boolean {
 }
 
 function cgptContractFromInjection(injection: PageCreativeInjection): Record<string, string> {
+  const immutableRequirements = injection.immutableRequirements ?? [];
   return {
     creativePremise: injection.creativeThesis,
     pageStory: injection.pagePurposeInterpretation,
@@ -61,8 +62,8 @@ function cgptContractFromInjection(injection: PageCreativeInjection): Record<str
     typographyStrategy: injection.hierarchyDirection,
     materialStrategy: injection.referenceStrategy,
     interactionCharacter: injection.responsiveDirection,
-    mandatoryBrandSignals: injection.immutableRequirements.join(' · ') || injection.creativeThesis,
-    avoidList: injection.immutableRequirements.join(' · '),
+    mandatoryBrandSignals: immutableRequirements.join(' · ') || injection.creativeThesis,
+    avoidList: immutableRequirements.join(' · '),
     creativeLatitude: injection.creativeLatitude,
     pageSurprise: injection.informationPriority,
     mobileDirection: injection.mobileDirection,

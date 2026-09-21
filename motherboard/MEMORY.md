@@ -11134,3 +11134,11 @@ Panel showed **GENERATION COULD NOT START · BLOCKED_MOBILE_SNAPSHOT_MISSING** w
 - **Founder QA gate:** Default `SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW` (not `false`) stops after GPT2 — **CONTINUE TO NBP** explicit; `continueNbpAfterGpt2Review` API path.
 - **Tests:** `p0vrPageConceptRunTruthAndCreativeGrounding1.test.ts`.
 - **Branch:** `cursor/page-concept-run-truth-and-creative-grounding1-b747`.
+
+---
+
+## 2026-09-21 — CI fix: GPT2 review gate + cgptContract join
+
+Production Release CI: 5 failures from GPT2 founder review gate (NBP spy 0 calls) and `immutableRequirements.join` on undefined injection in tests.
+
+- **Fix:** Safe `immutableRequirements ?? []` in `cgptContractFromInjection`; `retryFailedOnly` bypasses GPT2 review gate; vitest default `SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW=false` via `tests/setup/pageConceptTestDefaults.ts` (run-truth suite opts into `true`).

@@ -306,7 +306,8 @@ export async function executePageConceptGeneration(
     return { plan, pipelineSet, jobs: [] };
   }
 
-  if (pageConceptRequiresGpt2FounderReview() && !continueNbpAfterGpt2Review) {
+  const skipGpt2FounderReviewGate = continueNbpAfterGpt2Review || retryFailedOnly;
+  if (pageConceptRequiresGpt2FounderReview() && !skipGpt2FounderReviewGate) {
     const reviewPipelineSet: PageConceptPipelineSet = {
       pipelineSetId,
       projectId: input.state.projectId,
