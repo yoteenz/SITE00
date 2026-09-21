@@ -26,6 +26,13 @@ import {
   setPageConceptCgptStagePhase,
   tryBeginPageConceptCgptDispatch,
 } from './pageConceptCgptStageLock.js';
+import {
+  buildPageConceptPanelProgress,
+  pageConceptProgressPatchForCgptFailure,
+  pageConceptProgressPatchForCgptSubstep,
+  type PageConceptCgptSubstepId,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
+import { auditPageCgptInputTokens } from './generatePageCreativeInjection.js';
 
 export type ExecutePageConceptCgptStageResult =
   | { ok: true; injection: PageCreativeInjection }
@@ -122,19 +129,30 @@ export async function executePageConceptCgptStage(options: {
   const maxAttempts = PAGE_CONCEPT_CGPT_MAX_429_ATTEMPTS;
   let lastProviderError: PageConceptCgptProviderError | null = null;
 
+  let activeCgptSubstep: PageConceptCgptSubstepId = 'creative-direction';
+
   const emit = (patch: PageConceptRunProgress) => {
     options.onProgress({ ...patch, updatedAt: new Date().toISOString() });
   };
 
-  emit({
-    status: 'CGPT_RUNNING',
-    currentStage: 'CGPT_STARTING',
-    cgptStatus: 'RUNNING',
-    gpt2Status: 'PENDING',
-    nbpStatus: 'PENDING',
-    generationStatus: 'CGPT_RUNNING',
-    error: null,
-    completedAt: null,
+  const emitCgptSubstep = (substepId: PageConceptCgptSubstepId, extra?: Partial<PageConceptRunProgress>) => {
+    activeCgptSubstep = substepId;
+    const sub = pageConceptProgressPatchForCgptSubstep(substepId);
+    emit({
+      status: 'CGPT_RUNNING',
+      cgptStatus: 'RUNNING',
+      gpt2Status: 'PENDING',
+      nbpStatus: 'PENDING',
+      generationStatus: 'CGPT_RUNNING',
+      error: null,
+      completedAt: null,
+      currentStage: sub.currentStage,
+      panelProgress: sub.panelProgress,
+      ...extra,
+    });
+  };
+
+  emitCgptSubstep('creative-direction', {
     cgptMeta: {
       idempotencyKey,
       attemptNumber: 0,
@@ -148,13 +166,38 @@ export async function executePageConceptCgptStage(options: {
     },
   });
 
+  async function runCgptBriefSubsteps(pauseMs: number): Promise<void> {
+    const touch: Array<[PageConceptCgptSubstepId, () => void]> = [
+      ['creative-direction', () => void options.input.projectContext.brandTruth],
+      ['page-intelligence', () => void options.input.pageContext.purpose],
+      ['brand-context', () => void options.input.projectContext.designLanguage],
+      ['key-messages', () => void options.input.functionContract.immutableBehaviors],
+    ];
+    for (const [substepId, work] of touch) {
+      emitCgptSubstep(substepId);
+      work();
+      if (pauseMs > 0) await sleep(pauseMs);
+    }
+    emitCgptSubstep('visual-moodboard');
+    void auditPageCgptInputTokens(options.input);
+  }
+
   if (options.dryRun) {
-    await sleep(50);
+    await runCgptBriefSubsteps(40);
+    await sleep(40);
+    emit({
+      status: 'CGPT_RUNNING',
+      currentStage: 'CGPT_COMPLETE',
+      cgptStatus: 'COMPLETE',
+      generationStatus: 'CGPT_RUNNING',
+      panelProgress: buildPageConceptPanelProgress({ currentStage: 'CGPT', activeCgptSubstep: 'visual-moodboard' }),
+    });
     setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
     return { ok: true, injection: dryRunInjection(options.input, options.pipelineSetId) };
   }
 
   if (process.env.VITEST === 'true' && !options.fetchImpl) {
+    await runCgptBriefSubsteps(0);
     dispatchCount = 1;
     const injection = await generatePageCreativeInjection(options.input);
     setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
@@ -166,6 +209,11 @@ export async function executePageConceptCgptStage(options: {
     dispatchCount += 1;
     const t0 = Date.now();
     try {
+      if (attemptNumber === 1) {
+        await runCgptBriefSubsteps(0);
+      } else {
+        emitCgptSubstep('visual-moodboard');
+      }
       const { parsed, model } = await fetchAnthropicPageCreativeJson(options.input, {
         attempt: attemptNumber,
         fetchImpl: options.fetchImpl,
@@ -247,9 +295,11 @@ export async function executePageConceptCgptStage(options: {
       if (telemetry.hardQuota) {
         setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
         const code = caught.founderCode;
+        const failPatch = pageConceptProgressPatchForCgptFailure(activeCgptSubstep);
         emit({
           status: 'FAILED',
-          currentStage: 'CGPT_FAILED',
+          currentStage: failPatch.currentStage,
+          panelProgress: failPatch.panelProgress,
           cgptStatus: 'FAILED',
           generationStatus: 'FAILED',
           error: `${founderMessageForCgptFailure(code)} · ${formatCgptProviderReceipt(telemetry)}`,
@@ -277,9 +327,11 @@ export async function executePageConceptCgptStage(options: {
       if (telemetry.httpStatus !== 429 || !telemetry.retryable) {
         setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
         const code = caught.founderCode;
+        const failPatch = pageConceptProgressPatchForCgptFailure(activeCgptSubstep);
         emit({
           status: 'FAILED',
-          currentStage: 'CGPT_FAILED',
+          currentStage: failPatch.currentStage,
+          panelProgress: failPatch.panelProgress,
           cgptStatus: 'FAILED',
           generationStatus: 'FAILED',
           error: `${code} · ${formatCgptProviderReceipt(telemetry)}`,
@@ -314,9 +366,11 @@ export async function executePageConceptCgptStage(options: {
       const nextRetryAt = new Date(Date.now() + waitMs).toISOString();
       setPageConceptCgptStagePhase(options.runId, 'RETRY_WAIT');
       const stageLabel = formatCgptRetryWaitStage(attemptNumber, maxAttempts, waitMs);
+      const ratePatch = pageConceptProgressPatchForCgptSubstep('visual-moodboard');
       emit({
         status: 'CGPT_RATE_LIMITED',
         currentStage: stageLabel,
+        panelProgress: ratePatch.panelProgress,
         cgptStatus: 'RETRY_WAIT',
         generationStatus: 'CGPT_RATE_LIMITED',
         error: null,
@@ -358,9 +412,11 @@ export async function executePageConceptCgptStage(options: {
   setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
   const lastTelemetry = lastProviderError?.telemetry ?? null;
   const code = 'CGPT_FAILED_RATE_LIMIT';
+  const failPatch = pageConceptProgressPatchForCgptFailure(activeCgptSubstep);
   emit({
     status: 'FAILED',
-    currentStage: 'CGPT_FAILED',
+    currentStage: failPatch.currentStage,
+    panelProgress: failPatch.panelProgress,
     cgptStatus: 'FAILED',
     generationStatus: 'FAILED',
     error: `${founderMessageForCgptFailure(code)} · ${lastTelemetry ? formatCgptProviderReceipt(lastTelemetry) : ''}`,

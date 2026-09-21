@@ -1,5 +1,5 @@
 /**
- * P0.VR.PAGE-CONCEPT-LIVE-PRODUCTION-TRACE1 — panel stage chips from hook state + generating flag.
+ * P0.VR.PAGE-CONCEPT-LIVE-PRODUCTION-TRACE1 + LIVE-STAGE-PROGRESSION1 — panel stage chips.
  */
 
 import {
@@ -8,6 +8,10 @@ import {
   type PageConceptStageState,
 } from '../designPageConceptGeneratorShell.js';
 import { pageConceptStageStatesFromPipeline } from './pageConceptGeneratorBinding.js';
+import {
+  derivePageConceptLiveProgress,
+  pageConceptPanelProgressToStageStates,
+} from './pageConceptLiveProgress.js';
 import type { PageConceptGenerationState } from './types.js';
 
 export function pageConceptStageStatesForPanel(input: {
@@ -17,18 +21,26 @@ export function pageConceptStageStatesForPanel(input: {
 }): Record<PageConceptStageId, PageConceptStageState> {
   const { state, generating, mode } = input;
 
-  if (generating) {
-    const status = state.generationStatus;
-    if (status === 'GPT2_RUNNING') {
-      return { CGPT: 'COMPLETE', GPT2: 'ACTIVE', NBP: 'PENDING' };
-    }
-    if (status === 'NBP_RUNNING') {
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
-    }
-    if (status === 'CGPT_RATE_LIMITED') {
-      return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
-    }
-    return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
+  const cgptFailed =
+    Boolean(state.pipelineSet?.creativeInjectionError) && !state.pipelineSet?.creativeInjection;
+
+  const progress = derivePageConceptLiveProgress({
+    generationStatus: state.generationStatus,
+    generating,
+    activeGenerationStage: state.activeGenerationStage,
+    panelProgress: state.liveProgress,
+    cgptFailed,
+  });
+
+  if (
+    generating ||
+    state.liveProgress ||
+    state.generationStatus === 'CGPT_RUNNING' ||
+    state.generationStatus === 'CGPT_RATE_LIMITED' ||
+    state.generationStatus === 'GPT2_RUNNING' ||
+    state.generationStatus === 'NBP_RUNNING'
+  ) {
+    return pageConceptPanelProgressToStageStates(progress);
   }
 
   const hasPipeline =

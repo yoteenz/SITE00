@@ -61,6 +61,7 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     gpt2Status: existing?.gpt2Status ?? 'PENDING',
     nbpStatus: existing?.nbpStatus ?? 'PENDING',
     cgptMeta: input.retryCgptOnly ? null : (existing?.cgptMeta ?? null),
+    panelProgress: null,
     createdAt: existing?.createdAt ?? now,
     startedAt: null,
     updatedAt: now,
@@ -144,6 +145,7 @@ export function snapshotPageConceptServerRun(runId: string) {
     pipelineSet: run.pipelineSet,
     jobs: run.jobs,
     cgptMeta: run.cgptMeta,
+    panelProgress: run.panelProgress,
     updatedAt: run.updatedAt,
     completedAt: run.completedAt,
   };

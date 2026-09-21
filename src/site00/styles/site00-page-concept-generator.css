@@ -567,10 +567,51 @@
   color: var(--pcg-ink-2);
 }
 
-.s00-pcg__briefRow[data-lead='true'] {
+.s00-pcg__briefRow[data-substep-state='ACTIVE'] {
   border-color: var(--pcg-black);
   background: var(--pcg-lime);
   color: var(--pcg-lime-ink);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 8%);
+  animation: s00-pcg-substep-pulse 1.6s ease-in-out infinite;
+}
+
+.s00-pcg__briefRow[data-substep-state='COMPLETE'] {
+  border-color: var(--pcg-border-subtle);
+  background: rgb(245 245 245 / 92%);
+  color: var(--pcg-ink-2);
+}
+
+.s00-pcg__briefRow[data-substep-state='FAILED'] {
+  border-color: rgb(180 40 40 / 55%);
+  background: rgb(255 235 235 / 95%);
+  color: rgb(120 20 20);
+}
+
+.s00-pcg__briefRow[data-substep-state='PENDING'] {
+  border-color: var(--pcg-border-subtle);
+  background: var(--pcg-paper);
+  color: rgb(90 90 90 / 88%);
+}
+
+@keyframes s00-pcg-substep-pulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.04);
+  }
+}
+
+.s00-pcg__card[data-stage-state='ACTIVE'] {
+  outline: 1px solid rgb(0 0 0 / 22%);
+  outline-offset: -1px;
+}
+
+.s00-pcg__railItem[data-stage-state='ACTIVE'] .s00-pcg__node {
+  background: var(--pcg-lime);
+  color: var(--pcg-lime-ink);
+  border-color: var(--pcg-black);
 }
 
 .s00-pcg__briefGlyph {

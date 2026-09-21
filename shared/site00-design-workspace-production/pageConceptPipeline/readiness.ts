@@ -154,5 +154,6 @@ export function hydratePageConceptGenerationState(
     activeGenerationRunId: partial.activeGenerationRunId ?? null,
     activeGenerationRunStartedAt: partial.activeGenerationRunStartedAt ?? null,
     activeGenerationStage: partial.activeGenerationStage ?? null,
+    liveProgress: partial.liveProgress ?? null,
   };
 }

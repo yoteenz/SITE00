@@ -1,4 +1,5 @@
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
+import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
 
 export type PageConceptTargetType = 'PAGE';
 
@@ -209,6 +210,8 @@ export type PageConceptGenerationState = {
   activeGenerationRunId: string | null;
   activeGenerationRunStartedAt: string | null;
   activeGenerationStage: string | null;
+  /** Latest panel progression snapshot (persisted for refresh/resume). */
+  liveProgress: PageConceptPanelProgress | null;
 };
 
 export type PageConceptGenerationPlan = {

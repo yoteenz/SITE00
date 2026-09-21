@@ -15,6 +15,10 @@ import {
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import {
+  activeCgptSubstepCopy,
+  derivePageConceptLiveProgress,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import { pageConceptStageStatesForPanel } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptStageStatesForPanel.js';
 import type { PageConceptLiveProductionTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProductionTrace.js';
 import type { PageConceptGenerationBlockingState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
@@ -101,6 +105,20 @@ export function PageConceptGenerationOverlay({
     [onOpenFullscreen],
   );
 
+  const liveProgress = useMemo(
+    () =>
+      derivePageConceptLiveProgress({
+        generationStatus: generationState.generationStatus,
+        generating,
+        activeGenerationStage: generationState.activeGenerationStage,
+        panelProgress: generationState.liveProgress,
+        cgptFailed:
+          Boolean(generationState.pipelineSet?.creativeInjectionError) &&
+          !generationState.pipelineSet?.creativeInjection,
+      }),
+    [generating, generationState],
+  );
+
   const stageStates: Record<PageConceptStageId, PageConceptStageState> = useMemo(
     () =>
       pageConceptStageStatesForPanel({
@@ -123,6 +141,7 @@ export function PageConceptGenerationOverlay({
         injection ?
           <CgptBriefResult
             rows={buildCgptBriefRows(injection)}
+            substepStates={liveProgress.substepStatusById}
             onViewFull={() => setFullBriefOpen(true)}
           />
         : undefined,
@@ -181,6 +200,12 @@ export function PageConceptGenerationOverlay({
         'GPT2 RUNNING…'
       : generationState.generationStatus === 'CGPT_RATE_LIMITED' ?
         'CGPT · RATE LIMITED · AUTOMATIC RETRY'
+      : liveProgress.currentSubstep ?
+        activeCgptSubstepCopy(liveProgress.currentSubstep)
+      : liveProgress.currentStage === 'GPT2' ?
+        'GPT2 AUTHORITY CONCEPT · RUNNING'
+      : liveProgress.currentStage === 'NBP' && liveProgress.nbpActiveLabel ?
+        `${liveProgress.nbpActiveLabel} · RUNNING`
       : 'GENERATING…'
     : mode === 'review' && reviewReady ?
       'READY FOR REVIEW'
@@ -208,6 +233,9 @@ export function PageConceptGenerationOverlay({
           sourceCaptureLines={sourceCaptureLines}
           sourceCapturesReady={generationEligibility?.sourceCaptureValidation.allRequiredReady === true}
           stageStates={stageStates}
+          cgptSubstepStates={
+            generating || generationState.liveProgress ? liveProgress.substepStatusById : undefined
+          }
           results={results}
           notice={founderNotice}
           noticeTestId={

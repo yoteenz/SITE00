@@ -160,6 +160,7 @@ function applyServerRunSnapshotToState(
       generationStatus: run.generationStatus,
       activeGenerationRunId: run.runId,
       activeGenerationStage: run.currentStage,
+      liveProgress: run.panelProgress ?? next.liveProgress,
     };
   });
 }

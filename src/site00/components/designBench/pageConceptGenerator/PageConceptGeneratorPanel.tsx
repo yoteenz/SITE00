@@ -32,6 +32,10 @@ import {
   type PageConceptStageState,
 } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
 import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
+import type {
+  PageConceptCgptSubstepId,
+  PageConceptSubstepRunState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import '../../../styles/site00-page-concept-generator.css';
 
@@ -57,6 +61,7 @@ export type PageConceptGeneratorPanelProps = {
   /** Final render guard — when true, capture-related notices are suppressed. */
   sourceCapturesReady?: boolean;
   stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
+  cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
   generateDisabledReason?: string | null;
@@ -188,10 +193,12 @@ function StageCard({
   stage,
   state,
   results,
+  cgptSubstepStates,
 }: {
   stage: PageConceptStageShell;
   state: PageConceptStageState;
   results: PageConceptGeneratorResultSlots;
+  cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
 }) {
   return (
     <article className="s00-pcg__card" data-stage-id={stage.id} data-stage-state={state}>
@@ -211,14 +218,23 @@ function StageCard({
         {stage.resultKind === 'BRIEF' && stage.briefRows ?
           <ul className="s00-pcg__brief" data-result-slot={stage.resultSlotId}>
             {results.cgptBrief ??
-              stage.briefRows.map((row) => (
-                <li className="s00-pcg__briefRow" key={row.id} data-lead={row.lead ? 'true' : undefined}>
-                  <span className="s00-pcg__briefGlyph" aria-hidden="true">
-                    <AiConsoleIcon name={row.icon} size={10} />
-                  </span>
-                  {row.label}
-                </li>
-              ))}
+              stage.briefRows.map((row) => {
+                const substepState =
+                  cgptSubstepStates?.[row.id as PageConceptCgptSubstepId] ?? 'PENDING';
+                return (
+                  <li
+                    className="s00-pcg__briefRow"
+                    key={row.id}
+                    data-substep-state={substepState}
+                    data-lead={row.lead ? 'true' : undefined}
+                  >
+                    <span className="s00-pcg__briefGlyph" aria-hidden="true">
+                      <AiConsoleIcon name={row.icon} size={10} />
+                    </span>
+                    {row.label}
+                  </li>
+                );
+              })}
           </ul>
         : null}
 
@@ -271,6 +287,7 @@ export function PageConceptGeneratorPanel({
   sourceCaptureLines,
   sourceCapturesReady = false,
   stageStates,
+  cgptSubstepStates,
   results = {},
   generateDisabled,
   generateDisabledReason,
@@ -357,7 +374,13 @@ export function PageConceptGeneratorPanel({
 
         <div className="s00-pcg__cards">
           {PAGE_CONCEPT_GENERATOR_STAGES.map((stage) => (
-            <StageCard key={stage.id} stage={stage} state={states[stage.id]} results={results} />
+            <StageCard
+              key={stage.id}
+              stage={stage}
+              state={states[stage.id]}
+              results={results}
+              cgptSubstepStates={stage.id === 'CGPT' ? cgptSubstepStates : undefined}
+            />
           ))}
         </div>
       </div>
