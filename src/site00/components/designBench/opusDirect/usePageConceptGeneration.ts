@@ -534,6 +534,16 @@ export function usePageConceptGeneration(
         mobileCapture,
         desktopCapture,
       });
+      const tracePayload =
+        traceResult.receipt.data && typeof traceResult.receipt.data === 'object' ?
+          (traceResult.receipt.data as {
+            readiness?: string;
+            error?: string;
+            mobileCaptureId?: string;
+            desktopCaptureId?: string;
+            serverCaptureValidation?: string;
+          })
+        : null;
       setLiveProductionTrace((prev) => ({
         ...appendPageConceptLiveTraceEvent(
           prev,
@@ -546,7 +556,16 @@ export function usePageConceptGeneration(
         apiErrorCode: traceResult.receipt.errorCode,
         apiResponseSummary:
           traceResult.receipt.data && typeof traceResult.receipt.data === 'object' ?
-            String((traceResult.receipt.data as { message?: string }).message ?? 'trace_ok')
+            [
+              String((traceResult.receipt.data as { readiness?: string }).readiness ?? 'trace_ok'),
+              tracePayload?.mobileCaptureId ? `mobile=${tracePayload.mobileCaptureId}` : null,
+              tracePayload?.desktopCaptureId ? `desktop=${tracePayload.desktopCaptureId}` : null,
+              tracePayload?.serverCaptureValidation ?
+                `capture_validation=${tracePayload.serverCaptureValidation}`
+              : null,
+            ]
+              .filter(Boolean)
+              .join(' · ')
           : traceResult.receipt.receipt.errorMessage ?? null,
         dryRunUsed: true,
       }));
@@ -562,6 +581,12 @@ export function usePageConceptGeneration(
             traceResult.receipt.errorCode ??
             'GENERATION COULD NOT START · API TRACE FAILED',
         );
+      }
+      if (tracePayload?.readiness && tracePayload.readiness !== 'READY_FOR_PROVIDER_DISPATCH') {
+        throw new Error(`GENERATION COULD NOT START · ${tracePayload.error ?? tracePayload.readiness}`);
+      }
+      if (tracePayload?.error) {
+        throw new Error(`GENERATION COULD NOT START · ${tracePayload.error}`);
       }
 
       setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_DISPATCH_STARTED'));

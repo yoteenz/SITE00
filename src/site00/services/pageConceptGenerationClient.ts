@@ -1,3 +1,4 @@
+import type { PageConceptIncomingCapturePayload } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationRequest.js';
 import type {
   PageConceptGenerationPlan,
   PageConceptGenerationRunResult,
@@ -31,13 +32,7 @@ async function pageConceptApiFetch<T>(
   return result;
 }
 
-export type PageConceptCapturePayload = {
-  captureId: string;
-  artifactBase64?: string;
-  artifactUrl?: string;
-  width: number;
-  height: number;
-};
+export type PageConceptCapturePayload = PageConceptIncomingCapturePayload;
 
 export async function planPageConceptGenerationApi(
   state: PageConceptGenerationState,

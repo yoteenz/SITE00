@@ -15,6 +15,7 @@ import { generatePageCreativeInjection } from './generatePageCreativeInjection.j
 import { generatePageGpt2AuthorityConcept } from './generatePageGpt2AuthorityConcept.js';
 import { renderPageNbpJob } from './renderPageNbpJob.js';
 import { resolvePageGenerationCaptureBase64 } from './resolvePageGenerationCapture.js';
+import { validateIncomingPageConceptCaptures } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/validateIncomingPageConceptCaptures.js';
 
 export type PageGenerationCapturePayload = {
   captureId: string;
@@ -36,8 +37,68 @@ export type RunPageConceptGenerationInput = {
 export function planPageConceptGeneration(
   projectId: string,
   pageId: string,
+  options?: { trustIncomingCaptures?: boolean },
 ): ReturnType<typeof buildPageConceptGenerationPlan> {
-  return buildPageConceptGenerationPlan(projectId, pageId);
+  return buildPageConceptGenerationPlan(projectId, pageId, options);
+}
+
+export type PageConceptGenerationDryRunResult =
+  | {
+      ok: true;
+      readiness: 'READY_FOR_PROVIDER_DISPATCH';
+      plan: ReturnType<typeof buildPageConceptGenerationPlan>;
+      mobileCaptureId: string;
+      desktopCaptureId: string;
+      mobileTransport: 'base64' | 'url';
+      desktopTransport: 'base64' | 'url';
+      serverCaptureValidation: 'PASS';
+    }
+  | { ok: false; code: string; message: string };
+
+/** Auth/context/capture validation + plan compile — no CGPT/GPT2/NBP. */
+export function pageConceptGenerationDryRun(input: {
+  state: PageConceptGenerationState;
+  mobileCapture?: PageGenerationCapturePayload;
+  desktopCapture?: PageGenerationCapturePayload;
+}): PageConceptGenerationDryRunResult {
+  if (input.state.targetType !== PAGE_CONCEPT_TARGET_TYPE) {
+    return { ok: false, code: 'PAGE_TARGET_REQUIRED', message: 'PAGE target required' };
+  }
+  if (
+    input.state.projectId !== input.state.projectContext?.projectId ||
+    input.state.pageId !== input.state.pageContext?.pageId
+  ) {
+    return { ok: false, code: 'PAGE_STATE_MISMATCH', message: 'state project/page mismatch' };
+  }
+
+  const captureValidation = validateIncomingPageConceptCaptures({
+    projectId: input.state.projectId,
+    pageId: input.state.pageId,
+    mobileCapture: input.mobileCapture,
+    desktopCapture: input.desktopCapture,
+  });
+  if (!captureValidation.ok) {
+    return { ok: false, code: captureValidation.code, message: captureValidation.message };
+  }
+
+  try {
+    const plan = buildPageConceptGenerationPlan(input.state.projectId, input.state.pageId, {
+      trustIncomingCaptures: true,
+    });
+    return {
+      ok: true,
+      readiness: 'READY_FOR_PROVIDER_DISPATCH',
+      plan,
+      mobileCaptureId: input.mobileCapture!.captureId,
+      desktopCaptureId: input.desktopCapture!.captureId,
+      mobileTransport: captureValidation.mobileTransport,
+      desktopTransport: captureValidation.desktopTransport,
+      serverCaptureValidation: 'PASS',
+    };
+  } catch (err) {
+    const code = err instanceof Error ? err.message : 'PLAN_FAILED';
+    return { ok: false, code, message: code };
+  }
 }
 
 export async function runPageConceptGeneration(
@@ -54,7 +115,19 @@ export async function runPageConceptGeneration(
     throw new Error('PAGE_STATE_MISMATCH');
   }
 
-  const plan = buildPageConceptGenerationPlan(input.state.projectId, input.state.pageId);
+  const captureValidation = validateIncomingPageConceptCaptures({
+    projectId: input.state.projectId,
+    pageId: input.state.pageId,
+    mobileCapture: input.mobileCapture,
+    desktopCapture: input.desktopCapture,
+  });
+  if (!captureValidation.ok) {
+    throw new Error(captureValidation.code);
+  }
+
+  const plan = buildPageConceptGenerationPlan(input.state.projectId, input.state.pageId, {
+    trustIncomingCaptures: true,
+  });
   const projectContext = input.state.projectContext!;
   const pageContext = input.state.pageContext!;
   const functionContract = input.state.functionContract!;
