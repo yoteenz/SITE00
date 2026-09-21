@@ -8,23 +8,31 @@ import { getAuthUser } from '../_lib/auth.js';
 import { isFounderPrivilegedAccount } from '../_lib/site00Access/accessModel.js';
 import { handleTwinV2VisualConceptCors } from '../_lib/site00TwinV2/twinV2VisualConceptCors.js';
 import {
+  pageConceptGenerationDryRun,
   planPageConceptGeneration,
   runPageConceptGeneration,
   type PageGenerationCapturePayload,
 } from '../_lib/site00PageConcept/runPageConceptGeneration.js';
 import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/resolvePageGenerationCapture.js';
 import type { PageConceptGenerationState } from '../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import type { PageConceptGenerationRequest } from '../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationRequest.js';
 
-type Body = {
-  action: 'plan' | 'generate' | 'trace';
-  founderConfirmedSpend?: boolean;
-  retryFailedOnly?: boolean;
-  traceOnly?: boolean;
-  dryRun?: boolean;
-  state: PageConceptGenerationState;
+type Body = PageConceptGenerationRequest & {
   mobileCapture?: PageGenerationCapturePayload;
   desktopCapture?: PageGenerationCapturePayload;
 };
+
+function incomingCapturesTrusted(body: Body): boolean {
+  if (!pageGenerationCapturePayloadValid(body.mobileCapture) || !pageGenerationCapturePayloadValid(body.desktopCapture)) {
+    return false;
+  }
+  const dry = pageConceptGenerationDryRun({
+    state: body.state,
+    mobileCapture: body.mobileCapture,
+    desktopCapture: body.desktopCapture,
+  });
+  return dry.ok;
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleTwinV2VisualConceptCors(req, res)) return;
@@ -53,26 +61,54 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     if (body.action === 'plan') {
-      const plan = planPageConceptGeneration(body.state.projectId, body.state.pageId);
-      res.status(200).json({ ok: true, plan });
+      const trustIncoming = incomingCapturesTrusted(body);
+      const plan = planPageConceptGeneration(body.state.projectId, body.state.pageId, {
+        trustIncomingCaptures: trustIncoming,
+      });
+      res.status(200).json({ ok: true, plan, trustIncomingCaptures: trustIncoming });
       return;
     }
 
     if (body.action === 'trace' || body.traceOnly === true || body.dryRun === true) {
-      const capturesOk =
-        pageGenerationCapturePayloadValid(body.mobileCapture) &&
-        pageGenerationCapturePayloadValid(body.desktopCapture);
+      const dry = pageConceptGenerationDryRun({
+        state: body.state,
+        mobileCapture: body.mobileCapture,
+        desktopCapture: body.desktopCapture,
+      });
+      if (!dry.ok) {
+        const status = dry.code.startsWith('BLOCKED_') ? 422 : 400;
+        res.status(status).json({
+          ok: false,
+          trace: true,
+          dryRun: true,
+          error: dry.code,
+          message: dry.message,
+          serverCaptureValidation: 'FAIL',
+          projectId: body.state.projectId,
+          pageId: body.state.pageId,
+        });
+        return;
+      }
       res.status(200).json({
         ok: true,
         trace: true,
         dryRun: true,
+        readiness: dry.readiness,
         founderEmail: email,
         stage: 'CGPT_STARTING',
-        capturesValid: capturesOk,
+        serverCaptureValidation: dry.serverCaptureValidation,
+        mobileCaptureId: dry.mobileCaptureId,
+        desktopCaptureId: dry.desktopCaptureId,
+        mobileTransport: dry.mobileTransport,
+        desktopTransport: dry.desktopTransport,
         projectId: body.state.projectId,
         pageId: body.state.pageId,
         generationStatus: body.state.generationStatus ?? 'IDLE',
-        message: 'TRACE_OK — no provider dispatch',
+        planSummary: {
+          nbpJobs: dry.plan.nbpJobs,
+          captureSetId: dry.plan.captureSetId,
+        },
+        message: 'READY_FOR_PROVIDER_DISPATCH — no provider dispatch',
       });
       return;
     }

@@ -13,10 +13,17 @@ function captureReady(record: PageCaptureRecord | null | undefined): boolean {
   return Boolean(record?.artifactPath && isPageCaptureDisplayableArtifact(record.artifactPath));
 }
 
-export function evaluatePageConceptReadiness(projectId: string, pageId: string): PageConceptReadiness {
+/** Context + function contract only — for API when captures arrive in POST body. */
+export function evaluatePageConceptServerReadiness(projectId: string, pageId: string): PageConceptReadiness {
   if (!compileProjectCreativeContext(projectId)) return 'BLOCKED_NO_PROJECT_CONTEXT';
   if (!compilePageCreativeContext(projectId, pageId)) return 'BLOCKED_NO_PAGE_CONTEXT';
   if (!compilePageFunctionContract(projectId, pageId)) return 'BLOCKED_NO_FUNCTION_CONTRACT';
+  return 'READY_FOR_CREATIVE_INJECTION';
+}
+
+export function evaluatePageConceptReadiness(projectId: string, pageId: string): PageConceptReadiness {
+  const serverReady = evaluatePageConceptServerReadiness(projectId, pageId);
+  if (serverReady !== 'READY_FOR_CREATIVE_INJECTION') return serverReady;
 
   const { canonicalPageId } = resolveDesignPageIdentity({
     projectSlug: projectId,

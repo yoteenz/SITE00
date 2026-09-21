@@ -65,7 +65,8 @@ describe('P0.VR.PAGE-CONCEPT-LIVE-PRODUCTION-TRACE1', () => {
     const api = readFileSync(join(ROOT, 'api/site00/page-concept-generation.ts'), 'utf8');
     expect(api).toContain("action === 'trace'");
     expect(api).toContain('dryRun: true');
-    expect(api).toContain('TRACE_OK — no provider dispatch');
+    expect(api).toContain('READY_FOR_PROVIDER_DISPATCH');
+    expect(api).toContain('pageConceptGenerationDryRun');
   });
 
   it('dead click regression: generating forces visible stage transition', () => {

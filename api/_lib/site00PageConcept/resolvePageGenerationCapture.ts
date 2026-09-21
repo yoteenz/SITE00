@@ -11,6 +11,15 @@ export async function resolvePageGenerationCaptureBase64(payload: PageGeneration
 
   const url = payload.artifactUrl?.trim();
   if (!url) throw new Error('CAPTURE_ARTIFACTS_REQUIRED');
+  const lower = url.toLowerCase();
+  if (
+    lower.startsWith('blob:') ||
+    lower.startsWith('local://') ||
+    lower.includes('localhost') ||
+    lower.startsWith('127.0.0.1')
+  ) {
+    throw new Error('BLOCKED_CAPTURE_ARTIFACT_UNREADABLE');
+  }
 
   const res = await fetch(url);
   if (!res.ok) throw new Error(`CAPTURE_FETCH_${res.status}`);
