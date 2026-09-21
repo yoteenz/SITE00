@@ -7,6 +7,7 @@
 import type { PageConceptStageId, PageConceptStageState } from '../designPageConceptGeneratorShell.js';
 import { PAGE_CONCEPT_DEFAULT_STAGE_STATE } from '../designPageConceptGeneratorShell.js';
 import type {
+  PageConceptCgptCreativeBrief,
   PageConceptGeneratedArtifact,
   PageConceptGenerationState,
   PageConceptGenerationStatus,
@@ -103,39 +104,36 @@ export type CgptBriefRowPresentation = {
   lead?: boolean;
 };
 
-export function buildCgptBriefRows(injection: PageCreativeInjection): readonly CgptBriefRowPresentation[] {
+export function buildCgptBriefRows(brief: PageConceptCgptCreativeBrief): readonly CgptBriefRowPresentation[] {
   return [
-    { id: 'creative-thesis', label: 'CREATIVE THESIS', value: injection.creativeThesis, lead: true },
-    { id: 'page-purpose', label: 'PAGE PURPOSE', value: injection.pagePurposeInterpretation },
-    { id: 'hierarchy', label: 'HIERARCHY DIRECTION', value: injection.hierarchyDirection },
-    { id: 'spatial', label: 'SPATIAL DIRECTION', value: injection.spatialDirection },
-    { id: 'latitude', label: 'CREATIVE LATITUDE', value: injection.creativeLatitude },
+    { id: 'creative-premise', label: 'CREATIVE PREMISE', value: brief.creativePremise, lead: true },
+    { id: 'page-story', label: 'PAGE STORY', value: brief.pageStory },
     {
-      id: 'priorities',
-      label: 'KEY CONTENT PRIORITIES',
-      value: injection.informationPriority || injection.immutableRequirements.join(' · '),
+      id: 'visual-direction',
+      label: 'VISUAL DIRECTION',
+      value: [brief.colorStrategy, brief.imageryStrategy].filter(Boolean).join(' · '),
     },
+    { id: 'composition', label: 'COMPOSITION', value: brief.compositionStrategy },
+    { id: 'typography', label: 'TYPOGRAPHY', value: brief.typographyStrategy },
+    {
+      id: 'color-material',
+      label: 'COLOR / MATERIAL',
+      value: [brief.colorStrategy, brief.materialStrategy].filter(Boolean).join(' · '),
+    },
+    { id: 'imagery', label: 'IMAGERY', value: brief.imageryStrategy },
+    { id: 'key-messages', label: 'KEY MESSAGES', value: brief.keyMessages.join(' · ') },
+    { id: 'distinctive', label: 'DISTINCTIVE MOVE', value: brief.distinctiveMove },
+    { id: 'avoid', label: 'DO NOT DO', value: brief.avoidList.join(' · ') },
   ].filter((row) => row.value.trim().length > 0);
 }
 
+/** @deprecated Use persisted brief via buildCgptBriefRows — injection-only summaries are not authoritative. */
 export function buildCgptFullBriefMarkdown(injection: PageCreativeInjection): string {
-  const lines = [
+  return [
+    `INJECTION ${injection.injectionId}`,
     `CREATIVE THESIS: ${injection.creativeThesis}`,
     `PAGE PURPOSE: ${injection.pagePurposeInterpretation}`,
-    `VISUAL OPPORTUNITY: ${injection.visualOpportunity}`,
-    `HIERARCHY: ${injection.hierarchyDirection}`,
-    `SPATIAL: ${injection.spatialDirection}`,
-    `INFORMATION PRIORITY: ${injection.informationPriority}`,
-    `IMAGE/DATA BALANCE: ${injection.imageDataBalance}`,
-    `RESPONSIVE: ${injection.responsiveDirection}`,
-    `MOBILE: ${injection.mobileDirection}`,
-    `DESKTOP: ${injection.desktopDirection}`,
-    `CREATIVE LATITUDE: ${injection.creativeLatitude}`,
-    `IMMUTABLE: ${injection.immutableRequirements.join('; ')}`,
-    `REFERENCES: ${injection.referenceStrategy}`,
-    `ASSETS: ${injection.assetStrategy}`,
-  ];
-  return lines.join('\n\n');
+  ].join('\n\n');
 }
 
 function jobForSlot(

@@ -44,7 +44,7 @@ export function CgptBriefResult({
       </ul>
       {onViewFull ?
         <button type="button" className="s00-pcg__secAction" data-interaction-id="page-concepts-view-cgpt-brief" onClick={onViewFull}>
-          VIEW FULL CREATIVE BRIEF
+          VIEW FULL BRIEF
         </button>
       : null}
     </>

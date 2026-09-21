@@ -80,6 +80,15 @@ function injectionFromParsed(
     immutableRequirements: Array.isArray(parsed.immutableRequirements) ?
       parsed.immutableRequirements.map(String)
     : [],
+    audienceIntent: parsed.audienceIntent != null ? String(parsed.audienceIntent) : undefined,
+    distinctiveMove: parsed.distinctiveMove != null ? String(parsed.distinctiveMove) : undefined,
+    typographyStrategy: parsed.typographyStrategy != null ? String(parsed.typographyStrategy) : undefined,
+    colorStrategy: parsed.colorStrategy != null ? String(parsed.colorStrategy) : undefined,
+    materialStrategy: parsed.materialStrategy != null ? String(parsed.materialStrategy) : undefined,
+    avoidList:
+      Array.isArray(parsed.avoidList) ? parsed.avoidList.map(String)
+      : typeof parsed.avoidList === 'string' ? [parsed.avoidList]
+      : undefined,
     referenceStrategy: String(parsed.referenceStrategy ?? ''),
     assetStrategy: String(parsed.assetStrategy ?? ''),
     createdAt: now,
