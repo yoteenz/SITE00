@@ -10,6 +10,12 @@ import {
   isPageConceptStaleCaptureEligibilityNotice,
   sanitizePageConceptFounderNotice,
 } from './pageConceptFounderNotice.js';
+import {
+  derivePageConceptRunHealth,
+  isPageConceptPreStartFatalNotice,
+  pageConceptFounderBlockingNotice,
+} from './pageConceptRunHealth.js';
+import type { PageConceptGenerationState } from './types.js';
 
 export type PageConceptGenerationBlockingState = {
   /** Eligibility-only notice (confirm gate). */
@@ -44,7 +50,8 @@ export function sanitizePageConceptExecutionError(
   if (!executionError) return null;
   if (
     eligibility.sourceCaptureValidation.allRequiredReady &&
-    isPageConceptStaleCaptureEligibilityNotice(executionError)
+    (isPageConceptStaleCaptureEligibilityNotice(executionError) ||
+      isPageConceptPreStartFatalNotice(executionError))
   ) {
     if (import.meta.env?.DEV) {
       console.warn('STALE_CONFIRM_NOTICE_CLEARED', executionError);
@@ -58,19 +65,31 @@ export function derivePageConceptGenerationBlockingState(input: {
   eligibility: PageConceptGenerationEligibility;
   executionError: string | null;
   mode: 'confirm' | 'progress' | 'review';
+  generationState?: PageConceptGenerationState;
+  generating?: boolean;
 }): PageConceptGenerationBlockingState {
   const executionError = sanitizePageConceptExecutionError(input.eligibility, input.executionError);
   const { eligibility } = input;
+  const runHealth =
+    input.generationState ?
+      derivePageConceptRunHealth({
+        state: input.generationState,
+        generating: input.generating === true,
+        executionError,
+      })
+    : null;
+  const activeExecutionError =
+    runHealth ? pageConceptFounderBlockingNotice(runHealth) : executionError;
 
   if (input.mode === 'confirm') {
     if (eligibility.canGenerate) {
-      const founderNotice = finalizeFounderNotice(eligibility, executionError);
+      const founderNotice = finalizeFounderNotice(eligibility, activeExecutionError);
       assertNoImpossibleSourceBlocker(eligibility, founderNotice);
       return {
         eligibilityNotice: null,
-        executionError,
+        executionError: activeExecutionError,
         founderNotice,
-        primaryBlockerCode: executionError ? 'EXECUTION_ERROR' : null,
+        primaryBlockerCode: activeExecutionError ? 'EXECUTION_ERROR' : null,
       };
     }
     const eligibilityNotice =
@@ -88,21 +107,21 @@ export function derivePageConceptGenerationBlockingState(input: {
   }
 
   if (input.mode === 'progress') {
-    const founderNotice = finalizeFounderNotice(eligibility, executionError);
+    const founderNotice = finalizeFounderNotice(eligibility, activeExecutionError);
     return {
       eligibilityNotice: null,
-      executionError,
+      executionError: activeExecutionError,
       founderNotice,
-      primaryBlockerCode: executionError ? 'EXECUTION_ERROR' : null,
+      primaryBlockerCode: activeExecutionError ? 'EXECUTION_ERROR' : null,
     };
   }
 
-  const founderNotice = finalizeFounderNotice(eligibility, executionError);
+  const founderNotice = finalizeFounderNotice(eligibility, activeExecutionError);
   return {
     eligibilityNotice: null,
-    executionError,
+    executionError: activeExecutionError,
     founderNotice,
-    primaryBlockerCode: executionError ? 'EXECUTION_ERROR' : null,
+    primaryBlockerCode: activeExecutionError ? 'EXECUTION_ERROR' : null,
   };
 }
 

@@ -25,6 +25,8 @@ export type RunPageConceptGenerationInput = {
   retryFailedOnly?: boolean;
   /** Re-run CGPT on the same run after rate-limit failure; preserves captures and run id when used with resumeRunId. */
   retryCgptOnly?: boolean;
+  /** Founder approved GPT2 authority — continue to NBP on same run. */
+  continueNbpAfterGpt2Review?: boolean;
 };
 
 export function planPageConceptGeneration(

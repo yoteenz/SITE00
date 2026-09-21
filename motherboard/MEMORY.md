@@ -11122,3 +11122,15 @@ Two production issues: panel **auto-entered RUNNING** on open (stale `localStora
 - **Progress events:** Append-only `PageConceptProgressEvent` on `PageConceptServerRun` via `patchPageConceptServerRun`; GET `?runId&afterSequence=N` returns `progressEvents` + `latestSequence`. Client `lastObservedSequence`, presentation queue (400ms dwell on factual COMPLETE events). Forensics block: sequences, unread count, `AUTO-START: false`. Brief rows show ✓ on COMPLETE.
 - **Tests:** `p0vrPageConceptFounderStartAndProgressEvents1.test.ts`.
 - **Branch:** `cursor/page-concept-founder-start-and-progress-events1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-RUN-TRUTH-AND-CREATIVE-GROUNDING1
+
+Panel showed **GENERATION COULD NOT START · BLOCKED_MOBILE_SNAPSHOT_MISSING** while CGPT/GPT2/NBP were running; GPT2 authority drifted to generic beige dashboard (capture-weighted, weak NDXBOOK identity).
+
+- **Run truth:** `pageConceptRunHealth.ts` — BLOCKING vs HISTORICAL; pre-start fatals cleared when pipeline active; blocking state uses run health; poll clears stale execution errors; partial NBP messaging.
+- **GPT2 grounding:** `pageConceptGpt2AuthorityPackage.ts` + `pageConceptProjectVisualIdentity.ts` (NDXBOOK palette/forbidden drift); runtime package identity-first hierarchy; grounding validation before NBP; GPT2 rationale fields in panel.
+- **Founder QA gate:** Default `SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW` (not `false`) stops after GPT2 — **CONTINUE TO NBP** explicit; `continueNbpAfterGpt2Review` API path.
+- **Tests:** `p0vrPageConceptRunTruthAndCreativeGrounding1.test.ts`.
+- **Branch:** `cursor/page-concept-run-truth-and-creative-grounding1-b747`.

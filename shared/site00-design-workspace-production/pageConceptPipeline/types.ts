@@ -10,6 +10,7 @@ export type PageConceptGenerationStatus =
   | 'CGPT_RUNNING'
   | 'CGPT_RATE_LIMITED'
   | 'GPT2_RUNNING'
+  | 'GPT2_AWAITING_FOUNDER_REVIEW'
   | 'NBP_RUNNING'
   | 'PARTIAL_GENERATION'
   | 'READY_FOR_FOUNDER_REVIEW'
@@ -127,6 +128,11 @@ export type PageGPT2AuthorityConcept = {
   gpt2Provider: string;
   gpt2Model: string;
   createdAt: string;
+  conceptRationale?: string;
+  brandSignals?: string;
+  imageStrategy?: string;
+  avoidList?: string;
+  groundingPackageVersion?: string;
 };
 
 export type PageConceptRenditionSlotId = 'RENDITION_A' | 'RENDITION_B' | 'RENDITION_C';

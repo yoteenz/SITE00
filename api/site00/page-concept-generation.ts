@@ -165,6 +165,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         retryFailedOnly: body.retryFailedOnly === true,
         retryCgptOnly: body.retryCgptOnly === true,
         resumeRunId: body.resumeRunId,
+        continueNbpAfterGpt2Review: body.continueNbpAfterGpt2Review === true,
         founderEmail: email,
         dryRun: isDryRun,
       });

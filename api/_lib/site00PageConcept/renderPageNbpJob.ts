@@ -50,10 +50,15 @@ export async function renderPageNbpJob(input: PageNbpRenderInput): Promise<PageN
     `Page ${input.gpt2Authority.pageId} · ${input.viewport}`,
     `Rendition ${input.renditionSlot}: ${input.renditionDirective}`,
     `CGPT: ${input.creativeInjection.creativeThesis}`,
-    `GPT2: ${input.gpt2Authority.name} — ${input.gpt2Authority.premise}`,
-    'Same GPT2 concept — do not invent a new page idea.',
+    `GPT2 AUTHORITY (single concept — do not reinvent): ${input.gpt2Authority.name} — ${input.gpt2Authority.premise}`,
+    `GPT2 VISUAL LANGUAGE: ${input.gpt2Authority.visualLanguage}`,
+    input.gpt2Authority.brandSignals ? `BRAND SIGNALS: ${input.gpt2Authority.brandSignals}` : '',
+    input.gpt2Authority.avoidList ? `AVOID: ${input.gpt2Authority.avoidList}` : '',
+    'Reference image = functional/layout context ONLY. Project identity + GPT2 authority override screenshot palette.',
     `Contract ${input.functionContract.version}`,
-  ].join('\n');
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   const result = (await fal.subscribe(PAGE_NBP_MODEL, {
     input: { prompt, image_urls: [refUrl], num_images: 1 },

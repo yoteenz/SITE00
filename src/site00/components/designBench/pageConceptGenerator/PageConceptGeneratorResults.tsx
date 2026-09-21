@@ -63,6 +63,26 @@ export function Gpt2AuthorityResult({
   const subtitle = concept.premise;
   return (
     <div className="s00-pcg__gpt2Result">
+      <div className="s00-pcg__gpt2Meta" data-testid="page-concept-gpt2-rationale">
+        <p className="s00-pcg__gpt2MetaLine">
+          <strong>PREMISE</strong> {concept.premise}
+        </p>
+        {concept.conceptRationale ?
+          <p className="s00-pcg__gpt2MetaLine">
+            <strong>RATIONALE</strong> {concept.conceptRationale}
+          </p>
+        : null}
+        {concept.brandSignals ?
+          <p className="s00-pcg__gpt2MetaLine">
+            <strong>BRAND SIGNALS</strong> {concept.brandSignals}
+          </p>
+        : null}
+        {concept.visualLanguage ?
+          <p className="s00-pcg__gpt2MetaLine">
+            <strong>VISUAL LANGUAGE</strong> {concept.visualLanguage}
+          </p>
+        : null}
+      </div>
       {src ?
         <button
           type="button"

@@ -88,6 +88,10 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderRunSession.js';
 import { normalizePageConceptStateOnPanelMount } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptHydrationNormalize.js';
 import {
+  derivePageConceptRunHealth,
+  isPageConceptPipelineExecutionActive,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptRunHealth.js';
+import {
   PAGE_CONCEPT_PROGRESS_OBSERVATION_FORENSICS_INITIAL,
   type PageConceptProgressObservationForensics,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressObservationForensics.js';
@@ -345,8 +349,10 @@ export function usePageConceptGeneration(
         eligibility: generationEligibility,
         executionError,
         mode: overlayMode,
+        generationState: state,
+        generating,
       }),
-    [executionError, generationEligibility, overlayMode],
+    [executionError, generationEligibility, generating, overlayMode, state],
   );
 
   const failedNbp = pageConceptHasFailedNbpJobs(state);
@@ -431,6 +437,23 @@ export function usePageConceptGeneration(
 
       if (!cancelled()) {
         applyServerRunSnapshotToState(update.run, persist, presented);
+        if (
+          isPageConceptPipelineExecutionActive({
+            generationStatus: update.run.generationStatus,
+            generating: true,
+          })
+        ) {
+          setExecutionError(null);
+          persist((s) =>
+            s.lastFailure?.message && s.generationStatus !== 'IDLE' ?
+              { ...s, lastFailure: null }
+            : s,
+          );
+        }
+        if (update.run.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+          setGenerating(false);
+          setOverlayMode('review');
+        }
       }
     },
     [persist],
@@ -838,9 +861,6 @@ export function usePageConceptGeneration(
           );
         },
       });
-      clearPageConceptActiveServerRunId(projectId, pageId);
-      clearPageConceptFounderRunSession(projectId, pageId);
-
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) {
         throw new Error(terminalRun.error ?? `GENERATION ${terminalRun.status}`);
@@ -850,13 +870,28 @@ export function usePageConceptGeneration(
         let next = applyPageConceptPipelineSet(s, result.pipelineSet);
         next = registerPageConceptGenerationJobs(next, result.jobs);
         next = mergePageConceptArtifactsIntoGallery(next);
-        if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
+        if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+          next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
+        } else if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
           next = { ...next, generationStatus: 'FAILED' };
         } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
           next = { ...next, generationStatus: 'FAILED' };
         }
         return next;
       });
+
+      if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+        setOverlayMode('review');
+        setExecutionError(null);
+        setGenerateClickTrace((prev) => ({ ...prev, dispatchStatus: 'complete' }));
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
+        return;
+      }
+
+      clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
 
       setOverlayMode('review');
       setExecutionError(
@@ -1016,6 +1051,95 @@ export function usePageConceptGeneration(
     }
   }, [generating, pageId, persist, projectId, screenId, state.activeGenerationRunId]);
 
+  const continueNbpAfterGpt2Review = useCallback(async () => {
+    if (generating) {
+      setExecutionError('GENERATION ALREADY IN PROGRESS');
+      return;
+    }
+    const resumeRunId =
+      state.activeGenerationRunId ?? loadPageConceptActiveServerRunId(projectId, pageId);
+    if (!resumeRunId) {
+      setExecutionError('CONTINUE TO NBP REQUIRES ACTIVE GENERATION RUN');
+      return;
+    }
+    setGenerating(true);
+    setExecutionError(null);
+    setOverlayMode('progress');
+    try {
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      await ensurePageConceptApiAccessToken();
+      const current = loadPageConceptGenerationState(projectId, pageId);
+      const { mobile, desktop } = getPageConceptSourceCaptures(projectId, pageId);
+      if (
+        !mobile?.artifactPath ||
+        !desktop?.artifactPath ||
+        !isPageCaptureDisplayableArtifact(mobile.artifactPath) ||
+        !isPageCaptureDisplayableArtifact(desktop.artifactPath)
+      ) {
+        throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
+      }
+      const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
+      const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
+      persist((s) => ({ ...s, generationStatus: 'NBP_RUNNING' }));
+
+      emitPageConceptGenerateTelemetry('page_concept_founder_generation_confirmed', {
+        projectId,
+        pageId,
+        generationRunId: resumeRunId,
+      });
+
+      const { runId } = await startPageConceptGenerationRunApi({
+        state: current,
+        founderConfirmedSpend: true,
+        continueNbpAfterGpt2Review: true,
+        resumeRunId,
+        mobileCapture,
+        desktopCapture,
+      });
+      savePageConceptActiveServerRunId(projectId, pageId, runId);
+      markPageConceptFounderRunSession(projectId, pageId, runId);
+
+      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+        runId,
+        afterSequence: lastObservedSequenceRef.current,
+        onUpdate: (update) => {
+          void applyPollUpdate(update, () => false);
+        },
+      });
+      clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
+      const result = pageConceptServerRunToResult(terminalRun);
+      if (!result) throw new Error(terminalRun.error ?? 'NBP_CONTINUE_FAILED');
+
+      persist((s) => {
+        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
+        next = registerPageConceptGenerationJobs(next, result.jobs);
+        next = mergePageConceptArtifactsIntoGallery(next);
+        return next;
+      });
+      setOverlayMode('review');
+      window.dispatchEvent(
+        new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+      );
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'NBP_CONTINUE_FAILED';
+      setExecutionError(message);
+      setOverlayMode('review');
+    } finally {
+      setGenerating(false);
+    }
+  }, [applyPollUpdate, generating, pageId, persist, projectId, screenId, state.activeGenerationRunId]);
+
+  const runHealth = useMemo(
+    () =>
+      derivePageConceptRunHealth({
+        state,
+        generating,
+        executionError,
+      }),
+    [executionError, generating, state],
+  );
+
   const retryFailedGeneration = useCallback(async () => {
     if (generating) {
       setExecutionError('GENERATION ALREADY IN PROGRESS');
@@ -1118,5 +1242,8 @@ export function usePageConceptGeneration(
     sourceCaptureLines: generationEligibility.sourceCaptureLines,
     progressForensics,
     presentedSubstepStates,
+    runHealth,
+    continueNbpAfterGpt2Review,
+    gpt2AwaitingFounderReview: state.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW',
   };
 }

@@ -32,6 +32,7 @@ import type {
   PageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import type { PageConceptProgressObservationForensics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressObservationForensics.js';
+import type { PageConceptRunHealth } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptRunHealth.js';
 import type { PageConceptCgptSubstepId } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { PageConceptSubstepRunState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-design-workspace-production/types.js';
@@ -62,6 +63,9 @@ export function PageConceptGenerationOverlay({
   onOpenFullscreen,
   progressForensics,
   presentedSubstepStates,
+  runHealth,
+  gpt2AwaitingFounderReview,
+  onContinueNbp,
 }: {
   open: boolean;
   mode: 'confirm' | 'progress' | 'review';
@@ -84,6 +88,9 @@ export function PageConceptGenerationOverlay({
   onOpenFullscreen: (artifact: DesignWorkspaceArtifactView) => void;
   progressForensics?: PageConceptProgressObservationForensics;
   presentedSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
+  runHealth?: PageConceptRunHealth;
+  gpt2AwaitingFounderReview?: boolean;
+  onContinueNbp?: () => void;
 }) {
   const [fullBriefOpen, setFullBriefOpen] = useState(false);
 
@@ -141,7 +148,8 @@ export function PageConceptGenerationOverlay({
   const nbpSlots = useMemo(() => buildNbpSlotPresentations(generationState), [generationState]);
 
   const results = useMemo(() => {
-    const hasAnyOutput = injection || gpt2 || nbpSlots.some((s) => s.status !== 'PENDING');
+    const hasAnyOutput =
+      injection || gpt2 || nbpSlots.some((s) => s.status !== 'PENDING') || generating;
     if (!hasAnyOutput && mode === 'confirm' && !generating) return {};
     return {
       cgptBrief:
@@ -270,14 +278,23 @@ export function PageConceptGenerationOverlay({
           generateDisabledReason={generateBlockReason ?? founderNotice}
           generateBusyLabel={generateBusyLabel}
           generateLabel={
-            !generating && cgptRetry ?
+            gpt2AwaitingFounderReview && !generating ?
+              'REGENERATE AUTHORITY'
+            : !generating && cgptRetry ?
               'RETRY CGPT'
             : !generating && blockingState?.executionError && !failedNbp ?
               'RETRY GENERATION'
             : undefined
           }
           secondaryAction={
-            failedNbp && !generating ?
+            gpt2AwaitingFounderReview && !generating && onContinueNbp ?
+              {
+                label: 'CONTINUE TO NBP',
+                onClick: onContinueNbp,
+                disabled: generating,
+                testId: 'page-concept-continue-nbp',
+              }
+            : failedNbp && !generating ?
               {
                 label: 'RETRY FAILED ONLY',
                 onClick: onRetryFailed,
@@ -309,6 +326,15 @@ export function PageConceptGenerationOverlay({
                 `CGPT SUBSTEP STATES ${JSON.stringify(generationState.cgptSubsteps?.substepStatusById ?? liveProgress.substepStatusById)}`,
                 `CGPT ATTEMPT ${generationState.cgptSubsteps ? 'see run cgptMeta' : '—'}`,
                 `SERVER UPDATED AT ${generationState.liveProgress?.updatedAt ?? '—'}`,
+                runHealth ?
+                  [
+                    '',
+                    'RUN HEALTH',
+                    `BLOCKING ${runHealth.blockingError ?? '—'}`,
+                    `HISTORICAL ${runHealth.historicalEvents.map((e) => e.message).join(' | ') || '—'}`,
+                    `PARTIAL ${runHealth.partialFailures.map((e) => e.message).join(' | ') || '—'}`,
+                  ].join('\n')
+                : '',
                 progressForensics ?
                   [
                     '',
