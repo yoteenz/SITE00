@@ -62,6 +62,7 @@ export type PageConceptGeneratorPanelProps = {
   sourceCapturesReady?: boolean;
   stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
   cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
+  cgptSubstepDigests?: Partial<Record<PageConceptCgptSubstepId, string>>;
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
   generateDisabledReason?: string | null;
@@ -194,11 +195,13 @@ function StageCard({
   state,
   results,
   cgptSubstepStates,
+  cgptSubstepDigests,
 }: {
   stage: PageConceptStageShell;
   state: PageConceptStageState;
   results: PageConceptGeneratorResultSlots;
   cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
+  cgptSubstepDigests?: Partial<Record<PageConceptCgptSubstepId, string>>;
 }) {
   return (
     <article className="s00-pcg__card" data-stage-id={stage.id} data-stage-state={state}>
@@ -231,7 +234,14 @@ function StageCard({
                     <span className="s00-pcg__briefGlyph" aria-hidden="true">
                       <AiConsoleIcon name={row.icon} size={10} />
                     </span>
-                    {row.label}
+                    <span className="s00-pcg__briefRowCopy">
+                      {row.label}
+                      {cgptSubstepDigests?.[row.id as PageConceptCgptSubstepId] ?
+                        <span className="s00-pcg__briefDigest">
+                          {cgptSubstepDigests[row.id as PageConceptCgptSubstepId]}
+                        </span>
+                      : null}
+                    </span>
                   </li>
                 );
               })}
@@ -288,6 +298,7 @@ export function PageConceptGeneratorPanel({
   sourceCapturesReady = false,
   stageStates,
   cgptSubstepStates,
+  cgptSubstepDigests,
   results = {},
   generateDisabled,
   generateDisabledReason,
@@ -380,6 +391,7 @@ export function PageConceptGeneratorPanel({
               state={states[stage.id]}
               results={results}
               cgptSubstepStates={stage.id === 'CGPT' ? cgptSubstepStates : undefined}
+              cgptSubstepDigests={stage.id === 'CGPT' ? cgptSubstepDigests : undefined}
             />
           ))}
         </div>

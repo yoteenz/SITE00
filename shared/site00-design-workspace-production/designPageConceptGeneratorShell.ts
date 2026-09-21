@@ -112,11 +112,11 @@ export const PAGE_CONCEPT_GENERATOR_SUMMARY = [
 ] as const;
 
 const CGPT_BRIEF_ROWS: readonly PageConceptBriefRow[] = [
-  { id: 'creative-direction', label: 'CREATIVE DIRECTION', icon: 'opus-explore', lead: true },
   { id: 'page-intelligence', label: 'PAGE INTELLIGENCE', icon: 'opus-context' },
   { id: 'brand-context', label: 'BRAND CONTEXT', icon: 'attach-style' },
   { id: 'key-messages', label: 'KEY MESSAGES', icon: 'auth-cgpt-message' },
   { id: 'visual-moodboard', label: 'VISUAL MOODBOARD', icon: 'attach-image' },
+  { id: 'creative-direction', label: 'CREATIVE DIRECTION', icon: 'opus-explore', lead: true },
 ];
 
 const NBP_GROUPS: readonly PageConceptRenditionGroup[] = [

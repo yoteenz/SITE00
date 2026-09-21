@@ -36,6 +36,7 @@ export function patchPageConceptServerRun(runId: string, patch: PageConceptRunPr
     jobs: patch.jobs ?? current.jobs,
     cgptMeta: patch.cgptMeta !== undefined ? patch.cgptMeta : current.cgptMeta,
     panelProgress: patch.panelProgress !== undefined ? patch.panelProgress : current.panelProgress,
+    cgptSubsteps: patch.cgptSubsteps !== undefined ? patch.cgptSubsteps : current.cgptSubsteps,
     updatedAt: patch.updatedAt ?? new Date().toISOString(),
   };
   runs.set(runId, next);

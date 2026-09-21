@@ -54,7 +54,7 @@ export async function executePageConceptGeneration(
   const pageContext = input.state.pageContext!;
   const functionContract = input.state.functionContract!;
 
-  const cgptStart = pageConceptProgressPatchForCgptSubstep('creative-direction');
+  const cgptStart = pageConceptProgressPatchForCgptSubstep('page-intelligence');
   emit(onProgress, {
     status: 'CGPT_RUNNING',
     currentStage: cgptStart.currentStage,
@@ -125,7 +125,7 @@ export async function executePageConceptGeneration(
       creativeInjectionError,
       createdAt: new Date().toISOString(),
     };
-    const cgptFail = pageConceptProgressPatchForCgptFailure('visual-moodboard');
+    const cgptFail = pageConceptProgressPatchForCgptFailure('creative-direction');
     emit(onProgress, {
       status: 'FAILED',
       currentStage: cgptFail.currentStage,

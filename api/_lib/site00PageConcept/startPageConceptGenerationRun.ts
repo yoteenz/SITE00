@@ -9,6 +9,7 @@ import {
 } from './pageConceptGenerationRunStore.js';
 import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
 import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
+import { cgptSubstepsForStatusApi } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptSubstepRun.js';
 
 export type StartPageConceptGenerationRunInput = RunPageConceptGenerationInput & {
   founderEmail: string;
@@ -62,6 +63,7 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     nbpStatus: existing?.nbpStatus ?? 'PENDING',
     cgptMeta: input.retryCgptOnly ? null : (existing?.cgptMeta ?? null),
     panelProgress: null,
+    cgptSubsteps: null,
     createdAt: existing?.createdAt ?? now,
     startedAt: null,
     updatedAt: now,
@@ -146,6 +148,9 @@ export function snapshotPageConceptServerRun(runId: string) {
     jobs: run.jobs,
     cgptMeta: run.cgptMeta,
     panelProgress: run.panelProgress,
+    cgptSubsteps: run.cgptSubsteps,
+    cgptSubstepsStatus: cgptSubstepsForStatusApi(run.cgptSubsteps),
+    currentCgptSubstep: run.cgptSubsteps?.currentCgptSubstep ?? run.panelProgress?.currentSubstep ?? null,
     updatedAt: run.updatedAt,
     completedAt: run.completedAt,
   };

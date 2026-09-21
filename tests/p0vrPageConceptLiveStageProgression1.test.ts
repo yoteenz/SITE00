@@ -23,25 +23,25 @@ const ROOT = join(import.meta.dirname, '..');
 const read = (rel: string) => readFileSync(join(ROOT, rel), 'utf8');
 
 describe('P0.VR.PAGE-CONCEPT-LIVE-STAGE-PROGRESSION1', () => {
-  it('STEP 1 starts with CREATIVE DIRECTION ACTIVE', () => {
-    const map = buildCgptSubstepStatuses({ activeSubstep: 'creative-direction' });
-    expect(map['creative-direction']).toBe('ACTIVE');
-    expect(map['page-intelligence']).toBe('PENDING');
+  it('STEP 1 starts with PAGE INTELLIGENCE ACTIVE', () => {
+    const map = buildCgptSubstepStatuses({ activeSubstep: 'page-intelligence' });
+    expect(map['page-intelligence']).toBe('ACTIVE');
+    expect(map['brand-context']).toBe('PENDING');
   });
 
-  it('STEP 1 moves to PAGE INTELLIGENCE after CREATIVE DIRECTION COMPLETE', () => {
-    const map = buildCgptSubstepStatuses({ activeSubstep: 'page-intelligence' });
-    expect(map['creative-direction']).toBe('COMPLETE');
-    expect(map['page-intelligence']).toBe('ACTIVE');
+  it('STEP 1 moves to BRAND CONTEXT after PAGE INTELLIGENCE COMPLETE', () => {
+    const map = buildCgptSubstepStatuses({ activeSubstep: 'brand-context' });
+    expect(map['page-intelligence']).toBe('COMPLETE');
+    expect(map['brand-context']).toBe('ACTIVE');
   });
 
   it('progresses through all five CGPT substeps in order', () => {
     const order = [
-      'creative-direction',
       'page-intelligence',
       'brand-context',
       'key-messages',
       'visual-moodboard',
+      'creative-direction',
     ] as const;
     for (const active of order) {
       const map = buildCgptSubstepStatuses({ activeSubstep: active });
@@ -78,7 +78,7 @@ describe('P0.VR.PAGE-CONCEPT-LIVE-STAGE-PROGRESSION1', () => {
       failedSubstep: 'key-messages',
     });
     expect(map['key-messages']).toBe('FAILED');
-    expect(map['creative-direction']).toBe('COMPLETE');
+    expect(map['creative-direction']).toBe('PENDING');
   });
 
   it('refresh restores substep from CGPT_SUB stage token', () => {
@@ -94,13 +94,13 @@ describe('P0.VR.PAGE-CONCEPT-LIVE-STAGE-PROGRESSION1', () => {
     expect(progress.substepStatusById['brand-context']).toBe('ACTIVE');
   });
 
-  it('does not keep CREATIVE DIRECTION ACTIVE when later substep is running', () => {
+  it('does not keep PAGE INTELLIGENCE ACTIVE when later substep is running', () => {
     const progress = buildPageConceptPanelProgress({
       currentStage: 'CGPT',
-      activeCgptSubstep: 'visual-moodboard',
+      activeCgptSubstep: 'creative-direction',
     });
-    expect(progress.substepStatusById['creative-direction']).toBe('COMPLETE');
-    expect(progress.substepStatusById['visual-moodboard']).toBe('ACTIVE');
+    expect(progress.substepStatusById['page-intelligence']).toBe('COMPLETE');
+    expect(progress.substepStatusById['creative-direction']).toBe('ACTIVE');
   });
 
   it('panel binds data-substep-state for live rows', () => {
@@ -134,6 +134,6 @@ describe('P0.VR.PAGE-CONCEPT-LIVE-STAGE-PROGRESSION1', () => {
     );
     expect(progress).toContain('CGPT_SUB:');
     expect(cgpt).toContain('panelProgress');
-    expect(cgpt).toContain('emitCgptSubstep');
+    expect(cgpt).toContain('runSubstepCheckpoint');
   });
 });

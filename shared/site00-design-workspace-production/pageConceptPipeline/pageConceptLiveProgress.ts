@@ -4,6 +4,10 @@
 
 import type { PageConceptGenerationStatus } from './types.js';
 import type { PageConceptStageId } from '../designPageConceptGeneratorShell.js';
+import type {
+  PageConceptCgptSubstepRunDetail,
+  PageConceptCgptSubstepServerState,
+} from './pageConceptCgptSubstepRun.js';
 
 export type PageConceptProgressStageId = PageConceptStageId;
 
@@ -14,14 +18,20 @@ export type PageConceptCgptSubstepId =
   | 'key-messages'
   | 'visual-moodboard';
 
-export type PageConceptSubstepRunState = 'PENDING' | 'ACTIVE' | 'COMPLETE' | 'FAILED';
+export type PageConceptSubstepRunState =
+  | 'PENDING'
+  | 'ACTIVE'
+  | 'COMPLETE'
+  | 'RATE_LIMITED'
+  | 'FAILED';
 
+/** Truthful CGPT prep order — synthesis last. */
 export const PAGE_CONCEPT_CGPT_SUBSTEP_ORDER: readonly PageConceptCgptSubstepId[] = [
-  'creative-direction',
   'page-intelligence',
   'brand-context',
   'key-messages',
   'visual-moodboard',
+  'creative-direction',
 ];
 
 export type PageConceptPanelProgress = {
@@ -209,8 +219,47 @@ export function derivePageConceptLiveProgress(input: {
   };
 }
 
+export function mapCgptServerSubstepToPanel(
+  state: PageConceptCgptSubstepServerState,
+): PageConceptSubstepRunState {
+  if (state === 'RUNNING') return 'ACTIVE';
+  if (state === 'RATE_LIMITED') return 'RATE_LIMITED';
+  if (state === 'COMPLETE') return 'COMPLETE';
+  if (state === 'FAILED') return 'FAILED';
+  return 'PENDING';
+}
+
+export function buildPanelProgressFromCgptSubstepDetail(
+  detail: PageConceptCgptSubstepRunDetail,
+  extra?: { nbpActiveLabel?: string | null; failedStage?: PageConceptProgressStageId | null },
+): PageConceptPanelProgress {
+  const substepStatusById = Object.fromEntries(
+    PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.map((id) => [
+      id,
+      mapCgptServerSubstepToPanel(detail.substepStatusById[id] ?? 'PENDING'),
+    ]),
+  ) as Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>;
+
+  const failedSubstep = PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.find(
+    (id) => detail.substepStatusById[id] === 'FAILED',
+  );
+  return {
+    currentStage: 'CGPT',
+    currentSubstep: detail.currentCgptSubstep,
+    stageStatusById: buildStageStatusesForPipeline({
+      currentStage: 'CGPT',
+      failedStage: extra?.failedStage ?? (failedSubstep ? 'CGPT' : null),
+    }),
+    substepStatusById,
+    nbpActiveLabel: extra?.nbpActiveLabel ?? null,
+    updatedAt: new Date().toISOString(),
+    failureStage: failedSubstep ? 'CGPT' : null,
+    failureSubstep: failedSubstep ?? null,
+  };
+}
+
 export function inferCgptSubstepFromStage(stage: string | null): PageConceptCgptSubstepId {
-  if (!stage) return 'creative-direction';
+  if (!stage) return 'page-intelligence';
   const token = stage.includes('CGPT_SUB:') ? stage.split('CGPT_SUB:')[1]?.trim() : null;
   if (token && PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.includes(token as PageConceptCgptSubstepId)) {
     return token as PageConceptCgptSubstepId;
@@ -221,7 +270,7 @@ export function inferCgptSubstepFromStage(stage: string | null): PageConceptCgpt
   if (stage.includes('key-messages')) return 'key-messages';
   if (stage.includes('brand-context')) return 'brand-context';
   if (stage.includes('page-intelligence')) return 'page-intelligence';
-  return 'creative-direction';
+  return 'page-intelligence';
 }
 
 export function pageConceptPanelProgressToStageStates(

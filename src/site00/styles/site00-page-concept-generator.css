@@ -593,6 +593,13 @@
   color: rgb(90 90 90 / 88%);
 }
 
+.s00-pcg__briefRow[data-substep-state='RATE_LIMITED'] {
+  border-color: var(--pcg-black);
+  background: rgb(255 248 200 / 96%);
+  color: var(--pcg-lime-ink);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 12%);
+}
+
 @keyframes s00-pcg-substep-pulse {
   0%,
   100% {
@@ -617,6 +624,27 @@
 .s00-pcg__briefGlyph {
   display: inline-flex;
   flex: 0 0 auto;
+}
+
+.s00-pcg__briefRowCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.s00-pcg__briefDigest {
+  display: block;
+  font-size: 5.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  color: inherit;
+  opacity: 0.82;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 /* ---- result frames ------------------------------------------------------- */

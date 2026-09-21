@@ -12,6 +12,7 @@ import type {
 } from './types.js';
 import type { PageConceptCgptProviderTelemetry } from './pageConceptCgpt429.js';
 import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
+import type { PageConceptCgptSubstepRunDetail } from './pageConceptCgptSubstepRun.js';
 
 export type PageConceptServerRunStatus =
   | 'QUEUED'
@@ -56,6 +57,7 @@ export type PageConceptServerRun = {
   gpt2Status: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'FAILED';
   cgptMeta: PageConceptCgptRunMeta | null;
   panelProgress: PageConceptPanelProgress | null;
+  cgptSubsteps: PageConceptCgptSubstepRunDetail | null;
   nbpStatus: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'PARTIAL' | 'FAILED';
   createdAt: string;
   startedAt: string | null;
@@ -83,6 +85,7 @@ export type PageConceptRunProgress = Pick<
   | 'error'
   | 'cgptMeta'
   | 'panelProgress'
+  | 'cgptSubsteps'
   | 'updatedAt'
   | 'completedAt'
 >;
@@ -98,6 +101,11 @@ export type PageConceptServerRunSnapshot = {
   nbpStatus: PageConceptServerRun['nbpStatus'];
   cgptMeta: PageConceptCgptRunMeta | null;
   panelProgress: PageConceptPanelProgress | null;
+  cgptSubsteps: PageConceptCgptSubstepRunDetail | null;
+  currentCgptSubstep?: PageConceptCgptSubstepRunDetail['currentCgptSubstep'];
+  cgptSubstepsStatus?: ReturnType<
+    typeof import('./pageConceptCgptSubstepRun.js').cgptSubstepsForStatusApi
+  >;
   dryRun: boolean;
   error: string | null;
   generationStatus: PageConceptGenerationStatus;
