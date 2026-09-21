@@ -385,45 +385,58 @@
 
 /* Device centres and the lime underline row are measured off the golden. */
 .tod-band__devices {
-  position: relative;
-  height: 56px;
-  padding-top: 1.5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: end;
+  min-height: 56px;
+  padding-top: 0;
+  width: 100%;
+  max-width: 280px;
 }
 
-.tod-device {
-  position: absolute;
-  top: 1.5px;
+.tod-band__vp-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateX(-50%);
-  color: #1a1a1a;
+  min-width: 0;
 }
 
-.tod-device:nth-child(1) {
-  left: 20.5px;
+.tod-device {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #1a1a1a;
+  cursor: pointer;
+  width: 100%;
 }
-.tod-device:nth-child(2) {
-  left: 118.5px;
-}
-.tod-device:nth-child(3) {
-  left: 226px;
+
+.tod-device__ico-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 29px;
+  width: 100%;
 }
 
 .tod-device__ico {
   width: auto;
-  height: 29px;
+  height: auto;
+  max-height: 29px;
 }
 
-.tod-device:nth-child(1) .tod-device__ico {
+.tod-band__vp-col:nth-child(1) .tod-device__ico {
   width: 15.5px;
 }
-.tod-device:nth-child(2) .tod-device__ico {
+.tod-band__vp-col:nth-child(2) .tod-device__ico {
   width: 17.5px;
 }
-.tod-device:nth-child(3) .tod-device__ico {
+.tod-band__vp-col:nth-child(3) .tod-device__ico {
   width: 37.8px;
-  height: 26.1px;
+  max-height: 26.1px;
 }
 
 .tod-device__label {
@@ -432,6 +445,7 @@
   line-height: 1;
   padding-bottom: 10.1px;
   border-bottom: 3px solid transparent;
+  white-space: nowrap;
 }
 
 .tod-device.is-active .tod-device__label {
@@ -923,7 +937,15 @@
   font-size: 9px;
   letter-spacing: 0.05em;
   opacity: 0.72;
-  margin-top: 1px;
+  margin-bottom: 4px;
+  line-height: 1;
+  min-height: 9px;
+  text-align: center;
+}
+
+.tod-device__status--empty {
+  opacity: 0;
+  user-select: none;
 }
 
 .tod-out__viewportNote {

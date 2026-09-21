@@ -298,27 +298,33 @@ export function TwinOpusDirectScreen({
               ))}
             </div>
             <div className="tod-band__col tod-band__col--viewport">
-              <span className="tod-band__label">VIEWPORT</span>
               <div className="tod-band__devices" role="group" aria-label="Target viewport">
                 {data.viewports.map((id) => {
                   const Icon = VIEWPORT_ICONS[id];
                   const active = state.viewport === id;
                   const vpStatus = data.viewportControls.find((c) => c.viewport === id);
                   return (
-                    <button
-                      key={id}
-                      type="button"
-                      className={`tod-device${active ? ' is-active' : ''}`}
-                      aria-pressed={active}
-                      data-vp-status={vpStatus?.status ?? undefined}
-                      onClick={() => actions.selectViewport(id)}
-                    >
-                      <Icon className="tod-device__ico" />
-                      <span className="tod-device__label">{id}</span>
+                    <div key={id} className="tod-band__vp-col">
                       {vpStatus ?
                         <span className="tod-device__status">{vpStatus.statusShort}</span>
-                      : null}
-                    </button>
+                      : (
+                        <span className="tod-device__status tod-device__status--empty" aria-hidden="true">
+                          &nbsp;
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        className={`tod-device${active ? ' is-active' : ''}`}
+                        aria-pressed={active}
+                        data-vp-status={vpStatus?.status ?? undefined}
+                        onClick={() => actions.selectViewport(id)}
+                      >
+                        <span className="tod-device__ico-wrap">
+                          <Icon className="tod-device__ico" />
+                        </span>
+                        <span className="tod-device__label">{id}</span>
+                      </button>
+                    </div>
                   );
                 })}
               </div>

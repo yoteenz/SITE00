@@ -131,9 +131,18 @@
   left: 445px;
 }
 
+.tod-lv-device__ico-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 57.1px;
+  width: 100%;
+}
+
 .tod-lv-device__ico {
   width: auto;
-  height: 57.1px;
+  height: auto;
+  max-height: 57.1px;
 }
 
 .tod-lv-device:nth-child(1) .tod-lv-device__ico {
@@ -146,7 +155,7 @@
 
 .tod-lv-device:nth-child(3) .tod-lv-device__ico {
   width: 74.43px;
-  height: 51.39px;
+  max-height: 51.39px;
 }
 
 .tod-lv-device__label {
@@ -155,6 +164,7 @@
   line-height: 1;
   padding-bottom: 19.9px;
   border-bottom: 5.9px solid transparent;
+  white-space: nowrap;
 }
 
 .tod-lv-device.is-active .tod-lv-device__label {

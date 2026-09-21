@@ -202,7 +202,6 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             ))}
           </div>
           <div className="tod-lv-band__col tod-lv-band__col--viewport">
-            <span className="tod-lv-band__label">VIEWPORT</span>
             <div className="tod-lv-band__devices" role="group" aria-label="Target viewport">
               {data.viewports.map((id) => {
                 const Icon = VIEWPORT_ICONS[id];
@@ -215,7 +214,9 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     aria-pressed={active}
                     onClick={() => actions.selectViewport(id)}
                   >
-                    <Icon className="tod-lv-device__ico" />
+                    <span className="tod-lv-device__ico-wrap">
+                      <Icon className="tod-lv-device__ico" />
+                    </span>
                     <span className="tod-lv-device__label">{id}</span>
                   </button>
                 );
