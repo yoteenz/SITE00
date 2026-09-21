@@ -41,6 +41,8 @@ import {
   pageConceptNbpRequiresAuthorityApprovalId,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNbpAuthorityPolicy.js';
 import { pageContextForGpt2Package } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectVisualIdentity.js';
+import { compilePageConceptCgptCreativeBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
+import type { PageConceptCgptCreativeBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 export type ExecutePageConceptGenerationOptions = {
   runId?: string;
@@ -83,6 +85,8 @@ export async function executePageConceptGeneration(
     );
 
   let creativeInjection = input.state.pipelineSet?.creativeInjection ?? null;
+  let cgptCreativeBrief: PageConceptCgptCreativeBrief | null =
+    input.state.pipelineSet?.cgptCreativeBrief ?? null;
   let gpt2Authority = input.state.pipelineSet?.gpt2AuthorityConcept ?? null;
   let creativeInjectionError = input.state.pipelineSet?.creativeInjectionError;
   let gpt2AuthorityError = input.state.pipelineSet?.gpt2AuthorityError;
@@ -133,6 +137,13 @@ export async function executePageConceptGeneration(
     });
     if (cgptResult.ok) {
       creativeInjection = cgptResult.injection;
+      cgptCreativeBrief = compilePageConceptCgptCreativeBrief({
+        injection: creativeInjection,
+        projectContext,
+        pageContext,
+        functionContract,
+        captureSetId: plan.captureSetId,
+      });
       creativeInjectionError = undefined;
     } else {
       creativeInjectionError = `${cgptResult.founderMessage} · ${cgptResult.technicalDetails}`;
@@ -149,6 +160,7 @@ export async function executePageConceptGeneration(
       captureSetId: plan.captureSetId,
       functionContractId: functionContract.contractId,
       creativeInjection: null,
+      cgptCreativeBrief: null,
       gpt2AuthorityConcept: null,
       renditions: [],
       creativeInjectionError,
@@ -175,6 +187,16 @@ export async function executePageConceptGeneration(
     throw new Error('CGPT_INJECTION_MISSING');
   }
 
+  if (creativeInjection && !cgptCreativeBrief) {
+    cgptCreativeBrief = compilePageConceptCgptCreativeBrief({
+      injection: creativeInjection,
+      projectContext,
+      pageContext,
+      functionContract,
+      captureSetId: plan.captureSetId,
+    });
+  }
+
   if (!skipCgptGpt2) {
     const gpt2Start = pageConceptProgressPatchForGpt2();
     emit(onProgress, {
@@ -193,6 +215,7 @@ export async function executePageConceptGeneration(
         captureSetId: plan.captureSetId,
         functionContractId: functionContract.contractId,
         creativeInjection,
+        cgptCreativeBrief,
         gpt2AuthorityConcept: null,
         renditions: [],
         creativeInjectionError,
@@ -228,6 +251,8 @@ export async function executePageConceptGeneration(
           conceptRationale: 'DRY_RUN',
           brandSignals: projectContext.brandTruth,
           groundingPackageVersion: 'page-gpt2-authority-v2-grounding',
+          cgptBriefId: cgptCreativeBrief?.briefId,
+          cgptBriefVersion: cgptCreativeBrief?.version,
         } satisfies PageGPT2AuthorityConcept;
       } else {
         gpt2Authority = await generatePageGpt2AuthorityConcept({
@@ -235,6 +260,7 @@ export async function executePageConceptGeneration(
           functionContract,
           projectContext,
           pageContext,
+          cgptBrief: cgptCreativeBrief,
         });
       }
       gpt2AuthorityError = undefined;
@@ -253,6 +279,7 @@ export async function executePageConceptGeneration(
       captureSetId: plan.captureSetId,
       functionContractId: functionContract.contractId,
       creativeInjection,
+      cgptCreativeBrief,
       gpt2AuthorityConcept: null,
       renditions: [],
       creativeInjectionError,
@@ -279,6 +306,7 @@ export async function executePageConceptGeneration(
     functionContract,
     projectContext,
     pageContext,
+    cgptBrief: cgptCreativeBrief,
   });
   const grounding = validatePageConceptGpt2GroundingBeforeNbp({
     projectId: input.state.projectId,
@@ -294,6 +322,7 @@ export async function executePageConceptGeneration(
       captureSetId: plan.captureSetId,
       functionContractId: functionContract.contractId,
       creativeInjection,
+      cgptCreativeBrief,
       gpt2AuthorityConcept: gpt2Authority,
       renditions: [],
       creativeInjectionError,
@@ -341,6 +370,7 @@ export async function executePageConceptGeneration(
       captureSetId: plan.captureSetId,
       functionContractId: functionContract.contractId,
       creativeInjection,
+      cgptCreativeBrief,
       gpt2AuthorityConcept: gpt2Authority,
       renditions: [],
       creativeInjectionError,
@@ -543,6 +573,7 @@ export async function executePageConceptGeneration(
       captureSetId: plan.captureSetId,
       functionContractId: functionContract.contractId,
       creativeInjection,
+      cgptCreativeBrief,
       gpt2AuthorityConcept: gpt2Authority,
       renditions,
       creativeInjectionError,
@@ -585,6 +616,7 @@ export async function executePageConceptGeneration(
     captureSetId: plan.captureSetId,
     functionContractId: functionContract.contractId,
     creativeInjection,
+    cgptCreativeBrief,
     gpt2AuthorityConcept: gpt2Authority,
     renditions,
     creativeInjectionError,

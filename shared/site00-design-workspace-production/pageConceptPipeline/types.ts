@@ -85,6 +85,55 @@ export type PageCreativeContext = {
   contextVersion: string;
 };
 
+export type PageConceptCgptBriefSourceLineage = {
+  identityVersion?: string;
+  intakeVersion?: string;
+  skinVersion?: string;
+  projectContextVersion?: string;
+  pageContextVersion?: string;
+  functionContractVersion?: string;
+  captureRefs?: string;
+};
+
+export type PageConceptCgptBriefSectionSource = {
+  sectionId: string;
+  sourceLabel: string;
+};
+
+export type PageConceptCgptCreativeBrief = {
+  briefId: string;
+  version: string;
+  contentHash: string;
+  projectId: string;
+  pageId: string;
+  injectionId: string;
+  creativePremise: string;
+  pagePurpose: string;
+  audienceIntent: string;
+  pageStory: string;
+  identitySignals: readonly string[];
+  brandSignals: readonly string[];
+  skinSignals: readonly string[];
+  compositionStrategy: string;
+  hierarchyStrategy: string;
+  typographyStrategy: string;
+  colorStrategy: string;
+  materialStrategy: string;
+  imageryStrategy: string;
+  interactionCharacter: string;
+  keyMessages: readonly string[];
+  requiredContent: readonly string[];
+  functionalRequirements: readonly string[];
+  creativeLatitude: string;
+  distinctiveMove: string;
+  avoidList: readonly string[];
+  currentImplementationRole: 'FUNCTIONAL_REFERENCE_ONLY';
+  aestheticAuthorityFromCapture: 'NO';
+  sourceLineage: PageConceptCgptBriefSourceLineage;
+  sectionSources: readonly PageConceptCgptBriefSectionSource[];
+  createdAt: string;
+};
+
 export type PageCreativeInjection = {
   injectionId: string;
   projectId: string;
@@ -106,6 +155,13 @@ export type PageCreativeInjection = {
   immutableRequirements: readonly string[];
   referenceStrategy: string;
   assetStrategy: string;
+  /** CGPT synthesis — optional provider fields. */
+  audienceIntent?: string;
+  distinctiveMove?: string;
+  typographyStrategy?: string;
+  colorStrategy?: string;
+  materialStrategy?: string;
+  avoidList?: readonly string[];
   createdAt: string;
   cgptProvider: string;
   cgptModel: string;
@@ -133,6 +189,8 @@ export type PageGPT2AuthorityConcept = {
   imageStrategy?: string;
   avoidList?: string;
   groundingPackageVersion?: string;
+  cgptBriefId?: string;
+  cgptBriefVersion?: string;
 };
 
 export type PageConceptRenditionSlotId = 'RENDITION_A' | 'RENDITION_B' | 'RENDITION_C';
@@ -214,6 +272,7 @@ export type PageConceptPipelineSet = {
   captureSetId: string;
   functionContractId: string;
   creativeInjection: PageCreativeInjection | null;
+  cgptCreativeBrief?: PageConceptCgptCreativeBrief | null;
   gpt2AuthorityConcept: PageGPT2AuthorityConcept | null;
   renditions: readonly PageConceptRendition[];
   creativeInjectionError?: string;

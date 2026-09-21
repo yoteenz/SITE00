@@ -14,6 +14,9 @@ import {
   pageConceptStageStatesFromPipeline,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import { planPageNbpRenditions } from '../shared/site00-design-workspace-production/pageConceptPipeline/renditionPlanner.js';
+import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
+import { compilePageCreativeContext, compileProjectCreativeContext } from '../shared/site00-design-workspace-production/pageConceptPipeline/contextCompilers.js';
+import { compilePageFunctionContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/functionContract.js';
 import { mergePageConceptGenerationJobs } from '../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
 import type {
   PageConceptGeneratedArtifact,
@@ -85,6 +88,14 @@ function baseState(): PageConceptGenerationState {
 
 const injection: PageCreativeInjection = {
   injectionId: 'inj-1',
+  projectId: 'ndxbook',
+  pageId: 'page-overview',
+  projectContextVersion: 'v1',
+  pageContextVersion: 'v1',
+  functionContractVersion: 'fc-1',
+  createdAt: new Date().toISOString(),
+  cgptProvider: 'test',
+  cgptModel: 'test',
   creativeThesis: 'THESIS',
   pagePurposeInterpretation: 'PURPOSE',
   hierarchyDirection: 'HIER',
@@ -137,7 +148,19 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1', () => {
       },
     };
     expect(pageConceptStageStatesFromPipeline(done).CGPT).toBe('COMPLETE');
-    expect(buildCgptBriefRows(injection).length).toBeGreaterThan(0);
+    const pageId =
+      listSiteDesignPagesForProject('ndxbook').find((p) => p.pageId === 'overview')?.pageId ??
+      listSiteDesignPagesForProject('ndxbook')[0]!.pageId;
+    const projectContext = compileProjectCreativeContext('ndxbook')!;
+    const pageContext = compilePageCreativeContext('ndxbook', pageId)!;
+    const functionContract = compilePageFunctionContract('ndxbook', pageId)!;
+    const brief = compilePageConceptCgptCreativeBrief({
+      injection,
+      projectContext,
+      pageContext,
+      functionContract,
+    });
+    expect(buildCgptBriefRows(brief).length).toBeGreaterThan(0);
   });
 
   it('GPT2 cannot start before CGPT complete (stage map)', () => {

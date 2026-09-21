@@ -1,4 +1,5 @@
 import type {
+  PageConceptCgptCreativeBrief,
   PageCreativeContext,
   PageCreativeInjection,
   PageFunctionContract,
@@ -15,6 +16,7 @@ export type PageGpt2Input = {
   functionContract: PageFunctionContract;
   projectContext: ProjectCreativeContext;
   pageContext: PageCreativeContext;
+  cgptBrief?: PageConceptCgptCreativeBrief | null;
   implementationCaptureNote?: string;
 };
 
@@ -41,6 +43,8 @@ function vitestAuthority(input: PageGpt2Input): PageGPT2AuthorityConcept {
     conceptRationale: 'Vitest authority',
     brandSignals: input.projectContext.brandTruth,
     groundingPackageVersion: 'page-gpt2-authority-v2-grounding',
+    cgptBriefId: input.cgptBrief?.briefId,
+    cgptBriefVersion: input.cgptBrief?.version,
   };
 }
 
@@ -50,6 +54,7 @@ export function buildRuntimePageGpt2AuthorityPackage(input: PageGpt2Input): Page
     pageContext: input.pageContext,
     functionContract: input.functionContract,
     injection: input.injection,
+    cgptBrief: input.cgptBrief,
     implementationCaptureNote: input.implementationCaptureNote,
   });
 }
@@ -117,5 +122,7 @@ export async function generatePageGpt2AuthorityConcept(input: PageGpt2Input): Pr
     imageStrategy: String(parsed.imageStrategy ?? ''),
     avoidList: String(parsed.avoidList ?? ''),
     groundingPackageVersion: authorityPackage.promptVersion,
+    cgptBriefId: input.cgptBrief?.briefId,
+    cgptBriefVersion: input.cgptBrief?.version,
   };
 }

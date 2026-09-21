@@ -8,7 +8,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { PageConceptStageId, PageConceptStageState } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
 import {
   buildCgptBriefRows,
-  buildCgptFullBriefMarkdown,
   buildNbpSlotPresentations,
   pageConceptCgptManualRetryEligible,
   pageConceptGenerationInFlight,
@@ -39,7 +38,13 @@ import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-d
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
+import { PageConceptCgptBriefInspector } from '../pageConceptGenerator/PageConceptCgptBriefInspector';
 import { usePageConceptReleaseForensics } from './usePageConceptReleaseForensics';
+import {
+  buildPageConceptGpt2HandoffViewModel,
+  resolveCgptBriefFromGenerationState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
+import { compilePageFunctionContract } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/functionContract.js';
 
 export function PageConceptGenerationOverlay({
   open,
@@ -145,6 +150,38 @@ export function PageConceptGenerationOverlay({
 
   const injection = generationState.pipelineSet?.creativeInjection ?? null;
   const gpt2 = generationState.pipelineSet?.gpt2AuthorityConcept ?? null;
+  const functionContract =
+    generationState.functionContract ??
+    (generationState.projectId && generationState.pageId ?
+      compilePageFunctionContract(generationState.projectId, generationState.pageId)
+    : null);
+
+  const cgptBrief = useMemo(
+    () =>
+      resolveCgptBriefFromGenerationState({
+        brief: generationState.pipelineSet?.cgptCreativeBrief,
+        injection,
+        projectContext: generationState.projectContext,
+        pageContext: generationState.pageContext,
+        functionContract,
+        captureSetId: generationState.pipelineSet?.captureSetId,
+      }),
+    [functionContract, generationState, injection],
+  );
+
+  const handoffViewModel = useMemo(() => {
+    if (!cgptBrief || !injection || !generationState.projectContext || !generationState.pageContext || !functionContract) {
+      return null;
+    }
+    return buildPageConceptGpt2HandoffViewModel({
+      brief: cgptBrief,
+      injection,
+      projectContext: generationState.projectContext,
+      pageContext: generationState.pageContext,
+      functionContract,
+    });
+  }, [cgptBrief, functionContract, generationState, injection]);
+
   const nbpSlots = useMemo(() => buildNbpSlotPresentations(generationState), [generationState]);
 
   const results = useMemo(() => {
@@ -153,9 +190,9 @@ export function PageConceptGenerationOverlay({
     if (!hasAnyOutput && mode === 'confirm' && !generating) return {};
     return {
       cgptBrief:
-        injection ?
+        cgptBrief ?
           <CgptBriefResult
-            rows={buildCgptBriefRows(injection)}
+            rows={buildCgptBriefRows(cgptBrief)}
             substepStates={liveProgress.substepStatusById}
             onViewFull={() => setFullBriefOpen(true)}
           />
@@ -177,7 +214,7 @@ export function PageConceptGenerationOverlay({
           />
         : undefined,
     };
-  }, [generationState.pageId, generationState.projectId, gpt2, injection, mode, nbpSlots, generating, openImage]);
+  }, [cgptBrief, generationState.pageId, generationState.projectId, gpt2, mode, nbpSlots, generating, openImage]);
 
   const reviewReady = pageConceptReviewReady(generationState.generationStatus);
   const inFlight = pageConceptGenerationInFlight(generationState.generationStatus, generating);
@@ -237,8 +274,6 @@ export function PageConceptGenerationOverlay({
 
   if (!open) return null;
 
-  const fullBriefMarkdown = injection ? buildCgptFullBriefMarkdown(injection) : '';
-
   return (
     <div className="s00-pcg-layer" role="dialog" data-testid="page-concept-generation-overlay">
       <button
@@ -285,6 +320,16 @@ export function PageConceptGenerationOverlay({
             : !generating && blockingState?.executionError && !failedNbp ?
               'RETRY GENERATION'
             : undefined
+          }
+          tertiaryAction={
+            gpt2AwaitingFounderReview && !generating && cgptBrief ?
+              {
+                label: 'RETURN TO CREATIVE DIRECTION',
+                onClick: () => setFullBriefOpen(true),
+                disabled: generating,
+                testId: 'page-concept-return-creative-direction',
+              }
+            : null
           }
           secondaryAction={
             gpt2AwaitingFounderReview && !generating && onContinueNbp ?
@@ -406,17 +451,29 @@ export function PageConceptGenerationOverlay({
           </details>
         : null}
       </div>
-      {fullBriefOpen && injection ?
-        <div className="s00-pcg__briefLayer" role="dialog" aria-label="Full creative brief">
+      {fullBriefOpen && cgptBrief ?
+        <div className="s00-pcg__briefLayer" role="dialog" aria-label="Full creative brief" data-testid="page-concept-full-brief-layer">
           <button type="button" className="s00-pcg__briefScrim" aria-label="Close brief" onClick={() => setFullBriefOpen(false)} />
           <div className="s00-pcg__briefSheet">
             <header className="s00-pcg__briefSheetHead">
-              <h3>FULL CREATIVE BRIEF</h3>
+              <h3>CREATIVE DIRECTION BRIEF</h3>
               <button type="button" onClick={() => setFullBriefOpen(false)}>
                 CLOSE
               </button>
             </header>
-            <pre className="s00-pcg__briefSheetBody">{fullBriefMarkdown}</pre>
+            <div className="s00-pcg__briefSheetBody">
+              <PageConceptCgptBriefInspector
+                brief={cgptBrief}
+                handoff={handoffViewModel?.handoff ?? null}
+                diagnostic={handoffViewModel?.diagnostic ?? {
+                  identityGrounding: 'MISSING',
+                  skinGrounding: 'MISSING',
+                  pageFunction: 'MISSING',
+                  currentCaptureRole: 'FUNCTION ONLY',
+                  gpt2Handoff: 'CONTEXT_LOSS',
+                }}
+              />
+            </div>
           </div>
         </div>
       : null}

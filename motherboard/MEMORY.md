@@ -11155,3 +11155,16 @@ NBP (`fal-ai/nano-banana-pro/edit`) was sending **only the current implementatio
 - **Tests:** `p0vrPageConceptNbpAuthorityFirstReconstruction1.test.ts`.
 - **Note:** OpenAI GPT2 text path still sets `authorityArtifact: null` — live NBP requires an approved authority **image** (vitest/dry-run supply mock). Image generation for GPT2 authority remains a follow-up if production runs lack artifact.
 - **Branch:** `cursor/page-concept-nbp-authority-first-reconstruction1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-BRIEF-INSPECTOR1
+
+Founder needed inspectable **real CGPT creative direction** before GPT2/NBP to diagnose leakage (CGPT vs handoff vs GPT2 vs NBP).
+
+- **`PageConceptCgptCreativeBrief`** compiled from persisted `PageCreativeInjection` + project/page context + runtime `ProjectSkinContract`; stored on `pipelineSet.cgptCreativeBrief` at CGPT complete.
+- **STEP 1 UI:** compact brief rows (premise, story, visual direction, typography, skin-derived signals, avoid list); **VIEW FULL BRIEF** sheet with 18 sections + **GPT2 HANDOFF** collapsible + pipeline-integrity diagnostic.
+- **Handoff:** `cgptCreativeDirectionHandoffFromBrief` feeds GPT2 package (no silent loss of skin/identity/avoid/distinctive fields); `verifyGpt2HandoffContextIntegrity`; `cgptBriefId`/`cgptBriefVersion` on GPT2 authority.
+- **GPT2 review gate:** **RETURN TO CREATIVE DIRECTION** opens full brief (no CGPT rerun).
+- **Tests:** `p0vrPageConceptCgptBriefInspector1.test.ts`.
+- **Branch:** `cursor/page-concept-cgpt-brief-inspector1-b747`.

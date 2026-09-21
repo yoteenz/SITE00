@@ -3,12 +3,14 @@
  */
 
 import type {
+  PageConceptCgptCreativeBrief,
   PageCreativeInjection,
   PageCreativeContext,
   PageFunctionContract,
   PageGPT2AuthorityConcept,
   ProjectCreativeContext,
 } from './types.js';
+import { cgptCreativeDirectionHandoffFromBrief } from './pageConceptCgptCreativeBrief.js';
 import {
   pageContextForGpt2Package,
   projectIdentityFromContext,
@@ -50,8 +52,27 @@ export function pageConceptRequiresGpt2FounderReview(): boolean {
   return process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW !== 'false';
 }
 
-function cgptContractFromInjection(injection: PageCreativeInjection): Record<string, string> {
+function cgptContractFromInjection(
+  injection: PageCreativeInjection,
+  brief?: PageConceptCgptCreativeBrief | null,
+): Record<string, string> {
+  if (brief) {
+    const handoff = cgptCreativeDirectionHandoffFromBrief(brief, injection);
+    return {
+      ...handoff,
+      visualTerritory: injection.visualOpportunity,
+      imageStrategy: injection.assetStrategy,
+      mandatoryBrandSignals: brief.brandSignals.join(' · '),
+      mobileDirection: injection.mobileDirection,
+      desktopDirection: injection.desktopDirection,
+      pageSurprise: injection.informationPriority,
+    };
+  }
   const immutableRequirements = injection.immutableRequirements ?? [];
+  const avoid =
+    injection.avoidList && injection.avoidList.length > 0 ?
+      injection.avoidList.join(' · ')
+    : immutableRequirements.join(' · ');
   return {
     creativePremise: injection.creativeThesis,
     pageStory: injection.pagePurposeInterpretation,
@@ -59,11 +80,15 @@ function cgptContractFromInjection(injection: PageCreativeInjection): Record<str
     compositionStrategy: injection.spatialDirection,
     hierarchyStrategy: injection.hierarchyDirection,
     imageStrategy: injection.assetStrategy,
-    typographyStrategy: injection.hierarchyDirection,
-    materialStrategy: injection.referenceStrategy,
+    typographyStrategy: injection.typographyStrategy ?? injection.hierarchyDirection,
+    colorStrategy: injection.colorStrategy ?? injection.visualOpportunity,
+    materialStrategy: injection.materialStrategy ?? injection.referenceStrategy,
     interactionCharacter: injection.responsiveDirection,
+    identitySignals: '',
+    skinSignals: '',
+    distinctiveMove: injection.distinctiveMove ?? injection.informationPriority,
     mandatoryBrandSignals: immutableRequirements.join(' · ') || injection.creativeThesis,
-    avoidList: immutableRequirements.join(' · '),
+    avoidList: avoid,
     creativeLatitude: injection.creativeLatitude,
     pageSurprise: injection.informationPriority,
     mobileDirection: injection.mobileDirection,
@@ -84,12 +109,13 @@ export function buildPageConceptGpt2AuthorityPackage(input: {
   pageContext: PageCreativeContext;
   functionContract: PageFunctionContract;
   injection: PageCreativeInjection;
+  cgptBrief?: PageConceptCgptCreativeBrief | null;
   implementationCaptureNote?: string;
 }): PageConceptGpt2AuthorityPackage {
   const visualIdentity = resolvePageConceptProjectVisualIdentity(input.projectContext.projectId);
   const projectIdentity = projectIdentityFromContext(input.projectContext, visualIdentity);
   const pagePackage = pageContextForGpt2Package(input.pageContext);
-  const cgptContract = cgptContractFromInjection(input.injection);
+  const cgptContract = cgptContractFromInjection(input.injection, input.cgptBrief);
 
   const payload = {
     gpt2Task:

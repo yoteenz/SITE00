@@ -80,6 +80,12 @@ export type PageConceptGeneratorPanelProps = {
     disabled?: boolean;
     testId?: string;
   } | null;
+  tertiaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
   onGenerate?: () => void;
   onCancel?: () => void;
   onClose?: () => void;
@@ -314,6 +320,7 @@ export function PageConceptGeneratorPanel({
   reviewBanner,
   footSpendNote,
   secondaryAction,
+  tertiaryAction,
   onGenerate,
   onCancel,
   onClose,
@@ -449,6 +456,18 @@ export function PageConceptGeneratorPanel({
           </span>
         </p>
         <div className="s00-pcg__actions">
+          {tertiaryAction ?
+            <button
+              type="button"
+              className="s00-pcg__retry"
+              data-interaction-id="page-concepts-return-creative-direction"
+              data-testid={tertiaryAction.testId}
+              disabled={tertiaryAction.disabled}
+              onClick={() => tertiaryAction.onClick()}
+            >
+              {tertiaryAction.label}
+            </button>
+          : null}
           {secondaryAction ?
             <button
               type="button"
