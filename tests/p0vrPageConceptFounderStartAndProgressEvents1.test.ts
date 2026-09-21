@@ -36,6 +36,7 @@ describe('P0.VR.PAGE-CONCEPT-FOUNDER-START-AND-PROGRESS-EVENTS1', () => {
   beforeEach(() => {
     clearPageConceptServerRuns();
     vi.restoreAllMocks();
+    process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
   });
 
   it('panel mount normalizes stale in-flight local state without founder session', () => {

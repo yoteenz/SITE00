@@ -1,13 +1,21 @@
 import type {
+  PageCreativeContext,
   PageCreativeInjection,
   PageFunctionContract,
   PageGPT2AuthorityConcept,
+  ProjectCreativeContext,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
-import { PAGE_GPT2_PROMPT_VERSION } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import {
+  buildPageConceptGpt2AuthorityPackage,
+  type PageConceptGpt2AuthorityPackage,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2AuthorityPackage.js';
 
 export type PageGpt2Input = {
   injection: PageCreativeInjection;
   functionContract: PageFunctionContract;
+  projectContext: ProjectCreativeContext;
+  pageContext: PageCreativeContext;
+  implementationCaptureNote?: string;
 };
 
 function vitestAuthority(input: PageGpt2Input): PageGPT2AuthorityConcept {
@@ -30,7 +38,20 @@ function vitestAuthority(input: PageGpt2Input): PageGPT2AuthorityConcept {
     gpt2Provider: 'vitest',
     gpt2Model: 'mock-page-gpt2',
     createdAt: now,
+    conceptRationale: 'Vitest authority',
+    brandSignals: input.projectContext.brandTruth,
+    groundingPackageVersion: 'page-gpt2-authority-v2-grounding',
   };
+}
+
+export function buildRuntimePageGpt2AuthorityPackage(input: PageGpt2Input): PageConceptGpt2AuthorityPackage {
+  return buildPageConceptGpt2AuthorityPackage({
+    projectContext: input.projectContext,
+    pageContext: input.pageContext,
+    functionContract: input.functionContract,
+    injection: input.injection,
+    implementationCaptureNote: input.implementationCaptureNote,
+  });
 }
 
 export async function generatePageGpt2AuthorityConcept(input: PageGpt2Input): Promise<PageGPT2AuthorityConcept> {
@@ -42,6 +63,8 @@ export async function generatePageGpt2AuthorityConcept(input: PageGpt2Input): Pr
   if (!apiKey) throw new Error('GPT2_AUTHORITY_FAILED: OPENAI_API_KEY not configured');
 
   const model = process.env.SITE00_PAGE_CONCEPT_GPT2_TEXT_MODEL?.trim() || 'gpt-4o-mini';
+  const authorityPackage = buildRuntimePageGpt2AuthorityPackage(input);
+
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -55,15 +78,11 @@ export async function generatePageGpt2AuthorityConcept(input: PageGpt2Input): Pr
         {
           role: 'system',
           content:
-            'Return exactly ONE JSON page authority concept. Never return arrays of concepts or territories.',
+            'Return exactly ONE JSON page authority concept object (requiredOutputShape). Never return arrays of concepts. Project identity and CGPT direction override implementation capture aesthetics.',
         },
         {
           role: 'user',
-          content: JSON.stringify({
-            promptVersion: PAGE_GPT2_PROMPT_VERSION,
-            injection: input.injection,
-            functionContract: input.functionContract,
-          }),
+          content: JSON.stringify(authorityPackage.payload),
         },
       ],
     }),
@@ -93,5 +112,10 @@ export async function generatePageGpt2AuthorityConcept(input: PageGpt2Input): Pr
     gpt2Provider: 'openai',
     gpt2Model: model,
     createdAt: now,
+    conceptRationale: String(parsed.conceptRationale ?? ''),
+    brandSignals: String(parsed.brandSignals ?? ''),
+    imageStrategy: String(parsed.imageStrategy ?? ''),
+    avoidList: String(parsed.avoidList ?? ''),
+    groundingPackageVersion: authorityPackage.promptVersion,
   };
 }

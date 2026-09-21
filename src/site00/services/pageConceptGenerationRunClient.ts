@@ -76,6 +76,7 @@ export async function startPageConceptGenerationRunApi(input: {
   retryFailedOnly?: boolean;
   retryCgptOnly?: boolean;
   resumeRunId?: string;
+  continueNbpAfterGpt2Review?: boolean;
   dryRun?: boolean;
 }): Promise<{ runId: string; status: string; dryRun: boolean }> {
   const result = await captureApiFetch<{
@@ -96,6 +97,7 @@ export async function startPageConceptGenerationRunApi(input: {
       retryFailedOnly: input.retryFailedOnly === true,
       retryCgptOnly: input.retryCgptOnly === true,
       resumeRunId: input.resumeRunId,
+      continueNbpAfterGpt2Review: input.continueNbpAfterGpt2Review === true,
       dryRun: input.dryRun === true,
     },
   });
@@ -141,7 +143,12 @@ export async function pollPageConceptGenerationRunUntilTerminal(input: {
     lastObservedSequence = Math.max(lastObservedSequence, update.latestSequence);
     last = update.run;
     input.onUpdate(update);
-    if (pageConceptServerRunIsTerminal(last.status)) return last;
+    if (
+      pageConceptServerRunIsTerminal(last.status) ||
+      last.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW'
+    ) {
+      return last;
+    }
     await new Promise((r) => setTimeout(r, intervalMs));
   }
   throw new Error('GENERATION_RUN_POLL_TIMEOUT');

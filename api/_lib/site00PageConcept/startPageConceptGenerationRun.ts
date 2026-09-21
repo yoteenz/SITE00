@@ -43,10 +43,24 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
   }
 
   const resumeRunId = input.resumeRunId?.trim() || null;
+  const continueNbpAfterGpt2Review = input.continueNbpAfterGpt2Review === true;
   const existing =
-    resumeRunId && input.retryCgptOnly ? getPageConceptServerRun(resumeRunId) : null;
-  if (resumeRunId && input.retryCgptOnly && !existing) {
+    resumeRunId && (input.retryCgptOnly || continueNbpAfterGpt2Review) ?
+      getPageConceptServerRun(resumeRunId)
+    : null;
+  if (resumeRunId && (input.retryCgptOnly || continueNbpAfterGpt2Review) && !existing) {
     throw new Error('RUN_NOT_FOUND');
+  }
+  if (continueNbpAfterGpt2Review && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW',
+      },
+    };
   }
 
   const runId = existing?.runId ?? createPageConceptGenerationRunId();
@@ -86,6 +100,7 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
 
   void runPageConceptGenerationInBackground(runId, input, {
     retryCgptOnly: input.retryCgptOnly === true,
+    continueNbpAfterGpt2Review,
   });
   return { runId, status: 'QUEUED' };
 }
@@ -93,7 +108,7 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
 async function runPageConceptGenerationInBackground(
   runId: string,
   input: StartPageConceptGenerationRunInput,
-  flags: { retryCgptOnly?: boolean } = {},
+  flags: { retryCgptOnly?: boolean; continueNbpAfterGpt2Review?: boolean } = {},
 ): Promise<void> {
   const startedAt = new Date().toISOString();
   patchPageConceptServerRun(runId, {
@@ -115,6 +130,7 @@ async function runPageConceptGenerationInBackground(
       runId,
       dryRun: input.dryRun,
       retryCgptOnly: flags.retryCgptOnly === true,
+      continueNbpAfterGpt2Review: flags.continueNbpAfterGpt2Review === true,
       onProgress: (patch) => {
         patchPageConceptServerRun(runId, patch);
       },

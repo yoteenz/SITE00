@@ -40,6 +40,9 @@ export function isPageConceptStaleCaptureEligibilityNotice(notice: string | null
   if (/capture the current mobile page before generating concepts/i.test(raw)) return true;
   if (/capture the current desktop page before generating concepts/i.test(raw)) return true;
   if (/capture the current mobile and desktop page before generating concepts/i.test(raw)) return true;
+  if (/BLOCKED_MOBILE_SNAPSHOT/i.test(raw)) return true;
+  if (/BLOCKED_DESKTOP_SNAPSHOT/i.test(raw)) return true;
+  if (/BLOCKED_.*SNAPSHOT/i.test(raw)) return true;
   return false;
 }
 

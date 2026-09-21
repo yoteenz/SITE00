@@ -29,6 +29,7 @@ describe('P0.VR.PAGE-CONCEPT-CGPT-REAL-SUBSTEP-EMISSION1', () => {
   beforeEach(() => {
     clearPageConceptServerRuns();
     vi.restoreAllMocks();
+    process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
   });
 
   it('dry-run server emits sequential CGPT substeps visible to poll snapshot', async () => {
