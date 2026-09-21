@@ -79,10 +79,10 @@ function skinSignalLines(skin: ProjectSkinContract): string[] {
   ];
 }
 
-function synthesisText(primary: string | undefined, legacy: string): string {
-  const p = primary?.trim();
+function synthesisText(primary: string | undefined, legacy: string | undefined): string {
+  const p = (primary ?? '').trim();
   if (p) return p;
-  return legacy.trim();
+  return (legacy ?? '').trim();
 }
 
 export function compilePageConceptCgptCreativeBrief(input: {
@@ -157,8 +157,8 @@ export function compilePageConceptCgptCreativeBrief(input: {
     interactionCharacter,
     distinctiveMove,
     pageSurprise,
-    mobileDirection: injection.mobileDirection,
-    desktopDirection: injection.desktopDirection,
+    mobileDirection: (injection.mobileDirection ?? '').trim(),
+    desktopDirection: (injection.desktopDirection ?? '').trim(),
     mandatoryBrandSignals,
     avoidList,
   };

@@ -11181,3 +11181,4 @@ CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 hand
 - **Founder QA:** default `SITE00_PAGE_CONCEPT_CGPT_QA_STOP` stops after CGPT — **CONTINUE TO GPT2** (`continueGpt2AfterCgptReview` API + overlay); tests default QA stop off via `pageConceptTestDefaults.ts`.
 - **Tests:** `p0vrPageConceptCgptCreativeSynthesisLeakFix1.test.ts`.
 - **Branch:** `cursor/page-concept-cgpt-creative-synthesis-leak-fix1-b747`.
+- **CI hotfix:** `synthesisText`/`fieldValue` safe on undefined; NBP `retryFailedOnly` skips synthesis/handoff re-gates (`cursor/page-concept-cgpt-synthesis-ci-fix-b747`).

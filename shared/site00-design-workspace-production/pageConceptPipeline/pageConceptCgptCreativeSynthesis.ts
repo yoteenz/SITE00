@@ -191,37 +191,38 @@ export const CGPT_CREATIVE_OUTPUT_SHAPE: Record<string, string> = {
 };
 
 function fieldValue(injection: PageCreativeInjection, field: CgptCreativeSynthesisField): string {
+  const trim = (value: string | undefined) => (value ?? '').trim();
   switch (field) {
     case 'creativePremise':
-      return (injection.creativePremise ?? injection.creativeThesis).trim();
+      return trim(injection.creativePremise ?? injection.creativeThesis);
     case 'pageStory':
-      return (injection.pageStory ?? '').trim();
+      return trim(injection.pageStory);
     case 'visualTerritory':
-      return (injection.visualTerritory ?? injection.visualOpportunity).trim();
+      return trim(injection.visualTerritory ?? injection.visualOpportunity);
     case 'compositionStrategy':
-      return (injection.compositionStrategy ?? injection.spatialDirection).trim();
+      return trim(injection.compositionStrategy ?? injection.spatialDirection);
     case 'hierarchyStrategy':
-      return (injection.hierarchyStrategy ?? injection.hierarchyDirection).trim();
+      return trim(injection.hierarchyStrategy ?? injection.hierarchyDirection);
     case 'typographyStrategy':
-      return (injection.typographyStrategy ?? '').trim();
+      return trim(injection.typographyStrategy);
     case 'colorStrategy':
-      return (injection.colorStrategy ?? '').trim();
+      return trim(injection.colorStrategy);
     case 'materialStrategy':
-      return (injection.materialStrategy ?? '').trim();
+      return trim(injection.materialStrategy);
     case 'imageryStrategy':
-      return (injection.imageryStrategy ?? injection.assetStrategy).trim();
+      return trim(injection.imageryStrategy ?? injection.assetStrategy);
     case 'imageStrategy':
-      return (injection.imageStrategy ?? injection.imageDataBalance).trim();
+      return trim(injection.imageStrategy ?? injection.imageDataBalance);
     case 'interactionCharacter':
-      return (injection.interactionCharacter ?? injection.responsiveDirection).trim();
+      return trim(injection.interactionCharacter ?? injection.responsiveDirection);
     case 'distinctiveMove':
-      return (injection.distinctiveMove ?? '').trim();
+      return trim(injection.distinctiveMove);
     case 'creativeLatitude':
-      return injection.creativeLatitude.trim();
+      return trim(injection.creativeLatitude);
     case 'mobileDirection':
-      return injection.mobileDirection.trim();
+      return trim(injection.mobileDirection);
     case 'desktopDirection':
-      return injection.desktopDirection.trim();
+      return trim(injection.desktopDirection);
     case 'pageSurprise':
       return (injection.pageSurprise ?? '').trim();
     case 'avoidList':
