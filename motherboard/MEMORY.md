@@ -11057,3 +11057,9 @@ Production after v594 capture fix: **GENERATION COULD NOT START · FETCH IS ABOR
 - **Tests:** `p0vrPageConceptFetchAbortAsyncRun1.test.ts`.
 - **Deploy:** Railway API + GoDaddy v595 (hook/client).
 - **Branch:** `cursor/page-concept-fetch-abort-async-run1-b747`.
+
+---
+
+## 2026-09-21 — CI: GROK icon tests expect async generation hook
+
+After FETCH-ABORT async run, `usePageConceptGeneration` uses `startPageConceptGenerationRunApi` + poll (no `runPageConceptGenerationApi`). Updated `p0vrPageConceptGeneratorGrokIconsOnly3.test.ts` and `p0vrPageConceptGeneratorGrokIconCleanup1.test.ts` firewall expectations.
