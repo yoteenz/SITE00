@@ -236,6 +236,11 @@ export function PageConceptGenerationOverlay({
           cgptSubstepStates={
             generating || generationState.liveProgress ? liveProgress.substepStatusById : undefined
           }
+          cgptSubstepDigests={
+            generating || generationState.cgptSubsteps ?
+              generationState.cgptSubsteps?.substepDigest
+            : undefined
+          }
           results={results}
           notice={founderNotice}
           noticeTestId={
@@ -287,6 +292,11 @@ export function PageConceptGenerationOverlay({
                 `CAN_GENERATE ${generationEligibility.canGenerate}`,
                 `BLOCKER ${blockingState.primaryBlockerCode ?? '—'}`,
                 `NOTICE ${founderNotice ?? '—'}`,
+                `CURRENT STAGE ${generationState.activeGenerationStage ?? '—'}`,
+                `CGPT CURRENT SUBSTEP ${generationState.cgptSubsteps?.currentCgptSubstep ?? liveProgress.currentSubstep ?? '—'}`,
+                `CGPT SUBSTEP STATES ${JSON.stringify(generationState.cgptSubsteps?.substepStatusById ?? liveProgress.substepStatusById)}`,
+                `CGPT ATTEMPT ${generationState.cgptSubsteps ? 'see run cgptMeta' : '—'}`,
+                `SERVER UPDATED AT ${generationState.liveProgress?.updatedAt ?? '—'}`,
                 [
                   generateClickTrace ?
                     [

@@ -1,5 +1,5 @@
 /**
- * P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1 — CGPT stage with 429 retry + idempotency.
+ * P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1 + REAL-SUBSTEP-EMISSION1
  */
 
 import type { PageCreativeInjection } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
@@ -14,6 +14,15 @@ import {
   pageConceptCgptIdempotencyKeyForRun,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgpt429.js';
 import {
+  buildPanelProgressFromCgptSubstepDetail,
+  pageConceptProgressPatchForCgptFailure,
+  type PageConceptCgptSubstepId,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
+import {
+  emptyCgptSubstepRunDetail,
+  type PageConceptCgptSubstepRunDetail,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptSubstepRun.js';
+import {
   fetchAnthropicPageCreativeJson,
   generatePageCreativeInjection,
   type PageCgptInput,
@@ -27,16 +36,22 @@ import {
   tryBeginPageConceptCgptDispatch,
 } from './pageConceptCgptStageLock.js';
 import {
-  buildPageConceptPanelProgress,
-  pageConceptProgressPatchForCgptFailure,
-  pageConceptProgressPatchForCgptSubstep,
-  type PageConceptCgptSubstepId,
-} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
+  compileBrandContextSlice,
+  compileKeyMessagesSlice,
+  compilePageIntelligenceSlice,
+  compileVisualMoodboardSlice,
+} from './pageConceptCgptSubstepCompile.js';
 import { auditPageCgptInputTokens } from './generatePageCreativeInjection.js';
 
 export type ExecutePageConceptCgptStageResult =
   | { ok: true; injection: PageCreativeInjection }
   | { ok: false; errorCode: string; founderMessage: string; technicalDetails: string };
+
+function yieldForStatusPoll(): Promise<void> {
+  return new Promise((resolve) => {
+    setImmediate(resolve);
+  });
+}
 
 function injectionFromParsed(
   input: PageCgptInput,
@@ -129,30 +144,88 @@ export async function executePageConceptCgptStage(options: {
   const maxAttempts = PAGE_CONCEPT_CGPT_MAX_429_ATTEMPTS;
   let lastProviderError: PageConceptCgptProviderError | null = null;
 
-  let activeCgptSubstep: PageConceptCgptSubstepId = 'creative-direction';
+  const cgptSubsteps: PageConceptCgptSubstepRunDetail = emptyCgptSubstepRunDetail();
 
   const emit = (patch: PageConceptRunProgress) => {
     options.onProgress({ ...patch, updatedAt: new Date().toISOString() });
   };
 
-  const emitCgptSubstep = (substepId: PageConceptCgptSubstepId, extra?: Partial<PageConceptRunProgress>) => {
-    activeCgptSubstep = substepId;
-    const sub = pageConceptProgressPatchForCgptSubstep(substepId);
+  const emitCgptDetail = (
+    extra: Partial<PageConceptRunProgress> & {
+      generationStatus?: PageConceptRunProgress['generationStatus'];
+    } = {},
+  ) => {
+    const panelProgress = buildPanelProgressFromCgptSubstepDetail(cgptSubsteps, {
+      failedStage: extra.status === 'FAILED' ? 'CGPT' : null,
+    });
+    const currentSubstep = cgptSubsteps.currentCgptSubstep;
     emit({
-      status: 'CGPT_RUNNING',
-      cgptStatus: 'RUNNING',
+      status: extra.status ?? 'CGPT_RUNNING',
+      currentStage: currentSubstep ? `CGPT_SUB:${currentSubstep}` : 'CGPT_RUNNING',
+      cgptStatus: extra.cgptStatus ?? 'RUNNING',
       gpt2Status: 'PENDING',
       nbpStatus: 'PENDING',
-      generationStatus: 'CGPT_RUNNING',
-      error: null,
-      completedAt: null,
-      currentStage: sub.currentStage,
-      panelProgress: sub.panelProgress,
+      generationStatus: extra.generationStatus ?? 'CGPT_RUNNING',
+      error: extra.error ?? null,
+      completedAt: extra.completedAt ?? null,
+      panelProgress,
+      cgptSubsteps: { ...cgptSubsteps, substepStatusById: { ...cgptSubsteps.substepStatusById } },
       ...extra,
     });
   };
 
-  emitCgptSubstep('creative-direction', {
+  async function runSubstepCheckpoint(
+    substepId: PageConceptCgptSubstepId,
+    work: () => string,
+    pauseAfter?: number,
+  ): Promise<void> {
+    const now = new Date().toISOString();
+    cgptSubsteps.currentCgptSubstep = substepId;
+    cgptSubsteps.substepStatusById[substepId] = 'RUNNING';
+    cgptSubsteps.substepStartedAt[substepId] = cgptSubsteps.substepStartedAt[substepId] ?? now;
+    cgptSubsteps.substepUpdatedAt[substepId] = now;
+    emitCgptDetail();
+    await yieldForStatusPoll();
+
+    const digest = work();
+    cgptSubsteps.substepDigest[substepId] = digest;
+    cgptSubsteps.substepStatusById[substepId] = 'COMPLETE';
+    cgptSubsteps.substepUpdatedAt[substepId] = new Date().toISOString();
+    emitCgptDetail();
+    await yieldForStatusPoll();
+    if (pauseAfter != null && pauseAfter > 0) await sleep(pauseAfter);
+  }
+
+  async function runContextCompilationCheckpoints(pauseMs: number): Promise<void> {
+    await runSubstepCheckpoint('page-intelligence', () => compilePageIntelligenceSlice(options.input), pauseMs);
+    await runSubstepCheckpoint('brand-context', () => compileBrandContextSlice(options.input), pauseMs);
+    await runSubstepCheckpoint('key-messages', () => compileKeyMessagesSlice(options.input), pauseMs);
+    await runSubstepCheckpoint('visual-moodboard', () => {
+      void auditPageCgptInputTokens(options.input);
+      return compileVisualMoodboardSlice(options.input);
+    }, pauseMs);
+    cgptSubsteps.contextCompilationComplete = true;
+    emitCgptDetail();
+  }
+
+  async function markCreativeDirectionRunning(): Promise<void> {
+    const now = new Date().toISOString();
+    cgptSubsteps.currentCgptSubstep = 'creative-direction';
+    cgptSubsteps.substepStatusById['creative-direction'] = 'RUNNING';
+    cgptSubsteps.substepStartedAt['creative-direction'] = cgptSubsteps.substepStartedAt['creative-direction'] ?? now;
+    cgptSubsteps.substepUpdatedAt['creative-direction'] = now;
+    emitCgptDetail();
+    await yieldForStatusPoll();
+  }
+
+  async function markCreativeDirectionComplete(): Promise<void> {
+    cgptSubsteps.substepStatusById['creative-direction'] = 'COMPLETE';
+    cgptSubsteps.substepUpdatedAt['creative-direction'] = new Date().toISOString();
+    cgptSubsteps.currentCgptSubstep = null;
+    emitCgptDetail({ cgptStatus: 'COMPLETE', currentStage: 'CGPT_COMPLETE' });
+  }
+
+  emitCgptDetail({
     cgptMeta: {
       idempotencyKey,
       attemptNumber: 0,
@@ -166,40 +239,21 @@ export async function executePageConceptCgptStage(options: {
     },
   });
 
-  async function runCgptBriefSubsteps(pauseMs: number): Promise<void> {
-    const touch: Array<[PageConceptCgptSubstepId, () => void]> = [
-      ['creative-direction', () => void options.input.projectContext.brandTruth],
-      ['page-intelligence', () => void options.input.pageContext.purpose],
-      ['brand-context', () => void options.input.projectContext.designLanguage],
-      ['key-messages', () => void options.input.functionContract.immutableBehaviors],
-    ];
-    for (const [substepId, work] of touch) {
-      emitCgptSubstep(substepId);
-      work();
-      if (pauseMs > 0) await sleep(pauseMs);
-    }
-    emitCgptSubstep('visual-moodboard');
-    void auditPageCgptInputTokens(options.input);
-  }
-
   if (options.dryRun) {
-    await runCgptBriefSubsteps(40);
-    await sleep(40);
-    emit({
-      status: 'CGPT_RUNNING',
-      currentStage: 'CGPT_COMPLETE',
-      cgptStatus: 'COMPLETE',
-      generationStatus: 'CGPT_RUNNING',
-      panelProgress: buildPageConceptPanelProgress({ currentStage: 'CGPT', activeCgptSubstep: 'visual-moodboard' }),
-    });
+    await runContextCompilationCheckpoints(50);
+    await markCreativeDirectionRunning();
+    await sleep(50);
+    await markCreativeDirectionComplete();
     setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
     return { ok: true, injection: dryRunInjection(options.input, options.pipelineSetId) };
   }
 
   if (process.env.VITEST === 'true' && !options.fetchImpl) {
-    await runCgptBriefSubsteps(0);
+    await runContextCompilationCheckpoints(0);
+    await markCreativeDirectionRunning();
     dispatchCount = 1;
     const injection = await generatePageCreativeInjection(options.input);
+    await markCreativeDirectionComplete();
     setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
     return { ok: true, injection };
   }
@@ -209,11 +263,11 @@ export async function executePageConceptCgptStage(options: {
     dispatchCount += 1;
     const t0 = Date.now();
     try {
-      if (attemptNumber === 1) {
-        await runCgptBriefSubsteps(0);
-      } else {
-        emitCgptSubstep('visual-moodboard');
+      if (attemptNumber === 1 || options.resetAttempts || !cgptSubsteps.contextCompilationComplete) {
+        await runContextCompilationCheckpoints(0);
       }
+      await markCreativeDirectionRunning();
+
       const { parsed, model } = await fetchAnthropicPageCreativeJson(options.input, {
         attempt: attemptNumber,
         fetchImpl: options.fetchImpl,
@@ -250,12 +304,8 @@ export async function executePageConceptCgptStage(options: {
         nextRetryAt: null,
       });
       setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
-      emit({
-        status: 'CGPT_RUNNING',
-        currentStage: 'CGPT_COMPLETE',
-        cgptStatus: 'COMPLETE',
-        generationStatus: 'CGPT_RUNNING',
-        error: null,
+      await markCreativeDirectionComplete();
+      emitCgptDetail({
         cgptMeta: {
           idempotencyKey,
           attemptNumber,
@@ -274,6 +324,8 @@ export async function executePageConceptCgptStage(options: {
       if (!isPageConceptCgptProviderError(caught)) {
         setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
         const message = caught instanceof Error ? caught.message : 'CGPT_INJECTION_FAILED';
+        cgptSubsteps.substepStatusById['creative-direction'] = 'FAILED';
+        emitCgptDetail({ status: 'FAILED', generationStatus: 'FAILED', error: message, completedAt: new Date().toISOString() });
         return {
           ok: false,
           errorCode: message,
@@ -295,11 +347,13 @@ export async function executePageConceptCgptStage(options: {
       if (telemetry.hardQuota) {
         setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
         const code = caught.founderCode;
-        const failPatch = pageConceptProgressPatchForCgptFailure(activeCgptSubstep);
+        cgptSubsteps.substepStatusById['creative-direction'] = 'FAILED';
+        const failPatch = pageConceptProgressPatchForCgptFailure('creative-direction');
         emit({
           status: 'FAILED',
           currentStage: failPatch.currentStage,
           panelProgress: failPatch.panelProgress,
+          cgptSubsteps: { ...cgptSubsteps },
           cgptStatus: 'FAILED',
           generationStatus: 'FAILED',
           error: `${founderMessageForCgptFailure(code)} · ${formatCgptProviderReceipt(telemetry)}`,
@@ -327,11 +381,13 @@ export async function executePageConceptCgptStage(options: {
       if (telemetry.httpStatus !== 429 || !telemetry.retryable) {
         setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
         const code = caught.founderCode;
-        const failPatch = pageConceptProgressPatchForCgptFailure(activeCgptSubstep);
+        cgptSubsteps.substepStatusById['creative-direction'] = 'FAILED';
+        const failPatch = pageConceptProgressPatchForCgptFailure('creative-direction');
         emit({
           status: 'FAILED',
           currentStage: failPatch.currentStage,
           panelProgress: failPatch.panelProgress,
+          cgptSubsteps: { ...cgptSubsteps },
           cgptStatus: 'FAILED',
           generationStatus: 'FAILED',
           error: `${code} · ${formatCgptProviderReceipt(telemetry)}`,
@@ -365,15 +421,15 @@ export async function executePageConceptCgptStage(options: {
       });
       const nextRetryAt = new Date(Date.now() + waitMs).toISOString();
       setPageConceptCgptStagePhase(options.runId, 'RETRY_WAIT');
+      cgptSubsteps.currentCgptSubstep = 'creative-direction';
+      cgptSubsteps.substepStatusById['creative-direction'] = 'RATE_LIMITED';
+      cgptSubsteps.substepUpdatedAt['creative-direction'] = new Date().toISOString();
       const stageLabel = formatCgptRetryWaitStage(attemptNumber, maxAttempts, waitMs);
-      const ratePatch = pageConceptProgressPatchForCgptSubstep('visual-moodboard');
-      emit({
+      emitCgptDetail({
         status: 'CGPT_RATE_LIMITED',
         currentStage: stageLabel,
-        panelProgress: ratePatch.panelProgress,
         cgptStatus: 'RETRY_WAIT',
         generationStatus: 'CGPT_RATE_LIMITED',
-        error: null,
         cgptMeta: {
           idempotencyKey,
           attemptNumber,
@@ -388,35 +444,21 @@ export async function executePageConceptCgptStage(options: {
       });
       await sleep(waitMs);
       setPageConceptCgptStagePhase(options.runId, 'RUNNING');
-      emit({
-        status: 'CGPT_RUNNING',
-        currentStage: 'CGPT_RUNNING',
-        cgptStatus: 'RUNNING',
-        generationStatus: 'CGPT_RUNNING',
-        error: null,
-        cgptMeta: {
-          idempotencyKey,
-          attemptNumber,
-          maxAttempts,
-          nextRetryAt: null,
-          lastProviderStatus: telemetry.httpStatus,
-          lastProviderRequestId: telemetry.requestId,
-          lastErrorCode: 'CGPT_RATE_LIMITED',
-          dispatchCount,
-          lastTelemetry: telemetry,
-        },
-      });
+      cgptSubsteps.substepStatusById['creative-direction'] = 'RUNNING';
+      emitCgptDetail({ generationStatus: 'CGPT_RUNNING' });
     }
   }
 
   setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
   const lastTelemetry = lastProviderError?.telemetry ?? null;
   const code = 'CGPT_FAILED_RATE_LIMIT';
-  const failPatch = pageConceptProgressPatchForCgptFailure(activeCgptSubstep);
+  cgptSubsteps.substepStatusById['creative-direction'] = 'FAILED';
+  const failPatch = pageConceptProgressPatchForCgptFailure('creative-direction');
   emit({
     status: 'FAILED',
     currentStage: failPatch.currentStage,
     panelProgress: failPatch.panelProgress,
+    cgptSubsteps: { ...cgptSubsteps },
     cgptStatus: 'FAILED',
     generationStatus: 'FAILED',
     error: `${founderMessageForCgptFailure(code)} · ${lastTelemetry ? formatCgptProviderReceipt(lastTelemetry) : ''}`,

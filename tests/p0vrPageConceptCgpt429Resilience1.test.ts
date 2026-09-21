@@ -232,6 +232,7 @@ describe('P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1', () => {
       nbpStatus: 'PENDING',
       cgptMeta: null,
       panelProgress: null,
+      cgptSubsteps: null,
       createdAt: new Date().toISOString(),
       startedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
