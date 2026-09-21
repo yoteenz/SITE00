@@ -5,7 +5,7 @@
 import { registerImplementationSnapshot, getLatestImplementationSnapshot } from './implementationSnapshotRegistry.js';
 import type { ImplementationSnapshotRecord } from './types.js';
 import {
-  loadPersistentImplementationSnapshotRegistry,
+  loadPersistentImplementationSnapshotRegistryDurable,
   resolveLatestPersistentSnapshots,
   type ImplementationSnapshotPersistentRegistry,
 } from './implementationSnapshotPersistentStore.js';
@@ -49,7 +49,7 @@ export async function hydratePersistentImplementationSnapshots(input?: {
   const repoRoot = input?.repoRoot ?? process.cwd();
   const cacheKey = repoRoot;
 
-  const registry = loadPersistentImplementationSnapshotRegistry(repoRoot);
+  const registry = await loadPersistentImplementationSnapshotRegistryDurable(repoRoot);
   if (!input?.force && hydratedOnce.has(cacheKey)) {
     return {
       registry,
@@ -66,6 +66,13 @@ export async function hydratePersistentImplementationSnapshots(input?: {
 
   let storageMissing = 0;
   let orphaned = 0;
+
+  for (const record of registry.records) {
+    if (record.qaPassed && record.storagePath?.trim()) {
+      const hydratedAll = await resolveHydratedPublicUrl(record);
+      registerImplementationSnapshot(hydratedAll);
+    }
+  }
 
   for (const record of latest.values()) {
     const existing = getLatestImplementationSnapshot(

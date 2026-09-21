@@ -57,8 +57,14 @@ export async function executePageConceptGeneration(
     completedAt: null,
   });
 
-  const mobileCaptureBase64 = dryRun ? 'dry-run-mobile' : await resolvePageGenerationCaptureBase64(input.mobileCapture);
-  const desktopCaptureBase64 = dryRun ? 'dry-run-desktop' : await resolvePageGenerationCaptureBase64(input.desktopCapture);
+  const mobileCaptureBase64 =
+    dryRun ? 'dry-run-mobile' : (
+      await resolvePageGenerationCaptureBase64(input.mobileCapture, { viewport: 'MOBILE' })
+    );
+  const desktopCaptureBase64 =
+    dryRun ? 'dry-run-desktop' : (
+      await resolvePageGenerationCaptureBase64(input.desktopCapture, { viewport: 'DESKTOP' })
+    );
 
   let creativeInjection = input.state.pipelineSet?.creativeInjection ?? null;
   let gpt2Authority = input.state.pipelineSet?.gpt2AuthorityConcept ?? null;

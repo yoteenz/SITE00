@@ -67,6 +67,10 @@ export type ImplementationSnapshotRecord = {
   qaPassed: boolean;
   qaIssues: string[];
   snapshotLabel?: string;
+  /** SHA-256 hex of durable storage bytes (when verified at write). */
+  checksumSha256?: string | null;
+  byteLength?: number | null;
+  contentType?: string | null;
 };
 
 export type LatestImplementationSnapshotPointer = {

@@ -57,6 +57,15 @@ export async function downloadSite00StorageText(storagePath: string): Promise<st
   return await data.text();
 }
 
+export async function downloadSite00StorageBuffer(storagePath: string): Promise<Buffer | null> {
+  const normalized = storagePath.replace(/^\/+/, '').trim();
+  if (!normalized) return null;
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.storage.from(SITE00_ASSETS_BUCKET).download(normalized);
+  if (error || !data) return null;
+  return Buffer.from(await data.arrayBuffer());
+}
+
 export async function listSite00StorageFiles(
   folderPrefix: string,
   limit = 100,

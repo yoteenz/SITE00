@@ -11063,3 +11063,14 @@ Production after v594 capture fix: **GENERATION COULD NOT START · FETCH IS ABOR
 ## 2026-09-21 — CI: GROK icon tests expect async generation hook
 
 After FETCH-ABORT async run, `usePageConceptGeneration` uses `startPageConceptGenerationRunApi` + poll (no `runPageConceptGenerationApi`). Updated `p0vrPageConceptGeneratorGrokIconsOnly3.test.ts` and `p0vrPageConceptGeneratorGrokIconCleanup1.test.ts` firewall expectations.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-SNAPSHOT-DURABILITY-FIX1
+
+Production **BLOCKED_CAPTURE_SNAPSHOT_UNREADABLE**: generation received valid `snapshotId` but Railway could not load bytes.
+
+- **Root cause:** Snapshot lookup used in-memory registry hydrated from **latest-only** + Railway-local JSON; founder `snapshotId` often absent on async worker. Bytes live in **Supabase Storage** (`storagePath`) but metadata ledger was not reliably durable across processes.
+- **Fix:** Merge persistent registry from **Supabase** (`implementation-snapshot-persistent-registry.json`); index **all** `snapshotId` records on hydrate; `loadImplementationSnapshotArtifact` downloads via **`downloadSite00StorageBuffer`** with checksum + decode validation; viewport-specific `BLOCKED_MOBILE_/DESKTOP_*` errors; capture write stores **sha256** + read-after-write upload verify; registry upserted to Supabase on each append.
+- **Tests:** `p0vrPageConceptSnapshotDurabilityFix1.test.ts`.
+- **Branch:** `cursor/page-concept-snapshot-durability-fix1-b747`.
