@@ -42,7 +42,14 @@ export function emitPageConceptGenerateTelemetry(
     | 'page_concept_generation_dispatch_started'
     | 'page_concept_generation_dispatch_failed'
     | 'page_concept_generation_trace_api_complete'
-    | 'page_concept_founder_generation_confirmed',
+    | 'page_concept_founder_generation_confirmed'
+    | 'page_concept_review_opened'
+    | 'page_concept_new_generation_requested'
+    | 'page_concept_cgpt_regeneration_requested'
+    | 'page_concept_gpt2_regeneration_requested'
+    | 'page_concept_nbp_regeneration_requested'
+    | 'page_concept_run_archived'
+    | 'page_concept_run_switched',
   detail: {
     projectId: string;
     pageId: string;

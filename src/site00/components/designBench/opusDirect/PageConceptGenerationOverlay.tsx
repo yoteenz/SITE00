@@ -45,6 +45,7 @@ import {
   resolveCgptBriefFromGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
 import { compilePageFunctionContract } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/functionContract.js';
+import type { PageConceptPostRunActionId } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPostRunControls.js';
 
 export function PageConceptGenerationOverlay({
   open,
@@ -73,6 +74,11 @@ export function PageConceptGenerationOverlay({
   gpt2AwaitingFounderReview,
   onContinueGpt2,
   onContinueNbp,
+  postRunReviewReady,
+  postRunPrimaryAction,
+  postRunSecondaryAction,
+  postRunMoreActions,
+  postRunControlHandlers,
 }: {
   open: boolean;
   mode: 'confirm' | 'progress' | 'review';
@@ -100,6 +106,11 @@ export function PageConceptGenerationOverlay({
   gpt2AwaitingFounderReview?: boolean;
   onContinueGpt2?: () => void;
   onContinueNbp?: () => void;
+  postRunReviewReady?: boolean;
+  postRunPrimaryAction?: { label: string; testId: string } | null;
+  postRunSecondaryAction?: { label: string; testId: string } | null;
+  postRunMoreActions?: readonly { id: PageConceptPostRunActionId; label: string; testId: string }[];
+  postRunControlHandlers?: Partial<Record<string, () => void>>;
 }) {
   const [fullBriefOpen, setFullBriefOpen] = useState(false);
 
@@ -263,9 +274,16 @@ export function PageConceptGenerationOverlay({
       : liveProgress.currentStage === 'NBP' && liveProgress.nbpActiveLabel ?
         `${liveProgress.nbpActiveLabel} · RUNNING`
       : 'GENERATING…'
-    : mode === 'review' && reviewReady ?
+    : mode === 'review' && reviewReady && !postRunReviewReady ?
       'READY FOR REVIEW'
     : null;
+
+  const showPostRunFooter =
+    Boolean(postRunReviewReady) &&
+    !generating &&
+    !cgptAwaitingFounderReview &&
+    !gpt2AwaitingFounderReview &&
+    Boolean(postRunPrimaryAction);
 
   const releaseForensics = usePageConceptReleaseForensics(open);
 
@@ -310,7 +328,11 @@ export function PageConceptGenerationOverlay({
             : undefined
           }
           reviewBanner={
-            reviewReady && !generating ? 'READY FOR FOUNDER REVIEW — CLOSE TO USE GALLERY & AUTHORITY RAIL.' : null
+            reviewReady && !generating ?
+              showPostRunFooter ?
+                'RUN COMPLETE — VIEW RENDITIONS OR START A NEW GENERATION BRANCH.'
+              : 'READY FOR FOUNDER REVIEW — CLOSE TO USE GALLERY & AUTHORITY RAIL.'
+            : null
           }
           footSpendNote={mode === 'confirm' && plan ? spendNote : null}
           generateDisabled={generateDisabled}
@@ -337,8 +359,37 @@ export function PageConceptGenerationOverlay({
               }
             : null
           }
+          postRunPrimaryAction={
+            showPostRunFooter && postRunPrimaryAction ?
+              {
+                label: postRunPrimaryAction.label,
+                testId: postRunPrimaryAction.testId,
+                onClick: () => postRunControlHandlers?.view_renditions?.(),
+              }
+            : null
+          }
+          postRunSecondaryAction={
+            showPostRunFooter && postRunSecondaryAction ?
+              {
+                label: postRunSecondaryAction.label,
+                testId: postRunSecondaryAction.testId,
+                onClick: () => postRunControlHandlers?.new_generation?.(),
+              }
+            : null
+          }
+          postRunMoreActions={
+            showPostRunFooter && postRunMoreActions ?
+              postRunMoreActions.map((action) => ({
+                label: action.label,
+                testId: action.testId,
+                onClick: () => postRunControlHandlers?.[action.id]?.(),
+              }))
+            : undefined
+          }
           secondaryAction={
-            cgptAwaitingFounderReview && !generating && onContinueGpt2 ?
+            showPostRunFooter ?
+              null
+            : cgptAwaitingFounderReview && !generating && onContinueGpt2 ?
               {
                 label: 'CONTINUE TO GPT2',
                 onClick: onContinueGpt2,

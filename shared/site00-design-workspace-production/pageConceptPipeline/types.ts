@@ -7,6 +7,7 @@ export type PageConceptTargetType = 'PAGE';
 export type PageConceptGenerationStatus =
   | 'IDLE'
   | 'PLANNED'
+  | 'STARTING_NEW_RUN'
   | 'CGPT_RUNNING'
   | 'CGPT_RATE_LIMITED'
   | 'CGPT_AWAITING_FOUNDER_REVIEW'
@@ -299,6 +300,18 @@ export type PageConceptPipelineSet = {
   createdAt: string;
 };
 
+export type PageConceptArchivedRun = {
+  archiveId: string;
+  runId: string;
+  pipelineSetId: string;
+  archivedAt: string;
+  label: string;
+  reason: string;
+  generationStatus: PageConceptGenerationStatus;
+  pipelineSet: PageConceptPipelineSet;
+  generationJobs: readonly PageConceptGeneratedArtifact[];
+};
+
 export type PageConceptGenerationState = {
   targetType: PageConceptTargetType;
   projectId: string;
@@ -311,6 +324,10 @@ export type PageConceptGenerationState = {
   generationStatus: PageConceptGenerationStatus;
   lastFailure: { message: string; at: string } | null;
   history: readonly { type: string; at: string; summary: string }[];
+  /** Completed run the founder is reviewing (pipelineSetId). */
+  activeReviewRunId?: string | null;
+  /** Prior branches preserved for lineage (not flattened). */
+  archivedRuns?: readonly PageConceptArchivedRun[];
   /** Active run metadata (scoped to projectId + pageId). */
   activeGenerationRunId: string | null;
   activeGenerationRunStartedAt: string | null;

@@ -118,6 +118,8 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     retryCgptOnly: input.retryCgptOnly === true,
     continueNbpAfterGpt2Review,
     continueGpt2AfterCgptReview,
+    retryGpt2Only: input.retryGpt2Only === true,
+    regenerateNbpOnly: input.regenerateNbpOnly === true,
   });
   return { runId, status: 'QUEUED' };
 }
@@ -129,6 +131,8 @@ async function runPageConceptGenerationInBackground(
     retryCgptOnly?: boolean;
     continueNbpAfterGpt2Review?: boolean;
     continueGpt2AfterCgptReview?: boolean;
+    retryGpt2Only?: boolean;
+    regenerateNbpOnly?: boolean;
   } = {},
 ): Promise<void> {
   const startedAt = new Date().toISOString();
@@ -153,6 +157,8 @@ async function runPageConceptGenerationInBackground(
       retryCgptOnly: flags.retryCgptOnly === true,
       continueNbpAfterGpt2Review: flags.continueNbpAfterGpt2Review === true,
       continueGpt2AfterCgptReview: flags.continueGpt2AfterCgptReview === true,
+      retryGpt2Only: flags.retryGpt2Only === true,
+      regenerateNbpOnly: flags.regenerateNbpOnly === true,
       onProgress: (patch) => {
         patchPageConceptServerRun(runId, patch);
       },

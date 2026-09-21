@@ -362,7 +362,11 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
           </section>
 
           {/* 07 CANDIDATE_GALLERY */}
-          <section className="tod-lv-gallery" aria-label={data.gallery.title}>
+          <section
+            className="tod-lv-gallery"
+            aria-label={data.gallery.title}
+            data-testid="page-concept-candidate-gallery"
+          >
             <header className="tod-lv-gallery__head">
               <h2 className="tod-lv-gallery__title">{data.gallery.title}</h2>
               <button type="button" className="tod-lv-gallery__compare" onClick={() => actions.openCompareConcepts()}>

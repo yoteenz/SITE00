@@ -151,6 +151,8 @@ export function hydratePageConceptGenerationState(
     generationStatus: partial.generationStatus ?? 'IDLE',
     lastFailure: partial.lastFailure ?? null,
     history: partial.history ?? [],
+    activeReviewRunId: partial.activeReviewRunId ?? null,
+    archivedRuns: partial.archivedRuns ?? [],
     activeGenerationRunId: partial.activeGenerationRunId ?? null,
     activeGenerationRunStartedAt: partial.activeGenerationRunStartedAt ?? null,
     activeGenerationStage: partial.activeGenerationStage ?? null,

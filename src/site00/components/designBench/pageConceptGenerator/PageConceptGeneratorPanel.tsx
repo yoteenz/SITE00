@@ -86,6 +86,24 @@ export type PageConceptGeneratorPanelProps = {
     disabled?: boolean;
     testId?: string;
   } | null;
+  postRunPrimaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
+  postRunSecondaryAction?: {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  } | null;
+  postRunMoreActions?: readonly {
+    label: string;
+    onClick: () => void;
+    disabled?: boolean;
+    testId?: string;
+  }[];
   onGenerate?: () => void;
   onCancel?: () => void;
   onClose?: () => void;
@@ -321,6 +339,9 @@ export function PageConceptGeneratorPanel({
   footSpendNote,
   secondaryAction,
   tertiaryAction,
+  postRunPrimaryAction,
+  postRunSecondaryAction,
+  postRunMoreActions,
   onGenerate,
   onCancel,
   onClose,
@@ -456,43 +477,90 @@ export function PageConceptGeneratorPanel({
           </span>
         </p>
         <div className="s00-pcg__actions">
-          {tertiaryAction ?
-            <button
-              type="button"
-              className="s00-pcg__retry"
-              data-interaction-id="page-concepts-return-creative-direction"
-              data-testid={tertiaryAction.testId}
-              disabled={tertiaryAction.disabled}
-              onClick={() => tertiaryAction.onClick()}
-            >
-              {tertiaryAction.label}
-            </button>
-          : null}
-          {secondaryAction ?
-            <button
-              type="button"
-              className="s00-pcg__retry"
-              data-interaction-id="page-concepts-retry-failed"
-              data-testid={secondaryAction.testId}
-              disabled={secondaryAction.disabled}
-              onClick={() => secondaryAction.onClick()}
-            >
-              {secondaryAction.label}
-            </button>
-          : null}
-          <button
-            type="button"
-            className="s00-pcg__generate"
-            data-interaction-id="page-concepts-generate"
-            disabled={generateDisabled}
-            title={generateDisabled ? generateDisabledReason ?? undefined : undefined}
-            onClick={() => onGenerate?.()}
-          >
-            <span className="s00-pcg__generateGlyph" aria-hidden="true">
-              <AiConsoleIcon name="grok-generate" size={13} />
-            </span>
-            {generateBusyLabel || generateLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
-          </button>
+          {postRunPrimaryAction ?
+            <>
+              {postRunSecondaryAction ?
+                <button
+                  type="button"
+                  className="s00-pcg__retry"
+                  data-interaction-id="page-concepts-new-generation"
+                  data-testid={postRunSecondaryAction.testId}
+                  disabled={postRunSecondaryAction.disabled}
+                  onClick={() => postRunSecondaryAction.onClick()}
+                >
+                  {postRunSecondaryAction.label}
+                </button>
+              : null}
+              {postRunMoreActions && postRunMoreActions.length > 0 ?
+                <details className="s00-pcg__moreActions" data-testid="page-concept-post-run-more">
+                  <summary className="s00-pcg__moreActionsSummary">MORE ▾</summary>
+                  <div className="s00-pcg__moreActionsMenu">
+                    {postRunMoreActions.map((action) => (
+                      <button
+                        key={action.testId}
+                        type="button"
+                        className="s00-pcg__moreActionBtn"
+                        data-testid={action.testId}
+                        disabled={action.disabled}
+                        onClick={() => action.onClick()}
+                      >
+                        {action.label}
+                      </button>
+                    ))}
+                  </div>
+                </details>
+              : null}
+              <button
+                type="button"
+                className="s00-pcg__generate"
+                data-interaction-id="page-concepts-view-renditions"
+                data-testid={postRunPrimaryAction.testId}
+                disabled={postRunPrimaryAction.disabled}
+                onClick={() => postRunPrimaryAction.onClick()}
+              >
+                {postRunPrimaryAction.label}
+              </button>
+            </>
+          : <>
+              {tertiaryAction ?
+                <button
+                  type="button"
+                  className="s00-pcg__retry"
+                  data-interaction-id="page-concepts-return-creative-direction"
+                  data-testid={tertiaryAction.testId}
+                  disabled={tertiaryAction.disabled}
+                  onClick={() => tertiaryAction.onClick()}
+                >
+                  {tertiaryAction.label}
+                </button>
+              : null}
+              {secondaryAction ?
+                <button
+                  type="button"
+                  className="s00-pcg__retry"
+                  data-interaction-id="page-concepts-retry-failed"
+                  data-testid={secondaryAction.testId}
+                  disabled={secondaryAction.disabled}
+                  onClick={() => secondaryAction.onClick()}
+                >
+                  {secondaryAction.label}
+                </button>
+              : null}
+              <button
+                type="button"
+                className="s00-pcg__generate"
+                data-interaction-id="page-concepts-generate"
+                disabled={generateDisabled}
+                title={generateDisabled ? generateDisabledReason ?? undefined : undefined}
+                onClick={() => onGenerate?.()}
+              >
+                <span className="s00-pcg__generateGlyph" aria-hidden="true">
+                  <AiConsoleIcon name="grok-generate" size={13} />
+                </span>
+                {generateBusyLabel || generateLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
+              </button>
+            </>
+          }
           <button
             type="button"
             className="s00-pcg__cancel"

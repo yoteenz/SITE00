@@ -977,6 +977,56 @@
   cursor: not-allowed;
 }
 
+.s00-pcg__moreActions {
+  grid-column: 1 / -1;
+  position: relative;
+}
+
+.s00-pcg__moreActionsSummary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--pcg-border-major);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--pcg-ink-2);
+}
+
+.s00-pcg__moreActionsSummary::-webkit-details-marker {
+  display: none;
+}
+
+.s00-pcg__moreActionsMenu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 4px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  background: var(--pcg-paper);
+  border: 1px solid var(--pcg-border-major);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+}
+
+.s00-pcg__moreActionBtn {
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--pcg-border-minor);
+  background: var(--pcg-panel);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: left;
+  cursor: pointer;
+}
+
 .s00-pcg__generateGlyph {
   display: inline-flex;
 }
