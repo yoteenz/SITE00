@@ -49,7 +49,9 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
     afterRaw != null && String(afterRaw).trim() !== '' ?
       Math.max(0, Number.parseInt(String(afterRaw), 10) || 0)
     : 0;
-  const snapshot = snapshotPageConceptServerRun(runId, afterSequence);
+  const projectId = String(req.query.projectId ?? '').trim() || undefined;
+  const pageId = String(req.query.pageId ?? '').trim() || undefined;
+  const snapshot = await snapshotPageConceptServerRun(runId, afterSequence, { projectId, pageId });
   if (!snapshot) {
     res.status(404).json({ error: 'RUN_NOT_FOUND' });
     return;
@@ -157,7 +159,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         res.status(400).json({ error: 'SPEND_GUARD: founder confirmation required' });
         return;
       }
-      const { runId, status } = startPageConceptGenerationRun({
+      const { runId, status } = await startPageConceptGenerationRun({
         state: body.state,
         mobileCapture: body.mobileCapture,
         desktopCapture: body.desktopCapture,
@@ -203,6 +205,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const message = err instanceof Error ? err.message : 'GENERATION_FAILED';
     const status =
       message.includes('SPEND_GUARD') ? 400
+      : message === 'RUN_NOT_FOUND' ? 404
       : message.startsWith('BLOCKED_') ? 422
       : 500;
     res.status(status).json({ error: message });

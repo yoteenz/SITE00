@@ -80,7 +80,7 @@ describe('P0.VR.PAGE-CONCEPT-FETCH-ABORT-ASYNC-RUN1', () => {
     const cgptSpy = vi.spyOn(cgpt, 'generatePageCreativeInjection');
 
     const t0 = Date.now();
-    const { runId } = startPageConceptGenerationRun({
+    const { runId } = await startPageConceptGenerationRun({
       state,
       founderEmail: 'founder@test.com',
       founderConfirmedSpend: true,
@@ -104,8 +104,8 @@ describe('P0.VR.PAGE-CONCEPT-FETCH-ABORT-ASYNC-RUN1', () => {
     expect(cgptSpy).not.toHaveBeenCalled();
 
     await vi.waitFor(
-      () => {
-        const snap = snapshotPageConceptServerRun(runId);
+      async () => {
+        const snap = await snapshotPageConceptServerRun(runId);
         expect(snap?.status).toBe('READY_FOR_REVIEW');
       },
       { timeout: 10_000 },
@@ -116,7 +116,7 @@ describe('P0.VR.PAGE-CONCEPT-FETCH-ABORT-ASYNC-RUN1', () => {
   it('server run persists after start — not tied to client fetch', async () => {
     const pageId = overviewPageId();
     const state = loadPageConceptGenerationState(PROJECT, pageId);
-    const { runId } = startPageConceptGenerationRun({
+    const { runId } = await startPageConceptGenerationRun({
       state,
       founderEmail: 'founder@test.com',
       founderConfirmedSpend: true,

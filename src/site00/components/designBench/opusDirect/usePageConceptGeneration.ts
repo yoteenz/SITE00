@@ -509,6 +509,8 @@ export function usePageConceptGeneration(
         await applyPollUpdate(first, isCancelled);
         const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
           runId,
+          projectId,
+          pageId,
           afterSequence: lastObservedSequenceRef.current,
           onUpdate: (update) => {
             void applyPollUpdate(update, isCancelled);
@@ -868,6 +870,8 @@ export function usePageConceptGeneration(
 
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId: startResult.runId,
+        projectId,
+        pageId,
         afterSequence: lastObservedSequenceRef.current,
         onUpdate: (update) => {
           void applyPollUpdate(update, () => false);
@@ -1042,6 +1046,8 @@ export function usePageConceptGeneration(
       });
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
+        projectId,
+        pageId,
         afterSequence: lastObservedSequenceRef.current,
         onUpdate: (update) => {
           void applyPollUpdate(update, () => false);
@@ -1120,6 +1126,8 @@ export function usePageConceptGeneration(
 
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
+        projectId,
+        pageId,
         afterSequence: lastObservedSequenceRef.current,
         onUpdate: (update) => {
           void applyPollUpdate(update, () => false);
@@ -1199,6 +1207,8 @@ export function usePageConceptGeneration(
 
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
+        projectId,
+        pageId,
         afterSequence: lastObservedSequenceRef.current,
         onUpdate: (update) => {
           void applyPollUpdate(update, () => false);
@@ -1282,6 +1292,8 @@ export function usePageConceptGeneration(
       });
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
+        projectId,
+        pageId,
         afterSequence: lastObservedSequenceRef.current,
         onUpdate: (update) => {
           void applyPollUpdate(update, () => false);
@@ -1366,6 +1378,8 @@ export function usePageConceptGeneration(
       });
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
+        projectId,
+        pageId,
         afterSequence: lastObservedSequenceRef.current,
         onUpdate: (update) => {
           void applyPollUpdate(update, () => false);

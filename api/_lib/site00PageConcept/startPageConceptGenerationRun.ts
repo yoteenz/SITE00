@@ -4,8 +4,10 @@ import { PAGE_CONCEPT_TARGET_TYPE } from '../../../shared/site00-design-workspac
 import { executePageConceptGeneration } from './executePageConceptGenerationRun.js';
 import {
   getPageConceptServerRun,
+  hydratePageConceptServerRun,
   patchPageConceptServerRun,
   putPageConceptServerRun,
+  resolvePageConceptServerRun,
 } from './pageConceptGenerationRunStore.js';
 import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
 import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
@@ -23,10 +25,10 @@ export function createPageConceptGenerationRunId(): string {
   return `pcgr-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-export function startPageConceptGenerationRun(input: StartPageConceptGenerationRunInput): {
+export async function startPageConceptGenerationRun(input: StartPageConceptGenerationRunInput): Promise<{
   runId: string;
   status: 'QUEUED';
-} {
+}> {
   if (!input.dryRun && !input.founderConfirmedSpend) {
     throw new Error('SPEND_GUARD: founder confirmation required');
   }
@@ -45,11 +47,18 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
   const resumeRunId = input.resumeRunId?.trim() || null;
   const continueNbpAfterGpt2Review = input.continueNbpAfterGpt2Review === true;
   const continueGpt2AfterCgptReview = input.continueGpt2AfterCgptReview === true;
-  const existing =
+  let existing =
     resumeRunId &&
     (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) ?
       getPageConceptServerRun(resumeRunId)
     : null;
+  if (
+    resumeRunId &&
+    (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) &&
+    !existing
+  ) {
+    existing = await hydratePageConceptServerRun(resumeRunId);
+  }
   if (
     resumeRunId &&
     (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) &&
@@ -175,8 +184,21 @@ async function runPageConceptGenerationInBackground(
   }
 }
 
-export function snapshotPageConceptServerRun(runId: string, afterSequence = 0) {
-  const run = getPageConceptServerRun(runId);
+export async function snapshotPageConceptServerRun(
+  runId: string,
+  afterSequence = 0,
+  scope?: { projectId?: string; pageId?: string },
+) {
+  const run =
+    getPageConceptServerRun(runId) ??
+    (await hydratePageConceptServerRun(runId)) ??
+    (scope?.projectId && scope?.pageId ?
+      await resolvePageConceptServerRun({
+        runId,
+        projectId: scope.projectId,
+        pageId: scope.pageId,
+      })
+    : null);
   if (!run) return null;
   const progressEventsAfterSequence = pageConceptProgressEventsAfterSequence(
     run.progressEvents ?? [],

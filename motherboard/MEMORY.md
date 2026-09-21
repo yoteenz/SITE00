@@ -11274,3 +11274,18 @@ Surgical CGPT→GPT2 handoff copy fix (no CGPT synthesis changes): canonical tas
 - **Inspector:** GPT2 HANDOFF shows OUTPUT TARGET + GPT2 TASK (removed legacy AUTHORITY INSTRUCTIONS / single-concept wording).
 - **Tests:** `p0vrCgptGpt2HandoffMobileTripleConcept1.test.ts`.
 - **Branch:** `cursor/cgpt-gpt2-handoff-mobile-triple-concept1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.GPT2-MOBILE-FAL-PROVIDER-WIRING1
+
+Production blocker fix: canonical **3 GPT2 Mobile concepts** now dispatch through **FAL** (`fal-ai/nano-banana-pro/edit`, same as NBP) instead of throwing `GPT2_MOBILE_CONCEPT_PROVIDER_NOT_CONFIGURED`.
+
+- **RUN_NOT_FOUND root cause:** `pageConceptGenerationRunStore` was in-memory only — CGPT could complete on instance A while founder **Continue to GPT2** + polling hit instance B after Railway restart → resume + GET 404.
+- **Durability:** Supabase table `site00_page_concept_generation_runs` + hybrid store (memory + upsert/hydrate); GET polling accepts `projectId`/`pageId` for active-run recovery; `startPageConceptGenerationRun` hydrates durable run before continue.
+- **Provider:** `pageConceptGpt2MobileRequestPackage.ts`, `renderPageGpt2MobileConceptJob.ts`, `persistPageConceptMobileArtifact.ts` — functional capture only, per-slot territory directives, `Promise.allSettled`, idempotency keys `{runId}:GPT2_MOBILE:A|B|C`, partial retry via `retrySlots`.
+- **Observability:** `GPT2_MOBILE_*` server log events (no secrets).
+- **Client:** poll passes `projectId`/`pageId` for recovery.
+- **Tests:** `p0vrGpt2MobileFalProviderWiring1.test.ts`; async `startPageConceptGenerationRun` / `snapshotPageConceptServerRun` in fetch-abort tests.
+- **Branch:** `cursor/gpt2-mobile-fal-provider-wiring1-b747`.
+- **Founder:** Apply Supabase migration `20260921120000_site00_page_concept_generation_runs.sql`; Railway redeploy API; GoDaddy ZIP after merge for client recovery params.

@@ -83,7 +83,7 @@ describe('P0.VR.PAGE-CONCEPT-FOUNDER-START-AND-PROGRESS-EVENTS1', () => {
     const pageId = overviewPageId();
     const state = loadPageConceptGenerationState(PROJECT, pageId);
 
-    const { runId } = startPageConceptGenerationRun({
+    const { runId } = await startPageConceptGenerationRun({
       state,
       founderEmail: 'founder@test.com',
       founderConfirmedSpend: true,
@@ -109,7 +109,7 @@ describe('P0.VR.PAGE-CONCEPT-FOUNDER-START-AND-PROGRESS-EVENTS1', () => {
     expect(slice.every((e) => e.sequence > afterSeq)).toBe(true);
     expect(slice.length).toBe(all.length - mid - 1);
 
-    const snap = snapshotPageConceptServerRun(runId, afterSeq);
+    const snap = await snapshotPageConceptServerRun(runId, afterSeq);
     expect(snap?.progressEventsAfterSequence?.length).toBe(slice.length);
     expect(snap?.latestProgressSequence).toBe(run.latestProgressSequence);
   });

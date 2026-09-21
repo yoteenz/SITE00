@@ -15,6 +15,7 @@ import { pageConceptProgressPatchForGpt2 } from '../../../shared/site00-design-w
 import { executePageConceptGpt2MobileConcepts } from './executePageConceptGpt2MobileConcepts.js';
 
 export async function executePageConceptCanonicalMobileStage(input: {
+  runId: string;
   plan: PageConceptGenerationPlan;
   pipelineSetId: string;
   dryRun: boolean;
@@ -25,6 +26,9 @@ export async function executePageConceptCanonicalMobileStage(input: {
   cgptCreativeBrief: PageConceptCgptCreativeBrief | null;
   creativeInjectionError?: string;
   mobileDims: { width: number; height: number };
+  functionalCaptureBase64: string;
+  existingJobs?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js').PageConceptGeneratedArtifact[];
+  retrySlots?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js').PageMobileConceptSlotId[] | null;
   onProgress?: (patch: PageConceptRunProgress) => void;
 }): Promise<PageConceptGenerationRunResult> {
   const emit = (patch: PageConceptRunProgress) => {
@@ -44,7 +48,8 @@ export async function executePageConceptCanonicalMobileStage(input: {
     completedAt: null,
   });
 
-  const { jobs, mobileConcepts } = await executePageConceptGpt2MobileConcepts({
+  const { jobs, mobileConcepts, partialFailure } = await executePageConceptGpt2MobileConcepts({
+    runId: input.runId,
     plan: input.plan,
     pipelineSetId: input.pipelineSetId,
     dryRun: input.dryRun,
@@ -52,7 +57,24 @@ export async function executePageConceptCanonicalMobileStage(input: {
     pageContext: input.pageContext,
     functionContract: input.functionContract,
     creativeInjection: input.creativeInjection,
+    cgptCreativeBrief: input.cgptCreativeBrief,
     mobileDims: input.mobileDims,
+    functionalCaptureBase64: input.functionalCaptureBase64,
+    existingJobs: input.existingJobs,
+    retrySlots: input.retrySlots,
+    onSlotUpdate: (payload) => {
+      emit({
+        status: 'GPT2_RUNNING',
+        currentStage: 'GPT2_MOBILE_CONCEPT_SLOT',
+        cgptStatus: 'COMPLETE',
+        gpt2Status: 'RUNNING',
+        nbpStatus: 'PENDING',
+        generationStatus: 'GPT2_RUNNING',
+        jobs: payload.jobs,
+        error: null,
+        completedAt: null,
+      });
+    },
   });
 
   const pipelineSet: PageConceptPipelineSet = {
@@ -73,18 +95,19 @@ export async function executePageConceptCanonicalMobileStage(input: {
     createdAt: new Date().toISOString(),
   };
 
+  const allReady = mobileConcepts.every((c) => c.status === 'READY');
   emit({
-    status: 'GPT2_MOBILE_AWAITING_SELECTION',
-    currentStage: 'GPT2_MOBILE_CONCEPTS_READY',
+    status: allReady ? 'READY_FOR_REVIEW' : 'GPT2_RUNNING',
+    currentStage: allReady ? 'GPT2_MOBILE_CONCEPTS_READY' : 'GPT2_MOBILE_PARTIAL',
     panelProgress: gpt2Start.panelProgress,
     cgptStatus: 'COMPLETE',
-    gpt2Status: 'COMPLETE',
+    gpt2Status: allReady ? 'COMPLETE' : 'RUNNING',
     nbpStatus: 'PENDING',
-    generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION',
+    generationStatus: allReady ? 'GPT2_MOBILE_AWAITING_SELECTION' : 'GPT2_RUNNING',
     pipelineSet,
     jobs,
-    error: null,
-    completedAt: new Date().toISOString(),
+    error: partialFailure ? 'GPT2_MOBILE_PARTIAL_FAILURE' : null,
+    completedAt: allReady ? new Date().toISOString() : null,
   });
 
   return { plan: input.plan, pipelineSet, jobs };
