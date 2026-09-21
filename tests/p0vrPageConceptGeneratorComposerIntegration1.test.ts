@@ -351,7 +351,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-COMPOSER-INTEGRATION1', () => {
     expect(overlay).toContain('sourceCaptureLines');
     const panel = read('src/site00/components/designBench/pageConceptGenerator/PageConceptGeneratorPanel.tsx');
     expect(panel).toContain('page-concept-source-captures');
-    expect(overlay).toContain('pageConceptStageStatesFromPipeline');
+    expect(overlay).toContain('pageConceptStageStatesForPanel');
     expect(overlay).toContain('PageConceptGeneratorResults');
     expect(overlay).toContain('PageConceptGeneratorNbpStage');
     expect(overlay).toContain('onRetryFailed');
