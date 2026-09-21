@@ -409,6 +409,7 @@ export function TwinOpusDirectScreen({
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
         onConfirm={() => void workspace.pageConceptGeneration.handleGenerateClick()}
         onRetryFailed={() => void workspace.pageConceptGeneration.retryFailedGeneration()}
+        onRetryCgpt={() => void workspace.pageConceptGeneration.retryCgptGeneration()}
         onOpenFullscreen={production.actions.openFullscreenArtifact}
       />
       <DesignGrokDock projectSlug={projectSlug} />

@@ -11074,3 +11074,16 @@ Production **BLOCKED_CAPTURE_SNAPSHOT_UNREADABLE**: generation received valid `s
 - **Fix:** Merge persistent registry from **Supabase** (`implementation-snapshot-persistent-registry.json`); index **all** `snapshotId` records on hydrate; `loadImplementationSnapshotArtifact` downloads via **`downloadSite00StorageBuffer`** with checksum + decode validation; viewport-specific `BLOCKED_MOBILE_/DESKTOP_*` errors; capture write stores **sha256** + read-after-write upload verify; registry upserted to Supabase on each append.
 - **Tests:** `p0vrPageConceptSnapshotDurabilityFix1.test.ts`.
 - **Branch:** `cursor/page-concept-snapshot-durability-fix1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1
+
+Live page-concept runs reached CGPT then failed with opaque **`CGPT_INJECTION_FAILED: 429`** (Anthropic throttling). Upstream capture/snapshot/async run left unchanged; **CGPT stage only**.
+
+- **Forensics:** `fetchAnthropicPageCreativeJson` captures HTTP status, Anthropic error type/message, `request-id`, and rate-limit headers (`retry-after`, `anthropic-ratelimit-*`). Classifies 429 (`RATE_LIMIT_REQUESTS`, token limits, billing/credit, org, etc.) via `pageConceptCgpt429.ts`.
+- **Retry:** `executePageConceptCgptStage` — up to **4** attempts; honors **Retry-After** else exponential backoff + jitter; run states **`CGPT_RATE_LIMITED` / `RETRY_WAIT`** persisted on `PageConceptServerRun.cgptMeta` (`attemptNumber`, `nextRetryAt`, `lastProviderRequestId`). Hard billing/org 429 → **no retry loop** (`CGPT_BILLING_USAGE_LIMIT` / `CGPT_ACCOUNT_LIMIT_REACHED`). Exhausted retries → **`CGPT_FAILED_RATE_LIMIT`** + founder **RETRY CGPT** (same `runId` via `resumeRunId` + `retryCgptOnly`).
+- **Idempotency:** `{runId}:CGPT` lane lock blocks duplicate concurrent provider dispatch.
+- **UI:** Overlay busy label shows rate-limit retry countdown; primary **RETRY CGPT** when CGPT failed transiently. GPT2/NBP still gated until CGPT **COMPLETE**.
+- **Tests:** `p0vrPageConceptCgpt429Resilience1.test.ts` (mocked 429 → retry → success; hard quota; max attempts; idempotency).
+- **Branch:** `cursor/page-concept-cgpt-429-resilience1-b747`.

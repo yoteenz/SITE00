@@ -18,6 +18,8 @@ export type PageConceptGenerationRequest = {
   action: 'plan' | 'generate' | 'trace' | 'start';
   founderConfirmedSpend?: boolean;
   retryFailedOnly?: boolean;
+  retryCgptOnly?: boolean;
+  resumeRunId?: string;
   traceOnly?: boolean;
   dryRun?: boolean;
   state: PageConceptGenerationState;

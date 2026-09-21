@@ -13,14 +13,17 @@ import type {
   PageGPT2AuthorityConcept,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PAGE_CONCEPT_TARGET_TYPE } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/constants.js';
-import { generatePageCreativeInjection } from './generatePageCreativeInjection.js';
+import { executePageConceptCgptStage } from './executePageConceptCgptStage.js';
+import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
 import { generatePageGpt2AuthorityConcept } from './generatePageGpt2AuthorityConcept.js';
 import { renderPageNbpJob } from './renderPageNbpJob.js';
 import { resolvePageGenerationCaptureBase64 } from './resolvePageGenerationCapture.js';
 import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
 
 export type ExecutePageConceptGenerationOptions = {
+  runId?: string;
   dryRun?: boolean;
+  retryCgptOnly?: boolean;
   onProgress?: (patch: PageConceptRunProgress) => void;
 };
 
@@ -73,46 +76,29 @@ export async function executePageConceptGeneration(
 
   const pipelineSetId = input.state.pipelineSet?.pipelineSetId ?? `pps-${Date.now()}`;
   const retryFailedOnly = input.retryFailedOnly === true;
+  const retryCgptOnly = options.retryCgptOnly === true;
+  const runId = options.runId ?? `pcgr-local-${pipelineSetId}`;
 
-  if (!retryFailedOnly || !creativeInjection) {
-    try {
-      if (dryRun) {
-        await new Promise((r) => setTimeout(r, 50));
-        creativeInjection = {
-          injectionId: `dry-cgpt-${pipelineSetId}`,
-          projectId: input.state.projectId,
-          pageId: input.state.pageId,
-          projectContextVersion: projectContext.contextVersion,
-          pageContextVersion: pageContext.contextVersion,
-          functionContractVersion: functionContract.version,
-          creativeThesis: 'DRY_RUN',
-          pagePurposeInterpretation: 'DRY_RUN',
-          visualOpportunity: 'DRY_RUN',
-          hierarchyDirection: 'DRY_RUN',
-          spatialDirection: 'DRY_RUN',
-          informationPriority: 'DRY_RUN',
-          imageDataBalance: 'DRY_RUN',
-          responsiveDirection: 'DRY_RUN',
-          mobileDirection: 'DRY_RUN',
-          desktopDirection: 'DRY_RUN',
-          creativeLatitude: 'DRY_RUN',
-          immutableRequirements: [],
-          referenceStrategy: 'DRY_RUN',
-          assetStrategy: 'DRY_RUN',
-          createdAt: new Date().toISOString(),
-          cgptProvider: 'dry-run',
-          cgptModel: 'dry-run',
-        } satisfies PageCreativeInjection;
-      } else {
-        creativeInjection = await generatePageCreativeInjection({
-          projectContext,
-          pageContext,
-          functionContract,
-        });
-      }
+  if (retryCgptOnly) {
+    clearPageConceptCgptStageLock(runId);
+    creativeInjection = null;
+    creativeInjectionError = undefined;
+  }
+
+  if (!retryFailedOnly || !creativeInjection || retryCgptOnly) {
+    const cgptResult = await executePageConceptCgptStage({
+      runId,
+      input: { projectContext, pageContext, functionContract },
+      pipelineSetId,
+      dryRun,
+      resetAttempts: retryCgptOnly,
+      onProgress: (patch) => emit(onProgress, patch),
+    });
+    if (cgptResult.ok) {
+      creativeInjection = cgptResult.injection;
       creativeInjectionError = undefined;
-    } catch (err) {
-      creativeInjectionError = err instanceof Error ? err.message : 'CGPT_INJECTION_FAILED';
+    } else {
+      creativeInjectionError = `${cgptResult.founderMessage} · ${cgptResult.technicalDetails}`;
       creativeInjection = null;
     }
   }

@@ -6,6 +6,7 @@ export type PageConceptGenerationStatus =
   | 'IDLE'
   | 'PLANNED'
   | 'CGPT_RUNNING'
+  | 'CGPT_RATE_LIMITED'
   | 'GPT2_RUNNING'
   | 'NBP_RUNNING'
   | 'PARTIAL_GENERATION'

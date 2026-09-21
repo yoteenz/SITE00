@@ -23,6 +23,8 @@ export type RunPageConceptGenerationInput = {
   founderConfirmedSpend: boolean;
   /** Re-run only failed/missing NBP jobs; preserve successful CGPT/GPT2/NBP artifacts. */
   retryFailedOnly?: boolean;
+  /** Re-run CGPT on the same run after rate-limit failure; preserves captures and run id when used with resumeRunId. */
+  retryCgptOnly?: boolean;
 };
 
 export function planPageConceptGeneration(
@@ -116,5 +118,7 @@ export async function runPageConceptGeneration(
     throw new Error(captureValidation.code);
   }
 
-  return executePageConceptGeneration(input);
+  return executePageConceptGeneration(input, {
+    retryCgptOnly: input.retryCgptOnly === true,
+  });
 }

@@ -10,16 +10,38 @@ import type {
   PageConceptGenerationStatus,
   PageConceptPipelineSet,
 } from './types.js';
+import type { PageConceptCgptProviderTelemetry } from './pageConceptCgpt429.js';
 
 export type PageConceptServerRunStatus =
   | 'QUEUED'
   | 'CGPT_RUNNING'
+  | 'CGPT_RATE_LIMITED'
   | 'GPT2_RUNNING'
   | 'NBP_RUNNING'
   | 'PARTIAL'
   | 'READY_FOR_REVIEW'
   | 'FAILED'
   | 'CANCELLED';
+
+export type PageConceptCgptStageStatus =
+  | 'PENDING'
+  | 'RUNNING'
+  | 'RATE_LIMITED'
+  | 'RETRY_WAIT'
+  | 'COMPLETE'
+  | 'FAILED';
+
+export type PageConceptCgptRunMeta = {
+  idempotencyKey: string;
+  attemptNumber: number;
+  maxAttempts: number;
+  nextRetryAt: string | null;
+  lastProviderStatus: number | null;
+  lastProviderRequestId: string | null;
+  lastErrorCode: string | null;
+  dispatchCount: number;
+  lastTelemetry: PageConceptCgptProviderTelemetry | null;
+};
 
 export type PageConceptServerRun = {
   runId: string;
@@ -29,8 +51,9 @@ export type PageConceptServerRun = {
   dryRun: boolean;
   status: PageConceptServerRunStatus;
   currentStage: string | null;
-  cgptStatus: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'FAILED';
+  cgptStatus: PageConceptCgptStageStatus;
   gpt2Status: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'FAILED';
+  cgptMeta: PageConceptCgptRunMeta | null;
   nbpStatus: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'PARTIAL' | 'FAILED';
   createdAt: string;
   startedAt: string | null;
@@ -56,6 +79,7 @@ export type PageConceptRunProgress = Pick<
   | 'pipelineSet'
   | 'jobs'
   | 'error'
+  | 'cgptMeta'
   | 'updatedAt'
   | 'completedAt'
 >;
@@ -69,6 +93,7 @@ export type PageConceptServerRunSnapshot = {
   cgptStatus: PageConceptServerRun['cgptStatus'];
   gpt2Status: PageConceptServerRun['gpt2Status'];
   nbpStatus: PageConceptServerRun['nbpStatus'];
+  cgptMeta: PageConceptCgptRunMeta | null;
   dryRun: boolean;
   error: string | null;
   generationStatus: PageConceptGenerationStatus;
