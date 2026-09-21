@@ -11142,3 +11142,16 @@ Panel showed **GENERATION COULD NOT START · BLOCKED_MOBILE_SNAPSHOT_MISSING** w
 Production Release CI: 5 failures from GPT2 founder review gate (NBP spy 0 calls) and `immutableRequirements.join` on undefined injection in tests.
 
 - **Fix:** Safe `immutableRequirements ?? []` in `cgptContractFromInjection`; `retryFailedOnly` bypasses GPT2 review gate; vitest default `SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW=false` via `tests/setup/pageConceptTestDefaults.ts` (run-truth suite opts into `true`).
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-NBP-AUTHORITY-FIRST-RECONSTRUCTION1
+
+NBP (`fal-ai/nano-banana-pro/edit`) was sending **only the current implementation capture** as `image_urls[0]`; GPT2 authority was text-only → restyle-not-reconstruct behavior.
+
+- **Root cause:** `renderPageNbpJob` uploaded current screenshot as sole edit canvas; weak prompt could not override edit-model anchoring.
+- **Fix:** `ProjectSkinContract` from SKINS tab (`designProjectSkinSystem` + master skin binding); `buildPageNbpRequestPackage` — GPT2 authority image **#1**, current capture **omitted by default** (`SITE00_PAGE_CONCEPT_NBP_OMIT_CURRENT_SCREENSHOT=true`) or last as FUNCTIONAL_REFERENCE_ONLY; explicit provider prompt contract; lineage (`authorityApprovalId`, frozen skin/CGPT/GPT2 ids); block NBP without `authorityApprovalId` when review policy on; pre-dispatch inspector on pipeline set + Technical details UI.
+- **QA:** `SITE00_PAGE_CONCEPT_NBP_QA_SINGLE=true` → only RENDITION_A MOBILE before six-way spend.
+- **Tests:** `p0vrPageConceptNbpAuthorityFirstReconstruction1.test.ts`.
+- **Note:** OpenAI GPT2 text path still sets `authorityArtifact: null` — live NBP requires an approved authority **image** (vitest/dry-run supply mock). Image generation for GPT2 authority remains a follow-up if production runs lack artifact.
+- **Branch:** `cursor/page-concept-nbp-authority-first-reconstruction1-b747`.

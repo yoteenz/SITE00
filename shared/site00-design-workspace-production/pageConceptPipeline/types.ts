@@ -186,6 +186,26 @@ export type PageConceptGeneratedArtifact = {
   failureReason?: string;
 };
 
+export type PageConceptNbpLineage = {
+  authorityApprovalId: string;
+  cgptDirectionId: string;
+  gpt2AuthorityId: string;
+  gpt2AuthorityVersion: string;
+  skinContractId: string;
+  skinContractVersion: string;
+};
+
+export type PageConceptNbpPreDispatchInspector = {
+  visualAuthorityPresent: boolean;
+  skinContractVersion: string;
+  cgptDirectionId: string;
+  functionContractVersion: string;
+  currentScreenshotRole: 'REFERENCE_ONLY' | 'OMITTED';
+  imageInputOrder: readonly string[];
+  authorityApprovalId: string | null;
+  promptVersion: string;
+};
+
 export type PageConceptPipelineSet = {
   pipelineSetId: string;
   projectId: string;
@@ -198,6 +218,9 @@ export type PageConceptPipelineSet = {
   renditions: readonly PageConceptRendition[];
   creativeInjectionError?: string;
   gpt2AuthorityError?: string;
+  /** Frozen at founder continue-to-NBP (or test bypass). */
+  nbpLineage?: PageConceptNbpLineage | null;
+  nbpPreDispatchInspector?: PageConceptNbpPreDispatchInspector | null;
   createdAt: string;
 };
 

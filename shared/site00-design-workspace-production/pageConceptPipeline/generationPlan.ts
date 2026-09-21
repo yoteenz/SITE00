@@ -6,7 +6,7 @@ import { PAGE_CONCEPT_TARGET_TYPE } from './constants.js';
 
 export const PAGE_CGPT_PROMPT_VERSION = 'page-concept-cgpt-v1-injection';
 export const PAGE_GPT2_PROMPT_VERSION = 'page-concept-gpt2-v1-authority';
-export const PAGE_NBP_PROMPT_VERSION = 'page-concept-nbp-v1-renditions';
+export { PAGE_NBP_PROMPT_VERSION } from './pageConceptNbpAuthorityPolicy.js';
 export const PAGE_NBP_MODEL = 'fal-ai/nano-banana-pro/edit';
 
 export function buildPageConceptGenerationPlan(
