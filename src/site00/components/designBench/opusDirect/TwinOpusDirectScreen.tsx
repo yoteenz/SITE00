@@ -397,11 +397,17 @@ export function TwinOpusDirectScreen({
         plan={workspace.pageConceptGeneration.pendingPlan}
         generationState={workspace.pageConceptGeneration.generationState}
         error={workspace.pageConceptGeneration.error}
+        confirmNotice={workspace.pageConceptGeneration.confirmNotice}
+        blockingState={workspace.pageConceptGeneration.blockingState}
+        generationEligibility={workspace.pageConceptGeneration.generationEligibility}
         generating={workspace.pageConceptGeneration.generating}
         confirmReady={workspace.pageConceptGeneration.ready}
+        modalGeneratePress={workspace.pageConceptGeneration.modalGeneratePress}
+        generateClickTrace={workspace.pageConceptGeneration.generateClickTrace}
+        liveProductionTrace={workspace.pageConceptGeneration.liveProductionTrace}
         sourceCaptureLines={workspace.pageConceptGeneration.sourceCaptureLines}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
-        onConfirm={() => void workspace.pageConceptGeneration.confirmGeneration()}
+        onConfirm={() => void workspace.pageConceptGeneration.handleGenerateClick()}
         onRetryFailed={() => void workspace.pageConceptGeneration.retryFailedGeneration()}
         onOpenFullscreen={production.actions.openFullscreenArtifact}
       />

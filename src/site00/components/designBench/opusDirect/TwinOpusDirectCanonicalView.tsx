@@ -331,11 +331,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
           {data.galleryEmptyMessage ?
             <div className="tod-gallery__emptyWrap" data-testid="gallery-page-concept-empty">
               <p className="tod-gallery__empty">{data.galleryEmptyMessage}</p>
-              {data.galleryGenerateBlockedReason ?
+              {data.pageConceptGenerationGate.blockerMessage ?
                 <p className="tod-gallery__blocked" data-testid="generate-page-concepts-blocked-reason">
-                  {data.galleryGenerateBlockedReason}
-                  {data.galleryGenerateBlockedResolution ?
-                    ` ${data.galleryGenerateBlockedResolution}`
+                  {data.pageConceptGenerationGate.blockerMessage}
+                  {data.pageConceptGenerationGate.resolutionAction ?
+                    ` ${data.pageConceptGenerationGate.resolutionAction}`
                   : null}
                 </p>
               : null}
@@ -344,10 +344,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 className="tod-gallery__generate"
                 data-interaction-id="generate-page-concepts"
                 data-active-page-id={data.pageConceptTargetPageId}
-                data-page-concept-readiness={data.pageConceptReadiness}
-                disabled={data.galleryGenerateDisabled}
+                data-page-concept-readiness={data.pageConceptGenerationEligibility.readiness}
+                data-can-generate={data.pageConceptGenerationEligibility.canGenerate ? 'true' : 'false'}
+                disabled={!data.pageConceptGenerationGate.canPressGenerate}
                 title={
-                  data.galleryGenerateBlockedReason ??
+                  data.pageConceptGenerationGate.blockerMessage ??
                   'CGPT → GPT2 → NBP page concept pipeline (confirm before spend)'
                 }
                 onClick={() => actions.generatePageConcepts()}

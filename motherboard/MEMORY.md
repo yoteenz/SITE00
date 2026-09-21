@@ -10943,6 +10943,98 @@ Recurring raw **403 Forbidden** on `/projects` (Apache, before React).
 
 ---
 
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-CAPTURE-READINESS-UNIFICATION1
+
+Sprint: GENERATE PAGE CONCEPTS showed **MOBILE/DESKTOP · READY** while footer still **BLOCKED · SOURCE CAPTURE REQUIRED** (stale confirm `error` vs live SOURCE strip).
+
+- **Root cause:** `PageConceptGenerationOverlay` used frozen `error` from first `openGenerationConfirm` while `sourceCaptureLines` recomputed on `captureRevision`; duplicate readiness paths (`evaluatePageConceptReadiness`, `pageConceptSourceCaptureLines`, `blockedReason`, confirm re-checks).
+- **Fix:** Canonical **`validatePageConceptSourceCaptures`** + **`buildPageConceptGenerationEligibility`** (`pageConceptSourceCaptureValidation.ts`, `pageConceptGenerationEligibility.ts`); hook exposes single `generationEligibility`, live `confirmNotice`, hydration gate (`checking` → no source blocker, SOURCE **CHECKING CAPTURES…**); overlay confirm mode uses `confirmNotice`; `readiness.ts` delegates capture gates to validator + canonical page id; package parity fingerprint helper; dev invariants `PAGE_CONCEPT_READINESS_STATE_DIVERGENCE` / `PAGE_CONCEPT_PREHYDRATION_BLOCKER`; fixed `site00:page-concept-generation-updated` listener via `designPageCaptureEventMatches`.
+- **Tests:** `p0vrPageConceptCaptureReadinessUnification1.test.ts` (13 cases).
+- **Branch:** `cursor/page-concept-capture-readiness-unification1-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1
+
+Sprint: Concept Candidate Gallery showed **Capture the current Mobile and Desktop…** with GENERATE disabled while Pipeline said **GENERATE PAGE CONCEPTS** (duplicate gates).
+
+- **Screenshot trace:** `TwinOpusDirectCanonicalView` / `TwinOpusDirectListView` empty gallery → `data.galleryGenerateBlockedReason` from `!pageConceptGeneration.ready` + `blockedReason`; copy from `pageConceptSourceCaptureBlockMessage`. Pipeline `buildPagePipelineControllerModel` used concept count only (`scrollGallery`) — no eligibility.
+- **Fix:** **`pageConceptGenerationGateFromEligibility`** — sole CTA gate; workspace exposes `pageConceptGenerationEligibility` + `pageConceptGenerationGate` (removed `galleryGenerateDisabled` / blocked reason duplicates); pipeline + `generatePageConcepts` handler consume same eligibility; hook hydrates captures on mount + sets ready on capture events; dev invariants `PAGE_CONCEPT_GENERATION_GATE_DIVERGENCE` / `STALE_CAPTURE_BLOCKER_COPY_RENDERED`.
+- **Tests:** `p0vrPageConceptGenerationGateSingleSource1.test.ts` (5 cases).
+- **Branch:** `cursor/page-concept-generation-gate-single-source1-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-RUNTIME-BLOCKER-FORENSICS1
+
+Production modal: SOURCE **READY/READY** + red **BLOCKED · SOURCE CAPTURE REQUIRED** simultaneously.
+
+- **Forensics:** Red block = `PageConceptGeneratorPanel` footer `notice` → `pageConceptGeneratorNoticeLines(notice)` (`designPageConceptGeneratorShell.ts`). Overlay passed `founderNotice = confirmNotice ?? error`; hook used `confirmNotice = eligibility.confirmNotice ?? error` — **stale `error` from earlier open** when eligibility later `canGenerate`.
+- **Not API preflight:** plan API does not return capture blocker; server validates client-supplied captures on generate only.
+- **Fix:** `pageConceptGenerationBlockingState.ts` — `derivePageConceptGenerationBlockingState`; separate **executionError** from eligibility; sanitize/discard stale capture copy when `allRequiredReady`; removed effect that copied confirmNotice into error; dev forensics `<details>` on overlay.
+- **Tests:** `p0vrPageConceptRuntimeBlockerForensics1.test.ts`.
+- **Branch:** `cursor/page-concept-runtime-blocker-forensics1-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-IMPOSSIBLE-BLOCKER-ERADICATION1
+
+Impossible modal: SOURCE **READY/READY** + red **SOURCE CAPTURE REQUIRED** (production v587).
+
+- **Render path:** `PageConceptGeneratorPanel` `s00-pcg__notice` ← `pageConceptGeneratorNoticeLines(notice)`; notice still reached panel via overlay fallbacks + unstripped strings.
+- **Fix:** `sanitizePageConceptFounderNotice` at overlay + panel render boundary; `finalizeFounderNotice` in blocking state; v2 localStorage (`site00:page-concept-generation:v2:`) strips capture `lastFailure` on load/migrate; sync purge when `allRequiredReady`; production Technical details shows RELEASE/BUNDLE/COMMIT from `/release-manifest.json`; index.html cache already no-cache in `public/.htaccess`.
+- **Tests:** `p0vrPageConceptImpossibleBlockerEradication1.test.tsx` (7 cases).
+- **Branch:** `cursor/page-concept-impossible-blocker-eradication1-b747`.
+
+---
+
+## 2026-09-20 — Opus shell CI: release-manifest fetch out of overlay
+
+CI **SITE 00 Production Release** failed `p0vrPageConceptGeneratorOpusShell1` — overlay firewall must not contain `fetch(` (shell design authority).
+
+- **Cause:** IMPOSSIBLE-BLOCKER added `fetch('/release-manifest.json')` inside `PageConceptGenerationOverlay.tsx` for Technical details forensics.
+- **Fix:** `usePageConceptReleaseForensics.ts` holds manifest fetch; overlay imports hook only (behavior unchanged).
+- **Branch:** `cursor/opus-shell-release-manifest-hook-b747`.
+
+---
+
+## 2026-09-20 — P0.VR.PAGE-CONCEPT-PANEL-WIDTH-AND-ERROR-RECOVERY1
+
+Production: narrow left GENERATE PAGE CONCEPTS modal + silent generation failures.
+
+- **Width root cause:** `PageConceptGenerationOverlay` added `<details class="s00-pcg__forensics">` as flex **row** sibling of `PageConceptGeneratorPanel` inside `.s00-pcg-layer__box` (default `display:flex`), shrinking panel ~50%. Fix: `flex-direction:column`, wrap panel in `.s00-pcg-layer__main` (`width:100%`), forensics `position:absolute`.
+- **Silent failure:** (1) `derivePageConceptGenerationBlockingState` confirm+`canGenerate` forced `founderNotice` null ignoring `executionError`; (2) sanitizer `isPageConceptSourceCaptureRelatedNotice` too broad (stripped real payload errors mentioning “source capture”); (3) `openGenerationConfirm` cleared errors; plan API catch swallowed failures. Fix: narrow `isPageConceptStaleCaptureEligibilityNotice`, show execution errors in confirm, restore persisted `lastFailure`, surface plan errors, `RETRY GENERATION` label, attempt forensics helper.
+- **Tests:** `p0vrPageConceptPanelWidthAndErrorRecovery1.test.ts`.
+- **Branch:** `cursor/page-concept-panel-width-error-recovery1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1
+
+GENERATE visually enabled but dead on tap (iPhone Safari production).
+
+- **Button:** `PageConceptGeneratorPanel` `<button type="button" class="s00-pcg__generate">` → `onGenerate?.()` → `TwinOpusDirectScreen` `handleGenerateClick`.
+- **Root causes:** (1) `generateDisabled` used `confirmReady` only in confirm mode — **review mode bypassed** session/canGenerate gate so DOM could enable while handler later no-oped; (2) `confirmGeneration` silent `if (generating) return`; (3) preflight failures not always surfaced before async work.
+- **Fix:** `computePageConceptModalGeneratePress` single gate for DOM disabled; `handleGenerateClick` with telemetry, preflight → visible `setExecutionError`, `flushSync` + `CGPT_RUNNING` + `activeGenerationRunId` before API; Technical details click trace; `.s00-pcg-layer__box { z-index: 1 }` above scrim.
+- **API:** POST `/api/site00/page-concept-generation` action `generate`.
+- **Tests:** `p0vrPageConceptGenerateClickDeadpath1.test.ts`.
+- **Branch:** `cursor/page-concept-generate-click-deadpath1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-LIVE-PRODUCTION-TRACE1
+
+Founder: GENERATE still no visible change on live site00.com despite v592 receipt.
+
+- **Live verify (curl):** `site00.com/release-manifest.json` → commit `1f82b46cd2fa`, bundle `index.BXZxoMi3.js` (CI artifact; matches merged deadpath commit). API CORS OPTIONS 204; unauth POST → 401 UNAUTHORIZED.
+- **Render bug:** overlay `stageStates` ignored `generating` when status PLANNED/IDLE → chips stayed READY while button said GENERATING. Fix: `pageConceptStageStatesForPanel`.
+- **Live trace:** `pageConceptLiveProductionTrace` event log + expanded Technical details (click, preflight, network). Pre-generate `tracePageConceptGenerationApi` (dryRun, no providers). API `action: trace`.
+- **Handler/panel same object:** `generationState` from hook `state` via TwinOpusDirectScreen.
+- **Founder browser QA:** requires signed-in session on site00.com — agent cannot complete Phase 10 without founder credentials; use Technical details after deploy.
+- **Branch:** `cursor/page-concept-live-production-trace1-b747`.
+
+---
+
 ## 2026-09-20 — Tunnel GENERATE auth + GROK icon passes (CLEANUP2 then ICONS-ONLY3)
 
 Chat started with founder on **site00.fsbw-dev.com** unable to generate page concepts despite mobile + desktop captures. Screenshot showed **SIGN IN REQUIRED — GENERATE calls api.site00.com**.

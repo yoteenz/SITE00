@@ -16,9 +16,11 @@ import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/res
 import type { PageConceptGenerationState } from '../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 type Body = {
-  action: 'plan' | 'generate';
+  action: 'plan' | 'generate' | 'trace';
   founderConfirmedSpend?: boolean;
   retryFailedOnly?: boolean;
+  traceOnly?: boolean;
+  dryRun?: boolean;
   state: PageConceptGenerationState;
   mobileCapture?: PageGenerationCapturePayload;
   desktopCapture?: PageGenerationCapturePayload;
@@ -53,6 +55,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (body.action === 'plan') {
       const plan = planPageConceptGeneration(body.state.projectId, body.state.pageId);
       res.status(200).json({ ok: true, plan });
+      return;
+    }
+
+    if (body.action === 'trace' || body.traceOnly === true || body.dryRun === true) {
+      const capturesOk =
+        pageGenerationCapturePayloadValid(body.mobileCapture) &&
+        pageGenerationCapturePayloadValid(body.desktopCapture);
+      res.status(200).json({
+        ok: true,
+        trace: true,
+        dryRun: true,
+        founderEmail: email,
+        stage: 'CGPT_STARTING',
+        capturesValid: capturesOk,
+        projectId: body.state.projectId,
+        pageId: body.state.pageId,
+        generationStatus: body.state.generationStatus ?? 'IDLE',
+        message: 'TRACE_OK — no provider dispatch',
+      });
       return;
     }
 

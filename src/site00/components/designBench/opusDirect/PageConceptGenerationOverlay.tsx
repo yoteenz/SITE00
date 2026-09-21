@@ -5,11 +5,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import {
-  PAGE_CONCEPT_DEFAULT_STAGE_STATE,
-  type PageConceptStageId,
-  type PageConceptStageState,
-} from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
+import type { PageConceptStageId, PageConceptStageState } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
 import {
   buildCgptBriefRows,
   buildCgptFullBriefMarkdown,
@@ -17,8 +13,14 @@ import {
   pageConceptGenerationInFlight,
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
-  pageConceptStageStatesFromPipeline,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import { pageConceptStageStatesForPanel } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptStageStatesForPanel.js';
+import type { PageConceptLiveProductionTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProductionTrace.js';
+import type { PageConceptGenerationBlockingState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
+import type { PageConceptGenerateClickTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerateClickTelemetry.js';
+import type { PageConceptGenerationEligibility } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
+import type { PageConceptModalGeneratePress } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptModalGeneratePress.js';
+import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
 import type { PageConceptSourceCaptureLine } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import type {
   PageConceptGenerationPlan,
@@ -28,15 +30,22 @@ import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-d
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
+import { usePageConceptReleaseForensics } from './usePageConceptReleaseForensics';
 
 export function PageConceptGenerationOverlay({
   open,
   mode,
   plan,
   generationState,
-  error,
+  error: _executionErrorProp,
+  confirmNotice: _confirmNoticeProp,
+  blockingState,
+  generationEligibility,
   generating,
-  confirmReady,
+  confirmReady: _confirmReadyLegacy,
+  modalGeneratePress,
+  generateClickTrace,
+  liveProductionTrace,
   sourceCaptureLines,
   onCancel,
   onConfirm,
@@ -48,8 +57,14 @@ export function PageConceptGenerationOverlay({
   plan: PageConceptGenerationPlan | null;
   generationState: PageConceptGenerationState;
   error: string | null;
+  confirmNotice?: string | null;
+  blockingState?: PageConceptGenerationBlockingState;
+  generationEligibility?: PageConceptGenerationEligibility;
   generating: boolean;
-  confirmReady: boolean;
+  confirmReady?: boolean;
+  modalGeneratePress?: PageConceptModalGeneratePress;
+  generateClickTrace?: PageConceptGenerateClickTrace;
+  liveProductionTrace?: PageConceptLiveProductionTrace;
   sourceCaptureLines?: readonly PageConceptSourceCaptureLine[];
   onCancel: () => void;
   onConfirm: () => void;
@@ -83,16 +98,15 @@ export function PageConceptGenerationOverlay({
     [onOpenFullscreen],
   );
 
-  const stageStates: Record<PageConceptStageId, PageConceptStageState> = useMemo(() => {
-    const hasPipeline =
-      generationState.pipelineSet?.creativeInjection ||
-      generationState.generationJobs.length > 0 ||
-      generationState.generationStatus !== 'IDLE';
-    if (!hasPipeline && mode === 'confirm' && !generating) {
-      return PAGE_CONCEPT_DEFAULT_STAGE_STATE;
-    }
-    return pageConceptStageStatesFromPipeline(generationState);
-  }, [generationState, generating, mode]);
+  const stageStates: Record<PageConceptStageId, PageConceptStageState> = useMemo(
+    () =>
+      pageConceptStageStatesForPanel({
+        state: generationState,
+        generating,
+        mode,
+      }),
+    [generationState, generating, mode],
+  );
 
   const injection = generationState.pipelineSet?.creativeInjection ?? null;
   const gpt2 = generationState.pipelineSet?.gpt2AuthorityConcept ?? null;
@@ -137,10 +151,16 @@ export function PageConceptGenerationOverlay({
     return `${plan.estimatedCostNote.toUpperCase()} · CONFIRM BEFORE SEND.`;
   }, [plan?.estimatedCostNote]);
 
-  const generateDisabled =
-    inFlight ||
-    (mode === 'review' && reviewReady && !failedNbp) ||
-    (mode !== 'review' && !confirmReady);
+  const founderNotice = sanitizePageConceptFounderNotice({
+    notice: blockingState?.founderNotice ?? null,
+    sourceCapturesReady: generationEligibility?.sourceCaptureValidation.allRequiredReady === true,
+    generationEligibility: generationEligibility ?? null,
+  });
+
+  const generateDisabled = modalGeneratePress ? !modalGeneratePress.canPress : inFlight;
+  const generateBlockReason =
+    modalGeneratePress?.blockReason ??
+    (generateDisabled ? founderNotice : null);
 
   const generateBusyLabel =
     generating ?
@@ -152,6 +172,8 @@ export function PageConceptGenerationOverlay({
     : mode === 'review' && reviewReady ?
       'READY FOR REVIEW'
     : null;
+
+  const releaseForensics = usePageConceptReleaseForensics(open);
 
   if (!open) return null;
 
@@ -166,21 +188,34 @@ export function PageConceptGenerationOverlay({
         onClick={() => !generating && onCancel()}
       />
       <div className="s00-pcg-layer__box">
+        <div className="s00-pcg-layer__main">
         <PageConceptGeneratorPanel
           projectLabel={plan?.projectLabel ?? generationState.projectId}
           pageLabel={plan?.pageLabel ?? generationState.pageId}
           sourceCaptureLines={sourceCaptureLines}
+          sourceCapturesReady={generationEligibility?.sourceCaptureValidation.allRequiredReady === true}
           stageStates={stageStates}
           results={results}
-          notice={error}
-          noticeTestId={mode === 'confirm' && !plan && error ? 'page-concept-generation-blocked' : undefined}
+          notice={founderNotice}
+          noticeTestId={
+            founderNotice ?
+              blockingState?.executionError ?
+                'page-concept-generation-error'
+              : 'page-concept-generation-blocked'
+            : undefined
+          }
           reviewBanner={
             reviewReady && !generating ? 'READY FOR FOUNDER REVIEW — CLOSE TO USE GALLERY & AUTHORITY RAIL.' : null
           }
           footSpendNote={mode === 'confirm' && plan ? spendNote : null}
           generateDisabled={generateDisabled}
-          generateDisabledReason={error}
+          generateDisabledReason={generateBlockReason ?? founderNotice}
           generateBusyLabel={generateBusyLabel}
+          generateLabel={
+            !generating && blockingState?.executionError && !failedNbp ?
+              'RETRY GENERATION'
+            : undefined
+          }
           secondaryAction={
             failedNbp && !generating ?
               {
@@ -195,6 +230,59 @@ export function PageConceptGenerationOverlay({
           onCancel={onCancel}
           onClose={onCancel}
         />
+        </div>
+        {generationEligibility && blockingState ?
+          <details className="s00-pcg__forensics" data-testid="page-concept-forensics">
+            <summary>Technical details</summary>
+            <pre>
+              {[
+                releaseForensics,
+                `PAGE ${generationEligibility.canonicalPageId}`,
+                `MOBILE ${generationEligibility.mobileCapture?.captureId ?? '—'}`,
+                `DESKTOP ${generationEligibility.desktopCapture?.captureId ?? '—'}`,
+                `CAPTURES_READY ${generationEligibility.sourceCaptureValidation.allRequiredReady}`,
+                `CAN_GENERATE ${generationEligibility.canGenerate}`,
+                `BLOCKER ${blockingState.primaryBlockerCode ?? '—'}`,
+                `NOTICE ${founderNotice ?? '—'}`,
+                [
+                  generateClickTrace ?
+                    [
+                      '',
+                      'LIVE GENERATE TRACE',
+                      `CLICK_RECEIVED ${generateClickTrace.clickReceived}`,
+                      `CAN_PRESS ${generateClickTrace.canPressAtClick ?? '—'}`,
+                      `CAN_GENERATE ${generateClickTrace.canGenerateAtClick ?? '—'}`,
+                      `SESSION ${generateClickTrace.sessionPresentAtClick ?? '—'}`,
+                      `PREFLIGHT ${generateClickTrace.preflightStatus}`,
+                      `PREFLIGHT_RESULT ${generateClickTrace.preflightResult ?? '—'}`,
+                      `STATE_SET_CGPT_RUNNING ${generateClickTrace.stateSetCgptRunning}`,
+                      `RENDERED_STAGE ${generateClickTrace.renderedStageAtClick ?? '—'}`,
+                      `RUN ${generateClickTrace.generationRunId ?? generationState.activeGenerationRunId ?? '—'}`,
+                      `DISPATCH ${generateClickTrace.dispatchStatus}`,
+                      `LAST_ERROR ${generateClickTrace.lastErrorCode ?? '—'}`,
+                    ].join('\n')
+                  : '',
+                  liveProductionTrace ?
+                    [
+                      '',
+                      'NETWORK / API',
+                      `REQUEST_SENT ${liveProductionTrace.apiRequestSent}`,
+                      `URL ${liveProductionTrace.apiRequestUrl ?? '—'}`,
+                      `STATUS ${liveProductionTrace.apiStatus ?? '—'}`,
+                      `DURATION_MS ${liveProductionTrace.apiDurationMs ?? '—'}`,
+                      `ERROR ${liveProductionTrace.apiErrorCode ?? '—'}`,
+                      `RESPONSE ${liveProductionTrace.apiResponseSummary ?? '—'}`,
+                      `DRY_RUN ${liveProductionTrace.dryRunUsed}`,
+                      `STATE_BEFORE ${liveProductionTrace.stateBefore ?? '—'}`,
+                      `STATE_AFTER ${liveProductionTrace.stateAfter ?? '—'}`,
+                      ...liveProductionTrace.events.map((e) => `${e.at} ${e.kind}${e.detail ? ` · ${e.detail}` : ''}`),
+                    ].join('\n')
+                  : '',
+                ].join('\n')
+              ].join('\n')}
+            </pre>
+          </details>
+        : null}
       </div>
       {fullBriefOpen && injection ?
         <div className="s00-pcg__briefLayer" role="dialog" aria-label="Full creative brief">

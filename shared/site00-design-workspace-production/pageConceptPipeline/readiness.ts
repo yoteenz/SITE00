@@ -1,8 +1,10 @@
 import { isPageCaptureDisplayableArtifact, resolveCurrentPageCapture } from '../designPageCapture.js';
 import type { PageCaptureRecord } from '../designPageCapture.js';
+import { resolveDesignPageIdentity } from '../designPageIdentity.js';
 import type { PageConceptGenerationState, PageConceptReadiness } from './types.js';
 import { compilePageCreativeContext, compileProjectCreativeContext } from './contextCompilers.js';
 import { compilePageFunctionContract } from './functionContract.js';
+import { validatePageConceptSourceCaptures } from './pageConceptSourceCaptureValidation.js';
 
 export const PAGE_CONCEPT_REQUIRES_MOBILE_CAPTURE = true;
 export const PAGE_CONCEPT_REQUIRES_DESKTOP_CAPTURE = true;
@@ -16,13 +18,14 @@ export function evaluatePageConceptReadiness(projectId: string, pageId: string):
   if (!compilePageCreativeContext(projectId, pageId)) return 'BLOCKED_NO_PAGE_CONTEXT';
   if (!compilePageFunctionContract(projectId, pageId)) return 'BLOCKED_NO_FUNCTION_CONTRACT';
 
-  const mobileReady = captureReady(resolveCurrentPageCapture(projectId, pageId, 'MOBILE').record);
-  const desktopReady = captureReady(resolveCurrentPageCapture(projectId, pageId, 'DESKTOP').record);
-
-  if (mobileReady && desktopReady) return 'READY_FOR_CREATIVE_INJECTION';
-  if (!mobileReady && !desktopReady) return 'BLOCKED_NO_SOURCE_CAPTURE';
-  if (!mobileReady) return 'BLOCKED_NO_MOBILE_CAPTURE';
-  return 'BLOCKED_NO_DESKTOP_CAPTURE';
+  const { canonicalPageId } = resolveDesignPageIdentity({
+    projectSlug: projectId,
+    pageId,
+    screenId: '',
+  });
+  const captureValidation = validatePageConceptSourceCaptures(projectId, canonicalPageId);
+  if (captureValidation.allRequiredReady) return 'READY_FOR_CREATIVE_INJECTION';
+  return captureValidation.sourceCaptureBlockerCode ?? 'BLOCKED_NO_SOURCE_CAPTURE';
 }
 
 /** Which implementation captures are missing for GENERATE (not design-authority refs). */
@@ -39,22 +42,26 @@ export function pageConceptMissingSourceCaptureViewports(
 export type PageConceptSourceCaptureLine = {
   viewport: 'MOBILE' | 'DESKTOP';
   label: string;
-  state: 'READY' | 'MISSING';
+  state: 'READY' | 'MISSING' | 'CHECKING';
 };
 
 export function pageConceptSourceCaptureLines(projectId: string, pageId: string): PageConceptSourceCaptureLine[] {
-  const mobile = resolveCurrentPageCapture(projectId, pageId, 'MOBILE').record;
-  const desktop = resolveCurrentPageCapture(projectId, pageId, 'DESKTOP').record;
+  const { canonicalPageId } = resolveDesignPageIdentity({
+    projectSlug: projectId,
+    pageId,
+    screenId: '',
+  });
+  const validation = validatePageConceptSourceCaptures(projectId, canonicalPageId);
   return [
     {
       viewport: 'MOBILE',
       label: 'MOBILE CAPTURE',
-      state: captureReady(mobile) ? 'READY' : 'MISSING',
+      state: validation.mobile.ready ? 'READY' : 'MISSING',
     },
     {
       viewport: 'DESKTOP',
       label: 'DESKTOP CAPTURE',
-      state: captureReady(desktop) ? 'READY' : 'MISSING',
+      state: validation.desktop.ready ? 'READY' : 'MISSING',
     },
   ];
 }
@@ -137,5 +144,8 @@ export function hydratePageConceptGenerationState(
     generationStatus: partial.generationStatus ?? 'IDLE',
     lastFailure: partial.lastFailure ?? null,
     history: partial.history ?? [],
+    activeGenerationRunId: partial.activeGenerationRunId ?? null,
+    activeGenerationRunStartedAt: partial.activeGenerationRunStartedAt ?? null,
+    activeGenerationStage: partial.activeGenerationStage ?? null,
   };
 }

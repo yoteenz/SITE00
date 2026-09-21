@@ -93,6 +93,11 @@ import { usePageAuthorityWorkflow } from './usePageAuthorityWorkflow';
 import { useHydrateDesignPageCaptures } from './useHydrateDesignPageCaptures';
 import { usePageConceptGeneration } from './usePageConceptGeneration';
 import {
+  assertPageConceptGenerationGateDivergence,
+  pageConceptGenerationGateFromEligibility,
+  type PageConceptGenerationEligibility,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
+import {
   resolveActiveAuthorityImage,
 } from '../../../../../shared/site00-design-workspace-production/designPageAuthorityWorkflow.js';
 
@@ -152,11 +157,10 @@ export interface TwinOpusDirectWorkspaceData {
   viewportControls: readonly ViewportControlPresentation[];
   galleryEmptyMessage: string | null;
   galleryGenerateLabel: string;
-  galleryGenerateDisabled: boolean;
-  galleryGenerateBlockedReason: string | null;
-  galleryGenerateBlockedResolution: string | null;
+  /** Single source — gallery CTA disabled + blocker copy derive from this only. */
+  pageConceptGenerationEligibility: PageConceptGenerationEligibility;
+  pageConceptGenerationGate: ReturnType<typeof pageConceptGenerationGateFromEligibility>;
   pageConceptTargetPageId: string;
-  pageConceptReadiness: string;
   authorityPairPresentation: {
     title: string;
     mobile: { label: string; version: string; state: string; previewSrc: string | null; missing: boolean };
@@ -265,6 +269,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     projectSlug,
     pageTarget.pageId,
     pageTarget.screenId,
+    pageTarget.route,
   );
 
   useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId);
@@ -589,6 +594,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             break;
           case 'scrollGallery':
             document.querySelector('.tod-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            break;
+          case 'generatePageConcepts':
             void pageConceptGeneration.openGenerationConfirm();
             break;
           default:
@@ -634,8 +641,15 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         pageId: pageTarget.pageId,
         production: prodState,
         twinRouteReachable: pageAuthority.workflow.twinRouteVerifiedAt ? true : null,
+        pageConceptGeneration: pageConceptGeneration.generationEligibility,
       }),
-    [pageAuthority.workflow.twinRouteVerifiedAt, pageTarget.pageId, prodState, projectSlug],
+    [
+      pageAuthority.workflow.twinRouteVerifiedAt,
+      pageConceptGeneration.generationEligibility,
+      pageTarget.pageId,
+      prodState,
+      projectSlug,
+    ],
   );
 
   const pageAwareProjection = useMemo(() => {
@@ -835,13 +849,12 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       gallery: TWIN_OPUS_DIRECT_GALLERY,
       galleryEmptyMessage,
       galleryGenerateLabel: 'GENERATE PAGE CONCEPTS',
-      galleryGenerateDisabled: !pageConceptGeneration.ready || pageConceptGeneration.generating,
-      galleryGenerateBlockedReason:
-        pageConceptGeneration.ready ? null : pageConceptGeneration.blockedReason,
-      galleryGenerateBlockedResolution:
-        pageConceptGeneration.ready ? null : pageConceptGeneration.blockedResolution,
+      pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,
+      pageConceptGenerationGate: pageConceptGenerationGateFromEligibility(
+        pageConceptGeneration.generationEligibility,
+        pageConceptGeneration.generating,
+      ),
       pageConceptTargetPageId: pageTarget.pageId,
-      pageConceptReadiness: pageConceptGeneration.readiness,
       candidates: scopedCandidates,
       candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
@@ -910,11 +923,22 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     syncStatus,
     viewport,
     pageConceptRevision,
-    pageConceptGeneration.ready,
     pageConceptGeneration.generating,
-    pageConceptGeneration.blockedReason,
-    pageConceptGeneration.blockedResolution,
+    pageConceptGeneration.generationEligibility,
   ]);
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const gate = pageConceptGenerationGateFromEligibility(
+      pageConceptGeneration.generationEligibility,
+      pageConceptGeneration.generating,
+    );
+    assertPageConceptGenerationGateDivergence({
+      eligibility: pageConceptGeneration.generationEligibility,
+      generateButtonDisabled: !gate.canPressGenerate,
+      renderedBlockerText: gate.blockerMessage,
+    });
+  }, [pageConceptGeneration.generating, pageConceptGeneration.generationEligibility]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),

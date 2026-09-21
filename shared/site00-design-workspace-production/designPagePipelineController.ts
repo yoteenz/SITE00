@@ -13,6 +13,10 @@ import type { DesignProductionState } from './types.js';
 import type { ReadinessGateCheck, ReadinessGateResult } from './types.js';
 import { listApprovedGrokAssets } from './designGrokAssetModel.js';
 import { isOpusFrameworkHandoffPackage } from './designOpusFrameworkHandoff.js';
+import {
+  pageConceptGenerationGateFromEligibility,
+  type PageConceptGenerationEligibility,
+} from './pageConceptPipeline/pageConceptGenerationEligibility.js';
 
 export type PagePipelineStageId =
   | 'authority_direction'
@@ -55,7 +59,8 @@ export type PipelineResolutionHandler =
   | 'openCreateFramework'
   | 'openGenerateAssets'
   | 'openGrokDock'
-  | 'scrollGallery';
+  | 'scrollGallery'
+  | 'generatePageConcepts';
 
 export type PageWorkflowBlocker = {
   blockerId: string;
@@ -121,6 +126,8 @@ export type PagePipelineInput = {
   pageId: string;
   production: DesignProductionState;
   twinRouteReachable: boolean | null;
+  /** Single source for page-concept GENERATE gate (gallery + pipeline). */
+  pageConceptGeneration?: PageConceptGenerationEligibility | null;
 };
 
 export function buildPagePipelineControllerModel(input: PagePipelineInput): PagePipelineControllerModel {
@@ -160,6 +167,10 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
 
   const s01Complete = Boolean(mobileRef && desktopRef);
   const s02Complete = concepts.length > 0;
+  const pageConceptGate =
+    input.pageConceptGeneration ?
+      pageConceptGenerationGateFromEligibility(input.pageConceptGeneration, false)
+    : null;
   const s03Complete = Boolean(prefM && prefD);
   const s04Complete = Boolean(promM && promD);
   const s05Complete = pairReview;
@@ -207,7 +218,10 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
       completedItems: s02Complete ? ['Concept set present'] : [],
       missingItems: s02Complete ? [] : ['Generate page concepts'],
       actionLabel: s02Complete ? null : 'GENERATE PAGE CONCEPTS',
-      actionHandler: s02Complete ? null : 'scrollGallery',
+      actionHandler:
+        s02Complete ? null
+        : pageConceptGate?.canPressGenerate ? 'generatePageConcepts'
+        : 'scrollGallery',
     },
     {
       id: 'viewport_selection',
@@ -429,6 +443,29 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
         buttonLabel: 'VIEW PIPELINE',
         disabledReason: null,
       };
+    }
+    if (currentStageId === 'page_concepts' && !s02Complete && pageConceptGate) {
+      if (pageConceptGate.canPressGenerate) {
+        return {
+          label: 'NEXT ACTION',
+          lines: ['GENERATE PAGE CONCEPTS', active?.purpose ?? 'GPT2 page concept set for this page'],
+          handler: 'generatePageConcepts',
+          buttonLabel: 'GENERATE PAGE CONCEPTS',
+          disabledReason: null,
+        };
+      }
+      if (pageConceptGate.blockerMessage) {
+        return {
+          label: 'NEXT ACTION',
+          lines: [
+            pageConceptGate.blockerMessage,
+            pageConceptGate.resolutionAction ?? active?.purpose ?? '',
+          ],
+          handler: 'scrollGallery',
+          buttonLabel: 'GENERATE PAGE CONCEPTS',
+          disabledReason: pageConceptGate.blockerMessage,
+        };
+      }
     }
     const handler = active?.actionHandler ?? primaryBlocker?.resolutionHandler ?? 'openViewPipeline';
     return {

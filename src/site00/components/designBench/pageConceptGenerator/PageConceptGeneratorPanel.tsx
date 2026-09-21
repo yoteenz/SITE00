@@ -31,6 +31,7 @@ import {
   type PageConceptStageShell,
   type PageConceptStageState,
 } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
+import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import '../../../styles/site00-page-concept-generator.css';
 
@@ -46,18 +47,22 @@ export type PageConceptGeneratorResultSlots = {
 export type PageConceptSourceCapturePresentation = {
   viewport: 'MOBILE' | 'DESKTOP';
   label: string;
-  state: 'READY' | 'MISSING';
+  state: 'READY' | 'MISSING' | 'CHECKING';
 };
 
 export type PageConceptGeneratorPanelProps = {
   projectLabel: string;
   pageLabel: string;
   sourceCaptureLines?: readonly PageConceptSourceCapturePresentation[];
+  /** Final render guard — when true, capture-related notices are suppressed. */
+  sourceCapturesReady?: boolean;
   stageStates?: Partial<Record<PageConceptStageId, PageConceptStageState>>;
   results?: PageConceptGeneratorResultSlots;
   generateDisabled?: boolean;
   generateDisabledReason?: string | null;
   generateBusyLabel?: string | null;
+  /** Overrides default GENERATE label (e.g. RETRY GENERATION after failure). */
+  generateLabel?: string;
   /** Surfaced verbatim in the footer; the shell never interprets it. */
   notice?: string | null;
   noticeTestId?: string;
@@ -264,11 +269,13 @@ export function PageConceptGeneratorPanel({
   projectLabel,
   pageLabel,
   sourceCaptureLines,
+  sourceCapturesReady = false,
   stageStates,
   results = {},
   generateDisabled,
   generateDisabledReason,
   generateBusyLabel,
+  generateLabel,
   notice,
   noticeTestId,
   reviewBanner,
@@ -285,6 +292,10 @@ export function PageConceptGeneratorPanel({
   const dismiss = onCancel ?? onClose;
   const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
   const footSpendMicro = pageConceptGeneratorFootSpendShowsMicroSummary(footSpendNote);
+  const founderNotice = sanitizePageConceptFounderNotice({
+    notice,
+    sourceCapturesReady,
+  });
 
   return (
     <section
@@ -320,7 +331,7 @@ export function PageConceptGeneratorPanel({
               data-viewport={line.viewport}
               data-state={line.state}
             >
-              {line.label} · {line.state}
+              {line.state === 'CHECKING' ? line.label : `${line.label} · ${line.state}`}
             </span>
           ))}
         </div>
@@ -357,9 +368,9 @@ export function PageConceptGeneratorPanel({
             {reviewBanner}
           </p>
         : null}
-        {notice ?
+        {founderNotice ?
           (() => {
-            const lines = pageConceptGeneratorNoticeLines(notice);
+            const lines = pageConceptGeneratorNoticeLines(founderNotice);
             return (
               <p
                 className="s00-pcg__notice"
@@ -421,7 +432,7 @@ export function PageConceptGeneratorPanel({
             <span className="s00-pcg__generateGlyph" aria-hidden="true">
               <AiConsoleIcon name="grok-generate" size={13} />
             </span>
-            {generateBusyLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
+            {generateBusyLabel || generateLabel || PAGE_CONCEPT_GENERATOR_FOOTER.generateLabel}
           </button>
           <button
             type="button"
