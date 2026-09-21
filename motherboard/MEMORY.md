@@ -11196,3 +11196,18 @@ CGPT was compiling brand inventory but leaving synthesis fields empty; GPT2 hand
 - **Modal generate:** `pageConceptModalGeneratePress` no longer blocks with reason `READY FOR REVIEW`.
 - **Tests:** `p0vrPageConceptPostRunRestartControls1.test.ts`.
 - **Branch:** `cursor/page-concept-post-run-restart-controls1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-DUAL-RENDER-ENGINE-TEST1
+
+Founder A/B experiment: same approved GPT2 authority → **GPT2 direct render** (mobile + desktop) vs **NBP render** (mobile + desktop) — four outputs max, no six-concept fanout.
+
+- **Render modes:** `NBP_FULL_SET` | `DUAL_RENDER_TEST`; pipeline flag `renderMode` on `pipelineSet`.
+- **Gate after GPT2:** primary **RUN DUAL RENDER TEST**, secondary **RUN FULL NBP SET**, tertiary **REGENERATE AUTHORITY** (no auto-continue to NBP).
+- **Orchestration:** `executePageConceptDualRenderTest` — parallel 4 jobs; `continueDualRenderTest` / `regenerateDualRenderLane` API flags; shared authority + skin/function grounding metadata on artifacts.
+- **GPT2 lane:** `pageConceptGpt2DirectRenderPackage` + `renderPageGpt2DirectJob` (vitest mock; OpenAI image in prod).
+- **UI:** `PageConceptDualRenderReviewPanel` — authority + mobile/desktop pairs + lane status + founder decision + lane regen + escalate full NBP.
+- **State:** `PageConceptDualRenderTestRun`, statuses `DUAL_RENDER_TEST_RUNNING` / `DUAL_RENDER_TEST_REVIEW`.
+- **Tests:** `p0vrPageConceptDualRenderEngineTest1.test.ts`.
+- **Branch:** `cursor/page-concept-dual-render-engine-test1-b747`.
