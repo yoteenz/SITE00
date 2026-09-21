@@ -20,7 +20,9 @@ import {
   pageConceptStageStatesFromPipeline,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import type { PageConceptGenerationBlockingState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
+import type { PageConceptGenerateClickTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerateClickTelemetry.js';
 import type { PageConceptGenerationEligibility } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
+import type { PageConceptModalGeneratePress } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptModalGeneratePress.js';
 import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
 import type { PageConceptSourceCaptureLine } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/readiness.js';
 import type {
@@ -43,7 +45,9 @@ export function PageConceptGenerationOverlay({
   blockingState,
   generationEligibility,
   generating,
-  confirmReady,
+  confirmReady: _confirmReadyLegacy,
+  modalGeneratePress,
+  generateClickTrace,
   sourceCaptureLines,
   onCancel,
   onConfirm,
@@ -59,7 +63,9 @@ export function PageConceptGenerationOverlay({
   blockingState?: PageConceptGenerationBlockingState;
   generationEligibility?: PageConceptGenerationEligibility;
   generating: boolean;
-  confirmReady: boolean;
+  confirmReady?: boolean;
+  modalGeneratePress?: PageConceptModalGeneratePress;
+  generateClickTrace?: PageConceptGenerateClickTrace;
   sourceCaptureLines?: readonly PageConceptSourceCaptureLine[];
   onCancel: () => void;
   onConfirm: () => void;
@@ -153,10 +159,10 @@ export function PageConceptGenerationOverlay({
     generationEligibility: generationEligibility ?? null,
   });
 
-  const generateDisabled =
-    inFlight ||
-    (mode === 'review' && reviewReady && !failedNbp) ||
-    (mode !== 'review' && !confirmReady);
+  const generateDisabled = modalGeneratePress ? !modalGeneratePress.canPress : inFlight;
+  const generateBlockReason =
+    modalGeneratePress?.blockReason ??
+    (generateDisabled ? founderNotice : null);
 
   const generateBusyLabel =
     generating ?
@@ -205,7 +211,7 @@ export function PageConceptGenerationOverlay({
           }
           footSpendNote={mode === 'confirm' && plan ? spendNote : null}
           generateDisabled={generateDisabled}
-          generateDisabledReason={founderNotice}
+          generateDisabledReason={generateBlockReason ?? founderNotice}
           generateBusyLabel={generateBusyLabel}
           generateLabel={
             !generating && blockingState?.executionError && !failedNbp ?
@@ -240,6 +246,19 @@ export function PageConceptGenerationOverlay({
                 `CAN_GENERATE ${generationEligibility.canGenerate}`,
                 `BLOCKER ${blockingState.primaryBlockerCode ?? '—'}`,
                 `NOTICE ${founderNotice ?? '—'}`,
+                generateClickTrace ?
+                  [
+                    '',
+                    'GENERATE ELIGIBILITY',
+                    `CAN_GENERATE ${generationEligibility.canGenerate}`,
+                    `CAN_PRESS ${modalGeneratePress?.canPress ?? '—'}`,
+                    `CLICK_RECEIVED ${generateClickTrace.clickReceived}`,
+                    `PREFLIGHT ${generateClickTrace.preflightStatus}`,
+                    `RUN ${generateClickTrace.generationRunId ?? generationState.activeGenerationRunId ?? '—'}`,
+                    `DISPATCH ${generateClickTrace.dispatchStatus}`,
+                    `LAST_ERROR ${generateClickTrace.lastErrorCode ?? '—'}`,
+                  ].join('\n')
+                : '',
               ].join('\n')}
             </pre>
           </details>

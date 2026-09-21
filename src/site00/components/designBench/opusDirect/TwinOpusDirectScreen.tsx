@@ -402,9 +402,11 @@ export function TwinOpusDirectScreen({
         generationEligibility={workspace.pageConceptGeneration.generationEligibility}
         generating={workspace.pageConceptGeneration.generating}
         confirmReady={workspace.pageConceptGeneration.ready}
+        modalGeneratePress={workspace.pageConceptGeneration.modalGeneratePress}
+        generateClickTrace={workspace.pageConceptGeneration.generateClickTrace}
         sourceCaptureLines={workspace.pageConceptGeneration.sourceCaptureLines}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
-        onConfirm={() => void workspace.pageConceptGeneration.confirmGeneration()}
+        onConfirm={() => void workspace.pageConceptGeneration.handleGenerateClick()}
         onRetryFailed={() => void workspace.pageConceptGeneration.retryFailedGeneration()}
         onOpenFullscreen={production.actions.openFullscreenArtifact}
       />

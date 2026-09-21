@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { flushSync } from 'react-dom';
 
 import {
   DESIGN_PAGE_CAPTURE_UPDATED_EVENT,
@@ -11,7 +12,17 @@ import {
   mergePageConceptGenerationJobs,
   registerPageConceptGenerationJobs,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
-import { pageConceptReviewReady } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import {
+  pageConceptHasFailedNbpJobs,
+  pageConceptReviewReady,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import {
+  createPageConceptGenerationRunId,
+  emitPageConceptGenerateTelemetry,
+  PAGE_CONCEPT_GENERATE_CLICK_TRACE_INITIAL,
+  type PageConceptGenerateClickTrace,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerateClickTelemetry.js';
+import { computePageConceptModalGeneratePress } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptModalGeneratePress.js';
 import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
@@ -113,6 +124,9 @@ export function usePageConceptGeneration(
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
   const [captureHydrationStatus, setCaptureHydrationStatus] =
     useState<PageConceptCaptureHydrationStatus>('checking');
+  const [generateClickTrace, setGenerateClickTrace] = useState<PageConceptGenerateClickTrace>(
+    PAGE_CONCEPT_GENERATE_CLICK_TRACE_INITIAL,
+  );
 
   useEffect(() => {
     const loaded = loadPageConceptGenerationState(projectId, pageId);
@@ -220,6 +234,21 @@ export function usePageConceptGeneration(
     [executionError, generationEligibility, overlayMode],
   );
 
+  const failedNbp = pageConceptHasFailedNbpJobs(state);
+
+  const modalGeneratePress = useMemo(
+    () =>
+      computePageConceptModalGeneratePress({
+        eligibility: generationEligibility,
+        mode: overlayMode,
+        generating,
+        generationStatus: state.generationStatus,
+        executionError,
+        failedNbp,
+      }),
+    [executionError, failedNbp, generationEligibility, generating, overlayMode, state.generationStatus],
+  );
+
   const persist = useCallback(
     (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => {
       setState((prev) => {
@@ -319,10 +348,101 @@ export function usePageConceptGeneration(
     setExecutionError(null);
   }, [generating]);
 
-  const confirmGeneration = useCallback(async () => {
-    if (generating) return;
-    setGenerating(true);
-    setExecutionError(null);
+  const handleGenerateClick = useCallback(async () => {
+    const clickAt = new Date().toISOString();
+    emitPageConceptGenerateTelemetry('page_concept_generate_clicked', {
+      projectId,
+      pageId,
+      generationRunId: state.activeGenerationRunId,
+      timestamp: clickAt,
+    });
+    setGenerateClickTrace((prev) => ({
+      ...prev,
+      clickReceived: true,
+      clickAt,
+      canGenerateAtClick: generationEligibility.canGenerate,
+      canPressAtClick: modalGeneratePress.canPress,
+    }));
+
+    if (generating) {
+      const message = 'GENERATION ALREADY IN PROGRESS';
+      setExecutionError(message);
+      setGenerateClickTrace((prev) => ({
+        ...prev,
+        preflightStatus: 'failed',
+        lastErrorCode: message,
+      }));
+      emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
+        projectId,
+        pageId,
+        errorCode: message,
+      });
+      return;
+    }
+
+    emitPageConceptGenerateTelemetry('page_concept_generate_preflight_started', { projectId, pageId });
+    setGenerateClickTrace((prev) => ({ ...prev, preflightStatus: 'started' }));
+
+    const press = computePageConceptModalGeneratePress({
+      eligibility: generationEligibility,
+      mode: overlayMode,
+      generating,
+      generationStatus: state.generationStatus,
+      executionError,
+      failedNbp,
+    });
+
+    if (!press.canPress) {
+      const message = press.blockReason ?? 'GENERATION BLOCKED';
+      setExecutionError(message);
+      setGenerateClickTrace((prev) => ({
+        ...prev,
+        preflightStatus: 'failed',
+        lastErrorCode: message,
+        canPressAtClick: false,
+      }));
+      emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
+        projectId,
+        pageId,
+        errorCode: message,
+      });
+      return;
+    }
+
+    emitPageConceptGenerateTelemetry('page_concept_generate_preflight_passed', { projectId, pageId });
+    setGenerateClickTrace((prev) => ({ ...prev, preflightStatus: 'passed' }));
+
+    const generationRunId = createPageConceptGenerationRunId(projectId, pageId);
+    const startedAt = new Date().toISOString();
+    flushSync(() => {
+      setGenerating(true);
+      setExecutionError(null);
+      setOverlayMode('progress');
+      setGenerateClickTrace((prev) => ({
+        ...prev,
+        generationRunId,
+        dispatchStatus: 'started',
+        lastErrorCode: null,
+      }));
+      persist((s) => ({
+        ...s,
+        generationStatus: 'CGPT_RUNNING',
+        activeGenerationRunId: generationRunId,
+        activeGenerationRunStartedAt: startedAt,
+        activeGenerationStage: 'CGPT_STARTING',
+      }));
+    });
+    emitPageConceptGenerateTelemetry('page_concept_generation_run_created', {
+      projectId,
+      pageId,
+      generationRunId,
+    });
+    emitPageConceptGenerateTelemetry('page_concept_generation_dispatch_started', {
+      projectId,
+      pageId,
+      generationRunId,
+    });
+
     try {
       setCaptureHydrationStatus('checking');
       await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
@@ -350,9 +470,6 @@ export function usePageConceptGeneration(
       ) {
         throw new Error(pageConceptCaptureConfirmBlockMessage(projectId, pageId));
       }
-
-      setOverlayMode('progress');
-      persist((s) => ({ ...s, generationStatus: 'CGPT_RUNNING' }));
 
       const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
       const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
@@ -382,16 +499,32 @@ export function usePageConceptGeneration(
           result.pipelineSet.gpt2AuthorityError ??
           null,
       );
+      setGenerateClickTrace((prev) => ({ ...prev, dispatchStatus: 'complete' }));
+      persist((s) => ({
+        ...s,
+        activeGenerationStage: 'COMPLETE',
+      }));
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
     } catch (e) {
       const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
       setExecutionError(message);
       setOverlayMode('review');
+      setGenerateClickTrace((prev) => ({
+        ...prev,
+        dispatchStatus: 'failed',
+        lastErrorCode: message,
+      }));
+      emitPageConceptGenerateTelemetry('page_concept_generation_dispatch_failed', {
+        projectId,
+        pageId,
+        generationRunId,
+        errorCode: message,
+      });
       recordPageConceptGenerationAttemptForensics({
         requestId: `run-${Date.now()}`,
-        generationRunId: `${projectId}:${pageId}`,
+        generationRunId,
         stage: 'GENERATION',
-        endpoint: '/api/page-concept-generation/run',
+        endpoint: '/api/site00/page-concept-generation',
         httpStatus: null,
         errorCode: message,
         founderMessage: message,
@@ -408,10 +541,27 @@ export function usePageConceptGeneration(
     } finally {
       setGenerating(false);
     }
-  }, [generating, pageId, persist, projectId, route, screenId]);
+  }, [
+    executionError,
+    failedNbp,
+    generationEligibility,
+    generating,
+    modalGeneratePress.canPress,
+    overlayMode,
+    pageId,
+    persist,
+    projectId,
+    route,
+    screenId,
+    state.activeGenerationRunId,
+    state.generationStatus,
+  ]);
 
   const retryFailedGeneration = useCallback(async () => {
-    if (generating) return;
+    if (generating) {
+      setExecutionError('GENERATION ALREADY IN PROGRESS');
+      return;
+    }
     setGenerating(true);
     setExecutionError(null);
     try {
@@ -480,8 +630,11 @@ export function usePageConceptGeneration(
     generationState: state,
     openGenerationConfirm,
     cancelGeneration,
-    confirmGeneration,
+    handleGenerateClick,
+    confirmGeneration: handleGenerateClick,
     retryFailedGeneration,
+    modalGeneratePress,
+    generateClickTrace,
     sourceCaptureLines: generationEligibility.sourceCaptureLines,
   };
 }
