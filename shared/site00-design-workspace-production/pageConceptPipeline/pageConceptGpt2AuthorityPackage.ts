@@ -37,6 +37,36 @@ export type PageConceptGpt2AuthorityPackage = {
   currentCapturePriority: number;
 };
 
+export const PAGE_GPT2_HANDOFF_OUTPUT_TARGET = '3_MOBILE_CONCEPTS' as const;
+
+export const PAGE_GPT2_MOBILE_CONCEPT_SLOT_LABELS = [
+  'MOBILE CONCEPT A',
+  'MOBILE CONCEPT B',
+  'MOBILE CONCEPT C',
+] as const;
+
+export const PAGE_GPT2_MOBILE_HANDOFF_TASK = [
+  'CREATE EXACTLY THREE DISTINCT MOBILE PAGE CONCEPTS FOR THIS PAGE.',
+  '',
+  'ALL THREE MUST:',
+  '- derive from the SAME approved CGPT Creative Direction Brief',
+  '- belong unmistakably to the same project world',
+  '- preserve the same project identity',
+  '- preserve the same SKINS contract',
+  '- preserve the same required page function/content',
+  '- treat the current implementation screenshot as FUNCTIONAL_CONTEXT_ONLY',
+  '- preserve all forbidden-drift rules',
+  '',
+  'THE THREE CONCEPTS MUST NOT BE: color variants; minor layout variants; typography swaps; superficial rearrangements.',
+  '',
+  'THE THREE CONCEPTS MUST EXPLORE MEANINGFULLY DIFFERENT: composition strategies; information hierarchy; spatial rhythm; density; evidence placement; image use; editorial storytelling; interaction framing; page surprise.',
+  '',
+  'Each concept is a valid interpretation of the SAME creative premise.',
+  '',
+  'MOBILE-FIRST ONLY — do not generate Tablet, Desktop, or paired viewport outputs at this stage.',
+  'Founder selects one Mobile concept before downstream viewport interpretation.',
+].join('\n');
+
 export const PAGE_CONCEPT_CREATIVE_AUTHORITY_HIERARCHY = [
   'PROJECT IDENTITY / BRAND BIBLE',
   'APPROVED PROJECT DESIGN LANGUAGE',
@@ -109,8 +139,10 @@ export function buildPageConceptGpt2AuthorityPackage(input: {
   const cgptContract = cgptContractFromInjection(input.injection, input.cgptBrief);
 
   const payload = {
-    gpt2Task:
-      'Create exactly ONE strong page authority concept. Design the strongest visual interpretation of this page that belongs unmistakably to this project world while preserving required page function/content. Do NOT recreate the current implementation screenshot aesthetic.',
+    outputTarget: PAGE_GPT2_HANDOFF_OUTPUT_TARGET,
+    mobileConceptSlots: PAGE_GPT2_MOBILE_CONCEPT_SLOT_LABELS,
+    founderSelectionGate: 'AWAITING_FOUNDER_MOBILE_SELECTION',
+    gpt2Task: PAGE_GPT2_MOBILE_HANDOFF_TASK,
     creativeAuthorityHierarchy: PAGE_CONCEPT_CREATIVE_AUTHORITY_HIERARCHY,
     projectIdentity,
     projectVisualIdentity: visualIdentity,
@@ -132,18 +164,20 @@ export function buildPageConceptGpt2AuthorityPackage(input: {
     },
     forbiddenVisualDrift: visualIdentity?.forbiddenDrift ?? [],
     requiredOutputShape: {
-      name: 'string',
-      premise: 'string',
-      hierarchyStrategy: 'string',
-      compositionStrategy: 'string',
-      visualLanguage: 'string',
-      interactionPresentation: 'string',
-      mobileIntent: 'string',
-      desktopIntent: 'string',
-      conceptRationale: 'string',
-      brandSignals: 'string',
-      imageStrategy: 'string',
-      avoidList: 'string',
+      perMobileConcept: {
+        slot: 'MOBILE CONCEPT A | MOBILE CONCEPT B | MOBILE CONCEPT C',
+        artifactId: 'string',
+        conceptId: 'string',
+        conceptRationale: 'string',
+        compositionSummary: 'string',
+        hierarchySummary: 'string',
+        distinctiveMove: 'string',
+        cgptBriefId: 'string',
+        skinContractVersion: 'string',
+        projectIdentityVersion: 'string',
+        mobileViewportImage: 'image',
+      },
+      count: 3,
     },
   };
 
@@ -167,7 +201,7 @@ export function buildPageConceptGpt2AuthorityPackage(input: {
   ];
 
   return {
-    promptVersion: 'page-gpt2-authority-v2-grounding',
+    promptVersion: 'page-gpt2-mobile-triple-handoff-v1',
     creativeAuthorityHierarchy: PAGE_CONCEPT_CREATIVE_AUTHORITY_HIERARCHY,
     sections,
     payload,

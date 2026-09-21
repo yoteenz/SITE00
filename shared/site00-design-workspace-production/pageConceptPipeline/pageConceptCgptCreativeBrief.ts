@@ -48,7 +48,11 @@ export type PageConceptGpt2HandoffPresentation = {
   skinContractVersion: string;
   pageContextVersion: string;
   functionContractVersion: string;
+  /** @deprecated use gpt2TaskInstructions — kept for log compatibility */
   authorityInstructions: string;
+  gpt2OutputTarget: string;
+  gpt2TaskInstructions: string;
+  founderSelectionGate: string;
   currentCapturePriority: number;
   currentCaptureRole: string;
   cgptCreativeDirection: Record<string, string>;
@@ -273,6 +277,7 @@ export function buildPageConceptGpt2HandoffPresentation(input: {
 }): PageConceptGpt2HandoffPresentation {
   const cgpt = input.package.payload.cgptCreativeDirection as Record<string, string>;
   const capture = input.package.payload.implementationCapture as { role?: string; priority?: number };
+  const task = String(input.package.payload.gpt2Task ?? '');
   return {
     cgptBriefId: input.brief.briefId,
     cgptBriefVersion: input.brief.version,
@@ -281,7 +286,10 @@ export function buildPageConceptGpt2HandoffPresentation(input: {
     skinContractVersion: input.skinContractVersion,
     pageContextVersion: input.brief.sourceLineage.pageContextVersion ?? '—',
     functionContractVersion: input.brief.sourceLineage.functionContractVersion ?? '—',
-    authorityInstructions: String(input.package.payload.gpt2Task ?? ''),
+    authorityInstructions: task,
+    gpt2OutputTarget: String(input.package.payload.outputTarget ?? '3_MOBILE_CONCEPTS'),
+    gpt2TaskInstructions: task,
+    founderSelectionGate: String(input.package.payload.founderSelectionGate ?? 'AWAITING_FOUNDER_MOBILE_SELECTION'),
     currentCapturePriority: input.package.currentCapturePriority,
     currentCaptureRole: capture?.role ?? 'FUNCTIONAL_CONTEXT_ONLY',
     cgptCreativeDirection: cgpt,
