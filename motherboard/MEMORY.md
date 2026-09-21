@@ -11263,3 +11263,14 @@ After **viewport family approval**, pipeline compiles **PageFamilySkinBehaviorCo
 - **UI:** `PageConceptPageFamilyContractPanel` + overlay wiring; lock gated on approved page family + Opus shells ready.
 - **Tests:** `p0vrPageFamilySkinBehaviorContract1.test.ts`; orchestration tests updated for new gates.
 - **Branch:** `cursor/page-family-skin-behavior-contract1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.CGPT-GPT2-HANDOFF-MOBILE-TRIPLE-CONCEPT1
+
+Surgical CGPT→GPT2 handoff copy fix (no CGPT synthesis changes): canonical task is **3 distinct Mobile concepts**, not one authority.
+
+- **`pageConceptGpt2AuthorityPackage.ts`:** `PAGE_GPT2_MOBILE_HANDOFF_TASK`, `outputTarget: 3_MOBILE_CONCEPTS`, slots A/B/C, `founderSelectionGate: AWAITING_FOUNDER_MOBILE_SELECTION`, mobile-only + distinct-territory rules; capture remains `FUNCTIONAL_CONTEXT_ONLY`.
+- **Inspector:** GPT2 HANDOFF shows OUTPUT TARGET + GPT2 TASK (removed legacy AUTHORITY INSTRUCTIONS / single-concept wording).
+- **Tests:** `p0vrCgptGpt2HandoffMobileTripleConcept1.test.ts`.
+- **Branch:** `cursor/cgpt-gpt2-handoff-mobile-triple-concept1-b747`.
