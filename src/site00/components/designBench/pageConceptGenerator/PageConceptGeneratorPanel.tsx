@@ -235,6 +235,11 @@ function StageCard({
                       <AiConsoleIcon name={row.icon} size={10} />
                     </span>
                     <span className="s00-pcg__briefRowCopy">
+                      {substepState === 'COMPLETE' ?
+                        <span className="s00-pcg__briefCompleteMark" aria-hidden="true">
+                          ✓{' '}
+                        </span>
+                      : null}
                       {row.label}
                       {cgptSubstepDigests?.[row.id as PageConceptCgptSubstepId] ?
                         <span className="s00-pcg__briefDigest">

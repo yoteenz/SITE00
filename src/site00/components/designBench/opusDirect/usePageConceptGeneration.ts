@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 
 import {
@@ -72,7 +72,25 @@ import {
   pollPageConceptGenerationRunUntilTerminal,
   savePageConceptActiveServerRunId,
   startPageConceptGenerationRunApi,
+  type PageConceptGenerationRunPollUpdate,
 } from '../../../services/pageConceptGenerationRunClient.js';
+import {
+  emptyPresentedSubstepState,
+  mergeSnapshotSubstepsWithPresented,
+  presentPageConceptProgressEvents,
+  type PageConceptPresentedSubstepState,
+} from '../../../services/pageConceptProgressEventPresentation.js';
+import { mergeCgptSubstepDetailIntoEventMap } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
+import {
+  clearPageConceptFounderRunSession,
+  loadPageConceptFounderRunSession,
+  markPageConceptFounderRunSession,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderRunSession.js';
+import { normalizePageConceptStateOnPanelMount } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptHydrationNormalize.js';
+import {
+  PAGE_CONCEPT_PROGRESS_OBSERVATION_FORENSICS_INITIAL,
+  type PageConceptProgressObservationForensics,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressObservationForensics.js';
 import type { PageConceptServerRunSnapshot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptServerRunIsTerminal } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptServerRunToResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
@@ -145,6 +163,7 @@ async function buildPageConceptCapturePayload(
 function applyServerRunSnapshotToState(
   run: PageConceptServerRunSnapshot,
   persist: (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => void,
+  presentedSubsteps?: PageConceptPresentedSubstepState | null,
 ): void {
   persist((s) => {
     let next = s;
@@ -155,12 +174,23 @@ function applyServerRunSnapshotToState(
       next = registerPageConceptGenerationJobs(next, run.jobs);
       next = mergePageConceptArtifactsIntoGallery(next);
     }
+    const snapshotMap =
+      run.panelProgress?.substepStatusById ??
+      mergeCgptSubstepDetailIntoEventMap(run.cgptSubsteps);
+    const substepStatusById =
+      presentedSubsteps && run.panelProgress ?
+        mergeSnapshotSubstepsWithPresented(snapshotMap, presentedSubsteps)
+      : run.panelProgress?.substepStatusById ?? next.liveProgress?.substepStatusById;
+    const liveProgress =
+      run.panelProgress ?
+        { ...run.panelProgress, substepStatusById: substepStatusById ?? run.panelProgress.substepStatusById }
+      : next.liveProgress;
     return {
       ...next,
       generationStatus: run.generationStatus,
       activeGenerationRunId: run.runId,
       activeGenerationStage: run.currentStage,
-      liveProgress: run.panelProgress ?? next.liveProgress,
+      liveProgress,
       cgptSubsteps: run.cgptSubsteps ?? next.cgptSubsteps,
     };
   });
@@ -191,28 +221,42 @@ export function usePageConceptGeneration(
   const [liveProductionTrace, setLiveProductionTrace] = useState<PageConceptLiveProductionTrace>(
     PAGE_CONCEPT_LIVE_TRACE_INITIAL,
   );
+  const [progressForensics, setProgressForensics] = useState<PageConceptProgressObservationForensics>(
+    PAGE_CONCEPT_PROGRESS_OBSERVATION_FORENSICS_INITIAL,
+  );
+  const [presentedSubstepStates, setPresentedSubstepStates] =
+    useState<PageConceptPresentedSubstepState>(() => emptyPresentedSubstepState());
+  const lastObservedSequenceRef = useRef(0);
+  const presentationEpochRef = useRef(0);
+  const presentedSubstepStatesRef = useRef<PageConceptPresentedSubstepState>(emptyPresentedSubstepState());
 
   useEffect(() => {
-    const loaded = loadPageConceptGenerationState(projectId, pageId);
+    const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
+    if (!founderSession) {
+      clearPageConceptActiveServerRunId(projectId, pageId);
+    }
+    const rawLoaded = loadPageConceptGenerationState(projectId, pageId);
+    const loaded = normalizePageConceptStateOnPanelMount(rawLoaded, Boolean(founderSession));
+    if (loaded !== rawLoaded) {
+      savePageConceptGenerationState(loaded);
+    }
     setState(loaded);
     setPendingPlan(null);
     setOverlayOpen(false);
     setOverlayMode(pageConceptReviewReady(loaded.generationStatus) ? 'review' : 'confirm');
-    setExecutionError(
-      sanitizePageConceptExecutionError(
-        buildPageConceptGenerationEligibility({
-          projectSlug: projectId,
-          pageId,
-          screenId,
-          route,
-          sessionReady: null,
-          hydrationStatus: 'ready',
-        }),
-        loaded.lastFailure?.message ?? null,
-      ),
-    );
+    setExecutionError(null);
     setGenerating(false);
     setCaptureHydrationStatus('checking');
+    const emptyPresented = emptyPresentedSubstepState();
+    setPresentedSubstepStates(emptyPresented);
+    presentedSubstepStatesRef.current = emptyPresented;
+    lastObservedSequenceRef.current = 0;
+    setProgressForensics({
+      ...PAGE_CONCEPT_PROGRESS_OBSERVATION_FORENSICS_INITIAL,
+      founderStartConfirmed: Boolean(founderSession),
+      runId: founderSession?.runId ?? loaded.activeGenerationRunId,
+      autoStart: false,
+    });
   }, [pageId, projectId, route, screenId]);
 
   useEffect(() => {
@@ -285,8 +329,15 @@ export function usePageConceptGeneration(
   );
 
   useEffect(() => {
-    setExecutionError((prev) => sanitizePageConceptExecutionError(generationEligibility, prev));
-  }, [generationEligibility]);
+    if (captureHydrationStatus !== 'ready') return;
+    const loaded = loadPageConceptGenerationState(projectId, pageId);
+    setExecutionError((prev) =>
+      sanitizePageConceptExecutionError(
+        generationEligibility,
+        prev ?? loaded.lastFailure?.message ?? null,
+      ),
+    );
+  }, [captureHydrationStatus, generationEligibility, pageId, projectId]);
 
   const blockingState: PageConceptGenerationBlockingState = useMemo(
     () =>
@@ -336,37 +387,107 @@ export function usePageConceptGeneration(
     });
   }, [generationEligibility, persist]);
 
+  const applyPollUpdate = useCallback(
+    async (update: PageConceptGenerationRunPollUpdate, cancelled: () => boolean) => {
+      const epoch = ++presentationEpochRef.current;
+      setProgressForensics((prev) => ({
+        ...prev,
+        runId: update.run.runId,
+        runCreatedAt: update.run.createdAt ?? prev.runCreatedAt,
+        runStatus: update.run.status,
+        currentStage: update.run.currentStage,
+        currentSubstep:
+          update.run.currentCgptSubstep ??
+          update.run.panelProgress?.currentSubstep ??
+          null,
+        latestEventSequence: update.latestSequence,
+        clientObservedSequence: lastObservedSequenceRef.current,
+        unreadEventCount: update.progressEvents.length,
+        lastPollAt: new Date().toISOString(),
+        autoStart: false,
+      }));
+
+      let presented = presentedSubstepStatesRef.current;
+      if (update.progressEvents.length > 0) {
+        presented = await presentPageConceptProgressEvents({
+          events: update.progressEvents,
+          initialMap: presentedSubstepStatesRef.current,
+          onMapUpdate: (map) => {
+            if (cancelled() || presentationEpochRef.current !== epoch) return;
+            presentedSubstepStatesRef.current = map;
+            setPresentedSubstepStates(map);
+          },
+          isCancelled: () => cancelled() || presentationEpochRef.current !== epoch,
+        });
+        if (!cancelled() && presentationEpochRef.current === epoch) {
+          presentedSubstepStatesRef.current = presented;
+          setPresentedSubstepStates(presented);
+          lastObservedSequenceRef.current = Math.max(
+            lastObservedSequenceRef.current,
+            update.latestSequence,
+          );
+        }
+      }
+
+      if (!cancelled()) {
+        applyServerRunSnapshotToState(update.run, persist, presented);
+      }
+    },
+    [persist],
+  );
+
   useEffect(() => {
-    const runId = loadPageConceptActiveServerRunId(projectId, pageId);
-    if (!runId || generating) return;
+    const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
+    const runId = founderSession?.runId ?? null;
+    if (!founderSession || !runId || generating) return;
+
     let cancelled = false;
+    const isCancelled = () => cancelled;
+
     void (async () => {
       try {
         await ensurePageConceptApiAccessToken();
-        const first = await fetchPageConceptGenerationRunApi(runId);
-        if (cancelled || pageConceptServerRunIsTerminal(first.status)) return;
+        const first = await fetchPageConceptGenerationRunApi(runId, lastObservedSequenceRef.current);
+        if (cancelled) return;
+        if (pageConceptServerRunIsTerminal(first.run.status)) {
+          clearPageConceptActiveServerRunId(projectId, pageId);
+          clearPageConceptFounderRunSession(projectId, pageId);
+          await applyPollUpdate(first, isCancelled);
+          setOverlayMode('review');
+          return;
+        }
         setGenerating(true);
         setOverlayMode('progress');
-        await pollPageConceptGenerationRunUntilTerminal({
+        setProgressForensics((prev) => ({
+          ...prev,
+          founderStartConfirmed: true,
           runId,
-          onUpdate: (run) => {
-            if (!cancelled) applyServerRunSnapshotToState(run, persist);
+          autoStart: false,
+        }));
+        await applyPollUpdate(first, isCancelled);
+        const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+          runId,
+          afterSequence: lastObservedSequenceRef.current,
+          onUpdate: (update) => {
+            void applyPollUpdate(update, isCancelled);
           },
         });
         if (!cancelled) {
           clearPageConceptActiveServerRunId(projectId, pageId);
-          setOverlayMode('review');
+          clearPageConceptFounderRunSession(projectId, pageId);
+          setOverlayMode(pageConceptServerRunIsTerminal(terminalRun.status) ? 'review' : 'confirm');
         }
       } catch {
-        clearPageConceptActiveServerRunId(projectId, pageId);
+        if (!cancelled) clearPageConceptActiveServerRunId(projectId, pageId);
       } finally {
         if (!cancelled) setGenerating(false);
       }
     })();
     return () => {
       cancelled = true;
+      presentationEpochRef.current += 1;
     };
-  }, [generating, pageId, persist, projectId]);
+  }, [applyPollUpdate, generating, pageId, projectId]);
 
   const openGenerationConfirm = useCallback(async () => {
     setOverlayOpen(true);
@@ -674,6 +795,18 @@ export function usePageConceptGeneration(
         throw new Error(`GENERATION COULD NOT START · ${tracePayload.error}`);
       }
 
+      emitPageConceptGenerateTelemetry('page_concept_founder_generation_confirmed', {
+        projectId,
+        pageId,
+        generationRunId,
+      });
+      setProgressForensics((prev) => ({
+        ...prev,
+        founderStartConfirmed: true,
+        runId: generationRunId,
+        autoStart: false,
+      }));
+
       setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_START_REQUEST'));
       const startResult = await startPageConceptGenerationRunApi({
         state: loadPageConceptGenerationState(projectId, pageId),
@@ -682,6 +815,7 @@ export function usePageConceptGeneration(
         desktopCapture,
       });
       savePageConceptActiveServerRunId(projectId, pageId, startResult.runId);
+      markPageConceptFounderRunSession(projectId, pageId, startResult.runId);
       setLiveProductionTrace((prev) =>
         appendPageConceptLiveTraceEvent(
           { ...prev, apiRequestSent: true, apiStatus: 202, apiResponseSummary: `runId=${startResult.runId}` },
@@ -692,14 +826,20 @@ export function usePageConceptGeneration(
 
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId: startResult.runId,
-        onUpdate: (run) => {
-          applyServerRunSnapshotToState(run, persist);
+        afterSequence: lastObservedSequenceRef.current,
+        onUpdate: (update) => {
+          void applyPollUpdate(update, () => false);
           setLiveProductionTrace((prev) =>
-            appendPageConceptLiveTraceEvent(prev, 'RUN_STATUS', `${run.status} · ${run.currentStage ?? '—'}`),
+            appendPageConceptLiveTraceEvent(
+              prev,
+              'RUN_STATUS',
+              `${update.run.status} · ${update.run.currentStage ?? '—'}`,
+            ),
           );
         },
       });
       clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
 
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) {
@@ -840,11 +980,21 @@ export function usePageConceptGeneration(
         desktopCapture,
       });
       savePageConceptActiveServerRunId(projectId, pageId, runId);
+      markPageConceptFounderRunSession(projectId, pageId, runId);
+      emitPageConceptGenerateTelemetry('page_concept_founder_generation_confirmed', {
+        projectId,
+        pageId,
+        generationRunId: runId,
+      });
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
-        onUpdate: (run) => applyServerRunSnapshotToState(run, persist),
+        afterSequence: lastObservedSequenceRef.current,
+        onUpdate: (update) => {
+          void applyPollUpdate(update, () => false);
+        },
       });
       clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'CGPT_RETRY_FAILED');
 
@@ -902,11 +1052,21 @@ export function usePageConceptGeneration(
         desktopCapture,
       });
       savePageConceptActiveServerRunId(projectId, pageId, runId);
+      markPageConceptFounderRunSession(projectId, pageId, runId);
+      emitPageConceptGenerateTelemetry('page_concept_founder_generation_confirmed', {
+        projectId,
+        pageId,
+        generationRunId: runId,
+      });
       const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId,
-        onUpdate: (run) => applyServerRunSnapshotToState(run, persist),
+        afterSequence: lastObservedSequenceRef.current,
+        onUpdate: (update) => {
+          void applyPollUpdate(update, () => false);
+        },
       });
       clearPageConceptActiveServerRunId(projectId, pageId);
+      clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'RETRY_FAILED');
 
@@ -956,5 +1116,7 @@ export function usePageConceptGeneration(
     generateClickTrace,
     liveProductionTrace,
     sourceCaptureLines: generationEligibility.sourceCaptureLines,
+    progressForensics,
+    presentedSubstepStates,
   };
 }

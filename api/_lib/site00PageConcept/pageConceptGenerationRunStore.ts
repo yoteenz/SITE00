@@ -2,6 +2,7 @@
  * In-memory server run store — survives client disconnect; not tied to fetch AbortSignal.
  */
 
+import { appendPageConceptProgressEvents } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
 import type { PageConceptServerRun, PageConceptRunProgress } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 
 const runs = new Map<string, PageConceptServerRun>();
@@ -28,6 +29,7 @@ export function getPageConceptServerRun(runId: string): PageConceptServerRun | n
 export function patchPageConceptServerRun(runId: string, patch: PageConceptRunProgress): PageConceptServerRun | null {
   const current = runs.get(runId);
   if (!current) return null;
+  const { events, latestProgressSequence } = appendPageConceptProgressEvents(current, patch);
   const next: PageConceptServerRun = {
     ...current,
     ...patch,
@@ -37,6 +39,8 @@ export function patchPageConceptServerRun(runId: string, patch: PageConceptRunPr
     cgptMeta: patch.cgptMeta !== undefined ? patch.cgptMeta : current.cgptMeta,
     panelProgress: patch.panelProgress !== undefined ? patch.panelProgress : current.panelProgress,
     cgptSubsteps: patch.cgptSubsteps !== undefined ? patch.cgptSubsteps : current.cgptSubsteps,
+    progressEvents: events,
+    latestProgressSequence,
     updatedAt: patch.updatedAt ?? new Date().toISOString(),
   };
   runs.set(runId, next);

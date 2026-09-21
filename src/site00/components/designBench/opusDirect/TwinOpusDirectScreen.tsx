@@ -406,6 +406,8 @@ export function TwinOpusDirectScreen({
         generateClickTrace={workspace.pageConceptGeneration.generateClickTrace}
         liveProductionTrace={workspace.pageConceptGeneration.liveProductionTrace}
         sourceCaptureLines={workspace.pageConceptGeneration.sourceCaptureLines}
+        progressForensics={workspace.pageConceptGeneration.progressForensics}
+        presentedSubstepStates={workspace.pageConceptGeneration.presentedSubstepStates}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
         onConfirm={() => void workspace.pageConceptGeneration.handleGenerateClick()}
         onRetryFailed={() => void workspace.pageConceptGeneration.retryFailedGeneration()}

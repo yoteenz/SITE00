@@ -10,6 +10,7 @@ import {
 import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
 import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
 import { cgptSubstepsForStatusApi } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptSubstepRun.js';
+import { pageConceptProgressEventsAfterSequence } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
 
 export type StartPageConceptGenerationRunInput = RunPageConceptGenerationInput & {
   founderEmail: string;
@@ -74,6 +75,8 @@ export function startPageConceptGenerationRun(input: StartPageConceptGenerationR
     jobs: [],
     generationStatus: input.dryRun ? 'CGPT_RUNNING' : 'CGPT_RUNNING',
     inputState: input.retryCgptOnly && existing ? existing.inputState : input.state,
+    progressEvents: existing?.progressEvents ?? [],
+    latestProgressSequence: existing?.latestProgressSequence ?? 0,
   };
   putPageConceptServerRun(run);
 
@@ -128,9 +131,13 @@ async function runPageConceptGenerationInBackground(
   }
 }
 
-export function snapshotPageConceptServerRun(runId: string) {
+export function snapshotPageConceptServerRun(runId: string, afterSequence = 0) {
   const run = getPageConceptServerRun(runId);
   if (!run) return null;
+  const progressEventsAfterSequence = pageConceptProgressEventsAfterSequence(
+    run.progressEvents ?? [],
+    afterSequence,
+  );
   return {
     runId: run.runId,
     projectId: run.projectId,
@@ -153,5 +160,9 @@ export function snapshotPageConceptServerRun(runId: string) {
     currentCgptSubstep: run.cgptSubsteps?.currentCgptSubstep ?? run.panelProgress?.currentSubstep ?? null,
     updatedAt: run.updatedAt,
     completedAt: run.completedAt,
+    createdAt: run.createdAt,
+    startedAt: run.startedAt,
+    latestProgressSequence: run.latestProgressSequence ?? 0,
+    progressEventsAfterSequence,
   };
 }
