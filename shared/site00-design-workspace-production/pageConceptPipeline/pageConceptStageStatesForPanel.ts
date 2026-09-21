@@ -37,6 +37,7 @@ export function pageConceptStageStatesForPanel(input: {
     state.liveProgress ||
     state.generationStatus === 'CGPT_RUNNING' ||
     state.generationStatus === 'CGPT_RATE_LIMITED' ||
+    state.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
     state.generationStatus === 'GPT2_RUNNING' ||
     state.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
     state.generationStatus === 'NBP_RUNNING'

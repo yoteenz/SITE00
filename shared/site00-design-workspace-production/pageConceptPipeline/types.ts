@@ -9,6 +9,7 @@ export type PageConceptGenerationStatus =
   | 'PLANNED'
   | 'CGPT_RUNNING'
   | 'CGPT_RATE_LIMITED'
+  | 'CGPT_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_RUNNING'
   | 'GPT2_AWAITING_FOUNDER_REVIEW'
   | 'NBP_RUNNING'
@@ -121,6 +122,12 @@ export type PageConceptCgptCreativeBrief = {
   materialStrategy: string;
   imageryStrategy: string;
   interactionCharacter: string;
+  visualTerritory: string;
+  imageStrategy: string;
+  pageSurprise: string;
+  mobileDirection: string;
+  desktopDirection: string;
+  mandatoryBrandSignals: readonly string[];
   keyMessages: readonly string[];
   requiredContent: readonly string[];
   functionalRequirements: readonly string[];
@@ -142,10 +149,15 @@ export type PageCreativeInjection = {
   pageContextVersion: string;
   functionContractVersion: string;
   creativeThesis: string;
+  creativePremise?: string;
+  pageStory?: string;
   pagePurposeInterpretation: string;
   visualOpportunity: string;
+  visualTerritory?: string;
   hierarchyDirection: string;
+  hierarchyStrategy?: string;
   spatialDirection: string;
+  compositionStrategy?: string;
   informationPriority: string;
   imageDataBalance: string;
   responsiveDirection: string;
@@ -155,7 +167,11 @@ export type PageCreativeInjection = {
   immutableRequirements: readonly string[];
   referenceStrategy: string;
   assetStrategy: string;
-  /** CGPT synthesis — optional provider fields. */
+  imageryStrategy?: string;
+  imageStrategy?: string;
+  interactionCharacter?: string;
+  pageSurprise?: string;
+  mandatoryBrandSignals?: readonly string[];
   audienceIntent?: string;
   distinctiveMove?: string;
   typographyStrategy?: string;

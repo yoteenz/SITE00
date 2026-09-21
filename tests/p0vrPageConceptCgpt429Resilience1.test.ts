@@ -27,6 +27,7 @@ import {
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgpt429.js';
 import { loadPageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
 import { listSiteDesignPagesForProject } from '../shared/site00-design-workspace-production/designProjectBinding/index.js';
+import { buildCgptSynthesisParsedFixture } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeSynthesis.js';
 
 const ROOT = join(import.meta.dirname, '..');
 const read = (rel: string) => readFileSync(join(ROOT, rel), 'utf8');
@@ -100,8 +101,13 @@ describe('P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1', () => {
           error: { type: 'rate_limit_error', message: 'Rate limit exceeded' },
         });
       }
+      const fixture = buildCgptSynthesisParsedFixture({
+        projectContext: state.projectContext!,
+        pageContext: state.pageContext!,
+        functionContract: state.functionContract!,
+      });
       return mock200Response({
-        content: [{ type: 'text', text: '{"creativeThesis":"ok","pagePurposeInterpretation":"ok"}' }],
+        content: [{ type: 'text', text: JSON.stringify(fixture) }],
       });
     });
 

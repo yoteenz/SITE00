@@ -41,13 +41,22 @@ import {
   pageConceptNbpRequiresAuthorityApprovalId,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNbpAuthorityPolicy.js';
 import { pageContextForGpt2Package } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectVisualIdentity.js';
-import { compilePageConceptCgptCreativeBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
+import {
+  compilePageConceptCgptCreativeBrief,
+  verifyGpt2HandoffContextIntegrity,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
 import type { PageConceptCgptCreativeBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import {
+  pageConceptCgptQaStopAfterCgpt,
+  validateCgptCreativeSynthesis,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeSynthesis.js';
+import { buildPageConceptGpt2AuthorityPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2AuthorityPackage.js';
 
 export type ExecutePageConceptGenerationOptions = {
   runId?: string;
   dryRun?: boolean;
   retryCgptOnly?: boolean;
+  continueGpt2AfterCgptReview?: boolean;
   continueNbpAfterGpt2Review?: boolean;
   onProgress?: (patch: PageConceptRunProgress) => void;
 };
@@ -74,6 +83,7 @@ export async function executePageConceptGeneration(
   const functionContract = input.state.functionContract!;
 
   const continueNbpAfterGpt2Review = options.continueNbpAfterGpt2Review === true;
+  const continueGpt2AfterCgptReview = options.continueGpt2AfterCgptReview === true;
 
   const mobileCaptureBase64 =
     dryRun ? 'dry-run-mobile' : (
@@ -102,15 +112,22 @@ export async function executePageConceptGeneration(
     creativeInjectionError = undefined;
   }
 
-  const skipCgptGpt2 =
+  const skipCgpt =
+    continueGpt2AfterCgptReview ||
+    continueNbpAfterGpt2Review ||
+    (retryFailedOnly && Boolean(creativeInjection) && !retryCgptOnly);
+  const skipGpt2 =
     continueNbpAfterGpt2Review ||
     (retryFailedOnly && Boolean(creativeInjection) && Boolean(gpt2Authority) && !retryCgptOnly);
 
   if (continueNbpAfterGpt2Review && (!creativeInjection || !gpt2Authority)) {
     throw new Error('GPT2_REVIEW_CONTINUE_MISSING_PIPELINE');
   }
+  if (continueGpt2AfterCgptReview && !creativeInjection) {
+    throw new Error('CGPT_REVIEW_CONTINUE_MISSING_INJECTION');
+  }
 
-  if (!skipCgptGpt2) {
+  if (!skipCgpt) {
     const cgptStart = pageConceptProgressPatchForCgptSubstep('page-intelligence');
     emit(onProgress, {
       status: 'CGPT_RUNNING',
@@ -126,7 +143,7 @@ export async function executePageConceptGeneration(
     });
   }
 
-  if (!skipCgptGpt2 && (!retryFailedOnly || !creativeInjection || retryCgptOnly)) {
+  if (!skipCgpt && (!retryFailedOnly || !creativeInjection || retryCgptOnly)) {
     const cgptResult = await executePageConceptCgptStage({
       runId,
       input: { projectContext, pageContext, functionContract },
@@ -183,7 +200,7 @@ export async function executePageConceptGeneration(
     return { plan, pipelineSet, jobs: [] };
   }
 
-  if (skipCgptGpt2 && !creativeInjection) {
+  if ((skipCgpt || skipGpt2) && !creativeInjection) {
     throw new Error('CGPT_INJECTION_MISSING');
   }
 
@@ -197,7 +214,118 @@ export async function executePageConceptGeneration(
     });
   }
 
-  if (!skipCgptGpt2) {
+  const synthesisCheck = validateCgptCreativeSynthesis(creativeInjection);
+  if (!synthesisCheck.ok && !dryRun) {
+    creativeInjectionError = `CGPT_SYNTHESIS_INCOMPLETE: ${synthesisCheck.missingFields.join(', ')}`;
+    const pipelineSet: PageConceptPipelineSet = {
+      pipelineSetId,
+      projectId: input.state.projectId,
+      pageId: input.state.pageId,
+      targetType: PAGE_CONCEPT_TARGET_TYPE,
+      captureSetId: plan.captureSetId,
+      functionContractId: functionContract.contractId,
+      creativeInjection: null,
+      cgptCreativeBrief: null,
+      gpt2AuthorityConcept: null,
+      renditions: [],
+      creativeInjectionError,
+      createdAt: new Date().toISOString(),
+    };
+    const cgptFail = pageConceptProgressPatchForCgptFailure('creative-direction');
+    emit(onProgress, {
+      status: 'FAILED',
+      currentStage: cgptFail.currentStage,
+      panelProgress: cgptFail.panelProgress,
+      cgptStatus: 'FAILED',
+      gpt2Status: 'PENDING',
+      nbpStatus: 'PENDING',
+      generationStatus: 'FAILED',
+      pipelineSet,
+      jobs: [],
+      error: creativeInjectionError,
+      completedAt: new Date().toISOString(),
+    });
+    return { plan, pipelineSet, jobs: [] };
+  }
+
+  if (
+    pageConceptCgptQaStopAfterCgpt() &&
+    !continueGpt2AfterCgptReview &&
+    !continueNbpAfterGpt2Review &&
+    !retryFailedOnly
+  ) {
+    const reviewPipelineSet: PageConceptPipelineSet = {
+      pipelineSetId,
+      projectId: input.state.projectId,
+      pageId: input.state.pageId,
+      targetType: PAGE_CONCEPT_TARGET_TYPE,
+      captureSetId: plan.captureSetId,
+      functionContractId: functionContract.contractId,
+      creativeInjection,
+      cgptCreativeBrief,
+      gpt2AuthorityConcept: null,
+      renditions: [],
+      creativeInjectionError,
+      createdAt: new Date().toISOString(),
+    };
+    emit(onProgress, {
+      status: 'CGPT_AWAITING_FOUNDER_REVIEW',
+      currentStage: 'CGPT_AWAITING_FOUNDER_REVIEW',
+      panelProgress: pageConceptProgressPatchForCgptSubstep('creative-direction').panelProgress,
+      cgptStatus: 'COMPLETE',
+      gpt2Status: 'PENDING',
+      nbpStatus: 'PENDING',
+      generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW',
+      pipelineSet: reviewPipelineSet,
+      jobs: [],
+      error: null,
+      completedAt: null,
+    });
+    return { plan, pipelineSet: reviewPipelineSet, jobs: [] };
+  }
+
+  const preGpt2HandoffPackage = buildPageConceptGpt2AuthorityPackage({
+    projectContext,
+    pageContext,
+    functionContract,
+    injection: creativeInjection,
+    cgptBrief: cgptCreativeBrief,
+  });
+  const handoffIntegrity = verifyGpt2HandoffContextIntegrity({
+    brief: cgptCreativeBrief!,
+    package: preGpt2HandoffPackage,
+  });
+  if (!handoffIntegrity.ok && !dryRun) {
+    const pipelineSet: PageConceptPipelineSet = {
+      pipelineSetId,
+      projectId: input.state.projectId,
+      pageId: input.state.pageId,
+      targetType: PAGE_CONCEPT_TARGET_TYPE,
+      captureSetId: plan.captureSetId,
+      functionContractId: functionContract.contractId,
+      creativeInjection,
+      cgptCreativeBrief,
+      gpt2AuthorityConcept: null,
+      renditions: [],
+      creativeInjectionError: `GPT2_HANDOFF_CONTEXT_LOSS: ${handoffIntegrity.missing.join(', ')}`,
+      createdAt: new Date().toISOString(),
+    };
+    emit(onProgress, {
+      status: 'FAILED',
+      currentStage: 'GPT2_HANDOFF_BLOCKED',
+      cgptStatus: 'COMPLETE',
+      gpt2Status: 'PENDING',
+      nbpStatus: 'PENDING',
+      generationStatus: 'FAILED',
+      pipelineSet,
+      jobs: [],
+      error: pipelineSet.creativeInjectionError ?? 'GPT2_HANDOFF_CONTEXT_LOSS',
+      completedAt: new Date().toISOString(),
+    });
+    return { plan, pipelineSet, jobs: [] };
+  }
+
+  if (!skipGpt2) {
     const gpt2Start = pageConceptProgressPatchForGpt2();
     emit(onProgress, {
       status: 'GPT2_RUNNING',
@@ -227,7 +355,7 @@ export async function executePageConceptGeneration(
     });
   }
 
-  if (!skipCgptGpt2 && (!gpt2Authority || !retryFailedOnly)) {
+  if (!skipGpt2 && (!gpt2Authority || !retryFailedOnly)) {
     try {
       if (dryRun) {
         await new Promise((r) => setTimeout(r, 50));

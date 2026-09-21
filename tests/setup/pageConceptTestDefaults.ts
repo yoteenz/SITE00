@@ -4,3 +4,6 @@
 if (process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW === undefined) {
   process.env.SITE00_PAGE_CONCEPT_REQUIRE_GPT2_REVIEW = 'false';
 }
+if (process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP === undefined) {
+  process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP = 'false';
+}

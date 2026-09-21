@@ -19,6 +19,7 @@ export type PageConceptServerRunStatus =
   | 'QUEUED'
   | 'CGPT_RUNNING'
   | 'CGPT_RATE_LIMITED'
+  | 'CGPT_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_RUNNING'
   | 'GPT2_AWAITING_FOUNDER_REVIEW'
   | 'NBP_RUNNING'

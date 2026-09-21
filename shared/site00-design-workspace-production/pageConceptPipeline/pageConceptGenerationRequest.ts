@@ -21,6 +21,7 @@ export type PageConceptGenerationRequest = {
   retryCgptOnly?: boolean;
   resumeRunId?: string;
   continueNbpAfterGpt2Review?: boolean;
+  continueGpt2AfterCgptReview?: boolean;
   traceOnly?: boolean;
   dryRun?: boolean;
   state: PageConceptGenerationState;

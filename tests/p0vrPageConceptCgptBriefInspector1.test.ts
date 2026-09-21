@@ -49,7 +49,7 @@ describe('P0.VR PAGE-CONCEPT CGPT BRIEF INSPECTOR', () => {
     expect(brief.briefId).toBe(`pcgb-${injection.injectionId}`);
     expect(brief.version).toBe(PAGE_CGPT_BRIEF_VERSION);
     expect(brief.injectionId).toBe(injection.injectionId);
-    expect(brief.creativePremise).toBe(injection.creativeThesis);
+    expect(brief.creativePremise).toBe(injection.creativePremise ?? injection.creativeThesis);
   });
 
   it('shows skin and identity signals from runtime skin contract', () => {
@@ -96,38 +96,14 @@ describe('P0.VR PAGE-CONCEPT CGPT BRIEF INSPECTOR', () => {
     expect(brief.aestheticAuthorityFromCapture).toBe('NO');
   });
 
-  it('GPT2 handoff preserves required brief fields', () => {
+  it('GPT2 handoff preserves required brief fields', async () => {
     const { projectContext, pageContext, functionContract } = fixtures();
-    const injection = {
-      injectionId: 'pinj-handoff',
-      projectId: PROJECT,
-      pageId: pageContext.pageId,
-      projectContextVersion: projectContext.contextVersion,
-      pageContextVersion: pageContext.contextVersion,
-      functionContractVersion: functionContract.version,
-      creativeThesis: 'Premise',
-      pagePurposeInterpretation: 'Purpose',
-      visualOpportunity: 'Color field',
-      hierarchyDirection: 'Type-led',
-      spatialDirection: 'Composition',
-      informationPriority: 'Messages',
-      imageDataBalance: 'Balanced',
-      responsiveDirection: 'Responsive',
-      mobileDirection: 'M',
-      desktopDirection: 'D',
-      creativeLatitude: 'Wide',
-      immutableRequirements: [],
-      distinctiveMove: 'Distinct move',
-      avoidList: ['beige dashboard'],
-      typographyStrategy: 'NDX SANS COND display',
-      colorStrategy: 'Black white lime',
-      materialStrategy: 'Paper grain',
-      referenceStrategy: 'Refs',
-      assetStrategy: 'Imagery',
-      createdAt: new Date().toISOString(),
-      cgptProvider: 'test',
-      cgptModel: 'test',
-    };
+    process.env.VITEST = 'true';
+    const injection = await generatePageCreativeInjection({
+      projectContext,
+      pageContext,
+      functionContract,
+    });
     const brief = compilePageConceptCgptCreativeBrief({
       injection,
       projectContext,
