@@ -2,6 +2,7 @@ import { planPageNbpRenditions } from '../../../shared/site00-design-workspace-p
 import {
   buildPageConceptGenerationPlan,
   PAGE_NBP_MODEL,
+  PAGE_NBP_PROMPT_VERSION,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import type { PageConceptRunProgress } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import type {
@@ -32,6 +33,14 @@ import {
 import { renderPageNbpJob } from './renderPageNbpJob.js';
 import { resolvePageGenerationCaptureBase64 } from './resolvePageGenerationCapture.js';
 import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.js';
+import { compileProjectSkinContract } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
+import { buildPageNbpRequestPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNbpRequestPackage.js';
+import {
+  createPageConceptAuthorityApprovalId,
+  pageConceptNbpJobAllowedInQaMode,
+  pageConceptNbpRequiresAuthorityApprovalId,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNbpAuthorityPolicy.js';
+import { pageContextForGpt2Package } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectVisualIdentity.js';
 
 export type ExecutePageConceptGenerationOptions = {
   runId?: string;
@@ -212,7 +221,7 @@ export async function executePageConceptGeneration(
           interactionPresentation: 'DRY_RUN',
           mobileIntent: 'DRY_RUN',
           desktopIntent: 'DRY_RUN',
-          authorityArtifact: null,
+          authorityArtifact: `data:image/png;base64,${Buffer.from('dry-run-gpt2-authority', 'utf8').toString('base64')}`,
           gpt2Provider: 'dry-run',
           gpt2Model: 'dry-run',
           createdAt: new Date().toISOString(),
@@ -306,8 +315,24 @@ export async function executePageConceptGeneration(
     return { plan, pipelineSet, jobs: [] };
   }
 
+  const skinContract = compileProjectSkinContract(input.state.projectId);
+  const pageContextSummary = Object.values(pageContextForGpt2Package(pageContext)).join(' · ');
+
   const skipGpt2FounderReviewGate = continueNbpAfterGpt2Review || retryFailedOnly;
   if (pageConceptRequiresGpt2FounderReview() && !skipGpt2FounderReviewGate) {
+    const previewPkg = buildPageNbpRequestPackage({
+      gpt2Authority,
+      creativeInjection: creativeInjection!,
+      functionContract,
+      skinContract,
+      renditionSlot: 'RENDITION_A',
+      renditionDirective: 'Preview — authority-first package inspector',
+      viewport: 'MOBILE',
+      currentImplementationBase64: mobileCaptureBase64,
+      pageContextSummary,
+      authorityApprovalId: 'PENDING_FOUNDER_APPROVAL',
+      renditionId: `prend-preview-${pipelineSetId}`,
+    });
     const reviewPipelineSet: PageConceptPipelineSet = {
       pipelineSetId,
       projectId: input.state.projectId,
@@ -319,6 +344,10 @@ export async function executePageConceptGeneration(
       gpt2AuthorityConcept: gpt2Authority,
       renditions: [],
       creativeInjectionError,
+      nbpPreDispatchInspector: {
+        ...previewPkg.inspector,
+        authorityApprovalId: null,
+      },
       createdAt: new Date().toISOString(),
     };
     emit(onProgress, {
@@ -336,6 +365,32 @@ export async function executePageConceptGeneration(
     });
     return { plan, pipelineSet: reviewPipelineSet, jobs: [] };
   }
+
+  let authorityApprovalId =
+    input.state.pipelineSet?.nbpLineage?.authorityApprovalId ??
+    (continueNbpAfterGpt2Review ? createPageConceptAuthorityApprovalId(runId) : null);
+
+  if (!authorityApprovalId && !pageConceptRequiresGpt2FounderReview()) {
+    authorityApprovalId = `pnaa-bypass-${pipelineSetId}`;
+  }
+
+  if (
+    pageConceptNbpRequiresAuthorityApprovalId() &&
+    pageConceptRequiresGpt2FounderReview() &&
+    !authorityApprovalId &&
+    !dryRun
+  ) {
+    throw new Error('NBP_BLOCKED: AUTHORITY_APPROVAL_ID_REQUIRED');
+  }
+
+  const frozenNbpLineage = {
+    authorityApprovalId: authorityApprovalId!,
+    cgptDirectionId: creativeInjection!.injectionId,
+    gpt2AuthorityId: gpt2Authority.conceptId,
+    gpt2AuthorityVersion: gpt2Authority.groundingPackageVersion ?? PAGE_NBP_PROMPT_VERSION,
+    skinContractId: skinContract.contractId,
+    skinContractVersion: skinContract.version,
+  };
 
   const nbpStart = pageConceptProgressPatchForNbp('NBP_STARTING');
   emit(onProgress, {
@@ -362,6 +417,9 @@ export async function executePageConceptGeneration(
     let failed = false;
 
     for (const viewport of ['MOBILE', 'DESKTOP'] as const) {
+      if (!pageConceptNbpJobAllowedInQaMode(rp.slot, viewport)) {
+        continue;
+      }
       const artifactId = `pcga-${rp.slot}-${viewport}`;
       const existing = input.state.generationJobs.find((j) => j.artifactId === artifactId);
       if (existing?.status === 'READY') {
@@ -387,7 +445,7 @@ export async function executePageConceptGeneration(
         provider: 'NBP',
         model: PAGE_NBP_MODEL,
         providerJobId: null,
-        promptVersion: 'page-nbp-v1',
+        promptVersion: PAGE_NBP_PROMPT_VERSION,
         createdAt: new Date().toISOString(),
         status: 'RUNNING',
         artifactPath: null,
@@ -413,7 +471,7 @@ export async function executePageConceptGeneration(
       });
 
       try {
-        if (dryRun) {
+        if (dryRun && process.env.VITEST !== 'true') {
           await new Promise((r) => setTimeout(r, 30));
           const done = {
             ...running,
@@ -425,16 +483,23 @@ export async function executePageConceptGeneration(
         } else {
           const ref = viewport === 'MOBILE' ? mobileCaptureBase64 : desktopCaptureBase64;
           const dims = viewport === 'MOBILE' ? input.mobileCapture : input.desktopCapture;
-          const render = await renderPageNbpJob({
+          const nbpPackage = buildPageNbpRequestPackage({
             gpt2Authority,
-            creativeInjection,
+            creativeInjection: creativeInjection!,
+            functionContract,
+            skinContract,
             renditionSlot: rp.slot,
             renditionDirective: rp.renditionDirective,
             viewport,
-            referenceImageBase64: ref,
+            currentImplementationBase64: ref,
+            pageContextSummary,
+            authorityApprovalId: authorityApprovalId!,
+            renditionId,
+          });
+          const render = await renderPageNbpJob({
+            package: nbpPackage,
             width: dims.width,
             height: dims.height,
-            functionContract,
           });
           completed[completed.length - 1] = {
             ...running,
@@ -482,6 +547,20 @@ export async function executePageConceptGeneration(
       renditions,
       creativeInjectionError,
       gpt2AuthorityError,
+      nbpLineage: frozenNbpLineage,
+      nbpPreDispatchInspector: buildPageNbpRequestPackage({
+        gpt2Authority,
+        creativeInjection: creativeInjection!,
+        functionContract,
+        skinContract,
+        renditionSlot: rp.slot,
+        renditionDirective: rp.renditionDirective,
+        viewport: 'MOBILE',
+        currentImplementationBase64: mobileCaptureBase64,
+        pageContextSummary,
+        authorityApprovalId: authorityApprovalId!,
+        renditionId,
+      }).inspector,
       createdAt: new Date().toISOString(),
     };
     emit(onProgress, {

@@ -335,6 +335,20 @@ export function PageConceptGenerationOverlay({
                     `PARTIAL ${runHealth.partialFailures.map((e) => e.message).join(' | ') || '—'}`,
                   ].join('\n')
                 : '',
+                generationState.pipelineSet?.nbpPreDispatchInspector ?
+                  [
+                    '',
+                    'NBP PRE-DISPATCH INSPECTOR',
+                    `VISUAL AUTHORITY ${generationState.pipelineSet.nbpPreDispatchInspector.visualAuthorityPresent ? 'PRESENT' : 'MISSING'}`,
+                    `SKIN v${generationState.pipelineSet.nbpPreDispatchInspector.skinContractVersion}`,
+                    `CGPT ${generationState.pipelineSet.nbpPreDispatchInspector.cgptDirectionId}`,
+                    `FUNCTION CONTRACT v${generationState.pipelineSet.nbpPreDispatchInspector.functionContractVersion}`,
+                    `CURRENT SCREENSHOT ${generationState.pipelineSet.nbpPreDispatchInspector.currentScreenshotRole}`,
+                    `AUTHORITY APPROVAL ${generationState.pipelineSet.nbpPreDispatchInspector.authorityApprovalId ?? 'PENDING'}`,
+                    `IMAGE ORDER ${generationState.pipelineSet.nbpPreDispatchInspector.imageInputOrder.join(' → ')}`,
+                    `PROMPT ${generationState.pipelineSet.nbpPreDispatchInspector.promptVersion}`,
+                  ].join('\n')
+                : '',
                 progressForensics ?
                   [
                     '',
