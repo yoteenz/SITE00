@@ -10,6 +10,10 @@ export const IMPLEMENTATION_SNAPSHOT_STORAGE_ROOT = 'studio-world/design/impleme
 export const IMPLEMENTATION_SNAPSHOT_PERSISTENT_REGISTRY_RELATIVE_PATH =
   'public/studio-world/design/implementation-snapshot-persistent-registry.json' as const;
 
+/** Durable metadata ledger in Supabase (Railway-local JSON is not authoritative). */
+export const IMPLEMENTATION_SNAPSHOT_PERSISTENT_REGISTRY_STORAGE_PATH =
+  'studio-world/design/implementation-snapshot-persistent-registry.json' as const;
+
 export const IMPLEMENTATION_SNAPSHOT_DEFAULT_DEVICE_SCALE = 2 as const;
 
 /** Mobile viewport captures below this WebP size are blank/error shells (not real pages). */

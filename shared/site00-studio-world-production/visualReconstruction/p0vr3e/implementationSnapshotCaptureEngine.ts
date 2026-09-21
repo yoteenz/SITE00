@@ -19,6 +19,7 @@ import { resolveCaptureTarget, resolveRepresentativeRoute } from './routeReprese
 import { isComposerDraftImplementationRoute } from '../p0vr3h/composerDraftSnapshots.js';
 import { COMPOSER_DRAFT_SNAPSHOT_LABEL } from '../p0vr3h/constants.js';
 import { bootstrapManagedDesignProject } from '../p0vr3m/managedProjectDesignBootstrap.js';
+import { sha256Hex } from './resolveImplementationSnapshotArtifact.js';
 
 import { execSync } from 'node:child_process';
 
@@ -226,7 +227,7 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       return persistImplementationSnapshot(failed);
     }
 
-    const { publicUrl } = await uploadSnapshotBuffer(storagePath, render.screenshotPath);
+    const { publicUrl, buffer: uploadedBuffer } = await uploadSnapshotBuffer(storagePath, render.screenshotPath);
 
     const routePath = target.route.split('?')[0] ?? target.route;
     const snapshotLabel =
@@ -262,6 +263,9 @@ export async function captureImplementationSnapshot(input: CaptureScreenInput): 
       qaPassed: qa.passed,
       qaIssues: qa.issues,
       snapshotLabel,
+      checksumSha256: qa.passed ? sha256Hex(uploadedBuffer) : null,
+      byteLength: qa.passed ? uploadedBuffer.length : null,
+      contentType: qa.passed ? 'image/webp' : null,
     };
 
     return persistImplementationSnapshot(record);
