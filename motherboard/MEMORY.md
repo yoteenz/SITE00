@@ -11111,3 +11111,14 @@ UI had `liveProgress` bindings but CGPT prep emitted all substeps in one synchro
 - **429:** context substeps stay COMPLETE; `creative-direction` → `RATE_LIMITED` / retry resumes synthesis only.
 - **Tests:** `p0vrPageConceptCgptRealSubstepEmission1.test.ts` dry-run poll proves sequential substeps.
 - **Branch:** `cursor/page-concept-cgpt-real-substep-emission1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-FOUNDER-START-AND-PROGRESS-EVENTS1
+
+Two production issues: panel **auto-entered RUNNING** on open (stale `localStorage` run + mount `pollPageConceptGenerationRunUntilTerminal` + persisted `CGPT_RUNNING`); **2.5s poll** missed fast CGPT substep transitions.
+
+- **Founder start authority:** Removed mount auto-poll without `sessionStorage` founder-run session. Stale active run id cleared on open when no session. `normalizePageConceptStateOnPanelMount` strips in-flight local state unless founder session. Observe-only reconnect polls when founder confirmed in same browser session. `page_concept_founder_generation_confirmed` telemetry before POST start. Hydration: no `lastFailure` flash until captures ready.
+- **Progress events:** Append-only `PageConceptProgressEvent` on `PageConceptServerRun` via `patchPageConceptServerRun`; GET `?runId&afterSequence=N` returns `progressEvents` + `latestSequence`. Client `lastObservedSequence`, presentation queue (400ms dwell on factual COMPLETE events). Forensics block: sequences, unread count, `AUTO-START: false`. Brief rows show ✓ on COMPLETE.
+- **Tests:** `p0vrPageConceptFounderStartAndProgressEvents1.test.ts`.
+- **Branch:** `cursor/page-concept-founder-start-and-progress-events1-b747`.
