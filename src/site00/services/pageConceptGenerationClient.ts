@@ -52,6 +52,35 @@ export async function planPageConceptGenerationApi(
   return result.data.plan;
 }
 
+export async function tracePageConceptGenerationApi(input: {
+  state: PageConceptGenerationState;
+  mobileCapture?: PageConceptCapturePayload;
+  desktopCapture?: PageConceptCapturePayload;
+}): Promise<{
+  ok: boolean;
+  trace: boolean;
+  receipt: Awaited<ReturnType<typeof pageConceptApiFetch>>;
+}> {
+  const result = await pageConceptApiFetch<{
+    ok: boolean;
+    trace?: boolean;
+    dryRun?: boolean;
+    message?: string;
+    error?: string;
+  }>(
+    {
+      action: 'trace',
+      traceOnly: true,
+      dryRun: true,
+      state: input.state,
+      mobileCapture: input.mobileCapture,
+      desktopCapture: input.desktopCapture,
+    },
+    CAPTURE_API_TIMEOUT_MS,
+  );
+  return { ok: result.ok, trace: Boolean(result.data?.trace), receipt: result };
+}
+
 export async function runPageConceptGenerationApi(input: {
   state: PageConceptGenerationState;
   mobileCapture: PageConceptCapturePayload;

@@ -6,11 +6,15 @@ export type PageConceptGenerateClickTrace = {
   clickReceived: boolean;
   clickAt: string | null;
   preflightStatus: 'idle' | 'started' | 'passed' | 'failed';
+  preflightResult: string | null;
   generationRunId: string | null;
   dispatchStatus: 'idle' | 'started' | 'failed' | 'complete';
   lastErrorCode: string | null;
   canGenerateAtClick: boolean | null;
   canPressAtClick: boolean | null;
+  sessionPresentAtClick: boolean | null;
+  stateSetCgptRunning: boolean;
+  renderedStageAtClick: string | null;
 };
 
 export const PAGE_CONCEPT_GENERATE_CLICK_TRACE_INITIAL: PageConceptGenerateClickTrace = {
@@ -22,6 +26,10 @@ export const PAGE_CONCEPT_GENERATE_CLICK_TRACE_INITIAL: PageConceptGenerateClick
   lastErrorCode: null,
   canGenerateAtClick: null,
   canPressAtClick: null,
+  preflightResult: null,
+  sessionPresentAtClick: null,
+  stateSetCgptRunning: false,
+  renderedStageAtClick: null,
 };
 
 export function emitPageConceptGenerateTelemetry(
@@ -32,7 +40,8 @@ export function emitPageConceptGenerateTelemetry(
     | 'page_concept_generate_preflight_failed'
     | 'page_concept_generation_run_created'
     | 'page_concept_generation_dispatch_started'
-    | 'page_concept_generation_dispatch_failed',
+    | 'page_concept_generation_dispatch_failed'
+    | 'page_concept_generation_trace_api_complete',
   detail: {
     projectId: string;
     pageId: string;

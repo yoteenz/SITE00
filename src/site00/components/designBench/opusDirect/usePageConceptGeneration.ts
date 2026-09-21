@@ -22,7 +22,14 @@ import {
   PAGE_CONCEPT_GENERATE_CLICK_TRACE_INITIAL,
   type PageConceptGenerateClickTrace,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerateClickTelemetry.js';
+import {
+  appendPageConceptLiveTraceEvent,
+  formatPageConceptGenerationStatusSnapshot,
+  PAGE_CONCEPT_LIVE_TRACE_INITIAL,
+  type PageConceptLiveProductionTrace,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProductionTrace.js';
 import { computePageConceptModalGeneratePress } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptModalGeneratePress.js';
+import { pageConceptStageStatesForPanel } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptStageStatesForPanel.js';
 import { buildPageConceptGenerationPlan } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { designPageCaptureEventMatches } from '../../../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
@@ -56,7 +63,9 @@ import {
 import {
   planPageConceptGenerationApi,
   runPageConceptGenerationApi,
+  tracePageConceptGenerationApi,
 } from '../../../services/pageConceptGenerationClient.js';
+import { site00ApiUrl } from '../../../../utils/site00ApiBase.js';
 import { getAccessToken } from '../../../../utils/api.js';
 
 async function artifactPathToBase64(path: string): Promise<string> {
@@ -126,6 +135,9 @@ export function usePageConceptGeneration(
     useState<PageConceptCaptureHydrationStatus>('checking');
   const [generateClickTrace, setGenerateClickTrace] = useState<PageConceptGenerateClickTrace>(
     PAGE_CONCEPT_GENERATE_CLICK_TRACE_INITIAL,
+  );
+  const [liveProductionTrace, setLiveProductionTrace] = useState<PageConceptLiveProductionTrace>(
+    PAGE_CONCEPT_LIVE_TRACE_INITIAL,
   );
 
   useEffect(() => {
@@ -350,6 +362,18 @@ export function usePageConceptGeneration(
 
   const handleGenerateClick = useCallback(async () => {
     const clickAt = new Date().toISOString();
+    const sessionToken = await getAccessToken();
+    const sessionPresent = Boolean(sessionToken);
+    const stateBefore = formatPageConceptGenerationStatusSnapshot(state.generationStatus, generating);
+
+    setLiveProductionTrace((prev) =>
+      appendPageConceptLiveTraceEvent(
+        { ...prev, sessionPresent, stateBefore, apiRequestUrl: site00ApiUrl('/api/site00/page-concept-generation') },
+        'CLICK_RECEIVED',
+        `canPress=${modalGeneratePress.canPress} canGenerate=${generationEligibility.canGenerate}`,
+      ),
+    );
+
     emitPageConceptGenerateTelemetry('page_concept_generate_clicked', {
       projectId,
       pageId,
@@ -362,6 +386,7 @@ export function usePageConceptGeneration(
       clickAt,
       canGenerateAtClick: generationEligibility.canGenerate,
       canPressAtClick: modalGeneratePress.canPress,
+      sessionPresentAtClick: sessionPresent,
     }));
 
     if (generating) {
@@ -381,6 +406,7 @@ export function usePageConceptGeneration(
     }
 
     emitPageConceptGenerateTelemetry('page_concept_generate_preflight_started', { projectId, pageId });
+    setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'PREFLIGHT_STARTED'));
     setGenerateClickTrace((prev) => ({ ...prev, preflightStatus: 'started' }));
 
     const press = computePageConceptModalGeneratePress({
@@ -410,10 +436,19 @@ export function usePageConceptGeneration(
     }
 
     emitPageConceptGenerateTelemetry('page_concept_generate_preflight_passed', { projectId, pageId });
-    setGenerateClickTrace((prev) => ({ ...prev, preflightStatus: 'passed' }));
+    setLiveProductionTrace((prev) =>
+      appendPageConceptLiveTraceEvent(prev, 'PREFLIGHT_PASSED', press.intendedAction),
+    );
+    setGenerateClickTrace((prev) => ({
+      ...prev,
+      preflightStatus: 'passed',
+      preflightResult: press.intendedAction,
+    }));
 
     const generationRunId = createPageConceptGenerationRunId(projectId, pageId);
     const startedAt = new Date().toISOString();
+    let stateAfterFlush = stateBefore;
+    let renderedStage = 'CGPT=PENDING';
     flushSync(() => {
       setGenerating(true);
       setExecutionError(null);
@@ -423,15 +458,34 @@ export function usePageConceptGeneration(
         generationRunId,
         dispatchStatus: 'started',
         lastErrorCode: null,
+        stateSetCgptRunning: true,
       }));
-      persist((s) => ({
-        ...s,
-        generationStatus: 'CGPT_RUNNING',
-        activeGenerationRunId: generationRunId,
-        activeGenerationRunStartedAt: startedAt,
-        activeGenerationStage: 'CGPT_STARTING',
-      }));
+      persist((s) => {
+        stateAfterFlush = formatPageConceptGenerationStatusSnapshot('CGPT_RUNNING', true);
+        const next = {
+          ...s,
+          generationStatus: 'CGPT_RUNNING' as const,
+          activeGenerationRunId: generationRunId,
+          activeGenerationRunStartedAt: startedAt,
+          activeGenerationStage: 'CGPT_STARTING',
+        };
+        const chips = pageConceptStageStatesForPanel({ state: next, generating: true, mode: 'progress' });
+        renderedStage = `CGPT=${chips.CGPT} GPT2=${chips.GPT2} NBP=${chips.NBP}`;
+        return next;
+      });
     });
+    setGenerateClickTrace((prev) => ({ ...prev, renderedStageAtClick: renderedStage }));
+    setLiveProductionTrace((prev) =>
+      appendPageConceptLiveTraceEvent(
+        {
+          ...prev,
+          stateAfter: stateAfterFlush,
+          renderedStage,
+        },
+        'STATE_SET_CGPT_RUNNING',
+        renderedStage,
+      ),
+    );
     emitPageConceptGenerateTelemetry('page_concept_generation_run_created', {
       projectId,
       pageId,
@@ -474,6 +528,43 @@ export function usePageConceptGeneration(
       const mobileCapture = await buildPageConceptCapturePayload(mobile, 'MOBILE');
       const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
 
+      setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_TRACE_STARTED'));
+      const traceResult = await tracePageConceptGenerationApi({
+        state: loadPageConceptGenerationState(projectId, pageId),
+        mobileCapture,
+        desktopCapture,
+      });
+      setLiveProductionTrace((prev) => ({
+        ...appendPageConceptLiveTraceEvent(
+          prev,
+          'API_TRACE_COMPLETE',
+          `status=${traceResult.receipt.status}`,
+        ),
+        apiRequestSent: true,
+        apiStatus: traceResult.receipt.status,
+        apiDurationMs: traceResult.receipt.receipt.requestDurationMs,
+        apiErrorCode: traceResult.receipt.errorCode,
+        apiResponseSummary:
+          traceResult.receipt.data && typeof traceResult.receipt.data === 'object' ?
+            String((traceResult.receipt.data as { message?: string }).message ?? 'trace_ok')
+          : traceResult.receipt.receipt.errorMessage ?? null,
+        dryRunUsed: true,
+      }));
+      emitPageConceptGenerateTelemetry('page_concept_generation_trace_api_complete', {
+        projectId,
+        pageId,
+        generationRunId,
+        errorCode: traceResult.receipt.errorCode,
+      });
+      if (!traceResult.ok) {
+        throw new Error(
+          traceResult.receipt.receipt.errorMessage ??
+            traceResult.receipt.errorCode ??
+            'GENERATION COULD NOT START · API TRACE FAILED',
+        );
+      }
+
+      setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_DISPATCH_STARTED'));
       const result = await runPageConceptGenerationApi({
         state: loadPageConceptGenerationState(projectId, pageId),
         founderConfirmedSpend: true,
@@ -500,14 +591,33 @@ export function usePageConceptGeneration(
           null,
       );
       setGenerateClickTrace((prev) => ({ ...prev, dispatchStatus: 'complete' }));
+      setLiveProductionTrace((prev) =>
+        appendPageConceptLiveTraceEvent(
+          { ...prev, apiRequestSent: true, apiStatus: 200, apiResponseSummary: 'generate_ok' },
+          'API_DISPATCH_COMPLETE',
+        ),
+      );
       persist((s) => ({
         ...s,
         activeGenerationStage: 'COMPLETE',
       }));
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'GENERATION_FAILED';
+      const raw = e instanceof Error ? e.message : 'GENERATION_FAILED';
+      const message = raw.startsWith('GENERATION COULD NOT START') ? raw : `GENERATION COULD NOT START · ${raw}`;
       setExecutionError(message);
+      setLiveProductionTrace((prev) =>
+        appendPageConceptLiveTraceEvent(
+          {
+            ...prev,
+            apiRequestSent: prev.apiRequestSent || true,
+            apiErrorCode: raw,
+            apiResponseSummary: message,
+          },
+          'API_DISPATCH_FAILED',
+          raw,
+        ),
+      );
       setOverlayMode('review');
       setGenerateClickTrace((prev) => ({
         ...prev,
@@ -635,6 +745,7 @@ export function usePageConceptGeneration(
     retryFailedGeneration,
     modalGeneratePress,
     generateClickTrace,
+    liveProductionTrace,
     sourceCaptureLines: generationEligibility.sourceCaptureLines,
   };
 }
