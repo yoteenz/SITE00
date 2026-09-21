@@ -1,4 +1,5 @@
 import type { PageConceptServerRunSnapshot } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import type { PageConceptProgressEvent } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
 import {
   PAGE_CONCEPT_POLL_INTERVAL_MS,
   PAGE_CONCEPT_POLL_TIMEOUT_MS,
@@ -34,18 +35,35 @@ export function clearPageConceptActiveServerRunId(projectId: string, pageId: str
   localStorage.removeItem(pageConceptActiveServerRunStorageKey(projectId, pageId));
 }
 
-async function pageConceptGetRun(runId: string, attempt = 0) {
-  const result = await captureApiFetch<{ ok: boolean; run?: PageConceptServerRunSnapshot; error?: string }>(
-    `${PATH}?runId=${encodeURIComponent(runId)}`,
-    { method: 'GET', timeoutMs: PAGE_CONCEPT_POLL_TIMEOUT_MS, authHeaderPresent: attempt > 0 },
-  );
+export type PageConceptGenerationRunPollUpdate = {
+  run: PageConceptServerRunSnapshot;
+  progressEvents: PageConceptProgressEvent[];
+  latestSequence: number;
+};
+
+async function pageConceptGetRun(runId: string, afterSequence: number, attempt = 0) {
+  const qs = new URLSearchParams({
+    runId,
+    afterSequence: String(Math.max(0, afterSequence)),
+  });
+  const result = await captureApiFetch<{
+    ok: boolean;
+    run?: PageConceptServerRunSnapshot;
+    progressEvents?: PageConceptProgressEvent[];
+    latestSequence?: number;
+    error?: string;
+  }>(`${PATH}?${qs.toString()}`, {
+    method: 'GET',
+    timeoutMs: PAGE_CONCEPT_POLL_TIMEOUT_MS,
+    authHeaderPresent: attempt > 0,
+  });
   const apiError =
     result.data && typeof result.data === 'object' && 'error' in result.data ?
       String((result.data as { error?: string }).error ?? '').trim().toUpperCase()
     : '';
   if ((result.status === 401 || apiError === 'UNAUTHORIZED') && attempt === 0) {
     const refreshed = await refreshAccessTokenForApi();
-    if (refreshed) return pageConceptGetRun(runId, 1);
+    if (refreshed) return pageConceptGetRun(runId, afterSequence, 1);
   }
   return result;
 }
@@ -91,26 +109,38 @@ export async function startPageConceptGenerationRunApi(input: {
   };
 }
 
-export async function fetchPageConceptGenerationRunApi(runId: string): Promise<PageConceptServerRunSnapshot> {
-  const result = await pageConceptGetRun(runId);
+export async function fetchPageConceptGenerationRunApi(
+  runId: string,
+  afterSequence = 0,
+): Promise<PageConceptGenerationRunPollUpdate> {
+  const result = await pageConceptGetRun(runId, afterSequence);
   if (!result.ok || !result.data?.run) {
     throwPageConceptApiFailure(result, 'GENERATION_RUN_STATUS_FAILED');
   }
-  return result.data.run;
+  const run = result.data.run;
+  const progressEvents =
+    result.data.progressEvents ?? run.progressEventsAfterSequence ?? [];
+  const latestSequence =
+    result.data.latestSequence ?? run.latestProgressSequence ?? 0;
+  return { run, progressEvents, latestSequence };
 }
 
 export async function pollPageConceptGenerationRunUntilTerminal(input: {
   runId: string;
-  onUpdate: (run: PageConceptServerRunSnapshot) => void;
+  afterSequence?: number;
+  onUpdate: (update: PageConceptGenerationRunPollUpdate) => void;
   intervalMs?: number;
   maxPolls?: number;
 }): Promise<PageConceptServerRunSnapshot> {
   const intervalMs = input.intervalMs ?? PAGE_CONCEPT_POLL_INTERVAL_MS;
   const maxPolls = input.maxPolls ?? 600;
+  let lastObservedSequence = input.afterSequence ?? 0;
   let last: PageConceptServerRunSnapshot | null = null;
   for (let i = 0; i < maxPolls; i += 1) {
-    last = await fetchPageConceptGenerationRunApi(input.runId);
-    input.onUpdate(last);
+    const update = await fetchPageConceptGenerationRunApi(input.runId, lastObservedSequence);
+    lastObservedSequence = Math.max(lastObservedSequence, update.latestSequence);
+    last = update.run;
+    input.onUpdate(update);
     if (pageConceptServerRunIsTerminal(last.status)) return last;
     await new Promise((r) => setTimeout(r, intervalMs));
   }

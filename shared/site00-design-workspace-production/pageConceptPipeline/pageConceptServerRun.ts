@@ -13,6 +13,7 @@ import type {
 import type { PageConceptCgptProviderTelemetry } from './pageConceptCgpt429.js';
 import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
 import type { PageConceptCgptSubstepRunDetail } from './pageConceptCgptSubstepRun.js';
+import type { PageConceptProgressEvent } from './pageConceptProgressEvents.js';
 
 export type PageConceptServerRunStatus =
   | 'QUEUED'
@@ -69,6 +70,8 @@ export type PageConceptServerRun = {
   jobs: PageConceptGeneratedArtifact[];
   generationStatus: PageConceptGenerationStatus;
   inputState: PageConceptGenerationState;
+  progressEvents: PageConceptProgressEvent[];
+  latestProgressSequence: number;
 };
 
 export type PageConceptRunProgress = Pick<
@@ -114,6 +117,10 @@ export type PageConceptServerRunSnapshot = {
   jobs: PageConceptGeneratedArtifact[];
   updatedAt: string;
   completedAt: string | null;
+  createdAt?: string;
+  startedAt?: string | null;
+  latestProgressSequence: number;
+  progressEventsAfterSequence?: PageConceptProgressEvent[];
 };
 
 export function pageConceptServerRunIsTerminal(status: PageConceptServerRunStatus): boolean {

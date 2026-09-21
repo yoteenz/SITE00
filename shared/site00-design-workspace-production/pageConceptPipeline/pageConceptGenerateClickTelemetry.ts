@@ -41,7 +41,8 @@ export function emitPageConceptGenerateTelemetry(
     | 'page_concept_generation_run_created'
     | 'page_concept_generation_dispatch_started'
     | 'page_concept_generation_dispatch_failed'
-    | 'page_concept_generation_trace_api_complete',
+    | 'page_concept_generation_trace_api_complete'
+    | 'page_concept_founder_generation_confirmed',
   detail: {
     projectId: string;
     pageId: string;

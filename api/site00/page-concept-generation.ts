@@ -44,12 +44,23 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
     res.status(400).json({ error: 'RUN_ID_REQUIRED' });
     return;
   }
-  const snapshot = snapshotPageConceptServerRun(runId);
+  const afterRaw = req.query.afterSequence;
+  const afterSequence =
+    afterRaw != null && String(afterRaw).trim() !== '' ?
+      Math.max(0, Number.parseInt(String(afterRaw), 10) || 0)
+    : 0;
+  const snapshot = snapshotPageConceptServerRun(runId, afterSequence);
   if (!snapshot) {
     res.status(404).json({ error: 'RUN_NOT_FOUND' });
     return;
   }
-  res.status(200).json({ ok: true, founderEmail: email, run: snapshot });
+  res.status(200).json({
+    ok: true,
+    founderEmail: email,
+    run: snapshot,
+    latestSequence: snapshot.latestProgressSequence,
+    progressEvents: snapshot.progressEventsAfterSequence,
+  });
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

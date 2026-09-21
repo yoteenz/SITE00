@@ -31,6 +31,9 @@ import type {
   PageConceptGenerationPlan,
   PageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import type { PageConceptProgressObservationForensics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressObservationForensics.js';
+import type { PageConceptCgptSubstepId } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
+import type { PageConceptSubstepRunState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-design-workspace-production/types.js';
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
@@ -57,6 +60,8 @@ export function PageConceptGenerationOverlay({
   onRetryFailed,
   onRetryCgpt,
   onOpenFullscreen,
+  progressForensics,
+  presentedSubstepStates,
 }: {
   open: boolean;
   mode: 'confirm' | 'progress' | 'review';
@@ -77,6 +82,8 @@ export function PageConceptGenerationOverlay({
   onRetryFailed: () => void;
   onRetryCgpt: () => void;
   onOpenFullscreen: (artifact: DesignWorkspaceArtifactView) => void;
+  progressForensics?: PageConceptProgressObservationForensics;
+  presentedSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
 }) {
   const [fullBriefOpen, setFullBriefOpen] = useState(false);
 
@@ -213,6 +220,13 @@ export function PageConceptGenerationOverlay({
 
   const releaseForensics = usePageConceptReleaseForensics(open);
 
+  const cgptSubstepStatesForPanel = useMemo(() => {
+    if (!generating && !generationState.liveProgress) return undefined;
+    const base = liveProgress.substepStatusById;
+    if (!presentedSubstepStates) return base;
+    return { ...base, ...presentedSubstepStates };
+  }, [generating, generationState.liveProgress, liveProgress.substepStatusById, presentedSubstepStates]);
+
   if (!open) return null;
 
   const fullBriefMarkdown = injection ? buildCgptFullBriefMarkdown(injection) : '';
@@ -233,9 +247,7 @@ export function PageConceptGenerationOverlay({
           sourceCaptureLines={sourceCaptureLines}
           sourceCapturesReady={generationEligibility?.sourceCaptureValidation.allRequiredReady === true}
           stageStates={stageStates}
-          cgptSubstepStates={
-            generating || generationState.liveProgress ? liveProgress.substepStatusById : undefined
-          }
+          cgptSubstepStates={cgptSubstepStatesForPanel}
           cgptSubstepDigests={
             generating || generationState.cgptSubsteps ?
               generationState.cgptSubsteps?.substepDigest
@@ -297,6 +309,23 @@ export function PageConceptGenerationOverlay({
                 `CGPT SUBSTEP STATES ${JSON.stringify(generationState.cgptSubsteps?.substepStatusById ?? liveProgress.substepStatusById)}`,
                 `CGPT ATTEMPT ${generationState.cgptSubsteps ? 'see run cgptMeta' : '—'}`,
                 `SERVER UPDATED AT ${generationState.liveProgress?.updatedAt ?? '—'}`,
+                progressForensics ?
+                  [
+                    '',
+                    'PROGRESS OBSERVATION',
+                    `FOUNDER_START_CONFIRMED ${progressForensics.founderStartConfirmed}`,
+                    `RUN ID ${progressForensics.runId ?? '—'}`,
+                    `RUN CREATED AT ${progressForensics.runCreatedAt ?? '—'}`,
+                    `RUN STATUS ${progressForensics.runStatus ?? '—'}`,
+                    `CURRENT STAGE ${progressForensics.currentStage ?? '—'}`,
+                    `CURRENT SUBSTEP ${progressForensics.currentSubstep ?? '—'}`,
+                    `LATEST EVENT SEQUENCE ${progressForensics.latestEventSequence}`,
+                    `CLIENT OBSERVED SEQUENCE ${progressForensics.clientObservedSequence}`,
+                    `UNREAD EVENT COUNT ${progressForensics.unreadEventCount}`,
+                    `LAST POLL ${progressForensics.lastPollAt ?? '—'}`,
+                    `AUTO-START ${progressForensics.autoStart}`,
+                  ].join('\n')
+                : '',
                 [
                   generateClickTrace ?
                     [
