@@ -204,6 +204,10 @@ export type PageConceptGenerationState = {
   generationStatus: PageConceptGenerationStatus;
   lastFailure: { message: string; at: string } | null;
   history: readonly { type: string; at: string; summary: string }[];
+  /** Active run metadata (scoped to projectId + pageId). */
+  activeGenerationRunId: string | null;
+  activeGenerationRunStartedAt: string | null;
+  activeGenerationStage: string | null;
 };
 
 export type PageConceptGenerationPlan = {
