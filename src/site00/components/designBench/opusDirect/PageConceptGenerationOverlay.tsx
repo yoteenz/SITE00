@@ -5,11 +5,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import {
-  PAGE_CONCEPT_DEFAULT_STAGE_STATE,
-  type PageConceptStageId,
-  type PageConceptStageState,
-} from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
+import type { PageConceptStageId, PageConceptStageState } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
 import {
   buildCgptBriefRows,
   buildCgptFullBriefMarkdown,
@@ -17,8 +13,9 @@ import {
   pageConceptGenerationInFlight,
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
-  pageConceptStageStatesFromPipeline,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import { pageConceptStageStatesForPanel } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptStageStatesForPanel.js';
+import type { PageConceptLiveProductionTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProductionTrace.js';
 import type { PageConceptGenerationBlockingState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationBlockingState.js';
 import type { PageConceptGenerateClickTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerateClickTelemetry.js';
 import type { PageConceptGenerationEligibility } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
@@ -48,6 +45,7 @@ export function PageConceptGenerationOverlay({
   confirmReady: _confirmReadyLegacy,
   modalGeneratePress,
   generateClickTrace,
+  liveProductionTrace,
   sourceCaptureLines,
   onCancel,
   onConfirm,
@@ -66,6 +64,7 @@ export function PageConceptGenerationOverlay({
   confirmReady?: boolean;
   modalGeneratePress?: PageConceptModalGeneratePress;
   generateClickTrace?: PageConceptGenerateClickTrace;
+  liveProductionTrace?: PageConceptLiveProductionTrace;
   sourceCaptureLines?: readonly PageConceptSourceCaptureLine[];
   onCancel: () => void;
   onConfirm: () => void;
@@ -99,16 +98,15 @@ export function PageConceptGenerationOverlay({
     [onOpenFullscreen],
   );
 
-  const stageStates: Record<PageConceptStageId, PageConceptStageState> = useMemo(() => {
-    const hasPipeline =
-      generationState.pipelineSet?.creativeInjection ||
-      generationState.generationJobs.length > 0 ||
-      generationState.generationStatus !== 'IDLE';
-    if (!hasPipeline && mode === 'confirm' && !generating) {
-      return PAGE_CONCEPT_DEFAULT_STAGE_STATE;
-    }
-    return pageConceptStageStatesFromPipeline(generationState);
-  }, [generationState, generating, mode]);
+  const stageStates: Record<PageConceptStageId, PageConceptStageState> = useMemo(
+    () =>
+      pageConceptStageStatesForPanel({
+        state: generationState,
+        generating,
+        mode,
+      }),
+    [generationState, generating, mode],
+  );
 
   const injection = generationState.pipelineSet?.creativeInjection ?? null;
   const gpt2 = generationState.pipelineSet?.gpt2AuthorityConcept ?? null;
@@ -246,19 +244,41 @@ export function PageConceptGenerationOverlay({
                 `CAN_GENERATE ${generationEligibility.canGenerate}`,
                 `BLOCKER ${blockingState.primaryBlockerCode ?? '—'}`,
                 `NOTICE ${founderNotice ?? '—'}`,
-                generateClickTrace ?
-                  [
-                    '',
-                    'GENERATE ELIGIBILITY',
-                    `CAN_GENERATE ${generationEligibility.canGenerate}`,
-                    `CAN_PRESS ${modalGeneratePress?.canPress ?? '—'}`,
-                    `CLICK_RECEIVED ${generateClickTrace.clickReceived}`,
-                    `PREFLIGHT ${generateClickTrace.preflightStatus}`,
-                    `RUN ${generateClickTrace.generationRunId ?? generationState.activeGenerationRunId ?? '—'}`,
-                    `DISPATCH ${generateClickTrace.dispatchStatus}`,
-                    `LAST_ERROR ${generateClickTrace.lastErrorCode ?? '—'}`,
-                  ].join('\n')
-                : '',
+                [
+                  generateClickTrace ?
+                    [
+                      '',
+                      'LIVE GENERATE TRACE',
+                      `CLICK_RECEIVED ${generateClickTrace.clickReceived}`,
+                      `CAN_PRESS ${generateClickTrace.canPressAtClick ?? '—'}`,
+                      `CAN_GENERATE ${generateClickTrace.canGenerateAtClick ?? '—'}`,
+                      `SESSION ${generateClickTrace.sessionPresentAtClick ?? '—'}`,
+                      `PREFLIGHT ${generateClickTrace.preflightStatus}`,
+                      `PREFLIGHT_RESULT ${generateClickTrace.preflightResult ?? '—'}`,
+                      `STATE_SET_CGPT_RUNNING ${generateClickTrace.stateSetCgptRunning}`,
+                      `RENDERED_STAGE ${generateClickTrace.renderedStageAtClick ?? '—'}`,
+                      `RUN ${generateClickTrace.generationRunId ?? generationState.activeGenerationRunId ?? '—'}`,
+                      `DISPATCH ${generateClickTrace.dispatchStatus}`,
+                      `LAST_ERROR ${generateClickTrace.lastErrorCode ?? '—'}`,
+                    ].join('\n')
+                  : '',
+                  liveProductionTrace ?
+                    [
+                      '',
+                      'NETWORK / API',
+                      `REQUEST_SENT ${liveProductionTrace.apiRequestSent}`,
+                      `URL ${liveProductionTrace.apiRequestUrl ?? '—'}`,
+                      `STATUS ${liveProductionTrace.apiStatus ?? '—'}`,
+                      `DURATION_MS ${liveProductionTrace.apiDurationMs ?? '—'}`,
+                      `ERROR ${liveProductionTrace.apiErrorCode ?? '—'}`,
+                      `RESPONSE ${liveProductionTrace.apiResponseSummary ?? '—'}`,
+                      `DRY_RUN ${liveProductionTrace.dryRunUsed}`,
+                      `STATE_BEFORE ${liveProductionTrace.stateBefore ?? '—'}`,
+                      `STATE_AFTER ${liveProductionTrace.stateAfter ?? '—'}`,
+                      ...liveProductionTrace.events.map((e) => `${e.at} ${e.kind}${e.detail ? ` · ${e.detail}` : ''}`),
+                    ].join('\n')
+                  : '',
+                ].join('\n')
               ].join('\n')}
             </pre>
           </details>

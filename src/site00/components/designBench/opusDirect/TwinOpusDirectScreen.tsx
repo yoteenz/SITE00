@@ -404,6 +404,7 @@ export function TwinOpusDirectScreen({
         confirmReady={workspace.pageConceptGeneration.ready}
         modalGeneratePress={workspace.pageConceptGeneration.modalGeneratePress}
         generateClickTrace={workspace.pageConceptGeneration.generateClickTrace}
+        liveProductionTrace={workspace.pageConceptGeneration.liveProductionTrace}
         sourceCaptureLines={workspace.pageConceptGeneration.sourceCaptureLines}
         onCancel={workspace.pageConceptGeneration.cancelGeneration}
         onConfirm={() => void workspace.pageConceptGeneration.handleGenerateClick()}

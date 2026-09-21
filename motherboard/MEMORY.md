@@ -11006,3 +11006,29 @@ Production: narrow left GENERATE PAGE CONCEPTS modal + silent generation failure
 - **Silent failure:** (1) `derivePageConceptGenerationBlockingState` confirm+`canGenerate` forced `founderNotice` null ignoring `executionError`; (2) sanitizer `isPageConceptSourceCaptureRelatedNotice` too broad (stripped real payload errors mentioning “source capture”); (3) `openGenerationConfirm` cleared errors; plan API catch swallowed failures. Fix: narrow `isPageConceptStaleCaptureEligibilityNotice`, show execution errors in confirm, restore persisted `lastFailure`, surface plan errors, `RETRY GENERATION` label, attempt forensics helper.
 - **Tests:** `p0vrPageConceptPanelWidthAndErrorRecovery1.test.ts`.
 - **Branch:** `cursor/page-concept-panel-width-error-recovery1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1
+
+GENERATE visually enabled but dead on tap (iPhone Safari production).
+
+- **Button:** `PageConceptGeneratorPanel` `<button type="button" class="s00-pcg__generate">` → `onGenerate?.()` → `TwinOpusDirectScreen` `handleGenerateClick`.
+- **Root causes:** (1) `generateDisabled` used `confirmReady` only in confirm mode — **review mode bypassed** session/canGenerate gate so DOM could enable while handler later no-oped; (2) `confirmGeneration` silent `if (generating) return`; (3) preflight failures not always surfaced before async work.
+- **Fix:** `computePageConceptModalGeneratePress` single gate for DOM disabled; `handleGenerateClick` with telemetry, preflight → visible `setExecutionError`, `flushSync` + `CGPT_RUNNING` + `activeGenerationRunId` before API; Technical details click trace; `.s00-pcg-layer__box { z-index: 1 }` above scrim.
+- **API:** POST `/api/site00/page-concept-generation` action `generate`.
+- **Tests:** `p0vrPageConceptGenerateClickDeadpath1.test.ts`.
+- **Branch:** `cursor/page-concept-generate-click-deadpath1-b747`.
+
+---
+
+## 2026-09-21 — P0.VR.PAGE-CONCEPT-LIVE-PRODUCTION-TRACE1
+
+Founder: GENERATE still no visible change on live site00.com despite v592 receipt.
+
+- **Live verify (curl):** `site00.com/release-manifest.json` → commit `1f82b46cd2fa`, bundle `index.BXZxoMi3.js` (CI artifact; matches merged deadpath commit). API CORS OPTIONS 204; unauth POST → 401 UNAUTHORIZED.
+- **Render bug:** overlay `stageStates` ignored `generating` when status PLANNED/IDLE → chips stayed READY while button said GENERATING. Fix: `pageConceptStageStatesForPanel`.
+- **Live trace:** `pageConceptLiveProductionTrace` event log + expanded Technical details (click, preflight, network). Pre-generate `tracePageConceptGenerationApi` (dryRun, no providers). API `action: trace`.
+- **Handler/panel same object:** `generationState` from hook `state` via TwinOpusDirectScreen.
+- **Founder browser QA:** requires signed-in session on site00.com — agent cannot complete Phase 10 without founder credentials; use Technical details after deploy.
+- **Branch:** `cursor/page-concept-live-production-trace1-b747`.
