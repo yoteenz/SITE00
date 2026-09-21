@@ -106,9 +106,9 @@ export const PAGE_CONCEPT_GENERATOR_TITLE = 'GENERATE PAGE CONCEPTS';
 
 export const PAGE_CONCEPT_GENERATOR_SUMMARY = [
   { id: 'cgpt', count: '1 CGPT', label: 'CREATIVE' },
-  { id: 'gpt2', count: '1 GPT2', label: 'AUTHORITY' },
-  { id: 'nbp', count: '3 NBP', label: 'RENDITIONS' },
-  { id: 'viewports', count: '6 VIEWPORT', label: 'OUTPUTS', note: '(MOBILE + DESKTOP)' },
+  { id: 'gpt2', count: '3 GPT2', label: 'MOBILE' },
+  { id: 'viewport', count: '1 TABLET + 1 DESKTOP', label: 'INTERPRET' },
+  { id: 'twin', count: 'TWIN → LIVE', label: 'MERGE', note: '(EXPLICIT FOUNDER PROMOTION)' },
 ] as const;
 
 const CGPT_BRIEF_ROWS: readonly PageConceptBriefRow[] = [
@@ -119,26 +119,31 @@ const CGPT_BRIEF_ROWS: readonly PageConceptBriefRow[] = [
   { id: 'creative-direction', label: 'CREATIVE DIRECTION', icon: 'opus-explore', lead: true },
 ];
 
-const NBP_GROUPS: readonly PageConceptRenditionGroup[] = [
+const MOBILE_CONCEPT_GROUPS: readonly PageConceptRenditionGroup[] = [
   {
     id: 'MOBILE',
-    label: 'MOBILE (3)',
+    label: 'MOBILE CONCEPTS (3)',
     icon: 'auth-mobile',
     slots: [
-      { id: 'nbp.mobile.a', label: 'A' },
-      { id: 'nbp.mobile.b', label: 'B' },
-      { id: 'nbp.mobile.c', label: 'C' },
+      { id: 'gpt2.mobile.a', label: 'A' },
+      { id: 'gpt2.mobile.b', label: 'B' },
+      { id: 'gpt2.mobile.c', label: 'C' },
     ],
+  },
+];
+
+const VIEWPORT_FAMILY_GROUPS: readonly PageConceptRenditionGroup[] = [
+  {
+    id: 'MOBILE',
+    label: 'TABLET',
+    icon: 'auth-mobile',
+    slots: [{ id: 'viewport.tablet', label: 'TABLET' }],
   },
   {
     id: 'DESKTOP',
-    label: 'DESKTOP (3)',
+    label: 'DESKTOP',
     icon: 'auth-desktop',
-    slots: [
-      { id: 'nbp.desktop.a', label: 'A' },
-      { id: 'nbp.desktop.b', label: 'B' },
-      { id: 'nbp.desktop.c', label: 'C' },
-    ],
+    slots: [{ id: 'viewport.desktop', label: 'DESKTOP' }],
   },
 ];
 
@@ -164,32 +169,34 @@ export const PAGE_CONCEPT_GENERATOR_STAGES: readonly PageConceptStageShell[] = [
     step: 2,
     stepLabel: 'STEP 2',
     tag: 'GPT2',
-    title: 'AUTHORITY CONCEPT',
-    subtitle: 'SINGLE PAGE CONCEPT',
-    progressionTitle: 'GPT2 AUTHORITY CONCEPT',
-    progressionNote: 'CREATE A SINGLE, REFINED AUTHORITY CONCEPT FOR THE PAGE.',
-    resultKind: 'AUTHORITY_IMAGE',
+    title: 'MOBILE CONCEPTS',
+    subtitle: 'THREE DISTINCT TERRITORIES',
+    progressionTitle: 'GPT2 MOBILE CONCEPTS',
+    progressionNote: 'GENERATE THREE GENUINELY DISTINCT MOBILE CONCEPT TERRITORIES.',
+    resultKind: 'RENDITION_GROUPS',
     outputLabel: 'OUTPUT',
-    outputNote: '1 REFINED AUTHORITY PAGE CONCEPT.',
+    outputNote: 'MOBILE CONCEPT A · B · C.',
     icon: 'mark-authority',
-    resultSlotId: 'gpt2.authorityImage',
+    resultSlotId: 'gpt2.mobileConcepts',
+    renditionGroups: MOBILE_CONCEPT_GROUPS,
+    pagingDots: 3,
   },
   {
     id: 'NBP',
     step: 3,
     stepLabel: 'STEP 3',
-    tag: 'NBP',
-    title: 'RENDITIONS',
-    subtitle: 'MULTI-VIEWPORT OUTPUTS',
-    progressionTitle: 'NBP RENDITIONS',
-    progressionNote: 'PRODUCE MULTIPLE VIEWPORT RENDERS (MOBILE + DESKTOP) FROM THE CONCEPT.',
+    tag: 'VIEWPORT',
+    title: 'VIEWPORT FAMILY',
+    subtitle: 'TABLET + DESKTOP INTERPRETATION',
+    progressionTitle: 'VIEWPORT AUTHORITY FAMILY',
+    progressionNote: 'AUTHORED TABLET AND DESKTOP INTERPRETATIONS OF THE SELECTED MOBILE CONCEPT.',
     resultKind: 'RENDITION_GROUPS',
     outputLabel: 'OUTPUT',
-    outputNote: '3 RENDITION GROUPS (MOBILE + DESKTOP).',
+    outputNote: '1 TABLET · 1 DESKTOP · THEN TWIN BUILD.',
     icon: 'mark-grok',
-    resultSlotId: 'nbp.renditions',
-    renditionGroups: NBP_GROUPS,
-    pagingDots: 5,
+    resultSlotId: 'viewport.family',
+    renditionGroups: VIEWPORT_FAMILY_GROUPS,
+    pagingDots: 2,
   },
 ];
 
@@ -197,7 +204,7 @@ export const PAGE_CONCEPT_GENERATOR_FOOTER = {
   progressionNote: 'OUTPUTS WILL POPULATE BELOW AS EACH STAGE COMPLETES.',
   spendNote: 'CONFIRM BEFORE SEND.',
   /** Compact mobile footer — display only; full plan line stays on desktop. */
-  spendMicroSummary: '1 CGPT + 1 GPT2 + 3 NBP · 6 OUTPUTS',
+  spendMicroSummary: '1 CGPT + 3 GPT2 MOBILE · VIEWPORT FAMILY → TWIN',
   generateLabel: 'GENERATE',
   cancelLabel: 'CANCEL',
 } as const;
@@ -265,14 +272,14 @@ export const PAGE_CONCEPT_GENERATOR_HOOK_MAP = [
     binds: 'Structured creative brief rows (direction, intelligence, brand, messages, moodboard).',
   },
   {
-    slot: 'gpt2.authorityImage',
-    selector: '[data-result-slot="gpt2.authorityImage"]',
-    binds: 'Single authority concept image plus its source concept caption.',
+    slot: 'gpt2.mobileConcepts',
+    selector: '[data-result-slot="gpt2.mobileConcepts"]',
+    binds: 'Three GPT2 mobile concept territories (A/B/C).',
   },
   {
-    slot: 'nbp.renditions',
-    selector: '[data-result-slot="nbp.renditions"]',
-    binds: 'Mobile A/B/C and desktop A/B/C rendition images, selection and paging index.',
+    slot: 'viewport.family',
+    selector: '[data-result-slot="viewport.family"]',
+    binds: 'Tablet + desktop authored interpretations and viewport family review.',
   },
   {
     slot: 'action.generate',

@@ -152,19 +152,20 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     expect(pageContext?.currentCaptureSummary).toContain('cap-mobile-vitest');
   });
 
-  it('generation plan: 1 CGPT, 1 GPT2, 3 renditions, 6 NBP outputs', () => {
+  it('generation plan (canonical): 1 CGPT, 3 GPT2 mobile, 0 NBP jobs', () => {
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
     const pageId = overviewPageId();
     seedMobileDesktopCaptures(PROJECT, pageId);
     const plan = buildPageConceptGenerationPlan(PROJECT, pageId);
     expect(plan.targetType).toBe(PAGE_CONCEPT_TARGET_TYPE);
     expect(plan.cgptCalls).toBe(1);
-    expect(plan.gpt2Calls).toBe(1);
-    expect(plan.nbpRenditions).toBe(3);
-    expect(plan.nbpJobs).toBe(6);
-    expect(planPageNbpRenditions()).toHaveLength(3);
+    expect(plan.gpt2Calls).toBe(3);
+    expect(plan.nbpRenditions).toBe(0);
+    expect(plan.nbpJobs).toBe(0);
   });
 
-  it('orchestrator: CGPT×1, GPT2×1, NBP×6; renditions share gpt2AuthorityConceptId', async () => {
+  it('orchestrator (canonical): CGPT×1, GPT2 mobile×3, NBP×0', async () => {
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
     const pageId = overviewPageId();
     seedMobileDesktopCaptures(PROJECT, pageId);
     const state = loadPageConceptGenerationState(PROJECT, pageId);
@@ -180,15 +181,11 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     });
 
     expect(cgptSpy).toHaveBeenCalledTimes(1);
-    expect(gpt2Spy).toHaveBeenCalledTimes(1);
-    expect(nbpSpy).toHaveBeenCalledTimes(6);
-    const gpt2Id = result.pipelineSet.gpt2AuthorityConcept!.conceptId;
-    expect(result.pipelineSet.renditions).toHaveLength(3);
-    for (const r of result.pipelineSet.renditions) {
-      expect(r.sourceGpt2ConceptId).toBe(gpt2Id);
-    }
+    expect(gpt2Spy).not.toHaveBeenCalled();
+    expect(nbpSpy).not.toHaveBeenCalled();
+    expect(result.jobs).toHaveLength(3);
+    expect(result.jobs.every((j) => j.provider === 'GPT2_MOBILE')).toBe(true);
     for (const job of result.jobs) {
-      expect(job.gpt2AuthorityConceptId).toBe(gpt2Id);
       expect(job.creativeInjectionId).toBe(result.pipelineSet.creativeInjection!.injectionId);
     }
   });
@@ -219,8 +216,8 @@ describe('P0.VR.DESIGN-PAGE-CONCEPT-PIPELINE-WIRING1', () => {
     expect(overlay).toContain('PageConceptGeneratorPanel');
     const shell = read('shared/site00-design-workspace-production/designPageConceptGeneratorShell.ts');
     expect(shell).toContain('CGPT CREATIVE INJECTION');
-    expect(shell).toContain('GPT2 AUTHORITY CONCEPT');
-    expect(shell).toContain('NBP RENDITIONS');
+    expect(shell).toContain('GPT2 MOBILE CONCEPTS');
+    expect(shell).toContain('VIEWPORT AUTHORITY FAMILY');
   });
 
   it('client confirm path passes founderConfirmedSpend only on generate action', () => {

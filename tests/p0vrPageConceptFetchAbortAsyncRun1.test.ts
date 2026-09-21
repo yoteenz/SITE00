@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import * as cgpt from '../api/_lib/site00PageConcept/generatePageCreativeInjection.js';
 import {
   clearPageConceptServerRuns,
@@ -39,6 +41,8 @@ function overviewPageId(): string {
 }
 
 describe('P0.VR.PAGE-CONCEPT-FETCH-ABORT-ASYNC-RUN1', () => {
+  useLegacyPageConceptNbpPipeline();
+
   beforeEach(() => {
     clearPageConceptServerRuns();
     vi.restoreAllMocks();

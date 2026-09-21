@@ -3,6 +3,10 @@ import { getSite00ManagedProject } from '../../site00-studio-world-production/vi
 import type { PageConceptGenerationPlan } from './types.js';
 import { evaluatePageConceptReadiness, evaluatePageConceptServerReadiness } from './readiness.js';
 import { PAGE_CONCEPT_TARGET_TYPE } from './constants.js';
+import {
+  pageConceptInitialSpendNote,
+  pageConceptLegacyNbpEnabled,
+} from './pageConceptCanonicalPipeline.js';
 
 export { PAGE_CGPT_SYNTHESIS_PROMPT_VERSION as PAGE_CGPT_PROMPT_VERSION } from './pageConceptCgptCreativeSynthesis.js';
 export const PAGE_GPT2_PROMPT_VERSION = 'page-concept-gpt2-v1-authority';
@@ -27,6 +31,7 @@ export function buildPageConceptGenerationPlan(
 
   const captureSetId = `pcs-${projectId}-${pageId}-${Date.now()}`;
 
+  const legacyNbp = pageConceptLegacyNbpEnabled();
   return {
     targetType: PAGE_CONCEPT_TARGET_TYPE,
     projectId,
@@ -34,13 +39,16 @@ export function buildPageConceptGenerationPlan(
     projectLabel: managed.displayName.toUpperCase(),
     pageLabel: page.pageName.toUpperCase(),
     cgptCalls: 1,
-    gpt2Calls: 1,
-    nbpRenditions: 3,
-    nbpJobs: 6,
-    outputCount: 6,
+    gpt2Calls: legacyNbp ? 1 : 3,
+    gpt2MobileConceptCount: legacyNbp ? 0 : 3,
+    nbpRenditions: legacyNbp ? 3 : 0,
+    nbpJobs: legacyNbp ? 6 : 0,
+    outputCount: legacyNbp ? 6 : 3,
     captureSetId,
     functionContractId: `pfc-${projectId}-${pageId}`,
-    estimatedCostNote:
-      '1 CGPT creative injection + 1 GPT2 page authority + 3 NBP rendition groups (Mobile + Desktop). Confirm before spend.',
+    pipelineLineage: legacyNbp ? 'LEGACY_NBP_CONCEPT_PIPELINE' : 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE',
+    estimatedCostNote: legacyNbp ?
+      '1 CGPT creative injection + 1 GPT2 page authority + 3 NBP rendition groups (Mobile + Desktop). Confirm before spend.'
+    : `${pageConceptInitialSpendNote()} Confirm before spend.`,
   };
 }

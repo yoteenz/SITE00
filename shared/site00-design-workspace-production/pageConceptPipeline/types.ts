@@ -1,6 +1,8 @@
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
 import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
 import type { PageConceptCgptSubstepRunDetail } from './pageConceptCgptSubstepRun.js';
+import type { PageConceptPipelineLineageId } from './pageConceptCanonicalPipeline.js';
+import type { PageGpt2MobileConcept, PageViewportAuthorityFamily } from './pageConceptViewportAuthorityFamily.js';
 
 export type PageConceptTargetType = 'PAGE';
 
@@ -13,8 +15,10 @@ export type PageConceptGenerationStatus =
   | 'CGPT_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_RUNNING'
   | 'GPT2_AWAITING_FOUNDER_REVIEW'
-  | 'DUAL_RENDER_TEST_RUNNING'
-  | 'DUAL_RENDER_TEST_REVIEW'
+  | 'GPT2_MOBILE_AWAITING_SELECTION'
+  | 'VIEWPORT_FAMILY_REVIEW'
+  | 'VIEWPORT_FAMILY_LOCKED'
+  | 'TWIN_READY_FOR_REVIEW'
   | 'NBP_RUNNING'
   | 'PARTIAL_GENERATION'
   | 'READY_FOR_FOUNDER_REVIEW'
@@ -239,7 +243,7 @@ export type PageFunctionContract = {
 
 export type PageConceptRenderLaneType = 'GPT2_DIRECT' | 'NBP';
 
-export type PageConceptRenderMode = 'NBP_FULL_SET' | 'DUAL_RENDER_TEST';
+export type PageConceptRenderMode = 'NBP_FULL_SET';
 
 export type PageConceptRenderGroundingMeta = {
   authorityPriorityUsed: boolean;
@@ -304,7 +308,7 @@ export type PageConceptGeneratedArtifact = {
   creativeInjectionId: string;
   gpt2AuthorityConceptId: string;
   renditionId: string;
-  provider: 'NBP' | 'GPT2_DIRECT';
+  provider: 'NBP' | 'GPT2_DIRECT' | 'GPT2_MOBILE';
   model: string;
   providerJobId: string | null;
   promptVersion: string;
@@ -355,6 +359,10 @@ export type PageConceptPipelineSet = {
   nbpLineage?: PageConceptNbpLineage | null;
   nbpPreDispatchInspector?: PageConceptNbpPreDispatchInspector | null;
   renderMode?: PageConceptRenderMode | null;
+  pipelineLineage?: PageConceptPipelineLineageId | null;
+  mobileConcepts?: readonly PageGpt2MobileConcept[];
+  selectedMobileConceptId?: string | null;
+  viewportAuthorityFamily?: PageViewportAuthorityFamily | null;
   createdAt: string;
 };
 
@@ -393,7 +401,7 @@ export type PageConceptGenerationState = {
   /** Latest panel progression snapshot (persisted for refresh/resume). */
   liveProgress: PageConceptPanelProgress | null;
   cgptSubsteps: PageConceptCgptSubstepRunDetail | null;
-  /** Active dual render A/B test (four outputs max). */
+  /** @deprecated Legacy dual-render test runs (read-only hydration). */
   dualRenderTestRun?: PageConceptDualRenderTestRun | null;
 };
 
@@ -404,12 +412,14 @@ export type PageConceptGenerationPlan = {
   projectLabel: string;
   pageLabel: string;
   cgptCalls: 1;
-  gpt2Calls: 1;
-  nbpRenditions: 3;
-  nbpJobs: 6;
-  outputCount: 6;
+  gpt2Calls: number;
+  gpt2MobileConceptCount?: number;
+  nbpRenditions: number;
+  nbpJobs: number;
+  outputCount: number;
   captureSetId: string;
   functionContractId: string;
+  pipelineLineage?: PageConceptPipelineLineageId;
   estimatedCostNote: string;
 };
 

@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import {
   clearAllPageConceptCgptStageLocks,
   tryBeginPageConceptCgptDispatch,
@@ -57,6 +59,7 @@ function mock200Response(json: object): Response {
 }
 
 describe('P0.VR.PAGE-CONCEPT-CGPT-429-RESILIENCE1', () => {
+  useLegacyPageConceptNbpPipeline();
   beforeEach(() => {
     clearPageConceptServerRuns();
     clearAllPageConceptCgptStageLocks();

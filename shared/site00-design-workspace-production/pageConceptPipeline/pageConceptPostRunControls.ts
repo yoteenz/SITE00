@@ -3,6 +3,7 @@
  */
 
 import { pageConceptHasFailedNbpJobs, pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
+import { pageConceptInitialSpendNote, pageConceptLegacyNbpEnabled } from './pageConceptCanonicalPipeline.js';
 import type { PageConceptGenerationState, PageConceptGenerationStatus } from './types.js';
 
 export type PageConceptPostRunActionId =
@@ -22,11 +23,7 @@ export type PageConceptPostRunAction = {
 };
 
 export function pageConceptPostRunReviewActive(status: PageConceptGenerationStatus): boolean {
-  return (
-    pageConceptReviewReady(status) &&
-    status !== 'DUAL_RENDER_TEST_REVIEW' &&
-    status !== 'DUAL_RENDER_TEST_RUNNING'
-  );
+  return pageConceptReviewReady(status);
 }
 
 export function buildPageConceptPostRunActions(state: PageConceptGenerationState): PageConceptPostRunAction[] {
@@ -47,7 +44,9 @@ export function buildPageConceptPostRunActions(state: PageConceptGenerationState
     {
       id: 'new_generation',
       label: 'NEW GENERATION',
-      spendNote: '1 CGPT · 1 GPT2 · 6 NBP (staged approval gates apply)',
+      spendNote: pageConceptLegacyNbpEnabled() ?
+        '1 CGPT · 1 GPT2 · 6 NBP (legacy pipeline · staged approval gates apply)'
+      : `${pageConceptInitialSpendNote()} (staged approval gates apply)`,
       testId: 'page-concept-new-generation',
     },
   ];
@@ -68,7 +67,7 @@ export function buildPageConceptPostRunActions(state: PageConceptGenerationState
       testId: 'page-concept-regenerate-gpt2',
     });
   }
-  if (hasGpt2 && readyJobs > 0) {
+  if (pageConceptLegacyNbpEnabled() && hasGpt2 && readyJobs > 0) {
     actions.push({
       id: 'regenerate_nbp',
       label: 'REGENERATE NBP',

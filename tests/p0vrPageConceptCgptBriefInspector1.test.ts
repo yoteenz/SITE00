@@ -4,6 +4,8 @@
 
 import { describe, expect, it } from 'vitest';
 
+import { useLegacyPageConceptNbpPipeline } from './helpers/pageConceptLegacyNbpTestEnv.js';
+
 import { executePageConceptGeneration } from '../api/_lib/site00PageConcept/executePageConceptGenerationRun.js';
 import { generatePageCreativeInjection } from '../api/_lib/site00PageConcept/generatePageCreativeInjection.js';
 import { loadPageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
@@ -32,6 +34,8 @@ function fixtures() {
 }
 
 describe('P0.VR PAGE-CONCEPT CGPT BRIEF INSPECTOR', () => {
+  useLegacyPageConceptNbpPipeline();
+
   it('persists runtime CGPT output into creative brief with stable id', async () => {
     const { projectContext, pageContext, functionContract } = fixtures();
     process.env.VITEST = 'true';

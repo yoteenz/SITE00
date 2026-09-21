@@ -24,6 +24,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-ROLLBACK-OVERFLOW-FIX2', () => {
     const note =
       '1 CGPT creative injection + 1 GPT2 page authority + 3 NBP rendition groups (Mobile + Desktop). Confirm before spend.';
     expect(pageConceptGeneratorFootSpendShowsMicroSummary(note)).toBe(true);
+    expect(PAGE_CONCEPT_GENERATOR_FOOTER.spendMicroSummary).toContain('3 GPT2 MOBILE');
     expect(pageConceptGeneratorFootSpendShowsMicroSummary('CONFIRM BEFORE SEND.')).toBe(false);
   });
 

@@ -37,26 +37,20 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
     expect(PAGE_CONCEPT_GENERATOR_STAGES.map((s) => s.id)).toEqual(['CGPT', 'GPT2', 'NBP']);
     expect(PAGE_CONCEPT_GENERATOR_STAGES.map((s) => s.step)).toEqual([1, 2, 3]);
     expect(PAGE_CONCEPT_GENERATOR_STAGES[0].title).toBe('CREATIVE INJECTION');
-    expect(PAGE_CONCEPT_GENERATOR_STAGES[1].title).toBe('AUTHORITY CONCEPT');
-    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].title).toBe('RENDITIONS');
-    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].outputNote).toContain('MOBILE + DESKTOP');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[1].title).toBe('MOBILE CONCEPTS');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].title).toBe('VIEWPORT FAMILY');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].outputNote).toContain('TABLET');
   });
 
-  it('reserves mobile and desktop A/B/C rendition slots', () => {
-    const nbp = PAGE_CONCEPT_GENERATOR_STAGES.find((s) => s.id === 'NBP');
-    const groups = nbp?.renditionGroups ?? [];
+  it('reserves three mobile concept slots and tablet/desktop interpretation slots', () => {
+    const gpt2 = PAGE_CONCEPT_GENERATOR_STAGES.find((s) => s.id === 'GPT2');
+    const mobileGroups = gpt2?.renditionGroups ?? [];
+    expect(mobileGroups.flatMap((g) => g.slots).map((s) => s.label)).toEqual(['A', 'B', 'C']);
+
+    const viewport = PAGE_CONCEPT_GENERATOR_STAGES.find((s) => s.id === 'NBP');
+    const groups = viewport?.renditionGroups ?? [];
     expect(groups.map((g) => g.id)).toEqual(['MOBILE', 'DESKTOP']);
-    for (const group of groups) {
-      expect(group.slots.map((s) => s.label)).toEqual(['A', 'B', 'C']);
-    }
-    expect(groups.flatMap((g) => g.slots).map((s) => s.id)).toEqual([
-      'nbp.mobile.a',
-      'nbp.mobile.b',
-      'nbp.mobile.c',
-      'nbp.desktop.a',
-      'nbp.desktop.b',
-      'nbp.desktop.c',
-    ]);
+    expect(groups.flatMap((g) => g.slots).map((s) => s.id)).toEqual(['viewport.tablet', 'viewport.desktop']);
   });
 
   it('formats blocked capture notices for compact footer display only', () => {
@@ -69,9 +63,9 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('carries the reference summary strip and target line', () => {
     expect(PAGE_CONCEPT_GENERATOR_SUMMARY.map((m) => m.count)).toEqual([
       '1 CGPT',
-      '1 GPT2',
-      '3 NBP',
-      '6 VIEWPORT',
+      '3 GPT2',
+      '1 TABLET + 1 DESKTOP',
+      'TWIN → LIVE',
     ]);
     expect(pageConceptGeneratorTargetLine('ndxbook', 'overview')).toBe('TARGET · NDXBOOK / OVERVIEW');
   });
