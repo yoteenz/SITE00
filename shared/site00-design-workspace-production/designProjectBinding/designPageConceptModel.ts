@@ -3,6 +3,8 @@
  */
 
 import type { PageViewportId } from './pageViewportAuthority.js';
+import type { PageConceptPipelineLineageId } from '../pageConceptPipeline/pageConceptCanonicalPipeline.js';
+import type { PageMobileConceptSlotId } from '../pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
 
 export const CREATIVE_LAYER_MODEL = 'GPT2' as const;
 
@@ -27,6 +29,17 @@ export type CampaignEntry = {
 };
 
 export type PageConceptCandidateStatus = 'CANDIDATE' | 'SELECTED' | 'PROMOTED' | 'ARCHIVED';
+
+export type PageConceptCandidateArtifactStatus = 'PENDING' | 'RUNNING' | 'READY' | 'FAILED';
+
+export type PageConceptGalleryRunGroup = 'CURRENT' | 'HISTORY';
+
+export type PageConceptGalleryFilterStatus = 'CANDIDATE' | 'SELECTED' | 'APPROVED' | 'HISTORICAL';
+
+export type PageConceptArtifactRole =
+  | 'MOBILE_CANDIDATE'
+  | 'TABLET_INTERPRETATION'
+  | 'DESKTOP_INTERPRETATION';
 
 export type PageConceptLineage = {
   informedByCampaignEntryIds?: readonly string[];
@@ -53,6 +66,15 @@ export type PageConceptCandidate = {
   lineage: PageConceptLineage;
   status: PageConceptCandidateStatus;
   viewportScope: PageViewportId;
+  runId?: string | null;
+  artifactId?: string | null;
+  conceptSlot?: PageMobileConceptSlotId | null;
+  pipelineId?: PageConceptPipelineLineageId | null;
+  artifactStatus?: PageConceptCandidateArtifactStatus;
+  runGroup?: PageConceptGalleryRunGroup;
+  runLabel?: string | null;
+  artifactRole?: PageConceptArtifactRole;
+  galleryFilterStatus?: PageConceptGalleryFilterStatus;
 };
 
 export type PageConceptRenditionRegistration = {
@@ -169,6 +191,109 @@ export function listPageConceptCandidates(projectId: string, pageId: string): re
   return PAGE_CONCEPT_STORE[conceptStoreKey(projectId, pageId)] ?? [];
 }
 
+function computeRunLabels(candidates: readonly PageConceptCandidate[]): Map<string, string> {
+  const runFirstAt = new Map<string, string>();
+  for (const c of candidates) {
+    if (!c.runId) continue;
+    const at = c.createdAt ?? '';
+    const prev = runFirstAt.get(c.runId);
+    if (!prev || (at && at < prev)) runFirstAt.set(c.runId, at);
+  }
+  const ordered = [...runFirstAt.entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  const labels = new Map<string, string>();
+  ordered.forEach(([runId], index) => {
+    labels.set(runId, `RUN ${String(index + 1).padStart(2, '0')}`);
+  });
+  return labels;
+}
+
+function applyRunLabels(candidates: PageConceptCandidate[]): PageConceptCandidate[] {
+  const labels = computeRunLabels(candidates);
+  return candidates.map((c) => ({
+    ...c,
+    runLabel: c.runId ? labels.get(c.runId) ?? c.runLabel ?? null : c.runLabel ?? null,
+  }));
+}
+
+export function upsertPageConceptCandidates(
+  projectId: string,
+  pageId: string,
+  incoming: readonly PageConceptCandidate[],
+  options?: { activeRunId?: string | null; selectedMobileConceptId?: string | null },
+): void {
+  const key = conceptStoreKey(projectId, pageId);
+  const existing = [...(PAGE_CONCEPT_STORE[key] ?? [])];
+  const activeRunId = options?.activeRunId ?? null;
+  const selectedMobileConceptId = options?.selectedMobileConceptId ?? null;
+
+  for (const row of incoming) {
+    const artifactKey = row.artifactId ?? `${row.conceptId}::${row.runId ?? 'unknown'}`;
+    const sameSlotCurrentRun = existing.filter(
+      (e) =>
+        e.conceptSlot &&
+        row.conceptSlot &&
+        e.conceptSlot === row.conceptSlot &&
+        e.runId === activeRunId &&
+        e.artifactId !== row.artifactId,
+    );
+    for (const prior of sameSlotCurrentRun) {
+      const idx = existing.findIndex((e) => e.artifactId === prior.artifactId);
+      if (idx >= 0) {
+        existing[idx] = {
+          ...existing[idx]!,
+          runGroup: 'HISTORY',
+          status: 'ARCHIVED',
+          galleryFilterStatus: 'HISTORICAL',
+        };
+      }
+    }
+
+    const foundIdx = existing.findIndex((e) => (e.artifactId ?? '') === artifactKey || e.artifactId === row.artifactId);
+    const merged: PageConceptCandidate = {
+      ...(foundIdx >= 0 ? existing[foundIdx]! : {}),
+      ...row,
+      runGroup: row.runId && activeRunId && row.runId !== activeRunId ? 'HISTORY' : row.runGroup ?? 'CURRENT',
+    };
+    if (selectedMobileConceptId && merged.conceptId === selectedMobileConceptId) {
+      merged.status = 'SELECTED';
+      merged.galleryFilterStatus = 'SELECTED';
+    }
+    if (foundIdx >= 0) existing[foundIdx] = merged;
+    else existing.push(merged);
+  }
+
+  if (activeRunId) {
+    for (let i = 0; i < existing.length; i++) {
+      const c = existing[i]!;
+      if (c.runId && c.runId !== activeRunId && c.runGroup !== 'HISTORY') {
+        existing[i] = {
+          ...c,
+          runGroup: 'HISTORY',
+          galleryFilterStatus: c.status === 'SELECTED' ? 'SELECTED' : 'HISTORICAL',
+          status: c.status === 'SELECTED' ? 'SELECTED' : 'ARCHIVED',
+        };
+      }
+    }
+  }
+
+  if (selectedMobileConceptId) {
+    for (let i = 0; i < existing.length; i++) {
+      const c = existing[i]!;
+      if (c.conceptId === selectedMobileConceptId) {
+        existing[i] = { ...c, status: 'SELECTED', galleryFilterStatus: 'SELECTED' };
+      } else if (c.status === 'SELECTED' && c.conceptId !== selectedMobileConceptId) {
+        existing[i] = {
+          ...c,
+          status: c.runGroup === 'HISTORY' ? 'ARCHIVED' : 'CANDIDATE',
+          galleryFilterStatus: c.runGroup === 'HISTORY' ? 'HISTORICAL' : 'CANDIDATE',
+        };
+      }
+    }
+  }
+
+  PAGE_CONCEPT_STORE[key] = applyRunLabels(existing);
+}
+
 export function registerPageConceptRenditions(
   projectId: string,
   pageId: string,
@@ -176,7 +301,7 @@ export function registerPageConceptRenditions(
 ): void {
   const now = new Date().toISOString();
   const candidates: PageConceptCandidate[] = rows.map((row) => ({
-    conceptId: row.conceptId,
+    conceptId: row.gpt2AuthorityConceptId || row.conceptId,
     projectId: row.projectId,
     pageId: row.pageId,
     conceptTitle: row.conceptTitle,
@@ -196,8 +321,17 @@ export function registerPageConceptRenditions(
     },
     status: 'CANDIDATE',
     viewportScope: 'MOBILE',
+    artifactId: null,
+    runGroup: 'CURRENT',
+    artifactStatus: row.mobileVisualReference ? 'READY' : 'PENDING',
+    artifactRole: 'MOBILE_CANDIDATE',
+    galleryFilterStatus: 'CANDIDATE',
   }));
-  PAGE_CONCEPT_STORE[conceptStoreKey(projectId, pageId)] = candidates;
+  upsertPageConceptCandidates(projectId, pageId, candidates);
+}
+
+export function resetPageConceptCandidatesForTests(projectId: string, pageId: string): void {
+  delete PAGE_CONCEPT_STORE[conceptStoreKey(projectId, pageId)];
 }
 
 export function pageConceptUsesRenditionModel(projectId: string, pageId: string): boolean {
@@ -210,6 +344,9 @@ export function pageConceptGalleryEmptyMessage(
   viewport: PageViewportId,
 ): string | null {
   const all = listPageConceptCandidates(projectId, pageId);
+  if (all.some((c) => c.artifactStatus === 'READY' || c.mobileVisualReference || c.visualReference)) {
+    return null;
+  }
   if (pageConceptUsesRenditionModel(projectId, pageId)) {
     if (all.length > 0) return null;
   } else {
@@ -217,7 +354,7 @@ export function pageConceptGalleryEmptyMessage(
     if (scoped.length > 0) return null;
   }
   const anyForPage = listPageConceptCandidates(projectId, pageId);
-  if (anyForPage.length === 0) return 'NO PAGE CONCEPT SET YET';
+  if (anyForPage.length === 0) return 'NO PAGE CONCEPTS YET';
   if (viewport === 'DESKTOP') return 'NO DESKTOP PAGE CONCEPTS YET';
   if (viewport === 'TABLET') return 'NO TABLET PAGE CONCEPTS YET';
   return 'NO PAGE CONCEPTS FOR THIS VIEWPORT';
@@ -256,11 +393,16 @@ export function mapPageConceptToGalleryCandidate(concept: PageConceptCandidate):
   versionTag: 'chip' | 'plain' | 'none';
   viewportScope: PageViewportId;
 } {
-  const idx = concept.conceptId.length % 4;
+  const slot =
+    concept.conceptSlot === 'MOBILE_CONCEPT_A' || concept.renditionSlot === 'RENDITION_A' ? 'A'
+    : concept.conceptSlot === 'MOBILE_CONCEPT_B' || concept.renditionSlot === 'RENDITION_B' ? 'B'
+    : concept.conceptSlot === 'MOBILE_CONCEPT_C' || concept.renditionSlot === 'RENDITION_C' ? 'C'
+    : null;
+  const idx = (concept.artifactId ?? concept.conceptId).length % 4;
   const surfaces = ['plate', 'grain', 'collage', 'archive'] as const;
   return {
     id: concept.conceptId,
-    version: concept.conceptTitle.slice(0, 12).toUpperCase(),
+    version: slot ? `CONCEPT ${slot}` : concept.conceptTitle.slice(0, 12).toUpperCase(),
     surface: surfaces[idx] ?? 'plate',
     versionTag: concept.status === 'SELECTED' ? 'chip' : 'plain',
     viewportScope: concept.viewportScope,

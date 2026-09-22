@@ -1,17 +1,11 @@
-import {
-  registerPageConceptRenditions,
-  type PageConceptRenditionRegistration,
-} from '../designProjectBinding/designPageConceptModel.js';
+import type { PageConceptRenditionRegistration } from '../designProjectBinding/designPageConceptModel.js';
+import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
 import type {
   PageConceptGeneratedArtifact,
   PageConceptGenerationState,
   PageConceptPipelineSet,
 } from './types.js';
-import {
-  galleryConceptIdToRenditionSlot,
-  renditionDisplayLabel,
-  renditionSlotToGalleryConceptId,
-} from './constants.js';
+import { galleryConceptIdToRenditionSlot } from './constants.js';
 
 function appendHistory(
   state: PageConceptGenerationState,
@@ -80,30 +74,7 @@ export function mergePageConceptArtifactsIntoGallery(
     state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' && mobileConcepts.length > 0;
 
   if (canonicalMobile) {
-    const registrations: PageConceptRenditionRegistration[] = [];
-    for (const concept of mobileConcepts) {
-      const slotLetter = concept.slot.replace('MOBILE_CONCEPT_', '') as 'A' | 'B' | 'C';
-      const renditionSlot =
-        slotLetter === 'A' ? 'RENDITION_A'
-        : slotLetter === 'B' ? 'RENDITION_B'
-        : 'RENDITION_C';
-      const conceptId = renditionSlotToGalleryConceptId(renditionSlot);
-      const job = state.generationJobs.find((j) => j.artifactId === concept.artifactId);
-      registrations.push({
-        conceptId,
-        projectId: state.projectId,
-        pageId: state.pageId,
-        conceptTitle: concept.territoryLabel ?? `GPT2 MOBILE PAGE CONCEPT ${slotLetter}`,
-        conceptTerritory: concept.gpt2MobileDebug?.territoryDirective ?? concept.conceptId,
-        creativeRationale: 'GPT2 mobile page authority — twin pipeline Step 2',
-        mobileVisualReference: job?.imageUri ?? job?.artifactPath ?? concept.imageUri,
-        desktopVisualReference: null,
-        gpt2AuthorityConceptId: concept.conceptId,
-        creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
-        renditionSlot,
-      });
-    }
-    registerPageConceptRenditions(state.projectId, state.pageId, registrations);
+    syncPageConceptGalleryFromGenerationState(state);
     const readyCount = state.generationJobs.filter((j) => j.status === 'READY' && j.provider === 'GPT2_MOBILE').length;
     const failedCount = state.generationJobs.filter((j) => j.status === 'FAILED' && j.provider === 'GPT2_MOBILE').length;
     let generationStatus = state.generationStatus;
@@ -120,31 +91,7 @@ export function mergePageConceptArtifactsIntoGallery(
   const gpt2 = state.pipelineSet?.gpt2AuthorityConcept ?? null;
   if (!gpt2) return state;
 
-  const registrations: PageConceptRenditionRegistration[] = [];
-  for (const slot of ['RENDITION_A', 'RENDITION_B', 'RENDITION_C'] as const) {
-    const conceptId = renditionSlotToGalleryConceptId(slot);
-    const mobileJob = state.generationJobs.find(
-      (j) => j.renditionSlot === slot && j.viewport === 'MOBILE' && j.status === 'READY',
-    );
-    const desktopJob = state.generationJobs.find(
-      (j) => j.renditionSlot === slot && j.viewport === 'DESKTOP' && j.status === 'READY',
-    );
-    registrations.push({
-      conceptId,
-      projectId: state.projectId,
-      pageId: state.pageId,
-      conceptTitle: renditionDisplayLabel(slot),
-      conceptTerritory: gpt2.premise,
-      creativeRationale: gpt2.visualLanguage,
-      mobileVisualReference: mobileJob?.imageUri ?? mobileJob?.artifactPath ?? null,
-      desktopVisualReference: desktopJob?.imageUri ?? desktopJob?.artifactPath ?? null,
-      gpt2AuthorityConceptId: gpt2.conceptId,
-      creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
-      renditionSlot: slot,
-    });
-  }
-
-  registerPageConceptRenditions(state.projectId, state.pageId, registrations);
+  syncPageConceptGalleryFromGenerationState(state);
 
   const readyCount = state.generationJobs.filter((j) => j.status === 'READY').length;
   const failedCount = state.generationJobs.filter((j) => j.status === 'FAILED').length;
