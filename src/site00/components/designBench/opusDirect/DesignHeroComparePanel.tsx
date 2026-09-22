@@ -1,9 +1,11 @@
 /**
  * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 + HERO-ASSEMBLY-ACTIONS1 — CURRENT vs CONCEPT + assembly toolbar.
+ * P0.VR.DESIGN-WORKSPACE-CONCEPT-GALLERY-AND-GENERATOR-ENTRY-FIX1 — generation console on compare header row.
  */
 
 import type { HeroAssemblyActionsModel } from '../../../../../shared/site00-design-workspace-production/designHeroAssemblyActions.js';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
+import { TodIconCycle } from './TwinOpusDirectIcons';
 
 type Variant = 'canonical' | 'list';
 
@@ -60,9 +62,30 @@ export function DesignHeroComparePanel({
   const p = PREFIX[variant];
   const compare = data.heroCompare;
   const assembly: HeroAssemblyActionsModel = data.heroAssembly;
+  const launcher = data.generationConsoleLauncher;
 
   return (
     <article className={p} aria-label="Current page capture versus selected page concept">
+      <header className={`${p}__compareHead`} aria-label="Current versus concept labels">
+        <span className={`${p}__compareHeadLabel`}>CURRENT</span>
+        <span className={`${p}__compareHeadLabel ${p}__compareHeadLabel--concept`}>CONCEPT</span>
+        <button
+          type="button"
+          className={`${p}__generationConsole`}
+          data-interaction-id="hero-generation-console"
+          data-testid={launcher.testId}
+          disabled={launcher.disabled}
+          title={launcher.statusLine ?? launcher.label}
+          onClick={() => actions.openGenerationConsole()}
+        >
+          <TodIconCycle className={`${p}__generationConsoleIco tod-ico`} aria-hidden />
+          <span className={`${p}__generationConsoleText`}>{launcher.label}</span>
+          {launcher.statusLine ?
+            <span className={`${p}__generationConsoleMeta`}>{launcher.statusLine}</span>
+          : null}
+        </button>
+      </header>
+
       <div className={`${p}__grid`}>
         <div className={`${p}__pane`}>
           <header className={`${p}__paneHead`}>

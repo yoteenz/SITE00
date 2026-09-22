@@ -508,6 +508,97 @@
   gap: 6px;
 }
 
+.tod-hero-compare__compareHead {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--tod-lime);
+  min-width: 0;
+}
+
+.tod-hero-compare__compareHeadLabel {
+  min-width: 0;
+}
+
+.tod-hero-compare__compareHeadLabel--concept {
+  padding-left: 4px;
+}
+
+.tod-hero-compare__generationConsole {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(200, 255, 0, 0.35);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--tod-lime);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  padding: 4px 8px;
+  max-width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.tod-hero-compare__generationConsoleIco {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.tod-hero-compare__generationConsoleText {
+  white-space: nowrap;
+}
+
+.tod-hero-compare__generationConsoleMeta {
+  display: none;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 8px;
+}
+
+@media (min-width: 720px) {
+  .tod-hero-compare__generationConsoleMeta {
+    display: inline;
+  }
+}
+
+.tod-rail__viewportFamily {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.tod-rail__viewportFamilyRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 8px;
+  align-items: baseline;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 4px;
+}
+
+.tod-rail__viewportFamilyLabel {
+  color: var(--tod-lime);
+}
+
+.tod-rail__viewportFamilyValue {
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 8px;
+}
+
+.tod-rail__viewportFamilyStatus {
+  justify-self: end;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
 .tod-hero-compare__grid {
   display: flex;
   gap: 8px;

@@ -7,7 +7,6 @@ import {
   loadPageAuthorityWorkflow,
   resolveActiveAuthorityImage,
 } from './designPageAuthorityWorkflow.js';
-import { listPageConceptCandidates } from './designProjectBinding/designPageConceptModel.js';
 import { compileDesignPageContext } from './designProjectBinding/pageContext.js';
 import type { DesignProductionState } from './types.js';
 import type { ReadinessGateCheck, ReadinessGateResult } from './types.js';
@@ -17,6 +16,8 @@ import {
   pageConceptGenerationGateFromEligibility,
   type PageConceptGenerationEligibility,
 } from './pageConceptPipeline/pageConceptGenerationEligibility.js';
+import { loadPageConceptGenerationStateForDesignPage } from './pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import { listPageConceptCandidatesHydrated } from './pageConceptPipeline/pageConceptGalleryHydration.js';
 
 export type PagePipelineStageId =
   | 'authority_direction'
@@ -132,7 +133,18 @@ export type PagePipelineInput = {
 
 export function buildPagePipelineControllerModel(input: PagePipelineInput): PagePipelineControllerModel {
   const wf = loadPageAuthorityWorkflow(input.projectId, input.pageId);
-  const concepts = listPageConceptCandidates(input.projectId, input.pageId);
+  const concepts = listPageConceptCandidatesHydrated(input.projectId, input.pageId);
+  const generationState = loadPageConceptGenerationStateForDesignPage({
+    projectSlug: input.projectId,
+    pageId: input.pageId,
+  });
+  const canonicalGpt2Family =
+    generationState.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE';
+  const selectedMobileAuthorityId =
+    generationState.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ??
+    generationState.pipelineSet?.selectedMobileConceptId ??
+    null;
+  const familyStatus = generationState.pipelineSet?.viewportAuthorityFamily?.status ?? null;
   const mobileRef = resolveActiveAuthorityImage(wf.mobileAuthority);
   const desktopRef = resolveActiveAuthorityImage(wf.desktopAuthority);
   const prefM = input.production.preferredMobileConceptId ?? wf.preferred.mobileConceptId;
@@ -171,9 +183,13 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
     input.pageConceptGeneration ?
       pageConceptGenerationGateFromEligibility(input.pageConceptGeneration, false)
     : null;
-  const s03Complete = Boolean(prefM && prefD);
-  const s04Complete = Boolean(promM && promD);
-  const s05Complete = pairReview;
+  const s03Complete = canonicalGpt2Family ?
+    Boolean(selectedMobileAuthorityId)
+  : Boolean(prefM && prefD);
+  const s04Complete = canonicalGpt2Family ?
+    familyStatus === 'APPROVED' || familyStatus === 'LOCKED' || Boolean(generationState.pipelineSet?.viewportAuthorityFamily?.viewportFamilyApprovalId)
+  : Boolean(promM && promD);
+  const s05Complete = canonicalGpt2Family ? familyStatus === 'LOCKED' || s04Complete : pairReview;
   const s06Complete = handoff;
   const s07Complete = twinBuilt;
   const s08Complete = twinReviewed;
@@ -227,20 +243,36 @@ export function buildPagePipelineControllerModel(input: PagePipelineInput): Page
       id: 'viewport_selection',
       order: 3,
       shortLabel: 'SELECTION',
-      label: 'VIEWPORT SELECTION',
+      label: canonicalGpt2Family ? 'MOBILE AUTHORITY' : 'VIEWPORT SELECTION',
       status: !s02Complete ? 'PENDING' : s03Complete ? 'COMPLETE' : 'ACTIVE',
-      purpose: 'Preferred mobile and desktop concepts selected independently',
-      requirements: ['Preferred mobile concept', 'Preferred desktop concept'],
-      completedItems: [
-        ...(prefM ? ['Preferred mobile'] : []),
-        ...(prefD ? ['Preferred desktop'] : []),
-      ],
-      missingItems: [
-        ...(!prefM ? ['Preferred mobile concept'] : []),
-        ...(!prefD ? ['Preferred desktop concept'] : []),
-      ],
-      actionLabel: !prefM ? 'SELECT MOBILE CONCEPT' : !prefD ? 'SELECT DESKTOP CONCEPT' : null,
-      actionHandler: !prefM ? 'selectForMobile' : !prefD ? 'selectForDesktop' : null,
+      purpose: canonicalGpt2Family ?
+        'Select one GPT2 mobile page concept as viewport-family authority'
+      : 'Preferred mobile and desktop concepts selected independently',
+      requirements: canonicalGpt2Family ?
+        ['3 mobile concepts ready', 'Mobile authority selected']
+      : ['Preferred mobile concept', 'Preferred desktop concept'],
+      completedItems: canonicalGpt2Family ?
+        [
+          ...(concepts.filter((c) => c.artifactStatus === 'READY').length >= 3 ? ['3 mobile concepts ready'] : []),
+          ...(selectedMobileAuthorityId ? ['Mobile authority selected'] : []),
+        ]
+      : [...(prefM ? ['Preferred mobile'] : []), ...(prefD ? ['Preferred desktop'] : [])],
+      missingItems: canonicalGpt2Family ?
+        [
+          ...(concepts.filter((c) => c.artifactStatus === 'READY').length < 3 ? ['Awaiting 3 mobile concepts'] : []),
+          ...(!selectedMobileAuthorityId ? ['Mobile authority not selected'] : []),
+        ]
+      : [...(!prefM ? ['Preferred mobile concept'] : []), ...(!prefD ? ['Preferred desktop concept'] : [])],
+      actionLabel: canonicalGpt2Family ?
+        (!selectedMobileAuthorityId ? 'SELECT MOBILE CONCEPT' : null)
+      : !prefM ? 'SELECT MOBILE CONCEPT'
+      : !prefD ? 'SELECT DESKTOP CONCEPT'
+      : null,
+      actionHandler: canonicalGpt2Family ?
+        (!selectedMobileAuthorityId ? 'scrollGallery' : null)
+      : !prefM ? 'selectForMobile'
+      : !prefD ? 'selectForDesktop'
+      : null,
     },
     {
       id: 'final_design_approval',

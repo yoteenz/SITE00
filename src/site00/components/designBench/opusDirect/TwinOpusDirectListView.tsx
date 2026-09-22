@@ -239,6 +239,19 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             <DesignHeroComparePanel workspace={workspace} variant="list" />
 
             <aside className="tod-lv-rail" aria-label="Authority rail">
+              {data.canonicalGpt2ViewportFamilyActive ?
+                <section className="tod-rail__viewportFamily" data-testid="viewport-family-authority-rail">
+                  {data.viewportFamilyRail.map((row) => (
+                    <div key={row.id} className="tod-rail__viewportFamilyRow">
+                      <span className="tod-rail__viewportFamilyLabel">{row.label}</span>
+                      <span className="tod-rail__viewportFamilyValue">{row.value}</span>
+                      <span className={`tod-rail__viewportFamilyStatus tod-rail__viewportFamilyStatus--${row.status.toLowerCase()}`}>
+                        {row.status}
+                      </span>
+                    </div>
+                  ))}
+                </section>
+              : <>
               <div className="tod-lv-rail__select">
                 <button
                   type="button"
@@ -359,6 +372,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                 </button>
               );
               })}
+              </>}
             </aside>
           </section>
 
@@ -446,7 +460,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
 
             {/* 08 CANDIDATE_ACTION_ROW — inside the gallery panel in the golden */}
             <div className="tod-lv-actions" role="group" aria-label="Concept candidate actions">
-              {data.candidateActions.map((action) => {
+              {data.galleryCandidateActions.map((action) => {
                 const Icon = ACTION_ICONS[action.icon];
                 return (
                   <button
