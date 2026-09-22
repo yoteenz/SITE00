@@ -94,13 +94,6 @@ export function refreshPageConceptGalleryFromPersistedState(
       }),
     );
   }
-  if (typeof window !== 'undefined') {
-    window.dispatchEvent(
-      new CustomEvent('site00:page-concept-gallery-synced', {
-        detail: { projectId: normalizeProjectId(projectId), pageId },
-      }),
-    );
-  }
 }
 
 export function reconcilePageConceptCandidates(projectId: string, pageId: string, scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>): void {

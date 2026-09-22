@@ -37,7 +37,6 @@ import {
   type PageConceptGalleryCard,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
 import {
-  listPageConceptCandidatesHydrated,
   refreshPageConceptGalleryFromPersistedState,
   resolvePageConceptGalleryEmptyPresentation,
   type PageConceptGalleryHydrationScope,
@@ -52,11 +51,13 @@ import {
   resolvePageConceptViewportGalleryActions,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportGalleryActions.js';
 import { resolvePageConceptViewportGalleryTitle } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportGalleryScope.js';
-import type { PageConceptCandidate } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import {
+  listPageConceptCandidates,
+  type PageConceptCandidate,
+} from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import type { Gpt2ViewportFamilyAuthorityRailRow } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import type { PageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
 
-const listPageConceptCandidates = listPageConceptCandidatesHydrated;
 import {
   PAGE_CONCEPT_GALLERY_INSPECT_EVENT,
   type PageConceptGalleryInspectDetail,
@@ -431,7 +432,6 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       setPageConceptRevision((v) => v + 1);
     };
     window.addEventListener('site00:page-concept-generation-updated', bump);
-    window.addEventListener('site00:page-concept-gallery-synced', bump);
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
     window.addEventListener('site00:page-concept-captures-hydrated', bump);
     const onFocusGallery = (event: Event) => {
@@ -445,7 +445,6 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     window.addEventListener('site00:page-concept-focus-gallery', onFocusGallery);
     return () => {
       window.removeEventListener('site00:page-concept-generation-updated', bump);
-      window.removeEventListener('site00:page-concept-gallery-synced', bump);
       window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
       window.removeEventListener('site00:page-concept-captures-hydrated', bump);
       window.removeEventListener('site00:page-concept-focus-gallery', onFocusGallery);
