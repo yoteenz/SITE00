@@ -31,7 +31,15 @@ import {
   type PageConceptStageShell,
   type PageConceptStageState,
 } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
-import { sanitizePageConceptFounderNotice } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
+import type {
+  FounderFooterCtaHint,
+  FounderJourneyRailStep,
+  FounderSummaryMetric,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderReviewPresentation.js';
+import {
+  pageConceptFounderNoticeDisplay,
+  sanitizePageConceptFounderNotice,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
 import type {
   PageConceptCgptSubstepId,
   PageConceptSubstepRunState,
@@ -107,6 +115,11 @@ export type PageConceptGeneratorPanelProps = {
   onGenerate?: () => void;
   onCancel?: () => void;
   onClose?: () => void;
+  /** Canonical founder journey summary strip (role / count / state). */
+  founderSummaryMetrics?: readonly FounderSummaryMetric[];
+  founderJourneyRail?: readonly FounderJourneyRailStep[];
+  founderFooterHint?: FounderFooterCtaHint | null;
+  useFounderJourneyRail?: boolean;
 };
 
 function StatusChip({ state }: { state: PageConceptStageState }) {
@@ -117,6 +130,29 @@ function StatusChip({ state }: { state: PageConceptStageState }) {
       </span>
       {PAGE_CONCEPT_STATE_LABEL[state]}
     </span>
+  );
+}
+
+function FounderJourneyRail({ steps }: { steps: readonly FounderJourneyRailStep[] }) {
+  return (
+    <ol className="s00-pcg__founderRail" aria-label="Founder review journey" data-testid="page-concept-founder-journey-rail">
+      {steps.map((step) => (
+        <li
+          key={step.id}
+          className="s00-pcg__founderRailItem"
+          data-journey-id={step.id}
+          data-stage-state={step.state}
+        >
+          <span className="s00-pcg__founderRailStep">{step.step}</span>
+          <span className="s00-pcg__founderRailTitle">{step.groupTitle}</span>
+          <span className="s00-pcg__founderRailNote">{step.groupNote}</span>
+          <StatusChip state={step.state} />
+          {step.blockedReason && step.state === 'PENDING' ?
+            <span className="s00-pcg__founderRailBlocked">{step.blockedReason}</span>
+          : null}
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -345,6 +381,10 @@ export function PageConceptGeneratorPanel({
   onGenerate,
   onCancel,
   onClose,
+  founderSummaryMetrics,
+  founderJourneyRail,
+  founderFooterHint,
+  useFounderJourneyRail,
 }: PageConceptGeneratorPanelProps) {
   const states: Record<PageConceptStageId, PageConceptStageState> = {
     ...PAGE_CONCEPT_DEFAULT_STAGE_STATE,
@@ -402,19 +442,30 @@ export function PageConceptGeneratorPanel({
         <span className="s00-pcg__summaryGlyph" aria-hidden="true">
           <AiConsoleIcon name="grok-library" size={13} />
         </span>
-        {PAGE_CONCEPT_GENERATOR_SUMMARY.map((metric) => (
-          <span className="s00-pcg__metric" key={metric.id}>
-            <strong className="s00-pcg__metricCount">{metric.count}</strong>
-            <span className="s00-pcg__metricLabel">{metric.label}</span>
-            {'note' in metric && metric.note ?
-              <span className="s00-pcg__metricNote">{metric.note}</span>
-            : null}
-          </span>
-        ))}
+        {founderSummaryMetrics ?
+          founderSummaryMetrics.map((metric) => (
+            <span className="s00-pcg__metric" key={metric.id} data-state={metric.state}>
+              <strong className="s00-pcg__metricRole">{metric.role}</strong>
+              <span className="s00-pcg__metricCount">{metric.count}</span>
+              <span className="s00-pcg__metricState">{metric.stateLabel}</span>
+            </span>
+          ))
+        : PAGE_CONCEPT_GENERATOR_SUMMARY.map((metric) => (
+            <span className="s00-pcg__metric" key={metric.id}>
+              <strong className="s00-pcg__metricCount">{metric.count}</strong>
+              <span className="s00-pcg__metricLabel">{metric.label}</span>
+              {'note' in metric && metric.note ?
+                <span className="s00-pcg__metricNote">{metric.note}</span>
+              : null}
+            </span>
+          ))
+        }
       </div>
 
       <div className="s00-pcg__scroll">
-        <ProgressionRail stages={PAGE_CONCEPT_GENERATOR_STAGES} stageStates={states} />
+        {useFounderJourneyRail && founderJourneyRail ?
+          <FounderJourneyRail steps={founderJourneyRail} />
+        : <ProgressionRail stages={PAGE_CONCEPT_GENERATOR_STAGES} stageStates={states} />}
 
         <div className="s00-pcg__cards">
           {PAGE_CONCEPT_GENERATOR_STAGES.map((stage) => (
@@ -438,26 +489,43 @@ export function PageConceptGeneratorPanel({
         : null}
         {founderNotice ?
           (() => {
-            const lines = pageConceptGeneratorNoticeLines(founderNotice);
+            const errorDisplay = pageConceptFounderNoticeDisplay(founderNotice);
+            const captureLines = pageConceptGeneratorNoticeLines(founderNotice);
+            const useFounderError =
+              Boolean(errorDisplay.technicalCode) &&
+              (founderNotice === errorDisplay.technicalCode || founderNotice.includes(errorDisplay.technicalCode!));
+            const headline = useFounderError ? errorDisplay.headline : captureLines.headline;
+            const hint = useFounderError ? errorDisplay.hint : captureLines.hint;
+            const technicalCode = useFounderError ? errorDisplay.technicalCode : null;
             return (
               <p
                 className="s00-pcg__notice"
                 role="status"
                 data-testid={noticeTestId}
-                data-compact={lines.hint ? 'true' : undefined}
+                data-compact={hint ? 'true' : undefined}
               >
                 <span className="s00-pcg__noticeGlyph" aria-hidden="true">
                   <AiConsoleIcon name="status-error" size={10} />
                 </span>
                 <span className="s00-pcg__noticeCopy">
-                  <span className="s00-pcg__noticeHead">{lines.headline}</span>
-                  {lines.hint ?
-                    <span className="s00-pcg__noticeHint">{lines.hint}</span>
+                  <span className="s00-pcg__noticeHead">{headline}</span>
+                  {hint ?
+                    <span className="s00-pcg__noticeHint">{hint}</span>
+                  : null}
+                  {technicalCode ?
+                    <span className="s00-pcg__noticeTechnical" data-testid="page-concept-error-technical-code">
+                      TECHNICAL CODE · {technicalCode}
+                    </span>
                   : null}
                 </span>
               </p>
             );
           })()
+        : null}
+        {founderFooterHint?.statusLine ?
+          <p className="s00-pcg__footerPhase" role="status" data-testid="page-concept-footer-phase-hint">
+            {founderFooterHint.statusLine}
+          </p>
         : null}
         <p className="s00-pcg__footNotes">
           <span className="s00-pcg__footNote">

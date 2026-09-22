@@ -4,6 +4,7 @@
 
 import type { ReactNode } from 'react';
 
+import type { CgptBriefDigestField } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderReviewPresentation.js';
 import type { CgptBriefRowPresentation, NbpSlotPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import type {
   PageConceptCgptSubstepId,
@@ -12,6 +13,42 @@ import type {
 import type { PageGPT2AuthorityConcept } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 
+/** Digest card — four excerpts, not the full brief wall. */
+export function CgptBriefDigestCard({
+  digest,
+  onViewFull,
+  onContinueGpt2,
+}: {
+  digest: readonly CgptBriefDigestField[];
+  onViewFull?: () => void;
+  onContinueGpt2?: () => void;
+}) {
+  if (digest.length === 0) return null;
+  return (
+    <div className="s00-pcg__cgptDigest" data-testid="page-concept-cgpt-digest-card">
+      {digest.map((field) => (
+        <div className="s00-pcg__cgptDigestRow" key={field.id}>
+          <span className="s00-pcg__cgptDigestLabel">{field.label}</span>
+          <p className="s00-pcg__cgptDigestExcerpt">{field.excerpt}</p>
+        </div>
+      ))}
+      <div className="s00-pcg__cgptDigestActions">
+        {onViewFull ?
+          <button type="button" className="s00-pcg__secAction" data-interaction-id="page-concepts-view-cgpt-brief" onClick={onViewFull}>
+            VIEW FULL BRIEF
+          </button>
+        : null}
+        {onContinueGpt2 ?
+          <button type="button" className="s00-pcg__secAction s00-pcg__secAction--primary" data-testid="page-concept-digest-continue-gpt2" onClick={onContinueGpt2}>
+            CONTINUE TO GPT2
+          </button>
+        : null}
+      </div>
+    </div>
+  );
+}
+
+/** @deprecated Prefer CgptBriefDigestCard for founder review. */
 export function CgptBriefResult({
   rows,
   substepStates,
@@ -195,7 +232,9 @@ export function NbpPreviewHero({
   return (
     <div className="s00-pcg__nbpHero" data-viewport={slot.viewport}>
       <header className="s00-pcg__nbpHeroHead">
-        {slot.viewport} · RENDITION {slot.label}
+        {slot.viewport === 'MOBILE' && slot.key.startsWith('gpt2.') ?
+          `GPT2 MOBILE PAGE CONCEPT ${slot.label}`
+        : `${slot.viewport} · INTERPRETATION ${slot.label}`}
       </header>
       <div className="s00-pcg__frame s00-pcg__frame--hero" data-ratio={slot.viewport === 'MOBILE' ? 'page' : 'wide'}>
         {slot.status === 'READY' && slot.imageSrc ?

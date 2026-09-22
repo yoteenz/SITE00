@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type TouchEvent } fr
 
 import type { NbpSlotPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
+import { PageConceptGpt2MobileConceptReview } from './PageConceptGpt2MobileConceptReview';
 import { NbpPreviewHero, NbpSlotCell } from './PageConceptGeneratorResults';
 
 const LETTERS = ['A', 'B', 'C'] as const;
@@ -92,10 +93,25 @@ export function PageConceptGeneratorNbpStage({
     );
   };
 
+  if (stageMode === 'GPT2_MOBILE') {
+    return (
+      <div
+        className="s00-pcg__groups s00-pcg__groups--mobileReview"
+        data-result-slot="gpt2.mobileConcepts"
+        data-stage-mode={stageMode}
+      >
+        <PageConceptGpt2MobileConceptReview
+          slots={mobileSlots}
+          onInspectFullscreen={(src, title) => onInspect?.(src, title)}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className="s00-pcg__groups"
-      data-result-slot={stageMode === 'GPT2_MOBILE' ? 'gpt2.mobileConcepts' : 'nbp.renditions'}
+      data-result-slot="nbp.renditions"
       data-stage-mode={stageMode}
     >
       <section className="s00-pcg__group" aria-label={mobileGroupLabel}>

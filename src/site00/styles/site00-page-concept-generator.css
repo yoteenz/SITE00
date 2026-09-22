@@ -1735,3 +1735,251 @@
   font-size: 6px;
   opacity: 0.85;
 }
+
+/* Founder review UX refinement */
+.s00-pcg__founderRail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.s00-pcg__founderRailItem {
+  border: 1px solid rgb(20 20 20 / 14%);
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.s00-pcg__founderRailItem[data-stage-state='ACTIVE'] {
+  border-width: 2px;
+  border-color: rgb(20 20 20);
+}
+
+.s00-pcg__founderRailItem[data-stage-state='COMPLETE'] .s00-pcg__chip {
+  opacity: 1;
+}
+
+.s00-pcg__founderRailBlocked {
+  font-size: 6px;
+  opacity: 0.75;
+  line-height: 1.3;
+}
+
+.s00-pcg__metricRole {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+}
+
+.s00-pcg__metricState {
+  display: block;
+  font-size: 6px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+.s00-pcg__cgptDigest {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.s00-pcg__cgptDigestLabel {
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.s00-pcg__cgptDigestExcerpt {
+  margin: 2px 0 0;
+  font-size: 9px;
+  line-height: 1.45;
+  font-family: inherit;
+}
+
+.s00-pcg__cgptDigestActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.s00-pcg__secAction--primary {
+  border-color: rgb(20 20 20);
+  font-weight: 600;
+}
+
+.s00-pcg__noticeTechnical {
+  display: block;
+  font-size: 6px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+.s00-pcg__footerPhase {
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+
+.s00-pcg__mobileReview {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.s00-pcg__mobileReviewCard {
+  border: 1px solid rgb(20 20 20 / 12%);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.s00-pcg__mobileReviewThumb img {
+  width: 100%;
+  max-height: min(52vh, 420px);
+  object-fit: contain;
+  background: rgb(20 20 20 / 4%);
+}
+
+.s00-pcg__mobileReviewActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.s00-pcg__briefSectionToggle {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 6px 0;
+  cursor: pointer;
+  font: inherit;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.s00-pcg__briefSectionBody {
+  margin: 0 0 10px;
+  font-size: 10px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  font-family: inherit;
+}
+
+.s00-pcg__briefTechnical {
+  margin-top: 12px;
+  border-top: 1px solid rgb(20 20 20 / 10%);
+  padding-top: 8px;
+}
+
+.s00-pcg__briefDrawerHeadMeta {
+  margin-bottom: 10px;
+}
+
+.s00-pcg__briefStatusChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 7px;
+  letter-spacing: 0.06em;
+}
+
+.s00-pcg__inspectLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.s00-pcg__inspectSheet {
+  width: min(100%, 520px);
+  max-height: 85vh;
+  background: #f7f7f5;
+  border: 1px solid rgb(20 20 20 / 20%);
+  overflow: auto;
+}
+
+.s00-pcg__viewportSectionHead h3 {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.s00-pcg__experienceTiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.s00-pcg__experienceTile {
+  border: 1px solid rgb(20 20 20 / 10%);
+  padding: 6px;
+  font-size: 8px;
+}
+
+.s00-pcg__viewportFamilyGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.s00-pcg__viewportFamilyImg {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.s00-pcg__livePromoteBtn {
+  border: 2px solid rgb(20 20 20);
+  background: rgb(20 20 20);
+  color: #f7f7f5;
+  padding: 10px 14px;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .s00-pcg__founderRail {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .s00-pcg__experienceTiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .s00-pcg__viewportFamilyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .s00-pcg__mobileReview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .s00-pcg__viewportFamilyGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .s00-pcg__experienceTiles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

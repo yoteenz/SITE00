@@ -19,10 +19,13 @@ export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyC
   const shellsReady = Boolean(shellSet?.readyAt && shellSet.shells.every((s) => s.status === 'READY'));
 
   return (
-    <section className="s00-pcg__pageFamilyContract" data-testid="page-concept-page-family-contract-panel">
-      <p>PAGE FAMILY DESIGN SYSTEM</p>
+    <section className="s00-pcg__pageFamilyContract" data-testid="page-concept-page-family-system-review">
+      <header className="s00-pcg__viewportSectionHead">
+        <h3>PAGE FAMILY SYSTEM</h3>
+        <p>Visual DNA, inheritance, navigation, and responsive divergence.</p>
+      </header>
       <details open>
-        <summary>Visual DNA</summary>
+        <summary>VISUAL DNA</summary>
         <ul>
           {contract.visualDna.map((line) => (
             <li key={line}>{line}</li>
@@ -30,13 +33,13 @@ export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyC
         </ul>
       </details>
       <details>
-        <summary>Parent / Child / Grandchild rules</summary>
+        <summary>PARENT · CHILD · GRANDCHILD</summary>
         <p>PARENT: {contract.inheritanceRules.parent.designDivergenceLevel}</p>
         <p>CHILD: {contract.inheritanceRules.child.designDivergenceLevel}</p>
         <p>GRANDCHILD: {contract.inheritanceRules.grandchild.designDivergenceLevel}</p>
       </details>
       <details>
-        <summary>Navigation + Components + Overlays</summary>
+        <summary>NAVIGATION · COMPONENTS · OVERLAYS · RESPONSIVE · DIVERGENCE</summary>
         <p>Children: {contract.pageSystemReviewSnapshot.directChildCount}</p>
         <p>Grandchildren: {contract.pageSystemReviewSnapshot.grandchildCount}</p>
         <p>Component map: {contract.componentExpressionMapId}</p>
