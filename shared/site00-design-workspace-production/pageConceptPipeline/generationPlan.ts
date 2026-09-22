@@ -12,6 +12,8 @@ export { PAGE_CGPT_SYNTHESIS_PROMPT_VERSION as PAGE_CGPT_PROMPT_VERSION } from '
 export const PAGE_GPT2_PROMPT_VERSION = 'page-concept-gpt2-v1-authority';
 export { PAGE_NBP_PROMPT_VERSION } from './pageConceptNbpAuthorityPolicy.js';
 export const PAGE_NBP_MODEL = 'fal-ai/nano-banana-pro/edit';
+/** GPT2 Step 2 mobile page authority — FAL transport (not NBP rendition stage). */
+export const PAGE_GPT2_MOBILE_FAL_MODEL = 'fal-ai/nano-banana-pro/edit';
 
 export function buildPageConceptGenerationPlan(
   projectId: string,

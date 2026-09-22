@@ -20,6 +20,8 @@ export type PageGpt2MobileConcept = {
   imageUri: string | null;
   status: 'PENDING' | 'RUNNING' | 'READY' | 'FAILED';
   createdAt: string;
+  territoryLabel?: string;
+  gpt2MobileDebug?: import('./pageConceptGpt2MobilePageAuthority.js').PageGpt2MobileArtifactDebug;
 };
 
 export type PageExperienceExpressionContract = {

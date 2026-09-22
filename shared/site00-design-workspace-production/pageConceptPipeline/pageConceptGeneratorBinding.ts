@@ -16,6 +16,9 @@ import type {
 } from './types.js';
 
 export type NbpShellSlotKey =
+  | 'gpt2.mobile.a'
+  | 'gpt2.mobile.b'
+  | 'gpt2.mobile.c'
   | 'nbp.mobile.a'
   | 'nbp.mobile.b'
   | 'nbp.mobile.c'
@@ -146,7 +149,44 @@ function jobForSlot(
   return jobs.find((j) => j.renditionSlot === slot && j.viewport === viewport);
 }
 
+export function pageConceptCanonicalGpt2MobileActive(state: PageConceptGenerationState): boolean {
+  return (
+    state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' ||
+    state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE') ||
+    (state.pipelineSet?.mobileConcepts?.length ?? 0) > 0
+  );
+}
+
+export function buildGpt2MobileSlotPresentations(
+  state: PageConceptGenerationState,
+): readonly NbpSlotPresentation[] {
+  const jobs = state.generationJobs.filter((j) => j.provider === 'GPT2_MOBILE' && j.viewport === 'MOBILE');
+  const running = state.generationStatus === 'GPT2_RUNNING';
+  const out: NbpSlotPresentation[] = [];
+  for (const slot of ['RENDITION_A', 'RENDITION_B', 'RENDITION_C'] as const) {
+    const job = jobs.find((j) => j.renditionSlot === slot);
+    let status: NbpSlotPresentation['status'] = 'PENDING';
+    if (job?.status === 'READY') status = 'READY';
+    else if (job?.status === 'FAILED') status = 'FAILED';
+    else if (job?.status === 'RUNNING' || (running && !job)) status = 'GENERATING';
+    const letter = SLOT_LETTER[slot];
+    out.push({
+      key: `gpt2.mobile.${letter.toLowerCase()}` as NbpShellSlotKey,
+      label: letter,
+      viewport: 'MOBILE',
+      renditionSlot: slot,
+      status,
+      imageSrc: job?.imageUri ?? job?.artifactPath ?? null,
+      failureReason: job?.failureReason ?? null,
+    });
+  }
+  return out;
+}
+
 export function buildNbpSlotPresentations(state: PageConceptGenerationState): readonly NbpSlotPresentation[] {
+  if (pageConceptCanonicalGpt2MobileActive(state)) {
+    return buildGpt2MobileSlotPresentations(state);
+  }
   const jobs = state.generationJobs;
   const running = state.generationStatus === 'NBP_RUNNING';
   const out: NbpSlotPresentation[] = [];

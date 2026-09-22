@@ -338,6 +338,10 @@ export type PageConceptGeneratedArtifact = {
   height: number;
   failureReason?: string;
   renderGrounding?: PageConceptRenderGroundingMeta;
+  /** Step 2 GPT2 mobile page authority — debug / founder technical drawer. */
+  gpt2MobileDebug?: import('./pageConceptGpt2MobilePageAuthority.js').PageGpt2MobileArtifactDebug;
+  /** Founder-readable artifact title (GPT2 mobile page concepts). */
+  displayTitle?: string;
 };
 
 export type PageConceptNbpLineage = {

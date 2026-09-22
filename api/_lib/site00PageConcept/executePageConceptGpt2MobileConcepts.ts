@@ -14,13 +14,20 @@ import {
   type PageMobileConceptSlotId,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
 import { PAGE_CONCEPT_CANONICAL_PIPELINE_ID } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
-import { PAGE_NBP_MODEL } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { PAGE_GPT2_MOBILE_FAL_MODEL } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { compileProjectSkinContract } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
 import { pageContextForGpt2Package } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectVisualIdentity.js';
 import { buildPageGpt2MobileConceptRequestPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
+import {
+  buildGpt2MobileArtifactDebug,
+  gpt2MobileConceptRenditionSlot,
+  PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
+  PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
 import { renderPageGpt2MobileConceptJob } from './renderPageGpt2MobileConceptJob.js';
 import { persistPageConceptMobileArtifact } from './persistPageConceptMobileArtifact.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
+import { extractPageConceptBottomContinuityCapture } from './extractPageConceptBottomContinuityCapture.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
@@ -55,7 +62,9 @@ async function renderMobileConceptSlot(input: {
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
 }): Promise<{ concept: PageGpt2MobileConcept; job: PageConceptGeneratedArtifact }> {
   const artifactId = mobileConceptArtifactId(input.slot);
-  const conceptId = `pg2m-${input.slot}-${input.pipelineSetId}`;
+  const conceptId = `pg2m-page-${input.slot}-${input.pipelineSetId}`;
+  const renditionSlot = gpt2MobileConceptRenditionSlot(input.slot);
+  const displayTitle = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
   const now = new Date().toISOString();
 
   if (input.retrySlots && input.retrySlots.length > 0 && !input.retrySlots.includes(input.slot)) {
@@ -105,7 +114,7 @@ async function renderMobileConceptSlot(input: {
       artifactId,
       projectId: input.plan.projectId,
       pageId: input.plan.pageId,
-      renditionSlot: 'RENDITION_A',
+      renditionSlot,
       viewport: 'MOBILE',
       captureSetId: input.plan.captureSetId,
       projectContextVersion: input.projectContext.contextVersion,
@@ -113,11 +122,12 @@ async function renderMobileConceptSlot(input: {
       functionContractId: input.functionContract.contractId,
       creativeInjectionId: input.injection.injectionId,
       gpt2AuthorityConceptId: conceptId,
-      renditionId: `pg2m-rend-${input.slot}-${input.pipelineSetId}`,
+      renditionId: `pg2m-page-${input.slot}-${input.pipelineSetId}`,
       provider: 'GPT2_MOBILE',
-      model: 'gpt2-mobile-concept-v1',
+      model: PAGE_GPT2_MOBILE_FAL_MODEL,
       providerJobId: input.dryRun ? 'dry-run' : `vitest-${input.slot}`,
-      promptVersion: 'page-gpt2-mobile-concept-v1',
+      promptVersion: PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
+      displayTitle,
       createdAt: now,
       status: 'READY',
       artifactPath: null,
@@ -131,6 +141,11 @@ async function renderMobileConceptSlot(input: {
   const skinContract = compileProjectSkinContract(input.projectContext.projectId);
   const pageContextSummary = JSON.stringify(pageContextForGpt2Package(input.pageContext));
   const captureB64 = stripDataUrlPrefix(input.functionalCaptureBase64);
+  const bottomContinuity = await extractPageConceptBottomContinuityCapture({
+    captureBase64: captureB64,
+    width: input.mobileDims.width,
+    height: input.mobileDims.height,
+  });
 
   const pkg = buildPageGpt2MobileConceptRequestPackage({
     runId: input.runId,
@@ -142,7 +157,8 @@ async function renderMobileConceptSlot(input: {
     injection: input.injection,
     cgptBrief: input.cgptBrief,
     skinContract,
-    functionalCaptureBase64: captureB64,
+    bottomContinuityCaptureBase64: bottomContinuity.base64,
+    bottomContinuityApplied: bottomContinuity.applied,
     pageContextSummary,
     mobileViewport: input.mobileDims,
   });
@@ -151,7 +167,7 @@ async function renderMobileConceptSlot(input: {
     artifactId,
     projectId: input.plan.projectId,
     pageId: input.plan.pageId,
-    renditionSlot: 'RENDITION_A',
+    renditionSlot,
     viewport: 'MOBILE',
     captureSetId: input.plan.captureSetId,
     projectContextVersion: input.projectContext.contextVersion,
@@ -159,11 +175,12 @@ async function renderMobileConceptSlot(input: {
     functionContractId: input.functionContract.contractId,
     creativeInjectionId: input.injection.injectionId,
     gpt2AuthorityConceptId: conceptId,
-    renditionId: `pg2m-rend-${input.slot}-${input.pipelineSetId}`,
+    renditionId: `pg2m-page-${input.slot}-${input.pipelineSetId}`,
     provider: 'GPT2_MOBILE',
-    model: PAGE_NBP_MODEL,
+    model: PAGE_GPT2_MOBILE_FAL_MODEL,
     providerJobId: null,
     promptVersion: pkg.inspector.promptVersion,
+    displayTitle,
     createdAt: now,
     status: 'RUNNING',
     artifactPath: null,
@@ -190,6 +207,14 @@ async function renderMobileConceptSlot(input: {
       skinVersion: skinContract.version,
     });
 
+    const debug = buildGpt2MobileArtifactDebug({
+      slot: input.slot,
+      territoryDirective: pkg.inspector.territoryDirective,
+      bottomContinuityApplied: pkg.inspector.bottomContinuityApplied,
+      pageValidityPass: true,
+      posterDriftWarning: false,
+      screenshotOverreachWarning: false,
+    });
     const concept: PageGpt2MobileConcept = {
       conceptId,
       slot: input.slot,
@@ -197,6 +222,8 @@ async function renderMobileConceptSlot(input: {
       imageUri: persisted.publicUrl,
       status: 'READY',
       createdAt: now,
+      territoryLabel: displayTitle,
+      gpt2MobileDebug: debug,
     };
     const job: PageConceptGeneratedArtifact = {
       ...runningJob,
@@ -205,6 +232,7 @@ async function renderMobileConceptSlot(input: {
       model: render.model,
       artifactPath: persisted.storagePath,
       imageUri: persisted.publicUrl,
+      gpt2MobileDebug: debug,
     };
     return { concept, job };
   } catch (err) {
