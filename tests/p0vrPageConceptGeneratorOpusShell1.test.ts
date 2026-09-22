@@ -45,7 +45,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('reserves three mobile concept slots and tablet/desktop interpretation slots', () => {
     const gpt2 = PAGE_CONCEPT_GENERATOR_STAGES.find((s) => s.id === 'GPT2');
     const mobileGroups = gpt2?.renditionGroups ?? [];
-    expect(mobileGroups.flatMap((g) => g.slots).map((s) => s.label)).toEqual(['A', 'B', 'C']);
+    expect(mobileGroups.flatMap((g) => g.slots).map((s) => s.label)).toEqual(['PAGE A', 'PAGE B', 'PAGE C']);
 
     const viewport = PAGE_CONCEPT_GENERATOR_STAGES.find((s) => s.id === 'NBP');
     const groups = viewport?.renditionGroups ?? [];
