@@ -1,12 +1,12 @@
 /**
- * P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1 — large mobile concept review cards.
+ * GPT2 mobile concept review cards — bounded contained previews only.
  */
 
 import { useState } from 'react';
 
 import type { NbpSlotPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
-import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 import { PageConceptConceptInspectDrawer } from './PageConceptConceptInspectDrawer';
+import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
 
 export function PageConceptGpt2MobileConceptReview({
   slots,
@@ -31,36 +31,37 @@ export function PageConceptGpt2MobileConceptReview({
           meta?.pageValidityPass === true ? 'PASS'
           : meta?.pageValidityPass === false ? 'FAIL'
           : 'PENDING';
+        const isSelected = selectedLabel === slot.label;
+        const frameStatus =
+          slot.status === 'READY' ? 'READY'
+          : slot.status === 'FAILED' ? 'FAILED'
+          : slot.status === 'GENERATING' ? 'GENERATING'
+          : 'PENDING';
+
         return (
           <article
             key={slot.key}
             className="s00-pcg__mobileReviewCard"
             data-testid={`page-concept-mobile-review-${slot.label.toLowerCase()}`}
-            data-selected={selectedLabel === slot.label ? 'true' : undefined}
+            data-selected={isSelected ? 'true' : undefined}
           >
             <header className="s00-pcg__mobileReviewHead">
               <span className="s00-pcg__mobileReviewTitle">{title}</span>
+              {isSelected ?
+                <span className="s00-pcg__mobileReviewSelectedBadge" data-testid="page-concept-mobile-selected-badge">
+                  SELECTED
+                </span>
+              : null}
               <span className="s00-pcg__mobileReviewTerritory">{territory}</span>
             </header>
-            <div className="s00-pcg__mobileReviewThumb">
-              {slot.status === 'READY' && slot.imageSrc ?
-                <img src={slot.imageSrc} alt={`${title} preview`} draggable={false} />
-              : slot.status === 'FAILED' ?
-                <span className="s00-pcg__frameEmpty s00-pcg__frameEmpty--failed">
-                  <AiConsoleIcon name="status-error" size={16} />
-                  <span>FAILED</span>
-                </span>
-              : slot.status === 'GENERATING' ?
-                <span className="s00-pcg__frameEmpty">
-                  <AiConsoleIcon name="status-generating" size={16} />
-                  <span>GENERATING</span>
-                </span>
-              : <span className="s00-pcg__frameEmpty">
-                  <AiConsoleIcon name="empty-concept" size={16} />
-                  <span>PENDING</span>
-                </span>
-              }
-            </div>
+            <PageConceptContainedPreviewFrame
+              size="mobile"
+              viewportLabel={title}
+              status={frameStatus}
+              imageSrc={slot.imageSrc}
+              failureReason={slot.failureReason}
+              testId={`page-concept-contained-preview-${slot.label.toLowerCase()}`}
+            />
             <p className="s00-pcg__mobileReviewRationale">
               {meta?.rationale ? meta.rationale : 'RATIONALE WILL APPEAR WHEN GPT2 COMPLETES.'}
             </p>
@@ -82,12 +83,13 @@ export function PageConceptGpt2MobileConceptReview({
                 <button
                   type="button"
                   className="s00-pcg__secAction"
+                  data-testid={`page-concept-fullscreen-${slot.label.toLowerCase()}`}
                   onClick={() => onInspectFullscreen?.(slot.imageSrc!, title)}
                 >
                   FULLSCREEN
                 </button>
               : null}
-              {onSelect ?
+              {onSelect && !isSelected ?
                 <button
                   type="button"
                   className="s00-pcg__secAction s00-pcg__secAction--primary"

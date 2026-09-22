@@ -40,11 +40,20 @@
   height: min(calc(100vh - 104px), 780px);
   max-height: min(88vh, 780px);
   padding: 0 10px 10px;
+  overflow: hidden;
+}
+
+.s00-pcg-layer__scrollBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .s00-pcg-layer__main {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
   width: 100%;
   min-width: 0;
@@ -146,8 +155,13 @@
 /* ---- header -------------------------------------------------------------- */
 
 .s00-pcg__head {
+  position: sticky;
+  top: 0;
+  z-index: 4;
   flex: 0 0 auto;
   padding: 16px 14px 8px;
+  background: var(--pcg-paper);
+  border-bottom: 1px solid var(--pcg-border-subtle);
   border-bottom: 1px solid var(--pcg-border-subtle);
 }
 
@@ -835,6 +849,9 @@
 /* ---- footer -------------------------------------------------------------- */
 
 .s00-pcg__foot {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
   flex: 0 0 auto;
   padding: 8px 14px 10px;
   border-top: 1px solid var(--pcg-border-subtle);
@@ -1712,9 +1729,13 @@
 .s00-pcg__dualImg,
 .s00-pcg__dualAuthority {
   width: 100%;
-  max-height: 120px;
+  max-height: clamp(200px, 32vh, 320px);
   object-fit: contain;
   background: rgb(20 20 20 / 4%);
+}
+
+.s00-pcg__dualCard .s00-pcg__containPreview {
+  --pcg-contain-h: clamp(200px, 32vh, 320px);
 }
 
 .s00-pcg__dualActions {
@@ -1845,11 +1866,112 @@
   gap: 8px;
 }
 
-.s00-pcg__mobileReviewThumb img {
+/* ---- contained concept previews (panel levels 1–2) ----------------------- */
+
+.s00-pcg__containPreview {
+  --pcg-contain-h: clamp(280px, 42vh, 420px);
+  position: relative;
   width: 100%;
-  max-height: min(52vh, 420px);
+  height: var(--pcg-contain-h);
+  min-height: var(--pcg-contain-h);
+  max-height: var(--pcg-contain-h);
+  overflow: hidden;
+  border: 1px solid var(--pcg-border-major);
+  background: var(--pcg-sunken);
+  flex: 0 0 auto;
+}
+
+.s00-pcg__containPreview[data-contain-size='tablet'] {
+  --pcg-contain-h: clamp(200px, 32vh, 320px);
+}
+
+.s00-pcg__containPreview[data-contain-size='desktop'] {
+  --pcg-contain-h: clamp(200px, 32vh, 320px);
+}
+
+.s00-pcg__containPreview[data-contain-size='thumb'] {
+  --pcg-contain-h: 76px;
+}
+
+.s00-pcg__containPreviewLabel {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  z-index: 1;
+  font-size: 6px;
+  letter-spacing: 0.1em;
+  color: var(--pcg-ink-3);
+  pointer-events: none;
+}
+
+.s00-pcg__containPreviewStage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+}
+
+.s00-pcg__containPreviewImg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  background: rgb(20 20 20 / 4%);
+  display: block;
+}
+
+.s00-pcg__containPreviewSkeleton,
+.s00-pcg__containPreviewEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: var(--pcg-ink-3);
+  text-align: center;
+}
+
+.s00-pcg__containPreviewEmpty--failed {
+  color: var(--pcg-red);
+  padding: 8px;
+}
+
+.s00-pcg__containPreviewFailReason {
+  font-size: 6px;
+  opacity: 0.85;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.s00-pcg__groups--mobileReview .s00-pcg__frame[data-ratio='page'],
+.s00-pcg__mobileReview .s00-pcg__frame[data-ratio='page'] {
+  aspect-ratio: unset;
+  max-height: none;
+  min-height: 0;
+  flex: none;
+}
+
+.s00-pcg__mobileReviewCard {
+  max-height: none;
+}
+
+.s00-pcg__mobileReviewCard[data-selected='true'] {
+  border-color: var(--pcg-black);
+  box-shadow: inset 0 0 0 1px var(--pcg-black);
+}
+
+.s00-pcg__mobileReviewSelectedBadge {
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: var(--pcg-lime-ink);
+  background: var(--pcg-lime);
+  padding: 2px 6px;
 }
 
 .s00-pcg__mobileReviewActions {
@@ -1939,6 +2061,11 @@
   gap: 10px;
 }
 
+.s00-pcg__viewportFamily {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .s00-pcg__viewportFamilyImg {
   width: 100%;
   max-height: 200px;
@@ -1972,7 +2099,8 @@
 @media (min-width: 900px) {
   .s00-pcg__mobileReview {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
   }
 
   .s00-pcg__viewportFamilyGrid {

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { assertOpusShellTargetSurface } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptTwinLiveFirewall.js';
 import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
 import { PageConceptGpt2MobileConceptReview } from './PageConceptGpt2MobileConceptReview';
 import { buildGpt2MobileSlotPresentations } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 
@@ -187,9 +188,13 @@ export function PageConceptViewportFamilyPanel(props: PageConceptViewportFamilyP
                 <article key={vp} className="s00-pcg__viewportFamilyCard" data-testid={`page-concept-family-${vp.toLowerCase()}`}>
                   <span className="s00-pcg__viewportFamilyVp">{vp}</span>
                   <span className="s00-pcg__viewportFamilyRole">{role}</span>
-                  {src ?
-                    <img src={src} alt={`${vp} interpretation`} className="s00-pcg__viewportFamilyImg" />
-                  : <span className="s00-pcg__frameEmpty">PENDING</span>}
+                  <PageConceptContainedPreviewFrame
+                    size={vp === 'MOBILE' ? 'mobile' : vp === 'TABLET' ? 'tablet' : 'desktop'}
+                    viewportLabel={`${vp} INTERPRETATION`}
+                    status={src ? 'READY' : 'PENDING'}
+                    imageSrc={src}
+                    testId={`page-concept-viewport-preview-${vp.toLowerCase()}`}
+                  />
                   <div className="s00-pcg__viewportFamilyCardActions">
                     {src ?
                       <>
