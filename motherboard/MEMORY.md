@@ -11303,3 +11303,15 @@ Step 2 decoupling: GPT2 mobile concepts must be **website page authorities**, no
 - **UI binding:** `buildGpt2MobileSlotPresentations`, overlay `GPT2_MOBILE` stage mode (mobile-only carousel, no desktop section), technical drawer lines for provider/capture/validity.
 - **Tests:** `p0vrGpt2MobilePageAuthorityDecouplingFix1.test.ts`.
 - **Branch:** `cursor/gpt2-mobile-page-authority-decoupling-fix1-b747`.
+
+---
+
+## 2026-09-22 — P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1
+
+Founder review UX for canonical page-concept pipeline (presentation only — no provider/run logic changes).
+
+- **`pageConceptFounderReviewPresentation.ts`:** journey rail (5 groups), summary strip with state labels, CGPT digest, footer phase hints, RUN_NOT_FOUND humanization, legacy term guard.
+- **UI:** CGPT digest card + structured brief drawer (technical details recessed); GPT2 mobile large review cards + concept inspect drawer; viewport family / experience / page family / twin lifecycle panels; founder journey rail in generator shell.
+- **Copy:** canonical post-run `REVIEW OUTPUTS`; legacy NBP strings gated when canonical pipeline active.
+- **Tests:** `p0vrPageConceptGeneratorFounderReviewUxRefinement1.test.ts`; Playwright stills `scripts/capture-page-concept-founder-review-qa.mjs`.
+- **Branch:** `cursor/page-concept-generator-founder-review-ux-refinement1-b747`.
