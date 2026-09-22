@@ -13,6 +13,11 @@ import {
   registerPageConceptGenerationJobs,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
 import {
+  PAGE_CONCEPT_MOBILE_SELECTION_MADE_EVENT,
+  type PageConceptMobileSelectionMadeDetail,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
+import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
@@ -452,6 +457,9 @@ export function usePageConceptGeneration(
 
       if (!cancelled()) {
         applyServerRunSnapshotToState(update.run, persist, presented);
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
         if (
           isPageConceptPipelineExecutionActive({
             generationStatus: update.run.generationStatus,
@@ -475,7 +483,7 @@ export function usePageConceptGeneration(
         }
       }
     },
-    [persist],
+    [pageId, persist, projectId],
   );
 
   useEffect(() => {
@@ -532,6 +540,11 @@ export function usePageConceptGeneration(
       presentationEpochRef.current += 1;
     };
   }, [applyPollUpdate, generating, pageId, projectId]);
+
+  const openGenerationReview = useCallback(() => {
+    setOverlayOpen(true);
+    setOverlayMode('review');
+  }, []);
 
   const openGenerationConfirm = useCallback(async () => {
     setOverlayOpen(true);
@@ -1582,6 +1595,20 @@ export function usePageConceptGeneration(
         window.dispatchEvent(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );
+        if (action.type === 'selectMobileConcept') {
+          const row = listPageConceptCandidates(projectId, pageId).find((c) => c.conceptId === action.conceptId);
+          window.dispatchEvent(
+            new CustomEvent<PageConceptMobileSelectionMadeDetail>(PAGE_CONCEPT_MOBILE_SELECTION_MADE_EVENT, {
+              detail: {
+                projectId,
+                pageId,
+                conceptId: action.conceptId,
+                artifactId: row?.artifactId ?? null,
+                runId: row?.runId ?? null,
+              },
+            }),
+          );
+        }
       } catch (e) {
         setExecutionError(e instanceof Error ? e.message : 'VIEWPORT_FAMILY_ACTION_FAILED');
       } finally {
@@ -1650,6 +1677,7 @@ export function usePageConceptGeneration(
     generationJobs: state.generationJobs,
     generationState: state,
     openGenerationConfirm,
+    openGenerationReview,
     cancelGeneration,
     handleGenerateClick,
     confirmGeneration: handleGenerateClick,

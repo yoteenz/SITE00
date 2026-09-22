@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { PageConceptStageId, PageConceptStageState } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
 import {
+  buildGpt2MobileSlotPresentations,
   buildNbpSlotPresentations,
   pageConceptCanonicalGpt2MobileActive,
   pageConceptCgptManualRetryEligible,
@@ -48,6 +49,13 @@ import {
 import { CgptBriefDigestCard, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
 import { PageConceptFounderTwinLifecyclePanel } from '../pageConceptGenerator/PageConceptFounderTwinLifecyclePanel';
 import { PageConceptCgptBriefInspector } from '../pageConceptGenerator/PageConceptCgptBriefInspector';
+import { PageConceptConceptInspectDrawer } from '../pageConceptGenerator/PageConceptConceptInspectDrawer';
+import {
+  PAGE_CONCEPT_GALLERY_INSPECT_EVENT,
+  type PageConceptGalleryInspectDetail,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
+import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import type { NbpSlotPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import { usePageConceptReleaseForensics } from './usePageConceptReleaseForensics';
 import {
   buildPageConceptGpt2HandoffViewModel,
@@ -140,10 +148,32 @@ export function PageConceptGenerationOverlay({
   postRunControlHandlers?: Partial<Record<string, () => void>>;
 }) {
   const [fullBriefOpen, setFullBriefOpen] = useState(false);
+  const [galleryInspectSlot, setGalleryInspectSlot] = useState<NbpSlotPresentation | null>(null);
 
   useEffect(() => {
     if (!open) setFullBriefOpen(false);
   }, [open]);
+
+  useEffect(() => {
+    const onGalleryInspect = (event: Event) => {
+      const detail = (event as CustomEvent<PageConceptGalleryInspectDetail>).detail;
+      if (!detail?.conceptId) return;
+      if (detail.projectId !== generationState.projectId || detail.pageId !== generationState.pageId) return;
+      const row = listPageConceptCandidates(detail.projectId, detail.pageId).find(
+        (c) => c.conceptId === detail.conceptId,
+      );
+      const letter =
+        row?.conceptSlot === 'MOBILE_CONCEPT_A' ? 'A'
+        : row?.conceptSlot === 'MOBILE_CONCEPT_B' ? 'B'
+        : row?.conceptSlot === 'MOBILE_CONCEPT_C' ? 'C'
+        : null;
+      const slots = buildGpt2MobileSlotPresentations(generationState);
+      const slot = letter ? slots.find((s) => s.label === letter) ?? null : null;
+      if (slot) setGalleryInspectSlot(slot);
+    };
+    window.addEventListener(PAGE_CONCEPT_GALLERY_INSPECT_EVENT, onGalleryInspect);
+    return () => window.removeEventListener(PAGE_CONCEPT_GALLERY_INSPECT_EVENT, onGalleryInspect);
+  }, [generationState]);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -665,6 +695,9 @@ export function PageConceptGenerationOverlay({
             </div>
           </div>
         </div>
+      : null}
+      {galleryInspectSlot ?
+        <PageConceptConceptInspectDrawer slot={galleryInspectSlot} onClose={() => setGalleryInspectSlot(null)} />
       : null}
     </div>
   );

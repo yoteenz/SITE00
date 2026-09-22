@@ -16,8 +16,9 @@ import {
   twinOpusDirectAssetEntry,
   type TwinOpusDirectAssetSlotId,
 } from './twinOpusDirectAssetManifest';
-import { type TwinOpusDirectCandidateSurface } from './twinOpusDirectContent';
+import { type TwinOpusDirectCandidate, type TwinOpusDirectCandidateSurface } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
+import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
@@ -87,6 +88,45 @@ export function TodArchivalPlate({
       ) : null}
     </div>
   );
+}
+
+function previewStatusForCandidate(
+  candidate: TwinOpusDirectCandidate,
+): 'PENDING' | 'GENERATING' | 'READY' | 'FAILED' {
+  if (candidate.artifactStatus === 'FAILED') return 'FAILED';
+  if (candidate.artifactStatus === 'READY' && candidate.previewSrc) return 'READY';
+  if (candidate.artifactStatus === 'RUNNING') return 'GENERATING';
+  return 'PENDING';
+}
+
+function TodGalleryCandidateCard({ candidate }: { candidate: TwinOpusDirectCandidate }) {
+  if (candidate.previewSrc || candidate.artifactRole === 'MOBILE_CANDIDATE') {
+    return (
+      <div className="tod-card__surface tod-card__surface--conceptPreview">
+        <PageConceptContainedPreviewFrame
+          size="mobile"
+          viewportLabel={candidate.pipelineLabel ?? 'GPT2 MOBILE'}
+          status={previewStatusForCandidate(candidate)}
+          imageSrc={candidate.previewSrc}
+          testId={`gallery-candidate-preview-${candidate.id}`}
+        />
+        <div className="tod-card__meta">
+          <span className="tod-card__metaLine">{candidate.version}</span>
+          <span className="tod-card__metaLine">{candidate.pipelineLabel ?? 'GPT2 MOBILE'}</span>
+          {candidate.territoryLabel ?
+            <span className="tod-card__metaLine tod-card__metaLine--dim">{candidate.territoryLabel}</span>
+          : null}
+          {candidate.runLabel ?
+            <span className="tod-card__metaLine tod-card__metaLine--dim">{candidate.runLabel}</span>
+          : null}
+          {candidate.createdAtLabel ?
+            <span className="tod-card__metaLine tod-card__metaLine--dim">{candidate.createdAtLabel}</span>
+          : null}
+        </div>
+      </div>
+    );
+  }
+  return <TodCandidateSurface surface={candidate.surface} />;
 }
 
 function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurface }) {
@@ -314,7 +354,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
       </section>
 
       {/* 07 CANDIDATE_GALLERY */}
-      <section className="tod-gallery" aria-label={data.gallery.title}>
+      <section
+        className="tod-gallery"
+        aria-label={data.gallery.title}
+        data-testid="page-concept-candidate-gallery"
+      >
         <header className="tod-gallery__head">
           <h2 className="tod-gallery__title">{data.gallery.title}</h2>
           <button
@@ -358,14 +402,21 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             </div>
           : null}
           <div className="tod-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
-            {data.candidates.map((candidate) => {
+            {data.candidateSections.current.length > 0 ?
+              <p className="tod-gallery__groupLabel" data-testid="gallery-current-generation-label">
+                CURRENT GENERATION
+              </p>
+            : null}
+            {data.candidateSections.current.map((candidate) => {
               const active = candidate.id === state.candidateId;
               return (
                 <button
-                  key={candidate.id}
+                  key={candidate.artifactId ?? candidate.id}
                   type="button"
-                  className={`tod-card${active ? ' is-active' : ''}`}
+                  className={`tod-card tod-card--concept${active ? ' is-active' : ''}`}
                   aria-pressed={active}
+                  data-artifact-id={candidate.artifactId ?? undefined}
+                  data-concept-id={candidate.id}
                   onClick={() => actions.selectCandidate(candidate.id)}
                 >
                   {candidate.versionTag === 'none' ? null : (
@@ -383,10 +434,27 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                       <TodIconCheck className="tod-ico" />
                     </span>
                   ) : null}
-                  <TodCandidateSurface surface={candidate.surface} />
+                  <TodGalleryCandidateCard candidate={candidate} />
                 </button>
               );
             })}
+            {data.candidateSections.history.length > 0 ?
+              <p className="tod-gallery__groupLabel" data-testid="gallery-history-label">
+                HISTORY
+              </p>
+            : null}
+            {data.candidateSections.history.map((candidate) => (
+              <button
+                key={`hist-${candidate.artifactId ?? candidate.id}`}
+                type="button"
+                className="tod-card tod-card--concept tod-card--history"
+                aria-pressed={candidate.id === state.candidateId}
+                data-artifact-id={candidate.artifactId ?? undefined}
+                onClick={() => actions.selectCandidate(candidate.id)}
+              >
+                <TodGalleryCandidateCard candidate={candidate} />
+              </button>
+            ))}
           </div>
           <button
             type="button"

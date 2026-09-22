@@ -29,8 +29,17 @@ import {
   TWIN_OPUS_DIRECT_STAGE,
   TWIN_OPUS_DIRECT_TARGET,
   TWIN_OPUS_DIRECT_VIEWPORTS,
+  type TwinOpusDirectCandidate,
   type TwinOpusDirectViewportId,
 } from './twinOpusDirectContent';
+import {
+  buildPageConceptGallerySections,
+  type PageConceptGalleryCard,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
+import {
+  PAGE_CONCEPT_GALLERY_INSPECT_EVENT,
+  type PageConceptGalleryInspectDetail,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
 import {
   buildPagePipelineControllerModel,
   type PagePipelineControllerModel,
@@ -60,10 +69,8 @@ import {
   buildDesignProjectIntelligence,
   designHeaderCrumbLabels,
   listPageConceptCandidates,
-  mapPageConceptToGalleryCandidate,
   mergePageViewportIntoReadiness,
   pageConceptGalleryEmptyMessage,
-  pageConceptUsesRenditionModel,
   resolveAuthorityRailRows,
   resolveHeroPreviewForViewport,
   resolvePageViewportBundle,
@@ -118,6 +125,28 @@ function isViewMode(value: unknown): value is TwinOpusDirectViewMode {
   return TWIN_OPUS_DIRECT_VIEW_MODES.includes(value as TwinOpusDirectViewMode);
 }
 
+function galleryCardToTwinCandidate(card: PageConceptGalleryCard): TwinOpusDirectCandidate {
+  return {
+    id: card.id,
+    version: card.version,
+    surface: card.surface,
+    versionTag: card.versionTag,
+    viewportScope: card.viewportScope,
+    artifactId: card.artifactId,
+    runId: card.runId,
+    previewSrc: card.previewSrc,
+    slotLabel: card.slotLabel,
+    pipelineLabel: card.pipelineLabel,
+    territoryLabel: card.territoryLabel,
+    runLabel: card.runLabel,
+    createdAtLabel: card.createdAtLabel,
+    artifactStatus: card.artifactStatus,
+    runGroup: card.runGroup,
+    selectedMobileAuthority: card.selectedMobileAuthority,
+    artifactRole: card.artifactRole,
+  };
+}
+
 function readStoredViewMode(): TwinOpusDirectViewMode {
   if (typeof window === 'undefined') return TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE;
   try {
@@ -143,7 +172,13 @@ export interface TwinOpusDirectWorkspaceData {
   authorityPair: typeof TWIN_OPUS_DIRECT_AUTHORITY_PAIR;
   railActions: typeof TWIN_OPUS_DIRECT_RAIL_ACTIONS;
   gallery: typeof TWIN_OPUS_DIRECT_GALLERY;
-  candidates: typeof TWIN_OPUS_DIRECT_CANDIDATES;
+  candidates: readonly TwinOpusDirectCandidate[];
+  candidateSections: {
+    currentRunId: string | null;
+    current: readonly TwinOpusDirectCandidate[];
+    history: readonly TwinOpusDirectCandidate[];
+  };
+  selectedMobileConceptId: string | null;
   candidateActions: typeof TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS;
   outputTitle: typeof TWIN_OPUS_DIRECT_OUTPUT_TITLE;
   pageSystemReview: PageSystemReviewModel;
@@ -327,6 +362,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     setCandidateId(prodState.selectedCandidateId);
   }, [prodState.selectedCandidateId, prodState.updatedAt]);
 
+  const selectedMobileConceptId =
+    pageConceptGeneration.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ??
+    pageConceptGeneration.pipelineSet?.selectedMobileConceptId ??
+    null;
+
+  useEffect(() => {
+    if (!selectedMobileConceptId || selectedMobileConceptId === candidateId) return;
+    setCandidateId(selectedMobileConceptId);
+    prodActions.selectGalleryCandidate(selectedMobileConceptId);
+  }, [candidateId, prodActions, selectedMobileConceptId]);
+
   useEffect(() => {
     const refresh = () => pageAuthority.reload();
     window.addEventListener('site00:design-framework-handoff', refresh);
@@ -374,6 +420,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       selectCandidate: (id: string) => {
         setCandidateId(id);
         prodActions.selectGalleryCandidate(id);
+        const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find((c) => c.conceptId === id);
+        if (
+          row?.artifactRole === 'MOBILE_CANDIDATE' &&
+          row.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' &&
+          row.artifactStatus === 'READY'
+        ) {
+          void pageConceptGeneration.viewportFamilyHandlers.selectMobile(id);
+        }
       },
       toggleAuthorityPair: () => setAuthorityPairOpen((open) => !open),
       selectRecordTab: setRecordTabIndex,
@@ -381,10 +435,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       selectForMobile: () => selectForViewport('MOBILE'),
       selectForDesktop: () => selectForViewport('DESKTOP'),
       openCompareConcepts: () => {
-        const pageCandidates = listPageConceptCandidates(projectSlug, pageTarget.pageId);
+        const sections = buildPageConceptGallerySections({
+          projectId: projectSlug,
+          pageId: pageTarget.pageId,
+          viewport,
+          selectedMobileConceptId,
+        });
+        const pageCandidates = [...sections.current, ...sections.history];
         const ids =
           pageCandidates.length > 0 ?
-            pageCandidates.map((c) => c.conceptId)
+            pageCandidates.map((c) => c.id)
           : TWIN_OPUS_DIRECT_CANDIDATES.map((c) => c.id);
         if (ids.length < 2) return;
         const idx = Math.max(0, ids.indexOf(candidateId));
@@ -528,10 +588,34 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           });
         }
         if (actionId === 'inspect') {
-          prodActions.openInspectCandidate(candidate);
+          const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find((c) => c.conceptId === candidate);
+          if (row?.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE') {
+            window.dispatchEvent(
+              new CustomEvent<PageConceptGalleryInspectDetail>(PAGE_CONCEPT_GALLERY_INSPECT_EVENT, {
+                detail: { projectId: projectSlug, pageId: pageTarget.pageId, conceptId: candidate },
+              }),
+            );
+            pageConceptGeneration.openGenerationReview();
+          } else {
+            prodActions.openInspectCandidate(candidate);
+          }
         }
         if (actionId === 'fullscreen') {
-          prodActions.openFullscreenArtifact(twinOpusDirectCandidateArtifactView(candidate, viewport));
+          const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find((c) => c.conceptId === candidate);
+          const src = row?.mobileVisualReference ?? row?.visualReference ?? null;
+          if (src) {
+            prodActions.openFullscreenArtifact({
+              src,
+              title: row?.conceptTitle?.toUpperCase() ?? 'CONCEPT CANDIDATE',
+              subtitle: pageTarget.pageLabel,
+              role: 'concept-candidate',
+              viewport,
+              candidateId: candidate,
+              version: row?.runLabel ?? undefined,
+            });
+          } else {
+            prodActions.openFullscreenArtifact(twinOpusDirectCandidateArtifactView(candidate, viewport));
+          }
         }
       },
       openProvenance: prodActions.openProvenance,
@@ -630,14 +714,18 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   );
 
   const selectedCandidate = useMemo(() => {
-    const pageCandidates = listPageConceptCandidates(projectSlug, pageTarget.pageId).map(
-      mapPageConceptToGalleryCandidate,
-    );
+    const sections = buildPageConceptGallerySections({
+      projectId: projectSlug,
+      pageId: pageTarget.pageId,
+      viewport,
+      selectedMobileConceptId,
+    });
+    const pageCandidates = [...sections.current, ...sections.history].map(galleryCardToTwinCandidate);
     const fromPage = pageCandidates.find((c) => c.id === candidateId);
     if (fromPage) return fromPage;
     if (pageCandidates.length === 0) return null;
     return pageCandidates[0] ?? null;
-  }, [candidateId, pageTarget.pageId, projectSlug]);
+  }, [candidateId, pageTarget.pageId, projectSlug, selectedMobileConceptId, viewport]);
 
   const pageViewportBundle = useMemo(
     () => resolvePageViewportBundle(projectSlug, pageTarget.pageId),
@@ -728,12 +816,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           viewport,
         );
     const viewportControls = pageViewportBundle?.controls ?? [];
-    const pageConceptCards = listPageConceptCandidates(slug, shellTarget.pageId).map(
-      mapPageConceptToGalleryCandidate,
-    );
-    const renditionModel = pageConceptUsesRenditionModel(slug, shellTarget.pageId);
-    const scopedCandidates =
-      renditionModel ? pageConceptCards : pageConceptCards.filter((c) => c.viewportScope === viewport);
+    const gallerySections = buildPageConceptGallerySections({
+      projectId: slug,
+      pageId: shellTarget.pageId,
+      viewport,
+      selectedMobileConceptId,
+    });
+    const scopedCandidates = gallerySections.current.map(galleryCardToTwinCandidate);
+    const historyCandidates = gallerySections.history.map(galleryCardToTwinCandidate);
     const galleryEmptyMessage = pageConceptGalleryEmptyMessage(slug, shellTarget.pageId, viewport);
     const railRows =
       vpAuth ?
@@ -854,6 +944,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       })(),
       viewportPreferenceBadges: (id: string) => {
         const badges: string[] = [];
+        if (selectedMobileConceptId === id) badges.push('SELECTED MOBILE AUTHORITY');
         if (prodState.preferredMobileConceptId === id) badges.push('SELECTED FOR MOBILE');
         if (prodState.preferredDesktopConceptId === id) badges.push('SELECTED FOR DESKTOP');
         if (prodState.promotedMobileConceptId === id) badges.push('PROMOTED MOBILE');
@@ -871,6 +962,12 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       ),
       pageConceptTargetPageId: pageTarget.pageId,
       candidates: scopedCandidates,
+      candidateSections: {
+        currentRunId: gallerySections.currentRunId,
+        current: scopedCandidates,
+        history: historyCandidates,
+      },
+      selectedMobileConceptId,
       candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
       pageSystemReview: buildPageSystemReviewModel(projectSlug, pageTarget.pageId, viewport),
@@ -940,6 +1037,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageConceptRevision,
     pageConceptGeneration.generating,
     pageConceptGeneration.generationEligibility,
+    selectedMobileConceptId,
   ]);
 
   useEffect(() => {

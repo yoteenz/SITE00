@@ -1429,6 +1429,54 @@
   box-shadow: 0 0 0 2.6px var(--tod-lime);
 }
 
+.tod-card--concept {
+  flex: 0 0 168px;
+  height: auto;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.tod-card--history {
+  opacity: 0.82;
+}
+
+.tod-card__surface--conceptPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 28px 6px 8px;
+  height: 100%;
+}
+
+.tod-card__surface--conceptPreview .s00-pcg__containPreview {
+  max-height: 140px;
+}
+
+.tod-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 7.5px;
+  line-height: 1.25;
+  color: #e8e8e4;
+  padding: 0 2px 4px;
+}
+
+.tod-card__metaLine--dim {
+  color: #9a9a96;
+}
+
+.tod-gallery__groupLabel {
+  flex: 0 0 100%;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: #9a9a96;
+  margin: 8px 0 4px;
+  padding-left: 2px;
+}
+
 .tod-card__version {
   position: absolute;
   left: 7px;

@@ -93,6 +93,18 @@ export type TwinOpusDirectCandidate = {
   readonly versionTag: TwinOpusDirectVersionTag;
   /** Viewport scope for concept candidates — mobile-only until desktop candidates exist. */
   readonly viewportScope: TwinOpusDirectViewportId;
+  readonly artifactId?: string | null;
+  readonly runId?: string | null;
+  readonly previewSrc?: string | null;
+  readonly slotLabel?: string | null;
+  readonly pipelineLabel?: string;
+  readonly territoryLabel?: string;
+  readonly runLabel?: string | null;
+  readonly createdAtLabel?: string | null;
+  readonly artifactStatus?: 'PENDING' | 'RUNNING' | 'READY' | 'FAILED';
+  readonly runGroup?: 'CURRENT' | 'HISTORY';
+  readonly selectedMobileAuthority?: boolean;
+  readonly artifactRole?: 'MOBILE_CANDIDATE' | 'TABLET_INTERPRETATION' | 'DESKTOP_INTERPRETATION';
 };
 
 export const TWIN_OPUS_DIRECT_CANDIDATES: readonly TwinOpusDirectCandidate[] = [
