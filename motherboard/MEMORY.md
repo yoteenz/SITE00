@@ -11418,3 +11418,12 @@ Founder live: hero GENERATION CONSOLE showed **3 READY** but Concept Candidate G
 - **Root cause:** `inferPageConceptPipelineLineage` treated mixed legacy NBP + GPT2 jobs as **LEGACY_NBP**, so `buildMobileCandidatesFromGenerationJobs` returned **[]** while launcher still counted GPT2_MOBILE READY jobs. Relative `/api/...` artifact paths also broke `<img src>` without origin prefix.
 - **Fix (`cursor/fix-gallery-lineage-and-artifact-urls-b747`):** GPT2_MOBILE jobs force canonical lineage; `resolvePageConceptArtifactDisplayUrl` for gallery/sync/generator; generator slot lookup uses artifactId slot parsing; `generation-updated` reload uses `loadPageConceptGenerationStateForDesignPage`.
 - **Deploy:** Requires new frontend ZIP (v625+) on GoDaddy; mobile regen still needs Railway API from artifact-sync merge.
+
+---
+
+## 2026-09-22 — Generator defaulted to legacy NBP UI (GPT2-only product)
+
+Confirm/review overlay used `pageConceptCanonicalGpt2MobileActive` which was false on idle confirm (no jobs yet) → `stageMode='NBP'`, legacy ProgressionRail, CONTINUE (LEGACY NBP).
+
+- **Fix:** When `SITE00_PAGE_CONCEPT_LEGACY_NBP` is not `true`, `pageConceptCanonicalGpt2MobileActive` and `isCanonicalGpt2ViewportFamilyPipeline` always treat product as canonical GPT2; `pageConceptStageStatesFromPipeline` skips legacy NBP heuristics.
+- **Branch:** `cursor/fix-gpt2-only-generator-model-b747`.
