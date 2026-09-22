@@ -11327,3 +11327,16 @@ GPT2 mobile concept images were expanding to natural page height inside the gene
 - **Layout:** sticky generator header/footer, `s00-pcg-layer__scrollBody` scroll ownership; selected concept badge without image auto-expand.
 - **Tests:** `p0vrPageConceptMobileImageContainmentUx1.test.tsx`; Playwright stills `scripts/capture-page-concept-image-containment-qa.mjs`.
 - **Branch:** `cursor/page-concept-mobile-image-containment-ux1-b747`.
+
+---
+
+## 2026-09-22 — P0.VR.GPT2-CONCEPT-CANDIDATE-GALLERY-SURFACING1
+
+Wire canonical GPT2 mobile page concepts A/B/C into Design workspace Concept Candidate Gallery (same artifact records as generator).
+
+- **`pageConceptGallerySync.ts` + `upsertPageConceptCandidates`:** artifactId-keyed upsert, incremental READY/RUNNING surfacing, run history, partial retry keeps prior B v1 as HISTORY, `selectedMobileConceptId` → SELECTED.
+- **`pageConceptGalleryPresentation.ts`:** gallery cards (preview, GPT2 MOBILE, territory, run label), CURRENT vs HISTORY sections.
+- **Workspace:** `buildPageConceptGallerySections`, gallery selection calls `selectMobileConcept` + `page_concept_mobile_selection_made`; poll dispatches `site00:page-concept-generation-updated`; inspect/fullscreen reuse generator drawer + artifact viewer.
+- **UI:** `TodGalleryCandidateCard` + contained previews in canonical gallery; empty copy `NO PAGE CONCEPTS YET`.
+- **Tests:** `p0vrGpt2ConceptCandidateGallerySurfacing1.test.ts`.
+- **Branch:** `cursor/gpt2-concept-candidate-gallery-surfacing1-b747`.
