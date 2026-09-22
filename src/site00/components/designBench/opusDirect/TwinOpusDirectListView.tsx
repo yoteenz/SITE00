@@ -383,7 +383,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             data-testid="page-concept-candidate-gallery"
           >
             <header className="tod-lv-gallery__head">
-              <h2 className="tod-lv-gallery__title">{data.gallery.title}</h2>
+              <h2 className="tod-lv-gallery__title">{data.galleryViewportTitle}</h2>
               <button type="button" className="tod-lv-gallery__compare" onClick={() => actions.openCompareConcepts()}>
                 {data.gallery.compare}
                 <TodIconCompare className="tod-ico tod-lv-gallery__compareIco" />
@@ -396,6 +396,9 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                   data-testid={data.galleryEmptyTestId ?? 'gallery-page-concept-empty'}
                 >
                   <p className="tod-lv-gallery__empty">{data.galleryEmptyMessage}</p>
+                  {data.galleryEmptySecondaryLine ?
+                    <p className="tod-lv-gallery__empty">{data.galleryEmptySecondaryLine}</p>
+                  : null}
                   {data.pageConceptGenerationGate.blockerMessage ?
                     <p className="tod-lv-gallery__blocked" data-testid="generate-page-concepts-blocked-reason">
                       {data.pageConceptGenerationGate.blockerMessage}

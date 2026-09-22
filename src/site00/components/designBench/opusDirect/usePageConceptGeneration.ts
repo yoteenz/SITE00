@@ -260,6 +260,9 @@ export function usePageConceptGeneration(
   );
   const [presentedSubstepStates, setPresentedSubstepStates] =
     useState<PageConceptPresentedSubstepState>(() => emptyPresentedSubstepState());
+  const [consoleFocusViewport, setConsoleFocusViewport] = useState<'MOBILE' | 'TABLET' | 'DESKTOP' | null>(
+    null,
+  );
   const lastObservedSequenceRef = useRef(0);
   const presentationEpochRef = useRef(0);
   const presentedSubstepStatesRef = useRef<PageConceptPresentedSubstepState>(emptyPresentedSubstepState());
@@ -685,24 +688,37 @@ export function usePageConceptGeneration(
     }
   }, [pageId, persist, projectId, route, screenId]);
 
-  const openGenerationConsole = useCallback(async () => {
-    if (generating) {
-      setOverlayOpen(true);
-      setOverlayMode('progress');
-      return;
-    }
-    const loaded = loadPageConceptGenerationStateForDesignPage({
-      projectSlug: projectId,
-      pageId,
-      screenId,
-      route: route ?? null,
-    });
-    if (pageConceptReviewReady(loaded.generationStatus) || (loaded.pipelineSet?.mobileConcepts?.length ?? 0) > 0) {
-      openGenerationReview();
-      return;
-    }
-    await openGenerationConfirm();
-  }, [generating, openGenerationConfirm, openGenerationReview, pageId, projectId, route, screenId]);
+  const openGenerationConsole = useCallback(
+    async (focusViewport: 'MOBILE' | 'TABLET' | 'DESKTOP' = 'MOBILE') => {
+      setConsoleFocusViewport(focusViewport);
+      if (generating) {
+        setOverlayOpen(true);
+        setOverlayMode('progress');
+        return;
+      }
+      const loaded = loadPageConceptGenerationStateForDesignPage({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route: route ?? null,
+      });
+      const hasMobileConcepts = (loaded.pipelineSet?.mobileConcepts?.length ?? 0) > 0;
+      const hasInterpretations = loaded.generationJobs.some(
+        (j) => j.provider === 'GPT2_TABLET' || j.provider === 'GPT2_DESKTOP',
+      );
+      if (
+        focusViewport !== 'MOBILE' ||
+        pageConceptReviewReady(loaded.generationStatus) ||
+        hasMobileConcepts ||
+        hasInterpretations
+      ) {
+        openGenerationReview();
+        return;
+      }
+      await openGenerationConfirm();
+    },
+    [generating, openGenerationConfirm, openGenerationReview, pageId, projectId, route, screenId],
+  );
 
   const cancelGeneration = useCallback(() => {
     if (generating) return;
@@ -1766,6 +1782,7 @@ export function usePageConceptGeneration(
     generationState: state,
     openGenerationConfirm,
     openGenerationConsole,
+    consoleFocusViewport,
     openGenerationReview,
     cancelGeneration,
     handleGenerateClick,

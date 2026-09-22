@@ -14,7 +14,9 @@ export type Gpt2ViewportFamilyAuthorityRailRow = {
 export function buildGpt2ViewportFamilyAuthorityRail(input: {
   pipelineSet: PageConceptPipelineSet | null;
   selectedMobileConceptLabel: string | null;
+  activeViewport?: 'MOBILE' | 'TABLET' | 'DESKTOP';
 }): readonly Gpt2ViewportFamilyAuthorityRailRow[] {
+  const activeViewport = input.activeViewport ?? 'MOBILE';
   const family = input.pipelineSet?.viewportAuthorityFamily ?? null;
   const status = family?.status ?? null;
   const mobileSelected = Boolean(family?.selectedMobileConceptId);
@@ -24,7 +26,7 @@ export function buildGpt2ViewportFamilyAuthorityRail(input: {
   const familyApproved = status === 'APPROVED' || status === 'LOCKED';
   const familyLocked = status === 'LOCKED';
 
-  return [
+  const rows: Gpt2ViewportFamilyAuthorityRailRow[] = [
     {
       id: 'mobile-authority',
       label: 'MOBILE AUTHORITY',
@@ -39,14 +41,14 @@ export function buildGpt2ViewportFamilyAuthorityRail(input: {
     },
     {
       id: 'tablet',
-      label: 'TABLET',
-      value: tabletReady ? 'READY' : 'PENDING',
+      label: 'TABLET INTERPRETATION',
+      value: tabletReady ? (family?.tabletVersion ?? 'READY') : 'PENDING',
       status: tabletReady ? 'READY' : 'PENDING',
     },
     {
       id: 'desktop',
-      label: 'DESKTOP',
-      value: desktopReady ? 'READY' : 'PENDING',
+      label: 'DESKTOP INTERPRETATION',
+      value: desktopReady ? (family?.desktopVersion ?? 'READY') : 'PENDING',
       status: desktopReady ? 'READY' : 'PENDING',
     },
     {
@@ -56,6 +58,13 @@ export function buildGpt2ViewportFamilyAuthorityRail(input: {
       status: familyLocked ? 'LOCKED' : familyApproved ? 'APPROVED' : tabletReady && desktopReady ? 'READY' : 'PENDING',
     },
   ];
+  if (activeViewport === 'TABLET') {
+    return rows.filter((r) => r.id === 'tablet' || r.id === 'viewport-family');
+  }
+  if (activeViewport === 'DESKTOP') {
+    return rows.filter((r) => r.id === 'desktop' || r.id === 'viewport-family');
+  }
+  return rows.filter((r) => r.id === 'mobile-authority' || r.id === 'experience' || r.id === 'viewport-family');
 }
 
 export function isCanonicalGpt2ViewportFamilyPipeline(pipelineSet: PageConceptPipelineSet | null): boolean {

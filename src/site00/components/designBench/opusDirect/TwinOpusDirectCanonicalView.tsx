@@ -374,7 +374,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
         data-testid="page-concept-candidate-gallery"
       >
         <header className="tod-gallery__head">
-          <h2 className="tod-gallery__title">{data.gallery.title}</h2>
+          <h2 className="tod-gallery__title">{data.galleryViewportTitle}</h2>
           <button
             type="button"
             className="tod-gallery__compare"
@@ -392,6 +392,9 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               data-testid={data.galleryEmptyTestId ?? 'gallery-page-concept-empty'}
             >
               <p className="tod-gallery__empty">{data.galleryEmptyMessage}</p>
+              {data.galleryEmptySecondaryLine ?
+                <p className="tod-gallery__empty tod-gallery__empty--secondary">{data.galleryEmptySecondaryLine}</p>
+              : null}
               {data.pageConceptGenerationGate.blockerMessage ?
                 <p className="tod-gallery__blocked" data-testid="generate-page-concepts-blocked-reason">
                   {data.pageConceptGenerationGate.blockerMessage}
@@ -421,7 +424,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
           <div className="tod-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
             {data.candidateSections.current.length > 0 ?
               <p className="tod-gallery__groupLabel" data-testid="gallery-current-generation-label">
-                CURRENT GENERATION
+                {data.galleryCurrentGroupLabel}
               </p>
             : null}
             {data.candidateSections.current.map((candidate) => {
@@ -457,7 +460,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             })}
             {data.candidateSections.history.length > 0 ?
               <p className="tod-gallery__groupLabel" data-testid="gallery-history-label">
-                HISTORY
+                {data.galleryHistoryGroupLabel}
               </p>
             : null}
             {data.candidateSections.history.map((candidate) => (
