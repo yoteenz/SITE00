@@ -130,6 +130,18 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
     expect(pageConceptGpt2MobileIdempotencyKey('pcgr-x', 'MOBILE_CONCEPT_B')).toBe('pcgr-x:GPT2_MOBILE:B');
   });
 
+  it('canonical GPT2 product mode is active before any generation jobs exist', () => {
+    delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
+    const idle = {
+      projectId: 'ndxbook',
+      pageId: 'overview',
+      generationStatus: 'IDLE',
+      generationJobs: [],
+      pipelineSet: null,
+    } as unknown as PageConceptGenerationState;
+    expect(pageConceptCanonicalGpt2MobileActive(idle)).toBe(true);
+  });
+
   it('shell presentations use GPT2 mobile jobs only when canonical active', () => {
     const state = {
       projectId: 'ndxbook',

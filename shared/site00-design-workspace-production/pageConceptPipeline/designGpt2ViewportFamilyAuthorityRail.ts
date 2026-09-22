@@ -3,6 +3,7 @@
  */
 
 import type { PageConceptPipelineSet } from './types.js';
+import { pageConceptCanonicalNbpDisabled } from './pageConceptCanonicalPipeline.js';
 
 export type Gpt2ViewportFamilyAuthorityRailRow = {
   id: string;
@@ -68,5 +69,6 @@ export function buildGpt2ViewportFamilyAuthorityRail(input: {
 }
 
 export function isCanonicalGpt2ViewportFamilyPipeline(pipelineSet: PageConceptPipelineSet | null): boolean {
+  if (pageConceptCanonicalNbpDisabled()) return true;
   return pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE';
 }
