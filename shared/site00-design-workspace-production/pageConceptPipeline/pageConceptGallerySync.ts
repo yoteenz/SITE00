@@ -8,46 +8,12 @@ import {
   type PageConceptCandidate,
   type PageConceptCandidateStatus,
 } from '../designProjectBinding/designPageConceptModel.js';
-import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
-import type { PageConceptGenerationState, PageConceptGeneratedArtifact } from './types.js';
+import type { PageConceptGenerationState } from './types.js';
 import { renditionSlotToGalleryConceptId } from './constants.js';
 import { buildMobileCandidatesFromGenerationJobs } from './pageConceptCandidateReconciliation.js';
 
-function slotLetterFromMobileSlot(slot: PageMobileConceptSlotId): 'A' | 'B' | 'C' {
-  if (slot === 'MOBILE_CONCEPT_A') return 'A';
-  if (slot === 'MOBILE_CONCEPT_B') return 'B';
-  return 'C';
-}
-
-function renditionSlotFromMobileSlot(slot: PageMobileConceptSlotId): 'RENDITION_A' | 'RENDITION_B' | 'RENDITION_C' {
-  const letter = slotLetterFromMobileSlot(slot);
-  return letter === 'A' ? 'RENDITION_A' : letter === 'B' ? 'RENDITION_B' : 'RENDITION_C';
-}
-
-function conceptTitleForSlot(slot: PageMobileConceptSlotId, territory?: string): string {
-  const letter = slotLetterFromMobileSlot(slot);
-  return territory ? `CONCEPT ${letter} · ${territory}` : `GPT2 MOBILE PAGE CONCEPT ${letter}`;
-}
-
-function jobForMobileConcept(
-  jobs: readonly PageConceptGeneratedArtifact[],
-  artifactId: string,
-): PageConceptGeneratedArtifact | undefined {
-  return jobs.find((j) => j.artifactId === artifactId);
-}
-
 function resolveActiveRunId(state: PageConceptGenerationState): string | null {
   return state.activeGenerationRunId ?? state.activeReviewRunId ?? state.pipelineSet?.pipelineSetId ?? null;
-}
-
-function artifactStatusFromJob(
-  job: PageConceptGeneratedArtifact | undefined,
-  conceptStatus: 'PENDING' | 'RUNNING' | 'READY' | 'FAILED',
-): PageConceptCandidate['artifactStatus'] {
-  if (job?.status === 'READY' || conceptStatus === 'READY') return 'READY';
-  if (job?.status === 'FAILED' || conceptStatus === 'FAILED') return 'FAILED';
-  if (job?.status === 'RUNNING' || conceptStatus === 'RUNNING') return 'RUNNING';
-  return 'PENDING';
 }
 
 function buildViewportInterpretationCandidates(

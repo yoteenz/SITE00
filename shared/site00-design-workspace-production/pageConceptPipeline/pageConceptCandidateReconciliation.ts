@@ -14,7 +14,6 @@ import type {
   PageConceptGenerationState,
 } from './types.js';
 import {
-  mobileConceptArtifactId,
   PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS,
   type PageGpt2MobileConcept,
   type PageMobileConceptSlotId,
@@ -148,7 +147,6 @@ export function buildMobileCandidatesFromGenerationJobs(state: PageConceptGenera
     const jobs = (bySlot.get(slot) ?? []).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
     if (jobs.length === 0) {
       const meta = mobileConcepts.find((c) => c.slot === slot);
-      const canonicalArtifactId = mobileConceptArtifactId(slot);
       if (meta && (meta.status === 'READY' || meta.status === 'RUNNING' || meta.status === 'FAILED')) {
         rows.push(
           buildMobileCandidateFromJob({

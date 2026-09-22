@@ -255,7 +255,11 @@ export interface TwinOpusDirectWorkspaceData {
   viewportControls: readonly ViewportControlPresentation[];
   galleryEmptyMessage: string | null;
   galleryEmptySecondaryLine: string | null;
-  galleryEmptyTestId: 'gallery-page-concept-empty' | 'gallery-page-concept-load-failed' | null;
+  galleryEmptyTestId:
+    | 'gallery-page-concept-empty'
+    | 'gallery-page-concept-load-failed'
+    | 'gallery-page-concept-reconciling'
+    | null;
   galleryViewportTitle: string;
   galleryCurrentGroupLabel: string;
   galleryHistoryGroupLabel: string;
