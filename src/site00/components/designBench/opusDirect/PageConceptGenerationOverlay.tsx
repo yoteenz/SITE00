@@ -532,6 +532,7 @@ export function PageConceptGenerationOverlay({
           founderJourneyRail={founderJourneyRail}
           founderFooterHint={founderFooterHint}
           useFounderJourneyRail={gpt2MobileStage}
+          mobileStageAccordion={gpt2MobileStage}
           onClose={onCancel}
         />
         </div>

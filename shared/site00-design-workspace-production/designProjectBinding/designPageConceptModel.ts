@@ -179,7 +179,7 @@ const NDXBOOK_CAMPAIGN_ENTRIES: readonly CampaignEntry[] = [
 const PAGE_CONCEPT_STORE: Partial<Record<string, readonly PageConceptCandidate[]>> = {};
 
 function conceptStoreKey(projectId: string, pageId: string): string {
-  return `${projectId}::${pageId}`;
+  return `${projectId.trim().toLowerCase()}::${pageId}`;
 }
 
 export function listCampaignEntriesForProject(projectId: string): readonly CampaignEntry[] {

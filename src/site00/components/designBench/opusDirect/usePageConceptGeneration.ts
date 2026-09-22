@@ -17,6 +17,7 @@ import {
   type PageConceptMobileSelectionMadeDetail,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
+import { refreshPageConceptGalleryFromPersistedState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
@@ -281,6 +282,10 @@ export function usePageConceptGeneration(
       runId: founderSession?.runId ?? loaded.activeGenerationRunId,
       autoStart: false,
     });
+    refreshPageConceptGalleryFromPersistedState(projectId, pageId);
+    window.dispatchEvent(
+      new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+    );
   }, [pageId, projectId, route, screenId]);
 
   useEffect(() => {
@@ -289,6 +294,7 @@ export function usePageConceptGeneration(
       if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
       const loaded = loadPageConceptGenerationState(projectId, pageId);
       setState(loaded);
+      refreshPageConceptGalleryFromPersistedState(projectId, pageId);
       if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
     };
     window.addEventListener('site00:page-concept-generation-updated', onUpdated);
