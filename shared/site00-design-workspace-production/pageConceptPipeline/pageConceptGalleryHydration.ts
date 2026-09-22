@@ -5,7 +5,6 @@ import {
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
 import type { PageConceptGenerationState } from './types.js';
 import { inferPageConceptPipelineLineage } from './pageConceptCanonicalPipeline.js';
-import { generationStateHasOrphanReadyMobileJobs } from './pageConceptCandidateReconciliation.js';
 import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
 import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
 import {

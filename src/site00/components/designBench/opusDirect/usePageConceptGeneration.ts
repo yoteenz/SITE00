@@ -1682,7 +1682,7 @@ export function usePageConceptGeneration(
   }, [state]);
 
   const resolveMobileCaptureBase64ForRegeneration = useCallback(async (): Promise<string> => {
-    const captures = getPageConceptSourceCaptures(projectId, pageId, screenId);
+    const captures = getPageConceptSourceCaptures(projectId, pageId);
     const mobile = captures.mobile;
     if (!mobile || !isPageCaptureDisplayableArtifact(mobile.artifactPath)) {
       throw new Error('RUN RECOVERY REQUIRED');

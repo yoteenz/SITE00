@@ -140,6 +140,8 @@ export function PageConceptGenerationOverlay({
     markOpusShellsReady: () => void;
     lockFamily: () => void;
     createTwinPackage: () => void;
+    regenerateMobileConcept: (conceptId: string) => void;
+    regenerateAllMobileConcepts: () => void;
   };
   postRunReviewReady?: boolean;
   postRunPrimaryAction?: { label: string; testId: string } | null;

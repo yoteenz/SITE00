@@ -61,11 +61,11 @@ export async function renderPageGpt2MobileConceptJob(
     image_urls.push(refUrl);
   }
 
-  const falInput: { prompt: string; image_urls?: string[]; num_images: number } = {
+  const falInput = {
     prompt: pkg.prompt,
     num_images: 1,
+    image_urls,
   };
-  if (image_urls.length > 0) falInput.image_urls = image_urls;
 
   const result = (await fal.subscribe(PAGE_GPT2_MOBILE_FAL_MODEL, {
     input: falInput,
