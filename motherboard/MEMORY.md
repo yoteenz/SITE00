@@ -11340,3 +11340,9 @@ Wire canonical GPT2 mobile page concepts A/B/C into Design workspace Concept Can
 - **UI:** `TodGalleryCandidateCard` + contained previews in canonical gallery; empty copy `NO PAGE CONCEPTS YET`.
 - **Tests:** `p0vrGpt2ConceptCandidateGallerySurfacing1.test.ts`.
 - **Branch:** `cursor/gpt2-concept-candidate-gallery-surfacing1-b747`.
+
+---
+
+## 2026-09-22 — CI fix: Opus shell mobile slot labels
+
+`p0vrPageConceptGeneratorOpusShell1.test.ts` expected GPT2 shell slot labels `A/B/C`; canonical shell in `designPageConceptGeneratorShell.ts` uses `PAGE A` / `PAGE B` / `PAGE C`. Test aligned to shell authority (PR fix branch).
