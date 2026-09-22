@@ -11408,3 +11408,12 @@ Production regression: gallery empty despite GPT2 mobile jobs; regen wired to le
 - **Panel:** `singleActiveStageOnly` on mobile GPT2 review; hide duplicate viewport-family panel during mobile selection; internal scroll owner = generator (`s00-pcg__scroll`).
 - **Tests:** `p0vrDesignWorkspaceArtifactSyncRegenPanelFinalization1.test.ts`.
 - **Branch:** `cursor/design-workspace-artifact-sync-regen-panel-finalization1-b747`.
+
+---
+
+## 2026-09-22 — Hotfix: Design workspace white screen (render loop)
+
+**Cause:** `twinOpusDirectWorkspace` aliased `listPageConceptCandidates` → `listPageConceptCandidatesHydrated` inside `useMemo`; each read called `refreshPageConceptGalleryFromPersistedState`, which dispatched `site00:page-concept-gallery-synced`, bumped `pageConceptRevision`, and re-ran `useMemo` → stack overflow / blank page.
+
+**Fix:** Use non-hydrating `listPageConceptCandidates` for workspace reads; gallery refresh only in dedicated `useEffect`; removed gallery-synced event dispatch/listener.
+- **Branch:** `cursor/fix-design-workspace-boot-loop-b747`.
