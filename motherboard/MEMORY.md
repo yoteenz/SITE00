@@ -11343,6 +11343,18 @@ Wire canonical GPT2 mobile page concepts A/B/C into Design workspace Concept Can
 
 ---
 
+## 2026-09-22 — P0.VR.CONCEPT-GALLERY-SYNC-AND-MOBILE-PANEL-COMPRESSION1
+
+Gallery empty while generator had concepts: in-memory gallery store was not hydrated from persisted `loadPageConceptGenerationState`.
+
+- **`pageConceptGalleryHydration.ts`:** refresh from localStorage generation state (+ archived runs); `listPageConceptCandidatesHydrated`; empty vs `CONCEPTS COULD NOT BE LOADED`.
+- **Sync:** jobs-only fallback for GPT2_MOBILE; normalized projectId store keys; workspace + hook refresh on mount/poll.
+- **Mobile panel:** stage accordion (CGPT collapsed when GPT2 active), CGPT digest 3-field compact, clamped rationale, compact INSPECT/FULLSCREEN/SELECT grid, preview `clamp(240px, 36vh, 360px)`, modal `92dvh` internal scroll.
+- **Tests:** `p0vrConceptGallerySyncAndMobilePanelCompression1.test.ts`.
+- **Branch:** `cursor/concept-gallery-sync-mobile-panel-compression1-b747`.
+
+---
+
 ## 2026-09-22 — CI fix: Opus shell mobile slot labels
 
 `p0vrPageConceptGeneratorOpusShell1.test.ts` expected GPT2 shell slot labels `A/B/C`; canonical shell in `designPageConceptGeneratorShell.ts` uses `PAGE A` / `PAGE B` / `PAGE C`. Test aligned to shell authority (PR fix branch).

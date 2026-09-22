@@ -37,6 +37,10 @@ import type {
   FounderSummaryMetric,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderReviewPresentation.js';
 import {
+  pageConceptStageBodyCollapsed,
+  resolveFocusedPageConceptStageId,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorStageAccordion.js';
+import {
   pageConceptFounderNoticeDisplay,
   sanitizePageConceptFounderNotice,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderNotice.js';
@@ -120,6 +124,8 @@ export type PageConceptGeneratorPanelProps = {
   founderJourneyRail?: readonly FounderJourneyRailStep[];
   founderFooterHint?: FounderFooterCtaHint | null;
   useFounderJourneyRail?: boolean;
+  /** Mobile: collapse completed / pending stages — only focused stage expanded. */
+  mobileStageAccordion?: boolean;
 };
 
 function StatusChip({ state }: { state: PageConceptStageState }) {
@@ -256,15 +262,22 @@ function StageCard({
   results,
   cgptSubstepStates,
   cgptSubstepDigests,
+  bodyCollapsed,
 }: {
   stage: PageConceptStageShell;
   state: PageConceptStageState;
   results: PageConceptGeneratorResultSlots;
   cgptSubstepStates?: Partial<Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>>;
   cgptSubstepDigests?: Partial<Record<PageConceptCgptSubstepId, string>>;
+  bodyCollapsed?: boolean;
 }) {
   return (
-    <article className="s00-pcg__card" data-stage-id={stage.id} data-stage-state={state}>
+    <article
+      className="s00-pcg__card"
+      data-stage-id={stage.id}
+      data-stage-state={state}
+      data-stage-collapsed={bodyCollapsed ? 'true' : undefined}
+    >
       <header className="s00-pcg__cardHead">
         <span className="s00-pcg__step">{stage.stepLabel}</span>
         <span className="s00-pcg__tag">
@@ -277,7 +290,7 @@ function StageCard({
       <h3 className="s00-pcg__cardTitle">{stage.title}</h3>
       <p className="s00-pcg__cardSub">{stage.subtitle}</p>
 
-      <div className="s00-pcg__cardBody">
+      <div className="s00-pcg__cardBody" hidden={bodyCollapsed}>
         {stage.resultKind === 'BRIEF' && stage.briefRows ?
           <ul className="s00-pcg__brief" data-result-slot={stage.resultSlotId}>
             {results.cgptBrief ??
@@ -385,11 +398,13 @@ export function PageConceptGeneratorPanel({
   founderJourneyRail,
   founderFooterHint,
   useFounderJourneyRail,
+  mobileStageAccordion = false,
 }: PageConceptGeneratorPanelProps) {
   const states: Record<PageConceptStageId, PageConceptStageState> = {
     ...PAGE_CONCEPT_DEFAULT_STAGE_STATE,
     ...stageStates,
   };
+  const focusedStageId = resolveFocusedPageConceptStageId(states);
   const dismiss = onCancel ?? onClose;
   const footSpendRaw = footSpendNote ?? PAGE_CONCEPT_GENERATOR_FOOTER.spendNote;
   const footSpendMicro = pageConceptGeneratorFootSpendShowsMicroSummary(footSpendNote);
@@ -476,6 +491,12 @@ export function PageConceptGeneratorPanel({
               results={results}
               cgptSubstepStates={stage.id === 'CGPT' ? cgptSubstepStates : undefined}
               cgptSubstepDigests={stage.id === 'CGPT' ? cgptSubstepDigests : undefined}
+              bodyCollapsed={pageConceptStageBodyCollapsed({
+                stageId: stage.id,
+                stageState: states[stage.id],
+                focusedStageId,
+                accordionEnabled: mobileStageAccordion,
+              })}
             />
           ))}
         </div>

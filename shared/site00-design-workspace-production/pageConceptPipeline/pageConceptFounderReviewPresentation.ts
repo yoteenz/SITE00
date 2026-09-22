@@ -74,10 +74,9 @@ export function buildCgptBriefDigest(brief: PageConceptCgptCreativeBrief): reado
     .filter(Boolean)
     .join(' · ');
   return [
-    { id: 'premise', label: 'CREATIVE PREMISE', excerpt: excerpt(brief.creativePremise) },
-    { id: 'page-story', label: 'PAGE STORY', excerpt: excerpt(brief.pageStory, 120) },
-    { id: 'visual-territory', label: 'VISUAL TERRITORY', excerpt: excerpt(visualTerritory || brief.compositionStrategy) },
-    { id: 'distinctive-move', label: 'DISTINCTIVE MOVE', excerpt: excerpt(brief.distinctiveMove) },
+    { id: 'premise', label: 'CREATIVE PREMISE', excerpt: excerpt(brief.creativePremise, 120) },
+    { id: 'visual-territory', label: 'VISUAL TERRITORY', excerpt: excerpt(visualTerritory || brief.compositionStrategy, 80) },
+    { id: 'distinctive-move', label: 'DISTINCTIVE MOVE', excerpt: excerpt(brief.distinctiveMove, 80) },
   ].filter((f) => f.excerpt.length > 0);
 }
 

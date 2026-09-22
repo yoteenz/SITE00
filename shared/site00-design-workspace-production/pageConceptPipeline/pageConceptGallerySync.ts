@@ -59,8 +59,8 @@ function galleryStatusForCandidate(input: {
 /** Upsert canonical GPT2 mobile (and legacy NBP) artifacts into the page concept gallery store. */
 export function syncPageConceptGalleryFromGenerationState(state: PageConceptGenerationState): void {
   const mobileConcepts = state.pipelineSet?.mobileConcepts ?? [];
-  const canonicalMobile =
-    state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' && mobileConcepts.length > 0;
+  const canonicalPipeline = state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE';
+  const canonicalMobile = canonicalPipeline && (mobileConcepts.length > 0 || state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE'));
   const activeRunId = resolveActiveRunId(state);
   const selectedMobileConceptId =
     state.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ??
@@ -71,38 +71,51 @@ export function syncPageConceptGalleryFromGenerationState(state: PageConceptGene
   const incoming: PageConceptCandidate[] = [];
 
   if (canonicalMobile) {
-    for (const concept of mobileConcepts) {
-      const job = jobForMobileConcept(state.generationJobs, concept.artifactId);
-      const artifactStatus = artifactStatusFromJob(job, concept.status);
+    const conceptsBySlot = new Map(mobileConcepts.map((c) => [c.slot, c]));
+    const slots: PageMobileConceptSlotId[] = ['MOBILE_CONCEPT_A', 'MOBILE_CONCEPT_B', 'MOBILE_CONCEPT_C'];
+    for (const slot of slots) {
+      const concept = conceptsBySlot.get(slot);
+      const renditionSlot = renditionSlotFromMobileSlot(slot);
+      const job =
+        concept ?
+          jobForMobileConcept(state.generationJobs, concept.artifactId)
+        : state.generationJobs.find(
+            (j) => j.provider === 'GPT2_MOBILE' && j.renditionSlot === renditionSlot && j.viewport === 'MOBILE',
+          );
+      if (!concept && !job) continue;
+      const artifactStatus = artifactStatusFromJob(job, concept?.status ?? 'PENDING');
       if (artifactStatus !== 'READY' && artifactStatus !== 'RUNNING' && artifactStatus !== 'FAILED') {
         continue;
       }
-      const renditionSlot = renditionSlotFromMobileSlot(concept.slot);
-      const selected = selectedMobileConceptId === concept.conceptId;
+      const conceptId = concept?.conceptId ?? job?.gpt2AuthorityConceptId ?? `${slot}-${job?.artifactId ?? 'pending'}`;
+      const artifactId = concept?.artifactId ?? job?.artifactId ?? null;
+      if (!artifactId) continue;
+      const selected = selectedMobileConceptId === conceptId;
       incoming.push({
-        conceptId: concept.conceptId,
-        projectId: state.projectId,
+        conceptId,
+        projectId: state.projectId.trim().toLowerCase(),
         pageId: state.pageId,
-        conceptTitle: conceptTitleForSlot(concept.slot, concept.territoryLabel),
-        conceptTerritory: concept.gpt2MobileDebug?.territoryDirective ?? concept.territoryLabel ?? concept.conceptId,
+        conceptTitle: conceptTitleForSlot(slot, concept?.territoryLabel),
+        conceptTerritory:
+          concept?.gpt2MobileDebug?.territoryDirective ?? concept?.territoryLabel ?? job?.displayTitle ?? conceptId,
         creativeRationale: 'GPT2 mobile page authority — twin pipeline',
-        visualReference: job?.imageUri ?? job?.artifactPath ?? concept.imageUri,
-        mobileVisualReference: job?.imageUri ?? job?.artifactPath ?? concept.imageUri,
+        visualReference: job?.imageUri ?? job?.artifactPath ?? concept?.imageUri ?? null,
+        mobileVisualReference: job?.imageUri ?? job?.artifactPath ?? concept?.imageUri ?? null,
         desktopVisualReference: null,
-        gpt2AuthorityConceptId: concept.conceptId,
+        gpt2AuthorityConceptId: conceptId,
         creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
         renditionSlot,
         generatedBy: 'GPT2',
-        createdAt: concept.createdAt ?? job?.createdAt ?? new Date().toISOString(),
+        createdAt: concept?.createdAt ?? job?.createdAt ?? new Date().toISOString(),
         lineage: {
           brandIntelligence: ['project-intelligence', 'page-intelligence'],
-          creativeTerritories: [concept.slot],
+          creativeTerritories: [slot],
         },
         status: selected ? 'SELECTED' : 'CANDIDATE',
         viewportScope: 'MOBILE',
         runId: activeRunId,
-        artifactId: concept.artifactId,
-        conceptSlot: concept.slot,
+        artifactId,
+        conceptSlot: slot,
         pipelineId,
         artifactStatus,
         runGroup: 'CURRENT',

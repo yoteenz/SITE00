@@ -37,6 +37,13 @@ import {
   type PageConceptGalleryCard,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
 import {
+  listPageConceptCandidatesHydrated,
+  refreshPageConceptGalleryFromPersistedState,
+  resolvePageConceptGalleryEmptyPresentation,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+
+const listPageConceptCandidates = listPageConceptCandidatesHydrated;
+import {
   PAGE_CONCEPT_GALLERY_INSPECT_EVENT,
   type PageConceptGalleryInspectDetail,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
@@ -68,9 +75,7 @@ import {
   buildDesignModuleHierarchy,
   buildDesignProjectIntelligence,
   designHeaderCrumbLabels,
-  listPageConceptCandidates,
   mergePageViewportIntoReadiness,
-  pageConceptGalleryEmptyMessage,
   resolveAuthorityRailRows,
   resolveHeroPreviewForViewport,
   resolvePageViewportBundle,
@@ -191,6 +196,7 @@ export interface TwinOpusDirectWorkspaceData {
   heroPreview: HeroPreviewResolution;
   viewportControls: readonly ViewportControlPresentation[];
   galleryEmptyMessage: string | null;
+  galleryEmptyTestId: 'gallery-page-concept-empty' | 'gallery-page-concept-load-failed' | null;
   galleryGenerateLabel: string;
   /** Single source — gallery CTA disabled + blocker copy derive from this only. */
   pageConceptGenerationEligibility: PageConceptGenerationEligibility;
@@ -306,6 +312,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageTarget.screenId,
     pageTarget.route,
   );
+
+  useEffect(() => {
+    refreshPageConceptGalleryFromPersistedState(projectSlug, pageTarget.pageId);
+    setPageConceptRevision((v) => v + 1);
+  }, [
+    pageTarget.pageId,
+    projectSlug,
+    pageConceptGeneration.generationJobs,
+    pageConceptGeneration.generationState.pipelineSet,
+    pageConceptGeneration.generationStatus,
+  ]);
 
   useHydrateDesignPageCaptures(projectSlug, pageTarget.pageId, pageTarget.screenId);
 
@@ -824,7 +841,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     });
     const scopedCandidates = gallerySections.current.map(galleryCardToTwinCandidate);
     const historyCandidates = gallerySections.history.map(galleryCardToTwinCandidate);
-    const galleryEmptyMessage = pageConceptGalleryEmptyMessage(slug, shellTarget.pageId, viewport);
+    const galleryEmpty = resolvePageConceptGalleryEmptyPresentation(slug, shellTarget.pageId, viewport);
+    const galleryEmptyMessage = galleryEmpty.message;
     const railRows =
       vpAuth ?
         resolveAuthorityRailRows(
@@ -954,6 +972,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       railActions: TWIN_OPUS_DIRECT_RAIL_ACTIONS,
       gallery: TWIN_OPUS_DIRECT_GALLERY,
       galleryEmptyMessage,
+      galleryEmptyTestId: galleryEmpty.testId,
       galleryGenerateLabel: 'GENERATE PAGE CONCEPTS',
       pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,
       pageConceptGenerationGate: pageConceptGenerationGateFromEligibility(

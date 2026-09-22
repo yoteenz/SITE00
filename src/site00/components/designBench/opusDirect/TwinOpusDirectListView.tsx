@@ -377,7 +377,10 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             </header>
             <div className="tod-lv-gallery__body">
               {data.galleryEmptyMessage ?
-                <div className="tod-lv-gallery__emptyWrap" data-testid="gallery-page-concept-empty">
+                <div
+                  className="tod-lv-gallery__emptyWrap"
+                  data-testid={data.galleryEmptyTestId ?? 'gallery-page-concept-empty'}
+                >
                   <p className="tod-lv-gallery__empty">{data.galleryEmptyMessage}</p>
                   {data.pageConceptGenerationGate.blockerMessage ?
                     <p className="tod-lv-gallery__blocked" data-testid="generate-page-concepts-blocked-reason">

@@ -8,6 +8,13 @@ import type { NbpSlotPresentation } from '../../../../../shared/site00-design-wo
 import { PageConceptConceptInspectDrawer } from './PageConceptConceptInspectDrawer';
 import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
 
+function clampRationale(text: string | null | undefined): string {
+  if (!text?.trim()) return 'RATIONALE PENDING';
+  const t = text.replace(/\s+/g, ' ').trim();
+  if (t.length <= 160) return t;
+  return `${t.slice(0, 159).trim()}…`;
+}
+
 export function PageConceptGpt2MobileConceptReview({
   slots,
   onInspectFullscreen,
@@ -25,14 +32,15 @@ export function PageConceptGpt2MobileConceptReview({
     <div className="s00-pcg__mobileReview" data-testid="page-concept-gpt2-mobile-review">
       {slots.map((slot) => {
         const meta = slot.gpt2Mobile;
-        const title = `MOBILE CONCEPT ${slot.label}`;
+        const title = `CONCEPT ${slot.label}`;
         const territory = meta?.territoryLabel ?? 'TERRITORY PENDING';
-        const validity =
-          meta?.pageValidityPass === true ? 'PASS'
-          : meta?.pageValidityPass === false ? 'FAIL'
-          : 'PENDING';
         const isSelected = selectedLabel === slot.label;
         const frameStatus =
+          slot.status === 'READY' ? 'READY'
+          : slot.status === 'FAILED' ? 'FAILED'
+          : slot.status === 'GENERATING' ? 'GENERATING'
+          : 'PENDING';
+        const statusLabel =
           slot.status === 'READY' ? 'READY'
           : slot.status === 'FAILED' ? 'FAILED'
           : slot.status === 'GENERATING' ? 'GENERATING'
@@ -52,37 +60,28 @@ export function PageConceptGpt2MobileConceptReview({
                   SELECTED
                 </span>
               : null}
-              <span className="s00-pcg__mobileReviewTerritory">{territory}</span>
             </header>
             <PageConceptContainedPreviewFrame
               size="mobile"
-              viewportLabel={title}
+              viewportLabel={`GPT2 MOBILE ${slot.label}`}
               status={frameStatus}
               imageSrc={slot.imageSrc}
               failureReason={slot.failureReason}
               testId={`page-concept-contained-preview-${slot.label.toLowerCase()}`}
             />
-            <p className="s00-pcg__mobileReviewRationale">
-              {meta?.rationale ? meta.rationale : 'RATIONALE WILL APPEAR WHEN GPT2 COMPLETES.'}
-            </p>
-            <dl className="s00-pcg__mobileReviewMeta">
-              <div>
-                <dt>PAGE VALIDITY</dt>
-                <dd data-validity={validity}>{validity}</dd>
-              </div>
-              <div>
-                <dt>CAPTURE INFLUENCE</dt>
-                <dd>{meta?.captureInfluenceMode?.replace(/_/g, ' ') ?? '—'}</dd>
-              </div>
-            </dl>
-            <div className="s00-pcg__mobileReviewActions">
-              <button type="button" className="s00-pcg__secAction" onClick={() => setInspectSlot(slot)}>
+            <div className="s00-pcg__mobileReviewMetaCompact">
+              <span className="s00-pcg__mobileReviewTerritoryClamp">{territory}</span>
+              <p className="s00-pcg__mobileReviewRationaleClamp">{clampRationale(meta?.rationale)}</p>
+              <span className="s00-pcg__mobileReviewStatusLine">STATUS · {statusLabel}</span>
+            </div>
+            <div className="s00-pcg__mobileReviewActions s00-pcg__mobileReviewActions--compact">
+              <button type="button" className="s00-pcg__secAction s00-pcg__secAction--compact" onClick={() => setInspectSlot(slot)}>
                 INSPECT
               </button>
               {slot.imageSrc ?
                 <button
                   type="button"
-                  className="s00-pcg__secAction"
+                  className="s00-pcg__secAction s00-pcg__secAction--compact"
                   data-testid={`page-concept-fullscreen-${slot.label.toLowerCase()}`}
                   onClick={() => onInspectFullscreen?.(slot.imageSrc!, title)}
                 >
@@ -92,7 +91,7 @@ export function PageConceptGpt2MobileConceptReview({
               {onSelect && !isSelected ?
                 <button
                   type="button"
-                  className="s00-pcg__secAction s00-pcg__secAction--primary"
+                  className="s00-pcg__secAction s00-pcg__secAction--compact s00-pcg__secAction--primary"
                   data-testid={`page-concept-select-mobile-${slot.label.toLowerCase()}`}
                   disabled={slot.status !== 'READY'}
                   onClick={() => onSelect(slot)}
