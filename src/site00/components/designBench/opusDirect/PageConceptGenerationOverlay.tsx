@@ -366,6 +366,7 @@ export function PageConceptGenerationOverlay({
         onClick={() => !generating && onCancel()}
       />
       <div className="s00-pcg-layer__box">
+        <div className="s00-pcg-layer__scrollBody">
         <div className="s00-pcg-layer__main">
         <PageConceptGeneratorPanel
           projectLabel={plan?.projectLabel ?? generationState.projectId}
@@ -536,6 +537,7 @@ export function PageConceptGenerationOverlay({
             />
           </>
         : null}
+        </div>
         {generationEligibility && blockingState ?
           <details className="s00-pcg__forensics" data-testid="page-concept-forensics">
             <summary>Technical details</summary>

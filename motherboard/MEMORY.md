@@ -11315,3 +11315,15 @@ Founder review UX for canonical page-concept pipeline (presentation only — no 
 - **Copy:** canonical post-run `REVIEW OUTPUTS`; legacy NBP strings gated when canonical pipeline active.
 - **Tests:** `p0vrPageConceptGeneratorFounderReviewUxRefinement1.test.ts`; Playwright stills `scripts/capture-page-concept-founder-review-qa.mjs`.
 - **Branch:** `cursor/page-concept-generator-founder-review-ux-refinement1-b747`.
+
+---
+
+## 2026-09-22 — P0.VR.PAGE-CONCEPT-MOBILE-IMAGE-CONTAINMENT-UX1
+
+GPT2 mobile concept images were expanding to natural page height inside the generator panel.
+
+- **`pageConceptImageContainment.ts` + `PageConceptContainedPreviewFrame`:** fixed-height review frames (`clamp(280px, 42vh, 420px)`), `object-fit: contain`, stable loading/error skeletons.
+- **Wired into:** mobile concept cards, viewport family tablet/desktop previews, NBP hero, GPT2 authority preview, thumb gallery cells.
+- **Layout:** sticky generator header/footer, `s00-pcg-layer__scrollBody` scroll ownership; selected concept badge without image auto-expand.
+- **Tests:** `p0vrPageConceptMobileImageContainmentUx1.test.tsx`; Playwright stills `scripts/capture-page-concept-image-containment-qa.mjs`.
+- **Branch:** `cursor/page-concept-mobile-image-containment-ux1-b747`.

@@ -12,6 +12,7 @@ import type {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLiveProgress.js';
 import type { PageGPT2AuthorityConcept } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
+import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
 
 /** Digest card — four excerpts, not the full brief wall. */
 export function CgptBriefDigestCard({
@@ -121,15 +122,17 @@ export function Gpt2AuthorityResult({
         : null}
       </div>
       {src ?
-        <button
-          type="button"
-          className="s00-pcg__frame s00-pcg__frame--interactive"
-          data-ratio="page"
-          data-interaction-id="page-concepts-gpt2-inspect"
-          onClick={() => onInspect?.(src, title, subtitle)}
-        >
-          <img src={src} alt={title} className="s00-pcg__previewImg" draggable={false} />
-        </button>
+        <>
+          <PageConceptContainedPreviewFrame size="mobile" status="READY" imageSrc={src} viewportLabel={title} />
+          <button
+            type="button"
+            className="s00-pcg__secAction"
+            data-interaction-id="page-concepts-gpt2-inspect"
+            onClick={() => onInspect?.(src, title, subtitle)}
+          >
+            FULLSCREEN
+          </button>
+        </>
       : <div className="s00-pcg__frame" data-ratio="page">
           <span className="s00-pcg__frameEmpty">
             <span className="s00-pcg__frameGlyph" aria-hidden="true">
@@ -161,7 +164,6 @@ export function NbpSlotCell({
   slot,
   selected,
   onSelect,
-  onInspect,
 }: {
   slot: NbpSlotPresentation;
   selected: boolean;
@@ -171,17 +173,12 @@ export function NbpSlotCell({
   let inner: ReactNode;
   if (slot.status === 'READY' && slot.imageSrc) {
     inner = (
-      <button
-        type="button"
-        className="s00-pcg__renditionTap"
-        onClick={(e) => {
-          e.stopPropagation();
-          onInspect?.(slot.imageSrc!);
-        }}
-        aria-label={`${slot.viewport} ${slot.label} — view fullscreen`}
-      >
-        <img src={slot.imageSrc} alt="" draggable={false} />
-      </button>
+      <PageConceptContainedPreviewFrame
+        size="thumb"
+        status="READY"
+        imageSrc={slot.imageSrc}
+        testId={`page-concept-thumb-${slot.key}`}
+      />
     );
   } else if (slot.status === 'FAILED') {
     inner = (
@@ -229,28 +226,32 @@ export function NbpPreviewHero({
   onInspect?: (src: string) => void;
 }) {
   if (!slot) return null;
+  const label =
+    slot.viewport === 'MOBILE' && slot.key.startsWith('gpt2.') ?
+      `GPT2 MOBILE PAGE CONCEPT ${slot.label}`
+    : `${slot.viewport} · INTERPRETATION ${slot.label}`;
+  const frameStatus =
+    slot.status === 'READY' ? 'READY'
+    : slot.status === 'FAILED' ? 'FAILED'
+    : slot.status === 'GENERATING' ? 'GENERATING'
+    : 'PENDING';
+  const containSize = slot.viewport === 'MOBILE' ? 'mobile' : 'desktop';
   return (
     <div className="s00-pcg__nbpHero" data-viewport={slot.viewport}>
-      <header className="s00-pcg__nbpHeroHead">
-        {slot.viewport === 'MOBILE' && slot.key.startsWith('gpt2.') ?
-          `GPT2 MOBILE PAGE CONCEPT ${slot.label}`
-        : `${slot.viewport} · INTERPRETATION ${slot.label}`}
-      </header>
-      <div className="s00-pcg__frame s00-pcg__frame--hero" data-ratio={slot.viewport === 'MOBILE' ? 'page' : 'wide'}>
-        {slot.status === 'READY' && slot.imageSrc ?
-          <button type="button" className="s00-pcg__renditionTap s00-pcg__renditionTap--hero" onClick={() => onInspect?.(slot.imageSrc!)}>
-            <img src={slot.imageSrc} alt="" draggable={false} />
-          </button>
-        : slot.status === 'FAILED' ?
-          <span className="s00-pcg__frameEmpty s00-pcg__frameEmpty--failed">
-            <span>{slot.failureReason ?? 'RENDER FAILED'}</span>
-          </span>
-        : <span className="s00-pcg__frameEmpty">
-            <AiConsoleIcon name="status-generating" size={18} />
-            <span>{slot.status === 'GENERATING' ? 'GENERATING…' : 'PENDING'}</span>
-          </span>
-        }
-      </div>
+      <header className="s00-pcg__nbpHeroHead">{label}</header>
+      <PageConceptContainedPreviewFrame
+        size={containSize}
+        viewportLabel={label}
+        status={frameStatus}
+        imageSrc={slot.imageSrc}
+        failureReason={slot.failureReason}
+        testId="page-concept-nbp-hero-preview"
+      />
+      {slot.imageSrc && onInspect ?
+        <button type="button" className="s00-pcg__secAction" onClick={() => onInspect(slot.imageSrc!)}>
+          FULLSCREEN
+        </button>
+      : null}
     </div>
   );
 }
