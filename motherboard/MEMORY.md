@@ -11385,3 +11385,13 @@ Corrective: keep **MOBILE / TABLET / DESKTOP** toggles; **one gallery per viewpo
 - **Workspace:** per-viewport candidate selection persistence; CONCEPT pane + gallery + rail + actions scoped to active viewport; `openGenerationConsole(viewport)`.
 - **Tests:** `p0vrDesignWorkspaceViewportGalleriesCorrection1.test.ts`.
 - **Branch:** `cursor/design-workspace-viewport-galleries-correction1-b747`.
+
+---
+
+## 2026-09-22 — CI fix: Spark list tod-rail namespace firewall
+
+Production release failed `p0vrDesignBenchOpusDirect.test.ts`: list view must not contain substring `tod-rail` (Spark vs canonical class firewall). Viewport-family authority rail in **`TwinOpusDirectListView.tsx`** used `tod-rail__viewportFamily*` (matches `.toContain('tod-rail')`).
+
+- **Fix:** Renamed list rail to **`tod-lv-rail__*`** (+ matching **`site00-twin-opus-list.css`**). `tod-lv-rail` does not contain bare `tod-rail`.
+- **Tests:** `tests/p0vrDesignBenchOpusDirect.test.ts` 44/44 pass.
+- **Branch:** `cursor/fix-spark-list-tod-rail-firewall-b747`.
