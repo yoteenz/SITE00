@@ -204,6 +204,33 @@
   gap: 11.8px;
 }
 
+.tod-lv-hero-compare__compareHead {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--tod-lime);
+  min-width: 0;
+}
+
+.tod-lv-hero-compare__generationConsole {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgba(200, 255, 0, 0.35);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--tod-lime);
+  font-size: 8px;
+  padding: 3px 6px;
+  max-width: 100%;
+}
+
+.tod-lv-hero-compare__generationConsoleText {
+  white-space: nowrap;
+}
+
 .tod-lv-hero-compare__grid {
   display: flex;
   gap: 15.7px;

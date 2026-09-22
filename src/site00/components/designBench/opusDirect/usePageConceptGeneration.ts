@@ -71,6 +71,10 @@ import {
   loadPageConceptGenerationState,
   savePageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
+import {
+  loadPageConceptActiveServerRunIdForDesignPage,
+  loadPageConceptGenerationStateForDesignPage,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import type { PageCaptureRecord } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type {
   PageConceptGenerationPlan,
@@ -228,7 +232,12 @@ export function usePageConceptGeneration(
   route?: string | null,
 ) {
   const [state, setState] = useState<PageConceptGenerationState>(() =>
-    loadPageConceptGenerationState(projectId, pageId),
+    loadPageConceptGenerationStateForDesignPage({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route: route ?? null,
+    }),
   );
   const [pendingPlan, setPendingPlan] = useState<PageConceptGenerationPlan | null>(null);
   const [overlayOpen, setOverlayOpen] = useState(false);
@@ -260,7 +269,12 @@ export function usePageConceptGeneration(
     if (!founderSession) {
       clearPageConceptActiveServerRunId(projectId, pageId);
     }
-    const rawLoaded = loadPageConceptGenerationState(projectId, pageId);
+    const rawLoaded = loadPageConceptGenerationStateForDesignPage({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route: route ?? null,
+    });
     const loaded = normalizePageConceptStateOnPanelMount(rawLoaded, Boolean(founderSession));
     if (loaded !== rawLoaded) {
       savePageConceptGenerationState(loaded);
@@ -282,7 +296,7 @@ export function usePageConceptGeneration(
       runId: founderSession?.runId ?? loaded.activeGenerationRunId,
       autoStart: false,
     });
-    refreshPageConceptGalleryFromPersistedState(projectId, pageId);
+    refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
     window.dispatchEvent(
       new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
     );
@@ -294,7 +308,7 @@ export function usePageConceptGeneration(
       if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
       const loaded = loadPageConceptGenerationState(projectId, pageId);
       setState(loaded);
-      refreshPageConceptGalleryFromPersistedState(projectId, pageId);
+      refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
       if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
     };
     window.addEventListener('site00:page-concept-generation-updated', onUpdated);
@@ -407,6 +421,55 @@ export function usePageConceptGeneration(
     },
     [],
   );
+
+  useEffect(() => {
+    let cancelled = false;
+    const loaded = loadPageConceptGenerationStateForDesignPage({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route: route ?? null,
+    });
+    const hasReadyMobile =
+      (loaded.pipelineSet?.mobileConcepts?.some((c) => c.status === 'READY') ?? false) ||
+      loaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY');
+    if (hasReadyMobile) return;
+
+    const runId = loadPageConceptActiveServerRunIdForDesignPage({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route: route ?? null,
+    });
+    if (!runId) return;
+
+    void (async () => {
+      try {
+        await ensurePageConceptApiAccessToken();
+        const first = await fetchPageConceptGenerationRunApi(runId, 0, { projectId, pageId });
+        if (cancelled) return;
+        applyServerRunSnapshotToState(first.run, persist);
+        savePageConceptGenerationState(
+          loadPageConceptGenerationStateForDesignPage({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          }),
+        );
+        refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
+      } catch {
+        /* gallery remains empty until founder opens generator */
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pageId, persist, projectId, route, screenId]);
 
   useEffect(() => {
     if (!generationEligibility.sourceCaptureValidation.allRequiredReady) return;
@@ -621,6 +684,25 @@ export function usePageConceptGeneration(
       });
     }
   }, [pageId, persist, projectId, route, screenId]);
+
+  const openGenerationConsole = useCallback(async () => {
+    if (generating) {
+      setOverlayOpen(true);
+      setOverlayMode('progress');
+      return;
+    }
+    const loaded = loadPageConceptGenerationStateForDesignPage({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route: route ?? null,
+    });
+    if (pageConceptReviewReady(loaded.generationStatus) || (loaded.pipelineSet?.mobileConcepts?.length ?? 0) > 0) {
+      openGenerationReview();
+      return;
+    }
+    await openGenerationConfirm();
+  }, [generating, openGenerationConfirm, openGenerationReview, pageId, projectId, route, screenId]);
 
   const cancelGeneration = useCallback(() => {
     if (generating) return;
@@ -1683,6 +1765,7 @@ export function usePageConceptGeneration(
     generationJobs: state.generationJobs,
     generationState: state,
     openGenerationConfirm,
+    openGenerationConsole,
     openGenerationReview,
     cancelGeneration,
     handleGenerateClick,

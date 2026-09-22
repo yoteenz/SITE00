@@ -1,6 +1,9 @@
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
 import type { PageConceptCandidate } from '../designProjectBinding/designPageConceptModel.js';
-import { listPageConceptCandidatesHydrated } from './pageConceptGalleryHydration.js';
+import {
+  listPageConceptCandidatesHydrated,
+  type PageConceptGalleryHydrationScope,
+} from './pageConceptGalleryHydration.js';
 
 export type PageConceptGalleryCard = {
   id: string;
@@ -107,9 +110,10 @@ export function buildPageConceptGallerySections(input: {
   viewport: PageConceptGalleryViewportFilter;
   statusFilter?: PageConceptGalleryStatusFilter;
   selectedMobileConceptId?: string | null;
+  galleryScope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>;
 }): PageConceptGallerySections {
   const statusFilter = input.statusFilter ?? 'ALL';
-  const all = listPageConceptCandidatesHydrated(input.projectId, input.pageId).filter((c) => {
+  const all = listPageConceptCandidatesHydrated(input.projectId, input.pageId, input.galleryScope).filter((c) => {
     if (c.viewportScope !== input.viewport && c.artifactRole === 'MOBILE_CANDIDATE') {
       return input.viewport === 'MOBILE';
     }

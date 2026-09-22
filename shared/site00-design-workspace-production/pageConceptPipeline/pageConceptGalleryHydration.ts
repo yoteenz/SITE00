@@ -3,9 +3,9 @@ import {
   type PageConceptCandidate,
 } from '../designProjectBinding/designPageConceptModel.js';
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
-import { loadPageConceptGenerationState } from './store.js';
 import type { PageConceptGenerationState } from './types.js';
 import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
+import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
 
 export type PageConceptGalleryEmptyPresentation = {
   message: string | null;
@@ -25,23 +25,34 @@ export function pageConceptGenerationStateHasReadyMobileArtifacts(state: PageCon
   return state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY');
 }
 
-function loadGenerationStateForGallery(projectId: string, pageId: string): PageConceptGenerationState {
-  const normalized = normalizeProjectId(projectId);
-  let state = loadPageConceptGenerationState(normalized, pageId);
-  if (
-    state.projectId === normalized &&
-    (state.pipelineSet?.mobileConcepts?.length || state.generationJobs.length)
-  ) {
-    return state;
-  }
-  const raw = loadPageConceptGenerationState(projectId, pageId);
-  if (raw.generationJobs.length > 0 || raw.pipelineSet?.mobileConcepts?.length) return raw;
-  return state;
+export type PageConceptGalleryHydrationScope = {
+  projectId: string;
+  pageId: string;
+  screenId?: string;
+  route?: string | null;
+};
+
+function loadGenerationStateForGallery(scope: PageConceptGalleryHydrationScope): PageConceptGenerationState {
+  return loadPageConceptGenerationStateForDesignPage({
+    projectSlug: scope.projectId,
+    pageId: scope.pageId,
+    screenId: scope.screenId,
+    route: scope.route ?? null,
+  });
 }
 
 /** Sync in-memory gallery store from persisted generation state (single source of truth). */
-export function refreshPageConceptGalleryFromPersistedState(projectId: string, pageId: string): void {
-  const state = loadGenerationStateForGallery(projectId, pageId);
+export function refreshPageConceptGalleryFromPersistedState(
+  projectId: string,
+  pageId: string,
+  scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>,
+): void {
+  const state = loadGenerationStateForGallery({
+    projectId,
+    pageId,
+    screenId: scope?.screenId,
+    route: scope?.route ?? null,
+  });
   syncPageConceptGalleryFromGenerationState(state);
   for (const archived of state.archivedRuns ?? []) {
     syncPageConceptGalleryFromGenerationState({
@@ -59,8 +70,9 @@ export function refreshPageConceptGalleryFromPersistedState(projectId: string, p
 export function listPageConceptCandidatesHydrated(
   projectId: string,
   pageId: string,
+  scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>,
 ): readonly PageConceptCandidate[] {
-  refreshPageConceptGalleryFromPersistedState(projectId, pageId);
+  refreshPageConceptGalleryFromPersistedState(projectId, pageId, scope);
   return listPageConceptCandidates(normalizeProjectId(projectId), pageId);
 }
 
@@ -68,8 +80,9 @@ export function resolvePageConceptGalleryEmptyPresentation(
   projectId: string,
   pageId: string,
   viewport: PageViewportId,
+  scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>,
 ): PageConceptGalleryEmptyPresentation {
-  refreshPageConceptGalleryFromPersistedState(projectId, pageId);
+  refreshPageConceptGalleryFromPersistedState(projectId, pageId, scope);
   const slug = normalizeProjectId(projectId);
   const all = listPageConceptCandidates(slug, pageId);
   const mobileReady = all.filter(
@@ -86,7 +99,12 @@ export function resolvePageConceptGalleryEmptyPresentation(
     return { message: null, testId: null };
   }
 
-  const state = loadGenerationStateForGallery(projectId, pageId);
+  const state = loadGenerationStateForGallery({
+    projectId,
+    pageId,
+    screenId: scope?.screenId,
+    route: scope?.route ?? null,
+  });
   if (pageConceptGenerationStateHasReadyMobileArtifacts(state)) {
     return { message: 'CONCEPTS COULD NOT BE LOADED', testId: 'gallery-page-concept-load-failed' };
   }

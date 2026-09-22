@@ -11358,3 +11358,18 @@ Gallery empty while generator had concepts: in-memory gallery store was not hydr
 ## 2026-09-22 — CI fix: Opus shell mobile slot labels
 
 `p0vrPageConceptGeneratorOpusShell1.test.ts` expected GPT2 shell slot labels `A/B/C`; canonical shell in `designPageConceptGeneratorShell.ts` uses `PAGE A` / `PAGE B` / `PAGE C`. Test aligned to shell authority (PR fix branch).
+
+---
+
+## 2026-09-22 — P0.VR.DESIGN-WORKSPACE-CONCEPT-GALLERY-AND-GENERATOR-ENTRY-FIX1
+
+Founder gallery empty + no generator on compare header: persisted generation state often keyed by **canonical page id** (`ndxbook:/projects/ndxbook`) while DESIGN queries **registry** `ndxbook:overview`.
+
+- **`pageConceptGenerationStateDiscovery.ts`:** scan v2 localStorage keys + `designPageIdsEquivalent`; remap to registry pageId; server run id discovery across aliases.
+- **`store.ts`:** lowercase projectId; accept equivalent pageIds on load.
+- **Gallery hydration:** scope includes screenId/route; uses discovery loader; server run snapshot recovery on workspace mount when local artifacts missing.
+- **`DesignHeroComparePanel`:** persistent **GENERATION CONSOLE** on CURRENT/CONCEPT header row (`hero-generation-console`, contextual GENERATE / VIEW / REVIEW).
+- **`usePageConceptGeneration.openGenerationConsole`:** always opens correct overlay mode for active page.
+- **GPT2 canonical UI:** hide legacy SELECT FOR DESKTOP + authority-pair rail; **`viewport-family-authority-rail`**; **SELECT MOBILE CONCEPT** gallery action; pipeline readiness no longer requires independent desktop selection.
+- **Tests:** `p0vrDesignWorkspaceConceptGalleryAndGeneratorEntryFix1.test.ts` (alias page id → gallery A/B/C).
+- **Branch:** `cursor/design-workspace-concept-gallery-and-generator-entry-fix1-b747`.
