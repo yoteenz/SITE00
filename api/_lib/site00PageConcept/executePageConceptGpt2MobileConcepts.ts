@@ -60,8 +60,10 @@ async function renderMobileConceptSlot(input: {
   functionalCaptureBase64: string;
   existingJob?: PageConceptGeneratedArtifact;
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
+  forceRegenerate?: boolean;
+  artifactIdOverride?: string;
 }): Promise<{ concept: PageGpt2MobileConcept; job: PageConceptGeneratedArtifact }> {
-  const artifactId = mobileConceptArtifactId(input.slot);
+  const artifactId = input.artifactIdOverride ?? mobileConceptArtifactId(input.slot);
   const conceptId = `pg2m-page-${input.slot}-${input.pipelineSetId}`;
   const renditionSlot = gpt2MobileConceptRenditionSlot(input.slot);
   const displayTitle = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
@@ -84,6 +86,7 @@ async function renderMobileConceptSlot(input: {
   }
 
   if (
+    !input.forceRegenerate &&
     input.existingJob?.status === 'READY' &&
     input.existingJob.providerJobId &&
     input.existingJob.imageUri
@@ -273,6 +276,8 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   functionalCaptureBase64: string;
   existingJobs?: readonly PageConceptGeneratedArtifact[];
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
+  forceRegenerateSlots?: readonly PageMobileConceptSlotId[] | null;
+  artifactIdForSlot?: (slot: PageMobileConceptSlotId) => string;
   onSlotUpdate?: (payload: { jobs: PageConceptGeneratedArtifact[]; mobileConcepts: PageGpt2MobileConcept[] }) => void;
 }): Promise<Gpt2MobileConceptsResult> {
   const jobs: PageConceptGeneratedArtifact[] = [];
@@ -282,7 +287,12 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   );
 
   const tasks = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map(async (slot) => {
-    const artifactId = mobileConceptArtifactId(slot);
+    const defaultArtifactId = mobileConceptArtifactId(slot);
+    const artifactId = input.artifactIdForSlot?.(slot) ?? defaultArtifactId;
+    const forceRegenerate = input.forceRegenerateSlots?.includes(slot) === true;
+    const existingJob =
+      existingByArtifact.get(artifactId) ??
+      (forceRegenerate ? undefined : existingByArtifact.get(defaultArtifactId));
     const result = await renderMobileConceptSlot({
       runId: input.runId,
       slot,
@@ -296,8 +306,10 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       functionContract: input.functionContract,
       mobileDims: input.mobileDims,
       functionalCaptureBase64: input.functionalCaptureBase64,
-      existingJob: existingByArtifact.get(artifactId),
+      existingJob,
       retrySlots: input.retrySlots,
+      forceRegenerate,
+      artifactIdOverride: artifactId !== defaultArtifactId ? artifactId : forceRegenerate ? artifactId : undefined,
     });
     return result;
   });

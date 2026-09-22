@@ -4,7 +4,7 @@
  */
 
 /** Primary mobile concept review frame height in generator panel. */
-export const PAGE_CONCEPT_MOBILE_PREVIEW_MAX_HEIGHT = 'clamp(240px, 36vh, 360px)';
+export const PAGE_CONCEPT_MOBILE_PREVIEW_MAX_HEIGHT = 'clamp(220px, 34vh, 340px)';
 
 export const PAGE_CONCEPT_TABLET_PREVIEW_MAX_HEIGHT = 'clamp(200px, 32vh, 320px)';
 

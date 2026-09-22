@@ -4,6 +4,8 @@ import {
 } from '../designProjectBinding/designPageConceptModel.js';
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
 import type { PageConceptGenerationState } from './types.js';
+import { inferPageConceptPipelineLineage } from './pageConceptCanonicalPipeline.js';
+import { generationStateHasOrphanReadyMobileJobs } from './pageConceptCandidateReconciliation.js';
 import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
 import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
 import {
@@ -14,7 +16,11 @@ import {
 export type PageConceptGalleryEmptyPresentation = {
   message: string | null;
   secondaryLine: string | null;
-  testId: 'gallery-page-concept-empty' | 'gallery-page-concept-load-failed' | null;
+  testId:
+    | 'gallery-page-concept-empty'
+    | 'gallery-page-concept-load-failed'
+    | 'gallery-page-concept-reconciling'
+    | null;
 };
 
 function normalizeProjectId(projectId: string): string {
@@ -46,30 +52,60 @@ function loadGenerationStateForGallery(scope: PageConceptGalleryHydrationScope):
   });
 }
 
+function normalizeGenerationStateForGallerySync(state: PageConceptGenerationState): PageConceptGenerationState {
+  if (!state.pipelineSet) return state;
+  const lineage = inferPageConceptPipelineLineage({
+    pipelineLineage: state.pipelineSet.pipelineLineage ?? null,
+    generationJobs: state.generationJobs,
+  });
+  if (state.pipelineSet.pipelineLineage === lineage) return state;
+  return {
+    ...state,
+    pipelineSet: {
+      ...state.pipelineSet,
+      pipelineLineage: lineage,
+    },
+  };
+}
+
 /** Sync in-memory gallery store from persisted generation state (single source of truth). */
 export function refreshPageConceptGalleryFromPersistedState(
   projectId: string,
   pageId: string,
   scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>,
 ): void {
-  const state = loadGenerationStateForGallery({
+  const loaded = loadGenerationStateForGallery({
     projectId,
     pageId,
     screenId: scope?.screenId,
     route: scope?.route ?? null,
   });
+  const state = normalizeGenerationStateForGallerySync(loaded);
   syncPageConceptGalleryFromGenerationState(state);
   for (const archived of state.archivedRuns ?? []) {
-    syncPageConceptGalleryFromGenerationState({
-      ...state,
-      projectId: state.projectId,
-      pageId: state.pageId,
-      pipelineSet: archived.pipelineSet,
-      generationJobs: archived.generationJobs,
-      activeGenerationRunId: state.activeGenerationRunId,
-      activeReviewRunId: archived.runId,
-    });
+    syncPageConceptGalleryFromGenerationState(
+      normalizeGenerationStateForGallerySync({
+        ...state,
+        projectId: state.projectId,
+        pageId: state.pageId,
+        pipelineSet: archived.pipelineSet,
+        generationJobs: archived.generationJobs,
+        activeGenerationRunId: state.activeGenerationRunId,
+        activeReviewRunId: archived.runId,
+      }),
+    );
   }
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(
+      new CustomEvent('site00:page-concept-gallery-synced', {
+        detail: { projectId: normalizeProjectId(projectId), pageId },
+      }),
+    );
+  }
+}
+
+export function reconcilePageConceptCandidates(projectId: string, pageId: string, scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>): void {
+  refreshPageConceptGalleryFromPersistedState(projectId, pageId, scope);
 }
 
 export function listPageConceptCandidatesHydrated(

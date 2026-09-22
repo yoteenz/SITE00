@@ -315,10 +315,49 @@ export function PageConceptGenerationOverlay({
             pageId={generationState.pageId}
             stageMode={gpt2MobileStage ? 'GPT2_MOBILE' : 'NBP'}
             onInspect={(src, title) => openImage(src, title)}
+            onSelectMobile={
+              viewportFamilyHandlers ?
+                (slot) => {
+                  const concept = generationState.pipelineSet?.mobileConcepts?.find(
+                    (c) => c.slot === `MOBILE_CONCEPT_${slot.label}`,
+                  );
+                  if (concept) viewportFamilyHandlers.selectMobile(concept.conceptId);
+                }
+              : undefined
+            }
+            onRegenerateMobile={
+              viewportFamilyHandlers ?
+                (slot) => {
+                  const concept = generationState.pipelineSet?.mobileConcepts?.find(
+                    (c) => c.slot === `MOBILE_CONCEPT_${slot.label}`,
+                  );
+                  if (concept) viewportFamilyHandlers.regenerateMobileConcept(concept.conceptId);
+                }
+              : undefined
+            }
+            selectedMobileLabel={
+              generationState.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ?
+                (generationState.pipelineSet.mobileConcepts?.find(
+                  (c) => c.conceptId === generationState.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId,
+                )?.slot.replace('MOBILE_CONCEPT_', '') as 'A' | 'B' | 'C' | undefined) ?? null
+              : null
+            }
           />
         : undefined,
     };
-  }, [cgptAwaitingFounderReview, cgptBrief, generationState, gpt2, gpt2MobileStage, mode, nbpSlots, generating, onContinueGpt2, openImage]);
+  }, [
+    cgptAwaitingFounderReview,
+    cgptBrief,
+    generationState,
+    gpt2,
+    gpt2MobileStage,
+    mode,
+    nbpSlots,
+    generating,
+    onContinueGpt2,
+    openImage,
+    viewportFamilyHandlers,
+  ]);
 
   const reviewReady = pageConceptReviewReady(generationState.generationStatus);
   const inFlight = pageConceptGenerationInFlight(generationState.generationStatus, generating);
@@ -533,17 +572,18 @@ export function PageConceptGenerationOverlay({
           founderFooterHint={founderFooterHint}
           useFounderJourneyRail={gpt2MobileStage}
           mobileStageAccordion={gpt2MobileStage}
+          singleActiveStageOnly={gpt2MobileStage && (mode === 'review' || gpt2MobileAwaitingSelection)}
           onClose={onCancel}
         />
         </div>
-        {gpt2MobileStage ?
+        {gpt2MobileStage && !gpt2MobileAwaitingSelection ?
           <PageConceptFounderTwinLifecyclePanel state={generationState} busy={generating} />
         : null}
-        {(gpt2MobileAwaitingSelection ||
-          generationState.generationStatus === 'VIEWPORT_FAMILY_REVIEW' ||
-          generationState.generationStatus === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
-          generationState.generationStatus === 'VIEWPORT_FAMILY_LOCKED' ||
-          generationState.generationStatus === 'TWIN_IMPLEMENTATION_PACKAGE_READY') &&
+        {(!gpt2MobileAwaitingSelection &&
+          (generationState.generationStatus === 'VIEWPORT_FAMILY_REVIEW' ||
+            generationState.generationStatus === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
+            generationState.generationStatus === 'VIEWPORT_FAMILY_LOCKED' ||
+            generationState.generationStatus === 'TWIN_IMPLEMENTATION_PACKAGE_READY')) &&
         viewportFamilyHandlers ?
           <>
             <PageConceptViewportFamilyPanel

@@ -140,6 +140,12 @@ export function mobileConceptArtifactId(slot: PageMobileConceptSlotId): string {
   return `pcga-${slot}-MOBILE`;
 }
 
+/** Versioned artifact id when regenerating a mobile concept slot (preserves prior job rows). */
+export function mobileConceptRegenerationArtifactId(slot: PageMobileConceptSlotId, versionToken: string): string {
+  const token = versionToken.replace(/[^a-zA-Z0-9]/g, '').slice(0, 16) || String(Date.now());
+  return `${mobileConceptArtifactId(slot)}-v-${token}`;
+}
+
 export function resolveDesignTwinRoute(projectSlug: string, pageId: string): string {
   return `/projects/${projectSlug}/design/twin-opus-direct?page=${encodeURIComponent(pageId)}`;
 }

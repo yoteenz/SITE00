@@ -19,11 +19,13 @@ export function PageConceptGpt2MobileConceptReview({
   slots,
   onInspectFullscreen,
   onSelect,
+  onRegenerate,
   selectedLabel,
 }: {
   slots: readonly NbpSlotPresentation[];
   onInspectFullscreen?: (src: string, title: string) => void;
   onSelect?: (slot: NbpSlotPresentation) => void;
+  onRegenerate?: (slot: NbpSlotPresentation) => void;
   selectedLabel?: 'A' | 'B' | 'C' | null;
 }) {
   const [inspectSlot, setInspectSlot] = useState<NbpSlotPresentation | null>(null);
@@ -97,6 +99,16 @@ export function PageConceptGpt2MobileConceptReview({
                   onClick={() => onSelect(slot)}
                 >
                   SELECT
+                </button>
+              : null}
+              {onRegenerate && slot.status === 'READY' ?
+                <button
+                  type="button"
+                  className="s00-pcg__secAction s00-pcg__secAction--compact"
+                  data-testid={`page-concept-regenerate-mobile-${slot.label.toLowerCase()}`}
+                  onClick={() => onRegenerate(slot)}
+                >
+                  REGENERATE
                 </button>
               : null}
             </div>

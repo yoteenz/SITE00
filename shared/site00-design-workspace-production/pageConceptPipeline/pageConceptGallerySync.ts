@@ -1,4 +1,8 @@
-import type { PageConceptPipelineLineageId } from './pageConceptCanonicalPipeline.js';
+import {
+  inferPageConceptPipelineLineage,
+  PAGE_CONCEPT_CANONICAL_PIPELINE_ID,
+  type PageConceptPipelineLineageId,
+} from './pageConceptCanonicalPipeline.js';
 import {
   upsertPageConceptCandidates,
   type PageConceptCandidate,
@@ -7,6 +11,7 @@ import {
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptGenerationState, PageConceptGeneratedArtifact } from './types.js';
 import { renditionSlotToGalleryConceptId } from './constants.js';
+import { buildMobileCandidatesFromGenerationJobs } from './pageConceptCandidateReconciliation.js';
 
 function slotLetterFromMobileSlot(slot: PageMobileConceptSlotId): 'A' | 'B' | 'C' {
   if (slot === 'MOBILE_CONCEPT_A') return 'A';
@@ -111,74 +116,35 @@ function galleryStatusForCandidate(input: {
   return 'CANDIDATE';
 }
 
+function isCanonicalGpt2MobilePipelineState(state: PageConceptGenerationState): boolean {
+  const lineage = inferPageConceptPipelineLineage({
+    pipelineLineage: state.pipelineSet?.pipelineLineage ?? null,
+    generationJobs: state.generationJobs,
+  });
+  if (lineage !== PAGE_CONCEPT_CANONICAL_PIPELINE_ID) return false;
+  return (
+    (state.pipelineSet?.mobileConcepts?.length ?? 0) > 0 ||
+    state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE')
+  );
+}
+
 /** Upsert canonical GPT2 mobile (and legacy NBP) artifacts into the page concept gallery store. */
 export function syncPageConceptGalleryFromGenerationState(state: PageConceptGenerationState): void {
-  const mobileConcepts = state.pipelineSet?.mobileConcepts ?? [];
-  const canonicalPipeline = state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE';
-  const canonicalMobile = canonicalPipeline && (mobileConcepts.length > 0 || state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE'));
+  const canonicalMobile = isCanonicalGpt2MobilePipelineState(state);
   const activeRunId = resolveActiveRunId(state);
   const selectedMobileConceptId =
     state.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ??
     state.pipelineSet?.selectedMobileConceptId ??
     null;
-  const pipelineId = (state.pipelineSet?.pipelineLineage ?? null) as PageConceptPipelineLineageId | null;
+  const pipelineId = inferPageConceptPipelineLineage({
+    pipelineLineage: state.pipelineSet?.pipelineLineage ?? null,
+    generationJobs: state.generationJobs,
+  });
 
   const incoming: PageConceptCandidate[] = [];
 
   if (canonicalMobile) {
-    const conceptsBySlot = new Map(mobileConcepts.map((c) => [c.slot, c]));
-    const slots: PageMobileConceptSlotId[] = ['MOBILE_CONCEPT_A', 'MOBILE_CONCEPT_B', 'MOBILE_CONCEPT_C'];
-    for (const slot of slots) {
-      const concept = conceptsBySlot.get(slot);
-      const renditionSlot = renditionSlotFromMobileSlot(slot);
-      const job =
-        concept ?
-          jobForMobileConcept(state.generationJobs, concept.artifactId)
-        : state.generationJobs.find(
-            (j) => j.provider === 'GPT2_MOBILE' && j.renditionSlot === renditionSlot && j.viewport === 'MOBILE',
-          );
-      if (!concept && !job) continue;
-      const artifactStatus = artifactStatusFromJob(job, concept?.status ?? 'PENDING');
-      if (artifactStatus !== 'READY' && artifactStatus !== 'RUNNING' && artifactStatus !== 'FAILED') {
-        continue;
-      }
-      const conceptId = concept?.conceptId ?? job?.gpt2AuthorityConceptId ?? `${slot}-${job?.artifactId ?? 'pending'}`;
-      const artifactId = concept?.artifactId ?? job?.artifactId ?? null;
-      if (!artifactId) continue;
-      const selected = selectedMobileConceptId === conceptId;
-      incoming.push({
-        conceptId,
-        projectId: state.projectId.trim().toLowerCase(),
-        pageId: state.pageId,
-        conceptTitle: conceptTitleForSlot(slot, concept?.territoryLabel),
-        conceptTerritory:
-          concept?.gpt2MobileDebug?.territoryDirective ?? concept?.territoryLabel ?? job?.displayTitle ?? conceptId,
-        creativeRationale: 'GPT2 mobile page authority — twin pipeline',
-        visualReference: job?.imageUri ?? job?.artifactPath ?? concept?.imageUri ?? null,
-        mobileVisualReference: job?.imageUri ?? job?.artifactPath ?? concept?.imageUri ?? null,
-        desktopVisualReference: null,
-        gpt2AuthorityConceptId: conceptId,
-        creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
-        renditionSlot,
-        generatedBy: 'GPT2',
-        createdAt: concept?.createdAt ?? job?.createdAt ?? new Date().toISOString(),
-        lineage: {
-          brandIntelligence: ['project-intelligence', 'page-intelligence'],
-          creativeTerritories: [slot],
-        },
-        status: selected ? 'SELECTED' : 'CANDIDATE',
-        viewportScope: 'MOBILE',
-        runId: activeRunId,
-        artifactId,
-        conceptSlot: slot,
-        pipelineId,
-        artifactStatus,
-        runGroup: 'CURRENT',
-        runLabel: null,
-        artifactRole: 'MOBILE_CANDIDATE',
-        galleryFilterStatus: selected ? 'SELECTED' : artifactStatus === 'READY' ? 'CANDIDATE' : 'CANDIDATE',
-      });
-    }
+    incoming.push(...buildMobileCandidatesFromGenerationJobs(state));
   } else {
     const gpt2 = state.pipelineSet?.gpt2AuthorityConcept ?? null;
     if (!gpt2) return;
@@ -219,7 +185,7 @@ export function syncPageConceptGalleryFromGenerationState(state: PageConceptGene
     }
   }
 
-  if (canonicalPipeline) {
+  if (pipelineId === PAGE_CONCEPT_CANONICAL_PIPELINE_ID) {
     incoming.push(
       ...buildViewportInterpretationCandidates(state, 'TABLET', pipelineId, activeRunId),
       ...buildViewportInterpretationCandidates(state, 'DESKTOP', pipelineId, activeRunId),
