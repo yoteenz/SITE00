@@ -4,6 +4,7 @@ import {
   listPageConceptCandidatesHydrated,
   type PageConceptGalleryHydrationScope,
 } from './pageConceptGalleryHydration.js';
+import { pageConceptCandidateMatchesViewportGallery } from './pageConceptViewportGalleryScope.js';
 
 export type PageConceptGalleryCard = {
   id: string;
@@ -74,14 +75,25 @@ export function mapPageConceptToGalleryCard(
     runId: concept.runId ?? null,
     conceptSlot: concept.conceptSlot ?? null,
     pipelineId: concept.pipelineId ?? null,
-    version: slotLabel ? `CONCEPT ${slotLabel}` : concept.conceptTitle.slice(0, 16).toUpperCase(),
+    version:
+      concept.artifactRole === 'TABLET_INTERPRETATION' || concept.artifactRole === 'DESKTOP_INTERPRETATION' ?
+        concept.runLabel ?? concept.conceptTitle.slice(0, 20).toUpperCase()
+      : slotLabel ? `CONCEPT ${slotLabel}`
+      : concept.conceptTitle.slice(0, 16).toUpperCase(),
     surface: surfaces[idx] ?? 'plate',
     versionTag: selectedMobileAuthority ? 'chip' : concept.runGroup === 'HISTORY' ? 'none' : 'plain',
     viewportScope: concept.viewportScope,
-    previewSrc: concept.mobileVisualReference ?? concept.visualReference,
+    previewSrc:
+      concept.artifactRole === 'DESKTOP_INTERPRETATION' ?
+        concept.desktopVisualReference ?? concept.visualReference
+      : concept.artifactRole === 'TABLET_INTERPRETATION' ?
+        concept.visualReference
+      : concept.mobileVisualReference ?? concept.visualReference,
     slotLabel,
     pipelineLabel:
-      concept.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' || concept.artifactRole === 'MOBILE_CANDIDATE' ?
+      concept.artifactRole === 'TABLET_INTERPRETATION' ? 'TABLET INTERP'
+      : concept.artifactRole === 'DESKTOP_INTERPRETATION' ? 'DESKTOP INTERP'
+      : concept.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' || concept.artifactRole === 'MOBILE_CANDIDATE' ?
         'GPT2 MOBILE'
       : 'LEGACY',
     territoryLabel: concept.conceptTerritory,
@@ -113,12 +125,9 @@ export function buildPageConceptGallerySections(input: {
   galleryScope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>;
 }): PageConceptGallerySections {
   const statusFilter = input.statusFilter ?? 'ALL';
-  const all = listPageConceptCandidatesHydrated(input.projectId, input.pageId, input.galleryScope).filter((c) => {
-    if (c.viewportScope !== input.viewport && c.artifactRole === 'MOBILE_CANDIDATE') {
-      return input.viewport === 'MOBILE';
-    }
-    return c.viewportScope === input.viewport;
-  });
+  const all = listPageConceptCandidatesHydrated(input.projectId, input.pageId, input.galleryScope).filter((c) =>
+    pageConceptCandidateMatchesViewportGallery(c, input.viewport),
+  );
   const filtered = all.filter((c) => matchesStatusFilter(c, statusFilter));
   const selectedMobileConceptId = input.selectedMobileConceptId ?? null;
   const cards = filtered.map((c) => mapPageConceptToGalleryCard(c, selectedMobileConceptId));

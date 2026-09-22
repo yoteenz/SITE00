@@ -6,9 +6,14 @@ import type { PageViewportId } from '../designProjectBinding/pageViewportAuthori
 import type { PageConceptGenerationState } from './types.js';
 import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
 import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
+import {
+  listPageConceptCandidatesForViewportGallery,
+  resolvePageConceptViewportGalleryEmptyPresentation,
+} from './pageConceptViewportGalleryScope.js';
 
 export type PageConceptGalleryEmptyPresentation = {
   message: string | null;
+  secondaryLine: string | null;
   testId: 'gallery-page-concept-empty' | 'gallery-page-concept-load-failed' | null;
 };
 
@@ -85,34 +90,21 @@ export function resolvePageConceptGalleryEmptyPresentation(
   refreshPageConceptGalleryFromPersistedState(projectId, pageId, scope);
   const slug = normalizeProjectId(projectId);
   const all = listPageConceptCandidates(slug, pageId);
-  const mobileReady = all.filter(
-    (c) =>
-      c.viewportScope === viewport ||
-      (viewport === 'MOBILE' && c.artifactRole === 'MOBILE_CANDIDATE'),
-  );
-  if (
-    mobileReady.some((c) => c.artifactStatus === 'READY' || c.mobileVisualReference || c.visualReference)
-  ) {
-    return { message: null, testId: null };
-  }
-  if (mobileReady.length > 0) {
-    return { message: null, testId: null };
-  }
-
+  const scoped = listPageConceptCandidatesForViewportGallery(all, viewport);
   const state = loadGenerationStateForGallery({
     projectId,
     pageId,
     screenId: scope?.screenId,
     route: scope?.route ?? null,
   });
-  if (pageConceptGenerationStateHasReadyMobileArtifacts(state)) {
-    return { message: 'CONCEPTS COULD NOT BE LOADED', testId: 'gallery-page-concept-load-failed' };
-  }
-
-  if (all.length === 0) {
-    return { message: 'NO PAGE CONCEPTS YET', testId: 'gallery-page-concept-empty' };
-  }
-  if (viewport === 'DESKTOP') return { message: 'NO DESKTOP PAGE CONCEPTS YET', testId: 'gallery-page-concept-empty' };
-  if (viewport === 'TABLET') return { message: 'NO TABLET PAGE CONCEPTS YET', testId: 'gallery-page-concept-empty' };
-  return { message: 'NO PAGE CONCEPTS FOR THIS VIEWPORT', testId: 'gallery-page-concept-empty' };
+  const empty = resolvePageConceptViewportGalleryEmptyPresentation({
+    viewport,
+    scoped,
+    generationState: state,
+  });
+  return {
+    message: empty.message,
+    secondaryLine: empty.secondaryLine,
+    testId: empty.testId,
+  };
 }

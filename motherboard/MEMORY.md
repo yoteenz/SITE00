@@ -11373,3 +11373,15 @@ Founder gallery empty + no generator on compare header: persisted generation sta
 - **GPT2 canonical UI:** hide legacy SELECT FOR DESKTOP + authority-pair rail; **`viewport-family-authority-rail`**; **SELECT MOBILE CONCEPT** gallery action; pipeline readiness no longer requires independent desktop selection.
 - **Tests:** `p0vrDesignWorkspaceConceptGalleryAndGeneratorEntryFix1.test.ts` (alias page id → gallery A/B/C).
 - **Branch:** `cursor/design-workspace-concept-gallery-and-generator-entry-fix1-b747`.
+
+---
+
+## 2026-09-22 — P0.VR.DESIGN-WORKSPACE-VIEWPORT-GALLERIES-CORRECTION1
+
+Corrective: keep **MOBILE / TABLET / DESKTOP** toggles; **one gallery per viewport** (no mixed A/B/C + tablet + desktop in one rail).
+
+- **`pageConceptViewportGalleryScope.ts`:** strict `pageConceptCandidateMatchesViewportGallery`, titles, empty copy.
+- **`pageConceptGallerySync.ts`:** sync `GPT2_TABLET` / `GPT2_DESKTOP` jobs as `TABLET_INTERPRETATION` / `DESKTOP_INTERPRETATION` with version history.
+- **Workspace:** per-viewport candidate selection persistence; CONCEPT pane + gallery + rail + actions scoped to active viewport; `openGenerationConsole(viewport)`.
+- **Tests:** `p0vrDesignWorkspaceViewportGalleriesCorrection1.test.ts`.
+- **Branch:** `cursor/design-workspace-viewport-galleries-correction1-b747`.

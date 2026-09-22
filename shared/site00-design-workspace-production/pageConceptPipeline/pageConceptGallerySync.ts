@@ -45,6 +45,61 @@ function artifactStatusFromJob(
   return 'PENDING';
 }
 
+function buildViewportInterpretationCandidates(
+  state: PageConceptGenerationState,
+  target: 'TABLET' | 'DESKTOP',
+  pipelineId: PageConceptPipelineLineageId | null,
+  activeRunId: string | null,
+): PageConceptCandidate[] {
+  const provider = target === 'TABLET' ? 'GPT2_TABLET' : 'GPT2_DESKTOP';
+  const role = target === 'TABLET' ? 'TABLET_INTERPRETATION' : 'DESKTOP_INTERPRETATION';
+  const family = state.pipelineSet?.viewportAuthorityFamily ?? null;
+  const activeArtifactId = target === 'TABLET' ? family?.tabletArtifactId : family?.desktopArtifactId;
+  const jobs = state.generationJobs
+    .filter((j) => j.provider === provider && j.viewport === target)
+    .sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
+
+  const rows: PageConceptCandidate[] = [];
+  for (let index = 0; index < jobs.length; index++) {
+    const job = jobs[index]!;
+    if (job.status !== 'READY' && job.status !== 'RUNNING' && job.status !== 'FAILED') continue;
+    const version = `V${index + 1}`;
+    const isLatest = index === jobs.length - 1;
+    const isActive = Boolean(activeArtifactId && job.artifactId === activeArtifactId);
+    const runGroup = isLatest || isActive ? 'CURRENT' : 'HISTORY';
+    const conceptId = job.renditionId?.trim() || `${target.toLowerCase()}-interp-${job.artifactId}`;
+    const image = job.imageUri ?? job.artifactPath ?? null;
+    rows.push({
+      conceptId,
+      projectId: state.projectId.trim().toLowerCase(),
+      pageId: state.pageId,
+      conceptTitle: `${target} INTERPRETATION ${version}`,
+      conceptTerritory: job.displayTitle ?? `${target} authored interpretation`,
+      creativeRationale: 'GPT2 viewport interpretation — twin pipeline',
+      visualReference: image,
+      mobileVisualReference: null,
+      desktopVisualReference: target === 'DESKTOP' ? image : null,
+      gpt2AuthorityConceptId: job.gpt2AuthorityConceptId ?? null,
+      creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
+      generatedBy: 'GPT2',
+      createdAt: job.createdAt ?? new Date().toISOString(),
+      lineage: { creativeTerritories: [target] },
+      status: isActive ? 'SELECTED' : 'CANDIDATE',
+      viewportScope: target,
+      runId: activeRunId,
+      artifactId: job.artifactId,
+      conceptSlot: null,
+      pipelineId,
+      artifactStatus: job.status === 'READY' ? 'READY' : job.status === 'FAILED' ? 'FAILED' : 'RUNNING',
+      runGroup,
+      runLabel: version,
+      artifactRole: role,
+      galleryFilterStatus: isActive ? 'SELECTED' : runGroup === 'HISTORY' ? 'HISTORICAL' : 'CANDIDATE',
+    });
+  }
+  return rows;
+}
+
 function galleryStatusForCandidate(input: {
   artifactStatus: PageConceptCandidate['artifactStatus'];
   candidateStatus: PageConceptCandidateStatus;
@@ -162,6 +217,13 @@ export function syncPageConceptGalleryFromGenerationState(state: PageConceptGene
         galleryFilterStatus: 'CANDIDATE',
       });
     }
+  }
+
+  if (canonicalPipeline) {
+    incoming.push(
+      ...buildViewportInterpretationCandidates(state, 'TABLET', pipelineId, activeRunId),
+      ...buildViewportInterpretationCandidates(state, 'DESKTOP', pipelineId, activeRunId),
+    );
   }
 
   if (incoming.length === 0) return;
