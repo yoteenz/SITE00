@@ -6,6 +6,8 @@
 
 import type { PageConceptStageId, PageConceptStageState } from '../designPageConceptGeneratorShell.js';
 import { PAGE_CONCEPT_DEFAULT_STAGE_STATE } from '../designPageConceptGeneratorShell.js';
+import { resolveMobileConceptSlotForJob } from './pageConceptCandidateReconciliation.js';
+import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 import type {
   PageConceptCgptCreativeBrief,
   PageConceptGeneratedArtifact,
@@ -176,22 +178,26 @@ export function buildGpt2MobileSlotPresentations(
   const running = state.generationStatus === 'GPT2_RUNNING';
   const out: NbpSlotPresentation[] = [];
   for (const slot of ['RENDITION_A', 'RENDITION_B', 'RENDITION_C'] as const) {
-    const slotJobs = jobs.filter((j) => j.renditionSlot === slot).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
+    const letter = SLOT_LETTER[slot];
+    const mobileConceptSlot = `MOBILE_CONCEPT_${letter}` as const;
+    const slotJobs = jobs
+      .filter((j) => j.renditionSlot === slot || resolveMobileConceptSlotForJob(j) === mobileConceptSlot)
+      .sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
     const job = slotJobs[slotJobs.length - 1];
     let status: NbpSlotPresentation['status'] = 'PENDING';
     if (job?.status === 'READY') status = 'READY';
     else if (job?.status === 'FAILED') status = 'FAILED';
     else if (job?.status === 'RUNNING' || (running && !job)) status = 'GENERATING';
-    const letter = SLOT_LETTER[slot];
-    const mobileConcept = state.pipelineSet?.mobileConcepts?.find((c) => c.slot === `MOBILE_CONCEPT_${letter}`);
+    const mobileConcept = state.pipelineSet?.mobileConcepts?.find((c) => c.slot === mobileConceptSlot);
     const debug = job?.gpt2MobileDebug;
+    const rawImage = job?.imageUri ?? job?.artifactPath ?? mobileConcept?.imageUri ?? null;
     out.push({
       key: `gpt2.mobile.${letter.toLowerCase()}` as NbpShellSlotKey,
       label: letter,
       viewport: 'MOBILE',
       renditionSlot: slot,
       status,
-      imageSrc: job?.imageUri ?? job?.artifactPath ?? mobileConcept?.imageUri ?? null,
+      imageSrc: resolvePageConceptArtifactDisplayUrl(rawImage),
       failureReason: job?.failureReason ?? null,
       gpt2Mobile: {
         territoryLabel: debug?.territoryLabel ?? mobileConcept?.territoryLabel ?? null,

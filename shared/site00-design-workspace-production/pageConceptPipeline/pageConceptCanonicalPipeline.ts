@@ -25,6 +25,8 @@ export function inferPageConceptPipelineLineage(input: {
   generationJobs: readonly { provider?: string; artifactId?: string }[];
   pipelineLineage?: PageConceptPipelineLineageId | null;
 }): PageConceptPipelineLineageId {
+  const hasGpt2Mobile = input.generationJobs.some((j) => j.provider === 'GPT2_MOBILE');
+  if (hasGpt2Mobile) return PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
   if (input.pipelineLineage) return input.pipelineLineage;
   const hasNbp = input.generationJobs.some((j) => j.provider === 'NBP' || j.artifactId?.includes('RENDITION_'));
   return hasNbp ? PAGE_CONCEPT_LEGACY_PIPELINE_ID : PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
