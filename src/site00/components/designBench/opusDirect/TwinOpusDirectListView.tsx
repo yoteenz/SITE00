@@ -240,12 +240,12 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
 
             <aside className="tod-lv-rail" aria-label="Authority rail">
               {data.canonicalGpt2ViewportFamilyActive ?
-                <section className="tod-rail__viewportFamily" data-testid="viewport-family-authority-rail">
+                <section className="tod-lv-rail__viewportFamily" data-testid="viewport-family-authority-rail">
                   {data.viewportFamilyRail.map((row) => (
-                    <div key={row.id} className="tod-rail__viewportFamilyRow">
-                      <span className="tod-rail__viewportFamilyLabel">{row.label}</span>
-                      <span className="tod-rail__viewportFamilyValue">{row.value}</span>
-                      <span className={`tod-rail__viewportFamilyStatus tod-rail__viewportFamilyStatus--${row.status.toLowerCase()}`}>
+                    <div key={row.id} className="tod-lv-rail__viewportFamilyRow">
+                      <span className="tod-lv-rail__viewportFamilyLabel">{row.label}</span>
+                      <span className="tod-lv-rail__viewportFamilyValue">{row.value}</span>
+                      <span className={`tod-lv-rail__viewportFamilyStatus tod-lv-rail__viewportFamilyStatus--${row.status.toLowerCase()}`}>
                         {row.status}
                       </span>
                     </div>

@@ -231,6 +231,40 @@
   white-space: nowrap;
 }
 
+.tod-lv-rail__viewportFamily {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.tod-lv-rail__viewportFamilyRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 8px;
+  align-items: baseline;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 4px;
+}
+
+.tod-lv-rail__viewportFamilyLabel {
+  color: var(--tod-lime);
+}
+
+.tod-lv-rail__viewportFamilyValue {
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 8px;
+}
+
+.tod-lv-rail__viewportFamilyStatus {
+  justify-self: end;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
 .tod-lv-hero-compare__grid {
   display: flex;
   gap: 15.7px;
