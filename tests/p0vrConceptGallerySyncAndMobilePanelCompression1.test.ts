@@ -171,9 +171,9 @@ describe('P0.VR.CONCEPT-GALLERY-SYNC-AND-MOBILE-PANEL-COMPRESSION1', () => {
   });
 
   it('uses bounded mobile preview height constant', () => {
-    expect(PAGE_CONCEPT_MOBILE_PREVIEW_MAX_HEIGHT).toContain('clamp(240px, 36vh, 360px)');
+    expect(PAGE_CONCEPT_MOBILE_PREVIEW_MAX_HEIGHT).toContain('clamp(220px, 34vh, 340px)');
     const css = readFileSync(join(ROOT, 'src/site00/styles/site00-page-concept-generator.css'), 'utf8');
-    expect(css).toContain('clamp(240px, 36vh, 360px)');
+    expect(css).toContain('clamp(220px, 34vh, 340px)');
     expect(css).toContain('s00-pcg__mobileReviewActions--compact');
     expect(css).toContain('-webkit-line-clamp: 2');
   });

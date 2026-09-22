@@ -176,7 +176,8 @@ export function buildGpt2MobileSlotPresentations(
   const running = state.generationStatus === 'GPT2_RUNNING';
   const out: NbpSlotPresentation[] = [];
   for (const slot of ['RENDITION_A', 'RENDITION_B', 'RENDITION_C'] as const) {
-    const job = jobs.find((j) => j.renditionSlot === slot);
+    const slotJobs = jobs.filter((j) => j.renditionSlot === slot).sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? ''));
+    const job = slotJobs[slotJobs.length - 1];
     let status: NbpSlotPresentation['status'] = 'PENDING';
     if (job?.status === 'READY') status = 'READY';
     else if (job?.status === 'FAILED') status = 'FAILED';

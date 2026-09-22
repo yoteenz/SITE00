@@ -19,6 +19,7 @@ type Body = {
   conceptId?: string;
   viewport?: 'MOBILE' | 'TABLET' | 'DESKTOP';
   imageUri?: string;
+  mobileCaptureBase64?: string;
   dryRun?: boolean;
 };
 
@@ -87,6 +88,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'captureTwinViewport':
         if (!body.viewport || !body.imageUri?.trim()) throw new Error('CAPTURE_PAYLOAD_REQUIRED');
         action = { type: 'captureTwinViewport', viewport: body.viewport, imageUri: body.imageUri.trim() };
+        break;
+      case 'regenerateMobileConcept':
+        if (!body.conceptId?.trim()) throw new Error('CONCEPT_ID_REQUIRED');
+        if (!body.mobileCaptureBase64?.trim()) throw new Error('MOBILE_CAPTURE_REQUIRED');
+        action = {
+          type: 'regenerateMobileConcept',
+          conceptId: body.conceptId.trim(),
+          mobileCaptureBase64: body.mobileCaptureBase64.trim(),
+          dryRun: body.dryRun === true,
+        };
+        break;
+      case 'regenerateAllMobileConcepts':
+        if (!body.mobileCaptureBase64?.trim()) throw new Error('MOBILE_CAPTURE_REQUIRED');
+        action = {
+          type: 'regenerateAllMobileConcepts',
+          mobileCaptureBase64: body.mobileCaptureBase64.trim(),
+          dryRun: body.dryRun === true,
+        };
         break;
       default:
         throw new Error('UNKNOWN_ACTION');

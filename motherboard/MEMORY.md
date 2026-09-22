@@ -11395,3 +11395,16 @@ Production release failed `p0vrDesignBenchOpusDirect.test.ts`: list view must no
 - **Fix:** Renamed list rail to **`tod-lv-rail__*`** (+ matching **`site00-twin-opus-list.css`**). `tod-lv-rail` does not contain bare `tod-rail`.
 - **Tests:** `tests/p0vrDesignBenchOpusDirect.test.ts` 44/44 pass.
 - **Branch:** `cursor/fix-spark-list-tod-rail-firewall-b747`.
+
+---
+
+## 2026-09-22 — P0.VR.DESIGN-WORKSPACE-ARTIFACT-SYNC-REGEN-PANEL-FINALIZATION1
+
+Production regression: gallery empty despite GPT2 mobile jobs; regen wired to legacy production path; generator multi-stage wall + document scroll.
+
+- **`pageConceptCandidateReconciliation.ts`:** build mobile candidates from all GPT2_MOBILE jobs (version history); infers pipeline lineage; orphan job detection.
+- **`pageConceptGallerySync` / `generationWorkflow` / hydration:** sync from jobs without requiring `mobileConcepts` rows or explicit `pipelineLineage`; `reconcilePageConceptCandidates`; gallery-sync event; RECOVERING empty state.
+- **Regeneration:** `regenerateMobileConcept` + `regenerateAllMobileConcepts` viewport-family API; versioned artifact ids; downstream family invalidation; gallery + generator REGENERATE wired for canonical GPT2.
+- **Panel:** `singleActiveStageOnly` on mobile GPT2 review; hide duplicate viewport-family panel during mobile selection; internal scroll owner = generator (`s00-pcg__scroll`).
+- **Tests:** `p0vrDesignWorkspaceArtifactSyncRegenPanelFinalization1.test.ts`.
+- **Branch:** `cursor/design-workspace-artifact-sync-regen-panel-finalization1-b747`.

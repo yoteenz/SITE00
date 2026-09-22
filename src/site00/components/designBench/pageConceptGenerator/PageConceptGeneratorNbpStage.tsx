@@ -20,12 +20,18 @@ export function PageConceptGeneratorNbpStage({
   projectId,
   pageId,
   onInspect,
+  onSelectMobile,
+  onRegenerateMobile,
+  selectedMobileLabel,
   stageMode = 'NBP',
 }: {
   slots: readonly NbpSlotPresentation[];
   projectId: string;
   pageId: string;
   onInspect?: (src: string, title: string) => void;
+  onSelectMobile?: (slot: NbpSlotPresentation) => void;
+  onRegenerateMobile?: (slot: NbpSlotPresentation) => void;
+  selectedMobileLabel?: 'A' | 'B' | 'C' | null;
   /** GPT2 Step 2 mobile page concepts vs legacy NBP renditions. */
   stageMode?: 'GPT2_MOBILE' | 'NBP';
 }) {
@@ -103,6 +109,9 @@ export function PageConceptGeneratorNbpStage({
         <PageConceptGpt2MobileConceptReview
           slots={mobileSlots}
           onInspectFullscreen={(src, title) => onInspect?.(src, title)}
+          onSelect={onSelectMobile}
+          onRegenerate={onRegenerateMobile}
+          selectedLabel={selectedMobileLabel}
         />
       </div>
     );

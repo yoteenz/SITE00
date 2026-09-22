@@ -1,4 +1,6 @@
 import type { PageConceptRenditionRegistration } from '../designProjectBinding/designPageConceptModel.js';
+import { PAGE_CONCEPT_CANONICAL_PIPELINE_ID } from './pageConceptCanonicalPipeline.js';
+import { inferPageConceptPipelineLineage } from './pageConceptCanonicalPipeline.js';
 import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
 import type {
   PageConceptGeneratedArtifact,
@@ -69,9 +71,14 @@ export function mergePageConceptGenerationJobs(
 export function mergePageConceptArtifactsIntoGallery(
   state: PageConceptGenerationState,
 ): PageConceptGenerationState {
-  const mobileConcepts = state.pipelineSet?.mobileConcepts ?? [];
+  const lineage = inferPageConceptPipelineLineage({
+    pipelineLineage: state.pipelineSet?.pipelineLineage ?? null,
+    generationJobs: state.generationJobs,
+  });
   const canonicalMobile =
-    state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' && mobileConcepts.length > 0;
+    lineage === PAGE_CONCEPT_CANONICAL_PIPELINE_ID &&
+    ((state.pipelineSet?.mobileConcepts?.length ?? 0) > 0 ||
+      state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE'));
 
   if (canonicalMobile) {
     syncPageConceptGalleryFromGenerationState(state);

@@ -46,17 +46,22 @@
 .s00-pcg-layer__scrollBody {
   flex: 1 1 auto;
   min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .s00-pcg-layer__main {
   display: flex;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   flex-direction: column;
   width: 100%;
   min-width: 0;
+  min-height: 0;
+}
+
+.s00-pcg-layer__main > .s00-pcg {
+  flex: 1 1 auto;
   min-height: 0;
 }
 
@@ -1883,7 +1888,7 @@
 /* ---- contained concept previews (panel levels 1–2) ----------------------- */
 
 .s00-pcg__containPreview {
-  --pcg-contain-h: clamp(240px, 36vh, 360px);
+  --pcg-contain-h: clamp(220px, 34vh, 340px);
   position: relative;
   width: 100%;
   height: var(--pcg-contain-h);

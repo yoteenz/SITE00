@@ -5,6 +5,7 @@
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
 import type { PageConceptCandidate } from '../designProjectBinding/designPageConceptModel.js';
 import type { PageConceptGenerationState } from './types.js';
+import { generationStateHasOrphanReadyMobileJobs } from './pageConceptCandidateReconciliation.js';
 import { pageConceptGenerationStateHasReadyMobileArtifacts } from './pageConceptGalleryHydration.js';
 
 export type PageConceptViewportGalleryTitle = {
@@ -63,7 +64,11 @@ export function listPageConceptCandidatesForViewportGallery(
 export type PageConceptViewportGalleryEmpty = {
   message: string | null;
   secondaryLine: string | null;
-  testId: 'gallery-page-concept-empty' | 'gallery-page-concept-load-failed' | null;
+  testId:
+    | 'gallery-page-concept-empty'
+    | 'gallery-page-concept-load-failed'
+    | 'gallery-page-concept-reconciling'
+    | null;
 };
 
 export function resolvePageConceptViewportGalleryEmptyPresentation(input: {
@@ -79,6 +84,13 @@ export function resolvePageConceptViewportGalleryEmptyPresentation(input: {
   if (hasReady) return { message: null, secondaryLine: null, testId: null };
 
   if (viewport === 'MOBILE') {
+    if (generationStateHasOrphanReadyMobileJobs(generationState)) {
+      return {
+        message: 'RECOVERING GENERATED CONCEPTS',
+        secondaryLine: 'SYNCING ARTIFACTS INTO GALLERY',
+        testId: 'gallery-page-concept-reconciling',
+      };
+    }
     if (pageConceptGenerationStateHasReadyMobileArtifacts(generationState) && scoped.length === 0) {
       return {
         message: 'CONCEPTS COULD NOT BE LOADED',

@@ -427,6 +427,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       setPageConceptRevision((v) => v + 1);
     };
     window.addEventListener('site00:page-concept-generation-updated', bump);
+    window.addEventListener('site00:page-concept-gallery-synced', bump);
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
     window.addEventListener('site00:page-concept-captures-hydrated', bump);
     const onFocusGallery = (event: Event) => {
@@ -440,6 +441,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     window.addEventListener('site00:page-concept-focus-gallery', onFocusGallery);
     return () => {
       window.removeEventListener('site00:page-concept-generation-updated', bump);
+      window.removeEventListener('site00:page-concept-gallery-synced', bump);
       window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
       window.removeEventListener('site00:page-concept-captures-hydrated', bump);
       window.removeEventListener('site00:page-concept-focus-gallery', onFocusGallery);
@@ -710,6 +712,19 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           });
         }
         if (actionId === 'regenerate') {
+          const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
+            (c) => c.conceptId === candidate,
+          );
+          if (row?.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' && row.artifactRole === 'MOBILE_CANDIDATE') {
+            prodActions.requestSpendConfirm({
+              action: 'REGENERATE',
+              estimatedUsd: 0.55,
+              onConfirmed: () => {
+                void pageConceptGeneration.viewportFamilyHandlers.regenerateMobileConcept(candidate);
+              },
+            });
+            return;
+          }
           prodActions.requestSpendConfirm({
             action: 'REGENERATE',
             estimatedUsd: 0.55,

@@ -19,6 +19,12 @@ import {
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { pageContextForGpt2Package } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectVisualIdentity.js';
 import { executePageConceptGpt2ViewportInterpretation } from './executePageConceptGpt2ViewportInterpretation.js';
+import {
+  allMobileConceptSlots,
+  executePageConceptRegenerateMobileConcepts,
+  resolveRegenerateMobileSlotsFromConceptId,
+} from './executePageConceptRegenerateMobile.js';
+import { mergePageConceptArtifactsIntoGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
 
 export type PageConceptViewportFamilyAction =
   | { type: 'selectMobileConcept'; conceptId: string }
@@ -32,7 +38,9 @@ export type PageConceptViewportFamilyAction =
   | { type: 'markOpusRepresentativeShellsReady' }
   | { type: 'lockViewportFamily' }
   | { type: 'createTwinImplementationPackage' }
-  | { type: 'captureTwinViewport'; viewport: 'MOBILE' | 'TABLET' | 'DESKTOP'; imageUri: string };
+  | { type: 'captureTwinViewport'; viewport: 'MOBILE' | 'TABLET' | 'DESKTOP'; imageUri: string }
+  | { type: 'regenerateMobileConcept'; conceptId: string; mobileCaptureBase64: string; dryRun?: boolean }
+  | { type: 'regenerateAllMobileConcepts'; mobileCaptureBase64: string; dryRun?: boolean };
 
 export type PageConceptViewportFamilyActionResult = {
   state: PageConceptGenerationState;
@@ -217,6 +225,24 @@ export async function runPageConceptViewportFamilyAction(
 
   if (action.type === 'createTwinImplementationPackage') {
     return pageConceptCreateTwinImplementationPackage(state);
+  }
+
+  if (action.type === 'regenerateMobileConcept' || action.type === 'regenerateAllMobileConcepts') {
+    const slots =
+      action.type === 'regenerateAllMobileConcepts' ?
+        allMobileConceptSlots()
+      : [resolveRegenerateMobileSlotsFromConceptId(state, action.conceptId)];
+    const runId = state.activeGenerationRunId ?? `pcgr-regen-${Date.now()}`;
+    const result = await executePageConceptRegenerateMobileConcepts({
+      state,
+      slots,
+      dryRun: action.dryRun ?? process.env.VITEST === 'true',
+      mobileCaptureBase64: action.mobileCaptureBase64,
+      mobileDims: { width: 768, height: 1376 },
+      runId,
+    });
+    mergePageConceptArtifactsIntoGallery(result.state);
+    return { state: result.state, jobs: result.jobs };
   }
 
   if (action.type === 'captureTwinViewport') {

@@ -126,6 +126,8 @@ export type PageConceptGeneratorPanelProps = {
   useFounderJourneyRail?: boolean;
   /** Mobile: collapse completed / pending stages — only focused stage expanded. */
   mobileStageAccordion?: boolean;
+  /** When true, render only the focused stage card (no multi-stage wall). */
+  singleActiveStageOnly?: boolean;
 };
 
 function StatusChip({ state }: { state: PageConceptStageState }) {
@@ -399,6 +401,7 @@ export function PageConceptGeneratorPanel({
   founderFooterHint,
   useFounderJourneyRail,
   mobileStageAccordion = false,
+  singleActiveStageOnly = false,
 }: PageConceptGeneratorPanelProps) {
   const states: Record<PageConceptStageId, PageConceptStageState> = {
     ...PAGE_CONCEPT_DEFAULT_STAGE_STATE,
@@ -482,8 +485,11 @@ export function PageConceptGeneratorPanel({
           <FounderJourneyRail steps={founderJourneyRail} />
         : <ProgressionRail stages={PAGE_CONCEPT_GENERATOR_STAGES} stageStates={states} />}
 
-        <div className="s00-pcg__cards">
-          {PAGE_CONCEPT_GENERATOR_STAGES.map((stage) => (
+        <div className="s00-pcg__cards" data-single-stage={singleActiveStageOnly ? 'true' : undefined}>
+          {(singleActiveStageOnly ?
+            PAGE_CONCEPT_GENERATOR_STAGES.filter((stage) => stage.id === focusedStageId)
+          : PAGE_CONCEPT_GENERATOR_STAGES
+          ).map((stage) => (
             <StageCard
               key={stage.id}
               stage={stage}

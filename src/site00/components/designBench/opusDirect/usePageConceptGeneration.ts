@@ -269,15 +269,20 @@ export function usePageConceptGeneration(
 
   useEffect(() => {
     const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
-    if (!founderSession) {
-      clearPageConceptActiveServerRunId(projectId, pageId);
-    }
     const rawLoaded = loadPageConceptGenerationStateForDesignPage({
       projectSlug: projectId,
       pageId,
       screenId,
       route: route ?? null,
     });
+    if (!founderSession) {
+      const hasPersistedMobileArtifacts =
+        rawLoaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE') ||
+        (rawLoaded.pipelineSet?.mobileConcepts?.length ?? 0) > 0;
+      if (!hasPersistedMobileArtifacts) {
+        clearPageConceptActiveServerRunId(projectId, pageId);
+      }
+    }
     const loaded = normalizePageConceptStateOnPanelMount(rawLoaded, Boolean(founderSession));
     if (loaded !== rawLoaded) {
       savePageConceptGenerationState(loaded);
@@ -419,10 +424,14 @@ export function usePageConceptGeneration(
       setState((prev) => {
         const next = fn(prev);
         savePageConceptGenerationState(next);
+        refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
         return next;
       });
     },
-    [],
+    [pageId, projectId, route, screenId],
   );
 
   useEffect(() => {
@@ -1672,19 +1681,47 @@ export function usePageConceptGeneration(
     window.alert(lines.length ? lines.join('\n') : 'No archived runs yet.');
   }, [state]);
 
+  const resolveMobileCaptureBase64ForRegeneration = useCallback(async (): Promise<string> => {
+    const captures = getPageConceptSourceCaptures(projectId, pageId, screenId);
+    const mobile = captures.mobile;
+    if (!mobile || !isPageCaptureDisplayableArtifact(mobile.artifactPath)) {
+      throw new Error('RUN RECOVERY REQUIRED');
+    }
+    const payload = await buildPageConceptCapturePayload(mobile, 'MOBILE');
+    if (payload.artifactBase64?.trim()) return payload.artifactBase64.trim();
+    if (payload.artifactUrl) return artifactPathToBase64(payload.artifactUrl);
+    throw new Error('ARTIFACT SOURCE MISSING');
+  }, [pageId, projectId, screenId]);
+
   const dispatchViewportFamilyAction = useCallback(
     async (action: PageConceptViewportFamilyAction) => {
       setGenerating(true);
       setExecutionError(null);
       try {
         await ensurePageConceptApiAccessToken();
-        const current = loadPageConceptGenerationState(projectId, pageId);
+        const current = loadPageConceptGenerationStateForDesignPage({
+          projectSlug: projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+        });
+        let mobileCaptureBase64: string | undefined;
+        if (action.type === 'regenerateMobileConcept' || action.type === 'regenerateAllMobileConcepts') {
+          if (!current.pipelineSet?.cgptCreativeBrief && !current.pipelineSet?.creativeInjection) {
+            throw new Error('NO VALID CGPT BRIEF');
+          }
+          mobileCaptureBase64 = await resolveMobileCaptureBase64ForRegeneration();
+        }
         const result = await pageConceptViewportFamilyActionApi({
           action: action.type,
           state: current,
-          conceptId: action.type === 'selectMobileConcept' ? action.conceptId : undefined,
+          conceptId:
+            action.type === 'selectMobileConcept' || action.type === 'regenerateMobileConcept' ?
+              action.conceptId
+            : undefined,
           viewport: action.type === 'captureTwinViewport' ? action.viewport : undefined,
           imageUri: action.type === 'captureTwinViewport' ? action.imageUri : undefined,
+          mobileCaptureBase64,
           dryRun: 'dryRun' in action ? action.dryRun : undefined,
         });
         persist(() => {
@@ -1719,12 +1756,16 @@ export function usePageConceptGeneration(
         setGenerating(false);
       }
     },
-    [pageId, persist, projectId],
+    [pageId, persist, projectId, resolveMobileCaptureBase64ForRegeneration, route, screenId],
   );
 
   const viewportFamilyHandlers = useMemo(
     () => ({
       selectMobile: (conceptId: string) => void dispatchViewportFamilyAction({ type: 'selectMobileConcept', conceptId }),
+      regenerateMobileConcept: (conceptId: string) =>
+        void dispatchViewportFamilyAction({ type: 'regenerateMobileConcept', conceptId, mobileCaptureBase64: '' }),
+      regenerateAllMobileConcepts: () =>
+        void dispatchViewportFamilyAction({ type: 'regenerateAllMobileConcepts', mobileCaptureBase64: '' }),
       approveExperience: () => void dispatchViewportFamilyAction({ type: 'approveExperienceExpression' }),
       runTablet: () => void dispatchViewportFamilyAction({ type: 'runTabletInterpretation' }),
       runDesktop: () => void dispatchViewportFamilyAction({ type: 'runDesktopInterpretation' }),

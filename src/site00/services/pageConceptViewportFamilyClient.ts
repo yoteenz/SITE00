@@ -10,6 +10,7 @@ export async function pageConceptViewportFamilyActionApi(input: {
   conceptId?: string;
   viewport?: 'MOBILE' | 'TABLET' | 'DESKTOP';
   imageUri?: string;
+  mobileCaptureBase64?: string;
   dryRun?: boolean;
 }): Promise<{
   state: PageConceptGenerationState;
@@ -25,6 +26,7 @@ export async function pageConceptViewportFamilyActionApi(input: {
         conceptId: input.conceptId,
         viewport: input.viewport,
         imageUri: input.imageUri,
+        mobileCaptureBase64: input.mobileCaptureBase64,
         dryRun: input.dryRun,
       },
     },
