@@ -9,6 +9,7 @@ import type { PageConceptStageId, PageConceptStageState } from '../../../../../s
 import {
   buildCgptBriefRows,
   buildNbpSlotPresentations,
+  pageConceptCanonicalGpt2MobileActive,
   pageConceptCgptManualRetryEligible,
   pageConceptGenerationInFlight,
   pageConceptHasFailedNbpJobs,
@@ -217,7 +218,21 @@ export function PageConceptGenerationOverlay({
     });
   }, [cgptBrief, functionContract, generationState, injection]);
 
+  const gpt2MobileStage = pageConceptCanonicalGpt2MobileActive(generationState);
   const nbpSlots = useMemo(() => buildNbpSlotPresentations(generationState), [generationState]);
+  const gpt2MobileDebugLines = useMemo(() => {
+    const jobs = generationState.generationJobs.filter((j) => j.provider === 'GPT2_MOBILE');
+    return jobs.flatMap((j) => {
+      const d = j.gpt2MobileDebug;
+      if (!d) return [];
+      return [
+        `${j.displayTitle ?? j.artifactId}: PROVIDER ${d.provider} · ${d.transport}`,
+        `CAPTURE ${d.captureInfluenceMode} · BOTTOM CONTINUITY ${d.bottomContinuityApplied ? 'YES' : 'NO'}`,
+        `PAGE VALIDITY ${d.pageValidityPass ? 'PASS' : 'FAIL'} · POSTER WARN ${d.posterDriftWarning ? 'YES' : 'NO'} · SCREENSHOT OVERREACH ${d.screenshotOverreachWarning ? 'YES' : 'NO'}`,
+        `TERRITORY ${d.territoryLabel}`,
+      ];
+    });
+  }, [generationState.generationJobs]);
 
   const results = useMemo(() => {
     const hasAnyOutput =
@@ -245,6 +260,7 @@ export function PageConceptGenerationOverlay({
             slots={nbpSlots}
             projectId={generationState.projectId}
             pageId={generationState.pageId}
+            stageMode={gpt2MobileStage ? 'GPT2_MOBILE' : 'NBP'}
             onInspect={(src, title) => openImage(src, title)}
           />
         : undefined,
@@ -290,7 +306,9 @@ export function PageConceptGenerationOverlay({
       : liveProgress.currentSubstep ?
         activeCgptSubstepCopy(liveProgress.currentSubstep)
       : liveProgress.currentStage === 'GPT2' ?
-        'GPT2 AUTHORITY CONCEPT · RUNNING'
+        gpt2MobileStage ?
+          'GPT2 MOBILE PAGE CONCEPTS · RUNNING'
+        : 'GPT2 AUTHORITY CONCEPT · RUNNING'
       : liveProgress.currentStage === 'NBP' && liveProgress.nbpActiveLabel ?
         `${liveProgress.nbpActiveLabel} · RUNNING`
       : 'GENERATING…'
@@ -512,6 +530,9 @@ export function PageConceptGenerationOverlay({
                     `HISTORICAL ${runHealth.historicalEvents.map((e) => e.message).join(' | ') || '—'}`,
                     `PARTIAL ${runHealth.partialFailures.map((e) => e.message).join(' | ') || '—'}`,
                   ].join('\n')
+                : '',
+                gpt2MobileDebugLines.length > 0 ?
+                  ['', 'GPT2 MOBILE PAGE AUTHORITY (STEP 2)', ...gpt2MobileDebugLines].join('\n')
                 : '',
                 generationState.pipelineSet?.nbpPreDispatchInspector ?
                   [

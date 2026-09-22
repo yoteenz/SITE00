@@ -75,6 +75,48 @@ export function mergePageConceptGenerationJobs(
 export function mergePageConceptArtifactsIntoGallery(
   state: PageConceptGenerationState,
 ): PageConceptGenerationState {
+  const mobileConcepts = state.pipelineSet?.mobileConcepts ?? [];
+  const canonicalMobile =
+    state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' && mobileConcepts.length > 0;
+
+  if (canonicalMobile) {
+    const registrations: PageConceptRenditionRegistration[] = [];
+    for (const concept of mobileConcepts) {
+      const slotLetter = concept.slot.replace('MOBILE_CONCEPT_', '') as 'A' | 'B' | 'C';
+      const renditionSlot =
+        slotLetter === 'A' ? 'RENDITION_A'
+        : slotLetter === 'B' ? 'RENDITION_B'
+        : 'RENDITION_C';
+      const conceptId = renditionSlotToGalleryConceptId(renditionSlot);
+      const job = state.generationJobs.find((j) => j.artifactId === concept.artifactId);
+      registrations.push({
+        conceptId,
+        projectId: state.projectId,
+        pageId: state.pageId,
+        conceptTitle: concept.territoryLabel ?? `GPT2 MOBILE PAGE CONCEPT ${slotLetter}`,
+        conceptTerritory: concept.gpt2MobileDebug?.territoryDirective ?? concept.conceptId,
+        creativeRationale: 'GPT2 mobile page authority — twin pipeline Step 2',
+        mobileVisualReference: job?.imageUri ?? job?.artifactPath ?? concept.imageUri,
+        desktopVisualReference: null,
+        gpt2AuthorityConceptId: concept.conceptId,
+        creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,
+        renditionSlot,
+      });
+    }
+    registerPageConceptRenditions(state.projectId, state.pageId, registrations);
+    const readyCount = state.generationJobs.filter((j) => j.status === 'READY' && j.provider === 'GPT2_MOBILE').length;
+    const failedCount = state.generationJobs.filter((j) => j.status === 'FAILED' && j.provider === 'GPT2_MOBILE').length;
+    let generationStatus = state.generationStatus;
+    if (readyCount === 3) generationStatus = 'GPT2_MOBILE_AWAITING_SELECTION';
+    else if (readyCount > 0 && failedCount > 0) generationStatus = 'PARTIAL_GENERATION';
+    else if (failedCount > 0 && readyCount === 0) generationStatus = 'FAILED';
+    return appendHistory(
+      { ...state, generationStatus },
+      'page_concept_gpt2_mobile_completed',
+      `${readyCount}/3 GPT2 mobile page concepts ready`,
+    );
+  }
+
   const gpt2 = state.pipelineSet?.gpt2AuthorityConcept ?? null;
   if (!gpt2) return state;
 

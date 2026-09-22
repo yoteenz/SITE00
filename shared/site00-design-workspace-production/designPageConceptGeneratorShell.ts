@@ -122,12 +122,12 @@ const CGPT_BRIEF_ROWS: readonly PageConceptBriefRow[] = [
 const MOBILE_CONCEPT_GROUPS: readonly PageConceptRenditionGroup[] = [
   {
     id: 'MOBILE',
-    label: 'MOBILE CONCEPTS (3)',
+    label: 'GPT2 MOBILE PAGE CONCEPTS (3)',
     icon: 'auth-mobile',
     slots: [
-      { id: 'gpt2.mobile.a', label: 'A' },
-      { id: 'gpt2.mobile.b', label: 'B' },
-      { id: 'gpt2.mobile.c', label: 'C' },
+      { id: 'gpt2.mobile.a', label: 'PAGE A' },
+      { id: 'gpt2.mobile.b', label: 'PAGE B' },
+      { id: 'gpt2.mobile.c', label: 'PAGE C' },
     ],
   },
 ];
@@ -172,10 +172,10 @@ export const PAGE_CONCEPT_GENERATOR_STAGES: readonly PageConceptStageShell[] = [
     title: 'MOBILE CONCEPTS',
     subtitle: 'THREE DISTINCT TERRITORIES',
     progressionTitle: 'GPT2 MOBILE CONCEPTS',
-    progressionNote: 'GENERATE THREE GENUINELY DISTINCT MOBILE CONCEPT TERRITORIES.',
+    progressionNote: 'GENERATE THREE GENUINELY DISTINCT MOBILE PAGE CONCEPT TERRITORIES.',
     resultKind: 'RENDITION_GROUPS',
     outputLabel: 'OUTPUT',
-    outputNote: 'MOBILE CONCEPT A · B · C.',
+    outputNote: 'GPT2 MOBILE PAGE CONCEPT A · B · C.',
     icon: 'mark-authority',
     resultSlotId: 'gpt2.mobileConcepts',
     renditionGroups: MOBILE_CONCEPT_GROUPS,

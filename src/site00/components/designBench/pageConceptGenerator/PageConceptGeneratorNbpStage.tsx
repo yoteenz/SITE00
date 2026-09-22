@@ -19,12 +19,17 @@ export function PageConceptGeneratorNbpStage({
   projectId,
   pageId,
   onInspect,
+  stageMode = 'NBP',
 }: {
   slots: readonly NbpSlotPresentation[];
   projectId: string;
   pageId: string;
   onInspect?: (src: string, title: string) => void;
+  /** GPT2 Step 2 mobile page concepts vs legacy NBP renditions. */
+  stageMode?: 'GPT2_MOBILE' | 'NBP';
 }) {
+  const mobileOnly = stageMode === 'GPT2_MOBILE' || slots.every((s) => s.viewport === 'MOBILE');
+  const mobileGroupLabel = stageMode === 'GPT2_MOBILE' ? 'GPT2 MOBILE PAGE CONCEPTS (3)' : 'MOBILE (3)';
   const storageKey = `site00:pcg:carousel:${projectId}:${pageId}`;
   const [mobileIndex, setMobileIndex] = useState(0);
   const [desktopIndex, setDesktopIndex] = useState(0);
@@ -79,17 +84,26 @@ export function PageConceptGeneratorNbpStage({
   };
 
   const openInspect = (src: string, slot: NbpSlotPresentation) => {
-    onInspect?.(src, `${slot.viewport} · RENDITION ${slot.label}`);
+    onInspect?.(
+      src,
+      stageMode === 'GPT2_MOBILE' ?
+        `GPT2 MOBILE PAGE CONCEPT ${slot.label}`
+      : `${slot.viewport} · RENDITION ${slot.label}`,
+    );
   };
 
   return (
-    <div className="s00-pcg__groups" data-result-slot="nbp.renditions">
-      <section className="s00-pcg__group" aria-label="MOBILE (3)">
+    <div
+      className="s00-pcg__groups"
+      data-result-slot={stageMode === 'GPT2_MOBILE' ? 'gpt2.mobileConcepts' : 'nbp.renditions'}
+      data-stage-mode={stageMode}
+    >
+      <section className="s00-pcg__group" aria-label={mobileGroupLabel}>
         <header className="s00-pcg__groupHead">
           <span className="s00-pcg__groupGlyph" aria-hidden="true">
             <AiConsoleIcon name="auth-mobile" size={11} />
           </span>
-          MOBILE (3)
+          {mobileGroupLabel}
         </header>
         <div
           className="s00-pcg__nbpSwipe"
@@ -134,6 +148,7 @@ export function PageConceptGeneratorNbpStage({
         </div>
       </section>
 
+      {!mobileOnly ?
       <section className="s00-pcg__group" aria-label="DESKTOP (3)">
         <header className="s00-pcg__groupHead">
           <span className="s00-pcg__groupGlyph" aria-hidden="true">
@@ -183,6 +198,7 @@ export function PageConceptGeneratorNbpStage({
           </button>
         </div>
       </section>
+      : null}
     </div>
   );
 }

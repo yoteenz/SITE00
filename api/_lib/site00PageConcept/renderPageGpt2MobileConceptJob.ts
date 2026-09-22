@@ -1,5 +1,6 @@
-import { PAGE_NBP_MODEL } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { PAGE_GPT2_MOBILE_FAL_MODEL } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import type { PageGpt2MobileConceptRequestPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
+import { assertGpt2MobilePackageNotNbpPath } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
 
 export type PageGpt2MobileConceptRenderInput = {
@@ -16,7 +17,7 @@ export type PageGpt2MobileConceptRenderResult = {
 };
 
 function mockPng(label: string): string {
-  return Buffer.from(`vitest-gpt2-mobile:${label}`, 'utf8').toString('base64');
+  return Buffer.from(`vitest-gpt2-mobile-page:${label}`, 'utf8').toString('base64');
 }
 
 export async function renderPageGpt2MobileConceptJob(
@@ -25,12 +26,18 @@ export async function renderPageGpt2MobileConceptJob(
   const { package: pkg } = input;
   const slot = pkg.lineage.conceptSlot;
 
+  assertGpt2MobilePackageNotNbpPath({
+    promptVersion: pkg.inspector.promptVersion,
+    stageContract: pkg.inspector.stageContract,
+    providerLabel: pkg.inspector.providerLabel,
+  });
+
   if (process.env.VITEST === 'true') {
     return {
-      providerJobId: `vitest-gpt2-mobile-${slot}`,
+      providerJobId: `vitest-gpt2-mobile-page-${slot}`,
       providerRequestId: `vitest-req-${slot}`,
       imageBase64: mockPng(slot),
-      model: 'vitest-gpt2-mobile-fal',
+      model: 'vitest-gpt2-mobile-page-fal',
     };
   }
 
@@ -45,17 +52,27 @@ export async function renderPageGpt2MobileConceptJob(
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
 
-  const bytes = Buffer.from(pkg.functionalCaptureBase64, 'base64');
-  const refUrl = await fal.storage.upload(
-    new File([bytes], `gpt2-mobile-functional-${slot.toLowerCase()}.png`, { type: 'image/png' }),
-  );
+  const image_urls: string[] = [];
+  if (pkg.inspector.bottomContinuityApplied && pkg.bottomContinuityCaptureBase64.trim()) {
+    const bytes = Buffer.from(pkg.bottomContinuityCaptureBase64, 'base64');
+    const refUrl = await fal.storage.upload(
+      new File([bytes], `gpt2-mobile-bottom-continuity-${slot.toLowerCase()}.png`, { type: 'image/png' }),
+    );
+    image_urls.push(refUrl);
+  }
 
-  const result = (await fal.subscribe(PAGE_NBP_MODEL, {
-    input: { prompt: pkg.prompt, image_urls: [refUrl], num_images: 1 },
+  const falInput: { prompt: string; image_urls?: string[]; num_images: number } = {
+    prompt: pkg.prompt,
+    num_images: 1,
+  };
+  if (image_urls.length > 0) falInput.image_urls = image_urls;
+
+  const result = (await fal.subscribe(PAGE_GPT2_MOBILE_FAL_MODEL, {
+    input: falInput,
     logs: false,
   })) as { request_id?: string; data?: { images?: { url?: string }[] } };
 
-  const providerJobId = result.request_id ?? `fal-gpt2-mobile-${Date.now()}`;
+  const providerJobId = result.request_id ?? `fal-gpt2-mobile-page-${Date.now()}`;
   logPageConceptGpt2MobileEvent('GPT2_MOBILE_PROVIDER_JOB_CREATED', {
     runId: pkg.lineage.runId,
     conceptSlot: slot,
@@ -84,6 +101,6 @@ export async function renderPageGpt2MobileConceptJob(
     providerJobId,
     providerRequestId: providerJobId,
     imageBase64: buf.toString('base64'),
-    model: PAGE_NBP_MODEL,
+    model: PAGE_GPT2_MOBILE_FAL_MODEL,
   };
 }
