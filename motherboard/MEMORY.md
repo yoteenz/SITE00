@@ -11289,3 +11289,17 @@ Production blocker fix: canonical **3 GPT2 Mobile concepts** now dispatch throug
 - **Tests:** `p0vrGpt2MobileFalProviderWiring1.test.ts`; async `startPageConceptGenerationRun` / `snapshotPageConceptServerRun` in fetch-abort tests.
 - **Branch:** `cursor/gpt2-mobile-fal-provider-wiring1-b747`.
 - **Founder:** Apply Supabase migration `20260921120000_site00_page_concept_generation_runs.sql`; Railway redeploy API; GoDaddy ZIP after merge for client recovery params.
+
+---
+
+## 2026-09-21 — P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1
+
+Step 2 decoupling: GPT2 mobile concepts must be **website page authorities**, not NBP-style full-screenshot remixes or poster graphics.
+
+- **`pageConceptGpt2MobilePageAuthority.ts`:** capture mode `FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY`, page structure + forbidden poster types, NBP path guard, debug metadata.
+- **Prompt rewrite (`pageConceptGpt2MobileRequestPackage.ts`):** explicit NOT NBP, page authority stack, zone A/B/C capture contract, host firewall; `PAGE_GPT2_MOBILE_FAL_MODEL` (separate from NBP naming).
+- **Render:** FAL receives **bottom continuity strip only** (`extractPageConceptBottomContinuityCapture.ts` + sharp), not full capture.
+- **Artifacts:** `displayTitle` + `gpt2MobileDebug` on jobs/concepts; rendition slots A/B/C; gallery merge for canonical mobile (`generationWorkflow.ts`).
+- **UI binding:** `buildGpt2MobileSlotPresentations`, overlay `GPT2_MOBILE` stage mode (mobile-only carousel, no desktop section), technical drawer lines for provider/capture/validity.
+- **Tests:** `p0vrGpt2MobilePageAuthorityDecouplingFix1.test.ts`.
+- **Branch:** `cursor/gpt2-mobile-page-authority-decoupling-fix1-b747`.
