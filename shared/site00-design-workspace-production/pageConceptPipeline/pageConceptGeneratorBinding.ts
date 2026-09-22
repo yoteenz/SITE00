@@ -8,6 +8,7 @@ import type { PageConceptStageId, PageConceptStageState } from '../designPageCon
 import { PAGE_CONCEPT_DEFAULT_STAGE_STATE } from '../designPageConceptGeneratorShell.js';
 import { resolveMobileConceptSlotForJob } from './pageConceptCandidateReconciliation.js';
 import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
+import { pageConceptCanonicalNbpDisabled } from './pageConceptCanonicalPipeline.js';
 import type {
   PageConceptCgptCreativeBrief,
   PageConceptGeneratedArtifact,
@@ -70,6 +71,33 @@ export function pageConceptStageStatesFromPipeline(state: PageConceptGenerationS
 > {
   const ps = state.pipelineSet;
   const status = state.generationStatus;
+
+  if (pageConceptCanonicalNbpDisabled()) {
+    if (ps?.creativeInjectionError && !ps.creativeInjection) {
+      return { CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
+    }
+    const mobileReady = (ps?.mobileConcepts ?? []).filter((c) => c.status === 'READY').length;
+    const hasMobileJobs = state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE');
+    switch (status) {
+      case 'CGPT_RUNNING':
+        return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
+      case 'GPT2_RUNNING':
+        return { CGPT: 'COMPLETE', GPT2: 'ACTIVE', NBP: 'PENDING' };
+      case 'GPT2_MOBILE_AWAITING_SELECTION':
+        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+      case 'VIEWPORT_TABLET_RUNNING':
+      case 'VIEWPORT_DESKTOP_RUNNING':
+      case 'VIEWPORT_FAMILY_REVIEW':
+        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
+      default:
+        if (ps?.creativeInjection && (mobileReady >= 3 || hasMobileJobs)) {
+          if (mobileReady >= 3) return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+          return { CGPT: 'COMPLETE', GPT2: 'ACTIVE', NBP: 'PENDING' };
+        }
+        if (ps?.creativeInjection) return { CGPT: 'COMPLETE', GPT2: 'PENDING', NBP: 'PENDING' };
+        return PAGE_CONCEPT_DEFAULT_STAGE_STATE;
+    }
+  }
 
   if (ps?.creativeInjectionError && !ps.creativeInjection) {
     return { CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
@@ -164,6 +192,7 @@ function jobForSlot(
 }
 
 export function pageConceptCanonicalGpt2MobileActive(state: PageConceptGenerationState): boolean {
+  if (pageConceptCanonicalNbpDisabled()) return true;
   return (
     state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' ||
     state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE') ||
