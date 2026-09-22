@@ -11,6 +11,7 @@ import {
 import type { PageConceptGenerationState } from './types.js';
 import { renditionSlotToGalleryConceptId } from './constants.js';
 import { buildMobileCandidatesFromGenerationJobs } from './pageConceptCandidateReconciliation.js';
+import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 
 function resolveActiveRunId(state: PageConceptGenerationState): string | null {
   return state.activeGenerationRunId ?? state.activeReviewRunId ?? state.pipelineSet?.pipelineSetId ?? null;
@@ -39,7 +40,7 @@ function buildViewportInterpretationCandidates(
     const isActive = Boolean(activeArtifactId && job.artifactId === activeArtifactId);
     const runGroup = isLatest || isActive ? 'CURRENT' : 'HISTORY';
     const conceptId = job.renditionId?.trim() || `${target.toLowerCase()}-interp-${job.artifactId}`;
-    const image = job.imageUri ?? job.artifactPath ?? null;
+    const image = resolvePageConceptArtifactDisplayUrl(job.imageUri ?? job.artifactPath ?? null);
     rows.push({
       conceptId,
       projectId: state.projectId.trim().toLowerCase(),
@@ -127,8 +128,8 @@ export function syncPageConceptGalleryFromGenerationState(state: PageConceptGene
         conceptTitle: slot.replace('_', ' '),
         conceptTerritory: gpt2.premise,
         creativeRationale: gpt2.visualLanguage,
-        visualReference: mobileJob.imageUri ?? mobileJob.artifactPath ?? null,
-        mobileVisualReference: mobileJob.imageUri ?? mobileJob.artifactPath ?? null,
+        visualReference: resolvePageConceptArtifactDisplayUrl(mobileJob.imageUri ?? mobileJob.artifactPath ?? null),
+        mobileVisualReference: resolvePageConceptArtifactDisplayUrl(mobileJob.imageUri ?? mobileJob.artifactPath ?? null),
         desktopVisualReference: null,
         gpt2AuthorityConceptId: gpt2.conceptId,
         creativeInjectionId: state.pipelineSet?.creativeInjection?.injectionId ?? null,

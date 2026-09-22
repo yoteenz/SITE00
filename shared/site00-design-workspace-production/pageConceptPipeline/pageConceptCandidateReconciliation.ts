@@ -19,6 +19,7 @@ import {
   type PageMobileConceptSlotId,
 } from './pageConceptViewportAuthorityFamily.js';
 import { gpt2MobileConceptRenditionSlot } from './pageConceptGpt2MobilePageAuthority.js';
+import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 
 function slotLetter(slot: PageMobileConceptSlotId): 'A' | 'B' | 'C' {
   if (slot === 'MOBILE_CONCEPT_A') return 'A';
@@ -82,7 +83,7 @@ function buildMobileCandidateFromJob(input: {
     : job.status === 'FAILED' ? 'FAILED'
     : job.status === 'RUNNING' ? 'RUNNING'
     : 'PENDING';
-  const image = job.imageUri ?? job.artifactPath ?? meta?.imageUri ?? null;
+  const image = resolvePageConceptArtifactDisplayUrl(job.imageUri ?? job.artifactPath ?? meta?.imageUri ?? null);
 
   return {
     conceptId,

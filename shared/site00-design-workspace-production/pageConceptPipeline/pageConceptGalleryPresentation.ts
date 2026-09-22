@@ -5,6 +5,7 @@ import {
   type PageConceptGalleryHydrationScope,
 } from './pageConceptGalleryHydration.js';
 import { pageConceptCandidateMatchesViewportGallery } from './pageConceptViewportGalleryScope.js';
+import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 
 export type PageConceptGalleryCard = {
   id: string;
@@ -83,12 +84,13 @@ export function mapPageConceptToGalleryCard(
     surface: surfaces[idx] ?? 'plate',
     versionTag: selectedMobileAuthority ? 'chip' : concept.runGroup === 'HISTORY' ? 'none' : 'plain',
     viewportScope: concept.viewportScope,
-    previewSrc:
+    previewSrc: resolvePageConceptArtifactDisplayUrl(
       concept.artifactRole === 'DESKTOP_INTERPRETATION' ?
         concept.desktopVisualReference ?? concept.visualReference
       : concept.artifactRole === 'TABLET_INTERPRETATION' ?
         concept.visualReference
       : concept.mobileVisualReference ?? concept.visualReference,
+    ),
     slotLabel,
     pipelineLabel:
       concept.artifactRole === 'TABLET_INTERPRETATION' ? 'TABLET INTERP'

@@ -17,6 +17,10 @@ import { PAGE_CONCEPT_MOBILE_PREVIEW_MAX_HEIGHT } from '../shared/site00-design-
 import { savePageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
 import type { PageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { mobileConceptRegenerationArtifactId } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
+import { inferPageConceptPipelineLineage, PAGE_CONCEPT_CANONICAL_PIPELINE_ID } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
+import { resolvePageConceptArtifactDisplayUrl } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactDisplayUrl.js';
+import { buildGpt2MobileSlotPresentations } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
+import { mapPageConceptToGalleryCard } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
 
 const PROJECT = 'ndxbook';
 const PAGE = 'ndxbook:overview';
@@ -109,6 +113,38 @@ describe('P0.VR.DESIGN-WORKSPACE-ARTIFACT-SYNC-REGEN-PANEL-FINALIZATION1', () =>
       },
     });
     resetPageConceptCandidatesForTests(PROJECT, PAGE);
+  });
+
+  it('prefers canonical GPT2 lineage when legacy NBP jobs coexist', () => {
+    const state = baseState([mobileJob('A'), mobileJob('B'), mobileJob('C')]);
+    state.pipelineSet!.pipelineLineage = 'LEGACY_NBP_CONCEPT_PIPELINE';
+    state.generationJobs.push({
+      ...mobileJob('A'),
+      provider: 'NBP',
+      artifactId: 'pcga-RENDITION_A-MOBILE-legacy',
+    } as never);
+    expect(
+      inferPageConceptPipelineLineage({
+        pipelineLineage: state.pipelineSet!.pipelineLineage,
+        generationJobs: state.generationJobs,
+      }),
+    ).toBe(PAGE_CONCEPT_CANONICAL_PIPELINE_ID);
+    const built = buildMobileCandidatesFromGenerationJobs(state);
+    expect(built.filter((c) => c.artifactStatus === 'READY')).toHaveLength(3);
+  });
+
+  it('resolves relative artifact paths for gallery and generator previews', () => {
+    const job = mobileJob('A');
+    job.imageUri = '/api/page-concept-artifacts/ndxbook/test.png';
+    job.renditionSlot = undefined as never;
+    const state = baseState([job]);
+    syncPageConceptGalleryFromGenerationState(state);
+    const listed = listPageConceptCandidates(PROJECT, PAGE);
+    const card = mapPageConceptToGalleryCard(listed[0]!, null);
+    expect(card.previewSrc).toBe('https://site00.com/api/page-concept-artifacts/ndxbook/test.png');
+    const slots = buildGpt2MobileSlotPresentations(state);
+    expect(slots[0]?.imageSrc).toBe('https://site00.com/api/page-concept-artifacts/ndxbook/test.png');
+    expect(resolvePageConceptArtifactDisplayUrl('/x.png')).toBe('https://site00.com/x.png');
   });
 
   it('reconciles orphan READY GPT2 mobile jobs without mobileConcepts rows', () => {

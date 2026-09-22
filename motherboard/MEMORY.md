@@ -11408,3 +11408,13 @@ Production regression: gallery empty despite GPT2 mobile jobs; regen wired to le
 - **Panel:** `singleActiveStageOnly` on mobile GPT2 review; hide duplicate viewport-family panel during mobile selection; internal scroll owner = generator (`s00-pcg__scroll`).
 - **Tests:** `p0vrDesignWorkspaceArtifactSyncRegenPanelFinalization1.test.ts`.
 - **Branch:** `cursor/design-workspace-artifact-sync-regen-panel-finalization1-b747`.
+
+---
+
+## 2026-09-22 — Gallery empty despite “3 READY” (lineage + artifact URLs)
+
+Founder live: hero GENERATION CONSOLE showed **3 READY** but Concept Candidate Gallery gray/empty; generator CONCEPT A preview blank; regen unchanged on old bundle.
+
+- **Root cause:** `inferPageConceptPipelineLineage` treated mixed legacy NBP + GPT2 jobs as **LEGACY_NBP**, so `buildMobileCandidatesFromGenerationJobs` returned **[]** while launcher still counted GPT2_MOBILE READY jobs. Relative `/api/...` artifact paths also broke `<img src>` without origin prefix.
+- **Fix (`cursor/fix-gallery-lineage-and-artifact-urls-b747`):** GPT2_MOBILE jobs force canonical lineage; `resolvePageConceptArtifactDisplayUrl` for gallery/sync/generator; generator slot lookup uses artifactId slot parsing; `generation-updated` reload uses `loadPageConceptGenerationStateForDesignPage`.
+- **Deploy:** Requires new frontend ZIP (v625+) on GoDaddy; mobile regen still needs Railway API from artifact-sync merge.

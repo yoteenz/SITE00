@@ -314,14 +314,19 @@ export function usePageConceptGeneration(
     const onUpdated = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
       if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
-      const loaded = loadPageConceptGenerationState(projectId, pageId);
+      const loaded = loadPageConceptGenerationStateForDesignPage({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route: route ?? null,
+      });
       setState(loaded);
       refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
       if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
     };
     window.addEventListener('site00:page-concept-generation-updated', onUpdated);
     return () => window.removeEventListener('site00:page-concept-generation-updated', onUpdated);
-  }, [pageId, projectId]);
+  }, [pageId, projectId, route, screenId]);
 
   useEffect(() => {
     let cancelled = false;
