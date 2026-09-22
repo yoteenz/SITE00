@@ -7,7 +7,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import type { PageConceptStageId, PageConceptStageState } from '../../../../../shared/site00-design-workspace-production/designPageConceptGeneratorShell.js';
 import {
-  buildCgptBriefRows,
   buildNbpSlotPresentations,
   pageConceptCanonicalGpt2MobileActive,
   pageConceptCgptManualRetryEligible,
@@ -40,7 +39,14 @@ import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGe
 import { PageConceptPageFamilyContractPanel } from '../pageConceptGenerator/PageConceptPageFamilyContractPanel';
 import { PageConceptViewportFamilyPanel } from '../pageConceptGenerator/PageConceptViewportFamilyPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
-import { CgptBriefResult, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
+import {
+  buildFounderJourneyRail,
+  buildFounderSummaryMetrics,
+  buildCgptBriefDigest,
+  resolveFounderFooterCtaHint,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderReviewPresentation.js';
+import { CgptBriefDigestCard, Gpt2AuthorityResult } from '../pageConceptGenerator/PageConceptGeneratorResults';
+import { PageConceptFounderTwinLifecyclePanel } from '../pageConceptGenerator/PageConceptFounderTwinLifecyclePanel';
 import { PageConceptCgptBriefInspector } from '../pageConceptGenerator/PageConceptCgptBriefInspector';
 import { usePageConceptReleaseForensics } from './usePageConceptReleaseForensics';
 import {
@@ -219,6 +225,18 @@ export function PageConceptGenerationOverlay({
   }, [cgptBrief, functionContract, generationState, injection]);
 
   const gpt2MobileStage = pageConceptCanonicalGpt2MobileActive(generationState);
+  const founderSummaryMetrics = useMemo(
+    () => (gpt2MobileStage ? buildFounderSummaryMetrics(generationState) : undefined),
+    [generationState, gpt2MobileStage],
+  );
+  const founderJourneyRail = useMemo(
+    () => (gpt2MobileStage ? buildFounderJourneyRail(generationState) : undefined),
+    [generationState, gpt2MobileStage],
+  );
+  const founderFooterHint = useMemo(
+    () => (gpt2MobileStage ? resolveFounderFooterCtaHint(generationState) : null),
+    [generationState, gpt2MobileStage],
+  );
   const nbpSlots = useMemo(() => buildNbpSlotPresentations(generationState), [generationState]);
   const gpt2MobileDebugLines = useMemo(() => {
     const jobs = generationState.generationJobs.filter((j) => j.provider === 'GPT2_MOBILE');
@@ -241,11 +259,16 @@ export function PageConceptGenerationOverlay({
     return {
       cgptBrief:
         cgptBrief ?
-          <CgptBriefResult
-            rows={buildCgptBriefRows(cgptBrief)}
-            substepStates={liveProgress.substepStatusById}
-            onViewFull={() => setFullBriefOpen(true)}
-          />
+          gpt2MobileStage || cgptAwaitingFounderReview ?
+            <CgptBriefDigestCard
+              digest={buildCgptBriefDigest(cgptBrief)}
+              onViewFull={() => setFullBriefOpen(true)}
+              onContinueGpt2={cgptAwaitingFounderReview && onContinueGpt2 ? onContinueGpt2 : undefined}
+            />
+          : <CgptBriefDigestCard
+              digest={buildCgptBriefDigest(cgptBrief)}
+              onViewFull={() => setFullBriefOpen(true)}
+            />
         : undefined,
       authorityImage:
         gpt2 ?
@@ -265,7 +288,7 @@ export function PageConceptGenerationOverlay({
           />
         : undefined,
     };
-  }, [cgptBrief, generationState, gpt2, mode, nbpSlots, generating, openImage]);
+  }, [cgptAwaitingFounderReview, cgptBrief, generationState, gpt2, gpt2MobileStage, mode, nbpSlots, generating, onContinueGpt2, openImage]);
 
   const reviewReady = pageConceptReviewReady(generationState.generationStatus);
   const inFlight = pageConceptGenerationInFlight(generationState.generationStatus, generating);
@@ -368,8 +391,10 @@ export function PageConceptGenerationOverlay({
           reviewBanner={
             reviewReady && !generating ?
               showPostRunFooter ?
-                'RUN COMPLETE — VIEW RENDITIONS OR START A NEW GENERATION BRANCH.'
-              : 'READY FOR FOUNDER REVIEW — CLOSE TO USE GALLERY & AUTHORITY RAIL.'
+                gpt2MobileStage ?
+                  'RUN COMPLETE — REVIEW OUTPUTS OR START A NEW GENERATION BRANCH.'
+                : 'RUN COMPLETE — REVIEW OUTPUTS OR START A NEW GENERATION BRANCH.'
+              : 'READY FOR FOUNDER REVIEW — STAGE-AWARE CONTROLS BELOW.'
             : null
           }
           footSpendNote={mode === 'confirm' && plan ? spendNote : null}
@@ -377,7 +402,7 @@ export function PageConceptGenerationOverlay({
           generateDisabledReason={generateBlockReason ?? founderNotice}
           generateBusyLabel={generateBusyLabel}
           generateLabel={
-            gpt2AwaitingFounderReview && !generating ?
+            gpt2AwaitingFounderReview && !generating && !gpt2MobileStage ?
               'CONTINUE (LEGACY NBP)'
             : cgptAwaitingFounderReview && !generating ?
               'REGENERATE CGPT'
@@ -441,7 +466,7 @@ export function PageConceptGenerationOverlay({
                 disabled: generating,
                 testId: 'page-concept-continue-gpt2',
               }
-            : gpt2AwaitingFounderReview && !generating && onContinueNbp ?
+            : gpt2AwaitingFounderReview && !generating && onContinueNbp && !gpt2MobileStage ?
               {
                 label: 'CONTINUE (LEGACY NBP)',
                 onClick: onContinueNbp,
@@ -465,16 +490,23 @@ export function PageConceptGenerationOverlay({
             : null
           }
           onGenerate={
-            gpt2AwaitingFounderReview && !generating && onContinueNbp ?
+            gpt2AwaitingFounderReview && !generating && onContinueNbp && !gpt2MobileStage ?
               () => onContinueNbp?.()
             : cgptRetry && !generating ?
               onRetryCgpt
             : onConfirm
           }
           onCancel={onCancel}
+          founderSummaryMetrics={founderSummaryMetrics}
+          founderJourneyRail={founderJourneyRail}
+          founderFooterHint={founderFooterHint}
+          useFounderJourneyRail={gpt2MobileStage}
           onClose={onCancel}
         />
         </div>
+        {gpt2MobileStage ?
+          <PageConceptFounderTwinLifecyclePanel state={generationState} busy={generating} />
+        : null}
         {(gpt2MobileAwaitingSelection ||
           generationState.generationStatus === 'VIEWPORT_FAMILY_REVIEW' ||
           generationState.generationStatus === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
@@ -618,6 +650,7 @@ export function PageConceptGenerationOverlay({
             <div className="s00-pcg__briefSheetBody">
               <PageConceptCgptBriefInspector
                 brief={cgptBrief}
+                projectPageLabel={`${plan?.projectLabel ?? generationState.projectId} / ${plan?.pageLabel ?? generationState.pageId}`.toUpperCase()}
                 handoff={handoffViewModel?.handoff ?? null}
                 diagnostic={handoffViewModel?.diagnostic ?? {
                   identityGrounding: 'MISSING',

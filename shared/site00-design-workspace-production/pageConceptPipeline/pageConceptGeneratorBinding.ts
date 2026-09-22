@@ -26,6 +26,16 @@ export type NbpShellSlotKey =
   | 'nbp.desktop.b'
   | 'nbp.desktop.c';
 
+export type Gpt2MobileSlotPresentationMeta = {
+  territoryLabel: string | null;
+  rationale: string | null;
+  pageValidityPass: boolean | null;
+  captureInfluenceMode: string | null;
+  screenshotOverreachWarning: boolean | null;
+  provider: string;
+  promptVersion: string | null;
+};
+
 export type NbpSlotPresentation = {
   key: NbpShellSlotKey;
   label: 'A' | 'B' | 'C';
@@ -34,6 +44,8 @@ export type NbpSlotPresentation = {
   status: 'PENDING' | 'GENERATING' | 'READY' | 'FAILED';
   imageSrc: string | null;
   failureReason: string | null;
+  /** GPT2 mobile founder review (presentation only). */
+  gpt2Mobile?: Gpt2MobileSlotPresentationMeta;
 };
 
 const SLOT_LETTER: Record<PageConceptRenditionSlotId, 'A' | 'B' | 'C'> = {
@@ -170,14 +182,25 @@ export function buildGpt2MobileSlotPresentations(
     else if (job?.status === 'FAILED') status = 'FAILED';
     else if (job?.status === 'RUNNING' || (running && !job)) status = 'GENERATING';
     const letter = SLOT_LETTER[slot];
+    const mobileConcept = state.pipelineSet?.mobileConcepts?.find((c) => c.slot === `MOBILE_CONCEPT_${letter}`);
+    const debug = job?.gpt2MobileDebug;
     out.push({
       key: `gpt2.mobile.${letter.toLowerCase()}` as NbpShellSlotKey,
       label: letter,
       viewport: 'MOBILE',
       renditionSlot: slot,
       status,
-      imageSrc: job?.imageUri ?? job?.artifactPath ?? null,
+      imageSrc: job?.imageUri ?? job?.artifactPath ?? mobileConcept?.imageUri ?? null,
       failureReason: job?.failureReason ?? null,
+      gpt2Mobile: {
+        territoryLabel: debug?.territoryLabel ?? mobileConcept?.territoryLabel ?? null,
+        rationale: job?.displayTitle ?? mobileConcept?.territoryLabel ?? null,
+        pageValidityPass: debug?.pageValidityPass ?? null,
+        captureInfluenceMode: debug?.captureInfluenceMode ?? null,
+        screenshotOverreachWarning: debug?.screenshotOverreachWarning ?? null,
+        provider: debug?.provider ?? 'GPT2',
+        promptVersion: debug?.effectivePromptVersion ?? null,
+      },
     });
   }
   return out;

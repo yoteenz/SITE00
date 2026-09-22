@@ -334,5 +334,5 @@ export function pageConceptGeneratorNoticeLines(notice: string): PageConceptGene
 /** Display-only: true when the shell should show the micro plan summary on mobile. */
 export function pageConceptGeneratorFootSpendShowsMicroSummary(note: string | null | undefined): boolean {
   if (!note?.trim()) return false;
-  return /\d+\s+cgpt/i.test(note) && /gpt2/i.test(note) && /nbp/i.test(note);
+  return /\d+\s+cgpt/i.test(note) && /gpt2/i.test(note);
 }

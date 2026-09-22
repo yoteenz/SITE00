@@ -2,7 +2,11 @@
  * P0.VR.PAGE-CONCEPT-POST-RUN-RESTART-CONTROLS1
  */
 
-import { pageConceptHasFailedNbpJobs, pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
+import {
+  pageConceptCanonicalGpt2MobileActive,
+  pageConceptHasFailedNbpJobs,
+  pageConceptReviewReady,
+} from './pageConceptGeneratorBinding.js';
 import { pageConceptInitialSpendNote, pageConceptLegacyNbpEnabled } from './pageConceptCanonicalPipeline.js';
 import type { PageConceptGenerationState, PageConceptGenerationStatus } from './types.js';
 
@@ -34,10 +38,11 @@ export function buildPageConceptPostRunActions(state: PageConceptGenerationState
   const failedNbp = pageConceptHasFailedNbpJobs(state);
   const readyJobs = state.generationJobs.filter((j) => j.status === 'READY').length;
 
+  const canonical = pageConceptCanonicalGpt2MobileActive(state);
   const actions: PageConceptPostRunAction[] = [
     {
       id: 'view_renditions',
-      label: 'VIEW RENDITIONS',
+      label: canonical ? 'REVIEW OUTPUTS' : 'VIEW RENDITIONS',
       spendNote: null,
       testId: 'page-concept-view-renditions',
     },

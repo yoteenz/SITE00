@@ -4,6 +4,7 @@
  */
 
 import type { PageConceptGenerationEligibility } from './pageConceptGenerationEligibility.js';
+import { buildFounderErrorPresentation } from './pageConceptFounderReviewPresentation.js';
 
 export const PAGE_CONCEPT_GENERIC_NOT_READY_HEADLINE = 'BLOCKED · GENERATION REQUIREMENTS NOT READY';
 
@@ -73,7 +74,18 @@ export function buildPageConceptFounderNotice(notice: string, timestamp?: string
   };
 }
 
-/** Drop obsolete capture-eligibility gate copy when canonical validation says both captures are ready. */
+export type PageConceptFounderNoticeDisplay = {
+  headline: string;
+  hint: string | null;
+  technicalCode: string | null;
+};
+
+/** Founder-primary error copy; raw codes remain in technicalCode. */
+export function pageConceptFounderNoticeDisplay(notice: string): PageConceptFounderNoticeDisplay {
+  const p = buildFounderErrorPresentation(notice);
+  return { headline: p.headline, hint: p.hint, technicalCode: p.technicalCode };
+}
+
 export function sanitizePageConceptFounderNotice(input: {
   notice: string | null | undefined;
   sourceCapturesReady: boolean;
