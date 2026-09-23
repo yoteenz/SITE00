@@ -156,10 +156,6 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
     expect(pkg.prompt).not.toContain('CGPT + GPT2 HANDOFF PAYLOAD');
     expect(pkg.prompt.length).toBeGreaterThan(1500);
     expect(pkg.prompt.length).toBeLessThan(18_000);
-    if (process.env.SITE00_LOG_GPT2_PROMPT_CHARS === '1') {
-      // eslint-disable-next-line no-console
-      console.log('NEW_PROMPT_CHAR_COUNT', pkg.prompt.length);
-    }
   });
 
   it('validateCompiledProviderPrompt rejects prompts over safe ceiling', () => {

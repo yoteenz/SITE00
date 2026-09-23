@@ -11478,3 +11478,15 @@ GPT2 mobile concepts were NDXBOOK-on-brand but structurally poster-like — CGPT
 - **UI:** Technical details include `pageArchitectureDebugLines`.
 - **Tests:** `p0vrPageConceptCgptPageArchitectureHandoff1.test.ts`.
 - **Branch:** `cursor/page-concept-cgpt-page-architecture-handoff1-b747`.
+
+---
+
+## 2026-09-23 — P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1
+
+GPT Image 2 `/edit` rejected GPT2 mobile dispatch: **String should have at most 32000 characters** — v3 architecture handoff + raw JSON authority payload duplicated contracts in provider prompt.
+
+- **`pageConceptGpt2MobileProviderPromptCompiler.ts`:** `compileGpt2MobileProviderPrompt()` — deterministic compact sections (role, PAGE REGIONS, NAVIGATION, REQUIRED, VISUAL SYSTEM, creative direction, bottom continuity, AVOID, OUTPUT FORMAT + territory delta). `MAX_PROVIDER_PROMPT_CHARS=24000`; pre-dispatch `validateCompiledProviderPrompt()`; compression pass; lineage `compiledPromptVersion` / hash / char count + source contract ids. Error `GPT2_PROVIDER_PROMPT_TOO_LONG`.
+- **Request package:** provider gets compiled prompt only — no `CGPT + GPT2 HANDOFF PAYLOAD` JSON dump; full contracts remain in pipeline storage.
+- **Debug:** Technical details show provider prompt version, char count, safe limit, hash, source contract ids; overlay preview excerpt.
+- **Tests:** `p0vrGpt2MobileProviderPromptCompaction1.test.ts` (NDXBOOK overview ~4569 chars vs prior >32k failure path).
+- **Branch:** `cursor/gpt2-prompt-compaction-compiler1-b747`.
