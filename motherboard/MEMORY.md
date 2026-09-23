@@ -11579,3 +11579,13 @@ Replaced GPT2 mobile Fal reference package with **GPT2_FUNCTIONAL_REFERENCE_PACK
 New **`ScreenshotFunctionalPageMap`** layer between Page Architecture Brief and GPT2: **`interpretScreenshotFunctionality()`** enriches from implementation registry + Page System Review + architecture regions (top/middle/bottom capture roles). **`validateScreenshotFunctionMapForGpt2Dispatch()`** blocks GPT2 with `SCREENSHOT_FUNCTION_MAP_INCOMPLETE` when critical context missing. Provider prompt compiles **`compileGpt2MobileScreenshotFunctionBlock()`** (v6-screenshot-function-map). Pipeline stores map on `pipelineSet.screenshotFunctionalPageMap`; debug receipt + functional fidelity scorecard; Concept Inspector shows FUNCTIONAL SOURCE / regions / bottom nav lock. Source fingerprint invalidates stale maps on capture/architecture change.
 
 **Branch:** `cursor/screenshot-function-map-intelligence-layer1-b747`. **Railway** + **GoDaddy v640** after merge.
+
+---
+
+## 2026-09-23 — Fix screenshotFunctionalPageMap TDZ in GPT2 mobile progress
+
+CI failed with **`ReferenceError: Cannot access 'screenshotFunctionalPageMap' before initialization`** in `executePageConceptCanonicalMobileStage.ts` because `onSlotUpdate` closed over the destructured `screenshotFunctionalPageMap` while `executePageConceptGpt2MobileConcepts` was still awaiting (callback runs mid-await → temporal dead zone).
+
+- **Fix:** Include `screenshotFunctionalPageMap: sharedFunctionMap` on each `onSlotUpdate` payload; canonical stage uses `payload.screenshotFunctionalPageMap` for progress `pipelineSet`.
+- **Tests:** `p0vrCgptGpt2HandoffMobileTripleConcept1`, `p0vrDesignPageConceptPipelineWiring1`, `p0vrPageFamilySkinBehaviorContract1` pass.
+- **Branch:** `cursor/fix-screenshot-function-map-tdz-b747`. **Railway** redeploy API after merge (API-only; no new GoDaddy ZIP required).

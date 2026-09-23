@@ -450,7 +450,11 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
   forceRegenerateSlots?: readonly PageMobileConceptSlotId[] | null;
   artifactIdForSlot?: (slot: PageMobileConceptSlotId) => string;
-  onSlotUpdate?: (payload: { jobs: PageConceptGeneratedArtifact[]; mobileConcepts: PageGpt2MobileConcept[] }) => void;
+  onSlotUpdate?: (payload: {
+    jobs: PageConceptGeneratedArtifact[];
+    mobileConcepts: PageGpt2MobileConcept[];
+    screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
+  }) => void;
 }): Promise<Gpt2MobileConceptsResult> {
   const jobs: PageConceptGeneratedArtifact[] = [];
   const mobileConcepts: PageGpt2MobileConcept[] = [];
@@ -526,7 +530,11 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     }
     mobileConcepts.push(entry.value.concept);
     jobs.push(entry.value.job);
-    input.onSlotUpdate?.({ jobs: [...jobs], mobileConcepts: [...mobileConcepts] });
+    input.onSlotUpdate?.({
+      jobs: [...jobs],
+      mobileConcepts: [...mobileConcepts],
+      screenshotFunctionalPageMap: sharedFunctionMap,
+    });
   }
 
   const partialFailure = jobs.some((j) => j.status === 'FAILED') && jobs.some((j) => j.status === 'READY');
