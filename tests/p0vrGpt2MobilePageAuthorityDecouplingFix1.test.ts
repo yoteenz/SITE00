@@ -13,7 +13,6 @@ import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
   PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES,
   PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
-  PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS,
   assertGpt2MobilePackageNotNbpPath,
   gpt2MobileConceptRenditionSlot,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
@@ -154,13 +153,15 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
     expect(isGptImage2Model(pkg.inspector.model)).toBe(true);
     expect(pkg.inspector.model).not.toBe(PAGE_NBP_MODEL);
     expect(pkg.prompt).toMatch(/NOT NBP/i);
-    expect(pkg.prompt).toMatch(/WEBSITE PAGE AUTHORITY/i);
-    expect(pkg.prompt).toMatch(/PAGE ARCHITECTURE BRIEF/i);
-    expect(pkg.prompt).toMatch(/SITE 00.*PROJECTS > DESIGN/i);
+    expect(pkg.prompt).toMatch(/Design ONE real mobile website page concept/i);
+    expect(pkg.prompt).toMatch(/PAGE REGIONS/i);
+    expect(pkg.prompt).toMatch(/SITE 00/i);
+    expect(pkg.prompt.length).toBeLessThan(24000);
+    expect(pkg.inspector.compiledProviderPrompt.compiledPromptCharCount).toBeLessThan(24000);
     expect(pkg.prompt).toMatch(/bottom continuity/i);
-    for (const req of PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS) {
-      expect(pkg.prompt).toContain(req.slice(0, 20));
-    }
+    expect(pkg.prompt).toMatch(/interactable regions/i);
+    expect(pkg.prompt).toMatch(/functional navigation/i);
+    expect(pkg.prompt).toMatch(/OUTPUT FORMAT/i);
     for (const forbidden of PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES.slice(0, 3)) {
       expect(pkg.prompt).toContain(forbidden);
     }
