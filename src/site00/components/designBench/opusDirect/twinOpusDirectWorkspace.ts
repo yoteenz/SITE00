@@ -47,6 +47,7 @@ import {
   buildGpt2ViewportFamilyAuthorityRail,
   isCanonicalGpt2ViewportFamilyPipeline,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
+import { resolvePageConceptArtifactDisplayUrl } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactDisplayUrl.js';
 import { pageConceptCandidateMatchesViewportGallery } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportGalleryScope.js';
 import {
   resolvePageConceptViewportGalleryActions,
@@ -173,13 +174,20 @@ function conceptPreviewSrcForViewport(
   activeViewport: TwinOpusDirectViewportId,
 ): string | null {
   if (!concept) return null;
+  const cacheBust = concept.artifactId ?? concept.conceptId;
   if (activeViewport === 'DESKTOP') {
-    return concept.desktopVisualReference ?? concept.visualReference;
+    return resolvePageConceptArtifactDisplayUrl(
+      concept.desktopVisualReference ?? concept.visualReference,
+      cacheBust,
+    );
   }
   if (activeViewport === 'TABLET') {
-    return concept.visualReference;
+    return resolvePageConceptArtifactDisplayUrl(concept.visualReference, cacheBust);
   }
-  return concept.mobileVisualReference ?? concept.visualReference;
+  return resolvePageConceptArtifactDisplayUrl(
+    concept.mobileVisualReference ?? concept.visualReference,
+    cacheBust,
+  );
 }
 
 function resolveInspectedConceptForViewport(input: {

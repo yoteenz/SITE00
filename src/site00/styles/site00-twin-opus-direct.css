@@ -665,6 +665,12 @@
   object-position: top center;
 }
 
+.tod-hero-compare__img--conceptFill,
+.tod-lv-hero-compare__img--conceptFill {
+  object-fit: cover;
+  object-position: top center;
+}
+
 .tod-hero-compare__empty {
   font-size: 10px;
   letter-spacing: 0.06em;
@@ -1551,7 +1557,8 @@
 
 .tod-gallery .tod-card--concept {
   min-height: 0;
-  height: 104px;
+  height: 118px;
+  flex: 0 0 92px;
 }
 
 .tod-card--history {
@@ -1571,12 +1578,17 @@
 }
 
 .tod-gallery .tod-card__surface--conceptPreview {
-  padding: 22px 4px 4px;
-  gap: 3px;
+  padding: 18px 2px 2px;
+  gap: 2px;
 }
 
 .tod-gallery .tod-card__surface--conceptPreview .s00-pcg__containPreview {
-  max-height: 72px;
+  --pcg-contain-h: 88px;
+  min-height: 88px;
+  max-height: 88px;
+  height: 88px;
+  background: #ececea;
+  border-color: rgba(0, 0, 0, 0.12);
 }
 
 .tod-gallery .tod-card__meta {

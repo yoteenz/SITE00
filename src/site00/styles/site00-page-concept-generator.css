@@ -1909,7 +1909,7 @@
 }
 
 .s00-pcg__containPreview[data-contain-size='thumb'] {
-  --pcg-contain-h: 76px;
+  --pcg-contain-h: 88px;
 }
 
 .s00-pcg__containPreviewLabel {
@@ -1939,6 +1939,19 @@
   height: auto;
   object-fit: contain;
   display: block;
+}
+
+.s00-pcg__containPreview[data-object-fit='cover'] .s00-pcg__containPreviewStage {
+  padding: 0;
+}
+
+.s00-pcg__containPreview[data-object-fit='cover'] .s00-pcg__containPreviewImg {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .s00-pcg__containPreviewSkeleton,

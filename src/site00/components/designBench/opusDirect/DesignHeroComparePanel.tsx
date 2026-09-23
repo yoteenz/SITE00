@@ -118,7 +118,12 @@ export function DesignHeroComparePanel({
             disabled={!compare.conceptSrc}
           >
             {compare.conceptSrc ?
-              <img src={compare.conceptSrc} alt="" className={`${p}__img`} draggable={false} />
+              <img
+                src={compare.conceptSrc}
+                alt=""
+                className={`${p}__img ${p}__img--conceptFill`}
+                draggable={false}
+              />
             : <span className={`${p}__empty`}>{compare.conceptEmptyLabel}</span>}
           </button>
         </div>
