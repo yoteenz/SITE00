@@ -4,6 +4,10 @@ import type { PageConceptGenerationPlan } from './types.js';
 import { evaluatePageConceptReadiness, evaluatePageConceptServerReadiness } from './readiness.js';
 import { PAGE_CONCEPT_TARGET_TYPE } from './constants.js';
 import {
+  SITE00_FAL_REFERENCE_EDIT_MODEL,
+  SITE00_FAL_TEXT_TO_IMAGE_MODEL,
+} from '../../site00-visual-generation/falImageModels.js';
+import {
   pageConceptInitialSpendNote,
   pageConceptLegacyNbpEnabled,
 } from './pageConceptCanonicalPipeline.js';
@@ -12,8 +16,13 @@ export { PAGE_CGPT_SYNTHESIS_PROMPT_VERSION as PAGE_CGPT_PROMPT_VERSION } from '
 export const PAGE_GPT2_PROMPT_VERSION = 'page-concept-gpt2-v1-authority';
 export { PAGE_NBP_PROMPT_VERSION } from './pageConceptNbpAuthorityPolicy.js';
 export const PAGE_NBP_MODEL = 'fal-ai/nano-banana-pro/edit';
-/** GPT2 Step 2 mobile page authority — FAL transport (not NBP rendition stage). */
-export const PAGE_GPT2_MOBILE_FAL_MODEL = 'fal-ai/nano-banana-pro/edit';
+/** GPT2 Step 2 mobile page authority — canonical GPT Image 2 (not NBP / nano-banana). */
+export const PAGE_GPT2_MOBILE_FAL_MODEL = SITE00_FAL_TEXT_TO_IMAGE_MODEL;
+export const PAGE_GPT2_MOBILE_FAL_EDIT_MODEL = SITE00_FAL_REFERENCE_EDIT_MODEL;
+
+export function resolvePageGpt2MobileFalModel(referenceImageCount: number): string {
+  return referenceImageCount > 0 ? PAGE_GPT2_MOBILE_FAL_EDIT_MODEL : PAGE_GPT2_MOBILE_FAL_MODEL;
+}
 
 export function buildPageConceptGenerationPlan(
   projectId: string,

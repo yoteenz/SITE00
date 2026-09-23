@@ -17,7 +17,11 @@ import {
   assertGpt2MobilePackageNotNbpPath,
   gpt2MobileConceptRenditionSlot,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
-import { PAGE_GPT2_MOBILE_FAL_MODEL } from '../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import {
+  PAGE_GPT2_MOBILE_FAL_EDIT_MODEL,
+  PAGE_NBP_MODEL,
+} from '../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { isGptImage2Model } from '../shared/site00-visual-generation/falImageModels.js';
 import {
   buildGpt2MobileSlotPresentations,
   pageConceptCanonicalGpt2MobileActive,
@@ -101,7 +105,9 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
     expect(pkg.inspector.stageContract).toBe('GPT2_MOBILE_PAGE_AUTHORITY');
     expect(pkg.inspector.providerLabel).toBe('GPT2_MOBILE');
     expect(pkg.inspector.captureInfluenceMode).toBe(PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE);
-    expect(pkg.inspector.model).toBe(PAGE_GPT2_MOBILE_FAL_MODEL);
+    expect(pkg.inspector.model).toBe(PAGE_GPT2_MOBILE_FAL_EDIT_MODEL);
+    expect(isGptImage2Model(pkg.inspector.model)).toBe(true);
+    expect(pkg.inspector.model).not.toBe(PAGE_NBP_MODEL);
     expect(pkg.prompt).toMatch(/NOT NBP/i);
     expect(pkg.prompt).toMatch(/WEBSITE PAGE AUTHORITY/i);
     expect(pkg.prompt).toMatch(/bottom continuity/i);

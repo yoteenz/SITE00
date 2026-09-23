@@ -12,7 +12,7 @@ import type {
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import { buildPageConceptGpt2AuthorityPackage } from './pageConceptGpt2AuthorityPackage.js';
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
-import { PAGE_GPT2_MOBILE_FAL_MODEL } from './generationPlan.js';
+import { resolvePageGpt2MobileFalModel } from './generationPlan.js';
 import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
   PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES,
@@ -207,7 +207,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
       currentCaptureRole: 'FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY',
       bottomContinuityApplied: input.bottomContinuityApplied,
       promptVersion: PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
-      model: PAGE_GPT2_MOBILE_FAL_MODEL,
+      model: resolvePageGpt2MobileFalModel(input.bottomContinuityApplied ? 1 : 0),
       territoryDirective,
       territoryLabel,
     },

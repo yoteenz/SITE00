@@ -1,6 +1,7 @@
-import { PAGE_GPT2_MOBILE_FAL_MODEL } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { resolvePageGpt2MobileFalModel } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import type { PageGpt2MobileConceptRequestPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
 import { assertGpt2MobilePackageNotNbpPath } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
+import { buildFalImageInput } from '../../../shared/site00-visual-generation/falImageModels.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
 
 export type PageGpt2MobileConceptRenderInput = {
@@ -61,13 +62,14 @@ export async function renderPageGpt2MobileConceptJob(
     image_urls.push(refUrl);
   }
 
-  const falInput = {
+  const { model, input: falInput } = buildFalImageInput({
     prompt: pkg.prompt,
-    num_images: 1,
-    image_urls,
-  };
+    aspectRatio: '9:16',
+    referenceImageUrls: image_urls,
+    outputFormat: 'png',
+  });
 
-  const result = (await fal.subscribe(PAGE_GPT2_MOBILE_FAL_MODEL, {
+  const result = (await fal.subscribe(model, {
     input: falInput,
     logs: false,
   })) as { request_id?: string; data?: { images?: { url?: string }[] } };
@@ -101,6 +103,6 @@ export async function renderPageGpt2MobileConceptJob(
     providerJobId,
     providerRequestId: providerJobId,
     imageBase64: buf.toString('base64'),
-    model: PAGE_GPT2_MOBILE_FAL_MODEL,
+    model: resolvePageGpt2MobileFalModel(image_urls.length),
   };
 }
