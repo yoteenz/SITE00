@@ -11539,3 +11539,11 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 **Fix:** Labels in `.tod-gallery__filled` above rail; rail `overflow-x: auto`; compact gallery card height; preview shows when `previewSrc` exists; gallery card URLs keep cache-bust key.
 
 **Branch:** `cursor/fix-gallery-mobile-concept-cards-clipped-b747`.
+
+---
+
+## 2026-09-23 — CI: double `artifact=` query on gallery preview URLs
+
+`mapPageConceptToGalleryCard` re-applied cache-bust on URLs already busted in `buildMobileCandidatesFromGenerationJobs` → `?artifact=job-1&artifact=pcga-...`. Reverted redundant gallery map bust; `resolvePageConceptArtifactDisplayUrl` strips existing `artifact` param before applying a new key.
+
+**Branch:** `cursor/fix-ci-artifact-url-double-bust-b747`.
