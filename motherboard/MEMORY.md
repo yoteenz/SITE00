@@ -11446,3 +11446,14 @@ Founder stuck on previous GPT2 mobile review: modal GENERATE disabled (`GPT2_MOB
 - **Fix:** `resolvePageConceptNewGenerationConfirmAction` fallback spend confirm; hook uses `confirmNewGenerationSpend()`.
 - **FAL:** Browser does not call Fal directly — signed-in SPA → `api.site00.com` → Railway `FAL_KEY` for GPT2 mobile image jobs.
 - **Branch:** `cursor/fix-new-generation-confirm-mobile-review-b747`.
+
+---
+
+## 2026-09-23 — CGPT stage hang (no GPT2 mobile concepts)
+
+Founder on site00.com: generator rail stuck **CGPT RUNNING** with brief digest visible; GPT2 **LOCKED UNTIL CGPT**; no mobile concept images.
+
+- **Root cause:** Railway default `pageConceptCgptQaStopAfterCgpt()` was **on** (env unset ≠ `false`) → run stopped at `CGPT_AWAITING_FOUNDER_REVIEW` without auto GPT2. Client **cleared active server run id** after poll and did not chain `continueGpt2AfterCgptReview`; UI could stay **CGPT_RUNNING** while substeps/brief showed progress.
+- **Fix:** QA stop **opt-in** (`SITE00_PAGE_CONCEPT_CGPT_QA_STOP=true` only). Canonical generate dispatch **auto-chains** GPT2 when QA gate still fires; preserve run session on CGPT review; poll treats `CGPT_AWAITING_FOUNDER_REVIEW` as terminal.
+- **Deploy:** Frontend ZIP + **Railway API redeploy** (server behavior change).
+- **Branch:** `cursor/fix-cgpt-auto-gpt2-progression-b747`.
