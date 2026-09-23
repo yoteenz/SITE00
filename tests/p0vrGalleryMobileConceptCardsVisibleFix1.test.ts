@@ -47,7 +47,8 @@ describe('P0.VR.GALLERY-MOBILE-CONCEPT-CARDS-VISIBLE-FIX1', () => {
     };
     void buildPageConceptGallerySections;
     const card = mapPageConceptToGalleryCard(candidate, null);
-    expect(card.previewSrc).toContain('page-concept-artifacts');
-    expect(card.previewSrc).toContain('artifact=art-a');
+    expect(card.previewSrc).toBe(
+      'https://site00.com/api/page-concept-artifacts/ndxbook/a.png',
+    );
   });
 });
