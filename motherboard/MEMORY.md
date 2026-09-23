@@ -11490,3 +11490,16 @@ GPT Image 2 `/edit` rejected GPT2 mobile dispatch: **String should have at most 
 - **Debug:** Technical details show provider prompt version, char count, safe limit, hash, source contract ids; overlay preview excerpt.
 - **Tests:** `p0vrGpt2MobileProviderPromptCompaction1.test.ts` (NDXBOOK overview ~4569 chars vs prior >32k failure path).
 - **Branch:** `cursor/gpt2-prompt-compaction-compiler1-b747`.
+
+---
+
+## 2026-09-23 — P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1
+
+GPT2 mobile Fal jobs showed tiny input previews (~390×186) and over-indexed on continuity/support imagery — only bottom strip was attached, not full page capture.
+
+- **`pageConceptGpt2MobileReferenceAuthority.ts`:** explicit roles `FUNCTIONAL_PAGE_REFERENCE`, `CONTINUITY_REFERENCE`, optional `CREATIVE_SUPPORT_REFERENCE`; probe dimensions from capture bytes; block `GPT2_FUNCTIONAL_REFERENCE_TOO_SMALL`; provider order Image A→B→C.
+- **Dispatch:** `renderPageGpt2MobileConceptJob` uploads full functional page + continuity strip (edit model, portrait_16_9 output size).
+- **Prompt compiler v2-dual-reference:** IMAGE ROLE DEFINITIONS, structure vs style split, screenshot mimicry guard, full-frame output wording.
+- **Debug:** reference asset ids, paths, dimensions, image role summary in technical details + overlay.
+- **Tests:** `p0vrGpt2MobileDualReferenceAuthorityWiringFix1.test.ts`.
+- **Branch:** `cursor/gpt2-mobile-dual-reference-authority-wiring-fix1-b747`.

@@ -17,6 +17,8 @@ import {
   compileGpt2MobileProviderPrompt,
   type Gpt2MobileCompiledProviderPrompt,
 } from './pageConceptGpt2MobileProviderPromptCompiler.js';
+import type { Gpt2MobileProviderReferenceBundle } from './pageConceptGpt2MobileReferenceAuthority.js';
+import { orderedProviderReferenceAssets } from './pageConceptGpt2MobileReferenceAuthority.js';
 import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
   PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
@@ -31,7 +33,9 @@ export {
 
 export type PageGpt2MobileConceptRequestPackage = {
   prompt: string;
+  /** @deprecated use providerReferences */
   bottomContinuityCaptureBase64: string;
+  providerReferences: Gpt2MobileProviderReferenceBundle;
   lineage: {
     runId: string;
     conceptSlot: PageMobileConceptSlotId;
@@ -44,13 +48,14 @@ export type PageGpt2MobileConceptRequestPackage = {
     stageContract: 'GPT2_MOBILE_PAGE_AUTHORITY';
     providerLabel: 'GPT2_MOBILE';
     captureInfluenceMode: typeof PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE;
-    currentCaptureRole: 'FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY';
+    currentCaptureRole: 'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY';
     bottomContinuityApplied: boolean;
     promptVersion: string;
     model: string;
     territoryDirective: string;
     territoryLabel: string;
     compiledProviderPrompt: Gpt2MobileCompiledProviderPrompt;
+    providerImageRoleSummary: string;
   };
 };
 
@@ -106,8 +111,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   cgptBrief: PageConceptCgptCreativeBrief | null;
   pageArchitectureBrief: PageConceptPageArchitectureBrief | null;
   skinContract: ProjectSkinContract;
-  bottomContinuityCaptureBase64: string;
-  bottomContinuityApplied: boolean;
+  providerReferences: Gpt2MobileProviderReferenceBundle;
   pageContextSummary: string;
   mobileViewport: { width: number; height: number };
 }): PageGpt2MobileConceptRequestPackage {
@@ -117,6 +121,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     brief: input.cgptBrief,
   });
   const territoryLabel = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
+  const bottomContinuityApplied = Boolean(input.providerReferences.continuity);
 
   const compiledProviderPrompt = compileGpt2MobileProviderPrompt({
     slot: input.slot,
@@ -126,14 +131,18 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     functionContract: input.functionContract,
     pageContext: input.pageContext,
     injection: input.injection,
-    bottomContinuityApplied: input.bottomContinuityApplied,
+    bottomContinuityApplied,
     mobileViewport: input.mobileViewport,
+    referenceImageRoleSummary: input.providerReferences.imageRoleSummary,
+    creativeSupportAttached: Boolean(input.providerReferences.creativeSupport),
   });
   const prompt = compiledProviderPrompt.prompt;
+  const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);
 
   const pkg: PageGpt2MobileConceptRequestPackage = {
     prompt,
-    bottomContinuityCaptureBase64: input.bottomContinuityCaptureBase64,
+    bottomContinuityCaptureBase64: input.providerReferences.continuity?.base64 ?? '',
+    providerReferences: input.providerReferences,
     lineage: {
       runId: input.runId,
       conceptSlot: input.slot,
@@ -146,13 +155,14 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
       stageContract: 'GPT2_MOBILE_PAGE_AUTHORITY',
       providerLabel: 'GPT2_MOBILE',
       captureInfluenceMode: PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
-      currentCaptureRole: 'FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY',
-      bottomContinuityApplied: input.bottomContinuityApplied,
+      currentCaptureRole: 'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY',
+      bottomContinuityApplied,
       promptVersion: PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
-      model: resolvePageGpt2MobileFalModel(input.bottomContinuityApplied ? 1 : 0),
+      model: resolvePageGpt2MobileFalModel(referenceAssets.length),
       territoryDirective,
       territoryLabel,
       compiledProviderPrompt,
+      providerImageRoleSummary: input.providerReferences.imageRoleSummary,
     },
   };
 

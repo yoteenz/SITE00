@@ -291,6 +291,10 @@ export function PageConceptGenerationOverlay({
           ]
         : []),
         ...(previewLine ? [previewLine] : []),
+        ...(d.providerImageRoleSummary ? [`IMAGE ROLES: ${d.providerImageRoleSummary}`] : []),
+        ...(d.providerReferenceInputs ?? []).map(
+          (ref) => `${ref.role}: ${ref.assetId} · ${ref.width}×${ref.height}`,
+        ),
         ...archLines,
       ];
     });

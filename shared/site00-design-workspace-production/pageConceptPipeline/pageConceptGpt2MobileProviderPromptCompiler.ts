@@ -13,7 +13,7 @@ import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import { PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES } from './pageConceptGpt2MobilePageAuthority.js';
 
-export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v1-compiled';
+export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v2-dual-reference';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -31,6 +31,8 @@ export type Gpt2MobileProviderPromptCompileInput = {
   injection: PageCreativeInjection;
   bottomContinuityApplied: boolean;
   mobileViewport: { width: number; height: number };
+  referenceImageRoleSummary?: string;
+  creativeSupportAttached?: boolean;
 };
 
 export type Gpt2MobileCompiledProviderPrompt = {
@@ -175,6 +177,28 @@ export function compactGpt2MobileTerritoryDelta(input: {
   ].join(' ');
 }
 
+function buildImageRoleDefinitions(input: Gpt2MobileProviderPromptCompileInput): string {
+  const imageCLine =
+    input.creativeSupportAttached ?
+      'Image C (CREATIVE_SUPPORT_REFERENCE): optional editorial / evidence tone reference — influences aesthetic expression only, NOT page layout or navigation structure.'
+    : 'Image C (CREATIVE_SUPPORT_REFERENCE): not attached for this run.';
+  return [
+    'IMAGE ROLE DEFINITIONS (provider attachments — fixed order):',
+    'Image A (FUNCTIONAL_PAGE_REFERENCE): real NDXBOOK Overview page screenshot/capture. Use to understand functional structure, content zones, navigation placement, shell context, and layout logic. Do NOT copy it literally — preserve recognizable mobile product page architecture.',
+    'Image B (CONTINUITY_REFERENCE): bottom host / SITE 00 continuity anchor ONLY. Preserve recognizable continuity in the lower shell region. Do NOT let this strip dictate hero, body, or full-page composition.',
+    imageCLine,
+    '',
+    'STRUCTURE AUTHORITY: Image A + PAGE REGIONS + architecture contract.',
+    'STYLE AUTHORITY: VISUAL SYSTEM + CREATIVE DIRECTION + territory + Image C (when present).',
+    '',
+    'USE SCREENSHOT FOR: structure, hierarchy, zones, continuity placement logic, navigation placement, page validity.',
+    'DO NOT USE SCREENSHOT FOR: literal screenshot recreation, cloning current aesthetics, raster copy of implementation, postage-stamp crop mimicry.',
+    input.referenceImageRoleSummary ? `ATTACHED SUMMARY: ${input.referenceImageRoleSummary}` : '',
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
 function buildRoleHeader(arch: PageConceptPageArchitectureBrief, viewport: { width: number; height: number }): string {
   const id = arch.pageIdentity;
   return [
@@ -211,34 +235,38 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
   const baseSections = [
     buildRoleHeader(arch, input.mobileViewport),
     '',
+    buildImageRoleDefinitions(input),
+    '',
+    'PAGE ARCHITECTURE / LAYOUT AUTHORITY:',
+    'Full mobile website page — SITE 00 host shell, project route context, NDXBOOK Overview identity, hero/overview read, status/orientation block, entry index navigation, evidence/content field, current work / deeper access, bottom continuity shell region.',
+    '',
     'PAGE REGIONS:',
     compactPageRegions(arch),
     '',
-    'NAVIGATION:',
+    'NAVIGATION / CONTINUITY:',
     compactNavigation(arch),
+    input.bottomContinuityApplied ?
+      'Bottom continuity: Image B anchors lower host shell only — keep navigation continuity recognizable.'
+    : 'Bottom continuity: infer from host rules; still show bottom handoff region.',
     '',
-    'REQUIRED:',
+    'REQUIRED PAGE CONTENT:',
     compactRequiredContent(arch),
     '',
-    'VISUAL SYSTEM:',
+    'VISUAL SYSTEM / BRAND LANGUAGE:',
     compactSkin(input.skinContract),
     '',
-    'CREATIVE DIRECTION:',
+    'CREATIVE DIRECTION (style — not structure):',
     compactCreativeDirection(input.cgptBrief, input.injection),
     '',
-    'BOTTOM CONTINUITY:',
-    input.bottomContinuityApplied ?
-      'Use supplied image ONLY as bottom SITE 00 continuity anchor. Do not derive hero/body from it. Preserve recognizable shell continuity in bottom region.'
-    : 'No continuity image — infer shell continuity from host rules + skin; still show bottom handoff region.',
-    '',
-    'CAPTURE:',
-    'Current implementation screenshot is FUNCTIONAL CONTEXT ONLY (modules, obligations) — NOT visual layout authority.',
+    'HARD DO / DO NOT:',
+    'DO: one coherent portrait mobile product page; legible type; interactable regions; scroll narrative; architecture from Image A + contracts.',
+    'DO NOT: poster, moodboard tile, flyer, cropped fragment, brand board, screenshot clone, design-only-from-support-images.',
     '',
     'AVOID:',
     compactAvoidList(input.cgptBrief, input.injection, input.skinContract),
     '',
     'OUTPUT FORMAT:',
-    'One portrait mobile page concept frame — readable page structure, interactable regions, scroll narrative, twin-pipeline ready.',
+    'One full portrait mobile viewport page concept (9:16) — design fills the frame edge-to-edge with readable hierarchy; no tiny concept floating in whitespace; no postage-stamp render.',
   ];
 
   return { basePrompt: baseSections.join('\n'), territoryDelta };
@@ -304,7 +332,8 @@ export function validateCompiledProviderPrompt(prompt: string): CompiledProvider
   if (!lower.includes('page regions')) missingSections.push('architecture');
   if (!lower.includes('navigation')) missingSections.push('navigation');
   if (!lower.includes('visual system')) missingSections.push('skin');
-  if (!lower.includes('bottom continuity')) missingSections.push('continuity');
+  if (!lower.includes('continuity')) missingSections.push('continuity');
+  if (!lower.includes('image role definitions')) missingSections.push('imageRoles');
   if (!lower.includes('output format')) missingSections.push('outputFormat');
   if (!lower.includes('site 00') && !lower.includes('role:')) missingSections.push('pageIdentity');
 

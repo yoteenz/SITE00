@@ -5,10 +5,10 @@
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptRenditionSlotId } from './types.js';
 
-export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v3-arch-handoff';
+export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v4-dual-reference';
 
 export const PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE =
-  'FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY' as const;
+  'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY' as const;
 
 export type PageGpt2MobileCaptureInfluenceMode = typeof PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE;
 
@@ -55,6 +55,14 @@ export type PageGpt2MobileArtifactDebug = {
   compiledPromptCharCount?: number;
   providerPromptSafeLimit?: number;
   compiledProviderPromptPreview?: string;
+  providerReferenceInputs?: readonly {
+    role: string;
+    assetId: string;
+    sourcePath: string;
+    width: number;
+    height: number;
+  }[];
+  providerImageRoleSummary?: string;
 };
 
 export const PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS = [
@@ -115,6 +123,14 @@ export function buildGpt2MobileArtifactDebug(input: {
   compiledPromptCharCount?: number;
   providerPromptSafeLimit?: number;
   compiledProviderPromptPreview?: string;
+  providerReferenceInputs?: readonly {
+    role: string;
+    assetId: string;
+    sourcePath: string;
+    width: number;
+    height: number;
+  }[];
+  providerImageRoleSummary?: string;
 }): PageGpt2MobileArtifactDebug {
   return {
     stage: 'GPT2_MOBILE_PAGE_CONCEPT',
@@ -144,5 +160,7 @@ export function buildGpt2MobileArtifactDebug(input: {
     compiledPromptCharCount: input.compiledPromptCharCount,
     providerPromptSafeLimit: input.providerPromptSafeLimit,
     compiledProviderPromptPreview: input.compiledProviderPromptPreview,
+    providerReferenceInputs: input.providerReferenceInputs,
+    providerImageRoleSummary: input.providerImageRoleSummary,
   };
 }
