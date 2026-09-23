@@ -11,6 +11,8 @@ import { compileProjectCreativeContext, compilePageCreativeContext } from '../sh
 import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
 import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { compileProjectSkinContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
+import { buildScreenshotFunctionalPageMapForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
+import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 import {
   COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION,
   MAX_PROVIDER_PROMPT_CHARS,
@@ -96,6 +98,14 @@ describe('P0.VR.GPT2-MOBILE-CONCEPT-DISTINCTION-AND-FUNCTIONAL-CONTINUITY-FIX1',
       cgptCreativeBrief: cgptBrief,
     });
     const skin = compileProjectSkinContract(PROJECT);
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'distinction-1',
+      providerReferenceBundle: mockGpt2MobileProviderReferenceBundleForTest(),
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const compiled = compileGpt2MobileProviderPrompt({
       slot: 'MOBILE_CONCEPT_A',
       cgptBrief,
@@ -107,6 +117,7 @@ describe('P0.VR.GPT2-MOBILE-CONCEPT-DISTINCTION-AND-FUNCTIONAL-CONTINUITY-FIX1',
       bottomContinuityApplied: true,
       mobileViewport: { width: 390, height: 844 },
       referenceImageRoleSummary: 'Image A 390×844 · Image B continuity',
+      screenshotFunctionalPageMap,
     });
     expect(compiled.compiledPromptVersion).toBe(COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION);
     expect(compiled.compiledPromptCharCount).toBeLessThan(MAX_PROVIDER_PROMPT_CHARS);
@@ -138,6 +149,14 @@ describe('P0.VR.GPT2-MOBILE-CONCEPT-DISTINCTION-AND-FUNCTIONAL-CONTINUITY-FIX1',
       cgptCreativeBrief: cgptBrief,
     });
     const skin = compileProjectSkinContract(PROJECT);
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'distinction-2',
+      providerReferenceBundle: mockGpt2MobileProviderReferenceBundleForTest(),
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const baseInput = {
       cgptBrief,
       pageArchitectureBrief: arch,
@@ -147,6 +166,7 @@ describe('P0.VR.GPT2-MOBILE-CONCEPT-DISTINCTION-AND-FUNCTIONAL-CONTINUITY-FIX1',
       injection,
       bottomContinuityApplied: true,
       mobileViewport: { width: 390, height: 844 },
+      screenshotFunctionalPageMap,
     };
     const compiled = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) =>
       compileGpt2MobileProviderPrompt({ ...baseInput, slot }),

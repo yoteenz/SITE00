@@ -71,6 +71,14 @@ export type PageGpt2MobileArtifactDebug = {
   bottomNavInherited?: boolean;
   bottomContinuityLockActive?: boolean;
   bottomNavContinuityValidationPass?: boolean;
+  screenshotFunctionMapId?: string;
+  screenshotFunctionMapPresent?: boolean;
+  regionsPreservedLabel?: string;
+  interactionsPreservedLabel?: string;
+  bottomNavLockedToSource?: boolean;
+  designAuthorityLabel?: string;
+  screenshotDesignAuthority?: 'NO' | 'YES';
+  functionalFidelityOverall?: 'PASS' | 'FAIL';
   sourceAuthorityManifest?: {
     capturePackageVersion?: string;
     screenshotAuthorityMode?: string;
@@ -160,6 +168,14 @@ export function buildGpt2MobileArtifactDebug(input: {
   bottomContinuityLockActive?: boolean;
   bottomNavContinuityValidationPass?: boolean;
   sourceAuthorityManifest?: PageGpt2MobileArtifactDebug['sourceAuthorityManifest'];
+  screenshotFunctionMapId?: string;
+  screenshotFunctionMapPresent?: boolean;
+  regionsPreservedLabel?: string;
+  interactionsPreservedLabel?: string;
+  bottomNavLockedToSource?: boolean;
+  designAuthorityLabel?: string;
+  screenshotDesignAuthority?: 'NO' | 'YES';
+  functionalFidelityOverall?: 'PASS' | 'FAIL';
 }): PageGpt2MobileArtifactDebug {
   return {
     stage: 'GPT2_MOBILE_PAGE_CONCEPT',
@@ -200,5 +216,13 @@ export function buildGpt2MobileArtifactDebug(input: {
     bottomContinuityLockActive: input.bottomContinuityLockActive,
     bottomNavContinuityValidationPass: input.bottomNavContinuityValidationPass,
     sourceAuthorityManifest: input.sourceAuthorityManifest,
+    screenshotFunctionMapId: input.screenshotFunctionMapId,
+    screenshotFunctionMapPresent: input.screenshotFunctionMapPresent,
+    regionsPreservedLabel: input.regionsPreservedLabel,
+    interactionsPreservedLabel: input.interactionsPreservedLabel,
+    bottomNavLockedToSource: input.bottomNavLockedToSource,
+    designAuthorityLabel: input.designAuthorityLabel,
+    screenshotDesignAuthority: input.screenshotDesignAuthority,
+    functionalFidelityOverall: input.functionalFidelityOverall,
   };
 }

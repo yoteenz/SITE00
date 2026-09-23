@@ -18,6 +18,7 @@ import {
   type Gpt2MobileCompiledProviderPrompt,
 } from './pageConceptGpt2MobileProviderPromptCompiler.js';
 import type { Gpt2MobileProviderReferenceBundle } from './pageConceptGpt2MobileReferenceAuthority.js';
+import type { ScreenshotFunctionalPageMap } from './pageConceptScreenshotFunctionalPageMap.js';
 import { orderedProviderReferenceAssets } from './pageConceptGpt2MobileReferenceAuthority.js';
 import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
@@ -112,9 +113,13 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   pageArchitectureBrief: PageConceptPageArchitectureBrief | null;
   skinContract: ProjectSkinContract;
   providerReferences: Gpt2MobileProviderReferenceBundle;
+  screenshotFunctionalPageMap: ScreenshotFunctionalPageMap;
   pageContextSummary: string;
   mobileViewport: { width: number; height: number };
 }): PageGpt2MobileConceptRequestPackage {
+  if (!input.screenshotFunctionalPageMap) {
+    throw new Error('SCREENSHOT_FUNCTION_MAP_INCOMPLETE: map required before GPT2 package build');
+  }
   const territoryDirective = mobileConceptTerritoryDirective({
     slot: input.slot,
     injection: input.injection,
@@ -146,6 +151,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     mobileViewport: input.mobileViewport,
     referenceImageRoleSummary: input.providerReferences.imageRoleSummary,
     creativeSupportAttached: false,
+    screenshotFunctionalPageMap: input.screenshotFunctionalPageMap,
   });
   const prompt = compiledProviderPrompt.prompt;
   const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);

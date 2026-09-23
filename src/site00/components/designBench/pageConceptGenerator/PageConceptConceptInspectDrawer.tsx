@@ -63,6 +63,32 @@ export function PageConceptConceptInspectDrawer({
               </dd>
             </div>
             <div>
+              <dt>FUNCTIONAL SOURCE</dt>
+              <dd data-testid="concept-inspect-functional-source">
+                {meta?.screenshotFunctionMapPresent ? 'PAGE FUNCTION MAP PRESENT' : '—'}
+              </dd>
+            </div>
+            <div>
+              <dt>REGIONS PRESERVED</dt>
+              <dd>{meta?.regionsPreservedLabel ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>INTERACTIONS PRESERVED</dt>
+              <dd>{meta?.interactionsPreservedLabel ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>BOTTOM NAV</dt>
+              <dd>{meta?.bottomNavLockedToSource ? 'LOCKED TO SOURCE' : '—'}</dd>
+            </div>
+            <div>
+              <dt>DESIGN AUTHORITY</dt>
+              <dd>{meta?.designAuthorityLabel ?? 'CGPT + SKINS'}</dd>
+            </div>
+            <div>
+              <dt>SCREENSHOT DESIGN AUTHORITY</dt>
+              <dd>{meta?.screenshotDesignAuthority ?? 'NO'}</dd>
+            </div>
+            <div>
               <dt>SCREENSHOT OVERREACH</dt>
               <dd>{overreach}</dd>
             </div>

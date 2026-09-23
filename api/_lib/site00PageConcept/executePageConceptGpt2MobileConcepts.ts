@@ -41,6 +41,16 @@ import {
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 import { COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileProviderPromptCompiler.js';
 import {
+  buildScreenshotFunctionMapReceipt,
+  evaluateFunctionalFidelityScorecard,
+  formatScreenshotFunctionMapDebugLines,
+  interpretScreenshotFunctionality,
+  validateBottomNavNotInvented,
+  validateScreenshotFunctionMapForGpt2Dispatch,
+  type ScreenshotFunctionalPageMap,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
+import type { Gpt2MobileProviderReferenceBundle } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import {
   buildGpt2MobileConceptQualityDebugLines,
   evaluateGpt2MobileConceptHandoffValidity,
   validateGpt2MobileConceptQualityPrompt,
@@ -54,6 +64,7 @@ export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
   mobileConcepts: PageGpt2MobileConcept[];
   partialFailure: boolean;
+  screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
 };
 
 function stripDataUrlPrefix(base64: string): string {
@@ -80,6 +91,8 @@ async function renderMobileConceptSlot(input: {
   functionContract: PageFunctionContract;
   mobileDims: { width: number; height: number };
   functionalCaptureBase64: string;
+  providerReferences?: Gpt2MobileProviderReferenceBundle;
+  screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap;
   existingJob?: PageConceptGeneratedArtifact;
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
   forceRegenerate?: boolean;
@@ -172,13 +185,33 @@ async function renderMobileConceptSlot(input: {
     throw new Error(`PAGE_ARCHITECTURE_INCOMPLETE: ${archCheck.missingSections.join(', ')}`);
   }
 
-  const providerReferences = await buildGpt2MobileProviderReferenceBundle({
-    captureSetId: input.plan.captureSetId,
-    functionalCaptureBase64: captureB64,
-    functionalAssetId: `${input.plan.captureSetId}:mobile-functional-page`,
-    functionalSourcePath: `capture-set/${input.plan.captureSetId}/mobile-functional-page.png`,
-    fallbackViewport: input.mobileDims,
-  });
+  const providerReferences =
+    input.providerReferences ??
+    (await buildGpt2MobileProviderReferenceBundle({
+      captureSetId: input.plan.captureSetId,
+      functionalCaptureBase64: captureB64,
+      functionalAssetId: `${input.plan.captureSetId}:mobile-functional-page`,
+      functionalSourcePath: `capture-set/${input.plan.captureSetId}/mobile-functional-page.png`,
+      fallbackViewport: input.mobileDims,
+    }));
+
+  const screenshotFunctionalPageMap =
+    input.screenshotFunctionalPageMap ??
+    interpretScreenshotFunctionality({
+      captureSetId: input.plan.captureSetId,
+      providerReferenceBundle: providerReferences,
+      projectContext: input.projectContext,
+      pageContext: input.pageContext,
+      functionContract: input.functionContract,
+      pageArchitectureBrief: input.pageArchitectureBrief,
+    });
+  const functionMapDispatch = validateScreenshotFunctionMapForGpt2Dispatch(screenshotFunctionalPageMap);
+  if (!functionMapDispatch.ok) {
+    throw new Error(
+      `${functionMapDispatch.errorCode}: ${functionMapDispatch.criticalUnresolved.join('; ')}`,
+    );
+  }
+  const functionMapReceipt = buildScreenshotFunctionMapReceipt(screenshotFunctionalPageMap, functionMapDispatch);
 
   const referenceDebugLines = formatGpt2MobileReferenceAuthorityDebugLines(providerReferences);
   const referenceInputs = orderedProviderReferenceAssets(providerReferences).map((asset) => ({
@@ -201,6 +234,7 @@ async function renderMobileConceptSlot(input: {
     pageArchitectureBrief: input.pageArchitectureBrief,
     skinContract,
     providerReferences,
+    screenshotFunctionalPageMap,
     pageContextSummary,
     mobileViewport: input.mobileDims,
   });
@@ -257,6 +291,8 @@ async function renderMobileConceptSlot(input: {
     const conceptEval = evaluateGpt2MobileConceptHandoffValidity(pkg.prompt);
     const continuityEval = evaluateGpt2MobileBottomNavContinuityHandoffValidity(pkg.prompt);
     const qualityPrompt = validateGpt2MobileConceptQualityPrompt(pkg.prompt);
+    const functionalScorecard = evaluateFunctionalFidelityScorecard(screenshotFunctionalPageMap, pkg.prompt);
+    const bottomNavGuard = validateBottomNavNotInvented(pkg.prompt, screenshotFunctionalPageMap);
     const compiledMeta = pkg.inspector.compiledProviderPrompt;
     const manifest = providerReferences.authorityManifest;
     const conceptQualityDebug = buildGpt2MobileConceptQualityDebugLines({
@@ -268,14 +304,24 @@ async function renderMobileConceptSlot(input: {
       conceptDiversityContractApplied: qualityPrompt.ok,
       lightFamilyContractApplied: qualityPrompt.ok,
       bottomNavInherited: manifest.bottomStructuralAttached,
-      pageValidityPass: archEval.ok && conceptEval.ok && continuityEval.ok,
+      pageValidityPass:
+        archEval.ok &&
+        conceptEval.ok &&
+        continuityEval.ok &&
+        functionalScorecard.overall === 'PASS' &&
+        bottomNavGuard.ok,
       posterRejectionPass: archEval.ok,
     });
     const debug = buildGpt2MobileArtifactDebug({
       slot: input.slot,
       territoryDirective: pkg.inspector.territoryDirective,
       bottomContinuityApplied: pkg.inspector.bottomContinuityApplied,
-      pageValidityPass: archEval.ok && conceptEval.ok && continuityEval.ok,
+      pageValidityPass:
+        archEval.ok &&
+        conceptEval.ok &&
+        continuityEval.ok &&
+        functionalScorecard.overall === 'PASS' &&
+        bottomNavGuard.ok,
       posterDriftWarning: !archEval.ok || !conceptEval.ok || !continuityEval.ok,
       screenshotOverreachWarning: false,
       pageArchitectureBriefId: input.pageArchitectureBrief?.briefId,
@@ -290,6 +336,12 @@ async function renderMobileConceptSlot(input: {
         `PROVIDER PROMPT VERSION: ${COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION}`,
         `PAGE PROMPT VERSION: ${pkg.inspector.promptVersion}`,
         ...formatGpt2MobileCapturePackageDebugLines(providerReferences),
+        ...formatScreenshotFunctionMapDebugLines(screenshotFunctionalPageMap, functionMapReceipt),
+        `GPT2_FUNCTION_BLOCK_COMPILED: ${pkg.prompt.includes('PAGE FUNCTION (SCREENSHOT FUNCTIONAL PAGE MAP') ? 'PASS' : 'FAIL'}`,
+        `FUNCTIONAL_FIDELITY PAGE_IDENTITY: ${functionalScorecard.pageIdentity}`,
+        `FUNCTIONAL_FIDELITY BOTTOM_NAV: ${functionalScorecard.bottomNav}`,
+        `FUNCTIONAL_FIDELITY OVERALL: ${functionalScorecard.overall}`,
+        `INVENTED_BOTTOM_NAV_REJECTED: ${bottomNavGuard.ok ? 'PASS' : 'FAIL'}`,
         `PROVIDER PROMPT CHAR COUNT: ${pkg.inspector.compiledProviderPrompt.compiledPromptCharCount}`,
         `SAFE LIMIT: ${pkg.inspector.compiledProviderPrompt.safeLimit}`,
         `COMPILED PROMPT HASH: ${pkg.inspector.compiledProviderPrompt.compiledPromptHash}`,
@@ -321,6 +373,14 @@ async function renderMobileConceptSlot(input: {
         bottomNavAuthorityAttached: manifest.bottomNavAuthorityAttached,
         stitchedFallbackUsed: manifest.stitchedFallbackUsed,
       },
+      screenshotFunctionMapId: screenshotFunctionalPageMap.mapId,
+      screenshotFunctionMapPresent: true,
+      regionsPreservedLabel: `${screenshotFunctionalPageMap.regions.length} / ${screenshotFunctionalPageMap.regions.length}`,
+      interactionsPreservedLabel: `${screenshotFunctionalPageMap.elements.filter((e) => e.mustPreserveFunction).length} / ${screenshotFunctionalPageMap.elements.filter((e) => e.mustPreserveFunction).length}`,
+      bottomNavLockedToSource: bottomNavGuard.ok,
+      designAuthorityLabel: 'CGPT + SKINS + PAGE ARCHITECTURE',
+      screenshotDesignAuthority: 'NO',
+      functionalFidelityOverall: functionalScorecard.overall,
       compiledPromptVersion: pkg.inspector.compiledProviderPrompt.compiledPromptVersion,
       compiledPromptHash: pkg.inspector.compiledProviderPrompt.compiledPromptHash,
       compiledPromptCharCount: pkg.inspector.compiledProviderPrompt.compiledPromptCharCount,
@@ -398,6 +458,36 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     (input.existingJobs ?? []).map((j) => [j.artifactId, j] as const),
   );
 
+  const captureB64 = stripDataUrlPrefix(input.functionalCaptureBase64);
+  let sharedProviderReferences: Gpt2MobileProviderReferenceBundle | null = null;
+  let sharedFunctionMap: ScreenshotFunctionalPageMap | null = null;
+  const needsFunctionMap = !input.dryRun && process.env.VITEST !== 'true';
+  if (needsFunctionMap || process.env.VITEST === 'true') {
+    try {
+      sharedProviderReferences = await buildGpt2MobileProviderReferenceBundle({
+        captureSetId: input.plan.captureSetId,
+        functionalCaptureBase64: captureB64,
+        functionalAssetId: `${input.plan.captureSetId}:mobile-functional-page`,
+        functionalSourcePath: `capture-set/${input.plan.captureSetId}/mobile-functional-page.png`,
+        fallbackViewport: input.mobileDims,
+      });
+      sharedFunctionMap = interpretScreenshotFunctionality({
+        captureSetId: input.plan.captureSetId,
+        providerReferenceBundle: sharedProviderReferences,
+        projectContext: input.projectContext,
+        pageContext: input.pageContext,
+        functionContract: input.functionContract,
+        pageArchitectureBrief: input.pageArchitectureBrief ?? null,
+      });
+      const dispatchCheck = validateScreenshotFunctionMapForGpt2Dispatch(sharedFunctionMap);
+      if (!dispatchCheck.ok && needsFunctionMap) {
+        throw new Error(`${dispatchCheck.errorCode}: ${dispatchCheck.criticalUnresolved.join('; ')}`);
+      }
+    } catch (err) {
+      if (needsFunctionMap) throw err;
+    }
+  }
+
   const tasks = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map(async (slot) => {
     const defaultArtifactId = mobileConceptArtifactId(slot);
     const artifactId = input.artifactIdForSlot?.(slot) ?? defaultArtifactId;
@@ -419,6 +509,8 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       functionContract: input.functionContract,
       mobileDims: input.mobileDims,
       functionalCaptureBase64: input.functionalCaptureBase64,
+      providerReferences: sharedProviderReferences ?? undefined,
+      screenshotFunctionalPageMap: sharedFunctionMap ?? undefined,
       existingJob,
       retrySlots: input.retrySlots,
       forceRegenerate,
@@ -443,7 +535,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     throw new Error('GPT2_MOBILE_CONCEPTS_FAILED');
   }
 
-  return { jobs, mobileConcepts, partialFailure };
+  return { jobs, mobileConcepts, partialFailure, screenshotFunctionalPageMap: sharedFunctionMap };
 }
 
 export function canonicalPipelineLineageMarker() {

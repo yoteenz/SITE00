@@ -24,8 +24,27 @@ import { PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS } from '../shared/site00-design-works
 import type { PageCreativeInjection } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { compileProjectSkinContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
 import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import { buildScreenshotFunctionalPageMapForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
+import type { PageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
+import type { PageCreativeContext, PageFunctionContract, ProjectCreativeContext } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 const PROJECT = 'ndxbook';
+
+function screenshotFunctionMapFor(input: {
+  projectContext: ProjectCreativeContext;
+  pageContext: PageCreativeContext;
+  functionContract: PageFunctionContract;
+  pageArchitectureBrief: PageConceptPageArchitectureBrief;
+}) {
+  return buildScreenshotFunctionalPageMapForTest({
+    captureSetId: 'test-capture-set',
+    providerReferenceBundle: mockGpt2MobileProviderReferenceBundleForTest(),
+    projectContext: input.projectContext,
+    pageContext: input.pageContext,
+    functionContract: input.functionContract,
+    pageArchitectureBrief: input.pageArchitectureBrief,
+  });
+}
 
 function overviewPageId(): string {
   const overview = listSiteDesignPagesForProject(PROJECT).find((p) => p.screenId === 'overview');
@@ -96,6 +115,12 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       cgptCreativeBrief: cgptBrief,
     });
     const skin = compileProjectSkinContract(PROJECT);
+    const screenshotFunctionalPageMap = screenshotFunctionMapFor({
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const compiled = compileGpt2MobileProviderPrompt({
       slot: 'MOBILE_CONCEPT_A',
       cgptBrief,
@@ -106,6 +131,7 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       injection,
       bottomContinuityApplied: true,
       mobileViewport: { width: 390, height: 844 },
+      screenshotFunctionalPageMap,
     });
     expect(compiled.compiledPromptCharCount).toBeLessThan(MAX_PROVIDER_PROMPT_CHARS);
     expect(compiled.prompt).toMatch(/PAGE REGIONS/i);
@@ -138,6 +164,12 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       cgptCreativeBrief: cgptBrief,
     });
     const skin = compileProjectSkinContract(PROJECT);
+    const screenshotFunctionalPageMap = screenshotFunctionMapFor({
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const pkg = buildPageGpt2MobileConceptRequestPackage({
       runId: 'pcgr-compact',
       slot: 'MOBILE_CONCEPT_A',
@@ -150,6 +182,7 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       pageArchitectureBrief: arch,
       skinContract: skin,
       providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
+      screenshotFunctionalPageMap,
       pageContextSummary: '{"shouldNotAppearInPrompt":true}',
       mobileViewport: { width: 390, height: 844 },
     });
@@ -188,6 +221,12 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       cgptCreativeBrief: cgptBrief,
     });
     const skin = compileProjectSkinContract(PROJECT);
+    const screenshotFunctionalPageMap = screenshotFunctionMapFor({
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const baseInput = {
       cgptBrief,
       pageArchitectureBrief: arch,
@@ -197,6 +236,7 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       injection,
       bottomContinuityApplied: false,
       mobileViewport: { width: 390, height: 844 },
+      screenshotFunctionalPageMap,
     };
     const hashes = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) =>
       compileGpt2MobileProviderPrompt({ ...baseInput, slot }).sharedBaseHash,
@@ -228,6 +268,12 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       cgptCreativeBrief: cgptBrief,
     });
     const skin = compileProjectSkinContract(PROJECT);
+    const screenshotFunctionalPageMap = screenshotFunctionMapFor({
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const pkg = buildPageGpt2MobileConceptRequestPackage({
       runId: 'pcgr-meta',
       slot: 'MOBILE_CONCEPT_B',
@@ -240,6 +286,7 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       pageArchitectureBrief: arch,
       skinContract: skin,
       providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
+      screenshotFunctionalPageMap,
       pageContextSummary: '{}',
       mobileViewport: { width: 390, height: 844 },
     });

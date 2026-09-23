@@ -32,6 +32,7 @@ import { compileProjectCreativeContext, compilePageCreativeContext } from '../sh
 import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
 import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { compileProjectSkinContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
+import { buildScreenshotFunctionalPageMapForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
 import type { PageCreativeInjection } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 const PROJECT = 'ndxbook';
@@ -181,6 +182,14 @@ describe('P0.VR.GPT2-MOBILE-FUNCTIONAL-REFERENCE-ONLY-AND-FULL-PAGE-CAPTURE-FIX1
     });
     const skin = compileProjectSkinContract(PROJECT);
     const refs = mockGpt2MobileProviderReferenceBundleForTest();
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'cap-func-ref',
+      providerReferenceBundle: refs,
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const pkg = buildPageGpt2MobileConceptRequestPackage({
       runId: 'run-func-ref',
       slot: 'MOBILE_CONCEPT_A',
@@ -193,6 +202,7 @@ describe('P0.VR.GPT2-MOBILE-FUNCTIONAL-REFERENCE-ONLY-AND-FULL-PAGE-CAPTURE-FIX1
       pageArchitectureBrief: arch,
       skinContract: skin,
       providerReferences: refs,
+      screenshotFunctionalPageMap,
       pageContextSummary: '{}',
       mobileViewport: { width: 390, height: 844 },
     });

@@ -37,6 +37,12 @@ export type Gpt2MobileSlotPresentationMeta = {
   screenshotOverreachWarning: boolean | null;
   provider: string;
   promptVersion: string | null;
+  screenshotFunctionMapPresent?: boolean | null;
+  regionsPreservedLabel?: string | null;
+  interactionsPreservedLabel?: string | null;
+  bottomNavLockedToSource?: boolean | null;
+  designAuthorityLabel?: string | null;
+  screenshotDesignAuthority?: 'NO' | 'YES' | null;
 };
 
 export type NbpSlotPresentation = {
@@ -237,6 +243,12 @@ export function buildGpt2MobileSlotPresentations(
         screenshotOverreachWarning: debug?.screenshotOverreachWarning ?? null,
         provider: debug?.provider ?? 'GPT2',
         promptVersion: debug?.effectivePromptVersion ?? null,
+        screenshotFunctionMapPresent: debug?.screenshotFunctionMapPresent ?? null,
+        regionsPreservedLabel: debug?.regionsPreservedLabel ?? null,
+        interactionsPreservedLabel: debug?.interactionsPreservedLabel ?? null,
+        bottomNavLockedToSource: debug?.bottomNavLockedToSource ?? null,
+        designAuthorityLabel: debug?.designAuthorityLabel ?? null,
+        screenshotDesignAuthority: debug?.screenshotDesignAuthority ?? null,
       },
     });
   }

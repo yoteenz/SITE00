@@ -23,6 +23,7 @@ import {
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
 import { PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
 import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import { buildScreenshotFunctionalPageMapForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
 import type { PageCreativeInjection } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 const PROJECT = 'ndxbook';
@@ -203,6 +204,15 @@ describe('P0.VR.CGPT-PAGE-ARCHITECTURE-HANDOFF1', () => {
       brandSignals: ['NDX'],
       forbiddenDrift: ['SaaS'],
     };
+    const providerReferences = mockGpt2MobileProviderReferenceBundleForTest();
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'pcgr-arch',
+      providerReferenceBundle: providerReferences,
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const ids = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) => {
       const pkg = buildPageGpt2MobileConceptRequestPackage({
         runId: 'pcgr-arch',
@@ -215,7 +225,8 @@ describe('P0.VR.CGPT-PAGE-ARCHITECTURE-HANDOFF1', () => {
         cgptBrief,
         pageArchitectureBrief: arch,
         skinContract: skin as never,
-        providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
+        providerReferences,
+        screenshotFunctionalPageMap,
         pageContextSummary: '{}',
         mobileViewport: { width: 390, height: 844 },
       });

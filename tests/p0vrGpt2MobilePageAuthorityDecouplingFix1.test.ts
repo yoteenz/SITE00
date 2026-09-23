@@ -22,6 +22,7 @@ import {
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { isGptImage2Model } from '../shared/site00-visual-generation/falImageModels.js';
 import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import { buildScreenshotFunctionalPageMapForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
 import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
 import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import {
@@ -130,6 +131,15 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
       injection,
       cgptCreativeBrief: cgptBrief,
     });
+    const providerReferences = mockGpt2MobileProviderReferenceBundleForTest();
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'pcgr-1',
+      providerReferenceBundle: providerReferences,
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief,
+    });
     const pkg = buildPageGpt2MobileConceptRequestPackage({
       runId: 'pcgr-1',
       slot: 'MOBILE_CONCEPT_A',
@@ -141,7 +151,8 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
       cgptBrief,
       pageArchitectureBrief,
       skinContract: skin as never,
-      providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
+      providerReferences,
+      screenshotFunctionalPageMap,
       pageContextSummary: '{}',
       mobileViewport: { width: 390, height: 844 },
     });
