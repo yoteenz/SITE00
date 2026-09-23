@@ -29,6 +29,7 @@ import {
   pageConceptPostRunMoreActions,
   pageConceptPostRunPrimaryAction,
   pageConceptPostRunSecondaryAction,
+  resolvePageConceptNewGenerationConfirmAction,
   type PageConceptPostRunActionId,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPostRunControls.js';
 import {
@@ -1602,6 +1603,11 @@ export function usePageConceptGeneration(
     return window.confirm(pageConceptPostRunConfirmMessage(action));
   }, [postRunActions]);
 
+  const confirmNewGenerationSpend = useCallback(() => {
+    const action = resolvePageConceptNewGenerationConfirmAction(postRunActions);
+    return window.confirm(pageConceptPostRunConfirmMessage(action));
+  }, [postRunActions]);
+
   const viewPageConceptRenditions = useCallback(() => {
     emitPageConceptGenerateTelemetry('page_concept_review_opened', { projectId, pageId });
     setOverlayOpen(false);
@@ -1612,7 +1618,7 @@ export function usePageConceptGeneration(
 
   const requestNewPageConceptGeneration = useCallback(async () => {
     if (generating) return;
-    if (!confirmPostRunAction('new_generation')) return;
+    if (!confirmNewGenerationSpend()) return;
 
     emitPageConceptGenerateTelemetry('page_concept_new_generation_requested', { projectId, pageId });
     setExecutionError(null);
@@ -1641,7 +1647,7 @@ export function usePageConceptGeneration(
       setGenerating(false);
     }
   }, [
-    confirmPostRunAction,
+    confirmNewGenerationSpend,
     generating,
     pageId,
     persist,

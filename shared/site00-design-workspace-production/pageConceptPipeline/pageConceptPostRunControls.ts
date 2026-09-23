@@ -123,3 +123,19 @@ export function pageConceptPostRunConfirmMessage(action: PageConceptPostRunActio
   if (!action.spendNote) return `Proceed with ${action.label}?`;
   return `${action.label}\n\nExpected provider spend:\n${action.spendNote}\n\nConfirm to continue.`;
 }
+
+/** Spend confirm for NEW GENERATION when post-run footer actions are not built (e.g. mobile review). */
+export function resolvePageConceptNewGenerationConfirmAction(
+  postRunActions: readonly PageConceptPostRunAction[],
+): PageConceptPostRunAction {
+  const listed = postRunActions.find((a) => a.id === 'new_generation');
+  if (listed) return listed;
+  return {
+    id: 'new_generation',
+    label: 'NEW GENERATION',
+    spendNote: pageConceptLegacyNbpEnabled() ?
+      '1 CGPT · 1 GPT2 · 6 NBP (legacy pipeline · staged approval gates apply)'
+    : `${pageConceptInitialSpendNote()} (staged approval gates apply)`,
+    testId: 'page-concept-new-generation',
+  };
+}

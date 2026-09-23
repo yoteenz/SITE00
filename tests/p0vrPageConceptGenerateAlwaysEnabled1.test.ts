@@ -6,6 +6,7 @@ import {
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import { computePageConceptModalGeneratePress } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptModalGeneratePress.js';
 import { pageConceptGenerationGateFromEligibility } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationEligibility.js';
+import { resolvePageConceptNewGenerationConfirmAction } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPostRunControls.js';
 
 describe('P0.VR PAGE-CONCEPT GENERATE ALWAYS ENABLED', () => {
   it('GPT2 mobile awaiting selection is not actively running', () => {
@@ -41,6 +42,13 @@ describe('P0.VR PAGE-CONCEPT GENERATE ALWAYS ENABLED', () => {
     });
     expect(press.canPress).toBe(true);
     expect(press.blockReason).toBe('CAPTURE REQUIRED');
+  });
+
+  it('NEW GENERATION confirm action exists when post-run list is empty (mobile review)', () => {
+    const action = resolvePageConceptNewGenerationConfirmAction([]);
+    expect(action.id).toBe('new_generation');
+    expect(action.spendNote).toMatch(/CGPT/i);
+    expect(action.spendNote).toMatch(/GPT2/i);
   });
 
   it('gallery gate stays enabled when eligibility blocked but not running', () => {
