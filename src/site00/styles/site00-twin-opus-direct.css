@@ -1452,6 +1452,21 @@
   position: relative;
   flex: 0 0 130.3px;
   height: 130.3px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tod-gallery__filled {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding-top: 2px;
+}
+
+.tod-gallery__filled[hidden] {
+  display: none !important;
 }
 
 .tod-gallery__head {
@@ -1493,13 +1508,18 @@
 }
 
 .tod-gallery__rail {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 10.1px;
-  padding: 9.1px 0 0 8.8px;
-  overflow: hidden;
+  padding: 0 28px 0 8.8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tod-gallery__rail[hidden] {
@@ -1529,6 +1549,11 @@
   text-align: left;
 }
 
+.tod-gallery .tod-card--concept {
+  min-height: 0;
+  height: 104px;
+}
+
 .tod-card--history {
   opacity: 0.82;
 }
@@ -1543,6 +1568,20 @@
 
 .tod-card__surface--conceptPreview .s00-pcg__containPreview {
   max-height: 140px;
+}
+
+.tod-gallery .tod-card__surface--conceptPreview {
+  padding: 22px 4px 4px;
+  gap: 3px;
+}
+
+.tod-gallery .tod-card__surface--conceptPreview .s00-pcg__containPreview {
+  max-height: 72px;
+}
+
+.tod-gallery .tod-card__meta {
+  font-size: 6.5px;
+  gap: 1px;
 }
 
 .tod-card__meta {
@@ -1560,12 +1599,17 @@
 }
 
 .tod-gallery__groupLabel {
-  flex: 0 0 100%;
-  font-size: 9px;
+  flex: 0 0 auto;
+  font-size: 8px;
   letter-spacing: 0.08em;
   color: #9a9a96;
-  margin: 8px 0 4px;
-  padding-left: 2px;
+  margin: 2px 0 0;
+  padding: 0 10px;
+  line-height: 1.2;
+}
+
+.tod-gallery__groupLabel--history {
+  display: none;
 }
 
 .tod-card__version {
