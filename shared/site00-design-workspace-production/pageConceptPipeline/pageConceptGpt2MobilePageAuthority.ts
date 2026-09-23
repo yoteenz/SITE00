@@ -5,7 +5,7 @@
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptRenditionSlotId } from './types.js';
 
-export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v4-dual-reference';
+export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v5-distinction-fix';
 
 export const PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE =
   'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY' as const;
@@ -63,6 +63,12 @@ export type PageGpt2MobileArtifactDebug = {
     height: number;
   }[];
   providerImageRoleSummary?: string;
+  conceptTerritoryLabel?: string;
+  conceptThemeClass?: string;
+  uppercaseContractApplied?: boolean;
+  conceptDiversityContractApplied?: boolean;
+  lightFamilyContractApplied?: boolean;
+  bottomNavInherited?: boolean;
 };
 
 export const PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS = [
@@ -131,6 +137,12 @@ export function buildGpt2MobileArtifactDebug(input: {
     height: number;
   }[];
   providerImageRoleSummary?: string;
+  conceptTerritoryLabel?: string;
+  conceptThemeClass?: string;
+  uppercaseContractApplied?: boolean;
+  conceptDiversityContractApplied?: boolean;
+  lightFamilyContractApplied?: boolean;
+  bottomNavInherited?: boolean;
 }): PageGpt2MobileArtifactDebug {
   return {
     stage: 'GPT2_MOBILE_PAGE_CONCEPT',
@@ -162,5 +174,11 @@ export function buildGpt2MobileArtifactDebug(input: {
     compiledProviderPromptPreview: input.compiledProviderPromptPreview,
     providerReferenceInputs: input.providerReferenceInputs,
     providerImageRoleSummary: input.providerImageRoleSummary,
+    conceptTerritoryLabel: input.conceptTerritoryLabel,
+    conceptThemeClass: input.conceptThemeClass,
+    uppercaseContractApplied: input.uppercaseContractApplied,
+    conceptDiversityContractApplied: input.conceptDiversityContractApplied,
+    lightFamilyContractApplied: input.lightFamilyContractApplied,
+    bottomNavInherited: input.bottomNavInherited,
   };
 }

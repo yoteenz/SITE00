@@ -11517,3 +11517,15 @@ Root causes addressed:
 - **Stale meta fallback** on regen when `artifactId` changed → meta only when slot+artifactId match.
 
 - **Branch:** `cursor/fix-concept-gallery-latest-mobile-b747`.
+
+---
+
+## 2026-09-23 — P0.VR.GPT2-MOBILE-CONCEPT-DISTINCTION-AND-FUNCTIONAL-CONTINUITY-FIX1
+
+GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing, and reinvented bottom nav.
+
+- **`pageConceptGpt2MobileConceptContracts.ts`:** territories A archival paper / B white editorial / C architectural light; uppercase + light-family + distinctness + bottom nav inheritance blocks; handoff validation + founder debug lines.
+- **Provider prompt v3-distinction-fix:** authority hierarchy, functional invariants, explicit Image A bottom nav inheritance, 2+ light-dominant run rule.
+- **Debug:** territory label, theme class, contract flags in Technical Details.
+- **Tests:** `p0vrGpt2MobileConceptDistinctionAndFunctionalContinuityFix1.test.ts`.
+- **Branch:** `cursor/gpt2-mobile-concept-distinction-fix1-b747`.

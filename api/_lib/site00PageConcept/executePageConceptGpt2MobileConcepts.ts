@@ -37,6 +37,11 @@ import {
   buildGpt2MobileProviderReferenceBundle,
   formatGpt2MobileReferenceAuthorityDebugLines,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import {
+  buildGpt2MobileConceptQualityDebugLines,
+  evaluateGpt2MobileConceptHandoffValidity,
+  validateGpt2MobileConceptQualityPrompt,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptContracts.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
@@ -246,12 +251,29 @@ async function renderMobileConceptSlot(input: {
       promptIncludedArchitecture: pkg.prompt.includes('PAGE REGIONS'),
       posterDriftHeuristic: false,
     });
+    const conceptEval = evaluateGpt2MobileConceptHandoffValidity(pkg.prompt);
+    const qualityPrompt = validateGpt2MobileConceptQualityPrompt(pkg.prompt);
+    const compiledMeta = pkg.inspector.compiledProviderPrompt;
+    const conceptQualityDebug = buildGpt2MobileConceptQualityDebugLines({
+      pageArchitectureBriefId: input.pageArchitectureBrief?.briefId ?? null,
+      structuralAuthoritySource: 'NDXBOOK_OVERVIEW_MOBILE_CAPTURE (Image A)',
+      bottomContinuitySource: providerReferences.continuity ?
+        'AUTHORITATIVE_CAPTURE_BOTTOM_STRIP (Image B)'
+      : 'CAPTURE_DERIVED',
+      slot: input.slot,
+      uppercaseContractApplied: qualityPrompt.ok,
+      conceptDiversityContractApplied: qualityPrompt.ok,
+      lightFamilyContractApplied: qualityPrompt.ok,
+      bottomNavInherited: true,
+      pageValidityPass: archEval.ok && conceptEval.ok,
+      posterRejectionPass: archEval.ok,
+    });
     const debug = buildGpt2MobileArtifactDebug({
       slot: input.slot,
       territoryDirective: pkg.inspector.territoryDirective,
       bottomContinuityApplied: pkg.inspector.bottomContinuityApplied,
-      pageValidityPass: archEval.ok,
-      posterDriftWarning: !archEval.ok,
+      pageValidityPass: archEval.ok && conceptEval.ok,
+      posterDriftWarning: !archEval.ok || !conceptEval.ok,
       screenshotOverreachWarning: false,
       pageArchitectureBriefId: input.pageArchitectureBrief?.briefId,
       regionMapVersion: input.pageArchitectureBrief?.regionMapVersion,
@@ -270,7 +292,14 @@ async function renderMobileConceptSlot(input: {
         `SOURCE PAGE ARCH: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.pageArchitectureBriefId ?? '—'}`,
         `SOURCE SKIN: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.skinContractId}`,
         `SOURCE FUNCTION: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.functionContractId}`,
+        ...conceptQualityDebug,
       ],
+      conceptTerritoryLabel: compiledMeta.conceptTerritoryLabel,
+      conceptThemeClass: compiledMeta.conceptThemeClass,
+      uppercaseContractApplied: compiledMeta.conceptQualityContractsApplied,
+      conceptDiversityContractApplied: compiledMeta.conceptQualityContractsApplied,
+      lightFamilyContractApplied: compiledMeta.conceptQualityContractsApplied,
+      bottomNavInherited: true,
       compiledPromptVersion: pkg.inspector.compiledProviderPrompt.compiledPromptVersion,
       compiledPromptHash: pkg.inspector.compiledProviderPrompt.compiledPromptHash,
       compiledPromptCharCount: pkg.inspector.compiledProviderPrompt.compiledPromptCharCount,
