@@ -42,7 +42,7 @@ export function computePageConceptModalGeneratePress(input: {
     if (input.eligibility.sessionReady === null) {
       return {
         canPress: true,
-        blockReason: 'CHECKING SESSION…',
+        blockReason: null,
         intendedAction: 'new_branch',
         canGenerateAtClick,
       };
@@ -72,7 +72,7 @@ export function computePageConceptModalGeneratePress(input: {
     if (input.eligibility.sessionReady === null) {
       return {
         canPress: true,
-        blockReason: 'CHECKING SESSION…',
+        blockReason: null,
         intendedAction: 'retry',
         canGenerateAtClick,
       };
@@ -99,7 +99,7 @@ export function computePageConceptModalGeneratePress(input: {
   if (input.eligibility.sessionReady === null) {
     return {
       canPress: true,
-      blockReason: 'CHECKING SESSION…',
+      blockReason: null,
       intendedAction: 'dispatch',
       canGenerateAtClick,
     };
