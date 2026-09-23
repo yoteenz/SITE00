@@ -11589,3 +11589,14 @@ CI failed with **`ReferenceError: Cannot access 'screenshotFunctionalPageMap' be
 - **Fix:** Include `screenshotFunctionalPageMap: sharedFunctionMap` on each `onSlotUpdate` payload; canonical stage uses `payload.screenshotFunctionalPageMap` for progress `pipelineSet`.
 - **Tests:** `p0vrCgptGpt2HandoffMobileTripleConcept1`, `p0vrDesignPageConceptPipelineWiring1`, `p0vrPageFamilySkinBehaviorContract1` pass.
 - **Branch:** `cursor/fix-screenshot-function-map-tdz-b747`. **Railway** redeploy API after merge (API-only; no new GoDaddy ZIP required).
+
+---
+
+## 2026-09-23 — Page concept GENERATE dead click (session race) + GPT2 map brief fallback
+
+Founder: **Generate not working / no Fal jobs** after screenshot function-map layer.
+
+- **Client bug:** `handleGenerateClick` awaited `getAccessToken()` but preflight still used stale `generationEligibility` with `sessionReady: null` → `computePageConceptModalGeneratePress` returned `blockReason: CHECKING SESSION…` → hook aborted at `if (press.blockReason)` before API dispatch (looked like dead button; never reached Railway/Fal).
+- **Fix:** Resolve session on click (`eligibilityAtClick`, `setApiSessionReady`); modal press gate no longer sets blockReason while session is null (caller resolves token first).
+- **API hardening:** `executePageConceptGpt2MobileConcepts` recompiles `pageArchitectureBrief` when missing before screenshot function map + Fal dispatch (avoids `SCREENSHOT_FUNCTION_MAP_INCOMPLETE` / `PAGE_ARCHITECTURE_BRIEF_MISSING` on resume paths).
+- **Branch:** `cursor/fix-page-concept-generate-session-race-b747`. **Railway** + **GoDaddy** (frontend `usePageConceptGeneration.ts`).
