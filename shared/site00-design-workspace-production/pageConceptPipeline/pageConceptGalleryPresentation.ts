@@ -90,7 +90,6 @@ export function mapPageConceptToGalleryCard(
       : concept.artifactRole === 'TABLET_INTERPRETATION' ?
         concept.visualReference
       : concept.mobileVisualReference ?? concept.visualReference,
-      concept.artifactId ?? concept.conceptId,
     ),
     slotLabel,
     pipelineLabel:
