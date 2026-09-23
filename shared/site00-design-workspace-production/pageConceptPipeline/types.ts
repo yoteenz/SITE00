@@ -376,6 +376,7 @@ export type PageConceptPipelineSet = {
   creativeInjection: PageCreativeInjection | null;
   cgptCreativeBrief?: PageConceptCgptCreativeBrief | null;
   pageArchitectureBrief?: import('./pageConceptPageArchitectureBrief.js').PageConceptPageArchitectureBrief | null;
+  screenshotFunctionalPageMap?: import('./pageConceptScreenshotFunctionalPageMap.js').ScreenshotFunctionalPageMap | null;
   gpt2AuthorityConcept: PageGPT2AuthorityConcept | null;
   renditions: readonly PageConceptRendition[];
   creativeInjectionError?: string;

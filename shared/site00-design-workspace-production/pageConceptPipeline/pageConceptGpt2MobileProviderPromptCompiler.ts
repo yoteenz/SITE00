@@ -35,9 +35,13 @@ import {
   buildGpt2MobileMobilePageFunctionAuthorityBlock,
 } from './pageConceptGpt2MobileContinuityLock.js';
 import { assertScreenshotDesignAuthorityForbidden } from './pageConceptGpt2MobileReferenceAuthority.js';
+import {
+  compileGpt2MobileScreenshotFunctionBlock,
+  type ScreenshotFunctionalPageMap,
+} from './pageConceptScreenshotFunctionalPageMap.js';
 
 export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
-  'gpt2-mobile-provider-prompt-v5-functional-reference-only';
+  'gpt2-mobile-provider-prompt-v6-screenshot-function-map';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -63,6 +67,7 @@ export type Gpt2MobileProviderPromptCompileInput = {
   middleStructuralCaptureAttached?: boolean;
   bottomStructuralCaptureAttached?: boolean;
   bottomContinuityLockActive?: boolean;
+  screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap | null;
 };
 
 export type Gpt2MobileCompiledProviderPrompt = {
@@ -253,8 +258,12 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
   if (!arch) {
     throw new Error('PAGE_ARCHITECTURE_INCOMPLETE: missing brief for provider compile');
   }
+  if (!input.screenshotFunctionalPageMap) {
+    throw new Error('SCREENSHOT_FUNCTION_MAP_INCOMPLETE: missing functional page map for GPT2 compile');
+  }
 
   const territoryDelta = gpt2MobileConceptTerritoryDelta(input.slot);
+  const functionBlock = compileGpt2MobileScreenshotFunctionBlock(input.screenshotFunctionalPageMap);
 
   const baseSections = [
     buildRoleHeader(arch, input.mobileViewport),
@@ -264,6 +273,8 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     buildGpt2MobileDesignAuthoritySourceBlock(),
     '',
     buildGpt2MobileFunctionalReferenceOnlyBlock(),
+    '',
+    functionBlock,
     '',
     buildGpt2MobileFunctionalInvariantsBlock(),
     '',

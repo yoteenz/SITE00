@@ -22,6 +22,7 @@ import { compileProjectCreativeContext, compilePageCreativeContext } from '../sh
 import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
 import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { compileProjectSkinContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
+import { buildScreenshotFunctionalPageMapForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
 import { PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
 import type { PageCreativeInjection } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
@@ -128,6 +129,14 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
     });
     const skin = compileProjectSkinContract(PROJECT);
     const refs = mockGpt2MobileProviderReferenceBundleForTest();
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'cap-dual',
+      providerReferenceBundle: refs,
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const compiled = compileGpt2MobileProviderPrompt({
       slot: 'MOBILE_CONCEPT_A',
       cgptBrief,
@@ -143,6 +152,7 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
       bottomContinuityLockActive: true,
       mobileViewport: { width: 390, height: 844 },
       referenceImageRoleSummary: refs.imageRoleSummary,
+      screenshotFunctionalPageMap,
     });
     expect(compiled.prompt).toMatch(/Structural Capture A \(TOP_STRUCTURAL_CAPTURE\)/i);
     expect(compiled.prompt).toMatch(/Structural Capture B \(MIDDLE_STRUCTURAL_CAPTURE\)/i);
@@ -187,6 +197,14 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
     });
     const skin = compileProjectSkinContract(PROJECT);
     const refs = mockGpt2MobileProviderReferenceBundleForTest();
+    const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+      captureSetId: 'cap-dual',
+      providerReferenceBundle: refs,
+      projectContext,
+      pageContext,
+      functionContract,
+      pageArchitectureBrief: arch,
+    });
     const functionalIds = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) => {
       const pkg = buildPageGpt2MobileConceptRequestPackage({
         runId: 'pcgr-dual',
@@ -200,6 +218,7 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
         pageArchitectureBrief: arch,
         skinContract: skin,
         providerReferences: refs,
+        screenshotFunctionalPageMap,
         pageContextSummary: '{}',
         mobileViewport: { width: 390, height: 844 },
       });
@@ -230,6 +249,15 @@ function pkgTerritory(
     cgptCreativeBrief: brief,
   });
   const skin = compileProjectSkinContract(PROJECT);
+  const refs = mockGpt2MobileProviderReferenceBundleForTest();
+  const screenshotFunctionalPageMap = buildScreenshotFunctionalPageMapForTest({
+    captureSetId: 'cap-dual-t',
+    providerReferenceBundle: refs,
+    projectContext,
+    pageContext,
+    functionContract,
+    pageArchitectureBrief: arch,
+  });
   const pkg = buildPageGpt2MobileConceptRequestPackage({
     runId: 'pcgr-dual-t',
     slot,
@@ -241,7 +269,8 @@ function pkgTerritory(
     cgptBrief: brief,
     pageArchitectureBrief: arch,
     skinContract: skin,
-    providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
+    providerReferences: refs,
+    screenshotFunctionalPageMap,
     pageContextSummary: '{}',
     mobileViewport: { width: 390, height: 844 },
   });
