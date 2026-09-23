@@ -220,13 +220,14 @@ export function buildGpt2MobileSlotPresentations(
     const mobileConcept = state.pipelineSet?.mobileConcepts?.find((c) => c.slot === mobileConceptSlot);
     const debug = job?.gpt2MobileDebug;
     const rawImage = job?.imageUri ?? job?.artifactPath ?? mobileConcept?.imageUri ?? null;
+    const cacheBustKey = job?.providerJobId ?? job?.artifactId ?? job?.createdAt ?? null;
     out.push({
       key: `gpt2.mobile.${letter.toLowerCase()}` as NbpShellSlotKey,
       label: letter,
       viewport: 'MOBILE',
       renditionSlot: slot,
       status,
-      imageSrc: resolvePageConceptArtifactDisplayUrl(rawImage),
+      imageSrc: resolvePageConceptArtifactDisplayUrl(rawImage, cacheBustKey),
       failureReason: job?.failureReason ?? null,
       gpt2Mobile: {
         territoryLabel: debug?.territoryLabel ?? mobileConcept?.territoryLabel ?? null,
