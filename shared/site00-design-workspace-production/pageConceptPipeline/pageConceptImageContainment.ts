@@ -10,7 +10,7 @@ export const PAGE_CONCEPT_TABLET_PREVIEW_MAX_HEIGHT = 'clamp(200px, 32vh, 320px)
 
 export const PAGE_CONCEPT_DESKTOP_PREVIEW_MAX_HEIGHT = 'clamp(200px, 32vh, 320px)';
 
-export const PAGE_CONCEPT_THUMBNAIL_PREVIEW_MAX_HEIGHT = '76px';
+export const PAGE_CONCEPT_THUMBNAIL_PREVIEW_MAX_HEIGHT = '88px';
 
 export const PAGE_CONCEPT_PREVIEW_OBJECT_FIT = 'contain' as const;
 

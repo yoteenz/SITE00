@@ -104,8 +104,9 @@ function TodGalleryCandidateCard({ candidate }: { candidate: TwinOpusDirectCandi
     return (
       <div className="tod-card__surface tod-card__surface--conceptPreview">
         <PageConceptContainedPreviewFrame
-          size="mobile"
-          viewportLabel={candidate.pipelineLabel ?? 'GPT2 MOBILE'}
+          size="thumb"
+          objectFit="cover"
+          viewportLabel={undefined}
           status={previewStatusForCandidate(candidate)}
           imageSrc={candidate.previewSrc}
           testId={`gallery-candidate-preview-${candidate.id}`}

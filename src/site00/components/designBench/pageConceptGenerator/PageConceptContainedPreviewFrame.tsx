@@ -22,6 +22,7 @@ export function PageConceptContainedPreviewFrame({
   failureReason,
   onRetryLoad,
   testId = 'page-concept-contained-preview',
+  objectFit = PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
 }: {
   size?: PageConceptPreviewContainSize;
   viewportLabel?: string;
@@ -30,6 +31,7 @@ export function PageConceptContainedPreviewFrame({
   failureReason?: string | null;
   onRetryLoad?: () => void;
   testId?: string;
+  objectFit?: 'contain' | 'cover';
 }) {
   let inner: ReactNode;
   if (status === 'READY' && imageSrc) {
@@ -77,7 +79,7 @@ export function PageConceptContainedPreviewFrame({
       data-testid={testId}
       data-contain-size={size}
       data-preview-status={status}
-      data-object-fit={PAGE_CONCEPT_PREVIEW_OBJECT_FIT}
+      data-object-fit={objectFit}
     >
       {viewportLabel ?
         <span className="s00-pcg__containPreviewLabel">{viewportLabel}</span>

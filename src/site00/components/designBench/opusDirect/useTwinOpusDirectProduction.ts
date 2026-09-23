@@ -267,8 +267,16 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         }
         if (result.stale) {
           setSyncStatus('STALE');
-          setProductionError('STALE_STATE — refreshing authority');
           await hydrate();
+          if (localFallback) {
+            try {
+              applyLocalState(localFallback(stateRef.current, act));
+            } catch (err) {
+              setProductionError(err instanceof Error ? err.message : String(err));
+              return;
+            }
+          }
+          setProductionError(null);
           return;
         }
         applyServerState(result.state, result.sessionVersion);
