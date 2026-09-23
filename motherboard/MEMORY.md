@@ -11466,3 +11466,15 @@ Founder Fal dashboard showed **`nano-banana-pro/edit`** for GPT2 mobile page con
 
 - **Change:** `PAGE_GPT2_MOBILE_FAL_MODEL` → `openai/gpt-image-2`; bottom-continuity path → `openai/gpt-image-2/edit` via shared `buildFalImageInput` (9:16 portrait). **Legacy NBP** unchanged (`fal-ai/nano-banana-pro/edit`).
 - **Branch:** `cursor/gpt2-mobile-gpt-image2-fal-b747`.
+
+---
+
+## 2026-09-23 — P0.VR.CGPT-PAGE-ARCHITECTURE-HANDOFF1
+
+GPT2 mobile concepts were NDXBOOK-on-brand but structurally poster-like — CGPT handoff lacked surgical **page architecture** (SITE 00 shell, navigation, regions, scroll, bottom continuity).
+
+- **`pageConceptPageArchitectureBrief.ts`:** compile linked **Page Architecture Brief** after CGPT creative brief (identity, host/project map, 7-region mobile map, navigation + bottom continuity contracts, translated page purpose, above-fold + scroll narrative, structural anchors). `validatePageArchitectureBrief` blocks GPT2 with `PAGE_ARCHITECTURE_INCOMPLETE`. Post-eval `evaluateGpt2MobilePageArchitectureValidity`.
+- **Pipeline:** stored on `pipelineSet.pageArchitectureBrief`; GPT2 prompt v3 (`page-gpt2-mobile-page-authority-v3-arch-handoff`) embeds full architecture block; A/B/C share same brief id; regen reuses architecture.
+- **UI:** Technical details include `pageArchitectureDebugLines`.
+- **Tests:** `p0vrPageConceptCgptPageArchitectureHandoff1.test.ts`.
+- **Branch:** `cursor/page-concept-cgpt-page-architecture-handoff1-b747`.
