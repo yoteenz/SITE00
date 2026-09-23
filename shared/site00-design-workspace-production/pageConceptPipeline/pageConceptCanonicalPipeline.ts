@@ -37,6 +37,11 @@ export function pageConceptLegacyNbpEnabled(): boolean {
 }
 
 /** Canonical GPT2 viewport-family pipeline is default; legacy NBP requires explicit env. */
+/** When true, a CGPT review stop should chain into GPT2 mobile in the same confirmed run. */
+export function pageConceptChainGpt2MobileAfterCgptReviewGate(): boolean {
+  return !pageConceptLegacyNbpEnabled();
+}
+
 export function pageConceptCanonicalNbpDisabled(): boolean {
   return !pageConceptLegacyNbpEnabled();
 }
