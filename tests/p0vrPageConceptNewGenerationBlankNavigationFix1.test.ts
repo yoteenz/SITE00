@@ -67,7 +67,8 @@ describe('P0.VR NEW GENERATION blank navigation fix', () => {
 
   it('NEW GENERATION handler does not call openGenerationConfirm', () => {
     const hook = read('src/site00/components/designBench/opusDirect/usePageConceptGeneration.ts');
-    const fnStart = hook.indexOf('const requestNewPageConceptGeneration');
+    const fnStart = hook.indexOf('const requestNewPageConceptGeneration = useCallback');
+    expect(fnStart).toBeGreaterThan(-1);
     const fnEnd = hook.indexOf('const requestRegenerateCgpt', fnStart);
     const block = hook.slice(fnStart, fnEnd);
     expect(block).toContain('runPostSpendDispatch');
@@ -94,7 +95,8 @@ describe('P0.VR NEW GENERATION blank navigation fix', () => {
 
   it('hook path has no location navigation in new generation block', () => {
     const hook = read('src/site00/components/designBench/opusDirect/usePageConceptGeneration.ts');
-    const fnStart = hook.indexOf('const requestNewPageConceptGeneration');
+    const fnStart = hook.indexOf('const requestNewPageConceptGeneration = useCallback');
+    expect(fnStart).toBeGreaterThan(-1);
     const fnEnd = hook.indexOf('const requestRegenerateCgpt', fnStart);
     const block = hook.slice(fnStart, fnEnd);
     expect(block).not.toMatch(/location\.(href|assign|replace|reload)/);
