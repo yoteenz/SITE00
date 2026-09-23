@@ -201,10 +201,10 @@ export function assertPageConceptEligibilityInvariants(eligibility: PageConceptG
   }
 }
 
-/** Gallery / pipeline CTA — only source for disabled state and blocker copy. */
+/** Gallery / pipeline CTA — button stays enabled; blocker copy shown on click when not ready. */
 export function pageConceptGenerationGateFromEligibility(
   eligibility: PageConceptGenerationEligibility,
-  generationInFlight: boolean,
+  generationActivelyRunning: boolean,
 ): {
   canPressGenerate: boolean;
   blockerMessage: string | null;
@@ -212,8 +212,8 @@ export function pageConceptGenerationGateFromEligibility(
 } {
   const checking = eligibility.hydrationStatus === 'checking';
   return {
-    canPressGenerate: eligibility.canGenerate && !generationInFlight,
-    blockerMessage: checking ? null : eligibility.blockerMessage,
+    canPressGenerate: !generationActivelyRunning,
+    blockerMessage: checking ? null : eligibility.blockerMessage ?? eligibility.confirmNotice,
     resolutionAction: checking ? null : eligibility.resolutionAction,
   };
 }

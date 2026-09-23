@@ -2,14 +2,17 @@
  * P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1 — modal GENERATE press gate (DOM disabled must match).
  */
 
-import { pageConceptGenerationInFlight, pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
+import {
+  pageConceptGenerationActivelyRunning,
+  pageConceptPrimaryGenerateStartsNewBranch,
+} from './pageConceptGeneratorBinding.js';
 import type { PageConceptGenerationEligibility } from './pageConceptGenerationEligibility.js';
 import type { PageConceptGenerationStatus } from './types.js';
 
 export type PageConceptModalGeneratePress = {
   canPress: boolean;
   blockReason: string | null;
-  intendedAction: 'dispatch' | 'retry' | 'blocked';
+  intendedAction: 'dispatch' | 'retry' | 'new_branch' | 'blocked';
   canGenerateAtClick: boolean;
 };
 
@@ -21,13 +24,12 @@ export function computePageConceptModalGeneratePress(input: {
   executionError: string | null;
   failedNbp: boolean;
 }): PageConceptModalGeneratePress {
-  const inFlight = pageConceptGenerationInFlight(input.generationStatus, input.generating);
-  const reviewReady = pageConceptReviewReady(input.generationStatus);
+  const activelyRunning = pageConceptGenerationActivelyRunning(input.generationStatus, input.generating);
   const failedNbp = input.failedNbp;
 
   const canGenerateAtClick = input.eligibility.canGenerate;
 
-  if (input.generating || inFlight) {
+  if (activelyRunning) {
     return {
       canPress: false,
       blockReason: 'GENERATION IN PROGRESS',
@@ -36,11 +38,30 @@ export function computePageConceptModalGeneratePress(input: {
     };
   }
 
-  if (input.mode === 'review' && reviewReady && !failedNbp) {
+  if (pageConceptPrimaryGenerateStartsNewBranch(input.generationStatus)) {
+    if (input.eligibility.sessionReady === null) {
+      return {
+        canPress: true,
+        blockReason: 'CHECKING SESSION…',
+        intendedAction: 'new_branch',
+        canGenerateAtClick,
+      };
+    }
+    if (input.eligibility.sessionReady === false) {
+      return {
+        canPress: true,
+        blockReason:
+          input.eligibility.confirmNotice ??
+          input.eligibility.blockerMessage ??
+          'SIGN IN REQUIRED — GENERATE calls api.site00.com.',
+        intendedAction: 'new_branch',
+        canGenerateAtClick,
+      };
+    }
     return {
-      canPress: false,
+      canPress: true,
       blockReason: null,
-      intendedAction: 'blocked',
+      intendedAction: 'new_branch',
       canGenerateAtClick,
     };
   }
@@ -50,20 +71,20 @@ export function computePageConceptModalGeneratePress(input: {
   if (retryIntent) {
     if (input.eligibility.sessionReady === null) {
       return {
-        canPress: false,
+        canPress: true,
         blockReason: 'CHECKING SESSION…',
-        intendedAction: 'blocked',
+        intendedAction: 'retry',
         canGenerateAtClick,
       };
     }
     if (input.eligibility.sessionReady === false) {
       return {
-        canPress: false,
+        canPress: true,
         blockReason:
           input.eligibility.confirmNotice ??
           input.eligibility.blockerMessage ??
           'SIGN IN REQUIRED — GENERATE calls api.site00.com.',
-        intendedAction: 'blocked',
+        intendedAction: 'retry',
         canGenerateAtClick,
       };
     }
@@ -77,21 +98,21 @@ export function computePageConceptModalGeneratePress(input: {
 
   if (input.eligibility.sessionReady === null) {
     return {
-      canPress: false,
+      canPress: true,
       blockReason: 'CHECKING SESSION…',
-      intendedAction: 'blocked',
+      intendedAction: 'dispatch',
       canGenerateAtClick,
     };
   }
 
   if (!input.eligibility.canGenerate) {
     return {
-      canPress: false,
+      canPress: true,
       blockReason:
         input.eligibility.confirmNotice ??
         input.eligibility.blockerMessage ??
         'GENERATION REQUIREMENTS NOT READY',
-      intendedAction: 'blocked',
+      intendedAction: 'dispatch',
       canGenerateAtClick,
     };
   }

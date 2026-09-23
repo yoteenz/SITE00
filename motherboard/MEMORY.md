@@ -11427,3 +11427,12 @@ Confirm/review overlay used `pageConceptCanonicalGpt2MobileActive` which was fal
 
 - **Fix:** When `SITE00_PAGE_CONCEPT_LEGACY_NBP` is not `true`, `pageConceptCanonicalGpt2MobileActive` and `isCanonicalGpt2ViewportFamilyPipeline` always treat product as canonical GPT2; `pageConceptStageStatesFromPipeline` skips legacy NBP heuristics.
 - **Branch:** `cursor/fix-gpt2-only-generator-model-b747`.
+
+---
+
+## 2026-09-23 — GENERATE never disabled on prior review run
+
+Founder stuck on previous GPT2 mobile review: modal GENERATE disabled (`GPT2_MOBILE_AWAITING_SELECTION` treated as in-flight; review mode hard-blocked press).
+
+- **Fix:** `pageConceptGenerationActivelyRunning` only true during provider RUNNING statuses; modal/gallery buttons stay enabled; preflight surfaces sign-in/capture blockers on click; primary GENERATE on completed mobile review → `new_branch` → `requestNewPageConceptGeneration`.
+- **Branch:** `cursor/page-concept-generate-always-enabled-b747`.
