@@ -11436,3 +11436,13 @@ Founder stuck on previous GPT2 mobile review: modal GENERATE disabled (`GPT2_MOB
 
 - **Fix:** `pageConceptGenerationActivelyRunning` only true during provider RUNNING statuses; modal/gallery buttons stay enabled; preflight surfaces sign-in/capture blockers on click; primary GENERATE on completed mobile review → `new_branch` → `requestNewPageConceptGeneration`.
 - **Branch:** `cursor/page-concept-generate-always-enabled-b747`.
+
+---
+
+## 2026-09-23 — NEW GENERATION no-op on mobile review
+
+**NEW GENERATION** appeared enabled but did nothing: `requestNewPageConceptGeneration` called `confirmPostRunAction('new_generation')` while `postRunActions` is empty for `GPT2_MOBILE_AWAITING_SELECTION` (post-run footer excluded) → confirm returned false immediately with no UI.
+
+- **Fix:** `resolvePageConceptNewGenerationConfirmAction` fallback spend confirm; hook uses `confirmNewGenerationSpend()`.
+- **FAL:** Browser does not call Fal directly — signed-in SPA → `api.site00.com` → Railway `FAL_KEY` for GPT2 mobile image jobs.
+- **Branch:** `cursor/fix-new-generation-confirm-mobile-review-b747`.
