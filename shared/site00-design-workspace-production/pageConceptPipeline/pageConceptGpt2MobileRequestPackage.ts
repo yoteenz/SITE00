@@ -48,7 +48,7 @@ export type PageGpt2MobileConceptRequestPackage = {
     stageContract: 'GPT2_MOBILE_PAGE_AUTHORITY';
     providerLabel: 'GPT2_MOBILE';
     captureInfluenceMode: typeof PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE;
-    currentCaptureRole: 'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY';
+    currentCaptureRole: typeof PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE;
     bottomContinuityApplied: boolean;
     promptVersion: string;
     model: string;
@@ -121,7 +121,10 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     brief: input.cgptBrief,
   });
   const territoryLabel = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
-  const bottomContinuityApplied = Boolean(input.providerReferences.continuity);
+  const bottomContinuityApplied = Boolean(
+    input.providerReferences.bottomNavAuthority ?? input.providerReferences.continuity,
+  );
+  const manifest = input.providerReferences.authorityManifest;
 
   const compiledProviderPrompt = compileGpt2MobileProviderPrompt({
     slot: input.slot,
@@ -132,6 +135,9 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     pageContext: input.pageContext,
     injection: input.injection,
     bottomContinuityApplied,
+    bottomHalfAuthorityAttached: manifest.bottomHalfSourceAttached,
+    bottomNavAuthorityAttached: manifest.bottomNavAuthorityAttached,
+    bottomContinuityLockActive: manifest.bottomContinuityLockActive,
     mobileViewport: input.mobileViewport,
     referenceImageRoleSummary: input.providerReferences.imageRoleSummary,
     creativeSupportAttached: Boolean(input.providerReferences.creativeSupport),
@@ -155,7 +161,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
       stageContract: 'GPT2_MOBILE_PAGE_AUTHORITY',
       providerLabel: 'GPT2_MOBILE',
       captureInfluenceMode: PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
-      currentCaptureRole: 'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY',
+      currentCaptureRole: PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
       bottomContinuityApplied,
       promptVersion: PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
       model: resolvePageGpt2MobileFalModel(referenceAssets.length),

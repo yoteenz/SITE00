@@ -5,10 +5,10 @@
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptRenditionSlotId } from './types.js';
 
-export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v5-distinction-fix';
+export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v6-full-page-continuity';
 
 export const PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE =
-  'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY' as const;
+  'FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK' as const;
 
 export type PageGpt2MobileCaptureInfluenceMode = typeof PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE;
 
@@ -69,6 +69,14 @@ export type PageGpt2MobileArtifactDebug = {
   conceptDiversityContractApplied?: boolean;
   lightFamilyContractApplied?: boolean;
   bottomNavInherited?: boolean;
+  bottomContinuityLockActive?: boolean;
+  bottomNavContinuityValidationPass?: boolean;
+  sourceAuthorityManifest?: {
+    fullPageSourceAttached: boolean;
+    bottomHalfSourceAttached: boolean;
+    bottomNavAuthorityAttached: boolean;
+    stitchedFallbackUsed: boolean;
+  };
 };
 
 export const PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS = [
@@ -143,6 +151,9 @@ export function buildGpt2MobileArtifactDebug(input: {
   conceptDiversityContractApplied?: boolean;
   lightFamilyContractApplied?: boolean;
   bottomNavInherited?: boolean;
+  bottomContinuityLockActive?: boolean;
+  bottomNavContinuityValidationPass?: boolean;
+  sourceAuthorityManifest?: PageGpt2MobileArtifactDebug['sourceAuthorityManifest'];
 }): PageGpt2MobileArtifactDebug {
   return {
     stage: 'GPT2_MOBILE_PAGE_CONCEPT',
@@ -180,5 +191,8 @@ export function buildGpt2MobileArtifactDebug(input: {
     conceptDiversityContractApplied: input.conceptDiversityContractApplied,
     lightFamilyContractApplied: input.lightFamilyContractApplied,
     bottomNavInherited: input.bottomNavInherited,
+    bottomContinuityLockActive: input.bottomContinuityLockActive,
+    bottomNavContinuityValidationPass: input.bottomNavContinuityValidationPass,
+    sourceAuthorityManifest: input.sourceAuthorityManifest,
   };
 }

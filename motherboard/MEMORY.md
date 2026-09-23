@@ -11555,3 +11555,11 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 Gallery used `size="mobile"` (220px min) inside 72px rail + `object-fit: contain` on dark concepts → black thumbs. Switched gallery to `thumb` + `cover`, light preview ground, fixed thumb height. Hero CONCEPT pane uses `cover` fill. `STALE_STATE` now hydrates + applies local fallback without persistent error toast. Hero/gallery URLs use `resolvePageConceptArtifactDisplayUrl`.
 
 **Branch:** `cursor/fix-gallery-concept-preview-fit-b747`.
+
+---
+
+## 2026-09-23 — P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1
+
+GPT2 mobile now sends **3 capture authorities** to Fal: full-page (A), lower-half (B), bottom-nav crop (C). Prompt adds bottom nav lock, full-page output requirement, region map, continuity contract. Debug shows manifest + `BOTTOM NAV CONTINUITY VALIDATION`. Influence mode `FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK`. Provider prompt v4-full-page-continuity.
+
+**Branch:** `cursor/gpt2-mobile-full-page-continuity-bottom-nav-lock1-b747`.

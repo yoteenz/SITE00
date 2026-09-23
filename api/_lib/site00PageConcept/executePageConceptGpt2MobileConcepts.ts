@@ -36,12 +36,17 @@ import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservabil
 import {
   buildGpt2MobileProviderReferenceBundle,
   formatGpt2MobileReferenceAuthorityDebugLines,
+  orderedProviderReferenceAssets,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 import {
   buildGpt2MobileConceptQualityDebugLines,
   evaluateGpt2MobileConceptHandoffValidity,
   validateGpt2MobileConceptQualityPrompt,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptContracts.js';
+import {
+  buildGpt2MobileContinuityLockDebugLines,
+  evaluateGpt2MobileBottomNavContinuityHandoffValidity,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileContinuityLock.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
@@ -174,11 +179,7 @@ async function renderMobileConceptSlot(input: {
   });
 
   const referenceDebugLines = formatGpt2MobileReferenceAuthorityDebugLines(providerReferences);
-  const referenceInputs = [
-    providerReferences.functionalPage,
-    ...(providerReferences.continuity ? [providerReferences.continuity] : []),
-    ...(providerReferences.creativeSupport ? [providerReferences.creativeSupport] : []),
-  ].map((asset) => ({
+  const referenceInputs = orderedProviderReferenceAssets(providerReferences).map((asset) => ({
     role: asset.role,
     assetId: asset.assetId,
     sourcePath: asset.sourcePath,
@@ -252,28 +253,28 @@ async function renderMobileConceptSlot(input: {
       posterDriftHeuristic: false,
     });
     const conceptEval = evaluateGpt2MobileConceptHandoffValidity(pkg.prompt);
+    const continuityEval = evaluateGpt2MobileBottomNavContinuityHandoffValidity(pkg.prompt);
     const qualityPrompt = validateGpt2MobileConceptQualityPrompt(pkg.prompt);
     const compiledMeta = pkg.inspector.compiledProviderPrompt;
+    const manifest = providerReferences.authorityManifest;
     const conceptQualityDebug = buildGpt2MobileConceptQualityDebugLines({
       pageArchitectureBriefId: input.pageArchitectureBrief?.briefId ?? null,
-      structuralAuthoritySource: 'NDXBOOK_OVERVIEW_MOBILE_CAPTURE (Image A)',
-      bottomContinuitySource: providerReferences.continuity ?
-        'AUTHORITATIVE_CAPTURE_BOTTOM_STRIP (Image B)'
-      : 'CAPTURE_DERIVED',
+      structuralAuthoritySource: 'FULL_PAGE_SOURCE_CAPTURE (Image A)',
+      bottomContinuitySource: 'BOTTOM_HALF (B) + BOTTOM_NAV_AUTHORITY_CROP (C)',
       slot: input.slot,
       uppercaseContractApplied: qualityPrompt.ok,
       conceptDiversityContractApplied: qualityPrompt.ok,
       lightFamilyContractApplied: qualityPrompt.ok,
-      bottomNavInherited: true,
-      pageValidityPass: archEval.ok && conceptEval.ok,
+      bottomNavInherited: manifest.bottomNavAuthorityAttached,
+      pageValidityPass: archEval.ok && conceptEval.ok && continuityEval.ok,
       posterRejectionPass: archEval.ok,
     });
     const debug = buildGpt2MobileArtifactDebug({
       slot: input.slot,
       territoryDirective: pkg.inspector.territoryDirective,
       bottomContinuityApplied: pkg.inspector.bottomContinuityApplied,
-      pageValidityPass: archEval.ok && conceptEval.ok,
-      posterDriftWarning: !archEval.ok || !conceptEval.ok,
+      pageValidityPass: archEval.ok && conceptEval.ok && continuityEval.ok,
+      posterDriftWarning: !archEval.ok || !conceptEval.ok || !continuityEval.ok,
       screenshotOverreachWarning: false,
       pageArchitectureBriefId: input.pageArchitectureBrief?.briefId,
       regionMapVersion: input.pageArchitectureBrief?.regionMapVersion,
@@ -292,14 +293,24 @@ async function renderMobileConceptSlot(input: {
         `SOURCE PAGE ARCH: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.pageArchitectureBriefId ?? '—'}`,
         `SOURCE SKIN: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.skinContractId}`,
         `SOURCE FUNCTION: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.functionContractId}`,
+        ...buildGpt2MobileContinuityLockDebugLines(manifest),
         ...conceptQualityDebug,
+        `BOTTOM NAV CONTINUITY VALIDATION: ${continuityEval.ok ? 'PASS' : continuityEval.failedChecks.join(',')}`,
       ],
       conceptTerritoryLabel: compiledMeta.conceptTerritoryLabel,
       conceptThemeClass: compiledMeta.conceptThemeClass,
       uppercaseContractApplied: compiledMeta.conceptQualityContractsApplied,
       conceptDiversityContractApplied: compiledMeta.conceptQualityContractsApplied,
       lightFamilyContractApplied: compiledMeta.conceptQualityContractsApplied,
-      bottomNavInherited: true,
+      bottomNavInherited: manifest.bottomNavAuthorityAttached,
+      bottomContinuityLockActive: manifest.bottomContinuityLockActive,
+      bottomNavContinuityValidationPass: continuityEval.ok,
+      sourceAuthorityManifest: {
+        fullPageSourceAttached: manifest.fullPageSourceAttached,
+        bottomHalfSourceAttached: manifest.bottomHalfSourceAttached,
+        bottomNavAuthorityAttached: manifest.bottomNavAuthorityAttached,
+        stitchedFallbackUsed: manifest.stitchedFallbackUsed,
+      },
       compiledPromptVersion: pkg.inspector.compiledProviderPrompt.compiledPromptVersion,
       compiledPromptHash: pkg.inspector.compiledProviderPrompt.compiledPromptHash,
       compiledPromptCharCount: pkg.inspector.compiledProviderPrompt.compiledPromptCharCount,
