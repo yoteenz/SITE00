@@ -19,6 +19,7 @@ import { buildPageConceptGenerationPlan } from '../shared/site00-design-workspac
 import { compilePageCreativeContext, compileProjectCreativeContext } from '../shared/site00-design-workspace-production/pageConceptPipeline/contextCompilers.js';
 import { compilePageFunctionContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/functionContract.js';
 import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
+import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { runPageConceptGeneration } from '../api/_lib/site00PageConcept/runPageConceptGeneration.js';
 import * as cgpt from '../api/_lib/site00PageConcept/generatePageCreativeInjection.js';
 import {
@@ -124,6 +125,14 @@ describe('P0.VR.GPT2-MOBILE-FAL-PROVIDER-WIRING1', () => {
       functionContract,
       captureSetId: plan.captureSetId,
     });
+    const pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+      projectContext,
+      pageContext,
+      functionContract,
+      injection,
+      cgptCreativeBrief: brief,
+      captureSetId: plan.captureSetId,
+    });
 
     const territories = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) =>
       mobileConceptTerritoryDirective({ slot, injection, brief }),
@@ -143,6 +152,7 @@ describe('P0.VR.GPT2-MOBILE-FAL-PROVIDER-WIRING1', () => {
       functionContract,
       creativeInjection: injection,
       cgptCreativeBrief: brief,
+      pageArchitectureBrief,
       mobileDims: { width: 390, height: 844 },
       functionalCaptureBase64: 'aaa',
     });
@@ -219,6 +229,14 @@ describe('P0.VR.GPT2-MOBILE-FAL-PROVIDER-WIRING1', () => {
       functionContract,
       captureSetId: plan.captureSetId,
     });
+    const pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+      projectContext,
+      pageContext,
+      functionContract,
+      injection,
+      cgptCreativeBrief: brief,
+      captureSetId: plan.captureSetId,
+    });
 
     const readyA = {
       artifactId: 'pcga-MOBILE_CONCEPT_A-MOBILE',
@@ -256,6 +274,7 @@ describe('P0.VR.GPT2-MOBILE-FAL-PROVIDER-WIRING1', () => {
       functionContract,
       creativeInjection: injection,
       cgptCreativeBrief: brief,
+      pageArchitectureBrief,
       mobileDims: { width: 390, height: 844 },
       functionalCaptureBase64: 'aaa',
       existingJobs: [readyA, failedB],

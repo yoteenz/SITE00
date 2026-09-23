@@ -24,6 +24,7 @@ export async function executePageConceptCanonicalMobileStage(input: {
   functionContract: PageFunctionContract;
   creativeInjection: PageCreativeInjection;
   cgptCreativeBrief: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js').PageConceptPageArchitectureBrief | null;
   creativeInjectionError?: string;
   mobileDims: { width: number; height: number };
   functionalCaptureBase64: string;
@@ -58,6 +59,7 @@ export async function executePageConceptCanonicalMobileStage(input: {
     functionContract: input.functionContract,
     creativeInjection: input.creativeInjection,
     cgptCreativeBrief: input.cgptCreativeBrief,
+    pageArchitectureBrief: input.pageArchitectureBrief ?? null,
     mobileDims: input.mobileDims,
     functionalCaptureBase64: input.functionalCaptureBase64,
     existingJobs: input.existingJobs,
@@ -86,6 +88,7 @@ export async function executePageConceptCanonicalMobileStage(input: {
     functionContractId: input.functionContract.contractId,
     creativeInjection: input.creativeInjection,
     cgptCreativeBrief: input.cgptCreativeBrief,
+    pageArchitectureBrief: input.pageArchitectureBrief ?? null,
     gpt2AuthorityConcept: null,
     renditions: [],
     mobileConcepts,

@@ -6,7 +6,13 @@ import type {
   PageCreativeContext,
   ProjectCreativeContext,
   PageConceptCgptCreativeBrief,
+  PageConceptPageArchitectureBrief,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import {
+  evaluateGpt2MobilePageArchitectureValidity,
+  buildPageArchitectureFounderDebugLines,
+  validatePageArchitectureBrief,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import {
   mobileConceptArtifactId,
   PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS,
@@ -53,6 +59,7 @@ async function renderMobileConceptSlot(input: {
   plan: PageConceptGenerationPlan;
   injection: PageCreativeInjection;
   cgptBrief: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief: PageConceptPageArchitectureBrief | null;
   projectContext: ProjectCreativeContext;
   pageContext: PageCreativeContext;
   functionContract: PageFunctionContract;
@@ -150,6 +157,11 @@ async function renderMobileConceptSlot(input: {
     height: input.mobileDims.height,
   });
 
+  const archCheck = validatePageArchitectureBrief(input.pageArchitectureBrief);
+  if (!archCheck.ok && !input.dryRun && process.env.VITEST !== 'true') {
+    throw new Error(`PAGE_ARCHITECTURE_INCOMPLETE: ${archCheck.missingSections.join(', ')}`);
+  }
+
   const pkg = buildPageGpt2MobileConceptRequestPackage({
     runId: input.runId,
     slot: input.slot,
@@ -159,6 +171,7 @@ async function renderMobileConceptSlot(input: {
     functionContract: input.functionContract,
     injection: input.injection,
     cgptBrief: input.cgptBrief,
+    pageArchitectureBrief: input.pageArchitectureBrief,
     skinContract,
     bottomContinuityCaptureBase64: bottomContinuity.base64,
     bottomContinuityApplied: bottomContinuity.applied,
@@ -210,13 +223,28 @@ async function renderMobileConceptSlot(input: {
       skinVersion: skinContract.version,
     });
 
+    const archEval = evaluateGpt2MobilePageArchitectureValidity({
+      architectureBrief: input.pageArchitectureBrief,
+      promptIncludedArchitecture: pkg.prompt.includes('PAGE ARCHITECTURE BRIEF'),
+      posterDriftHeuristic: false,
+    });
     const debug = buildGpt2MobileArtifactDebug({
       slot: input.slot,
       territoryDirective: pkg.inspector.territoryDirective,
       bottomContinuityApplied: pkg.inspector.bottomContinuityApplied,
-      pageValidityPass: true,
-      posterDriftWarning: false,
+      pageValidityPass: archEval.ok,
+      posterDriftWarning: !archEval.ok,
       screenshotOverreachWarning: false,
+      pageArchitectureBriefId: input.pageArchitectureBrief?.briefId,
+      regionMapVersion: input.pageArchitectureBrief?.regionMapVersion,
+      bottomContinuityContractId: input.pageArchitectureBrief?.bottomContinuityContractId,
+      navigationContractId: input.pageArchitectureBrief?.navigationContractId,
+      scrollNarrativeId: input.pageArchitectureBrief?.scrollNarrativeId,
+      pageArchitectureValidation: archEval.ok ? 'PASS' : 'PAGE_ARCHITECTURE_VALIDATION_FAILED',
+      pageArchitectureDebugLines: buildPageArchitectureFounderDebugLines(
+        input.pageArchitectureBrief,
+        archEval,
+      ),
     });
     const concept: PageGpt2MobileConcept = {
       conceptId,
@@ -272,6 +300,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   functionContract: PageFunctionContract;
   creativeInjection: PageCreativeInjection;
   cgptCreativeBrief: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief?: PageConceptPageArchitectureBrief | null;
   mobileDims: { width: number; height: number };
   functionalCaptureBase64: string;
   existingJobs?: readonly PageConceptGeneratedArtifact[];
@@ -301,6 +330,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       plan: input.plan,
       injection: input.creativeInjection,
       cgptBrief: input.cgptCreativeBrief,
+      pageArchitectureBrief: input.pageArchitectureBrief ?? null,
       projectContext: input.projectContext,
       pageContext: input.pageContext,
       functionContract: input.functionContract,

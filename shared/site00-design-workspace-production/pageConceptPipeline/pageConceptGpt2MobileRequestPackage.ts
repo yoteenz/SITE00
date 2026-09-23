@@ -4,11 +4,13 @@
 
 import type {
   PageConceptCgptCreativeBrief,
+  PageConceptPageArchitectureBrief,
   PageCreativeInjection,
   PageFunctionContract,
   PageCreativeContext,
   ProjectCreativeContext,
 } from './types.js';
+import { formatPageArchitectureBriefForGpt2Prompt } from './pageConceptPageArchitectureBrief.js';
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import { buildPageConceptGpt2AuthorityPackage } from './pageConceptGpt2AuthorityPackage.js';
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
@@ -112,6 +114,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   functionContract: PageFunctionContract;
   injection: PageCreativeInjection;
   cgptBrief: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief: PageConceptPageArchitectureBrief | null;
   skinContract: ProjectSkinContract;
   bottomContinuityCaptureBase64: string;
   bottomContinuityApplied: boolean;
@@ -135,6 +138,11 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
       'FUNCTIONAL_CONTEXT_ONLY — full-page screenshot is NOT composition authority. Only bottom continuity strip may be visually inherited.',
   });
 
+  const architectureBlock =
+    input.pageArchitectureBrief ?
+      formatPageArchitectureBriefForGpt2Prompt(input.pageArchitectureBrief)
+    : 'PAGE ARCHITECTURE BRIEF: MISSING — DO NOT PROCEED';
+
   const prompt = [
     'GPT2 MOBILE WEBSITE PAGE AUTHORITY — generate ONE full mobile viewport PAGE CONCEPT.',
     'THIS IS STEP 2 (GPT2). THIS IS NOT NBP. THIS IS NOT A RENDITION PASS. THIS IS NOT AN IMAGE EDIT OF THE CURRENT PAGE.',
@@ -142,10 +150,9 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     `OUTPUT: ${territoryLabel}`,
     `VIEWPORT: ${input.mobileViewport.width}×${input.mobileViewport.height} portrait mobile screen.`,
     '',
-    'ROLE REFRAME:',
-    'Generate one full mobile viewport WEBSITE PAGE AUTHORITY CONCEPT for the specified live page function.',
-    'You are authoring page structure, hierarchy, and interaction logic — not a poster about the brand.',
+    architectureBlock,
     '',
+    'CONCEPT TERRITORY (VARIES A/B/C — ARCHITECTURE DOES NOT):',
     territoryDirective,
     '',
     'AUTHORITY PRIORITY STACK (highest wins):',

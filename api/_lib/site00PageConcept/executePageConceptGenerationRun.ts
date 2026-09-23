@@ -52,6 +52,11 @@ import {
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeSynthesis.js';
 import { buildPageConceptGpt2AuthorityPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2AuthorityPackage.js';
 import { pageConceptCanonicalNbpDisabled } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
+import {
+  compilePageConceptPageArchitectureBrief,
+  validatePageArchitectureBrief,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
+import type { PageConceptPageArchitectureBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { executePageConceptCanonicalMobileStage } from './executePageConceptCanonicalMobileStage.js';
 import {
   mobileConceptArtifactId,
@@ -108,6 +113,8 @@ export async function executePageConceptGeneration(
   let creativeInjection = input.state.pipelineSet?.creativeInjection ?? null;
   let cgptCreativeBrief: PageConceptCgptCreativeBrief | null =
     input.state.pipelineSet?.cgptCreativeBrief ?? null;
+  let pageArchitectureBrief: PageConceptPageArchitectureBrief | null =
+    input.state.pipelineSet?.pageArchitectureBrief ?? null;
   let gpt2Authority = input.state.pipelineSet?.gpt2AuthorityConcept ?? null;
   let creativeInjectionError = input.state.pipelineSet?.creativeInjectionError;
   let gpt2AuthorityError = input.state.pipelineSet?.gpt2AuthorityError;
@@ -182,6 +189,14 @@ export async function executePageConceptGeneration(
         functionContract,
         captureSetId: plan.captureSetId,
       });
+      pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+        projectContext,
+        pageContext,
+        functionContract,
+        injection: creativeInjection,
+        cgptCreativeBrief,
+        captureSetId: plan.captureSetId,
+      });
       creativeInjectionError = undefined;
     } else {
       creativeInjectionError = `${cgptResult.founderMessage} · ${cgptResult.technicalDetails}`;
@@ -234,6 +249,16 @@ export async function executePageConceptGeneration(
       captureSetId: plan.captureSetId,
     });
   }
+  if (creativeInjection && cgptCreativeBrief && !pageArchitectureBrief) {
+    pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+      projectContext,
+      pageContext,
+      functionContract,
+      injection: creativeInjection,
+      cgptCreativeBrief,
+      captureSetId: plan.captureSetId,
+    });
+  }
 
   const nbpRetryOnly = (retryFailedOnly || regenerateNbpOnly) && skipCgpt && skipGpt2;
 
@@ -271,6 +296,41 @@ export async function executePageConceptGeneration(
     return { plan, pipelineSet, jobs: [] };
   }
 
+  const architectureCheck = validatePageArchitectureBrief(pageArchitectureBrief);
+  if (!architectureCheck.ok && !dryRun && !nbpRetryOnly) {
+    creativeInjectionError = `PAGE_ARCHITECTURE_INCOMPLETE: ${architectureCheck.missingSections.join(', ')}`;
+    const pipelineSet: PageConceptPipelineSet = {
+      pipelineSetId,
+      projectId: input.state.projectId,
+      pageId: input.state.pageId,
+      targetType: PAGE_CONCEPT_TARGET_TYPE,
+      captureSetId: plan.captureSetId,
+      functionContractId: functionContract.contractId,
+      creativeInjection,
+      cgptCreativeBrief,
+      pageArchitectureBrief,
+      gpt2AuthorityConcept: null,
+      renditions: [],
+      creativeInjectionError,
+      createdAt: new Date().toISOString(),
+    };
+    const cgptFail = pageConceptProgressPatchForCgptFailure('creative-direction');
+    emit(onProgress, {
+      status: 'FAILED',
+      currentStage: cgptFail.currentStage,
+      panelProgress: cgptFail.panelProgress,
+      cgptStatus: 'COMPLETE',
+      gpt2Status: 'PENDING',
+      nbpStatus: 'PENDING',
+      generationStatus: 'FAILED',
+      pipelineSet,
+      jobs: [],
+      error: creativeInjectionError,
+      completedAt: new Date().toISOString(),
+    });
+    return { plan, pipelineSet, jobs: [] };
+  }
+
   if (
     pageConceptCgptQaStopAfterCgpt() &&
     !continueGpt2AfterCgptReview &&
@@ -286,6 +346,7 @@ export async function executePageConceptGeneration(
       functionContractId: functionContract.contractId,
       creativeInjection,
       cgptCreativeBrief,
+      pageArchitectureBrief,
       gpt2AuthorityConcept: null,
       renditions: [],
       creativeInjectionError,
@@ -321,6 +382,7 @@ export async function executePageConceptGeneration(
       functionContract,
       creativeInjection: creativeInjection!,
       cgptCreativeBrief,
+      pageArchitectureBrief,
       creativeInjectionError,
       mobileDims: { width: input.mobileCapture.width, height: input.mobileCapture.height },
       functionalCaptureBase64: mobileCaptureBase64,

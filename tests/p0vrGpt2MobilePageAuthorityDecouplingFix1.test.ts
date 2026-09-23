@@ -22,6 +22,8 @@ import {
   PAGE_NBP_MODEL,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import { isGptImage2Model } from '../shared/site00-visual-generation/falImageModels.js';
+import { compilePageConceptCgptCreativeBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptCreativeBrief.js';
+import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import {
   buildGpt2MobileSlotPresentations,
   pageConceptCanonicalGpt2MobileActive,
@@ -66,35 +68,78 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
   });
 
   it('prompt payload includes page validity and poster prohibitions; not NBP stage', () => {
+    const projectContext = {
+      projectId: 'ndxbook',
+      contextVersion: '1',
+      brandTruth: 'NDX cultural ledger',
+      projectPurpose: 'Document cultural signals',
+      audience: 'Founders',
+      brandPersonality: 'Archive',
+      tone: 'Serious',
+      creativeAppetite: 'High',
+      designLanguage: 'NDX black register',
+      typography: 'Display mono',
+      palette: 'Black',
+      materials: 'Matte',
+      imagery: 'Grain',
+      iconography: 'Minimal',
+      compositionRules: 'Vertical',
+      projectLore: 'NDXBOOK',
+      projectConstraints: 'No SaaS',
+      forbiddenPatterns: 'Generic',
+      currentVisualSystem: 'NDX',
+      approvedReferences: [],
+      projectAssets: [],
+    } as never;
+    const pageContext = {
+      pageId: 'p1',
+      projectId: 'ndxbook',
+      pageName: 'Overview',
+      route: '/projects/design/ndxbook/overview',
+      pageRole: 'PROJECT OVERVIEW',
+      purpose: 'overview',
+      requiredContent: ['Entry 001', 'Entry 002'],
+      functionalRequirements: ['nav'],
+      childPageIds: ['entry-1'],
+      contextVersion: '1',
+      creativeLatitude: 'high',
+      currentCaptureSummary: 'functional',
+    } as never;
+    const functionContract = {
+      contractId: 'fc',
+      projectId: 'ndxbook',
+      pageId: 'p1',
+      version: '1',
+      route: '/projects/design/ndxbook/overview',
+      regions: ['hero', 'primary-content', 'navigation'],
+      interactions: ['nav', 'gallery-select'],
+      immutableBehaviors: ['routes'],
+      responsiveRequirements: ['MOBILE'],
+      createdAt: new Date().toISOString(),
+    };
+    const cgptBrief = compilePageConceptCgptCreativeBrief({
+      injection,
+      projectContext,
+      pageContext,
+      functionContract,
+    });
+    const pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+      projectContext,
+      pageContext,
+      functionContract,
+      injection,
+      cgptCreativeBrief: cgptBrief,
+    });
     const pkg = buildPageGpt2MobileConceptRequestPackage({
       runId: 'pcgr-1',
       slot: 'MOBILE_CONCEPT_A',
       conceptId: 'c1',
-      projectContext: {
-        projectId: 'ndxbook',
-        contextVersion: '1',
-        brandTruth: 'NDX',
-        projectPurpose: 'p',
-        audience: 'a',
-        tone: 't',
-        designLanguage: 'd',
-      } as never,
-      pageContext: {
-        pageId: 'p1',
-        projectId: 'ndxbook',
-        pageName: 'Overview',
-        route: '/overview',
-        pageRole: 'overview',
-        purpose: 'overview',
-        requiredContent: ['hero'],
-        functionalRequirements: ['nav'],
-        contextVersion: '1',
-        creativeLatitude: 'high',
-        currentCaptureSummary: 'functional',
-      } as never,
-      functionContract: { contractId: 'fc', version: '1' } as never,
+      projectContext,
+      pageContext,
+      functionContract,
       injection,
-      cgptBrief: null,
+      cgptBrief,
+      pageArchitectureBrief,
       skinContract: skin as never,
       bottomContinuityCaptureBase64: 'aaa',
       bottomContinuityApplied: true,
@@ -110,6 +155,8 @@ describe('P0.VR.GPT2-MOBILE-PAGE-AUTHORITY-DECOUPLING-FIX1', () => {
     expect(pkg.inspector.model).not.toBe(PAGE_NBP_MODEL);
     expect(pkg.prompt).toMatch(/NOT NBP/i);
     expect(pkg.prompt).toMatch(/WEBSITE PAGE AUTHORITY/i);
+    expect(pkg.prompt).toMatch(/PAGE ARCHITECTURE BRIEF/i);
+    expect(pkg.prompt).toMatch(/SITE 00.*PROJECTS > DESIGN/i);
     expect(pkg.prompt).toMatch(/bottom continuity/i);
     for (const req of PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS) {
       expect(pkg.prompt).toContain(req.slice(0, 20));

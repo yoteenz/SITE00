@@ -126,6 +126,8 @@ export type PageConceptCgptBriefSectionSource = {
   sourceLabel: string;
 };
 
+export type { PageConceptPageArchitectureBrief } from './pageConceptPageArchitectureBrief.js';
+
 export type PageConceptCgptCreativeBrief = {
   briefId: string;
   version: string;
@@ -373,6 +375,7 @@ export type PageConceptPipelineSet = {
   functionContractId: string;
   creativeInjection: PageCreativeInjection | null;
   cgptCreativeBrief?: PageConceptCgptCreativeBrief | null;
+  pageArchitectureBrief?: import('./pageConceptPageArchitectureBrief.js').PageConceptPageArchitectureBrief | null;
   gpt2AuthorityConcept: PageGPT2AuthorityConcept | null;
   renditions: readonly PageConceptRendition[];
   creativeInjectionError?: string;
