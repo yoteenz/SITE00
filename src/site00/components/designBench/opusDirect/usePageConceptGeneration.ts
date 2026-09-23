@@ -124,6 +124,8 @@ import {
 import type { PageConceptServerRunSnapshot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptServerRunIsTerminal } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptServerRunToResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { pageConceptChainGpt2MobileAfterCgptReviewGate } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
+import type { PageConceptGenerationRunResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { site00ApiUrl } from '../../../../utils/site00ApiBase.js';
 import { getAccessToken } from '../../../../utils/api.js';
 
@@ -188,6 +190,32 @@ async function buildPageConceptCapturePayload(
     ...dims,
     artifactUrl: resolveCaptureArtifactUrl(path),
   };
+}
+
+function mergeTerminalRunResultIntoState(
+  state: PageConceptGenerationState,
+  terminalRun: PageConceptServerRunSnapshot,
+  result: PageConceptGenerationRunResult,
+  options?: { mergeJobsOnly?: boolean },
+): PageConceptGenerationState {
+  let next = applyPageConceptPipelineSet(state, result.pipelineSet);
+  next =
+    options?.mergeJobsOnly ?
+      mergePageConceptGenerationJobs(next, result.jobs)
+    : registerPageConceptGenerationJobs(next, result.jobs);
+  next = mergePageConceptArtifactsIntoGallery(next);
+  if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+    next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
+  } else if (terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
+    next = { ...next, generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW' };
+  } else if (terminalRun.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION') {
+    next = { ...next, generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION' };
+  } else if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
+    next = { ...next, generationStatus: 'FAILED' };
+  } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
+    next = { ...next, generationStatus: 'FAILED' };
+  }
+  return next;
 }
 
 function applyServerRunSnapshotToState(
@@ -1035,7 +1063,7 @@ export function usePageConceptGeneration(
         ),
       );
 
-      const terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+      let terminalRun = await pollPageConceptGenerationRunUntilTerminal({
         runId: startResult.runId,
         projectId,
         pageId,
@@ -1051,26 +1079,60 @@ export function usePageConceptGeneration(
           );
         },
       });
+
+      if (
+        terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW' &&
+        pageConceptChainGpt2MobileAfterCgptReviewGate()
+      ) {
+        persist((s) => ({ ...s, generationStatus: 'GPT2_RUNNING' }));
+        const { runId: gpt2RunId } = await startPageConceptGenerationRunApi({
+          state: loadPageConceptGenerationState(projectId, pageId),
+          founderConfirmedSpend: true,
+          continueGpt2AfterCgptReview: true,
+          resumeRunId: startResult.runId,
+          mobileCapture,
+          desktopCapture,
+        });
+        savePageConceptActiveServerRunId(projectId, pageId, gpt2RunId);
+        markPageConceptFounderRunSession(projectId, pageId, gpt2RunId);
+        terminalRun = await pollPageConceptGenerationRunUntilTerminal({
+          runId: gpt2RunId,
+          projectId,
+          pageId,
+          afterSequence: lastObservedSequenceRef.current,
+          onUpdate: (update) => {
+            void applyPollUpdate(update, () => false);
+            setLiveProductionTrace((prev) =>
+              appendPageConceptLiveTraceEvent(
+                prev,
+                'RUN_STATUS',
+                `${update.run.status} · ${update.run.currentStage ?? '—'}`,
+              ),
+            );
+          },
+        });
+      }
+
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) {
         throw new Error(terminalRun.error ?? `GENERATION ${terminalRun.status}`);
       }
 
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next = registerPageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
-          next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
-        } else if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
-          next = { ...next, generationStatus: 'FAILED' };
-        } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
-          next = { ...next, generationStatus: 'FAILED' };
-        }
-        return next;
-      });
+      persist((s) => mergeTerminalRunResultIntoState(s, terminalRun, result));
 
       if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+        setOverlayMode('review');
+        setExecutionError(null);
+        setGenerateClickTrace((prev) => ({ ...prev, dispatchStatus: 'complete' }));
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
+        return;
+      }
+
+      if (terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
+        savePageConceptActiveServerRunId(projectId, pageId, startResult.runId);
+        markPageConceptFounderRunSession(projectId, pageId, startResult.runId);
         setOverlayMode('review');
         setExecutionError(null);
         setGenerateClickTrace((prev) => ({ ...prev, dispatchStatus: 'complete' }));
@@ -1556,22 +1618,11 @@ export function usePageConceptGeneration(
       clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'GENERATION_FAILED');
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next =
-          flags.retryFailedOnly || flags.regenerateNbpOnly ?
-            mergePageConceptGenerationJobs(next, result.jobs)
-          : registerPageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
-          next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
-        } else if (terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
-          next = { ...next, generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW' };
-        } else if (terminalRun.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION') {
-          next = { ...next, generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION' };
-        }
-        return next;
-      });
+      persist((s) =>
+        mergeTerminalRunResultIntoState(s, terminalRun, result, {
+          mergeJobsOnly: flags.retryFailedOnly || flags.regenerateNbpOnly,
+        }),
+      );
       setOverlayMode('review');
       window.dispatchEvent(
         new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),

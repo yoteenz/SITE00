@@ -89,8 +89,9 @@ const SYSTEM_CONTAMINATION = [
   /\bimplementation artifacts?\b/i,
 ];
 
+/** Opt-in QA gate only — canonical GPT2 runs continue CGPT → mobile concepts by default. */
 export function pageConceptCgptQaStopAfterCgpt(): boolean {
-  return process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP !== 'false';
+  return process.env.SITE00_PAGE_CONCEPT_CGPT_QA_STOP === 'true';
 }
 
 export function stripSystemContaminationFromText(text: string): string {

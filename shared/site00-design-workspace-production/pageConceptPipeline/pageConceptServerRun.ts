@@ -130,7 +130,9 @@ export function pageConceptServerRunIsTerminal(status: PageConceptServerRunStatu
     status === 'READY_FOR_REVIEW' ||
     status === 'FAILED' ||
     status === 'CANCELLED' ||
-    status === 'PARTIAL'
+    status === 'PARTIAL' ||
+    status === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
+    status === 'GPT2_AWAITING_FOUNDER_REVIEW'
   );
 }
 
