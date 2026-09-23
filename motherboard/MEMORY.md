@@ -11503,3 +11503,17 @@ GPT2 mobile Fal jobs showed tiny input previews (~390×186) and over-indexed on 
 - **Debug:** reference asset ids, paths, dimensions, image role summary in technical details + overlay.
 - **Tests:** `p0vrGpt2MobileDualReferenceAuthorityWiringFix1.test.ts`.
 - **Branch:** `cursor/gpt2-mobile-dual-reference-authority-wiring-fix1-b747`.
+
+---
+
+## 2026-09-23 — Concept gallery not showing latest GPT2 mobile Fal screens
+
+Gallery does not read Fal directly — it hydrates from **persisted page-concept generation state** → `syncPageConceptGalleryFromGenerationState` → in-memory candidates → `buildPageConceptGallerySections`.
+
+Root causes addressed:
+- **State discovery** picked the localStorage bucket with the **most jobs**, so legacy 6-job NBP buckets could beat newer 3-job canonical GPT2 mobile runs → `scorePageConceptGenerationStateForGalleryDiscovery`.
+- **Poll merge** replaced jobs via `registerPageConceptGenerationJobs` (wiping slots) → `mergePageConceptGenerationJobs` during server run snapshots; incremental GPT2 polls now include `mobileConcepts` on `pipelineSet`.
+- **CDN/browser cache**: artifact URL stable per run+slot overwrite → `resolvePageConceptArtifactDisplayUrl` cache-bust via `providerJobId` / artifact id.
+- **Stale meta fallback** on regen when `artifactId` changed → meta only when slot+artifactId match.
+
+- **Branch:** `cursor/fix-concept-gallery-latest-mobile-b747`.

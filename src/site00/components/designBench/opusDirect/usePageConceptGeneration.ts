@@ -229,7 +229,20 @@ function applyServerRunSnapshotToState(
       next = applyPageConceptPipelineSet(next, run.pipelineSet);
     }
     if (run.jobs.length > 0) {
-      next = registerPageConceptGenerationJobs(next, run.jobs);
+      next = mergePageConceptGenerationJobs(next, run.jobs);
+      next = mergePageConceptArtifactsIntoGallery(next);
+    }
+    if (run.pipelineSet?.mobileConcepts?.length) {
+      next = {
+        ...next,
+        pipelineSet: next.pipelineSet ?
+          {
+            ...next.pipelineSet,
+            ...run.pipelineSet,
+            mobileConcepts: run.pipelineSet.mobileConcepts,
+          }
+        : run.pipelineSet,
+      };
       next = mergePageConceptArtifactsIntoGallery(next);
     }
     const snapshotMap =
