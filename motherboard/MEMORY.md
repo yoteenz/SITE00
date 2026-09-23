@@ -11547,3 +11547,11 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 `mapPageConceptToGalleryCard` re-applied cache-bust on URLs already busted in `buildMobileCandidatesFromGenerationJobs` → `?artifact=job-1&artifact=pcga-...`. Reverted redundant gallery map bust; `resolvePageConceptArtifactDisplayUrl` strips existing `artifact` param before applying a new key.
 
 **Branch:** `cursor/fix-ci-artifact-url-double-bust-b747`.
+
+---
+
+## 2026-09-23 — Gallery thumbs black + hero concept letterbox + STALE toast
+
+Gallery used `size="mobile"` (220px min) inside 72px rail + `object-fit: contain` on dark concepts → black thumbs. Switched gallery to `thumb` + `cover`, light preview ground, fixed thumb height. Hero CONCEPT pane uses `cover` fill. `STALE_STATE` now hydrates + applies local fallback without persistent error toast. Hero/gallery URLs use `resolvePageConceptArtifactDisplayUrl`.
+
+**Branch:** `cursor/fix-gallery-concept-preview-fit-b747`.
