@@ -292,9 +292,14 @@ export function PageConceptGenerationOverlay({
         : []),
         ...(previewLine ? [previewLine] : []),
         ...(d.providerImageRoleSummary ? [`IMAGE ROLES: ${d.providerImageRoleSummary}`] : []),
-        ...(d.providerReferenceInputs ?? []).map(
-          (ref) => `${ref.role}: ${ref.assetId} · ${ref.width}×${ref.height}`,
-        ),
+        ...(d.providerReferenceInputs ?? []).map((ref) => {
+          const label =
+            ref.role === 'TOP_STRUCTURAL_CAPTURE' ? 'TOP STRUCTURE'
+            : ref.role === 'MIDDLE_STRUCTURAL_CAPTURE' ? 'MIDDLE STRUCTURE'
+            : ref.role === 'BOTTOM_STRUCTURAL_CAPTURE' ? 'BOTTOM STRUCTURE'
+            : ref.role;
+          return `${label} · ${ref.role}: ${ref.assetId} · ${ref.width}×${ref.height}`;
+        }),
         ...archLines,
       ];
     });

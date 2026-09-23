@@ -5,10 +5,10 @@
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptRenditionSlotId } from './types.js';
 
-export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v6-full-page-continuity';
+export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION =
+  'page-gpt2-mobile-page-authority-v4-functional-reference-only';
 
-export const PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE =
-  'FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK' as const;
+export const PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE = 'FUNCTIONAL_REFERENCE_ONLY' as const;
 
 export type PageGpt2MobileCaptureInfluenceMode = typeof PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE;
 
@@ -72,6 +72,12 @@ export type PageGpt2MobileArtifactDebug = {
   bottomContinuityLockActive?: boolean;
   bottomNavContinuityValidationPass?: boolean;
   sourceAuthorityManifest?: {
+    capturePackageVersion?: string;
+    screenshotAuthorityMode?: string;
+    designAuthoritySource?: string;
+    topStructuralAttached?: boolean;
+    middleStructuralAttached?: boolean;
+    bottomStructuralAttached?: boolean;
     fullPageSourceAttached: boolean;
     bottomHalfSourceAttached: boolean;
     bottomNavAuthorityAttached: boolean;

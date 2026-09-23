@@ -1,21 +1,25 @@
 /**
- * P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1
- * Full-page + lower-half + bottom-nav authority references for GPT2 mobile.
+ * P0.VR.GPT2-MOBILE-FUNCTIONAL-REFERENCE-ONLY-AND-FULL-PAGE-CAPTURE-FIX1
+ * Top / middle / bottom structural captures — FUNCTIONAL_REFERENCE_ONLY (no screenshot design authority).
  */
 
 import {
   type Gpt2MobileSourceAuthorityManifest,
 } from './pageConceptGpt2MobileContinuityLock.js';
-import { PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION } from './pageConceptGpt2MobilePageAuthority.js';
+
+export const GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1 = 'GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1' as const;
+
+export const SCREENSHOT_AUTHORITY_MODE_FUNCTIONAL_REFERENCE_ONLY = 'FUNCTIONAL_REFERENCE_ONLY' as const;
 
 export const GPT2_MOBILE_INPUT_ROLE = {
-  /** Full-height mobile page capture — structural authority */
+  TOP_STRUCTURAL: 'TOP_STRUCTURAL_CAPTURE',
+  MIDDLE_STRUCTURAL: 'MIDDLE_STRUCTURAL_CAPTURE',
+  BOTTOM_STRUCTURAL: 'BOTTOM_STRUCTURAL_CAPTURE',
+  /** @deprecated legacy — must not appear in provider dispatch */
   FULL_PAGE_SOURCE: 'FULL_PAGE_SOURCE_CAPTURE',
-  /** @deprecated alias — same as FULL_PAGE_SOURCE */
   FUNCTIONAL_PAGE: 'FULL_PAGE_SOURCE_CAPTURE',
   BOTTOM_HALF: 'BOTTOM_HALF_SOURCE_CAPTURE',
   BOTTOM_NAV: 'BOTTOM_NAV_AUTHORITY_CROP',
-  /** @deprecated alias — same as BOTTOM_NAV */
   CONTINUITY: 'BOTTOM_NAV_AUTHORITY_CROP',
   STITCHED_PAGE: 'STITCHED_FULL_PAGE_CAPTURE',
   CREATIVE_SUPPORT: 'CREATIVE_SUPPORT_REFERENCE',
@@ -24,15 +28,27 @@ export const GPT2_MOBILE_INPUT_ROLE = {
 export type Gpt2MobileProviderInputRole =
   (typeof GPT2_MOBILE_INPUT_ROLE)[keyof typeof GPT2_MOBILE_INPUT_ROLE];
 
-/** Lower half of the page starts at 50% scroll depth. */
-export const GPT2_MOBILE_BOTTOM_HALF_TOP_FRACTION = 0.5;
+export const GPT2_MOBILE_STRUCTURAL_CAPTURE_UI_LABEL = {
+  [GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL]: 'TOP STRUCTURE',
+  [GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL]: 'MIDDLE STRUCTURE',
+  [GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL]: 'BOTTOM STRUCTURE',
+} as const;
 
-/** Minimum pixels for the full-page functional reference (reject preview/thumbnail strips). */
+/** Equal vertical thirds — disjoint top / middle / bottom semantic coverage. */
+export const GPT2_MOBILE_TOP_STRUCTURAL_TOP_FRACTION = 0;
+export const GPT2_MOBILE_TOP_STRUCTURAL_HEIGHT_FRACTION = 1 / 3;
+export const GPT2_MOBILE_MIDDLE_STRUCTURAL_TOP_FRACTION = 1 / 3;
+export const GPT2_MOBILE_MIDDLE_STRUCTURAL_HEIGHT_FRACTION = 1 / 3;
+export const GPT2_MOBILE_BOTTOM_STRUCTURAL_TOP_FRACTION = 2 / 3;
+export const GPT2_MOBILE_BOTTOM_STRUCTURAL_HEIGHT_FRACTION = 1 / 3;
+
+/** Minimum pixels for the source capture before slicing (reject preview/thumbnail strips). */
 export const GPT2_MOBILE_MIN_FUNCTIONAL_REFERENCE_WIDTH = 320;
 export const GPT2_MOBILE_MIN_FUNCTIONAL_REFERENCE_HEIGHT = 520;
-
-/** Reject obviously non-mobile-page crops (e.g. 390×186 continuity-only mistaken as page). */
 export const GPT2_MOBILE_MIN_FUNCTIONAL_REFERENCE_ASPECT = 1.35;
+
+/** Minimum height per structural slice after crop. */
+export const GPT2_MOBILE_MIN_STRUCTURAL_SLICE_HEIGHT = 120;
 
 export type Gpt2MobileProviderReferenceAsset = {
   role: Gpt2MobileProviderInputRole;
@@ -41,19 +57,46 @@ export type Gpt2MobileProviderReferenceAsset = {
   width: number;
   height: number;
   base64: string;
+  regionTopFraction: number;
+  regionHeightFraction: number;
+  uiLabel: string;
+};
+
+export type MobileStructuralCaptureCoverageResult = {
+  ok: boolean;
+  errorCode:
+    | 'CAPTURE_PACKAGE_INVALID'
+    | 'MISSING_BOTTOM_STRUCTURAL_CAPTURE'
+    | 'REDUNDANT_CAPTURE_SET'
+    | null;
+  reason?: string;
+  topPresent: boolean;
+  middlePresent: boolean;
+  bottomPresent: boolean;
+  redundancyCheckPass: boolean;
+  bottomReachesPageEnd: boolean;
 };
 
 export type Gpt2MobileProviderReferenceBundle = {
+  capturePackageVersion: typeof GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1;
+  screenshotAuthorityMode: typeof SCREENSHOT_AUTHORITY_MODE_FUNCTIONAL_REFERENCE_ONLY;
+  topStructuralCapture: Gpt2MobileProviderReferenceAsset;
+  middleStructuralCapture: Gpt2MobileProviderReferenceAsset;
+  bottomStructuralCapture: Gpt2MobileProviderReferenceAsset;
+  /** @deprecated use topStructuralCapture */
   functionalPage: Gpt2MobileProviderReferenceAsset;
+  /** @deprecated use middleStructuralCapture */
   bottomHalf: Gpt2MobileProviderReferenceAsset | null;
+  /** @deprecated use bottomStructuralCapture */
   bottomNavAuthority: Gpt2MobileProviderReferenceAsset | null;
-  /** @deprecated use bottomNavAuthority */
+  /** @deprecated use bottomStructuralCapture */
   continuity: Gpt2MobileProviderReferenceAsset | null;
   stitchedFullPage: Gpt2MobileProviderReferenceAsset | null;
   creativeSupport: Gpt2MobileProviderReferenceAsset | null;
   providerImageOrder: readonly Gpt2MobileProviderInputRole[];
   imageRoleSummary: string;
   authorityManifest: Gpt2MobileSourceAuthorityManifest;
+  coverageValidation: MobileStructuralCaptureCoverageResult;
 };
 
 export type CaptureImageDimensions = {
@@ -110,6 +153,118 @@ export function validateFunctionalPageReferenceDimensions(dimensions: CaptureIma
   return { ok: true, errorCode: null };
 }
 
+const FORBIDDEN_SCREENSHOT_DESIGN_AUTHORITY_PATTERNS: readonly RegExp[] = [
+  /\bscreenshot\s+(?:as\s+(?:the\s+)?)?(?:visual|design|aesthetic)\s+authority\b/i,
+  /\b(?:style|aesthetic|look-and-feel)\s+(?:reference|authority)\s+from\s+(?:the\s+)?capture\b/i,
+  /\bimage\s+a\s+is\s+(?:the\s+)?(?:visual|design|style)\s+authority\b/i,
+  /\bstructural capture[s]?\s+(?:as|are)\s+(?:the\s+)?(?:visual|design|aesthetic)\s+authority\b/i,
+  /\bcapture\s+(?:is|as)\s+(?:the\s+)?(?:visual|design|style|aesthetic)\s+(?:reference|authority)\b/i,
+];
+
+export function assertScreenshotDesignAuthorityForbidden(serializedPromptOrBlock: string): void {
+  const stripped = serializedPromptOrBlock.replace(/SCREENSHOT_DESIGN_AUTHORITY:\s*FORBIDDEN/gi, '');
+  for (const pattern of FORBIDDEN_SCREENSHOT_DESIGN_AUTHORITY_PATTERNS) {
+    if (pattern.test(stripped)) {
+      throw new Error('SCREENSHOT_DESIGN_AUTHORITY_FORBIDDEN: capture serialized as design/style authority');
+    }
+  }
+}
+
+export function validateMobileStructuralCaptureCoverage(input: {
+  sourcePageHeight: number;
+  top: Gpt2MobileProviderReferenceAsset;
+  middle: Gpt2MobileProviderReferenceAsset;
+  bottom: Gpt2MobileProviderReferenceAsset;
+}): MobileStructuralCaptureCoverageResult {
+  const topPresent =
+    input.top.role === GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL &&
+    input.top.height >= GPT2_MOBILE_MIN_STRUCTURAL_SLICE_HEIGHT &&
+    input.top.regionTopFraction === GPT2_MOBILE_TOP_STRUCTURAL_TOP_FRACTION;
+  const middlePresent =
+    input.middle.role === GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL &&
+    input.middle.height >= GPT2_MOBILE_MIN_STRUCTURAL_SLICE_HEIGHT &&
+    input.middle.regionTopFraction === GPT2_MOBILE_MIDDLE_STRUCTURAL_TOP_FRACTION;
+  const bottomPresent =
+    input.bottom.role === GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL &&
+    input.bottom.height >= GPT2_MOBILE_MIN_STRUCTURAL_SLICE_HEIGHT &&
+    input.bottom.regionTopFraction === GPT2_MOBILE_BOTTOM_STRUCTURAL_TOP_FRACTION;
+
+  const bottomEndFraction = input.bottom.regionTopFraction + input.bottom.regionHeightFraction;
+  const bottomReachesPageEnd = bottomEndFraction >= 0.99;
+
+  const regions = [
+    { key: 'top', top: input.top.regionTopFraction, height: input.top.regionHeightFraction },
+    { key: 'middle', top: input.middle.regionTopFraction, height: input.middle.regionHeightFraction },
+    { key: 'bottom', top: input.bottom.regionTopFraction, height: input.bottom.regionHeightFraction },
+  ];
+  let redundant = false;
+  for (let i = 0; i < regions.length; i++) {
+    for (let j = i + 1; j < regions.length; j++) {
+      const a = regions[i]!;
+      const b = regions[j]!;
+      const overlap =
+        Math.min(a.top + a.height, b.top + b.height) - Math.max(a.top, b.top);
+      const minHeight = Math.min(a.height, b.height);
+      if (overlap > minHeight * 0.15) {
+        redundant = true;
+      }
+      if (
+        Math.abs(a.top - b.top) < 0.001 &&
+        Math.abs(a.height - b.height) < 0.001
+      ) {
+        redundant = true;
+      }
+    }
+  }
+  const redundancyCheckPass = !redundant;
+
+  if (!redundancyCheckPass) {
+    return {
+      ok: false,
+      errorCode: 'REDUNDANT_CAPTURE_SET',
+      reason: 'structural captures overlap the same semantic region without adding coverage',
+      topPresent,
+      middlePresent,
+      bottomPresent,
+      redundancyCheckPass,
+      bottomReachesPageEnd,
+    };
+  }
+  if (!bottomPresent || !bottomReachesPageEnd) {
+    return {
+      ok: false,
+      errorCode: 'MISSING_BOTTOM_STRUCTURAL_CAPTURE',
+      reason: 'bottom structural capture missing or does not include true page bottom',
+      topPresent,
+      middlePresent,
+      bottomPresent,
+      redundancyCheckPass,
+      bottomReachesPageEnd,
+    };
+  }
+  if (!topPresent || !middlePresent) {
+    return {
+      ok: false,
+      errorCode: 'CAPTURE_PACKAGE_INVALID',
+      reason: 'top or middle structural capture missing or undersized',
+      topPresent,
+      middlePresent,
+      bottomPresent,
+      redundancyCheckPass,
+      bottomReachesPageEnd,
+    };
+  }
+  return {
+    ok: true,
+    errorCode: null,
+    topPresent,
+    middlePresent,
+    bottomPresent,
+    redundancyCheckPass,
+    bottomReachesPageEnd,
+  };
+}
+
 export async function extractVerticalRegionCrop(input: {
   functionalCaptureBase64: string;
   fallbackViewport?: CaptureImageDimensions;
@@ -118,6 +273,7 @@ export async function extractVerticalRegionCrop(input: {
   role: Gpt2MobileProviderInputRole;
   assetId: string;
   sourcePath: string;
+  uiLabel: string;
 }): Promise<Gpt2MobileProviderReferenceAsset> {
   const sourceDims = await probeCaptureImageDimensions(input.functionalCaptureBase64, input.fallbackViewport);
   const cropTop = Math.max(0, Math.round(sourceDims.height * input.regionTopFraction));
@@ -134,6 +290,9 @@ export async function extractVerticalRegionCrop(input: {
       width: sourceDims.width,
       height: cropHeight,
       base64: input.functionalCaptureBase64,
+      regionTopFraction: input.regionTopFraction,
+      regionHeightFraction: input.regionHeightFraction,
+      uiLabel: input.uiLabel,
     };
   }
 
@@ -151,27 +310,10 @@ export async function extractVerticalRegionCrop(input: {
     width: sourceDims.width,
     height: cropHeight,
     base64: cropped.toString('base64'),
+    regionTopFraction: input.regionTopFraction,
+    regionHeightFraction: input.regionHeightFraction,
+    uiLabel: input.uiLabel,
   };
-}
-
-/** @deprecated use extractVerticalRegionCrop */
-export async function extractContinuityReferenceFromFunctionalCapture(input: {
-  functionalCaptureBase64: string;
-  fallbackViewport?: CaptureImageDimensions;
-  fraction?: number;
-  continuityAssetId: string;
-  continuitySourcePath: string;
-}): Promise<Gpt2MobileProviderReferenceAsset | null> {
-  const fraction = input.fraction ?? PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION;
-  return extractVerticalRegionCrop({
-    functionalCaptureBase64: input.functionalCaptureBase64,
-    fallbackViewport: input.fallbackViewport,
-    regionTopFraction: Math.max(0, 1 - fraction),
-    regionHeightFraction: fraction,
-    role: GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
-    assetId: input.continuityAssetId,
-    sourcePath: input.continuitySourcePath,
-  });
 }
 
 export async function buildGpt2MobileProviderReferenceBundle(input: {
@@ -217,14 +359,50 @@ export async function buildGpt2MobileProviderReferenceBundle(input: {
     }
   }
 
-  const functionalPage: Gpt2MobileProviderReferenceAsset = {
-    role: GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
-    assetId: input.functionalAssetId,
-    sourcePath: input.functionalSourcePath,
-    width: fullPageDims.width,
-    height: fullPageDims.height,
-    base64: fullPageBase64,
-  };
+  const topStructuralCapture = await extractVerticalRegionCrop({
+    functionalCaptureBase64: fullPageBase64,
+    fallbackViewport: fullPageDims,
+    regionTopFraction: GPT2_MOBILE_TOP_STRUCTURAL_TOP_FRACTION,
+    regionHeightFraction: GPT2_MOBILE_TOP_STRUCTURAL_HEIGHT_FRACTION,
+    role: GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL,
+    assetId: `${input.captureSetId}:top-structural`,
+    sourcePath: `${input.functionalSourcePath}#top-structural`,
+    uiLabel: GPT2_MOBILE_STRUCTURAL_CAPTURE_UI_LABEL[GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL],
+  });
+
+  const middleStructuralCapture = await extractVerticalRegionCrop({
+    functionalCaptureBase64: fullPageBase64,
+    fallbackViewport: fullPageDims,
+    regionTopFraction: GPT2_MOBILE_MIDDLE_STRUCTURAL_TOP_FRACTION,
+    regionHeightFraction: GPT2_MOBILE_MIDDLE_STRUCTURAL_HEIGHT_FRACTION,
+    role: GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL,
+    assetId: `${input.captureSetId}:middle-structural`,
+    sourcePath: `${input.functionalSourcePath}#middle-structural`,
+    uiLabel: GPT2_MOBILE_STRUCTURAL_CAPTURE_UI_LABEL[GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL],
+  });
+
+  const bottomStructuralCapture = await extractVerticalRegionCrop({
+    functionalCaptureBase64: fullPageBase64,
+    fallbackViewport: fullPageDims,
+    regionTopFraction: GPT2_MOBILE_BOTTOM_STRUCTURAL_TOP_FRACTION,
+    regionHeightFraction: GPT2_MOBILE_BOTTOM_STRUCTURAL_HEIGHT_FRACTION,
+    role: GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
+    assetId: `${input.captureSetId}:bottom-structural`,
+    sourcePath: `${input.functionalSourcePath}#bottom-structural`,
+    uiLabel: GPT2_MOBILE_STRUCTURAL_CAPTURE_UI_LABEL[GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL],
+  });
+
+  const coverageValidation = validateMobileStructuralCaptureCoverage({
+    sourcePageHeight: fullPageDims.height,
+    top: topStructuralCapture,
+    middle: middleStructuralCapture,
+    bottom: bottomStructuralCapture,
+  });
+  if (!coverageValidation.ok) {
+    throw new Error(
+      `${coverageValidation.errorCode}: ${coverageValidation.reason ?? 'structural capture package invalid'}`,
+    );
+  }
 
   let stitchedFullPage: Gpt2MobileProviderReferenceAsset | null = null;
   if (stitchedFallbackUsed && input.stitchedAssetId) {
@@ -235,28 +413,11 @@ export async function buildGpt2MobileProviderReferenceBundle(input: {
       width: fullPageDims.width,
       height: fullPageDims.height,
       base64: fullPageBase64,
+      regionTopFraction: 0,
+      regionHeightFraction: 1,
+      uiLabel: 'STITCHED SOURCE',
     };
   }
-
-  const bottomHalf = await extractVerticalRegionCrop({
-    functionalCaptureBase64: fullPageBase64,
-    fallbackViewport: fullPageDims,
-    regionTopFraction: GPT2_MOBILE_BOTTOM_HALF_TOP_FRACTION,
-    regionHeightFraction: 1 - GPT2_MOBILE_BOTTOM_HALF_TOP_FRACTION,
-    role: GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
-    assetId: `${input.captureSetId}:bottom-half`,
-    sourcePath: `${input.functionalSourcePath}#lower-half`,
-  });
-
-  const bottomNavAuthority = await extractVerticalRegionCrop({
-    functionalCaptureBase64: fullPageBase64,
-    fallbackViewport: fullPageDims,
-    regionTopFraction: Math.max(0, 1 - PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION),
-    regionHeightFraction: PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION,
-    role: GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
-    assetId: `${input.captureSetId}:bottom-nav-authority`,
-    sourcePath: `${input.functionalSourcePath}#bottom-nav-${PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION}`,
-  });
 
   let creativeSupport: Gpt2MobileProviderReferenceAsset | null = null;
   const creativeB64 = input.creativeSupportCaptureBase64?.trim();
@@ -269,69 +430,99 @@ export async function buildGpt2MobileProviderReferenceBundle(input: {
       width: creativeDims.width,
       height: creativeDims.height,
       base64: creativeB64,
+      regionTopFraction: 0,
+      regionHeightFraction: 1,
+      uiLabel: 'CREATIVE SUPPORT',
     };
   }
 
   const providerImageOrder: Gpt2MobileProviderInputRole[] = [
-    GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
-    GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
-    GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
+    GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL,
+    GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL,
+    GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
   ];
-  if (creativeSupport) providerImageOrder.push(GPT2_MOBILE_INPUT_ROLE.CREATIVE_SUPPORT);
 
   const imageRoleSummary = [
-    `Image A (${GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE}): ${functionalPage.width}×${functionalPage.height}`,
-    `Image B (${GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF}): ${bottomHalf.width}×${bottomHalf.height}`,
-    `Image C (${GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV}): ${bottomNavAuthority.width}×${bottomNavAuthority.height}`,
-    creativeSupport ?
-      `Image D (${GPT2_MOBILE_INPUT_ROLE.CREATIVE_SUPPORT}): ${creativeSupport.width}×${creativeSupport.height}`
-    : null,
-  ]
-    .filter(Boolean)
-    .join(' · ');
+    `Structural Capture A (${GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL}): ${topStructuralCapture.width}×${topStructuralCapture.height}`,
+    `Structural Capture B (${GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL}): ${middleStructuralCapture.width}×${middleStructuralCapture.height}`,
+    `Structural Capture C (${GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL}): ${bottomStructuralCapture.width}×${bottomStructuralCapture.height}`,
+  ].join(' · ');
 
   const authorityManifest: Gpt2MobileSourceAuthorityManifest = {
-    fullPageSourceAttached: true,
-    bottomHalfSourceAttached: true,
-    bottomNavAuthorityAttached: true,
+    capturePackageVersion: GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1,
+    screenshotAuthorityMode: SCREENSHOT_AUTHORITY_MODE_FUNCTIONAL_REFERENCE_ONLY,
+    designAuthoritySource: 'CGPT_PLUS_PAGE_ARCHITECTURE_BRIEF',
+    topStructuralAttached: true,
+    middleStructuralAttached: true,
+    bottomStructuralAttached: true,
+    topAssetId: topStructuralCapture.assetId,
+    middleAssetId: middleStructuralCapture.assetId,
+    bottomAssetId: bottomStructuralCapture.assetId,
     stitchedFallbackUsed,
     bottomContinuityLockActive: true,
-    fullPageAssetId: functionalPage.assetId,
-    bottomHalfAssetId: bottomHalf.assetId,
-    bottomNavAssetId: bottomNavAuthority.assetId,
     stitchedAssetId: stitchedFullPage?.assetId ?? null,
+    fullPageSourceAttached: false,
+    bottomHalfSourceAttached: false,
+    bottomNavAuthorityAttached: false,
+    fullPageAssetId: null,
+    bottomHalfAssetId: null,
+    bottomNavAssetId: null,
   };
 
   return {
-    functionalPage,
-    bottomHalf,
-    bottomNavAuthority,
-    continuity: bottomNavAuthority,
+    capturePackageVersion: GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1,
+    screenshotAuthorityMode: SCREENSHOT_AUTHORITY_MODE_FUNCTIONAL_REFERENCE_ONLY,
+    topStructuralCapture,
+    middleStructuralCapture,
+    bottomStructuralCapture,
+    functionalPage: topStructuralCapture,
+    bottomHalf: middleStructuralCapture,
+    bottomNavAuthority: bottomStructuralCapture,
+    continuity: bottomStructuralCapture,
     stitchedFullPage,
     creativeSupport,
     providerImageOrder,
     imageRoleSummary,
     authorityManifest,
+    coverageValidation,
   };
+}
+
+export function formatGpt2MobileCapturePackageDebugLines(
+  bundle: Gpt2MobileProviderReferenceBundle,
+): string[] {
+  const v = bundle.coverageValidation;
+  return [
+    `CAPTURE_PACKAGE_VERSION: ${bundle.capturePackageVersion}`,
+    `CAPTURE_A_ROLE: ${GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL} · ${bundle.topStructuralCapture.uiLabel}`,
+    `CAPTURE_B_ROLE: ${GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL} · ${bundle.middleStructuralCapture.uiLabel}`,
+    `CAPTURE_C_ROLE: ${GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL} · ${bundle.bottomStructuralCapture.uiLabel}`,
+    `TOP_COVERAGE: ${v.topPresent ? 'PASS' : 'FAIL'}`,
+    `MIDDLE_COVERAGE: ${v.middlePresent ? 'PASS' : 'FAIL'}`,
+    `BOTTOM_COVERAGE: ${v.bottomPresent ? 'PASS' : 'FAIL'}`,
+    `REDUNDANCY_CHECK: ${v.redundancyCheckPass ? 'PASS' : 'FAIL'}`,
+    `SCREENSHOT_AUTHORITY_MODE: ${bundle.screenshotAuthorityMode}`,
+    `DESIGN_AUTHORITY_SOURCE: ${bundle.authorityManifest.designAuthoritySource}`,
+    `SCREENSHOT_DESIGN_AUTHORITY: FORBIDDEN`,
+  ];
 }
 
 export function formatGpt2MobileReferenceAuthorityDebugLines(
   bundle: Gpt2MobileProviderReferenceBundle,
 ): string[] {
   const line = (asset: Gpt2MobileProviderReferenceAsset) =>
-    `${asset.role}: ${asset.assetId} · ${asset.sourcePath} · ${asset.width}×${asset.height}`;
+    `${asset.uiLabel} · ${asset.role}: ${asset.assetId} · ${asset.sourcePath} · ${asset.width}×${asset.height}`;
   return [
     `COMPILED PROMPT IMAGE ROLE SUMMARY: ${bundle.imageRoleSummary}`,
-    line(bundle.functionalPage),
-    ...(bundle.bottomHalf ? [line(bundle.bottomHalf)] : ['BOTTOM_HALF_SOURCE_CAPTURE: —']),
-    ...(bundle.bottomNavAuthority ?
-      [line(bundle.bottomNavAuthority)]
-    : ['BOTTOM_NAV_AUTHORITY_CROP: —']),
+    line(bundle.topStructuralCapture),
+    line(bundle.middleStructuralCapture),
+    line(bundle.bottomStructuralCapture),
     ...(bundle.stitchedFullPage ? [line(bundle.stitchedFullPage)] : []),
     ...(bundle.creativeSupport ?
-      [line(bundle.creativeSupport)]
-    : ['CREATIVE_SUPPORT_REFERENCE: — (optional, not sent)']),
+      [`CREATIVE_SUPPORT_REFERENCE: ${bundle.creativeSupport.assetId} (not sent — v1 package is 3 captures only)`]
+    : []),
     `PROVIDER IMAGE ORDER: ${bundle.providerImageOrder.join(' → ')}`,
+    ...formatGpt2MobileCapturePackageDebugLines(bundle),
   ];
 }
 
@@ -344,69 +535,114 @@ export function mockGpt2MobileProviderReferenceBundleForTest(input?: {
   const width = input?.width ?? 390;
   const height = input?.height ?? 844;
   const functionalBase64 = input?.functionalBase64 ?? 'aaa';
-  const bottomHalfHeight = Math.max(32, Math.round(height * (1 - GPT2_MOBILE_BOTTOM_HALF_TOP_FRACTION)));
-  const navHeight = Math.max(32, Math.round(height * PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION));
-  const functionalPage: Gpt2MobileProviderReferenceAsset = {
-    role: GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
-    assetId: 'test-functional-page',
-    sourcePath: 'test/mobile-functional-page.png',
+  const sliceHeight = Math.max(32, Math.round(height * GPT2_MOBILE_TOP_STRUCTURAL_HEIGHT_FRACTION));
+  const mk = (
+    role: Gpt2MobileProviderInputRole,
+    assetId: string,
+    sourcePath: string,
+    topFraction: number,
+    heightFraction: number,
+  ): Gpt2MobileProviderReferenceAsset => ({
+    role,
+    assetId,
+    sourcePath,
     width,
-    height,
-    base64: functionalBase64,
-  };
-  const bottomHalf: Gpt2MobileProviderReferenceAsset = {
-    role: GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
-    assetId: 'test-bottom-half',
-    sourcePath: 'test/mobile-functional-page.png#lower-half',
-    width,
-    height: bottomHalfHeight,
-    base64: functionalBase64,
-  };
-  const bottomNavAuthority: Gpt2MobileProviderReferenceAsset = {
-    role: GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
-    assetId: 'test-bottom-nav',
-    sourcePath: 'test/mobile-functional-page.png#bottom-nav',
-    width,
-    height: navHeight,
-    base64: input?.continuityBase64 ?? 'bbb',
-  };
+    height: sliceHeight,
+    base64: role === GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL ? (input?.continuityBase64 ?? 'bbb') : functionalBase64,
+    regionTopFraction: topFraction,
+    regionHeightFraction: heightFraction,
+    uiLabel:
+      role === GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL ? 'TOP STRUCTURE'
+      : role === GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL ? 'MIDDLE STRUCTURE'
+      : 'BOTTOM STRUCTURE',
+  });
+  const topStructuralCapture = mk(
+    GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL,
+    'test-top-structural',
+    'test/mobile-functional-page.png#top-structural',
+    GPT2_MOBILE_TOP_STRUCTURAL_TOP_FRACTION,
+    GPT2_MOBILE_TOP_STRUCTURAL_HEIGHT_FRACTION,
+  );
+  const middleStructuralCapture = mk(
+    GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL,
+    'test-middle-structural',
+    'test/mobile-functional-page.png#middle-structural',
+    GPT2_MOBILE_MIDDLE_STRUCTURAL_TOP_FRACTION,
+    GPT2_MOBILE_MIDDLE_STRUCTURAL_HEIGHT_FRACTION,
+  );
+  const bottomStructuralCapture = mk(
+    GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
+    'test-bottom-structural',
+    'test/mobile-functional-page.png#bottom-structural',
+    GPT2_MOBILE_BOTTOM_STRUCTURAL_TOP_FRACTION,
+    GPT2_MOBILE_BOTTOM_STRUCTURAL_HEIGHT_FRACTION,
+  );
+  const coverageValidation = validateMobileStructuralCaptureCoverage({
+    sourcePageHeight: height,
+    top: topStructuralCapture,
+    middle: middleStructuralCapture,
+    bottom: bottomStructuralCapture,
+  });
   const authorityManifest: Gpt2MobileSourceAuthorityManifest = {
-    fullPageSourceAttached: true,
-    bottomHalfSourceAttached: true,
-    bottomNavAuthorityAttached: true,
+    capturePackageVersion: GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1,
+    screenshotAuthorityMode: SCREENSHOT_AUTHORITY_MODE_FUNCTIONAL_REFERENCE_ONLY,
+    designAuthoritySource: 'CGPT_PLUS_PAGE_ARCHITECTURE_BRIEF',
+    topStructuralAttached: true,
+    middleStructuralAttached: true,
+    bottomStructuralAttached: true,
+    topAssetId: topStructuralCapture.assetId,
+    middleAssetId: middleStructuralCapture.assetId,
+    bottomAssetId: bottomStructuralCapture.assetId,
     stitchedFallbackUsed: false,
     bottomContinuityLockActive: true,
-    fullPageAssetId: functionalPage.assetId,
-    bottomHalfAssetId: bottomHalf.assetId,
-    bottomNavAssetId: bottomNavAuthority.assetId,
     stitchedAssetId: null,
+    fullPageSourceAttached: false,
+    bottomHalfSourceAttached: false,
+    bottomNavAuthorityAttached: false,
+    fullPageAssetId: null,
+    bottomHalfAssetId: null,
+    bottomNavAssetId: null,
   };
   return {
-    functionalPage,
-    bottomHalf,
-    bottomNavAuthority,
-    continuity: bottomNavAuthority,
+    capturePackageVersion: GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1,
+    screenshotAuthorityMode: SCREENSHOT_AUTHORITY_MODE_FUNCTIONAL_REFERENCE_ONLY,
+    topStructuralCapture,
+    middleStructuralCapture,
+    bottomStructuralCapture,
+    functionalPage: topStructuralCapture,
+    bottomHalf: middleStructuralCapture,
+    bottomNavAuthority: bottomStructuralCapture,
+    continuity: bottomStructuralCapture,
     stitchedFullPage: null,
     creativeSupport: null,
     providerImageOrder: [
-      GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
-      GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
-      GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
+      GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL,
+      GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL,
+      GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
     ],
-    imageRoleSummary: `Image A (${GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE}): ${width}×${height} · Image B (${GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF}): ${width}×${bottomHalfHeight} · Image C (${GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV}): ${width}×${navHeight}`,
+    imageRoleSummary: `Structural Capture A (${GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL}): ${width}×${sliceHeight} · Structural Capture B (${GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL}): ${width}×${sliceHeight} · Structural Capture C (${GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL}): ${width}×${sliceHeight}`,
     authorityManifest,
+    coverageValidation,
   };
 }
 
 export function orderedProviderReferenceAssets(
   bundle: Gpt2MobileProviderReferenceBundle,
 ): Gpt2MobileProviderReferenceAsset[] {
+  const legacyRoles = new Set<string>([
+    GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
+    GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
+    GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
+  ]);
+  for (const role of bundle.providerImageOrder) {
+    if (legacyRoles.has(role)) {
+      throw new Error(`GPT2_MOBILE_LEGACY_REFERENCE_ROLE_FORBIDDEN: ${role}`);
+    }
+  }
   const map = new Map<Gpt2MobileProviderInputRole, Gpt2MobileProviderReferenceAsset>();
-  map.set(bundle.functionalPage.role, bundle.functionalPage);
-  if (bundle.bottomHalf) map.set(bundle.bottomHalf.role, bundle.bottomHalf);
-  if (bundle.bottomNavAuthority) map.set(bundle.bottomNavAuthority.role, bundle.bottomNavAuthority);
-  if (bundle.stitchedFullPage) map.set(bundle.stitchedFullPage.role, bundle.stitchedFullPage);
-  if (bundle.creativeSupport) map.set(bundle.creativeSupport.role, bundle.creativeSupport);
+  map.set(bundle.topStructuralCapture.role, bundle.topStructuralCapture);
+  map.set(bundle.middleStructuralCapture.role, bundle.middleStructuralCapture);
+  map.set(bundle.bottomStructuralCapture.role, bundle.bottomStructuralCapture);
   return bundle.providerImageOrder.map((role) => {
     const asset = map.get(role);
     if (!asset) throw new Error(`GPT2_MOBILE_REFERENCE_ORDER_MISSING: ${role}`);

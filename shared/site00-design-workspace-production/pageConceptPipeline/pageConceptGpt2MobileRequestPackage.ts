@@ -122,7 +122,9 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   });
   const territoryLabel = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
   const bottomContinuityApplied = Boolean(
-    input.providerReferences.bottomNavAuthority ?? input.providerReferences.continuity,
+    input.providerReferences.bottomStructuralCapture ??
+      input.providerReferences.bottomNavAuthority ??
+      input.providerReferences.continuity,
   );
   const manifest = input.providerReferences.authorityManifest;
 
@@ -135,12 +137,15 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     pageContext: input.pageContext,
     injection: input.injection,
     bottomContinuityApplied,
-    bottomHalfAuthorityAttached: manifest.bottomHalfSourceAttached,
-    bottomNavAuthorityAttached: manifest.bottomNavAuthorityAttached,
+    topStructuralCaptureAttached: manifest.topStructuralAttached,
+    middleStructuralCaptureAttached: manifest.middleStructuralAttached,
+    bottomStructuralCaptureAttached: manifest.bottomStructuralAttached,
+    bottomHalfAuthorityAttached: manifest.middleStructuralAttached,
+    bottomNavAuthorityAttached: manifest.bottomStructuralAttached,
     bottomContinuityLockActive: manifest.bottomContinuityLockActive,
     mobileViewport: input.mobileViewport,
     referenceImageRoleSummary: input.providerReferences.imageRoleSummary,
-    creativeSupportAttached: Boolean(input.providerReferences.creativeSupport),
+    creativeSupportAttached: false,
   });
   const prompt = compiledProviderPrompt.prompt;
   const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);

@@ -55,7 +55,11 @@ export function PageConceptConceptInspectDrawer({
             <div>
               <dt>CAPTURE INFLUENCE</dt>
               <dd data-testid="concept-inspect-capture-influence">
-                {meta?.captureInfluenceMode?.includes('BOTTOM') ? 'BOTTOM CONTINUITY ONLY' : meta?.captureInfluenceMode ?? '—'}
+                {meta?.captureInfluenceMode === 'FUNCTIONAL_REFERENCE_ONLY' ?
+                  'FUNCTIONAL REFERENCE ONLY'
+                : meta?.captureInfluenceMode?.includes('BOTTOM') ?
+                  'BOTTOM CONTINUITY ONLY'
+                : meta?.captureInfluenceMode ?? '—'}
               </dd>
             </div>
             <div>

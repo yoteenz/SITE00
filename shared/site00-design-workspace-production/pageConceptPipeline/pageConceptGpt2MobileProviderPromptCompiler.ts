@@ -28,12 +28,16 @@ import {
   buildGpt2MobileBottomContinuityAuthorityBlock,
   buildGpt2MobileBottomNavLockBlock,
   buildGpt2MobileConceptualFreedomBoundaryBlock,
+  buildGpt2MobileDesignAuthoritySourceBlock,
   buildGpt2MobileFullPageOutputRequirementBlock,
+  buildGpt2MobileFunctionalReferenceOnlyBlock,
   buildGpt2MobileLowerPageRegionMapBlock,
   buildGpt2MobileMobilePageFunctionAuthorityBlock,
 } from './pageConceptGpt2MobileContinuityLock.js';
+import { assertScreenshotDesignAuthorityForbidden } from './pageConceptGpt2MobileReferenceAuthority.js';
 
-export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v4-full-page-continuity';
+export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
+  'gpt2-mobile-provider-prompt-v5-functional-reference-only';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -55,6 +59,9 @@ export type Gpt2MobileProviderPromptCompileInput = {
   creativeSupportAttached?: boolean;
   bottomHalfAuthorityAttached?: boolean;
   bottomNavAuthorityAttached?: boolean;
+  topStructuralCaptureAttached?: boolean;
+  middleStructuralCaptureAttached?: boolean;
+  bottomStructuralCaptureAttached?: boolean;
   bottomContinuityLockActive?: boolean;
 };
 
@@ -186,30 +193,34 @@ export function compactGpt2MobileTerritoryDelta(input: {
 }
 
 function buildImageRoleDefinitions(input: Gpt2MobileProviderPromptCompileInput): string {
-  const imageDLine =
-    input.creativeSupportAttached ?
-      'Image D (CREATIVE_SUPPORT_REFERENCE): optional mood/texture only — never overrides page structure or bottom nav.'
-    : 'Image D (CREATIVE_SUPPORT_REFERENCE): not attached for this run.';
+  const topAttached = input.topStructuralCaptureAttached ?? input.bottomHalfAuthorityAttached;
+  const middleAttached = input.middleStructuralCaptureAttached ?? input.bottomHalfAuthorityAttached;
+  const bottomAttached = input.bottomStructuralCaptureAttached ?? input.bottomNavAuthorityAttached;
+  const imageALine =
+    topAttached ?
+      'Structural Capture A (TOP_STRUCTURAL_CAPTURE): top nav/shell, breadcrumb, page identity header, first major block — FUNCTIONAL context only.'
+    : 'Structural Capture A (TOP_STRUCTURAL_CAPTURE): missing — package invalid.';
   const imageBLine =
-    input.bottomHalfAuthorityAttached ?
-      'Image B (BOTTOM_HALF_SOURCE_CAPTURE): lower 50% of the real page — mandatory lower-page continuity authority (modules above bottom nav + handoff into shell).'
-    : 'Image B (BOTTOM_HALF_SOURCE_CAPTURE): missing — infer lower page only from Image A (weaker).';
+    middleAttached ?
+      'Structural Capture B (MIDDLE_STRUCTURAL_CAPTURE): core content, cards/metrics, middle interactions — FUNCTIONAL context only.'
+    : 'Structural Capture B (MIDDLE_STRUCTURAL_CAPTURE): missing — package invalid.';
   const imageCLine =
-    input.bottomNavAuthorityAttached ?
-      'Image C (BOTTOM_NAV_AUTHORITY_CROP): tight bottom panel / navigation crop — LOCKED pattern; match tab count, order, roles, labels (uppercase); restyle only.'
-    : 'Image C (BOTTOM_NAV_AUTHORITY_CROP): missing — do not invent bottom nav.';
+    bottomAttached ?
+      'Structural Capture C (BOTTOM_STRUCTURAL_CAPTURE): true page bottom — lower continuation, final content, real bottom nav/panel — FUNCTIONAL context only.'
+    : 'Structural Capture C (BOTTOM_STRUCTURAL_CAPTURE): missing — do not invent bottom nav.';
   return [
     'IMAGE ROLE DEFINITIONS (provider attachments — fixed order):',
-    'Image A (FULL_PAGE_SOURCE_CAPTURE): full-height NDXBOOK Overview mobile page — top chrome through true bottom nav. Structural + functional authority for entire screen.',
+    'These captures show the current page function and structure only. They are not visual design references.',
+    imageALine,
     imageBLine,
     imageCLine,
-    imageDLine,
     '',
-    'STRUCTURE AUTHORITY: Images A+B+C + PAGE REGIONS + architecture contract.',
-    'STYLE AUTHORITY: VISUAL SYSTEM + CREATIVE DIRECTION + territory + Image D (when present).',
+    'DESIGN AUTHORITY: CGPT creative direction + PAGE REGIONS + architecture contract + VISUAL SYSTEM + territory.',
+    'FUNCTIONAL REFERENCE ONLY: Structural Captures A/B/C (layout logic, anatomy, nav placement — never styling).',
+    'SCREENSHOT_DESIGN_AUTHORITY: FORBIDDEN.',
     '',
-    'USE CAPTURES FOR: full page structure, lower-page context, bottom nav/panel continuity, navigation placement, page validity.',
-    'DO NOT USE CAPTURES FOR: literal pixel clone, inventing new bottom tabs/footer, top-half-only poster compositions.',
+    'USE CAPTURES FOR: section order, page anatomy, navigation placement, bottom continuity, interaction presence.',
+    'DO NOT USE CAPTURES FOR: styling mimicry, literal pixel clone, screenshot restyle, inventing new bottom tabs/footer, poster compositions.',
     input.referenceImageRoleSummary ? `ATTACHED SUMMARY: ${input.referenceImageRoleSummary}` : '',
   ]
     .filter(Boolean)
@@ -250,6 +261,10 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     '',
     buildGpt2MobileAuthorityHierarchyBlock(),
     '',
+    buildGpt2MobileDesignAuthoritySourceBlock(),
+    '',
+    buildGpt2MobileFunctionalReferenceOnlyBlock(),
+    '',
     buildGpt2MobileFunctionalInvariantsBlock(),
     '',
     buildGpt2MobileMobilePageFunctionAuthorityBlock(),
@@ -283,7 +298,7 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     'NAVIGATION / CONTINUITY:',
     compactNavigation(arch),
     input.bottomContinuityLockActive ?
-      'Bottom continuity lock ACTIVE: Images B+C define lower-page + bottom nav — inherit exactly; no invented footer/tabs.'
+      'Bottom continuity lock ACTIVE: Structural Capture C defines true page bottom + bottom nav — inherit exactly; no invented footer/tabs.'
     : input.bottomContinuityApplied ?
       'Bottom continuity: inherit bottom nav/panel from Images A+C — do not redesign tabs.'
     : 'Bottom continuity: inherit bottom nav structure from full-page capture — do not redesign tabs.',
@@ -298,7 +313,7 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     compactCreativeDirection(input.cgptBrief, input.injection),
     '',
     'HARD DO / DO NOT:',
-    'DO: one coherent portrait mobile product page; ALL UPPERCASE UI text; light-dominant field per territory; interactable regions; architecture from Image A + contracts; distinct territory vs A/B/C siblings.',
+    'DO: one coherent portrait mobile product page; ALL UPPERCASE UI text; light-dominant field per territory; interactable regions; structure from captures + page architecture; design from CGPT + contracts; distinct territory vs A/B/C siblings.',
     'DO NOT: poster, moodboard, three black inverse pages, invented bottom nav, sentence-case text, design-only-from-support-images, superficial shuffle variants.',
     '',
     'AVOID:',
@@ -433,6 +448,7 @@ export function compileGpt2MobileProviderPrompt(
   if (prompt.length > GPT2_PROVIDER_PROMPT_MAX_CHARS) {
     throw new Error(`GPT2_PROVIDER_PROMPT_TOO_LONG: chars=${prompt.length} max=${GPT2_PROVIDER_PROMPT_MAX_CHARS}`);
   }
+  assertScreenshotDesignAuthorityForbidden(prompt);
 
   const arch = input.pageArchitectureBrief!;
   const territorySpec = resolveGpt2MobileConceptTerritorySpec(input.slot);

@@ -90,11 +90,10 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
       functionalSourcePath: 'capture/mobile.png',
       fallbackViewport: { width: 390, height: 844 },
     });
-    expect(bundle.functionalPage.role).toBe(GPT2_MOBILE_INPUT_ROLE.FUNCTIONAL_PAGE);
-    expect(bundle.functionalPage.width).toBe(390);
-    expect(bundle.functionalPage.height).toBe(844);
-    expect(bundle.bottomNavAuthority?.role).toBe(GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV);
-    expect(bundle.bottomHalf?.role).toBe(GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF);
+    expect(bundle.topStructuralCapture.role).toBe(GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL);
+    expect(bundle.topStructuralCapture.width).toBe(390);
+    expect(bundle.bottomStructuralCapture.role).toBe(GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL);
+    expect(bundle.middleStructuralCapture.role).toBe(GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL);
     expect(gpt2MobileProviderImageOrderForTest({
       prompt: '',
       bottomContinuityCaptureBase64: '',
@@ -102,9 +101,9 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
       lineage: {} as never,
       inspector: {} as never,
     })).toEqual([
-      GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
-      GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
-      GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
+      GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL,
+      GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL,
+      GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
     ]);
   });
 
@@ -138,17 +137,18 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
       pageContext,
       injection,
       bottomContinuityApplied: true,
-      bottomHalfAuthorityAttached: true,
-      bottomNavAuthorityAttached: true,
+      topStructuralCaptureAttached: true,
+      middleStructuralCaptureAttached: true,
+      bottomStructuralCaptureAttached: true,
       bottomContinuityLockActive: true,
       mobileViewport: { width: 390, height: 844 },
       referenceImageRoleSummary: refs.imageRoleSummary,
     });
-    expect(compiled.prompt).toMatch(/Image A \(FULL_PAGE_SOURCE_CAPTURE\)/i);
-    expect(compiled.prompt).toMatch(/Image B \(BOTTOM_HALF_SOURCE_CAPTURE\)/i);
-    expect(compiled.prompt).toMatch(/Image C \(BOTTOM_NAV_AUTHORITY_CROP\)/i);
-    expect(compiled.prompt).toMatch(/STRUCTURE AUTHORITY/i);
-    expect(compiled.prompt).toMatch(/STYLE AUTHORITY/i);
+    expect(compiled.prompt).toMatch(/Structural Capture A \(TOP_STRUCTURAL_CAPTURE\)/i);
+    expect(compiled.prompt).toMatch(/Structural Capture B \(MIDDLE_STRUCTURAL_CAPTURE\)/i);
+    expect(compiled.prompt).toMatch(/Structural Capture C \(BOTTOM_STRUCTURAL_CAPTURE\)/i);
+    expect(compiled.prompt).toMatch(/DESIGN AUTHORITY/i);
+    expect(compiled.prompt).toMatch(/FUNCTIONAL REFERENCE ONLY/i);
     expect(compiled.prompt).toMatch(/DO NOT USE CAPTURES FOR/i);
     expect(compiled.prompt).toMatch(/FULL portrait mobile viewport/i);
   });
@@ -203,8 +203,8 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
         pageContextSummary: '{}',
         mobileViewport: { width: 390, height: 844 },
       });
-      expect(pkg.providerReferences.functionalPage.assetId).toBe('test-functional-page');
-      expect(pkg.inspector.currentCaptureRole).toBe('FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK');
+      expect(pkg.providerReferences.topStructuralCapture.assetId).toBe('test-top-structural');
+      expect(pkg.inspector.currentCaptureRole).toBe('FUNCTIONAL_REFERENCE_ONLY');
       return pkg.inspector.compiledProviderPrompt.sharedBaseHash;
     });
     expect(new Set(functionalIds).size).toBe(1);

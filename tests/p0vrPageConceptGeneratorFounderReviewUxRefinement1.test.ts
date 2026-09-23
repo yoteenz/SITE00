@@ -101,7 +101,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1', () => {
           imageUri: '/a.png',
           gpt2MobileDebug: {
             provider: 'GPT2_MOBILE',
-            captureInfluenceMode: 'FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK',
+            captureInfluenceMode: 'FUNCTIONAL_REFERENCE_ONLY',
             pageValidityPass: true,
             screenshotOverreachWarning: false,
             territoryLabel: 'Territory A',
@@ -112,7 +112,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1', () => {
     });
     const slots = buildGpt2MobileSlotPresentations(state);
     expect(slots[0]?.gpt2Mobile?.pageValidityPass).toBe(true);
-    expect(slots[0]?.gpt2Mobile?.captureInfluenceMode).toBe('FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK');
+    expect(slots[0]?.gpt2Mobile?.captureInfluenceMode).toBe('FUNCTIONAL_REFERENCE_ONLY');
   });
 
   it('footer phase resolves for mobile review and twin handoff', () => {

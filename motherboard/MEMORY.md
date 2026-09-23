@@ -11563,3 +11563,11 @@ Gallery used `size="mobile"` (220px min) inside 72px rail + `object-fit: contain
 GPT2 mobile now sends **3 capture authorities** to Fal: full-page (A), lower-half (B), bottom-nav crop (C). Prompt adds bottom nav lock, full-page output requirement, region map, continuity contract. Debug shows manifest + `BOTTOM NAV CONTINUITY VALIDATION`. Influence mode `FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK`. Provider prompt v4-full-page-continuity.
 
 **Branch:** `cursor/gpt2-mobile-full-page-continuity-bottom-nav-lock1-b747`.
+
+---
+
+## 2026-09-23 — P0.VR.GPT2-MOBILE-FUNCTIONAL-REFERENCE-ONLY-AND-FULL-PAGE-CAPTURE-FIX1
+
+Replaced GPT2 mobile Fal reference package with **GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1**: exactly three disjoint vertical slices (**TOP / MIDDLE / BOTTOM** structural captures), not full-page + lower-half + bottom-nav strip. **`validateMobileStructuralCaptureCoverage()`** blocks dispatch on missing bottom, redundancy, or invalid package. **`SCREENSHOT_AUTHORITY_MODE: FUNCTIONAL_REFERENCE_ONLY`** + **`assertScreenshotDesignAuthorityForbidden()`** — CGPT + page architecture = design authority; captures are functional context only (no styling mimicry). Prompt **`page-gpt2-mobile-page-authority-v4-functional-reference-only`**, provider compiler **v5-functional-reference-only**. Technical details expose capture package version, A/B/C roles, coverage PASS/FAIL, redundancy check. UI debug lines label **TOP STRUCTURE / MIDDLE STRUCTURE / BOTTOM STRUCTURE**. Legacy provider roles (`FULL_PAGE_SOURCE`, `BOTTOM_HALF`, `BOTTOM_NAV`) rejected at order time.
+
+**Branch:** `cursor/gpt2-mobile-functional-reference-only-full-page-capture-fix1-b747`. **Railway:** redeploy API after merge. **GoDaddy:** deploy new ZIP when UI overlay strings changed.
