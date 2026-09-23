@@ -42,6 +42,7 @@ import {
   type PageConceptGalleryHydrationScope,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import { resolvePageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
+import { pageConceptGenerationActivelyRunning } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import {
   buildGpt2ViewportFamilyAuthorityRail,
   isCanonicalGpt2ViewportFamilyPipeline,
@@ -1153,7 +1154,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,
       pageConceptGenerationGate: pageConceptGenerationGateFromEligibility(
         pageConceptGeneration.generationEligibility,
-        pageConceptGeneration.generating,
+        pageConceptGenerationActivelyRunning(
+          pageConceptGeneration.generationStatus,
+          pageConceptGeneration.generating,
+        ),
       ),
       pageConceptTargetPageId: pageTarget.pageId,
       candidates: scopedCandidates,
@@ -1259,7 +1263,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     if (!import.meta.env.DEV) return;
     const gate = pageConceptGenerationGateFromEligibility(
       pageConceptGeneration.generationEligibility,
-      pageConceptGeneration.generating,
+      pageConceptGenerationActivelyRunning(
+        pageConceptGeneration.generationStatus,
+        pageConceptGeneration.generating,
+      ),
     );
     assertPageConceptGenerationGateDivergence({
       eligibility: pageConceptGeneration.generationEligibility,

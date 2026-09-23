@@ -100,7 +100,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1', () => {
       hydrationStatus: 'ready',
     });
     const gate = pageConceptGenerationGateFromEligibility(eligibility, false);
-    expect(gate.canPressGenerate).toBe(false);
+    expect(gate.canPressGenerate).toBe(true);
     expect(gate.blockerMessage?.toLowerCase()).toContain('desktop');
   });
 
@@ -127,7 +127,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1', () => {
     expect(pipeline.nextAction.disabledReason).toBeNull();
   });
 
-  it('pipeline disables generate when gate blocked', () => {
+  it('pipeline keeps generate CTA enabled when captures missing (blocker on click)', () => {
     const pageId = overviewPageId();
     const eligibility = buildPageConceptGenerationEligibility({
       projectSlug: 'ndxbook',
@@ -136,6 +136,9 @@ describe('P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1', () => {
       sessionReady: true,
       hydrationStatus: 'ready',
     });
+    const gate = pageConceptGenerationGateFromEligibility(eligibility, false);
+    expect(gate.canPressGenerate).toBe(true);
+    expect(gate.blockerMessage?.toLowerCase()).toMatch(/capture|desktop|mobile/);
     const pipeline = buildPagePipelineControllerModel({
       projectId: 'ndxbook',
       pageId,
@@ -143,7 +146,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATION-GATE-SINGLE-SOURCE1', () => {
       twinRouteReachable: null,
       pageConceptGeneration: eligibility,
     });
-    expect(pipeline.nextAction.disabledReason).toMatch(/capture/i);
+    expect(pipeline.nextAction.handler).toBe('generatePageConcepts');
     expect(pipeline.nextAction.buttonLabel).toBe('GENERATE PAGE CONCEPTS');
   });
 

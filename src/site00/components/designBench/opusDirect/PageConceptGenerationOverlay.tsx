@@ -474,7 +474,9 @@ export function PageConceptGenerationOverlay({
           generateDisabledReason={generateBlockReason ?? founderNotice}
           generateBusyLabel={generateBusyLabel}
           generateLabel={
-            gpt2AwaitingFounderReview && !generating && !gpt2MobileStage ?
+            gpt2MobileAwaitingSelection && !generating ?
+              'NEW GENERATION'
+            : gpt2AwaitingFounderReview && !generating && !gpt2MobileStage ?
               'CONTINUE (LEGACY NBP)'
             : cgptAwaitingFounderReview && !generating ?
               'REGENERATE CGPT'

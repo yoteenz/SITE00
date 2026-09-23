@@ -278,17 +278,32 @@ export function pageConceptReviewReady(status: PageConceptGenerationStatus): boo
   return status === 'READY_FOR_FOUNDER_REVIEW' || status === 'PARTIAL_GENERATION';
 }
 
-export function pageConceptGenerationInFlight(status: PageConceptGenerationStatus, generating: boolean): boolean {
+/** Provider work actively running — not founder review / mobile selection pauses. */
+export function pageConceptGenerationActivelyRunning(
+  status: PageConceptGenerationStatus,
+  generating: boolean,
+): boolean {
   return (
     generating ||
     status === 'CGPT_RUNNING' ||
     status === 'CGPT_RATE_LIMITED' ||
     status === 'GPT2_RUNNING' ||
-    status === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
-    status === 'GPT2_AWAITING_FOUNDER_REVIEW' ||
-    status === 'GPT2_MOBILE_AWAITING_SELECTION' ||
-    status === 'NBP_RUNNING'
+    status === 'NBP_RUNNING' ||
+    status === 'VIEWPORT_TABLET_RUNNING' ||
+    status === 'VIEWPORT_DESKTOP_RUNNING'
   );
+}
+
+/** Primary GENERATE starts a fresh CGPT branch (archives prior run). */
+export function pageConceptPrimaryGenerateStartsNewBranch(status: PageConceptGenerationStatus): boolean {
+  return status === 'GPT2_MOBILE_AWAITING_SELECTION' || pageConceptReviewReady(status);
+}
+
+export function pageConceptGenerationInFlight(
+  status: PageConceptGenerationStatus,
+  generating: boolean,
+): boolean {
+  return pageConceptGenerationActivelyRunning(status, generating);
 }
 
 export function pageConceptCgptManualRetryEligible(state: PageConceptGenerationState): boolean {

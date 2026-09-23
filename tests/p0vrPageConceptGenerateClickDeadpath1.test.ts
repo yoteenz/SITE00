@@ -135,7 +135,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1', () => {
       executionError: null,
       failedNbp: false,
     });
-    expect(press.canPress).toBe(false);
+    expect(press.canPress).toBe(true);
     expect(press.blockReason).toMatch(/SIGN IN/i);
   });
 

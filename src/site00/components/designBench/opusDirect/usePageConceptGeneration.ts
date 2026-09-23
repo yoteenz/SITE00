@@ -410,6 +410,7 @@ export function usePageConceptGeneration(
 
   const failedNbp = pageConceptHasFailedNbpJobs(state);
   const cgptRetryEligible = pageConceptCgptManualRetryEligible(state);
+  const requestNewPageConceptGenerationRef = useRef<(() => Promise<void>) | null>(null);
 
   const modalGeneratePress = useMemo(
     () =>
@@ -812,6 +813,40 @@ export function usePageConceptGeneration(
         projectId,
         pageId,
         errorCode: message,
+      });
+      return;
+    }
+
+    if (press.intendedAction === 'new_branch') {
+      if (press.blockReason) {
+        setExecutionError(press.blockReason);
+        setGenerateClickTrace((prev) => ({
+          ...prev,
+          preflightStatus: 'failed',
+          lastErrorCode: press.blockReason,
+        }));
+        emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
+          projectId,
+          pageId,
+          errorCode: press.blockReason ?? 'NEW_BRANCH_BLOCKED',
+        });
+        return;
+      }
+      await requestNewPageConceptGenerationRef.current?.();
+      return;
+    }
+
+    if (press.blockReason) {
+      setExecutionError(press.blockReason);
+      setGenerateClickTrace((prev) => ({
+        ...prev,
+        preflightStatus: 'failed',
+        lastErrorCode: press.blockReason,
+      }));
+      emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
+        projectId,
+        pageId,
+        errorCode: press.blockReason ?? 'PREFLIGHT_BLOCKED',
       });
       return;
     }
@@ -1614,6 +1649,8 @@ export function usePageConceptGeneration(
     runPostSpendDispatch,
     screenId,
   ]);
+
+  requestNewPageConceptGenerationRef.current = requestNewPageConceptGeneration;
 
   const requestRegenerateCgpt = useCallback(async () => {
     if (generating || !confirmPostRunAction('regenerate_cgpt')) return;
