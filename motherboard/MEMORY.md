@@ -11457,3 +11457,12 @@ Founder on site00.com: generator rail stuck **CGPT RUNNING** with brief digest v
 - **Fix:** QA stop **opt-in** (`SITE00_PAGE_CONCEPT_CGPT_QA_STOP=true` only). Canonical generate dispatch **auto-chains** GPT2 when QA gate still fires; preserve run session on CGPT review; poll treats `CGPT_AWAITING_FOUNDER_REVIEW` as terminal.
 - **Deploy:** Frontend ZIP + **Railway API redeploy** (server behavior change).
 - **Branch:** `cursor/fix-cgpt-auto-gpt2-progression-b747`.
+
+---
+
+## 2026-09-23 — GPT2 mobile Fal model → GPT Image 2 (not nano-banana / NBP)
+
+Founder Fal dashboard showed **`nano-banana-pro/edit`** for GPT2 mobile page concepts; wanted **GPT2 image model**, not NBP transport.
+
+- **Change:** `PAGE_GPT2_MOBILE_FAL_MODEL` → `openai/gpt-image-2`; bottom-continuity path → `openai/gpt-image-2/edit` via shared `buildFalImageInput` (9:16 portrait). **Legacy NBP** unchanged (`fal-ai/nano-banana-pro/edit`).
+- **Branch:** `cursor/gpt2-mobile-gpt-image2-fal-b747`.
