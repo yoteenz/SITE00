@@ -223,7 +223,6 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     throw new Error('PAGE_ARCHITECTURE_INCOMPLETE: missing brief for provider compile');
   }
 
-  const territorySpec = resolveGpt2MobileConceptTerritorySpec(input.slot);
   const territoryDelta = gpt2MobileConceptTerritoryDelta(input.slot);
 
   const baseSections = [
