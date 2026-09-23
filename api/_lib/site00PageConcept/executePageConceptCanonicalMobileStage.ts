@@ -83,7 +83,7 @@ export async function executePageConceptCanonicalMobileStage(input: {
           creativeInjection: input.creativeInjection,
           cgptCreativeBrief: input.cgptCreativeBrief,
           pageArchitectureBrief: input.pageArchitectureBrief ?? null,
-          screenshotFunctionalPageMap,
+          screenshotFunctionalPageMap: payload.screenshotFunctionalPageMap,
           gpt2AuthorityConcept: null,
           renditions: [],
           mobileConcepts: payload.mobileConcepts,
