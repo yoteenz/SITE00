@@ -53,10 +53,7 @@ function mobileConceptMetaForSlot(
   slot: PageMobileConceptSlotId,
   artifactId: string,
 ): PageGpt2MobileConcept | undefined {
-  return (
-    mobileConcepts.find((c) => c.slot === slot && c.artifactId === artifactId) ??
-    mobileConcepts.find((c) => c.slot === slot)
-  );
+  return mobileConcepts.find((c) => c.slot === slot && c.artifactId === artifactId);
 }
 
 function resolveActiveRunId(state: PageConceptGenerationState): string | null {
@@ -83,7 +80,9 @@ function buildMobileCandidateFromJob(input: {
     : job.status === 'FAILED' ? 'FAILED'
     : job.status === 'RUNNING' ? 'RUNNING'
     : 'PENDING';
-  const image = resolvePageConceptArtifactDisplayUrl(job.imageUri ?? job.artifactPath ?? meta?.imageUri ?? null);
+  const imageSource = job.imageUri ?? job.artifactPath ?? meta?.imageUri ?? null;
+  const cacheBustKey = job.providerJobId ?? job.artifactId ?? job.createdAt ?? meta?.createdAt ?? null;
+  const image = resolvePageConceptArtifactDisplayUrl(imageSource, cacheBustKey);
 
   return {
     conceptId,

@@ -76,6 +76,42 @@ function loadFromStoragePageId(projectSlug: string, storagePageId: string): Page
   return loadPageConceptGenerationState(slug, storagePageId);
 }
 
+function maxGenerationArtifactTimestamp(state: PageConceptGenerationState): number {
+  let max = 0;
+  for (const job of state.generationJobs) {
+    const t = job.createdAt ? Date.parse(job.createdAt) : 0;
+    if (Number.isFinite(t) && t > max) max = t;
+  }
+  for (const concept of state.pipelineSet?.mobileConcepts ?? []) {
+    const t = concept.createdAt ? Date.parse(concept.createdAt) : 0;
+    if (Number.isFinite(t) && t > max) max = t;
+  }
+  const runStarted = state.activeGenerationRunStartedAt ? Date.parse(state.activeGenerationRunStartedAt) : 0;
+  if (Number.isFinite(runStarted) && runStarted > max) max = runStarted;
+  return max;
+}
+
+/** Prefer canonical GPT2 mobile runs over legacy NBP job volume; break ties by newest artifact timestamp. */
+export function scorePageConceptGenerationStateForGalleryDiscovery(state: PageConceptGenerationState): number {
+  const gpt2Ready = state.generationJobs.filter((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY').length;
+  const gpt2Jobs = state.generationJobs.filter((j) => j.provider === 'GPT2_MOBILE').length;
+  const canonical =
+    state.pipelineSet?.pipelineLineage === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' ||
+    gpt2Jobs > 0 ||
+    (state.pipelineSet?.mobileConcepts?.length ?? 0) > 0;
+  const mobileConceptsReady =
+    (state.pipelineSet?.mobileConcepts ?? []).filter((c) => c.status === 'READY').length;
+  const recency = maxGenerationArtifactTimestamp(state);
+  return (
+    (canonical ? 1e15 : 0) +
+    gpt2Ready * 1e12 +
+    mobileConceptsReady * 1e11 +
+    gpt2Jobs * 1e9 +
+    recency +
+    state.generationJobs.length
+  );
+}
+
 /**
  * Best persisted generation state for the active DESIGN page (registry pageId),
  * including canonical / legacy storage keys for the same page.
@@ -108,7 +144,11 @@ export function loadPageConceptGenerationStateForDesignPage(input: {
     if (!stateHasGallerySourceContent(loaded)) continue;
 
     const remapped = remapStateToRegistryPage(loaded, identity);
-    if (!best || remapped.generationJobs.length >= best.generationJobs.length) {
+    if (
+      !best ||
+      scorePageConceptGenerationStateForGalleryDiscovery(remapped) >
+        scorePageConceptGenerationStateForGalleryDiscovery(best)
+    ) {
       best = remapped;
     }
   }
