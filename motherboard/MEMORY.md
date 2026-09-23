@@ -11571,3 +11571,11 @@ GPT2 mobile now sends **3 capture authorities** to Fal: full-page (A), lower-hal
 Replaced GPT2 mobile Fal reference package with **GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1**: exactly three disjoint vertical slices (**TOP / MIDDLE / BOTTOM** structural captures), not full-page + lower-half + bottom-nav strip. **`validateMobileStructuralCaptureCoverage()`** blocks dispatch on missing bottom, redundancy, or invalid package. **`SCREENSHOT_AUTHORITY_MODE: FUNCTIONAL_REFERENCE_ONLY`** + **`assertScreenshotDesignAuthorityForbidden()`** — CGPT + page architecture = design authority; captures are functional context only (no styling mimicry). Prompt **`page-gpt2-mobile-page-authority-v4-functional-reference-only`**, provider compiler **v5-functional-reference-only**. Technical details expose capture package version, A/B/C roles, coverage PASS/FAIL, redundancy check. UI debug lines label **TOP STRUCTURE / MIDDLE STRUCTURE / BOTTOM STRUCTURE**. Legacy provider roles (`FULL_PAGE_SOURCE`, `BOTTOM_HALF`, `BOTTOM_NAV`) rejected at order time.
 
 **Branch:** `cursor/gpt2-mobile-functional-reference-only-full-page-capture-fix1-b747`. **Railway:** redeploy API after merge. **GoDaddy:** deploy new ZIP when UI overlay strings changed.
+
+---
+
+## 2026-09-23 — P0.VR.SCREENSHOT-FUNCTION-MAP-INTELLIGENCE-LAYER1
+
+New **`ScreenshotFunctionalPageMap`** layer between Page Architecture Brief and GPT2: **`interpretScreenshotFunctionality()`** enriches from implementation registry + Page System Review + architecture regions (top/middle/bottom capture roles). **`validateScreenshotFunctionMapForGpt2Dispatch()`** blocks GPT2 with `SCREENSHOT_FUNCTION_MAP_INCOMPLETE` when critical context missing. Provider prompt compiles **`compileGpt2MobileScreenshotFunctionBlock()`** (v6-screenshot-function-map). Pipeline stores map on `pipelineSet.screenshotFunctionalPageMap`; debug receipt + functional fidelity scorecard; Concept Inspector shows FUNCTIONAL SOURCE / regions / bottom nav lock. Source fingerprint invalidates stale maps on capture/architecture change.
+
+**Branch:** `cursor/screenshot-function-map-intelligence-layer1-b747`. **Railway** + **GoDaddy v640** after merge.
