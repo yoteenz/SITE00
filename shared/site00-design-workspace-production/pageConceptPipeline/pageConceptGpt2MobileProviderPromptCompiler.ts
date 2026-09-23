@@ -12,8 +12,20 @@ import type {
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import { PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES } from './pageConceptGpt2MobilePageAuthority.js';
+import {
+  buildGpt2MobileAuthorityHierarchyBlock,
+  buildGpt2MobileBottomNavInheritanceBlock,
+  buildGpt2MobileDistinctnessBlock,
+  buildGpt2MobileFunctionalInvariantsBlock,
+  buildGpt2MobileLightFamilyBlock,
+  buildGpt2MobileUppercaseTypographyBlock,
+  gpt2MobileConceptTerritoryDelta,
+  resolveGpt2MobileConceptTerritorySpec,
+  validateGpt2MobileConceptQualityPrompt,
+  type Gpt2MobileConceptThemeClass,
+} from './pageConceptGpt2MobileConceptContracts.js';
 
-export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v2-dual-reference';
+export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v3-distinction-fix';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -50,6 +62,9 @@ export type Gpt2MobileCompiledProviderPrompt = {
   };
   territoryDelta: string;
   sharedBaseHash: string;
+  conceptTerritoryLabel: string;
+  conceptThemeClass: Gpt2MobileConceptThemeClass;
+  conceptQualityContractsApplied: boolean;
 };
 
 function hashPrompt(text: string): string {
@@ -150,31 +165,13 @@ function compactAvoidList(
   return [...parts].slice(0, 14).join('; ');
 }
 
+/** @deprecated use gpt2MobileConceptTerritoryDelta from concept contracts */
 export function compactGpt2MobileTerritoryDelta(input: {
   slot: PageMobileConceptSlotId;
   injection: PageCreativeInjection;
   brief: PageConceptCgptCreativeBrief | null;
 }): string {
-  const premise = clipSentences(input.brief?.creativePremise ?? input.injection.creativeThesis ?? '', 1);
-  if (input.slot === 'MOBILE_CONCEPT_A') {
-    return [
-      'TERRITORY A: Index-first structural ledger page.',
-      `Stress register/index rhythm. Premise hint: ${premise}`,
-      'Same page architecture as B/C — vary composition/density only.',
-    ].join(' ');
-  }
-  if (input.slot === 'MOBILE_CONCEPT_B') {
-    return [
-      'TERRITORY B: Dossier-first editorial sequence page.',
-      'Declaration-led body with evidence placement — not a campaign graphic.',
-      'Same page architecture as A/C — vary hierarchy/rhythm only.',
-    ].join(' ');
-  }
-  return [
-    'TERRITORY C: Evidence-first spatial register page.',
-    `Monument type inside real page system. Move: ${clipSentences(input.injection.distinctiveMove ?? input.injection.informationPriority ?? '', 1)}`,
-    'Same page architecture as A/B — vary storytelling/rhythm only.',
-  ].join(' ');
+  return gpt2MobileConceptTerritoryDelta(input.slot);
 }
 
 function buildImageRoleDefinitions(input: Gpt2MobileProviderPromptCompileInput): string {
@@ -184,15 +181,15 @@ function buildImageRoleDefinitions(input: Gpt2MobileProviderPromptCompileInput):
     : 'Image C (CREATIVE_SUPPORT_REFERENCE): not attached for this run.';
   return [
     'IMAGE ROLE DEFINITIONS (provider attachments — fixed order):',
-    'Image A (FUNCTIONAL_PAGE_REFERENCE): real NDXBOOK Overview page screenshot/capture. Use to understand functional structure, content zones, navigation placement, shell context, and layout logic. Do NOT copy it literally — preserve recognizable mobile product page architecture.',
-    'Image B (CONTINUITY_REFERENCE): bottom host / SITE 00 continuity anchor ONLY. Preserve recognizable continuity in the lower shell region. Do NOT let this strip dictate hero, body, or full-page composition.',
+    'Image A (FUNCTIONAL_PAGE_REFERENCE): authoritative NDXBOOK Overview mobile capture — layout, module order, functional zones, AND bottom navigation/panel structure/behavior. Use for structure + continuity logic. Do not raster-clone aesthetics.',
+    'Image B (CONTINUITY_REFERENCE): bottom host strip from same capture — confirms bottom nav/panel pixels. Match tab count/order/roles from Image A. Restyle only — never invent a new bottom nav.',
     imageCLine,
     '',
     'STRUCTURE AUTHORITY: Image A + PAGE REGIONS + architecture contract.',
     'STYLE AUTHORITY: VISUAL SYSTEM + CREATIVE DIRECTION + territory + Image C (when present).',
     '',
-    'USE SCREENSHOT FOR: structure, hierarchy, zones, continuity placement logic, navigation placement, page validity.',
-    'DO NOT USE SCREENSHOT FOR: literal screenshot recreation, cloning current aesthetics, raster copy of implementation, postage-stamp crop mimicry.',
+    'USE SCREENSHOT FOR: structure, hierarchy, zones, bottom nav/panel continuity, navigation placement, page validity.',
+    'DO NOT USE SCREENSHOT FOR: literal screenshot recreation, inventing new bottom tabs, cloning every pixel, postage-stamp crop mimicry.',
     input.referenceImageRoleSummary ? `ATTACHED SUMMARY: ${input.referenceImageRoleSummary}` : '',
   ]
     .filter(Boolean)
@@ -226,16 +223,25 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     throw new Error('PAGE_ARCHITECTURE_INCOMPLETE: missing brief for provider compile');
   }
 
-  const territoryDelta = compactGpt2MobileTerritoryDelta({
-    slot: input.slot,
-    injection: input.injection,
-    brief: input.cgptBrief,
-  });
+  const territorySpec = resolveGpt2MobileConceptTerritorySpec(input.slot);
+  const territoryDelta = gpt2MobileConceptTerritoryDelta(input.slot);
 
   const baseSections = [
     buildRoleHeader(arch, input.mobileViewport),
     '',
+    buildGpt2MobileAuthorityHierarchyBlock(),
+    '',
+    buildGpt2MobileFunctionalInvariantsBlock(),
+    '',
     buildImageRoleDefinitions(input),
+    '',
+    buildGpt2MobileBottomNavInheritanceBlock(input.bottomContinuityApplied),
+    '',
+    buildGpt2MobileUppercaseTypographyBlock(),
+    '',
+    buildGpt2MobileLightFamilyBlock(),
+    '',
+    buildGpt2MobileDistinctnessBlock(),
     '',
     'PAGE ARCHITECTURE / LAYOUT AUTHORITY:',
     'Full mobile website page — SITE 00 host shell, project route context, NDXBOOK Overview identity, hero/overview read, status/orientation block, entry index navigation, evidence/content field, current work / deeper access, bottom continuity shell region.',
@@ -246,8 +252,8 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     'NAVIGATION / CONTINUITY:',
     compactNavigation(arch),
     input.bottomContinuityApplied ?
-      'Bottom continuity: Image B anchors lower host shell only — keep navigation continuity recognizable.'
-    : 'Bottom continuity: infer from host rules; still show bottom handoff region.',
+      'Bottom continuity: inherit exact bottom nav/panel system from Image A — Image B is pixel anchor for lower shell.'
+    : 'Bottom continuity: inherit bottom nav structure from Image A capture — do not redesign tabs.',
     '',
     'REQUIRED PAGE CONTENT:',
     compactRequiredContent(arch),
@@ -259,8 +265,8 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     compactCreativeDirection(input.cgptBrief, input.injection),
     '',
     'HARD DO / DO NOT:',
-    'DO: one coherent portrait mobile product page; legible type; interactable regions; scroll narrative; architecture from Image A + contracts.',
-    'DO NOT: poster, moodboard tile, flyer, cropped fragment, brand board, screenshot clone, design-only-from-support-images.',
+    'DO: one coherent portrait mobile product page; ALL UPPERCASE UI text; light-dominant field per territory; interactable regions; architecture from Image A + contracts; distinct territory vs A/B/C siblings.',
+    'DO NOT: poster, moodboard, three black inverse pages, invented bottom nav, sentence-case text, design-only-from-support-images, superficial shuffle variants.',
     '',
     'AVOID:',
     compactAvoidList(input.cgptBrief, input.injection, input.skinContract),
@@ -336,6 +342,8 @@ export function validateCompiledProviderPrompt(prompt: string): CompiledProvider
   if (!lower.includes('image role definitions')) missingSections.push('imageRoles');
   if (!lower.includes('output format')) missingSections.push('outputFormat');
   if (!lower.includes('site 00') && !lower.includes('role:')) missingSections.push('pageIdentity');
+  const quality = validateGpt2MobileConceptQualityPrompt(prompt);
+  if (!quality.ok) missingSections.push(...quality.missingContracts);
 
   if (compiledCharCount > MAX_PROVIDER_PROMPT_CHARS) {
     const sections = prompt.split(/\n(?=[A-Z][A-Z /]+:)/);
@@ -394,6 +402,8 @@ export function compileGpt2MobileProviderPrompt(
   }
 
   const arch = input.pageArchitectureBrief!;
+  const territorySpec = resolveGpt2MobileConceptTerritorySpec(input.slot);
+  const quality = validateGpt2MobileConceptQualityPrompt(prompt);
   return {
     prompt,
     compiledPromptVersion: COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION,
@@ -409,6 +419,9 @@ export function compileGpt2MobileProviderPrompt(
     },
     territoryDelta,
     sharedBaseHash: hashPrompt(basePrompt),
+    conceptTerritoryLabel: territorySpec.territoryLabel,
+    conceptThemeClass: territorySpec.themeClass,
+    conceptQualityContractsApplied: quality.ok,
   };
 }
 
