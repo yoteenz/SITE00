@@ -64,6 +64,7 @@ export async function executePageConceptRegenerateMobileConcepts(input: {
     functionContract: input.state.functionContract,
     creativeInjection: ps.creativeInjection,
     cgptCreativeBrief: ps.cgptCreativeBrief,
+    pageArchitectureBrief: ps.pageArchitectureBrief ?? null,
     mobileDims: input.mobileDims,
     functionalCaptureBase64: input.mobileCaptureBase64,
     existingJobs: input.state.generationJobs,

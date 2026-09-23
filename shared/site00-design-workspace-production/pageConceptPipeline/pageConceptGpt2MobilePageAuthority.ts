@@ -5,7 +5,7 @@
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptRenditionSlotId } from './types.js';
 
-export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v2';
+export const PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION = 'page-gpt2-mobile-page-authority-v3-arch-handoff';
 
 export const PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE =
   'FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY' as const;
@@ -43,6 +43,13 @@ export type PageGpt2MobileArtifactDebug = {
   effectivePromptVersion: string;
   nbpPathGuard: 'BLOCKED';
   pageStructureContractIncluded: boolean;
+  pageArchitectureBriefId?: string;
+  regionMapVersion?: string;
+  bottomContinuityContractId?: string;
+  navigationContractId?: string;
+  scrollNarrativeId?: string;
+  pageArchitectureValidation?: 'PASS' | 'PAGE_ARCHITECTURE_VALIDATION_FAILED';
+  pageArchitectureDebugLines?: readonly string[];
 };
 
 export const PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS = [
@@ -91,6 +98,13 @@ export function buildGpt2MobileArtifactDebug(input: {
   pageValidityPass: boolean;
   posterDriftWarning?: boolean;
   screenshotOverreachWarning?: boolean;
+  pageArchitectureBriefId?: string;
+  regionMapVersion?: string;
+  bottomContinuityContractId?: string;
+  navigationContractId?: string;
+  scrollNarrativeId?: string;
+  pageArchitectureValidation?: 'PASS' | 'PAGE_ARCHITECTURE_VALIDATION_FAILED';
+  pageArchitectureDebugLines?: readonly string[];
 }): PageGpt2MobileArtifactDebug {
   return {
     stage: 'GPT2_MOBILE_PAGE_CONCEPT',
@@ -108,5 +122,12 @@ export function buildGpt2MobileArtifactDebug(input: {
     effectivePromptVersion: PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
     nbpPathGuard: 'BLOCKED',
     pageStructureContractIncluded: true,
+    pageArchitectureBriefId: input.pageArchitectureBriefId,
+    regionMapVersion: input.regionMapVersion,
+    bottomContinuityContractId: input.bottomContinuityContractId,
+    navigationContractId: input.navigationContractId,
+    scrollNarrativeId: input.scrollNarrativeId,
+    pageArchitectureValidation: input.pageArchitectureValidation,
+    pageArchitectureDebugLines: input.pageArchitectureDebugLines,
   };
 }

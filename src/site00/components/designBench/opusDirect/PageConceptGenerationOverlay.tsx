@@ -275,11 +275,13 @@ export function PageConceptGenerationOverlay({
     return jobs.flatMap((j) => {
       const d = j.gpt2MobileDebug;
       if (!d) return [];
+      const archLines = d.pageArchitectureDebugLines ?? [];
       return [
         `${j.displayTitle ?? j.artifactId}: PROVIDER ${d.provider} · ${d.transport}`,
         `CAPTURE ${d.captureInfluenceMode} · BOTTOM CONTINUITY ${d.bottomContinuityApplied ? 'YES' : 'NO'}`,
         `PAGE VALIDITY ${d.pageValidityPass ? 'PASS' : 'FAIL'} · POSTER WARN ${d.posterDriftWarning ? 'YES' : 'NO'} · SCREENSHOT OVERREACH ${d.screenshotOverreachWarning ? 'YES' : 'NO'}`,
         `TERRITORY ${d.territoryLabel}`,
+        ...archLines,
       ];
     });
   }, [generationState.generationJobs]);
