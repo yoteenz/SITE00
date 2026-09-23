@@ -94,7 +94,7 @@ function previewStatusForCandidate(
   candidate: TwinOpusDirectCandidate,
 ): 'PENDING' | 'GENERATING' | 'READY' | 'FAILED' {
   if (candidate.artifactStatus === 'FAILED') return 'FAILED';
-  if (candidate.artifactStatus === 'READY' && candidate.previewSrc) return 'READY';
+  if (candidate.previewSrc) return 'READY';
   if (candidate.artifactStatus === 'RUNNING') return 'GENERATING';
   return 'PENDING';
 }
@@ -421,12 +421,18 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               </button>
             </div>
           : null}
-          <div className="tod-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
+          <div className="tod-gallery__filled" hidden={Boolean(data.galleryEmptyMessage)}>
             {data.candidateSections.current.length > 0 ?
               <p className="tod-gallery__groupLabel" data-testid="gallery-current-generation-label">
                 {data.galleryCurrentGroupLabel}
               </p>
             : null}
+            {data.candidateSections.history.length > 0 ?
+              <p className="tod-gallery__groupLabel tod-gallery__groupLabel--history" data-testid="gallery-history-label">
+                {data.galleryHistoryGroupLabel}
+              </p>
+            : null}
+            <div className="tod-gallery__rail" ref={galleryRef}>
             {data.candidateSections.current.map((candidate) => {
               const active = candidate.id === state.candidateId;
               return (
@@ -458,11 +464,6 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 </button>
               );
             })}
-            {data.candidateSections.history.length > 0 ?
-              <p className="tod-gallery__groupLabel" data-testid="gallery-history-label">
-                {data.galleryHistoryGroupLabel}
-              </p>
-            : null}
             {data.candidateSections.history.map((candidate) => (
               <button
                 key={`hist-${candidate.artifactId ?? candidate.id}`}
@@ -475,11 +476,13 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 <TodGalleryCandidateCard candidate={candidate} />
               </button>
             ))}
+            </div>
           </div>
           <button
             type="button"
             className="tod-gallery__next"
             aria-label="Show more concept candidates"
+            hidden={Boolean(data.galleryEmptyMessage)}
             onClick={scrollGallery}
           >
             <TodIconChevronRight className="tod-ico" />

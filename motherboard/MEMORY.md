@@ -11529,3 +11529,13 @@ GPT2 mobile concepts read as pages but were too similar, too dark, wrong casing,
 - **Debug:** territory label, theme class, contract flags in Technical Details.
 - **Tests:** `p0vrGpt2MobileConceptDistinctionAndFunctionalContinuityFix1.test.ts`.
 - **Branch:** `cursor/gpt2-mobile-concept-distinction-fix1-b747`.
+
+---
+
+## 2026-09-23 — Gallery “CURRENT GENERATION” only (Fal cards clipped)
+
+**Cause:** `.tod-gallery__groupLabel { flex: 0 0 100% }` lived inside `.tod-gallery__rail` (`overflow: hidden`, `flex-wrap: nowrap`). Label consumed full row width; A/B/C cards sat off-screen to the right — looked like empty gallery with only “CURRENT GENERATION” text.
+
+**Fix:** Labels in `.tod-gallery__filled` above rail; rail `overflow-x: auto`; compact gallery card height; preview shows when `previewSrc` exists; gallery card URLs keep cache-bust key.
+
+**Branch:** `cursor/fix-gallery-mobile-concept-cards-clipped-b747`.
