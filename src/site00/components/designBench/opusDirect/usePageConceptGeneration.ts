@@ -788,6 +788,15 @@ export function usePageConceptGeneration(
     const clickAt = new Date().toISOString();
     const sessionToken = await getAccessToken();
     const sessionPresent = Boolean(sessionToken);
+    setApiSessionReady(sessionPresent);
+    const eligibilityAtClick = buildPageConceptGenerationEligibility({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route,
+      sessionReady: sessionPresent,
+      hydrationStatus: captureHydrationStatus,
+    });
     const stateBefore = formatPageConceptGenerationStatusSnapshot(state.generationStatus, generating);
 
     setLiveProductionTrace((prev) =>
@@ -808,7 +817,7 @@ export function usePageConceptGeneration(
       ...prev,
       clickReceived: true,
       clickAt,
-      canGenerateAtClick: generationEligibility.canGenerate,
+      canGenerateAtClick: eligibilityAtClick.canGenerate,
       canPressAtClick: modalGeneratePress.canPress,
       sessionPresentAtClick: sessionPresent,
     }));
@@ -834,7 +843,7 @@ export function usePageConceptGeneration(
     setGenerateClickTrace((prev) => ({ ...prev, preflightStatus: 'started' }));
 
     const press = computePageConceptModalGeneratePress({
-      eligibility: generationEligibility,
+      eligibility: eligibilityAtClick,
       mode: overlayMode,
       generating,
       generationStatus: state.generationStatus,

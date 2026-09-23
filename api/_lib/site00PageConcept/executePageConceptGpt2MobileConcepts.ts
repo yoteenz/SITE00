@@ -9,6 +9,7 @@ import type {
   PageConceptPageArchitectureBrief,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import {
+  compilePageConceptPageArchitectureBrief,
   evaluateGpt2MobilePageArchitectureValidity,
   buildPageArchitectureFounderDebugLines,
   validatePageArchitectureBrief,
@@ -463,6 +464,17 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   );
 
   const captureB64 = stripDataUrlPrefix(input.functionalCaptureBase64);
+  let pageArchitectureBrief = input.pageArchitectureBrief ?? null;
+  if (!pageArchitectureBrief && input.cgptCreativeBrief && input.creativeInjection) {
+    pageArchitectureBrief = compilePageConceptPageArchitectureBrief({
+      projectContext: input.projectContext,
+      pageContext: input.pageContext,
+      functionContract: input.functionContract,
+      injection: input.creativeInjection,
+      cgptCreativeBrief: input.cgptCreativeBrief,
+      captureSetId: input.plan.captureSetId,
+    });
+  }
   let sharedProviderReferences: Gpt2MobileProviderReferenceBundle | null = null;
   let sharedFunctionMap: ScreenshotFunctionalPageMap | null = null;
   const needsFunctionMap = !input.dryRun && process.env.VITEST !== 'true';
@@ -481,7 +493,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
         projectContext: input.projectContext,
         pageContext: input.pageContext,
         functionContract: input.functionContract,
-        pageArchitectureBrief: input.pageArchitectureBrief ?? null,
+        pageArchitectureBrief,
       });
       const dispatchCheck = validateScreenshotFunctionMapForGpt2Dispatch(sharedFunctionMap);
       if (!dispatchCheck.ok && needsFunctionMap) {
@@ -507,7 +519,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       plan: input.plan,
       injection: input.creativeInjection,
       cgptBrief: input.cgptCreativeBrief,
-      pageArchitectureBrief: input.pageArchitectureBrief ?? null,
+      pageArchitectureBrief,
       projectContext: input.projectContext,
       pageContext: input.pageContext,
       functionContract: input.functionContract,

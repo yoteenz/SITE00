@@ -94,6 +94,36 @@ describe('P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1', () => {
     expect(hook).toContain('GENERATION ALREADY IN PROGRESS');
   });
 
+  it('sessionReady null does not block dispatch preflight (hook resolves token before press)', () => {
+    const pageId = overviewPageId();
+    seedBoth(pageId);
+    const pendingSession = buildPageConceptGenerationEligibility({
+      projectSlug: 'ndxbook',
+      pageId,
+      screenId: 'overview',
+      sessionReady: null,
+      hydrationStatus: 'ready',
+    });
+    const press = computePageConceptModalGeneratePress({
+      eligibility: pendingSession,
+      mode: 'confirm',
+      generating: false,
+      generationStatus: 'PLANNED',
+      executionError: null,
+      failedNbp: false,
+    });
+    expect(press.canPress).toBe(true);
+    expect(press.blockReason).toBeNull();
+    expect(press.intendedAction).toBe('dispatch');
+
+    const hook = readFileSync(
+      join(ROOT, 'src/site00/components/designBench/opusDirect/usePageConceptGeneration.ts'),
+      'utf8',
+    );
+    expect(hook).toContain('eligibilityAtClick');
+    expect(hook).toContain('setApiSessionReady(sessionPresent)');
+  });
+
   it('GIVEN captures READY + eligibility TRUE WHEN press gate THEN canPress', () => {
     const pageId = overviewPageId();
     seedBoth(pageId);
