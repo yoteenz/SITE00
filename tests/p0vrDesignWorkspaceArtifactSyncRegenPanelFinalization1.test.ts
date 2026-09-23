@@ -141,9 +141,10 @@ describe('P0.VR.DESIGN-WORKSPACE-ARTIFACT-SYNC-REGEN-PANEL-FINALIZATION1', () =>
     syncPageConceptGalleryFromGenerationState(state);
     const listed = listPageConceptCandidates(PROJECT, PAGE);
     const card = mapPageConceptToGalleryCard(listed[0]!, null);
-    expect(card.previewSrc).toBe('https://site00.com/api/page-concept-artifacts/ndxbook/test.png');
+    const base = 'https://site00.com/api/page-concept-artifacts/ndxbook/test.png';
+    expect(card.previewSrc).toBe(`${base}?artifact=job-1`);
     const slots = buildGpt2MobileSlotPresentations(state);
-    expect(slots[0]?.imageSrc).toBe('https://site00.com/api/page-concept-artifacts/ndxbook/test.png');
+    expect(slots[0]?.imageSrc).toBe(`${base}?artifact=job-1`);
     expect(resolvePageConceptArtifactDisplayUrl('/x.png')).toBe('https://site00.com/x.png');
   });
 

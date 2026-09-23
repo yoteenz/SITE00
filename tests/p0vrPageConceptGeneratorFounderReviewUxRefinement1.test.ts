@@ -112,7 +112,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1', () => {
     });
     const slots = buildGpt2MobileSlotPresentations(state);
     expect(slots[0]?.gpt2Mobile?.pageValidityPass).toBe(true);
-    expect(slots[0]?.gpt2Mobile?.captureInfluenceMode).toContain('BOTTOM');
+    expect(slots[0]?.gpt2Mobile?.captureInfluenceMode).toBe('DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY');
   });
 
   it('footer phase resolves for mobile review and twin handoff', () => {
