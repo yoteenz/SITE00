@@ -93,8 +93,8 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
     expect(bundle.functionalPage.role).toBe(GPT2_MOBILE_INPUT_ROLE.FUNCTIONAL_PAGE);
     expect(bundle.functionalPage.width).toBe(390);
     expect(bundle.functionalPage.height).toBe(844);
-    expect(bundle.continuity?.role).toBe(GPT2_MOBILE_INPUT_ROLE.CONTINUITY);
-    expect((bundle.continuity?.height ?? 0) > 0).toBe(true);
+    expect(bundle.bottomNavAuthority?.role).toBe(GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV);
+    expect(bundle.bottomHalf?.role).toBe(GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF);
     expect(gpt2MobileProviderImageOrderForTest({
       prompt: '',
       bottomContinuityCaptureBase64: '',
@@ -102,8 +102,9 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
       lineage: {} as never,
       inspector: {} as never,
     })).toEqual([
-      GPT2_MOBILE_INPUT_ROLE.FUNCTIONAL_PAGE,
-      GPT2_MOBILE_INPUT_ROLE.CONTINUITY,
+      GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
+      GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
+      GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
     ]);
   });
 
@@ -137,15 +138,19 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
       pageContext,
       injection,
       bottomContinuityApplied: true,
+      bottomHalfAuthorityAttached: true,
+      bottomNavAuthorityAttached: true,
+      bottomContinuityLockActive: true,
       mobileViewport: { width: 390, height: 844 },
       referenceImageRoleSummary: refs.imageRoleSummary,
     });
-    expect(compiled.prompt).toMatch(/Image A \(FUNCTIONAL_PAGE_REFERENCE\)/i);
-    expect(compiled.prompt).toMatch(/Image B \(CONTINUITY_REFERENCE\)/i);
+    expect(compiled.prompt).toMatch(/Image A \(FULL_PAGE_SOURCE_CAPTURE\)/i);
+    expect(compiled.prompt).toMatch(/Image B \(BOTTOM_HALF_SOURCE_CAPTURE\)/i);
+    expect(compiled.prompt).toMatch(/Image C \(BOTTOM_NAV_AUTHORITY_CROP\)/i);
     expect(compiled.prompt).toMatch(/STRUCTURE AUTHORITY/i);
     expect(compiled.prompt).toMatch(/STYLE AUTHORITY/i);
-    expect(compiled.prompt).toMatch(/DO NOT USE SCREENSHOT FOR/i);
-    expect(compiled.prompt).toMatch(/fills the frame edge-to-edge/i);
+    expect(compiled.prompt).toMatch(/DO NOT USE CAPTURES FOR/i);
+    expect(compiled.prompt).toMatch(/FULL portrait mobile viewport/i);
   });
 
   it('A/B/C share functional authority metadata and distinct territory in package', () => {
@@ -199,7 +204,7 @@ describe('P0.VR.GPT2-MOBILE-DUAL-REFERENCE-AUTHORITY-WIRING-FIX1', () => {
         mobileViewport: { width: 390, height: 844 },
       });
       expect(pkg.providerReferences.functionalPage.assetId).toBe('test-functional-page');
-      expect(pkg.inspector.currentCaptureRole).toBe('DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY');
+      expect(pkg.inspector.currentCaptureRole).toBe('FULL_PAGE_LOWER_CONTEXT_PLUS_BOTTOM_NAV_LOCK');
       return pkg.inspector.compiledProviderPrompt.sharedBaseHash;
     });
     expect(new Set(functionalIds).size).toBe(1);

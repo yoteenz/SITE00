@@ -24,8 +24,16 @@ import {
   validateGpt2MobileConceptQualityPrompt,
   type Gpt2MobileConceptThemeClass,
 } from './pageConceptGpt2MobileConceptContracts.js';
+import {
+  buildGpt2MobileBottomContinuityAuthorityBlock,
+  buildGpt2MobileBottomNavLockBlock,
+  buildGpt2MobileConceptualFreedomBoundaryBlock,
+  buildGpt2MobileFullPageOutputRequirementBlock,
+  buildGpt2MobileLowerPageRegionMapBlock,
+  buildGpt2MobileMobilePageFunctionAuthorityBlock,
+} from './pageConceptGpt2MobileContinuityLock.js';
 
-export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v3-distinction-fix';
+export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION = 'gpt2-mobile-provider-prompt-v4-full-page-continuity';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -45,6 +53,9 @@ export type Gpt2MobileProviderPromptCompileInput = {
   mobileViewport: { width: number; height: number };
   referenceImageRoleSummary?: string;
   creativeSupportAttached?: boolean;
+  bottomHalfAuthorityAttached?: boolean;
+  bottomNavAuthorityAttached?: boolean;
+  bottomContinuityLockActive?: boolean;
 };
 
 export type Gpt2MobileCompiledProviderPrompt = {
@@ -175,21 +186,30 @@ export function compactGpt2MobileTerritoryDelta(input: {
 }
 
 function buildImageRoleDefinitions(input: Gpt2MobileProviderPromptCompileInput): string {
-  const imageCLine =
+  const imageDLine =
     input.creativeSupportAttached ?
-      'Image C (CREATIVE_SUPPORT_REFERENCE): optional editorial / evidence tone reference — influences aesthetic expression only, NOT page layout or navigation structure.'
-    : 'Image C (CREATIVE_SUPPORT_REFERENCE): not attached for this run.';
+      'Image D (CREATIVE_SUPPORT_REFERENCE): optional mood/texture only — never overrides page structure or bottom nav.'
+    : 'Image D (CREATIVE_SUPPORT_REFERENCE): not attached for this run.';
+  const imageBLine =
+    input.bottomHalfAuthorityAttached ?
+      'Image B (BOTTOM_HALF_SOURCE_CAPTURE): lower 50% of the real page — mandatory lower-page continuity authority (modules above bottom nav + handoff into shell).'
+    : 'Image B (BOTTOM_HALF_SOURCE_CAPTURE): missing — infer lower page only from Image A (weaker).';
+  const imageCLine =
+    input.bottomNavAuthorityAttached ?
+      'Image C (BOTTOM_NAV_AUTHORITY_CROP): tight bottom panel / navigation crop — LOCKED pattern; match tab count, order, roles, labels (uppercase); restyle only.'
+    : 'Image C (BOTTOM_NAV_AUTHORITY_CROP): missing — do not invent bottom nav.';
   return [
     'IMAGE ROLE DEFINITIONS (provider attachments — fixed order):',
-    'Image A (FUNCTIONAL_PAGE_REFERENCE): authoritative NDXBOOK Overview mobile capture — layout, module order, functional zones, AND bottom navigation/panel structure/behavior. Use for structure + continuity logic. Do not raster-clone aesthetics.',
-    'Image B (CONTINUITY_REFERENCE): bottom host strip from same capture — confirms bottom nav/panel pixels. Match tab count/order/roles from Image A. Restyle only — never invent a new bottom nav.',
+    'Image A (FULL_PAGE_SOURCE_CAPTURE): full-height NDXBOOK Overview mobile page — top chrome through true bottom nav. Structural + functional authority for entire screen.',
+    imageBLine,
     imageCLine,
+    imageDLine,
     '',
-    'STRUCTURE AUTHORITY: Image A + PAGE REGIONS + architecture contract.',
-    'STYLE AUTHORITY: VISUAL SYSTEM + CREATIVE DIRECTION + territory + Image C (when present).',
+    'STRUCTURE AUTHORITY: Images A+B+C + PAGE REGIONS + architecture contract.',
+    'STYLE AUTHORITY: VISUAL SYSTEM + CREATIVE DIRECTION + territory + Image D (when present).',
     '',
-    'USE SCREENSHOT FOR: structure, hierarchy, zones, bottom nav/panel continuity, navigation placement, page validity.',
-    'DO NOT USE SCREENSHOT FOR: literal screenshot recreation, inventing new bottom tabs, cloning every pixel, postage-stamp crop mimicry.',
+    'USE CAPTURES FOR: full page structure, lower-page context, bottom nav/panel continuity, navigation placement, page validity.',
+    'DO NOT USE CAPTURES FOR: literal pixel clone, inventing new bottom tabs/footer, top-half-only poster compositions.',
     input.referenceImageRoleSummary ? `ATTACHED SUMMARY: ${input.referenceImageRoleSummary}` : '',
   ]
     .filter(Boolean)
@@ -232,9 +252,21 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     '',
     buildGpt2MobileFunctionalInvariantsBlock(),
     '',
+    buildGpt2MobileMobilePageFunctionAuthorityBlock(),
+    '',
+    buildGpt2MobileBottomContinuityAuthorityBlock(),
+    '',
+    buildGpt2MobileConceptualFreedomBoundaryBlock(),
+    '',
     buildImageRoleDefinitions(input),
     '',
-    buildGpt2MobileBottomNavInheritanceBlock(input.bottomContinuityApplied),
+    buildGpt2MobileBottomNavLockBlock(),
+    '',
+    buildGpt2MobileFullPageOutputRequirementBlock(),
+    '',
+    buildGpt2MobileLowerPageRegionMapBlock(),
+    '',
+    buildGpt2MobileBottomNavInheritanceBlock(input.bottomContinuityApplied || input.bottomContinuityLockActive === true),
     '',
     buildGpt2MobileUppercaseTypographyBlock(),
     '',
@@ -250,9 +282,11 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     '',
     'NAVIGATION / CONTINUITY:',
     compactNavigation(arch),
-    input.bottomContinuityApplied ?
-      'Bottom continuity: inherit exact bottom nav/panel system from Image A — Image B is pixel anchor for lower shell.'
-    : 'Bottom continuity: inherit bottom nav structure from Image A capture — do not redesign tabs.',
+    input.bottomContinuityLockActive ?
+      'Bottom continuity lock ACTIVE: Images B+C define lower-page + bottom nav — inherit exactly; no invented footer/tabs.'
+    : input.bottomContinuityApplied ?
+      'Bottom continuity: inherit bottom nav/panel from Images A+C — do not redesign tabs.'
+    : 'Bottom continuity: inherit bottom nav structure from full-page capture — do not redesign tabs.',
     '',
     'REQUIRED PAGE CONTENT:',
     compactRequiredContent(arch),
@@ -271,7 +305,7 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     compactAvoidList(input.cgptBrief, input.injection, input.skinContract),
     '',
     'OUTPUT FORMAT:',
-    'One full portrait mobile viewport page concept (9:16) — design fills the frame edge-to-edge with readable hierarchy; no tiny concept floating in whitespace; no postage-stamp render.',
+    'One FULL portrait mobile viewport page concept (9:16) including lower-page continuity context and source-locked bottom nav — edge-to-edge readable hierarchy; not a cropped top-half poster.',
   ];
 
   return { basePrompt: baseSections.join('\n'), territoryDelta };
