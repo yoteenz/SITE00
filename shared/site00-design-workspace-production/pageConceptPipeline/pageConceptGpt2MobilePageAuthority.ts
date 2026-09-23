@@ -50,6 +50,11 @@ export type PageGpt2MobileArtifactDebug = {
   scrollNarrativeId?: string;
   pageArchitectureValidation?: 'PASS' | 'PAGE_ARCHITECTURE_VALIDATION_FAILED';
   pageArchitectureDebugLines?: readonly string[];
+  compiledPromptVersion?: string;
+  compiledPromptHash?: string;
+  compiledPromptCharCount?: number;
+  providerPromptSafeLimit?: number;
+  compiledProviderPromptPreview?: string;
 };
 
 export const PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS = [
@@ -105,6 +110,11 @@ export function buildGpt2MobileArtifactDebug(input: {
   scrollNarrativeId?: string;
   pageArchitectureValidation?: 'PASS' | 'PAGE_ARCHITECTURE_VALIDATION_FAILED';
   pageArchitectureDebugLines?: readonly string[];
+  compiledPromptVersion?: string;
+  compiledPromptHash?: string;
+  compiledPromptCharCount?: number;
+  providerPromptSafeLimit?: number;
+  compiledProviderPromptPreview?: string;
 }): PageGpt2MobileArtifactDebug {
   return {
     stage: 'GPT2_MOBILE_PAGE_CONCEPT',
@@ -129,5 +139,10 @@ export function buildGpt2MobileArtifactDebug(input: {
     scrollNarrativeId: input.scrollNarrativeId,
     pageArchitectureValidation: input.pageArchitectureValidation,
     pageArchitectureDebugLines: input.pageArchitectureDebugLines,
+    compiledPromptVersion: input.compiledPromptVersion,
+    compiledPromptHash: input.compiledPromptHash,
+    compiledPromptCharCount: input.compiledPromptCharCount,
+    providerPromptSafeLimit: input.providerPromptSafeLimit,
+    compiledProviderPromptPreview: input.compiledProviderPromptPreview,
   };
 }

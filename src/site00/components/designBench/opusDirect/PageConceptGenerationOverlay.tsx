@@ -276,11 +276,21 @@ export function PageConceptGenerationOverlay({
       const d = j.gpt2MobileDebug;
       if (!d) return [];
       const archLines = d.pageArchitectureDebugLines ?? [];
+      const previewLine =
+        d.compiledProviderPromptPreview ?
+          `COMPILED PROMPT PREVIEW: ${d.compiledProviderPromptPreview.slice(0, 280).replace(/\s+/g, ' ').trim()}…`
+        : null;
       return [
         `${j.displayTitle ?? j.artifactId}: PROVIDER ${d.provider} · ${d.transport}`,
         `CAPTURE ${d.captureInfluenceMode} · BOTTOM CONTINUITY ${d.bottomContinuityApplied ? 'YES' : 'NO'}`,
         `PAGE VALIDITY ${d.pageValidityPass ? 'PASS' : 'FAIL'} · POSTER WARN ${d.posterDriftWarning ? 'YES' : 'NO'} · SCREENSHOT OVERREACH ${d.screenshotOverreachWarning ? 'YES' : 'NO'}`,
         `TERRITORY ${d.territoryLabel}`,
+        ...(d.compiledPromptCharCount != null ?
+          [
+            `PROVIDER PROMPT CHAR COUNT: ${d.compiledPromptCharCount} · SAFE LIMIT: ${d.providerPromptSafeLimit ?? 24000}`,
+          ]
+        : []),
+        ...(previewLine ? [previewLine] : []),
         ...archLines,
       ];
     });

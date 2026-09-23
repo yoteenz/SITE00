@@ -10,17 +10,17 @@ import type {
   PageCreativeContext,
   ProjectCreativeContext,
 } from './types.js';
-import { formatPageArchitectureBriefForGpt2Prompt } from './pageConceptPageArchitectureBrief.js';
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
-import { buildPageConceptGpt2AuthorityPackage } from './pageConceptGpt2AuthorityPackage.js';
 import type { PageMobileConceptSlotId } from './pageConceptViewportAuthorityFamily.js';
 import { resolvePageGpt2MobileFalModel } from './generationPlan.js';
 import {
+  compileGpt2MobileProviderPrompt,
+  type Gpt2MobileCompiledProviderPrompt,
+} from './pageConceptGpt2MobileProviderPromptCompiler.js';
+import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
-  PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES,
   PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
   PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS,
-  PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS,
   assertGpt2MobilePackageNotNbpPath,
 } from './pageConceptGpt2MobilePageAuthority.js';
 
@@ -50,6 +50,7 @@ export type PageGpt2MobileConceptRequestPackage = {
     model: string;
     territoryDirective: string;
     territoryLabel: string;
+    compiledProviderPrompt: Gpt2MobileCompiledProviderPrompt;
   };
 };
 
@@ -94,17 +95,6 @@ export function mobileConceptTerritoryDirective(input: {
   ].join(' ');
 }
 
-function skinBlock(skin: ProjectSkinContract): string {
-  return [
-    `SKIN ${skin.contractId} v${skin.version}`,
-    skin.typography.displayFont,
-    skin.typography.bodyFont,
-    skin.palette.join(' · '),
-    skin.material.join(' · '),
-    `FORBIDDEN DRIFT: ${skin.forbiddenDrift.join(' · ')}`,
-  ].join('\n');
-}
-
 export function buildPageGpt2MobileConceptRequestPackage(input: {
   runId: string;
   slot: PageMobileConceptSlotId;
@@ -128,73 +118,18 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   });
   const territoryLabel = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
 
-  const authorityPackage = buildPageConceptGpt2AuthorityPackage({
-    projectContext: input.projectContext,
-    pageContext: input.pageContext,
-    functionContract: input.functionContract,
-    injection: input.injection,
+  const compiledProviderPrompt = compileGpt2MobileProviderPrompt({
+    slot: input.slot,
     cgptBrief: input.cgptBrief,
-    implementationCaptureNote:
-      'FUNCTIONAL_CONTEXT_ONLY — full-page screenshot is NOT composition authority. Only bottom continuity strip may be visually inherited.',
+    pageArchitectureBrief: input.pageArchitectureBrief,
+    skinContract: input.skinContract,
+    functionContract: input.functionContract,
+    pageContext: input.pageContext,
+    injection: input.injection,
+    bottomContinuityApplied: input.bottomContinuityApplied,
+    mobileViewport: input.mobileViewport,
   });
-
-  const architectureBlock =
-    input.pageArchitectureBrief ?
-      formatPageArchitectureBriefForGpt2Prompt(input.pageArchitectureBrief)
-    : 'PAGE ARCHITECTURE BRIEF: MISSING — DO NOT PROCEED';
-
-  const prompt = [
-    'GPT2 MOBILE WEBSITE PAGE AUTHORITY — generate ONE full mobile viewport PAGE CONCEPT.',
-    'THIS IS STEP 2 (GPT2). THIS IS NOT NBP. THIS IS NOT A RENDITION PASS. THIS IS NOT AN IMAGE EDIT OF THE CURRENT PAGE.',
-    '',
-    `OUTPUT: ${territoryLabel}`,
-    `VIEWPORT: ${input.mobileViewport.width}×${input.mobileViewport.height} portrait mobile screen.`,
-    '',
-    architectureBlock,
-    '',
-    'CONCEPT TERRITORY (VARIES A/B/C — ARCHITECTURE DOES NOT):',
-    territoryDirective,
-    '',
-    'AUTHORITY PRIORITY STACK (highest wins):',
-    '1. PAGE FUNCTION CONTRACT',
-    '2. CGPT CREATIVE SYNTHESIS',
-    '3. SKIN / DESIGN-LANGUAGE CONTRACT',
-    '4. PAGE FAMILY / HOST FIREWALL (SITE 00 host shell stays structurally true)',
-    '5. APPROVED BOTTOM CONTINUITY INHERITANCE (image input — lower strip only)',
-    '6. CURRENT SCREENSHOT — FUNCTIONAL CONTEXT ONLY (route, modules, required content — NOT visual layout)',
-    '',
-    'CAPTURE ZONES:',
-    'ZONE A (DISALLOWED): overall composition, hero, macro hierarchy, card/grid from screenshot, palette mimicry.',
-    'ZONE B (ALLOWED): page identity, required modules, shell awareness, functional content obligations.',
-    'ZONE C (ALLOWED VISUAL): bottom continuity panel / lower shell strip ONLY (attached reference image).',
-    '',
-    'INPUT IMAGE RULE:',
-    input.bottomContinuityApplied ?
-      'The attached image is ONLY the bottom continuity strip. Use it ONLY to align lower shell continuity — NOT for hero, body layout, or hierarchy.'
-    : 'No bottom continuity image — infer shell continuity from skin + host rules only.',
-    'Do NOT recreate, reinterpret, or remix the full current implementation screenshot.',
-    '',
-    'REQUIRED PAGE STRUCTURE (must be visible in the output):',
-    ...PAGE_GPT2_MOBILE_PAGE_STRUCTURE_REQUIREMENTS.map((line) => `- ${line}`),
-    '',
-    'EXPLICITLY FORBIDDEN (fail if output reads primarily as):',
-    ...PAGE_GPT2_MOBILE_FORBIDDEN_OUTPUT_TYPES.map((t) => `- ${t}`),
-    '',
-    'HOST / CLIENT:',
-    '- NDXBOOK (page content language) may dominate inside the product page frame.',
-    '- SITE 00 host shell logic remains subordinate but real — not a detached editorial poster universe.',
-    '',
-    'SKIN CONTRACT:',
-    skinBlock(input.skinContract),
-    '',
-    'CGPT + GPT2 HANDOFF PAYLOAD:',
-    JSON.stringify(authorityPackage.payload, null, 0).slice(0, 22000),
-    '',
-    'PAGE CONTEXT:',
-    input.pageContextSummary,
-    '',
-    'DELIVER: one mobile PAGE concept frame suitable for tablet/desktop interpretation later — twin pipeline only.',
-  ].join('\n');
+  const prompt = compiledProviderPrompt.prompt;
 
   const pkg: PageGpt2MobileConceptRequestPackage = {
     prompt,
@@ -217,6 +152,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
       model: resolvePageGpt2MobileFalModel(input.bottomContinuityApplied ? 1 : 0),
       territoryDirective,
       territoryLabel,
+      compiledProviderPrompt,
     },
   };
 

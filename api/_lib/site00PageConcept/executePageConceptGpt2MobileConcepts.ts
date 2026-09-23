@@ -225,7 +225,7 @@ async function renderMobileConceptSlot(input: {
 
     const archEval = evaluateGpt2MobilePageArchitectureValidity({
       architectureBrief: input.pageArchitectureBrief,
-      promptIncludedArchitecture: pkg.prompt.includes('PAGE ARCHITECTURE BRIEF'),
+      promptIncludedArchitecture: pkg.prompt.includes('PAGE REGIONS'),
       posterDriftHeuristic: false,
     });
     const debug = buildGpt2MobileArtifactDebug({
@@ -241,10 +241,22 @@ async function renderMobileConceptSlot(input: {
       navigationContractId: input.pageArchitectureBrief?.navigationContractId,
       scrollNarrativeId: input.pageArchitectureBrief?.scrollNarrativeId,
       pageArchitectureValidation: archEval.ok ? 'PASS' : 'PAGE_ARCHITECTURE_VALIDATION_FAILED',
-      pageArchitectureDebugLines: buildPageArchitectureFounderDebugLines(
-        input.pageArchitectureBrief,
-        archEval,
-      ),
+      pageArchitectureDebugLines: [
+        ...buildPageArchitectureFounderDebugLines(input.pageArchitectureBrief, archEval),
+        `PROVIDER PROMPT VERSION: ${pkg.inspector.compiledProviderPrompt.compiledPromptVersion}`,
+        `PROVIDER PROMPT CHAR COUNT: ${pkg.inspector.compiledProviderPrompt.compiledPromptCharCount}`,
+        `SAFE LIMIT: ${pkg.inspector.compiledProviderPrompt.safeLimit}`,
+        `COMPILED PROMPT HASH: ${pkg.inspector.compiledProviderPrompt.compiledPromptHash}`,
+        `SOURCE CGPT BRIEF: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.cgptBriefId ?? '—'}`,
+        `SOURCE PAGE ARCH: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.pageArchitectureBriefId ?? '—'}`,
+        `SOURCE SKIN: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.skinContractId}`,
+        `SOURCE FUNCTION: ${pkg.inspector.compiledProviderPrompt.sourceContractIds.functionContractId}`,
+      ],
+      compiledPromptVersion: pkg.inspector.compiledProviderPrompt.compiledPromptVersion,
+      compiledPromptHash: pkg.inspector.compiledProviderPrompt.compiledPromptHash,
+      compiledPromptCharCount: pkg.inspector.compiledProviderPrompt.compiledPromptCharCount,
+      providerPromptSafeLimit: pkg.inspector.compiledProviderPrompt.safeLimit,
+      compiledProviderPromptPreview: pkg.prompt.slice(0, 1200),
     });
     const concept: PageGpt2MobileConcept = {
       conceptId,
