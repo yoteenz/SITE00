@@ -23,6 +23,7 @@ import {
 import { PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
 import type { PageCreativeInjection } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { compileProjectSkinContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
+import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 
 const PROJECT = 'ndxbook';
 
@@ -109,7 +110,8 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
     expect(compiled.compiledPromptCharCount).toBeLessThan(MAX_PROVIDER_PROMPT_CHARS);
     expect(compiled.prompt).toMatch(/PAGE REGIONS/i);
     expect(compiled.prompt).toMatch(/NAVIGATION/i);
-    expect(compiled.prompt).toMatch(/BOTTOM CONTINUITY/i);
+    expect(compiled.prompt).toMatch(/IMAGE ROLE DEFINITIONS/i);
+    expect(compiled.prompt).toMatch(/CONTINUITY/i);
     expect(compiled.prompt).toMatch(/VISUAL SYSTEM/i);
     expect(validateCompiledProviderPrompt(compiled.prompt).ok).toBe(true);
     expect(cgptBrief.briefId).toBeTruthy();
@@ -147,8 +149,7 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       cgptBrief,
       pageArchitectureBrief: arch,
       skinContract: skin,
-      bottomContinuityCaptureBase64: 'aaa',
-      bottomContinuityApplied: true,
+      providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
       pageContextSummary: '{"shouldNotAppearInPrompt":true}',
       mobileViewport: { width: 390, height: 844 },
     });
@@ -238,8 +239,7 @@ describe('P0.VR.GPT2-PROMPT-COMPACTION-COMPILER1', () => {
       cgptBrief,
       pageArchitectureBrief: arch,
       skinContract: skin,
-      bottomContinuityCaptureBase64: '',
-      bottomContinuityApplied: false,
+      providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
       pageContextSummary: '{}',
       mobileViewport: { width: 390, height: 844 },
     });

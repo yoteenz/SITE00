@@ -33,7 +33,10 @@ import {
 import { renderPageGpt2MobileConceptJob } from './renderPageGpt2MobileConceptJob.js';
 import { persistPageConceptMobileArtifact } from './persistPageConceptMobileArtifact.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
-import { extractPageConceptBottomContinuityCapture } from './extractPageConceptBottomContinuityCapture.js';
+import {
+  buildGpt2MobileProviderReferenceBundle,
+  formatGpt2MobileReferenceAuthorityDebugLines,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
@@ -151,16 +154,32 @@ async function renderMobileConceptSlot(input: {
   const skinContract = compileProjectSkinContract(input.projectContext.projectId);
   const pageContextSummary = JSON.stringify(pageContextForGpt2Package(input.pageContext));
   const captureB64 = stripDataUrlPrefix(input.functionalCaptureBase64);
-  const bottomContinuity = await extractPageConceptBottomContinuityCapture({
-    captureBase64: captureB64,
-    width: input.mobileDims.width,
-    height: input.mobileDims.height,
-  });
 
   const archCheck = validatePageArchitectureBrief(input.pageArchitectureBrief);
   if (!archCheck.ok && !input.dryRun && process.env.VITEST !== 'true') {
     throw new Error(`PAGE_ARCHITECTURE_INCOMPLETE: ${archCheck.missingSections.join(', ')}`);
   }
+
+  const providerReferences = await buildGpt2MobileProviderReferenceBundle({
+    captureSetId: input.plan.captureSetId,
+    functionalCaptureBase64: captureB64,
+    functionalAssetId: `${input.plan.captureSetId}:mobile-functional-page`,
+    functionalSourcePath: `capture-set/${input.plan.captureSetId}/mobile-functional-page.png`,
+    fallbackViewport: input.mobileDims,
+  });
+
+  const referenceDebugLines = formatGpt2MobileReferenceAuthorityDebugLines(providerReferences);
+  const referenceInputs = [
+    providerReferences.functionalPage,
+    ...(providerReferences.continuity ? [providerReferences.continuity] : []),
+    ...(providerReferences.creativeSupport ? [providerReferences.creativeSupport] : []),
+  ].map((asset) => ({
+    role: asset.role,
+    assetId: asset.assetId,
+    sourcePath: asset.sourcePath,
+    width: asset.width,
+    height: asset.height,
+  }));
 
   const pkg = buildPageGpt2MobileConceptRequestPackage({
     runId: input.runId,
@@ -173,8 +192,7 @@ async function renderMobileConceptSlot(input: {
     cgptBrief: input.cgptBrief,
     pageArchitectureBrief: input.pageArchitectureBrief,
     skinContract,
-    bottomContinuityCaptureBase64: bottomContinuity.base64,
-    bottomContinuityApplied: bottomContinuity.applied,
+    providerReferences,
     pageContextSummary,
     mobileViewport: input.mobileDims,
   });
@@ -243,6 +261,7 @@ async function renderMobileConceptSlot(input: {
       pageArchitectureValidation: archEval.ok ? 'PASS' : 'PAGE_ARCHITECTURE_VALIDATION_FAILED',
       pageArchitectureDebugLines: [
         ...buildPageArchitectureFounderDebugLines(input.pageArchitectureBrief, archEval),
+        ...referenceDebugLines,
         `PROVIDER PROMPT VERSION: ${pkg.inspector.compiledProviderPrompt.compiledPromptVersion}`,
         `PROVIDER PROMPT CHAR COUNT: ${pkg.inspector.compiledProviderPrompt.compiledPromptCharCount}`,
         `SAFE LIMIT: ${pkg.inspector.compiledProviderPrompt.safeLimit}`,
@@ -257,6 +276,8 @@ async function renderMobileConceptSlot(input: {
       compiledPromptCharCount: pkg.inspector.compiledProviderPrompt.compiledPromptCharCount,
       providerPromptSafeLimit: pkg.inspector.compiledProviderPrompt.safeLimit,
       compiledProviderPromptPreview: pkg.prompt.slice(0, 1200),
+      providerReferenceInputs: referenceInputs,
+      providerImageRoleSummary: providerReferences.imageRoleSummary,
     });
     const concept: PageGpt2MobileConcept = {
       conceptId,

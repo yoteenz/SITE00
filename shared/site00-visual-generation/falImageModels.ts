@@ -37,11 +37,12 @@ export function buildGptImage2EditInput(params: {
   prompt: string;
   imageUrls: string[];
   outputFormat?: 'webp' | 'png';
+  imageSize?: string;
 }): Record<string, unknown> {
   return {
     prompt: params.prompt,
     image_urls: params.imageUrls,
-    image_size: 'auto',
+    image_size: params.imageSize ?? 'auto',
     quality: 'high',
     num_images: 1,
     output_format: params.outputFormat ?? 'webp',
@@ -59,16 +60,21 @@ export function buildFalImageInput(params: {
   aspectRatio?: string;
   outputFormat?: 'webp' | 'png';
   referenceImageUrls?: string[];
+  referenceEditImageSize?: string;
 }): { model: string; input: Record<string, unknown> } {
   const hasRefs = (params.referenceImageUrls?.length ?? 0) > 0;
   const model = resolveFalImageModel(params.referenceImageUrls);
   if (hasRefs) {
+    const editSize =
+      params.referenceEditImageSize ??
+      (params.aspectRatio ? aspectRatioToGptImage2Size(params.aspectRatio) : undefined);
     return {
       model,
       input: buildGptImage2EditInput({
         prompt: params.prompt,
         imageUrls: params.referenceImageUrls ?? [],
         outputFormat: params.outputFormat,
+        imageSize: editSize,
       }),
     };
   }

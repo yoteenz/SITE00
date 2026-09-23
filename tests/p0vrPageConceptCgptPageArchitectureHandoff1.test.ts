@@ -22,6 +22,7 @@ import {
   mobileConceptTerritoryDirective,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
 import { PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
+import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 import type { PageCreativeInjection } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 const PROJECT = 'ndxbook';
@@ -214,8 +215,7 @@ describe('P0.VR.CGPT-PAGE-ARCHITECTURE-HANDOFF1', () => {
         cgptBrief,
         pageArchitectureBrief: arch,
         skinContract: skin as never,
-        bottomContinuityCaptureBase64: '',
-        bottomContinuityApplied: false,
+        providerReferences: mockGpt2MobileProviderReferenceBundleForTest(),
         pageContextSummary: '{}',
         mobileViewport: { width: 390, height: 844 },
       });

@@ -1,6 +1,7 @@
 import { resolvePageGpt2MobileFalModel } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
 import type { PageGpt2MobileConceptRequestPackage } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileRequestPackage.js';
 import { assertGpt2MobilePackageNotNbpPath } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobilePageAuthority.js';
+import { orderedProviderReferenceAssets } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
 import { buildFalImageInput } from '../../../shared/site00-visual-generation/falImageModels.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
 
@@ -19,6 +20,11 @@ export type PageGpt2MobileConceptRenderResult = {
 
 function mockPng(label: string): string {
   return Buffer.from(`vitest-gpt2-mobile-page:${label}`, 'utf8').toString('base64');
+}
+
+function referenceUploadFilename(role: string, slot: string): string {
+  const slug = role.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  return `gpt2-mobile-${slug}-${slot.toLowerCase()}.png`;
 }
 
 export async function renderPageGpt2MobileConceptJob(
@@ -53,11 +59,12 @@ export async function renderPageGpt2MobileConceptJob(
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
 
+  const referenceAssets = orderedProviderReferenceAssets(pkg.providerReferences);
   const image_urls: string[] = [];
-  if (pkg.inspector.bottomContinuityApplied && pkg.bottomContinuityCaptureBase64.trim()) {
-    const bytes = Buffer.from(pkg.bottomContinuityCaptureBase64, 'base64');
+  for (const asset of referenceAssets) {
+    const bytes = Buffer.from(asset.base64, 'base64');
     const refUrl = await fal.storage.upload(
-      new File([bytes], `gpt2-mobile-bottom-continuity-${slot.toLowerCase()}.png`, { type: 'image/png' }),
+      new File([bytes], referenceUploadFilename(asset.role, slot), { type: 'image/png' }),
     );
     image_urls.push(refUrl);
   }
@@ -105,4 +112,9 @@ export async function renderPageGpt2MobileConceptJob(
     imageBase64: buf.toString('base64'),
     model: resolvePageGpt2MobileFalModel(image_urls.length),
   };
+}
+
+/** @internal vitest — verify provider image ordering without Fal network */
+export function gpt2MobileProviderImageOrderForTest(pkg: PageGpt2MobileConceptRequestPackage): string[] {
+  return orderedProviderReferenceAssets(pkg.providerReferences).map((a) => a.role);
 }

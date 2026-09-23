@@ -101,7 +101,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-FOUNDER-REVIEW-UX-REFINEMENT1', () => {
           imageUri: '/a.png',
           gpt2MobileDebug: {
             provider: 'GPT2_MOBILE',
-            captureInfluenceMode: 'FUNCTIONAL_CONTEXT_PLUS_BOTTOM_CONTINUITY_ONLY',
+            captureInfluenceMode: 'DUAL_REFERENCE_FUNCTIONAL_PAGE_PLUS_CONTINUITY',
             pageValidityPass: true,
             screenshotOverreachWarning: false,
             territoryLabel: 'Territory A',
