@@ -1,5 +1,6 @@
 /**
  * P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1
+ * Updated for GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1 (top/middle/bottom structural captures).
  */
 
 import { describe, expect, it } from 'vitest';
@@ -35,7 +36,7 @@ function overviewPageId(): string {
 }
 
 describe('P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1', () => {
-  it('builds full-page, bottom-half, and bottom-nav authority references in provider order', async () => {
+  it('builds top/middle/bottom structural references in provider order', async () => {
     const bundle = await buildGpt2MobileProviderReferenceBundle({
       captureSetId: 'cap-lock-1',
       functionalCaptureBase64: 'aaa',
@@ -43,17 +44,17 @@ describe('P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1', () => {
       functionalSourcePath: 'capture/full-page.png',
       fallbackViewport: { width: 390, height: 844 },
     });
-    expect(bundle.authorityManifest.fullPageSourceAttached).toBe(true);
-    expect(bundle.authorityManifest.bottomHalfSourceAttached).toBe(true);
-    expect(bundle.authorityManifest.bottomNavAuthorityAttached).toBe(true);
+    expect(bundle.authorityManifest.topStructuralAttached).toBe(true);
+    expect(bundle.authorityManifest.middleStructuralAttached).toBe(true);
+    expect(bundle.authorityManifest.bottomStructuralAttached).toBe(true);
     expect(bundle.authorityManifest.bottomContinuityLockActive).toBe(true);
     const order = orderedProviderReferenceAssets(bundle).map((a) => a.role);
     expect(order).toEqual([
-      GPT2_MOBILE_INPUT_ROLE.FULL_PAGE_SOURCE,
-      GPT2_MOBILE_INPUT_ROLE.BOTTOM_HALF,
-      GPT2_MOBILE_INPUT_ROLE.BOTTOM_NAV,
+      GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL,
+      GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL,
+      GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
     ]);
-    expect(bundle.bottomHalf!.height).toBeGreaterThan(bundle.bottomNavAuthority!.height);
+    expect(bundle.coverageValidation.ok).toBe(true);
   });
 
   it('compiled prompt includes bottom nav lock and passes continuity handoff validation', () => {
@@ -132,8 +133,8 @@ describe('P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1', () => {
     });
     expect(pkg.inspector.captureInfluenceMode).toBe(PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE);
     expect(pkg.prompt).toMatch(/BOTTOM NAV LOCK/i);
-    expect(pkg.prompt).toMatch(/FULL_PAGE_SOURCE_CAPTURE/i);
-    expect(pkg.prompt).toMatch(/BOTTOM_HALF_SOURCE_CAPTURE/i);
+    expect(pkg.prompt).toMatch(/TOP_STRUCTURAL_CAPTURE/i);
+    expect(pkg.prompt).toMatch(/BOTTOM_STRUCTURAL_CAPTURE/i);
     expect(evaluateGpt2MobileBottomNavContinuityHandoffValidity(pkg.prompt).ok).toBe(true);
     const compiled = compileGpt2MobileProviderPrompt({
       slot: 'MOBILE_CONCEPT_A',
@@ -144,8 +145,9 @@ describe('P0.VR.GPT2-MOBILE-FULL-PAGE-CONTINUITY-AND-BOTTOM-NAV-LOCK1', () => {
       pageContext,
       injection,
       bottomContinuityApplied: true,
-      bottomHalfAuthorityAttached: true,
-      bottomNavAuthorityAttached: true,
+      topStructuralCaptureAttached: true,
+      middleStructuralCaptureAttached: true,
+      bottomStructuralCaptureAttached: true,
       bottomContinuityLockActive: true,
       mobileViewport: { width: 390, height: 844 },
       referenceImageRoleSummary: refs.imageRoleSummary,

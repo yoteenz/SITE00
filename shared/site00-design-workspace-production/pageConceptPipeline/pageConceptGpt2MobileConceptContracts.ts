@@ -62,10 +62,10 @@ export function resolveGpt2MobileConceptTerritorySpec(slot: PageMobileConceptSlo
 export function buildGpt2MobileAuthorityHierarchyBlock(): string {
   return [
     'AUTHORITY HIERARCHY (DO NOT INVERT):',
-    '1) Image A — NDXBOOK Overview mobile capture: layout, modules, navigation, bottom panel behavior.',
-    '2) Page architecture brief + page context: region map, required interactions.',
-    '3) CGPT creative synthesis: territory, materials, hierarchy styling (expression only).',
-    '4) Optional creative support refs: mood/texture only — never override architecture.',
+    '1) DESIGN AUTHORITY — CGPT creative synthesis + page architecture brief + navigation/bottom contracts + SITE 00 language.',
+    '2) FUNCTIONAL REFERENCE ONLY — Structural Captures A/B/C: page anatomy, section order, nav placement, bottom continuity (no styling authority).',
+    '3) Page context + function contract: required interactions and invariants.',
+    'SCREENSHOT_DESIGN_AUTHORITY: FORBIDDEN — never treat captures as look-and-feel or visual inspiration.',
   ].join('\n');
 }
 
@@ -108,12 +108,12 @@ export function buildGpt2MobileDistinctnessBlock(): string {
 export function buildGpt2MobileBottomNavInheritanceBlock(bottomContinuityApplied: boolean): string {
   const base = [
     'BOTTOM NAV / PANEL INHERITANCE:',
-    'Derive bottom navigation structure from Image A (authoritative Overview capture).',
+    'Derive bottom navigation structure from Structural Capture C (true page bottom).',
     'Preserve: destination count, order, functional roles, and label meaning.',
     'Uppercase bottom labels. Visual restyle allowed — inventing new tabs/footer nav is FORBIDDEN.',
   ];
   if (bottomContinuityApplied) {
-    base.push('Image B confirms bottom strip pixels — match Image A bottom behavior, do not redesign.');
+    base.push('Capture C shows real bottom continuity — match functional pattern, do not redesign nav logic.');
   }
   return base.join('\n');
 }

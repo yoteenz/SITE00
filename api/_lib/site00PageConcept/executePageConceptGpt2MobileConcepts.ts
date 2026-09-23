@@ -35,9 +35,11 @@ import { persistPageConceptMobileArtifact } from './persistPageConceptMobileArti
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
 import {
   buildGpt2MobileProviderReferenceBundle,
+  formatGpt2MobileCapturePackageDebugLines,
   formatGpt2MobileReferenceAuthorityDebugLines,
   orderedProviderReferenceAssets,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import { COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileProviderPromptCompiler.js';
 import {
   buildGpt2MobileConceptQualityDebugLines,
   evaluateGpt2MobileConceptHandoffValidity,
@@ -259,13 +261,13 @@ async function renderMobileConceptSlot(input: {
     const manifest = providerReferences.authorityManifest;
     const conceptQualityDebug = buildGpt2MobileConceptQualityDebugLines({
       pageArchitectureBriefId: input.pageArchitectureBrief?.briefId ?? null,
-      structuralAuthoritySource: 'FULL_PAGE_SOURCE_CAPTURE (Image A)',
-      bottomContinuitySource: 'BOTTOM_HALF (B) + BOTTOM_NAV_AUTHORITY_CROP (C)',
+      structuralAuthoritySource: 'TOP/MIDDLE/BOTTOM STRUCTURAL CAPTURES (FUNCTIONAL_REFERENCE_ONLY)',
+      bottomContinuitySource: 'BOTTOM_STRUCTURAL_CAPTURE (C)',
       slot: input.slot,
       uppercaseContractApplied: qualityPrompt.ok,
       conceptDiversityContractApplied: qualityPrompt.ok,
       lightFamilyContractApplied: qualityPrompt.ok,
-      bottomNavInherited: manifest.bottomNavAuthorityAttached,
+      bottomNavInherited: manifest.bottomStructuralAttached,
       pageValidityPass: archEval.ok && conceptEval.ok && continuityEval.ok,
       posterRejectionPass: archEval.ok,
     });
@@ -285,7 +287,9 @@ async function renderMobileConceptSlot(input: {
       pageArchitectureDebugLines: [
         ...buildPageArchitectureFounderDebugLines(input.pageArchitectureBrief, archEval),
         ...referenceDebugLines,
-        `PROVIDER PROMPT VERSION: ${pkg.inspector.compiledProviderPrompt.compiledPromptVersion}`,
+        `PROVIDER PROMPT VERSION: ${COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION}`,
+        `PAGE PROMPT VERSION: ${pkg.inspector.promptVersion}`,
+        ...formatGpt2MobileCapturePackageDebugLines(providerReferences),
         `PROVIDER PROMPT CHAR COUNT: ${pkg.inspector.compiledProviderPrompt.compiledPromptCharCount}`,
         `SAFE LIMIT: ${pkg.inspector.compiledProviderPrompt.safeLimit}`,
         `COMPILED PROMPT HASH: ${pkg.inspector.compiledProviderPrompt.compiledPromptHash}`,
@@ -302,10 +306,16 @@ async function renderMobileConceptSlot(input: {
       uppercaseContractApplied: compiledMeta.conceptQualityContractsApplied,
       conceptDiversityContractApplied: compiledMeta.conceptQualityContractsApplied,
       lightFamilyContractApplied: compiledMeta.conceptQualityContractsApplied,
-      bottomNavInherited: manifest.bottomNavAuthorityAttached,
+      bottomNavInherited: manifest.bottomStructuralAttached,
       bottomContinuityLockActive: manifest.bottomContinuityLockActive,
       bottomNavContinuityValidationPass: continuityEval.ok,
       sourceAuthorityManifest: {
+        capturePackageVersion: manifest.capturePackageVersion,
+        screenshotAuthorityMode: manifest.screenshotAuthorityMode,
+        designAuthoritySource: manifest.designAuthoritySource,
+        topStructuralAttached: manifest.topStructuralAttached,
+        middleStructuralAttached: manifest.middleStructuralAttached,
+        bottomStructuralAttached: manifest.bottomStructuralAttached,
         fullPageSourceAttached: manifest.fullPageSourceAttached,
         bottomHalfSourceAttached: manifest.bottomHalfSourceAttached,
         bottomNavAuthorityAttached: manifest.bottomNavAuthorityAttached,
