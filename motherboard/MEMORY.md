@@ -11603,6 +11603,16 @@ Founder: **Generate not working / no Fal jobs** after screenshot function-map la
 
 ---
 
+## 2026-09-24 — Page concept CGPT stuck on PAGE INTELLIGENCE (step 1)
+
+Founder: Generate modal shows CGPT RUNNING / PAGE INTELLIGENCE but never advances (no Fal).
+
+- **Cause:** Run progress patches were memory-only + async Supabase upsert; polls on another Railway instance saw frozen first event. Client sometimes sent capture URLs instead of base64, forcing slow/unreliable server fetches.
+- **Fix:** `patchPageConceptServerRunDurable` awaits `upsertPageConceptServerRunDurable`; initial run row upserted before background worker; client prefers inline `artifactBase64`; early fail if `ANTHROPIC_API_KEY` missing; Anthropic/capture fetch timeouts.
+- **Branch:** `cursor/fix-page-concept-cgpt-stuck-progress-b747`. **Railway redeploy required.** GoDaddy ZIP for client capture inline change.
+
+---
+
 ## 2026-09-24 — P0.VR.DESIGN-WORKSPACE-LIST-GRID-SYNC-AND-GALLERY-THUMBNAIL-REFINEMENT1
 
 Grid and List Design workspace now share **`DesignConceptCandidateGalleryRail`** + **`DesignConceptCandidateGalleryCard`** over the same `useTwinOpusDirectWorkspace` `candidateSections` (current + history), viewport badges, and selection actions. List dropped stale `data.candidates` placeholder **`LvCandidateSurface`** gallery cards. Concept gallery uses **`s00-design-concept-gallery-grid`** (`repeat(3, minmax(0, 1fr))`) for equal A/B/C width. Thumbnails: **`headerThumb`** 16:9 landscape header crop via CSS (`pageConceptConceptHeaderThumbnail.ts` metadata on gallery cards; full portrait unchanged for hero / inspect / fullscreen). Tests: `p0vrDesignWorkspaceListGridSyncAndGalleryThumbnailRefinement1.test.ts`. **Branch:** `cursor/design-workspace-list-grid-sync-gallery-b747`. **GoDaddy:** new ZIP after merge.
