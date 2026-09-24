@@ -11672,3 +11672,13 @@ Founder regression after v647: tiny hero concept, gallery left-clustered, **CURR
 - **Fix:** use `resolveMobileConceptSlotForJob`; artifact/`mobileConcepts` + candidate reconciliation when run row missing; `RECOVERED CURRENT GENERATION` label; repair active run on gallery refresh without overriding explicit active run on partial gens.
 - **Presentation:** hero compare pane `min-height: 0` flex chain; gallery current grid no longer inherits horizontal `flex: 0 0 92px` card width (scoped to non-grid history rail).
 - **Tests:** `p0vrDesignWorkspaceV646VisualRestoreAndLatestRunRecovery1.test.ts`. **v647 intelligence preserved** (territories, route context, prompts untouched).
+
+---
+
+## 2026-09-24 — SITE 00 Production Release deploy_frontend FTP/SSH failure (PR #1137 CI)
+
+Founder GitHub mobile screenshots: **SITE 00 Production Release** `deploy_frontend` failed — FTP `Timeout (control socket)`, confirm step `FRONTEND_DEPLOY_FAILED`.
+
+- **Root cause:** `GODADDY_SSH_DEPLOY_ENABLED=true` forced `cpanel_method=ssh`; SSH rsync **timed out on port 22** (~2m) then FTP fallback also timed out (run 36067891885). Prior green run (#1136) succeeded only after **SSH failed + FTP succeeded**.
+- **Fix:** `site00-resolve-cpanel-deploy-method.sh` — on `GITHUB_ACTIONS=true`, prefer **FTP first** when FTP secrets exist; workflow adds FTP **retry** step + longer timeout; confirm accepts ftp_retry success.
+- **Tests:** `tests/site00ResolveCpanelDeployMethod.test.ts`. **Founder:** merge fix → re-run workflow **retry_frontend** or wait for next main push; v648 ZIP still valid for manual GoDaddy if CI FTP flaky.
