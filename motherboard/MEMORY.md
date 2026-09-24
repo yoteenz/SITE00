@@ -11638,3 +11638,15 @@ Founder sprint: gallery card geometry locked; thumbnail header crop too zoomed; 
 - **Hero FIT_FULL_SCREEN:** removed `conceptFill` cover — CONCEPT matches CURRENT `object-fit: contain` on dark artifact surface.
 - **Rail:** `DesignViewportFamilyHeroRail` + `buildGpt2ViewportFamilyAuthorityRailActions` (SELECT/CONFIRM mobile, REVIEW EXPERIENCE, tablet/desktop gen, APPROVE/LOCK family) — no Authority Pair resurrection.
 - **Tests:** `p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1.test.ts`. **Branch:** `cursor/design-workspace-preview-fit-latest-run-hero-rail-b747`. **GoDaddy:** v645 ZIP after merge.
+
+---
+
+## 2026-09-24 — P0.VR.NDXBOOK-WEB-EXPRESSION-TERRITORIES-AND-ROUTE-CONTEXT-FIX1
+
+GPT2 mobile concepts were structurally better but still framed as Design workspace pages and A/B/C felt like palette/layout variants.
+
+- **Route context:** `pageConceptTargetPageContext.ts` — `targetRouteContract` on page architecture brief (PRODUCT: PROJECTS > NDXBOOK > OVERVIEW vs authoring `/design/twin-opus-direct`); prompt block forbids Design workspace UI in generated page.
+- **Web Expression Territories:** `pageConceptWebExpressionTerritories.ts` — textual layer after Screenshot Function Map; 3 territories per run (creative premise, metaphor, graphic device, distinctive move, lower-page treatment); `validateWebExpressionTerritoryDistance` blocks `TERRITORIES_TOO_SIMILAR`; regen reuses territories via `pipelineSet.webExpressionTerritorySet`.
+- **Full scroll map:** `fullPageScrollMap` on function map v2; GPT2 prompt includes TOP→BOTTOM_NAVIGATION stages; bottom capture required for dispatch.
+- **GPT2 prompt v7:** per-slot single territory in `compileGpt2MobileProviderPrompt`; inspector + gallery show territory name; Concept Inspector shows WEB EXPRESSION fields.
+- **Tests:** `p0vrNdxbookWebExpressionTerritoriesAndRouteContextFix1.test.ts`. **Railway:** redeploy API. **GoDaddy:** v647+ ZIP (UI inspect + gallery labels).
