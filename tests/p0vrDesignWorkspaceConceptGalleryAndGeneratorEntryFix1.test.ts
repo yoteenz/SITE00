@@ -219,7 +219,13 @@ describe('P0.VR.DESIGN-WORKSPACE-CONCEPT-GALLERY-AND-GENERATOR-ENTRY-FIX1', () =
       'utf8',
     );
     expect(src).toContain('canonicalGpt2ViewportFamilyActive');
-    expect(src).toContain('viewport-family-authority-rail');
+    expect(src).toContain('DesignViewportFamilyHeroRail');
+    expect(src).toContain('viewportFamilyHeroRailStages');
+    const rail = readFileSync(
+      join(ROOT, 'src/site00/components/designBench/opusDirect/DesignViewportFamilyHeroRail.tsx'),
+      'utf8',
+    );
+    expect(rail).toContain('data-testid="viewport-family-authority-rail"');
   });
 
   it('resolvePageConceptGenerationConsoleLauncher is contextual', () => {
