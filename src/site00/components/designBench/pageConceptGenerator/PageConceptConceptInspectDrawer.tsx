@@ -41,12 +41,36 @@ export function PageConceptConceptInspectDrawer({
         <div className="s00-pcg__inspectBody">
           <dl className="s00-pcg__inspectGrid">
             <div>
-              <dt>TERRITORY</dt>
+              <dt>WEB EXPRESSION TERRITORY</dt>
               <dd>{meta?.territoryLabel ?? '—'}</dd>
             </div>
             <div>
-              <dt>CORE IDEA</dt>
-              <dd>{meta?.rationale ?? '—'}</dd>
+              <dt>CREATIVE PREMISE</dt>
+              <dd>{meta?.webExpressionCreativePremise ?? meta?.rationale ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>WEBSITE METAPHOR</dt>
+              <dd>{meta?.webExpressionWebsiteMetaphor ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>GRAPHIC DEVICE</dt>
+              <dd>{meta?.webExpressionGraphicDevice ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>COMPOSITION SYSTEM</dt>
+              <dd>{meta?.webExpressionCompositionSystem ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>IMAGE ROLE</dt>
+              <dd>{meta?.webExpressionImageRole ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>DISTINCTIVE MOVE</dt>
+              <dd>{meta?.webExpressionDistinctiveMove ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>CREATIVE TENSION</dt>
+              <dd>{meta?.webExpressionCreativeTension ?? '—'}</dd>
             </div>
             <div>
               <dt>PAGE VALIDITY</dt>

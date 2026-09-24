@@ -19,7 +19,9 @@ import {
 } from './pageConceptGpt2MobileProviderPromptCompiler.js';
 import type { Gpt2MobileProviderReferenceBundle } from './pageConceptGpt2MobileReferenceAuthority.js';
 import type { ScreenshotFunctionalPageMap } from './pageConceptScreenshotFunctionalPageMap.js';
+import type { WebExpressionTerritory } from './pageConceptWebExpressionTerritories.js';
 import { orderedProviderReferenceAssets } from './pageConceptGpt2MobileReferenceAuthority.js';
+import { compileWebExpressionTerritoryPromptBlock } from './pageConceptWebExpressionTerritories.js';
 import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
   PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
@@ -114,18 +116,23 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   skinContract: ProjectSkinContract;
   providerReferences: Gpt2MobileProviderReferenceBundle;
   screenshotFunctionalPageMap: ScreenshotFunctionalPageMap;
+  webExpressionTerritory?: WebExpressionTerritory | null;
   pageContextSummary: string;
   mobileViewport: { width: number; height: number };
 }): PageGpt2MobileConceptRequestPackage {
   if (!input.screenshotFunctionalPageMap) {
     throw new Error('SCREENSHOT_FUNCTION_MAP_INCOMPLETE: map required before GPT2 package build');
   }
-  const territoryDirective = mobileConceptTerritoryDirective({
-    slot: input.slot,
-    injection: input.injection,
-    brief: input.cgptBrief,
-  });
-  const territoryLabel = PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
+  const territoryDirective =
+    input.webExpressionTerritory ?
+      compileWebExpressionTerritoryPromptBlock(input.webExpressionTerritory)
+    : mobileConceptTerritoryDirective({
+        slot: input.slot,
+        injection: input.injection,
+        brief: input.cgptBrief,
+      });
+  const territoryLabel =
+    input.webExpressionTerritory?.name ?? PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS[input.slot];
   const bottomContinuityApplied = Boolean(
     input.providerReferences.bottomStructuralCapture ??
       input.providerReferences.bottomNavAuthority ??
@@ -152,6 +159,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     referenceImageRoleSummary: input.providerReferences.imageRoleSummary,
     creativeSupportAttached: false,
     screenshotFunctionalPageMap: input.screenshotFunctionalPageMap,
+    webExpressionTerritory: input.webExpressionTerritory ?? null,
   });
   const prompt = compiledProviderPrompt.prompt;
   const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);

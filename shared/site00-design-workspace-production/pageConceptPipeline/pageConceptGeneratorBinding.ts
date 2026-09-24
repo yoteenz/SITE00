@@ -31,6 +31,13 @@ export type NbpShellSlotKey =
 
 export type Gpt2MobileSlotPresentationMeta = {
   territoryLabel: string | null;
+  webExpressionCreativePremise?: string | null;
+  webExpressionWebsiteMetaphor?: string | null;
+  webExpressionGraphicDevice?: string | null;
+  webExpressionCompositionSystem?: string | null;
+  webExpressionImageRole?: string | null;
+  webExpressionDistinctiveMove?: string | null;
+  webExpressionCreativeTension?: string | null;
   rationale: string | null;
   pageValidityPass: boolean | null;
   captureInfluenceMode: string | null;
@@ -224,6 +231,9 @@ export function buildGpt2MobileSlotPresentations(
     else if (job?.status === 'FAILED') status = 'FAILED';
     else if (job?.status === 'RUNNING' || (running && !job)) status = 'GENERATING';
     const mobileConcept = state.pipelineSet?.mobileConcepts?.find((c) => c.slot === mobileConceptSlot);
+    const webTerritory = state.pipelineSet?.webExpressionTerritorySet?.territories.find(
+      (t) => t.territorySlot === letter,
+    );
     const debug = job?.gpt2MobileDebug;
     const rawImage = job?.imageUri ?? job?.artifactPath ?? mobileConcept?.imageUri ?? null;
     const cacheBustKey = job?.providerJobId ?? job?.artifactId ?? job?.createdAt ?? null;
@@ -236,8 +246,15 @@ export function buildGpt2MobileSlotPresentations(
       imageSrc: resolvePageConceptArtifactDisplayUrl(rawImage, cacheBustKey),
       failureReason: job?.failureReason ?? null,
       gpt2Mobile: {
-        territoryLabel: debug?.territoryLabel ?? mobileConcept?.territoryLabel ?? null,
-        rationale: job?.displayTitle ?? mobileConcept?.territoryLabel ?? null,
+        territoryLabel: webTerritory?.name ?? debug?.territoryLabel ?? mobileConcept?.territoryLabel ?? null,
+        webExpressionCreativePremise: webTerritory?.creativePremise ?? null,
+        webExpressionWebsiteMetaphor: webTerritory?.websiteMetaphor ?? null,
+        webExpressionGraphicDevice: webTerritory?.graphicDevice ?? null,
+        webExpressionCompositionSystem: webTerritory?.compositionSystem ?? null,
+        webExpressionImageRole: webTerritory?.imageRole ?? null,
+        webExpressionDistinctiveMove: webTerritory?.distinctiveMove ?? null,
+        webExpressionCreativeTension: webTerritory?.creativeTension ?? null,
+        rationale: webTerritory?.creativePremise ?? job?.displayTitle ?? mobileConcept?.territoryLabel ?? null,
         pageValidityPass: debug?.pageValidityPass ?? null,
         captureInfluenceMode: debug?.captureInfluenceMode ?? null,
         screenshotOverreachWarning: debug?.screenshotOverreachWarning ?? null,

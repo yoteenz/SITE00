@@ -60,12 +60,21 @@ import {
   buildGpt2MobileContinuityLockDebugLines,
   evaluateGpt2MobileBottomNavContinuityHandoffValidity,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileContinuityLock.js';
+import {
+  compileWebExpressionTerritorySet,
+  formatWebExpressionTerritoryDebugLines,
+  validateSterileWebExpressionTerritory,
+  validateWebExpressionTerritoryDistance,
+  webExpressionTerritoryForSlot,
+  type WebExpressionTerritorySet,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptWebExpressionTerritories.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
   mobileConcepts: PageGpt2MobileConcept[];
   partialFailure: boolean;
   screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
+  webExpressionTerritorySet: WebExpressionTerritorySet | null;
 };
 
 function stripDataUrlPrefix(base64: string): string {
@@ -94,6 +103,7 @@ async function renderMobileConceptSlot(input: {
   functionalCaptureBase64: string;
   providerReferences?: Gpt2MobileProviderReferenceBundle;
   screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap;
+  webExpressionTerritorySet?: WebExpressionTerritorySet | null;
   existingJob?: PageConceptGeneratedArtifact;
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
   forceRegenerate?: boolean;
@@ -213,6 +223,10 @@ async function renderMobileConceptSlot(input: {
     );
   }
   const functionMapReceipt = buildScreenshotFunctionMapReceipt(screenshotFunctionalPageMap, functionMapDispatch);
+  const webExpressionTerritory =
+    input.webExpressionTerritorySet ?
+      webExpressionTerritoryForSlot(input.webExpressionTerritorySet, input.slot)
+    : null;
 
   const referenceDebugLines = formatGpt2MobileReferenceAuthorityDebugLines(providerReferences);
   const referenceInputs = orderedProviderReferenceAssets(providerReferences).map((asset) => ({
@@ -236,6 +250,7 @@ async function renderMobileConceptSlot(input: {
     skinContract,
     providerReferences,
     screenshotFunctionalPageMap,
+    webExpressionTerritory,
     pageContextSummary,
     mobileViewport: input.mobileDims,
   });
@@ -338,6 +353,12 @@ async function renderMobileConceptSlot(input: {
         `PAGE PROMPT VERSION: ${pkg.inspector.promptVersion}`,
         ...formatGpt2MobileCapturePackageDebugLines(providerReferences),
         ...formatScreenshotFunctionMapDebugLines(screenshotFunctionalPageMap, functionMapReceipt),
+        ...formatWebExpressionTerritoryDebugLines(
+          webExpressionTerritory,
+          input.pageArchitectureBrief?.targetRouteContract ?? null,
+        ),
+        `FULL_PAGE_CAPTURE: ${providerReferences.authorityManifest.bottomStructuralAttached ? 'PASS' : 'FAIL'}`,
+        `BOTTOM_CAPTURE: ${providerReferences.authorityManifest.bottomStructuralAttached ? 'PASS' : 'FAIL'}`,
         `GPT2_FUNCTION_BLOCK_COMPILED: ${pkg.prompt.includes('PAGE FUNCTION (SCREENSHOT FUNCTIONAL PAGE MAP') ? 'PASS' : 'FAIL'}`,
         `FUNCTIONAL_FIDELITY PAGE_IDENTITY: ${functionalScorecard.pageIdentity}`,
         `FUNCTIONAL_FIDELITY BOTTOM_NAV: ${functionalScorecard.bottomNav}`,
@@ -397,7 +418,7 @@ async function renderMobileConceptSlot(input: {
       imageUri: persisted.publicUrl,
       status: 'READY',
       createdAt: now,
-      territoryLabel: displayTitle,
+      territoryLabel: webExpressionTerritory?.name ?? pkg.inspector.territoryLabel ?? displayTitle,
       gpt2MobileDebug: debug,
     };
     const job: PageConceptGeneratedArtifact = {
@@ -451,10 +472,12 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
   forceRegenerateSlots?: readonly PageMobileConceptSlotId[] | null;
   artifactIdForSlot?: (slot: PageMobileConceptSlotId) => string;
+  webExpressionTerritorySet?: WebExpressionTerritorySet | null;
   onSlotUpdate?: (payload: {
     jobs: PageConceptGeneratedArtifact[];
     mobileConcepts: PageGpt2MobileConcept[];
     screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
+    webExpressionTerritorySet: WebExpressionTerritorySet | null;
   }) => void;
 }): Promise<Gpt2MobileConceptsResult> {
   const jobs: PageConceptGeneratedArtifact[] = [];
@@ -504,6 +527,34 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     }
   }
 
+  let webExpressionTerritorySet = input.webExpressionTerritorySet ?? null;
+  if (
+    sharedFunctionMap &&
+    pageArchitectureBrief &&
+    input.cgptCreativeBrief &&
+    !webExpressionTerritorySet
+  ) {
+    webExpressionTerritorySet = compileWebExpressionTerritorySet({
+      brief: input.cgptCreativeBrief,
+      injection: input.creativeInjection,
+      target: pageArchitectureBrief.targetRouteContract,
+      pageArchitectureBriefId: pageArchitectureBrief.briefId,
+      functionMapId: sharedFunctionMap.mapId,
+      projectId: input.plan.projectId,
+      pageId: input.plan.pageId,
+    });
+    const distance = validateWebExpressionTerritoryDistance(webExpressionTerritorySet);
+    if (!distance.ok) {
+      throw new Error(`${distance.errorCode}: ${distance.detail ?? '—'}`);
+    }
+    for (const territory of webExpressionTerritorySet.territories) {
+      const sterile = validateSterileWebExpressionTerritory(territory);
+      if (!sterile.ok) {
+        throw new Error(`${sterile.errorCode}: ${territory.territorySlot}`);
+      }
+    }
+  }
+
   const tasks = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map(async (slot) => {
     const defaultArtifactId = mobileConceptArtifactId(slot);
     const artifactId = input.artifactIdForSlot?.(slot) ?? defaultArtifactId;
@@ -527,6 +578,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       functionalCaptureBase64: input.functionalCaptureBase64,
       providerReferences: sharedProviderReferences ?? undefined,
       screenshotFunctionalPageMap: sharedFunctionMap ?? undefined,
+      webExpressionTerritorySet,
       existingJob,
       retrySlots: input.retrySlots,
       forceRegenerate,
@@ -546,6 +598,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       jobs: [...jobs],
       mobileConcepts: [...mobileConcepts],
       screenshotFunctionalPageMap: sharedFunctionMap,
+      webExpressionTerritorySet,
     });
   }
 
@@ -555,7 +608,13 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     throw new Error('GPT2_MOBILE_CONCEPTS_FAILED');
   }
 
-  return { jobs, mobileConcepts, partialFailure, screenshotFunctionalPageMap: sharedFunctionMap };
+  return {
+    jobs,
+    mobileConcepts,
+    partialFailure,
+    screenshotFunctionalPageMap: sharedFunctionMap,
+    webExpressionTerritorySet,
+  };
 }
 
 export function canonicalPipelineLineageMarker() {
