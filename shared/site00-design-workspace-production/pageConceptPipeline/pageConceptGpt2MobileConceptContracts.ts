@@ -72,7 +72,7 @@ export function buildGpt2MobileAuthorityHierarchyBlock(): string {
 export function buildGpt2MobileFunctionalInvariantsBlock(): string {
   return [
     'FUNCTIONAL INVARIANTS (MUST NOT CHANGE):',
-    '- Page identity: NDXBOOK Overview inside SITE 00 > Projects > Design.',
+    '- Page identity: target PROJECTS product Overview page (not Design workspace authoring UI).',
     '- Page type: mobile product screen — not poster, promo, moodboard, or single hero graphic.',
     '- Preserve core regions: host nav, breadcrumb/context, page identity, overview, status, entry index, content/evidence, current work, primary CTA, bottom nav panel.',
     '- Bottom nav: same tab count, order, roles, and functional logic as authoritative capture — restyle only.',
@@ -153,7 +153,10 @@ export function evaluateGpt2MobileConceptHandoffValidity(prompt: string): {
   const quality = validateGpt2MobileConceptQualityPrompt(prompt);
   if (!quality.ok) failedChecks.push(...quality.missingContracts.map((c) => `concept_contract_${c}`));
   const lower = prompt.toLowerCase();
-  if (!lower.includes('territory a') && !lower.includes('territory b') && !lower.includes('territory c')) {
+  const hasLegacyTerritory =
+    lower.includes('territory a') || lower.includes('territory b') || lower.includes('territory c');
+  const hasWebTerritory = lower.includes('web expression territory');
+  if (!hasLegacyTerritory && !hasWebTerritory) {
     failedChecks.push('territory_marker');
   }
   if (!lower.includes('forbidden: three full-black')) failedChecks.push('dark_collapse_guard');

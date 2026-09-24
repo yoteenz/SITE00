@@ -10,7 +10,7 @@ import type { PageCreativeContext, PageFunctionContract, ProjectCreativeContext 
 import type { Gpt2MobileProviderReferenceBundle } from './pageConceptGpt2MobileReferenceAuthority.js';
 import { GPT2_MOBILE_INPUT_ROLE } from './pageConceptGpt2MobileReferenceAuthority.js';
 
-export const SCREENSHOT_FUNCTIONAL_PAGE_MAP_VERSION = 'screenshot-functional-page-map-v1';
+export const SCREENSHOT_FUNCTIONAL_PAGE_MAP_VERSION = 'screenshot-functional-page-map-v2-full-scroll';
 
 export type ScreenshotFunctionHostOwnership = 'HOST_OWNED' | 'PROJECT_OWNED' | 'SHARED_CONTINUITY';
 
@@ -124,6 +124,23 @@ export type PageFunctionalRelationship = {
   rule: string;
 };
 
+export type FullPageScrollMapStage =
+  | 'TOP'
+  | 'EARLY_CONTENT'
+  | 'MID_CONTENT'
+  | 'LOWER_CONTENT'
+  | 'FINAL_ACTION_CONTINUITY'
+  | 'BOTTOM_NAVIGATION';
+
+export type FullPageScrollMapEntry = {
+  stage: FullPageScrollMapStage;
+  verticalOrder: number;
+  role: string;
+  interaction: string;
+  sourceCapture: ScreenshotFunctionSourceCapture;
+  regionIds: readonly string[];
+};
+
 export type ScreenshotFunctionalPageMap = {
   mapId: string;
   version: typeof SCREENSHOT_FUNCTIONAL_PAGE_MAP_VERSION;
@@ -141,6 +158,7 @@ export type ScreenshotFunctionalPageMap = {
   functionalInvariants: readonly string[];
   designFreedomMap: readonly ScreenshotDesignFreedomEntry[];
   relationshipGraph: readonly PageFunctionalRelationship[];
+  fullPageScrollMap: readonly FullPageScrollMapEntry[];
   unresolvedElements: readonly { elementId: string; reason: string }[];
   implementationMetadataEnriched: boolean;
   createdAt: string;
@@ -265,11 +283,43 @@ function buildBottomNavigationMap(): ScreenshotBottomNavigationMap {
     confidence: 'HIGH',
   }));
   return {
-    containerRole: 'SITE_00_DESIGN_WORKSPACE_BOTTOM_DOCK',
+    containerRole: 'PROJECT_PAGE_BOTTOM_NAVIGATION',
     fixedOrFlow: 'FIXED',
     itemCount: items.length,
     items,
   };
+}
+
+function buildFullPageScrollMap(
+  regions: readonly ScreenshotFunctionalRegion[],
+): readonly FullPageScrollMapEntry[] {
+  const sorted = [...regions].sort((a, b) => a.verticalOrder - b.verticalOrder);
+  const pick = (predicate: (name: string) => boolean, capture: ScreenshotFunctionSourceCapture, stage: FullPageScrollMapStage, order: number, role: string) => {
+    const ids = sorted.filter((r) => predicate(r.regionName.toUpperCase())).map((r) => r.regionId);
+    return {
+      stage,
+      verticalOrder: order,
+      role,
+      interaction: 'Preserve functional intent — restyle allowed.',
+      sourceCapture: capture,
+      regionIds: ids.length ? ids : sorted.slice(0, 1).map((r) => r.regionId),
+    };
+  };
+  return [
+    pick((n) => n.includes('IDENTITY') || n.includes('ENTRY') || n.includes('STATUS'), GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL, 'TOP', 1, 'Header, breadcrumb, page identity'),
+    pick((n) => n.includes('OVERVIEW') || n.includes('INDEX') || n.includes('ENTRY'), GPT2_MOBILE_INPUT_ROLE.TOP_STRUCTURAL, 'EARLY_CONTENT', 2, 'Early overview and entry access'),
+    pick((n) => n.includes('EVIDENCE') || n.includes('CONTENT') || n.includes('CURRENT'), GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL, 'MID_CONTENT', 3, 'Mid-page content and activity'),
+    pick((n) => n.includes('ACTION') || n.includes('WORK') || n.includes('DEEPER'), GPT2_MOBILE_INPUT_ROLE.MIDDLE_STRUCTURAL, 'LOWER_CONTENT', 4, 'Lower content transitions'),
+    pick((n) => n.includes('CONTINUITY') || n.includes('BOTTOM') || n.includes('SHELL'), GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL, 'FINAL_ACTION_CONTINUITY', 5, 'Final action / continuity before nav'),
+    {
+      stage: 'BOTTOM_NAVIGATION' as const,
+      verticalOrder: 6,
+      role: 'True bottom navigation — destinations, order, active state from capture C',
+      interaction: 'NAVIGATE — locked IA',
+      sourceCapture: GPT2_MOBILE_INPUT_ROLE.BOTTOM_STRUCTURAL,
+      regionIds: sorted.filter((r) => r.regionName.toUpperCase().includes('BOTTOM')).map((r) => r.regionId),
+    },
+  ];
 }
 
 function buildRelationshipGraph(regions: readonly ScreenshotFunctionalRegion[]): PageFunctionalRelationship[] {
@@ -428,6 +478,7 @@ export function interpretScreenshotFunctionality(input: {
   }));
 
   const relationshipGraph = buildRelationshipGraph(regions);
+  const fullPageScrollMap = buildFullPageScrollMap(regions);
 
   const unresolvedElements: { elementId: string; reason: string }[] = [];
   if (bottomNavigationMap.itemCount === 0) {
@@ -476,6 +527,7 @@ export function interpretScreenshotFunctionality(input: {
     functionalInvariants,
     designFreedomMap,
     relationshipGraph,
+    fullPageScrollMap,
     unresolvedElements,
     implementationMetadataEnriched: registryEnriched,
     createdAt: new Date().toISOString(),
@@ -509,6 +561,14 @@ export function validateScreenshotFunctionMapForGpt2Dispatch(map: ScreenshotFunc
       ok: false,
       errorCode: 'SCREENSHOT_FUNCTION_MAP_INCOMPLETE',
       criticalUnresolved: [...criticalUnresolved, 'INSUFFICIENT_REGIONS'],
+    };
+  }
+  const hasBottomScroll = map.fullPageScrollMap?.some((s) => s.stage === 'BOTTOM_NAVIGATION');
+  if (!hasBottomScroll) {
+    return {
+      ok: false,
+      errorCode: 'SCREENSHOT_FUNCTION_MAP_INCOMPLETE',
+      criticalUnresolved: [...criticalUnresolved, 'FULL_PAGE_SCROLL_MAP_MISSING_BOTTOM'],
     };
   }
   if (criticalUnresolved.length > 0) {
@@ -547,6 +607,9 @@ export function compileGpt2MobileScreenshotFunctionBlock(map: ScreenshotFunction
   const regionLines = map.regions
     .slice(0, 9)
     .map((r, i) => `${i + 1}. ${r.regionName} (${r.hostOrProject}; ${r.sourceCapture.replace(/_CAPTURE$/, '')})`);
+  const scrollLines = (map.fullPageScrollMap ?? []).map(
+    (s) => `${s.verticalOrder}. ${s.stage}: ${s.role} [${s.sourceCapture}]`,
+  );
   const invariantLines = map.functionalInvariants.slice(0, 8).map((line) => `- ${line}`);
   return [
     'PAGE FUNCTION (SCREENSHOT FUNCTIONAL PAGE MAP — WHAT EXISTS DOES, NOT HOW IT LOOKS):',
@@ -558,6 +621,9 @@ export function compileGpt2MobileScreenshotFunctionBlock(map: ScreenshotFunction
     '',
     'REGIONS (required anatomy):',
     ...regionLines,
+    '',
+    'FULL PAGE SCROLL MAP (TOP → BOTTOM — entire page must appear in concept):',
+    ...scrollLines,
     '',
     'BOTTOM NAVIGATION (LOCKED IA — restyle allowed):',
     `- ${map.bottomNavigationMap.itemCount} items in order: ${navLabels}.`,

@@ -39,9 +39,14 @@ import {
   compileGpt2MobileScreenshotFunctionBlock,
   type ScreenshotFunctionalPageMap,
 } from './pageConceptScreenshotFunctionalPageMap.js';
+import { buildGpt2TargetRouteContextBlock } from './pageConceptTargetPageContext.js';
+import {
+  compileWebExpressionTerritoryPromptBlock,
+  type WebExpressionTerritory,
+} from './pageConceptWebExpressionTerritories.js';
 
 export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
-  'gpt2-mobile-provider-prompt-v6-screenshot-function-map';
+  'gpt2-mobile-provider-prompt-v7-web-expression-territories';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -68,6 +73,7 @@ export type Gpt2MobileProviderPromptCompileInput = {
   bottomStructuralCaptureAttached?: boolean;
   bottomContinuityLockActive?: boolean;
   screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap | null;
+  webExpressionTerritory?: WebExpressionTerritory | null;
 };
 
 export type Gpt2MobileCompiledProviderPrompt = {
@@ -145,11 +151,12 @@ function compactPageRegions(arch: PageConceptPageArchitectureBrief): string {
 }
 
 function compactNavigation(arch: PageConceptPageArchitectureBrief): string {
+  const targetLabel = arch.targetRouteContract?.targetRouteLabel ?? `${arch.pageIdentity.moduleContext} > ${arch.pageIdentity.page}`;
   const lines = [
-    'Preserve SITE 00 host context and DESIGN workspace framing.',
+    `Target product route: ${targetLabel} — NOT the Design workspace authoring environment.`,
     'Entry/index rows are functional navigation — not decorative labels.',
-    'Overview must read as the current page in the project.',
-    'Preserve approved bottom continuity navigation — do not invent unrelated nav systems.',
+    'Overview must read as the current page in the PROJECTS product experience.',
+    'Preserve approved bottom navigation from capture C — do not invent unrelated nav systems.',
   ];
   for (const line of arch.navigationContract.inPageNavigation.slice(0, 2)) {
     lines.push(clipSentences(line.replace(/^Interaction /i, ''), 1));
@@ -234,12 +241,13 @@ function buildImageRoleDefinitions(input: Gpt2MobileProviderPromptCompileInput):
 
 function buildRoleHeader(arch: PageConceptPageArchitectureBrief, viewport: { width: number; height: number }): string {
   const id = arch.pageIdentity;
+  const target = arch.targetRouteContract;
   return [
     'ROLE:',
-    'Design ONE real mobile website page concept (full viewport screen in a digital product).',
+    'Design ONE real mobile website page concept (full scrollable product page in a digital product).',
     '',
-    `PAGE: ${id.siteContext} > ${id.moduleContext.replace(' > ', ' > ')} > ${id.project} > ${id.page}`,
-    `ROUTE: ${id.route}`,
+    `PAGE: ${target?.targetRouteLabel ?? `${id.siteContext} > ${id.moduleContext} > ${id.page}`}`,
+    `ROUTE: ${target?.targetRoute ?? id.route}`,
     `VIEWPORT: ${viewport.width}×${viewport.height} portrait mobile.`,
     '',
     'NOT: poster, graphic, social asset, book cover, brand board, campaign artboard.',
@@ -262,12 +270,18 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     throw new Error('SCREENSHOT_FUNCTION_MAP_INCOMPLETE: missing functional page map for GPT2 compile');
   }
 
-  const territoryDelta = gpt2MobileConceptTerritoryDelta(input.slot);
+  const territoryDelta =
+    input.webExpressionTerritory ?
+      compileWebExpressionTerritoryPromptBlock(input.webExpressionTerritory)
+    : gpt2MobileConceptTerritoryDelta(input.slot);
   const functionBlock = compileGpt2MobileScreenshotFunctionBlock(input.screenshotFunctionalPageMap);
+  const targetRouteBlock = arch.targetRouteContract ? buildGpt2TargetRouteContextBlock(arch.targetRouteContract) : '';
 
   const baseSections = [
     buildRoleHeader(arch, input.mobileViewport),
     '',
+    targetRouteBlock,
+    targetRouteBlock ? '' : null,
     buildGpt2MobileAuthorityHierarchyBlock(),
     '',
     buildGpt2MobileDesignAuthoritySourceBlock(),
@@ -301,7 +315,7 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     buildGpt2MobileDistinctnessBlock(),
     '',
     'PAGE ARCHITECTURE / LAYOUT AUTHORITY:',
-    'Full mobile website page — SITE 00 host shell, project route context, NDXBOOK Overview identity, hero/overview read, status/orientation block, entry index navigation, evidence/content field, current work / deeper access, bottom continuity shell region.',
+    'Full mobile website page — SITE 00 host shell, PROJECTS product route, project Overview identity, hero/overview read, status/orientation block, entry index navigation, evidence/content field, current work / deeper access, lower page + bottom navigation.',
     '',
     'PAGE REGIONS:',
     compactPageRegions(arch),
@@ -334,7 +348,7 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     'One FULL portrait mobile viewport page concept (9:16) including lower-page continuity context and source-locked bottom nav — edge-to-edge readable hierarchy; not a cropped top-half poster.',
   ];
 
-  return { basePrompt: baseSections.join('\n'), territoryDelta };
+  return { basePrompt: baseSections.filter((s) => s != null).join('\n'), territoryDelta };
 }
 
 function dedupeLines(text: string): string {
@@ -442,7 +456,10 @@ export function compileGpt2MobileProviderPrompt(
   input: Gpt2MobileProviderPromptCompileInput,
 ): Gpt2MobileCompiledProviderPrompt {
   const { basePrompt, territoryDelta } = compileGpt2MobileProviderPromptBase(input);
-  let prompt = `${basePrompt}\n\nCONCEPT TERRITORY (VARIES A/B/C — ARCHITECTURE SHARED):\n${territoryDelta}`;
+  let prompt =
+    input.webExpressionTerritory ?
+      `${basePrompt}\n\n${territoryDelta}`
+    : `${basePrompt}\n\nCONCEPT TERRITORY (VARIES A/B/C — ARCHITECTURE SHARED):\n${territoryDelta}`;
   if (prompt.length > MAX_PROVIDER_PROMPT_CHARS) {
     prompt = compressionPass(prompt);
     if (prompt.length > MAX_PROVIDER_PROMPT_CHARS) {
@@ -462,7 +479,16 @@ export function compileGpt2MobileProviderPrompt(
   assertScreenshotDesignAuthorityForbidden(prompt);
 
   const arch = input.pageArchitectureBrief!;
-  const territorySpec = resolveGpt2MobileConceptTerritorySpec(input.slot);
+  const territorySpec =
+    input.webExpressionTerritory ?
+      {
+        slot: input.slot,
+        territoryKey: input.webExpressionTerritory.territoryId,
+        territoryLabel: input.webExpressionTerritory.name,
+        themeClass: 'LIGHT' as const,
+        territoryPromptBlock: territoryDelta,
+      }
+    : resolveGpt2MobileConceptTerritorySpec(input.slot);
   const quality = validateGpt2MobileConceptQualityPrompt(prompt);
   return {
     prompt,

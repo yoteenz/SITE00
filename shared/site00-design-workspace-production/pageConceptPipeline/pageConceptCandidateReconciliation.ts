@@ -83,13 +83,17 @@ function buildMobileCandidateFromJob(input: {
   const imageSource = job.imageUri ?? job.artifactPath ?? meta?.imageUri ?? null;
   const cacheBustKey = job.providerJobId ?? job.artifactId ?? job.createdAt ?? meta?.createdAt ?? null;
   const image = resolvePageConceptArtifactDisplayUrl(imageSource, cacheBustKey);
+  const letter = slot === 'MOBILE_CONCEPT_A' ? 'A' : slot === 'MOBILE_CONCEPT_B' ? 'B' : 'C';
+  const webTerritory = state.pipelineSet?.webExpressionTerritorySet?.territories.find(
+    (t) => t.territorySlot === letter,
+  );
 
   return {
     conceptId,
     projectId: state.projectId.trim().toLowerCase(),
     pageId: state.pageId,
-    conceptTitle: conceptTitleForSlot(slot, meta?.territoryLabel ?? job.displayTitle ?? undefined),
-    conceptTerritory: meta?.gpt2MobileDebug?.territoryDirective ?? meta?.territoryLabel ?? job.displayTitle ?? conceptId,
+    conceptTitle: conceptTitleForSlot(slot, webTerritory?.name ?? meta?.territoryLabel ?? job.displayTitle ?? undefined),
+    conceptTerritory: webTerritory?.name ?? meta?.territoryLabel ?? job.displayTitle ?? conceptId,
     creativeRationale: meta?.gpt2MobileDebug?.territoryLabel ?? 'GPT2 mobile page authority — twin pipeline',
     visualReference: image,
     mobileVisualReference: image,

@@ -141,7 +141,9 @@ describe('P0.VR.CGPT-PAGE-ARCHITECTURE-HANDOFF1', () => {
     });
     expect(arch.pageIdentity.route).toMatch(/ndxbook/i);
     expect(arch.pageIdentity.siteContext).toBe('SITE 00');
-    expect(arch.pageIdentity.moduleContext).toContain('DESIGN');
+    expect(arch.pageIdentity.moduleContext).toContain('PROJECTS');
+    expect(arch.pageIdentity.moduleContext).not.toContain('> DESIGN');
+    expect(arch.targetRouteContract.targetRouteLabel).toContain('OVERVIEW');
   });
 
   it('includes host/project boundary and mobile region map', () => {

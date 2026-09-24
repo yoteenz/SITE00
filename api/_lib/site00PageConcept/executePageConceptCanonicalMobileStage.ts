@@ -49,7 +49,8 @@ export async function executePageConceptCanonicalMobileStage(input: {
     completedAt: null,
   });
 
-  const { jobs, mobileConcepts, partialFailure, screenshotFunctionalPageMap } = await executePageConceptGpt2MobileConcepts({
+  const { jobs, mobileConcepts, partialFailure, screenshotFunctionalPageMap, webExpressionTerritorySet } =
+    await executePageConceptGpt2MobileConcepts({
     runId: input.runId,
     plan: input.plan,
     pipelineSetId: input.pipelineSetId,
@@ -84,6 +85,7 @@ export async function executePageConceptCanonicalMobileStage(input: {
           cgptCreativeBrief: input.cgptCreativeBrief,
           pageArchitectureBrief: input.pageArchitectureBrief ?? null,
           screenshotFunctionalPageMap: payload.screenshotFunctionalPageMap,
+          webExpressionTerritorySet: payload.webExpressionTerritorySet,
           gpt2AuthorityConcept: null,
           renditions: [],
           mobileConcepts: payload.mobileConcepts,
@@ -109,6 +111,7 @@ export async function executePageConceptCanonicalMobileStage(input: {
     cgptCreativeBrief: input.cgptCreativeBrief,
     pageArchitectureBrief: input.pageArchitectureBrief ?? null,
     screenshotFunctionalPageMap,
+    webExpressionTerritorySet,
     gpt2AuthorityConcept: null,
     renditions: [],
     mobileConcepts,

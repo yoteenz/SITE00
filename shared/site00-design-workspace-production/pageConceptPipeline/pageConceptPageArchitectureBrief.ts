@@ -9,10 +9,14 @@ import type {
   PageFunctionContract,
   ProjectCreativeContext,
 } from './types.js';
+import {
+  resolvePageConceptTargetRouteContract,
+  type PageConceptTargetRouteContract,
+} from './pageConceptTargetPageContext.js';
 import { translateFunctionContractToCreativeRequirements } from './pageConceptCgptCreativeSynthesis.js';
 import { PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION } from './pageConceptGpt2MobilePageAuthority.js';
 
-export const PAGE_ARCHITECTURE_BRIEF_VERSION = 'page-architecture-brief-v1-handoff';
+export const PAGE_ARCHITECTURE_BRIEF_VERSION = 'page-architecture-brief-v2-target-route';
 
 export type PageArchitectureRegion = {
   regionId: string;
@@ -102,6 +106,7 @@ export type PageConceptPageArchitectureBrief = {
   navigationContractId: string;
   bottomContinuityContractId: string;
   scrollNarrativeId: string;
+  targetRouteContract: PageConceptTargetRouteContract;
   createdAt: string;
 };
 
@@ -208,7 +213,7 @@ function buildMobileRegionMap(input: {
       regionId: 'REGION_07',
       title: 'BOTTOM CONTINUITY SHELL',
       obligations: [
-        'Preserve approved SITE 00 bottom shell continuity — visibly reconnects project page to parent DESIGN environment.',
+        'Preserve approved product bottom navigation — final scroll region hands into real bottom nav from capture C.',
         `Continuity strip reference: lower ${Math.round(PAGE_GPT2_MOBILE_BOTTOM_CONTINUITY_FRACTION * 100)}% of capture when image attached.`,
       ],
     },
@@ -226,6 +231,12 @@ export function compilePageConceptPageArchitectureBrief(input: {
   const projectLabel = input.projectContext.projectId.toUpperCase();
   const pageLabel = input.pageContext.pageName.toUpperCase();
   const route = input.functionContract.route || input.pageContext.route;
+  const targetRouteContract = resolvePageConceptTargetRouteContract({
+    projectId: input.projectContext.projectId,
+    pageId: input.pageContext.pageId,
+    pageContext: input.pageContext,
+    functionContract: input.functionContract,
+  });
   const childContext =
     input.pageContext.childPageIds.length > 0 ?
       input.pageContext.childPageIds.join(' · ')
@@ -258,7 +269,7 @@ export function compilePageConceptPageArchitectureBrief(input: {
       'Bottom navigation/continuity strip alignment when reference image provided.',
     ],
     mustPersistFunctional: [
-      'Return path to PROJECTS > DESIGN context must remain inferable from shell continuity.',
+      `Return path within ${targetRouteContract.targetRouteLabel} product hierarchy must remain inferable.`,
       'Do not remove host navigation affordances implied by continuity region.',
     ],
     mayAdapt: [
@@ -271,8 +282,8 @@ export function compilePageConceptPageArchitectureBrief(input: {
       'Continuity strip must not be replaced by decorative footer art.',
     ],
     scrollRelationship: 'Final scroll region must visually hand off into approved bottom continuity — not end on a poster plate.',
-    projectNavigationRelationship: 'Continuity strip reconnects NDXBOOK page to parent DESIGN navigation mental model.',
-    hostShellRelationship: 'SITE 00 owns shell continuity; NDXBOOK owns in-page composition above it.',
+    projectNavigationRelationship: `Continuity strip reconnects ${projectLabel} page to PROJECTS product navigation mental model.`,
+    hostShellRelationship: 'SITE 00 owns outer shell continuity; project page owns in-page composition above bottom nav.',
   };
 
   const payloadCore = {
@@ -294,10 +305,10 @@ export function compilePageConceptPageArchitectureBrief(input: {
     pageIdentity: {
       project: projectLabel,
       siteContext: 'SITE 00',
-      moduleContext: 'PROJECTS > DESIGN',
+      moduleContext: `PROJECTS > ${projectLabel}`,
       page: pageLabel,
       pageRole: input.pageContext.pageRole || `${pageLabel} / PROJECT OVERVIEW / ENTRY POINT`,
-      route,
+      route: targetRouteContract.targetRoute,
       parentContext: 'PROJECTS',
       childContext,
     },
@@ -307,7 +318,7 @@ export function compilePageConceptPageArchitectureBrief(input: {
         'Project-level navigation chrome',
         'Viewport controls (MOBILE / TABLET / DESKTOP) where shown',
         'Persistent shell controls and account/system affordances',
-        'DESIGN workspace relationship to parent SITE 00 shell',
+        'SITE 00 host shell framing (product page — not Design workspace UI)',
         'Approved bottom continuity / shell transition region',
       ],
       projectOwns: [
@@ -320,7 +331,7 @@ export function compilePageConceptPageArchitectureBrief(input: {
     mobileRegionMap,
     navigationContract: {
       topPageEntryNavigation: [
-        'Host: project context + DESIGN workspace tabs remain structurally present or implied at page top.',
+        'Host: project context + product navigation remain structurally present at page top.',
         'Project: page title and overview identity owned by project page frame.',
         'Persistent: route context must read as real app navigation — not poster masthead only.',
       ],
@@ -338,7 +349,7 @@ export function compilePageConceptPageArchitectureBrief(input: {
     },
     bottomContinuityContract,
     fixedRegions: [
-      'Host shell elements and DESIGN workspace relationship',
+      'Host shell elements and PROJECTS product route context',
       'Required navigation and route hierarchy',
       'Approved bottom continuity anchor',
       'Page-function obligations from contract',
@@ -354,7 +365,7 @@ export function compilePageConceptPageArchitectureBrief(input: {
     ],
     translatedPagePurpose,
     aboveFoldContract: {
-      firstViewportPurpose: `Establish ${projectLabel} ${pageLabel} inside SITE 00 > PROJECTS > DESIGN — not a brand poster.`,
+      firstViewportPurpose: `Establish ${projectLabel} ${pageLabel} inside ${targetRouteContract.targetRouteLabel} — not a brand poster or Design workspace screen.`,
       firstViewportContent: `Show project identity, overview signal, and where content/entries begin. ${input.cgptCreativeBrief.pagePurpose}`,
       firstViewportHierarchy: input.cgptCreativeBrief.hierarchyStrategy || input.injection.hierarchyDirection,
       firstViewportNavigation: 'Legible path to entries/deeper content without scrolling guesswork.',
@@ -362,25 +373,26 @@ export function compilePageConceptPageArchitectureBrief(input: {
       firstViewportForbidden: 'Full-viewport decorative masthead, campaign graphic, or book-cover composition with no page structure.',
     },
     mobileScrollNarrative: {
-      open: 'Orient: which project, which page, which module (SITE 00 DESIGN).',
+      open: `Orient: which project, which page (${targetRouteContract.targetRouteLabel}).`,
       earlyScroll: 'Explain what this project/page is for using structured overview — not mood essay.',
       midPage: 'Expose entries, evidence, and current activity as page regions.',
       latePage: 'Deepen access toward workflow/content — still a page, not a poster tail.',
-      bottom: 'Return/connect to SITE 00 shell continuity — approved bottom anchor.',
+      bottom: 'Final content transition → bottom navigation continuity — full page ends at real product bottom nav.',
     },
     structuralAnchors: {
       top: 'Host context + page entry identity + overview signal.',
       middle: 'Entries, evidence, active state — scrollable page body.',
-      bottom: 'Continuity shell + handoff to parent DESIGN environment.',
+      bottom: 'Lower content + bottom navigation — complete scroll terminus from capture C.',
       nav: 'Persistent navigation mechanisms (host + project) remain legible.',
       content: 'Required modules/content from contract appear as interactable page elements.',
-      shell: 'SITE 00 host shell and DESIGN workspace framing.',
+      shell: 'SITE 00 host shell framing the PROJECTS product page.',
       project: `${projectLabel} atmosphere, typography, and content inside the page frame.`,
     },
     regionMapVersion,
     navigationContractId,
     bottomContinuityContractId,
     scrollNarrativeId,
+    targetRouteContract,
     createdAt: new Date().toISOString(),
   };
 

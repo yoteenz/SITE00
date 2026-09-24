@@ -377,6 +377,7 @@ export type PageConceptPipelineSet = {
   cgptCreativeBrief?: PageConceptCgptCreativeBrief | null;
   pageArchitectureBrief?: import('./pageConceptPageArchitectureBrief.js').PageConceptPageArchitectureBrief | null;
   screenshotFunctionalPageMap?: import('./pageConceptScreenshotFunctionalPageMap.js').ScreenshotFunctionalPageMap | null;
+  webExpressionTerritorySet?: import('./pageConceptWebExpressionTerritories.js').WebExpressionTerritorySet | null;
   gpt2AuthorityConcept: PageGPT2AuthorityConcept | null;
   renditions: readonly PageConceptRendition[];
   creativeInjectionError?: string;
