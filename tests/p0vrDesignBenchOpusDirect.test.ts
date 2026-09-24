@@ -401,6 +401,11 @@ describe('P0.VR.DESIGNBENCH.OPUS-VIEWMODE1 — canonical / list view mode', () =
 
 describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark renderer', () => {
   const listView = readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
+  const listGalleryRail = readRepo(
+    'src/site00/components/designBench/opusDirect/DesignConceptCandidateGalleryRail.tsx',
+  );
+  /** Candidate gallery cards live in shared rail (grid + list); List body mounts the rail. */
+  const listPresentation = `${listView}\n${listGalleryRail}`;
   const listCss = readRepo('src/site00/styles/site00-twin-opus-list.css');
 
   it('renders the transplanted Spark sequence in its own namespace', () => {
@@ -411,7 +416,6 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
       'tod-lv-rail',
       'tod-lv-pair',
       'tod-lv-gallery',
-      'tod-lv-card',
       'tod-lv-actions',
       'tod-lv-tabs',
       'tod-lv-concept',
@@ -419,6 +423,9 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
       expect(listView).toContain(marker);
       expect(listCss).toContain(marker);
     }
+    expect(listView).toContain('DesignConceptCandidateGalleryRail');
+    expect(listPresentation).toContain('tod-lv-card');
+    expect(listCss).toContain('tod-lv-card');
     // Page system + pipeline panels are shared with canonical (tod-out / tod-pipe), not tod-lv-out forks.
     expect(listView).toContain('DesignPageSystemReviewSection');
     expect(listView).toContain('DesignPipelineReadinessPanel');
@@ -433,12 +440,12 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
     expect(listView).not.toContain('useTwinOpusDirectWorkspace(');
     for (const action of [
       'actions.selectViewport',
-      'actions.selectCandidate',
       'actions.toggleAuthorityPair',
       'actions.selectRecordTab',
     ]) {
       expect(listView).toContain(action);
     }
+    expect(listPresentation).toContain('actions.selectCandidate');
     for (const forbidden of [
       'listSelectedCandidate',
       'listAuthorityState',
@@ -452,11 +459,11 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
   });
 
   it('shares selection, pair, tab and viewport state with canonical controls', () => {
-    expect(listView).toContain('state.candidateId');
+    expect(listPresentation).toContain('state.candidateId');
     expect(listView).toContain('state.authorityPairOpen');
     expect(listView).toContain('state.recordTabIndex');
     expect(listView).toContain('state.viewport');
-    expect(listView).toContain('aria-pressed={active}');
+    expect(listPresentation).toContain('aria-pressed={active}');
     expect(listView).toContain('aria-expanded={state.authorityPairOpen}');
     expect(listView).toContain('aria-selected={state.recordTabIndex === index}');
   });
