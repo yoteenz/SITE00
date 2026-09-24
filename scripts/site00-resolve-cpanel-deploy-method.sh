@@ -16,7 +16,13 @@ if [ -n "${GODADDY_FTP_HOST:-}" ] && [ -n "${GODADDY_FTP_USERNAME:-}" ] && [ -n 
   ftp_ok=true
 fi
 
-# Explicit overrides win.
+# GitHub Actions → GoDaddy: port-22 SSH often times out from runner IPs; FTP is the reliable CI path.
+if [ "${GITHUB_ACTIONS:-}" = "true" ] && [ "$ftp_ok" = true ]; then
+  echo "ftp"
+  exit 0
+fi
+
+# Explicit overrides win (local / non-CI).
 if [ "$SSH_VAR" = "true" ] && [ "$ssh_ok" = true ]; then
   echo "ssh"
   exit 0
