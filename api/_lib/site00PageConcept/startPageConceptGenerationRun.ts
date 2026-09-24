@@ -14,6 +14,7 @@ import type { RunPageConceptGenerationInput } from './runPageConceptGeneration.j
 import { clearPageConceptCgptStageLock } from './pageConceptCgptStageLock.js';
 import { cgptSubstepsForStatusApi } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCgptSubstepRun.js';
 import { pageConceptProgressEventsAfterSequence } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressEvents.js';
+import { upsertPageConceptServerRunDurable } from './pageConceptGenerationRunSupabaseStore.js';
 
 export type StartPageConceptGenerationRunInput = RunPageConceptGenerationInput & {
   founderEmail: string;
@@ -119,6 +120,7 @@ export async function startPageConceptGenerationRun(input: StartPageConceptGener
     latestProgressSequence: existing?.latestProgressSequence ?? 0,
   };
   putPageConceptServerRun(run);
+  await upsertPageConceptServerRunDurable(run);
 
   if (input.retryCgptOnly) {
     clearPageConceptCgptStageLock(runId);
@@ -170,7 +172,9 @@ async function runPageConceptGenerationInBackground(
       retryGpt2Only: flags.retryGpt2Only === true,
       regenerateNbpOnly: flags.regenerateNbpOnly === true,
       onProgress: (patch) => {
-        void patchPageConceptServerRunDurable(runId, patch);
+        void patchPageConceptServerRunDurable(runId, patch).catch((err) => {
+          console.warn('[page-concept-run] progress patch failed', err instanceof Error ? err.message : err);
+        });
       },
     });
     await patchPageConceptServerRunDurable(runId, {

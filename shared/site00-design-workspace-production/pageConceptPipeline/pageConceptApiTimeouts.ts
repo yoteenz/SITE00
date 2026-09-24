@@ -13,3 +13,9 @@ export const PAGE_CONCEPT_POLL_INTERVAL_MS = 2_500;
 
 /** Legacy synchronous generate — deprecated; kept for tests only. */
 export const PAGE_CONCEPT_SYNC_GENERATE_TIMEOUT_MS = 90_000;
+
+/** Anthropic CGPT provider call (creative direction JSON). */
+export const PAGE_CONCEPT_CGPT_PROVIDER_TIMEOUT_MS = 180_000;
+
+/** Server-side capture artifact fetch (URL → base64). */
+export const PAGE_CONCEPT_CAPTURE_FETCH_TIMEOUT_MS = 45_000;

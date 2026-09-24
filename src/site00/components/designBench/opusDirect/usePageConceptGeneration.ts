@@ -161,6 +161,17 @@ async function buildPageConceptCapturePayload(
         'Implementation source capture is not a displayable image for this viewport.',
     );
   }
+  try {
+    const artifactBase64 = await artifactPathToBase64(path);
+    return {
+      captureId: record.captureId,
+      viewport,
+      ...dims,
+      artifactBase64,
+    };
+  } catch {
+    /* fall through to snapshot / URL transport */
+  }
   const snapshotBacked =
     record.source === 'IMPLEMENTATION_SNAPSHOT_API' ||
     record.captureId.startsWith('snap-') ||

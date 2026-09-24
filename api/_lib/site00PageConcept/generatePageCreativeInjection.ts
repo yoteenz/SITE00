@@ -10,6 +10,7 @@ import type {
   ProjectCreativeContext,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PAGE_CGPT_PROMPT_VERSION } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/generationPlan.js';
+import { PAGE_CONCEPT_CGPT_PROVIDER_TIMEOUT_MS } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptApiTimeouts.js';
 import {
   buildCgptCreativeDirectorSystemPrompt,
   buildCgptProviderUserPayload,
@@ -108,6 +109,7 @@ export async function fetchAnthropicPageCreativeJson(
       system,
       messages: [{ role: 'user', content: user }],
     }),
+    signal: AbortSignal.timeout(PAGE_CONCEPT_CGPT_PROVIDER_TIMEOUT_MS),
   });
 
   const rateLimitHeaders = parseAnthropicRateLimitHeaders(res.headers);
@@ -211,6 +213,7 @@ export async function fetchAnthropicCgptSynthesisRepair(
         { role: 'user', content: user },
       ],
     }),
+    signal: AbortSignal.timeout(PAGE_CONCEPT_CGPT_PROVIDER_TIMEOUT_MS),
   });
 
   if (!res.ok) {

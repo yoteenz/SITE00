@@ -51,6 +51,7 @@ import {
   compileVisualMoodboardSlice,
 } from './pageConceptCgptSubstepCompile.js';
 import { auditPageCgptInputTokens } from './generatePageCreativeInjection.js';
+import { isAnthropicConfigured } from '../site00Evolve/creativeDirection/creativeIntelligence/config.js';
 
 export type ExecutePageConceptCgptStageResult =
   | { ok: true; injection: PageCreativeInjection }
@@ -106,6 +107,16 @@ export async function executePageConceptCgptStage(options: {
 }): Promise<ExecutePageConceptCgptStageResult> {
   const sleep = options.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms)));
   const idempotencyKey = pageConceptCgptIdempotencyKeyForRun(options.runId);
+
+  if (!options.dryRun && !isAnthropicConfigured()) {
+    setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
+    return {
+      ok: false,
+      errorCode: 'CGPT_INJECTION_FAILED',
+      founderMessage: 'CGPT unavailable — set ANTHROPIC_API_KEY on Railway (api.site00.com) and redeploy',
+      technicalDetails: 'ANTHROPIC_API_KEY missing',
+    };
+  }
 
   if (!options.dryRun && !tryBeginPageConceptCgptDispatch(options.runId)) {
     return {
