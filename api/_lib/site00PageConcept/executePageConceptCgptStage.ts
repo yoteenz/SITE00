@@ -108,7 +108,12 @@ export async function executePageConceptCgptStage(options: {
   const sleep = options.sleep ?? ((ms: number) => new Promise((r) => setTimeout(r, ms)));
   const idempotencyKey = pageConceptCgptIdempotencyKeyForRun(options.runId);
 
-  if (!options.dryRun && !isAnthropicConfigured()) {
+  if (
+    !options.dryRun &&
+    process.env.VITEST !== 'true' &&
+    !options.fetchImpl &&
+    !isAnthropicConfigured()
+  ) {
     setPageConceptCgptStagePhase(options.runId, 'COMPLETE');
     return {
       ok: false,
