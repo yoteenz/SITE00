@@ -265,6 +265,71 @@
   color: rgba(255, 255, 255, 0.45);
 }
 
+.tod-lv-rail--heroWorkflow {
+  flex: 0 0 var(--tod-rail-w);
+  min-width: var(--tod-rail-w);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tod-lv-rail__vfFullVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 11.8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-size: 17.7px;
+  letter-spacing: 0.06em;
+}
+
+.tod-lv-rail__vfStage {
+  display: flex;
+  flex-direction: column;
+  gap: 7.9px;
+  padding-bottom: 11.8px;
+  border-bottom: 1px solid var(--tod-border-subtle);
+}
+
+.tod-lv-rail__vfStage--emphasis .tod-lv-rail__vfStageLabel {
+  color: var(--tod-lime);
+}
+
+.tod-lv-rail__vfStageHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 11.8px;
+}
+
+.tod-lv-rail__vfStageLabel {
+  font-size: 17.7px;
+  font-weight: var(--tod-weight-ui);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.tod-lv-rail__vfStageStatus {
+  font-size: 15.7px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.tod-lv-rail__vfStageStatus--active,
+.tod-lv-rail__vfStageStatus--approved,
+.tod-lv-rail__vfStageStatus--ready {
+  color: var(--tod-lime);
+}
+
+.tod-lv-rail__vfStageValue {
+  margin: 0;
+  font-size: 15.7px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.tod-lv-rail__vfStage .tod-lv-rail__action {
+  flex: 0 0 auto;
+  min-height: 44.6px;
+  margin-top: 3.9px;
+}
+
 .tod-lv-hero-compare__grid {
   display: flex;
   gap: 15.7px;
@@ -2332,7 +2397,10 @@
 .tod-lv-herorow {
     flex-basis: auto;
     height: auto;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .tod-lv-hero {

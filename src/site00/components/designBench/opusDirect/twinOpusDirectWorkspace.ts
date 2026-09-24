@@ -44,11 +44,9 @@ import {
 import { resolvePageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
 import { pageConceptGenerationActivelyRunning } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import {
-  buildGpt2ViewportFamilyAuthorityRail,
-  buildGpt2ViewportFamilyAuthorityRailActions,
+  buildGpt2ViewportFamilyHeroRailStages,
   isCanonicalGpt2ViewportFamilyPipeline,
-  type Gpt2ViewportFamilyAuthorityRailAction,
-  type Gpt2ViewportFamilyAuthorityRailRow,
+  type Gpt2ViewportFamilyHeroRailStage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import { PAGE_CONCEPT_FIT_FULL_SCREEN } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactFitModes.js';
 import type { PageConceptLatestGenerationDiagnostics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLatestGenerationRun.js';
@@ -307,8 +305,7 @@ export interface TwinOpusDirectWorkspaceData {
   heroAssembly: HeroAssemblyActionsModel;
   canonicalGpt2ViewportFamilyActive: boolean;
   generationConsoleLauncher: PageConceptGenerationConsoleLauncher;
-  viewportFamilyRail: readonly Gpt2ViewportFamilyAuthorityRailRow[];
-  viewportFamilyRailActions: readonly Gpt2ViewportFamilyAuthorityRailAction[];
+  viewportFamilyHeroRailStages: readonly Gpt2ViewportFamilyHeroRailStage[];
   currentGenerationUnresolvedMessage: string | null;
   latestGenerationDiagnostics: PageConceptLatestGenerationDiagnostics | null;
   heroFitMode: typeof PAGE_CONCEPT_FIT_FULL_SCREEN;
@@ -704,8 +701,38 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             prodActions.selectGalleryCandidate('');
             break;
           case 'vf-review-experience':
+            pageConceptGeneration.openGenerationConsole(viewport);
+            break;
+          case 'vf-approve-experience':
             void handlers.approveExperience();
             break;
+          case 'vf-review-tablet':
+          case 'vf-review-desktop':
+          case 'vf-review-family':
+            pageConceptGeneration.openGenerationConsole(viewport);
+            break;
+          case 'vf-use-tablet': {
+            const tabletRow = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
+              (c) => c.artifactRole === 'TABLET_INTERPRETATION' && c.runGroup !== 'HISTORY',
+            );
+            if (tabletRow) {
+              setCandidateId(tabletRow.conceptId);
+              setViewportCandidateIds((prev) => ({ ...prev, TABLET: tabletRow.conceptId }));
+              prodActions.selectGalleryCandidate(tabletRow.conceptId);
+            }
+            break;
+          }
+          case 'vf-use-desktop': {
+            const desktopRow = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
+              (c) => c.artifactRole === 'DESKTOP_INTERPRETATION' && c.runGroup !== 'HISTORY',
+            );
+            if (desktopRow) {
+              setCandidateId(desktopRow.conceptId);
+              setViewportCandidateIds((prev) => ({ ...prev, DESKTOP: desktopRow.conceptId }));
+              prodActions.selectGalleryCandidate(desktopRow.conceptId);
+            }
+            break;
+          }
           case 'vf-run-tablet':
             void handlers.runTablet();
             break;
@@ -723,9 +750,6 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             break;
           case 'vf-lock-family':
             void handlers.lockFamily();
-            break;
-          case 'vf-review-family':
-            pageConceptGeneration.openGenerationConsole(viewport);
             break;
           default:
             break;
@@ -1269,21 +1293,38 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         state: pageConceptGeneration.generationState,
         generating: pageConceptGeneration.generating,
       }),
-      viewportFamilyRail: buildGpt2ViewportFamilyAuthorityRail({
-        pipelineSet: pageConceptGeneration.pipelineSet,
-        selectedMobileConceptLabel:
-          pageConcepts.find((c) => c.conceptId === selectedMobileConceptId)?.conceptTitle ?? null,
-        activeViewport: viewport,
-      }),
-      viewportFamilyRailActions: buildGpt2ViewportFamilyAuthorityRailActions({
+      viewportFamilyHeroRailStages: buildGpt2ViewportFamilyHeroRailStages({
         pipelineSet: pageConceptGeneration.pipelineSet,
         selectedMobileConceptId,
         selectedGalleryCandidateId: candidateId,
+        selectedGalleryCandidateSlotLabel: (() => {
+          const row = pageConcepts.find((c) => c.conceptId === candidateId);
+          if (!row?.conceptSlot) return null;
+          if (row.conceptSlot === 'MOBILE_CONCEPT_A') return 'CONCEPT A';
+          if (row.conceptSlot === 'MOBILE_CONCEPT_B') return 'CONCEPT B';
+          if (row.conceptSlot === 'MOBILE_CONCEPT_C') return 'CONCEPT C';
+          return null;
+        })(),
         generating: pageConceptGenerationActivelyRunning(
           pageConceptGeneration.generationStatus,
           pageConceptGeneration.generating,
         ),
+        generationJobs: pageConceptGeneration.generationJobs,
         activeViewport: viewport,
+        tabletInterpretationActive:
+          viewport === 'TABLET' &&
+          Boolean(
+            inspectedConcept?.artifactRole === 'TABLET_INTERPRETATION' &&
+              family?.tabletArtifactId &&
+              inspectedConcept.artifactId === family.tabletArtifactId,
+          ),
+        desktopInterpretationActive:
+          viewport === 'DESKTOP' &&
+          Boolean(
+            inspectedConcept?.artifactRole === 'DESKTOP_INTERPRETATION' &&
+              family?.desktopArtifactId &&
+              inspectedConcept.artifactId === family.desktopArtifactId,
+          ),
       }),
       heroAssembly: (() => {
         const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);

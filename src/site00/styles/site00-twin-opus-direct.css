@@ -479,8 +479,12 @@
   flex: 0 0 395.4px;
   height: 395.4px;
   display: flex;
+  flex-wrap: nowrap;
   gap: var(--tod-hero-gap);
   margin-bottom: 15.2px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 .tod-hero {
@@ -597,6 +601,79 @@
   justify-self: end;
   font-size: 8px;
   color: rgba(255, 255, 255, 0.45);
+}
+
+/* Canonical viewport-family — full vertical stack (hero right rail). */
+.tod-rail--heroWorkflow {
+  flex: 0 0 var(--tod-rail-w);
+  min-width: var(--tod-rail-w);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tod-rail__vfFullVertical {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.tod-rail__vfStage {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--tod-border-subtle);
+}
+
+.tod-rail__vfStage--emphasis .tod-rail__vfStageLabel {
+  color: var(--tod-lime);
+}
+
+.tod-rail__vfStageHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.tod-rail__vfStageLabel {
+  font-size: 9px;
+  font-weight: var(--tod-weight-ui);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.2;
+}
+
+.tod-rail__vfStageStatus {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.45);
+  flex-shrink: 0;
+}
+
+.tod-rail__vfStageStatus--active,
+.tod-rail__vfStageStatus--approved,
+.tod-rail__vfStageStatus--ready {
+  color: var(--tod-lime);
+}
+
+.tod-rail__vfStageStatus--generating {
+  color: var(--tod-amber);
+}
+
+.tod-rail__vfStageValue {
+  margin: 0;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.25;
+}
+
+.tod-rail__vfStage .tod-rail__action {
+  flex: 0 0 auto;
+  min-height: 22px;
+  margin-top: 2px;
 }
 
 .tod-hero-compare__grid {
