@@ -1229,7 +1229,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryEmptySecondaryLine,
       galleryEmptyTestId: galleryEmpty.testId,
       galleryViewportTitle: galleryLabels.title,
-      galleryCurrentGroupLabel: galleryLabels.currentGroupLabel,
+      galleryCurrentGroupLabel: gallerySections.currentGenerationGroupLabel,
       galleryHistoryGroupLabel: galleryLabels.historyGroupLabel,
       galleryGenerateLabel: 'GENERATE PAGE CONCEPTS',
       pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,

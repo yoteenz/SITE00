@@ -7,6 +7,8 @@ import type { PageConceptGenerationState } from './types.js';
 import { inferPageConceptPipelineLineage } from './pageConceptCanonicalPipeline.js';
 import { syncPageConceptGalleryFromGenerationState } from './pageConceptGallerySync.js';
 import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
+import { repairPageConceptGenerationRunLinkage } from './pageConceptLatestGenerationRun.js';
+import { savePageConceptGenerationState } from './store.js';
 import {
   listPageConceptCandidatesForViewportGallery,
   resolvePageConceptViewportGalleryEmptyPresentation,
@@ -51,7 +53,9 @@ function loadGenerationStateForGallery(scope: PageConceptGalleryHydrationScope):
   });
 }
 
-function normalizeGenerationStateForGallerySync(state: PageConceptGenerationState): PageConceptGenerationState {
+export function normalizePageConceptGenerationStateForGallery(
+  state: PageConceptGenerationState,
+): PageConceptGenerationState {
   if (!state.pipelineSet) return state;
   const lineage = inferPageConceptPipelineLineage({
     pipelineLineage: state.pipelineSet.pipelineLineage ?? null,
@@ -79,12 +83,12 @@ export function refreshPageConceptGalleryFromPersistedState(
     screenId: scope?.screenId,
     route: scope?.route ?? null,
   });
-  const state = normalizeGenerationStateForGallerySync(loaded);
+  const state = normalizePageConceptGenerationStateForGallery(loaded);
   const liveActiveRunId = state.activeGenerationRunId ?? state.activeReviewRunId ?? null;
   syncPageConceptGalleryFromGenerationState(state, { upsertActiveRunId: liveActiveRunId });
   for (const archived of state.archivedRuns ?? []) {
     syncPageConceptGalleryFromGenerationState(
-      normalizeGenerationStateForGallerySync({
+      normalizePageConceptGenerationStateForGallery({
         ...state,
         projectId: state.projectId,
         pageId: state.pageId,
@@ -95,6 +99,16 @@ export function refreshPageConceptGalleryFromPersistedState(
       }),
       { archivedHistorical: true, upsertActiveRunId: liveActiveRunId },
     );
+  }
+
+  const slug = normalizeProjectId(projectId);
+  const candidates = listPageConceptCandidates(slug, pageId);
+  const repaired = repairPageConceptGenerationRunLinkage(state, candidates);
+  if (repaired.changed) {
+    savePageConceptGenerationState(repaired.state);
+    const healed = normalizePageConceptGenerationStateForGallery(repaired.state);
+    const healedRunId = healed.activeGenerationRunId ?? healed.activeReviewRunId ?? null;
+    syncPageConceptGalleryFromGenerationState(healed, { upsertActiveRunId: healedRunId });
   }
 }
 
