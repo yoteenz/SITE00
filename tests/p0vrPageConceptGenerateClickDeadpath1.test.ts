@@ -122,6 +122,7 @@ describe('P0.VR.PAGE-CONCEPT-GENERATE-CLICK-DEADPATH1', () => {
     );
     expect(hook).toContain('eligibilityAtClick');
     expect(hook).toContain('setApiSessionReady(sessionPresent)');
+    expect(hook).toMatch(/ensurePageConceptSourceCaptures[\s\S]*PREFLIGHT_STARTED/);
   });
 
   it('GIVEN captures READY + eligibility TRUE WHEN press gate THEN canPress', () => {

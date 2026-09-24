@@ -74,6 +74,26 @@ export async function resolvePageConceptServerRun(input: {
   return null;
 }
 
+export async function ensurePageConceptServerRunInMemory(runId: string): Promise<PageConceptServerRun | null> {
+  const cached = getPageConceptServerRun(runId);
+  if (cached) return cached;
+  const hydrated = await hydratePageConceptServerRun(runId);
+  if (hydrated) {
+    putPageConceptServerRun(hydrated);
+    return hydrated;
+  }
+  return null;
+}
+
+/** Hydrate from durable store when missing from memory (Railway multi-instance / restart). */
+export async function patchPageConceptServerRunDurable(
+  runId: string,
+  patch: PageConceptRunProgress,
+): Promise<PageConceptServerRun | null> {
+  await ensurePageConceptServerRunInMemory(runId);
+  return patchPageConceptServerRun(runId, patch);
+}
+
 export function patchPageConceptServerRun(runId: string, patch: PageConceptRunProgress): PageConceptServerRun | null {
   const current = runs.get(runId);
   if (!current) return null;
