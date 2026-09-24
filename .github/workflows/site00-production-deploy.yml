@@ -232,6 +232,7 @@ jobs:
           (needs.validate.outputs.cpanel_method == 'ssh' &&
             steps.ssh_deploy.outcome == 'failure' &&
             needs.validate.outputs.ftp_available == 'true')
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.GODADDY_FTP_HOST }}
@@ -240,6 +241,34 @@ jobs:
           local-dir: dist/
           server-dir: ${{ vars.GODADDY_FTP_SERVER_DIR || './' }}
           dangerous-clean-slate: true
+          timeout: 120000
+          exclude: |
+            **/.well-known/**
+            **/.cpanel/**
+            **/cgi-bin/**
+            **/webmail/**
+            **/mail/**
+            **/tmp/**
+            **/.ftpquota
+            **/.htpasswd
+
+      - name: Deploy dist/ to GoDaddy (FTP retry)
+        id: ftp_deploy_retry
+        if: >
+          steps.ftp_deploy.outcome == 'failure' &&
+          (needs.validate.outputs.cpanel_method == 'ftp' ||
+            (needs.validate.outputs.cpanel_method == 'ssh' &&
+              needs.validate.outputs.ftp_available == 'true'))
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.GODADDY_FTP_HOST }}
+          username: ${{ secrets.GODADDY_FTP_USERNAME }}
+          password: ${{ secrets.GODADDY_FTP_PASSWORD }}
+          local-dir: dist/
+          server-dir: ${{ vars.GODADDY_FTP_SERVER_DIR || './' }}
+          dangerous-clean-slate: true
+          timeout: 180000
           exclude: |
             **/.well-known/**
             **/.cpanel/**
@@ -261,15 +290,19 @@ jobs:
         run: |
           SSH_OUT="${{ steps.ssh_deploy.outcome }}"
           FTP_OUT="${{ steps.ftp_deploy.outcome }}"
-          if [ "$SSH_OUT" = "success" ] || [ "$FTP_OUT" = "success" ]; then
-            echo "Frontend deploy OK (ssh=$SSH_OUT ftp=$FTP_OUT)"
+          FTP_RETRY_OUT="${{ steps.ftp_deploy_retry.outcome }}"
+          if [ "$SSH_OUT" = "success" ] || [ "$FTP_OUT" = "success" ] || [ "$FTP_RETRY_OUT" = "success" ]; then
+            echo "Frontend deploy OK (ssh=$SSH_OUT ftp=$FTP_OUT ftp_retry=$FTP_RETRY_OUT)"
             exit 0
           fi
-          echo "::error::FRONTEND_DEPLOY_FAILED — SSH rsync and FTP fallback both failed or were unavailable"
+          echo "::error::FRONTEND_DEPLOY_FAILED — SSH rsync and FTP (including retry) failed or were unavailable"
           exit 1
 
       - name: Activate SPA htaccess (GoDaddy dotfile workaround)
-        if: steps.ssh_deploy.outcome == 'success' || steps.ftp_deploy.outcome == 'success'
+        if: >
+          steps.ssh_deploy.outcome == 'success' ||
+          steps.ftp_deploy.outcome == 'success' ||
+          steps.ftp_deploy_retry.outcome == 'success'
         env:
           GODADDY_SSH_HOST: ${{ secrets.GODADDY_SSH_HOST }}
           GODADDY_SSH_USER: ${{ secrets.GODADDY_SSH_USER }}

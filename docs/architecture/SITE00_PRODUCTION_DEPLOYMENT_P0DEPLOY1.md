@@ -43,10 +43,11 @@ Merge / push to `main` → `.github/workflows/site00-production-deploy.yml`
 
 **Option B — GitHub Actions deploying build artifacts**
 
-1. **Preferred:** SSH/rsync when `GODADDY_SSH_*` secrets + `GODADDY_SSH_DEPLOY_ENABLED=true`
-2. **Default:** FTP via `SamKirkland/FTP-Deploy-Action` when `GODADDY_DEPLOY_ENABLED=true`
-3. **Future optional:** cPanel Git + `.cpanel.yml` (documented, not primary)
-4. **Emergency:** `npm run build:emergency-zip` → manual upload
+1. **GitHub Actions (production workflow):** FTP when FTP secrets exist — GoDaddy port 22 often times out from runner IPs; SSH is skipped as primary in CI.
+2. **Local / manual:** SSH/rsync when `GODADDY_SSH_*` secrets + `GODADDY_SSH_DEPLOY_ENABLED=true`
+3. **Default:** FTP via `SamKirkland/FTP-Deploy-Action` when `GODADDY_DEPLOY_ENABLED=true`
+4. **Future optional:** cPanel Git + `.cpanel.yml` (documented, not primary)
+5. **Emergency:** `npm run build:emergency-zip` → manual upload
 
 **Why not cPanel Git as primary:** GitHub Actions already builds with secrets (`VITE_*`); shipping prebuilt `dist/` avoids running Node builds on shared hosting and keeps stale-asset cleanup under CI control.
 
