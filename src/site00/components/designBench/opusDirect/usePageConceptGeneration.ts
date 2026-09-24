@@ -789,13 +789,17 @@ export function usePageConceptGeneration(
     const sessionToken = await getAccessToken();
     const sessionPresent = Boolean(sessionToken);
     setApiSessionReady(sessionPresent);
+    setCaptureHydrationStatus('checking');
+    await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+    setCaptureHydrationStatus('ready');
+    setCaptureRevision((v) => v + 1);
     const eligibilityAtClick = buildPageConceptGenerationEligibility({
       projectSlug: projectId,
       pageId,
       screenId,
       route,
       sessionReady: sessionPresent,
-      hydrationStatus: captureHydrationStatus,
+      hydrationStatus: 'ready',
     });
     const stateBefore = formatPageConceptGenerationStatusSnapshot(state.generationStatus, generating);
 
@@ -887,17 +891,25 @@ export function usePageConceptGeneration(
       return;
     }
 
-    if (press.blockReason) {
-      setExecutionError(press.blockReason);
+    if (
+      !eligibilityAtClick.canGenerate &&
+      (press.intendedAction === 'dispatch' || press.intendedAction === 'retry')
+    ) {
+      const message =
+        press.blockReason ??
+        eligibilityAtClick.confirmNotice ??
+        eligibilityAtClick.blockerMessage ??
+        'GENERATION REQUIREMENTS NOT READY';
+      setExecutionError(message);
       setGenerateClickTrace((prev) => ({
         ...prev,
         preflightStatus: 'failed',
-        lastErrorCode: press.blockReason,
+        lastErrorCode: message,
       }));
       emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
         projectId,
         pageId,
-        errorCode: press.blockReason ?? 'PREFLIGHT_BLOCKED',
+        errorCode: message,
       });
       return;
     }
@@ -965,11 +977,6 @@ export function usePageConceptGeneration(
     });
 
     try {
-      setCaptureHydrationStatus('checking');
-      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
-      setCaptureHydrationStatus('ready');
-      setCaptureRevision((v) => v + 1);
-
       const eligibility = buildPageConceptGenerationEligibility({
         projectSlug: projectId,
         pageId,
@@ -996,8 +1003,9 @@ export function usePageConceptGeneration(
       const desktopCapture = await buildPageConceptCapturePayload(desktop, 'DESKTOP');
 
       setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_TRACE_STARTED'));
+      const stateForApi = loadPageConceptGenerationState(projectId, pageId);
       const traceResult = await tracePageConceptGenerationApi({
-        state: loadPageConceptGenerationState(projectId, pageId),
+        state: stateForApi,
         mobileCapture,
         desktopCapture,
       });
@@ -1070,7 +1078,7 @@ export function usePageConceptGeneration(
 
       setLiveProductionTrace((prev) => appendPageConceptLiveTraceEvent(prev, 'API_START_REQUEST'));
       const startResult = await startPageConceptGenerationRunApi({
-        state: loadPageConceptGenerationState(projectId, pageId),
+        state: stateForApi,
         founderConfirmedSpend: true,
         mobileCapture,
         desktopCapture,

@@ -6,6 +6,7 @@ import {
   getPageConceptServerRun,
   hydratePageConceptServerRun,
   patchPageConceptServerRun,
+  patchPageConceptServerRunDurable,
   putPageConceptServerRun,
   resolvePageConceptServerRun,
 } from './pageConceptGenerationRunStore.js';
@@ -145,7 +146,7 @@ async function runPageConceptGenerationInBackground(
   } = {},
 ): Promise<void> {
   const startedAt = new Date().toISOString();
-  patchPageConceptServerRun(runId, {
+  await patchPageConceptServerRunDurable(runId, {
     status: 'CGPT_RUNNING',
     currentStage: 'CGPT_STARTING',
     cgptStatus: 'RUNNING',
@@ -160,7 +161,7 @@ async function runPageConceptGenerationInBackground(
   }
 
   try {
-    await executePageConceptGeneration(input, {
+    const result = await executePageConceptGeneration(input, {
       runId,
       dryRun: input.dryRun,
       retryCgptOnly: flags.retryCgptOnly === true,
@@ -169,12 +170,18 @@ async function runPageConceptGenerationInBackground(
       retryGpt2Only: flags.retryGpt2Only === true,
       regenerateNbpOnly: flags.regenerateNbpOnly === true,
       onProgress: (patch) => {
-        patchPageConceptServerRun(runId, patch);
+        void patchPageConceptServerRunDurable(runId, patch);
       },
+    });
+    await patchPageConceptServerRunDurable(runId, {
+      plan: result.plan,
+      pipelineSet: result.pipelineSet,
+      jobs: result.jobs,
+      updatedAt: new Date().toISOString(),
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'GENERATION_FAILED';
-    patchPageConceptServerRun(runId, {
+    await patchPageConceptServerRunDurable(runId, {
       status: 'FAILED',
       currentStage: 'FAILED',
       error: message,
