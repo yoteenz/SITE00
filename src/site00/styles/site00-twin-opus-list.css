@@ -976,6 +976,89 @@
   pointer-events: none !important;
 }
 
+.tod-lv-gallery__filled {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+.tod-lv-gallery__filled[hidden] {
+  display: none !important;
+}
+
+.tod-lv-gallery__groupLabel {
+  flex: 0 0 auto;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #9a9a96;
+  margin: 4px 0 0;
+  padding: 0 19.7px;
+  line-height: 1.2;
+}
+
+.tod-lv-gallery__groupLabel--history {
+  display: none;
+}
+
+.s00-design-concept-gallery-grid.tod-lv-gallery__rail--current {
+  position: static;
+  inset: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  overflow: visible;
+  padding: 12px 19.7px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.s00-design-concept-gallery-grid.tod-lv-gallery__rail--current .tod-lv-card--concept {
+  flex: unset;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  scroll-snap-align: unset;
+}
+
+.tod-lv-gallery__rail--history {
+  position: static;
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 0 19.7px 8px;
+  max-height: 120px;
+}
+
+.tod-lv-card--concept {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.tod-lv-card--history {
+  opacity: 0.82;
+}
+
+.tod-lv-card__surface--conceptPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 36px 8px 10px;
+  height: 100%;
+}
+
+.tod-lv-card__prefBadge {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--tod-lime-ink);
+  background: var(--tod-lime);
+  padding: 2px 6px;
+  margin-bottom: 4px;
+}
+
 .tod-lv-gallery__emptyWrap {
   flex: 1;
   display: flex;
@@ -2416,7 +2499,7 @@
     height: auto;
 }
 
-.tod-lv-gallery__rail {
+.tod-lv-gallery__rail:not(.s00-design-concept-gallery-grid) {
     position: static;
     display: flex;
     overflow-x: auto;
@@ -2427,12 +2510,12 @@
     gap: 19.7px;
 }
 
-.tod-lv-gallery__rail::-webkit-scrollbar {
+.tod-lv-gallery__rail:not(.s00-design-concept-gallery-grid)::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
-.tod-lv-card {
+.tod-lv-card:not(.tod-lv-card--concept) {
     flex: 0 0 413.5px;
     height: 283.6px;
     scroll-snap-align: start;

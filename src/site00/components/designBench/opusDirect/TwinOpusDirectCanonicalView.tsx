@@ -11,14 +11,9 @@
 
 import { useCallback, useRef } from 'react';
 
-import {
-  resolveTwinOpusDirectAsset,
-  twinOpusDirectAssetEntry,
-  type TwinOpusDirectAssetSlotId,
-} from './twinOpusDirectAssetManifest';
-import { type TwinOpusDirectCandidate, type TwinOpusDirectCandidateSurface } from './twinOpusDirectContent';
+import { twinOpusDirectAssetEntry, type TwinOpusDirectAssetSlotId } from './twinOpusDirectAssetManifest';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
-import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
+import { DesignConceptCandidateGalleryRail } from './DesignConceptCandidateGalleryRail';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
@@ -42,13 +37,6 @@ const ACTION_ICONS = {
   inspect: TodIconInspect,
   expand: TodIconExpand,
 } as const;
-
-/** Paints one manifest slot. Renders nothing when the slot resolves to no source. */
-function TodSlotImage({ slot, className }: { slot: TwinOpusDirectAssetSlotId; className: string }) {
-  const src = resolveTwinOpusDirectAsset(slot);
-  if (!src) return null;
-  return <img className={className} src={src} alt="" draggable={false} data-tod-slot={slot} />;
-}
 
 /** Archival plate: approved Grok xerox plate, with the drawn plate as fallback. */
 export function TodArchivalPlate({
@@ -86,125 +74,6 @@ export function TodArchivalPlate({
           <span className="tod-plate__mark tod-plate__mark--e">P. 311</span>
         </div>
       ) : null}
-    </div>
-  );
-}
-
-function previewStatusForCandidate(
-  candidate: TwinOpusDirectCandidate,
-): 'PENDING' | 'GENERATING' | 'READY' | 'FAILED' {
-  if (candidate.artifactStatus === 'FAILED') return 'FAILED';
-  if (candidate.previewSrc) return 'READY';
-  if (candidate.artifactStatus === 'RUNNING') return 'GENERATING';
-  return 'PENDING';
-}
-
-function TodGalleryCandidateCard({ candidate }: { candidate: TwinOpusDirectCandidate }) {
-  if (candidate.previewSrc || candidate.artifactRole === 'MOBILE_CANDIDATE') {
-    return (
-      <div className="tod-card__surface tod-card__surface--conceptPreview">
-        <PageConceptContainedPreviewFrame
-          size="thumb"
-          objectFit="cover"
-          viewportLabel={undefined}
-          status={previewStatusForCandidate(candidate)}
-          imageSrc={candidate.previewSrc}
-          testId={`gallery-candidate-preview-${candidate.id}`}
-        />
-        <div className="tod-card__meta">
-          <span className="tod-card__metaLine">{candidate.version}</span>
-          <span className="tod-card__metaLine">{candidate.pipelineLabel ?? 'GPT2 MOBILE'}</span>
-          {candidate.territoryLabel ?
-            <span className="tod-card__metaLine tod-card__metaLine--dim">{candidate.territoryLabel}</span>
-          : null}
-          {candidate.runLabel ?
-            <span className="tod-card__metaLine tod-card__metaLine--dim">{candidate.runLabel}</span>
-          : null}
-          {candidate.createdAtLabel ?
-            <span className="tod-card__metaLine tod-card__metaLine--dim">{candidate.createdAtLabel}</span>
-          : null}
-        </div>
-      </div>
-    );
-  }
-  return <TodCandidateSurface surface={candidate.surface} />;
-}
-
-function TodCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurface }) {
-  if (surface === 'plate') {
-    return (
-      <div className="tod-card__surface tod-card__surface--plate">
-        <div className="tod-card__copy">
-          <p className="tod-card__headline">
-            <span>THE SIGNAL</span>
-            <span>IS THE INDEX</span>
-          </p>
-          <p className="tod-card__standfirst">
-            <span>CULTURE AS EVIDENCE.</span>
-            <span>IDEAS AS INDEX.</span>
-            <span>NDXBOOK.</span>
-          </p>
-        </div>
-        <TodArchivalPlate className="tod-card__plate" marks={false} slot="candidatePlate" />
-      </div>
-    );
-  }
-  if (surface === 'grain') {
-    return (
-      <div className="tod-card__surface tod-card__surface--grain">
-        <div className="tod-card__copy">
-          <p className="tod-card__headline">
-            <span>THE SIGNAL</span>
-            <span>IS THE INDEX</span>
-          </p>
-          <p className="tod-card__standfirst tod-card__standfirst--dim">
-            <span>CULTURE AS EVIDENCE.</span>
-            <span>IDEAS AS INDEX.</span>
-            <span>NDXBOOK.</span>
-          </p>
-        </div>
-        <div className="tod-card__grid" aria-hidden="true">
-          <TodSlotImage slot="candidateGrain" className="tod-card__raster tod-card__raster--grain" />
-        </div>
-      </div>
-    );
-  }
-  if (surface === 'collage') {
-    return (
-      <div className="tod-card__surface tod-card__surface--collage">
-        <TodSlotImage slot="candidateCollage" className="tod-card__raster tod-card__raster--collage" />
-        <div className="tod-card__stack" aria-hidden="true">
-          <span className="tod-card__scrap tod-card__scrap--1" />
-          <span className="tod-card__scrap tod-card__scrap--2" />
-          <span className="tod-card__scrap tod-card__scrap--3" />
-          <span className="tod-card__scrap tod-card__scrap--4" />
-          <span className="tod-card__scrap tod-card__scrap--5" />
-        </div>
-        <div className="tod-card__sheet" aria-hidden="true" />
-        <div className="tod-card__collageCopy">
-          <span className="tod-card__collageLead">CULTURE AS</span>
-          <span className="tod-card__collageLead">EVIDENCE.</span>
-          <span className="tod-card__collageLead">IDEAS AS INDEX.</span>
-        </div>
-        <span className="tod-card__stamp">001</span>
-      </div>
-    );
-  }
-  return (
-    <div className="tod-card__surface tod-card__surface--archive">
-      <TodSlotImage slot="candidateArchive" className="tod-card__raster tod-card__raster--archive" />
-      <div className="tod-card__archivePaper" aria-hidden="true" />
-      <div className="tod-card__archiveInk">
-        <span className="tod-card__archiveStamp" aria-hidden="true">001</span>
-        <span className="tod-card__archiveRule" aria-hidden="true" />
-        <span className="tod-card__archiveHead">
-          <span>THE</span>
-          <span>SIGNAL</span>
-          <span>IS THE</span>
-          <span>INDEX</span>
-        </span>
-      </div>
-      <span className="tod-card__archiveChip" aria-hidden="true">001</span>
     </div>
   );
 }
@@ -422,63 +291,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
               </button>
             </div>
           : null}
-          <div className="tod-gallery__filled" hidden={Boolean(data.galleryEmptyMessage)}>
-            {data.candidateSections.current.length > 0 ?
-              <p className="tod-gallery__groupLabel" data-testid="gallery-current-generation-label">
-                {data.galleryCurrentGroupLabel}
-              </p>
-            : null}
-            {data.candidateSections.history.length > 0 ?
-              <p className="tod-gallery__groupLabel tod-gallery__groupLabel--history" data-testid="gallery-history-label">
-                {data.galleryHistoryGroupLabel}
-              </p>
-            : null}
-            <div className="tod-gallery__rail" ref={galleryRef}>
-            {data.candidateSections.current.map((candidate) => {
-              const active = candidate.id === state.candidateId;
-              return (
-                <button
-                  key={candidate.artifactId ?? candidate.id}
-                  type="button"
-                  className={`tod-card tod-card--concept${active ? ' is-active' : ''}`}
-                  aria-pressed={active}
-                  data-artifact-id={candidate.artifactId ?? undefined}
-                  data-concept-id={candidate.id}
-                  onClick={() => actions.selectCandidate(candidate.id)}
-                >
-                  {candidate.versionTag === 'none' ? null : (
-                    <span className={`tod-card__version tod-card__version--${candidate.versionTag}`}>
-                      {candidate.version}
-                    </span>
-                  )}
-                  {data.viewportPreferenceBadges(candidate.id).map((badge) => (
-                    <span key={badge} className="tod-card__prefBadge">
-                      {badge}
-                    </span>
-                  ))}
-                  {active ? (
-                    <span className="tod-card__tick" aria-hidden="true">
-                      <TodIconCheck className="tod-ico" />
-                    </span>
-                  ) : null}
-                  <TodGalleryCandidateCard candidate={candidate} />
-                </button>
-              );
-            })}
-            {data.candidateSections.history.map((candidate) => (
-              <button
-                key={`hist-${candidate.artifactId ?? candidate.id}`}
-                type="button"
-                className="tod-card tod-card--concept tod-card--history"
-                aria-pressed={candidate.id === state.candidateId}
-                data-artifact-id={candidate.artifactId ?? undefined}
-                onClick={() => actions.selectCandidate(candidate.id)}
-              >
-                <TodGalleryCandidateCard candidate={candidate} />
-              </button>
-            ))}
-            </div>
-          </div>
+          <DesignConceptCandidateGalleryRail workspace={workspace} variant="grid" railRef={galleryRef} />
           <button
             type="button"
             className="tod-gallery__next"

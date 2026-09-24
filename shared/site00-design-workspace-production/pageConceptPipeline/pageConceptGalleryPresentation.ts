@@ -6,6 +6,11 @@ import {
 } from './pageConceptGalleryHydration.js';
 import { pageConceptCandidateMatchesViewportGallery } from './pageConceptViewportGalleryScope.js';
 import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
+import {
+  pageConceptHeaderThumbnailUriFromArtifact,
+  PAGE_CONCEPT_HEADER_THUMBNAIL_CROP,
+  type PageConceptHeaderThumbnailCrop,
+} from './pageConceptConceptHeaderThumbnail.js';
 
 export type PageConceptGalleryCard = {
   id: string;
@@ -18,6 +23,9 @@ export type PageConceptGalleryCard = {
   versionTag: 'chip' | 'plain' | 'none';
   viewportScope: PageViewportId;
   previewSrc: string | null;
+  /** Same URI as previewSrc; gallery renders header band via CSS crop. */
+  headerThumbnailUri: string | null;
+  headerThumbnailCrop: PageConceptHeaderThumbnailCrop;
   slotLabel: string | null;
   pipelineLabel: string;
   territoryLabel: string;
@@ -84,13 +92,26 @@ export function mapPageConceptToGalleryCard(
     surface: surfaces[idx] ?? 'plate',
     versionTag: selectedMobileAuthority ? 'chip' : concept.runGroup === 'HISTORY' ? 'none' : 'plain',
     viewportScope: concept.viewportScope,
-    previewSrc: resolvePageConceptArtifactDisplayUrl(
-      concept.artifactRole === 'DESKTOP_INTERPRETATION' ?
-        concept.desktopVisualReference ?? concept.visualReference
-      : concept.artifactRole === 'TABLET_INTERPRETATION' ?
-        concept.visualReference
-      : concept.mobileVisualReference ?? concept.visualReference,
+    previewSrc: (() => {
+      const full = resolvePageConceptArtifactDisplayUrl(
+        concept.artifactRole === 'DESKTOP_INTERPRETATION' ?
+          concept.desktopVisualReference ?? concept.visualReference
+        : concept.artifactRole === 'TABLET_INTERPRETATION' ?
+          concept.visualReference
+        : concept.mobileVisualReference ?? concept.visualReference,
+      );
+      return full;
+    })(),
+    headerThumbnailUri: pageConceptHeaderThumbnailUriFromArtifact(
+      resolvePageConceptArtifactDisplayUrl(
+        concept.artifactRole === 'DESKTOP_INTERPRETATION' ?
+          concept.desktopVisualReference ?? concept.visualReference
+        : concept.artifactRole === 'TABLET_INTERPRETATION' ?
+          concept.visualReference
+        : concept.mobileVisualReference ?? concept.visualReference,
+      ),
     ),
+    headerThumbnailCrop: PAGE_CONCEPT_HEADER_THUMBNAIL_CROP,
     slotLabel,
     pipelineLabel:
       concept.artifactRole === 'TABLET_INTERPRETATION' ? 'TABLET INTERP'

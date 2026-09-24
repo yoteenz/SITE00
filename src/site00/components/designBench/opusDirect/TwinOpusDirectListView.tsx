@@ -11,13 +11,12 @@
 
 import { useCallback, useRef } from 'react';
 
-import {
-  resolveTwinOpusDirectAsset,
-  twinOpusDirectAssetEntry,
-  type TwinOpusDirectAssetSlotId,
-} from './twinOpusDirectAssetManifest';
-import { type TwinOpusDirectCandidateSurface, type TwinOpusDirectViewportId } from './twinOpusDirectContent';
+import { twinOpusDirectAssetEntry, type TwinOpusDirectAssetSlotId } from './twinOpusDirectAssetManifest';
+import { type TwinOpusDirectViewportId } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
+import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
+import { DesignConceptCandidateGalleryRail } from './DesignConceptCandidateGalleryRail';
+import { previewStatusForCandidate } from './DesignConceptCandidateGalleryCard';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
@@ -51,13 +50,6 @@ const ACTION_ICONS = {
   inspect: TodIconInspect,
   expand: TodIconExpand,
 } as const;
-
-/** Paints one manifest slot. LIST shares canonical asset identity; only crop differs. */
-function LvSlotImage({ slot, className }: { slot: TwinOpusDirectAssetSlotId; className: string }) {
-  const src = resolveTwinOpusDirectAsset(slot);
-  if (!src) return null;
-  return <img className={className} src={src} alt="" draggable={false} data-tod-slot={slot} />;
-}
 
 function LvArchivalPlate({
   className,
@@ -98,88 +90,9 @@ function LvArchivalPlate({
   );
 }
 
-function LvCandidateSurface({ surface }: { surface: TwinOpusDirectCandidateSurface }) {
-  if (surface === 'plate') {
-    return (
-      <div className="tod-lv-card__surface tod-lv-card__surface--plate">
-        <div className="tod-lv-card__copy">
-          <p className="tod-lv-card__headline">
-            <span>THE SIGNAL</span>
-            <span>IS THE INDEX</span>
-          </p>
-          <p className="tod-lv-card__standfirst">
-            <span>CULTURE AS EVIDENCE.</span>
-            <span>IDEAS AS INDEX.</span>
-            <span>NDXBOOK.</span>
-          </p>
-        </div>
-        <LvArchivalPlate className="tod-lv-card__plate" marks={false} slot="candidatePlate" />
-      </div>
-    );
-  }
-  if (surface === 'grain') {
-    return (
-      <div className="tod-lv-card__surface tod-lv-card__surface--grain">
-        <div className="tod-lv-card__copy">
-          <p className="tod-lv-card__headline">
-            <span>THE SIGNAL</span>
-            <span>IS THE INDEX</span>
-          </p>
-          <p className="tod-lv-card__standfirst tod-lv-card__standfirst--dim">
-            <span>CULTURE AS EVIDENCE.</span>
-            <span>IDEAS AS INDEX.</span>
-            <span>NDXBOOK.</span>
-          </p>
-        </div>
-        <div className="tod-lv-card__grid" aria-hidden="true">
-          <LvSlotImage slot="candidateGrain" className="tod-lv-card__raster tod-lv-card__raster--grain" />
-        </div>
-      </div>
-    );
-  }
-  if (surface === 'collage') {
-    return (
-      <div className="tod-lv-card__surface tod-lv-card__surface--collage">
-        <LvSlotImage slot="candidateCollage" className="tod-lv-card__raster tod-lv-card__raster--collage" />
-        <div className="tod-lv-card__stack" aria-hidden="true">
-          <span className="tod-lv-card__scrap tod-lv-card__scrap--1" />
-          <span className="tod-lv-card__scrap tod-lv-card__scrap--2" />
-          <span className="tod-lv-card__scrap tod-lv-card__scrap--3" />
-          <span className="tod-lv-card__scrap tod-lv-card__scrap--4" />
-          <span className="tod-lv-card__scrap tod-lv-card__scrap--5" />
-        </div>
-        <div className="tod-lv-card__sheet" aria-hidden="true" />
-        <div className="tod-lv-card__collageCopy">
-          <span className="tod-lv-card__collageLead">CULTURE AS</span>
-          <span className="tod-lv-card__collageLead">EVIDENCE.</span>
-          <span className="tod-lv-card__collageLead">IDEAS AS INDEX.</span>
-        </div>
-        <span className="tod-lv-card__stamp">001</span>
-      </div>
-    );
-  }
-  return (
-    <div className="tod-lv-card__surface tod-lv-card__surface--archive">
-      <LvSlotImage slot="candidateArchive" className="tod-lv-card__raster tod-lv-card__raster--archive" />
-      <div className="tod-lv-card__archivePaper" aria-hidden="true" />
-      <div className="tod-lv-card__archiveInk">
-        <span className="tod-lv-card__archiveStamp" aria-hidden="true">001</span>
-        <span className="tod-lv-card__archiveRule" aria-hidden="true" />
-        <span className="tod-lv-card__archiveHead">
-          <span>THE</span>
-          <span>SIGNAL</span>
-          <span>IS THE</span>
-          <span>INDEX</span>
-        </span>
-      </div>
-      <span className="tod-lv-card__archiveChip" aria-hidden="true">001</span>
-    </div>
-  );
-}
-
 /** LIST body: the transplanted Spark digest, bound to shared state. */
 export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions, readinessDash, production } = workspace;
+  const { data, state, actions, readinessDash, production, selectedCandidate } = workspace;
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const scrollGallery = useCallback(() => {
@@ -425,32 +338,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                   </button>
                 </div>
               : null}
-              <div className="tod-lv-gallery__rail" ref={galleryRef} hidden={Boolean(data.galleryEmptyMessage)}>
-                {data.candidates.map((candidate) => {
-                  const active = candidate.id === state.candidateId;
-                  return (
-                    <button
-                      key={candidate.id}
-                      type="button"
-                      className={`tod-lv-card${active ? ' is-active' : ''}`}
-                      aria-pressed={active}
-                      onClick={() => actions.selectCandidate(candidate.id)}
-                    >
-                      {candidate.versionTag === 'none' ? null : (
-                        <span className={`tod-lv-card__version tod-lv-card__version--${candidate.versionTag}`}>
-                          {candidate.version}
-                        </span>
-                      )}
-                      {active ? (
-                        <span className="tod-lv-card__tick" aria-hidden="true">
-                          <TodIconCheck className="tod-ico" />
-                        </span>
-                      ) : null}
-                      <LvCandidateSurface surface={candidate.surface} />
-                    </button>
-                  );
-                })}
-              </div>
+              <DesignConceptCandidateGalleryRail workspace={workspace} variant="list" railRef={galleryRef} />
               <button
                 type="button"
                 className="tod-lv-gallery__next"
@@ -503,17 +391,31 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
           aria-labelledby={`tod-lv-tab-${state.recordTabIndex}`}
         >
           <div className="tod-lv-concept__thumb">
-            <span className="tod-lv-concept__thumbVersion">V1.3</span>
-            <span className="tod-lv-concept__thumbCopy">
-              <span>THE SIGNAL</span>
-              <span>IS THE INDEX</span>
-            </span>
-            <span className="tod-lv-concept__thumbStandfirst">
-              <span>CULTURE AS EVIDENCE.</span>
-              <span>IDEAS AS INDEX.</span>
-              <span>NDXBOOK.</span>
-            </span>
-            <LvArchivalPlate className="tod-lv-concept__thumbPlate" marks={false} slot="conceptRecord" />
+            {selectedCandidate && (selectedCandidate.previewSrc || selectedCandidate.headerThumbnailUri) ?
+              <>
+                <span className="tod-lv-concept__thumbVersion">{selectedCandidate.version}</span>
+                <PageConceptContainedPreviewFrame
+                  size="mobile"
+                  objectFit="contain"
+                  status={previewStatusForCandidate(selectedCandidate)}
+                  imageSrc={selectedCandidate.previewSrc ?? selectedCandidate.headerThumbnailUri}
+                  testId="list-concept-record-preview"
+                />
+              </>
+            : <>
+                <span className="tod-lv-concept__thumbVersion">V1.3</span>
+                <span className="tod-lv-concept__thumbCopy">
+                  <span>THE SIGNAL</span>
+                  <span>IS THE INDEX</span>
+                </span>
+                <span className="tod-lv-concept__thumbStandfirst">
+                  <span>CULTURE AS EVIDENCE.</span>
+                  <span>IDEAS AS INDEX.</span>
+                  <span>NDXBOOK.</span>
+                </span>
+                <LvArchivalPlate className="tod-lv-concept__thumbPlate" marks={false} slot="conceptRecord" />
+              </>
+            }
           </div>
           <dl className="tod-lv-concept__fields">
             {data.conceptFields.map((field) => (

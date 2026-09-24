@@ -1912,6 +1912,27 @@
   --pcg-contain-h: 88px;
 }
 
+.s00-pcg__containPreview[data-contain-size='headerThumb'] {
+  --pcg-header-crop: 0.32;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+}
+
+.s00-pcg__containPreview[data-contain-size='headerThumb'] .s00-pcg__containPreviewStage {
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
+}
+
+.s00-pcg__containPreview[data-contain-size='headerThumb'][data-object-fit='cover'] .s00-pcg__containPreviewImg {
+  object-position: top center;
+  transform: scale(calc(1 / var(--pcg-header-crop, 0.32)));
+  transform-origin: top center;
+}
+
 .s00-pcg__containPreviewLabel {
   position: absolute;
   top: 4px;
