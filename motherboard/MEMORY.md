@@ -11603,6 +11603,12 @@ Founder: **Generate not working / no Fal jobs** after screenshot function-map la
 
 ---
 
+## 2026-09-24 — P0.VR.DESIGN-WORKSPACE-LIST-GRID-SYNC-AND-GALLERY-THUMBNAIL-REFINEMENT1
+
+Grid and List Design workspace now share **`DesignConceptCandidateGalleryRail`** + **`DesignConceptCandidateGalleryCard`** over the same `useTwinOpusDirectWorkspace` `candidateSections` (current + history), viewport badges, and selection actions. List dropped stale `data.candidates` placeholder **`LvCandidateSurface`** gallery cards. Concept gallery uses **`s00-design-concept-gallery-grid`** (`repeat(3, minmax(0, 1fr))`) for equal A/B/C width. Thumbnails: **`headerThumb`** 16:9 landscape header crop via CSS (`pageConceptConceptHeaderThumbnail.ts` metadata on gallery cards; full portrait unchanged for hero / inspect / fullscreen). Tests: `p0vrDesignWorkspaceListGridSyncAndGalleryThumbnailRefinement1.test.ts`. **Branch:** `cursor/design-workspace-list-grid-sync-gallery-b747`. **GoDaddy:** new ZIP after merge.
+
+---
+
 ## 2026-09-24 — Generate still dead: capture preflight + durable run patches
 
 Founder: Generate still not reaching Fal after session-race fix.
