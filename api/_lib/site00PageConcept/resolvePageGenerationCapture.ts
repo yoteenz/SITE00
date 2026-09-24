@@ -1,3 +1,4 @@
+import { PAGE_CONCEPT_CAPTURE_FETCH_TIMEOUT_MS } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptApiTimeouts.js';
 import { loadImplementationSnapshotArtifact } from '../../../shared/site00-studio-world-production/visualReconstruction/p0vr3e/resolveImplementationSnapshotArtifact.js';
 import type { PageGenerationCapturePayload } from './runPageConceptGeneration.js';
 
@@ -20,7 +21,7 @@ async function fetchUrlAsBase64(url: string): Promise<string> {
   ) {
     throw new Error('BLOCKED_CAPTURE_ARTIFACT_UNREADABLE');
   }
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(PAGE_CONCEPT_CAPTURE_FETCH_TIMEOUT_MS) });
   if (!res.ok) throw new Error(`CAPTURE_FETCH_${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
   return buf.toString('base64');

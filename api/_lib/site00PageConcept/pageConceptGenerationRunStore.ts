@@ -91,7 +91,11 @@ export async function patchPageConceptServerRunDurable(
   patch: PageConceptRunProgress,
 ): Promise<PageConceptServerRun | null> {
   await ensurePageConceptServerRunInMemory(runId);
-  return patchPageConceptServerRun(runId, patch);
+  const next = patchPageConceptServerRun(runId, patch);
+  if (next) {
+    await upsertPageConceptServerRunDurable(next);
+  }
+  return next;
 }
 
 export function patchPageConceptServerRun(runId: string, patch: PageConceptRunProgress): PageConceptServerRun | null {
