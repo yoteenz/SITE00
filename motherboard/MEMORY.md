@@ -11626,3 +11626,15 @@ Founder: Generate still not reaching Fal after session-race fix.
 - **Client:** Preflight used `captureHydrationStatus` before `ensurePageConceptSourceCaptures` finished → false `canGenerate` / silent preflight abort. Fix: hydrate captures + `sessionReady` **before** press gate; block dispatch only when `!canGenerate` (not any `blockReason`).
 - **API:** `site00_page_concept_generation_runs` table was **missing** in Supabase — durable run upserts were no-ops; poll could miss progress on Railway restart/multi-instance. Migration applied via Supabase MCP; `patchPageConceptServerRunDurable` hydrates before patch; background worker syncs final plan/pipelineSet/jobs.
 - **Branch:** `cursor/fix-page-concept-generate-preflight-captures-b747`. **Railway** redeploy + **GoDaddy** ZIP + confirm Supabase migration on prod project.
+
+---
+
+## 2026-09-24 — P0.VR.DESIGN-WORKSPACE-PREVIEW-FIT-LATEST-RUN-AND-HERO-RAIL-RESTORE1
+
+Founder sprint: gallery card geometry locked; thumbnail header crop too zoomed; CURRENT GENERATION stale vs latest Fal/GPT2 run; hero CONCEPT white letterboxing (cover); missing right-side workflow rail under canonical viewport-family pipeline.
+
+- **Thumbnail fit (HEADER_CROP):** `PAGE_CONCEPT_HEADER_THUMBNAIL_CROP` widened to **0.48** band + `--pcg-header-scale` CSS vars on `PageConceptContainedPreviewFrame` (16:9 containers unchanged).
+- **Recency:** `pageConceptLatestGenerationRun.ts` + `buildPageConceptGallerySections` filters CURRENT via active run + per-slot latest artifacts; archived gallery sync forced **HISTORY** (`archivedHistorical` in `pageConceptGallerySync`); hydration uses archived `runId` not live run when upserting archives.
+- **Hero FIT_FULL_SCREEN:** removed `conceptFill` cover — CONCEPT matches CURRENT `object-fit: contain` on dark artifact surface.
+- **Rail:** `DesignViewportFamilyHeroRail` + `buildGpt2ViewportFamilyAuthorityRailActions` (SELECT/CONFIRM mobile, REVIEW EXPERIENCE, tablet/desktop gen, APPROVE/LOCK family) — no Authority Pair resurrection.
+- **Tests:** `p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1.test.ts`. **Branch:** `cursor/design-workspace-preview-fit-latest-run-hero-rail-b747`. **GoDaddy:** v645 ZIP after merge.

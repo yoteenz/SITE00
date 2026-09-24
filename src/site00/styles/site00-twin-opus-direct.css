@@ -665,12 +665,6 @@
   object-position: top center;
 }
 
-.tod-hero-compare__img--conceptFill,
-.tod-lv-hero-compare__img--conceptFill {
-  object-fit: cover;
-  object-position: top center;
-}
-
 .tod-hero-compare__empty {
   font-size: 10px;
   letter-spacing: 0.06em;

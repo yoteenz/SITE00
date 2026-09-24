@@ -1913,7 +1913,8 @@
 }
 
 .s00-pcg__containPreview[data-contain-size='headerThumb'] {
-  --pcg-header-crop: 0.32;
+  --pcg-header-crop: 0.48;
+  --pcg-header-scale: 2.0833333333;
   aspect-ratio: 16 / 9;
   width: 100%;
   height: auto;
@@ -1929,7 +1930,7 @@
 
 .s00-pcg__containPreview[data-contain-size='headerThumb'][data-object-fit='cover'] .s00-pcg__containPreviewImg {
   object-position: top center;
-  transform: scale(calc(1 / var(--pcg-header-crop, 0.32)));
+  transform: scale(var(--pcg-header-scale, calc(1 / var(--pcg-header-crop, 0.48))));
   transform-origin: top center;
 }
 

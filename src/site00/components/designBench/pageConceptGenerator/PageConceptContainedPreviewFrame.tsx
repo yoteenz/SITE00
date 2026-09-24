@@ -2,7 +2,7 @@
  * Bounded concept artifact preview — contained in panel; fullscreen is explicit.
  */
 
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 import {
   PAGE_CONCEPT_CONTAINED_PREVIEW_CLASS,
@@ -10,6 +10,8 @@ import {
   PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
   type PageConceptPreviewContainSize,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptImageContainment.js';
+import type { PageConceptHeaderThumbnailCrop } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
+import { PAGE_CONCEPT_HEADER_THUMBNAIL_CROP } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 
 export type PageConceptPreviewFrameStatus = 'PENDING' | 'GENERATING' | 'READY' | 'FAILED';
@@ -23,6 +25,7 @@ export function PageConceptContainedPreviewFrame({
   onRetryLoad,
   testId = 'page-concept-contained-preview',
   objectFit = PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
+  headerThumbnailCrop,
 }: {
   size?: PageConceptPreviewContainSize;
   viewportLabel?: string;
@@ -32,7 +35,9 @@ export function PageConceptContainedPreviewFrame({
   onRetryLoad?: () => void;
   testId?: string;
   objectFit?: 'contain' | 'cover';
+  headerThumbnailCrop?: PageConceptHeaderThumbnailCrop;
 }) {
+  const resolvedHeaderCrop = headerThumbnailCrop ?? PAGE_CONCEPT_HEADER_THUMBNAIL_CROP;
   let inner: ReactNode;
   if (status === 'READY' && imageSrc) {
     inner = (
@@ -73,6 +78,14 @@ export function PageConceptContainedPreviewFrame({
     );
   }
 
+  const headerCropStyle =
+    size === 'headerThumb' ?
+      ({
+        ['--pcg-header-crop' as string]: String(resolvedHeaderCrop.heightFraction),
+        ['--pcg-header-scale' as string]: String(resolvedHeaderCrop.scale ?? 1 / resolvedHeaderCrop.heightFraction),
+      } as CSSProperties)
+    : undefined;
+
   return (
     <div
       className={PAGE_CONCEPT_CONTAINED_PREVIEW_CLASS}
@@ -80,6 +93,7 @@ export function PageConceptContainedPreviewFrame({
       data-contain-size={size}
       data-preview-status={status}
       data-object-fit={objectFit}
+      style={headerCropStyle}
     >
       {viewportLabel ?
         <span className="s00-pcg__containPreviewLabel">{viewportLabel}</span>

@@ -2,6 +2,7 @@
  * Shared concept candidate gallery card — Grid + List use identical preview data.
  */
 
+import { PAGE_CONCEPT_HEADER_THUMBNAIL_CROP } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
 import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
 import type { TwinOpusDirectCandidate, TwinOpusDirectCandidateSurface } from './twinOpusDirectContent';
 
@@ -61,6 +62,13 @@ export function DesignConceptCandidateGalleryCard({
           viewportLabel={undefined}
           status={previewStatusForCandidate(candidate)}
           imageSrc={thumbSrc}
+          headerThumbnailCrop={{
+            ...PAGE_CONCEPT_HEADER_THUMBNAIL_CROP,
+            ...candidate.headerThumbnailCrop,
+            scale:
+              candidate.headerThumbnailCrop?.scale ??
+              PAGE_CONCEPT_HEADER_THUMBNAIL_CROP.scale,
+          }}
           testId={`${testIdPrefix}-${candidate.id}`}
         />
         <div className={`${metaClassPrefix}__meta`}>

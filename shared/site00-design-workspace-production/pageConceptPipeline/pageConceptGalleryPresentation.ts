@@ -4,6 +4,13 @@ import {
   listPageConceptCandidatesHydrated,
   type PageConceptGalleryHydrationScope,
 } from './pageConceptGalleryHydration.js';
+import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
+import {
+  filterPageConceptGalleryCurrentCandidates,
+  pageConceptCurrentGenerationUnresolvedMessage,
+  resolvePageConceptLatestGenerationDiagnostics,
+  type PageConceptLatestGenerationDiagnostics,
+} from './pageConceptLatestGenerationRun.js';
 import { pageConceptCandidateMatchesViewportGallery } from './pageConceptViewportGalleryScope.js';
 import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 import {
@@ -43,6 +50,8 @@ export type PageConceptGallerySections = {
   currentRunId: string | null;
   current: readonly PageConceptGalleryCard[];
   history: readonly PageConceptGalleryCard[];
+  currentGenerationUnresolvedMessage: string | null;
+  latestGenerationDiagnostics: PageConceptLatestGenerationDiagnostics | null;
 };
 
 export type PageConceptGalleryViewportFilter = PageViewportId;
@@ -154,11 +163,29 @@ export function buildPageConceptGallerySections(input: {
   const filtered = all.filter((c) => matchesStatusFilter(c, statusFilter));
   const selectedMobileConceptId = input.selectedMobileConceptId ?? null;
   const cards = filtered.map((c) => mapPageConceptToGalleryCard(c, selectedMobileConceptId));
-  const currentRunId =
-    cards.find((c) => c.runGroup === 'CURRENT' && c.runId)?.runId ??
-    cards.find((c) => c.runId)?.runId ??
-    null;
-  const current = cards.filter((c) => c.runGroup !== 'HISTORY' && c.artifactStatus !== 'FAILED');
-  const history = cards.filter((c) => c.runGroup === 'HISTORY' || c.galleryFilterStatus === 'HISTORICAL');
-  return { currentRunId, current, history };
+  const generationState = loadPageConceptGenerationStateForDesignPage({
+    projectSlug: input.projectId,
+    pageId: input.pageId,
+    screenId: input.galleryScope?.screenId,
+    route: input.galleryScope?.route ?? null,
+  });
+  const latestGenerationDiagnostics = resolvePageConceptLatestGenerationDiagnostics(generationState);
+  const currentRunId = latestGenerationDiagnostics.activeGenerationRunId;
+  const currentGenerationUnresolvedMessage = pageConceptCurrentGenerationUnresolvedMessage(latestGenerationDiagnostics);
+
+  const currentConcepts = filterPageConceptGalleryCurrentCandidates({
+    candidates: filtered,
+    viewport: input.viewport,
+    state: generationState,
+  });
+  const currentIds = new Set(currentConcepts.map((c) => c.artifactId ?? c.conceptId));
+  const current = cards.filter((c) => currentIds.has(c.artifactId ?? c.id));
+  const history = cards.filter((c) => !currentIds.has(c.artifactId ?? c.id));
+  return {
+    currentRunId,
+    current,
+    history,
+    currentGenerationUnresolvedMessage,
+    latestGenerationDiagnostics,
+  };
 }

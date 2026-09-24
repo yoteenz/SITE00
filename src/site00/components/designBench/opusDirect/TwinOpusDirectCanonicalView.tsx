@@ -15,6 +15,7 @@ import { twinOpusDirectAssetEntry, type TwinOpusDirectAssetSlotId } from './twin
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 import { DesignConceptCandidateGalleryRail } from './DesignConceptCandidateGalleryRail';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
+import { DesignViewportFamilyHeroRail } from './DesignViewportFamilyHeroRail';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
@@ -97,17 +98,12 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
 
         <aside className="tod-rail" aria-label="Authority rail">
           {data.canonicalGpt2ViewportFamilyActive ?
-            <section className="tod-rail__viewportFamily" data-testid="viewport-family-authority-rail">
-              {data.viewportFamilyRail.map((row) => (
-                <div key={row.id} className="tod-rail__viewportFamilyRow">
-                  <span className="tod-rail__viewportFamilyLabel">{row.label}</span>
-                  <span className="tod-rail__viewportFamilyValue">{row.value}</span>
-                  <span className={`tod-rail__viewportFamilyStatus tod-rail__viewportFamilyStatus--${row.status.toLowerCase()}`}>
-                    {row.status}
-                  </span>
-                </div>
-              ))}
-            </section>
+            <DesignViewportFamilyHeroRail
+              classPrefix="tod-rail"
+              rows={data.viewportFamilyRail}
+              actions={data.viewportFamilyRailActions}
+              onAction={(id) => actions.onViewportFamilyRailAction(id)}
+            />
           : <>
           <div className="tod-rail__select">
             <button
