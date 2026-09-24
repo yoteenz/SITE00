@@ -96,12 +96,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
       <section className="tod-herorow" aria-label="Active concept and authority controls">
         <DesignHeroComparePanel workspace={workspace} variant="canonical" />
 
-        <aside className="tod-rail" aria-label="Authority rail">
+        <aside className="tod-rail tod-rail--heroWorkflow" aria-label="Authority rail">
           {data.canonicalGpt2ViewportFamilyActive ?
             <DesignViewportFamilyHeroRail
               classPrefix="tod-rail"
-              rows={data.viewportFamilyRail}
-              actions={data.viewportFamilyRailActions}
+              stages={data.viewportFamilyHeroRailStages}
               onAction={(id) => actions.onViewportFamilyRailAction(id)}
             />
           : <>
