@@ -80,7 +80,8 @@ export function refreshPageConceptGalleryFromPersistedState(
     route: scope?.route ?? null,
   });
   const state = normalizeGenerationStateForGallerySync(loaded);
-  syncPageConceptGalleryFromGenerationState(state);
+  const liveActiveRunId = state.activeGenerationRunId ?? state.activeReviewRunId ?? null;
+  syncPageConceptGalleryFromGenerationState(state, { upsertActiveRunId: liveActiveRunId });
   for (const archived of state.archivedRuns ?? []) {
     syncPageConceptGalleryFromGenerationState(
       normalizeGenerationStateForGallerySync({
@@ -89,9 +90,10 @@ export function refreshPageConceptGalleryFromPersistedState(
         pageId: state.pageId,
         pipelineSet: archived.pipelineSet,
         generationJobs: archived.generationJobs,
-        activeGenerationRunId: state.activeGenerationRunId,
+        activeGenerationRunId: archived.runId,
         activeReviewRunId: archived.runId,
       }),
+      { archivedHistorical: true, upsertActiveRunId: liveActiveRunId },
     );
   }
 }

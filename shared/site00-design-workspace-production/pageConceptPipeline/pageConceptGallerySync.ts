@@ -96,9 +96,12 @@ function isCanonicalGpt2MobilePipelineState(state: PageConceptGenerationState): 
 }
 
 /** Upsert canonical GPT2 mobile (and legacy NBP) artifacts into the page concept gallery store. */
-export function syncPageConceptGalleryFromGenerationState(state: PageConceptGenerationState): void {
+export function syncPageConceptGalleryFromGenerationState(
+  state: PageConceptGenerationState,
+  options?: { archivedHistorical?: boolean; upsertActiveRunId?: string | null },
+): void {
   const canonicalMobile = isCanonicalGpt2MobilePipelineState(state);
-  const activeRunId = resolveActiveRunId(state);
+  const activeRunId = options?.upsertActiveRunId ?? resolveActiveRunId(state);
   const selectedMobileConceptId =
     state.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ??
     state.pipelineSet?.selectedMobileConceptId ??
@@ -160,6 +163,14 @@ export function syncPageConceptGalleryFromGenerationState(state: PageConceptGene
   }
 
   if (incoming.length === 0) return;
+
+  if (options?.archivedHistorical) {
+    for (const row of incoming) {
+      row.runGroup = 'HISTORY';
+      row.galleryFilterStatus = 'HISTORICAL';
+      row.status = row.status === 'SELECTED' ? 'SELECTED' : 'ARCHIVED';
+    }
+  }
 
   for (const row of incoming) {
     row.status = galleryStatusForCandidate({

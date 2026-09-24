@@ -92,7 +92,11 @@ export function DesignConceptCandidateGalleryRail({
 
   return (
     <div className={filledClass} hidden={Boolean(data.galleryEmptyMessage)}>
-      {data.candidateSections.current.length > 0 ?
+      {data.currentGenerationUnresolvedMessage ?
+        <p className={groupLabelClass} data-testid="gallery-current-generation-unresolved">
+          {data.currentGenerationUnresolvedMessage}
+        </p>
+      : data.candidateSections.current.length > 0 ?
         <p className={groupLabelClass} data-testid="gallery-current-generation-label">
           {data.galleryCurrentGroupLabel}
         </p>

@@ -45,8 +45,13 @@ import { resolvePageConceptGenerationConsoleLauncher } from '../../../../../shar
 import { pageConceptGenerationActivelyRunning } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import {
   buildGpt2ViewportFamilyAuthorityRail,
+  buildGpt2ViewportFamilyAuthorityRailActions,
   isCanonicalGpt2ViewportFamilyPipeline,
+  type Gpt2ViewportFamilyAuthorityRailAction,
+  type Gpt2ViewportFamilyAuthorityRailRow,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
+import { PAGE_CONCEPT_FIT_FULL_SCREEN } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactFitModes.js';
+import type { PageConceptLatestGenerationDiagnostics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLatestGenerationRun.js';
 import { resolvePageConceptArtifactDisplayUrl } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactDisplayUrl.js';
 import { pageConceptCandidateMatchesViewportGallery } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportGalleryScope.js';
 import {
@@ -57,7 +62,6 @@ import {
   listPageConceptCandidates,
   type PageConceptCandidate,
 } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
-import type { Gpt2ViewportFamilyAuthorityRailRow } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import type { PageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
 
 import {
@@ -304,6 +308,10 @@ export interface TwinOpusDirectWorkspaceData {
   canonicalGpt2ViewportFamilyActive: boolean;
   generationConsoleLauncher: PageConceptGenerationConsoleLauncher;
   viewportFamilyRail: readonly Gpt2ViewportFamilyAuthorityRailRow[];
+  viewportFamilyRailActions: readonly Gpt2ViewportFamilyAuthorityRailAction[];
+  currentGenerationUnresolvedMessage: string | null;
+  latestGenerationDiagnostics: PageConceptLatestGenerationDiagnostics | null;
+  heroFitMode: typeof PAGE_CONCEPT_FIT_FULL_SCREEN;
 }
 
 export interface TwinOpusDirectWorkspaceState {
@@ -356,6 +364,7 @@ export interface TwinOpusDirectWorkspaceActions {
   openCreatePageFramework: () => void;
   openGrokPageAssetProduction: () => void;
   openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
+  onViewportFamilyRailAction: (actionId: string) => void;
 }
 
 export interface TwinOpusDirectWorkspace {
@@ -684,6 +693,44 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         prodActions.openAmendmentDetail();
       },
       openViewportAuthorityEditor: (vp) => prodActions.openViewportAuthorityEditor(vp),
+      onViewportFamilyRailAction: (actionId: string) => {
+        const handlers = pageConceptGeneration.viewportFamilyHandlers;
+        switch (actionId) {
+          case 'vf-select-mobile':
+          case 'vf-confirm-mobile':
+            void handlers.selectMobile(candidateId);
+            break;
+          case 'vf-change-mobile':
+            prodActions.selectGalleryCandidate('');
+            break;
+          case 'vf-review-experience':
+            void handlers.approveExperience();
+            break;
+          case 'vf-run-tablet':
+            void handlers.runTablet();
+            break;
+          case 'vf-regenerate-tablet':
+            void handlers.regenerateTablet();
+            break;
+          case 'vf-run-desktop':
+            void handlers.runDesktop();
+            break;
+          case 'vf-regenerate-desktop':
+            void handlers.regenerateDesktop();
+            break;
+          case 'vf-approve-family':
+            void handlers.approveFamily();
+            break;
+          case 'vf-lock-family':
+            void handlers.lockFamily();
+            break;
+          case 'vf-review-family':
+            pageConceptGeneration.openGenerationConsole(viewport);
+            break;
+          default:
+            break;
+        }
+      },
       onRailAction: (actionId: string) => {
         switch (actionId) {
           case 'promote-mobile':
@@ -1176,6 +1223,9 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         current: scopedCandidates,
         history: historyCandidates,
       },
+      currentGenerationUnresolvedMessage: gallerySections.currentGenerationUnresolvedMessage,
+      latestGenerationDiagnostics: gallerySections.latestGenerationDiagnostics,
+      heroFitMode: PAGE_CONCEPT_FIT_FULL_SCREEN,
       selectedMobileConceptId,
       candidateActions: TWIN_OPUS_DIRECT_CANDIDATE_ACTIONS,
       galleryCandidateActions: resolvePageConceptViewportGalleryActions({
@@ -1223,6 +1273,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         pipelineSet: pageConceptGeneration.pipelineSet,
         selectedMobileConceptLabel:
           pageConcepts.find((c) => c.conceptId === selectedMobileConceptId)?.conceptTitle ?? null,
+        activeViewport: viewport,
+      }),
+      viewportFamilyRailActions: buildGpt2ViewportFamilyAuthorityRailActions({
+        pipelineSet: pageConceptGeneration.pipelineSet,
+        selectedMobileConceptId,
+        selectedGalleryCandidateId: candidateId,
+        generating: pageConceptGenerationActivelyRunning(
+          pageConceptGeneration.generationStatus,
+          pageConceptGeneration.generating,
+        ),
         activeViewport: viewport,
       }),
       heroAssembly: (() => {

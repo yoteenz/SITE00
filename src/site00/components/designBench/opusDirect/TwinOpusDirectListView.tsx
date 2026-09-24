@@ -18,6 +18,7 @@ import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageCo
 import { DesignConceptCandidateGalleryRail } from './DesignConceptCandidateGalleryRail';
 import { previewStatusForCandidate } from './DesignConceptCandidateGalleryCard';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
+import { DesignViewportFamilyHeroRail } from './DesignViewportFamilyHeroRail';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
@@ -153,17 +154,12 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
 
             <aside className="tod-lv-rail" aria-label="Authority rail">
               {data.canonicalGpt2ViewportFamilyActive ?
-                <section className="tod-lv-rail__viewportFamily" data-testid="viewport-family-authority-rail">
-                  {data.viewportFamilyRail.map((row) => (
-                    <div key={row.id} className="tod-lv-rail__viewportFamilyRow">
-                      <span className="tod-lv-rail__viewportFamilyLabel">{row.label}</span>
-                      <span className="tod-lv-rail__viewportFamilyValue">{row.value}</span>
-                      <span className={`tod-lv-rail__viewportFamilyStatus tod-lv-rail__viewportFamilyStatus--${row.status.toLowerCase()}`}>
-                        {row.status}
-                      </span>
-                    </div>
-                  ))}
-                </section>
+                <DesignViewportFamilyHeroRail
+                  classPrefix="tod-lv-rail"
+                  rows={data.viewportFamilyRail}
+                  actions={data.viewportFamilyRailActions}
+                  onAction={(id) => actions.onViewportFamilyRailAction(id)}
+                />
               : <>
               <div className="tod-lv-rail__select">
                 <button
