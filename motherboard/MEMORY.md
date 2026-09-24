@@ -11600,3 +11600,13 @@ Founder: **Generate not working / no Fal jobs** after screenshot function-map la
 - **Fix:** Resolve session on click (`eligibilityAtClick`, `setApiSessionReady`); modal press gate no longer sets blockReason while session is null (caller resolves token first).
 - **API hardening:** `executePageConceptGpt2MobileConcepts` recompiles `pageArchitectureBrief` when missing before screenshot function map + Fal dispatch (avoids `SCREENSHOT_FUNCTION_MAP_INCOMPLETE` / `PAGE_ARCHITECTURE_BRIEF_MISSING` on resume paths).
 - **Branch:** `cursor/fix-page-concept-generate-session-race-b747`. **Railway** + **GoDaddy** (frontend `usePageConceptGeneration.ts`).
+
+---
+
+## 2026-09-24 — Generate still dead: capture preflight + durable run patches
+
+Founder: Generate still not reaching Fal after session-race fix.
+
+- **Client:** Preflight used `captureHydrationStatus` before `ensurePageConceptSourceCaptures` finished → false `canGenerate` / silent preflight abort. Fix: hydrate captures + `sessionReady` **before** press gate; block dispatch only when `!canGenerate` (not any `blockReason`).
+- **API:** `site00_page_concept_generation_runs` table was **missing** in Supabase — durable run upserts were no-ops; poll could miss progress on Railway restart/multi-instance. Migration applied via Supabase MCP; `patchPageConceptServerRunDurable` hydrates before patch; background worker syncs final plan/pipelineSet/jobs.
+- **Branch:** `cursor/fix-page-concept-generate-preflight-captures-b747`. **Railway** redeploy + **GoDaddy** ZIP + confirm Supabase migration on prod project.
