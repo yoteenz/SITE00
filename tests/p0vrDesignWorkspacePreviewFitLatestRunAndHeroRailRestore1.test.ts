@@ -147,6 +147,7 @@ describe('P0.VR design workspace preview fit + latest run + hero rail restore', 
       viewport: 'MOBILE',
     });
     expect(sections.currentRunId).toBe(run2);
+    expect(sections.currentGenerationUnresolvedMessage).toBeNull();
     expect(sections.current.some((c) => c.artifactId === 'art-a-r2')).toBe(true);
     expect(sections.current.some((c) => c.artifactId === 'art-b-r1')).toBe(false);
     expect(sections.history.some((c) => c.artifactId === 'art-b-r1')).toBe(true);

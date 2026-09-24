@@ -685,10 +685,12 @@
 }
 
 .tod-hero-compare__pane {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0;
+  align-self: stretch;
 }
 
 .tod-hero-compare__paneHead {
@@ -1647,7 +1649,7 @@
   text-align: left;
 }
 
-.tod-gallery .tod-card--concept {
+.tod-gallery__rail:not(.s00-design-concept-gallery-grid) .tod-card--concept {
   min-height: 0;
   height: 118px;
   flex: 0 0 92px;

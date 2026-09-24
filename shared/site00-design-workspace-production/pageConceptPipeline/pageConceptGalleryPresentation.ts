@@ -7,11 +7,16 @@ import {
 import { loadPageConceptGenerationStateForDesignPage } from './pageConceptGenerationStateDiscovery.js';
 import {
   filterPageConceptGalleryCurrentCandidates,
+  pageConceptCurrentGenerationGroupLabel,
   pageConceptCurrentGenerationUnresolvedMessage,
   resolvePageConceptLatestGenerationDiagnostics,
   type PageConceptLatestGenerationDiagnostics,
 } from './pageConceptLatestGenerationRun.js';
-import { pageConceptCandidateMatchesViewportGallery } from './pageConceptViewportGalleryScope.js';
+import { normalizePageConceptGenerationStateForGallery } from './pageConceptGalleryHydration.js';
+import {
+  pageConceptCandidateMatchesViewportGallery,
+  resolvePageConceptViewportGalleryTitle,
+} from './pageConceptViewportGalleryScope.js';
 import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 import {
   pageConceptHeaderThumbnailUriFromArtifact,
@@ -51,6 +56,7 @@ export type PageConceptGallerySections = {
   current: readonly PageConceptGalleryCard[];
   history: readonly PageConceptGalleryCard[];
   currentGenerationUnresolvedMessage: string | null;
+  currentGenerationGroupLabel: string;
   latestGenerationDiagnostics: PageConceptLatestGenerationDiagnostics | null;
 };
 
@@ -163,18 +169,27 @@ export function buildPageConceptGallerySections(input: {
   const filtered = all.filter((c) => matchesStatusFilter(c, statusFilter));
   const selectedMobileConceptId = input.selectedMobileConceptId ?? null;
   const cards = filtered.map((c) => mapPageConceptToGalleryCard(c, selectedMobileConceptId));
-  const generationState = loadPageConceptGenerationStateForDesignPage({
-    projectSlug: input.projectId,
-    pageId: input.pageId,
-    screenId: input.galleryScope?.screenId,
-    route: input.galleryScope?.route ?? null,
+  const generationState = normalizePageConceptGenerationStateForGallery(
+    loadPageConceptGenerationStateForDesignPage({
+      projectSlug: input.projectId,
+      pageId: input.pageId,
+      screenId: input.galleryScope?.screenId,
+      route: input.galleryScope?.route ?? null,
+    }),
+  );
+  const latestGenerationDiagnostics = resolvePageConceptLatestGenerationDiagnostics(generationState, {
+    candidates: all,
   });
-  const latestGenerationDiagnostics = resolvePageConceptLatestGenerationDiagnostics(generationState);
   const currentRunId = latestGenerationDiagnostics.activeGenerationRunId;
   const currentGenerationUnresolvedMessage = pageConceptCurrentGenerationUnresolvedMessage(latestGenerationDiagnostics);
+  const galleryLabels = resolvePageConceptViewportGalleryTitle(input.viewport);
+  const currentGenerationGroupLabel = pageConceptCurrentGenerationGroupLabel(
+    latestGenerationDiagnostics,
+    galleryLabels.currentGroupLabel,
+  );
 
   const currentConcepts = filterPageConceptGalleryCurrentCandidates({
-    candidates: filtered,
+    candidates: all,
     viewport: input.viewport,
     state: generationState,
   });
@@ -186,6 +201,7 @@ export function buildPageConceptGallerySections(input: {
     current,
     history,
     currentGenerationUnresolvedMessage,
+    currentGenerationGroupLabel,
     latestGenerationDiagnostics,
   };
 }
