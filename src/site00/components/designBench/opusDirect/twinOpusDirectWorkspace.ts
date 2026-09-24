@@ -157,6 +157,8 @@ function galleryCardToTwinCandidate(card: PageConceptGalleryCard): TwinOpusDirec
     artifactId: card.artifactId,
     runId: card.runId,
     previewSrc: card.previewSrc,
+    headerThumbnailUri: card.headerThumbnailUri,
+    headerThumbnailCrop: card.headerThumbnailCrop,
     slotLabel: card.slotLabel,
     pipelineLabel: card.pipelineLabel,
     territoryLabel: card.territoryLabel,

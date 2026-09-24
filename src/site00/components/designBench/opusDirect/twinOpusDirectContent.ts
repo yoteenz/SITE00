@@ -96,6 +96,8 @@ export type TwinOpusDirectCandidate = {
   readonly artifactId?: string | null;
   readonly runId?: string | null;
   readonly previewSrc?: string | null;
+  readonly headerThumbnailUri?: string | null;
+  readonly headerThumbnailCrop?: { topFraction: number; heightFraction: number };
   readonly slotLabel?: string | null;
   readonly pipelineLabel?: string;
   readonly territoryLabel?: string;

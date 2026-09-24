@@ -1528,6 +1528,27 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.s00-design-concept-gallery-grid.tod-gallery__rail--current {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10.1px;
+  overflow: visible;
+  flex-wrap: unset;
+  padding: 0 8.8px 4px;
+}
+
+.s00-design-concept-gallery-grid.tod-gallery__rail--current .tod-card--concept {
+  flex: unset;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+.tod-gallery__rail--history {
+  margin-top: 4px;
+  max-height: 72px;
+}
+
 .tod-gallery__rail[hidden] {
   display: none !important;
   pointer-events: none !important;
@@ -1582,7 +1603,12 @@
   gap: 2px;
 }
 
-.tod-gallery .tod-card__surface--conceptPreview .s00-pcg__containPreview {
+.tod-gallery .tod-card__surface--conceptPreview .s00-pcg__containPreview[data-contain-size='headerThumb'] {
+  background: #ececea;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.tod-gallery .tod-card__surface--conceptPreview .s00-pcg__containPreview[data-contain-size='thumb'] {
   --pcg-contain-h: 88px;
   min-height: 88px;
   max-height: 88px;
