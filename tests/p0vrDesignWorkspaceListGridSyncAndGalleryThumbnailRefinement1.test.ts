@@ -96,8 +96,11 @@ describe('P0.VR design workspace list/grid sync + gallery thumbnails', () => {
 
   it('list defers to canonical viewport-family rail when GPT2 pipeline active', () => {
     const list = readOpusFile('TwinOpusDirectListView.tsx');
+    const rail = readOpusFile('DesignViewportFamilyHeroRail.tsx');
     expect(list).toContain('data.canonicalGpt2ViewportFamilyActive');
-    expect(list).toContain('viewport-family-authority-rail');
+    expect(list).toContain('DesignViewportFamilyHeroRail');
+    expect(list).toContain('viewportFamilyHeroRailStages');
+    expect(rail).toContain('data-testid="viewport-family-authority-rail"');
     expect(list).toContain('tod-lv-pair');
   });
 
