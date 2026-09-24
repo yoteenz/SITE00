@@ -243,6 +243,7 @@ describe('P0.VR design workspace preview fit + latest run + hero rail restore', 
       selectedMobileConceptLabel: null,
       activeViewport: 'MOBILE',
     });
+    expect(rows).toHaveLength(5);
     expect(rows.some((r) => r.label === 'MOBILE AUTHORITY')).toBe(true);
     expect(rows.some((r) => r.label === 'VIEWPORT FAMILY')).toBe(true);
   });
@@ -250,7 +251,7 @@ describe('P0.VR design workspace preview fit + latest run + hero rail restore', 
   it('grid and list share latest-run resolver via workspace buildPageConceptGallerySections', () => {
     const workspace = readSrc('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
     expect(workspace).toContain('buildPageConceptGallerySections');
-    expect(workspace).toContain('viewportFamilyRailActions');
+    expect(workspace).toContain('viewportFamilyHeroRailStages');
     expect(workspace).toContain('latestGenerationDiagnostics');
   });
 });

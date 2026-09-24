@@ -152,12 +152,11 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
           <section className="tod-lv-herorow" aria-label="Active concept and authority controls">
             <DesignHeroComparePanel workspace={workspace} variant="list" />
 
-            <aside className="tod-lv-rail" aria-label="Authority rail">
+            <aside className="tod-lv-rail tod-lv-rail--heroWorkflow" aria-label="Authority rail">
               {data.canonicalGpt2ViewportFamilyActive ?
                 <DesignViewportFamilyHeroRail
                   classPrefix="tod-lv-rail"
-                  rows={data.viewportFamilyRail}
-                  actions={data.viewportFamilyRailActions}
+                  stages={data.viewportFamilyHeroRailStages}
                   onAction={(id) => actions.onViewportFamilyRailAction(id)}
                 />
               : <>

@@ -11641,6 +11641,7 @@ Founder sprint: gallery card geometry locked; thumbnail header crop too zoomed; 
 
 ---
 
+<<<<<<< HEAD
 ## 2026-09-24 — P0.VR.NDXBOOK-WEB-EXPRESSION-TERRITORIES-AND-ROUTE-CONTEXT-FIX1
 
 GPT2 mobile concepts were structurally better but still framed as Design workspace pages and A/B/C felt like palette/layout variants.
@@ -11650,3 +11651,13 @@ GPT2 mobile concepts were structurally better but still framed as Design workspa
 - **Full scroll map:** `fullPageScrollMap` on function map v2; GPT2 prompt includes TOP→BOTTOM_NAVIGATION stages; bottom capture required for dispatch.
 - **GPT2 prompt v7:** per-slot single territory in `compileGpt2MobileProviderPrompt`; inspector + gallery show territory name; Concept Inspector shows WEB EXPRESSION fields.
 - **Tests:** `p0vrNdxbookWebExpressionTerritoriesAndRouteContextFix1.test.ts`. **Railway:** redeploy API. **GoDaddy:** v647+ ZIP (UI inspect + gallery labels).
+=======
+## 2026-09-24 — P0.VR.HERO-RIGHT-RAIL-FULL-VERTICAL-RESTORE1
+
+Founder corrective: prior canonical rail was compact rows + bottom actions; wanted **full vertical** hero-right workflow stack like legacy placement (not accordion/drawer).
+
+- **`buildGpt2ViewportFamilyHeroRailStages`:** always five stages (Mobile Authority, Experience, Tablet, Desktop, Viewport Family) with label/value/status + per-stage lime/ghost/ink actions; no viewport filtering.
+- **`DesignViewportFamilyHeroRail`:** `data-rail-layout="full-vertical"`, stacked `__vfStage` blocks beside hero (`tod-rail--heroWorkflow`).
+- **Mobile/list:** `tod-lv-herorow` stays **row** + horizontal scroll; rail fixed `--tod-rail-w` (no collapse).
+- **Tests:** `p0vrHeroRightRailFullVerticalRestore1.test.ts`. **Branch:** `cursor/hero-right-rail-full-vertical-restore1-b747`. **GoDaddy:** v646 after merge.
+>>>>>>> origin/main
