@@ -11744,3 +11744,14 @@ Founder: cloud preview tunnel showed stale/missing FAL concept gallery vs **site
 - **Client:** `fetchLatestPageConceptGenerationRunForDesignPage` (registry + canonical page ids); `usePageConceptGeneration` mount applies server snapshot when `shouldReplaceLocalPageConceptStateWithServerRun` (newer artifacts or different run id).
 - **Shared:** `pageConceptGalleryServerHydration.ts`; exported `pageConceptGenerationStateMaxArtifactTimestamp`.
 - **Founder:** Redeploy **Railway API** from `main` after merge; tunnel/GoDaddy need fresh frontend bundle; sign in as founder on tunnel origin.
+
+---
+
+## 2026-09-25 — Tunnel gallery trace + mount (latest server concepts)
+
+Founder: tunnel must show **most recent** FAL concepts like deploy, not stale per-origin localStorage.
+
+- **`mountPageConceptGalleryFromServer`** (`pageConceptGalleryServerMountClient.ts`) — trace event `site00:page-concept-gallery-server-mount`; fetches `latestForPage` (multi pageId + screenId/route); **`applyPageConceptServerRunSnapshotForGalleryMount`** replaces GPT2 mobile jobs; preview host **`preferServerGallery`** always wins when run id differs.
+- **API:** `latestForPage` resolves registry + canonical + screenId via `resolveDesignPageIdentity`; Supabase `.in('page_id', …)`.
+- **Preview server:** injects `site00-cloud-preview` meta into served `dist/index.html` so tunnel is detected without a special CI build.
+- **Workspace:** listens for mount trace event to bump gallery revision.
