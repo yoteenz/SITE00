@@ -11733,3 +11733,14 @@ Founder canonical/grid mobile: CONCEPT hero **postage-stamp centered** with side
 
 - **Hero root cause:** `PageConceptContainedPreviewFrame` wrapper did not reliably fill flex artifact height (`height: 100%` collapsed); looked like centered letterbox. **Fix:** absolute `inset: 0` heroReview frame in artifact; img `object-fit: contain; object-position: top center` (parity with raw capture `<img>`).
 - **Gallery root cause:** grid rules lacked full-width stretch on rail + concept **buttons** in canonical CSS. **Fix:** `width: 100%`, `justify-self: stretch`, headerThumb `width: 100%` under grid.
+
+---
+
+## 2026-09-25 — Tunnel concept gallery parity (server hydration)
+
+Founder: cloud preview tunnel showed stale/missing FAL concept gallery vs **site00.com** (different origin `localStorage`; old boot skipped server fetch when any READY mobile existed locally).
+
+- **API:** `GET /api/site00/page-concept-generation?latestForPage=1&projectId=&pageId=` → newest durable/in-memory run with READY `GPT2_MOBILE` (`resolveLatestPageConceptServerRunForPage`, Supabase `findLatestPageConceptServerRunForPage`).
+- **Client:** `fetchLatestPageConceptGenerationRunForDesignPage` (registry + canonical page ids); `usePageConceptGeneration` mount applies server snapshot when `shouldReplaceLocalPageConceptStateWithServerRun` (newer artifacts or different run id).
+- **Shared:** `pageConceptGalleryServerHydration.ts`; exported `pageConceptGenerationStateMaxArtifactTimestamp`.
+- **Founder:** Redeploy **Railway API** from `main` after merge; tunnel/GoDaddy need fresh frontend bundle; sign in as founder on tunnel origin.

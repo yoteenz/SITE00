@@ -19,6 +19,10 @@ import {
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import { refreshPageConceptGalleryFromPersistedState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import {
+  pageConceptServerRunHasReadyMobileGallery,
+  shouldReplaceLocalPageConceptStateWithServerRun,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
   pageConceptReviewReady,
@@ -93,6 +97,7 @@ import {
 } from '../../../services/pageConceptGenerationClient.js';
 import {
   clearPageConceptActiveServerRunId,
+  fetchLatestPageConceptGenerationRunForDesignPage,
   fetchPageConceptGenerationRunApi,
   loadPageConceptActiveServerRunId,
   pollPageConceptGenerationRunUntilTerminal,
@@ -495,31 +500,62 @@ export function usePageConceptGeneration(
 
   useEffect(() => {
     let cancelled = false;
-    const loaded = loadPageConceptGenerationStateForDesignPage({
-      projectSlug: projectId,
-      pageId,
-      screenId,
-      route: route ?? null,
-    });
-    const hasReadyMobile =
-      (loaded.pipelineSet?.mobileConcepts?.some((c) => c.status === 'READY') ?? false) ||
-      loaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY');
-    if (hasReadyMobile) return;
-
-    const runId = loadPageConceptActiveServerRunIdForDesignPage({
-      projectSlug: projectId,
-      pageId,
-      screenId,
-      route: route ?? null,
-    });
-    if (!runId) return;
 
     void (async () => {
+      const loaded = loadPageConceptGenerationStateForDesignPage({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route: route ?? null,
+      });
+      const hasReadyMobile =
+        (loaded.pipelineSet?.mobileConcepts?.some((c) => c.status === 'READY') ?? false) ||
+        loaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY');
+
       try {
         await ensurePageConceptApiAccessToken();
-        const first = await fetchPageConceptGenerationRunApi(runId, 0, { projectId, pageId });
         if (cancelled) return;
-        applyServerRunSnapshotToState(first.run, persist);
+
+        let serverUpdate: PageConceptGenerationRunPollUpdate | null = null;
+
+        try {
+          serverUpdate = await fetchLatestPageConceptGenerationRunForDesignPage({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          });
+        } catch {
+          serverUpdate = null;
+        }
+
+        if (
+          serverUpdate &&
+          shouldReplaceLocalPageConceptStateWithServerRun(loaded, serverUpdate.run)
+        ) {
+          applyServerRunSnapshotToState(serverUpdate.run, persist);
+          savePageConceptActiveServerRunId(projectId, pageId, serverUpdate.run.runId);
+        } else if (!hasReadyMobile) {
+          const runId = loadPageConceptActiveServerRunIdForDesignPage({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          });
+          if (runId) {
+            const first = await fetchPageConceptGenerationRunApi(runId, 0, { projectId, pageId });
+            if (cancelled) return;
+            if (
+              pageConceptServerRunHasReadyMobileGallery(first.run) ||
+              !pageConceptServerRunIsTerminal(first.run.status)
+            ) {
+              applyServerRunSnapshotToState(first.run, persist);
+              savePageConceptActiveServerRunId(projectId, pageId, first.run.runId);
+            }
+          }
+        }
+
+        if (cancelled) return;
         savePageConceptGenerationState(
           loadPageConceptGenerationStateForDesignPage({
             projectSlug: projectId,
@@ -533,7 +569,7 @@ export function usePageConceptGeneration(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );
       } catch {
-        /* gallery remains empty until founder opens generator */
+        /* gallery remains local until founder opens generator or signs in */
       }
     })();
 

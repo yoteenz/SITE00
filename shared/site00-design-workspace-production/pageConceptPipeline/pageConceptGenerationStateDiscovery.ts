@@ -76,7 +76,7 @@ function loadFromStoragePageId(projectSlug: string, storagePageId: string): Page
   return loadPageConceptGenerationState(slug, storagePageId);
 }
 
-function maxGenerationArtifactTimestamp(state: PageConceptGenerationState): number {
+export function pageConceptGenerationStateMaxArtifactTimestamp(state: PageConceptGenerationState): number {
   let max = 0;
   for (const job of state.generationJobs) {
     const t = job.createdAt ? Date.parse(job.createdAt) : 0;
@@ -101,7 +101,7 @@ export function scorePageConceptGenerationStateForGalleryDiscovery(state: PageCo
     (state.pipelineSet?.mobileConcepts?.length ?? 0) > 0;
   const mobileConceptsReady =
     (state.pipelineSet?.mobileConcepts ?? []).filter((c) => c.status === 'READY').length;
-  const recency = maxGenerationArtifactTimestamp(state);
+  const recency = pageConceptGenerationStateMaxArtifactTimestamp(state);
   return (
     (canonical ? 1e15 : 0) +
     gpt2Ready * 1e12 +

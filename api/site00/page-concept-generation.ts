@@ -14,6 +14,7 @@ import {
   type PageGenerationCapturePayload,
 } from '../_lib/site00PageConcept/runPageConceptGeneration.js';
 import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/resolvePageGenerationCapture.js';
+import { resolveLatestPageConceptServerRunForPage } from '../_lib/site00PageConcept/pageConceptGenerationRunStore.js';
 import {
   snapshotPageConceptServerRun,
   startPageConceptGenerationRun,
@@ -39,6 +40,38 @@ function incomingCapturesTrusted(body: Body): boolean {
 }
 
 async function handleGet(req: VercelRequest, res: VercelResponse, email: string) {
+  const latestForPage =
+    req.query.latestForPage === '1' ||
+    req.query.latestForPage === 'true' ||
+    req.query.scope === 'latestForPage';
+  const projectId = String(req.query.projectId ?? '').trim();
+  const pageId = String(req.query.pageId ?? '').trim();
+
+  if (latestForPage) {
+    if (!projectId || !pageId) {
+      res.status(400).json({ error: 'PROJECT_AND_PAGE_REQUIRED' });
+      return;
+    }
+    const latest = await resolveLatestPageConceptServerRunForPage(projectId, pageId);
+    if (!latest) {
+      res.status(404).json({ error: 'NO_GALLERY_RUN_FOR_PAGE' });
+      return;
+    }
+    const snapshot = await snapshotPageConceptServerRun(latest.runId, 0, { projectId, pageId });
+    if (!snapshot) {
+      res.status(404).json({ error: 'RUN_NOT_FOUND' });
+      return;
+    }
+    res.status(200).json({
+      ok: true,
+      founderEmail: email,
+      run: snapshot,
+      latestSequence: snapshot.latestProgressSequence,
+      progressEvents: snapshot.progressEventsAfterSequence,
+    });
+    return;
+  }
+
   const runId = String(req.query.runId ?? '').trim();
   if (!runId) {
     res.status(400).json({ error: 'RUN_ID_REQUIRED' });
@@ -49,9 +82,12 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
     afterRaw != null && String(afterRaw).trim() !== '' ?
       Math.max(0, Number.parseInt(String(afterRaw), 10) || 0)
     : 0;
-  const projectId = String(req.query.projectId ?? '').trim() || undefined;
-  const pageId = String(req.query.pageId ?? '').trim() || undefined;
-  const snapshot = await snapshotPageConceptServerRun(runId, afterSequence, { projectId, pageId });
+  const scopeProjectId = projectId || undefined;
+  const scopePageId = pageId || undefined;
+  const snapshot = await snapshotPageConceptServerRun(runId, afterSequence, {
+    projectId: scopeProjectId,
+    pageId: scopePageId,
+  });
   if (!snapshot) {
     res.status(404).json({ error: 'RUN_NOT_FOUND' });
     return;
