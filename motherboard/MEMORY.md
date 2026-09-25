@@ -11777,3 +11777,13 @@ Founder screenshot: Canonical overview, captures OK, but **NO MOBILE CONCEPTS YE
 - **Auth timing:** Server mount ran before Supabase token ready → `ensurePageConceptApiAccessToken` failed silently. Remount when `apiSessionReady === true`; poll session every 2.5s + on visibility.
 - **Page id aliases:** API/client also query `ndxbook:overview` scoped ids for Supabase runs.
 - **Still required:** Founder **sign in on tunnel origin** (not site00.com cookies); **Railway API** redeploy for `latestForPage` GET.
+
+---
+
+## 2026-09-25 — Gallery mount overwritten immediately (root cause)
+
+Founder: tunnel still empty after mount fixes — concepts **applied then wiped**.
+
+- **Bug:** `mountPageConceptGalleryFromServer` called `persist(apply…)` then **`savePageConceptGenerationState(loadPageConceptGenerationStateForDesignPage())`** — React `setState` from `persist` is async, so reload saved **pre-mount empty localStorage** over the server snapshot.
+- **Fix:** synchronous `applyMountedServerRunToClient`: compute `next`, `savePageConceptGenerationState(next)`, refresh gallery, then `persist(() => next)` — no reload-after-persist.
+- **Also:** preview tunnel skip `clearPageConceptActiveServerRunId` on panel mount; bootstrap builds local dist when CI behind HEAD.

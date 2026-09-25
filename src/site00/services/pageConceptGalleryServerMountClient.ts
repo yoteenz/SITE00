@@ -3,6 +3,7 @@ import {
   applyPageConceptServerRunSnapshotForGalleryMount,
   PAGE_CONCEPT_GALLERY_SERVER_MOUNT_EVENT,
   pageConceptGenerationStateGalleryArtifactTimestamp,
+  pageConceptServerRunHasReadyMobileGallery,
   pageConceptServerRunMaxArtifactTimestamp,
   shouldReplaceLocalPageConceptStateWithServerRun,
   type PageConceptGalleryServerMountTrace,
@@ -14,6 +15,7 @@ import {
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { savePageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { isSite00PreviewTunnelHost } from '../components/loader/site00PreviewHost.js';
 import { ensurePageConceptApiAccessToken } from './pageConceptApiSession.js';
 import {
@@ -21,8 +23,6 @@ import {
   fetchPageConceptGenerationRunApi,
   savePageConceptActiveServerRunId,
 } from './pageConceptGenerationRunClient.js';
-import { pageConceptServerRunHasReadyMobileGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
-import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 
 export type { PageConceptGalleryServerMountTrace };
 
@@ -33,6 +33,31 @@ function emitMountTrace(projectId: string, pageId: string, trace: PageConceptGal
       detail: { projectId, pageId, trace },
     }),
   );
+}
+
+function applyMountedServerRunToClient(input: {
+  projectId: string;
+  pageId: string;
+  screenId: string;
+  route?: string | null;
+  server: Parameters<typeof applyPageConceptServerRunSnapshotForGalleryMount>[1];
+  persist: (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => void;
+  baseState: PageConceptGenerationState;
+}): PageConceptGenerationState {
+  const next = applyPageConceptServerRunSnapshotForGalleryMount(input.baseState, input.server);
+  savePageConceptGenerationState(next);
+  savePageConceptActiveServerRunId(input.projectId, input.pageId, input.server.runId);
+  refreshPageConceptGalleryFromPersistedState(input.projectId, input.pageId, {
+    screenId: input.screenId,
+    route: input.route ?? null,
+  });
+  input.persist(() => next);
+  window.dispatchEvent(
+    new CustomEvent('site00:page-concept-generation-updated', {
+      detail: { projectId: input.projectId, pageId: input.pageId },
+    }),
+  );
+  return next;
 }
 
 export async function mountPageConceptGalleryFromServer(input: {
@@ -133,25 +158,11 @@ export async function mountPageConceptGalleryFromServer(input: {
       return trace;
     }
 
-    input.persist((s) => applyPageConceptServerRunSnapshotForGalleryMount(s, server));
-    savePageConceptActiveServerRunId(input.projectId, input.pageId, server.runId);
-    savePageConceptGenerationState(
-      loadPageConceptGenerationStateForDesignPage({
-        projectSlug: input.projectId,
-        pageId: input.pageId,
-        screenId: input.screenId,
-        route: input.route ?? null,
-      }),
-    );
-    refreshPageConceptGalleryFromPersistedState(input.projectId, input.pageId, {
-      screenId: input.screenId,
-      route: input.route ?? null,
+    applyMountedServerRunToClient({
+      ...input,
+      server,
+      baseState: loaded,
     });
-    window.dispatchEvent(
-      new CustomEvent('site00:page-concept-generation-updated', {
-        detail: { projectId: input.projectId, pageId: input.pageId },
-      }),
-    );
 
     const trace: PageConceptGalleryServerMountTrace = {
       phase: 'applied',

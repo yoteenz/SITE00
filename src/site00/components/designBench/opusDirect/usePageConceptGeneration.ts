@@ -19,6 +19,7 @@ import {
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import { refreshPageConceptGalleryFromPersistedState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
+import { isSite00PreviewTunnelHost } from '../../loader/site00PreviewHost.js';
 import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
@@ -326,7 +327,7 @@ export function usePageConceptGeneration(
       screenId,
       route: route ?? null,
     });
-    if (!founderSession) {
+    if (!founderSession && !isSite00PreviewTunnelHost()) {
       const hasPersistedMobileArtifacts =
         rawLoaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE') ||
         (rawLoaded.pipelineSet?.mobileConcepts?.length ?? 0) > 0;
