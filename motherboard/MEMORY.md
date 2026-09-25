@@ -11765,3 +11765,15 @@ Founder: design page would not boot on tunnel — preview returned **404** (empt
 - **Cause 1:** `run-site00-cloud-preview-server.sh` **`rm -rf dist`** then `cp` from `DIST_DIR`; in **local mode** `DIST_DIR` *is* `dist` → wiped the tree vite preview serves.
 - **Cause 2:** preview meta inject used `node <<'NODE' "$ROOT/dist/index.html"` → Node 22 tried to **execute index.html** as ESM entry → script crashed before `vite preview` restarted.
 - **Fix:** skip wipe/copy when source dist equals repo dist; inject meta via `SITE00_PREVIEW_INDEX` env + stdin heredoc only.
+
+---
+
+## 2026-09-25 — Tunnel still “generate” not gallery (stale CI dist + auth timing)
+
+Founder screenshot: Canonical overview, captures OK, but **NO MOBILE CONCEPTS YET** / generate CTAs on **site00.fsbw-dev.com**.
+
+- **Stale preview bundle:** Cloud preview downloaded CI artifact **121e8a71** while `main` was **69a18bef** — artifact had **no** `mountPageConceptGalleryFromServer` / `latestForPage` client (lazy chunk only in newer builds).
+- **Fix preview:** `run-site00-cloud-preview-server.sh` local **`npm run build`** when CI `commitSha` ≠ `HEAD`.
+- **Auth timing:** Server mount ran before Supabase token ready → `ensurePageConceptApiAccessToken` failed silently. Remount when `apiSessionReady === true`; poll session every 2.5s + on visibility.
+- **Page id aliases:** API/client also query `ndxbook:overview` scoped ids for Supabase runs.
+- **Still required:** Founder **sign in on tunnel origin** (not site00.com cookies); **Railway API** redeploy for `latestForPage` GET.

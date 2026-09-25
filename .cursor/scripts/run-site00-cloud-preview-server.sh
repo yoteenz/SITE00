@@ -46,6 +46,14 @@ if [[ "$MODE" == "local" ]]; then
   DIST_DIR="$ROOT/dist"
 elif [[ "$NEED_CI" == "1" ]]; then
   bash "$ROOT/.cursor/scripts/download-site00-ci-production-dist.sh"
+  if [[ -f "$DIST_DIR/release-manifest.json" ]]; then
+    CI_SHA="$(node -e "const m=require('$DIST_DIR/release-manifest.json'); process.stdout.write(m.commitSha||'')" 2>/dev/null || true)"
+    if [[ -n "$CI_SHA" && "$CI_SHA" != "$HEAD_SHA" ]]; then
+      log "CI dist ($CI_SHA) behind HEAD $HEAD_SHA — building local preview dist"
+      env GITHUB_SHA="$(git rev-parse HEAD)" npm run build >>"$LOG" 2>&1
+      DIST_DIR="$ROOT/dist"
+    fi
+  fi
 fi
 
 if [[ ! -f "$DIST_DIR/index.html" ]]; then

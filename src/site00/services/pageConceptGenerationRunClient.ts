@@ -166,9 +166,15 @@ export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
 }): Promise<PageConceptGenerationRunPollUpdate | null> {
   const identity = resolveDesignPageIdentityForGallery(input);
   const slug = identity.projectSlug.trim().toLowerCase();
-  const candidates = [identity.registryPageId, identity.canonicalPageId].filter(
-    (id, index, all) => Boolean(id) && all.indexOf(id) === index,
-  );
+  const legacyScoped = `${slug}:${identity.registryPageId}`;
+  const legacyCanonicalScoped = `${slug}:${identity.canonicalPageId}`;
+  const candidates = [
+    identity.registryPageId,
+    identity.canonicalPageId,
+    identity.screenId,
+    legacyScoped,
+    legacyCanonicalScoped,
+  ].filter((id, index, all) => Boolean(id) && all.indexOf(id) === index);
   let best: PageConceptGenerationRunPollUpdate | null = null;
   let bestTs = 0;
   for (const pageId of candidates) {
