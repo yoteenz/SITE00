@@ -132,6 +132,8 @@ describe('P0.VR design workspace v646 visual restore + latest run recovery', () 
     const css = readSrc('src/site00/styles/site00-twin-opus-direct.css');
     expect(css).toContain('repeat(3, minmax(0, 1fr))');
     expect(css).toContain('.tod-gallery__rail:not(.s00-design-concept-gallery-grid) .tod-card--concept');
+    expect(css).toContain('.tod-gallery__body:has(.s00-design-concept-gallery-grid)');
+    expect(css).toContain('.tod-card:not(.tod-card--concept)');
     expect(css).not.toMatch(
       /\.tod-gallery \.tod-card--concept\s*\{[^}]*flex:\s*0\s+0\s+92px/s,
     );
