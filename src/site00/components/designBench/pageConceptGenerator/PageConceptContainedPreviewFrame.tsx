@@ -10,6 +10,7 @@ import {
   PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
   type PageConceptPreviewContainSize,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptImageContainment.js';
+import type { DesignHeroCaptureDimensions } from '../../../../../shared/site00-design-workspace-production/designHeroComparePresentation.js';
 import type { PageConceptHeaderThumbnailCrop } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
 import { PAGE_CONCEPT_HEADER_THUMBNAIL_CROP } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
@@ -26,6 +27,7 @@ export function PageConceptContainedPreviewFrame({
   testId = 'page-concept-contained-preview',
   objectFit = PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
   headerThumbnailCrop,
+  heroCaptureDimensions,
 }: {
   size?: PageConceptPreviewContainSize;
   viewportLabel?: string;
@@ -36,6 +38,8 @@ export function PageConceptContainedPreviewFrame({
   testId?: string;
   objectFit?: 'contain' | 'cover';
   headerThumbnailCrop?: PageConceptHeaderThumbnailCrop;
+  /** Hero compare — lock both panes to capture viewport aspect (FIT_FULL_SCREEN). */
+  heroCaptureDimensions?: DesignHeroCaptureDimensions;
 }) {
   const resolvedHeaderCrop = headerThumbnailCrop ?? PAGE_CONCEPT_HEADER_THUMBNAIL_CROP;
   let inner: ReactNode;
@@ -86,14 +90,26 @@ export function PageConceptContainedPreviewFrame({
       } as CSSProperties)
     : undefined;
 
+  const heroCaptureStyle =
+    size === 'heroReview' && heroCaptureDimensions ?
+      ({
+        ['--tod-hero-capture-w' as string]: String(heroCaptureDimensions.width),
+        ['--tod-hero-capture-h' as string]: String(heroCaptureDimensions.height),
+      } as CSSProperties)
+    : undefined;
+
+  const resolvedObjectFit =
+    size === 'heroReview' && heroCaptureDimensions ? 'cover' : objectFit;
+
   return (
     <div
       className={PAGE_CONCEPT_CONTAINED_PREVIEW_CLASS}
       data-testid={testId}
       data-contain-size={size}
       data-preview-status={status}
-      data-object-fit={objectFit}
-      style={headerCropStyle}
+      data-object-fit={resolvedObjectFit}
+      data-hero-capture-framed={size === 'heroReview' && heroCaptureDimensions ? 'true' : undefined}
+      style={headerCropStyle ?? heroCaptureStyle}
     >
       {viewportLabel ?
         <span className="s00-pcg__containPreviewLabel">{viewportLabel}</span>
