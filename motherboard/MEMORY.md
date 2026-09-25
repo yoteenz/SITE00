@@ -11716,6 +11716,17 @@ Founder: agents were polishing **LIST** (`tod-lv-*` / `site00-twin-opus-list.css
 
 ---
 
+## 2026-09-25 — Hero stale FAL images + capture-matched framing
+
+Founder: hero CONCEPT showed **old** mobile artifacts (not latest generation) and different aspect than CAPTURE SCREEN; must **look identical** in pane.
+
+- **Stale src:** hero used gallery `visualReference` on persisted candidate rows; missed latest READY `GPT2_MOBILE` job `imageUri` for slot. **`resolveHeroCompareConceptPreviewSrc`** prefers generation job URL + `artifact=` cache bust; fullscreen open uses same resolver.
+- **Framing:** both panes use **`390×844` capture aspect** (`DESIGN_HERO_COMPARE_CAPTURE_DIMENSIONS`) with **`object-fit: cover` + `top center`** inside shared aspect box (`data-hero-capture-framed`).
+- **Selection:** if `candidateId` not in CURRENT gallery (non-HISTORY), auto-select first current card so hero not stuck on legacy demo ids.
+- **Tests:** `tests/designHeroComparePresentation.test.ts`.
+
+---
+
 ## 2026-09-25 — Hero CONCEPT letterbox + gallery left-cluster (founder screenshots)
 
 Founder canonical/grid mobile: CONCEPT hero **postage-stamp centered** with side letterboxing vs CURRENT fill; gallery thumbs **clustered left** not 3-col full width.

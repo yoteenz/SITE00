@@ -102,6 +102,10 @@ import {
   type ViewportControlPresentation,
 } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import { pageCaptureDisplaySrc } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
+import {
+  resolveDesignHeroCompareCaptureDimensions,
+  resolveHeroCompareConceptPreviewSrc,
+} from '../../../../../shared/site00-design-workspace-production/designHeroComparePresentation.js';
 import { projectDesignProductionProjection } from '../../../../../shared/site00-design-workspace-production/designProductionProjection.js';
 import { site00ProjectsDesignModulePath } from '../../../config/routes';
 import {
@@ -299,6 +303,7 @@ export interface TwinOpusDirectWorkspaceData {
     conceptSrc: string | null;
     conceptMeta: string;
     conceptEmptyLabel: string;
+    captureDimensions: { width: number; height: number };
     captureBusy: boolean;
     captureError: string | null;
   };
@@ -496,6 +501,36 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   }, [candidateId, prodActions, selectedMobileConceptId, viewport]);
 
   useEffect(() => {
+    const sections = buildPageConceptGallerySections({
+      projectId: projectSlug,
+      pageId: pageTarget.pageId,
+      viewport,
+      selectedMobileConceptId,
+      galleryScope: galleryHydrationScope,
+    });
+    const currentIds = sections.current.map((c) => c.id);
+    if (currentIds.length === 0) return;
+    if (currentIds.includes(candidateId)) return;
+    const pageConcepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
+    const row = pageConcepts.find((c) => c.conceptId === candidateId);
+    if (row && row.runGroup === 'HISTORY') return;
+    const nextId = currentIds[0]!;
+    setCandidateId(nextId);
+    setViewportCandidateIds((prev) => ({ ...prev, [viewport]: nextId }));
+    prodActions.selectGalleryCandidate(nextId);
+  }, [
+    candidateId,
+    galleryHydrationScope,
+    pageConceptGeneration.generationState.generationJobs,
+    pageConceptGeneration.generationState.activeGenerationRunId,
+    pageTarget.pageId,
+    prodActions,
+    projectSlug,
+    selectedMobileConceptId,
+    viewport,
+  ]);
+
+  useEffect(() => {
     const refresh = () => pageAuthority.reload();
     window.addEventListener('site00:design-framework-handoff', refresh);
     return () => window.removeEventListener('site00:design-framework-handoff', refresh);
@@ -621,7 +656,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
         const selected = concepts.find((c) => c.conceptId === candidateId) ?? null;
         const currentSrc = pageCaptureDisplaySrc(pageCapture.latest?.artifactPath);
-        const conceptSrc = selected?.visualReference ?? null;
+        const conceptSrc = resolveHeroCompareConceptPreviewSrc({
+          concept: selected,
+          viewport,
+          generationState: pageConceptGeneration.generationState,
+        });
         const src = side === 'current' ? currentSrc : conceptSrc;
         if (!src) return;
         prodActions.openFullscreenArtifact({
@@ -1112,10 +1151,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       tabletArtifactId: family?.tabletArtifactId ?? null,
       desktopArtifactId: family?.desktopArtifactId ?? null,
     });
-    const conceptPreviewSrc = conceptPreviewSrcForViewport(inspectedConcept, viewport);
+    const captureDimensions = resolveDesignHeroCompareCaptureDimensions(viewport);
     const captureArtifactPath = pageCapture.latest?.artifactPath ?? null;
     const currentSrc = pageCaptureDisplaySrc(captureArtifactPath);
-    const conceptSrc = conceptPreviewSrc;
+    const conceptSrc = resolveHeroCompareConceptPreviewSrc({
+      concept: inspectedConcept,
+      viewport,
+      generationState: pageConceptGeneration.generationState,
+    });
     const capturedLabel =
       pageCapture.latest?.timestamp ?
         (() => {
@@ -1283,6 +1326,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         conceptSrc,
         conceptMeta: inspectedConcept?.conceptTitle?.toUpperCase() ?? '—',
         conceptEmptyLabel,
+        captureDimensions,
         captureBusy: pageCapture.capturing,
         captureError: pageCapture.error,
       },

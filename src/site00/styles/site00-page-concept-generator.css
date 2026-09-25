@@ -1951,6 +1951,21 @@
   object-position: top center;
 }
 
+/* Capture-matched framing — both CURRENT and CONCEPT share capture aspect + cover fill */
+.s00-pcg__containPreview[data-contain-size='heroReview'][data-hero-capture-framed='true'] .s00-pcg__containPreviewStage {
+  align-items: center;
+  justify-content: center;
+}
+
+.s00-pcg__containPreview[data-contain-size='heroReview'][data-hero-capture-framed='true'] .s00-pcg__containPreviewImg {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: var(--tod-hero-capture-w, 390) / var(--tod-hero-capture-h, 844);
+  object-fit: cover;
+  object-position: top center;
+}
+
 .s00-pcg__containPreview[data-contain-size='headerThumb'] .s00-pcg__containPreviewStage {
   aspect-ratio: 16 / 9;
   height: auto;

@@ -152,13 +152,19 @@ describe('P0.VR design workspace v646 visual restore + latest run recovery', () 
     expect(listCss).toContain('.tod-lv-rail--heroWorkflow .tod-lv-rail__action--ghost');
   });
 
-  it('hero compare fills artifact (absolute heroReview + top contain like capture)', () => {
+  it('hero compare fills artifact with capture-matched framing', () => {
     const css = readSrc('src/site00/styles/site00-twin-opus-direct.css');
     const pcg = readSrc('src/site00/styles/site00-page-concept-generator.css');
+    const hero = readSrc('src/site00/components/designBench/opusDirect/DesignHeroComparePanel.tsx');
     expect(pcg).toContain("data-contain-size='heroReview'");
     expect(css).toContain('.tod-hero-compare__artifact .s00-pcg__containPreview[data-contain-size=\'heroReview\']');
     expect(css).toMatch(/heroReview[\s\S]*position:\s*absolute/);
-    expect(pcg).toMatch(/heroReview[\s\S]*object-position:\s*top center/);
+    expect(pcg).toContain("data-hero-capture-framed='true'");
+    expect(pcg).toMatch(/hero-capture-framed[\s\S]*object-fit:\s*cover/);
+    expect(hero).toContain('heroCaptureDimensions');
+    expect(readSrc('shared/site00-design-workspace-production/designHeroComparePresentation.ts')).toContain(
+      'resolveHeroCompareConceptPreviewSrc',
+    );
   });
 
   it('canonical gallery grid stretches concept cards full panel width', () => {

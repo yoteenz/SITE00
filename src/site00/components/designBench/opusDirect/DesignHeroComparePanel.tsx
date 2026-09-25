@@ -5,6 +5,7 @@
  */
 
 import type { HeroAssemblyActionsModel } from '../../../../../shared/site00-design-workspace-production/designHeroAssemblyActions.js';
+import type { DesignHeroCaptureDimensions } from '../../../../../shared/site00-design-workspace-production/designHeroComparePresentation.js';
 import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 import { TodIconCycle } from './TwinOpusDirectIcons';
@@ -58,12 +59,14 @@ function HeroArtifactPreview({
   side,
   src,
   emptyLabel,
+  captureDimensions,
   onOpen,
 }: {
   prefix: string;
   side: 'current' | 'concept';
   src: string | null;
   emptyLabel: string;
+  captureDimensions: DesignHeroCaptureDimensions;
   onOpen: () => void;
 }) {
   return (
@@ -72,15 +75,19 @@ function HeroArtifactPreview({
       className={`${prefix}__artifact${src ? '' : ` ${prefix}__artifact--empty`}`}
       data-interaction-id={side === 'current' ? 'hero-current-fullscreen' : 'hero-concept-fullscreen'}
       data-hero-fit-mode="FIT_FULL_SCREEN"
+      style={{
+        ['--tod-hero-capture-w' as string]: String(captureDimensions.width),
+        ['--tod-hero-capture-h' as string]: String(captureDimensions.height),
+      }}
       onClick={() => src && onOpen()}
       disabled={!src}
     >
       {src ?
         <PageConceptContainedPreviewFrame
           size="heroReview"
-          objectFit="contain"
           status="READY"
           imageSrc={src}
+          heroCaptureDimensions={captureDimensions}
           testId={`hero-${side}-contained-preview`}
         />
       : <span className={`${prefix}__empty`}>{emptyLabel}</span>}
@@ -134,6 +141,7 @@ export function DesignHeroComparePanel({
             side="current"
             src={compare.currentSrc}
             emptyLabel={compare.currentEmptyLabel}
+            captureDimensions={compare.captureDimensions}
             onOpen={() => actions.openHeroCompareFullscreen('current')}
           />
         </div>
@@ -148,6 +156,7 @@ export function DesignHeroComparePanel({
             side="concept"
             src={compare.conceptSrc}
             emptyLabel={compare.conceptEmptyLabel}
+            captureDimensions={compare.captureDimensions}
             onOpen={() => actions.openHeroCompareFullscreen('concept')}
           />
         </div>
