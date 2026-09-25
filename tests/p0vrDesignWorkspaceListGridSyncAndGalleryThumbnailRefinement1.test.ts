@@ -89,6 +89,7 @@ describe('P0.VR design workspace list/grid sync + gallery thumbnails', () => {
     const gridCss = readFileSync(join(process.cwd(), 'src/site00/styles/site00-twin-opus-direct.css'), 'utf8');
     const listCss = readFileSync(join(process.cwd(), 'src/site00/styles/site00-twin-opus-list.css'), 'utf8');
     expect(gridCss).toContain('.s00-design-concept-gallery-grid');
+    expect(gridCss).toContain('.tod-gallery__body:has(.s00-design-concept-gallery-grid)');
     expect(gridCss).toContain('grid-template-columns: repeat(3, minmax(0, 1fr))');
     expect(listCss).toContain('.s00-design-concept-gallery-grid');
     expect(listCss).toContain('grid-template-columns: repeat(3, minmax(0, 1fr))');

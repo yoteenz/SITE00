@@ -11704,3 +11704,12 @@ Founder: recover **right rail** lime/ghost button backgrounds; keep **3-column g
 - **Gallery thumbs:** `PAGE_CONCEPT_HEADER_THUMBNAIL_CROP.heightFraction` **0.48 → 0.56** + matching CSS vars (softer header band, still 16:9 grid).
 - **Hero:** `heroReview` contain — stage `padding: 0`, `object-position: center center`, full w/h in artifact flex chain (parity with CURRENT capture).
 - **Tests:** updated `p0vrDesignWorkspaceV646VisualRestoreAndLatestRunRecovery1.test.ts` (crop 0.56, rail + heroReview assertions). **Branch:** `cursor/design-workspace-hero-gallery-visual-fix2-87ed`.
+
+---
+
+## 2026-09-25 — Canonical (grid) view gallery fix — not LIST
+
+Founder: agents were polishing **LIST** (`tod-lv-*` / `site00-twin-opus-list.css`) while the broken UX is **Canonical view** (view-mode grid icon = `TwinOpusDirectCanonicalView`, gallery `variant="grid"` → `tod-gallery_*` in `site00-twin-opus-direct.css`). PR #1140 commit literally scoped gallery body/card fixes to list only; canonical gallery body stayed **130px** fixed height → clustered/zoomed thumbs.
+
+- **Fix:** mirror list layout fixes on **canonical**: `.tod-gallery` / `.tod-gallery__body` auto height + `:has(.s00-design-concept-gallery-grid)`; scope `.tod-card:not(.tod-card--concept)`; drop 168px flex on concept cards in grid; remove 140px preview cap in grid; hide horizontal `.tod-gallery__next` when 3-col grid active; hero legacy img `object-position: center`.
+- **QA:** validate **Canonical view** (not List) at golden artboard width.
