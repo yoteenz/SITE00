@@ -17,9 +17,10 @@ export type PageConceptHeaderThumbnailCrop = {
 
 export const PAGE_CONCEPT_HEADER_THUMBNAIL_CROP: PageConceptHeaderThumbnailCrop = {
   topFraction: 0,
-  heightFraction: 0.48,
-  /** CSS transform scale divisor — must match heightFraction for cover band math. */
-  scale: 1 / 0.48,
+  /** Wider header band — full panel width without excessive page zoom (v645/v646 gallery). */
+  heightFraction: 0.56,
+  /** Softer scale than 1/0.48 — keeps A/B/C distinguishable without postage-stamp zoom. */
+  scale: 1 / 0.56,
 };
 
 /** Full artifact URI; gallery CSS performs header crop (no duplicate storage). */

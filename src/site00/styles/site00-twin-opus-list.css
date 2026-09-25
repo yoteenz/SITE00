@@ -330,6 +330,34 @@
   margin-top: 3.9px;
 }
 
+.tod-lv-rail--heroWorkflow .tod-lv-rail__vfStage .tod-lv-rail__action {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7.9px 15.7px;
+  border: 0;
+}
+
+.tod-lv-rail--heroWorkflow .tod-lv-rail__action--lime {
+  background: var(--tod-lime);
+  color: #101505;
+}
+
+.tod-lv-rail--heroWorkflow .tod-lv-rail__action--ghost {
+  background: #fff;
+  color: #101010;
+  border: 2px solid var(--tod-border-control);
+}
+
+.tod-lv-rail--heroWorkflow .tod-lv-rail__action--ink {
+  background: #000;
+  color: #f5f5f5;
+}
+
+.tod-lv-rail--heroWorkflow .tod-lv-rail__action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .tod-lv-hero-compare__grid {
   display: flex;
   gap: 15.7px;

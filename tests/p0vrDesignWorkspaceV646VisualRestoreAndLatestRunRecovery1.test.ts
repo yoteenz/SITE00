@@ -137,9 +137,23 @@ describe('P0.VR design workspace v646 visual restore + latest run recovery', () 
     );
   });
 
-  it('v645 header crop constants preserved', () => {
+  it('gallery header crop — softer zoom (56% viewport height)', () => {
     expect(PAGE_CONCEPT_FIT_HEADER_CROP).toBe('HEADER_CROP');
-    expect(PAGE_CONCEPT_HEADER_THUMBNAIL_CROP.heightFraction).toBe(0.48);
+    expect(PAGE_CONCEPT_HEADER_THUMBNAIL_CROP.heightFraction).toBe(0.56);
+  });
+
+  it('hero workflow rail restores lime/ghost button fills', () => {
+    const css = readSrc('src/site00/styles/site00-twin-opus-direct.css');
+    expect(css).toContain('.tod-rail--heroWorkflow .tod-rail__action--lime');
+    expect(css).toMatch(/\.tod-rail--heroWorkflow[\s\S]*background:\s*var\(--tod-lime\)/);
+    const listCss = readSrc('src/site00/styles/site00-twin-opus-list.css');
+    expect(listCss).toContain('.tod-lv-rail--heroWorkflow .tod-lv-rail__action--ghost');
+  });
+
+  it('hero compare uses centered contain for heroReview', () => {
+    const css = readSrc('src/site00/styles/site00-page-concept-generator.css');
+    expect(css).toContain("data-contain-size='heroReview'");
+    expect(css).toMatch(/heroReview[\s\S]*object-position:\s*center center/);
   });
 
   it('v646 full vertical hero rail component preserved', () => {
