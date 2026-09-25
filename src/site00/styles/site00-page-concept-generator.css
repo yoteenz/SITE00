@@ -1938,8 +1938,8 @@
   height: 100%;
   min-height: 0;
   padding: 0;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: flex-start;
 }
 
 .s00-pcg__containPreview[data-contain-size='heroReview'] .s00-pcg__containPreviewImg {
@@ -1948,7 +1948,7 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  object-position: center center;
+  object-position: top center;
 }
 
 .s00-pcg__containPreview[data-contain-size='headerThumb'] .s00-pcg__containPreviewStage {

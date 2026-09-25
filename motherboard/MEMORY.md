@@ -11713,3 +11713,12 @@ Founder: agents were polishing **LIST** (`tod-lv-*` / `site00-twin-opus-list.css
 
 - **Fix:** mirror list layout fixes on **canonical**: `.tod-gallery` / `.tod-gallery__body` auto height + `:has(.s00-design-concept-gallery-grid)`; scope `.tod-card:not(.tod-card--concept)`; drop 168px flex on concept cards in grid; remove 140px preview cap in grid; hide horizontal `.tod-gallery__next` when 3-col grid active; hero legacy img `object-position: center`.
 - **QA:** validate **Canonical view** (not List) at golden artboard width.
+
+---
+
+## 2026-09-25 — Hero CONCEPT letterbox + gallery left-cluster (founder screenshots)
+
+Founder canonical/grid mobile: CONCEPT hero **postage-stamp centered** with side letterboxing vs CURRENT fill; gallery thumbs **clustered left** not 3-col full width.
+
+- **Hero root cause:** `PageConceptContainedPreviewFrame` wrapper did not reliably fill flex artifact height (`height: 100%` collapsed); looked like centered letterbox. **Fix:** absolute `inset: 0` heroReview frame in artifact; img `object-fit: contain; object-position: top center` (parity with raw capture `<img>`).
+- **Gallery root cause:** grid rules lacked full-width stretch on rail + concept **buttons** in canonical CSS. **Fix:** `width: 100%`, `justify-self: stretch`, headerThumb `width: 100%` under grid.
