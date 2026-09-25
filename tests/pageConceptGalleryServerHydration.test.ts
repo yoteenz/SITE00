@@ -97,6 +97,29 @@ describe('pageConceptGalleryServerHydration', () => {
     expect(shouldReplaceLocalPageConceptStateWithServerRun(local, run)).toBe(true);
   });
 
+  it('prefers server gallery on preview host when run id differs', () => {
+    const local = localState([
+      {
+        artifactId: 'old',
+        provider: 'GPT2_MOBILE',
+        status: 'READY',
+        createdAt: '2026-09-26T01:00:00.000Z',
+      } as PageConceptGenerationState['generationJobs'][number],
+    ]);
+    const run = serverRun({
+      runId: 'pcgr-newer-run',
+      jobs: [
+        {
+          artifactId: 'server',
+          provider: 'GPT2_MOBILE',
+          status: 'READY',
+          createdAt: '2026-09-25T20:00:00.000Z',
+        } as PageConceptServerRunSnapshot['jobs'][number],
+      ],
+    });
+    expect(shouldReplaceLocalPageConceptStateWithServerRun(local, run, { preferServerGallery: true })).toBe(true);
+  });
+
   it('keeps local when server run is older than local artifacts', () => {
     const local = localState([
       {

@@ -60,6 +60,7 @@ function pageConceptServerRunHasReadyMobileGallery(run: PageConceptServerRun): b
 export async function findLatestPageConceptServerRunForPage(input: {
   projectId: string;
   pageId: string;
+  pageIds?: readonly string[];
   pipelineId?: string;
 }): Promise<PageConceptServerRun | null> {
   if (process.env.VITEST === 'true') return null;
@@ -67,14 +68,20 @@ export async function findLatestPageConceptServerRunForPage(input: {
   if (!exists) return null;
 
   const pipelineId = input.pipelineId ?? PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
+  const slug = input.projectId.trim().toLowerCase();
+  const pageIds = [
+    ...new Set(
+      [input.pageId, ...(input.pageIds ?? [])].map((id) => id.trim()).filter(Boolean),
+    ),
+  ];
   const { data, error } = await getSupabaseAdmin()
     .from(TABLE)
     .select('run_json, updated_at')
-    .eq('project_id', input.projectId)
-    .eq('page_id', input.pageId)
+    .eq('project_id', slug)
+    .in('page_id', pageIds)
     .eq('pipeline_id', pipelineId)
     .order('updated_at', { ascending: false })
-    .limit(25);
+    .limit(40);
 
   if (error || !data?.length) return null;
 

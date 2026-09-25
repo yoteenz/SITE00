@@ -15,6 +15,7 @@ import {
 } from '../_lib/site00PageConcept/runPageConceptGeneration.js';
 import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/resolvePageGenerationCapture.js';
 import { resolveLatestPageConceptServerRunForPage } from '../_lib/site00PageConcept/pageConceptGenerationRunStore.js';
+import { resolveDesignPageIdentity } from '../../shared/site00-design-workspace-production/designPageIdentity.js';
 import {
   snapshotPageConceptServerRun,
   startPageConceptGenerationRun,
@@ -52,7 +53,25 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
       res.status(400).json({ error: 'PROJECT_AND_PAGE_REQUIRED' });
       return;
     }
-    const latest = await resolveLatestPageConceptServerRunForPage(projectId, pageId);
+    const screenId = String(req.query.screenId ?? '').trim();
+    const routeRaw = req.query.route;
+    const route = routeRaw != null && String(routeRaw).trim() !== '' ? String(routeRaw) : null;
+    const identity = resolveDesignPageIdentity({
+      projectSlug: projectId,
+      pageId,
+      screenId,
+      route,
+    });
+    const pageIds = [
+      ...new Set(
+        [identity.registryPageId, identity.canonicalPageId, identity.screenId].filter(Boolean),
+      ),
+    ];
+    const latest = await resolveLatestPageConceptServerRunForPage(
+      identity.projectId,
+      identity.registryPageId,
+      pageIds,
+    );
     if (!latest) {
       res.status(404).json({ error: 'NO_GALLERY_RUN_FOR_PAGE' });
       return;
