@@ -128,12 +128,15 @@ export async function startPageConceptGenerationRunApi(input: {
 export async function fetchLatestPageConceptGenerationRunForPageApi(
   projectId: string,
   pageId: string,
+  scope?: { screenId?: string; route?: string | null },
 ): Promise<PageConceptGenerationRunPollUpdate | null> {
   const qs = new URLSearchParams({
     latestForPage: '1',
     projectId,
     pageId,
   });
+  if (scope?.screenId?.trim()) qs.set('screenId', scope.screenId.trim());
+  if (scope?.route?.trim()) qs.set('route', scope.route.trim());
   const result = await captureApiFetch<{
     ok: boolean;
     run?: PageConceptServerRunSnapshot;
@@ -166,11 +169,26 @@ export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
   const candidates = [identity.registryPageId, identity.canonicalPageId].filter(
     (id, index, all) => Boolean(id) && all.indexOf(id) === index,
   );
+  let best: PageConceptGenerationRunPollUpdate | null = null;
+  let bestTs = 0;
   for (const pageId of candidates) {
-    const update = await fetchLatestPageConceptGenerationRunForPageApi(slug, pageId);
-    if (update) return update;
+    const update = await fetchLatestPageConceptGenerationRunForPageApi(slug, pageId, {
+      screenId: input.screenId,
+      route: input.route ?? null,
+    });
+    if (!update) continue;
+    const ts = Math.max(
+      ...update.run.jobs
+        .filter((j) => j.provider === 'GPT2_MOBILE')
+        .map((j) => Date.parse(j.createdAt ?? '') || 0),
+      Date.parse(update.run.updatedAt || update.run.completedAt || '') || 0,
+    );
+    if (!best || ts > bestTs) {
+      best = update;
+      bestTs = ts;
+    }
   }
-  return null;
+  return best;
 }
 
 export async function fetchPageConceptGenerationRunApi(

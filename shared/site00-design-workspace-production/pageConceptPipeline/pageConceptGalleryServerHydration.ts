@@ -1,7 +1,38 @@
 import type { PageConceptGenerationState } from './types.js';
 import type { PageConceptServerRunSnapshot } from './pageConceptServerRun.js';
 import { pageConceptGenerationStateHasReadyMobileArtifacts } from './pageConceptGalleryHydration.js';
-import { pageConceptGenerationStateMaxArtifactTimestamp } from './pageConceptGenerationStateDiscovery.js';
+import {
+  applyPageConceptPipelineSet,
+  mergePageConceptArtifactsIntoGallery,
+  mergePageConceptGenerationJobs,
+  registerPageConceptGenerationJobs,
+} from './generationWorkflow.js';
+
+export const PAGE_CONCEPT_GALLERY_SERVER_MOUNT_EVENT = 'site00:page-concept-gallery-server-mount';
+
+export type PageConceptGalleryServerMountTrace = {
+  phase: 'start' | 'skipped' | 'applied' | 'failed';
+  reason?: string;
+  runId?: string | null;
+  serverArtifactTs?: number;
+  localArtifactTs?: number;
+  pageIdsTried?: readonly string[];
+};
+
+/** Artifact recency for gallery parity — excludes in-flight runStartedAt noise. */
+export function pageConceptGenerationStateGalleryArtifactTimestamp(state: PageConceptGenerationState): number {
+  let max = 0;
+  for (const job of state.generationJobs) {
+    if (job.provider !== 'GPT2_MOBILE') continue;
+    const t = job.createdAt ? Date.parse(job.createdAt) : 0;
+    if (Number.isFinite(t) && t > max) max = t;
+  }
+  for (const concept of state.pipelineSet?.mobileConcepts ?? []) {
+    const t = concept.createdAt ? Date.parse(concept.createdAt) : 0;
+    if (Number.isFinite(t) && t > max) max = t;
+  }
+  return max;
+}
 
 export function pageConceptServerRunHasReadyMobileGallery(
   run: Pick<PageConceptServerRunSnapshot, 'jobs' | 'pipelineSet'>,
@@ -35,18 +66,52 @@ export function pageConceptServerRunMaxArtifactTimestamp(run: PageConceptServerR
 export function shouldReplaceLocalPageConceptStateWithServerRun(
   local: PageConceptGenerationState,
   server: PageConceptServerRunSnapshot,
+  options?: { preferServerGallery?: boolean },
 ): boolean {
   if (!pageConceptServerRunHasReadyMobileGallery(server)) return false;
 
   const localReady = pageConceptGenerationStateHasReadyMobileArtifacts(local);
-  if (!localReady) return true;
-
-  const localTs = pageConceptGenerationStateMaxArtifactTimestamp(local);
+  const localTs = pageConceptGenerationStateGalleryArtifactTimestamp(local);
   const serverTs = pageConceptServerRunMaxArtifactTimestamp(server);
-  if (serverTs > localTs) return true;
-
   const localRunId = local.activeGenerationRunId ?? local.activeReviewRunId ?? null;
+
+  if (options?.preferServerGallery) {
+    if (!localReady) return true;
+    if (localRunId !== server.runId) return true;
+    if (serverTs >= localTs) return true;
+    return false;
+  }
+
+  if (!localReady) return true;
+  if (serverTs > localTs) return true;
   if (localRunId && localRunId !== server.runId && serverTs >= localTs) return true;
 
   return false;
+}
+
+/** Replace mobile GPT2 jobs from a server run and rebuild the in-memory gallery store inputs. */
+export function applyPageConceptServerRunSnapshotForGalleryMount(
+  state: PageConceptGenerationState,
+  run: PageConceptServerRunSnapshot,
+): PageConceptGenerationState {
+  let next: PageConceptGenerationState = {
+    ...state,
+    activeGenerationRunId: run.runId,
+    activeReviewRunId: run.runId,
+    generationStatus: run.generationStatus,
+    activeGenerationStage: run.currentStage,
+  };
+  if (run.pipelineSet) {
+    next = applyPageConceptPipelineSet(next, run.pipelineSet);
+  }
+  const mobileJobs = run.jobs.filter((j) => j.provider === 'GPT2_MOBILE');
+  const preservedJobs = next.generationJobs.filter((j) => j.provider !== 'GPT2_MOBILE');
+  if (mobileJobs.length > 0) {
+    next = registerPageConceptGenerationJobs({ ...next, generationJobs: preservedJobs }, mobileJobs);
+  } else if (run.jobs.length > 0) {
+    next = mergePageConceptGenerationJobs({ ...next, generationJobs: preservedJobs }, run.jobs);
+  } else {
+    next = { ...next, generationJobs: preservedJobs };
+  }
+  return mergePageConceptArtifactsIntoGallery(next);
 }

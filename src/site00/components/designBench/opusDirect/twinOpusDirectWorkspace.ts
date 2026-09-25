@@ -432,6 +432,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       setPageConceptRevision((v) => v + 1);
     };
     window.addEventListener('site00:page-concept-generation-updated', bump);
+    window.addEventListener('site00:page-concept-gallery-server-mount', bump);
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
     window.addEventListener('site00:page-concept-captures-hydrated', bump);
     const onFocusGallery = (event: Event) => {
@@ -445,6 +446,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     window.addEventListener('site00:page-concept-focus-gallery', onFocusGallery);
     return () => {
       window.removeEventListener('site00:page-concept-generation-updated', bump);
+      window.removeEventListener('site00:page-concept-gallery-server-mount', bump);
       window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
       window.removeEventListener('site00:page-concept-captures-hydrated', bump);
       window.removeEventListener('site00:page-concept-focus-gallery', onFocusGallery);

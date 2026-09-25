@@ -18,10 +18,7 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import { refreshPageConceptGalleryFromPersistedState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
-import {
-  pageConceptServerRunHasReadyMobileGallery,
-  shouldReplaceLocalPageConceptStateWithServerRun,
-} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
 import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
@@ -76,10 +73,7 @@ import {
   loadPageConceptGenerationState,
   savePageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
-import {
-  loadPageConceptActiveServerRunIdForDesignPage,
-  loadPageConceptGenerationStateForDesignPage,
-} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import { loadPageConceptGenerationStateForDesignPage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import type { PageCaptureRecord } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type {
   PageConceptGenerationPlan,
@@ -97,7 +91,6 @@ import {
 } from '../../../services/pageConceptGenerationClient.js';
 import {
   clearPageConceptActiveServerRunId,
-  fetchLatestPageConceptGenerationRunForDesignPage,
   fetchPageConceptGenerationRunApi,
   loadPageConceptActiveServerRunId,
   pollPageConceptGenerationRunUntilTerminal,
@@ -500,79 +493,16 @@ export function usePageConceptGeneration(
 
   useEffect(() => {
     let cancelled = false;
-
     void (async () => {
-      const loaded = loadPageConceptGenerationStateForDesignPage({
-        projectSlug: projectId,
+      if (cancelled) return;
+      await mountPageConceptGalleryFromServer({
+        projectId,
         pageId,
         screenId,
         route: route ?? null,
+        persist,
       });
-      const hasReadyMobile =
-        (loaded.pipelineSet?.mobileConcepts?.some((c) => c.status === 'READY') ?? false) ||
-        loaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY');
-
-      try {
-        await ensurePageConceptApiAccessToken();
-        if (cancelled) return;
-
-        let serverUpdate: PageConceptGenerationRunPollUpdate | null = null;
-
-        try {
-          serverUpdate = await fetchLatestPageConceptGenerationRunForDesignPage({
-            projectSlug: projectId,
-            pageId,
-            screenId,
-            route: route ?? null,
-          });
-        } catch {
-          serverUpdate = null;
-        }
-
-        if (
-          serverUpdate &&
-          shouldReplaceLocalPageConceptStateWithServerRun(loaded, serverUpdate.run)
-        ) {
-          applyServerRunSnapshotToState(serverUpdate.run, persist);
-          savePageConceptActiveServerRunId(projectId, pageId, serverUpdate.run.runId);
-        } else if (!hasReadyMobile) {
-          const runId = loadPageConceptActiveServerRunIdForDesignPage({
-            projectSlug: projectId,
-            pageId,
-            screenId,
-            route: route ?? null,
-          });
-          if (runId) {
-            const first = await fetchPageConceptGenerationRunApi(runId, 0, { projectId, pageId });
-            if (cancelled) return;
-            if (
-              pageConceptServerRunHasReadyMobileGallery(first.run) ||
-              !pageConceptServerRunIsTerminal(first.run.status)
-            ) {
-              applyServerRunSnapshotToState(first.run, persist);
-              savePageConceptActiveServerRunId(projectId, pageId, first.run.runId);
-            }
-          }
-        }
-
-        if (cancelled) return;
-        savePageConceptGenerationState(
-          loadPageConceptGenerationStateForDesignPage({
-            projectSlug: projectId,
-            pageId,
-            screenId,
-            route: route ?? null,
-          }),
-        );
-        refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
-        window.dispatchEvent(
-          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
-        );
-      } catch {
-        /* gallery remains local until founder opens generator or signs in */
-      }
     })();
-
     return () => {
       cancelled = true;
     };

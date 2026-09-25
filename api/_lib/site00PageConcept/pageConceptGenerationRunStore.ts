@@ -131,14 +131,10 @@ function pageConceptServerRunHasReadyMobileGallery(run: PageConceptServerRun): b
   return false;
 }
 
-/** Latest in-memory or Supabase run with READY mobile gallery artifacts for a page. */
-export async function resolveLatestPageConceptServerRunForPage(
-  projectId: string,
-  pageId: string,
-): Promise<PageConceptServerRun | null> {
+function pickNewestGalleryRun(candidates: readonly PageConceptServerRun[]): PageConceptServerRun | null {
   let best: PageConceptServerRun | null = null;
   let bestTs = 0;
-  for (const run of listPageConceptServerRunsForPage(projectId, pageId)) {
+  for (const run of candidates) {
     if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
     const ts = Date.parse(run.updatedAt || run.completedAt || run.createdAt) || 0;
     if (!best || ts > bestTs) {
@@ -146,7 +142,29 @@ export async function resolveLatestPageConceptServerRunForPage(
       bestTs = ts;
     }
   }
-  const durable = await findLatestPageConceptServerRunForPage({ projectId, pageId });
+  return best;
+}
+
+/** Latest in-memory or Supabase run with READY mobile gallery artifacts for a page. */
+export async function resolveLatestPageConceptServerRunForPage(
+  projectId: string,
+  pageId: string,
+  pageIds?: readonly string[],
+): Promise<PageConceptServerRun | null> {
+  const slug = projectId.trim().toLowerCase();
+  const ids = [...new Set([pageId, ...(pageIds ?? [])].map((id) => id.trim()).filter(Boolean))];
+  const memoryRuns: PageConceptServerRun[] = [];
+  for (const id of ids) {
+    memoryRuns.push(...listPageConceptServerRunsForPage(slug, id));
+  }
+  let best = pickNewestGalleryRun(memoryRuns);
+  let bestTs = best ? Date.parse(best.updatedAt || best.completedAt || best.createdAt) || 0 : 0;
+
+  const durable = await findLatestPageConceptServerRunForPage({
+    projectId: slug,
+    pageId: ids[0] ?? pageId,
+    pageIds: ids,
+  });
   if (durable) {
     const ts = Date.parse(durable.updatedAt || durable.completedAt || durable.createdAt) || 0;
     if (!best || ts > bestTs) {

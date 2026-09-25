@@ -62,5 +62,26 @@ fi
 rm -rf "$ROOT/dist"
 cp -a "$DIST_DIR/." "$ROOT/dist/"
 
+# Mark served dist as cloud preview so tunnel mounts server gallery (per-origin localStorage).
+if [[ -f "$ROOT/dist/index.html" ]]; then
+  PREVIEW_HOST="${SITE00_CLOUDFLARE_TUNNEL_HOSTNAME:-}"
+  node <<'NODE' "$ROOT/dist/index.html" "$PREVIEW_HOST"
+const fs = require('fs');
+const [htmlPath, previewHost] = process.argv.slice(2);
+let html = fs.readFileSync(htmlPath, 'utf8');
+if (!html.includes('name="site00-cloud-preview"')) {
+  const hostMeta =
+    previewHost && String(previewHost).trim()
+      ? `\n    <meta name="site00-preview-hostname" content="${String(previewHost).trim().toLowerCase()}" />`
+      : '';
+  html = html.replace(
+    '</head>',
+    `    <meta name="site00-cloud-preview" content="1" />${hostMeta}\n  </head>`,
+  );
+  fs.writeFileSync(htmlPath, html);
+}
+NODE
+fi
+
 log "Starting vite preview on :$PORT (dist synced from $DIST_DIR)"
 exec npx vite preview --port "$PORT" --host --strictPort
