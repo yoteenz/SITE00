@@ -11755,3 +11755,13 @@ Founder: tunnel must show **most recent** FAL concepts like deploy, not stale pe
 - **API:** `latestForPage` resolves registry + canonical + screenId via `resolveDesignPageIdentity`; Supabase `.in('page_id', …)`.
 - **Preview server:** injects `site00-cloud-preview` meta into served `dist/index.html` so tunnel is detected without a special CI build.
 - **Workspace:** listens for mount trace event to bump gallery revision.
+
+---
+
+## 2026-09-25 — Tunnel design page 404 (preview dist wipe + node inject)
+
+Founder: design page would not boot on tunnel — preview returned **404** (empty `/workspace/dist`).
+
+- **Cause 1:** `run-site00-cloud-preview-server.sh` **`rm -rf dist`** then `cp` from `DIST_DIR`; in **local mode** `DIST_DIR` *is* `dist` → wiped the tree vite preview serves.
+- **Cause 2:** preview meta inject used `node <<'NODE' "$ROOT/dist/index.html"` → Node 22 tried to **execute index.html** as ESM entry → script crashed before `vite preview` restarted.
+- **Fix:** skip wipe/copy when source dist equals repo dist; inject meta via `SITE00_PREVIEW_INDEX` env + stdin heredoc only.
