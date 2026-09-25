@@ -177,27 +177,6 @@ function galleryCardToTwinCandidate(card: PageConceptGalleryCard): TwinOpusDirec
   };
 }
 
-function conceptPreviewSrcForViewport(
-  concept: PageConceptCandidate | null,
-  activeViewport: TwinOpusDirectViewportId,
-): string | null {
-  if (!concept) return null;
-  const cacheBust = concept.artifactId ?? concept.conceptId;
-  if (activeViewport === 'DESKTOP') {
-    return resolvePageConceptArtifactDisplayUrl(
-      concept.desktopVisualReference ?? concept.visualReference,
-      cacheBust,
-    );
-  }
-  if (activeViewport === 'TABLET') {
-    return resolvePageConceptArtifactDisplayUrl(concept.visualReference, cacheBust);
-  }
-  return resolvePageConceptArtifactDisplayUrl(
-    concept.mobileVisualReference ?? concept.visualReference,
-    cacheBust,
-  );
-}
-
 function resolveInspectedConceptForViewport(input: {
   pageConcepts: readonly PageConceptCandidate[];
   candidateId: string;
