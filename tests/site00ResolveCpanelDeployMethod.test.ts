@@ -39,12 +39,13 @@ describe('site00-resolve-cpanel-deploy-method.sh', () => {
     expect(
       resolveMethod({
         ...bothCreds,
+        GITHUB_ACTIONS: '',
         GODADDY_SSH_DEPLOY_ENABLED: 'true',
       }),
     ).toBe('ssh');
   });
 
   it('defaults to FTP when both credential sets exist locally', () => {
-    expect(resolveMethod({ ...bothCreds })).toBe('ftp');
+    expect(resolveMethod({ ...bothCreds, GITHUB_ACTIONS: '' })).toBe('ftp');
   });
 });
