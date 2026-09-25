@@ -62,9 +62,16 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
       screenId,
       route,
     });
+    const slug = identity.projectId.trim().toLowerCase();
     const pageIds = [
       ...new Set(
-        [identity.registryPageId, identity.canonicalPageId, identity.screenId].filter(Boolean),
+        [
+          identity.registryPageId,
+          identity.canonicalPageId,
+          identity.screenId,
+          `${slug}:${identity.registryPageId}`,
+          `${slug}:${identity.canonicalPageId}`,
+        ].filter(Boolean),
       ),
     ];
     const latest = await resolveLatestPageConceptServerRunForPage(

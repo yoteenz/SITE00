@@ -381,11 +381,21 @@ export function usePageConceptGeneration(
 
   useEffect(() => {
     let cancelled = false;
-    void getAccessToken().then((token) => {
-      if (!cancelled) setApiSessionReady(!!token);
-    });
+    const refreshSessionReady = () => {
+      void getAccessToken().then((token) => {
+        if (!cancelled) setApiSessionReady(!!token);
+      });
+    };
+    refreshSessionReady();
+    const intervalId = window.setInterval(refreshSessionReady, 2500);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refreshSessionReady();
+    };
+    document.addEventListener('visibilitychange', onVisible);
     return () => {
       cancelled = true;
+      window.clearInterval(intervalId);
+      document.removeEventListener('visibilitychange', onVisible);
     };
   }, [captureRevision, pageId, projectId]);
 
@@ -492,6 +502,7 @@ export function usePageConceptGeneration(
   );
 
   useEffect(() => {
+    if (apiSessionReady !== true) return;
     let cancelled = false;
     void (async () => {
       if (cancelled) return;
@@ -506,7 +517,7 @@ export function usePageConceptGeneration(
     return () => {
       cancelled = true;
     };
-  }, [pageId, persist, projectId, route, screenId]);
+  }, [apiSessionReady, pageId, persist, projectId, route, screenId]);
 
   useEffect(() => {
     if (!generationEligibility.sourceCaptureValidation.allRequiredReady) return;
