@@ -221,6 +221,10 @@ describe('P0.VR design workspace preview fit + latest run + hero rail restore', 
   it('hero concept uses FIT_FULL_SCREEN parity (no conceptFill cover)', () => {
     const hero = readSrc('src/site00/components/designBench/opusDirect/DesignHeroComparePanel.tsx');
     expect(hero).not.toContain('conceptFill');
+    expect(hero).toContain('PageConceptContainedPreviewFrame');
+    expect(hero).toContain('heroReview');
+    expect(hero).toContain('FIT_FULL_SCREEN');
+    expect(readSrc('src/site00/styles/site00-page-concept-generator.css')).toContain("data-contain-size='heroReview'");
     expect(readSrc('src/site00/styles/site00-twin-opus-direct.css')).not.toContain('conceptFill');
     expect(PAGE_CONCEPT_FIT_FULL_SCREEN).toBe('FIT_FULL_SCREEN');
     expect(PAGE_CONCEPT_FIT_HEADER_CROP).toBe('HEADER_CROP');

@@ -339,10 +339,12 @@
 }
 
 .tod-lv-hero-compare__pane {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0;
+  align-self: stretch;
 }
 
 .tod-lv-hero-compare__paneHead {
@@ -381,8 +383,14 @@
   cursor: pointer;
   min-height: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.tod-lv-hero-compare__artifact .s00-pcg__containPreview[data-contain-size='heroReview'] {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .tod-lv-hero-compare__artifact--empty {
@@ -984,8 +992,13 @@
 
 .tod-lv-gallery__body {
   position: relative;
-  flex: 0 0 256.6px;
-  height: 256.6px;
+  flex: 1 1 auto;
+  min-height: 256.6px;
+  height: auto;
+}
+
+.tod-lv-gallery__body:has(.s00-design-concept-gallery-grid) {
+  min-height: 280px;
 }
 
 .tod-lv-gallery__head {
@@ -1156,13 +1169,26 @@
   opacity: 0.55;
 }
 
-.tod-lv-card {
+.tod-lv-card:not(.tod-lv-card--concept) {
   position: relative;
   flex: 0 0 330.8px;
   height: 223.9px;
   border-radius: 9.8px;
   overflow: hidden;
   background: #101010;
+}
+
+.tod-lv-card--concept {
+  position: relative;
+  border-radius: 9.8px;
+  overflow: hidden;
+  background: #101010;
+}
+
+.tod-lv-gallery__rail:not(.s00-design-concept-gallery-grid) .tod-lv-card--concept {
+  flex: 0 0 330.8px;
+  height: auto;
+  min-height: 118px;
 }
 
 .tod-lv-card.is-active {

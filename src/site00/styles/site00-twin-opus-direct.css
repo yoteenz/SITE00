@@ -729,8 +729,14 @@
   cursor: pointer;
   min-height: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.tod-hero-compare__artifact .s00-pcg__containPreview[data-contain-size='heroReview'] {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .tod-hero-compare__artifact--empty {
