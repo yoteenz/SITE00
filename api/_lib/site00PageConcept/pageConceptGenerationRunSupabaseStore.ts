@@ -50,6 +50,48 @@ export async function loadPageConceptServerRunDurable(runId: string): Promise<Pa
   return data.run_json as PageConceptServerRun;
 }
 
+function pageConceptServerRunHasReadyMobileGallery(run: PageConceptServerRun): boolean {
+  if (run.jobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY')) return true;
+  if (run.pipelineSet?.mobileConcepts?.some((c) => c.status === 'READY')) return true;
+  return false;
+}
+
+/** Newest durable run with READY GPT2 mobile artifacts (gallery parity across origins). */
+export async function findLatestPageConceptServerRunForPage(input: {
+  projectId: string;
+  pageId: string;
+  pipelineId?: string;
+}): Promise<PageConceptServerRun | null> {
+  if (process.env.VITEST === 'true') return null;
+  const exists = await pageConceptGenerationRunTableExists();
+  if (!exists) return null;
+
+  const pipelineId = input.pipelineId ?? PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
+  const { data, error } = await getSupabaseAdmin()
+    .from(TABLE)
+    .select('run_json, updated_at')
+    .eq('project_id', input.projectId)
+    .eq('page_id', input.pageId)
+    .eq('pipeline_id', pipelineId)
+    .order('updated_at', { ascending: false })
+    .limit(25);
+
+  if (error || !data?.length) return null;
+
+  let best: PageConceptServerRun | null = null;
+  let bestTs = 0;
+  for (const row of data) {
+    const run = row.run_json as PageConceptServerRun;
+    if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
+    const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
+    if (!best || ts > bestTs) {
+      best = run;
+      bestTs = ts;
+    }
+  }
+  return best;
+}
+
 export async function findActivePageConceptServerRunForPage(input: {
   projectId: string;
   pageId: string;

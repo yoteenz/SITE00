@@ -6,6 +6,7 @@ import {
   PAGE_CONCEPT_START_TIMEOUT_MS,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptApiTimeouts.js';
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { resolveDesignPageIdentityForGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { refreshAccessTokenForApi } from '../../utils/api.js';
 import { captureApiFetch } from './captureApiFetch.js';
@@ -122,6 +123,54 @@ export async function startPageConceptGenerationRunApi(input: {
     status: result.data.status ?? 'QUEUED',
     dryRun: result.data.dryRun === true,
   };
+}
+
+export async function fetchLatestPageConceptGenerationRunForPageApi(
+  projectId: string,
+  pageId: string,
+): Promise<PageConceptGenerationRunPollUpdate | null> {
+  const qs = new URLSearchParams({
+    latestForPage: '1',
+    projectId,
+    pageId,
+  });
+  const result = await captureApiFetch<{
+    ok: boolean;
+    run?: PageConceptServerRunSnapshot;
+    progressEvents?: PageConceptProgressEvent[];
+    latestSequence?: number;
+    error?: string;
+  }>(`${PATH}?${qs.toString()}`, {
+    method: 'GET',
+    timeoutMs: PAGE_CONCEPT_POLL_TIMEOUT_MS,
+  });
+  if (result.status === 404) return null;
+  if (!result.ok || !result.data?.run) {
+    throwPageConceptApiFailure(result, 'GENERATION_LATEST_RUN_FAILED');
+  }
+  const run = result.data.run;
+  const progressEvents = result.data.progressEvents ?? run.progressEventsAfterSequence ?? [];
+  const latestSequence = result.data.latestSequence ?? run.latestProgressSequence ?? 0;
+  return { run, progressEvents, latestSequence };
+}
+
+/** Tries registry + canonical page ids so durable runs match design-page identity aliases. */
+export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
+  projectSlug: string;
+  pageId: string;
+  screenId?: string;
+  route?: string | null;
+}): Promise<PageConceptGenerationRunPollUpdate | null> {
+  const identity = resolveDesignPageIdentityForGallery(input);
+  const slug = identity.projectSlug.trim().toLowerCase();
+  const candidates = [identity.registryPageId, identity.canonicalPageId].filter(
+    (id, index, all) => Boolean(id) && all.indexOf(id) === index,
+  );
+  for (const pageId of candidates) {
+    const update = await fetchLatestPageConceptGenerationRunForPageApi(slug, pageId);
+    if (update) return update;
+  }
+  return null;
 }
 
 export async function fetchPageConceptGenerationRunApi(

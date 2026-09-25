@@ -6,6 +6,7 @@ import { appendPageConceptProgressEvents } from '../../../shared/site00-design-w
 import type { PageConceptServerRun, PageConceptRunProgress } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import {
   findActivePageConceptServerRunForPage,
+  findLatestPageConceptServerRunForPage,
   loadPageConceptServerRunDurable,
   upsertPageConceptServerRunDurable,
 } from './pageConceptGenerationRunSupabaseStore.js';
@@ -122,6 +123,41 @@ export function patchPageConceptServerRun(runId: string, patch: PageConceptRunPr
 
 export function listPageConceptServerRunsForPage(projectId: string, pageId: string): PageConceptServerRun[] {
   return [...runs.values()].filter((r) => r.projectId === projectId && r.pageId === pageId);
+}
+
+function pageConceptServerRunHasReadyMobileGallery(run: PageConceptServerRun): boolean {
+  if (run.jobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY')) return true;
+  if (run.pipelineSet?.mobileConcepts?.some((c) => c.status === 'READY')) return true;
+  return false;
+}
+
+/** Latest in-memory or Supabase run with READY mobile gallery artifacts for a page. */
+export async function resolveLatestPageConceptServerRunForPage(
+  projectId: string,
+  pageId: string,
+): Promise<PageConceptServerRun | null> {
+  let best: PageConceptServerRun | null = null;
+  let bestTs = 0;
+  for (const run of listPageConceptServerRunsForPage(projectId, pageId)) {
+    if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
+    const ts = Date.parse(run.updatedAt || run.completedAt || run.createdAt) || 0;
+    if (!best || ts > bestTs) {
+      best = run;
+      bestTs = ts;
+    }
+  }
+  const durable = await findLatestPageConceptServerRunForPage({ projectId, pageId });
+  if (durable) {
+    const ts = Date.parse(durable.updatedAt || durable.completedAt || durable.createdAt) || 0;
+    if (!best || ts > bestTs) {
+      best = durable;
+      bestTs = ts;
+    }
+    if (!runs.has(durable.runId)) {
+      runs.set(durable.runId, durable);
+    }
+  }
+  return best;
 }
 
 /** Test-only */
