@@ -11682,3 +11682,4 @@ Founder GitHub mobile screenshots: **SITE 00 Production Release** `deploy_fronte
 - **Root cause:** `GODADDY_SSH_DEPLOY_ENABLED=true` forced `cpanel_method=ssh`; SSH rsync **timed out on port 22** (~2m) then FTP fallback also timed out (run 36067891885). Prior green run (#1136) succeeded only after **SSH failed + FTP succeeded**.
 - **Fix:** `site00-resolve-cpanel-deploy-method.sh` — on `GITHUB_ACTIONS=true`, prefer **FTP first** when FTP secrets exist; workflow adds FTP **retry** step + longer timeout; confirm accepts ftp_retry success.
 - **Tests:** `tests/site00ResolveCpanelDeployMethod.test.ts`. **Founder:** merge fix → re-run workflow **retry_frontend** or wait for next main push; v648 ZIP still valid for manual GoDaddy if CI FTP flaky.
+- **Follow-up:** CI test job failed because vitest inherited `GITHUB_ACTIONS=true` — local-case tests now set `GITHUB_ACTIONS: ''` (PR #1139).
