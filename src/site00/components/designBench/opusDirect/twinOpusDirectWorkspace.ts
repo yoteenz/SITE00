@@ -50,7 +50,6 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import { PAGE_CONCEPT_FIT_FULL_SCREEN } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactFitModes.js';
 import type { PageConceptLatestGenerationDiagnostics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLatestGenerationRun.js';
-import { resolvePageConceptArtifactDisplayUrl } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactDisplayUrl.js';
 import { pageConceptCandidateMatchesViewportGallery } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportGalleryScope.js';
 import {
   resolvePageConceptViewportGalleryActions,
