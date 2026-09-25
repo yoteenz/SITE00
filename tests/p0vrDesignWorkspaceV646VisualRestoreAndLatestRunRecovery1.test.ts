@@ -152,10 +152,20 @@ describe('P0.VR design workspace v646 visual restore + latest run recovery', () 
     expect(listCss).toContain('.tod-lv-rail--heroWorkflow .tod-lv-rail__action--ghost');
   });
 
-  it('hero compare uses centered contain for heroReview', () => {
-    const css = readSrc('src/site00/styles/site00-page-concept-generator.css');
-    expect(css).toContain("data-contain-size='heroReview'");
-    expect(css).toMatch(/heroReview[\s\S]*object-position:\s*center center/);
+  it('hero compare fills artifact (absolute heroReview + top contain like capture)', () => {
+    const css = readSrc('src/site00/styles/site00-twin-opus-direct.css');
+    const pcg = readSrc('src/site00/styles/site00-page-concept-generator.css');
+    expect(pcg).toContain("data-contain-size='heroReview'");
+    expect(css).toContain('.tod-hero-compare__artifact .s00-pcg__containPreview[data-contain-size=\'heroReview\']');
+    expect(css).toMatch(/heroReview[\s\S]*position:\s*absolute/);
+    expect(pcg).toMatch(/heroReview[\s\S]*object-position:\s*top center/);
+  });
+
+  it('canonical gallery grid stretches concept cards full panel width', () => {
+    const css = readSrc('src/site00/styles/site00-twin-opus-direct.css');
+    expect(css).toContain('.s00-design-concept-gallery-grid.tod-gallery__rail--current');
+    expect(css).toMatch(/s00-design-concept-gallery-grid\.tod-gallery__rail--current[\s\S]*width:\s*100%/);
+    expect(css).toContain('justify-self: stretch');
   });
 
   it('v646 full vertical hero rail component preserved', () => {
