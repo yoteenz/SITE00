@@ -118,10 +118,13 @@ describe('P0.VR design workspace v646 visual restore + latest run recovery', () 
   });
 
   it('v645 hero fit CSS + pane flex chain preserved', () => {
+    const hero = readSrc('src/site00/components/designBench/opusDirect/DesignHeroComparePanel.tsx');
     const css = readSrc('src/site00/styles/site00-twin-opus-direct.css');
-    expect(css).toContain('.tod-hero-compare__img');
-    expect(css).toMatch(/\.tod-hero-compare__img[\s\S]*object-fit:\s*contain/);
+    const listCss = readSrc('src/site00/styles/site00-twin-opus-list.css');
+    expect(hero).toContain('size="heroReview"');
+    expect(readSrc('src/site00/styles/site00-page-concept-generator.css')).toContain("data-contain-size='heroReview'");
     expect(css).toContain('min-height: 0');
+    expect(listCss).toContain('tod-lv-gallery__rail:not(.s00-design-concept-gallery-grid)');
     expect(PAGE_CONCEPT_FIT_FULL_SCREEN).toBe('FIT_FULL_SCREEN');
   });
 

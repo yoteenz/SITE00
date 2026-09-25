@@ -1,9 +1,11 @@
 /**
  * P0.VR.DESIGN-VISUAL-COMPARE-GROK1R1 + HERO-ASSEMBLY-ACTIONS1 — CURRENT vs CONCEPT + assembly toolbar.
  * P0.VR.DESIGN-WORKSPACE-CONCEPT-GALLERY-AND-GENERATOR-ENTRY-FIX1 — generation console on compare header row.
+ * P0.VR.DESIGN-WORKSPACE-V646-VISUAL-RESTORE — FIT_FULL_SCREEN via contained preview frames in hero artifacts.
  */
 
 import type { HeroAssemblyActionsModel } from '../../../../../shared/site00-design-workspace-production/designHeroAssemblyActions.js';
+import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
 import { TodIconCycle } from './TwinOpusDirectIcons';
 
@@ -51,6 +53,41 @@ function HeroAssemblyActionButton({
   );
 }
 
+function HeroArtifactPreview({
+  prefix,
+  side,
+  src,
+  emptyLabel,
+  onOpen,
+}: {
+  prefix: string;
+  side: 'current' | 'concept';
+  src: string | null;
+  emptyLabel: string;
+  onOpen: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={`${prefix}__artifact${src ? '' : ` ${prefix}__artifact--empty`}`}
+      data-interaction-id={side === 'current' ? 'hero-current-fullscreen' : 'hero-concept-fullscreen'}
+      data-hero-fit-mode="FIT_FULL_SCREEN"
+      onClick={() => src && onOpen()}
+      disabled={!src}
+    >
+      {src ?
+        <PageConceptContainedPreviewFrame
+          size="heroReview"
+          objectFit="contain"
+          status="READY"
+          imageSrc={src}
+          testId={`hero-${side}-contained-preview`}
+        />
+      : <span className={`${prefix}__empty`}>{emptyLabel}</span>}
+    </button>
+  );
+}
+
 export function DesignHeroComparePanel({
   workspace,
   variant,
@@ -92,17 +129,13 @@ export function DesignHeroComparePanel({
             <span className={`${p}__paneLabel`}>CURRENT</span>
             <span className={`${p}__paneMeta`}>{compare.currentMeta}</span>
           </header>
-          <button
-            type="button"
-            className={`${p}__artifact${compare.currentSrc ? '' : ` ${p}__artifact--empty`}`}
-            data-interaction-id="hero-current-fullscreen"
-            onClick={() => compare.currentSrc && actions.openHeroCompareFullscreen('current')}
-            disabled={!compare.currentSrc}
-          >
-            {compare.currentSrc ?
-              <img src={compare.currentSrc} alt="" className={`${p}__img`} draggable={false} />
-            : <span className={`${p}__empty`}>{compare.currentEmptyLabel}</span>}
-          </button>
+          <HeroArtifactPreview
+            prefix={p}
+            side="current"
+            src={compare.currentSrc}
+            emptyLabel={compare.currentEmptyLabel}
+            onOpen={() => actions.openHeroCompareFullscreen('current')}
+          />
         </div>
 
         <div className={`${p}__pane`}>
@@ -110,17 +143,13 @@ export function DesignHeroComparePanel({
             <span className={`${p}__paneLabel`}>CONCEPT</span>
             <span className={`${p}__paneMeta`}>{compare.conceptMeta}</span>
           </header>
-          <button
-            type="button"
-            className={`${p}__artifact${compare.conceptSrc ? '' : ` ${p}__artifact--empty`}`}
-            data-interaction-id="hero-concept-fullscreen"
-            onClick={() => compare.conceptSrc && actions.openHeroCompareFullscreen('concept')}
-            disabled={!compare.conceptSrc}
-          >
-            {compare.conceptSrc ?
-              <img src={compare.conceptSrc} alt="" className={`${p}__img`} draggable={false} />
-            : <span className={`${p}__empty`}>{compare.conceptEmptyLabel}</span>}
-          </button>
+          <HeroArtifactPreview
+            prefix={p}
+            side="concept"
+            src={compare.conceptSrc}
+            emptyLabel={compare.conceptEmptyLabel}
+            onOpen={() => actions.openHeroCompareFullscreen('concept')}
+          />
         </div>
       </div>
 

@@ -17,7 +17,7 @@ export const PAGE_CONCEPT_HEADER_THUMB_ASPECT_RATIO = '16 / 9';
 
 export const PAGE_CONCEPT_PREVIEW_OBJECT_FIT = 'contain' as const;
 
-export type PageConceptPreviewContainSize = 'mobile' | 'tablet' | 'desktop' | 'thumb' | 'headerThumb';
+export type PageConceptPreviewContainSize = 'mobile' | 'tablet' | 'desktop' | 'thumb' | 'headerThumb' | 'heroReview';
 
 export function pageConceptPreviewHeightForSize(size: PageConceptPreviewContainSize): string {
   switch (size) {
@@ -29,6 +29,8 @@ export function pageConceptPreviewHeightForSize(size: PageConceptPreviewContainS
       return PAGE_CONCEPT_THUMBNAIL_PREVIEW_MAX_HEIGHT;
     case 'headerThumb':
       return 'auto';
+    case 'heroReview':
+      return '100%';
     default:
       return PAGE_CONCEPT_MOBILE_PREVIEW_MAX_HEIGHT;
   }
