@@ -11683,3 +11683,24 @@ Founder GitHub mobile screenshots: **SITE 00 Production Release** `deploy_fronte
 - **Fix:** `site00-resolve-cpanel-deploy-method.sh` — on `GITHUB_ACTIONS=true`, prefer **FTP first** when FTP secrets exist; workflow adds FTP **retry** step + longer timeout; confirm accepts ftp_retry success.
 - **Tests:** `tests/site00ResolveCpanelDeployMethod.test.ts`. **Founder:** merge fix → re-run workflow **retry_frontend** or wait for next main push; v648 ZIP still valid for manual GoDaddy if CI FTP flaky.
 - **Follow-up:** CI test job failed because vitest inherited `GITHUB_ACTIONS=true` — local-case tests now set `GITHUB_ACTIONS: ''` (PR #1139).
+
+---
+
+## 2026-09-25 — Design workspace visual fix2 (founder: “nothing changed” after #1137)
+
+Founder mobile screenshot (site00.com, LIST view): CONCEPT hero postage-stamp in black box; gallery A/B/C left-clustered small thumbs. Production manifest **was** on `2560c9d` (#1137 live) — resolution fix shipped; **presentation wiring incomplete**.
+
+- **Hero:** #1137 never wired `heroFitMode` — raw `<img>` in flex-centered artifacts; CONCEPT portrait collapsed. **Fix #1140:** `PageConceptContainedPreviewFrame` `size="heroReview"` + FIT_FULL_SCREEN on both panes.
+- **List gallery:** `.tod-lv-card { flex: 0 0 330px }` applied to concept cards, overriding 3-col grid on founder LIST path. Scoped fixed width to non-grid rails; gallery body auto height for grid.
+- **Deploy:** v649 ZIP after merge; hard refresh site00.com to bust Safari cache.
+
+---
+
+## 2026-09-25 — Design workspace hero/gallery/rail polish (founder follow-up)
+
+Founder: recover **right rail** lime/ghost button backgrounds; keep **3-column gallery** full panel width but **less zoom** into page; hero **CONCEPT** same container as CURRENT (centered contain), not top-pinned letterboxing.
+
+- **Rail:** `.tod-rail--heroWorkflow` / `.tod-lv-rail--heroWorkflow` explicit `--lime` / `--ghost` / `--ink` fills (global button reset had cleared backgrounds).
+- **Gallery thumbs:** `PAGE_CONCEPT_HEADER_THUMBNAIL_CROP.heightFraction` **0.48 → 0.56** + matching CSS vars (softer header band, still 16:9 grid).
+- **Hero:** `heroReview` contain — stage `padding: 0`, `object-position: center center`, full w/h in artifact flex chain (parity with CURRENT capture).
+- **Tests:** updated `p0vrDesignWorkspaceV646VisualRestoreAndLatestRunRecovery1.test.ts` (crop 0.56, rail + heroReview assertions). **Branch:** `cursor/design-workspace-hero-gallery-visual-fix2-87ed`.

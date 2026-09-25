@@ -676,6 +676,35 @@
   margin-top: 2px;
 }
 
+/* Hero workflow rail — restore lime/ghost button fills (global button reset clears backgrounds). */
+.tod-rail--heroWorkflow .tod-rail__vfStage .tod-rail__action {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 8px;
+  border: 0;
+}
+
+.tod-rail--heroWorkflow .tod-rail__action--lime {
+  background: var(--tod-lime);
+  color: #101505;
+}
+
+.tod-rail--heroWorkflow .tod-rail__action--ghost {
+  background: #fff;
+  color: #101010;
+  border: 1px solid var(--tod-border-control);
+}
+
+.tod-rail--heroWorkflow .tod-rail__action--ink {
+  background: #000;
+  color: #f5f5f5;
+}
+
+.tod-rail--heroWorkflow .tod-rail__action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .tod-hero-compare__grid {
   display: flex;
   gap: 8px;
