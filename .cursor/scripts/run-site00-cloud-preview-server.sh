@@ -58,16 +58,27 @@ if [[ -f "$MANIFEST" ]]; then
   log "Serving: $(node -e "const m=require('$MANIFEST'); console.log(m.releaseId, m.bundleEntry, 'builtAt='+m.builtAt)")"
 fi
 
-# vite preview always reads ./dist from repo root
-rm -rf "$ROOT/dist"
-cp -a "$DIST_DIR/." "$ROOT/dist/"
+# vite preview always reads ./dist from repo root (never rm when source IS repo dist — local mode).
+DIST_DIR_ABS="$(cd "$DIST_DIR" && pwd)"
+ROOT_DIST_ABS="$ROOT/dist"
+mkdir -p "$ROOT/dist"
+if [[ "$DIST_DIR_ABS" == "$ROOT_DIST_ABS" ]]; then
+  log "Local dist mode — keeping $ROOT/dist (skip wipe/copy)"
+else
+  rm -rf "$ROOT/dist"
+  mkdir -p "$ROOT/dist"
+  cp -a "$DIST_DIR/." "$ROOT/dist/"
+fi
 
 # Mark served dist as cloud preview so tunnel mounts server gallery (per-origin localStorage).
 if [[ -f "$ROOT/dist/index.html" ]]; then
-  PREVIEW_HOST="${SITE00_CLOUDFLARE_TUNNEL_HOSTNAME:-}"
-  node <<'NODE' "$ROOT/dist/index.html" "$PREVIEW_HOST"
+  SITE00_PREVIEW_INDEX="$ROOT/dist/index.html" \
+  SITE00_PREVIEW_HOST="${SITE00_CLOUDFLARE_TUNNEL_HOSTNAME:-}" \
+  node <<'NODE'
 const fs = require('fs');
-const [htmlPath, previewHost] = process.argv.slice(2);
+const htmlPath = process.env.SITE00_PREVIEW_INDEX;
+const previewHost = process.env.SITE00_PREVIEW_HOST ?? '';
+if (!htmlPath) process.exit(0);
 let html = fs.readFileSync(htmlPath, 'utf8');
 if (!html.includes('name="site00-cloud-preview"')) {
   const hostMeta =
