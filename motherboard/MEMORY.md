@@ -11798,3 +11798,14 @@ Founder: gallery must match across browsers/tunnel/deploy — not tunnel-only se
 - **Panel mount:** no longer clears `activeServerRunId` on empty localStorage (all hosts).
 - **Remount:** on `visibilitychange` → visible when `apiSessionReady` (tab return / hard refresh parity).
 - **Still requires:** founder sign-in per origin + Railway `latestForPage` API + GoDaddy deploy of new bundle.
+
+---
+
+## 2026-09-26 — Deploy gallery still stale (LOCAL_ALREADY_CURRENT + empty pre-sync)
+
+Founder: site00.com still not matching tunnel — same overwrite class as tunnel bug.
+
+- **LOCAL_ALREADY_CURRENT:** production phones had **stale localStorage** with same `runId` as server → mount **skipped** apply; tunnel (empty local) always applied.
+- **Fix:** `preferServerGallery` → **always apply** latest `latestForPage` run when READY mobile (re-hydrate every authenticated mount).
+- **Pre-sync wipe:** panel mount no longer `refreshPageConceptGalleryFromPersistedState` before async server mount; refresh runs after mount / when signed out only.
+- **Apply base:** `applyMountedServerRunToClient` reloads state from storage immediately before merge (no stale `loaded` snapshot).
