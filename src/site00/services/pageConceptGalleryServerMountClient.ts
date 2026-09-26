@@ -16,7 +16,6 @@ import {
 import { savePageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
-import { isSite00PreviewTunnelHost } from '../components/loader/site00PreviewHost.js';
 import { ensurePageConceptApiAccessToken } from './pageConceptApiSession.js';
 import {
   fetchLatestPageConceptGenerationRunForDesignPage,
@@ -67,7 +66,8 @@ export async function mountPageConceptGalleryFromServer(input: {
   route?: string | null;
   persist: (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => void;
 }): Promise<PageConceptGalleryServerMountTrace> {
-  const preferServerGallery = isSite00PreviewTunnelHost();
+  /** Authenticated server mount: latest durable run wins over per-origin localStorage. */
+  const preferServerGallery = true;
   const identity = resolveDesignPageIdentityForGallery({
     projectSlug: input.projectId,
     pageId: input.pageId,

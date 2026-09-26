@@ -97,7 +97,7 @@ describe('pageConceptGalleryServerHydration', () => {
     expect(shouldReplaceLocalPageConceptStateWithServerRun(local, run)).toBe(true);
   });
 
-  it('prefers server gallery on preview host when run id differs', () => {
+  it('prefers server gallery when run id differs (cross-origin sync policy)', () => {
     const local = localState([
       {
         artifactId: 'old',
