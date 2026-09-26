@@ -63,8 +63,10 @@ import {
 import {
   compileWebExpressionTerritorySet,
   formatWebExpressionTerritoryDebugLines,
+  validateExpressionSterility,
   validateSterileWebExpressionTerritory,
   validateWebExpressionTerritoryDistance,
+  validateWebExpressionTypeScaleDramaRequirement,
   webExpressionTerritoryForSlot,
   type WebExpressionTerritorySet,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptWebExpressionTerritories.js';
@@ -547,10 +549,18 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     if (!distance.ok) {
       throw new Error(`${distance.errorCode}: ${distance.detail ?? '—'}`);
     }
+    const typeDrama = validateWebExpressionTypeScaleDramaRequirement(webExpressionTerritorySet);
+    if (!typeDrama.ok) {
+      throw new Error(`${typeDrama.errorCode}: type scale drama`);
+    }
     for (const territory of webExpressionTerritorySet.territories) {
-      const sterile = validateSterileWebExpressionTerritory(territory);
+      const sterile = validateExpressionSterility(territory);
       if (!sterile.ok) {
-        throw new Error(`${sterile.errorCode}: ${territory.territorySlot}`);
+        throw new Error(`${sterile.errorCode}: ${territory.territorySlot} ${sterile.detail ?? ''}`.trim());
+      }
+      const legacySterile = validateSterileWebExpressionTerritory(territory);
+      if (!legacySterile.ok) {
+        throw new Error(`${legacySterile.errorCode}: ${territory.territorySlot}`);
       }
     }
   }

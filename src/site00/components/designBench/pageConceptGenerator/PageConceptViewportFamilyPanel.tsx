@@ -9,6 +9,7 @@ import { assertOpusShellTargetSurface } from '../../../../../shared/site00-desig
 import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
 import { PageConceptGpt2MobileConceptReview } from './PageConceptGpt2MobileConceptReview';
+import { PageConceptWebExpressionTerritoryPreview } from './PageConceptWebExpressionTerritoryPreview';
 import { buildGpt2MobileSlotPresentations } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 
 function jobImage(state: PageConceptGenerationState, artifactId: string | null | undefined): string | null {
@@ -64,8 +65,15 @@ export function PageConceptViewportFamilyPanel(props: PageConceptViewportFamilyP
     Boolean(family?.desktopArtifactId) &&
     Boolean(experience?.approvedAt);
 
+  const showTerritoryPreview =
+    props.state.generationStatus === 'GPT2_RUNNING' &&
+    Boolean(props.state.pipelineSet?.webExpressionTerritorySet);
+
   return (
     <div className="s00-pcg__viewportFamily" data-testid="page-concept-viewport-family-panel">
+      {showTerritoryPreview ?
+        <PageConceptWebExpressionTerritoryPreview territorySet={props.state.pipelineSet?.webExpressionTerritorySet} />
+      : null}
       {mobileConcepts.length > 0 && !family?.selectedMobileConceptId ?
         <section data-testid="page-concept-mobile-selection" className="s00-pcg__viewportSection">
           <header className="s00-pcg__viewportSectionHead">
