@@ -297,7 +297,9 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                 <TodIconCompare className="tod-ico tod-lv-gallery__compareIco" />
               </button>
             </header>
-            <div className="tod-lv-gallery__body">
+            <div
+              className={`tod-lv-gallery__body${data.galleryEmptyMessage ? '' : ' tod-lv-gallery__body--pageConceptGrid'}`}
+            >
               {data.galleryEmptyMessage ?
                 <div
                   className="tod-lv-gallery__emptyWrap"

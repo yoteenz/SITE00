@@ -17,7 +17,8 @@ import {
   type PageConceptMobileSelectionMadeDetail,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
-import { refreshPageConceptGalleryFromPersistedState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+import { refreshPageConceptGalleryFromPersistedState, syncPageConceptGalleryFromLoadedGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+import { consolidatePageConceptGenerationStateStorage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
 import {
   pageConceptCgptManualRetryEligible,
@@ -480,8 +481,11 @@ export function usePageConceptGeneration(
     (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => {
       setState((prev) => {
         const next = fn(prev);
-        savePageConceptGenerationState(next);
-        refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
+        consolidatePageConceptGenerationStateStorage(
+          { projectSlug: projectId, pageId, screenId, route: route ?? null },
+          next,
+        );
+        syncPageConceptGalleryFromLoadedGenerationState(next, { projectId, pageId });
         window.dispatchEvent(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );

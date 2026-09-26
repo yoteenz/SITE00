@@ -37,7 +37,7 @@ import {
   type PageConceptGalleryCard,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
 import {
-  refreshPageConceptGalleryFromPersistedState,
+  syncPageConceptGalleryFromLoadedGenerationState,
   resolvePageConceptGalleryEmptyPresentation,
   type PageConceptGalleryHydrationScope,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
@@ -399,14 +399,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   );
 
   useEffect(() => {
-    refreshPageConceptGalleryFromPersistedState(projectSlug, pageTarget.pageId, galleryHydrationScope);
+    syncPageConceptGalleryFromLoadedGenerationState(pageConceptGeneration.generationState, {
+      projectId: projectSlug,
+      pageId: pageTarget.pageId,
+    });
     setPageConceptRevision((v) => v + 1);
   }, [
     galleryHydrationScope,
     pageTarget.pageId,
     projectSlug,
+    pageConceptGeneration.generationState,
     pageConceptGeneration.generationJobs,
-    pageConceptGeneration.generationState.pipelineSet,
     pageConceptGeneration.generationStatus,
   ]);
 
