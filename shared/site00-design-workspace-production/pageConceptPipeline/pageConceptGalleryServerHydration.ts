@@ -60,8 +60,9 @@ export function pageConceptServerRunMaxArtifactTimestamp(run: PageConceptServerR
 }
 
 /**
- * When true, apply a durable server run snapshot over localStorage so preview origins
- * (cloud tunnel) match production gallery after founder auth.
+ * When true, apply a durable server run snapshot over localStorage.
+ * With `preferServerGallery` (default for authenticated server mount), Supabase latest run
+ * is the cross-browser source of truth — site00.com, tunnel, and new devices stay aligned.
  */
 export function shouldReplaceLocalPageConceptStateWithServerRun(
   local: PageConceptGenerationState,

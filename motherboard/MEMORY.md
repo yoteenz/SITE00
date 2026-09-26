@@ -11787,3 +11787,14 @@ Founder: tunnel still empty after mount fixes — concepts **applied then wiped*
 - **Bug:** `mountPageConceptGalleryFromServer` called `persist(apply…)` then **`savePageConceptGenerationState(loadPageConceptGenerationStateForDesignPage())`** — React `setState` from `persist` is async, so reload saved **pre-mount empty localStorage** over the server snapshot.
 - **Fix:** synchronous `applyMountedServerRunToClient`: compute `next`, `savePageConceptGenerationState(next)`, refresh gallery, then `persist(() => next)` — no reload-after-persist.
 - **Also:** preview tunnel skip `clearPageConceptActiveServerRunId` on panel mount; bootstrap builds local dist when CI behind HEAD.
+
+---
+
+## 2026-09-26 — Page concept gallery sync all origins (site00.com = tunnel)
+
+Founder: gallery must match across browsers/tunnel/deploy — not tunnel-only server authority.
+
+- **`mountPageConceptGalleryFromServer`:** `preferServerGallery = true` whenever authenticated (not only `isSite00PreviewTunnelHost`).
+- **Panel mount:** no longer clears `activeServerRunId` on empty localStorage (all hosts).
+- **Remount:** on `visibilitychange` → visible when `apiSessionReady` (tab return / hard refresh parity).
+- **Still requires:** founder sign-in per origin + Railway `latestForPage` API + GoDaddy deploy of new bundle.

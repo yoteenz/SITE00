@@ -19,7 +19,6 @@ import {
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import { refreshPageConceptGalleryFromPersistedState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
-import { isSite00PreviewTunnelHost } from '../../loader/site00PreviewHost.js';
 import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
@@ -327,14 +326,7 @@ export function usePageConceptGeneration(
       screenId,
       route: route ?? null,
     });
-    if (!founderSession && !isSite00PreviewTunnelHost()) {
-      const hasPersistedMobileArtifacts =
-        rawLoaded.generationJobs.some((j) => j.provider === 'GPT2_MOBILE') ||
-        (rawLoaded.pipelineSet?.mobileConcepts?.length ?? 0) > 0;
-      if (!hasPersistedMobileArtifacts) {
-        clearPageConceptActiveServerRunId(projectId, pageId);
-      }
-    }
+    // Keep stored server run id — cross-origin gallery sync uses latestForPage + this fallback.
     const loaded = normalizePageConceptStateOnPanelMount(rawLoaded, Boolean(founderSession));
     if (loaded !== rawLoaded) {
       savePageConceptGenerationState(loaded);
@@ -505,18 +497,26 @@ export function usePageConceptGeneration(
   useEffect(() => {
     if (apiSessionReady !== true) return;
     let cancelled = false;
-    void (async () => {
-      if (cancelled) return;
-      await mountPageConceptGalleryFromServer({
-        projectId,
-        pageId,
-        screenId,
-        route: route ?? null,
-        persist,
-      });
-    })();
+    const runServerGalleryMount = () => {
+      void (async () => {
+        if (cancelled) return;
+        await mountPageConceptGalleryFromServer({
+          projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+          persist,
+        });
+      })();
+    };
+    runServerGalleryMount();
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') runServerGalleryMount();
+    };
+    document.addEventListener('visibilitychange', onVisible);
     return () => {
       cancelled = true;
+      document.removeEventListener('visibilitychange', onVisible);
     };
   }, [apiSessionReady, pageId, persist, projectId, route, screenId]);
 
