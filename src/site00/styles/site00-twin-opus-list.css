@@ -1035,6 +1035,32 @@
   min-height: 280px;
 }
 
+.tod-lv-gallery__body:has(.s00-design-concept-gallery-grid) .tod-lv-gallery__next {
+  display: none;
+}
+
+/* Fallback when :has() unavailable or grid class missing — page concept gallery section only */
+[data-testid='page-concept-candidate-gallery'] .tod-lv-gallery__rail--current {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+  padding: 12px 19.7px 8px;
+}
+
+[data-testid='page-concept-candidate-gallery'] .tod-lv-gallery__rail--current .tod-lv-card--concept {
+  flex: unset;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
+[data-testid='page-concept-candidate-gallery'] .tod-lv-gallery__next {
+  display: none;
+}
+
 .tod-lv-gallery__head {
   flex: 0 0 52.2px;
   display: flex;

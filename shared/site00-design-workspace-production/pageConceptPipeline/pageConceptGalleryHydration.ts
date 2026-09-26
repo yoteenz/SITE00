@@ -71,6 +71,42 @@ export function normalizePageConceptGenerationStateForGallery(
   };
 }
 
+/** Sync in-memory gallery store from an in-memory generation state (avoids stale storage bucket reload). */
+export function syncPageConceptGalleryFromLoadedGenerationState(
+  state: PageConceptGenerationState,
+  scope?: { projectId?: string; pageId?: string },
+): void {
+  const projectId = scope?.projectId ?? state.projectId;
+  const pageId = scope?.pageId ?? state.pageId;
+  const normalized = normalizePageConceptGenerationStateForGallery(state);
+  const liveActiveRunId = normalized.activeGenerationRunId ?? normalized.activeReviewRunId ?? null;
+  syncPageConceptGalleryFromGenerationState(normalized, { upsertActiveRunId: liveActiveRunId });
+  for (const archived of normalized.archivedRuns ?? []) {
+    syncPageConceptGalleryFromGenerationState(
+      normalizePageConceptGenerationStateForGallery({
+        ...normalized,
+        projectId: normalized.projectId,
+        pageId: normalized.pageId,
+        pipelineSet: archived.pipelineSet,
+        generationJobs: archived.generationJobs,
+        activeGenerationRunId: archived.runId,
+        activeReviewRunId: archived.runId,
+      }),
+      { archivedHistorical: true, upsertActiveRunId: liveActiveRunId },
+    );
+  }
+
+  const slug = normalizeProjectId(projectId);
+  const candidates = listPageConceptCandidates(slug, pageId);
+  const repaired = repairPageConceptGenerationRunLinkage(normalized, candidates);
+  if (repaired.changed) {
+    savePageConceptGenerationState(repaired.state);
+    const healed = normalizePageConceptGenerationStateForGallery(repaired.state);
+    const healedRunId = healed.activeGenerationRunId ?? healed.activeReviewRunId ?? null;
+    syncPageConceptGalleryFromGenerationState(healed, { upsertActiveRunId: healedRunId });
+  }
+}
+
 /** Sync in-memory gallery store from persisted generation state (single source of truth). */
 export function refreshPageConceptGalleryFromPersistedState(
   projectId: string,
@@ -83,33 +119,7 @@ export function refreshPageConceptGalleryFromPersistedState(
     screenId: scope?.screenId,
     route: scope?.route ?? null,
   });
-  const state = normalizePageConceptGenerationStateForGallery(loaded);
-  const liveActiveRunId = state.activeGenerationRunId ?? state.activeReviewRunId ?? null;
-  syncPageConceptGalleryFromGenerationState(state, { upsertActiveRunId: liveActiveRunId });
-  for (const archived of state.archivedRuns ?? []) {
-    syncPageConceptGalleryFromGenerationState(
-      normalizePageConceptGenerationStateForGallery({
-        ...state,
-        projectId: state.projectId,
-        pageId: state.pageId,
-        pipelineSet: archived.pipelineSet,
-        generationJobs: archived.generationJobs,
-        activeGenerationRunId: archived.runId,
-        activeReviewRunId: archived.runId,
-      }),
-      { archivedHistorical: true, upsertActiveRunId: liveActiveRunId },
-    );
-  }
-
-  const slug = normalizeProjectId(projectId);
-  const candidates = listPageConceptCandidates(slug, pageId);
-  const repaired = repairPageConceptGenerationRunLinkage(state, candidates);
-  if (repaired.changed) {
-    savePageConceptGenerationState(repaired.state);
-    const healed = normalizePageConceptGenerationStateForGallery(repaired.state);
-    const healedRunId = healed.activeGenerationRunId ?? healed.activeReviewRunId ?? null;
-    syncPageConceptGalleryFromGenerationState(healed, { upsertActiveRunId: healedRunId });
-  }
+  syncPageConceptGalleryFromLoadedGenerationState(loaded, { projectId, pageId });
 }
 
 export function reconcilePageConceptCandidates(projectId: string, pageId: string, scope?: Omit<PageConceptGalleryHydrationScope, 'projectId' | 'pageId'>): void {

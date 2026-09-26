@@ -1698,6 +1698,27 @@
   display: none;
 }
 
+[data-testid='page-concept-candidate-gallery'] .tod-gallery__rail--current {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10.1px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+  padding: 0 8.8px 4px;
+}
+
+[data-testid='page-concept-candidate-gallery'] .tod-gallery__rail--current .tod-card--concept {
+  flex: unset;
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
+[data-testid='page-concept-candidate-gallery'] .tod-gallery__next {
+  display: none;
+}
+
 .tod-gallery__rail--history {
   margin-top: 4px;
   max-height: 72px;

@@ -250,7 +250,9 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             <TodIconCompare className="tod-ico tod-gallery__compareIco" />
           </button>
         </header>
-        <div className="tod-gallery__body">
+        <div
+          className={`tod-gallery__body${data.galleryEmptyMessage ? '' : ' tod-gallery__body--pageConceptGrid'}`}
+        >
           {data.galleryEmptyMessage ?
             <div
               className="tod-gallery__emptyWrap"

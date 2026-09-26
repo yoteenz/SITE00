@@ -11812,6 +11812,16 @@ Founder: site00.com still not matching tunnel — same overwrite class as tunnel
 
 ---
 
+## 2026-09-26 — Gallery deploy sync + grid fix (duplicate storage overwrite)
+
+Founder: site00.com Design still showed **stale current generation** and **gallery thumbnails pinned left** (tunnel-class layout).
+
+- **Root cause:** `loadPageConceptGenerationStateForDesignPage` picked highest **score** across duplicate equivalent `localStorage` pageId buckets — stale bucket with more legacy GPT2 jobs could beat the active server run. `twinOpusDirectWorkspace` re-called `refreshPageConceptGalleryFromPersistedState` on pipeline changes, re-loading wrong bucket after server mount.
+- **Fix:** prefer **`loadPageConceptActiveServerRunId`** when choosing bucket; tie-break artifact timestamp; **`consolidatePageConceptGenerationStateStorage`** removes duplicate equivalent keys after save/mount; workspace syncs gallery from **live React generation state** (`syncPageConceptGalleryFromLoadedGenerationState`); persist consolidates on every write; mount skips server apply when **same runId + local fresher** (`LOCAL_FRESHER_THAN_SERVER`).
+- **Layout:** CSS fallback grid on `[data-testid=page-concept-candidate-gallery] .tod-lv-gallery__rail--current` + hide carousel next; list/canonical body `--pageConceptGrid` class.
+
+---
+
 ## 2026-09-26 — P0.VR NDXBOOK web expression art-direction amplification
 
 Sprint **P0.VR.NDXBOOK-WEB-EXPRESSION-ART-DIRECTION-AMPLIFICATION1**: strengthen WEB EXPRESSION TERRITORY before GPT2 without changing Function Map / bottom-nav locks.

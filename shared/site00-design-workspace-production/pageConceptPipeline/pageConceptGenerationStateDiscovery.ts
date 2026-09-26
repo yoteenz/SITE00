@@ -9,6 +9,7 @@ import {
   type DesignPageIdentity,
 } from '../designPageIdentity.js';
 import { hydratePageConceptGenerationState } from './readiness.js';
+import { pageConceptGenerationStateGalleryArtifactTimestamp } from './pageConceptGalleryServerHydration.js';
 import {
   loadPageConceptGenerationState,
   PAGE_CONCEPT_GENERATION_STORAGE_PREFIX,
@@ -116,6 +117,67 @@ export function scorePageConceptGenerationStateForGalleryDiscovery(state: PageCo
  * Best persisted generation state for the active DESIGN page (registry pageId),
  * including canonical / legacy storage keys for the same page.
  */
+function pickBestGenerationStateForGalleryDiscovery(
+  candidates: readonly PageConceptGenerationState[],
+  preferredRunId: string | null,
+): PageConceptGenerationState | null {
+  if (candidates.length === 0) return null;
+  let pool = candidates;
+  if (preferredRunId) {
+    const runMatched = candidates.filter(
+      (s) => (s.activeGenerationRunId ?? s.activeReviewRunId ?? null) === preferredRunId,
+    );
+    if (runMatched.length > 0) pool = runMatched;
+  }
+  let best: PageConceptGenerationState | null = null;
+  for (const remapped of pool) {
+    if (!best) {
+      best = remapped;
+      continue;
+    }
+    const bestScore = scorePageConceptGenerationStateForGalleryDiscovery(best);
+    const nextScore = scorePageConceptGenerationStateForGalleryDiscovery(remapped);
+    if (nextScore > bestScore) {
+      best = remapped;
+      continue;
+    }
+    if (nextScore === bestScore) {
+      const bestTs = pageConceptGenerationStateGalleryArtifactTimestamp(best);
+      const nextTs = pageConceptGenerationStateGalleryArtifactTimestamp(remapped);
+      if (nextTs > bestTs) best = remapped;
+    }
+  }
+  return best;
+}
+
+/** Single registry bucket — removes duplicate equivalent pageId keys that overwrite gallery hydration. */
+export function consolidatePageConceptGenerationStateStorage(
+  input: {
+    projectSlug: string;
+    pageId: string;
+    screenId?: string;
+    route?: string | null;
+  },
+  state: PageConceptGenerationState,
+): void {
+  if (typeof localStorage === 'undefined') return;
+  const identity = resolveDesignPageIdentityForGallery(input);
+  const slug = identity.projectSlug;
+  const registryPageId = identity.registryPageId;
+  const canonical = remapStateToRegistryPage(state, identity);
+  savePageConceptGenerationState(canonical);
+  const activeRunId = canonical.activeGenerationRunId ?? canonical.activeReviewRunId;
+  if (activeRunId) {
+    localStorage.setItem(pageConceptActiveServerRunStorageKey(slug, registryPageId), activeRunId);
+  }
+  for (const storagePageId of enumeratePageConceptGenerationStoragePageIds(slug)) {
+    if (storagePageId === registryPageId) continue;
+    if (!designPageIdsEquivalent(slug, registryPageId, storagePageId)) continue;
+    localStorage.removeItem(`${PAGE_CONCEPT_GENERATION_STORAGE_PREFIX}${slug}:${storagePageId}`);
+    localStorage.removeItem(pageConceptActiveServerRunStorageKey(slug, storagePageId));
+  }
+}
+
 export function loadPageConceptGenerationStateForDesignPage(input: {
   projectSlug: string;
   pageId: string;
@@ -125,6 +187,7 @@ export function loadPageConceptGenerationStateForDesignPage(input: {
   const identity = resolveDesignPageIdentityForGallery(input);
   const slug = identity.projectSlug;
   const registryPageId = identity.registryPageId;
+  const preferredRunId = loadPageConceptActiveServerRunIdForDesignPage(input);
 
   const candidatePageIds = [
     registryPageId,
@@ -133,7 +196,7 @@ export function loadPageConceptGenerationStateForDesignPage(input: {
   ];
 
   const seen = new Set<string>();
-  let best: PageConceptGenerationState | null = null;
+  const collected: PageConceptGenerationState[] = [];
 
   for (const storagePageId of candidatePageIds) {
     if (!storagePageId || seen.has(storagePageId)) continue;
@@ -143,20 +206,13 @@ export function loadPageConceptGenerationStateForDesignPage(input: {
     const loaded = loadFromStoragePageId(slug, storagePageId);
     if (!stateHasGallerySourceContent(loaded)) continue;
 
-    const remapped = remapStateToRegistryPage(loaded, identity);
-    if (
-      !best ||
-      scorePageConceptGenerationStateForGalleryDiscovery(remapped) >
-        scorePageConceptGenerationStateForGalleryDiscovery(best)
-    ) {
-      best = remapped;
-    }
+    collected.push(remapStateToRegistryPage(loaded, identity));
   }
 
+  const best = pickBestGenerationStateForGalleryDiscovery(collected, preferredRunId);
+
   if (best) {
-    if (best.pageId !== registryPageId || best.projectId !== slug) {
-      savePageConceptGenerationState(best);
-    }
+    consolidatePageConceptGenerationStateStorage(input, best);
     return best;
   }
 
