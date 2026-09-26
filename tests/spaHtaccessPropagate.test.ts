@@ -46,9 +46,11 @@ describe('SPA htaccess propagation', () => {
     expect(existsSync('scripts/site00-activate-spa-htaccess.sh')).toBe(true);
   });
 
-  it('activate script uses FTP primary before SSH backup', () => {
+  it('activate script uses FTP rename primary and skips SSH in CI by default', () => {
     const body = readFileSync('scripts/site00-activate-spa-htaccess.sh', 'utf8');
-    expect(body).toContain('FTP direct upload (primary)');
+    expect(body).toContain('FTP rename (primary)');
+    expect(body).toContain('RNFR');
+    expect(body).toContain('GODADDY_SSH_ACTIVATE_ENABLED');
     expect(body).toContain('site00-verify-spa-deep-link.mjs');
   });
 

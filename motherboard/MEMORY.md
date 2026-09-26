@@ -11812,6 +11812,14 @@ Founder: site00.com still not matching tunnel — same overwrite class as tunnel
 
 ---
 
+## 2026-09-26 — CI SPA htaccess activate (GoDaddy no shell)
+
+GitHub Actions **Activate SPA htaccess** failed: SSH backup prints "Shell access is not enabled"; verify failed on deep link.
+
+- **Fix:** FTP **RNFR/RNTO** rename `htaccess-deploy.txt` → `.htaccess` (and nested) as primary; **skip SSH activate in CI** unless `GODADDY_SSH_ACTIVATE_ENABLED=true`; deep-link verify retries + probe `/projects/ndxbook/design`.
+
+---
+
 ## 2026-09-26 — Gallery deploy sync + grid fix (duplicate storage overwrite)
 
 Founder: site00.com Design still showed **stale current generation** and **gallery thumbnails pinned left** (tunnel-class layout).

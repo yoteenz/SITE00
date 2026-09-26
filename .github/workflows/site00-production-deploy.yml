@@ -316,6 +316,10 @@ jobs:
           DIST_DIR: dist
           SITE00_FRONTEND_URL: ${{ env.SITE00_FRONTEND_URL }}
           VERIFY_SPA_AFTER_ACTIVATE: 'true'
+          GODADDY_SSH_ACTIVATE_ENABLED: ${{ vars.GODADDY_SSH_DEPLOY_ENABLED }}
+          SPA_VERIFY_ATTEMPTS: '12'
+          SPA_VERIFY_SLEEP_MS: '10000'
+          SPA_DEEP_LINK_PROBE: /projects/ndxbook/design
         run: bash scripts/site00-activate-spa-htaccess.sh
 
   verify_release:
