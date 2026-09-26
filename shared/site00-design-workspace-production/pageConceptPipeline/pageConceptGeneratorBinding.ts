@@ -38,6 +38,14 @@ export type Gpt2MobileSlotPresentationMeta = {
   webExpressionImageRole?: string | null;
   webExpressionDistinctiveMove?: string | null;
   webExpressionCreativeTension?: string | null;
+  webExpressionArtDirectionPremise?: string | null;
+  webExpressionSignatureGraphicDevice?: string | null;
+  webExpressionTypographicConcept?: string | null;
+  webExpressionImageArtDirection?: string | null;
+  webExpressionEditorialCompositionRule?: string | null;
+  webExpressionColorExpression?: string | null;
+  webExpressionControlledDisruption?: string | null;
+  webExpressionBespokeMoment?: string | null;
   rationale: string | null;
   pageValidityPass: boolean | null;
   captureInfluenceMode: string | null;
@@ -254,7 +262,15 @@ export function buildGpt2MobileSlotPresentations(
         webExpressionImageRole: webTerritory?.imageRole ?? null,
         webExpressionDistinctiveMove: webTerritory?.distinctiveMove ?? null,
         webExpressionCreativeTension: webTerritory?.creativeTension ?? null,
-        rationale: webTerritory?.creativePremise ?? job?.displayTitle ?? mobileConcept?.territoryLabel ?? null,
+        webExpressionArtDirectionPremise: webTerritory?.artDirectionPremise ?? null,
+        webExpressionSignatureGraphicDevice: webTerritory?.signatureGraphicDevice ?? null,
+        webExpressionTypographicConcept: webTerritory?.typographicConcept ?? null,
+        webExpressionImageArtDirection: webTerritory?.imageArtDirection ?? null,
+        webExpressionEditorialCompositionRule: webTerritory?.editorialCompositionRule ?? null,
+        webExpressionColorExpression: webTerritory?.colorExpressionSystem ?? null,
+        webExpressionControlledDisruption: webTerritory?.controlledDisruption ?? null,
+        webExpressionBespokeMoment: webTerritory?.bespokeMoment ?? null,
+        rationale: webTerritory?.artDirectionPremise ?? webTerritory?.creativePremise ?? job?.displayTitle ?? mobileConcept?.territoryLabel ?? null,
         pageValidityPass: debug?.pageValidityPass ?? null,
         captureInfluenceMode: debug?.captureInfluenceMode ?? null,
         screenshotOverreachWarning: debug?.screenshotOverreachWarning ?? null,

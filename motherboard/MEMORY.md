@@ -11809,3 +11809,17 @@ Founder: site00.com still not matching tunnel — same overwrite class as tunnel
 - **Fix:** `preferServerGallery` → **always apply** latest `latestForPage` run when READY mobile (re-hydrate every authenticated mount).
 - **Pre-sync wipe:** panel mount no longer `refreshPageConceptGalleryFromPersistedState` before async server mount; refresh runs after mount / when signed out only.
 - **Apply base:** `applyMountedServerRunToClient` reloads state from storage immediately before merge (no stale `loaded` snapshot).
+
+---
+
+## 2026-09-26 — P0.VR NDXBOOK web expression art-direction amplification
+
+Sprint **P0.VR.NDXBOOK-WEB-EXPRESSION-ART-DIRECTION-AMPLIFICATION1**: strengthen WEB EXPRESSION TERRITORY before GPT2 without changing Function Map / bottom-nav locks.
+
+- **`WebExpressionTerritory` v2** (`web-expression-territory-set-v2`): artDirectionPremise, signatureGraphicDevice, secondaryGraphicDevices, typographic system fields, typeScaleDrama (≥2 slots MEDIUM/HIGH), image art direction, colorExpressionSystem, controlledDisruption, bespokeMoment, lowerPageCreativeContinuation, bottomNavVisualIntegration, etc.
+- **`pageConceptNdxColorExpressionContract.ts`**: NDX black/paper/lime/gray families; rejects unrelated hue drift.
+- **Validators:** `validateWebExpressionTerritoryDistance` v2 (incl. `TERRITORY_VISUAL_IDEA_TOO_WEAK`, signature collision); `validateExpressionSterility` → `EXPRESSION_TOO_SYSTEMIC`; type-drama requirement on compile path.
+- **GPT2 handoff:** compact ART DIRECTION block via `compileWebExpressionTerritoryArtDirectionHandoffBlock` (budget cap).
+- **UI:** Concept Inspector art-direction fields; optional `PageConceptWebExpressionTerritoryPreview` during `GPT2_RUNNING`.
+- **Tests:** `p0vrNdxbookWebExpressionArtDirectionAmplification1.test.ts`.
+- **Regenerate concept** still reuses persisted `webExpressionTerritorySet` (`executePageConceptRegenerateMobile` unchanged).

@@ -45,24 +45,40 @@ export function PageConceptConceptInspectDrawer({
               <dd>{meta?.territoryLabel ?? '—'}</dd>
             </div>
             <div>
-              <dt>CREATIVE PREMISE</dt>
-              <dd>{meta?.webExpressionCreativePremise ?? meta?.rationale ?? '—'}</dd>
+              <dt>ART DIRECTION</dt>
+              <dd>{meta?.webExpressionArtDirectionPremise ?? meta?.webExpressionCreativePremise ?? meta?.rationale ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>SIGNATURE GRAPHIC DEVICE</dt>
+              <dd>{meta?.webExpressionSignatureGraphicDevice ?? meta?.webExpressionGraphicDevice ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>TYPOGRAPHIC CONCEPT</dt>
+              <dd>{meta?.webExpressionTypographicConcept ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>IMAGE ART DIRECTION</dt>
+              <dd>{meta?.webExpressionImageArtDirection ?? meta?.webExpressionImageRole ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>COMPOSITION RULE</dt>
+              <dd>{meta?.webExpressionEditorialCompositionRule ?? meta?.webExpressionCompositionSystem ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>COLOR EXPRESSION</dt>
+              <dd>{meta?.webExpressionColorExpression ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>CONTROLLED DISRUPTION</dt>
+              <dd>{meta?.webExpressionControlledDisruption ?? '—'}</dd>
+            </div>
+            <div>
+              <dt>BESPOKE MOMENT</dt>
+              <dd>{meta?.webExpressionBespokeMoment ?? '—'}</dd>
             </div>
             <div>
               <dt>WEBSITE METAPHOR</dt>
               <dd>{meta?.webExpressionWebsiteMetaphor ?? '—'}</dd>
-            </div>
-            <div>
-              <dt>GRAPHIC DEVICE</dt>
-              <dd>{meta?.webExpressionGraphicDevice ?? '—'}</dd>
-            </div>
-            <div>
-              <dt>COMPOSITION SYSTEM</dt>
-              <dd>{meta?.webExpressionCompositionSystem ?? '—'}</dd>
-            </div>
-            <div>
-              <dt>IMAGE ROLE</dt>
-              <dd>{meta?.webExpressionImageRole ?? '—'}</dd>
             </div>
             <div>
               <dt>DISTINCTIVE MOVE</dt>
