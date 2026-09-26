@@ -34,6 +34,18 @@ function emitMountTrace(projectId: string, pageId: string, trace: PageConceptGal
   );
 }
 
+function syncGalleryStoreFromPersistence(input: {
+  projectId: string;
+  pageId: string;
+  screenId: string;
+  route?: string | null;
+}): void {
+  refreshPageConceptGalleryFromPersistedState(input.projectId, input.pageId, {
+    screenId: input.screenId,
+    route: input.route ?? null,
+  });
+}
+
 function applyMountedServerRunToClient(input: {
   projectId: string;
   pageId: string;
@@ -41,9 +53,14 @@ function applyMountedServerRunToClient(input: {
   route?: string | null;
   server: Parameters<typeof applyPageConceptServerRunSnapshotForGalleryMount>[1];
   persist: (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => void;
-  baseState: PageConceptGenerationState;
 }): PageConceptGenerationState {
-  const next = applyPageConceptServerRunSnapshotForGalleryMount(input.baseState, input.server);
+  const baseState = loadPageConceptGenerationStateForDesignPage({
+    projectSlug: input.projectId,
+    pageId: input.pageId,
+    screenId: input.screenId,
+    route: input.route ?? null,
+  });
+  const next = applyPageConceptServerRunSnapshotForGalleryMount(baseState, input.server);
   savePageConceptGenerationState(next);
   savePageConceptActiveServerRunId(input.projectId, input.pageId, input.server.runId);
   refreshPageConceptGalleryFromPersistedState(input.projectId, input.pageId, {
@@ -125,6 +142,7 @@ export async function mountPageConceptGalleryFromServer(input: {
     }
 
     if (!serverUpdate?.run) {
+      syncGalleryStoreFromPersistence(input);
       const trace: PageConceptGalleryServerMountTrace = {
         phase: 'skipped',
         reason: 'NO_SERVER_RUN',
@@ -138,14 +156,18 @@ export async function mountPageConceptGalleryFromServer(input: {
     const server = serverUpdate.run;
     const serverArtifactTs = pageConceptServerRunMaxArtifactTimestamp(server);
 
-    if (
-      !shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery }) &&
-      !(
-        !preferServerGallery &&
-        pageConceptServerRunHasReadyMobileGallery(server) &&
-        !pageConceptServerRunIsTerminal(server.status)
-      )
-    ) {
+    const shouldApply =
+      preferServerGallery && pageConceptServerRunHasReadyMobileGallery(server) ?
+        true
+      : shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery }) ||
+        (
+          !preferServerGallery &&
+          pageConceptServerRunHasReadyMobileGallery(server) &&
+          !pageConceptServerRunIsTerminal(server.status)
+        );
+
+    if (!shouldApply) {
+      syncGalleryStoreFromPersistence(input);
       const trace: PageConceptGalleryServerMountTrace = {
         phase: 'skipped',
         reason: 'LOCAL_ALREADY_CURRENT',
@@ -159,9 +181,12 @@ export async function mountPageConceptGalleryFromServer(input: {
     }
 
     applyMountedServerRunToClient({
-      ...input,
+      projectId: input.projectId,
+      pageId: input.pageId,
+      screenId: input.screenId,
+      route: input.route,
       server,
-      baseState: loaded,
+      persist: input.persist,
     });
 
     const trace: PageConceptGalleryServerMountTrace = {
@@ -174,6 +199,7 @@ export async function mountPageConceptGalleryFromServer(input: {
     emitMountTrace(input.projectId, input.pageId, trace);
     return trace;
   } catch (err) {
+    syncGalleryStoreFromPersistence(input);
     const trace: PageConceptGalleryServerMountTrace = {
       phase: 'failed',
       reason: err instanceof Error ? err.message : 'MOUNT_FAILED',

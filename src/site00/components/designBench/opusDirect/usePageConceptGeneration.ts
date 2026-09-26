@@ -348,10 +348,7 @@ export function usePageConceptGeneration(
       runId: founderSession?.runId ?? loaded.activeGenerationRunId,
       autoStart: false,
     });
-    refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
-    window.dispatchEvent(
-      new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
-    );
+    // Gallery store sync is deferred to mountPageConceptGalleryFromServer (avoids empty localStorage wipe before server apply).
   }, [pageId, projectId, route, screenId]);
 
   useEffect(() => {
@@ -495,6 +492,13 @@ export function usePageConceptGeneration(
   );
 
   useEffect(() => {
+    if (apiSessionReady === false) {
+      refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
+      window.dispatchEvent(
+        new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+      );
+      return;
+    }
     if (apiSessionReady !== true) return;
     let cancelled = false;
     const runServerGalleryMount = () => {
@@ -507,6 +511,10 @@ export function usePageConceptGeneration(
           route: route ?? null,
           persist,
         });
+        if (cancelled) return;
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
       })();
     };
     runServerGalleryMount();

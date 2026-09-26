@@ -77,10 +77,7 @@ export function shouldReplaceLocalPageConceptStateWithServerRun(
   const localRunId = local.activeGenerationRunId ?? local.activeReviewRunId ?? null;
 
   if (options?.preferServerGallery) {
-    if (!localReady) return true;
-    if (localRunId !== server.runId) return true;
-    if (serverTs >= localTs) return true;
-    return false;
+    return true;
   }
 
   if (!localReady) return true;
