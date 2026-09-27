@@ -15,6 +15,11 @@ import {
   mapArchetypesToOpusShellKinds,
   validatePageFamilyBlueprint,
 } from './pageConceptPageFamilyBlueprint.js';
+import {
+  buildPageFamilyBuildReadiness,
+  compilePageFamilyInteractionMap,
+  validatePageFamilyInteractionMap,
+} from './pageConceptPageFamilyInteractionMap.js';
 import { buildPageSystemReviewModel } from '../designPageSystemReview.js';
 import {
   assertLiveRouteUnchanged,
@@ -101,6 +106,10 @@ function syncGenerationStatus(
   if (family.status === 'APPROVED') {
     const blueprint = pipelineSet.pageFamilyBlueprint;
     if (blueprint && !blueprint.approvedAt) return 'PAGE_FAMILY_BLUEPRINT_REVIEW';
+    const interactionMap = pipelineSet.pageFamilyInteractionMap;
+    if (blueprint?.approvedAt && interactionMap && !interactionMap.approvedAt) {
+      return 'PAGE_FAMILY_INTERACTION_MAP_REVIEW';
+    }
     const contract = pipelineSet.pageFamilySkinBehaviorContract;
     if (contract && !contract.approvedAt) return 'PAGE_FAMILY_CONTRACT_REVIEW';
     const shells = pipelineSet.opusRepresentativeShellSet;
@@ -499,6 +508,11 @@ export function pageConceptApproveViewportFamily(state: PageConceptGenerationSta
   const review = buildPageSystemReviewModel(state.projectId, state.pageId, 'MOBILE');
   const validation = validatePageFamilyBlueprint(blueprint, review);
   if (!validation.ok) throw new Error(validation.code);
+  const interactionMap = compilePageFamilyInteractionMap({
+    blueprint,
+    experienceContract: ps.experienceExpressionContract,
+    functionContract: state.functionContract!,
+  });
   const shellKinds = mapArchetypesToOpusShellKinds(blueprint);
   const representativeShellSet = createOpusRepresentativeShellSet(bundle.contract.contractId, shellKinds);
   const nextState = patchPipeline(
@@ -507,6 +521,7 @@ export function pageConceptApproveViewportFamily(state: PageConceptGenerationSta
       viewportAuthorityFamily: nextFamily,
       pageFamilySkinBehaviorContract: bundle.contract,
       pageFamilyBlueprint: blueprint,
+      pageFamilyInteractionMap: interactionMap,
       opusPageFamilyHandoff: null,
       pageFamilyComponentExpressionMap: bundle.componentMap,
       opusRepresentativeShellSet: representativeShellSet,
@@ -539,13 +554,53 @@ export function pageConceptApprovePageFamilyBlueprint(
     ...contract,
     approvedAt: new Date().toISOString(),
   };
-  const handoff = buildOpusPageFamilyHandoff({
-    blueprint: approvedBlueprint,
-    viewportFamilyId: family.familyId,
-  });
+  let interactionMap = ps.pageFamilyInteractionMap;
+  if (!interactionMap || interactionMap.blueprintId !== blueprint.blueprintId) {
+    interactionMap = compilePageFamilyInteractionMap({
+      blueprint: approvedBlueprint,
+      experienceContract: ps.experienceExpressionContract,
+      functionContract: state.functionContract!,
+    });
+  }
+  const ixValidation = validatePageFamilyInteractionMap(interactionMap, approvedBlueprint);
+  if (!ixValidation.ok) throw new Error(ixValidation.code);
+
   const nextState = patchPipeline(state, {
     pageFamilyBlueprint: approvedBlueprint,
     pageFamilySkinBehaviorContract: approvedContract,
+    pageFamilyInteractionMap: interactionMap,
+    opusPageFamilyHandoff: null,
+  });
+  return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptApprovePageFamilyInteractionMap(
+  state: PageConceptGenerationState,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  const blueprint = ps?.pageFamilyBlueprint;
+  const map = ps?.pageFamilyInteractionMap;
+  if (!family?.viewportFamilyApprovalId || family.status !== 'APPROVED') {
+    throw new Error('VIEWPORT_FAMILY_APPROVAL_REQUIRED');
+  }
+  if (!blueprint?.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  if (!map) throw new Error('PAGE_FAMILY_INTERACTION_MAP_REQUIRED');
+  if (map.approvedAt) throw new Error('PAGE_FAMILY_INTERACTION_MAP_ALREADY_APPROVED');
+  const validation = validatePageFamilyInteractionMap(map, blueprint);
+  if (!validation.ok) throw new Error(validation.code);
+  const approvedMap = {
+    ...map,
+    approvedAt: new Date().toISOString(),
+    buildReadiness: buildPageFamilyBuildReadiness({ blueprint, interactionMap: { ...map, approvedAt: new Date().toISOString() } }),
+  };
+  const handoff = buildOpusPageFamilyHandoff({
+    blueprint,
+    viewportFamilyId: family.familyId,
+    interactionMap: approvedMap,
+  });
+  const nextState = patchPipeline(state, {
+    pageFamilyInteractionMap: approvedMap,
     opusPageFamilyHandoff: handoff,
   });
   return { state: nextState, generationStatus: nextState.generationStatus };
@@ -582,6 +637,7 @@ export function pageConceptMarkOpusRepresentativeShellsReady(
   const set = ps?.opusRepresentativeShellSet;
   const contract = ps?.pageFamilySkinBehaviorContract;
   if (!ps?.pageFamilyBlueprint?.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  if (!ps?.pageFamilyInteractionMap?.approvedAt) throw new Error('PAGE_FAMILY_INTERACTION_MAP_APPROVAL_REQUIRED');
   if (!ps?.opusPageFamilyHandoff) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_REQUIRED');
   if (!contract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
   if (!set) throw new Error('REPRESENTATIVE_SHELL_SET_REQUIRED');
@@ -692,6 +748,7 @@ export function pageConceptCreateTwinImplementationPackage(state: PageConceptGen
     interactionRequirements: state.functionContract?.interactions ?? [],
     pageFamilySkinBehaviorContractId: familyContract.contractId,
     pageFamilyBlueprintId: ps!.pageFamilyBlueprint!.blueprintId,
+    pageFamilyInteractionMapId: ps!.pageFamilyInteractionMap!.mapId,
     opusPageFamilyHandoffId: ps!.opusPageFamilyHandoff!.handoffId,
     pageFamilyComponentExpressionMapId: componentMap.mapId,
     representativeShellSetId: shellSet.setId,

@@ -181,6 +181,7 @@ export type PageFamilySkinLifecycleStatus = 'READY_FOR_FOUNDER_APPROVAL' | 'FINA
 export type OpusPageFamilyHandoff = {
   handoffId: string;
   blueprintId: string;
+  pageFamilyInteractionMapId: string;
   targetSurface: 'TWIN';
   parentPageId: string;
   viewportFamilyId: string;
@@ -195,6 +196,7 @@ export type OpusPageFamilyHandoff = {
   undefinedPageCount: number;
   handoffPreview: OpusPageFamilyHandoffPreview;
   coverageMatrixId: string;
+  interactionCoveragePercent: number;
   createdAt: string;
 };
 
@@ -763,10 +765,15 @@ export function mapArchetypesToOpusShellKinds(
 export function buildOpusPageFamilyHandoff(input: {
   blueprint: PageFamilyBlueprint;
   viewportFamilyId: string;
+  interactionMap: import('./pageConceptPageFamilyInteractionMap.js').PageFamilyInteractionMap;
 }): OpusPageFamilyHandoff {
   const bp = input.blueprint;
   if (!bp.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
   assertPageFamilyBlueprintCoverageComplete(bp);
+  if (!input.interactionMap.approvedAt) throw new Error('PAGE_FAMILY_INTERACTION_MAP_APPROVAL_REQUIRED');
+  if (input.interactionMap.coverageMatrix.summary.unmappedControls > 0) {
+    throw new Error('PAGE_FAMILY_INTERACTION_MAP_INCOMPLETE');
+  }
   if (bp.coverageSummary.undefinedPageCount > 0) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_INCOMPLETE');
   const pageCoveragePercent =
     bp.coverageSummary.totalPageCount === 0 ?
@@ -780,6 +787,7 @@ export function buildOpusPageFamilyHandoff(input: {
   return {
     handoffId: `opfh-${bp.blueprintId.slice(-12)}-${Date.now()}`,
     blueprintId: bp.blueprintId,
+    pageFamilyInteractionMapId: input.interactionMap.mapId,
     targetSurface: 'TWIN',
     parentPageId: bp.parentPageId,
     viewportFamilyId: input.viewportFamilyId,
@@ -797,6 +805,7 @@ export function buildOpusPageFamilyHandoff(input: {
     undefinedPageCount: bp.coverageSummary.undefinedPageCount,
     handoffPreview: bp.handoffPreview,
     coverageMatrixId: bp.coverageMatrix.matrixId,
+    interactionCoveragePercent: input.interactionMap.coverageMatrix.summary.coveragePercent,
     createdAt: new Date().toISOString(),
   };
 }

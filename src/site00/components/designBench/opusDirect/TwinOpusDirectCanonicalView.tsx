@@ -343,6 +343,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
         viewportNote={data.outputViewportNote}
         actions={actions}
         pageFamilyBlueprint={data.pageFamilyBlueprint}
+        pageFamilyInteractionMap={data.pageFamilyInteractionMap}
         opusPageFamilyHandoff={data.opusPageFamilyHandoff}
         skinContractApprovedAt={data.pageFamilySkinContractApprovedAt}
       />

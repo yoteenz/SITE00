@@ -112,6 +112,7 @@ describe('P0.VR.PAGE-FAMILY-SKIN-BEHAVIOR-CONTRACT1', () => {
     const liveBefore = computePageConceptLiveImplementationHash(await pipelineThroughViewportApproval());
     let state = await pipelineThroughViewportApproval();
     let r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyBlueprint' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyInteractionMap' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'markOpusRepresentativeShellsReady' });
     const shells = r.state.pipelineSet!.opusRepresentativeShellSet!;

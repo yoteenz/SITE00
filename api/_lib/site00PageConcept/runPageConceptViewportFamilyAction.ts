@@ -8,6 +8,7 @@ import {
   pageConceptApproveExperienceExpression,
   pageConceptApproveViewportFamily,
   pageConceptApprovePageFamilyBlueprint,
+  pageConceptApprovePageFamilyInteractionMap,
   pageConceptApprovePageFamilySkinBehavior,
   pageConceptCreateTwinImplementationPackage,
   pageConceptDesktopArtifactIdForFamily,
@@ -43,6 +44,7 @@ export type PageConceptViewportFamilyAction =
   | { type: 'regenerateDesktop'; dryRun?: boolean }
   | { type: 'approveViewportFamily' }
   | { type: 'approvePageFamilyBlueprint' }
+  | { type: 'approvePageFamilyInteractionMap' }
   | { type: 'approvePageFamilySkinBehavior' }
   | { type: 'markOpusRepresentativeShellsReady' }
   | { type: 'lockViewportFamily' }
@@ -320,6 +322,10 @@ export async function runPageConceptViewportFamilyAction(
 
   if (action.type === 'approvePageFamilyBlueprint') {
     return pageConceptApprovePageFamilyBlueprint(state);
+  }
+
+  if (action.type === 'approvePageFamilyInteractionMap') {
+    return pageConceptApprovePageFamilyInteractionMap(state);
   }
 
   if (action.type === 'approvePageFamilySkinBehavior') {

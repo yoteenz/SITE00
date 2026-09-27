@@ -349,6 +349,7 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             viewportNote={data.outputViewportNote}
             actions={actions}
             pageFamilyBlueprint={data.pageFamilyBlueprint}
+            pageFamilyInteractionMap={data.pageFamilyInteractionMap}
             opusPageFamilyHandoff={data.opusPageFamilyHandoff}
             skinContractApprovedAt={data.pageFamilySkinContractApprovedAt}
           />

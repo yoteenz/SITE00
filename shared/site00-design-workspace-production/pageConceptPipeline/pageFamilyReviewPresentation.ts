@@ -8,6 +8,7 @@ import type {
   PageFamilyBlueprint,
   PageFamilyCoverageRow,
 } from './pageConceptPageFamilyBlueprint.js';
+import type { PageFamilyInteractionMap } from './pageConceptPageFamilyInteractionMap.js';
 import { resolvePageFamilySkinStatus } from './pageConceptPageFamilyBlueprint.js';
 
 export type PageFamilyReviewCounts = {
@@ -91,9 +92,10 @@ export function buildPageFamilyReviewPresentation(input: {
   model: PageSystemReviewModel;
   blueprint: PageFamilyBlueprint | null;
   handoff: OpusPageFamilyHandoff | null;
+  interactionMap?: PageFamilyInteractionMap | null;
   skinContractApprovedAt?: string | null;
 }): PageFamilyReviewPresentation {
-  const { model, blueprint, handoff } = input;
+  const { model, blueprint, handoff, interactionMap } = input;
 
   if (blueprint) {
     const s = blueprint.coverageSummary;
@@ -128,7 +130,12 @@ export function buildPageFamilyReviewPresentation(input: {
         skinContractApprovedAt: input.skinContractApprovedAt ?? null,
         blueprintApprovedAt: blueprint.approvedAt,
       }),
-      opusHandoffReady: Boolean(handoff && blueprint.approvedAt),
+      opusHandoffReady: Boolean(
+        handoff &&
+          blueprint.approvedAt &&
+          interactionMap?.approvedAt &&
+          interactionMap.buildReadiness.readyForOpus,
+      ),
       opusHandoffPreview: blueprint.handoffPreview,
       pageCoveragePercent: handoff?.pageCoveragePercent ?? null,
     };

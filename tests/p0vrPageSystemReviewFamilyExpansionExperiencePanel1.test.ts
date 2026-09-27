@@ -159,6 +159,8 @@ describe('P0.VR.PAGE-SYSTEM-REVIEW-FAMILY-EXPANSION-AND-EXPERIENCE-REVIEW-PANEL1
       'utf8',
     );
     expect(list).toContain('pageFamilyBlueprint={data.pageFamilyBlueprint}');
+    expect(list).toContain('pageFamilyInteractionMap={data.pageFamilyInteractionMap}');
     expect(grid).toContain('pageFamilyBlueprint={data.pageFamilyBlueprint}');
+    expect(grid).toContain('pageFamilyInteractionMap={data.pageFamilyInteractionMap}');
   });
 });

@@ -15,6 +15,8 @@ import {
   findPageFamilyReviewRow,
   type PageFamilyReviewPageRow,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFamilyReviewPresentation.js';
+import { buildPageFamilyInteractionReviewPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFamilyInteractionReviewPresentation.js';
+import type { PageFamilyInteractionMap } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyInteractionMap.js';
 import { DesignPageFamilyInspector } from './DesignPageFamilyInspector.js';
 import type { TwinOpusDirectWorkspaceActions } from './twinOpusDirectWorkspace';
 
@@ -24,6 +26,7 @@ type Props = {
   viewportNote: string | null;
   actions: TwinOpusDirectWorkspaceActions;
   pageFamilyBlueprint?: PageFamilyBlueprint | null;
+  pageFamilyInteractionMap?: PageFamilyInteractionMap | null;
   opusPageFamilyHandoff?: OpusPageFamilyHandoff | null;
   skinContractApprovedAt?: string | null;
 };
@@ -61,6 +64,7 @@ export function DesignPageSystemReviewSection({
   viewportNote,
   actions,
   pageFamilyBlueprint,
+  pageFamilyInteractionMap,
   opusPageFamilyHandoff,
   skinContractApprovedAt,
 }: Props) {
@@ -75,9 +79,19 @@ export function DesignPageSystemReviewSection({
         model,
         blueprint: pageFamilyBlueprint ?? null,
         handoff: opusPageFamilyHandoff ?? null,
+        interactionMap: pageFamilyInteractionMap ?? null,
         skinContractApprovedAt,
       }),
-    [model, opusPageFamilyHandoff, pageFamilyBlueprint, skinContractApprovedAt],
+    [model, opusPageFamilyHandoff, pageFamilyBlueprint, pageFamilyInteractionMap, skinContractApprovedAt],
+  );
+
+  const interactionPresentation = useMemo(
+    () =>
+      buildPageFamilyInteractionReviewPresentation({
+        blueprint: pageFamilyBlueprint ?? null,
+        interactionMap: pageFamilyInteractionMap ?? null,
+      }),
+    [pageFamilyBlueprint, pageFamilyInteractionMap],
   );
 
   const { counts } = presentation;
@@ -140,7 +154,8 @@ export function DesignPageSystemReviewSection({
         : null}
         {presentation.opusHandoffReady ?
           <p className="tod-psr__familyStatus" data-testid="page-family-opus-handoff-ready">
-            OPUS HANDOFF · READY · {presentation.pageCoveragePercent ?? 100}% PAGE COVERAGE
+            PAGE FAMILY HANDOFF · READY FOR OPUS · {presentation.pageCoveragePercent ?? 100}% PAGE ·{' '}
+            {interactionPresentation?.summary.mapped ?? 0}/{interactionPresentation?.summary.total ?? 0} INTERACTIONS
           </p>
         : null}
         {viewportNote ?
@@ -239,20 +254,25 @@ export function DesignPageSystemReviewSection({
           <p className="tod-psr__ixSummary">{model.assets.length} IN MANIFEST</p>
         </div>
 
-        <div className="tod-out__col tod-psr__col">
+        <button
+          type="button"
+          className="tod-psr__metricCell tod-psr__metricCell--interactions"
+          data-testid="page-system-review-interactions-cell"
+          data-interaction-id="page-system-interactions"
+          onClick={() => actions.openPageInteractionMapReview()}
+        >
           <span className="tod-out__label">INTERACTIONS</span>
-          <p className="tod-psr__ixCoverage">
-            {model.interactionSummary.covered} / {model.interactionSummary.total}
-          </p>
-          <button
-            type="button"
-            className="tod-psr__primary"
-            onClick={() => actions.openPageInteractionsInspector()}
-            data-interaction-id="page-system-interactions"
-          >
-            OPEN INTERACTION INSPECTOR
-          </button>
-        </div>
+          <span className="tod-psr__metricValue" data-testid="page-system-interaction-counts">
+            {interactionPresentation ?
+              `${interactionPresentation.summary.mapped}/${interactionPresentation.summary.total}`
+            : `${model.interactionSummary.covered}/${model.interactionSummary.total}`}
+          </span>
+          <span className="tod-psr__metricHint">
+            {interactionPresentation ?
+              `${interactionPresentation.summary.inherited} INHERITED · ${interactionPresentation.summary.pageSpecific} PAGE · ${interactionPresentation.summary.unmapped} UNMAPPED`
+            : 'TAP FOR MAP'}
+          </span>
+        </button>
       </div>
 
       {presentation.familyStatus === 'READY_FOR_APPROVAL' ?

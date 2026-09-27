@@ -129,6 +129,7 @@ export type TwinImplementationPackage = {
   interactionRequirements: readonly string[];
   pageFamilySkinBehaviorContractId: string;
   pageFamilyBlueprintId: string;
+  pageFamilyInteractionMapId: string;
   opusPageFamilyHandoffId: string;
   pageFamilyComponentExpressionMapId: string;
   representativeShellSetId: string;

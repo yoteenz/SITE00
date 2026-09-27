@@ -396,7 +396,15 @@ export function TwinOpusDirectScreen({
           </div>
         </div>
       </div>
-      <TwinOpusDirectOverlays projectSlug={projectSlug} production={production} />
+      <TwinOpusDirectOverlays
+        projectSlug={projectSlug}
+        production={production}
+        pageFamilyBlueprint={workspace.data.pageFamilyBlueprint}
+        pageFamilyInteractionMap={workspace.data.pageFamilyInteractionMap}
+        onApprovePageFamilyInteractionMap={
+          workspace.pageConceptGeneration.viewportFamilyHandlers?.approvePageFamilyInteractionMap
+        }
+      />
       <PageConceptGenerationOverlay
         open={workspace.pageConceptGeneration.overlayOpen}
         mode={workspace.pageConceptGeneration.overlayMode}

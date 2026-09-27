@@ -17,6 +17,7 @@ import type {
   PageFamilySkinBehaviorContract,
 } from './pageConceptPageFamilySkinBehavior.js';
 import type { OpusPageFamilyHandoff, PageFamilyBlueprint } from './pageConceptPageFamilyBlueprint.js';
+import type { PageFamilyInteractionMap } from './pageConceptPageFamilyInteractionMap.js';
 import type { PageFamilyComponentExpressionMap } from './pageConceptPageFamilyComponentExpression.js';
 
 export type PageConceptTargetType = 'PAGE';
@@ -35,6 +36,7 @@ export type PageConceptGenerationStatus =
   | 'VIEWPORT_DESKTOP_RUNNING'
   | 'VIEWPORT_FAMILY_REVIEW'
   | 'PAGE_FAMILY_BLUEPRINT_REVIEW'
+  | 'PAGE_FAMILY_INTERACTION_MAP_REVIEW'
   | 'PAGE_FAMILY_CONTRACT_REVIEW'
   | 'VIEWPORT_FAMILY_LOCKED'
   | 'TWIN_IMPLEMENTATION_PACKAGE_READY'
@@ -397,6 +399,7 @@ export type PageConceptPipelineSet = {
   experienceExpressionAuthority?: import('./experienceExpressionAuthority.js').ExperienceExpressionAuthority | null;
   pageFamilySkinBehaviorContract?: PageFamilySkinBehaviorContract | null;
   pageFamilyBlueprint?: PageFamilyBlueprint | null;
+  pageFamilyInteractionMap?: PageFamilyInteractionMap | null;
   opusPageFamilyHandoff?: OpusPageFamilyHandoff | null;
   pageFamilyComponentExpressionMap?: PageFamilyComponentExpressionMap | null;
   opusRepresentativeShellSet?: OpusRepresentativeShellSet | null;
