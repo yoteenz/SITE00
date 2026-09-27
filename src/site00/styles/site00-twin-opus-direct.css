@@ -680,28 +680,41 @@
 .tod-rail--heroWorkflow .tod-rail__vfStage .tod-rail__action {
   width: 100%;
   box-sizing: border-box;
-  padding: 4px 8px;
-  border: 0;
+  min-height: 26px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.tod-rail--heroWorkflow .tod-rail__action--lime {
+.tod-rail--heroWorkflow .tod-rail__action--surface-primary,
+.tod-rail--heroWorkflow .tod-rail__action--lime:not(:disabled) {
   background: var(--tod-lime);
   color: #101505;
+  border-color: #101505;
 }
 
-.tod-rail--heroWorkflow .tod-rail__action--ghost {
+.tod-rail--heroWorkflow .tod-rail__action--surface-secondary,
+.tod-rail--heroWorkflow .tod-rail__action--ink:not(:disabled) {
+  background: #000;
+  color: var(--tod-lime);
+  border-color: #000;
+}
+
+.tod-rail--heroWorkflow .tod-rail__action--surface-tertiary,
+.tod-rail--heroWorkflow .tod-rail__action--ghost:not(:disabled) {
   background: #fff;
   color: #101010;
   border: 1px solid var(--tod-border-control);
 }
 
-.tod-rail--heroWorkflow .tod-rail__action--ink {
-  background: #000;
-  color: #f5f5f5;
-}
-
-.tod-rail--heroWorkflow .tod-rail__action:disabled {
-  opacity: 0.45;
+.tod-rail--heroWorkflow .tod-rail__action--surface-disabled,
+.tod-rail--heroWorkflow .tod-rail__vfStage .tod-rail__action:disabled {
+  background: #ececec;
+  color: #6a6a6a;
+  border: 1px solid #c8c8c8;
+  opacity: 1;
   cursor: not-allowed;
 }
 
