@@ -39,7 +39,7 @@ import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-d
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptPageFamilyContractPanel } from '../pageConceptGenerator/PageConceptPageFamilyContractPanel';
 import { PageConceptViewportFamilyPanel } from '../pageConceptGenerator/PageConceptViewportFamilyPanel';
-import { PageConceptExperienceExpressionReviewPanel } from '../pageConceptGenerator/PageConceptExperienceExpressionReviewPanel';
+import { ExperienceReviewPanel } from '../pageConceptGenerator/experienceReview/ExperienceReviewPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import {
   buildFounderJourneyRail,
@@ -462,23 +462,26 @@ export function PageConceptGenerationOverlay({
       >
         <button
           type="button"
-          className="s00-pcg__scrim"
+          className="s00-pcg__scrim s00-pcg__scrim--experience"
           aria-label="Close experience expression review"
           onClick={() => !generating && onCancel()}
         />
-        <div className="s00-pcg-layer__box">
-          <PageConceptExperienceExpressionReviewPanel
-            state={generationState}
-            projectLabel={plan?.projectLabel ?? generationState.projectId}
-            pageLabel={plan?.pageLabel ?? generationState.pageId}
-            busy={generating}
-            onApprove={() => viewportFamilyHandlers.approveExperience()}
-            onRegenerate={() => viewportFamilyHandlers.generateExperience?.()}
-            onRegenerateState={(stateId, forceInheritAuthorityTheme) =>
-              viewportFamilyHandlers.regenerateExperienceState?.(stateId, forceInheritAuthorityTheme)
-            }
-            onClose={onCancel}
-          />
+        <div className="s00-pcg-layer__box s00-pcg-layer__box--experience">
+          <div className="s00-pcg-layer__scrollBody">
+            <ExperienceReviewPanel
+              state={generationState}
+              projectLabel={plan?.projectLabel ?? generationState.projectId}
+              pageLabel={plan?.pageLabel ?? generationState.pageId}
+              busy={generating}
+              onApprove={() => viewportFamilyHandlers.approveExperience()}
+              onRegenerate={() => viewportFamilyHandlers.generateExperience?.()}
+              onGenerateExperience={() => viewportFamilyHandlers.generateExperience?.()}
+              onRegenerateState={(stateId, forceInheritAuthorityTheme) =>
+                viewportFamilyHandlers.regenerateExperienceState?.(stateId, forceInheritAuthorityTheme)
+              }
+              onClose={onCancel}
+            />
+          </div>
         </div>
       </div>
     );

@@ -28,7 +28,11 @@ const INSPECTOR_TSX = readFileSync(
   'utf8',
 );
 const EXP_TSX = readFileSync(
-  resolve('src/site00/components/designBench/pageConceptGenerator/PageConceptExperienceExpressionReviewPanel.tsx'),
+  resolve('src/site00/components/designBench/pageConceptGenerator/experienceReview/ExperienceReviewPanel.tsx'),
+  'utf8',
+);
+const EXP_SECTIONS_TSX = readFileSync(
+  resolve('src/site00/components/designBench/pageConceptGenerator/experienceReview/ExperienceReviewSections.tsx'),
   'utf8',
 );
 const OVERLAY_TSX = readFileSync(
@@ -77,7 +81,31 @@ async function pipelineThroughViewportApproval() {
   let r = await runPageConceptViewportFamilyAction(state, { type: 'selectMobileConcept', conceptId });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
-  r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
+  const approvedAt = new Date().toISOString();
+  const ps = r.state.pipelineSet!;
+  r = {
+    ...r,
+    state: {
+      ...r.state,
+      pipelineSet: {
+        ...ps,
+        experienceExpressionAuthority: {
+          ...ps.experienceExpressionAuthority!,
+          status: 'APPROVED',
+          approvedAt,
+        },
+        experienceExpressionContract: {
+          ...ps.experienceExpressionContract!,
+          approvedAt,
+        },
+        viewportAuthorityFamily: {
+          ...ps.viewportAuthorityFamily!,
+          experienceExpressionStatus: 'APPROVED',
+          experienceApprovedAt: approvedAt,
+        },
+      },
+    },
+  };
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveViewportFamily' });
@@ -146,8 +174,8 @@ describe('P0.VR.PAGE-SYSTEM-REVIEW-FAMILY-EXPANSION-AND-EXPERIENCE-REVIEW-PANEL1
   it('experience review uses dedicated overlay surface with visual cards', () => {
     expect(OVERLAY_TSX).toContain('s00-pcg-layer--experience');
     expect(OVERLAY_TSX).toContain("mode === 'experience-review'");
-    expect(EXP_TSX).toContain('data-testid="page-concept-experience-visual-cards"');
-    expect(EXP_TSX).toContain('APPROVE EXPERIENCE PACKAGE');
+    expect(EXP_SECTIONS_TSX).toContain('data-testid="experience-review-output-nav"');
+    expect(EXP_SECTIONS_TSX).toContain('APPROVE PACKAGE');
     expect(EXP_TSX).toContain('data-testid="page-concept-experience-fullscreen"');
     expect(PCG_CSS).toContain('.s00-pcg-layer--experience');
   });
