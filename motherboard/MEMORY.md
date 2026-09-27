@@ -11944,3 +11944,14 @@ Corrective sprint: **`ProjectVisualAuthority`** reframed as **`Site00ProjectExpr
 - **UI:** gallery **PROMOTE SITE 00 PROJECT EXPRESSION**; dock **EXPRESSION AUTHORITY**; indicator `project-expression-authority-indicator`.
 - **GPT2:** prompt v10 + scope guard in mobile compiler; request package passes `designTarget`.
 - **Tests:** `p0vrProjectInSite00ExpressionAuthorityScopeCorrection1.test.ts` (8).
+
+---
+
+## 2026-09-27 — P0.VR concept A sanitize before promotion 1
+
+Sprint **P0.VR.CONCEPT-A-AUTHORITY-SANITIZE-BEFORE-PROMOTION1**: structural cleanup of selected concept artifact **before** **PROMOTE SITE 00 PROJECT EXPRESSION** — no redesign.
+
+- **`pageConceptAuthorityArtifactSanitation.ts`:** `sanitizeAuthorityConceptArtifact`, `validateScreenshotSanitationMap`, lineage `SANITIZED_FROM`, localStorage registry; blocks with **`SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED`**.
+- **Promotion:** `promoteSite00ProjectExpressionAuthority` requires passing `sanitationReceipt` + `sourceArtifactId` = sanitized id; record stores `sourceOriginalArtifactId`.
+- **Workspace:** promote action fetches concept image, sanitizes to **780×1688**, registers lineage, then promotes.
+- **Tests:** `p0vrConceptAAuthoritySanitizeBeforePromotion1.test.ts` (4).

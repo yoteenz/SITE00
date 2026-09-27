@@ -3,6 +3,8 @@
  */
 
 import { validateConceptCanvas } from './pageConceptViewportCanvasContract.js';
+import type { AuthorityArtifactSanitationReceipt } from './pageConceptAuthorityArtifactSanitation.js';
+import { validateAuthorityArtifactSanitationReceipt } from './pageConceptAuthorityArtifactSanitation.js';
 
 export type ConceptArtifactNormalizationResult = {
   ok: boolean;
@@ -22,6 +24,7 @@ export function normalizeConceptArtifact(input: {
   height: number | null | undefined;
   artifactStatus: string;
   sanitationApplied?: boolean;
+  sanitationReceipt?: AuthorityArtifactSanitationReceipt | null;
 }): ConceptArtifactNormalizationResult {
   const width = input.width ?? 0;
   const height = input.height ?? 0;
@@ -33,6 +36,18 @@ export function normalizeConceptArtifact(input: {
       normalized: null,
     };
   }
+  if (input.sanitationReceipt) {
+    const receiptOk = validateAuthorityArtifactSanitationReceipt(input.sanitationReceipt);
+    if (!receiptOk.ok) {
+      return {
+        ok: false,
+        errorCode: 'CONCEPT_CANVAS_INVALID',
+        reason: receiptOk.reason,
+        normalized: null,
+      };
+    }
+  }
+
   const canvas = validateConceptCanvas({ width, height });
   if (!canvas.ok) {
     return {
@@ -50,7 +65,7 @@ export function normalizeConceptArtifact(input: {
       width,
       height,
       letterboxFree: !canvas.letterboxDetected,
-      deviceChromeFree: true,
+      deviceChromeFree: input.sanitationReceipt?.deviceChromeRemoved ?? input.sanitationApplied !== false,
     },
   };
 }

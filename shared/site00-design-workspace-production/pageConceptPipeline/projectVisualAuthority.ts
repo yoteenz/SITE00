@@ -8,6 +8,11 @@ import type { WebExpressionTerritory } from './pageConceptWebExpressionTerritori
 import type { NdxBrandFamiliarityBrief } from './pageConceptNdxBrandFamiliarityBrief.js';
 import { normalizeConceptArtifact } from './pageConceptConceptArtifactNormalization.js';
 import {
+  SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED,
+  validateAuthorityArtifactSanitationReceipt,
+  type AuthorityArtifactSanitationReceipt,
+} from './pageConceptAuthorityArtifactSanitation.js';
+import {
   SITE00_HOST_PRODUCT,
   SITE00_PROJECTS_CONTEXT,
   type DesignTargetDescriptor,
@@ -42,6 +47,7 @@ export type Site00ProjectExpressionAuthorityRecord = {
   sourceConceptId: string;
   sourceTerritoryId: string | null;
   sourceArtifactId: string;
+  sourceOriginalArtifactId: string | null;
   sourceViewport: 'MOBILE' | 'DESKTOP' | 'TABLET';
   sourceViewportFamilyId: string | null;
   promotedAt: string;
@@ -257,6 +263,7 @@ function upgradeLegacyRecord(record: ProjectVisualAuthorityRecord): Site00Projec
     context: SITE00_PROJECTS_CONTEXT,
     authorityScope: 'SITE00_PROJECT_CONTEXT',
     sourceViewportFamilyId: record.sourceViewportFamilyId ?? null,
+    sourceOriginalArtifactId: record.sourceOriginalArtifactId ?? null,
   };
 }
 
@@ -348,17 +355,27 @@ export function promoteSite00ProjectExpressionAuthority(input: {
   artifactWidth: number;
   artifactHeight: number;
   artifactStatus: string;
+  sanitationReceipt: AuthorityArtifactSanitationReceipt;
   compile: Omit<Parameters<typeof compileSite00ProjectExpressionAuthorityContract>[0], 'record'>;
 }): {
   registry: Site00ProjectExpressionAuthorityRegistry;
   record: Site00ProjectExpressionAuthorityRecord;
   contract: Site00ProjectExpressionAuthorityContract;
 } {
+  const sanitationCheck = validateAuthorityArtifactSanitationReceipt(input.sanitationReceipt);
+  if (!sanitationCheck.ok) {
+    throw new Error(SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED);
+  }
+  if (input.sanitationReceipt.sanitizedArtifactId !== input.sourceArtifactId) {
+    throw new Error(SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED);
+  }
+
   const normalized = normalizeConceptArtifact({
     width: input.artifactWidth,
     height: input.artifactHeight,
     artifactStatus: input.artifactStatus,
     sanitationApplied: true,
+    sanitationReceipt: input.sanitationReceipt,
   });
   if (!normalized.ok) {
     throw new Error(normalized.reason ?? 'CONCEPT_CANVAS_INVALID');
@@ -382,6 +399,7 @@ export function promoteSite00ProjectExpressionAuthority(input: {
     sourceConceptId: input.sourceConceptId,
     sourceTerritoryId: input.sourceTerritoryId,
     sourceArtifactId: input.sourceArtifactId,
+    sourceOriginalArtifactId: input.sanitationReceipt.originalArtifactId,
     sourceViewport: input.sourceViewport,
     sourceViewportFamilyId: input.sourceViewportFamilyId ?? null,
     promotedAt: new Date().toISOString(),
