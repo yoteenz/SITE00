@@ -11876,3 +11876,14 @@ Founder: Concept C strongest; A/B still read generic editorial — do **not** de
 - **Territory stems:** B `typeScaleDrama` → HIGH; stronger NDX evidence/stamp language for A/B image + premise copy (not palette shuffle).
 - **Validator:** `validateTerritoryNdxBrandParity` — A/B depth score within 1 of C; no C signature collision; pre-dispatch with territory set compile.
 - **Brief version:** `ndx-brand-familiarity-brief-v2-ab-amplify`.
+
+---
+
+## 2026-09-27 — P0.VR Design workspace Concept Intelligence Dock 1
+
+Sprint **P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1**: replaced legacy bottom **CONCEPT DATA / ENTRY001 / Signal cover** panel with **Concept Intelligence Dock** (tabs CONCEPT · EXPRESSION · FUNCTION · LINEAGE · HISTORY · HANDOFF).
+
+- **`designConceptIntelligenceDock.ts`**: `buildDesignConceptIntelligenceDockModel` binds selected gallery candidate, viewport, `PageConceptGenerationState` pipeline (CGPT, architecture, screenshot function map, NDX brand familiarity compile, web expression territory slot, GPT2 artifact), hero-rail-aligned handoff pipeline, history.
+- **`DesignConceptIntelligenceDock.tsx`**: shared canonical + list dock; landscape header-crop preview; no default campaign plate.
+- **Workspace:** `conceptIntelligenceDock` on `TwinOpusDirectWorkspaceData`; list body no longer embeds `tod-lv-concept` digest (dock-only).
+- **Tests:** `p0vrDesignWorkspaceConceptIntelligenceDock1.test.ts`; opus-direct tab expectations updated.

@@ -4235,3 +4235,210 @@
   color: #8b0000;
   font-size: 9px;
 }
+
+/* P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1 */
+.tod-tabs__list--cid {
+  position: relative;
+  inset: auto;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 12px;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.tod-tabs__list--cid .tod-tabs__tab {
+  position: relative;
+  left: auto;
+  transform: none;
+  flex: 0 0 auto;
+}
+
+.tod-cid {
+  flex: 0 0 auto;
+  max-height: 220px;
+  overflow: hidden;
+  padding: 8px var(--tod-pad-r) 10px 16px;
+  border-bottom: 1px solid var(--tod-border-panel);
+  background: var(--tod-paper);
+}
+
+.tod-cid__empty {
+  font-size: 9px;
+  color: #5e5e60;
+  margin: 0;
+}
+
+.tod-cid__conceptGrid {
+  display: grid;
+  grid-template-columns: 148px 1fr 120px;
+  gap: 12px;
+  align-items: start;
+}
+
+.tod-cid__visualLabel,
+.tod-cid__kicker,
+.tod-cid__sumLabel,
+.tod-cid__cardLabel {
+  display: block;
+  font-size: 7.4px;
+  letter-spacing: 0.04em;
+  color: #5e5e60;
+  margin-bottom: 4px;
+}
+
+.tod-cid__visual .s00-pcg__containPreview {
+  height: 78px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.tod-cid__visualEmpty {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  background: #111;
+  color: #888;
+}
+
+.tod-cid__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 10px;
+  margin: 0;
+  font-size: 8.2px;
+}
+
+.tod-cid__meta dt {
+  color: #5e5e60;
+  font-weight: var(--tod-weight-ui);
+}
+
+.tod-cid__meta dd {
+  margin: 0;
+  color: #222;
+}
+
+.tod-cid__summary p {
+  margin: 0 0 6px;
+  font-size: 8.2px;
+  line-height: 1.25;
+  color: #333;
+}
+
+.tod-cid__stateStrip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 7.8px;
+}
+
+.tod-cid__stateStrip li {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  border-bottom: 1px solid var(--tod-border-subtle);
+  padding-bottom: 2px;
+}
+
+.tod-cid__stateStrip li[data-tone='ok'] span:last-child {
+  color: var(--tod-lime-ink, #3d5c00);
+}
+
+.tod-cid__next {
+  font-size: 8.5px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tod-cid__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.tod-cid__lockBanner {
+  font-size: 8px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+.tod-cid__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.tod-cid__card {
+  border: 1px solid var(--tod-border-subtle);
+  padding: 4px 6px;
+  background: #fafafa;
+}
+
+.tod-cid__card p {
+  margin: 0;
+  font-size: 7.8px;
+  line-height: 1.25;
+}
+
+.tod-cid__chain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 7.8px;
+}
+
+.tod-cid__chain li {
+  border: 1px solid var(--tod-border-column);
+  padding: 4px 6px;
+  min-width: 88px;
+}
+
+.tod-cid__detailsBtn {
+  font-size: 7px;
+  margin-top: 2px;
+  color: #444;
+  text-decoration: underline;
+}
+
+.tod-cid__pipeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 8px;
+}
+
+.tod-cid__pipeline li[data-complete='yes'] span:last-child {
+  color: var(--tod-lime-ink, #3d5c00);
+}
+
+.tod-cid__timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 7.8px;
+}
+
+.tod-cid__timeline li {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 2px 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--tod-border-subtle);
+}

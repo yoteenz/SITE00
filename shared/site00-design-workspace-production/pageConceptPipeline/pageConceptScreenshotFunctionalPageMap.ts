@@ -613,7 +613,7 @@ export type ScreenshotFunctionMapZoneRole =
   | 'LOWER_CTA_ACCESS'
   | 'BOTTOM_NAVIGATION';
 
-function inferZoneRole(regionName: string): ScreenshotFunctionMapZoneRole {
+export function inferZoneRole(regionName: string): ScreenshotFunctionMapZoneRole {
   const n = regionName.toUpperCase();
   if (n.includes('BOTTOM') || n.includes('CONTINUITY')) return 'BOTTOM_NAVIGATION';
   if (n.includes('BREAD') || n.includes('ROUTE') || n.includes('CONTEXT')) return 'TOP_ROUTE_BREADCRUMB';

@@ -18,6 +18,7 @@ import { DesignHeroComparePanel } from './DesignHeroComparePanel';
 import { DesignViewportFamilyHeroRail } from './DesignViewportFamilyHeroRail';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
+import { DesignConceptIntelligenceDock } from './DesignConceptIntelligenceDock';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
@@ -343,132 +344,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
   );
 }
 
-/** 11-12: concept record tabs and the concept data row, inside the shared dock. */
+/** 11-12: Concept Intelligence Dock inside the shared lower dock. */
 export function TwinOpusDirectCanonicalRecord({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions, production } = workspace;
-  const tab = data.conceptTabs[state.recordTabIndex] ?? data.conceptTabs[0];
-
-  return (
-    <>
-      <div className="tod-tabs">
-        <div className="tod-tabs__list" role="tablist" aria-label="Concept record">
-          {data.conceptTabs.map((tab, index) => (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              id={`tod-tab-${index}`}
-              aria-selected={state.recordTabIndex === index}
-              aria-controls="tod-concept-panel"
-              tabIndex={state.recordTabIndex === index ? 0 : -1}
-              className={`tod-tabs__tab${state.recordTabIndex === index ? ' is-active' : ''}`}
-              onClick={() => actions.selectRecordTab(index)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div
-        className="tod-concept"
-        id="tod-concept-panel"
-        role="tabpanel"
-        aria-labelledby={`tod-tab-${state.recordTabIndex}`}
-      >
-        <div className="tod-concept__thumb">
-          <span className="tod-concept__thumbVersion">V1.3</span>
-          <span className="tod-concept__thumbCopy">
-            <span>THE SIGNAL</span>
-            <span>IS THE INDEX</span>
-          </span>
-          <span className="tod-concept__thumbStandfirst">
-            <span>CULTURE AS EVIDENCE.</span>
-            <span>IDEAS AS INDEX.</span>
-            <span>NDXBOOK.</span>
-          </span>
-          <TodArchivalPlate className="tod-concept__thumbPlate" marks={false} slot="conceptRecord" />
-        </div>
-        {tab === 'CONCEPT DATA' ?
-          <dl className="tod-concept__fields">
-            {data.conceptFields.map((field) => (
-              <div key={field.label} className="tod-concept__field">
-                <dt>{field.label}</dt>
-                <dd>{field.value}</dd>
-              </div>
-            ))}
-          </dl>
-        : null}
-        {tab === 'VERSION HISTORY' ?
-          <ul className="tod-rec__list">
-            {[
-              { label: 'MOBILE', value: production.state.mobileVersion },
-              { label: 'DESKTOP', value: production.state.desktopVersion },
-              { label: 'AUTHORITY', value: production.state.designAuthorityVersion },
-            ].map((row) => (
-              <li key={row.label} className="tod-rec__row">
-                <span className="tod-rec__rowLabel">{row.label}</span>
-                <span className="tod-rec__rowValue">{row.value || '—'}</span>
-              </li>
-            ))}
-          </ul>
-        : null}
-        {tab === 'CHANGE HISTORY' ?
-          production.state.history.length === 0 ?
-            <p className="tod-rec__empty">NO CHANGES RECORDED YET</p>
-          : <ul className="tod-rec__list">
-              {production.state.history.slice(-6).reverse().map((entry) => (
-                <li key={entry.id} className="tod-rec__row tod-rec__row--stack">
-                  <span className="tod-rec__rowLabel">{entry.type.replace(/_/g, ' ')}</span>
-                  <span className="tod-rec__rowSub">{entry.summary}</span>
-                </li>
-              ))}
-            </ul>
-
-        : null}
-        {tab === 'MASTER UPDATE' ?
-          <dl className="tod-concept__fields">
-            <div className="tod-concept__field">
-              <dt>MOBILE AUTHORITY</dt>
-              <dd>{production.state.mobileAuthority}</dd>
-            </div>
-            <div className="tod-concept__field">
-              <dt>DESKTOP AUTHORITY</dt>
-              <dd>{production.state.desktopAuthority}</dd>
-            </div>
-            <div className="tod-concept__field">
-              <dt>DESIGN AUTHORITY VERSION</dt>
-              <dd>{production.state.designAuthorityVersion}</dd>
-            </div>
-          </dl>
-        : null}
-        {tab === 'AMENDMENT' ?
-        <div className="tod-concept__amendment">
-          <div className="tod-concept__amendHead">
-            <span className="tod-concept__amendTitle">{data.amendment.title}</span>
-            <span className="tod-concept__amendChip">{data.amendment.chip}</span>
-          </div>
-          <dl className="tod-concept__fields tod-concept__fields--amend">
-            {data.amendment.fields.map((field) => (
-              <div key={field.label} className="tod-concept__field">
-                <dt>{field.label}</dt>
-                <dd>{field.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-        : null}
-        {tab === 'AMENDMENT' ?
-        <button
-          type="button"
-          className="tod-concept__view"
-          data-interaction-id="concept-amendment-view"
-          onClick={() => actions.openAmendmentDetail()}
-        >
-          {data.amendment.action}
-        </button>
-        : null}
-      </div>
-    </>
-  );
+  return <DesignConceptIntelligenceDock workspace={workspace} variant="canonical" />;
 }

@@ -54,6 +54,10 @@ import {
   isCanonicalGpt2ViewportFamilyPipeline,
   type Gpt2ViewportFamilyHeroRailStage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
+import {
+  buildDesignConceptIntelligenceDockModel,
+  type ConceptIntelligenceDockModel,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designConceptIntelligenceDock.js';
 import { PAGE_CONCEPT_FIT_FULL_SCREEN } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptArtifactFitModes.js';
 import type { PageConceptLatestGenerationDiagnostics } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptLatestGenerationRun.js';
 import { pageConceptCandidateMatchesViewportGallery } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportGalleryScope.js';
@@ -250,7 +254,10 @@ export interface TwinOpusDirectWorkspaceData {
   pipelineTitle: typeof TWIN_OPUS_DIRECT_PIPELINE_TITLE;
   pagePipeline: PagePipelineControllerModel;
   conceptTabs: typeof TWIN_OPUS_DIRECT_CONCEPT_TABS;
+  conceptIntelligenceDock: ConceptIntelligenceDockModel;
+  /** @deprecated Legacy static digest — not shown in Concept Intelligence Dock. */
   conceptFields: typeof TWIN_OPUS_DIRECT_CONCEPT_FIELDS;
+  /** @deprecated Legacy amendment block — not shown in Concept Intelligence Dock. */
   amendment: typeof TWIN_OPUS_DIRECT_AMENDMENT;
   bottomNav: typeof TWIN_OPUS_DIRECT_BOTTOM_NAV;
   heroPreview: HeroPreviewResolution;
@@ -1191,6 +1198,40 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         : 'NO PAGE CONCEPT SELECTED'
       : 'NO CONCEPT PREVIEW';
 
+    const viewportFamilyHeroRailStages = buildGpt2ViewportFamilyHeroRailStages({
+      pipelineSet: pageConceptGeneration.pipelineSet,
+      selectedMobileConceptId,
+      selectedGalleryCandidateId: candidateId,
+      selectedGalleryCandidateSlotLabel: (() => {
+        const row = pageConcepts.find((c) => c.conceptId === candidateId);
+        if (!row?.conceptSlot) return null;
+        if (row.conceptSlot === 'MOBILE_CONCEPT_A') return 'CONCEPT A';
+        if (row.conceptSlot === 'MOBILE_CONCEPT_B') return 'CONCEPT B';
+        if (row.conceptSlot === 'MOBILE_CONCEPT_C') return 'CONCEPT C';
+        return null;
+      })(),
+      generating: pageConceptGenerationActivelyRunning(
+        pageConceptGeneration.generationStatus,
+        pageConceptGeneration.generating,
+      ),
+      generationJobs: pageConceptGeneration.generationJobs,
+      activeViewport: viewport,
+      tabletInterpretationActive:
+        viewport === 'TABLET' &&
+        Boolean(
+          inspectedConcept?.artifactRole === 'TABLET_INTERPRETATION' &&
+            family?.tabletArtifactId &&
+            inspectedConcept.artifactId === family.tabletArtifactId,
+        ),
+      desktopInterpretationActive:
+        viewport === 'DESKTOP' &&
+        Boolean(
+          inspectedConcept?.artifactRole === 'DESKTOP_INTERPRETATION' &&
+            family?.desktopArtifactId &&
+            inspectedConcept.artifactId === family.desktopArtifactId,
+        ),
+    });
+
     return {
       header: {
         ...TWIN_OPUS_DIRECT_HEADER,
@@ -1322,6 +1363,26 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           `Page system review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
         ),
       conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
+      conceptIntelligenceDock: buildDesignConceptIntelligenceDockModel({
+        projectId: slug,
+        pageId: shellTarget.pageId,
+        viewport,
+        targetRouteLabel: designPageTargetLines(shellTarget).join(' > '),
+        selectedCandidate: scopedCandidates.find((c) => c.id === candidateId) ?? null,
+        inspectedConcept,
+        selectedMobileConceptId,
+        generationState: pageConceptGeneration.generationState,
+        currentRunId: gallerySections.currentRunId,
+        galleryCurrent: scopedCandidates,
+        galleryHistory: historyCandidates,
+        viewportFamilyHeroRailStages,
+        productionHistory: prodState.history.map((h) => ({
+          id: h.id,
+          type: h.type,
+          summary: h.summary,
+          at: h.at,
+        })),
+      }),
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
       bottomNav: TWIN_OPUS_DIRECT_BOTTOM_NAV,
@@ -1351,39 +1412,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         state: pageConceptGeneration.generationState,
         generating: pageConceptGeneration.generating,
       }),
-      viewportFamilyHeroRailStages: buildGpt2ViewportFamilyHeroRailStages({
-        pipelineSet: pageConceptGeneration.pipelineSet,
-        selectedMobileConceptId,
-        selectedGalleryCandidateId: candidateId,
-        selectedGalleryCandidateSlotLabel: (() => {
-          const row = pageConcepts.find((c) => c.conceptId === candidateId);
-          if (!row?.conceptSlot) return null;
-          if (row.conceptSlot === 'MOBILE_CONCEPT_A') return 'CONCEPT A';
-          if (row.conceptSlot === 'MOBILE_CONCEPT_B') return 'CONCEPT B';
-          if (row.conceptSlot === 'MOBILE_CONCEPT_C') return 'CONCEPT C';
-          return null;
-        })(),
-        generating: pageConceptGenerationActivelyRunning(
-          pageConceptGeneration.generationStatus,
-          pageConceptGeneration.generating,
-        ),
-        generationJobs: pageConceptGeneration.generationJobs,
-        activeViewport: viewport,
-        tabletInterpretationActive:
-          viewport === 'TABLET' &&
-          Boolean(
-            inspectedConcept?.artifactRole === 'TABLET_INTERPRETATION' &&
-              family?.tabletArtifactId &&
-              inspectedConcept.artifactId === family.tabletArtifactId,
-          ),
-        desktopInterpretationActive:
-          viewport === 'DESKTOP' &&
-          Boolean(
-            inspectedConcept?.artifactRole === 'DESKTOP_INTERPRETATION' &&
-              family?.desktopArtifactId &&
-              inspectedConcept.artifactId === family.desktopArtifactId,
-          ),
-      }),
+      viewportFamilyHeroRailStages,
       heroAssembly: (() => {
         const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
         const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
