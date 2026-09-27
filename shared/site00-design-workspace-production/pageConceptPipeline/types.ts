@@ -328,7 +328,7 @@ export type PageConceptGeneratedArtifact = {
   creativeInjectionId: string;
   gpt2AuthorityConceptId: string;
   renditionId: string;
-  provider: 'NBP' | 'GPT2_DIRECT' | 'GPT2_MOBILE' | 'GPT2_TABLET' | 'GPT2_DESKTOP';
+  provider: 'NBP' | 'GPT2_DIRECT' | 'GPT2_MOBILE' | 'GPT2_TABLET' | 'GPT2_DESKTOP' | 'FAL_EXPERIENCE';
   model: string;
   providerJobId: string | null;
   promptVersion: string;

@@ -208,17 +208,23 @@ export function pageConceptConfirmMobileAuthority(state: PageConceptGenerationSt
   return { state: nextState, generationStatus: nextState.generationStatus };
 }
 
-export function pageConceptGenerateExperienceExpression(state: PageConceptGenerationState): ViewportFamilyOrchestrationResult {
+export function pageConceptBeginExperienceExpressionGeneration(state: PageConceptGenerationState): {
+  state: PageConceptGenerationState;
+  mobileConcept: import('./pageConceptViewportAuthorityFamily.js').PageGpt2MobileConcept;
+  authority: import('./experienceExpressionAuthority.js').ExperienceExpressionAuthority;
+  contract: PageExperienceExpressionContract;
+} {
   const ps = state.pipelineSet;
   const family = ps?.viewportAuthorityFamily;
   if (!isMobileAuthorityConfirmed(family)) throw new Error('MOBILE_AUTHORITY_CONFIRMATION_REQUIRED');
   const conceptId = family!.confirmedMobileConceptId ?? family!.selectedMobileConceptId!;
   const mobileConcept = ps!.mobileConcepts?.find((c) => c.conceptId === conceptId);
   if (!mobileConcept) throw new Error('MOBILE_CONCEPT_NOT_FOUND');
+  if (!mobileConcept.imageUri?.trim()) throw new Error('MOBILE_AUTHORITY_IMAGE_MISSING');
   const injection = ps!.creativeInjection!;
   const brief = ps!.cgptCreativeBrief!;
   const skin = compileProjectSkinContract(state.projectId);
-  const authority = compileExperienceExpressionAuthority({
+  const authorityBase = compileExperienceExpressionAuthority({
     projectId: state.projectId,
     pageId: state.pageId,
     mobileConcept,
@@ -227,6 +233,7 @@ export function pageConceptGenerateExperienceExpression(state: PageConceptGenera
     injection,
     functionContract: state.functionContract!,
   });
+  const authority = { ...authorityBase, status: 'GENERATING' as const };
   const contract = compilePageExperienceExpressionContract({
     projectId: state.projectId,
     pageId: state.pageId,
@@ -238,7 +245,7 @@ export function pageConceptGenerateExperienceExpression(state: PageConceptGenera
   });
   const nextFamily: PageViewportAuthorityFamily = {
     ...family!,
-    experienceExpressionStatus: 'READY_FOR_REVIEW',
+    experienceExpressionStatus: 'GENERATING',
     experienceExpressionContractId: contract.contractId,
     experienceExpressionVersion: contract.version,
     updatedAt: new Date().toISOString(),
@@ -252,7 +259,80 @@ export function pageConceptGenerateExperienceExpression(state: PageConceptGenera
     },
     nextFamily,
   );
+  return { state: nextState, mobileConcept, authority, contract };
+}
+
+export function pageConceptApplyExperienceExpressionGenerationResult(
+  state: PageConceptGenerationState,
+  input: {
+    authority: import('./experienceExpressionAuthority.js').ExperienceExpressionAuthority;
+    contract: PageExperienceExpressionContract;
+    jobs: readonly PageConceptGeneratedArtifact[];
+  },
+): ViewportFamilyOrchestrationResult {
+  const family = state.pipelineSet?.viewportAuthorityFamily;
+  if (!family) throw new Error('VIEWPORT_FAMILY_REQUIRED');
+  const visualLabels = input.authority.visualStates.map((v) => `${v.label}: ${v.caption}`);
+  const contract: PageExperienceExpressionContract = {
+    ...input.contract,
+    overlayPatterns: [...input.contract.overlayPatterns, 'EXPERIENCE VISUAL PACKAGE:', ...visualLabels],
+  };
+  const nextFamily: PageViewportAuthorityFamily = {
+    ...family,
+    experienceExpressionStatus: 'READY_FOR_REVIEW',
+    experienceExpressionContractId: contract.contractId,
+    experienceExpressionVersion: contract.version,
+    updatedAt: new Date().toISOString(),
+  };
+  const nextState = patchPipeline(
+    state,
+    {
+      experienceExpressionAuthority: input.authority,
+      experienceExpressionContract: contract,
+      viewportAuthorityFamily: nextFamily,
+    },
+    nextFamily,
+  );
+  return { state: nextState, jobs: [...input.jobs], generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptMarkExperienceExpressionGenerationFailed(
+  state: PageConceptGenerationState,
+  reason: string,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  const authority = ps?.experienceExpressionAuthority;
+  const nextAuthority =
+    authority ?
+      {
+        ...authority,
+        status: 'FAILED' as const,
+        behaviorContract: `${authority.behaviorContract}\n\nGENERATION FAILED: ${reason}`,
+      }
+    : null;
+  const nextFamily: PageViewportAuthorityFamily | undefined =
+    family ?
+      {
+        ...family,
+        experienceExpressionStatus: 'FAILED',
+        updatedAt: new Date().toISOString(),
+      }
+    : undefined;
+  const nextState = patchPipeline(
+    state,
+    {
+      experienceExpressionAuthority: nextAuthority,
+      viewportAuthorityFamily: nextFamily ?? family ?? undefined,
+    },
+    nextFamily ?? family ?? undefined,
+  );
   return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+/** @deprecated Use async FAL path via runPageConceptViewportFamilyAction */
+export function pageConceptGenerateExperienceExpression(_state: PageConceptGenerationState): ViewportFamilyOrchestrationResult {
+  throw new Error('EXPERIENCE_EXPRESSION_USE_ASYNC_GENERATION');
 }
 
 export function pageConceptApproveExperienceExpression(
@@ -265,6 +345,11 @@ export function pageConceptApproveExperienceExpression(
   const authority = ps?.experienceExpressionAuthority;
   if (!authority || authority.status !== 'READY_FOR_REVIEW') {
     throw new Error('EXPERIENCE_ARTIFACT_REQUIRED');
+  }
+  const falStates = authority.visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE');
+  if (authority.provider === 'FAL' && falStates.length > 0) {
+    const missing = falStates.some((v) => !v.previewImageUri?.trim());
+    if (missing) throw new Error('EXPERIENCE_FAL_IMAGES_REQUIRED');
   }
   if (authority.sourceConceptId !== (family!.confirmedMobileConceptId ?? family!.selectedMobileConceptId)) {
     throw new Error('EXPERIENCE_MOBILE_LINEAGE_MISMATCH');

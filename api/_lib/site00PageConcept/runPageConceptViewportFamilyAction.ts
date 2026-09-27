@@ -14,7 +14,9 @@ import {
   pageConceptMarkOpusRepresentativeShellsReady,
   pageConceptRecordTwinCapture,
   pageConceptConfirmMobileAuthority,
-  pageConceptGenerateExperienceExpression,
+  pageConceptApplyExperienceExpressionGenerationResult,
+  pageConceptBeginExperienceExpressionGeneration,
+  pageConceptMarkExperienceExpressionGenerationFailed,
   pageConceptSelectMobileConcept,
   pageConceptTabletArtifactIdForFamily,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
@@ -31,7 +33,7 @@ import { mergePageConceptArtifactsIntoGallery } from '../../../shared/site00-des
 export type PageConceptViewportFamilyAction =
   | { type: 'selectMobileConcept'; conceptId: string }
   | { type: 'confirmMobileAuthority' }
-  | { type: 'generateExperienceExpression' }
+  | { type: 'generateExperienceExpression'; dryRun?: boolean }
   | { type: 'approveExperienceExpression' }
   | { type: 'runTabletInterpretation'; dryRun?: boolean }
   | { type: 'runDesktopInterpretation'; dryRun?: boolean }
@@ -78,7 +80,39 @@ export async function runPageConceptViewportFamilyAction(
   }
 
   if (action.type === 'generateExperienceExpression') {
-    return pageConceptGenerateExperienceExpression(state);
+    const dryRun = action.dryRun ?? process.env.VITEST === 'true';
+    const { executePageConceptExperienceExpressionGeneration } = await import(
+      './executePageConceptExperienceExpressionGeneration.js'
+    );
+    const begun = pageConceptBeginExperienceExpressionGeneration(state);
+    try {
+      const rendered = await executePageConceptExperienceExpressionGeneration({
+        authority: begun.authority,
+        mobileAuthorityImageUri: begun.mobileConcept.imageUri!,
+        planMeta: {
+          projectId: state.projectId,
+          pageId: state.pageId,
+          captureSetId: state.pipelineSet!.captureSetId,
+          projectContextVersion: state.projectContext!.contextVersion,
+          pageContextVersion: state.pageContext!.contextVersion,
+          functionContractId: state.functionContract!.contractId,
+          creativeInjectionId: state.pipelineSet!.creativeInjection!.injectionId,
+          selectedMobileConceptId: begun.mobileConcept.conceptId,
+        },
+        functionContract: state.functionContract!,
+        cgptBrief: state.pipelineSet!.cgptCreativeBrief!,
+        injection: state.pipelineSet!.creativeInjection!,
+        dryRun,
+      });
+      return pageConceptApplyExperienceExpressionGenerationResult(begun.state, {
+        authority: rendered.authority,
+        contract: begun.contract,
+        jobs: rendered.jobs,
+      });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : 'EXPERIENCE_EXPRESSION_FAL_FAILED';
+      return pageConceptMarkExperienceExpressionGenerationFailed(begun.state, msg);
+    }
   }
 
   if (action.type === 'selectMobileConcept') {
