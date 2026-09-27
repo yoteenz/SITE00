@@ -13,6 +13,7 @@ import type {
   ExperiencePackagingPlan,
   ExpressionPromptType,
 } from './pageConceptExperienceExpressionPromptOrchestration.js';
+import { themePromptBlockForMode } from './experienceThemeContinuity.js';
 
 export const NDXBOOK_OVERVIEW_EXPERIENCE_PROMPT_VERSION = 'page-experience-expression-ndxbook-overview-v1';
 
@@ -24,6 +25,9 @@ export type ExperiencePackageOutputRecord = {
   sourcePromptIds: readonly string[];
   approved: boolean;
   version: string;
+  themeMode?: import('./experienceThemeContinuity.js').ExperienceThemeMode;
+  contrastRationale?: string | null;
+  themeContinuityStatus?: import('./experienceThemeContinuity.js').ThemeContinuityStatus;
 };
 
 export type ExperiencePackageMetadata = {
@@ -184,6 +188,8 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
       interactionCharacter: string;
       combinableWith: ExpressionPromptType[];
       priority: number;
+      themeMode?: ExperienceExpressionPrompt['themeMode'];
+      contrastRationale?: string | null;
     },
     index: number,
   ): ExperienceExpressionPrompt => ({
@@ -192,16 +198,20 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
     conceptId: input.conceptId,
     route: input.route,
     expressionType,
-    promptText: assembleNdxbookPrompt({
-      sharedBlock: shared,
-      expression: fields.expression,
-      expressionType,
-      trigger: fields.trigger,
-      changeOnly: fields.changeOnly,
-      keepVisible: fields.keepVisible,
-      stateContent: fields.stateContent,
-      interactionCharacter: fields.interactionCharacter,
-    }),
+    promptText: [
+      assembleNdxbookPrompt({
+        sharedBlock: shared,
+        expression: fields.expression,
+        expressionType,
+        trigger: fields.trigger,
+        changeOnly: fields.changeOnly,
+        keepVisible: fields.keepVisible,
+        stateContent: fields.stateContent,
+        interactionCharacter: fields.interactionCharacter,
+      }),
+      '',
+      themePromptBlockForMode(fields.themeMode ?? 'INHERIT_AUTHORITY', fields.contrastRationale ?? null),
+    ].join('\n'),
     preserveBlock: fields.keepVisible,
     changeBlock: fields.changeOnly,
     outputIntent: fields.interactionCharacter,
@@ -212,6 +222,8 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
     antiDriftRules: ANTI_DRIFT,
     outputLabel: fields.outputLabel,
     stateId: fields.stateId,
+    themeMode: fields.themeMode ?? 'INHERIT_AUTHORITY',
+    contrastRationale: fields.contrastRationale ?? null,
   });
 
   return [
@@ -371,6 +383,9 @@ export function buildExperiencePackageMetadata(input: {
         input.authority.outputLineage?.find((l) => l.outputStateId === v.stateId)?.sourcePromptIds ?? [],
       approved: input.authority.status === 'APPROVED',
       version: input.authority.packagingPlan?.promptVersion ?? NDXBOOK_OVERVIEW_EXPERIENCE_PROMPT_VERSION,
+      themeMode: v.themeMode ?? 'INHERIT_AUTHORITY',
+      contrastRationale: v.contrastRationale ?? null,
+      themeContinuityStatus: v.themeContinuityStatus ?? 'THEME_MATCH',
     })),
   };
 }

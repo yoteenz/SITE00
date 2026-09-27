@@ -68,6 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           type: 'regenerateExperienceExpressionState',
           stateId: body.experienceStateId.trim(),
           dryRun: body.dryRun === true,
+          forceInheritAuthorityTheme: body.forceInheritAuthorityTheme === true,
         };
         break;
       case 'approveExperienceExpression':

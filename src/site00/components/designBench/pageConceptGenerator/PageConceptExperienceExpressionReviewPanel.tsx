@@ -10,6 +10,12 @@ import {
   validateExperiencePackageMaterialization,
   visualStateCardStatus,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experiencePackageMaterialization.js';
+import {
+  experienceThemeContinuityBlocksApproval,
+  founderThemeReviewLine,
+  themeLabelForState,
+  validateExperienceThemeContinuity,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceThemeContinuity.js';
 import { slotLabelFromConceptId } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
 import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
@@ -21,7 +27,7 @@ export type PageConceptExperienceExpressionReviewPanelProps = {
   busy?: boolean;
   onApprove: () => void;
   onRegenerate: () => void;
-  onRegenerateState?: (stateId: string) => void;
+  onRegenerateState?: (stateId: string, forceInheritAuthorityTheme?: boolean) => void;
   onClose: () => void;
 };
 
@@ -42,6 +48,8 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
   const generating = authority?.status === 'GENERATING';
   const failed = authority?.status === 'FAILED';
   const materialization = validateExperiencePackageMaterialization(authority);
+  const themeReceipt = validateExperienceThemeContinuity(authority);
+  const themeApprovalGate = experienceThemeContinuityBlocksApproval(authority);
   const readyVisualCount = (authority?.visualStates ?? []).filter((v) => Boolean(v.previewImageUri?.trim())).length;
   const falImageCount = (authority?.visualStates ?? []).filter(
     (v) => v.sourceProvider === 'FAL_EXPERIENCE' && v.previewImageUri,
@@ -111,6 +119,9 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
         </p>
         <p>TABLET HANDOFF · {tabletHandoff}</p>
         <p>DESKTOP HANDOFF · {desktopHandoff}</p>
+        <p data-testid="page-concept-experience-authority-theme">
+          AUTHORITY THEME · {themeReceipt.authorityTheme}
+        </p>
       </section>
 
       <div className="s00-pcg__experienceVisualCards" data-testid="page-concept-experience-visual-cards">
@@ -127,6 +138,26 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
               testId={`page-concept-experience-card-thumb-${state.stateId}`}
             />
             <p className="s00-pcg__experienceVisualCardLabel">{stateKindLabel(state)}</p>
+            <p
+              className="s00-pcg__experienceVisualCardMeta"
+              data-testid={`page-concept-experience-card-theme-${state.stateId}`}
+            >
+              THEME: {themeLabelForState(state)}
+            </p>
+            {state.contrastRationale?.trim() ?
+              <p
+                className="s00-pcg__experienceVisualCardMeta"
+                data-testid={`page-concept-experience-card-contrast-rationale-${state.stateId}`}
+              >
+                RATIONALE: {state.contrastRationale.toUpperCase()}
+              </p>
+            : null}
+            <p
+              className="s00-pcg__experienceVisualCardMeta"
+              data-testid={`page-concept-experience-card-founder-theme-${state.stateId}`}
+            >
+              {founderThemeReviewLine(state) === 'THEME MATCH' ? 'THEME MATCH ✓' : 'CONTRAST · REVIEW REQUIRED'}
+            </p>
             <p
               className="s00-pcg__experienceVisualCardMeta"
               data-testid={`page-concept-experience-card-status-${state.stateId}`}
@@ -146,15 +177,30 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
                 INSPECT
               </button>
               {state.sourceProvider === 'FAL_EXPERIENCE' && props.onRegenerateState ?
-                <button
-                  type="button"
-                  className="s00-pcg__secAction"
-                  disabled={props.busy}
-                  data-testid={`page-concept-regenerate-experience-state-${state.stateId}`}
-                  onClick={() => props.onRegenerateState?.(state.stateId)}
-                >
-                  {state.materializationStatus === 'FAILED' ? 'RETRY THIS STATE' : 'REGENERATE THIS STATE'}
-                </button>
+                <>
+                  <button
+                    type="button"
+                    className="s00-pcg__secAction"
+                    disabled={props.busy}
+                    data-testid={`page-concept-regenerate-experience-state-${state.stateId}`}
+                    onClick={() => props.onRegenerateState?.(state.stateId)}
+                  >
+                    {state.materializationStatus === 'FAILED' ? 'RETRY THIS STATE' : 'REGENERATE THIS STATE'}
+                  </button>
+                  {state.themeContinuityStatus === 'INTENTIONAL_CONTRAST_PENDING_FOUNDER_REVIEW' ||
+                  state.themeContinuityStatus === 'INTENTIONAL_CONTRAST' ||
+                  state.themeMode === 'INTENTIONAL_CONTRAST' ?
+                    <button
+                      type="button"
+                      className="s00-pcg__secAction"
+                      disabled={props.busy}
+                      data-testid={`page-concept-regenerate-experience-state-inherit-theme-${state.stateId}`}
+                      onClick={() => props.onRegenerateState?.(state.stateId, true)}
+                    >
+                      REGENERATE WITH AUTHORITY THEME
+                    </button>
+                  : null}
+                </>
               : null}
             </div>
           </article>
@@ -223,6 +269,7 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
                 failed ||
                 authority.status === 'PARTIAL_FAILURE' ||
                 !materialization.ok ||
+                themeApprovalGate.blocked ||
                 falImageCount < falTargetCount
               }
               data-testid="page-concept-approve-experience-review"
