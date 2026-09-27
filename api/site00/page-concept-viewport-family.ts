@@ -23,6 +23,8 @@ type Body = {
   mobileCaptureBase64?: string;
   dryRun?: boolean;
   experienceStateId?: string;
+  expansionId?: string;
+  expansionDecision?: 'APPROVE' | 'REJECT' | 'DEFER';
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -128,6 +130,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           type: 'regenerateAllMobileConcepts',
           mobileCaptureBase64: body.mobileCaptureBase64.trim(),
           dryRun: body.dryRun === true,
+        };
+        break;
+      case 'decideFunctionalExpansion':
+        if (!body.expansionId?.trim()) throw new Error('EXPANSION_ID_REQUIRED');
+        if (
+          body.expansionDecision !== 'APPROVE' &&
+          body.expansionDecision !== 'REJECT' &&
+          body.expansionDecision !== 'DEFER'
+        ) {
+          throw new Error('EXPANSION_DECISION_REQUIRED');
+        }
+        action = {
+          type: 'decideFunctionalExpansion',
+          expansionId: body.expansionId.trim(),
+          decision: body.expansionDecision,
         };
         break;
       default:

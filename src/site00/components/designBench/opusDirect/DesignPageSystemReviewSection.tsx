@@ -17,6 +17,7 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFamilyReviewPresentation.js';
 import { buildPageFamilyInteractionReviewPresentation } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFamilyInteractionReviewPresentation.js';
 import type { PageFamilyInteractionMap } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyInteractionMap.js';
+import type { PageFunctionalExpansionIntelligence } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFunctionalExpansionIntelligence.js';
 import { DesignPageFamilyInspector } from './DesignPageFamilyInspector.js';
 import type { TwinOpusDirectWorkspaceActions } from './twinOpusDirectWorkspace';
 
@@ -29,6 +30,7 @@ type Props = {
   pageFamilyInteractionMap?: PageFamilyInteractionMap | null;
   opusPageFamilyHandoff?: OpusPageFamilyHandoff | null;
   skinContractApprovedAt?: string | null;
+  functionalExpansionIntelligence?: PageFunctionalExpansionIntelligence | null;
 };
 
 function FamilyDrillRow({
@@ -67,6 +69,7 @@ export function DesignPageSystemReviewSection({
   pageFamilyInteractionMap,
   opusPageFamilyHandoff,
   skinContractApprovedAt,
+  functionalExpansionIntelligence,
 }: Props) {
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const [batchScope, setBatchScope] = useState('DESIGN FRAMEWORK');
@@ -288,6 +291,64 @@ export function DesignPageSystemReviewSection({
           </span>
         </button>
       </div>
+
+      {functionalExpansionIntelligence ?
+        <div className="tod-psr__drill" data-testid="functional-expansions-panel">
+          <h3 className="tod-psr__drillTitle">FUNCTIONAL EXPANSIONS</h3>
+          <p className="tod-psr__batchSummary">
+            PROPOSED{' '}
+            {functionalExpansionIntelligence.proposals.filter((p) => p.status === 'PROPOSED').length} · APPROVED{' '}
+            {functionalExpansionIntelligence.proposals.filter((p) => p.status === 'FOUNDER_APPROVED').length}
+          </p>
+          {functionalExpansionIntelligence.proposals.map((p) => (
+            <article key={p.expansionId} className="tod-psr-card tod-psr-card--family" data-testid={`functional-expansion-${p.expansionId}`}>
+              <span className="tod-psr-card__name">{p.title}</span>
+              <span className="tod-psr-card__meta">
+                SOURCE {p.sourcePageId} · {p.origin} · {p.status}
+              </span>
+              <span className="tod-psr-card__meta">GAP · {p.problemObserved}</span>
+              <span className="tod-psr-card__meta">PROPOSED · {p.proposedBehavior}</span>
+              <span className="tod-psr-card__meta">WHY · {p.whyItFitsProduct}</span>
+              <span className="tod-psr-card__meta">
+                AFFECTED · {p.affectedPages.slice(0, 4).join(', ')}
+                {p.affectedChildren.length ? ` · CHILDREN ${p.affectedChildren.length}` : ''}
+                {p.affectedGrandchildren.length ? ` · GRANDCHILDREN ${p.affectedGrandchildren.length}` : ''}
+              </span>
+              <span className="tod-psr-card__meta">
+                RESPONSIVE · M:{p.responsiveImpact.mobile} · T:{p.responsiveImpact.tablet} · D:
+                {p.responsiveImpact.desktop}
+              </span>
+              <span className="tod-psr-card__meta">SCOPE · {p.implementationComplexity}</span>
+              {p.status === 'PROPOSED' || p.status === 'DEFERRED' ?
+                <div className="tod-psr__batchActions">
+                  <button
+                    type="button"
+                    className="tod-psr__linkBtn"
+                    data-interaction-id="functional-expansion-approve"
+                    onClick={() => actions.decideFunctionalExpansion(p.expansionId, 'APPROVE')}
+                  >
+                    APPROVE
+                  </button>
+                  <button
+                    type="button"
+                    className="tod-psr__linkBtn"
+                    onClick={() => actions.decideFunctionalExpansion(p.expansionId, 'REJECT')}
+                  >
+                    REJECT
+                  </button>
+                  <button
+                    type="button"
+                    className="tod-psr__linkBtn"
+                    onClick={() => actions.decideFunctionalExpansion(p.expansionId, 'DEFER')}
+                  >
+                    DEFER
+                  </button>
+                </div>
+              : null}
+            </article>
+          ))}
+        </div>
+      : null}
 
       {presentation.familyStatus === 'READY_FOR_APPROVAL' ?
         <button

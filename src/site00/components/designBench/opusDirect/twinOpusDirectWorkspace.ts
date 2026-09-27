@@ -322,6 +322,7 @@ export interface TwinOpusDirectWorkspaceData {
   pageFamilyInteractionMap: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyInteractionMap.js').PageFamilyInteractionMap | null;
   opusPageFamilyHandoff: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js').OpusPageFamilyHandoff | null;
   pageFamilySkinContractApprovedAt: string | null;
+  functionalExpansionIntelligence: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFunctionalExpansionIntelligence.js').PageFunctionalExpansionIntelligence | null;
   heroCompare: {
     currentSrc: string | null;
     currentMeta: string;
@@ -396,6 +397,7 @@ export interface TwinOpusDirectWorkspaceActions {
   onViewportFamilyRailAction: (actionId: string) => void;
   reviewPageFamilyBlueprint: () => void;
   openExperienceReview: () => void;
+  decideFunctionalExpansion: (expansionId: string, decision: 'APPROVE' | 'REJECT' | 'DEFER') => void;
 }
 
 export interface TwinOpusDirectWorkspace {
@@ -745,6 +747,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openPageInteractionMapReview: () => prodActions.openPageInteractionMapReview(),
       reviewPageFamilyBlueprint: () => pageConceptGeneration.openPageFamilyBlueprintReview(),
       openExperienceReview: () => pageConceptGeneration.openExperienceReview(),
+      decideFunctionalExpansion: (expansionId, decision) =>
+        pageConceptGeneration.viewportFamilyHandlers.decideFunctionalExpansion(expansionId, decision),
       openAmendmentDetail: () => prodActions.openAmendmentDetail(),
       runContextualNextAction: () => {
         const next = computeContextualNextAction(prodState, actor);
@@ -1574,6 +1578,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       opusPageFamilyHandoff: pageConceptGeneration.generationState.pipelineSet?.opusPageFamilyHandoff ?? null,
       pageFamilySkinContractApprovedAt:
         pageConceptGeneration.generationState.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt ?? null,
+      functionalExpansionIntelligence:
+        pageConceptGeneration.generationState.pipelineSet?.functionalExpansionIntelligence ?? null,
       conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
       conceptIntelligenceDock: buildDesignConceptIntelligenceDockModel({
         projectId: slug,

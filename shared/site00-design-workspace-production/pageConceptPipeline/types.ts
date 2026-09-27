@@ -404,6 +404,9 @@ export type PageConceptPipelineSet = {
   pageFamilyComponentExpressionMap?: PageFamilyComponentExpressionMap | null;
   opusRepresentativeShellSet?: OpusRepresentativeShellSet | null;
   pageFamilyContractExtensions?: readonly PageFamilyContractExtension[];
+  functionalExpansionIntelligence?: import('./pageFunctionalExpansionIntelligence.js').PageFunctionalExpansionIntelligence | null;
+  functionalExpansionProposedInteractions?: readonly import('./pageFunctionalExpansionIntelligence.js').ProposedInteractionMapAddition[];
+  composerFunctionalExpansionContracts?: readonly import('./pageFunctionalExpansionIntelligence.js').ComposerExpansionImplementationContract[];
   twinShellApprovalId?: string | null;
   twinImplementationPackage?: TwinImplementationPackage | null;
   liveRouteHashBefore?: PageConceptLiveRouteHashSnapshot | null;

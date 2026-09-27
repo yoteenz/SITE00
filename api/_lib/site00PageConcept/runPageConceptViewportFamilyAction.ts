@@ -16,6 +16,7 @@ import {
   pageConceptMarkOpusRepresentativeShellsReady,
   pageConceptRecordTwinCapture,
   pageConceptConfirmMobileAuthority,
+  pageConceptDecideFunctionalExpansion,
   pageConceptApplyExperienceExpressionGenerationResult,
   pageConceptBeginExperienceExpressionGeneration,
   pageConceptMarkExperienceExpressionGenerationFailed,
@@ -56,7 +57,12 @@ export type PageConceptViewportFamilyAction =
   | { type: 'createTwinImplementationPackage' }
   | { type: 'captureTwinViewport'; viewport: 'MOBILE' | 'TABLET' | 'DESKTOP'; imageUri: string }
   | { type: 'regenerateMobileConcept'; conceptId: string; mobileCaptureBase64: string; dryRun?: boolean }
-  | { type: 'regenerateAllMobileConcepts'; mobileCaptureBase64: string; dryRun?: boolean };
+  | { type: 'regenerateAllMobileConcepts'; mobileCaptureBase64: string; dryRun?: boolean }
+  | {
+      type: 'decideFunctionalExpansion';
+      expansionId: string;
+      decision: 'APPROVE' | 'REJECT' | 'DEFER';
+    };
 
 export type PageConceptViewportFamilyActionResult = {
   state: PageConceptGenerationState;
@@ -381,6 +387,10 @@ export async function runPageConceptViewportFamilyAction(
       authorityArtifactId: authorityId,
       imageUri: action.imageUri,
     });
+  }
+
+  if (action.type === 'decideFunctionalExpansion') {
+    return pageConceptDecideFunctionalExpansion(state, action.expansionId, action.decision);
   }
 
   throw new Error('UNKNOWN_VIEWPORT_FAMILY_ACTION');
