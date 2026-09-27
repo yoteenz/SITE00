@@ -9,6 +9,7 @@ import type { PageConceptPageArchitectureBrief } from './pageConceptPageArchitec
 import type { PageCreativeContext, PageFunctionContract, ProjectCreativeContext } from './types.js';
 import type { Gpt2MobileProviderReferenceBundle } from './pageConceptGpt2MobileReferenceAuthority.js';
 import { GPT2_MOBILE_INPUT_ROLE } from './pageConceptGpt2MobileReferenceAuthority.js';
+import { isDeviceOrBrowserChromeLabel } from './pageConceptScreenshotSanitationMap.js';
 
 export const SCREENSHOT_FUNCTIONAL_PAGE_MAP_VERSION = 'screenshot-functional-page-map-v2-full-scroll';
 
@@ -450,9 +451,12 @@ export function interpretScreenshotFunctionality(input: {
     });
   }
 
+  const filteredElements = elements.filter((e) => !isDeviceOrBrowserChromeLabel(e.label));
+
   const bottomNavigationMap = buildBottomNavigationMap();
 
   const functionalInvariants = [
+    'DEVICE / BROWSER CHROME IS NOT A PAGE REGION — never treat status bar, Safari toolbar, or system nav as product UI.',
     `Page must remain ${input.pageContext.pageName.toUpperCase()} (${input.pageContext.pageRole || 'overview'}).`,
     'Entry / index navigation must remain available and tappable.',
     'Founder/client or canonical/list view switching must remain available where implemented.',
@@ -522,7 +526,7 @@ export function interpretScreenshotFunctionality(input: {
     pageArchitectureBriefId: arch?.briefId ?? null,
     confidence,
     regions,
-    elements,
+    elements: filteredElements,
     bottomNavigationMap,
     functionalInvariants,
     designFreedomMap,
@@ -655,6 +659,7 @@ export function compileGpt2MobileScreenshotFunctionBlock(map: ScreenshotFunction
   );
   const invariantLines = map.functionalInvariants.slice(0, 8).map((line) => `- ${line}`);
   return [
+    'DEVICE / BROWSER CHROME IS NOT PAGE FUNCTION — exclude status bar, address bar, system nav, letterboxing from structure.',
     'PAGE FUNCTION (SCREENSHOT FUNCTIONAL PAGE MAP — WHAT EXISTS DOES, NOT HOW IT LOOKS):',
     `Route ${map.route} · ${map.pageIdentityLabel}.`,
     'You are redesigning an EXISTING FUNCTIONAL PAGE.',

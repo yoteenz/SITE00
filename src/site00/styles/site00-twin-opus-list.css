@@ -1070,6 +1070,21 @@
   border-bottom: 3.2px solid var(--tod-border-panel);
 }
 
+.tod-lv-gallery__headStack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.tod-lv-gallery__pvaIndicator {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: #5a5a56;
+  line-height: 1.2;
+}
+
 .tod-lv-gallery__title {
   margin-top: 3px;
   font-size: 18.6px;

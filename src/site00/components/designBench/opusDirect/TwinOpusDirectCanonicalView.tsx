@@ -240,7 +240,18 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
         data-testid="page-concept-candidate-gallery"
       >
         <header className="tod-gallery__head">
-          <h2 className="tod-gallery__title">{data.galleryViewportTitle}</h2>
+          <div className="tod-gallery__headStack">
+            <h2 className="tod-gallery__title">{data.galleryViewportTitle}</h2>
+            {data.projectVisualAuthorityIndicator ?
+              <p
+                className="tod-gallery__pvaIndicator"
+                data-testid="project-visual-authority-indicator"
+                data-tone={data.projectVisualAuthorityIndicator.tone}
+              >
+                {data.projectVisualAuthorityIndicator.label} — {data.projectVisualAuthorityIndicator.detail}
+              </p>
+            : null}
+          </div>
           <button
             type="button"
             className="tod-gallery__compare"
