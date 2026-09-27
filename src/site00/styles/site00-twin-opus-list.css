@@ -3080,3 +3080,35 @@
   object-position: 50% 50%;
   background: #111;
 }
+
+/* P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1 (list dock) */
+.tod-lv-tabs__list--cid {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 0 16px;
+  align-items: flex-end;
+}
+
+.tod-lv-tabs__list--cid .tod-lv-tabs__tab {
+  flex: 0 0 auto;
+}
+
+.tod-lv-record .tod-cid {
+  max-height: 420px;
+  padding: 10px 16px 12px;
+}
+
+.tod-lv-record .tod-cid__conceptGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tod-lv-record .tod-cid__stack {
+  max-height: 360px;
+}
+
+.tod-lv-record .tod-cid__visual .s00-pcg__containPreview {
+  height: 140px;
+}

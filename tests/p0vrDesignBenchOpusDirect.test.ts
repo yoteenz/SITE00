@@ -163,11 +163,12 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — live text fidelity', () => {
       'HISTORY',
     ]);
     expect(TWIN_OPUS_DIRECT_CONCEPT_TABS).toEqual([
-      'CONCEPT DATA',
-      'VERSION HISTORY',
-      'CHANGE HISTORY',
-      'MASTER UPDATE',
-      'AMENDMENT',
+      'CONCEPT',
+      'EXPRESSION',
+      'FUNCTION',
+      'LINEAGE',
+      'HISTORY',
+      'HANDOFF',
     ]);
   });
 
@@ -196,7 +197,9 @@ describe('P0.VR.DESIGNBENCH.OPUS-DIRECT1 — accessibility', () => {
   it('uses real controls with state exposed to assistive tech', () => {
     // The shell owns the chrome; the canonical renderer owns the workspace body.
     const rendered =
-      screen + readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
+      screen +
+      readRepo('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx') +
+      readRepo('src/site00/components/designBench/opusDirect/DesignConceptIntelligenceDock.tsx');
     expect(rendered).toContain('aria-pressed');
     expect(rendered).toContain('aria-current');
     expect(rendered).toContain('aria-expanded');
@@ -407,6 +410,8 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
   /** Candidate gallery cards live in shared rail (grid + list); List body mounts the rail. */
   const listPresentation = `${listView}\n${listGalleryRail}`;
   const listCss = readRepo('src/site00/styles/site00-twin-opus-list.css');
+  const conceptDock = readRepo('src/site00/components/designBench/opusDirect/DesignConceptIntelligenceDock.tsx');
+  const listPresentationWithDock = `${listPresentation}\n${conceptDock}`;
 
   it('renders the transplanted Spark sequence in its own namespace', () => {
     for (const marker of [
@@ -417,12 +422,12 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
       'tod-lv-pair',
       'tod-lv-gallery',
       'tod-lv-actions',
-      'tod-lv-tabs',
-      'tod-lv-concept',
     ]) {
       expect(listView).toContain(marker);
       expect(listCss).toContain(marker);
     }
+    expect(listView).toContain('DesignConceptIntelligenceDock');
+    expect(conceptDock).toContain('tabs__list--cid');
     expect(listView).toContain('DesignConceptCandidateGalleryRail');
     expect(listPresentation).toContain('tod-lv-card');
     expect(listCss).toContain('tod-lv-card');
@@ -438,13 +443,10 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
   it('consumes shared state and shared actions only', () => {
     expect(listView).not.toContain('useState');
     expect(listView).not.toContain('useTwinOpusDirectWorkspace(');
-    for (const action of [
-      'actions.selectViewport',
-      'actions.toggleAuthorityPair',
-      'actions.selectRecordTab',
-    ]) {
+    for (const action of ['actions.selectViewport', 'actions.toggleAuthorityPair']) {
       expect(listView).toContain(action);
     }
+    expect(conceptDock).toContain('actions.selectRecordTab');
     expect(listPresentation).toContain('actions.selectCandidate');
     for (const forbidden of [
       'listSelectedCandidate',
@@ -461,15 +463,15 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
   it('shares selection, pair, tab and viewport state with canonical controls', () => {
     expect(listPresentation).toContain('state.candidateId');
     expect(listView).toContain('state.authorityPairOpen');
-    expect(listView).toContain('state.recordTabIndex');
+    expect(listPresentationWithDock).toContain('state.recordTabIndex');
     expect(listView).toContain('state.viewport');
     expect(listPresentation).toContain('aria-pressed={active}');
     expect(listView).toContain('aria-expanded={state.authorityPairOpen}');
-    expect(listView).toContain('aria-selected={state.recordTabIndex === index}');
+    expect(listPresentationWithDock).toContain('aria-selected={state.recordTabIndex === index}');
   });
 
   it('reuses the opus asset and icon family instead of inventing one', () => {
-    expect(listView).toContain('LvArchivalPlate');
+    expect(listView).toContain('TodAuthorityThumbPreview');
     // OPUS-ASSET-PERSISTENCE1: asset identity moved behind the shared manifest,
     // so LIST must resolve slots rather than reach for a texture constant.
     expect(listView).toContain('twinOpusDirectAssetManifest');
@@ -499,9 +501,9 @@ describe('P0.VR.DESIGNBENCH.SPARK-LIST-INTEGRATION1R2 — transplanted Spark ren
       listView.indexOf('export function TwinOpusDirectListRecord'),
     );
     const recordFn = listView.slice(listView.indexOf('export function TwinOpusDirectListRecord'));
-    expect(bodyFn).toContain('tod-lv-concept');
-    expect(recordFn).not.toContain('className="tod-lv-concept"');
-    expect(recordFn).toContain('tod-lv-tabs');
+    expect(bodyFn).not.toContain('tod-lv-concept');
+    expect(recordFn).toContain('DesignConceptIntelligenceDock');
+    expect(conceptDock).toContain('tabs__list--cid');
     expect(listCss).not.toContain('126.6');
   });
 });

@@ -11,16 +11,14 @@
 
 import { useCallback, useRef } from 'react';
 
-import { twinOpusDirectAssetEntry, type TwinOpusDirectAssetSlotId } from './twinOpusDirectAssetManifest';
 import { type TwinOpusDirectViewportId } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
-import { PageConceptContainedPreviewFrame } from '../pageConceptGenerator/PageConceptContainedPreviewFrame';
 import { DesignConceptCandidateGalleryRail } from './DesignConceptCandidateGalleryRail';
-import { previewStatusForCandidate } from './DesignConceptCandidateGalleryCard';
 import { DesignHeroComparePanel } from './DesignHeroComparePanel';
 import { DesignViewportFamilyHeroRail } from './DesignViewportFamilyHeroRail';
 import { DesignPageSystemReviewSection } from './DesignPageSystemReviewSection';
 import { DesignPipelineReadinessPanel } from './DesignPipelineReadinessPanel';
+import { DesignConceptIntelligenceDock } from './DesignConceptIntelligenceDock';
 import { TodAuthorityThumbPreview } from './twinOpusDirectViewportPreview';
 import {
   TodIconCheck,
@@ -36,7 +34,6 @@ import {
   TodIconPhone,
   TodIconSliders,
   TodIconTablet,
-  TodPointingHandPlate,
 } from './TwinOpusDirectIcons';
 
 const VIEWPORT_ICONS: Record<TwinOpusDirectViewportId, (props: { className?: string }) => JSX.Element> = {
@@ -52,48 +49,9 @@ const ACTION_ICONS = {
   expand: TodIconExpand,
 } as const;
 
-function LvArchivalPlate({
-  className,
-  marks = true,
-  slot,
-}: {
-  className?: string;
-  marks?: boolean;
-  slot: TwinOpusDirectAssetSlotId;
-}) {
-  const entry = twinOpusDirectAssetEntry(slot);
-  const approved = entry.approved && entry.src ? entry.src : null;
-  const base = approved ? 'tod-lv-plate tod-lv-plate--photo' : 'tod-lv-plate';
-  return (
-    <div className={className ? `${base} ${className}` : base}>
-      {approved ? (
-        <img className="tod-lv-plate__photo" src={approved} alt="" draggable={false} data-tod-slot={slot} />
-      ) : (
-        <>
-          <div
-            className="tod-lv-plate__paper"
-            style={entry.fallbackSrc ? { backgroundImage: `url(${entry.fallbackSrc})` } : undefined}
-          />
-          <div className="tod-lv-plate__rules" aria-hidden="true" />
-          <TodPointingHandPlate className="tod-lv-plate__hand" />
-        </>
-      )}
-      {marks ? (
-        <div className="tod-lv-plate__marks" aria-hidden="true">
-          <span className="tod-lv-plate__mark tod-lv-plate__mark--a">green</span>
-          <span className="tod-lv-plate__mark tod-lv-plate__mark--b">Cert. Ref:</span>
-          <span className="tod-lv-plate__mark tod-lv-plate__mark--c">P.137</span>
-          <span className="tod-lv-plate__mark tod-lv-plate__mark--d">P. 208</span>
-          <span className="tod-lv-plate__mark tod-lv-plate__mark--e">P. 311</span>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 /** LIST body: the transplanted Spark digest, bound to shared state. */
 export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions, readinessDash, production, selectedCandidate } = workspace;
+  const { data, state, actions, readinessDash, production } = workspace;
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
   const scrollGallery = useCallback(() => {
@@ -389,96 +347,16 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             actions={actions}
           />
 
-        <div
-          className="tod-lv-concept"
-          id="tod-lv-concept-panel"
-          role="tabpanel"
-          aria-labelledby={`tod-lv-tab-${state.recordTabIndex}`}
-        >
-          <div className="tod-lv-concept__thumb">
-            {selectedCandidate && (selectedCandidate.previewSrc || selectedCandidate.headerThumbnailUri) ?
-              <>
-                <span className="tod-lv-concept__thumbVersion">{selectedCandidate.version}</span>
-                <PageConceptContainedPreviewFrame
-                  size="mobile"
-                  objectFit="contain"
-                  status={previewStatusForCandidate(selectedCandidate)}
-                  imageSrc={selectedCandidate.previewSrc ?? selectedCandidate.headerThumbnailUri}
-                  testId="list-concept-record-preview"
-                />
-              </>
-            : <>
-                <span className="tod-lv-concept__thumbVersion">V1.3</span>
-                <span className="tod-lv-concept__thumbCopy">
-                  <span>THE SIGNAL</span>
-                  <span>IS THE INDEX</span>
-                </span>
-                <span className="tod-lv-concept__thumbStandfirst">
-                  <span>CULTURE AS EVIDENCE.</span>
-                  <span>IDEAS AS INDEX.</span>
-                  <span>NDXBOOK.</span>
-                </span>
-                <LvArchivalPlate className="tod-lv-concept__thumbPlate" marks={false} slot="conceptRecord" />
-              </>
-            }
-          </div>
-          <dl className="tod-lv-concept__fields">
-            {data.conceptFields.map((field) => (
-              <div key={field.label} className="tod-lv-concept__field">
-                <dt>{field.label}</dt>
-                <dd>{field.value}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="tod-lv-concept__amendment">
-            <div className="tod-lv-concept__amendHead">
-              <span className="tod-lv-concept__amendTitle">{data.amendment.title}</span>
-              <span className="tod-lv-concept__amendChip">{data.amendment.chip}</span>
-            </div>
-            <dl className="tod-lv-concept__fields tod-lv-concept__fields--amend">
-              {data.amendment.fields.map((field) => (
-                <div key={field.label} className="tod-lv-concept__field">
-                  <dt>{field.label}</dt>
-                  <dd>{field.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-          <button type="button" className="tod-lv-concept__view" onClick={() => actions.openAmendmentDetail()}>
-            {data.amendment.action}
-          </button>
-        </div>
       </div>
     </main>
   );
 }
 
-/** LIST record: transplanted Spark tabs + concept digest. Natural height. */
+/** LIST record: Concept Intelligence Dock (shared model with canonical). */
 export function TwinOpusDirectListRecord({ workspace }: { workspace: TwinOpusDirectWorkspace }) {
-  const { data, state, actions } = workspace;
-
   return (
     <div className="tod-lv-record" data-testid="twin-opus-direct-list-record">
-        <div className="tod-lv-tabs">
-          <div className="tod-lv-tabs__list" role="tablist" aria-label="Concept record">
-            {data.conceptTabs.map((tab, index) => (
-              <button
-                key={tab}
-                type="button"
-                role="tab"
-                id={`tod-lv-tab-${index}`}
-                aria-selected={state.recordTabIndex === index}
-                aria-controls="tod-lv-concept-panel"
-                tabIndex={state.recordTabIndex === index ? 0 : -1}
-                className={`tod-lv-tabs__tab${state.recordTabIndex === index ? ' is-active' : ''}`}
-                onClick={() => actions.selectRecordTab(index)}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-        </div>
-
+      <DesignConceptIntelligenceDock workspace={workspace} variant="list" />
     </div>
   );
 }
