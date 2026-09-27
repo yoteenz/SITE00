@@ -69,6 +69,11 @@ export function preConceptFunctionalExpansionGateEnabled(input: {
   projectId: string;
 }): boolean {
   if (input.dryRun) return false;
+  // Vitest integration runs exercise full CGPT→GPT2 pipeline without founder expansion UI;
+  // gate behavior is covered in p0vrFunctionalExpansionUpstreamOfAuthorityConcepts1.test.ts.
+  if (process.env.VITEST === 'true' && process.env.SITE00_PAGE_CONCEPT_FORCE_PRECONCEPT_EXPANSION_GATE !== '1') {
+    return false;
+  }
   if (process.env.SITE00_PAGE_CONCEPT_SKIP_PRECONCEPT_EXPANSION_GATE === '1') return false;
   return input.projectId.toLowerCase() === 'ndxbook';
 }
