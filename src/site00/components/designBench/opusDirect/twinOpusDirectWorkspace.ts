@@ -795,7 +795,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             prodActions.selectGalleryCandidate('');
             break;
           case 'vf-create-experience':
-            void handlers.generateExperience();
+            void (async () => {
+              pageConceptGeneration.openExperienceReview();
+              await pageConceptGeneration.dispatchViewportFamilyAction({ type: 'generateExperienceExpression' });
+            })();
             break;
           case 'vf-review-experience':
             void (async () => {

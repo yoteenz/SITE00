@@ -55,7 +55,7 @@ export type PageConceptViewportFamilyActionResult = {
 
 function mobileAuthorityFromState(state: PageConceptGenerationState): { b64: string; rationale: string } {
   const family = state.pipelineSet?.viewportAuthorityFamily;
-  const conceptId = family?.selectedMobileConceptId;
+  const conceptId = family?.confirmedMobileConceptId ?? family?.selectedMobileConceptId;
   const mobile = state.pipelineSet?.mobileConcepts?.find((c) => c.conceptId === conceptId);
   const job = state.generationJobs.find((j) => j.artifactId === family?.mobileArtifactId);
   const imageUri = mobile?.imageUri ?? job?.imageUri ?? null;
@@ -85,10 +85,17 @@ export async function runPageConceptViewportFamilyAction(
       './executePageConceptExperienceExpressionGeneration.js'
     );
     const begun = pageConceptBeginExperienceExpressionGeneration(state);
+    const { b64: mobileImageRef } = mobileAuthorityFromState(state);
+    const mobileAuthorityImageUri =
+      begun.mobileConcept.imageUri?.trim() ?
+        begun.mobileConcept.imageUri
+      : mobileImageRef.startsWith('data:') ?
+        mobileImageRef
+      : `data:image/png;base64,${mobileImageRef}`;
     try {
       const rendered = await executePageConceptExperienceExpressionGeneration({
         authority: begun.authority,
-        mobileAuthorityImageUri: begun.mobileConcept.imageUri!,
+        mobileAuthorityImageUri,
         planMeta: {
           projectId: state.projectId,
           pageId: state.pageId,

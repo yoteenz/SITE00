@@ -1831,6 +1831,9 @@ export function usePageConceptGeneration(
 
   const dispatchViewportFamilyAction = useCallback(
     async (action: PageConceptViewportFamilyAction) => {
+      if (action.type === 'generateExperienceExpression') {
+        setOverlayMode('experience-review');
+      }
       setGenerating(true);
       setExecutionError(null);
       try {
@@ -1866,9 +1869,19 @@ export function usePageConceptGeneration(
             next = mergePageConceptGenerationJobs(next, result.jobs);
             next = mergePageConceptArtifactsIntoGallery(next);
           }
+          if (
+            action.type === 'generateExperienceExpression' ||
+            action.type === 'confirmMobileAuthority' ||
+            action.type === 'approveExperienceExpression'
+          ) {
+            next = { ...next, liveProgress: null, activeGenerationStage: null };
+          }
           savePageConceptGenerationState(next);
           return next;
         });
+        if (action.type === 'generateExperienceExpression') {
+          setOverlayMode('experience-review');
+        }
         window.dispatchEvent(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );
