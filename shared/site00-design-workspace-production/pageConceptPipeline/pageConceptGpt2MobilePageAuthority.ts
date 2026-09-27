@@ -73,6 +73,11 @@ export type PageGpt2MobileArtifactDebug = {
   bottomNavContinuityValidationPass?: boolean;
   screenshotFunctionMapId?: string;
   screenshotFunctionMapPresent?: boolean;
+  ndxBrandFamiliarityBriefId?: string;
+  ndxBrandFamiliarityDigest?: string;
+  ndxBrandFamiliarityInPrompt?: boolean;
+  genericEditorialDriftGuardPass?: boolean;
+  ndxAuthenticityEvalPass?: boolean;
   regionsPreservedLabel?: string;
   interactionsPreservedLabel?: string;
   bottomNavLockedToSource?: boolean;
@@ -170,6 +175,11 @@ export function buildGpt2MobileArtifactDebug(input: {
   sourceAuthorityManifest?: PageGpt2MobileArtifactDebug['sourceAuthorityManifest'];
   screenshotFunctionMapId?: string;
   screenshotFunctionMapPresent?: boolean;
+  ndxBrandFamiliarityBriefId?: string;
+  ndxBrandFamiliarityDigest?: string;
+  ndxBrandFamiliarityInPrompt?: boolean;
+  genericEditorialDriftGuardPass?: boolean;
+  ndxAuthenticityEvalPass?: boolean;
   regionsPreservedLabel?: string;
   interactionsPreservedLabel?: string;
   bottomNavLockedToSource?: boolean;
@@ -218,6 +228,11 @@ export function buildGpt2MobileArtifactDebug(input: {
     sourceAuthorityManifest: input.sourceAuthorityManifest,
     screenshotFunctionMapId: input.screenshotFunctionMapId,
     screenshotFunctionMapPresent: input.screenshotFunctionMapPresent,
+    ndxBrandFamiliarityBriefId: input.ndxBrandFamiliarityBriefId,
+    ndxBrandFamiliarityDigest: input.ndxBrandFamiliarityDigest,
+    ndxBrandFamiliarityInPrompt: input.ndxBrandFamiliarityInPrompt,
+    genericEditorialDriftGuardPass: input.genericEditorialDriftGuardPass,
+    ndxAuthenticityEvalPass: input.ndxAuthenticityEvalPass,
     regionsPreservedLabel: input.regionsPreservedLabel,
     interactionsPreservedLabel: input.interactionsPreservedLabel,
     bottomNavLockedToSource: input.bottomNavLockedToSource,

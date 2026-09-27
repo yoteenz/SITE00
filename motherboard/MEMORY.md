@@ -11853,3 +11853,15 @@ Founder follow-up: tunnel vs deploy diverges when production keeps a **stale loc
 - **Terminal runs:** success paths **persist** `savePageConceptActiveServerRunId` instead of clearing (founder poll resume, CGPT/GPT2/NBP continues, retries, main generate completion); clear only on explicit new-generation reset / poll errors.
 - **Debug (phone):** optional gallery mount line — `?galleryMountDebug=1` or `localStorage site00:page-concept-gallery-mount-debug=1` (on in dev) shows `Mounted run: … / image host: …` under concept gallery.
 - **Tests:** `pageConceptGalleryServerMountClient` same-run fresher-local still applies; `pageConceptGalleryMountDebug.test.ts`.
+
+---
+
+## 2026-09-27 — P0.VR NDXBOOK brand familiarity layer 1
+
+Sprint **P0.VR.NDXBOOK-BRAND-FAMILIARITY-LAYER1**: upstream **NDX_BRAND_FAMILIARITY_BRIEF** before GPT2 mobile prompt — NDX graphic intelligence (temperament, image behavior, device vocabulary, type/composition rules, distinction vs generic editorial, function respect).
+
+- **`pageConceptNdxBrandFamiliarityBrief.ts`**: compile brief + compact provider block; `validateGenericEditorialDriftGuard` (territory); `validateTerritoryNdxFamiliarityDistinction`; `evaluateNdxBrandAuthenticity`; founder debug lines (brief id/digest, function map id, prompt inclusion, guard pass/fail).
+- **Pipeline order:** route/architecture → screenshot function map (+ zone summary) → **NDX brand familiarity** → web expression territory → GPT2 compile (`gpt2-mobile-provider-prompt-v8-ndx-brand-familiarity`).
+- **Screenshot map:** `compileScreenshotFunctionMapZoneSummary` (breadcrumb, identity, status, entry index, bottom nav, etc.).
+- **Execute:** territory familiarity validation pre-dispatch; drift + authenticity gates; artifact debug fields for QA.
+- **Tests:** `p0vrNdxbookBrandFamiliarityLayer1.test.ts`; art-direction test expects `NDX BRAND FAMILIARITY` in prompt.
