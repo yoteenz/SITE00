@@ -348,6 +348,9 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
             model={data.pageSystemReview}
             viewportNote={data.outputViewportNote}
             actions={actions}
+            pageFamilyBlueprint={data.pageFamilyBlueprint}
+            opusPageFamilyHandoff={data.opusPageFamilyHandoff}
+            skinContractApprovedAt={data.pageFamilySkinContractApprovedAt}
           />
 
           {/* 10 PIPELINE_READINESS */}

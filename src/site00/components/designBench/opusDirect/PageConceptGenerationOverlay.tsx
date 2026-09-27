@@ -455,7 +455,11 @@ export function PageConceptGenerationOverlay({
 
   if (mode === 'experience-review' && viewportFamilyHandlers) {
     return (
-      <div className="s00-pcg-layer" role="dialog" data-testid="page-concept-experience-expression-overlay">
+      <div
+        className="s00-pcg-layer s00-pcg-layer--experience"
+        role="dialog"
+        data-testid="page-concept-experience-expression-overlay"
+      >
         <button
           type="button"
           className="s00-pcg__scrim"
