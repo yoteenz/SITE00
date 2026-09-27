@@ -32,6 +32,10 @@ import {
   PAGE_GPT2_MOBILE_PAGE_SLOT_LABELS,
   assertGpt2MobilePackageNotNbpPath,
 } from './pageConceptGpt2MobilePageAuthority.js';
+import {
+  loadProjectVisualAuthorityRegistry,
+  resolveProjectVisualAuthorityForPage,
+} from './projectVisualAuthority.js';
 
 export {
   PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
@@ -159,6 +163,12 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   );
   const manifest = input.providerReferences.authorityManifest;
 
+  const projectVisualAuthorityContract = resolveProjectVisualAuthorityForPage({
+    registry: loadProjectVisualAuthorityRegistry(),
+    projectId: input.projectContext.projectId,
+    pageId: input.pageContext.pageId,
+  });
+
   const compiledProviderPrompt = compileGpt2MobileProviderPrompt({
     slot: input.slot,
     cgptBrief: input.cgptBrief,
@@ -180,6 +190,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     screenshotFunctionalPageMap: input.screenshotFunctionalPageMap,
     ndxBrandFamiliarityBrief,
     webExpressionTerritory: input.webExpressionTerritory ?? null,
+    projectVisualAuthorityContract,
   });
   const prompt = compiledProviderPrompt.prompt;
   const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);

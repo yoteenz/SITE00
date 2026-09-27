@@ -18,6 +18,7 @@ import {
   orderedProviderReferenceAssets,
   validateMobileStructuralCaptureCoverage,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+import { buildScreenshotSanitationMap } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotSanitationMap.js';
 import {
   PAGE_GPT2_MOBILE_CAPTURE_INFLUENCE_MODE,
   PAGE_GPT2_MOBILE_PAGE_CONCEPT_PROMPT_VERSION,
@@ -63,12 +64,19 @@ describe('P0.VR.GPT2-MOBILE-FUNCTIONAL-REFERENCE-ONLY-AND-FULL-PAGE-CAPTURE-FIX1
     expect(
       bundle.bottomStructuralCapture.regionTopFraction + bundle.bottomStructuralCapture.regionHeightFraction,
     ).toBeGreaterThanOrEqual(0.99);
-    expect(bundle.topStructuralCapture.height).toBe(Math.round(844 * GPT2_MOBILE_TOP_STRUCTURAL_HEIGHT_FRACTION));
+    const productHeight = buildScreenshotSanitationMap({
+      captureId: 'cap-func-ref-1',
+      captureWidth: 390,
+      captureHeight: 844,
+    }).productBounds.height;
+    expect(bundle.topStructuralCapture.height).toBe(
+      Math.round(productHeight * GPT2_MOBILE_TOP_STRUCTURAL_HEIGHT_FRACTION),
+    );
     expect(bundle.middleStructuralCapture.height).toBe(
-      Math.round(844 * GPT2_MOBILE_MIDDLE_STRUCTURAL_HEIGHT_FRACTION),
+      Math.round(productHeight * GPT2_MOBILE_MIDDLE_STRUCTURAL_HEIGHT_FRACTION),
     );
     expect(bundle.bottomStructuralCapture.height).toBe(
-      Math.round(844 * GPT2_MOBILE_BOTTOM_STRUCTURAL_HEIGHT_FRACTION),
+      Math.round(productHeight * GPT2_MOBILE_BOTTOM_STRUCTURAL_HEIGHT_FRACTION),
     );
     expect(gpt2MobileProviderImageOrderForTest({
       prompt: '',

@@ -154,6 +154,7 @@ export type DesignConceptIntelligenceDockInput = {
   galleryHistory: readonly DesignConceptIntelligenceDockCandidateSlice[];
   viewportFamilyHeroRailStages: readonly Gpt2ViewportFamilyHeroRailStage[];
   productionHistory: readonly { id: string; type: string; summary: string; at?: string }[];
+  projectVisualAuthoritySummary?: string | null;
 };
 
 function truncateLine(text: string, maxLen: number): string {
@@ -471,8 +472,14 @@ export function buildDesignConceptIntelligenceDockModel(
   const interactivePreserved =
     functionMap?.elements.filter((e) => e.mustPreserveFunction && !e.visualOnly).length ?? 0;
 
+  const pvaRows: ConceptIntelligenceDockExpressionRow[] =
+    input.projectVisualAuthoritySummary ?
+      [{ label: 'PROJECT VISUAL AUTHORITY', value: input.projectVisualAuthoritySummary }]
+    : [];
+
   const expressionRows: ConceptIntelligenceDockExpressionRow[] = territory ?
     [
+      ...pvaRows,
       { label: 'ART DIRECTION', value: truncateLine(territory.artDirectionPremise, 120) },
       { label: 'SIGNATURE GRAPHIC DEVICE', value: truncateLine(territory.signatureGraphicDevice, 100) },
       { label: 'TYPOGRAPHIC CONCEPT', value: truncateLine(territory.typographicConcept, 100) },
@@ -483,6 +490,7 @@ export function buildDesignConceptIntelligenceDockModel(
       { label: 'BESPOKE MOMENT', value: truncateLine(territory.bespokeMoment, 100) },
     ]
   : [
+      ...pvaRows,
       {
         label: 'ART DIRECTION',
         value: cgpt ? truncateLine(cgpt.compositionStrategy, 120) : 'PENDING TERRITORY COMPILE',

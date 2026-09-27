@@ -6,6 +6,10 @@
 import {
   type Gpt2MobileSourceAuthorityManifest,
 } from './pageConceptGpt2MobileContinuityLock.js';
+import {
+  buildScreenshotSanitationMap,
+  cropCaptureBase64ToProductBounds,
+} from './pageConceptScreenshotSanitationMap.js';
 
 export const GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1 = 'GPT2_FUNCTIONAL_REFERENCE_PACKAGE_V1' as const;
 
@@ -358,6 +362,18 @@ export async function buildGpt2MobileProviderReferenceBundle(input: {
       );
     }
   }
+
+  const sanitation = buildScreenshotSanitationMap({
+    captureId: input.captureSetId,
+    captureWidth: fullPageDims.width,
+    captureHeight: fullPageDims.height,
+  });
+  const sanitizedProduct = await cropCaptureBase64ToProductBounds({
+    captureBase64: fullPageBase64,
+    sanitation,
+  });
+  fullPageBase64 = sanitizedProduct.base64;
+  fullPageDims = { width: sanitizedProduct.width, height: sanitizedProduct.height };
 
   const topStructuralCapture = await extractVerticalRegionCrop({
     functionalCaptureBase64: fullPageBase64,

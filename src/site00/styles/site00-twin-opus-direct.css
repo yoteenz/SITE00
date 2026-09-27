@@ -1608,6 +1608,21 @@
   border-bottom: 1.6px solid var(--tod-border-panel);
 }
 
+.tod-gallery__headStack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.tod-gallery__pvaIndicator {
+  margin: 0;
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  color: #5a5a56;
+  line-height: 1.2;
+}
+
 .tod-gallery__title {
   margin-top: 1.5px;
   font-size: 10.45px;

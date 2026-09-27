@@ -70,6 +70,18 @@ import {
   type PageConceptCandidate,
 } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 import type { PageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
+import {
+  compileNdxBrandFamiliarityBrief,
+  ndxBrandFamiliarityApplies,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
+import {
+  getActiveProjectVisualAuthority,
+  loadProjectVisualAuthorityRegistry,
+  promoteProjectVisualAuthority,
+  saveProjectVisualAuthorityRegistry,
+  type ProjectVisualAuthorityRegistry,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/projectVisualAuthority.js';
+import { webExpressionTerritoryForSlot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptWebExpressionTerritories.js';
 
 import {
   PAGE_CONCEPT_GALLERY_INSPECT_EVENT,
@@ -271,6 +283,11 @@ export interface TwinOpusDirectWorkspaceData {
     | 'gallery-page-concept-reconciling'
     | null;
   galleryViewportTitle: string;
+  projectVisualAuthorityIndicator: {
+    label: string;
+    detail: string;
+    tone: 'ACTIVE' | 'INHERITED' | 'NONE';
+  } | null;
   galleryCurrentGroupLabel: string;
   galleryHistoryGroupLabel: string;
   galleryGenerateLabel: string;
@@ -394,6 +411,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [galleryMountTrace, setGalleryMountTrace] = useState<PageConceptGalleryServerMountTrace | null>(
     null,
   );
+  const [projectVisualAuthorityRegistry, setProjectVisualAuthorityRegistry] =
+    useState<ProjectVisualAuthorityRegistry>(() => loadProjectVisualAuthorityRegistry());
   const [viewportCandidateIds, setViewportCandidateIds] = useState<
     Record<TwinOpusDirectViewportId, string | null>
   >({ MOBILE: null, TABLET: null, DESKTOP: null });
@@ -891,6 +910,58 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
           }
         }
+        if (actionId === 'promote-project-visual-authority') {
+          const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
+            (c) => c.conceptId === candidate,
+          );
+          if (!row || row.artifactStatus !== 'READY') return;
+          const pipelineSet = pageConceptGeneration.generationState.pipelineSet;
+          const arch = pipelineSet?.pageArchitectureBrief ?? null;
+          const functionMap = pipelineSet?.screenshotFunctionalPageMap ?? null;
+          const territorySet = pipelineSet?.webExpressionTerritorySet ?? null;
+          const territory =
+            territorySet && row.conceptSlot ?
+              webExpressionTerritoryForSlot(territorySet, row.conceptSlot)
+            : null;
+          const job = pageConceptGeneration.generationState.generationJobs.find(
+            (j) => j.artifactId === row.artifactId,
+          );
+          const ndxBrief =
+            ndxBrandFamiliarityApplies(projectSlug) && arch?.targetRouteContract && functionMap ?
+              compileNdxBrandFamiliarityBrief({
+                projectId: projectSlug,
+                pageId: pageTarget.pageId,
+                target: arch.targetRouteContract,
+                pageArchitectureBrief: arch,
+                screenshotFunctionalPageMap: functionMap,
+              })
+            : null;
+          try {
+            const result = promoteProjectVisualAuthority({
+              registry: projectVisualAuthorityRegistry,
+              projectId: projectSlug,
+              sourcePageId: pageTarget.pageId,
+              sourceConceptId: row.conceptId,
+              sourceTerritoryId: territory?.territoryId ?? null,
+              sourceArtifactId: row.artifactId ?? row.conceptId,
+              sourceViewport: 'MOBILE',
+              artifactWidth: job?.width ?? 780,
+              artifactHeight: job?.height ?? 1688,
+              artifactStatus: row.artifactStatus,
+              compile: {
+                cgptBrief: pipelineSet?.cgptCreativeBrief ?? null,
+                skinContract: null,
+                webTerritory: territory,
+                ndxBrief,
+              },
+            });
+            saveProjectVisualAuthorityRegistry(result.registry);
+            setProjectVisualAuthorityRegistry(result.registry);
+            void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
+          } catch (err) {
+            window.alert(err instanceof Error ? err.message : 'PROMOTE_PROJECT_VISUAL_AUTHORITY_FAILED');
+          }
+        }
         if (actionId === 'regenerate-tablet') {
           void pageConceptGeneration.viewportFamilyHandlers.regenerateTablet();
         }
@@ -1335,6 +1406,25 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryEmptySecondaryLine,
       galleryMountDebugLine,
       galleryEmptyTestId: galleryEmpty.testId,
+      projectVisualAuthorityIndicator: (() => {
+        const active = getActiveProjectVisualAuthority(projectVisualAuthorityRegistry, slug);
+        if (!active) {
+          return {
+            label: 'PROJECT VISUAL AUTHORITY',
+            detail: 'NONE — use PROMOTE PROJECT VISUAL AUTHORITY after concept is READY',
+            tone: 'NONE' as const,
+          };
+        }
+        const inherited = active.record.sourcePageId !== shellTarget.pageId;
+        return {
+          label: `PROJECT VISUAL AUTHORITY · ${slug.toUpperCase()} V${active.record.version}`,
+          detail:
+            inherited ?
+              `INHERITED · source ${active.record.sourcePageId}`
+            : `ACTIVE · ${active.record.sourcePageId} / concept ${active.record.sourceConceptId}`,
+          tone: inherited ? ('INHERITED' as const) : ('ACTIVE' as const),
+        };
+      })(),
       galleryViewportTitle: galleryLabels.title,
       galleryCurrentGroupLabel: gallerySections.currentGenerationGroupLabel,
       galleryHistoryGroupLabel: galleryLabels.historyGroupLabel,
@@ -1391,6 +1481,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           summary: h.summary,
           at: h.at,
         })),
+        projectVisualAuthoritySummary: (() => {
+          const active = getActiveProjectVisualAuthority(projectVisualAuthorityRegistry, slug);
+          if (!active) return null;
+          return `${active.contract.projectId.toUpperCase()} V${active.contract.version} · grammar only (not page layout clone)`;
+        })(),
       }),
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
@@ -1464,6 +1559,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageConceptGeneration.generationState,
     pageConceptGeneration.pipelineSet,
     selectedMobileConceptId,
+    projectVisualAuthorityRegistry,
   ]);
 
   useEffect(() => {

@@ -50,9 +50,20 @@ import {
   ndxBrandFamiliarityApplies,
   type NdxBrandFamiliarityBrief,
 } from './pageConceptNdxBrandFamiliarityBrief.js';
+import { buildDeviceChromeCaptureGuardBlock } from './pageConceptScreenshotSanitationMap.js';
+import {
+  compileProjectVisualAuthorityPromptBlock,
+  type ProjectVisualAuthorityContract,
+} from './projectVisualAuthority.js';
+import {
+  compileFounderCreativePreferenceBlock,
+  DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE,
+  type FounderCreativePreferenceProfile,
+} from './founderCreativePreferenceProfile.js';
+import { SITE00_MOBILE_GENERATION_CANVAS } from './pageConceptViewportCanvasContract.js';
 
 export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
-  'gpt2-mobile-provider-prompt-v8-ndx-brand-familiarity';
+  'gpt2-mobile-provider-prompt-v9-capture-sanitation-pva';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -81,6 +92,8 @@ export type Gpt2MobileProviderPromptCompileInput = {
   screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap | null;
   ndxBrandFamiliarityBrief?: NdxBrandFamiliarityBrief | null;
   webExpressionTerritory?: WebExpressionTerritory | null;
+  projectVisualAuthorityContract?: ProjectVisualAuthorityContract | null;
+  founderCreativePreferenceProfile?: FounderCreativePreferenceProfile | null;
 };
 
 export type Gpt2MobileCompiledProviderPrompt = {
@@ -303,6 +316,19 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
       )
     : '';
   const targetRouteBlock = arch.targetRouteContract ? buildGpt2TargetRouteContextBlock(arch.targetRouteContract) : '';
+  const projectAuthorityBlock =
+    input.projectVisualAuthorityContract ?
+      compileProjectVisualAuthorityPromptBlock(input.projectVisualAuthorityContract)
+    : '';
+  const founderPreferenceBlock = compileFounderCreativePreferenceBlock(
+    input.founderCreativePreferenceProfile ?? DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE,
+  );
+  const canvasLockBlock = [
+    'CANONICAL MOBILE VIEWPORT CANVAS (all A/B/C in this run):',
+    `${SITE00_MOBILE_GENERATION_CANVAS.width}×${SITE00_MOBILE_GENERATION_CANVAS.height} (${SITE00_MOBILE_GENERATION_CANVAS.viewportCanvasId})`,
+    'Same width, height, aspect ratio, and page-frame boundaries for every concept slot.',
+    'No white side gutters, device frames, black bars, or mismatched portrait ratios.',
+  ].join('\n');
 
   const baseSections = [
     buildRoleHeader(arch, input.mobileViewport),
@@ -314,6 +340,14 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     buildGpt2MobileDesignAuthoritySourceBlock(),
     '',
     buildGpt2MobileFunctionalReferenceOnlyBlock(),
+    '',
+    buildDeviceChromeCaptureGuardBlock(),
+    '',
+    canvasLockBlock,
+    '',
+    projectAuthorityBlock,
+    projectAuthorityBlock ? '' : null,
+    founderPreferenceBlock,
     '',
     functionBlock,
     '',
