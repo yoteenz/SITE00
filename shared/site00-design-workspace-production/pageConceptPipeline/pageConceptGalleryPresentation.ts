@@ -75,6 +75,10 @@ function slotLabelFromGalleryCard(card: PageConceptGalleryCard): 'A' | 'B' | 'C'
   return null;
 }
 
+function galleryCardIdentity(card: PageConceptGalleryCard): string {
+  return card.artifactId ?? card.id;
+}
+
 function cardPickScore(card: PageConceptGalleryCard, inCurrent: boolean): number {
   let score = 0;
   if (inCurrent) score += 100;
@@ -121,8 +125,8 @@ export function coalesceMobileConceptGalleryAbcRow(input: {
   const mergedCurrent = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) => pickedBySlot.get(slot)).filter(
     (c): c is PageConceptGalleryCard => Boolean(c),
   );
-  const mergedIds = new Set(mergedCurrent.map((c) => c.id));
-  const history = input.history.filter((c) => !mergedIds.has(c.id));
+  const mergedKeys = new Set(mergedCurrent.map(galleryCardIdentity));
+  const history = input.history.filter((c) => !mergedKeys.has(galleryCardIdentity(c)));
   return { current: mergedCurrent, history };
 }
 
