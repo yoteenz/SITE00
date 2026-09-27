@@ -50,6 +50,8 @@ export type ExperienceExpressionPrompt = {
   outputLabel?: ExperienceOutputLabel;
   /** Stable state id for packaging + single-state regeneration */
   stateId?: string;
+  themeMode?: import('./experienceThemeContinuity.js').ExperienceThemeMode;
+  contrastRationale?: string | null;
 };
 
 export type CombinedExpressionGroup = {

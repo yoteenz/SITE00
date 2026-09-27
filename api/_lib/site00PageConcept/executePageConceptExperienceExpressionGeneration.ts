@@ -16,6 +16,10 @@ import {
   type ExperienceGenerationJob,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experiencePackageMaterialization.js';
 import { renderExperienceExpressionFalTarget } from './executePageConceptExperienceExpressionFal.js';
+import {
+  enrichExperienceAuthorityThemeContinuity,
+  themePromptBlockForMode,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceThemeContinuity.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
   return validateExperiencePackageMaterialization(authority).ok;
@@ -213,6 +217,12 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
     generationJobs: [...inheritedJobs, ...generationJobs],
   };
 
+  authority = enrichExperienceAuthorityThemeContinuity(authority, {
+    projectId: input.planMeta.projectId,
+    route: input.functionContract.route,
+    pageId: input.planMeta.pageId,
+  });
+
   if (
     isNdxbookOverviewExperiencePage({
       projectId: input.planMeta.projectId,
@@ -239,6 +249,8 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
   planMeta: Parameters<typeof executePageConceptExperienceExpressionGeneration>[0]['planMeta'];
   functionContract: Parameters<typeof executePageConceptExperienceExpressionGeneration>[0]['functionContract'];
   dryRun?: boolean;
+  /** Re-run one state forcing INHERIT_AUTHORITY theme contract (localized contrast cleared). */
+  forceInheritAuthorityTheme?: boolean;
 }): Promise<{ authority: ExperienceExpressionAuthority; jobs: readonly PageConceptGeneratedArtifact[] }> {
   const plan = input.authority.packagingPlan;
   if (!plan) throw new Error('EXPERIENCE_PACKAGING_PLAN_REQUIRED');
@@ -246,12 +258,24 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
   const target = targets.find((t) => t.stateId === input.stateId);
   if (!target) throw new Error('EXPERIENCE_STATE_NOT_IN_PLAN');
 
+  const inheritBlock = input.forceInheritAuthorityTheme ?
+    `\n${themePromptBlockForMode('INHERIT_AUTHORITY', null)}`
+  : '';
   const render = await renderExperienceExpressionFalTarget({
-    target,
+    target: input.forceInheritAuthorityTheme ? { ...target, prompt: `${target.prompt}${inheritBlock}` } : target,
     mobileAuthorityImageUri: input.mobileAuthorityImageUri,
     planMeta: { ...input.planMeta, experienceAuthorityId: input.authority.id },
     dryRun: input.dryRun,
   });
+
+  const expressionPrompts =
+    input.forceInheritAuthorityTheme ?
+      (input.authority.expressionPrompts ?? []).map((p) =>
+        p.stateId === input.stateId || (p.stateId == null && p.expressionType === target.sourceExpressionTypes[0]) ?
+          { ...p, themeMode: 'INHERIT_AUTHORITY' as const, contrastRationale: null }
+        : p,
+      )
+    : input.authority.expressionPrompts;
 
   const visualStates = input.authority.visualStates.map((state) => {
     if (state.stateId !== input.stateId) return state;
@@ -260,7 +284,10 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
       previewImageUri: render.imageUri,
       generatedArtifactId: render.artifactId,
       materializationStatus: 'READY' as const,
-      caption: `${state.label} — regenerated single expression state.`,
+      caption: `${state.label} — regenerated single expression state${input.forceInheritAuthorityTheme ? ' (authority theme inherit).' : '.'}`,
+      themeMode: input.forceInheritAuthorityTheme ? ('INHERIT_AUTHORITY' as const) : state.themeMode,
+      contrastRationale: input.forceInheritAuthorityTheme ? null : state.contrastRationale,
+      outputThemeDominance: input.forceInheritAuthorityTheme ? ('LIGHT' as const) : state.outputThemeDominance,
     };
   });
 
@@ -287,10 +314,17 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
         'READY_FOR_REVIEW'
       : 'PARTIAL_FAILURE',
     visualStates,
+    expressionPrompts,
     expressionAssetIds,
     generatedAt: new Date().toISOString(),
     generationJobs: [...(input.authority.generationJobs ?? []).filter((j) => j.stateId !== input.stateId), retryJob],
   };
+
+  authority = enrichExperienceAuthorityThemeContinuity(authority, {
+    projectId: input.planMeta.projectId,
+    route: input.functionContract.route,
+    pageId: input.planMeta.pageId,
+  });
 
   if (
     isNdxbookOverviewExperiencePage({

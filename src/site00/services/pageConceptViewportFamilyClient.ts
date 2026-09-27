@@ -13,6 +13,7 @@ export async function pageConceptViewportFamilyActionApi(input: {
   mobileCaptureBase64?: string;
   dryRun?: boolean;
   experienceStateId?: string;
+  forceInheritAuthorityTheme?: boolean;
 }): Promise<{
   state: PageConceptGenerationState;
   jobs?: readonly import('../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js').PageConceptGeneratedArtifact[];
@@ -30,6 +31,7 @@ export async function pageConceptViewportFamilyActionApi(input: {
         mobileCaptureBase64: input.mobileCaptureBase64,
         dryRun: input.dryRun,
         experienceStateId: input.experienceStateId,
+        forceInheritAuthorityTheme: input.forceInheritAuthorityTheme,
       },
     },
   );

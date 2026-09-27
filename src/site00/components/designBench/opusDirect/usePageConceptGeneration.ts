@@ -1872,6 +1872,10 @@ export function usePageConceptGeneration(
           dryRun: 'dryRun' in action ? action.dryRun : undefined,
           experienceStateId:
             action.type === 'regenerateExperienceExpressionState' ? action.stateId : undefined,
+          forceInheritAuthorityTheme:
+            action.type === 'regenerateExperienceExpressionState' ?
+              action.forceInheritAuthorityTheme
+            : undefined,
         });
         persist(() => {
           let next = result.state;
@@ -1924,8 +1928,12 @@ export function usePageConceptGeneration(
       selectMobile: (conceptId: string) => void dispatchViewportFamilyAction({ type: 'selectMobileConcept', conceptId }),
       confirmMobileAuthority: () => void dispatchViewportFamilyAction({ type: 'confirmMobileAuthority' }),
       generateExperience: () => void dispatchViewportFamilyAction({ type: 'generateExperienceExpression' }),
-      regenerateExperienceState: (stateId: string) =>
-        void dispatchViewportFamilyAction({ type: 'regenerateExperienceExpressionState', stateId }),
+      regenerateExperienceState: (stateId: string, forceInheritAuthorityTheme?: boolean) =>
+        void dispatchViewportFamilyAction({
+          type: 'regenerateExperienceExpressionState',
+          stateId,
+          forceInheritAuthorityTheme,
+        }),
       regenerateMobileConcept: (conceptId: string) =>
         void dispatchViewportFamilyAction({ type: 'regenerateMobileConcept', conceptId, mobileCaptureBase64: '' }),
       regenerateAllMobileConcepts: () =>

@@ -17,6 +17,7 @@ import {
 } from './pageConceptExperienceExpressionFalPlan.js';
 import { getDesignBoundPage } from '../designProjectBinding/designPageRegistry.js';
 import { validateExperiencePackagePlan } from './experiencePackageMaterialization.js';
+import { enrichExperienceAuthorityThemeContinuity } from './experienceThemeContinuity.js';
 
 export type ExperienceExpressionPatternType =
   | 'DRAWER'
@@ -61,6 +62,10 @@ export type ExperienceExpressionVisualState = {
   packagingMode?: 'SINGLE' | 'COMBINED';
   sourceExpressionTypes?: readonly ExpressionPromptType[];
   materializationStatus?: 'INHERITED' | 'READY' | 'GENERATING' | 'FAILED' | 'PRESERVED';
+  themeMode?: import('./experienceThemeContinuity.js').ExperienceThemeMode;
+  contrastRationale?: string | null;
+  themeContinuityStatus?: import('./experienceThemeContinuity.js').ThemeContinuityStatus;
+  outputThemeDominance?: 'LIGHT' | 'DARK' | 'MIXED' | null;
 };
 
 export type ResponsiveExperienceRule = {
@@ -102,6 +107,7 @@ export type ExperienceExpressionAuthority = {
   outputLineage?: readonly ExperienceOutputLineage[];
   experiencePackageMetadata?: import('./ndxbookOverviewExperienceExpressionContentSpec.js').ExperiencePackageMetadata | null;
   generationJobs?: readonly import('./experiencePackageMaterialization.js').ExperienceGenerationJob[];
+  authorityThemeProfile?: import('./experienceThemeContinuity.js').AuthorityThemeProfile;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
@@ -237,7 +243,7 @@ export function compileExperienceExpressionAuthority(input: {
   ].join('\n');
 
   const now = new Date().toISOString();
-  return {
+  const compiled: ExperienceExpressionAuthority = {
     id: authorityId,
     projectId: input.projectId,
     pageId: input.pageId,
@@ -260,4 +266,11 @@ export function compileExperienceExpressionAuthority(input: {
     generatedAt: now,
     approvedAt: null,
   };
+  return enrichExperienceAuthorityThemeContinuity(compiled, {
+    projectId: input.projectId,
+    route: input.functionContract.route,
+    pageId: input.pageId,
+    screenId,
+    territoryLabel: input.mobileConcept.territoryLabel ?? null,
+  });
 }

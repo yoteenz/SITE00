@@ -49,6 +49,7 @@ import { compileExperienceExpressionAuthority } from './experienceExpressionAuth
 import { mergePreservedExperienceVisualStates } from './experiencePackageMaterialization.js';
 import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
+import { buildExperienceThemeHandoffLines, experienceThemeContinuityBlocksApproval } from './experienceThemeContinuity.js';
 
 export type ViewportFamilyOrchestrationResult = {
   state: PageConceptGenerationState;
@@ -306,6 +307,7 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
     input.authority.outputLineage?.map(
       (l) => `${l.label} [${l.packagingMode}]: ${l.sourceExpressionTypes.join('+')}`,
     ) ?? [];
+  const themeHandoff = buildExperienceThemeHandoffLines(input.authority);
   const contract: PageExperienceExpressionContract = {
     ...input.contract,
     overlayPatterns: [
@@ -314,6 +316,8 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
       ...packagingLines,
       ...lineageLines,
       ...visualLabels,
+      'EXPERIENCE THEME CONTINUITY:',
+      ...themeHandoff,
     ],
   };
   const expStatus =
@@ -398,10 +402,16 @@ export function pageConceptApproveExperienceExpression(
   if (authority.sourceConceptId !== (family!.confirmedMobileConceptId ?? family!.selectedMobileConceptId)) {
     throw new Error('EXPERIENCE_MOBILE_LINEAGE_MISMATCH');
   }
+  const themeGate = experienceThemeContinuityBlocksApproval(authority);
+  if (themeGate.blocked) {
+    throw new Error(themeGate.code ?? 'EXPERIENCE_THEME_DRIFT');
+  }
   const approvedAt = new Date().toISOString();
+  const themeHandoff = buildExperienceThemeHandoffLines(authority);
   const approved: PageExperienceExpressionContract = {
     ...experienceContract,
     approvedAt,
+    overlayPatterns: [...experienceContract.overlayPatterns, 'EXPERIENCE THEME CONTINUITY:', ...themeHandoff],
   };
   const approvedAuthority = {
     ...authority,

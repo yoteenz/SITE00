@@ -36,7 +36,12 @@ export type PageConceptViewportFamilyAction =
   | { type: 'selectMobileConcept'; conceptId: string }
   | { type: 'confirmMobileAuthority' }
   | { type: 'generateExperienceExpression'; dryRun?: boolean }
-  | { type: 'regenerateExperienceExpressionState'; stateId: string; dryRun?: boolean }
+  | {
+      type: 'regenerateExperienceExpressionState';
+      stateId: string;
+      dryRun?: boolean;
+      forceInheritAuthorityTheme?: boolean;
+    }
   | { type: 'approveExperienceExpression' }
   | { type: 'runTabletInterpretation'; dryRun?: boolean }
   | { type: 'runDesktopInterpretation'; dryRun?: boolean }
@@ -160,6 +165,7 @@ export async function runPageConceptViewportFamilyAction(
       },
       functionContract: state.functionContract!,
       dryRun,
+      forceInheritAuthorityTheme: action.forceInheritAuthorityTheme === true,
     });
     const contract = state.pipelineSet!.experienceExpressionContract!;
     return pageConceptApplyExperienceExpressionGenerationResult(state, {
