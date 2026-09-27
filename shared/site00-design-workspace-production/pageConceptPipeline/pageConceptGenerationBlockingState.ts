@@ -64,7 +64,7 @@ export function sanitizePageConceptExecutionError(
 export function derivePageConceptGenerationBlockingState(input: {
   eligibility: PageConceptGenerationEligibility;
   executionError: string | null;
-  mode: 'confirm' | 'progress' | 'review';
+  mode: 'confirm' | 'progress' | 'review' | 'experience-review';
   generationState?: PageConceptGenerationState;
   generating?: boolean;
 }): PageConceptGenerationBlockingState {

@@ -108,8 +108,19 @@ export function pageConceptStageStatesFromPipeline(state: PageConceptGenerationS
         return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
       case 'VIEWPORT_TABLET_RUNNING':
       case 'VIEWPORT_DESKTOP_RUNNING':
-      case 'VIEWPORT_FAMILY_REVIEW':
         return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
+      case 'VIEWPORT_FAMILY_REVIEW': {
+        const family = ps?.viewportAuthorityFamily;
+        const experienceApproved = Boolean(ps?.experienceExpressionContract?.approvedAt);
+        const interpreting = family?.tabletArtifactId || family?.desktopArtifactId;
+        if (experienceApproved && interpreting) {
+          return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
+        }
+        if (family?.mobileAuthorityStatus === 'CONFIRMED') {
+          return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+        }
+        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+      }
       default:
         if (ps?.creativeInjection && (mobileReady >= 3 || hasMobileJobs)) {
           if (mobileReady >= 3) return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };

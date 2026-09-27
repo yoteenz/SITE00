@@ -6,6 +6,11 @@
 import type { PageConceptStageState } from '../designPageConceptGeneratorShell.js';
 import { pageConceptCanonicalGpt2MobileActive } from './pageConceptGeneratorBinding.js';
 import type { PageConceptCgptCreativeBrief, PageConceptGenerationState } from './types.js';
+import {
+  isMobileAuthorityConfirmed,
+  resolveExperienceExpressionStatus,
+  slotLabelFromConceptId,
+} from './pageConceptViewportFamilyState.js';
 
 export const PAGE_CONCEPT_LEGACY_FOUNDER_TERMS = [
   'NBP RENDITIONS',
@@ -120,11 +125,19 @@ export function buildFounderErrorPresentation(notice: string): FounderErrorPrese
 export function resolveFounderFooterPhase(state: PageConceptGenerationState): FounderFooterPhase {
   const status = state.generationStatus;
   if (status === 'CGPT_AWAITING_FOUNDER_REVIEW') return 'CGPT_REVIEW';
-  if (status === 'GPT2_MOBILE_AWAITING_SELECTION') return 'MOBILE_REVIEW';
-  if (status === 'VIEWPORT_FAMILY_REVIEW') {
+  if (status === 'GPT2_MOBILE_AWAITING_SELECTION') {
     const family = state.pipelineSet?.viewportAuthorityFamily;
+    if (isMobileAuthorityConfirmed(family)) {
+      const exp = resolveExperienceExpressionStatus(state.pipelineSet);
+      if (exp === 'APPROVED') return 'VIEWPORT_FAMILY';
+      return 'EXPERIENCE_REVIEW';
+    }
+    if (family?.selectedMobileConceptId) return 'MOBILE_SELECTED';
+    return 'MOBILE_REVIEW';
+  }
+  if (status === 'VIEWPORT_FAMILY_REVIEW') {
     const experience = state.pipelineSet?.experienceExpressionContract;
-    if (family?.selectedMobileConceptId && !experience?.approvedAt) return 'EXPERIENCE_REVIEW';
+    if (!experience?.approvedAt) return 'EXPERIENCE_REVIEW';
     return 'VIEWPORT_FAMILY';
   }
   if (status === 'PAGE_FAMILY_CONTRACT_REVIEW') return 'PAGE_FAMILY';
@@ -311,7 +324,7 @@ export function buildFounderJourneyRail(state: PageConceptGenerationState): read
       id: 'AUTHORITY',
       step: 3,
       groupTitle: 'AUTHORITY',
-      groupNote: 'SELECT + INTERPRET',
+      groupNote: 'MOBILE · EXPERIENCE · VIEWPORT',
       state: railState(authorityActive, authorityComplete, false),
       blockedReason: !conceptComplete ? 'AWAITING 3 MOBILE CONCEPTS' : null,
     },
@@ -346,12 +359,29 @@ export function resolveFounderFooterCtaHint(state: PageConceptGenerationState): 
   switch (phase) {
     case 'CGPT_REVIEW':
       return { phase, primaryLabel: 'CONTINUE TO GPT2', secondaryLabel: 'CANCEL', statusLine: 'REVIEW CREATIVE DIRECTION' };
-    case 'MOBILE_REVIEW':
-      return { phase, primaryLabel: 'SELECT MOBILE CONCEPT', secondaryLabel: 'REGENERATE ALL', statusLine: 'SELECTED: NONE' };
+    case 'MOBILE_REVIEW': {
+      const selectedLabel = slotLabelFromConceptId(
+        state.pipelineSet ?? null,
+        state.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ?? null,
+      );
+      return {
+        phase,
+        primaryLabel: 'SELECT MOBILE CONCEPT',
+        secondaryLabel: 'REGENERATE ALL',
+        statusLine: selectedLabel ? `SELECTED: ${selectedLabel.replace('CONCEPT ', '')}` : 'SELECTED: NONE',
+      };
+    }
     case 'MOBILE_SELECTED':
-      return { phase, primaryLabel: 'CONFIRM SELECTION', secondaryLabel: 'CHANGE', statusLine: 'MOBILE AUTHORITY SELECTED' };
-    case 'EXPERIENCE_REVIEW':
-      return { phase, primaryLabel: 'APPROVE EXPERIENCE EXPRESSION', secondaryLabel: 'BACK', statusLine: 'EXPERIENCE EXPRESSION REVIEW' };
+      return { phase, primaryLabel: 'CONFIRM MOBILE AUTHORITY', secondaryLabel: 'CHANGE', statusLine: 'MOBILE AUTHORITY SELECTED' };
+    case 'EXPERIENCE_REVIEW': {
+      const exp = resolveExperienceExpressionStatus(state.pipelineSet);
+      return {
+        phase,
+        primaryLabel: exp === 'READY_FOR_REVIEW' ? 'APPROVE EXPERIENCE EXPRESSION' : 'CREATE EXPERIENCE',
+        secondaryLabel: 'CLOSE',
+        statusLine: 'EXPERIENCE EXPRESSION REVIEW',
+      };
+    }
     case 'VIEWPORT_FAMILY':
       return { phase, primaryLabel: 'APPROVE VIEWPORT FAMILY', secondaryLabel: 'REQUEST CHANGES', statusLine: 'VIEWPORT FAMILY READY' };
     case 'PAGE_FAMILY':

@@ -39,6 +39,7 @@ import type { DesignWorkspaceArtifactView } from '../../../../../shared/site00-d
 import { PageConceptGeneratorPanel } from '../pageConceptGenerator/PageConceptGeneratorPanel';
 import { PageConceptPageFamilyContractPanel } from '../pageConceptGenerator/PageConceptPageFamilyContractPanel';
 import { PageConceptViewportFamilyPanel } from '../pageConceptGenerator/PageConceptViewportFamilyPanel';
+import { PageConceptExperienceExpressionReviewPanel } from '../pageConceptGenerator/PageConceptExperienceExpressionReviewPanel';
 import { PageConceptGeneratorNbpStage } from '../pageConceptGenerator/PageConceptGeneratorNbpStage';
 import {
   buildFounderJourneyRail,
@@ -101,7 +102,7 @@ export function PageConceptGenerationOverlay({
   postRunControlHandlers,
 }: {
   open: boolean;
-  mode: 'confirm' | 'progress' | 'review';
+  mode: 'confirm' | 'progress' | 'review' | 'experience-review';
   plan: PageConceptGenerationPlan | null;
   generationState: PageConceptGenerationState;
   error: string | null;
@@ -130,6 +131,8 @@ export function PageConceptGenerationOverlay({
   gpt2MobileAwaitingSelection?: boolean;
   viewportFamilyHandlers?: {
     selectMobile: (conceptId: string) => void;
+    confirmMobileAuthority?: () => void;
+    generateExperience?: () => void;
     approveExperience: () => void;
     runTablet: () => void;
     runDesktop: () => void;
@@ -449,6 +452,30 @@ export function PageConceptGenerationOverlay({
 
   if (!open) return null;
 
+  if (mode === 'experience-review' && viewportFamilyHandlers) {
+    return (
+      <div className="s00-pcg-layer" role="dialog" data-testid="page-concept-experience-expression-overlay">
+        <button
+          type="button"
+          className="s00-pcg__scrim"
+          aria-label="Close experience expression review"
+          onClick={() => !generating && onCancel()}
+        />
+        <div className="s00-pcg-layer__box">
+          <PageConceptExperienceExpressionReviewPanel
+            state={generationState}
+            projectLabel={plan?.projectLabel ?? generationState.projectId}
+            pageLabel={plan?.pageLabel ?? generationState.pageId}
+            busy={generating}
+            onApprove={() => viewportFamilyHandlers.approveExperience()}
+            onRegenerate={() => viewportFamilyHandlers.generateExperience?.()}
+            onClose={onCancel}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="s00-pcg-layer" role="dialog" data-testid="page-concept-generation-overlay">
       <button
@@ -615,6 +642,7 @@ export function PageConceptGenerationOverlay({
               state={generationState}
               busy={generating}
               onSelectMobile={viewportFamilyHandlers.selectMobile}
+              onConfirmMobileSelection={viewportFamilyHandlers.confirmMobileAuthority}
               onContinueExperience={viewportFamilyHandlers.approveExperience}
               onRunTablet={viewportFamilyHandlers.runTablet}
               onRunDesktop={viewportFamilyHandlers.runDesktop}

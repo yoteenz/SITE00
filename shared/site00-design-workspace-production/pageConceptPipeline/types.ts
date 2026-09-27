@@ -392,6 +392,7 @@ export type PageConceptPipelineSet = {
   viewportAuthorityFamily?: PageViewportAuthorityFamily | null;
   viewportAuthorityFamilyLock?: PageViewportAuthorityFamilyLock | null;
   experienceExpressionContract?: PageExperienceExpressionContract | null;
+  experienceExpressionAuthority?: import('./experienceExpressionAuthority.js').ExperienceExpressionAuthority | null;
   pageFamilySkinBehaviorContract?: PageFamilySkinBehaviorContract | null;
   pageFamilyComponentExpressionMap?: PageFamilyComponentExpressionMap | null;
   opusRepresentativeShellSet?: OpusRepresentativeShellSet | null;

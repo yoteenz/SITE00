@@ -1,0 +1,213 @@
+/**
+ * P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1
+ * Structured experience expression artifact (behavior + visual states) inheriting confirmed mobile authority.
+ */
+
+import type { PageConceptCgptCreativeBrief, PageCreativeInjection, PageFunctionContract } from './types.js';
+import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
+import type { PageGpt2MobileConcept } from './pageConceptViewportAuthorityFamily.js';
+
+export type ExperienceExpressionPatternType =
+  | 'DRAWER'
+  | 'MODAL'
+  | 'POPUP'
+  | 'MENU'
+  | 'OVERLAY'
+  | 'EXPANDED_PANEL'
+  | 'SELECTED_STATE'
+  | 'LOADING_STATE'
+  | 'EMPTY_STATE'
+  | 'ERROR_STATE';
+
+export type ExperienceExpressionPatternRecord = {
+  patternId: string;
+  patternType: ExperienceExpressionPatternType;
+  sourceTrigger: string;
+  visualTreatment: string;
+  entryBehavior: string;
+  exitBehavior: string;
+  backdropBehavior: string;
+  position: string;
+  sizeLogic: string;
+  scrollBehavior: string;
+  dismissBehavior: string;
+  responsiveBehavior: string;
+  focusBehavior: string;
+  inheritanceScope: string;
+};
+
+export type ExperienceExpressionVisualState = {
+  stateId: string;
+  label: string;
+  patternType: ExperienceExpressionPatternType | 'BASE_PAGE';
+  /** Representative preview — typically inherited mobile authority image URI. */
+  previewImageUri: string | null;
+  caption: string;
+};
+
+export type ResponsiveExperienceRule = {
+  patternType: ExperienceExpressionPatternType;
+  mobile: string;
+  tablet: string;
+  desktop: string;
+};
+
+export type ExperienceExpressionAuthorityStatus =
+  | 'NOT_STARTED'
+  | 'GENERATING'
+  | 'READY_FOR_REVIEW'
+  | 'APPROVED'
+  | 'FAILED'
+  | 'SUPERSEDED';
+
+export type ExperienceExpressionAuthority = {
+  id: string;
+  projectId: string;
+  pageId: string;
+  sourceMobileAuthorityId: string;
+  sourceMobileArtifactId: string;
+  sourceConceptId: string;
+  status: ExperienceExpressionAuthorityStatus;
+  patterns: readonly ExperienceExpressionPatternRecord[];
+  behaviorContract: string;
+  visualStateContract: string;
+  responsiveRules: readonly ResponsiveExperienceRule[];
+  visualStates: readonly ExperienceExpressionVisualState[];
+  generatedAt: string | null;
+  approvedAt: string | null;
+};
+
+function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
+  const blob = [
+    ...functionContract.regions,
+    ...functionContract.interactions,
+    ...functionContract.immutableBehaviors,
+  ]
+    .join(' ')
+    .toLowerCase();
+  const patterns: ExperienceExpressionPatternType[] = ['SELECTED_STATE'];
+  if (/drawer|sheet|panel|slide/.test(blob)) patterns.push('DRAWER', 'EXPANDED_PANEL');
+  if (/modal|dialog|popup|overlay/.test(blob)) patterns.push('MODAL', 'OVERLAY');
+  if (/menu|nav|dropdown/.test(blob)) patterns.push('MENU');
+  patterns.push('LOADING_STATE', 'EMPTY_STATE', 'ERROR_STATE');
+  return [...new Set(patterns)];
+}
+
+export function compileExperienceExpressionAuthority(input: {
+  projectId: string;
+  pageId: string;
+  mobileConcept: PageGpt2MobileConcept;
+  skinContract: ProjectSkinContract;
+  cgptBrief: PageConceptCgptCreativeBrief;
+  injection: PageCreativeInjection;
+  functionContract: PageFunctionContract;
+}): ExperienceExpressionAuthority {
+  const patternTypes = inferPatterns(input.functionContract);
+  const mobilePreview = input.mobileConcept.imageUri;
+  const interactionCharacter =
+    input.injection.interactionCharacter ?? input.cgptBrief.interactionCharacter;
+
+  const patterns: ExperienceExpressionPatternRecord[] = patternTypes.map((patternType, index) => ({
+    patternId: `eep-${patternType.toLowerCase()}-${index}`,
+    patternType,
+    sourceTrigger: `Derived from function map + ${input.functionContract.route}`,
+    visualTreatment: `Inherits mobile authority typography, materials, and lime accent from skin ${input.skinContract.version}.`,
+    entryBehavior: patternType === 'DRAWER' ? 'Slide-in preserving thumb reach on mobile authority.' : 'Contextual open aligned to hierarchy.',
+    exitBehavior: 'Explicit dismiss or back affordance; no orphan overlays.',
+    backdropBehavior: patternType === 'MODAL' || patternType === 'OVERLAY' ? 'Dimmed editorial scrim.' : 'None or inline expansion.',
+    position: patternType === 'DRAWER' ? 'Bottom-anchored on mobile.' : 'Center or inline per pattern.',
+    sizeLogic: 'Proportional to content; never generic system chrome.',
+    scrollBehavior: 'Body lock when modal; nested scroll inside panels.',
+    dismissBehavior: 'Swipe-down on sheets; escape on desktop when applicable.',
+    responsiveBehavior: 'See responsiveRules — tablet/desktop interpret approved mobile character.',
+    focusBehavior: 'Trap focus in modal; restore on close.',
+    inheritanceScope: 'MOBILE AUTHORITY + SITE00 PROJECT EXPRESSION',
+  }));
+
+  const visualStates: ExperienceExpressionVisualState[] = [
+    {
+      stateId: 'base',
+      label: 'BASE PAGE',
+      patternType: 'BASE_PAGE',
+      previewImageUri: mobilePreview,
+      caption: 'Approved mobile concept at rest.',
+    },
+  ];
+  if (patternTypes.includes('DRAWER')) {
+    visualStates.push({
+      stateId: 'drawer',
+      label: 'DRAWER / PANEL OPEN',
+      patternType: 'DRAWER',
+      previewImageUri: mobilePreview,
+      caption: 'Panel open state — geometry inherited from mobile authority.',
+    });
+  }
+  if (patternTypes.includes('MODAL') || patternTypes.includes('OVERLAY')) {
+    visualStates.push({
+      stateId: 'overlay',
+      label: 'MODAL / OVERLAY',
+      patternType: 'MODAL',
+      previewImageUri: mobilePreview,
+      caption: 'Focus overlay with brand frame and scrim.',
+    });
+  }
+  if (patternTypes.includes('MENU')) {
+    visualStates.push({
+      stateId: 'menu',
+      label: 'MENU / EXPANDED NAV',
+      patternType: 'MENU',
+      previewImageUri: mobilePreview,
+      caption: 'Expanded navigation or menu state.',
+    });
+  }
+
+  const responsiveRules: ResponsiveExperienceRule[] = patternTypes
+    .filter((p) => p === 'DRAWER' || p === 'MODAL' || p === 'MENU')
+    .map((patternType) => ({
+      patternType,
+      mobile:
+        patternType === 'DRAWER' ? 'Bottom sheet anchored to safe area.'
+        : patternType === 'MENU' ? 'Full-width nav expansion.'
+        : 'Centered modal with thumb-friendly actions.',
+      tablet:
+        patternType === 'DRAWER' ? 'Side sheet with two-column summary when space allows.'
+        : patternType === 'MENU' ? 'Persistent side nav segment.'
+        : 'Wider modal with inspector column optional.',
+      desktop:
+        patternType === 'DRAWER' ? 'Anchored side panel; content reflow beside shell.'
+        : patternType === 'MENU' ? 'Horizontal nav + mega-menu when warranted.'
+        : 'Split modal + inspector column.',
+    }));
+
+  const behaviorContract = [
+    `Interaction character: ${interactionCharacter}`,
+    `Function regions: ${input.functionContract.regions.join(', ')}`,
+    `Immutable behaviors: ${input.functionContract.immutableBehaviors.join(', ')}`,
+    'Experience answers HOW the approved concept behaves — not a new visual direction.',
+  ].join('\n');
+
+  const visualStateContract = [
+    `Source concept: ${input.mobileConcept.conceptId}`,
+    `Territory: ${input.mobileConcept.territoryLabel ?? 'mobile authority'}`,
+    `Skin contract: ${input.skinContract.version}`,
+    `Visual states: ${visualStates.map((v) => v.label).join(' · ')}`,
+  ].join('\n');
+
+  const now = new Date().toISOString();
+  return {
+    id: `peea-${input.projectId}-${input.pageId}-${Date.now()}`,
+    projectId: input.projectId,
+    pageId: input.pageId,
+    sourceMobileAuthorityId: input.mobileConcept.conceptId,
+    sourceMobileArtifactId: input.mobileConcept.artifactId,
+    sourceConceptId: input.mobileConcept.conceptId,
+    status: 'READY_FOR_REVIEW',
+    patterns,
+    behaviorContract,
+    visualStateContract,
+    responsiveRules,
+    visualStates,
+    generatedAt: now,
+    approvedAt: null,
+  };
+}

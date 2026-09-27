@@ -17,7 +17,7 @@ import type { PageConceptGenerationState } from './types.js';
 export function pageConceptStageStatesForPanel(input: {
   state: PageConceptGenerationState;
   generating: boolean;
-  mode: 'confirm' | 'progress' | 'review';
+  mode: 'confirm' | 'progress' | 'review' | 'experience-review';
 }): Record<PageConceptStageId, PageConceptStageState> {
   const { state, generating, mode } = input;
 

@@ -786,17 +786,28 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         const handlers = pageConceptGeneration.viewportFamilyHandlers;
         switch (actionId) {
           case 'vf-select-mobile':
-          case 'vf-confirm-mobile':
             void handlers.selectMobile(candidateId);
+            break;
+          case 'vf-confirm-mobile':
+            void handlers.confirmMobileAuthority();
             break;
           case 'vf-change-mobile':
             prodActions.selectGalleryCandidate('');
             break;
+          case 'vf-create-experience':
+            void handlers.generateExperience();
+            break;
           case 'vf-review-experience':
-            pageConceptGeneration.openGenerationConsole(viewport);
+            void (async () => {
+              const gs = pageConceptGeneration.generationState;
+              if (!gs.pipelineSet?.experienceExpressionAuthority) {
+                await pageConceptGeneration.dispatchViewportFamilyAction({ type: 'generateExperienceExpression' });
+              }
+              pageConceptGeneration.openExperienceReview();
+            })();
             break;
           case 'vf-approve-experience':
-            void handlers.approveExperience();
+            pageConceptGeneration.openExperienceReview();
             break;
           case 'vf-review-tablet':
           case 'vf-review-desktop':

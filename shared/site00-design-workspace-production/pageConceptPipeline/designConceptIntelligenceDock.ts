@@ -348,8 +348,8 @@ function handoffFromHeroRail(
     return (
       stage.statusTone === 'approved' ||
       stage.statusTone === 'locked' ||
-      stage.statusTone === 'active' ||
-      stage.statusLabel === 'SELECTED'
+      (stage.id === 'mobile-authority' && stage.statusLabel === 'CONFIRMED') ||
+      (stage.id === 'experience' && stage.statusLabel === 'APPROVED')
     );
   };
 
@@ -364,8 +364,16 @@ function handoffFromHeroRail(
   ];
 
   let nextAction = 'GENERATE PAGE CONCEPTS';
-  if (!complete(mobile)) nextAction = 'SELECT MOBILE AUTHORITY';
-  else if (!complete(experience)) nextAction = 'REVIEW EXPERIENCE EXPRESSION';
+  if (!complete(mobile)) {
+    nextAction = mobile?.statusLabel === 'SELECTED' ? 'CONFIRM MOBILE AUTHORITY' : 'SELECT MOBILE AUTHORITY';
+  } else if (!complete(experience)) {
+    nextAction =
+      experience?.statusLabel === 'NOT STARTED' || experience?.statusLabel === 'READY TO GENERATE' ?
+        'CREATE EXPERIENCE'
+      : experience?.statusLabel === 'READY FOR REVIEW' ?
+        'APPROVE EXPERIENCE'
+      : 'REVIEW EXPERIENCE EXPRESSION';
+  }
   else if (!complete(tablet)) nextAction = 'GENERATE TABLET';
   else if (!complete(desktop)) nextAction = 'GENERATE DESKTOP';
   else if (!complete(family)) nextAction = 'REVIEW VIEWPORT FAMILY';
@@ -433,13 +441,21 @@ export function buildDesignConceptIntelligenceDockModel(
       id: 'mobile-authority',
       label: 'MOBILE AUTHORITY',
       value:
-        input.selectedMobileConceptId && input.selectedCandidate?.id === input.selectedMobileConceptId ?
+        family?.mobileAuthorityStatus === 'CONFIRMED' &&
+        input.selectedMobileConceptId &&
+        input.selectedCandidate?.id === input.selectedMobileConceptId ?
+          'CONFIRMED'
+        : input.selectedMobileConceptId && input.selectedCandidate?.id === input.selectedMobileConceptId ?
           'SELECTED'
         : input.selectedMobileConceptId ?
           'OTHER SELECTED'
         : 'PENDING',
       tone:
-        input.selectedMobileConceptId && input.selectedCandidate?.id === input.selectedMobileConceptId ?
+        family?.mobileAuthorityStatus === 'CONFIRMED' &&
+        input.selectedMobileConceptId &&
+        input.selectedCandidate?.id === input.selectedMobileConceptId ?
+          'ok'
+        : input.selectedMobileConceptId && input.selectedCandidate?.id === input.selectedMobileConceptId ?
           'ok'
         : 'pending',
     },

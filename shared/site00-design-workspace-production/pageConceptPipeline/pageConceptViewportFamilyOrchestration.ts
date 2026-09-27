@@ -32,12 +32,37 @@ import {
   resolveDesignTwinRoute,
   tabletInterpretationArtifactId,
 } from './pageConceptViewportAuthorityFamily.js';
+import { compileExperienceExpressionAuthority } from './experienceExpressionAuthority.js';
+import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
+import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 
 export type ViewportFamilyOrchestrationResult = {
   state: PageConceptGenerationState;
   jobs?: readonly PageConceptGeneratedArtifact[];
   generationStatus: PageConceptGenerationStatus;
 };
+
+function clearDownstreamExperienceAndInterpretations(
+  family: PageViewportAuthorityFamily,
+): PageViewportAuthorityFamily {
+  return {
+    ...family,
+    experienceExpressionContractId: null,
+    experienceExpressionVersion: null,
+    experienceExpressionStatus: 'SUPERSEDED',
+    experienceApprovedAt: null,
+    tabletInterpretationId: null,
+    tabletArtifactId: null,
+    tabletVersion: null,
+    desktopInterpretationId: null,
+    desktopArtifactId: null,
+    desktopVersion: null,
+    viewportFamilyApprovalId: null,
+    familyLockId: null,
+    status: family.mobileAuthorityStatus === 'CONFIRMED' ? 'MOBILE_AUTHORITY_CONFIRMED' : 'MOBILE_SELECTED',
+    updatedAt: new Date().toISOString(),
+  };
+}
 
 function invalidateApprovalIfNeeded(family: PageViewportAuthorityFamily): PageViewportAuthorityFamily {
   if (!family.viewportFamilyApprovalId && !family.familyLockId) return family;
@@ -71,9 +96,10 @@ function syncGenerationStatus(
   }
   switch (family.status) {
     case 'MOBILE_SELECTED':
+    case 'MOBILE_AUTHORITY_CONFIRMED':
       return 'GPT2_MOBILE_AWAITING_SELECTION';
     case 'EXPERIENCE_DEFINED':
-      return 'GPT2_MOBILE_AWAITING_SELECTION';
+      return 'VIEWPORT_FAMILY_REVIEW';
     case 'TABLET_READY':
     case 'DESKTOP_READY':
     case 'AWAITING_FOUNDER_FAMILY_REVIEW':
@@ -113,26 +139,119 @@ export function pageConceptSelectMobileConcept(
   const brief = ps.cgptCreativeBrief;
   if (!brief) throw new Error('CGPT_BRIEF_REQUIRED');
   const skin = compileProjectSkinContract(state.projectId);
-  const familyId = ps.viewportAuthorityFamily?.familyId ?? `pvaf-${ps.pipelineSetId}`;
-  const family = createInitialViewportAuthorityFamily({
-    familyId,
-    cgptBriefId: brief.briefId,
-    cgptBriefVersion: brief.version,
-    skinContractVersion: skin.version,
-    skinContractId: skin.contractId,
-  });
-  const nextFamily: PageViewportAuthorityFamily = {
-    ...family,
+  const existingFamily = ps.viewportAuthorityFamily;
+  const familyId = existingFamily?.familyId ?? `pvaf-${ps.pipelineSetId}`;
+  const familyBase =
+    existingFamily ??
+    createInitialViewportAuthorityFamily({
+      familyId,
+      cgptBriefId: brief.briefId,
+      cgptBriefVersion: brief.version,
+      skinContractVersion: skin.version,
+      skinContractId: skin.contractId,
+    });
+  const priorConfirmed = existingFamily?.mobileAuthorityStatus === 'CONFIRMED';
+  const conceptChanged = Boolean(
+    existingFamily?.selectedMobileConceptId && existingFamily.selectedMobileConceptId !== selected.conceptId,
+  );
+  let nextFamily: PageViewportAuthorityFamily = {
+    ...familyBase,
     selectedMobileConceptId: selected.conceptId,
     selectedMobileVersion: `v1-${selected.conceptId.slice(-8)}`,
     mobileArtifactId: selected.artifactId,
+    mobileAuthorityStatus: 'SELECTED',
+    confirmedMobileConceptId: null,
+    confirmedMobileArtifactId: null,
+    confirmedMobileTerritoryId: null,
+    mobileAuthorityConfirmedAt: null,
+    mobileAuthorityConfirmedByFounder: false,
     status: 'MOBILE_SELECTED',
     updatedAt: new Date().toISOString(),
   };
+  if (priorConfirmed || conceptChanged) {
+    nextFamily = clearDownstreamExperienceAndInterpretations(nextFamily);
+  }
   const nextState = patchPipeline(state, {
     selectedMobileConceptId: selected.conceptId,
     viewportAuthorityFamily: nextFamily,
+    experienceExpressionContract: priorConfirmed || conceptChanged ? null : state.pipelineSet?.experienceExpressionContract ?? null,
+    experienceExpressionAuthority: priorConfirmed || conceptChanged ? null : state.pipelineSet?.experienceExpressionAuthority ?? null,
   });
+  return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptConfirmMobileAuthority(state: PageConceptGenerationState): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  if (!family?.selectedMobileConceptId || !family.mobileArtifactId) {
+    throw new Error('MOBILE_SELECTION_REQUIRED');
+  }
+  const selected = ps!.mobileConcepts?.find((c) => c.conceptId === family.selectedMobileConceptId);
+  if (!selected) throw new Error('MOBILE_CONCEPT_NOT_FOUND');
+  const now = new Date().toISOString();
+  const nextFamily: PageViewportAuthorityFamily = {
+    ...family,
+    mobileAuthorityStatus: 'CONFIRMED',
+    confirmedMobileConceptId: selected.conceptId,
+    confirmedMobileArtifactId: selected.artifactId,
+    confirmedMobileTerritoryId: selected.territoryLabel ?? null,
+    mobileAuthorityConfirmedAt: now,
+    mobileAuthorityConfirmedByFounder: true,
+    status: 'MOBILE_AUTHORITY_CONFIRMED',
+    updatedAt: now,
+  };
+  const nextState: PageConceptGenerationState = {
+    ...patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily),
+    liveProgress: null,
+    activeGenerationStage: null,
+  };
+  return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptGenerateExperienceExpression(state: PageConceptGenerationState): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  if (!isMobileAuthorityConfirmed(family)) throw new Error('MOBILE_AUTHORITY_CONFIRMATION_REQUIRED');
+  const conceptId = family!.confirmedMobileConceptId ?? family!.selectedMobileConceptId!;
+  const mobileConcept = ps!.mobileConcepts?.find((c) => c.conceptId === conceptId);
+  if (!mobileConcept) throw new Error('MOBILE_CONCEPT_NOT_FOUND');
+  const injection = ps!.creativeInjection!;
+  const brief = ps!.cgptCreativeBrief!;
+  const skin = compileProjectSkinContract(state.projectId);
+  const authority = compileExperienceExpressionAuthority({
+    projectId: state.projectId,
+    pageId: state.pageId,
+    mobileConcept,
+    skinContract: skin,
+    cgptBrief: brief,
+    injection,
+    functionContract: state.functionContract!,
+  });
+  const contract = compilePageExperienceExpressionContract({
+    projectId: state.projectId,
+    pageId: state.pageId,
+    selectedMobileConceptId: conceptId,
+    skinContract: skin,
+    cgptBrief: brief,
+    injection,
+    functionContract: state.functionContract!,
+  });
+  const nextFamily: PageViewportAuthorityFamily = {
+    ...family!,
+    experienceExpressionStatus: 'READY_FOR_REVIEW',
+    experienceExpressionContractId: contract.contractId,
+    experienceExpressionVersion: contract.version,
+    updatedAt: new Date().toISOString(),
+  };
+  const nextState = patchPipeline(
+    state,
+    {
+      experienceExpressionAuthority: authority,
+      experienceExpressionContract: contract,
+      viewportAuthorityFamily: nextFamily,
+    },
+    nextFamily,
+  );
   return { state: nextState, generationStatus: nextState.generationStatus };
 }
 
@@ -140,26 +259,40 @@ export function pageConceptApproveExperienceExpression(
   state: PageConceptGenerationState,
   experienceContract: PageExperienceExpressionContract,
 ): ViewportFamilyOrchestrationResult {
-  const family = state.pipelineSet?.viewportAuthorityFamily;
-  if (!family?.selectedMobileConceptId) throw new Error('MOBILE_SELECTION_REQUIRED');
-  if (family.status !== 'MOBILE_SELECTED' && family.status !== 'EXPERIENCE_DEFINED') {
-    throw new Error('EXPERIENCE_APPROVAL_INVALID_STATE');
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  if (!isMobileAuthorityConfirmed(family)) throw new Error('MOBILE_AUTHORITY_CONFIRMATION_REQUIRED');
+  const authority = ps?.experienceExpressionAuthority;
+  if (!authority || authority.status !== 'READY_FOR_REVIEW') {
+    throw new Error('EXPERIENCE_ARTIFACT_REQUIRED');
   }
+  if (authority.sourceConceptId !== (family!.confirmedMobileConceptId ?? family!.selectedMobileConceptId)) {
+    throw new Error('EXPERIENCE_MOBILE_LINEAGE_MISMATCH');
+  }
+  const approvedAt = new Date().toISOString();
   const approved: PageExperienceExpressionContract = {
     ...experienceContract,
-    approvedAt: new Date().toISOString(),
+    approvedAt,
+  };
+  const approvedAuthority = {
+    ...authority,
+    status: 'APPROVED' as const,
+    approvedAt,
   };
   const nextFamily: PageViewportAuthorityFamily = {
-    ...family,
+    ...family!,
     experienceExpressionContractId: approved.contractId,
     experienceExpressionVersion: approved.version,
+    experienceExpressionStatus: 'APPROVED',
+    experienceApprovedAt: approvedAt,
     status: 'EXPERIENCE_DEFINED',
-    updatedAt: new Date().toISOString(),
+    updatedAt: approvedAt,
   };
   const nextState = patchPipeline(
     state,
     {
       experienceExpressionContract: approved,
+      experienceExpressionAuthority: approvedAuthority,
       viewportAuthorityFamily: nextFamily,
     },
     nextFamily,
@@ -177,6 +310,9 @@ export function pageConceptApplyTabletInterpretation(
 ): ViewportFamilyOrchestrationResult {
   let family = state.pipelineSet?.viewportAuthorityFamily;
   if (!family?.experienceExpressionContractId) throw new Error('EXPERIENCE_EXPRESSION_REQUIRED');
+  if (!state.pipelineSet?.experienceExpressionContract?.approvedAt) {
+    throw new Error('EXPERIENCE_EXPRESSION_APPROVAL_REQUIRED');
+  }
   family = invalidateApprovalIfNeeded(family);
   const nextFamily: PageViewportAuthorityFamily = {
     ...family,

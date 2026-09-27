@@ -2,8 +2,19 @@
  * P0.VR.PAGE-CONCEPT-GPT2-CANONICAL-VIEWPORT-FAMILY1R1
  */
 
+export type PageMobileAuthorityStatus = 'NONE' | 'SELECTED' | 'CONFIRMED';
+
+export type PageExperienceExpressionPipelineStatus =
+  | 'NOT_STARTED'
+  | 'GENERATING'
+  | 'READY_FOR_REVIEW'
+  | 'APPROVED'
+  | 'FAILED'
+  | 'SUPERSEDED';
+
 export type PageViewportFamilyStatus =
   | 'MOBILE_SELECTED'
+  | 'MOBILE_AUTHORITY_CONFIRMED'
   | 'EXPERIENCE_DEFINED'
   | 'TABLET_READY'
   | 'DESKTOP_READY'
@@ -72,6 +83,14 @@ export type PageViewportAuthorityFamily = {
   selectedMobileConceptId: string | null;
   selectedMobileVersion: string | null;
   mobileArtifactId: string | null;
+  mobileAuthorityStatus?: PageMobileAuthorityStatus;
+  confirmedMobileConceptId?: string | null;
+  confirmedMobileArtifactId?: string | null;
+  confirmedMobileTerritoryId?: string | null;
+  mobileAuthorityConfirmedAt?: string | null;
+  mobileAuthorityConfirmedByFounder?: boolean;
+  experienceExpressionStatus?: PageExperienceExpressionPipelineStatus;
+  experienceApprovedAt?: string | null;
   tabletInterpretationId: string | null;
   tabletArtifactId: string | null;
   tabletVersion: string | null;
@@ -173,6 +192,14 @@ export function createInitialViewportAuthorityFamily(input: {
     selectedMobileConceptId: null,
     selectedMobileVersion: null,
     mobileArtifactId: null,
+    mobileAuthorityStatus: 'NONE',
+    confirmedMobileConceptId: null,
+    confirmedMobileArtifactId: null,
+    confirmedMobileTerritoryId: null,
+    mobileAuthorityConfirmedAt: null,
+    mobileAuthorityConfirmedByFounder: false,
+    experienceExpressionStatus: 'NOT_STARTED',
+    experienceApprovedAt: null,
     tabletInterpretationId: null,
     tabletArtifactId: null,
     tabletVersion: null,
