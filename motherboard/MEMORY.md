@@ -11865,3 +11865,14 @@ Sprint **P0.VR.NDXBOOK-BRAND-FAMILIARITY-LAYER1**: upstream **NDX_BRAND_FAMILIAR
 - **Screenshot map:** `compileScreenshotFunctionMapZoneSummary` (breadcrumb, identity, status, entry index, bottom nav, etc.).
 - **Execute:** territory familiarity validation pre-dispatch; drift + authenticity gates; artifact debug fields for QA.
 - **Tests:** `p0vrNdxbookBrandFamiliarityLayer1.test.ts`; art-direction test expects `NDX BRAND FAMILIARITY` in prompt.
+
+---
+
+## 2026-09-27 — NDXBOOK A/B brand familiarity amplify (corrective)
+
+Founder: Concept C strongest; A/B still read generic editorial — do **not** default all outputs to C.
+
+- **Slot amplifiers:** `compileNdxBrandFamiliarityTerritoryAmplifier` (A archival index / B signal desk / C wall) appended per concept in familiarity prompt block — explicit anti-clone rules (A/B must not use C pin/mapping grammar).
+- **Territory stems:** B `typeScaleDrama` → HIGH; stronger NDX evidence/stamp language for A/B image + premise copy (not palette shuffle).
+- **Validator:** `validateTerritoryNdxBrandParity` — A/B depth score within 1 of C; no C signature collision; pre-dispatch with territory set compile.
+- **Brief version:** `ndx-brand-familiarity-brief-v2-ab-amplify`.
