@@ -363,7 +363,7 @@ export function usePageConceptGeneration(
         route: route ?? null,
       });
       setState(loaded);
-      refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
+      syncPageConceptGalleryFromLoadedGenerationState(loaded, { projectId, pageId });
       if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
     };
     window.addEventListener('site00:page-concept-generation-updated', onUpdated);
@@ -630,7 +630,7 @@ export function usePageConceptGeneration(
         const first = await fetchPageConceptGenerationRunApi(runId, lastObservedSequenceRef.current);
         if (cancelled) return;
         if (pageConceptServerRunIsTerminal(first.run.status)) {
-          clearPageConceptActiveServerRunId(projectId, pageId);
+          savePageConceptActiveServerRunId(projectId, pageId, first.run.runId);
           clearPageConceptFounderRunSession(projectId, pageId);
           await applyPollUpdate(first, isCancelled);
           setOverlayMode('review');
@@ -655,7 +655,7 @@ export function usePageConceptGeneration(
           },
         });
         if (!cancelled) {
-          clearPageConceptActiveServerRunId(projectId, pageId);
+          savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
           clearPageConceptFounderRunSession(projectId, pageId);
           setOverlayMode(pageConceptServerRunIsTerminal(terminalRun.status) ? 'review' : 'confirm');
         }
@@ -1152,6 +1152,7 @@ export function usePageConceptGeneration(
       persist((s) => mergeTerminalRunResultIntoState(s, terminalRun, result));
 
       if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+        savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
         setOverlayMode('review');
         setExecutionError(null);
         setGenerateClickTrace((prev) => ({ ...prev, dispatchStatus: 'complete' }));
@@ -1173,7 +1174,7 @@ export function usePageConceptGeneration(
         return;
       }
 
-      clearPageConceptActiveServerRunId(projectId, pageId);
+      savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
       clearPageConceptFounderRunSession(projectId, pageId);
 
       setOverlayMode('review');
@@ -1313,7 +1314,7 @@ export function usePageConceptGeneration(
           void applyPollUpdate(update, () => false);
         },
       });
-      clearPageConceptActiveServerRunId(projectId, pageId);
+      savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
       clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'CGPT_RETRY_FAILED');
@@ -1393,7 +1394,7 @@ export function usePageConceptGeneration(
           void applyPollUpdate(update, () => false);
         },
       });
-      clearPageConceptActiveServerRunId(projectId, pageId);
+      savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
       clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'GPT2_CONTINUE_FAILED');
@@ -1474,7 +1475,7 @@ export function usePageConceptGeneration(
           void applyPollUpdate(update, () => false);
         },
       });
-      clearPageConceptActiveServerRunId(projectId, pageId);
+      savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
       clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'NBP_CONTINUE_FAILED');
@@ -1559,7 +1560,7 @@ export function usePageConceptGeneration(
           void applyPollUpdate(update, () => false);
         },
       });
-      clearPageConceptActiveServerRunId(projectId, pageId);
+      savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
       clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'RETRY_FAILED');
@@ -1645,7 +1646,7 @@ export function usePageConceptGeneration(
           void applyPollUpdate(update, () => false);
         },
       });
-      clearPageConceptActiveServerRunId(projectId, pageId);
+      savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
       clearPageConceptFounderRunSession(projectId, pageId);
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'GENERATION_FAILED');
@@ -1938,6 +1939,7 @@ export function usePageConceptGeneration(
     ready: generationEligibility.canGenerate,
     blockedReason: generationEligibility.blockerMessage,
     blockedResolution: generationEligibility.resolutionAction,
+    apiSessionReady,
     generationEligibility,
     blockingState,
     overlayOpen,

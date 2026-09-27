@@ -11841,3 +11841,15 @@ Sprint **P0.VR.NDXBOOK-WEB-EXPRESSION-ART-DIRECTION-AMPLIFICATION1**: strengthen
 - **UI:** Concept Inspector art-direction fields; optional `PageConceptWebExpressionTerritoryPreview` during `GPT2_RUNNING`.
 - **Tests:** `p0vrNdxbookWebExpressionArtDirectionAmplification1.test.ts`.
 - **Regenerate concept** still reuses persisted `webExpressionTerritorySet` (`executePageConceptRegenerateMobile` unchanged).
+
+---
+
+## 2026-09-27 — Server-first gallery mount follow-up (authed always apply)
+
+Founder follow-up: tunnel vs deploy diverges when production keeps a **stale local snapshot** instead of re-mounting the durable server run (not FAL/tunnel-only).
+
+- **Mount:** authenticated + READY mobile on server → **always apply** `latestForPage` (removed `LOCAL_FRESHER_THAN_SERVER` skip for same `runId`); apply path syncs gallery from merged in-memory state (`syncPageConceptGalleryFromLoadedGenerationState`) not stale storage reload.
+- **Events:** `site00:page-concept-generation-updated` handler syncs gallery from loaded state (same as workspace persist path).
+- **Terminal runs:** success paths **persist** `savePageConceptActiveServerRunId` instead of clearing (founder poll resume, CGPT/GPT2/NBP continues, retries, main generate completion); clear only on explicit new-generation reset / poll errors.
+- **Debug (phone):** optional gallery mount line — `?galleryMountDebug=1` or `localStorage site00:page-concept-gallery-mount-debug=1` (on in dev) shows `Mounted run: … / image host: …` under concept gallery.
+- **Tests:** `pageConceptGalleryServerMountClient` same-run fresher-local still applies; `pageConceptGalleryMountDebug.test.ts`.
