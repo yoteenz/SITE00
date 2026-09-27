@@ -54,7 +54,6 @@ import {
   isCanonicalGpt2ViewportFamilyPipeline,
   type Gpt2ViewportFamilyHeroRailStage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
-import { shouldDispatchGenerateExperienceOnReviewOpen } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceReviewOpenPolicy.js';
 import {
   buildDesignConceptIntelligenceDockModel,
   type ConceptIntelligenceDockModel,
@@ -810,20 +809,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             prodActions.selectGalleryCandidate('');
             break;
           case 'vf-create-experience':
-            void (async () => {
-              pageConceptGeneration.openExperienceReview();
-              await pageConceptGeneration.dispatchViewportFamilyAction({ type: 'generateExperienceExpression' });
-            })();
-            break;
           case 'vf-review-experience':
-            void (async () => {
-              const gs = pageConceptGeneration.generationState;
-              if (shouldDispatchGenerateExperienceOnReviewOpen(gs.pipelineSet)) {
-                await pageConceptGeneration.dispatchViewportFamilyAction({ type: 'generateExperienceExpression' });
-              } else {
-                pageConceptGeneration.openExperienceReview();
-              }
-            })();
+            pageConceptGeneration.openExperienceReview();
             break;
           case 'vf-approve-experience':
             pageConceptGeneration.openExperienceReview();

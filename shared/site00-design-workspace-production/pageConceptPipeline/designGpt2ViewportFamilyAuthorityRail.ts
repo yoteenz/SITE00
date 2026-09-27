@@ -214,7 +214,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       experienceActions.push(
         action({
           id: 'vf-create-experience',
-          label: 'CREATE EXPERIENCE',
+          label: 'OPEN EXPERIENCE',
           tone: 'lime',
           disabled: input.generating,
           disabledReason: input.generating ? 'Generation in progress.' : null,
@@ -267,7 +267,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         : experienceGenerating ? 'GENERATING'
         : experiencePartial ? 'PARTIAL — REVIEW'
         : experienceReady ? 'READY FOR REVIEW'
-        : 'READY TO GENERATE',
+        : 'OPEN PANEL TO GENERATE',
       statusLabel:
         !mobileConfirmed ? 'LOCKED'
         : experienceApproved ? 'APPROVED'
