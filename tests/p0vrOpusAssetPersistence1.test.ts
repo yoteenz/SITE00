@@ -28,6 +28,8 @@ const read = (relative: string) => readFileSync(resolve(root, relative), 'utf8')
 
 const canonicalView = read('src/site00/components/designBench/opusDirect/TwinOpusDirectCanonicalView.tsx');
 const listView = read('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
+const viewportPreview = read('src/site00/components/designBench/opusDirect/twinOpusDirectViewportPreview.tsx');
+const listAssetSurface = `${listView}\n${viewportPreview}`;
 const workspace = read('src/site00/components/designBench/opusDirect/twinOpusDirectWorkspace.ts');
 const canonicalCss = read('src/site00/styles/site00-twin-opus-direct.css');
 const listCss = read('src/site00/styles/site00-twin-opus-list.css');
@@ -113,7 +115,7 @@ describe('P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 — precedence', () => {
 describe('P0.VR.DESIGNBENCH.OPUS-ASSET-PERSISTENCE1 — single authority', () => {
   it('routes both renderers through the manifest', () => {
     expect(canonicalView).toContain("from './twinOpusDirectAssetManifest'");
-    expect(listView).toContain("from './twinOpusDirectAssetManifest'");
+    expect(listAssetSurface).toContain("from './twinOpusDirectAssetManifest'");
   });
 
   it('leaves no renderer holding a hardcoded plate path', () => {

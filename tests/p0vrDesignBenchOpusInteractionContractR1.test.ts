@@ -293,8 +293,10 @@ describe('OPUS-INTERACTION-CONTRACT1R1 — no visual mutation', () => {
   const listView = read('src/site00/components/designBench/opusDirect/TwinOpusDirectListView.tsx');
 
   it('leaves the renderers resolving assets through the manifest, untouched by this sprint', () => {
+    const viewportPreview = read('src/site00/components/designBench/opusDirect/twinOpusDirectViewportPreview.tsx');
     expect(canonicalView).toContain("from './twinOpusDirectAssetManifest'");
-    expect(listView).toContain("from './twinOpusDirectAssetManifest'");
+    expect(listView).toContain('TodAuthorityThumbPreview');
+    expect(viewportPreview).toContain("from './twinOpusDirectAssetManifest'");
   });
 
   it('adds no route for any decision', () => {
