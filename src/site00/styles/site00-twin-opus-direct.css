@@ -1776,6 +1776,7 @@
   display: flex;
   flex-direction: column;
   text-align: left;
+  box-shadow: 0 0 0 2.6px transparent;
 }
 
 .tod-gallery__rail:not(.s00-design-concept-gallery-grid) .tod-card--concept {

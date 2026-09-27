@@ -11911,3 +11911,9 @@ CI **`p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1`**: coalesce pro
 ## 2026-09-27 — Concept gallery fixed A/B/C slot grid
 
 Founder: after each new concept generation, gallery thumbnails **shrunk/clustered left** instead of spanning the panel. Cause: CURRENT rail rendered N flex/auto-placed cards (1–2 items → narrow first columns). **`pageConceptGalleryMobileSlotGrid`** + **`DesignConceptCandidateGalleryRail`** always render **three grid cells** (A/B/C) with empty placeholders; candidates pin to slot by `slotLabel` / `CONCEPT A` version string.
+
+---
+
+## 2026-09-27 — Gallery tap lag / preview jump
+
+Founder: tapping gallery thumbnails **lagged** and **preview jumped**. Causes: (1) `selectCandidate` called **`viewportFamilyHandlers.selectMobile`** (full API + `setGenerating`) on every tap; (2) MOBILE **`useEffect`** forced `candidateId` back to **`selectedMobileConceptId`** whenever they differed; (3) **`selectGalleryCandidate`** waited on network before UI; (4) per-candidate **`headerThumbnailCrop`** changed scale between cards. Fix: preview-only **`selectCandidate`**; authority sync only when `candidateId` not in gallery; optimistic **`applyLocalState`** on gallery select; uniform gallery header crop; stable transparent selection ring on concept cards.
