@@ -49,11 +49,19 @@ export function isNdxbookOverviewExperiencePage(input: {
   projectId: string;
   route: string;
   pageId?: string;
+  screenId?: string;
 }): boolean {
   const pid = input.projectId.toLowerCase();
-  const route = input.route.toLowerCase();
   if (pid !== 'ndxbook') return false;
-  return route.includes('overview') || route.includes('/ndxbook/overview');
+  if (input.screenId === 'overview') return true;
+  const route = input.route.toLowerCase();
+  if (route.includes('overview')) return true;
+  if (route.includes('/ndxbook/overview')) return true;
+  /** Live function contract uses project root — that surface IS NDXBOOK Overview mobile authority. */
+  if (/^\/projects\/(?:design\/)?ndxbook\/?$/.test(route)) return true;
+  const pageId = (input.pageId ?? '').toLowerCase();
+  if (pageId.includes('overview') || pageId.endsWith(':overview')) return true;
+  return false;
 }
 
 function ndxbookSharedAuthorityBlock(input: {

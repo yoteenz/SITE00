@@ -6,6 +6,10 @@
 import { useMemo, useState } from 'react';
 
 import type { ExperienceExpressionVisualState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionAuthority.js';
+import {
+  validateExperiencePackageMaterialization,
+  visualStateCardStatus,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experiencePackageMaterialization.js';
 import { slotLabelFromConceptId } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
 import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
@@ -37,6 +41,8 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
   const approved = authority?.status === 'APPROVED';
   const generating = authority?.status === 'GENERATING';
   const failed = authority?.status === 'FAILED';
+  const materialization = validateExperiencePackageMaterialization(authority);
+  const readyVisualCount = (authority?.visualStates ?? []).filter((v) => Boolean(v.previewImageUri?.trim())).length;
   const falImageCount = (authority?.visualStates ?? []).filter(
     (v) => v.sourceProvider === 'FAL_EXPERIENCE' && v.previewImageUri,
   ).length;
@@ -81,11 +87,13 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
           {approved ? 'APPROVED'
           : generating ? 'GENERATING'
           : failed ? 'GENERATION FAILED'
+          : authority.status === 'PARTIAL_FAILURE' ? 'PARTIAL FAILURE'
           : authority.status === 'READY_FOR_REVIEW' ? 'READY FOR REVIEW'
           : authority.status}
         </p>
         <p data-testid="page-concept-experience-expression-count">
-          PACKAGE: {visualStates.length} VISUALS
+          EXPERIENCE PACKAGE · {materialization.plannedOutputCount || visualStates.length} VISUALS · {readyVisualCount}/
+          {materialization.plannedOutputCount || visualStates.length} READY
         </p>
         {packagingPlan ?
           <p data-testid="page-concept-experience-packaging-summary">
@@ -119,9 +127,11 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
               testId={`page-concept-experience-card-thumb-${state.stateId}`}
             />
             <p className="s00-pcg__experienceVisualCardLabel">{stateKindLabel(state)}</p>
-            <p className="s00-pcg__experienceVisualCardMeta">
-              {state.sourceProvider === 'INHERITED_MOBILE' ? 'INHERITED' : 'GENERATED'} · {state.sourceProvider} ·{' '}
-              {state.falPromptVersion ?? 'v1'}
+            <p
+              className="s00-pcg__experienceVisualCardMeta"
+              data-testid={`page-concept-experience-card-status-${state.stateId}`}
+            >
+              {visualStateCardStatus(state, authority.status)} · {state.sourceProvider} · {state.falPromptVersion ?? 'v1'}
             </p>
             <div className="s00-pcg__experienceVisualCardActions">
               <button
@@ -143,7 +153,7 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
                   data-testid={`page-concept-regenerate-experience-state-${state.stateId}`}
                   onClick={() => props.onRegenerateState?.(state.stateId)}
                 >
-                  REGENERATE THIS STATE
+                  {state.materializationStatus === 'FAILED' ? 'RETRY THIS STATE' : 'REGENERATE THIS STATE'}
                 </button>
               : null}
             </div>
@@ -207,7 +217,14 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
             <button
               type="button"
               className="s00-pcg__secAction s00-pcg__secAction--primary"
-              disabled={props.busy || generating || failed || falImageCount < falTargetCount}
+              disabled={
+                props.busy ||
+                generating ||
+                failed ||
+                authority.status === 'PARTIAL_FAILURE' ||
+                !materialization.ok ||
+                falImageCount < falTargetCount
+              }
               data-testid="page-concept-approve-experience-review"
               onClick={props.onApprove}
             >

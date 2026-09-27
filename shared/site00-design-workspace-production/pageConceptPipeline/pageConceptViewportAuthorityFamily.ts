@@ -8,6 +8,7 @@ export type PageExperienceExpressionPipelineStatus =
   | 'NOT_STARTED'
   | 'GENERATING'
   | 'READY_FOR_REVIEW'
+  | 'PARTIAL_FAILURE'
   | 'APPROVED'
   | 'FAILED'
   | 'SUPERSEDED';
