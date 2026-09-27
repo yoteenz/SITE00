@@ -215,6 +215,12 @@ function functionContractRegions(functionContract: PageFunctionContract): readon
   return functionContract.regions.length ? functionContract.regions : ['primary-content', 'navigation'];
 }
 
+function inventedLabelTaxonomyTokenRegex(label: string): RegExp {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  /** Avoid false positives inside compounds like "in-production" (not simplified nav PRODUCTION). */
+  return new RegExp(`(?<![A-Za-z0-9-])${escaped}(?![A-Za-z0-9-])`, 'i');
+}
+
 export function auditNdxbookLegacyPromptInventedLabels(promptText: string): {
   label: string;
   classification: 'INVENTED';
@@ -222,20 +228,17 @@ export function auditNdxbookLegacyPromptInventedLabels(promptText: string): {
 }[] {
   const found: { label: string; classification: 'INVENTED'; source: string }[] = [];
   for (const label of NDXBOOK_INVENTED_SIMPLIFIED_NAV_LABELS) {
-    const re = new RegExp(`\\b${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-    if (re.test(promptText)) {
+    if (inventedLabelTaxonomyTokenRegex(label).test(promptText)) {
       found.push({ label, classification: 'INVENTED', source: 'legacy-simplified-nav-taxonomy' });
     }
   }
   for (const label of NDXBOOK_INVENTED_PROJECT_ACCESS_LABELS) {
-    const re = new RegExp(`\\b${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-    if (re.test(promptText)) {
+    if (inventedLabelTaxonomyTokenRegex(label).test(promptText)) {
       found.push({ label, classification: 'INVENTED', source: 'legacy-project-access-taxonomy' });
     }
   }
   for (const label of NDXBOOK_INVENTED_ENTRY_DETAIL_LABELS) {
-    const re = new RegExp(`\\b${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-    if (re.test(promptText)) {
+    if (inventedLabelTaxonomyTokenRegex(label).test(promptText)) {
       found.push({ label, classification: 'INVENTED', source: 'legacy-entry-detail-field' });
     }
   }

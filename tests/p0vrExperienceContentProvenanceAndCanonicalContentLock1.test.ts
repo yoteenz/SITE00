@@ -74,6 +74,12 @@ describe('P0.VR.EXPERIENCE-CONTENT-PROVENANCE-AND-CANONICAL-CONTENT-LOCK1', () =
     expect(menu.promptText).not.toMatch(/ENTRIES, EVIDENCE, PRODUCTION/);
   });
 
+  it('does not treat in-production prose as simplified nav PRODUCTION', () => {
+    const prose = 'Normal navigation, entry index, in-production state — control image for AT REST vs ACTIVE.';
+    const found = auditNdxbookLegacyPromptInventedLabels(prose);
+    expect(found.some((f) => f.label === 'PRODUCTION')).toBe(false);
+  });
+
   it('detects legacy invented product labels', () => {
     const legacy =
       'ALL ENTRIES, EVIDENCE, ACTIVE PRODUCTION, KEY SIGNALS, OVERVIEW, ENTRIES, EVIDENCE, PRODUCTION';
@@ -81,6 +87,55 @@ describe('P0.VR.EXPERIENCE-CONTENT-PROVENANCE-AND-CANONICAL-CONTENT-LOCK1', () =
     expect(found.some((f) => f.label === 'ALL ENTRIES')).toBe(true);
     expect(found.some((f) => f.label === 'KEY SIGNALS')).toBe(true);
     expect(found.some((f) => f.label === 'ENTRIES')).toBe(true);
+  });
+
+  it('does not flag manifest-canonical destination labels as invented in audit', () => {
+    const pageId = overviewPageId();
+    const functionContract = compilePageFunctionContract(PROJECT, pageId)!;
+    const manifests = buildNdxbookOverviewExperienceContentManifests({
+      projectId: PROJECT,
+      pageId,
+      functionContract,
+    });
+    const menuManifest = manifests.find((m) => m.stateId === 'menu')!;
+    const promptWithCanonical = canonicalContentPromptBlock(menuManifest);
+    const audit = auditExperienceContentForAuthority({
+      id: 'a1',
+      projectId: PROJECT,
+      pageId,
+      sourceMobileAuthorityId: 'c1',
+      sourceMobileArtifactId: 'art',
+      sourceConceptId: 'c1',
+      status: 'READY_FOR_REVIEW',
+      patterns: [],
+      behaviorContract: '',
+      visualStateContract: '',
+      responsiveRules: [],
+      visualStates: [{ stateId: 'menu', label: 'MENU', patternType: 'MENU', previewImageUri: 'x', caption: '', sourceProvider: 'FAL_EXPERIENCE' }],
+      generatedAt: null,
+      approvedAt: null,
+      expressionPrompts: [
+        {
+          id: 'p1',
+          authorityId: 'a1',
+          conceptId: 'c1',
+          route: functionContract.route,
+          expressionType: 'MENU_EXPANDED_NAV',
+          promptText: promptWithCanonical,
+          preserveBlock: '',
+          changeBlock: '',
+          outputIntent: '',
+          combinableWith: [],
+          priority: 1,
+          primaryGoal: '',
+          interactionSurface: '',
+          antiDriftRules: [],
+          stateId: 'menu',
+        },
+      ],
+      experienceContentManifests: manifests,
+    } as never);
+    expect(audit.inventedProductContent).toBe(0);
   });
 
   it('blocks approval when invented product content remains in prompts', () => {
