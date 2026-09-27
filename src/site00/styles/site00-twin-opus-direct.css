@@ -4022,6 +4022,128 @@
   color: #eee;
 }
 
+.tod-psr__cols--compact {
+  align-items: stretch;
+}
+
+.tod-psr__metricCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 88px;
+  padding: 8px;
+  text-align: left;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  cursor: pointer;
+}
+
+.tod-psr__metricValue {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.tod-psr__metricHint {
+  font-size: 8px;
+  color: #777;
+  letter-spacing: 0.06em;
+}
+
+.tod-psr__undefinedWarn {
+  color: #f5a623;
+}
+
+.tod-psr__countsSource {
+  color: #666;
+}
+
+.tod-psr__familyStatus {
+  font-size: 9px;
+  color: #cdee30;
+  margin: 4px 0 0;
+}
+
+.tod-psr__drill {
+  margin-top: 10px;
+  padding: 8px;
+  border: 1px solid #2a2a2a;
+  background: #050505;
+}
+
+.tod-psr__drillTitle {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+}
+
+.tod-psr__grandchildGroup {
+  margin-bottom: 8px;
+}
+
+.tod-psr__groupLabel {
+  font-size: 9px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.tod-psr__reviewFamily {
+  margin-top: 8px;
+}
+
+.tod-psr-card--family {
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+.tod-psr-inspector {
+  position: fixed;
+  inset: auto 12px 12px 12px;
+  z-index: 1200;
+  max-height: min(70vh, 520px);
+  overflow: auto;
+  background: #0a0a0a;
+  border: 1px solid #444;
+  padding: 10px;
+}
+
+@media (max-width: 719px) {
+  .tod-psr-inspector {
+    inset: 0;
+    max-height: none;
+  }
+}
+
+.tod-psr-inspector__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tod-psr-inspector__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.tod-psr-inspector__tab {
+  font-size: 8px;
+  padding: 4px 6px;
+  border: 1px solid #333;
+  background: #111;
+}
+
+.tod-psr-inspector__tab[aria-selected='true'] {
+  border-color: #cdee30;
+}
+
+.tod-psr-inspector__body {
+  font-size: 9px;
+  line-height: 1.45;
+}
+
 .tod-psr__primary {
   width: 100%;
   padding: 6px;

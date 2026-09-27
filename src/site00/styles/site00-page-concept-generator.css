@@ -2259,3 +2259,74 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.s00-pcg-layer--experience .s00-pcg-layer__box {
+  height: min(100dvh - 48px, 820px);
+  max-height: 96dvh;
+}
+
+.s00-pcg__experienceReview--dedicated {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.s00-pcg__experienceVisualCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.s00-pcg__experienceVisualCard {
+  border: 1px solid var(--pcg-border-panel);
+  padding: 8px;
+  background: var(--pcg-panel);
+}
+
+.s00-pcg__experienceVisualCardLabel {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin: 6px 0 2px;
+}
+
+.s00-pcg__experienceVisualCardMeta {
+  font-size: 7px;
+  color: var(--pcg-ink-3);
+  margin: 0 0 6px;
+}
+
+.s00-pcg__experienceVisualCardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.s00-pcg__experiencePackageSummary {
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  border: 1px solid var(--pcg-border-subtle);
+  padding: 8px;
+}
+
+.s00-pcg__experienceFullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgb(10 10 10 / 88%);
+  padding: 16px;
+}
+
+.s00-pcg__experienceFullscreenNav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}

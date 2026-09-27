@@ -681,6 +681,11 @@ export function usePageConceptGeneration(
     setOverlayMode('experience-review');
   }, []);
 
+  const openPageFamilyBlueprintReview = useCallback(() => {
+    setOverlayOpen(true);
+    setOverlayMode('review');
+  }, []);
+
   const openGenerationConfirm = useCallback(async () => {
     setOverlayOpen(true);
     setOverlayMode('confirm');
@@ -1993,6 +1998,7 @@ export function usePageConceptGeneration(
     consoleFocusViewport,
     openGenerationReview,
     openExperienceReview,
+    openPageFamilyBlueprintReview,
     cancelGeneration,
     handleGenerateClick,
     confirmGeneration: handleGenerateClick,

@@ -318,6 +318,9 @@ export interface TwinOpusDirectWorkspaceData {
   };
   viewportPreferenceBadges: (candidateId: string) => readonly string[];
   outputViewportNote: string | null;
+  pageFamilyBlueprint: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js').PageFamilyBlueprint | null;
+  opusPageFamilyHandoff: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js').OpusPageFamilyHandoff | null;
+  pageFamilySkinContractApprovedAt: string | null;
   heroCompare: {
     currentSrc: string | null;
     currentMeta: string;
@@ -389,6 +392,8 @@ export interface TwinOpusDirectWorkspaceActions {
   openGrokPageAssetProduction: () => void;
   openViewportAuthorityEditor: (viewport: 'MOBILE' | 'DESKTOP') => void;
   onViewportFamilyRailAction: (actionId: string) => void;
+  reviewPageFamilyBlueprint: () => void;
+  openExperienceReview: () => void;
 }
 
 export interface TwinOpusDirectWorkspace {
@@ -735,6 +740,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openPageAssetInspect: (assetId) => prodActions.openPageAssetInspect(assetId),
       openPageAssetsPanel: (assetId) => prodActions.openPageAssetsPanel(assetId),
       openPageInteractionsInspector: () => prodActions.openPageInteractionsInspector(),
+      reviewPageFamilyBlueprint: () => pageConceptGeneration.openPageFamilyBlueprintReview(),
+      openExperienceReview: () => pageConceptGeneration.openExperienceReview(),
       openAmendmentDetail: () => prodActions.openAmendmentDetail(),
       runContextualNextAction: () => {
         const next = computeContextualNextAction(prodState, actor);
@@ -1559,6 +1566,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         viewport === 'MOBILE' ? null : (
           `Page system review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
         ),
+      pageFamilyBlueprint: pageConceptGeneration.generationState.pipelineSet?.pageFamilyBlueprint ?? null,
+      opusPageFamilyHandoff: pageConceptGeneration.generationState.pipelineSet?.opusPageFamilyHandoff ?? null,
+      pageFamilySkinContractApprovedAt:
+        pageConceptGeneration.generationState.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt ?? null,
       conceptTabs: TWIN_OPUS_DIRECT_CONCEPT_TABS,
       conceptIntelligenceDock: buildDesignConceptIntelligenceDockModel({
         projectId: slug,
