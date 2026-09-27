@@ -11905,3 +11905,9 @@ GitHub **SITE 00 Production Release / test** failed: Spark responsive still expo
 ## 2026-09-27 — Gallery coalesce: active-run guard
 
 CI **`p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1`**: coalesce promoted run1 `art-b-r1` into CURRENT when run2 only had `art-a-r2`. **`coalesceMobileConceptGalleryAbcRow`** now takes `currentRunId` and only pulls history into the A/B/C row when `card.runId` matches the active run (or a card already in CURRENT). Same-run mis-bucket (B current, A/C history) still coalesces; cross-run partial regen does not.
+
+---
+
+## 2026-09-27 — Concept gallery fixed A/B/C slot grid
+
+Founder: after each new concept generation, gallery thumbnails **shrunk/clustered left** instead of spanning the panel. Cause: CURRENT rail rendered N flex/auto-placed cards (1–2 items → narrow first columns). **`pageConceptGalleryMobileSlotGrid`** + **`DesignConceptCandidateGalleryRail`** always render **three grid cells** (A/B/C) with empty placeholders; candidates pin to slot by `slotLabel` / `CONCEPT A` version string.

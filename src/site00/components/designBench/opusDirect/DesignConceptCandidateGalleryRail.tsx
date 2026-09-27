@@ -4,6 +4,10 @@
 
 import type { Ref } from 'react';
 
+import {
+  mapPageConceptGalleryCurrentByMobileSlot,
+  PAGE_CONCEPT_GALLERY_MOBILE_SLOT_LABELS,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryMobileSlotGrid.js';
 import { DesignConceptCandidateGalleryCard } from './DesignConceptCandidateGalleryCard';
 import type { TwinOpusDirectCandidate } from './twinOpusDirectContent';
 import type { TwinOpusDirectWorkspace } from './twinOpusDirectWorkspace';
@@ -89,6 +93,11 @@ export function DesignConceptCandidateGalleryRail({
     : 's00-design-concept-gallery-grid tod-gallery__rail tod-gallery__rail--current';
   const historyRailClass =
     variant === 'list' ? 'tod-lv-gallery__rail tod-lv-gallery__rail--history' : 'tod-gallery__rail tod-gallery__rail--history';
+  const slotEmptyClass =
+    variant === 'list' ?
+      's00-design-concept-gallery-grid__slotEmpty tod-lv-gallery__slotEmpty'
+    : 's00-design-concept-gallery-grid__slotEmpty tod-gallery__slotEmpty';
+  const currentBySlot = mapPageConceptGalleryCurrentByMobileSlot(data.candidateSections.current);
 
   return (
     <div className={filledClass} hidden={Boolean(data.galleryEmptyMessage)}>
@@ -110,7 +119,24 @@ export function DesignConceptCandidateGalleryRail({
         </p>
       : null}
       <div className={gridClass} ref={railRef} data-testid="design-concept-candidate-gallery-grid">
-        {data.candidateSections.current.map((candidate) => renderCandidateButton(candidate, false))}
+        {PAGE_CONCEPT_GALLERY_MOBILE_SLOT_LABELS.map((slot) => {
+          const candidate = currentBySlot[slot];
+          if (!candidate) {
+            return (
+              <div
+                key={`slot-empty-${slot}`}
+                className={slotEmptyClass}
+                data-testid={`gallery-slot-empty-${slot}`}
+                aria-hidden="true"
+              />
+            );
+          }
+          return (
+            <span key={`gallery-slot-${slot}`} className="s00-design-concept-gallery-grid__slotWrap">
+              {renderCandidateButton(candidate, false)}
+            </span>
+          );
+        })}
       </div>
       {data.candidateSections.history.length > 0 ?
         <div className={historyRailClass}>
