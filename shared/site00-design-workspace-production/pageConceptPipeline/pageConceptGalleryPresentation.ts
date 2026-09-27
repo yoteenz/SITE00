@@ -89,19 +89,33 @@ function cardPickScore(card: PageConceptGalleryCard, inCurrent: boolean): number
 }
 
 /**
- * Keep MOBILE A/B/C in one horizontal row — do not split missing slots into the history rail.
+ * Keep MOBILE A/B/C in one horizontal row when same-generation slots were split into history.
+ * Does not promote prior-run artifacts into CURRENT when the active run only partial-filled slots.
  */
 export function coalesceMobileConceptGalleryAbcRow(input: {
   viewport: PageViewportId;
+  currentRunId?: string | null;
   current: readonly PageConceptGalleryCard[];
   history: readonly PageConceptGalleryCard[];
 }): { current: readonly PageConceptGalleryCard[]; history: readonly PageConceptGalleryCard[] } {
   if (input.viewport !== 'MOBILE') return input;
+  const currentKeys = new Set(input.current.map(galleryCardIdentity));
   const currentIds = new Set(input.current.map((c) => c.id));
+  const activeRunIds = new Set<string>();
+  if (input.currentRunId) activeRunIds.add(input.currentRunId);
+  for (const card of input.current) {
+    if (card.runId) activeRunIds.add(card.runId);
+  }
   const pool = [...input.current, ...input.history].filter(
     (c) => c.artifactRole === 'MOBILE_CANDIDATE' || c.conceptSlot,
   );
   if (pool.length === 0) return input;
+
+  const slotCandidateEligible = (card: PageConceptGalleryCard): boolean => {
+    if (currentKeys.has(galleryCardIdentity(card))) return true;
+    if (!card.runId) return activeRunIds.size === 0;
+    return activeRunIds.has(card.runId);
+  };
 
   const pickedBySlot = new Map<PageMobileConceptSlotId, PageConceptGalleryCard>();
   for (const slot of PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS) {
@@ -112,7 +126,7 @@ export function coalesceMobileConceptGalleryAbcRow(input: {
     const matches = pool.filter((c) => {
       if (c.conceptSlot === slot) return true;
       return slotLabelFromGalleryCard(c) === letter;
-    });
+    }).filter(slotCandidateEligible);
     if (matches.length === 0) continue;
     const best = matches.reduce((a, b) =>
       cardPickScore(b, currentIds.has(b.id)) > cardPickScore(a, currentIds.has(a.id)) ? b : a,
@@ -265,6 +279,7 @@ export function buildPageConceptGallerySections(input: {
   let history = cards.filter((c) => !currentIds.has(c.artifactId ?? c.id));
   const coalesced = coalesceMobileConceptGalleryAbcRow({
     viewport: input.viewport,
+    currentRunId,
     current,
     history,
   });
