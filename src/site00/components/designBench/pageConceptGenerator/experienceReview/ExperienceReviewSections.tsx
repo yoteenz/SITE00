@@ -38,6 +38,30 @@ export function ExperienceReviewHeader(props: {
   );
 }
 
+export function ExperienceReviewCoverageSection(props: {
+  coveredCount: number;
+  totalPatterns: number;
+  percent: number;
+  bindings: readonly { authorityLabel: string; authorityStateId: string; pattern: string; interactionCount: number }[];
+}) {
+  return (
+    <section className="s00-exp-review__coverage" data-testid="experience-review-expression-coverage">
+      <h3 className="s00-exp-review__coverageTitle">EXPRESSION COVERAGE</h3>
+      <p className="s00-exp-review__coverageSummary">
+        VISUAL PATTERNS · {props.coveredCount} / {props.totalPatterns} COVERED · {props.percent}%
+      </p>
+      <ul className="s00-exp-review__coverageList">
+        {props.bindings.map((b) => (
+          <li key={b.authorityStateId}>
+            <strong>{b.authorityLabel.toUpperCase()}</strong> covers {b.interactionCount} interaction(s) ·{' '}
+            {b.pattern.replace(/_/g, ' ')}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function ExperienceReviewStatusStrip(props: {
   packageStatus: ExperienceReviewPackageStatus;
   blocked: boolean;

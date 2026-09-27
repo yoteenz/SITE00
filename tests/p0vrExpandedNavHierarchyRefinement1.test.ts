@@ -98,8 +98,8 @@ describe('P0.VR.EXPANDED-NAV-HIERARCHY-REFINEMENT1', () => {
     const refinement = buildMenuExpandedNavHierarchyRefinementPromptBlock({
       hierarchyLines: menu.navigationHierarchyLines ?? [],
     });
-    expect(refinement).toContain('KEEP THE CURRENT EXPANDED NAV DESIGN');
-    expect(refinement).toContain('ONLY CORRECT THE NAVIGATION HIERARCHY');
+    expect(refinement).toContain('KEEP THE CURRENT APPROVED EXPANDED-NAV DESIGN');
+    expect(refinement).toContain('NESTED NAVIGATION EXPANSION');
   });
 
   it('single-state menu regeneration preserves other experience outputs and injects hierarchy prompt', async () => {
@@ -119,8 +119,8 @@ describe('P0.VR.EXPANDED-NAV-HIERARCHY-REFINEMENT1', () => {
 
     expect(falSpy.mock.calls.length).toBeGreaterThan(0);
     const lastCall = falSpy.mock.calls[falSpy.mock.calls.length - 1]![0];
-    expect(lastCall.target.prompt).toContain('ONLY CORRECT THE NAVIGATION HIERARCHY');
-    expect(lastCall.target.prompt).toContain('NAVIGATION HIERARCHY');
+    expect(lastCall.target.prompt).toContain('NESTED NAVIGATION EXPANSION');
+    expect(lastCall.target.prompt).toContain('CONTENT OPS IN ITS EXPANDED STATE');
     expect(lastCall.referenceImageUri).toBeTruthy();
 
     const after = r.state.pipelineSet!.experienceExpressionAuthority!;

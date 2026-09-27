@@ -12180,3 +12180,16 @@ Founder sprint: refine **MENU / EXPANDED NAV** only — preserve approved light 
 - **`executePageConceptExperienceExpressionStateRegeneration`:** menu regen uses existing menu preview as FAL reference + hierarchy prompt; refreshes manifests.
 - **`expandedNavHierarchyRefinementReceipt.ts`:** founder QA receipt (other states unchanged, hierarchy PASS).
 - **Tests:** **`p0vrExpandedNavHierarchyRefinement1.test.ts`**. **Railway + cPanel** (API prompt dispatch).
+
+---
+
+## 2026-09-27 — P0.VR NDXBOOK Overview full expression coverage + expanded nav state
+
+Sprint: **ExperienceExpressionCoverageMap** for Overview — interactions → visual patterns → shared outputs (≤5 images); MENU demonstrates **PRIMARY_NAV_EXPANSION + NESTED_NAV_EXPANSION** (Content Ops expanded, Campaign Board nested); approval blocked when **`undefinedVisualPatterns > 0`**.
+
+- **`experienceExpressionCoverageMap.ts`:** build map, **`validateExperienceExpressionCoverage`**, approval gate, Opus/Composer handoff lines.
+- **`responsiveExperienceNestedNavContract.ts`:** COLLAPSED_PARENT / EXPANDED_PARENT / NESTED_DESTINATION responsive rules.
+- **Nav FAL prompt:** Content Ops expanded state + combined nav patterns (design lock).
+- **Experience Review UI:** **EXPRESSION COVERAGE** strip (`experience-review-expression-coverage`).
+- **Attach map** after FAL generation / menu regen; coverage in approve contract handoff.
+- **Tests:** **`p0vrNdxbookOverviewFullExpressionCoverage1.test.ts`**. **Railway + cPanel v697+**.

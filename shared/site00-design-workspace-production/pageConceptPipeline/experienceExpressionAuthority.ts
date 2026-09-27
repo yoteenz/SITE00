@@ -118,6 +118,7 @@ export type ExperienceExpressionAuthority = {
   authorityThemeProfile?: import('./experienceThemeContinuity.js').AuthorityThemeProfile;
   experienceContentManifests?: readonly import('./experienceContentManifest.js').ExperienceContentManifest[];
   experienceContentAudit?: import('./experienceContentManifest.js').ExperienceContentAudit;
+  experienceExpressionCoverageMap?: import('./experienceExpressionCoverageMap.js').ExperienceExpressionCoverageMap | null;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
