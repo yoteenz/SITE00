@@ -33,6 +33,7 @@ import {
   assertGpt2MobilePackageNotNbpPath,
 } from './pageConceptGpt2MobilePageAuthority.js';
 import {
+  classifyDesignTargetForPageConcept,
   loadProjectVisualAuthorityRegistry,
   resolveProjectVisualAuthorityForPage,
 } from './projectVisualAuthority.js';
@@ -163,10 +164,15 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   );
   const manifest = input.providerReferences.authorityManifest;
 
+  const designTarget = classifyDesignTargetForPageConcept({
+    pageId: input.pageContext.pageId,
+    projectId: input.projectContext.projectId,
+  });
   const projectVisualAuthorityContract = resolveProjectVisualAuthorityForPage({
     registry: loadProjectVisualAuthorityRegistry(),
     projectId: input.projectContext.projectId,
     pageId: input.pageContext.pageId,
+    designTarget,
   });
 
   const compiledProviderPrompt = compileGpt2MobileProviderPrompt({
@@ -191,6 +197,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     ndxBrandFamiliarityBrief,
     webExpressionTerritory: input.webExpressionTerritory ?? null,
     projectVisualAuthorityContract,
+    designTarget,
   });
   const prompt = compiledProviderPrompt.prompt;
   const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);

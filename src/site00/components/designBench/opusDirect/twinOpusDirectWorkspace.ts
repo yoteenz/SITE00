@@ -75,6 +75,7 @@ import {
   ndxBrandFamiliarityApplies,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 import {
+  formatSite00ProjectExpressionDockSummary,
   getActiveProjectVisualAuthority,
   loadProjectVisualAuthorityRegistry,
   promoteProjectVisualAuthority,
@@ -910,7 +911,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
           }
         }
-        if (actionId === 'promote-project-visual-authority') {
+        if (
+          actionId === 'promote-site00-project-expression' ||
+          actionId === 'promote-project-visual-authority'
+        ) {
           const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
             (c) => c.conceptId === candidate,
           );
@@ -959,7 +963,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             setProjectVisualAuthorityRegistry(result.registry);
             void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
           } catch (err) {
-            window.alert(err instanceof Error ? err.message : 'PROMOTE_PROJECT_VISUAL_AUTHORITY_FAILED');
+            window.alert(err instanceof Error ? err.message : 'PROMOTE_SITE00_PROJECT_EXPRESSION_FAILED');
           }
         }
         if (actionId === 'regenerate-tablet') {
@@ -1410,18 +1414,21 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         const active = getActiveProjectVisualAuthority(projectVisualAuthorityRegistry, slug);
         if (!active) {
           return {
-            label: 'PROJECT VISUAL AUTHORITY',
-            detail: 'NONE — use PROMOTE PROJECT VISUAL AUTHORITY after concept is READY',
+            label: 'PROJECT EXPRESSION · SITE 00',
+            detail: `NONE — promote ${slug.toUpperCase()} SITE 00 expression when concept is READY`,
             tone: 'NONE' as const,
           };
         }
         const inherited = active.record.sourcePageId !== shellTarget.pageId;
         return {
-          label: `PROJECT VISUAL AUTHORITY · ${slug.toUpperCase()} V${active.record.version}`,
-          detail:
-            inherited ?
-              `INHERITED · source ${active.record.sourcePageId}`
-            : `ACTIVE · ${active.record.sourcePageId} / concept ${active.record.sourceConceptId}`,
+          label: `SITE 00 PROJECT EXPRESSION · ${slug.toUpperCase()}`,
+          detail: formatSite00ProjectExpressionDockSummary({
+            projectId: slug,
+            version: active.record.version,
+            sourcePageId: active.record.sourcePageId,
+            sourceConceptId: active.record.sourceConceptId,
+            inherited,
+          }),
           tone: inherited ? ('INHERITED' as const) : ('ACTIVE' as const),
         };
       })(),
@@ -1484,7 +1491,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         projectVisualAuthoritySummary: (() => {
           const active = getActiveProjectVisualAuthority(projectVisualAuthorityRegistry, slug);
           if (!active) return null;
-          return `${active.contract.projectId.toUpperCase()} V${active.contract.version} · grammar only (not page layout clone)`;
+          const inherited = active.record.sourcePageId !== shellTarget.pageId;
+          return formatSite00ProjectExpressionDockSummary({
+            projectId: slug,
+            version: active.record.version,
+            sourcePageId: active.record.sourcePageId,
+            sourceConceptId: active.record.sourceConceptId,
+            inherited,
+          });
         })(),
       }),
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,

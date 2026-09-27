@@ -474,7 +474,7 @@ export function buildDesignConceptIntelligenceDockModel(
 
   const pvaRows: ConceptIntelligenceDockExpressionRow[] =
     input.projectVisualAuthoritySummary ?
-      [{ label: 'PROJECT VISUAL AUTHORITY', value: input.projectVisualAuthoritySummary }]
+      [{ label: 'EXPRESSION AUTHORITY', value: input.projectVisualAuthoritySummary }]
     : [];
 
   const expressionRows: ConceptIntelligenceDockExpressionRow[] = territory ?
