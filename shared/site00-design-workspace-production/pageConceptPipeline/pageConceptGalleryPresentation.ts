@@ -1,6 +1,10 @@
 import type { PageViewportId } from '../designProjectBinding/pageViewportAuthority.js';
 import type { PageConceptCandidate } from '../designProjectBinding/designPageConceptModel.js';
 import {
+  PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS,
+  type PageMobileConceptSlotId,
+} from './pageConceptViewportAuthorityFamily.js';
+import {
   listPageConceptCandidatesHydrated,
   type PageConceptGalleryHydrationScope,
 } from './pageConceptGalleryHydration.js';
@@ -62,6 +66,65 @@ export type PageConceptGallerySections = {
 
 export type PageConceptGalleryViewportFilter = PageViewportId;
 export type PageConceptGalleryStatusFilter = 'CANDIDATE' | 'SELECTED' | 'APPROVED' | 'HISTORICAL' | 'ALL';
+
+function slotLabelFromGalleryCard(card: PageConceptGalleryCard): 'A' | 'B' | 'C' | null {
+  if (card.slotLabel === 'A' || card.slotLabel === 'B' || card.slotLabel === 'C') return card.slotLabel;
+  if (card.conceptSlot === 'MOBILE_CONCEPT_A') return 'A';
+  if (card.conceptSlot === 'MOBILE_CONCEPT_B') return 'B';
+  if (card.conceptSlot === 'MOBILE_CONCEPT_C') return 'C';
+  return null;
+}
+
+function cardPickScore(card: PageConceptGalleryCard, inCurrent: boolean): number {
+  let score = 0;
+  if (inCurrent) score += 100;
+  if (card.runGroup !== 'HISTORY') score += 40;
+  if (card.artifactStatus === 'READY') score += 20;
+  if (card.previewSrc) score += 10;
+  return score;
+}
+
+/**
+ * Keep MOBILE A/B/C in one horizontal row — do not split missing slots into the history rail.
+ */
+export function coalesceMobileConceptGalleryAbcRow(input: {
+  viewport: PageViewportId;
+  current: readonly PageConceptGalleryCard[];
+  history: readonly PageConceptGalleryCard[];
+}): { current: readonly PageConceptGalleryCard[]; history: readonly PageConceptGalleryCard[] } {
+  if (input.viewport !== 'MOBILE') return input;
+  const currentIds = new Set(input.current.map((c) => c.id));
+  const pool = [...input.current, ...input.history].filter(
+    (c) => c.artifactRole === 'MOBILE_CANDIDATE' || c.conceptSlot,
+  );
+  if (pool.length === 0) return input;
+
+  const pickedBySlot = new Map<PageMobileConceptSlotId, PageConceptGalleryCard>();
+  for (const slot of PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS) {
+    const letter =
+      slot === 'MOBILE_CONCEPT_A' ? 'A'
+      : slot === 'MOBILE_CONCEPT_B' ? 'B'
+      : 'C';
+    const matches = pool.filter((c) => {
+      if (c.conceptSlot === slot) return true;
+      return slotLabelFromGalleryCard(c) === letter;
+    });
+    if (matches.length === 0) continue;
+    const best = matches.reduce((a, b) =>
+      cardPickScore(b, currentIds.has(b.id)) > cardPickScore(a, currentIds.has(a.id)) ? b : a,
+    );
+    pickedBySlot.set(slot, best);
+  }
+
+  if (pickedBySlot.size === 0) return input;
+
+  const mergedCurrent = PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS.map((slot) => pickedBySlot.get(slot)).filter(
+    (c): c is PageConceptGalleryCard => Boolean(c),
+  );
+  const mergedIds = new Set(mergedCurrent.map((c) => c.id));
+  const history = input.history.filter((c) => !mergedIds.has(c.id));
+  return { current: mergedCurrent, history };
+}
 
 function slotLabelFromConcept(concept: PageConceptCandidate): string | null {
   if (concept.conceptSlot === 'MOBILE_CONCEPT_A') return 'A';
@@ -194,8 +257,15 @@ export function buildPageConceptGallerySections(input: {
     state: generationState,
   });
   const currentIds = new Set(currentConcepts.map((c) => c.artifactId ?? c.conceptId));
-  const current = cards.filter((c) => currentIds.has(c.artifactId ?? c.id));
-  const history = cards.filter((c) => !currentIds.has(c.artifactId ?? c.id));
+  let current = cards.filter((c) => currentIds.has(c.artifactId ?? c.id));
+  let history = cards.filter((c) => !currentIds.has(c.artifactId ?? c.id));
+  const coalesced = coalesceMobileConceptGalleryAbcRow({
+    viewport: input.viewport,
+    current,
+    history,
+  });
+  current = [...coalesced.current];
+  history = [...coalesced.history];
   return {
     currentRunId,
     current,
