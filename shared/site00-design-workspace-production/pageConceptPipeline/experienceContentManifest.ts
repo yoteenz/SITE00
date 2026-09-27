@@ -162,11 +162,25 @@ export function manifestForState(
   return manifests?.find((m) => m.stateId === stateId) ?? null;
 }
 
+function canonicalManifestLabelSet(manifest: ExperienceContentManifest | null): Set<string> {
+  if (!manifest) return new Set();
+  const labels = [
+    ...manifest.canonicalDestinations.map((d) => d.label),
+    ...manifest.canonicalFields.map((f) => f.label),
+    ...manifest.canonicalActions.map((a) => a.label),
+    ...manifest.dynamicFields.map((d) => d.label),
+  ];
+  return new Set(labels.map((l) => l.toUpperCase()));
+}
+
 function auditPromptTextAgainstManifest(
   promptText: string | undefined,
   manifest: ExperienceContentManifest | null,
 ): ExperienceContentStateAudit {
-  const inventedFromLegacy = auditNdxbookLegacyPromptInventedLabels(promptText ?? '');
+  const canonicalLabels = canonicalManifestLabelSet(manifest);
+  const inventedFromLegacy = auditNdxbookLegacyPromptInventedLabels(promptText ?? '').filter(
+    (item) => !canonicalLabels.has(item.label.toUpperCase()),
+  );
   const items: ExperienceContentAuditItem[] = [...inventedFromLegacy];
 
   let missingRequiredCount = 0;
