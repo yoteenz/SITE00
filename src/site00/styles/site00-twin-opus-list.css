@@ -1267,6 +1267,11 @@
   border-radius: 9.8px;
   overflow: hidden;
   background: #101010;
+  box-shadow: 0 0 0 3px transparent;
+}
+
+.tod-lv-card--concept.is-active {
+  box-shadow: 0 0 0 3px var(--tod-lime);
 }
 
 .tod-lv-gallery__rail:not(.s00-design-concept-gallery-grid) .tod-lv-card--concept {

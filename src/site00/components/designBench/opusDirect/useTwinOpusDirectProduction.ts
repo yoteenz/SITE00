@@ -416,6 +416,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       },
       clearUiPayload: () => setUiPayload({}),
       selectGalleryCandidate: (candidateId) => {
+        applyLocalState(transitionSelectGalleryCandidate(stateRef.current, candidateId));
         void runCommand(
           'SELECT_GALLERY_CANDIDATE',
           { candidateId },
@@ -475,7 +476,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         void runCommand('REGENERATE_CONCEPT', input);
       },
     }),
-    [dispatchCreatePageFramework, dispatchGrokAssetPlanApproval, pendingSpend, projectId, runCommand],
+    [applyLocalState, dispatchCreatePageFramework, dispatchGrokAssetPlanApproval, pendingSpend, projectId, runCommand],
   );
 
   return {

@@ -62,13 +62,7 @@ export function DesignConceptCandidateGalleryCard({
           viewportLabel={undefined}
           status={previewStatusForCandidate(candidate)}
           imageSrc={thumbSrc}
-          headerThumbnailCrop={{
-            ...PAGE_CONCEPT_HEADER_THUMBNAIL_CROP,
-            ...candidate.headerThumbnailCrop,
-            scale:
-              candidate.headerThumbnailCrop?.scale ??
-              PAGE_CONCEPT_HEADER_THUMBNAIL_CROP.scale,
-          }}
+          headerThumbnailCrop={PAGE_CONCEPT_HEADER_THUMBNAIL_CROP}
           testId={`${testIdPrefix}-${candidate.id}`}
         />
         <div className={`${metaClassPrefix}__meta`}>

@@ -506,11 +506,28 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
 
   useEffect(() => {
     if (viewport !== 'MOBILE') return;
-    if (!selectedMobileConceptId || selectedMobileConceptId === candidateId) return;
+    if (!selectedMobileConceptId) return;
+    const sections = buildPageConceptGallerySections({
+      projectId: projectSlug,
+      pageId: pageTarget.pageId,
+      viewport,
+      selectedMobileConceptId,
+      galleryScope: galleryHydrationScope,
+    });
+    const galleryIds = [...sections.current, ...sections.history].map((c) => c.id);
+    if (galleryIds.includes(candidateId)) return;
     setCandidateId(selectedMobileConceptId);
     setViewportCandidateIds((prev) => ({ ...prev, MOBILE: selectedMobileConceptId }));
     prodActions.selectGalleryCandidate(selectedMobileConceptId);
-  }, [candidateId, prodActions, selectedMobileConceptId, viewport]);
+  }, [
+    candidateId,
+    galleryHydrationScope,
+    pageTarget.pageId,
+    prodActions,
+    projectSlug,
+    selectedMobileConceptId,
+    viewport,
+  ]);
 
   useEffect(() => {
     const sections = buildPageConceptGallerySections({
@@ -614,14 +631,6 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         setCandidateId(id);
         setViewportCandidateIds((prev) => ({ ...prev, [viewport]: id }));
         prodActions.selectGalleryCandidate(id);
-        const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find((c) => c.conceptId === id);
-        if (
-          row?.artifactRole === 'MOBILE_CANDIDATE' &&
-          row.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' &&
-          row.artifactStatus === 'READY'
-        ) {
-          void pageConceptGeneration.viewportFamilyHandlers.selectMobile(id);
-        }
       },
       toggleAuthorityPair: () => setAuthorityPairOpen((open) => !open),
       selectRecordTab: setRecordTabIndex,
