@@ -31,6 +31,22 @@ export function pickRicherExperienceExpressionAuthority(
 ): ExperienceExpressionAuthority | null | undefined {
   if (!local) return merged;
   if (!merged) return local;
+  const localPreviews = falPreviewCount(local);
+  const mergedPreviews = falPreviewCount(merged);
+  if (
+    localPreviews === 0 &&
+    mergedPreviews > 0 &&
+    (local.status === 'NOT_STARTED' || local.status === 'GENERATING' || local.status === 'SUPERSEDED')
+  ) {
+    return merged;
+  }
+  if (
+    mergedPreviews === 0 &&
+    localPreviews > 0 &&
+    (merged.status === 'NOT_STARTED' || merged.status === 'GENERATING')
+  ) {
+    return local;
+  }
   const localScore = experienceAuthorityProgressScore(local);
   const mergedScore = experienceAuthorityProgressScore(merged);
   return localScore >= mergedScore ? local : merged;

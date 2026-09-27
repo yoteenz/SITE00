@@ -6,12 +6,14 @@ import type { ExperienceExpressionAuthority } from './experienceExpressionAuthor
 import { validateExperiencePackageMaterialization } from './experiencePackageMaterialization.js';
 
 export type ExperienceReviewPanelMode =
+  | 'HYDRATING'
   | 'EMPTY'
   | 'GENERATING'
   | 'READY'
   | 'PARTIAL'
   | 'FAILED'
-  | 'APPROVED';
+  | 'APPROVED'
+  | 'STALE';
 
 export type ExperienceReviewPackageStatus = {
   planned: number;
@@ -26,8 +28,11 @@ export type ExperienceReviewPackageStatus = {
 
 export function resolveExperienceReviewPanelMode(
   authority: ExperienceExpressionAuthority | null | undefined,
+  options?: { hydrating?: boolean },
 ): ExperienceReviewPanelMode {
+  if (options?.hydrating) return 'HYDRATING';
   if (!authority) return 'EMPTY';
+  if (authority.status === 'SUPERSEDED') return 'STALE';
   if (authority.status === 'APPROVED') return 'APPROVED';
   if (authority.status === 'FAILED') return 'FAILED';
   if (authority.status === 'PARTIAL_FAILURE') return 'PARTIAL';

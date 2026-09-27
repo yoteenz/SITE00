@@ -20,6 +20,9 @@ export type ExperienceGenerationJob = {
   status: ExperienceGenerationJobStatus;
   artifactId: string | null;
   error: string | null;
+  previousArtifactId?: string | null;
+  regeneratedAt?: string | null;
+  regenerationReason?: string | null;
 };
 
 export type ExperiencePackageMaterializationReceipt = {
