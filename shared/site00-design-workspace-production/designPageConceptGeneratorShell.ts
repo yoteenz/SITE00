@@ -54,7 +54,7 @@ export const PAGE_CONCEPT_STATE_ICON: Record<PageConceptStageState, AiConsoleIco
   FAILED: 'status-error',
 };
 
-export type PageConceptStageId = 'CGPT' | 'GPT2' | 'NBP';
+export type PageConceptStageId = 'CGPT' | 'FUNCTIONAL' | 'GPT2' | 'NBP';
 
 /** How a stage card reserves space for its result. */
 export type PageConceptResultKind = 'BRIEF' | 'AUTHORITY_IMAGE' | 'RENDITION_GROUPS';
@@ -165,9 +165,29 @@ export const PAGE_CONCEPT_GENERATOR_STAGES: readonly PageConceptStageShell[] = [
     briefRows: CGPT_BRIEF_ROWS,
   },
   {
-    id: 'GPT2',
+    id: 'FUNCTIONAL',
     step: 2,
     stepLabel: 'STEP 2',
+    tag: 'FUNCTIONAL',
+    title: 'FUNCTIONAL INTELLIGENCE',
+    subtitle: 'GAP ANALYSIS + EXPANSIONS',
+    progressionTitle: 'FUNCTIONAL EXPANSIONS',
+    progressionNote: 'REVIEW PROPOSED EXPANSIONS BEFORE GPT2 MOBILE CONCEPT GENERATION.',
+    resultKind: 'BRIEF',
+    outputLabel: 'OUTPUT',
+    outputNote: 'APPROVED FUTURE-STATE PAGE TRUTH.',
+    icon: 'opus-context',
+    resultSlotId: 'functional.expansions',
+    briefRows: [
+      { id: 'current-function', label: 'CURRENT FUNCTION', icon: 'opus-context' },
+      { id: 'proposed-expansions', label: 'PROPOSED EXPANSIONS', icon: 'auth-cgpt-message' },
+      { id: 'approved-future', label: 'APPROVED FUTURE STATE', icon: 'status-approved', lead: true },
+    ],
+  },
+  {
+    id: 'GPT2',
+    step: 3,
+    stepLabel: 'STEP 3',
     tag: 'GPT2',
     title: 'MOBILE CONCEPTS',
     subtitle: 'THREE DISTINCT TERRITORIES',
@@ -183,8 +203,8 @@ export const PAGE_CONCEPT_GENERATOR_STAGES: readonly PageConceptStageShell[] = [
   },
   {
     id: 'NBP',
-    step: 3,
-    stepLabel: 'STEP 3',
+    step: 4,
+    stepLabel: 'STEP 4',
     tag: 'VIEWPORT',
     title: 'VIEWPORT FAMILY',
     subtitle: 'TABLET + DESKTOP INTERPRETATION',
@@ -220,6 +240,7 @@ export function pageConceptGeneratorTargetLine(projectLabel: string, pageLabel: 
  */
 export const PAGE_CONCEPT_DEFAULT_STAGE_STATE: Record<PageConceptStageId, PageConceptStageState> = {
   CGPT: 'READY',
+  FUNCTIONAL: 'PENDING',
   GPT2: 'PENDING',
   NBP: 'PENDING',
 };
@@ -238,20 +259,22 @@ export function pageConceptStageStatesForRun(input: {
 
   switch (input.status) {
     case 'CGPT_RUNNING':
-      return { CGPT: failedStage('ACTIVE'), GPT2: 'PENDING', NBP: 'PENDING' };
+      return { CGPT: failedStage('ACTIVE'), FUNCTIONAL: 'PENDING', GPT2: 'PENDING', NBP: 'PENDING' };
+    case 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW':
+      return { CGPT: 'COMPLETE', FUNCTIONAL: failedStage('ACTIVE'), GPT2: 'PENDING', NBP: 'PENDING' };
     case 'GPT2_RUNNING':
-      return { CGPT: 'COMPLETE', GPT2: failedStage('ACTIVE'), NBP: 'PENDING' };
+      return { CGPT: 'COMPLETE', FUNCTIONAL: 'COMPLETE', GPT2: failedStage('ACTIVE'), NBP: 'PENDING' };
     case 'NBP_RUNNING':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: failedStage('ACTIVE') };
+      return { CGPT: 'COMPLETE', FUNCTIONAL: 'COMPLETE', GPT2: 'COMPLETE', NBP: failedStage('ACTIVE') };
     case 'PARTIAL_GENERATION':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PARTIAL' };
+      return { CGPT: 'COMPLETE', FUNCTIONAL: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PARTIAL' };
     case 'READY_FOR_FOUNDER_REVIEW':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' };
+      return { CGPT: 'COMPLETE', FUNCTIONAL: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' };
     case 'FAILED':
-      return { CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
+      return { CGPT: 'FAILED', FUNCTIONAL: 'NOT_STARTED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
     default:
       return input.failed ?
-          { CGPT: 'FAILED', GPT2: 'PENDING', NBP: 'PENDING' }
+          { CGPT: 'FAILED', FUNCTIONAL: 'PENDING', GPT2: 'PENDING', NBP: 'PENDING' }
         : PAGE_CONCEPT_DEFAULT_STAGE_STATE;
   }
 }

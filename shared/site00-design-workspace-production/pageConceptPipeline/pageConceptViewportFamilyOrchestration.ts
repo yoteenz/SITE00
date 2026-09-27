@@ -237,11 +237,13 @@ export function pageConceptConfirmMobileAuthority(state: PageConceptGenerationSt
     updatedAt: now,
   };
   const expansionIntelligence =
+    ps?.functionalExpansionIntelligence ??
     buildPageFunctionalExpansionIntelligence({
       projectId: state.projectId,
       anchorPageId: state.pageId,
       functionContract: state.functionContract,
-    }) ?? null;
+    }) ??
+    null;
   const nextState: PageConceptGenerationState = {
     ...patchPipeline(
       state,

@@ -59,6 +59,12 @@ import {
 import type { PageConceptPageArchitectureBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { executePageConceptCanonicalMobileStage } from './executePageConceptCanonicalMobileStage.js';
 import {
+  functionalExpansionGateBlocksGpt2Generation,
+  preConceptFunctionalExpansionGateEnabled,
+  preparePreConceptGpt2PipelineArtifacts,
+  resolvePreConceptFunctionalExpansionIntelligence,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js';
+import {
   mobileConceptArtifactId,
   PAGE_CONCEPT_MOBILE_CONCEPT_SLOTS,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamily.js';
@@ -70,6 +76,7 @@ export type ExecutePageConceptGenerationOptions = {
   retryGpt2Only?: boolean;
   regenerateNbpOnly?: boolean;
   continueGpt2AfterCgptReview?: boolean;
+  continueGpt2AfterFunctionalExpansionReview?: boolean;
   continueNbpAfterGpt2Review?: boolean;
   onProgress?: (patch: PageConceptRunProgress) => void;
 };
@@ -97,6 +104,8 @@ export async function executePageConceptGeneration(
 
   const continueNbpAfterGpt2Review = options.continueNbpAfterGpt2Review === true;
   const continueGpt2AfterCgptReview = options.continueGpt2AfterCgptReview === true;
+  const continueGpt2AfterFunctionalExpansionReview =
+    options.continueGpt2AfterFunctionalExpansionReview === true;
   const retryGpt2Only = options.retryGpt2Only === true;
   const canonicalPipeline = pageConceptCanonicalNbpDisabled();
   const regenerateNbpOnly = options.regenerateNbpOnly === true;
@@ -139,6 +148,7 @@ export async function executePageConceptGeneration(
 
   const skipCgpt =
     continueGpt2AfterCgptReview ||
+    continueGpt2AfterFunctionalExpansionReview ||
     continueNbpAfterGpt2Review ||
     retryGpt2Only ||
     regenerateNbpOnly ||
@@ -372,6 +382,75 @@ export async function executePageConceptGeneration(
     if (regenerateNbpOnly || continueNbpAfterGpt2Review) {
       throw new Error('LEGACY_NBP_PATH_DISABLED: SET SITE00_PAGE_CONCEPT_LEGACY_NBP=true FOR LEGACY RUNS');
     }
+
+    const preConceptGate = preConceptFunctionalExpansionGateEnabled({
+      dryRun,
+      projectId: input.state.projectId,
+    });
+    const functionalExpansionIntelligence = resolvePreConceptFunctionalExpansionIntelligence({
+      projectId: input.state.projectId,
+      anchorPageId: input.state.pageId,
+      functionContract,
+      existing: input.state.pipelineSet?.functionalExpansionIntelligence,
+    });
+    let approvedFuturePageTruth = input.state.pipelineSet?.approvedFuturePageTruth ?? null;
+    let preConceptFunctionalLineage = input.state.pipelineSet?.preConceptFunctionalLineage ?? null;
+
+    if (
+      preConceptGate &&
+      functionalExpansionIntelligence &&
+      functionalExpansionGateBlocksGpt2Generation(functionalExpansionIntelligence) &&
+      !continueGpt2AfterFunctionalExpansionReview &&
+      !skipGpt2
+    ) {
+      const gatePipelineSet: PageConceptPipelineSet = {
+        pipelineSetId,
+        projectId: input.state.projectId,
+        pageId: input.state.pageId,
+        targetType: PAGE_CONCEPT_TARGET_TYPE,
+        captureSetId: plan.captureSetId,
+        functionContractId: functionContract.contractId,
+        creativeInjection,
+        cgptCreativeBrief,
+        pageArchitectureBrief,
+        gpt2AuthorityConcept: null,
+        renditions: [],
+        functionalExpansionIntelligence,
+        creativeInjectionError,
+        createdAt: new Date().toISOString(),
+      };
+      emit(onProgress, {
+        status: 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW',
+        currentStage: 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW',
+        panelProgress: pageConceptProgressPatchForGpt2().panelProgress,
+        cgptStatus: 'COMPLETE',
+        gpt2Status: 'PENDING',
+        nbpStatus: 'PENDING',
+        generationStatus: 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW',
+        pipelineSet: gatePipelineSet,
+        jobs: [],
+        error: null,
+        completedAt: null,
+      });
+      return { plan, pipelineSet: gatePipelineSet, jobs: [] };
+    }
+
+    if (functionalExpansionIntelligence && pageArchitectureBrief) {
+      const prepared = preparePreConceptGpt2PipelineArtifacts({
+        pageArchitectureBrief,
+        intelligence: functionalExpansionIntelligence,
+      });
+      pageArchitectureBrief = prepared.pageArchitectureBrief;
+      approvedFuturePageTruth = prepared.approvedFuturePageTruth;
+      preConceptFunctionalLineage = {
+        existingTruthVersion: approvedFuturePageTruth.existingTruthVersion,
+        functionalExpansionDecisionVersion: approvedFuturePageTruth.functionalExpansionDecisionVersion,
+        futurePageTruthVersion: approvedFuturePageTruth.version,
+        pageArchitectureVersion: pageArchitectureBrief.version,
+        functionMapVersion: input.state.pipelineSet?.screenshotFunctionalPageMap?.version ?? 'pre-gpt2-map',
+      };
+    }
+
     return executePageConceptCanonicalMobileStage({
       runId,
       plan,
@@ -383,6 +462,9 @@ export async function executePageConceptGeneration(
       creativeInjection: creativeInjection!,
       cgptCreativeBrief,
       pageArchitectureBrief,
+      functionalExpansionIntelligence,
+      approvedFuturePageTruth,
+      preConceptFunctionalLineage,
       creativeInjectionError,
       mobileDims: { width: input.mobileCapture.width, height: input.mobileCapture.height },
       functionalCaptureBase64: mobileCaptureBase64,

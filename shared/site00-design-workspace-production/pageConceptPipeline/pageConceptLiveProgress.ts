@@ -80,10 +80,11 @@ export function buildStageStatusesForPipeline(input: {
   currentStage: PageConceptProgressStageId;
   failedStage?: PageConceptProgressStageId | null;
 }): Record<PageConceptProgressStageId, PageConceptSubstepRunState> {
-  const order: PageConceptProgressStageId[] = ['CGPT', 'GPT2', 'NBP'];
+  const order: PageConceptProgressStageId[] = ['CGPT', 'FUNCTIONAL', 'GPT2', 'NBP'];
   const idx = order.indexOf(input.currentStage);
   const out: Record<PageConceptProgressStageId, PageConceptSubstepRunState> = {
     CGPT: 'PENDING',
+    FUNCTIONAL: 'PENDING',
     GPT2: 'PENDING',
     NBP: 'PENDING',
   };
@@ -159,11 +160,25 @@ export function derivePageConceptLiveProgress(input: {
   if (input.panelProgress) return input.panelProgress;
 
   const now = new Date().toISOString();
+  if (input.generationStatus === 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW') {
+    return {
+      currentStage: 'FUNCTIONAL',
+      currentSubstep: null,
+      stageStatusById: { CGPT: 'COMPLETE', FUNCTIONAL: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' },
+      substepStatusById: Object.fromEntries(
+        PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.map((id) => [id, 'COMPLETE' as const]),
+      ) as Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>,
+      nbpActiveLabel: null,
+      updatedAt: now,
+      failureStage: null,
+      failureSubstep: null,
+    };
+  }
   if (input.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
     return {
       currentStage: 'CGPT',
       currentSubstep: null,
-      stageStatusById: { CGPT: 'COMPLETE', GPT2: 'PENDING', NBP: 'PENDING' },
+      stageStatusById: { CGPT: 'COMPLETE', FUNCTIONAL: 'PENDING', GPT2: 'PENDING', NBP: 'PENDING' },
       substepStatusById: Object.fromEntries(
         PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.map((id) => [id, 'COMPLETE' as const]),
       ) as Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>,
@@ -177,7 +192,7 @@ export function derivePageConceptLiveProgress(input: {
     return {
       currentStage: 'NBP',
       currentSubstep: null,
-      stageStatusById: { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' },
+      stageStatusById: { CGPT: 'COMPLETE', FUNCTIONAL: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' },
       substepStatusById: Object.fromEntries(
         PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.map((id) => [id, 'COMPLETE' as const]),
       ) as Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>,
@@ -215,7 +230,7 @@ export function derivePageConceptLiveProgress(input: {
     return {
       currentStage: 'NBP',
       currentSubstep: null,
-      stageStatusById: { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' },
+      stageStatusById: { CGPT: 'COMPLETE', FUNCTIONAL: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' },
       substepStatusById: Object.fromEntries(
         PAGE_CONCEPT_CGPT_SUBSTEP_ORDER.map((id) => [id, 'COMPLETE' as const]),
       ) as Record<PageConceptCgptSubstepId, PageConceptSubstepRunState>,
@@ -238,7 +253,7 @@ export function derivePageConceptLiveProgress(input: {
   return {
     currentStage: 'CGPT',
     currentSubstep: null,
-    stageStatusById: { CGPT: 'PENDING', GPT2: 'PENDING', NBP: 'PENDING' },
+    stageStatusById: { CGPT: 'PENDING', FUNCTIONAL: 'PENDING', GPT2: 'PENDING', NBP: 'PENDING' },
     substepStatusById: emptyCgptSubstepMap(),
     nbpActiveLabel: null,
     updatedAt: now,
@@ -318,6 +333,7 @@ export function pageConceptPanelProgressToStageStates(
   };
   return {
     CGPT: mapRunToShell(progress.stageStatusById.CGPT),
+    FUNCTIONAL: mapRunToShell(progress.stageStatusById.FUNCTIONAL ?? 'PENDING'),
     GPT2: mapRunToShell(progress.stageStatusById.GPT2),
     NBP: mapRunToShell(progress.stageStatusById.NBP),
   };

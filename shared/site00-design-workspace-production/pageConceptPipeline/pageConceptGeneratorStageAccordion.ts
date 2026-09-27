@@ -6,8 +6,11 @@ export function resolveFocusedPageConceptStageId(
 ): PageConceptStageId {
   if (states.GPT2 === 'ACTIVE' || states.GPT2 === 'PARTIAL') return 'GPT2';
   if (states.NBP === 'ACTIVE' || states.NBP === 'PARTIAL') return 'NBP';
+  if (states.FUNCTIONAL === 'ACTIVE' || states.FUNCTIONAL === 'PARTIAL') return 'FUNCTIONAL';
   if (states.CGPT === 'ACTIVE' || states.CGPT === 'PARTIAL') return 'CGPT';
+  if (states.FUNCTIONAL === 'COMPLETE' && states.GPT2 !== 'COMPLETE') return 'GPT2';
   if (states.GPT2 === 'COMPLETE') return 'GPT2';
+  if (states.CGPT === 'COMPLETE' && states.FUNCTIONAL !== 'COMPLETE') return 'FUNCTIONAL';
   if (states.CGPT === 'COMPLETE') return 'GPT2';
   if (states.NBP === 'COMPLETE') return 'NBP';
   return 'GPT2';

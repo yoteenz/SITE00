@@ -231,6 +231,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         resumeRunId: body.resumeRunId,
         continueNbpAfterGpt2Review: body.continueNbpAfterGpt2Review === true,
         continueGpt2AfterCgptReview: body.continueGpt2AfterCgptReview === true,
+        continueGpt2AfterFunctionalExpansionReview:
+          body.continueGpt2AfterFunctionalExpansionReview === true,
         retryGpt2Only: body.retryGpt2Only === true,
         regenerateNbpOnly: body.regenerateNbpOnly === true,
         founderEmail: email,

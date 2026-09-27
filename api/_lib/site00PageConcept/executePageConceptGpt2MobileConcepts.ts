@@ -78,6 +78,15 @@ import {
   validateTerritoryNdxBrandParity,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 import { compileNdxBrandFamiliarityBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
+import {
+  buildPreConceptFunctionalLineage,
+  recompileScreenshotFunctionMapWithApprovedExpansions,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js';
+import type { PageFunctionalExpansionIntelligence } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFunctionalExpansionIntelligence.js';
+import type {
+  ApprovedFuturePageTruth,
+  PreConceptFunctionalLineage,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
@@ -85,6 +94,7 @@ export type Gpt2MobileConceptsResult = {
   partialFailure: boolean;
   screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
   webExpressionTerritorySet: WebExpressionTerritorySet | null;
+  preConceptFunctionalLineage: PreConceptFunctionalLineage | null;
 };
 
 function stripDataUrlPrefix(base64: string): string {
@@ -114,6 +124,9 @@ async function renderMobileConceptSlot(input: {
   providerReferences?: Gpt2MobileProviderReferenceBundle;
   screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap;
   webExpressionTerritorySet?: WebExpressionTerritorySet | null;
+  functionalExpansionIntelligence?: PageFunctionalExpansionIntelligence | null;
+  approvedFuturePageTruth?: ApprovedFuturePageTruth | null;
+  preConceptFunctionalLineage?: PreConceptFunctionalLineage | null;
   existingJob?: PageConceptGeneratedArtifact;
   retrySlots?: readonly PageMobileConceptSlotId[] | null;
   forceRegenerate?: boolean;
@@ -263,6 +276,9 @@ async function renderMobileConceptSlot(input: {
     webExpressionTerritory,
     pageContextSummary,
     mobileViewport: input.mobileDims,
+    approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+    functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+    preConceptFunctionalLineage: input.preConceptFunctionalLineage ?? null,
   });
 
   const ndxBrandFamiliarityBrief =
@@ -523,6 +539,9 @@ export async function executePageConceptGpt2MobileConcepts(input: {
   creativeInjection: PageCreativeInjection;
   cgptCreativeBrief: PageConceptCgptCreativeBrief | null;
   pageArchitectureBrief?: PageConceptPageArchitectureBrief | null;
+  functionalExpansionIntelligence?: PageFunctionalExpansionIntelligence | null;
+  approvedFuturePageTruth?: ApprovedFuturePageTruth | null;
+  preConceptFunctionalLineage?: PreConceptFunctionalLineage | null;
   mobileDims: { width: number; height: number };
   functionalCaptureBase64: string;
   existingJobs?: readonly PageConceptGeneratedArtifact[];
@@ -535,6 +554,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     mobileConcepts: PageGpt2MobileConcept[];
     screenshotFunctionalPageMap: ScreenshotFunctionalPageMap | null;
     webExpressionTerritorySet: WebExpressionTerritorySet | null;
+    preConceptFunctionalLineage: PreConceptFunctionalLineage | null;
   }) => void;
 }): Promise<Gpt2MobileConceptsResult> {
   const jobs: PageConceptGeneratedArtifact[] = [];
@@ -579,9 +599,30 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       if (!dispatchCheck.ok && needsFunctionMap) {
         throw new Error(`${dispatchCheck.errorCode}: ${dispatchCheck.criticalUnresolved.join('; ')}`);
       }
+      if (sharedFunctionMap && input.functionalExpansionIntelligence) {
+        sharedFunctionMap = recompileScreenshotFunctionMapWithApprovedExpansions({
+          map: sharedFunctionMap,
+          intelligence: input.functionalExpansionIntelligence,
+        });
+      }
     } catch (err) {
       if (needsFunctionMap) throw err;
     }
+  }
+
+  let resolvedLineage = input.preConceptFunctionalLineage ?? null;
+  if (
+    input.functionalExpansionIntelligence &&
+    input.approvedFuturePageTruth &&
+    pageArchitectureBrief &&
+    sharedFunctionMap
+  ) {
+    resolvedLineage = buildPreConceptFunctionalLineage({
+      intelligence: input.functionalExpansionIntelligence,
+      futureTruth: input.approvedFuturePageTruth,
+      pageArchitectureBrief,
+      screenshotFunctionalPageMap: sharedFunctionMap,
+    });
   }
 
   let webExpressionTerritorySet = input.webExpressionTerritorySet ?? null;
@@ -652,6 +693,9 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       providerReferences: sharedProviderReferences ?? undefined,
       screenshotFunctionalPageMap: sharedFunctionMap ?? undefined,
       webExpressionTerritorySet,
+      functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+      approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+      preConceptFunctionalLineage: resolvedLineage,
       existingJob,
       retrySlots: input.retrySlots,
       forceRegenerate,
@@ -672,6 +716,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
       mobileConcepts: [...mobileConcepts],
       screenshotFunctionalPageMap: sharedFunctionMap,
       webExpressionTerritorySet,
+      preConceptFunctionalLineage: resolvedLineage,
     });
   }
 
@@ -687,6 +732,7 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     partialFailure,
     screenshotFunctionalPageMap: sharedFunctionMap,
     webExpressionTerritorySet,
+    preConceptFunctionalLineage: resolvedLineage,
   };
 }
 

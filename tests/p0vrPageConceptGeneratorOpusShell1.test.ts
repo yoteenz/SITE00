@@ -34,12 +34,13 @@ const CSS = 'src/site00/styles/site00-page-concept-generator.css';
 
 describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('describes the three reference stages in order with their output promises', () => {
-    expect(PAGE_CONCEPT_GENERATOR_STAGES.map((s) => s.id)).toEqual(['CGPT', 'GPT2', 'NBP']);
-    expect(PAGE_CONCEPT_GENERATOR_STAGES.map((s) => s.step)).toEqual([1, 2, 3]);
+    expect(PAGE_CONCEPT_GENERATOR_STAGES.map((s) => s.id)).toEqual(['CGPT', 'FUNCTIONAL', 'GPT2', 'NBP']);
+    expect(PAGE_CONCEPT_GENERATOR_STAGES.map((s) => s.step)).toEqual([1, 2, 3, 4]);
     expect(PAGE_CONCEPT_GENERATOR_STAGES[0].title).toBe('CREATIVE INJECTION');
-    expect(PAGE_CONCEPT_GENERATOR_STAGES[1].title).toBe('MOBILE CONCEPTS');
-    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].title).toBe('VIEWPORT FAMILY');
-    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].outputNote).toContain('TABLET');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[1].title).toBe('FUNCTIONAL INTELLIGENCE');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[2].title).toBe('MOBILE CONCEPTS');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[3].title).toBe('VIEWPORT FAMILY');
+    expect(PAGE_CONCEPT_GENERATOR_STAGES[3].outputNote).toContain('TABLET');
   });
 
   it('reserves three mobile concept slots and tablet/desktop interpretation slots', () => {
@@ -76,7 +77,12 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
       const label = PAGE_CONCEPT_STATE_LABEL[state];
       expect(label).toBe(label.toUpperCase());
     }
-    expect(PAGE_CONCEPT_DEFAULT_STAGE_STATE).toEqual({ CGPT: 'READY', GPT2: 'PENDING', NBP: 'PENDING' });
+    expect(PAGE_CONCEPT_DEFAULT_STAGE_STATE).toEqual({
+      CGPT: 'READY',
+      FUNCTIONAL: 'PENDING',
+      GPT2: 'PENDING',
+      NBP: 'PENDING',
+    });
   });
 
   it('renders result slots the hook map points at', () => {
@@ -161,17 +167,20 @@ describe('P0.VR.PAGE-CONCEPT-GENERATOR-OPUS-SHELL1', () => {
   it('projects run status onto stage states without inventing progress', () => {
     expect(pageConceptStageStatesForRun({ status: 'IDLE' })).toEqual({
       CGPT: 'READY',
+      FUNCTIONAL: 'PENDING',
       GPT2: 'PENDING',
       NBP: 'PENDING',
     });
     expect(pageConceptStageStatesForRun({ status: 'GPT2_RUNNING' })).toEqual({
       CGPT: 'COMPLETE',
+      FUNCTIONAL: 'COMPLETE',
       GPT2: 'ACTIVE',
       NBP: 'PENDING',
     });
     expect(pageConceptStageStatesForRun({ status: 'PARTIAL_GENERATION' }).NBP).toBe('PARTIAL');
     expect(pageConceptStageStatesForRun({ status: 'READY_FOR_FOUNDER_REVIEW' })).toEqual({
       CGPT: 'COMPLETE',
+      FUNCTIONAL: 'COMPLETE',
       GPT2: 'COMPLETE',
       NBP: 'COMPLETE',
     });

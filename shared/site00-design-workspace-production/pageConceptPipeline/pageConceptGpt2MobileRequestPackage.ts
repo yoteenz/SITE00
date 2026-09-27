@@ -129,6 +129,9 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   ndxBrandFamiliarityBrief?: NdxBrandFamiliarityBrief | null;
   pageContextSummary: string;
   mobileViewport: { width: number; height: number };
+  approvedFuturePageTruth?: import('./pageConceptPreConceptFunctionalExpansion.js').ApprovedFuturePageTruth | null;
+  functionalExpansionIntelligence?: import('./pageFunctionalExpansionIntelligence.js').PageFunctionalExpansionIntelligence | null;
+  preConceptFunctionalLineage?: import('./pageConceptPreConceptFunctionalExpansion.js').PreConceptFunctionalLineage | null;
 }): PageGpt2MobileConceptRequestPackage {
   if (!input.screenshotFunctionalPageMap) {
     throw new Error('SCREENSHOT_FUNCTION_MAP_INCOMPLETE: map required before GPT2 package build');
@@ -198,6 +201,9 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     webExpressionTerritory: input.webExpressionTerritory ?? null,
     projectVisualAuthorityContract,
     designTarget,
+    approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+    functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+    preConceptFunctionalLineage: input.preConceptFunctionalLineage ?? null,
   });
   const prompt = compiledProviderPrompt.prompt;
   const referenceAssets = orderedProviderReferenceAssets(input.providerReferences);
