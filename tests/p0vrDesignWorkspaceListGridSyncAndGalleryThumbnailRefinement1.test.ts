@@ -12,7 +12,10 @@ import {
   PAGE_CONCEPT_HEADER_THUMBNAIL_CROP,
   pageConceptHeaderThumbnailUriFromArtifact,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
-import { mapPageConceptToGalleryCard } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
+import {
+  coalesceMobileConceptGalleryAbcRow,
+  mapPageConceptToGalleryCard,
+} from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryPresentation.js';
 import { PAGE_CONCEPT_HEADER_THUMB_ASPECT_RATIO } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptImageContainment.js';
 import type { PageConceptCandidate } from '../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
 
@@ -83,6 +86,24 @@ describe('P0.VR design workspace list/grid sync + gallery thumbnails', () => {
     expect(card).toContain('size="headerThumb"');
     expect(card).toContain('objectFit="cover"');
     expect(card).not.toContain('size="mobile"');
+  });
+
+  it('coalesces mobile A/B/C into one current row when slots split across history', () => {
+    const card = (id: string, slot: PageConceptCandidate['conceptSlot'], runGroup: 'CURRENT' | 'HISTORY') =>
+      mapPageConceptToGalleryCard(
+        { ...mobileCandidate(id, slot!), runGroup, galleryFilterStatus: 'CANDIDATE' },
+        null,
+      );
+    const b = card('mc-b', 'MOBILE_CONCEPT_B', 'CURRENT');
+    const a = card('mc-a', 'MOBILE_CONCEPT_A', 'HISTORY');
+    const c = card('mc-c', 'MOBILE_CONCEPT_C', 'HISTORY');
+    const merged = coalesceMobileConceptGalleryAbcRow({
+      viewport: 'MOBILE',
+      current: [b],
+      history: [a, c],
+    });
+    expect(merged.current.map((x) => x.slotLabel)).toEqual(['A', 'B', 'C']);
+    expect(merged.history).toHaveLength(0);
   });
 
   it('CSS distributes three candidates in equal grid columns', () => {

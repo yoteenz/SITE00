@@ -1154,7 +1154,7 @@
 .s00-design-concept-gallery-grid.tod-lv-gallery__rail--current {
   position: static;
   inset: auto;
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   overflow: visible;

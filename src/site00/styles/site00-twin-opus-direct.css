@@ -1664,7 +1664,7 @@
 }
 
 .s00-design-concept-gallery-grid.tod-gallery__rail--current {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10.1px;
   overflow: visible;
