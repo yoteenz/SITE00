@@ -12143,3 +12143,16 @@ Moved NDXBOOK functional expansion **before GPT2 mobile A/B/C**: **`pageConceptP
 ## 2026-09-27 — CI fix: pre-concept expansion gate blocked Vitest GPT2 triple-concept runs
 
 **Root cause:** **`preConceptFunctionalExpansionGateEnabled`** stopped NDXBOOK **`runPageConceptGeneration`** in Vitest at **`FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW`** (0 jobs / 0 **`mobileConcepts`**) because integration tests do not founder-review PROPOSED expansions. **Fix:** skip live gate when **`VITEST=true`** unless **`SITE00_PAGE_CONCEPT_FORCE_PRECONCEPT_EXPANSION_GATE=1`**; gate logic still unit-tested. **Railway redeploy** for API.
+
+---
+
+## 2026-09-27 — FAL experience VIEW rail + review panel mount (no re-generate on view)
+
+Founder: after FAL generates experience expressions, outputs must appear in the **Experience Review** panel; hero rail should switch **CREATE EXPERIENCE** → **VIEW EXPERIENCE** and open the panel without firing a new full-package generation.
+
+- **`pageConceptExperienceReviewOpenPolicy.ts`:** **`shouldDispatchGenerateExperienceOnReviewOpen`** (view-only when authority has FAL previews / non-start status); **`pickRicherExperienceExpressionAuthority`** for merge scoring.
+- **Rail:** **`designGpt2ViewportFamilyAuthorityRail.ts`** — VIEW labels for generating/ready/partial; **`PARTIAL_FAILURE`** treated as reviewable.
+- **Handlers:** **`twinOpusDirectWorkspace.ts`** **`vf-review-experience`** opens overlay only when package exists; generate only on true NOT_STARTED/FAILED-without-artifacts.
+- **Persistence:** gallery merge prefers richer server **READY** authority over stale local **GENERATING** (syncs family **`experienceExpressionStatus`** when server wins).
+- **Panel:** **`experienceReviewPresentation.ts`** coalesces **GENERATING** → **READY** mode when all FAL previews materialized; **`ExperienceReviewPanel`** keeps active output tab valid as URIs arrive.
+- **Tests:** **`p0vrExperienceExpressionViewPanelMount1.test.ts`** + rail assertion in FAL handoff suite. **cPanel deploy** for SPA; no Railway change required (client/shared only).
