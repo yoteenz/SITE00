@@ -12137,3 +12137,9 @@ Three-layer model for NDXBOOK page-family intelligence: **ExistingPageTruth** �
 ## 2026-09-27 — P0.VR functional expansion upstream of authority concepts 1
 
 Moved NDXBOOK functional expansion **before GPT2 mobile A/B/C**: **`pageConceptPreConceptFunctionalExpansion.ts`** builds **`ApprovedFuturePageTruth`**, gates generation on **`FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW`** when PROPOSED expansions remain (**`continueGpt2AfterFunctionalExpansionReview`** to resume), recompiles **page architecture** + **screenshot function map**, injects same approved functional set into all three GPT2 prompts (visibility: MUST / RECESSED / INTERACTION_ONLY), lineage on pipeline set, post-concept **`PostConceptExpansionCandidate`** + major invalidation helper. Generation panel stage **FUNCTIONAL INTELLIGENCE** (4-step wizard). **`confirmMobileAuthority`** preserves pre-concept intelligence instead of rebuilding. Tests: **`p0vrFunctionalExpansionUpstreamOfAuthorityConcepts1.test.ts`**. **Railway + cPanel v692**.
+
+---
+
+## 2026-09-27 — CI fix: pre-concept expansion gate blocked Vitest GPT2 triple-concept runs
+
+**Root cause:** **`preConceptFunctionalExpansionGateEnabled`** stopped NDXBOOK **`runPageConceptGeneration`** in Vitest at **`FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW`** (0 jobs / 0 **`mobileConcepts`**) because integration tests do not founder-review PROPOSED expansions. **Fix:** skip live gate when **`VITEST=true`** unless **`SITE00_PAGE_CONCEPT_FORCE_PRECONCEPT_EXPANSION_GATE=1`**; gate logic still unit-tested. **Railway redeploy** for API.
