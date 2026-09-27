@@ -11996,3 +11996,9 @@ Sprint **P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1**: after
 - **Plans:** `pageConceptExperienceExpressionFalPlan.ts`, `executePageConceptExperienceExpressionFal.ts`; contract **`overlayPatterns`** enriched with **EXPERIENCE VISUAL PACKAGE** labels for GPT2 tablet/desktop prompts.
 - **UI:** Experience review panel shows **GENERATING EXPRESSIONS**, expression counts, approve disabled until FAL thumbnails exist.
 - **Tests:** `p0vrExperienceExpressionFalGenerationReviewAndHandoff1.test.ts` + existing mobile/experience stage tests pass.
+
+---
+
+## 2026-09-27 — Experience FAL fix: HTTPS mobile authority anchor
+
+Production FAL **`gpt-image-2/edit`** failed **“Failed to load the image”** because GPT2 mobile concepts store **`persisted.publicUrl` (HTTPS)**, but experience generation treated non–data-URI strings as raw base64 → corrupt upload. **`resolvePageConceptAuthorityImageForFal`** fetches HTTP(S) or parses data/base64 before **`fal.storage.upload`**. **CREATE EXPERIENCE** opens **experience-review** overlay and clears stale **`liveProgress`** so Step 3 is not stuck RUNNING in the generic panel.
