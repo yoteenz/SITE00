@@ -11899,3 +11899,9 @@ Founder: normal Safari/Chrome showed stale bundle (incognito fresh); incognito g
 ## 2026-09-27 — CI: Spark tabs + gallery history dedupe
 
 GitHub **SITE 00 Production Release / test** failed: Spark responsive still exported legacy `TWIN_SPARK_RESPONSIVE_CONCEPT_TABS` (`CONCEPT DATA` …) vs Opus dock tabs; GPT2 gallery test lost history when coalesce deduped by `conceptId` instead of `artifactId`. Fixed Spark tabs to CONCEPT/EXPRESSION/FUNCTION/LINEAGE/HISTORY/HANDOFF; **`galleryCardIdentity`** uses `artifactId ?? id` when removing picked cards from history rail.
+
+---
+
+## 2026-09-27 — Gallery coalesce: active-run guard
+
+CI **`p0vrDesignWorkspacePreviewFitLatestRunAndHeroRailRestore1`**: coalesce promoted run1 `art-b-r1` into CURRENT when run2 only had `art-a-r2`. **`coalesceMobileConceptGalleryAbcRow`** now takes `currentRunId` and only pulls history into the A/B/C row when `card.runId` matches the active run (or a card already in CURRENT). Same-run mis-bucket (B current, A/C history) still coalesces; cross-run partial regen does not.
