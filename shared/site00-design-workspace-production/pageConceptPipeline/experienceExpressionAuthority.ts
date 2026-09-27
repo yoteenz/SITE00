@@ -7,8 +7,13 @@ import type { PageConceptCgptCreativeBrief, PageCreativeInjection, PageFunctionC
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import type { PageGpt2MobileConcept } from './pageConceptViewportAuthorityFamily.js';
 import {
-  buildExperienceExpressionFalTargets,
+  buildExperienceExpressionPromptPipeline,
   PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION,
+  type ExperienceExpressionPrompt,
+  type ExperienceOutputLabel,
+  type ExperienceOutputLineage,
+  type ExperiencePackagingPlan,
+  type ExpressionPromptType,
 } from './pageConceptExperienceExpressionFalPlan.js';
 
 export type ExperienceExpressionPatternType =
@@ -50,6 +55,9 @@ export type ExperienceExpressionVisualState = {
   sourceProvider?: 'INHERITED_MOBILE' | 'FAL_EXPERIENCE';
   generatedArtifactId?: string | null;
   falPromptVersion?: string | null;
+  outputLabel?: ExperienceOutputLabel;
+  packagingMode?: 'SINGLE' | 'COMBINED';
+  sourceExpressionTypes?: readonly ExpressionPromptType[];
 };
 
 export type ResponsiveExperienceRule = {
@@ -85,6 +93,9 @@ export type ExperienceExpressionAuthority = {
   falModel?: string | null;
   generatedAt: string | null;
   approvedAt: string | null;
+  expressionPrompts?: readonly ExperienceExpressionPrompt[];
+  packagingPlan?: ExperiencePackagingPlan | null;
+  outputLineage?: readonly ExperienceOutputLineage[];
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
@@ -134,17 +145,25 @@ export function compileExperienceExpressionAuthority(input: {
     inheritanceScope: 'MOBILE AUTHORITY + SITE00 PROJECT EXPRESSION',
   }));
 
-  const falTargets = buildExperienceExpressionFalTargets({
-    functionContract: input.functionContract,
+  const authorityId = `peea-${input.projectId}-${input.pageId}-${Date.now()}`;
+  const { plan, falTargets } = buildExperienceExpressionPromptPipeline({
+    authorityId,
+    conceptId: input.mobileConcept.conceptId,
+    route: input.functionContract.route,
+    territoryLabel: input.mobileConcept.territoryLabel ?? 'mobile authority',
+    skinContract: input.skinContract,
     cgptBrief: input.cgptBrief,
     injection: input.injection,
-    routeLabel: input.functionContract.route,
+    functionContract: input.functionContract,
   });
 
   const visualStates: ExperienceExpressionVisualState[] = [
     {
       stateId: 'base',
       label: 'BASE PAGE',
+      outputLabel: 'BASE PAGE',
+      packagingMode: 'SINGLE',
+      sourceExpressionTypes: ['BASE_PAGE_AT_REST'],
       patternType: 'BASE_PAGE',
       previewImageUri: mobilePreview,
       caption: 'Approved mobile concept at rest (anchor — not regenerated).',
@@ -153,9 +172,12 @@ export function compileExperienceExpressionAuthority(input: {
     ...falTargets.map((target) => ({
       stateId: target.stateId,
       label: target.label,
+      outputLabel: target.label,
+      packagingMode: target.packagingMode,
+      sourceExpressionTypes: target.sourceExpressionTypes,
       patternType: target.patternType,
       previewImageUri: null,
-      caption: 'FAL expression pending generation from approved mobile authority.',
+      caption: `${target.label} · ${target.packagingMode === 'COMBINED' ? 'combined states' : 'single state'} — pending FAL generation.`,
       sourceProvider: 'FAL_EXPERIENCE' as const,
       falPromptVersion: PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION,
     })),
@@ -195,7 +217,7 @@ export function compileExperienceExpressionAuthority(input: {
 
   const now = new Date().toISOString();
   return {
-    id: `peea-${input.projectId}-${input.pageId}-${Date.now()}`,
+    id: authorityId,
     projectId: input.projectId,
     pageId: input.pageId,
     sourceMobileAuthorityId: input.mobileConcept.conceptId,
@@ -210,6 +232,9 @@ export function compileExperienceExpressionAuthority(input: {
     visualStateContract,
     responsiveRules,
     visualStates,
+    expressionPrompts: plan.candidatePrompts,
+    packagingPlan: plan,
+    outputLineage: falTargets.map((t) => t.lineage),
     generatedAt: now,
     approvedAt: null,
   };

@@ -273,9 +273,25 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
   const family = state.pipelineSet?.viewportAuthorityFamily;
   if (!family) throw new Error('VIEWPORT_FAMILY_REQUIRED');
   const visualLabels = input.authority.visualStates.map((v) => `${v.label}: ${v.caption}`);
+  const packagingLines = input.authority.packagingPlan ?
+    [
+      `PACKAGING: ${input.authority.packagingPlan.packagingReasoning}`,
+      `PLANNED FAL OUTPUTS: ${input.authority.packagingPlan.totalPlannedOutputs} (+ BASE inherit)`,
+    ]
+  : [];
+  const lineageLines =
+    input.authority.outputLineage?.map(
+      (l) => `${l.label} [${l.packagingMode}]: ${l.sourceExpressionTypes.join('+')}`,
+    ) ?? [];
   const contract: PageExperienceExpressionContract = {
     ...input.contract,
-    overlayPatterns: [...input.contract.overlayPatterns, 'EXPERIENCE VISUAL PACKAGE:', ...visualLabels],
+    overlayPatterns: [
+      ...input.contract.overlayPatterns,
+      'EXPERIENCE VISUAL PACKAGE:',
+      ...packagingLines,
+      ...lineageLines,
+      ...visualLabels,
+    ],
   };
   const nextFamily: PageViewportAuthorityFamily = {
     ...family,

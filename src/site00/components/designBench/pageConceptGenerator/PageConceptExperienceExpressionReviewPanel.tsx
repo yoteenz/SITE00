@@ -31,6 +31,8 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
   ).length;
   const falTargetCount = (authority?.visualStates ?? []).filter((v) => v.sourceProvider === 'FAL_EXPERIENCE').length;
   const visualStates = authority?.visualStates ?? [];
+  const packagingPlan = authority?.packagingPlan ?? null;
+  const modularPromptCount = authority?.expressionPrompts?.length ?? 0;
   const [activeStateId, setActiveStateId] = useState(visualStates[0]?.stateId ?? 'base');
 
   const activeState: ExperienceExpressionVisualState | null = useMemo(
@@ -65,8 +67,14 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
           : authority.status}
         </p>
         <p data-testid="page-concept-experience-expression-count">
-          EXPRESSIONS · {falImageCount}/{falTargetCount || '—'} FAL · {visualStates.length} total states
+          PACKAGE · {visualStates.length} outputs (≤5) · {falImageCount}/{falTargetCount || '—'} FAL generated
         </p>
+        {packagingPlan ?
+          <p data-testid="page-concept-experience-packaging-summary">
+            PROMPTS · {modularPromptCount} decomposed → {packagingPlan.totalPlannedOutputs} planned FAL image
+            {packagingPlan.totalPlannedOutputs === 1 ? '' : 's'} (+ BASE inherit). {packagingPlan.packagingReasoning}
+          </p>
+        : null}
       </header>
 
       <div className="s00-pcg__experienceStateTabs" role="tablist">
@@ -80,7 +88,10 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
             data-testid={`page-concept-experience-state-${state.stateId}`}
             onClick={() => setActiveStateId(state.stateId)}
           >
-            {state.label}
+            <span>{state.outputLabel ?? state.label}</span>
+            {state.packagingMode === 'COMBINED' ?
+              <span className="s00-pcg__experienceStateTabMeta"> · COMBINED</span>
+            : null}
           </button>
         ))}
       </div>
@@ -93,8 +104,32 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
             imageSrc={activeState.previewImageUri}
             testId={`page-concept-experience-visual-${activeState.stateId}`}
           />
+          <p data-testid="page-concept-experience-state-meta">
+            {activeState.outputLabel ?? activeState.label}
+            {activeState.packagingMode ? ` · ${activeState.packagingMode}` : ''}
+            {activeState.sourceExpressionTypes?.length ?
+              ` · ${activeState.sourceExpressionTypes.join(' + ')}`
+            : ''}
+          </p>
           <p>{activeState.caption}</p>
+          <p data-testid="page-concept-experience-handoff-note">
+            Handoff · Tablet &amp; Desktop inherit this expression package with the approved mobile authority.
+          </p>
         </div>
+      : null}
+
+      {packagingPlan?.groupedOutputs.length ?
+        <section className="s00-pcg__experiencePackagingPlan" data-testid="page-concept-experience-packaging-plan">
+          <h3>PLANNED OUTPUTS</h3>
+          <ul>
+            {packagingPlan.groupedOutputs.map((group) => (
+              <li key={group.id} data-testid={`page-concept-experience-planned-${group.stateId}`}>
+                {group.label} · {group.groupedExpressionTypes.length > 1 ? 'COMBINED' : 'SINGLE'} ·{' '}
+                {group.groupedExpressionTypes.join(' + ')}
+              </li>
+            ))}
+          </ul>
+        </section>
       : null}
 
       <section className="s00-pcg__experienceBehaviorSummary" data-testid="page-concept-experience-behavior-summary">
