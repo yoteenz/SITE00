@@ -12098,6 +12098,12 @@ Founder request: **CREATE EXPERIENCE** should generate all expression outputs **
 
 ---
 
+## 2026-09-27 — Mobile authority select/confirm persist across refresh
+
+Founder mobile concept **select + confirm** was lost on page refresh/navigation because authenticated **server gallery mount** always replaced localStorage with the Supabase run snapshot (no `viewportAuthorityFamily` founder progress). **Fix:** `pageConceptViewportAuthorityFamilyPersistence.ts` preserves local family progress after `applyPageConceptServerRunSnapshotForGalleryMount`; discovery scoring prefers confirmed authority; viewport-family API actions **`persistPageConceptStateToActiveServerRun`** patch durable run `pipelineSet`. Tests: `p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`. **Railway + cPanel** deploy.
+
+---
+
 ## 2026-09-27 — P0.VR experience theme continuity and intentional contrast guard 1
 
 Light NDXBOOK Mobile Authority vs dark MENU ambiguity removed: **`experienceThemeContinuity.ts`** classifies **`authorityTheme`** (Overview → **LIGHT**), defaults prompts **`INHERIT_AUTHORITY`**, validates **`validateExperienceThemeContinuity`** (`THEME_MATCH` / `INTENTIONAL_CONTRAST_PENDING_FOUNDER_REVIEW` / `UNJUSTIFIED_THEME_DRIFT`). MENU **MIXED** localized contrast → pending founder review with archival-index rationale; global dark under inherit → **`EXPERIENCE_THEME_DRIFT`** blocks approve. Review cards show **THEME: INHERITED / INTENTIONAL CONTRAST**, founder **THEME MATCH ✓** vs **CONTRAST · REVIEW REQUIRED**, **REGENERATE WITH AUTHORITY THEME** (single-state `forceInheritAuthorityTheme`). Tablet/desktop handoff via contract **`overlayPatterns`** + **`experiencePackageMetadata`** theme fields. Tests: **`p0vrExperienceThemeContinuityAndIntentionalContrastGuard1.test.ts`**. **Railway + cPanel v687** for API + review UI.

@@ -11,6 +11,7 @@ import {
   runPageConceptViewportFamilyAction,
   type PageConceptViewportFamilyAction,
 } from '../_lib/site00PageConcept/runPageConceptViewportFamilyAction.js';
+import { persistPageConceptStateToActiveServerRun } from '../_lib/site00PageConcept/persistPageConceptStateToActiveServerRun.js';
 import type { PageConceptGenerationState } from '../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
 type Body = {
@@ -134,6 +135,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const result = await runPageConceptViewportFamilyAction(body.state, action);
+    await persistPageConceptStateToActiveServerRun(result.state);
     res.status(200).json({ ok: true, ...result });
   } catch (err) {
     const message = err instanceof Error ? err.message : 'VIEWPORT_FAMILY_ACTION_FAILED';

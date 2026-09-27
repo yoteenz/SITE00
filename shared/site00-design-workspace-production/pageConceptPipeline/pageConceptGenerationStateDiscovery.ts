@@ -9,6 +9,7 @@ import {
   type DesignPageIdentity,
 } from '../designPageIdentity.js';
 import { hydratePageConceptGenerationState } from './readiness.js';
+import { viewportAuthorityFamilyDiscoveryScoreBoost } from './pageConceptViewportAuthorityFamilyPersistence.js';
 import { pageConceptGenerationStateGalleryArtifactTimestamp } from './pageConceptGalleryServerHydration.js';
 import {
   loadPageConceptGenerationState,
@@ -105,6 +106,7 @@ export function scorePageConceptGenerationStateForGalleryDiscovery(state: PageCo
   const recency = pageConceptGenerationStateMaxArtifactTimestamp(state);
   return (
     (canonical ? 1e15 : 0) +
+    viewportAuthorityFamilyDiscoveryScoreBoost(state) +
     gpt2Ready * 1e12 +
     mobileConceptsReady * 1e11 +
     gpt2Jobs * 1e9 +
