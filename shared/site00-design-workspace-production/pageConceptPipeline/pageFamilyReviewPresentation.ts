@@ -124,7 +124,9 @@ export function buildPageFamilyReviewPresentation(input: {
       grandchildrenByParent,
       familyStatus:
         blueprint.approvedAt ? 'APPROVED'
-        : s.undefinedPageCount === 0 ? 'READY_FOR_APPROVAL'
+        : s.undefinedPageCount === 0 &&
+            blueprint.hierarchyReceipt.hierarchyDiscoveryStatus === 'RESOLVED' ?
+          'READY_FOR_APPROVAL'
         : 'NOT_COMPILED',
       skinStatus: resolvePageFamilySkinStatus({
         skinContractApprovedAt: input.skinContractApprovedAt ?? null,

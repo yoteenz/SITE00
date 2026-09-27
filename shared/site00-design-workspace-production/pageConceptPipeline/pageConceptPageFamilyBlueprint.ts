@@ -5,6 +5,11 @@
 import { buildPageSystemReviewModel } from '../designPageSystemReview.js';
 import type { PageSystemReviewModel } from '../designPageSystemReview.js';
 import { getDesignBoundPage } from '../designProjectBinding/designPageRegistry.js';
+import {
+  assertPageFamilyHierarchyResolved,
+  discoverProjectPageFamilyLayout,
+  type PageFamilyHierarchyReceipt,
+} from './projectPageFamilyHierarchyDiscovery.js';
 import type { DesignDivergenceLevel } from './pageConceptPageFamilySkinBehavior.js';
 import type {
   OpusRepresentativeShellKind,
@@ -119,6 +124,8 @@ export type PageFamilyBlueprint = {
   childCount: number;
   grandchildCount: number;
   totalPageCount: number;
+  deeperDescendantCount: number;
+  hierarchyReceipt: PageFamilyHierarchyReceipt;
   coverageMatrix: PageFamilyCoverageMatrix;
   coverageSummary: PageFamilyCoverageSummary;
   handoffPreview: OpusPageFamilyHandoffPreview;
@@ -396,6 +403,7 @@ export function compilePageFamilyBlueprint(input: {
   cgptBrief: PageConceptCgptCreativeBrief;
   functionContract: PageFunctionContract;
 }): PageFamilyBlueprint {
+  const familyLayout = discoverProjectPageFamilyLayout(input.projectId, input.parentPageId);
   const review = buildPageSystemReviewModel(input.projectId, input.parentPageId, 'MOBILE');
   const parentBound = getDesignBoundPage(input.projectId, input.parentPageId);
   const projectExpression = [
@@ -419,36 +427,41 @@ export function compilePageFamilyBlueprint(input: {
     divergenceLevel: 'LOCKED',
   };
 
-  const childNodes: PageFamilyBlueprintNode[] = review.children.map((c) => {
-    const bound = getDesignBoundPage(input.projectId, c.pageId);
+  const childNodes: PageFamilyBlueprintNode[] = familyLayout.children.map((c) => {
     const functionRole = inferFunctionRole(c.pageRole, c.screenId, 1);
+    const parentId =
+      familyLayout.inventory.find((i) => i.pageId === c.pageId)?.parentPageId ?? input.parentPageId;
     return {
       pageId: c.pageId,
       pageName: c.pageName,
-      parentPageId: input.parentPageId,
+      parentPageId: parentId === c.pageId ? input.parentPageId : parentId,
       depth: 1 as const,
       pageRole: c.pageRole,
       functionRole,
       functionType: c.pageRole,
-      route: bound?.route ?? '',
+      route: c.route ?? '',
       shellArchetype: inferShellArchetype(functionRole, 1),
       inheritance: inheritanceForDepth(1),
       divergenceLevel: divergenceForDepth(1),
     };
   });
 
-  const grandchildNodes: PageFamilyBlueprintNode[] = review.grandchildren.map((c) => {
-    const bound = getDesignBoundPage(input.projectId, c.pageId);
+  const grandchildNodes: PageFamilyBlueprintNode[] = [
+    ...familyLayout.grandchildren,
+    ...familyLayout.deeperDescendants,
+  ].map((c) => {
     const functionRole = inferFunctionRole(c.pageRole, c.screenId, 2);
+    const parentId =
+      familyLayout.inventory.find((i) => i.pageId === c.pageId)?.parentPageId ?? c.parentPageId;
     return {
       pageId: c.pageId,
       pageName: c.pageName,
-      parentPageId: c.parentPageId,
+      parentPageId: parentId,
       depth: 2 as const,
       pageRole: c.pageRole,
       functionRole,
       functionType: c.pageRole,
-      route: bound?.route ?? '',
+      route: c.route ?? '',
       shellArchetype: inferShellArchetype(functionRole, 2),
       inheritance: inheritanceForDepth(2),
       divergenceLevel: divergenceForDepth(2),
@@ -502,6 +515,15 @@ export function compilePageFamilyBlueprint(input: {
     childCount: childNodes.length,
     grandchildCount: grandchildNodes.length,
     totalPageCount: nodes.length,
+    deeperDescendantCount: familyLayout.deeperDescendants.length,
+    hierarchyReceipt: {
+      ...familyLayout.receipt,
+      diagnostics: {
+        ...familyLayout.receipt.diagnostics,
+        pageSystemReviewPageCount: review.totalDescendantCount + 1,
+        pageFamilyBlueprintPageCount: nodes.length,
+      },
+    },
     approvedAt: null,
     createdAt: new Date().toISOString(),
   };
@@ -666,6 +688,9 @@ export function resolvePageFamilySkinStatus(input: {
 }
 
 export function assertPageFamilyBlueprintCoverageComplete(blueprint: PageFamilyBlueprint): void {
+  if (blueprint.hierarchyReceipt.hierarchyDiscoveryStatus !== 'RESOLVED') {
+    throw new Error(blueprint.hierarchyReceipt.blockedReason ?? 'PAGE_FAMILY_HIERARCHY_INCOMPLETE');
+  }
   const summary = blueprint.coverageSummary;
   if (summary.undefinedPageCount > 0) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
   if (summary.totalPageCount !== blueprint.nodes.length) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
@@ -704,6 +729,16 @@ export function validatePageFamilyBlueprint(
   review: PageSystemReviewModel,
 ): { ok: true } | { ok: false; code: string } {
   if (!blueprint.sourceViewportFamilyId) return { ok: false, code: 'VIEWPORT_FAMILY_REQUIRED' };
+  if (blueprint.hierarchyReceipt.hierarchyDiscoveryStatus !== 'RESOLVED') {
+    return { ok: false, code: blueprint.hierarchyReceipt.blockedReason ?? 'PAGE_FAMILY_HIERARCHY_INCOMPLETE' };
+  }
+  const layout = discoverProjectPageFamilyLayout(blueprint.projectId, blueprint.parentPageId);
+  if (layout.discoveryStatus !== 'RESOLVED') {
+    return { ok: false, code: layout.receipt.blockedReason ?? 'PAGE_FAMILY_HIERARCHY_MISMATCH' };
+  }
+  if (layout.children.length !== blueprint.childCount || layout.grandchildren.length !== blueprint.grandchildCount) {
+    return { ok: false, code: 'PAGE_SYSTEM_BLUEPRINT_TREE_PARITY_FAIL' };
+  }
   const childIds = new Set(review.children.map((c) => c.pageId));
   const grandchildIds = new Set(review.grandchildren.map((c) => c.pageId));
   for (const id of childIds) {
@@ -769,6 +804,9 @@ export function buildOpusPageFamilyHandoff(input: {
 }): OpusPageFamilyHandoff {
   const bp = input.blueprint;
   if (!bp.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  assertPageFamilyHierarchyResolved(
+    discoverProjectPageFamilyLayout(bp.projectId, bp.parentPageId),
+  );
   assertPageFamilyBlueprintCoverageComplete(bp);
   if (!input.interactionMap.approvedAt) throw new Error('PAGE_FAMILY_INTERACTION_MAP_APPROVAL_REQUIRED');
   if (input.interactionMap.coverageMatrix.summary.unmappedControls > 0) {
