@@ -9,6 +9,7 @@ import {
   type ExperienceExpressionFalTarget,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
 import type { PageConceptGeneratedArtifact } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { resolvePageConceptAuthorityImageForFal } from './resolvePageConceptAuthorityImageForFal.js';
 
 export type ExperienceExpressionFalRenderResult = {
   stateId: string;
@@ -19,14 +20,6 @@ export type ExperienceExpressionFalRenderResult = {
   model: string;
   job: PageConceptGeneratedArtifact;
 };
-
-function parseMobileB64(imageUri: string | null): string {
-  if (!imageUri?.trim()) throw new Error('EXPERIENCE_MOBILE_AUTHORITY_IMAGE_MISSING');
-  const m = imageUri.match(/^data:image\/[^;]+;base64,(.+)$/);
-  if (m?.[1]) return m[1];
-  if (!imageUri.includes('data:')) return imageUri;
-  throw new Error('EXPERIENCE_MOBILE_AUTHORITY_PARSE_FAILED');
-}
 
 export async function renderExperienceExpressionFalTarget(input: {
   target: ExperienceExpressionFalTarget;
@@ -91,10 +84,10 @@ export async function renderExperienceExpressionFalTarget(input: {
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
 
-  const mobileB64 = parseMobileB64(input.mobileAuthorityImageUri);
+  const resolved = await resolvePageConceptAuthorityImageForFal(input.mobileAuthorityImageUri);
   const refUrl = await fal.storage.upload(
-    new File([Buffer.from(mobileB64, 'base64')], `experience-anchor-${input.target.stateId}.png`, {
-      type: 'image/png',
+    new File([resolved.bytes], resolved.filename || `experience-anchor-${input.target.stateId}.png`, {
+      type: resolved.mime,
     }),
   );
 

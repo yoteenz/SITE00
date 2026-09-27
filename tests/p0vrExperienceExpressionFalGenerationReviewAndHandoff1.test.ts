@@ -169,6 +169,23 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1', () =>
     );
   });
 
+  it('resolves HTTPS mobile authority URLs before FAL upload', async () => {
+    const png = Buffer.from(
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+      'base64',
+    );
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(png, { status: 200, headers: { 'content-type': 'image/png' } }),
+    );
+    const { resolvePageConceptAuthorityImageForFal } = await import(
+      '../api/_lib/site00PageConcept/resolvePageConceptAuthorityImageForFal.js'
+    );
+    const resolved = await resolvePageConceptAuthorityImageForFal('https://cdn.example/authority.png');
+    expect(resolved.bytes.length).toBeGreaterThan(8);
+    expect(resolved.mime).toBe('image/png');
+    fetchSpy.mockRestore();
+  });
+
   it('marks FAILED instead of stuck GENERATING when FAL throws', async () => {
     vi.spyOn(falExec, 'renderExperienceExpressionFalTarget').mockRejectedValueOnce(new Error('FAL_DOWN'));
     const { s, concepts } = await stateAfterMobileConcepts();
