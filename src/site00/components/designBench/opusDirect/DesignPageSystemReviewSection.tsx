@@ -270,7 +270,13 @@ export function DesignPageSystemReviewSection({
           onClick={() => actions.openPageInteractionMapReview()}
         >
           <span className="tod-out__label">INTERACTIONS</span>
-          <span className="tod-psr__metricValue" data-testid="page-system-interaction-counts">
+          <span
+            className="tod-psr__metricValue"
+            data-testid="page-system-interaction-counts"
+            data-interaction-map-source={
+              interactionPresentation ? 'PAGE_FAMILY_INTERACTION_MAP' : 'PAGE_SYSTEM_REVIEW_LEGACY'
+            }
+          >
             {interactionPresentation ?
               `${interactionPresentation.summary.mapped}/${interactionPresentation.summary.total}`
             : `${model.interactionSummary.covered}/${model.interactionSummary.total}`}
