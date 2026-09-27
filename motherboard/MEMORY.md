@@ -12036,3 +12036,13 @@ Corrective sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-RESOLUTION-AND-COVERAGE-PROOF1**
 
 - **Canonical NDXBOOK Overview tree (Page System Review today):** parent **1**, direct children **0**, grandchildren **0** (registry `parentPageId` does not attach sibling project pages to overview — campaign-board nests under content-ops, not overview).
 - **Tests:** `p0vrPageFamilyBlueprintResolutionAndCoverageProof1.test.ts`.
+
+---
+
+## 2026-09-27 — P0.VR page system review family expansion and experience review panel 1
+
+Sprint **P0.VR.PAGE-SYSTEM-REVIEW-FAMILY-EXPANSION-AND-EXPERIENCE-REVIEW-PANEL1**: interactive **Page System Review** (blueprint-backed counts, tappable CHILDREN/GRANDCHILDREN/FAMILY COVERAGE drill-down, **Page Family Inspector** tabs FUNCTION/DESIGN/EXPERIENCE/RESPONSIVE/LINEAGE) + dedicated **Experience Expression** overlay (`s00-pcg-layer--experience`) with visual cards, fullscreen inspect, package summary, **APPROVE EXPERIENCE PACKAGE**.
+
+- **`pageFamilyReviewPresentation.ts`** merges Page System Review + blueprint coverage for UI.
+- Grid/List share same `pageFamilyBlueprint` props from workspace.
+- **Tests:** `p0vrPageSystemReviewFamilyExpansionExperiencePanel1.test.ts`.
