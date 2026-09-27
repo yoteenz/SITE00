@@ -1161,6 +1161,19 @@
   padding: 12px 19.7px 8px;
   width: 100%;
   box-sizing: border-box;
+  justify-items: stretch;
+  align-items: stretch;
+}
+
+.s00-design-concept-gallery-grid__slotEmpty {
+  min-width: 0;
+  min-height: 120px;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.s00-design-concept-gallery-grid__slotWrap {
+  display: contents;
 }
 
 .s00-design-concept-gallery-grid.tod-lv-gallery__rail--current .tod-lv-card--concept {

@@ -133,5 +133,7 @@ describe('P0.VR design workspace list/grid sync + gallery thumbnails', () => {
     const rail = readOpusFile('DesignConceptCandidateGalleryRail.tsx');
     expect(rail).toContain('data.candidateSections.current');
     expect(rail).toContain('data.candidateSections.history');
+    expect(rail).toContain('PAGE_CONCEPT_GALLERY_MOBILE_SLOT_LABELS');
+    expect(rail).toContain('gallery-slot-empty');
   });
 });
