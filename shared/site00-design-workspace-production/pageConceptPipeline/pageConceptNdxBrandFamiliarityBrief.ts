@@ -6,11 +6,15 @@
 import type { PageConceptPageArchitectureBrief } from './pageConceptPageArchitectureBrief.js';
 import type { PageConceptTargetRouteContract } from './pageConceptTargetPageContext.js';
 import type { ScreenshotFunctionalPageMap } from './pageConceptScreenshotFunctionalPageMap.js';
-import type { WebExpressionTerritory, WebExpressionTerritorySet } from './pageConceptWebExpressionTerritories.js';
+import type {
+  WebExpressionTerritory,
+  WebExpressionTerritorySet,
+  WebExpressionTerritorySlot,
+} from './pageConceptWebExpressionTerritories.js';
 /** Keep aligned with pageConceptGpt2MobileProviderPromptCompiler MAX_PROVIDER_PROMPT_CHARS */
 const MAX_PROVIDER_PROMPT_CHARS = 24000;
 
-export const NDX_BRAND_FAMILIARITY_BRIEF_VERSION = 'ndx-brand-familiarity-brief-v1';
+export const NDX_BRAND_FAMILIARITY_BRIEF_VERSION = 'ndx-brand-familiarity-brief-v2-ab-amplify';
 
 export type NdxBrandVisualTemperament = {
   summary: string;
@@ -228,8 +232,13 @@ export function compileNdxBrandFamiliarityBrief(input: {
   };
 }
 
-export function compileNdxBrandFamiliarityPromptBlock(brief: NdxBrandFamiliarityBrief): string {
+export function compileNdxBrandFamiliarityPromptBlock(
+  brief: NdxBrandFamiliarityBrief,
+  territorySlot?: WebExpressionTerritorySlot | null,
+): string {
   const devices = brief.graphicDeviceLibrary.deviceCategories.slice(0, 8).join(', ');
+  const amplifier =
+    territorySlot ? compileNdxBrandFamiliarityTerritoryAmplifier(territorySlot) : '';
   return [
     'NDX BRAND FAMILIARITY (AUTHORITY — HOW NDX AUTHORS WEB PAGES; NOT SCREENSHOT STYLE):',
     `Brief ${brief.briefId} · digest ${brief.contentDigest}.`,
@@ -242,7 +251,94 @@ export function compileNdxBrandFamiliarityPromptBlock(brief: NdxBrandFamiliarity
     `IS NDX: ${brief.brandDistinction.isNdx.slice(0, 3).join('; ')}.`,
     `FUNCTION RESPECT: ${brief.functionalRespect.rules.slice(0, 2).join(' ')}`,
     'Blend this with SCREENSHOT FUNCTION MAP (what) + WEB EXPRESSION TERRITORY (which attitude) — never generic editorial template drift.',
+    amplifier ? '' : null,
+    amplifier || null,
+  ]
+    .filter((line): line is string => line != null)
+    .join('\n');
+}
+
+/** Per-concept NDX depth — strengthens A/B without cloning Concept C devices. */
+export function compileNdxBrandFamiliarityTerritoryAmplifier(slot: WebExpressionTerritorySlot): string {
+  if (slot === 'A') {
+    return [
+      'NDX FAMILIARITY AMPLIFIER (CONCEPT A ONLY — ARCHIVAL INDEX TERRITORY):',
+      'Every image = filed document fragment with accession / REV code — warm paper, toner grain, registration ticks at corners.',
+      'Index numerals + catalog rules are structural — tappable rows read as drawer entries, not SaaS list cards.',
+      'Typographic force: monumental section keys + continuous mono ledger rails (dates, entry ids, status tokens).',
+      'FORBIDDEN FOR A: Concept C case-board pins/mapping lines; generic blog hero; chevron rows; stock editorial panels.',
+      'Goal: same NDX brand intimacy as strongest concepts — via INDEX/FILED authorship, not wall/pin grammar.',
+    ].join('\n');
+  }
+  if (slot === 'B') {
+    return [
+      'NDX FAMILIARITY AMPLIFIER (CONCEPT B ONLY — SIGNAL DESK TERRITORY):',
+      'Every image = stamped evidence strip or annotated field capture — crop marks + caption rails, never stock magazine hero.',
+      'Signal desk grammar: breaking strips, edition timestamps, marginalia columns (DESK / FIELD / STATUS) beside headlines.',
+      'Typographic force: HIGH — compressed broadcast stacks, one-word-per-line breaks, mono timestamps orbiting headlines.',
+      'FORBIDDEN FOR B: Concept C pin wall + mapping lines; clean minimal publishing template; uniform bordered cards.',
+      'Goal: NDX-native broadcast intelligence page — annotated-minimal, not generic editorial site styling.',
+    ].join('\n');
+  }
+  return [
+    'NDX FAMILIARITY AMPLIFIER (CONCEPT C ONLY — EVIDENCE WALL TERRITORY):',
+    'Pins + mapping lines + evidence IDs — do not reuse A index numerals or B crop-mark masthead as primary signature.',
+    'Images = documentary fragments on concrete/photocopy — institutional handling, not decorative collage.',
   ].join('\n');
+}
+
+const CONCEPT_C_SIGNATURE_MARKERS = /mapping lines|pin labels|evidence wall|case board|connective mapping/i;
+
+function ndxBrandDepthScore(territory: WebExpressionTerritory): number {
+  const blob = [
+    territory.artDirectionPremise,
+    territory.signatureGraphicDevice,
+    territory.imageArtDirection,
+    territory.imageGraphicRelationship,
+    territory.typographicConcept,
+    territory.bespokeMoment,
+    territory.controlledDisruption,
+  ]
+    .join(' ')
+    .toLowerCase();
+  let score = 0;
+  if (/evidence|artifact|documentary|filed|archival|plate|halftone|photocopy|institutional/i.test(blob)) score += 1;
+  if (/index|stamp|crop mark|marginal|ledger|mono|accession|registration|catalog|signal desk/i.test(blob)) score += 1;
+  if (/uppercase|typographic force|display|monument|scale/i.test(blob)) score += 1;
+  if (territory.secondaryGraphicDevices.length >= 2) score += 1;
+  if (territory.typeScaleDrama === 'HIGH' || territory.typeScaleDrama === 'MEDIUM') score += 1;
+  if (territory.controlledDisruption.trim().length > 40 && territory.bespokeMoment.trim().length > 40) score += 1;
+  return score;
+}
+
+/** A/B must reach parity depth with C; no concept may hijack another's signature grammar. */
+export function validateTerritoryNdxBrandParity(set: WebExpressionTerritorySet): {
+  ok: boolean;
+  errorCode: 'TERRITORY_AB_NDX_DEPTH_LOW' | 'TERRITORY_CONCEPT_C_CLONE' | null;
+  detail: string | null;
+} {
+  const bySlot = Object.fromEntries(set.territories.map((t) => [t.territorySlot, t])) as Record<
+    WebExpressionTerritorySlot,
+    WebExpressionTerritory
+  >;
+  const scoreC = ndxBrandDepthScore(bySlot.C);
+  const minAb = Math.max(4, scoreC - 1);
+  for (const slot of ['A', 'B'] as const) {
+    const t = bySlot[slot];
+    if (ndxBrandDepthScore(t) < minAb) {
+      return { ok: false, errorCode: 'TERRITORY_AB_NDX_DEPTH_LOW', detail: slot };
+    }
+    if (CONCEPT_C_SIGNATURE_MARKERS.test(t.signatureGraphicDevice)) {
+      return { ok: false, errorCode: 'TERRITORY_CONCEPT_C_CLONE', detail: `${slot}-signature` };
+    }
+  }
+  const sigA = bySlot.A.signatureGraphicDevice.toLowerCase();
+  const sigB = bySlot.B.signatureGraphicDevice.toLowerCase();
+  const sigC = bySlot.C.signatureGraphicDevice.toLowerCase();
+  if (sigA === sigC || sigB === sigC || sigA === sigB) {
+    return { ok: false, errorCode: 'TERRITORY_CONCEPT_C_CLONE', detail: 'signature-collision' };
+  }
+  return { ok: true, errorCode: null, detail: null };
 }
 
 export function validateGenericEditorialDriftGuard(input: {

@@ -75,6 +75,7 @@ import {
   formatNdxBrandFamiliarityDebugLines,
   validateGenericEditorialDriftGuard,
   validateTerritoryNdxFamiliarityDistinction,
+  validateTerritoryNdxBrandParity,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 import { compileNdxBrandFamiliarityBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 
@@ -610,6 +611,10 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     const familiarityDistinction = validateTerritoryNdxFamiliarityDistinction(webExpressionTerritorySet);
     if (!familiarityDistinction.ok) {
       throw new Error(`${familiarityDistinction.errorCode}: ${familiarityDistinction.detail ?? '—'}`);
+    }
+    const brandParity = validateTerritoryNdxBrandParity(webExpressionTerritorySet);
+    if (!brandParity.ok) {
+      throw new Error(`${brandParity.errorCode}: ${brandParity.detail ?? '—'}`);
     }
     for (const territory of webExpressionTerritorySet.territories) {
       const sterile = validateExpressionSterility(territory);

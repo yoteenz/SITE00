@@ -25,6 +25,8 @@ import {
   evaluateNdxBrandAuthenticity,
   validateGenericEditorialDriftGuard,
   validateTerritoryNdxFamiliarityDistinction,
+  validateTerritoryNdxBrandParity,
+  compileNdxBrandFamiliarityTerritoryAmplifier,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 import {
   compileWebExpressionTerritorySet,
@@ -206,6 +208,35 @@ describe('P0.VR.NDXBOOK-BRAND-FAMILIARITY-LAYER1', () => {
     const { territorySet } = compilePipelineFixture();
     expect(validateWebExpressionTerritoryDistance(territorySet).ok).toBe(true);
     expect(validateTerritoryNdxFamiliarityDistinction(territorySet).ok).toBe(true);
+    expect(validateTerritoryNdxBrandParity(territorySet).ok).toBe(true);
+  });
+
+  it('A/B prompts include slot amplifiers and forbid Concept C clone grammar', () => {
+    const fixture = compilePipelineFixture();
+    const ampA = compileNdxBrandFamiliarityTerritoryAmplifier('A');
+    const ampB = compileNdxBrandFamiliarityTerritoryAmplifier('B');
+    expect(ampA).toContain('CONCEPT A ONLY');
+    expect(ampA).toContain('mapping lines');
+    expect(ampB).toContain('CONCEPT B ONLY');
+    expect(ampB).toContain('pin wall');
+    const { prompt: promptA } = compileGpt2MobileProviderPrompt({
+      slot: 'MOBILE_CONCEPT_A',
+      cgptBrief: fixture.cgptBrief,
+      pageArchitectureBrief: fixture.arch,
+      skinContract: fixture.skinContract,
+      functionContract: fixture.functionContract,
+      pageContext: fixture.pageContext,
+      injection: fixture.injection,
+      bottomContinuityApplied: true,
+      mobileViewport: { width: 768, height: 1376 },
+      screenshotFunctionalPageMap: fixture.map,
+      webExpressionTerritory: webExpressionTerritoryForSlot(fixture.territorySet, 'MOBILE_CONCEPT_A'),
+      topStructuralCaptureAttached: true,
+      middleStructuralCaptureAttached: true,
+      bottomStructuralCaptureAttached: true,
+    });
+    expect(promptA).toContain('NDX FAMILIARITY AMPLIFIER (CONCEPT A ONLY');
+    expect(promptA).not.toContain('NDX FAMILIARITY AMPLIFIER (CONCEPT B ONLY');
   });
 
   it('rejects generic editorial drift in territory art direction', () => {
