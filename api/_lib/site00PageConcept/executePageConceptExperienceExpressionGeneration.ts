@@ -20,6 +20,11 @@ import {
   enrichExperienceAuthorityThemeContinuity,
   themePromptBlockForMode,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceThemeContinuity.js';
+import {
+  attachContentManifestFieldsToVisualStates,
+  auditExperienceContentForAuthority,
+  experienceContentBlocksApproval,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceContentManifest.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
   return validateExperiencePackageMaterialization(authority).ok;
@@ -48,6 +53,14 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
   authority: ExperienceExpressionAuthority;
   jobs: readonly PageConceptGeneratedArtifact[];
 }> {
+  const contentGate = experienceContentBlocksApproval(input.authority);
+  if (contentGate.receipt.manifests.some((m) => m.provenanceStatus === 'UNDEFINED_BLOCKED')) {
+    const blocked = contentGate.receipt.manifests.find((m) => m.undefinedRequirements.length > 0);
+    throw new Error(
+      `EXPERIENCE_CONTENT_UNDEFINED:${blocked?.expressionType ?? 'UNKNOWN'}:${(blocked?.undefinedRequirements ?? []).join(',')}`,
+    );
+  }
+
   const plan = input.authority.packagingPlan;
   validateExperiencePackagePlan({
     plan,
@@ -222,6 +235,14 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
     route: input.functionContract.route,
     pageId: input.planMeta.pageId,
   });
+
+  const manifests = input.authority.experienceContentManifests ?? contentGate.receipt.manifests;
+  authority = {
+    ...authority,
+    experienceContentManifests: manifests,
+    experienceContentAudit: auditExperienceContentForAuthority({ ...authority, experienceContentManifests: manifests }),
+    visualStates: attachContentManifestFieldsToVisualStates({ ...authority, experienceContentManifests: manifests }, manifests),
+  };
 
   if (
     isNdxbookOverviewExperiencePage({

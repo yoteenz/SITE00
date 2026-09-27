@@ -12098,6 +12098,12 @@ Founder request: **CREATE EXPERIENCE** should generate all expression outputs **
 
 ---
 
+## 2026-09-27 — P0.VR experience content provenance and canonical content lock 1
+
+FAL may design interaction **look** but not invent product **taxonomy**. **`experienceContentManifest.ts`** + **`ndxbookExperienceContentManifest.ts`**: per-state manifests from page family hierarchy + entry model; prompts include **CANONICAL CONTENT — USE EXACTLY**; legacy labels (ENTRIES/EVIDENCE/PRODUCTION, ALL ENTRIES, KEY SIGNALS, etc.) audited as **INVENTED**; **`EXPERIENCE_CONTENT_INVENTED` / `UNDEFINED` / `INCOMPLETE`** block Experience approve; review cards show CONTENT VERIFIED/REVIEW/BLOCKED + inspector counts; tablet/desktop handoff + **COMPOSER_EXPERIENCE_CONTENT_GUARD** on contract. Tests: **`p0vrExperienceContentProvenanceAndCanonicalContentLock1.test.ts`**. **Railway + cPanel** deploy.
+
+---
+
 ## 2026-09-27 — Mobile authority select/confirm persist across refresh
 
 Founder mobile concept **select + confirm** was lost on page refresh/navigation because authenticated **server gallery mount** always replaced localStorage with the Supabase run snapshot (no `viewportAuthorityFamily` founder progress). **Fix:** `pageConceptViewportAuthorityFamilyPersistence.ts` preserves local family progress after `applyPageConceptServerRunSnapshotForGalleryMount`; discovery scoring prefers confirmed authority; viewport-family API actions **`persistPageConceptStateToActiveServerRun`** patch durable run `pipelineSet`. Tests: `p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`. **Railway + cPanel** deploy.

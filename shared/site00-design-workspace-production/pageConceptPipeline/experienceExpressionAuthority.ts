@@ -18,6 +18,11 @@ import {
 import { getDesignBoundPage } from '../designProjectBinding/designPageRegistry.js';
 import { validateExperiencePackagePlan } from './experiencePackageMaterialization.js';
 import { enrichExperienceAuthorityThemeContinuity } from './experienceThemeContinuity.js';
+import {
+  attachContentManifestFieldsToVisualStates,
+  auditExperienceContentForAuthority,
+  buildExperienceContentManifestsForPage,
+} from './experienceContentManifest.js';
 
 export type ExperienceExpressionPatternType =
   | 'DRAWER'
@@ -66,6 +71,9 @@ export type ExperienceExpressionVisualState = {
   contrastRationale?: string | null;
   themeContinuityStatus?: import('./experienceThemeContinuity.js').ThemeContinuityStatus;
   outputThemeDominance?: 'LIGHT' | 'DARK' | 'MIXED' | null;
+  contentManifestId?: string | null;
+  contentProvenanceStatus?: 'VERIFIED' | 'REVIEW_REQUIRED' | 'BLOCKED';
+  contentCoveragePercent?: number;
 };
 
 export type ResponsiveExperienceRule = {
@@ -108,6 +116,8 @@ export type ExperienceExpressionAuthority = {
   experiencePackageMetadata?: import('./ndxbookOverviewExperienceExpressionContentSpec.js').ExperiencePackageMetadata | null;
   generationJobs?: readonly import('./experiencePackageMaterialization.js').ExperienceGenerationJob[];
   authorityThemeProfile?: import('./experienceThemeContinuity.js').AuthorityThemeProfile;
+  experienceContentManifests?: readonly import('./experienceContentManifest.js').ExperienceContentManifest[];
+  experienceContentAudit?: import('./experienceContentManifest.js').ExperienceContentAudit;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
@@ -266,11 +276,37 @@ export function compileExperienceExpressionAuthority(input: {
     generatedAt: now,
     approvedAt: null,
   };
-  return enrichExperienceAuthorityThemeContinuity(compiled, {
+  const withTheme = enrichExperienceAuthorityThemeContinuity(compiled, {
     projectId: input.projectId,
     route: input.functionContract.route,
     pageId: input.pageId,
     screenId,
     territoryLabel: input.mobileConcept.territoryLabel ?? null,
   });
+  const manifests = buildExperienceContentManifestsForPage({
+    projectId: input.projectId,
+    pageId: input.pageId,
+    route: input.functionContract.route,
+    screenId,
+    functionContract: input.functionContract,
+  });
+  const undefinedBlocked = manifests.some((m) => m.provenanceStatus === 'UNDEFINED_BLOCKED');
+  if (undefinedBlocked) {
+    const blocked = manifests.find((m) => m.undefinedRequirements.length > 0);
+    throw new Error(
+      `EXPERIENCE_CONTENT_UNDEFINED:${blocked?.expressionType ?? 'UNKNOWN'}:${(blocked?.undefinedRequirements ?? []).join(',')}`,
+    );
+  }
+  const visualStatesWithContent = attachContentManifestFieldsToVisualStates(withTheme, manifests);
+  const experienceContentAudit = auditExperienceContentForAuthority({
+    ...withTheme,
+    experienceContentManifests: manifests,
+    visualStates: visualStatesWithContent,
+  });
+  return {
+    ...withTheme,
+    visualStates: visualStatesWithContent,
+    experienceContentManifests: manifests,
+    experienceContentAudit,
+  };
 }

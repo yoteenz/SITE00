@@ -14,6 +14,11 @@ import type {
   ExpressionPromptType,
 } from './pageConceptExperienceExpressionPromptOrchestration.js';
 import { themePromptBlockForMode } from './experienceThemeContinuity.js';
+import {
+  buildExperienceContentManifestsForPage,
+  canonicalContentPromptBlock,
+  manifestForState,
+} from './experienceContentManifest.js';
 
 export const NDXBOOK_OVERVIEW_EXPERIENCE_PROMPT_VERSION = 'page-experience-expression-ndxbook-overview-v1';
 
@@ -28,6 +33,15 @@ export type ExperiencePackageOutputRecord = {
   themeMode?: import('./experienceThemeContinuity.js').ExperienceThemeMode;
   contrastRationale?: string | null;
   themeContinuityStatus?: import('./experienceThemeContinuity.js').ThemeContinuityStatus;
+  contentManifestId?: string | null;
+  contentProvenanceStatus?: 'VERIFIED' | 'REVIEW_REQUIRED' | 'BLOCKED';
+  contentCoveragePercent?: number;
+};
+
+export type ExperiencePackageContentManifestRef = {
+  stateId: string;
+  manifestId: string;
+  provenanceStatus: import('./experienceContentManifest.js').ExperienceContentManifest['provenanceStatus'];
 };
 
 export type ExperiencePackageMetadata = {
@@ -38,6 +52,7 @@ export type ExperiencePackageMetadata = {
   logicalExpressionPrompts: readonly string[];
   packagingPlanId: string;
   generatedOutputs: readonly ExperiencePackageOutputRecord[];
+  contentManifests?: readonly ExperiencePackageContentManifestRef[];
 };
 
 const ANTI_DRIFT = [
@@ -156,12 +171,20 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
   conceptId: string;
   mobileArtifactId: string;
   route: string;
+  pageId: string;
   territoryLabel: string;
   skinContract: ProjectSkinContract;
   cgptBrief: PageConceptCgptCreativeBrief;
   injection: PageCreativeInjection;
   functionContract: PageFunctionContract;
 }): readonly ExperienceExpressionPrompt[] {
+  const contentManifests = buildExperienceContentManifestsForPage({
+    projectId: input.functionContract.projectId,
+    pageId: input.pageId,
+    route: input.route,
+    functionContract: input.functionContract,
+  });
+
   const shared = ndxbookSharedAuthorityBlock({
     authorityId: input.authorityId,
     conceptId: input.conceptId,
@@ -198,20 +221,28 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
     conceptId: input.conceptId,
     route: input.route,
     expressionType,
-    promptText: [
-      assembleNdxbookPrompt({
-        sharedBlock: shared,
-        expression: fields.expression,
-        expressionType,
-        trigger: fields.trigger,
-        changeOnly: fields.changeOnly,
-        keepVisible: fields.keepVisible,
-        stateContent: fields.stateContent,
-        interactionCharacter: fields.interactionCharacter,
-      }),
-      '',
-      themePromptBlockForMode(fields.themeMode ?? 'INHERIT_AUTHORITY', fields.contrastRationale ?? null),
-    ].join('\n'),
+    promptText: (() => {
+      const manifest = manifestForState(contentManifests, fields.stateId);
+      const contentBlock = manifest ? canonicalContentPromptBlock(manifest) : '';
+      return [
+        assembleNdxbookPrompt({
+          sharedBlock: shared,
+          expression: fields.expression,
+          expressionType,
+          trigger: fields.trigger,
+          changeOnly: fields.changeOnly,
+          keepVisible: fields.keepVisible,
+          stateContent: fields.stateContent,
+          interactionCharacter: fields.interactionCharacter,
+        }),
+        '',
+        contentBlock,
+        '',
+        themePromptBlockForMode(fields.themeMode ?? 'INHERIT_AUTHORITY', fields.contrastRationale ?? null),
+      ]
+        .filter(Boolean)
+        .join('\n');
+    })(),
     preserveBlock: fields.keepVisible,
     changeBlock: fields.changeOnly,
     outputIntent: fields.interactionCharacter,
@@ -253,7 +284,7 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
         changeOnly: 'Open only the navigation/menu layer native to this concept (drawer, sheet, editorial index layer — not generic hamburger).',
         keepVisible: preserveNav,
         stateContent:
-          'Project destinations: OVERVIEW, ENTRIES, EVIDENCE, PRODUCTION — only canonical NDXBOOK project areas from the function map.',
+          'Show only canonical NDXBOOK page-family navigation destinations from the content manifest — no simplified taxonomy.',
         interactionCharacter:
           'Opening the project structure should feel like revealing the index architecture of the record — not a generic mobile app menu.',
         combinableWith: ['PANEL_OR_DRAWER'],
@@ -271,7 +302,7 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
         changeOnly: 'Open entry detail panel/sheet while Overview remains visibly present underneath or beside.',
         keepVisible: 'Overview page identity — founder still on Overview with entry context open.',
         stateContent:
-          'ENTRY ID, TITLE, STATUS, CATEGORY/TYPE, LAST UPDATED, short summary, CURRENT PHASE, NEXT ACTION, OPEN FULL ENTRY — use plausible NDXBOOK fields only.',
+          'Entry detail panel uses only canonical entry fields and OPEN FULL ENTRY from the content manifest — no invented metadata columns.',
         interactionCharacter:
           'Inspecting an entry should feel like pulling one indexed record forward while preserving its place in the larger archival system.',
         combinableWith: ['MENU_EXPANDED_NAV'],
@@ -285,11 +316,11 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
         expression: 'PROJECT_ACCESS_DRAWER_OR_OVERLAY',
         outputLabel: 'PROJECT ACCESS / OVERLAY',
         stateId: 'project-access',
-        trigger: 'Deeper project access control from approved concept (EXPLORE PROJECT, VIEW ALL ENTRIES, OPEN PROJECT ARCHIVE).',
+        trigger: 'Deeper project access control from approved concept (explore project family surfaces from canonical hierarchy).',
         changeOnly: 'Open broader project exploration surface — not duplicate of single entry detail.',
         keepVisible: preserveNav,
         stateContent:
-          'ALL ENTRIES, EVIDENCE, ACTIVE PRODUCTION, RECENT ACTIVITY, PROJECT RECORDS — supported project categories only.',
+          'Project access overlay lists canonical page-family regions from the manifest — not invented archive/analytics categories.',
         interactionCharacter:
           'Deeper access should feel like opening the larger archive behind the overview rather than a generic secondary menu.',
         combinableWith: [],
@@ -386,6 +417,15 @@ export function buildExperiencePackageMetadata(input: {
       themeMode: v.themeMode ?? 'INHERIT_AUTHORITY',
       contrastRationale: v.contrastRationale ?? null,
       themeContinuityStatus: v.themeContinuityStatus ?? 'THEME_MATCH',
+      contentManifestId: v.contentManifestId ?? null,
+      contentProvenanceStatus: v.contentProvenanceStatus ?? 'VERIFIED',
+      contentCoveragePercent: v.contentCoveragePercent ?? 100,
     })),
+    contentManifests:
+      input.authority.experienceContentManifests?.map((m) => ({
+        stateId: m.stateId,
+        manifestId: m.manifestId,
+        provenanceStatus: m.provenanceStatus,
+      })) ?? [],
   };
 }
