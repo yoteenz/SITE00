@@ -5,6 +5,8 @@
 import type { PageFamilyComponentExpressionMap, PageFamilyComponentKey } from './pageConceptPageFamilyComponentExpression.js';
 import { findComponentExpression } from './pageConceptPageFamilyComponentExpression.js';
 import type { PageFamilySkinBehaviorContract } from './pageConceptPageFamilySkinBehavior.js';
+import { assertComposerPageFamilyExpressionDefined } from './pageConceptPageFamilyBlueprint.js';
+import type { PageFamilyBlueprint } from './pageConceptPageFamilyBlueprint.js';
 import { assertComposerPreFinalTargetSurface } from './pageConceptTwinLiveFirewall.js';
 
 export function assertComposerFamilyContractPresent(contract: PageFamilySkinBehaviorContract | null | undefined): void {
@@ -30,6 +32,15 @@ export function assertComposerFamilyPatternDefined(input: {
   if (ext) return;
 
   throw new Error(`PAGE_FAMILY_PATTERN_UNDEFINED:${input.patternKey}`);
+}
+
+/** Sprint guard: Composer must not invent child/grandchild pages without blueprint coverage. */
+export function assertComposerPageInFamilyBlueprint(input: {
+  pageId: string;
+  blueprint: PageFamilyBlueprint | null | undefined;
+}): void {
+  assertComposerPreFinalTargetSurface('TWIN');
+  assertComposerPageFamilyExpressionDefined(input);
 }
 
 export function assertDivergenceWithinBudget(input: {

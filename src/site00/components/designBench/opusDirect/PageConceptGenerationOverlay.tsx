@@ -635,6 +635,7 @@ export function PageConceptGenerationOverlay({
         : null}
         {(!gpt2MobileAwaitingSelection &&
           (generationState.generationStatus === 'VIEWPORT_FAMILY_REVIEW' ||
+            generationState.generationStatus === 'PAGE_FAMILY_BLUEPRINT_REVIEW' ||
             generationState.generationStatus === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
             generationState.generationStatus === 'VIEWPORT_FAMILY_LOCKED' ||
             generationState.generationStatus === 'TWIN_IMPLEMENTATION_PACKAGE_READY')) &&

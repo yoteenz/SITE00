@@ -128,6 +128,8 @@ export type TwinImplementationPackage = {
   pageContentContractSummary: string;
   interactionRequirements: readonly string[];
   pageFamilySkinBehaviorContractId: string;
+  pageFamilyBlueprintId: string;
+  opusPageFamilyHandoffId: string;
   pageFamilyComponentExpressionMapId: string;
   representativeShellSetId: string;
   designDivergenceRulesSummary: string;

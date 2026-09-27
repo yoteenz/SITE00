@@ -285,17 +285,22 @@ export function compilePageFamilySkinBehaviorContract(input: {
   };
 }
 
-export function createOpusRepresentativeShellSet(contractId: string): OpusRepresentativeShellSet {
+export function createOpusRepresentativeShellSet(
+  contractId: string,
+  kindsOverride?: readonly OpusRepresentativeShellKind[],
+): OpusRepresentativeShellSet {
   const kinds: OpusRepresentativeShellKind[] = [
-    'PARENT',
-    'CHILD_LIST',
-    'CHILD_DETAIL',
-    'GRANDCHILD_DETAIL',
-    'DRAWER_INSPECTOR',
-    'MODAL_CONFIRMATION',
-    'MOBILE_NAV',
-    'TABLET_NAV',
-    'DESKTOP_NAV',
+    ...(kindsOverride ?? [
+      'PARENT',
+      'CHILD_LIST',
+      'CHILD_DETAIL',
+      'GRANDCHILD_DETAIL',
+      'DRAWER_INSPECTOR',
+      'MODAL_CONFIRMATION',
+      'MOBILE_NAV',
+      'TABLET_NAV',
+      'DESKTOP_NAV',
+    ]),
   ];
   const now = new Date().toISOString();
   return {
