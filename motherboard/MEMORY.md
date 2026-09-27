@@ -12167,3 +12167,16 @@ Founder: **Experience Review** panel (not hero rail) is where FAL packages are g
 - **Rail:** not-started label **OPEN EXPERIENCE**; value line **OPEN PANEL TO GENERATE**.
 - **Panel:** empty copy clarifies generate/refine; action bar adds footer **GENERATE EXPERIENCE PACKAGE** ( **`experience-review-action-bar-generate`** ) for mobile.
 - **Tests:** **`p0vrExperiencePanelGenerateRefineHub1.test.ts`**. **cPanel v694+**.
+
+---
+
+## 2026-09-27 — P0.VR expanded nav hierarchy refinement 1 (MENU only)
+
+Founder sprint: refine **MENU / EXPANDED NAV** only — preserve approved light panel design; correct flat sibling nav so **Campaign Board** nests under **Content Ops** per Page Family Blueprint.
+
+- **`ndxbookExpandedNavHierarchy.ts`:** canonical tree lines, manifest destinations with `navTier`, refinement FAL prompt block (design lock + hierarchy-only).
+- **`ndxbookExperienceContentManifest.ts`:** menu manifest uses hierarchy (not flat inventory siblings); **`navigationHierarchyLines`** on manifest.
+- **`experienceContentManifest.ts`:** hierarchy section in **`canonicalContentPromptBlock`**.
+- **`executePageConceptExperienceExpressionStateRegeneration`:** menu regen uses existing menu preview as FAL reference + hierarchy prompt; refreshes manifests.
+- **`expandedNavHierarchyRefinementReceipt.ts`:** founder QA receipt (other states unchanged, hierarchy PASS).
+- **Tests:** **`p0vrExpandedNavHierarchyRefinement1.test.ts`**. **Railway + cPanel** (API prompt dispatch).
