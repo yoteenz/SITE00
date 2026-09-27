@@ -30,11 +30,17 @@ import type { PagePipelineStageId } from '../../../../../shared/site00-design-wo
 import { readDesignPageTarget } from '../production/designProductionPageTarget';
 import { DesignViewportAuthorityEditorOverlay } from './DesignViewportAuthorityEditorOverlay';
 import { PageAssetsManagementPanel } from './PageAssetsManagementPanel';
+import { DesignPageFamilyInteractionMapReview } from './DesignPageFamilyInteractionMapReview.js';
+import type { PageFamilyBlueprint } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js';
+import type { PageFamilyInteractionMap } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyInteractionMap.js';
 import type { TwinOpusDirectProduction } from './useTwinOpusDirectProduction';
 
 type Props = {
   projectSlug: string;
   production: TwinOpusDirectProduction;
+  pageFamilyBlueprint?: PageFamilyBlueprint | null;
+  pageFamilyInteractionMap?: PageFamilyInteractionMap | null;
+  onApprovePageFamilyInteractionMap?: () => void;
 };
 
 function placementMode(overlayId: string) {
@@ -65,7 +71,13 @@ function ProductionErrorToast({
   );
 }
 
-export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
+export function TwinOpusDirectOverlays({
+  projectSlug,
+  production,
+  pageFamilyBlueprint,
+  pageFamilyInteractionMap,
+  onApprovePageFamilyInteractionMap,
+}: Props) {
   const { overlay, actions, pendingSpend, productionError } = production;
   const toast =
     productionError ?
@@ -461,6 +473,22 @@ export function TwinOpusDirectOverlays({ projectSlug, production }: Props) {
             <PageInteractionsInspectorPanel
               projectSlug={slug}
               pageId={readDesignPageTarget(slug)?.pageId ?? `${slug}:overview`}
+            />
+          </DesignChildSurfaceFrame>
+        : null}
+
+        {overlay === 'OV-PAGE-INTERACTION-MAP' ?
+          <DesignChildSurfaceFrame
+            mode="DRAWER"
+            title="INTERACTION MAP REVIEW"
+            overlayId="OV-PAGE-INTERACTION-MAP"
+            onClose={close}
+          >
+            <DesignPageFamilyInteractionMapReview
+              blueprint={pageFamilyBlueprint ?? null}
+              interactionMap={pageFamilyInteractionMap ?? null}
+              onApprove={onApprovePageFamilyInteractionMap}
+              onClose={close}
             />
           </DesignChildSurfaceFrame>
         : null}

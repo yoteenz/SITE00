@@ -1938,17 +1938,28 @@ export function usePageConceptGeneration(
       approveFamily: () => void dispatchViewportFamilyAction({ type: 'approveViewportFamily' }),
       approvePageFamily: () => {
         const blueprint = state.pipelineSet?.pageFamilyBlueprint;
+        const interactionMap = state.pipelineSet?.pageFamilyInteractionMap;
         if (blueprint && !blueprint.approvedAt) {
           void dispatchViewportFamilyAction({ type: 'approvePageFamilyBlueprint' });
           return;
         }
+        if (interactionMap && !interactionMap.approvedAt) {
+          void dispatchViewportFamilyAction({ type: 'approvePageFamilyInteractionMap' });
+          return;
+        }
         void dispatchViewportFamilyAction({ type: 'approvePageFamilySkinBehavior' });
       },
+      approvePageFamilyInteractionMap: () =>
+        void dispatchViewportFamilyAction({ type: 'approvePageFamilyInteractionMap' }),
       markOpusShellsReady: () => void dispatchViewportFamilyAction({ type: 'markOpusRepresentativeShellsReady' }),
       lockFamily: () => void dispatchViewportFamilyAction({ type: 'lockViewportFamily' }),
       createTwinPackage: () => void dispatchViewportFamilyAction({ type: 'createTwinImplementationPackage' }),
     }),
-    [dispatchViewportFamilyAction, state.pipelineSet?.pageFamilyBlueprint?.approvedAt],
+    [
+      dispatchViewportFamilyAction,
+      state.pipelineSet?.pageFamilyBlueprint?.approvedAt,
+      state.pipelineSet?.pageFamilyInteractionMap?.approvedAt,
+    ],
   );
 
   const postRunControlHandlers = useMemo(

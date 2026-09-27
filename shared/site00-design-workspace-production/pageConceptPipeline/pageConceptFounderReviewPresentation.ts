@@ -140,7 +140,13 @@ export function resolveFounderFooterPhase(state: PageConceptGenerationState): Fo
     if (!experience?.approvedAt) return 'EXPERIENCE_REVIEW';
     return 'VIEWPORT_FAMILY';
   }
-  if (status === 'PAGE_FAMILY_BLUEPRINT_REVIEW' || status === 'PAGE_FAMILY_CONTRACT_REVIEW') return 'PAGE_FAMILY';
+  if (
+    status === 'PAGE_FAMILY_BLUEPRINT_REVIEW' ||
+    status === 'PAGE_FAMILY_INTERACTION_MAP_REVIEW' ||
+    status === 'PAGE_FAMILY_CONTRACT_REVIEW'
+  ) {
+    return 'PAGE_FAMILY';
+  }
   if (status === 'VIEWPORT_FAMILY_LOCKED' || status === 'TWIN_IMPLEMENTATION_PACKAGE_READY') return 'READY_FOR_TWIN';
   if (status === 'TWIN_READY_FOR_REVIEW') return 'TWIN_REVIEW';
   if (status === 'READY_FOR_FOUNDER_REVIEW' || status === 'PARTIAL_GENERATION') return 'POST_RUN';
@@ -288,6 +294,7 @@ export function buildFounderJourneyRail(state: PageConceptGenerationState): read
   const authorityActive =
     status === 'VIEWPORT_FAMILY_REVIEW' ||
     status === 'PAGE_FAMILY_BLUEPRINT_REVIEW' ||
+    status === 'PAGE_FAMILY_INTERACTION_MAP_REVIEW' ||
     status === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
     status === 'VIEWPORT_TABLET_RUNNING' ||
     status === 'VIEWPORT_DESKTOP_RUNNING' ||

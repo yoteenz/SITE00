@@ -120,8 +120,11 @@ describe('P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1', () => {
     let r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyBlueprint' });
     state = r.state;
     expect(state.pipelineSet?.pageFamilyBlueprint?.approvedAt).toBeTruthy();
-    expect(state.pipelineSet?.opusPageFamilyHandoff).toBeTruthy();
+    expect(state.pipelineSet?.opusPageFamilyHandoff).toBeNull();
     expect(state.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt).toBeTruthy();
+    r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyInteractionMap' });
+    state = r.state;
+    expect(state.pipelineSet?.opusPageFamilyHandoff).toBeTruthy();
     r = await runPageConceptViewportFamilyAction(state, { type: 'markOpusRepresentativeShellsReady' });
     expect(r.state.pipelineSet?.opusRepresentativeShellSet?.readyAt).toBeTruthy();
   });
@@ -130,6 +133,7 @@ describe('P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1', () => {
     const liveBefore = computePageConceptLiveImplementationHash(await pipelineThroughViewportApproval());
     let state = await pipelineThroughViewportApproval();
     let r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyBlueprint' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyInteractionMap' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'markOpusRepresentativeShellsReady' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'lockViewportFamily' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'createTwinImplementationPackage' });

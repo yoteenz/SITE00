@@ -62,6 +62,7 @@ export const DESIGN_CHILD_SURFACE_PLACEMENT: Record<
   'OV-PAGE-ASSET-INSPECT': { mode: 'DRAWER', kind: 'page asset inspector' },
   'OV-PAGE-ASSETS': { mode: 'DRAWER', kind: 'page assets management' },
   'OV-PAGE-INTERACTIONS': { mode: 'DRAWER', kind: 'page interaction inspector' },
+  'OV-PAGE-INTERACTION-MAP': { mode: 'DRAWER', kind: 'page family interaction map review' },
   'OV-PAGE-PIPELINE': { mode: 'DRAWER', kind: 'page pipeline timeline' },
   'OV-PIPELINE-TECHNICAL': { mode: 'DRAWER', kind: 'pipeline technical diagnostics' },
   'OV-PIPELINE-STAGE': { mode: 'DRAWER', kind: 'pipeline stage detail' },

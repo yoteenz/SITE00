@@ -40,6 +40,13 @@ export function applyPageConceptPipelineSet(
       generationStatus = 'PAGE_FAMILY_BLUEPRINT_REVIEW';
     } else if (
       pipelineSet.viewportAuthorityFamily?.status === 'APPROVED' &&
+      pipelineSet.pageFamilyBlueprint?.approvedAt &&
+      pipelineSet.pageFamilyInteractionMap &&
+      !pipelineSet.pageFamilyInteractionMap.approvedAt
+    ) {
+      generationStatus = 'PAGE_FAMILY_INTERACTION_MAP_REVIEW';
+    } else if (
+      pipelineSet.viewportAuthorityFamily?.status === 'APPROVED' &&
       pipelineSet.pageFamilySkinBehaviorContract &&
       !pipelineSet.pageFamilySkinBehaviorContract.approvedAt
     ) {

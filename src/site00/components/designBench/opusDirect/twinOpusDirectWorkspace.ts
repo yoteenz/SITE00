@@ -319,6 +319,7 @@ export interface TwinOpusDirectWorkspaceData {
   viewportPreferenceBadges: (candidateId: string) => readonly string[];
   outputViewportNote: string | null;
   pageFamilyBlueprint: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js').PageFamilyBlueprint | null;
+  pageFamilyInteractionMap: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyInteractionMap.js').PageFamilyInteractionMap | null;
   opusPageFamilyHandoff: import('../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js').OpusPageFamilyHandoff | null;
   pageFamilySkinContractApprovedAt: string | null;
   heroCompare: {
@@ -376,6 +377,7 @@ export interface TwinOpusDirectWorkspaceActions {
   openPageAssetInspect: (assetId: string) => void;
   openPageAssetsPanel: (assetId?: string) => void;
   openPageInteractionsInspector: () => void;
+  openPageInteractionMapReview: () => void;
   openAmendmentDetail: () => void;
   runContextualNextAction: () => void;
   railDisabledReason: (actionId: string) => string | null;
@@ -740,6 +742,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openPageAssetInspect: (assetId) => prodActions.openPageAssetInspect(assetId),
       openPageAssetsPanel: (assetId) => prodActions.openPageAssetsPanel(assetId),
       openPageInteractionsInspector: () => prodActions.openPageInteractionsInspector(),
+      openPageInteractionMapReview: () => prodActions.openPageInteractionMapReview(),
       reviewPageFamilyBlueprint: () => pageConceptGeneration.openPageFamilyBlueprintReview(),
       openExperienceReview: () => pageConceptGeneration.openExperienceReview(),
       openAmendmentDetail: () => prodActions.openAmendmentDetail(),
@@ -1567,6 +1570,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           `Page system review · ${viewport} viewport${viewport === 'TABLET' && pageViewportBundle?.coverage.tablet === 'DERIVED' ? ' · DERIVED' : ''}`
         ),
       pageFamilyBlueprint: pageConceptGeneration.generationState.pipelineSet?.pageFamilyBlueprint ?? null,
+      pageFamilyInteractionMap: pageConceptGeneration.generationState.pipelineSet?.pageFamilyInteractionMap ?? null,
       opusPageFamilyHandoff: pageConceptGeneration.generationState.pipelineSet?.opusPageFamilyHandoff ?? null,
       pageFamilySkinContractApprovedAt:
         pageConceptGeneration.generationState.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt ?? null,

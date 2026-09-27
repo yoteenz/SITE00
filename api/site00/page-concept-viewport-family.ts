@@ -91,6 +91,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'approvePageFamilyBlueprint':
         action = { type: 'approvePageFamilyBlueprint' };
         break;
+      case 'approvePageFamilyInteractionMap':
+        action = { type: 'approvePageFamilyInteractionMap' };
+        break;
       case 'approvePageFamilySkinBehavior':
         action = { type: 'approvePageFamilySkinBehavior' };
         break;

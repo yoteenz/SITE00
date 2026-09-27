@@ -102,6 +102,7 @@ export type TwinOpusDirectProductionActions = {
   openPageAssetInspect: (assetId: string) => void;
   openPageAssetsPanel: (assetId?: string) => void;
   openPageInteractionsInspector: () => void;
+  openPageInteractionMapReview: () => void;
   openAmendmentDetail: () => void;
   openResolveBlocker: () => void;
   /**
@@ -406,6 +407,10 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       openPageInteractionsInspector: () => {
         setUiPayload({});
         setOverlay('OV-PAGE-INTERACTIONS');
+      },
+      openPageInteractionMapReview: () => {
+        setUiPayload({});
+        setOverlay('OV-PAGE-INTERACTION-MAP');
       },
       openAmendmentDetail: () => setOverlay('OV-AMENDMENT-DETAIL'),
       openResolveBlocker: () => setOverlay('OV-RESOLVE-BLOCKER'),

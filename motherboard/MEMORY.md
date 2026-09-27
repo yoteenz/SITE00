@@ -12046,3 +12046,14 @@ Sprint **P0.VR.PAGE-SYSTEM-REVIEW-FAMILY-EXPANSION-AND-EXPERIENCE-REVIEW-PANEL1*
 - **`pageFamilyReviewPresentation.ts`** merges Page System Review + blueprint coverage for UI.
 - Grid/List share same `pageFamilyBlueprint` props from workspace.
 - **Tests:** `p0vrPageSystemReviewFamilyExpansionExperiencePanel1.test.ts`.
+
+---
+
+## 2026-09-27 — P0.VR page family interaction map and handoff gate 1
+
+Sprint **P0.VR.PAGE-FAMILY-INTERACTION-MAP-AND-HANDOFF-GATE1**: formal **Interaction Map** stage after page family blueprint — family-wide **`PageFamilyInteractionRecord`** inventory from **`DESIGN_INTERACTION_REGISTRY`** (excludes readonly decoration), **`PageFamilyInteractionCoverageMatrix`**, **`PageFamilyBuildReadiness`**, founder **`approvePageFamilyInteractionMap`** before **`OpusPageFamilyHandoff`**.
+
+- **`pageConceptPageFamilyInteractionMap.ts`:** compile/validate/receipt/stale; guards **`PAGE_FAMILY_INTERACTION_MAP_INCOMPLETE`**, **`ORPHANED_INTERACTION`**.
+- **Pipeline:** compile map on **`approveViewportFamily`**; **`approvePageFamilyBlueprint`** no longer creates handoff; status **`PAGE_FAMILY_INTERACTION_MAP_REVIEW`**; handoff + twin package include **`pageFamilyInteractionMapId`** + **`interactionCoveragePercent`**.
+- **UI:** Page System Review **INTERACTIONS** metric cell (mapped/total/inherited/unmapped) → **`OV-PAGE-INTERACTION-MAP`** drawer with **Interaction Map Review** + **Interaction Inspector** tabs; **PAGE FAMILY HANDOFF · READY FOR OPUS** when blueprint + interaction map approved.
+- **Tests:** `p0vrPageFamilyInteractionMapAndHandoffGate1.test.ts`; blueprint/skin/PSR tests updated for interaction approve step.

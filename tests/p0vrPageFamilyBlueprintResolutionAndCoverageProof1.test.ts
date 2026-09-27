@@ -12,6 +12,7 @@ import {
   buildPageFamilyCoverageReceipt,
   resolvePageFamilySkinStatus,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js';
+import { compilePageFamilyInteractionMap } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyInteractionMap.js';
 import { listSiteDesignPagesForProject } from '../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import { appendPageCapture } from '../shared/site00-design-workspace-production/designPageCapture.js';
 import { loadPageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
@@ -131,8 +132,16 @@ describe('P0.VR.PAGE-FAMILY-BLUEPRINT-RESOLUTION-AND-COVERAGE-PROOF1', () => {
         undefinedPageCount: 1,
       },
     };
+    const interactionMap = compilePageFamilyInteractionMap({
+      blueprint,
+      experienceContract: state.pipelineSet!.experienceExpressionContract,
+    });
     expect(() =>
-      buildOpusPageFamilyHandoff({ blueprint, viewportFamilyId: 'fam-test' }),
+      buildOpusPageFamilyHandoff({
+        blueprint,
+        viewportFamilyId: 'fam-test',
+        interactionMap: { ...interactionMap, approvedAt: new Date().toISOString() },
+      }),
     ).toThrow(/PAGE_FAMILY_BLUEPRINT_INCOMPLETE|OPUS_PAGE_FAMILY_HANDOFF_INCOMPLETE/);
     blueprint.coverageSummary = {
       ...blueprint.coverageSummary,
@@ -143,7 +152,8 @@ describe('P0.VR.PAGE-FAMILY-BLUEPRINT-RESOLUTION-AND-COVERAGE-PROOF1', () => {
 
   it('Opus handoff reports 100% page coverage when blueprint approved', async () => {
     let state = await pipelineThroughViewportApproval();
-    const r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyBlueprint' });
+    let r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyBlueprint' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyInteractionMap' });
     const handoff = r.state.pipelineSet!.opusPageFamilyHandoff!;
     expect(handoff.pageCoveragePercent).toBe(100);
     expect(handoff.undefinedPageCount).toBe(0);
