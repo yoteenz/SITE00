@@ -12,6 +12,7 @@ export async function pageConceptViewportFamilyActionApi(input: {
   imageUri?: string;
   mobileCaptureBase64?: string;
   dryRun?: boolean;
+  experienceStateId?: string;
 }): Promise<{
   state: PageConceptGenerationState;
   jobs?: readonly import('../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js').PageConceptGeneratedArtifact[];
@@ -28,6 +29,7 @@ export async function pageConceptViewportFamilyActionApi(input: {
         imageUri: input.imageUri,
         mobileCaptureBase64: input.mobileCaptureBase64,
         dryRun: input.dryRun,
+        experienceStateId: input.experienceStateId,
       },
     },
   );

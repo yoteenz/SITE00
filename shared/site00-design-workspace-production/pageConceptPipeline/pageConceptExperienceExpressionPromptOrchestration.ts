@@ -7,6 +7,11 @@
 import type { PageConceptCgptCreativeBrief, PageCreativeInjection, PageFunctionContract } from './types.js';
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import type { ExperienceExpressionVisualState } from './experienceExpressionAuthority.js';
+import {
+  decomposeNdxbookOverviewExperiencePrompts,
+  isNdxbookOverviewExperiencePage,
+  planNdxbookOverviewExperiencePackaging,
+} from './ndxbookOverviewExperienceExpressionContentSpec.js';
 
 export const PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION = 'page-experience-expression-fal-v2-modular';
 
@@ -22,6 +27,8 @@ export type ExperienceOutputLabel =
   | 'MENU / EXPANDED NAV'
   | 'PANEL / DRAWER'
   | 'OVERLAY / DETAIL'
+  | 'ENTRY DETAIL / PANEL'
+  | 'PROJECT ACCESS / OVERLAY'
   | 'COMBINED STATE';
 
 export type ExperienceExpressionPrompt = {
@@ -39,6 +46,10 @@ export type ExperienceExpressionPrompt = {
   primaryGoal: string;
   interactionSurface: string;
   antiDriftRules: readonly string[];
+  /** NDXBOOK / page-specific review label */
+  outputLabel?: ExperienceOutputLabel;
+  /** Stable state id for packaging + single-state regeneration */
+  stateId?: string;
 };
 
 export type CombinedExpressionGroup = {
@@ -568,8 +579,11 @@ export function buildExperienceExpressionFalTargetsFromPlan(
 }
 
 export function buildExperienceExpressionPromptPipeline(input: {
+  projectId: string;
+  pageId?: string;
   authorityId: string;
   conceptId: string;
+  mobileArtifactId: string;
   route: string;
   territoryLabel: string;
   skinContract: ProjectSkinContract;
@@ -577,12 +591,40 @@ export function buildExperienceExpressionPromptPipeline(input: {
   injection: PageCreativeInjection;
   functionContract: PageFunctionContract;
 }): { plan: ExperiencePackagingPlan; falTargets: readonly ExperienceExpressionFalTarget[] } {
-  const candidatePrompts = decomposeExperienceExpressionPrompts(input);
-  const plan = planExperienceExpressionPackaging({
-    authorityId: input.authorityId,
-    conceptId: input.conceptId,
-    candidatePrompts,
+  const useNdxbook = isNdxbookOverviewExperiencePage({
+    projectId: input.projectId,
+    route: input.route,
+    pageId: input.pageId,
   });
+
+  const candidatePrompts =
+    useNdxbook ?
+      decomposeNdxbookOverviewExperiencePrompts({
+        authorityId: input.authorityId,
+        conceptId: input.conceptId,
+        mobileArtifactId: input.mobileArtifactId,
+        route: input.route,
+        territoryLabel: input.territoryLabel,
+        skinContract: input.skinContract,
+        cgptBrief: input.cgptBrief,
+        injection: input.injection,
+        functionContract: input.functionContract,
+      })
+    : decomposeExperienceExpressionPrompts(input);
+
+  const plan =
+    useNdxbook ?
+      planNdxbookOverviewExperiencePackaging({
+        authorityId: input.authorityId,
+        conceptId: input.conceptId,
+        candidatePrompts,
+      })
+    : planExperienceExpressionPackaging({
+        authorityId: input.authorityId,
+        conceptId: input.conceptId,
+        candidatePrompts,
+      });
+
   const falTargets = buildExperienceExpressionFalTargetsFromPlan(plan);
   return { plan, falTargets };
 }

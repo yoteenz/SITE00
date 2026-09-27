@@ -12008,3 +12008,9 @@ Production FAL **`gpt-image-2/edit`** failed **“Failed to load the image”** 
 ## 2026-09-27 — P0.VR experience expression prompt orchestration and packaging 1
 
 Sprint **P0.VR.EXPERIENCE-EXPRESSION-PROMPT-ORCHESTRATION-AND-PACKAGING1**: modular **ExperienceExpressionPrompt** per state (BASE/MENU/PANEL/OVERLAY/COMBINED) with shared inheritance block; **ExperiencePackagingPlan** planner (prompt count ≠ output count, 2–5 total with BASE inherit); FAL v2 **`page-experience-expression-fal-v2-modular`**; **`assertModularPromptContract`** rejects legacy broad essay prompts; authority stores **packagingPlan**, **expressionPrompts**, **outputLineage**; review UI shows planned outputs + SINGLE/COMBINED labels; tablet/desktop handoff via enriched **overlayPatterns**.
+
+---
+
+## 2026-09-27 — P0.VR NDXBOOK Overview experience content spec 1
+
+**P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1:** **`ndxbookOverviewExperienceExpressionContentSpec.ts`** — page-specific prompts (BASE, MENU, ENTRY DETAIL / PANEL, PROJECT ACCESS / OVERLAY) with state-specific interaction language + visual inheritance from territory; packaging **3 FAL + 1 inherited BASE = 4 visuals**; **`validateNdxbookOverviewExperiencePackage`**; **`experiencePackageMetadata`**; **`regenerateExperienceExpressionState`** API + **REGENERATE THIS STATE** in review UI.

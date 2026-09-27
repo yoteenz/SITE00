@@ -5,6 +5,10 @@
 import { buildExperienceExpressionFalTargetsFromPlan } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
 import type { ExperienceExpressionAuthority } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionAuthority.js';
 import type { PageConceptGeneratedArtifact } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import {
+  buildExperiencePackageMetadata,
+  isNdxbookOverviewExperiencePage,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/ndxbookOverviewExperienceExpressionContentSpec.js';
 import { renderExperienceExpressionFalTarget } from './executePageConceptExperienceExpressionFal.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
@@ -73,7 +77,7 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
   const now = new Date().toISOString();
   const outputLineage = targets.map((t) => t.lineage);
 
-  const authority: ExperienceExpressionAuthority = {
+  let authority: ExperienceExpressionAuthority = {
     ...input.authority,
     status: 'READY_FOR_REVIEW',
     visualStates,
@@ -83,5 +87,82 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
     generatedAt: now,
   };
 
+  if (
+    isNdxbookOverviewExperiencePage({
+      projectId: input.planMeta.projectId,
+      route: input.functionContract.route,
+      pageId: input.planMeta.pageId,
+    })
+  ) {
+    authority = {
+      ...authority,
+      experiencePackageMetadata: buildExperiencePackageMetadata({
+        authority,
+        territoryId: input.authority.sourceConceptId,
+      }),
+    };
+  }
+
   return { authority, jobs };
+}
+
+export async function executePageConceptExperienceExpressionStateRegeneration(input: {
+  authority: ExperienceExpressionAuthority;
+  stateId: string;
+  mobileAuthorityImageUri: string;
+  planMeta: Parameters<typeof executePageConceptExperienceExpressionGeneration>[0]['planMeta'];
+  functionContract: Parameters<typeof executePageConceptExperienceExpressionGeneration>[0]['functionContract'];
+  dryRun?: boolean;
+}): Promise<{ authority: ExperienceExpressionAuthority; jobs: readonly PageConceptGeneratedArtifact[] }> {
+  const plan = input.authority.packagingPlan;
+  if (!plan) throw new Error('EXPERIENCE_PACKAGING_PLAN_REQUIRED');
+  const targets = buildExperienceExpressionFalTargetsFromPlan(plan);
+  const target = targets.find((t) => t.stateId === input.stateId);
+  if (!target) throw new Error('EXPERIENCE_STATE_NOT_IN_PLAN');
+
+  const render = await renderExperienceExpressionFalTarget({
+    target,
+    mobileAuthorityImageUri: input.mobileAuthorityImageUri,
+    planMeta: { ...input.planMeta, experienceAuthorityId: input.authority.id },
+    dryRun: input.dryRun,
+  });
+
+  const visualStates = input.authority.visualStates.map((state) => {
+    if (state.stateId !== input.stateId) return state;
+    return {
+      ...state,
+      previewImageUri: render.imageUri,
+      generatedArtifactId: render.artifactId,
+      caption: `${state.label} — regenerated single expression state.`,
+    };
+  });
+
+  const priorAssets = input.authority.expressionAssetIds ?? [];
+  const expressionAssetIds = [...new Set([...priorAssets.filter((id) => id !== render.artifactId), render.artifactId])];
+
+  let authority: ExperienceExpressionAuthority = {
+    ...input.authority,
+    status: 'READY_FOR_REVIEW',
+    visualStates,
+    expressionAssetIds,
+    generatedAt: new Date().toISOString(),
+  };
+
+  if (
+    isNdxbookOverviewExperiencePage({
+      projectId: input.planMeta.projectId,
+      route: input.functionContract.route,
+      pageId: input.planMeta.pageId,
+    })
+  ) {
+    authority = {
+      ...authority,
+      experiencePackageMetadata: buildExperiencePackageMetadata({
+        authority,
+        territoryId: input.authority.sourceConceptId,
+      }),
+    };
+  }
+
+  return { authority, jobs: [render.job] };
 }

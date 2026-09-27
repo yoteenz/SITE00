@@ -16,6 +16,7 @@ export type PageConceptExperienceExpressionReviewPanelProps = {
   busy?: boolean;
   onApprove: () => void;
   onRegenerate: () => void;
+  onRegenerateState?: (stateId: string) => void;
   onClose: () => void;
 };
 
@@ -67,7 +68,7 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
           : authority.status}
         </p>
         <p data-testid="page-concept-experience-expression-count">
-          PACKAGE · {visualStates.length} outputs (≤5) · {falImageCount}/{falTargetCount || '—'} FAL generated
+          PACKAGE · {visualStates.length} VISUALS (≤5) · {falImageCount}/{falTargetCount || '—'} FAL generated
         </p>
         {packagingPlan ?
           <p data-testid="page-concept-experience-packaging-summary">
@@ -115,6 +116,17 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
           <p data-testid="page-concept-experience-handoff-note">
             Handoff · Tablet &amp; Desktop inherit this expression package with the approved mobile authority.
           </p>
+          {activeState.sourceProvider === 'FAL_EXPERIENCE' && props.onRegenerateState ?
+            <button
+              type="button"
+              className="s00-pcg__secAction"
+              disabled={props.busy}
+              data-testid={`page-concept-regenerate-experience-state-${activeState.stateId}`}
+              onClick={() => props.onRegenerateState?.(activeState.stateId)}
+            >
+              REGENERATE THIS STATE
+            </button>
+          : null}
         </div>
       : null}
 
