@@ -95,11 +95,7 @@ export function buildScreenshotSanitationMap(input: {
 }
 
 export function buildDeviceChromeCaptureGuardBlock(): string {
-  return [
-    'REFERENCE CAPTURES SHOW THE PRODUCT PAGE ONLY.',
-    'DO NOT ADD: phone frame, browser chrome, status bar, browser address bar, device navigation, system controls, external letterboxing.',
-    'Generate only the website/application interface inside the product viewport.',
-  ].join('\n');
+  return 'CAPTURE GUARD: product UI only — no phone/browser chrome, status bar, device nav, or letterboxing.';
 }
 
 const DEVICE_CHROME_LABEL_PATTERNS: readonly RegExp[] = [

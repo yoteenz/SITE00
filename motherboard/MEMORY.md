@@ -11955,3 +11955,9 @@ Sprint **P0.VR.CONCEPT-A-AUTHORITY-SANITIZE-BEFORE-PROMOTION1**: structural clea
 - **Promotion:** `promoteSite00ProjectExpressionAuthority` requires passing `sanitationReceipt` + `sourceArtifactId` = sanitized id; record stores `sourceOriginalArtifactId`.
 - **Workspace:** promote action fetches concept image, sanitizes to **780×1688**, registers lineage, then promotes.
 - **Tests:** `p0vrConceptAAuthoritySanitizeBeforePromotion1.test.ts` (4).
+
+---
+
+## 2026-09-27 — CI: GPT2 mobile package prompt 18k ceiling
+
+**SITE 00 Production Release / test** failed: `p0vrGpt2MobileProviderPromptCompaction1` — request package prompt **18077** chars (> **18_000**) after scope/sanitation blocks. Compacted capture guard, scope guard, canvas lock, founder preference; added `packagePromptCompressionPass` + `GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING`.

@@ -73,6 +73,9 @@ export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
 /** Internal safe ceiling — fail dispatch before provider if above this after compaction. */
 export const MAX_PROVIDER_PROMPT_CHARS = 24000;
 
+/** Request-package regression ceiling (CI / dispatch budget). */
+export const GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING = 18_000;
+
 export type Gpt2MobileProviderPromptCompileInput = {
   slot: PageMobileConceptSlotId;
   cgptBrief: PageConceptCgptCreativeBrief | null;
@@ -335,12 +338,7 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
   const founderPreferenceBlock = compileFounderCreativePreferenceBlock(
     input.founderCreativePreferenceProfile ?? DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE,
   );
-  const canvasLockBlock = [
-    'CANONICAL MOBILE VIEWPORT CANVAS (all A/B/C in this run):',
-    `${SITE00_MOBILE_GENERATION_CANVAS.width}×${SITE00_MOBILE_GENERATION_CANVAS.height} (${SITE00_MOBILE_GENERATION_CANVAS.viewportCanvasId})`,
-    'Same width, height, aspect ratio, and page-frame boundaries for every concept slot.',
-    'No white side gutters, device frames, black bars, or mismatched portrait ratios.',
-  ].join('\n');
+  const canvasLockBlock = `CANONICAL MOBILE CANVAS (A/B/C shared): ${SITE00_MOBILE_GENERATION_CANVAS.width}×${SITE00_MOBILE_GENERATION_CANVAS.height} — same aspect/frame; no gutters, device frame, or letterboxing.`;
 
   const baseSections = [
     buildRoleHeader(arch, input.mobileViewport),
@@ -448,6 +446,18 @@ function dedupeLines(text: string): string {
   return out.join('\n');
 }
 
+function packagePromptCompressionPass(prompt: string): string {
+  let out = prompt;
+  if (out.length <= GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING) return out;
+  out = out.replace(
+    /PAGE ARCHITECTURE \/ LAYOUT AUTHORITY:[\s\S]*?(?=PAGE REGIONS:)/,
+    'PAGE ARCHITECTURE: SITE 00 host + project Overview — hero, index, evidence, bottom nav (shared).\n\n',
+  );
+  if (out.length <= GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING) return out;
+  out = out.replace(/HARD DO \/ DO NOT:[\s\S]*?(?=AVOID:)/, 'HARD DO/NOT: uppercase UI; light field; capture+architecture structure; no poster/nav invention.\n\n');
+  return out.trim();
+}
+
 function compressionPass(prompt: string): string {
   let out = dedupeLines(prompt);
   out = out.replace(/\n{3,}/g, '\n\n');
@@ -550,6 +560,9 @@ export function compileGpt2MobileProviderPrompt(
     if (prompt.length > MAX_PROVIDER_PROMPT_CHARS) {
       prompt = `${compressionPass(basePrompt)}\n\nTERRITORY:\n${clipSentences(territoryDelta, 2)}`;
     }
+  }
+  if (prompt.length > GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING) {
+    prompt = packagePromptCompressionPass(prompt);
   }
 
   const validation = validateCompiledProviderPrompt(prompt);

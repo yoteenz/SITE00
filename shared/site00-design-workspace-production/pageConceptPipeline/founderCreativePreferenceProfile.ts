@@ -27,17 +27,12 @@ export const DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE: FounderCreativePrefere
 };
 
 export function compileFounderCreativePreferenceBlock(profile: FounderCreativePreferenceProfile): string {
-  return [
-    'FOUNDER CREATIVE PREFERENCE (cross-project — not brand identity copy):',
-    profile.strongerGraphicAuthorship ? '- Prefer stronger graphic authorship' : '',
-    profile.dislikeSterileTemplates ? '- Avoid sterile template layouts' : '',
-    profile.deliberateTypography ? '- Deliberate typography over generic UI defaults' : '',
-    profile.visualStorytelling ? '- Visual storytelling over flat dashboards' : '',
-    `- Asymmetry appetite: ${profile.asymmetryAppetite}`,
-    `- Image integration: ${profile.imageIntegration}`,
-    profile.expressiveFunctionalSystems ? '- Expressive but functional systems' : '',
-    'Does NOT copy any single project brand palette or marks.',
-  ]
-    .filter(Boolean)
-    .join('\n');
+  const tags: string[] = [];
+  if (profile.strongerGraphicAuthorship) tags.push('graphic authorship');
+  if (profile.dislikeSterileTemplates) tags.push('no sterile templates');
+  if (profile.deliberateTypography) tags.push('deliberate typography');
+  if (profile.visualStorytelling) tags.push('visual storytelling');
+  tags.push(`asymmetry=${profile.asymmetryAppetite}`, `imagery=${profile.imageIntegration}`);
+  if (profile.expressiveFunctionalSystems) tags.push('expressive+functional');
+  return `FOUNDER PREFERENCE (cross-project, not brand copy): ${tags.join('; ')}.`;
 }
