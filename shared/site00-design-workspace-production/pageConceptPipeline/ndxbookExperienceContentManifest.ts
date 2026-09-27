@@ -2,6 +2,10 @@
  * NDXBOOK Overview — canonical Experience content manifests (not FAL-invented taxonomy).
  */
 
+import {
+  buildNdxbookOverviewExpandedNavHierarchy,
+  expandedNavHierarchyToManifestDestinations,
+} from './ndxbookExpandedNavHierarchy.js';
 import { discoverProjectPageFamilyLayout } from './projectPageFamilyHierarchyDiscovery.js';
 import type { ContentManifestItem, ExperienceContentManifest } from './experienceContentManifest.js';
 import type { PageFunctionContract } from './types.js';
@@ -53,14 +57,19 @@ function itemFromPageName(pageName: string, route: string): ContentManifestItem 
   };
 }
 
-function resolveCanonicalNavDestinations(projectId: string, pageId: string): ContentManifestItem[] {
+function resolveCanonicalNavDestinations(projectId: string, pageId: string): {
+  destinations: ContentManifestItem[];
+  hierarchyLines: readonly string[];
+} {
   const layout = discoverProjectPageFamilyLayout(projectId, pageId);
   if (layout.inventory.length === 0) {
-    return [];
+    return { destinations: [], hierarchyLines: [] };
   }
-  return layout.inventory
-    .filter((p) => p.isCanonical)
-    .map((p) => itemFromPageName(p.pageName, p.route));
+  const hierarchy = buildNdxbookOverviewExpandedNavHierarchy(projectId, pageId);
+  return {
+    destinations: expandedNavHierarchyToManifestDestinations(hierarchy),
+    hierarchyLines: hierarchy.hierarchyLines,
+  };
 }
 
 function resolveProjectAccessRegions(projectId: string, pageId: string): ContentManifestItem[] {
@@ -136,7 +145,8 @@ export function buildNdxbookOverviewExperienceContentManifests(input: {
   pageId: string;
   functionContract: PageFunctionContract;
 }): readonly ExperienceContentManifest[] {
-  const navDestinations = resolveCanonicalNavDestinations(input.projectId, input.pageId);
+  const nav = resolveCanonicalNavDestinations(input.projectId, input.pageId);
+  const navDestinations = nav.destinations;
   const projectAccessRegions = resolveProjectAccessRegions(input.projectId, input.pageId);
   const preserved = basePreservedContent(input.functionContract);
 
@@ -144,24 +154,28 @@ export function buildNdxbookOverviewExperienceContentManifests(input: {
   const accessUndefined =
     projectAccessRegions.length === 0 ? ['canonical project-access regions from page family'] : [];
 
-  const menu = mkManifest({
-    expressionType: 'MENU_EXPANDED_NAV',
-    stateId: 'menu',
-    pageId: input.pageId,
-    interactionId: 'PRIMARY_NAV_EXPANDED',
-    visibleRegions: ['expanded navigation layer', 'obscured overview beneath'],
-    canonicalFields: [],
-    canonicalActions: [],
-    canonicalDestinations: navDestinations,
-    dynamicFields: [],
-    contentSources: [
-      'discoverProjectPageFamilyLayout',
-      'design page registry',
-      'page function map',
-    ],
-    undefinedRequirements: navUndefined,
-    preservedBaseContent: preserved,
-  });
+  const menu = {
+    ...mkManifest({
+      expressionType: 'MENU_EXPANDED_NAV',
+      stateId: 'menu',
+      pageId: input.pageId,
+      interactionId: 'PRIMARY_NAV_EXPANDED',
+      visibleRegions: ['expanded navigation layer', 'obscured overview beneath'],
+      canonicalFields: [],
+      canonicalActions: [],
+      canonicalDestinations: navDestinations,
+      dynamicFields: [],
+      contentSources: [
+        'discoverProjectPageFamilyLayout',
+        'design page registry',
+        'page function map',
+        'page family blueprint hierarchy',
+      ],
+      undefinedRequirements: navUndefined,
+      preservedBaseContent: preserved,
+    }),
+    navigationHierarchyLines: nav.hierarchyLines,
+  };
 
   const entryDetail = mkManifest({
     expressionType: 'PANEL_OR_DRAWER',

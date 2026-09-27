@@ -24,6 +24,8 @@ export type ExperienceExpressionFalRenderResult = {
 export async function renderExperienceExpressionFalTarget(input: {
   target: ExperienceExpressionFalTarget;
   mobileAuthorityImageUri: string;
+  /** When refining one expression (e.g. MENU), use the approved state image as edit reference. */
+  referenceImageUri?: string;
   planMeta: {
     projectId: string;
     pageId: string;
@@ -84,7 +86,8 @@ export async function renderExperienceExpressionFalTarget(input: {
   const { fal } = await import('@fal-ai/client');
   fal.config({ credentials: falKey });
 
-  const resolved = await resolvePageConceptAuthorityImageForFal(input.mobileAuthorityImageUri);
+  const referenceUri = input.referenceImageUri?.trim() || input.mobileAuthorityImageUri;
+  const resolved = await resolvePageConceptAuthorityImageForFal(referenceUri);
   const refUrl = await fal.storage.upload(
     new File([resolved.bytes], resolved.filename || `experience-anchor-${input.target.stateId}.png`, {
       type: resolved.mime,
