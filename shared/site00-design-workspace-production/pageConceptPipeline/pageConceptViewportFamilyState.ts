@@ -31,7 +31,7 @@ export function resolveExperienceExpressionStatus(
 
 export function experienceArtifactReadyForReview(pipelineSet: PageConceptPipelineSet | null | undefined): boolean {
   const status = resolveExperienceExpressionStatus(pipelineSet);
-  return status === 'READY_FOR_REVIEW' || status === 'APPROVED';
+  return status === 'READY_FOR_REVIEW' || status === 'PARTIAL_FAILURE' || status === 'APPROVED';
 }
 
 export function slotLabelFromConceptId(

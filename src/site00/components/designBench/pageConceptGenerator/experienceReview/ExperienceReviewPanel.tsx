@@ -2,7 +2,7 @@
  * P0.VR.EXPERIENCE-REVIEW-PANEL-DESIGN-SYSTEM-ALIGNMENT-AND-READABILITY1
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import type { ExperienceExpressionVisualState } from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionAuthority.js';
 import {
@@ -85,6 +85,12 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
   const falTargetCount = visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE').length;
   const [activeStateId, setActiveStateId] = useState(visualStates[0]?.stateId ?? 'base');
   const [fullscreenId, setFullscreenId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!visualStates.length) return;
+    const stillValid = visualStates.some((v) => v.stateId === activeStateId);
+    if (!stillValid) setActiveStateId(visualStates[0]!.stateId);
+  }, [activeStateId, visualStates]);
 
   const activeState: ExperienceExpressionVisualState | null = useMemo(
     () => visualStates.find((v) => v.stateId === activeStateId) ?? visualStates[0] ?? null,
