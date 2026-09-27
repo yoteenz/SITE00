@@ -131,6 +131,8 @@ export type PageFamilyBlueprint = {
   handoffPreview: OpusPageFamilyHandoffPreview;
   approvedAt: string | null;
   createdAt: string;
+  /** Founder-approved functional expansions (P0.VR.EXISTING-TRUTH-PLUS-FUNCTIONAL-EXPANSION-INTELLIGENCE1). */
+  expansionNotes?: readonly string[];
 };
 
 export type PageFamilyCoverageStatus =

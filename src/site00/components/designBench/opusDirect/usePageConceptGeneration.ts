@@ -1876,6 +1876,8 @@ export function usePageConceptGeneration(
             action.type === 'regenerateExperienceExpressionState' ?
               action.forceInheritAuthorityTheme
             : undefined,
+          expansionId: action.type === 'decideFunctionalExpansion' ? action.expansionId : undefined,
+          expansionDecision: action.type === 'decideFunctionalExpansion' ? action.decision : undefined,
         });
         persist(() => {
           let next = result.state;
@@ -1962,6 +1964,15 @@ export function usePageConceptGeneration(
       markOpusShellsReady: () => void dispatchViewportFamilyAction({ type: 'markOpusRepresentativeShellsReady' }),
       lockFamily: () => void dispatchViewportFamilyAction({ type: 'lockViewportFamily' }),
       createTwinPackage: () => void dispatchViewportFamilyAction({ type: 'createTwinImplementationPackage' }),
+      decideFunctionalExpansion: (
+        expansionId: string,
+        decision: 'APPROVE' | 'REJECT' | 'DEFER',
+      ) =>
+        void dispatchViewportFamilyAction({
+          type: 'decideFunctionalExpansion',
+          expansionId,
+          decision,
+        }),
     }),
     [
       dispatchViewportFamilyAction,

@@ -55,6 +55,14 @@ import {
   COMPOSER_EXPERIENCE_CONTENT_GUARD,
   experienceContentBlocksApproval,
 } from './experienceContentManifest.js';
+import {
+  applyFounderFunctionalExpansionDecision,
+  buildComposerExpansionImplementationContracts,
+  buildOpusFunctionalExpansionHandoffLines,
+  buildPageFunctionalExpansionIntelligence,
+  injectApprovedFunctionalExpansionsIntoAuthority,
+  propagateApprovedExpansionToFamily,
+} from './pageFunctionalExpansionIntelligence.js';
 
 export type ViewportFamilyOrchestrationResult = {
   state: PageConceptGenerationState;
@@ -228,8 +236,24 @@ export function pageConceptConfirmMobileAuthority(state: PageConceptGenerationSt
     status: 'MOBILE_AUTHORITY_CONFIRMED',
     updatedAt: now,
   };
+  const expansionIntelligence =
+    buildPageFunctionalExpansionIntelligence({
+      projectId: state.projectId,
+      anchorPageId: state.pageId,
+      functionContract: state.functionContract,
+    }) ?? null;
   const nextState: PageConceptGenerationState = {
-    ...patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily),
+    ...patchPipeline(
+      state,
+      {
+        viewportAuthorityFamily: nextFamily,
+        functionalExpansionIntelligence: expansionIntelligence,
+        composerFunctionalExpansionContracts: expansionIntelligence ?
+          buildComposerExpansionImplementationContracts(expansionIntelligence)
+        : [],
+      },
+      nextFamily,
+    ),
     liveProgress: null,
     activeGenerationStage: null,
   };
@@ -252,6 +276,13 @@ export function pageConceptBeginExperienceExpressionGeneration(state: PageConcep
   const injection = ps!.creativeInjection!;
   const brief = ps!.cgptCreativeBrief!;
   const skin = compileProjectSkinContract(state.projectId);
+  const expansionIntelligence =
+    ps?.functionalExpansionIntelligence ??
+    buildPageFunctionalExpansionIntelligence({
+      projectId: state.projectId,
+      anchorPageId: state.pageId,
+      functionContract: state.functionContract,
+    });
   const authorityBase = compileExperienceExpressionAuthority({
     projectId: state.projectId,
     pageId: state.pageId,
@@ -262,7 +293,8 @@ export function pageConceptBeginExperienceExpressionGeneration(state: PageConcep
     functionContract: state.functionContract!,
   });
   const merged = mergePreservedExperienceVisualStates(authorityBase, ps?.experienceExpressionAuthority);
-  const authority = { ...merged, status: 'GENERATING' as const };
+  const withExpansions = injectApprovedFunctionalExpansionsIntoAuthority(merged, expansionIntelligence ?? null);
+  const authority = { ...withExpansions, status: 'GENERATING' as const };
   const contract = compilePageExperienceExpressionContract({
     projectId: state.projectId,
     pageId: state.pageId,
@@ -285,6 +317,7 @@ export function pageConceptBeginExperienceExpressionGeneration(state: PageConcep
       experienceExpressionAuthority: authority,
       experienceExpressionContract: contract,
       viewportAuthorityFamily: nextFamily,
+      functionalExpansionIntelligence: expansionIntelligence ?? ps?.functionalExpansionIntelligence ?? null,
     },
     nextFamily,
   );
@@ -314,6 +347,9 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
     ) ?? [];
   const themeHandoff = buildExperienceThemeHandoffLines(input.authority);
   const contentHandoff = buildExperienceContentHandoffLines(input.authority);
+  const expansionHandoff = buildOpusFunctionalExpansionHandoffLines(
+    state.pipelineSet?.functionalExpansionIntelligence,
+  );
   const contract: PageExperienceExpressionContract = {
     ...input.contract,
     overlayPatterns: [
@@ -326,6 +362,8 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
       ...themeHandoff,
       'EXPERIENCE CONTENT MANIFESTS:',
       ...contentHandoff,
+      'FUNCTIONAL EXPANSION INTELLIGENCE:',
+      ...expansionHandoff,
       COMPOSER_EXPERIENCE_CONTENT_GUARD,
     ],
   };
@@ -853,6 +891,39 @@ export function pageConceptRecordTwinCapture(
         },
       },
     },
+    generationStatus: state.generationStatus,
+  };
+}
+
+export function pageConceptDecideFunctionalExpansion(
+  state: PageConceptGenerationState,
+  expansionId: string,
+  decision: 'APPROVE' | 'REJECT' | 'DEFER',
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const intelligence = ps?.functionalExpansionIntelligence;
+  if (!intelligence) throw new Error('FUNCTIONAL_EXPANSION_INTELLIGENCE_REQUIRED');
+  const nextIntelligence = applyFounderFunctionalExpansionDecision(intelligence, expansionId, decision);
+  let blueprint = ps?.pageFamilyBlueprint ?? null;
+  let proposedInteractions = ps?.functionalExpansionProposedInteractions ?? [];
+  if (decision === 'APPROVE' && blueprint) {
+    const propagated = propagateApprovedExpansionToFamily({
+      intelligence: nextIntelligence,
+      blueprint,
+      interactionMap: ps?.pageFamilyInteractionMap ?? null,
+      expansionId,
+    });
+    blueprint = propagated.blueprint;
+    proposedInteractions = [...proposedInteractions, ...propagated.proposedInteractionRecords];
+  }
+  const composerFunctionalExpansionContracts = buildComposerExpansionImplementationContracts(nextIntelligence);
+  return {
+    state: patchPipeline(state, {
+      functionalExpansionIntelligence: nextIntelligence,
+      pageFamilyBlueprint: blueprint ?? ps?.pageFamilyBlueprint ?? null,
+      functionalExpansionProposedInteractions: proposedInteractions,
+      composerFunctionalExpansionContracts,
+    }),
     generationStatus: state.generationStatus,
   };
 }

@@ -14,6 +14,8 @@ export async function pageConceptViewportFamilyActionApi(input: {
   dryRun?: boolean;
   experienceStateId?: string;
   forceInheritAuthorityTheme?: boolean;
+  expansionId?: string;
+  expansionDecision?: 'APPROVE' | 'REJECT' | 'DEFER';
 }): Promise<{
   state: PageConceptGenerationState;
   jobs?: readonly import('../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js').PageConceptGeneratedArtifact[];
@@ -32,6 +34,8 @@ export async function pageConceptViewportFamilyActionApi(input: {
         dryRun: input.dryRun,
         experienceStateId: input.experienceStateId,
         forceInheritAuthorityTheme: input.forceInheritAuthorityTheme,
+        expansionId: input.expansionId,
+        expansionDecision: input.expansionDecision,
       },
     },
   );

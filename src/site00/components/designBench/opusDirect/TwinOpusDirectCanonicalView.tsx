@@ -346,6 +346,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
         pageFamilyInteractionMap={data.pageFamilyInteractionMap}
         opusPageFamilyHandoff={data.opusPageFamilyHandoff}
         skinContractApprovedAt={data.pageFamilySkinContractApprovedAt}
+        functionalExpansionIntelligence={data.functionalExpansionIntelligence}
       />
 
       {/* 10 PIPELINE_READINESS */}
