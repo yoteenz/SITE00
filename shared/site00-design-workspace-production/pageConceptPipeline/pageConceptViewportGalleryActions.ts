@@ -40,8 +40,8 @@ export function resolvePageConceptViewportGalleryActions(input: {
   return [
     { id: 'select-mobile', label: 'SELECT MOBILE CONCEPT', icon: 'cycle' },
     {
-      id: 'promote-project-visual-authority',
-      label: 'PROMOTE PROJECT VISUAL AUTHORITY',
+      id: 'promote-site00-project-expression',
+      label: 'PROMOTE SITE 00 PROJECT EXPRESSION',
       icon: 'sliders',
     },
     { id: 'refine', label: 'REFINE CONCEPT', icon: 'sliders' },

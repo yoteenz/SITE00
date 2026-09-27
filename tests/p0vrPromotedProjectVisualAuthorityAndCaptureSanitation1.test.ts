@@ -133,7 +133,7 @@ describe('P0.VR capture sanitation + project visual authority', () => {
       pageId: 'ndxbook:entry-detail',
     });
     expect(inherited?.sourcePageId).toBe('ndxbook:overview');
-    expect(inherited?.grammarOnlyNotice).toContain('not Overview layout');
+    expect(inherited?.grammarOnlyNotice).toMatch(/not Overview layout|inside SITE 00 Projects/i);
   });
 
   it('does not auto-inherit NDXBOOK authority into astral-world', () => {
@@ -183,7 +183,7 @@ describe('P0.VR capture sanitation + project visual authority', () => {
       targetProjectId: 'astral-world',
       founderActionId: 'founder-explicit-cross-project',
     });
-    const ref = registry.crossProjectReferences[0]!;
+    const ref = registry.crossContextReferences[0]!;
     const inherited = resolveProjectVisualAuthorityForPage({
       registry,
       projectId: 'astral-world',
@@ -241,8 +241,8 @@ describe('P0.VR capture sanitation + project visual authority', () => {
       compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
     });
     const composerBlock = compileProjectVisualAuthorityPromptBlock(contract);
-    expect(composerBlock).toContain('PROJECT VISUAL AUTHORITY');
-    expect(compileOpusProjectVisualAuthorityBlock(contract)).toContain('OPUS PROJECT VISUAL AUTHORITY');
+    expect(composerBlock).toContain('SITE 00 PROJECT EXPRESSION');
+    expect(compileOpusProjectVisualAuthorityBlock(contract)).toContain('OPUS SITE 00 PROJECT EXPRESSION');
     expect(compileFounderCreativePreferenceBlock).toBeDefined();
   });
 

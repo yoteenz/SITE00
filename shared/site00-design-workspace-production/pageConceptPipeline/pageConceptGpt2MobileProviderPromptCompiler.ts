@@ -52,9 +52,11 @@ import {
 } from './pageConceptNdxBrandFamiliarityBrief.js';
 import { buildDeviceChromeCaptureGuardBlock } from './pageConceptScreenshotSanitationMap.js';
 import {
-  compileProjectVisualAuthorityPromptBlock,
+  compileComposerScopeGuardBlock,
+  compileSite00ProjectExpressionPromptBlock,
   type ProjectVisualAuthorityContract,
 } from './projectVisualAuthority.js';
+import type { DesignTargetDescriptor } from './site00AuthorityScope.js';
 import {
   compileFounderCreativePreferenceBlock,
   DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE,
@@ -63,7 +65,7 @@ import {
 import { SITE00_MOBILE_GENERATION_CANVAS } from './pageConceptViewportCanvasContract.js';
 
 export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
-  'gpt2-mobile-provider-prompt-v9-capture-sanitation-pva';
+  'gpt2-mobile-provider-prompt-v10-site00-project-expression-scope';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -93,6 +95,7 @@ export type Gpt2MobileProviderPromptCompileInput = {
   ndxBrandFamiliarityBrief?: NdxBrandFamiliarityBrief | null;
   webExpressionTerritory?: WebExpressionTerritory | null;
   projectVisualAuthorityContract?: ProjectVisualAuthorityContract | null;
+  designTarget?: DesignTargetDescriptor | null;
   founderCreativePreferenceProfile?: FounderCreativePreferenceProfile | null;
 };
 
@@ -316,9 +319,18 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
       )
     : '';
   const targetRouteBlock = arch.targetRouteContract ? buildGpt2TargetRouteContextBlock(arch.targetRouteContract) : '';
+  const designTarget = input.designTarget ?? {
+    targetProduct: 'SITE00' as const,
+    targetContext: 'PROJECTS' as const,
+    projectId: input.pageContext.projectId,
+  };
+  const scopeGuardBlock = compileComposerScopeGuardBlock({
+    designTarget,
+    appliedAuthorityScope: input.projectVisualAuthorityContract ? 'SITE00_PROJECT_CONTEXT' : null,
+  });
   const projectAuthorityBlock =
     input.projectVisualAuthorityContract ?
-      compileProjectVisualAuthorityPromptBlock(input.projectVisualAuthorityContract)
+      compileSite00ProjectExpressionPromptBlock(input.projectVisualAuthorityContract)
     : '';
   const founderPreferenceBlock = compileFounderCreativePreferenceBlock(
     input.founderCreativePreferenceProfile ?? DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE,
@@ -344,6 +356,8 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     buildDeviceChromeCaptureGuardBlock(),
     '',
     canvasLockBlock,
+    '',
+    scopeGuardBlock,
     '',
     projectAuthorityBlock,
     projectAuthorityBlock ? '' : null,

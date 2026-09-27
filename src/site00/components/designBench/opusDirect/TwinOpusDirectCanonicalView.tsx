@@ -245,7 +245,7 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             {data.projectVisualAuthorityIndicator ?
               <p
                 className="tod-gallery__pvaIndicator"
-                data-testid="project-visual-authority-indicator"
+                data-testid="project-expression-authority-indicator"
                 data-tone={data.projectVisualAuthorityIndicator.tone}
               >
                 {data.projectVisualAuthorityIndicator.label} — {data.projectVisualAuthorityIndicator.detail}
