@@ -63,6 +63,12 @@ import {
   type FounderCreativePreferenceProfile,
 } from './founderCreativePreferenceProfile.js';
 import { SITE00_MOBILE_GENERATION_CANVAS } from './pageConceptViewportCanvasContract.js';
+import {
+  buildApprovedFutureStateGpt2PromptBlock,
+  type ApprovedFuturePageTruth,
+  type PreConceptFunctionalLineage,
+} from './pageConceptPreConceptFunctionalExpansion.js';
+import type { PageFunctionalExpansionIntelligence } from './pageFunctionalExpansionIntelligence.js';
 
 export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
   'gpt2-mobile-provider-prompt-v10-site00-project-expression-scope';
@@ -100,6 +106,9 @@ export type Gpt2MobileProviderPromptCompileInput = {
   projectVisualAuthorityContract?: ProjectVisualAuthorityContract | null;
   designTarget?: DesignTargetDescriptor | null;
   founderCreativePreferenceProfile?: FounderCreativePreferenceProfile | null;
+  approvedFuturePageTruth?: ApprovedFuturePageTruth | null;
+  functionalExpansionIntelligence?: PageFunctionalExpansionIntelligence | null;
+  preConceptFunctionalLineage?: PreConceptFunctionalLineage | null;
 };
 
 export type Gpt2MobileCompiledProviderPrompt = {
@@ -551,10 +560,25 @@ export function compileGpt2MobileProviderPrompt(
 ): Gpt2MobileCompiledProviderPrompt {
   const { basePrompt, territoryDelta, ndxBrandFamiliarityBrief: resolvedFamiliarityBrief } =
     compileGpt2MobileProviderPromptBase(input);
+  const approvedFutureBlock = buildApprovedFutureStateGpt2PromptBlock({
+    futureTruth: input.approvedFuturePageTruth ?? null,
+    intelligence: input.functionalExpansionIntelligence ?? null,
+  });
+  const lineageBlock =
+    input.preConceptFunctionalLineage ?
+      [
+        'PRE-CONCEPT FUNCTIONAL LINEAGE:',
+        `existingTruthVersion=${input.preConceptFunctionalLineage.existingTruthVersion}`,
+        `functionalExpansionDecisionVersion=${input.preConceptFunctionalLineage.functionalExpansionDecisionVersion}`,
+        `futurePageTruthVersion=${input.preConceptFunctionalLineage.futurePageTruthVersion}`,
+        `pageArchitectureVersion=${input.preConceptFunctionalLineage.pageArchitectureVersion}`,
+        `functionMapVersion=${input.preConceptFunctionalLineage.functionMapVersion}`,
+      ].join('\n')
+    : '';
   let prompt =
     input.webExpressionTerritory ?
-      `${basePrompt}\n\n${territoryDelta}`
-    : `${basePrompt}\n\nCONCEPT TERRITORY (VARIES A/B/C — ARCHITECTURE SHARED):\n${territoryDelta}`;
+      `${basePrompt}\n\n${approvedFutureBlock}\n\n${lineageBlock}\n\n${territoryDelta}`
+    : `${basePrompt}\n\n${approvedFutureBlock}\n\n${lineageBlock}\n\nCONCEPT TERRITORY (VARIES A/B/C — ARCHITECTURE SHARED):\n${territoryDelta}`;
   if (prompt.length > MAX_PROVIDER_PROMPT_CHARS) {
     prompt = compressionPass(prompt);
     if (prompt.length > MAX_PROVIDER_PROMPT_CHARS) {

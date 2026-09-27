@@ -49,24 +49,46 @@ export async function startPageConceptGenerationRun(input: StartPageConceptGener
   const resumeRunId = input.resumeRunId?.trim() || null;
   const continueNbpAfterGpt2Review = input.continueNbpAfterGpt2Review === true;
   const continueGpt2AfterCgptReview = input.continueGpt2AfterCgptReview === true;
+  const continueGpt2AfterFunctionalExpansionReview =
+    input.continueGpt2AfterFunctionalExpansionReview === true;
   let existing =
     resumeRunId &&
-    (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) ?
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueGpt2AfterFunctionalExpansionReview) ?
       getPageConceptServerRun(resumeRunId)
     : null;
   if (
     resumeRunId &&
-    (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueGpt2AfterFunctionalExpansionReview) &&
     !existing
   ) {
     existing = await hydratePageConceptServerRun(resumeRunId);
   }
   if (
     resumeRunId &&
-    (input.retryCgptOnly || continueNbpAfterGpt2Review || continueGpt2AfterCgptReview) &&
+    (input.retryCgptOnly ||
+      continueNbpAfterGpt2Review ||
+      continueGpt2AfterCgptReview ||
+      continueGpt2AfterFunctionalExpansionReview) &&
     !existing
   ) {
     throw new Error('RUN_NOT_FOUND');
+  }
+  if (continueGpt2AfterFunctionalExpansionReview && existing?.pipelineSet) {
+    input = {
+      ...input,
+      state: {
+        ...input.state,
+        pipelineSet: existing.pipelineSet,
+        generationJobs: existing.jobs.length ? existing.jobs : input.state.generationJobs,
+        generationStatus: 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW',
+      },
+    };
   }
   if (continueGpt2AfterCgptReview && existing?.pipelineSet) {
     input = {
@@ -130,6 +152,7 @@ export async function startPageConceptGenerationRun(input: StartPageConceptGener
     retryCgptOnly: input.retryCgptOnly === true,
     continueNbpAfterGpt2Review,
     continueGpt2AfterCgptReview,
+    continueGpt2AfterFunctionalExpansionReview,
     retryGpt2Only: input.retryGpt2Only === true,
     regenerateNbpOnly: input.regenerateNbpOnly === true,
   });
@@ -143,6 +166,7 @@ async function runPageConceptGenerationInBackground(
     retryCgptOnly?: boolean;
     continueNbpAfterGpt2Review?: boolean;
     continueGpt2AfterCgptReview?: boolean;
+    continueGpt2AfterFunctionalExpansionReview?: boolean;
     retryGpt2Only?: boolean;
     regenerateNbpOnly?: boolean;
   } = {},
@@ -169,6 +193,8 @@ async function runPageConceptGenerationInBackground(
       retryCgptOnly: flags.retryCgptOnly === true,
       continueNbpAfterGpt2Review: flags.continueNbpAfterGpt2Review === true,
       continueGpt2AfterCgptReview: flags.continueGpt2AfterCgptReview === true,
+      continueGpt2AfterFunctionalExpansionReview:
+        flags.continueGpt2AfterFunctionalExpansionReview === true,
       retryGpt2Only: flags.retryGpt2Only === true,
       regenerateNbpOnly: flags.regenerateNbpOnly === true,
       onProgress: (patch) => {

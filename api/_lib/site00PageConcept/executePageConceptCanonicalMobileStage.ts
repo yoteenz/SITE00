@@ -25,6 +25,9 @@ export async function executePageConceptCanonicalMobileStage(input: {
   creativeInjection: PageCreativeInjection;
   cgptCreativeBrief: PageConceptCgptCreativeBrief | null;
   pageArchitectureBrief?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js').PageConceptPageArchitectureBrief | null;
+  functionalExpansionIntelligence?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/pageFunctionalExpansionIntelligence.js').PageFunctionalExpansionIntelligence | null;
+  approvedFuturePageTruth?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js').ApprovedFuturePageTruth | null;
+  preConceptFunctionalLineage?: import('../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPreConceptFunctionalExpansion.js').PreConceptFunctionalLineage | null;
   creativeInjectionError?: string;
   mobileDims: { width: number; height: number };
   functionalCaptureBase64: string;
@@ -49,8 +52,14 @@ export async function executePageConceptCanonicalMobileStage(input: {
     completedAt: null,
   });
 
-  const { jobs, mobileConcepts, partialFailure, screenshotFunctionalPageMap, webExpressionTerritorySet } =
-    await executePageConceptGpt2MobileConcepts({
+  const {
+    jobs,
+    mobileConcepts,
+    partialFailure,
+    screenshotFunctionalPageMap,
+    webExpressionTerritorySet,
+    preConceptFunctionalLineage,
+  } = await executePageConceptGpt2MobileConcepts({
     runId: input.runId,
     plan: input.plan,
     pipelineSetId: input.pipelineSetId,
@@ -61,6 +70,9 @@ export async function executePageConceptCanonicalMobileStage(input: {
     creativeInjection: input.creativeInjection,
     cgptCreativeBrief: input.cgptCreativeBrief,
     pageArchitectureBrief: input.pageArchitectureBrief ?? null,
+    functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+    approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+    preConceptFunctionalLineage: input.preConceptFunctionalLineage ?? null,
     mobileDims: input.mobileDims,
     functionalCaptureBase64: input.functionalCaptureBase64,
     existingJobs: input.existingJobs,
@@ -86,6 +98,9 @@ export async function executePageConceptCanonicalMobileStage(input: {
           pageArchitectureBrief: input.pageArchitectureBrief ?? null,
           screenshotFunctionalPageMap: payload.screenshotFunctionalPageMap,
           webExpressionTerritorySet: payload.webExpressionTerritorySet,
+          functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+          approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+          preConceptFunctionalLineage: payload.preConceptFunctionalLineage ?? input.preConceptFunctionalLineage ?? null,
           gpt2AuthorityConcept: null,
           renditions: [],
           mobileConcepts: payload.mobileConcepts,
@@ -112,6 +127,9 @@ export async function executePageConceptCanonicalMobileStage(input: {
     pageArchitectureBrief: input.pageArchitectureBrief ?? null,
     screenshotFunctionalPageMap,
     webExpressionTerritorySet,
+    functionalExpansionIntelligence: input.functionalExpansionIntelligence ?? null,
+    approvedFuturePageTruth: input.approvedFuturePageTruth ?? null,
+    preConceptFunctionalLineage: preConceptFunctionalLineage ?? input.preConceptFunctionalLineage ?? null,
     gpt2AuthorityConcept: null,
     renditions: [],
     mobileConcepts,

@@ -9,6 +9,7 @@ import { PAGE_CONCEPT_DEFAULT_STAGE_STATE } from '../designPageConceptGeneratorS
 import { resolveMobileConceptSlotForJob } from './pageConceptCandidateReconciliation.js';
 import { resolvePageConceptArtifactDisplayUrl } from './pageConceptArtifactDisplayUrl.js';
 import { pageConceptCanonicalNbpDisabled } from './pageConceptCanonicalPipeline.js';
+import { functionalExpansionGateBlocksGpt2Generation } from './pageConceptPreConceptFunctionalExpansion.js';
 import type {
   PageConceptCgptCreativeBrief,
   PageConceptGeneratedArtifact,
@@ -78,6 +79,31 @@ const SLOT_LETTER: Record<PageConceptRenditionSlotId, 'A' | 'B' | 'C'> = {
   RENDITION_C: 'C',
 };
 
+function pageConceptPanelStageMap(input: {
+  CGPT: PageConceptStageState;
+  FUNCTIONAL?: PageConceptStageState;
+  GPT2: PageConceptStageState;
+  NBP: PageConceptStageState;
+}): Record<PageConceptStageId, PageConceptStageState> {
+  return {
+    CGPT: input.CGPT,
+    FUNCTIONAL: input.FUNCTIONAL ?? 'PENDING',
+    GPT2: input.GPT2,
+    NBP: input.NBP,
+  };
+}
+
+function functionalExpansionStageState(
+  state: PageConceptGenerationState,
+): PageConceptStageState {
+  const intel = state.pipelineSet?.functionalExpansionIntelligence;
+  if (!intel) return 'NOT_STARTED';
+  if (state.generationStatus === 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW') return 'ACTIVE';
+  if (state.pipelineSet?.approvedFuturePageTruth) return 'COMPLETE';
+  if (!functionalExpansionGateBlocksGpt2Generation(intel)) return 'COMPLETE';
+  return 'PENDING';
+}
+
 export function nbpShellSlotKey(
   viewport: 'MOBILE' | 'DESKTOP',
   slot: PageConceptRenditionSlotId,
@@ -93,84 +119,205 @@ export function pageConceptStageStatesFromPipeline(state: PageConceptGenerationS
   const ps = state.pipelineSet;
   const status = state.generationStatus;
 
+  const functional = functionalExpansionStageState(state);
+
   if (pageConceptCanonicalNbpDisabled()) {
     if (ps?.creativeInjectionError && !ps.creativeInjection) {
-      return { CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
+      return pageConceptPanelStageMap({ CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' });
     }
     const mobileReady = (ps?.mobileConcepts ?? []).filter((c) => c.status === 'READY').length;
     const hasMobileJobs = state.generationJobs.some((j) => j.provider === 'GPT2_MOBILE');
     switch (status) {
       case 'CGPT_RUNNING':
-        return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
+        return pageConceptPanelStageMap({ CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' });
+      case 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW':
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: 'ACTIVE',
+          GPT2: 'PENDING',
+          NBP: 'PENDING',
+        });
       case 'GPT2_RUNNING':
-        return { CGPT: 'COMPLETE', GPT2: 'ACTIVE', NBP: 'PENDING' };
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: functional === 'NOT_STARTED' ? 'COMPLETE' : functional,
+          GPT2: 'ACTIVE',
+          NBP: 'PENDING',
+        });
       case 'GPT2_MOBILE_AWAITING_SELECTION':
-        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: 'COMPLETE',
+          GPT2: 'COMPLETE',
+          NBP: 'PENDING',
+        });
       case 'VIEWPORT_TABLET_RUNNING':
       case 'VIEWPORT_DESKTOP_RUNNING':
-        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: 'COMPLETE',
+          GPT2: 'COMPLETE',
+          NBP: 'ACTIVE',
+        });
       case 'VIEWPORT_FAMILY_REVIEW': {
         const family = ps?.viewportAuthorityFamily;
         const experienceApproved = Boolean(ps?.experienceExpressionContract?.approvedAt);
         const interpreting = family?.tabletArtifactId || family?.desktopArtifactId;
         if (experienceApproved && interpreting) {
-          return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: 'COMPLETE',
+            GPT2: 'COMPLETE',
+            NBP: 'ACTIVE',
+          });
         }
         if (family?.mobileAuthorityStatus === 'CONFIRMED') {
-          return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: 'COMPLETE',
+            GPT2: 'COMPLETE',
+            NBP: 'PENDING',
+          });
         }
-        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: 'COMPLETE',
+          GPT2: 'COMPLETE',
+          NBP: 'PENDING',
+        });
       }
       default:
         if (ps?.creativeInjection && (mobileReady >= 3 || hasMobileJobs)) {
-          if (mobileReady >= 3) return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
-          return { CGPT: 'COMPLETE', GPT2: 'ACTIVE', NBP: 'PENDING' };
+          if (mobileReady >= 3) {
+            return pageConceptPanelStageMap({
+              CGPT: 'COMPLETE',
+              FUNCTIONAL: 'COMPLETE',
+              GPT2: 'COMPLETE',
+              NBP: 'PENDING',
+            });
+          }
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: functional,
+            GPT2: 'ACTIVE',
+            NBP: 'PENDING',
+          });
         }
-        if (ps?.creativeInjection) return { CGPT: 'COMPLETE', GPT2: 'PENDING', NBP: 'PENDING' };
+        if (ps?.creativeInjection) {
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: functional,
+            GPT2: 'PENDING',
+            NBP: 'PENDING',
+          });
+        }
         return PAGE_CONCEPT_DEFAULT_STAGE_STATE;
     }
   }
 
   if (ps?.creativeInjectionError && !ps.creativeInjection) {
-    return { CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' };
+    return pageConceptPanelStageMap({ CGPT: 'FAILED', GPT2: 'NOT_STARTED', NBP: 'NOT_STARTED' });
   }
   if (ps?.gpt2AuthorityError && ps.creativeInjection && !ps.gpt2AuthorityConcept) {
-    return { CGPT: 'COMPLETE', GPT2: 'FAILED', NBP: 'NOT_STARTED' };
+    return pageConceptPanelStageMap({ CGPT: 'COMPLETE', GPT2: 'FAILED', NBP: 'NOT_STARTED' });
   }
 
   switch (status) {
     case 'CGPT_RUNNING':
-      return { CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' };
+      return pageConceptPanelStageMap({ CGPT: 'ACTIVE', GPT2: 'PENDING', NBP: 'PENDING' });
+    case 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW':
+      return pageConceptPanelStageMap({
+        CGPT: 'COMPLETE',
+        FUNCTIONAL: 'ACTIVE',
+        GPT2: 'PENDING',
+        NBP: 'PENDING',
+      });
     case 'GPT2_RUNNING':
-      return { CGPT: 'COMPLETE', GPT2: 'ACTIVE', NBP: 'PENDING' };
+      return pageConceptPanelStageMap({
+        CGPT: 'COMPLETE',
+        FUNCTIONAL: 'COMPLETE',
+        GPT2: 'ACTIVE',
+        NBP: 'PENDING',
+      });
     case 'NBP_RUNNING':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'ACTIVE' };
+      return pageConceptPanelStageMap({
+        CGPT: 'COMPLETE',
+        FUNCTIONAL: 'COMPLETE',
+        GPT2: 'COMPLETE',
+        NBP: 'ACTIVE',
+      });
     case 'PARTIAL_GENERATION':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PARTIAL' };
+      return pageConceptPanelStageMap({
+        CGPT: 'COMPLETE',
+        FUNCTIONAL: 'COMPLETE',
+        GPT2: 'COMPLETE',
+        NBP: 'PARTIAL',
+      });
     case 'GPT2_MOBILE_AWAITING_SELECTION':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+      return pageConceptPanelStageMap({
+        CGPT: 'COMPLETE',
+        FUNCTIONAL: 'COMPLETE',
+        GPT2: 'COMPLETE',
+        NBP: 'PENDING',
+      });
     case 'READY_FOR_FOUNDER_REVIEW':
-      return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' };
+      return pageConceptPanelStageMap({
+        CGPT: 'COMPLETE',
+        FUNCTIONAL: 'COMPLETE',
+        GPT2: 'COMPLETE',
+        NBP: 'COMPLETE',
+      });
     case 'FAILED':
       if (ps?.creativeInjection) {
-        if (ps.gpt2AuthorityConcept) return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'FAILED' };
-        return { CGPT: 'COMPLETE', GPT2: 'FAILED', NBP: 'NOT_STARTED' };
+        if (ps.gpt2AuthorityConcept) {
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: 'COMPLETE',
+            GPT2: 'COMPLETE',
+            NBP: 'FAILED',
+          });
+        }
+        return pageConceptPanelStageMap({ CGPT: 'COMPLETE', GPT2: 'FAILED', NBP: 'NOT_STARTED' });
       }
-      return { CGPT: 'FAILED', GPT2: 'PENDING', NBP: 'PENDING' };
+      return pageConceptPanelStageMap({ CGPT: 'FAILED', GPT2: 'PENDING', NBP: 'PENDING' });
     case 'PLANNED':
       return PAGE_CONCEPT_DEFAULT_STAGE_STATE;
     default:
       if (ps?.creativeInjection && ps.gpt2AuthorityConcept && state.generationJobs.length > 0) {
         const ready = state.generationJobs.filter((j) => j.status === 'READY').length;
         const failed = state.generationJobs.filter((j) => j.status === 'FAILED').length;
-        if (ready === 6) return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'COMPLETE' };
-        if (ready > 0 && failed > 0) return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PARTIAL' };
+        if (ready === 6) {
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: 'COMPLETE',
+            GPT2: 'COMPLETE',
+            NBP: 'COMPLETE',
+          });
+        }
+        if (ready > 0 && failed > 0) {
+          return pageConceptPanelStageMap({
+            CGPT: 'COMPLETE',
+            FUNCTIONAL: 'COMPLETE',
+            GPT2: 'COMPLETE',
+            NBP: 'PARTIAL',
+          });
+        }
       }
       if (ps?.creativeInjection && ps.gpt2AuthorityConcept) {
-        return { CGPT: 'COMPLETE', GPT2: 'COMPLETE', NBP: 'PENDING' };
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: 'COMPLETE',
+          GPT2: 'COMPLETE',
+          NBP: 'PENDING',
+        });
       }
       if (ps?.creativeInjection) {
-        return { CGPT: 'COMPLETE', GPT2: 'PENDING', NBP: 'PENDING' };
+        return pageConceptPanelStageMap({
+          CGPT: 'COMPLETE',
+          FUNCTIONAL: functional,
+          GPT2: 'PENDING',
+          NBP: 'PENDING',
+        });
       }
       return PAGE_CONCEPT_DEFAULT_STAGE_STATE;
   }

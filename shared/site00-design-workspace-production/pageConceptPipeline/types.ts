@@ -29,6 +29,7 @@ export type PageConceptGenerationStatus =
   | 'CGPT_RUNNING'
   | 'CGPT_RATE_LIMITED'
   | 'CGPT_AWAITING_FOUNDER_REVIEW'
+  | 'FUNCTIONAL_EXPANSION_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_RUNNING'
   | 'GPT2_AWAITING_FOUNDER_REVIEW'
   | 'GPT2_MOBILE_AWAITING_SELECTION'
@@ -407,6 +408,9 @@ export type PageConceptPipelineSet = {
   functionalExpansionIntelligence?: import('./pageFunctionalExpansionIntelligence.js').PageFunctionalExpansionIntelligence | null;
   functionalExpansionProposedInteractions?: readonly import('./pageFunctionalExpansionIntelligence.js').ProposedInteractionMapAddition[];
   composerFunctionalExpansionContracts?: readonly import('./pageFunctionalExpansionIntelligence.js').ComposerExpansionImplementationContract[];
+  approvedFuturePageTruth?: import('./pageConceptPreConceptFunctionalExpansion.js').ApprovedFuturePageTruth | null;
+  preConceptFunctionalLineage?: import('./pageConceptPreConceptFunctionalExpansion.js').PreConceptFunctionalLineage | null;
+  postConceptExpansionCandidates?: readonly import('./pageConceptPreConceptFunctionalExpansion.js').PostConceptExpansionCandidate[];
   twinShellApprovalId?: string | null;
   twinImplementationPackage?: TwinImplementationPackage | null;
   liveRouteHashBefore?: PageConceptLiveRouteHashSnapshot | null;

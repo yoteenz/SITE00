@@ -28,6 +28,7 @@ export type RunPageConceptGenerationInput = {
   /** Founder approved GPT2 authority — continue to NBP on same run. */
   continueNbpAfterGpt2Review?: boolean;
   continueGpt2AfterCgptReview?: boolean;
+  continueGpt2AfterFunctionalExpansionReview?: boolean;
   retryGpt2Only?: boolean;
   regenerateNbpOnly?: boolean;
 };
@@ -129,5 +130,7 @@ export async function runPageConceptGeneration(
     regenerateNbpOnly: input.regenerateNbpOnly === true,
     continueNbpAfterGpt2Review: input.continueNbpAfterGpt2Review === true,
     continueGpt2AfterCgptReview: input.continueGpt2AfterCgptReview === true,
+    continueGpt2AfterFunctionalExpansionReview:
+      input.continueGpt2AfterFunctionalExpansionReview === true,
   });
 }

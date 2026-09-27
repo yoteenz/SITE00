@@ -22,6 +22,7 @@ export type PageConceptGenerationRequest = {
   resumeRunId?: string;
   continueNbpAfterGpt2Review?: boolean;
   continueGpt2AfterCgptReview?: boolean;
+  continueGpt2AfterFunctionalExpansionReview?: boolean;
   retryGpt2Only?: boolean;
   regenerateNbpOnly?: boolean;
   traceOnly?: boolean;
