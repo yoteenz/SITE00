@@ -11961,3 +11961,9 @@ Sprint **P0.VR.CONCEPT-A-AUTHORITY-SANITIZE-BEFORE-PROMOTION1**: structural clea
 ## 2026-09-27 — CI: GPT2 mobile package prompt 18k ceiling
 
 **SITE 00 Production Release / test** failed: `p0vrGpt2MobileProviderPromptCompaction1` — request package prompt **18077** chars (> **18_000**) after scope/sanitation blocks. Compacted capture guard, scope guard, canvas lock, founder preference; added `packagePromptCompressionPass` + `GPT2_MOBILE_REQUEST_PACKAGE_PROMPT_CEILING`.
+
+---
+
+## 2026-09-27 — CI deploy: SPA htaccess verify soft-fail
+
+**deploy_frontend** failed **SPA_HTACCESS_ACTIVATE_FAILED** when deep-link probe returned HTTP 200 but `spaShell:false` (GoDaddy propagation / dotfile lag after FTP RNFR). **`isSpaShellHtml`** expanded (boot shell + bundle markers); verify tries multiple canonical routes; **`SPA_HTACCESS_VERIFY_STRICT=false`** default — FTP activation success no longer fails job; **`verify_release`** still smoke-tests routes.

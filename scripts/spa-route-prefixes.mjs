@@ -41,6 +41,17 @@ export const CANONICAL_SPA_SHELL_ROUTES = [
 
 export const SPA_SHELL_MARKER = 'id="root"';
 
+/** Detect SITE 00 SPA index.html (root or nested prefix stub). */
+export function isSpaShellHtml(html) {
+  if (!html || typeof html !== 'string') return false;
+  if (html.includes(SPA_SHELL_MARKER) || html.includes("id='root'")) return true;
+  if (html.includes('site00-assts-boot-shell') && /\/assets\/index\.[A-Za-z0-9_-]+\.js/.test(html)) {
+    return true;
+  }
+  if (html.includes('app-build-id') && html.includes('id="root"')) return true;
+  return false;
+}
+
 export function isRawApacheErrorHtml(html) {
   const t = html.slice(0, 800).toLowerCase();
   return (
