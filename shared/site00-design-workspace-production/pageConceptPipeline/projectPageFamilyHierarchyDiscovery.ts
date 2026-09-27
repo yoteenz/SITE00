@@ -146,7 +146,7 @@ function familyDepthRelativeToAnchor(
   while (cursor && cursor.pageId !== anchor.pageId && seen.size < 12) {
     if (seen.has(cursor.pageId)) break;
     seen.add(cursor.pageId);
-    const parent = parentById.get(cursor.pageId) ?? null;
+    const parent: DesignBoundPageRecord | null = parentById.get(cursor.pageId) ?? null;
     if (!parent) return 3;
     steps += 1;
     cursor = parent;
