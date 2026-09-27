@@ -11887,3 +11887,9 @@ Sprint **P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1**: replaced legacy bo
 - **`DesignConceptIntelligenceDock.tsx`**: shared canonical + list dock; landscape header-crop preview; no default campaign plate.
 - **Workspace:** `conceptIntelligenceDock` on `TwinOpusDirectWorkspaceData`; list body no longer embeds `tod-lv-concept` digest (dock-only).
 - **Tests:** `p0vrDesignWorkspaceConceptIntelligenceDock1.test.ts`; opus-direct tab expectations updated.
+
+---
+
+## 2026-09-27 — Mobile gallery A/B/C row coalesce
+
+Founder: normal Safari/Chrome showed stale bundle (incognito fresh); incognito gallery **1-over-2** layout. Cause: only Concept B in `current`, A/C in `history` rail below. **`coalesceMobileConceptGalleryAbcRow`** in `pageConceptGalleryPresentation.ts` merges MOBILE slot cards into ordered A/B/C current row; grid `display: grid !important` reinforced. Production manifest may lag until GoDaddy ZIP deploy (v665+ Concept Intelligence Dock, v666+ gallery fix).
