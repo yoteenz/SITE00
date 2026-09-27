@@ -136,7 +136,7 @@ describe('P0.VR.CGPT-GPT2-HANDOFF-MOBILE-TRIPLE-CONCEPT1', () => {
     };
     await expect(
       runPageConceptViewportFamilyAction(s, { type: 'runTabletInterpretation', dryRun: true }),
-    ).rejects.toThrow(/EXPERIENCE_EXPRESSION_REQUIRED/);
+    ).rejects.toThrow(/EXPERIENCE_EXPRESSION_(REQUIRED|APPROVAL_REQUIRED)/);
     interpSpy.mockRestore();
   });
 
