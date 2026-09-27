@@ -56,6 +56,11 @@ import {
   experienceContentBlocksApproval,
 } from './experienceContentManifest.js';
 import {
+  buildExperienceExpressionCoverageHandoffLines,
+  experienceExpressionCoverageBlocksApproval,
+} from './experienceExpressionCoverageMap.js';
+import { nestedNavContractHandoffLines } from './responsiveExperienceNestedNavContract.js';
+import {
   applyFounderFunctionalExpansionDecision,
   buildComposerExpansionImplementationContracts,
   buildOpusFunctionalExpansionHandoffLines,
@@ -459,9 +464,21 @@ export function pageConceptApproveExperienceExpression(
   if (contentGate.blocked) {
     throw new Error(contentGate.code ?? 'EXPERIENCE_CONTENT_INVENTED');
   }
+  const coverageGate = experienceExpressionCoverageBlocksApproval({
+    authority,
+    pipelineSet: ps,
+    functionContract: state.functionContract ?? null,
+  });
+  if (coverageGate.blocked) {
+    throw new Error(coverageGate.code ?? 'EXPERIENCE_COVERAGE_INCOMPLETE');
+  }
   const approvedAt = new Date().toISOString();
   const themeHandoff = buildExperienceThemeHandoffLines(authority);
   const contentHandoff = buildExperienceContentHandoffLines(authority);
+  const coverageHandoff =
+    authority.experienceExpressionCoverageMap ?
+      buildExperienceExpressionCoverageHandoffLines(authority.experienceExpressionCoverageMap)
+    : [];
   const approved: PageExperienceExpressionContract = {
     ...experienceContract,
     approvedAt,
@@ -471,6 +488,8 @@ export function pageConceptApproveExperienceExpression(
       ...themeHandoff,
       'EXPERIENCE CONTENT MANIFESTS:',
       ...contentHandoff,
+      ...coverageHandoff,
+      ...nestedNavContractHandoffLines(),
       COMPOSER_EXPERIENCE_CONTENT_GUARD,
     ],
   };

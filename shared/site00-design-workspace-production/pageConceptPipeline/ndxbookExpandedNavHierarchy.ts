@@ -168,19 +168,23 @@ export function buildMenuExpandedNavHierarchyRefinementPromptBlock(input: {
   hierarchyLines: readonly string[];
 }): string {
   return [
-    'MENU / EXPANDED NAV — HIERARCHY REFINEMENT (DESIGN LOCK)',
-    'KEEP THE CURRENT EXPANDED NAV DESIGN.',
+    'MENU / EXPANDED NAV — HIERARCHY + NESTED EXPANSION REFINEMENT (DESIGN LOCK)',
+    'KEEP THE CURRENT APPROVED EXPANDED-NAV DESIGN.',
     'DO NOT REDESIGN THE PANEL.',
-    'ONLY CORRECT THE NAVIGATION HIERARCHY.',
-    'CAMPAIGN BOARD IS A GRANDCHILD OF CONTENT OPS AND MUST VISUALLY NEST UNDER IT.',
-    'PRESERVE EXACTLY: panel placement, width, light theme, typography, lime accents, borders, spacing, numbering style, header, close control, project-navigation title, composition, approved authority page beneath, bottom navigation.',
+    'SHOW CONTENT OPS IN ITS EXPANDED STATE (disclosure affordance changed: + → chevron or equivalent).',
+    'CAMPAIGN BOARD IS A GRANDCHILD OF CONTENT OPS — NEST CAMPAIGN BOARD BENEATH CONTENT OPS.',
+    'THIS OUTPUT MUST DEMONSTRATE BOTH PRIMARY NAVIGATION EXPANSION AND NESTED NAVIGATION EXPANSION IN ONE IMAGE.',
+    'PRESERVE EXACTLY: panel geometry, width, light theme, typography, lime highlight, borders, spacing, numbering style, header, close control, project-navigation title, underlying authority page, bottom navigation.',
     'DO NOT regenerate or alter Entry Detail, Project Access, or Base Page.',
     '',
-    'REQUIRED NAVIGATION TREE (canonical Page Family Blueprint — not flat siblings):',
+    'REQUIRED NAVIGATION TREE (canonical Page Family Blueprint — collapsed siblings + expanded parent):',
     ...input.hierarchyLines.map((l) => `- ${l}`),
     '',
-    'CONTENT OPS must read as a parent-capable row with CAMPAIGN BOARD visibly subordinate (indented child, hierarchy marker, or nested row — choose what best matches the existing approved panel).',
-    'Do not number CAMPAIGN BOARD as another top-level sibling index.',
+    'VISUAL REQUIREMENTS:',
+    '- Other top-level rows remain collapsed siblings.',
+    '- CONTENT OPS row is EXPANDED_PARENT with visible disclosure state change.',
+    '- CAMPAIGN BOARD is NESTED_DESTINATION beneath Content Ops (indent / hierarchy marker); selectable; not a top-level numbered sibling.',
+    'Do not number CAMPAIGN BOARD as another top-level index (use nested notation only).',
   ].join('\n');
 }
 

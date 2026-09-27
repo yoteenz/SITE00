@@ -28,10 +28,12 @@ import {
   experienceContentBlocksApproval,
   manifestForState,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceContentManifest.js';
+import { attachExperienceExpressionCoverageMap } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionCoverageMap.js';
 import {
   buildMenuExpandedNavHierarchyRefinementPromptBlock,
   buildNdxbookOverviewExpandedNavHierarchy,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/ndxbookExpandedNavHierarchy.js';
+import { buildNestedNavResponsiveExperienceRules } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/responsiveExperienceNestedNavContract.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
   return validateExperiencePackageMaterialization(authority).ok;
@@ -258,8 +260,10 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
       pageId: input.planMeta.pageId,
     })
   ) {
+    authority = attachExperienceExpressionCoverageMap(authority, null, input.functionContract);
     authority = {
       ...authority,
+      responsiveRules: [...authority.responsiveRules, ...buildNestedNavResponsiveExperienceRules()],
       experiencePackageMetadata: buildExperiencePackageMetadata({
         authority,
         territoryId: input.authority.sourceConceptId,
@@ -398,11 +402,16 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
       experienceContentManifests: manifests,
       experienceContentAudit: auditExperienceContentForAuthority({ ...authority, experienceContentManifests: manifests }),
       visualStates: attachContentManifestFieldsToVisualStates({ ...authority, experienceContentManifests: manifests }, manifests),
+      responsiveRules:
+        input.stateId === 'menu' ?
+          [...authority.responsiveRules, ...buildNestedNavResponsiveExperienceRules()]
+        : authority.responsiveRules,
       experiencePackageMetadata: buildExperiencePackageMetadata({
         authority: { ...authority, experienceContentManifests: manifests },
         territoryId: input.authority.sourceConceptId,
       }),
     };
+    authority = attachExperienceExpressionCoverageMap(authority, null, input.functionContract);
   }
 
   return { authority, jobs: [render.job] };

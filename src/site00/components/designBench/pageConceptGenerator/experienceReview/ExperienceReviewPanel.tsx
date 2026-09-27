@@ -24,11 +24,13 @@ import {
   experienceContentBlocksApproval,
   manifestForState,
 } from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceContentManifest.js';
+import { experienceExpressionCoverageBlocksApproval } from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionCoverageMap.js';
 import { slotLabelFromConceptId } from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
 import type { PageConceptGenerationState } from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PageConceptContainedPreviewFrame } from '../PageConceptContainedPreviewFrame';
 import {
   ExperienceReviewActionBar,
+  ExperienceReviewCoverageSection,
   ExperienceReviewDetails,
   ExperienceReviewEmptyState,
   ExperienceReviewErrorState,
@@ -77,6 +79,11 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
   const themeReceipt = validateExperienceThemeContinuity(authority);
   const themeApprovalGate = experienceThemeContinuityBlocksApproval(authority);
   const contentApprovalGate = experienceContentBlocksApproval(authority);
+  const coverageApprovalGate = experienceExpressionCoverageBlocksApproval({
+    authority,
+    pipelineSet: props.state.pipelineSet ?? null,
+    functionContract: props.state.functionContract ?? null,
+  });
   const contentAuditByStateId = new Map(
     (authority?.experienceContentAudit?.states ?? contentApprovalGate.receipt.audit.states).map((s) => [s.stateId, s]),
   );
@@ -105,6 +112,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
   const blocked =
     themeApprovalGate.blocked ||
     contentApprovalGate.blocked ||
+    coverageApprovalGate.blocked ||
     !materialization.ok ||
     falImageCount < falTargetCount;
 
@@ -139,6 +147,15 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
         blocked={blocked && !approved}
         themeAuthority={themeReceipt.authorityTheme}
       />
+
+      {authority?.experienceExpressionCoverageMap ?
+        <ExperienceReviewCoverageSection
+          coveredCount={authority.experienceExpressionCoverageMap.coveredPatterns.length}
+          totalPatterns={authority.experienceExpressionCoverageMap.distinctVisualExpressionPatterns}
+          percent={authority.experienceExpressionCoverageMap.experienceCoveragePercent}
+          bindings={authority.experienceExpressionCoverageMap.patternBindings}
+        />
+      : null}
 
       <div className="s00-exp-review__body" data-testid="experience-review-body">
         {mode === 'EMPTY' ?
