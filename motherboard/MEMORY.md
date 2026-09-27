@@ -11893,3 +11893,9 @@ Sprint **P0.VR.DESIGN-WORKSPACE-CONCEPT-INTELLIGENCE-DOCK1**: replaced legacy bo
 ## 2026-09-27 — Mobile gallery A/B/C row coalesce
 
 Founder: normal Safari/Chrome showed stale bundle (incognito fresh); incognito gallery **1-over-2** layout. Cause: only Concept B in `current`, A/C in `history` rail below. **`coalesceMobileConceptGalleryAbcRow`** in `pageConceptGalleryPresentation.ts` merges MOBILE slot cards into ordered A/B/C current row; grid `display: grid !important` reinforced. Production manifest may lag until GoDaddy ZIP deploy (v665+ Concept Intelligence Dock, v666+ gallery fix).
+
+---
+
+## 2026-09-27 — CI: Spark tabs + gallery history dedupe
+
+GitHub **SITE 00 Production Release / test** failed: Spark responsive still exported legacy `TWIN_SPARK_RESPONSIVE_CONCEPT_TABS` (`CONCEPT DATA` …) vs Opus dock tabs; GPT2 gallery test lost history when coalesce deduped by `conceptId` instead of `artifactId`. Fixed Spark tabs to CONCEPT/EXPRESSION/FUNCTION/LINEAGE/HISTORY/HANDOFF; **`galleryCardIdentity`** uses `artifactId ?? id` when removing picked cards from history rail.
