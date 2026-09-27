@@ -11967,3 +11967,15 @@ Sprint **P0.VR.CONCEPT-A-AUTHORITY-SANITIZE-BEFORE-PROMOTION1**: structural clea
 ## 2026-09-27 — CI deploy: SPA htaccess verify soft-fail
 
 **deploy_frontend** failed **SPA_HTACCESS_ACTIVATE_FAILED** when deep-link probe returned HTTP 200 but `spaShell:false` (GoDaddy propagation / dotfile lag after FTP RNFR). **`isSpaShellHtml`** expanded (boot shell + bundle markers); verify tries multiple canonical routes; **`SPA_HTACCESS_VERIFY_STRICT=false`** default — FTP activation success no longer fails job; **`verify_release`** still smoke-tests routes.
+
+---
+
+## 2026-09-27 — P0.VR mobile authority confirm + experience expression stage fix 1
+
+Sprint **P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1**: separate **Mobile Authority confirmation** from gallery selection; real **Experience Expression** artifact + dedicated review surface; gate Tablet/Desktop until experience **approved**.
+
+- **State:** `mobileAuthorityStatus` SELECTED→CONFIRMED on **`confirmMobileAuthority`**; `experienceExpressionAuthority` + status machine NOT_STARTED→READY_FOR_REVIEW→APPROVED; **`generateExperienceExpression`** before approve (no hidden provider spend).
+- **Rail:** CONFIRMED shows **LOCKED FOR EXPERIENCE**; no CONFIRM after confirm; Experience not READY until artifact exists; Tablet/Desktop disabled **APPROVE EXPERIENCE FIRST**.
+- **Routing:** **`vf-review-experience`** → **`openExperienceReview`** overlay (not Generate Page Concepts); confirm vs select split on rail actions.
+- **UI:** `PageConceptExperienceExpressionReviewPanel`; founder footer **SELECTED:** binds concept letter; page concept NBP stage **PENDING** after mobile confirm (not stuck RUNNING).
+- **Tests:** `p0vrMobileAuthorityConfirmAndExperienceExpressionStageFix1.test.ts`; orchestration/page-family tests updated for confirm→generate→approve path.
