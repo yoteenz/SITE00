@@ -11917,3 +11917,17 @@ Founder: after each new concept generation, gallery thumbnails **shrunk/clustere
 ## 2026-09-27 — Gallery tap lag / preview jump
 
 Founder: tapping gallery thumbnails **lagged** and **preview jumped**. Causes: (1) `selectCandidate` called **`viewportFamilyHandlers.selectMobile`** (full API + `setGenerating`) on every tap; (2) MOBILE **`useEffect`** forced `candidateId` back to **`selectedMobileConceptId`** whenever they differed; (3) **`selectGalleryCandidate`** waited on network before UI; (4) per-candidate **`headerThumbnailCrop`** changed scale between cards. Fix: preview-only **`selectCandidate`**; authority sync only when `candidateId` not in gallery; optimistic **`applyLocalState`** on gallery select; uniform gallery header crop; stable transparent selection ring on concept cards.
+
+---
+
+## 2026-09-27 — P0.VR promoted project visual authority + capture sanitation 1
+
+Sprint **P0.VR.PROMOTED-PROJECT-VISUAL-AUTHORITY-AND-CAPTURE-SANITATION1**: stop phone/browser screenshot chrome from becoming design authority; lock mobile A/B/C to canonical **780×1688** canvas; **ProjectVisualAuthority** on explicit **PROMOTE PROJECT VISUAL AUTHORITY** (not gallery tap alone).
+
+- **Sanitation:** `pageConceptScreenshotSanitationMap.ts` — product bounds, excluded regions, crop to product before GPT2 structural slices; function map filters chrome labels + invariant that device/browser chrome is not page function.
+- **Canvas:** `pageConceptViewportCanvasContract.ts` + `pageConceptConceptArtifactNormalization.ts` — `validateConceptCanvas`, letterbox heuristic, run A/B/C consistency.
+- **PVA:** `projectVisualAuthority.ts` — registry (localStorage), versioning, `compileProjectVisualAuthorityPromptBlock` / `compileOpusProjectVisualAuthorityBlock`, explicit `CrossProjectDesignFamilyReference`; `founderCreativePreferenceProfile.ts` for cross-project taste without brand bleed.
+- **Pipeline:** GPT2 mobile references sanitized; prompt **v9** capture guard + PVA blocks in `pageConceptGpt2MobileProviderPromptCompiler.ts`; hierarchy includes PROJECT VISUAL AUTHORITY in `pageConceptGpt2AuthorityPackage.ts`.
+- **UI:** gallery action **PROMOTE PROJECT VISUAL AUTHORITY**; `project-visual-authority-indicator` + Concept Intelligence Dock EXPRESSION row when active.
+- **Tests:** `p0vrPromotedProjectVisualAuthorityAndCaptureSanitation1.test.ts` (13); GPT2 functional reference test updated for sanitized slice heights.
+- **Not fully wired this sprint:** deep pixel letterbox analysis; full Opus twin request package injection (compile block exists); PageFamilySkin cascade beyond contract fields.
