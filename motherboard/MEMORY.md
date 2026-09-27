@@ -11985,3 +11985,14 @@ Sprint **P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1**: 
 ## 2026-09-27 — P0.VR hero right rail button surface cleanup 1
 
 Sprint **P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1** (styling only): restored SITE 00 hero workflow rail button surfaces — primary lime/black text, secondary black/lime text, tertiary white+border, disabled muted gray; **`data-action-surface`** on rail buttons; REVIEW* actions use **ink** not floating lime; **`designGpt2ViewportFamilyRailButtonSurface.ts`** + `p0vrHeroRightRailButtonSurfaceCleanup1.test.ts`.
+
+---
+
+## 2026-09-27 — P0.VR experience expression FAL generation review and handoff 1
+
+Sprint **P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1**: after **Mobile Authority** confirm, **Experience** generates **2–4 FAL edit images** anchored on the approved mobile concept (menu/drawer/overlay/combined per function map); **BASE PAGE** inherits mobile image; review/approve gates Tablet/Desktop.
+
+- **Pipeline:** `pageConceptBeginExperienceExpressionGeneration` → `executePageConceptExperienceExpressionGeneration` (`FAL_EXPERIENCE` jobs) → `READY_FOR_REVIEW`; failures → **`FAILED`** (not stuck GENERATING). Approve requires **`EXPERIENCE_FAL_IMAGES_REQUIRED`** when provider FAL.
+- **Plans:** `pageConceptExperienceExpressionFalPlan.ts`, `executePageConceptExperienceExpressionFal.ts`; contract **`overlayPatterns`** enriched with **EXPERIENCE VISUAL PACKAGE** labels for GPT2 tablet/desktop prompts.
+- **UI:** Experience review panel shows **GENERATING EXPRESSIONS**, expression counts, approve disabled until FAL thumbnails exist.
+- **Tests:** `p0vrExperienceExpressionFalGenerationReviewAndHandoff1.test.ts` + existing mobile/experience stage tests pass.
