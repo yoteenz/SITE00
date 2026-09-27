@@ -12075,3 +12075,9 @@ Sprint **P0.VR.POST-HIERARCHY-FAMILY-INTERACTION-COVERAGE-REBUILD-PROOF1**: prov
 - **PSR:** `data-interaction-map-source` distinguishes **`PAGE_FAMILY_INTERACTION_MAP`** vs legacy review totals.
 - **Measured receipt (vitest pipeline):** **122** total (**44** page-specific on Overview, **78** inherited shell on 6 descendants), **19** experience-linked, **0** dead nav targets, **READY**.
 - **Tests:** `p0vrPostHierarchyFamilyInteractionCoverageRebuildProof1.test.ts`; hierarchy test expects **7/5/1** counts.
+
+---
+
+## 2026-09-27 — CI fix: PSR anchor subtree + twin orchestration gates
+
+Production **test** job failed: Content Ops PSR showed **2** direct children (Overview incorrectly included); GPT2 twin tests missing **approvePageFamilyBlueprint** / **approvePageFamilyInteractionMap** and expected obsolete **PAGE_FAMILY_CONTRACT** gate before lock (skin contract now approved with blueprint). **Fix:** `isDescendantOfAnchor` parent-walk in **`projectPageFamilyHierarchyDiscovery.ts`**; **`p0vrGpt2ViewportFamilyTwinOrchestration1.test.ts`** updated gate sequence.

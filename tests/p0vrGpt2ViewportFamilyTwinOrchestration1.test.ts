@@ -105,6 +105,9 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
     expect(r.state.pipelineSet?.viewportAuthorityFamily?.viewportFamilyApprovalId).toBeTruthy();
     expect(r.state.pipelineSet?.pageFamilySkinBehaviorContract?.contractId).toBeTruthy();
 
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyBlueprint' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyInteractionMap' });
+
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
     expect(r.state.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt).toBeTruthy();
 
@@ -181,8 +184,13 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });
     expect(() => pageConceptLockViewportFamily(r.state)).toThrow(/FAMILY_APPROVAL_REQUIRED/);
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveViewportFamily' });
-    expect(() => pageConceptLockViewportFamily(r.state)).toThrow(/PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED/);
-    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
+    expect(() => pageConceptLockViewportFamily(r.state)).toThrow(/PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED/);
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyBlueprint' });
+    expect(() => pageConceptLockViewportFamily(r.state)).toThrow(/OPUS_PAGE_FAMILY_HANDOFF_REQUIRED/);
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilyInteractionMap' });
+    expect(r.state.pipelineSet?.pageFamilySkinBehaviorContract?.approvedAt).toBeTruthy();
+    expect(r.state.pipelineSet?.opusPageFamilyHandoff?.handoffId).toBeTruthy();
+    expect(() => pageConceptLockViewportFamily(r.state)).not.toThrow();
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'lockViewportFamily' });
     await expect(
       runPageConceptViewportFamilyAction(r.state, { type: 'createTwinImplementationPackage' }),

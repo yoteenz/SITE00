@@ -116,20 +116,44 @@ function absoluteDepth(
   return depth;
 }
 
+function isDescendantOfAnchor(
+  anchor: DesignBoundPageRecord,
+  page: DesignBoundPageRecord,
+  parentById: ReadonlyMap<string, DesignBoundPageRecord | null>,
+): boolean {
+  let cursor: DesignBoundPageRecord | null = page;
+  const seen = new Set<string>();
+  while (cursor && seen.size < 12) {
+    if (cursor.pageId === anchor.pageId) return true;
+    if (seen.has(cursor.pageId)) break;
+    seen.add(cursor.pageId);
+    cursor = parentById.get(cursor.pageId) ?? null;
+  }
+  return false;
+}
+
 function familyDepthRelativeToAnchor(
   anchor: DesignBoundPageRecord,
   page: DesignBoundPageRecord,
   parentById: ReadonlyMap<string, DesignBoundPageRecord | null>,
 ): 0 | 1 | 2 | 3 {
   if (page.pageId === anchor.pageId) return 0;
-  const parent = parentById.get(page.pageId) ?? null;
-  if (!parent) return 1;
-  if (parent.pageId === anchor.pageId) return 1;
-  const parentOfParent = parentById.get(parent.pageId) ?? null;
-  if (!parentOfParent) return 2;
-  if (parentOfParent.pageId === anchor.pageId) return 2;
-  const abs = absoluteDepth(page, parentById);
-  if (abs >= 3) return 3;
+  if (!isDescendantOfAnchor(anchor, page, parentById)) return 3;
+
+  let steps = 0;
+  let cursor: DesignBoundPageRecord | null = page;
+  const seen = new Set<string>();
+  while (cursor && cursor.pageId !== anchor.pageId && seen.size < 12) {
+    if (seen.has(cursor.pageId)) break;
+    seen.add(cursor.pageId);
+    const parent = parentById.get(cursor.pageId) ?? null;
+    if (!parent) return 3;
+    steps += 1;
+    cursor = parent;
+  }
+  if (cursor?.pageId !== anchor.pageId) return 3;
+  if (steps === 1) return 1;
+  if (steps === 2) return 2;
   return 2;
 }
 
