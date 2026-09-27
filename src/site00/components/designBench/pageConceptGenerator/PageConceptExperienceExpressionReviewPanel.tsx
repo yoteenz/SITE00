@@ -24,6 +24,12 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
   const family = props.state.pipelineSet?.viewportAuthorityFamily;
   const conceptLabel = slotLabelFromConceptId(props.state.pipelineSet ?? null, family?.confirmedMobileConceptId ?? null);
   const approved = authority?.status === 'APPROVED';
+  const generating = authority?.status === 'GENERATING';
+  const failed = authority?.status === 'FAILED';
+  const falImageCount = (authority?.visualStates ?? []).filter(
+    (v) => v.sourceProvider === 'FAL_EXPERIENCE' && v.previewImageUri,
+  ).length;
+  const falTargetCount = (authority?.visualStates ?? []).filter((v) => v.sourceProvider === 'FAL_EXPERIENCE').length;
   const visualStates = authority?.visualStates ?? [];
   const [activeStateId, setActiveStateId] = useState(visualStates[0]?.stateId ?? 'base');
 
@@ -51,7 +57,15 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
           SOURCE · MOBILE AUTHORITY · {conceptLabel ?? '—'}
         </p>
         <p data-testid="page-concept-experience-status-line">
-          STATUS · {approved ? 'APPROVED' : 'READY FOR REVIEW'}
+          STATUS ·{' '}
+          {approved ? 'APPROVED'
+          : generating ? 'GENERATING EXPRESSIONS'
+          : failed ? 'GENERATION FAILED'
+          : authority.status === 'READY_FOR_REVIEW' ? 'READY FOR REVIEW'
+          : authority.status}
+        </p>
+        <p data-testid="page-concept-experience-expression-count">
+          EXPRESSIONS · {falImageCount}/{falTargetCount || '—'} FAL · {visualStates.length} total states
         </p>
       </header>
 
@@ -100,7 +114,7 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
             <button
               type="button"
               className="s00-pcg__secAction s00-pcg__secAction--primary"
-              disabled={props.busy}
+              disabled={props.busy || generating || failed || falImageCount < falTargetCount}
               data-testid="page-concept-approve-experience-review"
               onClick={props.onApprove}
             >

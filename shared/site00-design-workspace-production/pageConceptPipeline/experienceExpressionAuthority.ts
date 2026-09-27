@@ -6,6 +6,10 @@
 import type { PageConceptCgptCreativeBrief, PageCreativeInjection, PageFunctionContract } from './types.js';
 import type { ProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import type { PageGpt2MobileConcept } from './pageConceptViewportAuthorityFamily.js';
+import {
+  buildExperienceExpressionFalTargets,
+  PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION,
+} from './pageConceptExperienceExpressionFalPlan.js';
 
 export type ExperienceExpressionPatternType =
   | 'DRAWER'
@@ -40,9 +44,12 @@ export type ExperienceExpressionVisualState = {
   stateId: string;
   label: string;
   patternType: ExperienceExpressionPatternType | 'BASE_PAGE';
-  /** Representative preview — typically inherited mobile authority image URI. */
+  /** Representative preview — inherited mobile or FAL-generated expression image. */
   previewImageUri: string | null;
   caption: string;
+  sourceProvider?: 'INHERITED_MOBILE' | 'FAL_EXPERIENCE';
+  generatedArtifactId?: string | null;
+  falPromptVersion?: string | null;
 };
 
 export type ResponsiveExperienceRule = {
@@ -73,6 +80,9 @@ export type ExperienceExpressionAuthority = {
   visualStateContract: string;
   responsiveRules: readonly ResponsiveExperienceRule[];
   visualStates: readonly ExperienceExpressionVisualState[];
+  expressionAssetIds?: readonly string[];
+  provider?: 'FAL' | 'COMPILED_ONLY';
+  falModel?: string | null;
   generatedAt: string | null;
   approvedAt: string | null;
 };
@@ -124,42 +134,32 @@ export function compileExperienceExpressionAuthority(input: {
     inheritanceScope: 'MOBILE AUTHORITY + SITE00 PROJECT EXPRESSION',
   }));
 
+  const falTargets = buildExperienceExpressionFalTargets({
+    functionContract: input.functionContract,
+    cgptBrief: input.cgptBrief,
+    injection: input.injection,
+    routeLabel: input.functionContract.route,
+  });
+
   const visualStates: ExperienceExpressionVisualState[] = [
     {
       stateId: 'base',
       label: 'BASE PAGE',
       patternType: 'BASE_PAGE',
       previewImageUri: mobilePreview,
-      caption: 'Approved mobile concept at rest.',
+      caption: 'Approved mobile concept at rest (anchor — not regenerated).',
+      sourceProvider: 'INHERITED_MOBILE',
     },
+    ...falTargets.map((target) => ({
+      stateId: target.stateId,
+      label: target.label,
+      patternType: target.patternType,
+      previewImageUri: null,
+      caption: 'FAL expression pending generation from approved mobile authority.',
+      sourceProvider: 'FAL_EXPERIENCE' as const,
+      falPromptVersion: PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION,
+    })),
   ];
-  if (patternTypes.includes('DRAWER')) {
-    visualStates.push({
-      stateId: 'drawer',
-      label: 'DRAWER / PANEL OPEN',
-      patternType: 'DRAWER',
-      previewImageUri: mobilePreview,
-      caption: 'Panel open state — geometry inherited from mobile authority.',
-    });
-  }
-  if (patternTypes.includes('MODAL') || patternTypes.includes('OVERLAY')) {
-    visualStates.push({
-      stateId: 'overlay',
-      label: 'MODAL / OVERLAY',
-      patternType: 'MODAL',
-      previewImageUri: mobilePreview,
-      caption: 'Focus overlay with brand frame and scrim.',
-    });
-  }
-  if (patternTypes.includes('MENU')) {
-    visualStates.push({
-      stateId: 'menu',
-      label: 'MENU / EXPANDED NAV',
-      patternType: 'MENU',
-      previewImageUri: mobilePreview,
-      caption: 'Expanded navigation or menu state.',
-    });
-  }
 
   const responsiveRules: ResponsiveExperienceRule[] = patternTypes
     .filter((p) => p === 'DRAWER' || p === 'MODAL' || p === 'MENU')
@@ -201,7 +201,10 @@ export function compileExperienceExpressionAuthority(input: {
     sourceMobileAuthorityId: input.mobileConcept.conceptId,
     sourceMobileArtifactId: input.mobileConcept.artifactId,
     sourceConceptId: input.mobileConcept.conceptId,
-    status: 'READY_FOR_REVIEW',
+    status: 'NOT_STARTED',
+    provider: 'FAL',
+    falModel: null,
+    expressionAssetIds: [],
     patterns,
     behaviorContract,
     visualStateContract,
