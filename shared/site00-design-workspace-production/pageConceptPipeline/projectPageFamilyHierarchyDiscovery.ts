@@ -2,7 +2,11 @@
  * P0.VR.NDXBOOK-PAGE-FAMILY-HIERARCHY-DISCOVERY-AND-INGESTION-FIX1
  */
 
-import { buildProjectDesignPageRegistry, getDesignBoundPage } from '../designProjectBinding/designPageRegistry.js';
+import {
+  buildProjectDesignPageRegistry,
+  getDesignBoundPage,
+  NDXBOOK_CANONICAL_PAGE_FAMILY_SCREEN_IDS,
+} from '../designProjectBinding/designPageRegistry.js';
 import type { DesignBoundPageRecord } from '../designProjectBinding/types.js';
 import { discoverProjectRoutes } from '../../site00-studio-world-production/visualReconstruction/p0vr8/routeDiscoveryService.js';
 import { listDesignScreensForProject } from '../../site00-studio-world-production/visualReconstruction/p0vr2/designScreenRegistry.js';
@@ -151,12 +155,35 @@ function buildInventory(
   });
 }
 
+function filterScreensToPageFamilyCohort(
+  projectId: string,
+  screens: readonly { screenId: string }[],
+): readonly { screenId: string }[] {
+  if (projectId !== 'ndxbook') return screens;
+  return screens.filter((s) => NDXBOOK_CANONICAL_PAGE_FAMILY_SCREEN_IDS.has(s.screenId));
+}
+
+function canonicalFamilyRecords(
+  projectId: string,
+  registry: readonly DesignBoundPageRecord[],
+): DesignBoundPageRecord[] {
+  let records = registry.filter((p) => classifyPage(p) === 'CANONICAL');
+  if (projectId === 'ndxbook') {
+    records = records.filter((p) => NDXBOOK_CANONICAL_PAGE_FAMILY_SCREEN_IDS.has(p.screenId));
+  }
+  return records;
+}
+
 function countSources(projectId: string, canonicalPages: readonly DesignBoundPageRecord[]): PageFamilyHierarchyDiagnostics {
-  const routeScreens = discoverProjectRoutes(projectId, { screenSetMode: 'ALL_DESIGNABLE' }).filter(
-    (s) => !DEPRECATED_SCREEN_IDS.has(s.screenId),
+  const routeScreens = filterScreensToPageFamilyCohort(
+    projectId,
+    discoverProjectRoutes(projectId, { screenSetMode: 'PRIMARY' }).filter(
+      (s) => !DEPRECATED_SCREEN_IDS.has(s.screenId),
+    ),
   );
-  const navScreens = listDesignScreensForProject(projectId, true).filter(
-    (s) => !DEPRECATED_SCREEN_IDS.has(s.screenId),
+  const navScreens = filterScreensToPageFamilyCohort(
+    projectId,
+    listDesignScreensForProject(projectId, true).filter((s) => !DEPRECATED_SCREEN_IDS.has(s.screenId)),
   );
   return {
     routeRegistryPageCount: routeScreens.length,
@@ -180,7 +207,7 @@ export function discoverProjectPageFamilyLayout(
   anchorPageId: string,
 ): CanonicalPageFamilyLayout {
   const registry = buildProjectDesignPageRegistry(projectId).filter((p) => !p.isConceptOrphan);
-  const canonicalRecords = registry.filter((p) => classifyPage(p) === 'CANONICAL');
+  const canonicalRecords = canonicalFamilyRecords(projectId, registry);
   const parentById = new Map<string, DesignBoundPageRecord | null>(
     canonicalRecords.map((p) => [p.pageId, resolveDesignPageParent(p, canonicalRecords)]),
   );

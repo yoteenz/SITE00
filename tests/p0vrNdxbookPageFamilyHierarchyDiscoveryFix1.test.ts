@@ -87,8 +87,9 @@ describe('P0.VR.NDXBOOK-PAGE-FAMILY-HIERARCHY-DISCOVERY-FIX1', () => {
   it('discovers multiple canonical NDXBOOK pages (not current route only)', () => {
     const layout = discoverProjectPageFamilyLayout(PROJECT, overviewPageId());
     expect(layout.discoveryStatus).toBe('RESOLVED');
-    expect(layout.receipt.totalPageCount).toBeGreaterThan(1);
-    expect(layout.receipt.childPageCount).toBeGreaterThan(0);
+    expect(layout.receipt.totalPageCount).toBe(7);
+    expect(layout.receipt.childPageCount).toBe(5);
+    expect(layout.receipt.grandchildPageCount).toBe(1);
     expect(layout.receipt.childPages.length).toBeGreaterThan(0);
     expect(layout.receipt.grandchildPages.some((g) => g.includes('Campaign Board'))).toBe(true);
   });

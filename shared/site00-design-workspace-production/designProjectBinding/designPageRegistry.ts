@@ -31,7 +31,7 @@ const NDX_DESKTOP_REFERENCE: Partial<Record<string, string>> = {
 };
 
 /** Parent map derived from NDXBOOK route structure (not invented pages). */
-const NDX_PARENT_BY_SCREEN: Record<string, string | null> = {
+export const NDX_PARENT_BY_SCREEN: Record<string, string | null> = {
   overview: null,
   'desktop-overview': null,
   'content-ops': null,
@@ -41,6 +41,11 @@ const NDX_PARENT_BY_SCREEN: Record<string, string | null> = {
   'character-lab': null,
   'bottom-nav-icons': null,
 };
+
+/** Founder page-family cohort for NDXBOOK (excludes deprecated desktop-overview). */
+export const NDXBOOK_CANONICAL_PAGE_FAMILY_SCREEN_IDS: ReadonlySet<string> = new Set(
+  Object.keys(NDX_PARENT_BY_SCREEN).filter((screenId) => screenId !== 'desktop-overview'),
+);
 
 function inferDesignStatus(screenId: string, mirrorStatus: string): DesignPageDesignStatus {
   if (mirrorStatus === 'ROUTE_MISSING') return 'PLANNED';
@@ -88,6 +93,7 @@ export function buildProjectDesignPageRegistry(projectId: string): DesignBoundPa
 
   for (const screen of screens) {
     if (screen.screenId === 'desktop-overview') continue;
+    if (projectId === 'ndxbook' && !NDXBOOK_CANONICAL_PAGE_FAMILY_SCREEN_IDS.has(screen.screenId)) continue;
     const mirror = byScreen.get(screen.screenId);
     const route = resolveDesignScreenRoute(screen, projectId);
     const designStatus = inferDesignStatus(screen.screenId, mirror?.status ?? 'DISCOVERED');

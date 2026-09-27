@@ -12063,3 +12063,15 @@ Sprint **P0.VR.PAGE-FAMILY-INTERACTION-MAP-AND-HANDOFF-GATE1**: formal **Interac
 ## 2026-09-27 — P0.VR NDXBOOK page family hierarchy discovery fix 1
 
 Corrective **P0.VR.NDXBOOK-PAGE-FAMILY-HIERARCHY-DISCOVERY-AND-INGESTION-FIX1**: Page Family Blueprint + Page System Review now share **`discoverProjectPageFamilyLayout`** (canonical design registry + route/nav cross-check + parent resolution). NDXBOOK Overview anchor yields **7** canonical pages (**5** children, **1** grandchild Campaign Board under Content Ops), not 1/1 false complete. **`hierarchyReceipt`** on blueprint; guards **`PAGE_FAMILY_HIERARCHY_MISMATCH`**, **`PAGE_FAMILY_SOURCE_DIVERGENCE`**; Opus/interaction gates require **`HIERARCHY_DISCOVERY_STATUS = RESOLVED`**. PSR hierarchy diagnostic row in UI. **Tests:** `p0vrNdxbookPageFamilyHierarchyDiscoveryFix1.test.ts`.
+
+---
+
+## 2026-09-27 — P0.VR post-hierarchy family interaction coverage rebuild proof 1
+
+Sprint **P0.VR.POST-HIERARCHY-FAMILY-INTERACTION-COVERAGE-REBUILD-PROOF1**: prove rebuilt Interaction Map covers full **7-page** NDXBOOK family after v684 hierarchy fix (not stale **44** one-page totals).
+
+- **Root fix:** Route-recovery screens polluted hierarchy (45 nodes / **616** interactions). **`NDXBOOK_CANONICAL_PAGE_FAMILY_SCREEN_IDS`** (`designPageRegistry.ts`) + cohort filter in **`discoverProjectPageFamilyLayout`** and design registry build limit family to pilot **7** screens; source reconciliation uses PRIMARY + cohort.
+- **`pageFamilyInteractionCoverageProof.ts`:** founder receipt builder (per-page breakdown, nav/cross-page proofs, build readiness, stale-44 guard).
+- **PSR:** `data-interaction-map-source` distinguishes **`PAGE_FAMILY_INTERACTION_MAP`** vs legacy review totals.
+- **Measured receipt (vitest pipeline):** **122** total (**44** page-specific on Overview, **78** inherited shell on 6 descendants), **19** experience-linked, **0** dead nav targets, **READY**.
+- **Tests:** `p0vrPostHierarchyFamilyInteractionCoverageRebuildProof1.test.ts`; hierarchy test expects **7/5/1** counts.
