@@ -118,9 +118,65 @@ export type PageFamilyBlueprint = {
   parentCount: number;
   childCount: number;
   grandchildCount: number;
+  totalPageCount: number;
+  coverageMatrix: PageFamilyCoverageMatrix;
+  coverageSummary: PageFamilyCoverageSummary;
+  handoffPreview: OpusPageFamilyHandoffPreview;
   approvedAt: string | null;
   createdAt: string;
 };
+
+export type PageFamilyCoverageStatus =
+  | 'COVERED_BY_UNIQUE_SHELL'
+  | 'COVERED_BY_APPROVED_ARCHETYPE'
+  | 'BLOCKED_UNDEFINED';
+
+export type PageFamilyCoverageRow = {
+  pageId: string;
+  pageName: string;
+  route: string;
+  depth: 0 | 1 | 2;
+  functionRole: PageFunctionRole;
+  assignedArchetype: PageFamilyShellArchetype;
+  inheritanceDirectiveId: string;
+  responsiveContractId: string;
+  experiencePatternIds: readonly string[];
+  opusShellRequired: boolean;
+  opusShellId: string | null;
+  inheritedShellId: string | null;
+  coverageStatus: PageFamilyCoverageStatus;
+};
+
+export type PageFamilyCoverageMatrix = {
+  matrixId: string;
+  blueprintId: string;
+  rows: readonly PageFamilyCoverageRow[];
+};
+
+export type PageFamilyCoverageSummary = {
+  parentPageCount: number;
+  childPageCount: number;
+  grandchildPageCount: number;
+  totalPageCount: number;
+  uniqueShellCount: number;
+  sharedArchetypeCount: number;
+  pagesUsingSharedArchetypes: number;
+  coveredByUniqueShell: number;
+  coveredByApprovedArchetype: number;
+  undefinedPageCount: number;
+};
+
+export type OpusPageFamilyHandoffPreview = {
+  parentShellArchetypes: readonly PageFamilyShellArchetype[];
+  childShellArchetypes: readonly PageFamilyShellArchetype[];
+  grandchildShellArchetypes: readonly PageFamilyShellArchetype[];
+  sharedExperiencePatterns: readonly string[];
+  totalOpusShellsToCreate: number;
+  uniqueShellCount: number;
+  sharedArchetypeCount: number;
+};
+
+export type PageFamilySkinLifecycleStatus = 'READY_FOR_FOUNDER_APPROVAL' | 'FINALIZED' | 'NOT_COMPILED';
 
 export type OpusPageFamilyHandoff = {
   handoffId: string;
@@ -135,6 +191,10 @@ export type OpusPageFamilyHandoff = {
   archetypeShellKinds: readonly OpusRepresentativeShellKind[];
   responsiveInheritanceSummary: readonly string[];
   pageHierarchySummary: string;
+  pageCoveragePercent: number;
+  undefinedPageCount: number;
+  handoffPreview: OpusPageFamilyHandoffPreview;
+  coverageMatrixId: string;
   createdAt: string;
 };
 
@@ -419,8 +479,11 @@ export function compilePageFamilyBlueprint(input: {
     ...input.experienceContract.overlayPatterns,
   ];
 
-  return {
-    blueprintId: `pfbp-${input.sourceViewportFamilyId}-${Date.now()}`,
+  const blueprintId = `pfbp-${input.sourceViewportFamilyId}-${Date.now()}`;
+  const draft: Omit<PageFamilyBlueprint, 'coverageMatrix' | 'coverageSummary' | 'handoffPreview'> & {
+    blueprintId: string;
+  } = {
+    blueprintId,
     version: 'v1-blueprint',
     projectId: input.projectId,
     parentPageId: input.parentPageId,
@@ -436,8 +499,201 @@ export function compilePageFamilyBlueprint(input: {
     parentCount: 1,
     childCount: childNodes.length,
     grandchildCount: grandchildNodes.length,
+    totalPageCount: nodes.length,
     approvedAt: null,
     createdAt: new Date().toISOString(),
+  };
+  const coverageMatrix = compilePageFamilyCoverageMatrix({
+    blueprintId,
+    nodes,
+    experiencePatternIds: input.experienceContract.overlayPatterns,
+    childDirectives,
+    grandchildDirectives,
+  });
+  const coverageSummary = summarizePageFamilyCoverage(coverageMatrix);
+  const assembled: PageFamilyBlueprint = {
+    ...draft,
+    coverageMatrix,
+    coverageSummary,
+    handoffPreview: {
+      parentShellArchetypes: [],
+      childShellArchetypes: [],
+      grandchildShellArchetypes: [],
+      sharedExperiencePatterns: [],
+      totalOpusShellsToCreate: 0,
+      uniqueShellCount: 0,
+      sharedArchetypeCount: 0,
+    },
+  };
+  assembled.handoffPreview = buildOpusPageFamilyHandoffPreview(assembled, coverageSummary);
+  return assembled;
+}
+
+function directiveIdForNode(node: PageFamilyBlueprintNode, childDirectives: readonly ChildPageExpressionDirective[], grandchildDirectives: readonly GrandchildPageExpressionDirective[]): string {
+  if (node.depth === 0) return `inherit-parent-${node.pageId}`;
+  if (node.depth === 1) {
+    const d = childDirectives.find((c) => c.pageId === node.pageId);
+    return d ? `child-directive-${d.pageId}` : `inherit-child-${node.pageId}`;
+  }
+  const d = grandchildDirectives.find((c) => c.pageId === node.pageId);
+  return d ? `grandchild-directive-${d.pageId}` : `inherit-grandchild-${node.pageId}`;
+}
+
+function opusShellIdForNode(node: PageFamilyBlueprintNode): string | null {
+  if (node.depth === 0) return `opus-shell-PARENT-${node.shellArchetype}`;
+  if (node.depth === 1) {
+    return node.shellArchetype === 'LIST_SHELL' || node.shellArchetype === 'INDEX_SHELL' ?
+        `opus-shell-CHILD_LIST-${node.shellArchetype}`
+      : `opus-shell-CHILD_DETAIL-${node.shellArchetype}`;
+  }
+  return `opus-shell-GRANDCHILD_DETAIL-${node.shellArchetype}`;
+}
+
+export function compilePageFamilyCoverageMatrix(input: {
+  blueprintId: string;
+  nodes: readonly PageFamilyBlueprintNode[];
+  experiencePatternIds: readonly string[];
+  childDirectives: readonly ChildPageExpressionDirective[];
+  grandchildDirectives: readonly GrandchildPageExpressionDirective[];
+}): PageFamilyCoverageMatrix {
+  const archetypeUsage = new Map<PageFamilyShellArchetype, number>();
+  for (const node of input.nodes) {
+    archetypeUsage.set(node.shellArchetype, (archetypeUsage.get(node.shellArchetype) ?? 0) + 1);
+  }
+
+  const rows: PageFamilyCoverageRow[] = input.nodes.map((node) => {
+    const hasRole = Boolean(node.functionRole);
+    const hasArchetype = Boolean(node.shellArchetype);
+    const hasInheritance = node.inheritance.inherited.length > 0 && node.inheritance.locked.length > 0;
+    const responsiveContractId = `responsive-${node.shellArchetype}`;
+    const inheritanceDirectiveId = directiveIdForNode(node, input.childDirectives, input.grandchildDirectives);
+    const usage = archetypeUsage.get(node.shellArchetype) ?? 0;
+    let coverageStatus: PageFamilyCoverageStatus = 'BLOCKED_UNDEFINED';
+    if (hasRole && hasArchetype && hasInheritance && responsiveContractId) {
+      coverageStatus =
+        usage === 1 ? 'COVERED_BY_UNIQUE_SHELL' : 'COVERED_BY_APPROVED_ARCHETYPE';
+    }
+    const opusShellId = coverageStatus === 'BLOCKED_UNDEFINED' ? null : opusShellIdForNode(node);
+    return {
+      pageId: node.pageId,
+      pageName: node.pageName,
+      route: node.route,
+      depth: node.depth,
+      functionRole: node.functionRole,
+      assignedArchetype: node.shellArchetype,
+      inheritanceDirectiveId,
+      responsiveContractId,
+      experiencePatternIds: input.experiencePatternIds.slice(0, 4),
+      opusShellRequired: node.depth >= 0,
+      opusShellId,
+      inheritedShellId: usage > 1 ? `shared-archetype-${node.shellArchetype}` : null,
+      coverageStatus,
+    };
+  });
+
+  return {
+    matrixId: `pfcm-${input.blueprintId.slice(-12)}`,
+    blueprintId: input.blueprintId,
+    rows,
+  };
+}
+
+export function summarizePageFamilyCoverage(matrix: PageFamilyCoverageMatrix): PageFamilyCoverageSummary {
+  const rows = matrix.rows;
+  const parentPageCount = rows.filter((r) => r.depth === 0).length;
+  const childPageCount = rows.filter((r) => r.depth === 1).length;
+  const grandchildPageCount = rows.filter((r) => r.depth === 2).length;
+  const undefinedPageCount = rows.filter((r) => r.coverageStatus === 'BLOCKED_UNDEFINED').length;
+  const coveredByUniqueShell = rows.filter((r) => r.coverageStatus === 'COVERED_BY_UNIQUE_SHELL').length;
+  const coveredByApprovedArchetype = rows.filter(
+    (r) => r.coverageStatus === 'COVERED_BY_APPROVED_ARCHETYPE',
+  ).length;
+  const sharedArchetypes = new Set(
+    rows.filter((r) => r.coverageStatus === 'COVERED_BY_APPROVED_ARCHETYPE').map((r) => r.assignedArchetype),
+  );
+  const uniqueArchetypes = new Set(
+    rows.filter((r) => r.coverageStatus === 'COVERED_BY_UNIQUE_SHELL').map((r) => r.assignedArchetype),
+  );
+  const pagesUsingSharedArchetypes = coveredByApprovedArchetype;
+  return {
+    parentPageCount,
+    childPageCount,
+    grandchildPageCount,
+    totalPageCount: rows.length,
+    uniqueShellCount: uniqueArchetypes.size,
+    sharedArchetypeCount: sharedArchetypes.size,
+    pagesUsingSharedArchetypes,
+    coveredByUniqueShell,
+    coveredByApprovedArchetype,
+    undefinedPageCount,
+  };
+}
+
+export function buildOpusPageFamilyHandoffPreview(
+  blueprint: PageFamilyBlueprint,
+  summary?: PageFamilyCoverageSummary,
+): OpusPageFamilyHandoffPreview {
+  const s = summary ?? blueprint.coverageSummary;
+  const parentShellArchetypes = blueprint.nodes.filter((n) => n.depth === 0).map((n) => n.shellArchetype);
+  const childShellArchetypes = [...new Set(blueprint.nodes.filter((n) => n.depth === 1).map((n) => n.shellArchetype))];
+  const grandchildShellArchetypes = [
+    ...new Set(blueprint.nodes.filter((n) => n.depth === 2).map((n) => n.shellArchetype)),
+  ];
+  const navAndOverlayShells = 5;
+  const totalOpusShellsToCreate =
+    s.uniqueShellCount + s.sharedArchetypeCount + navAndOverlayShells;
+  return {
+    parentShellArchetypes,
+    childShellArchetypes,
+    grandchildShellArchetypes,
+    sharedExperiencePatterns: blueprint.experiencePackageInheritance?.slice(0, 6) ?? [],
+    totalOpusShellsToCreate,
+    uniqueShellCount: s.uniqueShellCount,
+    sharedArchetypeCount: s.sharedArchetypeCount,
+  };
+}
+
+export function resolvePageFamilySkinStatus(input: {
+  skinContractApprovedAt: string | null | undefined;
+  blueprintApprovedAt: string | null | undefined;
+}): PageFamilySkinLifecycleStatus {
+  if (!input.skinContractApprovedAt && !input.blueprintApprovedAt) return 'READY_FOR_FOUNDER_APPROVAL';
+  if (input.blueprintApprovedAt && input.skinContractApprovedAt) return 'FINALIZED';
+  if (!input.blueprintApprovedAt) return 'READY_FOR_FOUNDER_APPROVAL';
+  return 'NOT_COMPILED';
+}
+
+export function assertPageFamilyBlueprintCoverageComplete(blueprint: PageFamilyBlueprint): void {
+  const summary = blueprint.coverageSummary;
+  if (summary.undefinedPageCount > 0) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+  if (summary.totalPageCount !== blueprint.nodes.length) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+  if (summary.childPageCount !== blueprint.childCount) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+  if (summary.grandchildPageCount !== blueprint.grandchildCount) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+  if (summary.parentPageCount !== blueprint.parentCount) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+  for (const row of blueprint.coverageMatrix.rows) {
+    if (!row.functionRole || !row.assignedArchetype) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+    if (!row.inheritanceDirectiveId || !row.responsiveContractId) throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+    if (row.coverageStatus === 'BLOCKED_UNDEFINED') throw new Error('PAGE_FAMILY_BLUEPRINT_INCOMPLETE');
+  }
+}
+
+export function buildPageFamilyCoverageReceipt(blueprint: PageFamilyBlueprint): Record<string, string | number> {
+  const s = blueprint.coverageSummary;
+  const childNames = blueprint.nodes.filter((n) => n.depth === 1).map((n) => n.pageName).join(', ') || '(none)';
+  const grandchildNames =
+    blueprint.nodes.filter((n) => n.depth === 2).map((n) => n.pageName).join(', ') || '(none)';
+  return {
+    PARENT_PAGE_COUNT: s.parentPageCount,
+    CHILD_PAGE_COUNT: s.childPageCount,
+    GRANDCHILD_PAGE_COUNT: s.grandchildPageCount,
+    TOTAL_PAGE_COUNT: s.totalPageCount,
+    CHILD_PAGES: childNames,
+    GRANDCHILD_PAGES: grandchildNames,
+    UNIQUE_SHELL_COUNT: s.uniqueShellCount,
+    SHARED_ARCHETYPE_COUNT: s.sharedArchetypeCount,
+    COVERED_BY_UNIQUE_SHELL: s.coveredByUniqueShell,
+    COVERED_BY_APPROVED_ARCHETYPE: s.coveredByApprovedArchetype,
+    UNDEFINED_PAGE_COUNT: s.undefinedPageCount,
   };
 }
 
@@ -472,6 +728,11 @@ export function validatePageFamilyBlueprint(
     }
   }
   if (!blueprint.experiencePackageInheritance.length) return { ok: false, code: 'EXPERIENCE_PACKAGE_MISSING' };
+  try {
+    assertPageFamilyBlueprintCoverageComplete(blueprint);
+  } catch {
+    return { ok: false, code: 'PAGE_FAMILY_BLUEPRINT_INCOMPLETE' };
+  }
   return { ok: true };
 }
 
@@ -496,11 +757,6 @@ export function mapArchetypesToOpusShellKinds(
     }
     if (node.depth === 2) kinds.add('GRANDCHILD_DETAIL');
   }
-  if (!blueprint.grandchildCount) kinds.add('GRANDCHILD_DETAIL');
-  if (!blueprint.childCount) {
-    kinds.add('CHILD_LIST');
-    kinds.add('CHILD_DETAIL');
-  }
   return [...kinds];
 }
 
@@ -510,6 +766,17 @@ export function buildOpusPageFamilyHandoff(input: {
 }): OpusPageFamilyHandoff {
   const bp = input.blueprint;
   if (!bp.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  assertPageFamilyBlueprintCoverageComplete(bp);
+  if (bp.coverageSummary.undefinedPageCount > 0) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_INCOMPLETE');
+  const pageCoveragePercent =
+    bp.coverageSummary.totalPageCount === 0 ?
+      100
+    : Math.round(
+        ((bp.coverageSummary.totalPageCount - bp.coverageSummary.undefinedPageCount) /
+          bp.coverageSummary.totalPageCount) *
+          100,
+      );
+  if (pageCoveragePercent < 100) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_INCOMPLETE');
   return {
     handoffId: `opfh-${bp.blueprintId.slice(-12)}-${Date.now()}`,
     blueprintId: bp.blueprintId,
@@ -525,7 +792,11 @@ export function buildOpusPageFamilyHandoff(input: {
       `${a.archetype}:MOBILE=${a.mobile[0] ?? ''}`,
       `${a.archetype}:DESKTOP=${a.desktop[0] ?? ''}`,
     ]),
-    pageHierarchySummary: `parent=${bp.parentPageName};children=${bp.childCount};grandchildren=${bp.grandchildCount}`,
+    pageHierarchySummary: `parent=${bp.parentPageName};children=${bp.childCount};grandchildren=${bp.grandchildCount};total=${bp.totalPageCount}`,
+    pageCoveragePercent,
+    undefinedPageCount: bp.coverageSummary.undefinedPageCount,
+    handoffPreview: bp.handoffPreview,
+    coverageMatrixId: bp.coverageMatrix.matrixId,
     createdAt: new Date().toISOString(),
   };
 }

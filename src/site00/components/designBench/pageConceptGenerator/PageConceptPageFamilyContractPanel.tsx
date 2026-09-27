@@ -3,6 +3,7 @@
  */
 
 import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { resolvePageFamilySkinStatus } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageFamilyBlueprint.js';
 
 export type PageConceptPageFamilyContractPanelProps = {
   state: PageConceptGenerationState;
@@ -20,6 +21,12 @@ export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyC
 
   const shellsReady = Boolean(shellSet?.readyAt && shellSet.shells.every((s) => s.status === 'READY'));
   const blueprintApproved = Boolean(blueprint?.approvedAt);
+  const skinStatus = resolvePageFamilySkinStatus({
+    skinContractApprovedAt: contract.approvedAt,
+    blueprintApprovedAt: blueprint?.approvedAt,
+  });
+  const undefinedPages = blueprint?.coverageSummary.undefinedPageCount ?? 0;
+  const preview = blueprint?.handoffPreview;
 
   return (
     <section className="s00-pcg__pageFamilyContract" data-testid="page-concept-page-family-system-review">
@@ -28,22 +35,43 @@ export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyC
         <p>Parent, child, and grandchild roles before Opus twin shells.</p>
       </header>
       {blueprint ?
-        <details open data-testid="page-concept-page-family-blueprint">
-          <summary>
-            PARENT · {blueprint.childCount} CHILD · {blueprint.grandchildCount} GRANDCHILD
-          </summary>
-          <ul>
-            {blueprint.nodes.map((n) => (
-              <li key={n.pageId}>
-                {n.pageName} · {n.functionRole} · {n.shellArchetype} · {n.divergenceLevel}
-              </li>
-            ))}
-          </ul>
-          <p>Archetypes: {blueprint.archetypeShells.map((a) => a.archetype).join(', ')}</p>
-        </details>
+        <>
+          <p data-testid="page-family-coverage-totals">
+            TOTAL {blueprint.coverageSummary.totalPageCount} · COVERED{' '}
+            {blueprint.coverageSummary.coveredByUniqueShell + blueprint.coverageSummary.coveredByApprovedArchetype} ·
+            UNDEFINED {undefinedPages}
+          </p>
+          <p data-testid="page-family-skin-status">SKIN · {skinStatus}</p>
+          <details open data-testid="page-concept-page-family-blueprint">
+            <summary>
+              PAGE TREE · {blueprint.coverageSummary.parentPageCount} PARENT ·{' '}
+              {blueprint.coverageSummary.childPageCount} CHILD ·{' '}
+              {blueprint.coverageSummary.grandchildPageCount} GRANDCHILD
+            </summary>
+            <ul>
+              {blueprint.coverageMatrix.rows.map((row) => (
+                <li key={row.pageId} data-testid={`page-family-row-${row.pageId}`}>
+                  {row.pageName} · {row.functionRole} · {row.assignedArchetype} · {row.coverageStatus} ·
+                  MOBILE {blueprint.archetypeShells.find((a) => a.archetype === row.assignedArchetype)?.mobile[0] ?? '—'}
+                </li>
+              ))}
+            </ul>
+          </details>
+          {preview ?
+            <details data-testid="page-concept-opus-handoff-preview">
+              <summary>OPUS HANDOFF PREVIEW · {preview.totalOpusShellsToCreate} SHELLS</summary>
+              <p>Parent: {preview.parentShellArchetypes.join(', ') || '—'}</p>
+              <p>Child archetypes: {preview.childShellArchetypes.join(', ') || '—'}</p>
+              <p>Grandchild archetypes: {preview.grandchildShellArchetypes.join(', ') || '—'}</p>
+              <p>Unique shells: {preview.uniqueShellCount} · Shared archetypes: {preview.sharedArchetypeCount}</p>
+            </details>
+          : null}
+        </>
       : null}
       {handoff ?
-        <p data-testid="page-concept-opus-page-family-handoff">OPUS HANDOFF · {handoff.handoffId}</p>
+        <p data-testid="page-concept-opus-page-family-handoff">
+          OPUS HANDOFF · {handoff.handoffId} · {handoff.pageCoveragePercent}% coverage
+        </p>
       : null}
       <details open>
         <summary>VISUAL DNA</summary>
@@ -68,7 +96,7 @@ export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyC
       {!blueprintApproved ?
         <button
           type="button"
-          disabled={props.busy}
+          disabled={props.busy || undefinedPages > 0}
           data-testid="page-concept-approve-page-family-blueprint"
           onClick={props.onApprovePageFamily}
         >

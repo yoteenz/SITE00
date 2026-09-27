@@ -115,10 +115,20 @@ describe('P0.VR.PAGE-FAMILY-SKIN-BEHAVIOR-CONTRACT1', () => {
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'markOpusRepresentativeShellsReady' });
     const shells = r.state.pipelineSet!.opusRepresentativeShellSet!;
+    const blueprint = r.state.pipelineSet!.pageFamilyBlueprint!;
     expect(shells.shells.some((s) => s.kind === 'PARENT' && s.status === 'READY')).toBe(true);
-    expect(shells.shells.some((s) => s.kind === 'CHILD_DETAIL' && s.status === 'READY')).toBe(true);
-    expect(shells.shells.some((s) => s.kind === 'GRANDCHILD_DETAIL' && s.status === 'READY')).toBe(true);
     expect(shells.shells.some((s) => s.kind === 'DRAWER_INSPECTOR' && s.status === 'READY')).toBe(true);
+    if (blueprint.childCount > 0) {
+      expect(
+        shells.shells.some(
+          (s) => (s.kind === 'CHILD_DETAIL' || s.kind === 'CHILD_LIST') && s.status === 'READY',
+        ),
+      ).toBe(true);
+    }
+    if (blueprint.grandchildCount > 0) {
+      expect(shells.shells.some((s) => s.kind === 'GRANDCHILD_DETAIL' && s.status === 'READY')).toBe(true);
+    }
+    expect(shells.shells.every((s) => s.targetSurface === 'TWIN')).toBe(true);
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'lockViewportFamily' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'createTwinImplementationPackage' });
     const pkg = r.state.pipelineSet!.twinImplementationPackage!;
