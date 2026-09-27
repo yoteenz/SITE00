@@ -48,15 +48,6 @@ const ENTRY_DETAIL_ACTIONS: readonly ContentManifestItem[] = [
   { id: 'open-full-entry', label: 'OPEN FULL ENTRY', provenance: 'CANONICAL_STATIC', source: 'Page function map / interaction map' },
 ];
 
-function itemFromPageName(pageName: string, route: string): ContentManifestItem {
-  return {
-    id: `dest-${pageName.toLowerCase().replace(/\s+/g, '-')}`,
-    label: pageName.toUpperCase(),
-    provenance: 'CANONICAL_STATIC',
-    source: `Page family route ${route}`,
-  };
-}
-
 function resolveCanonicalNavDestinations(projectId: string, pageId: string): {
   destinations: ContentManifestItem[];
   hierarchyLines: readonly string[];
