@@ -140,7 +140,7 @@ export function resolveFounderFooterPhase(state: PageConceptGenerationState): Fo
     if (!experience?.approvedAt) return 'EXPERIENCE_REVIEW';
     return 'VIEWPORT_FAMILY';
   }
-  if (status === 'PAGE_FAMILY_CONTRACT_REVIEW') return 'PAGE_FAMILY';
+  if (status === 'PAGE_FAMILY_BLUEPRINT_REVIEW' || status === 'PAGE_FAMILY_CONTRACT_REVIEW') return 'PAGE_FAMILY';
   if (status === 'VIEWPORT_FAMILY_LOCKED' || status === 'TWIN_IMPLEMENTATION_PACKAGE_READY') return 'READY_FOR_TWIN';
   if (status === 'TWIN_READY_FOR_REVIEW') return 'TWIN_REVIEW';
   if (status === 'READY_FOR_FOUNDER_REVIEW' || status === 'PARTIAL_GENERATION') return 'POST_RUN';
@@ -287,6 +287,7 @@ export function buildFounderJourneyRail(state: PageConceptGenerationState): read
     experienceApproved;
   const authorityActive =
     status === 'VIEWPORT_FAMILY_REVIEW' ||
+    status === 'PAGE_FAMILY_BLUEPRINT_REVIEW' ||
     status === 'PAGE_FAMILY_CONTRACT_REVIEW' ||
     status === 'VIEWPORT_TABLET_RUNNING' ||
     status === 'VIEWPORT_DESKTOP_RUNNING' ||
@@ -384,8 +385,15 @@ export function resolveFounderFooterCtaHint(state: PageConceptGenerationState): 
     }
     case 'VIEWPORT_FAMILY':
       return { phase, primaryLabel: 'APPROVE VIEWPORT FAMILY', secondaryLabel: 'REQUEST CHANGES', statusLine: 'VIEWPORT FAMILY READY' };
-    case 'PAGE_FAMILY':
-      return { phase, primaryLabel: 'APPROVE PAGE FAMILY SYSTEM', secondaryLabel: 'BACK', statusLine: 'PAGE FAMILY SYSTEM REVIEW' };
+    case 'PAGE_FAMILY': {
+      const blueprintApproved = Boolean(state.pipelineSet?.pageFamilyBlueprint?.approvedAt);
+      return {
+        phase,
+        primaryLabel: blueprintApproved ? 'CREATE TWIN SHELL WITH OPUS' : 'APPROVE PAGE FAMILY BLUEPRINT',
+        secondaryLabel: 'BACK',
+        statusLine: blueprintApproved ? 'PAGE FAMILY APPROVED · OPUS HANDOFF READY' : 'PAGE FAMILY BLUEPRINT REVIEW',
+      };
+    }
     case 'READY_FOR_TWIN':
       return { phase, primaryLabel: 'CREATE TWIN SHELL WITH OPUS', secondaryLabel: 'VIEW PACKAGE', statusLine: 'LIVE PAGE WILL NOT BE MODIFIED' };
     case 'TWIN_REVIEW':

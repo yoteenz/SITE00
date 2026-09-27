@@ -13,17 +13,38 @@ export type PageConceptPageFamilyContractPanelProps = {
 
 export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyContractPanelProps) {
   const contract = props.state.pipelineSet?.pageFamilySkinBehaviorContract;
+  const blueprint = props.state.pipelineSet?.pageFamilyBlueprint;
+  const handoff = props.state.pipelineSet?.opusPageFamilyHandoff;
   const shellSet = props.state.pipelineSet?.opusRepresentativeShellSet;
   if (!contract) return null;
 
   const shellsReady = Boolean(shellSet?.readyAt && shellSet.shells.every((s) => s.status === 'READY'));
+  const blueprintApproved = Boolean(blueprint?.approvedAt);
 
   return (
     <section className="s00-pcg__pageFamilyContract" data-testid="page-concept-page-family-system-review">
       <header className="s00-pcg__viewportSectionHead">
-        <h3>PAGE FAMILY SYSTEM</h3>
-        <p>Visual DNA, inheritance, navigation, and responsive divergence.</p>
+        <h3>PAGE FAMILY BLUEPRINT</h3>
+        <p>Parent, child, and grandchild roles before Opus twin shells.</p>
       </header>
+      {blueprint ?
+        <details open data-testid="page-concept-page-family-blueprint">
+          <summary>
+            PARENT · {blueprint.childCount} CHILD · {blueprint.grandchildCount} GRANDCHILD
+          </summary>
+          <ul>
+            {blueprint.nodes.map((n) => (
+              <li key={n.pageId}>
+                {n.pageName} · {n.functionRole} · {n.shellArchetype} · {n.divergenceLevel}
+              </li>
+            ))}
+          </ul>
+          <p>Archetypes: {blueprint.archetypeShells.map((a) => a.archetype).join(', ')}</p>
+        </details>
+      : null}
+      {handoff ?
+        <p data-testid="page-concept-opus-page-family-handoff">OPUS HANDOFF · {handoff.handoffId}</p>
+      : null}
       <details open>
         <summary>VISUAL DNA</summary>
         <ul>
@@ -44,14 +65,24 @@ export function PageConceptPageFamilyContractPanel(props: PageConceptPageFamilyC
         <p>Grandchildren: {contract.pageSystemReviewSnapshot.grandchildCount}</p>
         <p>Component map: {contract.componentExpressionMapId}</p>
       </details>
-      {!contract.approvedAt ?
+      {!blueprintApproved ?
+        <button
+          type="button"
+          disabled={props.busy}
+          data-testid="page-concept-approve-page-family-blueprint"
+          onClick={props.onApprovePageFamily}
+        >
+          APPROVE PAGE FAMILY BLUEPRINT
+        </button>
+      : null}
+      {blueprintApproved && !contract.approvedAt ?
         <button
           type="button"
           disabled={props.busy}
           data-testid="page-concept-approve-page-family"
           onClick={props.onApprovePageFamily}
         >
-          APPROVE PAGE FAMILY SYSTEM
+          CONFIRM PAGE FAMILY SKIN
         </button>
       : null}
       {contract.approvedAt && !shellsReady ?

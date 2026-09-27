@@ -5,9 +5,17 @@
 import { compileProjectSkinContract } from './pageConceptProjectSkinContract.js';
 import {
   compilePageFamilyContractBundle,
+  createOpusRepresentativeShellSet,
   markOpusRepresentativeShellsReady,
   type PageFamilySkinBehaviorContract,
 } from './pageConceptPageFamilySkinBehavior.js';
+import {
+  buildOpusPageFamilyHandoff,
+  compilePageFamilyBlueprint,
+  mapArchetypesToOpusShellKinds,
+  validatePageFamilyBlueprint,
+} from './pageConceptPageFamilyBlueprint.js';
+import { buildPageSystemReviewModel } from '../designPageSystemReview.js';
 import {
   assertLiveRouteUnchanged,
   computePageConceptLiveImplementationHash,
@@ -91,8 +99,12 @@ function syncGenerationStatus(
   if (pipelineSet.twinImplementationPackage) return 'TWIN_IMPLEMENTATION_PACKAGE_READY';
   if (family.status === 'LOCKED') return 'VIEWPORT_FAMILY_LOCKED';
   if (family.status === 'APPROVED') {
+    const blueprint = pipelineSet.pageFamilyBlueprint;
+    if (blueprint && !blueprint.approvedAt) return 'PAGE_FAMILY_BLUEPRINT_REVIEW';
     const contract = pipelineSet.pageFamilySkinBehaviorContract;
     if (contract && !contract.approvedAt) return 'PAGE_FAMILY_CONTRACT_REVIEW';
+    const shells = pipelineSet.opusRepresentativeShellSet;
+    if (contract?.approvedAt && shells && !shells.readyAt) return 'PAGE_FAMILY_CONTRACT_REVIEW';
   }
   switch (family.status) {
     case 'MOBILE_SELECTED':
@@ -475,18 +487,67 @@ export function pageConceptApproveViewportFamily(state: PageConceptGenerationSta
     cgptBrief: ps.cgptCreativeBrief!,
     functionContract: state.functionContract!,
   });
+  const blueprint = compilePageFamilyBlueprint({
+    projectId: state.projectId,
+    parentPageId: state.pageId,
+    sourceViewportFamilyId: family.familyId,
+    skinContract: bundle.contract,
+    experienceContract: ps.experienceExpressionContract,
+    cgptBrief: ps.cgptCreativeBrief!,
+    functionContract: state.functionContract!,
+  });
+  const review = buildPageSystemReviewModel(state.projectId, state.pageId, 'MOBILE');
+  const validation = validatePageFamilyBlueprint(blueprint, review);
+  if (!validation.ok) throw new Error(validation.code);
+  const shellKinds = mapArchetypesToOpusShellKinds(blueprint);
+  const representativeShellSet = createOpusRepresentativeShellSet(bundle.contract.contractId, shellKinds);
   const nextState = patchPipeline(
     state,
     {
       viewportAuthorityFamily: nextFamily,
       pageFamilySkinBehaviorContract: bundle.contract,
+      pageFamilyBlueprint: blueprint,
+      opusPageFamilyHandoff: null,
       pageFamilyComponentExpressionMap: bundle.componentMap,
-      opusRepresentativeShellSet: bundle.representativeShellSet,
+      opusRepresentativeShellSet: representativeShellSet,
       twinShellApprovalId: null,
       twinImplementationPackage: null,
     },
     nextFamily,
   );
+  return { state: nextState, generationStatus: nextState.generationStatus };
+}
+
+export function pageConceptApprovePageFamilyBlueprint(
+  state: PageConceptGenerationState,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  const blueprint = ps?.pageFamilyBlueprint;
+  const contract = ps?.pageFamilySkinBehaviorContract;
+  if (!family?.viewportFamilyApprovalId || family.status !== 'APPROVED') {
+    throw new Error('VIEWPORT_FAMILY_APPROVAL_REQUIRED');
+  }
+  if (!blueprint) throw new Error('PAGE_FAMILY_BLUEPRINT_REQUIRED');
+  if (blueprint.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_ALREADY_APPROVED');
+  const review = buildPageSystemReviewModel(state.projectId, state.pageId, 'MOBILE');
+  const validation = validatePageFamilyBlueprint(blueprint, review);
+  if (!validation.ok) throw new Error(validation.code);
+  if (!contract) throw new Error('PAGE_FAMILY_CONTRACT_REQUIRED');
+  const approvedBlueprint = { ...blueprint, approvedAt: new Date().toISOString() };
+  const approvedContract: PageFamilySkinBehaviorContract = {
+    ...contract,
+    approvedAt: new Date().toISOString(),
+  };
+  const handoff = buildOpusPageFamilyHandoff({
+    blueprint: approvedBlueprint,
+    viewportFamilyId: family.familyId,
+  });
+  const nextState = patchPipeline(state, {
+    pageFamilyBlueprint: approvedBlueprint,
+    pageFamilySkinBehaviorContract: approvedContract,
+    opusPageFamilyHandoff: handoff,
+  });
   return { state: nextState, generationStatus: nextState.generationStatus };
 }
 
@@ -496,10 +557,16 @@ export function pageConceptApprovePageFamilySkinBehavior(
   const ps = state.pipelineSet;
   const family = ps?.viewportAuthorityFamily;
   const contract = ps?.pageFamilySkinBehaviorContract;
+  const blueprint = ps?.pageFamilyBlueprint;
   if (!family?.viewportFamilyApprovalId || family.status !== 'APPROVED') {
     throw new Error('VIEWPORT_FAMILY_APPROVAL_REQUIRED');
   }
+  if (!blueprint?.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  if (!ps?.opusPageFamilyHandoff) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_REQUIRED');
   if (!contract) throw new Error('PAGE_FAMILY_CONTRACT_REQUIRED');
+  if (contract.approvedAt) {
+    return { state, generationStatus: state.generationStatus };
+  }
   const approved: PageFamilySkinBehaviorContract = {
     ...contract,
     approvedAt: new Date().toISOString(),
@@ -514,6 +581,8 @@ export function pageConceptMarkOpusRepresentativeShellsReady(
   const ps = state.pipelineSet;
   const set = ps?.opusRepresentativeShellSet;
   const contract = ps?.pageFamilySkinBehaviorContract;
+  if (!ps?.pageFamilyBlueprint?.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  if (!ps?.opusPageFamilyHandoff) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_REQUIRED');
   if (!contract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
   if (!set) throw new Error('REPRESENTATIVE_SHELL_SET_REQUIRED');
   assertOpusShellTargetSurface('TWIN');
@@ -528,6 +597,8 @@ export function pageConceptLockViewportFamily(state: PageConceptGenerationState)
   const ps = state.pipelineSet;
   const family = ps?.viewportAuthorityFamily;
   if (!family?.viewportFamilyApprovalId) throw new Error('FAMILY_APPROVAL_REQUIRED');
+  if (!ps?.pageFamilyBlueprint?.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  if (!ps?.opusPageFamilyHandoff) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_REQUIRED');
   if (!ps?.pageFamilySkinBehaviorContract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
   const lock: PageViewportAuthorityFamilyLock = {
     lockId: `pvfl-${family.familyId}-${Date.now()}`,
@@ -566,6 +637,8 @@ export function pageConceptCreateTwinImplementationPackage(state: PageConceptGen
   const familyContract = ps?.pageFamilySkinBehaviorContract;
   const componentMap = ps?.pageFamilyComponentExpressionMap;
   const shellSet = ps?.opusRepresentativeShellSet;
+  if (!ps?.pageFamilyBlueprint?.approvedAt) throw new Error('PAGE_FAMILY_BLUEPRINT_APPROVAL_REQUIRED');
+  if (!ps?.opusPageFamilyHandoff) throw new Error('OPUS_PAGE_FAMILY_HANDOFF_REQUIRED');
   if (!familyContract?.approvedAt) throw new Error('PAGE_FAMILY_CONTRACT_APPROVAL_REQUIRED');
   if (!componentMap || !shellSet) throw new Error('PAGE_FAMILY_CONTRACT_BUNDLE_INCOMPLETE');
   if (!shellSet.readyAt || shellSet.shells.some((s) => s.status !== 'READY')) {
@@ -618,6 +691,8 @@ export function pageConceptCreateTwinImplementationPackage(state: PageConceptGen
     pageContentContractSummary: ps!.creativeInjection?.immutableRequirements?.join(' · ') ?? '',
     interactionRequirements: state.functionContract?.interactions ?? [],
     pageFamilySkinBehaviorContractId: familyContract.contractId,
+    pageFamilyBlueprintId: ps!.pageFamilyBlueprint!.blueprintId,
+    opusPageFamilyHandoffId: ps!.opusPageFamilyHandoff!.handoffId,
     pageFamilyComponentExpressionMapId: componentMap.mapId,
     representativeShellSetId: shellSet.setId,
     designDivergenceRulesSummary: `parent=${familyContract.inheritanceRules.parent.designDivergenceLevel};child=${familyContract.inheritanceRules.child.designDivergenceLevel};grandchild=${familyContract.inheritanceRules.grandchild.designDivergenceLevel}`,

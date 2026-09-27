@@ -34,6 +34,12 @@ export function applyPageConceptPipelineSet(
     else if (pipelineSet.viewportAuthorityFamily?.status === 'LOCKED') generationStatus = 'VIEWPORT_FAMILY_LOCKED';
     else if (
       pipelineSet.viewportAuthorityFamily?.status === 'APPROVED' &&
+      pipelineSet.pageFamilyBlueprint &&
+      !pipelineSet.pageFamilyBlueprint.approvedAt
+    ) {
+      generationStatus = 'PAGE_FAMILY_BLUEPRINT_REVIEW';
+    } else if (
+      pipelineSet.viewportAuthorityFamily?.status === 'APPROVED' &&
       pipelineSet.pageFamilySkinBehaviorContract &&
       !pipelineSet.pageFamilySkinBehaviorContract.approvedAt
     ) {

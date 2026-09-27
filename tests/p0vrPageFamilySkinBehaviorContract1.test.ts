@@ -111,7 +111,8 @@ describe('P0.VR.PAGE-FAMILY-SKIN-BEHAVIOR-CONTRACT1', () => {
   it('Opus representative shells and twin package include family contract', async () => {
     const liveBefore = computePageConceptLiveImplementationHash(await pipelineThroughViewportApproval());
     let state = await pipelineThroughViewportApproval();
-    let r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilySkinBehavior' });
+    let r = await runPageConceptViewportFamilyAction(state, { type: 'approvePageFamilyBlueprint' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'approvePageFamilySkinBehavior' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'markOpusRepresentativeShellsReady' });
     const shells = r.state.pipelineSet!.opusRepresentativeShellSet!;
     expect(shells.shells.some((s) => s.kind === 'PARENT' && s.status === 'READY')).toBe(true);

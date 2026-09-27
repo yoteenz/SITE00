@@ -12014,3 +12014,16 @@ Sprint **P0.VR.EXPERIENCE-EXPRESSION-PROMPT-ORCHESTRATION-AND-PACKAGING1**: modu
 ## 2026-09-27 — P0.VR NDXBOOK Overview experience content spec 1
 
 **P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1:** **`ndxbookOverviewExperienceExpressionContentSpec.ts`** — page-specific prompts (BASE, MENU, ENTRY DETAIL / PANEL, PROJECT ACCESS / OVERLAY) with state-specific interaction language + visual inheritance from territory; packaging **3 FAL + 1 inherited BASE = 4 visuals**; **`validateNdxbookOverviewExperiencePackage`**; **`experiencePackageMetadata`**; **`regenerateExperienceExpressionState`** API + **REGENERATE THIS STATE** in review UI.
+
+---
+
+## 2026-09-27 — P0.VR page family blueprint before Opus 1
+
+Sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1**: formal **Page Family Blueprint** stage between **viewport family approved** and **Opus twin shells** — parent/child/grandchild nodes from Page System Review, function roles, inheritance buckets, child/grandchild directives, responsive shell archetypes, experience-package inheritance, founder **APPROVE PAGE FAMILY BLUEPRINT**, then **`OpusPageFamilyHandoff`**; gates Opus/twin on blueprint approval.
+
+- **`pageConceptPageFamilyBlueprint.ts`:** compile/validate blueprint, archetype→Opus shell kinds, handoff builder.
+- **Orchestration:** compile blueprint on **`approveViewportFamily`** → status **`PAGE_FAMILY_BLUEPRINT_REVIEW`**; **`approvePageFamilyBlueprint`** approves blueprint + skin contract + handoff; downstream Opus/twin/lock require handoff.
+- **Composer guard:** **`PAGE_FAMILY_EXPRESSION_UNDEFINED:{pageId}`** via **`assertComposerPageInFamilyBlueprint`**.
+- **UI:** Page Family panel shows hierarchy + **APPROVE PAGE FAMILY BLUEPRINT**; founder footer CTA split blueprint vs Opus.
+- **Twin package:** **`pageFamilyBlueprintId`**, **`opusPageFamilyHandoffId`**.
+- **Tests:** `p0vrPageFamilyBlueprintBeforeOpus1.test.ts`; page-family skin contract tests updated for blueprint approve step.
