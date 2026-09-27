@@ -224,7 +224,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-review-experience',
           label: 'VIEW PROGRESS',
-          tone: 'ghost',
+          tone: 'ink',
           disabled: false,
           disabledReason: null,
         }),
@@ -234,14 +234,14 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-review-experience',
           label: 'REVIEW EXPERIENCE',
-          tone: 'lime',
+          tone: 'ink',
           disabled: input.generating,
           disabledReason: input.generating ? 'Generation in progress.' : null,
         }),
         action({
           id: 'vf-approve-experience',
           label: 'APPROVE EXPERIENCE',
-          tone: 'ghost',
+          tone: 'lime',
           disabled: input.generating,
           disabledReason: input.generating ? 'Generation in progress.' : null,
         }),
@@ -251,7 +251,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-review-experience',
           label: 'VIEW APPROVED EXPERIENCE',
-          tone: 'ghost',
+          tone: 'ink',
           disabled: false,
           disabledReason: null,
         }),
@@ -305,7 +305,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-review-tablet',
           label: 'REVIEW TABLET',
-          tone: 'ghost',
+          tone: 'ink',
           disabled: false,
           disabledReason: null,
         }),
@@ -319,7 +319,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-use-tablet',
           label: 'USE THIS TABLET VERSION',
-          tone: 'lime',
+          tone: 'ghost',
           disabled: input.tabletInterpretationActive,
           disabledReason: input.tabletInterpretationActive ? 'Already active in gallery.' : null,
           secondary: true,
@@ -353,8 +353,8 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       stages[stages.length - 1]!.actions = [
         action({
           id: 'vf-run-tablet',
-          label: 'GENERATE TABLET',
-          tone: 'lime',
+          label: 'APPROVE EXPERIENCE FIRST',
+          tone: 'ghost',
           disabled: true,
           disabledReason: 'APPROVE EXPERIENCE FIRST',
         }),
@@ -384,7 +384,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-review-desktop',
           label: 'REVIEW DESKTOP',
-          tone: 'ghost',
+          tone: 'ink',
           disabled: false,
           disabledReason: null,
         }),
@@ -398,7 +398,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-use-desktop',
           label: 'USE THIS DESKTOP VERSION',
-          tone: 'lime',
+          tone: 'ghost',
           disabled: input.desktopInterpretationActive,
           disabledReason: input.desktopInterpretationActive ? 'Already active in gallery.' : null,
           secondary: true,
@@ -432,8 +432,8 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       stages[stages.length - 1]!.actions = [
         action({
           id: 'vf-run-desktop',
-          label: 'GENERATE DESKTOP',
-          tone: 'lime',
+          label: 'APPROVE EXPERIENCE FIRST',
+          tone: 'ghost',
           disabled: true,
           disabledReason: 'APPROVE EXPERIENCE FIRST',
         }),
@@ -449,7 +449,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         action({
           id: 'vf-review-family',
           label: 'REVIEW FAMILY',
-          tone: 'ghost',
+          tone: 'ink',
           disabled: false,
           disabledReason: null,
         }),

@@ -3,6 +3,7 @@
  */
 
 import type { Gpt2ViewportFamilyHeroRailStage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
+import { heroRailButtonSurfaceForAction } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyRailButtonSurface.js';
 import { TodIconLock } from './TwinOpusDirectIcons';
 
 type RailClassPrefix = 'tod-rail' | 'tod-lv-rail';
@@ -34,15 +35,19 @@ export function DesignViewportFamilyHeroRail({
             <span className={`${p}__vfStageStatus ${p}__vfStageStatus--${stage.statusTone}`}>{stage.statusLabel}</span>
           </header>
           <p className={`${p}__vfStageValue`}>{stage.valueLine}</p>
-          {stage.actions.map((action) => (
+          {stage.actions.map((action) => {
+            const surface = heroRailButtonSurfaceForAction(action);
+            return (
             <button
               key={action.id}
               type="button"
-              className={`${p}__action ${p}__action--${action.tone}${action.secondary ? ` ${p}__action--secondary` : ''}${
+              className={`${p}__action ${p}__action--${action.tone} ${p}__action--surface-${surface}${action.secondary ? ` ${p}__action--secondary` : ''}${
                 action.lock ? ` ${p}__action--lock` : ''
               }`}
               data-interaction-id={`rail-${action.id}`}
               data-testid={`viewport-family-rail-${action.id}`}
+              data-action-surface={surface}
+              data-action-tone={action.tone}
               disabled={action.disabled}
               title={action.disabledReason ?? undefined}
               onClick={() => onAction(action.id)}
@@ -50,7 +55,8 @@ export function DesignViewportFamilyHeroRail({
               {action.lock ? <TodIconLock className="tod-ico tod-rail__lockIco" /> : null}
               {action.label}
             </button>
-          ))}
+            );
+          })}
         </div>
       ))}
     </section>
