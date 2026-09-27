@@ -12087,3 +12087,11 @@ Production **test** job failed: Content Ops PSR showed **2** direct children (Ov
 ## 2026-09-27 — CREATE EXPERIENCE parallel FAL generation
 
 Founder request: **CREATE EXPERIENCE** should generate all expression outputs **in parallel**, not sequentially. **`executePageConceptExperienceExpressionGeneration`** now uses **`Promise.all`** over **`renderExperienceExpressionFalTarget`** for each packaging-plan target (single API action; Railway FAL jobs fire together). Test: concurrent render proof in **`p0vrExperienceExpressionFalGenerationReviewAndHandoff1.test.ts`**. **Railway redeploy** required for live parallel behavior.
+
+---
+
+## 2026-09-27 — P0.VR experience package multi-output dispatch and review fix 1
+
+**Root cause:** live **`functionContract.route`** is **`/projects/ndxbook`** (no `overview` substring) → generic packaging collapsed to **one** FAL output (**`NDXBOOK_ROUTE_NOT_RECOGNIZED`** / **`ONLY_FIRST_PROMPT_ENQUEUED`**).
+
+**Fix:** broaden **`isNdxbookOverviewExperiencePage`**; **`validateExperiencePackagePlan`** + **`validateExperiencePackageMaterialization`**; per-state **`ExperienceGenerationJob`**; dispatch preserves existing MENU, skips FAL regen, **`Promise.allSettled`** for missing states; all FAL jobs use **approved mobile authority** URI; review panel **4/4 READY** + per-card status + **RETRY THIS STATE**. Tests: **`p0vrExperiencePackageMultiOutputDispatchAndReviewFix1.test.ts`**. **Railway + cPanel** deploy for API + review UI.

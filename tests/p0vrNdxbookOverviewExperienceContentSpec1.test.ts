@@ -43,6 +43,7 @@ describe('P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1', () => {
 
   it('detects NDXBOOK overview route', () => {
     expect(isNdxbookOverviewExperiencePage({ projectId: 'ndxbook', route: functionContract.route })).toBe(true);
+    expect(isNdxbookOverviewExperiencePage({ projectId: 'ndxbook', route: '/projects/ndxbook' })).toBe(true);
     expect(isNdxbookOverviewExperiencePage({ projectId: 'other', route: functionContract.route })).toBe(false);
   });
 

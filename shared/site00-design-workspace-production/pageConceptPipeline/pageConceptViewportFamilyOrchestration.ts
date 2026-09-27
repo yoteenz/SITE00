@@ -46,6 +46,7 @@ import {
   tabletInterpretationArtifactId,
 } from './pageConceptViewportAuthorityFamily.js';
 import { compileExperienceExpressionAuthority } from './experienceExpressionAuthority.js';
+import { mergePreservedExperienceVisualStates } from './experiencePackageMaterialization.js';
 import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 
@@ -254,7 +255,8 @@ export function pageConceptBeginExperienceExpressionGeneration(state: PageConcep
     injection,
     functionContract: state.functionContract!,
   });
-  const authority = { ...authorityBase, status: 'GENERATING' as const };
+  const merged = mergePreservedExperienceVisualStates(authorityBase, ps?.experienceExpressionAuthority);
+  const authority = { ...merged, status: 'GENERATING' as const };
   const contract = compilePageExperienceExpressionContract({
     projectId: state.projectId,
     pageId: state.pageId,
@@ -314,9 +316,11 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
       ...visualLabels,
     ],
   };
+  const expStatus =
+    input.authority.status === 'PARTIAL_FAILURE' ? 'PARTIAL_FAILURE' : 'READY_FOR_REVIEW';
   const nextFamily: PageViewportAuthorityFamily = {
     ...family,
-    experienceExpressionStatus: 'READY_FOR_REVIEW',
+    experienceExpressionStatus: expStatus,
     experienceExpressionContractId: contract.contractId,
     experienceExpressionVersion: contract.version,
     updatedAt: new Date().toISOString(),
@@ -380,8 +384,11 @@ export function pageConceptApproveExperienceExpression(
   const family = ps?.viewportAuthorityFamily;
   if (!isMobileAuthorityConfirmed(family)) throw new Error('MOBILE_AUTHORITY_CONFIRMATION_REQUIRED');
   const authority = ps?.experienceExpressionAuthority;
-  if (!authority || authority.status !== 'READY_FOR_REVIEW') {
+  if (!authority || (authority.status !== 'READY_FOR_REVIEW' && authority.status !== 'PARTIAL_FAILURE')) {
     throw new Error('EXPERIENCE_ARTIFACT_REQUIRED');
+  }
+  if (authority.status === 'PARTIAL_FAILURE') {
+    throw new Error('EXPERIENCE_PACKAGE_INCOMPLETE');
   }
   const falStates = authority.visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE');
   if (authority.provider === 'FAL' && falStates.length > 0) {

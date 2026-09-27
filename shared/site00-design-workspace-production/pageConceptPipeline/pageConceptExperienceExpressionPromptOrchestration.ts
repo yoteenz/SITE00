@@ -581,6 +581,7 @@ export function buildExperienceExpressionFalTargetsFromPlan(
 export function buildExperienceExpressionPromptPipeline(input: {
   projectId: string;
   pageId?: string;
+  screenId?: string;
   authorityId: string;
   conceptId: string;
   mobileArtifactId: string;
@@ -595,6 +596,7 @@ export function buildExperienceExpressionPromptPipeline(input: {
     projectId: input.projectId,
     route: input.route,
     pageId: input.pageId,
+    screenId: input.screenId,
   });
 
   const candidatePrompts =

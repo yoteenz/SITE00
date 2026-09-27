@@ -243,13 +243,13 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1', () =>
     fetchSpy.mockRestore();
   });
 
-  it('marks FAILED instead of stuck GENERATING when FAL throws', async () => {
-    vi.spyOn(falExec, 'renderExperienceExpressionFalTarget').mockRejectedValueOnce(new Error('FAL_DOWN'));
+  it('marks PARTIAL_FAILURE when any FAL job fails (others may complete)', async () => {
+    vi.spyOn(falExec, 'renderExperienceExpressionFalTarget').mockRejectedValue(new Error('FAL_DOWN'));
     const { s, concepts } = await stateAfterMobileConcepts();
     let r = await runPageConceptViewportFamilyAction(s, { type: 'selectMobileConcept', conceptId: concepts[2]!.conceptId });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression', dryRun: true });
-    expect(r.state.pipelineSet?.experienceExpressionAuthority?.status).toBe('FAILED');
-    expect(r.state.pipelineSet?.viewportAuthorityFamily?.experienceExpressionStatus).toBe('FAILED');
+    expect(r.state.pipelineSet?.experienceExpressionAuthority?.status).toBe('PARTIAL_FAILURE');
+    expect(r.state.pipelineSet?.viewportAuthorityFamily?.experienceExpressionStatus).toBe('PARTIAL_FAILURE');
   });
 });

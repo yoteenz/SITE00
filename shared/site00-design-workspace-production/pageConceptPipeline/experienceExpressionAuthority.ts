@@ -15,6 +15,8 @@ import {
   type ExperiencePackagingPlan,
   type ExpressionPromptType,
 } from './pageConceptExperienceExpressionFalPlan.js';
+import { getDesignBoundPage } from '../designProjectBinding/designPageRegistry.js';
+import { validateExperiencePackagePlan } from './experiencePackageMaterialization.js';
 
 export type ExperienceExpressionPatternType =
   | 'DRAWER'
@@ -58,6 +60,7 @@ export type ExperienceExpressionVisualState = {
   outputLabel?: ExperienceOutputLabel;
   packagingMode?: 'SINGLE' | 'COMBINED';
   sourceExpressionTypes?: readonly ExpressionPromptType[];
+  materializationStatus?: 'INHERITED' | 'READY' | 'GENERATING' | 'FAILED' | 'PRESERVED';
 };
 
 export type ResponsiveExperienceRule = {
@@ -71,6 +74,7 @@ export type ExperienceExpressionAuthorityStatus =
   | 'NOT_STARTED'
   | 'GENERATING'
   | 'READY_FOR_REVIEW'
+  | 'PARTIAL_FAILURE'
   | 'APPROVED'
   | 'FAILED'
   | 'SUPERSEDED';
@@ -97,6 +101,7 @@ export type ExperienceExpressionAuthority = {
   packagingPlan?: ExperiencePackagingPlan | null;
   outputLineage?: readonly ExperienceOutputLineage[];
   experiencePackageMetadata?: import('./ndxbookOverviewExperienceExpressionContentSpec.js').ExperiencePackageMetadata | null;
+  generationJobs?: readonly import('./experiencePackageMaterialization.js').ExperienceGenerationJob[];
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
@@ -147,9 +152,12 @@ export function compileExperienceExpressionAuthority(input: {
   }));
 
   const authorityId = `peea-${input.projectId}-${input.pageId}-${Date.now()}`;
+  const boundPage = getDesignBoundPage(input.projectId, input.pageId);
+  const screenId = boundPage?.screenId;
   const { plan, falTargets } = buildExperienceExpressionPromptPipeline({
     projectId: input.projectId,
     pageId: input.pageId,
+    screenId,
     authorityId,
     conceptId: input.mobileConcept.conceptId,
     mobileArtifactId: input.mobileConcept.artifactId,
@@ -159,6 +167,13 @@ export function compileExperienceExpressionAuthority(input: {
     cgptBrief: input.cgptBrief,
     injection: input.injection,
     functionContract: input.functionContract,
+  });
+  validateExperiencePackagePlan({
+    plan,
+    projectId: input.projectId,
+    route: input.functionContract.route,
+    pageId: input.pageId,
+    screenId,
   });
 
   const visualStates: ExperienceExpressionVisualState[] = [
@@ -172,6 +187,8 @@ export function compileExperienceExpressionAuthority(input: {
       previewImageUri: mobilePreview,
       caption: 'Approved mobile concept at rest (anchor — not regenerated).',
       sourceProvider: 'INHERITED_MOBILE',
+      materializationStatus: 'INHERITED',
+      generatedArtifactId: input.mobileConcept.artifactId,
     },
     ...falTargets.map((target) => ({
       stateId: target.stateId,
