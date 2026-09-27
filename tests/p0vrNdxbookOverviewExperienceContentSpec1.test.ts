@@ -13,12 +13,18 @@ import {
   validateNdxbookOverviewExperiencePackage,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/ndxbookOverviewExperienceExpressionContentSpec.js';
 import type { ExperienceExpressionAuthority } from '../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionAuthority.js';
+import { compilePageFunctionContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/functionContract.js';
+import { listSiteDesignPagesForProject } from '../shared/site00-design-workspace-production/designProjectBinding/index.js';
 import type { PageConceptCgptCreativeBrief, PageCreativeInjection, PageFunctionContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 
+function overviewFunctionContract(): PageFunctionContract {
+  const pageId = listSiteDesignPagesForProject('ndxbook').find((p) => p.screenId === 'overview')!.pageId;
+  return compilePageFunctionContract('ndxbook', pageId)!;
+}
+
 const functionContract: PageFunctionContract = {
+  ...overviewFunctionContract(),
   contractId: 'fc-ndx-overview',
-  version: 'v1',
-  route: '/projects/design/ndxbook/overview',
   regions: ['NDXBOOK header', 'project progress', 'entry index', 'bottom navigation'],
   interactions: ['expand menu nav', 'select entry', 'explore project archive overlay'],
   immutableBehaviors: ['bottom nav locked', 'founder client switch'],
@@ -53,6 +59,7 @@ describe('P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1', () => {
       conceptId: 'concept-b',
       mobileArtifactId: 'pcga-mobile-b',
       route: functionContract.route,
+      pageId: functionContract.pageId,
       territoryLabel: 'EDITORIAL SIGNAL',
       skinContract: skin,
       cgptBrief,
@@ -69,9 +76,12 @@ describe('P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1', () => {
     const menu = prompts.find((p) => p.expressionType === 'MENU_EXPANDED_NAV')!;
     const entry = prompts.find((p) => p.expressionType === 'PANEL_OR_DRAWER')!;
     const access = prompts.find((p) => p.expressionType === 'OVERLAY_OR_DETAIL_STATE')!;
-    expect(menu.promptText).toContain('index architecture');
-    expect(entry.promptText).toContain('ENTRY 003');
-    expect(access.promptText).toContain('archive behind the overview');
+    expect(menu.promptText).toContain('CANONICAL CONTENT — USE EXACTLY');
+    expect(menu.promptText).not.toContain('ENTRIES, EVIDENCE, PRODUCTION');
+    expect(entry.promptText).toContain('ENTRY ID');
+    expect(entry.promptText).not.toContain('KEY SIGNALS');
+    expect(access.promptText).not.toContain('ALL ENTRIES');
+    expect(access.promptText).toContain('DO NOT ADD PRODUCT CONTENT NOT PRESENT IN THIS MANIFEST');
     expect(entry.outputLabel).toBe('ENTRY DETAIL / PANEL');
     expect(access.outputLabel).toBe('PROJECT ACCESS / OVERLAY');
     expect(menu.promptText).not.toEqual(entry.promptText);
@@ -119,6 +129,7 @@ describe('P0.VR.NDXBOOK-OVERVIEW-EXPRESSION-CONTENT-SPEC1', () => {
       conceptId: 'concept-b',
       mobileArtifactId: 'art-b',
       route: functionContract.route,
+      pageId: functionContract.pageId,
       territoryLabel: 'EDITORIAL SIGNAL',
       skinContract: skin,
       cgptBrief,

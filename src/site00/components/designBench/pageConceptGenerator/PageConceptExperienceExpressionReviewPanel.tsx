@@ -16,6 +16,10 @@ import {
   themeLabelForState,
   validateExperienceThemeContinuity,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceThemeContinuity.js';
+import {
+  experienceContentBlocksApproval,
+  manifestForState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceContentManifest.js';
 import { slotLabelFromConceptId } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
 import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PageConceptContainedPreviewFrame } from './PageConceptContainedPreviewFrame';
@@ -50,6 +54,10 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
   const materialization = validateExperiencePackageMaterialization(authority);
   const themeReceipt = validateExperienceThemeContinuity(authority);
   const themeApprovalGate = experienceThemeContinuityBlocksApproval(authority);
+  const contentApprovalGate = experienceContentBlocksApproval(authority);
+  const contentAuditByStateId = new Map(
+    (authority?.experienceContentAudit?.states ?? contentApprovalGate.receipt.audit.states).map((s) => [s.stateId, s]),
+  );
   const readyVisualCount = (authority?.visualStates ?? []).filter((v) => Boolean(v.previewImageUri?.trim())).length;
   const falImageCount = (authority?.visualStates ?? []).filter(
     (v) => v.sourceProvider === 'FAL_EXPERIENCE' && v.previewImageUri,
@@ -158,6 +166,47 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
             >
               {founderThemeReviewLine(state) === 'THEME MATCH' ? 'THEME MATCH ✓' : 'CONTRAST · REVIEW REQUIRED'}
             </p>
+            {state.stateId !== 'base' ?
+              <>
+                <p
+                  className="s00-pcg__experienceVisualCardMeta"
+                  data-testid={`page-concept-experience-card-content-status-${state.stateId}`}
+                >
+                  CONTENT:{' '}
+                  {state.contentProvenanceStatus === 'VERIFIED' ?
+                    'VERIFIED'
+                  : state.contentProvenanceStatus === 'BLOCKED' ?
+                    'BLOCKED'
+                  : 'REVIEW REQUIRED'}
+                </p>
+                <p
+                  className="s00-pcg__experienceVisualCardMeta"
+                  data-testid={`page-concept-experience-content-inspector-${state.stateId}`}
+                >
+                  {(() => {
+                    const audit = contentAuditByStateId.get(state.stateId);
+                    const manifest = manifestForState(authority?.experienceContentManifests, state.stateId);
+                    return [
+                      `CANONICAL FIELDS: ${manifest?.canonicalFields.length ?? 0}`,
+                      `VISIBLE: ${manifest ? manifest.canonicalDestinations.length + manifest.canonicalFields.length : '—'}`,
+                      `MISSING: ${audit?.missingRequiredCount ?? 0}`,
+                      `INVENTED: ${audit?.inventedCount ?? 0}`,
+                      `UNKNOWN: ${audit?.unknownCount ?? 0}`,
+                      `CONTENT COVERAGE: ${state.contentCoveragePercent ?? audit?.contentCoveragePercent ?? '—'}%`,
+                    ].join(' · ');
+                  })()}
+                </p>
+                <p
+                  className="s00-pcg__experienceVisualCardMeta"
+                  data-testid={`page-concept-experience-content-source-${state.stateId}`}
+                >
+                  CONTENT SOURCE:{' '}
+                  {(manifestForState(authority?.experienceContentManifests, state.stateId)?.contentSources ?? ['—']).join(
+                    ' · ',
+                  )}
+                </p>
+              </>
+            : null}
             <p
               className="s00-pcg__experienceVisualCardMeta"
               data-testid={`page-concept-experience-card-status-${state.stateId}`}
@@ -270,6 +319,7 @@ export function PageConceptExperienceExpressionReviewPanel(props: PageConceptExp
                 authority.status === 'PARTIAL_FAILURE' ||
                 !materialization.ok ||
                 themeApprovalGate.blocked ||
+                contentApprovalGate.blocked ||
                 falImageCount < falTargetCount
               }
               data-testid="page-concept-approve-experience-review"

@@ -50,6 +50,11 @@ import { mergePreservedExperienceVisualStates } from './experiencePackageMateria
 import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 import { buildExperienceThemeHandoffLines, experienceThemeContinuityBlocksApproval } from './experienceThemeContinuity.js';
+import {
+  buildExperienceContentHandoffLines,
+  COMPOSER_EXPERIENCE_CONTENT_GUARD,
+  experienceContentBlocksApproval,
+} from './experienceContentManifest.js';
 
 export type ViewportFamilyOrchestrationResult = {
   state: PageConceptGenerationState;
@@ -308,6 +313,7 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
       (l) => `${l.label} [${l.packagingMode}]: ${l.sourceExpressionTypes.join('+')}`,
     ) ?? [];
   const themeHandoff = buildExperienceThemeHandoffLines(input.authority);
+  const contentHandoff = buildExperienceContentHandoffLines(input.authority);
   const contract: PageExperienceExpressionContract = {
     ...input.contract,
     overlayPatterns: [
@@ -318,6 +324,9 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
       ...visualLabels,
       'EXPERIENCE THEME CONTINUITY:',
       ...themeHandoff,
+      'EXPERIENCE CONTENT MANIFESTS:',
+      ...contentHandoff,
+      COMPOSER_EXPERIENCE_CONTENT_GUARD,
     ],
   };
   const expStatus =
@@ -406,12 +415,24 @@ export function pageConceptApproveExperienceExpression(
   if (themeGate.blocked) {
     throw new Error(themeGate.code ?? 'EXPERIENCE_THEME_DRIFT');
   }
+  const contentGate = experienceContentBlocksApproval(authority);
+  if (contentGate.blocked) {
+    throw new Error(contentGate.code ?? 'EXPERIENCE_CONTENT_INVENTED');
+  }
   const approvedAt = new Date().toISOString();
   const themeHandoff = buildExperienceThemeHandoffLines(authority);
+  const contentHandoff = buildExperienceContentHandoffLines(authority);
   const approved: PageExperienceExpressionContract = {
     ...experienceContract,
     approvedAt,
-    overlayPatterns: [...experienceContract.overlayPatterns, 'EXPERIENCE THEME CONTINUITY:', ...themeHandoff],
+    overlayPatterns: [
+      ...experienceContract.overlayPatterns,
+      'EXPERIENCE THEME CONTINUITY:',
+      ...themeHandoff,
+      'EXPERIENCE CONTENT MANIFESTS:',
+      ...contentHandoff,
+      COMPOSER_EXPERIENCE_CONTENT_GUARD,
+    ],
   };
   const approvedAuthority = {
     ...authority,

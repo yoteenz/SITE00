@@ -608,6 +608,7 @@ export function buildExperienceExpressionPromptPipeline(input: {
         conceptId: input.conceptId,
         mobileArtifactId: input.mobileArtifactId,
         route: input.route,
+        pageId: input.pageId ?? input.functionContract.pageId,
         territoryLabel: input.territoryLabel,
         skinContract: input.skinContract,
         cgptBrief: input.cgptBrief,
