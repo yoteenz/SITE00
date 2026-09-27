@@ -12027,3 +12027,12 @@ Sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1**: formal **Page Family Bluepr
 - **UI:** Page Family panel shows hierarchy + **APPROVE PAGE FAMILY BLUEPRINT**; founder footer CTA split blueprint vs Opus.
 - **Twin package:** **`pageFamilyBlueprintId`**, **`opusPageFamilyHandoffId`**.
 - **Tests:** `p0vrPageFamilyBlueprintBeforeOpus1.test.ts`; page-family skin contract tests updated for blueprint approve step.
+
+---
+
+## 2026-09-27 — P0.VR page family blueprint resolution and coverage proof 1
+
+Corrective sprint **P0.VR.PAGE-FAMILY-BLUEPRINT-RESOLUTION-AND-COVERAGE-PROOF1**: machine-resolved **PageFamilyCoverageMatrix** on every compiled blueprint (no placeholder receipt counts); **`buildPageFamilyCoverageReceipt`**; skin lifecycle **`READY_FOR_FOUNDER_APPROVAL`** vs **`FINALIZED`**; Opus handoff preview + **100% coverage** gate (**`OPUS_PAGE_FAMILY_HANDOFF_INCOMPLETE`**); removed phantom CHILD/GRANDCHILD Opus shells when no mapped pages; founder UI shows TOTAL/COVERED/UNDEFINED + handoff preview.
+
+- **Canonical NDXBOOK Overview tree (Page System Review today):** parent **1**, direct children **0**, grandchildren **0** (registry `parentPageId` does not attach sibling project pages to overview — campaign-board nests under content-ops, not overview).
+- **Tests:** `p0vrPageFamilyBlueprintResolutionAndCoverageProof1.test.ts`.
