@@ -296,7 +296,12 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
       })
     : null);
   const familiarityBlock =
-    resolvedFamiliarityBrief ? compileNdxBrandFamiliarityPromptBlock(resolvedFamiliarityBrief) : '';
+    resolvedFamiliarityBrief ?
+      compileNdxBrandFamiliarityPromptBlock(
+        resolvedFamiliarityBrief,
+        input.webExpressionTerritory?.territorySlot ?? null,
+      )
+    : '';
   const targetRouteBlock = arch.targetRouteContract ? buildGpt2TargetRouteContextBlock(arch.targetRouteContract) : '';
 
   const baseSections = [

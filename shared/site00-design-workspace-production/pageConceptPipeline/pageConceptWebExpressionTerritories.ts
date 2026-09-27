@@ -201,7 +201,7 @@ const ART_DIRECTION_BY_SLOT: Record<WebExpressionTerritorySlot, ArtDirectionBund
     editorialCompositionRule:
       'Controlled asymmetry: heavy left index rail, offset evidence plates, open paper breathing fields on the right.',
     imageArtDirection:
-      'Evidence plates on warm archival paper — duotone documentation fragments, not full-bleed stock heroes.',
+      'Filed NDX document fragments on warm archival paper — accession-stamped plates, duotone scan artifacts, never stock editorial heroes.',
     imageCroppingBehavior:
       'Hard crop fragments with visible registration marks; partial images bleed into index gutters.',
     imageGraphicRelationship:
@@ -229,7 +229,7 @@ const ART_DIRECTION_BY_SLOT: Record<WebExpressionTerritorySlot, ArtDirectionBund
   },
   B: {
     artDirectionPremise:
-      'The page is a signal desk publishing live NDXBOOK intelligence — crop marks and marginalia interrupt a precise editorial grid.',
+      'The page is an NDX signal desk publishing live NDXBOOK intelligence — institutional crop marks, stamps, and marginalia interrupt a composed product grid (not a generic magazine layout).',
     signatureGraphicDevice:
       'Publication crop marks and marginal annotation fields weaving through navigation and section headers.',
     secondaryGraphicDevices: [
@@ -245,11 +245,11 @@ const ART_DIRECTION_BY_SLOT: Record<WebExpressionTerritorySlot, ArtDirectionBund
       'Justified-feel uppercase columns with annotation offsets — body never isolated inside bordered cards.',
     monoTypographyBehavior:
       'Signal timestamps and edition codes orbit headlines like marginalia — repeated at section transitions.',
-    typeScaleDrama: 'MEDIUM',
+    typeScaleDrama: 'HIGH',
     editorialCompositionRule:
-      'Monumental top masthead, compressed middle entry index, expansive lower signal field before nav.',
+      'Monumental top masthead, compressed middle entry index, expansive lower signal field before nav — asymmetric columns, never uniform card modules.',
     imageArtDirection:
-      'Editorial plates with annotated borders — images framed by crop marks and caption strips, collage logic allowed.',
+      'NDX evidence strips with annotated borders — each image stamped, captioned, and crop-mark framed like field documentation, not lifestyle editorial.',
     imageCroppingBehavior:
       'Diagonal crops and overlapping plates — one image may break column grid asymmetrically.',
     imageGraphicRelationship:
@@ -264,7 +264,7 @@ const ART_DIRECTION_BY_SLOT: Record<WebExpressionTerritorySlot, ArtDirectionBund
     controlledDisruption:
       'Full-width signal strip spans modules mid-page with oversized date stamp interrupting the grid.',
     bespokeMoment:
-      'Live status block styled as a breaking ticker tape — mono timestamp + lime SIGNAL tag wrapping overview metrics.',
+      'Live NDXBOOK status block as breaking desk ticker — mono timestamp + lime SIGNAL tag + filed reference code wrapping overview metrics.',
     creativeDensityPattern:
       'Dense masthead, rhythmic column entry list, open signal field, dense closing desk note above nav.',
     lowerPageCreativeContinuation:
