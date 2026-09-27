@@ -24,6 +24,32 @@ import {
   compileFounderCreativePreferenceBlock,
   DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/founderCreativePreferenceProfile.js';
+import { buildPassingSanitationReceiptForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptAuthorityArtifactSanitation.js';
+
+function promoteSanitized(input: {
+  registry: ReturnType<typeof emptyProjectVisualAuthorityRegistry>;
+  projectId: string;
+  sourcePageId: string;
+  sourceConceptId: string;
+  sourceTerritoryId: string | null;
+  originalArtifactId: string;
+}) {
+  const receipt = buildPassingSanitationReceiptForTest(input.originalArtifactId);
+  return promoteProjectVisualAuthority({
+    registry: input.registry,
+    projectId: input.projectId,
+    sourcePageId: input.sourcePageId,
+    sourceConceptId: input.sourceConceptId,
+    sourceTerritoryId: input.sourceTerritoryId,
+    sourceArtifactId: receipt.sanitizedArtifactId!,
+    sourceViewport: 'MOBILE',
+    artifactWidth: 780,
+    artifactHeight: 1688,
+    artifactStatus: 'READY',
+    sanitationReceipt: receipt,
+    compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+  });
+}
 
 describe('P0.VR SITE 00 project expression authority scope', () => {
   it('defines authority scope enum values', () => {
@@ -61,18 +87,13 @@ describe('P0.VR SITE 00 project expression authority scope', () => {
       validateProjectExpressionInheritance({ designTarget: hostTarget }).ok,
     ).toBe(false);
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     expect(
@@ -95,18 +116,13 @@ describe('P0.VR SITE 00 project expression authority scope', () => {
       validateProjectExpressionInheritance({ designTarget: standaloneTarget }).ok,
     ).toBe(false);
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     expect(
@@ -122,18 +138,13 @@ describe('P0.VR SITE 00 project expression authority scope', () => {
 
   it('requires founder action for cross-context reference', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     registry = createExplicitCrossContextDesignReference({
@@ -160,18 +171,13 @@ describe('P0.VR SITE 00 project expression authority scope', () => {
 
   it('does not auto-inherit NDXBOOK expression into astral-world without explicit reference', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     expect(
@@ -188,18 +194,13 @@ describe('P0.VR SITE 00 project expression authority scope', () => {
   });
 
   it('scopes prompt blocks to SITE 00 project context fusion', () => {
-    const { contract } = promoteProjectVisualAuthority({
+    const { contract } = promoteSanitized({
       registry: emptyProjectVisualAuthorityRegistry(),
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     const block = compileSite00ProjectExpressionPromptBlock(contract);
     expect(block).toContain('SITE 00 PROJECT EXPRESSION');

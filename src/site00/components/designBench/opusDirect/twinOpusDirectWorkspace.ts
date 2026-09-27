@@ -82,6 +82,18 @@ import {
   saveProjectVisualAuthorityRegistry,
   type ProjectVisualAuthorityRegistry,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/projectVisualAuthority.js';
+import {
+  fetchArtifactPathToBase64,
+  loadAuthorityArtifactSanitationLineageRegistry,
+  registerAuthorityArtifactSanitationLineage,
+  resolveExistingSanitizedLineage,
+  sanitizeAuthorityConceptArtifact,
+  saveAuthorityArtifactSanitationLineageRegistry,
+  SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED,
+  validateAuthorityArtifactSanitationReceipt,
+  type AuthorityArtifactSanitationReceipt,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptAuthorityArtifactSanitation.js';
+import { SITE00_MOBILE_GENERATION_CANVAS } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportCanvasContract.js';
 import { webExpressionTerritoryForSlot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptWebExpressionTerritories.js';
 
 import {
@@ -940,31 +952,96 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
                 screenshotFunctionalPageMap: functionMap,
               })
             : null;
-          try {
-            const result = promoteProjectVisualAuthority({
-              registry: projectVisualAuthorityRegistry,
-              projectId: projectSlug,
-              sourcePageId: pageTarget.pageId,
-              sourceConceptId: row.conceptId,
-              sourceTerritoryId: territory?.territoryId ?? null,
-              sourceArtifactId: row.artifactId ?? row.conceptId,
-              sourceViewport: 'MOBILE',
-              artifactWidth: job?.width ?? 780,
-              artifactHeight: job?.height ?? 1688,
-              artifactStatus: row.artifactStatus,
-              compile: {
-                cgptBrief: pipelineSet?.cgptCreativeBrief ?? null,
-                skinContract: null,
-                webTerritory: territory,
-                ndxBrief,
-              },
-            });
-            saveProjectVisualAuthorityRegistry(result.registry);
-            setProjectVisualAuthorityRegistry(result.registry);
-            void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
-          } catch (err) {
-            window.alert(err instanceof Error ? err.message : 'PROMOTE_SITE00_PROJECT_EXPRESSION_FAILED');
-          }
+          void (async () => {
+            try {
+              const originalArtifactId = row.artifactId ?? row.conceptId;
+              const artifactWidth = job?.width ?? 780;
+              const artifactHeight = job?.height ?? 1688;
+              const imagePath = row.mobileVisualReference ?? row.visualReference;
+              let lineageRegistry = loadAuthorityArtifactSanitationLineageRegistry();
+              let sanitationReceipt: AuthorityArtifactSanitationReceipt | null = null;
+              const existingLineage = resolveExistingSanitizedLineage(lineageRegistry, originalArtifactId);
+              if (existingLineage) {
+                sanitationReceipt = {
+                  ok: true,
+                  errorCode: null,
+                  originalArtifactId: existingLineage.originalArtifactId,
+                  sanitizedArtifactId: existingLineage.sanitizedArtifactId,
+                  deviceChromeRemoved: true,
+                  browserChromeRemoved: true,
+                  letterboxingRemoved: true,
+                  canonicalCanvas: true,
+                  productBoundsPass: true,
+                  designChanged: false,
+                  map: null,
+                  sanitizedPreviewBase64:
+                    lineageRegistry.sanitizedPreviewBase64[existingLineage.sanitizedArtifactId] ?? null,
+                };
+              }
+
+              if (!sanitationReceipt?.ok) {
+                if (!imagePath) {
+                  window.alert(SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED);
+                  return;
+                }
+                const captureBase64 = await fetchArtifactPathToBase64(imagePath);
+                sanitationReceipt = await sanitizeAuthorityConceptArtifact({
+                  originalArtifactId,
+                  captureBase64,
+                  width: artifactWidth,
+                  height: artifactHeight,
+                });
+              }
+
+              const receiptCheck = validateAuthorityArtifactSanitationReceipt(sanitationReceipt);
+              const sanitizedArtifactId = sanitationReceipt?.sanitizedArtifactId;
+              if (!receiptCheck.ok || !sanitationReceipt || !sanitizedArtifactId) {
+                window.alert(SELECTED_AUTHORITY_ARTIFACT_NOT_SANITIZED);
+                return;
+              }
+
+              if (sanitationReceipt.sanitizedPreviewBase64) {
+                lineageRegistry = registerAuthorityArtifactSanitationLineage({
+                  registry: lineageRegistry,
+                  lineage: {
+                    relation: 'SANITIZED_FROM',
+                    originalArtifactId,
+                    sanitizedArtifactId,
+                    sanitizedAt: new Date().toISOString(),
+                    width: SITE00_MOBILE_GENERATION_CANVAS.width,
+                    height: SITE00_MOBILE_GENERATION_CANVAS.height,
+                  },
+                  sanitizedPreviewBase64: sanitationReceipt.sanitizedPreviewBase64,
+                });
+                saveAuthorityArtifactSanitationLineageRegistry(lineageRegistry);
+              }
+
+              const result = promoteProjectVisualAuthority({
+                registry: projectVisualAuthorityRegistry,
+                projectId: projectSlug,
+                sourcePageId: pageTarget.pageId,
+                sourceConceptId: row.conceptId,
+                sourceTerritoryId: territory?.territoryId ?? null,
+                sourceArtifactId: sanitizedArtifactId,
+                sourceViewport: 'MOBILE',
+                artifactWidth: SITE00_MOBILE_GENERATION_CANVAS.width,
+                artifactHeight: SITE00_MOBILE_GENERATION_CANVAS.height,
+                artifactStatus: row.artifactStatus ?? 'READY',
+                sanitationReceipt,
+                compile: {
+                  cgptBrief: pipelineSet?.cgptCreativeBrief ?? null,
+                  skinContract: null,
+                  webTerritory: territory,
+                  ndxBrief,
+                },
+              });
+              saveProjectVisualAuthorityRegistry(result.registry);
+              setProjectVisualAuthorityRegistry(result.registry);
+              void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
+            } catch (err) {
+              window.alert(err instanceof Error ? err.message : 'PROMOTE_SITE00_PROJECT_EXPRESSION_FAILED');
+            }
+          })();
         }
         if (actionId === 'regenerate-tablet') {
           void pageConceptGeneration.viewportFamilyHandlers.regenerateTablet();

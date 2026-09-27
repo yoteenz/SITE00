@@ -24,8 +24,34 @@ import {
   resolveProjectVisualAuthorityForPage,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/projectVisualAuthority.js';
 import { compileFounderCreativePreferenceBlock } from '../shared/site00-design-workspace-production/pageConceptPipeline/founderCreativePreferenceProfile.js';
+import { buildPassingSanitationReceiptForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptAuthorityArtifactSanitation.js';
 import { interpretScreenshotFunctionality } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
 import { mockGpt2MobileProviderReferenceBundleForTest } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileReferenceAuthority.js';
+
+function promoteSanitized(input: {
+  registry: ReturnType<typeof emptyProjectVisualAuthorityRegistry>;
+  projectId: string;
+  sourcePageId: string;
+  sourceConceptId: string;
+  sourceTerritoryId: string | null;
+  originalArtifactId: string;
+}) {
+  const receipt = buildPassingSanitationReceiptForTest(input.originalArtifactId);
+  return promoteProjectVisualAuthority({
+    registry: input.registry,
+    projectId: input.projectId,
+    sourcePageId: input.sourcePageId,
+    sourceConceptId: input.sourceConceptId,
+    sourceTerritoryId: input.sourceTerritoryId,
+    sourceArtifactId: receipt.sanitizedArtifactId!,
+    sourceViewport: 'MOBILE',
+    artifactWidth: 780,
+    artifactHeight: 1688,
+    artifactStatus: 'READY',
+    sanitationReceipt: receipt,
+    compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+  });
+}
 
 describe('P0.VR capture sanitation + project visual authority', () => {
   it('excludes device chrome bands from product bounds on tall captures', () => {
@@ -88,18 +114,13 @@ describe('P0.VR capture sanitation + project visual authority', () => {
   it('creates project visual authority only on explicit promotion', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
     expect(getActiveProjectVisualAuthority(registry, 'ndxbook')).toBeNull();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: 'ter-a',
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     expect(promoted.record.version).toBe(1);
@@ -113,18 +134,13 @@ describe('P0.VR capture sanitation + project visual authority', () => {
 
   it('inherits grammar to same-project pages without cloning layout language', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     const inherited = resolveProjectVisualAuthorityForPage({
@@ -138,18 +154,13 @@ describe('P0.VR capture sanitation + project visual authority', () => {
 
   it('does not auto-inherit NDXBOOK authority into astral-world', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     expect(
@@ -163,18 +174,13 @@ describe('P0.VR capture sanitation + project visual authority', () => {
 
   it('allows explicit cross-project reuse only via founder action record', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
-    const promoted = promoteProjectVisualAuthority({
+    const promoted = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = promoted.registry;
     registry = createExplicitCrossProjectDesignFamilyReference({
@@ -195,50 +201,35 @@ describe('P0.VR capture sanitation + project visual authority', () => {
 
   it('versions authority on subsequent promotions', () => {
     let registry = emptyProjectVisualAuthorityRegistry();
-    const v1 = promoteProjectVisualAuthority({
+    const v1 = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     registry = v1.registry;
-    const v2 = promoteProjectVisualAuthority({
+    const v2 = promoteSanitized({
       registry,
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-b',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-b',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-b',
     });
     expect(v2.record.version).toBe(2);
     expect(getActiveProjectVisualAuthority(v2.registry, 'ndxbook')?.record.sourceConceptId).toBe('mc-b');
   });
 
   it('feeds Composer/GPT2 and Opus prompt blocks from project authority contract', () => {
-    const { contract } = promoteProjectVisualAuthority({
+    const { contract } = promoteSanitized({
       registry: emptyProjectVisualAuthorityRegistry(),
       projectId: 'ndxbook',
       sourcePageId: 'ndxbook:overview',
       sourceConceptId: 'mc-a',
       sourceTerritoryId: null,
-      sourceArtifactId: 'art-a',
-      sourceViewport: 'MOBILE',
-      artifactWidth: 780,
-      artifactHeight: 1688,
-      artifactStatus: 'READY',
-      compile: { cgptBrief: null, skinContract: null, webTerritory: null, ndxBrief: null },
+      originalArtifactId: 'art-a',
     });
     const composerBlock = compileProjectVisualAuthorityPromptBlock(contract);
     expect(composerBlock).toContain('SITE 00 PROJECT EXPRESSION');
