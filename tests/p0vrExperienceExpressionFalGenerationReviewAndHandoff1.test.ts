@@ -9,7 +9,13 @@ import { runPageConceptGeneration } from '../api/_lib/site00PageConcept/runPageC
 import { runPageConceptViewportFamilyAction } from '../api/_lib/site00PageConcept/runPageConceptViewportFamilyAction.js';
 import { buildPageGpt2ViewportInterpretationPackage } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2ViewportInterpretationPackage.js';
 import { buildGpt2ViewportFamilyHeroRailStages } from '../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
-import { experienceExpressionOutputCount } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
+import {
+  buildExperienceExpressionFalTargetsFromPlan,
+  experienceExpressionOutputCount,
+} from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
+import * as falPlan from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
+import { pageConceptBeginExperienceExpressionGeneration } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
+import { executePageConceptExperienceExpressionGeneration } from '../api/_lib/site00PageConcept/executePageConceptExperienceExpressionGeneration.js';
 import { compileProjectSkinContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProjectSkinContract.js';
 import { appendPageCapture } from '../shared/site00-design-workspace-production/designPageCapture.js';
 import { listSiteDesignPagesForProject } from '../shared/site00-design-workspace-production/designProjectBinding/index.js';
@@ -70,6 +76,57 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1', () =>
   beforeEach(() => {
     vi.restoreAllMocks();
     delete process.env.SITE00_PAGE_CONCEPT_LEGACY_NBP;
+  });
+
+  it('generates all FAL experience targets in parallel on CREATE EXPERIENCE', async () => {
+    let inFlight = 0;
+    let maxConcurrent = 0;
+    const original = falExec.renderExperienceExpressionFalTarget;
+    vi.spyOn(falExec, 'renderExperienceExpressionFalTarget').mockImplementation(async (input) => {
+      inFlight += 1;
+      maxConcurrent = Math.max(maxConcurrent, inFlight);
+      await new Promise((resolve) => setTimeout(resolve, 15));
+      inFlight -= 1;
+      return original(input);
+    });
+
+    const { s, concepts } = await stateAfterMobileConcepts();
+    let r = await runPageConceptViewportFamilyAction(s, {
+      type: 'selectMobileConcept',
+      conceptId: concepts[0]!.conceptId,
+    });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+    const begun = pageConceptBeginExperienceExpressionGeneration(r.state);
+    const [baseTarget] = buildExperienceExpressionFalTargetsFromPlan(begun.authority.packagingPlan!);
+    expect(baseTarget).toBeTruthy();
+    const parallelTargets = ['parallel-a', 'parallel-b', 'parallel-c'].map((stateId, index) => ({
+      ...baseTarget!,
+      stateId,
+      label: `PARALLEL STATE ${index + 1}` as typeof baseTarget.label,
+    }));
+    vi.spyOn(falPlan, 'buildExperienceExpressionFalTargetsFromPlan').mockReturnValue(parallelTargets);
+
+    const rendered = await executePageConceptExperienceExpressionGeneration({
+      authority: begun.authority,
+      mobileAuthorityImageUri: 'data:image/png;base64,aaa',
+      planMeta: {
+        projectId: PROJECT,
+        pageId: r.state.pageId,
+        captureSetId: r.state.pipelineSet!.captureSetId,
+        projectContextVersion: r.state.projectContext!.contextVersion,
+        pageContextVersion: r.state.pageContext!.contextVersion,
+        functionContractId: r.state.functionContract!.contractId,
+        creativeInjectionId: r.state.pipelineSet!.creativeInjection!.injectionId,
+        selectedMobileConceptId: concepts[0]!.conceptId,
+      },
+      functionContract: r.state.functionContract!,
+      cgptBrief: r.state.pipelineSet!.cgptCreativeBrief!,
+      injection: r.state.pipelineSet!.creativeInjection!,
+      dryRun: true,
+    });
+
+    expect(rendered.jobs).toHaveLength(3);
+    expect(maxConcurrent).toBeGreaterThan(1);
   });
 
   it('confirms mobile, generates FAL experience images, and approves for tablet handoff', async () => {
