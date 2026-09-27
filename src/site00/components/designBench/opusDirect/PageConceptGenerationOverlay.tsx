@@ -133,6 +133,7 @@ export function PageConceptGenerationOverlay({
     selectMobile: (conceptId: string) => void;
     confirmMobileAuthority?: () => void;
     generateExperience?: () => void;
+    regenerateExperienceState?: (stateId: string) => void;
     approveExperience: () => void;
     runTablet: () => void;
     runDesktop: () => void;
@@ -469,6 +470,7 @@ export function PageConceptGenerationOverlay({
             busy={generating}
             onApprove={() => viewportFamilyHandlers.approveExperience()}
             onRegenerate={() => viewportFamilyHandlers.generateExperience?.()}
+            onRegenerateState={(stateId) => viewportFamilyHandlers.regenerateExperienceState?.(stateId)}
             onClose={onCancel}
           />
         </div>

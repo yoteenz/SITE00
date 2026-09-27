@@ -21,6 +21,7 @@ type Body = {
   imageUri?: string;
   mobileCaptureBase64?: string;
   dryRun?: boolean;
+  experienceStateId?: string;
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -59,7 +60,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         action = { type: 'confirmMobileAuthority' };
         break;
       case 'generateExperienceExpression':
-        action = { type: 'generateExperienceExpression' };
+        action = { type: 'generateExperienceExpression', dryRun: body.dryRun === true };
+        break;
+      case 'regenerateExperienceExpressionState':
+        if (!body.experienceStateId?.trim()) throw new Error('EXPERIENCE_STATE_ID_REQUIRED');
+        action = {
+          type: 'regenerateExperienceExpressionState',
+          stateId: body.experienceStateId.trim(),
+          dryRun: body.dryRun === true,
+        };
         break;
       case 'approveExperienceExpression':
         action = { type: 'approveExperienceExpression' };

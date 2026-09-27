@@ -69,8 +69,10 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-PROMPT-ORCHESTRATION-AND-PACKAGING1', () =
 
   it('packages outputs within 5 total and rejects broad legacy prompts', () => {
     const { plan, falTargets } = buildExperienceExpressionPromptPipeline({
+      projectId: 'other-project',
       authorityId: 'auth-1',
       conceptId: 'concept-b',
+      mobileArtifactId: 'art-b',
       route: functionContract.route,
       territoryLabel: 'EDITORIAL SIGNAL',
       skinContract: skin,

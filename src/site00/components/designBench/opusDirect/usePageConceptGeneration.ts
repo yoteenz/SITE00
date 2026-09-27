@@ -1831,7 +1831,10 @@ export function usePageConceptGeneration(
 
   const dispatchViewportFamilyAction = useCallback(
     async (action: PageConceptViewportFamilyAction) => {
-      if (action.type === 'generateExperienceExpression') {
+      if (
+        action.type === 'generateExperienceExpression' ||
+        action.type === 'regenerateExperienceExpressionState'
+      ) {
         setOverlayMode('experience-review');
       }
       setGenerating(true);
@@ -1862,6 +1865,8 @@ export function usePageConceptGeneration(
           imageUri: action.type === 'captureTwinViewport' ? action.imageUri : undefined,
           mobileCaptureBase64,
           dryRun: 'dryRun' in action ? action.dryRun : undefined,
+          experienceStateId:
+            action.type === 'regenerateExperienceExpressionState' ? action.stateId : undefined,
         });
         persist(() => {
           let next = result.state;
@@ -1871,6 +1876,7 @@ export function usePageConceptGeneration(
           }
           if (
             action.type === 'generateExperienceExpression' ||
+            action.type === 'regenerateExperienceExpressionState' ||
             action.type === 'confirmMobileAuthority' ||
             action.type === 'approveExperienceExpression'
           ) {
@@ -1913,6 +1919,8 @@ export function usePageConceptGeneration(
       selectMobile: (conceptId: string) => void dispatchViewportFamilyAction({ type: 'selectMobileConcept', conceptId }),
       confirmMobileAuthority: () => void dispatchViewportFamilyAction({ type: 'confirmMobileAuthority' }),
       generateExperience: () => void dispatchViewportFamilyAction({ type: 'generateExperienceExpression' }),
+      regenerateExperienceState: (stateId: string) =>
+        void dispatchViewportFamilyAction({ type: 'regenerateExperienceExpressionState', stateId }),
       regenerateMobileConcept: (conceptId: string) =>
         void dispatchViewportFamilyAction({ type: 'regenerateMobileConcept', conceptId, mobileCaptureBase64: '' }),
       regenerateAllMobileConcepts: () =>

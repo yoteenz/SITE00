@@ -34,6 +34,7 @@ export type PageConceptViewportFamilyAction =
   | { type: 'selectMobileConcept'; conceptId: string }
   | { type: 'confirmMobileAuthority' }
   | { type: 'generateExperienceExpression'; dryRun?: boolean }
+  | { type: 'regenerateExperienceExpressionState'; stateId: string; dryRun?: boolean }
   | { type: 'approveExperienceExpression' }
   | { type: 'runTabletInterpretation'; dryRun?: boolean }
   | { type: 'runDesktopInterpretation'; dryRun?: boolean }
@@ -120,6 +121,48 @@ export async function runPageConceptViewportFamilyAction(
       const msg = e instanceof Error ? e.message : 'EXPERIENCE_EXPRESSION_FAL_FAILED';
       return pageConceptMarkExperienceExpressionGenerationFailed(begun.state, msg);
     }
+  }
+
+  if (action.type === 'regenerateExperienceExpressionState') {
+    const dryRun = action.dryRun ?? process.env.VITEST === 'true';
+    const authority = state.pipelineSet?.experienceExpressionAuthority;
+    if (!authority?.packagingPlan) throw new Error('EXPERIENCE_PACKAGING_PLAN_REQUIRED');
+    const { executePageConceptExperienceExpressionStateRegeneration } = await import(
+      './executePageConceptExperienceExpressionGeneration.js'
+    );
+    const { b64: mobileImageRef } = mobileAuthorityFromState(state);
+    const mobile = state.pipelineSet!.mobileConcepts?.find(
+      (c) => c.conceptId === (state.pipelineSet!.viewportAuthorityFamily?.confirmedMobileConceptId ?? ''),
+    );
+    const mobileAuthorityImageUri =
+      mobile?.imageUri?.trim() ?
+        mobile.imageUri
+      : mobileImageRef.startsWith('data:') ?
+        mobileImageRef
+      : `data:image/png;base64,${mobileImageRef}`;
+    const rendered = await executePageConceptExperienceExpressionStateRegeneration({
+      authority,
+      stateId: action.stateId,
+      mobileAuthorityImageUri,
+      planMeta: {
+        projectId: state.projectId,
+        pageId: state.pageId,
+        captureSetId: state.pipelineSet!.captureSetId,
+        projectContextVersion: state.projectContext!.contextVersion,
+        pageContextVersion: state.pageContext!.contextVersion,
+        functionContractId: state.functionContract!.contractId,
+        creativeInjectionId: state.pipelineSet!.creativeInjection!.injectionId,
+        selectedMobileConceptId: authority.sourceConceptId,
+      },
+      functionContract: state.functionContract!,
+      dryRun,
+    });
+    const contract = state.pipelineSet!.experienceExpressionContract!;
+    return pageConceptApplyExperienceExpressionGenerationResult(state, {
+      authority: rendered.authority,
+      contract,
+      jobs: rendered.jobs,
+    });
   }
 
   if (action.type === 'selectMobileConcept') {

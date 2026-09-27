@@ -96,6 +96,7 @@ export type ExperienceExpressionAuthority = {
   expressionPrompts?: readonly ExperienceExpressionPrompt[];
   packagingPlan?: ExperiencePackagingPlan | null;
   outputLineage?: readonly ExperienceOutputLineage[];
+  experiencePackageMetadata?: import('./ndxbookOverviewExperienceExpressionContentSpec.js').ExperiencePackageMetadata | null;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
@@ -147,8 +148,11 @@ export function compileExperienceExpressionAuthority(input: {
 
   const authorityId = `peea-${input.projectId}-${input.pageId}-${Date.now()}`;
   const { plan, falTargets } = buildExperienceExpressionPromptPipeline({
+    projectId: input.projectId,
+    pageId: input.pageId,
     authorityId,
     conceptId: input.mobileConcept.conceptId,
+    mobileArtifactId: input.mobileConcept.artifactId,
     route: input.functionContract.route,
     territoryLabel: input.mobileConcept.territoryLabel ?? 'mobile authority',
     skinContract: input.skinContract,
@@ -235,6 +239,7 @@ export function compileExperienceExpressionAuthority(input: {
     expressionPrompts: plan.candidatePrompts,
     packagingPlan: plan,
     outputLineage: falTargets.map((t) => t.lineage),
+    experiencePackageMetadata: null,
     generatedAt: now,
     approvedAt: null,
   };
