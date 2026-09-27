@@ -185,7 +185,8 @@ export function ExperienceReviewEmptyState(props: { busy?: boolean; onGenerate: 
     <div className="s00-exp-review__empty" data-testid="page-concept-experience-review-empty">
       <h3 className="s00-exp-review__emptyTitle">EXPERIENCE PACKAGE NOT GENERATED YET</h3>
       <p className="s00-exp-review__emptyCopy">
-        Generate the package to review expanded navigation, entry detail panel, and project access overlay states.
+        Generate or refine FAL experience outputs here — expanded navigation, entry detail panel, and project access
+        overlay states. Use REGENERATE PACKAGE or REGENERATE OUTPUT after the first package completes.
       </p>
       <button
         type="button"
@@ -256,6 +257,15 @@ export function ExperienceReviewActionBar(props: {
   if (props.mode === 'EMPTY') {
     return (
       <footer className="s00-exp-review__actionBar" data-testid="experience-review-action-bar">
+        <button
+          type="button"
+          className="s00-exp-review__btn s00-exp-review__btn--lime"
+          disabled={props.busy}
+          data-testid="experience-review-action-bar-generate"
+          onClick={props.onRegeneratePackage}
+        >
+          GENERATE EXPERIENCE PACKAGE
+        </button>
         <button type="button" className="s00-exp-review__btn s00-exp-review__btn--white" onClick={props.onClose}>
           CLOSE
         </button>

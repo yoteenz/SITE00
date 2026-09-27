@@ -37,8 +37,8 @@ export function pickRicherExperienceExpressionAuthority(
 }
 
 /**
- * True when the hero rail "view experience" action should only open the review panel —
- * not re-run full-package FAL generation.
+ * True when opening the review panel should auto-start full-package FAL generation.
+ * Hero rail always opens the panel only; generation/refine is initiated inside the panel.
  */
 export function shouldDispatchGenerateExperienceOnReviewOpen(
   pipelineSet: PageConceptPipelineSet | null | undefined,
