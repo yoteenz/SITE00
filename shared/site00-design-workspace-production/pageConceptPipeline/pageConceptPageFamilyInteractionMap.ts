@@ -461,7 +461,8 @@ export function buildPageFamilyBuildReadiness(input: {
           100,
       )
     );
-  const designInheritanceCoveragePercent = blueprint.approvedAt ? 100 : 0;
+  const designInheritanceCoveragePercent =
+    blueprint.approvedAt && blueprint.hierarchyReceipt.hierarchyDiscoveryStatus === 'RESOLVED' ? 100 : 0;
   const responsiveCoveragePercent =
     blueprint.archetypeShells.every((s) => s.mobile.length && s.tablet.length && s.desktop.length) ?
       100
@@ -471,7 +472,9 @@ export function buildPageFamilyBuildReadiness(input: {
   const orphanedInteractions = interactionMap?.coverageMatrix.summary.orphanedControls ?? 999;
   const undefinedPages = blueprint.coverageSummary.undefinedPageCount;
   const interactionApproved = Boolean(interactionMap?.approvedAt);
+  const hierarchyResolved = blueprint.hierarchyReceipt.hierarchyDiscoveryStatus === 'RESOLVED';
   const readyForOpus =
+    hierarchyResolved &&
     pageTreeCoveragePercent === 100 &&
     designInheritanceCoveragePercent === 100 &&
     responsiveCoveragePercent === 100 &&

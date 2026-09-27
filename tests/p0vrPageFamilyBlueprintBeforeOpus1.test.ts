@@ -103,6 +103,8 @@ describe('P0.VR.PAGE-FAMILY-BLUEPRINT-BEFORE-OPUS1', () => {
     expect(blueprint.parentCount).toBe(1);
     expect(blueprint.childCount).toBe(review.children.length);
     expect(blueprint.grandchildCount).toBe(review.grandchildren.length);
+    expect(blueprint.totalPageCount).toBeGreaterThan(1);
+    expect(blueprint.hierarchyReceipt.hierarchyDiscoveryStatus).toBe('RESOLVED');
     const validation = validatePageFamilyBlueprint(blueprint, review);
     expect(validation.ok).toBe(true);
     for (const node of blueprint.nodes) {

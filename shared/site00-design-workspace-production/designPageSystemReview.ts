@@ -11,6 +11,7 @@ import {
   buildProjectDesignPageRegistry,
   getDesignBoundPage,
 } from './designProjectBinding/designPageRegistry.js';
+import { discoverProjectPageFamilyLayout } from './pageConceptPipeline/projectPageFamilyHierarchyDiscovery.js';
 import type { DesignBoundPageRecord, DesignPageDesignStatus } from './designProjectBinding/types.js';
 import type { PageViewportId } from './designProjectBinding/pageViewportAuthority.js';
 
@@ -217,14 +218,12 @@ export function buildPageSystemReviewModel(
   const active = getDesignBoundPage(projectId, pageId) ?? registry.find((p) => p.pageId === pageId);
   const activePageName = active?.pageName ?? pageId;
 
-  const children = registry
-    .filter((p) => p.parentPageId === pageId)
-    .map((p) => toDescendantCard(projectId, p, registry, viewport));
+  const familyLayout = discoverProjectPageFamilyLayout(projectId, pageId);
+  const children = familyLayout.children.map((p) => toDescendantCard(projectId, p, registry, viewport));
 
-  const childIds = new Set(children.map((c) => c.pageId));
-  const grandchildren = registry
-    .filter((p) => p.parentPageId && childIds.has(p.parentPageId))
-    .map((p) => toDescendantCard(projectId, p, registry, viewport));
+  const grandchildren = familyLayout.grandchildren.map((p) =>
+    toDescendantCard(projectId, p, registry, viewport),
+  );
 
   const descendantIds = new Set([...children, ...grandchildren].map((d) => d.pageId));
   const batchCandidates = registry.filter((p) => descendantIds.has(p.pageId) || p.parentPageId === pageId);

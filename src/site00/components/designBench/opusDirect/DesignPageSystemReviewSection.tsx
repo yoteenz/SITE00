@@ -152,6 +152,14 @@ export function DesignPageSystemReviewSection({
             FAMILY STATUS · READY FOR APPROVAL · SKIN · {presentation.skinStatus}
           </p>
         : null}
+        {pageFamilyBlueprint?.hierarchyReceipt ?
+          <p className="tod-psr__hierarchyDiag" data-testid="page-family-hierarchy-sources">
+            HIERARCHY · {pageFamilyBlueprint.hierarchyReceipt.hierarchyDiscoveryStatus} · ROUTE{' '}
+            {pageFamilyBlueprint.hierarchyReceipt.diagnostics.routeRegistryPageCount} · NAV{' '}
+            {pageFamilyBlueprint.hierarchyReceipt.diagnostics.projectNavPageCount} · CANONICAL{' '}
+            {pageFamilyBlueprint.hierarchyReceipt.diagnostics.canonicalResolvedPageCount}
+          </p>
+        : null}
         {presentation.opusHandoffReady ?
           <p className="tod-psr__familyStatus" data-testid="page-family-opus-handoff-ready">
             PAGE FAMILY HANDOFF · READY FOR OPUS · {presentation.pageCoveragePercent ?? 100}% PAGE ·{' '}

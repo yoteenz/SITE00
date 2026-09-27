@@ -508,6 +508,9 @@ export function pageConceptApproveViewportFamily(state: PageConceptGenerationSta
   const review = buildPageSystemReviewModel(state.projectId, state.pageId, 'MOBILE');
   const validation = validatePageFamilyBlueprint(blueprint, review);
   if (!validation.ok) throw new Error(validation.code);
+  if (blueprint.hierarchyReceipt.hierarchyDiscoveryStatus !== 'RESOLVED') {
+    throw new Error(blueprint.hierarchyReceipt.blockedReason ?? 'PAGE_FAMILY_HIERARCHY_INCOMPLETE');
+  }
   const interactionMap = compilePageFamilyInteractionMap({
     blueprint,
     experienceContract: ps.experienceExpressionContract,
