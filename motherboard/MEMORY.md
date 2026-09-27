@@ -12156,3 +12156,14 @@ Founder: after FAL generates experience expressions, outputs must appear in the 
 - **Persistence:** gallery merge prefers richer server **READY** authority over stale local **GENERATING** (syncs family **`experienceExpressionStatus`** when server wins).
 - **Panel:** **`experienceReviewPresentation.ts`** coalesces **GENERATING** → **READY** mode when all FAL previews materialized; **`ExperienceReviewPanel`** keeps active output tab valid as URIs arrive.
 - **Tests:** **`p0vrExperienceExpressionViewPanelMount1.test.ts`** + rail assertion in FAL handoff suite. **cPanel deploy** for SPA; no Railway change required (client/shared only).
+
+---
+
+## 2026-09-27 — Experience panel as generate/refine hub (rail opens only)
+
+Founder: **Experience Review** panel (not hero rail) is where FAL packages are generated and refined; rail **OPEN EXPERIENCE** / **VIEW EXPERIENCE** only expands the overlay.
+
+- **`twinOpusDirectWorkspace.ts`:** **`vf-create-experience`** and **`vf-review-experience`** call **`openExperienceReview()`** only — no auto **`generateExperienceExpression`** on rail click.
+- **Rail:** not-started label **OPEN EXPERIENCE**; value line **OPEN PANEL TO GENERATE**.
+- **Panel:** empty copy clarifies generate/refine; action bar adds footer **GENERATE EXPERIENCE PACKAGE** ( **`experience-review-action-bar-generate`** ) for mobile.
+- **Tests:** **`p0vrExperiencePanelGenerateRefineHub1.test.ts`**. **cPanel v694+**.
