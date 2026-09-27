@@ -75,6 +75,7 @@ import {
   savePageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
 import { loadPageConceptGenerationStateForDesignPage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import { applyExperienceReviewHydrationToState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceReviewHydration.js';
 import type { PageCaptureRecord } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type {
   PageConceptGenerationPlan,
@@ -295,6 +296,7 @@ export function usePageConceptGeneration(
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [overlayMode, setOverlayMode] = useState<'confirm' | 'progress' | 'review' | 'experience-review'>('confirm');
   const [generating, setGenerating] = useState(false);
+  const [experienceReviewHydrating, setExperienceReviewHydrating] = useState(false);
   /** Provider/runtime failures only — never eligibility gate copy (see blockingState). */
   const [executionError, setExecutionError] = useState<string | null>(null);
   const [captureRevision, setCaptureRevision] = useState(0);
@@ -516,6 +518,12 @@ export function usePageConceptGeneration(
           persist,
         });
         if (cancelled) return;
+        persist((prev) => {
+          const { state: hydrated } = applyExperienceReviewHydrationToState(prev);
+          savePageConceptGenerationState(hydrated);
+          return hydrated;
+        });
+        if (cancelled) return;
         window.dispatchEvent(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );
@@ -679,7 +687,38 @@ export function usePageConceptGeneration(
   const openExperienceReview = useCallback(() => {
     setOverlayOpen(true);
     setOverlayMode('experience-review');
-  }, []);
+    setExperienceReviewHydrating(true);
+    void (async () => {
+      try {
+        if (apiSessionReady === true) {
+          await mountPageConceptGalleryFromServer({
+            projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+            persist,
+          });
+        }
+        const loaded = loadPageConceptGenerationStateForDesignPage({
+          projectSlug: projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+        });
+        persist((prev) => {
+          const merged = { ...prev, ...loaded, generationJobs: loaded.generationJobs.length ? loaded.generationJobs : prev.generationJobs };
+          const { state: hydrated } = applyExperienceReviewHydrationToState(merged);
+          savePageConceptGenerationState(hydrated);
+          return hydrated;
+        });
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
+      } finally {
+        setExperienceReviewHydrating(false);
+      }
+    })();
+  }, [apiSessionReady, pageId, persist, projectId, route, screenId]);
 
   const openPageFamilyBlueprintReview = useCallback(() => {
     setOverlayOpen(true);
@@ -2028,6 +2067,7 @@ export function usePageConceptGeneration(
     consoleFocusViewport,
     openGenerationReview,
     openExperienceReview,
+    experienceReviewHydrating,
     openPageFamilyBlueprintReview,
     cancelGeneration,
     handleGenerateClick,

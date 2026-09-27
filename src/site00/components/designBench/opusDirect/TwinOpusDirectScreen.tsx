@@ -415,6 +415,7 @@ export function TwinOpusDirectScreen({
         blockingState={workspace.pageConceptGeneration.blockingState}
         generationEligibility={workspace.pageConceptGeneration.generationEligibility}
         generating={workspace.pageConceptGeneration.generating}
+        experienceReviewHydrating={workspace.pageConceptGeneration.experienceReviewHydrating}
         confirmReady={workspace.pageConceptGeneration.ready}
         modalGeneratePress={workspace.pageConceptGeneration.modalGeneratePress}
         generateClickTrace={workspace.pageConceptGeneration.generateClickTrace}

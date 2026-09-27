@@ -12193,3 +12193,17 @@ Sprint: **ExperienceExpressionCoverageMap** for Overview — interactions → vi
 - **Experience Review UI:** **EXPRESSION COVERAGE** strip (`experience-review-expression-coverage`).
 - **Attach map** after FAL generation / menu regen; coverage in approve contract handoff.
 - **Tests:** **`p0vrNdxbookOverviewFullExpressionCoverage1.test.ts`**. **Railway + cPanel v697+**.
+
+---
+
+## 2026-09-27 — P0.VR Experience Review hydration + single-state regeneration UX
+
+Founder sprint: Experience Review must **hydrate persisted FAL package** before showing NOT GENERATED; accurate package counts; per-output **INSPECT / REGENERATE**; **GENERATE MISSING OUTPUTS** when partial; stale package when mobile authority changes.
+
+- **Root cause class:** **`ARTIFACT_INDEX_MISSING` / `PACKAGE_NOT_HYDRATED`** — authority index empty while **`generationJobs`** (FAL_EXPERIENCE) hold READY URIs; panel opened without reload (`openExperienceReview` overlay-only); empty local authority could win merge without previews.
+- **`experienceReviewHydration.ts`:** reconcile jobs → **`visualStates`** (state id aliases drawer↔entry-detail, overlay↔project-access); **`applyExperienceReviewHydrationToState`**; stale detection; job version history on regen.
+- **`pickRicherExperienceExpressionAuthority`:** prefer snapshot with FAL previews when local is NOT_STARTED/GENERATING empty.
+- **`experienceReviewPresentation`:** **`HYDRATING`**, **`STALE`** modes.
+- **`usePageConceptGeneration`:** hydrate on **`openExperienceReview`** + after server gallery mount; **`experienceReviewHydrating`** flag.
+- **Experience Review UI:** loading state, always show output cards when planned states exist, per-card regenerate (incl. **REGENERATE MENU**), generate-missing action, lineage debug ids, current/previous artifact line.
+- **Tests:** **`p0vrExperienceReviewHydrationAndSingleStateRegenerationUx1.test.ts`**. **cPanel v698+** (UI).

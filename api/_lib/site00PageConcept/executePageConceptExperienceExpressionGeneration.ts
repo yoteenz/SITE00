@@ -34,6 +34,7 @@ import {
   buildNdxbookOverviewExpandedNavHierarchy,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/ndxbookExpandedNavHierarchy.js';
 import { buildNestedNavResponsiveExperienceRules } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/responsiveExperienceNestedNavContract.js';
+import { appendExperienceGenerationJobVersionHistory } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceReviewHydration.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
   return validateExperiencePackageMaterialization(authority).ok;
@@ -341,6 +342,9 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
       )
     : input.authority.expressionPrompts;
 
+  const priorState = input.authority.visualStates.find((s) => s.stateId === input.stateId);
+  const previousArtifactId = priorState?.generatedArtifactId ?? null;
+
   const visualStates = input.authority.visualStates.map((state) => {
     if (state.stateId !== input.stateId) return state;
     return {
@@ -370,6 +374,10 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
     status: 'READY',
     artifactId: render.artifactId,
     error: null,
+    previousArtifactId,
+    regeneratedAt: new Date().toISOString(),
+    regenerationReason:
+      input.stateId === 'menu' ? 'MENU_HIERARCHY_REFINEMENT' : 'SINGLE_STATE_REGENERATION',
   };
 
   let authority: ExperienceExpressionAuthority = {
@@ -381,7 +389,11 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
     expressionPrompts,
     expressionAssetIds,
     generatedAt: new Date().toISOString(),
-    generationJobs: [...(input.authority.generationJobs ?? []).filter((j) => j.stateId !== input.stateId), retryJob],
+    generationJobs: appendExperienceGenerationJobVersionHistory(
+      input.authority.generationJobs ?? [],
+      retryJob,
+      previousArtifactId,
+    ),
   };
 
   authority = enrichExperienceAuthorityThemeContinuity(authority, {

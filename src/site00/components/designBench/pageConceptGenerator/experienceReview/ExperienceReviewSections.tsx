@@ -96,31 +96,56 @@ export function ExperienceReviewOutputNav(props: {
   stateKindLabel: (s: ExperienceExpressionVisualState) => string;
   cardStatus: (s: ExperienceExpressionVisualState) => string;
   onSelect: (stateId: string) => void;
+  onInspect?: (stateId: string) => void;
+  onRegenerateState?: (stateId: string) => void;
 }) {
   return (
     <nav className="s00-exp-review__outputNav" aria-label="Experience outputs" data-testid="experience-review-output-nav">
       {props.visualStates.map((state) => {
         const selected = state.stateId === props.activeStateId;
+        const canRegenerate = state.sourceProvider === 'FAL_EXPERIENCE' && Boolean(props.onRegenerateState);
         return (
-          <button
+          <div
             key={state.stateId}
-            type="button"
             className={`s00-exp-review__outputNavItem${selected ? ' s00-exp-review__outputNavItem--active' : ''}`}
             data-testid={`page-concept-experience-card-${state.stateId}`}
-            onClick={() => props.onSelect(state.stateId)}
           >
-            <PageConceptContainedPreviewFrame
-              size="thumb"
-              status={state.previewImageUri ? 'READY' : 'PENDING'}
-              imageSrc={state.previewImageUri}
-              testId={`page-concept-experience-card-thumb-${state.stateId}`}
-            />
-            <span className="s00-exp-review__outputNavLabel">{props.stateKindLabel(state)}</span>
-            <span className="s00-exp-review__outputNavMeta" data-testid={`page-concept-experience-card-status-${state.stateId}`}>
-              {props.cardStatus(state)}
-              {props.approved ? ' · APPROVED' : ''}
-            </span>
-          </button>
+            <button type="button" className="s00-exp-review__outputNavSelect" onClick={() => props.onSelect(state.stateId)}>
+              <PageConceptContainedPreviewFrame
+                size="thumb"
+                status={state.previewImageUri ? 'READY' : 'PENDING'}
+                imageSrc={state.previewImageUri}
+                testId={`page-concept-experience-card-thumb-${state.stateId}`}
+              />
+              <span className="s00-exp-review__outputNavLabel">{props.stateKindLabel(state)}</span>
+              <span className="s00-exp-review__outputNavMeta" data-testid={`page-concept-experience-card-status-${state.stateId}`}>
+                {props.cardStatus(state)}
+                {props.approved ? ' · APPROVED' : ''}
+              </span>
+            </button>
+            <div className="s00-exp-review__outputNavActions">
+              {props.onInspect ?
+                <button
+                  type="button"
+                  className="s00-exp-review__btn s00-exp-review__btn--white"
+                  data-testid={`page-concept-experience-inspect-${state.stateId}`}
+                  onClick={() => props.onInspect?.(state.stateId)}
+                >
+                  INSPECT
+                </button>
+              : null}
+              {canRegenerate ?
+                <button
+                  type="button"
+                  className="s00-exp-review__btn s00-exp-review__btn--black"
+                  data-testid={`page-concept-regenerate-experience-state-${state.stateId}`}
+                  onClick={() => props.onRegenerateState?.(state.stateId)}
+                >
+                  {state.stateId === 'menu' ? 'REGENERATE MENU' : 'REGENERATE THIS OUTPUT'}
+                </button>
+              : null}
+            </div>
+          </div>
         );
       })}
     </nav>
@@ -160,6 +185,7 @@ export function ExperienceReviewDetails(props: {
   desktopHandoff: string;
   contentAudit: ExperienceContentStateAudit | undefined;
   manifest: ExperienceContentManifest | null | undefined;
+  previousArtifactId?: string | null;
 }) {
   const label = props.stateKindLabel(props.state);
   return (
@@ -200,11 +226,40 @@ export function ExperienceReviewDetails(props: {
       <p className="s00-exp-review__detailsMeta">
         LINEAGE: {props.state.sourceProvider} · {props.state.falPromptVersion ?? 'v1'}
       </p>
+      {props.previousArtifactId ?
+        <p data-testid={`page-concept-experience-previous-artifact-${props.state.stateId}`}>
+          VERSION · CURRENT {props.state.generatedArtifactId ?? '—'} · PREVIOUS {props.previousArtifactId}
+        </p>
+      : null}
     </section>
   );
 }
 
-export function ExperienceReviewEmptyState(props: { busy?: boolean; onGenerate: () => void }) {
+export function ExperienceReviewHydratingState() {
+  return (
+    <div className="s00-exp-review__loading" data-testid="experience-review-hydrating-state">
+      <h3 className="s00-exp-review__emptyTitle">LOADING EXPERIENCE PACKAGE</h3>
+      <p className="s00-exp-review__emptyCopy">Resolving persisted FAL outputs and package index…</p>
+    </div>
+  );
+}
+
+export function ExperienceReviewStaleBanner(props: { onRegenerateAffected: () => void }) {
+  return (
+    <section className="s00-exp-review__statusStripWarn" data-testid="experience-review-stale-banner">
+      <p>EXPERIENCE PACKAGE STALE · SOURCE AUTHORITY CHANGED</p>
+      <button type="button" className="s00-exp-review__btn s00-exp-review__btn--black" onClick={props.onRegenerateAffected}>
+        REGENERATE AFFECTED STATES
+      </button>
+    </section>
+  );
+}
+
+export function ExperienceReviewEmptyState(props: {
+  busy?: boolean;
+  onGenerate: () => void;
+  generateLabel?: string;
+}) {
   return (
     <div className="s00-exp-review__empty" data-testid="page-concept-experience-review-empty">
       <h3 className="s00-exp-review__emptyTitle">EXPERIENCE PACKAGE NOT GENERATED YET</h3>
@@ -219,7 +274,7 @@ export function ExperienceReviewEmptyState(props: { busy?: boolean; onGenerate: 
         data-testid="experience-review-generate-package"
         onClick={props.onGenerate}
       >
-        GENERATE EXPERIENCE PACKAGE
+        {props.generateLabel ?? 'GENERATE EXPERIENCE PACKAGE'}
       </button>
     </div>
   );
@@ -270,14 +325,29 @@ export function ExperienceReviewActionBar(props: {
   approved: boolean;
   busy?: boolean;
   approveDisabled: boolean;
+  generatePackageLabel?: string;
+  showGenerateMissingOnly?: boolean;
   onApprove: () => void;
   onRegeneratePackage: () => void;
+  onGeneratePackage?: () => void;
   onRegenerateState?: () => void;
   onRegenerateStateInheritTheme?: () => void;
+  onRegenerateMenu?: () => void;
+  activeStateId?: string;
   onReviewNext?: () => void;
   onClose: () => void;
   showRegenerateState: boolean;
 }) {
+  if (props.mode === 'HYDRATING') {
+    return (
+      <footer className="s00-exp-review__actionBar" data-testid="experience-review-action-bar">
+        <button type="button" className="s00-exp-review__btn s00-exp-review__btn--white" disabled onClick={props.onClose}>
+          LOADING…
+        </button>
+      </footer>
+    );
+  }
+
   if (props.mode === 'EMPTY') {
     return (
       <footer className="s00-exp-review__actionBar" data-testid="experience-review-action-bar">
@@ -286,9 +356,9 @@ export function ExperienceReviewActionBar(props: {
           className="s00-exp-review__btn s00-exp-review__btn--lime"
           disabled={props.busy}
           data-testid="experience-review-action-bar-generate"
-          onClick={props.onRegeneratePackage}
+          onClick={props.onGeneratePackage ?? props.onRegeneratePackage}
         >
-          GENERATE EXPERIENCE PACKAGE
+          {props.generatePackageLabel ?? 'GENERATE EXPERIENCE PACKAGE'}
         </button>
         <button type="button" className="s00-exp-review__btn s00-exp-review__btn--white" onClick={props.onClose}>
           CLOSE
@@ -310,15 +380,28 @@ export function ExperienceReviewActionBar(props: {
           >
             APPROVE PACKAGE
           </button>
-          <button
-            type="button"
-            className="s00-exp-review__btn s00-exp-review__btn--black"
-            disabled={props.busy}
-            data-testid="page-concept-regenerate-experience"
-            onClick={props.onRegeneratePackage}
-          >
-            REGENERATE PACKAGE
-          </button>
+          {!props.showGenerateMissingOnly ?
+            <button
+              type="button"
+              className="s00-exp-review__btn s00-exp-review__btn--black"
+              disabled={props.busy}
+              data-testid="page-concept-regenerate-experience"
+              onClick={props.onRegeneratePackage}
+            >
+              REGENERATE PACKAGE
+            </button>
+          : null}
+          {props.showGenerateMissingOnly ?
+            <button
+              type="button"
+              className="s00-exp-review__btn s00-exp-review__btn--lime"
+              disabled={props.busy}
+              data-testid="experience-review-generate-missing-outputs"
+              onClick={props.onGeneratePackage ?? props.onRegeneratePackage}
+            >
+              {props.generatePackageLabel ?? 'GENERATE MISSING OUTPUTS'}
+            </button>
+          : null}
         </>
       : null}
       {props.showRegenerateState && props.onRegenerateState ?
@@ -329,7 +412,18 @@ export function ExperienceReviewActionBar(props: {
           data-testid={`page-concept-regenerate-experience-state-active`}
           onClick={props.onRegenerateState}
         >
-          REGENERATE OUTPUT
+          {props.activeStateId === 'menu' ? 'REGENERATE MENU' : 'REGENERATE THIS OUTPUT'}
+        </button>
+      : null}
+      {props.onRegenerateMenu ?
+        <button
+          type="button"
+          className="s00-exp-review__btn s00-exp-review__btn--white"
+          disabled={props.busy}
+          data-testid="page-concept-regenerate-experience-menu"
+          onClick={props.onRegenerateMenu}
+        >
+          REGENERATE MENU
         </button>
       : null}
       {props.onRegenerateStateInheritTheme ?

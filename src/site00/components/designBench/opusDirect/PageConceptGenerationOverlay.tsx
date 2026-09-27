@@ -75,6 +75,7 @@ export function PageConceptGenerationOverlay({
   blockingState,
   generationEligibility,
   generating,
+  experienceReviewHydrating,
   confirmReady: _confirmReadyLegacy,
   modalGeneratePress,
   generateClickTrace,
@@ -110,6 +111,7 @@ export function PageConceptGenerationOverlay({
   blockingState?: PageConceptGenerationBlockingState;
   generationEligibility?: PageConceptGenerationEligibility;
   generating: boolean;
+  experienceReviewHydrating?: boolean;
   confirmReady?: boolean;
   modalGeneratePress?: PageConceptModalGeneratePress;
   generateClickTrace?: PageConceptGenerateClickTrace;
@@ -473,6 +475,7 @@ export function PageConceptGenerationOverlay({
               projectLabel={plan?.projectLabel ?? generationState.projectId}
               pageLabel={plan?.pageLabel ?? generationState.pageId}
               busy={generating}
+              hydrating={experienceReviewHydrating === true}
               onApprove={() => viewportFamilyHandlers.approveExperience()}
               onRegenerate={() => viewportFamilyHandlers.generateExperience?.()}
               onGenerateExperience={() => viewportFamilyHandlers.generateExperience?.()}
