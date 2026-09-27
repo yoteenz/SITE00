@@ -12057,3 +12057,9 @@ Sprint **P0.VR.PAGE-FAMILY-INTERACTION-MAP-AND-HANDOFF-GATE1**: formal **Interac
 - **Pipeline:** compile map on **`approveViewportFamily`**; **`approvePageFamilyBlueprint`** no longer creates handoff; status **`PAGE_FAMILY_INTERACTION_MAP_REVIEW`**; handoff + twin package include **`pageFamilyInteractionMapId`** + **`interactionCoveragePercent`**.
 - **UI:** Page System Review **INTERACTIONS** metric cell (mapped/total/inherited/unmapped) → **`OV-PAGE-INTERACTION-MAP`** drawer with **Interaction Map Review** + **Interaction Inspector** tabs; **PAGE FAMILY HANDOFF · READY FOR OPUS** when blueprint + interaction map approved.
 - **Tests:** `p0vrPageFamilyInteractionMapAndHandoffGate1.test.ts`; blueprint/skin/PSR tests updated for interaction approve step.
+
+---
+
+## 2026-09-27 — P0.VR NDXBOOK page family hierarchy discovery fix 1
+
+Corrective **P0.VR.NDXBOOK-PAGE-FAMILY-HIERARCHY-DISCOVERY-AND-INGESTION-FIX1**: Page Family Blueprint + Page System Review now share **`discoverProjectPageFamilyLayout`** (canonical design registry + route/nav cross-check + parent resolution). NDXBOOK Overview anchor yields **7** canonical pages (**5** children, **1** grandchild Campaign Board under Content Ops), not 1/1 false complete. **`hierarchyReceipt`** on blueprint; guards **`PAGE_FAMILY_HIERARCHY_MISMATCH`**, **`PAGE_FAMILY_SOURCE_DIVERGENCE`**; Opus/interaction gates require **`HIERARCHY_DISCOVERY_STATUS = RESOLVED`**. PSR hierarchy diagnostic row in UI. **Tests:** `p0vrNdxbookPageFamilyHierarchyDiscoveryFix1.test.ts`.
