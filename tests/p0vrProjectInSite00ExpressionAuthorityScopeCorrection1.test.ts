@@ -221,7 +221,7 @@ describe('P0.VR SITE 00 project expression authority scope', () => {
   it('keeps founder creative preference cross-project without brand grammar copy', () => {
     expect(compileFounderCreativePreferenceBlock).toBeDefined();
     const block = compileFounderCreativePreferenceBlock(DEFAULT_FOUNDER_CREATIVE_PREFERENCE_PROFILE);
-    expect(block).toContain('FOUNDER CREATIVE PREFERENCE');
+    expect(block).toContain('FOUNDER PREFERENCE');
     expect(block).not.toContain('NDXBOOK');
   });
 });

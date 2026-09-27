@@ -142,15 +142,8 @@ export function compileComposerScopeGuardBlock(input: {
   designTarget: DesignTargetDescriptor;
   appliedAuthorityScope: Site00AuthorityScope | null;
 }): string {
-  return [
-    'AUTHORITY SCOPE GUARD (Composer):',
-    `targetProduct=${input.designTarget.targetProduct}`,
-    `targetContext=${input.designTarget.targetContext}`,
-    input.appliedAuthorityScope ?
-      `appliedAuthorityScope=${input.appliedAuthorityScope}`
-    : 'appliedAuthorityScope=NONE',
-    'Never treat SITE 00 × project fusion as standalone brand-global website authority.',
-  ].join('\n');
+  const scope = input.appliedAuthorityScope ?? 'NONE';
+  return `SCOPE GUARD: ${input.designTarget.targetProduct}/${input.designTarget.targetContext}; authority=${scope}; SITE 00×project fusion — not standalone brand website.`;
 }
 
 export function compileOpusScopeHandoffBlock(input: {
