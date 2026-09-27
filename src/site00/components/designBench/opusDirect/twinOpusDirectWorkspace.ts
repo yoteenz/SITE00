@@ -41,6 +41,12 @@ import {
   resolvePageConceptGalleryEmptyPresentation,
   type PageConceptGalleryHydrationScope,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+import type { PageConceptGalleryServerMountTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import {
+  formatPageConceptGalleryMountDebugLine,
+  pageConceptGalleryMountDebugEnabled,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryMountDebug.js';
+import { loadPageConceptActiveServerRunId } from '../../../services/pageConceptGenerationRunClient.js';
 import { resolvePageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
 import { pageConceptGenerationActivelyRunning } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import {
@@ -251,6 +257,7 @@ export interface TwinOpusDirectWorkspaceData {
   viewportControls: readonly ViewportControlPresentation[];
   galleryEmptyMessage: string | null;
   galleryEmptySecondaryLine: string | null;
+  galleryMountDebugLine: string | null;
   galleryEmptyTestId:
     | 'gallery-page-concept-empty'
     | 'gallery-page-concept-load-failed'
@@ -377,6 +384,9 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   const [viewMode, setViewModeState] = useState<TwinOpusDirectViewMode>(TWIN_OPUS_DIRECT_DEFAULT_VIEW_MODE);
   const [pageTarget, setPageTarget] = useState(() => resolveDesignPageTargetForShell(projectSlug));
   const [pageConceptRevision, setPageConceptRevision] = useState(0);
+  const [galleryMountTrace, setGalleryMountTrace] = useState<PageConceptGalleryServerMountTrace | null>(
+    null,
+  );
   const [viewportCandidateIds, setViewportCandidateIds] = useState<
     Record<TwinOpusDirectViewportId, string | null>
   >({ MOBILE: null, TABLET: null, DESKTOP: null });
@@ -429,13 +439,25 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   }, [viewport]);
 
   useEffect(() => {
+    const onMountTrace = (event: Event) => {
+      const detail = (
+        event as CustomEvent<{
+          projectId?: string;
+          pageId?: string;
+          trace?: PageConceptGalleryServerMountTrace;
+        }>
+      ).detail;
+      if (!designPageCaptureEventMatches(projectSlug, pageTarget.pageId, detail)) return;
+      if (detail.trace) setGalleryMountTrace(detail.trace);
+      setPageConceptRevision((v) => v + 1);
+    };
     const bump = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
       if (!designPageCaptureEventMatches(projectSlug, pageTarget.pageId, detail)) return;
       setPageConceptRevision((v) => v + 1);
     };
     window.addEventListener('site00:page-concept-generation-updated', bump);
-    window.addEventListener('site00:page-concept-gallery-server-mount', bump);
+    window.addEventListener('site00:page-concept-gallery-server-mount', onMountTrace);
     window.addEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
     window.addEventListener('site00:page-concept-captures-hydrated', bump);
     const onFocusGallery = (event: Event) => {
@@ -449,7 +471,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     window.addEventListener('site00:page-concept-focus-gallery', onFocusGallery);
     return () => {
       window.removeEventListener('site00:page-concept-generation-updated', bump);
-      window.removeEventListener('site00:page-concept-gallery-server-mount', bump);
+      window.removeEventListener('site00:page-concept-gallery-server-mount', onMountTrace);
       window.removeEventListener(DESIGN_PAGE_CAPTURE_UPDATED_EVENT, bump);
       window.removeEventListener('site00:page-concept-captures-hydrated', bump);
       window.removeEventListener('site00:page-concept-focus-gallery', onFocusGallery);
@@ -1111,6 +1133,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     );
     const galleryEmptyMessage = galleryEmpty.message;
     const galleryEmptySecondaryLine = galleryEmpty.secondaryLine;
+    const galleryMountDebugLine =
+      pageConceptGeneration.apiSessionReady === true && pageConceptGalleryMountDebugEnabled() ?
+        formatPageConceptGalleryMountDebugLine({
+          trace: galleryMountTrace,
+          generationState: pageConceptGeneration.generationState,
+          persistedServerRunId: loadPageConceptActiveServerRunId(projectSlug, pageTarget.pageId),
+        })
+      : null;
     const galleryLabels = resolvePageConceptViewportGalleryTitle(viewport);
     const canonicalGpt2 = isCanonicalGpt2ViewportFamilyPipeline(pageConceptGeneration.pipelineSet);
     const family = pageConceptGeneration.pipelineSet?.viewportAuthorityFamily ?? null;
@@ -1253,6 +1283,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       gallery: TWIN_OPUS_DIRECT_GALLERY,
       galleryEmptyMessage,
       galleryEmptySecondaryLine,
+      galleryMountDebugLine,
       galleryEmptyTestId: galleryEmpty.testId,
       galleryViewportTitle: galleryLabels.title,
       galleryCurrentGroupLabel: gallerySections.currentGenerationGroupLabel,

@@ -1,4 +1,7 @@
-import { refreshPageConceptGalleryFromPersistedState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+import {
+  refreshPageConceptGalleryFromPersistedState,
+  syncPageConceptGalleryFromLoadedGenerationState,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import {
   applyPageConceptServerRunSnapshotForGalleryMount,
   PAGE_CONCEPT_GALLERY_SERVER_MOUNT_EVENT,
@@ -71,16 +74,11 @@ function applyMountedServerRunToClient(input: {
     next,
   );
   savePageConceptActiveServerRunId(input.projectId, input.pageId, input.server.runId);
-  refreshPageConceptGalleryFromPersistedState(input.projectId, input.pageId, {
-    screenId: input.screenId,
-    route: input.route ?? null,
+  syncPageConceptGalleryFromLoadedGenerationState(next, {
+    projectId: input.projectId,
+    pageId: input.pageId,
   });
   input.persist(() => next);
-  window.dispatchEvent(
-    new CustomEvent('site00:page-concept-generation-updated', {
-      detail: { projectId: input.projectId, pageId: input.pageId },
-    }),
-  );
   return next;
 }
 
@@ -164,17 +162,10 @@ export async function mountPageConceptGalleryFromServer(input: {
     const server = serverUpdate.run;
     const serverArtifactTs = pageConceptServerRunMaxArtifactTimestamp(server);
 
-    const localRunId = loaded.activeGenerationRunId ?? loaded.activeReviewRunId ?? null;
     const serverHasReady = pageConceptServerRunHasReadyMobileGallery(server);
-    const localFresherSameRun =
-      serverHasReady &&
-      localRunId === server.runId &&
-      localArtifactTs > serverArtifactTs + 500;
 
     const shouldApply =
-      localFresherSameRun ?
-        false
-      : preferServerGallery && serverHasReady ?
+      preferServerGallery && serverHasReady ?
         true
       : shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery }) ||
         (
@@ -187,7 +178,7 @@ export async function mountPageConceptGalleryFromServer(input: {
       syncGalleryStoreFromPersistence(input);
       const trace: PageConceptGalleryServerMountTrace = {
         phase: 'skipped',
-        reason: localFresherSameRun ? 'LOCAL_FRESHER_THAN_SERVER' : 'LOCAL_ALREADY_CURRENT',
+        reason: 'LOCAL_ALREADY_CURRENT',
         runId: server.runId,
         localArtifactTs,
         serverArtifactTs,
