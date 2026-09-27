@@ -11979,3 +11979,9 @@ Sprint **P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1**: 
 - **Routing:** **`vf-review-experience`** → **`openExperienceReview`** overlay (not Generate Page Concepts); confirm vs select split on rail actions.
 - **UI:** `PageConceptExperienceExpressionReviewPanel`; founder footer **SELECTED:** binds concept letter; page concept NBP stage **PENDING** after mobile confirm (not stuck RUNNING).
 - **Tests:** `p0vrMobileAuthorityConfirmAndExperienceExpressionStageFix1.test.ts`; orchestration/page-family tests updated for confirm→generate→approve path.
+
+---
+
+## 2026-09-27 — P0.VR hero right rail button surface cleanup 1
+
+Sprint **P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1** (styling only): restored SITE 00 hero workflow rail button surfaces — primary lime/black text, secondary black/lime text, tertiary white+border, disabled muted gray; **`data-action-surface`** on rail buttons; REVIEW* actions use **ink** not floating lime; **`designGpt2ViewportFamilyRailButtonSurface.ts`** + `p0vrHeroRightRailButtonSurfaceCleanup1.test.ts`.
