@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { SPA_ROUTE_PREFIXES } from '../scripts/spa-route-prefixes.mjs';
+import { isSpaShellHtml, SPA_ROUTE_PREFIXES } from '../scripts/spa-route-prefixes.mjs';
 
 describe('SPA htaccess propagation', () => {
   it('defines route prefixes including projects', () => {
@@ -56,5 +56,19 @@ describe('SPA htaccess propagation', () => {
 
   it('deep link verify script exists', () => {
     expect(existsSync('scripts/site00-verify-spa-deep-link.mjs')).toBe(true);
+  });
+
+  it('isSpaShellHtml accepts current SITE 00 index markers', () => {
+    const sample = `<html><head><meta name="app-build-id" content="abc" /></head><body>
+      <div id="site00-assts-boot-shell"></div><div id="root"></div>
+      <script src="/assets/index.DsIuvINJ.js"></script></body></html>`;
+    expect(isSpaShellHtml(sample)).toBe(true);
+    expect(isSpaShellHtml('<html><title>403 Forbidden</title></html>')).toBe(false);
+  });
+
+  it('activate script allows non-strict verify when FTP succeeded', () => {
+    const body = readFileSync('scripts/site00-activate-spa-htaccess.sh', 'utf8');
+    expect(body).toContain('SPA_HTACCESS_VERIFY_STRICT');
+    expect(body).toContain('verify_release');
   });
 });
