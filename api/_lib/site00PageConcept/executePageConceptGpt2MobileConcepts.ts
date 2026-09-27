@@ -70,6 +70,13 @@ import {
   webExpressionTerritoryForSlot,
   type WebExpressionTerritorySet,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptWebExpressionTerritories.js';
+import {
+  evaluateNdxBrandAuthenticity,
+  formatNdxBrandFamiliarityDebugLines,
+  validateGenericEditorialDriftGuard,
+  validateTerritoryNdxFamiliarityDistinction,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
+import { compileNdxBrandFamiliarityBrief } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 
 export type Gpt2MobileConceptsResult = {
   jobs: PageConceptGeneratedArtifact[];
@@ -257,6 +264,31 @@ async function renderMobileConceptSlot(input: {
     mobileViewport: input.mobileDims,
   });
 
+  const ndxBrandFamiliarityBrief =
+    input.pageArchitectureBrief?.targetRouteContract ?
+      compileNdxBrandFamiliarityBrief({
+        projectId: input.projectContext.projectId,
+        pageId: input.pageContext.pageId,
+        target: input.pageArchitectureBrief.targetRouteContract,
+        pageArchitectureBrief: input.pageArchitectureBrief,
+        screenshotFunctionalPageMap,
+      })
+    : null;
+  const genericEditorialDrift = validateGenericEditorialDriftGuard({
+    compiledPrompt: pkg.prompt,
+    territory: webExpressionTerritory,
+  });
+  if (!genericEditorialDrift.ok) {
+    throw new Error(`${genericEditorialDrift.errorCode}: ${genericEditorialDrift.detail ?? '—'}`);
+  }
+  const ndxAuthenticity = evaluateNdxBrandAuthenticity({
+    compiledPrompt: pkg.prompt,
+    brief: ndxBrandFamiliarityBrief,
+  });
+  if (ndxBrandFamiliarityBrief && !ndxAuthenticity.ok) {
+    throw new Error(`${ndxAuthenticity.failureCode}: familiarity layer missing from provider prompt`);
+  }
+
   const runningJob: PageConceptGeneratedArtifact = {
     artifactId,
     projectId: input.plan.projectId,
@@ -359,6 +391,23 @@ async function renderMobileConceptSlot(input: {
           webExpressionTerritory,
           input.pageArchitectureBrief?.targetRouteContract ?? null,
         ),
+        ...formatNdxBrandFamiliarityDebugLines({
+          brief: ndxBrandFamiliarityBrief,
+          screenshotFunctionMapId: screenshotFunctionalPageMap.mapId,
+          compiledPrompt: pkg.prompt,
+          genericEditorialDrift: {
+            ok: genericEditorialDrift.ok,
+            errorCode: genericEditorialDrift.errorCode,
+          },
+          territoryDistinction: {
+            ok: true,
+            errorCode: null,
+          },
+          ndxAuthenticity: {
+            ok: ndxAuthenticity.ok,
+            failureCode: ndxAuthenticity.failureCode,
+          },
+        }),
         `FULL_PAGE_CAPTURE: ${providerReferences.authorityManifest.bottomStructuralAttached ? 'PASS' : 'FAIL'}`,
         `BOTTOM_CAPTURE: ${providerReferences.authorityManifest.bottomStructuralAttached ? 'PASS' : 'FAIL'}`,
         `GPT2_FUNCTION_BLOCK_COMPILED: ${pkg.prompt.includes('PAGE FUNCTION (SCREENSHOT FUNCTIONAL PAGE MAP') ? 'PASS' : 'FAIL'}`,
@@ -399,6 +448,11 @@ async function renderMobileConceptSlot(input: {
       },
       screenshotFunctionMapId: screenshotFunctionalPageMap.mapId,
       screenshotFunctionMapPresent: true,
+      ndxBrandFamiliarityBriefId: ndxBrandFamiliarityBrief?.briefId,
+      ndxBrandFamiliarityDigest: ndxBrandFamiliarityBrief?.contentDigest,
+      ndxBrandFamiliarityInPrompt: pkg.prompt.includes('NDX BRAND FAMILIARITY'),
+      genericEditorialDriftGuardPass: genericEditorialDrift.ok,
+      ndxAuthenticityEvalPass: ndxAuthenticity.ok,
       regionsPreservedLabel: `${screenshotFunctionalPageMap.regions.length} / ${screenshotFunctionalPageMap.regions.length}`,
       interactionsPreservedLabel: `${screenshotFunctionalPageMap.elements.filter((e) => e.mustPreserveFunction).length} / ${screenshotFunctionalPageMap.elements.filter((e) => e.mustPreserveFunction).length}`,
       bottomNavLockedToSource: bottomNavGuard.ok,
@@ -552,6 +606,10 @@ export async function executePageConceptGpt2MobileConcepts(input: {
     const typeDrama = validateWebExpressionTypeScaleDramaRequirement(webExpressionTerritorySet);
     if (!typeDrama.ok) {
       throw new Error(`${typeDrama.errorCode}: type scale drama`);
+    }
+    const familiarityDistinction = validateTerritoryNdxFamiliarityDistinction(webExpressionTerritorySet);
+    if (!familiarityDistinction.ok) {
+      throw new Error(`${familiarityDistinction.errorCode}: ${familiarityDistinction.detail ?? '—'}`);
     }
     for (const territory of webExpressionTerritorySet.territories) {
       const sterile = validateExpressionSterility(territory);

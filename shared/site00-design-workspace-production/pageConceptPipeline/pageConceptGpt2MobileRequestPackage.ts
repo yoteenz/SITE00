@@ -20,6 +20,10 @@ import {
 import type { Gpt2MobileProviderReferenceBundle } from './pageConceptGpt2MobileReferenceAuthority.js';
 import type { ScreenshotFunctionalPageMap } from './pageConceptScreenshotFunctionalPageMap.js';
 import type { WebExpressionTerritory } from './pageConceptWebExpressionTerritories.js';
+import {
+  compileNdxBrandFamiliarityBrief,
+  type NdxBrandFamiliarityBrief,
+} from './pageConceptNdxBrandFamiliarityBrief.js';
 import { orderedProviderReferenceAssets } from './pageConceptGpt2MobileReferenceAuthority.js';
 import { compileWebExpressionTerritoryPromptBlock } from './pageConceptWebExpressionTerritories.js';
 import {
@@ -117,12 +121,27 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
   providerReferences: Gpt2MobileProviderReferenceBundle;
   screenshotFunctionalPageMap: ScreenshotFunctionalPageMap;
   webExpressionTerritory?: WebExpressionTerritory | null;
+  ndxBrandFamiliarityBrief?: NdxBrandFamiliarityBrief | null;
   pageContextSummary: string;
   mobileViewport: { width: number; height: number };
 }): PageGpt2MobileConceptRequestPackage {
   if (!input.screenshotFunctionalPageMap) {
     throw new Error('SCREENSHOT_FUNCTION_MAP_INCOMPLETE: map required before GPT2 package build');
   }
+  if (!input.pageArchitectureBrief) {
+    throw new Error('PAGE_ARCHITECTURE_INCOMPLETE: brief required before GPT2 package build');
+  }
+  const ndxBrandFamiliarityBrief =
+    input.ndxBrandFamiliarityBrief ??
+    (input.pageArchitectureBrief.targetRouteContract ?
+      compileNdxBrandFamiliarityBrief({
+        projectId: input.projectContext.projectId,
+        pageId: input.pageContext.pageId,
+        target: input.pageArchitectureBrief.targetRouteContract,
+        pageArchitectureBrief: input.pageArchitectureBrief,
+        screenshotFunctionalPageMap: input.screenshotFunctionalPageMap,
+      })
+    : null);
   const territoryDirective =
     input.webExpressionTerritory ?
       compileWebExpressionTerritoryPromptBlock(input.webExpressionTerritory)
@@ -159,6 +178,7 @@ export function buildPageGpt2MobileConceptRequestPackage(input: {
     referenceImageRoleSummary: input.providerReferences.imageRoleSummary,
     creativeSupportAttached: false,
     screenshotFunctionalPageMap: input.screenshotFunctionalPageMap,
+    ndxBrandFamiliarityBrief,
     webExpressionTerritory: input.webExpressionTerritory ?? null,
   });
   const prompt = compiledProviderPrompt.prompt;

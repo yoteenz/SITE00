@@ -44,9 +44,15 @@ import {
   compileWebExpressionTerritoryPromptBlock,
   type WebExpressionTerritory,
 } from './pageConceptWebExpressionTerritories.js';
+import {
+  compileNdxBrandFamiliarityBrief,
+  compileNdxBrandFamiliarityPromptBlock,
+  ndxBrandFamiliarityApplies,
+  type NdxBrandFamiliarityBrief,
+} from './pageConceptNdxBrandFamiliarityBrief.js';
 
 export const COMPILED_GPT2_MOBILE_PROVIDER_PROMPT_VERSION =
-  'gpt2-mobile-provider-prompt-v7-web-expression-territories';
+  'gpt2-mobile-provider-prompt-v8-ndx-brand-familiarity';
 
 /** Provider hard max (gpt-image-2). */
 export const GPT2_PROVIDER_PROMPT_MAX_CHARS = 32000;
@@ -73,6 +79,7 @@ export type Gpt2MobileProviderPromptCompileInput = {
   bottomStructuralCaptureAttached?: boolean;
   bottomContinuityLockActive?: boolean;
   screenshotFunctionalPageMap?: ScreenshotFunctionalPageMap | null;
+  ndxBrandFamiliarityBrief?: NdxBrandFamiliarityBrief | null;
   webExpressionTerritory?: WebExpressionTerritory | null;
 };
 
@@ -88,6 +95,7 @@ export type Gpt2MobileCompiledProviderPrompt = {
     skinContractId: string;
     functionContractId: string;
     bottomContinuityContractId: string | null;
+    ndxBrandFamiliarityBriefId: string | null;
   };
   territoryDelta: string;
   sharedBaseHash: string;
@@ -261,6 +269,7 @@ function buildRoleHeader(arch: PageConceptPageArchitectureBrief, viewport: { wid
 export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPromptCompileInput): {
   basePrompt: string;
   territoryDelta: string;
+  ndxBrandFamiliarityBrief: NdxBrandFamiliarityBrief | null;
 } {
   const arch = input.pageArchitectureBrief;
   if (!arch) {
@@ -275,6 +284,19 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
       compileWebExpressionTerritoryPromptBlock(input.webExpressionTerritory)
     : gpt2MobileConceptTerritoryDelta(input.slot);
   const functionBlock = compileGpt2MobileScreenshotFunctionBlock(input.screenshotFunctionalPageMap);
+  const resolvedFamiliarityBrief =
+    input.ndxBrandFamiliarityBrief ??
+    (ndxBrandFamiliarityApplies(input.pageContext.projectId) && arch.targetRouteContract ?
+      compileNdxBrandFamiliarityBrief({
+        projectId: input.pageContext.projectId,
+        pageId: input.pageContext.pageId,
+        target: arch.targetRouteContract,
+        pageArchitectureBrief: arch,
+        screenshotFunctionalPageMap: input.screenshotFunctionalPageMap,
+      })
+    : null);
+  const familiarityBlock =
+    resolvedFamiliarityBrief ? compileNdxBrandFamiliarityPromptBlock(resolvedFamiliarityBrief) : '';
   const targetRouteBlock = arch.targetRouteContract ? buildGpt2TargetRouteContextBlock(arch.targetRouteContract) : '';
 
   const baseSections = [
@@ -290,6 +312,8 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     '',
     functionBlock,
     '',
+    familiarityBlock,
+    familiarityBlock ? '' : null,
     buildGpt2MobileFunctionalInvariantsBlock(),
     '',
     buildGpt2MobileMobilePageFunctionAuthorityBlock(),
@@ -348,7 +372,11 @@ export function compileGpt2MobileProviderPromptBase(input: Gpt2MobileProviderPro
     'One FULL portrait mobile viewport page concept (9:16) including lower-page continuity context and source-locked bottom nav — edge-to-edge readable hierarchy; not a cropped top-half poster.',
   ];
 
-  return { basePrompt: baseSections.filter((s) => s != null).join('\n'), territoryDelta };
+  return {
+    basePrompt: baseSections.filter((s) => s != null).join('\n'),
+    territoryDelta,
+    ndxBrandFamiliarityBrief: resolvedFamiliarityBrief,
+  };
 }
 
 function dedupeLines(text: string): string {
@@ -415,6 +443,9 @@ export function validateCompiledProviderPrompt(prompt: string): CompiledProvider
   if (!lower.includes('image role definitions')) missingSections.push('imageRoles');
   if (!lower.includes('output format')) missingSections.push('outputFormat');
   if (!lower.includes('site 00') && !lower.includes('role:')) missingSections.push('pageIdentity');
+  if (lower.includes('ndxbook') && !lower.includes('ndx brand familiarity')) {
+    missingSections.push('ndxBrandFamiliarity');
+  }
   const quality = validateGpt2MobileConceptQualityPrompt(prompt);
   if (!quality.ok) missingSections.push(...quality.missingContracts);
 
@@ -455,7 +486,8 @@ export function validateCompiledProviderPrompt(prompt: string): CompiledProvider
 export function compileGpt2MobileProviderPrompt(
   input: Gpt2MobileProviderPromptCompileInput,
 ): Gpt2MobileCompiledProviderPrompt {
-  const { basePrompt, territoryDelta } = compileGpt2MobileProviderPromptBase(input);
+  const { basePrompt, territoryDelta, ndxBrandFamiliarityBrief: resolvedFamiliarityBrief } =
+    compileGpt2MobileProviderPromptBase(input);
   let prompt =
     input.webExpressionTerritory ?
       `${basePrompt}\n\n${territoryDelta}`
@@ -502,6 +534,7 @@ export function compileGpt2MobileProviderPrompt(
       skinContractId: input.skinContract.contractId,
       functionContractId: input.functionContract.contractId,
       bottomContinuityContractId: arch.bottomContinuityContractId,
+      ndxBrandFamiliarityBriefId: resolvedFamiliarityBrief?.briefId ?? input.ndxBrandFamiliarityBrief?.briefId ?? null,
     },
     territoryDelta,
     sharedBaseHash: hashPrompt(basePrompt),

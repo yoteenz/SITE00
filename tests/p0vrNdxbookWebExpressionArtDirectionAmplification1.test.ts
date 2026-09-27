@@ -8,6 +8,7 @@ import { registerNdxbookDesignPilot } from '../shared/site00-studio-world-produc
 import { compilePageFunctionContract } from '../shared/site00-design-workspace-production/pageConceptPipeline/functionContract.js';
 import { compilePageConceptPageArchitectureBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptPageArchitectureBrief.js';
 import { compileGpt2MobileProviderPrompt } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileProviderPromptCompiler.js';
+import { compileNdxBrandFamiliarityBrief } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNdxBrandFamiliarityBrief.js';
 import { interpretScreenshotFunctionality } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptScreenshotFunctionalPageMap.js';
 import {
   NDX_COLOR_EXPRESSION_CONTRACT,
@@ -199,6 +200,16 @@ describe('P0.VR NDXBOOK web expression art direction amplification', () => {
 
   it('GPT2 handoff uses compact ART DIRECTION block within budget', () => {
     const { set, arch, map, cgptBrief, functionContract, pageContext, injection, skinContract } = compileFixtureSet();
+    const ndxBrandFamiliarityBrief =
+      arch.targetRouteContract ?
+        compileNdxBrandFamiliarityBrief({
+          projectId: PROJECT,
+          pageId: overviewPageId(),
+          target: arch.targetRouteContract,
+          pageArchitectureBrief: arch,
+          screenshotFunctionalPageMap: map,
+        })
+      : null;
     for (const slot of ['MOBILE_CONCEPT_A', 'MOBILE_CONCEPT_B', 'MOBILE_CONCEPT_C'] as const) {
       const territory = webExpressionTerritoryForSlot(set, slot);
       expect(webExpressionTerritoryHandoffWithinBudget(territory)).toBe(true);
@@ -213,11 +224,13 @@ describe('P0.VR NDXBOOK web expression art direction amplification', () => {
         bottomContinuityApplied: true,
         mobileViewport: { width: 768, height: 1376 },
         screenshotFunctionalPageMap: map,
+        ndxBrandFamiliarityBrief,
         webExpressionTerritory: territory,
         bottomStructuralCaptureAttached: true,
         middleStructuralCaptureAttached: true,
         topStructuralCaptureAttached: true,
       });
+      expect(prompt).toContain('NDX BRAND FAMILIARITY');
       expect(prompt).toContain('ART DIRECTION:');
       expect(prompt).toContain('SIGNATURE GRAPHIC DEVICE:');
       expect(prompt).toContain('BESPOKE MOMENT:');

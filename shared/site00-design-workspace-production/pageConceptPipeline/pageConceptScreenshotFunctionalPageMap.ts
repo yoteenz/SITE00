@@ -601,9 +601,52 @@ export function buildScreenshotFunctionMapReceipt(
   };
 }
 
+export type ScreenshotFunctionMapZoneRole =
+  | 'TOP_ROUTE_BREADCRUMB'
+  | 'PAGE_IDENTITY'
+  | 'PROJECT_TITLE'
+  | 'STATUS_PHASE'
+  | 'VIEW_TOGGLE'
+  | 'ENTRY_INDEX'
+  | 'CURRENT_WORK'
+  | 'EVIDENCE_CONTENT'
+  | 'LOWER_CTA_ACCESS'
+  | 'BOTTOM_NAVIGATION';
+
+function inferZoneRole(regionName: string): ScreenshotFunctionMapZoneRole {
+  const n = regionName.toUpperCase();
+  if (n.includes('BOTTOM') || n.includes('CONTINUITY')) return 'BOTTOM_NAVIGATION';
+  if (n.includes('BREAD') || n.includes('ROUTE') || n.includes('CONTEXT')) return 'TOP_ROUTE_BREADCRUMB';
+  if (n.includes('IDENTITY') || n.includes('OVERVIEW')) return 'PAGE_IDENTITY';
+  if (n.includes('TITLE') || n.includes('PROJECT')) return 'PROJECT_TITLE';
+  if (n.includes('STATUS') || n.includes('PHASE') || n.includes('PROGRESS')) return 'STATUS_PHASE';
+  if (n.includes('VIEW') || n.includes('CANONICAL') || n.includes('TOGGLE')) return 'VIEW_TOGGLE';
+  if (n.includes('ENTRY') || n.includes('INDEX')) return 'ENTRY_INDEX';
+  if (n.includes('PRODUCTION') || n.includes('CURRENT') || n.includes('WORK')) return 'CURRENT_WORK';
+  if (n.includes('EVIDENCE') || n.includes('CONTENT')) return 'EVIDENCE_CONTENT';
+  if (n.includes('ACTION') || n.includes('ACCESS') || n.includes('ARCHIVE') || n.includes('DEEPER')) {
+    return 'LOWER_CTA_ACCESS';
+  }
+  return 'EVIDENCE_CONTENT';
+}
+
+export function compileScreenshotFunctionMapZoneSummary(map: ScreenshotFunctionalPageMap): string {
+  const sorted = [...map.regions].sort((a, b) => a.verticalOrder - b.verticalOrder);
+  const lines = sorted.map((r, i) => {
+    const role = inferZoneRole(r.regionName);
+    const importance =
+      role === 'BOTTOM_NAVIGATION' || role === 'ENTRY_INDEX' || role === 'PAGE_IDENTITY' ? 'HIGH'
+      : role === 'STATUS_PHASE' || role === 'VIEW_TOGGLE' ? 'MEDIUM'
+      : 'STRUCTURAL';
+    return `${i + 1}. ${role}: ${r.regionName} — ${importance} importance · ${r.interactiveOrStatic}`;
+  });
+  return ['SCREENSHOT_FUNCTION_MAP ZONES (structure authority — not visual style):', ...lines].join('\n');
+}
+
 export function compileGpt2MobileScreenshotFunctionBlock(map: ScreenshotFunctionalPageMap): string {
   const navLabels = map.bottomNavigationMap.items.map((i) => i.label).join(' → ');
   const active = map.bottomNavigationMap.items.find((i) => i.activeState)?.label ?? 'WORKSPACE';
+  const zoneSummary = compileScreenshotFunctionMapZoneSummary(map);
   const regionLines = map.regions
     .slice(0, 9)
     .map((r, i) => `${i + 1}. ${r.regionName} (${r.hostOrProject}; ${r.sourceCapture.replace(/_CAPTURE$/, '')})`);
@@ -618,6 +661,8 @@ export function compileGpt2MobileScreenshotFunctionBlock(map: ScreenshotFunction
     'The structural captures show what currently exists; this map explains what regions/controls DO.',
     'Preserve functions and relationships below. Do not copy screenshot visual styling.',
     'Create a new visual design around the same functional system.',
+    '',
+    zoneSummary,
     '',
     'REGIONS (required anatomy):',
     ...regionLines,
