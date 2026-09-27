@@ -284,7 +284,7 @@ export function decomposeNdxbookOverviewExperiencePrompts(input: {
         changeOnly: 'Open only the navigation/menu layer native to this concept (drawer, sheet, editorial index layer — not generic hamburger).',
         keepVisible: preserveNav,
         stateContent:
-          'Show only canonical NDXBOOK page-family navigation destinations from the content manifest — no simplified taxonomy.',
+          'Show canonical NDXBOOK navigation as a hierarchy from the content manifest (Overview → child pages → nested grandchild under Content Ops) — not a flat sibling list; Campaign Board must nest under Content Ops.',
         interactionCharacter:
           'Opening the project structure should feel like revealing the index architecture of the record — not a generic mobile app menu.',
         combinableWith: ['PANEL_OR_DRAWER'],

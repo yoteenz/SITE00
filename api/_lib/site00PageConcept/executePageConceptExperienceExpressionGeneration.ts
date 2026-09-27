@@ -23,8 +23,15 @@ import {
 import {
   attachContentManifestFieldsToVisualStates,
   auditExperienceContentForAuthority,
+  buildExperienceContentManifestsForPage,
+  canonicalContentPromptBlock,
   experienceContentBlocksApproval,
+  manifestForState,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceContentManifest.js';
+import {
+  buildMenuExpandedNavHierarchyRefinementPromptBlock,
+  buildNdxbookOverviewExpandedNavHierarchy,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/ndxbookExpandedNavHierarchy.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
   return validateExperiencePackageMaterialization(authority).ok;
@@ -282,9 +289,41 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
   const inheritBlock = input.forceInheritAuthorityTheme ?
     `\n${themePromptBlockForMode('INHERIT_AUTHORITY', null)}`
   : '';
+
+  const ndxOverview = isNdxbookOverviewExperiencePage({
+    projectId: input.planMeta.projectId,
+    route: input.functionContract.route,
+    pageId: input.planMeta.pageId,
+  });
+  let prompt = `${target.prompt}${inheritBlock}`;
+  let referenceImageUri: string | undefined;
+  if (input.stateId === 'menu' && ndxOverview) {
+    const hierarchy = buildNdxbookOverviewExpandedNavHierarchy(input.planMeta.projectId, input.planMeta.pageId);
+    const manifests = buildExperienceContentManifestsForPage({
+      projectId: input.planMeta.projectId,
+      pageId: input.planMeta.pageId,
+      route: input.functionContract.route,
+      functionContract: input.functionContract,
+    });
+    const menuManifest = manifestForState(manifests, 'menu');
+    if (menuManifest) {
+      prompt = [
+        target.prompt,
+        inheritBlock,
+        canonicalContentPromptBlock(menuManifest),
+        buildMenuExpandedNavHierarchyRefinementPromptBlock({ hierarchyLines: hierarchy.hierarchyLines }),
+      ].join('\n\n');
+    }
+    const existingMenu = input.authority.visualStates.find((s) => s.stateId === 'menu');
+    if (existingMenu?.previewImageUri?.trim()) {
+      referenceImageUri = existingMenu.previewImageUri.trim();
+    }
+  }
+
   const render = await renderExperienceExpressionFalTarget({
-    target: input.forceInheritAuthorityTheme ? { ...target, prompt: `${target.prompt}${inheritBlock}` } : target,
+    target: { ...target, prompt },
     mobileAuthorityImageUri: input.mobileAuthorityImageUri,
+    referenceImageUri,
     planMeta: { ...input.planMeta, experienceAuthorityId: input.authority.id },
     dryRun: input.dryRun,
   });
@@ -347,17 +386,20 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
     pageId: input.planMeta.pageId,
   });
 
-  if (
-    isNdxbookOverviewExperiencePage({
+  if (ndxOverview) {
+    const manifests = buildExperienceContentManifestsForPage({
       projectId: input.planMeta.projectId,
-      route: input.functionContract.route,
       pageId: input.planMeta.pageId,
-    })
-  ) {
+      route: input.functionContract.route,
+      functionContract: input.functionContract,
+    });
     authority = {
       ...authority,
+      experienceContentManifests: manifests,
+      experienceContentAudit: auditExperienceContentForAuthority({ ...authority, experienceContentManifests: manifests }),
+      visualStates: attachContentManifestFieldsToVisualStates({ ...authority, experienceContentManifests: manifests }, manifests),
       experiencePackageMetadata: buildExperiencePackageMetadata({
-        authority,
+        authority: { ...authority, experienceContentManifests: manifests },
         territoryId: input.authority.sourceConceptId,
       }),
     };

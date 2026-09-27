@@ -26,6 +26,11 @@ export type ContentManifestItem = {
   label: string;
   provenance: ContentProvenanceClass;
   source: string;
+  /** MENU / EXPANDED NAV hierarchy (NDXBOOK Overview). */
+  navTier?: 'ANCHOR' | 'CHILD' | 'GRANDCHILD';
+  navPromptLine?: string;
+  parentScreenId?: string | null;
+  topLevelNavIndex?: string | null;
 };
 
 export type ExperienceContentManifest = {
@@ -45,6 +50,8 @@ export type ExperienceContentManifest = {
   undefinedRequirements: readonly string[];
   provenanceStatus: 'READY' | 'UNDEFINED_BLOCKED';
   contentCoveragePercent: number;
+  /** Ordered hierarchy lines for MENU_EXPANDED_NAV (not flat sibling list). */
+  navigationHierarchyLines?: readonly string[];
 };
 
 export type ExperienceContentAuditItem = {
@@ -90,9 +97,15 @@ export const CANONICAL_CONTENT_PROMPT_FOOTER = [
 ].join('\n');
 
 export function canonicalContentPromptBlock(manifest: ExperienceContentManifest): string {
+  const hierarchy =
+    manifest.navigationHierarchyLines?.length ?
+      manifest.navigationHierarchyLines.map((l) => `- ${l}`).join('\n')
+    : null;
   const destinations =
     manifest.canonicalDestinations.length ?
-      manifest.canonicalDestinations.map((d) => `- ${d.label} (${d.provenance})`).join('\n')
+      manifest.canonicalDestinations.map((d) =>
+        d.navPromptLine ? `- ${d.navPromptLine} (${d.provenance})` : `- ${d.label} (${d.provenance})`,
+      ).join('\n')
     : '- (none required in this state)';
   const fields =
     manifest.canonicalFields.length ?
@@ -111,8 +124,17 @@ export function canonicalContentPromptBlock(manifest: ExperienceContentManifest)
     `STATE: ${manifest.stateId} · ${manifest.expressionType}`,
     `CONTENT SOURCES: ${manifest.contentSources.join(' · ')}`,
     '',
-    'CANONICAL DESTINATIONS (navigation — exact labels):',
-    destinations,
+    hierarchy ?
+      'NAVIGATION HIERARCHY (exact structure — do not flatten to siblings; nest grandchildren under parents):'
+    : 'CANONICAL DESTINATIONS (navigation — exact labels):',
+    hierarchy ?? destinations,
+    hierarchy ?
+      [
+        '',
+        'CANONICAL DESTINATIONS (all selectable labels):',
+        destinations,
+      ].join('\n')
+    : '',
     '',
     'CANONICAL FIELDS:',
     fields,
