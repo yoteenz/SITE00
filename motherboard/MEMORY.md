@@ -12116,6 +12116,12 @@ Light NDXBOOK Mobile Authority vs dark MENU ambiguity removed: **`experienceThem
 
 ---
 
+## 2026-09-27 — CI fix: EXPERIENCE_CONTENT_INVENTED false positives on approve
+
+Vitest viewport-family suites failed **`approveExperienceExpression`** with **`EXPERIENCE_CONTENT_INVENTED`** because **`auditNdxbookLegacyPromptInventedLabels`** matched **`PRODUCTION`** inside prose (`in-production`) and did not exempt manifest-canonical labels. **Fix:** token regex `(?<![A-Za-z0-9-])…(?![A-Za-z0-9-])` + filter invented hits that appear in manifest destinations/fields/actions. Tests extended in **`p0vrExperienceContentProvenanceAndCanonicalContentLock1.test.ts`**.
+
+---
+
 ## 2026-09-27 — P0.VR experience review panel design system alignment and readability 1
 
 Experience Review overlay rebuilt as **Generation Panel sibling**: opaque `s00-pcg` shell (`ExperienceReviewPanel` + section components), dark status strip, output nav, framed preview stage, details, filled action bar (black/white/lime). Empty/loading/error states live inside shell (not floating text). Overlay uses `s00-pcg-layer__scrollBody` + stronger scrim. Shared **`experienceReviewPresentation.ts`** for package status counts. Tests: **`p0vrExperienceReviewPanelDesignSystemAlignmentAndReadability1.test.ts`**. **cPanel v691**.
