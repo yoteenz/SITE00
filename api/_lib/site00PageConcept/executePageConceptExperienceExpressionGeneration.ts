@@ -47,16 +47,21 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
   const jobs: PageConceptGeneratedArtifact[] = [];
   const renderByStateId = new Map<string, { imageUri: string; artifactId: string }>();
 
-  for (const target of targets) {
-    const render = await renderExperienceExpressionFalTarget({
-      target,
-      mobileAuthorityImageUri: input.mobileAuthorityImageUri,
-      planMeta: {
-        ...input.planMeta,
-        experienceAuthorityId: input.authority.id,
-      },
-      dryRun: input.dryRun,
-    });
+  const planMeta = {
+    ...input.planMeta,
+    experienceAuthorityId: input.authority.id,
+  };
+  const renders = await Promise.all(
+    targets.map((target) =>
+      renderExperienceExpressionFalTarget({
+        target,
+        mobileAuthorityImageUri: input.mobileAuthorityImageUri,
+        planMeta,
+        dryRun: input.dryRun,
+      }),
+    ),
+  );
+  for (const render of renders) {
     jobs.push(render.job);
     renderByStateId.set(render.stateId, { imageUri: render.imageUri, artifactId: render.artifactId });
   }
