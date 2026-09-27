@@ -2,7 +2,7 @@
  * P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1
  */
 
-import { buildExperienceExpressionFalTargets } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
+import { buildExperienceExpressionFalTargetsFromPlan } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptExperienceExpressionFalPlan.js';
 import type { ExperienceExpressionAuthority } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceExpressionAuthority.js';
 import type { PageConceptGeneratedArtifact } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { renderExperienceExpressionFalTarget } from './executePageConceptExperienceExpressionFal.js';
@@ -34,12 +34,11 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
   authority: ExperienceExpressionAuthority;
   jobs: readonly PageConceptGeneratedArtifact[];
 }> {
-  const targets = buildExperienceExpressionFalTargets({
-    functionContract: input.functionContract,
-    cgptBrief: input.cgptBrief,
-    injection: input.injection,
-    routeLabel: input.functionContract.route,
-  });
+  const plan = input.authority.packagingPlan;
+  if (!plan?.groupedOutputs.length) {
+    throw new Error('EXPERIENCE_PACKAGING_PLAN_REQUIRED');
+  }
+  const targets = buildExperienceExpressionFalTargetsFromPlan(plan);
 
   const jobs: PageConceptGeneratedArtifact[] = [];
   const renderByStateId = new Map<string, { imageUri: string; artifactId: string }>();
@@ -66,18 +65,20 @@ export async function executePageConceptExperienceExpressionGeneration(input: {
       ...state,
       previewImageUri: rendered.imageUri,
       generatedArtifactId: rendered.artifactId,
-      caption: `${state.label} — FAL expression anchored on approved mobile authority.`,
+      caption: `${state.label} · ${state.packagingMode ?? 'SINGLE'} — FAL expression anchored on approved mobile authority.`,
     };
   });
 
   const falModel = jobs[0]?.model ?? null;
   const now = new Date().toISOString();
+  const outputLineage = targets.map((t) => t.lineage);
 
   const authority: ExperienceExpressionAuthority = {
     ...input.authority,
     status: 'READY_FOR_REVIEW',
     visualStates,
     expressionAssetIds: jobs.map((j) => j.artifactId),
+    outputLineage,
     falModel,
     generatedAt: now,
   };

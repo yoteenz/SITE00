@@ -12002,3 +12002,9 @@ Sprint **P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1**: after
 ## 2026-09-27 — Experience FAL fix: HTTPS mobile authority anchor
 
 Production FAL **`gpt-image-2/edit`** failed **“Failed to load the image”** because GPT2 mobile concepts store **`persisted.publicUrl` (HTTPS)**, but experience generation treated non–data-URI strings as raw base64 → corrupt upload. **`resolvePageConceptAuthorityImageForFal`** fetches HTTP(S) or parses data/base64 before **`fal.storage.upload`**. **CREATE EXPERIENCE** opens **experience-review** overlay and clears stale **`liveProgress`** so Step 3 is not stuck RUNNING in the generic panel.
+
+---
+
+## 2026-09-27 — P0.VR experience expression prompt orchestration and packaging 1
+
+Sprint **P0.VR.EXPERIENCE-EXPRESSION-PROMPT-ORCHESTRATION-AND-PACKAGING1**: modular **ExperienceExpressionPrompt** per state (BASE/MENU/PANEL/OVERLAY/COMBINED) with shared inheritance block; **ExperiencePackagingPlan** planner (prompt count ≠ output count, 2–5 total with BASE inherit); FAL v2 **`page-experience-expression-fal-v2-modular`**; **`assertModularPromptContract`** rejects legacy broad essay prompts; authority stores **packagingPlan**, **expressionPrompts**, **outputLineage**; review UI shows planned outputs + SINGLE/COMBINED labels; tablet/desktop handoff via enriched **overlayPatterns**.
