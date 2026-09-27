@@ -18,7 +18,7 @@ export type PageConceptModalGeneratePress = {
 
 export function computePageConceptModalGeneratePress(input: {
   eligibility: PageConceptGenerationEligibility;
-  mode: 'confirm' | 'progress' | 'review';
+  mode: 'confirm' | 'progress' | 'review' | 'experience-review';
   generating: boolean;
   generationStatus: PageConceptGenerationStatus;
   executionError: string | null;

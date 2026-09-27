@@ -55,6 +55,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!body.conceptId?.trim()) throw new Error('CONCEPT_ID_REQUIRED');
         action = { type: 'selectMobileConcept', conceptId: body.conceptId.trim() };
         break;
+      case 'confirmMobileAuthority':
+        action = { type: 'confirmMobileAuthority' };
+        break;
+      case 'generateExperienceExpression':
+        action = { type: 'generateExperienceExpression' };
+        break;
       case 'approveExperienceExpression':
         action = { type: 'approveExperienceExpression' };
         break;

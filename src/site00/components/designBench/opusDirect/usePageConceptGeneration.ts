@@ -293,7 +293,7 @@ export function usePageConceptGeneration(
   );
   const [pendingPlan, setPendingPlan] = useState<PageConceptGenerationPlan | null>(null);
   const [overlayOpen, setOverlayOpen] = useState(false);
-  const [overlayMode, setOverlayMode] = useState<'confirm' | 'progress' | 'review'>('confirm');
+  const [overlayMode, setOverlayMode] = useState<'confirm' | 'progress' | 'review' | 'experience-review'>('confirm');
   const [generating, setGenerating] = useState(false);
   /** Provider/runtime failures only — never eligibility gate copy (see blockingState). */
   const [executionError, setExecutionError] = useState<string | null>(null);
@@ -674,6 +674,11 @@ export function usePageConceptGeneration(
   const openGenerationReview = useCallback(() => {
     setOverlayOpen(true);
     setOverlayMode('review');
+  }, []);
+
+  const openExperienceReview = useCallback(() => {
+    setOverlayOpen(true);
+    setOverlayMode('experience-review');
   }, []);
 
   const openGenerationConfirm = useCallback(async () => {
@@ -1893,6 +1898,8 @@ export function usePageConceptGeneration(
   const viewportFamilyHandlers = useMemo(
     () => ({
       selectMobile: (conceptId: string) => void dispatchViewportFamilyAction({ type: 'selectMobileConcept', conceptId }),
+      confirmMobileAuthority: () => void dispatchViewportFamilyAction({ type: 'confirmMobileAuthority' }),
+      generateExperience: () => void dispatchViewportFamilyAction({ type: 'generateExperienceExpression' }),
       regenerateMobileConcept: (conceptId: string) =>
         void dispatchViewportFamilyAction({ type: 'regenerateMobileConcept', conceptId, mobileCaptureBase64: '' }),
       regenerateAllMobileConcepts: () =>
@@ -1957,6 +1964,7 @@ export function usePageConceptGeneration(
     openGenerationConsole,
     consoleFocusViewport,
     openGenerationReview,
+    openExperienceReview,
     cancelGeneration,
     handleGenerateClick,
     confirmGeneration: handleGenerateClick,

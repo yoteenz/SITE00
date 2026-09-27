@@ -156,6 +156,6 @@ describe('P0.VR hero right rail full vertical restore', () => {
       desktopInterpretationActive: false,
     });
     expect(stages.find((s) => s.id === 'mobile-authority')?.valueLine).toContain('CONCEPT B');
-    expect(stages.find((s) => s.id === 'tablet')?.statusLabel).toBe('PENDING');
+    expect(stages.find((s) => s.id === 'tablet')?.statusLabel).toBe('LOCKED');
   });
 });

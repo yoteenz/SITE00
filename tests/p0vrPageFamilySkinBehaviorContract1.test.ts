@@ -72,6 +72,8 @@ async function pipelineThroughViewportApproval() {
   };
   const conceptId = gen.pipelineSet!.mobileConcepts![0]!.conceptId;
   let r = await runPageConceptViewportFamilyAction(state, { type: 'selectMobileConcept', conceptId });
+  r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+  r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true });
   r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });

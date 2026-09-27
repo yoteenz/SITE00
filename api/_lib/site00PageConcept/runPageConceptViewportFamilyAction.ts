@@ -13,6 +13,8 @@ import {
   pageConceptLockViewportFamily,
   pageConceptMarkOpusRepresentativeShellsReady,
   pageConceptRecordTwinCapture,
+  pageConceptConfirmMobileAuthority,
+  pageConceptGenerateExperienceExpression,
   pageConceptSelectMobileConcept,
   pageConceptTabletArtifactIdForFamily,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
@@ -28,6 +30,8 @@ import { mergePageConceptArtifactsIntoGallery } from '../../../shared/site00-des
 
 export type PageConceptViewportFamilyAction =
   | { type: 'selectMobileConcept'; conceptId: string }
+  | { type: 'confirmMobileAuthority' }
+  | { type: 'generateExperienceExpression' }
   | { type: 'approveExperienceExpression' }
   | { type: 'runTabletInterpretation'; dryRun?: boolean }
   | { type: 'runDesktopInterpretation'; dryRun?: boolean }
@@ -69,6 +73,14 @@ export async function runPageConceptViewportFamilyAction(
   state: PageConceptGenerationState,
   action: PageConceptViewportFamilyAction,
 ): Promise<PageConceptViewportFamilyActionResult> {
+  if (action.type === 'confirmMobileAuthority') {
+    return pageConceptConfirmMobileAuthority(state);
+  }
+
+  if (action.type === 'generateExperienceExpression') {
+    return pageConceptGenerateExperienceExpression(state);
+  }
+
   if (action.type === 'selectMobileConcept') {
     const r = pageConceptSelectMobileConcept(state, action.conceptId);
     const hash = computePageConceptLiveImplementationHash(r.state);
@@ -90,25 +102,31 @@ export async function runPageConceptViewportFamilyAction(
 
   if (action.type === 'approveExperienceExpression') {
     const ps = state.pipelineSet!;
-    const family = ps.viewportAuthorityFamily!;
-    const injection = ps.creativeInjection!;
-    const brief = ps.cgptCreativeBrief!;
-    const skin = compileProjectSkinContract(state.projectId);
-    const contract = compilePageExperienceExpressionContract({
-      projectId: state.projectId,
-      pageId: state.pageId,
-      selectedMobileConceptId: family.selectedMobileConceptId!,
-      skinContract: skin,
-      cgptBrief: brief,
-      injection,
-      functionContract: state.functionContract!,
-    });
+    const contract =
+      ps.experienceExpressionContract ??
+      (() => {
+        const family = ps.viewportAuthorityFamily!;
+        const injection = ps.creativeInjection!;
+        const brief = ps.cgptCreativeBrief!;
+        const skin = compileProjectSkinContract(state.projectId);
+        return compilePageExperienceExpressionContract({
+          projectId: state.projectId,
+          pageId: state.pageId,
+          selectedMobileConceptId: family.confirmedMobileConceptId ?? family.selectedMobileConceptId!,
+          skinContract: skin,
+          cgptBrief: brief,
+          injection,
+          functionContract: state.functionContract!,
+        });
+      })();
     return pageConceptApproveExperienceExpression(state, contract);
   }
 
   if (action.type === 'runTabletInterpretation' || action.type === 'regenerateTablet') {
     const family = state.pipelineSet?.viewportAuthorityFamily;
-    if (!family?.experienceExpressionContractId) throw new Error('EXPERIENCE_EXPRESSION_REQUIRED');
+    if (!family?.experienceExpressionContractId || !state.pipelineSet?.experienceExpressionContract?.approvedAt) {
+      throw new Error('EXPERIENCE_EXPRESSION_APPROVAL_REQUIRED');
+    }
     const { b64, rationale } = mobileAuthorityFromState(state);
     const skin = compileProjectSkinContract(state.projectId);
     const pkg = buildPageGpt2ViewportInterpretationPackage({
@@ -158,6 +176,9 @@ export async function runPageConceptViewportFamilyAction(
 
   if (action.type === 'runDesktopInterpretation' || action.type === 'regenerateDesktop') {
     const family = state.pipelineSet?.viewportAuthorityFamily;
+    if (!family?.experienceExpressionContractId || !state.pipelineSet?.experienceExpressionContract?.approvedAt) {
+      throw new Error('EXPERIENCE_EXPRESSION_APPROVAL_REQUIRED');
+    }
     if (!family?.tabletArtifactId) throw new Error('TABLET_REQUIRED');
     const { b64, rationale } = mobileAuthorityFromState(state);
     const tabletB64 = tabletImageFromState(state);

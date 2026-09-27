@@ -87,6 +87,8 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
     expect(r.state.pipelineSet?.viewportAuthorityFamily?.status).toBe('MOBILE_SELECTED');
     expect(r.state.pipelineSet?.selectedMobileConceptId).toBe(selected.conceptId);
 
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
     expect(r.state.pipelineSet?.experienceExpressionContract?.approvedAt).toBeTruthy();
     expect(r.state.pipelineSet?.viewportAuthorityFamily?.status).toBe('EXPERIENCE_DEFINED');
@@ -144,7 +146,7 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
     });
     await expect(
       runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true }),
-    ).rejects.toThrow(/EXPERIENCE_EXPRESSION_REQUIRED/);
+    ).rejects.toThrow(/EXPERIENCE_EXPRESSION_(REQUIRED|APPROVAL_REQUIRED)/);
   });
 
   it('tablet provider receives selected mobile authority and desktop uses tablet', async () => {
@@ -154,6 +156,8 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
       type: 'selectMobileConcept',
       conceptId: concepts[2]!.conceptId,
     });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true });
     expect(interpSpy.mock.calls[0]?.[0].pkg.mobileAuthorityBase64).toBeTruthy();
@@ -170,6 +174,8 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
       type: 'selectMobileConcept',
       conceptId: concepts[0]!.conceptId,
     });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });
@@ -246,6 +252,8 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
       type: 'selectMobileConcept',
       conceptId: concepts[1]!.conceptId,
     });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });
@@ -259,6 +267,8 @@ describe('P0.VR.GPT2-VIEWPORT-FAMILY-TWIN-ORCHESTRATION1', () => {
       type: 'selectMobileConcept',
       conceptId: concepts[0]!.conceptId,
     });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'confirmMobileAuthority' });
+    r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'approveExperienceExpression' });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runTabletInterpretation', dryRun: true });
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'runDesktopInterpretation', dryRun: true });
