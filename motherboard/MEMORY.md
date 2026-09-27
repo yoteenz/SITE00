@@ -12116,6 +12116,12 @@ Light NDXBOOK Mobile Authority vs dark MENU ambiguity removed: **`experienceThem
 
 ---
 
+## 2026-09-27 — P0.VR experience review panel design system alignment and readability 1
+
+Experience Review overlay rebuilt as **Generation Panel sibling**: opaque `s00-pcg` shell (`ExperienceReviewPanel` + section components), dark status strip, output nav, framed preview stage, details, filled action bar (black/white/lime). Empty/loading/error states live inside shell (not floating text). Overlay uses `s00-pcg-layer__scrollBody` + stronger scrim. Shared **`experienceReviewPresentation.ts`** for package status counts. Tests: **`p0vrExperienceReviewPanelDesignSystemAlignmentAndReadability1.test.ts`**. **cPanel v691**.
+
+---
+
 ## 2026-09-27 — P0.VR existing truth plus functional expansion intelligence 1
 
 Three-layer model for NDXBOOK page-family intelligence: **ExistingPageTruth** → **ProposedFunctionalExpansion** (PROPOSED until Founder APPROVE/REJECT/DEFER) → approved content may enter FAL via **`approvedExpansionPromptBlock`** only. **`pageFunctionalExpansionIntelligence.ts`** + **`ndxbookFunctionalExpansionIntelligence.ts`**: capability analysis, FAL discovery audit (RECENT ACTIVITY, PROJECT ARCHIVE, etc. as candidates not trash), **`ExperienceStatePlan`**, Opus/Composer handoff helpers. Wired on **`confirmMobileAuthority`** + experience generation (**`injectApprovedFunctionalExpansionsIntoAuthority`**); **`decideFunctionalExpansion`** API/orchestration propagates approved items to blueprint **`expansionNotes`** + proposed interaction map additions. Page System Review **FUNCTIONAL EXPANSIONS** panel in **`DesignPageSystemReviewSection.tsx`**. Tests: **`p0vrExistingTruthPlusFunctionalExpansionIntelligence1.test.ts`**. **Railway + cPanel v690** for API + PSR UI.
