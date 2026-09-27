@@ -11931,3 +11931,16 @@ Sprint **P0.VR.PROMOTED-PROJECT-VISUAL-AUTHORITY-AND-CAPTURE-SANITATION1**: stop
 - **UI:** gallery action **PROMOTE PROJECT VISUAL AUTHORITY**; `project-visual-authority-indicator` + Concept Intelligence Dock EXPRESSION row when active.
 - **Tests:** `p0vrPromotedProjectVisualAuthorityAndCaptureSanitation1.test.ts` (13); GPT2 functional reference test updated for sanitized slice heights.
 - **Not fully wired this sprint:** deep pixel letterbox analysis; full Opus twin request package injection (compile block exists); PageFamilySkin cascade beyond contract fields.
+
+---
+
+## 2026-09-27 — P0.VR project-in-SITE-00 expression authority scope correction 1
+
+Corrective sprint: **`ProjectVisualAuthority`** reframed as **`Site00ProjectExpressionAuthority`** — promoted Concepts define **SITE 00 × project fusion** inside **Projects**, not standalone brand website authority.
+
+- **`site00AuthorityScope.ts`:** `SITE00_HOST` · `SITE00_PROJECT_CONTEXT` · `BRAND_STANDALONE_PRODUCT` · `CROSS_CONTEXT_REFERENCE`; `validateAuthorityScopeForTarget`, `validateProjectExpressionInheritance`, Composer/Opus scope blocks.
+- **`brandDigitalProductAuthority.ts`:** stub for future **BUILD NDXBOOK WEBSITE/APP** (no auto-inherit from Projects expression).
+- **`projectVisualAuthority.ts`:** scoped records (`hostProduct`, `context`, `authorityScope`), new storage key `site00:project-expression-authority:v1`, legacy migration; prompt/UI copy **SITE 00 PROJECT EXPRESSION**; `CrossContextDesignReference` replaces implicit cross-project brand bleed.
+- **UI:** gallery **PROMOTE SITE 00 PROJECT EXPRESSION**; dock **EXPRESSION AUTHORITY**; indicator `project-expression-authority-indicator`.
+- **GPT2:** prompt v10 + scope guard in mobile compiler; request package passes `designTarget`.
+- **Tests:** `p0vrProjectInSite00ExpressionAuthorityScopeCorrection1.test.ts` (8).
