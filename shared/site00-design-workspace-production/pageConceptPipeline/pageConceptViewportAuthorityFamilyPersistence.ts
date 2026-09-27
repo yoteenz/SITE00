@@ -2,6 +2,7 @@
  * Preserve founder mobile authority selection/confirmation across server gallery mount and navigation.
  */
 
+import { pickRicherExperienceExpressionAuthority } from './pageConceptExperienceReviewOpenPolicy.js';
 import type { PageViewportAuthorityFamily } from './pageConceptViewportAuthorityFamily.js';
 import type { PageConceptGenerationState, PageConceptPipelineSet } from './types.js';
 
@@ -45,12 +46,28 @@ function mergePipelineSetPreservingLocalProgress(
   localPs: PageConceptPipelineSet,
   mergedPs: PageConceptPipelineSet,
 ): PageConceptPipelineSet {
+  const experienceExpressionAuthority = pickRicherExperienceExpressionAuthority(
+    localPs.experienceExpressionAuthority,
+    mergedPs.experienceExpressionAuthority,
+  );
+  const experienceExpressionContract =
+    experienceExpressionAuthority === localPs.experienceExpressionAuthority ?
+      (localPs.experienceExpressionContract ?? mergedPs.experienceExpressionContract)
+    : (mergedPs.experienceExpressionContract ?? localPs.experienceExpressionContract);
+  const viewportAuthorityFamily =
+    experienceExpressionAuthority === mergedPs.experienceExpressionAuthority &&
+    mergedPs.viewportAuthorityFamily?.experienceExpressionStatus &&
+    (mergedPs.viewportAuthorityFamily.experienceExpressionStatus === 'READY_FOR_REVIEW' ||
+      mergedPs.viewportAuthorityFamily.experienceExpressionStatus === 'PARTIAL_FAILURE' ||
+      mergedPs.viewportAuthorityFamily.experienceExpressionStatus === 'APPROVED') ?
+      mergedPs.viewportAuthorityFamily
+    : (localPs.viewportAuthorityFamily ?? mergedPs.viewportAuthorityFamily);
   return {
     ...mergedPs,
     selectedMobileConceptId: localPs.selectedMobileConceptId ?? mergedPs.selectedMobileConceptId,
-    viewportAuthorityFamily: localPs.viewportAuthorityFamily ?? mergedPs.viewportAuthorityFamily,
-    experienceExpressionAuthority: localPs.experienceExpressionAuthority ?? mergedPs.experienceExpressionAuthority,
-    experienceExpressionContract: localPs.experienceExpressionContract ?? mergedPs.experienceExpressionContract,
+    viewportAuthorityFamily,
+    experienceExpressionAuthority,
+    experienceExpressionContract,
     twinImplementationPackage: localPs.twinImplementationPackage ?? mergedPs.twinImplementationPackage,
     pageFamilyBlueprint: localPs.pageFamilyBlueprint ?? mergedPs.pageFamilyBlueprint,
     pageFamilyInteractionMap: localPs.pageFamilyInteractionMap ?? mergedPs.pageFamilyInteractionMap,

@@ -125,6 +125,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
   const experienceReady = experienceArtifactReadyForReview(input.pipelineSet) && !experienceApproved;
   const experienceNotStarted = experienceStatus === 'NOT_STARTED' || experienceStatus === 'SUPERSEDED';
   const experienceGenerating = experienceStatus === 'GENERATING';
+  const experiencePartial = experienceStatus === 'PARTIAL_FAILURE';
 
   const tabletReady = Boolean(family?.tabletArtifactId);
   const desktopReady = Boolean(family?.desktopArtifactId);
@@ -223,17 +224,17 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       experienceActions.push(
         action({
           id: 'vf-review-experience',
-          label: 'VIEW PROGRESS',
+          label: 'VIEW EXPERIENCE',
           tone: 'ink',
           disabled: false,
           disabledReason: null,
         }),
       );
-    } else if (mobileConfirmed && experienceReady) {
+    } else if (mobileConfirmed && (experienceReady || experiencePartial)) {
       experienceActions.push(
         action({
           id: 'vf-review-experience',
-          label: 'REVIEW EXPERIENCE',
+          label: 'VIEW EXPERIENCE',
           tone: 'ink',
           disabled: input.generating,
           disabledReason: input.generating ? 'Generation in progress.' : null,
@@ -264,18 +265,21 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
         !mobileConfirmed ? 'LOCKED'
         : experienceApproved ? 'APPROVED'
         : experienceGenerating ? 'GENERATING'
+        : experiencePartial ? 'PARTIAL — REVIEW'
         : experienceReady ? 'READY FOR REVIEW'
         : 'READY TO GENERATE',
       statusLabel:
         !mobileConfirmed ? 'LOCKED'
         : experienceApproved ? 'APPROVED'
         : experienceGenerating ? 'GENERATING'
+        : experiencePartial ? 'PARTIAL — REVIEW'
         : experienceReady ? 'READY FOR REVIEW'
         : 'NOT STARTED',
       statusTone:
         !mobileConfirmed ? 'locked'
         : experienceApproved ? 'approved'
         : experienceGenerating ? 'generating'
+        : experiencePartial ? 'ready'
         : experienceReady ? 'ready'
         : 'pending',
       emphasized: input.activeViewport === 'MOBILE',

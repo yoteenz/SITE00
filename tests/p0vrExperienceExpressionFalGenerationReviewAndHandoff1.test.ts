@@ -155,6 +155,20 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1', () =>
     expect(expStageBefore.actions.some((a) => a.id === 'vf-create-experience')).toBe(true);
 
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression', dryRun: true });
+
+    const expStageAfter = buildGpt2ViewportFamilyHeroRailStages({
+      pipelineSet: r.state.pipelineSet ?? null,
+      selectedMobileConceptId: conceptId,
+      selectedGalleryCandidateId: conceptId,
+      selectedGalleryCandidateSlotLabel: 'CONCEPT A',
+      generating: false,
+      generationJobs: r.jobs ?? [],
+      activeViewport: 'MOBILE',
+      tabletInterpretationActive: false,
+      desktopInterpretationActive: false,
+    }).find((x) => x.id === 'experience')!;
+    expect(expStageAfter.actions.some((a) => a.id === 'vf-create-experience')).toBe(false);
+    expect(expStageAfter.actions.find((a) => a.id === 'vf-review-experience')?.label).toBe('VIEW EXPERIENCE');
     expect(falSpy.mock.calls.length).toBeGreaterThan(0);
     expect(r.jobs?.every((j) => j.provider === 'FAL_EXPERIENCE')).toBe(true);
     expect(r.jobs?.every((j) => j.imageUri?.startsWith('data:image/'))).toBe(true);

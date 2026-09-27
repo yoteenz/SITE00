@@ -30,9 +30,31 @@ export function resolveExperienceReviewPanelMode(
   if (!authority) return 'EMPTY';
   if (authority.status === 'APPROVED') return 'APPROVED';
   if (authority.status === 'FAILED') return 'FAILED';
-  if (authority.status === 'GENERATING') return 'GENERATING';
   if (authority.status === 'PARTIAL_FAILURE') return 'PARTIAL';
   if (authority.status === 'READY_FOR_REVIEW') return 'READY';
+  if (authority.status === 'GENERATING') {
+    const visualStates = authority.visualStates ?? [];
+    const ready = visualStates.filter((v) => Boolean(v.previewImageUri?.trim())).length;
+    const falStates = visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE');
+    const falReady = falStates.filter((v) => Boolean(v.previewImageUri?.trim())).length;
+    if (authority.projectId?.trim()) {
+      const materialization = validateExperiencePackageMaterialization(authority);
+      const planned = materialization.plannedOutputCount || visualStates.length || 0;
+      if (planned > 0 && ready >= planned) return 'READY';
+      if (
+        falStates.length > 0 &&
+        falReady >= falStates.length &&
+        ready >= materialization.inheritedOutputCount + falStates.length
+      ) {
+        return 'READY';
+      }
+    } else if (visualStates.length > 0 && ready >= visualStates.length) {
+      return 'READY';
+    } else if (falStates.length > 0 && falReady >= falStates.length) {
+      return 'READY';
+    }
+    return 'GENERATING';
+  }
   return 'EMPTY';
 }
 
