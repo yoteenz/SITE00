@@ -59,11 +59,67 @@ function pageConceptServerRunHasReadyMobileGallery(run: PageConceptServerRun): b
   return false;
 }
 
+const GALLERY_RUN_SCAN_BATCH = 100;
+const GALLERY_RUN_SCAN_MAX_ROWS = 600;
+
+function pickNewestGalleryReadyRun(
+  rows: readonly { run_json: PageConceptServerRun; updated_at?: string | null }[],
+): PageConceptServerRun | null {
+  let best: PageConceptServerRun | null = null;
+  let bestTs = 0;
+  for (const row of rows) {
+    const run = row.run_json as PageConceptServerRun;
+    if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
+    const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
+    if (!best || ts > bestTs) {
+      best = run;
+      bestTs = ts;
+    }
+  }
+  return best;
+}
+
+async function scanSupabaseGalleryRuns(input: {
+  slug: string;
+  pipelineId: string;
+  pageIds?: readonly string[];
+}): Promise<PageConceptServerRun | null> {
+  let best: PageConceptServerRun | null = null;
+  let bestTs = 0;
+  for (let offset = 0; offset < GALLERY_RUN_SCAN_MAX_ROWS; offset += GALLERY_RUN_SCAN_BATCH) {
+    let query = getSupabaseAdmin()
+      .from(TABLE)
+      .select('run_json, updated_at')
+      .eq('project_id', input.slug)
+      .eq('pipeline_id', input.pipelineId)
+      .order('updated_at', { ascending: false })
+      .range(offset, offset + GALLERY_RUN_SCAN_BATCH - 1);
+    if (input.pageIds?.length) {
+      query = query.in('page_id', [...input.pageIds]);
+    }
+    const { data, error } = await query;
+    if (error || !data?.length) break;
+    const batchBest = pickNewestGalleryReadyRun(data);
+    if (batchBest) {
+      const ts =
+        Date.parse(batchBest.updatedAt || batchBest.completedAt || batchBest.createdAt) || 0;
+      if (!best || ts > bestTs) {
+        best = batchBest;
+        bestTs = ts;
+      }
+    }
+    if (data.length < GALLERY_RUN_SCAN_BATCH) break;
+  }
+  return best;
+}
+
 /** Newest durable run with READY GPT2 mobile artifacts (gallery parity across origins). */
 export async function findLatestPageConceptServerRunForPage(input: {
   projectId: string;
   pageId: string;
   pageIds?: readonly string[];
+  screenId?: string;
+  route?: string | null;
   pipelineId?: string;
 }): Promise<PageConceptServerRun | null> {
   if (process.env.VITEST === 'true') return null;
@@ -80,35 +136,15 @@ export async function findLatestPageConceptServerRunForPage(input: {
         ...expandPageConceptDurableRunPageIdCandidates({
           projectSlug: slug,
           pageId: input.pageId,
+          screenId: input.screenId,
+          route: input.route ?? null,
         }),
       ]
         .map((id) => id.trim())
         .filter(Boolean),
     ),
   ];
-  const { data, error } = await getSupabaseAdmin()
-    .from(TABLE)
-    .select('run_json, updated_at')
-    .eq('project_id', slug)
-    .in('page_id', pageIds)
-    .eq('pipeline_id', pipelineId)
-    .order('updated_at', { ascending: false })
-    .limit(40);
-
-  if (error || !data?.length) return null;
-
-  let best: PageConceptServerRun | null = null;
-  let bestTs = 0;
-  for (const row of data) {
-    const run = row.run_json as PageConceptServerRun;
-    if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
-    const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
-    if (!best || ts > bestTs) {
-      best = run;
-      bestTs = ts;
-    }
-  }
-  return best;
+  return scanSupabaseGalleryRuns({ slug, pipelineId, pageIds });
 }
 
 function runMatchesDesignPageGalleryScope(
@@ -130,6 +166,8 @@ export async function findLatestPageConceptGalleryRunForDesignPage(input: {
   projectId: string;
   registryPageId: string;
   pageIds?: readonly string[];
+  screenId?: string;
+  route?: string | null;
   pipelineId?: string;
 }): Promise<PageConceptServerRun | null> {
   const slug = input.projectId.trim().toLowerCase();
@@ -142,6 +180,8 @@ export async function findLatestPageConceptGalleryRunForDesignPage(input: {
     projectId: slug,
     pageId: registryPageId,
     pageIds: [...pageIdSet],
+    screenId: input.screenId,
+    route: input.route ?? null,
     pipelineId: input.pipelineId,
   });
   if (direct) return direct;
@@ -151,27 +191,28 @@ export async function findLatestPageConceptGalleryRunForDesignPage(input: {
   if (!exists) return null;
 
   const pipelineId = input.pipelineId ?? PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
-  const { data, error } = await getSupabaseAdmin()
-    .from(TABLE)
-    .select('run_json, updated_at')
-    .eq('project_id', slug)
-    .eq('pipeline_id', pipelineId)
-    .order('updated_at', { ascending: false })
-    .limit(200);
-
-  if (error || !data?.length) return null;
-
   let best: PageConceptServerRun | null = null;
   let bestTs = 0;
-  for (const row of data) {
-    const run = row.run_json as PageConceptServerRun;
-    if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
-    if (!runMatchesDesignPageGalleryScope(run, slug, registryPageId, pageIdSet)) continue;
-    const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
-    if (!best || ts > bestTs) {
-      best = run;
-      bestTs = ts;
+  for (let offset = 0; offset < GALLERY_RUN_SCAN_MAX_ROWS; offset += GALLERY_RUN_SCAN_BATCH) {
+    const { data, error } = await getSupabaseAdmin()
+      .from(TABLE)
+      .select('run_json, updated_at')
+      .eq('project_id', slug)
+      .eq('pipeline_id', pipelineId)
+      .order('updated_at', { ascending: false })
+      .range(offset, offset + GALLERY_RUN_SCAN_BATCH - 1);
+    if (error || !data?.length) break;
+    for (const row of data) {
+      const run = row.run_json as PageConceptServerRun;
+      if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
+      if (!runMatchesDesignPageGalleryScope(run, slug, registryPageId, pageIdSet)) continue;
+      const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
+      if (!best || ts > bestTs) {
+        best = run;
+        bestTs = ts;
+      }
     }
+    if (data.length < GALLERY_RUN_SCAN_BATCH) break;
   }
   return best;
 }

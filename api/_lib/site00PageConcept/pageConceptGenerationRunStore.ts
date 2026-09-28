@@ -152,6 +152,7 @@ export async function resolveLatestPageConceptServerRunForPage(
   pageId: string,
   pageIds?: readonly string[],
   registryPageId?: string,
+  scope?: { screenId?: string; route?: string | null },
 ): Promise<PageConceptServerRun | null> {
   const slug = projectId.trim().toLowerCase();
   const ids = [...new Set([pageId, ...(pageIds ?? [])].map((id) => id.trim()).filter(Boolean))];
@@ -167,6 +168,8 @@ export async function resolveLatestPageConceptServerRunForPage(
     projectId: slug,
     registryPageId: registry,
     pageIds: ids,
+    screenId: scope?.screenId,
+    route: scope?.route ?? null,
   });
   if (durable) {
     const ts = Date.parse(durable.updatedAt || durable.completedAt || durable.createdAt) || 0;

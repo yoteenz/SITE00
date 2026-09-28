@@ -34,5 +34,14 @@ export function expandPageConceptDurableRunPageIdCandidates(input: {
     ids.add(`${slug}:overview:${normalizedRoute}`);
     ids.add(`${slug}:overview:${normalizedRoute.replace(/\/+$/, '')}`);
   }
+  const registry = identity.registryPageId.trim();
+  const isOverviewPage =
+    identity.screenId === 'overview' ||
+    registry === `${slug}:overview` ||
+    registry.endsWith(':overview');
+  if (isOverviewPage) {
+    ids.add(`${slug}:overview:/projects/${slug}`);
+    ids.add(`${slug}:overview:/projects/${slug}/`);
+  }
   return [...ids];
 }

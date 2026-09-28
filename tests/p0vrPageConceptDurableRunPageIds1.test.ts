@@ -12,4 +12,13 @@ describe('durable run page_id candidates', () => {
     });
     expect(ids).toContain('ndxbook:overview:/projects/ndxbook');
   });
+
+  it('includes founder overview legacy page_id when route is missing', () => {
+    const ids = expandPageConceptDurableRunPageIdCandidates({
+      projectSlug: 'ndxbook',
+      pageId: 'ndxbook:overview',
+      screenId: 'overview',
+    });
+    expect(ids).toContain('ndxbook:overview:/projects/ndxbook');
+  });
 });
