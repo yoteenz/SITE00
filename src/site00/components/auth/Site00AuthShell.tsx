@@ -6,6 +6,7 @@ import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
 import { Site00SignInForm } from './Site00SignInForm';
 import { useSite00SignInBootstrap } from './useSite00SignInBootstrap';
+import { useSite00AuthLayout } from './useSite00AuthLayout';
 import { Site00CreateAccountForm } from './Site00CreateAccountForm';
 import { Site00MobileHeader } from '../mobile/Site00MobileHeader';
 import { FastTravelPanel } from '../fast-travel/FastTravelPanel';
@@ -22,6 +23,7 @@ const signInIconUrl = `${resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH)}?v=${
 
 export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShellProps) {
   useSite00SignInBootstrap();
+  const authLayout = useSite00AuthLayout();
   const [fastTravelOpen, setFastTravelOpen] = useState(false);
   const fastTravelTriggerRef = useRef<HTMLButtonElement>(null);
 
@@ -60,20 +62,11 @@ export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShe
     };
   }, []);
 
-  const desktopForm =
+  const sharedForm =
     children ??
-    (variant === 'create-account' ? (
-      <Site00CreateAccountForm layout="desktop" />
-    ) : (
-      <Site00SignInForm layout="desktop" />
-    ));
-  const mobileForm =
-    children ??
-    (variant === 'create-account' ? (
-      <Site00CreateAccountForm layout="mobile" />
-    ) : (
-      <Site00SignInForm layout="mobile" />
-    ));
+    (variant === 'create-account' ?
+      <Site00CreateAccountForm layout={authLayout} />
+    : <Site00SignInForm layout={authLayout} />);
 
   return (
     <div className="site00-auth-shell" data-site00-surface="sign-in">
@@ -101,7 +94,7 @@ export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShe
           </div>
         </aside>
         <section className="site00-auth-shell__form-panel">
-          {desktopForm}
+          {authLayout === 'desktop' ? sharedForm : null}
         </section>
       </div>
 
@@ -113,7 +106,7 @@ export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShe
         />
         <main className="site00-auth-shell__mobile-main">
           <Site00AuthIntro variant="mobile" />
-          {mobileForm}
+          {authLayout === 'mobile' ? sharedForm : null}
         </main>
         <FastTravelPanel
           open={fastTravelOpen}
