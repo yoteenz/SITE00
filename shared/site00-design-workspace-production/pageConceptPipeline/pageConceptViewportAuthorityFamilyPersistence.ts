@@ -12,6 +12,7 @@ import type {
   PageExperienceExpressionPipelineStatus,
   PageViewportAuthorityFamily,
 } from './pageConceptViewportAuthorityFamily.js';
+import { ensureGpt2MobileConceptCatalog } from './pageConceptGpt2MobileConceptCatalog.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 import type { PageConceptGenerationState, PageConceptPipelineSet } from './types.js';
 
@@ -137,14 +138,14 @@ function mapAuthorityStatusToFamilyExperienceStatus(
 
 function inferDurableMobileConceptId(ps: PageConceptPipelineSet): string | null {
   const family = ps.viewportAuthorityFamily;
-  return (
+  const fromPipeline =
     family?.confirmedMobileConceptId ??
     family?.selectedMobileConceptId ??
     ps.selectedMobileConceptId ??
     ps.experienceExpressionContract?.selectedMobileConceptId ??
     ps.experienceExpressionAuthority?.sourceConceptId ??
-    null
-  );
+    null;
+  return fromPipeline;
 }
 
 function shouldTreatMobileAuthorityAsConfirmed(ps: PageConceptPipelineSet, conceptId: string): boolean {
@@ -201,14 +202,16 @@ function patchFamilyExperienceFieldsFromAuthority(
 export function rehydrateViewportAuthorityFamilyFromPipelineSignals(
   state: PageConceptGenerationState,
 ): PageConceptGenerationState {
-  const ps = state.pipelineSet;
-  if (!ps?.mobileConcepts?.length || !ps.cgptCreativeBrief) return state;
+  let working = ensureGpt2MobileConceptCatalog(state);
+  const ps = working.pipelineSet;
+  if (!ps?.mobileConcepts?.length) return working;
+  if (!ps.cgptCreativeBrief && !ps.creativeInjection) return working;
 
   const conceptId = inferDurableMobileConceptId(ps);
-  if (!conceptId) return patchFamilyExperienceFieldsFromAuthority(state);
+  if (!conceptId) return patchFamilyExperienceFieldsFromAuthority(working);
 
   const mobile = ps.mobileConcepts.find((c) => c.conceptId === conceptId);
-  if (!mobile) return patchFamilyExperienceFieldsFromAuthority(state);
+  if (!mobile) return patchFamilyExperienceFieldsFromAuthority(working);
 
   const family = ps.viewportAuthorityFamily;
   const mobileBound =
@@ -219,7 +222,7 @@ export function rehydrateViewportAuthorityFamilyFromPipelineSignals(
 
   if (confirmedOk || selectedOk) {
     return patchFamilyExperienceFieldsFromAuthority({
-      ...state,
+      ...working,
       pipelineSet: {
         ...ps,
         selectedMobileConceptId: ps.selectedMobileConceptId ?? conceptId,
@@ -227,7 +230,7 @@ export function rehydrateViewportAuthorityFamilyFromPipelineSignals(
     });
   }
 
-  let next = state;
+  let next = working;
   const needsSelect = !mobileBound;
   const needsConfirm = inferConfirmed && !isMobileAuthorityConfirmed(next.pipelineSet?.viewportAuthorityFamily);
 
@@ -241,7 +244,7 @@ export function rehydrateViewportAuthorityFamilyFromPipelineSignals(
       // selectedMobileConceptId at pipeline root without confirm — selection only
     }
   } catch {
-    return patchFamilyExperienceFieldsFromAuthority(state);
+    return patchFamilyExperienceFieldsFromAuthority(working);
   }
 
   const psNext = next.pipelineSet;

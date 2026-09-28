@@ -50,6 +50,11 @@ import { mergePreservedExperienceVisualStates } from './experiencePackageMateria
 import { applyExperiencePackageWritebackAfterGeneration } from './experienceOutputSlotWriteback.js';
 import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
+import {
+  ensureGpt2MobileConceptCatalog,
+  resolveCgptBriefIdsForViewportFamily,
+  resolveMobileConceptForSelection,
+} from './pageConceptGpt2MobileConceptCatalog.js';
 import { buildExperienceThemeHandoffLines, experienceThemeContinuityBlocksApproval } from './experienceThemeContinuity.js';
 import {
   buildExperienceContentHandoffLines,
@@ -174,21 +179,21 @@ export function pageConceptSelectMobileConcept(
   state: PageConceptGenerationState,
   conceptId: string,
 ): ViewportFamilyOrchestrationResult {
-  const ps = state.pipelineSet;
+  const catalogState = ensureGpt2MobileConceptCatalog(state);
+  const ps = catalogState.pipelineSet;
   if (!ps?.mobileConcepts?.length) throw new Error('MOBILE_CONCEPTS_REQUIRED');
-  const selected = ps.mobileConcepts.find((c) => c.conceptId === conceptId);
+  const selected = resolveMobileConceptForSelection(catalogState, conceptId);
   if (!selected) throw new Error('MOBILE_CONCEPT_NOT_FOUND');
-  const brief = ps.cgptCreativeBrief;
-  if (!brief) throw new Error('CGPT_BRIEF_REQUIRED');
-  const skin = compileProjectSkinContract(state.projectId);
+  const { briefId, briefVersion } = resolveCgptBriefIdsForViewportFamily(ps);
+  const skin = compileProjectSkinContract(catalogState.projectId);
   const existingFamily = ps.viewportAuthorityFamily;
   const familyId = existingFamily?.familyId ?? `pvaf-${ps.pipelineSetId}`;
   const familyBase =
     existingFamily ??
     createInitialViewportAuthorityFamily({
       familyId,
-      cgptBriefId: brief.briefId,
-      cgptBriefVersion: brief.version,
+      cgptBriefId: briefId,
+      cgptBriefVersion: briefVersion,
       skinContractVersion: skin.version,
       skinContractId: skin.contractId,
     });
@@ -213,11 +218,13 @@ export function pageConceptSelectMobileConcept(
   if (priorConfirmed || conceptChanged) {
     nextFamily = clearDownstreamExperienceAndInterpretations(nextFamily);
   }
-  const nextState = patchPipeline(state, {
+  const nextState = patchPipeline(catalogState, {
     selectedMobileConceptId: selected.conceptId,
     viewportAuthorityFamily: nextFamily,
-    experienceExpressionContract: priorConfirmed || conceptChanged ? null : state.pipelineSet?.experienceExpressionContract ?? null,
-    experienceExpressionAuthority: priorConfirmed || conceptChanged ? null : state.pipelineSet?.experienceExpressionAuthority ?? null,
+    experienceExpressionContract:
+      priorConfirmed || conceptChanged ? null : catalogState.pipelineSet?.experienceExpressionContract ?? null,
+    experienceExpressionAuthority:
+      priorConfirmed || conceptChanged ? null : catalogState.pipelineSet?.experienceExpressionAuthority ?? null,
   });
   return { state: nextState, generationStatus: nextState.generationStatus };
 }
