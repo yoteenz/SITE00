@@ -12481,6 +12481,7 @@ Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Desi
 
 ---
 
+<<<<<<< HEAD
 ## 2026-09-28 — P0.NDX.NARRATIVE-MOMENTUM-ENGINE1
 
 Story architecture layer between **Creative Concept Territory** and **Format / Storyboard** execution.
@@ -12490,3 +12491,12 @@ Story architecture layer between **Creative Concept Territory** and **Format / S
 - **Entry 002:** retroactive compile (`RETROACTIVE_AUTHORITY_LAYER`) from locked territory + chapter mapping — no asset reset.
 - **UI:** Expression Engine Entry 002 **NARRATIVE MOMENTUM** review panel + production journey stage.
 - **Tests:** `p0ndxNarrativeMomentumEngine1.test.ts`; journey tests updated for 12 stages.
+=======
+## 2026-09-28 — Tunnel sign-in autofill + post-auth redirect
+
+Cloud preview tunnel sign-in failed when password managers autofilled: **two** `Site00SignInForm` instances (desktop + mobile) stayed mounted; autofill often filled hidden desktop fields while submit read empty mobile state → **PASSWORD IS REQUIRED** / no `returnTo` redirect.
+
+- **Fix:** `useSite00AuthLayout` (1024px match to auth CSS) mounts **one** form in `Site00AuthShell`; `readSignInFieldValues` (FormData + input `.value`) on submit; brief autofill sync on mount.
+- **Branch/PR:** `cursor/fix-tunnel-sign-in-autofill-redirect-b747`.
+- **Tests:** `fixTunnelSignInAutofillRedirect1.test.ts`.
+>>>>>>> origin/main
