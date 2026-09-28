@@ -166,7 +166,7 @@ export async function mountPageConceptGalleryFromServer(input: {
 
     const shouldApply =
       preferServerGallery && serverHasReady ?
-        true
+        shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery: true })
       : shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery }) ||
         (
           !preferServerGallery &&

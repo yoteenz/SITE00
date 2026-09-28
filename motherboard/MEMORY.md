@@ -12260,3 +12260,15 @@ Follow-up: **SELECT MOBILE CONCEPT** appeared dead after browser clear — galle
 - **`pageConceptSelectMobileConcept`:** catalog sync + alias resolution + injection brief fallback.
 - **Client:** local orchestration fallback when viewport-family API fails (select/confirm); rail/gallery resolve concept id before dispatch.
 - **Tests:** **`p0vrGpt2MobileConceptCatalogSelect1.test.ts`**. **cPanel v703+**.
+
+---
+
+## 2026-09-28 — Server run merge was clobbering viewport authority (poll + mount)
+
+Founder still saw **SELECT MOBILE AUTHORITY** after v703: **`applyServerRunSnapshotToState`** (generation run poll/reconnect) applied `run.pipelineSet` with a raw spread — **no** `preserveLocalViewportAuthorityFamilyProgressAfterServerMerge` / rehydrate — wiping `viewportAuthorityFamily` whenever Supabase run lacked founder fields. Tab visibility also re-ran **`preferServerGallery`** mount blindly.
+
+- **`mergePageConceptGenerationStateWithServerRunSnapshot`** centralizes gallery mount + poll merge (preserve + rehydrate).
+- **`applyServerRunSnapshotToState`** uses merge mode `mobileJobMode: 'merge'`.
+- **`preferServerGallery` mount** skips replace when local family is newer than server `updatedAt`.
+- **`site00:page-concept-generation-updated`** reload path rehydrates catalog + authority.
+- **Tests:** poll-merge case in **`p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`**. **cPanel v704+**.
