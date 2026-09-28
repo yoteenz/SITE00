@@ -12362,3 +12362,12 @@ Founder: **GENERATE** and **RESTORE PAGE CONCEPTS** produced no results; **page 
 - **Cause:** **`generatePageConcepts`** (gallery + pipeline) routed **empty local gallery** to **`restorePageConceptsFromGallery` only** — pipeline **GENERATE PAGE CONCEPTS** never opened overlay; restore-only path felt like “nothing happens” when API mount failed silently in UI deps.
 - **Fix (#1222):** Split actions — gallery **`galleryPrimaryIsRestore`** → **`restorePageConceptsFromGallery`**; **`generatePageConcepts`** / pipeline → **`openGeneratePageConceptsPanel`** when empty (overlay opens first, no restore-first). **`openGenerationConfirm`** still restore-first when local mobile rows exist. **`galleryRestoreInProgress`**, **`executionError`** on workspace **`data`** deps.
 - **Deploy:** cPanel ZIP after merge; Railway if not on #1219+ for server mount.
+
+---
+
+## 2026-09-28 — RESTORE still empty after #1222 (Supabase scan depth)
+
+Founder on **fsbw-dev** still saw **NO MOBILE CONCEPTS YET** + restore error after panel fix.
+
+- **Cause:** Durable lookup used **top 40 `updated_at` rows** per page; empty **CGPT_RUNNING** orphan runs (frequent updates) could exclude **`pcgr-1790520287592-55ipmm8`** (3 READY GPT2 mobile). Legacy **`ndxbook:overview:/projects/ndxbook`** sometimes missing when **route** absent from expand. Stale **active server run id** pointed at empty orphan.
+- **Fix:** API **paginated scan** (600 rows) for gallery-ready runs; overview legacy page_id without route; **screenId/route** on server expand; client clears bad pinned run; clearer **NO_SERVER_RUN** message. **Railway redeploy required** for API half; cPanel for client.

@@ -200,23 +200,43 @@ export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
       route: input.route ?? null,
     }),
   ].filter((id, index, all): id is string => Boolean(id) && all.indexOf(id) === index);
+  const scope = {
+    screenId: input.screenId,
+    route: input.route ?? null,
+  };
+
+  try {
+    const primary = await fetchLatestPageConceptGenerationRunForPageApi(
+      slug,
+      identity.registryPageId,
+      scope,
+    );
+    if (primary && pageConceptServerRunHasReadyMobileGallery(primary.run)) {
+      return primary;
+    }
+  } catch {
+    /* fall through to alias page ids */
+  }
+
   let best: PageConceptGenerationRunPollUpdate | null = null;
   let bestTs = 0;
   for (const pageId of candidates) {
-    const update = await fetchLatestPageConceptGenerationRunForPageApi(slug, pageId, {
-      screenId: input.screenId,
-      route: input.route ?? null,
-    });
-    if (!update || !pageConceptServerRunHasReadyMobileGallery(update.run)) continue;
-    const ts = Math.max(
-      ...update.run.jobs
-        .filter((j) => j.provider === 'GPT2_MOBILE')
-        .map((j) => Date.parse(j.createdAt ?? '') || 0),
-      Date.parse(update.run.updatedAt || update.run.completedAt || '') || 0,
-    );
-    if (!best || ts > bestTs) {
-      best = update;
-      bestTs = ts;
+    if (pageId === identity.registryPageId) continue;
+    try {
+      const update = await fetchLatestPageConceptGenerationRunForPageApi(slug, pageId, scope);
+      if (!update || !pageConceptServerRunHasReadyMobileGallery(update.run)) continue;
+      const ts = Math.max(
+        ...update.run.jobs
+          .filter((j) => j.provider === 'GPT2_MOBILE')
+          .map((j) => Date.parse(j.createdAt ?? '') || 0),
+        Date.parse(update.run.updatedAt || update.run.completedAt || '') || 0,
+      );
+      if (!best || ts > bestTs) {
+        best = update;
+        bestTs = ts;
+      }
+    } catch {
+      /* try next alias */
     }
   }
   return best;

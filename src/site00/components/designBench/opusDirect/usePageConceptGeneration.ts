@@ -570,18 +570,27 @@ export function usePageConceptGeneration(
         /* try run-id fallbacks + mount */
       }
       const stateForRunIds = loadPageConceptGenerationStateForDesignPage(scope);
+      const pinnedRunId = loadPageConceptActiveServerRunId(projectId, pageId);
       for (const runId of collectPageConceptRestoreRunIdCandidates(stateForRunIds)) {
         try {
           const update = await fetchPageConceptGenerationRunApi(runId, 0, { projectId, pageId });
-          if (!pageConceptServerRunHasReadyMobileGallery(update.run)) continue;
+          if (!pageConceptServerRunHasReadyMobileGallery(update.run)) {
+            if (pinnedRunId && runId === pinnedRunId) {
+              clearPageConceptActiveServerRunId(projectId, pageId);
+            }
+            continue;
+          }
           persist((s) => applyPageConceptServerRunSnapshotForGalleryMount(s, update.run));
+          savePageConceptActiveServerRunId(projectId, pageId, update.run.runId);
           break;
         } catch {
-          /* try next run id */
+          if (pinnedRunId && runId === pinnedRunId) {
+            clearPageConceptActiveServerRunId(projectId, pageId);
+          }
         }
       }
       try {
-        await mountPageConceptGalleryFromServer({
+        const mountTrace = await mountPageConceptGalleryFromServer({
           projectId,
           pageId,
           screenId,
@@ -589,6 +598,12 @@ export function usePageConceptGeneration(
           persist,
           galleryRestore: true,
         });
+        if (mountTrace.phase === 'skipped' && mountTrace.reason === 'NO_SERVER_RUN') {
+          setExecutionError((prev) =>
+            prev ??
+              'NO SERVER GALLERY RUN FOUND FOR THIS PAGE — CONFIRM RAILWAY REDEPLOY FROM MAIN, THEN RESTORE AGAIN.',
+          );
+        }
       } catch {
         /* fall through to local state */
       }
@@ -640,7 +655,9 @@ export function usePageConceptGeneration(
         return false;
       }
       setExecutionError(
-        'RESTORE DID NOT MOUNT MOBILE CONCEPTS — SERVER GALLERY MISSING OR API NOT UPDATED. HARD-REFRESH, CONFIRM RAILWAY REDEPLOY, THEN TAP RESTORE AGAIN.',
+        (prev) =>
+          prev ??
+          'RESTORE DID NOT MOUNT MOBILE CONCEPTS — SERVER GALLERY MISSING OR API NOT UPDATED. REDEPLOY RAILWAY API FROM MAIN (gallery deep-scan), UPLOAD LATEST CPANEL ZIP, HARD-REFRESH, THEN TAP RESTORE AGAIN.',
       );
       return false;
     } finally {
