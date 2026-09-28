@@ -47,22 +47,23 @@ function countMaterialized(authority: ExperienceExpressionAuthority): {
 } {
   const materialization = validateExperiencePackageMaterialization(authority);
   const visualStates = authority.visualStates ?? [];
-  const planned = materialization.plannedOutputCount || visualStates.length || 4;
-  const inherited = visualStates.filter((v) => v.sourceProvider === 'INHERITED_MOBILE').length;
+  const agg = authority.packageOutputIndex?.aggregates;
+  const planned = agg?.plannedOutputCount ?? (materialization.plannedOutputCount || visualStates.length || 4);
+  const inherited = agg?.inheritedOutputCount ?? visualStates.filter((v) => v.sourceProvider === 'INHERITED_MOBILE').length;
   const falStates = visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE');
-  const falOutputs = falStates.length;
-  const falReady = falStates.filter((v) => Boolean(v.previewImageUri?.trim())).length;
-  const ready = visualStates.filter((v) => Boolean(v.previewImageUri?.trim())).length;
+  const falOutputs = agg?.falOutputCount ?? falStates.length;
+  const falReady = agg?.falReadyCount ?? falStates.filter((v) => Boolean(v.previewImageUri?.trim())).length;
+  const ready = agg?.materializedOutputCount ?? visualStates.filter((v) => Boolean(v.previewImageUri?.trim())).length;
   const materialized = ready;
   const failed = visualStates.filter((v) => v.materializationStatus === 'FAILED').length;
-  const stale = visualStates.filter(
-    (v) => v.caption.includes('REGENERATION REQUIRED') || v.materializationStatus === 'PRESERVED',
-  ).length;
+  const stale =
+    agg?.staleOutputCount ??
+    visualStates.filter((v) => v.caption.includes('REGENERATION REQUIRED') || v.materializationStatus === 'PRESERVED').length;
   const running =
     authority.status === 'GENERATING' ?
       Math.max(0, planned - ready - failed)
     : visualStates.filter((v) => v.materializationStatus === 'GENERATING').length;
-  const pending = Math.max(0, planned - ready - failed - running);
+  const pending = agg?.pendingOutputCount ?? Math.max(0, planned - ready - failed - running);
   return { planned, inherited, falOutputs, falReady, materialized, ready, failed, running, pending, stale };
 }
 

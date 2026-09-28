@@ -123,6 +123,7 @@ export type ExperienceExpressionAuthority = {
   experienceExpressionCoverageMap?: import('./experienceExpressionCoverageMap.js').ExperienceExpressionCoverageMap | null;
   legacyReconciliationReceipt?: import('./experienceLegacyFalArtifactReconciliation.js').ExperienceLegacyReconciliationReceipt | null;
   menuRegenerationReceipt?: import('./experienceMenuRegeneration.js').MenuRegenerationReceipt | null;
+  packageOutputIndex?: import('./experienceOutputSlotWriteback.js').ExperiencePackageOutputIndex | null;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {

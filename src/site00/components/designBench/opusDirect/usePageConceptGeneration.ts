@@ -79,6 +79,11 @@ import {
   loadPageConceptGenerationStateForDesignPage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { applyExperienceReviewHydrationToState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceReviewHydration.js';
+import {
+  EXPERIENCE_OUTPUT_MATERIALIZED_EVENT,
+  experienceOutputMaterializedEventDetail,
+  canonicalExpressionTypeForVisualState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceOutputSlotWriteback.js';
 import type { PageCaptureRecord } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type {
   PageConceptGenerationPlan,
@@ -1947,11 +1952,39 @@ export function usePageConceptGeneration(
           ) {
             next = { ...next, liveProgress: null, activeGenerationStage: null };
           }
-          savePageConceptGenerationState(next);
-          return next;
+          const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          });
+          const { state: hydrated } = applyExperienceReviewHydrationToState(next, { extraExperienceFalJobs });
+          savePageConceptGenerationState(hydrated);
+          return hydrated;
         });
         if (action.type === 'generateExperienceExpression') {
           setOverlayMode('experience-review');
+        }
+        if (
+          action.type === 'generateExperienceExpression' ||
+          action.type === 'regenerateExperienceExpressionState'
+        ) {
+          const auth = loadPageConceptGenerationStateForDesignPage({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          }).pipelineSet?.experienceExpressionAuthority;
+          const stateId =
+            action.type === 'regenerateExperienceExpressionState' ? action.stateId : undefined;
+          const visual = auth?.visualStates.find((v) => (stateId ? v.stateId === stateId : v.sourceProvider === 'FAL_EXPERIENCE'));
+          if (auth && visual) {
+            window.dispatchEvent(
+              new CustomEvent(EXPERIENCE_OUTPUT_MATERIALIZED_EVENT, {
+                detail: experienceOutputMaterializedEventDetail(auth, canonicalExpressionTypeForVisualState(visual)),
+              }),
+            );
+          }
         }
         window.dispatchEvent(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),

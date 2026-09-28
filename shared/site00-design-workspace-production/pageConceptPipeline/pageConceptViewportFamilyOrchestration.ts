@@ -47,6 +47,7 @@ import {
 } from './pageConceptViewportAuthorityFamily.js';
 import { compileExperienceExpressionAuthority } from './experienceExpressionAuthority.js';
 import { mergePreservedExperienceVisualStates } from './experiencePackageMaterialization.js';
+import { applyExperiencePackageWritebackAfterGeneration } from './experienceOutputSlotWriteback.js';
 import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 import { buildExperienceThemeHandoffLines, experienceThemeContinuityBlocksApproval } from './experienceThemeContinuity.js';
@@ -339,21 +340,27 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
     jobs: readonly PageConceptGeneratedArtifact[];
   },
 ): ViewportFamilyOrchestrationResult {
+  const authorityWithWriteback = applyExperiencePackageWritebackAfterGeneration({
+    authority: input.authority,
+    state,
+    jobs: input.jobs,
+    route: state.functionContract?.route ?? null,
+  });
   const family = state.pipelineSet?.viewportAuthorityFamily;
   if (!family) throw new Error('VIEWPORT_FAMILY_REQUIRED');
-  const visualLabels = input.authority.visualStates.map((v) => `${v.label}: ${v.caption}`);
-  const packagingLines = input.authority.packagingPlan ?
+  const visualLabels = authorityWithWriteback.visualStates.map((v) => `${v.label}: ${v.caption}`);
+  const packagingLines = authorityWithWriteback.packagingPlan ?
     [
-      `PACKAGING: ${input.authority.packagingPlan.packagingReasoning}`,
-      `PLANNED FAL OUTPUTS: ${input.authority.packagingPlan.totalPlannedOutputs} (+ BASE inherit)`,
+      `PACKAGING: ${authorityWithWriteback.packagingPlan.packagingReasoning}`,
+      `PLANNED FAL OUTPUTS: ${authorityWithWriteback.packagingPlan.totalPlannedOutputs} (+ BASE inherit)`,
     ]
   : [];
   const lineageLines =
-    input.authority.outputLineage?.map(
+    authorityWithWriteback.outputLineage?.map(
       (l) => `${l.label} [${l.packagingMode}]: ${l.sourceExpressionTypes.join('+')}`,
     ) ?? [];
-  const themeHandoff = buildExperienceThemeHandoffLines(input.authority);
-  const contentHandoff = buildExperienceContentHandoffLines(input.authority);
+  const themeHandoff = buildExperienceThemeHandoffLines(authorityWithWriteback);
+  const contentHandoff = buildExperienceContentHandoffLines(authorityWithWriteback);
   const expansionHandoff = buildOpusFunctionalExpansionHandoffLines(
     state.pipelineSet?.functionalExpansionIntelligence,
   );
@@ -375,7 +382,7 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
     ],
   };
   const expStatus =
-    input.authority.status === 'PARTIAL_FAILURE' ? 'PARTIAL_FAILURE' : 'READY_FOR_REVIEW';
+    authorityWithWriteback.status === 'PARTIAL_FAILURE' ? 'PARTIAL_FAILURE' : 'READY_FOR_REVIEW';
   const nextFamily: PageViewportAuthorityFamily = {
     ...family,
     experienceExpressionStatus: expStatus,
@@ -386,7 +393,7 @@ export function pageConceptApplyExperienceExpressionGenerationResult(
   const nextState = patchPipeline(
     state,
     {
-      experienceExpressionAuthority: input.authority,
+      experienceExpressionAuthority: authorityWithWriteback,
       experienceExpressionContract: contract,
       viewportAuthorityFamily: nextFamily,
     },
