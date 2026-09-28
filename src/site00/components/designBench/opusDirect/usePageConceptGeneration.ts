@@ -2288,10 +2288,7 @@ export function usePageConceptGeneration(
         const apiPayload = {
           action: action.type,
           state: current,
-          conceptId:
-            action.type === 'selectMobileConcept' || action.type === 'regenerateMobileConcept' ?
-              action.conceptId
-            : undefined,
+          conceptId: action.type === 'regenerateMobileConcept' ? action.conceptId : undefined,
           viewport: action.type === 'captureTwinViewport' ? action.viewport : undefined,
           imageUri: action.type === 'captureTwinViewport' ? action.imageUri : undefined,
           mobileCaptureBase64,
@@ -2305,20 +2302,7 @@ export function usePageConceptGeneration(
           expansionId: action.type === 'decideFunctionalExpansion' ? action.expansionId : undefined,
           expansionDecision: action.type === 'decideFunctionalExpansion' ? action.decision : undefined,
         } as const;
-        let result: Awaited<ReturnType<typeof pageConceptViewportFamilyActionApi>>;
-        try {
-          result = await pageConceptViewportFamilyActionApi(apiPayload);
-        } catch (apiErr) {
-          const canRunLocal =
-            action.type === 'selectMobileConcept' || action.type === 'confirmMobileAuthority';
-          if (!canRunLocal) throw apiErr;
-          if (action.type === 'selectMobileConcept') {
-            result = { state: pageConceptSelectMobileConcept(current, action.conceptId).state };
-          } else {
-            result = { state: pageConceptConfirmMobileAuthority(current).state };
-          }
-          void pageConceptViewportFamilyActionApi({ ...apiPayload, state: current }).catch(() => undefined);
-        }
+        const result = await pageConceptViewportFamilyActionApi(apiPayload);
         applyViewportFamilyResult(result);
         if (action.type === 'generateExperienceExpression') {
           setOverlayMode('experience-review');
@@ -2347,9 +2331,6 @@ export function usePageConceptGeneration(
         window.dispatchEvent(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );
-        if (action.type === 'selectMobileConcept') {
-          emitMobileSelectionMade(action.conceptId);
-        }
       } catch (e) {
         setExecutionError(e instanceof Error ? e.message : 'VIEWPORT_FAMILY_ACTION_FAILED');
       } finally {
