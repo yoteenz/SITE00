@@ -151,10 +151,10 @@ describe('P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1', 
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     })
-      .find((x) => x.id === 'viewport-interpretations')!
+      .find((x) => x.id === 'tablet')!
       .actions.find((a) => a.id === 'vf-run-tablet');
     expect(tabletAction?.disabled).toBe(true);
-    expect(tabletAction?.disabledReason).toMatch(/approve experience/i);
+    expect(tabletAction?.disabledReason).toMatch(/experience package/i);
   });
 
   it('experience approval unlocks tablet and desktop generation', async () => {
@@ -171,7 +171,7 @@ describe('P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1', 
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     })
-      .find((x) => x.id === 'viewport-interpretations')!
+      .find((x) => x.id === 'tablet')!
       .actions.find((a) => a.id === 'vf-run-tablet');
     expect(tabletAction?.disabled).toBe(false);
 

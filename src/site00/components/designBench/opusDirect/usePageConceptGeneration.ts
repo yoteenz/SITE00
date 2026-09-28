@@ -2367,6 +2367,14 @@ export function usePageConceptGeneration(
       approveExperience: () => void dispatchViewportFamilyAction({ type: 'approveExperienceExpression' }),
       runTablet: () => void dispatchViewportFamilyAction({ type: 'runTabletInterpretation' }),
       runDesktop: () => void dispatchViewportFamilyAction({ type: 'runDesktopInterpretation' }),
+      generateDesktopExpression: () =>
+        void dispatchViewportFamilyAction({ type: 'generateDesktopViewportExpression' }),
+      generateTabletExpression: () =>
+        void dispatchViewportFamilyAction({ type: 'generateTabletViewportExpression' }),
+      approveDesktopExpression: () =>
+        void dispatchViewportFamilyAction({ type: 'approveDesktopViewportExpression' }),
+      approveTabletExpression: () =>
+        void dispatchViewportFamilyAction({ type: 'approveTabletViewportExpression' }),
       regenerateTablet: () => void dispatchViewportFamilyAction({ type: 'regenerateTablet' }),
       regenerateDesktop: () => void dispatchViewportFamilyAction({ type: 'regenerateDesktop' }),
       approveFamily: () => void dispatchViewportFamilyAction({ type: 'approveViewportFamily' }),

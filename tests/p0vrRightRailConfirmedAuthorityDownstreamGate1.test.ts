@@ -177,7 +177,7 @@ describe('P0.VR.RIGHT-RAIL-CONFIRMED-AUTHORITY-DOWNSTREAM-GATE1', () => {
     expect(expr.disabledReason).toMatch(/CONFIRM MOBILE AUTHORITY FIRST/i);
   });
 
-  it('pair review stays disabled until desktop and tablet exist after experience approval', () => {
+  it('pair review stays disabled until viewport expression packages are approved', () => {
     const stages = railForPipeline({
       ...pipelineWithFamily(
         baseFamily({
@@ -205,7 +205,7 @@ describe('P0.VR.RIGHT-RAIL-CONFIRMED-AUTHORITY-DOWNSTREAM-GATE1', () => {
         approvedAt: new Date().toISOString(),
       },
     });
-    expect(findGpt2HeroRailAction(stages, 'vf-pair-review')!.disabled).toBe(false);
+    expect(findGpt2HeroRailAction(stages, 'vf-pair-review')!.disabled).toBe(true);
   });
 
   it('changing confirmed authority invalidates downstream readiness in orchestration', () => {

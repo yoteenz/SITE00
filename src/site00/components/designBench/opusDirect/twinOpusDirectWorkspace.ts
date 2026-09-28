@@ -62,6 +62,11 @@ import {
   resolveExperienceExpressionStatus,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
 import {
+  isViewportExpressionApproved,
+  resolveViewportBaseAuthorityStatus,
+  viewportExpressionPackageExists,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportExpressionAuthority.js';
+import {
   resolveMobileConceptForSelection,
   resolveMobileGalleryCandidateConceptId,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
@@ -921,6 +926,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         const family = pageConceptGeneration.pipelineSet?.viewportAuthorityFamily ?? null;
         const mobileConfirmed = isMobileAuthorityConfirmed(family);
         const experienceApproved = resolveExperienceExpressionStatus(pageConceptGeneration.pipelineSet) === 'APPROVED';
+        const desktopBaseReady = resolveViewportBaseAuthorityStatus(family, 'DESKTOP') === 'READY';
+        const tabletBaseReady = resolveViewportBaseAuthorityStatus(family, 'TABLET') === 'READY';
+        const desktopExpressionApproved = isViewportExpressionApproved(pageConceptGeneration.pipelineSet, 'DESKTOP');
+        const tabletExpressionApproved = isViewportExpressionApproved(pageConceptGeneration.pipelineSet, 'TABLET');
         switch (actionId) {
           case 'vf-select-mobile': {
             const resolvedId =
@@ -938,17 +947,47 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             break;
           case 'vf-run-tablet':
             if (!mobileConfirmed || !experienceApproved) return;
+            if (tabletBaseReady) {
+              setViewport('TABLET');
+              break;
+            }
             void handlers.runTablet();
             break;
           case 'vf-run-desktop':
             if (!mobileConfirmed || !experienceApproved) return;
+            if (desktopBaseReady) {
+              setViewport('DESKTOP');
+              break;
+            }
             void handlers.runDesktop();
             break;
+          case 'vf-desktop-expression':
+            if (!mobileConfirmed || !experienceApproved || !desktopBaseReady) return;
+            if (!viewportExpressionPackageExists(pageConceptGeneration.pipelineSet, 'DESKTOP')) {
+              void handlers.generateDesktopExpression();
+            }
+            setViewport('DESKTOP');
+            void pageConceptGeneration.openGenerationConsole('DESKTOP');
+            break;
+          case 'vf-tablet-expression':
+            if (!mobileConfirmed || !experienceApproved || !tabletBaseReady) return;
+            if (!viewportExpressionPackageExists(pageConceptGeneration.pipelineSet, 'TABLET')) {
+              void handlers.generateTabletExpression();
+            }
+            setViewport('TABLET');
+            void pageConceptGeneration.openGenerationConsole('TABLET');
+            break;
           case 'vf-pair-review': {
-            if (!mobileConfirmed || !experienceApproved) return;
-            const tabletReady = Boolean(family?.tabletArtifactId);
-            const desktopReady = Boolean(family?.desktopArtifactId);
-            if (!tabletReady || !desktopReady) return;
+            if (
+              !mobileConfirmed ||
+              !experienceApproved ||
+              !desktopBaseReady ||
+              !tabletBaseReady ||
+              !desktopExpressionApproved ||
+              !tabletExpressionApproved
+            ) {
+              return;
+            }
             prodActions.runPairReview();
             break;
           }

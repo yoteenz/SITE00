@@ -89,6 +89,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       case 'regenerateDesktop':
         action = { type: 'regenerateDesktop', dryRun: body.dryRun === true };
         break;
+      case 'generateDesktopViewportExpression':
+        action = { type: 'generateDesktopViewportExpression' };
+        break;
+      case 'generateTabletViewportExpression':
+        action = { type: 'generateTabletViewportExpression' };
+        break;
+      case 'approveDesktopViewportExpression':
+        action = { type: 'approveDesktopViewportExpression' };
+        break;
+      case 'approveTabletViewportExpression':
+        action = { type: 'approveTabletViewportExpression' };
+        break;
       case 'approveViewportFamily':
         action = { type: 'approveViewportFamily' };
         break;
