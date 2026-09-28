@@ -4,7 +4,10 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { applyPageConceptServerRunSnapshotForGalleryMount } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import {
+  applyPageConceptServerRunSnapshotForGalleryMount,
+  mergePageConceptGenerationStateWithServerRunSnapshot,
+} from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import {
   preserveLocalViewportAuthorityFamilyProgressAfterServerMerge,
   rehydrateViewportAuthorityFamilyFromPipelineSignals,
@@ -238,6 +241,41 @@ describe('P0 mobile authority selection persist across refresh', () => {
     const merged = applyPageConceptServerRunSnapshotForGalleryMount(emptyLocal, serverRun);
     expect(merged.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId).toBe('concept-a');
     expect(merged.pipelineSet?.viewportAuthorityFamily?.mobileAuthorityStatus).toBe('SELECTED');
+  });
+
+  it('preserves mobile authority when poll-style server snapshot merge runs (applyServerRunSnapshotToState path)', () => {
+    let local = baseState();
+    local = pageConceptConfirmMobileAuthority(pageConceptSelectMobileConcept(local, 'concept-a').state).state;
+
+    const serverRun: PageConceptServerRunSnapshot = {
+      runId: 'run-123',
+      projectId: 'ndxbook',
+      pageId: 'page-overview',
+      status: 'COMPLETED',
+      generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION',
+      currentStage: null,
+      createdAt: '2026-09-27T12:00:00.000Z',
+      updatedAt: '2026-09-27T11:00:00.000Z',
+      completedAt: '2026-09-27T12:00:00.000Z',
+      jobs: local.generationJobs,
+      pipelineSet: {
+        ...local.pipelineSet!,
+        viewportAuthorityFamily: null,
+        selectedMobileConceptId: undefined,
+      },
+      plan: null,
+      cgptMeta: null,
+      panelProgress: null,
+      cgptSubsteps: null,
+      progressEvents: [],
+      latestProgressSequence: 0,
+    };
+
+    const merged = mergePageConceptGenerationStateWithServerRunSnapshot(local, serverRun, {
+      mobileJobMode: 'merge',
+      syncRunIdentity: true,
+    });
+    expect(merged.pipelineSet?.viewportAuthorityFamily?.mobileAuthorityStatus).toBe('CONFIRMED');
   });
 
   it('detects when local founder progress should win over server merge', () => {

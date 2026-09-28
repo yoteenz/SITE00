@@ -81,6 +81,19 @@ export function shouldReplaceLocalPageConceptStateWithServerRun(
   const localRunId = local.activeGenerationRunId ?? local.activeReviewRunId ?? null;
 
   if (options?.preferServerGallery) {
+    const localFamily = local.pipelineSet?.viewportAuthorityFamily;
+    const serverFamily = server.pipelineSet?.viewportAuthorityFamily;
+    if (localFamily?.selectedMobileConceptId && !serverFamily?.selectedMobileConceptId) {
+      const localFamilyTs = localFamily.updatedAt ? Date.parse(localFamily.updatedAt) : 0;
+      const serverUpdated = server.updatedAt ? Date.parse(server.updatedAt) : 0;
+      if (
+        Number.isFinite(localFamilyTs) &&
+        localFamilyTs > 0 &&
+        (!Number.isFinite(serverUpdated) || localFamilyTs >= serverUpdated)
+      ) {
+        return false;
+      }
+    }
     return true;
   }
 
@@ -91,31 +104,63 @@ export function shouldReplaceLocalPageConceptStateWithServerRun(
   return false;
 }
 
-/** Replace mobile GPT2 jobs from a server run and rebuild the in-memory gallery store inputs. */
-export function applyPageConceptServerRunSnapshotForGalleryMount(
-  state: PageConceptGenerationState,
+export type MergePageConceptServerRunSnapshotOptions = {
+  /** Gallery mount replaces GPT2 mobile jobs; poll/progress merges all job types. */
+  mobileJobMode?: 'replace' | 'merge';
+  syncRunIdentity?: boolean;
+};
+
+/**
+ * Merge a durable server run into local generation state without clobbering founder
+ * viewport-family progress (select/confirm/experience).
+ */
+export function mergePageConceptGenerationStateWithServerRunSnapshot(
+  local: PageConceptGenerationState,
   run: PageConceptServerRunSnapshot,
+  options?: MergePageConceptServerRunSnapshotOptions,
 ): PageConceptGenerationState {
+  const mobileJobMode = options?.mobileJobMode ?? 'replace';
+  const syncRunIdentity = options?.syncRunIdentity ?? true;
+
   let next: PageConceptGenerationState = {
-    ...state,
-    activeGenerationRunId: run.runId,
-    activeReviewRunId: run.runId,
-    generationStatus: run.generationStatus,
-    activeGenerationStage: run.currentStage,
+    ...local,
+    ...(syncRunIdentity ?
+      {
+        activeGenerationRunId: run.runId,
+        activeReviewRunId: run.runId,
+        generationStatus: run.generationStatus,
+        activeGenerationStage: run.currentStage,
+      }
+    : {}),
   };
   if (run.pipelineSet) {
     next = applyPageConceptPipelineSet(next, run.pipelineSet);
   }
   const mobileJobs = run.jobs.filter((j) => j.provider === 'GPT2_MOBILE');
-  const preservedJobs = next.generationJobs.filter((j) => j.provider !== 'GPT2_MOBILE');
-  if (mobileJobs.length > 0) {
-    next = registerPageConceptGenerationJobs({ ...next, generationJobs: preservedJobs }, mobileJobs);
+  if (mobileJobMode === 'replace') {
+    const preservedJobs = next.generationJobs.filter((j) => j.provider !== 'GPT2_MOBILE');
+    if (mobileJobs.length > 0) {
+      next = registerPageConceptGenerationJobs({ ...next, generationJobs: preservedJobs }, mobileJobs);
+    } else if (run.jobs.length > 0) {
+      next = mergePageConceptGenerationJobs({ ...next, generationJobs: preservedJobs }, run.jobs);
+    } else {
+      next = { ...next, generationJobs: preservedJobs };
+    }
   } else if (run.jobs.length > 0) {
-    next = mergePageConceptGenerationJobs({ ...next, generationJobs: preservedJobs }, run.jobs);
-  } else {
-    next = { ...next, generationJobs: preservedJobs };
+    next = mergePageConceptGenerationJobs(next, run.jobs);
   }
   const withGallery = mergePageConceptArtifactsIntoGallery(next);
-  const merged = preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(state, withGallery);
+  const merged = preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(local, withGallery);
   return rehydrateViewportAuthorityFamilyFromPipelineSignals(merged);
+}
+
+/** Replace mobile GPT2 jobs from a server run and rebuild the in-memory gallery store inputs. */
+export function applyPageConceptServerRunSnapshotForGalleryMount(
+  state: PageConceptGenerationState,
+  run: PageConceptServerRunSnapshot,
+): PageConceptGenerationState {
+  return mergePageConceptGenerationStateWithServerRunSnapshot(state, run, {
+    mobileJobMode: 'replace',
+    syncRunIdentity: true,
+  });
 }

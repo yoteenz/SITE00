@@ -20,6 +20,7 @@ import { listPageConceptCandidates } from '../../../../../shared/site00-design-w
 import { refreshPageConceptGalleryFromPersistedState, syncPageConceptGalleryFromLoadedGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import { consolidatePageConceptGenerationStateStorage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
+import { mergePageConceptGenerationStateWithServerRunSnapshot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
@@ -42,6 +43,7 @@ import { applyPageConceptNewGenerationBranchReset } from '../../../../../shared/
 import type { PageConceptViewportFamilyAction } from '../../../../../api/_lib/site00PageConcept/runPageConceptViewportFamilyAction.js';
 import { pageConceptViewportFamilyActionApi } from '../../../services/pageConceptViewportFamilyClient.js';
 import { ensureGpt2MobileConceptCatalog } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
+import { rehydrateViewportAuthorityFamilyFromPipelineSignals } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamilyPersistence.js';
 import {
   pageConceptConfirmMobileAuthority,
   pageConceptSelectMobileConcept,
@@ -248,27 +250,10 @@ function applyServerRunSnapshotToState(
   presentedSubsteps?: PageConceptPresentedSubstepState | null,
 ): void {
   persist((s) => {
-    let next = s;
-    if (run.pipelineSet) {
-      next = applyPageConceptPipelineSet(next, run.pipelineSet);
-    }
-    if (run.jobs.length > 0) {
-      next = mergePageConceptGenerationJobs(next, run.jobs);
-      next = mergePageConceptArtifactsIntoGallery(next);
-    }
-    if (run.pipelineSet?.mobileConcepts?.length) {
-      next = {
-        ...next,
-        pipelineSet: next.pipelineSet ?
-          {
-            ...next.pipelineSet,
-            ...run.pipelineSet,
-            mobileConcepts: run.pipelineSet.mobileConcepts,
-          }
-        : run.pipelineSet,
-      };
-      next = mergePageConceptArtifactsIntoGallery(next);
-    }
+    let next = mergePageConceptGenerationStateWithServerRunSnapshot(s, run, {
+      mobileJobMode: 'merge',
+      syncRunIdentity: true,
+    });
     const snapshotMap =
       run.panelProgress?.substepStatusById ??
       mergeCgptSubstepDetailIntoEventMap(run.cgptSubsteps);
@@ -371,12 +356,15 @@ export function usePageConceptGeneration(
     const onUpdated = (event: Event) => {
       const detail = (event as CustomEvent<{ projectId?: string; pageId?: string }>).detail;
       if (!designPageCaptureEventMatches(projectId, pageId, detail)) return;
-      const loaded = loadPageConceptGenerationStateForDesignPage({
+      const rawLoaded = loadPageConceptGenerationStateForDesignPage({
         projectSlug: projectId,
         pageId,
         screenId,
         route: route ?? null,
       });
+      const loaded = rehydrateViewportAuthorityFamilyFromPipelineSignals(
+        ensureGpt2MobileConceptCatalog(rawLoaded),
+      );
       setState(loaded);
       syncPageConceptGalleryFromLoadedGenerationState(loaded, { projectId, pageId });
       if (pageConceptReviewReady(loaded.generationStatus)) setOverlayMode('review');
@@ -1983,6 +1971,7 @@ export function usePageConceptGeneration(
           } else {
             result = { state: pageConceptConfirmMobileAuthority(current).state };
           }
+          void pageConceptViewportFamilyActionApi({ ...apiPayload, state: current }).catch(() => undefined);
         }
         applyViewportFamilyResult(result);
         if (action.type === 'generateExperienceExpression') {
