@@ -12399,3 +12399,13 @@ Founder on **site00.com**: gallery A/B/C visible, **SELECT MOBILE CONCEPT** did 
 - **Cause:** Successful **`selectMobileConcept`** updated page-concept state, then **`useEffect`** synced **`selectGalleryCandidate`** to design-workspace-production API; when API returned **503/unavailable**, **`runCommand` reverted** optimistic local production state and surfaced **AUTHORITY STATE UNAVAILABLE**. **`dispatchViewportFamilyAction`** also **`await`ed `ensurePageConceptApiAccessToken`** before local select/confirm, so slow auth could block the founder step.
 - **Fix:** Production **`runCommand`**: on **unavailable**, apply **`localFallback`** instead of revert (gallery selection stays). **Mobile select/confirm**: **local-first** in **`usePageConceptGeneration`**, background API sync best-effort. Gallery **select-mobile** resolves **`resolveMobileConceptForSelection`** alias ids.
 - **Founder flow after deploy:** Tap gallery **SELECT MOBILE CONCEPT** → hero **CONFIRM MOBILE AUTHORITY** → **OPEN EXPERIENCE** (expression). Dismiss stale error banner if shown; hard refresh after cPanel ZIP.
+
+---
+
+## 2026-09-28 — Design page crash after concept gallery sync (post-v715)
+
+Founder: concepts **sync on deploy** then **page crashes** (white / React max update depth).
+
+- **Cause:** After server gallery mount, **`selectedMobileConceptId`** could be a **pipeline alias** not matching gallery card **`conceptId`s**. Competing **`useEffect`** hooks in **`twinOpusDirectWorkspace`** ping-ponged **`candidateId`** between authority id and **`currentIds[0]`**. Repeated **`selectGalleryCandidate`** also bumped production **`updatedAt`** even when id unchanged, re-firing effects.
+- **Fix:** **`resolveMobileGalleryCandidateConceptId`** (alias-safe authority → gallery row). Authority sync effect only applies when resolved id is in gallery; current-run effect skips override when authority maps to a current card. **`transitionSelectGalleryCandidate`** + **`selectGalleryCandidate`** no-op when id unchanged.
+- **Deploy:** cPanel ZIP after merge; hard refresh NDXBOOK design overview after sync completes.
