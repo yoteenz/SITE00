@@ -108,7 +108,9 @@ describe('P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1', 
     });
     const mobileStage = stages.find((x) => x.id === 'mobile-authority')!;
     expect(mobileStage.statusLabel).toBe('CONFIRMED');
-    expect(mobileStage.actions.some((a) => a.id === 'vf-confirm-mobile')).toBe(false);
+    const confirm = mobileStage.actions.find((a) => a.id === 'vf-confirm-mobile');
+    expect(confirm).toBeTruthy();
+    expect(confirm?.disabled).toBe(true);
   });
 
   it('experience READY_FOR_REVIEW requires artifact; tablet blocked until approval', async () => {
@@ -152,7 +154,7 @@ describe('P0.VR.MOBILE-AUTHORITY-CONFIRM-AND-EXPERIENCE-EXPRESSION-STAGE-FIX1', 
       .find((x) => x.id === 'tablet')!
       .actions.find((a) => a.id === 'vf-run-tablet');
     expect(tabletAction?.disabled).toBe(true);
-    expect(tabletAction?.disabledReason).toMatch(/APPROVE EXPERIENCE FIRST/);
+    expect(tabletAction?.disabledReason).toMatch(/approve experience first/i);
   });
 
   it('experience approval unlocks tablet and desktop generation', async () => {

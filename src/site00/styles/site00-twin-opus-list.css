@@ -290,6 +290,23 @@
   border-bottom: 1px solid var(--tod-border-subtle);
 }
 
+.tod-lv-rail__actionWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3.9px;
+  width: 100%;
+}
+
+.tod-lv-rail__actionBlocker {
+  margin: 0;
+  padding: 0 3.9px;
+  font-size: 13.8px;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
+}
+
 .tod-lv-rail__vfStage--emphasis .tod-lv-rail__vfStageLabel {
   color: var(--tod-lime);
 }
@@ -363,12 +380,14 @@
 }
 
 .tod-lv-rail--heroWorkflow .tod-lv-rail__action--surface-disabled,
-.tod-lv-rail--heroWorkflow .tod-lv-rail__vfStage .tod-lv-rail__action:disabled {
-  background: #ececec;
-  color: #6a6a6a;
-  border: 2px solid #c8c8c8;
+.tod-lv-rail--heroWorkflow .tod-lv-rail__vfStage .tod-lv-rail__action:disabled,
+.tod-lv-rail--heroWorkflow .tod-lv-rail__action--blocked:disabled {
+  background: #f4f4f4;
+  color: #303030;
+  border: 2px solid #9a9a9a;
   opacity: 1;
   cursor: not-allowed;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 .tod-lv-hero-compare__grid {

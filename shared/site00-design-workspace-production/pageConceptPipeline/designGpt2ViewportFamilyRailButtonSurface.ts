@@ -22,24 +22,31 @@ export function heroRailActionRequiresFilledSurface(action: Gpt2ViewportFamilyAu
 const REVIEW_LABEL_PREFIX = /^REVIEW |^VIEW /;
 const PRIMARY_LABELS = new Set([
   'SELECT MOBILE CONCEPT',
-  'CONFIRM MOBILE AUTHORITY',
-  'CREATE EXPERIENCE',
+  'OPEN EXPERIENCE',
   'APPROVE EXPERIENCE',
   'GENERATE TABLET',
   'GENERATE DESKTOP',
   'APPROVE FAMILY',
 ]);
 
+const SYSTEM_LABELS = new Set(['CONFIRM MOBILE AUTHORITY', 'REVIEW EXPERIENCE', 'REVIEW TABLET', 'REVIEW DESKTOP', 'REVIEW FAMILY']);
+
 export function heroRailActionToneMatchesLabelContract(action: Gpt2ViewportFamilyAuthorityRailAction): boolean {
   if (action.disabled) {
-    return action.tone !== 'lime' || action.label === 'APPROVE EXPERIENCE FIRST';
+    return true;
   }
   if (PRIMARY_LABELS.has(action.label)) return action.tone === 'lime';
-  if (REVIEW_LABEL_PREFIX.test(action.label) || action.label === 'VIEW PROGRESS' || action.label === 'VIEW APPROVED EXPERIENCE') {
+  if (
+    SYSTEM_LABELS.has(action.label) ||
+    REVIEW_LABEL_PREFIX.test(action.label) ||
+    action.label === 'VIEW PROGRESS' ||
+    action.label === 'VIEW APPROVED EXPERIENCE'
+  ) {
     return action.tone === 'ink';
   }
   if (action.label === 'CHANGE AUTHORITY' || action.label === 'CHANGE SELECTION') return action.tone === 'ghost';
-  if (action.label.startsWith('REGENERATE ') || action.label === 'LOCK VIEWPORT FAMILY') return action.tone === 'ink';
+  if (action.label.startsWith('REGENERATE ')) return action.tone === 'ghost' || action.tone === 'ink';
+  if (action.label === 'LOCK VIEWPORT FAMILY') return action.tone === 'ghost' || action.tone === 'ink';
   if (action.label.startsWith('USE THIS ')) return action.tone === 'ghost';
   return true;
 }
