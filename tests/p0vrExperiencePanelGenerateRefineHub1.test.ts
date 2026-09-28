@@ -19,19 +19,15 @@ const SECTIONS_TSX = readFileSync(
 );
 
 describe('P0.VR.EXPERIENCE-PANEL-GENERATE-REFINE-HUB1', () => {
-  it('hero rail OPEN / VIEW actions only open the experience review overlay', () => {
-    expect(TWIN_WORKSPACE_TS).toContain("case 'vf-create-experience':");
-    expect(TWIN_WORKSPACE_TS).toContain("case 'vf-review-experience':");
+  it('hero rail expression action only opens the experience review overlay', () => {
+    expect(TWIN_WORKSPACE_TS).toContain("case 'vf-expression':");
     expect(TWIN_WORKSPACE_TS).toContain('pageConceptGeneration.openExperienceReview();');
     expect(TWIN_WORKSPACE_TS).not.toMatch(
-      /case 'vf-create-experience':[\s\S]*?dispatchViewportFamilyAction\(\{ type: 'generateExperienceExpression'/,
-    );
-    expect(TWIN_WORKSPACE_TS).not.toMatch(
-      /case 'vf-review-experience':[\s\S]*?dispatchViewportFamilyAction\(\{ type: 'generateExperienceExpression'/,
+      /case 'vf-expression':[\s\S]*?dispatchViewportFamilyAction\(\{ type: 'generateExperienceExpression'/,
     );
   });
 
-  it('empty experience stage uses OPEN EXPERIENCE rail label', () => {
+  it('empty experience stage uses CREATE EXPRESSION rail label', () => {
     const stage = buildGpt2ViewportFamilyHeroRailStages({
       pipelineSet: {
         viewportAuthorityFamily: {
@@ -53,8 +49,8 @@ describe('P0.VR.EXPERIENCE-PANEL-GENERATE-REFINE-HUB1', () => {
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     }).find((s) => s.id === 'experience')!;
-    expect(stage.actions[0]?.label).toBe('OPEN EXPERIENCE');
-    expect(stage.valueLine).toContain('OPEN PANEL TO GENERATE');
+    expect(stage.actions[0]?.label).toBe('CREATE EXPRESSION');
+    expect(stage.valueLine).toContain('NOT CREATED');
   });
 
   it('empty panel footer exposes generate for mobile thumb reach', () => {

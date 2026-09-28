@@ -255,7 +255,7 @@ export function PairReviewPanel({ production }: { production: TwinOpusDirectProd
   const mobile = state.promotedMobileConceptId ? twinOpusDirectCandidateArtifactView(state.promotedMobileConceptId) : null;
   const desktop =
     state.promotedDesktopConceptId ? twinOpusDirectCandidateArtifactView(state.promotedDesktopConceptId) : null;
-  const [layout, setLayout] = useState<'SIDE' | 'STACK'>('SIDE');
+  const [layout, setLayout] = useState<'DESKTOP_ROW' | 'TABLET_GRID' | 'MOBILE_STACK'>('DESKTOP_ROW');
 
   return (
     <OverlayBody>
@@ -264,56 +264,88 @@ export function PairReviewPanel({ production }: { production: TwinOpusDirectProd
         active={layout}
         onSelect={(id) => setLayout(id as typeof layout)}
         tabs={[
-          { id: 'SIDE', label: 'SIDE BY SIDE' },
-          { id: 'STACK', label: 'STACKED' },
+          { id: 'DESKTOP_ROW', label: 'DESKTOP ROW' },
+          { id: 'TABLET_GRID', label: 'TABLET GRID' },
+          { id: 'MOBILE_STACK', label: 'MOBILE STACK' },
         ]}
       />
 
-      <OverlayCompare stack={layout === 'STACK'}>
+      <OverlayCompare stack={layout === 'MOBILE_STACK'}>
         <OverlayPreview
           src={mobile?.src}
-          caption={`MOBILE · ${state.mobileVersion}`}
-          side={<OverlayStatus label={state.promotedMobileConceptId ? 'PROMOTED' : 'MISSING'} />}
+          caption={`MOBILE AUTHORITY · ${state.mobileVersion}`}
+          side={<OverlayStatus label={state.promotedMobileConceptId ? 'AUTHORITY' : 'MISSING'} />}
           onOpen={mobile?.src ? () => actions.openFullscreenArtifact(mobile) : undefined}
-          emptyLabel="NO MOBILE PROMOTION YET"
-          emptyHint="Promote a mobile concept before pair review can compare."
+          emptyLabel="MOBILE AUTHORITY MISSING"
+          emptyHint="Confirm mobile authority before pair review."
         />
         <OverlayPreview
           src={desktop?.src}
-          caption={`DESKTOP · ${state.desktopVersion}`}
-          side={<OverlayStatus label={state.promotedDesktopConceptId ? 'PROMOTED' : 'MISSING'} />}
+          caption={`DESKTOP AUTHORITY · ${state.desktopVersion}`}
+          side={<OverlayStatus label={state.promotedDesktopConceptId ? 'AUTHORITY' : 'MISSING'} />}
           onOpen={desktop?.src ? () => actions.openFullscreenArtifact(desktop) : undefined}
-          emptyLabel="NO DESKTOP PROMOTION YET"
-          emptyHint="Promote a desktop concept before pair review can compare."
+          emptyLabel="DESKTOP AUTHORITY MISSING"
+          emptyHint="Create desktop interpretation before pair review."
         />
+        {layout !== 'MOBILE_STACK' ?
+          <OverlayPreview
+            src={undefined}
+            caption="TABLET AUTHORITY"
+            side={
+              <OverlayStatus
+                label={state.tabletDerivedOk || state.tabletOverrideApprovedAt ? 'AUTHORITY' : 'PENDING'}
+              />
+            }
+            emptyLabel="TABLET AUTHORITY"
+            emptyHint="Create tablet interpretation — preview mounts from viewport gallery when ready."
+          />
+        : null}
       </OverlayCompare>
 
-      <OverlaySection title="RESPONSIVE CONTRACT" flat>
+      <OverlaySection title="EXPERIENCE PACKAGE" flat>
         <OverlayMeta
           entries={[
-            { k: 'TABLET', v: state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'DERIVED FROM PAIR' },
+            { k: 'STATUS', v: <OverlayStatus label="REVIEW IN EXPERIENCE PANEL" /> },
             {
-              k: 'TABLET STATE',
-              v: <OverlayStatus label={state.tabletDerivedOk || state.tabletOverrideApprovedAt ? 'PASS' : 'BLOCKED'} />,
+              k: 'PACKAGE',
+              v: 'Approved experience expressions inherit into Desktop + Tablet interpretations.',
             },
+          ]}
+        />
+        <OverlayActions
+          primary={{ label: 'VIEW EXPERIENCE PACKAGE', onClick: () => actions.runPipelineHandler('openExperienceReview') }}
+        />
+      </OverlaySection>
+
+      <OverlaySection title="VIEWPORT FAMILY DETAILS" flat>
+        <OverlayMeta
+          entries={[
+            { k: 'MOBILE', v: state.promotedMobileConceptId ?? '—' },
+            { k: 'DESKTOP', v: state.promotedDesktopConceptId ?? '—' },
+            { k: 'TABLET MODE', v: state.tabletMode === 'OVERRIDE' ? 'OVERRIDE' : 'RESPONSIVE INTERPRETATION' },
             { k: 'PAIR STATUS', v: projection.pairStatusLabel },
             { k: 'WORKFLOW STAGE', v: state.workflowStage.replace(/_/g, ' ') },
+            { k: 'CONTENT STATUS', v: projection.pairStatusLabel },
+            { k: 'LINEAGE', v: state.designAuthorityVersion },
           ]}
         />
       </OverlaySection>
 
       {projection.buildEligible ?
         <OverlayCallout title="READINESS" tone="next">
-          Build transition is eligible once you confirm.
+          Confirm the responsive authority family to unlock CREATE FRAMEWORK.
         </OverlayCallout>
       : <OverlayCallout title="READINESS" tone="blocked">
-          Resolve blocked gates before MOVE TO BUILD.
+          Complete mobile, experience, desktop, and tablet workflow before confirming.
         </OverlayCallout>
       }
 
       <OverlayActions
-        primary={{ label: 'REVIEW AUTHORITY', onClick: actions.openReviewAuthority }}
-        secondary={[{ label: 'LOCK AUTHORITY PAIR', onClick: actions.runLockAuthorityPair }]}
+        primary={{
+          label: 'CONFIRM VIEWPORT FAMILY',
+          onClick: () => actions.runPipelineHandler('confirmViewportFamilyGpt2'),
+        }}
+        secondary={[{ label: 'REVIEW AUTHORITY', onClick: actions.openReviewAuthority }]}
       />
     </OverlayBody>
   );

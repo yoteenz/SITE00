@@ -61,7 +61,9 @@ export type PipelineResolutionHandler =
   | 'openGenerateAssets'
   | 'openGrokDock'
   | 'scrollGallery'
-  | 'generatePageConcepts';
+  | 'generatePageConcepts'
+  | 'confirmViewportFamilyGpt2'
+  | 'openExperienceReview';
 
 export type PageWorkflowBlocker = {
   blockerId: string;

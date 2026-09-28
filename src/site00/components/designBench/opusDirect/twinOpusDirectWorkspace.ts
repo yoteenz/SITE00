@@ -925,60 +925,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           case 'vf-confirm-mobile':
             void handlers.confirmMobileAuthority();
             break;
-          case 'vf-change-mobile':
-            prodActions.selectGalleryCandidate('');
-            break;
-          case 'vf-create-experience':
-          case 'vf-review-experience':
+          case 'vf-expression':
             pageConceptGeneration.openExperienceReview();
             break;
-          case 'vf-approve-experience':
-            pageConceptGeneration.openExperienceReview();
-            break;
-          case 'vf-review-tablet':
-          case 'vf-review-desktop':
-          case 'vf-review-family':
-            pageConceptGeneration.openGenerationConsole(viewport);
-            break;
-          case 'vf-use-tablet': {
-            const tabletRow = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
-              (c) => c.artifactRole === 'TABLET_INTERPRETATION' && c.runGroup !== 'HISTORY',
-            );
-            if (tabletRow) {
-              setCandidateId(tabletRow.conceptId);
-              setViewportCandidateIds((prev) => ({ ...prev, TABLET: tabletRow.conceptId }));
-              prodActions.selectGalleryCandidate(tabletRow.conceptId);
-            }
-            break;
-          }
-          case 'vf-use-desktop': {
-            const desktopRow = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
-              (c) => c.artifactRole === 'DESKTOP_INTERPRETATION' && c.runGroup !== 'HISTORY',
-            );
-            if (desktopRow) {
-              setCandidateId(desktopRow.conceptId);
-              setViewportCandidateIds((prev) => ({ ...prev, DESKTOP: desktopRow.conceptId }));
-              prodActions.selectGalleryCandidate(desktopRow.conceptId);
-            }
-            break;
-          }
           case 'vf-run-tablet':
             void handlers.runTablet();
-            break;
-          case 'vf-regenerate-tablet':
-            void handlers.regenerateTablet();
             break;
           case 'vf-run-desktop':
             void handlers.runDesktop();
             break;
-          case 'vf-regenerate-desktop':
-            void handlers.regenerateDesktop();
-            break;
-          case 'vf-approve-family':
-            void handlers.approveFamily();
-            break;
-          case 'vf-lock-family':
-            void handlers.lockFamily();
+          case 'vf-pair-review':
+            prodActions.runPairReview();
             break;
           default:
             break;
@@ -1296,6 +1253,15 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             break;
           case 'openGrokDock':
             prodActions.openGrokPageAssetProduction();
+            break;
+          case 'confirmViewportFamilyGpt2': {
+            const vfHandlers = pageConceptGeneration.viewportFamilyHandlers;
+            void vfHandlers.approveFamily();
+            void vfHandlers.lockFamily();
+            break;
+          }
+          case 'openExperienceReview':
+            pageConceptGeneration.openExperienceReview();
             break;
           case 'scrollGallery':
             document.querySelector('.tod-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1775,6 +1741,9 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         const pageCtx = compileDesignPageContext(projectSlug, pageTarget.pageId);
         const concepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
         const staged = listStagedGrokAssets(projectSlug, pageTarget.pageId);
+        const vfFamily = pageConceptGeneration.pipelineSet?.viewportAuthorityFamily ?? null;
+        const viewportFamilyConfirmed =
+          vfFamily?.status === 'LOCKED' || vfFamily?.status === 'APPROVED';
         const model = computeHeroAssemblyActions({
           projectId: projectSlug,
           pageId: pageTarget.pageId,
@@ -1785,6 +1754,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           twinRoute: pageCtx?.route ?? null,
           hasPageConceptCandidates: concepts.length > 0,
           grokGenerationInProgress: staged.some((a) => a.status === 'STAGED'),
+          canonicalGpt2ViewportFamilyPipeline: isCanonicalGpt2ViewportFamilyPipeline(
+            pageConceptGeneration.pipelineSet,
+          ),
+          viewportFamilyConfirmed,
         });
         return {
           ...model,

@@ -151,8 +151,9 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1', () =>
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     }).find((x) => x.id === 'experience')!;
-    expect(expStageBefore.statusLabel).toBe('NOT STARTED');
-    expect(expStageBefore.actions.some((a) => a.id === 'vf-create-experience')).toBe(true);
+    expect(expStageBefore.statusLabel).toBe('NOT CREATED');
+    expect(expStageBefore.actions.some((a) => a.id === 'vf-expression')).toBe(true);
+    expect(expStageBefore.actions[0]?.label).toBe('CREATE EXPRESSION');
 
     r = await runPageConceptViewportFamilyAction(r.state, { type: 'generateExperienceExpression', dryRun: true });
 
@@ -167,8 +168,9 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-FAL-GENERATION-REVIEW-AND-HANDOFF1', () =>
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     }).find((x) => x.id === 'experience')!;
-    expect(expStageAfter.actions.some((a) => a.id === 'vf-create-experience')).toBe(false);
-    expect(expStageAfter.actions.find((a) => a.id === 'vf-review-experience')?.label).toBe('VIEW EXPERIENCE');
+    expect(expStageAfter.actions).toHaveLength(1);
+    expect(expStageAfter.actions[0]?.id).toBe('vf-expression');
+    expect(expStageAfter.actions[0]?.label).toBe('VIEW EXPRESSION');
     expect(falSpy.mock.calls.length).toBeGreaterThan(0);
     expect(r.jobs?.every((j) => j.provider === 'FAL_EXPERIENCE')).toBe(true);
     expect(r.jobs?.every((j) => j.imageUri?.startsWith('data:image/'))).toBe(true);

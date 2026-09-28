@@ -22,14 +22,19 @@ export function heroRailActionRequiresFilledSurface(action: Gpt2ViewportFamilyAu
 const REVIEW_LABEL_PREFIX = /^REVIEW |^VIEW /;
 const PRIMARY_LABELS = new Set([
   'SELECT MOBILE CONCEPT',
-  'OPEN EXPERIENCE',
-  'APPROVE EXPERIENCE',
-  'GENERATE TABLET',
-  'GENERATE DESKTOP',
-  'APPROVE FAMILY',
+  'SELECTED MOBILE ✓',
+  'CREATE EXPRESSION',
+  'CREATE DESKTOP',
 ]);
 
-const SYSTEM_LABELS = new Set(['CONFIRM MOBILE AUTHORITY', 'REVIEW EXPERIENCE', 'REVIEW TABLET', 'REVIEW DESKTOP', 'REVIEW FAMILY']);
+const SYSTEM_LABELS = new Set([
+  'CONFIRM MOBILE AUTHORITY',
+  'VIEW EXPRESSION',
+  'CREATE TABLET',
+  'TABLET CREATED ✓',
+  'DESKTOP CREATED ✓',
+  'PAIR REVIEW',
+]);
 
 export function heroRailActionToneMatchesLabelContract(action: Gpt2ViewportFamilyAuthorityRailAction): boolean {
   if (action.disabled) {

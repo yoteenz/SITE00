@@ -104,22 +104,41 @@ function sampleStages() {
 
 describe('P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1', () => {
   it('primary actions use lime surface tier', () => {
-    const approve = sampleStages()
+    const select = buildGpt2ViewportFamilyHeroRailStages({
+      pipelineSet: null,
+      selectedMobileConceptId: null,
+      selectedGalleryCandidateId: 'mc-b',
+      selectedGalleryCandidateSlotLabel: 'CONCEPT B',
+      generating: false,
+      generationJobs: [],
+      activeViewport: 'MOBILE',
+      tabletInterpretationActive: false,
+      desktopInterpretationActive: false,
+    })
       .flatMap((s) => s.actions)
-      .find((a) => a.id === 'vf-approve-experience');
-    expect(approve?.tone).toBe('lime');
-    expect(heroRailButtonSurfaceForAction(approve!)).toBe('primary');
+      .find((a) => a.id === 'vf-select-mobile');
+    expect(select?.tone).toBe('lime');
+    expect(select?.disabled).toBe(false);
+    expect(heroRailButtonSurfaceForAction(select!)).toBe('primary');
   });
 
   it('secondary review actions use ink (black) surface tier', () => {
-    const review = sampleStages()
+    const viewExpression = sampleStages()
       .flatMap((s) => s.actions)
-      .find((a) => a.id === 'vf-review-experience');
-    expect(review?.tone).toBe('ink');
-    expect(heroRailButtonSurfaceForAction(review!)).toBe('secondary');
+      .find((a) => a.id === 'vf-expression');
+    expect(viewExpression?.tone).toBe('ink');
+    expect(viewExpression?.label).toBe('VIEW EXPRESSION');
+    expect(heroRailButtonSurfaceForAction(viewExpression!)).toBe('secondary');
   });
 
-  it('tertiary change authority uses ghost surface tier', () => {
+  it('pair review uses ghost surface tier when enabled path exists', () => {
+    const pair = sampleStages()
+      .flatMap((s) => s.actions)
+      .find((a) => a.id === 'vf-pair-review');
+    expect(pair?.tone).toBe('ghost');
+  });
+
+  it('legacy change selection is not present on canonical rail', () => {
     const change = buildGpt2ViewportFamilyHeroRailStages({
       pipelineSet: {
         pipelineSetId: 'ps-1',
@@ -168,8 +187,7 @@ describe('P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1', () => {
     })
       .flatMap((s) => s.actions)
       .find((a) => a.id === 'vf-change-mobile');
-    expect(change?.tone).toBe('ghost');
-    expect(heroRailButtonSurfaceForAction(change!)).toBe('tertiary');
+    expect(change).toBeUndefined();
   });
 
   it('disabled gate actions use muted surface tier (not lime text)', () => {
@@ -223,7 +241,7 @@ describe('P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1', () => {
       .flatMap((s) => s.actions)
       .find((a) => a.id === 'vf-run-tablet');
     expect(lockedTablet?.disabled).toBe(true);
-    expect(lockedTablet?.tone).toBe('lime');
+    expect(lockedTablet?.tone).toBe('ink');
     expect(heroRailButtonSurfaceForAction(lockedTablet!)).toBe('disabled');
   });
 

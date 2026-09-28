@@ -607,7 +607,7 @@
 .tod-rail--heroWorkflow {
   flex: 0 0 var(--tod-rail-w);
   min-width: var(--tod-rail-w);
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 

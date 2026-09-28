@@ -39,7 +39,7 @@ describe('P0.VR hero right rail full vertical restore', () => {
     expect(directCss).toContain('min-width: var(--tod-rail-w)');
   });
 
-  it('exposes all five canonical stages regardless of viewport', () => {
+  it('exposes four canonical workflow stages (six buttons) regardless of viewport', () => {
     const mobile = buildGpt2ViewportFamilyHeroRailStages({
       pipelineSet: null,
       selectedMobileConceptId: null,
@@ -54,9 +54,8 @@ describe('P0.VR hero right rail full vertical restore', () => {
     expect(mobile.map((s) => s.id)).toEqual([
       'mobile-authority',
       'experience',
-      'tablet',
-      'desktop',
-      'viewport-family',
+      'viewport-interpretations',
+      'pair',
     ]);
 
     const tablet = buildGpt2ViewportFamilyHeroRailStages({
@@ -70,8 +69,8 @@ describe('P0.VR hero right rail full vertical restore', () => {
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     });
-    expect(tablet).toHaveLength(5);
-    expect(tablet.some((s) => s.id === 'tablet' && s.emphasized)).toBe(true);
+    expect(tablet).toHaveLength(4);
+    expect(tablet.some((s) => s.id === 'viewport-interpretations' && s.emphasized)).toBe(true);
   });
 
   it('includes mobile authority select action and omits legacy authority pair copy', () => {
@@ -156,6 +155,6 @@ describe('P0.VR hero right rail full vertical restore', () => {
       desktopInterpretationActive: false,
     });
     expect(stages.find((s) => s.id === 'mobile-authority')?.valueLine).toContain('CONCEPT B');
-    expect(stages.find((s) => s.id === 'tablet')?.statusLabel).toBe('LOCKED');
+    expect(stages.find((s) => s.id === 'viewport-interpretations')?.statusLabel).toBe('LOCKED');
   });
 });
