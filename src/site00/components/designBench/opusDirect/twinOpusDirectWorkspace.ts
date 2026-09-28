@@ -178,6 +178,15 @@ import { useDesignPageCapture } from './useDesignPageCapture';
 import { usePageAuthorityWorkflow } from './usePageAuthorityWorkflow';
 import { useHydrateDesignPageCaptures } from './useHydrateDesignPageCaptures';
 import { usePageConceptGeneration } from './usePageConceptGeneration';
+import { useDesignWorkspacePipeline } from './useDesignWorkspacePipeline';
+import type { DesignWorkspacePipelineState } from '../../../../../shared/site00-design-workspace-production/designWorkspacePipelineState.js';
+import type { DesignWorkspacePipelineReadinessRow } from '../../../../../shared/site00-design-workspace-production/designWorkspacePipelineSelectors.js';
+import { isCanonicalGpt2DesignWorkspacePipeline } from '../../../../../shared/site00-design-workspace-production/designWorkspacePipelineState.js';
+import {
+  resolveGalleryPipelineBanner,
+  resolveHeroPreviewFromPipelineState,
+  viewportControlsFromPipelineState,
+} from '../../../../../shared/site00-design-workspace-production/designWorkspacePipelinePresentation.js';
 import {
   assertPageConceptGenerationGateDivergence,
   pageConceptGenerationGateFromEligibility,
@@ -382,6 +391,9 @@ export interface TwinOpusDirectWorkspaceData {
   currentGenerationUnresolvedMessage: string | null;
   latestGenerationDiagnostics: PageConceptLatestGenerationDiagnostics | null;
   heroFitMode: typeof PAGE_CONCEPT_FIT_FULL_SCREEN;
+  designWorkspacePipeline: DesignWorkspacePipelineState;
+  designWorkspacePipelineReadiness: readonly DesignWorkspacePipelineReadinessRow[];
+  galleryPipelineStatusLine: string | null;
 }
 
 export interface TwinOpusDirectWorkspaceState {
@@ -523,6 +535,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageTarget.route,
   );
   const pageAuthority = usePageAuthorityWorkflow(projectSlug, pageTarget.pageId);
+
+  const designWorkspacePipelineBundle = useDesignWorkspacePipeline({
+    projectId: projectSlug,
+    pageId: pageTarget.pageId,
+    generationState: pageConceptGeneration.generationState,
+    production: prodState,
+    pageWorkflow: pageAuthority.workflow,
+    twinRouteReachable: pageAuthority.workflow.twinRouteVerifiedAt ? true : null,
+    externalRevision: pageConceptRevision,
+  });
 
   useEffect(() => {
     writeDesignAgentViewport(viewport);
@@ -1441,8 +1463,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     const crumbs = designHeaderCrumbLabels(hierarchy);
     const shellTarget = pageTarget ?? resolveDesignPageTargetForShell(slug);
     const vpAuth = pageViewportBundle?.auth ?? null;
+    const pipelineState = designWorkspacePipelineBundle.pipeline;
+    const canonicalGpt2Pipeline = isCanonicalGpt2DesignWorkspacePipeline(pipelineState);
     const heroPreview =
-      vpAuth ?
+      canonicalGpt2Pipeline ?
+        resolveHeroPreviewFromPipelineState({
+          state: pipelineState,
+          generationState: pageConceptGeneration.generationState,
+          viewport,
+        })
+      : vpAuth ?
         resolveHeroPreviewForViewport(vpAuth, viewport)
       : resolveHeroPreviewForViewport(
           {
@@ -1455,7 +1485,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           },
           viewport,
         );
-    const viewportControls = pageViewportBundle?.controls ?? [];
+    const viewportControls =
+      canonicalGpt2Pipeline ?
+        viewportControlsFromPipelineState(pipelineState)
+      : pageViewportBundle?.controls ?? [];
     const gallerySections = buildPageConceptGallerySections({
       projectId: slug,
       pageId: shellTarget.pageId,
@@ -1712,7 +1745,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryCandidateActions: resolvePageConceptViewportGalleryActions({
         viewport,
         canonicalGpt2,
+        mobileAuthorityConfirmed: pipelineState.mobileAuthorityStatus === 'CONFIRMED',
       }),
+      galleryPipelineStatusLine: resolveGalleryPipelineBanner(pipelineState, viewport),
+      designWorkspacePipeline: pipelineState,
+      designWorkspacePipelineReadiness: designWorkspacePipelineBundle.readinessRows,
       outputTitle: TWIN_OPUS_DIRECT_OUTPUT_TITLE,
       pageSystemReview: buildPageSystemReviewModel(projectSlug, pageTarget.pageId, viewport),
       pipelineTitle: TWIN_OPUS_DIRECT_PIPELINE_TITLE,
@@ -1760,6 +1797,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             inherited,
           });
         })(),
+        designWorkspacePipeline: pipelineState,
       }),
       conceptFields: TWIN_OPUS_DIRECT_CONCEPT_FIELDS,
       amendment: TWIN_OPUS_DIRECT_AMENDMENT,
@@ -1812,6 +1850,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             pageConceptGeneration.pipelineSet,
           ),
           viewportFamilyConfirmed,
+          designWorkspacePipeline: pipelineState,
         });
         return {
           ...model,
@@ -1820,6 +1859,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       })(),
     };
   }, [
+    designWorkspacePipelineBundle.pipeline,
+    designWorkspacePipelineBundle.readinessRows,
     actor,
     candidateId,
     pagePipeline,

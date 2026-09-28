@@ -267,6 +267,11 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
             {data.galleryMountDebugLine}
           </p>
         : null}
+        {data.galleryPipelineStatusLine ?
+          <p className="tod-gallery__pipelineStatus" data-testid="page-concept-gallery-pipeline-status">
+            {data.galleryPipelineStatusLine}
+          </p>
+        : null}
         <div
           className={`tod-gallery__body${data.galleryEmptyMessage ? '' : ' tod-gallery__body--pageConceptGrid'}`}
         >
