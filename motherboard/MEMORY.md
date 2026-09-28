@@ -12216,3 +12216,14 @@ Follow-up to v698: exhaustive **legacy FAL** recovery (route aliases `ndxbook:ov
 
 - **`experienceLegacyFalArtifactReconciliation.ts`**, **`loadExperienceFalJobsFromEquivalentPageBuckets`**, presentation counts (INHERITED vs FAL).
 - **Tests:** **`p0vrExperienceLegacyFalArtifactReconciliation1.test.ts`**. **cPanel v699+**.
+
+---
+
+## 2026-09-28 — P0.VR Menu regen materialization + Experience Review output nav layout
+
+Sprint: MENU single-state regen must apply **NESTED_NAV_REFINEMENT** (Content Ops expanded, Campaign Board nested), **new artifact id** replaces active slot with **cache-bust** preview; legacy recovery cannot overwrite newer regen; Experience Review **sticky label tabs** (no preview overlap), state-specific actions (removed always-visible REGENERATE MENU), pending output card.
+
+- **`experienceMenuRegeneration.ts`:** receipt, `MENU_REFINEMENT_DIRECTIVE_REQUIRED`, preview cache-bust helper, regen precedence helper.
+- **FAL regen:** unique `pcga-EXP-MENU-*-R*` artifact on menu regen; strengthened hierarchy prompt block; `menuRegenerationReceipt` + `READY_FOR_FOUNDER_VISUAL_QA` on menu state.
+- **UI/CSS:** `s00-exp-review__outputNavRegion` sticky; compact BASE/MENU/ENTRY DETAIL/PROJECT ACCESS tabs; pending stage; preview `cacheBustArtifactId`.
+- **Tests:** **`p0vrExperienceMenuRegenMaterializationAndReviewTabLayoutFix1.test.tsx`**, updated hierarchy + hydration tests. **Railway + cPanel v700+**.
