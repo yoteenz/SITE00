@@ -258,6 +258,15 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
         });
         if (result.unavailable) {
           setSyncStatus('UNAVAILABLE');
+          if (localFallback) {
+            try {
+              applyLocalState(localFallback(stateRef.current, act));
+              setProductionError(null);
+            } catch (err) {
+              setProductionError(err instanceof Error ? err.message : String(err));
+            }
+            return;
+          }
           setProductionError('AUTHORITY STATE UNAVAILABLE');
           setState(previous);
           return;

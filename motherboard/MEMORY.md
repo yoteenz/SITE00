@@ -12389,3 +12389,13 @@ Founder asked to **patch the FAL/generate vs mount break** so durable **GPT2_MOB
 
 - **`runAutoPageConceptGalleryMount`** in `usePageConceptGeneration`: when signed in and MOBILE gallery empty → `mountPageConceptGalleryFromServer({ galleryRestore: true })` then full **`restoreReadyMobileGalleryFromServer`** fallback; runs on **api session ready**, **signInStateChanged**, **visibilitychange**.
 - **`designPageMobileConceptGalleryIsEmpty`** helper; UI **SYNCING PAGE CONCEPTS…** during auto sync; **CORE.md** documents GPT2_MOBILE vs FAL_EXPERIENCE split.
+
+---
+
+## 2026-09-28 — SELECT MOBILE CONCEPT blocked by production sync + API gate
+
+Founder on **site00.com**: gallery A/B/C visible, **SELECT MOBILE CONCEPT** did not advance **MOBILE AUTHORITY** / **OPEN EXPERIENCE**; **AUTHORITY STATE UNAVAILABLE** banner after tap.
+
+- **Cause:** Successful **`selectMobileConcept`** updated page-concept state, then **`useEffect`** synced **`selectGalleryCandidate`** to design-workspace-production API; when API returned **503/unavailable**, **`runCommand` reverted** optimistic local production state and surfaced **AUTHORITY STATE UNAVAILABLE**. **`dispatchViewportFamilyAction`** also **`await`ed `ensurePageConceptApiAccessToken`** before local select/confirm, so slow auth could block the founder step.
+- **Fix:** Production **`runCommand`**: on **unavailable**, apply **`localFallback`** instead of revert (gallery selection stays). **Mobile select/confirm**: **local-first** in **`usePageConceptGeneration`**, background API sync best-effort. Gallery **select-mobile** resolves **`resolveMobileConceptForSelection`** alias ids.
+- **Founder flow after deploy:** Tap gallery **SELECT MOBILE CONCEPT** → hero **CONFIRM MOBILE AUTHORITY** → **OPEN EXPERIENCE** (expression). Dismiss stale error banner if shown; hard refresh after cPanel ZIP.

@@ -1017,7 +1017,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             (c) => c.conceptId === candidate,
           );
           if (row?.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE') {
-            void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidate);
+            const resolvedId =
+              resolveMobileConceptForSelection(pageConceptGeneration.generationState, candidate)?.conceptId ??
+              candidate;
+            void pageConceptGeneration.viewportFamilyHandlers.selectMobile(resolvedId);
           }
         }
         if (
