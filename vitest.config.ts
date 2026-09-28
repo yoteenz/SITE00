@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const isCi = process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
 /** Snapshot-style VR sprint tests drift when design workspace refactors; run locally, skip in CI deploy gate. */
 const ciSprintSnapshotExcludes =
   process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true'
@@ -61,8 +63,10 @@ export default defineConfig({
       'tests/setup/pageConceptTestDefaults.ts',
       'tests/setup/primeNdxbookAuthorityIngestion.ts',
     ],
-    testTimeout: 60_000,
-    hookTimeout: 60_000,
+    testTimeout: isCi ? 120_000 : 60_000,
+    hookTimeout: isCi ? 120_000 : 60_000,
+    /** Supabase integration suites contend when every file runs wide parallel on CI runners. */
+    poolOptions: isCi ? { threads: { maxThreads: 2, minThreads: 1 } } : undefined,
     include: ['**/*.{test,spec}.{ts,tsx}'],
     exclude: ['**/node_modules/**', '**/dist/**', ...ciSprintSnapshotExcludes],
   },

@@ -32,18 +32,22 @@ describe('SITE 00 canonical Identity + Builder intake service', () => {
     expect(await resolveIntakeStoreMode()).toBe('memory');
   });
 
-  it('production mode fails loudly without Supabase — no silent memory fallback', async () => {
-    vi.stubEnv('VITEST', '');
-    resetIntakeStoreModeCache();
-    const { hasSupabaseServiceRole } = await import('../supabase.js');
-    if (hasSupabaseServiceRole()) {
-      expect(await resolveIntakeStoreMode()).toBe('supabase');
-    } else {
-      await expect(resolveIntakeStoreMode()).rejects.toBeInstanceOf(IntakeStoreUnavailableError);
-    }
-    vi.stubEnv('VITEST', 'true');
-    resetIntakeStoreModeCache();
-  });
+  it(
+    'production mode fails loudly without Supabase — no silent memory fallback',
+    async () => {
+      vi.stubEnv('VITEST', '');
+      resetIntakeStoreModeCache();
+      const { hasSupabaseServiceRole } = await import('../supabase.js');
+      if (hasSupabaseServiceRole()) {
+        expect(await resolveIntakeStoreMode()).toBe('supabase');
+      } else {
+        await expect(resolveIntakeStoreMode()).rejects.toBeInstanceOf(IntakeStoreUnavailableError);
+      }
+      vi.stubEnv('VITEST', 'true');
+      resetIntakeStoreModeCache();
+    },
+    120_000,
+  );
 
   it('guest Identity intake creates a canonical server draft (no account required)', async () => {
     const { startIntake } = await importService();
