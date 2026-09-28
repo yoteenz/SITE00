@@ -2188,7 +2188,6 @@ export function usePageConceptGeneration(
       setGenerating(true);
       setExecutionError(null);
       try {
-        await ensurePageConceptApiAccessToken();
         const current = ensureGpt2MobileConceptCatalog(
           loadPageConceptGenerationStateForDesignPage({
             projectSlug: projectId,
@@ -2197,6 +2196,8 @@ export function usePageConceptGeneration(
             route: route ?? null,
           }),
         );
+        const localAuthorityAction =
+          action.type === 'selectMobileConcept' || action.type === 'confirmMobileAuthority';
         let mobileCaptureBase64: string | undefined;
         const applyViewportFamilyResult = (result: Awaited<ReturnType<typeof pageConceptViewportFamilyActionApi>>) => {
           persist(() => {
@@ -2224,6 +2225,60 @@ export function usePageConceptGeneration(
             return hydrated;
           });
         };
+        const emitMobileSelectionMade = (conceptId: string) => {
+          const row = listPageConceptCandidates(projectId, pageId).find((c) => c.conceptId === conceptId);
+          window.dispatchEvent(
+            new CustomEvent<PageConceptMobileSelectionMadeDetail>(PAGE_CONCEPT_MOBILE_SELECTION_MADE_EVENT, {
+              detail: {
+                projectId,
+                pageId,
+                conceptId,
+                artifactId: row?.artifactId ?? null,
+                runId: row?.runId ?? null,
+              },
+            }),
+          );
+        };
+        if (localAuthorityAction) {
+          const localResult =
+            action.type === 'selectMobileConcept' ?
+              pageConceptSelectMobileConcept(current, action.conceptId)
+            : pageConceptConfirmMobileAuthority(current);
+          applyViewportFamilyResult({ state: localResult.state });
+          window.dispatchEvent(
+            new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+          );
+          if (action.type === 'selectMobileConcept') {
+            emitMobileSelectionMade(action.conceptId);
+          }
+          void (async () => {
+            try {
+              await ensurePageConceptApiAccessToken();
+              const synced = ensureGpt2MobileConceptCatalog(
+                loadPageConceptGenerationStateForDesignPage({
+                  projectSlug: projectId,
+                  pageId,
+                  screenId,
+                  route: route ?? null,
+                }),
+              );
+              const apiPayload = {
+                action: action.type,
+                state: synced,
+                conceptId: action.type === 'selectMobileConcept' ? action.conceptId : undefined,
+              } as const;
+              const remote = await pageConceptViewportFamilyActionApi(apiPayload);
+              applyViewportFamilyResult(remote);
+              window.dispatchEvent(
+                new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+              );
+            } catch {
+              /* local authority already applied — server sync is best-effort */
+            }
+          })();
+          return;
+        }
+        await ensurePageConceptApiAccessToken();
         if (action.type === 'regenerateMobileConcept' || action.type === 'regenerateAllMobileConcepts') {
           if (!current.pipelineSet?.cgptCreativeBrief && !current.pipelineSet?.creativeInjection) {
             throw new Error('NO VALID CGPT BRIEF');
@@ -2293,18 +2348,7 @@ export function usePageConceptGeneration(
           new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
         );
         if (action.type === 'selectMobileConcept') {
-          const row = listPageConceptCandidates(projectId, pageId).find((c) => c.conceptId === action.conceptId);
-          window.dispatchEvent(
-            new CustomEvent<PageConceptMobileSelectionMadeDetail>(PAGE_CONCEPT_MOBILE_SELECTION_MADE_EVENT, {
-              detail: {
-                projectId,
-                pageId,
-                conceptId: action.conceptId,
-                artifactId: row?.artifactId ?? null,
-                runId: row?.runId ?? null,
-              },
-            }),
-          );
+          emitMobileSelectionMade(action.conceptId);
         }
       } catch (e) {
         setExecutionError(e instanceof Error ? e.message : 'VIEWPORT_FAMILY_ACTION_FAILED');
