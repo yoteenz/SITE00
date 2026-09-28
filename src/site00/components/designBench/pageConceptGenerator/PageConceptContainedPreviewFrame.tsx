@@ -13,6 +13,7 @@ import {
 import type { DesignHeroCaptureDimensions } from '../../../../../shared/site00-design-workspace-production/designHeroComparePresentation.js';
 import type { PageConceptHeaderThumbnailCrop } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
 import { PAGE_CONCEPT_HEADER_THUMBNAIL_CROP } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptConceptHeaderThumbnail.js';
+import { buildExperiencePreviewImageSrc } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceMenuRegeneration.js';
 import { AiConsoleIcon } from '../aiConsoles/AiConsoleIcon';
 
 export type PageConceptPreviewFrameStatus = 'PENDING' | 'GENERATING' | 'READY' | 'FAILED';
@@ -28,11 +29,14 @@ export function PageConceptContainedPreviewFrame({
   objectFit = PAGE_CONCEPT_PREVIEW_OBJECT_FIT,
   headerThumbnailCrop,
   heroCaptureDimensions,
+  cacheBustArtifactId,
 }: {
   size?: PageConceptPreviewContainSize;
   viewportLabel?: string;
   status: PageConceptPreviewFrameStatus;
   imageSrc?: string | null;
+  /** Bust browser cache when artifact id changes after regeneration. */
+  cacheBustArtifactId?: string | null;
   failureReason?: string | null;
   onRetryLoad?: () => void;
   testId?: string;
@@ -43,10 +47,12 @@ export function PageConceptContainedPreviewFrame({
 }) {
   const resolvedHeaderCrop = headerThumbnailCrop ?? PAGE_CONCEPT_HEADER_THUMBNAIL_CROP;
   let inner: ReactNode;
-  if (status === 'READY' && imageSrc) {
+  const resolvedSrc = buildExperiencePreviewImageSrc(imageSrc, cacheBustArtifactId ?? null) ?? imageSrc;
+  if (status === 'READY' && resolvedSrc) {
     inner = (
       <img
-        src={imageSrc}
+        key={cacheBustArtifactId ?? resolvedSrc}
+        src={resolvedSrc}
         alt={viewportLabel ? `${viewportLabel} concept preview` : 'Concept preview'}
         className={PAGE_CONCEPT_CONTAINED_PREVIEW_IMG_CLASS}
         draggable={false}

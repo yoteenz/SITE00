@@ -35,6 +35,11 @@ import {
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/ndxbookExpandedNavHierarchy.js';
 import { buildNestedNavResponsiveExperienceRules } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/responsiveExperienceNestedNavContract.js';
 import { appendExperienceGenerationJobVersionHistory } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceReviewHydration.js';
+import {
+  assertMenuRefinementDirectiveInPrompt,
+  buildMenuRegenerationReceipt,
+  MENU_HIERARCHY_DIRECTIVE_VERSION,
+} from '../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceMenuRegeneration.js';
 
 export function experienceExpressionFalOutputsReady(authority: ExperienceExpressionAuthority): boolean {
   return validateExperiencePackageMaterialization(authority).ok;
@@ -302,6 +307,11 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
   });
   let prompt = `${target.prompt}${inheritBlock}`;
   let referenceImageUri: string | undefined;
+  let menuRefinementApplied = false;
+  let existingMenuReferenceUsed = false;
+  const regenerationAttemptId =
+    input.stateId === 'menu' ? String(Date.now()) : undefined;
+
   if (input.stateId === 'menu' && ndxOverview) {
     const hierarchy = buildNdxbookOverviewExpandedNavHierarchy(input.planMeta.projectId, input.planMeta.pageId);
     const manifests = buildExperienceContentManifestsForPage({
@@ -311,17 +321,25 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
       functionContract: input.functionContract,
     });
     const menuManifest = manifestForState(manifests, 'menu');
-    if (menuManifest) {
-      prompt = [
-        target.prompt,
-        inheritBlock,
-        canonicalContentPromptBlock(menuManifest),
-        buildMenuExpandedNavHierarchyRefinementPromptBlock({ hierarchyLines: hierarchy.hierarchyLines }),
-      ].join('\n\n');
-    }
+    const hierarchyBlock = buildMenuExpandedNavHierarchyRefinementPromptBlock({
+      hierarchyLines: hierarchy.hierarchyLines,
+    });
+    prompt = [
+      target.prompt,
+      inheritBlock,
+      menuManifest ? canonicalContentPromptBlock(menuManifest) : '',
+      hierarchyBlock,
+      `HIERARCHY_DIRECTIVE_VERSION: ${MENU_HIERARCHY_DIRECTIVE_VERSION}`,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+    menuRefinementApplied = true;
+    assertMenuRefinementDirectiveInPrompt(prompt);
+
     const existingMenu = input.authority.visualStates.find((s) => s.stateId === 'menu');
     if (existingMenu?.previewImageUri?.trim()) {
       referenceImageUri = existingMenu.previewImageUri.trim();
+      existingMenuReferenceUsed = true;
     }
   }
 
@@ -331,6 +349,7 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
     referenceImageUri,
     planMeta: { ...input.planMeta, experienceAuthorityId: input.authority.id },
     dryRun: input.dryRun,
+    regenerationAttemptId,
   });
 
   const expressionPrompts =
@@ -347,12 +366,20 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
 
   const visualStates = input.authority.visualStates.map((state) => {
     if (state.stateId !== input.stateId) return state;
+    const menuQa =
+      input.stateId === 'menu' && ndxOverview ?
+        ('READY_FOR_FOUNDER_VISUAL_QA' as const)
+      : state.founderVisualQaStatus;
     return {
       ...state,
       previewImageUri: render.imageUri,
       generatedArtifactId: render.artifactId,
       materializationStatus: 'READY' as const,
-      caption: `${state.label} — regenerated single expression state${input.forceInheritAuthorityTheme ? ' (authority theme inherit).' : '.'}`,
+      founderVisualQaStatus: menuQa,
+      caption:
+        input.stateId === 'menu' && ndxOverview ?
+          `${state.label} — menu hierarchy refinement · READY FOR FOUNDER VISUAL QA`
+        : `${state.label} — regenerated single expression state${input.forceInheritAuthorityTheme ? ' (authority theme inherit).' : '.'}`,
       themeMode: input.forceInheritAuthorityTheme ? ('INHERIT_AUTHORITY' as const) : state.themeMode,
       contrastRationale: input.forceInheritAuthorityTheme ? null : state.contrastRationale,
       outputThemeDominance: input.forceInheritAuthorityTheme ? ('LIGHT' as const) : state.outputThemeDominance,
@@ -380,6 +407,18 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
       input.stateId === 'menu' ? 'MENU_HIERARCHY_REFINEMENT' : 'SINGLE_STATE_REGENERATION',
   };
 
+  let menuRegenerationReceipt = input.authority.menuRegenerationReceipt ?? null;
+  if (input.stateId === 'menu' && ndxOverview) {
+    menuRegenerationReceipt = buildMenuRegenerationReceipt({
+      previousMenuArtifactId: previousArtifactId,
+      newMenuArtifactId: render.artifactId,
+      providerRequestId: render.providerJobId,
+      promptIncludesRefinement: menuRefinementApplied,
+      existingMenuReferenceUsed,
+      authorityAfter: { ...input.authority, visualStates },
+    });
+  }
+
   let authority: ExperienceExpressionAuthority = {
     ...input.authority,
     status: validateExperiencePackageMaterialization({ ...input.authority, visualStates }).ok ?
@@ -394,6 +433,7 @@ export async function executePageConceptExperienceExpressionStateRegeneration(in
       retryJob,
       previousArtifactId,
     ),
+    menuRegenerationReceipt,
   };
 
   authority = enrichExperienceAuthorityThemeContinuity(authority, {

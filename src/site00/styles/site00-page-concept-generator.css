@@ -2293,8 +2293,18 @@
 }
 
 .s00-exp-review__head,
-.s00-exp-review__statusStrip {
+.s00-exp-review__statusStrip,
+.s00-exp-review__outputNavRegion {
   flex: 0 0 auto;
+}
+
+.s00-exp-review__outputNavRegion {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 10px 14px 0;
+  background: var(--pcg-paper);
+  border-bottom: 1px solid var(--pcg-border-major);
 }
 
 .s00-exp-review__headMeta {
@@ -2376,6 +2386,8 @@
   flex-direction: column;
   gap: 12px;
   background: var(--pcg-paper);
+  position: relative;
+  z-index: 1;
 }
 
 .s00-exp-review__stageColumn {
@@ -2390,17 +2402,19 @@
   flex-direction: row;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x proximity;
 }
 
 .s00-exp-review__outputTab {
   flex: 0 0 auto;
-  min-width: 108px;
-  max-width: 140px;
-  padding: 8px;
+  min-width: 112px;
+  max-width: 148px;
+  padding: 10px 10px 8px;
   border: 1px solid var(--pcg-border-panel);
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
   background: var(--pcg-panel);
   color: var(--pcg-ink);
   text-align: left;
@@ -2409,23 +2423,30 @@
 }
 
 .s00-exp-review__outputTab--active {
-  border-color: var(--pcg-black);
-  box-shadow: inset 0 0 0 1px var(--pcg-black);
+  border-color: var(--pcg-border-panel);
+  border-top-color: var(--pcg-black);
+  border-bottom-color: var(--pcg-black);
   background: #fff;
-}
-
-.s00-exp-review__outputTabThumb {
-  display: block;
-  margin-bottom: 6px;
+  box-shadow: none;
 }
 
 .s00-exp-review__outputTabLabel {
   display: block;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   line-height: 1.25;
-  white-space: normal;
+  white-space: nowrap;
+}
+
+.s00-exp-review__outputTabStatus {
+  display: block;
+  margin-top: 4px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--pcg-ink-2);
+  white-space: nowrap;
 }
 
 .s00-exp-review__selectedActions {
@@ -2483,14 +2504,28 @@
   border: 1px solid var(--pcg-border-major);
   background: var(--pcg-sunken);
   padding: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .s00-exp-review__previewFrame {
   border: 1px solid var(--pcg-border-panel);
   background: #fff;
   padding: 8px;
+  width: 100%;
   max-width: 360px;
   margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.s00-exp-review__pendingStage {
+  border: 1px solid var(--pcg-border-major);
+  background: var(--pcg-panel);
+  padding: 20px 16px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .s00-exp-review__details {
@@ -2562,6 +2597,9 @@
 
 .s00-exp-review__actionBar {
   flex: 0 0 auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -2626,21 +2664,13 @@
 }
 
 @media (min-width: 768px) {
-  .s00-exp-review__body {
-    display: grid;
-    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
-    align-items: start;
-  }
-
-  .s00-exp-review__outputNav {
-    flex-direction: column;
+  .s00-exp-review__outputTabs {
+    flex-wrap: wrap;
     overflow-x: visible;
-    overflow-y: auto;
-    max-height: min(52vh, 520px);
   }
 
-  .s00-exp-review__outputNavItem {
-    width: 100%;
+  .s00-exp-review__outputTab {
+    min-width: 120px;
   }
 }
 

@@ -11,6 +11,7 @@ import {
 } from './experiencePackageMaterialization.js';
 import { isNdxbookOverviewExperiencePage } from './ndxbookOverviewExperienceExpressionContentSpec.js';
 import { PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION } from './pageConceptExperienceExpressionFalPlan.js';
+import { menuVisualStateHasNewerRegenerationThanJob } from './experienceMenuRegeneration.js';
 import type { ExpressionPromptType } from './pageConceptExperienceExpressionFalPlan.js';
 import type { PageConceptGeneratedArtifact, PageConceptGenerationState } from './types.js';
 
@@ -271,6 +272,18 @@ export function reconcileExistingExperienceArtifacts(input: {
   const visualStates = input.authority.visualStates.map((state) => {
     if (state.previewImageUri?.trim() && state.sourceProvider !== 'FAL_EXPERIENCE') return state;
     const job = byState.get(state.stateId);
+    if (
+      state.previewImageUri?.trim() &&
+      job &&
+      menuVisualStateHasNewerRegenerationThanJob({
+        state,
+        authority: input.authority,
+        legacyJobArtifactId: job.artifactId,
+        legacyJobCreatedAt: job.createdAt,
+      })
+    ) {
+      return state;
+    }
     const authJob = authorityJobs.find((j) => j.stateId === state.stateId && j.artifactId);
     const imageUri = state.previewImageUri?.trim() ? state.previewImageUri : job?.imageUri?.trim() ?? null;
     if (!imageUri) return state;
