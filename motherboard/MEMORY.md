@@ -12333,3 +12333,12 @@ Founder asked whether agent can **retrieve latest FAL/mobile outputs** and mount
 - **Restore:** **`fetchLatestPageConceptGenerationRunForDesignPage`** first in **`restoreReadyMobileGalleryFromServer`**; legacy page_id **`ndxbook:overview:/projects/ndxbook`** in durable lookup candidates.
 - **Poll guard:** empty orphan CGPT runs cannot clobber local READY mobile; **`findActivePageConceptServerRunForPage`** skips empty CGPT.
 - **Client latest-for-page:** only considers runs with READY mobile gallery. **Railway + cPanel** redeploy for founder **RESTORE PAGE CONCEPTS**.
+
+---
+
+## 2026-09-28 — RESTORE PAGE CONCEPTS opened empty GENERATE modal (fix)
+
+Founder on **site00.fsbw-dev.com**: **RESTORE PAGE CONCEPTS** opened **GENERATE PAGE CONCEPTS** panel (all PENDING) instead of mounting Supabase gallery.
+
+- **Cause:** Button called **`openGenerationConfirm`**, which **`setOverlayOpen(true)` before server restore**; restore also skipped API when stale **`apiSessionReady === false`** even if token existed.
+- **Fix:** **`restorePageConceptsFromGallery`** — restore-only, no modal; empty gallery button uses it. Restore uses live **`ensurePageConceptApiAccessToken()`** not React session flag. **`fetchLatestPageConceptGenerationRunForPageApi`** 401 retry. Gallery empty secondary line shows **`executionError`**. **cPanel v710+**; **Railway** if API not on #1219 yet.
