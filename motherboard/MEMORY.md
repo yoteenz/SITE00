@@ -12478,3 +12478,15 @@ Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Desi
 - **`useDesignWorkspacePipeline.ts`:** React hook wired in **`twinOpusDirectWorkspace`** (hero, tabs, gallery CTAs, concept dock handoff, hero assembly gates).
 - **`designHeroAssemblyActions` / `designConceptIntelligenceDock` / `pageConceptViewportGalleryActions`:** pipeline-aware gates and handoff.
 - **Tests:** `p0vrDesignWorkspacePipelineReactivity1.test.ts`.
+
+---
+
+## 2026-09-28 — P0.NDX.NARRATIVE-MOMENTUM-ENGINE1
+
+Story architecture layer between **Creative Concept Territory** and **Format / Storyboard** execution.
+
+- **`shared/site00-expression-engine/narrative-momentum/`:** `NarrativeMomentumPlan`, 10+ grammar library (incl. **CULTURAL_GLITCH**, legacy **CONTRADICTION** Chapter 01 lineage), `selectNarrativeGrammar`, proof placement, tension curve beats, open loop + campaign handoff, validators (generic funnel / repetition), reel format adaptation, **zero provider dispatch**.
+- **API:** `?phase=NME1`, POST `COMPILE_NARRATIVE_MOMENTUM`, `SET_NARRATIVE_MOMENTUM_JUDGMENT`.
+- **Entry 002:** retroactive compile (`RETROACTIVE_AUTHORITY_LAYER`) from locked territory + chapter mapping — no asset reset.
+- **UI:** Expression Engine Entry 002 **NARRATIVE MOMENTUM** review panel + production journey stage.
+- **Tests:** `p0ndxNarrativeMomentumEngine1.test.ts`; journey tests updated for 12 stages.
