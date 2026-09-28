@@ -83,7 +83,7 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-VIEW-PANEL-MOUNT1', () => {
     expect(shouldDispatchGenerateExperienceOnReviewOpen(pipelineSet)).toBe(false);
   });
 
-  it('review panel mounts FAL previews when status is still GENERATING but outputs are materialized', () => {
+  it('review panel uses PARTIAL (not loading-only) when GENERATING but some outputs are materialized', () => {
     const authority = authorityStub({
       projectId: 'ndxbook',
       pageId: 'page-overview',
@@ -107,7 +107,9 @@ describe('P0.VR.EXPERIENCE-EXPRESSION-VIEW-PANEL-MOUNT1', () => {
         },
       ],
     });
-    expect(resolveExperienceReviewPanelMode(authority)).toBe('READY');
+    expect(resolveExperienceReviewPanelMode(authority)).toBe('PARTIAL');
+    expect(resolveExperienceReviewPanelMode(authority)).not.toBe('GENERATING');
+    expect(resolveExperienceReviewPanelMode(authority)).not.toBe('EMPTY');
   });
 
   it('prefers server READY authority over stale local GENERATING on gallery merge', () => {
