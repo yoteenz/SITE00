@@ -12429,3 +12429,16 @@ Founder sprint: hero **right rail** looked unfinished — inactive actions nearl
 - **`DesignViewportFamilyHeroRail`:** **`actionWrap` + `actionBlocker`** copy under disabled buttons; **`data-action-disabled`** for QA.
 - **CSS (canonical + list):** Stronger disabled fill (**#f4f4f4**, **#303030** text), spacing rhythm; lime / black / white surfaces unchanged for enabled states.
 - **Tests:** `p0vrRightRailVisualButtonSystemRestore1.test.ts` + updated mobile authority / surface cleanup tests.
+
+---
+
+## 2026-09-28 — P0.VR.RIGHT-RAIL-CANONICAL-WORKFLOW-RESTORE2
+
+Corrective sprint after RESTORE1 over-expanded the hero rail into a scrolling multi-action debugger.
+
+- **`buildGpt2ViewportFamilyHeroRailStages`:** Fixed **six** canonical buttons across **four** stages — Mobile (select + confirm), Experience (**CREATE EXPRESSION** ↔ **VIEW EXPRESSION** via `vf-expression`), Viewports (CREATE DESKTOP + CREATE TABLET), Pair (**PAIR REVIEW**). Removed change/review/approve/regenerate/use-version stacks from rail.
+- **`twinOpusDirectWorkspace`:** `vf-expression`, `vf-pair-review` → experience panel / pair overlay; **`confirmViewportFamilyGpt2`** pipeline handler → approve + lock family.
+- **`computeHeroAssemblyActions`:** GPT2 pipeline gates **CREATE FRAMEWORK** on **`viewportFamilyConfirmed`** (Pair Review lock), not promote-only.
+- **Pair review overlay:** **VIEWPORT AUTHORITY PAIR REVIEW** title; Mobile/Desktop/Tablet + experience context; primary **CONFIRM VIEWPORT FAMILY**.
+- **CSS:** `.tod-rail--heroWorkflow` **`overflow-y: hidden`** (no nested rail scroll).
+- **Tests:** `p0vrRightRailCanonicalWorkflowRestore2.test.ts`; updated hero rail / experience / mobile authority tests.
