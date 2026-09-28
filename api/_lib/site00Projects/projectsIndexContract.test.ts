@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -12,8 +12,8 @@ import { resetNdxbookImportMemory, runNdxbookLegacyImport } from '../site00Evolv
 import { resetCreativeDirectionMemory } from '../site00Evolve/creativeDirection/engagementService.js';
 import { resetPage001Memory } from '../site00Evolve/providers/page001CandidateService.js';
 
-describe('GET /api/site00/projects?action=index runtime contract', () => {
-  beforeEach(async () => {
+describe.sequential('GET /api/site00/projects?action=index runtime contract', () => {
+  beforeAll(async () => {
     process.env.EVOLVE_USE_MEMORY = '1';
     resetNdxbookImportMemory();
     resetCreativeDirectionMemory();

@@ -12313,3 +12313,13 @@ Founder tapped **RESTORE PAGE CONCEPTS** — modal stayed empty (Step 3 placehol
 - **`findLatestPageConceptGalleryRunForDesignPage`** — project scan (200 runs) + **`designPageIdsEquivalent`** matching.
 - **Client restore:** retry **`archivedRuns` / active run ids** via GET run; **`galleryRestore: true`** mount; visible-candidate success check; explicit **NO DURABLE MOBILE CONCEPTS** error in modal.
 - **Railway redeploy required** (API). **cPanel v708+** (SPA).
+
+---
+
+## 2026-09-28 — CI test timeouts (Production Release #1217)
+
+**SITE 00 Production Release** failed: 12 tests timed out at 60s — `clientProjectRoomP0Client2A`, `intakeService`, `orchestrationEnrichment`, `projectsIndexContract` (Supabase + heavy imports under parallel CI load, not gallery restore logic).
+
+- **vitest.config:** CI `testTimeout`/`hookTimeout` 120s; `maxThreads: 2`.
+- **projectsIndexContract:** `beforeAll` legacy import (not per-test `beforeEach`); `describe.sequential`.
+- **orchestrationEnrichment:** static import. **intakeService:** 120s on production-mode probe.
