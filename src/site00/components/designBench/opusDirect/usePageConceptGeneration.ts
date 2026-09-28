@@ -122,6 +122,7 @@ import {
 } from '../../../services/pageConceptGenerationClient.js';
 import {
   clearPageConceptActiveServerRunId,
+  fetchLatestPageConceptGenerationRunForDesignPage,
   fetchPageConceptGenerationRunApi,
   loadPageConceptActiveServerRunId,
   pollPageConceptGenerationRunUntilTerminal,
@@ -151,7 +152,10 @@ import {
   type PageConceptProgressObservationForensics,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptProgressObservationForensics.js';
 import type { PageConceptServerRunSnapshot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
-import { pageConceptServerRunIsTerminal } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import {
+  pageConceptServerRunIsTerminal,
+  shouldIgnorePollServerRunSnapshotOverLocalGallery,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptServerRunToResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptChainGpt2MobileAfterCgptReviewGate } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
 import { site00ApiUrl } from '../../../../utils/site00ApiBase.js';
@@ -239,6 +243,9 @@ function applyServerRunSnapshotToState(
   pageId: string,
 ): void {
   persist((s) => {
+    if (shouldIgnorePollServerRunSnapshotOverLocalGallery(s, run)) {
+      return s;
+    }
     const hasFounderRunSession = Boolean(loadPageConceptFounderRunSession(projectId, pageId));
     let next = mergePageConceptGenerationStateWithServerRunSnapshot(s, run, {
       mobileJobMode: 'merge',
@@ -544,6 +551,20 @@ export function usePageConceptGeneration(
     });
 
     if (apiSessionReady !== false) {
+      try {
+        const latestGallery = await fetchLatestPageConceptGenerationRunForDesignPage({
+          projectSlug: projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+        });
+        if (latestGallery && pageConceptServerRunHasReadyMobileGallery(latestGallery.run)) {
+          persist((s) => applyPageConceptServerRunSnapshotForGalleryMount(s, latestGallery.run));
+          savePageConceptActiveServerRunId(projectId, pageId, latestGallery.run.runId);
+        }
+      } catch {
+        /* try run-id fallbacks + mount */
+      }
       const stateForRunIds = loadPageConceptGenerationStateForDesignPage(scope);
       for (const runId of collectPageConceptRestoreRunIdCandidates(stateForRunIds)) {
         try {
@@ -875,7 +896,9 @@ export function usePageConceptGeneration(
       return;
     }
     setExecutionError(
-      'NO DURABLE MOBILE CONCEPTS FOUND FOR THIS PAGE — SERVER HAS NOTHING TO RESTORE. USE GENERATE TO CREATE NEW CONCEPTS.',
+      token ?
+        'RESTORE COULD NOT MOUNT DURABLE CONCEPTS — CONFIRM RAILWAY API IS REDEPLOYED, SIGN IN, THEN HARD-REFRESH AND TAP RESTORE PAGE CONCEPTS AGAIN.'
+      : `${PAGE_CONCEPT_SIGN_IN_REQUIRED} — RESTORE REQUIRES AN AUTHENTICATED API SESSION TO PULL YOUR SAVED CONCEPTS FROM THE SERVER.`,
     );
 
     if (!eligibility.canGenerate) {

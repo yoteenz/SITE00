@@ -8,7 +8,9 @@ import {
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { getDesignBoundPage } from '../../../shared/site00-design-workspace-production/designProjectBinding/designPageRegistry.js';
 import { resolveDesignPageIdentityForGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import { expandPageConceptDurableRunPageIdCandidates } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptDurableRunPageIds.js';
 import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { pageConceptServerRunHasReadyMobileGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import { refreshAccessTokenForApi } from '../../utils/api.js';
 import { captureApiFetch } from './captureApiFetch.js';
 import { throwPageConceptApiFailure } from './pageConceptGenerationErrors.js';
@@ -179,6 +181,12 @@ export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
     boundPage?.pageId,
     legacyScoped,
     legacyCanonicalScoped,
+    ...expandPageConceptDurableRunPageIdCandidates({
+      projectSlug: slug,
+      pageId: input.pageId,
+      screenId: input.screenId,
+      route: input.route ?? null,
+    }),
   ].filter((id, index, all): id is string => Boolean(id) && all.indexOf(id) === index);
   let best: PageConceptGenerationRunPollUpdate | null = null;
   let bestTs = 0;
@@ -187,7 +195,7 @@ export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
       screenId: input.screenId,
       route: input.route ?? null,
     });
-    if (!update) continue;
+    if (!update || !pageConceptServerRunHasReadyMobileGallery(update.run)) continue;
     const ts = Math.max(
       ...update.run.jobs
         .filter((j) => j.provider === 'GPT2_MOBILE')

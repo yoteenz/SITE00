@@ -16,6 +16,7 @@ import {
 import { pageGenerationCapturePayloadValid } from '../_lib/site00PageConcept/resolvePageGenerationCapture.js';
 import { resolveLatestPageConceptServerRunForPage } from '../_lib/site00PageConcept/pageConceptGenerationRunStore.js';
 import { resolveDesignPageIdentity } from '../../shared/site00-design-workspace-production/designPageIdentity.js';
+import { expandPageConceptDurableRunPageIdCandidates } from '../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptDurableRunPageIds.js';
 import {
   snapshotPageConceptServerRun,
   startPageConceptGenerationRun,
@@ -71,6 +72,12 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
           identity.screenId,
           `${slug}:${identity.registryPageId}`,
           `${slug}:${identity.canonicalPageId}`,
+          ...expandPageConceptDurableRunPageIdCandidates({
+            projectSlug: slug,
+            pageId: identity.registryPageId,
+            screenId: identity.screenId,
+            route: identity.route,
+          }),
         ].filter(Boolean),
       ),
     ];

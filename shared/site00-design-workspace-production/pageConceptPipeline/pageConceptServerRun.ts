@@ -10,6 +10,7 @@ import type {
   PageConceptGenerationStatus,
   PageConceptPipelineSet,
 } from './types.js';
+import { pageConceptGenerationStateHasReadyMobileArtifacts } from './pageConceptGalleryHydration.js';
 import type { PageConceptCgptProviderTelemetry } from './pageConceptCgpt429.js';
 import type { PageConceptPanelProgress } from './pageConceptLiveProgress.js';
 import type { PageConceptCgptSubstepRunDetail } from './pageConceptCgptSubstepRun.js';
@@ -134,6 +135,23 @@ export function pageConceptServerRunIsTerminal(status: PageConceptServerRunStatu
     status === 'CGPT_AWAITING_FOUNDER_REVIEW' ||
     status === 'GPT2_AWAITING_FOUNDER_REVIEW'
   );
+}
+
+/** Orphan CGPT run row (0 jobs) — must not win over a READY mobile gallery run. */
+export function pageConceptServerRunIsEmptyInFlightCgpt(
+  run: Pick<PageConceptServerRunSnapshot, 'jobs' | 'status' | 'generationStatus'>,
+): boolean {
+  if (run.jobs.length > 0) return false;
+  if (pageConceptServerRunIsTerminal(run.status)) return false;
+  return run.generationStatus === 'CGPT_RUNNING' || run.status === 'CGPT_RUNNING';
+}
+
+export function shouldIgnorePollServerRunSnapshotOverLocalGallery(
+  local: PageConceptGenerationState,
+  run: Pick<PageConceptServerRunSnapshot, 'jobs' | 'status' | 'generationStatus'>,
+): boolean {
+  if (!pageConceptServerRunIsEmptyInFlightCgpt(run)) return false;
+  return pageConceptGenerationStateHasReadyMobileArtifacts(local);
 }
 
 export function pageConceptServerRunToResult(
