@@ -70,10 +70,10 @@ export function isNdxbookOverviewExperiencePage(input: {
   pageId?: string;
   screenId?: string;
 }): boolean {
-  const pid = input.projectId.toLowerCase();
+  const pid = (input.projectId ?? '').toLowerCase();
   if (pid !== 'ndxbook') return false;
   if (input.screenId === 'overview') return true;
-  const route = input.route.toLowerCase();
+  const route = (input.route ?? '').toLowerCase();
   if (route.includes('overview')) return true;
   if (route.includes('/ndxbook/overview')) return true;
   /** Live function contract uses project root — that surface IS NDXBOOK Overview mobile authority. */

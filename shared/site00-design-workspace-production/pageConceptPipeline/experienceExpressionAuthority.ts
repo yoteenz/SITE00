@@ -119,6 +119,7 @@ export type ExperienceExpressionAuthority = {
   experienceContentManifests?: readonly import('./experienceContentManifest.js').ExperienceContentManifest[];
   experienceContentAudit?: import('./experienceContentManifest.js').ExperienceContentAudit;
   experienceExpressionCoverageMap?: import('./experienceExpressionCoverageMap.js').ExperienceExpressionCoverageMap | null;
+  legacyReconciliationReceipt?: import('./experienceLegacyFalArtifactReconciliation.js').ExperienceLegacyReconciliationReceipt | null;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {

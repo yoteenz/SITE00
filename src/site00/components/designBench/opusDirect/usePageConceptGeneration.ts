@@ -74,7 +74,10 @@ import {
   loadPageConceptGenerationState,
   savePageConceptGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/store.js';
-import { loadPageConceptGenerationStateForDesignPage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import {
+  loadExperienceFalJobsFromEquivalentPageBuckets,
+  loadPageConceptGenerationStateForDesignPage,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { applyExperienceReviewHydrationToState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceReviewHydration.js';
 import type { PageCaptureRecord } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import type {
@@ -519,7 +522,13 @@ export function usePageConceptGeneration(
         });
         if (cancelled) return;
         persist((prev) => {
-          const { state: hydrated } = applyExperienceReviewHydrationToState(prev);
+          const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          });
+          const { state: hydrated } = applyExperienceReviewHydrationToState(prev, { extraExperienceFalJobs });
           savePageConceptGenerationState(hydrated);
           return hydrated;
         });
@@ -707,7 +716,13 @@ export function usePageConceptGeneration(
         });
         persist((prev) => {
           const merged = { ...prev, ...loaded, generationJobs: loaded.generationJobs.length ? loaded.generationJobs : prev.generationJobs };
-          const { state: hydrated } = applyExperienceReviewHydrationToState(merged);
+          const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          });
+          const { state: hydrated } = applyExperienceReviewHydrationToState(merged, { extraExperienceFalJobs });
           savePageConceptGenerationState(hydrated);
           return hydrated;
         });

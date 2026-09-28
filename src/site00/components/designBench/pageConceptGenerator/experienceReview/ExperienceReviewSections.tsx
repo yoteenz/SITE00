@@ -64,7 +64,7 @@ export function ExperienceReviewCoverageSection(props: {
 
 export function ExperienceReviewStatusStrip(props: {
   packageStatus: ExperienceReviewPackageStatus;
-  blocked: boolean;
+  blockerHint: string | null;
   themeAuthority: string;
 }) {
   const s = props.packageStatus;
@@ -72,14 +72,14 @@ export function ExperienceReviewStatusStrip(props: {
     <section className="s00-exp-review__statusStrip" data-testid="experience-review-status-strip">
       <span className="s00-exp-review__statusStripLabel">PACKAGE STATUS</span>
       <p className="s00-exp-review__statusStripCounts" data-testid="page-concept-experience-expression-count">
-        {s.planned} PLANNED · {s.generated} GENERATED · {s.ready} READY
-        {s.running > 0 ? ` · ${s.running} RUNNING` : ''}
+        {s.planned} PLANNED · {s.inherited} INHERITED · {s.falOutputs} FAL OUTPUTS · {s.falReady} FAL READY ·{' '}
+        {s.materialized} / {s.planned} MATERIALIZED
         {s.pending > 0 ? ` · ${s.pending} PENDING` : ''}
-        {s.failed > 0 ? ` · ${s.failed} FAILED` : ''}
+        {s.stale > 0 ? ` · ${s.stale} STALE` : ''}
       </p>
-      {props.blocked ?
+      {props.blockerHint ?
         <p className="s00-exp-review__statusStripWarn" data-testid="experience-review-blocked-hint">
-          BLOCKED · THEME OR CONTENT REVIEW REQUIRED BEFORE APPROVAL
+          {props.blockerHint.toUpperCase()}
         </p>
       : null}
       <p className="s00-exp-review__statusStripMeta" data-testid="page-concept-experience-authority-theme">
@@ -87,6 +87,23 @@ export function ExperienceReviewStatusStrip(props: {
       </p>
     </section>
   );
+}
+
+function shortOutputTabLabel(state: ExperienceExpressionVisualState, stateKindLabel: (s: ExperienceExpressionVisualState) => string): string {
+  const kind = stateKindLabel(state);
+  if (kind.includes('BASE')) return 'BASE';
+  if (kind.includes('MENU')) return 'MENU';
+  if (kind.includes('ENTRY')) return 'ENTRY';
+  if (kind.includes('ACCESS') || kind.includes('PROJECT')) return 'ACCESS';
+  return state.stateId.toUpperCase().slice(0, 8);
+}
+
+function statusGlyph(status: string): string {
+  if (status === 'READY' || status === 'INHERITED') return '✓';
+  if (status === 'STALE') return '!';
+  if (status === 'MISSING') return '•';
+  if (status === 'GENERATING') return '↻';
+  return '•';
 }
 
 export function ExperienceReviewOutputNav(props: {
@@ -100,55 +117,92 @@ export function ExperienceReviewOutputNav(props: {
   onRegenerateState?: (stateId: string) => void;
 }) {
   return (
-    <nav className="s00-exp-review__outputNav" aria-label="Experience outputs" data-testid="experience-review-output-nav">
+    <nav className="s00-exp-review__outputTabs" aria-label="Experience outputs" data-testid="experience-review-output-nav">
       {props.visualStates.map((state) => {
         const selected = state.stateId === props.activeStateId;
-        const canRegenerate = state.sourceProvider === 'FAL_EXPERIENCE' && Boolean(props.onRegenerateState);
+        const status = props.cardStatus(state);
+        const tab = shortOutputTabLabel(state, props.stateKindLabel);
         return (
-          <div
+          <button
             key={state.stateId}
-            className={`s00-exp-review__outputNavItem${selected ? ' s00-exp-review__outputNavItem--active' : ''}`}
+            type="button"
+            className={`s00-exp-review__outputTab${selected ? ' s00-exp-review__outputTab--active' : ''}`}
             data-testid={`page-concept-experience-card-${state.stateId}`}
+            onClick={() => props.onSelect(state.stateId)}
           >
-            <button type="button" className="s00-exp-review__outputNavSelect" onClick={() => props.onSelect(state.stateId)}>
+            <span className="s00-exp-review__outputTabThumb">
               <PageConceptContainedPreviewFrame
                 size="thumb"
                 status={state.previewImageUri ? 'READY' : 'PENDING'}
                 imageSrc={state.previewImageUri}
                 testId={`page-concept-experience-card-thumb-${state.stateId}`}
               />
-              <span className="s00-exp-review__outputNavLabel">{props.stateKindLabel(state)}</span>
-              <span className="s00-exp-review__outputNavMeta" data-testid={`page-concept-experience-card-status-${state.stateId}`}>
-                {props.cardStatus(state)}
-                {props.approved ? ' · APPROVED' : ''}
-              </span>
-            </button>
-            <div className="s00-exp-review__outputNavActions">
-              {props.onInspect ?
-                <button
-                  type="button"
-                  className="s00-exp-review__btn s00-exp-review__btn--white"
-                  data-testid={`page-concept-experience-inspect-${state.stateId}`}
-                  onClick={() => props.onInspect?.(state.stateId)}
-                >
-                  INSPECT
-                </button>
-              : null}
-              {canRegenerate ?
-                <button
-                  type="button"
-                  className="s00-exp-review__btn s00-exp-review__btn--black"
-                  data-testid={`page-concept-regenerate-experience-state-${state.stateId}`}
-                  onClick={() => props.onRegenerateState?.(state.stateId)}
-                >
-                  {state.stateId === 'menu' ? 'REGENERATE MENU' : 'REGENERATE THIS OUTPUT'}
-                </button>
-              : null}
-            </div>
-          </div>
+            </span>
+            <span className="s00-exp-review__outputTabLabel">
+              {tab} · {statusGlyph(status)} {status}
+            </span>
+            <span className="s00-exp-review__outputNavMeta" data-testid={`page-concept-experience-card-status-${state.stateId}`}>
+              {props.stateKindLabel(state)}
+              {props.approved ? ' · APPROVED' : ''}
+            </span>
+          </button>
         );
       })}
     </nav>
+  );
+}
+
+export function ExperienceReviewSelectedOutputActions(props: {
+  state: ExperienceExpressionVisualState;
+  stateKindLabel: (s: ExperienceExpressionVisualState) => string;
+  onInspect: () => void;
+  onRegenerate?: () => void;
+}) {
+  const label = props.stateKindLabel(props.state);
+  const regenLabel =
+    props.state.stateId === 'menu' ? 'REGENERATE MENU'
+    : label.includes('ENTRY') ? 'REGENERATE ENTRY DETAIL'
+    : label.includes('ACCESS') ? 'REGENERATE PROJECT ACCESS'
+    : props.onRegenerate ? 'REGENERATE THIS OUTPUT'
+    : null;
+  return (
+    <div className="s00-exp-review__selectedActions" data-testid="experience-review-selected-output-actions">
+      <button type="button" className="s00-exp-review__btn s00-exp-review__btn--white" onClick={props.onInspect}>
+        INSPECT
+      </button>
+      {props.onRegenerate && regenLabel ?
+        <button
+          type="button"
+          className="s00-exp-review__btn s00-exp-review__btn--black"
+          data-testid={`page-concept-regenerate-experience-state-${props.state.stateId}`}
+          onClick={props.onRegenerate}
+        >
+          {regenLabel}
+        </button>
+      : null}
+    </div>
+  );
+}
+
+export function ExperienceReviewTechnicalDetails(props: {
+  packageId: string;
+  sourceAuthorityId: string;
+  artifactIds: readonly string[];
+  legacyReceipt: import('../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceLegacyFalArtifactReconciliation.js').ExperienceLegacyReconciliationReceipt | null;
+}) {
+  return (
+    <details className="s00-exp-review__technical" data-testid="experience-review-technical-details">
+      <summary>LINEAGE / TECHNICAL DETAILS</summary>
+      <p data-testid="experience-review-lineage-debug">PACKAGE {props.packageId}</p>
+      <p>AUTHORITY {props.sourceAuthorityId}</p>
+      <p>ARTIFACTS {(props.artifactIds ?? []).join(', ') || '—'}</p>
+      {props.legacyReceipt ?
+        <p>
+          RECOVERY · MENU {props.legacyReceipt.menu} · ENTRY {props.legacyReceipt.entryDetail} · ACCESS{' '}
+          {props.legacyReceipt.projectAccess}
+        </p>
+      : null}
+    </details>
   );
 }
 
@@ -327,6 +381,7 @@ export function ExperienceReviewActionBar(props: {
   approveDisabled: boolean;
   generatePackageLabel?: string;
   showGenerateMissingOnly?: boolean;
+  disableGenerateMissing?: boolean;
   onApprove: () => void;
   onRegeneratePackage: () => void;
   onGeneratePackage?: () => void;
@@ -395,7 +450,7 @@ export function ExperienceReviewActionBar(props: {
             <button
               type="button"
               className="s00-exp-review__btn s00-exp-review__btn--lime"
-              disabled={props.busy}
+              disabled={props.busy || props.disableGenerateMissing}
               data-testid="experience-review-generate-missing-outputs"
               onClick={props.onGeneratePackage ?? props.onRegeneratePackage}
             >

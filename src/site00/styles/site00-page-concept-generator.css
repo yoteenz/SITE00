@@ -2276,6 +2276,9 @@
 .s00-pcg-layer--experience .s00-pcg-layer__scrollBody {
   border-radius: 2px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* ---- Experience Review (Generation Panel sibling) ------------------------ */
@@ -2285,6 +2288,13 @@
   min-height: 0;
   max-height: 100%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.s00-exp-review__head,
+.s00-exp-review__statusStrip {
+  flex: 0 0 auto;
 }
 
 .s00-exp-review__headMeta {
@@ -2375,13 +2385,65 @@
   min-width: 0;
 }
 
-.s00-exp-review__outputNav {
+.s00-exp-review__outputTabs {
   display: flex;
   flex-direction: row;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+
+.s00-exp-review__outputTab {
+  flex: 0 0 auto;
+  min-width: 108px;
+  max-width: 140px;
+  padding: 8px;
+  border: 1px solid var(--pcg-border-panel);
+  background: var(--pcg-panel);
+  color: var(--pcg-ink);
+  text-align: left;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.s00-exp-review__outputTab--active {
+  border-color: var(--pcg-black);
+  box-shadow: inset 0 0 0 1px var(--pcg-black);
+  background: #fff;
+}
+
+.s00-exp-review__outputTabThumb {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.s00-exp-review__outputTabLabel {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  white-space: normal;
+}
+
+.s00-exp-review__selectedActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.s00-exp-review__technical {
+  margin-top: 4px;
+  font-size: 9px;
+  color: var(--pcg-ink-2);
+}
+
+.s00-exp-review__technical summary {
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 
 .s00-exp-review__outputNavItem {

@@ -13,6 +13,7 @@ import {
 } from './experiencePackageMaterialization.js';
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 import type { PageConceptGeneratedArtifact, PageConceptGenerationState } from './types.js';
+import { reconcileExistingExperienceArtifacts } from './experienceLegacyFalArtifactReconciliation.js';
 import { buildExperienceReviewPackageStatus, resolveExperienceReviewPanelMode } from './experienceReviewPresentation.js';
 
 export type ExperienceReviewZeroOutputRootCause =
@@ -244,6 +245,8 @@ export function experiencePackageAuthorityStale(
 
 export function missingExperienceFalStateIds(authority: ExperienceExpressionAuthority | null | undefined): string[] {
   if (!authority) return [];
+  const fromReceipt = authority.legacyReconciliationReceipt?.confirmedMissingStateIds;
+  if (fromReceipt) return [...fromReceipt];
   return authority.visualStates
     .filter((v) => v.sourceProvider === 'FAL_EXPERIENCE' && !v.previewImageUri?.trim())
     .map((v) => v.stateId);
@@ -287,6 +290,7 @@ export function diagnoseExperienceReviewZeroOutputRootCause(input: {
 
 export function applyExperienceReviewHydrationToState(
   state: PageConceptGenerationState,
+  options?: { extraExperienceFalJobs?: readonly import('./types.js').PageConceptGeneratedArtifact[] },
 ): { state: PageConceptGenerationState; receipt: ExperienceReviewHydrationReceipt } {
   const ps = state.pipelineSet;
   const family = ps?.viewportAuthorityFamily;
@@ -294,12 +298,25 @@ export function applyExperienceReviewHydrationToState(
 
   let authority = authorityBefore ?? compileExperienceAuthorityIfMissing(state);
 
+  const mergedJobs = [...state.generationJobs, ...(options?.extraExperienceFalJobs ?? [])];
   if (authority) {
-    authority = reconcileExperienceVisualStatesFromJobs({ authority, pageJobs: state.generationJobs });
+    authority = reconcileExperienceVisualStatesFromJobs({ authority, pageJobs: mergedJobs });
+    const legacy = reconcileExistingExperienceArtifacts({
+      authority,
+      state,
+      extraJobs: options?.extraExperienceFalJobs ?? [],
+    });
+    authority = { ...legacy.authority, legacyReconciliationReceipt: legacy.receipt };
   } else {
     const compiled = compileExperienceAuthorityIfMissing(state);
     if (compiled) {
-      authority = reconcileExperienceVisualStatesFromJobs({ authority: compiled, pageJobs: state.generationJobs });
+      authority = reconcileExperienceVisualStatesFromJobs({ authority: compiled, pageJobs: mergedJobs });
+      const legacy = reconcileExistingExperienceArtifacts({
+        authority,
+        state,
+        extraJobs: options?.extraExperienceFalJobs ?? [],
+      });
+      authority = { ...legacy.authority, legacyReconciliationReceipt: legacy.receipt };
     }
   }
 

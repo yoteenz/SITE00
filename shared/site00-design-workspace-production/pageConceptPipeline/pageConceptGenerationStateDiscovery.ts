@@ -222,6 +222,37 @@ export function loadPageConceptGenerationStateForDesignPage(input: {
 }
 
 /** Active server run id stored under any equivalent page bucket. */
+/** Merge FAL experience jobs from all localStorage buckets equivalent to the active design page. */
+export function loadExperienceFalJobsFromEquivalentPageBuckets(input: {
+  projectSlug: string;
+  pageId: string;
+  screenId?: string;
+  route?: string | null;
+}): import('./types.js').PageConceptGeneratedArtifact[] {
+  const identity = resolveDesignPageIdentityForGallery(input);
+  const slug = identity.projectSlug;
+  const registryPageId = identity.registryPageId;
+  const pageIds = new Set<string>([
+    registryPageId,
+    identity.canonicalPageId,
+    ...enumeratePageConceptGenerationStoragePageIds(slug),
+  ]);
+  const byArtifact = new Map<string, import('./types.js').PageConceptGeneratedArtifact>();
+  for (const storagePageId of pageIds) {
+    if (!designPageIdsEquivalent(slug, registryPageId, storagePageId)) continue;
+    const loaded = loadFromStoragePageId(slug, storagePageId);
+    for (const job of loaded.generationJobs) {
+      if (job.provider !== 'FAL_EXPERIENCE' || job.status !== 'READY' || !job.imageUri?.trim()) continue;
+      const key = job.artifactId || `${job.providerJobId}:${job.createdAt}`;
+      const existing = byArtifact.get(key);
+      if (!existing || Date.parse(job.createdAt) > Date.parse(existing.createdAt)) {
+        byArtifact.set(key, job);
+      }
+    }
+  }
+  return [...byArtifact.values()];
+}
+
 export function loadPageConceptActiveServerRunIdForDesignPage(input: {
   projectSlug: string;
   pageId: string;
