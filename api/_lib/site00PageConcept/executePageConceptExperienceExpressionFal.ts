@@ -38,12 +38,22 @@ export async function renderExperienceExpressionFalTarget(input: {
     experienceAuthorityId: string;
   };
   dryRun?: boolean;
+  /** When set (menu regen), produces a unique artifact id + cache-busted vitest image. */
+  regenerationAttemptId?: string;
 }): Promise<ExperienceExpressionFalRenderResult> {
-  const artifactId = `pcga-EXP-${input.target.stateId.toUpperCase()}-${input.planMeta.experienceAuthorityId.slice(-10)}`;
+  const baseArtifactId = `pcga-EXP-${input.target.stateId.toUpperCase()}-${input.planMeta.experienceAuthorityId.slice(-10)}`;
+  const artifactId =
+    input.regenerationAttemptId && input.target.stateId === 'menu' ?
+      `pcga-EXP-MENU-${input.planMeta.experienceAuthorityId.slice(-10)}-R${input.regenerationAttemptId.replace(/[^a-zA-Z0-9]/g, '').slice(-12)}`
+    : baseArtifactId;
   const renditionId = `pex-${input.target.stateId}-${Date.now()}`;
 
   if (process.env.VITEST === 'true' || input.dryRun) {
-    const imageUri = `data:image/png;base64,${Buffer.from(`vitest-experience-${input.target.stateId}`, 'utf8').toString('base64')}`;
+    const vitestKey =
+      input.regenerationAttemptId ?
+        `vitest-experience-${input.target.stateId}-${input.regenerationAttemptId}`
+      : `vitest-experience-${input.target.stateId}`;
+    const imageUri = `data:image/png;base64,${Buffer.from(vitestKey, 'utf8').toString('base64')}`;
     const providerJobId = `vitest-fal-experience-${input.target.stateId}`;
     return {
       stateId: input.target.stateId,

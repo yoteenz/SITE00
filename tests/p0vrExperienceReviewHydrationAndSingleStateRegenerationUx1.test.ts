@@ -220,15 +220,19 @@ describe('P0.VR.EXPERIENCE-REVIEW-HYDRATION-AND-SINGLE-STATE-REGENERATION-UX1', 
   });
 
   it('single-state regeneration dispatches exactly one FAL call and preserves other outputs', async () => {
-    vi.spyOn(falExec, 'renderExperienceExpressionFalTarget').mockImplementation(async (input) => ({
-      stateId: input.target.stateId,
-      label: input.target.label,
-      artifactId: `pcga-EXP-${input.target.stateId.toUpperCase()}-new`,
-      imageUri: `data:image/png;base64,${input.target.stateId}-new`,
-      providerJobId: 'fal-1',
-      model: 'vitest',
-      job: falJob(input.target.stateId, 'new'),
-    }));
+    vi.spyOn(falExec, 'renderExperienceExpressionFalTarget').mockImplementation(async (input) => {
+      const regenSuffix = input.regenerationAttemptId ? `-R${input.regenerationAttemptId.slice(-4)}` : '';
+      const artifactId = `pcga-EXP-${input.target.stateId.toUpperCase()}-new${regenSuffix}`;
+      return {
+        stateId: input.target.stateId,
+        label: input.target.label,
+        artifactId,
+        imageUri: `data:image/png;base64,${input.target.stateId}-new${regenSuffix}`,
+        providerJobId: 'fal-1',
+        model: 'vitest',
+        job: falJob(input.target.stateId, 'new'),
+      };
+    });
 
     const state = await stateAfterMobileConfirmedOverview();
     let r = await runPageConceptViewportFamilyAction(state, { type: 'generateExperienceExpression', dryRun: true });

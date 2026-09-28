@@ -8,8 +8,6 @@ import {
   buildMenuExpandedNavHierarchyRefinementPromptBlock,
   validateExpandedNavHierarchyManifestStructure,
 } from './ndxbookExpandedNavHierarchy.js';
-import { manifestForState } from './experienceContentManifest.js';
-
 export type ExpandedNavHierarchyRefinementReceipt = {
   menuStateRegenerated: boolean;
   designChangedBeyondHierarchy: 'YES' | 'NO' | 'UNKNOWN';
@@ -47,13 +45,10 @@ export function buildExpandedNavHierarchyRefinementReceipt(input: {
 }): ExpandedNavHierarchyRefinementReceipt {
   const hierarchy = buildNdxbookOverviewExpandedNavHierarchy(input.projectId, input.pageId);
   const structure = validateExpandedNavHierarchyManifestStructure(hierarchy);
-  const menuManifest = manifestForState(input.authorityAfter.experienceContentManifests, 'menu');
   const promptIncludesLock =
-    menuManifest ?
-      buildMenuExpandedNavHierarchyRefinementPromptBlock({ hierarchyLines: hierarchy.hierarchyLines }).includes(
-        'DO NOT REDESIGN THE PANEL',
-      )
-    : false;
+    buildMenuExpandedNavHierarchyRefinementPromptBlock({ hierarchyLines: hierarchy.hierarchyLines }).includes(
+      'DO NOT REDESIGN THE MENU',
+    );
 
   const otherUnchanged =
     input.authorityBefore ?

@@ -93,9 +93,18 @@ function shortOutputTabLabel(state: ExperienceExpressionVisualState, stateKindLa
   const kind = stateKindLabel(state);
   if (kind.includes('BASE')) return 'BASE';
   if (kind.includes('MENU')) return 'MENU';
-  if (kind.includes('ENTRY')) return 'ENTRY';
-  if (kind.includes('ACCESS') || kind.includes('PROJECT')) return 'ACCESS';
+  if (kind.includes('ENTRY')) return 'ENTRY DETAIL';
+  if (kind.includes('ACCESS') || kind.includes('PROJECT')) return 'PROJECT ACCESS';
   return state.stateId.toUpperCase().slice(0, 8);
+}
+
+export function regenActionLabelForState(state: ExperienceExpressionVisualState, stateKindLabel: (s: ExperienceExpressionVisualState) => string): string | null {
+  if (state.sourceProvider !== 'FAL_EXPERIENCE') return null;
+  const kind = stateKindLabel(state);
+  if (state.stateId === 'menu' || kind.includes('MENU')) return 'REGENERATE MENU';
+  if (kind.includes('ENTRY')) return 'REGENERATE ENTRY DETAIL';
+  if (kind.includes('ACCESS') || kind.includes('PROJECT')) return 'REGENERATE PROJECT ACCESS';
+  return 'REGENERATE THIS OUTPUT';
 }
 
 function statusGlyph(status: string): string {
@@ -128,22 +137,14 @@ export function ExperienceReviewOutputNav(props: {
             type="button"
             className={`s00-exp-review__outputTab${selected ? ' s00-exp-review__outputTab--active' : ''}`}
             data-testid={`page-concept-experience-card-${state.stateId}`}
+            aria-current={selected ? 'true' : undefined}
             onClick={() => props.onSelect(state.stateId)}
           >
-            <span className="s00-exp-review__outputTabThumb">
-              <PageConceptContainedPreviewFrame
-                size="thumb"
-                status={state.previewImageUri ? 'READY' : 'PENDING'}
-                imageSrc={state.previewImageUri}
-                testId={`page-concept-experience-card-thumb-${state.stateId}`}
-              />
+            <span className="s00-exp-review__outputTabLabel" data-testid={`experience-output-tab-label-${state.stateId}`}>
+              {tab}
             </span>
-            <span className="s00-exp-review__outputTabLabel">
-              {tab} · {statusGlyph(status)} {status}
-            </span>
-            <span className="s00-exp-review__outputNavMeta" data-testid={`page-concept-experience-card-status-${state.stateId}`}>
-              {props.stateKindLabel(state)}
-              {props.approved ? ' · APPROVED' : ''}
+            <span className="s00-exp-review__outputTabStatus" data-testid={`page-concept-experience-card-status-${state.stateId}`}>
+              {statusGlyph(status)} {status}
             </span>
           </button>
         );
@@ -157,20 +158,33 @@ export function ExperienceReviewSelectedOutputActions(props: {
   stateKindLabel: (s: ExperienceExpressionVisualState) => string;
   onInspect: () => void;
   onRegenerate?: () => void;
+  onGenerate?: () => void;
+  onRecover?: () => void;
+  hasRecoverableArtifact?: boolean;
 }) {
-  const label = props.stateKindLabel(props.state);
-  const regenLabel =
-    props.state.stateId === 'menu' ? 'REGENERATE MENU'
-    : label.includes('ENTRY') ? 'REGENERATE ENTRY DETAIL'
-    : label.includes('ACCESS') ? 'REGENERATE PROJECT ACCESS'
-    : props.onRegenerate ? 'REGENERATE THIS OUTPUT'
-    : null;
+  const regenLabel = props.onRegenerate ? regenActionLabelForState(props.state, props.stateKindLabel) : null;
+  const pending = !props.state.previewImageUri?.trim() && props.state.sourceProvider === 'FAL_EXPERIENCE';
   return (
     <div className="s00-exp-review__selectedActions" data-testid="experience-review-selected-output-actions">
       <button type="button" className="s00-exp-review__btn s00-exp-review__btn--white" onClick={props.onInspect}>
         INSPECT
       </button>
-      {props.onRegenerate && regenLabel ?
+      {pending && props.onGenerate ?
+        <button
+          type="button"
+          className="s00-exp-review__btn s00-exp-review__btn--lime"
+          data-testid={`page-concept-generate-experience-state-${props.state.stateId}`}
+          onClick={props.onGenerate}
+        >
+          GENERATE THIS OUTPUT
+        </button>
+      : null}
+      {pending && props.hasRecoverableArtifact && props.onRecover ?
+        <button type="button" className="s00-exp-review__btn s00-exp-review__btn--white" onClick={props.onRecover}>
+          RECOVER OUTPUT
+        </button>
+      : null}
+      {props.onRegenerate && regenLabel && !pending ?
         <button
           type="button"
           className="s00-exp-review__btn s00-exp-review__btn--black"
@@ -181,6 +195,23 @@ export function ExperienceReviewSelectedOutputActions(props: {
         </button>
       : null}
     </div>
+  );
+}
+
+export function ExperienceReviewPendingStage(props: {
+  state: ExperienceExpressionVisualState;
+  stateKindLabel: (s: ExperienceExpressionVisualState) => string;
+  cardStatus: string;
+}) {
+  const label = props.stateKindLabel(props.state);
+  return (
+    <section className="s00-exp-review__pendingStage" data-testid="experience-review-pending-stage">
+      <h3 className="s00-exp-review__emptyTitle">{label}</h3>
+      <p className="s00-exp-review__emptyCopy" data-testid="experience-review-pending-status">
+        STATUS: {props.cardStatus.toUpperCase()}
+      </p>
+      <p className="s00-exp-review__emptyCopy">This expression output has not been materialized yet.</p>
+    </section>
   );
 }
 
@@ -210,8 +241,20 @@ export function ExperienceReviewPreviewStage(props: {
   state: ExperienceExpressionVisualState | null;
   stateKindLabel: (s: ExperienceExpressionVisualState) => string;
   onFullscreen: () => void;
+  cardStatus?: (s: ExperienceExpressionVisualState) => string;
 }) {
   if (!props.state) return null;
+  const pending =
+    props.state.sourceProvider === 'FAL_EXPERIENCE' && !props.state.previewImageUri?.trim();
+  if (pending) {
+    return (
+      <ExperienceReviewPendingStage
+        state={props.state}
+        stateKindLabel={props.stateKindLabel}
+        cardStatus={props.cardStatus?.(props.state) ?? 'PENDING'}
+      />
+    );
+  }
   return (
     <section className="s00-exp-review__previewStage" data-testid="experience-review-preview-stage">
       <div className="s00-exp-review__previewFrame" data-testid="page-concept-experience-visual-preview">
@@ -219,6 +262,7 @@ export function ExperienceReviewPreviewStage(props: {
           size="mobile"
           status={props.state.previewImageUri ? 'READY' : 'PENDING'}
           imageSrc={props.state.previewImageUri}
+          cacheBustArtifactId={props.state.generatedArtifactId}
           testId={`page-concept-experience-visual-${props.state.stateId}`}
         />
       </div>
@@ -387,8 +431,8 @@ export function ExperienceReviewActionBar(props: {
   onGeneratePackage?: () => void;
   onRegenerateState?: () => void;
   onRegenerateStateInheritTheme?: () => void;
-  onRegenerateMenu?: () => void;
   activeStateId?: string;
+  regenActionLabel?: string | null;
   onReviewNext?: () => void;
   onClose: () => void;
   showRegenerateState: boolean;
@@ -459,26 +503,15 @@ export function ExperienceReviewActionBar(props: {
           : null}
         </>
       : null}
-      {props.showRegenerateState && props.onRegenerateState ?
+      {props.showRegenerateState && props.onRegenerateState && props.regenActionLabel ?
         <button
           type="button"
           className="s00-exp-review__btn s00-exp-review__btn--white"
           disabled={props.busy}
-          data-testid={`page-concept-regenerate-experience-state-active`}
+          data-testid="page-concept-regenerate-experience-state-active"
           onClick={props.onRegenerateState}
         >
-          {props.activeStateId === 'menu' ? 'REGENERATE MENU' : 'REGENERATE THIS OUTPUT'}
-        </button>
-      : null}
-      {props.onRegenerateMenu ?
-        <button
-          type="button"
-          className="s00-exp-review__btn s00-exp-review__btn--white"
-          disabled={props.busy}
-          data-testid="page-concept-regenerate-experience-menu"
-          onClick={props.onRegenerateMenu}
-        >
-          REGENERATE MENU
+          {props.regenActionLabel}
         </button>
       : null}
       {props.onRegenerateStateInheritTheme ?

@@ -98,7 +98,8 @@ describe('P0.VR.EXPANDED-NAV-HIERARCHY-REFINEMENT1', () => {
     const refinement = buildMenuExpandedNavHierarchyRefinementPromptBlock({
       hierarchyLines: menu.navigationHierarchyLines ?? [],
     });
-    expect(refinement).toContain('KEEP THE CURRENT APPROVED EXPANDED-NAV DESIGN');
+    expect(refinement).toContain('KEEP THE CURRENT APPROVED MENU DESIGN');
+    expect(refinement).toContain('NESTED_NAV_REFINEMENT');
     expect(refinement).toContain('NESTED NAVIGATION EXPANSION');
   });
 
@@ -124,6 +125,13 @@ describe('P0.VR.EXPANDED-NAV-HIERARCHY-REFINEMENT1', () => {
     expect(lastCall.referenceImageUri).toBeTruthy();
 
     const after = r.state.pipelineSet!.experienceExpressionAuthority!;
+    const menuBefore = before.visualStates.find((s) => s.stateId === 'menu');
+    const menuAfter = after.visualStates.find((s) => s.stateId === 'menu');
+    expect(menuAfter?.generatedArtifactId).toBeTruthy();
+    expect(menuAfter?.generatedArtifactId).not.toBe(menuBefore?.generatedArtifactId);
+    expect(after.menuRegenerationReceipt?.activeMenuSlotUpdated).toBe('PASS');
+    expect(menuAfter?.founderVisualQaStatus).toBe('READY_FOR_FOUNDER_VISUAL_QA');
+
     for (const [stateId, uri] of otherUris) {
       const row = after.visualStates.find((s) => s.stateId === stateId);
       expect(row?.previewImageUri).toBe(uri);

@@ -34,6 +34,9 @@ import { slotLabelFromConceptId } from '../../../../../../shared/site00-design-w
 import type { PageConceptGenerationState } from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { PageConceptContainedPreviewFrame } from '../PageConceptContainedPreviewFrame';
 import {
+  assertExperiencePreviewArtifactSync,
+} from '../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceMenuRegeneration.js';
+import {
   ExperienceReviewActionBar,
   ExperienceReviewCoverageSection,
   ExperienceReviewDetails,
@@ -48,6 +51,7 @@ import {
   ExperienceReviewStatusStrip,
   ExperienceReviewSelectedOutputActions,
   ExperienceReviewTechnicalDetails,
+  regenActionLabelForState,
 } from './ExperienceReviewSections';
 
 export type ExperienceReviewPanelProps = {
@@ -140,6 +144,20 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
     [activeStateId, visualStates],
   );
 
+  useEffect(() => {
+    if (!activeState || activeState.stateId !== 'menu') return;
+    try {
+      assertExperiencePreviewArtifactSync({
+        selectedOutputType: activeState.stateId,
+        activeArtifactId: activeState.generatedArtifactId,
+        previewArtifactId: activeState.generatedArtifactId,
+        currentPackageArtifactId: activeState.generatedArtifactId,
+      });
+    } catch {
+      /* dev assertion — surfaced in tests */
+    }
+  }, [activeState]);
+
   const previousJobForActive = useMemo(() => {
     if (!authority?.generationJobs?.length || !activeState) return null;
     const currentId = activeState.generatedArtifactId;
@@ -224,6 +242,28 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
         />
       : null}
 
+      {showOutputReview ?
+        <div className="s00-exp-review__outputNavRegion" data-testid="experience-review-output-nav-region">
+          <ExperienceReviewOutputNav
+            visualStates={visualStates}
+            activeStateId={activeState?.stateId ?? 'base'}
+            approved={approved}
+            stateKindLabel={stateKindLabel}
+            cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')}
+            onSelect={(id) => setActiveStateId(id)}
+            onInspect={(id) => {
+              setActiveStateId(id);
+              setFullscreenId(id);
+            }}
+            onRegenerateState={
+              props.onRegenerateState ?
+                (stateId) => props.onRegenerateState?.(stateId)
+              : undefined
+            }
+          />
+        </div>
+      : null}
+
       <div className="s00-exp-review__body" data-testid="experience-review-body">
         {mode === 'HYDRATING' ?
           <ExperienceReviewHydratingState />
@@ -243,27 +283,11 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
           />
         : showOutputReview ?
           <>
-            <ExperienceReviewOutputNav
-              visualStates={visualStates}
-              activeStateId={activeState?.stateId ?? 'base'}
-              approved={approved}
-              stateKindLabel={stateKindLabel}
-              cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')}
-              onSelect={(id) => setActiveStateId(id)}
-              onInspect={(id) => {
-                setActiveStateId(id);
-                setFullscreenId(id);
-              }}
-              onRegenerateState={
-                props.onRegenerateState ?
-                  (stateId) => props.onRegenerateState?.(stateId)
-                : undefined
-              }
-            />
             <div className="s00-exp-review__stageColumn">
               <ExperienceReviewPreviewStage
                 state={activeState}
                 stateKindLabel={stateKindLabel}
+                cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')}
                 onFullscreen={() => activeState && setFullscreenId(activeState.stateId)}
               />
               {activeState ?
@@ -273,7 +297,20 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
                     stateKindLabel={stateKindLabel}
                     onInspect={() => setFullscreenId(activeState.stateId)}
                     onRegenerate={
-                      activeState.sourceProvider === 'FAL_EXPERIENCE' && props.onRegenerateState ?
+                      activeState.sourceProvider === 'FAL_EXPERIENCE' &&
+                      activeState.previewImageUri?.trim() &&
+                      props.onRegenerateState ?
+                        () => props.onRegenerateState?.(activeState.stateId)
+                      : undefined
+                    }
+                    onGenerate={
+                      !activeState.previewImageUri?.trim() && props.onRegenerateState ?
+                        () => props.onRegenerateState?.(activeState.stateId)
+                      : undefined
+                    }
+                    hasRecoverableArtifact={Boolean(previousJobForActive?.artifactId)}
+                    onRecover={
+                      previousJobForActive && props.onRegenerateState ?
                         () => props.onRegenerateState?.(activeState.stateId)
                       : undefined
                     }
@@ -326,22 +363,29 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
             () => props.onRegenerateState?.(activeState.stateId, true)
           : undefined
         }
-        onRegenerateMenu={
-          props.onRegenerateState ?
-            () => props.onRegenerateState?.('menu')
-          : undefined
-        }
         activeStateId={activeState?.stateId}
+        regenActionLabel={
+          activeState?.previewImageUri?.trim() ?
+            regenActionLabelForState(activeState, stateKindLabel)
+          : null
+        }
         onReviewNext={
           activeState ?
             () => {
               const next = nextStateId(visualStates, activeState.stateId);
-              if (next) setActiveStateId(next);
+              if (next) {
+                setActiveStateId(next);
+                if (fullscreenId) setFullscreenId(next);
+              }
             }
           : undefined
         }
         onClose={props.onClose}
-        showRegenerateState={Boolean(activeState?.sourceProvider === 'FAL_EXPERIENCE' && props.onRegenerateState)}
+        showRegenerateState={Boolean(
+          activeState?.sourceProvider === 'FAL_EXPERIENCE' &&
+            activeState.previewImageUri?.trim() &&
+            props.onRegenerateState,
+        )}
       />
 
       {fullscreenState ?
@@ -350,6 +394,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
             size="mobile"
             status={fullscreenState.previewImageUri ? 'READY' : 'PENDING'}
             imageSrc={fullscreenState.previewImageUri}
+            cacheBustArtifactId={fullscreenState.generatedArtifactId}
             testId="page-concept-experience-fullscreen-image"
           />
           <div className="s00-exp-review__fullscreenNav">

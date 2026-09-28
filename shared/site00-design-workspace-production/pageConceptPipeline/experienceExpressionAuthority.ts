@@ -67,6 +67,8 @@ export type ExperienceExpressionVisualState = {
   packagingMode?: 'SINGLE' | 'COMBINED';
   sourceExpressionTypes?: readonly ExpressionPromptType[];
   materializationStatus?: 'INHERITED' | 'READY' | 'GENERATING' | 'FAILED' | 'PRESERVED';
+  /** Post-regeneration founder QA gate — not auto-approved. */
+  founderVisualQaStatus?: 'READY_FOR_FOUNDER_VISUAL_QA' | 'APPROVED' | null;
   themeMode?: import('./experienceThemeContinuity.js').ExperienceThemeMode;
   contrastRationale?: string | null;
   themeContinuityStatus?: import('./experienceThemeContinuity.js').ThemeContinuityStatus;
@@ -120,6 +122,7 @@ export type ExperienceExpressionAuthority = {
   experienceContentAudit?: import('./experienceContentManifest.js').ExperienceContentAudit;
   experienceExpressionCoverageMap?: import('./experienceExpressionCoverageMap.js').ExperienceExpressionCoverageMap | null;
   legacyReconciliationReceipt?: import('./experienceLegacyFalArtifactReconciliation.js').ExperienceLegacyReconciliationReceipt | null;
+  menuRegenerationReceipt?: import('./experienceMenuRegeneration.js').MenuRegenerationReceipt | null;
 };
 
 function inferPatterns(functionContract: PageFunctionContract): ExperienceExpressionPatternType[] {
