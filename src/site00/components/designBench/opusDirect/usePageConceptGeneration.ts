@@ -2226,6 +2226,7 @@ export function usePageConceptGeneration(
     pipelineSet: state.pipelineSet,
     generationJobs: state.generationJobs,
     generationState: state,
+    restoreReadyMobileGalleryFromServer,
     openGenerationConfirm,
     openGenerationConsole,
     consoleFocusViewport,

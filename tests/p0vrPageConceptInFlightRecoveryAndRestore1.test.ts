@@ -4,7 +4,10 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { recoverStalePageConceptInFlightGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptInFlightRecovery.js';
+import {
+  pageConceptGenerationActivelyRunningForUi,
+  recoverStalePageConceptInFlightGenerationState,
+} from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptInFlightRecovery.js';
 import { mergePageConceptTerminalRunResultIntoState } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import { pageConceptConfirmMobileAuthority, pageConceptSelectMobileConcept } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
 import type { PageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
@@ -94,6 +97,17 @@ describe('P0 page concept in-flight recovery and terminal merge', () => {
     expect(recovered.generationStatus).toBe('GPT2_MOBILE_AWAITING_SELECTION');
     expect(recovered.activeGenerationStage).toBeNull();
     expect(recovered.liveProgress).toBeNull();
+  });
+
+  it('UI actively-running is false for stale CGPT_RUNNING without founder session', () => {
+    expect(pageConceptGenerationActivelyRunningForUi(mobileReadyState(), false, false)).toBe(false);
+    const emptyInFlight: PageConceptGenerationState = {
+      ...mobileReadyState(),
+      generationJobs: [],
+      pipelineSet: null,
+      generationStatus: 'CGPT_RUNNING',
+    };
+    expect(pageConceptGenerationActivelyRunningForUi(emptyInFlight, false, false)).toBe(false);
   });
 
   it('terminal run merge preserves confirmed mobile authority', () => {
