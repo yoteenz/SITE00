@@ -3,6 +3,8 @@ import { NDXBOOK_ORG_ID } from '../site00Evolve/creativeDirection/creativeIntell
 import { PAGE_CONCEPT_CANONICAL_PIPELINE_ID } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
 import type { PageConceptServerRun } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { designPageIdsEquivalent } from '../../../shared/site00-design-workspace-production/designPageIdentity.js';
+import { expandPageConceptDurableRunPageIdCandidates } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptDurableRunPageIds.js';
+import { pageConceptServerRunIsEmptyInFlightCgpt } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
 
 const TABLE = 'site00_page_concept_generation_runs';
@@ -72,7 +74,16 @@ export async function findLatestPageConceptServerRunForPage(input: {
   const slug = input.projectId.trim().toLowerCase();
   const pageIds = [
     ...new Set(
-      [input.pageId, ...(input.pageIds ?? [])].map((id) => id.trim()).filter(Boolean),
+      [
+        input.pageId,
+        ...(input.pageIds ?? []),
+        ...expandPageConceptDurableRunPageIdCandidates({
+          projectSlug: slug,
+          pageId: input.pageId,
+        }),
+      ]
+        .map((id) => id.trim())
+        .filter(Boolean),
     ),
   ];
   const { data, error } = await getSupabaseAdmin()
@@ -191,6 +202,7 @@ export async function findActivePageConceptServerRunForPage(input: {
     const run = row.run_json as PageConceptServerRun;
     if (terminal.has(run.status)) continue;
     if (run.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION') continue;
+    if (pageConceptServerRunIsEmptyInFlightCgpt(run)) continue;
     logPageConceptGpt2MobileEvent('GPT2_MOBILE_RUN_RECOVERED', {
       runId: run.runId,
       message: 'active_run_for_page',

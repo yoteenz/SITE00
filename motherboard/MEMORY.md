@@ -12323,3 +12323,13 @@ Founder tapped **RESTORE PAGE CONCEPTS** — modal stayed empty (Step 3 placehol
 - **vitest.config:** CI `testTimeout`/`hookTimeout` 120s; `maxThreads: 2`.
 - **projectsIndexContract:** `beforeAll` legacy import (not per-test `beforeEach`); `describe.sequential`.
 - **orchestrationEnrichment:** static import. **intakeService:** 120s on production-mode probe.
+
+---
+
+## 2026-09-28 — Durable NDXBOOK mobile concepts exist; mount without regen
+
+Founder asked whether agent can **retrieve latest FAL/mobile outputs** and mount instead of wasting credits. **Supabase (FS Website)** confirms **3 READY `GPT2_MOBILE`** jobs on run **`pcgr-1790520287592-55ipmm8`** (`GPT2_MOBILE_AWAITING_SELECTION`, PNGs in public storage); newer **`pcgr-1790565884617-obzrrwh`** is empty **`CGPT_RUNNING`** (0 jobs) and was blocking restore/poll. No **`FAL_EXPERIENCE`** jobs on overview page-concept runs — mobile gallery is GPT2 mobile, not Experience FAL.
+
+- **Restore:** **`fetchLatestPageConceptGenerationRunForDesignPage`** first in **`restoreReadyMobileGalleryFromServer`**; legacy page_id **`ndxbook:overview:/projects/ndxbook`** in durable lookup candidates.
+- **Poll guard:** empty orphan CGPT runs cannot clobber local READY mobile; **`findActivePageConceptServerRunForPage`** skips empty CGPT.
+- **Client latest-for-page:** only considers runs with READY mobile gallery. **Railway + cPanel** redeploy for founder **RESTORE PAGE CONCEPTS**.
