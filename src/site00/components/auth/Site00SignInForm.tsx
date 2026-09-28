@@ -1,18 +1,5 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ensureAuthRestoredFromBackup } from '../../../utils/adminAuth';
-import { getSupabase, isSupabaseConfigured, signOutIfSessionEmailUnconfirmed } from '../../../utils/supabase';
-import {
-  buildMinimalUserFromSupabaseSession,
-  applyMinimalUserToStorage,
-  buildProfilePayloadForBackend,
-  didLastProfileSyncError,
-  syncAllFromApi,
-} from '../../../utils/syncFromApi';
-import { onSignInSuccess } from '../../../utils/adminAuth';
-import { registerServerSessionCookie } from '../../../utils/sessionRestore';
-import { tryServerSessionRestore } from '../../../utils/sessionRestore';
-import { trackActivity } from '../../../utils/activity';
 import {
   site00RequestPasswordReset,
   site00SignInWithMagicLink,
@@ -52,78 +39,6 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
       window.location.href = target;
     }, 280);
   };
-
-  useEffect(() => {
-    let cancelled = false;
-    ensureAuthRestoredFromBackup();
-    if (localStorage.getItem('isSignedIn') !== 'true') return;
-
-    const go = () => {
-      if (cancelled) return;
-      redirectAfterSignIn();
-    };
-
-    if (!isSupabaseConfigured()) {
-      go();
-      return () => {
-        cancelled = true;
-      };
-    }
-
-    const supabase = getSupabase();
-    if (!supabase) return () => { cancelled = true; };
-
-    void supabase.auth.getSession().then(({ data: { session } }) => {
-      if (cancelled || !session?.access_token) return;
-      go();
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [location.search, location.state]);
-
-  useEffect(() => {
-    if (!isSupabaseConfigured()) return;
-    const supabase = getSupabase();
-    if (!supabase) return;
-    let cancelled = false;
-
-    void supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (cancelled) return;
-      if (await signOutIfSessionEmailUnconfirmed(supabase, session)) return;
-      if (!session) {
-        void tryServerSessionRestore();
-        return;
-      }
-      const profile = await syncAllFromApi();
-      if (cancelled) return;
-      if (profile) {
-        localStorage.setItem('isSignedIn', 'true');
-        onSignInSuccess('session_restore');
-        registerServerSessionCookie(session.access_token, session.refresh_token);
-        trackActivity('sign_in', { method: 'session_restore' });
-        window.dispatchEvent(new CustomEvent('signInStateChanged', { detail: 'true' }));
-        redirectAfterSignIn();
-        return;
-      }
-      const minimal = buildMinimalUserFromSupabaseSession(session.user);
-      applyMinimalUserToStorage(minimal);
-      onSignInSuccess('session_restore');
-      registerServerSessionCookie(session.access_token, session.refresh_token);
-      if (!didLastProfileSyncError()) {
-        const { patchProfile } = await import('../../../utils/api');
-        await patchProfile(buildProfilePayloadForBackend(minimal)).catch(() => {});
-      }
-      localStorage.setItem('isSignedIn', 'true');
-      window.dispatchEvent(new CustomEvent('signInStateChanged', { detail: 'true' }));
-      redirectAfterSignIn();
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [location.search, location.state]);
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
