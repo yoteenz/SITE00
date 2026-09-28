@@ -6,7 +6,6 @@ import type { PageConceptGeneratedArtifact, PageConceptPipelineSet } from './typ
 import { pageConceptCanonicalNbpDisabled } from './pageConceptCanonicalPipeline.js';
 import {
   experienceArtifactReadyForReview,
-  isMobileAuthorityConfirmed,
   resolveExperienceExpressionStatus,
   resolveMobileAuthorityStatus,
   slotLabelFromConceptId,
@@ -65,6 +64,29 @@ export function countGpt2HeroRailActions(stages: readonly Gpt2ViewportFamilyHero
 
 export function listGpt2HeroRailActionIds(stages: readonly Gpt2ViewportFamilyHeroRailStage[]): string[] {
   return stages.flatMap((stage) => stage.actions.map((action) => action.id));
+}
+
+/** Downstream hero-rail controls that require explicit mobile authority confirmation (not selection alone). */
+export const GPT2_HERO_RAIL_DOWNSTREAM_ACTION_IDS = [
+  'vf-expression',
+  'vf-run-desktop',
+  'vf-run-tablet',
+  'vf-pair-review',
+] as const;
+
+export type Gpt2HeroRailDownstreamActionId = (typeof GPT2_HERO_RAIL_DOWNSTREAM_ACTION_IDS)[number];
+
+const CONFIRM_MOBILE_FIRST = 'CONFIRM MOBILE AUTHORITY FIRST';
+
+export function findGpt2HeroRailAction(
+  stages: readonly Gpt2ViewportFamilyHeroRailStage[],
+  actionId: string,
+): Gpt2ViewportFamilyAuthorityRailAction | undefined {
+  for (const stage of stages) {
+    const hit = stage.actions.find((a) => a.id === actionId);
+    if (hit) return hit;
+  }
+  return undefined;
 }
 
 function jobRunning(jobs: readonly PageConceptGeneratedArtifact[], provider: 'GPT2_TABLET' | 'GPT2_DESKTOP'): boolean {
@@ -141,7 +163,8 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
 }): readonly Gpt2ViewportFamilyHeroRailStage[] {
   const family = input.pipelineSet?.viewportAuthorityFamily ?? null;
   const mobileAuthority = resolveMobileAuthorityStatus(family);
-  const mobileConfirmed = isMobileAuthorityConfirmed(family);
+  const mobileConfirmed = mobileAuthority === 'CONFIRMED';
+  const mobileSelectedNotConfirmed = mobileAuthority === 'SELECTED';
   const mobileSelected = mobileAuthority !== 'NONE';
   const confirmedConceptId = family?.confirmedMobileConceptId ?? family?.selectedMobileConceptId ?? null;
   const mobileSlotLabel =
@@ -171,28 +194,22 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
 
   // 1 — MOBILE AUTHORITY (two canonical controls)
   {
-    const selectDisabled =
-      mobileConfirmed ||
-      (mobileSelected && !mobileConfirmed) ||
-      !input.selectedGalleryCandidateId ||
-      input.generating;
+    const selectDisabled = mobileConfirmed || !input.selectedGalleryCandidateId || input.generating;
     const selectDisabledReason =
       mobileConfirmed ? 'Mobile authority confirmed.'
-      : mobileSelected && !mobileConfirmed ? 'Concept selected — confirm mobile authority.'
       : !input.selectedGalleryCandidateId ? 'Select a concept in the gallery first.'
       : input.generating ? 'Generation in progress.'
       : null;
 
-    const confirmDisabled = !mobileSelected || mobileConfirmed || input.generating;
+    const confirmDisabled = !mobileSelectedNotConfirmed || mobileConfirmed || input.generating;
     const confirmDisabledReason =
-      !mobileSelected ? 'Select a mobile concept first.'
-      : mobileConfirmed ? 'Mobile authority confirmed.'
+      mobileConfirmed ? 'Mobile authority confirmed.'
+      : !mobileSelectedNotConfirmed ? 'Select a mobile concept first.'
       : input.generating ? 'Generation in progress.'
       : null;
 
     const selectLabel =
-      mobileSelected && !mobileConfirmed ? 'SELECTED MOBILE ✓'
-      : mobileConfirmed ? 'SELECT MOBILE CONCEPT'
+      mobileSelectedNotConfirmed ? 'SELECTED MOBILE ✓'
       : 'SELECT MOBILE CONCEPT';
 
     stages.push({
@@ -201,10 +218,13 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       valueLine:
         mobileConfirmed && mobileSlotLabel ?
           `${mobileSlotLabel} · AUTHORITY LOCKED`
-        : mobileSelected && mobileSlotLabel ?
-          `${mobileSlotLabel} · SELECTED`
+        : mobileSelectedNotConfirmed && mobileSlotLabel ?
+          `${mobileSlotLabel} · SELECTED · NOT CONFIRMED`
         : 'NOT SELECTED',
-      statusLabel: mobileConfirmed ? 'CONFIRMED' : mobileSelected ? 'SELECTED' : 'NOT SELECTED',
+      statusLabel:
+        mobileConfirmed ? 'CONFIRMED'
+        : mobileSelectedNotConfirmed ? 'SELECTED · NOT CONFIRMED'
+        : 'NOT SELECTED',
       statusTone: mobileConfirmed ? 'approved' : mobileSelected ? 'active' : 'pending',
       emphasized: input.activeViewport === 'MOBILE',
       actions: [
@@ -231,7 +251,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
     const expressionEnabled =
       mobileConfirmed && (!input.generating || experienceGenerating || hasExperiencePackage);
     const expressionDisabledReason =
-      !mobileConfirmed ? 'Confirm mobile authority first.'
+      !mobileConfirmed ? CONFIRM_MOBILE_FIRST
       : input.generating && !experienceGenerating && !hasExperiencePackage ? 'Generation in progress.'
       : null;
 
@@ -275,7 +295,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
   // 3 — VIEWPORT INTERPRETATIONS (desktop then tablet)
   {
     const viewportBlockedReason =
-      !mobileConfirmed ? 'Confirm mobile authority first.'
+      !mobileConfirmed ? CONFIRM_MOBILE_FIRST
       : !experienceApproved ? 'Approve experience package first.'
       : input.generating ? 'Generation in progress.'
       : null;
@@ -364,7 +384,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
           disabledReason:
             viewportFamilyConfirmed ? 'Viewport family confirmed.'
             : pairReviewEnabled ? null
-            : !mobileConfirmed ? 'Confirm mobile authority first.'
+            : !mobileConfirmed ? CONFIRM_MOBILE_FIRST
             : !experienceApproved ? 'Approve experience package first.'
             : !desktopReady ? 'Create desktop interpretation first.'
             : !tabletReady ? 'Create tablet interpretation first.'
