@@ -8,7 +8,6 @@ import type { ExperienceExpressionAuthority, ExperienceExpressionVisualState } f
 import {
   expressionTypeForVisualState,
   validateExperiencePackageMaterialization,
-  type ExperienceGenerationJob,
 } from './experiencePackageMaterialization.js';
 import { isNdxbookOverviewExperiencePage } from './ndxbookOverviewExperienceExpressionContentSpec.js';
 import { PAGE_EXPERIENCE_EXPRESSION_FAL_PROMPT_VERSION } from './pageConceptExperienceExpressionFalPlan.js';
@@ -269,8 +268,6 @@ export function reconcileExistingExperienceArtifacts(input: {
 
   const authorityJobs = [...(input.authority.generationJobs ?? [])];
   const recovered: RecoveredExperienceFalArtifact[] = [];
-  let repaired = false;
-
   const visualStates = input.authority.visualStates.map((state) => {
     if (state.previewImageUri?.trim() && state.sourceProvider !== 'FAL_EXPERIENCE') return state;
     const job = byState.get(state.stateId);
@@ -280,14 +277,10 @@ export function reconcileExistingExperienceArtifacts(input: {
 
     const recoveryClass =
       state.previewImageUri?.trim() ?
-        state.materializationStatus === 'STALE' ?
-          'STALE_CONTENT'
-        : 'CURRENT'
+        'CURRENT'
       : job ?
         classifyRecoveredArtifact({ job, authority: input.authority, confirmedConceptId })
       : 'CURRENT';
-
-    if (!state.previewImageUri?.trim()) repaired = true;
 
     const artifactId = job?.artifactId ?? authJob?.artifactId ?? state.generatedArtifactId ?? null;
     if (job) {
