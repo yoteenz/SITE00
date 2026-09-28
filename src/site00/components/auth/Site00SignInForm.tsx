@@ -61,8 +61,8 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     const returnTo = new URLSearchParams(location.search).get('returnTo');
     const target = resolveSite00ReturnToAfterSignIn(returnTo, location.state as { from?: string } | null);
     window.setTimeout(() => {
-      window.location.href = target;
-    }, 280);
+      window.location.assign(target);
+    }, 120);
   };
 
   const onSubmit = async (event: FormEvent) => {
