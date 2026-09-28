@@ -12249,3 +12249,14 @@ Founder cleared site data on NDXBOOK Overview (OPUS): gallery still showed Conce
 - Called from **`applyPageConceptServerRunSnapshotForGalleryMount`** and **`normalizePageConceptStateOnPanelMount`**.
 - **Hero rail:** `selectedGalleryCandidateId` falls back to `selectedMobileConceptId` in **`twinOpusDirectWorkspace.ts`**.
 - **Tests:** extended **`p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`**. **cPanel v702+** (SPA only).
+
+---
+
+## 2026-09-28 — GPT2 mobile concept catalog + select alias fix
+
+Follow-up: **SELECT MOBILE CONCEPT** appeared dead after browser clear — gallery `conceptId` often comes from **`gpt2AuthorityConceptId`** on jobs while `pipelineSet.mobileConcepts` was empty or used different ids; **`CGPT_BRIEF_REQUIRED`** when only `creativeInjection` persisted on Supabase run.
+
+- **`pageConceptGpt2MobileConceptCatalog.ts`:** `ensureGpt2MobileConceptCatalog`, `resolveMobileConceptForSelection`, `resolveCgptBriefIdsForViewportFamily`.
+- **`pageConceptSelectMobileConcept`:** catalog sync + alias resolution + injection brief fallback.
+- **Client:** local orchestration fallback when viewport-family API fails (select/confirm); rail/gallery resolve concept id before dispatch.
+- **Tests:** **`p0vrGpt2MobileConceptCatalogSelect1.test.ts`**. **cPanel v703+**.
