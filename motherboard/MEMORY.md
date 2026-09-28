@@ -12342,3 +12342,13 @@ Founder on **site00.fsbw-dev.com**: **RESTORE PAGE CONCEPTS** opened **GENERATE 
 
 - **Cause:** Button called **`openGenerationConfirm`**, which **`setOverlayOpen(true)` before server restore**; restore also skipped API when stale **`apiSessionReady === false`** even if token existed.
 - **Fix:** **`restorePageConceptsFromGallery`** — restore-only, no modal; empty gallery button uses it. Restore uses live **`ensurePageConceptApiAccessToken()`** not React session flag. **`fetchLatestPageConceptGenerationRunForPageApi`** 401 retry. Gallery empty secondary line shows **`executionError`**. **cPanel v710+**; **Railway** if API not on #1219 yet.
+
+---
+
+## 2026-09-28 — CI client review tests flaky (Production Release)
+
+**SITE 00 Production Release / test** — 2 failures: **`clientProjectRoomP0Client2`** comment not found; **`clientProjectRoomP0Client2A`** approval expected APPROVED got DECLINED. Shared Supabase preview fixture **`review-identity-direction-02`** mutated across parallel test **files** (decline vs approve).
+
+- **`previewReviewTestLock.ts`** — serialize preview fixture reads/writes under Vitest.
+- **`clientProjectRoomP0Client2.test.ts`** — **`beforeEach`** reset fixture.
+- **`vitest.config.ts`** — CI **`fileParallelism: false`**.
