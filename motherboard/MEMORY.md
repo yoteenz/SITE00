@@ -12227,3 +12227,14 @@ Sprint: MENU single-state regen must apply **NESTED_NAV_REFINEMENT** (Content Op
 - **FAL regen:** unique `pcga-EXP-MENU-*-R*` artifact on menu regen; strengthened hierarchy prompt block; `menuRegenerationReceipt` + `READY_FOR_FOUNDER_VISUAL_QA` on menu state.
 - **UI/CSS:** `s00-exp-review__outputNavRegion` sticky; compact BASE/MENU/ENTRY DETAIL/PROJECT ACCESS tabs; pending stage; preview `cacheBustArtifactId`.
 - **Tests:** **`p0vrExperienceMenuRegenMaterializationAndReviewTabLayoutFix1.test.tsx`**, updated hierarchy + hydration tests. **Railway + cPanel v700+**.
+
+---
+
+## 2026-09-28 — P0.VR Experience output write-back slot mount + panel sync
+
+FAL success was not always reflected in Experience Review tabs (MENU **MISSING**, **0 FAL READY**) because package **output slots** were not the canonical write-back target — only loose `visualStates` / `generationJobs` with pageId bucket mismatches.
+
+- **`experienceOutputSlotWriteback.ts`:** `ExperienceOutputSlotKey`, `materializeExperienceExpressionOutput`, `packageOutputIndex` + aggregates, `reconcileAndMountExistingExperienceArtifacts`, `applyExperiencePackageWritebackAfterGeneration`, `EXPERIENCE_OUTPUT_MATERIALIZED` event.
+- **Orchestration:** `pageConceptApplyExperienceExpressionGenerationResult` write-backs immediately after FAL.
+- **Hydration:** equivalent pageId FAL jobs + mount repair on open; tab status reads slot index; post-regen client hydration in `usePageConceptGeneration`.
+- **Tests:** **`p0vrExperienceOutputWritebackSlotMountAndPanelSync1.test.ts`**. **Railway + cPanel v701+**.

@@ -220,13 +220,23 @@ export function ExperienceReviewTechnicalDetails(props: {
   sourceAuthorityId: string;
   artifactIds: readonly string[];
   legacyReceipt: import('../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceLegacyFalArtifactReconciliation.js').ExperienceLegacyReconciliationReceipt | null;
+  packageOutputIndex?: import('../../../../../../shared/site00-design-workspace-production/pageConceptPipeline/experienceOutputSlotWriteback.js').ExperiencePackageOutputIndex | null;
 }) {
+  const slots = props.packageOutputIndex?.outputs ?? {};
   return (
     <details className="s00-exp-review__technical" data-testid="experience-review-technical-details">
       <summary>LINEAGE / TECHNICAL DETAILS</summary>
       <p data-testid="experience-review-lineage-debug">PACKAGE {props.packageId}</p>
       <p>AUTHORITY {props.sourceAuthorityId}</p>
       <p>ARTIFACTS {(props.artifactIds ?? []).join(', ') || '—'}</p>
+      {Object.entries(slots).map(([expressionType, rec]) =>
+        rec ?
+          <p key={expressionType} data-testid={`experience-output-slot-${expressionType}`}>
+            SLOT {expressionType} · {rec.outputRecordId} · ARTIFACT {rec.artifactId ?? '—'} · STATUS {rec.status} · v
+            {rec.version} · JOB {rec.sourceJobId ?? '—'}
+          </p>
+        : null,
+      )}
       {props.legacyReceipt ?
         <p>
           RECOVERY · MENU {props.legacyReceipt.menu} · ENTRY {props.legacyReceipt.entryDetail} · ACCESS{' '}

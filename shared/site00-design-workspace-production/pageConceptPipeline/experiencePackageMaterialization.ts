@@ -179,7 +179,26 @@ export function mergePreservedExperienceVisualStates(
 export function visualStateCardStatus(
   state: ExperienceExpressionVisualState,
   authorityStatus: ExperienceExpressionAuthority['status'],
+  authority?: ExperienceExpressionAuthority | null,
 ): 'INHERITED' | 'READY' | 'GENERATING' | 'FAILED' | 'MISSING' | 'STALE' {
+  const slotStatus = (() => {
+    if (!authority?.packageOutputIndex?.outputs) return null;
+    const label = (state.outputLabel ?? state.label).toUpperCase();
+    let key: 'BASE_PAGE_AT_REST' | 'MENU_EXPANDED_NAV' | 'ENTRY_DETAIL_PANEL' | 'PROJECT_ACCESS_OVERLAY' | null = null;
+    if (state.sourceProvider === 'INHERITED_MOBILE') key = 'BASE_PAGE_AT_REST';
+    else if (label.includes('MENU') || state.stateId === 'menu') key = 'MENU_EXPANDED_NAV';
+    else if (label.includes('ENTRY') || state.stateId === 'entry-detail' || state.stateId === 'drawer') key = 'ENTRY_DETAIL_PANEL';
+    else if (label.includes('ACCESS') || state.stateId === 'project-access' || state.stateId === 'overlay') {
+      key = 'PROJECT_ACCESS_OVERLAY';
+    }
+    return key ? authority.packageOutputIndex!.outputs[key]?.status ?? null : null;
+  })();
+  if (slotStatus === 'STALE_AUTHORITY' || slotStatus === 'STALE_CONTENT' || slotStatus === 'STALE_THEME') return 'STALE';
+  if (slotStatus === 'READY' || slotStatus === 'READY_REVIEW_REQUIRED') return 'READY';
+  if (slotStatus === 'MISSING') return 'MISSING';
+  if (slotStatus === 'GENERATING') return 'GENERATING';
+  if (slotStatus === 'FAILED') return 'FAILED';
+  if (slotStatus === 'INHERITED') return 'INHERITED';
   if (state.materializationStatus === 'FAILED') return 'FAILED';
   if (state.sourceProvider === 'INHERITED_MOBILE') return 'INHERITED';
   if (state.caption.includes('REGENERATION REQUIRED')) return 'STALE';

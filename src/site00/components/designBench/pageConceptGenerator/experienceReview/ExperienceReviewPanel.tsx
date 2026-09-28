@@ -249,7 +249,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
             activeStateId={activeState?.stateId ?? 'base'}
             approved={approved}
             stateKindLabel={stateKindLabel}
-            cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')}
+            cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED', authority)}
             onSelect={(id) => setActiveStateId(id)}
             onInspect={(id) => {
               setActiveStateId(id);
@@ -287,7 +287,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
               <ExperienceReviewPreviewStage
                 state={activeState}
                 stateKindLabel={stateKindLabel}
-                cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')}
+                cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED', authority)}
                 onFullscreen={() => activeState && setFullscreenId(activeState.stateId)}
               />
               {activeState ?
@@ -333,6 +333,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
                       sourceAuthorityId={authority.sourceConceptId}
                       artifactIds={authority.expressionAssetIds ?? []}
                       legacyReceipt={authority.legacyReconciliationReceipt ?? null}
+                      packageOutputIndex={authority.packageOutputIndex ?? null}
                     />
                   : null}
                 </>

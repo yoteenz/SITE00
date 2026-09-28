@@ -14,6 +14,11 @@ import {
 import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 import type { PageConceptGeneratedArtifact, PageConceptGenerationState } from './types.js';
 import { reconcileExistingExperienceArtifacts } from './experienceLegacyFalArtifactReconciliation.js';
+import { designPageIdsEquivalent } from '../designPageIdentity.js';
+import {
+  canonicalExpressionTypeForVisualState,
+  reconcileAndMountExistingExperienceArtifacts,
+} from './experienceOutputSlotWriteback.js';
 import { buildExperienceReviewPackageStatus, resolveExperienceReviewPanelMode } from './experienceReviewPresentation.js';
 
 export type ExperienceReviewZeroOutputRootCause =
@@ -98,7 +103,7 @@ export function experienceFalJobsForPage(
     (j) =>
       j.provider === 'FAL_EXPERIENCE' &&
       j.projectId === input.projectId &&
-      j.pageId === input.pageId &&
+      designPageIdsEquivalent(input.projectId, input.pageId, j.pageId) &&
       j.status === 'READY' &&
       Boolean(j.imageUri?.trim()) &&
       (!input.sourceConceptId || j.gpt2AuthorityConceptId === input.sourceConceptId),
@@ -137,11 +142,27 @@ export function reconcileExperienceVisualStatesFromJobs(input: {
 
   let repaired = false;
   const visualStates = input.authority.visualStates.map((state) => {
-    if (state.previewImageUri?.trim()) return state;
     const pageJob = jobsByState.get(state.stateId);
     const authJob = authorityJobByState.get(state.stateId);
+    if (state.previewImageUri?.trim()) {
+      const jobArtifact = pageJob?.artifactId ?? authJob?.artifactId;
+      if (jobArtifact && state.generatedArtifactId && jobArtifact !== state.generatedArtifactId && pageJob?.imageUri?.trim()) {
+        repaired = true;
+        return {
+          ...state,
+          previewImageUri: pageJob.imageUri.trim(),
+          generatedArtifactId: pageJob.artifactId,
+          materializationStatus: 'READY' as const,
+        };
+      }
+      return state;
+    }
     const artifactId = pageJob?.artifactId ?? authJob?.artifactId ?? null;
-    const imageUri = pageJob?.imageUri?.trim() ?? null;
+    let imageUri = pageJob?.imageUri?.trim() ?? null;
+    if (!imageUri && artifactId) {
+      const byArtifact = falJobs.find((j) => j.artifactId === artifactId);
+      imageUri = byArtifact?.imageUri?.trim() ?? null;
+    }
     if (!imageUri) return state;
     repaired = true;
     return {
@@ -245,8 +266,19 @@ export function experiencePackageAuthorityStale(
 
 export function missingExperienceFalStateIds(authority: ExperienceExpressionAuthority | null | undefined): string[] {
   if (!authority) return [];
+  const fromIndex = authority.packageOutputIndex?.outputs;
+  if (fromIndex) {
+    return authority.visualStates
+      .filter((v) => {
+        if (v.sourceProvider !== 'FAL_EXPERIENCE') return false;
+        const t = canonicalExpressionTypeForVisualState(v);
+        const rec = fromIndex[t];
+        return !rec || rec.status === 'MISSING';
+      })
+      .map((v) => v.stateId);
+  }
   const fromReceipt = authority.legacyReconciliationReceipt?.confirmedMissingStateIds;
-  if (fromReceipt) return [...fromReceipt];
+  if (fromReceipt?.length) return [...fromReceipt];
   return authority.visualStates
     .filter((v) => v.sourceProvider === 'FAL_EXPERIENCE' && !v.previewImageUri?.trim())
     .map((v) => v.stateId);
@@ -307,6 +339,12 @@ export function applyExperienceReviewHydrationToState(
       extraJobs: options?.extraExperienceFalJobs ?? [],
     });
     authority = { ...legacy.authority, legacyReconciliationReceipt: legacy.receipt };
+    authority = reconcileAndMountExistingExperienceArtifacts({
+      authority,
+      state,
+      extraJobs: options?.extraExperienceFalJobs ?? [],
+      route: state.functionContract?.route ?? null,
+    }).authority;
   } else {
     const compiled = compileExperienceAuthorityIfMissing(state);
     if (compiled) {
@@ -317,6 +355,12 @@ export function applyExperienceReviewHydrationToState(
         extraJobs: options?.extraExperienceFalJobs ?? [],
       });
       authority = { ...legacy.authority, legacyReconciliationReceipt: legacy.receipt };
+      authority = reconcileAndMountExistingExperienceArtifacts({
+        authority,
+        state,
+        extraJobs: options?.extraExperienceFalJobs ?? [],
+        route: state.functionContract?.route ?? null,
+      }).authority;
     }
   }
 
