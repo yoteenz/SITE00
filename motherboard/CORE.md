@@ -223,6 +223,15 @@ Canonical upstream-to-downstream layers (methodology v20+):
 
 ---
 
+## Design workspace — page concept gallery vs FAL
+
+- **Concept Candidate Gallery (A/B/C mobile)** uses durable run jobs with provider **`GPT2_MOBILE`** (images rendered on Railway via **`FAL_KEY`** / `@fal-ai/client`, then stored in Supabase + public URLs on the run).
+- **Experience expression images** use provider **`FAL_EXPERIENCE`** — mounted in **Experience review**, not the A/B/C gallery grid.
+- **Cross-origin parity:** tunnel, site00.com, and phone do not share `localStorage`. When signed in, the design bench **auto-mounts** the latest Supabase gallery run on load, sign-in, and tab focus (`runAutoPageConceptGalleryMount` — same path as RESTORE, `galleryRestore: true`). Manual **RESTORE PAGE CONCEPTS** remains a retry only.
+- **Server lookup** must resolve page_id aliases and skip empty in-flight CGPT runs so READY mobile galleries are not hidden behind orphan runs (Railway API on `main`).
+
+---
+
 ## Docs
 
 | Path | Purpose |
