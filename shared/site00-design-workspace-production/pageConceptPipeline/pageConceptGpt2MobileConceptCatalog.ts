@@ -36,7 +36,10 @@ function conceptIdForJob(
 }
 
 /** CGPT brief ids for viewport-family orchestration when only creativeInjection was persisted on the run. */
-export function resolveCgptBriefIdsForViewportFamily(ps: PageConceptPipelineSet): {
+export function resolveCgptBriefIdsForViewportFamily(
+  ps: PageConceptPipelineSet,
+  generationJobs: readonly import('./types.js').PageConceptGeneratedArtifact[] = [],
+): {
   briefId: string;
   briefVersion: string;
 } {
@@ -44,8 +47,12 @@ export function resolveCgptBriefIdsForViewportFamily(ps: PageConceptPipelineSet)
     return { briefId: ps.cgptCreativeBrief.briefId, briefVersion: ps.cgptCreativeBrief.version };
   }
   const inj = ps.creativeInjection;
-  if (!inj) throw new Error('CGPT_BRIEF_REQUIRED');
-  return { briefId: inj.injectionId, briefVersion: 'v1' };
+  if (inj) return { briefId: inj.injectionId, briefVersion: 'v1' };
+  const fromJob = generationJobs.find(
+    (j) => j.provider === 'GPT2_MOBILE' && j.creativeInjectionId?.trim(),
+  )?.creativeInjectionId;
+  if (fromJob) return { briefId: fromJob, briefVersion: 'v1' };
+  return { briefId: `gallery-${ps.pipelineSetId}`, briefVersion: 'v1' };
 }
 
 export function ensureGpt2MobileConceptCatalog(state: PageConceptGenerationState): PageConceptGenerationState {

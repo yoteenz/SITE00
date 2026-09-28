@@ -184,7 +184,7 @@ export function pageConceptSelectMobileConcept(
   if (!ps?.mobileConcepts?.length) throw new Error('MOBILE_CONCEPTS_REQUIRED');
   const selected = resolveMobileConceptForSelection(catalogState, conceptId);
   if (!selected) throw new Error('MOBILE_CONCEPT_NOT_FOUND');
-  const { briefId, briefVersion } = resolveCgptBriefIdsForViewportFamily(ps);
+  const { briefId, briefVersion } = resolveCgptBriefIdsForViewportFamily(ps, catalogState.generationJobs);
   const skin = compileProjectSkinContract(catalogState.projectId);
   const existingFamily = ps.viewportAuthorityFamily;
   const familyId = existingFamily?.familyId ?? `pvaf-${ps.pipelineSetId}`;

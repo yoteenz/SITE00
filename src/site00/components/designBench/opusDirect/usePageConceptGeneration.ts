@@ -2240,11 +2240,24 @@ export function usePageConceptGeneration(
           );
         };
         if (localAuthorityAction) {
-          const localResult =
-            action.type === 'selectMobileConcept' ?
-              pageConceptSelectMobileConcept(current, action.conceptId)
-            : pageConceptConfirmMobileAuthority(current);
-          applyViewportFamilyResult({ state: localResult.state });
+          let localResult:
+            | ReturnType<typeof pageConceptSelectMobileConcept>
+            | ReturnType<typeof pageConceptConfirmMobileAuthority>;
+          try {
+            localResult =
+              action.type === 'selectMobileConcept' ?
+                pageConceptSelectMobileConcept(current, action.conceptId)
+              : pageConceptConfirmMobileAuthority(current);
+          } catch (err) {
+            setExecutionError(err instanceof Error ? err.message : 'MOBILE_AUTHORITY_ACTION_FAILED');
+            return;
+          }
+          const localState = localResult.state;
+          consolidatePageConceptGenerationStateStorage(
+            { projectSlug: projectId, pageId, screenId, route: route ?? null },
+            localState,
+          );
+          applyViewportFamilyResult({ state: localState });
           window.dispatchEvent(
             new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
           );
@@ -2254,21 +2267,17 @@ export function usePageConceptGeneration(
           void (async () => {
             try {
               await ensurePageConceptApiAccessToken();
-              const synced = ensureGpt2MobileConceptCatalog(
-                loadPageConceptGenerationStateForDesignPage({
-                  projectSlug: projectId,
-                  pageId,
-                  screenId,
-                  route: route ?? null,
-                }),
-              );
               const apiPayload = {
                 action: action.type,
-                state: synced,
+                state: localState,
                 conceptId: action.type === 'selectMobileConcept' ? action.conceptId : undefined,
               } as const;
               const remote = await pageConceptViewportFamilyActionApi(apiPayload);
-              applyViewportFamilyResult(remote);
+              const merged = preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(
+                localState,
+                remote.state,
+              );
+              applyViewportFamilyResult({ state: merged, jobs: remote.jobs });
               window.dispatchEvent(
                 new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
               );

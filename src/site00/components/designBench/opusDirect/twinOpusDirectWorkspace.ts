@@ -1053,15 +1053,19 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           });
         }
         if (actionId === 'select-mobile') {
-          const row = listPageConceptCandidates(projectSlug, pageTarget.pageId).find(
-            (c) => c.conceptId === candidate,
-          );
-          if (row?.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE') {
-            const resolvedId =
-              resolveMobileConceptForSelection(pageConceptGeneration.generationState, candidate)?.conceptId ??
-              candidate;
-            void pageConceptGeneration.viewportFamilyHandlers.selectMobile(resolvedId);
-          }
+          const mobileRows = mobileGalleryRowsForPage(projectSlug, pageTarget.pageId);
+          const row =
+            mobileRows.find((c) => c.conceptId === candidate) ??
+            mobileRows.find((c) => c.gpt2AuthorityConceptId === candidate);
+          const canonicalGpt2Mobile =
+            isCanonicalGpt2ViewportFamilyPipeline(pageConceptGeneration.pipelineSet) ||
+            row?.pipelineId === 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE';
+          if (!canonicalGpt2Mobile) return;
+          const resolvedId =
+            resolveMobileConceptForSelection(pageConceptGeneration.generationState, candidate)?.conceptId ??
+            row?.conceptId ??
+            candidate;
+          void pageConceptGeneration.viewportFamilyHandlers.selectMobile(resolvedId);
         }
         if (
           actionId === 'promote-site00-project-expression' ||
