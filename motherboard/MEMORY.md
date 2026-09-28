@@ -12303,3 +12303,13 @@ Founder on NDXBOOK Overview: **NO MOBILE CONCEPTS YET**, **SELECT MOBILE CONCEPT
 
 - **`pageConceptGenerationActivelyRunningForUi`** — gallery/rail gates use recovered status, not raw persisted in-flight.
 - **Workspace:** auto server restore when mobile gallery empty + signed in; reconcile orphan jobs; auto-select first mobile candidate when gallery repopulates; empty-state CTA **RESTORE PAGE CONCEPTS**. **cPanel v707+**.
+
+---
+
+## 2026-09-28 — Restore still no-op: project-wide Supabase gallery scan + run-id retry
+
+Founder tapped **RESTORE PAGE CONCEPTS** — modal stayed empty (Step 3 placeholders). Root cause: **latest-for-page** missed durable runs when **`page_id`** alias ≠ registry id; restore success ignored **gallery candidate** visibility; no feedback when server had nothing.
+
+- **`findLatestPageConceptGalleryRunForDesignPage`** — project scan (200 runs) + **`designPageIdsEquivalent`** matching.
+- **Client restore:** retry **`archivedRuns` / active run ids** via GET run; **`galleryRestore: true`** mount; visible-candidate success check; explicit **NO DURABLE MOBILE CONCEPTS** error in modal.
+- **Railway redeploy required** (API). **cPanel v708+** (SPA).

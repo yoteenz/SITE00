@@ -6,6 +6,7 @@ import { appendPageConceptProgressEvents } from '../../../shared/site00-design-w
 import type { PageConceptServerRun, PageConceptRunProgress } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import {
   findActivePageConceptServerRunForPage,
+  findLatestPageConceptGalleryRunForDesignPage,
   findLatestPageConceptServerRunForPage,
   loadPageConceptServerRunDurable,
   upsertPageConceptServerRunDurable,
@@ -150,6 +151,7 @@ export async function resolveLatestPageConceptServerRunForPage(
   projectId: string,
   pageId: string,
   pageIds?: readonly string[],
+  registryPageId?: string,
 ): Promise<PageConceptServerRun | null> {
   const slug = projectId.trim().toLowerCase();
   const ids = [...new Set([pageId, ...(pageIds ?? [])].map((id) => id.trim()).filter(Boolean))];
@@ -160,9 +162,10 @@ export async function resolveLatestPageConceptServerRunForPage(
   let best = pickNewestGalleryRun(memoryRuns);
   let bestTs = best ? Date.parse(best.updatedAt || best.completedAt || best.createdAt) || 0 : 0;
 
-  const durable = await findLatestPageConceptServerRunForPage({
+  const registry = (registryPageId ?? pageId).trim();
+  const durable = await findLatestPageConceptGalleryRunForDesignPage({
     projectId: slug,
-    pageId: ids[0] ?? pageId,
+    registryPageId: registry,
     pageIds: ids,
   });
   if (durable) {

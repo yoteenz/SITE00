@@ -91,6 +91,8 @@ export async function mountPageConceptGalleryFromServer(input: {
   screenId: string;
   route?: string | null;
   persist: (fn: (s: PageConceptGenerationState) => PageConceptGenerationState) => void;
+  /** Restore flow — apply durable READY mobile even when local family metadata is ahead but gallery is empty. */
+  galleryRestore?: boolean;
 }): Promise<PageConceptGalleryServerMountTrace> {
   /** Authenticated server mount: latest durable run wins over per-origin localStorage. */
   const preferServerGallery = true;
@@ -168,7 +170,12 @@ export async function mountPageConceptGalleryFromServer(input: {
     const serverHasReady = pageConceptServerRunHasReadyMobileGallery(server);
 
     const shouldApply =
-      preferServerGallery && serverHasReady ?
+      input.galleryRestore && serverHasReady ?
+        shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, {
+          preferServerGallery: true,
+          forceGalleryRestore: true,
+        })
+      : preferServerGallery && serverHasReady ?
         shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery: true })
       : shouldReplaceLocalPageConceptStateWithServerRun(loaded, server, { preferServerGallery }) ||
         (

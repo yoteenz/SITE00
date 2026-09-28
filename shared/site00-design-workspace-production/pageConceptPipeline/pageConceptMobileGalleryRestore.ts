@@ -66,3 +66,15 @@ export function restorePageConceptMobileGalleryFromArchivedRuns(
   next = recoverStalePageConceptInFlightGenerationState(next, false);
   return rehydrateViewportAuthorityFamilyFromPipelineSignals(next);
 }
+
+/** Known durable run ids to retry when latest-for-page lookup misses (archived branches, active run pointer). */
+export function collectPageConceptRestoreRunIdCandidates(state: PageConceptGenerationState): readonly string[] {
+  const ids = new Set<string>();
+  for (const entry of state.archivedRuns ?? []) {
+    if (entry.runId?.trim()) ids.add(entry.runId.trim());
+  }
+  for (const id of [state.activeGenerationRunId, state.activeReviewRunId]) {
+    if (id?.trim()) ids.add(id.trim());
+  }
+  return [...ids];
+}

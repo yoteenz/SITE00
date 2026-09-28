@@ -6,8 +6,10 @@ import { describe, expect, it } from 'vitest';
 
 import { mergePageConceptGenerationStateWithServerRunSnapshot } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import {
+  collectPageConceptRestoreRunIdCandidates,
   restorePageConceptMobileGalleryFromArchivedRuns,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptMobileGalleryRestore.js';
+import { shouldReplaceLocalPageConceptStateWithServerRun } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import type { PageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import type { PageConceptServerRunSnapshot } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 
@@ -109,6 +111,54 @@ describe('P0 page concept mobile gallery restore', () => {
     expect(restored!.generationStatus).toBe('GPT2_MOBILE_AWAITING_SELECTION');
     expect(restored!.pipelineSet?.mobileConcepts?.some((c) => c.conceptId === 'concept-b')).toBe(true);
     expect(restored!.generationJobs.some((j) => j.provider === 'GPT2_MOBILE' && j.status === 'READY')).toBe(true);
+  });
+
+  it('collects archived and active run ids for restore retry', () => {
+    const state = archivedMobileState();
+    state.archivedRuns = archivedMobileState().archivedRuns;
+    const ids = collectPageConceptRestoreRunIdCandidates({
+      ...state,
+      activeGenerationRunId: 'run-active',
+    });
+    expect(ids).toContain('run-active');
+    expect(ids).toContain('run-good');
+  });
+
+  it('forceGalleryRestore applies server run when local gallery is empty', () => {
+    const local: PageConceptGenerationState = {
+      targetType: 'PAGE',
+      projectId: 'ndxbook',
+      pageId: 'page-overview',
+      generationStatus: 'PLANNED',
+      generationJobs: [],
+      pipelineSet: null,
+      history: [],
+    };
+    const run = {
+      runId: 'run-good',
+      projectId: 'ndxbook',
+      pageId: 'ndxbook:overview',
+      status: 'COMPLETED' as const,
+      generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION' as const,
+      currentStage: null,
+      createdAt: '2026-09-27T12:00:00.000Z',
+      updatedAt: '2026-09-27T12:00:00.000Z',
+      completedAt: '2026-09-27T12:00:00.000Z',
+      jobs: archivedMobileState().archivedRuns![0]!.generationJobs,
+      pipelineSet: archivedMobileState().archivedRuns![0]!.pipelineSet,
+      plan: null,
+      cgptMeta: null,
+      panelProgress: null,
+      cgptSubsteps: null,
+      latestProgressSequence: 0,
+      progressEventsAfterSequence: [],
+    };
+    expect(
+      shouldReplaceLocalPageConceptStateWithServerRun(local, run, {
+        preferServerGallery: true,
+        forceGalleryRestore: true,
+      }),
+    ).toBe(true);
   });
 
   it('server gallery merge clears stale CGPT_RUNNING when mobile artifacts exist', () => {

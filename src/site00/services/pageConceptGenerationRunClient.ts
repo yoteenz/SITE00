@@ -6,6 +6,7 @@ import {
   PAGE_CONCEPT_START_TIMEOUT_MS,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptApiTimeouts.js';
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { getDesignBoundPage } from '../../../shared/site00-design-workspace-production/designProjectBinding/designPageRegistry.js';
 import { resolveDesignPageIdentityForGallery } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { refreshAccessTokenForApi } from '../../utils/api.js';
@@ -168,13 +169,17 @@ export async function fetchLatestPageConceptGenerationRunForDesignPage(input: {
   const slug = identity.projectSlug.trim().toLowerCase();
   const legacyScoped = `${slug}:${identity.registryPageId}`;
   const legacyCanonicalScoped = `${slug}:${identity.canonicalPageId}`;
+  const boundPage =
+    getDesignBoundPage(slug, identity.registryPageId) ??
+    getDesignBoundPage(slug, identity.canonicalPageId);
   const candidates = [
     identity.registryPageId,
     identity.canonicalPageId,
     identity.screenId,
+    boundPage?.pageId,
     legacyScoped,
     legacyCanonicalScoped,
-  ].filter((id, index, all) => Boolean(id) && all.indexOf(id) === index);
+  ].filter((id, index, all): id is string => Boolean(id) && all.indexOf(id) === index);
   let best: PageConceptGenerationRunPollUpdate | null = null;
   let bestTs = 0;
   for (const pageId of candidates) {
