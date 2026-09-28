@@ -148,3 +148,22 @@ export function resolveMobileConceptForSelection(
 
   return null;
 }
+
+/** Map pipeline / authority conceptId to a visible MOBILE gallery row conceptId (alias-safe). */
+export function resolveMobileGalleryCandidateConceptId(input: {
+  state: PageConceptGenerationState;
+  mobileGalleryRows: readonly { conceptId: string; gpt2AuthorityConceptId?: string | null }[];
+  selectedMobileConceptId: string | null;
+}): string | null {
+  const selected = input.selectedMobileConceptId?.trim();
+  if (!selected) return null;
+  const direct = input.mobileGalleryRows.find((c) => c.conceptId === selected);
+  if (direct) return direct.conceptId;
+  const fromPipeline = resolveMobileConceptForSelection(input.state, selected);
+  if (fromPipeline) {
+    const row = input.mobileGalleryRows.find((c) => c.conceptId === fromPipeline.conceptId);
+    if (row) return row.conceptId;
+  }
+  const byAlias = input.mobileGalleryRows.find((c) => c.gpt2AuthorityConceptId === selected);
+  return byAlias?.conceptId ?? null;
+}

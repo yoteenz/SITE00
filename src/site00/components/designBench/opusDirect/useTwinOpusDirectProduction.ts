@@ -430,6 +430,7 @@ export function useTwinOpusDirectProduction(projectSlug: string): TwinOpusDirect
       },
       clearUiPayload: () => setUiPayload({}),
       selectGalleryCandidate: (candidateId) => {
+        if (stateRef.current.selectedCandidateId === candidateId) return;
         applyLocalState(transitionSelectGalleryCandidate(stateRef.current, candidateId));
         void runCommand(
           'SELECT_GALLERY_CANDIDATE',
