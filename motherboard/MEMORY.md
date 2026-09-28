@@ -12418,3 +12418,14 @@ Founder: **SELECT MOBILE CONCEPT** dead on **preview tunnel** (concepts sync OK)
 
 - **Cause:** (1) Background **`pageConceptViewportFamilyActionApi`** reloaded **stale localStorage** before React persist flushed, then **`applyViewportFamilyResult(remote)`** overwrote founder **select** with server snapshot missing client-only family progress. (2) **`CGPT_BRIEF_REQUIRED`** when gallery mount had GPT2 jobs but no **`creativeInjection`** object on **`pipelineSet`**. (3) Gallery action gated on **`row.pipelineId`** only — no-op when row lookup missed alias id. (4) Tunnel default **CI preview dist** lags **`main`** until GitHub Actions artifact updates.
 - **Fix:** Sync **`localState`** to storage before API; merge remote with **`preserveLocalViewportAuthorityFamilyProgressAfterServerMerge`**; **`resolveCgptBriefIdsForViewportFamily`** job-id fallback; canonical GPT2 **select-mobile** without strict row gate. For tunnel testing latest JS: **`SITE00_CLOUD_PREVIEW_MODE=local`** + restart preview tunnel (or wait for CI dist).
+
+---
+
+## 2026-09-28 — P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1
+
+Founder sprint: hero **right rail** looked unfinished — inactive actions nearly invisible.
+
+- **`buildGpt2ViewportFamilyHeroRailStages`:** Always render full action stacks (mobile select/confirm/change, experience open/review/approve, tablet/desktop generate+review+regen+use, family review/approve/lock) with **disabled + `disabledReason`** instead of omitting controls.
+- **`DesignViewportFamilyHeroRail`:** **`actionWrap` + `actionBlocker`** copy under disabled buttons; **`data-action-disabled`** for QA.
+- **CSS (canonical + list):** Stronger disabled fill (**#f4f4f4**, **#303030** text), spacing rhythm; lime / black / white surfaces unchanged for enabled states.
+- **Tests:** `p0vrRightRailVisualButtonSystemRestore1.test.ts` + updated mobile authority / surface cleanup tests.
