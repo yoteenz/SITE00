@@ -5,6 +5,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import { Site00AuthIntro } from './Site00AuthIntro';
 import { Site00OrbitalMark } from './Site00OrbitalMark';
 import { Site00SignInForm } from './Site00SignInForm';
+import { useSite00SignInBootstrap } from './useSite00SignInBootstrap';
 import { Site00CreateAccountForm } from './Site00CreateAccountForm';
 import { Site00MobileHeader } from '../mobile/Site00MobileHeader';
 import { FastTravelPanel } from '../fast-travel/FastTravelPanel';
@@ -20,6 +21,7 @@ const signInBgUrl = resolveSite00PublicAsset(SITE00_SIGNIN_DESKTOP_BG_FILE);
 const signInIconUrl = `${resolveSite00PublicAsset(SITE00_SIGNIN_ICON_PATH)}?v=${SITE00_SIGNIN_ICON_VERSION}`;
 
 export function Site00AuthShell({ children, variant = 'sign-in' }: Site00AuthShellProps) {
+  useSite00SignInBootstrap();
   const [fastTravelOpen, setFastTravelOpen] = useState(false);
   const fastTravelTriggerRef = useRef<HTMLButtonElement>(null);
 

@@ -12371,3 +12371,12 @@ Founder on **fsbw-dev** still saw **NO MOBILE CONCEPTS YET** + restore error aft
 
 - **Cause:** Durable lookup used **top 40 `updated_at` rows** per page; empty **CGPT_RUNNING** orphan runs (frequent updates) could exclude **`pcgr-1790520287592-55ipmm8`** (3 READY GPT2 mobile). Legacy **`ndxbook:overview:/projects/ndxbook`** sometimes missing when **route** absent from expand. Stale **active server run id** pointed at empty orphan.
 - **Fix:** API **paginated scan** (600 rows) for gallery-ready runs; overview legacy page_id without route; **screenId/route** on server expand; client clears bad pinned run; clearer **NO_SERVER_RUN** message. **Railway redeploy required** for API half; cPanel for client.
+
+---
+
+## 2026-09-28 — Tunnel sign-in page hang (no redirect)
+
+Founder: **site00.fsbw-dev.com** sign-in **hangs** — no redirect after password.
+
+- **Cause:** Desktop + mobile **two** `Site00SignInForm` instances each ran **syncAllFromApi** / session restore; **getProfile** to api.site00.com could block indefinitely; preview tunnel treated like production for profile sync.
+- **Fix:** Single **`useSite00SignInBootstrap`** on `Site00AuthShell`; **preview fast path** (minimal user + 4s profile timeout); **promiseWithTimeout** on profile sync; **8s** timeouts on session-restore/cookie fetches. Magic links still need Supabase redirect allow for the **cloud preview hostname** (same host as tunnel).
