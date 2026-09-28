@@ -3,38 +3,11 @@
  */
 
 import type { PageConceptGenerationState } from './types.js';
-import { pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
-import { rehydrateViewportAuthorityFamilyFromPipelineSignals } from './pageConceptViewportAuthorityFamilyPersistence.js';
+import { recoverStalePageConceptInFlightGenerationState } from './pageConceptInFlightRecovery.js';
 
 export function normalizePageConceptStateOnPanelMount(
   state: PageConceptGenerationState,
   hasFounderRunSession: boolean,
 ): PageConceptGenerationState {
-  if (hasFounderRunSession) return state;
-
-  const inFlight =
-    state.generationStatus === 'CGPT_RUNNING' ||
-    state.generationStatus === 'CGPT_RATE_LIMITED' ||
-    state.generationStatus === 'GPT2_RUNNING' ||
-    state.generationStatus === 'NBP_RUNNING';
-
-  if (!inFlight) return rehydrateViewportAuthorityFamilyFromPipelineSignals(state);
-
-  const generationStatus =
-    pageConceptReviewReady(state.generationStatus) ? state.generationStatus
-    : state.pipelineSet?.creativeInjection && state.generationJobs.length > 0 ?
-      'READY_FOR_FOUNDER_REVIEW'
-    : state.lastFailure ? 'FAILED'
-    : state.generationStatus === 'PLANNED' ? 'PLANNED'
-    : 'IDLE';
-
-  return rehydrateViewportAuthorityFamilyFromPipelineSignals({
-    ...state,
-    generationStatus,
-    activeGenerationStage: null,
-    activeGenerationRunId: null,
-    activeGenerationRunStartedAt: null,
-    liveProgress: null,
-    cgptSubsteps: null,
-  });
+  return recoverStalePageConceptInFlightGenerationState(state, hasFounderRunSession);
 }
