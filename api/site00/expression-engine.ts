@@ -34,6 +34,11 @@ import {
   applyNarrativeSynthesisFounderJudgment,
 } from '../_lib/site00ExpressionEngine/expressionEngineService.js';
 import {
+  bootstrapNarrativeMomentumEngine,
+  founderJudgmentNarrativeMomentum,
+  readNarrativeMomentumEngine,
+} from '../_lib/site00ExpressionEngine/narrativeMomentum/narrativeMomentumService.js';
+import {
   bootstrapC11AutonomousCreativeDirector,
   applyCreativeDirectorFounderJudgment,
 } from '../_lib/site00ExpressionEngine/creativeDirector/creativeDirectorService.js';
@@ -440,6 +445,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (
       req.method === 'POST' &&
+      action === 'SET_NARRATIVE_MOMENTUM_JUDGMENT'
+    ) {
+      const founderAction = String(body.founderAction ?? body.founderJudgment ?? '') as
+        | 'APPROVE_NARRATIVE'
+        | 'REFINE_NARRATIVE'
+        | 'CHANGE_GRAMMAR'
+        | 'LOVE_IT'
+        | 'PROMISING'
+        | 'TOO_CLOSE'
+        | 'NOT_NDXBOOK';
+      if (!founderAction) {
+        return res.status(400).json({ error: 'founderAction required' });
+      }
+      const updated = founderJudgmentNarrativeMomentum({
+        entryId: String(body.entryId ?? 'entry-002'),
+        action: founderAction,
+      });
+      return res.status(200).json({ ok: true, plan: updated });
+    }
+
+    if (
+      req.method === 'POST' &&
+      (action === 'COMPILE_NARRATIVE_MOMENTUM' || action === 'BOOTSTRAP_NARRATIVE_MOMENTUM')
+    ) {
+      const entryId = String(body.entryId ?? 'entry-002');
+      const payload = await bootstrapNarrativeMomentumEngine({ entryId, retroactive: true });
+      return res.status(200).json(payload);
+    }
+
+    if (
+      req.method === 'POST' &&
       action === 'SET_NARRATIVE_SYNTHESIS_JUDGMENT'
     ) {
       const founderJudgment = String(body.founderJudgment ?? '') as
@@ -719,6 +755,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ) {
       const c11 = await bootstrapC11AutonomousCreativeDirector({ useBlindTest: true });
       return res.status(200).json(c11);
+    }
+
+    if (
+      req.method === 'GET' &&
+      (phase === 'NME1' ||
+        phase === 'NARRATIVE_MOMENTUM' ||
+        phase === 'NARRATIVE_MOMENTUM_ENGINE')
+    ) {
+      const entryId =
+        entryNumber === 2 || !entryNumber ? 'entry-002' : `entry-${String(entryNumber).padStart(3, '0')}`;
+      let state = readNarrativeMomentumEngine(entryId);
+      if (!state.plan) {
+        const boot = await bootstrapNarrativeMomentumEngine({ entryId, retroactive: true });
+        state = {
+          plan: boot.plan,
+          history: [],
+          grammarLibraryCount: boot.grammarLibraryCount,
+          storyboardHandoff: boot.storyboardHandoff,
+        };
+      }
+      return res.status(200).json({
+        sprint: 'P0.NDX.NARRATIVE-MOMENTUM-ENGINE1',
+        entryId,
+        ...state,
+        providerDispatchCount: 0 as const,
+      });
     }
 
     if (

@@ -140,11 +140,27 @@ export type C12Entry003Response = {
 
 import type { MeridianComparisonViewData } from './MeridianDeterministicVsLiveComparison.js';
 
+export type Nme1NarrativeMomentumResponse = {
+  sprint: string;
+  entryId: string;
+  plan: import('../../../../../shared/site00-expression-engine/narrative-momentum/types.js').NarrativeMomentumPlan;
+  history: import('../../../../../shared/site00-expression-engine/narrative-momentum/types.js').NarrativeMomentumPlan[];
+  grammarLibraryCount: number;
+  storyboardHandoff: {
+    narrativeMomentumPlanId: string;
+    beats: import('../../../../../shared/site00-expression-engine/narrative-momentum/types.js').NarrativeMomentumPlan['beats'];
+    audienceShift: string;
+    reelArchitecture: import('../../../../../shared/site00-expression-engine/narrative-momentum/types.js').ReelStoryArchitecture | null;
+  } | null;
+  providerDispatchCount: 0;
+};
+
 export type ExpressionEngineEntry002State = {
   phase2: ExpressionEngineB1Phase2Response;
   blueprint: Entry002ProductionBlueprint;
   b48: B48PipelineResponse | null;
   b49r4: B49R4PipelineResponse | null;
+  nme: Nme1NarrativeMomentumResponse | null;
   c1: C1NarrativeSynthesisResponse | null;
   c11: C11CreativeDirectorResponse | null;
   c12: C12Entry003Response | null;

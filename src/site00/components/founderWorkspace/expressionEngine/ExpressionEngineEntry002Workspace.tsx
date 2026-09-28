@@ -37,6 +37,7 @@ import {
   postImportFounderStoryboard,
   useExpressionEngineEntry002,
 } from './useExpressionEngineEntry002';
+import { ExpressionEngineNarrativeMomentumPanel } from './ExpressionEngineNarrativeMomentumPanel';
 
 const NAV_ITEMS: Array<{ id: WorkspaceNavId; label: string }> = [
   { id: 'work', label: 'WORK' },
@@ -52,7 +53,7 @@ type Props = {
 };
 
 export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, c1, loading, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, nme, c1, loading, errorView, reload } = useExpressionEngineEntry002();
   const [nav, setNav] = useState<WorkspaceNavId>('work');
   const [workFocus, setWorkFocus] = useState<'auto' | JourneyStageId>('auto');
   const [judging, setJudging] = useState(false);
@@ -77,6 +78,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     if (!pipeline || !socialPackageReadiness) return [];
     return buildProductionJourney({
       coverAuthority: pipeline.coverAuthority ?? 'APPROVED',
+      narrativeMomentumStatus: nme?.plan.founderStatus ?? 'GENERATED',
       reelTreatment: pipeline.reelTreatment ?? 'LOCKED',
       preStoryboardComplete,
       activeProductionStep: pipeline.activeProductionStep,
@@ -91,7 +93,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
       socialPackageStatus: socialPackageStatusToJourneyStatus(socialPackageReadiness),
       campaignBoardEligible: socialPackageReadiness.campaignBoardEligible,
     });
-  }, [pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
+  }, [nme?.plan.founderStatus, pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
 
   const activeStageId = workFocus === 'auto' ? resolveActiveJourneyStage(journey) : workFocus;
 
@@ -173,6 +175,51 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     }
   }, [primaryActionLabel, handleGenerate]);
 
+  const submitNarrativeMomentumJudgment = useCallback(
+    async (
+      founderAction:
+        | 'APPROVE_NARRATIVE'
+        | 'REFINE_NARRATIVE'
+        | 'LOVE_IT'
+        | 'PROMISING'
+        | 'TOO_CLOSE'
+        | 'NOT_NDXBOOK',
+    ) => {
+      setNarrativeJudging(true);
+      try {
+        const res = await apiFetch('/api/site00/expression-engine', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'SET_NARRATIVE_MOMENTUM_JUDGMENT',
+            founderAction,
+            entryId: 'entry-002',
+          }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+        await reload();
+      } finally {
+        setNarrativeJudging(false);
+      }
+    },
+    [reload],
+  );
+
+  const recompileNarrativeMomentum = useCallback(async () => {
+    setNarrativeJudging(true);
+    try {
+      const res = await apiFetch('/api/site00/expression-engine', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'COMPILE_NARRATIVE_MOMENTUM', entryId: 'entry-002' }),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      await reload();
+    } finally {
+      setNarrativeJudging(false);
+    }
+  }, [reload]);
+
   const submitNarrativeJudgment = useCallback(
     async (founderJudgment: 'LOVE_IT' | 'PUSH_FURTHER' | 'TOO_SAFE' | 'TOO_CLOSE' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => {
       setNarrativeJudging(true);
@@ -253,12 +300,16 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
               activeStageId={activeStageId}
               b48={b48}
               b49r4={b49r4}
+              nme={nme}
               judging={judging}
               generating={generating}
               importing={importing}
+              narrativeJudging={narrativeJudging}
               onJudgment={submitJudgment}
               onGenerate={handleGenerate}
               onImport={handleImport}
+              onNarrativeMomentumJudgment={submitNarrativeMomentumJudgment}
+              onRecompileNarrativeMomentum={recompileNarrativeMomentum}
               finalReelApproved={finalReelApproved}
               socialPackageReadiness={socialPackageReadiness}
             />
@@ -352,27 +403,48 @@ function WorkPanel({
   activeStageId,
   b48,
   b49r4,
+  nme,
   judging,
   generating,
   importing,
+  narrativeJudging,
   onJudgment,
   onGenerate,
   onImport,
+  onNarrativeMomentumJudgment,
+  onRecompileNarrativeMomentum,
   finalReelApproved,
   socialPackageReadiness,
 }: {
   activeStageId: JourneyStageId;
   b48: ReturnType<typeof useExpressionEngineEntry002>['b48'];
   b49r4: B49R4PipelineResponse | null;
+  nme: ReturnType<typeof useExpressionEngineEntry002>['nme'];
   judging: boolean;
   generating: boolean;
   importing: boolean;
+  narrativeJudging: boolean;
   onJudgment: (j: 'LOVE_IT' | 'PROMISING_REFINE' | 'NOT_FOR_ME') => Promise<void>;
   onGenerate: () => Promise<void>;
   onImport: (variant: 'A' | 'B') => Promise<void>;
+  onNarrativeMomentumJudgment: (
+    action: 'APPROVE_NARRATIVE' | 'REFINE_NARRATIVE' | 'LOVE_IT' | 'PROMISING' | 'TOO_CLOSE' | 'NOT_NDXBOOK',
+  ) => Promise<void>;
+  onRecompileNarrativeMomentum: () => Promise<void>;
   finalReelApproved: boolean;
   socialPackageReadiness: ReturnType<typeof resolveSocialPackageReadiness> | null;
 }) {
+  if (activeStageId === 'NARRATIVE_MOMENTUM' && nme?.plan) {
+    return (
+      <ExpressionEngineNarrativeMomentumPanel
+        plan={nme.plan}
+        grammarLibraryCount={nme.grammarLibraryCount}
+        judging={narrativeJudging}
+        onJudgment={onNarrativeMomentumJudgment}
+        onRecompile={onRecompileNarrativeMomentum}
+      />
+    );
+  }
   if (
     socialPackageReadiness &&
     (activeStageId === 'DERIVED_SOCIAL_CONTENT' ||
