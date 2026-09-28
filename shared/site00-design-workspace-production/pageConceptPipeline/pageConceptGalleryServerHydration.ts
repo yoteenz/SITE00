@@ -73,9 +73,17 @@ export function pageConceptServerRunMaxArtifactTimestamp(run: PageConceptServerR
 export function shouldReplaceLocalPageConceptStateWithServerRun(
   local: PageConceptGenerationState,
   server: PageConceptServerRunSnapshot,
-  options?: { preferServerGallery?: boolean },
+  options?: { preferServerGallery?: boolean; forceGalleryRestore?: boolean },
 ): boolean {
   if (!pageConceptServerRunHasReadyMobileGallery(server)) return false;
+
+  if (options?.forceGalleryRestore) {
+    const localReady = pageConceptGenerationStateHasReadyMobileArtifacts(local);
+    const localTs = pageConceptGenerationStateGalleryArtifactTimestamp(local);
+    const serverTs = pageConceptServerRunMaxArtifactTimestamp(server);
+    if (!localReady) return true;
+    if (serverTs >= localTs) return true;
+  }
 
   const localReady = pageConceptGenerationStateHasReadyMobileArtifacts(local);
   const localTs = pageConceptGenerationStateGalleryArtifactTimestamp(local);

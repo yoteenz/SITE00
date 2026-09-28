@@ -78,6 +78,7 @@ async function handleGet(req: VercelRequest, res: VercelResponse, email: string)
       identity.projectId,
       identity.registryPageId,
       pageIds,
+      identity.registryPageId,
     );
     if (!latest) {
       res.status(404).json({ error: 'NO_GALLERY_RUN_FOR_PAGE' });

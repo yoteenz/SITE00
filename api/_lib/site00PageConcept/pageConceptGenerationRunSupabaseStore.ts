@@ -2,6 +2,7 @@ import { getSupabaseAdmin } from '../supabase.js';
 import { NDXBOOK_ORG_ID } from '../site00Evolve/creativeDirection/creativeIntelligence/founderComparisonSet.js';
 import { PAGE_CONCEPT_CANONICAL_PIPELINE_ID } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
 import type { PageConceptServerRun } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
+import { designPageIdsEquivalent } from '../../../shared/site00-design-workspace-production/designPageIdentity.js';
 import { logPageConceptGpt2MobileEvent } from './pageConceptGpt2MobileObservability.js';
 
 const TABLE = 'site00_page_concept_generation_runs';
@@ -90,6 +91,71 @@ export async function findLatestPageConceptServerRunForPage(input: {
   for (const row of data) {
     const run = row.run_json as PageConceptServerRun;
     if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
+    const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
+    if (!best || ts > bestTs) {
+      best = run;
+      bestTs = ts;
+    }
+  }
+  return best;
+}
+
+function runMatchesDesignPageGalleryScope(
+  run: PageConceptServerRun,
+  projectId: string,
+  registryPageId: string,
+  pageIds: ReadonlySet<string>,
+): boolean {
+  const runPageId = run.pageId?.trim() ?? '';
+  if (!runPageId) return false;
+  if (pageIds.has(runPageId)) return true;
+  return designPageIdsEquivalent(projectId, registryPageId, runPageId);
+}
+
+/**
+ * Fallback when page_id index misses aliases — scan recent project runs for READY mobile gallery.
+ */
+export async function findLatestPageConceptGalleryRunForDesignPage(input: {
+  projectId: string;
+  registryPageId: string;
+  pageIds?: readonly string[];
+  pipelineId?: string;
+}): Promise<PageConceptServerRun | null> {
+  const slug = input.projectId.trim().toLowerCase();
+  const registryPageId = input.registryPageId.trim();
+  const pageIdSet = new Set(
+    [registryPageId, ...(input.pageIds ?? [])].map((id) => id.trim()).filter(Boolean),
+  );
+
+  const direct = await findLatestPageConceptServerRunForPage({
+    projectId: slug,
+    pageId: registryPageId,
+    pageIds: [...pageIdSet],
+    pipelineId: input.pipelineId,
+  });
+  if (direct) return direct;
+
+  if (process.env.VITEST === 'true') return null;
+  const exists = await pageConceptGenerationRunTableExists();
+  if (!exists) return null;
+
+  const pipelineId = input.pipelineId ?? PAGE_CONCEPT_CANONICAL_PIPELINE_ID;
+  const { data, error } = await getSupabaseAdmin()
+    .from(TABLE)
+    .select('run_json, updated_at')
+    .eq('project_id', slug)
+    .eq('pipeline_id', pipelineId)
+    .order('updated_at', { ascending: false })
+    .limit(200);
+
+  if (error || !data?.length) return null;
+
+  let best: PageConceptServerRun | null = null;
+  let bestTs = 0;
+  for (const row of data) {
+    const run = row.run_json as PageConceptServerRun;
+    if (!pageConceptServerRunHasReadyMobileGallery(run)) continue;
+    if (!runMatchesDesignPageGalleryScope(run, slug, registryPageId, pageIdSet)) continue;
     const ts = Date.parse(run.updatedAt || row.updated_at || run.createdAt) || 0;
     if (!best || ts > bestTs) {
       best = run;

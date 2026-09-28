@@ -576,7 +576,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       return;
     }
     void pageConceptGeneration.restoreReadyMobileGalleryFromServer().then((restored) => {
-      if (restored) setPageConceptRevision((v) => v + 1);
+      if (restored) {
+        setPageConceptRevision((v) => v + 1);
+        return;
+      }
     });
   }, [
     galleryHydrationScope,
