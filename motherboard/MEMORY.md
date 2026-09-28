@@ -12380,3 +12380,12 @@ Founder: **site00.fsbw-dev.com** sign-in **hangs** — no redirect after passwor
 
 - **Cause:** Desktop + mobile **two** `Site00SignInForm` instances each ran **syncAllFromApi** / session restore; **getProfile** to api.site00.com could block indefinitely; preview tunnel treated like production for profile sync.
 - **Fix:** Single **`useSite00SignInBootstrap`** on `Site00AuthShell`; **preview fast path** (minimal user + 4s profile timeout); **promiseWithTimeout** on profile sync; **8s** timeouts on session-restore/cookie fetches. Magic links still need Supabase redirect allow for the **cloud preview hostname** (same host as tunnel).
+
+---
+
+## 2026-09-28 — Auto-mount page concept gallery (no RESTORE button)
+
+Founder asked to **patch the FAL/generate vs mount break** so durable **GPT2_MOBILE** (FAL-backed) concepts mount automatically — no manual RESTORE.
+
+- **`runAutoPageConceptGalleryMount`** in `usePageConceptGeneration`: when signed in and MOBILE gallery empty → `mountPageConceptGalleryFromServer({ galleryRestore: true })` then full **`restoreReadyMobileGalleryFromServer`** fallback; runs on **api session ready**, **signInStateChanged**, **visibilitychange**.
+- **`designPageMobileConceptGalleryIsEmpty`** helper; UI **SYNCING PAGE CONCEPTS…** during auto sync; **CORE.md** documents GPT2_MOBILE vs FAL_EXPERIENCE split.
