@@ -4,7 +4,7 @@
 
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { describe, expect, it, beforeAll } from 'vitest';
+import { describe, expect, it, beforeAll, beforeEach } from 'vitest';
 import {
   translateReviewStatusForClient,
   clientReviewStatusLabel,
@@ -58,6 +58,13 @@ describe.sequential('P0.CLIENT.2 client reviews architecture', () => {
     enablePreviewMode();
     resetPreviewSeedCache();
     await ensurePreviewReviewFixturesSeeded();
+  });
+
+  beforeEach(async () => {
+    enablePreviewMode();
+    resetPreviewSeedCache();
+    await ensurePreviewReviewFixturesSeeded();
+    await resetPreviewReviewDataForTests(['review-identity-direction-02']);
   });
 
   it('translates internal review statuses for client visibility', () => {

@@ -66,6 +66,7 @@ export default defineConfig({
     testTimeout: isCi ? 120_000 : 60_000,
     hookTimeout: isCi ? 120_000 : 60_000,
     /** Supabase integration suites contend when every file runs wide parallel on CI runners. */
+    fileParallelism: isCi ? false : undefined,
     poolOptions: isCi ? { threads: { maxThreads: 2, minThreads: 1 } } : undefined,
     include: ['**/*.{test,spec}.{ts,tsx}'],
     exclude: ['**/node_modules/**', '**/dist/**', ...ciSprintSnapshotExcludes],

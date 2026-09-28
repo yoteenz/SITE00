@@ -28,6 +28,7 @@ import { canAccessProjectAsOwner } from '../site00Access/accessModel.js';
 import { isAdminEmail } from '../adminAuth.js';
 import { getSupabaseAdmin } from '../supabase.js';
 import { ensurePreviewReviewFixturesSeeded } from './previewFixtureSeed.js';
+import { withPreviewReviewSupabaseTestLock } from './previewReviewTestLock.js';
 import {
   getActionableReviewCount,
   insertReviewAnnotation,
@@ -112,19 +113,21 @@ export async function getClientReviewQueue(
   email: string,
   userId?: string,
 ): Promise<ClientReviewQueuePayload> {
-  await assertReviewProjectAccess(projectSlug, email, userId);
-  await ensureReviewDataReady(projectSlug);
+  return serializePreviewFixtureProjectAccess(projectSlug, async () => {
+    await assertReviewProjectAccess(projectSlug, email, userId);
+    await ensureReviewDataReady(projectSlug);
 
-  const reviews = await loadReviewObjectsForProject(projectSlug);
-  const actionableCount = reviews.filter(
-    (r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status),
-  ).length;
+    const reviews = await loadReviewObjectsForProject(projectSlug);
+    const actionableCount = reviews.filter(
+      (r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status),
+    ).length;
 
-  return stripReviewInternalFields({
-    projectSlug,
-    reviews,
-    actionableCount,
-    emptyMessage: reviews.length === 0 ? 'NOTHING NEEDS YOUR REVIEW RIGHT NOW. SITE 00 is still working.' : null,
+    return stripReviewInternalFields({
+      projectSlug,
+      reviews,
+      actionableCount,
+      emptyMessage: reviews.length === 0 ? 'NOTHING NEEDS YOUR REVIEW RIGHT NOW. SITE 00 is still working.' : null,
+    });
   });
 }
 
@@ -135,29 +138,31 @@ export async function getClientReviewDetail(input: {
   userId?: string;
   roleOverride?: ClientProjectRole;
 }): Promise<ClientReviewDetail> {
-  const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
-  await ensureReviewDataReady(input.projectSlug);
+  return serializePreviewFixtureProjectAccess(input.projectSlug, async () => {
+    const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
+    await ensureReviewDataReady(input.projectSlug);
 
-  const review = await loadReviewObject(input.projectSlug, input.reviewId);
-  if (!review) throw new Error('REVIEW NOT FOUND');
+    const review = await loadReviewObject(input.projectSlug, input.reviewId);
+    if (!review) throw new Error('REVIEW NOT FOUND');
 
-  const role = input.roleOverride ?? access.role;
-  const [versions, comments, annotations, decisionHistory] = await Promise.all([
-    loadReviewVersions(review.reviewId),
-    loadReviewComments(review.reviewId, { clientVisibleOnly: true }),
-    loadReviewAnnotations(review.reviewId),
-    loadReviewEvents(review.reviewId, true),
-  ]);
+    const role = input.roleOverride ?? access.role;
+    const [versions, comments, annotations, decisionHistory] = await Promise.all([
+      loadReviewVersions(review.reviewId),
+      loadReviewComments(review.reviewId, { clientVisibleOnly: true }),
+      loadReviewAnnotations(review.reviewId),
+      loadReviewEvents(review.reviewId, true),
+    ]);
 
-  const detail: ClientReviewDetail = {
-    review,
-    versions,
-    comments,
-    annotations,
-    decisionHistory,
-    permissions: reviewPermissions(role, review),
-  };
-  return stripReviewInternalFields(detail);
+    const detail: ClientReviewDetail = {
+      review,
+      versions,
+      comments,
+      annotations,
+      decisionHistory,
+      permissions: reviewPermissions(role, review),
+    };
+    return stripReviewInternalFields(detail);
+  });
 }
 
 /** App adapter — same durable canonical state as web. */
@@ -207,6 +212,20 @@ async function assertMutationAllowed(
   if (!clientHasCapability(capabilitiesForRole(role), capability)) throw new Error('FORBIDDEN');
 }
 
+function serializePreviewReviewFixtureMutation<T>(work: () => Promise<T>): Promise<T> {
+  return withPreviewReviewSupabaseTestLock(
+    process.env.VITEST === 'true' && isClientReviewPreviewBypassEnabled(),
+    work,
+  );
+}
+
+function serializePreviewFixtureProjectAccess<T>(projectSlug: string, work: () => Promise<T>): Promise<T> {
+  if (process.env.VITEST === 'true' && isPreviewProjectSlug(projectSlug) && isClientReviewPreviewBypassEnabled()) {
+    return serializePreviewReviewFixtureMutation(work);
+  }
+  return work();
+}
+
 export async function addClientReviewComment(input: {
   projectSlug: string;
   reviewId: string;
@@ -218,6 +237,7 @@ export async function addClientReviewComment(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<ClientReviewComment> {
+  return serializePreviewReviewFixtureMutation(async () => {
   const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
   const role = input.role ?? access.role;
   await assertMutationAllowed(role, 'CAN_COMMENT');
@@ -247,6 +267,7 @@ export async function addClientReviewComment(input: {
   });
 
   return stripReviewInternalFields(comment);
+  });
 }
 
 export async function addClientReviewAnnotation(input: {
@@ -261,6 +282,7 @@ export async function addClientReviewAnnotation(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<{ annotation: ClientReviewAnnotation; comment?: ClientReviewComment }> {
+  return serializePreviewReviewFixtureMutation(async () => {
   const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
   const role = input.role ?? access.role;
   await assertMutationAllowed(role, 'CAN_COMMENT');
@@ -306,6 +328,7 @@ export async function addClientReviewAnnotation(input: {
   });
 
   return stripReviewInternalFields({ annotation, comment });
+  });
 }
 
 export async function submitClientApproval(input: {
@@ -319,6 +342,7 @@ export async function submitClientApproval(input: {
   role?: ClientProjectRole;
   commentSnapshot?: string | null;
 }): Promise<ClientApprovalReceipt> {
+  return serializePreviewReviewFixtureMutation(async () => {
   const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
   const role = input.role ?? access.role;
   await assertMutationAllowed(role, 'CAN_APPROVE');
@@ -376,6 +400,7 @@ export async function submitClientApproval(input: {
     requestId: input.requestId,
   };
   return stripReviewInternalFields(receipt);
+  });
 }
 
 export async function submitClientRevision(input: {
@@ -392,6 +417,7 @@ export async function submitClientRevision(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<ClientRevisionRequestReceipt> {
+  return serializePreviewReviewFixtureMutation(async () => {
   const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
   const role = input.role ?? access.role;
   await assertMutationAllowed(role, 'CAN_REQUEST_REVISION');
@@ -448,6 +474,7 @@ export async function submitClientRevision(input: {
     status: 'RECEIVED',
   };
   return stripReviewInternalFields(receipt);
+  });
 }
 
 export async function submitClientDecline(input: {
@@ -460,6 +487,7 @@ export async function submitClientDecline(input: {
   userId: string;
   role?: ClientProjectRole;
 }): Promise<{ ok: true }> {
+  return serializePreviewReviewFixtureMutation(async () => {
   const access = await assertReviewProjectAccess(input.projectSlug, input.email, input.userId);
   const role = input.role ?? access.role;
   await ensureReviewDataReady(input.projectSlug);
@@ -498,6 +526,7 @@ export async function submitClientDecline(input: {
   });
 
   return { ok: true };
+  });
 }
 
 export async function submitRevisitRequest(input: {
@@ -540,14 +569,16 @@ export async function submitRevisitRequest(input: {
 
 /** Test helper — reset preview fixture mutations in Supabase only. */
 export async function resetPreviewReviewDataForTests(reviewIds: string[]): Promise<void> {
-  if (!isClientReviewPreviewBypassEnabled()) return;
-  await resetPreviewFixtureMutations(reviewIds);
-  for (const id of reviewIds) {
-    await updateReviewClientStatus(id, 'READY_FOR_REVIEW', {
-      actionRequired: true,
-      approvalAllowed: true,
-      revisionAllowed: true,
-      declineAllowed: true,
-    });
-  }
+  return serializePreviewReviewFixtureMutation(async () => {
+    if (!isClientReviewPreviewBypassEnabled()) return;
+    await resetPreviewFixtureMutations(reviewIds);
+    for (const id of reviewIds) {
+      await updateReviewClientStatus(id, 'READY_FOR_REVIEW', {
+        actionRequired: true,
+        approvalAllowed: true,
+        revisionAllowed: true,
+        declineAllowed: true,
+      });
+    }
+  });
 }
