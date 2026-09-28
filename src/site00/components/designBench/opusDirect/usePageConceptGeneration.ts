@@ -531,10 +531,13 @@ export function usePageConceptGeneration(
   }, [pageId, projectId]);
 
   const restoreReadyMobileGalleryFromServer = useCallback(async (): Promise<boolean> => {
+    let serverRestoreAllowed = false;
     try {
       await ensurePageConceptApiAccessToken();
+      serverRestoreAllowed = true;
+      setApiSessionReady(true);
     } catch {
-      /* offline — still try local buckets */
+      /* offline / signed out — still try local archive buckets */
     }
     const scope = {
       projectSlug: projectId,
@@ -550,7 +553,7 @@ export function usePageConceptGeneration(
       return fromArchive ?? s;
     });
 
-    if (apiSessionReady !== false) {
+    if (serverRestoreAllowed) {
       try {
         const latestGallery = await fetchLatestPageConceptGenerationRunForDesignPage({
           projectSlug: projectId,
@@ -609,7 +612,34 @@ export function usePageConceptGeneration(
       setExecutionError(null);
     }
     return restored;
-  }, [apiSessionReady, mobileGalleryHasVisibleCandidates, pageId, persist, projectId, route, screenId]);
+  }, [mobileGalleryHasVisibleCandidates, pageId, persist, projectId, route, screenId]);
+
+  /** Gallery RESTORE CTA — mount durable concepts without opening GENERATE modal. */
+  const restorePageConceptsFromGallery = useCallback(async (): Promise<boolean> => {
+    setOverlayOpen(false);
+    setGenerating(false);
+    setExecutionError(null);
+    const restored = await restoreReadyMobileGalleryFromServer();
+    if (restored) {
+      setExecutionError(null);
+      window.dispatchEvent(
+        new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
+      );
+      return true;
+    }
+    try {
+      await ensurePageConceptApiAccessToken();
+    } catch (e) {
+      const message = e instanceof Error ? e.message : PAGE_CONCEPT_SIGN_IN_REQUIRED;
+      setExecutionError(message);
+      setApiSessionReady(false);
+      return false;
+    }
+    setExecutionError(
+      'RESTORE DID NOT MOUNT MOBILE CONCEPTS — SERVER GALLERY MISSING OR API NOT UPDATED. HARD-REFRESH, CONFIRM RAILWAY REDEPLOY, THEN TAP RESTORE AGAIN (DO NOT USE GENERATE).',
+    );
+    return false;
+  }, [pageId, projectId, restoreReadyMobileGalleryFromServer]);
 
   useEffect(() => {
     if (apiSessionReady === false) {
@@ -852,8 +882,6 @@ export function usePageConceptGeneration(
   }, []);
 
   const openGenerationConfirm = useCallback(async () => {
-    setOverlayOpen(true);
-    setOverlayMode('confirm');
     setPendingPlan(null);
     setCaptureHydrationStatus('checking');
     setGenerating(false);
@@ -895,9 +923,12 @@ export function usePageConceptGeneration(
       );
       return;
     }
+
+    setOverlayOpen(true);
+    setOverlayMode('confirm');
     setExecutionError(
       token ?
-        'RESTORE COULD NOT MOUNT DURABLE CONCEPTS — CONFIRM RAILWAY API IS REDEPLOYED, SIGN IN, THEN HARD-REFRESH AND TAP RESTORE PAGE CONCEPTS AGAIN.'
+        'NO DURABLE MOBILE CONCEPTS MOUNTED — USE RESTORE PAGE CONCEPTS ON THE GALLERY (NOT GENERATE) OR CONFIRM RAILWAY API REDEPLOY.'
       : `${PAGE_CONCEPT_SIGN_IN_REQUIRED} — RESTORE REQUIRES AN AUTHENTICATED API SESSION TO PULL YOUR SAVED CONCEPTS FROM THE SERVER.`,
     );
 
@@ -2285,6 +2316,7 @@ export function usePageConceptGeneration(
     generationJobs: state.generationJobs,
     generationState: state,
     restoreReadyMobileGalleryFromServer,
+    restorePageConceptsFromGallery,
     openGenerationConfirm,
     openGenerationConsole,
     consoleFocusViewport,

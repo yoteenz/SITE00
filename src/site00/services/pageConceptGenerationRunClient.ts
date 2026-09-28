@@ -132,6 +132,7 @@ export async function fetchLatestPageConceptGenerationRunForPageApi(
   projectId: string,
   pageId: string,
   scope?: { screenId?: string; route?: string | null },
+  attempt = 0,
 ): Promise<PageConceptGenerationRunPollUpdate | null> {
   const qs = new URLSearchParams({
     latestForPage: '1',
@@ -149,7 +150,18 @@ export async function fetchLatestPageConceptGenerationRunForPageApi(
   }>(`${PATH}?${qs.toString()}`, {
     method: 'GET',
     timeoutMs: PAGE_CONCEPT_POLL_TIMEOUT_MS,
+    authHeaderPresent: attempt > 0,
   });
+  const apiError =
+    result.data && typeof result.data === 'object' && 'error' in result.data ?
+      String((result.data as { error?: string }).error ?? '').trim().toUpperCase()
+    : '';
+  if ((result.status === 401 || apiError === 'UNAUTHORIZED') && attempt === 0) {
+    const refreshed = await refreshAccessTokenForApi();
+    if (refreshed) {
+      return fetchLatestPageConceptGenerationRunForPageApi(projectId, pageId, scope, 1);
+    }
+  }
   if (result.status === 404) return null;
   if (!result.ok || !result.data?.run) {
     throwPageConceptApiFailure(result, 'GENERATION_LATEST_RUN_FAILED');

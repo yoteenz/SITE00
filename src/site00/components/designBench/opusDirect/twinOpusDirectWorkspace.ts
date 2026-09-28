@@ -766,6 +766,13 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         prodActions.openCompareConcepts(candidateId, other);
       },
       generatePageConcepts: () => {
+        const mobileRows = listPageConceptCandidates(projectSlug, pageTarget.pageId).filter((c) =>
+          pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
+        );
+        if (mobileRows.length === 0) {
+          void pageConceptGeneration.restorePageConceptsFromGallery();
+          return;
+        }
         void pageConceptGeneration.openGenerationConfirm();
       },
       openGenerationConsole: () => {
@@ -1249,9 +1256,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           case 'scrollGallery':
             document.querySelector('.tod-gallery')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             break;
-          case 'generatePageConcepts':
-            void pageConceptGeneration.openGenerationConfirm();
+          case 'generatePageConcepts': {
+            const mobileRows = listPageConceptCandidates(projectSlug, pageTarget.pageId).filter((c) =>
+              pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
+            );
+            if (mobileRows.length === 0) {
+              void pageConceptGeneration.restorePageConceptsFromGallery();
+            } else {
+              void pageConceptGeneration.openGenerationConfirm();
+            }
             break;
+          }
           default:
             break;
         }
@@ -1393,7 +1408,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryHydrationScope,
     );
     const galleryEmptyMessage = galleryEmpty.message;
-    const galleryEmptySecondaryLine = galleryEmpty.secondaryLine;
+    const galleryEmptySecondaryLine =
+      pageConceptGeneration.executionError?.trim() || galleryEmpty.secondaryLine;
     const galleryMountDebugLine =
       pageConceptGeneration.apiSessionReady === true && pageConceptGalleryMountDebugEnabled() ?
         formatPageConceptGalleryMountDebugLine({
