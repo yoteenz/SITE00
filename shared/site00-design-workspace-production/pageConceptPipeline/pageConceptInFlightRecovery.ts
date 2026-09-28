@@ -3,7 +3,7 @@
  */
 
 import { pageConceptGenerationStateHasReadyMobileArtifacts } from './pageConceptGalleryHydration.js';
-import { pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
+import { pageConceptGenerationActivelyRunning, pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
 import { rehydrateViewportAuthorityFamilyFromPipelineSignals } from './pageConceptViewportAuthorityFamilyPersistence.js';
 import { ensureGpt2MobileConceptCatalog } from './pageConceptGpt2MobileConceptCatalog.js';
 import type { PageConceptGenerationState } from './types.js';
@@ -60,4 +60,14 @@ export function recoverStalePageConceptInFlightGenerationState(
     liveProgress: null,
     cgptSubsteps: null,
   });
+}
+
+/** UI gates (gallery GENERATE, rail actions) — ignore stale persisted in-flight without founder session. */
+export function pageConceptGenerationActivelyRunningForUi(
+  state: PageConceptGenerationState,
+  generating: boolean,
+  hasFounderRunSession: boolean,
+): boolean {
+  const effective = recoverStalePageConceptInFlightGenerationState(state, hasFounderRunSession);
+  return pageConceptGenerationActivelyRunning(effective.generationStatus, generating);
 }

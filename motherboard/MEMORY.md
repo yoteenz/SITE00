@@ -12294,3 +12294,12 @@ Founder still stuck **RUNNING PAGE INTELLIGENCE** after pressing GENERATE to bri
 - **`mergePageConceptGenerationStateWithServerRunSnapshot`** — post-merge **`recoverStalePageConceptInFlightGenerationState`**; poll path no longer forces raw run status without founder session.
 - **`restoreReadyMobileGalleryFromServer`** — archive → server mount → recover; **GENERATE / new_branch / dispatch** all server-restore-first; **openGenerationConfirm** restores before eligibility gate.
 - **`pageConceptInFlightRecovery`** — idle/PLANNED + READY mobile → **`GPT2_MOBILE_AWAITING_SELECTION`**. **Tests:** **`p0vrPageConceptMobileGalleryRestore1.test.ts`**. **cPanel v706+**.
+
+---
+
+## 2026-09-28 — Empty gallery + disabled GENERATE/SELECT (stale CGPT UI gate)
+
+Founder on NDXBOOK Overview: **NO MOBILE CONCEPTS YET**, **SELECT MOBILE CONCEPT** disabled (no gallery selection), gallery **GENERATE** disabled when persisted **`CGPT_RUNNING`** without active founder session.
+
+- **`pageConceptGenerationActivelyRunningForUi`** — gallery/rail gates use recovered status, not raw persisted in-flight.
+- **Workspace:** auto server restore when mobile gallery empty + signed in; reconcile orphan jobs; auto-select first mobile candidate when gallery repopulates; empty-state CTA **RESTORE PAGE CONCEPTS**. **cPanel v707+**.

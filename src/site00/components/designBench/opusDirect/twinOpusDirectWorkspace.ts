@@ -39,8 +39,12 @@ import {
 import {
   syncPageConceptGalleryFromLoadedGenerationState,
   resolvePageConceptGalleryEmptyPresentation,
+  reconcilePageConceptCandidates,
+  pageConceptGenerationStateHasReadyMobileArtifacts,
   type PageConceptGalleryHydrationScope,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+import { pageConceptGenerationActivelyRunningForUi } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptInFlightRecovery.js';
+import { loadPageConceptFounderRunSession } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptFounderRunSession.js';
 import type { PageConceptGalleryServerMountTrace } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import {
   formatPageConceptGalleryMountDebugLine,
@@ -48,7 +52,6 @@ import {
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryMountDebug.js';
 import { loadPageConceptActiveServerRunId } from '../../../services/pageConceptGenerationRunClient.js';
 import { resolvePageConceptGenerationConsoleLauncher } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationConsoleLauncher.js';
-import { pageConceptGenerationActivelyRunning } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGeneratorBinding.js';
 import {
   buildGpt2ViewportFamilyHeroRailStages,
   isCanonicalGpt2ViewportFamilyPipeline,
@@ -545,6 +548,68 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageConceptGeneration.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId ??
     pageConceptGeneration.pipelineSet?.selectedMobileConceptId ??
     null;
+
+  const pageConceptGenerationUiActivelyRunning = useMemo(
+    () =>
+      pageConceptGenerationActivelyRunningForUi(
+        pageConceptGeneration.generationState,
+        pageConceptGeneration.generating,
+        Boolean(loadPageConceptFounderRunSession(projectSlug, pageTarget.pageId)),
+      ),
+    [
+      pageConceptGeneration.generating,
+      pageConceptGeneration.generationState,
+      pageTarget.pageId,
+      projectSlug,
+    ],
+  );
+
+  useEffect(() => {
+    if (pageConceptGeneration.apiSessionReady !== true) return;
+    const mobileRows = listPageConceptCandidates(projectSlug, pageTarget.pageId).filter((c) =>
+      pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
+    );
+    if (mobileRows.length > 0) return;
+    if (pageConceptGenerationStateHasReadyMobileArtifacts(pageConceptGeneration.generationState)) {
+      reconcilePageConceptCandidates(projectSlug, pageTarget.pageId, galleryHydrationScope);
+      setPageConceptRevision((v) => v + 1);
+      return;
+    }
+    void pageConceptGeneration.restoreReadyMobileGalleryFromServer().then((restored) => {
+      if (restored) setPageConceptRevision((v) => v + 1);
+    });
+  }, [
+    galleryHydrationScope,
+    pageConceptGeneration.apiSessionReady,
+    pageConceptGeneration.generationState,
+    pageConceptGeneration.restoreReadyMobileGalleryFromServer,
+    pageTarget.pageId,
+    projectSlug,
+  ]);
+
+  useEffect(() => {
+    if (viewport !== 'MOBILE') return;
+    const mobileRows = listPageConceptCandidates(projectSlug, pageTarget.pageId).filter((c) =>
+      pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
+    );
+    if (mobileRows.length === 0) return;
+    if (candidateId && mobileRows.some((c) => c.conceptId === candidateId)) return;
+    const pick =
+      mobileRows.find((c) => c.status === 'SELECTED') ??
+      mobileRows.find((c) => c.artifactStatus === 'READY') ??
+      mobileRows[0];
+    if (!pick) return;
+    setCandidateId(pick.conceptId);
+    setViewportCandidateIds((prev) => ({ ...prev, MOBILE: pick.conceptId }));
+    prodActions.selectGalleryCandidate(pick.conceptId);
+  }, [
+    candidateId,
+    pageTarget.pageId,
+    prodActions,
+    projectSlug,
+    viewport,
+    pageConceptRevision,
+  ]);
 
   useEffect(() => {
     if (viewport !== 'MOBILE') return;
@@ -1396,10 +1461,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
         if (row.conceptSlot === 'MOBILE_CONCEPT_C') return 'CONCEPT C';
         return null;
       })(),
-      generating: pageConceptGenerationActivelyRunning(
-        pageConceptGeneration.generationStatus,
-        pageConceptGeneration.generating,
-      ),
+      generating: pageConceptGenerationUiActivelyRunning,
       generationJobs: pageConceptGeneration.generationJobs,
       activeViewport: viewport,
       tabletInterpretationActive:
@@ -1537,14 +1599,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryViewportTitle: galleryLabels.title,
       galleryCurrentGroupLabel: gallerySections.currentGenerationGroupLabel,
       galleryHistoryGroupLabel: galleryLabels.historyGroupLabel,
-      galleryGenerateLabel: 'GENERATE PAGE CONCEPTS',
+      galleryGenerateLabel:
+        scopedCandidates.length === 0 && pageConceptGeneration.apiSessionReady === true ?
+          'RESTORE PAGE CONCEPTS'
+        : 'GENERATE PAGE CONCEPTS',
       pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,
       pageConceptGenerationGate: pageConceptGenerationGateFromEligibility(
         pageConceptGeneration.generationEligibility,
-        pageConceptGenerationActivelyRunning(
-          pageConceptGeneration.generationStatus,
-          pageConceptGeneration.generating,
-        ),
+        pageConceptGenerationUiActivelyRunning,
       ),
       pageConceptTargetPageId: pageTarget.pageId,
       candidates: scopedCandidates,
@@ -1677,9 +1739,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     viewport,
     pageConceptRevision,
     galleryHydrationScope,
+    pageConceptGeneration.apiSessionReady,
     pageConceptGeneration.generating,
     pageConceptGeneration.generationEligibility,
     pageConceptGeneration.generationState,
+    pageConceptGenerationUiActivelyRunning,
     pageConceptGeneration.pipelineSet,
     selectedMobileConceptId,
     projectVisualAuthorityRegistry,
@@ -1689,17 +1753,17 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     if (!import.meta.env.DEV) return;
     const gate = pageConceptGenerationGateFromEligibility(
       pageConceptGeneration.generationEligibility,
-      pageConceptGenerationActivelyRunning(
-        pageConceptGeneration.generationStatus,
-        pageConceptGeneration.generating,
-      ),
+      pageConceptGenerationUiActivelyRunning,
     );
     assertPageConceptGenerationGateDivergence({
       eligibility: pageConceptGeneration.generationEligibility,
       generateButtonDisabled: !gate.canPressGenerate,
       renderedBlockerText: gate.blockerMessage,
     });
-  }, [pageConceptGeneration.generating, pageConceptGeneration.generationEligibility]);
+  }, [
+    pageConceptGeneration.generationEligibility,
+    pageConceptGenerationUiActivelyRunning,
+  ]);
 
   const state = useMemo<TwinOpusDirectWorkspaceState>(
     () => ({ viewport, navIndex, candidateId, authorityPairOpen, recordTabIndex, dockIndex }),
