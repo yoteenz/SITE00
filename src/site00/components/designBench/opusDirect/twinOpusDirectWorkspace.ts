@@ -308,6 +308,9 @@ export interface TwinOpusDirectWorkspaceData {
   galleryCurrentGroupLabel: string;
   galleryHistoryGroupLabel: string;
   galleryGenerateLabel: string;
+  /** Empty scoped gallery + signed-in session → primary CTA is server restore, not generate modal. */
+  galleryPrimaryIsRestore: boolean;
+  galleryRestoreInProgress: boolean;
   /** Single source — gallery CTA disabled + blocker copy derive from this only. */
   pageConceptGenerationEligibility: PageConceptGenerationEligibility;
   pageConceptGenerationGate: ReturnType<typeof pageConceptGenerationGateFromEligibility>;
@@ -391,6 +394,7 @@ export interface TwinOpusDirectWorkspaceActions {
   goChangeHistory: () => void;
   goMasterAmendment: () => void;
   generatePageConcepts: () => void;
+  restorePageConceptsFromGallery: () => void;
   openGenerationConsole: () => void;
   confirmSelectMobileConcept: () => void;
   captureScreen: () => Promise<void>;
@@ -770,10 +774,13 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
         );
         if (mobileRows.length === 0) {
-          void pageConceptGeneration.restorePageConceptsFromGallery();
+          void pageConceptGeneration.openGeneratePageConceptsPanel();
           return;
         }
         void pageConceptGeneration.openGenerationConfirm();
+      },
+      restorePageConceptsFromGallery: () => {
+        void pageConceptGeneration.restorePageConceptsFromGallery();
       },
       openGenerationConsole: () => {
         void pageConceptGeneration.openGenerationConsole(viewport);
@@ -1261,7 +1268,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
               pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
             );
             if (mobileRows.length === 0) {
-              void pageConceptGeneration.restorePageConceptsFromGallery();
+              void pageConceptGeneration.openGeneratePageConceptsPanel();
             } else {
               void pageConceptGeneration.openGenerationConfirm();
             }
@@ -1618,9 +1625,14 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryViewportTitle: galleryLabels.title,
       galleryCurrentGroupLabel: gallerySections.currentGenerationGroupLabel,
       galleryHistoryGroupLabel: galleryLabels.historyGroupLabel,
+      galleryPrimaryIsRestore:
+        scopedCandidates.length === 0 && pageConceptGeneration.apiSessionReady === true,
+      galleryRestoreInProgress: pageConceptGeneration.galleryRestoreInProgress,
       galleryGenerateLabel:
         scopedCandidates.length === 0 && pageConceptGeneration.apiSessionReady === true ?
-          'RESTORE PAGE CONCEPTS'
+          pageConceptGeneration.galleryRestoreInProgress ?
+            'RESTORING PAGE CONCEPTS…'
+          : 'RESTORE PAGE CONCEPTS'
         : 'GENERATE PAGE CONCEPTS',
       pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,
       pageConceptGenerationGate: pageConceptGenerationGateFromEligibility(
@@ -1759,6 +1771,8 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     pageConceptRevision,
     galleryHydrationScope,
     pageConceptGeneration.apiSessionReady,
+    pageConceptGeneration.executionError,
+    pageConceptGeneration.galleryRestoreInProgress,
     pageConceptGeneration.generating,
     pageConceptGeneration.generationEligibility,
     pageConceptGeneration.generationState,
