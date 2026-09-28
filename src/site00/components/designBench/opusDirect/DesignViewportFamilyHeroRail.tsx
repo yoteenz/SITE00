@@ -38,23 +38,30 @@ export function DesignViewportFamilyHeroRail({
           {stage.actions.map((action) => {
             const surface = heroRailButtonSurfaceForAction(action);
             return (
-            <button
-              key={action.id}
-              type="button"
-              className={`${p}__action ${p}__action--${action.tone} ${p}__action--surface-${surface}${action.secondary ? ` ${p}__action--secondary` : ''}${
-                action.lock ? ` ${p}__action--lock` : ''
-              }`}
-              data-interaction-id={`rail-${action.id}`}
-              data-testid={`viewport-family-rail-${action.id}`}
-              data-action-surface={surface}
-              data-action-tone={action.tone}
-              disabled={action.disabled}
-              title={action.disabledReason ?? undefined}
-              onClick={() => onAction(action.id)}
-            >
-              {action.lock ? <TodIconLock className="tod-ico tod-rail__lockIco" /> : null}
-              {action.label}
-            </button>
+            <div key={action.id} className={`${p}__actionWrap`}>
+              <button
+                type="button"
+                className={`${p}__action ${p}__action--${action.tone} ${p}__action--surface-${surface}${action.secondary ? ` ${p}__action--secondary` : ''}${
+                  action.lock ? ` ${p}__action--lock` : ''
+                }${action.disabled ? ` ${p}__action--blocked` : ''}`}
+                data-interaction-id={`rail-${action.id}`}
+                data-testid={`viewport-family-rail-${action.id}`}
+                data-action-surface={surface}
+                data-action-tone={action.tone}
+                data-action-disabled={action.disabled ? 'true' : 'false'}
+                disabled={action.disabled}
+                title={action.disabledReason ?? undefined}
+                onClick={() => onAction(action.id)}
+              >
+                {action.lock ? <TodIconLock className="tod-ico tod-rail__lockIco" /> : null}
+                {action.label}
+              </button>
+              {action.disabled && action.disabledReason ?
+                <p className={`${p}__actionBlocker`} data-testid={`viewport-family-rail-blocker-${action.id}`}>
+                  {action.disabledReason}
+                </p>
+              : null}
+            </div>
             );
           })}
         </div>

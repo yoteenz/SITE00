@@ -142,55 +142,60 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
 
   const stages: Gpt2ViewportFamilyHeroRailStage[] = [];
 
-  // 1 — MOBILE AUTHORITY
+  // 1 — MOBILE AUTHORITY (full stack always visible)
   {
-    const mobileActions: Gpt2ViewportFamilyAuthorityRailAction[] = [];
-    if (!mobileSelected) {
-      mobileActions.push(
-        action({
-          id: 'vf-select-mobile',
-          label: 'SELECT MOBILE CONCEPT',
-          tone: 'lime',
-          disabled: !input.selectedGalleryCandidateId || input.generating,
-          disabledReason:
-            !input.selectedGalleryCandidateId ? 'Select a concept in the gallery first.'
-            : input.generating ? 'Generation in progress.'
-            : null,
-        }),
-      );
-    } else if (!mobileConfirmed) {
-      mobileActions.push(
-        action({
-          id: 'vf-confirm-mobile',
-          label: 'CONFIRM MOBILE AUTHORITY',
-          tone: 'lime',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-        action({
-          id: 'vf-change-mobile',
-          label: 'CHANGE AUTHORITY',
-          tone: 'ghost',
-          disabled: input.generating || familyLocked,
-          disabledReason: familyLocked ? 'Viewport family locked.' : null,
-          secondary: true,
-        }),
-      );
-    } else {
-      mobileActions.push(
-        action({
-          id: 'vf-change-mobile',
-          label: 'CHANGE AUTHORITY',
-          tone: 'ghost',
-          disabled: input.generating || familyLocked || experienceApproved,
-          disabledReason:
-            familyLocked ? 'Viewport family locked.'
-            : experienceApproved ? 'Experience approved — change invalidates downstream.'
-            : null,
-          secondary: true,
-        }),
-      );
-    }
+    const selectDisabled =
+      mobileConfirmed ||
+      (mobileSelected && !mobileConfirmed) ||
+      !input.selectedGalleryCandidateId ||
+      input.generating;
+    const selectDisabledReason =
+      mobileConfirmed ? 'Mobile authority confirmed.'
+      : mobileSelected && !mobileConfirmed ? 'Concept selected — confirm mobile authority.'
+      : !input.selectedGalleryCandidateId ? 'Select a concept in the gallery first.'
+      : input.generating ? 'Generation in progress.'
+      : null;
+
+    const confirmDisabled = !mobileSelected || mobileConfirmed || input.generating;
+    const confirmDisabledReason =
+      !mobileSelected ? 'Select a mobile concept first.'
+      : mobileConfirmed ? 'Mobile authority confirmed.'
+      : input.generating ? 'Generation in progress.'
+      : null;
+
+    const changeDisabled =
+      !mobileSelected || input.generating || familyLocked || (mobileConfirmed && experienceApproved);
+    const changeDisabledReason =
+      !mobileSelected ? 'Select a mobile concept first.'
+      : familyLocked ? 'Viewport family locked.'
+      : mobileConfirmed && experienceApproved ? 'Experience approved — change invalidates downstream.'
+      : input.generating ? 'Generation in progress.'
+      : null;
+
+    const mobileActions: Gpt2ViewportFamilyAuthorityRailAction[] = [
+      action({
+        id: 'vf-select-mobile',
+        label: 'SELECT MOBILE CONCEPT',
+        tone: 'lime',
+        disabled: selectDisabled,
+        disabledReason: selectDisabledReason,
+      }),
+      action({
+        id: 'vf-confirm-mobile',
+        label: 'CONFIRM MOBILE AUTHORITY',
+        tone: 'ink',
+        disabled: confirmDisabled,
+        disabledReason: confirmDisabledReason,
+      }),
+      action({
+        id: 'vf-change-mobile',
+        label: 'CHANGE SELECTION',
+        tone: 'ghost',
+        disabled: changeDisabled,
+        disabledReason: changeDisabledReason,
+        secondary: true,
+      }),
+    ];
     stages.push({
       id: 'mobile-authority',
       label: 'MOBILE AUTHORITY',
@@ -207,57 +212,52 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
     });
   }
 
-  // 2 — EXPERIENCE
+  // 2 — EXPERIENCE (full stack always visible)
   {
-    const experienceActions: Gpt2ViewportFamilyAuthorityRailAction[] = [];
-    if (mobileConfirmed && experienceNotStarted) {
-      experienceActions.push(
-        action({
-          id: 'vf-create-experience',
-          label: 'OPEN EXPERIENCE',
-          tone: 'lime',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-      );
-    } else if (mobileConfirmed && experienceGenerating) {
-      experienceActions.push(
-        action({
-          id: 'vf-review-experience',
-          label: 'VIEW EXPERIENCE',
-          tone: 'ink',
-          disabled: false,
-          disabledReason: null,
-        }),
-      );
-    } else if (mobileConfirmed && (experienceReady || experiencePartial)) {
-      experienceActions.push(
-        action({
-          id: 'vf-review-experience',
-          label: 'VIEW EXPERIENCE',
-          tone: 'ink',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-        action({
-          id: 'vf-approve-experience',
-          label: 'APPROVE EXPERIENCE',
-          tone: 'lime',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-      );
-    } else if (mobileConfirmed && experienceApproved) {
-      experienceActions.push(
-        action({
-          id: 'vf-review-experience',
-          label: 'VIEW APPROVED EXPERIENCE',
-          tone: 'ink',
-          disabled: false,
-          disabledReason: null,
-        }),
-      );
-    }
+    const openEnabled = mobileConfirmed && experienceNotStarted && !input.generating;
+    const reviewEnabled =
+      mobileConfirmed &&
+      (experienceGenerating || experienceReady || experiencePartial || experienceApproved) &&
+      (!input.generating || experienceGenerating);
+    const approveEnabled =
+      mobileConfirmed && (experienceReady || experiencePartial) && !experienceApproved && !input.generating;
+
+    const experienceActions: Gpt2ViewportFamilyAuthorityRailAction[] = [
+      action({
+        id: 'vf-create-experience',
+        label: 'OPEN EXPERIENCE',
+        tone: 'lime',
+        disabled: !openEnabled,
+        disabledReason:
+          !mobileConfirmed ? 'Confirm mobile authority first.'
+          : !experienceNotStarted ? 'Experience already in progress or complete.'
+          : input.generating ? 'Generation in progress.'
+          : null,
+      }),
+      action({
+        id: 'vf-review-experience',
+        label: experienceApproved ? 'VIEW APPROVED EXPERIENCE' : 'REVIEW EXPERIENCE',
+        tone: 'ink',
+        disabled: !reviewEnabled,
+        disabledReason:
+          !mobileConfirmed ? 'Confirm mobile authority first.'
+          : experienceNotStarted ? 'Open experience to generate package.'
+          : input.generating ? 'Generation in progress.'
+          : null,
+      }),
+      action({
+        id: 'vf-approve-experience',
+        label: 'APPROVE EXPERIENCE',
+        tone: 'lime',
+        disabled: !approveEnabled,
+        disabledReason:
+          !mobileConfirmed ? 'Confirm mobile authority first.'
+          : experienceApproved ? 'Experience approved.'
+          : !(experienceReady || experiencePartial) ? 'Approve when experience package is ready for review.'
+          : input.generating ? 'Generation in progress.'
+          : null,
+      }),
+    ];
     stages.push({
       id: 'experience',
       label: 'EXPERIENCE',
@@ -287,49 +287,62 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
     });
   }
 
-  // 3 — TABLET
+  // 3 — TABLET (full stack always visible)
   {
-    const tabletActions: Gpt2ViewportFamilyAuthorityRailAction[] = [];
-    if (!tabletUnlocked) {
-      /* locked */
-    } else if (tabletGenerating || input.generating) {
-      /* generating */
-    } else if (!tabletReady) {
-      tabletActions.push(
-        action({
-          id: 'vf-run-tablet',
-          label: 'GENERATE TABLET',
-          tone: 'lime',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-      );
-    } else {
-      tabletActions.push(
-        action({
-          id: 'vf-review-tablet',
-          label: 'REVIEW TABLET',
-          tone: 'ink',
-          disabled: false,
-          disabledReason: null,
-        }),
-        action({
-          id: 'vf-regenerate-tablet',
-          label: 'REGENERATE TABLET',
-          tone: 'ink',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-        action({
-          id: 'vf-use-tablet',
-          label: 'USE THIS TABLET VERSION',
-          tone: 'ghost',
-          disabled: input.tabletInterpretationActive,
-          disabledReason: input.tabletInterpretationActive ? 'Already active in gallery.' : null,
-          secondary: true,
-        }),
-      );
-    }
+    const generateTabletEnabled =
+      tabletUnlocked && !tabletReady && !tabletGenerating && !input.generating;
+    const reviewTabletEnabled = tabletUnlocked && tabletReady && !input.generating;
+    const regenerateTabletEnabled = tabletUnlocked && tabletReady && !input.generating;
+    const useTabletEnabled = tabletUnlocked && tabletReady && !input.tabletInterpretationActive;
+
+    const tabletBlockedReason =
+      !mobileConfirmed ? 'Confirm mobile authority first.'
+      : !experienceApproved ? 'Approve experience first.'
+      : tabletGenerating ? 'Tablet interpretation generating.'
+      : input.generating ? 'Generation in progress.'
+      : null;
+
+    const tabletActions: Gpt2ViewportFamilyAuthorityRailAction[] = [
+      action({
+        id: 'vf-run-tablet',
+        label: 'GENERATE TABLET',
+        tone: 'lime',
+        disabled: !generateTabletEnabled,
+        disabledReason: generateTabletEnabled ? null : tabletBlockedReason ?? 'Not available yet.',
+      }),
+      action({
+        id: 'vf-review-tablet',
+        label: 'REVIEW TABLET',
+        tone: 'ink',
+        disabled: !reviewTabletEnabled,
+        disabledReason:
+          reviewTabletEnabled ? null
+          : !tabletUnlocked ? (tabletBlockedReason ?? 'Locked.')
+          : 'Generate tablet interpretation first.',
+      }),
+      action({
+        id: 'vf-regenerate-tablet',
+        label: 'REGENERATE TABLET',
+        tone: 'ghost',
+        disabled: !regenerateTabletEnabled,
+        disabledReason:
+          regenerateTabletEnabled ? null
+          : !tabletUnlocked ? (tabletBlockedReason ?? 'Locked.')
+          : 'Generate tablet interpretation first.',
+        secondary: true,
+      }),
+      action({
+        id: 'vf-use-tablet',
+        label: 'USE THIS TABLET VERSION',
+        tone: 'ghost',
+        disabled: !useTabletEnabled,
+        disabledReason:
+          useTabletEnabled ? null
+          : input.tabletInterpretationActive ? 'Already active in gallery.'
+          : 'Generate tablet interpretation first.',
+        secondary: true,
+      }),
+    ];
     stages.push({
       id: 'tablet',
       label: 'TABLET INTERPRETATION',
@@ -353,62 +366,64 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       emphasized: input.activeViewport === 'TABLET',
       actions: tabletActions,
     });
-    if (!tabletUnlocked && mobileConfirmed && !experienceApproved) {
-      stages[stages.length - 1]!.actions = [
-        action({
-          id: 'vf-run-tablet',
-          label: 'APPROVE EXPERIENCE FIRST',
-          tone: 'ghost',
-          disabled: true,
-          disabledReason: 'APPROVE EXPERIENCE FIRST',
-        }),
-      ];
-    }
   }
 
-  // 4 — DESKTOP
+  // 4 — DESKTOP (full stack always visible)
   {
-    const desktopActions: Gpt2ViewportFamilyAuthorityRailAction[] = [];
-    if (!desktopUnlocked) {
-      /* locked */
-    } else if (desktopGenerating || input.generating) {
-      /* generating */
-    } else if (!desktopReady) {
-      desktopActions.push(
-        action({
-          id: 'vf-run-desktop',
-          label: 'GENERATE DESKTOP',
-          tone: 'lime',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-      );
-    } else {
-      desktopActions.push(
-        action({
-          id: 'vf-review-desktop',
-          label: 'REVIEW DESKTOP',
-          tone: 'ink',
-          disabled: false,
-          disabledReason: null,
-        }),
-        action({
-          id: 'vf-regenerate-desktop',
-          label: 'REGENERATE DESKTOP',
-          tone: 'ink',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-        action({
-          id: 'vf-use-desktop',
-          label: 'USE THIS DESKTOP VERSION',
-          tone: 'ghost',
-          disabled: input.desktopInterpretationActive,
-          disabledReason: input.desktopInterpretationActive ? 'Already active in gallery.' : null,
-          secondary: true,
-        }),
-      );
-    }
+    const generateDesktopEnabled =
+      desktopUnlocked && !desktopReady && !desktopGenerating && !input.generating;
+    const reviewDesktopEnabled = desktopUnlocked && desktopReady && !input.generating;
+    const regenerateDesktopEnabled = desktopUnlocked && desktopReady && !input.generating;
+    const useDesktopEnabled = desktopUnlocked && desktopReady && !input.desktopInterpretationActive;
+
+    const desktopBlockedReason =
+      !mobileConfirmed ? 'Confirm mobile authority first.'
+      : !experienceApproved ? 'Approve experience first.'
+      : desktopGenerating ? 'Desktop interpretation generating.'
+      : input.generating ? 'Generation in progress.'
+      : null;
+
+    const desktopActions: Gpt2ViewportFamilyAuthorityRailAction[] = [
+      action({
+        id: 'vf-run-desktop',
+        label: 'GENERATE DESKTOP',
+        tone: 'lime',
+        disabled: !generateDesktopEnabled,
+        disabledReason: generateDesktopEnabled ? null : desktopBlockedReason ?? 'Not available yet.',
+      }),
+      action({
+        id: 'vf-review-desktop',
+        label: 'REVIEW DESKTOP',
+        tone: 'ink',
+        disabled: !reviewDesktopEnabled,
+        disabledReason:
+          reviewDesktopEnabled ? null
+          : !desktopUnlocked ? (desktopBlockedReason ?? 'Locked.')
+          : 'Generate desktop interpretation first.',
+      }),
+      action({
+        id: 'vf-regenerate-desktop',
+        label: 'REGENERATE DESKTOP',
+        tone: 'ghost',
+        disabled: !regenerateDesktopEnabled,
+        disabledReason:
+          regenerateDesktopEnabled ? null
+          : !desktopUnlocked ? (desktopBlockedReason ?? 'Locked.')
+          : 'Generate desktop interpretation first.',
+        secondary: true,
+      }),
+      action({
+        id: 'vf-use-desktop',
+        label: 'USE THIS DESKTOP VERSION',
+        tone: 'ghost',
+        disabled: !useDesktopEnabled,
+        disabledReason:
+          useDesktopEnabled ? null
+          : input.desktopInterpretationActive ? 'Already active in gallery.'
+          : 'Generate desktop interpretation first.',
+        secondary: true,
+      }),
+    ];
     stages.push({
       id: 'desktop',
       label: 'DESKTOP INTERPRETATION',
@@ -432,62 +447,49 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
       emphasized: input.activeViewport === 'DESKTOP',
       actions: desktopActions,
     });
-    if (!desktopUnlocked && mobileConfirmed && !experienceApproved) {
-      stages[stages.length - 1]!.actions = [
-        action({
-          id: 'vf-run-desktop',
-          label: 'APPROVE EXPERIENCE FIRST',
-          tone: 'ghost',
-          disabled: true,
-          disabledReason: 'APPROVE EXPERIENCE FIRST',
-        }),
-      ];
-    }
   }
 
-  // 5 — VIEWPORT FAMILY
+  // 5 — VIEWPORT FAMILY (full stack always visible)
   {
-    const familyActions: Gpt2ViewportFamilyAuthorityRailAction[] = [];
-    if (familyReviewReady && !familyApproved) {
-      familyActions.push(
-        action({
-          id: 'vf-review-family',
-          label: 'REVIEW FAMILY',
-          tone: 'ink',
-          disabled: false,
-          disabledReason: null,
-        }),
-        action({
-          id: 'vf-approve-family',
-          label: 'APPROVE FAMILY',
-          tone: 'lime',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-        }),
-      );
-    } else if (mobileConfirmed && !tabletReady) {
-      familyActions.push(
-        action({
-          id: 'vf-review-family',
-          label: 'REVIEW FAMILY',
-          tone: 'ghost',
-          disabled: true,
-          disabledReason: 'Complete tablet and desktop interpretations first.',
-        }),
-      );
-    }
-    if (familyStatus === 'APPROVED' && !familyLocked) {
-      familyActions.push(
-        action({
-          id: 'vf-lock-family',
-          label: 'LOCK VIEWPORT FAMILY',
-          tone: 'ink',
-          disabled: input.generating,
-          disabledReason: input.generating ? 'Generation in progress.' : null,
-          lock: true,
-        }),
-      );
-    }
+    const reviewFamilyEnabled = familyReviewReady && !input.generating;
+    const approveFamilyEnabled = familyReviewReady && !familyApproved && !input.generating;
+    const lockFamilyEnabled = familyStatus === 'APPROVED' && !familyLocked && !input.generating;
+
+    const familyActions: Gpt2ViewportFamilyAuthorityRailAction[] = [
+      action({
+        id: 'vf-review-family',
+        label: 'REVIEW FAMILY',
+        tone: 'ink',
+        disabled: !reviewFamilyEnabled,
+        disabledReason:
+          reviewFamilyEnabled ? null
+          : familyLocked ? 'Viewport family locked.'
+          : familyApproved ? 'Family approved.'
+          : 'Complete tablet and desktop interpretations first.',
+      }),
+      action({
+        id: 'vf-approve-family',
+        label: 'APPROVE FAMILY',
+        tone: 'lime',
+        disabled: !approveFamilyEnabled,
+        disabledReason:
+          approveFamilyEnabled ? null
+          : familyApproved ? 'Family approved.'
+          : 'Review family when tablet and desktop are ready.',
+      }),
+      action({
+        id: 'vf-lock-family',
+        label: 'LOCK VIEWPORT FAMILY',
+        tone: 'ghost',
+        disabled: !lockFamilyEnabled,
+        disabledReason:
+          lockFamilyEnabled ? null
+          : familyLocked ? 'Viewport family locked.'
+          : 'Approve viewport family first.',
+        lock: true,
+        secondary: true,
+      }),
+    ];
     stages.push({
       id: 'viewport-family',
       label: 'VIEWPORT FAMILY',

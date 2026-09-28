@@ -614,7 +614,7 @@
 .tod-rail__vfFullVertical {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   flex: 1 1 auto;
   min-height: 0;
   font-size: 9px;
@@ -624,9 +624,26 @@
 .tod-rail__vfStage {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-bottom: 6px;
+  gap: 6px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--tod-border-subtle);
+}
+
+.tod-rail__actionWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.tod-rail__actionBlocker {
+  margin: 0;
+  padding: 0 2px;
+  font-size: 7px;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.72);
+  text-transform: uppercase;
 }
 
 .tod-rail__vfStage--emphasis .tod-rail__vfStageLabel {
@@ -710,12 +727,14 @@
 }
 
 .tod-rail--heroWorkflow .tod-rail__action--surface-disabled,
-.tod-rail--heroWorkflow .tod-rail__vfStage .tod-rail__action:disabled {
-  background: #ececec;
-  color: #6a6a6a;
-  border: 1px solid #c8c8c8;
+.tod-rail--heroWorkflow .tod-rail__vfStage .tod-rail__action:disabled,
+.tod-rail--heroWorkflow .tod-rail__action--blocked:disabled {
+  background: #f4f4f4;
+  color: #303030;
+  border: 1px solid #9a9a9a;
   opacity: 1;
   cursor: not-allowed;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 .tod-hero-compare__grid {

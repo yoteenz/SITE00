@@ -223,7 +223,7 @@ describe('P0.VR.HERO-RIGHT-RAIL-BUTTON-SURFACE-CLEANUP1', () => {
       .flatMap((s) => s.actions)
       .find((a) => a.id === 'vf-run-tablet');
     expect(lockedTablet?.disabled).toBe(true);
-    expect(lockedTablet?.tone).toBe('ghost');
+    expect(lockedTablet?.tone).toBe('lime');
     expect(heroRailButtonSurfaceForAction(lockedTablet!)).toBe('disabled');
   });
 
