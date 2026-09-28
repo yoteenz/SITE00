@@ -5,6 +5,7 @@ import {
   site00SignInWithMagicLink,
   site00SignInWithPassword,
 } from '../../../utils/auth/site00SignInActions';
+import { readSignInFieldValues } from '../../../utils/auth/site00SignInFormValues';
 import { resolveSite00ReturnToAfterSignIn } from '../../../utils/signInReturnTo';
 import { SITE00_ROUTES, site00CreateAccountLinkTarget } from '../../config/routes';
 
@@ -23,9 +24,33 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const feedbackRef = useRef<HTMLParagraphElement>(null);
+
+  const syncFieldsFromDom = () => {
+    const { email: domEmail, password: domPassword } = readSignInFieldValues(formRef.current);
+    if (domEmail && domEmail !== email) setEmail(domEmail);
+    if (domPassword && domPassword !== password) setPassword(domPassword);
+  };
+
+  useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+    const onDomChange = () => syncFieldsFromDom();
+    form.addEventListener('input', onDomChange);
+    form.addEventListener('change', onDomChange);
+    const t1 = window.setTimeout(onDomChange, 120);
+    const t2 = window.setTimeout(onDomChange, 600);
+    return () => {
+      form.removeEventListener('input', onDomChange);
+      form.removeEventListener('change', onDomChange);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot autofill sync after mount
+  }, []);
 
   useEffect(() => {
     if (!error && !info) return;
@@ -46,10 +71,10 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     setInfo('');
     setSubmitting(true);
     try {
-      const result = await site00SignInWithPassword(
-        emailRef.current?.value ?? email,
-        passwordRef.current?.value ?? password,
+      const { email: submitEmail, password: submitPassword } = readSignInFieldValues(
+        event.currentTarget,
       );
+      const result = await site00SignInWithPassword(submitEmail, submitPassword);
       if (!result.ok) {
         setError(result.message);
         return;
@@ -63,7 +88,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
   const onMagicLink = async () => {
     setError('');
     setInfo('');
-    const emailValue = (emailRef.current?.value ?? email).trim();
+    const emailValue = readSignInFieldValues(formRef.current).email.trim();
     if (!emailValue) {
       setError('EMAIL IS REQUIRED.');
       return;
@@ -86,7 +111,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
   const onForgotPassword = async () => {
     setError('');
     setInfo('');
-    const emailValue = (emailRef.current?.value ?? email).trim();
+    const emailValue = readSignInFieldValues(formRef.current).email.trim();
     if (!emailValue) {
       setError('ENTER YOUR EMAIL TO RESET PASSWORD.');
       return;
@@ -114,7 +139,13 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
         </Link>
       ) : null}
 
-      <form id={formId} className="site00-signin-form__body" onSubmit={onSubmit} autoComplete="on">
+      <form
+        ref={formRef}
+        id={formId}
+        className="site00-signin-form__body"
+        onSubmit={onSubmit}
+        autoComplete="on"
+      >
         <label className="site00-signin-form__label" htmlFor={emailInputId}>
           EMAIL
         </label>

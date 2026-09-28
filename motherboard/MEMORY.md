@@ -12478,3 +12478,13 @@ Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Desi
 - **`useDesignWorkspacePipeline.ts`:** React hook wired in **`twinOpusDirectWorkspace`** (hero, tabs, gallery CTAs, concept dock handoff, hero assembly gates).
 - **`designHeroAssemblyActions` / `designConceptIntelligenceDock` / `pageConceptViewportGalleryActions`:** pipeline-aware gates and handoff.
 - **Tests:** `p0vrDesignWorkspacePipelineReactivity1.test.ts`.
+
+---
+
+## 2026-09-28 — Tunnel sign-in autofill + post-auth redirect
+
+Cloud preview tunnel sign-in failed when password managers autofilled: **two** `Site00SignInForm` instances (desktop + mobile) stayed mounted; autofill often filled hidden desktop fields while submit read empty mobile state → **PASSWORD IS REQUIRED** / no `returnTo` redirect.
+
+- **Fix:** `useSite00AuthLayout` (1024px match to auth CSS) mounts **one** form in `Site00AuthShell`; `readSignInFieldValues` (FormData + input `.value`) on submit; brief autofill sync on mount.
+- **Branch/PR:** `cursor/fix-tunnel-sign-in-autofill-redirect-b747`.
+- **Tests:** `fixTunnelSignInAutofillRedirect1.test.ts`.
