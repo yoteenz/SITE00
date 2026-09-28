@@ -12409,3 +12409,12 @@ Founder: concepts **sync on deploy** then **page crashes** (white / React max up
 - **Cause:** After server gallery mount, **`selectedMobileConceptId`** could be a **pipeline alias** not matching gallery card **`conceptId`s**. Competing **`useEffect`** hooks in **`twinOpusDirectWorkspace`** ping-ponged **`candidateId`** between authority id and **`currentIds[0]`**. Repeated **`selectGalleryCandidate`** also bumped production **`updatedAt`** even when id unchanged, re-firing effects.
 - **Fix:** **`resolveMobileGalleryCandidateConceptId`** (alias-safe authority → gallery row). Authority sync effect only applies when resolved id is in gallery; current-run effect skips override when authority maps to a current card. **`transitionSelectGalleryCandidate`** + **`selectGalleryCandidate`** no-op when id unchanged.
 - **Deploy:** cPanel ZIP after merge; hard refresh NDXBOOK design overview after sync completes.
+
+---
+
+## 2026-09-28 — Tunnel SELECT MOBILE CONCEPT dead after gallery sync
+
+Founder: **SELECT MOBILE CONCEPT** dead on **preview tunnel** (concepts sync OK).
+
+- **Cause:** (1) Background **`pageConceptViewportFamilyActionApi`** reloaded **stale localStorage** before React persist flushed, then **`applyViewportFamilyResult(remote)`** overwrote founder **select** with server snapshot missing client-only family progress. (2) **`CGPT_BRIEF_REQUIRED`** when gallery mount had GPT2 jobs but no **`creativeInjection`** object on **`pipelineSet`**. (3) Gallery action gated on **`row.pipelineId`** only — no-op when row lookup missed alias id. (4) Tunnel default **CI preview dist** lags **`main`** until GitHub Actions artifact updates.
+- **Fix:** Sync **`localState`** to storage before API; merge remote with **`preserveLocalViewportAuthorityFamilyProgressAfterServerMerge`**; **`resolveCgptBriefIdsForViewportFamily`** job-id fallback; canonical GPT2 **select-mobile** without strict row gate. For tunnel testing latest JS: **`SITE00_CLOUD_PREVIEW_MODE=local`** + restart preview tunnel (or wait for CI dist).
