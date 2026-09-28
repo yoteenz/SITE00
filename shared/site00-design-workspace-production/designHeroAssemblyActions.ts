@@ -9,6 +9,11 @@ import type { PageAuthorityWorkflowState } from './designPageAuthorityWorkflow.j
 import { isOpusFrameworkHandoffPackage } from './designOpusFrameworkHandoff.js';
 import type { DesignProductionState } from './types.js';
 import type { PageViewportId } from './designProjectBinding/pageViewportAuthority.js';
+import type { DesignWorkspacePipelineState } from './designWorkspacePipelineState.js';
+import {
+  canCreateFramework as pipelineCanCreateFramework,
+  canGenerateAssets as pipelineCanGenerateAssets,
+} from './designWorkspacePipelineSelectors.js';
 
 export type HeroActionVisualState = 'AVAILABLE' | 'LOCKED' | 'READY' | 'BUSY' | 'COMPLETE' | 'NOT_REQUIRED';
 
@@ -49,6 +54,8 @@ export type HeroAssemblyActionsInput = {
   /** GPT2 viewport-family pipeline — CREATE FRAMEWORK gates on Pair Review confirmation. */
   canonicalGpt2ViewportFamilyPipeline?: boolean;
   viewportFamilyConfirmed?: boolean;
+  /** When set, GPT2 gates prefer canonical compiled pipeline selectors. */
+  designWorkspacePipeline?: DesignWorkspacePipelineState | null;
 };
 
 function promotedIds(input: HeroAssemblyActionsInput): { mobile: string | null; desktop: string | null } {
@@ -106,6 +113,19 @@ export function computeHeroAssemblyActions(input: HeroAssemblyActionsInput): Her
       statusLine: 'FRAMEWORK: READY FOR REVIEW',
     };
   } else if (
+    input.designWorkspacePipeline &&
+    input.canonicalGpt2ViewportFamilyPipeline &&
+    !frameworkPkg &&
+    pipelineCanCreateFramework(input.designWorkspacePipeline)
+  ) {
+    createFramework = {
+      ...createFramework,
+      state: 'READY',
+      disabled: false,
+      disabledReason: null,
+      statusLine: 'CREATE FRAMEWORK: READY',
+    };
+  } else if (
     bothPromoted &&
     !frameworkPkg &&
     (!input.canonicalGpt2ViewportFamilyPipeline || input.viewportFamilyConfirmed)
@@ -121,13 +141,27 @@ export function computeHeroAssemblyActions(input: HeroAssemblyActionsInput): Her
     bothPromoted &&
     !frameworkPkg &&
     input.canonicalGpt2ViewportFamilyPipeline &&
-    !input.viewportFamilyConfirmed
+    !input.viewportFamilyConfirmed &&
+    !input.designWorkspacePipeline
   ) {
     createFramework = {
       ...createFramework,
       state: 'LOCKED',
       disabled: true,
       disabledReason: 'CONFIRM VIEWPORT FAMILY IN PAIR REVIEW FIRST',
+      statusLine: null,
+    };
+  } else if (
+    input.designWorkspacePipeline &&
+    input.canonicalGpt2ViewportFamilyPipeline &&
+    !frameworkPkg &&
+    !pipelineCanCreateFramework(input.designWorkspacePipeline)
+  ) {
+    createFramework = {
+      ...createFramework,
+      state: 'LOCKED',
+      disabled: true,
+      disabledReason: 'COMPLETE PAGE FAMILY + INTERACTION GATES FIRST',
       statusLine: null,
     };
   } else if (bothPromoted && frameworkPkg && !building && !frameworkReady) {
@@ -199,6 +233,18 @@ export function computeHeroAssemblyActions(input: HeroAssemblyActionsInput): Her
       disabled: true,
       disabledReason: null,
       statusLine: 'GENERATE ASSETS: COMPLETE',
+    };
+  } else if (
+    input.designWorkspacePipeline &&
+    input.canonicalGpt2ViewportFamilyPipeline &&
+    pipelineCanGenerateAssets(input.designWorkspacePipeline)
+  ) {
+    generateAssets = {
+      ...generateAssets,
+      state: 'READY',
+      disabled: false,
+      disabledReason: null,
+      statusLine: 'GENERATE ASSETS: READY',
     };
   } else if (grok.canGenerateProductionAssets) {
     generateAssets = {

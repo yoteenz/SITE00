@@ -274,6 +274,14 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                 {data.galleryMountDebugLine}
               </p>
             : null}
+            {data.galleryPipelineStatusLine ?
+              <p
+                className="tod-lv-gallery__pipelineStatus"
+                data-testid="page-concept-gallery-pipeline-status"
+              >
+                {data.galleryPipelineStatusLine}
+              </p>
+            : null}
             <div
               className={`tod-lv-gallery__body${data.galleryEmptyMessage ? '' : ' tod-lv-gallery__body--pageConceptGrid'}`}
             >

@@ -12,6 +12,8 @@ const FULLSCREEN = { id: 'fullscreen', label: 'FULLSCREEN', icon: 'expand' as co
 export function resolvePageConceptViewportGalleryActions(input: {
   viewport: PageViewportId;
   canonicalGpt2: boolean;
+  /** When true, mobile gallery stays inspectable but drops selection CTAs. */
+  mobileAuthorityConfirmed?: boolean;
 }): readonly PageConceptViewportGalleryAction[] {
   if (!input.canonicalGpt2) {
     return [
@@ -36,6 +38,9 @@ export function resolvePageConceptViewportGalleryActions(input: {
       INSPECT,
       FULLSCREEN,
     ];
+  }
+  if (input.mobileAuthorityConfirmed) {
+    return [INSPECT, FULLSCREEN];
   }
   return [
     { id: 'select-mobile', label: 'SELECT MOBILE CONCEPT', icon: 'cycle' },

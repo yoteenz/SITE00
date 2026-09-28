@@ -21,6 +21,12 @@ import {
   type WebExpressionTerritory,
 } from './pageConceptWebExpressionTerritories.js';
 import type { Gpt2ViewportFamilyHeroRailStage } from './designGpt2ViewportFamilyAuthorityRail.js';
+import type { DesignWorkspacePipelineState } from '../designWorkspacePipelineState.js';
+import {
+  buildDesignWorkspacePipelineReadinessRows,
+  canCreateFramework,
+  canOpenPairReview,
+} from '../designWorkspacePipelineSelectors.js';
 
 export const CONCEPT_INTELLIGENCE_DOCK_TABS = [
   'CONCEPT',
@@ -155,6 +161,7 @@ export type DesignConceptIntelligenceDockInput = {
   viewportFamilyHeroRailStages: readonly Gpt2ViewportFamilyHeroRailStage[];
   productionHistory: readonly { id: string; type: string; summary: string; at?: string }[];
   projectVisualAuthoritySummary?: string | null;
+  designWorkspacePipeline?: DesignWorkspacePipelineState | null;
 };
 
 function truncateLine(text: string, maxLen: number): string {
@@ -330,6 +337,49 @@ function buildHistory(input: DesignConceptIntelligenceDockInput): ConceptIntelli
   return { runs, events: events.slice(0, 12) };
 }
 
+function handoffStepComplete(status: string): boolean {
+  return (
+    status === 'APPROVED' ||
+    status === 'CONFIRMED' ||
+    status === 'READY' ||
+    status === 'LIVE'
+  );
+}
+
+function handoffFromCanonicalPipeline(
+  state: DesignWorkspacePipelineState,
+): { nextAction: string; pipeline: ConceptIntelligenceDockHandoffStep[] } {
+  const rows = buildDesignWorkspacePipelineReadinessRows(state);
+  const byId = new Map(rows.map((r) => [r.id, r]));
+  const pipeline: ConceptIntelligenceDockHandoffStep[] = [
+    { id: 'mobile', label: 'MOBILE', complete: handoffStepComplete(state.mobileAuthorityStatus) },
+    { id: 'experience', label: 'EXPERIENCE', complete: handoffStepComplete(state.mobileExperienceStatus) },
+    { id: 'desktop', label: 'DESKTOP', complete: state.desktopViewportStatus === 'READY' },
+    { id: 'desktop-exp', label: 'DESKTOP EXP', complete: state.desktopExpressionStatus === 'APPROVED' },
+    { id: 'tablet', label: 'TABLET', complete: state.tabletViewportStatus === 'READY' },
+    { id: 'tablet-exp', label: 'TABLET EXP', complete: state.tabletExpressionStatus === 'APPROVED' },
+    { id: 'family', label: 'FAMILY', complete: state.viewportFamilyStatus === 'APPROVED' },
+    { id: 'page-family', label: 'PAGE FAMILY', complete: state.pageFamilyStatus === 'APPROVED' },
+    { id: 'framework', label: 'FRAMEWORK', complete: canCreateFramework(state) || state.frameworkStatus === 'READY' },
+    { id: 'twin', label: 'TWIN', complete: state.twinStatus === 'LIVE' || state.twinStatus === 'READY' },
+  ];
+
+  let nextAction = byId.get('mobile_concepts')?.statusLine ?? 'SELECT MOBILE CONCEPT';
+  if (state.mobileAuthorityStatus === 'SELECTED') nextAction = 'CONFIRM MOBILE AUTHORITY';
+  else if (state.mobileAuthorityStatus !== 'CONFIRMED') nextAction = 'SELECT MOBILE CONCEPT';
+  else if (state.mobileExperienceStatus !== 'APPROVED') nextAction = 'CREATE / VIEW MOBILE EXPERIENCE';
+  else if (state.desktopViewportStatus !== 'READY') nextAction = 'GENERATE DESKTOP';
+  else if (state.desktopExpressionStatus !== 'APPROVED') nextAction = 'CREATE DESKTOP EXPRESSION';
+  else if (state.tabletViewportStatus !== 'READY') nextAction = 'GENERATE TABLET';
+  else if (state.tabletExpressionStatus !== 'APPROVED') nextAction = 'CREATE TABLET EXPRESSION';
+  else if (canOpenPairReview(state) && state.viewportFamilyStatus !== 'APPROVED') nextAction = 'PAIR REVIEW';
+  else if (canCreateFramework(state)) nextAction = 'CREATE FRAMEWORK';
+  else if (state.twinStatus === 'LIVE') nextAction = 'GENERATE ASSETS';
+  else nextAction = 'REVIEW PIPELINE READINESS';
+
+  return { nextAction, pipeline };
+}
+
 function handoffFromHeroRail(
   stages: readonly Gpt2ViewportFamilyHeroRailStage[],
   generationState: PageConceptGenerationState | null,
@@ -374,8 +424,8 @@ function handoffFromHeroRail(
         'APPROVE EXPERIENCE'
       : 'REVIEW EXPERIENCE EXPRESSION';
   }
-  else if (!complete(tablet)) nextAction = 'GENERATE TABLET';
   else if (!complete(desktop)) nextAction = 'GENERATE DESKTOP';
+  else if (!complete(tablet)) nextAction = 'GENERATE TABLET';
   else if (!complete(family)) nextAction = 'REVIEW VIEWPORT FAMILY';
   else if (!twinReady) nextAction = 'CREATE TWIN';
   else if (!liveReady) nextAction = 'PROMOTE LIVE';
@@ -579,7 +629,10 @@ export function buildDesignConceptIntelligenceDockModel(
     },
   ];
 
-  const handoff = handoffFromHeroRail(input.viewportFamilyHeroRailStages, input.generationState);
+  const handoff =
+    input.designWorkspacePipeline ?
+      handoffFromCanonicalPipeline(input.designWorkspacePipeline)
+    : handoffFromHeroRail(input.viewportFamilyHeroRailStages, input.generationState);
 
   return {
     tabs: CONCEPT_INTELLIGENCE_DOCK_TABS,
