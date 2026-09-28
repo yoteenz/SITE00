@@ -72,7 +72,7 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     setSubmitting(true);
     try {
       const { email: submitEmail, password: submitPassword } = readSignInFieldValues(
-        event.currentTarget,
+        event.currentTarget as HTMLFormElement,
       );
       const result = await site00SignInWithPassword(submitEmail, submitPassword);
       if (!result.ok) {
