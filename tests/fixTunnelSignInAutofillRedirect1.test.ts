@@ -37,4 +37,18 @@ describe('fix tunnel sign-in autofill redirect', () => {
     expect(util).toContain("input[name=\"email\"]");
     expect(readSignInFieldValues(null)).toEqual({ email: '', password: '' });
   });
+
+  it('sign-in bootstrap skips cross-origin session-restore on preview tunnel', () => {
+    const bootstrap = read('src/site00/components/auth/useSite00SignInBootstrap.ts');
+    expect(bootstrap).toContain('isSite00PreviewTunnelHost');
+    expect(bootstrap).toContain('onAuthStateChange');
+    expect(bootstrap).toMatch(/if \(!isSite00PreviewTunnelHost\(\)\)/);
+  });
+
+  it('preview environment includes cloud preview tunnel hosts', () => {
+    const adminAuth = read('src/utils/adminAuth.ts');
+    expect(adminAuth).toContain('isSite00PreviewTunnelHost');
+    const apiBase = read('shared/site00-studio-world-production/site00ClientApiBase.ts');
+    expect(apiBase).toContain('site00-cloud-preview');
+  });
 });

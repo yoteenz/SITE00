@@ -3,12 +3,24 @@
  * Mirrors src/utils/site00ApiBase.ts so shared modules never import from src/.
  */
 
+function isBrowserCloudPreviewTunnel(): boolean {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+  const meta = document.querySelector('meta[name="site00-cloud-preview"]');
+  if (meta?.getAttribute('content') === '1') return true;
+  const host = window.location.hostname.toLowerCase();
+  if (host === 'site00.fsbw-dev.com') return true;
+  if (host.endsWith('.trycloudflare.com')) return true;
+  const configured = document.querySelector('meta[name="site00-preview-hostname"]')?.getAttribute('content')?.trim().toLowerCase();
+  if (configured && host === configured) return true;
+  return host.includes('fsbw-dev.com');
+}
+
 export function resolveSite00ClientApiBase(): string {
   if (typeof window !== 'undefined') {
-    const host = window.location.hostname.toLowerCase();
-    if (host.includes('fsbw-dev.com') || host.endsWith('.trycloudflare.com')) {
+    if (isBrowserCloudPreviewTunnel()) {
       return 'https://api.site00.com';
     }
+    const host = window.location.hostname.toLowerCase();
     if (host === 'site00.com' || host.endsWith('.site00.com')) {
       return 'https://api.site00.com';
     }
