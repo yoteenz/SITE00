@@ -41,6 +41,11 @@ import {
 import { applyPageConceptNewGenerationBranchReset } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptNewGenerationBranch.js';
 import type { PageConceptViewportFamilyAction } from '../../../../../api/_lib/site00PageConcept/runPageConceptViewportFamilyAction.js';
 import { pageConceptViewportFamilyActionApi } from '../../../services/pageConceptViewportFamilyClient.js';
+import { ensureGpt2MobileConceptCatalog } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
+import {
+  pageConceptConfirmMobileAuthority,
+  pageConceptSelectMobileConcept,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
 import {
   createPageConceptGenerationRunId,
   emitPageConceptGenerateTelemetry,
@@ -1905,20 +1910,48 @@ export function usePageConceptGeneration(
       setExecutionError(null);
       try {
         await ensurePageConceptApiAccessToken();
-        const current = loadPageConceptGenerationStateForDesignPage({
-          projectSlug: projectId,
-          pageId,
-          screenId,
-          route: route ?? null,
-        });
+        const current = ensureGpt2MobileConceptCatalog(
+          loadPageConceptGenerationStateForDesignPage({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          }),
+        );
         let mobileCaptureBase64: string | undefined;
+        const applyViewportFamilyResult = (result: Awaited<ReturnType<typeof pageConceptViewportFamilyActionApi>>) => {
+          persist(() => {
+            let next = result.state;
+            if (result.jobs?.length) {
+              next = mergePageConceptGenerationJobs(next, result.jobs);
+              next = mergePageConceptArtifactsIntoGallery(next);
+            }
+            if (
+              action.type === 'generateExperienceExpression' ||
+              action.type === 'regenerateExperienceExpressionState' ||
+              action.type === 'confirmMobileAuthority' ||
+              action.type === 'approveExperienceExpression'
+            ) {
+              next = { ...next, liveProgress: null, activeGenerationStage: null };
+            }
+            const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
+              projectSlug: projectId,
+              pageId,
+              screenId,
+              route: route ?? null,
+            });
+            const { state: hydrated } = applyExperienceReviewHydrationToState(next, { extraExperienceFalJobs });
+            savePageConceptGenerationState(hydrated);
+            return hydrated;
+          });
+        };
         if (action.type === 'regenerateMobileConcept' || action.type === 'regenerateAllMobileConcepts') {
           if (!current.pipelineSet?.cgptCreativeBrief && !current.pipelineSet?.creativeInjection) {
             throw new Error('NO VALID CGPT BRIEF');
           }
           mobileCaptureBase64 = await resolveMobileCaptureBase64ForRegeneration();
         }
-        const result = await pageConceptViewportFamilyActionApi({
+        const apiPayload = {
           action: action.type,
           state: current,
           conceptId:
@@ -1937,31 +1970,21 @@ export function usePageConceptGeneration(
             : undefined,
           expansionId: action.type === 'decideFunctionalExpansion' ? action.expansionId : undefined,
           expansionDecision: action.type === 'decideFunctionalExpansion' ? action.decision : undefined,
-        });
-        persist(() => {
-          let next = result.state;
-          if (result.jobs?.length) {
-            next = mergePageConceptGenerationJobs(next, result.jobs);
-            next = mergePageConceptArtifactsIntoGallery(next);
+        } as const;
+        let result: Awaited<ReturnType<typeof pageConceptViewportFamilyActionApi>>;
+        try {
+          result = await pageConceptViewportFamilyActionApi(apiPayload);
+        } catch (apiErr) {
+          const canRunLocal =
+            action.type === 'selectMobileConcept' || action.type === 'confirmMobileAuthority';
+          if (!canRunLocal) throw apiErr;
+          if (action.type === 'selectMobileConcept') {
+            result = { state: pageConceptSelectMobileConcept(current, action.conceptId).state };
+          } else {
+            result = { state: pageConceptConfirmMobileAuthority(current).state };
           }
-          if (
-            action.type === 'generateExperienceExpression' ||
-            action.type === 'regenerateExperienceExpressionState' ||
-            action.type === 'confirmMobileAuthority' ||
-            action.type === 'approveExperienceExpression'
-          ) {
-            next = { ...next, liveProgress: null, activeGenerationStage: null };
-          }
-          const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
-            projectSlug: projectId,
-            pageId,
-            screenId,
-            route: route ?? null,
-          });
-          const { state: hydrated } = applyExperienceReviewHydrationToState(next, { extraExperienceFalJobs });
-          savePageConceptGenerationState(hydrated);
-          return hydrated;
-        });
+        }
+        applyViewportFamilyResult(result);
         if (action.type === 'generateExperienceExpression') {
           setOverlayMode('experience-review');
         }

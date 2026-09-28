@@ -54,6 +54,7 @@ import {
   isCanonicalGpt2ViewportFamilyPipeline,
   type Gpt2ViewportFamilyHeroRailStage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
+import { resolveMobileConceptForSelection } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
 import {
   buildDesignConceptIntelligenceDockModel,
   type ConceptIntelligenceDockModel,
@@ -707,7 +708,10 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
           (c) => c.conceptId === candidateId,
         );
         if (!row || row.pipelineId !== 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE') return;
-        void pageConceptGeneration.viewportFamilyHandlers.selectMobile(candidateId);
+        const resolvedId =
+          resolveMobileConceptForSelection(pageConceptGeneration.generationState, candidateId)?.conceptId ??
+          candidateId;
+        void pageConceptGeneration.viewportFamilyHandlers.selectMobile(resolvedId);
       },
       captureScreen: async () => {
         await pageCapture.captureScreen();
@@ -799,9 +803,13 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       onViewportFamilyRailAction: (actionId: string) => {
         const handlers = pageConceptGeneration.viewportFamilyHandlers;
         switch (actionId) {
-          case 'vf-select-mobile':
-            void handlers.selectMobile(candidateId);
+          case 'vf-select-mobile': {
+            const resolvedId =
+              resolveMobileConceptForSelection(pageConceptGeneration.generationState, candidateId)?.conceptId ??
+              candidateId;
+            void handlers.selectMobile(resolvedId);
             break;
+          }
           case 'vf-confirm-mobile':
             void handlers.confirmMobileAuthority();
             break;
