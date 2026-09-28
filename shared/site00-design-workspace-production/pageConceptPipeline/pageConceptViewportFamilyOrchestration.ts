@@ -39,6 +39,11 @@ import type {
   PageViewportAuthorityFamilyLock,
   TwinImplementationPackage,
 } from './pageConceptViewportAuthorityFamily.js';
+import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
+import type {
+  ViewportExpressionAuthority,
+  ViewportExpressionViewport,
+} from './pageConceptViewportExpressionAuthority.js';
 import {
   createInitialViewportAuthorityFamily,
   desktopInterpretationArtifactId,
@@ -49,7 +54,6 @@ import { compileExperienceExpressionAuthority } from './experienceExpressionAuth
 import { mergePreservedExperienceVisualStates } from './experiencePackageMaterialization.js';
 import { applyExperiencePackageWritebackAfterGeneration } from './experienceOutputSlotWriteback.js';
 import { compilePageExperienceExpressionContract } from './pageConceptExperienceExpressionCompile.js';
-import { isMobileAuthorityConfirmed } from './pageConceptViewportFamilyState.js';
 import {
   ensureGpt2MobileConceptCatalog,
   resolveCgptBriefIdsForViewportFamily,
@@ -225,6 +229,10 @@ export function pageConceptSelectMobileConcept(
       priorConfirmed || conceptChanged ? null : catalogState.pipelineSet?.experienceExpressionContract ?? null,
     experienceExpressionAuthority:
       priorConfirmed || conceptChanged ? null : catalogState.pipelineSet?.experienceExpressionAuthority ?? null,
+    desktopExpressionAuthority:
+      priorConfirmed || conceptChanged ? null : catalogState.pipelineSet?.desktopExpressionAuthority ?? null,
+    tabletExpressionAuthority:
+      priorConfirmed || conceptChanged ? null : catalogState.pipelineSet?.tabletExpressionAuthority ?? null,
   });
   return { state: nextState, generationStatus: nextState.generationStatus };
 }
@@ -555,7 +563,11 @@ export function pageConceptApplyTabletInterpretation(
     status: 'TABLET_READY',
     updatedAt: new Date().toISOString(),
   };
-  const nextState = patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily);
+  const nextState = patchPipeline(
+    state,
+    { viewportAuthorityFamily: nextFamily, tabletExpressionAuthority: null },
+    nextFamily,
+  );
   return { state: nextState, jobs: [input.job], generationStatus: nextState.generationStatus };
 }
 
@@ -568,17 +580,23 @@ export function pageConceptApplyDesktopInterpretation(
   },
 ): ViewportFamilyOrchestrationResult {
   let family = state.pipelineSet?.viewportAuthorityFamily;
-  if (!family?.tabletArtifactId) throw new Error('TABLET_REQUIRED_BEFORE_DESKTOP');
+  if (!family?.mobileArtifactId) throw new Error('MOBILE_AUTHORITY_REQUIRED');
   family = invalidateApprovalIfNeeded(family);
   const nextFamily: PageViewportAuthorityFamily = {
     ...family,
     desktopInterpretationId: input.interpretationId,
     desktopArtifactId: input.job.artifactId,
     desktopVersion: input.version,
-    status: 'AWAITING_FOUNDER_FAMILY_REVIEW',
+    status:
+      family.tabletArtifactId ? 'AWAITING_FOUNDER_FAMILY_REVIEW'
+      : 'DESKTOP_READY',
     updatedAt: new Date().toISOString(),
   };
-  const nextState = patchPipeline(state, { viewportAuthorityFamily: nextFamily }, nextFamily);
+  const nextState = patchPipeline(
+    state,
+    { viewportAuthorityFamily: nextFamily, desktopExpressionAuthority: null },
+    nextFamily,
+  );
   return { state: nextState, jobs: [input.job], generationStatus: nextState.generationStatus };
 }
 
@@ -959,6 +977,65 @@ export function pageConceptDecideFunctionalExpansion(
       functionalExpansionProposedInteractions: proposedInteractions,
       composerFunctionalExpansionContracts,
     }),
+    generationStatus: state.generationStatus,
+  };
+}
+
+export function pageConceptGenerateViewportExpression(
+  state: PageConceptGenerationState,
+  viewport: ViewportExpressionViewport,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const family = ps?.viewportAuthorityFamily;
+  if (!isMobileAuthorityConfirmed(family)) throw new Error('MOBILE_AUTHORITY_CONFIRMATION_REQUIRED');
+  const baseArtifactId = viewport === 'DESKTOP' ? family?.desktopArtifactId : family?.tabletArtifactId;
+  if (!baseArtifactId) throw new Error(`${viewport}_VIEWPORT_AUTHORITY_REQUIRED`);
+  const mobileExp = ps?.experienceExpressionAuthority;
+  if (!mobileExp || mobileExp.status !== 'APPROVED') throw new Error('MOBILE_EXPERIENCE_APPROVAL_REQUIRED');
+  const generatedAt = new Date().toISOString();
+  const authority: ViewportExpressionAuthority = {
+    id: `pvea-${viewport.toLowerCase()}-${Date.now()}`,
+    viewport,
+    projectId: state.projectId,
+    pageId: state.pageId,
+    sourceViewportAuthorityArtifactId: baseArtifactId,
+    sourceMobileExperienceAuthorityId: mobileExp.id,
+    status: 'READY_FOR_REVIEW',
+    visualStates: mobileExp.visualStates.map((stateRow) => ({
+      ...stateRow,
+      stateId: `${viewport}-${stateRow.stateId}`,
+      caption: `${viewport} · ${stateRow.caption}`,
+      sourceProvider: 'INHERITED_MOBILE' as const,
+    })),
+    approvedAt: null,
+    generatedAt,
+  };
+  const patch =
+    viewport === 'DESKTOP' ?
+      { desktopExpressionAuthority: authority }
+    : { tabletExpressionAuthority: authority };
+  return {
+    state: patchPipeline(state, patch, family ?? undefined),
+    generationStatus: state.generationStatus,
+  };
+}
+
+export function pageConceptApproveViewportExpression(
+  state: PageConceptGenerationState,
+  viewport: ViewportExpressionViewport,
+): ViewportFamilyOrchestrationResult {
+  const ps = state.pipelineSet;
+  const key = viewport === 'DESKTOP' ? 'desktopExpressionAuthority' : 'tabletExpressionAuthority';
+  const current = ps?.[key];
+  if (!current) throw new Error(`${viewport}_EXPRESSION_REQUIRED`);
+  const approvedAt = new Date().toISOString();
+  const approved: ViewportExpressionAuthority = {
+    ...current,
+    status: 'APPROVED',
+    approvedAt,
+  };
+  return {
+    state: patchPipeline(state, { [key]: approved }),
     generationStatus: state.generationStatus,
   };
 }

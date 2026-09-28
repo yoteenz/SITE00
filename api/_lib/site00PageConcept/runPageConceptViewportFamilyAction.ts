@@ -21,6 +21,8 @@ import {
   pageConceptBeginExperienceExpressionGeneration,
   pageConceptMarkExperienceExpressionGenerationFailed,
   pageConceptSelectMobileConcept,
+  pageConceptGenerateViewportExpression,
+  pageConceptApproveViewportExpression,
   pageConceptTabletArtifactIdForFamily,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
@@ -48,6 +50,10 @@ export type PageConceptViewportFamilyAction =
   | { type: 'runDesktopInterpretation'; dryRun?: boolean }
   | { type: 'regenerateTablet'; dryRun?: boolean }
   | { type: 'regenerateDesktop'; dryRun?: boolean }
+  | { type: 'generateDesktopViewportExpression' }
+  | { type: 'generateTabletViewportExpression' }
+  | { type: 'approveDesktopViewportExpression' }
+  | { type: 'approveTabletViewportExpression' }
   | { type: 'approveViewportFamily' }
   | { type: 'approvePageFamilyBlueprint' }
   | { type: 'approvePageFamilyInteractionMap' }
@@ -279,9 +285,8 @@ export async function runPageConceptViewportFamilyAction(
     if (!family?.experienceExpressionContractId || !state.pipelineSet?.experienceExpressionContract?.approvedAt) {
       throw new Error('EXPERIENCE_EXPRESSION_APPROVAL_REQUIRED');
     }
-    if (!family?.tabletArtifactId) throw new Error('TABLET_REQUIRED');
     const { b64, rationale } = mobileAuthorityFromState(state);
-    const tabletB64 = tabletImageFromState(state);
+    const tabletB64 = family?.tabletArtifactId ? tabletImageFromState(state) : null;
     const skin = compileProjectSkinContract(state.projectId);
     const pkg = buildPageGpt2ViewportInterpretationPackage({
       target: 'DESKTOP',
@@ -326,6 +331,19 @@ export async function runPageConceptViewportFamilyAction(
       version,
     });
     return { state: applied.state, jobs: applied.jobs };
+  }
+
+  if (action.type === 'generateDesktopViewportExpression') {
+    return pageConceptGenerateViewportExpression(state, 'DESKTOP');
+  }
+  if (action.type === 'generateTabletViewportExpression') {
+    return pageConceptGenerateViewportExpression(state, 'TABLET');
+  }
+  if (action.type === 'approveDesktopViewportExpression') {
+    return pageConceptApproveViewportExpression(state, 'DESKTOP');
+  }
+  if (action.type === 'approveTabletViewportExpression') {
+    return pageConceptApproveViewportExpression(state, 'TABLET');
   }
 
   if (action.type === 'approveViewportFamily') {

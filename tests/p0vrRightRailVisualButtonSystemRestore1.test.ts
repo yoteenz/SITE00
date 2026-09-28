@@ -61,9 +61,11 @@ describe('P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1', () => {
     expect(experience.actions.every((a) => Boolean(a.disabledReason))).toBe(true);
   });
 
-  it('viewport interpretations stage renders desktop and tablet create actions', () => {
-    const viewports = stagesForEmptySelection().find((s) => s.id === 'viewport-interpretations')!;
-    expect(viewports.actions.map((a) => a.id)).toEqual(['vf-run-desktop', 'vf-run-tablet']);
+  it('desktop and tablet stages render base + expression actions', () => {
+    const desktop = stagesForEmptySelection().find((s) => s.id === 'desktop')!;
+    const tablet = stagesForEmptySelection().find((s) => s.id === 'tablet')!;
+    expect(desktop.actions.map((a) => a.id)).toEqual(['vf-run-desktop', 'vf-desktop-expression']);
+    expect(tablet.actions.map((a) => a.id)).toEqual(['vf-run-tablet', 'vf-tablet-expression']);
   });
 
   it('pair stage renders pair review action', () => {
@@ -71,7 +73,7 @@ describe('P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1', () => {
     expect(pair.actions.map((a) => a.id)).toEqual(['vf-pair-review']);
   });
 
-  it('canonical rail has six total buttons when locked', () => {
+  it('canonical rail has eight total buttons when locked', () => {
     expect(countGpt2HeroRailActions(stagesForEmptySelection())).toBe(CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT);
   });
 

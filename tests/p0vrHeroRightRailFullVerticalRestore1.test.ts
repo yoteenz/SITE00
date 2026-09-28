@@ -54,7 +54,8 @@ describe('P0.VR hero right rail full vertical restore', () => {
     expect(mobile.map((s) => s.id)).toEqual([
       'mobile-authority',
       'experience',
-      'viewport-interpretations',
+      'desktop',
+      'tablet',
       'pair',
     ]);
 
@@ -69,8 +70,8 @@ describe('P0.VR hero right rail full vertical restore', () => {
       tabletInterpretationActive: false,
       desktopInterpretationActive: false,
     });
-    expect(tablet).toHaveLength(4);
-    expect(tablet.some((s) => s.id === 'viewport-interpretations' && s.emphasized)).toBe(true);
+    expect(tablet).toHaveLength(5);
+    expect(tablet.some((s) => s.id === 'tablet' && s.emphasized)).toBe(true);
   });
 
   it('includes mobile authority select action and omits legacy authority pair copy', () => {
@@ -155,6 +156,6 @@ describe('P0.VR hero right rail full vertical restore', () => {
       desktopInterpretationActive: false,
     });
     expect(stages.find((s) => s.id === 'mobile-authority')?.valueLine).toContain('CONCEPT B');
-    expect(stages.find((s) => s.id === 'viewport-interpretations')?.statusLabel).toBe('LOCKED');
+    expect(stages.find((s) => s.id === 'desktop')?.statusLabel).toBe('LOCKED');
   });
 });

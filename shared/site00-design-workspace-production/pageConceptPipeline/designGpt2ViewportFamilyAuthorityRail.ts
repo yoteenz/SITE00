@@ -1,5 +1,5 @@
 /**
- * Canonical GPT2 viewport-family hero rail — fixed six workflow buttons (P0.VR.RIGHT-RAIL-CANONICAL-WORKFLOW-RESTORE2).
+ * Canonical GPT2 hero rail — mobile authority + viewport base generation + viewport expressions (8 controls).
  */
 
 import type { PageConceptGeneratedArtifact, PageConceptPipelineSet } from './types.js';
@@ -10,6 +10,11 @@ import {
   resolveMobileAuthorityStatus,
   slotLabelFromConceptId,
 } from './pageConceptViewportFamilyState.js';
+import {
+  isViewportExpressionApproved,
+  resolveViewportBaseAuthorityStatus,
+  viewportExpressionPackageExists,
+} from './pageConceptViewportExpressionAuthority.js';
 
 export type Gpt2ViewportFamilyAuthorityRailRow = {
   id: string;
@@ -39,8 +44,8 @@ export type Gpt2ViewportFamilyHeroRailStage = {
   actions: readonly Gpt2ViewportFamilyAuthorityRailAction[];
 };
 
-/** Permanent hero-rail workflow slots (Mobile×2 + Experience×1 + Viewports×2 + Pair×1). */
-export const CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT = 6;
+/** Permanent hero-rail workflow slots (Mobile×2 + Mobile exp×1 + Desktop×2 + Tablet×2 + Pair×1). */
+export const CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT = 8;
 
 export const OBSOLETE_GPT2_HERO_RAIL_ACTION_IDS = [
   'vf-change-mobile',
@@ -70,7 +75,9 @@ export function listGpt2HeroRailActionIds(stages: readonly Gpt2ViewportFamilyHer
 export const GPT2_HERO_RAIL_DOWNSTREAM_ACTION_IDS = [
   'vf-expression',
   'vf-run-desktop',
+  'vf-desktop-expression',
   'vf-run-tablet',
+  'vf-tablet-expression',
   'vf-pair-review',
 ] as const;
 
@@ -184,8 +191,13 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
   const familyStatus = family?.status ?? null;
   const familyLocked = familyStatus === 'LOCKED';
   const familyApproved = familyStatus === 'APPROVED' || familyLocked;
-  const tabletUnlocked = mobileConfirmed && experienceApproved;
-  const desktopUnlocked = tabletUnlocked;
+  const viewportBaseUnlocked = mobileConfirmed && experienceApproved;
+  const desktopBaseReady = resolveViewportBaseAuthorityStatus(family, 'DESKTOP') === 'READY';
+  const tabletBaseReady = resolveViewportBaseAuthorityStatus(family, 'TABLET') === 'READY';
+  const desktopExpressionExists = viewportExpressionPackageExists(input.pipelineSet, 'DESKTOP');
+  const tabletExpressionExists = viewportExpressionPackageExists(input.pipelineSet, 'TABLET');
+  const desktopExpressionApproved = isViewportExpressionApproved(input.pipelineSet, 'DESKTOP');
+  const tabletExpressionApproved = isViewportExpressionApproved(input.pipelineSet, 'TABLET');
 
   const hasExperiencePackage = !experienceNotStarted;
   const viewportFamilyConfirmed = familyLocked || familyApproved;
@@ -257,7 +269,7 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
 
     stages.push({
       id: 'experience',
-      label: 'EXPERIENCE',
+      label: 'MOBILE EXPERIENCE',
       valueLine:
         !mobileConfirmed ? 'LOCKED'
         : experienceApproved ? 'APPROVED'
@@ -292,71 +304,140 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
     });
   }
 
-  // 3 — VIEWPORT INTERPRETATIONS (desktop then tablet)
+  // 3 — DESKTOP (base screen + expressions)
   {
-    const viewportBlockedReason =
+    const blocked =
       !mobileConfirmed ? CONFIRM_MOBILE_FIRST
-      : !experienceApproved ? 'Approve experience package first.'
+      : !experienceApproved ? 'Approve mobile experience package first.'
       : input.generating ? 'Generation in progress.'
       : null;
 
     const generateDesktopEnabled =
-      desktopUnlocked && !desktopReady && !desktopGenerating && !input.generating;
-    const generateTabletEnabled =
-      tabletUnlocked && !tabletReady && !tabletGenerating && !input.generating;
-
-    const desktopLabel = desktopReady ? 'DESKTOP CREATED ✓' : 'CREATE DESKTOP';
-    const tabletLabel = tabletReady ? 'TABLET CREATED ✓' : 'CREATE TABLET';
+      viewportBaseUnlocked && !desktopReady && !desktopGenerating && !input.generating;
+    const desktopExpressionEnabled =
+      mobileConfirmed &&
+      experienceApproved &&
+      desktopBaseReady &&
+      (!input.generating || desktopExpressionExists);
 
     stages.push({
-      id: 'viewport-interpretations',
-      label: 'VIEWPORT INTERPRETATIONS',
+      id: 'desktop',
+      label: 'DESKTOP',
       valueLine:
-        !desktopUnlocked ? 'LOCKED'
-        : desktopGenerating || tabletGenerating ? 'GENERATING'
-        : desktopReady && tabletReady ? 'DESKTOP + TABLET READY'
-        : desktopReady || tabletReady ? 'PARTIAL'
-        : 'PENDING',
+        !mobileConfirmed || !experienceApproved ? 'DERIVED · NOT GENERATED'
+        : desktopGenerating ? 'GENERATING BASE SCREEN'
+        : desktopBaseReady ? '✓ BASE READY'
+        : 'DERIVED · NOT GENERATED',
       statusLabel:
-        !desktopUnlocked ? 'LOCKED'
-        : desktopReady && tabletReady ? 'READY'
-        : desktopGenerating || tabletGenerating ? 'GENERATING'
+        !mobileConfirmed || !experienceApproved ? 'LOCKED'
+        : desktopBaseReady ? 'READY'
+        : desktopGenerating ? 'GENERATING'
         : 'PENDING',
       statusTone:
-        !desktopUnlocked ? 'locked'
-        : desktopReady && tabletReady ? 'ready'
-        : desktopGenerating || tabletGenerating ? 'generating'
+        !mobileConfirmed || !experienceApproved ? 'locked'
+        : desktopBaseReady ? 'ready'
+        : desktopGenerating ? 'generating'
         : 'pending',
-      emphasized: input.activeViewport === 'DESKTOP' || input.activeViewport === 'TABLET',
+      emphasized: input.activeViewport === 'DESKTOP',
       actions: [
         action({
           id: 'vf-run-desktop',
-          label: desktopLabel,
+          label: desktopReady ? 'VIEW DESKTOP' : 'GENERATE DESKTOP',
           tone: 'lime',
-          disabled: desktopReady ? true : !generateDesktopEnabled,
+          disabled: desktopReady ? false : !generateDesktopEnabled,
           disabledReason:
-            desktopReady ? 'Desktop interpretation created — review in viewport console.'
+            desktopReady ? null
             : generateDesktopEnabled ? null
-            : viewportBlockedReason ?? (desktopGenerating ? 'Desktop generating.' : 'Not available yet.'),
+            : blocked ?? (desktopGenerating ? 'Desktop base screen generating.' : 'Not available yet.'),
         }),
         action({
-          id: 'vf-run-tablet',
-          label: tabletLabel,
+          id: 'vf-desktop-expression',
+          label: desktopExpressionExists ? 'VIEW DESKTOP EXPRESSION' : 'CREATE DESKTOP EXPRESSION',
           tone: 'ink',
-          disabled: tabletReady ? true : !generateTabletEnabled,
+          disabled: !desktopExpressionEnabled || (!desktopBaseReady && !desktopExpressionExists),
           disabledReason:
-            tabletReady ? 'Tablet interpretation created — review in viewport console.'
-            : generateTabletEnabled ? null
-            : viewportBlockedReason ?? (tabletGenerating ? 'Tablet generating.' : 'Not available yet.'),
+            !mobileConfirmed ? CONFIRM_MOBILE_FIRST
+            : !experienceApproved ? 'Approve mobile experience package first.'
+            : !desktopBaseReady ? 'Generate desktop base screen first.'
+            : input.generating && !desktopExpressionExists ? 'Generation in progress.'
+            : null,
         }),
       ],
     });
   }
 
-  // 4 — PAIR (final rail control)
+  // 4 — TABLET (base screen + expressions)
+  {
+    const blocked =
+      !mobileConfirmed ? CONFIRM_MOBILE_FIRST
+      : !experienceApproved ? 'Approve mobile experience package first.'
+      : input.generating ? 'Generation in progress.'
+      : null;
+
+    const generateTabletEnabled =
+      viewportBaseUnlocked && !tabletReady && !tabletGenerating && !input.generating;
+    const tabletExpressionEnabled =
+      mobileConfirmed &&
+      experienceApproved &&
+      tabletBaseReady &&
+      (!input.generating || tabletExpressionExists);
+
+    stages.push({
+      id: 'tablet',
+      label: 'TABLET',
+      valueLine:
+        !mobileConfirmed || !experienceApproved ? 'DERIVED · NOT GENERATED'
+        : tabletGenerating ? 'GENERATING BASE SCREEN'
+        : tabletBaseReady ? '✓ BASE READY'
+        : 'DERIVED · NOT GENERATED',
+      statusLabel:
+        !mobileConfirmed || !experienceApproved ? 'LOCKED'
+        : tabletBaseReady ? 'READY'
+        : tabletGenerating ? 'GENERATING'
+        : 'PENDING',
+      statusTone:
+        !mobileConfirmed || !experienceApproved ? 'locked'
+        : tabletBaseReady ? 'ready'
+        : tabletGenerating ? 'generating'
+        : 'pending',
+      emphasized: input.activeViewport === 'TABLET',
+      actions: [
+        action({
+          id: 'vf-run-tablet',
+          label: tabletReady ? 'VIEW TABLET' : 'GENERATE TABLET',
+          tone: 'lime',
+          disabled: tabletReady ? false : !generateTabletEnabled,
+          disabledReason:
+            tabletReady ? null
+            : generateTabletEnabled ? null
+            : blocked ?? (tabletGenerating ? 'Tablet base screen generating.' : 'Not available yet.'),
+        }),
+        action({
+          id: 'vf-tablet-expression',
+          label: tabletExpressionExists ? 'VIEW TABLET EXPRESSION' : 'CREATE TABLET EXPRESSION',
+          tone: 'ink',
+          disabled: !tabletExpressionEnabled || (!tabletBaseReady && !tabletExpressionExists),
+          disabledReason:
+            !mobileConfirmed ? CONFIRM_MOBILE_FIRST
+            : !experienceApproved ? 'Approve mobile experience package first.'
+            : !tabletBaseReady ? 'Generate tablet base screen first.'
+            : input.generating && !tabletExpressionExists ? 'Generation in progress.'
+            : null,
+        }),
+      ],
+    });
+  }
+
+  // 5 — PAIR (final rail control)
   {
     const pairReviewReady =
-      mobileConfirmed && experienceApproved && desktopReady && tabletReady && !viewportFamilyConfirmed;
+      mobileConfirmed &&
+      experienceApproved &&
+      desktopReady &&
+      tabletReady &&
+      desktopExpressionApproved &&
+      tabletExpressionApproved &&
+      !viewportFamilyConfirmed;
     const pairReviewEnabled = pairReviewReady && !input.generating;
 
     stages.push({
@@ -386,8 +467,10 @@ export function buildGpt2ViewportFamilyHeroRailStages(input: {
             : pairReviewEnabled ? null
             : !mobileConfirmed ? CONFIRM_MOBILE_FIRST
             : !experienceApproved ? 'Approve experience package first.'
-            : !desktopReady ? 'Create desktop interpretation first.'
-            : !tabletReady ? 'Create tablet interpretation first.'
+            : !desktopReady ? 'Generate desktop base screen first.'
+            : !tabletReady ? 'Generate tablet base screen first.'
+            : !desktopExpressionApproved ? 'Approve desktop expression package first.'
+            : !tabletExpressionApproved ? 'Approve tablet expression package first.'
             : input.generating ? 'Generation in progress.'
             : 'Complete required workflow steps first.',
         }),

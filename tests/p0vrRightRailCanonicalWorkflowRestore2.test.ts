@@ -60,10 +60,10 @@ function baseStages(overrides: Partial<Parameters<typeof buildGpt2ViewportFamily
 }
 
 describe('P0.VR.RIGHT-RAIL-CANONICAL-WORKFLOW-RESTORE2', () => {
-  it('rail contains exactly six canonical action slots', () => {
+  it('rail contains exactly eight canonical action slots', () => {
     const stages = baseStages();
     expect(countGpt2HeroRailActions(stages)).toBe(CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT);
-    expect(CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT).toBe(6);
+    expect(CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT).toBe(8);
   });
 
   it('mobile has select + confirm only', () => {
@@ -78,10 +78,13 @@ describe('P0.VR.RIGHT-RAIL-CANONICAL-WORKFLOW-RESTORE2', () => {
     expect(before.actions[0]!.label).toBe('CREATE EXPRESSION');
   });
 
-  it('desktop and tablet each have one major rail button in viewport stage', () => {
-    const viewports = baseStages().find((s) => s.id === 'viewport-interpretations')!;
-    expect(viewports.actions.map((a) => a.id)).toEqual(['vf-run-desktop', 'vf-run-tablet']);
-    expect(viewports.actions.every((a) => a.label.startsWith('CREATE'))).toBe(true);
+  it('desktop and tablet stages each expose base + expression controls', () => {
+    const desktop = baseStages().find((s) => s.id === 'desktop')!;
+    const tablet = baseStages().find((s) => s.id === 'tablet')!;
+    expect(desktop.actions.map((a) => a.id)).toEqual(['vf-run-desktop', 'vf-desktop-expression']);
+    expect(tablet.actions.map((a) => a.id)).toEqual(['vf-run-tablet', 'vf-tablet-expression']);
+    expect(desktop.actions[0]!.label).toBe('GENERATE DESKTOP');
+    expect(tablet.actions[0]!.label).toBe('GENERATE TABLET');
   });
 
   it('pair review is the final rail button', () => {

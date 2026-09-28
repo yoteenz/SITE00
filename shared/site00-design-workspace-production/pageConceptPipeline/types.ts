@@ -398,6 +398,8 @@ export type PageConceptPipelineSet = {
   viewportAuthorityFamilyLock?: PageViewportAuthorityFamilyLock | null;
   experienceExpressionContract?: PageExperienceExpressionContract | null;
   experienceExpressionAuthority?: import('./experienceExpressionAuthority.js').ExperienceExpressionAuthority | null;
+  desktopExpressionAuthority?: import('./pageConceptViewportExpressionAuthority.js').ViewportExpressionAuthority | null;
+  tabletExpressionAuthority?: import('./pageConceptViewportExpressionAuthority.js').ViewportExpressionAuthority | null;
   pageFamilySkinBehaviorContract?: PageFamilySkinBehaviorContract | null;
   pageFamilyBlueprint?: PageFamilyBlueprint | null;
   pageFamilyInteractionMap?: PageFamilyInteractionMap | null;

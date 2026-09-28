@@ -12452,3 +12452,15 @@ Formalized **SELECT → CONFIRM → downstream unlock** on canonical hero rail.
 - **`buildGpt2ViewportFamilyHeroRailStages`:** Downstream (`vf-expression`, desktop/tablet, pair) gates on **`mobileAuthorityStatus === CONFIRMED`**, not gallery selection alone. STATE 2 label **SELECTED · NOT CONFIRMED**; disabled helper **CONFIRM MOBILE AUTHORITY FIRST**. SELECT stays active when selected-but-unconfirmed.
 - **`twinOpusDirectWorkspace`:** Handler guards — no experience/viewport/pair actions without confirmed mobile (+ experience/viewport deps).
 - **Tests:** `p0vrRightRailConfirmedAuthorityDownstreamGate1.test.ts`.
+
+---
+
+## 2026-09-28 — P0.VR.RESPONSIVE-VIEWPORT-GENERATION-THEN-EXPRESSION-WORKFLOW1
+
+Split Desktop/Tablet into **base viewport screen generation** then **viewport expression packages** (distinct from mobile experience).
+
+- **Rail (8 controls):** Mobile select/confirm, mobile CREATE/VIEW EXPRESSION, **GENERATE/VIEW DESKTOP** + **CREATE/VIEW DESKTOP EXPRESSION**, **GENERATE/VIEW TABLET** + **CREATE/VIEW TABLET EXPRESSION**, PAIR REVIEW.
+- **`pageConceptViewportExpressionAuthority.ts`:** desktop/tablet expression authority on `pipelineSet`; pair review requires approved viewport expressions + base artifacts.
+- **Orchestration:** `pageConceptGenerateViewportExpression` / `approve`; desktop base apply no longer requires tablet first; base regen clears that viewport’s expression package.
+- **Workspace:** VIEW DESKTOP/TABLET switches viewport tab; expression actions open generation console on that viewport.
+- **Tests:** `p0vrResponsiveViewportGenerationThenExpressionWorkflow1.test.ts`.
