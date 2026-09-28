@@ -286,7 +286,8 @@ export function TwinOpusDirectOverlays({
         {overlay === 'OV-PAIR-REVIEW' ?
           <DesignChildSurfaceFrame
             mode={placementMode('OV-PAIR-REVIEW')}
-            title="PAIR REVIEW"
+            title="VIEWPORT AUTHORITY PAIR REVIEW"
+            subtitle="Mobile + Desktop + Tablet + Experience context"
             overlayId="OV-PAIR-REVIEW"
             onClose={close}
           >

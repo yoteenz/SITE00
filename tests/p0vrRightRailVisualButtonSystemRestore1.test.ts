@@ -1,5 +1,5 @@
 /**
- * P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1
+ * P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1 (superseded layout — canonical six-button rail)
  */
 
 import { readFileSync } from 'node:fs';
@@ -8,31 +8,31 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
-import { buildGpt2ViewportFamilyHeroRailStages } from '../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
+import {
+  buildGpt2ViewportFamilyHeroRailStages,
+  CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT,
+  countGpt2HeroRailActions,
+} from '../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import { heroRailButtonSurfaceForAction } from '../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyRailButtonSurface.js';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-function emptyPipeline() {
-  return {
-    pipelineSetId: 'ps-empty',
-    projectId: 'ndxbook',
-    pageId: 'page-overview',
-    targetType: 'PAGE' as const,
-    captureSetId: 'cap',
-    functionContractId: 'fc',
-    creativeInjection: null,
-    gpt2AuthorityConcept: null,
-    renditions: [],
-    pipelineLineage: 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE' as const,
-    mobileConcepts: [],
-    createdAt: new Date().toISOString(),
-  };
-}
-
 function stagesForEmptySelection() {
   return buildGpt2ViewportFamilyHeroRailStages({
-    pipelineSet: emptyPipeline(),
+    pipelineSet: {
+      pipelineSetId: 'ps-empty',
+      projectId: 'ndxbook',
+      pageId: 'page-overview',
+      targetType: 'PAGE',
+      captureSetId: 'cap',
+      functionContractId: 'fc',
+      creativeInjection: null,
+      gpt2AuthorityConcept: null,
+      renditions: [],
+      pipelineLineage: 'GPT2_VIEWPORT_FAMILY_TWIN_PIPELINE',
+      mobileConcepts: [],
+      createdAt: new Date().toISOString(),
+    },
     selectedMobileConceptId: null,
     selectedGalleryCandidateId: null,
     selectedGalleryCandidateSlotLabel: null,
@@ -45,40 +45,41 @@ function stagesForEmptySelection() {
 }
 
 describe('P0.VR.RIGHT-RAIL-VISUAL-BUTTON-SYSTEM-RESTORE1', () => {
-  it('mobile authority stage always renders select, confirm, and change actions', () => {
+  it('mobile authority stage renders select and confirm only', () => {
     const mobile = stagesForEmptySelection().find((s) => s.id === 'mobile-authority')!;
     const ids = mobile.actions.map((a) => a.id);
-    expect(ids).toEqual(['vf-select-mobile', 'vf-confirm-mobile', 'vf-change-mobile']);
+    expect(ids).toEqual(['vf-select-mobile', 'vf-confirm-mobile']);
     expect(mobile.actions.every((a) => a.label.length > 0)).toBe(true);
     expect(mobile.actions.every((a) => heroRailButtonSurfaceForAction(a) === 'disabled' || !a.disabled)).toBe(true);
   });
 
-  it('experience stage always renders open, review, and approve actions', () => {
+  it('experience stage renders single expression action', () => {
     const experience = stagesForEmptySelection().find((s) => s.id === 'experience')!;
-    const ids = experience.actions.map((a) => a.id);
-    expect(ids).toEqual(['vf-create-experience', 'vf-review-experience', 'vf-approve-experience']);
+    expect(experience.actions.map((a) => a.id)).toEqual(['vf-expression']);
+    expect(experience.actions[0]!.label).toBe('CREATE EXPRESSION');
     expect(experience.actions.every((a) => a.disabled)).toBe(true);
     expect(experience.actions.every((a) => Boolean(a.disabledReason))).toBe(true);
   });
 
-  it('viewport family stage always renders review, approve, and lock actions', () => {
-    const family = stagesForEmptySelection().find((s) => s.id === 'viewport-family')!;
-    const ids = family.actions.map((a) => a.id);
-    expect(ids).toEqual(['vf-review-family', 'vf-approve-family', 'vf-lock-family']);
+  it('viewport interpretations stage renders desktop and tablet create actions', () => {
+    const viewports = stagesForEmptySelection().find((s) => s.id === 'viewport-interpretations')!;
+    expect(viewports.actions.map((a) => a.id)).toEqual(['vf-run-desktop', 'vf-run-tablet']);
   });
 
-  it('tablet stage always renders generate and review actions (not empty when locked)', () => {
-    const tablet = stagesForEmptySelection().find((s) => s.id === 'tablet')!;
-    expect(tablet.actions.some((a) => a.id === 'vf-run-tablet')).toBe(true);
-    expect(tablet.actions.some((a) => a.id === 'vf-review-tablet')).toBe(true);
-    expect(tablet.actions.length).toBeGreaterThanOrEqual(2);
+  it('pair stage renders pair review action', () => {
+    const pair = stagesForEmptySelection().find((s) => s.id === 'pair')!;
+    expect(pair.actions.map((a) => a.id)).toEqual(['vf-pair-review']);
+  });
+
+  it('canonical rail has six total buttons when locked', () => {
+    expect(countGpt2HeroRailActions(stagesForEmptySelection())).toBe(CANONICAL_GPT2_HERO_RAIL_BUTTON_COUNT);
   });
 
   it('disabled actions use disabled surface tier (legible, not lime-on-white ghost)', () => {
     const blocked = stagesForEmptySelection()
       .flatMap((s) => s.actions)
       .filter((a) => a.disabled);
-    expect(blocked.length).toBeGreaterThan(8);
+    expect(blocked.length).toBeGreaterThan(3);
     for (const action of blocked) {
       expect(heroRailButtonSurfaceForAction(action)).toBe('disabled');
     }

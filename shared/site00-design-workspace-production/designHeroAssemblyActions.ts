@@ -46,6 +46,9 @@ export type HeroAssemblyActionsInput = {
   twinRoute: string | null;
   hasPageConceptCandidates: boolean;
   grokGenerationInProgress: boolean;
+  /** GPT2 viewport-family pipeline — CREATE FRAMEWORK gates on Pair Review confirmation. */
+  canonicalGpt2ViewportFamilyPipeline?: boolean;
+  viewportFamilyConfirmed?: boolean;
 };
 
 function promotedIds(input: HeroAssemblyActionsInput): { mobile: string | null; desktop: string | null } {
@@ -102,13 +105,30 @@ export function computeHeroAssemblyActions(input: HeroAssemblyActionsInput): Her
       disabledReason: null,
       statusLine: 'FRAMEWORK: READY FOR REVIEW',
     };
-  } else if (bothPromoted && !frameworkPkg) {
+  } else if (
+    bothPromoted &&
+    !frameworkPkg &&
+    (!input.canonicalGpt2ViewportFamilyPipeline || input.viewportFamilyConfirmed)
+  ) {
     createFramework = {
       ...createFramework,
       state: 'READY',
       disabled: false,
       disabledReason: null,
       statusLine: 'CREATE FRAMEWORK: READY',
+    };
+  } else if (
+    bothPromoted &&
+    !frameworkPkg &&
+    input.canonicalGpt2ViewportFamilyPipeline &&
+    !input.viewportFamilyConfirmed
+  ) {
+    createFramework = {
+      ...createFramework,
+      state: 'LOCKED',
+      disabled: true,
+      disabledReason: 'CONFIRM VIEWPORT FAMILY IN PAIR REVIEW FIRST',
+      statusLine: null,
     };
   } else if (bothPromoted && frameworkPkg && !building && !frameworkReady) {
     createFramework = {
