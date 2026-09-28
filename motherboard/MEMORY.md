@@ -12499,4 +12499,14 @@ Cloud preview tunnel sign-in failed when password managers autofilled: **two** `
 - **Fix:** `useSite00AuthLayout` (1024px match to auth CSS) mounts **one** form in `Site00AuthShell`; `readSignInFieldValues` (FormData + input `.value`) on submit; brief autofill sync on mount.
 - **Branch/PR:** `cursor/fix-tunnel-sign-in-autofill-redirect-b747`.
 - **Tests:** `fixTunnelSignInAutofillRedirect1.test.ts`.
+
+---
+
+## 2026-09-28 — Tunnel sign-in still stuck (bootstrap / preview detection)
+
+Founder: sign-in on tunnel **still stuck** after autofill fix — something else blocking load/redirect.
+
+- **Cause:** Custom Cloudflare tunnel hostname + `site00-cloud-preview` meta were **not** treated as preview in **`isPreviewEnvironment()`** → password sign-in awaited slow **`syncAllFromApi`** / cross-origin **`tryServerSessionRestore`** (8s, possible reload). Module **`bootstrapStarted`** skipped re-attaching **`onAuthStateChange`** after StrictMode/effect cleanup.
+- **Fix:** **`isPreviewEnvironment`** delegates to **`isSite00PreviewTunnelHost`**; **`resolveSite00ClientApiBase`** uses **`api.site00.com`** for cloud-preview meta/hostname; sign-in bootstrap **skips server session-restore on tunnel**, subscribes **`SIGNED_IN` → redirect**, per-mount cold start via ref (not global once-only flag).
+- **Branch:** `cursor/fix-tunnel-sign-in-bootstrap-loading-b747`.
 >>>>>>> origin/main
