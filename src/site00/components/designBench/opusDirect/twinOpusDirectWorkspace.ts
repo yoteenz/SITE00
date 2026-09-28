@@ -1379,7 +1379,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     const viewportFamilyHeroRailStages = buildGpt2ViewportFamilyHeroRailStages({
       pipelineSet: pageConceptGeneration.pipelineSet,
       selectedMobileConceptId,
-      selectedGalleryCandidateId: candidateId,
+      selectedGalleryCandidateId: candidateId ?? selectedMobileConceptId,
       selectedGalleryCandidateSlotLabel: (() => {
         const row = pageConcepts.find((c) => c.conceptId === candidateId);
         if (!row?.conceptSlot) return null;
