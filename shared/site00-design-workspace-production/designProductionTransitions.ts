@@ -242,6 +242,7 @@ export function transitionSelectGalleryCandidate(
   state: DesignProductionState,
   candidateId: string,
 ): DesignProductionState {
+  if (state.selectedCandidateId === candidateId) return state;
   const now = new Date().toISOString();
   return {
     ...state,

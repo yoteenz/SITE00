@@ -57,7 +57,11 @@ import {
   isCanonicalGpt2ViewportFamilyPipeline,
   type Gpt2ViewportFamilyHeroRailStage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
-import { resolveMobileConceptForSelection } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
+import {
+  resolveMobileConceptForSelection,
+  resolveMobileGalleryCandidateConceptId,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
+import type { PageConceptGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import {
   buildDesignConceptIntelligenceDockModel,
   type ConceptIntelligenceDockModel,
@@ -189,6 +193,26 @@ const VIEW_MODE_STORAGE_KEY = 'site00:twin-opus-direct:view-mode:v1';
 
 function isViewMode(value: unknown): value is TwinOpusDirectViewMode {
   return TWIN_OPUS_DIRECT_VIEW_MODES.includes(value as TwinOpusDirectViewMode);
+}
+
+function mobileGalleryRowsForPage(projectSlug: string, pageId: string): PageConceptCandidate[] {
+  return listPageConceptCandidates(projectSlug, pageId).filter((c) =>
+    pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
+  );
+}
+
+function resolveAuthorityGalleryCandidateId(input: {
+  generationState: PageConceptGenerationState;
+  projectSlug: string;
+  pageId: string;
+  selectedMobileConceptId: string | null;
+}): string | null {
+  const rows = mobileGalleryRowsForPage(input.projectSlug, input.pageId);
+  return resolveMobileGalleryCandidateConceptId({
+    state: input.generationState,
+    mobileGalleryRows: rows,
+    selectedMobileConceptId: input.selectedMobileConceptId,
+  });
 }
 
 function galleryCardToTwinCandidate(card: PageConceptGalleryCard): TwinOpusDirectCandidate {
@@ -611,21 +635,29 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   useEffect(() => {
     if (viewport !== 'MOBILE') return;
     if (!selectedMobileConceptId) return;
+    const authorityGalleryId = resolveAuthorityGalleryCandidateId({
+      generationState: pageConceptGeneration.generationState,
+      projectSlug,
+      pageId: pageTarget.pageId,
+      selectedMobileConceptId,
+    });
+    if (!authorityGalleryId) return;
     const sections = buildPageConceptGallerySections({
       projectId: projectSlug,
       pageId: pageTarget.pageId,
       viewport,
-      selectedMobileConceptId,
+      selectedMobileConceptId: authorityGalleryId,
       galleryScope: galleryHydrationScope,
     });
     const galleryIds = [...sections.current, ...sections.history].map((c) => c.id);
-    if (galleryIds.includes(candidateId)) return;
-    setCandidateId(selectedMobileConceptId);
-    setViewportCandidateIds((prev) => ({ ...prev, MOBILE: selectedMobileConceptId }));
-    prodActions.selectGalleryCandidate(selectedMobileConceptId);
+    if (candidateId === authorityGalleryId || galleryIds.includes(candidateId)) return;
+    setCandidateId(authorityGalleryId);
+    setViewportCandidateIds((prev) => ({ ...prev, MOBILE: authorityGalleryId }));
+    prodActions.selectGalleryCandidate(authorityGalleryId);
   }, [
     candidateId,
     galleryHydrationScope,
+    pageConceptGeneration.generationState,
     pageTarget.pageId,
     prodActions,
     projectSlug,
@@ -644,6 +676,15 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     const currentIds = sections.current.map((c) => c.id);
     if (currentIds.length === 0) return;
     if (currentIds.includes(candidateId)) return;
+    if (viewport === 'MOBILE' && selectedMobileConceptId) {
+      const authorityGalleryId = resolveAuthorityGalleryCandidateId({
+        generationState: pageConceptGeneration.generationState,
+        projectSlug,
+        pageId: pageTarget.pageId,
+        selectedMobileConceptId,
+      });
+      if (authorityGalleryId && currentIds.includes(authorityGalleryId)) return;
+    }
     const pageConcepts = listPageConceptCandidates(projectSlug, pageTarget.pageId);
     const row = pageConcepts.find((c) => c.conceptId === candidateId);
     if (row && row.runGroup === 'HISTORY') return;
@@ -654,8 +695,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   }, [
     candidateId,
     galleryHydrationScope,
-    pageConceptGeneration.generationState.generationJobs,
-    pageConceptGeneration.generationState.activeGenerationRunId,
+    pageConceptGeneration.generationState,
     pageTarget.pageId,
     prodActions,
     projectSlug,

@@ -12,5 +12,7 @@ describe('P0 design production gallery select local fallback', () => {
     const base = createInitialDesignProductionState('ndxbook');
     const next = transitionSelectGalleryCandidate(base, 'concept-b');
     expect(next.selectedCandidateId).toBe('concept-b');
+    const again = transitionSelectGalleryCandidate(next, 'concept-b');
+    expect(again).toBe(next);
   });
 });

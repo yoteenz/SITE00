@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import {
   ensureGpt2MobileConceptCatalog,
   resolveMobileConceptForSelection,
+  resolveMobileGalleryCandidateConceptId,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
 import { pageConceptSelectMobileConcept } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
 import type { PageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
@@ -92,5 +93,21 @@ describe('P0 GPT2 mobile concept catalog select', () => {
       resolved!.conceptId,
     );
     expect(selected.state.pipelineSet?.viewportAuthorityFamily?.mobileAuthorityStatus).toBe('SELECTED');
+  });
+
+  it('resolveMobileGalleryCandidateConceptId maps gpt2AuthorityConceptId alias to gallery row', () => {
+    const cataloged = ensureGpt2MobileConceptCatalog(jobOnlyState());
+    const row = cataloged.pipelineSet!.mobileConcepts![0]!;
+    const resolved = resolveMobileGalleryCandidateConceptId({
+      state: cataloged,
+      mobileGalleryRows: [
+        {
+          conceptId: row.conceptId,
+          gpt2AuthorityConceptId: 'gpt2-mobile-concept-c-alias',
+        },
+      ],
+      selectedMobileConceptId: 'gpt2-mobile-concept-c-alias',
+    });
+    expect(resolved).toBe(row.conceptId);
   });
 });
