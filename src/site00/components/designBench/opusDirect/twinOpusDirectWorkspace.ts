@@ -58,6 +58,10 @@ import {
   type Gpt2ViewportFamilyHeroRailStage,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import {
+  isMobileAuthorityConfirmed,
+  resolveExperienceExpressionStatus,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
+import {
   resolveMobileConceptForSelection,
   resolveMobileGalleryCandidateConceptId,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
@@ -914,6 +918,9 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       openViewportAuthorityEditor: (vp) => prodActions.openViewportAuthorityEditor(vp),
       onViewportFamilyRailAction: (actionId: string) => {
         const handlers = pageConceptGeneration.viewportFamilyHandlers;
+        const family = pageConceptGeneration.pipelineSet?.viewportAuthorityFamily ?? null;
+        const mobileConfirmed = isMobileAuthorityConfirmed(family);
+        const experienceApproved = resolveExperienceExpressionStatus(pageConceptGeneration.pipelineSet) === 'APPROVED';
         switch (actionId) {
           case 'vf-select-mobile': {
             const resolvedId =
@@ -926,17 +933,25 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
             void handlers.confirmMobileAuthority();
             break;
           case 'vf-expression':
+            if (!mobileConfirmed) return;
             pageConceptGeneration.openExperienceReview();
             break;
           case 'vf-run-tablet':
+            if (!mobileConfirmed || !experienceApproved) return;
             void handlers.runTablet();
             break;
           case 'vf-run-desktop':
+            if (!mobileConfirmed || !experienceApproved) return;
             void handlers.runDesktop();
             break;
-          case 'vf-pair-review':
+          case 'vf-pair-review': {
+            if (!mobileConfirmed || !experienceApproved) return;
+            const tabletReady = Boolean(family?.tabletArtifactId);
+            const desktopReady = Boolean(family?.desktopArtifactId);
+            if (!tabletReady || !desktopReady) return;
             prodActions.runPairReview();
             break;
+          }
           default:
             break;
         }

@@ -12442,3 +12442,13 @@ Corrective sprint after RESTORE1 over-expanded the hero rail into a scrolling mu
 - **Pair review overlay:** **VIEWPORT AUTHORITY PAIR REVIEW** title; Mobile/Desktop/Tablet + experience context; primary **CONFIRM VIEWPORT FAMILY**.
 - **CSS:** `.tod-rail--heroWorkflow` **`overflow-y: hidden`** (no nested rail scroll).
 - **Tests:** `p0vrRightRailCanonicalWorkflowRestore2.test.ts`; updated hero rail / experience / mobile authority tests.
+
+---
+
+## 2026-09-28 — P0.VR.RIGHT-RAIL-CONFIRMED-AUTHORITY-DOWNSTREAM-GATE1
+
+Formalized **SELECT → CONFIRM → downstream unlock** on canonical hero rail.
+
+- **`buildGpt2ViewportFamilyHeroRailStages`:** Downstream (`vf-expression`, desktop/tablet, pair) gates on **`mobileAuthorityStatus === CONFIRMED`**, not gallery selection alone. STATE 2 label **SELECTED · NOT CONFIRMED**; disabled helper **CONFIRM MOBILE AUTHORITY FIRST**. SELECT stays active when selected-but-unconfirmed.
+- **`twinOpusDirectWorkspace`:** Handler guards — no experience/viewport/pair actions without confirmed mobile (+ experience/viewport deps).
+- **Tests:** `p0vrRightRailConfirmedAuthorityDownstreamGate1.test.ts`.
