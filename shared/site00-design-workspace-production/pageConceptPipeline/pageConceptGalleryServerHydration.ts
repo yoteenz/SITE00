@@ -11,6 +11,8 @@ import {
   preserveLocalViewportAuthorityFamilyProgressAfterServerMerge,
   rehydrateViewportAuthorityFamilyFromPipelineSignals,
 } from './pageConceptViewportAuthorityFamilyPersistence.js';
+import { recoverStalePageConceptInFlightGenerationState } from './pageConceptInFlightRecovery.js';
+import { ensureGpt2MobileConceptCatalog } from './pageConceptGpt2MobileConceptCatalog.js';
 
 export const PAGE_CONCEPT_GALLERY_SERVER_MOUNT_EVENT = 'site00:page-concept-gallery-server-mount';
 
@@ -120,6 +122,9 @@ export type MergePageConceptServerRunSnapshotOptions = {
   /** Gallery mount replaces GPT2 mobile jobs; poll/progress merges all job types. */
   mobileJobMode?: 'replace' | 'merge';
   syncRunIdentity?: boolean;
+  /** When false, keep server run generationStatus even if stale CGPT_RUNNING with READY mobile. */
+  normalizeInFlightStatus?: boolean;
+  hasFounderRunSession?: boolean;
 };
 
 /**
@@ -163,7 +168,14 @@ export function mergePageConceptGenerationStateWithServerRunSnapshot(
   }
   const withGallery = mergePageConceptArtifactsIntoGallery(next);
   const merged = preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(local, withGallery);
-  return rehydrateViewportAuthorityFamilyFromPipelineSignals(merged);
+  let normalized = rehydrateViewportAuthorityFamilyFromPipelineSignals(merged);
+  if (options?.normalizeInFlightStatus !== false) {
+    normalized = recoverStalePageConceptInFlightGenerationState(
+      ensureGpt2MobileConceptCatalog(normalized),
+      options?.hasFounderRunSession ?? false,
+    );
+  }
+  return normalized;
 }
 
 /** Replace mobile GPT2 jobs from a server run and rebuild the in-memory gallery store inputs. */
@@ -204,5 +216,5 @@ export function mergePageConceptTerminalRunResultIntoState(
   } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
     next = { ...next, generationStatus: 'FAILED' };
   }
-  return next;
+  return recoverStalePageConceptInFlightGenerationState(ensureGpt2MobileConceptCatalog(next), false);
 }
