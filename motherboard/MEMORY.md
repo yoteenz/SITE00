@@ -12283,3 +12283,14 @@ Founder pressed **GENERATE** to bring concepts back → stuck **RUNNING PAGE INT
 - **`pageConceptInFlightRecovery.ts`** — stale in-flight → `GPT2_MOBILE_AWAITING_SELECTION` when mobile READY exists.
 - **`restoreReadyMobileGalleryFromServer`** — open GENERATE / dispatch redirects to server restore + gallery focus instead of new CGPT when READY mobile exists.
 - **Cancel** clears stuck `generating` + recovers state. **Tests:** **`p0vrPageConceptInFlightRecoveryAndRestore1.test.ts`**. **cPanel v705+**.
+
+---
+
+## 2026-09-28 — Restore mobile gallery server-first (fix GENERATE trap v705 gap)
+
+Founder still stuck **RUNNING PAGE INTELLIGENCE** after pressing GENERATE to bring concepts back — restore only ran when **local** already had READY mobile (wiped after new-branch reset), and server/poll merge re-applied stale **`CGPT_RUNNING`** + **`PAGE_INTELLIGENCE`** from durable run snapshot.
+
+- **`pageConceptMobileGalleryRestore.ts`** — restore READY mobile from **`archivedRuns`** after **`applyPageConceptNewGenerationBranchReset`**.
+- **`mergePageConceptGenerationStateWithServerRunSnapshot`** — post-merge **`recoverStalePageConceptInFlightGenerationState`**; poll path no longer forces raw run status without founder session.
+- **`restoreReadyMobileGalleryFromServer`** — archive → server mount → recover; **GENERATE / new_branch / dispatch** all server-restore-first; **openGenerationConfirm** restores before eligibility gate.
+- **`pageConceptInFlightRecovery`** — idle/PLANNED + READY mobile → **`GPT2_MOBILE_AWAITING_SELECTION`**. **Tests:** **`p0vrPageConceptMobileGalleryRestore1.test.ts`**. **cPanel v706+**.
