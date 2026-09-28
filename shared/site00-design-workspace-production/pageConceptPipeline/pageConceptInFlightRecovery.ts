@@ -24,12 +24,25 @@ export function recoverStalePageConceptInFlightGenerationState(
   hasFounderRunSession: boolean,
 ): PageConceptGenerationState {
   if (hasFounderRunSession) return state;
-  if (!isPageConceptGenerationStatusInFlight(state.generationStatus)) {
-    return rehydrateViewportAuthorityFamilyFromPipelineSignals(ensureGpt2MobileConceptCatalog(state));
+  const cataloged = ensureGpt2MobileConceptCatalog(state);
+  if (!isPageConceptGenerationStatusInFlight(cataloged.generationStatus)) {
+    const mobileReadyIdle = pageConceptGenerationStateHasReadyMobileArtifacts(cataloged);
+    const hasInjection = Boolean(cataloged.pipelineSet?.creativeInjection);
+    if (mobileReadyIdle && hasInjection) {
+      return rehydrateViewportAuthorityFamilyFromPipelineSignals({
+        ...cataloged,
+        generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION',
+        activeGenerationStage: null,
+        activeGenerationRunStartedAt: null,
+        liveProgress: null,
+        cgptSubsteps: null,
+      });
+    }
+    return rehydrateViewportAuthorityFamilyFromPipelineSignals(cataloged);
   }
 
-  const mobileReady = pageConceptGenerationStateHasReadyMobileArtifacts(state);
-  const hasInjection = Boolean(state.pipelineSet?.creativeInjection);
+  const mobileReady = pageConceptGenerationStateHasReadyMobileArtifacts(cataloged);
+  const hasInjection = Boolean(cataloged.pipelineSet?.creativeInjection);
   const generationStatus =
     mobileReady && hasInjection ? 'GPT2_MOBILE_AWAITING_SELECTION'
     : pageConceptReviewReady(state.generationStatus) ? state.generationStatus
@@ -38,15 +51,13 @@ export function recoverStalePageConceptInFlightGenerationState(
     : state.generationStatus === 'PLANNED' ? 'PLANNED'
     : 'IDLE';
 
-  return rehydrateViewportAuthorityFamilyFromPipelineSignals(
-    ensureGpt2MobileConceptCatalog({
-      ...state,
-      generationStatus,
-      activeGenerationStage: null,
-      activeGenerationRunId: mobileReady ? state.activeGenerationRunId : null,
-      activeGenerationRunStartedAt: null,
-      liveProgress: null,
-      cgptSubsteps: null,
-    }),
-  );
+  return rehydrateViewportAuthorityFamilyFromPipelineSignals({
+    ...cataloged,
+    generationStatus,
+    activeGenerationStage: null,
+    activeGenerationRunId: mobileReady ? cataloged.activeGenerationRunId : null,
+    activeGenerationRunStartedAt: null,
+    liveProgress: null,
+    cgptSubsteps: null,
+  });
 }

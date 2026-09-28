@@ -18,6 +18,8 @@ import {
   resolveDesignPageIdentityForGallery,
 } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import type { PageConceptGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
+import { recoverStalePageConceptInFlightGenerationState } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptInFlightRecovery.js';
+import { ensureGpt2MobileConceptCatalog } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGpt2MobileConceptCatalog.js';
 import { pageConceptServerRunIsTerminal } from '../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { ensurePageConceptApiAccessToken } from './pageConceptApiSession.js';
 import {
@@ -63,7 +65,8 @@ function applyMountedServerRunToClient(input: {
     screenId: input.screenId,
     route: input.route ?? null,
   });
-  const next = applyPageConceptServerRunSnapshotForGalleryMount(baseState, input.server);
+  let next = applyPageConceptServerRunSnapshotForGalleryMount(baseState, input.server);
+  next = recoverStalePageConceptInFlightGenerationState(ensureGpt2MobileConceptCatalog(next), false);
   consolidatePageConceptGenerationStateStorage(
     {
       projectSlug: input.projectId,
