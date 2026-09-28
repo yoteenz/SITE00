@@ -7,8 +7,11 @@ import { describe, expect, it } from 'vitest';
 import { applyPageConceptServerRunSnapshotForGalleryMount } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
 import {
   preserveLocalViewportAuthorityFamilyProgressAfterServerMerge,
+  rehydrateViewportAuthorityFamilyFromPipelineSignals,
   shouldPreserveLocalViewportAuthorityFamilyProgress,
 } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamilyPersistence.js';
+import { isMobileAuthorityConfirmed } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyState.js';
+import { buildGpt2ViewportFamilyHeroRailStages } from '../shared/site00-design-workspace-production/pageConceptPipeline/designGpt2ViewportFamilyAuthorityRail.js';
 import { scorePageConceptGenerationStateForGalleryDiscovery } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { pageConceptConfirmMobileAuthority, pageConceptSelectMobileConcept } from '../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportFamilyOrchestration.js';
 import type { PageConceptGenerationState } from '../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
@@ -148,6 +151,93 @@ describe('P0 mobile authority selection persist across refresh', () => {
     expect(scorePageConceptGenerationStateForGalleryDiscovery(confirmed)).toBeGreaterThan(
       scorePageConceptGenerationStateForGalleryDiscovery(bare),
     );
+  });
+
+  it('rehydrates confirmed mobile authority from server pipelineSet after cold browser (no local family)', () => {
+    let confirmed = baseState();
+    confirmed = pageConceptSelectMobileConcept(confirmed, 'concept-a').state;
+    confirmed = pageConceptConfirmMobileAuthority(confirmed).state;
+    const family = confirmed.pipelineSet!.viewportAuthorityFamily!;
+    const auth = {
+      id: 'exp-auth-1',
+      projectId: 'ndxbook',
+      pageId: 'page-overview',
+      sourceMobileAuthorityId: family.mobileArtifactId!,
+      sourceMobileArtifactId: family.mobileArtifactId!,
+      sourceConceptId: 'concept-a',
+      status: 'READY_FOR_REVIEW' as const,
+      patterns: [],
+      behaviorContract: 'test',
+      visualStateContract: 'test',
+      responsiveRules: [],
+      visualStates: [{ stateId: 'base', label: 'BASE', patternType: 'BASE_PAGE' as const, previewImageUri: 'data:x', caption: 'x' }],
+      generatedAt: '2026-09-27T12:00:00.000Z',
+      approvedAt: null,
+    };
+
+    const coldServerMerged: PageConceptGenerationState = {
+      ...baseState(),
+      activeGenerationRunId: 'run-123',
+      pipelineSet: {
+        ...confirmed.pipelineSet!,
+        viewportAuthorityFamily: null,
+        selectedMobileConceptId: 'concept-a',
+        experienceExpressionAuthority: auth,
+      },
+    };
+
+    const rehydrated = rehydrateViewportAuthorityFamilyFromPipelineSignals(coldServerMerged);
+    expect(isMobileAuthorityConfirmed(rehydrated.pipelineSet?.viewportAuthorityFamily)).toBe(true);
+    expect(rehydrated.pipelineSet?.viewportAuthorityFamily?.confirmedMobileConceptId).toBe('concept-a');
+
+    const experienceStage = buildGpt2ViewportFamilyHeroRailStages({
+      pipelineSet: rehydrated.pipelineSet ?? null,
+      selectedMobileConceptId: 'concept-a',
+      selectedGalleryCandidateId: 'concept-a',
+      selectedGalleryCandidateSlotLabel: 'CONCEPT A',
+      generating: false,
+      generationJobs: rehydrated.generationJobs,
+      activeViewport: 'MOBILE',
+      tabletInterpretationActive: false,
+      desktopInterpretationActive: false,
+    }).find((s) => s.id === 'experience');
+    expect(experienceStage?.actions.some((a) => a.id === 'vf-review-experience' && !a.disabled)).toBe(true);
+  });
+
+  it('rehydrates via gallery mount when server run strips viewportAuthorityFamily but keeps selectedMobileConceptId', () => {
+    let confirmed = baseState();
+    confirmed = pageConceptConfirmMobileAuthority(pageConceptSelectMobileConcept(confirmed, 'concept-a').state).state;
+
+    const serverRun: PageConceptServerRunSnapshot = {
+      runId: 'run-123',
+      projectId: 'ndxbook',
+      pageId: 'page-overview',
+      status: 'COMPLETED',
+      generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION',
+      currentStage: null,
+      createdAt: '2026-09-27T12:00:00.000Z',
+      updatedAt: '2026-09-27T12:00:00.000Z',
+      completedAt: '2026-09-27T12:00:00.000Z',
+      jobs: confirmed.generationJobs,
+      pipelineSet: {
+        ...confirmed.pipelineSet!,
+        viewportAuthorityFamily: null,
+        selectedMobileConceptId: 'concept-a',
+        experienceExpressionAuthority: null,
+        experienceExpressionContract: null,
+      },
+      plan: null,
+      cgptMeta: null,
+      panelProgress: null,
+      cgptSubsteps: null,
+      progressEvents: [],
+      latestProgressSequence: 0,
+    };
+
+    const emptyLocal = baseState();
+    const merged = applyPageConceptServerRunSnapshotForGalleryMount(emptyLocal, serverRun);
+    expect(merged.pipelineSet?.viewportAuthorityFamily?.selectedMobileConceptId).toBe('concept-a');
+    expect(merged.pipelineSet?.viewportAuthorityFamily?.mobileAuthorityStatus).toBe('SELECTED');
   });
 
   it('detects when local founder progress should win over server merge', () => {

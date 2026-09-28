@@ -4,6 +4,7 @@
 
 import type { PageConceptGenerationState } from './types.js';
 import { pageConceptReviewReady } from './pageConceptGeneratorBinding.js';
+import { rehydrateViewportAuthorityFamilyFromPipelineSignals } from './pageConceptViewportAuthorityFamilyPersistence.js';
 
 export function normalizePageConceptStateOnPanelMount(
   state: PageConceptGenerationState,
@@ -17,7 +18,7 @@ export function normalizePageConceptStateOnPanelMount(
     state.generationStatus === 'GPT2_RUNNING' ||
     state.generationStatus === 'NBP_RUNNING';
 
-  if (!inFlight) return state;
+  if (!inFlight) return rehydrateViewportAuthorityFamilyFromPipelineSignals(state);
 
   const generationStatus =
     pageConceptReviewReady(state.generationStatus) ? state.generationStatus
@@ -27,7 +28,7 @@ export function normalizePageConceptStateOnPanelMount(
     : state.generationStatus === 'PLANNED' ? 'PLANNED'
     : 'IDLE';
 
-  return {
+  return rehydrateViewportAuthorityFamilyFromPipelineSignals({
     ...state,
     generationStatus,
     activeGenerationStage: null,
@@ -35,5 +36,5 @@ export function normalizePageConceptStateOnPanelMount(
     activeGenerationRunStartedAt: null,
     liveProgress: null,
     cgptSubsteps: null,
-  };
+  });
 }

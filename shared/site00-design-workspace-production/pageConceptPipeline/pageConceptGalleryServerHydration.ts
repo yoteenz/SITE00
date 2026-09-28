@@ -7,7 +7,10 @@ import {
   mergePageConceptGenerationJobs,
   registerPageConceptGenerationJobs,
 } from './generationWorkflow.js';
-import { preserveLocalViewportAuthorityFamilyProgressAfterServerMerge } from './pageConceptViewportAuthorityFamilyPersistence.js';
+import {
+  preserveLocalViewportAuthorityFamilyProgressAfterServerMerge,
+  rehydrateViewportAuthorityFamilyFromPipelineSignals,
+} from './pageConceptViewportAuthorityFamilyPersistence.js';
 
 export const PAGE_CONCEPT_GALLERY_SERVER_MOUNT_EVENT = 'site00:page-concept-gallery-server-mount';
 
@@ -113,5 +116,6 @@ export function applyPageConceptServerRunSnapshotForGalleryMount(
     next = { ...next, generationJobs: preservedJobs };
   }
   const withGallery = mergePageConceptArtifactsIntoGallery(next);
-  return preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(state, withGallery);
+  const merged = preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(state, withGallery);
+  return rehydrateViewportAuthorityFamilyFromPipelineSignals(merged);
 }
