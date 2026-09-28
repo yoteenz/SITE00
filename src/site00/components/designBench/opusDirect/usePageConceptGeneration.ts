@@ -21,6 +21,7 @@ import {
   syncPageConceptGalleryFromLoadedGenerationState,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import { consolidatePageConceptGenerationStateStorage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
+import { designPageMobileConceptGalleryIsEmpty } from '../../../services/pageConceptAutoGalleryMount.js';
 import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
 import {
   applyPageConceptServerRunSnapshotForGalleryMount,
@@ -310,6 +311,8 @@ export function usePageConceptGeneration(
   const [captureRevision, setCaptureRevision] = useState(0);
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
   const [galleryRestoreInProgress, setGalleryRestoreInProgress] = useState(false);
+  const [autoGalleryMountInProgress, setAutoGalleryMountInProgress] = useState(false);
+  const autoGalleryMountInFlightRef = useRef<Promise<boolean> | null>(null);
   const [captureHydrationStatus, setCaptureHydrationStatus] =
     useState<PageConceptCaptureHydrationStatus>('checking');
   const [generateClickTrace, setGenerateClickTrace] = useState<PageConceptGenerateClickTrace>(
@@ -630,6 +633,74 @@ export function usePageConceptGeneration(
     return restored;
   }, [mobileGalleryHasVisibleCandidates, pageId, persist, projectId, route, screenId]);
 
+  /** Signed-in: mount durable GPT2 mobile gallery from Supabase without RESTORE button (design page load / sign-in / tab focus). */
+  const runAutoPageConceptGalleryMount = useCallback(async (): Promise<boolean> => {
+    if (autoGalleryMountInFlightRef.current) {
+      return autoGalleryMountInFlightRef.current;
+    }
+    const task = (async (): Promise<boolean> => {
+      if (
+        !designPageMobileConceptGalleryIsEmpty({
+          projectSlug: projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+        })
+      ) {
+        return true;
+      }
+      setAutoGalleryMountInProgress(true);
+      try {
+        try {
+          await ensurePageConceptApiAccessToken();
+          setApiSessionReady(true);
+        } catch {
+          setApiSessionReady(false);
+          return false;
+        }
+
+        const galleryRestore = true;
+        const trace = await mountPageConceptGalleryFromServer({
+          projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+          persist,
+          galleryRestore,
+        });
+        let restored = trace.phase === 'applied';
+        if (!restored) {
+          restored = await restoreReadyMobileGalleryFromServer();
+        }
+        if (restored) {
+          setExecutionError(null);
+        }
+
+        persist((prev) => {
+          const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          });
+          const { state: hydrated } = applyExperienceReviewHydrationToState(prev, { extraExperienceFalJobs });
+          savePageConceptGenerationState(hydrated);
+          return hydrated;
+        });
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+        );
+        return restored;
+      } finally {
+        setAutoGalleryMountInProgress(false);
+      }
+    })();
+    autoGalleryMountInFlightRef.current = task.finally(() => {
+      autoGalleryMountInFlightRef.current = null;
+    });
+    return autoGalleryMountInFlightRef.current;
+  }, [pageId, persist, projectId, restoreReadyMobileGalleryFromServer, route, screenId]);
+
   /** Gallery RESTORE CTA — mount durable concepts without opening GENERATE modal. */
   const restorePageConceptsFromGallery = useCallback(async (): Promise<boolean> => {
     if (galleryRestoreInProgress) return false;
@@ -778,44 +849,26 @@ export function usePageConceptGeneration(
     }
     if (apiSessionReady !== true) return;
     let cancelled = false;
-    const runServerGalleryMount = () => {
-      void (async () => {
-        if (cancelled) return;
-        await mountPageConceptGalleryFromServer({
-          projectId,
-          pageId,
-          screenId,
-          route: route ?? null,
-          persist,
-        });
-        if (cancelled) return;
-        persist((prev) => {
-          const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
-            projectSlug: projectId,
-            pageId,
-            screenId,
-            route: route ?? null,
-          });
-          const { state: hydrated } = applyExperienceReviewHydrationToState(prev, { extraExperienceFalJobs });
-          savePageConceptGenerationState(hydrated);
-          return hydrated;
-        });
-        if (cancelled) return;
-        window.dispatchEvent(
-          new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
-        );
-      })();
+    const run = () => {
+      if (cancelled) return;
+      void runAutoPageConceptGalleryMount();
     };
-    runServerGalleryMount();
+    run();
     const onVisible = () => {
-      if (document.visibilityState === 'visible') runServerGalleryMount();
+      if (document.visibilityState === 'visible') run();
+    };
+    const onSignIn = () => {
+      if (cancelled) return;
+      void runAutoPageConceptGalleryMount();
     };
     document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('signInStateChanged', onSignIn);
     return () => {
       cancelled = true;
       document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('signInStateChanged', onSignIn);
     };
-  }, [apiSessionReady, pageId, persist, projectId, route, screenId]);
+  }, [apiSessionReady, pageId, projectId, route, runAutoPageConceptGalleryMount, screenId]);
 
   useEffect(() => {
     if (!generationEligibility.sourceCaptureValidation.allRequiredReady) return;
@@ -2363,6 +2416,8 @@ export function usePageConceptGeneration(
     restoreReadyMobileGalleryFromServer,
     restorePageConceptsFromGallery,
     galleryRestoreInProgress,
+    autoGalleryMountInProgress,
+    runAutoPageConceptGalleryMount,
     openGeneratePageConceptsPanel,
     openGenerationConfirm,
     openGenerationConsole,

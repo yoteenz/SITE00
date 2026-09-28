@@ -311,6 +311,7 @@ export interface TwinOpusDirectWorkspaceData {
   /** Empty scoped gallery + signed-in session → primary CTA is server restore, not generate modal. */
   galleryPrimaryIsRestore: boolean;
   galleryRestoreInProgress: boolean;
+  autoGalleryMountInProgress: boolean;
   /** Single source — gallery CTA disabled + blocker copy derive from this only. */
   pageConceptGenerationEligibility: PageConceptGenerationEligibility;
   pageConceptGenerationGate: ReturnType<typeof pageConceptGenerationGateFromEligibility>;
@@ -569,27 +570,16 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
   );
 
   useEffect(() => {
-    if (pageConceptGeneration.apiSessionReady !== true) return;
+    if (!pageConceptGenerationStateHasReadyMobileArtifacts(pageConceptGeneration.generationState)) return;
     const mobileRows = listPageConceptCandidates(projectSlug, pageTarget.pageId).filter((c) =>
       pageConceptCandidateMatchesViewportGallery(c, 'MOBILE'),
     );
     if (mobileRows.length > 0) return;
-    if (pageConceptGenerationStateHasReadyMobileArtifacts(pageConceptGeneration.generationState)) {
-      reconcilePageConceptCandidates(projectSlug, pageTarget.pageId, galleryHydrationScope);
-      setPageConceptRevision((v) => v + 1);
-      return;
-    }
-    void pageConceptGeneration.restoreReadyMobileGalleryFromServer().then((restored) => {
-      if (restored) {
-        setPageConceptRevision((v) => v + 1);
-        return;
-      }
-    });
+    reconcilePageConceptCandidates(projectSlug, pageTarget.pageId, galleryHydrationScope);
+    setPageConceptRevision((v) => v + 1);
   }, [
     galleryHydrationScope,
-    pageConceptGeneration.apiSessionReady,
     pageConceptGeneration.generationState,
-    pageConceptGeneration.restoreReadyMobileGalleryFromServer,
     pageTarget.pageId,
     projectSlug,
   ]);
@@ -1628,10 +1618,11 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
       galleryPrimaryIsRestore:
         scopedCandidates.length === 0 && pageConceptGeneration.apiSessionReady === true,
       galleryRestoreInProgress: pageConceptGeneration.galleryRestoreInProgress,
+      autoGalleryMountInProgress: pageConceptGeneration.autoGalleryMountInProgress,
       galleryGenerateLabel:
         scopedCandidates.length === 0 && pageConceptGeneration.apiSessionReady === true ?
-          pageConceptGeneration.galleryRestoreInProgress ?
-            'RESTORING PAGE CONCEPTS…'
+          pageConceptGeneration.autoGalleryMountInProgress || pageConceptGeneration.galleryRestoreInProgress ?
+            'SYNCING PAGE CONCEPTS…'
           : 'RESTORE PAGE CONCEPTS'
         : 'GENERATE PAGE CONCEPTS',
       pageConceptGenerationEligibility: pageConceptGeneration.generationEligibility,
@@ -1772,6 +1763,7 @@ export function useTwinOpusDirectWorkspace(projectSlug: string): TwinOpusDirectW
     galleryHydrationScope,
     pageConceptGeneration.apiSessionReady,
     pageConceptGeneration.executionError,
+    pageConceptGeneration.autoGalleryMountInProgress,
     pageConceptGeneration.galleryRestoreInProgress,
     pageConceptGeneration.generating,
     pageConceptGeneration.generationEligibility,

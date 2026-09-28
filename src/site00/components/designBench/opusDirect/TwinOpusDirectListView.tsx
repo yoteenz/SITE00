@@ -302,7 +302,9 @@ export function TwinOpusDirectListBody({ workspace }: { workspace: TwinOpusDirec
                     data-page-concept-readiness={data.pageConceptGenerationEligibility.readiness}
                     data-can-generate={data.pageConceptGenerationEligibility.canGenerate ? 'true' : 'false'}
                     disabled={
-                      !data.pageConceptGenerationGate.canPressGenerate || data.galleryRestoreInProgress
+                      !data.pageConceptGenerationGate.canPressGenerate ||
+                      data.galleryRestoreInProgress ||
+                      data.autoGalleryMountInProgress
                     }
                     title={
                       data.pageConceptGenerationGate.blockerMessage ??
