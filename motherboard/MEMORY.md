@@ -12464,3 +12464,17 @@ Split Desktop/Tablet into **base viewport screen generation** then **viewport ex
 - **Orchestration:** `pageConceptGenerateViewportExpression` / `approve`; desktop base apply no longer requires tablet first; base regen clears that viewport’s expression package.
 - **Workspace:** VIEW DESKTOP/TABLET switches viewport tab; expression actions open generation console on that viewport.
 - **Tests:** `p0vrResponsiveViewportGenerationThenExpressionWorkflow1.test.ts`.
+
+---
+
+## 2026-09-28 — P0.VR.DESIGN-WORKSPACE-PIPELINE-REACTIVITY-AND-STALE-STATE-ELIMINATION1
+
+Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Design Workspace surfaces react from one compiled pipeline (not per-panel legacy inference).
+
+- **`designWorkspacePipelineState.ts`:** `compileDesignWorkspacePipelineState` — mobile/desktop/tablet authorities + expressions, page family counts, interaction map count, framework/twin/asset gates, stale binding detection.
+- **`designWorkspacePipelineSelectors.ts`:** `canConfirmMobileAuthority`, `canGenerateDesktop`, `canOpenPairReview`, `canCreateFramework`, `canGenerateAssets`, **12-stage** `buildDesignWorkspacePipelineReadinessRows`.
+- **`designWorkspacePipelineEvents.ts`:** normalized bus + legacy `site00:page-concept-generation-updated` bridge.
+- **`designWorkspacePipelinePresentation.ts`:** GPT2 hero preview (**DERIVED · NOT GENERATED**), viewport tab statuses, gallery **AUTHORITY CONFIRMED** banner.
+- **`useDesignWorkspacePipeline.ts`:** React hook wired in **`twinOpusDirectWorkspace`** (hero, tabs, gallery CTAs, concept dock handoff, hero assembly gates).
+- **`designHeroAssemblyActions` / `designConceptIntelligenceDock` / `pageConceptViewportGalleryActions`:** pipeline-aware gates and handoff.
+- **Tests:** `p0vrDesignWorkspacePipelineReactivity1.test.ts`.
