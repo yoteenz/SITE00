@@ -1,4 +1,4 @@
-import type { PageConceptGenerationState } from './types.js';
+import type { PageConceptGenerationRunResult, PageConceptGenerationState } from './types.js';
 import type { PageConceptServerRunSnapshot } from './pageConceptServerRun.js';
 import { pageConceptGenerationStateHasReadyMobileArtifacts } from './pageConceptGalleryHydration.js';
 import {
@@ -83,7 +83,11 @@ export function shouldReplaceLocalPageConceptStateWithServerRun(
   if (options?.preferServerGallery) {
     const localFamily = local.pipelineSet?.viewportAuthorityFamily;
     const serverFamily = server.pipelineSet?.viewportAuthorityFamily;
-    if (localFamily?.selectedMobileConceptId && !serverFamily?.selectedMobileConceptId) {
+    if (
+      localReady &&
+      localFamily?.selectedMobileConceptId &&
+      !serverFamily?.selectedMobileConceptId
+    ) {
       const localFamilyTs = localFamily.updatedAt ? Date.parse(localFamily.updatedAt) : 0;
       const serverUpdated = server.updatedAt ? Date.parse(server.updatedAt) : 0;
       if (
@@ -93,6 +97,14 @@ export function shouldReplaceLocalPageConceptStateWithServerRun(
       ) {
         return false;
       }
+    }
+    const localInFlight =
+      local.generationStatus === 'CGPT_RUNNING' ||
+      local.generationStatus === 'CGPT_RATE_LIMITED' ||
+      local.generationStatus === 'GPT2_RUNNING' ||
+      local.generationStatus === 'NBP_RUNNING';
+    if (localInFlight && !localReady && pageConceptServerRunHasReadyMobileGallery(server)) {
+      return true;
     }
     return true;
   }
@@ -163,4 +175,34 @@ export function applyPageConceptServerRunSnapshotForGalleryMount(
     mobileJobMode: 'replace',
     syncRunIdentity: true,
   });
+}
+
+/** Terminal generation run apply (CGPT/GPT2 finish) — preserves founder viewport-family progress. */
+export function mergePageConceptTerminalRunResultIntoState(
+  local: PageConceptGenerationState,
+  terminalRun: PageConceptServerRunSnapshot,
+  result: PageConceptGenerationRunResult,
+  options?: { mergeJobsOnly?: boolean },
+): PageConceptGenerationState {
+  const run: PageConceptServerRunSnapshot = {
+    ...terminalRun,
+    pipelineSet: result.pipelineSet,
+    jobs: [...result.jobs],
+  };
+  let next = mergePageConceptGenerationStateWithServerRunSnapshot(local, run, {
+    mobileJobMode: options?.mergeJobsOnly ? 'merge' : 'replace',
+    syncRunIdentity: true,
+  });
+  if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
+    next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
+  } else if (terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
+    next = { ...next, generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW' };
+  } else if (terminalRun.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION') {
+    next = { ...next, generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION' };
+  } else if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
+    next = { ...next, generationStatus: 'FAILED' };
+  } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
+    next = { ...next, generationStatus: 'FAILED' };
+  }
+  return next;
 }

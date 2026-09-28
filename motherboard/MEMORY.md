@@ -12272,3 +12272,14 @@ Founder still saw **SELECT MOBILE AUTHORITY** after v703: **`applyServerRunSnaps
 - **`preferServerGallery` mount** skips replace when local family is newer than server `updatedAt`.
 - **`site00:page-concept-generation-updated`** reload path rehydrates catalog + authority.
 - **Tests:** poll-merge case in **`p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`**. **cPanel v704+**.
+
+---
+
+## 2026-09-28 — Restore ready mobile gallery + stop GENERATE clobber + unstuck CGPT
+
+Founder pressed **GENERATE** to bring concepts back → stuck **RUNNING PAGE INTELLIGENCE** (`CGPT_RUNNING` without founder session). Remaining overwrites: **terminal run** handlers (`mergeTerminalRunResultIntoState`, CGPT retry, GPT2/NBP continue) used raw `applyPageConceptPipelineSet`; **experience review** spread `{...prev,...loaded}`; mount skip blocked server restore when local family ahead but gallery empty.
+
+- **`mergePageConceptTerminalRunResultIntoState`** — all terminal applies use preserve + rehydrate.
+- **`pageConceptInFlightRecovery.ts`** — stale in-flight → `GPT2_MOBILE_AWAITING_SELECTION` when mobile READY exists.
+- **`restoreReadyMobileGalleryFromServer`** — open GENERATE / dispatch redirects to server restore + gallery focus instead of new CGPT when READY mobile exists.
+- **Cancel** clears stuck `generating` + recovers state. **Tests:** **`p0vrPageConceptInFlightRecoveryAndRestore1.test.ts`**. **cPanel v705+**.

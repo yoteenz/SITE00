@@ -7,20 +7,27 @@ import {
   isPageCaptureDisplayableArtifact,
 } from '../../../../../shared/site00-design-workspace-production/designPageCapture.js';
 import {
-  applyPageConceptPipelineSet,
   mergePageConceptArtifactsIntoGallery,
   mergePageConceptGenerationJobs,
-  registerPageConceptGenerationJobs,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/generationWorkflow.js';
 import {
   PAGE_CONCEPT_MOBILE_SELECTION_MADE_EVENT,
   type PageConceptMobileSelectionMadeDetail,
 } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryEvents.js';
 import { listPageConceptCandidates } from '../../../../../shared/site00-design-workspace-production/designProjectBinding/designPageConceptModel.js';
-import { refreshPageConceptGalleryFromPersistedState, syncPageConceptGalleryFromLoadedGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
+import {
+  pageConceptGenerationStateHasReadyMobileArtifacts,
+  refreshPageConceptGalleryFromPersistedState,
+  syncPageConceptGalleryFromLoadedGenerationState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryHydration.js';
 import { consolidatePageConceptGenerationStateStorage } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGenerationStateDiscovery.js';
 import { mountPageConceptGalleryFromServer } from '../../../services/pageConceptGalleryServerMountClient.js';
-import { mergePageConceptGenerationStateWithServerRunSnapshot } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import {
+  mergePageConceptGenerationStateWithServerRunSnapshot,
+  mergePageConceptTerminalRunResultIntoState,
+} from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptGalleryServerHydration.js';
+import { recoverStalePageConceptInFlightGenerationState } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptInFlightRecovery.js';
+import { preserveLocalViewportAuthorityFamilyProgressAfterServerMerge } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptViewportAuthorityFamilyPersistence.js';
 import {
   pageConceptCgptManualRetryEligible,
   pageConceptHasFailedNbpJobs,
@@ -140,7 +147,6 @@ import type { PageConceptServerRunSnapshot } from '../../../../../shared/site00-
 import { pageConceptServerRunIsTerminal } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptServerRunToResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptServerRun.js';
 import { pageConceptChainGpt2MobileAfterCgptReviewGate } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/pageConceptCanonicalPipeline.js';
-import type { PageConceptGenerationRunResult } from '../../../../../shared/site00-design-workspace-production/pageConceptPipeline/types.js';
 import { site00ApiUrl } from '../../../../utils/site00ApiBase.js';
 import { getAccessToken } from '../../../../utils/api.js';
 
@@ -216,32 +222,6 @@ async function buildPageConceptCapturePayload(
     ...dims,
     artifactUrl: resolveCaptureArtifactUrl(path),
   };
-}
-
-function mergeTerminalRunResultIntoState(
-  state: PageConceptGenerationState,
-  terminalRun: PageConceptServerRunSnapshot,
-  result: PageConceptGenerationRunResult,
-  options?: { mergeJobsOnly?: boolean },
-): PageConceptGenerationState {
-  let next = applyPageConceptPipelineSet(state, result.pipelineSet);
-  next =
-    options?.mergeJobsOnly ?
-      mergePageConceptGenerationJobs(next, result.jobs)
-    : registerPageConceptGenerationJobs(next, result.jobs);
-  next = mergePageConceptArtifactsIntoGallery(next);
-  if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
-    next = { ...next, generationStatus: 'GPT2_AWAITING_FOUNDER_REVIEW' };
-  } else if (terminalRun.generationStatus === 'CGPT_AWAITING_FOUNDER_REVIEW') {
-    next = { ...next, generationStatus: 'CGPT_AWAITING_FOUNDER_REVIEW' };
-  } else if (terminalRun.generationStatus === 'GPT2_MOBILE_AWAITING_SELECTION') {
-    next = { ...next, generationStatus: 'GPT2_MOBILE_AWAITING_SELECTION' };
-  } else if (next.pipelineSet?.creativeInjectionError && !next.pipelineSet.creativeInjection) {
-    next = { ...next, generationStatus: 'FAILED' };
-  } else if (next.pipelineSet?.gpt2AuthorityError && !next.pipelineSet.gpt2AuthorityConcept) {
-    next = { ...next, generationStatus: 'FAILED' };
-  }
-  return next;
 }
 
 function applyServerRunSnapshotToState(
@@ -498,6 +478,51 @@ export function usePageConceptGeneration(
     [pageId, projectId, route, screenId],
   );
 
+  const restoreReadyMobileGalleryFromServer = useCallback(async (): Promise<boolean> => {
+    try {
+      await ensurePageConceptApiAccessToken();
+    } catch {
+      /* offline — still try local buckets */
+    }
+    const before = ensureGpt2MobileConceptCatalog(
+      loadPageConceptGenerationStateForDesignPage({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route: route ?? null,
+      }),
+    );
+    const hadReady = pageConceptGenerationStateHasReadyMobileArtifacts(before);
+    if (apiSessionReady !== false) {
+      try {
+        await mountPageConceptGalleryFromServer({
+          projectId,
+          pageId,
+          screenId,
+          route: route ?? null,
+          persist,
+        });
+      } catch {
+        /* fall through to local state */
+      }
+    }
+    persist((s) =>
+      recoverStalePageConceptInFlightGenerationState(
+        s,
+        Boolean(loadPageConceptFounderRunSession(projectId, pageId)),
+      ),
+    );
+    const after = ensureGpt2MobileConceptCatalog(
+      loadPageConceptGenerationStateForDesignPage({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route: route ?? null,
+      }),
+    );
+    return pageConceptGenerationStateHasReadyMobileArtifacts(after) || hadReady;
+  }, [apiSessionReady, pageId, persist, projectId, route, screenId]);
+
   useEffect(() => {
     if (apiSessionReady === false) {
       refreshPageConceptGalleryFromPersistedState(projectId, pageId, { screenId, route: route ?? null });
@@ -713,7 +738,7 @@ export function usePageConceptGeneration(
           route: route ?? null,
         });
         persist((prev) => {
-          const merged = { ...prev, ...loaded, generationJobs: loaded.generationJobs.length ? loaded.generationJobs : prev.generationJobs };
+          const merged = preserveLocalViewportAuthorityFamilyProgressAfterServerMerge(prev, loaded);
           const extraExperienceFalJobs = loadExperienceFalJobsFromEquivalentPageBuckets({
             projectSlug: projectId,
             pageId,
@@ -743,6 +768,10 @@ export function usePageConceptGeneration(
     setOverlayMode('confirm');
     setPendingPlan(null);
     setCaptureHydrationStatus('checking');
+    setGenerating(false);
+
+    const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
+    persist((s) => recoverStalePageConceptInFlightGenerationState(s, Boolean(founderSession)));
 
     await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
     setCaptureHydrationStatus('ready');
@@ -769,6 +798,17 @@ export function usePageConceptGeneration(
     );
 
     if (!eligibility.canGenerate) {
+      return;
+    }
+
+    const restoredGallery = await restoreReadyMobileGalleryFromServer();
+    if (restoredGallery) {
+      setOverlayOpen(false);
+      setOverlayMode('review');
+      setExecutionError(null);
+      window.dispatchEvent(
+        new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
+      );
       return;
     }
 
@@ -806,7 +846,7 @@ export function usePageConceptGeneration(
         retryable: true,
       });
     }
-  }, [pageId, persist, projectId, route, screenId]);
+  }, [pageId, persist, projectId, restoreReadyMobileGalleryFromServer, route, screenId]);
 
   const openGenerationConsole = useCallback(
     async (focusViewport: 'MOBILE' | 'TABLET' | 'DESKTOP' = 'MOBILE') => {
@@ -841,11 +881,15 @@ export function usePageConceptGeneration(
   );
 
   const cancelGeneration = useCallback(() => {
-    if (generating) return;
+    if (generating) {
+      setGenerating(false);
+      clearPageConceptFounderRunSession(projectId, pageId);
+      persist((s) => recoverStalePageConceptInFlightGenerationState(s, false));
+    }
     setPendingPlan(null);
     setOverlayOpen(false);
     setExecutionError(null);
-  }, [generating]);
+  }, [generating, pageId, persist, projectId]);
 
   const handleGenerateClick = useCallback(async () => {
     const clickAt = new Date().toISOString();
@@ -890,19 +934,25 @@ export function usePageConceptGeneration(
     }));
 
     if (generating) {
-      const message = 'GENERATION ALREADY IN PROGRESS';
-      setExecutionError(message);
-      setGenerateClickTrace((prev) => ({
-        ...prev,
-        preflightStatus: 'failed',
-        lastErrorCode: message,
-      }));
-      emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
-        projectId,
-        pageId,
-        errorCode: message,
-      });
-      return;
+      const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
+      if (!founderSession) {
+        setGenerating(false);
+        persist((s) => recoverStalePageConceptInFlightGenerationState(s, false));
+      } else {
+        const message = 'GENERATION ALREADY IN PROGRESS';
+        setExecutionError(message);
+        setGenerateClickTrace((prev) => ({
+          ...prev,
+          preflightStatus: 'failed',
+          lastErrorCode: message,
+        }));
+        emitPageConceptGenerateTelemetry('page_concept_generate_preflight_failed', {
+          projectId,
+          pageId,
+          errorCode: message,
+        });
+        return;
+      }
     }
 
     emitPageConceptGenerateTelemetry('page_concept_generate_preflight_started', { projectId, pageId });
@@ -933,6 +983,31 @@ export function usePageConceptGeneration(
         errorCode: message,
       });
       return;
+    }
+
+    if (
+      (press.intendedAction === 'dispatch' || press.intendedAction === 'retry') &&
+      pageConceptGenerationStateHasReadyMobileArtifacts(
+        ensureGpt2MobileConceptCatalog(
+          loadPageConceptGenerationStateForDesignPage({
+            projectSlug: projectId,
+            pageId,
+            screenId,
+            route: route ?? null,
+          }),
+        ),
+      )
+    ) {
+      const restored = await restoreReadyMobileGalleryFromServer();
+      if (restored) {
+        setGenerating(false);
+        setOverlayOpen(false);
+        setExecutionError(null);
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
+        );
+        return;
+      }
     }
 
     if (press.intendedAction === 'new_branch') {
@@ -1211,7 +1286,7 @@ export function usePageConceptGeneration(
         throw new Error(terminalRun.error ?? `GENERATION ${terminalRun.status}`);
       }
 
-      persist((s) => mergeTerminalRunResultIntoState(s, terminalRun, result));
+      persist((s) => mergePageConceptTerminalRunResultIntoState(s, terminalRun, result));
 
       if (terminalRun.generationStatus === 'GPT2_AWAITING_FOUNDER_REVIEW') {
         savePageConceptActiveServerRunId(projectId, pageId, terminalRun.runId);
@@ -1298,11 +1373,19 @@ export function usePageConceptGeneration(
       if (message.includes('UNAUTHORIZED') || message.includes('SIGN IN')) {
         setApiSessionReady(false);
       }
-      persist((s) => ({
-        ...s,
-        generationStatus: 'IDLE',
-        lastFailure: { message, at: new Date().toISOString() },
-      }));
+      const recovered = await restoreReadyMobileGalleryFromServer();
+      if (recovered) {
+        setOverlayOpen(false);
+        setExecutionError(null);
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
+        );
+      } else {
+        persist((s) => ({
+          ...recoverStalePageConceptInFlightGenerationState(s, false),
+          lastFailure: { message, at: new Date().toISOString() },
+        }));
+      }
     } finally {
       setGenerating(false);
     }
@@ -1316,6 +1399,7 @@ export function usePageConceptGeneration(
     pageId,
     persist,
     projectId,
+    restoreReadyMobileGalleryFromServer,
     route,
     screenId,
     state.activeGenerationRunId,
@@ -1381,12 +1465,7 @@ export function usePageConceptGeneration(
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'CGPT_RETRY_FAILED');
 
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next = registerPageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        return next;
-      });
+      persist((s) => mergePageConceptTerminalRunResultIntoState(s, terminalRun, result));
       setOverlayMode('review');
       setExecutionError(result.pipelineSet.creativeInjectionError ?? null);
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
@@ -1461,12 +1540,7 @@ export function usePageConceptGeneration(
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'GPT2_CONTINUE_FAILED');
 
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next = registerPageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        return next;
-      });
+      persist((s) => mergePageConceptTerminalRunResultIntoState(s, terminalRun, result));
       setOverlayMode('review');
       window.dispatchEvent(
         new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
@@ -1542,12 +1616,7 @@ export function usePageConceptGeneration(
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'NBP_CONTINUE_FAILED');
 
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next = registerPageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        return next;
-      });
+      persist((s) => mergePageConceptTerminalRunResultIntoState(s, terminalRun, result));
       setOverlayMode('review');
       window.dispatchEvent(
         new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
@@ -1627,12 +1696,9 @@ export function usePageConceptGeneration(
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'RETRY_FAILED');
 
-      persist((s) => {
-        let next = applyPageConceptPipelineSet(s, result.pipelineSet);
-        next = mergePageConceptGenerationJobs(next, result.jobs);
-        next = mergePageConceptArtifactsIntoGallery(next);
-        return next;
-      });
+      persist((s) =>
+        mergePageConceptTerminalRunResultIntoState(s, terminalRun, result, { mergeJobsOnly: true }),
+      );
       setOverlayMode('review');
       window.dispatchEvent(new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }));
     } catch (e) {
@@ -1713,7 +1779,7 @@ export function usePageConceptGeneration(
       const result = pageConceptServerRunToResult(terminalRun);
       if (!result) throw new Error(terminalRun.error ?? 'GENERATION_FAILED');
       persist((s) =>
-        mergeTerminalRunResultIntoState(s, terminalRun, result, {
+        mergePageConceptTerminalRunResultIntoState(s, terminalRun, result, {
           mergeJobsOnly: flags.retryFailedOnly || flags.regenerateNbpOnly,
         }),
       );
