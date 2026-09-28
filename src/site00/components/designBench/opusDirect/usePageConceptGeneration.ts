@@ -309,6 +309,7 @@ export function usePageConceptGeneration(
   const [executionError, setExecutionError] = useState<string | null>(null);
   const [captureRevision, setCaptureRevision] = useState(0);
   const [apiSessionReady, setApiSessionReady] = useState<boolean | null>(null);
+  const [galleryRestoreInProgress, setGalleryRestoreInProgress] = useState(false);
   const [captureHydrationStatus, setCaptureHydrationStatus] =
     useState<PageConceptCaptureHydrationStatus>('checking');
   const [generateClickTrace, setGenerateClickTrace] = useState<PageConceptGenerateClickTrace>(
@@ -616,30 +617,139 @@ export function usePageConceptGeneration(
 
   /** Gallery RESTORE CTA — mount durable concepts without opening GENERATE modal. */
   const restorePageConceptsFromGallery = useCallback(async (): Promise<boolean> => {
+    if (galleryRestoreInProgress) return false;
+    setGalleryRestoreInProgress(true);
     setOverlayOpen(false);
     setGenerating(false);
     setExecutionError(null);
-    const restored = await restoreReadyMobileGalleryFromServer();
-    if (restored) {
-      setExecutionError(null);
-      window.dispatchEvent(
-        new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
-      );
-      return true;
-    }
     try {
-      await ensurePageConceptApiAccessToken();
-    } catch (e) {
-      const message = e instanceof Error ? e.message : PAGE_CONCEPT_SIGN_IN_REQUIRED;
-      setExecutionError(message);
-      setApiSessionReady(false);
+      const restored = await restoreReadyMobileGalleryFromServer();
+      if (restored) {
+        setExecutionError(null);
+        window.dispatchEvent(
+          new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
+        );
+        return true;
+      }
+      try {
+        await ensurePageConceptApiAccessToken();
+      } catch (e) {
+        const message = e instanceof Error ? e.message : PAGE_CONCEPT_SIGN_IN_REQUIRED;
+        setExecutionError(message);
+        setApiSessionReady(false);
+        return false;
+      }
+      setExecutionError(
+        'RESTORE DID NOT MOUNT MOBILE CONCEPTS — SERVER GALLERY MISSING OR API NOT UPDATED. HARD-REFRESH, CONFIRM RAILWAY REDEPLOY, THEN TAP RESTORE AGAIN.',
+      );
       return false;
+    } finally {
+      setGalleryRestoreInProgress(false);
+      window.dispatchEvent(
+        new CustomEvent('site00:page-concept-generation-updated', { detail: { projectId, pageId } }),
+      );
     }
-    setExecutionError(
-      'RESTORE DID NOT MOUNT MOBILE CONCEPTS — SERVER GALLERY MISSING OR API NOT UPDATED. HARD-REFRESH, CONFIRM RAILWAY REDEPLOY, THEN TAP RESTORE AGAIN (DO NOT USE GENERATE).',
-    );
-    return false;
-  }, [pageId, projectId, restoreReadyMobileGalleryFromServer]);
+  }, [galleryRestoreInProgress, pageId, projectId, restoreReadyMobileGalleryFromServer]);
+
+  const finishOpenGenerationConfirm = useCallback(
+    async (input: { tryRestoreBeforePanel: boolean }) => {
+      const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
+      persist((s) => recoverStalePageConceptInFlightGenerationState(s, Boolean(founderSession)));
+
+      await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
+      setCaptureHydrationStatus('ready');
+      setCaptureRevision((v) => v + 1);
+
+      const token = await getAccessToken();
+      setApiSessionReady(!!token);
+
+      const eligibility = buildPageConceptGenerationEligibility({
+        projectSlug: projectId,
+        pageId,
+        screenId,
+        route,
+        sessionReady: !!token,
+        hydrationStatus: 'ready',
+      });
+
+      const loadedForError = loadPageConceptGenerationState(projectId, pageId);
+      setExecutionError((prev) =>
+        sanitizePageConceptExecutionError(
+          eligibility,
+          prev ?? loadedForError.lastFailure?.message ?? null,
+        ),
+      );
+
+      if (input.tryRestoreBeforePanel) {
+        const restoredGallery = await restoreReadyMobileGalleryFromServer();
+        if (restoredGallery) {
+          setOverlayOpen(false);
+          setOverlayMode('review');
+          setExecutionError(null);
+          window.dispatchEvent(
+            new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
+          );
+          return;
+        }
+      }
+
+      if (!eligibility.canGenerate) {
+        setExecutionError(
+          eligibility.blockerMessage ??
+            eligibility.confirmNotice ??
+            'GENERATION REQUIREMENTS NOT READY',
+        );
+        return;
+      }
+
+      let localPlan: PageConceptGenerationPlan;
+      try {
+        localPlan = buildPageConceptGenerationPlan(projectId, pageId);
+      } catch (e) {
+        setExecutionError(e instanceof Error ? e.message : 'PLAN_FAILED');
+        return;
+      }
+      setPendingPlan(localPlan);
+      const loadedForMode = loadPageConceptGenerationState(projectId, pageId);
+      setOverlayMode(
+        pageConceptReviewReady(loadedForMode.generationStatus) || loadedForMode.pipelineSet?.creativeInjection ?
+          'review'
+        : 'confirm',
+      );
+      persist((s) => ({ ...s, generationStatus: s.generationStatus === 'IDLE' ? 'PLANNED' : s.generationStatus }));
+
+      const current = loadPageConceptGenerationState(projectId, pageId);
+      try {
+        const remotePlan = await planPageConceptGenerationApi(current);
+        setPendingPlan(remotePlan);
+      } catch (e) {
+        const message = e instanceof Error ? e.message : 'PLAN_FAILED';
+        setExecutionError(message);
+        recordPageConceptGenerationAttemptForensics({
+          requestId: `plan-${Date.now()}`,
+          generationRunId: `${projectId}:${pageId}`,
+          stage: 'PLAN',
+          endpoint: '/api/page-concept-generation/plan',
+          httpStatus: null,
+          errorCode: message,
+          founderMessage: message,
+          retryable: true,
+        });
+      }
+    },
+    [pageId, persist, projectId, restoreReadyMobileGalleryFromServer, route, screenId],
+  );
+
+  /** Opens GENERATE PAGE CONCEPTS panel immediately (pipeline / explicit generate). */
+  const openGeneratePageConceptsPanel = useCallback(async () => {
+    setOverlayOpen(true);
+    setOverlayMode('confirm');
+    setPendingPlan(null);
+    setCaptureHydrationStatus('checking');
+    setGenerating(false);
+    setExecutionError(null);
+    await finishOpenGenerationConfirm({ tryRestoreBeforePanel: false });
+  }, [finishOpenGenerationConfirm]);
 
   useEffect(() => {
     if (apiSessionReady === false) {
@@ -882,95 +992,13 @@ export function usePageConceptGeneration(
   }, []);
 
   const openGenerationConfirm = useCallback(async () => {
+    setOverlayOpen(true);
+    setOverlayMode('confirm');
     setPendingPlan(null);
     setCaptureHydrationStatus('checking');
     setGenerating(false);
-
-    const founderSession = loadPageConceptFounderRunSession(projectId, pageId);
-    persist((s) => recoverStalePageConceptInFlightGenerationState(s, Boolean(founderSession)));
-
-    await ensurePageConceptSourceCaptures(projectId, pageId, screenId);
-    setCaptureHydrationStatus('ready');
-    setCaptureRevision((v) => v + 1);
-
-    const token = await getAccessToken();
-    setApiSessionReady(!!token);
-
-    const eligibility = buildPageConceptGenerationEligibility({
-      projectSlug: projectId,
-      pageId,
-      screenId,
-      route,
-      sessionReady: !!token,
-      hydrationStatus: 'ready',
-    });
-
-    const loadedForError = loadPageConceptGenerationState(projectId, pageId);
-    setExecutionError((prev) =>
-      sanitizePageConceptExecutionError(
-        eligibility,
-        prev ?? loadedForError.lastFailure?.message ?? null,
-      ),
-    );
-
-    const restoredGallery = await restoreReadyMobileGalleryFromServer();
-    if (restoredGallery) {
-      setOverlayOpen(false);
-      setOverlayMode('review');
-      setExecutionError(null);
-      window.dispatchEvent(
-        new CustomEvent('site00:page-concept-focus-gallery', { detail: { projectId, pageId } }),
-      );
-      return;
-    }
-
-    setOverlayOpen(true);
-    setOverlayMode('confirm');
-    setExecutionError(
-      token ?
-        'NO DURABLE MOBILE CONCEPTS MOUNTED — USE RESTORE PAGE CONCEPTS ON THE GALLERY (NOT GENERATE) OR CONFIRM RAILWAY API REDEPLOY.'
-      : `${PAGE_CONCEPT_SIGN_IN_REQUIRED} — RESTORE REQUIRES AN AUTHENTICATED API SESSION TO PULL YOUR SAVED CONCEPTS FROM THE SERVER.`,
-    );
-
-    if (!eligibility.canGenerate) {
-      return;
-    }
-
-    let localPlan: PageConceptGenerationPlan;
-    try {
-      localPlan = buildPageConceptGenerationPlan(projectId, pageId);
-    } catch (e) {
-      setExecutionError(e instanceof Error ? e.message : 'PLAN_FAILED');
-      return;
-    }
-    setPendingPlan(localPlan);
-    const loadedForMode = loadPageConceptGenerationState(projectId, pageId);
-    setOverlayMode(
-      pageConceptReviewReady(loadedForMode.generationStatus) || loadedForMode.pipelineSet?.creativeInjection ?
-        'review'
-      : 'confirm',
-    );
-    persist((s) => ({ ...s, generationStatus: s.generationStatus === 'IDLE' ? 'PLANNED' : s.generationStatus }));
-
-    const current = loadPageConceptGenerationState(projectId, pageId);
-    try {
-      const remotePlan = await planPageConceptGenerationApi(current);
-      setPendingPlan(remotePlan);
-    } catch (e) {
-      const message = e instanceof Error ? e.message : 'PLAN_FAILED';
-      setExecutionError(message);
-      recordPageConceptGenerationAttemptForensics({
-        requestId: `plan-${Date.now()}`,
-        generationRunId: `${projectId}:${pageId}`,
-        stage: 'PLAN',
-        endpoint: '/api/page-concept-generation/plan',
-        httpStatus: null,
-        errorCode: message,
-        founderMessage: message,
-        retryable: true,
-      });
-    }
-  }, [pageId, persist, projectId, restoreReadyMobileGalleryFromServer, route, screenId]);
+    await finishOpenGenerationConfirm({ tryRestoreBeforePanel: true });
+  }, [finishOpenGenerationConfirm]);
 
   const openGenerationConsole = useCallback(
     async (focusViewport: 'MOBILE' | 'TABLET' | 'DESKTOP' = 'MOBILE') => {
@@ -2317,6 +2345,8 @@ export function usePageConceptGeneration(
     generationState: state,
     restoreReadyMobileGalleryFromServer,
     restorePageConceptsFromGallery,
+    galleryRestoreInProgress,
+    openGeneratePageConceptsPanel,
     openGenerationConfirm,
     openGenerationConsole,
     consoleFocusViewport,

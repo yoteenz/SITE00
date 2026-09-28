@@ -294,12 +294,20 @@ export function TwinOpusDirectCanonicalBody({ workspace }: { workspace: TwinOpus
                 data-active-page-id={data.pageConceptTargetPageId}
                 data-page-concept-readiness={data.pageConceptGenerationEligibility.readiness}
                 data-can-generate={data.pageConceptGenerationEligibility.canGenerate ? 'true' : 'false'}
-                disabled={!data.pageConceptGenerationGate.canPressGenerate}
+                disabled={
+                  !data.pageConceptGenerationGate.canPressGenerate || data.galleryRestoreInProgress
+                }
                 title={
                   data.pageConceptGenerationGate.blockerMessage ??
-                  'CGPT → GPT2 → NBP page concept pipeline (confirm before spend)'
+                  (data.galleryPrimaryIsRestore ?
+                    'Mount existing mobile concepts from server gallery (no new generation)'
+                  : 'CGPT → GPT2 → NBP page concept pipeline (confirm before spend)')
                 }
-                onClick={() => actions.generatePageConcepts()}
+                onClick={() =>
+                  data.galleryPrimaryIsRestore ?
+                    actions.restorePageConceptsFromGallery()
+                  : actions.generatePageConcepts()
+                }
               >
                 {data.galleryGenerateLabel}
               </button>
