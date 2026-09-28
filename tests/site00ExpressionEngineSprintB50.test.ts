@@ -51,6 +51,7 @@ describe('B5.0 production journey', () => {
     const ids = stages.map((s) => s.id);
     expect(ids).toEqual([
       'COVER',
+      'NARRATIVE_MOMENTUM',
       'REEL_TREATMENT',
       'VISUAL_AUTHORITIES',
       'STORYBOARD',

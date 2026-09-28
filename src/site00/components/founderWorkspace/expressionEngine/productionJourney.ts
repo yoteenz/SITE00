@@ -4,6 +4,7 @@
 
 export type JourneyStageId =
   | 'COVER'
+  | 'NARRATIVE_MOMENTUM'
   | 'REEL_TREATMENT'
   | 'VISUAL_AUTHORITIES'
   | 'STORYBOARD'
@@ -36,6 +37,7 @@ export type JourneyStage = {
 
 export type PipelineJourneyInput = {
   coverAuthority: 'APPROVED' | string;
+  narrativeMomentumStatus?: 'APPROVED' | 'FOUNDER_REVIEW' | 'NEEDS_REVISION' | 'GENERATED' | string;
   reelTreatment: 'LOCKED' | string;
   preStoryboardComplete: boolean;
   activeProductionStep: string;
@@ -53,6 +55,7 @@ export type PipelineJourneyInput = {
 
 const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string; collapseGroup?: 'downstream' }> = [
   { id: 'COVER', label: 'Cover', shortLabel: 'COVER' },
+  { id: 'NARRATIVE_MOMENTUM', label: 'Narrative Momentum', shortLabel: 'NARRATIVE' },
   { id: 'REEL_TREATMENT', label: 'Reel Treatment', shortLabel: 'TREATMENT' },
   { id: 'VISUAL_AUTHORITIES', label: 'Visual Authorities', shortLabel: 'AUTHORITIES' },
   { id: 'STORYBOARD', label: 'Storyboard', shortLabel: 'STORYBOARD' },
@@ -76,6 +79,7 @@ function isKeyframeActive(step: string): boolean {
 export function buildProductionJourney(input: PipelineJourneyInput): JourneyStage[] {
   const {
     coverAuthority,
+    narrativeMomentumStatus,
     reelTreatment,
     preStoryboardComplete,
     activeProductionStep,
@@ -93,6 +97,13 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
   const reelApproved = finalReelApproved ?? false;
 
   const coverStatus: JourneyStageStatus = coverAuthority === 'APPROVED' ? 'APPROVED' : 'PENDING';
+  const narrativeStatus: JourneyStageStatus =
+    narrativeMomentumStatus === 'APPROVED' ? 'APPROVED'
+    : narrativeMomentumStatus === 'NEEDS_REVISION' ? 'FAILED'
+    : narrativeMomentumStatus === 'FOUNDER_REVIEW' || narrativeMomentumStatus === 'GENERATED' ?
+      'ACTIVE'
+    : coverAuthority === 'APPROVED' ? 'READY'
+    : 'PENDING';
   const treatmentStatus: JourneyStageStatus = reelTreatment === 'LOCKED' ? 'APPROVED' : 'PENDING';
 
   let authoritiesStatus: JourneyStageStatus = 'PENDING';
@@ -138,6 +149,7 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
 
   const statusById: Record<JourneyStageId, JourneyStageStatus> = {
     COVER: coverStatus,
+    NARRATIVE_MOMENTUM: narrativeStatus,
     REEL_TREATMENT: treatmentStatus,
     VISUAL_AUTHORITIES: authoritiesStatus,
     STORYBOARD: storyboardStatus,

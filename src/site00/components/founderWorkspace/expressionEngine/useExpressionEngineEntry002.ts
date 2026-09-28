@@ -12,6 +12,7 @@ import type {
   B49R4PipelineResponse,
   C1NarrativeSynthesisResponse,
   ExpressionEngineEntry002State,
+  Nme1NarrativeMomentumResponse,
 } from './types';
 
 export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
@@ -19,6 +20,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
   const [b48, setB48] = useState<B48PipelineResponse | null>(null);
   const [b49r4, setB49r4] = useState<B49R4PipelineResponse | null>(null);
   const [c1, setC1] = useState<C1NarrativeSynthesisResponse | null>(null);
+  const [nme, setNme] = useState<Nme1NarrativeMomentumResponse | null>(null);
   const [c11, setC11] = useState<import('./types.js').C11CreativeDirectorResponse | null>(null);
   const [c12, setC12] = useState<import('./types.js').C12Entry003Response | null>(null);
   const [c16, setC16] = useState<import('./types.js').ExpressionEngineEntry002State['c16']>(null);
@@ -45,10 +47,11 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     setError(null);
     setErrorView(null);
     try {
-      const [p2, b48Res, b49Res, c1Res, c11Res, c12Res, c16Res] = await Promise.all([
+      const [p2, b48Res, b49Res, nmeRes, c1Res, c11Res, c12Res, c16Res] = await Promise.all([
         expressionEngineApi.phase2(),
         apiFetch('/api/site00/expression-engine?phase=B48'),
         apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
+        apiFetch('/api/site00/expression-engine?phase=NME1'),
         apiFetch('/api/site00/expression-engine?phase=C1'),
         apiFetch('/api/site00/expression-engine?phase=C1.1'),
         apiFetch('/api/site00/expression-engine?phase=C1.4'),
@@ -66,6 +69,11 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
         setB49r4((await b49Res.json()) as B49R4PipelineResponse);
       } else {
         setB49r4(null);
+      }
+      if (nmeRes.ok) {
+        setNme((await nmeRes.json()) as Nme1NarrativeMomentumResponse);
+      } else {
+        setNme(null);
       }
       if (c1Res.ok) {
         setC1((await c1Res.json()) as C1NarrativeSynthesisResponse);
@@ -127,6 +135,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
       blueprint: null!,
       b48,
       b49r4,
+      nme,
       c1,
       c11,
       c12,
@@ -145,6 +154,7 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     blueprint: phase2.blueprint,
     b48,
     b49r4,
+    nme,
     c1,
     c11,
     c12,
