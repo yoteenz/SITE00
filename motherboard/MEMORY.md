@@ -12352,3 +12352,13 @@ Founder on **site00.fsbw-dev.com**: **RESTORE PAGE CONCEPTS** opened **GENERATE 
 - **`previewReviewTestLock.ts`** — serialize preview fixture reads/writes under Vitest.
 - **`clientProjectRoomP0Client2.test.ts`** — **`beforeEach`** reset fixture.
 - **`vitest.config.ts`** — CI **`fileParallelism: false`**.
+
+---
+
+## 2026-09-28 — Generate vs restore both dead; panel would not open (fix)
+
+Founder: **GENERATE** and **RESTORE PAGE CONCEPTS** produced no results; **page concepts panel stopped opening** on Generate.
+
+- **Cause:** **`generatePageConcepts`** (gallery + pipeline) routed **empty local gallery** to **`restorePageConceptsFromGallery` only** — pipeline **GENERATE PAGE CONCEPTS** never opened overlay; restore-only path felt like “nothing happens” when API mount failed silently in UI deps.
+- **Fix (#1222):** Split actions — gallery **`galleryPrimaryIsRestore`** → **`restorePageConceptsFromGallery`**; **`generatePageConcepts`** / pipeline → **`openGeneratePageConceptsPanel`** when empty (overlay opens first, no restore-first). **`openGenerationConfirm`** still restore-first when local mobile rows exist. **`galleryRestoreInProgress`**, **`executionError`** on workspace **`data`** deps.
+- **Deploy:** cPanel ZIP after merge; Railway if not on #1219+ for server mount.
