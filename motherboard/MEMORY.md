@@ -12238,3 +12238,14 @@ FAL success was not always reflected in Experience Review tabs (MENU **MISSING**
 - **Orchestration:** `pageConceptApplyExperienceExpressionGenerationResult` write-backs immediately after FAL.
 - **Hydration:** equivalent pageId FAL jobs + mount repair on open; tab status reads slot index; post-regen client hydration in `usePageConceptGeneration`.
 - **Tests:** **`p0vrExperienceOutputWritebackSlotMountAndPanelSync1.test.ts`**. **Railway + cPanel v701+**.
+
+---
+
+## 2026-09-28 — Mobile authority rehydrate after browser data clear
+
+Founder cleared site data on NDXBOOK Overview (OPUS): gallery still showed Concept C selected but state table **MOBILE AUTHORITY PENDING**, **SELECT MOBILE CONCEPT** rail stayed active, **EXPERIENCE** disabled — `viewportAuthorityFamily` missing on cold load while durable `pipelineSet.selectedMobileConceptId` / `experienceExpressionAuthority` remained on Supabase run.
+
+- **`rehydrateViewportAuthorityFamilyFromPipelineSignals`** in **`pageConceptViewportAuthorityFamilyPersistence.ts`**: infer concept id + CONFIRMED from experience authority/contract/tablet-desktop artifacts; select/confirm via orchestration; sync family experience fields from authority.
+- Called from **`applyPageConceptServerRunSnapshotForGalleryMount`** and **`normalizePageConceptStateOnPanelMount`**.
+- **Hero rail:** `selectedGalleryCandidateId` falls back to `selectedMobileConceptId` in **`twinOpusDirectWorkspace.ts`**.
+- **Tests:** extended **`p0vrMobileAuthoritySelectionPersistAcrossRefresh1.test.ts`**. **cPanel v702+** (SPA only).
