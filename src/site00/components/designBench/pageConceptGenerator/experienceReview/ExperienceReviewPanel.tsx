@@ -46,6 +46,8 @@ import {
   ExperienceReviewPreviewStage,
   ExperienceReviewStaleBanner,
   ExperienceReviewStatusStrip,
+  ExperienceReviewSelectedOutputActions,
+  ExperienceReviewTechnicalDetails,
 } from './ExperienceReviewSections';
 
 export type ExperienceReviewPanelProps = {
@@ -80,17 +82,14 @@ function nextStateId(states: readonly ExperienceExpressionVisualState[], current
   return states[i + 1]!.stateId;
 }
 
+function experienceReviewSelectionStorageKey(projectId: string, pageId: string): string {
+  return `site00:experience-review-active:${projectId}:${pageId}`;
+}
+
 export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
   const authority = props.state.pipelineSet?.experienceExpressionAuthority ?? null;
   const family = props.state.pipelineSet?.viewportAuthorityFamily;
   const conceptLabel = slotLabelFromConceptId(props.state.pipelineSet ?? null, family?.confirmedMobileConceptId ?? null);
-  const packageStatus = buildExperienceReviewPackageStatus(authority);
-  const mode: ExperienceReviewPanelMode = resolveExperienceReviewPanelMode(authority, {
-    hydrating: props.hydrating === true,
-  });
-  const approved = authority?.status === 'APPROVED';
-  const materialization = validateExperiencePackageMaterialization(authority);
-  const themeReceipt = validateExperienceThemeContinuity(authority);
   const themeApprovalGate = experienceThemeContinuityBlocksApproval(authority);
   const contentApprovalGate = experienceContentBlocksApproval(authority);
   const coverageApprovalGate = experienceExpressionCoverageBlocksApproval({
@@ -98,15 +97,31 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
     pipelineSet: props.state.pipelineSet ?? null,
     functionContract: props.state.functionContract ?? null,
   });
+  const packageStatus = buildExperienceReviewPackageStatus(authority, {
+    themeBlocked: themeApprovalGate.blocked,
+    contentBlocked: contentApprovalGate.blocked,
+    coverageBlocked: coverageApprovalGate.blocked,
+  });
+  const mode: ExperienceReviewPanelMode = resolveExperienceReviewPanelMode(authority, {
+    hydrating: props.hydrating === true,
+  });
+  const approved = authority?.status === 'APPROVED';
+  const materialization = validateExperiencePackageMaterialization(authority);
+  const themeReceipt = validateExperienceThemeContinuity(authority);
   const contentAuditByStateId = new Map(
     (authority?.experienceContentAudit?.states ?? contentApprovalGate.receipt.audit.states).map((s) => [s.stateId, s]),
   );
   const visualStates = authority?.visualStates ?? [];
   const missingStateIds = missingExperienceFalStateIds(authority);
-  const hasPartialOutputs = visualStates.some((v) => Boolean(v.previewImageUri?.trim())) && missingStateIds.length > 0;
   const falImageCount = visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE' && v.previewImageUri).length;
   const falTargetCount = visualStates.filter((v) => v.sourceProvider === 'FAL_EXPERIENCE').length;
-  const [activeStateId, setActiveStateId] = useState(visualStates[0]?.stateId ?? 'base');
+  const selectionKey = experienceReviewSelectionStorageKey(props.state.projectId, props.state.pageId);
+  const [activeStateId, setActiveStateId] = useState(() => {
+    if (typeof sessionStorage === 'undefined') return visualStates[0]?.stateId ?? 'base';
+    const saved = sessionStorage.getItem(selectionKey);
+    if (saved && visualStates.some((v) => v.stateId === saved)) return saved;
+    return visualStates[0]?.stateId ?? 'base';
+  });
   const [fullscreenId, setFullscreenId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -114,6 +129,11 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
     const stillValid = visualStates.some((v) => v.stateId === activeStateId);
     if (!stillValid) setActiveStateId(visualStates[0]!.stateId);
   }, [activeStateId, visualStates]);
+
+  useEffect(() => {
+    if (typeof sessionStorage === 'undefined' || !activeStateId) return;
+    sessionStorage.setItem(selectionKey, activeStateId);
+  }, [activeStateId, selectionKey]);
 
   const activeState: ExperienceExpressionVisualState | null = useMemo(
     () => visualStates.find((v) => v.stateId === activeStateId) ?? visualStates[0] ?? null,
@@ -163,9 +183,10 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
       (mode === 'EMPTY' && visualStates.length > 0));
 
   const generatePackageLabel =
-    hasPartialOutputs || (packageStatus.ready > 0 && missingStateIds.length > 0) ?
-      'GENERATE MISSING OUTPUTS'
+    missingStateIds.length > 0 ?
+      `GENERATE ${missingStateIds.length} MISSING OUTPUT${missingStateIds.length === 1 ? '' : 'S'}`
     : 'GENERATE EXPERIENCE PACKAGE';
+  const showGenerateMissingOnly = missingStateIds.length > 0 && packageStatus.ready > 0;
 
   return (
     <div
@@ -173,8 +194,6 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
       data-testid="page-concept-experience-expression-review"
       data-experience-review-shell="experience-review-shell"
       data-review-shell-lineage={EXPERIENCE_REVIEW_SHELL_LINEAGE}
-      data-experience-package-id={authority?.id ?? ''}
-      data-experience-source-authority-id={authority?.sourceConceptId ?? ''}
     >
       <ExperienceReviewHeader
         projectLabel={props.projectLabel}
@@ -188,7 +207,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
 
       <ExperienceReviewStatusStrip
         packageStatus={packageStatus}
-        blocked={blocked && !approved}
+        blockerHint={packageStatus.blockerHint}
         themeAuthority={themeReceipt.authorityTheme}
       />
 
@@ -229,11 +248,7 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
               activeStateId={activeState?.stateId ?? 'base'}
               approved={approved}
               stateKindLabel={stateKindLabel}
-              cardStatus={(state) =>
-                state.previewImageUri?.trim() ?
-                  visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')
-                : 'MISSING'
-              }
+              cardStatus={(state) => visualStateCardStatus(state, authority?.status ?? 'NOT_STARTED')}
               onSelect={(id) => setActiveStateId(id)}
               onInspect={(id) => {
                 setActiveStateId(id);
@@ -252,24 +267,38 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
                 onFullscreen={() => activeState && setFullscreenId(activeState.stateId)}
               />
               {activeState ?
-                <ExperienceReviewDetails
-                  state={activeState}
-                  stateKindLabel={stateKindLabel}
-                  conceptLabel={conceptLabel}
-                  themeLine={themeLabelForState(activeState)}
-                  founderThemeLine={founderThemeReviewLine(activeState)}
-                  tabletHandoff={tabletHandoff}
-                  desktopHandoff={desktopHandoff}
-                  contentAudit={contentAuditByStateId.get(activeState.stateId)}
-                  manifest={manifestForState(authority?.experienceContentManifests, activeState.stateId)}
-                  previousArtifactId={previousJobForActive?.artifactId ?? null}
-                />
-              : null}
-              {authority ?
-                <p className="s00-exp-review__detailsMeta" data-testid="experience-review-lineage-debug">
-                  PACKAGE {authority.id} · AUTHORITY {authority.sourceConceptId} · ARTIFACTS{' '}
-                  {(authority.expressionAssetIds ?? []).join(', ') || '—'}
-                </p>
+                <>
+                  <ExperienceReviewSelectedOutputActions
+                    state={activeState}
+                    stateKindLabel={stateKindLabel}
+                    onInspect={() => setFullscreenId(activeState.stateId)}
+                    onRegenerate={
+                      activeState.sourceProvider === 'FAL_EXPERIENCE' && props.onRegenerateState ?
+                        () => props.onRegenerateState?.(activeState.stateId)
+                      : undefined
+                    }
+                  />
+                  <ExperienceReviewDetails
+                    state={activeState}
+                    stateKindLabel={stateKindLabel}
+                    conceptLabel={conceptLabel}
+                    themeLine={themeLabelForState(activeState)}
+                    founderThemeLine={founderThemeReviewLine(activeState)}
+                    tabletHandoff={tabletHandoff}
+                    desktopHandoff={desktopHandoff}
+                    contentAudit={contentAuditByStateId.get(activeState.stateId)}
+                    manifest={manifestForState(authority?.experienceContentManifests, activeState.stateId)}
+                    previousArtifactId={previousJobForActive?.artifactId ?? null}
+                  />
+                  {authority ?
+                    <ExperienceReviewTechnicalDetails
+                      packageId={authority.id}
+                      sourceAuthorityId={authority.sourceConceptId}
+                      artifactIds={authority.expressionAssetIds ?? []}
+                      legacyReceipt={authority.legacyReconciliationReceipt ?? null}
+                    />
+                  : null}
+                </>
               : null}
             </div>
           </>
@@ -282,7 +311,8 @@ export function ExperienceReviewPanel(props: ExperienceReviewPanelProps) {
         busy={props.busy}
         approveDisabled={approveDisabled}
         generatePackageLabel={generatePackageLabel}
-        showGenerateMissingOnly={hasPartialOutputs}
+        showGenerateMissingOnly={showGenerateMissingOnly}
+        disableGenerateMissing={props.hydrating === true || missingStateIds.length === 0}
         onApprove={props.onApprove}
         onRegeneratePackage={props.onRegenerate}
         onGeneratePackage={() => props.onGenerateExperience?.() ?? props.onRegenerate()}

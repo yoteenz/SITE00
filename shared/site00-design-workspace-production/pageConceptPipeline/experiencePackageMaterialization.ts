@@ -179,11 +179,13 @@ export function mergePreservedExperienceVisualStates(
 export function visualStateCardStatus(
   state: ExperienceExpressionVisualState,
   authorityStatus: ExperienceExpressionAuthority['status'],
-): 'INHERITED' | 'READY' | 'GENERATING' | 'FAILED' {
+): 'INHERITED' | 'READY' | 'GENERATING' | 'FAILED' | 'MISSING' | 'STALE' {
   if (state.materializationStatus === 'FAILED') return 'FAILED';
   if (state.sourceProvider === 'INHERITED_MOBILE') return 'INHERITED';
+  if (state.caption.includes('REGENERATION REQUIRED')) return 'STALE';
   if (state.previewImageUri?.trim()) return 'READY';
+  if (!state.previewImageUri?.trim() && state.sourceProvider === 'FAL_EXPERIENCE') return 'MISSING';
   if (authorityStatus === 'GENERATING') return 'GENERATING';
   if (authorityStatus === 'PARTIAL_FAILURE' || authorityStatus === 'FAILED') return 'FAILED';
-  return 'GENERATING';
+  return 'MISSING';
 }

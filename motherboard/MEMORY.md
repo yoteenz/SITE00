@@ -12207,3 +12207,12 @@ Founder sprint: Experience Review must **hydrate persisted FAL package** before 
 - **`usePageConceptGeneration`:** hydrate on **`openExperienceReview`** + after server gallery mount; **`experienceReviewHydrating`** flag.
 - **Experience Review UI:** loading state, always show output cards when planned states exist, per-card regenerate (incl. **REGENERATE MENU**), generate-missing action, lineage debug ids, current/previous artifact line.
 - **Tests:** **`p0vrExperienceReviewHydrationAndSingleStateRegenerationUx1.test.ts`**. **cPanel v698+** (UI).
+
+---
+
+## 2026-09-28 — P0.VR Experience legacy FAL artifact reconciliation + review UX fix
+
+Follow-up to v698: exhaustive **legacy FAL** recovery (route aliases `ndxbook:overview`, cross pageId buckets, expression label normalization), **`legacyReconciliationReceipt`** on authority, package status **PARTIAL** (not NOT_STARTED) when 1/4 materialized, mobile **output tabs**, selected-output action bar, technical lineage collapsed, **GENERATE N MISSING OUTPUTS** scoped after reconciliation.
+
+- **`experienceLegacyFalArtifactReconciliation.ts`**, **`loadExperienceFalJobsFromEquivalentPageBuckets`**, presentation counts (INHERITED vs FAL).
+- **Tests:** **`p0vrExperienceLegacyFalArtifactReconciliation1.test.ts`**. **cPanel v699+**.
