@@ -140,6 +140,10 @@ export const SITE00_ROUTES = {
   projectLab: '/projects/:projectSlug/lab',
   /** Admin-only internal production workspace (Design / Experience / Expression). */
   productionWorkspace: '/production',
+  /** Shared production libraries / index (admin-only, static leaf under the production root). */
+  productionLibraries: '/production/libraries',
+  /** Production queue — structured work received from projects and services. */
+  productionQueue: '/production/queue',
   productionProject: '/production/:projectSlug',
   productionDesign: '/production/:projectSlug/design',
   productionExperience: '/production/:projectSlug/experience',

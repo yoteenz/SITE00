@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { listDesignEnabledManagedProjects } from '../../../../shared/site00-studio-world-production/visualReconstruction/p0vr3m/managedProjectRegistry.js';
 import {
@@ -5,53 +6,97 @@ import {
   productionExperiencePath,
   productionExpressionPath,
 } from '../../../../shared/site00-production-workspace/routes.js';
-import { PRODUCTION_TOP_LEVEL_WORKSPACES } from '../../../../shared/site00-production-workspace/registry.js';
-import { SITE00_ROUTES } from '../../config/routes';
+import {
+  PRODUCTION_TOP_LEVEL_WORKSPACES,
+  productionTopLevelWorkspaceCount,
+} from '../../../../shared/site00-production-workspace/registry.js';
+import { readProductionWorkspaceContext } from '../../../../shared/site00-production-workspace/productionContextStorage.js';
+import type { ProductionWorkspaceType } from '../../../../shared/site00-production-workspace/types.js';
+import { PW_IMG } from '../../components/production/productionImagery';
+import { PwFrame } from '../../components/production/PwFrame';
+import { IconArrow, IconGlyph, PwRow, PwScreenHead } from '../../components/production/PwPrimitives';
+import { useProductionRequests } from '../../state/productionRequestStore';
+
+const PILLARS: Record<ProductionWorkspaceType, { no: string; keywords: string; href: (slug: string) => string }> = {
+  DESIGN: { no: '01', keywords: 'Websites · Pages · Interfaces', href: (s) => productionDesignPath(s) },
+  EXPERIENCE: { no: '02', keywords: 'Worlds · Environments · Modules', href: (s) => productionExperiencePath(s, 'world') },
+  EXPRESSION: { no: '03', keywords: 'Campaigns · Narrative · Content', href: (s) => productionExpressionPath(s, 'narrative') },
+};
 
 export function ProductionWorkspaceHubPage() {
   const projects = listDesignEnabledManagedProjects();
-  const defaultSlug = projects.find((p) => p.projectId === 'ndxbook')?.projectId ?? projects[0]?.projectId ?? 'ndxbook';
+  const stored = readProductionWorkspaceContext()?.projectSlug;
+  const initial =
+    projects.find((p) => p.projectId.toLowerCase() === stored?.toLowerCase())?.projectId ??
+    projects.find((p) => p.projectId === 'ndxbook')?.projectId ??
+    projects[0]?.projectId ??
+    'ndxbook';
+  const [slug, setSlug] = useState(initial.toLowerCase());
+  const queued = useProductionRequests().length;
+  const switcher = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = switcher.current?.querySelector<HTMLElement>('.is-active');
+    if (el && switcher.current) switcher.current.scrollLeft = Math.max(0, el.offsetLeft - 16);
+  }, []);
 
   return (
-    <main className="site00-production-hub" data-testid="production-workspace-hub">
-      <p className="site00-label">INTERNAL · PRODUCTION WORKSPACE</p>
-      <h1 className="site00-heading">PRODUCTION</h1>
-      <p className="site00-body">DESIGN · EXPERIENCE · EXPRESSION — admin-only creative production.</p>
-      <p className="site00-body">Top-level workspaces: {PRODUCTION_TOP_LEVEL_WORKSPACES.join(' · ')}</p>
+    <PwFrame variant="production">
+      <main data-testid="production-workspace-hub">
+        <PwScreenHead title="Production Workspace" sub="Build worlds. Create experiences. Produce stories." />
 
-      <section className="site00-production-hub__projects">
-        <h2 className="site00-label">ACTIVE PROJECT</h2>
-        <ul>
+        <div ref={switcher} className="pw-context" role="group" aria-label="Active project" data-testid="production-project-switcher">
           {projects.map((p) => (
-            <li key={p.projectId}>
-              <Link to={`${SITE00_ROUTES.productionProject.replace(':projectSlug', p.projectId.toLowerCase())}`}>
-                {p.displayName}
-              </Link>
-            </li>
+            <button
+              key={p.projectId}
+              type="button"
+              className={`pw-context__chip${p.projectId.toLowerCase() === slug ? ' is-active' : ''}`}
+              onClick={() => setSlug(p.projectId.toLowerCase())}
+            >
+              {p.displayName}
+            </button>
           ))}
-        </ul>
-      </section>
+        </div>
 
-      <section className="site00-production-hub__pillars">
-        <h2 className="site00-label">OPEN PILLAR — {defaultSlug.toUpperCase()}</h2>
-        <ul>
-          <li>
-            <Link to={productionDesignPath(defaultSlug)} data-testid="production-pillar-design">
-              DESIGN
+        <div className="pw-hub__pillars" data-testid="production-pillars">
+          {PRODUCTION_TOP_LEVEL_WORKSPACES.map((w) => (
+            <Link
+              key={w}
+              to={PILLARS[w].href(slug)}
+              className="pw-pillar"
+              style={{ backgroundImage: `url(${PW_IMG.pillar[w]})` }}
+              data-testid={`production-pillar-${w.toLowerCase()}`}
+            >
+              <span className="pw-pillar__go" aria-hidden>
+                <IconArrow />
+              </span>
+              <span className="pw-pillar__no">{PILLARS[w].no}</span>
+              <span className="pw-pillar__title">{w}</span>
+              <span className="pw-pillar__kw">{PILLARS[w].keywords}</span>
             </Link>
-          </li>
-          <li>
-            <Link to={productionExperiencePath(defaultSlug, 'world')} data-testid="production-pillar-experience">
-              EXPERIENCE
-            </Link>
-          </li>
-          <li>
-            <Link to={productionExpressionPath(defaultSlug, 'narrative')} data-testid="production-pillar-expression">
-              EXPRESSION
-            </Link>
-          </li>
-        </ul>
-      </section>
-    </main>
+          ))}
+        </div>
+
+        <div className="pw-list pw-hub__utility">
+          <PwRow
+            to="/production/queue"
+            icon={<IconGlyph d="M4 6h16M4 12h16M4 18h10" />}
+            title="Production queue"
+            sub={queued ? `${queued} request${queued === 1 ? '' : 's'} from projects` : 'Requests from projects and services'}
+            testId="production-open-queue"
+          />
+          <PwRow
+            to="/production/libraries"
+            icon={<IconGlyph d="M7 20c0-8 3-13 11-16-1 6-3 10-9 12M7 20c-1-3-1-5 0-8" />}
+            title="Libraries"
+            sub="Shared production assets"
+            testId="production-open-libraries"
+          />
+        </div>
+
+        <p className="pw-label" style={{ marginTop: 18 }} data-testid="production-top-level-count">
+          {productionTopLevelWorkspaceCount()} primary workspaces
+        </p>
+      </main>
+    </PwFrame>
   );
 }

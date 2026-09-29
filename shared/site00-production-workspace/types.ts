@@ -34,13 +34,16 @@ export type ProductionWorkspaceRequestKind =
   | 'EXPERIENCE_WORLD_APPROVAL'
   | 'EXPRESSION_NEW_CHARACTER'
   | 'EXPRESSION_LOOK_APPROVAL'
-  | 'EXPRESSION_SET_CHANGE';
+  | 'EXPRESSION_SET_CHANGE'
+  | 'EXPRESSION_NEW_CAMPAIGN'
+  | 'EXPRESSION_WARDROBE_UPDATE'
+  | 'UPLOAD_REFERENCES';
 
 export type ProductionWorkspaceRequest = {
   id: string;
   projectSlug: string;
   kind: ProductionWorkspaceRequestKind;
-  targetWorkspace: ProductionWorkspaceType;
+  targetWorkspace: ProductionWorkspaceType | 'GENERAL';
   targetSubWorkspace: ProductionSubWorkspaceId | null;
   createdAt: string;
   note: string | null;
