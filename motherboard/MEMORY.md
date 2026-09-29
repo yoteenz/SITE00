@@ -12557,3 +12557,9 @@ Sprint refined Narrative Momentum Engine intelligence + founder review UX withou
 ## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-COMPACT-WIZARD-WORKSPACE1
 
 Founder review migrated from scroll document to **6-step wizard** (shift → beats → tension/proof → reframe/loop → formats → review): `ExpressionEngineNarrativeMomentumPanel`, `site00-narrative-momentum-wizard.css`, inspectors (beat/proof/flag/reel/carousel), sticky action bar, localStorage step persistence, step-6 approval blockers from primary `SOURCE_REQUIRED` proof. Intelligence compile unchanged. Tests `p0ndxNarrativeMomentumCompactWizard1.test.ts`. PR **#1244**.
+
+---
+
+## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-NDXBOOK-ART-DIRECTION-REBUILD1
+
+Rebuilt NME wizard **visual expression** (architecture unchanged): editorial chapter index rail, paper/black evidence/archival plate surfaces, thesis spread, beat ledger, tension graph on black field, proof ledger, cultural glitch block, filmstrip/contact-sheet formats, review board + black founder sign-off field, dossier inspectors. Derived content mobile cards aligned (`site00-ee-ref-derived--ndx-index`). Tests `p0ndxNarrativeMomentumArtDirection1.test.ts`. PR pending merge.
