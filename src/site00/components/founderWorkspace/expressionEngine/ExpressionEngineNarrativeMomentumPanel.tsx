@@ -203,6 +203,15 @@ export function ExpressionEngineNarrativeMomentumPanel({
         : null}
       </header>
 
+      {plan.castingRequirements.length > 0 ?
+        <div className="site00-nme-wizard__cast-teaser" data-testid="nme-cast-requirements-teaser">
+          <span>
+            <strong>Cast</strong> · {plan.castingRequirements.length} character roles detected
+          </span>
+          <span>→ Review in CAST</span>
+        </div>
+      : null}
+
       <nav className="site00-nme-wizard__chapter-rail" data-testid="nme-wizard-step-nav" aria-label="Chapter index">
         {NME_WIZARD_STEPS.map((s) => {
           const done = completedSteps.includes(s.id) || s.id < step;

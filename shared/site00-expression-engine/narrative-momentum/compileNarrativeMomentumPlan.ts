@@ -18,6 +18,9 @@ import {
   validateNarrativeMomentumPlan,
   validateNarrativeMomentumPlanIssues,
 } from './validators.js';
+import { deriveCastingRequirementsFromNarrativePlan } from '../../site00-studio-world/acting-catalogue/deriveCastingRequirements.js';
+import { buildEntry002ProductionCastState } from '../../site00-studio-world/acting-catalogue/entry002RetroactiveMapping.js';
+import { buildStoryboardCharacterHandoff } from '../../site00-studio-world/acting-catalogue/handoffs.js';
 import type {
   CompileNarrativeMomentumInput,
   CulturalGlitchMechanic,
@@ -324,11 +327,18 @@ export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInpu
       proofArchitectureSummary: `${proofs.filter((p) => p.strength === 'PRIMARY').length} primary proofs`,
       audienceShift: input.audienceDesiredShift,
     },
+    castingRequirements: [],
     createdAt: now,
     updatedAt: now,
   };
 
   plan.formatAdaptations = buildFormatAdaptations(plan);
+  const castingReqs = deriveCastingRequirementsFromNarrativePlan(plan);
+  plan.castingRequirements = castingReqs.map((r) => ({
+    requirementId: r.requirementId,
+    narrativeRole: r.narrativeRole,
+    screenImportance: r.screenImportance,
+  }));
   const issues = [
     ...validateNarrativeMomentumPlanIssues(plan),
     ...validateNarrativeTensionSequence({ beats: plan.beats, tensionModel: plan.tensionModel }),
@@ -353,6 +363,8 @@ export function narrativeMomentumStoryboardHandoff(plan: NarrativeMomentumPlan):
   audienceShift: string;
   reelArchitecture: import('./types.js').ReelStoryArchitecture | null;
   reelDetail: import('./types.js').ReelNarrativeAdaptation | null;
+  castingRequirementCount: number;
+  characterIdsForStoryboard: readonly string[];
 } {
   const reel = plan.formatAdaptations.find((f) => f.format === 'REEL');
   const beatHandoff = plan.beats.map((b) => ({
@@ -366,6 +378,13 @@ export function narrativeMomentumStoryboardHandoff(plan: NarrativeMomentumPlan):
     tensionStage: b.tensionStage,
     evidenceIds: b.evidenceUsed,
   }));
+  let characterIdsForStoryboard: readonly string[] = [];
+  if (plan.entryId === 'entry-002') {
+    characterIdsForStoryboard = buildStoryboardCharacterHandoff(buildEntry002ProductionCastState()).map(
+      (c) => c.characterId,
+    );
+  }
+
   return {
     narrativeMomentumPlanId: plan.id,
     beats: plan.beats,
@@ -373,5 +392,7 @@ export function narrativeMomentumStoryboardHandoff(plan: NarrativeMomentumPlan):
     audienceShift: plan.audienceDesiredShift,
     reelArchitecture: reel?.reelArchitecture ?? null,
     reelDetail: reel?.reelDetail ?? null,
+    castingRequirementCount: plan.castingRequirements.length,
+    characterIdsForStoryboard,
   };
 }

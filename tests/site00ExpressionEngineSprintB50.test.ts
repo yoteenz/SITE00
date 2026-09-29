@@ -52,6 +52,7 @@ describe('B5.0 production journey', () => {
     expect(ids).toEqual([
       'COVER',
       'NARRATIVE_MOMENTUM',
+      'CAST',
       'REEL_TREATMENT',
       'VISUAL_AUTHORITIES',
       'STORYBOARD',

@@ -38,6 +38,12 @@ import {
   useExpressionEngineEntry002,
 } from './useExpressionEngineEntry002';
 import { ExpressionEngineNarrativeMomentumPanel } from './ExpressionEngineNarrativeMomentumPanel';
+import { ExpressionEngineCastPanel } from './ExpressionEngineCastPanel';
+import { StudioWorldActingCataloguePanel } from './StudioWorldActingCataloguePanel';
+import {
+  buildEntry002ProductionCastState,
+  evaluateCastGate,
+} from '../../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import {
   postCompileNarrativeMomentum,
   postNarrativeMomentumJudgment,
@@ -78,11 +84,17 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     [blueprint, finalReelApproved],
   );
 
+  const castStageStatus = useMemo(() => {
+    const gate = evaluateCastGate(buildEntry002ProductionCastState());
+    return gate.allRequiredCharactersLocked ? ('APPROVED' as const) : ('READY' as const);
+  }, []);
+
   const journey = useMemo(() => {
     if (!pipeline || !socialPackageReadiness) return [];
     return buildProductionJourney({
       coverAuthority: pipeline.coverAuthority ?? 'APPROVED',
       narrativeMomentumStatus: nme?.plan.founderStatus ?? 'GENERATED',
+      castStageStatus,
       reelTreatment: pipeline.reelTreatment ?? 'LOCKED',
       preStoryboardComplete,
       activeProductionStep: pipeline.activeProductionStep,
@@ -97,7 +109,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
       socialPackageStatus: socialPackageStatusToJourneyStatus(socialPackageReadiness),
       campaignBoardEligible: socialPackageReadiness.campaignBoardEligible,
     });
-  }, [nme?.plan.founderStatus, pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
+  }, [nme?.plan.founderStatus, castStageStatus, pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
 
   const activeStageId = workFocus === 'auto' ? resolveActiveJourneyStage(journey) : workFocus;
 
@@ -311,6 +323,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
               <WorldCard blueprint={blueprint} />
               <ArtifactCard blueprint={blueprint} />
               <CreativeAnchorCard blueprint={blueprint} />
+              <StudioWorldActingCataloguePanel />
             </div>
           ) : null}
           {nav === 'continuity' ? <ContinuityMap entryId="ENTRY 002" blueprint={blueprint} /> : null}
@@ -448,6 +461,9 @@ function WorkPanel({
   finalReelApproved: boolean;
   socialPackageReadiness: ReturnType<typeof resolveSocialPackageReadiness> | null;
 }) {
+  if (activeStageId === 'CAST') {
+    return <ExpressionEngineCastPanel plan={nme?.plan ?? null} />;
+  }
   if (activeStageId === 'NARRATIVE_MOMENTUM') {
     if (nme?.plan) {
       return (
