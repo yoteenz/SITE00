@@ -12563,3 +12563,14 @@ Founder review migrated from scroll document to **6-step wizard** (shift → bea
 ## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-NDXBOOK-ART-DIRECTION-REBUILD1
 
 Rebuilt NME wizard **visual expression** (architecture unchanged): editorial chapter index rail, paper/black evidence/archival plate surfaces, thesis spread, beat ledger, tension graph on black field, proof ledger, cultural glitch block, filmstrip/contact-sheet formats, review board + black founder sign-off field, dossier inspectors. Derived content mobile cards aligned (`site00-ee-ref-derived--ndx-index`). Tests `p0ndxNarrativeMomentumArtDirection1.test.ts`. PR **#1245**.
+
+---
+
+## 2026-09-29 — P0.STUDIO-WORLD-ACTOR-CATALOGUE-CASTING-AND-CHARACTER-AUTHORITY1
+
+Built cross-project **Studio World Acting Catalogue** and formal **CAST** stage before treatment/storyboard.
+
+- **Models:** `shared/site00-studio-world/acting-catalogue/` — Actor/Character/Look/TemporalLook/AuthoritySheet/CastingRequirement/ShotCast; seeded diverse roster.
+- **Intelligence:** derive casting from NME, recommendActors, reuse-before-create, homogeneity + cast gates, continuity validator, storyboard/keyframe/video handoffs.
+- **UI:** `CAST` in production journey; `ExpressionEngineCastPanel` + `StudioWorldActingCataloguePanel`; NME cast teaser.
+- **Entry 002:** Retroactive map SW-017 same woman 2016/2026 temporal looks; no approved asset regen. PR **#1246**.
