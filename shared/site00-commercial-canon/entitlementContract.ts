@@ -28,7 +28,7 @@ export const CANONICAL_ENTITLEMENT_TEMPLATES: Record<string, CanonicalEntitlemen
   'identity': {
     entitlementTemplateId: 'identity',
     dimensions: ['concepts', 'revisions'],
-    enforcement: 'NOT_WIRED',
+    enforcement: 'INFORMATIONAL',
   },
   'add-on': {
     entitlementTemplateId: 'add-on',

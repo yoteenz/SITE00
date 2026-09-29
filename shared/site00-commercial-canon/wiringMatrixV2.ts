@@ -40,19 +40,31 @@ export function buildWiringMatrixV2(): WiringMatrixV2Row[] {
     const family = familyForServiceId(entry.serviceId) ?? 'UNKNOWN';
     const fd = COMMERCIAL_FOUNDER_DECISIONS.find((d) => d.serviceId === entry.serviceId);
     const pay = isServicePaymentReady(entry.serviceId);
+    const identityFamily = family === 'IDENTITY';
+    const intakeCell: WiringMatrixV2Row['intake'] =
+      pkg?.intakeSchemaId.includes('FOUNDER') ? 'FAIL'
+      : identityFamily && pkg?.intakeSchemaId === 'site00-intake-identity' ? 'PASS'
+      : entry.wiringStatus === 'PARTIALLY_WIRED' ? 'PARTIAL'
+      : 'PARTIAL';
+    const projectCell: WiringMatrixV2Row['projectType'] =
+      pkg?.projectType.includes('FOUNDER') ? 'FAIL'
+      : identityFamily && pkg?.projectType === 'IDENTITY' ? 'PASS'
+      : 'PARTIAL';
     return {
       service: entry.serviceId,
       family,
       commercialMode: pkg?.commercialMode ?? 'CUSTOM_QUOTE',
       canonicalPackage: pkg?.packageId ?? entry.serviceId,
-      intake: pkg?.intakeSchemaId.includes('FOUNDER') ? 'FAIL' : entry.wiringStatus === 'PARTIALLY_WIRED' ? 'PARTIAL' : 'PARTIAL',
-      projectType: pkg?.projectType.includes('FOUNDER') ? 'FAIL' : 'PARTIAL',
+      intake: intakeCell,
+      projectType: projectCell,
       fulfillmentAdapter: pkg ? cellAdapter(pkg.fulfillmentAdapterId) : 'MISSING',
       entitlement:
-        pkg?.entitlementTemplateId && pkg.entitlementTemplateId !== null ? 'PARTIAL' : 'FAIL',
-      deliverable: entry.wiringStatus === 'DISPLAY_ONLY' ? 'FAIL' : 'PARTIAL',
-      completion: 'PARTIAL',
-      clientStatus: entry.wiringStatus === 'DISPLAY_ONLY' ? 'FAIL' : 'PARTIAL',
+        identityFamily && pkg?.entitlementTemplateId === 'identity' ? 'PARTIAL'
+        : pkg?.entitlementTemplateId && pkg.entitlementTemplateId !== null ? 'PARTIAL'
+        : 'FAIL',
+      deliverable: entry.wiringStatus === 'DISPLAY_ONLY' ? 'FAIL' : identityFamily ? 'PARTIAL' : 'PARTIAL',
+      completion: identityFamily ? 'PARTIAL' : 'PARTIAL',
+      clientStatus: entry.wiringStatus === 'DISPLAY_ONLY' ? 'FAIL' : identityFamily ? 'PARTIAL' : 'PARTIAL',
       paymentReady: pay.ready ? 'PASS' : 'FAIL',
       founderDecision: fd?.decisionId ?? 'NONE',
     };
