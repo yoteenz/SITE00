@@ -4,6 +4,8 @@
 **Code:** `shared/site00-studio-world/modular-production-engine/`  
 **Related:** `shared/site00-studio-world/acting-catalogue/` (Performer layer — partial implementation)
 
+**Operational augmentation:** [MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md](./MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md) — role-first casting, staged Actor Genesis, departments, scene packet, client entitlements (`modular-production-engine/operational/`).
+
 ---
 
 ## Product vision
