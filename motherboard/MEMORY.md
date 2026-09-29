@@ -12481,7 +12481,6 @@ Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Desi
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-28 — P0.NDX.NARRATIVE-MOMENTUM-ENGINE1
 
 Story architecture layer between **Creative Concept Territory** and **Format / Storyboard** execution.
@@ -12491,7 +12490,9 @@ Story architecture layer between **Creative Concept Territory** and **Format / S
 - **Entry 002:** retroactive compile (`RETROACTIVE_AUTHORITY_LAYER`) from locked territory + chapter mapping — no asset reset.
 - **UI:** Expression Engine Entry 002 **NARRATIVE MOMENTUM** review panel + production journey stage.
 - **Tests:** `p0ndxNarrativeMomentumEngine1.test.ts`; journey tests updated for 12 stages.
-=======
+
+---
+
 ## 2026-09-28 — Tunnel sign-in autofill + post-auth redirect
 
 Cloud preview tunnel sign-in failed when password managers autofilled: **two** `Site00SignInForm` instances (desktop + mobile) stayed mounted; autofill often filled hidden desktop fields while submit read empty mobile state → **PASSWORD IS REQUIRED** / no `returnTo` redirect.
@@ -12509,4 +12510,13 @@ Founder: sign-in on tunnel **still stuck** after autofill fix — something else
 - **Cause:** Custom Cloudflare tunnel hostname + `site00-cloud-preview` meta were **not** treated as preview in **`isPreviewEnvironment()`** → password sign-in awaited slow **`syncAllFromApi`** / cross-origin **`tryServerSessionRestore`** (8s, possible reload). Module **`bootstrapStarted`** skipped re-attaching **`onAuthStateChange`** after StrictMode/effect cleanup.
 - **Fix:** **`isPreviewEnvironment`** delegates to **`isSite00PreviewTunnelHost`**; **`resolveSite00ClientApiBase`** uses **`api.site00.com`** for cloud-preview meta/hostname; sign-in bootstrap **skips server session-restore on tunnel**, subscribes **`SIGNED_IN` → redirect**, per-mount cold start via ref (not global once-only flag).
 - **Branch:** `cursor/fix-tunnel-sign-in-bootstrap-loading-b747`.
->>>>>>> origin/main
+
+---
+
+## 2026-09-29 — Narrative Momentum missing on tunnel / mobile Expression Engine
+
+Founder could not see **Narrative Momentum** on Expression Engine page (tunnel / phone).
+
+- **Cause:** **`ExpressionEngineReferenceMobileWorkspace`** (auto layout on mobile) never loaded or rendered **`ExpressionEngineNarrativeMomentumPanel`** and omitted **`narrativeMomentumStatus`** from **`buildProductionJourney`**. Desktop **WORK** panel fell through to storyboard when **`NME1`** failed silently.
+- **Fix:** Mobile current-stage shows NME panel when journey stage **`NARRATIVE_MOMENTUM`** is active; desktop **PRODUCTION** tab also surfaces NME; explicit loading copy when plan missing; shared **`expressionEngineNarrativeMomentumActions.ts`**.
+- **Branch:** `cursor/nme-mobile-workspace-visibility-87ed`.
