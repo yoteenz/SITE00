@@ -3,6 +3,7 @@ import { apiFetch } from '../../../../utils/api.js';
 export type NarrativeMomentumFounderAction =
   | 'APPROVE_NARRATIVE'
   | 'REFINE_NARRATIVE'
+  | 'CHANGE_GRAMMAR'
   | 'LOVE_IT'
   | 'PROMISING'
   | 'TOO_CLOSE'

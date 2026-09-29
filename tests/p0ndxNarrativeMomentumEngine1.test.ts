@@ -119,7 +119,7 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-ENGINE1', () => {
     const a = compileEntry002RetroactiveNarrativeMomentum();
     const b = compileEntry002RetroactiveNarrativeMomentum([a]);
     const flag = narrativeSimilarityValidator(b, [a]);
-    expect(flag).toBe('NARRATIVE_REPETITION_WARNING');
+    expect(flag?.flagId).toBe('NARRATIVE_REPETITION_WARNING');
   });
 
   it('grammar library count is at least ten', () => {
