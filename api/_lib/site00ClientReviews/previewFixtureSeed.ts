@@ -10,10 +10,18 @@ import {
   upsertPreviewReviewObject,
   upsertPreviewReviewVersion,
 } from './reviewRepository.js';
+import {
+  ensurePreviewReviewMemorySeeded,
+  isPreviewReviewMemoryStoreEnabled,
+  resetPreviewReviewMemoryStore,
+} from './previewReviewMemoryStore.js';
 
 let previewSeedPromise: Promise<void> | null = null;
 
 export async function ensurePreviewReviewFixturesSeeded(): Promise<void> {
+  if (isPreviewReviewMemoryStoreEnabled()) {
+    return ensurePreviewReviewMemorySeeded();
+  }
   if (previewSeedPromise) return previewSeedPromise;
   previewSeedPromise = (async () => {
     const existing = await countPreviewFixtures(PREVIEW_REVIEW_PROJECT_SLUG);
@@ -39,4 +47,5 @@ export async function ensurePreviewReviewFixturesSeeded(): Promise<void> {
 
 export function resetPreviewSeedCache(): void {
   previewSeedPromise = null;
+  resetPreviewReviewMemoryStore();
 }

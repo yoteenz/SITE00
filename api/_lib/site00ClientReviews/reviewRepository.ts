@@ -18,7 +18,16 @@ import {
   translateReviewStatusForClient,
 } from '../../../shared/site00-client-reviews/translators.js';
 import { PREVIEW_REVIEW_PROJECT_SLUG } from '../../../shared/site00-client-reviews/previewGuard.js';
+import { PREVIEW_REVIEW_OBJECTS } from '../../../shared/site00-client-reviews/previewSeed.js';
 import { getSupabaseAdmin } from '../supabase.js';
+import * as previewMem from './previewReviewMemoryStore.js';
+
+function usePreviewReviewMemory(projectSlug?: string, reviewId?: string): boolean {
+  if (!previewMem.isPreviewReviewMemoryStoreEnabled()) return false;
+  if (projectSlug === PREVIEW_REVIEW_PROJECT_SLUG) return true;
+  if (reviewId && PREVIEW_REVIEW_OBJECTS.some((r) => r.reviewId === reviewId)) return true;
+  return false;
+}
 
 type ReviewMetadata = {
   objectType?: ClientReviewObject['objectType'];
@@ -271,6 +280,7 @@ function mapEventToHistory(row: DbEventRow): ClientDecisionHistoryEvent {
 }
 
 export async function loadReviewObjectsForProject(projectSlug: string): Promise<ClientReviewObject[]> {
+  if (usePreviewReviewMemory(projectSlug)) return previewMem.loadReviewObjectsForProject(projectSlug);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_objects')
@@ -283,6 +293,7 @@ export async function loadReviewObjectsForProject(projectSlug: string): Promise<
 }
 
 export async function loadReviewObject(projectSlug: string, reviewId: string): Promise<ClientReviewObject | null> {
+  if (usePreviewReviewMemory(projectSlug, reviewId)) return previewMem.loadReviewObject(projectSlug, reviewId);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_objects')
@@ -296,6 +307,7 @@ export async function loadReviewObject(projectSlug: string, reviewId: string): P
 }
 
 export async function loadReviewVersions(reviewId: string): Promise<ClientReviewVersion[]> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadReviewVersions(reviewId);
   const supabase = getSupabaseAdmin();
   const { data: review } = await supabase
     .from('site00_client_review_objects')
@@ -316,6 +328,7 @@ export async function loadReviewComments(
   reviewId: string,
   options: { clientVisibleOnly: boolean },
 ): Promise<ClientReviewComment[]> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadReviewComments(reviewId, options);
   const supabase = getSupabaseAdmin();
   let query = supabase.from('site00_client_review_comments').select('*').eq('review_id', reviewId);
   if (options.clientVisibleOnly) {
@@ -327,6 +340,7 @@ export async function loadReviewComments(
 }
 
 export async function loadReviewAnnotations(reviewId: string): Promise<ClientReviewAnnotation[]> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadReviewAnnotations(reviewId);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_annotations')
@@ -338,6 +352,7 @@ export async function loadReviewAnnotations(reviewId: string): Promise<ClientRev
 }
 
 export async function loadReviewEvents(reviewId: string, clientVisibleOnly: boolean): Promise<ClientDecisionHistoryEvent[]> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadReviewEvents(reviewId, clientVisibleOnly);
   const supabase = getSupabaseAdmin();
   let query = supabase.from('site00_client_review_events').select('*').eq('review_id', reviewId);
   if (clientVisibleOnly) query = query.eq('client_visible', true);
@@ -351,6 +366,7 @@ export async function loadReceiptByRequestId(
   decisionType: string,
   requestId: string,
 ): Promise<DbReceiptRow | null> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadReceiptByRequestId(reviewId, decisionType, requestId);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_receipts')
@@ -364,6 +380,7 @@ export async function loadReceiptByRequestId(
 }
 
 export async function loadApprovalReceipt(reviewId: string): Promise<ClientApprovalReceipt | null> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadApprovalReceipt(reviewId);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_receipts')
@@ -393,6 +410,7 @@ export async function loadApprovalReceipt(reviewId: string): Promise<ClientAppro
 }
 
 export async function loadRevisionReceipts(reviewId: string): Promise<ClientRevisionRequestReceipt[]> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadRevisionReceipts(reviewId);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_receipts')
@@ -421,6 +439,7 @@ export async function loadRevisionReceipts(reviewId: string): Promise<ClientRevi
 }
 
 export async function loadAllReceipts(reviewId: string): Promise<DbReceiptRow[]> {
+  if (usePreviewReviewMemory(undefined, reviewId)) return previewMem.loadAllReceipts(reviewId);
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from('site00_client_review_receipts')
@@ -443,6 +462,7 @@ export async function insertReviewComment(input: {
   visibility?: ClientReviewComment['visibility'];
   annotationId?: string | null;
 }): Promise<ClientReviewComment> {
+  if (usePreviewReviewMemory(undefined, input.reviewId)) return previewMem.insertReviewComment(input);
   const supabase = getSupabaseAdmin();
   const id = randomUUID();
   const now = new Date().toISOString();
@@ -478,6 +498,7 @@ export async function insertReviewAnnotation(input: {
   createdByUserId: string;
   commentId?: string | null;
 }): Promise<ClientReviewAnnotation> {
+  if (usePreviewReviewMemory(undefined, input.reviewId)) return previewMem.insertReviewAnnotation(input);
   const supabase = getSupabaseAdmin();
   const { count } = await supabase
     .from('site00_client_review_annotations')
@@ -509,6 +530,10 @@ export async function insertReviewAnnotation(input: {
 }
 
 export async function linkCommentAnnotation(commentId: string, annotationId: string): Promise<void> {
+  if (previewMem.isPreviewReviewMemoryStoreEnabled()) {
+    await previewMem.linkCommentAnnotation(commentId, annotationId);
+    return;
+  }
   const supabase = getSupabaseAdmin();
   await supabase.from('site00_client_review_comments').update({ annotation_id: annotationId }).eq('id', commentId);
   await supabase.from('site00_client_review_annotations').update({ comment_id: commentId }).eq('id', annotationId);
@@ -524,6 +549,7 @@ export async function insertReviewReceipt(input: {
   requestId: string;
   payload: Record<string, unknown>;
 }): Promise<DbReceiptRow> {
+  if (usePreviewReviewMemory(undefined, input.reviewId)) return previewMem.insertReviewReceipt(input);
   const supabase = getSupabaseAdmin();
   const existing = await loadReceiptByRequestId(input.reviewId, input.decisionType, input.requestId);
   if (existing) return existing;
@@ -558,6 +584,10 @@ export async function insertReviewEvent(input: {
   payload?: Record<string, unknown>;
   clientVisible?: boolean;
 }): Promise<void> {
+  if (usePreviewReviewMemory(undefined, input.reviewId)) {
+    await previewMem.insertReviewEvent(input);
+    return;
+  }
   const supabase = getSupabaseAdmin();
   const { error } = await supabase.from('site00_client_review_events').insert({
     id: randomUUID(),
@@ -574,6 +604,10 @@ export async function insertReviewEvent(input: {
 }
 
 export async function updateReviewClientStatus(reviewId: string, clientStatus: ClientReviewStatus, metadataPatch?: ReviewMetadata): Promise<void> {
+  if (usePreviewReviewMemory(undefined, reviewId)) {
+    await previewMem.updateReviewClientStatus(reviewId, clientStatus, metadataPatch);
+    return;
+  }
   const supabase = getSupabaseAdmin();
   const { data: existing } = await supabase
     .from('site00_client_review_objects')
@@ -596,6 +630,10 @@ export async function upsertPreviewReviewObject(input: {
   review: ClientReviewObject;
   isPreviewFixture: boolean;
 }): Promise<void> {
+  if (usePreviewReviewMemory(input.review.projectSlug)) {
+    await previewMem.upsertPreviewReviewObject(input);
+    return;
+  }
   const supabase = getSupabaseAdmin();
   const r = input.review;
   const metadata: ReviewMetadata = {
@@ -642,6 +680,10 @@ export async function upsertPreviewReviewObject(input: {
 }
 
 export async function upsertPreviewReviewVersion(version: ClientReviewVersion): Promise<void> {
+  if (usePreviewReviewMemory(undefined, version.reviewId)) {
+    await previewMem.upsertPreviewReviewVersion(version);
+    return;
+  }
   const supabase = getSupabaseAdmin();
   const { error } = await supabase.from('site00_client_review_versions').upsert({
     id: version.versionId,
@@ -660,6 +702,7 @@ export async function upsertPreviewReviewVersion(version: ClientReviewVersion): 
 }
 
 export async function countPreviewFixtures(projectSlug: string): Promise<number> {
+  if (usePreviewReviewMemory(projectSlug)) return previewMem.countPreviewFixtures(projectSlug);
   const supabase = getSupabaseAdmin();
   const { count, error } = await supabase
     .from('site00_client_review_objects')
@@ -671,6 +714,10 @@ export async function countPreviewFixtures(projectSlug: string): Promise<number>
 }
 
 export async function resetPreviewFixtureMutations(reviewIds: string[]): Promise<void> {
+  if (previewMem.isPreviewReviewMemoryStoreEnabled()) {
+    await previewMem.resetPreviewFixtureMutations(reviewIds);
+    return;
+  }
   const supabase = getSupabaseAdmin();
   if (reviewIds.length === 0) return;
   await supabase.from('site00_client_review_comments').delete().in('review_id', reviewIds);
@@ -680,6 +727,10 @@ export async function resetPreviewFixtureMutations(reviewIds: string[]): Promise
 }
 
 export async function getActionableReviewCount(projectSlug: string): Promise<number> {
+  if (usePreviewReviewMemory(projectSlug)) {
+    const reviews = await previewMem.loadReviewObjectsForProject(projectSlug);
+    return reviews.filter((r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status)).length;
+  }
   const reviews = await loadReviewObjectsForProject(projectSlug);
   return reviews.filter((r) => r.actionRequired && ['READY_FOR_REVIEW', 'AWAITING_CLIENT'].includes(r.status)).length;
 }
