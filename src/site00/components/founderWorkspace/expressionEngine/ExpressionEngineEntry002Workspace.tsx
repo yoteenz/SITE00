@@ -435,7 +435,14 @@ function WorkPanel({
   onGenerate: () => Promise<void>;
   onImport: (variant: 'A' | 'B') => Promise<void>;
   onNarrativeMomentumJudgment: (
-    action: 'APPROVE_NARRATIVE' | 'REFINE_NARRATIVE' | 'LOVE_IT' | 'PROMISING' | 'TOO_CLOSE' | 'NOT_NDXBOOK',
+    action:
+      | 'APPROVE_NARRATIVE'
+      | 'REFINE_NARRATIVE'
+      | 'CHANGE_GRAMMAR'
+      | 'LOVE_IT'
+      | 'PROMISING'
+      | 'TOO_CLOSE'
+      | 'NOT_NDXBOOK',
   ) => Promise<void>;
   onRecompileNarrativeMomentum: () => Promise<void>;
   finalReelApproved: boolean;
