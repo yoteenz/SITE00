@@ -86,7 +86,7 @@ function stripProjectQueryParam(search: string): string {
 }
 
 function perProjectDesignPath(projectId: string): string {
-  return `/projects/design/${projectId.toLowerCase()}`;
+  return `/production/${projectId.toLowerCase()}/design`;
 }
 
 /** P0.VR.DESIGN-ROUTE-AUTHORITY1 — legacy Design Reconstruction lab (not product DESIGN route). */

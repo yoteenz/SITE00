@@ -6,12 +6,10 @@ import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewpor
 import { useSite00 } from '../../state/Site00Context';
 import { SITE00_ROUTES } from '../../config/routes';
 import { ProjectsPageShell } from './ProjectsPageShell';
-import { ProjectIndexDesignCard } from './ProjectIndexDesignCard';
-import { ProjectIndexExperienceCard } from './ProjectIndexExperienceCard';
+import { ProjectProductionSummaryStrip } from './ProjectProductionSummaryStrip';
 import { ProjectIndexProjectCard } from './ProjectIndexProjectCard';
 import { ProjectIndexNewProjectCard } from './ProjectIndexNewProjectCard';
 import { ProjectIndexSkeletonGrid } from './ProjectIndexSkeleton';
-import { resolveProjectsDesignItemForRender } from '../../../../shared/site00-projects/projectsViewDataAdapter.js';
 import { PROJECT_INDEX_FILTERS } from './ProjectIndexSummary';
 import '../../styles/site00-project-index.css';
 import '../../styles/site00-auth.css';
@@ -45,7 +43,6 @@ export function ProjectIndexPage() {
   const {
     viewMode,
     viewData,
-    designItem,
     state,
     error,
     query,
@@ -56,13 +53,6 @@ export function ProjectIndexPage() {
     setSort,
     reload,
   } = useProjectIndex();
-
-  const designRender = designItem
-    ? resolveProjectsDesignItemForRender({ viewMode, designItem })
-    : null;
-  const experienceRender = viewData.experienceItem
-    ? resolveProjectsDesignItemForRender({ viewMode, designItem: viewData.experienceItem })
-    : null;
 
   return (
     <div
@@ -91,18 +81,11 @@ export function ProjectIndexPage() {
         }}
       >
         {state === 'loading' ? (
-          <ProjectIndexSkeletonGrid includeDesign={viewData.showDesignCard && !!designItem} />
+          <ProjectIndexSkeletonGrid includeDesign={false} />
         ) : (
           <>
-            {viewData.showDesignCard && designRender ? (
-              <ProjectIndexDesignCard item={designRender.item} interactive={designRender.interactive} />
-            ) : null}
-
-            {viewData.showExperienceCard && experienceRender ? (
-              <ProjectIndexExperienceCard
-                item={experienceRender.item}
-                interactive={experienceRender.interactive}
-              />
+            {!viewData.clientView && viewData.projectItems[0] ? (
+              <ProjectProductionSummaryStrip projectSlug={viewData.projectItems[0].projectId} />
             ) : null}
 
             {state === 'error' ? (
@@ -111,7 +94,7 @@ export function ProjectIndexPage() {
                   title="PROJECT INDEX UNAVAILABLE"
                   body={
                     error ??
-                    'PROJECT DATA COULD NOT BE LOADED — SITE 00 DESIGN WORKSPACE REMAINS AVAILABLE ABOVE.'
+                    'PROJECT DATA COULD NOT BE LOADED — RETRY OR OPEN PROJECT DETAIL.'
                   }
                 />
                 <button type="button" className="site00-pidx__retry" onClick={reload}>

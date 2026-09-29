@@ -70,17 +70,14 @@ describe('B5.9R5 Projects Index Redesign', () => {
     expect(metrics.total).toBe(5);
   });
 
-  it('3. design workspace renders first in page layout', () => {
-    expect(INDEX_PAGE).toContain('ProjectIndexDesignCard');
-    expect(INDEX_PAGE.indexOf('ProjectIndexDesignCard')).toBeLessThan(
-      INDEX_PAGE.indexOf('ProjectIndexProjectCard'),
-    );
+  it('3. projects index uses production summary strip (design workspace not embedded)', () => {
+    expect(INDEX_PAGE).toContain('ProjectProductionSummaryStrip');
+    expect(INDEX_PAGE).not.toContain('ProjectIndexDesignCard');
   });
 
-  it('4. design workspace route works', () => {
+  it('4. platform design index item canonical route is production host', () => {
     const design = buildSite00PlatformDesignIndexItem();
-    expect(design.openRoute).toBe('/projects/site00/design');
-    expect(DESIGN_CARD).toContain('OPEN DESIGN');
+    expect(design.openRoute).toBe('/production/site00/design');
   });
 
   it('5. project count excludes design', () => {

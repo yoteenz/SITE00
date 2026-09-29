@@ -3,11 +3,7 @@
  */
 
 import type { ProjectIndexItem } from './projectIndexItem.js';
-import {
-  isSite00PlatformDesignIndexItem,
-  buildSite00PlatformDesignIndexItem,
-  buildSite00PlatformExperienceIndexItem,
-} from './buildProjectIndexItems.js';
+import { isSite00PlatformDesignIndexItem } from './buildProjectIndexItems.js';
 import { computeProjectIndexSummaryMetrics, type ProjectIndexSummaryMetrics } from './projectIndexMetrics.js';
 import {
   PROJECTS_CLIENT_METRIC_LABELS,
@@ -124,9 +120,6 @@ export function buildProjectsViewData(args: {
     ? clientSummaryTiles(args.clientItems)
     : founderSummaryTiles(founderMetrics);
 
-  const designItem = buildSite00PlatformDesignIndexItem();
-  const experienceItem = buildSite00PlatformExperienceIndexItem();
-
   const emptyState: ProjectsViewEmptyState | null = args.showFilteredEmpty
     ? clientView
       ? {
@@ -145,10 +138,10 @@ export function buildProjectsViewData(args: {
     viewMode: args.viewMode,
     clientView,
     summaryTiles,
-    showDesignCard: true,
-    designItem,
-    showExperienceCard: true,
-    experienceItem,
+    showDesignCard: false,
+    designItem: null,
+    showExperienceCard: false,
+    experienceItem: null,
     showNewProject: !clientView,
     projectItems: args.projectItems,
     filterChips: buildProjectsFilterChips({ clientView, available: args.availableFilters }),

@@ -12637,3 +12637,16 @@ Surgical closeout on integration PR #1253 baseline (release v732). **Merged PR #
 - **Tests:** `p0Site00IdentityCommercialFulfillmentCloseout1.test.ts` (7) + integration (20); build PASS.
 - **Deploy:** Supabase migration `20260929160000_site00_identity_commercial_state.sql` **not** listed on remote project migrations yet — founder must apply. Railway redeploy required for API. Browser/builder live E2E **not** certified this session.
 - **FULLY_WIRED:** NO. **READY_FOR_FOUNDER-IDENTITY-COMMERCIAL-QA:** NO until migration + Railway + live E2E.
+
+---
+
+## 2026-09-29 — P0.SITE00-PRODUCTION-WORKSPACE-RELOCATION-AND-ADMIN-BOUNDARY1
+
+Relocate Design off Projects; admin-only **Production Workspace** with three pillars (DESIGN / EXPERIENCE / EXPRESSION).
+
+- **Routes:** `/production`, `/production/:projectSlug/design|experience|expression`; canonical design `/production/:slug/design`; legacy `/projects/design/*` redirects.
+- **Access:** `Site00InternalProductionGuard` + PRODUCTION nav `adminOnly`; clients redirected off `/production`.
+- **Projects:** `showDesignCard: false`; `ProjectProductionSummaryStrip` (status/review + admin OPEN IN PRODUCTION); overview module summary strip for founders.
+- **Module:** `shared/site00-production-workspace/` registry + context persistence.
+- **Tests:** `p0Site00ProductionWorkspaceRelocation1.test.ts` (13); headless QA script `scripts/qa-production-workspace-relocation.mjs`.
+- **Browser QA:** admin hub + design/experience/expression + legacy redirect PASS; client production block PASS (local preview + cloud preview partial).

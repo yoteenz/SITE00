@@ -3,7 +3,6 @@ import type { ProjectIndexItem } from '../../../../shared/site00-projects/projec
 import { resolveProjectDisplayNumber } from '../../../../shared/site00-projects/projectIndexOrder.js';
 import { resolveProjectIndexVisual } from '../../../../shared/site00-projects/projectIndexVisual.js';
 import { PROJECT_MODULE_CONFIGS } from '../../../../shared/site00-projects/projectModules.js';
-import { site00ProjectsDesignActiveProjectPath } from '../../config/routes';
 import { site00ProjectsExperienceModulePath } from '../../config/routes';
 
 type ProjectIndexProjectCardProps = {
@@ -99,7 +98,7 @@ export function ProjectIndexProjectCard({ item }: ProjectIndexProjectCardProps) 
 
       <div className="site00-pidx-project-card__module-actions">
         {item.designModuleEnabled ? (
-          <Link to={site00ProjectsDesignActiveProjectPath(item.projectId)}>OPEN DESIGN</Link>
+          <Link to={`/client/projects/${item.projectId.toLowerCase()}/reviews`}>REVIEW DESIGN</Link>
         ) : null}
         {item.experienceModuleEnabled ? (
           <Link to={site00ProjectsExperienceModulePath(item.projectId)}>OPEN EXPERIENCE</Link>

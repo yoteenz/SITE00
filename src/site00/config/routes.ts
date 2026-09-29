@@ -138,7 +138,13 @@ export const SITE00_ROUTES = {
   projectExperimentEVisualDevelopment: '/projects/:projectSlug/experience-expression/visual-development',
   projectExperiments: '/projects/:projectSlug/experiments',
   projectLab: '/projects/:projectSlug/lab',
-  /** P0.VR.DESIGN-PROJECT-BINDING1R1 — DESIGN module under PROJECTS (canonical). */
+  /** Admin-only internal production workspace (Design / Experience / Expression). */
+  productionWorkspace: '/production',
+  productionProject: '/production/:projectSlug',
+  productionDesign: '/production/:projectSlug/design',
+  productionExperience: '/production/:projectSlug/experience',
+  productionExpression: '/production/:projectSlug/expression',
+  /** Legacy PROJECTS → DESIGN paths (redirect to /production). */
   projectsDesignModule: '/projects/design',
   projectsDesignActiveProject: '/projects/design/:projectSlug',
   /** Legacy per-project path — redirects to projectsDesignActiveProject. */
@@ -170,7 +176,7 @@ export const SITE00_ROUTES = {
   /** P0.VR.OPUS-NATIVE1 — internal native Opus design agent runtime surface */
   projectDesignOpusNative: '/projects/:projectSlug/design/opus-native',
   /** Canonical SITE 00-owned Design workspace (managed project via ?project=) */
-  site00Design: '/projects/site00/design',
+  site00Design: '/production/site00/design',
   masterSkinPreview: '/projects/site00/master-skin-preview',
   /** Frontal Slayer product asset factory (P0.PAF.1) */
   projectProductAssets: '/projects/:projectSlug/product-assets',
@@ -541,8 +547,16 @@ export function site00ProjectLabPath(projectSlug: string): string {
   return `/projects/${projectSlug}/lab`;
 }
 
+export function site00ProductionWorkspacePath(): string {
+  return SITE00_ROUTES.productionWorkspace;
+}
+
+export function site00ProductionDesignPath(projectSlug: string): string {
+  return `/production/${projectSlug.toLowerCase()}/design`;
+}
+
 export function site00ProjectsDesignModulePath(): string {
-  return SITE00_ROUTES.projectsDesignModule;
+  return SITE00_ROUTES.productionWorkspace;
 }
 
 export function site00ProjectsExperienceModulePath(projectSlug: string): string {
@@ -560,7 +574,7 @@ export function site00ProjectExperienceWorkspacePath(
 }
 
 export function site00ProjectsDesignActiveProjectPath(projectSlug: string): string {
-  return `/projects/design/${projectSlug.toLowerCase()}`;
+  return site00ProductionDesignPath(projectSlug);
 }
 
 export function site00ProjectDesignPath(

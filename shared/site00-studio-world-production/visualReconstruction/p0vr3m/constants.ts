@@ -2,7 +2,7 @@
  * P0.VR.3M — Design ownership constants.
  */
 
-export const CANONICAL_SITE00_DESIGN_ROUTE = '/projects/site00/design' as const;
+export const CANONICAL_SITE00_DESIGN_ROUTE = '/production/site00/design' as const;
 
 export const LEGACY_DESIGN_ROUTE_PATTERNS = [
   '/studio-world/design',

@@ -169,10 +169,10 @@ describe('B5.9R8 View-mode shell invariance', () => {
     expect(INDEX_PAGE).toContain('data-dynamic-region');
   });
 
-  it('24–25. design card shell placeholder preserves layout in client view', () => {
-    expect(INDEX_PAGE).toContain('interactive={designRender.interactive}');
-    expect(INDEX_PAGE).toContain('showDesignCard');
-    expect(ADAPTER).toContain('showDesignCard: true');
+  it('24–25. production summary strip replaces embedded design workspace on projects index', () => {
+    expect(INDEX_PAGE).toContain('ProjectProductionSummaryStrip');
+    expect(INDEX_PAGE).not.toContain('ProjectIndexDesignCard');
+    expect(ADAPTER).toContain('showDesignCard: false');
   });
 
   it('26. adapter owns panel substitution not structure', () => {

@@ -107,7 +107,7 @@ describe('P0.VR.3M.2 design footer visibility', () => {
 
   it('preserves canonical route and SITE00 host accent', () => {
     expect(read('shared/site00-studio-world-production/visualReconstruction/p0vr3m/constants.ts')).toContain(
-      "CANONICAL_SITE00_DESIGN_ROUTE = '/projects/site00/design'",
+      "CANONICAL_SITE00_DESIGN_ROUTE = '/production/site00/design'",
     );
     expect(read('src/site00/styles/site00-design-workspace-p0vr2b.css')).toContain('--site00-dw-host-accent');
     expect(read('src/site00/components/designWorkspace/DesignWorkspaceFooter.tsx')).not.toContain('NDX_LIME');
