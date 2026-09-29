@@ -1139,3 +1139,9 @@
 }
 .pw-libgroup__panel li span { font-size: 0.6rem; color: var(--pw-mute); }
 .pw-libgroup__none { margin-top: 10px; font-size: 0.66rem; line-height: 1.5; color: var(--pw-mute); }
+
+/* production variant now carries the 7-item canonical Production nav */
+.pw--production .pw-nav { padding-inline: 2px; }
+.pw--production .pw-nav__item { font-size: 0.42rem; letter-spacing: 0.04em; padding-inline: 0; }
+
+.pw-hubreturn { display: flex; align-items: center; min-height: 44px; margin: 0 0 10px; padding: 0 12px; border: 1px solid rgba(229, 35, 27, 0.5); border-radius: 8px; background: rgba(229, 35, 27, 0.1); color: #f4f3f1; font-size: 0.62rem; letter-spacing: 0.12em; }

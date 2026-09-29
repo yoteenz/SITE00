@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { subWorkspacesFor } from '../../../../shared/site00-production-workspace/registry.js';
 import { productionExpressionPath } from '../../../../shared/site00-production-workspace/routes.js';
 import { PW_IMG } from '../../components/production/productionImagery';
+import { HubReturnBar } from '../../components/production/HubReturnBar';
 import { PwChip, PwRow, PwScreenHead } from '../../components/production/PwPrimitives';
 import {
   CastingScreen,
@@ -81,6 +82,15 @@ function Landing({ slug, entry }: { slug: string; entry: string }) {
 
 /** Production → EXPRESSION — campaign / entry context shared across sub-workspaces. */
 export function ExpressionProductionShellPage() {
+  return (
+    <>
+      <HubReturnBar />
+      <ExpressionRoutes />
+    </>
+  );
+}
+
+function ExpressionRoutes() {
   const { projectSlug = 'ndxbook', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
   const [searchParams] = useSearchParams();
   const { context } = useProductionWorkspaceContext();

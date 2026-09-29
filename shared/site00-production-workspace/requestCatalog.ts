@@ -30,6 +30,7 @@ const TITLES: Record<ProductionWorkspaceRequestKind, string> = {
   EXPRESSION_NEW_CAMPAIGN: 'New campaign',
   EXPRESSION_WARDROBE_UPDATE: 'Wardrobe update',
   UPLOAD_REFERENCES: 'Reference upload',
+  EXPRESSION_STORYBOARD_REVISION: 'Storyboard revision',
 };
 
 export function productionRequestTitle(kind: ProductionWorkspaceRequestKind): string {

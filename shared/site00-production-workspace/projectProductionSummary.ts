@@ -30,6 +30,7 @@ export function createProductionWorkspaceRequest(args: {
     : 'EXPRESSION';
   const sub =
     args.kind === 'EXPRESSION_NEW_CHARACTER' ? 'casting'
+    : args.kind === 'EXPRESSION_STORYBOARD_REVISION' ? 'storyboard'
     : args.kind === 'EXPRESSION_NEW_CAMPAIGN' ? 'narrative'
     : args.kind === 'EXPRESSION_WARDROBE_UPDATE' ? 'wardrobe'
     : args.kind === 'EXPRESSION_LOOK_APPROVAL' ? 'wardrobe'

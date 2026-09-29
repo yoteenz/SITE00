@@ -12662,3 +12662,15 @@ Two sprints in one chat, both UX/UI only (no routing, auth, data or schema chang
 - **Decisions / outcomes:** The brief first assumed a `/production` route that did not exist; work paused until the relocation merged, then built against the real routes. New leaves `/production/libraries` and `/production/queue` sit under the existing admin-guarded root (no new routing tree). The canonical Design workspace is kept as-is under a slim SITE 00 pillar bar. Project request actions are stored device-locally (`src/site00/state/productionRequestStore.ts`) until a queue API exists; request kinds were extended additively (`EXPRESSION_NEW_CAMPAIGN`, `EXPRESSION_WARDROBE_UPDATE`, `UPLOAD_REFERENCES`).
 - **Changes:** `src/site00/components/production/*` (PwFrame portal shell, primitives, Expression sub-screens, Entry 002 package hook), `src/site00/pages/production/*`, `src/site00/components/projectIndex/{PersonalProjectsMobile,PersonalProjectMobileDetail,ProjectActionsSheet}.tsx`, `site00-production-mobile.css`, NME panel/inspectors/CSS rewrite, test `p0Site00ProductionMobileReconstruction1`.
 - **Conventions:** Host shell owns red + near-black; project palettes (NDXBOOK lime) stay inside project content (the embedded Narrative Momentum surface). Imagery in `public/site00/production-mobile/` are low-res stand-in plates cropped from the founder reference pack — replace with approved authority imagery. Character/actor/look plates use monograms, never stand-in faces. No data exists yet for Entry 002 sets, performance skins or non-actor libraries; those screens show honest empty states.
+
+---
+
+## 2026-09-29 — Production Hub authority reconstruction (Sonnet machine + Grok asset handoff)
+
+Across this chat: NME widget rebuild, Projects/Production mobile reconstruction, tunnel QA (no access), then the Production Hub sprint (P0.PRODUCTION-HUB.AUTHORITY-RECONSTRUCTION-AND-HANDOFF1).
+
+- **Context:** Rebuild `/production` as a real state-driven Production Chamber from the authority pack (states 00–14) with an absolute asset firewall: Sonnet generates/mounts no raster assets; missing imagery is an empty named slot.
+- **Topics covered:** pure core in `shared/site00-production-hub/` (graph, reducer, assets, receipts, manifest, model); UI in `src/site00/components/productionHub/`; deep links with Hub return bar; founder decision via existing storyboard judgment action; device-local request/activity stores.
+- **Decisions / outcomes:** HUB_ASSET_RECEIPTS ships empty; 17 Grok slots in `docs/production-hub/GROK_ASSET_MANIFEST.json`; browser QA (15 states + offline/no-image/tall/approve/revise/roundtrip) clean; not merged to main.
+- **Changes:** hub core/UI/CSS, HubReturnBar, PwFrame 7-item nav, tests (`p0ProductionHubMachine1`), docs/production-hub/*, scripts/generate-production-hub-manifest.ts.
+- **Conventions:** images only via `HubImage` slots + receipts; regenerate the manifest after adding receipts; earlier-sprint stand-in crops in `public/site00/production-mobile/` are not used by the Hub and should be removed.

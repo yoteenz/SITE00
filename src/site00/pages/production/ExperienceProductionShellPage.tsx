@@ -3,6 +3,7 @@ import { subWorkspacesFor } from '../../../../shared/site00-production-workspace
 import { productionExperiencePath } from '../../../../shared/site00-production-workspace/routes.js';
 import { site00ProjectExperienceWorkspacePath } from '../../config/routes';
 import { PW_IMG } from '../../components/production/productionImagery';
+import { HubReturnBar } from '../../components/production/HubReturnBar';
 import { IconArrow, IconGlyph, PwButton, PwRow, PwScreenHead } from '../../components/production/PwPrimitives';
 
 const COPY: Record<string, { title: string; sub: string; glyph: string }> = {
@@ -17,6 +18,15 @@ const COPY: Record<string, { title: string; sub: string; glyph: string }> = {
 
 /** Production → EXPERIENCE — world-production sub-workspaces (reuses existing project experience routes). */
 export function ExperienceProductionShellPage() {
+  return (
+    <>
+      <HubReturnBar />
+      <ExperienceRoutes />
+    </>
+  );
+}
+
+function ExperienceRoutes() {
   const { projectSlug = 'ndxbook', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
   const slug = projectSlug.toLowerCase();
   const sub = rest?.split('/')[0] ?? '';

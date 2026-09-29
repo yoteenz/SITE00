@@ -27,11 +27,12 @@ const read = (rel: string) => readFileSync(join(ROOT, rel), 'utf8');
 describe('P0 production mobile reconstruction', () => {
   afterEach(() => vi.unstubAllGlobals());
 
-  it('production hub renders exactly the three registry pillars', () => {
+  it('production hub is the Production Chamber machine; the three pillars live in the canonical nav', () => {
     expect([...PRODUCTION_TOP_LEVEL_WORKSPACES]).toEqual(['DESIGN', 'EXPERIENCE', 'EXPRESSION']);
     const hub = read('src/site00/pages/production/ProductionWorkspaceHubPage.tsx');
-    expect(hub).toContain('PRODUCTION_TOP_LEVEL_WORKSPACES.map');
-    expect(hub).not.toMatch(/CASTING|WARDROBE|PERFORMANCE/);
+    expect(hub).toContain('ProductionHub');
+    const nav = read('src/site00/components/productionHub/nav.tsx');
+    for (const l of ['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY']) expect(nav).toContain(`label: '${l}'`);
   });
 
   it('expression landing lists every registry sub-workspace and mounts a purpose-built screen for each', () => {
@@ -134,10 +135,10 @@ describe('P0 production mobile reconstruction', () => {
     expect(src).toMatch(/!isWide\s*&&[\s\S]*canAccessAdminPages\(\)[\s\S]*!project\.classification\.includes\('CLIENT'\)/);
   });
 
-  it('bottom navs follow the reference (production 4 tabs; projects 5 with production admin-only)', () => {
+  it('bottom navs: production carries the 7 canonical items; projects keeps production admin-only', () => {
     const frame = read('src/site00/components/production/PwFrame.tsx');
     expect(frame).toContain("'PROJECTS'");
-    expect(frame).toContain("label: 'SYSTEM'");
+    expect(frame).toContain("label: 'ACTIVITY'");
     expect(frame).toContain('...(admin ?');
     expect(frame).toContain('createPortal');
   });

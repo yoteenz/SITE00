@@ -37,7 +37,8 @@ export type ProductionWorkspaceRequestKind =
   | 'EXPRESSION_SET_CHANGE'
   | 'EXPRESSION_NEW_CAMPAIGN'
   | 'EXPRESSION_WARDROBE_UPDATE'
-  | 'UPLOAD_REFERENCES';
+  | 'UPLOAD_REFERENCES'
+  | 'EXPRESSION_STORYBOARD_REVISION';
 
 export type ProductionWorkspaceRequest = {
   id: string;

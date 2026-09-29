@@ -23,16 +23,13 @@ const ICONS = {
 };
 
 const NAV_PRODUCTION: NavItem[] = [
-  { id: 'projects', label: 'PROJECTS', href: SITE00_ROUTES.projects, icon: ICONS.projects, match: (p) => p.startsWith('/projects') },
-  {
-    id: 'production',
-    label: 'PRODUCTION',
-    href: SITE00_ROUTES.productionWorkspace,
-    icon: ICONS.production,
-    match: (p) => p.startsWith('/production') && !p.startsWith(SITE00_ROUTES.productionLibraries),
-  },
-  { id: 'library', label: 'LIBRARY', href: SITE00_ROUTES.productionLibraries, icon: ICONS.library, match: (p) => p.startsWith(SITE00_ROUTES.productionLibraries) },
-  { id: 'system', label: 'SYSTEM', href: SITE00_ROUTES.system, icon: ICONS.system, match: (p) => p.startsWith('/system') },
+  { id: 'hub', label: 'HUB', href: '/production', icon: 'M4 11l8-7 8 7v9h-5v-6H9v6H4z', match: (p) => p === '/production' },
+  { id: 'inbox', label: 'INBOX', href: '/production/queue', icon: 'M4 6h16v12H4zM4 7l8 6 8-6', match: (p) => p.startsWith('/production/queue') },
+  { id: 'design', label: 'DESIGN', href: '/production/ndxbook/design', icon: ICONS.library, match: (p) => /^\/production\/[^/]+\/design/.test(p) },
+  { id: 'experience', label: 'EXPERIENCE', href: '/production/ndxbook/experience', icon: 'M12 4l9 16H3zM12 4v16', match: (p) => /^\/production\/[^/]+\/experience/.test(p) },
+  { id: 'expression', label: 'EXPRESSION', href: '/production/ndxbook/expression', icon: 'M12 3l8 4.5v9L12 21l-8-4.5v-9z', match: (p) => /^\/production\/[^/]+\/expression/.test(p) },
+  { id: 'library', label: 'LIBRARY', href: SITE00_ROUTES.productionLibraries, icon: ICONS.production, match: (p) => p.startsWith('/production/libraries') },
+  { id: 'activity', label: 'ACTIVITY', href: '/production?panel=activity', icon: 'M12 4a8 8 0 100 16 8 8 0 000-16zM12 8v4l3 2', match: () => false },
 ];
 
 function navProjects(admin: boolean): NavItem[] {
