@@ -12584,3 +12584,9 @@ Formalized Studio World as a **modular reusable production engine** (Phase 1: sc
 - **Spec:** `docs/studio-world/MODULAR-PRODUCTION-ENGINE1.md` — five layers, seven libraries, four pipelines (mermaid), monetization tiers, workspace registry, phases 1–6.
 - **Code:** `shared/site00-studio-world/modular-production-engine/` — layers, library types, pipelines, monetization, validation rules, workspace module registry, bridge from acting catalogue.
 - **Tests:** `p0SwModularProductionEngine1.test.ts` (9).
+
+---
+
+## 2026-09-29 — P0.SW.MODULAR-PRODUCTION-ENGINE-MISSING-LAYERS-AND-OPERATIONALIZATION1
+
+Augmented modular engine (does not replace MODULAR-PRODUCTION-ENGINE1) with operational layers in `modular-production-engine/operational/`: role-first casting + catalogue match outcomes, staged Actor Genesis (3 face max), performance/wardrobe/hair/makeup/environment/set/scene assembly types, ungrounded asset guard, client entitlements/ledger, cost guards, Entry 002 operational migration. Doc: `MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md`. Tests: `p0SwModularProductionEngineMissingLayers1.test.ts` (17).

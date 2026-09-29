@@ -241,4 +241,5 @@ Canonical upstream-to-downstream layers (methodology v20+):
 | `docs/SITE_00_EVOLVE_MARKETING.md` | EVOLVE Marketing service architecture, lifecycle, adapter |
 | `docs/STUDIO_WORLD_EXTERNAL_INTEGRATION_CONTRACT.md` | Studio World REST + webhook contract v1 |
 | `docs/studio-world/MODULAR-PRODUCTION-ENGINE1.md` | Studio World modular production engine — layers, libraries, pipelines, monetization (Phase 1) |
+| `docs/studio-world/MODULAR-PRODUCTION-ENGINE-OPERATIONAL-LAYERS1.md` | Operational augmentation — role-first casting, Actor Genesis stages, departments, entitlements |
 | `README.md` | Local dev, env vars, routing |
