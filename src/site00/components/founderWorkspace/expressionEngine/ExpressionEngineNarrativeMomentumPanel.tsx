@@ -26,8 +26,27 @@ import {
   loadNmeWizardState,
   saveNmeWizardState,
 } from './narrativeMomentumWizardPersistence.js';
-import '../../../styles/site00-narrative-momentum-review.css';
 import '../../../styles/site00-narrative-momentum-wizard.css';
+
+function tensionBarHeight(stage: NarrativeBeat['tensionStage']): string {
+  const map: Record<NarrativeBeat['tensionStage'], string> = {
+    LOW: '22%',
+    RISING: '38%',
+    INTERRUPTION: '48%',
+    ESCALATION: '62%',
+    PEAK: '100%',
+    RELEASE: '72%',
+    RESIDUAL: '40%',
+  };
+  return map[stage] ?? '50%';
+}
+
+function reelTimecode(index: number): string {
+  const start = index * 2;
+  const end = start + 2;
+  const fmt = (n: number) => String(n).padStart(2, '0');
+  return `${fmt(start)}–${fmt(end)}s`;
+}
 
 type Props = {
   plan: NarrativeMomentumPlan;
@@ -158,16 +177,16 @@ export function ExpressionEngineNarrativeMomentumPanel({
   );
 
   return (
-    <section className="site00-nme-wizard" data-testid="narrative-momentum-wizard">
+    <section className="site00-nme-wizard site00-nme-wizard--ndx" data-testid="narrative-momentum-wizard">
       <header className="site00-nme-wizard__header" data-testid="nme-wizard-header">
         <div>
+          <p className="site00-nme-wizard__index-meta">Narrative momentum · Entry dossier</p>
           <h2 className="site00-nme-wizard__display">Narrative Momentum</h2>
-          <p className="site00-nme-wizard__meta">
-            Entry · {entryTitle} · Status · {plan.founderStatus.replace(/_/g, ' ')} · Grammar ·{' '}
-            {plan.selectedGrammarId.replace(/_/g, ' ')}
+          <p className="site00-nme-wizard__index-meta">
+            {entryTitle} · {plan.founderStatus.replace(/_/g, ' ')} · {plan.selectedGrammarId.replace(/_/g, ' ')}
           </p>
           {plan.layerMode === 'RETROACTIVE_AUTHORITY_LAYER' ?
-            <span className="site00-nme-wizard__chip">Retroactive authority</span>
+            <span className="site00-nme-wizard__stamp">Retroactive authority layer</span>
           : null}
         </div>
         <button
@@ -175,7 +194,7 @@ export function ExpressionEngineNarrativeMomentumPanel({
           className="site00-nme-wizard__btn site00-nme-wizard__btn--ghost"
           onClick={() => setShowTechnical((v) => !v)}
         >
-          {showTechnical ? 'Hide technical' : 'Technical details'}
+          {showTechnical ? 'Hide index' : 'Technical index'}
         </button>
         {showTechnical ?
           <p className="site00-nme-wizard__meta">
@@ -184,7 +203,7 @@ export function ExpressionEngineNarrativeMomentumPanel({
         : null}
       </header>
 
-      <nav className="site00-nme-wizard__steps" data-testid="nme-wizard-step-nav" aria-label="Wizard steps">
+      <nav className="site00-nme-wizard__chapter-rail" data-testid="nme-wizard-step-nav" aria-label="Chapter index">
         {NME_WIZARD_STEPS.map((s) => {
           const done = completedSteps.includes(s.id) || s.id < step;
           const flagged = stepHasFlagWarning(s.id, issues);
@@ -192,22 +211,24 @@ export function ExpressionEngineNarrativeMomentumPanel({
             <button
               key={s.id}
               type="button"
-              className={`site00-nme-wizard__step-pill${step === s.id ? ' site00-nme-wizard__step-pill--active' : ''}${done ? ' site00-nme-wizard__step-pill--done' : ''}`}
+              className={`site00-nme-wizard__chapter${step === s.id ? ' site00-nme-wizard__chapter--active' : ''}${done ? ' site00-nme-wizard__chapter--done' : ''}${flagged ? ' site00-nme-wizard__chapter-warn' : ''}`}
               onClick={() => {
                 setStep(s.id);
                 setInspector(null);
               }}
             >
-              {done ? '✓ ' : ''}
-              {s.nav}
-              {flagged ? ' ⚠' : ''}
+              <span className="site00-nme-wizard__chapter-code">{s.code}</span>
+              <span className="site00-nme-wizard__chapter-name">{s.chapter}</span>
             </button>
           );
         })}
       </nav>
 
       <div className="site00-nme-wizard__shell">
-        <main className="site00-nme-wizard__stage" data-testid={`nme-wizard-step-${stepMeta.slug}`}>
+        <main className="site00-nme-wizard__paper-field" data-testid={`nme-wizard-step-${stepMeta.slug}`}>
+          <p className="site00-nme-wizard__meta">
+            Step {String(step).padStart(2, '0')} / {String(NME_WIZARD_STEP_COUNT).padStart(2, '0')}
+          </p>
           <p className="site00-nme-wizard__section">{stepMeta.question}</p>
 
           {step === 1 ?
@@ -264,7 +285,7 @@ export function ExpressionEngineNarrativeMomentumPanel({
         {contextRail}
       </div>
 
-      <footer className="site00-nme-wizard__action-bar" data-testid="nme-wizard-action-bar">
+      <footer className="site00-nme-wizard__decision-bar site00-nme-wizard__action-bar" data-testid="nme-wizard-action-bar">
         <button type="button" className="site00-nme-wizard__btn" disabled={step === 1} onClick={goBack}>
           Back
         </button>
@@ -291,9 +312,11 @@ export function ExpressionEngineNarrativeMomentumPanel({
 
       <NarrativeMomentumInspectorSheet
         open={inspector === 'beat' && !!activeBeat}
-        title={activeBeat ? `Beat ${activeBeat.order} · ${activeBeat.label}` : 'Beat'}
+        title={activeBeat ? activeBeat.label : 'Beat'}
+        subtitle={activeBeat ? `Beat ${String(activeBeat.order).padStart(2, '0')} · Case file` : undefined}
         onClose={() => setInspector(null)}
         testId="nme-beat-inspector"
+        showEvidencePlate
       >
         {activeBeat ? <BeatInspectorDetail beat={activeBeat} /> : null}
       </NarrativeMomentumInspectorSheet>
@@ -301,8 +324,10 @@ export function ExpressionEngineNarrativeMomentumPanel({
       <NarrativeMomentumInspectorSheet
         open={inspector === 'proof' && !!activeProof}
         title={activeProof ? activeProof.proofType.replace(/_/g, ' ') : 'Proof'}
+        subtitle={activeProof ? `Accession · ${activeProof.id}` : undefined}
         onClose={() => setInspector(null)}
         testId="nme-proof-inspector"
+        showEvidencePlate
       >
         {activeProof ? <ProofInspectorDetail proof={activeProof} /> : null}
       </NarrativeMomentumInspectorSheet>
@@ -358,46 +383,46 @@ function StoryShiftStep({
 }) {
   return (
     <div className="site00-nme-wizard__stack" data-nme-section="story-shift">
-      <div className="site00-nme-wizard__card-grid">
-        <article className="site00-nme-wizard__card">
+      <div className="site00-nme-wizard__thesis-spread">
+        <div className="site00-nme-wizard__thesis-col">
           <p className="site00-nme-wizard__label">Starting belief</p>
           <p className="site00-nme-wizard__body">{plan.audienceStartingBelief}</p>
-        </article>
-        <article className="site00-nme-wizard__card">
-          <p className="site00-nme-wizard__label">Narrative goal</p>
-          <p className="site00-nme-wizard__body">{plan.narrativeGoal}</p>
-        </article>
-        <article className="site00-nme-wizard__card">
+        </div>
+        <div className="site00-nme-wizard__thesis-arrow" aria-hidden>
+          →
+        </div>
+        <div className="site00-nme-wizard__thesis-col">
           <p className="site00-nme-wizard__label">Desired shift</p>
           <p className="site00-nme-wizard__body">{plan.audienceDesiredShift}</p>
-        </article>
-      </div>
-      <article className="site00-nme-wizard__card">
-        <p className="site00-nme-wizard__label">Selected grammar</p>
-        <p className="site00-nme-wizard__body-sm">
-          <strong>{plan.selectedGrammarId.replace(/_/g, ' ')}</strong>
-          {plan.alternateGrammarId ?
-            <span className="site00-nme-wizard__meta"> · Alternate · {plan.alternateGrammarId.replace(/_/g, ' ')}</span>
-          : null}
-        </p>
-        <p className="site00-nme-wizard__body-sm">{plan.grammarReason}</p>
-        <div className="site00-nme-wizard__inline-actions">
-          <button
-            type="button"
-            className="site00-nme-wizard__btn site00-nme-wizard__btn--primary"
-            disabled={judging}
-            onClick={() => void onJudgment('LOVE_IT')}
-          >
-            Approve shift
-          </button>
-          <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('REFINE_NARRATIVE')}>
-            Refine
-          </button>
-          <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('CHANGE_GRAMMAR')}>
-            Change grammar
-          </button>
         </div>
-      </article>
+      </div>
+      <p className="site00-nme-wizard__thesis-note">
+        <span className="site00-nme-wizard__label">Narrative goal · thesis</span>
+        <br />
+        {plan.narrativeGoal}
+      </p>
+      <div className="site00-nme-wizard__grammar-primary">
+        <p className="site00-nme-wizard__label">Primary narrative grammar · NG-{plan.selectedGrammarId}</p>
+        <p className="site00-nme-wizard__grammar-title">{plan.selectedGrammarId.replace(/_/g, ' ')}</p>
+        <p className="site00-nme-wizard__body-sm">{plan.grammarReason}</p>
+      </div>
+      {plan.alternateGrammarId ?
+        <div className="site00-nme-wizard__grammar-alt">
+          <p className="site00-nme-wizard__label">Alternate · investigation</p>
+          <p className="site00-nme-wizard__body-sm">{plan.alternateGrammarId.replace(/_/g, ' ')}</p>
+        </div>
+      : null}
+      <div className="site00-nme-wizard__inline-actions">
+        <button type="button" className="site00-nme-wizard__btn site00-nme-wizard__btn--primary" disabled={judging} onClick={() => void onJudgment('LOVE_IT')}>
+          Confirm shift
+        </button>
+        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('REFINE_NARRATIVE')}>
+          Refine
+        </button>
+        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('CHANGE_GRAMMAR')}>
+          Change grammar
+        </button>
+      </div>
     </div>
   );
 }
@@ -412,20 +437,21 @@ function BeatMapStep({
   onSelectBeat: (id: string) => void;
 }) {
   return (
-    <div className="site00-nme-wizard__beat-rail" data-testid="narrative-momentum-beats" data-nme-section="beat-map">
+    <div data-testid="narrative-momentum-beats" data-nme-section="beat-map">
+      <p className="site00-nme-wizard__label">Story index · investigative sequence</p>
       {beats.map((b) => (
         <button
           key={b.beatId}
           type="button"
-          className={`site00-nme-wizard__beat-compact${selectedBeatId === b.beatId ? ' site00-nme-wizard__beat-compact--active' : ''}`}
+          className={`site00-nme-wizard__ledger-row${selectedBeatId === b.beatId ? ' site00-nme-wizard__ledger-row--active' : ''}`}
           onClick={() => onSelectBeat(b.beatId)}
         >
-          <span className="site00-nme-wizard__beat-num">{String(b.order).padStart(2, '0')}</span>
-          <span className="site00-nme-wizard__body-sm">{b.label}</span>
-          <span className="site00-nme-wizard__chip">{b.tensionStage}</span>
-          {b.beatRole ?
-            <span className="site00-nme-wizard__meta">{b.beatRole}</span>
-          : null}
+          <span className="site00-nme-wizard__ledger-num">{String(b.order).padStart(2, '0')}</span>
+          <span>
+            <p className="site00-nme-wizard__ledger-title">{b.label}</p>
+            <p className="site00-nme-wizard__meta">{b.whatChangesInThisBeat.slice(0, 72)}{b.whatChangesInThisBeat.length > 72 ? '…' : ''}</p>
+          </span>
+          <span className="site00-nme-wizard__tension-tag">{b.tensionStage}</span>
         </button>
       ))}
     </div>
@@ -449,42 +475,44 @@ function TensionProofStep({
 }) {
   return (
     <div className="site00-nme-wizard__stack" data-nme-section="tension-proof">
-      <div className="site00-nme-wizard__tension-path" data-testid="narrative-momentum-tension-curve">
-        {beats.map((b, i) => (
-          <div key={b.beatId} className="site00-nme-wizard__tension-node-wrap">
-            {i > 0 ?
-              <span className="site00-nme-wizard__tension-connector" aria-hidden />
-            : null}
+      <div className="site00-nme-wizard__black-field">
+        <p className="site00-nme-wizard__label">Tension analysis · editorial graphic</p>
+        <div className="site00-nme-wizard__tension-graph" data-testid="narrative-momentum-tension-curve">
+          {beats.map((b) => (
             <button
+              key={b.beatId}
               type="button"
-              className={`site00-nme-wizard__tension-node${selectedBeatId === b.beatId ? ' site00-nme-wizard__tension-node--active' : ''}`}
+              className={`site00-nme-wizard__tension-plot${selectedBeatId === b.beatId ? ' site00-nme-wizard__tension-plot--active' : ''}${b.tensionStage === 'PEAK' ? ' site00-nme-wizard__tension-plot--peak' : ''}`}
               onClick={() => {
                 onSelectBeat(b.beatId);
                 onOpenBeat();
               }}
             >
+              <div className="site00-nme-wizard__tension-bar" style={{ height: tensionBarHeight(b.tensionStage) }} />
               <span className="site00-nme-wizard__meta">{String(b.order).padStart(2, '0')}</span>
               <span className="site00-nme-wizard__label">{b.tensionStage}</span>
             </button>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      <div className="site00-nme-wizard__proof-row">
-        {evidence.map((e) => (
-          <button key={e.id} type="button" className="site00-nme-wizard__proof-compact" onClick={() => onOpenProof(e.id)}>
-            <span className="site00-nme-wizard__label">{e.proofType.replace(/_/g, ' ')}</span>
-            <span className="site00-nme-wizard__chip">{e.strength}</span>
+      <p className="site00-nme-wizard__label">Proof ledger</p>
+      <div className="site00-nme-wizard__proof-ledger">
+        {evidence.map((e, idx) => (
+          <button key={e.id} type="button" className="site00-nme-wizard__archival-plate" onClick={() => onOpenProof(e.id)}>
+            <span className="site00-nme-wizard__accession">A-{String(idx + 1).padStart(2, '0')}</span>
+            <span className="site00-nme-wizard__plate-thumb" aria-hidden />
+            <span>
+              <p className="site00-nme-wizard__plate-title">{e.proofType.replace(/_/g, ' ')}</p>
+              <p className="site00-nme-wizard__meta">{e.strength} · Beat {e.placement.beatId}</p>
+              <p className="site00-nme-wizard__body-sm">{e.whatIsObserved.slice(0, 90)}{e.whatIsObserved.length > 90 ? '…' : ''}</p>
+            </span>
             <span
-              className={
-                e.status === 'SOURCE_REQUIRED' ?
-                  'site00-nme-wizard__chip site00-nme-wizard__chip--warn'
-                : 'site00-nme-wizard__chip'
-              }
+              className={`site00-nme-wizard__signal-stamp${e.status === 'SOURCE_REQUIRED' ? ' site00-nme-wizard__signal-stamp--required' : ''}`}
             >
               {proofStatusChip(e.status)}
             </span>
             {e.status === 'SOURCE_REQUIRED' ?
-              <span className="site00-nme-wizard__source-needed">Source needed</span>
+              <span className="site00-nme-wizard__source-needed">Source required — founder archive needed</span>
             : null}
           </button>
         ))}
@@ -496,43 +524,36 @@ function TensionProofStep({
 function ReframeLoopStep({ plan }: { plan: NarrativeMomentumPlan }) {
   return (
     <div className="site00-nme-wizard__stack" data-nme-section="reframe-loop">
+      <div className="site00-nme-wizard__reframe-before">
+        <p className="site00-nme-wizard__label">Before · archived take</p>
+        <p className="site00-nme-wizard__body-sm">{plan.reframe.before}</p>
+      </div>
+      <div className="site00-nme-wizard__reframe-after">
+        <p className="site00-nme-wizard__label">After · active reframe</p>
+        <p className="site00-nme-wizard__body-sm">{plan.reframe.after}</p>
+      </div>
       {plan.culturalGlitch ?
-        <article className="site00-nme-wizard__card site00-nme-wizard__card--accent">
-          <p className="site00-nme-wizard__label">Cultural glitch</p>
-          <p className="site00-nme-wizard__body-sm">
-            <strong>Present</strong> {plan.culturalGlitch.familiarReality}
-          </p>
-          <p className="site00-nme-wizard__body-sm">
-            <strong>Archived</strong> {plan.culturalGlitch.receiptSource}
-          </p>
-          <p className="site00-nme-wizard__body-sm">
-            <strong>Collision</strong> {plan.culturalGlitch.glitchMoment}
-          </p>
-        </article>
-      : null}
-      <article className="site00-nme-wizard__card">
-        <p className="site00-nme-wizard__label">Reframe</p>
-        <div className="site00-nme-wizard__reframe">
-          <div>
-            <p className="site00-nme-wizard__meta">Before</p>
-            <p className="site00-nme-wizard__body-sm">{plan.reframe.before}</p>
+        <div className="site00-nme-wizard__glitch-field">
+          <p className="site00-nme-wizard__label">Cultural glitch · signature device</p>
+          <div className="site00-nme-wizard__glitch-grid">
+            <div className="site00-nme-wizard__glitch-fragment">
+              <p className="site00-nme-wizard__meta">Past · now</p>
+              {plan.culturalGlitch.familiarReality}
+            </div>
+            <div className="site00-nme-wizard__glitch-rupture">SAME CODE · NEW LABEL</div>
+            <div className="site00-nme-wizard__glitch-fragment">
+              <p className="site00-nme-wizard__meta">Archived receipt</p>
+              {plan.culturalGlitch.receiptSource}
+            </div>
           </div>
-          <div className="site00-nme-wizard__reframe-arrow">↓</div>
-          <div>
-            <p className="site00-nme-wizard__meta">After</p>
-            <p className="site00-nme-wizard__body-sm">{plan.reframe.after}</p>
-          </div>
+          <p className="site00-nme-wizard__body-sm" style={{ marginTop: '0.45rem' }}>
+            {plan.culturalGlitch.glitchMoment}
+          </p>
         </div>
-      </article>
-      <article className="site00-nme-wizard__card">
-        <p className="site00-nme-wizard__label">Open loop</p>
-        <p className="site00-nme-wizard__body-sm">
-          <strong>Unresolved</strong> {plan.openLoop.newQuestion}
-        </p>
-        <p className="site00-nme-wizard__body-sm">
-          <strong>Next opportunity</strong> {plan.nextNarrativeOpportunity}
-        </p>
-      </article>
+      : null}
+      <p className="site00-nme-wizard__open-loop-display">{plan.openLoop.newQuestion}</p>
+      <p className="site00-nme-wizard__meta">Unresolved · next question</p>
+      <p className="site00-nme-wizard__body-sm">{plan.nextNarrativeOpportunity}</p>
     </div>
   );
 }
@@ -554,50 +575,36 @@ function FormatStep({
 }) {
   return (
     <div data-nme-section="formats">
-      <div className="site00-nme-wizard__tabs">
-        <button
-          type="button"
-          className={`site00-nme-wizard__tab${formatTab === 'REEL' ? ' site00-nme-wizard__tab--active' : ''}`}
-          onClick={() => setFormatTab('REEL')}
-        >
-          Reel
+      <div className="site00-nme-wizard__format-switch" role="tablist">
+        <button type="button" role="tab" aria-pressed={formatTab === 'REEL'} onClick={() => setFormatTab('REEL')}>
+          Reel · filmstrip
         </button>
-        <button
-          type="button"
-          className={`site00-nme-wizard__tab${formatTab === 'CAROUSEL' ? ' site00-nme-wizard__tab--active' : ''}`}
-          onClick={() => setFormatTab('CAROUSEL')}
-        >
-          Carousel
+        <button type="button" role="tab" aria-pressed={formatTab === 'CAROUSEL'} onClick={() => setFormatTab('CAROUSEL')}>
+          Carousel · contact sheet
         </button>
       </div>
-      <p className="site00-nme-wizard__meta">Same narrative goal · core proof · reframe · open-loop lineage</p>
+      <p className="site00-nme-wizard__meta">Master narrative lineage locked across formats</p>
       {formatTab === 'REEL' && reel?.reelDetail ?
-        <div className="site00-nme-wizard__format-grid" data-testid="narrative-momentum-reel-tab">
+        <div className="site00-nme-wizard__filmstrip" data-testid="narrative-momentum-reel-tab">
           {reel.reelDetail.beatSequence.map((rb, idx) => (
-            <button
-              key={rb.sourceNarrativeBeatId}
-              type="button"
-              className="site00-nme-wizard__format-card"
-              onClick={() => onSelectReel(rb.sourceNarrativeBeatId)}
-            >
-              <span className="site00-nme-wizard__label">{['Opening', 'Glitch', 'Proof', 'Escalation', 'Reveal', 'Reframe', 'Ending', 'Open loop'][idx] ?? rb.narrativePurpose}</span>
-              <span className="site00-nme-wizard__body-sm">{rb.narrativePurpose}</span>
+            <button key={rb.sourceNarrativeBeatId} type="button" className="site00-nme-wizard__film-frame" onClick={() => onSelectReel(rb.sourceNarrativeBeatId)}>
+              <span className="site00-nme-wizard__timecode">{reelTimecode(idx)}</span>
+              <span>
+                <p className="site00-nme-wizard__ledger-title">{rb.narrativePurpose}</p>
+                <p className="site00-nme-wizard__meta">{rb.screenAction.slice(0, 64)}{rb.screenAction.length > 64 ? '…' : ''}</p>
+              </span>
+              <span className="site00-nme-wizard__meta">→</span>
             </button>
           ))}
         </div>
       : null}
       {formatTab === 'CAROUSEL' && carousel?.carouselDetail ?
-        <div className="site00-nme-wizard__slide-strip" data-testid="narrative-momentum-carousel-tab">
+        <div className="site00-nme-wizard__slide-contact" data-testid="narrative-momentum-carousel-tab">
           {carousel.carouselDetail.slideSequence.map((s) => (
-            <button
-              key={s.slideNumber}
-              type="button"
-              className="site00-nme-wizard__slide-card"
-              onClick={() => onSelectSlide(s.slideNumber)}
-            >
-              <span className="site00-nme-wizard__beat-num">{String(s.slideNumber).padStart(2, '0')}</span>
-              <span className="site00-nme-wizard__body-sm">{s.contentRole}</span>
-              <span className="site00-nme-wizard__chip">{s.tensionStage}</span>
+            <button key={s.slideNumber} type="button" className="site00-nme-wizard__contact-cell" onClick={() => onSelectSlide(s.slideNumber)}>
+              <span className="site00-nme-wizard__ledger-num">{String(s.slideNumber).padStart(2, '0')}</span>
+              <p className="site00-nme-wizard__meta">{s.contentRole}</p>
+              <p className="site00-nme-wizard__tension-tag">{s.tensionStage}</p>
             </button>
           ))}
         </div>
@@ -627,57 +634,89 @@ function ReviewStep({
   judging: boolean;
   onRecompile: () => Promise<void>;
 }) {
-  const warningCount = issues.filter((i) => i.severity === 'WARNING' || i.severity === 'ADVISORY').length;
   return (
     <div className="site00-nme-wizard__stack" data-nme-section="review" data-testid="narrative-momentum-judgment">
-      <div className={`site00-nme-wizard__readiness${readiness.ready ? '' : ' site00-nme-wizard__readiness--blocked'}`}>
-        <p className="site00-nme-wizard__section">{readiness.headline}</p>
-        {readiness.blockers.map((b) => (
-          <p key={b} className="site00-nme-wizard__chip site00-nme-wizard__chip--warn">
-            {b}
-          </p>
-        ))}
+      <p className="site00-nme-wizard__section">{readiness.headline}</p>
+      <div className="site00-nme-wizard__review-board">
+        <div className="site00-nme-wizard__review-row">
+          <span>Narrative</span>
+          <span className="site00-nme-wizard__body-sm">{plan.narrativeGoal.slice(0, 48)}…</span>
+          <span>✓</span>
+        </div>
+        <div className="site00-nme-wizard__review-row">
+          <span>Tension</span>
+          <span className="site00-nme-wizard__meta">{tensionOk ? 'Valid sequence' : 'Review sequence'}</span>
+          <span>{tensionOk ? '✓' : '!'}</span>
+        </div>
+        <div className={`site00-nme-wizard__review-row${proofSummary.sourceNeeded ? ' site00-nme-wizard__review-row--alert' : ''}`}>
+          <span>Proof</span>
+          <span className="site00-nme-wizard__meta">
+            {proofSummary.verified} verified · {proofSummary.sourceNeeded} source gap
+          </span>
+          <span>{proofSummary.sourceNeeded ? '!' : '✓'}</span>
+        </div>
+        <div className="site00-nme-wizard__review-row">
+          <span>Reframe</span>
+          <span className="site00-nme-wizard__meta">Defined</span>
+          <span>✓</span>
+        </div>
+        <div className="site00-nme-wizard__review-row">
+          <span>Open loop</span>
+          <span className="site00-nme-wizard__meta">Active</span>
+          <span>✓</span>
+        </div>
+        <div className="site00-nme-wizard__review-row">
+          <span>Formats</span>
+          <span className="site00-nme-wizard__meta">Reel · Carousel</span>
+          <span>✓</span>
+        </div>
       </div>
-      <div className="site00-nme-wizard__summary-grid">
-        <span className="site00-nme-wizard__chip">Grammar · {plan.selectedGrammarId.replace(/_/g, ' ')}</span>
-        <span className="site00-nme-wizard__chip">Proof · {proofSummary.verified} verified · {proofSummary.sourceNeeded} source needed</span>
-        <span className="site00-nme-wizard__chip">Tension · {tensionOk ? 'Valid' : 'Review'}</span>
-        <span className="site00-nme-wizard__chip">Open loop · Defined</span>
-        <span className="site00-nme-wizard__chip">Reel · Ready</span>
-        <span className="site00-nme-wizard__chip">Carousel · Ready</span>
-        <span className="site00-nme-wizard__chip">Flags · {warningCount || issues.length}</span>
-      </div>
+      {readiness.blockers.map((b) => (
+        <p key={b} className="site00-nme-wizard__source-needed" style={{ margin: '0.35rem 0' }}>
+          {b}
+        </p>
+      ))}
       {issues.length ?
-        <div className="site00-nme-wizard__flag-list" data-testid="narrative-momentum-flags">
+        <div className="site00-nme-wizard__flag-index" data-testid="narrative-momentum-flags">
           {issues.map((issue, idx) => (
-            <button key={`${issue.flagId}-${idx}`} type="button" className="site00-nme-wizard__flag-row" onClick={() => onFlagInspect(issue)}>
+            <button key={`${issue.flagId}-${idx}`} type="button" onClick={() => onFlagInspect(issue)}>
               <span>{issue.flagId.replace(/_/g, ' ')}</span>
-              <span className="site00-nme-wizard__chip">{issue.severity}</span>
-              <span className="site00-nme-wizard__meta">View flag</span>
+              <span>{issue.severity} · View dossier</span>
             </button>
           ))}
         </div>
       : null}
-      <div className="site00-nme-wizard__judgment">
-        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('LOVE_IT')}>
-          Love it
-        </button>
-        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('PROMISING')}>
-          Promising
-        </button>
-        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('TOO_CLOSE')}>
-          Too close
-        </button>
-        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('NOT_NDXBOOK')}>
-          Not NDXBOOK
-        </button>
-      </div>
-      <div className="site00-nme-wizard__workflow">
-        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('REFINE_NARRATIVE')}>
-          Refine narrative
-        </button>
-        <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onRecompile()}>
-          Re-compile
+      <div className="site00-nme-wizard__decision-field">
+        <p className="site00-nme-wizard__label">Founder judgment · editorial sign-off</p>
+        <div className="site00-nme-wizard__judgment">
+          <button type="button" disabled={judging} onClick={() => void onJudgment('LOVE_IT')}>
+            Love it
+          </button>
+          <button type="button" disabled={judging} onClick={() => void onJudgment('PROMISING')}>
+            Promising
+          </button>
+          <button type="button" disabled={judging} onClick={() => void onJudgment('TOO_CLOSE')}>
+            Too close
+          </button>
+          <button type="button" disabled={judging} onClick={() => void onJudgment('NOT_NDXBOOK')}>
+            Not NDXBOOK
+          </button>
+        </div>
+        <div className="site00-nme-wizard__workflow">
+          <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onJudgment('REFINE_NARRATIVE')}>
+            Refine narrative
+          </button>
+          <button type="button" className="site00-nme-wizard__btn" disabled={judging} onClick={() => void onRecompile()}>
+            Re-compile
+          </button>
+        </div>
+        <button
+          type="button"
+          className="site00-nme-wizard__signoff"
+          disabled={judging || !readiness.ready}
+          onClick={() => void onJudgment('APPROVE_NARRATIVE')}
+        >
+          Approve narrative · sign-off
         </button>
       </div>
     </div>
@@ -687,27 +726,32 @@ function ReviewStep({
 function BeatInspectorDetail({ beat }: { beat: NarrativeBeat }) {
   return (
     <div className="site00-nme-wizard__inspector">
-      <p className="site00-nme-wizard__label">What audience knows before</p>
-      <p className="site00-nme-wizard__body-sm">{beat.whatAudienceKnows}</p>
-      <p className="site00-nme-wizard__label">What changes here</p>
-      <p className="site00-nme-wizard__body-sm">{beat.whatChangesInThisBeat}</p>
+      <div className="site00-nme-wizard__dossier-block">
+        <p className="site00-nme-wizard__label">What we know</p>
+        <p className="site00-nme-wizard__body-sm">{beat.whatAudienceKnows}</p>
+      </div>
+      <div className="site00-nme-wizard__dossier-block site00-nme-wizard__dossier-block--marginal">
+        <p className="site00-nme-wizard__label">What changes</p>
+        <p className="site00-nme-wizard__body-sm">{beat.whatChangesInThisBeat}</p>
+      </div>
       {beat.evidenceUsed.length ?
-        <>
-          <p className="site00-nme-wizard__label">Evidence used</p>
+        <div className="site00-nme-wizard__dossier-block">
+          <p className="site00-nme-wizard__label">Proof</p>
           <p className="site00-nme-wizard__body-sm">{beat.evidenceUsed.join(', ')}</p>
-        </>
+        </div>
       : null}
       {beat.interpretationIntroduced.length ?
-        <>
+        <div className="site00-nme-wizard__dossier-block">
           <p className="site00-nme-wizard__label">Interpretation</p>
           <p className="site00-nme-wizard__body-sm">{beat.interpretationIntroduced.join(', ')}</p>
-        </>
+        </div>
       : null}
-      <p className="site00-nme-wizard__label">Why next beat is necessary</p>
-      <p className="site00-nme-wizard__body-sm">{beat.whyNextBeatIsNecessary ?? '—'}</p>
-      <p className="site00-nme-wizard__label">Tension</p>
-      <p className="site00-nme-wizard__body-sm">
-        {beat.tensionBefore} → {beat.tensionAfter} ({beat.tensionStage})
+      <div className="site00-nme-wizard__dossier-block">
+        <p className="site00-nme-wizard__label">Why next</p>
+        <p className="site00-nme-wizard__body-sm">{beat.whyNextBeatIsNecessary ?? '—'}</p>
+      </div>
+      <p className="site00-nme-wizard__meta">
+        Tension {beat.tensionBefore} → {beat.tensionAfter} · {beat.tensionStage}
       </p>
     </div>
   );
@@ -716,18 +760,29 @@ function BeatInspectorDetail({ beat }: { beat: NarrativeBeat }) {
 function ProofInspectorDetail({ proof }: { proof: NarrativeEvidenceObject }) {
   return (
     <div className="site00-nme-wizard__inspector">
-      <p className="site00-nme-wizard__label">Source</p>
-      <p className="site00-nme-wizard__body-sm">{proof.sourceReference}</p>
-      <p className="site00-nme-wizard__label">Observed</p>
-      <p className="site00-nme-wizard__body-sm">{proof.whatIsObserved}</p>
-      <p className="site00-nme-wizard__label">Supports</p>
-      <p className="site00-nme-wizard__body-sm">{proof.whatItSupports}</p>
-      <p className="site00-nme-wizard__label">Placement</p>
-      <p className="site00-nme-wizard__body-sm">
-        Beat {proof.placement.beatId} · {proof.placement.whyNow}
-      </p>
-      <p className="site00-nme-wizard__label">Why now</p>
-      <p className="site00-nme-wizard__body-sm">{proof.placement.beliefBefore} → {proof.placement.beliefAfter}</p>
+      <span className="site00-nme-wizard__signal-stamp">{proof.strength}</span>
+      <span className={`site00-nme-wizard__signal-stamp${proof.status === 'SOURCE_REQUIRED' ? ' site00-nme-wizard__signal-stamp--required' : ''}`}>
+        {proofStatusChip(proof.status)}
+      </span>
+      <div className="site00-nme-wizard__dossier-block">
+        <p className="site00-nme-wizard__label">Source</p>
+        <p className="site00-nme-wizard__body-sm">{proof.sourceReference}</p>
+      </div>
+      <div className="site00-nme-wizard__dossier-block">
+        <p className="site00-nme-wizard__label">Observation</p>
+        <p className="site00-nme-wizard__body-sm">{proof.whatIsObserved}</p>
+      </div>
+      <div className="site00-nme-wizard__dossier-block">
+        <p className="site00-nme-wizard__label">Supports</p>
+        <p className="site00-nme-wizard__body-sm">{proof.whatItSupports}</p>
+      </div>
+      <div className="site00-nme-wizard__dossier-block">
+        <p className="site00-nme-wizard__label">Placement · validation</p>
+        <p className="site00-nme-wizard__body-sm">
+          Beat {proof.placement.beatId} · {proof.placement.whyNow}
+        </p>
+        <p className="site00-nme-wizard__meta">{proof.placement.beliefBefore} → {proof.placement.beliefAfter}</p>
+      </div>
     </div>
   );
 }

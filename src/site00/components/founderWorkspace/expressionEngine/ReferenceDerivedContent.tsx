@@ -31,7 +31,7 @@ export function ReferenceDerivedContent({ cards }: Props) {
   const primaryCards = cards.slice(0, 4);
 
   return (
-    <section className="site00-ee-ref-derived">
+    <section className="site00-ee-ref-derived site00-ee-ref-derived--ndx-index">
       <h3 className="site00-ee-ref-derived__title">
         DERIVED CONTENT <span>(FROM FINAL REEL)</span>
       </h3>
