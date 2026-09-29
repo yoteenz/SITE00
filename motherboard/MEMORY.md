@@ -12551,3 +12551,9 @@ Sprint refined Narrative Momentum Engine intelligence + founder review UX withou
 - **UI:** `ExpressionEngineNarrativeMomentumPanel` + `site00-narrative-momentum-review.css` — snapshot, beat map ↔ tension curve, evidence cards, flags panel, REEL/CAROUSEL tabs, separated judgment vs workflow controls (no QuietAction collision), VIEW/CHANGE GRAMMAR, flag ACK/REFINE/IGNORE.
 - **Tests:** `p0ndxNarrativeMomentumPrecision1.test.ts` (10); engine test updated for structured flags.
 - **Branch:** `cursor/nme-precision-review-ux1-87ed`.
+
+---
+
+## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-COMPACT-WIZARD-WORKSPACE1
+
+Founder review migrated from scroll document to **6-step wizard** (shift → beats → tension/proof → reframe/loop → formats → review): `ExpressionEngineNarrativeMomentumPanel`, `site00-narrative-momentum-wizard.css`, inspectors (beat/proof/flag/reel/carousel), sticky action bar, localStorage step persistence, step-6 approval blockers from primary `SOURCE_REQUIRED` proof. Intelligence compile unchanged. Tests `p0ndxNarrativeMomentumCompactWizard1.test.ts`. PR **#1244**.
