@@ -60,6 +60,7 @@ export default defineConfig({
   },
   test: {
     setupFiles: [
+      'tests/setup/vitestEnv.ts',
       'tests/setup/pageConceptTestDefaults.ts',
       'tests/setup/primeNdxbookAuthorityIngestion.ts',
     ],

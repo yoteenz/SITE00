@@ -12509,4 +12509,14 @@ Founder: sign-in on tunnel **still stuck** after autofill fix — something else
 - **Cause:** Custom Cloudflare tunnel hostname + `site00-cloud-preview` meta were **not** treated as preview in **`isPreviewEnvironment()`** → password sign-in awaited slow **`syncAllFromApi`** / cross-origin **`tryServerSessionRestore`** (8s, possible reload). Module **`bootstrapStarted`** skipped re-attaching **`onAuthStateChange`** after StrictMode/effect cleanup.
 - **Fix:** **`isPreviewEnvironment`** delegates to **`isSite00PreviewTunnelHost`**; **`resolveSite00ClientApiBase`** uses **`api.site00.com`** for cloud-preview meta/hostname; sign-in bootstrap **skips server session-restore on tunnel**, subscribes **`SIGNED_IN` → redirect**, per-mount cold start via ref (not global once-only flag).
 - **Branch:** `cursor/fix-tunnel-sign-in-bootstrap-loading-b747`.
+
+---
+
+## 2026-09-29 — CI test timeouts (countPreviewFixtures + site00Projects)
+
+Production Release CI: **35 failures** — `Test timed out in 120000ms`; stack at **`countPreviewFixtures`** (client review preview seed) and **`site00Projects.test`** / **`aioProjectIndex.test`** (`listSite00FounderProjects` → astral-world Supabase).
+
+- **Cause:** Vitest preview client-review suites hit live Supabase under CI load; canonical **`astral-world`** project lookup blocked 120s per test.
+- **Fix:** **`previewReviewMemoryStore`** for Vitest + `SITE00_CLIENT_REVIEW_PREVIEW_MODE` (opt-in Supabase via `SITE00_CLIENT_REVIEW_SUPABASE_INTEGRATION=1`); **`canonicalProject`** skips DB in Vitest unless `SITE00_PROJECTS_SUPABASE_INTEGRATION=1`; `tests/setup/vitestEnv.ts`.
+- **Tests:** `fixCiPreviewFixturesMemory1.test.ts`; client room + projects suites green locally.
 >>>>>>> origin/main
