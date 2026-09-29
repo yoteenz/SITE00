@@ -20,6 +20,7 @@ export function useDesignProductionNavigation() {
 
   const productionPath = site00ProjectDesignPath(slug);
   const legacyProductionPath = `/projects/${slug}/design`;
+  const adminProductionPath = `/production/${slug}/design`;
   const twinPath = site00ProjectDesignTwinOpusDirectPath(slug);
   const isTwinWorkspace =
     location.pathname === twinPath || location.pathname.startsWith(`${twinPath}/`);
@@ -27,13 +28,15 @@ export function useDesignProductionNavigation() {
     location.pathname === productionPath ||
     location.pathname.startsWith(`${productionPath}/`) ||
     location.pathname === legacyProductionPath ||
-    location.pathname.startsWith(`${legacyProductionPath}/`);
+    location.pathname.startsWith(`${legacyProductionPath}/`) ||
+    location.pathname === adminProductionPath ||
+    location.pathname.startsWith(`${adminProductionPath}/`);
   const workspacePath = isTwinWorkspace ? twinPath : productionPath;
   /** @deprecated use isTwinWorkspace */
   const isReferenceTwin = isTwinWorkspace;
 
   const activeSection = useMemo((): DesignProductionSection | null => {
-    const prefixes = [`${productionPath}/`, `${legacyProductionPath}/`, `${twinPath}/`];
+    const prefixes = [`${productionPath}/`, `${legacyProductionPath}/`, `${adminProductionPath}/`, `${twinPath}/`];
     const prefix = prefixes.find((p) => location.pathname.startsWith(p));
     if (!prefix) return null;
     const rest = location.pathname.slice(prefix.length).split('/')[0];
@@ -42,7 +45,7 @@ export function useDesignProductionNavigation() {
       return rest as DesignProductionSection;
     }
     return null;
-  }, [location.pathname, productionPath, twinPath]);
+  }, [location.pathname, productionPath, legacyProductionPath, adminProductionPath, twinPath]);
 
   const goWorkspace = useCallback(() => navigate(workspacePath), [navigate, workspacePath]);
 

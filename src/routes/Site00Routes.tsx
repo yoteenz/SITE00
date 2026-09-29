@@ -10,6 +10,7 @@ import { Site00RouteLoadingFallback } from '../site00/components/loader/Site00Ro
 import { Site00WorldColdStartGate } from '../site00/components/loader/Site00WorldColdStartGate';
 import { Site00OriginRouteShell } from '../site00/components/shell/Site00OriginRouteShell';
 import { Site00AccountRouteGuard } from '../site00/components/guards/Site00AccountRouteGuard';
+import { Site00InternalProductionGuard } from '../site00/components/guards/Site00InternalProductionGuard';
 import { AstralWorldRouteGuard } from '../site00/components/guards/AstralWorldRouteGuard';
 import { Site00ComposerDraftRouteGuard } from '../site00/components/guards/Site00ComposerDraftRouteGuard';
 import { Site00PublicRouteShell } from '../site00/components/shell/Site00PublicRouteShell';
@@ -173,11 +174,6 @@ const Site00DesignHostRouteGate = lazy(() =>
 const DesignReconstructionLabPage = lazy(() =>
   import('../site00/pages/StudioWorldDesignPage').then((m) => ({ default: m.DesignReconstructionLabPage })),
 );
-const DesignProjectsDesignHubPage = lazy(() =>
-  import('../site00/pages/DesignProjectsDesignHubPage').then((m) => ({
-    default: m.DesignProjectsDesignHubPage,
-  })),
-);
 const DesignLegacyProjectDesignRedirect = lazy(() =>
   import('../site00/pages/DesignLegacyProjectDesignRedirect').then((m) => ({
     default: m.DesignLegacyProjectDesignRedirect,
@@ -221,6 +217,36 @@ const DesignProductionSectionHistory = lazy(() =>
 const DesignProductionSectionMore = lazy(() =>
   import('../site00/components/designBench/production/DesignProductionSections').then((m) => ({
     default: m.DesignProductionSectionMore,
+  })),
+);
+const ProductionWorkspaceHubPage = lazy(() =>
+  import('../site00/pages/production/ProductionWorkspaceHubPage').then((m) => ({
+    default: m.ProductionWorkspaceHubPage,
+  })),
+);
+const ProductionWorkspaceProjectLayout = lazy(() =>
+  import('../site00/pages/production/ProductionWorkspaceProjectHubPage').then((m) => ({
+    default: m.ProductionWorkspaceProjectLayout,
+  })),
+);
+const ExperienceProductionShellPage = lazy(() =>
+  import('../site00/pages/production/ExperienceProductionShellPage').then((m) => ({
+    default: m.ExperienceProductionShellPage,
+  })),
+);
+const ExpressionProductionShellPage = lazy(() =>
+  import('../site00/pages/production/ExpressionProductionShellPage').then((m) => ({
+    default: m.ExpressionProductionShellPage,
+  })),
+);
+const ProjectsDesignModuleRedirect = lazy(() =>
+  import('../site00/pages/production/ProjectsDesignLegacyRedirect').then((m) => ({
+    default: m.ProjectsDesignModuleRedirect,
+  })),
+);
+const ProjectsDesignProjectRedirect = lazy(() =>
+  import('../site00/pages/production/ProjectsDesignLegacyRedirect').then((m) => ({
+    default: m.ProjectsDesignProjectRedirect,
   })),
 );
 const DesignTwinImplementationPage = lazy(() =>
@@ -1156,11 +1182,11 @@ export function Site00Routes() {
         path={SITE00_ROUTES.site00Design}
         element={
           <Site00Layout>
-            <Site00AccountRouteGuard>
+            <Site00InternalProductionGuard>
               <Site00Suspense>
                 <Site00DesignHostRouteGate />
               </Site00Suspense>
-            </Site00AccountRouteGuard>
+            </Site00InternalProductionGuard>
           </Site00Layout>
         }
       />
@@ -1386,13 +1412,70 @@ export function Site00Routes() {
         }
       />
       <Route
-        path={SITE00_ROUTES.projectsDesignModule}
+        path={SITE00_ROUTES.productionWorkspace}
         element={
           <Site00Layout>
-            <Site00Suspense>
-              <DesignProjectsDesignHubPage />
-            </Site00Suspense>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionWorkspaceHubPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
           </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.productionProject}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionWorkspaceProjectLayout />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      >
+        <Route
+          path="design/*"
+          element={
+            <Site00Suspense>
+              <DesignProductionRouteGate />
+            </Site00Suspense>
+          }
+        >
+          <Route
+            element={
+              <Site00Suspense>
+                <DesignProductionWorkspaceLayout />
+              </Site00Suspense>
+            }
+          >
+            <Route index element={null} />
+            <Route path="references" element={<Site00Suspense><DesignProductionSectionReferences /></Site00Suspense>} />
+            <Route path="assets" element={<Site00Suspense><DesignProductionSectionAssets /></Site00Suspense>} />
+            <Route path="pages" element={<Site00Suspense><DesignProductionSectionPages /></Site00Suspense>} />
+            <Route path="skins" element={<Site00Suspense><DesignProductionSectionSkins /></Site00Suspense>} />
+            <Route path="history" element={<Site00Suspense><DesignProductionSectionHistory /></Site00Suspense>} />
+            <Route path="more" element={<Site00Suspense><DesignProductionSectionMore /></Site00Suspense>} />
+          </Route>
+        </Route>
+        <Route path="experience/*" element={<Site00Suspense><ExperienceProductionShellPage /></Site00Suspense>} />
+        <Route path="expression/*" element={<Site00Suspense><ExpressionProductionShellPage /></Site00Suspense>} />
+      </Route>
+      <Route
+        path={SITE00_ROUTES.projectsDesignModule}
+        element={
+          <Site00Suspense>
+            <ProjectsDesignModuleRedirect />
+          </Site00Suspense>
+        }
+      />
+      <Route
+        path={`${SITE00_ROUTES.projectsDesignActiveProject}/*`}
+        element={
+          <Site00Suspense>
+            <ProjectsDesignProjectRedirect />
+          </Site00Suspense>
         }
       />
       <Route
@@ -1403,75 +1486,6 @@ export function Site00Routes() {
           </Site00Suspense>
         }
       />
-      <Route
-        path={SITE00_ROUTES.projectsDesignActiveProject}
-        element={
-          <Site00Layout>
-            <Site00Suspense>
-              <DesignProductionRouteGate />
-            </Site00Suspense>
-          </Site00Layout>
-        }
-      >
-        <Route
-          element={
-            <Site00Suspense>
-              <DesignProductionWorkspaceLayout />
-            </Site00Suspense>
-          }
-        >
-          {/* Index required — pathless layout does not match bare /design without a child route */}
-          <Route index element={null} />
-          <Route
-            path="references"
-            element={
-              <Site00Suspense>
-                <DesignProductionSectionReferences />
-              </Site00Suspense>
-            }
-          />
-          <Route
-            path="assets"
-            element={
-              <Site00Suspense>
-                <DesignProductionSectionAssets />
-              </Site00Suspense>
-            }
-          />
-          <Route
-            path="pages"
-            element={
-              <Site00Suspense>
-                <DesignProductionSectionPages />
-              </Site00Suspense>
-            }
-          />
-          <Route
-            path="skins"
-            element={
-              <Site00Suspense>
-                <DesignProductionSectionSkins />
-              </Site00Suspense>
-            }
-          />
-          <Route
-            path="history"
-            element={
-              <Site00Suspense>
-                <DesignProductionSectionHistory />
-              </Site00Suspense>
-            }
-          />
-          <Route
-            path="more"
-            element={
-              <Site00Suspense>
-                <DesignProductionSectionMore />
-              </Site00Suspense>
-            }
-          />
-        </Route>
-      </Route>
       <Route
         path={SITE00_ROUTES.projectExperiments}
         element={

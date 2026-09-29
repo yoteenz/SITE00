@@ -14,9 +14,9 @@ export const DEFAULT_WORKSPACE_SELF_SOURCE: WorkspaceSelfSourceContext = {
   pageId: 'ndxbook:overview',
 };
 
-/** Canonical live DESIGN module route (projects-first binding). */
+/** Canonical live DESIGN module route (admin production workspace). */
 export function resolveWorkspaceSelfDesignRoute(ctx: WorkspaceSelfSourceContext): string {
-  return `/projects/design/${ctx.projectSlug.toLowerCase()}`;
+  return `/production/${ctx.projectSlug.toLowerCase()}/design`;
 }
 
 export function resolveWorkspaceSelfCaptureUrl(

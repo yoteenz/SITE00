@@ -47,23 +47,23 @@ describe('P0.VR.3M design workspace ownership', () => {
   });
 
   it('canonical Design route resolves under SITE 00', () => {
-    expect(CANONICAL_SITE00_DESIGN_ROUTE).toBe('/projects/site00/design');
-    expect(buildCanonicalDesignWorkspacePath({ project: 'ndxbook' })).toBe('/projects/ndxbook/design');
-    expect(read('src/site00/config/routes.ts')).toContain("site00Design: '/projects/site00/design'");
+    expect(CANONICAL_SITE00_DESIGN_ROUTE).toBe('/production/site00/design');
+    expect(buildCanonicalDesignWorkspacePath({ project: 'ndxbook' })).toBe('/production/ndxbook/design');
+    expect(read('src/site00/config/routes.ts')).toContain("site00Design: '/production/site00/design'");
   });
 
   it('legacy NDXBOOK design route serves production workspace in place (P0.VR.DESIGN-INTEGRATION1)', () => {
     const resolution = resolveLegacyProjectDesignRedirect('ndxbook', '?screen=campaign-board&viewport=mobile');
     expect(resolution.redirect).toBe(false);
     expect(resolution.loop).toBe(false);
-    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
+    expect(resolution.target.pathname).toBe('/production/ndxbook/design');
     expect(resolution.target.search).toContain('screen=campaign-board');
   });
 
   it('host SITE00 design route redirects to per-project production DESIGN', () => {
     const resolution = resolveLegacyProjectDesignRedirect('site00', '?project=ndxbook&viewport=mobile');
     expect(resolution.redirect).toBe(true);
-    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
+    expect(resolution.target.pathname).toBe('/production/ndxbook/design');
     expect(resolution.target.search).toContain('viewport=mobile');
   });
 
@@ -71,7 +71,7 @@ describe('P0.VR.3M design workspace ownership', () => {
     const resolution = resolveStudioWorldDesignLegacyRedirect('?project=ndxbook&tab=review');
     expect(resolution.redirect).toBe(true);
     expect(resolution.loop).toBe(false);
-    expect(resolution.target.pathname).toBe('/projects/ndxbook/design');
+    expect(resolution.target.pathname).toBe('/production/ndxbook/design');
     expect(resolution.target.search).toContain('tab=review');
   });
 

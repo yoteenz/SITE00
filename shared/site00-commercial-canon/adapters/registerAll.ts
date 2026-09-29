@@ -49,7 +49,7 @@ export function registerAllSite00FulfillmentAdapters(): void {
       'builder-custom-world-fulfillment',
       'BUILDER_CUSTOM_WORLD',
       'design-workspace-page-system',
-      (ctx) => (ctx.projectId ? `/projects/design/${ctx.projectId}` : null),
+      (ctx) => (ctx.projectId ? `/production/${ctx.projectId.toLowerCase()}/design` : null),
       'Design workspace route canonical; premium scope FOUNDER_DECISION_REQUIRED',
     ),
     implementation: 'PARTIAL',

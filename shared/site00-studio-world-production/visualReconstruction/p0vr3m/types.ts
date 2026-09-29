@@ -48,7 +48,7 @@ export type Site00ManagedProjectRecord = {
 export type DesignRouteAuthorityRecord = {
   workspaceOwner: DesignWorkspaceOwner;
   hostShell: DesignHostShellId;
-  canonicalRoute: '/projects/site00/design';
+  canonicalRoute: '/production/site00/design';
   managedProjectId: string | null;
   legacyRoutes: string[];
   redirectPolicy: 'PRESERVE_CONTEXT';
