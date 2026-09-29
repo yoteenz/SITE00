@@ -12513,6 +12513,7 @@ Founder: sign-in on tunnel **still stuck** after autofill fix — something else
 
 ---
 
+<<<<<<< HEAD
 ## 2026-09-29 — Narrative Momentum missing on tunnel / mobile Expression Engine
 
 Founder could not see **Narrative Momentum** on Expression Engine page (tunnel / phone).
@@ -12520,3 +12521,13 @@ Founder could not see **Narrative Momentum** on Expression Engine page (tunnel /
 - **Cause:** **`ExpressionEngineReferenceMobileWorkspace`** (auto layout on mobile) never loaded or rendered **`ExpressionEngineNarrativeMomentumPanel`** and omitted **`narrativeMomentumStatus`** from **`buildProductionJourney`**. Desktop **WORK** panel fell through to storyboard when **`NME1`** failed silently.
 - **Fix:** Mobile current-stage shows NME panel when journey stage **`NARRATIVE_MOMENTUM`** is active; desktop **PRODUCTION** tab also surfaces NME; explicit loading copy when plan missing; shared **`expressionEngineNarrativeMomentumActions.ts`**.
 - **Branch:** `cursor/nme-mobile-workspace-visibility-87ed`.
+=======
+## 2026-09-29 — CI test timeouts (countPreviewFixtures + site00Projects)
+
+Production Release CI: **35 failures** — `Test timed out in 120000ms`; stack at **`countPreviewFixtures`** (client review preview seed) and **`site00Projects.test`** / **`aioProjectIndex.test`** (`listSite00FounderProjects` → astral-world Supabase).
+
+- **Cause:** Vitest preview client-review suites hit live Supabase under CI load; canonical **`astral-world`** project lookup blocked 120s per test.
+- **Fix:** **`previewReviewMemoryStore`** for Vitest + `SITE00_CLIENT_REVIEW_PREVIEW_MODE` (opt-in Supabase via `SITE00_CLIENT_REVIEW_SUPABASE_INTEGRATION=1`); **`canonicalProject`** skips DB in Vitest unless `SITE00_PROJECTS_SUPABASE_INTEGRATION=1`; `tests/setup/vitestEnv.ts`.
+- **Tests:** `fixCiPreviewFixturesMemory1.test.ts`; client room + projects suites green locally.
+>>>>>>> origin/main
+>>>>>>> origin/main

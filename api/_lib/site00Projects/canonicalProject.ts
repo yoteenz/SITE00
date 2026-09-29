@@ -95,7 +95,12 @@ function rowToCanonical(row: DbProjectRow): Site00CanonicalProject {
   };
 }
 
+function skipSupabaseProjectLookupInVitest(): boolean {
+  return process.env.VITEST === 'true' && process.env.SITE00_PROJECTS_SUPABASE_INTEGRATION !== '1';
+}
+
 async function loadProjectBySlug(slug: string): Promise<DbProjectRow | null> {
+  if (skipSupabaseProjectLookupInVitest()) return null;
   const { data } = await getSupabaseAdmin()
     .from('site00_projects')
     .select('id, slug, name, organization_id, project_type, experience_class, status, metadata')
@@ -105,6 +110,7 @@ async function loadProjectBySlug(slug: string): Promise<DbProjectRow | null> {
 }
 
 async function loadProjectById(id: string): Promise<DbProjectRow | null> {
+  if (skipSupabaseProjectLookupInVitest()) return null;
   const { data } = await getSupabaseAdmin()
     .from('site00_projects')
     .select('id, slug, name, organization_id, project_type, experience_class, status, metadata')
