@@ -226,7 +226,7 @@ describe('B5.9R2 Project Index Redesign', () => {
   it('45. SITE 00 platform design entry restored on founder index', () => {
     const platform = buildSite00PlatformDesignIndexItem();
     expect(platform.projectName).toBe('DESIGN');
-    expect(platform.openRoute).toBe('/projects/site00/design');
+    expect(platform.openRoute).toBe('/production/site00/design');
     expect(isSite00PlatformDesignIndexItem(platform)).toBe(true);
     expect(HOOK).toContain('buildSite00PlatformDesignIndexItem');
     expect(MOBILE_CARD).toContain('OPEN DESIGN →');

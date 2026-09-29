@@ -11,12 +11,14 @@ export type OperatingWorldNavItem = {
   id: string;
   label: string;
   href: string;
+  adminOnly?: boolean;
 };
 
 /** Desktop top navigation — Operating World board canon. */
 export const OPERATING_WORLD_TOP_NAV: OperatingWorldNavItem[] = [
   { id: 'control', label: 'CTRL ROOM', href: SITE00_ROUTES.control },
   { id: 'projects', label: 'PROJECTS', href: SITE00_ROUTES.projects },
+  { id: 'production', label: 'PRODUCTION', href: SITE00_ROUTES.productionWorkspace, adminOnly: true },
   { id: 'intakes', label: 'INTAKES', href: SITE00_ROUTES.accountIntakes },
   { id: 'sites', label: 'SITES', href: SITE00_ROUTES.controlSites },
   { id: 'studio', label: 'STUDIO', href: '/admin/site00/studio' },
@@ -58,7 +60,10 @@ export function isOperatingWorldNavActive(pathname: string, item: OperatingWorld
     return pathname === SITE00_ROUTES.control;
   }
   if (item.id === 'projects') {
-    return pathname.startsWith(SITE00_ROUTES.projects);
+    return pathname.startsWith(SITE00_ROUTES.projects) && !pathname.startsWith(SITE00_ROUTES.productionWorkspace);
+  }
+  if (item.id === 'production') {
+    return pathname.startsWith(SITE00_ROUTES.productionWorkspace);
   }
   if (item.id === 'intakes') {
     return pathname.startsWith(SITE00_ROUTES.accountIntakes);

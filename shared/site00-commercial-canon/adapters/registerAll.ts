@@ -5,6 +5,7 @@
 import type { ServiceFulfillmentAdapter } from '../fulfillmentAdapter.js';
 import { registerFulfillmentAdapter } from '../fulfillmentAdapter.js';
 import type { FulfillmentStatus, ProjectBootstrapContext } from '../types.js';
+import { createIdentityFulfillmentAdapter } from '../../site00-identity-commercial/adapter.js';
 
 function partialAdapter(
   id: string,
@@ -30,16 +31,7 @@ function partialAdapter(
 }
 
 export function registerAllSite00FulfillmentAdapters(): void {
-  registerFulfillmentAdapter({
-    ...partialAdapter(
-      'identity-fulfillment',
-      'IDENTITY',
-      'identity-brand-discovery',
-      () => '/account/intakes',
-      'Intake wired; purchase/activation FOUNDER_DECISION_REQUIRED',
-    ),
-    implementation: 'PARTIAL',
-  });
+  registerFulfillmentAdapter(createIdentityFulfillmentAdapter());
 
   registerFulfillmentAdapter({
     ...partialAdapter(
@@ -57,7 +49,7 @@ export function registerAllSite00FulfillmentAdapters(): void {
       'builder-custom-world-fulfillment',
       'BUILDER_CUSTOM_WORLD',
       'design-workspace-page-system',
-      (ctx) => (ctx.projectId ? `/projects/design/${ctx.projectId}` : null),
+      (ctx) => (ctx.projectId ? `/production/${ctx.projectId.toLowerCase()}/design` : null),
       'Design workspace route canonical; premium scope FOUNDER_DECISION_REQUIRED',
     ),
     implementation: 'PARTIAL',

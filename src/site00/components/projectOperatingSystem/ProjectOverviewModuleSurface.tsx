@@ -12,6 +12,7 @@ import { useProjectOperatingState } from '../../hooks/useProjectOperatingState.j
 import { useProjectViewMode } from '../../context/ProjectViewModeContext.js';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport.js';
 import { OverviewMobileHomeScreen } from '../founderWorkspace/OverviewFounderWorkspaceBoard.js';
+import { ProjectProductionSummaryStrip } from '../projectIndex/ProjectProductionSummaryStrip';
 
 type Props = {
   projectSlug: string;
@@ -122,6 +123,8 @@ export function ProjectOverviewModuleSurface({
       data-adapter={model.adapterId}
       data-partial={model.partialState ? 'true' : 'false'}
     >
+      <ProjectProductionSummaryStrip projectSlug={projectSlug} />
+
       {model.partialMessage ? (
         <p className="site00-pov-partial" role="status">
           {model.partialMessage}

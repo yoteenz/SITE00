@@ -83,7 +83,7 @@ describe('P0.VR.3M.1 design workspace shell completion', () => {
 
   it('preserves P0.VR.3M ownership, route, and SITE00 red host', () => {
     expect(site00OwnsDesignWorkspace()).toBe(true);
-    expect(CANONICAL_SITE00_DESIGN_ROUTE).toBe('/projects/site00/design');
+    expect(CANONICAL_SITE00_DESIGN_ROUTE).toBe('/production/site00/design');
     expect(designWorkspaceHostUsesSite00Red()).toBe(true);
     expect(projectAccentRecolorsDesignHostShell('ndxbook')).toBe(false);
     expect(projectAccentRecolorsDesignHostShell('studio-world')).toBe(false);

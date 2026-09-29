@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { OPERATING_WORLD_TOP_NAV, isOperatingWorldNavActive } from '../../config/ecosystem-nav';
+import { canAccessAdminPages } from '../../../utils/adminAuth';
 import { SITE00_ROUTES } from '../../config/routes';
 import { site00UserDisplayName, site00UserInitials, useSite00CurrentUser } from '../../hooks/useSite00CurrentUser';
 import { CtrlRoomSignOutButton } from '../control/CtrlRoomSignOutButton';
@@ -21,7 +22,7 @@ export function OperatingWorldTopNav() {
       </div>
       <nav className="site00-operating-topnav__links" aria-label="WORKSPACE SECTIONS">
         <ul>
-          {OPERATING_WORLD_TOP_NAV.map((item) => {
+          {OPERATING_WORLD_TOP_NAV.filter((item) => !item.adminOnly || canAccessAdminPages()).map((item) => {
             const active = isOperatingWorldNavActive(pathname, item);
             return (
               <li key={item.id}>

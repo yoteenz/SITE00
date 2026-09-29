@@ -12608,3 +12608,45 @@ Forensic audit of all customer-facing monetizable services: inventory (25 rows),
 ---
 
 Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
+
+---
+
+## 2026-09-29 — P0.SITE00-IDENTITY-COMMERCIAL-FULFILLMENT-INTEGRATION1
+
+First service-family wave: wire IDENTITY offers through commercial canon spine (no Stripe).
+
+- **Context:** Sprint from audit PR #1250 + canon PR #1252 — move Identity from PARTIAL toward end-to-end commercial fulfillment without duplicating pricing or production pipelines.
+- **Module:** `shared/site00-identity-commercial/` — tier inventory, CTA query → intake `draftPayload.commercial`, fulfillment contracts (tier deliverables from display tiers; concept/revision caps remain `FOUNDER_DECISION_REQUIRED`), production snapshot + review/revision/approval/deliverable/completion, builder handoff guard (approved only), `identity-fulfillment` adapter replacing stub in `registerAll.ts`.
+- **Catalog:** `getSite00ServiceCatalog()` expands `idnty-investment-tiers` into four tier `packageId`s; `services-hub-branding` unchanged; inventory row `idnty-investment-tiers` → `PARTIALLY_WIRED`.
+- **API:** `site00_idnty_submissions.commercial_state` migration; `api/site00/identity-commercial` (ensure-commercial, authorize, bootstrap-project); `convertIdentityIntakeToProject` + admin `convert-intake-to-project` with `intakeType: IDENTITY`.
+- **UI:** `useIdntyAssessment` + `/idnty` GET STARTED + `/idnty/state` navigation preserve `serviceId`/`packageId`.
+- **Tests:** `p0Site00IdentityCommercialFulfillmentIntegration1.test.ts` (20). Browser QA on preview: CTA/query preservation PASS; intake API payload capture PARTIAL.
+- **Honest status:** **NOT FULLY_WIRED** — `FD-IDNTY-TIER-PURCHASE` remains; `isServicePaymentReady` still false (custom quote + quote flow gaps); numeric entitlement enforcement not defined in canon; full intake→authorize→project→workspace→deliverable E2E requires Supabase migration + founder QA.
+
+---
+
+## 2026-09-29 — P0.SITE00-IDENTITY-COMMERCIAL-FULFILLMENT-CLOSEOUT1
+
+Surgical closeout on integration PR #1253 baseline (release v732). **Merged PR #1254.**
+
+- **Founder decision (unchanged):** `FD-IDNTY-TIER-PURCHASE` — how IDNTY investment tiers map to purchase, project creation, and delivery. Tier SKUs (`idnty-investment-tiers/*`) authorize on submit but **block auto project bootstrap** (`founderDecisionBlockId`, fulfillment `BLOCKED`) until resolved. Do not guess founder answer.
+- **Intake → project:** `submitIntake(IDENTITY)` calls `activateIdentityCommercialAfterIntakeSubmit` — **services-hub-branding** path authorizes + `convertIdentityIntakeToProject` without manual admin step. Tiers: PARTIAL (FD gate).
+- **Bootstrap persistence:** `IdentityCommercialState.bootstrap` carries `commercialRecordId`, `fulfillmentContractId`, `clientId`, `brandId`, `projectType`, `fulfillmentAdapterId`; project `metadata` mirrors linkage on create.
+- **Adapter:** `identity-fulfillment` → **WIRED**; `resolveProductionPipeline` uses package `currentProductionEntry`; workspace route requires `projectSlug` on snapshot.
+- **Entitlements:** contract limits remain `FOUNDER_DECISION_REQUIRED` for concepts/revisions — revision enforcement only when numeric cap defined (unchanged).
+- **Tests:** `p0Site00IdentityCommercialFulfillmentCloseout1.test.ts` (7) + integration (20); build PASS.
+- **Deploy:** Supabase migration `20260929160000_site00_identity_commercial_state.sql` **not** listed on remote project migrations yet — founder must apply. Railway redeploy required for API. Browser/builder live E2E **not** certified this session.
+- **FULLY_WIRED:** NO. **READY_FOR_FOUNDER-IDENTITY-COMMERCIAL-QA:** NO until migration + Railway + live E2E.
+
+---
+
+## 2026-09-29 — P0.SITE00-PRODUCTION-WORKSPACE-RELOCATION-AND-ADMIN-BOUNDARY1
+
+Relocate Design off Projects; admin-only **Production Workspace** with three pillars (DESIGN / EXPERIENCE / EXPRESSION).
+
+- **Routes:** `/production`, `/production/:projectSlug/design|experience|expression`; canonical design `/production/:slug/design`; legacy `/projects/design/*` redirects.
+- **Access:** `Site00InternalProductionGuard` + PRODUCTION nav `adminOnly`; clients redirected off `/production`.
+- **Projects:** `showDesignCard: false`; `ProjectProductionSummaryStrip` (status/review + admin OPEN IN PRODUCTION); overview module summary strip for founders.
+- **Module:** `shared/site00-production-workspace/` registry + context persistence.
+- **Tests:** `p0Site00ProductionWorkspaceRelocation1.test.ts` (13); headless QA script `scripts/qa-production-workspace-relocation.mjs`.
+- **Browser QA:** admin hub + design/experience/expression + legacy redirect PASS; client production block PASS (local preview + cloud preview partial).

@@ -368,6 +368,21 @@ export async function submitIntake(
     metadata: { submittedAt, version: nextVersion },
   });
 
+  if (intakeType === 'IDENTITY') {
+    try {
+      const { activateIdentityCommercialAfterIntakeSubmit } = await import('./identityCommercial.js');
+      await activateIdentityCommercialAfterIntakeSubmit(updated);
+    } catch (err) {
+      await store.createIntakeEvent({
+        intakeType,
+        intakeId: id,
+        eventType: 'IDENTITY_COMMERCIAL_ACTIVATION_FAILED',
+        actor: 'system',
+        metadata: { message: err instanceof Error ? err.message : String(err) },
+      });
+    }
+  }
+
   if (updated.email) {
     sendEmailAsync({
       templateType: 'intake-submission-receipt',
