@@ -12607,7 +12607,7 @@ Forensic audit of all customer-facing monetizable services: inventory (25 rows),
 
 ---
 
-Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
+Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
 
 ---
 
