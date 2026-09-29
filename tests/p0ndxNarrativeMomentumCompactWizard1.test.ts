@@ -45,13 +45,14 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-COMPACT-WIZARD-WORKSPACE1', () => {
     expect(panel).toContain('data-nme-section="formats"');
     expect(panel).toContain('data-nme-section="review"');
     expect(panel).not.toContain('site00-nme-review__snapshot');
+    expect(panel).toContain('site00-nme-wizard__chapter-rail');
   });
 
   it('does not render all sections simultaneously in JSX', () => {
     expect(panel).toContain('{step === 1 ?');
     expect(panel).toContain('{step === 2 ?');
     expect(panel).toContain('{step === 6 ?');
-    expect(panel).not.toContain('site00-nme-review__card');
+    expect(panel).not.toContain('site00-nme-wizard__card-grid');
     expect(panel.split('data-nme-section=').length - 1).toBeGreaterThanOrEqual(6);
   });
 
@@ -115,7 +116,7 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-COMPACT-WIZARD-WORKSPACE1', () => {
   });
 
   it('recesses technical details', () => {
-    expect(panel).toContain('Technical details');
+    expect(panel).toContain('Technical index');
     expect(panel).toContain('showTechnical');
   });
 
