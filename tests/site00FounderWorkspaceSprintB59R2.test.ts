@@ -232,7 +232,7 @@ describe('B5.9R2 Project Index Redesign', () => {
     expect(MOBILE_CARD).toContain('OPEN DESIGN →');
     expect(MOBILE_CARD).toContain('site00-pidx-mobile-card--platform');
     expect(DESKTOP_ROW).toContain('OPEN DESIGN →');
-    expect(INDEX_PAGE).toContain('ProjectIndexDesignCard');
-    expect(INDEX_PAGE).toContain('SITE 00 DESIGN WORKSPACE REMAINS AVAILABLE');
+    expect(INDEX_PAGE).toContain('ProjectProductionSummaryStrip');
+    expect(INDEX_PAGE).not.toContain('ProjectIndexDesignCard');
   });
 });
