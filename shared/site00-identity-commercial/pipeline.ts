@@ -20,8 +20,7 @@ import type {
   IdentityReviewLifecycle,
 } from './types.js';
 import { getIdentityProductionSnapshot, setIdentityProductionSnapshot } from './runtimeStore.js';
-import { IDENTITY_TIER_PACKAGE_IDS } from './inventory.js';
-
+import { IDENTITY_TIER_PACKAGE_IDS, resolveIdentityPackageRow } from './inventory.js';
 export function validateIdentityIntakePayload(payload: Record<string, unknown>): { ok: boolean; errors: string[] } {
   const commercial = commercialBlockFromDraftPayload(payload);
   if (!commercial) {
@@ -33,7 +32,15 @@ export function validateIdentityIntakePayload(payload: Record<string, unknown>):
   return { ok: true, errors: [] };
 }
 
-export function initialIdentityCommercialState(selection: IdentityCommercialSelection): IdentityCommercialState {
+export function initialIdentityCommercialState(
+  selection: IdentityCommercialSelection,
+  linkage?: {
+    intakeId: string;
+    clientId?: string | null;
+    brandId?: string | null;
+  },
+): IdentityCommercialState {
+  const fulfillmentContractId = `${selection.serviceId}:${selection.packageId}`;
   return {
     version: 1,
     selection,
@@ -46,7 +53,13 @@ export function initialIdentityCommercialState(selection: IdentityCommercialSele
     bootstrap: {
       projectId: null,
       projectSlug: null,
+      projectType: 'IDENTITY',
       fulfillmentAdapterId: 'identity-fulfillment',
+      fulfillmentContractId,
+      commercialRecordId: linkage?.intakeId ?? null,
+      clientId: linkage?.clientId ?? null,
+      brandId: linkage?.brandId ?? null,
+      blockedByFounderDecisionId: null,
     },
     production: null,
   };
@@ -102,6 +115,7 @@ export function seedProductionSnapshot(args: {
     projectStatus: null,
     intakeHandoff: intakeHandoffFromDraft(args.draftPayload),
     abandonmentReason: null,
+    founderDecisionBlockId: null,
   };
   setIdentityProductionSnapshot(args.intakeId, snapshot);
   return snapshot;
@@ -142,13 +156,22 @@ export function bootstrapIdentityProjectContext(args: {
 
 export function identityWorkspaceRoute(ctx: ProjectBootstrapContext): string | null {
   const snap = getIdentityProductionSnapshot(ctx.commercialRecordId);
-  const slug = snap?.projectSlug ?? ctx.projectId;
+  const slug = snap?.projectSlug;
   if (!slug) return '/account/intakes';
   return `/projects/${slug}/identity`;
 }
 
+export function resolveIdentityProductionPipelineId(ctx: ProjectBootstrapContext): string {
+  const snap = getIdentityProductionSnapshot(ctx.commercialRecordId);
+  const serviceId = snap?.serviceId ?? ctx.serviceId;
+  const packageId = snap?.packageId ?? ctx.packageId;
+  const row = resolveIdentityPackageRow(serviceId, packageId);
+  return row?.currentProductionEntry ?? 'identity-brand-discovery';
+}
+
 export function mapSnapshotToFulfillmentStatus(snapshot: IdentityProductionSnapshot | null): FulfillmentStatus {
   if (!snapshot) return 'INTAKE';
+  if (snapshot.founderDecisionBlockId) return 'BLOCKED';
   if (snapshot.abandonmentReason === 'INTAKE_ABANDONED') return 'NOT_STARTED';
   if (snapshot.abandonmentReason === 'AUTH_INCOMPLETE') return 'BLOCKED';
   if (snapshot.abandonmentReason === 'PROJECT_CANCELLED' || snapshot.abandonmentReason === 'PRODUCTION_CANCELLED') {

@@ -66,6 +66,7 @@ export type IdentityProductionSnapshot = {
   projectStatus: string | null;
   intakeHandoff: Record<string, unknown>;
   abandonmentReason: 'INTAKE_ABANDONED' | 'AUTH_INCOMPLETE' | 'PROJECT_CANCELLED' | 'PRODUCTION_CANCELLED' | null;
+  founderDecisionBlockId: string | null;
 };
 
 export type IdentityCommercialState = {
@@ -75,7 +76,13 @@ export type IdentityCommercialState = {
   bootstrap: {
     projectId: string | null;
     projectSlug: string | null;
+    projectType: 'IDENTITY';
     fulfillmentAdapterId: 'identity-fulfillment';
+    fulfillmentContractId: string | null;
+    commercialRecordId: string | null;
+    clientId: string | null;
+    brandId: string | null;
+    blockedByFounderDecisionId: string | null;
   };
   production: IdentityProductionSnapshot | null;
 };

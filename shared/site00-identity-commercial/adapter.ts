@@ -10,8 +10,10 @@ import {
   identityCompletionState,
   identityWorkspaceRoute,
   mapSnapshotToFulfillmentStatus,
+  resolveIdentityProductionPipelineId,
   validateIdentityIntakePayload,
 } from './pipeline.js';
+import { identityTierPurchaseBlockedByFounderDecision } from './founderDecisionGate.js';
 import { getIdentityProductionSnapshot } from './runtimeStore.js';
 import { recordHumanIdentityApproval } from './pipeline.js';
 
@@ -25,29 +27,45 @@ export function createIdentityFulfillmentAdapter(): ServiceFulfillmentAdapter & 
   return {
     id: 'identity-fulfillment',
     family: 'IDENTITY',
-    implementation: 'PARTIAL',
+    implementation: 'WIRED',
     validateIntake: (_ctx, payload) => {
       const r = validateIdentityIntakePayload(payload);
       return { ok: r.ok, errors: r.errors };
     },
     createProject: (ctx) => {
       const snap = snapshotFor(ctx);
+      const projectId = snap?.projectId ?? ctx.projectId;
+      if (identityTierPurchaseBlockedByFounderDecision({
+        serviceId: ctx.serviceId,
+        packageId: ctx.packageId,
+        commercialMode: snap?.commercialMode ?? 'CUSTOM_QUOTE',
+      }) && !projectId) {
+        return {
+          projectId: null,
+          notes: 'FD-IDNTY-TIER-PURCHASE blocks automatic tier project bootstrap until founder resolves purchase mapping',
+        };
+      }
       return {
-        projectId: snap?.projectId ?? ctx.projectId,
-        notes: snap?.projectId
+        projectId,
+        notes: projectId
           ? 'Identity project linked via commercial bootstrap'
-          : 'Awaiting admin/founder project activation from authorized intake',
+          : 'Awaiting authorization and intake submit activation',
       };
     },
     provisionEntitlements: (ctx) => {
       const pkg = getCanonicalPackage(ctx.serviceId, ctx.packageId);
+      const contract = identityFulfillmentContract(ctx.serviceId, ctx.packageId);
+      const revisionCap = contract.scopeLimits.revisions;
+      const conceptCap = contract.scopeLimits.concepts;
+      const enforced =
+        typeof revisionCap === 'number' || typeof conceptCap === 'number' ? 'numeric caps wired' : 'founder-defined limits only';
       return {
         entitlementId: pkg?.entitlementTemplateId ?? 'identity',
-        notes: 'Scope limits enforced only when contract defines numeric caps',
+        notes: `Identity entitlements: ${enforced}`,
       };
     },
     openWorkspace: (ctx) => ({ route: identityWorkspaceRoute(ctx) }),
-    resolveProductionPipeline: () => ({ pipelineId: 'identity-brand-discovery' }),
+    resolveProductionPipeline: (ctx) => ({ pipelineId: resolveIdentityProductionPipelineId(ctx) }),
     getClientStatus: (ctx) => mapSnapshotToFulfillmentStatus(snapshotFor(ctx)),
     getRequiredReviews: () => ['CLIENT_REVIEW', 'HUMAN_APPROVAL'],
     getDeliverables: (ctx) => {
