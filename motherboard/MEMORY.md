@@ -12597,6 +12597,12 @@ Augmented modular engine (does not replace MODULAR-PRODUCTION-ENGINE1) with oper
 
 ## 2026-09-29 — P0.SITE00.ALL-SERVICES-COMMERCIAL-WIRING-AUDIT1
 
+## 2026-09-29 — P0.SITE00-COMMERCIAL-CANON-AND-FULFILLMENT-SPINE1
+
+Established `shared/site00-commercial-canon/`: Site00ServiceCatalog, dual-tree resolution (evolve-commercial canonical, evolve-pricing legacy display), legacy aliases, 8 fulfillment families, ServiceFulfillmentAdapter registry (Marketing reuses PR #1249), shared entitlement/deliverable/bootstrap contracts, FulfillmentStatus, payment readiness selector (gate BLOCKED), founder decision register (12), orphan/duplicate resolutions, mock surface classification, wiring matrix v2. Doc: `docs/SITE_00_COMMERCIAL_CANON_AND_FULFILLMENT_SPINE1.md`. Tests: `p0Site00CommercialCanonAndFulfillmentSpine1.test.ts` (20). **0 PAYMENT_READY** — architecture only.
+
+---
+
 Forensic audit of all customer-facing monetizable services: inventory (25 rows), wiring matrix, orphan detection (duplicate EVOLVE pricing UI vs evolve-commercial catalog, unrouted EvolveCommercialPage, no Stripe). Docs: `docs/SITE_00_ALL_SERVICES_COMMERCIAL_WIRING_AUDIT1.md`, module `shared/site00-commercial-audit/`. Tests: `p0Site00AllServicesCommercialWiringAudit1.test.ts`. **0 PAYMENT_READY** services; marketing remains best partial path. PR TBD.
 
 ---
