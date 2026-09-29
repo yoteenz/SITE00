@@ -7,6 +7,8 @@ import { getEvolvePlanById, getEvolveProjectServiceById, EVOLVE_FOUNDATION } fro
 import { DUAL_PRICING_RESOLUTION } from './dualPricingTrees.js';
 import { familyForServiceId } from './familyClassification.js';
 import { deliverableContractForFamily } from './contracts.js';
+import { identityFulfillmentContract } from '../site00-identity-commercial/contract.js';
+import { IDENTITY_TIER_PACKAGE_IDS } from '../site00-identity-commercial/inventory.js';
 import type {
   CommercialMode,
   ServiceFulfillmentContract,
@@ -100,6 +102,9 @@ function buildContract(
   family: NonNullable<ReturnType<typeof familyForServiceId>>,
   commercialMode: CommercialMode,
 ): ServiceFulfillmentContract {
+  if (family === 'IDENTITY') {
+    return identityFulfillmentContract(serviceId, packageId);
+  }
   const { completionCriteria, deliveryDestination } = deliverableContractForFamily(family);
   return {
     serviceId,
@@ -113,12 +118,10 @@ function buildContract(
       family === 'MARKETING_CAMPAIGN' ? ['marketing-category'] : family === 'ADD_ON' ? ['add-on'] : [],
     intakeSchemaId:
       family === 'MARKETING_CAMPAIGN' ? 'marketing-creative-intake'
-      : family === 'IDENTITY' ? 'site00-intake-identity'
       : family === 'BUILDER_SIMPLE' || family === 'BUILDER_CUSTOM_WORLD' ? 'site00-intake-builder'
       : 'FOUNDER_DECISION_REQUIRED',
     projectType:
-      family === 'IDENTITY' ? 'IDENTITY'
-      : family === 'BUILDER_SIMPLE' ? 'SITE'
+      family === 'BUILDER_SIMPLE' ? 'SITE'
       : family === 'BUILDER_CUSTOM_WORLD' ? 'WORLD'
       : family === 'MARKETING_CAMPAIGN' ? 'MARKETING_ENGAGEMENT'
       : 'FOUNDER_DECISION_REQUIRED',
@@ -189,11 +192,26 @@ export function getSite00ServiceCatalog(): Site00ServiceCatalog {
     }
   }
 
+  const services = [...byService.values()];
+  const tierSvc = services.find((s) => s.serviceId === 'idnty-investment-tiers');
+  if (tierSvc) {
+    const tierEntry = SITE00_SERVICE_INVENTORY.find((e) => e.serviceId === 'idnty-investment-tiers')!;
+    const tierTemplate = packageForInventoryEntry(tierEntry);
+    const tierPackages = IDENTITY_TIER_PACKAGE_IDS.map((tierId) => ({
+      ...tierTemplate,
+      packageId: tierId,
+      name: `IDNTY tier — ${tierId}`,
+      fulfillmentContract: identityFulfillmentContract('idnty-investment-tiers', tierId),
+    }));
+    const idx = services.findIndex((s) => s.serviceId === 'idnty-investment-tiers');
+    services[idx] = { ...tierSvc, packages: tierPackages };
+  }
+
   cachedCatalog = {
     version: '2026-09-29-spine1',
     canonicalPricingAuthority: DUAL_PRICING_RESOLUTION.canonicalPath,
     legacyPricingAuthorities: [DUAL_PRICING_RESOLUTION.legacyPath],
-    services: [...byService.values()],
+    services,
   };
   return cachedCatalog;
 }

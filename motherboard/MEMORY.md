@@ -12607,4 +12607,18 @@ Forensic audit of all customer-facing monetizable services: inventory (25 rows),
 
 ---
 
-Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
+Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
+
+---
+
+## 2026-09-29 — P0.SITE00-IDENTITY-COMMERCIAL-FULFILLMENT-INTEGRATION1
+
+First service-family wave: wire IDENTITY offers through commercial canon spine (no Stripe).
+
+- **Context:** Sprint from audit PR #1250 + canon PR #1252 — move Identity from PARTIAL toward end-to-end commercial fulfillment without duplicating pricing or production pipelines.
+- **Module:** `shared/site00-identity-commercial/` — tier inventory, CTA query → intake `draftPayload.commercial`, fulfillment contracts (tier deliverables from display tiers; concept/revision caps remain `FOUNDER_DECISION_REQUIRED`), production snapshot + review/revision/approval/deliverable/completion, builder handoff guard (approved only), `identity-fulfillment` adapter replacing stub in `registerAll.ts`.
+- **Catalog:** `getSite00ServiceCatalog()` expands `idnty-investment-tiers` into four tier `packageId`s; `services-hub-branding` unchanged; inventory row `idnty-investment-tiers` → `PARTIALLY_WIRED`.
+- **API:** `site00_idnty_submissions.commercial_state` migration; `api/site00/identity-commercial` (ensure-commercial, authorize, bootstrap-project); `convertIdentityIntakeToProject` + admin `convert-intake-to-project` with `intakeType: IDENTITY`.
+- **UI:** `useIdntyAssessment` + `/idnty` GET STARTED + `/idnty/state` navigation preserve `serviceId`/`packageId`.
+- **Tests:** `p0Site00IdentityCommercialFulfillmentIntegration1.test.ts` (20). Browser QA on preview: CTA/query preservation PASS; intake API payload capture PARTIAL.
+- **Honest status:** **NOT FULLY_WIRED** — `FD-IDNTY-TIER-PURCHASE` remains; `isServicePaymentReady` still false (custom quote + quote flow gaps); numeric entitlement enforcement not defined in canon; full intake→authorize→project→workspace→deliverable E2E requires Supabase migration + founder QA.

@@ -40,7 +40,7 @@ export const SITE00_SERVICE_INVENTORY: readonly ServiceInventoryEntry[] = [
     deliveryDestination: 'FOUNDER_DEFINITION_REQUIRED',
     billingClass: 'CUSTOM_QUOTE',
     paymentReadiness: 'NOT_PAYMENT_READY',
-    wiringStatus: 'DISPLAY_ONLY',
+    wiringStatus: 'PARTIALLY_WIRED',
   },
   {
     serviceId: 'bldr-site-class',

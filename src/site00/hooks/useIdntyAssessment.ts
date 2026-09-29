@@ -7,6 +7,10 @@ import {
   getIdntyAssessmentState,
 } from '../config/idnty-assessment';
 import { useIntakeSync } from './useIntakeSync';
+import {
+  mergeCommercialIntoDraftPayload,
+  parseIdentityCommercialSearchParams,
+} from '../lib/identityCommercialContext';
 
 export type IdntyStepAnswers = Record<string, string | string[]>;
 
@@ -93,8 +97,14 @@ function readRecord(): IdntyAssessmentRecord {
   }
 }
 
+function readCommercialSelectionFromLocation() {
+  if (typeof window === 'undefined') return parseIdentityCommercialSearchParams('');
+  return parseIdentityCommercialSearchParams(window.location.search);
+}
+
 export function useIdntyAssessment() {
   const [record, setRecord] = useState<IdntyAssessmentRecord>(() => readRecord());
+  const [commercialSelection] = useState(() => readCommercialSelectionFromLocation());
   const intakeSync = useIntakeSync('IDENTITY', 'site00-idnty');
 
   useEffect(() => {
@@ -122,12 +132,18 @@ export function useIdntyAssessment() {
         startedAt: new Date().toISOString(),
         submissionStatus: 'draft',
       });
+      const sourceRoute = typeof window !== 'undefined' ? window.location.pathname : undefined;
+      const selection = {
+        ...commercialSelection,
+        sourceRoute: sourceRoute ?? commercialSelection.sourceRoute ?? null,
+      };
       void intakeSync.ensureStarted({
         domainLabel: stateId,
-        sourceRoute: typeof window !== 'undefined' ? window.location.pathname : undefined,
+        sourceRoute,
+        draftPayload: mergeCommercialIntoDraftPayload({}, selection, sourceRoute),
       });
     },
-    [persist, intakeSync],
+    [persist, intakeSync, commercialSelection],
   );
 
   const setStepAnswers = useCallback(
@@ -143,7 +159,13 @@ export function useIdntyAssessment() {
           [stateId]: mergedForState,
         },
       });
-      intakeSync.autosave({ currentStep: stepId, draftPayload: { identityState: stateId, answers: mergedForState } });
+      intakeSync.autosave({
+        currentStep: stepId,
+        draftPayload: mergeCommercialIntoDraftPayload(
+          { identityState: stateId, answers: mergedForState },
+          commercialSelection,
+        ),
+      });
     },
     [persist, intakeSync],
   );
