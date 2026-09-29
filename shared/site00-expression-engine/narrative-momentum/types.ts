@@ -2,7 +2,7 @@
  * P0.NDX.NARRATIVE-MOMENTUM-ENGINE1 — story architecture between territory and format execution.
  */
 
-export const NARRATIVE_MOMENTUM_ENGINE_VERSION = '1.0.0' as const;
+export const NARRATIVE_MOMENTUM_ENGINE_VERSION = '1.1.0' as const;
 
 export const NARRATIVE_MOMENTUM_STATUSES = [
   'DRAFT',
@@ -39,6 +39,67 @@ export type ProofType = (typeof PROOF_TYPES)[number];
 
 export const PROOF_STRENGTHS = ['PRIMARY', 'SUPPORTING', 'ATMOSPHERIC'] as const;
 export type ProofStrength = (typeof PROOF_STRENGTHS)[number];
+
+export const PROOF_SOURCE_STATUSES = [
+  'VERIFIED_SOURCE',
+  'SOURCE_AVAILABLE',
+  'SOURCE_REQUIRED',
+  'FOUNDER_SUPPLIED',
+  'DERIVED_COMPARISON',
+] as const;
+
+export type ProofSourceStatus = (typeof PROOF_SOURCE_STATUSES)[number];
+
+export const EVIDENCE_SOURCE_TYPES = [
+  'ARCHIVED_POST',
+  'ARCHIVED_COMMENT',
+  'SCREENSHOT',
+  'HEADLINE',
+  'THEN_NOW_COMPARISON',
+  'BEHAVIOR_PATTERN',
+  'QUANTITATIVE',
+  'VISUAL_CONTINUITY',
+  'TESTIMONIAL',
+  'PROCESS_DEMONSTRATION',
+  'PLATFORM_TONE',
+  'EDITORIAL_METAPHOR',
+] as const;
+
+export type EvidenceSourceType = (typeof EVIDENCE_SOURCE_TYPES)[number];
+
+export type NarrativeEvidenceObject = {
+  id: string;
+  proofType: ProofType;
+  sourceType: EvidenceSourceType;
+  sourceReference: string;
+  whatIsObserved: string;
+  whatItSupports: string;
+  strength: ProofStrength;
+  placement: { beatId: string; whyNow: string; beliefBefore: string; beliefAfter: string };
+  status: ProofSourceStatus;
+};
+
+export type NarrativeInterpretation = {
+  id: string;
+  claim: string;
+  derivedFromEvidenceIds: readonly string[];
+  lens: string;
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+  role: 'NDX_LENS' | 'REFRAME' | 'SYNTHESIS' | 'EDITORIAL';
+};
+
+export const TENSION_MODELS = [
+  'CANONICAL',
+  'DOUBLE_PEAK',
+  'FALSE_RELEASE',
+  'NONLINEAR',
+  'SUSTAINED_TENSION',
+] as const;
+
+export type TensionModel = (typeof TENSION_MODELS)[number];
+
+export const VALIDATION_SEVERITIES = ['INFO', 'ADVISORY', 'WARNING', 'BLOCKING'] as const;
+export type ValidationSeverity = (typeof VALIDATION_SEVERITIES)[number];
 
 export const TRANSFORMATION_TYPES = [
   'PRODUCT_TRANSFORMATION',
@@ -164,14 +225,20 @@ export type NarrativeBeat = {
   beatId: string;
   order: number;
   label: string;
+  beatRole: string;
   grammarBeatId: string;
   shotFunction: ShotFunction;
   tensionStage: TensionCurveStage;
+  tensionBefore: TensionCurveStage;
+  tensionAfter: TensionCurveStage;
   whatAudienceKnows: string;
   whatAudienceDoesNotKnow: string;
   whatAudienceWantsToKnow: string;
   whatChangesInThisBeat: string;
   proofIds: readonly string[];
+  evidenceUsed: readonly string[];
+  interpretationIntroduced: readonly string[];
+  whyNextBeatIsNecessary: string;
 };
 
 export type NarrativeTensionCurve = {
@@ -210,6 +277,8 @@ export type NarrativeFormatAdaptation = {
   openLoopTreatment: string;
   durationOrSlideCount: string;
   reelArchitecture?: ReelStoryArchitecture;
+  reelDetail?: ReelNarrativeAdaptation;
+  carouselDetail?: CarouselNarrativeAdaptation;
 };
 
 export type ReelStoryArchitecture = {
@@ -222,6 +291,75 @@ export type ReelStoryArchitecture = {
   reframe: string;
   endingImageOrLine: string;
   openLoop: string;
+};
+
+export type ReelBeatAdaptation = {
+  sourceNarrativeBeatId: string;
+  screenAction: string;
+  viewerKnowledgeState: string;
+  visualPurpose: string;
+  narrativePurpose: string;
+  proofUsed: readonly string[];
+  transitionFunction: string;
+  estimatedDurationRange: string;
+};
+
+export type ReelNarrativeAdaptation = {
+  openingMoment: string;
+  beatSequence: readonly ReelBeatAdaptation[];
+  glitchMoment: string;
+  firstProofMoment: string;
+  evidenceEscalation: string;
+  contradictionTurn: string;
+  revealMoment: string;
+  reframeMoment: string;
+  releaseMoment: string;
+  endingImage: string;
+  openLoop: string;
+  pacingNotes: string;
+  soundNotes: string;
+  visualContinuityRequirements: string;
+};
+
+export type CarouselSlideAdaptation = {
+  slideNumber: number;
+  sourceBeatIds: readonly string[];
+  purpose: string;
+  contentRole: string;
+  proofIds: readonly string[];
+  tensionStage: TensionCurveStage;
+  transition: string;
+};
+
+export type CarouselNarrativeAdaptation = {
+  slideSequence: readonly CarouselSlideAdaptation[];
+  slidePurpose: string;
+  proofPlacement: string;
+  argumentEscalation: string;
+  reframeSlide: number;
+  finalOpenLoop: string;
+};
+
+export type NarrativeValidationIssue = {
+  flagId: NarrativeMomentumValidationFlag;
+  severity: ValidationSeverity;
+  trigger: string;
+  affectedBeatIds: readonly string[];
+  explanation: string;
+  suggestedCorrection: string;
+  blocking: boolean;
+};
+
+export type StoryboardBeatHandoff = {
+  beatId: string;
+  order: number;
+  label: string;
+  whatViewerSees: string;
+  whatViewerKnows: string;
+  whatChanges: string;
+  whyNextShotExists: string;
+  tensionStage: TensionCurveStage;
+  evidenceIds: readonly string[];
 };
 
 export type NarrativeMomentumPlan = {
@@ -241,6 +379,9 @@ export type NarrativeMomentumPlan = {
   beats: readonly NarrativeBeat[];
   tensionArc: NarrativeTensionCurve;
   proofArchitecture: ProofArchitecture;
+  evidence: readonly NarrativeEvidenceObject[];
+  interpretations: readonly NarrativeInterpretation[];
+  tensionModel: TensionModel;
   culturalGlitch: CulturalGlitchMechanic | null;
   reframe: NarrativeTransformationReframe;
   transformation: NarrativeTransformationReframe;
@@ -253,6 +394,7 @@ export type NarrativeMomentumPlan = {
   version: string;
   providerDispatchCount: 0;
   validationFlags: readonly NarrativeMomentumValidationFlag[];
+  validationIssues: readonly NarrativeValidationIssue[];
   campaignHandoff: NarrativeMomentumCampaignHandoff;
   createdAt: string;
   updatedAt: string;
@@ -271,7 +413,9 @@ export type NarrativeMomentumValidationFlag =
   | 'GENERIC_FUNNEL_DRIFT'
   | 'CHEAP_OPEN_LOOP_BAIT'
   | 'FORCED_TRANSFORMATION'
-  | 'NARRATIVE_REPETITION_WARNING';
+  | 'NARRATIVE_REPETITION_WARNING'
+  | 'TENSION_SEQUENCE_INCOHERENT'
+  | 'PROOF_SOURCE_GAP';
 
 export type NarrativeCampaignGraphEdge = {
   fromEntryId: string;

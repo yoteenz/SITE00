@@ -306,6 +306,7 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
       founderAction:
         | 'APPROVE_NARRATIVE'
         | 'REFINE_NARRATIVE'
+        | 'CHANGE_GRAMMAR'
         | 'LOVE_IT'
         | 'PROMISING'
         | 'TOO_CLOSE'

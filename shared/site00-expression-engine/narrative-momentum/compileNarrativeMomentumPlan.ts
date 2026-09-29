@@ -7,9 +7,16 @@ import { buildFormatAdaptations } from './formatAdaptation.js';
 import { getNarrativeGrammar } from './grammarLibrary.js';
 import { selectNarrativeGrammar } from './selectNarrativeGrammar.js';
 import {
+  assertNoInterpretationClassifiedAsEvidence,
+  buildEntry002Evidence,
+  evidenceToLegacyProofObjects,
+} from './evidenceArchitecture.js';
+import { tensionStageForBeatIndex, validateNarrativeTensionSequence } from './tensionSequenceValidator.js';
+import {
   narrativeSimilarityValidator,
   requireAudienceShift,
   validateNarrativeMomentumPlan,
+  validateNarrativeMomentumPlanIssues,
 } from './validators.js';
 import type {
   CompileNarrativeMomentumInput,
@@ -18,7 +25,6 @@ import type {
   NarrativeMomentumPlan,
   NarrativeTensionCurve,
   OpenLoopArchitecture,
-  ProofObject,
   TensionCurveStage,
 } from './types.js';
 
@@ -31,16 +37,6 @@ const TENSION_SEQUENCE: TensionCurveStage[] = [
   'RELEASE',
   'RESIDUAL',
 ];
-
-function tensionForIndex(i: number, total: number): TensionCurveStage {
-  if (i === 0) return 'LOW';
-  if (i === total - 1) return 'RESIDUAL';
-  if (i === total - 2) return 'RELEASE';
-  if (i === Math.floor(total / 2)) return 'PEAK';
-  if (i === 1) return 'RISING';
-  if (i === 2) return 'INTERRUPTION';
-  return 'ESCALATION';
-}
 
 function buildCulturalGlitch(input: CompileNarrativeMomentumInput): CulturalGlitchMechanic | null {
   if (!input.chapterMapping) return null;
@@ -57,45 +53,29 @@ function buildCulturalGlitch(input: CompileNarrativeMomentumInput): CulturalGlit
   };
 }
 
-function defaultProofs(input: CompileNarrativeMomentumInput): ProofObject[] {
-  if (input.availableProof.length) return [...input.availableProof];
-  const m = input.chapterMapping;
-  if (!m) return [];
-  return [
-    {
-      proofId: 'proof-archival-receipt',
-      proofType: 'ARCHIVAL_PROOF',
-      source: 'Real-time cultural descriptions (comments, press, platform tone)',
-      whatItProves: m.receipt,
-      whenAudienceNeedsIt: 'After present-tense nostalgia claim lands',
-      bestPlacement: 'RECEIPT beat',
-      visualForm: 'Phone scroll / comment archaeology / dated captions',
-      strength: 'PRIMARY',
-      riskOfOverexplaining: 'MEDIUM',
-    },
-    {
-      proofId: 'proof-visual-comparative',
-      proofType: 'COMPARATIVE_PROOF',
-      source: 'Same outfit / same codes — then vs now labeling',
-      whatItProves: m.contradiction,
-      whenAudienceNeedsIt: 'At contradiction beat',
-      bestPlacement: 'CONTRADICTION beat',
-      visualForm: 'Split-screen or timeline alignment',
-      strength: 'PRIMARY',
-      riskOfOverexplaining: 'LOW',
-    },
-    {
-      proofId: 'proof-edit-suite-metaphor',
-      proofType: 'PROCESS_PROOF',
-      source: input.creativeTerritoryLabel,
-      whatItProves: 'Memory is edited, not the object',
-      whenAudienceNeedsIt: 'During recontextualization',
-      bestPlacement: 'RECONTEXTUALIZATION beat',
-      visualForm: 'Physical timeline + razor / splice metaphor',
-      strength: 'SUPPORTING',
-      riskOfOverexplaining: 'HIGH',
-    },
-  ];
+function resolveEvidence(input: CompileNarrativeMomentumInput) {
+  if (input.chapterMapping) {
+    return buildEntry002Evidence(input);
+  }
+  return {
+    evidence: input.availableProof.map((p) => ({
+      id: p.proofId,
+      proofType: p.proofType,
+      sourceType: 'SCREENSHOT' as const,
+      sourceReference: p.source,
+      whatIsObserved: p.whatItProves,
+      whatItSupports: p.whatItProves,
+      strength: p.strength,
+      placement: {
+        beatId: p.bestPlacement,
+        whyNow: p.whenAudienceNeedsIt,
+        beliefBefore: '',
+        beliefAfter: '',
+      },
+      status: 'SOURCE_AVAILABLE' as const,
+    })),
+    interpretations: [] as import('./types.js').NarrativeInterpretation[],
+  };
 }
 
 function beatCopyForTemplate(
@@ -184,32 +164,52 @@ function beatCopyForTemplate(
   };
 }
 
-function buildBeats(input: CompileNarrativeMomentumInput, grammarId: import('./types.js').NarrativeGrammarId): NarrativeBeat[] {
+function buildBeats(
+  input: CompileNarrativeMomentumInput,
+  grammarId: import('./types.js').NarrativeGrammarId,
+  evidenceIds: readonly string[],
+): NarrativeBeat[] {
   const grammar = getNarrativeGrammar(grammarId);
-  const proofs = defaultProofs(input);
-  const proofIds = proofs.map((p) => p.proofId);
+  const total = grammar.beatSequence.length;
   return grammar.beatSequence.map((tpl, index) => {
     const motion = beatCopyForTemplate(tpl.label, input);
-    const tensionStage = tensionForIndex(index, grammar.beatSequence.length);
+    const tensionStage = tensionStageForBeatIndex(grammarId, index, total);
+    const prevStage = index > 0 ? tensionStageForBeatIndex(grammarId, index - 1, total) : tensionStage;
     const labelUpper = tpl.label.toUpperCase();
-    const linkedProofs =
+    const linkedEvidence =
       labelUpper.includes('RECEIPT') || labelUpper.includes('PROOF') ?
-        proofIds.filter((id) => id.includes('receipt') || id.includes('comparative'))
+        evidenceIds.filter((id) => id.includes('archival'))
       : labelUpper.includes('CONTRADICTION') ?
-        proofIds.filter((id) => id.includes('comparative'))
+        evidenceIds.filter((id) => id.includes('temporal') || id.includes('comparative'))
+      : labelUpper.includes('RECONTEXT') ?
+        evidenceIds.filter((id) => id.includes('metaphor'))
       : [];
+    const linkedInterpretations =
+      labelUpper.includes('LENS') ? ['interp-ndx-lens']
+      : labelUpper.includes('RECONTEXT') ? ['interp-memory-edit']
+      : labelUpper.includes('OPEN') ? []
+      : [];
+    const nextTpl = grammar.beatSequence[index + 1];
     return {
       beatId: `${grammarId.toLowerCase()}-${tpl.beatId}`,
       order: index + 1,
       label: tpl.label,
+      beatRole: tpl.purpose,
       grammarBeatId: tpl.beatId,
       shotFunction: tpl.defaultShotFunction,
       tensionStage,
+      tensionBefore: prevStage,
+      tensionAfter: tensionStage,
       whatAudienceKnows: motion.knows,
       whatAudienceDoesNotKnow: motion.notKnows,
       whatAudienceWantsToKnow: motion.wants,
       whatChangesInThisBeat: motion.changes,
-      proofIds: linkedProofs,
+      proofIds: linkedEvidence,
+      evidenceUsed: linkedEvidence,
+      interpretationIntroduced: linkedInterpretations,
+      whyNextBeatIsNecessary: nextTpl ?
+        `Sets up ${nextTpl.label} — ${nextTpl.purpose}`
+      : 'Carry residual question forward',
     };
   });
 }
@@ -246,7 +246,9 @@ function buildOpenLoop(input: CompileNarrativeMomentumInput): OpenLoopArchitectu
 }
 
 export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInput): NarrativeMomentumPlan {
-  const proofs = defaultProofs(input);
+  const { evidence, interpretations } = resolveEvidence(input);
+  assertNoInterpretationClassifiedAsEvidence(evidence);
+  const proofs = evidence.length ? evidenceToLegacyProofObjects(evidence) : [...input.availableProof];
   const selection = selectNarrativeGrammar({
     brandId: input.brandId,
     topic: input.topic,
@@ -261,7 +263,7 @@ export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInpu
     : undefined,
   });
 
-  const beats = buildBeats(input, selection.selectedGrammar);
+  const beats = buildBeats(input, selection.selectedGrammar, evidence.map((e) => e.id));
   const proofArchitecture = assembleProofArchitecture({
     grammarId: selection.selectedGrammar,
     beats,
@@ -290,6 +292,9 @@ export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInpu
     beats,
     tensionArc: buildTensionArc(beats),
     proofArchitecture,
+    evidence,
+    interpretations,
+    tensionModel: 'CANONICAL',
     culturalGlitch: selection.selectedGrammar === 'CULTURAL_GLITCH' ? buildCulturalGlitch(input) : null,
     reframe: {
       transformationType: 'CULTURAL_REFRAME',
@@ -307,9 +312,10 @@ export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInpu
     formatAdaptations: [],
     founderStatus: 'GENERATED',
     layerMode: input.layerMode ?? 'STANDARD',
-    version: '1.0.0',
+    version: '1.1.0',
     providerDispatchCount: 0,
     validationFlags: [],
+    validationIssues: [],
     campaignHandoff: {
       narrativeGoal,
       selectedGrammarId: selection.selectedGrammar,
@@ -323,10 +329,14 @@ export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInpu
   };
 
   plan.formatAdaptations = buildFormatAdaptations(plan);
-  const flags = [...validateNarrativeMomentumPlan(plan)];
+  const issues = [
+    ...validateNarrativeMomentumPlanIssues(plan),
+    ...validateNarrativeTensionSequence({ beats: plan.beats, tensionModel: plan.tensionModel }),
+  ];
   const repetition = narrativeSimilarityValidator(plan, input.priorPlans ?? []);
-  if (repetition) flags.push(repetition);
-  plan.validationFlags = flags;
+  if (repetition) issues.push(repetition);
+  plan.validationIssues = issues;
+  plan.validationFlags = validateNarrativeMomentumPlan(plan);
 
   if (!requireAudienceShift(plan)) {
     throw new Error('NARRATIVE_MOMENTUM_REQUIRES_AUDIENCE_SHIFT');
@@ -339,14 +349,29 @@ export function compileNarrativeMomentumPlan(input: CompileNarrativeMomentumInpu
 export function narrativeMomentumStoryboardHandoff(plan: NarrativeMomentumPlan): {
   narrativeMomentumPlanId: string;
   beats: NarrativeMomentumPlan['beats'];
+  beatHandoff: import('./types.js').StoryboardBeatHandoff[];
   audienceShift: string;
   reelArchitecture: import('./types.js').ReelStoryArchitecture | null;
+  reelDetail: import('./types.js').ReelNarrativeAdaptation | null;
 } {
   const reel = plan.formatAdaptations.find((f) => f.format === 'REEL');
+  const beatHandoff = plan.beats.map((b) => ({
+    beatId: b.beatId,
+    order: b.order,
+    label: b.label,
+    whatViewerSees: b.whatChangesInThisBeat,
+    whatViewerKnows: b.whatAudienceKnows,
+    whatChanges: b.whatChangesInThisBeat,
+    whyNextShotExists: b.whyNextBeatIsNecessary,
+    tensionStage: b.tensionStage,
+    evidenceIds: b.evidenceUsed,
+  }));
   return {
     narrativeMomentumPlanId: plan.id,
     beats: plan.beats,
+    beatHandoff,
     audienceShift: plan.audienceDesiredShift,
     reelArchitecture: reel?.reelArchitecture ?? null,
+    reelDetail: reel?.reelDetail ?? null,
   };
 }

@@ -12540,3 +12540,14 @@ Founder: tunnel/mobile hung on loading spinner for Expression Engine Entry 002.
 - **Cause:** **`useExpressionEngineEntry002`** **`Promise.all`** on eight API phases (incl. slow **`C1.1`** / **`C1.4`**, sometimes 7–28s or 502) before **`setLoading(false)`**; no fetch timeouts.
 - **Fix:** Critical path **B1P2 + B48** only (25s timeout); **B49R4**, **NME1**, **C1.x** in **`loadSupplementaryPhases`** (12s timeout each, background). **`expressionEnginePhaseFetch.ts`**.
 - **Branch:** `cursor/fix-expression-engine-load-stuck-87ed`.
+
+---
+
+## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-PRECISION-AND-REVIEW-UX1
+
+Sprint refined Narrative Momentum Engine intelligence + founder review UX without rebuilding grammar library / Cultural Glitch / Entry 002 retroactive ingest.
+
+- **Intelligence:** `NarrativeEvidenceObject` + `NarrativeInterpretation`; `evidenceArchitecture.ts` reclassifies Entry 002 “memory is edited…” as lens (not PROCESS_PROOF); proof source statuses; `validateNarrativeTensionSequence()` + canonical Cultural Glitch tension map (LOW→RESIDUAL); full `ReelNarrativeAdaptation` / `CarouselNarrativeAdaptation`; validator issues with severity/explanation/suggestedCorrection; richer `narrativeMomentumStoryboardHandoff` with viewer knowledge per beat.
+- **UI:** `ExpressionEngineNarrativeMomentumPanel` + `site00-narrative-momentum-review.css` — snapshot, beat map ↔ tension curve, evidence cards, flags panel, REEL/CAROUSEL tabs, separated judgment vs workflow controls (no QuietAction collision), VIEW/CHANGE GRAMMAR, flag ACK/REFINE/IGNORE.
+- **Tests:** `p0ndxNarrativeMomentumPrecision1.test.ts` (10); engine test updated for structured flags.
+- **Branch:** `cursor/nme-precision-review-ux1-87ed`.
