@@ -13,12 +13,28 @@ import { commercialBlockFromDraftPayload } from '../../../shared/site00-identity
 import { intakeContextFromPackage } from '../../../shared/site00-commercial-canon/contracts.js';
 import { getCanonicalPackage } from '../../../shared/site00-commercial-canon/serviceCatalog.js';
 import { setIdentityProductionSnapshot } from '../../../shared/site00-identity-commercial/runtimeStore.js';
+import { activateIdentityCommercialAfterIntakeSubmit as runIdentityActivation } from '../../../shared/site00-identity-commercial/activation.js';
 
 function parseStored(raw: unknown): IdentityCommercialState | null {
   if (!raw || typeof raw !== 'object') return null;
   const o = raw as IdentityCommercialState;
   if (!o.selection?.serviceId || !o.version) return null;
-  return o;
+  const bootstrap = o.bootstrap ?? ({} as IdentityCommercialState['bootstrap']);
+  return {
+    ...o,
+    bootstrap: {
+      projectId: bootstrap.projectId ?? null,
+      projectSlug: bootstrap.projectSlug ?? null,
+      projectType: 'IDENTITY',
+      fulfillmentAdapterId: 'identity-fulfillment',
+      fulfillmentContractId:
+        bootstrap.fulfillmentContractId ?? `${o.selection.serviceId}:${o.selection.packageId}`,
+      commercialRecordId: bootstrap.commercialRecordId ?? null,
+      clientId: bootstrap.clientId ?? null,
+      brandId: bootstrap.brandId ?? null,
+      blockedByFounderDecisionId: bootstrap.blockedByFounderDecisionId ?? null,
+    },
+  };
 }
 
 export async function loadIdentityCommercialState(intakeId: string): Promise<IdentityCommercialState | null> {
@@ -51,7 +67,11 @@ export async function ensureIdentityCommercialFromIntake(intake: IntakeRecord): 
       packageId: 'services-hub-branding',
       commercialMode: 'CUSTOM_QUOTE',
     } as const);
-  const state = initialIdentityCommercialState(selection);
+  const state = initialIdentityCommercialState(selection, {
+    intakeId: intake.id,
+    clientId: intake.email ?? intake.userId ?? intake.id,
+    brandId: (intake.draftPayload.businessName as string) ?? null,
+  });
   await saveIdentityCommercialState(intake.id, state);
   seedProductionSnapshot({
     intakeId: intake.id,
@@ -106,8 +126,14 @@ export async function convertIdentityIntakeToProject(intake: IntakeRecord, actor
       status: 'ORIGIN_INGESTED',
       metadata: {
         intakeId: intake.id,
+        commercialRecordId: intake.id,
+        clientId: email,
+        brandId: state.bootstrap.brandId ?? (intake.draftPayload.businessName as string) ?? null,
         serviceId: state.selection.serviceId,
         packageId: state.selection.packageId,
+        fulfillmentContractId: state.bootstrap.fulfillmentContractId,
+        fulfillmentAdapterId: state.bootstrap.fulfillmentAdapterId,
+        projectType: state.bootstrap.projectType,
         intakeHandoff: intake.draftPayload,
         commercialAuthorization: state.authorization,
         bootstrapActor: actorEmail ?? null,
@@ -153,4 +179,20 @@ export async function convertIdentityIntakeToProject(intake: IntakeRecord, actor
     : null;
 
   return { projectId: project.id, projectSlug: project.slug, created: true, bootstrapCtx };
+}
+
+export async function activateIdentityCommercialAfterIntakeSubmit(intake: IntakeRecord) {
+  return runIdentityActivation(intake, {
+    ensureCommercial: ensureIdentityCommercialFromIntake,
+    authorizeCommercial: authorizeIdentityIntakeCommercial,
+    convertToProject: async (record, actorEmail) => {
+      const result = await convertIdentityIntakeToProject(record, actorEmail);
+      return {
+        projectId: result.projectId,
+        projectSlug: result.projectSlug,
+        created: result.created,
+      };
+    },
+    saveState: saveIdentityCommercialState,
+  });
 }

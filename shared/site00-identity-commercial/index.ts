@@ -5,3 +5,5 @@ export * from './contract.js';
 export * from './pipeline.js';
 export * from './runtimeStore.js';
 export * from './adapter.js';
+export * from './founderDecisionGate.js';
+export * from './activation.js';
