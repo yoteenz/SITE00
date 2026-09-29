@@ -23,6 +23,7 @@ function DesignPillarBar() {
     { id: 'EXPERIENCE', href: productionExperiencePath(slug) },
     { id: 'EXPRESSION', href: productionExpressionPath(slug) },
   ];
+  const numeral = (id: ProductionWorkspaceType) => (id === 'DESIGN' ? '01' : id === 'EXPERIENCE' ? '02' : '03');
   return (
     <header className="pw-bar" data-testid="production-pillar-nav">
       <Link to="/production" className="pw-bar__back" aria-label="Production hub">
@@ -35,11 +36,13 @@ function DesignPillarBar() {
             key={t.id}
             to={t.href}
             data-testid={`production-tab-${t.id.toLowerCase()}`}
+            aria-label={t.id}
+            title={t.id}
             aria-current={t.id === 'DESIGN' ? 'page' : undefined}
             className={t.id === 'DESIGN' ? 'is-active' : ''}
             onClick={() => setActiveWorkspace(t.id)}
           >
-            {t.id.slice(0, 3)}
+            {numeral(t.id)}
           </Link>
         ))}
       </nav>

@@ -5,6 +5,8 @@ import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav'
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
 import { useSite00 } from '../../state/Site00Context';
 import { SITE00_ROUTES } from '../../config/routes';
+import { canAccessAdminPages } from '../../../utils/adminAuth';
+import { PersonalProjectsMobile } from './PersonalProjectsMobile';
 import { ProjectsPageShell } from './ProjectsPageShell';
 import { ProjectProductionSummaryStrip } from './ProjectProductionSummaryStrip';
 import { ProjectIndexProjectCard } from './ProjectIndexProjectCard';
@@ -52,7 +54,15 @@ export function ProjectIndexPage() {
     sort,
     setSort,
     reload,
+    allItems,
   } = useProjectIndex();
+
+  // Mobile founder view: personal project portfolio (Production is a separate, admin-only surface).
+  if (!isDesktop && viewMode === 'FOUNDER' && canAccessAdminPages()) {
+    return (
+      <PersonalProjectsMobile items={allItems} loading={state === 'loading'} error={state === 'error' ? error : null} onRetry={reload} />
+    );
+  }
 
   return (
     <div

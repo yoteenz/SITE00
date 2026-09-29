@@ -4,6 +4,7 @@
  */
 
 import { useEffect, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { canAccessAdminPages } from '../../../utils/adminAuth';
 import { SITE00_ROUTES } from '../../config/routes';
@@ -90,7 +91,8 @@ export function PwFrame({
   const admin = canAccessAdminPages();
   const items = variant === 'production' ? NAV_PRODUCTION : navProjects(admin);
 
-  return (
+  // Portal to <body>: host page CSS (uppercase/letter-spacing rules on .site00-page etc.) must not leak in.
+  return createPortal(
     <div className={`pw pw--${variant}`} data-testid={`pw-frame-${variant}`}>
       <header className="pw-top">
         <Link to={SITE00_ROUTES.origin} className="pw-top__brand">
@@ -122,6 +124,7 @@ export function PwFrame({
           );
         })}
       </nav>
-    </div>
+    </div>,
+    document.body,
   );
 }

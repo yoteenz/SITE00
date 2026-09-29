@@ -9,6 +9,9 @@ import { resolveModuleFromPath, type ProjectModuleId } from '../../../shared/sit
 import { projectModulePath } from '../../../shared/site00-projects/projectModules.js';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { canAccessAdminPages } from '../../utils/adminAuth';
+import { useSite00OriginWideViewport } from '../components/shell/useSite00OriginWideViewport';
+import { PersonalProjectMobileDetail } from '../components/projectIndex/PersonalProjectMobileDetail';
 import { useProjectViewMode } from '../context/ProjectViewModeContext';
 import { useClientAppManifest } from '../hooks/useClientAppManifest';
 import { useProjectTechnicalIntelligence } from '../hooks/useProjectTechnicalIntelligence';
@@ -53,6 +56,7 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
 
   const currentModule =
     forcedModule ?? resolveModuleFromPath(location.pathname) ?? 'OVERVIEW';
+  const isWide = useSite00OriginWideViewport();
 
   if (viewMode === 'CLIENT') {
     return <ClientViewRedirect projectSlug={projectSlug} />;
@@ -66,6 +70,17 @@ function ProjectOperatingModuleInner({ forcedModule }: ProjectOperatingModulePag
     return (
       <EmptyState title="PROJECT NOT FOUND" body={error ?? 'NO TRUTHFUL PROJECT RECORD FOR THIS SLUG.'} />
     );
+  }
+
+  // Mobile founder view of a PERSONAL project: summary-only detail (no embedded Production).
+  if (
+    !isWide &&
+    currentModule === 'OVERVIEW' &&
+    canAccessAdminPages() &&
+    project &&
+    !project.classification.includes('CLIENT')
+  ) {
+    return <PersonalProjectMobileDetail projectSlug={projectSlug} operatingState={operatingState} />;
   }
 
   if (!visibleModules.includes(currentModule)) {

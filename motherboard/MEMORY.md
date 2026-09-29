@@ -12650,3 +12650,15 @@ Relocate Design off Projects; admin-only **Production Workspace** with three pil
 - **Module:** `shared/site00-production-workspace/` registry + context persistence.
 - **Tests:** `p0Site00ProductionWorkspaceRelocation1.test.ts` (13); headless QA script `scripts/qa-production-workspace-relocation.mjs`.
 - **Browser QA:** admin hub + design/experience/expression + legacy redirect PASS; client production block PASS (local preview + cloud preview partial).
+
+---
+
+## 2026-09-29 — Narrative Momentum widget rebuild + Production/Projects mobile visual reconstruction
+
+Two sprints in one chat, both UX/UI only (no routing, auth, data or schema changes beyond small additive items).
+
+- **Context:** (1) Rebuild ONLY the Narrative Momentum widget inside the existing Expression Engine page from the NDXBOOK Narrative Engine screen pack (no duplicate header/shell). (2) Rebuild the mobile UX of Personal Projects, the admin Production workspace, Design/Experience/Expression and Expression sub-workspaces from the mobile reference pack, on top of the relocated `/production` architecture (PR #1255).
+- **Topics covered:** NME six-stage widget (story shift, beat map, tension curve + proof, reframe + open loop, reel/carousel, review board) with dark inspectors; Projects = founder's PERSONAL portfolio only (client/site work excluded) vs Production = separate admin-only back office with exactly DESIGN / EXPERIENCE / EXPRESSION; Casting, Wardrobe, Performance, Sets/Scene, Storyboard, Review as purpose-built Expression screens; Libraries and Queue; project action menu that sends structured requests into Production.
+- **Decisions / outcomes:** The brief first assumed a `/production` route that did not exist; work paused until the relocation merged, then built against the real routes. New leaves `/production/libraries` and `/production/queue` sit under the existing admin-guarded root (no new routing tree). The canonical Design workspace is kept as-is under a slim SITE 00 pillar bar. Project request actions are stored device-locally (`src/site00/state/productionRequestStore.ts`) until a queue API exists; request kinds were extended additively (`EXPRESSION_NEW_CAMPAIGN`, `EXPRESSION_WARDROBE_UPDATE`, `UPLOAD_REFERENCES`).
+- **Changes:** `src/site00/components/production/*` (PwFrame portal shell, primitives, Expression sub-screens, Entry 002 package hook), `src/site00/pages/production/*`, `src/site00/components/projectIndex/{PersonalProjectsMobile,PersonalProjectMobileDetail,ProjectActionsSheet}.tsx`, `site00-production-mobile.css`, NME panel/inspectors/CSS rewrite, test `p0Site00ProductionMobileReconstruction1`.
+- **Conventions:** Host shell owns red + near-black; project palettes (NDXBOOK lime) stay inside project content (the embedded Narrative Momentum surface). Imagery in `public/site00/production-mobile/` are low-res stand-in plates cropped from the founder reference pack — replace with approved authority imagery. Character/actor/look plates use monograms, never stand-in faces. No data exists yet for Entry 002 sets, performance skins or non-actor libraries; those screens show honest empty states.
