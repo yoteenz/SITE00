@@ -98,14 +98,15 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-PRECISION-AND-REVIEW-UX1', () => {
     expect(plan.selectedGrammarId).toBe('CULTURAL_GLITCH');
   });
 
-  it('founder review UI uses separated judgment controls (no colliding QuietAction row)', () => {
+  it('founder review UI uses wizard judgment controls (no colliding QuietAction row)', () => {
     const panel = readFileSync(
       join(import.meta.dirname, '../src/site00/components/founderWorkspace/expressionEngine/ExpressionEngineNarrativeMomentumPanel.tsx'),
       'utf8',
     );
-    expect(panel).toContain('site00-nme-review__judgment');
-    expect(panel).toContain('site00-nme-review__workflow');
+    expect(panel).toContain('site00-nme-wizard__judgment');
+    expect(panel).toContain('site00-nme-wizard__workflow');
     expect(panel).not.toContain('QuietAction');
     expect(panel).toContain('narrative-momentum-tension-curve');
+    expect(panel).toContain('narrative-momentum-wizard');
   });
 });
