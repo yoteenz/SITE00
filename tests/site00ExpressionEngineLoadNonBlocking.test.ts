@@ -26,6 +26,14 @@ describe('Expression Engine non-blocking Meridian load', () => {
     expect(HOOK).toContain('c19r1Loading');
   });
 
+  it('loadCore unblocks after critical B1P2+B48; supplementary phases load in background', () => {
+    expect(HOOK).toContain('loadSupplementaryPhases');
+    expect(HOOK).toMatch(/finally[\s\S]*setLoading\(false\)/);
+    expect(HOOK).toMatch(/void loadSupplementaryPhases\(\)/);
+    expect(HOOK).not.toMatch(/loadCore[\s\S]*phase=C1\.4[\s\S]*setLoading\(false\)/);
+    expect(HOOK).toContain('EXPRESSION_ENGINE_SUPPLEMENTARY_TIMEOUT_MS');
+  });
+
   it('workspace Meridian loader never auto-starts live job on hydrate', () => {
     const fnMatch = LOADER.match(
       /export async function loadMeridianComparisonForWorkspace\(\)[\s\S]*?(?=\n\/\*\* @deprecated|\nexport async function startMeridianLiveComparisonJob)/,
