@@ -12650,3 +12650,13 @@ Relocate Design off Projects; admin-only **Production Workspace** with three pil
 - **Module:** `shared/site00-production-workspace/` registry + context persistence.
 - **Tests:** `p0Site00ProductionWorkspaceRelocation1.test.ts` (13); headless QA script `scripts/qa-production-workspace-relocation.mjs`.
 - **Browser QA:** admin hub + design/experience/expression + legacy redirect PASS; client production block PASS (local preview + cloud preview partial).
+
+---
+
+## 2026-09-29 — CI fix: production design route test drift (post #1255)
+
+Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.
+
+- **Tests updated:** `p0vrDesignIntegration1`, `p0vrDesignProjectBinding1R1`, `p0vrDesignWorkspaceSelfCapture1`, founder sprint B59R2/R5/R6, release #429 allowlist manifest (`POST429_DESIGN_ALLOWLIST` 50 paths + `ProjectMoreSurface` tab exception).
+- **API:** `designWorkspaceCaptureService` returns `resolveWorkspaceSelfDesignRoute` (`/production/…/design`) in vitest + live capture metadata (was hardcoded legacy path).
+- **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
