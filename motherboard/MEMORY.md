@@ -12481,7 +12481,6 @@ Canonical **DesignWorkspacePipelineState** + shared selectors/hooks so GPT2 Desi
 
 ---
 
-<<<<<<< HEAD
 ## 2026-09-28 — P0.NDX.NARRATIVE-MOMENTUM-ENGINE1
 
 Story architecture layer between **Creative Concept Territory** and **Format / Storyboard** execution.
@@ -12491,7 +12490,9 @@ Story architecture layer between **Creative Concept Territory** and **Format / S
 - **Entry 002:** retroactive compile (`RETROACTIVE_AUTHORITY_LAYER`) from locked territory + chapter mapping — no asset reset.
 - **UI:** Expression Engine Entry 002 **NARRATIVE MOMENTUM** review panel + production journey stage.
 - **Tests:** `p0ndxNarrativeMomentumEngine1.test.ts`; journey tests updated for 12 stages.
-=======
+
+---
+
 ## 2026-09-28 — Tunnel sign-in autofill + post-auth redirect
 
 Cloud preview tunnel sign-in failed when password managers autofilled: **two** `Site00SignInForm` instances (desktop + mobile) stayed mounted; autofill often filled hidden desktop fields while submit read empty mobile state → **PASSWORD IS REQUIRED** / no `returnTo` redirect.
@@ -12512,6 +12513,15 @@ Founder: sign-in on tunnel **still stuck** after autofill fix — something else
 
 ---
 
+<<<<<<< HEAD
+## 2026-09-29 — Narrative Momentum missing on tunnel / mobile Expression Engine
+
+Founder could not see **Narrative Momentum** on Expression Engine page (tunnel / phone).
+
+- **Cause:** **`ExpressionEngineReferenceMobileWorkspace`** (auto layout on mobile) never loaded or rendered **`ExpressionEngineNarrativeMomentumPanel`** and omitted **`narrativeMomentumStatus`** from **`buildProductionJourney`**. Desktop **WORK** panel fell through to storyboard when **`NME1`** failed silently.
+- **Fix:** Mobile current-stage shows NME panel when journey stage **`NARRATIVE_MOMENTUM`** is active; desktop **PRODUCTION** tab also surfaces NME; explicit loading copy when plan missing; shared **`expressionEngineNarrativeMomentumActions.ts`**.
+- **Branch:** `cursor/nme-mobile-workspace-visibility-87ed`.
+=======
 ## 2026-09-29 — CI test timeouts (countPreviewFixtures + site00Projects)
 
 Production Release CI: **35 failures** — `Test timed out in 120000ms`; stack at **`countPreviewFixtures`** (client review preview seed) and **`site00Projects.test`** / **`aioProjectIndex.test`** (`listSite00FounderProjects` → astral-world Supabase).
@@ -12519,4 +12529,5 @@ Production Release CI: **35 failures** — `Test timed out in 120000ms`; stack a
 - **Cause:** Vitest preview client-review suites hit live Supabase under CI load; canonical **`astral-world`** project lookup blocked 120s per test.
 - **Fix:** **`previewReviewMemoryStore`** for Vitest + `SITE00_CLIENT_REVIEW_PREVIEW_MODE` (opt-in Supabase via `SITE00_CLIENT_REVIEW_SUPABASE_INTEGRATION=1`); **`canonicalProject`** skips DB in Vitest unless `SITE00_PROJECTS_SUPABASE_INTEGRATION=1`; `tests/setup/vitestEnv.ts`.
 - **Tests:** `fixCiPreviewFixturesMemory1.test.ts`; client room + projects suites green locally.
+>>>>>>> origin/main
 >>>>>>> origin/main

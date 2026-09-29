@@ -134,4 +134,25 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-ENGINE1', () => {
     expect(plan.formatAdaptations.some((f) => f.format === 'REEL')).toBe(true);
     expect(plan.beats.some((b) => b.label.includes('RECEIPT') || b.label.includes('RECEIPT'))).toBe(true);
   });
+
+  it('production journey marks narrative momentum ACTIVE for founder review', async () => {
+    const { buildProductionJourney, resolveActiveJourneyStage } = await import(
+      '../src/site00/components/founderWorkspace/expressionEngine/productionJourney.js'
+    );
+    const stages = buildProductionJourney({
+      coverAuthority: 'APPROVED',
+      narrativeMomentumStatus: 'FOUNDER_REVIEW',
+      reelTreatment: 'LOCKED',
+      preStoryboardComplete: false,
+      activeProductionStep: 'FINAL_CINEMATIC_STORYBOARD',
+      finalStoryboardStatus: 'GENERATED',
+      finalStoryboardValid: true,
+      finalStoryboardApproved: false,
+      keyframeEligibility: 'BLOCKED',
+      videoEligibility: 'BLOCKED',
+    });
+    const narrative = stages.find((s) => s.id === 'NARRATIVE_MOMENTUM');
+    expect(narrative?.status).toBe('ACTIVE');
+    expect(resolveActiveJourneyStage(stages)).toBe('NARRATIVE_MOMENTUM');
+  });
 });

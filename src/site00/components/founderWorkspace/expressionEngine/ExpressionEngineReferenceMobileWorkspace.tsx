@@ -46,14 +46,21 @@ import {
   postMeridianComparisonJudgment,
   useExpressionEngineEntry002,
 } from './useExpressionEngineEntry002';
+import { ExpressionEngineNarrativeMomentumPanel } from './ExpressionEngineNarrativeMomentumPanel';
+import {
+  postCompileNarrativeMomentum,
+  postNarrativeMomentumJudgment,
+} from './expressionEngineNarrativeMomentumActions';
 
 type Props = {
   projectSlug: string;
 };
 
 export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props) {
-  const { phase2, blueprint, b48, b49r4, c11, c12, c16, c19r1, c19r1Loading, loading, error, errorView, reload } = useExpressionEngineEntry002();
+  const { phase2, blueprint, b48, b49r4, nme, c11, c12, c16, c19r1, c19r1Loading, loading, error, errorView, reload } =
+    useExpressionEngineEntry002();
   const [judging, setJudging] = useState(false);
+  const [narrativeJudging, setNarrativeJudging] = useState(false);
   const [cdJudging, setCdJudging] = useState(false);
   const [e003Judging, setE003Judging] = useState(false);
   const [meridianJudging, setMeridianJudging] = useState(false);
@@ -113,6 +120,7 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     if (!pipeline || !socialPackageReadiness) return [];
     return buildProductionJourney({
       coverAuthority: pipeline.coverAuthority ?? 'APPROVED',
+      narrativeMomentumStatus: nme?.plan.founderStatus ?? 'GENERATED',
       reelTreatment: pipeline.reelTreatment ?? 'LOCKED',
       preStoryboardComplete,
       activeProductionStep: pipeline.activeProductionStep,
@@ -130,7 +138,7 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
       socialPackageStatus: socialPackageStatusToJourneyStatus(socialPackageReadiness),
       campaignBoardEligible: socialPackageReadiness.campaignBoardEligible,
     });
-  }, [pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
+  }, [nme?.plan.founderStatus, pipeline, preStoryboardComplete, b49r4, b48, finalReelApproved, socialPackageReadiness]);
 
   const activeStageId = resolveActiveJourneyStage(journey);
   const activeStage = journey.find((s) => s.id === activeStageId);
@@ -293,6 +301,37 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     [reload],
   );
 
+  const submitNarrativeMomentumJudgment = useCallback(
+    async (
+      founderAction:
+        | 'APPROVE_NARRATIVE'
+        | 'REFINE_NARRATIVE'
+        | 'LOVE_IT'
+        | 'PROMISING'
+        | 'TOO_CLOSE'
+        | 'NOT_NDXBOOK',
+    ) => {
+      setNarrativeJudging(true);
+      try {
+        await postNarrativeMomentumJudgment(founderAction);
+        await reload();
+      } finally {
+        setNarrativeJudging(false);
+      }
+    },
+    [reload],
+  );
+
+  const recompileNarrativeMomentum = useCallback(async () => {
+    setNarrativeJudging(true);
+    try {
+      await postCompileNarrativeMomentum();
+      await reload();
+    } finally {
+      setNarrativeJudging(false);
+    }
+  }, [reload]);
+
   const submitMeridianJudgment = useCallback(
     async (founderJudgment: string, comparisonId?: string) => {
       setMeridianJudging(true);
@@ -327,14 +366,18 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
   }
 
   const stageTitle =
-    activeStageId === 'STORYBOARD'
-      ? 'FINAL STORYBOARD'
-      : (activeStage?.label.toUpperCase() ?? 'PRODUCTION');
+    activeStageId === 'NARRATIVE_MOMENTUM'
+      ? 'NARRATIVE MOMENTUM'
+      : activeStageId === 'STORYBOARD'
+        ? 'FINAL STORYBOARD'
+        : (activeStage?.label.toUpperCase() ?? 'PRODUCTION');
 
   const stageDescription =
-    activeStageId === 'STORYBOARD'
-      ? 'Shot list, sequence, and pacing for final reel.'
-      : 'Active production stage workspace.';
+    activeStageId === 'NARRATIVE_MOMENTUM'
+      ? 'Grammar, beat map, proof architecture, and reel adaptation before storyboard.'
+      : activeStageId === 'STORYBOARD'
+        ? 'Shot list, sequence, and pacing for final reel.'
+        : 'Active production stage workspace.';
 
   const showChoosePaths =
     activeStageId === 'STORYBOARD' &&
@@ -364,16 +407,32 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
 
       <ReferenceProductionJourney stages={journey} />
 
-      <ReferenceCurrentStageCard
-        stageTitle={stageTitle}
-        stageDescription={stageDescription}
-        statusLabel={activeStage?.status === 'ACTIVE' ? 'IN PROGRESS' : activeStage?.status ?? 'IN PROGRESS'}
-        primaryActionLabel={primaryActionLabel}
-        data={b49r4}
-        onPrimaryAction={handlePrimaryAction}
-        onJudgment={submitJudgment}
-        judging={judging}
-      />
+      {activeStageId === 'NARRATIVE_MOMENTUM' ? (
+        nme?.plan ? (
+          <ExpressionEngineNarrativeMomentumPanel
+            plan={nme.plan}
+            grammarLibraryCount={nme.grammarLibraryCount}
+            judging={narrativeJudging}
+            onJudgment={submitNarrativeMomentumJudgment}
+            onRecompile={recompileNarrativeMomentum}
+          />
+        ) : (
+          <p className="site00-ee-ref-loading" data-testid="narrative-momentum-loading">
+            Loading Narrative Momentum…
+          </p>
+        )
+      ) : (
+        <ReferenceCurrentStageCard
+          stageTitle={stageTitle}
+          stageDescription={stageDescription}
+          statusLabel={activeStage?.status === 'ACTIVE' ? 'IN PROGRESS' : activeStage?.status ?? 'IN PROGRESS'}
+          primaryActionLabel={primaryActionLabel}
+          data={b49r4}
+          onPrimaryAction={handlePrimaryAction}
+          onJudgment={submitJudgment}
+          judging={judging}
+        />
+      )}
 
       {showChoosePaths ? (
         <ReferenceChooseHowToContinue

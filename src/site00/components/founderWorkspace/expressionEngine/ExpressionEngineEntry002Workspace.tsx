@@ -38,6 +38,10 @@ import {
   useExpressionEngineEntry002,
 } from './useExpressionEngineEntry002';
 import { ExpressionEngineNarrativeMomentumPanel } from './ExpressionEngineNarrativeMomentumPanel';
+import {
+  postCompileNarrativeMomentum,
+  postNarrativeMomentumJudgment,
+} from './expressionEngineNarrativeMomentumActions';
 
 const NAV_ITEMS: Array<{ id: WorkspaceNavId; label: string }> = [
   { id: 'work', label: 'WORK' },
@@ -115,6 +119,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
   const nextAction = b49r4?.nextAction ?? b48?.nextAction ?? pipeline?.nextAction ?? 'Continue production';
 
   const gateLabel = useMemo(() => {
+    if (activeStageId === 'NARRATIVE_MOMENTUM') return 'NARRATIVE MOMENTUM REVIEW';
     if (activeStageId === 'STORYBOARD') return 'REVIEW FINAL STORYBOARD';
     if (activeStageId === 'VISUAL_AUTHORITIES') return 'VISUAL AUTHORITIES';
     if (activeStageId === 'KEYFRAMES') return 'APPROVE KEYFRAMES';
@@ -187,16 +192,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
     ) => {
       setNarrativeJudging(true);
       try {
-        const res = await apiFetch('/api/site00/expression-engine', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'SET_NARRATIVE_MOMENTUM_JUDGMENT',
-            founderAction,
-            entryId: 'entry-002',
-          }),
-        });
-        if (!res.ok) throw new Error(await res.text());
+        await postNarrativeMomentumJudgment(founderAction);
         await reload();
       } finally {
         setNarrativeJudging(false);
@@ -208,12 +204,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
   const recompileNarrativeMomentum = useCallback(async () => {
     setNarrativeJudging(true);
     try {
-      const res = await apiFetch('/api/site00/expression-engine', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'COMPILE_NARRATIVE_MOMENTUM', entryId: 'entry-002' }),
-      });
-      if (!res.ok) throw new Error(await res.text());
+      await postCompileNarrativeMomentum();
       await reload();
     } finally {
       setNarrativeJudging(false);
@@ -326,13 +317,28 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
             <FormatChips blueprint={blueprint} readiness={socialPackageReadiness} />
           ) : null}
           {nav === 'production' ? (
-            <ProductionIntelligence
-              blueprint={blueprint}
-              readiness={phase2.readiness002}
-              narrativeSynthesis={c1?.narrativeSynthesis ?? null}
-              onNarrativeJudgment={submitNarrativeJudgment}
-              narrativeJudging={narrativeJudging}
-            />
+            <>
+              {nme?.plan ? (
+                <ExpressionEngineNarrativeMomentumPanel
+                  plan={nme.plan}
+                  grammarLibraryCount={nme.grammarLibraryCount}
+                  judging={narrativeJudging}
+                  onJudgment={submitNarrativeMomentumJudgment}
+                  onRecompile={recompileNarrativeMomentum}
+                />
+              ) : (
+                <p className="site00-expr-engine-panel__meta" data-testid="narrative-momentum-unavailable">
+                  Narrative Momentum plan did not load — open WORK → NARRATIVE or retry reload.
+                </p>
+              )}
+              <ProductionIntelligence
+                blueprint={blueprint}
+                readiness={phase2.readiness002}
+                narrativeSynthesis={c1?.narrativeSynthesis ?? null}
+                onNarrativeJudgment={submitNarrativeJudgment}
+                narrativeJudging={narrativeJudging}
+              />
+            </>
           ) : null}
           {nav === 'history' ? (
             <HistoryPanel b49r4={b49r4} cinematicSequenceStatus={b48?.cinematicSequence?.status} />
@@ -434,15 +440,23 @@ function WorkPanel({
   finalReelApproved: boolean;
   socialPackageReadiness: ReturnType<typeof resolveSocialPackageReadiness> | null;
 }) {
-  if (activeStageId === 'NARRATIVE_MOMENTUM' && nme?.plan) {
+  if (activeStageId === 'NARRATIVE_MOMENTUM') {
+    if (nme?.plan) {
+      return (
+        <ExpressionEngineNarrativeMomentumPanel
+          plan={nme.plan}
+          grammarLibraryCount={nme.grammarLibraryCount}
+          judging={narrativeJudging}
+          onJudgment={onNarrativeMomentumJudgment}
+          onRecompile={onRecompileNarrativeMomentum}
+        />
+      );
+    }
     return (
-      <ExpressionEngineNarrativeMomentumPanel
-        plan={nme.plan}
-        grammarLibraryCount={nme.grammarLibraryCount}
-        judging={narrativeJudging}
-        onJudgment={onNarrativeMomentumJudgment}
-        onRecompile={onRecompileNarrativeMomentum}
-      />
+      <p className="site00-expr-engine-panel__meta" data-testid="narrative-momentum-loading">
+        Narrative Momentum is loading or unavailable — confirm you are signed in and the API is reachable, then
+        reload.
+      </p>
     );
   }
   if (
