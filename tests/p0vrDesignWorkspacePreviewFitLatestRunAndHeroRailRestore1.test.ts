@@ -251,7 +251,8 @@ describe('P0.VR design workspace preview fit + latest run + hero rail restore', 
     });
     expect(rows).toHaveLength(5);
     expect(rows.some((r) => r.label === 'MOBILE AUTHORITY')).toBe(true);
-    expect(rows.some((r) => r.label === 'VIEWPORT FAMILY')).toBe(true);
+    expect(rows.some((r) => r.label === 'MOBILE EXPERIENCE')).toBe(true);
+    expect(actions.some((a) => a.label === 'CREATE EXPRESSION' || a.label === 'VIEW EXPRESSION')).toBe(true);
   });
 
   it('grid and list share latest-run resolver via workspace buildPageConceptGallerySections', () => {

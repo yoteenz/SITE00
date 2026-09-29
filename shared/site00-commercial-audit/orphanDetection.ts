@@ -33,7 +33,7 @@ export function detectCommercialOrphans(): OrphanFinding[] {
       });
     }
     catalogIds.add(entry.id);
-    if (entry.priceCents > 0) {
+    if ('priceCents' in entry && entry.priceCents > 0) {
       formatEvolvePrice(entry.priceCents, entry.priceQualifier, entry.billingInterval);
     }
   }
