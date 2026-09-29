@@ -7,6 +7,12 @@ import { apiFetch } from '../../../../utils/api.js';
 import { expressionEngineApi } from '../../../services/expressionEngineApi';
 import { translateExpressionEngineError } from './expressionEngineErrorState';
 import { loadMeridianComparisonForWorkspace } from './loadC19R3MeridianComparisonViaJob.js';
+import {
+  EXPRESSION_ENGINE_CRITICAL_TIMEOUT_MS,
+  EXPRESSION_ENGINE_SUPPLEMENTARY_TIMEOUT_MS,
+  fetchExpressionEnginePhase,
+} from './expressionEnginePhaseFetch.js';
+import { promiseWithTimeout } from '../../../../utils/promiseWithTimeout.js';
 import type {
   B48PipelineResponse,
   B49R4PipelineResponse,
@@ -42,71 +48,70 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     }
   }, []);
 
+  const loadSupplementaryPhases = useCallback(async () => {
+    const timeout = EXPRESSION_ENGINE_SUPPLEMENTARY_TIMEOUT_MS;
+    const [b49Res, nmeRes, c1Res, c11Res, c12Res, c16Res, c17Res] = await Promise.all([
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=B49R4&skipGeneration=1', timeout),
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=NME1', timeout),
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=C1', timeout),
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=C1.1', timeout),
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=C1.4', timeout),
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=C1.6', timeout),
+      fetchExpressionEnginePhase('/api/site00/expression-engine?phase=C1.7', timeout),
+    ]);
+
+    if (b49Res?.ok) {
+      setB49r4((await b49Res.json()) as B49R4PipelineResponse);
+    }
+    if (nmeRes?.ok) {
+      setNme((await nmeRes.json()) as Nme1NarrativeMomentumResponse);
+    }
+    if (c1Res?.ok) {
+      setC1((await c1Res.json()) as C1NarrativeSynthesisResponse);
+    }
+    if (c11Res?.ok) {
+      setC11((await c11Res.json()) as import('./types.js').C11CreativeDirectorResponse);
+    }
+    if (c12Res?.ok) {
+      setC12((await c12Res.json()) as import('./types.js').C12Entry003Response);
+    }
+    if (c16Res?.ok) {
+      const body = (await c16Res.json()) as {
+        multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData & {
+          copyPackage?: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData['copyPackage'];
+        };
+      };
+      setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
+    }
+    if (c17Res?.ok) {
+      const body = (await c17Res.json()) as {
+        multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData;
+      };
+      setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
+    }
+  }, []);
+
   const loadCore = useCallback(async () => {
     setLoading(true);
     setError(null);
     setErrorView(null);
     try {
-      const [p2, b48Res, b49Res, nmeRes, c1Res, c11Res, c12Res, c16Res] = await Promise.all([
-        expressionEngineApi.phase2(),
-        apiFetch('/api/site00/expression-engine?phase=B48'),
-        apiFetch('/api/site00/expression-engine?phase=B49R4&skipGeneration=1'),
-        apiFetch('/api/site00/expression-engine?phase=NME1'),
-        apiFetch('/api/site00/expression-engine?phase=C1'),
-        apiFetch('/api/site00/expression-engine?phase=C1.1'),
-        apiFetch('/api/site00/expression-engine?phase=C1.4'),
-        apiFetch('/api/site00/expression-engine?phase=C1.6'),
+      const criticalTimeout = EXPRESSION_ENGINE_CRITICAL_TIMEOUT_MS;
+      const [p2, b48Res] = await Promise.all([
+        promiseWithTimeout(expressionEngineApi.phase2(), criticalTimeout, null),
+        fetchExpressionEnginePhase('/api/site00/expression-engine?phase=B48', criticalTimeout),
       ]);
 
-      if (!b48Res.ok) {
-        const text = await b48Res.text();
+      if (!p2) {
+        throw new Error('Expression Engine blueprint timed out — check connection and retry.');
+      }
+      if (!b48Res?.ok) {
+        const text = b48Res ? await b48Res.text() : 'B48 pipeline timed out';
         throw new Error(text);
       }
 
       setPhase2(p2);
       setB48((await b48Res.json()) as B48PipelineResponse);
-      if (b49Res.ok) {
-        setB49r4((await b49Res.json()) as B49R4PipelineResponse);
-      } else {
-        setB49r4(null);
-      }
-      if (nmeRes.ok) {
-        setNme((await nmeRes.json()) as Nme1NarrativeMomentumResponse);
-      } else {
-        setNme(null);
-      }
-      if (c1Res.ok) {
-        setC1((await c1Res.json()) as C1NarrativeSynthesisResponse);
-      } else {
-        setC1(null);
-      }
-      if (c11Res.ok) {
-        setC11((await c11Res.json()) as import('./types.js').C11CreativeDirectorResponse);
-      } else {
-        setC11(null);
-      }
-      if (c12Res.ok) {
-        setC12((await c12Res.json()) as import('./types.js').C12Entry003Response);
-      } else {
-        setC12(null);
-      }
-      if (c16Res.ok) {
-        const body = (await c16Res.json()) as {
-          multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData & {
-            copyPackage?: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData['copyPackage'];
-          };
-        };
-        setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
-      } else {
-        setC16(null);
-      }
-      const c17Res = await apiFetch('/api/site00/expression-engine?phase=C1.7');
-      if (c17Res.ok) {
-        const body = (await c17Res.json()) as {
-          multiUnitBlindCampaign: import('./MultiUnitCreativePackageReview.js').MultiUnitCampaignReviewData;
-        };
-        setC16({ multiUnitBlindCampaign: body.multiUnitBlindCampaign });
-      }
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Failed to load Expression Engine';
       setError(msg);
@@ -114,7 +119,9 @@ export function useExpressionEngineEntry002(): ExpressionEngineEntry002State {
     } finally {
       setLoading(false);
     }
-  }, []);
+
+    void loadSupplementaryPhases();
+  }, [loadSupplementaryPhases]);
 
   const reload = useCallback(async () => {
     await loadCore();
