@@ -5,6 +5,7 @@
 export type JourneyStageId =
   | 'COVER'
   | 'NARRATIVE_MOMENTUM'
+  | 'CAST'
   | 'REEL_TREATMENT'
   | 'VISUAL_AUTHORITIES'
   | 'STORYBOARD'
@@ -38,6 +39,7 @@ export type JourneyStage = {
 export type PipelineJourneyInput = {
   coverAuthority: 'APPROVED' | string;
   narrativeMomentumStatus?: 'APPROVED' | 'FOUNDER_REVIEW' | 'NEEDS_REVISION' | 'GENERATED' | string;
+  castStageStatus?: JourneyStageStatus;
   reelTreatment: 'LOCKED' | string;
   preStoryboardComplete: boolean;
   activeProductionStep: string;
@@ -56,6 +58,7 @@ export type PipelineJourneyInput = {
 const STAGE_DEFS: Array<{ id: JourneyStageId; label: string; shortLabel: string; collapseGroup?: 'downstream' }> = [
   { id: 'COVER', label: 'Cover', shortLabel: 'COVER' },
   { id: 'NARRATIVE_MOMENTUM', label: 'Narrative Momentum', shortLabel: 'NARRATIVE' },
+  { id: 'CAST', label: 'Cast', shortLabel: 'CAST' },
   { id: 'REEL_TREATMENT', label: 'Reel Treatment', shortLabel: 'TREATMENT' },
   { id: 'VISUAL_AUTHORITIES', label: 'Visual Authorities', shortLabel: 'AUTHORITIES' },
   { id: 'STORYBOARD', label: 'Storyboard', shortLabel: 'STORYBOARD' },
@@ -80,6 +83,7 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
   const {
     coverAuthority,
     narrativeMomentumStatus,
+    castStageStatus: inputCastStageStatus,
     reelTreatment,
     preStoryboardComplete,
     activeProductionStep,
@@ -104,10 +108,24 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
       'ACTIVE'
     : coverAuthority === 'APPROVED' ? 'READY'
     : 'PENDING';
-  const treatmentStatus: JourneyStageStatus = reelTreatment === 'LOCKED' ? 'APPROVED' : 'PENDING';
+  const castStatus: JourneyStageStatus =
+    inputCastStageStatus ??
+    (narrativeStatus === 'APPROVED' ?
+      reelTreatment === 'LOCKED' && preStoryboardComplete ?
+        'APPROVED'
+      : 'READY'
+    : narrativeStatus === 'ACTIVE' || narrativeStatus === 'READY' ?
+      'BLOCKED'
+    : 'PENDING');
+
+  const treatmentStatus: JourneyStageStatus =
+    reelTreatment === 'LOCKED' ? 'APPROVED'
+    : castStatus !== 'APPROVED' ? 'BLOCKED'
+    : 'PENDING';
 
   let authoritiesStatus: JourneyStageStatus = 'PENDING';
   if (preStoryboardComplete) authoritiesStatus = 'APPROVED';
+  else if (castStatus !== 'APPROVED' && castStatus !== 'SUPERSEDED') authoritiesStatus = 'BLOCKED';
   else if (activeProductionStep.includes('PRE_STORYBOARD') || activeProductionStep.includes('AUTHORITY'))
     authoritiesStatus = 'ACTIVE';
 
@@ -150,6 +168,7 @@ export function buildProductionJourney(input: PipelineJourneyInput): JourneyStag
   const statusById: Record<JourneyStageId, JourneyStageStatus> = {
     COVER: coverStatus,
     NARRATIVE_MOMENTUM: narrativeStatus,
+    CAST: castStatus,
     REEL_TREATMENT: treatmentStatus,
     VISUAL_AUTHORITIES: authoritiesStatus,
     STORYBOARD: storyboardStatus,

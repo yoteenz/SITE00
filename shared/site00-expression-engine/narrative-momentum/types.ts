@@ -362,6 +362,12 @@ export type StoryboardBeatHandoff = {
   evidenceIds: readonly string[];
 };
 
+export type NarrativeMomentumCastingRequirementRef = {
+  requirementId: string;
+  narrativeRole: string;
+  screenImportance: 'HERO' | 'SUPPORTING' | 'FEATURED_BACKGROUND' | 'ENSEMBLE';
+};
+
 export type NarrativeMomentumPlan = {
   id: string;
   projectId: string;
@@ -396,6 +402,8 @@ export type NarrativeMomentumPlan = {
   validationFlags: readonly NarrativeMomentumValidationFlag[];
   validationIssues: readonly NarrativeValidationIssue[];
   campaignHandoff: NarrativeMomentumCampaignHandoff;
+  /** Derived at compile — links Narrative Momentum to CAST stage (no provider spend). */
+  castingRequirements: readonly NarrativeMomentumCastingRequirementRef[];
   createdAt: string;
   updatedAt: string;
 };

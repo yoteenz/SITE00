@@ -9,6 +9,10 @@ import {
   resolveSocialPackageReadiness,
 } from './derivedContentState';
 import {
+  buildEntry002ProductionCastState,
+  evaluateCastGate,
+} from '../../../../../shared/site00-studio-world/acting-catalogue/index.js';
+import {
   buildProductionJourney,
   resolveActiveJourneyStage,
 } from './productionJourney';
@@ -116,11 +120,17 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     [socialPackageReadiness],
   );
 
+  const castStageStatus = useMemo(() => {
+    const gate = evaluateCastGate(buildEntry002ProductionCastState());
+    return gate.allRequiredCharactersLocked ? ('APPROVED' as const) : ('READY' as const);
+  }, []);
+
   const journey = useMemo(() => {
     if (!pipeline || !socialPackageReadiness) return [];
     return buildProductionJourney({
       coverAuthority: pipeline.coverAuthority ?? 'APPROVED',
       narrativeMomentumStatus: nme?.plan.founderStatus ?? 'GENERATED',
+      castStageStatus,
       reelTreatment: pipeline.reelTreatment ?? 'LOCKED',
       preStoryboardComplete,
       activeProductionStep: pipeline.activeProductionStep,

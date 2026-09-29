@@ -12562,4 +12562,4 @@ Founder review migrated from scroll document to **6-step wizard** (shift → bea
 
 ## 2026-09-29 — P0.NDX.NARRATIVE-MOMENTUM-NDXBOOK-ART-DIRECTION-REBUILD1
 
-Rebuilt NME wizard **visual expression** (architecture unchanged): editorial chapter index rail, paper/black evidence/archival plate surfaces, thesis spread, beat ledger, tension graph on black field, proof ledger, cultural glitch block, filmstrip/contact-sheet formats, review board + black founder sign-off field, dossier inspectors. Derived content mobile cards aligned (`site00-ee-ref-derived--ndx-index`). Tests `p0ndxNarrativeMomentumArtDirection1.test.ts`. PR pending merge.
+Rebuilt NME wizard **visual expression** (architecture unchanged): editorial chapter index rail, paper/black evidence/archival plate surfaces, thesis spread, beat ledger, tension graph on black field, proof ledger, cultural glitch block, filmstrip/contact-sheet formats, review board + black founder sign-off field, dossier inspectors. Derived content mobile cards aligned (`site00-ee-ref-derived--ndx-index`). Tests `p0ndxNarrativeMomentumArtDirection1.test.ts`. PR **#1245**.
