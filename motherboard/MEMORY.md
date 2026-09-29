@@ -12574,3 +12574,13 @@ Built cross-project **Studio World Acting Catalogue** and formal **CAST** stage 
 - **Intelligence:** derive casting from NME, recommendActors, reuse-before-create, homogeneity + cast gates, continuity validator, storyboard/keyframe/video handoffs.
 - **UI:** `CAST` in production journey; `ExpressionEngineCastPanel` + `StudioWorldActingCataloguePanel`; NME cast teaser.
 - **Entry 002:** Retroactive map SW-017 same woman 2016/2026 temporal looks; no approved asset regen. PR **#1246**.
+
+---
+
+## 2026-09-29 — P0.SW.MODULAR-PRODUCTION-ENGINE1
+
+Formalized Studio World as a **modular reusable production engine** (Phase 1: schema + architecture, no new UI).
+
+- **Spec:** `docs/studio-world/MODULAR-PRODUCTION-ENGINE1.md` — five layers, seven libraries, four pipelines (mermaid), monetization tiers, workspace registry, phases 1–6.
+- **Code:** `shared/site00-studio-world/modular-production-engine/` — layers, library types, pipelines, monetization, validation rules, workspace module registry, bridge from acting catalogue.
+- **Tests:** `p0SwModularProductionEngine1.test.ts` (9).
