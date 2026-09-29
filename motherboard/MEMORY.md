@@ -12622,3 +12622,18 @@ First service-family wave: wire IDENTITY offers through commercial canon spine (
 - **UI:** `useIdntyAssessment` + `/idnty` GET STARTED + `/idnty/state` navigation preserve `serviceId`/`packageId`.
 - **Tests:** `p0Site00IdentityCommercialFulfillmentIntegration1.test.ts` (20). Browser QA on preview: CTA/query preservation PASS; intake API payload capture PARTIAL.
 - **Honest status:** **NOT FULLY_WIRED** — `FD-IDNTY-TIER-PURCHASE` remains; `isServicePaymentReady` still false (custom quote + quote flow gaps); numeric entitlement enforcement not defined in canon; full intake→authorize→project→workspace→deliverable E2E requires Supabase migration + founder QA.
+
+---
+
+## 2026-09-29 — P0.SITE00-IDENTITY-COMMERCIAL-FULFILLMENT-CLOSEOUT1
+
+Surgical closeout on integration PR #1253 baseline (release v732). **Merged PR #1254.**
+
+- **Founder decision (unchanged):** `FD-IDNTY-TIER-PURCHASE` — how IDNTY investment tiers map to purchase, project creation, and delivery. Tier SKUs (`idnty-investment-tiers/*`) authorize on submit but **block auto project bootstrap** (`founderDecisionBlockId`, fulfillment `BLOCKED`) until resolved. Do not guess founder answer.
+- **Intake → project:** `submitIntake(IDENTITY)` calls `activateIdentityCommercialAfterIntakeSubmit` — **services-hub-branding** path authorizes + `convertIdentityIntakeToProject` without manual admin step. Tiers: PARTIAL (FD gate).
+- **Bootstrap persistence:** `IdentityCommercialState.bootstrap` carries `commercialRecordId`, `fulfillmentContractId`, `clientId`, `brandId`, `projectType`, `fulfillmentAdapterId`; project `metadata` mirrors linkage on create.
+- **Adapter:** `identity-fulfillment` → **WIRED**; `resolveProductionPipeline` uses package `currentProductionEntry`; workspace route requires `projectSlug` on snapshot.
+- **Entitlements:** contract limits remain `FOUNDER_DECISION_REQUIRED` for concepts/revisions — revision enforcement only when numeric cap defined (unchanged).
+- **Tests:** `p0Site00IdentityCommercialFulfillmentCloseout1.test.ts` (7) + integration (20); build PASS.
+- **Deploy:** Supabase migration `20260929160000_site00_identity_commercial_state.sql` **not** listed on remote project migrations yet — founder must apply. Railway redeploy required for API. Browser/builder live E2E **not** certified this session.
+- **FULLY_WIRED:** NO. **READY_FOR_FOUNDER-IDENTITY-COMMERCIAL-QA:** NO until migration + Railway + live E2E.
