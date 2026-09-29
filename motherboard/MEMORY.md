@@ -12595,4 +12595,10 @@ Augmented modular engine (does not replace MODULAR-PRODUCTION-ENGINE1) with oper
 
 ## 2026-09-29 — P0.SW.MARKETING-WEBSITE-TO-STUDIO-WORLD-COMMERCIAL-PIPELINE-INTEGRATION1
 
+## 2026-09-29 — P0.SITE00.ALL-SERVICES-COMMERCIAL-WIRING-AUDIT1
+
+Forensic audit of all customer-facing monetizable services: inventory (25 rows), wiring matrix, orphan detection (duplicate EVOLVE pricing UI vs evolve-commercial catalog, unrouted EvolveCommercialPage, no Stripe). Docs: `docs/SITE_00_ALL_SERVICES_COMMERCIAL_WIRING_AUDIT1.md`, module `shared/site00-commercial-audit/`. Tests: `p0Site00AllServicesCommercialWiringAudit1.test.ts`. **0 PAYMENT_READY** services; marketing remains best partial path. PR TBD.
+
+---
+
 Wired modular-engine commercial model to **real** EVOLVE Marketing (no parallel routes): audit in `shared/site00-marketing-commercial/auditConstants.ts`; service-category → `MarketingEntitlementTemplate`; payment `confirmMarketingPayment` → `ensureCommercialOnPayment`; provision → `ensureCommercialOnProvision` + `commercial_state` jsonb migration; API `commercial-production-action` / `commercial-test-addon`; engagement workspace allowance UI. Doc: `docs/studio-world/MARKETING-COMMERCIAL-PIPELINE-INTEGRATION1.md`. Tests: `p0SwMarketingCommercialPipelineIntegration1.test.ts` (11). Full signed-in browser E2E (casting/add-on/resume) still needs Supabase migration applied + post-deploy QA on engagement workspace.
