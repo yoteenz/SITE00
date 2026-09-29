@@ -176,6 +176,10 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
     authorities.find((a) => a.boardNumber === 1)?.previewUrl ??
     null;
 
+  const narrativeImages = authorities
+    .map((a) => a.previewUrl)
+    .filter((u): u is string => !!u);
+
   const worldImageUrl =
     authorities.find((a) => a.boardNumber === 1)?.previewUrl ?? entryThumb;
 
@@ -423,6 +427,7 @@ export function ExpressionEngineReferenceMobileWorkspace({ projectSlug }: Props)
           <ExpressionEngineNarrativeMomentumPanel
             plan={nme.plan}
             grammarLibraryCount={nme.grammarLibraryCount}
+            images={narrativeImages}
             judging={narrativeJudging}
             onJudgment={submitNarrativeMomentumJudgment}
             onRecompile={recompileNarrativeMomentum}

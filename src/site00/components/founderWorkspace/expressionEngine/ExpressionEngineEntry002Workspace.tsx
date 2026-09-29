@@ -336,6 +336,7 @@ export function ExpressionEngineEntry002Workspace({ projectSlug }: Props) {
                 <ExpressionEngineNarrativeMomentumPanel
                   plan={nme.plan}
                   grammarLibraryCount={nme.grammarLibraryCount}
+                  images={(b48?.preStoryboardAuthorityPack.authorities ?? []).map((a) => a.previewUrl).filter((u): u is string => !!u)}
                   judging={narrativeJudging}
                   onJudgment={submitNarrativeMomentumJudgment}
                   onRecompile={recompileNarrativeMomentum}
@@ -470,6 +471,7 @@ function WorkPanel({
         <ExpressionEngineNarrativeMomentumPanel
           plan={nme.plan}
           grammarLibraryCount={nme.grammarLibraryCount}
+          images={(b48?.preStoryboardAuthorityPack.authorities ?? []).map((a) => a.previewUrl).filter((u): u is string => !!u)}
           judging={narrativeJudging}
           onJudgment={onNarrativeMomentumJudgment}
           onRecompile={onRecompileNarrativeMomentum}

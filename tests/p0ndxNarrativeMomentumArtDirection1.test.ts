@@ -35,12 +35,14 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-NDXBOOK-ART-DIRECTION-REBUILD1', () => {
   });
 
   it('implements archival surface vocabulary', () => {
-    expect(panel).toContain('site00-nme-wizard__paper-field');
-    expect(panel).toContain('site00-nme-wizard__black-field');
-    expect(panel).toContain('site00-nme-wizard__archival-plate');
+    expect(panel).toContain('site00-nme-wizard__plate');
+    expect(panel).toContain('site00-nme-wizard__thesis-after');
+    expect(panel).toContain('site00-nme-wizard__curve');
     expect(panel).toContain('site00-nme-wizard__glitch-field');
-    expect(panel).toContain('site00-nme-wizard__decision-field');
+    expect(panel).toContain('site00-nme-wizard__openloop');
+    expect(panel).toContain('site00-nme-wizard__signoff-block');
     expect(css).toContain('--ndx-paper');
+    expect(css).toContain('--ndx-lime');
   });
 
   it('does not rely on generic card-grid primary layout', () => {
@@ -61,10 +63,17 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-NDXBOOK-ART-DIRECTION-REBUILD1', () => {
   });
 
   it('inspectors use dossier sheet pattern', () => {
-    expect(panel).toContain('site00-nme-wizard__dossier');
+    expect(panel).toContain('NarrativeMomentumInspectorSheet');
     expect(readFileSync(
       join(import.meta.dirname, '../src/site00/components/founderWorkspace/expressionEngine/NarrativeMomentumWizardInspectors.tsx'),
       'utf8',
-    )).toContain('dossier-evidence');
+    )).toContain('site00-nme-wizard__dossier');
+  });
+
+  it('is a widget: renders no page header, breadcrumb, or dossier chrome', () => {
+    expect(panel).not.toContain('nme-wizard-header');
+    expect(panel).not.toContain('Entry dossier');
+    expect(panel).not.toMatch(/<h[12]\b/);
+    expect(panel).not.toMatch(/breadcrumb/i);
   });
 });

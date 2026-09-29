@@ -7,12 +7,12 @@ import type {
 export const NME_WIZARD_STEP_COUNT = 6 as const;
 
 export const NME_WIZARD_STEPS = [
-  { id: 1 as const, code: '01', chapter: 'SHIFT', nav: '01 / SHIFT', slug: 'story-shift', question: 'What changes in the viewer?' },
-  { id: 2 as const, code: '02', chapter: 'BEATS', nav: '02 / BEATS', slug: 'beat-map', question: 'How does the story move beat by beat?' },
-  { id: 3 as const, code: '03', chapter: 'PROOF', nav: '03 / PROOF', slug: 'tension-proof', question: 'Where does tension peak — and what proves it?' },
-  { id: 4 as const, code: '04', chapter: 'REFRAME', nav: '04 / REFRAME', slug: 'reframe-loop', question: 'Where does the audience land — and what stays open?' },
-  { id: 5 as const, code: '05', chapter: 'FORMATS', nav: '05 / FORMATS', slug: 'formats', question: 'How does this become reel and carousel?' },
-  { id: 6 as const, code: '06', chapter: 'REVIEW', nav: '06 / REVIEW', slug: 'review', question: 'Ready to approve this narrative?' },
+  { id: 1 as const, code: '01', chapter: 'SHIFT', title: 'STORY SHIFT', nav: '01 / SHIFT', slug: 'story-shift', question: 'What changes in the viewer?' },
+  { id: 2 as const, code: '02', chapter: 'BEATS', title: 'BEAT MAP', nav: '02 / BEATS', slug: 'beat-map', question: 'How does the story move beat by beat?' },
+  { id: 3 as const, code: '03', chapter: 'PROOF', title: 'TENSION + PROOF', nav: '03 / PROOF', slug: 'tension-proof', question: 'Where does tension peak — and what proves it?' },
+  { id: 4 as const, code: '04', chapter: 'REFRAME', title: 'REFRAME + OPEN LOOP', nav: '04 / REFRAME', slug: 'reframe-loop', question: 'Where does the audience land — and what stays open?' },
+  { id: 5 as const, code: '05', chapter: 'FORMATS', title: 'FORMAT ADAPTATION', nav: '05 / FORMATS', slug: 'formats', question: 'How does this become reel and carousel?' },
+  { id: 6 as const, code: '06', chapter: 'REVIEW', title: 'REVIEW + JUDGMENT', nav: '06 / REVIEW', slug: 'review', question: 'Ready to approve this narrative?' },
 ];
 
 /** Visual QA flag id — generic SaaS drift (see sprint NDXBOOK art direction). */
@@ -81,4 +81,35 @@ export function deriveNarrativeApprovalReadiness(
 
 export function tensionSequenceValid(issues: readonly NarrativeValidationIssue[]): boolean {
   return !issues.some((i) => i.flagId === 'TENSION_SEQUENCE_INCOHERENT' && (i.blocking || i.severity === 'BLOCKING'));
+}
+
+export type NmeChipTone = 'valid' | 'warn' | 'review' | 'muted';
+
+export function tensionTone(stage: string): string {
+  return stage.toLowerCase();
+}
+
+/** Short tension labels for the 7-column curve axis. */
+export function tensionAxisLabel(stage: string): string {
+  return stage === 'INTERRUPTION' ? 'INTERRUPT' : stage;
+}
+
+/** Y position (0 = floor, 1 = peak) for the tension curve. */
+export function tensionLevel(stage: string): number {
+  const map: Record<string, number> = {
+    LOW: 0.06,
+    RISING: 0.24,
+    INTERRUPTION: 0.4,
+    ESCALATION: 0.66,
+    PEAK: 1,
+    RELEASE: 0.52,
+    RESIDUAL: 0.3,
+  };
+  return map[stage] ?? 0.4;
+}
+
+/** Evidence imagery for a beat (1-based order) cycled over the available Entry 002 frames. */
+export function pickBeatImages(images: readonly string[], order: number, count = 1): string[] {
+  if (!images.length) return [];
+  return Array.from({ length: count }, (_, i) => images[(order - 1 + i) % images.length]!);
 }
