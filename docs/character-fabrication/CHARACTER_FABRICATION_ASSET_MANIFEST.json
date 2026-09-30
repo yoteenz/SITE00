@@ -1,0 +1,586 @@
+{
+  "sprint": "P0.SW.CHARACTER-FABRICATION-LIVE-MACHINE1",
+  "receiptContract": "Grok output → canonical asset id → CHARACTER_ASSET_RECEIPTS (shared/site00-character-fabrication/assets.ts) → semantic slot → CfImage",
+  "visualAssetsGeneratedBySonnet": 0,
+  "seededDefects": [
+    "WARDROBE_TOP",
+    "MOTION_TIMING"
+  ],
+  "totalSlots": 105,
+  "runtimeCanonicalSlots": 2,
+  "grokRequiredCount": 28,
+  "slotsByGroup": {
+    "MACHINE": 1,
+    "BODY": 8,
+    "ACTOR": 14,
+    "CHARACTER": 3,
+    "WARDROBE": 21,
+    "LOOK": 6,
+    "APPEARANCE": 25,
+    "MOTION": 9,
+    "SIMULATION": 18
+  },
+  "assets": [
+    {
+      "slotId": "fabrication.machine.chamber",
+      "group": "MACHINE",
+      "purpose": "Hero plate of the fabrication chamber behind the station machine (optional; chamber geometry itself is live SVG/CSS).",
+      "aspectRatio": "9:16",
+      "minimumResolution": "1080x1920",
+      "usedBy": [
+        "FabricationMachine"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/fabrication/machine/chamber.webp",
+      "assetId": "grok.site00.character-fabrication.fabrication.machine.chamber.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "actor.sw052.portrait.primary",
+      "group": "ACTOR",
+      "purpose": "Primary approved portrait of actor SW-052.",
+      "aspectRatio": "4:5",
+      "minimumResolution": "1024x1280",
+      "usedBy": [
+        "ActorCard",
+        "ActorAuthorityCard",
+        "ActorProfile"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/actor/sw052/portrait/primary.webp",
+      "assetId": "grok.site00.character-fabrication.actor.sw052.portrait.primary.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "actor.sw019.portrait.primary",
+      "group": "ACTOR",
+      "purpose": "Primary approved portrait of actor SW-019.",
+      "aspectRatio": "4:5",
+      "minimumResolution": "1024x1280",
+      "usedBy": [
+        "ActorCard",
+        "ActorAuthorityCard",
+        "ActorProfile"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/actor/sw019/portrait/primary.webp",
+      "assetId": "grok.site00.character-fabrication.actor.sw019.portrait.primary.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "actor.sw063.portrait.primary",
+      "group": "ACTOR",
+      "purpose": "Primary approved portrait of actor SW-063.",
+      "aspectRatio": "4:5",
+      "minimumResolution": "1024x1280",
+      "usedBy": [
+        "ActorCard",
+        "ActorAuthorityCard",
+        "ActorProfile"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/actor/sw063/portrait/primary.webp",
+      "assetId": "grok.site00.character-fabrication.actor.sw063.portrait.primary.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.legging-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for LEGGING - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/legging-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.legging-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.cargo-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for CARGO PANT - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/cargo-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.cargo-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.jogger-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for JOGGER - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/jogger-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.jogger-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.shorts-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for SHORTS - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/shorts-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.shorts-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.denim-hr-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for HIGH-RISE DENIM - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/denim-hr-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.denim-hr-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.leather-jkt-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for LEATHER JACKET - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/leather-jkt-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.leather-jkt-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.canvas-overshirt-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for CANVAS OVERSHIRT - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/canvas-overshirt-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.canvas-overshirt-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.bomber-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for BOMBER - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/bomber-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.bomber-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.boot-leather-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for LEATHER BOOT - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/boot-leather-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.boot-leather-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.sneaker-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for SNEAKER - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/sneaker-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.sneaker-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.flat-leather-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for LEATHER FLAT - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/flat-leather-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.flat-leather-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.belt-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for BELT - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/belt-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.belt-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "wardrobe.sw017.garment.pendant-01",
+      "group": "WARDROBE",
+      "purpose": "Product photography for PENDANT - 01.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "800x800",
+      "usedBy": [
+        "GarmentAssetCard",
+        "FittingSlot"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/wardrobe/sw017/garment/pendant-01.webp",
+      "assetId": "grok.site00.character-fabrication.wardrobe.sw017.garment.pendant-01.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "look.sw017.candidate.a.layers",
+      "group": "LOOK",
+      "purpose": "Layer-breakdown flat lay of look CANDIDATE A (garments stacked, no model).",
+      "aspectRatio": "4:5",
+      "minimumResolution": "800x1000",
+      "usedBy": [
+        "LayerBreakdown"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/look/sw017/candidate/a/layers.webp",
+      "assetId": "grok.site00.character-fabrication.look.sw017.candidate.a.layers.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "look.sw017.candidate.b.layers",
+      "group": "LOOK",
+      "purpose": "Layer-breakdown flat lay of look CANDIDATE B (garments stacked, no model).",
+      "aspectRatio": "4:5",
+      "minimumResolution": "800x1000",
+      "usedBy": [
+        "LayerBreakdown"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/look/sw017/candidate/b/layers.webp",
+      "assetId": "grok.site00.character-fabrication.look.sw017.candidate.b.layers.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "look.sw017.candidate.c.layers",
+      "group": "LOOK",
+      "purpose": "Layer-breakdown flat lay of look CANDIDATE C (garments stacked, no model).",
+      "aspectRatio": "4:5",
+      "minimumResolution": "800x1000",
+      "usedBy": [
+        "LayerBreakdown"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/look/sw017/candidate/c/layers.webp",
+      "assetId": "grok.site00.character-fabrication.look.sw017.candidate.c.layers.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.walk.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for WALK.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/walk/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.walk.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.idle.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for IDLE.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/idle/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.idle.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.sit.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for SIT.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/sit/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.sit.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.turn.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for TURN.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/turn/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.turn.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.enter.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for ENTER.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/enter/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.enter.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.exit.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for EXIT.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/exit/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.exit.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.speak.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for SPEAK.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/speak/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.speak.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "simulation.sw017.test.react.preview",
+      "group": "SIMULATION",
+      "purpose": "Testing Ground preview frame for REACT.",
+      "aspectRatio": "1:1",
+      "minimumResolution": "1024x1024",
+      "usedBy": [
+        "TestingGround"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/simulation/sw017/test/react/preview.webp",
+      "assetId": "grok.site00.character-fabrication.simulation.sw017.test.react.preview.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    }
+  ],
+  "canonicalRuntime": [
+    {
+      "slotId": "actor.sw017.portrait.primary",
+      "source": "pre-storyboard authority board: SUBJECT WOMAN DUAL-ERA AUTHORITY"
+    },
+    {
+      "slotId": "character.subject-woman.portrait.primary",
+      "source": "pre-storyboard authority board: SUBJECT WOMAN DUAL-ERA AUTHORITY"
+    }
+  ]
+}

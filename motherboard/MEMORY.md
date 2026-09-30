@@ -12701,3 +12701,36 @@ Sprint P0.PRODUCTION-HUB.OPUS-PIXEL-FIDELITY-CONVERGENCE1.
   - The operation bar shows the progress % (canonical `progressPercent`).
 - **Type:** Saira Semi Condensed, self-hosted in `src/site00/assets/fonts/saira-semi-condensed/` (OFL). The Google Fonts CDN is not reachable from cloud VMs.
 - **Conventions:** Chamber-relative y = authority page y − 75. Keep the `CHAMBER_HEIGHT` values in sync with the CSS heights (LIVE 690 / FLOW 1050 / DEPS 715 / expanded 980).
+
+---
+
+## 2026-09-30 — Authority photographs and nav icons mounted on Hub and Character Fabrication
+
+Founder sent all 31 authority screens (Production Hub 00–14 and Character Fabrication 5414–5429) and required the live machines to use those images, assets, and icons.
+
+- **Context:** Earlier in this chat the hub (`dbfc6ab5`) and character-fabrication (`de741cdd`) visual sprints were review-only and did not mount rasters. Tunnel previews of those checkouts were shared. The founder then asked whether the full authority pack was on disk (it was not: hub lean pack had 7 of 15; fabrication JPEGs were absent) and, after uploading the 31 screens, said to implement them pixel-perfect now.
+- **Topics covered:** Asset firewall (receipts → `hubAssetUrl` / `characterAssetUrl` → `HubImage` / `CfImage`); cropping the inner photographs out of the screens; bottom-nav glyphs; scene copy staying canonical; which figure belongs in the fabrication chamber.
+- **Decisions / outcomes:**
+  - Pages stay the React machines. Full-screen screenshots are not mounted as the UI, and chamber/atmosphere plates are not tiled from UI strips.
+  - Hub storyboard frames 01–08, node plates, and the NDXBOOK cover are crops from the lightbox, flow, and profile screens. Default selected frame is `frame-03` (the pencil). Entry 002 falls back to 8 frames when the pipeline API returns no panels, so the receipts still show.
+  - Fabrication photographs are the blonde subject in the authority screens. Catalogue copy (age, ethnicity) stays the live record. The chamber figure is the sports-bra plate (`actor.sw017.chamber.figure`). Leather front/side/back stays on the body continuity slots. Remaining empty catalogue cards are SW-052, SW-019, SW-063 (no faces in the pack).
+  - Bottom nav glyphs match the authority bar: solid house, envelope, leaf, plain triangle, hexagon, isometric cube, clock. Active item fills red.
+  - `visualAssetsGeneratedBySonnet` stays 0. Components still do not import rasters.
+- **Changes:** `public/site00/production-hub/**`, `public/site00/character-fabrication/**`, hub and fabrication receipt ledgers, both asset manifests, `icons.tsx`, `reducer.ts` frame default, `useProductionHubData.ts` frame fallback, fabrication chamber subject slot, machine tests. Branch `cursor/authority-pixel-assets-1b86` off the hub machine. Do not ship this bundle to site00.com until the hub branch is on `main`.
+- **Conventions:** New photographs enter only as receipt URLs under `public/site00/production-hub/` or `public/site00/character-fabrication/` (slot id, dots as slashes, `.webp`). Regenerate the fabrication manifest after receipt edits. Do not bake brackets, badges, captions, or selection chrome into the crop.
+
+---
+
+## 2026-09-30 — Shared production chrome and authority nav glyphs
+
+Founder asked why the bottom-panel icons still did not match the authority, and required the top and bottom bars on Production, Character Fabrication, and the other production workspaces to be the same chrome and to line up.
+
+- **Context:** This continues the authority-photograph mount on `cursor/authority-pixel-assets-1b86` (PR into the hub review branch, not `main`). The first icon pass used single-stroke paths and a blanket active `fill`, so the hub turned the expression hex into a solid blob, dropped the experience stem, and left queue, libraries, design, and experience on the dark PwFrame bar.
+- **Topics covered:** Authority glyph shapes (house outline vs solid, envelope, leaf with vein, triangle with stem, hexagonal ring, isometric cube, clock at 12 and 3); 864 vs 432 zoom so header and nav screen sizes diverged; PwFrame production chrome vs projects chrome.
+- **Decisions / outcomes:**
+  - One 864px chrome scale (`min(innerWidth, 520) / 864`) is shared by the hub, character fabrication bars, PwFrame production pages, and the design overlay. On a 390px phone the header is 34px tall and the nav is 37px tall, with the same column edges (0, 111, 199, 280, 364).
+  - Active hub is a solid house. Active expression is a red hexagonal ring, not a filled shape. Experience keeps the center stem. The active-state CSS must not set `fill` on every nav svg.
+  - Character fabrication content stays on the 432 canvas. Only its header and nav leave that zoom. Projects PwFrame is unchanged.
+  - Do not upload this bundle to site00.com until the hub branch is on `main`.
+- **Changes:** `icons.tsx`, `chrome.tsx`, hub and fabrication authority CSS, `CharacterFabrication` shell, `PwFrame` production variant, design route overlay. Photographs and receipts from the earlier mount are unchanged.
+- **Conventions:** Production header and bottom nav are the hub 864 bar. New production surfaces use `ProductionChromeStrip`, not a second icon set or a dark `.pw-nav`.

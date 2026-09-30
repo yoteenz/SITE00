@@ -145,13 +145,13 @@ export const LOOK_CANDIDATES: readonly LookCandidate[] = [
 ];
 
 export const APPEARANCE_LAYERS: readonly AppearanceLayerDef[] = [
-  { layerId: 'hairStyle', label: 'HAIR STYLE', value: 'WAVE 03', code: 'REF-H-02', candidateValue: 'WAVE 03', slotId: 'appearance.sw017.layer.hair-style' },
-  { layerId: 'hairColor', label: 'HAIR COLOR', value: 'BASELINE', code: 'HC-BL-01', candidateValue: 'ASH TONE', slotId: 'appearance.sw017.layer.hair-color' },
-  { layerId: 'rootShadow', label: 'ROOT SHADOW', value: 'MEDIUM', code: 'RS-MED-02', candidateValue: 'DARK', slotId: 'appearance.sw017.layer.root-shadow' },
-  { layerId: 'skinFinish', label: 'SKIN FINISH', value: 'NATURAL / SLIGHT SHEEN', code: 'SF-NAT-01', candidateValue: 'MATTE', slotId: 'appearance.sw017.layer.skin-finish' },
-  { layerId: 'eyeDetail', label: 'EYE DETAIL', value: 'NEUTRAL', code: 'ED-NT-02', candidateValue: 'SMOKE SOFT', slotId: 'appearance.sw017.layer.eye-detail' },
-  { layerId: 'lipTone', label: 'LIP TONE', value: 'NEUTRAL', code: 'LT-NT-01', candidateValue: 'COOL NUDE', slotId: 'appearance.sw017.layer.lip-tone' },
-  { layerId: 'grit', label: 'GRIT / IMPERFECTIONS', value: 'LIGHT', code: 'GI-LT-01', candidateValue: 'MEDIUM', slotId: 'appearance.sw017.layer.grit' },
+  { layerId: 'hairStyle', label: 'HAIR STYLE', value: 'Wet / Disheveled', code: 'REF-H-02', candidateValue: 'WAVE 03', slotId: 'appearance.sw017.layer.hair-style' },
+  { layerId: 'hairColor', label: 'HAIR COLOR', value: 'Baseline', code: 'HC-BL-01', candidateValue: 'ASH TONE', slotId: 'appearance.sw017.layer.hair-color' },
+  { layerId: 'rootShadow', label: 'ROOT SHADOW', value: 'Medium', code: 'RS-MED-02', candidateValue: 'DARK', slotId: 'appearance.sw017.layer.root-shadow' },
+  { layerId: 'skinFinish', label: 'SKIN FINISH', value: 'Natural / Slight Sheen', code: 'SF-NAT-01', candidateValue: 'MATTE', slotId: 'appearance.sw017.layer.skin-finish' },
+  { layerId: 'eyeDetail', label: 'EYE DETAIL', value: 'Neutral', code: 'ED-NT-02', candidateValue: 'SMOKE SOFT', slotId: 'appearance.sw017.layer.eye-detail' },
+  { layerId: 'lipTone', label: 'LIP TONE', value: 'Neutral', code: 'LT-NT-01', candidateValue: 'COOL NUDE', slotId: 'appearance.sw017.layer.lip-tone' },
+  { layerId: 'grit', label: 'GRIT / IMPERFECTIONS', value: 'Light', code: 'GI-LT-01', candidateValue: 'MEDIUM', slotId: 'appearance.sw017.layer.grit' },
 ];
 
 export const HAIR_REFS: readonly AppearanceRef[] = [1, 2, 3, 4].map((n) => ({
