@@ -12765,3 +12765,47 @@ Founder sprint wired the three Grok environment plates into Production Hub and C
   - Integration branch: `cursor/authority-environment-family-live-integration-87ed` (based on env-family branch). Preview serves local dist after merge commit — not main / not site00.com.
 - **Changes:** asset receipts, chamber.tsx, machine.tsx, hub/CF authority CSS, manifests regenerated, STATE-TO-ENVIRONMENT `wired: true`.
 - **Conventions:** Environment swap follows `STATE-TO-ENVIRONMENT.json`, not “simulation station selected”. Opus still owns typography/geometry convergence after founder approves worlds.
+
+---
+
+## 2026-09-30 — P0 unified Grok + environment review tunnel
+
+- **Sprint:** `P0.SITE00.GROK-PLUS-ENVIRONMENT-UNIFIED-REVIEW-TUNNEL1`. Forensics: Grok live remote = `cursor/authority-pixel-assets-1b86` @ `4fdf9efc`; Composer env integration = `cursor/authority-environment-family-live-integration-87ed` @ `24e2db58` (merge-base = Grok HEAD — unified at git level, not two divergent products). Stale local Grok worktree `.worktrees/grok-authority-pixel-assets-review` @ `9cfc20f5` preserved (not deleted).
+- **Unified review:** branch/worktree `cursor/grok-plus-environment-unified-review-87ed` @ `.worktrees/grok-environment-unified-review`; canonical tunnel via `SITE00_CLOUD_PREVIEW_ROOT` + `ensure-grok-environment-unified-preview.sh` → `site00.fsbw-dev.com` → `:5174` → unified dist (`index.Ddmx0m0x.js`, commit `24e2db587d06`). PR #1262 (review only, no main).
+- **Stack:** Grok foreground assets (96+ webps) + 3 authority environment plates + Composer wiring/suppression unchanged. Tests 48 pass on unified worktree.
+
+---
+
+## 2026-09-30 — Compact chrome moved onto the unified review branch
+
+Founder asked to move every chrome change from this chat onto `cursor/grok-plus-environment-unified-review-87ed` and to keep all future edits there until a merge to main. PR #1262 stays review-only.
+
+- **Context:** Whole chat: Production Hub and Character Fabrication visual sprints; 31 authority photographs and nav glyphs (`9cfc20f5`); shared 864 chrome (`4fdf9efc`, PR #1258, not merged); three environment worlds then live integration (PR #1259 and `cursor/authority-environment-family-live-integration-87ed`). Compact chrome was built on `cursor/chrome-compact-text-1b86` (PR #1261, not merged) through `5b730eb5`: production type matched fabrication, nav labels moved 10 → 8 → 9 → 8.5 → 8.8 → 9.3px, top subtext +3 then −1, header text box `.ph-top__copy` at `zoom: 0.74`, Martian Mono tried on the bars and reverted to Saira Semi Condensed. A local auth-guard bypass existed only on the chrome checkout for a quick tunnel and was not moved. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close. Review surface is `site00.fsbw-dev.com` → cloudflared → port 5174 → vite preview whose cwd is `.worktrees/grok-environment-unified-review`.
+- **Topics covered:** Shared header and bottom nav only. Icons, thumbs, chevrons, the red brand tick, and the steps dial stay outside the scaled box. Chamber type, catalogue copy, and the three environment plates stay. Fabrication canvas stays Barlow Condensed. Hub chamber stays Saira.
+- **Decisions / outcomes:** Net source diff from `4fdf9efc` to `5b730eb5` is on the unified branch. Header font sizes stay (brand title 15px, brand subtitle 10.5px, selector title 12.5px, selector label 9.5px, selector detail 9px, red count 20px, attention caption 9.5px) inside `.ph-top__copy` at `zoom: 0.74`. Bottom-nav labels are 9.3px with label line-height 1.15. Chrome face is Saira Semi Condensed. `.ph-chamber.has-authority-env` rules stay. Future chrome and text edits in this thread land on this branch until the founder says merge to main. PR #1258, #1259, #1261, and #1262 stay unmerged.
+- **Changes:** `ProductionHub.tsx`, `productionHub/chrome.tsx`, `characterFabrication/primitives.tsx`, `site00-production-hub-authority.css`, this MEMORY entry.
+- **Conventions:** Do not commit an auth-guard bypass. Do not drop the authority environment plate CSS when editing chrome. Compare the named tunnel only after a full reload. Hard-refresh; an open phone tab can stay on an older bundle.
+
+---
+
+## 2026-09-30 — Inbox quick view: one-line labels, centered actions
+
+Founder looked at the attention popover on site00.fsbw-dev.com and asked for four layout fixes. Work stays on `cursor/grok-plus-environment-unified-review-87ed` until a merge to main. PR #1262 stays review-only.
+
+- **Context:** Whole chat mounted authority photographs and nav glyphs, aligned shared chrome, rebuilt three environment worlds, then compacted production chrome to match fabrication (header copy zoom 0.74, nav labels 9.3px, Saira Semi Condensed). That chrome was moved onto this unified review branch. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Hard-refresh the named tunnel.
+- **Decisions / outcomes:** In the attention popover, the title and the state (`NARRATIVE APPROVAL`, `AWAITING DECISION`) stay on one row (`white-space: nowrap`, slightly wider text column). `VIEW ALL IN INBOX` is centered. REVIEW and CHOOSE span the card and their label is centered inside the button. The `ATTENTION / INBOX QUICK VIEW` heading is removed. CLOSE stays at the top right. Environment plates and chrome type are unchanged.
+- **Changes:** `productionHub/overlays.tsx`, `site00-production-hub-authority.css`.
+- **Conventions:** Attention titles and state labels do not wrap. Popover actions are centered in the card. Do not put the quick-view heading back unless the founder asks.
+
+---
+
+## 2026-09-30 — P0 authority compositing + fixed panel convergence (partial)
+
+Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on unified review branch `cursor/grok-plus-environment-unified-review-87ed` (PR #1262, **no main**).
+
+- **Production Hub:** Suspended modules fixed at **113px** outer shell; `selectedNodePanelFace` + `NODE_PANEL_BACK`; detail swaps inside face (BACK + status + in-shell `ph-qa`). Flow/dep nodes follow same face model. Playwright: outer box unchanged on PERFORMANCE select (`PANEL_BOX same: true`).
+- **Character:** `characterViewportAnchor.ts`, `CharacterRenderer` / `cf-character-viewport`, bottom-grounded `object-fit`; **`figure.webp`** rembg repair (~22.6% transparent pixels, corner alpha 0). Identity uses `figureAnchor` grounding.
+- **Environment audit:** Plates present at 1296×2304 (production atmosphere, fabrication chamber, simulation volume). No founder authority PNGs in repo for pixel diff — side-by-side deferred; **no regen** this pass.
+- **Alpha audit:** Figure PASS; node narrative plate opaque (expected ENVIRONMENT-style). Full 27-slot Grok sweep not automated yet.
+- **QA:** `scripts/qa-authority-compositing-capture.mjs`; artifacts under `/opt/cursor/artifacts/authority-compositing-qa/`. Preview local build on `:5174` with `designPreview=1` + `baw_auth_backup` seed.
+- **Conventions:** Machine panels never grow on select — swap face only. Transparent human = zero alpha outside silhouette, not faded rectangle.

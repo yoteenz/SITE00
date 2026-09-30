@@ -4,7 +4,12 @@
 # Override: SITE00_CLOUD_PREVIEW_MODE=dev (HMR) | local (npm run build on VM).
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+SCRIPT_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+if [[ -n "${SITE00_CLOUD_PREVIEW_ROOT:-}" ]]; then
+  ROOT="$(cd "$SITE00_CLOUD_PREVIEW_ROOT" && pwd)"
+else
+  ROOT="$SCRIPT_REPO"
+fi
 cd "$ROOT"
 
 MODE="${SITE00_CLOUD_PREVIEW_MODE:-ci}"
@@ -16,6 +21,10 @@ LOG="/tmp/site00-cloud-preview-server.log"
 log() {
   echo "[$(date -u +%H:%M:%S)] $*" | tee -a "$LOG"
 }
+
+if [[ -n "${SITE00_CLOUD_PREVIEW_ROOT:-}" ]]; then
+  log "SITE00_CLOUD_PREVIEW_ROOT=$ROOT (preview scripts from $SCRIPT_REPO)"
+fi
 
 if [[ "$MODE" == "dev" ]]; then
   log "Starting Vite DEV on :$PORT (SITE00_CLOUD_PREVIEW_MODE=dev)"
