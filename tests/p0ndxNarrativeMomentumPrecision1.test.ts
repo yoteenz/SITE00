@@ -103,7 +103,7 @@ describe('P0.NDX.NARRATIVE-MOMENTUM-PRECISION-AND-REVIEW-UX1', () => {
       join(import.meta.dirname, '../src/site00/components/founderWorkspace/expressionEngine/ExpressionEngineNarrativeMomentumPanel.tsx'),
       'utf8',
     );
-    expect(panel).toContain('site00-nme-wizard__decision-field');
+    expect(panel).toContain('site00-nme-wizard__signoff-block');
     expect(panel).toContain('site00-nme-wizard__judgment');
     expect(panel).not.toContain('QuietAction');
     expect(panel).toContain('narrative-momentum-tension-curve');

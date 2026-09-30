@@ -1,53 +1,123 @@
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { subWorkspacesFor } from '../../../../shared/site00-production-workspace/registry.js';
 import { productionExpressionPath } from '../../../../shared/site00-production-workspace/routes.js';
+import { PW_IMG } from '../../components/production/productionImagery';
+import { CharacterFabrication } from '../../components/characterFabrication/CharacterFabrication';
+import { HubReturnBar } from '../../components/production/HubReturnBar';
+import { PwChip, PwRow, PwScreenHead } from '../../components/production/PwPrimitives';
+import {
+  CastingScreen,
+  NarrativeScreen,
+  PerformanceScreen,
+  ReviewScreen,
+  SetsScreen,
+  StoryboardScreen,
+  WardrobeScreen,
+} from '../../components/production/ExpressionSubScreens';
+import { isEntry002Project, useEntry002Production } from '../../components/production/useEntry002Production';
 import { useProductionWorkspaceContext } from '../../context/ProductionWorkspaceContext';
 
-/** Production → EXPRESSION — campaign / entry context shared across sub-tabs. */
-export function ExpressionProductionShellPage() {
-  const { projectSlug = 'ndxbook', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
-  const [searchParams] = useSearchParams();
+const ROW_COPY: Record<string, { title: string; sub: string }> = {
+  narrative: { title: 'Narrative', sub: 'Story / Structure' },
+  casting: { title: 'Casting', sub: 'Characters / Talent' },
+  'character-fabrication': { title: 'Character Fabrication', sub: 'Actor → Character → Simulation' },
+  wardrobe: { title: 'Wardrobe', sub: 'Looks / Hair / Makeup' },
+  performance: { title: 'Performance', sub: 'Behavior / Movement' },
+  sets: { title: 'Sets / Scene', sub: 'Environments / Props' },
+  storyboard: { title: 'Storyboard', sub: 'Keyframes / Scenes' },
+  review: { title: 'Review', sub: 'Handoff / Delivery' },
+};
+
+function Landing({ slug, entry }: { slug: string; entry: string }) {
   const { context, setCampaignEntry } = useProductionWorkspaceContext();
-  const slug = projectSlug.toLowerCase();
-  const sub = rest?.split('/')[0] ?? 'narrative';
   const subs = subWorkspacesFor('EXPRESSION');
-  const entry = searchParams.get('entry') ?? context.entryId ?? '002';
+  const ok = isEntry002Project(slug);
+  useEffect(() => {
+    if (ok && !context.entryId) setCampaignEntry('ndxbook-campaign', '002', 'ENTRY 002 — OH, NOW IT WAS FUN?');
+  }, [ok, context.entryId, setCampaignEntry]);
+  const { items, ready, total } = useEntry002Production();
+  const entryLabel = context.entryLabel ?? (entry === '002' ? 'ENTRY 002 — OH, NOW IT WAS FUN?' : `ENTRY ${entry}`);
 
   return (
-    <div className="site00-production-pillar" data-testid="production-expression-shell">
-      <h2 className="site00-heading">EXPRESSION</h2>
-      <div className="site00-production-expression-context" data-testid="expression-campaign-context">
-        <p className="site00-label">PROJECT: {slug.toUpperCase()}</p>
-        <p className="site00-label">
-          CAMPAIGN / ENTRY: {context.entryLabel ?? `ENTRY ${entry}`}
-        </p>
-        <button
-          type="button"
-          className="site00-btn-ghost"
-          onClick={() => setCampaignEntry('ndxbook-campaign', '002', 'ENTRY 002 — OH, NOW IT WAS FUN?')}
-        >
-          SELECT ENTRY 002
-        </button>
+    <div data-testid="production-expression-shell">
+      <PwScreenHead backTo="/production" backLabel="Production" numeral="03" title="Expression" sub="Campaigns · Narrative · Content" />
+      <div className="pw-entry" data-testid="expression-campaign-context">
+        <span className="pw-entry__text">
+          <span className="pw-label">
+            {slug.toUpperCase()} · CAMPAIGN / ENTRY
+          </span>
+          <span className="pw-entry__title">{ok ? entryLabel : 'No entry in production'}</span>
+          {ok ?
+            <span className="pw-progress" aria-label={`Production package ${ready} of ${total} ready`}>
+              <i style={{ width: `${(ready / total) * 100}%` }} />
+            </span>
+          : null}
+        </span>
+        {ok ? <PwChip tone={ready === total ? 'green' : 'orange'}>{ready} of {total} ready</PwChip> : null}
       </div>
-      <nav aria-label="Expression sub-workspaces">
-        <ul>
-          {subs.map((s) => (
-            <li key={s.id}>
-              <Link
-                to={`${productionExpressionPath(slug, s.id)}?entry=${entry}`}
-                aria-current={sub === s.id ? 'page' : undefined}
-                data-testid={`expression-sub-${s.id}`}
-              >
-                {s.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <p className="site00-body">{subs.find((s) => s.id === sub)?.description ?? 'Expression production surface'}</p>
-      {sub === 'casting' ? <p className="site00-body">Actor Catalogue opens contextually from Casting.</p> : null}
-      {sub === 'wardrobe' ? <p className="site00-body">Wardrobe Catalogue opens contextually from Wardrobe.</p> : null}
-      {sub === 'sets' ? <p className="site00-body">Set / Prop / Graphic libraries open from Sets.</p> : null}
+      <div className="pw-list" role="navigation" aria-label="Expression sub-workspaces">
+        {subs.map((s) => {
+          const item = items.find((i) => i.id === (s.id === 'casting' ? 'cast' : s.id));
+          return (
+            <PwRow
+              key={s.id}
+              to={`${productionExpressionPath(slug, s.id)}?entry=${entry}`}
+              thumb={PW_IMG.expressionRows[s.id]}
+              title={ROW_COPY[s.id]?.title ?? s.label}
+              sub={ROW_COPY[s.id]?.sub ?? s.description}
+              testId={`expression-sub-${s.id}`}
+              chip={
+                ok && item ?
+                  <PwChip tone={item.status === 'APPROVED' || item.status === 'LOCKED' ? 'green' : item.status === 'BLOCKED' ? 'red' : 'gray'}>
+                    {item.status === 'APPROVED' || item.status === 'LOCKED' ? 'READY' : item.status === 'BLOCKED' ? 'BLOCKED' : 'PENDING'}
+                  </PwChip>
+                : undefined
+              }
+            />
+          );
+        })}
+      </div>
     </div>
   );
+}
+
+/** Production → EXPRESSION — campaign / entry context shared across sub-workspaces. */
+export function ExpressionProductionShellPage() {
+  return (
+    <>
+      <HubReturnBar />
+      <ExpressionRoutes />
+    </>
+  );
+}
+
+function ExpressionRoutes() {
+  const { projectSlug = 'ndxbook', '*': rest } = useParams<{ projectSlug: string; '*': string }>();
+  const [searchParams] = useSearchParams();
+  const { context } = useProductionWorkspaceContext();
+  const slug = projectSlug.toLowerCase();
+  const sub = rest?.split('/')[0] ?? '';
+  const entry = searchParams.get('entry') ?? context.entryId ?? '002';
+
+  switch (sub) {
+    case 'narrative':
+      return <NarrativeScreen slug={slug} entry={entry} />;
+    case 'character-fabrication':
+      return <CharacterFabrication projectSlug={slug} entryId={entry} />;
+    case 'casting':
+      return <CastingScreen slug={slug} entry={entry} />;
+    case 'wardrobe':
+      return <WardrobeScreen slug={slug} entry={entry} />;
+    case 'performance':
+      return <PerformanceScreen slug={slug} entry={entry} />;
+    case 'sets':
+      return <SetsScreen slug={slug} entry={entry} />;
+    case 'storyboard':
+      return <StoryboardScreen slug={slug} entry={entry} />;
+    case 'review':
+      return <ReviewScreen slug={slug} entry={entry} />;
+    default:
+      return <Landing slug={slug} entry={entry} />;
+  }
 }

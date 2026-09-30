@@ -229,6 +229,16 @@ const ProductionWorkspaceProjectLayout = lazy(() =>
     default: m.ProductionWorkspaceProjectLayout,
   })),
 );
+const ProductionLibrariesPage = lazy(() =>
+  import('../site00/pages/production/ProductionLibrariesPage').then((m) => ({
+    default: m.ProductionLibrariesPage,
+  })),
+);
+const ProductionQueuePage = lazy(() =>
+  import('../site00/pages/production/ProductionQueuePage').then((m) => ({
+    default: m.ProductionQueuePage,
+  })),
+);
 const ExperienceProductionShellPage = lazy(() =>
   import('../site00/pages/production/ExperienceProductionShellPage').then((m) => ({
     default: m.ExperienceProductionShellPage,
@@ -1418,6 +1428,30 @@ export function Site00Routes() {
             <Site00InternalProductionGuard>
               <Site00Suspense>
                 <ProductionWorkspaceHubPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.productionLibraries}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionLibrariesPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.productionQueue}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionQueuePage />
               </Site00Suspense>
             </Site00InternalProductionGuard>
           </Site00Layout>

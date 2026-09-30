@@ -12653,6 +12653,133 @@ Relocate Design off Projects; admin-only **Production Workspace** with three pil
 
 ---
 
+## 2026-09-29 — Narrative Momentum widget rebuild + Production/Projects mobile visual reconstruction
+
+Two sprints in one chat, both UX/UI only (no routing, auth, data or schema changes beyond small additive items).
+
+- **Context:** (1) Rebuild ONLY the Narrative Momentum widget inside the existing Expression Engine page from the NDXBOOK Narrative Engine screen pack (no duplicate header/shell). (2) Rebuild the mobile UX of Personal Projects, the admin Production workspace, Design/Experience/Expression and Expression sub-workspaces from the mobile reference pack, on top of the relocated `/production` architecture (PR #1255).
+- **Topics covered:** NME six-stage widget (story shift, beat map, tension curve + proof, reframe + open loop, reel/carousel, review board) with dark inspectors; Projects = founder's PERSONAL portfolio only (client/site work excluded) vs Production = separate admin-only back office with exactly DESIGN / EXPERIENCE / EXPRESSION; Casting, Wardrobe, Performance, Sets/Scene, Storyboard, Review as purpose-built Expression screens; Libraries and Queue; project action menu that sends structured requests into Production.
+- **Decisions / outcomes:** The brief first assumed a `/production` route that did not exist; work paused until the relocation merged, then built against the real routes. New leaves `/production/libraries` and `/production/queue` sit under the existing admin-guarded root (no new routing tree). The canonical Design workspace is kept as-is under a slim SITE 00 pillar bar. Project request actions are stored device-locally (`src/site00/state/productionRequestStore.ts`) until a queue API exists; request kinds were extended additively (`EXPRESSION_NEW_CAMPAIGN`, `EXPRESSION_WARDROBE_UPDATE`, `UPLOAD_REFERENCES`).
+- **Changes:** `src/site00/components/production/*` (PwFrame portal shell, primitives, Expression sub-screens, Entry 002 package hook), `src/site00/pages/production/*`, `src/site00/components/projectIndex/{PersonalProjectsMobile,PersonalProjectMobileDetail,ProjectActionsSheet}.tsx`, `site00-production-mobile.css`, NME panel/inspectors/CSS rewrite, test `p0Site00ProductionMobileReconstruction1`.
+- **Conventions:** Host shell owns red + near-black; project palettes (NDXBOOK lime) stay inside project content (the embedded Narrative Momentum surface). Imagery in `public/site00/production-mobile/` are low-res stand-in plates cropped from the founder reference pack — replace with approved authority imagery. Character/actor/look plates use monograms, never stand-in faces. No data exists yet for Entry 002 sets, performance skins or non-actor libraries; those screens show honest empty states.
+
+---
+
+## 2026-09-29 — Production Hub authority reconstruction (Sonnet machine + Grok asset handoff)
+
+Across this chat: NME widget rebuild, Projects/Production mobile reconstruction, tunnel QA (no access), then the Production Hub sprint (P0.PRODUCTION-HUB.AUTHORITY-RECONSTRUCTION-AND-HANDOFF1).
+
+- **Context:** Rebuild `/production` as a real state-driven Production Chamber from the authority pack (states 00–14) with an absolute asset firewall: Sonnet generates/mounts no raster assets; missing imagery is an empty named slot.
+- **Topics covered:** pure core in `shared/site00-production-hub/` (graph, reducer, assets, receipts, manifest, model); UI in `src/site00/components/productionHub/`; deep links with Hub return bar; founder decision via existing storyboard judgment action; device-local request/activity stores.
+- **Decisions / outcomes:** HUB_ASSET_RECEIPTS ships empty; 17 Grok slots in `docs/production-hub/GROK_ASSET_MANIFEST.json`; browser QA (15 states + offline/no-image/tall/approve/revise/roundtrip) clean; not merged to main.
+- **Changes:** hub core/UI/CSS, HubReturnBar, PwFrame 7-item nav, tests (`p0ProductionHubMachine1`), docs/production-hub/*, scripts/generate-production-hub-manifest.ts.
+- **Conventions:** images only via `HubImage` slots + receipts; regenerate the manifest after adding receipts; earlier-sprint stand-in crops in `public/site00/production-mobile/` are not used by the Hub and should be removed.
+
+---
+
+## 2026-09-30 — Production Hub immersive design refinery (visual layer only)
+
+Sprint P0.PRODUCTION-HUB.OPUS-IMMERSIVE-DESIGN-REFINERY1 on top of Sonnet's hub (78fc0e8 → d35de9c).
+
+- **Context:** Founder review found the hub read as a diagram of the machine. Goal: the same functional machine, now physical: mass, depth, material, rails.
+- **Decisions / outcomes:** Reducer, state model, data, routes, testids and asset slots were not touched. `ChamberGeometry` was rebuilt: collar seen from beneath, rear glass cylinder, volumetric beam (spill → glow → core), two-tier base plinth. Added decorative primitives `DependencySocket` (station arm + status-lit port) and `ArtifactHolder` (optical shells, side tracks, beam clamps). FLOW cartridges are clamped to lit carrier rails. DEPENDENCIES rails are 3-layer conduits. The lower hub hangs off one continuous production spine: station bays, a keypad control rail for Storyboard Authority, a conveyor for On Your Table and a quiet lineage track for Activity. Chamber heights are now LIVE 540 / FLOW 752 / DEPS 792 (the `CHAMBER_HEIGHT` values plus the CSS aspect-ratio must stay in sync).
+- **Changes:** `src/site00/components/productionHub/machine.tsx`, the new material layer `src/site00/styles/site00-production-hub-refinery.css` (loaded after the base hub CSS), and the import in `ProductionHub.tsx`.
+- **Conventions:** Material tokens are `--pm-*` and z-layers are `--pz-*`. Red is reserved for live, selected, beam, founder attention and hot routing. Every piece of decorative machinery is `aria-hidden` with `pointer-events: none`. No raster was used and no Grok assets were generated.
+
+---
+
+## 2026-09-30 — Production Hub pixel-fidelity convergence (supersedes refinery CSS)
+
+Sprint P0.PRODUCTION-HUB.OPUS-PIXEL-FIDELITY-CONVERGENCE1.
+
+- **Context:** The founder wanted `/production` to match authority pack 00–14 as closely as practical, with function frozen.
+- **Decisions / outcomes:**
+  - The hub is now authored in authority coordinates (864 px wide). `ProductionHub` sets `--phz = min(innerWidth, 520) / 864` and the `.ph--hub` root is CSS-zoomed by it, so authority geometry maps 1:1 at any phone width.
+  - `site00-production-hub-refinery.css` was replaced by `site00-production-hub-authority.css`, which is scoped to `.ph--hub` so Character Fabrication is untouched.
+  - `ChamberGeometry` was redrawn to the authority: drum collar, ring stacks, glass column, queued frame plates, red routing arrows and plinth. `DependencyRails` now carries paired red traces. `DependencySocket` and `ArtifactHolder` were removed.
+  - The inspector no longer hides On Your Table / Activity, following authority 03.
+  - The operation bar shows the progress % (canonical `progressPercent`).
+- **Type:** Saira Semi Condensed, self-hosted in `src/site00/assets/fonts/saira-semi-condensed/` (OFL). The Google Fonts CDN is not reachable from cloud VMs.
+- **Conventions:** Chamber-relative y = authority page y − 75. Keep the `CHAMBER_HEIGHT` values in sync with the CSS heights (LIVE 690 / FLOW 1050 / DEPS 715 / expanded 980).
+
+---
+
+## 2026-09-30 — Authority photographs and nav icons mounted on Hub and Character Fabrication
+
+Founder sent all 31 authority screens (Production Hub 00–14 and Character Fabrication 5414–5429) and required the live machines to use those images, assets, and icons.
+
+- **Context:** Earlier in this chat the hub (`dbfc6ab5`) and character-fabrication (`de741cdd`) visual sprints were review-only and did not mount rasters. Tunnel previews of those checkouts were shared. The founder then asked whether the full authority pack was on disk (it was not: hub lean pack had 7 of 15; fabrication JPEGs were absent) and, after uploading the 31 screens, said to implement them pixel-perfect now.
+- **Topics covered:** Asset firewall (receipts → `hubAssetUrl` / `characterAssetUrl` → `HubImage` / `CfImage`); cropping the inner photographs out of the screens; bottom-nav glyphs; scene copy staying canonical; which figure belongs in the fabrication chamber.
+- **Decisions / outcomes:**
+  - Pages stay the React machines. Full-screen screenshots are not mounted as the UI, and chamber/atmosphere plates are not tiled from UI strips.
+  - Hub storyboard frames 01–08, node plates, and the NDXBOOK cover are crops from the lightbox, flow, and profile screens. Default selected frame is `frame-03` (the pencil). Entry 002 falls back to 8 frames when the pipeline API returns no panels, so the receipts still show.
+  - Fabrication photographs are the blonde subject in the authority screens. Catalogue copy (age, ethnicity) stays the live record. The chamber figure is the sports-bra plate (`actor.sw017.chamber.figure`). Leather front/side/back stays on the body continuity slots. Remaining empty catalogue cards are SW-052, SW-019, SW-063 (no faces in the pack).
+  - Bottom nav glyphs match the authority bar: solid house, envelope, leaf, plain triangle, hexagon, isometric cube, clock. Active item fills red.
+  - `visualAssetsGeneratedBySonnet` stays 0. Components still do not import rasters.
+- **Changes:** `public/site00/production-hub/**`, `public/site00/character-fabrication/**`, hub and fabrication receipt ledgers, both asset manifests, `icons.tsx`, `reducer.ts` frame default, `useProductionHubData.ts` frame fallback, fabrication chamber subject slot, machine tests. Branch `cursor/authority-pixel-assets-1b86` off the hub machine. Do not ship this bundle to site00.com until the hub branch is on `main`.
+- **Conventions:** New photographs enter only as receipt URLs under `public/site00/production-hub/` or `public/site00/character-fabrication/` (slot id, dots as slashes, `.webp`). Regenerate the fabrication manifest after receipt edits. Do not bake brackets, badges, captions, or selection chrome into the crop.
+
+---
+
+## 2026-09-30 — Shared production chrome and authority nav glyphs
+
+Founder asked why the bottom-panel icons still did not match the authority, and required the top and bottom bars on Production, Character Fabrication, and the other production workspaces to be the same chrome and to line up.
+
+- **Context:** This continues the authority-photograph mount on `cursor/authority-pixel-assets-1b86` (PR into the hub review branch, not `main`). The first icon pass used single-stroke paths and a blanket active `fill`, so the hub turned the expression hex into a solid blob, dropped the experience stem, and left queue, libraries, design, and experience on the dark PwFrame bar.
+- **Topics covered:** Authority glyph shapes (house outline vs solid, envelope, leaf with vein, triangle with stem, hexagonal ring, isometric cube, clock at 12 and 3); 864 vs 432 zoom so header and nav screen sizes diverged; PwFrame production chrome vs projects chrome.
+- **Decisions / outcomes:**
+  - One 864px chrome scale (`min(innerWidth, 520) / 864`) is shared by the hub, character fabrication bars, PwFrame production pages, and the design overlay. On a 390px phone the header is 34px tall and the nav is 37px tall, with the same column edges (0, 111, 199, 280, 364).
+  - Active hub is a solid house. Active expression is a red hexagonal ring, not a filled shape. Experience keeps the center stem. The active-state CSS must not set `fill` on every nav svg.
+  - Character fabrication content stays on the 432 canvas. Only its header and nav leave that zoom. Projects PwFrame is unchanged.
+  - Do not upload this bundle to site00.com until the hub branch is on `main`.
+- **Changes:** `icons.tsx`, `chrome.tsx`, hub and fabrication authority CSS, `CharacterFabrication` shell, `PwFrame` production variant, design route overlay. Photographs and receipts from the earlier mount are unchanged.
+- **Conventions:** Production header and bottom nav are the hub 864 bar. New production surfaces use `ProductionChromeStrip`, not a second icon set or a dark `.pw-nav`.
+
+---
+
+## 2026-09-30 — Authority environment family (three worlds, not 31 backgrounds)
+
+Founder required a forensic environment family for Production Hub and Character Fabrication from the 31 authority screens, then reconstruction of only the worlds those screens actually use. Prior “one background per workspace” is superseded. Plates are not wired.
+
+- **Context:** This chat mounted authority photographs and aligned production chrome on `cursor/authority-pixel-assets-1b86` (PR #1258, not merged, do not upload v736 over site00.com). This turn inspects the same 31 JPEGs as environments only.
+- **Topics covered:** Icon correction (solid house, triangle stem, hex ring, shared 864 header/nav). Then environment forensics: same world vs variant vs distinct vs UI-only. No code wiring.
+- **Decisions / outcomes:**
+  - 31 screens collapse to 3 plates. Production is one white shaft (`atmosphere.webp`). Character fabrication is one glass bay (`chamber.webp`). Running simulation is a separate capture room (`simulation-volume.webp`).
+  - Flow, dependencies, lightbox, selectors, continuity inspector, testing ground, performance player, and simulation-result player do not get their own backgrounds. Testing ground still shows the fabrication cylinder. The sit and the result frame are footage inside players.
+  - Plates are empty: no people, no UI, no text, no cropped authority pixels. First generic generations (courtyard, showroom, photo studio) were discarded.
+  - Only the running-simulation state swaps plates. Recommended transition is a crossfade. Opus suppresses the matching SVG cylinder/arms/plinth when a plate is mounted and composites the existing figure in the empty center.
+- **Changes:** Three WebP plates under the existing base contracts plus `fabrication/environments/simulation-volume.webp`. Manifest: `docs/environment-family/AUTHORITY-ENVIRONMENT-FAMILY.md` and `STATE-TO-ENVIRONMENT.json`. No React, CSS, or foreground asset edits. Branch `cursor/authority-environment-family-1b86`. Not merged. Not for site00.com.
+- **Conventions:** Do not add an environment plate for a modal, a player frame, or a photograph that already lives in a foreground slot. New production/fabrication worlds go in semantic `environments/` paths only when forensics show a different physical space.
+
+---
+
+## 2026-09-30 — Authority environment family live integration (tunnel review)
+
+Founder sprint wired the three Grok environment plates into Production Hub and Character Fabrication so the authority worlds replace Sonnet SVG/CSS scenery while keeping functional machine + foreground assets.
+
+- **Context:** Grok pass `P0.SITE00.GROK-AUTHORITY-ENVIRONMENT-FAMILY-RECONSTRUCTION1` on `cursor/authority-environment-family-1b86` (plates + `docs/environment-family/*`, `wired: false`). Prior tunnel review on pixel-assets branch showed foreground mounts but generic Sonnet environments still visible.
+- **Topics covered:** Mount `atmosphere.webp`, `chamber.webp`, `simulation-volume.webp`; suppress legacy scenery; CF-18-only swap (RUNNING/PAUSED simulation); crossfade; tunnel on site00.fsbw-dev.com; no site00.com deploy.
+- **Decisions / outcomes:**
+  - Receipts added for all three slots. PH: `has-authority-env` suppresses chamber CSS pseudo-atrium + empty `ChamberGeometry` when atmosphere mounted. CF: `EnvironmentPlate` via `CfImage`; legacy `ChamberPlate` SVG only when no fabrication plate. Simulation volume only when `run.status` is RUNNING or PAUSED (not station selection or result overlay).
+  - `characterEnvironmentSlotId()` in `shared/site00-character-fabrication/environment.ts`. Tests: `p0AuthorityEnvironmentIntegration1.test.ts` (48 total with machine suites). Vitest excludes `.worktrees/**`.
+  - Integration branch: `cursor/authority-environment-family-live-integration-87ed` (based on env-family branch). Preview serves local dist after merge commit — not main / not site00.com.
+- **Changes:** asset receipts, chamber.tsx, machine.tsx, hub/CF authority CSS, manifests regenerated, STATE-TO-ENVIRONMENT `wired: true`.
+- **Conventions:** Environment swap follows `STATE-TO-ENVIRONMENT.json`, not “simulation station selected”. Opus still owns typography/geometry convergence after founder approves worlds.
+
+---
+
+## 2026-09-30 — Origin expanded panel forensics (IDNTY / BLDR / EVOLVE)
+
+Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero product code/CSS/React/copy changes. Full implementation receipt for creative director / ChatGPT redesign of expanded states.
+
+- **Context:** Document current Origin `/` and `/origin` three expandable panels (01 IDNTY, 02 BLDR, 03 EVOLVE): exact copy, DOM hierarchy, interaction (`Site00Context.homeMode`), CSS (mobile 390×844 + desktop artboard), Supabase environment PNG swap WITH_PANELS→CLEAN on expand, panel icon PNGs, framework assets, routes to `/idnty/state`, `/bldr/state`, `/evolve/state` (desktop `/…/desktop` when on origin desktop path).
+- **Topics covered:** Source tree `OriginPage`, `OriginCards`, `*ExpandedPanel`, `origin-panel-state.ts`, `origin-background-assets.ts`, `origin-home-composition.ts`, `site00.css` mobile origin block, `site00-desktop-artboard.css`. Playwright screenshots at 390×844 on local `:5174/origin?preview=mobile` → `/opt/cursor/artifacts/01–04_*_mobile.png`.
+- **Decisions / outcomes:** Forensic report delivered in chat (no visual authority redesign). Expanded mobile geometry: collapsed cards ~360×318 @ ~53% top; scaled teasers ~42×100 hit target; expanded column ~313px wide centered (scale 0.92) — tall glass panel overflows viewport (measured height >844px, BACK may sit below fold; swipe-up strip can intercept clicks). Collapsed teasers are transparent `<button.site00-origin-teaser>` over baked WITH_PANELS mobile BG; expanded uses CLEAN BG + `ArchitecturalPanel` glass shell.
+- **Changes:** `MEMORY.md` only (this entry). No merge/deploy.
+- **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
+
+---
+
 ## 2026-09-29 — CI fix: production design route test drift (post #1255)
 
 Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.

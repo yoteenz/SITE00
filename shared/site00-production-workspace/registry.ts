@@ -38,6 +38,7 @@ export const PRODUCTION_SUB_WORKSPACE_REGISTRY: Record<
   EXPRESSION: [
     { id: 'narrative', label: 'NARRATIVE', description: 'Campaign narrative' },
     { id: 'casting', label: 'CASTING', description: 'Actor catalogue / casting' },
+    { id: 'character-fabrication', label: 'CHARACTER FABRICATION', description: 'Actor → Identity → Body → Look → Hair + Makeup → Character → Performance → Simulation → Authority' },
     { id: 'wardrobe', label: 'WARDROBE', description: 'Wardrobe + hair/makeup' },
     { id: 'performance', label: 'PERFORMANCE', description: 'Performance skins' },
     { id: 'sets', label: 'SETS', description: 'Sets / scene' },

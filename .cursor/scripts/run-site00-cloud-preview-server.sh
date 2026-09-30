@@ -23,13 +23,20 @@ if [[ "$MODE" == "dev" ]]; then
     npm run dev -- --port "$PORT" --host
 fi
 
+HEAD_SHA="$(git rev-parse HEAD 2>/dev/null | cut -c1-12 || echo unknown)"
+DIST_HEAD_SHA="$(node -e "try{const m=require('$ROOT/dist/release-manifest.json');process.stdout.write((m.commitSha||'').slice(0,12))}catch{process.stdout.write('')}" 2>/dev/null || true)"
+
+if [[ "$MODE" == "local" && -n "$DIST_HEAD_SHA" && "$DIST_HEAD_SHA" == "$HEAD_SHA" && -f "$ROOT/dist/index.html" ]]; then
+  log "Local dist already matches HEAD $HEAD_SHA — skip main sync / CI download"
+  SYNC=0
+fi
+
 if [[ "$SYNC" == "1" ]]; then
   log "Fetching origin/main…"
   git fetch origin main 2>>"$LOG" || true
   git merge --ff-only origin/main 2>>"$LOG" || log "ff-only merge skipped (dirty tree or diverged)"
+  HEAD_SHA="$(git rev-parse HEAD 2>/dev/null | cut -c1-12 || echo unknown)"
 fi
-
-HEAD_SHA="$(git rev-parse HEAD 2>/dev/null | cut -c1-12 || echo unknown)"
 NEED_CI=1
 if [[ -f "$DIST_DIR/release-manifest.json" && -f "$DIST_DIR/index.html" ]]; then
   CACHED_SHA="$(node -e "const m=require('$DIST_DIR/release-manifest.json'); process.stdout.write(m.commitSha||'')" 2>/dev/null || true)"
@@ -102,5 +109,8 @@ if (!html.includes('name="site00-cloud-preview"')) {
 NODE
 fi
 
+PREVIEW_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
 log "Starting vite preview on :$PORT (dist synced from $DIST_DIR)"
-exec npx vite preview --port "$PORT" --host --strictPort
+exec env SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 \
+  GITHUB_SHA="${PREVIEW_SHA}" SITE00_PREVIEW_COMMIT_SHA="${PREVIEW_SHA}" \
+  npx vite preview --port "$PORT" --host --strictPort
