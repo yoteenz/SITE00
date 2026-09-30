@@ -12765,3 +12765,15 @@ Founder sprint wired the three Grok environment plates into Production Hub and C
   - Integration branch: `cursor/authority-environment-family-live-integration-87ed` (based on env-family branch). Preview serves local dist after merge commit — not main / not site00.com.
 - **Changes:** asset receipts, chamber.tsx, machine.tsx, hub/CF authority CSS, manifests regenerated, STATE-TO-ENVIRONMENT `wired: true`.
 - **Conventions:** Environment swap follows `STATE-TO-ENVIRONMENT.json`, not “simulation station selected”. Opus still owns typography/geometry convergence after founder approves worlds.
+
+---
+
+## 2026-09-30 — Origin expanded panel forensics (IDNTY / BLDR / EVOLVE)
+
+Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero product code/CSS/React/copy changes. Full implementation receipt for creative director / ChatGPT redesign of expanded states.
+
+- **Context:** Document current Origin `/` and `/origin` three expandable panels (01 IDNTY, 02 BLDR, 03 EVOLVE): exact copy, DOM hierarchy, interaction (`Site00Context.homeMode`), CSS (mobile 390×844 + desktop artboard), Supabase environment PNG swap WITH_PANELS→CLEAN on expand, panel icon PNGs, framework assets, routes to `/idnty/state`, `/bldr/state`, `/evolve/state` (desktop `/…/desktop` when on origin desktop path).
+- **Topics covered:** Source tree `OriginPage`, `OriginCards`, `*ExpandedPanel`, `origin-panel-state.ts`, `origin-background-assets.ts`, `origin-home-composition.ts`, `site00.css` mobile origin block, `site00-desktop-artboard.css`. Playwright screenshots at 390×844 on local `:5174/origin?preview=mobile` → `/opt/cursor/artifacts/01–04_*_mobile.png`.
+- **Decisions / outcomes:** Forensic report delivered in chat (no visual authority redesign). Expanded mobile geometry: collapsed cards ~360×318 @ ~53% top; scaled teasers ~42×100 hit target; expanded column ~313px wide centered (scale 0.92) — tall glass panel overflows viewport (measured height >844px, BACK may sit below fold; swipe-up strip can intercept clicks). Collapsed teasers are transparent `<button.site00-origin-teaser>` over baked WITH_PANELS mobile BG; expanded uses CLEAN BG + `ArchitecturalPanel` glass shell.
+- **Changes:** `MEMORY.md` only (this entry). No merge/deploy.
+- **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
