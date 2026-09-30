@@ -12777,3 +12777,13 @@ Inspection-only sprint `P0.SITE00.ORIGIN-EXPANDED-PANEL-FORENSICS1` — zero pro
 - **Decisions / outcomes:** Forensic report delivered in chat (no visual authority redesign). Expanded mobile geometry: collapsed cards ~360×318 @ ~53% top; scaled teasers ~42×100 hit target; expanded column ~313px wide centered (scale 0.92) — tall glass panel overflows viewport (measured height >844px, BACK may sit below fold; swipe-up strip can intercept clicks). Collapsed teasers are transparent `<button.site00-origin-teaser>` over baked WITH_PANELS mobile BG; expanded uses CLEAN BG + `ArchitecturalPanel` glass shell.
 - **Changes:** `MEMORY.md` only (this entry). No merge/deploy.
 - **Conventions:** Expanded IDNTY title copy is `IDENTITY` (not card label `IDNTY`). EVOLVE collapsed copy differs mobile vs desktop (`evolve.ts`). EVOLVE expanded secondary CTA `HOW IT WORKS` → `/evolve` mobile only.
+
+---
+
+## 2026-09-29 — CI fix: production design route test drift (post #1255)
+
+Production Release workflow failed after #1255: tests still expected `/projects/design/:slug` and embedded `ProjectIndexDesignCard` on Projects index.
+
+- **Tests updated:** `p0vrDesignIntegration1`, `p0vrDesignProjectBinding1R1`, `p0vrDesignWorkspaceSelfCapture1`, founder sprint B59R2/R5/R6, release #429 allowlist manifest (`POST429_DESIGN_ALLOWLIST` 50 paths + `ProjectMoreSurface` tab exception).
+- **API:** `designWorkspaceCaptureService` returns `resolveWorkspaceSelfDesignRoute` (`/production/…/design`) in vitest + live capture metadata (was hardcoded legacy path).
+- **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
