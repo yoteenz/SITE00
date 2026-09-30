@@ -1,0 +1,2833 @@
+{
+  "generatedAt": "2026-09-30T22:09:49.634Z",
+  "sprint": "P0.SITE00.IDNTY-INTAKE-FORENSIC-MAP1",
+  "totals": {
+    "publicAssessmentQuestions": 15,
+    "loreQuestions": 19,
+    "personalityQuestions": 15,
+    "allRegistryQuestions": 49
+  },
+  "questions": [
+    {
+      "questionId": "starting-at-zero:project",
+      "section": "STARTING AT ZERO",
+      "step": 1,
+      "visibleLabel": "WHAT ARE YOU BUILDING?",
+      "supportingCopy": "SELECT ALL THAT APPLY.",
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "options": [
+        {
+          "id": "site",
+          "label": "SITE",
+          "description": "WEBSITES, PORTFOLIOS, LANDING PAGES"
+        },
+        {
+          "id": "ecommerce",
+          "label": "ECOMMERCE",
+          "description": "ONLINE STORES AND PRODUCT SALES"
+        },
+        {
+          "id": "portfolio",
+          "label": "PORTFOLIO",
+          "description": "SHOWCASE WORK AND CREATIVE OUTPUT"
+        },
+        {
+          "id": "booking",
+          "label": "BOOKING / APPOINTMENTS",
+          "description": "SCHEDULING AND CLIENT BOOKINGS"
+        },
+        {
+          "id": "membership",
+          "label": "MEMBERSHIP",
+          "description": "MEMBER PORTALS AND SUBSCRIPTIONS"
+        },
+        {
+          "id": "web-app",
+          "label": "WEB APPLICATION",
+          "description": "CUSTOM DIGITAL PRODUCTS AND TOOLS"
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": "SOMETHING ELSE — DESCRIBE IN NEXT STEPS"
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "project",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.starting-at-zero.project",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "starting-at-zero:goal",
+      "section": "STARTING AT ZERO",
+      "step": 2,
+      "visibleLabel": "WHAT IS THE PRIMARY GOAL?",
+      "supportingCopy": "WHAT DOES SUCCESS LOOK LIKE?",
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "options": [
+        {
+          "id": "launch-brand",
+          "label": "LAUNCH A NEW BRAND",
+          "description": null
+        },
+        {
+          "id": "digital-presence",
+          "label": "ESTABLISH DIGITAL PRESENCE",
+          "description": null
+        },
+        {
+          "id": "sell-online",
+          "label": "SELL ONLINE",
+          "description": null
+        },
+        {
+          "id": "generate-leads",
+          "label": "GENERATE LEADS",
+          "description": null
+        },
+        {
+          "id": "showcase-work",
+          "label": "SHOWCASE WORK",
+          "description": null
+        },
+        {
+          "id": "book-appointments",
+          "label": "BOOK APPOINTMENTS",
+          "description": null
+        },
+        {
+          "id": "build-community",
+          "label": "BUILD COMMUNITY",
+          "description": null
+        },
+        {
+          "id": "digital-product",
+          "label": "CREATE A DIGITAL PRODUCT",
+          "description": null
+        },
+        {
+          "id": "reposition",
+          "label": "REPOSITION AN EXISTING IDEA",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "goal",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.starting-at-zero.goal",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "starting-at-zero:audience",
+      "section": "STARTING AT ZERO",
+      "step": 3,
+      "visibleLabel": "WHO IS YOUR AUDIENCE?",
+      "supportingCopy": "DESCRIBE YOUR IDEAL CUSTOMER OR USER.",
+      "placeholder": "DESCRIBE YOUR AUDIENCE, MARKET, AND GEOGRAPHIC SCOPE…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "options": [],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "THIS FIELD IS REQUIRED.",
+      "errorCopy": "THIS FIELD IS REQUIRED.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "audience",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.starting-at-zero.audience",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "starting-at-zero:timeline",
+      "section": "STARTING AT ZERO",
+      "step": 4,
+      "visibleLabel": "WHAT IS YOUR TIMELINE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "options": [
+        {
+          "id": "asap",
+          "label": "AS SOON AS POSSIBLE",
+          "description": null
+        },
+        {
+          "id": "1-2",
+          "label": "1–2 MONTHS",
+          "description": null
+        },
+        {
+          "id": "3-4",
+          "label": "3–4 MONTHS",
+          "description": null
+        },
+        {
+          "id": "5-6",
+          "label": "5–6 MONTHS",
+          "description": null
+        },
+        {
+          "id": "6plus",
+          "label": "6+ MONTHS",
+          "description": null
+        },
+        {
+          "id": "flexible",
+          "label": "FLEXIBLE / NOT SURE",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "timeline",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.starting-at-zero.timeline",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "starting-at-zero:budget",
+      "section": "STARTING AT ZERO",
+      "step": 5,
+      "visibleLabel": "WHAT IS YOUR BUDGET RANGE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "options": [
+        {
+          "id": "under-5k",
+          "label": "UNDER $5,000",
+          "description": null
+        },
+        {
+          "id": "5k-10k",
+          "label": "$5,000 – $10,000",
+          "description": null
+        },
+        {
+          "id": "10k-25k",
+          "label": "$10,000 – $25,000",
+          "description": null
+        },
+        {
+          "id": "25k-50k",
+          "label": "$25,000 – $50,000",
+          "description": null
+        },
+        {
+          "id": "50k-plus",
+          "label": "$50,000+",
+          "description": null
+        },
+        {
+          "id": "unsure",
+          "label": "NOT SURE YET",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "budget",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.starting-at-zero.budget",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "some-pieces-exist:assets",
+      "section": "SOME PIECES EXIST",
+      "step": 1,
+      "visibleLabel": "WHAT DO YOU ALREADY HAVE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "options": [
+        {
+          "id": "logo",
+          "label": "LOGO",
+          "description": null
+        },
+        {
+          "id": "color",
+          "label": "COLOR PALETTE",
+          "description": null
+        },
+        {
+          "id": "typography",
+          "label": "TYPOGRAPHY",
+          "description": null
+        },
+        {
+          "id": "tagline",
+          "label": "TAGLINE / MESSAGING",
+          "description": null
+        },
+        {
+          "id": "website",
+          "label": "WEBSITE",
+          "description": null
+        },
+        {
+          "id": "social",
+          "label": "SOCIAL MEDIA",
+          "description": null
+        },
+        {
+          "id": "marketing",
+          "label": "MARKETING MATERIALS",
+          "description": null
+        },
+        {
+          "id": "photography",
+          "label": "PHOTOGRAPHY / IMAGERY",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER (PLEASE SPECIFY)",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "assets",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.some-pieces-exist.assets",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "some-pieces-exist:cohesion-diagnostic",
+      "section": "SOME PIECES EXIST",
+      "step": 2,
+      "visibleLabel": "HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY?",
+      "supportingCopy": "THIS HELPS US UNDERSTAND YOUR STARTING POINT.",
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "options": [
+        {
+          "id": "scattered-pieces",
+          "label": "SCATTERED PIECES",
+          "description": "I HAVE SOME ASSETS, BUT THEY DON'T CONNECT YET."
+        },
+        {
+          "id": "mostly-cohesive",
+          "label": "MOSTLY COHESIVE",
+          "description": "I HAVE A DIRECTION, BUT IT NEEDS REFINEMENT AND CONSISTENCY."
+        },
+        {
+          "id": "missing-key-pieces",
+          "label": "MISSING KEY PIECES",
+          "description": "SOME ELEMENTS EXIST, BUT IMPORTANT PARTS ARE STILL MISSING."
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "cohesion-diagnostic",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.some-pieces-exist.cohesion-diagnostic",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "some-pieces-exist:other-specify",
+      "section": "SOME PIECES EXIST",
+      "step": 3,
+      "visibleLabel": "OTHER (PLEASE SPECIFY)",
+      "supportingCopy": null,
+      "placeholder": "DESCRIBE WHAT YOU HAVE…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "other-specify",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.some-pieces-exist.other-specify",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "some-pieces-exist:gaps",
+      "section": "SOME PIECES EXIST",
+      "step": 4,
+      "visibleLabel": "WHAT FEELS INCOMPLETE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "options": [
+        {
+          "id": "inconsistent-visual",
+          "label": "INCONSISTENT VISUAL SYSTEM",
+          "description": null
+        },
+        {
+          "id": "unclear-messaging",
+          "label": "UNCLEAR MESSAGING",
+          "description": null
+        },
+        {
+          "id": "disconnected-touchpoints",
+          "label": "DISCONNECTED TOUCHPOINTS",
+          "description": null
+        },
+        {
+          "id": "outdated-assets",
+          "label": "OUTDATED ASSETS",
+          "description": null
+        },
+        {
+          "id": "no-guidelines",
+          "label": "NO BRAND GUIDELINES",
+          "description": null
+        },
+        {
+          "id": "team-misalignment",
+          "label": "TEAM MISALIGNMENT",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "gaps",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.some-pieces-exist.gaps",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "ready-for-evolution:pathways",
+      "section": "READY FOR EVOLUTION",
+      "step": 1,
+      "visibleLabel": "HOW WE CAN HELP YOU EVOLVE",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "options": [
+        {
+          "id": "brand-strategy",
+          "label": "BRAND STRATEGY",
+          "description": "POSITIONING, AUDIENCE, DIFFERENTIATION"
+        },
+        {
+          "id": "visual-identity",
+          "label": "VISUAL IDENTITY",
+          "description": "LOGO, COLOR, TYPOGRAPHY, SYSTEM"
+        },
+        {
+          "id": "digital-experience",
+          "label": "DIGITAL EXPERIENCE",
+          "description": "WEBSITE, UX, CONVERSION, PRODUCT"
+        },
+        {
+          "id": "brand-messaging",
+          "label": "BRAND MESSAGING",
+          "description": "VOICE, COPY, POSITIONING LANGUAGE"
+        },
+        {
+          "id": "growth-systems",
+          "label": "GROWTH SYSTEMS",
+          "description": "ACQUISITION, ANALYTICS, CAMPAIGNS"
+        },
+        {
+          "id": "launch-evolve",
+          "label": "LAUNCH & EVOLVE",
+          "description": "RELAUNCH, ROLLOUT, OPTIMIZATION"
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "pathways",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.ready-for-evolution.pathways",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "ready-for-evolution:goals",
+      "section": "READY FOR EVOLUTION",
+      "step": 2,
+      "visibleLabel": "WHAT ARE YOUR EVOLUTION GOALS?",
+      "supportingCopy": null,
+      "placeholder": "DESCRIBE WHAT YOU WANT TO ACHIEVE WITH THIS EVOLUTION…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "options": [],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "THIS FIELD IS REQUIRED.",
+      "errorCopy": "THIS FIELD IS REQUIRED.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "goals",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.ready-for-evolution.goals",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "ready-for-evolution:timeline",
+      "section": "READY FOR EVOLUTION",
+      "step": 3,
+      "visibleLabel": "WHAT IS YOUR TIMELINE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "options": [
+        {
+          "id": "asap",
+          "label": "AS SOON AS POSSIBLE",
+          "description": null
+        },
+        {
+          "id": "1-2",
+          "label": "1–2 MONTHS",
+          "description": null
+        },
+        {
+          "id": "3-4",
+          "label": "3–4 MONTHS",
+          "description": null
+        },
+        {
+          "id": "5-6",
+          "label": "5–6 MONTHS",
+          "description": null
+        },
+        {
+          "id": "6plus",
+          "label": "6+ MONTHS",
+          "description": null
+        },
+        {
+          "id": "flexible",
+          "label": "FLEXIBLE / NOT SURE",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "timeline",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.ready-for-evolution.timeline",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "build-ready:services",
+      "section": "BUILD READY",
+      "step": 1,
+      "visibleLabel": "HOW CAN SITE 00 BUILD YOUR VISION?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "options": [
+        {
+          "id": "strategy",
+          "label": "STRATEGY & PLANNING",
+          "description": "ROADMAP, PRIORITIES, LAUNCH GOALS"
+        },
+        {
+          "id": "brand-design",
+          "label": "BRAND & DESIGN",
+          "description": "VISUAL SYSTEM, CREATIVE DIRECTION"
+        },
+        {
+          "id": "website",
+          "label": "WEBSITE & DIGITAL",
+          "description": "SITES, ECOMMERCE, DIGITAL PRODUCTS"
+        },
+        {
+          "id": "content",
+          "label": "CONTENT & MESSAGING",
+          "description": "COPY, CONTENT INVENTORY, VOICE"
+        },
+        {
+          "id": "marketing",
+          "label": "MARKETING & GROWTH",
+          "description": "CHANNELS, LAUNCH, ACQUISITION"
+        },
+        {
+          "id": "launch",
+          "label": "LAUNCH & SUPPORT",
+          "description": "DEPLOYMENT, QA, ONGOING SUPPORT"
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "services",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.build-ready.services",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "build-ready:scope",
+      "section": "BUILD READY",
+      "step": 2,
+      "visibleLabel": "DESCRIBE WHAT NEEDS TO BE BUILT",
+      "supportingCopy": null,
+      "placeholder": "PAGES, FEATURES, INTEGRATIONS, LAUNCH TARGETS…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "options": [],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "THIS FIELD IS REQUIRED.",
+      "errorCopy": "THIS FIELD IS REQUIRED.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "scope",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.build-ready.scope",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "build-ready:timeline",
+      "section": "BUILD READY",
+      "step": 3,
+      "visibleLabel": "WHAT IS YOUR TIMELINE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "options": [
+        {
+          "id": "asap",
+          "label": "AS SOON AS POSSIBLE",
+          "description": null
+        },
+        {
+          "id": "1-2",
+          "label": "1–2 MONTHS",
+          "description": null
+        },
+        {
+          "id": "3-4",
+          "label": "3–4 MONTHS",
+          "description": null
+        },
+        {
+          "id": "5-6",
+          "label": "5–6 MONTHS",
+          "description": null
+        },
+        {
+          "id": "6plus",
+          "label": "6+ MONTHS",
+          "description": null
+        },
+        {
+          "id": "flexible",
+          "label": "FLEXIBLE / NOT SURE",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": true,
+      "optional": false,
+      "validation": "SELECT AT LEAST ONE OPTION.",
+      "errorCopy": "SELECT AT LEAST ONE OPTION.",
+      "conditional": false,
+      "condition": null,
+      "dependencies": [],
+      "dataKey": "timeline",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.answers.build-ready.timeline",
+      "component": "IdntyStepForm / IdentityCalibrationMobileStep",
+      "sourceFile": "src/site00/config/idnty-assessment.ts",
+      "reachability": "LIVE",
+      "flow": "public-assessment"
+    },
+    {
+      "questionId": "feeling",
+      "section": "BRAND WORLD / LORE",
+      "step": 1,
+      "visibleLabel": "BEFORE THEY UNDERSTAND YOU, WHAT SHOULD THEY FEEL?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "SELECT ALL THAT GENUINELY BELONG.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "intrigued",
+          "label": "INTRIGUED",
+          "description": null
+        },
+        {
+          "id": "seen",
+          "label": "SEEN",
+          "description": null
+        },
+        {
+          "id": "energized",
+          "label": "ENERGIZED",
+          "description": null
+        },
+        {
+          "id": "safe",
+          "label": "SAFE",
+          "description": null
+        },
+        {
+          "id": "challenged",
+          "label": "CHALLENGED",
+          "description": null
+        },
+        {
+          "id": "desired",
+          "label": "DESIRED",
+          "description": null
+        },
+        {
+          "id": "informed",
+          "label": "INFORMED",
+          "description": null
+        },
+        {
+          "id": "entertained",
+          "label": "ENTERTAINED",
+          "description": null
+        },
+        {
+          "id": "powerful",
+          "label": "POWERFUL",
+          "description": null
+        },
+        {
+          "id": "curious",
+          "label": "CURIOUS",
+          "description": null
+        },
+        {
+          "id": "inspired",
+          "label": "INSPIRED",
+          "description": null
+        },
+        {
+          "id": "calm",
+          "label": "CALM",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "feeling",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "EMOTIONAL_FIRST_IMPRESSION",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "role",
+      "section": "BRAND WORLD / LORE",
+      "step": 2,
+      "visibleLabel": "WHO ARE YOU IN THEIR WORLD?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "MORE THAN ONE CAN BE TRUE.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "friend",
+          "label": "THE FRIEND WHO KNOWS EVERYTHING",
+          "description": null
+        },
+        {
+          "id": "expert",
+          "label": "THE EXPERT PEOPLE TRUST",
+          "description": null
+        },
+        {
+          "id": "insider",
+          "label": "THE INSIDER WITH ACCESS",
+          "description": null
+        },
+        {
+          "id": "challenger",
+          "label": "THE CHALLENGER SAYING WHAT OTHERS WON'T",
+          "description": null
+        },
+        {
+          "id": "guide",
+          "label": "THE GUIDE SHOWING THE WAY",
+          "description": null
+        },
+        {
+          "id": "world",
+          "label": "THE WORLD THEY WANT TO BELONG TO",
+          "description": null
+        },
+        {
+          "id": "tastemaker",
+          "label": "THE TASTEMAKER",
+          "description": null
+        },
+        {
+          "id": "problem-solver",
+          "label": "THE PROBLEM SOLVER",
+          "description": null
+        },
+        {
+          "id": "entertainer",
+          "label": "THE ENTERTAINER WITH A POINT OF VIEW",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "SOMETHING ELSE",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "role",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "AUDIENCE_RELATIONSHIP",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "belief",
+      "section": "BRAND WORLD / LORE",
+      "step": 3,
+      "visibleLabel": "WHAT DOES YOUR BRAND BELIEVE THAT OTHER PEOPLE KEEP GETTING WRONG?",
+      "supportingCopy": null,
+      "placeholder": "YOUR POINT OF VIEW…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "belief",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "BRAND_BELIEF",
+      "maxLength": 600,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "enemy",
+      "section": "BRAND WORLD / LORE",
+      "step": 4,
+      "visibleLabel": "WHAT ARE WE QUIETLY AT WAR WITH?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "MORE THAN ONE CAN BE TRUE.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "gatekeeping",
+          "label": "GATEKEEPING",
+          "description": null
+        },
+        {
+          "id": "misinformation",
+          "label": "MISINFORMATION",
+          "description": null
+        },
+        {
+          "id": "boring",
+          "label": "BORING",
+          "description": null
+        },
+        {
+          "id": "sameness",
+          "label": "SAMENESS",
+          "description": null
+        },
+        {
+          "id": "bad-taste",
+          "label": "BAD TASTE",
+          "description": null
+        },
+        {
+          "id": "overcomplication",
+          "label": "OVERCOMPLICATION",
+          "description": null
+        },
+        {
+          "id": "waste",
+          "label": "WASTE",
+          "description": null
+        },
+        {
+          "id": "old-systems",
+          "label": "OLD SYSTEMS",
+          "description": null
+        },
+        {
+          "id": "intimidation",
+          "label": "INTIMIDATION",
+          "description": null
+        },
+        {
+          "id": "disconnection",
+          "label": "DISCONNECTION",
+          "description": null
+        },
+        {
+          "id": "mediocrity",
+          "label": "MEDIOCRITY",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "enemy",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "CULTURAL_OPPOSITION",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "obsession",
+      "section": "BRAND WORLD / LORE",
+      "step": 5,
+      "visibleLabel": "WHAT COULD THIS BRAND TALK ABOUT FOREVER?",
+      "supportingCopy": "NOT PRODUCTS. IDEAS, BEHAVIORS, PROBLEMS, CURIOSITIES, CONVERSATIONS.",
+      "placeholder": "THE THINGS YOU NEVER GET TIRED OF…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "obsession",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "CORE_OBSESSIONS",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "world",
+      "section": "BRAND WORLD / LORE",
+      "step": 6,
+      "visibleLabel": "IF THIS BRAND WERE A PLACE, WHERE DID WE JUST WALK INTO?",
+      "supportingCopy": "NOT LITERALLY. DESCRIBE THE ATMOSPHERE.",
+      "placeholder": "THE FEELING OF THE SPACE…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "world",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "WORLD_METAPHOR",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "objects",
+      "section": "BRAND WORLD / LORE",
+      "step": 7,
+      "visibleLabel": "WHAT BELONGS IN THIS WORLD?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "CHOOSE THE ONES THAT FEEL ESSENTIAL.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "paper",
+          "label": "PAPER",
+          "description": null
+        },
+        {
+          "id": "metal",
+          "label": "METAL",
+          "description": null
+        },
+        {
+          "id": "glass",
+          "label": "GLASS",
+          "description": null
+        },
+        {
+          "id": "wood",
+          "label": "WOOD",
+          "description": null
+        },
+        {
+          "id": "fabric",
+          "label": "FABRIC",
+          "description": null
+        },
+        {
+          "id": "stone",
+          "label": "STONE",
+          "description": null
+        },
+        {
+          "id": "screens",
+          "label": "SCREENS",
+          "description": null
+        },
+        {
+          "id": "machines",
+          "label": "MACHINES",
+          "description": null
+        },
+        {
+          "id": "plants",
+          "label": "PLANTS",
+          "description": null
+        },
+        {
+          "id": "packaging",
+          "label": "PACKAGING",
+          "description": null
+        },
+        {
+          "id": "architecture",
+          "label": "ARCHITECTURE",
+          "description": null
+        },
+        {
+          "id": "clothing",
+          "label": "CLOTHING",
+          "description": null
+        },
+        {
+          "id": "tools",
+          "label": "TOOLS",
+          "description": null
+        },
+        {
+          "id": "symbols",
+          "label": "SYMBOLS",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "objects",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "MATERIAL_VOCABULARY",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "lineage",
+      "section": "BRAND WORLD / LORE",
+      "step": 8,
+      "visibleLabel": "WHAT DID YOU GROW UP LOVING?",
+      "supportingCopy": "SHOWS. MOVIES. MAGAZINES. MUSIC. STORES. BRANDS. WEBSITES. ERAS. SUBCULTURES.",
+      "placeholder": "WHAT SHAPED YOUR TASTE…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "lineage",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "REFERENCE_LINEAGE",
+      "maxLength": 600,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "now",
+      "section": "BRAND WORLD / LORE",
+      "step": 9,
+      "visibleLabel": "WHAT HAS YOUR ATTENTION RIGHT NOW?",
+      "supportingCopy": null,
+      "placeholder": "WHAT YOU ARE LOOKING AT TODAY…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "now",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "CURRENT_REFERENCE_SIGNALS",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "contradiction",
+      "section": "BRAND WORLD / LORE",
+      "step": 10,
+      "visibleLabel": "YOU CAN BE TWO THINGS AT ONCE. WHICH TENSIONS FEEL LIKE YOU?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "MORE THAN ONE CAN BE TRUE.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "polished-messy",
+          "label": "POLISHED + MESSY",
+          "description": null
+        },
+        {
+          "id": "serious-funny",
+          "label": "SERIOUS + FUNNY",
+          "description": null
+        },
+        {
+          "id": "luxurious-approachable",
+          "label": "LUXURIOUS + APPROACHABLE",
+          "description": null
+        },
+        {
+          "id": "futuristic-human",
+          "label": "FUTURISTIC + HUMAN",
+          "description": null
+        },
+        {
+          "id": "loud-intelligent",
+          "label": "LOUD + INTELLIGENT",
+          "description": null
+        },
+        {
+          "id": "nostalgic-modern",
+          "label": "NOSTALGIC + MODERN",
+          "description": null
+        },
+        {
+          "id": "strange-familiar",
+          "label": "STRANGE + FAMILIAR",
+          "description": null
+        },
+        {
+          "id": "refined-raw",
+          "label": "REFINED + RAW",
+          "description": null
+        },
+        {
+          "id": "playful-authoritative",
+          "label": "PLAYFUL + AUTHORITATIVE",
+          "description": null
+        },
+        {
+          "id": "minimal-expressive",
+          "label": "MINIMAL + EXPRESSIVE",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "contradiction",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "CREATIVE_TENSIONS",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "language",
+      "section": "BRAND WORLD / LORE",
+      "step": 11,
+      "visibleLabel": "WHAT WOULD YOU ACTUALLY SAY?",
+      "supportingCopy": "WRITE IN YOUR OWN VOICE.",
+      "placeholder": "A CAPTION. A CORRECTION. AN EXPLANATION TO A FRIEND…",
+      "helpCopy": null,
+      "inputType": "language-samples",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "language",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "AUTHENTIC_LANGUAGE",
+      "maxLength": 800,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "line",
+      "section": "BRAND WORLD / LORE",
+      "step": 12,
+      "visibleLabel": "WHAT WOULD YOU NEVER SAY?",
+      "supportingCopy": null,
+      "placeholder": "PHRASES THAT DO NOT SOUND LIKE YOU…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "line",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "ANTI_LANGUAGE",
+      "maxLength": 400,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "status",
+      "section": "BRAND WORLD / LORE",
+      "step": 13,
+      "visibleLabel": "WHEN PEOPLE SHARE THIS BRAND, WHAT SHOULD IT SAY ABOUT THEM?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "responseMode": "SINGLE_SELECT",
+      "options": [
+        {
+          "id": "know-something",
+          "label": "THEY KNOW SOMETHING",
+          "description": null
+        },
+        {
+          "id": "good-taste",
+          "label": "THEY HAVE GOOD TASTE",
+          "description": null
+        },
+        {
+          "id": "in-on-it",
+          "label": "THEY ARE IN ON IT",
+          "description": null
+        },
+        {
+          "id": "care",
+          "label": "THEY CARE",
+          "description": null
+        },
+        {
+          "id": "ambitious",
+          "label": "THEY ARE AMBITIOUS",
+          "description": null
+        },
+        {
+          "id": "smart",
+          "label": "THEY ARE SMART",
+          "description": null
+        },
+        {
+          "id": "funny",
+          "label": "THEY ARE FUNNY",
+          "description": null
+        },
+        {
+          "id": "belong",
+          "label": "THEY BELONG HERE",
+          "description": null
+        },
+        {
+          "id": "discovered-first",
+          "label": "THEY DISCOVERED IT FIRST",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "status",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "SOCIAL_SIGNAL",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "ritual",
+      "section": "BRAND WORLD / LORE",
+      "step": 14,
+      "visibleLabel": "WHAT SHOULD PEOPLE COME BACK HERE FOR?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "SELECT ALL THAT GENUINELY BELONG.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "answers",
+          "label": "ANSWERS",
+          "description": null
+        },
+        {
+          "id": "laugh",
+          "label": "A LAUGH",
+          "description": null
+        },
+        {
+          "id": "discovery",
+          "label": "DISCOVERY",
+          "description": null
+        },
+        {
+          "id": "perspective",
+          "label": "PERSPECTIVE",
+          "description": null
+        },
+        {
+          "id": "tools",
+          "label": "TOOLS",
+          "description": null
+        },
+        {
+          "id": "inspiration",
+          "label": "INSPIRATION",
+          "description": null
+        },
+        {
+          "id": "motivation",
+          "label": "MOTIVATION",
+          "description": null
+        },
+        {
+          "id": "belonging",
+          "label": "BELONGING",
+          "description": null
+        },
+        {
+          "id": "updates",
+          "label": "UPDATES",
+          "description": null
+        },
+        {
+          "id": "taste",
+          "label": "TASTE",
+          "description": null
+        },
+        {
+          "id": "entertainment",
+          "label": "ENTERTAINMENT",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "ritual",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "AUDIENCE_RITUAL",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "memory",
+      "section": "BRAND WORLD / LORE",
+      "step": 15,
+      "visibleLabel": "WHEN EVERYTHING ELSE IS GONE, WHAT SHOULD THEY REMEMBER?",
+      "supportingCopy": null,
+      "placeholder": "THE ONE THING THAT STICKS…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "memory",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "MEMORY_GOAL",
+      "maxLength": 400,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "symbol",
+      "section": "BRAND WORLD / LORE",
+      "step": 16,
+      "visibleLabel": "IF WE COULD OWN ONE SYMBOL, OBJECT, MOTION, OR GESTURE, WHAT MIGHT IT BE?",
+      "supportingCopy": null,
+      "placeholder": "OPTIONAL — UNCERTAINTY IS FINE.",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "symbol",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "SYMBOLIC_VOCABULARY",
+      "maxLength": 300,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "myth",
+      "section": "BRAND WORLD / LORE",
+      "step": 17,
+      "visibleLabel": "WHAT STORY SHOULD PEOPLE EVENTUALLY TELL ABOUT THIS BRAND?",
+      "supportingCopy": null,
+      "placeholder": "THE STORY THEY RETELL…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "myth",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "DESIRED_MYTHOLOGY",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "future",
+      "section": "BRAND WORLD / LORE",
+      "step": 18,
+      "visibleLabel": "IF THIS GETS MUCH BIGGER THAN YOU EXPECT, WHAT DOES IT BECOME?",
+      "supportingCopy": null,
+      "placeholder": "THE FUTURE YOU CAN IMAGINE…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "future",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "FUTURE_WORLD",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "no-go",
+      "section": "BRAND WORLD / LORE",
+      "step": 19,
+      "visibleLabel": "WHAT WOULD MAKE YOU SAY: \"THAT DOESN'T FEEL LIKE US.\"",
+      "supportingCopy": null,
+      "placeholder": "YOUR NO-GO ZONE…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "no-go",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.loreAnswers OR project lore API",
+      "component": "IdentityLoreStepForm / ProjectLoreCalibrationFlow",
+      "sourceFile": "shared/site00-brand-lore/idnty-lore-questions.ts",
+      "domain": "CREATIVE_ANTI_PATTERNS",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/calibrate; UNREACHABLE on public /idnty/*/world/* (PostPurchaseIntelligenceRedirect)",
+      "flow": "lore"
+    },
+    {
+      "questionId": "social-instinct",
+      "section": "BRAND PERSONALITY",
+      "step": 1,
+      "visibleLabel": "WHEN THIS BRAND WALKS INTO THE ROOM, WHAT DOES IT DO FIRST?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "PICK UP TO FOUR — YOUR STRONGEST INSTINCTS.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "notices-missed",
+          "label": "NOTICES WHAT EVERYONE MISSED",
+          "description": null
+        },
+        {
+          "id": "makes-laugh",
+          "label": "MAKES PEOPLE LAUGH",
+          "description": null
+        },
+        {
+          "id": "uncomfortable-question",
+          "label": "ASKS THE UNCOMFORTABLE QUESTION",
+          "description": null
+        },
+        {
+          "id": "makes-sense",
+          "label": "MAKES THINGS MAKE SENSE",
+          "description": null
+        },
+        {
+          "id": "raises-energy",
+          "label": "RAISES THE ENERGY",
+          "description": null
+        },
+        {
+          "id": "calms-room",
+          "label": "CALMS THE ROOM",
+          "description": null
+        },
+        {
+          "id": "challenges-room",
+          "label": "CHALLENGES THE ROOM",
+          "description": null
+        },
+        {
+          "id": "includes-people",
+          "label": "MAKES PEOPLE FEEL INCLUDED",
+          "description": null
+        },
+        {
+          "id": "says-thinking",
+          "label": "SAYS WHAT EVERYONE WAS THINKING",
+          "description": null
+        },
+        {
+          "id": "changes-subject",
+          "label": "CHANGES THE SUBJECT IN A GOOD WAY",
+          "description": null
+        },
+        {
+          "id": "watches-first",
+          "label": "WATCHES FIRST, SPEAKS LATER",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "SOMETHING ELSE",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "social-instinct",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "SOCIAL_INSTINCT",
+      "maxLength": null,
+      "maxSelections": 4,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "confidence",
+      "section": "BRAND PERSONALITY",
+      "step": 2,
+      "visibleLabel": "HOW DOES THIS BRAND KNOW IT'S RIGHT?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "PICK UP TO THREE.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "facts-first",
+          "label": "FACTS FIRST",
+          "description": null
+        },
+        {
+          "id": "instinct-first",
+          "label": "INSTINCT FIRST",
+          "description": null
+        },
+        {
+          "id": "lived-experience",
+          "label": "LIVED EXPERIENCE",
+          "description": null
+        },
+        {
+          "id": "taste",
+          "label": "TASTE",
+          "description": null
+        },
+        {
+          "id": "expertise",
+          "label": "EXPERTISE",
+          "description": null
+        },
+        {
+          "id": "receipts",
+          "label": "RECEIPTS",
+          "description": null
+        },
+        {
+          "id": "curiosity",
+          "label": "CURIOSITY",
+          "description": null
+        },
+        {
+          "id": "pattern-recognition",
+          "label": "PATTERN RECOGNITION",
+          "description": null
+        },
+        {
+          "id": "room-to-be-wrong",
+          "label": "IT LEAVES ROOM TO BE WRONG",
+          "description": null
+        },
+        {
+          "id": "says-anyway",
+          "label": "IT SAYS IT ANYWAY",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "confidence",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "CONFIDENCE_BEHAVIOR",
+      "maxLength": null,
+      "maxSelections": 3,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "humor",
+      "section": "BRAND PERSONALITY",
+      "step": 3,
+      "visibleLabel": "WHAT MAKES THIS BRAND FUNNY — IF IT IS?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": "MULTI-SELECT — OR SKIP IF HUMOR ISN'T YOUR THING.",
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "dry-observation",
+          "label": "DRY OBSERVATION",
+          "description": null
+        },
+        {
+          "id": "deadpan",
+          "label": "DEADPAN",
+          "description": null
+        },
+        {
+          "id": "contradiction",
+          "label": "CONTRADICTION",
+          "description": null
+        },
+        {
+          "id": "exaggeration",
+          "label": "EXAGGERATION",
+          "description": null
+        },
+        {
+          "id": "understatement",
+          "label": "UNDERSTATEMENT",
+          "description": null
+        },
+        {
+          "id": "cultural-references",
+          "label": "CULTURAL REFERENCES",
+          "description": null
+        },
+        {
+          "id": "unexpected-specificity",
+          "label": "UNEXPECTED SPECIFICITY",
+          "description": null
+        },
+        {
+          "id": "playful-chaos",
+          "label": "PLAYFUL CHAOS",
+          "description": null
+        },
+        {
+          "id": "self-awareness",
+          "label": "SELF-AWARENESS",
+          "description": null
+        },
+        {
+          "id": "sarcasm",
+          "label": "SARCASM",
+          "description": null
+        },
+        {
+          "id": "clever-wording",
+          "label": "CLEVER WORDING",
+          "description": null
+        },
+        {
+          "id": "not-trying-funny",
+          "label": "IT ISN'T TRYING TO BE FUNNY",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "humor",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "WIT_BEHAVIOR",
+      "maxLength": null,
+      "maxSelections": 4,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "humanity",
+      "section": "BRAND PERSONALITY",
+      "step": 4,
+      "visibleLabel": "HOW HUMAN SHOULD THIS BRAND FEEL?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "polished-alive",
+          "label": "POLISHED BUT ALIVE",
+          "description": null
+        },
+        {
+          "id": "openly-imperfect",
+          "label": "OPENLY IMPERFECT",
+          "description": null
+        },
+        {
+          "id": "emotionally-honest",
+          "label": "EMOTIONALLY HONEST",
+          "description": null
+        },
+        {
+          "id": "very-personal",
+          "label": "VERY PERSONAL",
+          "description": null
+        },
+        {
+          "id": "warm-private",
+          "label": "WARM BUT PRIVATE",
+          "description": null
+        },
+        {
+          "id": "candid",
+          "label": "CANDID",
+          "description": null
+        },
+        {
+          "id": "composed",
+          "label": "COMPOSED",
+          "description": null
+        },
+        {
+          "id": "unfiltered",
+          "label": "UNFILTERED",
+          "description": null
+        },
+        {
+          "id": "vulnerable-small-doses",
+          "label": "VULNERABLE IN SMALL DOSES",
+          "description": null
+        },
+        {
+          "id": "almost-anonymous",
+          "label": "ALMOST ANONYMOUS",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "humanity",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "HUMANITY",
+      "maxLength": null,
+      "maxSelections": 3,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "disagreement",
+      "section": "BRAND PERSONALITY",
+      "step": 5,
+      "visibleLabel": "WHEN THIS BRAND DISAGREES, WHAT DOES IT DO?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "corrects-record",
+          "label": "CORRECTS THE RECORD",
+          "description": null
+        },
+        {
+          "id": "better-question",
+          "label": "ASKS A BETTER QUESTION",
+          "description": null
+        },
+        {
+          "id": "shows-evidence",
+          "label": "SHOWS THE EVIDENCE",
+          "description": null
+        },
+        {
+          "id": "jokes-about-it",
+          "label": "JOKES ABOUT IT",
+          "description": null
+        },
+        {
+          "id": "challenges-directly",
+          "label": "CHALLENGES DIRECTLY",
+          "description": null
+        },
+        {
+          "id": "reframes",
+          "label": "REFRAMES IT",
+          "description": null
+        },
+        {
+          "id": "audience-decides",
+          "label": "LETS THE AUDIENCE DECIDE",
+          "description": null
+        },
+        {
+          "id": "stays-quiet",
+          "label": "STAYS QUIET",
+          "description": null
+        },
+        {
+          "id": "admits-uncertainty",
+          "label": "ADMITS UNCERTAINTY",
+          "description": null
+        },
+        {
+          "id": "changes-mind",
+          "label": "CHANGES ITS MIND PUBLICLY",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "disagreement",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "DISAGREEMENT_BEHAVIOR",
+      "maxLength": null,
+      "maxSelections": 3,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "edge",
+      "section": "BRAND PERSONALITY",
+      "step": 6,
+      "visibleLabel": "HOW FAR CAN THIS BRAND PUSH?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "single",
+      "responseMode": "SINGLE_SELECT",
+      "options": [
+        {
+          "id": "safe",
+          "label": "SAFE",
+          "description": null
+        },
+        {
+          "id": "sharp",
+          "label": "SHARP",
+          "description": null
+        },
+        {
+          "id": "provocative",
+          "label": "PROVOCATIVE",
+          "description": null
+        },
+        {
+          "id": "mischievous",
+          "label": "MISCHIEVOUS",
+          "description": null
+        },
+        {
+          "id": "irreverent",
+          "label": "IRREVERENT",
+          "description": null
+        },
+        {
+          "id": "confrontational",
+          "label": "CONFRONTATIONAL",
+          "description": null
+        },
+        {
+          "id": "polarizing",
+          "label": "POLARIZING",
+          "description": null
+        },
+        {
+          "id": "blunt",
+          "label": "BLUNT",
+          "description": null
+        },
+        {
+          "id": "culturally-daring",
+          "label": "CULTURALLY DARING",
+          "description": null
+        },
+        {
+          "id": "never-reckless",
+          "label": "NEVER RECKLESS",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "edge",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "EDGE",
+      "maxLength": null,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "charm",
+      "section": "BRAND PERSONALITY",
+      "step": 7,
+      "visibleLabel": "WHAT MAKES PEOPLE LIKE THIS BRAND?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "warmth",
+          "label": "WARMTH",
+          "description": null
+        },
+        {
+          "id": "wit",
+          "label": "WIT",
+          "description": null
+        },
+        {
+          "id": "honesty",
+          "label": "HONESTY",
+          "description": null
+        },
+        {
+          "id": "confidence",
+          "label": "CONFIDENCE",
+          "description": null
+        },
+        {
+          "id": "usefulness",
+          "label": "USEFULNESS",
+          "description": null
+        },
+        {
+          "id": "curiosity",
+          "label": "CURIOSITY",
+          "description": null
+        },
+        {
+          "id": "taste",
+          "label": "TASTE",
+          "description": null
+        },
+        {
+          "id": "vulnerability",
+          "label": "VULNERABILITY",
+          "description": null
+        },
+        {
+          "id": "unpredictability",
+          "label": "UNPREDICTABILITY",
+          "description": null
+        },
+        {
+          "id": "generosity",
+          "label": "GENEROSITY",
+          "description": null
+        },
+        {
+          "id": "intelligence",
+          "label": "INTELLIGENCE",
+          "description": null
+        },
+        {
+          "id": "relatability",
+          "label": "RELATABILITY",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "charm",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "CHARM",
+      "maxLength": null,
+      "maxSelections": 4,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "observation",
+      "section": "BRAND PERSONALITY",
+      "step": 8,
+      "visibleLabel": "WHAT DOES THIS BRAND NOTICE THAT OTHER PEOPLE MISS?",
+      "supportingCopy": null,
+      "placeholder": "THE SMALL THING, THE PATTERN, THE DETAIL…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "observation",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "OBSERVATION",
+      "maxLength": 400,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "memorability",
+      "section": "BRAND PERSONALITY",
+      "step": 9,
+      "visibleLabel": "WHAT SHOULD SOMEONE QUOTE, SCREENSHOT, OR REPEAT AFTER LEAVING?",
+      "supportingCopy": "NOT A TAGLINE — THE KIND OF THING THAT STICKS.",
+      "placeholder": "THE LINE, THE MOMENT, THE DETAIL…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "memorability",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "MEMORABILITY",
+      "maxLength": 400,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "emotional-range",
+      "section": "BRAND PERSONALITY",
+      "step": 10,
+      "visibleLabel": "WHAT EMOTIONS IS THIS BRAND ALLOWED TO HAVE?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "amused",
+          "label": "AMUSED",
+          "description": null
+        },
+        {
+          "id": "frustrated",
+          "label": "FRUSTRATED",
+          "description": null
+        },
+        {
+          "id": "excited",
+          "label": "EXCITED",
+          "description": null
+        },
+        {
+          "id": "skeptical",
+          "label": "SKEPTICAL",
+          "description": null
+        },
+        {
+          "id": "tender",
+          "label": "TENDER",
+          "description": null
+        },
+        {
+          "id": "angry",
+          "label": "ANGRY",
+          "description": null
+        },
+        {
+          "id": "proud",
+          "label": "PROUD",
+          "description": null
+        },
+        {
+          "id": "curious",
+          "label": "CURIOUS",
+          "description": null
+        },
+        {
+          "id": "nostalgic",
+          "label": "NOSTALGIC",
+          "description": null
+        },
+        {
+          "id": "hopeful",
+          "label": "HOPEFUL",
+          "description": null
+        },
+        {
+          "id": "serious",
+          "label": "SERIOUS",
+          "description": null
+        },
+        {
+          "id": "mischievous",
+          "label": "MISCHIEVOUS",
+          "description": null
+        },
+        {
+          "id": "calm",
+          "label": "CALM",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "emotional-range",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "EMOTIONAL_RANGE",
+      "maxLength": null,
+      "maxSelections": 5,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "restraint",
+      "section": "BRAND PERSONALITY",
+      "step": 11,
+      "visibleLabel": "WHEN SHOULD THIS BRAND HOLD BACK?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "needs-clarity",
+          "label": "WHEN THE AUDIENCE NEEDS CLARITY",
+          "description": null
+        },
+        {
+          "id": "emotion-too-high",
+          "label": "WHEN EMOTION IS TOO HIGH",
+          "description": null
+        },
+        {
+          "id": "facts-unclear",
+          "label": "WHEN FACTS AREN'T CLEAR",
+          "description": null
+        },
+        {
+          "id": "humor-cheapens",
+          "label": "WHEN HUMOR WOULD CHEAPEN IT",
+          "description": null
+        },
+        {
+          "id": "not-our-subject",
+          "label": "WHEN THE SUBJECT ISN'T OURS",
+          "description": null
+        },
+        {
+          "id": "silence-stronger",
+          "label": "WHEN SILENCE IS STRONGER",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "restraint",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "RESTRAINT",
+      "maxLength": null,
+      "maxSelections": 3,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "personality-tension",
+      "section": "BRAND PERSONALITY",
+      "step": 12,
+      "visibleLabel": "WHICH CONTRADICTIONS FEEL MOST LIKE YOU?",
+      "supportingCopy": "PERSONALITY TENSION — NOT JUST VISUAL.",
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "polished-nosy",
+          "label": "POLISHED + NOSY",
+          "description": null
+        },
+        {
+          "id": "intelligent-playful",
+          "label": "INTELLIGENT + PLAYFUL",
+          "description": null
+        },
+        {
+          "id": "warm-blunt",
+          "label": "WARM + BLUNT",
+          "description": null
+        },
+        {
+          "id": "confident-self-aware",
+          "label": "CONFIDENT + SELF-AWARE",
+          "description": null
+        },
+        {
+          "id": "elegant-weird",
+          "label": "ELEGANT + WEIRD",
+          "description": null
+        },
+        {
+          "id": "serious-funny",
+          "label": "SERIOUS + FUNNY",
+          "description": null
+        },
+        {
+          "id": "exclusive-welcoming",
+          "label": "EXCLUSIVE + WELCOMING",
+          "description": null
+        },
+        {
+          "id": "calm-provocative",
+          "label": "CALM + PROVOCATIVE",
+          "description": null
+        },
+        {
+          "id": "precise-messy",
+          "label": "PRECISE + MESSY",
+          "description": null
+        },
+        {
+          "id": "authoritative-curious",
+          "label": "AUTHORITATIVE + CURIOUS",
+          "description": null
+        },
+        {
+          "id": "refined-irreverent",
+          "label": "REFINED + IRREVERENT",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "personality-tension",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "PERSONALITY_TENSION",
+      "maxLength": null,
+      "maxSelections": 3,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "social-reaction",
+      "section": "BRAND PERSONALITY",
+      "step": 13,
+      "visibleLabel": "IF SOMEONE COMMENTS SOMETHING WRONG, WHAT WOULD THIS BRAND DO?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "correct-politely",
+          "label": "CORRECT THEM POLITELY",
+          "description": null
+        },
+        {
+          "id": "bring-receipts",
+          "label": "BRING RECEIPTS",
+          "description": null
+        },
+        {
+          "id": "make-funny",
+          "label": "MAKE IT FUNNY",
+          "description": null
+        },
+        {
+          "id": "ask-what-mean",
+          "label": "ASK WHAT THEY MEAN",
+          "description": null
+        },
+        {
+          "id": "ignore",
+          "label": "IGNORE IT",
+          "description": null
+        },
+        {
+          "id": "turn-into-content",
+          "label": "TURN IT INTO CONTENT",
+          "description": null
+        },
+        {
+          "id": "challenge",
+          "label": "CHALLENGE THEM",
+          "description": null
+        },
+        {
+          "id": "agree-if-right",
+          "label": "AGREE IF THEY'RE RIGHT",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "social-reaction",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "SOCIAL_REACTION",
+      "maxLength": null,
+      "maxSelections": 2,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "self-correction",
+      "section": "BRAND PERSONALITY",
+      "step": 14,
+      "visibleLabel": "WHAT HAPPENS WHEN THE BRAND GETS IT WRONG?",
+      "supportingCopy": null,
+      "placeholder": null,
+      "helpCopy": null,
+      "inputType": "multi",
+      "responseMode": "MULTI_SELECT",
+      "options": [
+        {
+          "id": "quietly-fix",
+          "label": "QUIETLY FIX IT",
+          "description": null
+        },
+        {
+          "id": "publicly-correct",
+          "label": "PUBLICLY CORRECT IT",
+          "description": null
+        },
+        {
+          "id": "explain-changed",
+          "label": "EXPLAIN WHAT CHANGED",
+          "description": null
+        },
+        {
+          "id": "laugh-at-self",
+          "label": "LAUGH AT ITSELF",
+          "description": null
+        },
+        {
+          "id": "show-process",
+          "label": "SHOW THE PROCESS",
+          "description": null
+        },
+        {
+          "id": "apologize-clearly",
+          "label": "APOLOGIZE CLEARLY",
+          "description": null
+        },
+        {
+          "id": "update-record",
+          "label": "UPDATE THE RECORD",
+          "description": null
+        },
+        {
+          "id": "other",
+          "label": "OTHER",
+          "description": null
+        }
+      ],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "self-correction",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "SELF_CORRECTION",
+      "maxLength": null,
+      "maxSelections": 3,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    },
+    {
+      "questionId": "anti-personality",
+      "section": "BRAND PERSONALITY",
+      "step": 15,
+      "visibleLabel": "WHAT WOULD MAKE THIS BRAND CRINGE AT ITSELF?",
+      "supportingCopy": null,
+      "placeholder": "TRY-HARD SLANG, FAKE LUXURY, FORCED RELATABILITY…",
+      "helpCopy": null,
+      "inputType": "textarea",
+      "responseMode": "FREE_TEXT",
+      "options": [],
+      "defaultValue": null,
+      "required": false,
+      "optional": true,
+      "validation": null,
+      "errorCopy": null,
+      "conditional": true,
+      "condition": "Adaptive subset via resolveActiveLoreSteps (project flow) or full registry",
+      "dependencies": [],
+      "dataKey": "anti-personality",
+      "storageDestination": "localStorage.site00_idnty_assessment_v1.personalityAnswers OR project personality replay",
+      "component": "PersonalityReplayIntakeStep",
+      "sourceFile": "shared/site00-brand-lore/idnty-personality-questions.ts",
+      "domain": "ANTI_PERSONALITY",
+      "maxLength": 500,
+      "maxSelections": null,
+      "reachability": "LIVE on /projects/:slug/personality-replay/*; UNREACHABLE on public /idnty/*/personality/*",
+      "flow": "personality"
+    }
+  ]
+}

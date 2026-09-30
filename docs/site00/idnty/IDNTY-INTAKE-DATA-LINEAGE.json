@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-09-30T22:09:49.634Z",
+  "objects": [
+    {
+      "object": "IdntyAssessmentRecord (client)",
+      "key": "site00_idnty_assessment_v1",
+      "owner": "browser localStorage",
+      "writeLocation": "src/site00/hooks/useIdntyAssessment.ts",
+      "readLocation": "useIdntyAssessment, useBldrAssessment.readIdntyLoreSnapshot, readIdntyPrefill",
+      "statusField": "submissionStatus draft|complete",
+      "completionField": "submissionStatus complete + currentStep complete",
+      "status": "ACTIVE"
+    },
+    {
+      "object": "site00-idnty-server-intake-id",
+      "key": "site00-idnty-server-intake-id",
+      "owner": "browser localStorage",
+      "writeLocation": "src/site00/hooks/useIntakeSync.ts",
+      "readLocation": "intakesApi",
+      "statusField": "IntakeStatus on server row",
+      "completionField": "submittedAt when submit() succeeds",
+      "status": "ACTIVE"
+    },
+    {
+      "object": "site00_idnty_submissions",
+      "key": "id (uuid)",
+      "owner": "Supabase",
+      "writeLocation": "api/_lib/site00Intakes/supabaseStore.ts",
+      "readLocation": "intakesApi, admin IntakesPage, identityCommercial.ts",
+      "statusField": "status",
+      "completionField": "submitted_at",
+      "status": "ACTIVE"
+    }
+  ],
+  "downstreamConsumers": [
+    {
+      "consumer": "DiscoveryResultPanel / diagnoseIdentityNeed",
+      "dataReceived": "stateSlug + assessment answers",
+      "source": "useIdntyAssessment.getAnswersForState",
+      "when": "After review → discovery-result",
+      "purpose": "Display recommendation classifications",
+      "wiring": "LIVE"
+    },
+    {
+      "consumer": "useBldrAssessment prefill",
+      "dataReceived": "identityState, answers.project, loreAnswers subset",
+      "source": "localStorage site00_idnty_assessment_v1",
+      "when": "BLDR assessment start",
+      "purpose": "Prefill builder class / site type",
+      "wiring": "PARTIAL (localStorage only, no server merge proven on BLDR start)"
+    },
+    {
+      "consumer": "intakesApi / admin Intake Inbox",
+      "dataReceived": "draftPayload autosave patches",
+      "source": "useIntakeSync autosave from useIdntyAssessment",
+      "when": "Each step + ensureStarted on landing",
+      "purpose": "Ops visibility, guest email, commercial_state",
+      "wiring": "PARTIALLY WIRED (no payment checkout on public happy path)"
+    },
+    {
+      "consumer": "ProjectLoreCalibrationFlow",
+      "dataReceived": "IDNTY_LORE_QUESTIONS answers → project API",
+      "source": "ProjectLoreCalibrationPage",
+      "when": "Post-project creative direction readiness",
+      "purpose": "Brand lore canon for production",
+      "wiring": "LIVE (project-scoped, not public /idnty)"
+    },
+    {
+      "consumer": "PersonalityReplayIntake",
+      "dataReceived": "IDNTY_PERSONALITY_QUESTIONS",
+      "source": "ProjectPersonalityReplayPage",
+      "when": "Validation / creative direction pipeline",
+      "purpose": "Personality replay experiments",
+      "wiring": "LIVE (project-scoped)"
+    }
+  ]
+}

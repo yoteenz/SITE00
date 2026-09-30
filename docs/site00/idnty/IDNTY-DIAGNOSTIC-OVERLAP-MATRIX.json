@@ -1,0 +1,292 @@
+{
+  "generatedAt": "2026-09-30T22:09:49.636Z",
+  "overlap": [
+    {
+      "questionId": "starting-at-zero:project",
+      "dataKey": "project",
+      "diagnosticState": "00 FOUNDATION",
+      "currentPurpose": "WHAT ARE YOU BUILDING?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "starting-at-zero:goal",
+      "dataKey": "goal",
+      "diagnosticState": "00 FOUNDATION",
+      "currentPurpose": "WHAT IS THE PRIMARY GOAL?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "starting-at-zero:audience",
+      "dataKey": "audience",
+      "diagnosticState": "00 FOUNDATION",
+      "currentPurpose": "WHO IS YOUR AUDIENCE?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "starting-at-zero:timeline",
+      "dataKey": "timeline",
+      "diagnosticState": "00 FOUNDATION",
+      "currentPurpose": "WHAT IS YOUR TIMELINE?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "starting-at-zero:budget",
+      "dataKey": "budget",
+      "diagnosticState": "00 FOUNDATION",
+      "currentPurpose": "WHAT IS YOUR BUDGET RANGE?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "some-pieces-exist:assets",
+      "dataKey": "assets",
+      "diagnosticState": "01 REFINE",
+      "currentPurpose": "WHAT DO YOU ALREADY HAVE?",
+      "diagnosticAlreadyAnswers": "PARTIAL",
+      "safeToPrepopulate": "UNKNOWN",
+      "safeToSkip": "UNKNOWN",
+      "why": "State 01 SOME PIECES implies partial brand; asset checklist still needed for specifics."
+    },
+    {
+      "questionId": "some-pieces-exist:cohesion-diagnostic",
+      "dataKey": "cohesion-diagnostic",
+      "diagnosticState": "01 REFINE",
+      "currentPurpose": "HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY?",
+      "diagnosticAlreadyAnswers": "PARTIAL",
+      "safeToPrepopulate": "UNKNOWN",
+      "safeToSkip": "UNKNOWN",
+      "why": "State 01 SOME PIECES implies partial brand; asset checklist still needed for specifics."
+    },
+    {
+      "questionId": "some-pieces-exist:other-specify",
+      "dataKey": "other-specify",
+      "diagnosticState": "01 REFINE",
+      "currentPurpose": "OTHER (PLEASE SPECIFY)",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "some-pieces-exist:gaps",
+      "dataKey": "gaps",
+      "diagnosticState": "01 REFINE",
+      "currentPurpose": "WHAT FEELS INCOMPLETE?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "ready-for-evolution:pathways",
+      "dataKey": "pathways",
+      "diagnosticState": "02 EVOLVE",
+      "currentPurpose": "HOW WE CAN HELP YOU EVOLVE",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "ready-for-evolution:goals",
+      "dataKey": "goals",
+      "diagnosticState": "02 EVOLVE",
+      "currentPurpose": "WHAT ARE YOUR EVOLUTION GOALS?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "ready-for-evolution:timeline",
+      "dataKey": "timeline",
+      "diagnosticState": "02 EVOLVE",
+      "currentPurpose": "WHAT IS YOUR TIMELINE?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    },
+    {
+      "questionId": "build-ready:services",
+      "dataKey": "services",
+      "diagnosticState": "03 BUILD READY",
+      "currentPurpose": "HOW CAN SITE 00 BUILD YOUR VISION?",
+      "diagnosticAlreadyAnswers": "PARTIAL",
+      "safeToPrepopulate": "UNKNOWN",
+      "safeToSkip": "UNKNOWN",
+      "why": "BUILD READY declaration implies identity complete; scope/services still collected for BLDR routing."
+    },
+    {
+      "questionId": "build-ready:scope",
+      "dataKey": "scope",
+      "diagnosticState": "03 BUILD READY",
+      "currentPurpose": "DESCRIBE WHAT NEEDS TO BE BUILT",
+      "diagnosticAlreadyAnswers": "PARTIAL",
+      "safeToPrepopulate": "UNKNOWN",
+      "safeToSkip": "UNKNOWN",
+      "why": "BUILD READY declaration implies identity complete; scope/services still collected for BLDR routing."
+    },
+    {
+      "questionId": "build-ready:timeline",
+      "dataKey": "timeline",
+      "diagnosticState": "03 BUILD READY",
+      "currentPurpose": "WHAT IS YOUR TIMELINE?",
+      "diagnosticAlreadyAnswers": "NO",
+      "safeToPrepopulate": "NO",
+      "safeToSkip": "UNKNOWN",
+      "why": "Diagnostic selects brand state only; does not capture step-level answers."
+    }
+  ],
+  "foundationRefineEvolveMatrix": [
+    {
+      "questionId": "starting-at-zero:project",
+      "dataKey": "project",
+      "stateSlug": "starting-at-zero",
+      "FOUNDATION": "REQUIRED",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "starting-at-zero:goal",
+      "dataKey": "goal",
+      "stateSlug": "starting-at-zero",
+      "FOUNDATION": "REQUIRED",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "starting-at-zero:audience",
+      "dataKey": "audience",
+      "stateSlug": "starting-at-zero",
+      "FOUNDATION": "REQUIRED",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "starting-at-zero:timeline",
+      "dataKey": "timeline",
+      "stateSlug": "starting-at-zero",
+      "FOUNDATION": "REQUIRED",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "starting-at-zero:budget",
+      "dataKey": "budget",
+      "stateSlug": "starting-at-zero",
+      "FOUNDATION": "REQUIRED",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "some-pieces-exist:assets",
+      "dataKey": "assets",
+      "stateSlug": "some-pieces-exist",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "REQUIRED",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "some-pieces-exist:cohesion-diagnostic",
+      "dataKey": "cohesion-diagnostic",
+      "stateSlug": "some-pieces-exist",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "REQUIRED",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "some-pieces-exist:other-specify",
+      "dataKey": "other-specify",
+      "stateSlug": "some-pieces-exist",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "OPTIONAL",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "some-pieces-exist:gaps",
+      "dataKey": "gaps",
+      "stateSlug": "some-pieces-exist",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "OPTIONAL",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "ready-for-evolution:pathways",
+      "dataKey": "pathways",
+      "stateSlug": "ready-for-evolution",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "REQUIRED",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "ready-for-evolution:goals",
+      "dataKey": "goals",
+      "stateSlug": "ready-for-evolution",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "REQUIRED",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "ready-for-evolution:timeline",
+      "dataKey": "timeline",
+      "stateSlug": "ready-for-evolution",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "REQUIRED",
+      "BUILD_READY": "NOT_APPLICABLE"
+    },
+    {
+      "questionId": "build-ready:services",
+      "dataKey": "services",
+      "stateSlug": "build-ready",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "REQUIRED"
+    },
+    {
+      "questionId": "build-ready:scope",
+      "dataKey": "scope",
+      "stateSlug": "build-ready",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "REQUIRED"
+    },
+    {
+      "questionId": "build-ready:timeline",
+      "dataKey": "timeline",
+      "stateSlug": "build-ready",
+      "FOUNDATION": "NOT_APPLICABLE",
+      "REFINE": "NOT_APPLICABLE",
+      "EVOLVE": "NOT_APPLICABLE",
+      "BUILD_READY": "REQUIRED"
+    }
+  ]
+}

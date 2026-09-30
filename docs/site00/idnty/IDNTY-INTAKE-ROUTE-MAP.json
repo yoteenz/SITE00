@@ -1,0 +1,144 @@
+{
+  "generatedAt": "2026-09-30T22:09:49.634Z",
+  "entryRoutes": [
+    {
+      "path": "/idnty",
+      "component": "Site00IdntyPage",
+      "auth": "none",
+      "status": "LIVE"
+    },
+    {
+      "path": "/idnty/state",
+      "component": "IdntyStatePage",
+      "auth": "none",
+      "status": "LIVE"
+    },
+    {
+      "path": "/idnty/state/desktop",
+      "component": "IdntyStatePage (desktop artboard)",
+      "auth": "none",
+      "status": "LIVE"
+    },
+    {
+      "path": "/identity",
+      "component": "Navigate → /idnty",
+      "auth": "none",
+      "status": "LEGACY_ALIAS"
+    },
+    {
+      "path": "/idnty/:stateSlug/*",
+      "component": "IdntyAssessmentRouterPage",
+      "auth": "none",
+      "status": "LIVE"
+    },
+    {
+      "path": "/idnty/:stateSlug/desktop/*",
+      "component": "IdntyAssessmentRouterPage",
+      "auth": "none",
+      "status": "LIVE"
+    },
+    {
+      "path": "/idnty/sign-in-security",
+      "component": "IdntySignInSecurityPage",
+      "auth": "none",
+      "status": "LIVE"
+    },
+    {
+      "path": "/projects/:projectSlug/calibrate",
+      "component": "ProjectLoreCalibrationPage",
+      "auth": "project",
+      "status": "LIVE"
+    },
+    {
+      "path": "/projects/:projectSlug/personality-replay/*",
+      "component": "ProjectPersonalityReplayPage",
+      "auth": "project",
+      "status": "LIVE"
+    }
+  ],
+  "brandStateToAssessment": {
+    "starting-at-zero": "starting-at-zero",
+    "some-pieces": "some-pieces-exist",
+    "ready-evolution": "ready-for-evolution",
+    "build-ready": "build-ready"
+  },
+  "stateDestinations": {
+    "mobile": {
+      "starting-at-zero": "/idnty/starting-at-zero",
+      "some-pieces": "/idnty/some-pieces-exist",
+      "ready-evolution": "/idnty/ready-for-evolution",
+      "build-ready": "/bldr/start"
+    },
+    "desktop": {
+      "starting-at-zero": "/idnty/starting-at-zero/desktop",
+      "some-pieces": "/idnty/some-pieces-exist/desktop",
+      "ready-evolution": "/idnty/ready-for-evolution/desktop",
+      "build-ready": "/bldr/start"
+    }
+  },
+  "happyPathByState": [
+    {
+      "stateSlug": "starting-at-zero",
+      "flow": [
+        "ENTRY /idnty/state (pick brand state)",
+        "LANDING /idnty/starting-at-zero",
+        "STEP /idnty/starting-at-zero/project",
+        "STEP /idnty/starting-at-zero/goal",
+        "STEP /idnty/starting-at-zero/audience",
+        "STEP /idnty/starting-at-zero/timeline",
+        "STEP /idnty/starting-at-zero/budget",
+        "REVIEW /idnty/starting-at-zero/review",
+        "DISCOVERY-RESULT /idnty/starting-at-zero/discovery-result",
+        "NOTE: /complete not on happy path; completeAssessment() not called from review",
+        "NOTE: /world/* and /personality/* → PostPurchaseIntelligenceRedirect on public routes"
+      ]
+    },
+    {
+      "stateSlug": "some-pieces-exist",
+      "flow": [
+        "ENTRY /idnty/state (pick brand state)",
+        "LANDING /idnty/some-pieces-exist",
+        "STEP /idnty/some-pieces-exist/assets",
+        "STEP /idnty/some-pieces-exist/cohesion-diagnostic",
+        "STEP /idnty/some-pieces-exist/other-specify",
+        "STEP /idnty/some-pieces-exist/gaps",
+        "REVIEW /idnty/some-pieces-exist/review",
+        "DISCOVERY-RESULT /idnty/some-pieces-exist/discovery-result",
+        "NOTE: /complete not on happy path; completeAssessment() not called from review",
+        "NOTE: /world/* and /personality/* → PostPurchaseIntelligenceRedirect on public routes"
+      ]
+    },
+    {
+      "stateSlug": "ready-for-evolution",
+      "flow": [
+        "ENTRY /idnty/state (pick brand state)",
+        "LANDING /idnty/ready-for-evolution",
+        "STEP /idnty/ready-for-evolution/pathways",
+        "STEP /idnty/ready-for-evolution/goals",
+        "STEP /idnty/ready-for-evolution/timeline",
+        "REVIEW /idnty/ready-for-evolution/review",
+        "DISCOVERY-RESULT /idnty/ready-for-evolution/discovery-result",
+        "NOTE: /complete not on happy path; completeAssessment() not called from review",
+        "NOTE: /world/* and /personality/* → PostPurchaseIntelligenceRedirect on public routes"
+      ]
+    },
+    {
+      "stateSlug": "build-ready",
+      "flow": [
+        "ENTRY /idnty/state (pick brand state)",
+        "LANDING /idnty/build-ready",
+        "STEP /idnty/build-ready/services",
+        "STEP /idnty/build-ready/scope",
+        "STEP /idnty/build-ready/timeline",
+        "REVIEW /idnty/build-ready/review",
+        "DISCOVERY-RESULT /idnty/build-ready/discovery-result",
+        "NOTE: /complete not on happy path; completeAssessment() not called from review",
+        "NOTE: /world/* and /personality/* → PostPurchaseIntelligenceRedirect on public routes"
+      ]
+    }
+  ],
+  "legacy": {
+    "needsCohesionSlug": "needs-cohesion → redirect some-pieces-exist",
+    "source": "src/site00/config/idnty-assessment.ts migrateLegacyNeedsCohesionSlug"
+  }
+}
