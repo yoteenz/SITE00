@@ -12734,3 +12734,19 @@ Founder asked why the bottom-panel icons still did not match the authority, and 
   - Do not upload this bundle to site00.com until the hub branch is on `main`.
 - **Changes:** `icons.tsx`, `chrome.tsx`, hub and fabrication authority CSS, `CharacterFabrication` shell, `PwFrame` production variant, design route overlay. Photographs and receipts from the earlier mount are unchanged.
 - **Conventions:** Production header and bottom nav are the hub 864 bar. New production surfaces use `ProductionChromeStrip`, not a second icon set or a dark `.pw-nav`.
+
+---
+
+## 2026-09-30 — Authority environment family (three worlds, not 31 backgrounds)
+
+Founder required a forensic environment family for Production Hub and Character Fabrication from the 31 authority screens, then reconstruction of only the worlds those screens actually use. Prior “one background per workspace” is superseded. Plates are not wired.
+
+- **Context:** This chat mounted authority photographs and aligned production chrome on `cursor/authority-pixel-assets-1b86` (PR #1258, not merged, do not upload v736 over site00.com). This turn inspects the same 31 JPEGs as environments only.
+- **Topics covered:** Icon correction (solid house, triangle stem, hex ring, shared 864 header/nav). Then environment forensics: same world vs variant vs distinct vs UI-only. No code wiring.
+- **Decisions / outcomes:**
+  - 31 screens collapse to 3 plates. Production is one white shaft (`atmosphere.webp`). Character fabrication is one glass bay (`chamber.webp`). Running simulation is a separate capture room (`simulation-volume.webp`).
+  - Flow, dependencies, lightbox, selectors, continuity inspector, testing ground, performance player, and simulation-result player do not get their own backgrounds. Testing ground still shows the fabrication cylinder. The sit and the result frame are footage inside players.
+  - Plates are empty: no people, no UI, no text, no cropped authority pixels. First generic generations (courtyard, showroom, photo studio) were discarded.
+  - Only the running-simulation state swaps plates. Recommended transition is a crossfade. Opus suppresses the matching SVG cylinder/arms/plinth when a plate is mounted and composites the existing figure in the empty center.
+- **Changes:** Three WebP plates under the existing base contracts plus `fabrication/environments/simulation-volume.webp`. Manifest: `docs/environment-family/AUTHORITY-ENVIRONMENT-FAMILY.md` and `STATE-TO-ENVIRONMENT.json`. No React, CSS, or foreground asset edits. Branch `cursor/authority-environment-family-1b86`. Not merged. Not for site00.com.
+- **Conventions:** Do not add an environment plate for a modal, a player frame, or a photograph that already lives in a foreground slot. New production/fabrication worlds go in semantic `environments/` paths only when forensics show a different physical space.
