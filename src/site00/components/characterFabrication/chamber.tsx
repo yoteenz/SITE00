@@ -17,6 +17,8 @@ import {
   type BehaviorRole,
   type CharacterFigureAnchor,
 } from '../../../../shared/site00-character-fabrication/index.js';
+import { buildWorkingAssemblyManifest } from '../../../../shared/studio-world-live-character-runtime/index.js';
+import { CharacterViewport } from '../../characterRuntime/CharacterViewport';
 import { useFabrication } from './FabricationContext';
 import { CfImage } from './CfImage';
 import { ActorAuthorityCard, CharacterAuthorityCard, FabricationStageRail } from './primitives';
@@ -128,12 +130,10 @@ export function CharacterRenderer({
   anchor?: CharacterFigureAnchor;
   overrideBox?: { x: number; y: number; w: number; h: number };
 }) {
+  const { state, actor, character } = useFabrication();
   const box = overrideBox ?? characterFigureBoxFromAnchor(anchor);
-  return (
-    <div className="cf-character-viewport" data-testid="cf-character-viewport">
-      <SubjectFigure {...box} />
-    </div>
-  );
+  const manifest = buildWorkingAssemblyManifest(state, actor, character);
+  return <CharacterViewport box={box} manifest={manifest} />;
 }
 
 /** The lab plate: walls, ceiling strips, arms, glass cylinder, platform. Coordinates = hero px. */

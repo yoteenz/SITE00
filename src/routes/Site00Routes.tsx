@@ -104,6 +104,9 @@ const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/Conc
 const HeroOutlierMeasureHarnessPage = import.meta.env.DEV
   ? lazy(() => import('../site00/pages/HeroOutlierMeasureHarnessPage'))
   : null;
+const LiveCharacterRuntimePrototypePage = import.meta.env.DEV
+  ? lazy(() => import('../site00/pages/prototype/LiveCharacterRuntimePrototypePage'))
+  : null;
 const ProjectAstralWorldReaderPage = lazy(() => import('../site00/pages/ProjectAstralWorldReaderPage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
@@ -1014,6 +1017,16 @@ export function Site00Routes() {
           element={
             <Site00Suspense>
               <HeroOutlierMeasureHarnessPage />
+            </Site00Suspense>
+          }
+        />
+      ) : null}
+      {LiveCharacterRuntimePrototypePage ? (
+        <Route
+          path="/__dev/live-character-runtime"
+          element={
+            <Site00Suspense>
+              <LiveCharacterRuntimePrototypePage />
             </Site00Suspense>
           }
         />
