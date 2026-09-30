@@ -101,19 +101,21 @@ export function ProductionWorkspaceHeader() {
   return (
     <header className="ph-top" data-testid="production-workspace-header">
       <div className={`ph-top__brand${long ? ' ph-top__brand--long' : ''}`}>
-        <b>{brand}</b>
-        <small>SITE 00 / STUDIO WORLD</small>
+        <span className="ph-top__copy">
+          <b>{brand}</b>
+          <small>SITE 00 / STUDIO WORLD</small>
+        </span>
       </div>
       <Link to="/production" className="ph-top__sel" data-testid="production-chrome-project">
         <HubImage slotId="project.ndxbook.cover" url={hubAssetUrl('project.ndxbook.cover')} label="" className="ph-top__thumb" />
-        <span>
+        <span className="ph-top__copy">
           <small>PROJECT</small>
           <b>{projectId.toUpperCase()}</b>
         </span>
         <IcChevD width={14} height={14} />
       </Link>
       <Link to="/production" className="ph-top__sel ph-top__sel--prod">
-        <span>
+        <span className="ph-top__copy">
           <small>{sectionLabel}</small>
           <b>{sectionValue}</b>
         </span>
@@ -121,7 +123,7 @@ export function ProductionWorkspaceHeader() {
       </Link>
       <Link to="/production/queue" className="ph-top__attn" aria-label={`${queued} items need you`}>
         <Reticle size={46} />
-        <span>
+        <span className="ph-top__copy">
           <b>{String(queued).padStart(2, '0')}</b>
           <small>ITEMS NEED YOU</small>
         </span>

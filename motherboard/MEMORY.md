@@ -12785,3 +12785,15 @@ Founder said the bottom-nav text was too small and the top-panel subtext was a s
 - **Decisions / outcomes:** Bottom-nav labels 8px → 9px. Top subtext drops 1px: brand subtitle 11.5 → 10.5, selector labels 10.5 → 9.5, selector detail 10 → 9, attention caption 10.5 → 9.5. Black titles stay 15px / 12.5px. Red count stays 20px. Icons stay 26px.
 - **Changes:** `src/site00/styles/site00-production-hub-authority.css` only.
 - **Conventions:** Label nudges stay on the caption or the nav label. They do not move the black titles, the red count, or the icons.
+
+---
+
+## 2026-09-30 — Header text container scaled, nav labels −0.5px
+
+Founder asked to drop only the bottom-nav label size by 0.5px, and to stop the top-panel subtext clipping above and below by scaling the text container down. Font sizes on the top panel stay as they are. Every line in that panel (black titles, gray and black captions, red count) shrinks together because it sits in the same scaled box.
+
+- **Context:** Whole chat: Production Hub and Character Fabrication visual sprints; 31 authority photographs and nav glyphs (`9cfc20f5`); shared 864 chrome (`4fdf9efc`, PR 1258, not merged); environment plates on a separate branch (`cursor/authority-environment-family-1b86`, PR 1259, not wired). Compact chrome type then landed on `cursor/chrome-compact-text-1b86` (PR 1261, not merged): production matched fabrication's small type, nav labels moved 10 → 8 → 9, subtext moved +3 then −1. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close. Do not retarget site00.fsbw-dev.com.
+- **Topics covered:** Shared header and bottom nav only. Icons, thumbs, chevrons, the red brand tick, and the steps dial stay outside the scaled box. Chamber type, catalogue copy, and environment plates are unchanged.
+- **Decisions / outcomes:** Bottom-nav labels 9px → 8.5px. Top-panel font-size values stay (brand title 15px, brand subtitle 10.5px, selector title 12.5px, selector label 9.5px, selector detail 9px, red count 20px, attention caption 9.5px). Those lines are wrapped in `.ph-top__copy` and that box uses `zoom: 0.86`, which shrinks layout so the three-line production column clears the header cell. Icons stay 26px. A local auth-guard bypass exists only for the phone tunnel and must not be committed or packaged.
+- **Changes:** `ProductionHub.tsx`, `chrome.tsx`, `characterFabrication/primitives.tsx`, `site00-production-hub-authority.css`.
+- **Conventions:** To make the shared header more compact without retuning each font size, scale `.ph-top__copy`. Do not zoom the brand cell, the attention cell, or the nav item, or the tick, reticle, dial, and icons shrink too. Actor-profile still reverses title and subtitle inside that copy box.

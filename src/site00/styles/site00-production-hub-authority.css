@@ -977,10 +977,32 @@
   overflow: hidden;
   gap: 5px;
   padding-top: 11px;
-  font-size: 9px;
+  font-size: 8.5px;
   letter-spacing: 0.05em;
   font-stretch: semi-condensed;
   border-right: 1px solid #dcdce0;
+}
+/*
+ * Scale the text stack only. Font sizes stay. Zoom shrinks the layout box
+ * so captions clear the header cell clip above and below.
+ * Icons, thumbs, chevrons, the red tick, and the dial stay outside this box.
+ */
+.ph--hub .ph-top__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+  max-width: 100%;
+  zoom: 0.86;
+}
+.ph--hub .ph-top__copy > b,
+.ph--hub .ph-top__copy > small,
+.ph--hub .ph-top__copy > em {
+  overflow: visible;
+}
+.ph-top.cf-top--profile .ph-top__brand .ph-top__copy {
+  flex-direction: column-reverse;
 }
 .ph--hub .ph-nav__item:last-child { border-right: 0; }
 .ph--hub .ph-nav__item + .ph-nav__item::before { content: none; }

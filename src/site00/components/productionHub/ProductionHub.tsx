@@ -253,19 +253,21 @@ export function ProductionHub() {
       {/* ── header ── */}
       <header className="ph-top" data-testid="hub-header">
         <div className="ph-top__brand">
-          <b>PRODUCTION</b>
-          <small>SITE 00 / STUDIO WORLD</small>
+          <span className="ph-top__copy">
+            <b>PRODUCTION</b>
+            <small>SITE 00 / STUDIO WORLD</small>
+          </span>
         </div>
         <button type="button" className="ph-top__sel" onClick={() => dispatch({ type: 'OPEN_OVERLAY', overlay: 'PROJECT_SELECTOR' })} aria-haspopup="dialog" data-testid="hub-project-trigger">
           <HubImage slotId={project.slotId} url={data.assetUrl(project.slotId)} label="" className="ph-top__thumb" />
-          <span>
+          <span className="ph-top__copy">
             <small>PROJECT</small>
             <b>{project.name.toUpperCase()}</b>
           </span>
           <IcChevD width={14} height={14} />
         </button>
         <button type="button" className="ph-top__sel ph-top__sel--prod" onClick={() => dispatch({ type: 'OPEN_OVERLAY', overlay: 'PROJECT_SELECTOR' })} aria-haspopup="dialog" data-testid="hub-production-trigger">
-          <span>
+          <span className="ph-top__copy">
             <small>CURRENT PRODUCTION</small>
             <b>{data.production?.label ?? 'NONE'}</b>
             <em>{data.production?.subtitle ?? 'NO PRODUCTION'}</em>
@@ -274,7 +276,7 @@ export function ProductionHub() {
         </button>
         <button type="button" className="ph-top__attn" onClick={() => dispatch({ type: 'OPEN_OVERLAY', overlay: 'ATTENTION' })} aria-haspopup="dialog" aria-label={`${data.attention.length} items need you`} data-testid="hub-attention-trigger">
           <Reticle size={38} />
-          <span>
+          <span className="ph-top__copy">
             <b data-testid="hub-attention-count">{pad(data.attention.length)}</b>
             <small>ITEMS NEED YOU</small>
           </span>
