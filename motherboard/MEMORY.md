@@ -12797,3 +12797,14 @@ Founder asked to drop only the bottom-nav label size by 0.5px, and to stop the t
 - **Decisions / outcomes:** Bottom-nav labels 9px → 8.5px. Top-panel font-size values stay (brand title 15px, brand subtitle 10.5px, selector title 12.5px, selector label 9.5px, selector detail 9px, red count 20px, attention caption 9.5px). Those lines are wrapped in `.ph-top__copy` and that box uses `zoom: 0.86`, which shrinks layout so the three-line production column clears the header cell. Icons stay 26px. A local auth-guard bypass exists only for the phone tunnel and must not be committed or packaged.
 - **Changes:** `ProductionHub.tsx`, `chrome.tsx`, `characterFabrication/primitives.tsx`, `site00-production-hub-authority.css`.
 - **Conventions:** To make the shared header more compact without retuning each font size, scale `.ph-top__copy`. Do not zoom the brand cell, the attention cell, or the nav item, or the tick, reticle, dial, and icons shrink too. Actor-profile still reverses title and subtitle inside that copy box.
+
+---
+
+## 2026-09-30 — Header copy zoom 0.74, nav labels +0.3px
+
+Founder said the top navigational panel text still needs to be more compact, and asked to increase only the bottom-nav text by 0.3px.
+
+- **Context:** Whole chat: authority photographs and nav glyphs; shared 864 chrome (PR 1258, not merged); environment plates on PR 1259, unwired. Compact chrome on `cursor/chrome-compact-text-1b86` (PR 1261, not merged): production matched fabrication type; nav labels 10 → 8 → 9 → 8.5; subtext +3 then −1; then the header text container was introduced at `zoom: 0.86` so font sizes stay put. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close.
+- **Decisions / outcomes:** `.ph-top__copy` zoom goes from 0.86 to 0.74. Header font-size values stay. Bottom-nav labels 8.5px → 8.8px. Icons stay 26px. The red tick, thumbs, chevrons, reticle, and steps dial stay outside the scaled box.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` only for this step.
+- **Conventions:** Further header compacting is another zoom on `.ph-top__copy`, not a font-size edit. Bottom-nav label size stays independent.

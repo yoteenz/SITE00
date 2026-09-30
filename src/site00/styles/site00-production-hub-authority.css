@@ -977,7 +977,7 @@
   overflow: hidden;
   gap: 5px;
   padding-top: 11px;
-  font-size: 8.5px;
+  font-size: 8.8px;
   letter-spacing: 0.05em;
   font-stretch: semi-condensed;
   border-right: 1px solid #dcdce0;
@@ -994,7 +994,7 @@
   align-items: flex-start;
   min-width: 0;
   max-width: 100%;
-  zoom: 0.86;
+  zoom: 0.74;
 }
 .ph--hub .ph-top__copy > b,
 .ph--hub .ph-top__copy > small,
