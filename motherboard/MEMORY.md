@@ -12808,3 +12808,14 @@ Founder said the top navigational panel text still needs to be more compact, and
 - **Decisions / outcomes:** `.ph-top__copy` zoom goes from 0.86 to 0.74. Header font-size values stay. Bottom-nav labels 8.5px → 8.8px. Icons stay 26px. The red tick, thumbs, chevrons, reticle, and steps dial stay outside the scaled box.
 - **Changes:** `src/site00/styles/site00-production-hub-authority.css` only for this step.
 - **Conventions:** Further header compacting is another zoom on `.ph-top__copy`, not a font-size edit. Bottom-nav label size stays independent.
+
+---
+
+## 2026-09-30 — Shared chrome uses Martian Mono
+
+Founder asked which font the tunnel was using, and said it should be Marian Mono. The product face is Martian Mono. There is no Marian Mono in the repo.
+
+- **Context:** Same compact-chrome thread on `cursor/chrome-compact-text-1b86`, PR 1261, not merged. Header copy zoom is 0.74. Nav labels are 8.8px. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close.
+- **Decisions / outcomes:** The shared top and bottom bars were Saira Semi Condensed (`--a-font` on `.ph--hub`). They now use Martian Mono, which was already loaded from `site00-fonts.css`. The hub chamber stays Saira Semi Condensed. The fabrication canvas stays Barlow Condensed (`SITE00 Fab Condensed`). Putting Martian Mono on that canvas collided the station rail (HAIR + MAKEUP into CHARACTER) and clipped actor-card values.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` — font-family on `.ph-top` and `.ph-nav` only.
+- **Conventions:** Host UI type is Martian Mono. Do not swap the fabrication chamber or the hub chamber onto that face in a chrome pass.
