@@ -1014,10 +1014,3 @@
   line-height: 1.05;
   font-stretch: semi-condensed;
 }
-/* Host face on the shared bars. Chamber type stays on --a-font / fabrication --f. */
-.ph--hub .ph-top,
-.ph--hub .ph-top :where(button, a),
-.ph--hub .ph-nav,
-.ph--hub .ph-nav :where(button, a) {
-  font-family: 'Martian Mono', var(--site00-font-family, ui-monospace, monospace);
-}
