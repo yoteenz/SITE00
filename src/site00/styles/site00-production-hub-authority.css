@@ -925,3 +925,106 @@
   text-overflow: ellipsis;
 }
 .ph--hub .ph-top__sel--fit b { font-size: 14px; letter-spacing: 0.01em; }
+
+/*
+ * Compact chrome type.
+ * Character Fabrication's small header + nav text is the source of truth.
+ * Production (and every shared .ph--hub bar) uses that same scale.
+ * Icons stay at the authority glyph size. Chamber body type is unchanged.
+ */
+.ph--hub .ph-top > * { min-width: 0; overflow: hidden; }
+.ph--hub .ph-top__brand b,
+.ph--hub .ph-top__brand--long > b {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-stretch: semi-condensed;
+  line-height: 1.05;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ph--hub .ph-top__brand small {
+  margin-top: 3px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  font-stretch: semi-condensed;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ph--hub .ph-top__sel b,
+.ph--hub .ph-top__sel--fit b {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  font-stretch: semi-condensed;
+}
+.ph--hub .ph-top__sel small {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  font-stretch: semi-condensed;
+  white-space: nowrap;
+}
+.ph--hub .ph-top__sel em {
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  font-stretch: semi-condensed;
+}
+.ph--hub .ph-top__attn b {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-stretch: semi-condensed;
+  line-height: 0.95;
+}
+.ph--hub .ph-top__attn small {
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  font-stretch: semi-condensed;
+  white-space: nowrap;
+}
+.ph--hub .ph-nav__item {
+  min-width: 0;
+  overflow: hidden;
+  gap: 5px;
+  padding-top: 11px;
+  font-size: 9.3px;
+  letter-spacing: 0.05em;
+  font-stretch: semi-condensed;
+  border-right: 1px solid #dcdce0;
+}
+/*
+ * Scale the text stack only. Font sizes stay. Zoom shrinks the layout box
+ * so captions clear the header cell clip above and below.
+ * Icons, thumbs, chevrons, the red tick, and the dial stay outside this box.
+ */
+.ph--hub .ph-top__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+  max-width: 100%;
+  zoom: 0.74;
+}
+.ph--hub .ph-top__copy > b,
+.ph--hub .ph-top__copy > small,
+.ph--hub .ph-top__copy > em {
+  overflow: visible;
+}
+.ph-top.cf-top--profile .ph-top__brand .ph-top__copy {
+  flex-direction: column-reverse;
+}
+.ph--hub .ph-nav__item:last-child { border-right: 0; }
+.ph--hub .ph-nav__item + .ph-nav__item::before { content: none; }
+.ph--hub .ph-nav__item > span:last-child {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.15;
+  font-stretch: semi-condensed;
+}
