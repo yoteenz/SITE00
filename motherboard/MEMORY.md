@@ -12774,3 +12774,14 @@ Founder asked to increase only the tiny gray and black subtext on the top naviga
 - **Decisions / outcomes:** In the 864 chrome space, brand subtitle 8.5px → 11.5px, selector labels 7.5px → 10.5px, selector detail 7px → 10px, attention caption 7.5px → 10.5px. `b` titles and the red count are unchanged.
 - **Changes:** `src/site00/styles/site00-production-hub-authority.css` only.
 - **Conventions:** Top-panel subtext (`small` and `em`) sizes are independent of the black titles and the red count.
+
+---
+
+## 2026-09-30 — Nav labels +1px, top subtext −1px
+
+Founder said the bottom-nav text was too small and the top-panel subtext was a step too large.
+
+- **Context:** Compact chrome on `cursor/chrome-compact-text-1b86`, PR 1261, not merged. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close.
+- **Decisions / outcomes:** Bottom-nav labels 8px → 9px. Top subtext drops 1px: brand subtitle 11.5 → 10.5, selector labels 10.5 → 9.5, selector detail 10 → 9, attention caption 10.5 → 9.5. Black titles stay 15px / 12.5px. Red count stays 20px. Icons stay 26px.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` only.
+- **Conventions:** Label nudges stay on the caption or the nav label. They do not move the black titles, the red count, or the icons.
