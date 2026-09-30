@@ -12809,3 +12809,42 @@ Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on u
 - **Alpha audit:** Figure PASS; node narrative plate opaque (expected ENVIRONMENT-style). Full 27-slot Grok sweep not automated yet.
 - **QA:** `scripts/qa-authority-compositing-capture.mjs`; artifacts under `/opt/cursor/artifacts/authority-compositing-qa/`. Preview local build on `:5174` with `designPreview=1` + `baw_auth_backup` seed.
 - **Conventions:** Machine panels never grow on select — swap face only. Transparent human = zero alpha outside silhouette, not faded rectangle.
+
+---
+
+## 2026-09-30 — Shared chrome captions were clipping on iPhone
+
+Founder viewed site00.fsbw-dev.com Production Hub and Character Fabrication and the header still read `STUDIO WO` / `ITEMS NEED Y`. The compact rules were in the bundle. Nested `zoom: 0.74` sat inside `overflow: hidden`, so iOS clipped the line before the smaller type could show.
+
+- **Fix:** `548e123b` on `cursor/grok-plus-environment-unified-review-87ed`. Header and bottom-nav labels are sized to the 864px cells with overflow visible. No nested zoom. Preview `index.BwxM3rCH.js`.
+- **Conventions:** Do not put `zoom` on `.ph-top__copy` while the header cell is `overflow: hidden`.
+
+---
+
+## 2026-09-30 — P0 live character runtime architecture (PARTIAL)
+
+Sprint `P0.STUDIO-WORLD.LIVE-CHARACTER-RUNTIME-ARCHITECTURE-AND-PROTOTYPE1`. Isolated branch `cursor/live-character-runtime-architecture-1b86` / worktree `.worktrees/live-character-runtime` from unified baseline `60fec0b0` — **did not mutate** `cursor/grok-plus-environment-unified-review-87ed`.
+
+- **Local PC:** Cloud Linux VM — **NOT ACCESSIBLE** founder Windows UE 5.8.2. Unreal half **BLOCKED — founder local execution required**. Docs: `docs/studio-world/live-character-runtime/LOCAL-UNREAL-SETUP.md`.
+- **SITE00:** `shared/studio-world-live-character-runtime/` (manifest, protocol, mock/unreal adapters, capture rig), `CharacterViewport` providers (default STATIC_AUTHORITY; `?liveRuntime=1`, mock via `runtimeMock=1`), `buildWorkingAssemblyManifest` bridge. Mock ACKs always `mock: true`. No fake Unreal connect badge when WS missing.
+- **Tests:** `liveCharacterRuntimeP0.test.ts` + CF/compositing regression pass. Dev route `/__dev/live-character-runtime`.
+- **Conventions:** Do not report mock tests as UNREAL-PROVEN. Do not merge to main / site00.com for this sprint without founder gate.
+
+---
+
+## 2026-09-30 — Chrome type collapsed because of the 864px zoom
+
+Founder on site00.fsbw-dev.com: bottom-nav icons looked unchanged, and header/nav text went from readable to about 2px after a small CSS reduction.
+
+- **Cause:** `.ph--hub` sets `zoom: width/864` (~0.45 on a 390px phone). Font sizes in `site00-production-hub-authority.css` are pre-zoom. The fit pass set nav labels to 6px and the title to 10px, which render at ~3px and ~4.5px. Icons went from 18px to 14px in that same canvas (~8px to ~6px on screen), so the glyphs looked the same.
+- **Fix:** Title 20px, section values 16px, nav labels 15px, icons back to the authority 26px box. Grid `278px 190px 188px`. No nested zoom. Measured at 390px on the preview: no clipped strings, icons 12px on screen, bundle `index.BTR7ydLx.js`.
+- **Conventions:** Do not set single-digit font sizes on `.ph--hub` chrome. 20px in this file is ~9px on a phone. Glyphs stay the authority set in `productionHub/icons.tsx`. Review branch only — do not upload over site00.com.
+
+---
+
+## 2026-09-30 — Integration squash conflicts were the older snapshot
+
+Fetched `origin/cursor/authority-environment-family-live-integration-87ed`. It was one commit ahead: squash `9b325ab3` (PR #1262). This review branch was 12 commits ahead of that squash, including the iOS chrome fix, live character runtime, and the 864px zoom type fix.
+
+- **Conflicts:** `MEMORY.md`, `chamber.tsx`, `site00-character-fabrication-authority.css`, `site00-production-hub-authority.css`. No second feature on the integration side. Each theirs-side is the pre-follow-up snapshot.
+- **Resolution:** Kept this branch. `CharacterViewport` still paints `SubjectFigure` unless live runtime is requested. Chrome stays at title 20px / nav 15px / no nested `zoom: 0.74`. Merge `ecc64145`. PR #1264 mergeable. No preview rebuild.
