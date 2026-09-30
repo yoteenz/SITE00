@@ -6,11 +6,11 @@
     "WARDROBE_TOP",
     "MOTION_TIMING"
   ],
-  "totalSlots": 105,
+  "totalSlots": 106,
   "runtimeCanonicalSlots": 2,
-  "grokRequiredCount": 28,
+  "grokRequiredCount": 27,
   "slotsByGroup": {
-    "MACHINE": 1,
+    "MACHINE": 2,
     "BODY": 8,
     "ACTOR": 14,
     "CHARACTER": 3,
@@ -21,25 +21,6 @@
     "SIMULATION": 18
   },
   "assets": [
-    {
-      "slotId": "fabrication.machine.chamber",
-      "group": "MACHINE",
-      "purpose": "Hero plate of the fabrication chamber behind the station machine (optional; chamber geometry itself is live SVG/CSS).",
-      "aspectRatio": "9:16",
-      "minimumResolution": "1080x1920",
-      "usedBy": [
-        "FabricationMachine"
-      ],
-      "runtimeSource": null,
-      "grokRequired": true,
-      "destinationPath": "public/site00/character-fabrication/fabrication/machine/chamber.webp",
-      "assetId": "grok.site00.character-fabrication.fabrication.machine.chamber.v1",
-      "doNotChange": [
-        "No baked UI, text, captions or logos.",
-        "Actor identity must match canonical actor authority (SW-017).",
-        "Exact aspect ratio; no crops from authority screenshots."
-      ]
-    },
     {
       "slotId": "actor.sw052.portrait.primary",
       "group": "ACTOR",

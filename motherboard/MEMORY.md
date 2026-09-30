@@ -12750,3 +12750,18 @@ Founder required a forensic environment family for Production Hub and Character 
   - Only the running-simulation state swaps plates. Recommended transition is a crossfade. Opus suppresses the matching SVG cylinder/arms/plinth when a plate is mounted and composites the existing figure in the empty center.
 - **Changes:** Three WebP plates under the existing base contracts plus `fabrication/environments/simulation-volume.webp`. Manifest: `docs/environment-family/AUTHORITY-ENVIRONMENT-FAMILY.md` and `STATE-TO-ENVIRONMENT.json`. No React, CSS, or foreground asset edits. Branch `cursor/authority-environment-family-1b86`. Not merged. Not for site00.com.
 - **Conventions:** Do not add an environment plate for a modal, a player frame, or a photograph that already lives in a foreground slot. New production/fabrication worlds go in semantic `environments/` paths only when forensics show a different physical space.
+
+---
+
+## 2026-09-30 — Authority environment family live integration (tunnel review)
+
+Founder sprint wired the three Grok environment plates into Production Hub and Character Fabrication so the authority worlds replace Sonnet SVG/CSS scenery while keeping functional machine + foreground assets.
+
+- **Context:** Grok pass `P0.SITE00.GROK-AUTHORITY-ENVIRONMENT-FAMILY-RECONSTRUCTION1` on `cursor/authority-environment-family-1b86` (plates + `docs/environment-family/*`, `wired: false`). Prior tunnel review on pixel-assets branch showed foreground mounts but generic Sonnet environments still visible.
+- **Topics covered:** Mount `atmosphere.webp`, `chamber.webp`, `simulation-volume.webp`; suppress legacy scenery; CF-18-only swap (RUNNING/PAUSED simulation); crossfade; tunnel on site00.fsbw-dev.com; no site00.com deploy.
+- **Decisions / outcomes:**
+  - Receipts added for all three slots. PH: `has-authority-env` suppresses chamber CSS pseudo-atrium + empty `ChamberGeometry` when atmosphere mounted. CF: `EnvironmentPlate` via `CfImage`; legacy `ChamberPlate` SVG only when no fabrication plate. Simulation volume only when `run.status` is RUNNING or PAUSED (not station selection or result overlay).
+  - `characterEnvironmentSlotId()` in `shared/site00-character-fabrication/environment.ts`. Tests: `p0AuthorityEnvironmentIntegration1.test.ts` (48 total with machine suites). Vitest excludes `.worktrees/**`.
+  - Integration branch: `cursor/authority-environment-family-live-integration-87ed` (based on env-family branch). Preview serves local dist after merge commit — not main / not site00.com.
+- **Changes:** asset receipts, chamber.tsx, machine.tsx, hub/CF authority CSS, manifests regenerated, STATE-TO-ENVIRONMENT `wired: true`.
+- **Conventions:** Environment swap follows `STATE-TO-ENVIRONMENT.json`, not “simulation station selected”. Opus still owns typography/geometry convergence after founder approves worlds.

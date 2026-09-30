@@ -5,7 +5,7 @@
   "visualAssetsGeneratedBySonnet": 0,
   "totalSlots": 36,
   "canonicalRuntimeSlots": 8,
-  "grokRequiredCount": 12,
+  "grokRequiredCount": 11,
   "assets": [
     {
       "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-familiar.reference.v1",
@@ -336,35 +336,6 @@
         "HubHeader"
       ],
       "promptBrief": "Cover image for founder project all-in-one-enterprises."
-    },
-    {
-      "assetId": "grok.site00.production-hub.production.hub.chamber.atmosphere.v1",
-      "slotId": "production.hub.chamber.atmosphere",
-      "project": "site00",
-      "production": null,
-      "scene": null,
-      "department": "ATMOSPHERE",
-      "assetType": "CHAMBER_ATMOSPHERE",
-      "purpose": "Optional environmental plate behind the Production Chamber (bright white fabrication atrium).",
-      "composition": "Full-bleed behind the chamber geometry. The chamber, rings, beam, rails and nodes are live CSS/SVG and are NOT part of this plate.",
-      "cameraAngle": "Locked-off wide, deep depth of field, no foreground subject.",
-      "continuity": "Bright white / chrome, soft depth of field, no people in the foreground, no text, no UI, no chamber machinery.",
-      "lighting": "Bright white daylight, soft red accent.",
-      "aspectRatio": "9:16",
-      "minimumResolution": "1080x1920",
-      "background": "The plate itself is the background.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/production/hub/chamber/atmosphere.webp",
-      "dependentComponents": [
-        "ProductionChamber"
-      ],
-      "promptBrief": "Empty bright white industrial fabrication atrium, chrome and glass, soft red ambient accent light, no foreground objects, no text."
     }
   ]
 }

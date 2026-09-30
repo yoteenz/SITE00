@@ -7,7 +7,13 @@
  * No reference pixels, no invented human imagery.
  */
 import type { ReactNode } from 'react';
-import { GARMENT_BY_ID, type BehaviorRole } from '../../../../shared/site00-character-fabrication/index.js';
+import {
+  CF_FABRICATION_ENV_SLOT,
+  CF_SIMULATION_ENV_SLOT,
+  GARMENT_BY_ID,
+  isCharacterRunningSimulation,
+  type BehaviorRole,
+} from '../../../../shared/site00-character-fabrication/index.js';
 import { useFabrication } from './FabricationContext';
 import { CfImage } from './CfImage';
 import { ActorAuthorityCard, CharacterAuthorityCard, FabricationStageRail } from './primitives';
@@ -15,7 +21,44 @@ import { ActorAuthorityCard, CharacterAuthorityCard, FabricationStageRail } from
 export const ROLE_COLOR: Record<BehaviorRole, string> = { PRIMARY: '#e5231b', SECONDARY: '#3c8fd0', ACCENT: '#d9a21f', FOUNDATIONAL: '#8a8c94' };
 
 export const SUBJECT_SLOT = 'actor.sw017.chamber.figure';
-export const CHAMBER_SLOT = 'fabrication.machine.chamber';
+export const CHAMBER_SLOT = CF_FABRICATION_ENV_SLOT;
+export const SIMULATION_ENV_SLOT = CF_SIMULATION_ENV_SLOT;
+
+/** Full-bleed authority environment (fabrication base ↔ simulation volume while run is active). */
+function EnvironmentPlate({ h }: { h: number }) {
+  const { url, state } = useFabrication();
+  const fabricationUrl = url(CF_FABRICATION_ENV_SLOT);
+  const simulationUrl = url(CF_SIMULATION_ENV_SLOT);
+  const simActive = isCharacterRunningSimulation(state) && !!simulationUrl;
+  const hasEnv = !!fabricationUrl || !!simulationUrl;
+  if (!hasEnv) return null;
+  return (
+    <div
+      className="cf-env"
+      style={{ height: h }}
+      data-testid="cf-environment-plate"
+      data-environment={simActive ? 'cf.environment.simulation.volume' : 'cf.environment.fabrication.base'}
+      data-env-phase={simActive ? 'simulation' : 'fabrication'}
+    >
+      {fabricationUrl ? (
+        <CfImage
+          slotId={CF_FABRICATION_ENV_SLOT}
+          url={fabricationUrl}
+          label=""
+          className={`cf-env__layer cf-env__layer--fabrication${simActive ? '' : ' is-active'}`}
+        />
+      ) : null}
+      {simulationUrl ? (
+        <CfImage
+          slotId={CF_SIMULATION_ENV_SLOT}
+          url={simulationUrl}
+          label=""
+          className={`cf-env__layer cf-env__layer--simulation${simActive ? ' is-active' : ''}`}
+        />
+      ) : null}
+    </div>
+  );
+}
 
 /* proportion proxy, authored in a 390x420 box: head top y66, feet y336, centre x195 */
 const P = {
@@ -178,9 +221,17 @@ export function ChamberHero({
   className?: string;
   testId?: string;
 }) {
+  const { url } = useFabrication();
+  const envMounted = !!url(CF_FABRICATION_ENV_SLOT);
   return (
-    <section className={`cf-hero ${className}`} style={{ height: h }} data-testid={testId} aria-label="Fabrication chamber">
-      <ChamberPlate h={h} cyl={cyl} />
+    <section
+      className={`cf-hero${envMounted ? ' has-authority-env' : ''} ${className}`.trim()}
+      style={{ height: h }}
+      data-testid={testId}
+      aria-label="Fabrication chamber"
+    >
+      <EnvironmentPlate h={h} />
+      {envMounted ? null : <ChamberPlate h={h} cyl={cyl} />}
       <SubjectFigure {...fig} />
       {children}
     </section>

@@ -503,7 +503,23 @@ export const CHARACTER_ASSET_RECEIPTS: readonly CharacterAssetReceipt[] = [
     url: '/site00/character-fabrication/motion/sw017/rig/wireframe.webp',
     receivedAt: '2026-09-30',
   },
+  {
+    slotId: 'fabrication.machine.chamber',
+    canonicalAssetId: 'grok.site00.character-fabrication.fabrication.machine.chamber.v1',
+    url: '/site00/character-fabrication/fabrication/machine/chamber.webp',
+    receivedAt: '2026-09-30',
+  },
+  {
+    slotId: 'fabrication.environments.simulation-volume',
+    canonicalAssetId: 'grok.site00.character-fabrication.fabrication.environments.simulation-volume.v1',
+    url: '/site00/character-fabrication/fabrication/environments/simulation-volume.webp',
+    receivedAt: '2026-09-30',
+  },
 ];
+
+/** Authority environment plates (Grok family). */
+export const CF_FABRICATION_ENV_SLOT = 'fabrication.machine.chamber';
+export const CF_SIMULATION_ENV_SLOT = 'fabrication.environments.simulation-volume';
 
 const dest = (id: string) => `public/site00/character-fabrication/${id.replace(/\./g, '/')}.webp`;
 const slot = (slotId: string, group: string, purpose: string, aspectRatio: string, minimumResolution: string, usedBy: string[], runtimeSource: string | null = null): CharacterAssetSlot => ({
@@ -514,6 +530,16 @@ export function buildCharacterAssetSlots(): CharacterAssetSlot[] {
   const out: CharacterAssetSlot[] = [];
   const AUTH = 'pre-storyboard authority board: SUBJECT WOMAN DUAL-ERA AUTHORITY';
   out.push(slot('fabrication.machine.chamber', 'MACHINE', 'Hero plate of the fabrication chamber behind the station machine (optional; chamber geometry itself is live SVG/CSS).', '9:16', '1080x1920', ['FabricationMachine']));
+  out.push(
+    slot(
+      'fabrication.environments.simulation-volume',
+      'MACHINE',
+      'Distinct capture-room environment for RUNNING SIMULATION (CF-18) only.',
+      '9:16',
+      '1080x1920',
+      ['FabricationMachine'],
+    ),
+  );
   out.push(slot('actor.sw017.chamber.figure', 'BODY', 'Full-length chamber figure for SW-017, cropped from the look-station authority with no UI.', '9:16', '1080x1920', ['FabricationMachine']));
   for (const a of listFabricationActors()) {
     out.push(slot(actorPortraitSlotId(a.catalogueNumber), 'ACTOR', `Primary approved portrait of actor ${a.catalogueNumber}.`, '4:5', '1024x1280', ['ActorCard', 'ActorAuthorityCard', 'ActorProfile'], a.catalogueNumber === 'SW-017' ? AUTH : null));

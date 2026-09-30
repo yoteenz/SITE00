@@ -115,6 +115,20 @@
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0) 0 42px, rgba(255, 255, 255, 0.75) 42px 44px, rgba(150, 156, 166, 0.18) 44px 46px, rgba(255, 255, 255, 0) 46px 88px),
     linear-gradient(180deg, #d4d7dc 0%, #eceef1 34%, #f3f4f6 64%, #d9dce1 100%);
 }
+.ph--hub .ph-chamber.has-authority-env {
+  background: #eceef1;
+}
+.ph--hub .ph-chamber.has-authority-env::before,
+.ph--hub .ph-chamber.has-authority-env::after {
+  display: none;
+}
+.ph--hub .ph-chamber.has-authority-env .ph-chamber__atmo img {
+  object-fit: cover;
+  object-position: 50% 22%;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+}
 .ph--hub .ph-chamber--flow { height: 1010px; }
 .ph--hub .ph-chamber--dependencies { height: 715px; }
 .ph--hub .ph-chamber.is-artifact-expanded { height: 970px; }
