@@ -933,7 +933,7 @@
 }
 .ph--hub .ph-top__brand small {
   margin-top: 3px;
-  font-size: 8.5px;
+  font-size: 11.5px;
   letter-spacing: 0.06em;
   font-stretch: semi-condensed;
   line-height: 1.1;
@@ -949,13 +949,13 @@
   font-stretch: semi-condensed;
 }
 .ph--hub .ph-top__sel small {
-  font-size: 7.5px;
+  font-size: 10.5px;
   letter-spacing: 0.06em;
   font-stretch: semi-condensed;
   white-space: nowrap;
 }
 .ph--hub .ph-top__sel em {
-  font-size: 7px;
+  font-size: 10px;
   letter-spacing: 0.04em;
   font-stretch: semi-condensed;
 }
@@ -967,7 +967,7 @@
   line-height: 0.95;
 }
 .ph--hub .ph-top__attn small {
-  font-size: 7.5px;
+  font-size: 10.5px;
   letter-spacing: 0.04em;
   font-stretch: semi-condensed;
   white-space: nowrap;

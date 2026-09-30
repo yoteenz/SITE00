@@ -12763,3 +12763,14 @@ Founder said the text under the bottom-panel icons was still too large and asked
 - **Decisions / outcomes:** `.ph--hub .ph-nav__item` font-size goes from 10px to 8px. Header text, icon size, and glyph paths stay as they are.
 - **Changes:** `src/site00/styles/site00-production-hub-authority.css` only.
 - **Conventions:** Bottom-nav label size is independent of the header. A label-size request does not resize the icons.
+
+---
+
+## 2026-09-30 — Top-panel subtext 3px larger
+
+Founder asked to increase only the tiny gray and black subtext on the top navigational panel by 3px. The black titles and the red numbers stay the same size. Bottom-nav labels stay at 8px.
+
+- **Context:** Compact chrome on `cursor/chrome-compact-text-1b86` (PR 1261, not merged). Header titles are 15px black. Attention numbers are 20px red. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Include tunnel links on every close.
+- **Decisions / outcomes:** In the 864 chrome space, brand subtitle 8.5px → 11.5px, selector labels 7.5px → 10.5px, selector detail 7px → 10px, attention caption 7.5px → 10.5px. `b` titles and the red count are unchanged.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` only.
+- **Conventions:** Top-panel subtext (`small` and `em`) sizes are independent of the black titles and the red count.
