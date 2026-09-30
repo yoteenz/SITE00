@@ -185,7 +185,7 @@ describe('character fabrication — screenshot dependence audit', () => {
       if (f !== 'CfImage.tsx') expect(src, f).not.toMatch(/<img\b/);
     }
     const css = readFileSync('src/site00/styles/site00-character-fabrication.css', 'utf8');
-    expect(css).not.toMatch(/url\(|background-image/);
+    expect(css).not.toMatch(/url\((?!#)|background-image/);
   });
   it('request kinds route Character Fabrication into the Expression sub-workspace', async () => {
     const { createProductionWorkspaceRequest } = await import('../shared/site00-production-workspace/projectProductionSummary.js');

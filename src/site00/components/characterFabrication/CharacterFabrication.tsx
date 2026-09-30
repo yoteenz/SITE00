@@ -10,7 +10,8 @@ import { ProductionBottomNav } from '../productionHub/nav';
 import { useProductionRequests } from '../../state/productionRequestStore';
 import { deviceLocalFabricationRepository } from '../../state/characterFabricationRepository';
 import { FabricationProvider, useFabrication } from './FabricationContext';
-import { ActorAuthorityCard, CharacterAuthorityCard, FabricationHeader, FabricationMachine, FabricationStageRail, StationStatusBar } from './primitives';
+import { FabricationHeader, FabricationStageRail, StationStatusBar } from './primitives';
+import { FabricationChamber, SubjectBar } from './chamber';
 import { ActorCatalogue, ActorProfile } from './stationIdentity';
 import { BodyStation, ContinuityInspector } from './stationBody';
 import { LookCompare, WardrobeLibrary } from './stationLook';
@@ -25,71 +26,59 @@ import '../../styles/site00-character-fabrication.css';
 function Body() {
   const { state, dispatch, actor, blockers } = useFabrication();
   const { activeStation: st, surface } = state;
-  const running = st === 'simulation' && !!state.run && state.run.status !== 'IDLE';
 
-  if (surface === 'ACTOR_PROFILE') return <ActorProfile />;
-  if (surface === 'BODY_INSPECTOR') return <ContinuityInspector />;
-  if (surface === 'LOOK_COMPARE') return <LookCompare />;
+  if (surface === 'ACTOR_PROFILE') return (<><SubjectBar mode="identity" label="IDENTITY INSPECTION" /><ActorProfile /></>);
+  if (surface === 'BODY_INSPECTOR') return (<><SubjectBar mode="body" label="CONTINUITY CALIBRATION" /><ContinuityInspector /></>);
+  if (surface === 'LOOK_COMPARE') return (<><SubjectBar mode="look" label="LOOK COMPARISON" /><LookCompare /></>);
   if (surface === 'APPEARANCE_COMPARE')
     return (
       <>
         <FabricationStageRail />
+        <SubjectBar mode="appearance" label="APPEARANCE COMPARE" />
         <AppearanceCompare />
       </>
     );
   if (surface === 'MOTION_REQUEST')
     return (
       <>
-        <div className="cf-strip2"><ActorAuthorityCard size="mini" /><CharacterAuthorityCard size="mini" /></div>
         <FabricationStageRail />
+        <SubjectBar mode="performance" label="MOTION ASSET REQUEST" />
         <MotionRequestPage />
       </>
     );
 
-  const heroFull = st === 'identity' || st === 'look' || st === 'authority' || (st === 'simulation' && !running);
-  const showMachine = st === 'identity' || st === 'body' || st === 'look' || st === 'character' || st === 'authority' || (st === 'simulation' && !running);
-
   return (
     <>
-      {showMachine ?
-        <FabricationMachine tall={heroFull}>
-          <div className="cf-machine__cards">
-            <ActorAuthorityCard size={heroFull ? 'full' : 'mini'} />
-            <CharacterAuthorityCard size={heroFull ? 'full' : 'mini'} />
-          </div>
-        </FabricationMachine>
-      : null}
-      {!showMachine && st === 'appearance' ?
-        <div className="cf-hero" data-testid="cf-appearance-hero"><ActorAuthorityCard size="mini" /><CharacterAuthorityCard size="mini" /></div>
-      : null}
-      {!showMachine && st === 'performance' ? <div className="cf-strip2"><ActorAuthorityCard size="mini" /><CharacterAuthorityCard size="mini" /></div> : null}
+      <FabricationChamber mode={st} />
       <FabricationStageRail />
       <StationStatusBar station={st} />
-      {st === 'identity' ?
-        state.actorCatalogueOpen ? <ActorCatalogue />
-        : (
-          <section className="cf-panel cf-confirmed" data-testid="cf-identity-confirmed">
-            <h3>ACTOR {actor.catalogueNumber} CONFIRMED</h3>
-            <p>IDENTITY AUTHORITY {state.authority.identity === 'LOCKED' ? 'LOCKED' : 'PENDING'} · ACTOR ≠ CHARACTER: {actor.catalogueNumber} IS THE REUSABLE ACTOR, SUBJECT WOMAN IS THE ENTRY 002 CHARACTER.</p>
-            <div className="cf-actions">
-              <button type="button" className="cf-btn cf-btn--line cf-btn--lg" data-testid="cf-open-catalogue" onClick={() => dispatch({ type: 'CATALOGUE_OPEN', open: true })}>OPEN ACTOR CATALOGUE</button>
-              <button type="button" className="cf-btn cf-btn--red cf-btn--lg" data-testid="cf-continue-body" onClick={() => dispatch({ type: 'GOTO_STATION', station: 'body' })} disabled={blockers('body').length > 0}>CONTINUE TO BODY</button>
-            </div>
-          </section>
-        )
-      : null}
-      {st === 'body' ? <BodyStation /> : null}
-      {st === 'look' ? <WardrobeLibrary /> : null}
-      {st === 'appearance' ? <AppearanceStation /> : null}
-      {st === 'character' ? (
-        <>
-          <BehaviorEditor />
-          {surface === 'BEHAVIOR_LIBRARY' ? <BehaviorLibrary /> : null}
-        </>
-      ) : null}
-      {st === 'performance' ? <PerformanceStation /> : null}
-      {st === 'simulation' ? <SimulationStation /> : null}
-      {st === 'authority' ? <AuthorityReview /> : null}
+      <div className="cf-bay" data-station={st}>
+        {st === 'identity' ?
+          state.actorCatalogueOpen ? <ActorCatalogue />
+          : (
+            <section className="cf-panel cf-confirmed" data-testid="cf-identity-confirmed">
+              <h3>ACTOR {actor.catalogueNumber} CONFIRMED</h3>
+              <p>IDENTITY AUTHORITY {state.authority.identity === 'LOCKED' ? 'LOCKED' : 'PENDING'} · ACTOR ≠ CHARACTER: {actor.catalogueNumber} IS THE REUSABLE SOURCE PERFORMER, SUBJECT WOMAN IS THE ENTRY 002 CONSTRUCTION.</p>
+              <div className="cf-actions">
+                <button type="button" className="cf-btn cf-btn--line cf-btn--lg" data-testid="cf-open-catalogue" onClick={() => dispatch({ type: 'CATALOGUE_OPEN', open: true })}>OPEN ACTOR CATALOGUE</button>
+                <button type="button" className="cf-btn cf-btn--red cf-btn--lg" data-testid="cf-continue-body" onClick={() => dispatch({ type: 'GOTO_STATION', station: 'body' })} disabled={blockers('body').length > 0}>CONTINUE TO BODY</button>
+              </div>
+            </section>
+          )
+        : null}
+        {st === 'body' ? <BodyStation /> : null}
+        {st === 'look' ? <WardrobeLibrary /> : null}
+        {st === 'appearance' ? <AppearanceStation /> : null}
+        {st === 'character' ? (
+          <>
+            <BehaviorEditor />
+            {surface === 'BEHAVIOR_LIBRARY' ? <BehaviorLibrary /> : null}
+          </>
+        ) : null}
+        {st === 'performance' ? <PerformanceStation /> : null}
+        {st === 'simulation' ? <SimulationStation /> : null}
+        {st === 'authority' ? <AuthorityReview /> : null}
+      </div>
     </>
   );
 }

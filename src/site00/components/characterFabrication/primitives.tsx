@@ -2,7 +2,7 @@
  * Character Fabrication primitives — shell, header, station rail, machine, authority cards.
  * All geometry is live React/SVG/CSS. Photographic material is only ever rendered through <CfImage> slots.
  */
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import {
   STATION_LABEL,
@@ -13,7 +13,7 @@ import {
 } from '../../../../shared/site00-character-fabrication/index.js';
 import { useFabrication } from './FabricationContext';
 import { CfImage } from './CfImage';
-import { IcArrowR, IcCheck, IcChevD, IcChevR, IcMenu, IcWarn } from '../productionHub/icons';
+import { IcArrowR, IcCheck, IcChevD, IcChevR, IcLock, IcMenu, IcWarn } from '../productionHub/icons';
 
 /* ── station hex + rail ─────────────────────────────────────────────────── */
 
@@ -34,8 +34,15 @@ export function StationHex({ n, state, active }: { n: string; state: StationStat
 
 export function FabricationStageRail({ variant = 'horizontal' }: { variant?: 'horizontal' | 'vertical' }) {
   const { state, dispatch, status } = useFabrication();
+  const ref = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const el = ref.current?.querySelector<HTMLElement>('[aria-current=step]');
+    const nav = ref.current;
+    if (el && nav) nav.scrollTo({ left: el.offsetLeft - nav.clientWidth / 2 + el.offsetWidth / 2, behavior: 'smooth' });
+  }, [state.activeStation]);
+  const doneCount = STATION_ORDER.filter((s) => ['APPROVED', 'LOCKED'].includes(status(s))).length;
   return (
-    <nav className={`cf-rail cf-rail--${variant}`} aria-label="Fabrication stations" data-testid="cf-stage-rail">
+    <nav ref={ref} className={`cf-rail cf-rail--${variant}`} aria-label="Fabrication stations" data-testid="cf-stage-rail" style={{ ['--cf-done' as string]: `${(doneCount / 8) * 100}%` }}>
       {STATION_ORDER.map((s, i) => {
         const active = state.activeStation === s;
         const st = status(s);
@@ -107,11 +114,17 @@ export function StationStatusBar({ station }: { station: StationId }) {
         </p>
       ) : null}
       {b.length && st !== 'LOCKED' && st !== 'APPROVED' ? (
-        <ul className="cf-statusbar__blockers" data-testid="cf-blockers">
-          {b.map((x) => (
-            <li key={x.blockerId}>BLOCKER · {x.message}</li>
-          ))}
-        </ul>
+        <div className="cf-interlock" data-testid="cf-blockers" role="group" aria-label="Machine interlocks">
+          <span className="cf-interlock__h"><IcLock width={12} height={12} /> INTERLOCK · {STATION_LABEL[station]} CANNOT AUTHORIZE DOWNSTREAM WORK</span>
+          <ul>
+            {b.map((x) => (
+              <li key={x.blockerId}>
+                <i className="cf-socket" aria-hidden />
+                <span>{x.message}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
       {state.notice ? (
         <p className={`cf-notice cf-notice--${state.notice.kind.toLowerCase()}`} role="status" data-testid="cf-notice">

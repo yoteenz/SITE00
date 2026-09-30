@@ -83,7 +83,7 @@ export function TestingGround() {
 
 /** Running / paused / aborted state. */
 export function RunningSimulation() {
-  const { state, dispatch, now, url, actor, character } = useFabrication();
+  const { state, dispatch, now, actor, character } = useFabrication();
   const r = state.run!;
   const total = r.config.durationSec * 1000;
   const progress = r.elapsedMs / total;
@@ -93,8 +93,6 @@ export function RunningSimulation() {
   return (
     <div className="cf-running" data-testid="cf-sim-running" data-run-status={r.status}>
       <section className="cf-feed" data-testid="cf-live-feed">
-        <CfImage slotId="simulation.sw017.current.preview" url={url('simulation.sw017.current.preview')} label="LIVE FEED SLOT" className="cf-feed__img" />
-        <svg className="cf-feed__reticle" viewBox="0 0 100 100" aria-hidden><circle cx="50" cy="50" r="12" /><path d="M50 30v10M50 60v10M30 50h10M60 50h10" /></svg>
         <div className="cf-feed__left">
           <div className="cf-hud">
             <b>ACTOR</b><h3>{actor.catalogueNumber}</h3>
@@ -163,10 +161,6 @@ export function SimulationResult() {
           <dl className="cf-kv cf-kv--rows cf-kv--tiny"><div><dt>SIMULATION ID</dt><dd>{res.simulationId}</dd></div><div><dt>COMPLETED</dt><dd>{new Date(res.completedAt).toISOString().replace('T', ' · ').slice(0, 21)}Z</dd></div><div><dt>DURATION</dt><dd>{tc(res.durationSec * 1000)}</dd></div><div><dt>BASE ACTOR</dt><dd>{actor.catalogueNumber}</dd></div><div><dt>ENTRY</dt><dd>{state.selectedEntryId}</dd></div><div><dt>VERSION</dt><dd>{character.version}</dd></div><div><dt>TEST</dt><dd>{res.testId}</dd></div></dl>
           <button type="button" className="cf-btn cf-btn--line cf-btn--sm" onClick={() => dispatch({ type: 'SIM_NEW' })} data-testid="cf-sim-log">BACK TO TESTING GROUND</button>
         </aside>
-        <div className="cf-resultview">
-          <CfImage slotId="simulation.sw017.current.preview" url={url('simulation.sw017.current.preview')} label="SIMULATION PREVIEW SLOT" className="cf-resultview__img" />
-          <span className="cf-resultview__tag">SIMULATION PREVIEW · CACHED</span>
-        </div>
       </section>
       <Panel title="CONTINUITY CHECKS" right={<small>{res.checks.length} CHECKS · <b className="cf-red">{res.failed} FAILED</b></small>} className="cf-checks-table" testId="cf-check-table">
         <table>

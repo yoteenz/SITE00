@@ -3,7 +3,7 @@ import { BEHAVIOR_SKINS, SKIN_BY_ID, type BehaviorRole } from '../../../../share
 import { IcArrowR, IcClose, IcFilter, IcInfo, IcLock, IcPlay, IcPlus, IcSearch } from '../productionHub/icons';
 import { CfImage } from './CfImage';
 import { useFabrication } from './FabricationContext';
-import { Panel, Slider } from './primitives';
+import { Panel } from './primitives';
 
 const ROLE_COLOR: Record<BehaviorRole, string> = { PRIMARY: '#e5231b', SECONDARY: '#3c8fd0', ACCENT: '#e8b02a', FOUNDATIONAL: '#8a8c94' };
 
@@ -46,21 +46,7 @@ export function BehaviorEditor() {
   return (
     <div className="cf-character" data-testid="cf-character-station">
       <Panel className="cf-editor" testId="cf-behavior-editor" title={<><span className="cf-eyebrow">CHARACTER STATION</span><span className="cf-h2">BEHAVIORAL SKIN EDITOR</span></>} sub="COMPOSE AND TUNE BEHAVIORAL LAYERS TO SHAPE PERFORMANCE.">
-        <h4 className="cf-subhead cf-subhead--bar">BEHAVIORAL LAYERS</h4>
-        <ul className="cf-blayers">
-          {layers.map((l) => {
-            const s = SKIN_BY_ID[l.skinId]!;
-            return (
-              <li key={l.skinId} style={{ ['--role' as string]: ROLE_COLOR[l.role] }} data-testid={`cf-blayer-${l.skinId}`}>
-                <small className="cf-blayer__role">{l.role}</small>
-                <b>{s.name}</b>
-                <output>{l.weight}%</output>
-                <Slider value={l.weight} onChange={(n) => dispatch({ type: 'BEHAVIOR_WEIGHT', skinId: l.skinId, weight: n })} label={`${s.name} weight`} testId={`cf-bweight-${l.skinId}`} accent={ROLE_COLOR[l.role]} />
-                {layers.length > 1 ? <button type="button" className="cf-blayer__x" aria-label={`Remove ${s.name}`} onClick={() => dispatch({ type: 'REMOVE_BEHAVIOR_LAYER', skinId: l.skinId })}><IcClose width={12} height={12} /></button> : null}
-              </li>
-            );
-          })}
-        </ul>
+        <p className="cf-fixture cf-fixture--quiet">BEHAVIORAL LAYERS ARE MOUNTED ON THE CHAMBER ABOVE — TUNE THEM ON THE SUBJECT.</p>
         <button type="button" className="cf-btn cf-btn--line cf-btn--sm cf-addskin" data-testid="cf-add-behavioral-skin" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'BEHAVIOR_LIBRARY' })}><IcPlus width={13} height={13} /> ADD BEHAVIORAL SKIN</button>
         <h4 className="cf-subhead">LAYER BALANCE</h4>
         <LayerBalance layers={layers} />

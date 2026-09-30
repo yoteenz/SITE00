@@ -24,7 +24,7 @@ export function AuthorityReview() {
             {LAYERS.map((s) => <li key={s} data-station={s}><span>{stationNumber(s)} {STATION_LABEL[s]}</span><AuthorityBadge status={status(s)} /></li>)}
           </ul>
         </Panel>
-        <Panel title="SELECT AUTHORITY LAYER TO REVISE" className="cf-layers" testId="cf-revise-layers">
+        <Panel title="SELECT AUTHORITY LAYER TO REVISE" className="cf-revlayers" testId="cf-revise-layers">
           <ul role="radiogroup" aria-label="Authority layer">
             {LAYERS.map((s) => {
               const on = d.station === s;
