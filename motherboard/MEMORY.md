@@ -12751,3 +12751,15 @@ Founder said the icon pass only fixed the glyphs. Header and nav text on Product
   - Do not upload this bundle over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Do not merge PR 1258 or the environment PR until the founder says so.
 - **Changes:** `src/site00/styles/site00-production-hub-authority.css` compact chrome block at the end of the file. Branch `cursor/chrome-compact-text-1b86` off `4fdf9efc`.
 - **Conventions:** When the shared production header or bottom nav type changes, match Character Fabrication's compact scale. Do not enlarge fabrication text up to the old hub sizes. Do not change nav glyph paths in a type pass.
+
+---
+
+## 2026-09-30 — Bottom-nav labels 2px smaller
+
+Founder said the text under the bottom-panel icons was still too large and asked for that text only to drop by 2px.
+
+- **Context:** Continues the compact chrome pass. Header type stays at the Character Fabrication scale (brand 15px in the 864 space). Icons stay 26px. Shared bars cover hub, fabrication, queue, experience, libraries, and design. Branch `cursor/chrome-compact-text-1b86`, PR 1261, not merged. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Quick tunnel links belong in every close.
+- **Topics covered:** Authority photograph mount, shared chrome glyphs, compact header type, then this nav-label reduction.
+- **Decisions / outcomes:** `.ph--hub .ph-nav__item` font-size goes from 10px to 8px. Header text, icon size, and glyph paths stay as they are.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` only.
+- **Conventions:** Bottom-nav label size is independent of the header. A label-size request does not resize the icons.
