@@ -12829,3 +12829,13 @@ Sprint `P0.STUDIO-WORLD.LIVE-CHARACTER-RUNTIME-ARCHITECTURE-AND-PROTOTYPE1`. Iso
 - **SITE00:** `shared/studio-world-live-character-runtime/` (manifest, protocol, mock/unreal adapters, capture rig), `CharacterViewport` providers (default STATIC_AUTHORITY; `?liveRuntime=1`, mock via `runtimeMock=1`), `buildWorkingAssemblyManifest` bridge. Mock ACKs always `mock: true`. No fake Unreal connect badge when WS missing.
 - **Tests:** `liveCharacterRuntimeP0.test.ts` + CF/compositing regression pass. Dev route `/__dev/live-character-runtime`.
 - **Conventions:** Do not report mock tests as UNREAL-PROVEN. Do not merge to main / site00.com for this sprint without founder gate.
+
+---
+
+## 2026-09-30 — Chrome type collapsed because of the 864px zoom
+
+Founder on site00.fsbw-dev.com: bottom-nav icons looked unchanged, and header/nav text went from readable to about 2px after a small CSS reduction.
+
+- **Cause:** `.ph--hub` sets `zoom: width/864` (~0.45 on a 390px phone). Font sizes in `site00-production-hub-authority.css` are pre-zoom. The fit pass set nav labels to 6px and the title to 10px, which render at ~3px and ~4.5px. Icons went from 18px to 14px in that same canvas (~8px to ~6px on screen), so the glyphs looked the same.
+- **Fix:** Title 20px, section values 16px, nav labels 15px, icons back to the authority 26px box. Grid `278px 190px 188px`. No nested zoom. Measured at 390px on the preview: no clipped strings, icons 12px on screen, bundle `index.BTR7ydLx.js`.
+- **Conventions:** Do not set single-digit font sizes on `.ph--hub` chrome. 20px in this file is ~9px on a phone. Glyphs stay the authority set in `productionHub/icons.tsx`. Review branch only — do not upload over site00.com.

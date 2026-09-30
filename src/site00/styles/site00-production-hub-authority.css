@@ -75,7 +75,7 @@
 
 .ph--hub .ph-top {
   height: 75px;
-  grid-template-columns: 247px 193px 180px minmax(0, 1fr) 58px;
+  grid-template-columns: 278px 190px 188px minmax(0, 1fr) 48px;
   padding-inline: max(0px, calc((100% - 864px) / 2));
   background: linear-gradient(180deg, #f3f3f4 0%, #ececed 100%);
   border-bottom: 1px solid #d2d2d6;
@@ -1043,66 +1043,70 @@
  * Icons stay at the authority glyph size. Chamber body type is unchanged.
  */
 .ph--hub .ph-top > * { min-width: 0; overflow: hidden; }
+/*
+ * Lengths here are in the 864px canvas. The phone zooms that canvas by
+ * width/864 (~0.45). 20px here is ~9px on screen. 6px here is ~3px on screen.
+ * Do not set single-digit sizes in this file.
+ */
 .ph--hub .ph-top__brand b,
+.ph--hub .ph-top__brand--long b,
 .ph--hub .ph-top__brand--long > b {
-  font-size: 10px;
+  font-size: 20px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   font-stretch: semi-condensed;
   line-height: 1.05;
   display: block;
   white-space: nowrap;
 }
 .ph--hub .ph-top__brand small {
-  margin-top: 1px;
-  font-size: 6.2px;
-  letter-spacing: 0.06em;
+  margin-top: 2px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
   font-stretch: semi-condensed;
   line-height: 1.1;
   white-space: nowrap;
 }
 .ph--hub .ph-top__sel b,
 .ph--hub .ph-top__sel--fit b {
-  font-size: 8px;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   font-stretch: semi-condensed;
   white-space: nowrap;
 }
 .ph--hub .ph-top__sel small {
-  font-size: 5.6px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.05em;
   font-stretch: semi-condensed;
   white-space: nowrap;
 }
 .ph--hub .ph-top__sel em {
-  font-size: 5.4px;
-  letter-spacing: 0.04em;
+  font-size: 9px;
+  letter-spacing: 0.03em;
   font-stretch: semi-condensed;
   white-space: nowrap;
 }
 .ph--hub .ph-top__attn b {
-  font-size: 11px;
+  font-size: 20px;
   font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   font-stretch: semi-condensed;
   line-height: 0.95;
 }
 .ph--hub .ph-top__attn small {
-  font-size: 5.6px;
-  letter-spacing: 0.06em;
+  font-size: 10px;
+  letter-spacing: 0.04em;
   font-stretch: semi-condensed;
   white-space: nowrap;
 }
-.ph--hub .ph-nav__icon { width: 16px; height: 16px; }
-.ph--hub .ph-nav__icon svg { width: 14px; height: 14px; }
 .ph--hub .ph-nav__item {
   min-width: 0;
   overflow: hidden;
-  gap: 2px;
-  padding: 6px 2px 0;
-  font-size: 6px;
-  letter-spacing: 0.04em;
+  gap: 3px;
+  padding: 8px 1px 0;
+  font-size: 15px;
+  letter-spacing: 0.02em;
   font-stretch: semi-condensed;
   border-right: 1px solid #dcdce0;
 }
