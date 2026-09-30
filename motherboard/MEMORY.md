@@ -12812,6 +12812,15 @@ Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on u
 
 ---
 
+## 2026-09-30 — Shared chrome captions were clipping on iPhone
+
+Founder viewed site00.fsbw-dev.com Production Hub and Character Fabrication and the header still read `STUDIO WO` / `ITEMS NEED Y`. The compact rules were in the bundle. Nested `zoom: 0.74` sat inside `overflow: hidden`, so iOS clipped the line before the smaller type could show.
+
+- **Fix:** `548e123b` on `cursor/grok-plus-environment-unified-review-87ed`. Header and bottom-nav labels are sized to the 864px cells with overflow visible. No nested zoom. Preview `index.BwxM3rCH.js`.
+- **Conventions:** Do not put `zoom` on `.ph-top__copy` while the header cell is `overflow: hidden`.
+
+---
+
 ## 2026-09-30 — P0 live character runtime architecture (PARTIAL)
 
 Sprint `P0.STUDIO-WORLD.LIVE-CHARACTER-RUNTIME-ARCHITECTURE-AND-PROTOTYPE1`. Isolated branch `cursor/live-character-runtime-architecture-1b86` / worktree `.worktrees/live-character-runtime` from unified baseline `60fec0b0` — **did not mutate** `cursor/grok-plus-environment-unified-review-87ed`.
