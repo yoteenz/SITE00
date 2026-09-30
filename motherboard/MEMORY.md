@@ -12765,3 +12765,11 @@ Founder sprint wired the three Grok environment plates into Production Hub and C
   - Integration branch: `cursor/authority-environment-family-live-integration-87ed` (based on env-family branch). Preview serves local dist after merge commit — not main / not site00.com.
 - **Changes:** asset receipts, chamber.tsx, machine.tsx, hub/CF authority CSS, manifests regenerated, STATE-TO-ENVIRONMENT `wired: true`.
 - **Conventions:** Environment swap follows `STATE-TO-ENVIRONMENT.json`, not “simulation station selected”. Opus still owns typography/geometry convergence after founder approves worlds.
+
+---
+
+## 2026-09-30 — P0 unified Grok + environment review tunnel
+
+- **Sprint:** `P0.SITE00.GROK-PLUS-ENVIRONMENT-UNIFIED-REVIEW-TUNNEL1`. Forensics: Grok live remote = `cursor/authority-pixel-assets-1b86` @ `4fdf9efc`; Composer env integration = `cursor/authority-environment-family-live-integration-87ed` @ `24e2db58` (merge-base = Grok HEAD — unified at git level, not two divergent products). Stale local Grok worktree `.worktrees/grok-authority-pixel-assets-review` @ `9cfc20f5` preserved (not deleted).
+- **Unified review:** branch/worktree `cursor/grok-plus-environment-unified-review-87ed` @ `.worktrees/grok-environment-unified-review`; canonical tunnel via `SITE00_CLOUD_PREVIEW_ROOT` + `ensure-grok-environment-unified-preview.sh` → `site00.fsbw-dev.com` → `:5174` → unified dist (`index.Ddmx0m0x.js`, commit `24e2db587d06`). PR #1262 (review only, no main).
+- **Stack:** Grok foreground assets (96+ webps) + 3 authority environment plates + Composer wiring/suppression unchanged. Tests 48 pass on unified worktree.
