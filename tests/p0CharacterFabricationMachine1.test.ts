@@ -168,3 +168,29 @@ describe('character fabrication — asset boundary', () => {
     expect(m.grokRequiredCount + m.runtimeCanonicalSlots).toBe(m.totalSlots);
   });
 });
+
+describe('character fabrication — screenshot dependence audit', () => {
+  it('asset manifest file matches the registry', async () => {
+    const { readFileSync } = await import('node:fs');
+    const onDisk = JSON.parse(readFileSync('docs/character-fabrication/CHARACTER_FABRICATION_ASSET_MANIFEST.json', 'utf8'));
+    expect(onDisk).toEqual(JSON.parse(JSON.stringify(buildCharacterAssetManifest())));
+  });
+  it('components import no raster files, reference screenshots or legacy stand-in crops', async () => {
+    const { readdirSync, readFileSync } = await import('node:fs');
+    const dir = 'src/site00/components/characterFabrication';
+    for (const f of readdirSync(dir)) {
+      const src = readFileSync(`${dir}/${f}`, 'utf8');
+      expect(src, f).not.toMatch(/\.(png|jpe?g|webp|gif)['"`]/i);
+      expect(src, f).not.toMatch(/IMG_54\d\d|production-mobile|backgroundImage|url\(['"]?(\/|\.\/|\.\.\/|https?:|data:)/);
+      if (f !== 'CfImage.tsx') expect(src, f).not.toMatch(/<img\b/);
+    }
+    const css = readFileSync('src/site00/styles/site00-character-fabrication.css', 'utf8');
+    expect(css).not.toMatch(/url\(|background-image/);
+  });
+  it('request kinds route Character Fabrication into the Expression sub-workspace', async () => {
+    const { createProductionWorkspaceRequest } = await import('../shared/site00-production-workspace/projectProductionSummary.js');
+    const r = createProductionWorkspaceRequest({ projectSlug: 'ndxbook', kind: 'CHARACTER_FABRICATION_REVISION' });
+    expect(r.targetWorkspace).toBe('EXPRESSION');
+    expect(r.targetSubWorkspace).toBe('character-fabrication');
+  });
+});

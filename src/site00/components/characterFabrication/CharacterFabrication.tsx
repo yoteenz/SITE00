@@ -52,7 +52,7 @@ function Body() {
   return (
     <>
       {showMachine ?
-        <FabricationMachine>
+        <FabricationMachine tall={heroFull}>
           <div className="cf-machine__cards">
             <ActorAuthorityCard size={heroFull ? 'full' : 'mini'} />
             <CharacterAuthorityCard size={heroFull ? 'full' : 'mini'} />

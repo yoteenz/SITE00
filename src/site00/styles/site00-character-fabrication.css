@@ -9,7 +9,7 @@
 .cf .cf-ok { color: var(--ph-green); font-style: normal; }
 .cf .cf-dim { color: var(--ph-faint); }
 .cf .cf-warnt { color: var(--ph-amber); font-style: normal; }
-.cf input, .cf select, .cf textarea { font: inherit; color: inherit; text-transform: uppercase; letter-spacing: .04em; }
+.cf :where(input, select, textarea) { font: inherit; color: inherit; text-transform: uppercase; letter-spacing: .04em; }
 .cf textarea { text-transform: none; }
 
 /* header */
@@ -18,7 +18,7 @@
 .cf-top > .cf-top__menu { border-right: 0; }
 .cf-top__brand { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 0 4px 0 12px; }
 .cf-top__brand::before { content: ''; position: absolute; left: 4px; top: 14px; bottom: 14px; width: 2px; background: var(--ph-red); }
-.cf-top__brand b { font-size: 11.5px; font-weight: 500; line-height: 1.05; font-stretch: 75%; letter-spacing: .02em; }
+.cf-top__brand b { font-size: 10.5px; font-weight: 500; line-height: 1.05; font-stretch: 75%; letter-spacing: .02em; }
 .cf-top__brand small { margin-top: 4px; font-size: 6.4px; letter-spacing: .1em; color: var(--ph-mute); }
 .cf-top__sel { display: flex; align-items: center; gap: 5px; padding: 0 5px; border: 0; background: none; text-align: left; min-width: 0; }
 .cf-top__sel span { min-width: 0; display: flex; flex-direction: column; }
@@ -57,8 +57,9 @@
 .cf-slot__label { font-size: 6.5px; letter-spacing: .1em; color: var(--ph-mute); text-align: center; padding: 0 4px; }
 
 /* machine */
-.cf-machine { position: relative; height: 356px; overflow: hidden; background: linear-gradient(180deg,#f6f7f9,#e4e7ec); border-bottom: 1px solid var(--ph-line); }
-.cf-machine--tall { height: 440px; }
+.cf-machine { position: relative; height: 340px; overflow: hidden; background: linear-gradient(180deg,#f6f7f9,#e4e7ec); border-bottom: 1px solid var(--ph-line); }
+.cf-machine--tall { height: 500px; }
+.cf-machine--tall .cf-machine__figure { top: 64px; width: 168px; height: 330px; }
 .cf-machine__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .cf-m-pillar { fill: rgba(255,255,255,.7); stroke: #d4d7dd; }
 .cf-m-line { stroke: #d5d8de; stroke-width: 1; }
@@ -81,19 +82,22 @@
 
 /* cards */
 .cf-card { position: relative; background: var(--cf-panel); border: 1px solid var(--ph-line); border-radius: 6px; padding: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.1); backdrop-filter: blur(4px); display: grid; gap: 6px; }
-.cf-card--full { width: 46%; max-width: 200px; }
+.cf-card--full { width: 41%; max-width: 200px; padding: 8px 7px; gap: 4px; }
+.cf-card--full .cf-card__img { aspect-ratio: 1/1; }
+.cf-card--full .cf-btn { min-height: 28px; padding: 5px 6px; font-size: 7px; }
 .cf-card--mini { width: 38%; max-width: 156px; padding: 8px; }
 .cf-card::before { content: ''; position: absolute; left: 0; top: 10px; width: 2px; height: 26px; background: var(--ph-red); }
 .cf-card__eyebrow { font-size: 7px; letter-spacing: .12em; color: var(--ph-mute); padding-left: 4px; }
 .cf-card__title { font-size: 15px; font-weight: 500; letter-spacing: .04em; font-stretch: 75%; padding-left: 4px; }
 .cf-card--character .cf-card__title { font-size: 13px; }
-.cf-card__img { width: 100%; aspect-ratio: 4/3; }
+.cf-card__img { width: 100%; aspect-ratio: 5/4; }
 .cf-card__img--mini { aspect-ratio: 1/1; max-height: 74px; }
 .cf-card__img--mono { filter: grayscale(1) contrast(1.05); }
 .cf-kv { display: grid; gap: 0; }
 .cf-kv > div { display: flex; justify-content: space-between; gap: 6px; padding: 3px 0; border-bottom: 1px solid #ececf0; font-size: 7.5px; }
 .cf-kv dt { color: var(--ph-mute); letter-spacing: .08em; }
-.cf-kv dd { font-weight: 500; text-align: right; letter-spacing: .04em; min-width: 0; overflow-wrap: anywhere; }
+.cf-kv > div { flex-wrap: wrap; }
+.cf-kv dd { font-weight: 500; flex: 1 1 40%; text-align: right; letter-spacing: .04em; min-width: 0; overflow-wrap: anywhere; }
 .cf-kv--rows > div { font-size: 8px; padding: 5px 0; }
 .cf-kv--tight > div { padding: 2px 0; }
 .cf-kv--tiny > div { font-size: 7.5px; }
@@ -199,8 +203,9 @@
 /* identity */
 .cf-catalogue { margin-top: 0; border-radius: 0; }
 .cf-actorgrid { display: grid; gap: 8px; }
-.cf-actorgrid--grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
-@media (max-width: 420px) { .cf-actorgrid--grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+.cf-actorgrid--grid { grid-auto-flow: column; grid-auto-columns: calc(25% - 6px); overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; }
+.cf-actorgrid--grid > * { scroll-snap-align: start; }
+.cf-catalogue .cf-triple { grid-template-columns: repeat(3, minmax(0,1fr)) !important; margin: 10px 0 0; }
 .cf-actorgrid--list { grid-template-columns: 1fr; }
 .cf-actor { position: relative; display: grid; gap: 2px; text-align: left; padding: 4px; border: 1px solid transparent; background: none; }
 .cf-actor.is-selected { border-color: var(--ph-red); }
@@ -382,3 +387,13 @@
 .cf-authority > .cf-panel { margin-left: 8px; margin-right: 8px; }
 .cf-openrev { display: grid; gap: 4px; } .cf-openrev button { width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: 2px 6px; border: 1px solid var(--ph-line); background: #fff; padding: 7px; } .cf-openrev b { font-size: 8px; font-weight: 500; } .cf-openrev span { font-size: 6.6px; color: var(--ph-mute); grid-column: 1; } .cf-openrev svg { grid-row: 1 / 3; grid-column: 2; align-self: center; }
 .cf-history-log { margin: 10px 12px 0; font-size: 7px; } .cf-history-log summary { letter-spacing: .1em; color: var(--ph-mute); cursor: pointer; } .cf-history-log ol { display: grid; gap: 3px; margin-top: 6px; } .cf-history-log time { color: var(--ph-faint); }
+
+/* responsive hardening (wide fallback fonts / narrow phones) */
+.cf-look__grid { grid-template-columns: 1fr; }
+.cf-look__filters { grid-template-columns: 1fr 1fr; column-gap: 10px; }
+.cf-look__filters > h4, .cf-look__filters > .cf-search, .cf-look__filters > .cf-filterhead, .cf-look__filters > .cf-panel { grid-column: 1 / -1; }
+.cf-mini .cf-btn { display: flex; width: 100%; }
+.cf-garments { grid-template-columns: repeat(3, minmax(0,1fr)); max-height: 420px; }
+.cf-frow { min-width: 0; } .cf-frow select { max-width: 70%; }
+.cf-section-head { flex-wrap: wrap; }
+.cf-triple--run > :last-child { grid-column: 1 / -1; }

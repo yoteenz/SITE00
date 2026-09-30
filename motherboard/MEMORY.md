@@ -12674,3 +12674,15 @@ Across this chat: NME widget rebuild, Projects/Production mobile reconstruction,
 - **Decisions / outcomes:** HUB_ASSET_RECEIPTS ships empty; 17 Grok slots in `docs/production-hub/GROK_ASSET_MANIFEST.json`; browser QA (15 states + offline/no-image/tall/approve/revise/roundtrip) clean; not merged to main.
 - **Changes:** hub core/UI/CSS, HubReturnBar, PwFrame 7-item nav, tests (`p0ProductionHubMachine1`), docs/production-hub/*, scripts/generate-production-hub-manifest.ts.
 - **Conventions:** images only via `HubImage` slots + receipts; regenerate the manifest after adding receipts; earlier-sprint stand-in crops in `public/site00/production-mobile/` are not used by the Hub and should be removed.
+
+---
+
+## 2026-09-30 — Character Fabrication live machine (P0.SW.CHARACTER-FABRICATION-LIVE-MACHINE1)
+
+Continues the Production Hub chat (NME widget → Projects/Production mobile → Hub authority reconstruction → this sprint).
+
+- **Context:** Build Production → Expression → Character Fabrication from 16 authority images as ONE live machine, not screenshots.
+- **Topics covered:** eight canonical stations (Identity, Body, Look, Hair+Makeup, Character, Performance, Simulation, Authority) as views of one FabricationState; Actor ≠ Character; dependency resolver (blockers, staleness, revalidate, impact); missing-motion request lifecycle; Level-2 cached simulation with routed variance; outbox → existing Production activity/request stores.
+- **Decisions / outcomes:** persistence is DEVICE-LOCAL behind `characterFabricationRepository` (not backend authority); canonical SW-017 data wins over the authority images' actor description; all photography is empty semantic slots (`docs/character-fabrication/*manifest.json`); not merged.
+- **Changes:** `shared/site00-character-fabrication/`, `src/site00/components/characterFabrication/`, CSS, repository, request kinds `CHARACTER_FABRICATION_*`, registry sub-workspace `character-fabrication`, tests, docs.
+- **Conventions:** images only via `CfImage` slots; regenerate manifest after receipts; `page.reload` throws a dev-only removeChild error on production routes — use `goto` in QA.
