@@ -427,10 +427,7 @@ export function AttentionQuickView({
 }) {
   return (
     <OverlayShell label="Attention quick view" onClose={onClose} variant="popover" testId="hub-attention-quick">
-      <header className="ph-ov__head ph-ov__head--tight">
-        <b>
-          ATTENTION / INBOX QUICK VIEW <i className="ph-livedot" aria-hidden />
-        </b>
+      <header className="ph-ov__head ph-ov__head--tight ph-aq__head">
         <button type="button" className="ph-link ph-link--ink" onClick={onClose} data-testid="overlay-close">
           CLOSE <IcClose width={14} height={14} />
         </button>
@@ -449,10 +446,10 @@ export function AttentionQuickView({
                 <b>{i.title}</b>
                 <small>{i.subtitle}</small>
                 <em>{i.stateLabel}</em>
-                <button type="button" className="ph-btn ph-btn--outline" onClick={() => onAct(i)}>
-                  {i.actionLabel} <IcArrowR width={12} height={12} />
-                </button>
               </span>
+              <button type="button" className="ph-btn ph-btn--outline ph-aq__act" onClick={() => onAct(i)}>
+                {i.actionLabel} <IcArrowR width={12} height={12} />
+              </button>
             </li>
           ))}
         </ul>

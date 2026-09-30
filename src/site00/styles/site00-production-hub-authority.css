@@ -1028,3 +1028,32 @@
   line-height: 1.15;
   font-stretch: semi-condensed;
 }
+
+/* Attention popover: titles stay one row; actions sit in the center of the card. */
+.ph--hub .ph-aq__head {
+  justify-content: flex-end;
+}
+.ph--hub .ph-aq li {
+  grid-template-columns: 88px minmax(0, 1fr);
+  column-gap: 12px;
+  row-gap: 8px;
+}
+.ph--hub .ph-aq__img {
+  width: 88px;
+  height: 88px;
+}
+.ph--hub .ph-aq b,
+.ph--hub .ph-aq em {
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.ph--hub .ph-aq__act {
+  grid-column: 1 / -1;
+  justify-content: center;
+  width: 100%;
+  margin-top: 0;
+}
+.ph--hub .ph-aq__all {
+  justify-content: center;
+  text-align: center;
+}

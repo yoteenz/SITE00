@@ -12785,3 +12785,14 @@ Founder asked to move every chrome change from this chat onto `cursor/grok-plus-
 - **Decisions / outcomes:** Net source diff from `4fdf9efc` to `5b730eb5` is on the unified branch. Header font sizes stay (brand title 15px, brand subtitle 10.5px, selector title 12.5px, selector label 9.5px, selector detail 9px, red count 20px, attention caption 9.5px) inside `.ph-top__copy` at `zoom: 0.74`. Bottom-nav labels are 9.3px with label line-height 1.15. Chrome face is Saira Semi Condensed. `.ph-chamber.has-authority-env` rules stay. Future chrome and text edits in this thread land on this branch until the founder says merge to main. PR #1258, #1259, #1261, and #1262 stay unmerged.
 - **Changes:** `ProductionHub.tsx`, `productionHub/chrome.tsx`, `characterFabrication/primitives.tsx`, `site00-production-hub-authority.css`, this MEMORY entry.
 - **Conventions:** Do not commit an auth-guard bypass. Do not drop the authority environment plate CSS when editing chrome. Compare the named tunnel only after a full reload. Hard-refresh; an open phone tab can stay on an older bundle.
+
+---
+
+## 2026-09-30 — Inbox quick view: one-line labels, centered actions
+
+Founder looked at the attention popover on site00.fsbw-dev.com and asked for four layout fixes. Work stays on `cursor/grok-plus-environment-unified-review-87ed` until a merge to main. PR #1262 stays review-only.
+
+- **Context:** Whole chat mounted authority photographs and nav glyphs, aligned shared chrome, rebuilt three environment worlds, then compacted production chrome to match fabrication (header copy zoom 0.74, nav labels 9.3px, Saira Semi Condensed). That chrome was moved onto this unified review branch. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Hard-refresh the named tunnel.
+- **Decisions / outcomes:** In the attention popover, the title and the state (`NARRATIVE APPROVAL`, `AWAITING DECISION`) stay on one row (`white-space: nowrap`, slightly wider text column). `VIEW ALL IN INBOX` is centered. REVIEW and CHOOSE span the card and their label is centered inside the button. The `ATTENTION / INBOX QUICK VIEW` heading is removed. CLOSE stays at the top right. Environment plates and chrome type are unchanged.
+- **Changes:** `productionHub/overlays.tsx`, `site00-production-hub-authority.css`.
+- **Conventions:** Attention titles and state labels do not wrap. Popover actions are centered in the card. Do not put the quick-view heading back unless the founder asks.
