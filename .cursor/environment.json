@@ -6,8 +6,8 @@
   "terminals": [
     {
       "name": "site00-vite",
-      "command": "bash .cursor/scripts/run-site00-cloud-preview-server.sh",
-      "description": "Production dist on :5174 (vite preview, sync main) — same bundle class as GoDaddy. Set SITE00_CLOUD_PREVIEW_MODE=dev for HMR."
+      "command": "bash .cursor/scripts/ensure-grok-environment-unified-preview.sh",
+      "description": "Unified Grok+environment review dist on :5174 (.worktrees/grok-environment-unified-review). Override SITE00_CLOUD_PREVIEW_MODE=dev for HMR."
     },
     {
       "name": "site00-preview-tunnel",
