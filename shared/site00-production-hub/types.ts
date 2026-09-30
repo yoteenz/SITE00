@@ -149,11 +149,15 @@ export type HubGraphInput = {
 export type HubExpandedSurface = 'NONE' | 'ARTIFACT' | 'STORYBOARD' | 'TABLE' | 'ACTIVITY';
 export type HubOverlay = 'NONE' | 'SCENE_SELECTOR' | 'LIGHTBOX' | 'DECISION' | 'PROJECT_SELECTOR' | 'ATTENTION' | 'MENU';
 
+export type HubNodePanelFace = 'SUMMARY' | 'DETAIL';
+
 export type HubUiState = {
   selectedProjectId: string;
   selectedProductionId: string | null;
   selectedSceneId: string | null;
   selectedNodeId: HubNodeId | null;
+  /** Fixed-size suspended panel: detail swaps inside the shell; it does not resize the module. */
+  selectedNodePanelFace: HubNodePanelFace;
   selectedArtifactId: string | null;
   selectedStoryboardFrameId: string | null;
   currentMode: HubMode;

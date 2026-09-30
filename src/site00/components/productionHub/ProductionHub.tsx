@@ -306,7 +306,18 @@ export function ProductionHub() {
             <div className="ph-livegrid" data-testid="hub-live">
               <div className="ph-col ph-col--l">
                 {leftNodes.map((n) => (
-                  <ProductionNode key={n.id} node={n} selected={state.selectedNodeId === n.id} compact={expandedArtifact} imageUrl={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                  <ProductionNode
+                    key={n.id}
+                    node={n}
+                    selected={state.selectedNodeId === n.id}
+                    panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                    compact={expandedArtifact}
+                    imageUrl={nodeImg(n)}
+                    slotLabel={nodeLabel(n)}
+                    onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                    onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                    onAction={(a) => onNodeAction(a, n)}
+                  />
                 ))}
               </div>
               <ArtifactStage
@@ -325,14 +336,33 @@ export function ProductionHub() {
               />
               <div className="ph-col ph-col--r">
                 {rightNodes.map((n) => (
-                  <ProductionNode key={n.id} node={n} selected={state.selectedNodeId === n.id} compact={expandedArtifact} imageUrl={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                  <ProductionNode
+                    key={n.id}
+                    node={n}
+                    selected={state.selectedNodeId === n.id}
+                    panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                    compact={expandedArtifact}
+                    imageUrl={nodeImg(n)}
+                    slotLabel={nodeLabel(n)}
+                    onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                    onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                    onAction={(a) => onNodeAction(a, n)}
+                  />
                 ))}
               </div>
             </div>
           ) : null}
 
           {mode === 'FLOW' ? (
-            <FlowStack nodes={graph.nodes} selectedNodeId={state.selectedNodeId} urlFor={nodeImg} onSelect={(id) => dispatch({ type: 'SELECT_NODE', nodeId: id })} onAction={onNodeAction} />
+            <FlowStack
+              nodes={graph.nodes}
+              selectedNodeId={state.selectedNodeId}
+              selectedNodePanelFace={state.selectedNodePanelFace}
+              urlFor={nodeImg}
+              onSelect={(id) => dispatch({ type: 'SELECT_NODE', nodeId: id })}
+              onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+              onAction={onNodeAction}
+            />
           ) : null}
 
           {mode === 'DEPENDENCIES' ? (
@@ -341,7 +371,17 @@ export function ProductionHub() {
                 <DependencyRails status={{ l: leftNodes.map((n) => n.status), r: rightNodes.map((n) => n.status) }} />
                 <div className="ph-dep__col">
                   {leftNodes.map((n) => (
-                    <DependencyNode key={n.id} node={n} selected={state.selectedNodeId === n.id} url={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                    <DependencyNode
+                      key={n.id}
+                      node={n}
+                      selected={state.selectedNodeId === n.id}
+                      panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                      url={nodeImg(n)}
+                      slotLabel={nodeLabel(n)}
+                      onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                      onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                      onAction={(a) => onNodeAction(a, n)}
+                    />
                   ))}
                 </div>
                 <div className="ph-dep__center">
@@ -349,7 +389,17 @@ export function ProductionHub() {
                 </div>
                 <div className="ph-dep__col">
                   {rightNodes.map((n) => (
-                    <DependencyNode key={n.id} node={n} selected={state.selectedNodeId === n.id} url={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                    <DependencyNode
+                      key={n.id}
+                      node={n}
+                      selected={state.selectedNodeId === n.id}
+                      panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                      url={nodeImg(n)}
+                      slotLabel={nodeLabel(n)}
+                      onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                      onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                      onAction={(a) => onNodeAction(a, n)}
+                    />
                   ))}
                 </div>
               </div>
