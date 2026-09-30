@@ -12839,3 +12839,12 @@ Founder on site00.fsbw-dev.com: bottom-nav icons looked unchanged, and header/na
 - **Cause:** `.ph--hub` sets `zoom: width/864` (~0.45 on a 390px phone). Font sizes in `site00-production-hub-authority.css` are pre-zoom. The fit pass set nav labels to 6px and the title to 10px, which render at ~3px and ~4.5px. Icons went from 18px to 14px in that same canvas (~8px to ~6px on screen), so the glyphs looked the same.
 - **Fix:** Title 20px, section values 16px, nav labels 15px, icons back to the authority 26px box. Grid `278px 190px 188px`. No nested zoom. Measured at 390px on the preview: no clipped strings, icons 12px on screen, bundle `index.BTR7ydLx.js`.
 - **Conventions:** Do not set single-digit font sizes on `.ph--hub` chrome. 20px in this file is ~9px on a phone. Glyphs stay the authority set in `productionHub/icons.tsx`. Review branch only — do not upload over site00.com.
+
+---
+
+## 2026-09-30 — Integration squash conflicts were the older snapshot
+
+Fetched `origin/cursor/authority-environment-family-live-integration-87ed`. It was one commit ahead: squash `9b325ab3` (PR #1262). This review branch was 12 commits ahead of that squash, including the iOS chrome fix, live character runtime, and the 864px zoom type fix.
+
+- **Conflicts:** `MEMORY.md`, `chamber.tsx`, `site00-character-fabrication-authority.css`, `site00-production-hub-authority.css`. No second feature on the integration side. Each theirs-side is the pre-follow-up snapshot.
+- **Resolution:** Kept this branch. `CharacterViewport` still paints `SubjectFigure` unless live runtime is requested. Chrome stays at title 20px / nav 15px / no nested `zoom: 0.74`. Merge `ecc64145`. PR #1264 mergeable. No preview rebuild.
