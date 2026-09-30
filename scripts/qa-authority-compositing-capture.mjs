@@ -60,6 +60,10 @@ await page.goto(cfUrl, { waitUntil: 'networkidle', timeout: 120000 });
 await page.waitForSelector('[data-testid="cf-character-viewport"]', { timeout: 60000 }).catch(() => {});
 await page.screenshot({ path: join(OUT, 'character-identity-432.png'), fullPage: true });
 
+await page.setViewportSize({ width: 360, height: 780 });
+await page.goto(hubUrl, { waitUntil: 'networkidle', timeout: 120000 });
+await page.screenshot({ path: join(OUT, 'production-base-360.png'), fullPage: true });
+
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto(hubUrl, { waitUntil: 'networkidle', timeout: 120000 });
 await page.screenshot({ path: join(OUT, 'production-base-390.png'), fullPage: true });

@@ -12796,3 +12796,16 @@ Founder looked at the attention popover on site00.fsbw-dev.com and asked for fou
 - **Decisions / outcomes:** In the attention popover, the title and the state (`NARRATIVE APPROVAL`, `AWAITING DECISION`) stay on one row (`white-space: nowrap`, slightly wider text column). `VIEW ALL IN INBOX` is centered. REVIEW and CHOOSE span the card and their label is centered inside the button. The `ATTENTION / INBOX QUICK VIEW` heading is removed. CLOSE stays at the top right. Environment plates and chrome type are unchanged.
 - **Changes:** `productionHub/overlays.tsx`, `site00-production-hub-authority.css`.
 - **Conventions:** Attention titles and state labels do not wrap. Popover actions are centered in the card. Do not put the quick-view heading back unless the founder asks.
+
+---
+
+## 2026-09-30 — P0 authority compositing + fixed panel convergence (partial)
+
+Sprint `P0.SITE00.AUTHORITY-ASSET-COMPOSITING-AND-FIXED-PANEL-CONVERGENCE1` on unified review branch `cursor/grok-plus-environment-unified-review-87ed` (PR #1262, **no main**).
+
+- **Production Hub:** Suspended modules fixed at **113px** outer shell; `selectedNodePanelFace` + `NODE_PANEL_BACK`; detail swaps inside face (BACK + status + in-shell `ph-qa`). Flow/dep nodes follow same face model. Playwright: outer box unchanged on PERFORMANCE select (`PANEL_BOX same: true`).
+- **Character:** `characterViewportAnchor.ts`, `CharacterRenderer` / `cf-character-viewport`, bottom-grounded `object-fit`; **`figure.webp`** rembg repair (~22.6% transparent pixels, corner alpha 0). Identity uses `figureAnchor` grounding.
+- **Environment audit:** Plates present at 1296×2304 (production atmosphere, fabrication chamber, simulation volume). No founder authority PNGs in repo for pixel diff — side-by-side deferred; **no regen** this pass.
+- **Alpha audit:** Figure PASS; node narrative plate opaque (expected ENVIRONMENT-style). Full 27-slot Grok sweep not automated yet.
+- **QA:** `scripts/qa-authority-compositing-capture.mjs`; artifacts under `/opt/cursor/artifacts/authority-compositing-qa/`. Preview local build on `:5174` with `designPreview=1` + `baw_auth_backup` seed.
+- **Conventions:** Machine panels never grow on select — swap face only. Transparent human = zero alpha outside silhouette, not faded rectangle.
