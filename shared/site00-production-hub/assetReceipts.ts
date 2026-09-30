@@ -118,4 +118,11 @@ export const HUB_ASSET_RECEIPTS: readonly HubAssetReceipt[] = [
     source: 'GROK',
     receivedAt: '2026-09-30',
   },
+  {
+    slotId: 'production.hub.chamber.atmosphere',
+    canonicalAssetId: 'grok.site00.production-hub.production.hub.chamber.atmosphere.v1',
+    url: '/site00/production-hub/production/hub/chamber/atmosphere.webp',
+    source: 'GROK',
+    receivedAt: '2026-09-30',
+  },
 ];

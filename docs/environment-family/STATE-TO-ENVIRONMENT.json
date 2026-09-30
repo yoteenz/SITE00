@@ -1,6 +1,6 @@
 {
   "sprint": "P0.SITE00.GROK-AUTHORITY-ENVIRONMENT-FAMILY-RECONSTRUCTION1",
-  "wired": false,
+  "wired": true,
   "environments": [
     {
       "id": "ph.environment.chamber.base",

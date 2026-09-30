@@ -109,6 +109,19 @@
 
 /* hero chamber */
 .cf-hero { position: relative; width: 432px; overflow: hidden; isolation: isolate; }
+.cf-env { position: absolute; inset: 0; z-index: 0; width: 100%; pointer-events: none; overflow: hidden; }
+.cf-env .cf-env__layer { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 0.45s ease; opacity: 0; pointer-events: none; }
+.cf-env .cf-env__layer.cf-img { border: 0; background: transparent; min-height: 0; }
+.cf-env .cf-env__layer img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; display: block; }
+.cf-env__layer--fabrication { z-index: 0; }
+.cf-env__layer--simulation { z-index: 1; }
+.cf-env__layer.is-active { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .cf-env .cf-env__layer { transition: none; }
+}
+.cf-hero.has-authority-env .cf-fig { z-index: 2; }
+.cf-hero.has-authority-env .cf-acard { z-index: 3; }
+.cf-hero.has-authority-env .cf-hero__rail { z-index: 4; }
 .cf-plate { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
 .cf-seam { stroke: #d3d6db; stroke-width: 0.8; }
 .cf-strip { stroke: #fff; stroke-width: 3.2; stroke-linecap: round; opacity: 0.95; }

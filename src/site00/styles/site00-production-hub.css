@@ -140,8 +140,10 @@
 .ph-chamber--flow { aspect-ratio: 390 / 700; }
 .ph-chamber--dependencies { aspect-ratio: 390 / 736; }
 
-.ph-chamber__atmo { position: absolute; inset: 0; z-index: 0; }
-.ph-chamber__atmo img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+.ph-chamber__atmo { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.ph-chamber__atmo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; opacity: 0.9; }
+.ph-chamber.has-authority-env { background: transparent; }
+.ph-chamber.has-authority-env .ph-chamber__atmo img { opacity: 1; }
 
 .ph-geo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 

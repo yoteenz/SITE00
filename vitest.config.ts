@@ -70,6 +70,6 @@ export default defineConfig({
     fileParallelism: isCi ? false : undefined,
     poolOptions: isCi ? { threads: { maxThreads: 2, minThreads: 1 } } : undefined,
     include: ['**/*.{test,spec}.{ts,tsx}'],
-    exclude: ['**/node_modules/**', '**/dist/**', ...ciSprintSnapshotExcludes],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/.worktrees/**', ...ciSprintSnapshotExcludes],
   },
 });
