@@ -42,6 +42,7 @@ function toRecord(a: StudioWorldActor): ActorRecord {
     languages: a.languages,
     accents: a.accentCapabilities,
     continuityRisk: a.continuityRisk,
+    castingTags: a.nationalityOrCulturalCastingTags.map((t) => t.toUpperCase()),
     authorityId: a.identityAuthorityId,
     authorityLevel: a.status === 'ACTIVE' ? 'A1' : 'PENDING',
     updatedAt: a.updatedAt,

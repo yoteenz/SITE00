@@ -67,7 +67,9 @@ export function hubReducer(s: HubUiState, a: HubAction): HubUiState {
     case 'ENSURE_FRAME': {
       if (!a.frameIds.length) return s.selectedStoryboardFrameId === null ? s : { ...s, selectedStoryboardFrameId: null, selectedArtifactId: null };
       if (s.selectedStoryboardFrameId && a.frameIds.includes(s.selectedStoryboardFrameId)) return s;
-      return { ...s, selectedStoryboardFrameId: a.frameIds[0]!, selectedArtifactId: a.frameIds[0]! };
+      // Authority centerpiece is storyboard frame 03 (the pencil), not the first pipeline panel.
+      const preferred = a.frameIds.includes('frame-03') ? 'frame-03' : a.frameIds[0]!;
+      return { ...s, selectedStoryboardFrameId: preferred, selectedArtifactId: preferred };
     }
     case 'SELECT_FRAME':
       return { ...s, selectedStoryboardFrameId: a.frameId, selectedArtifactId: a.frameId };

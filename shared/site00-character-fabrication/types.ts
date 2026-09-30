@@ -67,6 +67,8 @@ export type ActorRecord = {
   languages: readonly string[];
   accents: readonly string[];
   continuityRisk: string;
+  /** display-only: canonical casting tags (shown as ETHNICITY on the authority card) */
+  castingTags: readonly string[];
   authorityId: string;
   authorityLevel: string;
   updatedAt: string;

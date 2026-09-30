@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
+  CHARACTER_ASSET_RECEIPTS,
   STATION_ORDER,
   buildCharacterAssetManifest,
+  characterAssetUrl,
   buildCharacterAssetSlots,
   buildFabricationCharacter,
   directDownstream,
@@ -159,12 +161,54 @@ describe('character fabrication — machine', () => {
 });
 
 describe('character fabrication — asset boundary', () => {
-  it('every slot is semantic, the manifest counts match, and no receipts are shipped', () => {
+  it('every slot is semantic, the manifest counts match, and authority receipts resolve', () => {
     const slots = buildCharacterAssetSlots();
     expect(new Set(slots.map((x) => x.slotId)).size).toBe(slots.length);
     for (const id of ['actor.sw017.portrait.primary', 'actor.sw017.angle.front', 'actor.sw017.body.neutral.side', 'look.sw017.candidate.a', 'appearance.sw017.reference.hair.01', 'motion.sw017.sit-v01.preview', 'simulation.sw017.current.preview']) expect(slots.map((x) => x.slotId)).toContain(id);
     const m = buildCharacterAssetManifest();
     expect(m.visualAssetsGeneratedBySonnet).toBe(0);
-    expect(m.grokRequiredCount + m.runtimeCanonicalSlots).toBe(m.totalSlots);
+    const fulfilledGrok = CHARACTER_ASSET_RECEIPTS.filter((r) => slots.find((s) => s.slotId === r.slotId)?.grokRequired).length;
+    expect(m.grokRequiredCount + m.runtimeCanonicalSlots + fulfilledGrok).toBe(m.totalSlots);
+    expect(characterAssetUrl('actor.sw017.angle.front')).toMatch(/angle\/front\.webp$/);
+  });
+});
+
+describe('character fabrication — screenshot dependence audit', () => {
+  it('every rendered slot id used by the live views is declared in the registry', async () => {
+    const { readdirSync, readFileSync } = await import('node:fs');
+    const ids = new Set(buildCharacterAssetSlots().map((x) => x.slotId));
+    const dir = 'src/site00/components/characterFabrication';
+    const literal = /slotId=\{?["'`]([a-z0-9.\-]+)["'`]\}?/g;
+    for (const f of readdirSync(dir)) {
+      for (const m of readFileSync(`${dir}/${f}`, 'utf8').matchAll(literal)) expect(ids.has(m[1]!), `${f}: ${m[1]}`).toBe(true);
+    }
+  });
+  it('asset manifest file matches the registry', async () => {
+    const { readFileSync } = await import('node:fs');
+    const onDisk = JSON.parse(readFileSync('docs/character-fabrication/CHARACTER_FABRICATION_ASSET_MANIFEST.json', 'utf8'));
+    expect(onDisk).toEqual(JSON.parse(JSON.stringify(buildCharacterAssetManifest())));
+  });
+  it('components import no raster files, reference screenshots or legacy stand-in crops', async () => {
+    const { readdirSync, readFileSync } = await import('node:fs');
+    const dir = 'src/site00/components/characterFabrication';
+    for (const f of readdirSync(dir)) {
+      const src = readFileSync(`${dir}/${f}`, 'utf8');
+      expect(src, f).not.toMatch(/\.(png|jpe?g|webp|gif)['"`]/i);
+      expect(src, f).not.toMatch(/IMG_54\d\d|production-mobile|backgroundImage|url\(['"]?(\/|\.\/|\.\.\/|https?:|data:)/);
+      if (f !== 'CfImage.tsx') expect(src, f).not.toMatch(/<img\b/);
+    }
+    const css = readFileSync('src/site00/styles/site00-character-fabrication.css', 'utf8');
+    expect(css).not.toMatch(/url\((?!#)|background-image/);
+    // authority stylesheet: the only external resources allowed are the vendored OFL fonts
+    const auth = readFileSync('src/site00/styles/site00-character-fabrication-authority.css', 'utf8');
+    const urls = [...auth.matchAll(/url\(([^)]*)\)/g)].map((m) => m[1]!.replace(/['"]/g, ''));
+    for (const u of urls) expect(u, u).toMatch(/^(#|\/site00\/fonts\/[a-z-]+\/[a-z0-9-]+\.woff2$)/);
+    expect(auth).not.toMatch(/background-image|IMG_54\d\d/);
+  });
+  it('request kinds route Character Fabrication into the Expression sub-workspace', async () => {
+    const { createProductionWorkspaceRequest } = await import('../shared/site00-production-workspace/projectProductionSummary.js');
+    const r = createProductionWorkspaceRequest({ projectSlug: 'ndxbook', kind: 'CHARACTER_FABRICATION_REVISION' });
+    expect(r.targetWorkspace).toBe('EXPRESSION');
+    expect(r.targetSubWorkspace).toBe('character-fabrication');
   });
 });
