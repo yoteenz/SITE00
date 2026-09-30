@@ -52,6 +52,34 @@ export function StatusBeacon({ status, size = 18 }: { status: HubNodeStatus; siz
   );
 }
 
+/* ── Machine mounts (decorative, aria-hidden) ─────────────────────────────
+ * DependencySocket: the arm + socket that docks a station module into the chamber.
+ * ArtifactHolder: optical shells, clamps and side tracks that physically hold the active artifact.
+ * Status is expressed through the socket LED and arm channel (rail state), not only text.
+ */
+
+export function DependencySocket({ status, selected }: { status: HubNodeStatus; selected?: boolean }) {
+  return (
+    <span className={`ph-socket ph-socket--${status.toLowerCase()}${selected ? ' is-selected' : ''}`} aria-hidden>
+      <i className="ph-socket__arm" />
+      <i className="ph-socket__port" />
+    </span>
+  );
+}
+
+export function ArtifactHolder() {
+  return (
+    <span className="ph-holder" aria-hidden>
+      <i className="ph-holder__shell ph-holder__shell--2" />
+      <i className="ph-holder__shell ph-holder__shell--1" />
+      <i className="ph-holder__track ph-holder__track--l" />
+      <i className="ph-holder__track ph-holder__track--r" />
+      <i className="ph-holder__clamp ph-holder__clamp--t" />
+      <i className="ph-holder__clamp ph-holder__clamp--b" />
+    </span>
+  );
+}
+
 /* ── ModeSwitcher ─────────────────────────────────────────────────────── */
 
 export function ModeSwitcher({ mode, onChange }: { mode: HubMode; onChange: (m: HubMode) => void }) {
@@ -76,81 +104,166 @@ export function ModeSwitcher({ mode, onChange }: { mode: HubMode; onChange: (m: 
   );
 }
 
-/* ── ChamberGeometry: rings, glass column, beam — SVG, no raster ─────── */
+/* ── ChamberGeometry: the physical apparatus — SVG, no raster ───────────
+ * Read back-to-front: floor shadow → rear glass cylinder → volumetric beam →
+ * upper collar (seen from beneath) → base plinth (seen from above).
+ * Modules, artifact holder and controls mount in front of this in live DOM.
+ */
 
-export const CHAMBER_HEIGHT: Record<HubMode, number> = { LIVE: 468, FLOW: 700, DEPENDENCIES: 736 };
+export const CHAMBER_HEIGHT: Record<HubMode, number> = { LIVE: 540, FLOW: 752, DEPENDENCIES: 792 };
+
+/** Cylinder x-extents per mode: LIVE holds the artifact, FLOW widens to carry the chain, DEPENDENCIES narrows to the downstream core. */
+const COLUMN_X: Record<HubMode, [number, number]> = { LIVE: [104, 286], FLOW: [34, 356], DEPENDENCIES: [118, 272] };
+
+function Ring({ cy, rx, ry, band, face, stroke = '#b4b8c0' }: { cy: number; rx: number; ry: number; band: number; face: string; stroke?: string }) {
+  // A machined ring with real thickness: the visible side band plus its top face.
+  const x0 = 195 - rx;
+  const x1 = 195 + rx;
+  return (
+    <g>
+      <path d={`M${x0} ${cy} A${rx} ${ry} 0 0 0 ${x1} ${cy} V${cy + band} A${rx} ${ry} 0 0 1 ${x0} ${cy + band} Z`} fill="url(#phRim)" stroke={stroke} strokeWidth=".8" />
+      <ellipse cx="195" cy={cy} rx={rx} ry={ry} fill={face} stroke={stroke} strokeWidth=".8" />
+      <path d={`M${x0 + 6} ${cy + 1} A${rx - 6} ${ry - 2} 0 0 0 ${x1 - 6} ${cy + 1}`} fill="none" stroke="#fff" strokeWidth="1.1" opacity=".9" />
+    </g>
+  );
+}
 
 export function ChamberGeometry({ mode }: { mode: HubMode }) {
-  const flow = mode === 'FLOW';
   const H = CHAMBER_HEIGHT[mode];
   const baseY = H - 84;
-  const colTop = 74;
-  const colBottom = baseY - 12;
-  const cx0 = flow ? 30 : mode === 'DEPENDENCIES' ? 126 : 112;
-  const cx1 = flow ? 360 : mode === 'DEPENDENCIES' ? 264 : 278;
+  const collarY = 74;
+  const colTop = collarY + 8;
+  const colBottom = baseY - 14;
+  const [cx0, cx1] = COLUMN_X[mode];
+  const flow = mode === 'FLOW';
   return (
     <svg className={`ph-geo ph-geo--${mode.toLowerCase()}`} viewBox={`0 0 390 ${H}`} preserveAspectRatio="none" aria-hidden data-testid="hub-chamber-geometry">
       <defs>
-        <linearGradient id="phChrome" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="phFace" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#ffffff" />
-          <stop offset=".5" stopColor="#d5d8de" />
-          <stop offset="1" stopColor="#f6f7f9" />
+          <stop offset=".55" stopColor="#eceef1" />
+          <stop offset="1" stopColor="#d9dce1" />
         </linearGradient>
-        <linearGradient id="phGlass" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#ffffff" stopOpacity=".6" />
-          <stop offset=".2" stopColor="#ffffff" stopOpacity=".14" />
-          <stop offset=".8" stopColor="#ffffff" stopOpacity=".14" />
-          <stop offset="1" stopColor="#ffffff" stopOpacity=".6" />
+        <linearGradient id="phFaceUnder" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#d4d7dd" />
+          <stop offset=".6" stopColor="#f3f4f6" />
+          <stop offset="1" stopColor="#ffffff" />
         </linearGradient>
-        <linearGradient id="phBeam" x1="0" y1="0" x2="0" y2="1">
+        {/* cylindrical chrome: dark flanks, bright specular band left of centre */}
+        <linearGradient id="phRim" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#9da2ab" />
+          <stop offset=".14" stopColor="#e9ebee" />
+          <stop offset=".3" stopColor="#ffffff" />
+          <stop offset=".42" stopColor="#c3c7ce" />
+          <stop offset=".62" stopColor="#f5f6f8" />
+          <stop offset=".86" stopColor="#d5d8dd" />
+          <stop offset="1" stopColor="#8f949d" />
+        </linearGradient>
+        <linearGradient id="phCyl" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#ffffff" stopOpacity=".82" />
+          <stop offset=".07" stopColor="#ffffff" stopOpacity=".28" />
+          <stop offset=".22" stopColor="#dfe3ea" stopOpacity=".1" />
+          <stop offset=".5" stopColor="#ffffff" stopOpacity=".04" />
+          <stop offset=".78" stopColor="#dfe3ea" stopOpacity=".1" />
+          <stop offset=".93" stopColor="#ffffff" stopOpacity=".3" />
+          <stop offset="1" stopColor="#ffffff" stopOpacity=".82" />
+        </linearGradient>
+        <linearGradient id="phBeamV" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ff3b30" stopOpacity=".2" />
+          <stop offset=".06" stopColor="#ff3b30" stopOpacity="1" />
+          <stop offset=".94" stopColor="#ff3b30" stopOpacity="1" />
+          <stop offset="1" stopColor="#ff3b30" stopOpacity=".2" />
+        </linearGradient>
+        <linearGradient id="phBeamSpill" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#e5231b" stopOpacity="0" />
-          <stop offset=".18" stopColor="#e5231b" stopOpacity=".9" />
-          <stop offset=".82" stopColor="#e5231b" stopOpacity=".9" />
+          <stop offset=".5" stopColor="#e5231b" stopOpacity=".26" />
           <stop offset="1" stopColor="#e5231b" stopOpacity="0" />
         </linearGradient>
+        <linearGradient id="phBeamCore" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#e5231b" />
+          <stop offset=".5" stopColor="#fff3f1" />
+          <stop offset="1" stopColor="#e5231b" />
+        </linearGradient>
+        <radialGradient id="phLens" cx=".42" cy=".3" r=".8">
+          <stop offset="0" stopColor="#4a4c53" />
+          <stop offset=".55" stopColor="#1c1d21" />
+          <stop offset="1" stopColor="#0c0c0e" />
+        </radialGradient>
         <radialGradient id="phGlow" cx=".5" cy=".5" r=".5">
-          <stop offset="0" stopColor="#e5231b" stopOpacity=".6" />
+          <stop offset="0" stopColor="#ff4a3d" stopOpacity=".85" />
+          <stop offset=".45" stopColor="#e5231b" stopOpacity=".32" />
           <stop offset="1" stopColor="#e5231b" stopOpacity="0" />
         </radialGradient>
-        <filter id="phBlur" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="2.6" />
+        <radialGradient id="phFloor" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stopColor="#1a1c22" stopOpacity=".28" />
+          <stop offset="1" stopColor="#1a1c22" stopOpacity="0" />
+        </radialGradient>
+        <filter id="phBlur" x="-20%" y="-60%" width="140%" height="220%">
+          <feGaussianBlur stdDeviation="2.4" />
+        </filter>
+        <filter id="phBlurWide" x="-200%" y="-5%" width="500%" height="110%">
+          <feGaussianBlur stdDeviation="5" />
         </filter>
       </defs>
 
-      {/* upper collar: chrome ring stack with red illumination */}
-      <ellipse cx="195" cy="62" rx="176" ry="32" fill="url(#phChrome)" stroke="#c0c4cb" strokeWidth="1.2" />
-      <ellipse cx="195" cy="66" rx="150" ry="26" fill="none" stroke="#e5231b" strokeWidth="2.6" opacity=".8" filter="url(#phBlur)" />
-      <ellipse cx="195" cy="66" rx="150" ry="26" fill="none" stroke="#e5231b" strokeWidth="1" />
-      <ellipse cx="195" cy="70" rx="120" ry="20" fill="#f3f4f6" stroke="#cfd2d8" strokeWidth="1" />
-      <ellipse cx="195" cy="72" rx="92" ry="14" fill="none" stroke="#e5231b" strokeWidth="1" opacity=".85" />
-      <ellipse cx="195" cy="74" rx="60" ry="9" fill="url(#phGlow)" />
+      {/* floor contact shadow */}
+      <ellipse cx="195" cy={baseY + 26} rx="200" ry="34" fill="url(#phFloor)" />
 
-      {/* glass column */}
-      <rect x={cx0} y={colTop} width={cx1 - cx0} height={colBottom - colTop} fill="url(#phGlass)" opacity={flow ? '.55' : '.95'} />
-      <path d={`M${cx0} ${colTop} V${colBottom} M${cx1} ${colTop} V${colBottom}`} stroke="#c6cad2" strokeWidth="1.3" fill="none" />
-      {flow ? (
-        <>
-          <path d={`M20 ${colTop + 6} V${colBottom - 4} M370 ${colTop + 6} V${colBottom - 4}`} stroke="#e5231b" strokeWidth="1.2" opacity=".8" />
-          {Array.from({ length: 6 }, (_, i) => colTop + 60 + i * 96).map((y) => (
-            <g key={y}>
-              <rect x="13" y={y} width="10" height="13" fill="#1b1b1e" opacity=".85" />
-              <rect x="367" y={y} width="10" height="13" fill="#1b1b1e" opacity=".85" />
+      {/* rear glass cylinder: optical shell with thickness + inner wall */}
+      <rect x={cx0} y={colTop} width={cx1 - cx0} height={colBottom - colTop} fill="url(#phCyl)" />
+      <path d={`M${cx0} ${colTop} V${colBottom} M${cx1} ${colTop} V${colBottom}`} stroke="#b9bdc5" strokeWidth="1.2" fill="none" />
+      <path d={`M${cx0 + 4} ${colTop} V${colBottom} M${cx1 - 4} ${colTop} V${colBottom}`} stroke="#ffffff" strokeWidth="1.4" fill="none" opacity=".95" />
+      <path d={`M${cx0 + 16} ${colTop + 10} V${colBottom - 10}`} stroke="#ffffff" strokeWidth="3" fill="none" opacity=".55" />
+      {/* inner back-wall rings: the cylinder has a far side */}
+      {[0.34, 0.67].map((t) => {
+        const y = colTop + (colBottom - colTop) * t;
+        return <path key={t} d={`M${cx0} ${y} A${(cx1 - cx0) / 2} 10 0 0 1 ${cx1} ${y}`} fill="none" stroke="#c9cdd4" strokeWidth=".9" opacity=".7" />;
+      })}
+
+      {/* volumetric fabrication beam: optical spill → glow → hot core */}
+      <rect x="165" y={collarY + 10} width="60" height={baseY - collarY - 20} fill="url(#phBeamSpill)" className="ph-geo__spill" />
+      <rect x="189" y={collarY + 10} width="12" height={baseY - collarY - 20} fill="url(#phBeamV)" filter="url(#phBlurWide)" opacity=".75" className="ph-geo__glow" />
+      <rect x="193.2" y={collarY + 10} width="3.6" height={baseY - collarY - 20} fill="url(#phBeamCore)" opacity=".95" />
+
+      {/* FLOW: glass carrier tubes with a lit routing core either side of the chain */}
+      {flow
+        ? [16, 364].map((x) => (
+            <g key={x}>
+              <rect x={x} y={colTop + 4} width="10" height={colBottom - colTop - 8} rx="5" fill="url(#phCyl)" stroke="#bfc3ca" strokeWidth=".9" />
+              <rect x={x + 4.3} y={colTop + 10} width="1.4" height={colBottom - colTop - 20} fill="#e5231b" opacity=".75" />
+              <rect x={x + 1.5} y={colTop + 10} width="1.2" height={colBottom - colTop - 20} fill="#fff" opacity=".9" />
             </g>
-          ))}
-        </>
-      ) : null}
+          ))
+        : null}
 
-      {/* beam */}
-      <rect x="190" y="68" width="10" height={baseY - 60} fill="url(#phBeam)" filter="url(#phBlur)" />
-      <rect x="194" y="68" width="2" height={baseY - 60} fill="url(#phBeam)" />
+      {/* upper collar, seen from beneath: stacked housing drums, stepped underside, lit ring, dark aperture well */}
+      <path d={`M60 0 H330 V${collarY - 34} A135 14 0 0 1 60 ${collarY - 34} Z`} fill="url(#phRim)" />
+      <ellipse cx="195" cy={collarY - 34} rx="135" ry="14" fill="url(#phFaceUnder)" stroke="#aeb2ba" strokeWidth=".8" />
+      <ellipse cx="195" cy={collarY - 32} rx="112" ry="10" fill="none" stroke="#e5231b" strokeWidth=".9" opacity=".75" />
+      <path d={`M24 ${collarY - 30} H366 V${collarY} A171 30 0 0 1 24 ${collarY} Z`} fill="url(#phRim)" />
+      <path d={`M24 ${collarY - 30} V${collarY} M366 ${collarY - 30} V${collarY}`} stroke="#9aa0a9" strokeWidth=".8" />
+      <path d={`M24 ${collarY - 22} H366`} stroke="#fff" strokeWidth="1" opacity=".8" />
+      <path d={`M24 ${collarY - 21} H366`} stroke="#9aa0a9" strokeWidth=".6" opacity=".6" />
+      <ellipse cx="195" cy={collarY} rx="171" ry="30" fill="url(#phFaceUnder)" stroke="#aeb2ba" strokeWidth="1" />
+      <ellipse cx="195" cy={collarY + 4} rx="146" ry="24" fill="#eceef1" stroke="#c3c7ce" strokeWidth=".8" />
+      <ellipse cx="195" cy={collarY + 6} rx="128" ry="20" fill="none" stroke="#e5231b" strokeWidth="4" opacity=".7" filter="url(#phBlur)" />
+      <ellipse cx="195" cy={collarY + 6} rx="128" ry="20" fill="none" stroke="#ff4034" strokeWidth="1.3" />
+      <ellipse cx="195" cy={collarY + 8} rx="110" ry="16" fill="#dfe2e6" stroke="#2a2b30" strokeWidth="1.6" strokeOpacity=".55" />
+      <ellipse cx="195" cy={collarY + 10} rx="84" ry="12" fill="url(#phLens)" stroke="#f4f5f7" strokeWidth="1.4" />
+      <ellipse cx="195" cy={collarY + 10} rx="62" ry="8" fill="none" stroke="#e5231b" strokeWidth=".9" opacity=".8" />
+      <ellipse cx="195" cy={collarY + 11} rx="30" ry="6" fill="url(#phGlow)" />
 
-      {/* base platform */}
-      <ellipse cx="195" cy={baseY} rx="178" ry="34" fill="url(#phChrome)" stroke="#bcc0c8" strokeWidth="1.2" />
-      <ellipse cx="195" cy={baseY - 3} rx="150" ry="26" fill="#eef0f3" stroke="#d1d4da" strokeWidth="1" />
-      <ellipse cx="195" cy={baseY - 5} rx="122" ry="19" fill="none" stroke="#e5231b" strokeWidth="2.4" opacity=".85" filter="url(#phBlur)" />
-      <ellipse cx="195" cy={baseY - 5} rx="122" ry="19" fill="none" stroke="#e5231b" strokeWidth="1" />
-      <ellipse cx="195" cy={baseY - 3} rx="84" ry="12" fill="#15151a" stroke="#dcdfe4" strokeWidth="1.1" />
-      <ellipse cx="195" cy={baseY - 3} rx="40" ry="6" fill="url(#phGlow)" />
+      {/* base plinth, seen from above: two machined tiers, recessed track, lit ring, emitter lens */}
+      <Ring cy={baseY} rx={186} ry={34} band={18} face="url(#phFace)" />
+      <Ring cy={baseY - 12} rx={150} ry={26} band={12} face="url(#phFace)" stroke="#bfc3ca" />
+      <ellipse cx="195" cy={baseY - 12} rx="134" ry="22.5" fill="none" stroke="#24252a" strokeWidth="2" opacity=".5" />
+      <ellipse cx="195" cy={baseY - 13} rx="120" ry="20" fill="none" stroke="#e5231b" strokeWidth="4.5" opacity=".7" filter="url(#phBlur)" />
+      <ellipse cx="195" cy={baseY - 13} rx="120" ry="20" fill="none" stroke="#ff4034" strokeWidth="1.3" />
+      <ellipse cx="195" cy={baseY - 14} rx="100" ry="16.5" fill="#e4e6ea" stroke="#fff" strokeWidth="1.4" />
+      <ellipse cx="195" cy={baseY - 14} rx="70" ry="11" fill="url(#phLens)" stroke="#c9ccd2" strokeWidth="1.2" />
+      <path d={`M${195 - 58} ${baseY - 17} A58 7 0 0 1 ${195 + 24} ${baseY - 21}`} fill="none" stroke="#fff" strokeWidth="1.1" opacity=".35" />
+      <ellipse cx="195" cy={baseY - 14} rx="52" ry="8" fill="url(#phGlow)" opacity=".85" />
+      <ellipse cx="195" cy={baseY - 14} rx="8" ry="2.6" fill="#fff5f4" />
     </svg>
   );
 }
@@ -243,6 +356,7 @@ export function ProductionNode({
       data-testid={`hub-node-${node.id}`}
       data-node-status={node.status}
     >
+      <DependencySocket status={node.status} selected={selected} />
       <button type="button" className="ph-node__face" onClick={onSelect} aria-pressed={selected} aria-label={`${node.label}, ${HUB_STATUS_LABEL[node.status]}`}>
         <span className="ph-node__head">
           <span className="ph-node__no">{pad(node.order)}</span>
@@ -324,6 +438,7 @@ export function ArtifactStage({
   const swipe = useSwipe(onNext, onPrev);
   return (
     <div className={`ph-artifact${expanded ? ' is-expanded' : ''}`} data-testid="hub-artifact">
+      <ArtifactHolder />
       <button type="button" className="ph-artifact__head" onClick={onOpenScenes} aria-label="Choose scene">
         <span className="ph-artifact__scene">
           <b>{scene ? `SCENE ${pad(scene.order)}` : 'NO SCENE'}</b>
@@ -388,6 +503,7 @@ export function Filmstrip({
       <button type="button" className="ph-round ph-round--dark" onClick={() => onStep(-1)} disabled={empty} aria-label="Previous frame">
         <IcArrowL width={16} height={16} />
       </button>
+      <span className="ph-film__tray" aria-hidden />
       <div className="ph-film__rail" {...swipe}>
         {cells.map(({ n, frame }) => {
           const active = !!frame && frame.frameId === selectedFrameId;
@@ -436,6 +552,8 @@ export function FlowStack({
     <ol className="ph-flow" data-testid="hub-flow">
       {nodes.map((n, i) => (
         <li key={n.id} className={`ph-flow__item ph-flow__item--${n.status.toLowerCase()}${selectedNodeId === n.id ? ' is-selected' : ''}`} data-testid={`flow-stage-${n.id}`} data-node-status={n.status}>
+          <span className="ph-flow__clamp ph-flow__clamp--l" aria-hidden />
+          <span className="ph-flow__clamp ph-flow__clamp--r" aria-hidden />
           <button type="button" className="ph-flow__card" onClick={() => onSelect(n.id)} aria-pressed={selectedNodeId === n.id}>
             <span className="ph-flow__title">
               <b>{pad(n.order)}</b>
@@ -488,13 +606,14 @@ export function DependencyRails({ status }: { status: Record<'l' | 'r', HubNodeS
       const xm = dir === 'l' ? 30 : 70;
       const x1 = dir === 'l' ? 33 : 67;
       const hot = s === 'REVIEW_REQUIRED' || s === 'BLOCKED';
+      const d = `M${x0} ${y} H${xm} V${cy + (i - 1) * 10} H${x1}`;
+      // Conduit: outer casing, recessed channel, then the status-lit signal core.
       return (
-        <path
-          key={`${dir}${i}`}
-          d={`M${x0} ${y} H${xm} V${cy + (i - 1) * 10} H${x1}`}
-          className={`ph-rail ph-rail--${s.toLowerCase()}${hot ? ' is-hot' : ''}`}
-          vectorEffect="non-scaling-stroke"
-        />
+        <g key={`${dir}${i}`} className={`ph-rail ph-rail--${s.toLowerCase()}${hot ? ' is-hot' : ''}`}>
+          <path d={d} className="ph-rail__case" vectorEffect="non-scaling-stroke" />
+          <path d={d} className="ph-rail__chan" vectorEffect="non-scaling-stroke" />
+          <path d={d} className="ph-rail__core" vectorEffect="non-scaling-stroke" />
+        </g>
       );
     });
   return (
@@ -520,6 +639,7 @@ export function DependencyCard({
 }) {
   return (
     <button type="button" className={`ph-depcard ph-depcard--${node.status.toLowerCase()}`} onClick={onOpen} data-testid="hub-dependency-downstream">
+      <ArtifactHolder />
       <span className="ph-depcard__scene">
         <b>{sceneOrder ? `SCENE ${pad(sceneOrder)}` : 'SCENE'}</b>
         <span>{sceneLabel}</span>
@@ -554,6 +674,7 @@ export function DependencyNode({
 }) {
   return (
     <div className={`ph-depnode ph-depnode--${node.status.toLowerCase()}${selected ? ' is-selected' : ''}`} data-testid={`dep-node-${node.id}`} data-node-status={node.status}>
+      <DependencySocket status={node.status} selected={selected} />
       <button type="button" onClick={onSelect} aria-pressed={selected} className="ph-depnode__face">
         <span className="ph-depnode__head">
           <b>{pad(node.order)}</b>

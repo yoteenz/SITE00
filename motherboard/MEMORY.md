@@ -12674,3 +12674,14 @@ Across this chat: NME widget rebuild, Projects/Production mobile reconstruction,
 - **Decisions / outcomes:** HUB_ASSET_RECEIPTS ships empty; 17 Grok slots in `docs/production-hub/GROK_ASSET_MANIFEST.json`; browser QA (15 states + offline/no-image/tall/approve/revise/roundtrip) clean; not merged to main.
 - **Changes:** hub core/UI/CSS, HubReturnBar, PwFrame 7-item nav, tests (`p0ProductionHubMachine1`), docs/production-hub/*, scripts/generate-production-hub-manifest.ts.
 - **Conventions:** images only via `HubImage` slots + receipts; regenerate the manifest after adding receipts; earlier-sprint stand-in crops in `public/site00/production-mobile/` are not used by the Hub and should be removed.
+
+---
+
+## 2026-09-30 — Production Hub immersive design refinery (visual layer only)
+
+Sprint P0.PRODUCTION-HUB.OPUS-IMMERSIVE-DESIGN-REFINERY1 on top of Sonnet's hub (78fc0e8 → d35de9c).
+
+- **Context:** Founder review found the hub read as a diagram of the machine. Goal: the same functional machine, now physical: mass, depth, material, rails.
+- **Decisions / outcomes:** Reducer, state model, data, routes, testids and asset slots were not touched. `ChamberGeometry` was rebuilt: collar seen from beneath, rear glass cylinder, volumetric beam (spill → glow → core), two-tier base plinth. Added decorative primitives `DependencySocket` (station arm + status-lit port) and `ArtifactHolder` (optical shells, side tracks, beam clamps). FLOW cartridges are clamped to lit carrier rails. DEPENDENCIES rails are 3-layer conduits. The lower hub hangs off one continuous production spine: station bays, a keypad control rail for Storyboard Authority, a conveyor for On Your Table and a quiet lineage track for Activity. Chamber heights are now LIVE 540 / FLOW 752 / DEPS 792 (the `CHAMBER_HEIGHT` values plus the CSS aspect-ratio must stay in sync).
+- **Changes:** `src/site00/components/productionHub/machine.tsx`, the new material layer `src/site00/styles/site00-production-hub-refinery.css` (loaded after the base hub CSS), and the import in `ProductionHub.tsx`.
+- **Conventions:** Material tokens are `--pm-*` and z-layers are `--pz-*`. Red is reserved for live, selected, beam, founder attention and hot routing. Every piece of decorative machinery is `aria-hidden` with `pointer-events: none`. No raster was used and no Grok assets were generated.

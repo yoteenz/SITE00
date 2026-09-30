@@ -43,6 +43,7 @@ import { ProductionBottomNav } from './nav';
 import { useProductionHubData } from './useProductionHubData';
 import { writeProductionWorkspaceContext } from '../../../../shared/site00-production-workspace/productionContextStorage.js';
 import '../../styles/site00-production-hub.css';
+import '../../styles/site00-production-hub-refinery.css';
 
 const CTX_KEY = 'site00.production.hub.ctx.v1';
 const pad = (n: number) => String(n).padStart(2, '0');
