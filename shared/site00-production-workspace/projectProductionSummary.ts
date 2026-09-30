@@ -29,7 +29,8 @@ export function createProductionWorkspaceRequest(args: {
     : args.kind.startsWith('EXPERIENCE') ? 'EXPERIENCE'
     : 'EXPRESSION';
   const sub =
-    args.kind === 'EXPRESSION_NEW_CHARACTER' ? 'casting'
+    args.kind.startsWith('CHARACTER_FABRICATION') ? 'character-fabrication'
+    : args.kind === 'EXPRESSION_NEW_CHARACTER' ? 'casting'
     : args.kind === 'EXPRESSION_STORYBOARD_REVISION' ? 'storyboard'
     : args.kind === 'EXPRESSION_NEW_CAMPAIGN' ? 'narrative'
     : args.kind === 'EXPRESSION_WARDROBE_UPDATE' ? 'wardrobe'

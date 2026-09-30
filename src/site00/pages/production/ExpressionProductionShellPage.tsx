@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { subWorkspacesFor } from '../../../../shared/site00-production-workspace/registry.js';
 import { productionExpressionPath } from '../../../../shared/site00-production-workspace/routes.js';
 import { PW_IMG } from '../../components/production/productionImagery';
+import { CharacterFabrication } from '../../components/characterFabrication/CharacterFabrication';
 import { HubReturnBar } from '../../components/production/HubReturnBar';
 import { PwChip, PwRow, PwScreenHead } from '../../components/production/PwPrimitives';
 import {
@@ -20,6 +21,7 @@ import { useProductionWorkspaceContext } from '../../context/ProductionWorkspace
 const ROW_COPY: Record<string, { title: string; sub: string }> = {
   narrative: { title: 'Narrative', sub: 'Story / Structure' },
   casting: { title: 'Casting', sub: 'Characters / Talent' },
+  'character-fabrication': { title: 'Character Fabrication', sub: 'Actor → Character → Simulation' },
   wardrobe: { title: 'Wardrobe', sub: 'Looks / Hair / Makeup' },
   performance: { title: 'Performance', sub: 'Behavior / Movement' },
   sets: { title: 'Sets / Scene', sub: 'Environments / Props' },
@@ -101,6 +103,8 @@ function ExpressionRoutes() {
   switch (sub) {
     case 'narrative':
       return <NarrativeScreen slug={slug} entry={entry} />;
+    case 'character-fabrication':
+      return <CharacterFabrication projectSlug={slug} entryId={entry} />;
     case 'casting':
       return <CastingScreen slug={slug} entry={entry} />;
     case 'wardrobe':

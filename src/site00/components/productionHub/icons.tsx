@@ -70,3 +70,12 @@ export function Reticle({ size = 44 }: { size?: number }) {
     </svg>
   );
 }
+
+export const IcTrash = I('M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13M10 11v6M14 11v6');
+export const IcPlay = I('M8 5l11 7-11 7z');
+export const IcPause = I('M8 5v14M16 5v14');
+export const IcStop = I('M6 6h12v12H6z');
+export const IcSliders = I('M4 8h9M17 8h3M4 16h3M11 16h9M15 6v4M9 14v4');
+export const IcPaperclip = I('M8 12l6-6a3 3 0 014 4l-8 8a5 5 0 01-7-7l7-7');
+export const IcSkipL = I('M7 5v14M19 5l-9 7 9 7z');
+export const IcSkipR = I('M17 5v14M5 5l9 7-9 7z');

@@ -31,6 +31,11 @@ const TITLES: Record<ProductionWorkspaceRequestKind, string> = {
   EXPRESSION_WARDROBE_UPDATE: 'Wardrobe update',
   UPLOAD_REFERENCES: 'Reference upload',
   EXPRESSION_STORYBOARD_REVISION: 'Storyboard revision',
+  CHARACTER_FABRICATION_DECISION: 'Character fabrication decision',
+  CHARACTER_FABRICATION_MOTION_ASSET: 'Motion asset required',
+  CHARACTER_FABRICATION_REVISION: 'Character revision',
+  CHARACTER_FABRICATION_VARIANCE: 'Simulation variance',
+  CHARACTER_FABRICATION_SIGNOFF: 'Character authority sign-off',
 };
 
 export function productionRequestTitle(kind: ProductionWorkspaceRequestKind): string {
@@ -38,5 +43,6 @@ export function productionRequestTitle(kind: ProductionWorkspaceRequestKind): st
 }
 
 export function productionRequestScope(kind: ProductionWorkspaceRequestKind): string {
+  if (kind.startsWith('CHARACTER_FABRICATION')) return 'Expression · Character Fabrication';
   return PROJECT_REQUEST_ACTIONS.find((a) => a.kind === kind)?.scope ?? 'General';
 }
