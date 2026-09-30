@@ -12734,3 +12734,20 @@ Founder asked why the bottom-panel icons still did not match the authority, and 
   - Do not upload this bundle to site00.com until the hub branch is on `main`.
 - **Changes:** `icons.tsx`, `chrome.tsx`, hub and fabrication authority CSS, `CharacterFabrication` shell, `PwFrame` production variant, design route overlay. Photographs and receipts from the earlier mount are unchanged.
 - **Conventions:** Production header and bottom nav are the hub 864 bar. New production surfaces use `ProductionChromeStrip`, not a second icon set or a dark `.pw-nav`.
+
+---
+
+## 2026-09-30 — Production chrome text matches Character Fabrication compact type
+
+Founder said the icon pass only fixed the glyphs. Header and nav text on Production was still the large hub scale, and Character Fabrication had been moved onto that same large type. Production must use Character Fabrication's small compact text. The phone screenshots of site00.fsbw-dev.com showed PRODUCTION wrapping, NDXBOOK and ENTRY truncated, ITEMS NEED YOU overlapping the menu, and EXPERIENCEEXPRESSION collided. Character Fabrication on that preview was still the compact bar.
+
+- **Context:** Whole chat: visual sprints for Production Hub and Character Fabrication; 31 authority screens mounted as photographs and nav icons (`9cfc20f5`); shared 864 chrome and corrected glyphs (`4fdf9efc`, PR 1258, not merged); three environment plates on `cursor/authority-environment-family-1b86` (PR 1259, not wired, not for site00.com). This entry is the text correction on top of `4fdf9efc`.
+- **Topics covered:** Header and bottom-nav type only. Icons stay. Chamber, nodes, storyboard, and wardrobe type stay. Environment plates stay unwired.
+- **Decisions / outcomes:**
+  - Character Fabrication compact type is the source of truth for the shared header and bottom nav (hub, fabrication, queue, experience, libraries, design).
+  - Brand titles share one size (15px in the 864 space). PRODUCTION is no longer 31px. CHARACTER FABRICATION stays one line. Subtitles, project/production values, and the attention line stay one line and inside the columns.
+  - Nav labels use 10px with tight tracking, `min-width: 0`, and real column rules so EXPERIENCE and EXPRESSION cannot run together. Glyph paths and the 26px icon size are unchanged. Active expression stays a ring.
+  - `font-stretch: normal` was stretching Saira Semi Condensed wider than the columns. Chrome type now uses `semi-condensed`.
+  - Do not upload this bundle over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Do not merge PR 1258 or the environment PR until the founder says so.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` compact chrome block at the end of the file. Branch `cursor/chrome-compact-text-1b86` off `4fdf9efc`.
+- **Conventions:** When the shared production header or bottom nav type changes, match Character Fabrication's compact scale. Do not enlarge fabrication text up to the old hub sizes. Do not change nav glyph paths in a type pass.
