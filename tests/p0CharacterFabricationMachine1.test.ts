@@ -170,6 +170,15 @@ describe('character fabrication — asset boundary', () => {
 });
 
 describe('character fabrication — screenshot dependence audit', () => {
+  it('every rendered slot id used by the live views is declared in the registry', async () => {
+    const { readdirSync, readFileSync } = await import('node:fs');
+    const ids = new Set(buildCharacterAssetSlots().map((x) => x.slotId));
+    const dir = 'src/site00/components/characterFabrication';
+    const literal = /slotId=\{?["'`]([a-z0-9.\-]+)["'`]\}?/g;
+    for (const f of readdirSync(dir)) {
+      for (const m of readFileSync(`${dir}/${f}`, 'utf8').matchAll(literal)) expect(ids.has(m[1]!), `${f}: ${m[1]}`).toBe(true);
+    }
+  });
   it('asset manifest file matches the registry', async () => {
     const { readFileSync } = await import('node:fs');
     const onDisk = JSON.parse(readFileSync('docs/character-fabrication/CHARACTER_FABRICATION_ASSET_MANIFEST.json', 'utf8'));
@@ -186,6 +195,11 @@ describe('character fabrication — screenshot dependence audit', () => {
     }
     const css = readFileSync('src/site00/styles/site00-character-fabrication.css', 'utf8');
     expect(css).not.toMatch(/url\((?!#)|background-image/);
+    // authority stylesheet: the only external resources allowed are the vendored OFL fonts
+    const auth = readFileSync('src/site00/styles/site00-character-fabrication-authority.css', 'utf8');
+    const urls = [...auth.matchAll(/url\(([^)]*)\)/g)].map((m) => m[1]!.replace(/['"]/g, ''));
+    for (const u of urls) expect(u, u).toMatch(/^(#|\/site00\/fonts\/[a-z-]+\/[a-z0-9-]+\.woff2$)/);
+    expect(auth).not.toMatch(/background-image|IMG_54\d\d/);
   });
   it('request kinds route Character Fabrication into the Expression sub-workspace', async () => {
     const { createProductionWorkspaceRequest } = await import('../shared/site00-production-workspace/projectProductionSummary.js');

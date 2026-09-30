@@ -6,17 +6,17 @@
     "WARDROBE_TOP",
     "MOTION_TIMING"
   ],
-  "totalSlots": 100,
+  "totalSlots": 104,
   "runtimeCanonicalSlots": 2,
-  "grokRequiredCount": 98,
+  "grokRequiredCount": 102,
   "slotsByGroup": {
     "MACHINE": 1,
     "ACTOR": 14,
     "BODY": 7,
     "CHARACTER": 3,
     "WARDROBE": 21,
-    "LOOK": 3,
-    "APPEARANCE": 24,
+    "LOOK": 6,
+    "APPEARANCE": 25,
     "MOTION": 9,
     "SIMULATION": 18
   },
@@ -913,6 +913,63 @@
       ]
     },
     {
+      "slotId": "look.sw017.candidate.a.layers",
+      "group": "LOOK",
+      "purpose": "Layer-breakdown flat lay of look CANDIDATE A (garments stacked, no model).",
+      "aspectRatio": "4:5",
+      "minimumResolution": "800x1000",
+      "usedBy": [
+        "LayerBreakdown"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/look/sw017/candidate/a/layers.webp",
+      "assetId": "grok.site00.character-fabrication.look.sw017.candidate.a.layers.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "look.sw017.candidate.b.layers",
+      "group": "LOOK",
+      "purpose": "Layer-breakdown flat lay of look CANDIDATE B (garments stacked, no model).",
+      "aspectRatio": "4:5",
+      "minimumResolution": "800x1000",
+      "usedBy": [
+        "LayerBreakdown"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/look/sw017/candidate/b/layers.webp",
+      "assetId": "grok.site00.character-fabrication.look.sw017.candidate.b.layers.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "look.sw017.candidate.c.layers",
+      "group": "LOOK",
+      "purpose": "Layer-breakdown flat lay of look CANDIDATE C (garments stacked, no model).",
+      "aspectRatio": "4:5",
+      "minimumResolution": "800x1000",
+      "usedBy": [
+        "LayerBreakdown"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/look/sw017/candidate/c/layers.webp",
+      "assetId": "grok.site00.character-fabrication.look.sw017.candidate.c.layers.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
       "slotId": "appearance.sw017.reference.hair.01",
       "group": "APPEARANCE",
       "purpose": "Hair reference REF-H-01.",
@@ -1191,6 +1248,25 @@
       "grokRequired": true,
       "destinationPath": "public/site00/character-fabrication/appearance/sw017/layer/grit.webp",
       "assetId": "grok.site00.character-fabrication.appearance.sw017.layer.grit.v1",
+      "doNotChange": [
+        "No baked UI, text, captions or logos.",
+        "Actor identity must match canonical actor authority (SW-017).",
+        "Exact aspect ratio; no crops from authority screenshots."
+      ]
+    },
+    {
+      "slotId": "appearance.sw017.hero.closeup",
+      "group": "APPEARANCE",
+      "purpose": "Hair + Makeup station hero: head-and-shoulders close-up of the subject inside the chamber (right two-thirds of frame).",
+      "aspectRatio": "16:10",
+      "minimumResolution": "1728x1240",
+      "usedBy": [
+        "AppearanceStation"
+      ],
+      "runtimeSource": null,
+      "grokRequired": true,
+      "destinationPath": "public/site00/character-fabrication/appearance/sw017/hero/closeup.webp",
+      "assetId": "grok.site00.character-fabrication.appearance.sw017.hero.closeup.v1",
       "doNotChange": [
         "No baked UI, text, captions or logos.",
         "Actor identity must match canonical actor authority (SW-017).",

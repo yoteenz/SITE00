@@ -79,3 +79,5 @@ export const IcSliders = I('M4 8h9M17 8h3M4 16h3M11 16h9M15 6v4M9 14v4');
 export const IcPaperclip = I('M8 12l6-6a3 3 0 014 4l-8 8a5 5 0 01-7-7l7-7');
 export const IcSkipL = I('M7 5v14M19 5l-9 7 9 7z');
 export const IcSkipR = I('M17 5v14M5 5l9 7-9 7z');
+export const IcEye = I('M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7s-7-2-10-7zM12 9a3 3 0 100 6 3 3 0 000-6z');
+export const IcSave = I('M5 4h11l3 3v13H5zM8 4v5h7V4M8 20v-6h8v6');

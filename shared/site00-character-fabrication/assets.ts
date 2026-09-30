@@ -45,8 +45,10 @@ export function buildCharacterAssetSlots(): CharacterAssetSlot[] {
   for (const m of MOVEMENT_REFERENCES) out.push(slot(`actor.sw017.movement.${m.refId}`, 'BODY', `Movement reference still: ${m.label}.`, '16:10', '1280x800', ['ContinuityInspector']));
   for (const g of WARDROBE_LIBRARY) out.push(slot(g.slotId, 'WARDROBE', `Product photography for ${g.name}.`, '1:1', '800x800', ['GarmentAssetCard', 'FittingSlot']));
   for (const c of LOOK_CANDIDATES) out.push(slot(c.slotId, 'LOOK', `Full-length render of look ${c.label}.`, '9:16', '1080x1920', ['CandidateComparison']));
+  for (const c of LOOK_CANDIDATES) out.push(slot(`${c.slotId}.layers`, 'LOOK', `Layer-breakdown flat lay of look ${c.label} (garments stacked, no model).`, '4:5', '800x1000', ['LayerBreakdown']));
   for (const r of [...HAIR_REFS, ...MAKEUP_REFS]) out.push(slot(r.slotId, 'APPEARANCE', `${r.kind === 'HAIR' ? 'Hair' : 'Makeup'} reference ${r.refId}.`, '4:5', '800x1000', ['AppearanceLayerList']));
   for (const l of APPEARANCE_LAYERS) out.push(slot(l.slotId, 'APPEARANCE', `Layer swatch/thumbnail: ${l.label}.`, '1:1', '400x400', ['AppearanceLayerList']));
+  out.push(slot('appearance.sw017.hero.closeup', 'APPEARANCE', 'Hair + Makeup station hero: head-and-shoulders close-up of the subject inside the chamber (right two-thirds of frame).', '16:10', '1728x1240', ['AppearanceStation']));
   for (const st of ['current', 'candidate'] as const) out.push(slot(`appearance.sw017.compare.${st}.primary`, 'APPEARANCE', `${st} appearance treatment — primary view.`, '4:5', '1280x1600', ['AuthorityComparison']));
   for (const st of ['current', 'candidate'] as const) for (const v of ['left', 'back', 'right']) out.push(slot(`appearance.sw017.compare.${st}.${v}`, 'APPEARANCE', `${st} appearance treatment — ${v} angle.`, '4:5', '800x1000', ['AuthorityComparison']));
   out.push(slot('appearance.sw017.compare.overlay', 'APPEARANCE', 'Side-by-side overlay crop source.', '16:9', '1280x720', ['AuthorityComparison']));

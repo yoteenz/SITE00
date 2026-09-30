@@ -1,520 +1,222 @@
 /**
- * FABRICATION CHAMBER — the workspace itself, not a backdrop.
+ * FABRICATION CHAMBER HERO — live SVG stand-in for the chamber plate in the authority screens.
  *
- * One persistent SUBJECT STAGE sits in a glass capsule. Every station is an operating MODE of the same apparatus:
- * the modules mounted around the capsule change, and approved upstream layers ACCUMULATE on the subject
- * (calibration marks → fitted garments → appearance layers → behavior field → motion rail → test envelope → locks).
- *
- * Honesty rules: the figure is a PROPORTION PROXY (live SVG), never invented human imagery. When a real subject asset
- * exists for `actor.sw017.body.neutral.front` (or the simulation feed slot while testing) it occupies the capsule.
- * Every overlay is driven by real FabricationState — nothing decorative claims data that does not exist.
+ * Layout is authored on the 432px authority canvas (the workspace is zoomed to device width), so every coordinate
+ * below is a direct transcription of the reference geometry. The subject is a frozen ASSET SLOT
+ * (`actor.sw017.body.neutral.front`) — until Grok delivers it, an honest proportion proxy (live SVG) stands in.
+ * No reference pixels, no invented human imagery.
  */
 import type { ReactNode } from 'react';
-import {
-  CALIBRATION_FIXTURE,
-  GARMENT_BY_ID,
-  SKIN_BY_ID,
-  STATION_LABEL,
-  STATION_ORDER,
-  stationNumber,
-  type BehaviorRole,
-  type StationId,
-  type StationStatus,
-} from '../../../../shared/site00-character-fabrication/index.js';
+import { GARMENT_BY_ID, type BehaviorRole } from '../../../../shared/site00-character-fabrication/index.js';
 import { useFabrication } from './FabricationContext';
 import { CfImage } from './CfImage';
-import { IcArrowR, IcLock } from '../productionHub/icons';
+import { ActorAuthorityCard, CharacterAuthorityCard, FabricationStageRail } from './primitives';
 
 export const ROLE_COLOR: Record<BehaviorRole, string> = { PRIMARY: '#e5231b', SECONDARY: '#3c8fd0', ACCENT: '#d9a21f', FOUNDATIONAL: '#8a8c94' };
 
-const DONE: StationStatus[] = ['APPROVED', 'LOCKED'];
-const SUBJECT_SLOT = 'actor.sw017.body.neutral.front';
-const FEED_SLOT = 'simulation.sw017.current.preview';
+export const SUBJECT_SLOT = 'actor.sw017.body.neutral.front';
+export const CHAMBER_SLOT = 'fabrication.machine.chamber';
 
-const MODE_TITLE: Record<StationId, { op: string; verb: string }> = {
-  identity: { op: 'SOURCE INTAKE', verb: 'WHO IS THE SOURCE PERFORMER' },
-  body: { op: 'CALIBRATION', verb: 'APPROVED PHYSICAL BASELINE' },
-  look: { op: 'FITTING', verb: 'WHAT THE CHARACTER WEARS' },
-  appearance: { op: 'APPEARANCE LAYERING', verb: 'HAIR + MAKEUP APPLIED TO SUBJECT' },
-  character: { op: 'ROLE CONSTRUCTION', verb: 'WHO THE ACTOR BECOMES' },
-  performance: { op: 'ACTIVATION', verb: 'WHAT THE CHARACTER CAN DO' },
-  simulation: { op: 'CONTROLLED TEST', verb: 'DOES IT HOLD TOGETHER' },
-  authority: { op: 'AUTHORITY LOCK', verb: 'WHAT IS NOW CANONICAL' },
-};
-
-/* ── subject proportion proxy (SVG, capsule coordinates) ─────────────────── */
-
+/* proportion proxy, authored in a 390x420 box: head top y66, feet y336, centre x195 */
 const P = {
   head: 'M195 66c9 0 15 7 15 18s-6 20-15 20-15-9-15-20 6-18 15-18z',
+  neck: 'M189 100h12v14h-12z',
   torso: 'M171 112q24-8 48 0l7 58q-4 26-12 38h-38q-8-12-12-38z',
   hips: 'M176 206h38l5 24h-48z',
   legL: 'M172 228h21l-3 62-4 44h-12l2-44z',
   legR: 'M197 228h21l-4 62 2 44h-12l-4-44z',
   armL: 'M170 114l-10 6-11 60-2 34h8l6-32 11-46z',
   armR: 'M220 114l10 6 11 60 2 34h-8l-6-32-11-46z',
-  neck: 'M189 100h12v14h-12z',
-  hair: 'M180 84c-1-14 6-22 15-22s17 8 15 22c-2-8-8-11-15-11s-13 3-15 11z',
   feetL: 'M172 330h14v6h-16z',
   feetR: 'M204 330h14l2 6h-16z',
+  hair: 'M180 84c-1-14 6-22 15-22s17 8 15 22c-2-8-8-11-15-11s-13 3-15 11z',
 };
-const BODY_PARTS = ['head', 'neck', 'torso', 'hips', 'legL', 'legR', 'armL', 'armR'] as const;
-const CAL_LINES = [
-  { y: 66, k: 'HEAD' },
-  { y: 114, k: 'SHOULDER' },
-  { y: 206, k: 'HIP' },
-  { y: 280, k: 'KNEE' },
-  { y: 336, k: 'FLOOR' },
-];
+const PARTS = ['head', 'neck', 'torso', 'hips', 'legL', 'legR', 'armL', 'armR', 'feetL', 'feetR'] as const;
 
-function SubjectProxy({ mode }: { mode: StationId }) {
+function Proxy() {
   const { state } = useFabrication();
-  const f = state.fitting;
   const hidden = new Set(state.fittingHidden);
-  const sw = (k: 'L1' | 'L2' | 'L3' | 'L4') => (f[k] && !hidden.has(k) ? GARMENT_BY_ID[f[k]!]?.swatch ?? null : null);
+  const sw = (k: 'L1' | 'L2' | 'L3' | 'L4') => (state.fitting[k] && !hidden.has(k) ? GARMENT_BY_ID[state.fitting[k]!]?.swatch ?? null : null);
   const top = sw('L1');
   const bottom = sw('L2');
   const outer = sw('L3');
   const shoes = sw('L4');
-  const layers = state.appearanceLayers;
-  const hairL = layers.find((l) => l.layerId === 'hairStyle');
-  const hairOn = !!hairL?.visible && (state.touched.appearance || state.authority.appearance !== 'NONE');
-  const bodyCal = state.bodyCalibrated;
-  const bodyLocked = state.authority.body === 'LOCKED' && !state.stale.body;
+  const hair = state.appearanceLayers.find((l) => l.layerId === 'hairStyle');
   return (
-    <g className="cf-subj" data-subject-proxy>
-      {/* base form */}
-      {BODY_PARTS.map((k) => <path key={k} d={P[k]} className="cf-subj__base" />)}
-      <path d={P.feetL} className="cf-subj__base" />
-      <path d={P.feetR} className="cf-subj__base" />
-      {/* LOOK — fitted garments accumulate on the form (real fitting state) */}
-      {top ? <path d={P.torso} fill={top} className="cf-subj__garment" data-layer="L1" /> : null}
-      {bottom ? (
-        <g data-layer="L2">
-          <path d={P.hips} fill={bottom} className="cf-subj__garment" />
-          <path d={P.legL} fill={bottom} className="cf-subj__garment" />
-          <path d={P.legR} fill={bottom} className="cf-subj__garment" />
-        </g>
-      ) : null}
-      {outer ? (
-        <g data-layer="L3">
-          <path d={P.armL} fill={outer} className="cf-subj__garment" />
-          <path d={P.armR} fill={outer} className="cf-subj__garment" />
-          <path d="M171 112q24-8 48 0l7 58q-2 14-6 24h-6l-2-70h-34l-2 70h-6q-4-10-6-24z" fill={outer} className="cf-subj__garment" />
-        </g>
-      ) : null}
-      {shoes ? (
-        <g data-layer="L4">
-          <path d={P.feetL} fill={shoes} className="cf-subj__garment" />
-          <path d={P.feetR} fill={shoes} className="cf-subj__garment" />
-        </g>
-      ) : null}
-      {/* HAIR + MAKEUP — hair layer mass, opacity from the live layer */}
-      {hairOn ? <path d={P.hair} className="cf-subj__hair" style={{ opacity: ((hairL?.opacity ?? 100) / 100) * 0.9 }} data-layer="hair" /> : null}
-      {/* BODY — calibration marks persist once calibrated; turn green when locked */}
-      {bodyCal || mode === 'body'
-        ? CAL_LINES.map((l) => (
-            <g key={l.k} className={`cf-cal ${bodyLocked ? 'is-locked' : bodyCal ? 'is-cal' : ''}`}>
-              <line x1="140" x2="250" y1={l.y} y2={l.y} />
-              <line x1="140" x2="146" y1={l.y - 3} y2={l.y - 3} />
-            </g>
-          ))
-        : null}
+    <g data-subject-proxy>
+      {PARTS.map((k) => <path key={k} d={P[k]} className="cf-px" />)}
+      {top ? <path d={P.torso} fill={top} className="cf-px-g" /> : null}
+      {bottom ? (['hips', 'legL', 'legR'] as const).map((k) => <path key={k} d={P[k]} fill={bottom} className="cf-px-g" />) : null}
+      {outer ? (['armL', 'armR'] as const).map((k) => <path key={k} d={P[k]} fill={outer} className="cf-px-g" />) : null}
+      {shoes ? (['feetL', 'feetR'] as const).map((k) => <path key={k} d={P[k]} fill={shoes} className="cf-px-g" />) : null}
+      {hair?.visible && state.touched.appearance ? <path d={P.hair} className="cf-px-hair" style={{ opacity: hair.opacity / 110 }} /> : null}
     </g>
   );
 }
 
-/* ── capsule + structure ───────────────────────────────────────────────── */
-
-function Structure({ mode, running }: { mode: StationId; running: boolean }) {
+/** Figure + figure asset slot. Box is given in hero coordinates. */
+export function SubjectFigure({ x, y, w, h }: { x: number; y: number; w: number; h: number }) {
+  const { url } = useFabrication();
+  const src = url(SUBJECT_SLOT);
   return (
-    <g aria-hidden>
+    <div className="cf-fig" style={{ left: x, top: y, width: w, height: h }} data-asset-slot={SUBJECT_SLOT} data-asset-state={src ? 'filled' : 'missing'}>
+      {src ? (
+        <CfImage slotId={SUBJECT_SLOT} url={src} label="" className="cf-fig__img" />
+      ) : (
+        <svg viewBox="147 60 96 280" preserveAspectRatio="xMidYMax meet" className="cf-fig__svg" aria-hidden>
+          <Proxy />
+        </svg>
+      )}
+    </div>
+  );
+}
+
+/** The lab plate: walls, ceiling strips, arms, glass cylinder, platform. Coordinates = hero px. */
+export function ChamberPlate({ h, cyl, cx = 216, scale = 1 }: { h: number; cyl: { top: number; plat: number }; cx?: number; scale?: number }) {
+  const { top, plat } = cyl;
+  const arm = (side: 1 | -1) => {
+    const x = cx + side * 82 * scale;
+    return (
+      <g key={side} className="cf-arm">
+        <rect x={x - 6} y={top + 28} width="12" height={plat - top - 30} rx="2" className="cf-arm__col" />
+        <rect x={x - 9} y={top + 40} width="18" height="22" rx="2" className="cf-arm__box" />
+        <rect x={x - 9} y={plat - 70} width="18" height="26" rx="2" className="cf-arm__box" />
+        <path d={`M${x} ${top + 60} L${x - side * 20} ${top + 86} L${x - side * 30} ${top + 118}`} className="cf-arm__link" />
+        <path d={`M${x} ${plat - 58} L${x - side * 18} ${plat - 80} L${x - side * 30} ${plat - 70}`} className="cf-arm__link" />
+        <circle cx={x - side * 20} cy={top + 86} r="4.5" className="cf-arm__joint" />
+        <circle cx={x - side * 18} cy={plat - 80} r="4" className="cf-arm__joint" />
+        {[top + 50, top + 96, plat - 58, plat - 40].map((yy) => <circle key={yy} cx={x + side * 6} cy={yy} r="1.6" className="cf-arm__led" />)}
+        <line x1={x - side * 2} x2={x - side * 2} y1={top + 64} y2={plat - 76} className="cf-arm__glow" />
+      </g>
+    );
+  };
+  return (
+    <svg className="cf-plate" viewBox={`0 0 432 ${h}`} preserveAspectRatio="none" aria-hidden data-asset-slot={CHAMBER_SLOT} data-asset-state="missing">
       <defs>
-        <linearGradient id="cfChrome" x1="0" x2="1">
-          <stop offset="0" stopColor="#8d929b" />
-          <stop offset=".35" stopColor="#f7f8fa" />
-          <stop offset=".55" stopColor="#c6cad1" />
-          <stop offset="1" stopColor="#7d828c" />
+        <linearGradient id="cfWall" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#e9ebee" />
+          <stop offset=".55" stopColor="#f5f6f8" />
+          <stop offset="1" stopColor="#dcdfe3" />
         </linearGradient>
-        <linearGradient id="cfGlass2" x1="0" x2="1">
-          <stop offset="0" stopColor="#fff" stopOpacity=".2" />
-          <stop offset=".12" stopColor="#eef3f7" stopOpacity=".75" />
-          <stop offset=".5" stopColor="#fff" stopOpacity=".1" />
-          <stop offset=".88" stopColor="#eef3f7" stopOpacity=".7" />
-          <stop offset="1" stopColor="#fff" stopOpacity=".2" />
+        <linearGradient id="cfSteel" x1="0" x2="1">
+          <stop offset="0" stopColor="#5e636c" />
+          <stop offset=".4" stopColor="#dfe2e6" />
+          <stop offset=".6" stopColor="#9ca1aa" />
+          <stop offset="1" stopColor="#4f535b" />
         </linearGradient>
-        <radialGradient id="cfPlate" cx=".5" cy=".45" r=".6">
+        <linearGradient id="cfGlassCol" x1="0" x2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity=".15" />
+          <stop offset=".08" stopColor="#fff" stopOpacity=".85" />
+          <stop offset=".2" stopColor="#e3e8ee" stopOpacity=".35" />
+          <stop offset=".5" stopColor="#fff" stopOpacity=".08" />
+          <stop offset=".8" stopColor="#e3e8ee" stopOpacity=".35" />
+          <stop offset=".92" stopColor="#fff" stopOpacity=".85" />
+          <stop offset="1" stopColor="#fff" stopOpacity=".15" />
+        </linearGradient>
+        <radialGradient id="cfFloor2" cx=".5" cy=".4" r=".7">
           <stop offset="0" stopColor="#ffffff" />
-          <stop offset=".7" stopColor="#dde0e5" />
-          <stop offset="1" stopColor="#b8bcc4" />
+          <stop offset="1" stopColor="#c9cdd3" />
         </radialGradient>
-        <linearGradient id="cfSubj" x1="0" x2="1">
-          <stop offset="0" stopColor="#c9ccd3" />
-          <stop offset=".45" stopColor="#f3f4f6" />
-          <stop offset="1" stopColor="#b9bdc5" />
+        <linearGradient id="cfPx" x1="0" x2="1">
+          <stop offset="0" stopColor="#c4c8cf" />
+          <stop offset=".45" stopColor="#f4f5f7" />
+          <stop offset="1" stopColor="#b4b8c0" />
         </linearGradient>
       </defs>
-      {/* back wall: panel seams + ceiling light strips */}
-      {[0, 48, 96, 294, 342].map((x) => <rect key={x} x={x} y="0" width="48" height="330" className="cf-wall" />)}
-      {[18, 38].map((y) => <line key={y} x1="0" x2="390" y1={y} y2={y} className="cf-lightstrip" />)}
-      {/* gantry columns with joints */}
-      {[70, 320].map((x) => (
-        <g key={x}>
-          <rect x={x - 7} y="30" width="14" height="318" fill="url(#cfChrome)" className="cf-col" />
-          {[80, 160, 240, 310].map((y) => <rect key={y} x={x - 10} y={y} width="20" height="7" rx="1.5" className="cf-joint" />)}
+      <rect width="432" height={h} fill="url(#cfWall)" />
+      {/* wall seams + ceiling light strips in perspective */}
+      {[40, 80, 352, 392].map((x) => <line key={x} x1={x} x2={x} y1="0" y2={plat - 30} className="cf-seam" />)}
+      {[0, 1, 2, 3].map((i) => (
+        <g key={i}>
+          <line x1={-10 + i * 22} y1={8 + i * 10} x2={70 + i * 16} y2={2 + i * 16} className="cf-strip" />
+          <line x1={442 - i * 22} y1={8 + i * 10} x2={362 - i * 16} y2={2 + i * 16} className="cf-strip" />
         </g>
       ))}
-      {/* top ring */}
-      <ellipse cx="195" cy="44" rx="128" ry="22" fill="none" stroke="url(#cfChrome)" strokeWidth="9" />
-      <ellipse cx="195" cy="44" rx="96" ry="15" className={`cf-ring-red${running ? ' is-live' : ''}`} />
-      {/* capsule glass */}
-      <rect x="126" y="44" width="138" height="302" fill="url(#cfGlass2)" className="cf-capsule" />
-      <line x1="126" x2="126" y1="44" y2="346" className="cf-capsule-edge" />
-      <line x1="264" x2="264" y1="44" y2="346" className="cf-capsule-edge" />
-      {/* calibration ticks on capsule edge (structural; brighter in body mode) */}
-      <g className={`cf-ticks${mode === 'body' ? ' is-on' : ''}`}>
-        {Array.from({ length: 26 }, (_, i) => 60 + i * 11).map((y, i) => <line key={y} x1="126" x2={i % 5 === 0 ? 136 : 131} y1={y} y2={y} />)}
+      <line x1="0" x2="432" y1={plat + 10} y2={plat + 10} className="cf-seam" />
+      <rect x="0" y={plat + 10} width="432" height={h - plat} fill="url(#cfFloor2)" opacity=".75" />
+      {/* red registration marks */}
+      <path d={`M16 ${top + 26} h96 M320 ${top + 26} h96`} className="cf-reg" />
+      <g className="cf-plate__arms">
+        {arm(-1)}
+        {arm(1)}
+      </g>
+      <g className="cf-plate__cyl">
+      {/* cylinder top assembly */}
+      <ellipse cx={cx} cy={top + 12} rx={90 * scale} ry={18 * scale} fill="none" stroke="url(#cfSteel)" strokeWidth="10" />
+      <ellipse cx={cx} cy={top + 14} rx={74 * scale} ry={13 * scale} fill="none" stroke="#3f434a" strokeWidth="3" />
+      <ellipse cx={cx} cy={top + 16} rx={62 * scale} ry={10 * scale} className="cf-ring" />
+      {/* glass column */}
+      <rect x={cx - 57 * scale} y={top + 18} width={114 * scale} height={plat - top - 18} fill="url(#cfGlassCol)" />
+      <line x1={cx - 57 * scale} x2={cx - 57 * scale} y1={top + 18} y2={plat} className="cf-edge" />
+      <line x1={cx + 57 * scale} x2={cx + 57 * scale} y1={top + 18} y2={plat} className="cf-edge" />
       </g>
       {/* platform */}
-      <ellipse cx="195" cy="356" rx="170" ry="30" fill="url(#cfPlate)" className="cf-plate" />
-      <ellipse cx="195" cy="352" rx="120" ry="19" className="cf-plate-ring" />
-      <ellipse cx="195" cy="350" rx="84" ry="12" className={`cf-ring-red${running ? ' is-live' : ''}`} />
-    </g>
+      <ellipse cx={cx} cy={plat + 4} rx={112 * scale} ry={20 * scale} fill="url(#cfFloor2)" stroke="#9ea3ab" strokeWidth=".8" />
+      <ellipse cx={cx} cy={plat} rx={92 * scale} ry={15 * scale} fill="none" stroke="#b9bdc4" strokeWidth="1.5" />
+      <ellipse cx={cx} cy={plat - 1} rx={64 * scale} ry={10 * scale} className="cf-ring cf-ring--floor" />
+      <line x1={cx} x2={cx} y1={top + 22} y2={plat - 6} className="cf-beam" />
+    </svg>
   );
 }
 
-/* ── mode apparatus (SVG parts that live inside the chamber coordinate system) ── */
-
-function ModeApparatus({ mode }: { mode: StationId }) {
-  const { state } = useFabrication();
-  if (mode === 'body')
-    return (
-      <g className="cf-app cf-app--body" aria-hidden>
-        <line x1="130" x2="260" y1="60" y2="60" className="cf-scan" />
-        <rect x="136" y="60" width="118" height="276" className="cf-calframe" />
-        {['FRONT', 'SIDE', 'BACK'].map((v, i) => (
-          <text key={v} x={150 + i * 45} y="344" className={`cf-svglabel${state.bodyView === v ? ' is-on' : ''}`}>{v}</text>
-        ))}
-      </g>
-    );
-  if (mode === 'identity')
-    return (
-      <g className="cf-app" aria-hidden>
-        <path d="M92 250 C 120 250 128 210 150 200" className="cf-link-line" />
-        <path d="M240 200 C 262 210 270 150 298 150" className="cf-link-line cf-link-line--red" />
-      </g>
-    );
-  if (mode === 'look') {
-    const ys = { L1: 150, L2: 262, L3: 184, L4: 332 } as const;
-    return (
-      <g className="cf-app" aria-hidden>
-        <line x1="300" x2="300" y1="96" y2="336" className="cf-rail-v" />
-        {(['L1', 'L2', 'L3', 'L4'] as const).map((k, i) => (
-          <path key={k} d={`M300 ${112 + i * 58} L 270 ${112 + i * 58} L 232 ${ys[k]}`} className={`cf-link-line${state.fitting[k] ? ' cf-link-line--red' : ''}`} />
-        ))}
-      </g>
-    );
-  }
-  if (mode === 'appearance')
-    return (
-      <g className="cf-app" aria-hidden>
-        {[...state.appearanceLayers].sort((a, b) => a.order - b.order).map((l, i) => (
-          <path key={l.layerId} d={`M141 ${115 + i * 14} C 158 ${115 + i * 14} 164 ${78 + i * 4} 181 ${76 + i * 4}`} className={`cf-link-line${l.visible ? ' cf-link-line--red' : ''}`} style={{ opacity: l.visible ? 0.25 + l.opacity / 140 : 0.15, strokeWidth: 0.6 }} />
-        ))}
-      </g>
-    );
-  if (mode === 'character') {
-    const total = 2 * Math.PI * 150;
-    let acc = 0;
-    return (
-      <g className="cf-app" aria-hidden>
-        {state.behaviorLayers.map((l) => {
-          const len = (l.weight / 400) * total;
-          const off = acc;
-          acc += len + 6;
-          return <ellipse key={l.skinId} cx="195" cy="200" rx="150" ry="150" className="cf-field" stroke={ROLE_COLOR[l.role]} strokeDasharray={`${len} ${total}`} strokeDashoffset={-off} transform="rotate(-90 195 200)" />;
-        })}
-      </g>
-    );
-  }
-  if (mode === 'performance')
-    return (
-      <g className="cf-app" aria-hidden>
-        <path d="M60 372 H330" className="cf-motionrail" />
-        <path d="M150 338 C 170 318 220 318 240 338" className={`cf-trail${state.motionPlaying ? ' is-live' : ''}`} />
-        <path d="M140 300 C 165 270 225 270 250 300" className={`cf-trail${state.motionPlaying ? ' is-live' : ''}`} />
-      </g>
-    );
-  if (mode === 'simulation') {
-    const n = (state.run?.config.cameraAngles ?? state.simConfig.cameraAngles) as number;
-    const pos = [[40, 70], [350, 70], [40, 300], [350, 300]].slice(0, n);
-    return (
-      <g className="cf-app" aria-hidden>
-        <rect x="112" y="52" width="166" height="302" className="cf-envelope" />
-        {pos.map(([x, y], i) => (
-          <g key={i} className="cf-cam">
-            <rect x={x! - 9} y={y! - 6} width="18" height="12" rx="2" />
-            <line x1={x} y1={y} x2="195" y2="200" />
-          </g>
-        ))}
-      </g>
-    );
-  }
-  if (mode === 'authority')
-    return (
-      <g className="cf-app" aria-hidden>
-        <ellipse cx="195" cy="200" rx="104" ry="168" className="cf-lockring" />
-        <ellipse cx="195" cy="200" rx="92" ry="156" className="cf-lockring cf-lockring--inner" />
-      </g>
-    );
-  return null;
-}
-
-/* ── HTML modules mounted on the apparatus ─────────────────────────────── */
-
-function AuthorityModule({ side, eyebrow, title, sub, slotId, status, children }: { side: 'l' | 'r'; eyebrow: string; title: string; sub: string; slotId?: string; status?: ReactNode; children?: ReactNode }) {
-  const { url } = useFabrication();
+/**
+ * Hero: chamber plate + subject + mounted cards (+ anything else the view mounts, e.g. the station rail).
+ * `h` is the hero height in authority px; `cyl` places the cylinder; `fig` places the subject figure box.
+ */
+export function ChamberHero({
+  h,
+  cyl,
+  fig,
+  children,
+  className = '',
+  testId = 'cf-machine',
+}: {
+  h: number;
+  cyl: { top: number; plat: number };
+  fig: { x: number; y: number; w: number; h: number };
+  children?: ReactNode;
+  className?: string;
+  testId?: string;
+}) {
   return (
-    <div className={`cf-amod cf-amod--${side}`} data-testid={side === 'l' ? 'cf-actor-card' : 'cf-character-card'}>
-      {slotId ? <CfImage slotId={slotId} url={url(slotId)} label="" className="cf-amod__img" /> : null}
-      <span className="cf-amod__txt">
-        <small>{eyebrow}</small>
-        <b>{title}</b>
-        <em>{sub}</em>
-        {status}
-      </span>
+    <section className={`cf-hero ${className}`} style={{ height: h }} data-testid={testId} aria-label="Fabrication chamber">
+      <ChamberPlate h={h} cyl={cyl} />
+      <SubjectFigure {...fig} />
       {children}
-    </div>
-  );
-}
-
-function Beacon({ tone }: { tone: 'red' | 'green' | 'amber' | 'grey' }) {
-  return <i className={`cf-beacon cf-beacon--${tone}`} aria-hidden />;
-}
-
-function Dock({ at, children, testId, className = '' }: { at: string; children: ReactNode; testId?: string; className?: string }) {
-  return (
-    <div className={`cf-dock cf-dock--${at} ${className}`} data-testid={testId}>
-      {children}
-    </div>
-  );
-}
-
-function ModeModules({ mode }: { mode: StationId }) {
-  const { state, dispatch, actor, character, url, status, now } = useFabrication();
-  switch (mode) {
-    case 'identity':
-      return (
-        <>
-          <Dock at="bl" testId="cf-identity-dock">
-            <small>SOURCE PERFORMER</small>
-            <b>{actor.catalogueNumber}</b>
-            <span>{actor.stageName.toUpperCase()}</span>
-            <span className="cf-dock__row">
-              <button type="button" className="cf-chip" data-testid="cf-view-actor-profile" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'ACTOR_PROFILE' })}>PROFILE</button>
-              <button type="button" className="cf-chip" data-testid="cf-change-actor" onClick={() => dispatch({ type: 'CHANGE_ACTOR', at: now() })}>CHANGE</button>
-            </span>
-          </Dock>
-          <Dock at="r" testId="cf-target-dock">
-            <small>INSTANTIATES</small>
-            <b>{character.displayName}</b>
-            <span>NDXBOOK · ENTRY {state.selectedEntryId}</span>
-            <span className="cf-dim">{character.version} · ROLE RECORD</span>
-          </Dock>
-        </>
-      );
-    case 'body': {
-      const cal = state.bodyCalibrated;
-      return (
-        <>
-          <Dock at="l" testId="cf-cal-dock">
-            {CAL_LINES.map((l) => <span key={l.k} className="cf-dock__tick" style={{ top: `${(l.y / 420) * 100}%` }}>{l.k}</span>)}
-          </Dock>
-          <Dock at="r" testId="cf-cal-readout">
-            <small>CALIBRATION</small>
-            <b className={cal ? '' : 'cf-dim'}>{cal ? `${CALIBRATION_FIXTURE.alignmentPct}%` : 'NOT RUN'}</b>
-            <span>{cal ? `± ${CALIBRATION_FIXTURE.overall}% · FIXTURE` : 'RUN IN INSPECTOR'}</span>
-            <span>BASE {state.selectedBodyVersionId}</span>
-            <span className={state.authority.body === 'LOCKED' ? 'cf-ok' : 'cf-dim'}>{state.authority.body === 'LOCKED' ? 'BASELINE LOCKED' : 'BASELINE OPEN'}</span>
-            <button type="button" className="cf-chip" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'BODY_INSPECTOR' })}>INSPECT</button>
-          </Dock>
-          <div className="cf-viewsel" role="group" aria-label="Calibration view">
-            {(['FRONT', 'SIDE', 'BACK'] as const).map((v) => (
-              <button key={v} type="button" aria-pressed={state.bodyView === v} className={state.bodyView === v ? 'is-on' : ''} onClick={() => dispatch({ type: 'BODY_VIEW', view: v })}>{v}</button>
-            ))}
-          </div>
-        </>
-      );
-    }
-    case 'look':
-      return (
-        <Dock at="rail" testId="cf-fitting-rail">
-          {(['L1', 'L2', 'L3', 'L4'] as const).map((k) => {
-            const g = state.fitting[k] ? GARMENT_BY_ID[state.fitting[k]!] : null;
-            const off = state.fittingHidden.includes(k);
-            return (
-              <button key={k} type="button" className={`cf-gdock${g ? ' is-set' : ''}${off ? ' is-off' : ''}`} disabled={!g} aria-pressed={!!g && !off} onClick={() => dispatch({ type: 'TOGGLE_FITTING_LAYER', layer: k })} data-testid={`cf-gdock-${k}`}>
-                <i style={{ background: g?.swatch ?? 'transparent' }} />
-                <small>{k} · {['TOP', 'BOTTOM', 'OUTER', 'FOOT'][Number(k[1]) - 1]}</small>
-                <b>{g ? g.name.replace(/ - \d+$/, '') : 'EMPTY SOCKET'}</b>
-              </button>
-            );
-          })}
-          <span className="cf-dock__foot">{state.fittingSubmitted ? 'IN FITTING STATION' : 'PULL FROM LIBRARY ↓'}</span>
-        </Dock>
-      );
-    case 'appearance':
-      return (
-        <Dock at="rack" testId="cf-appearance-rack">
-          {[...state.appearanceLayers].sort((a, b) => a.order - b.order).map((l) => (
-            <button key={l.layerId} type="button" className={`cf-track${l.visible ? '' : ' is-off'}${state.selectedAppearanceLayerId === l.layerId ? ' is-sel' : ''}`} onClick={() => dispatch({ type: 'SELECT_APPEARANCE_LAYER', layerId: l.layerId })} aria-pressed={state.selectedAppearanceLayerId === l.layerId}>
-              <i style={{ width: `${l.visible ? l.opacity : 0}%` }} />
-              <span>{l.layerId.replace(/([A-Z])/g, ' $1').toUpperCase()}</span>
-            </button>
-          ))}
-        </Dock>
-      );
-    case 'character': {
-      const slots = ['tl', 'tr', 'bl', 'br'];
-      return (
-        <>
-          {state.behaviorLayers.map((l, i) => {
-            const s = SKIN_BY_ID[l.skinId]!;
-            return (
-              <div key={l.skinId} className={`cf-bmod cf-bmod--${slots[i] ?? 'br'}`} style={{ ['--role' as string]: ROLE_COLOR[l.role] }} data-testid={`cf-blayer-${l.skinId}`}>
-                <small>{l.role}</small>
-                <b>{s.name}</b>
-                <output>{l.weight}%</output>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={l.weight}
-                  aria-label={`${s.name} weight`}
-                  data-testid={`cf-bweight-${l.skinId}`}
-                  className="cf-slider"
-                  style={{ ['--cf-fill' as string]: `${l.weight}%`, ['--cf-accent' as string]: ROLE_COLOR[l.role] }}
-                  onChange={(e) => dispatch({ type: 'BEHAVIOR_WEIGHT', skinId: l.skinId, weight: Number(e.target.value) })}
-                />
-                {state.behaviorLayers.length > 1 ? <button type="button" className="cf-bmod__x" aria-label={`Remove ${s.name}`} onClick={() => dispatch({ type: 'REMOVE_BEHAVIOR_LAYER', skinId: l.skinId })}>×</button> : null}
-              </div>
-            );
-          })}
-          <span className="cf-transform" data-testid="cf-transform">{actor.catalogueNumber} <IcArrowR width={10} height={10} /> {character.displayName}</span>
-        </>
-      );
-    }
-    case 'performance': {
-      const used = state.motionUsedIds[0];
-      return (
-        <Dock at="floor" testId="cf-motion-dock">
-          <Beacon tone={state.motionPlaying ? 'red' : used ? 'green' : 'grey'} />
-          <b>{state.selectedMotionId}</b>
-          <span>{state.motionPlaying ? 'PREVIEWING' : used ? `IN USE · ${state.motionUsedIds.length} ATTACHED` : 'SELECT + USE'}</span>
-          {state.motionRequests.some((r) => r.stage !== 'PUBLISH_ASSET') ? <span className="cf-red">MOTION REQUEST OPEN</span> : null}
-        </Dock>
-      );
-    }
-    case 'simulation': {
-      const r = state.run;
-      const phase = !r ? 'CONFIGURE' : r.status === 'COMPLETE' ? 'RESULT' : r.status;
-      const res = r && r.status === 'COMPLETE' ? state.results.find((x) => x.simulationId === r.simulationId) : null;
-      const pct = r ? Math.round((r.elapsedMs / (r.config.durationSec * 1000)) * 100) : 0;
-      return (
-        <Dock at="r" testId="cf-test-dock">
-          <small>TESTING GROUND · {(r?.config.environment ?? state.simConfig.environment)}</small>
-          <b className={phase === 'RUNNING' ? 'cf-red' : ''}><Beacon tone={phase === 'RUNNING' ? 'red' : res ? (res.failed ? 'amber' : 'green') : 'grey'} /> {phase}</b>
-          <span>TEST {r?.testId ?? state.selectedTestId}</span>
-          {r && phase !== 'RESULT' ? <span>{pct}% · {r.simulationId}</span> : null}
-          {res ? <span className={res.failed ? 'cf-red' : 'cf-ok'}>{res.failed ? `${res.failed} OF ${res.checks.length} FAILED` : 'ALL CHECKS PASS'}</span> : null}
-          <span className="cf-dim">LEVEL 2 · CACHED PREVIEW</span>
-        </Dock>
-      );
-    }
-    case 'authority':
-      return (
-        <div className="cf-seals" data-testid="cf-authority-seals">
-          {STATION_ORDER.filter((s) => s !== 'authority').map((s, i) => {
-            const st = status(s);
-            return (
-              <button key={s} type="button" className={`cf-seal cf-seal--${i}`} data-seal-status={st} onClick={() => dispatch({ type: 'GOTO_STATION', station: s })}>
-                <b>{stationNumber(s)}</b>
-                <small>{STATION_LABEL[s]}</small>
-              </button>
-            );
-          })}
-          <span className={`cf-seal__core${state.finalSignedOff ? ' is-locked' : ''}`}><IcLock width={14} height={14} /> {state.finalSignedOff ? 'CANONICAL' : 'AWAITING LOCK'}</span>
-        </div>
-      );
-  }
-  void url;
-  return null;
-}
-
-/* ── the chamber ───────────────────────────────────────────────────────── */
-
-export function FabricationChamber({ mode }: { mode: StationId }) {
-  const { state, actor, character, url, status } = useFabrication();
-  const r = state.run;
-  const running = mode === 'simulation' && !!r && (r.status === 'RUNNING' || r.status === 'PAUSED');
-  const feedUrl = mode === 'simulation' && r ? url(FEED_SLOT) : null;
-  // appearance works on a head/face close-up of the same subject; its asset slot is the current appearance primary
-  const subjectSlot = mode === 'appearance' ? 'appearance.sw017.compare.current.primary' : SUBJECT_SLOT;
-  const subjectUrl = url(subjectSlot);
-  const t = MODE_TITLE[mode];
-  const inFab = status('authority') !== 'LOCKED';
-  const accumulated = STATION_ORDER.filter((s) => s !== 'authority' && DONE.includes(status(s)));
-  return (
-    <section className={`cf-chamber cf-chamber--${mode}${running ? ' is-running' : ''}`} data-testid="cf-machine" data-mode={mode} aria-label={`Fabrication chamber — ${t.op}`}>
-      <svg className="cf-chamber__svg" viewBox={mode === 'appearance' ? '95 48 200 216' : '0 0 390 420'} preserveAspectRatio="xMidYMid meet" role="img" aria-label={`Subject in ${t.op.toLowerCase()} mode`}>
-        <Structure mode={mode} running={running} />
-        <ModeApparatus mode={mode} />
-        {subjectUrl || feedUrl ? null : <SubjectProxy mode={mode} />}
-      </svg>
-      {/* real subject asset (future Grok) occupies the capsule; until then the slot is declared on the proxy */}
-      <div className="cf-capsule-slot" data-asset-slot={feedUrl ? FEED_SLOT : subjectSlot} data-asset-state={subjectUrl || feedUrl ? 'filled' : 'missing'}>
-        {feedUrl ? <CfImage slotId={FEED_SLOT} url={feedUrl} label="" className="cf-capsule-img" /> : subjectUrl ? <CfImage slotId={subjectSlot} url={subjectUrl} label="" className="cf-capsule-img" /> : <span className="cf-proxy-tag">{mode === 'appearance' ? 'CLOSE-UP · HEAD + FACE · PROXY' : 'PROPORTION PROXY · SUBJECT ASSET PENDING'}</span>}
-      </div>
-      <header className="cf-chamber__mode" data-testid="cf-mode-plate">
-        <b>{stationNumber(mode)}</b>
-        <span><strong>{t.op}</strong><small>{t.verb}</small></span>
-      </header>
-      <AuthorityModule side="l" eyebrow="ACTOR · SOURCE" title={actor.catalogueNumber} sub={actor.verified ? '✓ VERIFIED' : 'PENDING'} slotId={actor.portraitSlotId} />
-      <AuthorityModule
-        side="r"
-        eyebrow="CHARACTER · CONSTRUCTION"
-        title={character.displayName}
-        sub={`ENTRY ${state.selectedEntryId} · ${character.version}`}
-        status={<em className={inFab ? 'cf-amod__st' : 'cf-amod__st is-ok'}>{inFab ? 'IN FABRICATION' : 'CANONICAL'}</em>}
-      />
-      <ModeModules mode={mode} />
-      <div className="cf-stack" data-testid="cf-stack" aria-label="Accumulated authority">
-        {STATION_ORDER.filter((s) => s !== 'authority').map((s) => (
-          <i key={s} className={accumulated.includes(s) ? 'is-on' : status(s) === 'STALE' || status(s) === 'REVISION_REQUIRED' ? 'is-warn' : ''} title={STATION_LABEL[s]} />
-        ))}
-        <small>STACK {accumulated.length}/7</small>
-      </div>
     </section>
   );
 }
 
-/** Compact persistent subject for full-surface states (profile, inspector, compare, request). */
-export function SubjectBar({ mode, label }: { mode: StationId; label: string }) {
-  const { actor, character, status, dispatch } = useFabrication();
-  const accumulated = STATION_ORDER.filter((s) => s !== 'authority' && DONE.includes(status(s)));
+/**
+ * The chamber-hero composition shared by 5414 / 5418 / 5428 / 5429: plate + subject + actor card (left) +
+ * character card (right) + the 01–08 rail mounted over the chamber floor. All numbers are authority px.
+ */
+export function StandardHero({
+  h,
+  railTop,
+  cardTop,
+  cyl,
+  fig,
+  actorRows,
+  actorActions = true,
+  cardH,
+}: {
+  h: number;
+  railTop: number;
+  cardTop: number;
+  cyl: { top: number; plat: number };
+  fig: { x: number; y: number; w: number; h: number };
+  actorRows?: readonly ('AGE' | 'HEIGHT' | 'ETHNICITY' | 'STATUS' | 'ENTRY' | 'PROJECT' | 'VERSION')[];
+  actorActions?: boolean;
+  cardH?: number;
+}) {
   return (
-    <div className="cf-subjectbar" data-testid="cf-subject-bar" data-mode={mode}>
-      <svg viewBox="140 56 110 290" className="cf-subjectbar__fig" aria-hidden>
-        {BODY_PARTS.map((k) => <path key={k} d={P[k]} className="cf-subj__base" />)}
-      </svg>
-      <span className="cf-subjectbar__txt">
-        <small>{stationNumber(mode)} · {label}</small>
-        <b>{actor.catalogueNumber} <IcArrowR width={10} height={10} /> {character.displayName}</b>
-        <span className="cf-stack cf-stack--inline">
-          {STATION_ORDER.filter((s) => s !== 'authority').map((s) => <i key={s} className={accumulated.includes(s) ? 'is-on' : ''} />)}
-          <small>STACK {accumulated.length}/7</small>
-        </span>
-      </span>
-      <button type="button" className="cf-chip" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'STATION' })} data-testid="cf-return-chamber">CHAMBER</button>
-    </div>
+    <ChamberHero h={h} cyl={cyl} fig={fig}>
+      <ActorAuthorityCard rows={actorRows} actions={actorActions} style={{ left: 16, top: cardTop, height: cardH }} />
+      <CharacterAuthorityCard style={{ left: 312, top: cardTop + 2, height: cardH }} />
+      <div className="cf-hero__rail" style={{ top: railTop }}>
+        <FabricationStageRail />
+      </div>
+    </ChamberHero>
   );
 }

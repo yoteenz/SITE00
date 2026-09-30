@@ -24,3 +24,12 @@ Canonical SW-017 (Maya Okonkwo, 26–32, deep brown skin, black 4C hair) differs
 
 ## Gaps
 No measurement backend (body readouts are fixtures); motion request lifecycle advance is an OPERATOR control; rate card not integrated; World Fabrication / Scene Assembly not built (state is per-character so it can converge later); `page.reload` on production routes throws a dev-only removeChild error (also on the Hub).
+
+## Pixel-fidelity convergence (P0.SW.CHARACTER-FABRICATION.OPUS-PIXEL-FIDELITY-CONVERGENCE1)
+- Every view is authored on the 432×768 authority canvas; the workspace root uses CSS `zoom = innerWidth/432` (capped 1.6×) so authority px map 1:1 at any phone width. Stylesheet: `site00-character-fabrication-authority.css`.
+- Typography: vendored OFL Barlow Condensed / Barlow Semi Condensed (`public/site00/fonts/…`, family `SITE00 Fab Condensed`) to match the authorities' condensed grotesque.
+- Authority → live state: 5414 IdentityView/ActorCatalogue · 5415 ActorProfile · 5416 ContinuityInspector · 5417 BodyStation · 5418 LookView · 5419 LookCompare · 5420 AppearanceView · 5421 AppearanceCompare · 5422 CharacterView · 5423 CharacterView(BEHAVIOR_LIBRARY) · 5424 PerformanceStation · 5425 MotionRequestPage · 5426 RunningSimulation · 5427 SimulationResult · 5428 AuthorityView · 5429 TestingGround.
+- Reference numbering errors corrected: 5424 "07 PERFORMANCE"→06, 5425 rail "02 PERFORMANCE"→06, 5429 "06 TESTING GROUND"→07 with SIMULATION active.
+- Frames with no rail (5419, 5422–5424, 5426, 5427) keep the 01–08 rail directly below the composition; the station status bar only appears when there is an interlock, staleness or open revision.
+- ASSET GEOMETRY FROZEN for Grok by the live slot boxes (e.g. hero subject 74×216 at (179,24); catalogue portrait 78×76; profile hero 161.5×248; look candidates 117.5×223.5; appearance hero 282×266; compare primaries 184.5×183.5, angles 57×79; motion player 275×291; test preview 165×150; result preview 282×235; final authority 129×162). New slots: `appearance.sw017.hero.closeup`, `look.sw017.candidate.{a,b,c}.layers`. Total 104 (102 Grok, 2 runtime canonical).
+- Known remaining divergences: photographic material is empty slots + live SVG proportion proxy; canonical data differs from images (SW-017 age/ethnicity, 7 catalogue actors, 7 appearance layers vs 9 rows in 5421, 8 motions vs "24 ITEMS"); the Testing Ground feed is a neutral lab plate, not the photographed room.

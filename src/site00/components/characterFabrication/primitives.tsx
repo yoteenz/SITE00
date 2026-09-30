@@ -2,7 +2,7 @@
  * Character Fabrication primitives — shell, header, station rail, machine, authority cards.
  * All geometry is live React/SVG/CSS. Photographic material is only ever rendered through <CfImage> slots.
  */
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import {
   STATION_LABEL,
@@ -13,7 +13,8 @@ import {
 } from '../../../../shared/site00-character-fabrication/index.js';
 import { useFabrication } from './FabricationContext';
 import { CfImage } from './CfImage';
-import { IcArrowR, IcCheck, IcChevD, IcChevR, IcLock, IcMenu, IcWarn } from '../productionHub/icons';
+import { IcArrowR, IcCheck, IcChevD, IcChevL, IcChevR, IcLock, IcMenu, IcWarn } from '../productionHub/icons';
+import type React from 'react';
 
 /* ── station hex + rail ─────────────────────────────────────────────────── */
 
@@ -22,27 +23,24 @@ const DONE: StationStatus[] = ['APPROVED', 'LOCKED'];
 export function StationHex({ n, state, active }: { n: string; state: StationStatus; active: boolean }) {
   return (
     <span className={`cf-hex${active ? ' is-active' : ''}`} data-state={state} aria-hidden>
-      <svg viewBox="0 0 40 44" width="34" height="37">
-        <polygon points="20,2 37,11 37,33 20,42 3,33 3,11" />
+      <svg viewBox="0 0 28 30">
+        <polygon points="14,1.5 26,8 26,22 14,28.5 2,22 2,8" />
       </svg>
       <b>{n}</b>
-      {DONE.includes(state) && !active ? <i className="cf-hex__ok"><IcCheck width={9} height={9} /></i> : null}
+      {DONE.includes(state) && !active ? <i className="cf-hex__ok"><IcCheck width={6} height={6} /></i> : null}
       {state === 'STALE' || state === 'REVISION_REQUIRED' ? <i className="cf-hex__warn">!</i> : null}
     </span>
   );
 }
 
-export function FabricationStageRail({ variant = 'horizontal' }: { variant?: 'horizontal' | 'vertical' }) {
+/** 01–08 mechanical progression. Authored on the 432px canvas: panel 409×44, eight equal cells. */
+export function FabricationStageRail({ className = '', chevrons = false }: { className?: string; chevrons?: boolean }) {
   const { state, dispatch, status } = useFabrication();
-  const ref = useRef<HTMLElement | null>(null);
-  useEffect(() => {
-    const el = ref.current?.querySelector<HTMLElement>('[aria-current=step]');
-    const nav = ref.current;
-    if (el && nav) nav.scrollTo({ left: el.offsetLeft - nav.clientWidth / 2 + el.offsetWidth / 2, behavior: 'smooth' });
-  }, [state.activeStation]);
-  const doneCount = STATION_ORDER.filter((s) => ['APPROVED', 'LOCKED'].includes(status(s))).length;
+  const idx = STATION_ORDER.indexOf(state.activeStation);
+  const go = (d: -1 | 1) => dispatch({ type: 'GOTO_STATION', station: STATION_ORDER[Math.max(0, Math.min(7, idx + d))]! });
   return (
-    <nav ref={ref} className={`cf-rail cf-rail--${variant}`} aria-label="Fabrication stations" data-testid="cf-stage-rail" style={{ ['--cf-done' as string]: `${(doneCount / 8) * 100}%` }}>
+    <nav className={`cf-rail ${className}${chevrons ? ' cf-rail--chev' : ''}`} aria-label="Fabrication stations" data-testid="cf-stage-rail">
+      {chevrons ? <button type="button" className="cf-rail__chev is-l" aria-label="Previous station" disabled={idx === 0} onClick={() => go(-1)}><IcChevL width={9} height={9} /></button> : null}
       {STATION_ORDER.map((s, i) => {
         const active = state.activeStation === s;
         const st = status(s);
@@ -55,15 +53,18 @@ export function FabricationStageRail({ variant = 'horizontal' }: { variant?: 'ho
               data-station={s}
               data-station-status={st}
               aria-current={active ? 'step' : undefined}
+              aria-label={`${stationNumber(s)} ${STATION_LABEL[s]} — ${st.replace(/_/g, ' ')}`}
               onClick={() => dispatch({ type: 'GOTO_STATION', station: s })}
             >
+              {active ? <i className="cf-rail__pin" aria-hidden /> : null}
               <StationHex n={stationNumber(s)} state={st} active={active} />
               <span className="cf-rail__label">{STATION_LABEL[s]}</span>
             </button>
-            {i < STATION_ORDER.length - 1 ? <span className="cf-rail__link" aria-hidden /> : null}
+            {i < STATION_ORDER.length - 1 ? <span className="cf-rail__link" aria-hidden><i /></span> : null}
           </span>
         );
       })}
+      {chevrons ? <button type="button" className="cf-rail__chev is-r" aria-label="Next station" disabled={idx === 7} onClick={() => go(1)}><IcChevR width={9} height={9} /></button> : null}
     </nav>
   );
 }
@@ -94,6 +95,9 @@ export function StationStatusBar({ station }: { station: StationId }) {
   const b = blockers(station);
   const revs = state.revisionRequests.filter((r) => r.station === station && r.status === 'OPEN');
   const canReval = st === 'STALE' && !b.length;
+  const showInterlock = b.length > 0 && st !== 'LOCKED' && st !== 'APPROVED' && st !== 'NOT_STARTED';
+  // The rail already carries station status; this bar only appears when there is something to act on.
+  if (!revs.length && st !== 'STALE' && !showInterlock) return <span hidden data-testid="cf-statusbar" data-station-status={st} />;
   return (
     <div className="cf-statusbar" data-testid="cf-statusbar" data-station-status={st}>
       <div className="cf-statusbar__row">
@@ -113,7 +117,7 @@ export function StationStatusBar({ station }: { station: StationId }) {
           ) : null}
         </p>
       ) : null}
-      {b.length && st !== 'LOCKED' && st !== 'APPROVED' ? (
+      {showInterlock ? (
         <div className="cf-interlock" data-testid="cf-blockers" role="group" aria-label="Machine interlocks">
           <span className="cf-interlock__h"><IcLock width={12} height={12} /> INTERLOCK · {STATION_LABEL[station]} CANNOT AUTHORIZE DOWNSTREAM WORK</span>
           <ul>
@@ -126,27 +130,22 @@ export function StationStatusBar({ station }: { station: StationId }) {
           </ul>
         </div>
       ) : null}
-      {state.notice ? (
-        <p className={`cf-notice cf-notice--${state.notice.kind.toLowerCase()}`} role="status" data-testid="cf-notice">
-          <span>{state.notice.text}</span>
-          <button type="button" aria-label="Dismiss" onClick={() => dispatch({ type: 'DISMISS_NOTICE' })}>×</button>
-        </p>
-      ) : null}
     </div>
   );
 }
 
-/* ── header ─────────────────────────────────────────────────────────────── */
+/* ── header (authority: 432×35) ─────────────────────────────────────────── */
 
 function StepsDial({ n }: { n: number }) {
-  const pct = ((8 - n) / 8) * 100;
+  const done = (8 - n) / 8;
+  const a = -Math.PI / 2 + done * Math.PI * 2;
   return (
     <span className="cf-dial" data-testid="cf-steps">
-      <svg viewBox="0 0 40 40" width="38" height="38" aria-hidden>
-        <circle cx="20" cy="20" r="17" className="cf-dial__track" />
-        <circle cx="20" cy="20" r="17" className="cf-dial__arc" strokeDasharray={`${(pct / 100) * 106.8} 106.8`} transform="rotate(-90 20 20)" />
-        <circle cx="20" cy="20" r="8" className="cf-dial__core" />
-        <path d="M20 20 L27 12" className="cf-dial__hand" />
+      <svg viewBox="0 0 22 22" aria-hidden>
+        <circle cx="11" cy="11" r="10" className="cf-dial__ring" />
+        <circle cx="11" cy="11" r="7.6" className="cf-dial__face" />
+        <circle cx="11" cy="11" r="10" className="cf-dial__arc" strokeDasharray={`${done * 62.8} 62.8`} transform="rotate(-90 11 11)" />
+        <line x1="11" y1="11" x2={11 + Math.cos(a) * 6} y2={11 + Math.sin(a) * 6} className="cf-dial__hand" />
       </svg>
       <span>
         <b>{String(n).padStart(2, '0')}</b>
@@ -161,28 +160,47 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
   const [pop, setPop] = useState<null | 'project' | 'character' | 'menu'>(null);
   const toggle = (p: 'project' | 'character' | 'menu') => setPop((c) => (c === p ? null : p));
   return (
-    <header className="cf-top" data-testid="cf-header">
+    <header className={`cf-top${state.surface === 'ACTOR_PROFILE' ? ' cf-top--profile' : ''}${state.activeStation === 'appearance' && state.surface === 'STATION' ? ' cf-top--actor' : ''}`} data-testid="cf-header">
       <div className="cf-top__brand">
         <b>CHARACTER FABRICATION</b>
         <small>SITE 00 / STUDIO WORLD</small>
       </div>
-      <button type="button" className="cf-top__sel" onClick={() => toggle('project')} aria-expanded={pop === 'project'} data-testid="cf-project-select">
+      <button type="button" className="cf-top__sel cf-top__sel--proj" onClick={() => toggle('project')} aria-expanded={pop === 'project'} data-testid="cf-project-select">
         <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="" className="cf-top__thumb" />
-        <span>
-          <small>PROJECT</small>
-          <b>{state.selectedProjectId.toUpperCase()}</b>
-        </span>
-        <IcChevD width={12} height={12} />
+        {state.activeStation === 'appearance' && state.surface === 'STATION' ? (
+          <span>
+            <small>ACTOR</small>
+            <b>{actor.catalogueNumber}</b>
+          </span>
+        ) : (
+          <span>
+            <small>PROJECT</small>
+            <b>{state.selectedProjectId.toUpperCase()}</b>
+          </span>
+        )}
+        <IcChevD width={7} height={7} />
       </button>
       <button type="button" className="cf-top__sel" onClick={() => toggle('character')} aria-expanded={pop === 'character'} data-testid="cf-character-select">
-        <span>
-          <small>CURRENT CHARACTER</small>
-          <b>{character.displayName}</b>
-        </span>
-        <IcChevD width={12} height={12} />
+        {state.surface === 'ACTOR_PROFILE' ? (
+          <span>
+            <small>ENTRY</small>
+            <b>{state.selectedEntryId}</b>
+          </span>
+        ) : state.activeStation === 'appearance' && state.surface === 'STATION' ? (
+          <span>
+            <small>PROJECT</small>
+            <b>{state.selectedProjectId.toUpperCase()}</b>
+          </span>
+        ) : (
+          <span>
+            <small>CURRENT CHARACTER</small>
+            <b>{character.displayName}</b>
+          </span>
+        )}
+        <IcChevD width={7} height={7} />
       </button>
       <StepsDial n={steps} />
-      <button type="button" className="cf-top__menu" aria-label="Menu" onClick={() => toggle('menu')} data-testid="cf-menu"><IcMenu /></button>
+      <button type="button" className="cf-top__menu" aria-label="Menu" onClick={() => toggle('menu')} data-testid="cf-menu"><IcMenu width={12} height={12} /></button>
       {pop ? (
         <div className="cf-pop" role="dialog" data-testid={`cf-pop-${pop}`}>
           {pop === 'project' ? (
@@ -217,115 +235,85 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
   );
 }
 
-/* ── machine + authority cards ──────────────────────────────────────────── */
+/* ── authority cards mounted in the chamber ─────────────────────────────── */
 
-export function ActorAuthorityCard({ size = 'full', extra }: { size?: 'full' | 'mini'; extra?: ReactNode }) {
-  const { actor, url, state, dispatch } = useFabrication();
-  return (
-    <aside className={`cf-card cf-card--actor cf-card--${size}`} data-testid="cf-actor-card">
-      <span className="cf-card__eyebrow">ACTOR</span>
-      <h3 className="cf-card__title">{actor.catalogueNumber}</h3>
-      {size === 'full' ? (
-        <>
-          <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="ACTOR PORTRAIT" className="cf-card__img" />
-          <dl className="cf-kv">
-            <div><dt>AGE</dt><dd>{actor.ageRange}</dd></div>
-            <div><dt>HEIGHT</dt><dd>{actor.heightRange}</dd></div>
-            <div><dt>BUILD</dt><dd>{actor.build}</dd></div>
-            <div><dt>STATUS</dt><dd>{actor.verified ? <em className="cf-ok">✓ VERIFIED</em> : 'PENDING'}</dd></div>
-          </dl>
-          <button type="button" className="cf-btn cf-btn--line" data-testid="cf-view-actor-profile" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'ACTOR_PROFILE' })}>VIEW ACTOR PROFILE <IcArrowR width={13} height={13} /></button>
-          <button type="button" className="cf-btn cf-btn--line" data-testid="cf-change-actor" onClick={() => dispatch({ type: 'CHANGE_ACTOR', at: new Date().toISOString() })}>CHANGE ACTOR <IcArrowR width={13} height={13} /></button>
-        </>
-      ) : (
-        <>
-          <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="ACTOR" className="cf-card__img cf-card__img--mini" />
-          <dl className="cf-kv cf-kv--tight">
-            <div><dt>PROJECT</dt><dd>{state.selectedProjectId.toUpperCase()}</dd></div>
-            <div><dt>ENTRY</dt><dd>{state.selectedEntryId}</dd></div>
-          </dl>
-        </>
-      )}
-      {extra}
-    </aside>
-  );
-}
+type ActorRow = 'AGE' | 'HEIGHT' | 'ETHNICITY' | 'STATUS' | 'ENTRY' | 'PROJECT' | 'VERSION';
 
-export function CharacterAuthorityCard({ size = 'full' }: { size?: 'full' | 'mini' }) {
-  const { character, url, state, status } = useFabrication();
-  const overall = status('authority');
-  const inFab = overall !== 'LOCKED';
+export function ActorAuthorityCard({
+  rows = ['AGE', 'HEIGHT', 'ETHNICITY', 'STATUS'],
+  actions = true,
+  className = '',
+  style,
+}: {
+  rows?: readonly ActorRow[];
+  actions?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const { actor, url, state, character, dispatch, now } = useFabrication();
+  const v: Record<ActorRow, ReactNode> = {
+    AGE: actor.ageRange,
+    HEIGHT: actor.heightRange,
+    ETHNICITY: actor.castingTags[0] ?? '—',
+    STATUS: actor.verified ? <em className="cf-verified">✓ VERIFIED</em> : 'PENDING',
+    ENTRY: state.selectedEntryId,
+    PROJECT: state.selectedProjectId.toUpperCase(),
+    VERSION: character.version,
+  };
   return (
-    <aside className={`cf-card cf-card--character cf-card--${size}`} data-testid="cf-character-card">
-      <span className="cf-card__eyebrow">CHARACTER</span>
-      <h3 className="cf-card__title">{character.displayName}</h3>
-      {size === 'full' ? <CfImage slotId={character.portraitSlotId} url={url(character.portraitSlotId)} label="CHARACTER PORTRAIT" className="cf-card__img cf-card__img--mono" /> : null}
-      <dl className="cf-kv">
-        {size === 'full' ? (
-          <>
-            <div><dt>PROJECT</dt><dd>{state.selectedProjectId.toUpperCase()}</dd></div>
-            <div><dt>ENTRY</dt><dd>{state.selectedEntryId}</dd></div>
-            <div><dt>VERSION</dt><dd>{character.version}</dd></div>
-          </>
-        ) : null}
-        <div><dt>STATUS</dt><dd><em className={inFab ? 'cf-tag cf-tag--red' : 'cf-ok'}>{inFab ? 'IN FABRICATION' : 'AUTHORITY SIGNED OFF'}</em></dd></div>
+    <aside className={`cf-acard ${className}`} style={style} data-testid="cf-actor-card">
+      <i className="cf-acard__tick" aria-hidden />
+      <header><small>ACTOR</small><b>{actor.catalogueNumber}</b></header>
+      <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="ACTOR PORTRAIT" className="cf-acard__img" />
+      <dl className="cf-rows">
+        {rows.map((r) => <div key={r}><dt>{r}</dt><dd>{v[r]}</dd></div>)}
       </dl>
+      {actions ? (
+        <div className="cf-acard__btns">
+          <button type="button" className="cf-cbtn" data-testid="cf-view-actor-profile" onClick={() => dispatch({ type: 'SET_SURFACE', surface: 'ACTOR_PROFILE' })}>VIEW ACTOR PROFILE <IcArrowR width={8} height={8} /></button>
+          <button type="button" className="cf-cbtn" data-testid="cf-change-actor" onClick={() => dispatch({ type: 'CHANGE_ACTOR', at: now() })}>CHANGE ACTOR <IcArrowR width={8} height={8} /></button>
+        </div>
+      ) : null}
     </aside>
   );
 }
 
-/** Live SVG fabrication chamber. The figure is a named asset slot; the outline guide is live geometry. */
-export function FabricationMachine({ children, tall = false }: { children?: ReactNode; tall?: boolean }) {
-  const { url } = useFabrication();
-  const figure = 'actor.sw017.body.neutral.front';
+export function CharacterAuthorityCard({ className = '', style, mono = true }: { className?: string; style?: React.CSSProperties; mono?: boolean }) {
+  const { character, url, state, status, dispatch } = useFabrication();
+  const inFab = status('authority') !== 'LOCKED';
   return (
-    <section className={`cf-machine${tall ? ' cf-machine--tall' : ''}`} data-testid="cf-machine" aria-label="Fabrication machine">
-      <svg className="cf-machine__svg" viewBox="0 0 390 330" preserveAspectRatio="xMidYMid slice" aria-hidden>
-        <defs>
-          <linearGradient id="cfGlass" x1="0" x2="1">
-            <stop offset="0" stopColor="#fff" stopOpacity=".05" />
-            <stop offset=".5" stopColor="#dfe7ee" stopOpacity=".55" />
-            <stop offset="1" stopColor="#fff" stopOpacity=".05" />
-          </linearGradient>
-          <radialGradient id="cfFloor" cx=".5" cy=".5" r=".5">
-            <stop offset="0" stopColor="#fff" />
-            <stop offset="1" stopColor="#c9ced6" />
-          </radialGradient>
-        </defs>
-        {/* back architecture */}
-        {[24, 70, 316, 362].map((x) => <rect key={x} x={x - 6} y="0" width="12" height="250" className="cf-m-pillar" />)}
-        {[40, 120, 200, 270].map((y) => <line key={y} x1="0" x2="390" y1={y} y2={y} className="cf-m-line" />)}
-        {/* machinery arms */}
-        {[-1, 1].map((d) => (
-          <g key={d} transform={d === -1 ? '' : 'translate(390 0) scale(-1 1)'} className="cf-m-arm">
-            <rect x="52" y="40" width="26" height="210" rx="4" />
-            <polyline points="78,110 118,96 140,128" />
-            <polyline points="78,180 112,170 128,200" />
-            <circle cx="118" cy="96" r="7" /><circle cx="140" cy="128" r="5" /><circle cx="112" cy="170" r="6" />
-            <line x1="65" x2="65" y1="52" y2="238" className="cf-m-red" />
-          </g>
-        ))}
-        {/* glass cylinder */}
-        <ellipse cx="195" cy="34" rx="92" ry="16" className="cf-m-ring" />
-        <ellipse cx="195" cy="34" rx="64" ry="11" className="cf-m-ring cf-m-ring--red" />
-        <rect x="103" y="34" width="184" height="222" fill="url(#cfGlass)" className="cf-m-tube" />
-        <line x1="103" x2="103" y1="34" y2="256" className="cf-m-edge" />
-        <line x1="287" x2="287" y1="34" y2="256" className="cf-m-edge" />
-        <line x1="195" x2="195" y1="40" y2="252" className="cf-m-red cf-m-beam" />
-        {/* platform */}
-        <ellipse cx="195" cy="262" rx="150" ry="34" fill="url(#cfFloor)" className="cf-m-plate" />
-        <ellipse cx="195" cy="262" rx="112" ry="24" className="cf-m-ring" />
-        <ellipse cx="195" cy="262" rx="84" ry="17" className="cf-m-ring cf-m-ring--red" />
-      </svg>
-      <div className="cf-machine__figure">
-        <CfImage slotId={figure} url={url(figure)} label="ACTOR FIGURE" className="cf-figure" />
-        <svg className="cf-machine__outline" viewBox="0 0 60 150" aria-hidden>
-          <ellipse cx="30" cy="14" rx="8" ry="10" />
-          <path d="M22 26 L10 34 L6 78 M38 26 L50 34 L54 78 M22 26 L24 84 L20 146 M38 26 L36 84 L40 146 M22 26 L38 26" />
-        </svg>
+    <aside className={`cf-acard cf-acard--char ${className}`} style={style} data-testid="cf-character-card">
+      <i className="cf-acard__tick" aria-hidden />
+      <header><small>CHARACTER</small><b>{character.displayName}</b></header>
+      <CfImage slotId={character.portraitSlotId} url={url(character.portraitSlotId)} label="CHARACTER PORTRAIT" className={`cf-acard__img${mono ? ' is-mono' : ''}`} />
+      <dl className="cf-rows">
+        <div><dt>PROJECT</dt><dd>{state.selectedProjectId.toUpperCase()}</dd></div>
+        <div><dt>ENTRY</dt><dd>{state.selectedEntryId}</dd></div>
+        <div><dt>VERSION</dt><dd>{character.version}</dd></div>
+        <div><dt>STATUS</dt><dd><em className={inFab ? 'cf-infab' : 'cf-verified'}>{inFab ? 'IN FABRICATION' : 'CANONICAL'}</em></dd></div>
+      </dl>
+      <div className="cf-acard__btns">
+        <button type="button" className="cf-cbtn" data-testid="cf-view-character-brief" onClick={() => dispatch({ type: 'GOTO_STATION', station: 'character' })}>VIEW CHARACTER BRIEF <IcArrowR width={8} height={8} /></button>
+        <button type="button" className="cf-cbtn" data-testid="cf-edit-character" onClick={() => dispatch({ type: 'GOTO_STATION', station: 'authority' })}>EDIT CHARACTER <IcArrowR width={8} height={8} /></button>
       </div>
-      {children}
-    </section>
+    </aside>
+  );
+}
+
+/** Transient system notice — floats above the bottom nav so it never displaces the authority composition. */
+export function NoticeToast() {
+  const { state, dispatch } = useFabrication();
+  useEffect(() => {
+    if (!state.notice) return;
+    const id = window.setTimeout(() => dispatch({ type: 'DISMISS_NOTICE' }), 5000);
+    return () => window.clearTimeout(id);
+  }, [state.notice, dispatch]);
+  if (!state.notice) return null;
+  return (
+    <p className={`cf-toast cf-toast--${state.notice.kind.toLowerCase()}`} role="status" data-testid="cf-notice">
+      <span>{state.notice.text}</span>
+      <button type="button" aria-label="Dismiss" onClick={() => dispatch({ type: 'DISMISS_NOTICE' })}>×</button>
+    </p>
   );
 }
 

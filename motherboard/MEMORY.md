@@ -12686,3 +12686,11 @@ Continues the Production Hub chat (NME widget → Projects/Production mobile →
 - **Decisions / outcomes:** persistence is DEVICE-LOCAL behind `characterFabricationRepository` (not backend authority); canonical SW-017 data wins over the authority images' actor description; all photography is empty semantic slots (`docs/character-fabrication/*manifest.json`); not merged.
 - **Changes:** `shared/site00-character-fabrication/`, `src/site00/components/characterFabrication/`, CSS, repository, request kinds `CHARACTER_FABRICATION_*`, registry sub-workspace `character-fabrication`, tests, docs.
 - **Conventions:** images only via `CfImage` slots; regenerate manifest after receipts; `page.reload` throws a dev-only removeChild error on production routes — use `goto` in QA.
+
+---
+
+## 2026-09-30 — Character Fabrication pixel-fidelity convergence (Opus)
+
+- **Context:** Founder reviewed Sonnet's functional machine (b7874853); asked Opus for a spatial refinery then a screen-by-screen pixel-fidelity convergence against the 16 authorities, preserving all state/reducer/integration semantics.
+- **Decisions / outcomes:** views rebuilt per authority on a 432×768 canvas (CSS zoom to device width); vendored OFL Barlow fonts; ChamberPlate/SubjectFigure live-SVG chamber with frozen asset-slot geometry; rail kept below frames that don't show it; status bar only when actionable; reference numbering errors corrected; 104 slots (102 Grok), no assets generated; no state architecture changes (only display `castingTags` on ActorRecord and new SIM/CATALOGUE actions from earlier sprint).
+- **Conventions:** compare with `px.mjs` (fixtures per authority) + `cmp.mjs` side-by-side/onion at 864×1536; coordinates in CSS are authority px relative to the scroll area (canvas y − 35).
