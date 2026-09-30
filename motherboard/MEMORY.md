@@ -12787,3 +12787,15 @@ Production Release workflow failed after #1255: tests still expected `/projects/
 - **Tests updated:** `p0vrDesignIntegration1`, `p0vrDesignProjectBinding1R1`, `p0vrDesignWorkspaceSelfCapture1`, founder sprint B59R2/R5/R6, release #429 allowlist manifest (`POST429_DESIGN_ALLOWLIST` 50 paths + `ProjectMoreSurface` tab exception).
 - **API:** `designWorkspaceCaptureService` returns `resolveWorkspaceSelfDesignRoute` (`/production/…/design`) in vitest + live capture metadata (was hardcoded legacy path).
 - **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
+
+---
+
+## 2026-09-30 — IDNTY intake forensic map (audit-only sprint)
+
+Full forensic audit `P0.SITE00.IDNTY-INTAKE-FORENSIC-MAP1` for Creative Direction — **no production/React/route/Supabase changes**; docs-only on branch `cursor/idnty-intake-forensic-map-87ed` (sprint: do not merge to main).
+
+- **Context:** Map existing SITE 00 Identity intake before Westworld-style Diagnostic handoff redesign. Forbidden: implement Diagnostic routing, change questions, pricing, or data models.
+- **Topics covered:** Public assessment (`idnty-assessment.ts` 4 states / 15 steps), state picker (`IdntyStatePage`, `idnty-diagnostic.ts` 00–03 CTAs), router (`IdntyAssessmentRouterPage`), persistence (`useIdntyAssessment`, `useIntakeSync`, `site00_idnty_submissions`), lore (19) + personality (15) registries, project routes vs public `/idnty/*/world|personality` PostPurchase gates, BLDR prefill, commercial CUSTOM_QUOTE, discovery-result vs `/complete` submit gap.
+- **Decisions / outcomes:** Artifacts under `docs/site00/idnty/` — `IDNTY-INTAKE-FORENSIC-MAP.md` + four JSON inventories; generator `scripts/generate-idnty-forensic-artifacts.ts`. Live happy path: state → landing → steps → review → discovery-result (not server submit). `completeAssessment()` only from unreachable `IdentityLoreWorldReview`. Build-ready → `/bldr/start`; no identity-verified persistence for BLDR.
+- **Changes:** docs + script + MEMORY only.
+- **Conventions:** Product truth for intake redesign = assessment config + project lore/personality routes; ignore public world/personality URLs and unmounted lore mobile components as intake truth.
