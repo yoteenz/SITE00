@@ -43,11 +43,18 @@ import { ProductionBottomNav } from './nav';
 import { useProductionHubData } from './useProductionHubData';
 import { writeProductionWorkspaceContext } from '../../../../shared/site00-production-workspace/productionContextStorage.js';
 import '../../styles/site00-production-hub.css';
-import '../../styles/site00-production-hub-refinery.css';
+import '../../styles/site00-production-hub-authority.css';
 
 const CTX_KEY = 'site00.production.hub.ctx.v1';
 const pad = (n: number) => String(n).padStart(2, '0');
 const slotLabel = (t: string | undefined) => (t ? t.replace(/_/g, ' ') : 'ASSET');
+
+/** Authority packs are 864px wide; cap the canvas at 520 CSS px on large screens. */
+const HUB_AUTHORITY_WIDTH = 864;
+function hubScale(): number {
+  if (typeof window === 'undefined') return 1;
+  return Math.min(window.innerWidth, 520) / HUB_AUTHORITY_WIDTH;
+}
 
 function readCtx(): Record<string, unknown> | null {
   try {
@@ -83,6 +90,14 @@ export function ProductionHub() {
       body.style.overflow = prev[0]!;
       documentElement.style.overflow = prev[1]!;
     };
+  }, []);
+
+  /* authority scale: the hub is authored in the 864px authority coordinate space and zoomed to the device width */
+  const [hubZoom, setHubZoom] = useState(() => hubScale());
+  useEffect(() => {
+    const onResize = () => setHubZoom(hubScale());
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   /* restore durable context once (deep-link return) */
@@ -220,7 +235,7 @@ export function ProductionHub() {
   const rightNodes = [graph.byId.performance, graph.byId.set, graph.byId.storyboard];
   const nextLabel = graph.nextStage ? HUB_NODE_LABEL[graph.nextStage] : '—';
   const productionLabel = data.production ? `${data.production.label} / ${data.production.subtitle}` : 'NO PRODUCTION';
-  const focusMode = state.inspectionState.open || state.compareOpen;
+  const focusMode = state.compareOpen; // 03 authority keeps On Your Table / Activity beneath the inspector
 
   const artifactSlot = frame ? frameSlot(frame.number) : frameSlot(1);
   const sceneSlotFor = (id: string) => `production.${HUB_ENTRY002.projectId}.${HUB_ENTRY002.productionId}.scene.${id}.reference`;
@@ -234,7 +249,7 @@ export function ProductionHub() {
   ];
 
   const ui = (
-    <div className="ph" data-testid="production-workspace-hub" data-hub-mode={mode.toLowerCase()} data-selected-scene={state.selectedSceneId ?? ''} data-selected-frame={state.selectedStoryboardFrameId ?? ''}>
+    <div className="ph ph--hub" style={{ ['--phz' as string]: hubZoom }} data-testid="production-workspace-hub" data-hub-mode={mode.toLowerCase()} data-selected-scene={state.selectedSceneId ?? ''} data-selected-frame={state.selectedStoryboardFrameId ?? ''}>
       {/* ── header ── */}
       <header className="ph-top" data-testid="hub-header">
         <div className="ph-top__brand">

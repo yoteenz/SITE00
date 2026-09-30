@@ -12685,3 +12685,19 @@ Sprint P0.PRODUCTION-HUB.OPUS-IMMERSIVE-DESIGN-REFINERY1 on top of Sonnet's hub 
 - **Decisions / outcomes:** Reducer, state model, data, routes, testids and asset slots were not touched. `ChamberGeometry` was rebuilt: collar seen from beneath, rear glass cylinder, volumetric beam (spill → glow → core), two-tier base plinth. Added decorative primitives `DependencySocket` (station arm + status-lit port) and `ArtifactHolder` (optical shells, side tracks, beam clamps). FLOW cartridges are clamped to lit carrier rails. DEPENDENCIES rails are 3-layer conduits. The lower hub hangs off one continuous production spine: station bays, a keypad control rail for Storyboard Authority, a conveyor for On Your Table and a quiet lineage track for Activity. Chamber heights are now LIVE 540 / FLOW 752 / DEPS 792 (the `CHAMBER_HEIGHT` values plus the CSS aspect-ratio must stay in sync).
 - **Changes:** `src/site00/components/productionHub/machine.tsx`, the new material layer `src/site00/styles/site00-production-hub-refinery.css` (loaded after the base hub CSS), and the import in `ProductionHub.tsx`.
 - **Conventions:** Material tokens are `--pm-*` and z-layers are `--pz-*`. Red is reserved for live, selected, beam, founder attention and hot routing. Every piece of decorative machinery is `aria-hidden` with `pointer-events: none`. No raster was used and no Grok assets were generated.
+
+---
+
+## 2026-09-30 — Production Hub pixel-fidelity convergence (supersedes refinery CSS)
+
+Sprint P0.PRODUCTION-HUB.OPUS-PIXEL-FIDELITY-CONVERGENCE1.
+
+- **Context:** The founder wanted `/production` to match authority pack 00–14 as closely as practical, with function frozen.
+- **Decisions / outcomes:**
+  - The hub is now authored in authority coordinates (864 px wide). `ProductionHub` sets `--phz = min(innerWidth, 520) / 864` and the `.ph--hub` root is CSS-zoomed by it, so authority geometry maps 1:1 at any phone width.
+  - `site00-production-hub-refinery.css` was replaced by `site00-production-hub-authority.css`, which is scoped to `.ph--hub` so Character Fabrication is untouched.
+  - `ChamberGeometry` was redrawn to the authority: drum collar, ring stacks, glass column, queued frame plates, red routing arrows and plinth. `DependencyRails` now carries paired red traces. `DependencySocket` and `ArtifactHolder` were removed.
+  - The inspector no longer hides On Your Table / Activity, following authority 03.
+  - The operation bar shows the progress % (canonical `progressPercent`).
+- **Type:** Saira Semi Condensed, self-hosted in `src/site00/assets/fonts/saira-semi-condensed/` (OFL). The Google Fonts CDN is not reachable from cloud VMs.
+- **Conventions:** Chamber-relative y = authority page y − 75. Keep the `CHAMBER_HEIGHT` values in sync with the CSS heights (LIVE 690 / FLOW 1050 / DEPS 715 / expanded 980).
