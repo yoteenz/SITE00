@@ -5,10 +5,11 @@
  * parent geometry; the workspace root is zoomed so the 432px canvas fills the device width (true portrait fidelity).
  * Functional authority: the FabricationState reducer — nothing here changes state semantics.
  */
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useSearchParams } from 'react-router-dom';
 import { STATION_ORDER, type StationId } from '../../../../shared/site00-character-fabrication/index.js';
+import { ProductionChromeStrip, productionChromeScale } from '../productionHub/chrome';
 import { ProductionBottomNav } from '../productionHub/nav';
 import { useProductionRequests } from '../../state/productionRequestStore';
 import { deviceLocalFabricationRepository } from '../../state/characterFabricationRepository';
@@ -84,34 +85,56 @@ function Shell({ projectSlug }: { projectSlug: string }) {
   const requests = useProductionRequests();
   const inbox = requests.filter((r) => r.status === 'QUEUED').length;
   const zoom = useCanvasZoom();
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [stageH, setStageH] = useState(() => {
+    if (typeof window === 'undefined') return 600;
+    return Math.max(240, window.innerHeight - (75 + 81) * productionChromeScale());
+  });
+  useLayoutEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const measure = () => setStageH(el.clientHeight);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
   useEffect(() => {
     document.body.classList.add('cf-open');
     return () => document.body.classList.remove('cf-open');
   }, []);
   const ui = (
-    <div className="ph cf" data-testid="character-fabrication" data-persistence={persistence} style={{ zoom }}>
-      <div className="cf-frame">
+    <div className="cf-shell" data-testid="character-fabrication" data-persistence={persistence}>
+      <ProductionChromeStrip>
         <FabricationHeader
           onReset={() => {
             deviceLocalFabricationRepository.clear(projectSlug, '002');
             dispatch({ type: 'RESET' });
           }}
         />
-        <main className="cf-scroll" data-testid="cf-scroll" data-view={`${state.activeStation}:${state.surface}`}>
-          <div className="cf-col">
-            <Body />
-            {needsTailRail(state.activeStation, state.surface, state.run?.status ?? null) ? (
-              <div className="cf-tailrail" data-testid="cf-tail-rail"><FabricationStageRail /></div>
-            ) : null}
-            <StationStatusBar station={state.activeStation} />
-            <p className="cf-persist" data-testid="cf-persistence-note">
-              PERSISTENCE: {persistence === 'DEVICE_LOCAL' ? 'DEVICE-LOCAL ONLY — FOUNDER GATES ARE NOT YET CANONICAL BACKEND AUTHORITY' : 'BACKEND'}
-            </p>
+      </ProductionChromeStrip>
+      <div className="cf-stage" ref={stageRef}>
+        <div className="ph cf" style={{ zoom, width: CANVAS_W, height: stageH > 0 && zoom > 0 ? stageH / zoom : undefined }}>
+          <div className="cf-frame">
+            <main className="cf-scroll" data-testid="cf-scroll" data-view={`${state.activeStation}:${state.surface}`}>
+              <div className="cf-col">
+                <Body />
+                {needsTailRail(state.activeStation, state.surface, state.run?.status ?? null) ? (
+                  <div className="cf-tailrail" data-testid="cf-tail-rail"><FabricationStageRail /></div>
+                ) : null}
+                <StationStatusBar station={state.activeStation} />
+                <p className="cf-persist" data-testid="cf-persistence-note">
+                  PERSISTENCE: {persistence === 'DEVICE_LOCAL' ? 'DEVICE-LOCAL ONLY — FOUNDER GATES ARE NOT YET CANONICAL BACKEND AUTHORITY' : 'BACKEND'}
+                </p>
+              </div>
+            </main>
+            <NoticeToast />
           </div>
-        </main>
-        <NoticeToast />
-        <ProductionBottomNav active="expression" projectId={projectSlug} inboxCount={inbox} />
+        </div>
       </div>
+      <ProductionChromeStrip>
+        <ProductionBottomNav active="expression" projectId={projectSlug} inboxCount={inbox} />
+      </ProductionChromeStrip>
     </div>
   );
   return createPortal(ui, document.body);

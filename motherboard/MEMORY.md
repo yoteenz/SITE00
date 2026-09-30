@@ -12718,3 +12718,19 @@ Founder sent all 31 authority screens (Production Hub 00–14 and Character Fabr
   - `visualAssetsGeneratedBySonnet` stays 0. Components still do not import rasters.
 - **Changes:** `public/site00/production-hub/**`, `public/site00/character-fabrication/**`, hub and fabrication receipt ledgers, both asset manifests, `icons.tsx`, `reducer.ts` frame default, `useProductionHubData.ts` frame fallback, fabrication chamber subject slot, machine tests. Branch `cursor/authority-pixel-assets-1b86` off the hub machine. Do not ship this bundle to site00.com until the hub branch is on `main`.
 - **Conventions:** New photographs enter only as receipt URLs under `public/site00/production-hub/` or `public/site00/character-fabrication/` (slot id, dots as slashes, `.webp`). Regenerate the fabrication manifest after receipt edits. Do not bake brackets, badges, captions, or selection chrome into the crop.
+
+---
+
+## 2026-09-30 — Shared production chrome and authority nav glyphs
+
+Founder asked why the bottom-panel icons still did not match the authority, and required the top and bottom bars on Production, Character Fabrication, and the other production workspaces to be the same chrome and to line up.
+
+- **Context:** This continues the authority-photograph mount on `cursor/authority-pixel-assets-1b86` (PR into the hub review branch, not `main`). The first icon pass used single-stroke paths and a blanket active `fill`, so the hub turned the expression hex into a solid blob, dropped the experience stem, and left queue, libraries, design, and experience on the dark PwFrame bar.
+- **Topics covered:** Authority glyph shapes (house outline vs solid, envelope, leaf with vein, triangle with stem, hexagonal ring, isometric cube, clock at 12 and 3); 864 vs 432 zoom so header and nav screen sizes diverged; PwFrame production chrome vs projects chrome.
+- **Decisions / outcomes:**
+  - One 864px chrome scale (`min(innerWidth, 520) / 864`) is shared by the hub, character fabrication bars, PwFrame production pages, and the design overlay. On a 390px phone the header is 34px tall and the nav is 37px tall, with the same column edges (0, 111, 199, 280, 364).
+  - Active hub is a solid house. Active expression is a red hexagonal ring, not a filled shape. Experience keeps the center stem. The active-state CSS must not set `fill` on every nav svg.
+  - Character fabrication content stays on the 432 canvas. Only its header and nav leave that zoom. Projects PwFrame is unchanged.
+  - Do not upload this bundle to site00.com until the hub branch is on `main`.
+- **Changes:** `icons.tsx`, `chrome.tsx`, hub and fabrication authority CSS, `CharacterFabrication` shell, `PwFrame` production variant, design route overlay. Photographs and receipts from the earlier mount are unchanged.
+- **Conventions:** Production header and bottom nav are the hub 864 bar. New production surfaces use `ProductionChromeStrip`, not a second icon set or a dark `.pw-nav`.

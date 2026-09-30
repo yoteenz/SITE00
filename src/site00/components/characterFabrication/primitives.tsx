@@ -140,7 +140,7 @@ function StepsDial({ n }: { n: number }) {
   const done = (8 - n) / 8;
   const a = -Math.PI / 2 + done * Math.PI * 2;
   return (
-    <span className="cf-dial" data-testid="cf-steps">
+    <span className="ph-top__attn cf-dial" data-testid="cf-steps">
       <svg viewBox="0 0 22 22" aria-hidden>
         <circle cx="11" cy="11" r="10" className="cf-dial__ring" />
         <circle cx="11" cy="11" r="7.6" className="cf-dial__face" />
@@ -160,13 +160,13 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
   const [pop, setPop] = useState<null | 'project' | 'character' | 'menu'>(null);
   const toggle = (p: 'project' | 'character' | 'menu') => setPop((c) => (c === p ? null : p));
   return (
-    <header className={`cf-top${state.surface === 'ACTOR_PROFILE' ? ' cf-top--profile' : ''}${state.activeStation === 'appearance' && state.surface === 'STATION' ? ' cf-top--actor' : ''}`} data-testid="cf-header">
-      <div className="cf-top__brand">
+    <header className={`ph-top${state.surface === 'ACTOR_PROFILE' ? ' cf-top--profile' : ''}${state.activeStation === 'appearance' && state.surface === 'STATION' ? ' cf-top--actor' : ''}`} data-testid="cf-header">
+      <div className="ph-top__brand ph-top__brand--long">
         <b>CHARACTER FABRICATION</b>
         <small>SITE 00 / STUDIO WORLD</small>
       </div>
-      <button type="button" className="cf-top__sel cf-top__sel--proj" onClick={() => toggle('project')} aria-expanded={pop === 'project'} data-testid="cf-project-select">
-        <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="" className="cf-top__thumb" />
+      <button type="button" className="ph-top__sel" onClick={() => toggle('project')} aria-expanded={pop === 'project'} data-testid="cf-project-select">
+        <CfImage slotId={actor.portraitSlotId} url={url(actor.portraitSlotId)} label="" className="ph-top__thumb" />
         {state.activeStation === 'appearance' && state.surface === 'STATION' ? (
           <span>
             <small>ACTOR</small>
@@ -180,7 +180,7 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
         )}
         <IcChevD width={7} height={7} />
       </button>
-      <button type="button" className="cf-top__sel" onClick={() => toggle('character')} aria-expanded={pop === 'character'} data-testid="cf-character-select">
+      <button type="button" className="ph-top__sel ph-top__sel--prod ph-top__sel--fit" onClick={() => toggle('character')} aria-expanded={pop === 'character'} data-testid="cf-character-select">
         {state.surface === 'ACTOR_PROFILE' ? (
           <span>
             <small>ENTRY</small>
@@ -200,7 +200,7 @@ export function FabricationHeader({ onReset }: { onReset: () => void }) {
         <IcChevD width={7} height={7} />
       </button>
       <StepsDial n={steps} />
-      <button type="button" className="cf-top__menu" aria-label="Menu" onClick={() => toggle('menu')} data-testid="cf-menu"><IcMenu width={12} height={12} /></button>
+      <button type="button" className="ph-top__menu" aria-label="Menu" onClick={() => toggle('menu')} data-testid="cf-menu"><IcMenu width={22} height={22} /></button>
       {pop ? (
         <div className="cf-pop" role="dialog" data-testid={`cf-pop-${pop}`}>
           {pop === 'project' ? (

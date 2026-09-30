@@ -667,7 +667,10 @@
 .ph-nav__item.is-active { color: var(--ph-red); font-weight: 700; }
 .ph-nav__item.is-active::after { content: ''; position: absolute; left: 22%; right: 22%; bottom: 0; height: 2px; background: var(--ph-red); }
 .ph-nav__icon { position: relative; display: grid; place-items: center; width: 22px; height: 22px; }
-.ph-nav__icon svg { width: 20px; height: 20px; }
+.ph-nav__icon svg { width: 20px; height: 20px; fill: none; }
+.ph-nav__icon .nav-solid { display: none; fill: currentColor; stroke: none; }
+.ph-nav__item.is-active .ph-nav__icon .nav-line { display: none; }
+.ph-nav__item.is-active .ph-nav__icon .nav-solid { display: inline; }
 .ph-nav__icon sup { position: absolute; top: -8px; right: -14px; font-size: 8px; color: var(--ph-red); font-weight: 600; }
 .ph-nav__icon::before { content: none; }
 

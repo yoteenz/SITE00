@@ -40,14 +40,71 @@ export const IcZoomIn = I('M11 4a7 7 0 100 14 7 7 0 000-14zM20 20l-4-4M11 8v6M8 
 export const IcFit = I('M4 9V5h4M20 9V5h-4M4 15v4h4M20 15v4h-4M9 9h6v6H9z');
 export const IcCube = I('M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9');
 export const IcSwap = I('M4 9h14l-4-4M20 15H6l4 4');
-/** Bottom nav glyphs traced from the Production authority bar: solid house, envelope, leaf, plain triangle, hexagon, isometric cube, clock. */
-export const IcHome = I('M4 11.2L12 4l8 7.2V21H4z');
-export const IcMail = I('M3.5 6.5h17v12h-17zM3.5 7.2l8.5 6.2 8.5-6.2');
-export const IcLeaf = I('M6.5 20C6.5 11 10 6 19 3.5 17.5 10 14.5 15 8 17.2M6.5 20c-.8-3.2-.6-5.6.8-8');
-export const IcTriangle = I('M12 3.2L21.2 20.2H2.8z');
-export const IcHex = I('M12 2.8l7.6 4.4v9.6L12 21.2l-7.6-4.4V7.2z');
-export const IcLibrary = I('M12 3.2l7.4 4.2v.1L12 11.6 4.6 7.5zM4.6 8.2v8.6L12 21V12.2zM12 12.2l7.4-4v8.6L12 21');
-export const IcClock = I('M12 3.2a8.8 8.8 0 100 17.6 8.8 8.8 0 000-17.6zM12 7.2V12l3.4 2');
+/**
+ * Bottom-nav glyphs traced from the authority bar (864 screens).
+ * House: open outline when idle, solid silhouette when the item is active (`.nav-solid`).
+ * Experience keeps the center stem. Expression is a hexagonal ring, never a filled blob.
+ * Library is an isometric wireframe cube. Clock hands sit at 12 and 3.
+ */
+const navBase: SVGProps<SVGSVGElement> = { ...base, strokeWidth: 1.65 };
+
+export function IcHome(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} {...p}>
+      <path className="nav-line" d="M12 3.2L3.8 10.6V21.2M12 3.2L20.2 10.6V15.4M20.2 17.6V21.2H15.6" />
+      <path className="nav-solid" d="M12 3L20.8 11.1V21.4H3.2V11.1Z" />
+    </svg>
+  );
+}
+export function IcMail(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} {...p}>
+      <path d="M3.3 7h17.4v10.6H3.3z" />
+      <path d="M3.3 7.4L12 13.3l8.7-5.9" />
+    </svg>
+  );
+}
+export function IcLeaf(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} {...p}>
+      <path d="M6.2 19.4C7.2 12.2 11.4 6.8 19.2 3.8 17.4 10.2 13.6 15.2 7.4 17.4 6.8 18 6.4 18.7 6.2 19.4z" />
+      <path d="M6.8 18.6C10.2 13.6 13.6 9.2 18.2 4.8" />
+    </svg>
+  );
+}
+export function IcTriangle(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} strokeLinejoin="miter" {...p}>
+      <path d="M12 3.1L21.5 20.8H2.5Z" />
+      <path d="M12 4.2V20.4" />
+    </svg>
+  );
+}
+export function IcHex(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} strokeLinejoin="miter" {...p}>
+      <path d="M12 2.8l8.1 4.7v9l-8.1 4.7-8.1-4.7v-9z" />
+      <path d="M12 7.2l4.2 2.45v4.7L12 16.8l-4.2-2.45v-4.7z" />
+    </svg>
+  );
+}
+export function IcLibrary(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} strokeLinejoin="miter" {...p}>
+      <path d="M12 2.8l8.4 4.85v9.7L12 22.2l-8.4-4.85v-9.7z" />
+      <path d="M3.6 7.65L12 12.5l8.4-4.85" />
+      <path d="M12 12.5v9.7" />
+    </svg>
+  );
+}
+export function IcClock(p: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...navBase} {...p}>
+      <circle cx="12" cy="12" r="8.15" />
+      <path d="M12 7.15V12H16.7" />
+    </svg>
+  );
+}
 export const IcUser = I('M12 4a4 4 0 100 8 4 4 0 000-8zM5 20c1-4 4-6 7-6s6 2 7 6');
 export const IcShirt = I('M9 4l3 2 3-2 5 3-2 4-2-1v10H8V10l-2 1-4-4z');
 export const IcInfinity = I('M7 9a3 3 0 100 6c3 0 7-6 10-6a3 3 0 010 6c-3 0-7-6-10-6z');

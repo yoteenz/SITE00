@@ -564,8 +564,59 @@
 .ph--hub .ph-nav__item.is-active { color: var(--a-red); font-weight: 500; }
 .ph--hub .ph-nav__item.is-active::after { left: 28px; right: 28px; bottom: 12px; height: 2px; box-shadow: none; }
 .ph--hub .ph-nav__icon { width: 30px; height: 28px; }
-.ph--hub .ph-nav__icon svg { width: 26px; height: 26px; stroke-width: 1.4; }
-.ph--hub .ph-nav__item.is-active .ph-nav__icon svg { fill: var(--a-red); }
+.ph--hub .ph-nav__icon svg { width: 26px; height: 26px; stroke-width: 1.65; fill: none; }
+.ph--hub .ph-nav__item.is-active .ph-nav__icon svg { stroke-width: 1.9; }
+.ph--hub .ph-nav__item.is-active .ph-nav__icon .nav-solid { fill: currentColor; stroke: none; }
+.ph--hub .ph-top__brand--long b { font-size: 16px; letter-spacing: 0.02em; white-space: nowrap; }
+.prod-chrome-strip.ph {
+  position: relative;
+  inset: auto;
+  width: 864px;
+  height: auto;
+  flex: 0 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+  z-index: 30;
+  overflow: visible;
+}
+.prod-chrome-fixed {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1300;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.prod-chrome-fixed--top { top: 0; }
+.prod-chrome-fixed--bottom { bottom: 0; }
+.prod-chrome-fixed .prod-chrome-strip { pointer-events: auto; }
+.ph--hub .ph-top > .prod-chrome-pop { border: 0; margin: 0; }
+.prod-chrome-pop {
+  position: absolute;
+  top: 76px;
+  left: 12px;
+  right: 12px;
+  z-index: 40;
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #d0d0d4;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+.prod-chrome-pop a {
+  display: grid;
+  gap: 2px;
+  padding: 10px;
+  border: 1px solid #d8d9de;
+  background: #fafafb;
+  text-align: left;
+}
+.prod-chrome-pop b { font-size: 16px; font-weight: 500; letter-spacing: 0.08em; }
+.prod-chrome-pop span { font-size: 12px; letter-spacing: 0.08em; color: #6d6d73; }
+.ph--hub .ph-top__thumb { object-fit: cover; }
 .ph--hub .ph-nav__icon sup { top: -12px; right: -28px; font-size: 13px; font-weight: 500; }
 .ph--hub .ph-nav__icon sup::before { content: ''; position: absolute; left: -9px; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--a-red); }
 
@@ -848,3 +899,15 @@
   margin-left: max(24px, calc((100% - 816px) / 2));
   margin-right: max(24px, calc((100% - 816px) / 2));
 }
+
+/* Long workspace titles stay inside the shared brand column (same grid as the hub). */
+.ph--hub .ph-top__brand--long { overflow: hidden; }
+.ph--hub .ph-top__brand--long > b {
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0.012em;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ph--hub .ph-top__sel--fit b { font-size: 14px; letter-spacing: 0.01em; }

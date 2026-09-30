@@ -357,8 +357,10 @@
 .cf-vrail2__btn:not(.is-active) { flex: 0 0 68.75px; }
 .cf-vrail2__btn.is-active + .cf-vrail2__btn { margin-top: 15px; }
 .cf-prof__head h2 { font-size: 24px; font-weight: 300; }
-.cf .cf-top--profile .cf-top__brand { flex-direction: column-reverse; }
-.cf .cf-top--profile .cf-top__brand small { margin: 0 0 3px; }
+.cf .cf-top--profile .cf-top__brand,
+.ph-top.cf-top--profile .ph-top__brand { flex-direction: column-reverse; }
+.cf .cf-top--profile .cf-top__brand small,
+.ph-top.cf-top--profile .ph-top__brand small { margin: 0 0 5px; }
 
 /* ── 5417 body authority / founder gate ─────────────────────────── */
 .cf-mcard { position: absolute; z-index: 3; width: 78.5px; background: rgba(250, 250, 251, 0.9); border: 1px solid rgba(214, 217, 222, 0.95); border-radius: 5px; box-shadow: 0 6px 18px rgba(20, 24, 32, 0.12); padding: 8px 6px 6px 7px; display: flex; flex-direction: column; }
@@ -1422,3 +1424,46 @@
 .cf-tailrail { margin: 12px 0 0; }
 .cf-prof__level { right: 8px; } .cf-prof__panel { padding-top: 11px; }
 .cf-mr__tc .cf-cbtn { width: 88px; }
+
+/* Shared chrome: header and nav sit in the 864 hub coordinate space, outside the 432 content zoom. */
+.cf-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column;
+  background: #e4e6ea;
+  overflow: hidden;
+}
+.cf-shell .cf-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.cf-shell .cf-stage > .ph.cf {
+  position: relative;
+  inset: auto;
+  z-index: 1;
+  flex: 0 0 auto;
+  max-width: none;
+}
+.cf-shell .cf-frame {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  box-shadow: none;
+}
+.prod-chrome-strip .cf-pop {
+  top: 76px;
+  left: 12px;
+  right: 12px;
+  z-index: 40;
+  font-size: 13px;
+}
+.prod-chrome-strip .cf-pop__h { font-size: 12px; }
+.prod-chrome-strip .cf-pop__row b { font-size: 16px; }
+.prod-chrome-strip .cf-pop__row span,
+.prod-chrome-strip .cf-pop__note { font-size: 12px; }
