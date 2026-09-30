@@ -145,12 +145,32 @@ function RoutingArrow({ d, end, dir }: { d: string; end: [number, number]; dir: 
   );
 }
 
-export function ChamberGeometry({ mode, expanded = false }: { mode: HubMode; expanded?: boolean }) {
+export function ChamberGeometry({
+  mode,
+  expanded = false,
+  suppressLegacyScenery = false,
+}: {
+  mode: HubMode;
+  expanded?: boolean;
+  /** When the Grok atmosphere plate is mounted, hide SVG scenery that duplicates it. */
+  suppressLegacyScenery?: boolean;
+}) {
   const g = geoFor(mode, expanded && mode === 'LIVE');
   const { H, colX, colTop, baseY, collarY } = g;
   const [cx0, cx1] = colX;
   const live = mode === 'LIVE';
   const flow = mode === 'FLOW';
+  if (suppressLegacyScenery) {
+    return (
+      <svg
+        className={`ph-geo ph-geo--${mode.toLowerCase()} ph-geo--env-mounted`}
+        viewBox={`0 0 864 ${H}`}
+        preserveAspectRatio="none"
+        aria-hidden
+        data-testid="hub-chamber-geometry"
+      />
+    );
+  }
   return (
     <svg className={`ph-geo ph-geo--${mode.toLowerCase()}`} viewBox={`0 0 864 ${H}`} preserveAspectRatio="none" aria-hidden data-testid="hub-chamber-geometry">
       <defs>
@@ -285,17 +305,19 @@ export function ProductionChamber({
   atmosphereUrl: string | null;
   children: ReactNode;
 }) {
+  const envOn = !!atmosphereUrl;
   return (
     <section
-      className={`ph-chamber ph-chamber--${mode.toLowerCase()}${expanded ? ' is-artifact-expanded' : ''}`}
+      className={`ph-chamber ph-chamber--${mode.toLowerCase()}${expanded ? ' is-artifact-expanded' : ''}${envOn ? ' has-authority-env' : ''}`}
       aria-label="Production chamber"
       data-testid="hub-chamber"
       data-mode={mode}
+      data-environment={envOn ? 'ph.environment.chamber.base' : undefined}
     >
-      <div className="ph-chamber__atmo" data-asset-slot="production.hub.chamber.atmosphere" data-asset-state={atmosphereUrl ? 'filled' : 'missing'}>
-        {atmosphereUrl ? <img src={atmosphereUrl} alt="" draggable={false} /> : null}
+      <div className="ph-chamber__atmo" data-asset-slot="production.hub.chamber.atmosphere" data-asset-state={envOn ? 'filled' : 'missing'}>
+        {atmosphereUrl ? <img src={atmosphereUrl} alt="" draggable={false} data-testid="hub-environment-plate" /> : null}
       </div>
-      <ChamberGeometry mode={mode} expanded={expanded} />
+      <ChamberGeometry mode={mode} expanded={expanded} suppressLegacyScenery={envOn} />
       {children}
     </section>
   );
