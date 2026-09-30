@@ -12830,3 +12830,14 @@ Founder saw the Martian Mono swap and said to change the bars back to Saira Semi
 - **Decisions / outcomes:** Remove the Martian Mono rule on `.ph-top` and `.ph-nav`. Those bars use `--a-font`, which is Saira Semi Condensed. Hub chamber stays Saira. Fabrication canvas stays Barlow Condensed.
 - **Changes:** `src/site00/styles/site00-production-hub-authority.css`.
 - **Conventions:** Production header and bottom nav stay Saira Semi Condensed unless the founder asks for a different face.
+
+---
+
+## 2026-09-30 — Bottom-nav labels 9.3px; tunnel matches a fresh load
+
+Founder said the bottom-nav text got smaller instead of bigger, and that the tunnel text did not match the QA screenshots.
+
+- **Context:** Compact chrome on `cursor/chrome-compact-text-1b86`, PR 1261, not merged. Header copy zoom stays 0.74. Chrome face stays Saira Semi Condensed. Do not upload over site00.com. Live stays `site00-deploy-2026-09-29-v734`. Send tunnel links on every close. Hard-refresh the tunnel; an open phone tab does not pick up Vite edits.
+- **Decisions / outcomes:** Nav labels go to 9.3px. The +0.3px step had landed at 8.8px, which is under the 9px the bar had before the half-pixel cut, so a reload could show smaller type. A fresh load of the quick tunnel and localhost:5195 compute the same family, size, and label height. QA shots are that same page, cropped. A phone that has not reloaded can still be on Martian Mono or an older size.
+- **Changes:** `src/site00/styles/site00-production-hub-authority.css` nav label size and line-height.
+- **Conventions:** Compare the tunnel only after a full reload. Do not treat an open tab as the latest chrome.

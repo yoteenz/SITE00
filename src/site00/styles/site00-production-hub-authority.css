@@ -977,7 +977,7 @@
   overflow: hidden;
   gap: 5px;
   padding-top: 11px;
-  font-size: 8.8px;
+  font-size: 9.3px;
   letter-spacing: 0.05em;
   font-stretch: semi-condensed;
   border-right: 1px solid #dcdce0;
@@ -1011,6 +1011,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: 1.05;
+  line-height: 1.15;
   font-stretch: semi-condensed;
 }
