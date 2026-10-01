@@ -205,8 +205,8 @@ export const PUBLIC_REDESIGN_ASSET_SLOTS: AssetSlotSpec[] = [
   thumb('CARD.LOCATIONS.JOURNAL', ['/origin/locations'], ['01_LOCATIONS_MAIN'], 'JOURNAL ROW — MOUNTAIN TERRACE WITH TABLE.', 'ROW RIGHT HALF', { w: 520, h: 300 }),
 ];
 
-/** Grok registers final URLs here. Empty on purpose in this pass. */
-export const PUBLIC_REDESIGN_ASSET_URLS: Partial<Record<string, string>> = {};
+/** Runtime Grok injection URLs (production-eligible assets only). */
+export { PUBLIC_REDESIGN_ASSET_URLS } from './publicRedesignAssetUrls';
 
 export function getAssetSlot(id: string): AssetSlotSpec | undefined {
   return PUBLIC_REDESIGN_ASSET_SLOTS.find((s) => s.id === id);
