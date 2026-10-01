@@ -1,201 +1,6 @@
 [
   {
-    "route": "/bldr/state",
-    "finalUrl": "/bldr/state",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 708,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_BLDR_COMMAND_CENTER"
-  },
-  {
-    "route": "/idnty/build-ready/verification",
-    "finalUrl": "/idnty/build-ready/verification",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 718,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_BUILD_READY_VERIFICATION"
-  },
-  {
-    "route": "/idnty/ready-for-evolution/pathways",
-    "finalUrl": "/idnty/ready-for-evolution/pathways",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 710,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_EVOLUTION_AREAS"
-  },
-  {
-    "route": "/evolve/state",
-    "finalUrl": "/evolve/state",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 703,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_EVOLVE_INTERVENTION_CENTER"
-  },
-  {
-    "route": "/idnty/starting-at-zero/goal",
-    "finalUrl": "/idnty/starting-at-zero/goal",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 697,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_FOUNDATION_PRIMARY_GOAL"
-  },
-  {
-    "route": "/idnty/state",
-    "finalUrl": "/idnty/state",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 705,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_IDNTY_DIAGNOSTIC_OVERVIEW"
-  },
-  {
-    "route": "/origin/locations",
-    "finalUrl": "/origin/locations",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 986,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "01_LOCATIONS_MAIN"
-  },
-  {
-    "route": "/",
-    "finalUrl": "/",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "01_ORIGIN_MAIN"
-  },
-  {
-    "route": "/idnty/some-pieces-exist/assets",
-    "finalUrl": "/idnty/some-pieces-exist/assets",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "01_REFINE_EXISTING_ASSETS"
-  },
-  {
-    "route": "/bldr/state?path=overview",
-    "finalUrl": "/bldr/state?path=overview",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 721,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "02_BLDR_OVERVIEW"
-  },
-  {
-    "route": "/idnty/build-ready/evidence",
-    "finalUrl": "/idnty/build-ready/evidence",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 754,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "02_BUILD_READY_EVIDENCE"
-  },
-  {
-    "route": "/idnty/ready-for-evolution/goals",
-    "finalUrl": "/idnty/ready-for-evolution/goals",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 701,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "02_EVOLUTION_GOALS"
-  },
-  {
-    "route": "/evolve/state?path=refine",
-    "finalUrl": "/evolve/state?path=refine",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "02_EVOLVE_REFINE"
-  },
-  {
-    "route": "/idnty/starting-at-zero/audience",
-    "finalUrl": "/idnty/starting-at-zero/audience",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "02_FOUNDATION_AUDIENCE"
-  },
-  {
+    "id": "02_IDNTY_STATE_00_FOUNDATION",
     "route": "/idnty/starting-at-zero",
     "finalUrl": "/idnty/starting-at-zero",
     "viewport": [
@@ -206,315 +11,60 @@
     "overflowX": false,
     "uppercaseViolations": [],
     "navPresent": true,
-    "errors": [],
-    "id": "02_IDNTY_STATE_00_FOUNDATION"
+    "assetSlots": [
+      {
+        "id": "ENV.IDNTY.ATRIUM",
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 693,
+        "radius": "0px",
+        "z": "0"
+      },
+      {
+        "id": "MACHINE.IDNTY.FOUNDATION.ORB",
+        "x": 0,
+        "y": 28,
+        "w": 390,
+        "h": 300,
+        "radius": "0px",
+        "z": "1"
+      }
+    ],
+    "errors": []
   },
   {
-    "route": "/",
-    "finalUrl": "/",
+    "id": "02_BUILD_READY_EVIDENCE",
+    "route": "/idnty/build-ready/evidence",
+    "finalUrl": "/idnty/build-ready/evidence",
     "viewport": [
       390,
       693
     ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "02_ORIGIN_IDNTY_EXPANDED"
-  },
-  {
-    "route": "/idnty/some-pieces-exist/cohesion-diagnostic",
-    "finalUrl": "/idnty/some-pieces-exist/cohesion-diagnostic",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
+    "docHeight": 717,
     "overflowX": false,
     "uppercaseViolations": [],
     "navPresent": true,
-    "errors": [],
-    "id": "02_REFINE_CONDITION"
-  },
-  {
-    "route": "/bldr/state?path=site",
-    "finalUrl": "/bldr/state?path=site",
-    "viewport": [
-      390,
-      693
+    "assetSlots": [
+      {
+        "id": "ENV.IDNTY.ATRIUM",
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 717,
+        "radius": "0px",
+        "z": "0"
+      },
+      {
+        "id": "MACHINE.IDNTY.AUTHORITY.STAR",
+        "x": 0,
+        "y": 28,
+        "w": 390,
+        "h": 300,
+        "radius": "0px",
+        "z": "1"
+      }
     ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "03_BLDR_SITE"
-  },
-  {
-    "route": "/idnty/build-ready/authority-check",
-    "finalUrl": "/idnty/build-ready/authority-check",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 744,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "03_BUILD_READY_AUTHORITY_CHECK"
-  },
-  {
-    "route": "/idnty/ready-for-evolution/timeline",
-    "finalUrl": "/idnty/ready-for-evolution/timeline",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 696,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "03_EVOLUTION_TIMELINE"
-  },
-  {
-    "route": "/evolve/state?path=install",
-    "finalUrl": "/evolve/state?path=install",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "03_EVOLVE_INSTALL"
-  },
-  {
-    "route": "/idnty/starting-at-zero/timeline",
-    "finalUrl": "/idnty/starting-at-zero/timeline",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "03_FOUNDATION_TIMELINE"
-  },
-  {
-    "route": "/idnty/some-pieces-exist",
-    "finalUrl": "/idnty/some-pieces-exist",
-    "viewport": [
-      390,
-      849
-    ],
-    "docHeight": 849,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "03_IDNTY_STATE_01_REFINE"
-  },
-  {
-    "route": "/",
-    "finalUrl": "/",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 709,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "03_ORIGIN_BLDR_EXPANDED"
-  },
-  {
-    "route": "/idnty/some-pieces-exist/gaps",
-    "finalUrl": "/idnty/some-pieces-exist/gaps",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "03_REFINE_GAPS"
-  },
-  {
-    "route": "/bldr/state?path=world",
-    "finalUrl": "/bldr/state?path=world",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 727,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "04_BLDR_WORLD"
-  },
-  {
-    "route": "/idnty/build-ready/review",
-    "finalUrl": "/idnty/build-ready/review",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 710,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "04_BUILD_READY_REVIEW_VERIFICATION"
-  },
-  {
-    "route": "/idnty/ready-for-evolution/review",
-    "finalUrl": "/idnty/ready-for-evolution/review",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 724,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "04_EVOLUTION_REVIEW"
-  },
-  {
-    "route": "/evolve/state?path=transform",
-    "finalUrl": "/evolve/state?path=transform",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 701,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "04_EVOLVE_TRANSFORM"
-  },
-  {
-    "route": "/idnty/starting-at-zero/budget",
-    "finalUrl": "/idnty/starting-at-zero/budget",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 695,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "04_FOUNDATION_BUDGET"
-  },
-  {
-    "route": "/idnty/ready-for-evolution",
-    "finalUrl": "/idnty/ready-for-evolution",
-    "viewport": [
-      390,
-      849
-    ],
-    "docHeight": 849,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "04_IDNTY_STATE_02_EVOLUTION"
-  },
-  {
-    "route": "/",
-    "finalUrl": "/",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "04_ORIGIN_EVOLVE_EXPANDED"
-  },
-  {
-    "route": "/idnty/some-pieces-exist/review",
-    "finalUrl": "/idnty/some-pieces-exist/review",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "04_REFINE_REVIEW"
-  },
-  {
-    "route": "/bldr/state?path=systems",
-    "finalUrl": "/bldr/state?path=systems",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 693,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "05_BLDR_SYSTEMS"
-  },
-  {
-    "route": "/idnty/starting-at-zero/review",
-    "finalUrl": "/idnty/starting-at-zero/review",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 714,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "05_FOUNDATION_REVIEW"
-  },
-  {
-    "route": "/idnty/build-ready",
-    "finalUrl": "/idnty/build-ready",
-    "viewport": [
-      390,
-      849
-    ],
-    "docHeight": 849,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": true,
-    "errors": [],
-    "id": "05_IDNTY_STATE_03_BUILD_READY"
-  },
-  {
-    "route": "/bldr/state?path=extensions",
-    "finalUrl": "/bldr/state?path=extensions",
-    "viewport": [
-      390,
-      693
-    ],
-    "docHeight": 708,
-    "overflowX": false,
-    "uppercaseViolations": [],
-    "navPresent": false,
-    "errors": [],
-    "id": "06_BLDR_EXTENSIONS"
+    "errors": []
   }
 ]

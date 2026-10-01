@@ -133,7 +133,11 @@ const text = (page, sel) => page.locator(sel).first().innerText();
   });
   await page.route('**/api/site00/**', (r) => r.fulfill({ status: 503, body: '{}', contentType: 'application/json' }));
   await page.goto(`${BASE}/idnty/starting-at-zero/review`);
-  await page.waitForTimeout(1200);
+  // Wait for the save attempt to settle (SAVING… → SAVED / NOT SAVED) instead of a fixed delay.
+  await page.waitForFunction(() => {
+    const t = document.querySelector('.s00pr-save')?.textContent ?? '';
+    return t && !/SAVING/.test(t);
+  }, null, { timeout: 10000 }).catch(() => {});
   const saveLabel = await page.locator('.s00pr-save').first().innerText().catch(() => '');
   check('unreachable server shows NOT SAVED (never SAVED)', /NOT SAVED/.test(saveLabel), saveLabel);
   await page.getByRole('button', { name: /SUBMIT IDENTITY ASSESSMENT/ }).click();
@@ -241,7 +245,7 @@ const text = (page, sel) => page.locator(sel).first().innerText();
   await page.waitForURL('**/bldr/not-sure');
   check('BEGIN EXTENSIONS routes to existing BLDR discovery (no invented route)', path(page) === '/bldr/not-sure');
   await page.goto(`${BASE}/evolve/state`);
-  await page.waitForTimeout(800);
+  await page.locator('.s00pr-svccard').first().waitFor({ timeout: 10000 }).catch(() => {});
   check('EVOLVE center offers exactly 3 paths', (await page.locator('.s00pr-svccard').count()) === 3);
   await page.getByRole('link', { name: /INSTALL/ }).first().click();
   await page.waitForURL('**/evolve/state?path=install');

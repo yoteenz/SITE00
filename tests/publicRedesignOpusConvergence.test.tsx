@@ -136,3 +136,35 @@ describe('viewport frame + unit system', () => {
     expect(css).toMatch(/\.s00pr \*:not\(input\):not\(textarea\)\s*\{\s*text-transform: uppercase;/);
   });
 });
+
+describe('OPUS-SURGICAL-CLEANUP1 — family continuity + Build Ready evidence rhythm', () => {
+  const css = fs.readFileSync(path.join(__dirname, '../src/site00/styles/site00-public-redesign.css'), 'utf8');
+
+  it('State 00 detail and its questions share ONE geometry: nothing above the panel varies by mode', () => {
+    // Founder decision: family continuity outranks the 941-family authority being ~8% larger.
+    expect(css).not.toMatch(/data-identity-mode/);
+    expect(css).not.toMatch(/\.s00pr-panel--(detail|question|review)[^{]*\.s00pr-(idhero|stage|progression)/);
+    const detail = flow('starting-at-zero', null);
+    const goal = flow('starting-at-zero', 'goal');
+    // Hero + machine markup identical; the rail differs only in function (links on detail, static during questions).
+    const heroAndMachine = (html: string) => html.slice(html.indexOf('<section class="s00pr-idhero"'), html.indexOf('<div class="s00pr-progression"'));
+    expect(heroAndMachine(detail)).toBe(heroAndMachine(goal));
+    const nodes = (html: string) => html.match(/s00pr-progression__node[^"]*/g);
+    expect(nodes(detail)).toEqual(nodes(goal));
+  });
+
+  it('evidence-step rhythm is scoped to the evidence step only', () => {
+    expect(css).toMatch(/\.s00pr-panel__body\[data-body-key='question:evidence'\]\s*\{/);
+    expect(flow('build-ready', 'evidence')).toContain('data-body-key="question:evidence"');
+    expect(flow('build-ready', 'verification')).not.toContain('data-body-key="question:evidence"');
+  });
+
+  it('evidence keeps all five domains, their statuses and the honest wording', () => {
+    seedAnswers({ 'build-ready': { 'evidence-strategy': ['positioning'] } });
+    const html = flow('build-ready', 'evidence');
+    for (const d of ['STRATEGY', 'VISUAL', 'VOICE', 'VALUES', 'EXPERIENCE']) expect(html).toContain(`data-domain="${d}"`);
+    expect(html).toContain('data-authority-status="EVIDENCE_RECEIVED"');
+    expect(html).not.toMatch(/IDENTITY VERIFIED|AUTHORITY ESTABLISHED|UNLOCKED|\d+\s?%/);
+  });
+});
+

@@ -2,7 +2,9 @@
 
 **Before (Sonnet `a86c8cd`):** 0 PASS · 37 PARTIAL · 0 FAIL (Sonnet classification, kept as historical truth).
 
-**After (Opus):** 20 PASS · 17 PARTIAL (15 PARTIAL — GROK DEPENDENCY ONLY · 2 PARTIAL — OPUS VISUAL WORK REMAINS) · 0 FAIL.
+**History:** OPUS-CONVERGENCE1 (`f376dfb`) → 20 PASS · 15 PARTIAL (Grok) · 2 PARTIAL (Opus) · 0 FAIL. OPUS-SURGICAL-CLEANUP1 closed the two Opus partials (State 00 detail, Build Ready evidence) — see the section at the end.
+
+**After (Opus):** 22 PASS · 15 PARTIAL (15 PARTIAL — GROK DEPENDENCY ONLY · 0 PARTIAL — OPUS VISUAL WORK REMAINS) · 0 FAIL.
 
 **Rubric**
 
@@ -19,7 +21,7 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
 | 3 | `03_ORIGIN_BLDR_EXPANDED` | PARTIAL | PARTIAL — GROK DEPENDENCY ONLY |
 | 4 | `04_ORIGIN_EVOLVE_EXPANDED` | PARTIAL | PARTIAL — GROK DEPENDENCY ONLY |
 | 5 | `01_IDNTY_DIAGNOSTIC_OVERVIEW` | PARTIAL | PASS |
-| 6 | `02_IDNTY_STATE_00_FOUNDATION` | PARTIAL | PARTIAL — OPUS VISUAL WORK REMAINS |
+| 6 | `02_IDNTY_STATE_00_FOUNDATION` | PARTIAL | PASS |
 | 7 | `03_IDNTY_STATE_01_REFINE` | PARTIAL | PASS |
 | 8 | `04_IDNTY_STATE_02_EVOLUTION` | PARTIAL | PASS |
 | 9 | `05_IDNTY_STATE_03_BUILD_READY` | PARTIAL | PASS |
@@ -37,7 +39,7 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
 | 21 | `03_EVOLUTION_TIMELINE` | PARTIAL | PASS |
 | 22 | `04_EVOLUTION_REVIEW` | PARTIAL | PASS |
 | 23 | `01_BUILD_READY_VERIFICATION` | PARTIAL | PASS |
-| 24 | `02_BUILD_READY_EVIDENCE` | PARTIAL | PARTIAL — OPUS VISUAL WORK REMAINS |
+| 24 | `02_BUILD_READY_EVIDENCE` | PARTIAL | PASS |
 | 25 | `03_BUILD_READY_AUTHORITY_CHECK` | PARTIAL | PASS |
 | 26 | `04_BUILD_READY_REVIEW_VERIFICATION` | PARTIAL | PASS |
 | 27 | `01_BLDR_COMMAND_CENTER` | PARTIAL | PARTIAL — GROK DEPENDENCY ONLY |
@@ -136,7 +138,7 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
 
 - **AUTHORITY ID:** `02_IDNTY_STATE_00_FOUNDATION` · route `/idnty/starting-at-zero`
 - **BEFORE STATUS:** PARTIAL (Sonnet)
-- **AFTER STATUS:** PARTIAL — OPUS VISUAL WORK REMAINS
+- **AFTER STATUS:** PASS
 - **MAJOR CHANGES:**
   - Shared unit system (`--u`/`--uv`, authority px) replaced rem sizes ≈1.3× too large; Martian Mono width set back to the host semi-condensed axis (Sonnet forced `normal`, +8% glyph width).
   - Hero: title 29.6px → 22px, question 12.8 → 9px, body 8 → 6px, x 22 → 30; crumb/rule/side note re-spaced to authority y.
@@ -146,7 +148,7 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
   - Bottom nav 64 → 60px, 19px icons, 5.9px labels; body margin 8px removed (viewport frame).
   - Detail body: WHAT THIS MEANS 6.6px, facts row, CTA 28px pill.
 - **REMAINING MISMATCHES:**
-  - This authority is drawn in the 941-family scale (≈8% larger than the 1080-family question screens of the same state): panel top 388 vs live 363, type ≈8% smaller. Matching it would move the hero/machine between detail and question, which breaks the continuity rule — founder decision (one geometry per state chosen).
+  - Authority discrepancy (documented, not propagated): this image is drawn in the 941-family scale, ≈8% larger than the FOUNDATION question screens (panel top 388 vs family 363). FOUNDER DECISION (OPUS-SURGICAL-CLEANUP1): family continuity outranks the single inconsistent dimension — State 00 detail is normalised to the FOUNDATION family; hero, machine, rail, panel top/head and nav are measured IDENTICAL to 01_FOUNDATION_PRIMARY_GOAL at 390×693, 360×740, 430×932 and 390×844 (opus-continuity.json).
 - **GROK DEPENDENCIES:** `ENV.IDNTY.ATRIUM`
 - **RESPONSIVE NOTES:** Fits 390×693 completely (nav clear).
 - **PROOF:** `opus-proof/02_IDNTY_STATE_00_FOUNDATION/` (authority.jpg · before.png · after.png · comparison.jpg · comparison.md)
@@ -480,7 +482,7 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
 
 - **AUTHORITY ID:** `02_BUILD_READY_EVIDENCE` · route `/idnty/build-ready/evidence`
 - **BEFORE STATUS:** PARTIAL (Sonnet)
-- **AFTER STATUS:** PARTIAL — OPUS VISUAL WORK REMAINS
+- **AFTER STATUS:** PASS
 - **MAJOR CHANGES:**
   - Shared unit system (`--u`/`--uv`, authority px) replaced rem sizes ≈1.3× too large; Martian Mono width set back to the host semi-condensed axis (Sonnet forced `normal`, +8% glyph width).
   - Hero: title 29.6px → 22px, question 12.8 → 9px, body 8 → 6px, x 22 → 30; crumb/rule/side note re-spaced to authority y.
@@ -488,10 +490,11 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
   - 00–03 rail: 330px/28px nodes → 228px/16px nodes (active 20px + halo), centred per family height.
   - Panel: 346px wide @ y≈428 → 354px @ authority y; head 55px with plain-zero SVG numerals (Martian Mono only ships a slashed zero).
   - Evidence rows 29px, quiet chips (4.3px).
+  - OPUS-SURGICAL-CLEANUP1 (evidence step only): body top 9→5, question→rows gap 9→4, row 31→29 (padding 2.5→2, status gap 2.5→2), name column fitted to EXPERIENCE (58→52) + icon/chevron columns 22/12→20/10 + chip side padding 4.5→3.5 and tracking .04→.02em so 3 chips + "+N" never wrap; actions top padding 13→6. Type sizes unchanged. Tall phones keep the width-scaled row unit so chips never wrap.
 - **REMAINING MISMATCHES:**
-  - Rows run ≈4px taller than the authority because three source chips + status share each row; the panel footer scrolls ≈30px under the nav at 390×693 (reachable).
+  - None structural. CONTINUE pill y607→632 at 390×693 (authority 606→628); rows from y454 at a 29px pitch (authority 452 / 30).
 - **GROK DEPENDENCIES:** `ENV.IDNTY.ATRIUM`
-- **RESPONSIVE NOTES:** Scrolls; nav clear at the end.
+- **RESPONSIVE NOTES:** CONTINUE fully above the nav at 390×693 (632 ≤ 633), 360×740 (603/683), 430×932 (803/868), 390×844 (748/784); chips on one line at every width.
 - **PROOF:** `opus-proof/02_BUILD_READY_EVIDENCE/` (authority.jpg · before.png · after.png · comparison.jpg · comparison.md)
 
 ## 25. `03_BUILD_READY_AUTHORITY_CHECK`
@@ -681,3 +684,45 @@ Every classification comes from the side-by-side `opus-proof/<id>/comparison.jpg
 - **RESPONSIVE NOTES:** Public rows end at y≈611 (authority 622).
 - **PROOF:** `opus-proof/01_LOCATIONS_MAIN/` (authority.jpg · before.png · after.png · comparison.jpg · comparison.md)
 
+## OPUS-SURGICAL-CLEANUP1 — closing the two Opus-owned partials
+
+Scope: only `02_IDNTY_STATE_00_FOUNDATION` and `02_BUILD_READY_EVIDENCE`. Grok-dependent screens untouched; the other 35 authorities were re-captured and are **pixel-identical** (<0.05% px) to the OPUS-CONVERGENCE1 after-captures.
+
+### State 00 detail — PARTIAL (Opus) → PASS
+
+- **Before:** the 941-family authority is ≈8% larger than the FOUNDATION question screens (panel top 388 vs 363). The live page already used one geometry per state; the difference was unresolved.
+- **Founder decision (locked):** family continuity outranks a single inconsistent authority dimension. The discrepancy is documented here and in the forensic map, not propagated.
+- **Correction:** none to geometry. The OPUS-CONVERGENCE1 registration is the normalised one, and it is now locked by contract tests:
+  - No CSS rule may vary hero / stage / rail by panel mode.
+  - Hero + machine markup must be identical between detail and Question 01.
+- **Proof:** `scripts/site00-public-redesign-continuity.mjs` → `opus-continuity.json`:
+  - State 00 detail vs PRIMARY GOAL: header, hero title, side note, machine, rail, active node, panel top, panel head, state numeral and nav are **identical** at 390×693, 360×740, 430×932 and 390×844.
+  - Visual strips: `opus-proof/02_IDNTY_STATE_00_FOUNDATION/continuity-foundation*.jpg`.
+- **After:** PASS.
+
+### Build Ready evidence — PARTIAL (Opus) → PASS
+
+- **Before:**
+  - Evidence rows ran 31px (authority 30), and EXPERIENCE's chips wrapped to a second line (+13px).
+  - The question body carried 9px padding / 9px gap (authority ≈5 / 5).
+  - The CONTINUE pill bottom was at y669 at 390×693, ≈36–41px under the nav.
+- **Correction (evidence step only, via `data-body-key='question:evidence'` / `.s00pr-vrow--evidence`; type sizes unchanged):**
+  - Body top 9→5; question→rows 9→4.
+  - Rows 29px.
+  - Name column fitted to EXPERIENCE; icon/chevron columns −2.
+  - Chip side padding 4.5→3.5 and tracking .04→.02em, so three source chips + "+N" stay on one line.
+  - Actions top padding 13→6.
+  - Tall phones keep the width-scaled row unit.
+- **Result:**
+  - CONTINUE pill y607→632 at 390×693 (authority 606→628); nav at 633.
+  - 360×740: 603 vs nav 683. 430×932: 803 vs 868. 390×844: 748 vs 784.
+  - All five domains, statuses, chips, "+N" expanders and honest provisional wording are intact (contract tests).
+- **Panel-family continuity:**
+  - Evidence vs VERIFICATION: identical shared landmarks at all four sizes.
+  - Vs AUTHORITY CHECK / REVIEW: identical except the panel head, which carries one extra line (AUTHORITY CHECK 03 / REVIEW VERIFICATION) exactly as those authorities draw it. Head +3–6px; numeral re-centres 2–3px.
+  - Strip: `opus-proof/02_BUILD_READY_EVIDENCE/continuity-build-ready.jpg`.
+- **After:** PASS.
+
+### Final distribution (37)
+
+**22 PASS · 15 PARTIAL — GROK DEPENDENCY ONLY · 0 PARTIAL — OPUS · 0 FAIL.**

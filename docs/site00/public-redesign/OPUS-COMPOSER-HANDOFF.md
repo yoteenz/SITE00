@@ -88,7 +88,7 @@ The full list is in `SONNET-ROUTE-AUTHORITY-MAP.md`. When authorities arrive, th
 | 3 | Header links CHARACTERS / WORLDS / LIBRARY + SEARCH | Omitted (no routes / no search capability). The BLDR/EVOLVE center headers show the links that exist: EXPLORE · BUILD · EVOLVE · ABOUT |
 | 4 | EVOLVE center nav bay (authority highlights IDNTY) | Contextual **EVOLVE** bay |
 | 5 | Locations numbering (authority repeats 05) and YOUR SPACE section | 05 / 06 / 07; YOUR SPACE kept |
-| 6 | 941- vs 1080-family scale mismatch for IDNTY detail screens | One geometry per state (continuity rule). See `OPUS-VISUAL-DELTA-REPORT.md` |
+| 6 | 941- vs 1080-family scale mismatch for IDNTY detail screens | **RESOLVED (founder, OPUS-SURGICAL-CLEANUP1):** family continuity wins. State 00 detail normalised to the FOUNDATION family and locked by tests |
 | 7 | BLDR panel numbering (02 / 02.01 … drawn inconsistently) | Reproduced as drawn |
 | 8 | TERMS / PRIVACY destinations | Labels only (no dead links) |
 

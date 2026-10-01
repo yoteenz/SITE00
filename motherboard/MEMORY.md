@@ -12852,3 +12852,25 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.OPUS-CONVERGENCE1` on the Sonnet branch `curso
   - Measure against the authority at 390 CSS px with the real font. Never trust a capture rendered in the fallback font.
   - Fixed-size `calc(N * var(--u))` only. No rem in the redesign family.
   - When one state's authorities are drawn at different scales, keep one geometry per state (continuity) and record the conflict.
+
+---
+
+## 2026-10-01 — Public redesign OPUS-SURGICAL-CLEANUP1 (two Opus partials closed)
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.OPUS-SURGICAL-CLEANUP1` on `cursor/public-redesign-sonnet-structure1-4f59`. It changed only `02_IDNTY_STATE_00_FOUNDATION` and `02_BUILD_READY_EVIDENCE`.
+
+- **Founder decision:** for IDNTY, family continuity outranks a single inconsistent authority dimension.
+  - The State 00 detail authority is drawn about 8% larger (941 family) than the FOUNDATION question screens.
+  - That discrepancy is documented, not propagated.
+  - State 00 detail stays on the FOUNDATION family geometry. Hero, machine, rail, panel and nav measure identical to PRIMARY GOAL at 390×693, 360×740, 430×932 and 390×844.
+  - Locked by tests: no CSS geometry may vary by panel mode.
+- **Build Ready evidence fix:** rhythm scoped to the evidence step only (`data-body-key='question:evidence'`, `.s00pr-vrow--evidence`), with no type-size change.
+  - Body and gap padding cut to the authority's 5px/4px.
+  - Rows are 29px tall; columns fitted to EXPERIENCE so the chips never wrap.
+  - Action-bar top padding is 6px.
+  - Tall phones keep the width-scaled row unit.
+  - Result: CONTINUE ends at y632 (nav 633), against the authority's y606→628.
+- **Result:** 22 PASS · 15 PARTIAL (Grok only) · 0 Opus partials · 0 FAIL.
+  - The other 35 authorities are pixel-identical to the previous pass.
+  - The Grok manifest is unchanged.
+- **New scripts:** `site00-public-redesign-continuity.mjs` (landmark diff, writing `opus-continuity.json`) and `site00-public-redesign-continuity-proof.mjs`. The flow harness now waits on state instead of fixed delays.

@@ -940,27 +940,27 @@ Proof: `opus-proof/02_BUILD_READY_EVIDENCE/comparison.jpg` (AUTHORITY | SONNET |
 | Hero title | y86 x22 200×57 | y65 x30 150×42 |
 | Machine box | y130 x22 346×232 | y28 x0 390×300 |
 | 00–03 rail | y364 x30 330×28 | y311 x81 228×20 |
-| Working panel | y420 x22 346×737 | y353 x18 354×330 |
+| Working panel | y420 x22 346×737 | y353 x18 354×294 |
 | Panel code | y450 x39 65×41 | y366 x33 50×31 |
-| Question title | y554 x39 312×36 | y420 x33 324×14 |
-| First option / row | y634 x39 312×96 | y463 x33 324×30 |
-| Actions / CTA | y1089 x23 344×67 | y631 x19 352×52 |
+| Question title | y554 x39 312×36 | y416 x33 324×14 |
+| First option / row | y634 x39 312×96 | y454 x33 324×28 |
+| Actions / CTA | y1089 x23 344×67 | y601 x19 352×45 |
 | Bottom nav | y629 x0 390×64 | y633 x0 390×60 |
-| Document height | 1241 | 754 |
+| Document height | 1241 | 717 |
 
 - **A. Shell** — Authority header/frame per family. Sonnet: wordmark y32 x22 82×17 (+8px body margin). Opus: y14 x30 59×10. Correction: §A1–A3.
 - **B. Typography** — Authority: y66→100; question 10–12px one line. Sonnet hero title 29.6px (y86 x22 200×57). Opus 22.0px (y65 x30 150×42). Question title Sonnet 15.7px → Opus 11.8px (one line, length-fitted).
-- **C. Page geometry** — Authority: x16→374 · y352→632. Sonnet panel/cards y420 x22 346×737, doc height 1241. Opus y353 x18 354×330, doc height 754. Rail centre: Sonnet y378 → Opus y321 (authority centre y321).
+- **C. Page geometry** — Authority: x16→374 · y352→632. Sonnet panel/cards y420 x22 346×737, doc height 1241. Opus y353 x18 354×294, doc height 717. Rail centre: Sonnet y378 → Opus y321 (authority centre y321).
 - **D. Machine geometry** — Authority: four-point star 70×70 centre (195,185) · ring r67 · 5 domain nodes (verification flow only). Sonnet machine box y130 x22 346×232. Opus y28 x0 390×300.
 - **E. Panel geometry** — Authority code "03". Sonnet code y450 x39 65×41; Opus y366 x33 50×31.
 - **F. Navigation** — Authority nav y633. Sonnet y629 x0 390×64; Opus y633 x0 390×60.
-- **G. Spacing** — Authority actions y≈606. Sonnet y1089 x23 344×67; Opus y631 x19 352×52.
+- **G. Spacing** — Authority actions y≈606. Sonnet y1089 x23 344×67; Opus y601 x19 352×45.
 - **H. Linework** — Sonnet: 0.8–1px strokes, uniform bead size. Opus: 0.45–0.8px technical strokes, graded beads (authority).
-- **I. Input / control presentation** — Authority options: 5 domain rows ≈26 tall · evidence rows ≈30 · review 5 tiles 62×94. Sonnet first option y634 x39 312×96; Opus y463 x33 324×30.
+- **I. Input / control presentation** — Authority options: 5 domain rows ≈26 tall · evidence rows ≈30 · review 5 tiles 62×94. Sonnet first option y634 x39 312×96; Opus y454 x33 324×28.
 - **J. Asset placeholders** — Grok slots on this screen: `ENV.IDNTY.ATRIUM`.
-- **K. Responsive** — Scrolls; nav clear at the end.
+- **K. Responsive** — CONTINUE fully above the nav at 390×693 (632 ≤ 633), 360×740 (603/683), 430×932 (803/868), 390×844 (748/784); chips on one line at every width.
 - **L. Material / lighting** — Placeholder plate carries the authority light structure; glossy red rendered with SVG gradients; glass panels translucent white + blur. Final materials: Grok.
-- **Correction applied:** Shared unit system (`--u`/`--uv`, authority px) replaced rem sizes ≈1.3× too large; Martian Mono width set back to the host semi-condensed axis (Sonnet forced `normal`, +8% glyph width). Hero: title 29.6px → 22px, question 12.8 → 9px, body 8 → 6px, x 22 → 30; crumb/rule/side note re-spaced to authority y. Machine re-drawn in authority page coordinates (viewBox 0 28 390 300) behind the hero, not stacked under it. 00–03 rail: 330px/28px nodes → 228px/16px nodes (active 20px + halo), centred per family height. Panel: 346px wide @ y≈428 → 354px @ authority y; head 55px with plain-zero SVG numerals (Martian Mono only ships a slashed zero). Evidence rows 29px, quiet chips (4.3px).
+- **Correction applied:** Shared unit system (`--u`/`--uv`, authority px) replaced rem sizes ≈1.3× too large; Martian Mono width set back to the host semi-condensed axis (Sonnet forced `normal`, +8% glyph width). Hero: title 29.6px → 22px, question 12.8 → 9px, body 8 → 6px, x 22 → 30; crumb/rule/side note re-spaced to authority y. Machine re-drawn in authority page coordinates (viewBox 0 28 390 300) behind the hero, not stacked under it. 00–03 rail: 330px/28px nodes → 228px/16px nodes (active 20px + halo), centred per family height. Panel: 346px wide @ y≈428 → 354px @ authority y; head 55px with plain-zero SVG numerals (Martian Mono only ships a slashed zero). Evidence rows 29px, quiet chips (4.3px). OPUS-SURGICAL-CLEANUP1 (evidence step only): body top 9→5, question→rows gap 9→4, row 31→29 (padding 2.5→2, status gap 2.5→2), name column fitted to EXPERIENCE (58→52) + icon/chevron columns 22/12→20/10 + chip side padding 4.5→3.5 and tracking .04→.02em so 3 chips + "+N" never wrap; actions top padding 13→6. Type sizes unchanged. Tall phones keep the width-scaled row unit so chips never wrap.
 
 ### 25. `03_BUILD_READY_AUTHORITY_CHECK` — `/idnty/build-ready/authority-check`
 

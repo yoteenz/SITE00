@@ -1730,6 +1730,23 @@ body:has(.s00pr-shell) {
   background: var(--s00pr-red);
 }
 
+/*
+ * OPUS-SURGICAL-CLEANUP1 — BUILD READY EVIDENCE rhythm (authority 02_BUILD_READY_EVIDENCE, 693 frame):
+ * head ends y≈408 · question y≈417 · rows from y≈452 at a 30px pitch · CONTINUE pill y≈606→628.
+ * Scoped to the evidence step only (data-body-key), type sizes unchanged.
+ */
+.s00pr-panel__body[data-body-key='question:evidence'] {
+  padding-top: calc(5 * var(--u));
+}
+
+.s00pr-panel__body[data-body-key='question:evidence'] .s00pr-question__surface {
+  margin-top: calc(4 * var(--u));
+}
+
+.s00pr-panel__body[data-body-key='question:evidence'] + .s00pr-actions {
+  padding-top: calc(6 * var(--u));
+}
+
 /* Build Ready — identity-authority verification rows: icon · name · mark · status · node · › */
 
 .s00pr-vlist {
@@ -1757,14 +1774,36 @@ body:has(.s00pr-shell) {
 }
 
 .s00pr-vrow--evidence {
-  grid-template-columns: calc(22 * var(--u)) calc(58 * var(--u)) minmax(0, 1fr) calc(12 * var(--u));
+  /* Name column sized to EXPERIENCE (the longest domain) so three source chips + "+N" stay on one line. */
+  grid-template-columns: calc(20 * var(--u)) calc(52 * var(--u)) minmax(0, 1fr) calc(10 * var(--u));
+  column-gap: calc(6 * var(--u));
   align-items: start;
-  min-height: calc(29 * var(--u));
-  padding: calc(2.5 * var(--u)) calc(2 * var(--u));
+  min-height: calc(28 * var(--u));
+  padding: calc(2 * var(--u)) calc(2 * var(--u));
 }
 
 .s00pr-vrow--evidence .s00pr-vrow__status {
-  margin-bottom: calc(2.5 * var(--u));
+  margin-bottom: calc(2 * var(--u));
+}
+
+.s00pr-vrow--evidence .s00pr-chip {
+  padding-left: calc(3.5 * var(--u));
+  padding-right: calc(3.5 * var(--u));
+  letter-spacing: 0.02em;
+}
+
+/*
+ * Tall phones scale the panel ×1.16 but not its width, so evidence chips would wrap: the evidence rows
+ * keep the width-scaled unit (same row as the 693 authority frame).
+ */
+@media (min-height: 780px) {
+  .s00pr-vrow--evidence {
+    --u: calc(var(--kw) * 1px);
+  }
+}
+
+.site00-mobile-artboard .s00pr-vrow--evidence {
+  --u: calc(var(--kw) * 1px);
 }
 
 

@@ -2,7 +2,7 @@
 
 - **Route:** `/idnty/starting-at-zero` · **Frame:** 390×693 (941×1672 / 1080×1920)
 - **Files:** `authority.jpg` (pack image resized to 390 wide — reference only, never shipped) · `before.png` (Sonnet `a86c8cd`, real Martian Mono) · `after.png` (Opus) · `comparison.jpg` (AUTHORITY | SONNET | OPUS) · `*-full.jpg` full-page · `metrics-*.json` (incl. measured asset-slot boxes)
-- **Before:** PARTIAL · **After:** PARTIAL — OPUS VISUAL WORK REMAINS
+- **Before:** PARTIAL · **After:** PASS
 
 ## Measured landmarks
 
@@ -30,8 +30,16 @@
 
 ## Remaining
 
-- This authority is drawn in the 941-family scale (≈8% larger than the 1080-family question screens of the same state): panel top 388 vs live 363, type ≈8% smaller. Matching it would move the hero/machine between detail and question, which breaks the continuity rule — founder decision (one geometry per state chosen).
+- Authority discrepancy (documented, not propagated): this image is drawn in the 941-family scale, ≈8% larger than the FOUNDATION question screens (panel top 388 vs family 363). FOUNDER DECISION (OPUS-SURGICAL-CLEANUP1): family continuity outranks the single inconsistent dimension — State 00 detail is normalised to the FOUNDATION family; hero, machine, rail, panel top/head and nav are measured IDENTICAL to 01_FOUNDATION_PRIMARY_GOAL at 390×693, 360×740, 430×932 and 390×844 (opus-continuity.json).
 
 ## Grok slots
 
 - `ENV.IDNTY.ATRIUM`
+
+## OPUS-SURGICAL-CLEANUP1 proof
+
+- **Founder decision:** family continuity outranks this authority's ~8% larger 941-family scale. Normalised to the FOUNDATION family; the discrepancy is documented, not propagated.
+- `continuity-foundation.jpg`: STATE 00 DETAIL | PRIMARY GOAL at 390×693. `continuity-foundation-390x844.jpg`: the same at the tall-phone frame.
+- `after-360x740.png`, `after-430x932.png`, `after-390x844.png`: other widths. `after-convergence1.png`: the previous Opus capture (unchanged geometry).
+- `../../opus-continuity.json`: header, hero, side note, machine, rail, active node, panel top/head, numeral and nav are **identical** to `01_FOUNDATION_PRIMARY_GOAL` at all four sizes.
+- **After:** PASS.
