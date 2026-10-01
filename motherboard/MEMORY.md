@@ -12936,3 +12936,15 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.COMPOSER-ASSET-INJECTION1` on child branch `cu
 - **Shipped:** `PUBLIC_REDESIGN_ASSET_URLS` (47 entries), `public/site00/public-redesign/grok/*`, `scripts/sync-public-redesign-grok-runtime.ts`, injection tests; preview `:5174` with `SITE00_CLOUD_PREVIEW_MODE=local` + `SITE00_PREVIEW_SYNC_MAIN=0`.
 - **Excluded (live-code):** MACHINE.IDNTY.FOUNDATION.ORB, MACHINE.IDNTY.PARTIAL.LATTICE, MACHINE.IDNTY.EVOLUTION.WAVES, MACHINE.IDNTY.AUTHORITY.STAR, ILLUSTRATION.BLDR.FRAMEWORK.STEP.
 - **Not done:** No merge to main, no production deploy, PR #1276 not merged.
+
+---
+
+## 2026-10-01 — Public redesign Origin swipe-up restore (injection branch)
+
+Follow-up: founder reported **swipe up to enter** broken on public redesign mobile Origin.
+
+- **Context:** Prior fix (`58cf3ce5`) added `.s00pr-origin-swipe-surface`, `data-swipe-up-zone` on enter CTA, and `useSwipeUp` exception for that attribute; preview server had been down on `:5174`.
+- **Root cause:** Swipe capture layer sat at `z-index: 2` under hero/cards at `z-index: 3`, so most of the screen never hit swipe handlers; mobile artboard `overflow-y: auto` could steal vertical gestures on the preview frame.
+- **Fix (`bb3d435f`):** Raise swipe surface to `z-index: 4`; `pointer-events: none` on decorative hero/notes; cards/CTA/footer links above surface with `pointer-events: auto` only on interactive controls; artboard origin collapsed disables vertical scroll; artboard uses `position: absolute` swipe surface (legacy parity).
+- **Preview:** Tunnel restarted; local serve `site00-v272-bb3d435` / `index.DRTOUbxs.js` on cloud preview tunnel (`SITE00_CLOUD_PREVIEW_MODE=local`, `SITE00_PREVIEW_SYNC_MAIN=0`).
+- **Not done:** Still no merge to `main` or GoDaddy deploy (injection branch only).
