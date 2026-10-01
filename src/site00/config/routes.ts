@@ -225,6 +225,7 @@ export const SITE00_ROUTES = {
   studioReviewDetail: '/studio/:projectSlug/reviews/:reviewId',
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
+  studioExperienceCompiler: '/studio/:projectSlug/experience-compiler',
   /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
   accountIntakes: '/account/intakes',
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
@@ -733,6 +734,11 @@ export function site00CreateAccountLinkTarget(location: {
 export function site00StudioPath(projectSlug: string, section?: 'input' | 'operations' | 'blueprint' | 'assets' | 'reviews' | 'milestones' | 'activity'): string {
   const base = `/studio/${projectSlug}`;
   return section ? `${base}/${section}` : base;
+}
+
+export function site00ExperienceCompilerPath(projectSlug: string, tab?: string): string {
+  const base = `/studio/${projectSlug}/experience-compiler`;
+  return tab ? `${base}?tab=${encodeURIComponent(tab)}` : base;
 }
 
 export function site00ClientProjectRoomPath(

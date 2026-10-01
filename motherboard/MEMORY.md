@@ -12821,3 +12821,13 @@ Extended MAP1 with greenfield creative pipeline, multi-surface families, authori
 - **Decisions:** Fundamental unit = Experience Unit; GREENFIELD / INGEST / HYBRID modes; graph expansion blocked until GATE_0; authority plan blocked until GATE_B; functional capability reuse firewall (visual isolated per client).
 - **Changes:** `src/studioos/experience-compiler/map2/*` (orchestrator, gates, concepts, graph, families, surfaces, authority planner/review, OpenArt batch, pack compiler); `export * as map2` from compiler index; vitest `map2CreativeArchitecture.test.ts` (17 tests); `scripts/run-map2-experience-compiler-fixtures.ts`; docs + JSON fixtures under `docs/studioos/experience-compiler/MAP2/`.
 - **Conventions:** SITE 00 validates as INGEST via `buildSite00IngestFixture()` wrapping `runExperienceCompiler()` — no replacement concept directions for product truth.
+
+---
+
+## 2026-10-01 — Experience Compiler MAP2 workspace UI (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-WORKSPACE-UI1)
+
+Founder-operable Experience Compiler workspace: gates, authority review, OpenArt emit/ingest, pack + Sonnet emit — no public redesign, no mass OpenArt jobs.
+
+- **Context:** MAP2 domain merged on main; sprint adds Studio OS workspace UI and operational pipeline (manifest emit/ingest, master/lite pack sizing, Sonnet batch copy).
+- **Shipped:** Route `/studio/:projectSlug/experience-compiler` (`ExperienceCompilerWorkspacePage`); tabs PROJECT/CONCEPT/EXPERIENCE/FAMILIES/AUTHORITY/CAPABILITIES/PRODUCTION/HISTORY; `src/studioos/experience-compiler/workspace/*` (browser bootstrap via JSON fixture, persistence localStorage); link from Studio dashboard; vitest `map2Workspace.test.ts` (10 tests); docs `docs/studioos/experience-compiler/MAP2-WORKSPACE/`.
+- **Conventions:** Browser bundle must not import MAP1 `pageDiscovery` fs — use `bootstrapBrowser.ts` + `MAP2_SITE00_INGEST_FIXTURE.json` for SITE 00 ingest UI; Node tests use `bootstrap.ts` + live compiler.

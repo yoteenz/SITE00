@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { site00StudioPath } from '../../config/routes';
+import { site00ExperienceCompilerPath, site00StudioPath } from '../../config/routes';
 import { useStudioData } from '../../hooks/useStudioData';
 import {
   ActivityStream,
@@ -50,6 +50,10 @@ export default function StudioDashboardPage() {
         />
 
         <ProductionSpine stages={data.stages} />
+
+        <p className="site00-studio-dashboard__ec-link">
+          <a href={site00ExperienceCompilerPath(slug)}>EXPERIENCE COMPILER WORKSPACE →</a>
+        </p>
 
         <div className="site00-studio-dashboard__grid">
           {op ? (

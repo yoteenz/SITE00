@@ -56,6 +56,7 @@ import '../site00/styles/site00-project-lore-calibration.css';
 import '../site00/styles/site00-pages.css';
 import '../site00/styles/site00-mobile-shell.css';
 import '../site00/styles/site00-studio.css';
+import '../site00/styles/site00-experience-compiler-workspace.css';
 import '../site00/styles/site00-client-project-room-p0client1.css';
 import '../site00/styles/site00-client-reviews-p0client2.css';
 import '../site00/styles/site00-client-app.css';
@@ -342,6 +343,7 @@ const ProjectProvisioningPage = lazy(() => import('../site00/pages/provisioning/
 const StudioDashboardPage = lazy(() => import('../site00/pages/studio/StudioDashboardPage'));
 const StudioWorkspaceRouterPage = lazy(() => import('../site00/pages/studio/StudioWorkspaceRouterPage'));
 const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioReviewDetailPage'));
+const ExperienceCompilerWorkspacePage = lazy(() => import('../site00/pages/studio/ExperienceCompilerWorkspacePage'));
 const ClientProjectRoomOverviewPage = lazy(
   () => import('../site00/pages/clientProjectRoom/ClientProjectRoomOverviewPage'),
 );
@@ -2501,6 +2503,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <StudioWorkspaceRouterPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioExperienceCompiler}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard>
+              <Site00Suspense>
+                <ExperienceCompilerWorkspacePage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
