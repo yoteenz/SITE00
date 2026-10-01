@@ -1,6 +1,26 @@
 import type { AuthorityPlanEntry, OpenArtAuthorityBatch } from './map2Types';
+import type { IconFamilyAuthority } from '../icons/iconTypes';
 
-export function planOpenArtBatches(project_id: string, plan: AuthorityPlanEntry[]): OpenArtAuthorityBatch[] {
+export function planIconFamilyOpenArtBatch(project_id: string, iconAuthority: IconFamilyAuthority): OpenArtAuthorityBatch {
+  return {
+    batch_id: `batch_icon_${iconAuthority.icon_family_id}`,
+    project_id,
+    family_id: iconAuthority.icon_family_id,
+    surface: 'DESKTOP_WEB',
+    authorities: [iconAuthority.authority_id],
+    authority_type: 'ICON_FAMILY_AUTHORITY',
+    model: 'openart-gpt-image-2-family',
+    generation_mode: 'PARALLEL_INDEPENDENT',
+    prompts: { [iconAuthority.authority_id]: iconAuthority.generation_prompt },
+    aspect_ratios: { [iconAuthority.authority_id]: '16:9' },
+    expected_filenames: [`ICON_FAMILY_${iconAuthority.icon_family_id}.jpg`],
+    dependency_order: [iconAuthority.authority_id],
+    icon_family_id: iconAuthority.icon_family_id,
+    representative_semantics: iconAuthority.representative_semantics,
+  };
+}
+
+export function planOpenArtBatches(project_id: string, plan: AuthorityPlanEntry[], iconAuthority?: IconFamilyAuthority | null): OpenArtAuthorityBatch[] {
   const byFamilySurface = new Map<string, AuthorityPlanEntry[]>();
   for (const e of plan) {
     const key = `${e.family_id}|${e.surface}`;
@@ -22,6 +42,7 @@ export function planOpenArtBatches(project_id: string, plan: AuthorityPlanEntry[
       family_id,
       surface,
       authorities: ordered.map((e) => e.authority_id),
+      authority_type: 'PAGE_AUTHORITY',
       model: 'openart-gpt-image-2-family',
       generation_mode: parentFirst.length ? 'SEQUENTIAL_DEPENDENT' : 'PARALLEL_INDEPENDENT',
       prompts: Object.fromEntries(ordered.map((e) => [e.authority_id, e.generation_prompt])),
@@ -29,6 +50,9 @@ export function planOpenArtBatches(project_id: string, plan: AuthorityPlanEntry[
       expected_filenames,
       dependency_order: ordered.map((e) => e.authority_id),
     });
+  }
+  if (iconAuthority) {
+    batches.unshift(planIconFamilyOpenArtBatch(project_id, iconAuthority));
   }
   return batches;
 }

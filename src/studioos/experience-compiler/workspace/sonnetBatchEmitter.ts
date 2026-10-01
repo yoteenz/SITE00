@@ -31,6 +31,7 @@ export function emitSonnetBatch(input: {
     business_logic_boundaries: 'Commerce via Shopify; auth via Supabase',
     backend_boundaries: 'API on Railway; static SPA on cPanel',
     asset_slots: input.plan.map((p) => p.authority_id),
+    icon_semantic_slots: 'See icons/ICON_MANIFEST.json — live-code vs Grok-generated',
     proof_requirements: ['Route loads', 'Authority layout match', 'No generic template drift'],
     do_not_invent_rules: ['No new routes', 'No authority substitution', 'No cross-client visual reuse'],
     brand_rules: 'Uppercase SITE 00 voice where project-specific',

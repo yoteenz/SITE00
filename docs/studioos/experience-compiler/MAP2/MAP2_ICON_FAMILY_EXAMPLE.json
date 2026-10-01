@@ -1,0 +1,38 @@
+{
+  "icon_family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+  "name": "LUMINA ATELIER Icon Family",
+  "expression": {
+    "project_id": "lumina-atelier-greenfield",
+    "dimensionality": "2.5D",
+    "structure": "HYBRID",
+    "stroke_weight": "Medium-weight dimensional stroke",
+    "corner_language": "Soft geometric — aligned to brand atelier craft",
+    "geometric_language": "Instrument + lens motifs",
+    "depth": "Subtle bevel + material depth",
+    "materials": "Brushed metal + satin polymer accents",
+    "brand_color_use": "Primary brand accent on active/selected only",
+    "active_state": "Accent fill + increased contrast",
+    "selected_state": "Filled brand token + outline",
+    "disabled_state": "40% opacity neutral",
+    "alert_state": "Warm alert accent — never baked-in text labels",
+    "app_nav_expression": "Simplified silhouette — max 2 material reads at 24px",
+    "small_size_simplification": "Drop interior detail below 20px; preserve silhouette",
+    "derived_from_brand": "LUMINA ATELIER"
+  },
+  "representative_semantic_ids": [
+    "SEM_CHECKOUT_DOMAIN",
+    "SEM_CONFIGURE",
+    "SEM_PREVIEW",
+    "SEM_CONFIRM",
+    "SEM_RESET",
+    "SEM_SELECT",
+    "SEM_ROTATE",
+    "SEM_MICRO_ASSEMBLY",
+    "SEM_EXT_CRM",
+    "SEM_SEARCH",
+    "SEM_SHARE"
+  ],
+  "status": "APPROVED",
+  "version": 1,
+  "lineage_parent_id": null
+}

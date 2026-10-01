@@ -1,4 +1,6 @@
 import type { AuthorityPlanEntry, CreativeExperienceGraph, ExperienceFamily, FamilySurfaceExpression } from '../map2/map2Types';
+import type { IconPipelineSlice } from '../icons/iconTypes';
+import { iconRulesMarkdown } from '../icons/iconPipeline';
 import { AUTHORITY_PACK_FILES } from '../map2/authorityPackCompiler';
 import type { CompiledPackFile, IngestedAuthorityAsset, PackSizeValidation } from './types';
 import { orderIngestedByPlan } from './openartManifestIngest';
@@ -19,6 +21,7 @@ export function compileMasterPackFiles(input: {
   plan: AuthorityPlanEntry[];
   assets: IngestedAuthorityAsset[];
   lineage: Record<string, unknown>;
+  icon_pipeline?: IconPipelineSlice | null;
 }): CompiledPackFile[] {
   const ordered = orderIngestedByPlan(input.plan, input.assets);
   const manifest = {
@@ -54,6 +57,24 @@ export function compileMasterPackFiles(input: {
       byte_length: 0,
     },
   ];
+  if (input.icon_pipeline) {
+    files.push(
+      { path: 'icons/ICON_MANIFEST.json', content: JSON.stringify(input.icon_pipeline.icon_manifest, null, 2), byte_length: 0 },
+      { path: 'icons/ICON_RULES.md', content: iconRulesMarkdown(input.icon_pipeline.icon_family), byte_length: 0 },
+      {
+        path: 'icons/ICON_FAMILY_AUTHORITY.jpg',
+        content: '[placeholder:icon-family-authority]',
+        byte_length: 400_000,
+      },
+    );
+    if (input.icon_pipeline.micro_asset_family) {
+      files.push({
+        path: 'micro-assets/MICRO_ASSET_MANIFEST.json',
+        content: JSON.stringify(input.icon_pipeline.micro_asset_family, null, 2),
+        byte_length: 0,
+      });
+    }
+  }
   for (const a of ordered) {
     files.push({
       path: `assets/${a.canonical_filename}`,

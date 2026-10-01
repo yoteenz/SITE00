@@ -1,0 +1,492 @@
+{
+  "project_id": "lumina-atelier-greenfield",
+  "entries": [
+    {
+      "semantic_id": "SEM_BACK",
+      "canonical_name": "BACK",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "LIVE_CODE_SVG",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "LIVE_CODE",
+      "source_authority": "NONE",
+      "grok_required": false,
+      "filename": "icon-navigation-back.svg",
+      "usage_locations": [
+        "r_0__",
+        "r_1__lab",
+        "r_2__build",
+        "r_3__build_step",
+        "r_5__projects"
+      ],
+      "accessibility_semantics": "Navigate back"
+    },
+    {
+      "semantic_id": "SEM_CHECKOUT_DOMAIN",
+      "canonical_name": "CHECKOUT",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-commerce-checkout.svg",
+      "usage_locations": [
+        "r_4__review"
+      ],
+      "accessibility_semantics": "Commerce checkout"
+    },
+    {
+      "semantic_id": "SEM_CONFIGURE",
+      "canonical_name": "CONFIGURE",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-configuration-configure.svg",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Configuration"
+    },
+    {
+      "semantic_id": "SEM_PREVIEW",
+      "canonical_name": "PREVIEW",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-action-preview.svg",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Preview output"
+    },
+    {
+      "semantic_id": "SEM_CONFIRM",
+      "canonical_name": "CONFIRM",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-action-confirm.svg",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Confirm action"
+    },
+    {
+      "semantic_id": "SEM_RESET",
+      "canonical_name": "RESET",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-configuration-reset.svg",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Reset configuration"
+    },
+    {
+      "semantic_id": "SEM_SELECT",
+      "canonical_name": "SELECT",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-action-select.svg",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Select option"
+    },
+    {
+      "semantic_id": "SEM_ROTATE",
+      "canonical_name": "ROTATE",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-configuration-rotate.svg",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Rotate view"
+    },
+    {
+      "semantic_id": "SEM_MICRO_ASSEMBLY",
+      "canonical_name": "ASSEMBLY_PREVIEW",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "ILLUSTRATIVE_MICRO_ASSET",
+      "surfaces": [
+        "MOBILE_WEB",
+        "TABLET_WEB",
+        "DESKTOP_WEB",
+        "APP"
+      ],
+      "variants": [
+        "compact",
+        "display"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "webp",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-assembly-preview-micro.webp",
+      "usage_locations": [
+        "cx_0"
+      ],
+      "accessibility_semantics": "Live assembly preview object"
+    },
+    {
+      "semantic_id": "SEM_EXT_SHOPIFY",
+      "canonical_name": "Shopify",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "EXTERNAL_PLATFORM_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": false,
+      "filename": "icon-integration-shopify.svg",
+      "usage_locations": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "accessibility_semantics": "Shopify integration"
+    },
+    {
+      "semantic_id": "SEM_EXT_STRIPE",
+      "canonical_name": "Stripe",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "EXTERNAL_PLATFORM_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": false,
+      "filename": "icon-integration-stripe.svg",
+      "usage_locations": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "accessibility_semantics": "Stripe integration"
+    },
+    {
+      "semantic_id": "SEM_EXT_CRM",
+      "canonical_name": "CRM",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "MOBILE_WEB",
+        "DESKTOP_WEB"
+      ],
+      "variants": [
+        "compact"
+      ],
+      "sizes": [
+        16,
+        24,
+        32
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "DISABLED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-integration-crm.svg",
+      "usage_locations": [
+        "/",
+        "/lab",
+        "/build"
+      ],
+      "accessibility_semantics": "CRM integration"
+    },
+    {
+      "semantic_id": "SEM_SEARCH",
+      "canonical_name": "SEARCH",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "APP"
+      ],
+      "variants": [
+        "compact",
+        "app-nav",
+        "app-active"
+      ],
+      "sizes": [
+        20,
+        24
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "SELECTED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-app-search-default.svg",
+      "usage_locations": [],
+      "accessibility_semantics": "Search content"
+    },
+    {
+      "semantic_id": "SEM_SHARE",
+      "canonical_name": "SHARE",
+      "family_id": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "implementation_class": "BRAND_ICON",
+      "surfaces": [
+        "APP"
+      ],
+      "variants": [
+        "compact",
+        "app-nav",
+        "app-active"
+      ],
+      "sizes": [
+        20,
+        24
+      ],
+      "states": [
+        "DEFAULT",
+        "ACTIVE",
+        "SELECTED"
+      ],
+      "output_format": "svg",
+      "transparency": true,
+      "live_code_or_asset": "ASSET",
+      "source_authority": "ICON_FAMILY_LUMINA_ATELIER_GREENFIELD",
+      "grok_required": true,
+      "filename": "icon-app-share-default.svg",
+      "usage_locations": [],
+      "accessibility_semantics": "Share externally"
+    }
+  ]
+}

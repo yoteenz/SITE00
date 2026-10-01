@@ -14,6 +14,7 @@ export function compileAuthorityPlan(
   families: ExperienceFamily[],
   surfaces: FamilySurfaceExpression[],
   gateB: FamilySurfaceGate,
+  iconFamilyAuthorityId?: string,
 ): AuthorityPlanEntry[] {
   assertAuthorityPlanAllowed(gateB);
   const approved = new Set(gateB.approved_family_ids);
@@ -50,7 +51,7 @@ export function compileAuthorityPlan(
         new_grammar: family.family_id.includes('CONFIGURATOR'),
         visual_objective: `Representative ${family.name} on ${rep.surface}`,
         interaction_objective: family.grammar_description,
-        generation_prompt: `[OpenArt GPT Image 2] ${family.name} ${rep.state} ${rep.surface} — brand-specific, not generic template`,
+        generation_prompt: `[OpenArt GPT Image 2] ${family.name} ${rep.state} ${rep.surface} — brand-specific, not generic template${iconFamilyAuthorityId ? `. USE APPROVED PROJECT ICON LANGUAGE (${iconFamilyAuthorityId}). DO NOT INVENT UNRELATED ICON STYLE.` : ''}`,
         approval_status: 'PLANNED',
       });
       seq++;

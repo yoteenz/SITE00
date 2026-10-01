@@ -12,6 +12,7 @@ import { promoteCapabilityFromCustomExperience } from './capabilities';
 import { buildGreenfieldProjectIntelligence } from './projectIntelligence';
 import { resolveProjectMode } from './projectMode';
 import { reclassifyGraphUnits } from './experienceUnits';
+import { runIconPipeline } from '../icons/iconPipeline';
 import type { Map2PipelineState } from './map2Types';
 
 export function runGreenfieldMap2Pipeline(options?: { hybrid?: boolean }): Map2PipelineState {
@@ -48,16 +49,34 @@ export function runGreenfieldMap2Pipeline(options?: { hybrid?: boolean }): Map2P
 
   const families = compileExperienceFamilies(graph, gate_a);
   const surface_expressions = buildSurfaceExpressionsForFamilies(families, intelligence);
+  const icon_pipeline = runIconPipeline({
+    project_id: intelligence.project_id,
+    graph,
+    families,
+    surface_expressions,
+    intelligence,
+    auto_approve_family: true,
+  });
+
   let gate_b = createGateB();
   gate_b = approveFamiliesAndSurfaces(
     gate_b,
     families.map((f) => f.family_id),
+    {
+      icon_expression_approved: icon_pipeline.icon_expression_approved,
+      micro_asset_expression_approved: Boolean(icon_pipeline.micro_asset_family),
+    },
   );
 
-  const authority_plan = compileAuthorityPlan(families, surface_expressions, gate_b);
+  const authority_plan = compileAuthorityPlan(
+    families,
+    surface_expressions,
+    gate_b,
+    icon_pipeline.icon_family_authority.authority_id,
+  );
   computeAuthorityReduction(graph.nodes.length, authority_plan);
 
-  const openart_batches = planOpenArtBatches(intelligence.project_id, authority_plan);
+  const openart_batches = planOpenArtBatches(intelligence.project_id, authority_plan, icon_pipeline.icon_family_authority);
   const authority_pack = compileAuthorityPackManifest(intelligence.project_id, authority_plan, openart_batches);
 
   const capabilities = graph.custom_experiences
@@ -74,6 +93,7 @@ export function runGreenfieldMap2Pipeline(options?: { hybrid?: boolean }): Map2P
     families,
     surface_expressions,
     gate_b,
+    icon_pipeline,
     authority_plan,
     gate_c: { gate_id: 'GATE_C_VISUAL_AUTHORITY', status: 'NOT_READY' },
     openart_batches,
