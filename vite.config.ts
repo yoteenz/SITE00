@@ -145,7 +145,7 @@ export default defineConfig(({ mode, command }) => {
     return {
       name: 'site00-cloud-preview-no-cache',
       configureServer(server: {
-        middlewares: { use: (fn: (req: unknown, res: { setHeader: (k: string, v: string) => void }, next: () => void) => void) => void) => void };
+        middlewares: { use: (fn: (req: unknown, res: { setHeader: (k: string, v: string) => void }, next: () => void) => void) => void };
       }) {
         server.middlewares.use((_req: unknown, res: { setHeader: (k: string, v: string) => void }, next: () => void) => {
           res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
