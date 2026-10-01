@@ -12787,3 +12787,15 @@ Production Release workflow failed after #1255: tests still expected `/projects/
 - **Tests updated:** `p0vrDesignIntegration1`, `p0vrDesignProjectBinding1R1`, `p0vrDesignWorkspaceSelfCapture1`, founder sprint B59R2/R5/R6, release #429 allowlist manifest (`POST429_DESIGN_ALLOWLIST` 50 paths + `ProjectMoreSurface` tab exception).
 - **API:** `designWorkspaceCaptureService` returns `resolveWorkspaceSelfDesignRoute` (`/production/…/design`) in vitest + live capture metadata (was hardcoded legacy path).
 - **Ship:** PR merge to `main` — no new cPanel bundle required (test/API metadata only).
+
+---
+
+## 2026-10-01 — STUDIO OS Experience Compiler MAP1 (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP1)
+
+Forensic inventory + authority inheritance + batch planning for SITE 00 public redesign — no visual redesign, no route/UI production changes.
+
+- **Context:** Scale approved ORIGIN/IDNTY/BLDR/EVOLVE/LOCATIONS authorities into a reusable **Experience Compiler** (page graph → archetypes → inheritance → derivation → founder gates → Sonnet batches).
+- **Topics covered:** Full sprint MAP1 spec; prior IDNTY intake forensics; public redesign 37-authority manifest from Sonnet-structure branch ingested into `main` as code metadata (`src/site00/authority/publicRedesignAuthorityManifest.ts`).
+- **Decisions / outcomes:** Deterministic compiler under `src/studioos/experience-compiler/` with `runExperienceCompiler()` pipeline; artifacts under `docs/studioos/experience-compiler/`; `npx tsx scripts/run-site00-experience-compiler.ts` to regenerate; vitest `src/studioos/experience-compiler/__tests__/experienceCompiler.test.ts`. Product-family firewall tests (IDNTY evolution ≠ public EVOLVE; Build Ready ≠ BLDR intake). Checkout/auth/locations-child remain **CREATIVE_AUTHORITY_REQUIRED** — never invented.
+- **Changes:** New compiler modules, authority manifest + asset slots copy, JSON/MD docs, sonnet batch manifests for Sonnet-ready batches (ORIGIN_MOBILE, LOCATIONS_DIRECTORY, PUBLIC_EVOLVE_STATE, BLDR_ASSESSMENT_INTAKE at time of ship).
+- **Conventions:** Superseded authority IDs never inherit; WAITING_FOR_AUTHORITY routes from manifest drive gates; composite derivation = family environment + IDNTY working-panel grammar where explicit in compiler rules.
