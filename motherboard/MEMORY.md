@@ -12874,3 +12874,55 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.OPUS-SURGICAL-CLEANUP1` on `cursor/public-rede
   - The other 35 authorities are pixel-identical to the previous pass.
   - The Grok manifest is unchanged.
 - **New scripts:** `site00-public-redesign-continuity.mjs` (landmark diff, writing `opus-continuity.json`) and `site00-public-redesign-continuity-proof.mjs`. The flow harness now waits on state instead of fixed delays.
+
+
+---
+
+## 2026-10-01 — Public redesign GROK lineage recovery onto Opus 22a2847
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.GROK-LINEAGE-RECOVERY1`. Recovery and forensic reconciliation only. No image regeneration, no page redesign, no Composer injection, no merge into the Opus branch, no deploy.
+
+- **Context:** This chat first restored readable production-hub chrome on the review line (header/nav had collapsed under `.ph--hub` zoom; authority nav icons restored to 26px) and confirmed two older branches were already contained in that review line. It then fabricated 52 public-redesign assets. That fabrication commit `590d9b9c` sits on `cursor/public-redesign-grok-fabrication-1b86` with parent `bf7c2e51` (main). `22a28477` is not an ancestor. A lineage check forbade merging that branch. This sprint transplants the pixels onto a child of the approved Opus head.
+- **Topics covered:** Chrome zoom; merge-conflict reviews for authority-environment and authority-pixel-assets; Grok surgical fabrication from the MAP2 fixture; lineage verification; cherry-pick onto Opus; quarantine of five live-code slots; Opus-derived visual asset surgery; reconciliation of the 47 Grok-required slots.
+- **Decisions / outcomes:**
+  - Recovery branch `cursor/public-redesign-grok-recovery1-1b86` descends from `22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12`. Cherry-pick of `590d9b9c` is `af0677be` (122 pack paths). `motherboard/MEMORY.md` kept the Opus lineage file. The main/Grok memory append was not taken.
+  - Five live-code slots stay on disk and are `SUPERSEDED_BY_LIVE_CODE`, production-ineligible: `MACHINE.IDNTY.FOUNDATION.ORB`, `MACHINE.IDNTY.PARTIAL.LATTICE`, `MACHINE.IDNTY.EVOLUTION.WAVES`, `MACHINE.IDNTY.AUTHORITY.STAR`, `ILLUSTRATION.BLDR.FRAMEWORK.STEP`.
+  - Production surgery pack is `ACTUAL_SITE00_OPUS_DERIVED` from `OPUS-ASSET-SLOT-MANIFEST.json`, `opus-geometry-after.json`, `opus-continuity.json`, and `opus-proof/`. The MAP2 fixture is not production authority. Pixel files remain `MAP2_FIXTURE_V1`.
+  - 47 reference crops, 47 safe-zone overlays, 47 composite previews, 37 scene sheets. Classifications: 8 `VALID_AS_IS`, 0 `VALID_WITH_CROP_ONLY`, 27 `VALID_WITH_METADATA_CORRECTION`, 12 `REQUIRES_REGENERATION`, 0 `BLOCKED_FOR_FOUNDER_REVIEW`. Production-eligible 35. Blocked 12. Assets regenerated 0.
+  - Locations continuity is the page family, not the row name. `CARD.LOCATIONS.BLDR` and `CARD.LOCATIONS.EVOLVE` belong to `SITE00_LOCATIONS_UNIVERSE_V1`. All 8 Locations assets require regeneration (pale stone versus warm marble and distinct card scenes). BLDR still needs regeneration for the systems tower, the systems card, the overview dais crop, and the site card.
+  - Both Composer handoffs are `NOT_READY`. Do not inject. Do not merge this branch into the Opus branch or into `main`. Do not upload over site00.com. Draft PR only, against `cursor/public-redesign-sonnet-structure1-4f59`.
+- **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK/` (transplanted pixels unchanged; registry provenance and a NOT_READY banner), `docs/site00/public-redesign/OPUS_DERIVED_SURGERY/`, `scripts/site00-opus-derived-surgery.py`, `tests/publicRedesignOpusDerivedSurgery.test.ts`, this memory entry. No `src/` edits.
+- **Conventions:** Grok public-redesign pixels must be validated against final Opus geometry at `22a28477`, not `buildSite00VisualSurgeryFixture()` on main. Dimension match is not composition match. `REQUIRES_REGENERATION` stays blocked until a later authorized generation sprint. Experience-compiler unit tests live on main and are not on this lineage.
+
+
+---
+
+## 2026-10-01 — Public redesign GROK-LINEAGE-RECOVERY1R1 branch visibility
+
+Follow-up to the recovery sprint. No asset regeneration, no page edits, no merge, no deploy.
+
+- **Context:** Founder needs the exact branch, head, and the routes to open. The recovered pack is not on the normal cloud preview.
+- **Decisions / outcomes:**
+  - Active branch `cursor/public-redesign-grok-recovery1-1b86`, worktree `/workspace/.worktrees/public-redesign-grok-recovery`, base `22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12`. It descends from that commit and contains both the transplanted Grok pack and `OPUS_DERIVED_SURGERY`.
+  - Main tunnel on port 5174 serves release `site00-v272-60fec0b` (`index.BTR7ydLx.js`). That bundle does not contain `s00pr-shell`. Do not review this work there.
+  - Review routes were rendered from this branch on a local Vite (port 5198, 390×844): `/`, `/origin`, `/idnty/state`, the four IDNTY state landings, `/bldr/state` plus `?path=` overview/site/world/systems/extensions, `/evolve/state` plus `?path=` refine/install/transform, `/origin/locations`. Each mounted `.s00pr-shell`. `PUBLIC_REDESIGN_ASSET_URLS` is empty, so zero assets were injected. There is no experience-compiler page on this branch.
+  - Origin expanded panels are the same `/` and `/origin` routes after the card expand control. They are not separate URLs.
+  - Draft PR #1276 stays open against `cursor/public-redesign-sonnet-structure1-4f59`.
+- **Changes:** This memory entry only.
+- **Conventions:** Report branch, head, worktree, and whether the main tunnel serves that head before telling the founder where to look. Proof composites live under `docs/site00/public-redesign/OPUS_DERIVED_SURGERY/composite-previews/`.
+
+
+---
+
+## 2026-10-01 — Public redesign targeted regeneration of 12 Opus-failed assets
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.GROK-TARGETED-REGENERATION12` on `cursor/public-redesign-grok-recovery1-1b86`, which already descended from Opus `22a28477`. No page, route, CSS, or SVG edits. No injection. No merge. No deploy.
+
+- **Context:** Reconciliation had 35 production-eligible assets and 12 composition failures. The five live-code slots stayed quarantined.
+- **Decisions / outcomes:**
+  - Regenerated only those 12 with Grok Imagine Image 2.0 from the Opus fabrication specs, reference crops, and safe-zone overlays. Invalid pixels were copied to `GROK_ASSET_PACK/history/map2-fixture-v1/` before the canonical files were replaced.
+  - Locations arch is warm marble with a double-zero ring landmark. BLDR systems is a server-stack tower without UI screens; its card is a server rack. Overview is glass panels around a round table. The site card is a multi-tower skyline with red planes. The seven Locations cards are distinct subjects in the same warm-marble daylight family.
+  - Reconciliation after the new files: 10 VALID_AS_IS, 37 VALID_WITH_METADATA_CORRECTION, 0 crop-only, 0 regeneration, 0 founder-blocked. Production-eligible 47. Composer handoff `OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md` is READY. The five live-code slots stay excluded. The old fixture handoff is historical and is not an injection order.
+  - The main tunnel on port 5174 is still release `site00-v272-60fec0b`. These pixels are not on that preview and are not mounted in the live pages.
+- **Changes:** the 12 output WebPs, history copies, registry, surgery script, Opus surgery pack, contact sheets, surgery test, this memory entry.
+- **Conventions:** Do not regenerate the other 35. Do not inject until Composer is explicitly asked. Review the composite proofs, not the main tunnel.

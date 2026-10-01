@@ -1,0 +1,50 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
+  "slot_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
+  "authority": [
+    "04_ORIGIN_EVOLVE_EXPANDED"
+  ],
+  "visual_role": "TRANSFORM PATH VIGNETTE (STAR + ORBITS).",
+  "asset_type": "machine-illustration",
+  "target_pixels": {
+    "w": 400,
+    "h": 400
+  },
+  "aspect_ratio": "400:400",
+  "crop_behavior": "contain",
+  "final_geometry": {
+    "frame": "390x693",
+    "x": 258,
+    "y": 444,
+    "w": 80,
+    "h": 80,
+    "from": "04_ORIGIN_EVOLVE_EXPANDED"
+  },
+  "transparency": true,
+  "mask_ownership": "PARENT_OVERFLOW",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "NOT_APPLICABLE",
+  "continuity_group": "SITE00_ORIGIN_UNIVERSE_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "TRANSFORM PATH VIGNETTE (STAR + ORBITS)."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": "reference-crops/ILLUSTRATION_ORIGIN_EVOLVE_PATH_TRANSFORM_REFERENCE.jpg",
+  "safe_zone_map": "safe-zones/ILLUSTRATION_ORIGIN_EVOLVE_PATH_TRANSFORM_SAFE_ZONES.png",
+  "reference_crop_clipped_by_proof": false,
+  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
+  "validation_status": "VALID_WITH_METADATA_CORRECTION",
+  "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+  "production_eligible": true,
+  "regeneration_required": false
+}
