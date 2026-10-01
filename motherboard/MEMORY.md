@@ -12960,3 +12960,15 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.FOUNDER-VISUAL-PATCH-AUDIT1`: finite patch inv
 - **47/47 Grok slots:** static + crawl OK on redesign routes; IDNTY machine slots intentionally placeholder + live SVG.
 - **Legacy (no `.s00pr`):** hubs `/idnty`, `/bldr`, `/evolve`, ecosystem pages, auth, `/control`, `/projects`.
 - **Artifacts:** `docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/` (RECEIPT, patch-inventory, Playwright crawls).
+
+---
+
+## 2026-10-01 — Founder visual patch1 (Origin env + framework icons)
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.FOUNDER-VISUAL-PATCH1` on `cursor/public-redesign-composer-asset-injection1-1b86` from audit head `0c1608cf`. No merge, no production deploy.
+
+- **P0 / live-code:** `OriginFrameworkGlyphs.tsx` — IDNTY inline SVG + BLDR `FrameworkGlyph`; removes broken Supabase PNG `<img>` on Origin expanded panels (DEF-001–004).
+- **Origin background glitch:** `OriginDualEnvironment.tsx` — both `ENV.ORIGIN.COLLAPSED` + `ENV.ORIGIN.EXPANDED` mounted; opacity crossfade via `.s00pr-origin-env-layer` (DEF-015 + founder defect).
+- **QA:** `scripts/founder-visual-patch1-verification.mjs`, `tests/publicRedesignFounderVisualPatch1.test.tsx`; 17 IDNTY assessment sub-routes smoke @ 390×844; broken img count 0 on matrix.
+- **Still open (audit):** P1 legacy hubs (SONNET DEF-005–012, DEF-020); Your Space imagery (FOUNDER DEF-013–014); build-ready copy (DEF-022).
+- **Evidence:** `docs/site00/public-redesign/FOUNDER_VISUAL_PATCH1/`.

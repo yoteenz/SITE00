@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BLDR_FRAMEWORK_PILLARS, BLDR_HOMEPAGE_EXPANDED } from '../../config/builder';
 import { EVOLVE_FRAMEWORK_PILLARS, EVOLVE_HOMEPAGE_EXPANDED } from '../../config/evolve';
 import { IDNTY_FRAMEWORK_PILLARS, IDNTY_HOMEPAGE_EXPANDED } from '../../config/identity';
-import { resolveOriginBackgroundByViewport } from '../../config/origin-background-assets';
 import {
   BUILDER_PANELS,
   ORIGIN_EXPANDED_TITLES,
@@ -12,14 +11,13 @@ import { SITE00_ROUTES } from '../../config/routes';
 import { SITE00_ORIGIN_COPY } from '../../config/status';
 import type { useOriginLocationsTransition } from '../../hooks/useOriginLocationsTransition';
 import type { HomeMode } from '../../state/types';
-import { BldrFrameworkIcon } from '../homepage/BldrFrameworkIcon';
 import { EvolveFrameworkIcon } from '../homepage/EvolveFrameworkIcon';
-import { IdntyFrameworkIcon } from '../homepage/IdntyFrameworkIcon';
+import { OriginBldrFrameworkIcon, OriginIdntyFrameworkIcon } from './OriginFrameworkGlyphs';
+import { OriginDualEnvironment } from './OriginDualEnvironment';
 import { OriginPanelIcon } from '../homepage/OriginPanelIcon';
 import { AssetSlot } from './AssetSlot';
 import { PublicDiamond } from './IdentityDiagnosticChrome';
 import { PublicRedesignShell } from './PublicRedesignShell';
-import { SpatialEnvironmentFrame } from './SpatialEnvironmentFrame';
 import { StateNumeral } from './StateNumeral';
 
 type OriginPanelId = 'idnty' | 'bldr' | 'evolve';
@@ -80,15 +78,7 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
       hideBottomNav
       authorityId={AUTHORITY_ID[homeMode]}
       className={`s00pr-shell--origin ${expanded ? 's00pr-shell--origin-expanded' : ''}`.trim()}
-      environment={
-        <SpatialEnvironmentFrame
-          slotId={expanded ? 'ENV.ORIGIN.EXPANDED' : 'ENV.ORIGIN.COLLAPSED'}
-          tone="daylight"
-          // The approved CLEAN landmark plate (existing asset) stays mounted for both states; the old
-          // WITH_PANELS image has panels baked in and is intentionally not used.
-          fallbackImageUrl={resolveOriginBackgroundByViewport('mobile', 'CLEAN')}
-        />
-      }
+      environment={<OriginDualEnvironment expanded={expanded} />}
     >
       <div className="s00pr-origin" data-origin-mode={homeMode}>
         {!expanded ? (
@@ -258,7 +248,7 @@ export function PublicOriginExpandedPanel({ panel, onCollapse }: PublicOriginExp
               {IDNTY_FRAMEWORK_PILLARS.map((pillar, index) => (
                 <li key={pillar.id}>
                   <span className="s00pr-framework__n">0{index + 1}</span>
-                  <IdntyFrameworkIcon id={pillar.icon} title={pillar.title} className="s00pr-framework__icon" />
+                  <OriginIdntyFrameworkIcon id={pillar.icon} className="s00pr-framework__icon" />
                   <span className="s00pr-framework__title">{pillar.title}</span>
                   <span className="s00pr-framework__desc">{pillar.description}</span>
                 </li>
@@ -290,7 +280,7 @@ export function PublicOriginExpandedPanel({ panel, onCollapse }: PublicOriginExp
               {BLDR_FRAMEWORK_PILLARS.map((pillar, index) => (
                 <li key={pillar.id}>
                   <span className="s00pr-framework__n">0{index + 1}</span>
-                  <BldrFrameworkIcon id={pillar.icon} title={pillar.title} className="s00pr-framework__icon" />
+                  <OriginBldrFrameworkIcon id={pillar.icon} className="s00pr-framework__icon" />
                   <span className="s00pr-framework__title">{pillar.title}</span>
                   <span className="s00pr-framework__desc">{pillar.description}</span>
                 </li>

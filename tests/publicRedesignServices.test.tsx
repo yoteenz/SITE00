@@ -71,11 +71,18 @@ describe('ORIGIN', () => {
     expect(html).not.toContain('s00pr-origin-swipe-surface');
   });
 
-  it('keeps the approved landmark environment mounted (existing CLEAN asset, not the baked-panel image)', () => {
-    const html = origin('origin');
-    expect(html).toContain('data-environment="ENV.ORIGIN.COLLAPSED"');
-    expect(html).toContain('EBAEDB3E-D0FE-463D-9B41-1C8BF43E44A3'); // ORIGIN_MOBILE_CLEAN
-    expect(html).not.toContain('4729B1A3-3E3C-4F2C-9F49-E8AB3C9C46E7'); // ORIGIN_MOBILE_WITH_PANELS
+  it('keeps collapsed and expanded origin environment plates mounted for crossfade (no single-slot swap)', () => {
+    const collapsed = origin('origin');
+    expect(collapsed).toContain('data-environment="ORIGIN.DUAL"');
+    expect(collapsed).toContain('data-asset-slot="ENV.ORIGIN.COLLAPSED"');
+    expect(collapsed).toContain('data-asset-slot="ENV.ORIGIN.EXPANDED"');
+    expect(collapsed).toContain('s00pr-origin-env-layer--active');
+    expect(collapsed).toContain('data-origin-env="collapsed"');
+
+    const expanded = origin('idnty-expanded');
+    expect(expanded).toContain('data-origin-env="expanded"');
+    expect(expanded).not.toMatch(/site00-idnty-framework-icon|live-preview\/site00\/IDNTY/);
+    expect(expanded).toContain('data-idnty-framework-glyph="strategy"');
   });
 
   it('expands the three panels with their canonical content and routes', () => {
