@@ -12851,3 +12851,15 @@ Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry a
 - **Context:** Sprint adds surgical image layer: layer ownership, image requirements (must include/exclude), continuity groups, multi-surface derivation, reference crops, safe zones, fabrication specs, Grok pack, QA; SITE 00 INGEST validates all authorities + asset slots.
 - **Shipped:** `src/studioos/experience-compiler/visual-surgery/*` + `runVisualAssetSurgeryPipeline()`; `Map2PipelineState.visual_surgery_pipeline`; SITE 00 ingest + workspace browser bootstrap attach surgery; authority pack export `images/` + `GROK_ASSET_PACK/` stubs; workspace Image system + Visual asset surgery panels; vitest `map2VisualAssetSurgery.test.ts` (14 tests, 59 compiler total); docs + `MAP2_*` fixtures via `scripts/run-map2-visual-surgery-fixtures.ts`.
 - **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
+
+---
+
+## 2026-10-01 — Public redesign surgical fabrication (P0.SITE00.PUBLIC-REDESIGN.GROK-SURGICAL-FABRICATION1)
+
+Full conversation: production-hub chrome readability on the review branch, two already-contained merge snapshots, then Grok-only fabrication of the 52 surgery specs.
+
+- **Context:** Founder on site00.fsbw-dev.com reported microscopic hub chrome after a compact CSS pass. Separate requests asked for conflict review of `cursor/authority-environment-family-live-integration-87ed` and `cursor/authority-pixel-assets-1b86` (fetch first). Both unique commits were already squashed into the review line; pixel-assets tip `200c6538` was an ancestor. This sprint then fabricated visual assets only.
+- **Topics covered:** Hub zoom makes pre-zoom CSS px tiny on phone; do not nest zoom on `.ph-top__copy`; nav glyphs stay the authority set at the 26px box. Fabrication authority is the surgery pack (52 specs), not page design.
+- **Decisions / outcomes:** Fabricate on `cursor/public-redesign-grok-fabrication-1b86` from origin/main. No React, CSS, routes, or API edits. Masters before children. Compiler cycles (EVOLVE refine/install, BLDR overview→extensions) were broken by parenting to the family master. Chroma-green generations were keyed to real PNG alpha. First BLDR factory, first locations hall, white IDNTY stand-ins, and the capsule tower were superseded.
+- **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK/` (manifests, 52 outputs, `ASSET_REGISTRY.json`, QA, Composer handoff, family contact sheets). Icons and micro-assets: none in the pack.
+- **Conventions:** Canonical names come from `canonical_name`. `ENV.LOCATIONS.ARCH` is pale stone pending founder REFINE (spec asked warm marble). `ENV.BLDR.PATH.SYSTEMS` is a module column pending REFINE. Safe-zone overlay pixels were not in the repo. Do not upload this pack over site00.com; Composer injects into existing Opus slots.
