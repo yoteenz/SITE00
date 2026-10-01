@@ -79,6 +79,27 @@
   padding: 0 calc(18 * var(--u)) calc(8 * var(--u));
 }
 
+/* Full-bleed swipe-up capture (legacy site00-origin-swipe-surface parity). */
+.s00pr-origin-swipe-surface {
+  position: fixed;
+  top: calc(34 * var(--uv) + env(safe-area-inset-top, 0px));
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  touch-action: none;
+  pointer-events: auto;
+  background: transparent;
+}
+
+.s00pr-originhero,
+.s00pr-origincards,
+.s00pr-originswipe,
+.s00pr-originfoot {
+  position: relative;
+  z-index: 3;
+}
+
 /* Hero — centred on the landmark axis (authority: WELCOME TO y≈52, SITE 00 y≈66→88, tagline y≈110). */
 
 .s00pr-originhero {
@@ -310,6 +331,8 @@
   font-size: calc(5.4 * var(--u));
   letter-spacing: 0.2em;
   color: #333;
+  touch-action: manipulation;
+  cursor: pointer;
 }
 
 .s00pr-origin-transition {

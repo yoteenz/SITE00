@@ -91,6 +91,9 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
       }
     >
       <div className="s00pr-origin" data-origin-mode={homeMode}>
+        {!expanded ? (
+          <div className="s00pr-origin-swipe-surface" aria-hidden="true" {...swipeHandlers} />
+        ) : null}
         <section className="s00pr-originhero" aria-label="ORIGIN MESSAGING">
           <p className="s00pr-originhero__eyebrow">{SITE00_ORIGIN_COPY.headlineLine1}</p>
           <h1 className="s00pr-originhero__title">{SITE00_ORIGIN_COPY.headlineLine2}</h1>
@@ -130,7 +133,12 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
               </ul>
             </section>
 
-            <section className="s00pr-originswipe" aria-label="SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY" {...swipeHandlers}>
+            <section
+              className="s00pr-originswipe"
+              aria-label="SWIPE UP TO OPEN SITE 00 LOCATIONS DIRECTORY"
+              data-swipe-up-zone
+              {...swipeHandlers}
+            >
               <span className="s00pr-originswipe__connector" aria-hidden="true">
                 <i />
                 <b />
@@ -138,7 +146,7 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
               <svg className="s00pr-originswipe__chev" viewBox="0 0 24 12" width="24" height="12" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
                 <path d="m2 11 10-9 10 9" />
               </svg>
-              <button type="button" className="s00pr-originswipe__btn" onClick={goToLocations}>
+              <button type="button" className="s00pr-originswipe__btn" data-swipe-up-zone onClick={goToLocations}>
                 SWIPE UP TO ENTER
               </button>
             </section>

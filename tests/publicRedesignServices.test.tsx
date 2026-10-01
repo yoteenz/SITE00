@@ -62,6 +62,13 @@ describe('ORIGIN', () => {
     expect(html).toContain('SITE 00');
     expect(html).toContain('WHERE DIGITAL PLACES BEGIN.');
     expect(html).toContain('SWIPE UP TO ENTER');
+    expect(html).toContain('s00pr-origin-swipe-surface');
+    expect(html).toContain('data-swipe-up-zone');
+  });
+
+  it('removes the full-screen swipe capture when a panel is expanded', () => {
+    const html = origin('idnty-expanded');
+    expect(html).not.toContain('s00pr-origin-swipe-surface');
   });
 
   it('keeps the approved landmark environment mounted (existing CLEAN asset, not the baked-panel image)', () => {
