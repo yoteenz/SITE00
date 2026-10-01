@@ -29,6 +29,17 @@ export const SITE00_ROUTES = {
   evolveMarketingEngagement: '/evolve/marketing/engagement/:engagementId',
   evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
   evolvePlans: '/evolve/plans',
+  /** P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1 — work on an existing digital property */
+  existingLocation: '/existing-location',
+  existingLocationStart: '/existing-location/start',
+  existingLocationCase: '/existing-location/case/:caseId',
+  existingLocationCaseAccess: '/existing-location/case/:caseId/access',
+  existingLocationCaseStatus: '/existing-location/case/:caseId/status',
+  existingLocationCaseDiagnosis: '/existing-location/case/:caseId/diagnosis',
+  existingLocationCaseQuote: '/existing-location/case/:caseId/quote',
+  existingLocationCaseCheckout: '/existing-location/case/:caseId/checkout',
+  existingLocationCaseComplete: '/existing-location/case/:caseId/complete',
+  existingLocationAdmin: '/admin/site00/existing-location',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
@@ -893,6 +904,17 @@ export function site00EvolveMarketingBrief(engagementId: string): string {
 }
 export function site00EvolveMarketingEngagement(engagementId: string): string {
   return evolveMarketingEngagementPath(engagementId);
+}
+
+export function site00ExistingLocationCasePath(caseId: string): string {
+  return `/existing-location/case/${encodeURIComponent(caseId)}`;
+}
+
+export function site00ExistingLocationCaseStepPath(
+  caseId: string,
+  step: 'access' | 'status' | 'diagnosis' | 'quote' | 'checkout' | 'complete',
+): string {
+  return `${site00ExistingLocationCasePath(caseId)}/${step}`;
 }
 
 export function isSite00OriginDesktopPath(pathname: string): boolean {
