@@ -60,6 +60,8 @@
       "product_family": "IDNTY",
       "routes": [
         "/idnty",
+        "/idnty/:state/complete",
+        "/idnty/:state/discovery-result",
         "/idnty/:stateSlug/*",
         "/idnty/:stateSlug/desktop/*",
         "/idnty/build-ready",
@@ -102,6 +104,8 @@
       ],
       "screen_nodes": [
         "route_idnty",
+        "waiting__idnty_state_complete",
+        "waiting__idnty_state_discovery_result",
         "pattern__idnty_stateSlug_",
         "pattern__idnty_stateSlug_desktop_",
         "idnty_state_build-ready_landing",
@@ -162,7 +166,8 @@
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "founder_gate_required": true,
       "founder_gate_ids": [
-        "GATE_IDNTY_COMPLETION_RESULT"
+        "GATE_IDNTY_COMPLETION_RESULT",
+        "GATE_IDNTY_HUB"
       ],
       "sonnet_ready": false,
       "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
@@ -178,7 +183,7 @@
       "risk_notes": [
         "Blocked until founder creative authority"
       ],
-      "estimated_reuse_ratio": 0.5365853658536586
+      "estimated_reuse_ratio": 0.5116279069767442
     },
     {
       "batch_id": "BLDR_COMMAND_AND_PANELS",
@@ -188,6 +193,7 @@
         "/bldr",
         "/bldr/:classSlug/*",
         "/bldr/:classSlug/desktop/*",
+        "/bldr/:classSlug/index",
         "/bldr/start",
         "/bldr/state",
         "/bldr/state/desktop",
@@ -195,9 +201,12 @@
       ],
       "screen_nodes": [
         "route_bldr",
+        "waiting__bldr",
         "pattern__bldr_classSlug_",
         "pattern__bldr_classSlug_desktop_",
+        "waiting__bldr_classSlug_index",
         "route_bldrStart",
+        "waiting__bldr_start",
         "route_bldrState",
         "bldr_state_desktop",
         "route_bldrStateDesktop",
@@ -231,7 +240,7 @@
       "risk_notes": [
         "Blocked until founder creative authority"
       ],
-      "estimated_reuse_ratio": 0.125
+      "estimated_reuse_ratio": 0.09090909090909091
     },
     {
       "batch_id": "BLDR_ASSESSMENT_INTAKE",
@@ -375,6 +384,7 @@
       "routes": [
         "/evolve/:pathSlug/*",
         "/evolve/:pathSlug/desktop/*",
+        "/evolve/:pathSlug/index",
         "/evolve/campaign-director",
         "/evolve/campaign-flavor",
         "/evolve/install/property",
@@ -389,6 +399,7 @@
       "screen_nodes": [
         "pattern__evolve_pathSlug_",
         "pattern__evolve_pathSlug_desktop_",
+        "waiting__evolve_pathSlug_index",
         "pattern__evolve_campaign_director",
         "pattern__evolve_campaign_flavor",
         "evolve_install_property",
@@ -439,6 +450,7 @@
         "/evolve/marketing",
         "/evolve/marketing/brief/:engagementId",
         "/evolve/marketing/engagement/:engagementId",
+        "/evolve/marketing/index",
         "/evolve/marketing/intake/:serviceId",
         "/evolve/marketing/services"
       ],
@@ -446,6 +458,7 @@
         "route_evolveMarketing",
         "route_evolveMarketingBrief",
         "route_evolveMarketingEngagement",
+        "waiting__evolve_marketing_index",
         "route_evolveMarketingIntake",
         "route_evolveMarketingServices"
       ],
@@ -524,10 +537,15 @@
       ],
       "screen_nodes": [
         "route_about",
+        "waiting__about",
         "route_journal",
+        "waiting__journal",
         "route_services",
+        "waiting__services",
         "route_sites",
+        "waiting__sites",
         "route_system",
+        "waiting__system",
         "route_systemDesignWorkspaceConcepts"
       ],
       "archetypes": [
@@ -559,6 +577,56 @@
       "estimated_reuse_ratio": 0
     },
     {
+      "batch_id": "CHECKOUT_COMMERCE",
+      "batch_name": "Checkout + payment",
+      "product_family": "CHECKOUT",
+      "routes": [
+        "/checkout",
+        "/checkout/cart",
+        "/checkout/confirmation",
+        "/checkout/payment",
+        "/checkout/review",
+        "/checkout/shipping"
+      ],
+      "screen_nodes": [
+        "waiting__checkout",
+        "waiting__checkout_cart",
+        "waiting__checkout_confirmation",
+        "waiting__checkout_payment",
+        "waiting__checkout_review",
+        "waiting__checkout_shipping"
+      ],
+      "archetypes": [
+        "CHECKOUT",
+        "PAYMENT"
+      ],
+      "authority_lineage": [
+        "MISSING"
+      ],
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "founder_gate_required": true,
+      "founder_gate_ids": [
+        "GATE_CHECKOUT_COMMERCE"
+      ],
+      "sonnet_ready": false,
+      "opus_strategy": "Converge pixels against lineage authorities; no new grammar.",
+      "grok_asset_dependencies": [
+        "ENV plates",
+        "ILLUSTRATION slots per manifest"
+      ],
+      "composer_dependencies": [
+        "Preserve intake APIs",
+        "No route changes"
+      ],
+      "backend_dependencies": [
+        "Payment provider"
+      ],
+      "risk_notes": [
+        "Blocked until founder creative authority"
+      ],
+      "estimated_reuse_ratio": 0
+    },
+    {
       "batch_id": "AUTH_ACCOUNT",
       "batch_name": "Sign-in + create account",
       "product_family": "AUTH",
@@ -568,7 +636,9 @@
       ],
       "screen_nodes": [
         "route_createAccount",
-        "route_signIn"
+        "waiting__origin_create_account",
+        "route_signIn",
+        "waiting__origin_sign_in"
       ],
       "archetypes": [
         "AUTH"

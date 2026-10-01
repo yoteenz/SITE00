@@ -26,7 +26,7 @@
         "/system",
         "/system/design/workspace-concepts"
       ],
-      "screen_count": 6,
+      "screen_count": 11,
       "new_authority_required": true,
       "reason": "Composite derivation possible once representative approved."
     },
@@ -86,6 +86,7 @@
         "/bldr",
         "/bldr/:classSlug/*",
         "/bldr/:classSlug/desktop/*",
+        "/bldr/:classSlug/index",
         "/bldr/enterprise",
         "/bldr/not-sure",
         "/bldr/site",
@@ -94,7 +95,7 @@
         "/bldr/templates",
         "/bldr/world"
       ],
-      "screen_count": 10,
+      "screen_count": 13,
       "new_authority_required": true,
       "reason": "Composite derivation possible once representative approved."
     },
@@ -169,6 +170,34 @@
       "reason": "Composite derivation possible once representative approved."
     },
     {
+      "family_id": "CHECKOUT",
+      "representative_type": "CHECKOUT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/checkout",
+        "/checkout/cart",
+        "/checkout/confirmation",
+        "/checkout/review",
+        "/checkout/shipping"
+      ],
+      "screen_count": 5,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
+      "family_id": "CHECKOUT",
+      "representative_type": "PAYMENT",
+      "authority_status": "MISSING_REPRESENTATIVE",
+      "authority_id": null,
+      "routes_covered": [
+        "/checkout/payment"
+      ],
+      "screen_count": 1,
+      "new_authority_required": true,
+      "reason": "Composite derivation possible once representative approved."
+    },
+    {
       "family_id": "PUBLIC_EVOLVE",
       "representative_type": "HUB",
       "authority_status": "MISSING_REPRESENTATIVE",
@@ -177,13 +206,14 @@
         "/evolve",
         "/evolve/:pathSlug/*",
         "/evolve/:pathSlug/desktop/*",
+        "/evolve/:pathSlug/index",
         "/evolve/campaign-director",
         "/evolve/campaign-flavor",
         "/evolve/plans",
         "/evolve/start",
         "/evolve/state/desktop"
       ],
-      "screen_count": 8,
+      "screen_count": 10,
       "new_authority_required": true,
       "reason": "Composite derivation possible once representative approved."
     },
@@ -224,10 +254,11 @@
         "/evolve/marketing",
         "/evolve/marketing/brief/:engagementId",
         "/evolve/marketing/engagement/:engagementId",
+        "/evolve/marketing/index",
         "/evolve/marketing/intake/:serviceId",
         "/evolve/marketing/services"
       ],
-      "screen_count": 5,
+      "screen_count": 6,
       "new_authority_required": true,
       "reason": "Composite derivation possible once representative approved."
     },
@@ -262,13 +293,15 @@
       "authority_id": null,
       "routes_covered": [
         "/idnty",
+        "/idnty/:state/complete",
+        "/idnty/:state/discovery-result",
         "/idnty/:stateSlug/*",
         "/idnty/:stateSlug/desktop/*",
         "/idnty/sign-in-security",
         "/idnty/state/desktop"
       ],
-      "screen_count": 5,
-      "new_authority_required": false,
+      "screen_count": 7,
+      "new_authority_required": true,
       "reason": "Composite derivation possible once representative approved."
     },
     {
@@ -404,7 +437,7 @@
         "/origin/create-account",
         "/origin/sign-in"
       ],
-      "screen_count": 2,
+      "screen_count": 4,
       "new_authority_required": true,
       "reason": "Composite derivation possible once representative approved."
     },

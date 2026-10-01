@@ -235,6 +235,45 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__about",
+      "route": "/about",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "LOCATIONS_ARCH",
+        "PAGE_GEOMETRY": "CONTENT_PAGE_GEOMETRY_MISSING",
+        "MACHINE_LANGUAGE": "NONE",
+        "WORKING_SURFACE": "CONTENT_BODY",
+        "CONTROL_GRAMMAR": "GLOBAL_LINKS"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "MACHINE_LANGUAGE",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "route_access",
       "route": "/access",
       "classification": "COMPOSITE_DERIVABLE",
@@ -421,6 +460,44 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__bldr",
+      "route": "/bldr",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "BLDR_COMMAND_CENTER",
+        "PAGE_GEOMETRY": "BLDR_COMMAND_CENTER",
+        "MACHINE_LANGUAGE": "BLDR_MACHINE_OR_CARD",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "pattern__bldr_classSlug_",
       "route": "/bldr/:classSlug/*",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
@@ -461,6 +538,44 @@
     {
       "page_id": "pattern__bldr_classSlug_desktop_",
       "route": "/bldr/:classSlug/desktop/*",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "BLDR_COMMAND_CENTER",
+        "PAGE_GEOMETRY": "BLDR_COMMAND_CENTER",
+        "MACHINE_LANGUAGE": "BLDR_MACHINE_OR_CARD",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__bldr_classSlug_index",
+      "route": "/bldr/:classSlug/index",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "derivation_confidence": "LOW",
       "roles": {
@@ -1396,6 +1511,44 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__bldr_start",
+      "route": "/bldr/start",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "BLDR_COMMAND_CENTER",
+        "PAGE_GEOMETRY": "BLDR_COMMAND_CENTER",
+        "MACHINE_LANGUAGE": "BLDR_MACHINE_OR_CARD",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "route_bldrState",
       "route": "/bldr/state",
       "classification": "DIRECTLY_COVERED",
@@ -2026,6 +2179,228 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__checkout",
+      "route": "/checkout",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "TRANSACTION_PATTERN": "MISSING_PAYMENT_AUTHORITY",
+        "ENVIRONMENT": "MISSING",
+        "PAGE_GEOMETRY": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__checkout_cart",
+      "route": "/checkout/cart",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "TRANSACTION_PATTERN": "MISSING_PAYMENT_AUTHORITY",
+        "ENVIRONMENT": "MISSING",
+        "PAGE_GEOMETRY": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__checkout_confirmation",
+      "route": "/checkout/confirmation",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "TRANSACTION_PATTERN": "MISSING_PAYMENT_AUTHORITY",
+        "ENVIRONMENT": "MISSING",
+        "PAGE_GEOMETRY": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__checkout_payment",
+      "route": "/checkout/payment",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "TRANSACTION_PATTERN": "MISSING_PAYMENT_AUTHORITY",
+        "ENVIRONMENT": "MISSING",
+        "PAGE_GEOMETRY": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__checkout_review",
+      "route": "/checkout/review",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "TRANSACTION_PATTERN": "MISSING_PAYMENT_AUTHORITY",
+        "ENVIRONMENT": "MISSING",
+        "PAGE_GEOMETRY": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__checkout_shipping",
+      "route": "/checkout/shipping",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "TRANSACTION_PATTERN": "MISSING_PAYMENT_AUTHORITY",
+        "ENVIRONMENT": "MISSING",
+        "PAGE_GEOMETRY": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "pattern__composition_studio",
       "route": "/composition-studio",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
@@ -2286,6 +2661,44 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__evolve",
+      "route": "/evolve",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "EVOLVE_INTERVENTION",
+        "PAGE_GEOMETRY": "EVOLVE_INTERVENTION",
+        "MACHINE_LANGUAGE": "PUBLIC_EVOLVE_MACHINE_OR_CARD",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "pattern__evolve_pathSlug_",
       "route": "/evolve/:pathSlug/*",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
@@ -2326,6 +2739,44 @@
     {
       "page_id": "pattern__evolve_pathSlug_desktop_",
       "route": "/evolve/:pathSlug/desktop/*",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "EVOLVE_INTERVENTION",
+        "PAGE_GEOMETRY": "EVOLVE_INTERVENTION",
+        "MACHINE_LANGUAGE": "PUBLIC_EVOLVE_MACHINE_OR_CARD",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__evolve_pathSlug_index",
+      "route": "/evolve/:pathSlug/index",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "derivation_confidence": "LOW",
       "roles": {
@@ -2596,6 +3047,43 @@
     {
       "page_id": "route_evolveMarketingEngagement",
       "route": "/evolve/marketing/engagement/:engagementId",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "EVOLVE_INTERVENTION",
+        "PAGE_GEOMETRY": "EVOLVE_INTERVENTION",
+        "MACHINE_LANGUAGE": "PUBLIC_EVOLVE_MARKETING_MACHINE_OR_CARD"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__evolve_marketing_index",
+      "route": "/evolve/marketing/index",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "derivation_confidence": "LOW",
       "roles": {
@@ -3356,6 +3844,82 @@
       "new_visual_grammar_required": true,
       "new_machine_required": false,
       "founder_gate_required": false
+    },
+    {
+      "page_id": "waiting__idnty_state_complete",
+      "route": "/idnty/:state/complete",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "IDNTY_ATRIUM",
+        "PAGE_GEOMETRY": "IDNTY_ATRIUM",
+        "MACHINE_LANGUAGE": "IDNTY_MACHINE",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__idnty_state_discovery_result",
+      "route": "/idnty/:state/discovery-result",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "IDNTY_ATRIUM",
+        "PAGE_GEOMETRY": "IDNTY_ATRIUM",
+        "MACHINE_LANGUAGE": "IDNTY_MACHINE",
+        "REVIEW_PATTERN": "IDNTY_REVIEW"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "REVIEW_PATTERN",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
     },
     {
       "page_id": "pattern__idnty_stateSlug_",
@@ -5141,6 +5705,45 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__journal",
+      "route": "/journal",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "LOCATIONS_ARCH",
+        "PAGE_GEOMETRY": "CONTENT_PAGE_GEOMETRY_MISSING",
+        "MACHINE_LANGUAGE": "NONE",
+        "WORKING_SURFACE": "CONTENT_BODY",
+        "CONTROL_GRAMMAR": "GLOBAL_LINKS"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "MACHINE_LANGUAGE",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "pattern__library",
       "route": "/library",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
@@ -5473,6 +6076,42 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__origin_create_account",
+      "route": "/origin/create-account",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "MISSING_AUTH_AUTHORITY",
+        "CONTROL_GRAMMAR": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "origin_desktop",
       "route": "/origin/desktop",
       "classification": "COMPOSITE_DERIVABLE",
@@ -5661,6 +6300,42 @@
     },
     {
       "page_id": "route_signIn",
+      "route": "/origin/sign-in",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "MISSING_AUTH_AUTHORITY",
+        "CONTROL_GRAMMAR": "MISSING"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "MACHINE_LANGUAGE",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": true,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__origin_sign_in",
       "route": "/origin/sign-in",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "derivation_confidence": "LOW",
@@ -6290,6 +6965,45 @@
       "founder_gate_required": true
     },
     {
+      "page_id": "waiting__services",
+      "route": "/services",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "LOCATIONS_ARCH",
+        "PAGE_GEOMETRY": "CONTENT_PAGE_GEOMETRY_MISSING",
+        "MACHINE_LANGUAGE": "NONE",
+        "WORKING_SURFACE": "CONTENT_BODY",
+        "CONTROL_GRAMMAR": "GLOBAL_LINKS"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "MACHINE_LANGUAGE",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
       "page_id": "pattern__sign_in",
       "route": "/sign-in",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
@@ -6328,6 +7042,45 @@
     },
     {
       "page_id": "route_sites",
+      "route": "/sites",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "LOCATIONS_ARCH",
+        "PAGE_GEOMETRY": "CONTENT_PAGE_GEOMETRY_MISSING",
+        "MACHINE_LANGUAGE": "NONE",
+        "WORKING_SURFACE": "CONTENT_BODY",
+        "CONTROL_GRAMMAR": "GLOBAL_LINKS"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "MACHINE_LANGUAGE",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__sites",
       "route": "/sites",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "derivation_confidence": "LOW",
@@ -6515,6 +7268,45 @@
     },
     {
       "page_id": "route_system",
+      "route": "/system",
+      "classification": "CREATIVE_AUTHORITY_REQUIRED",
+      "derivation_confidence": "LOW",
+      "roles": {
+        "HOST_SHELL": "SITE00_PUBLIC_GLOBAL",
+        "TYPOGRAPHY": "SITE00_PUBLIC_GLOBAL",
+        "NAVIGATION": "SITE00_PUBLIC_GLOBAL",
+        "RESPONSIVE_PATTERN": "MOBILE_FIRST",
+        "ASSET_LANGUAGE": "GROK_SLOTS_FROM_MANIFEST",
+        "ENVIRONMENT": "LOCATIONS_ARCH",
+        "PAGE_GEOMETRY": "CONTENT_PAGE_GEOMETRY_MISSING",
+        "MACHINE_LANGUAGE": "NONE",
+        "WORKING_SURFACE": "CONTENT_BODY",
+        "CONTROL_GRAMMAR": "GLOBAL_LINKS"
+      },
+      "covered_roles": [
+        "HOST_SHELL",
+        "ENVIRONMENT",
+        "PAGE_GEOMETRY",
+        "WORKING_SURFACE",
+        "CONTROL_GRAMMAR",
+        "NAVIGATION",
+        "TYPOGRAPHY",
+        "RESPONSIVE_PATTERN"
+      ],
+      "missing_roles": [
+        "MACHINE_LANGUAGE",
+        "REVIEW_PATTERN",
+        "VERIFICATION_PATTERN",
+        "TRANSACTION_PATTERN"
+      ],
+      "conflicting_roles": [],
+      "new_interaction_required": true,
+      "new_visual_grammar_required": true,
+      "new_machine_required": false,
+      "founder_gate_required": true
+    },
+    {
+      "page_id": "waiting__system",
       "route": "/system",
       "classification": "CREATIVE_AUTHORITY_REQUIRED",
       "derivation_confidence": "LOW",
