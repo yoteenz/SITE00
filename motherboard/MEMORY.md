@@ -12926,3 +12926,13 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.GROK-TARGETED-REGENERATION12` on `cursor/publi
   - The main tunnel on port 5174 is still release `site00-v272-60fec0b`. These pixels are not on that preview and are not mounted in the live pages.
 - **Changes:** the 12 output WebPs, history copies, registry, surgery script, Opus surgery pack, contact sheets, surgery test, this memory entry.
 - **Conventions:** Do not regenerate the other 35. Do not inject until Composer is explicitly asked. Review the composite proofs, not the main tunnel.
+
+---
+
+## 2026-10-01 — Composer asset injection (47 Grok slots)
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.COMPOSER-ASSET-INJECTION1` on child branch `cursor/public-redesign-composer-asset-injection1-1b86` from recovery `3c01e34e` / Opus `22a28477`.
+
+- **Shipped:** `PUBLIC_REDESIGN_ASSET_URLS` (47 entries), `public/site00/public-redesign/grok/*`, `scripts/sync-public-redesign-grok-runtime.ts`, injection tests; preview `:5174` with `SITE00_CLOUD_PREVIEW_MODE=local` + `SITE00_PREVIEW_SYNC_MAIN=0`.
+- **Excluded (live-code):** MACHINE.IDNTY.FOUNDATION.ORB, MACHINE.IDNTY.PARTIAL.LATTICE, MACHINE.IDNTY.EVOLUTION.WAVES, MACHINE.IDNTY.AUTHORITY.STAR, ILLUSTRATION.BLDR.FRAMEWORK.STEP.
+- **Not done:** No merge to main, no production deploy, PR #1276 not merged.
