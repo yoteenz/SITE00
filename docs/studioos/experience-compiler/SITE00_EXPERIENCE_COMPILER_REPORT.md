@@ -1,30 +1,32 @@
 # SITE 00 Experience Compiler Report
 
-Generated: 2026-10-01T13:41:28.055Z
+Generated: 2026-10-01T13:42:32.458Z
 
 | Metric | Value |
 |--------|------:|
-| Total unique routes (normalized) | 164 |
-| Total meaningful screens/states | 172 |
-| Unique page archetypes | 14 |
+| Total unique routes (normalized) | 175 |
+| Total meaningful screens/states | 193 |
+| Unique page archetypes | 16 |
 | DIRECTLY_COVERED | 30 |
 | DERIVABLE | 2 |
 | COMPOSITE_DERIVABLE | 61 |
-| CREATIVE_AUTHORITY_REQUIRED | 79 |
-| Founder creative gates | 7 |
-| Production batches | 10 |
+| CREATIVE_AUTHORITY_REQUIRED | 100 |
+| Founder creative gates | 9 |
+| Production batches | 11 |
 | Sonnet-ready batches | 4 |
-| Blocked batches | 6 |
-| Authority leverage ratio | 4.65 |
+| Blocked batches | 7 |
+| Authority leverage ratio | 5.22 |
 
 ## Archetype distribution
 
-- **AUTH:** 2 screens
-- **CONTENT:** 6 screens
+- **AUTH:** 4 screens
+- **CHECKOUT:** 5 screens
+- **CONTENT:** 11 screens
 - **DESKTOP_BRANCH:** 4 screens
 - **ENTRY:** 6 screens
-- **HUB:** 84 screens
+- **HUB:** 92 screens
 - **LOCATIONS:** 1 screens
+- **PAYMENT:** 1 screens
 - **RESULT:** 8 screens
 - **REVIEW:** 12 screens
 - **ROUTE_SELECTOR:** 2 screens
