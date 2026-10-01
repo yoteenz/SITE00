@@ -12848,3 +12848,12 @@ Fetched `origin/cursor/authority-environment-family-live-integration-87ed`. It w
 
 - **Conflicts:** `MEMORY.md`, `chamber.tsx`, `site00-character-fabrication-authority.css`, `site00-production-hub-authority.css`. No second feature on the integration side. Each theirs-side is the pre-follow-up snapshot.
 - **Resolution:** Kept this branch. `CharacterViewport` still paints `SubjectFigure` unless live runtime is requested. Chrome stays at title 20px / nav 15px / no nested `zoom: 0.74`. Merge `ecc64145`. PR #1264 mergeable. No preview rebuild.
+
+---
+
+## 2026-09-30 — Pixel-assets conflicts were the older environment snapshot
+
+Fetched `origin/cursor/authority-pixel-assets-1b86` (`200c6538`, PR #1259 squash onto `4fdf9efc`). This review branch was 19 commits ahead. That commit’s environment plates, receipts, and suppression are already in this branch.
+
+- **Conflicts:** `MEMORY.md` (later entries only on this branch), `shared/site00-character-fabrication/index.ts` (keep `characterViewportAnchor` export), `chamber.tsx` (keep `CharacterRenderer`; environment plate stays). Auto-merge of `vite.config.ts` took a pixel-assets type with one extra `)` — restored the balanced signature from this branch.
+- **Not a second product:** pixel-assets `machine.tsx`, hub CSS, and the preview script are the pre-chrome, pre-runtime versions. No parallel intent left open.
