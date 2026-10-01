@@ -86,10 +86,14 @@
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2;
+  z-index: 4;
   touch-action: none;
   pointer-events: auto;
   background: transparent;
+}
+
+.site00-mobile-artboard .s00pr-origin-swipe-surface {
+  position: absolute;
 }
 
 .s00pr-originhero,
@@ -98,6 +102,35 @@
 .s00pr-originfoot {
   position: relative;
   z-index: 3;
+}
+
+/* Decorative copy sits above the plate but must not block the swipe capture layer. */
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originhero,
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originnote {
+  pointer-events: none;
+}
+
+/* Cards + CTA above swipe surface; only buttons/links receive taps. */
+.s00pr-origin[data-origin-mode='origin'] .s00pr-origincards,
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originswipe {
+  z-index: 6;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-origincards {
+  pointer-events: none;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-origincard {
+  pointer-events: auto;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originfoot {
+  z-index: 6;
+  pointer-events: none;
+}
+
+.s00pr-origin[data-origin-mode='origin'] .s00pr-originfoot a {
+  pointer-events: auto;
 }
 
 /* Hero — centred on the landmark axis (authority: WELCOME TO y≈52, SITE 00 y≈66→88, tagline y≈110). */

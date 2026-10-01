@@ -419,6 +419,12 @@ body:has(.s00pr-shell) {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Origin collapsed: vertical scroll steals swipe-up on the artboard preview frame. */
+.site00-mobile-artboard .s00pr-shell--origin:not(.s00pr-shell--origin-expanded) .s00pr,
+.site00-desktop-artboard .s00pr-shell--origin:not(.s00pr-shell--origin-expanded) .s00pr {
+  overflow-y: hidden;
+}
+
 .site00-mobile-artboard .s00pr-shell__content,
 .site00-desktop-artboard .s00pr-shell__content {
   min-height: 100%;
