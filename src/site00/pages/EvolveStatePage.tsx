@@ -2,12 +2,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { EnvironmentShell } from '../components/environment/EnvironmentShell';
 import { Site00AppShell } from '../components/shell/Site00AppShell';
 import { Site00OriginLayoutSwitch } from '../components/shell/Site00OriginLayoutSwitch';
-import { Site00MobileShell } from '../components/mobile/Site00MobileShell';
 import { EVOLVE_PATHS, EVOLVE_PROCESS_STEPS, EVOLVE_STATE_COPY } from '../config/evolve';
 import { ArchitecturalPanel } from '../components/panels/ArchitecturalPanel';
 import { WorkflowSummary } from '../components/workflow/WorkflowCards';
 import { EvolvePathIcon } from '../components/evolve/EvolvePathIcon';
-import { EvolveMobileExperience } from '../components/evolve/mobile/EvolveMobileExperience';
+import { EvolveStateExperience } from '../components/public-redesign/PublicServicePages';
 import { useSite00 } from '../state/Site00Context';
 import { useEvolveAssessment } from '../hooks/useEvolveAssessment';
 import { evolveAssessmentPath } from '../config/evolve-assessment';
@@ -158,19 +157,8 @@ export default function EvolveStatePage() {
   const resumePathLabel = record.evolvePath?.replace(/-/g, ' ').toUpperCase() ?? '';
 
   if (!isDesktopArtboard) {
-    return (
-      <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-evolve-state-mobile-shell">
-        <div className="site00-state-page site00-state-page--evolve site00-state-page--mobile">
-          <EvolveMobileExperience
-            selectedPathId={state.selectedEvolvePathId}
-            onSelectPath={selectEvolvePath}
-            hasResume={hasResume}
-            resumeTarget={resumeTarget}
-            resumePathLabel={resumePathLabel}
-          />
-        </div>
-      </Site00MobileShell>
-    );
+    // Public redesign: INTERVENTION CENTER + REFINE / INSTALL / TRANSFORM panels (?path=).
+    return <EvolveStateExperience />;
   }
 
   return (
