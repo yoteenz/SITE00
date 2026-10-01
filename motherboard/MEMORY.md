@@ -12893,3 +12893,20 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.GROK-LINEAGE-RECOVERY1`. Recovery and forensic
   - Both Composer handoffs are `NOT_READY`. Do not inject. Do not merge this branch into the Opus branch or into `main`. Do not upload over site00.com. Draft PR only, against `cursor/public-redesign-sonnet-structure1-4f59`.
 - **Changes:** `docs/site00/public-redesign/GROK_ASSET_PACK/` (transplanted pixels unchanged; registry provenance and a NOT_READY banner), `docs/site00/public-redesign/OPUS_DERIVED_SURGERY/`, `scripts/site00-opus-derived-surgery.py`, `tests/publicRedesignOpusDerivedSurgery.test.ts`, this memory entry. No `src/` edits.
 - **Conventions:** Grok public-redesign pixels must be validated against final Opus geometry at `22a28477`, not `buildSite00VisualSurgeryFixture()` on main. Dimension match is not composition match. `REQUIRES_REGENERATION` stays blocked until a later authorized generation sprint. Experience-compiler unit tests live on main and are not on this lineage.
+
+
+---
+
+## 2026-10-01 — Public redesign GROK-LINEAGE-RECOVERY1R1 branch visibility
+
+Follow-up to the recovery sprint. No asset regeneration, no page edits, no merge, no deploy.
+
+- **Context:** Founder needs the exact branch, head, and the routes to open. The recovered pack is not on the normal cloud preview.
+- **Decisions / outcomes:**
+  - Active branch `cursor/public-redesign-grok-recovery1-1b86`, worktree `/workspace/.worktrees/public-redesign-grok-recovery`, base `22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12`. It descends from that commit and contains both the transplanted Grok pack and `OPUS_DERIVED_SURGERY`.
+  - Main tunnel on port 5174 serves release `site00-v272-60fec0b` (`index.BTR7ydLx.js`). That bundle does not contain `s00pr-shell`. Do not review this work there.
+  - Review routes were rendered from this branch on a local Vite (port 5198, 390×844): `/`, `/origin`, `/idnty/state`, the four IDNTY state landings, `/bldr/state` plus `?path=` overview/site/world/systems/extensions, `/evolve/state` plus `?path=` refine/install/transform, `/origin/locations`. Each mounted `.s00pr-shell`. `PUBLIC_REDESIGN_ASSET_URLS` is empty, so zero assets were injected. There is no experience-compiler page on this branch.
+  - Origin expanded panels are the same `/` and `/origin` routes after the card expand control. They are not separate URLs.
+  - Draft PR #1276 stays open against `cursor/public-redesign-sonnet-structure1-4f59`.
+- **Changes:** This memory entry only.
+- **Conventions:** Report branch, head, worktree, and whether the main tunnel serves that head before telling the founder where to look. Proof composites live under `docs/site00/public-redesign/OPUS_DERIVED_SURGERY/composite-previews/`.
