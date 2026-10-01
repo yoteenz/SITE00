@@ -73,7 +73,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "DOUBLE-ZERO LANDMARK COURTYARD"
+      "purpose": "DOUBLE-ZERO LANDMARK COURTYARD",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 2532
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "DOUBLE-ZERO LANDMARK COURTYARD \u2014 COLLAPSED ORIGIN. EXISTING ORIGIN ENVIRONMENT ASSET STAYS MOUNTED UNTIL REPLACED."
     },
     {
       "asset_id": "CARD.ORIGIN.IDNTY",
@@ -130,7 +144,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH)."
+      "purpose": "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 560
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH)."
     },
     {
       "asset_id": "CARD.ORIGIN.BLDR",
@@ -187,7 +215,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "BLDR CARD STUDIO VIGNETTE (GLASS DISPLAY, PLINTH)."
+      "purpose": "BLDR CARD STUDIO VIGNETTE (GLASS DISPLAY, PLINTH).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 560
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "BLDR CARD STUDIO VIGNETTE (GLASS DISPLAY, PLINTH)."
     },
     {
       "asset_id": "CARD.ORIGIN.EVOLVE",
@@ -244,7 +286,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "EVOLVE CARD LANDSCAPE VIGNETTE (CLIFF ROAD, SKYLINE)."
+      "purpose": "EVOLVE CARD LANDSCAPE VIGNETTE (CLIFF ROAD, SKYLINE).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 560
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "EVOLVE CARD LANDSCAPE VIGNETTE (CLIFF ROAD, SKYLINE)."
     },
     {
       "asset_id": "ENV.ORIGIN.EXPANDED",
@@ -316,7 +372,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "DOUBLE-ZERO LANDMARK WITH WATERFALL SKYLINE"
+      "purpose": "DOUBLE-ZERO LANDMARK WITH WATERFALL SKYLINE",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 2532
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "DOUBLE-ZERO LANDMARK WITH WATERFALL SKYLINE \u2014 EXPANDED PANEL STATE (CLEAN, NO BAKED PANELS)."
     },
     {
       "asset_id": "ILLUSTRATION.ORIGIN.IDENTITY",
@@ -375,7 +445,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE FACIAL GEOMETRY WIREFRAME (IDENTITY PANEL HERO)."
+      "purpose": "RED-LINE FACIAL GEOMETRY WIREFRAME (IDENTITY PANEL HERO).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 560,
+        "h": 560
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE FACIAL GEOMETRY WIREFRAME (IDENTITY PANEL HERO)."
     },
     {
       "asset_id": "ILLUSTRATION.ORIGIN.BLDR",
@@ -434,7 +518,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE ISOMETRIC BUILD LATTICE (BUILDER PANEL HERO)."
+      "purpose": "RED-LINE ISOMETRIC BUILD LATTICE (BUILDER PANEL HERO).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 560,
+        "h": 560
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE ISOMETRIC BUILD LATTICE (BUILDER PANEL HERO)."
     },
     {
       "asset_id": "ILLUSTRATION.ORIGIN.EVOLVE",
@@ -493,7 +591,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE EXPLODED PROPERTY LATTICE (EVOLVE PANEL HERO)."
+      "purpose": "RED-LINE EXPLODED PROPERTY LATTICE (EVOLVE PANEL HERO).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 560,
+        "h": 560
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE EXPLODED PROPERTY LATTICE (EVOLVE PANEL HERO)."
     },
     {
       "asset_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
@@ -552,7 +664,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "REFINE PATH VIGNETTE (CONCENTRIC ORBIT)."
+      "purpose": "REFINE PATH VIGNETTE (CONCENTRIC ORBIT).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 400
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "REFINE PATH VIGNETTE (CONCENTRIC ORBIT)."
     },
     {
       "asset_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
@@ -611,7 +737,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "INSTALL PATH VIGNETTE (LAYERED LATTICE)."
+      "purpose": "INSTALL PATH VIGNETTE (LAYERED LATTICE).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 400
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "INSTALL PATH VIGNETTE (LAYERED LATTICE)."
     },
     {
       "asset_id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
@@ -670,7 +810,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "TRANSFORM PATH VIGNETTE (STAR + ORBITS)."
+      "purpose": "TRANSFORM PATH VIGNETTE (STAR + ORBITS).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 400
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "TRANSFORM PATH VIGNETTE (STAR + ORBITS)."
     },
     {
       "asset_id": "ENV.IDNTY.ATRIUM",
@@ -740,7 +894,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "LUMINOUS WHITE ATRIUM"
+      "purpose": "LUMINOUS WHITE ATRIUM",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 2532
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "LUMINOUS WHITE ATRIUM \u2014 CIRCULAR DAIS, STEPS, PLANTERS, RING LIGHT. SHARED ACROSS EVERY IDNTY STATE AND STEP (CONTINUITY)."
     },
     {
       "asset_id": "MACHINE.IDNTY.FOUNDATION.ORB",
@@ -801,7 +969,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "GLOSSY RED SPHERE (OPTIONAL MATERIAL UPGRADE OVER THE SVG ORB)."
+      "purpose": "GLOSSY RED SPHERE (OPTIONAL MATERIAL UPGRADE OVER THE SVG ORB).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "SUPERSEDED_BY_LIVE_CODE",
+      "validation_reason": "GROK_REQUIRED \u2192 LIVE_CODE",
+      "production_eligible": false,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 900
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "GLOSSY RED SPHERE (OPTIONAL MATERIAL UPGRADE OVER THE SVG ORB)."
     },
     {
       "asset_id": "MACHINE.IDNTY.PARTIAL.LATTICE",
@@ -862,7 +1044,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG)."
+      "purpose": "TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "SUPERSEDED_BY_LIVE_CODE",
+      "validation_reason": "GROK_REQUIRED \u2192 LIVE_CODE",
+      "production_eligible": false,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 900
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG)."
     },
     {
       "asset_id": "MACHINE.IDNTY.EVOLUTION.WAVES",
@@ -923,7 +1119,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "CONCENTRIC ELLIPSE WAVEFORM (OPTIONAL MATERIAL UPGRADE OVER THE SVG)."
+      "purpose": "CONCENTRIC ELLIPSE WAVEFORM (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "SUPERSEDED_BY_LIVE_CODE",
+      "validation_reason": "GROK_REQUIRED \u2192 LIVE_CODE",
+      "production_eligible": false,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 900
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "CONCENTRIC ELLIPSE WAVEFORM (OPTIONAL MATERIAL UPGRADE OVER THE SVG)."
     },
     {
       "asset_id": "MACHINE.IDNTY.AUTHORITY.STAR",
@@ -984,7 +1194,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "GLOSSY RED FOUR-POINT STAR (OPTIONAL MATERIAL UPGRADE OVER THE SVG)."
+      "purpose": "GLOSSY RED FOUR-POINT STAR (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "SUPERSEDED_BY_LIVE_CODE",
+      "validation_reason": "GROK_REQUIRED \u2192 LIVE_CODE",
+      "production_eligible": false,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 900
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "GLOSSY RED FOUR-POINT STAR (OPTIONAL MATERIAL UPGRADE OVER THE SVG)."
     },
     {
       "asset_id": "ENV.BLDR.COMMAND_CENTER",
@@ -1058,7 +1282,21 @@
         "BLDR tower assembly",
         "route selector cards"
       ],
-      "purpose": "SAME WHITE ATRIUM FAMILY AS IDNTY, BUILD-DAIS VARIANT."
+      "purpose": "SAME WHITE ATRIUM FAMILY AS IDNTY, BUILD-DAIS VARIANT.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 2532
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SAME WHITE ATRIUM FAMILY AS IDNTY, BUILD-DAIS VARIANT."
     },
     {
       "asset_id": "MACHINE.BLDR.TOWER",
@@ -1121,7 +1359,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "STACKED GLASS-SLAB ASSEMBLY TOWER WITH RED INSERTS AND FLOATING PATH PANELS."
+      "purpose": "STACKED GLASS-SLAB ASSEMBLY TOWER WITH RED INSERTS AND FLOATING PATH PANELS.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 760,
+        "h": 900
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "STACKED GLASS-SLAB ASSEMBLY TOWER WITH RED INSERTS AND FLOATING PATH PANELS."
     },
     {
       "asset_id": "CARD.BLDR.PATH.SITE",
@@ -1178,7 +1430,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "SITE PATH CARD ILLUSTRATION (SKYLINE TOWERS WITH RED PLANES)."
+      "purpose": "SITE PATH CARD ILLUSTRATION (SKYLINE TOWERS WITH RED PLANES).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role requires skyline towers with red planes. The fabricated card is a single glass building.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SITE PATH CARD ILLUSTRATION (SKYLINE TOWERS WITH RED PLANES)."
     },
     {
       "asset_id": "CARD.BLDR.PATH.WORLD",
@@ -1235,7 +1501,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "WORLD PATH CARD ILLUSTRATION (TERRACED PLATES WITH TREES)."
+      "purpose": "WORLD PATH CARD ILLUSTRATION (TERRACED PLATES WITH TREES).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "WORLD PATH CARD ILLUSTRATION (TERRACED PLATES WITH TREES)."
     },
     {
       "asset_id": "CARD.BLDR.PATH.SYSTEMS",
@@ -1292,7 +1572,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "SYSTEMS PATH CARD ILLUSTRATION (SERVER-RACK STACK)."
+      "purpose": "SYSTEMS PATH CARD ILLUSTRATION (SERVER-RACK STACK).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role requires a server-rack stack. The fabricated card follows the module column, not a rack.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SYSTEMS PATH CARD ILLUSTRATION (SERVER-RACK STACK)."
     },
     {
       "asset_id": "CARD.BLDR.PATH.EXTENSIONS",
@@ -1349,7 +1643,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "EXTENSIONS PATH CARD ILLUSTRATION (FLOATING RED CUBES)."
+      "purpose": "EXTENSIONS PATH CARD ILLUSTRATION (FLOATING RED CUBES).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "EXTENSIONS PATH CARD ILLUSTRATION (FLOATING RED CUBES)."
     },
     {
       "asset_id": "ENV.BLDR.PATH.OVERVIEW",
@@ -1423,7 +1731,21 @@
         "BLDR tower assembly",
         "route selector cards"
       ],
-      "purpose": "DAYLIGHT BUILDER ATRIUM"
+      "purpose": "DAYLIGHT BUILDER ATRIUM",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role requires glass path panels over a round table. The file is a crop of the command-center dais.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1000
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "DAYLIGHT BUILDER ATRIUM \u2014 GLASS PATH PANELS OVER A ROUND TABLE."
     },
     {
       "asset_id": "ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
@@ -1482,7 +1804,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE CUBE LATTICE panel vignette."
+      "purpose": "RED-LINE CUBE LATTICE panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE CUBE LATTICE (PANEL HEADER)."
     },
     {
       "asset_id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP",
@@ -1541,7 +1877,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX)"
+      "purpose": "FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX)",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "SUPERSEDED_BY_LIVE_CODE",
+      "validation_reason": "GROK_REQUIRED \u2192 LIVE_CODE",
+      "production_eligible": false,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 240,
+        "h": 240
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX) \u2014 SHARED ACROSS PATHS."
     },
     {
       "asset_id": "ENV.BLDR.PATH.SITE",
@@ -1617,7 +1967,21 @@
         "BLDR tower assembly",
         "route selector cards"
       ],
-      "purpose": "RED-INSERT GLASS BUILDING OVER A WHITE TERRACE."
+      "purpose": "RED-INSERT GLASS BUILDING OVER A WHITE TERRACE.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1000
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-INSERT GLASS BUILDING OVER A WHITE TERRACE."
     },
     {
       "asset_id": "ILLUSTRATION.BLDR.PATH.PANEL.SITE",
@@ -1676,7 +2040,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE BUILDING LATTICE panel vignette."
+      "purpose": "RED-LINE BUILDING LATTICE panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE BUILDING LATTICE (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.BLDR.PATH.WORLD",
@@ -1750,7 +2128,21 @@
         "BLDR tower assembly",
         "route selector cards"
       ],
-      "purpose": "RED GLOBE WITH TERRACED PLATES AND WATERFALL BACKDROP."
+      "purpose": "RED GLOBE WITH TERRACED PLATES AND WATERFALL BACKDROP.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1000
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED GLOBE WITH TERRACED PLATES AND WATERFALL BACKDROP."
     },
     {
       "asset_id": "ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
@@ -1809,7 +2201,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE TERRACE LATTICE panel vignette."
+      "purpose": "RED-LINE TERRACE LATTICE panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE TERRACE LATTICE (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.BLDR.PATH.SYSTEMS",
@@ -1885,7 +2291,21 @@
         "BLDR tower assembly",
         "route selector cards"
       ],
-      "purpose": "SERVER-STACK TOWER WITH SYSTEM ARCHITECTURE / FLOW PANELS."
+      "purpose": "SERVER-STACK TOWER WITH SYSTEM ARCHITECTURE / FLOW PANELS.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role requires a server-stack tower without UI screens. The fabricated file is a module column in an atrium.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1000
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SERVER-STACK TOWER WITH SYSTEM ARCHITECTURE / FLOW PANELS."
     },
     {
       "asset_id": "ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
@@ -1944,7 +2364,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE SYSTEM-STACK LATTICE panel vignette."
+      "purpose": "RED-LINE SYSTEM-STACK LATTICE panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE SYSTEM-STACK LATTICE (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.BLDR.PATH.EXTENSIONS",
@@ -2018,7 +2452,21 @@
         "BLDR tower assembly",
         "route selector cards"
       ],
-      "purpose": "DISPLAY-CASE GALLERY WITH PLUG-IN / ADD-ON LIBRARY PANELS."
+      "purpose": "DISPLAY-CASE GALLERY WITH PLUG-IN / ADD-ON LIBRARY PANELS.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1000
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "DISPLAY-CASE GALLERY WITH PLUG-IN / ADD-ON LIBRARY PANELS."
     },
     {
       "asset_id": "ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
@@ -2077,7 +2525,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "RED-LINE LAYERED SLAB STACK panel vignette."
+      "purpose": "RED-LINE LAYERED SLAB STACK panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "RED-LINE LAYERED SLAB STACK (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.EVOLVE.INTERVENTION_CENTER",
@@ -2147,7 +2609,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "WHITE ATRIUM WITH LAYERED GLASS PROPERTY UNDER INTERVENTION."
+      "purpose": "WHITE ATRIUM WITH LAYERED GLASS PROPERTY UNDER INTERVENTION.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 2532
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "WHITE ATRIUM WITH LAYERED GLASS PROPERTY UNDER INTERVENTION."
     },
     {
       "asset_id": "MACHINE.EVOLVE.PROPERTY_TOWER",
@@ -2208,7 +2684,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "THREE-LAYER GLASS PROPERTY (SURFACE / SYSTEM / FOUNDATION) WITH RED INTERVENTION BLOCKS."
+      "purpose": "THREE-LAYER GLASS PROPERTY (SURFACE / SYSTEM / FOUNDATION) WITH RED INTERVENTION BLOCKS.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 760,
+        "h": 900
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "THREE-LAYER GLASS PROPERTY (SURFACE / SYSTEM / FOUNDATION) WITH RED INTERVENTION BLOCKS."
     },
     {
       "asset_id": "CARD.EVOLVE.PATH.REFINE",
@@ -2265,7 +2755,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "REFINE PATH CARD ILLUSTRATION (HALF-RED ORBIT TARGET)."
+      "purpose": "REFINE PATH CARD ILLUSTRATION (HALF-RED ORBIT TARGET).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "REFINE PATH CARD ILLUSTRATION (HALF-RED ORBIT TARGET)."
     },
     {
       "asset_id": "CARD.EVOLVE.PATH.INSTALL",
@@ -2322,7 +2826,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "INSTALL PATH CARD ILLUSTRATION (RED-INSERT SLAB STACK)."
+      "purpose": "INSTALL PATH CARD ILLUSTRATION (RED-INSERT SLAB STACK).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "INSTALL PATH CARD ILLUSTRATION (RED-INSERT SLAB STACK)."
     },
     {
       "asset_id": "CARD.EVOLVE.PATH.TRANSFORM",
@@ -2379,7 +2897,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "TRANSFORM PATH CARD ILLUSTRATION (EXPLODED CUBE ASSEMBLY)."
+      "purpose": "TRANSFORM PATH CARD ILLUSTRATION (EXPLODED CUBE ASSEMBLY).",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 400,
+        "h": 360
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "TRANSFORM PATH CARD ILLUSTRATION (EXPLODED CUBE ASSEMBLY)."
     },
     {
       "asset_id": "ENV.EVOLVE.PATH.REFINE",
@@ -2451,7 +2983,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "CURRENT-STATE / TARGET-STATE PANELS AROUND A GLASS CUBE ON A DAIS."
+      "purpose": "CURRENT-STATE / TARGET-STATE PANELS AROUND A GLASS CUBE ON A DAIS.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1100
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "CURRENT-STATE / TARGET-STATE PANELS AROUND A GLASS CUBE ON A DAIS."
     },
     {
       "asset_id": "ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE",
@@ -2510,7 +3056,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "CONCENTRIC TARGET panel vignette."
+      "purpose": "CONCENTRIC TARGET panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "CONCENTRIC TARGET (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.EVOLVE.PATH.INSTALL",
@@ -2582,7 +3142,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "SYSTEM MODULES / INTEGRATION LAYERS AROUND A MACHINE STACK."
+      "purpose": "SYSTEM MODULES / INTEGRATION LAYERS AROUND A MACHINE STACK.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1100
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SYSTEM MODULES / INTEGRATION LAYERS AROUND A MACHINE STACK."
     },
     {
       "asset_id": "ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL",
@@ -2641,7 +3215,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "LAYERED LATTICE panel vignette."
+      "purpose": "LAYERED LATTICE panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "LAYERED LATTICE (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.EVOLVE.PATH.TRANSFORM",
@@ -2713,7 +3301,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "EXISTING / TRANSFORMED PANELS AROUND AN EXPLODED GLASS ASSEMBLY."
+      "purpose": "EXISTING / TRANSFORMED PANELS AROUND AN EXPLODED GLASS ASSEMBLY.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 1100
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "EXISTING / TRANSFORMED PANELS AROUND AN EXPLODED GLASS ASSEMBLY."
     },
     {
       "asset_id": "ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM",
@@ -2772,7 +3374,21 @@
         "navigation",
         "header"
       ],
-      "purpose": "STAR + ORBITAL NET panel vignette."
+      "purpose": "STAR + ORBITAL NET panel vignette.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership IN_ASSET -> PARENT_OVERFLOW; shadow_ownership SHADOW_SEPARATE_ASSET -> NO_SHADOW",
+      "production_eligible": true,
+      "regeneration_required": false,
+      "opus_target_pixels": {
+        "w": 420,
+        "h": 420
+      },
+      "opus_surface_derivation": "NOT_APPLICABLE",
+      "opus_mask_ownership": "PARENT_OVERFLOW",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "STAR + ORBITAL NET (PANEL HEADER)."
     },
     {
       "asset_id": "ENV.LOCATIONS.ARCH",
@@ -2844,7 +3460,21 @@
         "path card illustrations",
         "floating UI panels"
       ],
-      "purpose": "WARM MARBLE ARCHWAY CORRIDOR WITH LIGHT SHAFTS; DOUBLE-ZERO LANDMARK AT THE BASE."
+      "purpose": "WARM MARBLE ARCHWAY CORRIDOR WITH LIGHT SHAFTS; DOUBLE-ZERO LANDMARK AT THE BASE.",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role requires a warm marble archway. The fabricated file is pale stone.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 1170,
+        "h": 2532
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "NONE",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "WARM MARBLE ARCHWAY CORRIDOR WITH LIGHT SHAFTS; DOUBLE-ZERO LANDMARK AT THE BASE."
     },
     {
       "asset_id": "CARD.LOCATIONS.BLDR",
@@ -2901,7 +3531,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "BLDR ROW"
+      "purpose": "BLDR ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is a studio with a glass display. The file is a pale arch corridor.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "BLDR ROW \u2014 STUDIO WITH GLASS DISPLAY."
     },
     {
       "asset_id": "CARD.LOCATIONS.EVOLVE",
@@ -2958,7 +3602,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "EVOLVE ROW"
+      "purpose": "EVOLVE ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is a terrace with a tree and skyline. The file is a pale arch corridor.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "EVOLVE ROW \u2014 TERRACE WITH TREE AND SKYLINE."
     },
     {
       "asset_id": "CARD.LOCATIONS.SITES",
@@ -3015,7 +3673,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "SITES ROW"
+      "purpose": "SITES ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is a cliffside spire city. The file is a pale arch corridor.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SITES ROW \u2014 CLIFFSIDE SPIRE CITY."
     },
     {
       "asset_id": "CARD.LOCATIONS.SERVICES",
@@ -3072,7 +3744,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "SERVICES ROW"
+      "purpose": "SERVICES ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is a showroom with a display. The file is a pale arch corridor.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SERVICES ROW \u2014 SHOWROOM WITH DISPLAY."
     },
     {
       "asset_id": "CARD.LOCATIONS.SYSTEM",
@@ -3129,7 +3815,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "SYSTEM ROW"
+      "purpose": "SYSTEM ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is glass-cylinder machinery. The file is a pale arch corridor.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "SYSTEM ROW \u2014 GLASS CYLINDER MACHINERY."
     },
     {
       "asset_id": "CARD.LOCATIONS.ABOUT",
@@ -3186,7 +3886,21 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "ABOUT ROW"
+      "purpose": "ABOUT ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is a double-zero wall relief with trees. The file is an arch opening without that relief.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "ABOUT ROW \u2014 DOUBLE-ZERO WALL RELIEF WITH TREES."
     },
     {
       "asset_id": "CARD.LOCATIONS.JOURNAL",
@@ -3243,7 +3957,24 @@
         "path labels",
         "buttons"
       ],
-      "purpose": "JOURNAL ROW"
+      "purpose": "JOURNAL ROW",
+      "generation_source": "MAP2_FIXTURE_V1",
+      "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+      "validation_status": "REQUIRES_REGENERATION",
+      "validation_reason": "Opus role is a mountain terrace with a table. The file is a pale arch corridor.",
+      "production_eligible": false,
+      "regeneration_required": true,
+      "opus_target_pixels": {
+        "w": 520,
+        "h": 300
+      },
+      "opus_surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+      "opus_mask_ownership": "CSS_MASK",
+      "opus_shadow_ownership": "NO_SHADOW",
+      "opus_visual_role": "JOURNAL ROW \u2014 MOUNTAIN TERRACE WITH TABLE."
     }
-  ]
+  ],
+  "pack_source_of_pixels": "MAP2_FIXTURE_V1",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "production_surgery": "docs/site00/public-redesign/OPUS_DERIVED_SURGERY"
 }

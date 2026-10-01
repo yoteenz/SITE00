@@ -1,0 +1,6 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "not": "FIXTURE",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "note": "Pixel files remain the MAP2 fixture generation transplanted from 590d9b9c. This pack validates them. It does not replace them."
+}

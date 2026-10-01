@@ -1,0 +1,50 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "ENV.EVOLVE.PATH.INSTALL",
+  "slot_id": "ENV.EVOLVE.PATH.INSTALL",
+  "authority": [
+    "03_EVOLVE_INSTALL"
+  ],
+  "visual_role": "SYSTEM MODULES / INTEGRATION LAYERS AROUND A MACHINE STACK.",
+  "asset_type": "environment-plate",
+  "target_pixels": {
+    "w": 1170,
+    "h": 1100
+  },
+  "aspect_ratio": "1170:1100",
+  "crop_behavior": "cover",
+  "final_geometry": {
+    "frame": "390x693",
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 319,
+    "from": "03_EVOLVE_INSTALL"
+  },
+  "transparency": false,
+  "mask_ownership": "NONE",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+  "continuity_group": "EVOLVE_INTERVENTION_SYSTEM_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "SYSTEM MODULES / INTEGRATION LAYERS AROUND A MACHINE STACK."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": "reference-crops/ENV_EVOLVE_PATH_INSTALL_REFERENCE.jpg",
+  "safe_zone_map": "safe-zones/ENV_EVOLVE_PATH_INSTALL_SAFE_ZONES.png",
+  "reference_crop_clipped_by_proof": false,
+  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
+  "validation_status": "VALID_WITH_METADATA_CORRECTION",
+  "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+  "production_eligible": true,
+  "regeneration_required": false
+}

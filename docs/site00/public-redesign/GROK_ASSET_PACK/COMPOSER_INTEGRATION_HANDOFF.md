@@ -1,3 +1,7 @@
+STATUS: NOT_READY
+
+This handoff was written from the MAP2 fixture pack before Opus reconciliation. Do not inject from it. Use docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md after the blocked assets are resolved. That file is also NOT_READY while regeneration rows remain.
+
 # Composer integration handoff
 
 Sprint: `P0.SITE00.PUBLIC-REDESIGN.GROK-SURGICAL-FABRICATION1`

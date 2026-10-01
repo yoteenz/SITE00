@@ -1,0 +1,50 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "ENV.LOCATIONS.ARCH",
+  "slot_id": "ENV.LOCATIONS.ARCH",
+  "authority": [
+    "01_LOCATIONS_MAIN"
+  ],
+  "visual_role": "WARM MARBLE ARCHWAY CORRIDOR WITH LIGHT SHAFTS; DOUBLE-ZERO LANDMARK AT THE BASE.",
+  "asset_type": "environment-plate",
+  "target_pixels": {
+    "w": 1170,
+    "h": 2532
+  },
+  "aspect_ratio": "9:19.5",
+  "crop_behavior": "cover",
+  "final_geometry": {
+    "frame": "390x693",
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 986,
+    "from": "01_LOCATIONS_MAIN"
+  },
+  "transparency": false,
+  "mask_ownership": "NONE",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+  "continuity_group": "SITE00_LOCATIONS_UNIVERSE_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "WARM MARBLE ARCHWAY CORRIDOR WITH LIGHT SHAFTS; DOUBLE-ZERO LANDMARK AT THE BASE."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": "reference-crops/ENV_LOCATIONS_ARCH_REFERENCE.jpg",
+  "safe_zone_map": "safe-zones/ENV_LOCATIONS_ARCH_SAFE_ZONES.png",
+  "reference_crop_clipped_by_proof": true,
+  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
+  "validation_status": "REQUIRES_REGENERATION",
+  "validation_reason": "Opus role requires a warm marble archway. The fabricated file is pale stone.",
+  "production_eligible": false,
+  "regeneration_required": true
+}
