@@ -12810,3 +12810,14 @@ Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPre
 - **Decisions:** Internal id `EXISTING_LOCATION`; public label EXISTING LOCATION; separate from BLDR and from full EVOLVE transform; intervention types under Existing Location; EVOLVE paths may align later but not forced (DIAGNOSE→REPAIR vs TRANSFORM).
 - **Shipped:** `shared/site00-existing-location/` types, Shopify adapter, courtesy hashing; API `/api/site00/existing-location` + admin; memory store (vitest) + Supabase migration `20261001150000_site00_existing_location_service.sql` (apply on Railway/Supabase); public routes `/existing-location` + case flow; docs under `docs/site00/existing-location/`; checkout UI marked WAITING_FOR_AUTHORITY; $0 comp creates entitlement + redemption records server-side.
 - **Gaps:** No live Shopify OAuth/API; diagnosis/findings UI founder-populated; paid checkout throws PAYMENT_REQUIRED until payment integration; Supabase persistence wired migration-only (runtime still memory in VITEST/production until supabase store adapter added).
+
+---
+
+## 2026-10-01 — STUDIO OS Experience Compiler MAP2 creative architecture (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-CREATIVE-ARCHITECTURE1)
+
+Extended MAP1 with greenfield creative pipeline, multi-surface families, authority planning foundation — no mass OpenArt, no public SITE 00 redesign.
+
+- **Context:** MAP2 sprint spec: three distinct conceptual directions, gates 0/A/B/C, experience units/families, surface expressions, authority reduction, OpenArt batch + pack planning, SITE 00 INGEST validation, LUMINA ATELIER greenfield fixture.
+- **Decisions:** Fundamental unit = Experience Unit; GREENFIELD / INGEST / HYBRID modes; graph expansion blocked until GATE_0; authority plan blocked until GATE_B; functional capability reuse firewall (visual isolated per client).
+- **Changes:** `src/studioos/experience-compiler/map2/*` (orchestrator, gates, concepts, graph, families, surfaces, authority planner/review, OpenArt batch, pack compiler); `export * as map2` from compiler index; vitest `map2CreativeArchitecture.test.ts` (17 tests); `scripts/run-map2-experience-compiler-fixtures.ts`; docs + JSON fixtures under `docs/studioos/experience-compiler/MAP2/`.
+- **Conventions:** SITE 00 validates as INGEST via `buildSite00IngestFixture()` wrapping `runExperienceCompiler()` — no replacement concept directions for product truth.
