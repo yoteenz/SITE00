@@ -1,0 +1,33 @@
+{
+  "route": "/idnty/ready-for-evolution/review",
+  "finalUrl": "/idnty/ready-for-evolution/review",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 724,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "assetSlots": [
+    {
+      "id": "ENV.IDNTY.ATRIUM",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 724,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "MACHINE.IDNTY.EVOLUTION.WAVES",
+      "x": 0,
+      "y": 28,
+      "w": 390,
+      "h": 300,
+      "radius": "0px",
+      "z": "1"
+    }
+  ],
+  "errors": []
+}

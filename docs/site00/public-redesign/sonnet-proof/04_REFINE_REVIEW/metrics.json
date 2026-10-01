@@ -1,0 +1,13 @@
+{
+  "route": "/idnty/some-pieces-exist/review",
+  "finalUrl": "/idnty/some-pieces-exist/review",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 834,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "errors": []
+}
