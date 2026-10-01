@@ -1,5 +1,7 @@
 import type { AuthorityPlanEntry, CreativeExperienceGraph, ExperienceFamily, FamilySurfaceExpression } from '../map2/map2Types';
 import type { IconPipelineSlice } from '../icons/iconTypes';
+import type { VisualSurgeryPipelineSlice } from '../visual-surgery/visualSurgeryTypes';
+import { grokStartHereMarkdown, imageRulesMarkdown } from '../visual-surgery/grokAssetPackCompiler';
 import { iconRulesMarkdown } from '../icons/iconPipeline';
 import { AUTHORITY_PACK_FILES } from '../map2/authorityPackCompiler';
 import type { CompiledPackFile, IngestedAuthorityAsset, PackSizeValidation } from './types';
@@ -22,6 +24,7 @@ export function compileMasterPackFiles(input: {
   assets: IngestedAuthorityAsset[];
   lineage: Record<string, unknown>;
   icon_pipeline?: IconPipelineSlice | null;
+  visual_surgery_pipeline?: VisualSurgeryPipelineSlice | null;
 }): CompiledPackFile[] {
   const ordered = orderIngestedByPlan(input.plan, input.assets);
   const manifest = {
@@ -74,6 +77,25 @@ export function compileMasterPackFiles(input: {
         byte_length: 0,
       });
     }
+  }
+  if (input.visual_surgery_pipeline) {
+    const vs = input.visual_surgery_pipeline;
+    files.push(
+      { path: 'images/IMAGE_ASSET_MANIFEST.json', content: JSON.stringify(vs.image_requirements, null, 2), byte_length: 0 },
+      { path: 'images/IMAGE_RULES.md', content: imageRulesMarkdown(), byte_length: 0 },
+      { path: 'images/CONTINUITY_GROUPS.json', content: JSON.stringify({ groups: vs.continuity_groups }, null, 2), byte_length: 0 },
+      { path: 'images/SURFACE_VARIANTS.json', content: JSON.stringify({ variants: vs.surface_variants }, null, 2), byte_length: 0 },
+      {
+        path: 'GROK_ASSET_PACK/00_START_HERE.md',
+        content: grokStartHereMarkdown(),
+        byte_length: 0,
+      },
+      {
+        path: 'GROK_ASSET_PACK/LAYER_OWNERSHIP_MANIFEST.json',
+        content: JSON.stringify(vs.layer_ownership, null, 2),
+        byte_length: 0,
+      },
+    );
   }
   for (const a of ordered) {
     files.push({

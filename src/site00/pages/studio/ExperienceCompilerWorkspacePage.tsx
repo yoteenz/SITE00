@@ -74,6 +74,7 @@ export default function ExperienceCompilerWorkspacePage() {
       assets: state.ingested_assets,
       lineage: { reviews: state.authority_reviews },
       icon_pipeline: state.pipeline.icon_pipeline,
+      visual_surgery_pipeline: state.pipeline.visual_surgery_pipeline,
     });
     const lite = compileSonnetLitePackFiles(master);
     const size = validatePackSize(sumPackBytes(lite));
@@ -368,6 +369,16 @@ export default function ExperienceCompilerWorkspacePage() {
                 </ul>
               </article>
             ))}
+            {state.pipeline.visual_surgery_pipeline && (
+              <div className="ec-subpanel">
+                <h3>Image system</h3>
+                <p>
+                  {state.pipeline.visual_surgery_pipeline.image_requirements.requirements.length} image assets · Grok required{' '}
+                  {state.pipeline.visual_surgery_pipeline.image_requirements.requirements.filter((r) => r.grok_required).length} ·
+                  continuity groups {state.pipeline.visual_surgery_pipeline.continuity_groups.length}
+                </p>
+              </div>
+            )}
             {state.pipeline.icon_pipeline && (
               <div className="ec-subpanel">
                 <h3>Icon system</h3>
@@ -461,6 +472,24 @@ export default function ExperienceCompilerWorkspacePage() {
         {tab === 'production' && (
           <section className="ec-panel">
             <h2>Production pipeline</h2>
+            {state.pipeline.visual_surgery_pipeline && (
+              <div className="ec-subpanel">
+                <h3>Visual asset surgery</h3>
+                <p>
+                  Screens analyzed: {state.pipeline.visual_surgery_pipeline.screens_analyzed} · layers{' '}
+                  {state.pipeline.visual_surgery_pipeline.layers_discovered}
+                </p>
+                <p>
+                  Environments:{' '}
+                  {state.pipeline.visual_surgery_pipeline.image_requirements.requirements.filter((r) => r.asset_type === 'ENVIRONMENT_IMAGE').length} ·
+                  transparent objects:{' '}
+                  {state.pipeline.visual_surgery_pipeline.image_requirements.requirements.filter((r) => r.asset_type === 'TRANSPARENT_OBJECT').length} ·
+                  card images:{' '}
+                  {state.pipeline.visual_surgery_pipeline.image_requirements.requirements.filter((r) => r.asset_type === 'CARD_IMAGE').length}
+                </p>
+                <p>Grok pack files: {state.pipeline.visual_surgery_pipeline.grok_asset_pack.files.length} (manifest only — no mass generation)</p>
+              </div>
+            )}
             {state.pipeline.icon_pipeline && (
               <div className="ec-subpanel">
                 <h3>Icon coverage</h3>

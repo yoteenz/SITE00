@@ -12841,3 +12841,13 @@ Extended MAP2 pipeline with project-wide icon requirement compiler, icon family 
 - **Context:** Icons compiled after graph/families/surfaces; Gate B now requires `icon_expression_approved` before `compileAuthorityPlan`; OpenArt emits `ICON_FAMILY_AUTHORITY` batch before page batches; page prompts reference approved icon language.
 - **Shipped:** `src/studioos/experience-compiler/icons/*` (semantics, requirements, classifier, expression, family, surface variants, manifest, coverage, pipeline); MAP2 types + orchestrator integration; workspace Families tab icon approval + pack `icons/` paths; fixtures `MAP2_ICON_*`; vitest `map2IconExpression.test.ts` (11 tests); 45 total compiler tests.
 - **Conventions:** Global semantics reusable; per-project icon family visual isolation; LIVE_CODE_SVG for utility chevrons; SITE 00 ingest classifies only.
+
+---
+
+## 2026-10-01 — MAP2 visual asset surgery (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-VISUAL-ASSET-SURGERY1)
+
+Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry and Grok fabrication — manifests/specs only, no mass Grok generation, no public SITE 00 redesign.
+
+- **Context:** Sprint adds surgical image layer: layer ownership, image requirements (must include/exclude), continuity groups, multi-surface derivation, reference crops, safe zones, fabrication specs, Grok pack, QA; SITE 00 INGEST validates all authorities + asset slots.
+- **Shipped:** `src/studioos/experience-compiler/visual-surgery/*` + `runVisualAssetSurgeryPipeline()`; `Map2PipelineState.visual_surgery_pipeline`; SITE 00 ingest + workspace browser bootstrap attach surgery; authority pack export `images/` + `GROK_ASSET_PACK/` stubs; workspace Image system + Visual asset surgery panels; vitest `map2VisualAssetSurgery.test.ts` (14 tests, 59 compiler total); docs + `MAP2_*` fixtures via `scripts/run-map2-visual-surgery-fixtures.ts`.
+- **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.

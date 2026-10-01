@@ -7,6 +7,7 @@ import site00IngestFixture from '../../../../docs/studioos/experience-compiler/M
 import type { ExperienceCompilerWorkspaceState } from './types';
 import { existingLocationCustomExperience, existingLocationRouteNodes, missingExistingLocationAuthorities } from './existingLocationUnit';
 import { loadWorkspaceState } from './persistence';
+import { buildSite00VisualSurgeryFixture } from '../visual-surgery/site00VisualSurgery';
 
 function newHistory(kind: string, detail: string) {
   return { id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`, at: new Date().toISOString(), kind, detail };
@@ -62,6 +63,7 @@ export function bootstrapSite00IngestWorkspace(slug: string): ExperienceCompiler
       history: [],
     },
     icon_pipeline: null,
+    visual_surgery_pipeline: buildSite00VisualSurgeryFixture().pipeline,
     authority_plan: [],
     gate_c: { gate_id: 'GATE_C_VISUAL_AUTHORITY', status: 'NOT_READY' },
     openart_batches: [],
