@@ -12948,3 +12948,15 @@ Follow-up: founder reported **swipe up to enter** broken on public redesign mobi
 - **Fix (`bb3d435f`):** Raise swipe surface to `z-index: 4`; `pointer-events: none` on decorative hero/notes; cards/CTA/footer links above surface with `pointer-events: auto` only on interactive controls; artboard origin collapsed disables vertical scroll; artboard uses `position: absolute` swipe surface (legacy parity).
 - **Preview:** Tunnel restarted; local serve `site00-v272-bb3d435` / `index.DRTOUbxs.js` on cloud preview tunnel (`SITE00_CLOUD_PREVIEW_MODE=local`, `SITE00_PREVIEW_SYNC_MAIN=0`).
 - **Not done:** Still no merge to `main` or GoDaddy deploy (injection branch only).
+
+---
+
+## 2026-10-01 — Founder visual patch audit1 (injection branch, audit-only)
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.FOUNDER-VISUAL-PATCH-AUDIT1`: finite patch inventory, no fixes/merge/deploy.
+
+- **Preview verified:** `site00-v272-bb3d435` / `index.DRTOUbxs.js` @ `bb3d435f` (founder brief `cedb995`/`CQhCvuXV`/`3ad82fa2` was stale vs current HEAD `1b2dd670`).
+- **P0:** Origin IDNTY + BLDR expanded framework rows — 10 Supabase `live-preview/site00/*.png` icons fail load; EVOLVE expanded uses local SVG OK.
+- **47/47 Grok slots:** static + crawl OK on redesign routes; IDNTY machine slots intentionally placeholder + live SVG.
+- **Legacy (no `.s00pr`):** hubs `/idnty`, `/bldr`, `/evolve`, ecosystem pages, auth, `/control`, `/projects`.
+- **Artifacts:** `docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/` (RECEIPT, patch-inventory, Playwright crawls).
