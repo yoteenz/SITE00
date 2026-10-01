@@ -29,10 +29,12 @@ import {
   type WorkspaceSection,
 } from '../../../studioos/experience-compiler/workspace';
 import { persistWorkspace } from '../../../studioos/experience-compiler/workspace/persistence';
+import { ExperienceCompilerCreativeDirectorPanel } from '../../components/studio/ExperienceCompilerCreativeDirectorPanel';
 import '../../../site00/styles/site00-experience-compiler-workspace.css';
 
 const SECTIONS: { id: WorkspaceSection; label: string }[] = [
   { id: 'project', label: 'PROJECT' },
+  { id: 'creative', label: 'CREATIVE DIRECTOR' },
   { id: 'concept', label: 'CONCEPT' },
   { id: 'experience', label: 'EXPERIENCE' },
   { id: 'families', label: 'FAMILIES' },
@@ -201,6 +203,12 @@ export default function ExperienceCompilerWorkspacePage() {
             </button>
           ))}
         </nav>
+
+        {tab === 'creative' && (
+          <section className="ec-panel ec-panel--flush">
+            <ExperienceCompilerCreativeDirectorPanel state={state} />
+          </section>
+        )}
 
         {tab === 'project' && (
           <section className="ec-panel">

@@ -12851,3 +12851,14 @@ Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry a
 - **Context:** Sprint adds surgical image layer: layer ownership, image requirements (must include/exclude), continuity groups, multi-surface derivation, reference crops, safe zones, fabrication specs, Grok pack, QA; SITE 00 INGEST validates all authorities + asset slots.
 - **Shipped:** `src/studioos/experience-compiler/visual-surgery/*` + `runVisualAssetSurgeryPipeline()`; `Map2PipelineState.visual_surgery_pipeline`; SITE 00 ingest + workspace browser bootstrap attach surgery; authority pack export `images/` + `GROK_ASSET_PACK/` stubs; workspace Image system + Visual asset surgery panels; vitest `map2VisualAssetSurgery.test.ts` (14 tests, 59 compiler total); docs + `MAP2_*` fixtures via `scripts/run-map2-visual-surgery-fixtures.ts`.
 - **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
+
+---
+
+## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
+
+Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
+
+- **Shipped:** `CreativeDirectorAgent` + `CreativeModelGateway` (server OpenAI JSON contracts), `CreativeContextPack` compiler, project-scoped creative threads, `FounderJudgment` persistence, structured validation for concept/graph/family/surface/authority modes, revision translator, Visual Authority Model / Sonnet / Opus handoff compilers, API `/api/site00/experience-compiler-creative-director`, workspace tab `?tab=creative` (3-column UI + journey rail).
+- **Runtime:** No fabricated territories; vitest + missing `OPENAI_API_KEY` → `MODEL_RUNTIME_BLOCKED`. Founder must set `founder_initiated: true` for runs.
+- **First thread:** SITE 00 → YOUR SPACE seed context in pack (not hard-coded engine logic).
+- **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
