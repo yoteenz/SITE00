@@ -4,6 +4,7 @@ import type { CreativeExperienceGraph, ExperienceRouteNode, Map2PipelineState } 
 import { createGate0 } from './conceptDirectionGate';
 import { createGateA } from './experienceArchitectureGate';
 import { createGateB } from './familySurfaceGate';
+import { buildSite00VisualSurgeryFixture } from '../visual-surgery/site00VisualSurgery';
 
 /** SITE 00 validates as INGEST — no three replacement concept directions. */
 export function buildSite00IngestFixture(): {
@@ -71,6 +72,7 @@ export function buildSite00IngestFixture(): {
     surface_expressions: [],
     gate_b,
     icon_pipeline: null,
+    visual_surgery_pipeline: buildSite00VisualSurgeryFixture().pipeline,
     authority_plan: [],
     gate_c: { gate_id: 'GATE_C_VISUAL_AUTHORITY', status: 'NOT_READY' },
     openart_batches: [],

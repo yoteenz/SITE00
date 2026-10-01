@@ -330,6 +330,7 @@ export type Map2PipelineState = {
   surface_expressions: FamilySurfaceExpression[];
   gate_b: FamilySurfaceGate;
   icon_pipeline: import('../icons/iconTypes').IconPipelineSlice | null;
+  visual_surgery_pipeline: import('../visual-surgery/visualSurgeryTypes').VisualSurgeryPipelineSlice | null;
   authority_plan: AuthorityPlanEntry[];
   gate_c: VisualAuthorityGate;
   openart_batches: OpenArtAuthorityBatch[];

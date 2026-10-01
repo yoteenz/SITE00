@@ -1,0 +1,12 @@
+{
+  "origin_same_world": 3,
+  "bldr_continuity": true,
+  "evolve_continuity": true,
+  "bldr_command_decomposed": true,
+  "no_mass_generation": true,
+  "authority_count": 37,
+  "grok_required_slots": 52,
+  "image_requirements": 52,
+  "fabrication_specs": 52,
+  "qa_pass_rate": 1
+}

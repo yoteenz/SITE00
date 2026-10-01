@@ -94,6 +94,7 @@ export function runGreenfieldMap2Pipeline(options?: { hybrid?: boolean }): Map2P
     surface_expressions,
     gate_b,
     icon_pipeline,
+    visual_surgery_pipeline: null,
     authority_plan,
     gate_c: { gate_id: 'GATE_C_VISUAL_AUTHORITY', status: 'NOT_READY' },
     openart_batches,
