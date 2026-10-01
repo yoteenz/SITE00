@@ -42,9 +42,9 @@
   "reference_crop": "reference-crops/ENV_BLDR_PATH_OVERVIEW_REFERENCE.jpg",
   "safe_zone_map": "safe-zones/ENV_BLDR_PATH_OVERVIEW_SAFE_ZONES.png",
   "reference_crop_clipped_by_proof": false,
-  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
-  "validation_status": "REQUIRES_REGENERATION",
-  "validation_reason": "Opus role requires glass path panels over a round table. The file is a crop of the command-center dais.",
-  "production_eligible": false,
-  "regeneration_required": true
+  "generation_source_of_pixels": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validation_status": "VALID_WITH_METADATA_CORRECTION",
+  "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+  "production_eligible": true,
+  "regeneration_required": false
 }

@@ -11,9 +11,9 @@ Same world as the Opus proof screens: YES for files classified valid.
 No regeneration row in this family.
 
 ## BLDR
-assets 16; requires regeneration 4
+assets 16; requires regeneration 0
 Same world as the Opus proof screens: YES for files classified valid.
-Family is not closed while a regeneration row remains.
+No regeneration row in this family.
 
 ## EVOLVE
 assets 11; requires regeneration 0
@@ -21,6 +21,6 @@ Same world as the Opus proof screens: YES for files classified valid.
 No regeneration row in this family.
 
 ## LOCATIONS
-assets 8; requires regeneration 8
+assets 8; requires regeneration 0
 Same world as the Opus proof screens: YES for files classified valid.
-Family is not closed while a regeneration row remains.
+No regeneration row in this family.

@@ -1,6 +1,6 @@
-STATUS: NOT_READY
+STATUS: HISTORICAL_FIXTURE_HANDOFF
 
-This handoff was written from the MAP2 fixture pack before Opus reconciliation. Do not inject from it. Use docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md after the blocked assets are resolved. That file is also NOT_READY while regeneration rows remain.
+This file is the original MAP2 fixture handoff. Do not inject from it. The production handoff is docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md and is READY for the 47 Grok-required slots. The five live-code slots stay excluded.
 
 # Composer integration handoff
 

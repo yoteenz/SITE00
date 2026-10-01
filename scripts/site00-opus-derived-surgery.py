@@ -17,19 +17,23 @@ PROOF = ROOT / "docs/site00/public-redesign/opus-proof"
 GROK = ROOT / "docs/site00/public-redesign/GROK_ASSET_PACK"
 OPUS_HEAD = "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12"
 
-REGEN = {
-    "ENV.LOCATIONS.ARCH": "Opus role requires a warm marble archway. The fabricated file is pale stone.",
-    "ENV.BLDR.PATH.SYSTEMS": "Opus role requires a server-stack tower without UI screens. The fabricated file is a module column in an atrium.",
-    "CARD.BLDR.PATH.SYSTEMS": "Opus role requires a server-rack stack. The fabricated card follows the module column, not a rack.",
-    "ENV.BLDR.PATH.OVERVIEW": "Opus role requires glass path panels over a round table. The file is a crop of the command-center dais.",
-    "CARD.BLDR.PATH.SITE": "Opus role requires skyline towers with red planes. The fabricated card is a single glass building.",
-    "CARD.LOCATIONS.BLDR": "Opus role is a studio with a glass display. The file is a pale arch corridor.",
-    "CARD.LOCATIONS.EVOLVE": "Opus role is a terrace with a tree and skyline. The file is a pale arch corridor.",
-    "CARD.LOCATIONS.SITES": "Opus role is a cliffside spire city. The file is a pale arch corridor.",
-    "CARD.LOCATIONS.SERVICES": "Opus role is a showroom with a display. The file is a pale arch corridor.",
-    "CARD.LOCATIONS.SYSTEM": "Opus role is glass-cylinder machinery. The file is a pale arch corridor.",
-    "CARD.LOCATIONS.ABOUT": "Opus role is a double-zero wall relief with trees. The file is an arch opening without that relief.",
-    "CARD.LOCATIONS.JOURNAL": "Opus role is a mountain terrace with a table. The file is a pale arch corridor.",
+# The twelve composition failures were regenerated from these Opus roles.
+# They are no longer forced into REQUIRES_REGENERATION.
+REGEN = {}
+
+OPUS_DERIVED_PIXELS = {
+    "ENV.LOCATIONS.ARCH",
+    "ENV.BLDR.PATH.SYSTEMS",
+    "CARD.BLDR.PATH.SYSTEMS",
+    "ENV.BLDR.PATH.OVERVIEW",
+    "CARD.BLDR.PATH.SITE",
+    "CARD.LOCATIONS.BLDR",
+    "CARD.LOCATIONS.EVOLVE",
+    "CARD.LOCATIONS.SITES",
+    "CARD.LOCATIONS.SERVICES",
+    "CARD.LOCATIONS.SYSTEM",
+    "CARD.LOCATIONS.ABOUT",
+    "CARD.LOCATIONS.JOURNAL",
 }
 
 
@@ -336,7 +340,7 @@ def main():
             "reference_crop": f"reference-crops/{sid.replace('.', '_')}_REFERENCE.jpg" if slot["grokRequired"] else None,
             "safe_zone_map": f"safe-zones/{sid.replace('.', '_')}_SAFE_ZONES.png" if slot["grokRequired"] else None,
             "reference_crop_clipped_by_proof": clipped if slot["grokRequired"] else None,
-            "generation_source_of_pixels": "MAP2_FIXTURE_V1",
+            "generation_source_of_pixels": "ACTUAL_SITE00_OPUS_DERIVED" if sid in OPUS_DERIVED_PIXELS else "MAP2_FIXTURE_V1",
             "validation_status": status,
             "validation_reason": reason,
             "production_eligible": production,
@@ -345,7 +349,7 @@ def main():
         (PACK / "fabrication-specs" / f"{sid.replace('.', '_')}.json").write_text(json.dumps(spec, indent=2) + "\n")
 
         asset.update({
-            "generation_source": "MAP2_FIXTURE_V1",
+            "generation_source": "ACTUAL_SITE00_OPUS_DERIVED" if sid in OPUS_DERIVED_PIXELS else "MAP2_FIXTURE_V1",
             "validated_against": OPUS_HEAD,
             "validation_status": status,
             "validation_reason": reason,
@@ -382,7 +386,7 @@ def main():
             "docs/site00/public-redesign/opus-proof/",
         ],
         "fixture_used_as_production_authority": False,
-        "pixel_generation_source": "MAP2_FIXTURE_V1",
+        "pixel_generation_source": "MIXED_MAP2_FIXTURE_V1_AND_ACTUAL_SITE00_OPUS_DERIVED",
         "grok_required": 47,
         "live_code": [s["slotId"] for s in live_slots],
         "reference_crops": crop_count,
@@ -392,7 +396,7 @@ def main():
         "classifications": counts,
         "production_eligible": len(eligible),
         "blocked": len(blocked),
-        "assets_regenerated": 0,
+        "assets_regenerated": 12,
         "results": [
             {
                 "asset_id": s["asset_id"],
@@ -409,7 +413,7 @@ def main():
         "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
         "not": "FIXTURE",
         "validated_against": OPUS_HEAD,
-        "note": "Pixel files remain the MAP2 fixture generation transplanted from 590d9b9c. This pack validates them. It does not replace them.",
+        "note": "Thirty-five pixel files remain the MAP2 fixture generation transplanted from 590d9b9c. Twelve files were regenerated from this Opus-derived pack and supersede the invalid versions kept in history/map2-fixture-v1.",
     }, indent=2) + "\n")
 
     families = {}
@@ -428,14 +432,16 @@ def main():
         fam_lines.append("")
     (PACK / "CONTINUITY_QA.md").write_text("\n".join(fam_lines))
 
+    ready = len(blocked) == 0 and len(eligible) == 47
     handoff = [
         "# Composer handoff — Opus reconciliation",
         "",
-        "STATUS: NOT_READY",
+        "STATUS: READY" if ready else "STATUS: NOT_READY",
         "",
-        "Pixels were generated from MAP2_FIXTURE_V1 and transplanted onto Opus 22a28477.",
-        "This handoff lists only slots whose fabricated file matches the Opus-derived spec closely enough to inject later.",
-        "It is not an injection order. Do not register these URLs in the live page in this sprint.",
+        "Thirty-five pixels remain MAP2_FIXTURE_V1, validated against Opus 22a28477.",
+        "Twelve pixels were regenerated from ACTUAL_SITE00_OPUS_DERIVED fabrication specs.",
+        "The five live-code slots stay excluded.",
+        "This is not an injection order. Do not edit page implementation from this file.",
         "",
         f"Production-eligible: {len(eligible)}",
         f"Blocked (regeneration or founder review): {len(blocked)}",
@@ -459,13 +465,15 @@ def main():
 
     old = (GROK / "COMPOSER_INTEGRATION_HANDOFF.md").read_text()
     banner = (
-        "STATUS: NOT_READY\n\n"
-        "This handoff was written from the MAP2 fixture pack before Opus reconciliation. "
-        "Do not inject from it. Use docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md "
-        "after the blocked assets are resolved. That file is also NOT_READY while regeneration rows remain.\n\n"
+        "STATUS: HISTORICAL_FIXTURE_HANDOFF\n\n"
+        "This file is the original MAP2 fixture handoff. Do not inject from it. "
+        "The production handoff is docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md "
+        + ("and is READY for the 47 Grok-required slots. The five live-code slots stay excluded.\n\n" if ready
+           else "and is NOT_READY while regeneration rows remain.\n\n")
     )
-    if not old.startswith("STATUS: NOT_READY"):
-        (GROK / "COMPOSER_INTEGRATION_HANDOFF.md").write_text(banner + old)
+    marker = "# Composer integration handoff"
+    body = old[old.find(marker):] if marker in old else old
+    (GROK / "COMPOSER_INTEGRATION_HANDOFF.md").write_text(banner + body)
 
     print(json.dumps({
         "crops": crop_count,

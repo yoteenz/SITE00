@@ -12910,3 +12910,19 @@ Follow-up to the recovery sprint. No asset regeneration, no page edits, no merge
   - Draft PR #1276 stays open against `cursor/public-redesign-sonnet-structure1-4f59`.
 - **Changes:** This memory entry only.
 - **Conventions:** Report branch, head, worktree, and whether the main tunnel serves that head before telling the founder where to look. Proof composites live under `docs/site00/public-redesign/OPUS_DERIVED_SURGERY/composite-previews/`.
+
+
+---
+
+## 2026-10-01 — Public redesign targeted regeneration of 12 Opus-failed assets
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.GROK-TARGETED-REGENERATION12` on `cursor/public-redesign-grok-recovery1-1b86`, which already descended from Opus `22a28477`. No page, route, CSS, or SVG edits. No injection. No merge. No deploy.
+
+- **Context:** Reconciliation had 35 production-eligible assets and 12 composition failures. The five live-code slots stayed quarantined.
+- **Decisions / outcomes:**
+  - Regenerated only those 12 with Grok Imagine Image 2.0 from the Opus fabrication specs, reference crops, and safe-zone overlays. Invalid pixels were copied to `GROK_ASSET_PACK/history/map2-fixture-v1/` before the canonical files were replaced.
+  - Locations arch is warm marble with a double-zero ring landmark. BLDR systems is a server-stack tower without UI screens; its card is a server rack. Overview is glass panels around a round table. The site card is a multi-tower skyline with red planes. The seven Locations cards are distinct subjects in the same warm-marble daylight family.
+  - Reconciliation after the new files: 10 VALID_AS_IS, 37 VALID_WITH_METADATA_CORRECTION, 0 crop-only, 0 regeneration, 0 founder-blocked. Production-eligible 47. Composer handoff `OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md` is READY. The five live-code slots stay excluded. The old fixture handoff is historical and is not an injection order.
+  - The main tunnel on port 5174 is still release `site00-v272-60fec0b`. These pixels are not on that preview and are not mounted in the live pages.
+- **Changes:** the 12 output WebPs, history copies, registry, surgery script, Opus surgery pack, contact sheets, surgery test, this memory entry.
+- **Conventions:** Do not regenerate the other 35. Do not inject until Composer is explicitly asked. Review the composite proofs, not the main tunnel.

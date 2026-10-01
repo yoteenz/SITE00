@@ -8,7 +8,7 @@
     "docs/site00/public-redesign/opus-proof/"
   ],
   "fixture_used_as_production_authority": false,
-  "pixel_generation_source": "MAP2_FIXTURE_V1",
+  "pixel_generation_source": "MIXED_MAP2_FIXTURE_V1_AND_ACTUAL_SITE00_OPUS_DERIVED",
   "grok_required": 47,
   "live_code": [
     "MACHINE.IDNTY.FOUNDATION.ORB",
@@ -22,13 +22,12 @@
   "composite_previews": 47,
   "scene_sheets": 37,
   "classifications": {
-    "VALID_WITH_METADATA_CORRECTION": 27,
-    "VALID_AS_IS": 8,
-    "REQUIRES_REGENERATION": 12
+    "VALID_WITH_METADATA_CORRECTION": 37,
+    "VALID_AS_IS": 10
   },
-  "production_eligible": 35,
-  "blocked": 12,
-  "assets_regenerated": 0,
+  "production_eligible": 47,
+  "blocked": 0,
+  "assets_regenerated": 12,
   "results": [
     {
       "asset_id": "ENV.ORIGIN.COLLAPSED",
@@ -116,9 +115,9 @@
     },
     {
       "asset_id": "CARD.BLDR.PATH.SITE",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role requires skyline towers with red planes. The fabricated card is a single glass building.",
-      "production_eligible": false
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.BLDR.PATH.WORLD",
@@ -128,9 +127,9 @@
     },
     {
       "asset_id": "CARD.BLDR.PATH.SYSTEMS",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role requires a server-rack stack. The fabricated card follows the module column, not a rack.",
-      "production_eligible": false
+      "validation_status": "VALID_AS_IS",
+      "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.BLDR.PATH.EXTENSIONS",
@@ -140,9 +139,9 @@
     },
     {
       "asset_id": "ENV.BLDR.PATH.OVERVIEW",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role requires glass path panels over a round table. The file is a crop of the command-center dais.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true
     },
     {
       "asset_id": "ENV.BLDR.PATH.SITE",
@@ -158,9 +157,9 @@
     },
     {
       "asset_id": "ENV.BLDR.PATH.SYSTEMS",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role requires a server-stack tower without UI screens. The fabricated file is a module column in an atrium.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true
     },
     {
       "asset_id": "ENV.BLDR.PATH.EXTENSIONS",
@@ -266,51 +265,51 @@
     },
     {
       "asset_id": "ENV.LOCATIONS.ARCH",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role requires a warm marble archway. The fabricated file is pale stone.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "surface_derivation EXTENDED_CANVAS -> SAME_ASSET_DIFFERENT_CROP; mask_ownership IN_ASSET -> NONE",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.BLDR",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is a studio with a glass display. The file is a pale arch corridor.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.EVOLVE",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is a terrace with a tree and skyline. The file is a pale arch corridor.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.SITES",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is a cliffside spire city. The file is a pale arch corridor.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.SERVICES",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is a showroom with a display. The file is a pale arch corridor.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.SYSTEM",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is glass-cylinder machinery. The file is a pale arch corridor.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.ABOUT",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is a double-zero wall relief with trees. The file is an arch opening without that relief.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     },
     {
       "asset_id": "CARD.LOCATIONS.JOURNAL",
-      "validation_status": "REQUIRES_REGENERATION",
-      "validation_reason": "Opus role is a mountain terrace with a table. The file is a pale arch corridor.",
-      "production_eligible": false
+      "validation_status": "VALID_WITH_METADATA_CORRECTION",
+      "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+      "production_eligible": true
     }
   ]
 }

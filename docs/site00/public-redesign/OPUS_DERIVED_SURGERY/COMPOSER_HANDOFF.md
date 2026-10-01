@@ -1,13 +1,14 @@
 # Composer handoff — Opus reconciliation
 
-STATUS: NOT_READY
+STATUS: READY
 
-Pixels were generated from MAP2_FIXTURE_V1 and transplanted onto Opus 22a28477.
-This handoff lists only slots whose fabricated file matches the Opus-derived spec closely enough to inject later.
-It is not an injection order. Do not register these URLs in the live page in this sprint.
+Thirty-five pixels remain MAP2_FIXTURE_V1, validated against Opus 22a28477.
+Twelve pixels were regenerated from ACTUAL_SITE00_OPUS_DERIVED fabrication specs.
+The five live-code slots stay excluded.
+This is not an injection order. Do not edit page implementation from this file.
 
-Production-eligible: 35
-Blocked (regeneration or founder review): 12
+Production-eligible: 47
+Blocked (regeneration or founder review): 0
 
 ## Eligible
 
@@ -25,10 +26,14 @@ Blocked (regeneration or founder review): 12
 - ENV.IDNTY.ATRIUM — VALID_WITH_METADATA_CORRECTION — 1170x2532
 - ENV.BLDR.COMMAND_CENTER — VALID_WITH_METADATA_CORRECTION — 1170x2532
 - MACHINE.BLDR.TOWER — VALID_WITH_METADATA_CORRECTION — 760x900
+- CARD.BLDR.PATH.SITE — VALID_AS_IS — 400x360
 - CARD.BLDR.PATH.WORLD — VALID_AS_IS — 400x360
+- CARD.BLDR.PATH.SYSTEMS — VALID_AS_IS — 400x360
 - CARD.BLDR.PATH.EXTENSIONS — VALID_AS_IS — 400x360
+- ENV.BLDR.PATH.OVERVIEW — VALID_WITH_METADATA_CORRECTION — 1170x1000
 - ENV.BLDR.PATH.SITE — VALID_WITH_METADATA_CORRECTION — 1170x1000
 - ENV.BLDR.PATH.WORLD — VALID_WITH_METADATA_CORRECTION — 1170x1000
+- ENV.BLDR.PATH.SYSTEMS — VALID_WITH_METADATA_CORRECTION — 1170x1000
 - ENV.BLDR.PATH.EXTENSIONS — VALID_WITH_METADATA_CORRECTION — 1170x1000
 - ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW — VALID_WITH_METADATA_CORRECTION — 420x420
 - ILLUSTRATION.BLDR.PATH.PANEL.SITE — VALID_WITH_METADATA_CORRECTION — 420x420
@@ -46,21 +51,17 @@ Blocked (regeneration or founder review): 12
 - ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE — VALID_WITH_METADATA_CORRECTION — 420x420
 - ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL — VALID_WITH_METADATA_CORRECTION — 420x420
 - ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM — VALID_WITH_METADATA_CORRECTION — 420x420
+- ENV.LOCATIONS.ARCH — VALID_WITH_METADATA_CORRECTION — 1170x2532
+- CARD.LOCATIONS.BLDR — VALID_WITH_METADATA_CORRECTION — 520x300
+- CARD.LOCATIONS.EVOLVE — VALID_WITH_METADATA_CORRECTION — 520x300
+- CARD.LOCATIONS.SITES — VALID_WITH_METADATA_CORRECTION — 520x300
+- CARD.LOCATIONS.SERVICES — VALID_WITH_METADATA_CORRECTION — 520x300
+- CARD.LOCATIONS.SYSTEM — VALID_WITH_METADATA_CORRECTION — 520x300
+- CARD.LOCATIONS.ABOUT — VALID_WITH_METADATA_CORRECTION — 520x300
+- CARD.LOCATIONS.JOURNAL — VALID_WITH_METADATA_CORRECTION — 520x300
 
 ## Blocked
 
-- CARD.BLDR.PATH.SITE — REQUIRES_REGENERATION — Opus role requires skyline towers with red planes. The fabricated card is a single glass building.
-- CARD.BLDR.PATH.SYSTEMS — REQUIRES_REGENERATION — Opus role requires a server-rack stack. The fabricated card follows the module column, not a rack.
-- ENV.BLDR.PATH.OVERVIEW — REQUIRES_REGENERATION — Opus role requires glass path panels over a round table. The file is a crop of the command-center dais.
-- ENV.BLDR.PATH.SYSTEMS — REQUIRES_REGENERATION — Opus role requires a server-stack tower without UI screens. The fabricated file is a module column in an atrium.
-- ENV.LOCATIONS.ARCH — REQUIRES_REGENERATION — Opus role requires a warm marble archway. The fabricated file is pale stone.
-- CARD.LOCATIONS.BLDR — REQUIRES_REGENERATION — Opus role is a studio with a glass display. The file is a pale arch corridor.
-- CARD.LOCATIONS.EVOLVE — REQUIRES_REGENERATION — Opus role is a terrace with a tree and skyline. The file is a pale arch corridor.
-- CARD.LOCATIONS.SITES — REQUIRES_REGENERATION — Opus role is a cliffside spire city. The file is a pale arch corridor.
-- CARD.LOCATIONS.SERVICES — REQUIRES_REGENERATION — Opus role is a showroom with a display. The file is a pale arch corridor.
-- CARD.LOCATIONS.SYSTEM — REQUIRES_REGENERATION — Opus role is glass-cylinder machinery. The file is a pale arch corridor.
-- CARD.LOCATIONS.ABOUT — REQUIRES_REGENERATION — Opus role is a double-zero wall relief with trees. The file is an arch opening without that relief.
-- CARD.LOCATIONS.JOURNAL — REQUIRES_REGENERATION — Opus role is a mountain terrace with a table. The file is a pale arch corridor.
 
 ## Excluded live-code slots
 

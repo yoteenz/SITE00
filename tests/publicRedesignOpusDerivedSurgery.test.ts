@@ -27,8 +27,8 @@ describe('Opus-derived visual asset surgery', () => {
     expect(pack.pack_source).toBe('ACTUAL_SITE00_OPUS_DERIVED');
     expect(pack.not).toBe('FIXTURE');
     expect(recon.fixture_used_as_production_authority).toBe(false);
-    expect(recon.pixel_generation_source).toBe('MAP2_FIXTURE_V1');
-    expect(recon.assets_regenerated).toBe(0);
+    expect(recon.pixel_generation_source).toBe('MIXED_MAP2_FIXTURE_V1_AND_ACTUAL_SITE00_OPUS_DERIVED');
+    expect(recon.assets_regenerated).toBe(12);
   });
 
   it('reconciles the 47 Grok-required slots and quarantines the five live-code slots', () => {
@@ -67,10 +67,13 @@ describe('Opus-derived visual asset surgery', () => {
     expect(evolve.continuity_group).toBe('SITE00_LOCATIONS_UNIVERSE_V1');
   });
 
-  it('does not mark the composer handoff ready', () => {
+  it('marks the opus composer handoff ready only when all 47 are eligible', () => {
     const text = readFileSync(join(root, 'docs/site00/public-redesign/OPUS_DERIVED_SURGERY/COMPOSER_HANDOFF.md'), 'utf8');
-    expect(text.startsWith('STATUS: NOT_READY') || text.includes('STATUS: NOT_READY')).toBe(true);
+    const ready = recon.production_eligible === 47 && recon.blocked === 0;
+    expect(text.includes(ready ? 'STATUS: READY' : 'STATUS: NOT_READY')).toBe(true);
+    expect(text.includes(ready ? 'STATUS: NOT_READY' : 'STATUS: READY')).toBe(false);
     const old = readFileSync(join(root, 'docs/site00/public-redesign/GROK_ASSET_PACK/COMPOSER_INTEGRATION_HANDOFF.md'), 'utf8');
-    expect(old.startsWith('STATUS: NOT_READY')).toBe(true);
+    expect(old.startsWith('STATUS: HISTORICAL_FIXTURE_HANDOFF')).toBe(true);
+    expect(old.includes('Do not inject from it.')).toBe(true);
   });
 });

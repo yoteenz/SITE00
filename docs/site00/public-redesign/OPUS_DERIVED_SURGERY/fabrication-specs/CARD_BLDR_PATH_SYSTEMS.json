@@ -42,9 +42,9 @@
   "reference_crop": "reference-crops/CARD_BLDR_PATH_SYSTEMS_REFERENCE.jpg",
   "safe_zone_map": "safe-zones/CARD_BLDR_PATH_SYSTEMS_SAFE_ZONES.png",
   "reference_crop_clipped_by_proof": false,
-  "generation_source_of_pixels": "MAP2_FIXTURE_V1",
-  "validation_status": "REQUIRES_REGENERATION",
-  "validation_reason": "Opus role requires a server-rack stack. The fabricated card follows the module column, not a rack.",
-  "production_eligible": false,
-  "regeneration_required": true
+  "generation_source_of_pixels": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validation_status": "VALID_AS_IS",
+  "validation_reason": "Dimensions, transparency, crop, and Opus visual role agree. No injection-metadata delta.",
+  "production_eligible": true,
+  "regeneration_required": false
 }
