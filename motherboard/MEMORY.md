@@ -12799,3 +12799,14 @@ Forensic inventory + authority inheritance + batch planning for SITE 00 public r
 - **Decisions / outcomes:** Deterministic compiler under `src/studioos/experience-compiler/` with `runExperienceCompiler()` pipeline; artifacts under `docs/studioos/experience-compiler/`; `npx tsx scripts/run-site00-experience-compiler.ts` to regenerate; vitest `src/studioos/experience-compiler/__tests__/experienceCompiler.test.ts`. Product-family firewall tests (IDNTY evolution ≠ public EVOLVE; Build Ready ≠ BLDR intake). Checkout/auth/locations-child remain **CREATIVE_AUTHORITY_REQUIRED** — never invented.
 - **Changes:** New compiler modules, authority manifest + asset slots copy, JSON/MD docs, sonnet batch manifests for Sonnet-ready batches (ORIGIN_MOBILE, LOCATIONS_DIRECTORY, PUBLIC_EVOLVE_STATE, BLDR_ASSESSMENT_INTAKE at time of ship).
 - **Conventions:** Superseded authority IDs never inherit; WAITING_FOR_AUTHORITY routes from manifest drive gates; composite derivation = family environment + IDNTY working-panel grammar where explicit in compiler rules.
+
+---
+
+## 2026-10-01 — Existing Location service architecture (P0.SITE00.EXISTING-LOCATION.SERVICE-ARCHITECTURE1)
+
+Formalized **EXISTING LOCATION** — work on client’s existing Shopify/WordPress/etc. property without full rebuild.
+
+- **Context:** Sprint for diagnose/repair/enhance/install/custom experience; Shopify free-sample promotion as founding example (general diagnostic system, not one-off feature); courtesy comp codes for trusted clients; no primary passwords.
+- **Decisions:** Internal id `EXISTING_LOCATION`; public label EXISTING LOCATION; separate from BLDR and from full EVOLVE transform; intervention types under Existing Location; EVOLVE paths may align later but not forced (DIAGNOSE→REPAIR vs TRANSFORM).
+- **Shipped:** `shared/site00-existing-location/` types, Shopify adapter, courtesy hashing; API `/api/site00/existing-location` + admin; memory store (vitest) + Supabase migration `20261001150000_site00_existing_location_service.sql` (apply on Railway/Supabase); public routes `/existing-location` + case flow; docs under `docs/site00/existing-location/`; checkout UI marked WAITING_FOR_AUTHORITY; $0 comp creates entitlement + redemption records server-side.
+- **Gaps:** No live Shopify OAuth/API; diagnosis/findings UI founder-populated; paid checkout throws PAYMENT_REQUIRED until payment integration; Supabase persistence wired migration-only (runtime still memory in VITEST/production until supabase store adapter added).
