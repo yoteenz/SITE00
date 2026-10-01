@@ -20,6 +20,7 @@ import { AssetSlot } from './AssetSlot';
 import { PublicDiamond } from './IdentityDiagnosticChrome';
 import { PublicRedesignShell } from './PublicRedesignShell';
 import { SpatialEnvironmentFrame } from './SpatialEnvironmentFrame';
+import { StateNumeral } from './StateNumeral';
 
 type OriginPanelId = 'idnty' | 'bldr' | 'evolve';
 
@@ -99,12 +100,13 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
           <p className="s00pr-originhero__tagline">{SITE00_ORIGIN_COPY.tagline}</p>
         </section>
 
+        <aside className="s00pr-originnote s00pr-originnote--left" aria-hidden="true">
+          <span className="s00pr-originnote__dot" />
+          <p>IDEAS PEOPLE WORLDS EXPERIENCES AND BEYOND.</p>
+        </aside>
+
         {!expanded ? (
           <>
-            <aside className="s00pr-originnote s00pr-originnote--left" aria-hidden="true">
-              <span className="s00pr-originnote__dot" />
-              <p>IDEAS PEOPLE WORLDS EXPERIENCES AND BEYOND.</p>
-            </aside>
             <aside className="s00pr-originnote s00pr-originnote--right" aria-hidden="true">
               <span className="s00pr-originnote__dot" />
               <p>A CREATIVE PLATFORM FOR WHAT'S NEXT.</p>
@@ -147,7 +149,7 @@ export function PublicOriginMobile({ homeMode, onExpand, onCollapse, locationsTr
 
         <footer className="s00pr-originfoot">
           <Link to={SITE00_ROUTES.originAlias} className="s00pr-originfoot__mark" aria-label="SITE 00 ORIGIN">
-            00
+            <StateNumeral code="00" />
           </Link>
           <span className="s00pr-originfoot__rule" aria-hidden="true" />
           <p className="s00pr-originfoot__line">REAL PLACES. DIGITAL PEOPLE. INFINITE POSSIBILITIES.</p>

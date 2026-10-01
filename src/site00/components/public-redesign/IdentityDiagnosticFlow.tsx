@@ -10,6 +10,7 @@ import {
 } from '../../config/idnty-assessment';
 import {
   identityQuestionCounter,
+  identityQuestionLabel,
   identityStateMeta,
   identityStepPresentation,
   isOtherSelected,
@@ -290,6 +291,7 @@ export function IdentityDiagnosticFlow({ stateSlug, segment }: IdentityDiagnosti
           groupLabel={current.title}
           invalid={invalid}
           columns={presentation?.columns === 2 || presentation?.columns === 3 ? presentation.columns : presentation?.columns === 5 ? 5 : 3}
+          compact={presentation?.compact}
         />
       );
 
@@ -315,15 +317,26 @@ export function IdentityDiagnosticFlow({ stateSlug, segment }: IdentityDiagnosti
 
   /* ---------------------------------------------------------------- render */
 
+  // The head's third line differs per family (see `panelHead` in idnty-public-redesign.ts).
   const subLine =
     mode === 'review'
       ? isBuildReady
         ? 'REVIEW VERIFICATION'
         : 'REVIEW ASSESSMENT'
-      : isBuildReady && mode === 'question'
-        ? step?.id === 'authority-check'
-          ? 'AUTHORITY CHECK 03'
-          : null
+      : mode === 'question'
+        ? meta.panelHead.questionSubLine === 'verification'
+          ? step?.id === 'authority-check'
+            ? 'AUTHORITY CHECK 03'
+            : null
+          : meta.panelHead.questionSubLine === 'question' && step
+            ? (
+                <>
+                  {identityQuestionLabel(stateSlug, step.id)}
+                  {/* Authority shows QUESTION 0N only; the total stays available to assistive tech. */}
+                  <span className="s00pr-sr">{` OF ${String(state.steps.length).padStart(2, '0')}`}</span>
+                </>
+              )
+            : meta.quote
         : meta.quote;
   // Review keeps the state's own lead line (FOUNDATION / REFINE IDENTITY / EVOLVE IDENTITY) above the review label.
   const verificationLine =
@@ -377,8 +390,14 @@ export function IdentityDiagnosticFlow({ stateSlug, segment }: IdentityDiagnosti
     body = (
       <>
         <PanelQuestion
-          eyebrow={meta.workingEyebrow}
-          counter={identityQuestionCounter(stateSlug, step.id)}
+          eyebrow={meta.panelHead.questionMeta === 'none' ? null : meta.workingEyebrow}
+          counter={
+            meta.panelHead.questionMeta === 'counter-of'
+              ? identityQuestionCounter(stateSlug, step.id)
+              : meta.panelHead.questionMeta === 'counter'
+                ? identityQuestionLabel(stateSlug, step.id)
+                : null
+          }
           title={step.title}
           subtitle={step.subtitle}
           segments={state.steps.length}
@@ -440,6 +459,14 @@ export function IdentityDiagnosticFlow({ stateSlug, segment }: IdentityDiagnosti
     ? Object.fromEntries(IDENTITY_AUTHORITY_DOMAIN_ORDER.map((d) => [d, evidence.sourcesByDomain[d].length > 0]))
     : undefined;
 
+  // Annotation layers on the machine (authority-drawn): REFINE GAPS callouts, EVOLUTION REVIEW brackets.
+  const optionLabels = (stepId: string): string[] => {
+    const options = state.steps.find((s) => s.id === stepId)?.options ?? [];
+    return asArray(answers[stepId]).map((id) => options.find((o) => o.id === id)?.label ?? '').filter(Boolean);
+  };
+  const gapCallouts = stateSlug === 'some-pieces-exist' && step?.id === 'gaps' ? optionLabels('gaps') : undefined;
+  const reviewAreas = stateSlug === 'ready-for-evolution' && mode === 'review' ? optionLabels('pathways') : undefined;
+
   return (
     <PublicRedesignShell
       section="idnty"
@@ -449,7 +476,13 @@ export function IdentityDiagnosticFlow({ stateSlug, segment }: IdentityDiagnosti
     >
       <div className="s00pr-identity" data-identity-state={stateSlug} data-identity-mode={mode}>
         <IdentityHero sideNote={meta.sideNote} />
-        <IdentityMachineStage machine={meta.machine} domainsWithEvidence={domainsWithEvidence} />
+        <IdentityMachineStage
+          machine={meta.machine}
+          domainsWithEvidence={domainsWithEvidence}
+          showDomains={isBuildReady && mode === 'question'}
+          callouts={gapCallouts}
+          areas={reviewAreas}
+        />
         <IdentityStateProgression activeCode={meta.code} mode={mode === 'detail' ? 'link' : 'static'} />
         <TransformingStatePanel
           meta={meta}

@@ -9,52 +9,61 @@
 const RED = '#e8192c';
 const INK = '#1a1a1a';
 
+/*
+ * BUILDER tower — drawn in AUTHORITY PAGE COORDINATES (390-wide, 693-high frame). The stage box covers
+ * page x 130→320, y 50→310, so viewBox = `130 50 190 260`. Axis x≈210; slabs y≈95→255; the four path
+ * panels hug the tower (SITE / SYSTEMS left, WORLD / EXTENSIONS right) as in 01_BLDR_COMMAND_CENTER.
+ */
 function Slab({ y, w, red = false, dark = false }: { y: number; w: number; red?: boolean; dark?: boolean }) {
-  const cx = 200;
-  const h = 14;
+  const cx = 210;
+  const h = w * 0.2;
   const top = `${cx},${y - h} ${cx + w},${y} ${cx},${y + h} ${cx - w},${y}`;
   return (
     <g>
-      <polygon points={top} fill={red ? RED : dark ? '#3a3a3a' : '#ffffff'} fillOpacity={red ? 0.62 : dark ? 0.55 : 0.55} stroke={red ? RED : INK} strokeOpacity={red ? 0.9 : 0.6} strokeWidth="0.8" />
-      <path d={`M${cx - w} ${y}v10l${w} ${h}l${w}-${h}v-10`} fill="none" stroke={INK} strokeOpacity="0.5" strokeWidth="0.7" />
-      <path d={`M${cx} ${y + h}v10`} stroke={INK} strokeOpacity="0.45" strokeWidth="0.7" />
+      <polygon points={top} fill={red ? RED : dark ? '#3a3a3a' : '#ffffff'} fillOpacity={red ? 0.6 : dark ? 0.5 : 0.6} stroke={red ? RED : INK} strokeOpacity={red ? 0.9 : 0.55} strokeWidth="0.5" />
+      <path d={`M${cx - w} ${y}v5l${w} ${h}l${w}-${h}v-5`} fill="none" stroke={INK} strokeOpacity="0.45" strokeWidth="0.45" />
+      <path d={`M${cx - w * 0.7} ${y + h * 0.3}v${22}M${cx + w * 0.7} ${y + h * 0.3}v${22}`} stroke={INK} strokeOpacity="0.3" strokeWidth="0.4" />
     </g>
   );
 }
 
 const PANELS: { label: string; x: number; y: number; w: number; h: number }[] = [
-  { label: 'SITE', x: 18, y: 78, w: 84, h: 104 },
-  { label: 'SYSTEMS', x: 6, y: 186, w: 96, h: 100 },
-  { label: 'WORLD', x: 298, y: 66, w: 84, h: 112 },
-  { label: 'EXTENSIONS', x: 298, y: 188, w: 96, h: 100 },
+  { label: 'SITE', x: 143, y: 126, w: 38, h: 48 },
+  { label: 'SYSTEMS', x: 134, y: 184, w: 42, h: 50 },
+  { label: 'WORLD', x: 268, y: 118, w: 38, h: 50 },
+  { label: 'EXTENSIONS', x: 276, y: 194, w: 40, h: 50 },
 ];
 
 export function BuilderTower({ className }: { className?: string }) {
   const slabs = [
-    { y: 60, w: 70 },
-    { y: 96, w: 82, red: true },
-    { y: 132, w: 94 },
-    { y: 168, w: 106, dark: true },
-    { y: 204, w: 112 },
-    { y: 240, w: 118, red: true },
-    { y: 276, w: 124 },
+    { y: 96, w: 36 },
+    { y: 112, w: 40, red: true },
+    { y: 132, w: 46 },
+    { y: 152, w: 52, red: true },
+    { y: 174, w: 56, dark: true },
+    { y: 196, w: 58 },
+    { y: 218, w: 60, red: true },
+    { y: 240, w: 62 },
+    { y: 258, w: 64 },
   ];
   return (
-    <svg className={className} viewBox="0 0 400 330" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BUILDER ASSEMBLY MACHINE" data-service-machine="builder">
-      <line x1="200" y1="6" x2="200" y2="324" stroke={RED} strokeWidth="0.9" />
+    <svg className={className} viewBox="130 50 190 260" preserveAspectRatio="xMidYMid meet" role="img" aria-label="BUILDER ASSEMBLY MACHINE" data-service-machine="builder">
+      <line x1="210" y1="52" x2="210" y2="306" stroke={RED} strokeWidth="0.7" />
       {slabs.map((s) => (
         <Slab key={s.y} {...s} />
       ))}
-      {[24, 54, 92, 130, 168, 206, 244, 282, 314].map((y) => (
-        <circle key={y} cx="200" cy={y} r="2.8" fill={RED} />
+      <path d="M186 80h18v18h-18zM212 66h22v26h-22z" fill={RED} fillOpacity="0.5" stroke={RED} strokeWidth="0.5" />
+      <path d="M180 120h24v24h-24zM218 140h26v26h-26zM176 200h20v20h-20zM226 206h22v22h-22z" fill={RED} fillOpacity="0.28" stroke={RED} strokeOpacity="0.8" strokeWidth="0.45" />
+      {[58, 76, 104, 142, 186, 230, 266, 284, 298].map((y) => (
+        <circle key={y} cx="210" cy={y} r="1.8" fill={RED} />
       ))}
       {PANELS.map((p) => (
         <g key={p.label}>
-          <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="3" fill="#fff" fillOpacity="0.6" stroke={RED} strokeOpacity="0.55" strokeWidth="0.8" />
-          <text x={p.x + 8} y={p.y + 14} fontSize="9" fontWeight="700" fill={RED} fontFamily="inherit" letterSpacing="0.06em">
+          <rect x={p.x} y={p.y} width={p.w} height={p.h} rx="1.5" fill="#fff" fillOpacity="0.5" stroke={RED} strokeOpacity="0.5" strokeWidth="0.5" />
+          <text x={p.x + 3} y={p.y + 7} fontSize="4.2" fontWeight="700" fill={RED} fontFamily="inherit" letterSpacing="0.04em">
             {p.label}
           </text>
-          <path d={`M${p.x + 14} ${p.y + p.h - 18}l14-14 14 14-14 14zM${p.x + 34} ${p.y + p.h - 28}h20`} fill={RED} fillOpacity="0.3" stroke={RED} strokeWidth="0.8" />
+          <path d={`M${p.x + p.w / 2 - 7} ${p.y + p.h / 2 + 4}l7-7 7 7-7 7z`} fill={RED} fillOpacity="0.55" stroke={RED} strokeWidth="0.5" />
         </g>
       ))}
     </svg>

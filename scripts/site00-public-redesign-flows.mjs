@@ -8,6 +8,7 @@
  * Exits non-zero on any failed check.
  */
 import { chromium } from 'playwright';
+import { routeProofFonts } from './lib/site00-proof-fonts.mjs';
 
 const BASE = process.argv.includes('--base') ? process.argv[process.argv.indexOf('--base') + 1] : 'http://localhost:5174';
 const NOW = '2026-10-01T00:00:00.000Z';
@@ -28,6 +29,7 @@ const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PAT
 async function newPage({ mockApi = true, failSubmit = false } = {}) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
   const page = await ctx.newPage();
+  await routeProofFonts(page);
   const calls = [];
   if (mockApi) {
     await page.route('**/api/site00/intakes**', async (route) => {
@@ -66,7 +68,10 @@ const text = (page, sel) => page.locator(sel).first().innerText();
   check('detail → first question inside same family', (await page.locator('.s00pr-panel').getAttribute('data-panel-mode')) === 'question');
   check('hero/machine/rail/panel DOM nodes persist (no page replacement)',
     (await page.locator('[data-keep="1"]').count()) === 4, `${await page.locator('[data-keep="1"]').count()}/4`);
-  check('question counter is compact + secondary', (await text(page, '.s00pr-question__counter')).includes('QUESTION 01 OF 04'));
+  // Authority (FOUNDATION): QUESTION 01 sits in the panel head; OF 04 is visually hidden but announced.
+  check('question progress is secondary (panel head, QUESTION 01 + hidden total)',
+    /QUESTION 01\s*OF 04/.test(await page.locator('.s00pr-panel__head').innerText()) && (await page.locator('.s00pr-question__segments').count()) === 0);
+  check('page load does not move focus to the header scan trigger', await page.evaluate(() => !document.activeElement?.classList.contains('s00pr-scan')));
   check('only one 00–03 rail exists', (await page.locator('.s00pr-progression').count()) === 1);
 
   // validation: required goal blocks continue
@@ -174,6 +179,7 @@ const text = (page, sel) => page.locator(sel).first().innerText();
   await page.getByRole('button', { name: /CONTINUE/ }).click();
   await page.waitForURL('**/cohesion-diagnostic');
   check('Refine step 2 is the condition question (no OTHER screen)', /HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY/.test(await page.locator('.s00pr-question__title').innerText()));
+  check('Refine keeps its compact QUESTION 0N OF 03 counter', (await text(page, '.s00pr-question__counter')).includes('QUESTION 02 OF 03'));
   await ctx.close();
 }
 
@@ -192,7 +198,7 @@ const text = (page, sel) => page.locator(sel).first().innerText();
 {
   const { page, ctx } = await newPage();
   await page.goto(`${BASE}/idnty/build-ready`);
-  await page.waitForTimeout(800);
+  await page.getByRole('button', { name: /BEGIN VERIFICATION/ }).waitFor({ timeout: 8000 }).catch(() => {});
   let all = await page.locator('body').innerText();
   check('Build Ready detail never claims VERIFIED / ENTER BLDR', !/IDENTITY VERIFIED|ENTER BLDR|LOCKED AND VERIFIED/.test(all) && /BEGIN VERIFICATION/.test(all));
   await page.getByRole('button', { name: /BEGIN VERIFICATION/ }).click();
@@ -242,6 +248,20 @@ const text = (page, sel) => page.locator(sel).first().innerText();
   await page.getByRole('link', { name: /CHOOSE INSTALL/ }).click();
   await page.waitForURL('**/evolve/install/property');
   check('CHOOSE INSTALL keeps the existing assessment destination', path(page) === '/evolve/install/property');
+  await ctx.close();
+}
+
+/* 10 ── fast travel focus management (trigger regains focus only after the panel closes) */
+{
+  const { page, ctx } = await newPage();
+  await page.goto(`${BASE}/idnty/state`);
+  await page.waitForTimeout(800);
+  check('no focus ring on the scan trigger after load', await page.evaluate(() => document.activeElement === document.body || !document.activeElement?.classList.contains('s00pr-scan')));
+  await page.getByRole('button', { name: 'OPEN FAST TRAVEL' }).click();
+  await page.waitForTimeout(300);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+  check('closing fast travel returns focus to its trigger', await page.evaluate(() => document.activeElement?.classList.contains('s00pr-scan') ?? false));
   await ctx.close();
 }
 

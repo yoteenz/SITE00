@@ -1,5 +1,11 @@
 # SONNET — VISUAL QA
 
+> **OPUS-CONVERGENCE1 (2026-10-01) — superseding note. Sonnet's text below is unchanged and kept as history.**
+> Opus visually converged all 37 active authorities. Results: **20 PASS · 15 PARTIAL (Grok dependency only) · 2 PARTIAL (Opus work remains) · 0 FAIL**.
+> See `OPUS-VISUAL-DELTA-REPORT.md`, `OPUS-VISUAL-FORENSIC-MAP.md`, `OPUS-ASSET-SLOT-MANIFEST.json`, `OPUS-GROK-HANDOFF.md`, `OPUS-COMPOSER-HANDOFF.md` and `opus-proof/<id>/`.
+> Proof caveat: Sonnet's `sonnet-proof/` captures were rendered in a fallback monospace (Google Fonts unreachable in the sandbox). The Opus before/after captures use the real Martian Mono.
+
+
 Browser proof outranks test claims. Every one of the 37 active authorities was opened in Chromium at its authority framing (390 CSS px wide; 390×693 for 941×1672 and 1080×1920 authorities, 390×849 for 850×1850), rendered through the real route, and compared side-by-side with its authority. Evidence: `sonnet-proof/<authority-id>/{authority.jpg, render.jpg, render-full.jpg, metrics.json, comparison-notes.md}` (reproduce with `scripts/site00-public-redesign-proof.mjs`).
 
 **Rubric.** PASS = matches the authority within the Sonnet-pass tolerance on structure, order, hierarchy, type family, uppercase, shell *and* the visible art. PARTIAL = structure/order/function correct, with listed visual mismatches. FAIL = a structural element, order or function is missing/wrong.

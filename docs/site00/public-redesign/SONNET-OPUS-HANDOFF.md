@@ -1,5 +1,11 @@
 # SONNET → OPUS HANDOFF
 
+> **OPUS-CONVERGENCE1 (2026-10-01) — superseding note. Sonnet's text below is unchanged and kept as history.**
+> Opus visually converged all 37 active authorities. Results: **20 PASS · 15 PARTIAL (Grok dependency only) · 2 PARTIAL (Opus work remains) · 0 FAIL**.
+> See `OPUS-VISUAL-DELTA-REPORT.md`, `OPUS-VISUAL-FORENSIC-MAP.md`, `OPUS-ASSET-SLOT-MANIFEST.json`, `OPUS-GROK-HANDOFF.md`, `OPUS-COMPOSER-HANDOFF.md` and `opus-proof/<id>/`.
+> Proof caveat: Sonnet's `sonnet-proof/` captures were rendered in a fallback monospace (Google Fonts unreachable in the sandbox). The Opus before/after captures use the real Martian Mono.
+
+
 **SONNET STRUCTURE COMPLETE** (37/37 active authorities live, routed, interactive, uppercase, responsive).
 **OPUS PIXEL CONVERGENCE REQUIRED** (37/37 are PARTIAL against their authority — see `SONNET-VISUAL-QA.md`).
 

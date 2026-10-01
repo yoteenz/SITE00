@@ -1,0 +1,13 @@
+{
+  "route": "/bldr/state?path=site",
+  "finalUrl": "/bldr/state?path=site",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 970,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": false,
+  "errors": []
+}

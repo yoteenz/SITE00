@@ -46,7 +46,9 @@
     "url": "/idnty/starting-at-zero/goal",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": false,
     "errors": []
@@ -59,7 +61,9 @@
     "url": "/idnty/starting-at-zero/budget",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": false,
     "errors": []
@@ -208,6 +212,218 @@
     "errors": []
   },
   {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/",
+    "redesign": true,
+    "url": "/",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/state",
+    "redesign": true,
+    "url": "/idnty/state",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/starting-at-zero",
+    "redesign": true,
+    "url": "/idnty/starting-at-zero",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/starting-at-zero/goal",
+    "redesign": true,
+    "url": "/idnty/starting-at-zero/goal",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/starting-at-zero/budget",
+    "redesign": true,
+    "url": "/idnty/starting-at-zero/budget",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/starting-at-zero/review",
+    "redesign": true,
+    "url": "/idnty/starting-at-zero/review",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/some-pieces-exist/assets",
+    "redesign": true,
+    "url": "/idnty/some-pieces-exist/assets",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/some-pieces-exist/review",
+    "redesign": true,
+    "url": "/idnty/some-pieces-exist/review",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/ready-for-evolution/timeline",
+    "redesign": true,
+    "url": "/idnty/ready-for-evolution/timeline",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/build-ready/evidence",
+    "redesign": true,
+    "url": "/idnty/build-ready/evidence",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/idnty/build-ready/review",
+    "redesign": true,
+    "url": "/idnty/build-ready/review",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/bldr/state",
+    "redesign": true,
+    "url": "/bldr/state",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/bldr/state?path=world",
+    "redesign": true,
+    "url": "/bldr/state?path=world",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/evolve/state",
+    "redesign": true,
+    "url": "/evolve/state",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/evolve/state?path=transform",
+    "redesign": true,
+    "url": "/evolve/state?path=transform",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
+    "viewport": "390x693",
+    "mode": "default",
+    "route": "/origin/locations",
+    "redesign": true,
+    "url": "/origin/locations",
+    "overflowX": false,
+    "pokesOut": [],
+    "clippedText": [],
+    "navClear": true,
+    "artboard": false,
+    "errors": []
+  },
+  {
     "viewport": "390x844",
     "mode": "default",
     "route": "/",
@@ -254,7 +470,9 @@
     "url": "/idnty/starting-at-zero/goal",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": false,
     "errors": []
@@ -267,7 +485,9 @@
     "url": "/idnty/starting-at-zero/budget",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": false,
     "errors": []
@@ -462,7 +682,9 @@
     "url": "/idnty/starting-at-zero/goal",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": false,
     "errors": []
@@ -475,7 +697,9 @@
     "url": "/idnty/starting-at-zero/budget",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": false,
     "errors": []
@@ -702,7 +926,9 @@
     "url": "/idnty/starting-at-zero/goal",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": true,
     "errors": []
@@ -723,7 +949,9 @@
     "url": "/idnty/starting-at-zero/budget",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": true,
     "errors": []
@@ -1048,7 +1276,9 @@
     "url": "/idnty/starting-at-zero/goal",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": true,
     "errors": []
@@ -1069,7 +1299,9 @@
     "url": "/idnty/starting-at-zero/budget",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": true,
     "errors": []
@@ -1394,7 +1626,9 @@
     "url": "/idnty/starting-at-zero/goal",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": true,
     "errors": []
@@ -1415,7 +1649,9 @@
     "url": "/idnty/starting-at-zero/budget",
     "overflowX": false,
     "pokesOut": [],
-    "clippedText": [],
+    "clippedText": [
+      "span.s00pr-sr"
+    ],
     "navClear": true,
     "artboard": true,
     "errors": []

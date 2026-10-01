@@ -107,7 +107,9 @@ describe('FOUNDATION working surface', () => {
   it('asks Primary goal first and never asks WHAT ARE YOU BUILDING?', () => {
     const goal = flow('starting-at-zero', 'goal');
     expect(goal).toContain('WHAT IS THE PRIMARY GOAL?');
-    expect(goal).toContain('QUESTION 01 OF 04');
+    // Authority (FOUNDATION): QUESTION 01 sits in the panel head; the total is visually hidden, still announced.
+    expect(goal).toMatch(/QUESTION 01<span class="s00pr-sr"> OF 04<\/span>/);
+    expect(goal).not.toContain('s00pr-question__segments');
     for (const seg of ['goal', 'audience', 'timeline', 'budget', 'review', null]) {
       expect(flow('starting-at-zero', seg)).not.toMatch(/WHAT ARE YOU BUILDING/);
     }

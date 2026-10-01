@@ -33,6 +33,22 @@ export type IdentityPublicStateMeta = {
   workingEyebrow: string | null;
   /** Grey sub-label under the classification during review mode. */
   reviewSubLabel: string;
+  /**
+   * How this state's authority draws the working-panel head (they differ per family):
+   *   questionSubLine — 'question' → QUESTION 0N under the classification (FOUNDATION)
+   *                     'quote'    → the state quote stays (REFINE / EVOLUTION)
+   *                     'verification' → IDENTITY AUTHORITY VERIFICATION (BUILD READY)
+   *   questionMeta — compact secondary progress row above the question title:
+   *                     'none' · 'counter' (QUESTION 0N + segments) · 'counter-of' (QUESTION 0N OF 0M + segments)
+   *   headGlyph — whether the state glyph sits at the right of the head in question/review modes
+   *   reviewTone — styling of the REVIEW label line in review mode
+   */
+  panelHead: {
+    questionSubLine: 'question' | 'quote' | 'verification';
+    questionMeta: 'none' | 'counter' | 'counter-of';
+    headGlyph: boolean;
+    reviewTone: 'muted' | 'red' | 'strong';
+  };
 };
 
 const tier = (id: string) => IDNTY_INVESTMENT_TIERS.find((t) => t.id === id);
@@ -61,6 +77,7 @@ export const IDENTITY_PUBLIC_STATES: Record<IdntyAssessmentStateId, IdentityPubl
     detailCta: 'BEGIN FOUNDATION',
     workingEyebrow: null,
     reviewSubLabel: 'FOUNDATION REVIEW ASSESSMENT',
+    panelHead: { questionSubLine: 'question', questionMeta: 'none', headGlyph: true, reviewTone: 'muted' },
   },
   'some-pieces-exist': {
     slug: 'some-pieces-exist',
@@ -78,6 +95,7 @@ export const IDENTITY_PUBLIC_STATES: Record<IdntyAssessmentStateId, IdentityPubl
     detailCta: 'REFINE IDENTITY',
     workingEyebrow: 'REFINE IDENTITY',
     reviewSubLabel: 'REFINE IDENTITY',
+    panelHead: { questionSubLine: 'quote', questionMeta: 'counter-of', headGlyph: true, reviewTone: 'red' },
   },
   'ready-for-evolution': {
     slug: 'ready-for-evolution',
@@ -95,6 +113,7 @@ export const IDENTITY_PUBLIC_STATES: Record<IdntyAssessmentStateId, IdentityPubl
     detailCta: 'EVOLVE IDENTITY',
     workingEyebrow: 'EVOLVE IDENTITY',
     reviewSubLabel: 'EVOLVE IDENTITY',
+    panelHead: { questionSubLine: 'quote', questionMeta: 'counter', headGlyph: false, reviewTone: 'muted' },
   },
   'build-ready': {
     slug: 'build-ready',
@@ -113,6 +132,7 @@ export const IDENTITY_PUBLIC_STATES: Record<IdntyAssessmentStateId, IdentityPubl
     detailCta: 'BEGIN VERIFICATION',
     workingEyebrow: null,
     reviewSubLabel: 'REVIEW VERIFICATION',
+    panelHead: { questionSubLine: 'verification', questionMeta: 'none', headGlyph: false, reviewTone: 'strong' },
   },
 };
 
@@ -142,6 +162,8 @@ export type IdentityStepPresentation = {
   fieldLabel?: string;
   /** Option id → icon */
   icons?: Record<string, IdentityOptionIconId>;
+  /** Shorter cells (REFINE GAPS authority: ~40px cells). */
+  compact?: boolean;
 };
 
 const GOAL_ICONS: Record<string, IdentityOptionIconId> = {
@@ -216,7 +238,7 @@ export const IDENTITY_STEP_PRESENTATION: Record<string, IdentityStepPresentation
   'starting-at-zero:budget': { kind: 'tiles', columns: 3, icons: BUDGET_ICONS },
   'some-pieces-exist:assets': { kind: 'tiles', columns: 5, icons: ASSET_ICONS },
   'some-pieces-exist:cohesion-diagnostic': { kind: 'cards', columns: 3, icons: CONDITION_ICONS },
-  'some-pieces-exist:gaps': { kind: 'tiles', columns: 3, icons: GAP_ICONS },
+  'some-pieces-exist:gaps': { kind: 'tiles', columns: 3, icons: GAP_ICONS, compact: true },
   'ready-for-evolution:pathways': { kind: 'cards', columns: 3, icons: EVOLUTION_AREA_ICONS },
   'ready-for-evolution:goals': { kind: 'text' },
   'ready-for-evolution:timeline': { kind: 'timeline', columns: 2, icons: TIMELINE_ICONS },
@@ -241,6 +263,12 @@ export function identityQuestionCounter(slug: IdntyAssessmentStateId, stepId: st
   if (index < 0) return null;
   const pad = (n: number) => String(n).padStart(2, '0');
   return `QUESTION ${pad(index + 1)} OF ${pad(steps.length)}`;
+}
+
+/** Short form drawn by the FOUNDATION and EVOLUTION authorities: QUESTION 01. */
+export function identityQuestionLabel(slug: IdntyAssessmentStateId, stepId: string): string | null {
+  const index = identityFlowSteps(slug).findIndex((s) => s.id === stepId);
+  return index < 0 ? null : `QUESTION ${String(index + 1).padStart(2, '0')}`;
 }
 
 /** Whether the conditional OTHER field should be visible for a step's current value. */

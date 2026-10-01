@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AssetSlot } from './AssetSlot';
 import { PublicCornerBrackets, PublicDiamond } from './IdentityDiagnosticChrome';
@@ -127,7 +127,9 @@ export function PublicServiceCenter(props: PublicServiceCenterProps) {
                 <span className="s00pr-svccard__code">{card.code}</span>
                 <PublicCornerBrackets className="s00pr-svccard__corners" />
                 <AssetSlot slotId={card.slotId} className="s00pr-svccard__slot" />
-                <span className="s00pr-svccard__title">{card.title}</span>
+                <span className="s00pr-svccard__title" style={{ '--tlen': card.title.length } as CSSProperties}>
+                  {card.title}
+                </span>
                 <span className="s00pr-svccard__tagline">{card.tagline}</span>
                 <span className="s00pr-svccard__lines">
                   {card.lines.map((line) => (
@@ -231,7 +233,9 @@ export function PublicServicePathPanel({ section, authorityId, envSlotId, hero, 
             <div className="s00pr-pathpanel__titles">
               <p className="s00pr-pathpanel__code">{panel.code}</p>
               <span className="s00pr-opanel__tick" aria-hidden="true" />
-              <h2 className="s00pr-pathpanel__title">{panel.title}</h2>
+              <h2 className="s00pr-pathpanel__title" style={{ '--tlen': panel.title.length } as CSSProperties}>
+                {panel.title}
+              </h2>
               <p className="s00pr-pathpanel__tagline">{panel.tagline}</p>
             </div>
             <AssetSlot slotId={panel.artSlotId} className="s00pr-pathpanel__art">

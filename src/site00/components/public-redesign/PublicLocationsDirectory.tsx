@@ -10,6 +10,7 @@ import { Site00LockIcon } from '../mobile/Site00MobileIcons';
 import { AssetSlot } from './AssetSlot';
 import { PublicRedesignShell } from './PublicRedesignShell';
 import { SpatialEnvironmentFrame } from './SpatialEnvironmentFrame';
+import { StateNumeral } from './StateNumeral';
 
 function ArrowCircle() {
   return (
@@ -114,7 +115,9 @@ export function PublicLocationsDirectory() {
           </section>
         ))}
         <p className="s00pr-locations__more" aria-hidden="true">
-          <span className="s00pr-locations__ghost">00</span>
+          <span className="s00pr-locations__ghost">
+            <StateNumeral code="00" />
+          </span>
           CONTINUE EXPLORING
         </p>
       </div>

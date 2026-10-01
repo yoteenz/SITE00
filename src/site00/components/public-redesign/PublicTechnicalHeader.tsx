@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { RefObject } from 'react';
 import { SITE00_ROUTES } from '../../config/routes';
 import { useSignedInFromStorage } from '../../../hooks/useSignedInFromStorage';
+import { StateNumeral } from './StateNumeral';
 
 type PublicTechnicalHeaderProps = {
   /** technical: `SITE 00 ◆ ———` + scan control. wordmark: `00` mark + links + SIGN IN (Origin / panel family). */
@@ -9,6 +10,8 @@ type PublicTechnicalHeaderProps = {
   onFastTravelOpen: () => void;
   fastTravelExpanded?: boolean;
   fastTravelTriggerRef?: RefObject<HTMLButtonElement>;
+  /** technical variant: the small primary links the BLDR / EVOLVE centers carry beside the wordmark. */
+  showLinks?: boolean;
 };
 
 /** Live-SVG scan control — same behavior as the fast-travel trigger, no remote image dependency. */
@@ -52,6 +55,7 @@ export function PublicTechnicalHeader({
   onFastTravelOpen,
   fastTravelExpanded = false,
   fastTravelTriggerRef,
+  showLinks = false,
 }: PublicTechnicalHeaderProps) {
   const [isSignedIn] = useSignedInFromStorage();
 
@@ -59,7 +63,7 @@ export function PublicTechnicalHeader({
     return (
       <header className="s00pr-header s00pr-header--wordmark">
         <Link to={SITE00_ROUTES.originAlias} className="s00pr-header__mark" aria-label="SITE 00 ORIGIN">
-          00
+          <StateNumeral code="00" className="s00pr-header__mark-svg" />
         </Link>
         <nav className="s00pr-header__links" aria-label="PRIMARY">
           {WORDMARK_LINKS.map((link) => (
@@ -100,7 +104,17 @@ export function PublicTechnicalHeader({
         SITE 00
         <span className="s00pr-header__diamond" aria-hidden="true" />
       </Link>
+      {showLinks ? (
+        <nav className="s00pr-header__links s00pr-header__links--technical" aria-label="PRIMARY">
+          {WORDMARK_LINKS.map((link) => (
+            <Link key={link.label} to={link.href} className="s00pr-header__link">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      ) : null}
       <span className="s00pr-header__rule" aria-hidden="true" />
+      <span className="s00pr-header__divider" aria-hidden="true" />
       <ScanTrigger onOpen={onFastTravelOpen} expanded={fastTravelExpanded} buttonRef={fastTravelTriggerRef} />
     </header>
   );

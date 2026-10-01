@@ -19,6 +19,7 @@ import {
   PublicDiamond,
 } from './IdentityDiagnosticChrome';
 import { IdentityMachineGlyph } from './IdentityMachines';
+import { StateNumeral } from './StateNumeral';
 
 function ArrowCircle() {
   return (
@@ -46,9 +47,7 @@ function StateCard({
     <li className="s00pr-statecard-wrap">
       <article className={`s00pr-statecard ${selected ? 's00pr-statecard--selected' : ''}`.trim()} data-state-code={meta.code}>
         <button type="button" className="s00pr-statecard__select" aria-pressed={selected} onClick={onSelect} aria-label={`SELECT STATE ${meta.code} — ${meta.title}`}>
-          <span className="s00pr-statecard__code" aria-hidden="true">
-            {meta.code}
-          </span>
+          <StateNumeral code={meta.code} className="s00pr-statecard__code" />
           <PublicCornerBrackets className="s00pr-statecard__corners" />
           <IdentityMachineGlyph machine={meta.machine} className="s00pr-statecard__glyph" />
           <h2 className="s00pr-statecard__title">{lines.join(' ')}</h2>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type { IdntyAssessmentOption } from '../../config/idnty-assessment';
 import type { IdentityOptionIconId } from '../../config/idnty-public-redesign';
 import { PublicLineIcon } from './PublicLineIcon';
@@ -52,10 +52,11 @@ export function TechnicalOptionTiles({
   groupLabel,
   invalid,
   columns = 3,
-}: SelectorBaseProps & { columns?: 2 | 3 | 5 }) {
+  compact = false,
+}: SelectorBaseProps & { columns?: 2 | 3 | 5; compact?: boolean }) {
   return (
     <div
-      className={`s00pr-tiles s00pr-tiles--${columns}`}
+      className={`s00pr-tiles s00pr-tiles--${columns} ${compact ? 's00pr-tiles--compact' : ''}`.trim()}
       role={mode === 'single' ? 'radiogroup' : 'group'}
       aria-label={groupLabel}
       aria-invalid={invalid || undefined}
@@ -265,20 +266,24 @@ export function PanelQuestion({
 }) {
   return (
     <div className="s00pr-question">
-      <div className="s00pr-question__meta">
-        {eyebrow ? <span className="s00pr-question__eyebrow">{eyebrow}</span> : <span />}
-        {counter ? (
-          <span className="s00pr-question__counter" aria-label={counter}>
-            <span>{counter}</span>
-            <span className="s00pr-question__segments" aria-hidden="true">
-              {Array.from({ length: segments }, (_, i) => (
-                <span key={i} className={`s00pr-question__segment ${i <= activeSegment ? 's00pr-question__segment--on' : ''}`.trim()} />
-              ))}
+      {eyebrow || counter ? (
+        <div className="s00pr-question__meta">
+          {eyebrow ? <span className="s00pr-question__eyebrow">{eyebrow}</span> : <span />}
+          {counter ? (
+            <span className="s00pr-question__counter" aria-label={counter}>
+              <span>{counter}</span>
+              <span className="s00pr-question__segments" aria-hidden="true">
+                {Array.from({ length: segments }, (_, i) => (
+                  <span key={i} className={`s00pr-question__segment ${i <= activeSegment ? 's00pr-question__segment--on' : ''}`.trim()} />
+                ))}
+              </span>
             </span>
-          </span>
-        ) : null}
-      </div>
-      <h3 className="s00pr-question__title">{title}</h3>
+          ) : null}
+        </div>
+      ) : null}
+      <h3 className="s00pr-question__title" style={{ '--qlen': title.length } as CSSProperties}>
+        {title}
+      </h3>
       {subtitle ? <p className="s00pr-question__subtitle">{subtitle}</p> : null}
     </div>
   );

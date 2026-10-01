@@ -12805,3 +12805,50 @@ Sprint `P0.SITE00.PUBLIC-REDESIGN.SONNET-STRUCTURE1`: first live structural pass
   - Fixed pre-existing syntax error in `vite.config.ts` (stray `) => void` from commit 24e2db5 broke dev/build).
 - **Changes:** see docs `docs/site00/public-redesign/` (route map, implementation plan JSON, 52-slot asset manifest, visual QA, Opus handoff, `sonnet-proof/<id>/`), `src/site00/authority/*` (code-side manifest + asset slots), scripts `site00-public-redesign-{proof,flows,responsive}.mjs` + docs generator, 5 new vitest files (86 tests). 63 test files fail identically on the base commit (Supabase/network env), no new failures. Visual QA: 0 PASS / 37 PARTIAL / 0 FAIL — structure complete, Opus convergence required.
 - **Conventions:** never lowercase public UI; never claim verified/unlock BLDR from client state; asset slots (`AssetSlot` + `PUBLIC_REDESIGN_ASSET_URLS`) are the only place for Grok art; authority screens that conflict with honesty (State 03 detail, Authority Check) are implemented honestly and listed as deviations for the founder.
+
+---
+
+## 2026-10-01 — Public redesign OPUS-CONVERGENCE1 (visual convergence, 37 authorities)
+
+Sprint `P0.SITE00.PUBLIC-REDESIGN.OPUS-CONVERGENCE1` on the Sonnet branch `cursor/public-redesign-sonnet-structure1-4f59`: pixel convergence of the live redesign onto the 37 active authorities. Function, routes, persistence, submit, honesty and uppercase were left as they were. Not merged (Composer owns the merge).
+
+- **Context:** Sonnet's structure was correct, but the type and geometry ran about 1.3× the authority scale. Panels sat below the fold, the BLDR/EVOLVE centers were 1000–1300px tall, and the machines were stacked under the hero.
+- **Decisions / outcomes:**
+  - **Authority-pixel unit system.** Every size is `calc(N * var(--u))` (vertical rhythm `--uv`) in `site00-public-redesign*.css`.
+    - Width variants: 360 (×0.93), 430 (×1.07), wide shell (×1.3).
+    - Tall phones (≥780px high) follow the 850×1850 family: `--khv 1.24`; panel, rail and nav use local `--u` multipliers of ×1.16, ×1.3 and ×1.22.
+    - The laptop Mobile artboard is locked to the 390×844 class.
+  - **Host font width restored.** `.s00pr` had forced `font-stretch: normal`. It now uses the host's semi-condensed Martian Mono, inherited by buttons and fields.
+  - **Plain-zero numerals.** Martian Mono only ships a slashed zero, so state numerals (00–03, the header/footer 00 marks, the Locations ghost) are live SVG in `StateNumeral.tsx`.
+  - **IDNTY machines** are redrawn in authority page coordinates (`viewBox 0 28 390 300`) behind the hero. Annotation layers:
+    - Refine gaps callouts.
+    - Evolution review brackets.
+    - Build Ready domain nodes, shown only in the verification flow.
+  - **Per-family panel heads** (`panelHead` in `idnty-public-redesign.ts`):
+    - Foundation: QUESTION 0N in the head; OF 0M is screen-reader only.
+    - Refine: counter "OF".
+    - Evolution: counter without the total.
+    - Build Ready: verification line.
+  - **Per-family rail heights:** 331, 306, 340 and 321.
+  - **BLDR/EVOLVE centers:** fit 390×693. The BLDR tower is redrawn in page coordinates; cards sit in a single row of 4 (BLDR) or 3 (EVOLVE).
+  - **Path panels, Origin and Locations** are re-dimensioned in authority px.
+  - **Shared fixes:**
+    - `body:has(.s00pr-shell){margin:0}` — the default 8px body margin had framed every page.
+    - `FastTravelPanel` focused its trigger on every mount (red ring, wrong screen-reader focus). It now refocuses only after the panel closes.
+    - The Mobile artboard plate used `margin-bottom:-100%` (a width percentage), pushing content about 420px down. Fixed with a grid stack.
+  - **Touch zoom guard:** the textarea keeps a real 16px font size and is drawn at 7.3px with `transform: scale`.
+  - **Proof:** harnesses route Google Fonts to a local cache (`scripts/site00-cache-proof-fonts.sh`, `scripts/lib/site00-proof-fonts.mjs`). Sonnet's captures had been rendered in a fallback mono.
+- **Results:**
+  - 20 PASS, 15 PARTIAL (Grok only), 2 PARTIAL (Opus remains), 0 FAIL. The two Opus PARTIALs:
+    - State 00 detail: the 941-family scale conflicts with the continuity rule.
+    - Build Ready evidence: row density.
+  - Asset slots: 52 total, 47 Grok-required, 33 critical. Converted to LIVE_CODE: the 4 IDNTY machines and the BLDR framework step.
+  - BLDR EXTENSIONS: BLOCKED_FOR_FOUNDER_DECISION (product, not visual).
+- **Changes:**
+  - Docs: `OPUS-{VISUAL-FORENSIC-MAP,VISUAL-DELTA-REPORT,GROK-HANDOFF,COMPOSER-HANDOFF}.md`, `OPUS-ASSET-SLOT-MANIFEST.json`, `opus-geometry-{before,after}.json`, `opus-proof/<id>/{authority.jpg,before.png,after.png,comparison.jpg,comparison.md}`.
+  - Scripts: `site00-public-redesign-{opus-proof,geometry,triptych}.mjs`.
+  - Tests: `tests/publicRedesignOpusConvergence.test.tsx`.
+- **Conventions:**
+  - Measure against the authority at 390 CSS px with the real font. Never trust a capture rendered in the fallback font.
+  - Fixed-size `calc(N * var(--u))` only. No rem in the redesign family.
+  - When one state's authorities are drawn at different scales, keep one geometry per state (continuity) and record the conflict.

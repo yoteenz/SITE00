@@ -60,6 +60,7 @@ export function PublicRedesignShell({
           onFastTravelOpen={() => setFastTravelOpen(true)}
           fastTravelExpanded={fastTravelOpen}
           fastTravelTriggerRef={triggerRef}
+          showLinks={headerVariant === 'technical' && (section === 'bldr' || section === 'evolve')}
         />
         <main className="s00pr-shell__main">{children}</main>
         {hideBottomNav ? null : (

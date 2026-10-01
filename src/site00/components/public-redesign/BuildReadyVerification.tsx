@@ -11,6 +11,7 @@ import {
   type ServerIdentityAuthoritySnapshot,
 } from '../../lib/identityAuthorityVerification';
 import { PublicLineIcon } from './PublicLineIcon';
+import { IdentityMachineGlyph } from './IdentityMachines';
 
 /**
  * BUILD READY — identity-authority verification surfaces.
@@ -242,7 +243,7 @@ export function BuildReadyReview({ evidence, snapshot }: Common) {
             {needsReview} {needsReview === 1 ? 'DOMAIN REQUIRES' : 'DOMAINS REQUIRE'} REVIEW
           </p>
         </div>
-        <NodeGlyph on={summary.provided > 0} />
+        <IdentityMachineGlyph machine="authority" className="s00pr-vsummary__glyph" />
       </div>
     </div>
   );

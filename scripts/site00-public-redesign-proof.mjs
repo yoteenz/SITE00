@@ -18,6 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import sharp from 'sharp';
+import { routeProofFonts, routeRemoteStorage } from './lib/site00-proof-fonts.mjs';
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((acc, a, i, all) => {
@@ -151,6 +152,8 @@ for (const a of AUTHORITIES) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e).slice(0, 200)));
   await mockIntakeApi(page);
+  await routeRemoteStorage(page);
+  if (!(await routeProofFonts(page))) console.warn('WARN: Martian Mono cache missing — run scripts/site00-cache-proof-fonts.sh (fallback font = invalid proof)');
   if (a.seed) {
     await page.addInitScript(([key, value]) => {
       try {

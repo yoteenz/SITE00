@@ -8,6 +8,7 @@ import {
 } from '../../config/idnty-public-redesign';
 import { idntyAssessmentPath } from '../../config/idnty-assessment';
 import { AssetSlot } from './AssetSlot';
+import { StateNumeral } from './StateNumeral';
 import { IdentityMachine, IdentityMachineGlyph, IdentityOverviewMachine } from './IdentityMachines';
 import type { IdentityAuthorityDomain } from '../../lib/identityAuthorityVerification';
 
@@ -69,10 +70,16 @@ export function IdentityHero({ sideNote, sideNoteSecondary }: IdentityHeroProps)
 }
 
 type IdentityMachineStageProps =
-  | { machine: 'overview'; domainsWithEvidence?: undefined }
+  | { machine: 'overview'; domainsWithEvidence?: undefined; showDomains?: undefined; callouts?: undefined; areas?: undefined }
   | {
       machine: IdentityPublicStateMeta['machine'];
       domainsWithEvidence?: Partial<Record<IdentityAuthorityDomain, boolean>>;
+      /** BUILD READY verification flow: draw the five identity-domain nodes. */
+      showDomains?: boolean;
+      /** REFINE GAPS: selected gaps drawn as callouts on the lattice. */
+      callouts?: string[];
+      /** EVOLUTION REVIEW: selected areas bracketed on the waveform. */
+      areas?: string[];
     };
 
 /** Central machine. The asset slot holds a future material upgrade; the SVG is the live scaffold. */
@@ -93,7 +100,14 @@ export function IdentityMachineStage(props: IdentityMachineStageProps) {
       {props.machine === 'overview' ? (
         <IdentityOverviewMachine className="s00pr-stage__svg" />
       ) : (
-        <IdentityMachine machine={props.machine} domainsWithEvidence={props.domainsWithEvidence} className="s00pr-stage__svg" />
+        <IdentityMachine
+          machine={props.machine}
+          domainsWithEvidence={props.domainsWithEvidence}
+          showDomains={props.showDomains}
+          callouts={props.callouts}
+          areas={props.areas}
+          className="s00pr-stage__svg"
+        />
       )}
     </div>
   );
@@ -167,19 +181,18 @@ export function TransformingStatePanel({ meta, mode, subLine, verificationLine, 
       className={`s00pr-panel s00pr-panel--${mode}`}
       data-panel-mode={mode}
       data-state-code={meta.code}
+      data-head-glyph={meta.panelHead.headGlyph ? 'true' : 'false'}
       aria-label={`STATE ${meta.code} — ${meta.title}`}
     >
       <header className="s00pr-panel__head">
-        <span className="s00pr-panel__code" aria-hidden="true">
-          {meta.code}
-        </span>
+        <StateNumeral code={meta.code} className="s00pr-panel__code" />
         <span className="s00pr-panel__vr" aria-hidden="true" />
         <div className="s00pr-panel__titles">
           <h2 className="s00pr-panel__title">{meta.title}</h2>
           <p className="s00pr-panel__class">{meta.classification}</p>
           {verificationLine ? <p className="s00pr-panel__sub">{verificationLine}</p> : null}
           {subLine ? (
-            <p className={`s00pr-panel__sub ${mode === 'review' ? 's00pr-panel__sub--review' : ''}`.trim()}>{subLine}</p>
+            <p className={`s00pr-panel__sub ${mode === 'review' ? `s00pr-panel__sub--review s00pr-panel__sub--${meta.panelHead.reviewTone}` : ''}`.trim()}>{subLine}</p>
           ) : null}
         </div>
         <div className="s00pr-panel__glyph">
