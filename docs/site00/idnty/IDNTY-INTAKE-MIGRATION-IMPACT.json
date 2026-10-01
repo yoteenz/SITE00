@@ -1,0 +1,18 @@
+{
+  "sprint": "P0.SITE00.IDNTY-INTAKE-FORENSIC-SYNTHESIS2",
+  "fields": [
+    {"key": "project", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": false, "downstream": ["builderDiagnosis", "BLDR prefill"], "strategy": "Keep in draftPayload; map to BLDR intake on read"},
+    {"key": "goal", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["display"], "strategy": "Keep"},
+    {"key": "audience", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["BLDR prefill"], "strategy": "Keep"},
+    {"key": "timeline", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["BLDR prefill", "3 branch keys"], "strategy": "Normalize to shared project.timeline with branch copy on migrate"},
+    {"key": "budget", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["BLDR prefill", "commercial"], "strategy": "Keep"},
+    {"key": "assets", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["diagnosis indirect"], "strategy": "Keep"},
+    {"key": "cohesion-diagnostic", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["diagnoseIdentityNeed"], "strategy": "Keep — critical"},
+    {"key": "other-specify", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": [], "strategy": "Keep conditional"},
+    {"key": "gaps", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["diagnoseIdentityNeed"], "strategy": "Keep"},
+    {"key": "pathways", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": ["display"], "strategy": "Keep; split options later"},
+    {"key": "goals", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": true, "downstream": [], "strategy": "Keep"},
+    {"key": "services", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": false, "downstream": ["diagnoseIdentityNeed build-ready"], "strategy": "Archive; BLDR owns going forward"},
+    {"key": "scope", "preserveHistoricalKey": true, "preserveValues": true, "reuseKeyInNewSchema": false, "downstream": [], "strategy": "Archive; BLDR owns"}
+  ]
+}

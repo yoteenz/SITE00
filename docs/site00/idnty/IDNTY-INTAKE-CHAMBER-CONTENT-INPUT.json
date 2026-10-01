@@ -1,0 +1,45 @@
+{
+  "sprint": "P0.SITE00.IDNTY-INTAKE-FORENSIC-SYNTHESIS2",
+  "contentSystemOnly": true,
+  "branches": {
+    "00_FOUNDATION": {
+      "stateTruth": "I HAVE THE IDEA. I NEED THE IDENTITY.",
+      "survivingInputs": ["goal", "audience", "budget"],
+      "sharedProjectParameters": ["timeline"],
+      "movedElsewhere": ["project → BLDR build-type"],
+      "expectedResult": "Identity foundation recommendation + custom quote path"
+    },
+    "01_REFINE": {
+      "stateTruth": "PARTIAL BRAND — NEED COHESION",
+      "survivingInputs": ["assets", "cohesion-diagnostic", "gaps"],
+      "conditionalInputs": ["other-specify when OTHER selected"],
+      "expectedResult": "Refinement vs deep development classification"
+    },
+    "02_EVOLVE": {
+      "stateTruth": "EXISTING BRAND NEEDS REFINEMENT",
+      "survivingInputs": ["pathways (IDNTY-owned options only)", "goals"],
+      "domainBoundaryWarnings": ["digital-experience → BLDR", "growth-systems → PUBLIC_EVOLVE"],
+      "sharedProjectParameters": ["timeline"],
+      "expectedResult": "Evolution scope for identity engagement"
+    },
+    "03_BUILD_READY": {
+      "stateTruth": "IDENTITY COMPLETE — VERIFY THEN BLDR",
+      "removedReclassified": ["services", "scope → BLDR"],
+      "futureVerificationRequirements": "Structured evidence per verification contract — not checkbox inventory",
+      "sharedProjectParameters": ["timeline"],
+      "expectedVerificationResult": "VERIFIED authority record before BLDR"
+    }
+  },
+  "sharedShell": {
+    "stateLabel": "From Diagnostic slug — no re-pick",
+    "progress": "Per-branch step count",
+    "autosaveResume": "useIntakeSync + localStorage v1",
+    "back": "Previous step or Diagnostic",
+    "review": "Editable summary",
+    "submit": "Must call submit() for SUBMITTED — not implemented on happy path today",
+    "completionResult": "discovery-result + entitlement next steps",
+    "errors": "IdntyStepForm validation strings",
+    "conditionalFields": "other-specify; optional gaps",
+    "verificationState": "BUILD READY only — future"
+  }
+}

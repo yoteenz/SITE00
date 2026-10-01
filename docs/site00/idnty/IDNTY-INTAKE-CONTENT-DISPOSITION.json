@@ -1,0 +1,195 @@
+{
+  "sprint": "P0.SITE00.IDNTY-INTAKE-FORENSIC-SYNTHESIS2",
+  "generatedAt": "2026-09-30T00:00:00.000Z",
+  "dispositions": [
+    {
+      "state": "00",
+      "stepId": "project",
+      "question": "WHAT ARE YOU BUILDING?",
+      "primaryDisposition": "RECLASSIFY_TO_BLDR",
+      "secondaryNote": "KEEP_AS_SHARED_PROJECT_PARAMETER for commercial triage until BLDR intake owns it",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "compileBuilderScopeDiagnosis(experienceClass); readIdntyPrefill→BLDR type",
+      "evidence": "identityDiagnosis.ts ignores project for starting-at-zero; IdntyDiscoveryResultPage uses project in builderDiagnosis",
+      "riskIfRemoved": "Discovery experience-class label degrades; BLDR prefill loses site type",
+      "preserveHistorical": true
+    },
+    {
+      "state": "00",
+      "stepId": "goal",
+      "question": "WHAT IS THE PRIMARY GOAL?",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "secondaryNote": "REWRITE_LATER to separate brand vs build objectives",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "Recommendation display; mixed brand/commercial options",
+      "evidence": "No diagnoseIdentityNeed branch on goal",
+      "riskIfRemoved": "Loss of commercial/strategy signal in draft",
+      "preserveHistorical": true
+    },
+    {
+      "state": "00",
+      "stepId": "audience",
+      "question": "WHO IS YOUR AUDIENCE?",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "secondaryNote": "High-level triage; Lore collects AUDIENCE_RELATIONSHIP separately",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "BLDR prefill content prefix; draftPayload",
+      "evidence": "Lore role/feeling not same field",
+      "riskIfRemoved": "BLDR prefill string lost",
+      "preserveHistorical": true
+    },
+    {
+      "state": "00",
+      "stepId": "timeline",
+      "question": "WHAT IS YOUR TIMELINE?",
+      "primaryDisposition": "KEEP_AS_SHARED_PROJECT_PARAMETER",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "BLDR prefill timeline; repeated in 02/03",
+      "evidence": "Same IDNTY_TIMELINE_OPTIONS in three branches",
+      "riskIfRemoved": "Commercial/scheduling context lost",
+      "preserveHistorical": true
+    },
+    {
+      "state": "00",
+      "stepId": "budget",
+      "question": "WHAT IS YOUR BUDGET RANGE?",
+      "primaryDisposition": "KEEP_AS_SHARED_PROJECT_PARAMETER",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "BLDR prefill budget; CUSTOM_QUOTE context",
+      "evidence": "identityCommercialContext merge",
+      "riskIfRemoved": "Quote alignment signal lost",
+      "preserveHistorical": true
+    },
+    {
+      "state": "01",
+      "stepId": "assets",
+      "question": "WHAT DO YOU ALREADY HAVE?",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "diagnosticOverlap": "PARTIALLY_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "Identity inventory signal; build-ready mobile reuses options",
+      "evidence": "diagnoseIdentityNeed indirect via branch",
+      "riskIfRemoved": "Refine intake loses core inventory",
+      "preserveHistorical": true
+    },
+    {
+      "state": "01",
+      "stepId": "cohesion-diagnostic",
+      "question": "HOW WOULD YOU DESCRIBE WHAT YOU HAVE TODAY?",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "diagnoseIdentityNeed DEEP vs REFINEMENT",
+      "evidence": "identityDiagnosis.ts",
+      "riskIfRemoved": "Recommendation logic breaks",
+      "preserveHistorical": true
+    },
+    {
+      "state": "01",
+      "stepId": "other-specify",
+      "question": "OTHER (PLEASE SPECIFY)",
+      "primaryDisposition": "KEEP_BUT_MAKE_CONDITIONAL",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "Display/draft only",
+      "evidence": "Optional step always shown; mobile landing other field",
+      "riskIfRemoved": "Loss of free-text asset detail",
+      "preserveHistorical": true
+    },
+    {
+      "state": "01",
+      "stepId": "gaps",
+      "question": "WHAT FEELS INCOMPLETE?",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "diagnosticOverlap": "PARTIALLY_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "diagnoseIdentityNeed gap count >= 3",
+      "evidence": "identityDiagnosis.ts",
+      "riskIfRemoved": "Deep development signal lost",
+      "preserveHistorical": true
+    },
+    {
+      "state": "02",
+      "stepId": "pathways",
+      "question": "HOW WE CAN HELP YOU EVOLVE",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "secondaryNote": "Split options: see pathwayOptionOwnership in chamber JSON",
+      "diagnosticOverlap": "PARTIALLY_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "Display; identity refinement class",
+      "evidence": "diagnoseIdentityNeed ready-for-evolution",
+      "riskIfRemoved": "Evolve scope undefined",
+      "preserveHistorical": true
+    },
+    {
+      "state": "02",
+      "stepId": "goals",
+      "question": "WHAT ARE YOUR EVOLUTION GOALS?",
+      "primaryDisposition": "KEEP_IN_IDNTY",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "Draft/display",
+      "evidence": "No automated consumer beyond recommendation",
+      "riskIfRemoved": "Evolve narrative lost",
+      "preserveHistorical": true
+    },
+    {
+      "state": "02",
+      "stepId": "timeline",
+      "question": "WHAT IS YOUR TIMELINE?",
+      "primaryDisposition": "KEEP_AS_SHARED_PROJECT_PARAMETER",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "BLDR prefill",
+      "evidence": "Duplicate manifest instance",
+      "riskIfRemoved": "Same as 00 timeline",
+      "preserveHistorical": true
+    },
+    {
+      "state": "03",
+      "stepId": "services",
+      "question": "HOW CAN SITE 00 BUILD YOUR VISION?",
+      "primaryDisposition": "RECLASSIFY_TO_BLDR",
+      "diagnosticOverlap": "PARTIALLY_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "diagnoseIdentityNeed service string check; BLDR-like capabilities",
+      "evidence": "IDNTY_BUILD_READY_SERVICES mirrors build services not verification",
+      "riskIfRemoved": "Build-ready branch loses only non-verification content",
+      "preserveHistorical": true
+    },
+    {
+      "state": "03",
+      "stepId": "scope",
+      "question": "DESCRIBE WHAT NEEDS TO BE BUILT",
+      "primaryDisposition": "RECLASSIFY_TO_BLDR",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "Draft only; no identity verification",
+      "evidence": "BLDR assessment has scope-like steps",
+      "riskIfRemoved": "Move to BLDR intake",
+      "preserveHistorical": true
+    },
+    {
+      "state": "03",
+      "stepId": "timeline",
+      "question": "WHAT IS YOUR TIMELINE?",
+      "primaryDisposition": "KEEP_AS_SHARED_PROJECT_PARAMETER",
+      "diagnosticOverlap": "NOT_INFERABLE_FROM_DIAGNOSTIC",
+      "downstreamUse": "BLDR prefill",
+      "evidence": "Third duplicate instance",
+      "riskIfRemoved": "Normalize to one project field",
+      "preserveHistorical": true
+    }
+  ],
+  "pathwayOptionOwnership": {
+    "brand-strategy": "IDNTY",
+    "visual-identity": "IDNTY",
+    "digital-experience": "BLDR",
+    "brand-messaging": "IDNTY",
+    "growth-systems": "PUBLIC_EVOLVE",
+    "launch-evolve": "CROSS_SERVICE"
+  },
+  "goalOptionNotes": {
+    "launch-brand": "IDNTY",
+    "digital-presence": "CROSS_SERVICE",
+    "sell-online": "BLDR/COMMERCIAL",
+    "generate-leads": "CROSS_SERVICE",
+    "showcase-work": "BLDR",
+    "book-appointments": "BLDR",
+    "build-community": "CROSS_SERVICE",
+    "digital-product": "BLDR",
+    "reposition": "IDNTY",
+    "other": "IDNTY"
+  }
+}
