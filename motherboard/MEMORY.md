@@ -12831,3 +12831,13 @@ Founder-operable Experience Compiler workspace: gates, authority review, OpenArt
 - **Context:** MAP2 domain merged on main; sprint adds Studio OS workspace UI and operational pipeline (manifest emit/ingest, master/lite pack sizing, Sonnet batch copy).
 - **Shipped:** Route `/studio/:projectSlug/experience-compiler` (`ExperienceCompilerWorkspacePage`); tabs PROJECT/CONCEPT/EXPERIENCE/FAMILIES/AUTHORITY/CAPABILITIES/PRODUCTION/HISTORY; `src/studioos/experience-compiler/workspace/*` (browser bootstrap via JSON fixture, persistence localStorage); link from Studio dashboard; vitest `map2Workspace.test.ts` (10 tests); docs `docs/studioos/experience-compiler/MAP2-WORKSPACE/`.
 - **Conventions:** Browser bundle must not import MAP1 `pageDiscovery` fs — use `bootstrapBrowser.ts` + `MAP2_SITE00_INGEST_FIXTURE.json` for SITE 00 ingest UI; Node tests use `bootstrap.ts` + live compiler.
+
+---
+
+## 2026-10-01 — MAP2 icon + micro-asset expression (P0.STUDIOOS.EXPERIENCE-COMPILER.MAP2-ICON-EXPRESSION1)
+
+Extended MAP2 pipeline with project-wide icon requirement compiler, icon family authority before page authorities, Grok/Sonnet handoff manifests — no mass Grok generation, no SITE 00 public redesign.
+
+- **Context:** Icons compiled after graph/families/surfaces; Gate B now requires `icon_expression_approved` before `compileAuthorityPlan`; OpenArt emits `ICON_FAMILY_AUTHORITY` batch before page batches; page prompts reference approved icon language.
+- **Shipped:** `src/studioos/experience-compiler/icons/*` (semantics, requirements, classifier, expression, family, surface variants, manifest, coverage, pipeline); MAP2 types + orchestrator integration; workspace Families tab icon approval + pack `icons/` paths; fixtures `MAP2_ICON_*`; vitest `map2IconExpression.test.ts` (11 tests); 45 total compiler tests.
+- **Conventions:** Global semantics reusable; per-project icon family visual isolation; LIVE_CODE_SVG for utility chevrons; SITE 00 ingest classifies only.
