@@ -228,6 +228,8 @@ export type FamilySurfaceGate = {
   gate_id: 'GATE_B_FAMILY_SURFACE';
   status: GateStatus;
   approved_family_ids: string[];
+  icon_expression_approved: boolean;
+  micro_asset_expression_approved: boolean;
   history: { action: string; at: string; detail: string }[];
 };
 
@@ -270,18 +272,23 @@ export type VisualAuthorityGate = {
   status: VisualAuthorityGateStatus;
 };
 
+export type OpenArtAuthorityType = 'PAGE_AUTHORITY' | 'ICON_FAMILY_AUTHORITY' | 'MICRO_ASSET_FAMILY_AUTHORITY';
+
 export type OpenArtAuthorityBatch = {
   batch_id: string;
   project_id: string;
   family_id: string;
   surface: ExperienceSurface;
   authorities: string[];
+  authority_type: OpenArtAuthorityType;
   model: string;
   generation_mode: 'SEQUENTIAL_DEPENDENT' | 'PARALLEL_INDEPENDENT';
   prompts: Record<string, string>;
   aspect_ratios: Record<string, string>;
   expected_filenames: string[];
   dependency_order: string[];
+  icon_family_id?: string;
+  representative_semantics?: string[];
 };
 
 export type AuthorityPackManifest = {
@@ -322,6 +329,7 @@ export type Map2PipelineState = {
   families: ExperienceFamily[];
   surface_expressions: FamilySurfaceExpression[];
   gate_b: FamilySurfaceGate;
+  icon_pipeline: import('../icons/iconTypes').IconPipelineSlice | null;
   authority_plan: AuthorityPlanEntry[];
   gate_c: VisualAuthorityGate;
   openart_batches: OpenArtAuthorityBatch[];

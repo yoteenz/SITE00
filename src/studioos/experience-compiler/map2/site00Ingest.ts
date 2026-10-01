@@ -58,6 +58,7 @@ export function buildSite00IngestFixture(): {
 
   const gate_b = createGateB();
   gate_b.status = 'PENDING';
+  gate_b.icon_expression_approved = false;
 
   const pipeline_sketch: Map2PipelineState = {
     mode: resolveProjectMode({ has_existing_product: true, preserve_product_truth: true, requires_reconcept: false }),
@@ -69,6 +70,7 @@ export function buildSite00IngestFixture(): {
     families: [],
     surface_expressions: [],
     gate_b,
+    icon_pipeline: null,
     authority_plan: [],
     gate_c: { gate_id: 'GATE_C_VISUAL_AUTHORITY', status: 'NOT_READY' },
     openart_batches: [],

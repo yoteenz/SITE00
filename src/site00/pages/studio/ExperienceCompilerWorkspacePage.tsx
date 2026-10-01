@@ -6,6 +6,7 @@ import {
   addCustomExperienceFromWorkspace,
   approveAuthorityCandidate,
   approveGraph,
+  approveIconExpression,
   bootstrapGreenfieldWorkspace,
   computeWorkspaceMetrics,
   compileMasterPackFiles,
@@ -72,6 +73,7 @@ export default function ExperienceCompilerWorkspacePage() {
       plan: state.pipeline.authority_plan,
       assets: state.ingested_assets,
       lineage: { reviews: state.authority_reviews },
+      icon_pipeline: state.pipeline.icon_pipeline,
     });
     const lite = compileSonnetLitePackFiles(master);
     const size = validatePackSize(sumPackBytes(lite));
@@ -366,6 +368,29 @@ export default function ExperienceCompilerWorkspacePage() {
                 </ul>
               </article>
             ))}
+            {state.pipeline.icon_pipeline && (
+              <div className="ec-subpanel">
+                <h3>Icon system</h3>
+                <p>
+                  {state.pipeline.icon_pipeline.icon_coverage.counts.total} semantics · live SVG{' '}
+                  {state.pipeline.icon_pipeline.icon_coverage.counts.live_svg} · brand{' '}
+                  {state.pipeline.icon_pipeline.icon_coverage.counts.brand_icon} · micro{' '}
+                  {state.pipeline.icon_pipeline.icon_coverage.counts.micro_asset}
+                </p>
+                <p>Family: {state.pipeline.icon_pipeline.icon_family.name} v{state.pipeline.icon_pipeline.icon_family.version}</p>
+                <button type="button" className="ec-btn" onClick={() => setState((s) => approveIconExpression(s))}>
+                  APPROVE ICON FAMILY (Gate B)
+                </button>
+              </div>
+            )}
+          </section>
+        )}
+
+        {tab === 'authority' && state.pipeline.icon_pipeline && (
+          <section className="ec-panel">
+            <h2>Icon family authority</h2>
+            <p>{state.pipeline.icon_pipeline.icon_family_authority.authority_id}</p>
+            <div className="ec-candidate-placeholder">Icon reference sheet preview</div>
           </section>
         )}
 
@@ -436,6 +461,12 @@ export default function ExperienceCompilerWorkspacePage() {
         {tab === 'production' && (
           <section className="ec-panel">
             <h2>Production pipeline</h2>
+            {state.pipeline.icon_pipeline && (
+              <div className="ec-subpanel">
+                <h3>Icon coverage</h3>
+                <p>Grok assets required: {state.pipeline.icon_pipeline.grok_handoff.assets.length}</p>
+              </div>
+            )}
             {openArt && (
               <div className="ec-subpanel">
                 <h3>OpenArt manifest preview</h3>
