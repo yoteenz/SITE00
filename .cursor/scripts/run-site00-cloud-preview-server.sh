@@ -7,6 +7,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
+PIN_FILE="/tmp/site00-cloud-preview-pinned-ref"
+if [[ -z "${SITE00_PREVIEW_PIN_REF:-}" && -f "$PIN_FILE" ]]; then
+  SITE00_PREVIEW_PIN_REF="$(tr -d '[:space:]' < "$PIN_FILE")"
+fi
+
 MODE="${SITE00_CLOUD_PREVIEW_MODE:-ci}"
 SYNC="${SITE00_PREVIEW_SYNC_MAIN:-1}"
 PORT="${SITE00_CLOUD_PREVIEW_PORT:-5174}"
@@ -16,6 +21,17 @@ LOG="/tmp/site00-cloud-preview-server.log"
 log() {
   echo "[$(date -u +%H:%M:%S)] $*" | tee -a "$LOG"
 }
+
+if [[ -n "${SITE00_PREVIEW_PIN_REF:-}" ]]; then
+  log "Preview pinned to $SITE00_PREVIEW_PIN_REF (local build, no main sync)"
+  git fetch origin 2>>"$LOG" || true
+  git checkout "$SITE00_PREVIEW_PIN_REF" 2>>"$LOG" || {
+    log "FATAL: could not checkout pin ref $SITE00_PREVIEW_PIN_REF"
+    exit 1
+  }
+  SYNC=0
+  MODE="${SITE00_CLOUD_PREVIEW_MODE:-local}"
+fi
 
 if [[ "$MODE" == "dev" ]]; then
   log "Starting Vite DEV on :$PORT (SITE00_CLOUD_PREVIEW_MODE=dev)"
