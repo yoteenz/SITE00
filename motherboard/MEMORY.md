@@ -12971,3 +12971,9 @@ Unified DESIGN workspace is now **canonical at `/production/:projectSlug/design`
 Sprint: live **Viewport Lab** at `/production/:projectSlug/viewport-lab` — iframe client SPA preview. Merged into **`cursor/design-cutover-production-87ed`** so tunnel branch ships route + design cutover together (missing route had caused empty outlet / wrong navigation to Origin).
 
 - **Registry:** `shared/site00-viewport-lab/`; Hub menu **VIEWPORT LAB**; QA `node scripts/viewport-lab-qa-proof.mjs`.
+
+---
+
+## 2026-10-02 — Production nav typography fix (P0.STUDIOOS.PRODUCTION.NAV-TYPOGRAPHY-FIX1)
+
+Root cause: `.ph--hub { zoom: var(--phz) }` compounded all header/footer `font-size` values (~deviceWidth/864). Fix: **zoom only on `.ph--hub > .ph-scroll`** (chamber); **top/bottom nav + `prod-chrome-strip` use `ph--system-chrome` with `zoom:1`** and explicit px sizes in `site00-production-system-chrome-typography.css`. Forensics: `scripts/production-nav-typography-forensics.mjs` (`zoomProduct:1`, 1px font delta = 1px). Branch: `cursor/nav-typography-fix-production-87ed`.
