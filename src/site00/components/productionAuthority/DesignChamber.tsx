@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { HUB_ATMOSPHERE_SLOT_ID } from '../../../../shared/site00-production-hub/index.js';
 import {
   isProductionDesignMode,
   PRODUCTION_DESIGN_MODE_ORDER,
   type ProductionDesignMode,
 } from '../../config/production-authority-registry';
-import { HubImage } from '../productionHub/HubImage';
+import { AUTHORITY_ASSETS } from './authorityAssets';
 import { DESIGN_CHAMBER, type ChamberPanel, type DesignChamberConfig } from './designChamberConfig';
-import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { Orb, Sec } from './primitives';
 
 export function useDesignMode(): ProductionDesignMode {
@@ -43,8 +41,8 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
     case 'plates':
       return (
         <span className="pxa-vis pxa-vis--plates">
-          {(panel.plates ?? []).map((p) => (
-            <i key={p} style={{ backgroundImage: `url(${p})` }} />
+          {(panel.plates ?? []).map((p, i) => (
+            <i key={`${panel.n}-${i}`} style={{ backgroundImage: `url(${p})` }} />
           ))}
         </span>
       );
@@ -126,7 +124,12 @@ function Panel({ panel, side }: { panel: ChamberPanel; side: 'left' | 'right' })
         </i>
       </header>
       <div className={`pxa-panel__body${panel.rows?.length ? ' has-rows' : ''}`}>
-        <PanelVis panel={panel} />
+        <span
+          className="pxa-panel__viswrap"
+          style={panel.art && panel.vis !== 'plates' ? { backgroundImage: `url(${panel.art})` } : undefined}
+        >
+          <PanelVis panel={panel} />
+        </span>
         {panel.rows?.length ?
           <ul className="pxa-panel__rows">
             {panel.rows.map((r) => (
@@ -196,7 +199,7 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   );
   return (
     <div className="pxa-chamber pxa-chamber--viewport" data-testid="design-chamber" data-mode="viewport">
-      <ChamberBackdrop />
+      <ChamberBackdrop environment="corridor" />
       <div className="pxa-vstage" ref={stageRef}>
         <div className="pxa-device" data-orientation={orientation.toLowerCase()} data-preset={preset} style={{ width: Math.round(w * scale), height: Math.round(h * scale) }} data-testid="design-viewport-device">
           <span className="pxa-device__scaler" style={{ width: w, height: h, transform: `scale(${scale})` }}>
@@ -230,19 +233,25 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   );
 }
 
-function ChamberBackdrop() {
-  const data = useProductionAuthorityData();
+function ChamberBackdrop({ environment = 'atrium' }: { environment?: 'atrium' | 'corridor' }) {
   return (
     <>
       <span className="pxa-chamber__atrium" aria-hidden>
+        <img
+          className="pxa-chamber__atrium-art"
+          alt=""
+          src={environment === 'corridor' ? AUTHORITY_ASSETS.viewportCorridor : AUTHORITY_ASSETS.designAtrium}
+        />
         <i className="pxa-chamber__ring pxa-chamber__ring--1" />
         <i className="pxa-chamber__ring pxa-chamber__ring--2" />
         <i className="pxa-chamber__ring pxa-chamber__ring--3" />
         <i className="pxa-chamber__floor" />
       </span>
-      <span className="pxa-chamber__bg" aria-hidden>
-        <HubImage slotId={HUB_ATMOSPHERE_SLOT_ID} url={data?.assetUrl(HUB_ATMOSPHERE_SLOT_ID) ?? null} label="CHAMBER ATMOSPHERE" />
-      </span>
+      {environment === 'atrium' ?
+        <span className="pxa-chamber__bg" aria-hidden>
+          <img className="pxa-core" alt="" src={AUTHORITY_ASSETS.designCore} />
+        </span>
+      : null}
       <span className="pxa-chamber__wash" aria-hidden />
     </>
   );
@@ -278,7 +287,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
               <div className="pxa-overview-panel__body">
                 <span className="pxa-overview-panel__art">
                   <span className="pxa-overview-panel__mark" aria-hidden>
-                    <i />
+                    <img src={AUTHORITY_ASSETS.designCore} alt="" />
                   </span>
                   <p>{cfg.lede}</p>
                 </span>
@@ -302,8 +311,8 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
                       {cfg.panels
                         .flatMap((p) => p.plates ?? [])
                         .slice(0, 3)
-                        .map((u) => (
-                          <i key={u} style={{ backgroundImage: `url(${u})` }} />
+                        .map((u, i) => (
+                          <i key={`${u}-${i}`} style={{ backgroundImage: `url(${u})` }} />
                         ))}
                     </span>
                   : null}

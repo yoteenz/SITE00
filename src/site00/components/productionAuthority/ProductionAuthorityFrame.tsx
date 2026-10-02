@@ -6,6 +6,7 @@ import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNa
 import { ProductionAuthorityDataProvider, useProductionAuthorityData } from './ProductionAuthorityData';
 import '../../styles/site00-production-authority.css';
 import '../../styles/site00-production-authority-opus.css';
+import '../../styles/site00-production-authority-assets.css';
 
 function useBodyLock() {
   useEffect(() => {

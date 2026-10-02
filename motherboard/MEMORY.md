@@ -12897,3 +12897,15 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/produc
 - **Viewport:** the device now renders the live client app in an iframe (DEV: `/app/preview/fixture-app-ndxbook`, prod: `/app/projects/:slug`), scaled to fit the preset.
 - **Host chrome fix:** a body-level `.pxa .ph-img { position: absolute }` rule had pinned the project mark to the page corner; static overrides in `site00-production-host-chrome.css` put it back inside the PROJECT group (no scaling).
 - **Proof:** `artifacts/production-authority-opus/` (36 final JPGs + 36 authority|live compares + `PROOF_MATRIX.md` + `matrix.json`). All 36 structurally pass; all 36 are RESIDUAL on missing authority artwork (atrium crowds, world / stage / canon renders, board art).
+
+---
+
+## 2026-10-02 — Production authority asset render (GROK1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ASSET-RENDER.GROK1`. Base verified as `cursor/production-authority-convergence-opus1` @ `0a6be266`. Work on `cursor/production-authority-asset-render-grok1`. No deploy, no merge, no auth, route, or chrome changes.
+
+- **Context:** Sonnet aligned the 36 screens and Opus converged geometry. The remaining gap was missing artwork: atrium, project core, six design-board plates, hub crystal, experience world, expression stage, library canon, red-geometry plates, viewport corridor.
+- **Discovery:** `atmosphere.webp` is a glass cylinder and does not satisfy those targets. It still feeds Activity. Production-mobile thumbs are tiny stand-ins. Storyboard frames have faces and were not reused.
+- **Generation:** OpenArt GPT Image 2, 16 plates in `public/site00/production-authority-assets/`. The project core is a transparent PNG. Provenance is `SOURCE.md` in that folder.
+- **Integration:** plates drop into existing hero, atrium, overview-mark, panel, vault, and corridor slots. Live hub URLs, counts, routes, and the viewport iframe stay. Character Fabrication stays first.
+- **QA:** structural capture 36/36. Sonnet suite 14/14. Opus suite 12/12. Build and verify-production-dist pass.

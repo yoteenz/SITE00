@@ -1,5 +1,6 @@
 import type { ProductionDesignMode } from '../../config/production-authority-registry';
 import { PW_IMG } from '../production/productionImagery';
+import { AUTHORITY_ASSETS } from './authorityAssets';
 
 export type ChamberVis = 'plates' | 'swatches' | 'type' | 'graph' | 'phones' | 'list' | 'grid' | 'frames' | 'globe';
 
@@ -12,6 +13,8 @@ export type ChamberPanel = {
   plates?: string[];
   /** Board index rows (the authority's bullet column). */
   rows?: string[];
+  /** Interior artwork for this mode. Live row copy stays in front of it. */
+  art?: string;
 };
 
 export type DesignChamberConfig = {
@@ -207,3 +210,12 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     ],
   },
 };
+
+for (const cfg of Object.values(DESIGN_CHAMBER)) {
+  const art = AUTHORITY_ASSETS.boards[cfg.mode];
+  for (const panel of cfg.panels) {
+    panel.art = art;
+    if (panel.plates?.length) panel.plates = panel.plates.map(() => art);
+  }
+  for (const card of cfg.table) card.plate = art;
+}

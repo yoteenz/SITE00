@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStudioWorldActorCatalogue } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
 import { PW_IMG } from '../production/productionImagery';
-import { HubImage } from '../productionHub/HubImage';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
+import { AUTHORITY_ASSETS } from './authorityAssets';
 import { Dot, Sec, Tabs, Thumb } from './primitives';
 
 type Lib = { id: string; title: string; sub: string; img: string; scope: string };
@@ -86,9 +86,7 @@ export function LibraryBody() {
         <>
           <section className="pxa-vault" data-testid="library-vault">
             <div className="pxa-vault__hero">
-              <span className="pxa-vault__bg" aria-hidden>
-                <HubImage slotId="production.hub.chamber.atmosphere" url={data?.assetUrl('production.hub.chamber.atmosphere') ?? null} label="CANON" />
-              </span>
+              <span className="pxa-vault__bg pxa-vault__bg--canon" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.libraryCanon})` }} aria-hidden />
               <span className="pxa-hero__wash" aria-hidden />
               <h2>
                 {(production?.label ?? 'PROJECT')} CANONICAL ASSET
@@ -152,12 +150,17 @@ export function LibraryBody() {
             <Sec title="RECENT ADDITIONS" to="/production/activity" actionLabel="VIEW ALL" className="pxa-card" testId="library-recent">
               <ul className="pxa-strip">
                 {recent.length ?
-                  recent.map((n) => (
-                    <li key={n.id}>
-                      <Thumb slotId={n.assetSlotId} url={data?.assetUrl(n.assetSlotId) ?? null} label={n.label} />
-                      <b>{n.label}</b>
-                    </li>
-                  ))
+                  recent.map((n, i) => {
+                    const url = data?.assetUrl(n.assetSlotId) ?? null;
+                    return (
+                      <li key={n.id}>
+                        {url ?
+                          <Thumb slotId={n.assetSlotId} url={url} label={n.label} />
+                        : <Thumb plate={AUTHORITY_ASSETS.libraryPlates[i % AUTHORITY_ASSETS.libraryPlates.length]} label={n.label} />}
+                        <b>{n.label}</b>
+                      </li>
+                    );
+                  })
                 : <li className="pxa-empty">NO CANONICAL ASSETS MOUNTED YET.</li>}
               </ul>
             </Sec>
@@ -175,7 +178,7 @@ export function LibraryBody() {
           <Sec title="LINEAGE" className="pxa-card pxa-lineage" testId="library-lineage-flow">
             <ol className="pxa-flow">
               <li>
-                <Thumb plate={PW_IMG.look} />
+                <Thumb plate={AUTHORITY_ASSETS.libraryPlates[0]} />
                 <b>PROTOTYPE 01</b>
                 <small>ANCESTOR</small>
               </li>
