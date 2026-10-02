@@ -27,7 +27,7 @@ export function ExperienceCompilerCreativeWorkspace({ state }: Props) {
   const compareBc = territoryIds.length >= 3 ? ([territoryIds[1], territoryIds[2]] as [string, string]) : null;
 
   return (
-    <div className="ec-cw" data-testid="ec-creative-workspace">
+    <div className="ec-cw" data-testid="ec-cw">
       {persistenceDegraded ? (
         <p className="ec-cw-degraded" role="status">
           PERSISTENCE DEGRADED / PREVIEW ONLY — local thread cache; durable Supabase memory when auth is restored.
