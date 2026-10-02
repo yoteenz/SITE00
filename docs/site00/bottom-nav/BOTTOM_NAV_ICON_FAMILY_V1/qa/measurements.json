@@ -1,0 +1,87 @@
+{
+  "method": "keyed-from-hq-render",
+  "ink": "#141414",
+  "target": 320,
+  "stroke": 31,
+  "whiteLuma": 248,
+  "blackLuma": 36,
+  "icons": {
+    "HUB": {
+      "file": "outputs/01_HUB.png",
+      "canvas": 512,
+      "inkWidth": 320,
+      "inkHeight": 307,
+      "centerOfGravityX": 256.47,
+      "centerOfGravityY": 256.23,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/01_HUB.jpg"
+    },
+    "INBOX": {
+      "file": "outputs/02_INBOX.png",
+      "canvas": 512,
+      "inkWidth": 320,
+      "inkHeight": 196,
+      "centerOfGravityX": 255.56,
+      "centerOfGravityY": 255.74,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/02_INBOX.jpg"
+    },
+    "DESIGN": {
+      "file": "outputs/03_DESIGN.png",
+      "canvas": 512,
+      "inkWidth": 320,
+      "inkHeight": 310,
+      "centerOfGravityX": 255.83,
+      "centerOfGravityY": 255.57,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/03_DESIGN.jpg"
+    },
+    "EXPERIENCE": {
+      "file": "outputs/04_EXPERIENCE.png",
+      "canvas": 512,
+      "inkWidth": 320,
+      "inkHeight": 319,
+      "centerOfGravityX": 255.98,
+      "centerOfGravityY": 256.15,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/04_EXPERIENCE.jpg"
+    },
+    "EXPRESSION": {
+      "file": "outputs/05_EXPRESSION.png",
+      "canvas": 512,
+      "inkWidth": 294,
+      "inkHeight": 320,
+      "centerOfGravityX": 255.58,
+      "centerOfGravityY": 256.17,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/05_EXPRESSION.jpg"
+    },
+    "LIBRARY": {
+      "file": "outputs/06_LIBRARY.png",
+      "canvas": 512,
+      "inkWidth": 320,
+      "inkHeight": 289,
+      "centerOfGravityX": 255.8,
+      "centerOfGravityY": 255.93,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/06_LIBRARY.jpg"
+    },
+    "ACTIVITY": {
+      "file": "outputs/07_ACTIVITY.png",
+      "canvas": 512,
+      "inkWidth": 320,
+      "inkHeight": 187,
+      "centerOfGravityX": 255.79,
+      "centerOfGravityY": 256.11,
+      "redPixels": 0,
+      "occupancy": 0.625,
+      "source": "authority/hq/07_ACTIVITY.jpg"
+    }
+  }
+}

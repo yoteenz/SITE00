@@ -1,3 +1,5 @@
+Superseded by `BOTTOM_NAV_ICON_FAMILY` V1. These files stay as lineage. Do not wire them.
+
 # SITE 00 bottom nav — Grok icon pack
 
 Icon fabrication only. These files are not wired into Production navigation.
