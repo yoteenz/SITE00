@@ -32,6 +32,9 @@ export function isSite00EcPreviewGuestFeatureActive(): boolean {
 
 /** Cloud preview/tunnel — skip sign-in redirects while Supabase is unavailable (temporary QA). */
 export function isSite00PreviewAuthBypassActive(): boolean {
+  if (isSite00CloudPreviewBuild() || isSite00PreviewTunnelHost()) {
+    return true;
+  }
   return isSite00EcPreviewGuestFeatureActive();
 }
 
