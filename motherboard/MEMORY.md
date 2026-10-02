@@ -12851,3 +12851,13 @@ Post-Opus scene decomposition + Grok asset pack compiler between Opus geometry a
 - **Context:** Sprint adds surgical image layer: layer ownership, image requirements (must include/exclude), continuity groups, multi-surface derivation, reference crops, safe zones, fabrication specs, Grok pack, QA; SITE 00 INGEST validates all authorities + asset slots.
 - **Shipped:** `src/studioos/experience-compiler/visual-surgery/*` + `runVisualAssetSurgeryPipeline()`; `Map2PipelineState.visual_surgery_pipeline`; SITE 00 ingest + workspace browser bootstrap attach surgery; authority pack export `images/` + `GROK_ASSET_PACK/` stubs; workspace Image system + Visual asset surgery panels; vitest `map2VisualAssetSurgery.test.ts` (14 tests, 59 compiler total); docs + `MAP2_*` fixtures via `scripts/run-map2-visual-surgery-fixtures.ts`.
 - **Conventions:** Bboxes are normalized heuristics until Opus live geometry probes land; reference crops/safe-zone overlays are metadata paths only in MAP2 sprints; Grok receives per-asset specs not full screenshots.
+
+---
+
+## 2026-10-02 — Sign-in authorization hang (Supabase unreachable)
+
+Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
+
+- **Cause:** Supabase `hyycomvcaqxxvyrfupes` **522/timeouts**; `signInWithPassword` / `getSession` unbounded → submitting state hung.
+- **Fix (PR #1279):** Supabase client global fetch timeout ~15s; sign-in/magic-link + bootstrap/getAccessToken capped; message **SIGN-IN SERVICE IS TEMPORARILY UNAVAILABLE** when down.
+- **Founder:** Restore Supabase project health in dashboard; redeploy cPanel/tunnel CI dist after merge for tunnel bundle.
