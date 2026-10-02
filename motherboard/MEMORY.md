@@ -12885,3 +12885,34 @@ Preview guest route worked but shell/nav/auth-state was inconsistent.
 - **Contrast:** EC workspace dark text on light `site00-ecosystem-mobile-shell` (#f4f4f2) — was light-on-light ghost UI.
 - **Creative tab:** stub + persistence degraded copy in preview guest.
 - **PRs #1282, #1283** → `main`.
+
+## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
+
+Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
+
+- **Shipped:** `CreativeDirectorAgent` + `CreativeModelGateway` (server OpenAI JSON contracts), `CreativeContextPack` compiler, project-scoped creative threads, `FounderJudgment` persistence, structured validation for concept/graph/family/surface/authority modes, revision translator, Visual Authority Model / Sonnet / Opus handoff compilers, API `/api/site00/experience-compiler-creative-director`, workspace tab `?tab=creative` (3-column UI + journey rail).
+- **Runtime:** No fabricated territories; vitest + missing `OPENAI_API_KEY` → `MODEL_RUNTIME_BLOCKED`. Founder must set `founder_initiated: true` for runs.
+- **First thread:** SITE 00 → YOUR SPACE seed context in pack (not hard-coded engine logic).
+- **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
+
+---
+
+## 2026-10-02 — CGPT live runtime + durable persistence (P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-LIVE-RUNTIME-PERSISTENCE1)
+
+Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
+
+- **Context:** Prove live OpenAI Creative Director + Supabase persistence for YOUR SPACE CONCEPT_TERRITORIES; fix model id (`gpt-5.6-sol` + separate reasoning); Responses API; founder judgment quarantine (`TEST_JUDGMENT_ONLY` cannot LOVE_IT).
+- **Shipped:** `modelConfig.ts`, Supabase persistence module + migration `20261001200000_site00_experience_compiler_creative_director.sql`, async agent/store/API, `runtime-status` with `OPENAI_API_KEY_PRESENT`, history adapter, expanded territory UI + run metadata, live-proof scripts, vitest persistence/model/quarantine tests (13 tests pass).
+- **Runtime proof:** Cloud VM + local API `OPENAI_API_KEY_PRESENT: NO`. Production `api.site00.com` still 404 on creative-director route (branch not deployed). Supabase MCP/REST timeout (522) — migration not applied from agent; use dashboard/CLI.
+- **Classification:** BLOCKED for full sprint PASS until Railway redeploy + migration apply + one live CONCEPT_TERRITORIES run.
+- **Next:** Merge/deploy API branch; apply migration; run `tsx scripts/studioos/run-creative-director-live-proof.ts` with key; set `SITE00_CREATIVE_DIRECTOR_STRICT_PERSISTENCE=1` in prod when tables verified.
+
+---
+
+## 2026-10-02 — Supabase apply-all-migrations (blocked from cloud VM)
+
+Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`.
+
+- **Blocker:** Project REST/auth health returns **Cloudflare 522** (~20s) from cloud agent; Supabase MCP `list_migrations` / `execute_sql` / `apply_migration` all **connection timeout**. Management API reports `ACTIVE_HEALTHY` but DB/API origin unreachable.
+- **Likely pending (verify in dashboard):** `20260921120000`, `20260929153000`, `20260929160000`, `20261001150000`, `20261001200000` — see `docs/supabase/PENDING_MIGRATIONS_CHECKLIST.md`.
+- **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.

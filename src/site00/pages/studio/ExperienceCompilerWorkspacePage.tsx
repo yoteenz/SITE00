@@ -32,6 +32,7 @@ import {
   type WorkspaceSection,
 } from '../../../studioos/experience-compiler/workspace';
 import { persistWorkspace } from '../../../studioos/experience-compiler/workspace/persistence';
+import { ExperienceCompilerCreativeDirectorPanel } from '../../components/studio/ExperienceCompilerCreativeDirectorPanel';
 import '../../../site00/styles/site00-experience-compiler-workspace.css';
 
 const SECTIONS: { id: WorkspaceSection; label: string }[] = [
@@ -48,7 +49,7 @@ const SECTIONS: { id: WorkspaceSection; label: string }[] = [
 
 export default function ExperienceCompilerWorkspacePage() {
   const { projectSlug = 'site00' } = useParams();
-  const { authMode, persistenceDegraded } = useSite00ShellAuth();
+  const { authMode } = useSite00ShellAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const previewGuestNav =
     authMode === 'PREVIEW_GUEST' || (!isSignedIn() && isSite00EcPreviewGuestFeatureActive());
@@ -211,6 +212,12 @@ export default function ExperienceCompilerWorkspacePage() {
             </button>
           ))}
         </nav>
+
+        {tab === 'creative' && (
+          <section className="ec-panel ec-panel--flush">
+            <ExperienceCompilerCreativeDirectorPanel state={state} />
+          </section>
+        )}
 
         {tab === 'project' && (
           <section className="ec-panel">
@@ -544,26 +551,6 @@ export default function ExperienceCompilerWorkspacePage() {
                 </button>
               </div>
             )}
-          </section>
-        )}
-
-        {tab === 'creative' && (
-          <section className="ec-panel">
-            <h2>Creative director</h2>
-            {persistenceDegraded ? (
-              <p className="ec-note ec-note--degraded" role="status">
-                PERSISTENCE DEGRADED / PREVIEW ONLY — creative runs may use local fixtures and live API when
-                configured, but will not write durable Supabase memory until sign-in is restored.
-              </p>
-            ) : (
-              <p className="ec-note">
-                Creative director workspace — use authenticated Studio session for durable persistence.
-              </p>
-            )}
-            <p className="ec-note">
-              MAP2 creative territories and CGPT loop UI ship on dedicated compiler branches; this tab stays
-              available in preview guest mode for founder review navigation.
-            </p>
           </section>
         )}
 
