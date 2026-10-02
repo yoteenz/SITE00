@@ -5,8 +5,10 @@
  * in `useDwsProject` — the shell, modes and expression states do not depend on where the content comes from.
  */
 
-export const DWS_MODES = ['brand', 'experience', 'surfaces', 'compiler', 'assets'] as const;
+export const DWS_MODES = ['brand', 'experience', 'surfaces', 'compiler', 'assets', 'viewport'] as const;
 export type DwsMode = (typeof DWS_MODES)[number];
+/** The five boards-and-overlays modes. VIEWPORT is the final validation mode: a live-preview chamber, not a board stage. */
+export type DwsArtMode = Exclude<DwsMode, 'viewport'>;
 
 export const DWS_MODE_LABEL: Record<DwsMode, string> = {
   brand: 'BRAND',
@@ -14,6 +16,7 @@ export const DWS_MODE_LABEL: Record<DwsMode, string> = {
   surfaces: 'SURFACES',
   compiler: 'COMPILER',
   assets: 'ASSETS',
+  viewport: 'VIEWPORT',
 };
 
 export type DwsIconId = string;
@@ -41,7 +44,7 @@ export type DwsDrawerId = 'brand-library' | 'journeys' | 'surface-families' | 's
 export type DwsInspectorId = 'asset-details' | 'interaction-select' | 'surface-details' | 'project-intelligence' | 'metadata-versions';
 export type DwsModalId = 'brand-review' | 'path-review' | 'compare-surfaces' | 'authority-review' | 'asset-details' | 'export';
 
-export const DWS_EXPRESSION: Record<DwsMode, { drawer: DwsDrawerId; inspector: DwsInspectorId; modal: DwsModalId }> = {
+export const DWS_EXPRESSION: Record<DwsArtMode, { drawer: DwsDrawerId; inspector: DwsInspectorId; modal: DwsModalId }> = {
   brand: { drawer: 'brand-library', inspector: 'asset-details', modal: 'brand-review' },
   experience: { drawer: 'journeys', inspector: 'interaction-select', modal: 'path-review' },
   surfaces: { drawer: 'surface-families', inspector: 'surface-details', modal: 'compare-surfaces' },

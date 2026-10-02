@@ -2966,3 +2966,307 @@
 .dws[data-viewport='mobile'] .dws-board--featured .dws-board__fbody { padding-bottom: 7cqi; }
 .dws[data-viewport='mobile'] .dws-board--featured .dws-board__expr { bottom: -2px; }
 .dws[data-family='tabletP'] .dws-board--featured .dws-board__fentries { font-size: max(7px, 3.2cqi); letter-spacing: 0.05em; }
+
+/* ======================================================================= VIEWPORT MODE (final DESIGN mode, after ASSETS)
+ * The outer workspace is fixed. Only the stage content below changes. Glass panels + one live-preview chamber on the
+ * luminous atrium; the client app renders in an isolated iframe and host QA guides sit above it.
+ */
+
+.dws-vp__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  gap: 14px;
+  padding: 18px 26px 16px;
+  grid-template-columns: minmax(0, 26.5%) minmax(0, 1fr) minmax(0, 25%);
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: 'left chamber right';
+}
+/* side stacks are independent columns (desktop + tablet landscape); on tablet portrait + phone they dissolve into grid areas */
+.dws-vp__col { display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0; }
+.dws-vp__col--l { grid-area: left; }
+.dws-vp__col--r { grid-area: right; }
+.dws[data-family='tabletP'] .dws-vp__col, .dws[data-viewport='mobile'] .dws-vp__col { display: contents; }
+
+.dws-vp__panel {
+  min-width: 0;
+  padding: 0 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 16px 34px -14px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(232, 25, 44, 0.08);
+  backdrop-filter: blur(10px);
+}
+.dws-vp__panel--presets { grid-area: presets; }
+.dws-vp__panel--routes { grid-area: routes; }
+.dws-vp__panel--interactions { grid-area: inter; }
+.dws-vp__panel--overlays { grid-area: overlays; }
+
+.dws-vp__ph { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 8px; color: #333; }
+.dws-vp__ph h2 { padding-left: 11px; border-left: 2px solid var(--dws-red); font-family: var(--dws-font-c); font-size: 17px; font-weight: 500; letter-spacing: 0.06em; line-height: 1; }
+
+/* presets */
+.dws-vp__presets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 4px 14px 2px; }
+.dws-vp__presets button {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; min-height: 64px; padding: 10px 2px 8px;
+  border: 1px solid transparent; border-radius: 6px; background: transparent; color: #222; font-size: 11px; letter-spacing: 0.08em;
+}
+.dws-vp__presets button.is-on { border-color: var(--dws-red); background: #fff; color: var(--dws-red); box-shadow: 0 6px 14px -6px rgba(232, 25, 44, 0.45); }
+.dws-vp__no { display: none; font-style: normal; }
+
+/* routes */
+.dws-vp__routes { display: flex; flex-direction: column; padding: 2px 10px 0; }
+.dws-vp__routes button {
+  display: grid; grid-template-columns: 18px auto minmax(0, 1fr); align-items: center; gap: 10px; width: 100%; min-height: 34px; padding: 4px 10px;
+  border: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); background: transparent; text-align: left; font-size: 12px; letter-spacing: 0.08em; color: #222;
+}
+.dws-vp__routes b { font-family: var(--dws-font-c); font-weight: 500; font-size: 14px; }
+.dws-vp__routes span { color: var(--dws-mute); font-size: 10px; text-align: right; }
+.dws-vp__routes button.is-on { background: rgba(232, 25, 44, 0.1); border-bottom-color: transparent; color: var(--dws-red); }
+.dws-vp__routes button.is-on span { color: var(--dws-red); }
+
+/* interactions */
+.dws-vp__inter { display: flex; flex-direction: column; padding: 2px 12px 0; }
+.dws-vp__inter button {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) 16px; align-items: center; gap: 10px; width: 100%; min-height: 36px; padding: 4px 6px;
+  border: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.08); background: transparent; text-align: left; font-size: 13px; letter-spacing: 0.1em; color: #222;
+}
+.dws-vp__inter button.is-on { color: var(--dws-red); background: rgba(232, 25, 44, 0.07); }
+
+/* overlays */
+.dws-vp__ovs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 6px 14px 2px; }
+.dws-vp__ovs button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 76px; padding: 8px 2px;
+  border: 1px solid transparent; border-radius: 6px; background: transparent; font-size: 11px; letter-spacing: 0.1em; color: #333;
+}
+.dws-vp__ovs button.is-on { border-color: var(--dws-red); background: #fff; color: var(--dws-red); }
+
+/* chamber */
+.dws-vp__chamber {
+  grid-area: chamber;
+  display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: 10px 14px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.95); border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(246, 246, 245, 0.82));
+  box-shadow: 0 22px 44px -16px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(232, 25, 44, 0.1), 0 0 40px rgba(232, 25, 44, 0.12);
+  backdrop-filter: blur(10px);
+}
+.dws-vp__chead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; padding-bottom: 8px; }
+.dws-vp__cap { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.dws-vp__cap b { font-family: var(--dws-font-c); font-size: 15px; font-weight: 500; letter-spacing: 0.08em; }
+.dws-vp__cap span { font-size: 12px; color: #444; letter-spacing: 0.08em; }
+.dws-vp__cap em { font-style: normal; font-size: 10px; letter-spacing: 0.14em; color: var(--dws-red); }
+.dws-vp__ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dws-vp__ctl :is(button, a, select) {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 9px;
+  border: 1px solid rgba(0, 0, 0, 0.14); border-radius: 999px; background: #fff; font-size: 10.5px; letter-spacing: 0.1em; color: #222;
+}
+.dws-vp__ctl select { padding-right: 4px; }
+.dws-vp__ctl .is-on { border-color: var(--dws-red); color: var(--dws-red); }
+.dws-vp__ctl :is([data-testid='dws-vp-refresh'], [data-testid='dws-vp-newtab']) span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dws-vp__cbody { position: relative; flex: 1; min-height: 0; display: flex; gap: 12px; container-type: inline-size; container-name: vpbody; }
+.dws-vp__pv { flex: 1; min-width: 0; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: auto; scrollbar-width: thin; }
+.dws-vp__pv[data-hidden='1'] { display: none; }
+.dws-vp__fig { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; flex: none; }
+.dws-vp__fig figcaption { font-size: 10px; letter-spacing: 0.12em; color: #555; }
+.dws-vp__fig figcaption b { font-family: var(--dws-font-c); font-weight: 500; color: #111; }
+.dws-vp__device {
+  position: relative; flex: none; overflow: hidden; background: #fff; border-radius: 3px;
+  box-shadow: 0 0 0 4px #121212, 0 0 0 5px rgba(255, 255, 255, 0.85), 0 16px 34px rgba(0, 0, 0, 0.3), 0 0 28px rgba(232, 25, 44, 0.18);
+}
+.dws-vp__fig[data-device='tablet'] .dws-vp__device { border-radius: 10px; box-shadow: 0 0 0 7px #121212, 0 0 0 8px rgba(255, 255, 255, 0.85), 0 16px 34px rgba(0, 0, 0, 0.3), 0 0 28px rgba(232, 25, 44, 0.18); }
+.dws-vp__fig[data-device='mobile'] .dws-vp__device { border-radius: 16px; box-shadow: 0 0 0 7px #121212, 0 0 0 8px rgba(255, 255, 255, 0.85), 0 16px 34px rgba(0, 0, 0, 0.3), 0 0 28px rgba(232, 25, 44, 0.18); }
+.dws-vp__scaler { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.dws-vp__iframe { display: block; width: 100%; height: 100%; border: 0; background: #0b0b0b; }
+
+/* host QA guides (above the frame; never touch client CSS) */
+.dws-vp__device > i { position: absolute; pointer-events: none; font-style: normal; }
+.dws-vp__unsafe { background: repeating-linear-gradient(135deg, rgba(232, 25, 44, 0.22) 0 3px, rgba(232, 25, 44, 0.06) 3px 7px); }
+.dws-vp__unsafe--t { left: 0; right: 0; top: 0; }
+.dws-vp__unsafe--b { left: 0; right: 0; bottom: 0; }
+.dws-vp__unsafe--l { left: 0; }
+.dws-vp__unsafe--r { right: 0; }
+.dws-vp__safe { border: 1.5px dashed var(--dws-red); }
+.dws-vp__gridov { inset: 0; background-image: linear-gradient(rgba(232, 25, 44, 0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(232, 25, 44, 0.35) 1px, transparent 1px); }
+.dws-vp__bounds { inset: 0; outline: 2px solid var(--dws-red); outline-offset: -2px; }
+.dws-vp__bounds b { position: absolute; left: 0; top: 0; padding: 2px 6px; background: var(--dws-red); color: #fff; font-size: 9.5px; font-weight: 500; letter-spacing: 0.1em; }
+
+.dws-vp__dots { display: flex; justify-content: center; gap: 7px; padding: 6px 0 0; }
+.dws-vp__dots i { width: 5px; height: 5px; border-radius: 50%; background: rgba(0, 0, 0, 0.2); }
+.dws-vp__dots i.is-on { background: var(--dws-red); box-shadow: 0 0 6px rgba(232, 25, 44, 0.7); }
+.dws-vp__cfoot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 2px 2px; font-size: 11px; letter-spacing: 0.1em; }
+.dws-vp__cfoot small { color: #666; }
+.dws-vp__num { display: inline-flex; align-items: center; gap: 8px; }
+.dws-vp__num span { font-size: 10px; letter-spacing: 0.14em; color: #555; }
+.dws-vp__num input { width: 74px; min-height: 28px; padding: 0 8px; border: 1px solid rgba(0, 0, 0, 0.18); border-radius: 4px; background: #fff; text-align: right; font-size: 12px; }
+
+/* compare */
+.dws-vp__compare { flex: 1; min-width: 0; min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.dws-vp__cmp { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; min-height: 0; }
+.dws-vp__cmp-pick { display: inline-flex; gap: 4px; padding: 3px; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 999px; background: #fff; }
+.dws-vp__cmp-pick button { min-height: 24px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; font-size: 10px; letter-spacing: 0.1em; }
+.dws-vp__cmp-pick button.is-on { background: var(--dws-red); color: #fff; }
+
+/* validation */
+.dws-vp__valid { flex: 1; min-width: 0; min-height: 0; overflow: auto; container-type: inline-size; display: grid; gap: 14px 22px; grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.8fr); align-items: center; padding: 6px 4px; }
+.dws-vp__ring { position: relative; width: 104px; height: 104px; }
+.dws-vp__ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.dws-vp__ring circle { fill: none; stroke: rgba(0, 0, 0, 0.1); stroke-width: 4; }
+.dws-vp__ring .dws-vp__ring-on { stroke: var(--dws-red); stroke-linecap: round; }
+.dws-vp__ring b { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--dws-font-c); font-size: 26px; font-weight: 500; }
+.dws-vp__checks h3 { padding-left: 10px; border-left: 2px solid var(--dws-red); margin-bottom: 8px; font-family: var(--dws-font-c); font-size: 15px; font-weight: 500; letter-spacing: 0.08em; }
+.dws-vp__checks ul, .dws-vp__inspect ul { display: flex; flex-direction: column; }
+.dws-vp__checks li { display: grid; grid-template-columns: 8px minmax(0, 1fr) auto auto auto; align-items: center; gap: 8px; min-height: 34px; border-bottom: 1px solid rgba(0, 0, 0, 0.07); font-size: 12px; letter-spacing: 0.1em; }
+.dws-vp__checks li i, .dws-vp__vlist i::before { width: 7px; height: 7px; border-radius: 50%; background: #b3b3b3; }
+.dws-vp__checks li[data-mark='PASS'] i { background: #1f9d55; }
+.dws-vp__checks li[data-mark='FAIL'] i { background: var(--dws-red); }
+.dws-vp__checks li small { display: block; color: var(--dws-mute); font-size: 9px; letter-spacing: 0.1em; }
+.dws-vp__checks li em { font-style: normal; font-size: 9.5px; color: var(--dws-mute); letter-spacing: 0.12em; }
+.dws-vp__checks li[data-mark='FAIL'] em { color: var(--dws-red); }
+.dws-vp__valid button, .dws-vp__inspect button { min-height: 26px; padding: 0 10px; border: 1px solid rgba(0, 0, 0, 0.16); border-radius: 4px; background: #fff; font-size: 10px; letter-spacing: 0.1em; }
+.dws-vp__valid button[aria-pressed='true'][data-testid$='-pass'], .dws-vp__inspect button[aria-pressed='true'][data-testid$='-pass'] { background: #1f9d55; border-color: #1f9d55; color: #fff; }
+.dws-vp__valid button[aria-pressed='true'][data-testid$='-fail'], .dws-vp__inspect button[aria-pressed='true'][data-testid$='-fail'] { background: var(--dws-red); border-color: var(--dws-red); color: #fff; }
+.dws-vp__verdict { display: flex; flex-direction: column; gap: 4px; padding-left: 18px; border-left: 1px solid rgba(0, 0, 0, 0.1); }
+.dws-vp__verdict small { color: var(--dws-red); font-size: 10px; letter-spacing: 0.14em; }
+.dws-vp__verdict strong { font-family: var(--dws-font-c); font-size: 20px; font-weight: 500; letter-spacing: 0.04em; }
+.dws-vp__verdict span { color: #666; font-size: 10px; letter-spacing: 0.1em; }
+.dws-vp__issues { align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: rgba(232, 25, 44, 0.12); color: var(--dws-red); font-style: normal; font-size: 10px; letter-spacing: 0.12em; }
+
+
+/* interaction inspection (docked inside the chamber) */
+.dws-vp__inspect { flex: 0 0 42%; min-width: 0; display: flex; flex-direction: column; gap: 8px; padding: 12px; overflow: auto; border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 10px; background: rgba(255, 255, 255, 0.92); }
+.dws-vp__inspect header small { color: var(--dws-red); font-size: 9.5px; letter-spacing: 0.14em; }
+.dws-vp__inspect h3 { font-family: var(--dws-font-c); font-size: 17px; font-weight: 500; letter-spacing: 0.06em; }
+.dws-vp__inspect li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 6px; min-height: 36px; border-bottom: 1px solid rgba(0, 0, 0, 0.07); font-size: 11px; letter-spacing: 0.08em; }
+.dws-vp__inspect li[data-mark='FAIL'] > span { color: var(--dws-red); }
+.dws-vp__inspect p { color: var(--dws-mute); font-size: 9px; letter-spacing: 0.1em; }
+
+/* mobile-only pieces are hidden elsewhere */
+.dws-vp__strip, .dws-vp__vcard, .dws-vp__tools { display: none; }
+
+/* ---------------------------------------------------------- tablet landscape: same system, touch-sized */
+.dws[data-family='tabletL'] .dws-vp__grid { grid-template-columns: minmax(0, 27%) minmax(0, 1fr) minmax(0, 26%); padding: 16px 20px 12px; }
+.dws[data-viewport='tablet'] .dws-vp__presets button, .dws[data-viewport='tablet'] .dws-vp__routes button, .dws[data-viewport='tablet'] .dws-vp__inter button, .dws[data-viewport='tablet'] .dws-vp__ovs button { min-height: 44px; }
+.dws[data-viewport='tablet'] .dws-vp__ctl :is(button, a, select) { min-height: 36px; }
+.dws[data-viewport='tablet'] .dws-vp__routes button { min-height: 40px; }
+.dws[data-viewport='tablet'] .dws-vp__inter button { min-height: 40px; }
+
+/* ---------------------------------------------------------- tablet portrait: chamber on top, tools in a row below */
+.dws[data-family='tabletP'] .dws-vp__grid {
+  padding: 16px 22px 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  grid-template-areas: 'chamber chamber chamber' 'presets routes inter' 'overlays routes inter';
+}
+.dws[data-family='tabletP'] .dws-vp__panel--routes, .dws[data-family='tabletP'] .dws-vp__panel--interactions { grid-row: 2 / 4; align-self: stretch; }
+.dws[data-family='tabletP'] .dws-vp__presets { padding: 2px 10px 0; gap: 2px; }
+.dws[data-family='tabletP'] .dws-vp__presets button { min-height: 56px; padding: 6px 0; font-size: 10px; letter-spacing: 0.04em; }
+.dws[data-family='tabletP'] .dws-vp__ovs { padding: 2px 10px 0; }
+.dws[data-family='tabletP'] .dws-vp__ovs button { min-height: 56px; }
+.dws[data-family='tabletP'] .dws-vp__ph { padding: 10px 14px 4px; }
+
+/* ---------------------------------------------------------- mobile: 9:16, review-first, touch-first */
+.dws[data-viewport='mobile'][data-mode='viewport'] .dws-stagewrap { height: auto; min-height: max-content; overflow: visible; }
+.dws[data-viewport='mobile'] .dws-stage--viewport { position: relative; inset: auto; }
+.dws[data-viewport='mobile'] .dws-vp__grid {
+  position: relative; inset: auto; padding: 10px 10px 12px; gap: 10px 8px;
+  grid-template-columns: 78px minmax(0, 1fr) 62px; grid-template-rows: auto;
+  grid-template-areas: 'presets chamber routes' 'strip strip strip' 'vcard vcard vcard' 'tools tools tools' 'inter inter inter' 'overlays overlays overlays';
+}
+.dws[data-viewport='mobile'] .dws-vp__ph { display: none; }
+.dws[data-viewport='mobile'] .dws-vp__panel { padding: 6px 4px; border-radius: 12px; }
+.dws[data-viewport='mobile'] .dws-vp__panel--presets { align-self: center; }
+.dws[data-viewport='mobile'] .dws-vp__panel--routes { align-self: center; }
+.dws[data-viewport='mobile'] .dws-vp__presets { grid-template-columns: 1fr; gap: 4px; padding: 0; }
+.dws[data-viewport='mobile'] .dws-vp__presets button { position: relative; flex-direction: row; justify-content: space-between; min-height: 52px; padding: 6px 6px; text-align: left; font-size: 9px; letter-spacing: 0.04em; }
+.dws[data-viewport='mobile'] .dws-vp__presets button span { order: 2; position: absolute; left: 6px; bottom: 6px; font-size: 8.5px; }
+.dws[data-viewport='mobile'] .dws-vp__presets button svg { order: 3; margin-left: auto; width: 22px; height: 22px; }
+.dws[data-viewport='mobile'] .dws-vp__no { display: block; position: absolute; left: 6px; top: 5px; font-size: 9px; color: var(--dws-red); }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='mobile'] .dws-vp__no::before { content: '01'; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='tablet'] .dws-vp__no::before { content: '02'; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='desktop'] .dws-vp__no::before { content: '03'; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='custom'] .dws-vp__no::before { content: '04'; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='mobile'] { order: 1; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='tablet'] { order: 2; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='desktop'] { order: 3; }
+.dws[data-viewport='mobile'] .dws-vp__presets [data-device='custom'] { order: 4; }
+.dws[data-viewport='mobile'] .dws-vp__presets { display: flex; flex-direction: column; }
+.dws[data-viewport='mobile'] .dws-vp__routes button { grid-template-columns: 1fr; justify-items: center; gap: 2px; min-height: 48px; padding: 4px 2px; border-bottom: 0; text-align: center; }
+.dws[data-viewport='mobile'] .dws-vp__routes button svg { width: 14px; height: 14px; }
+.dws[data-viewport='mobile'] .dws-vp__routes b { font-size: 10px; }
+.dws[data-viewport='mobile'] .dws-vp__routes span { display: none; }
+.dws[data-viewport='mobile'] .dws-vp__chamber { padding: 6px 6px 4px; border-radius: 18px; height: 390px; }
+.dws[data-viewport='mobile'] .dws-vp__chead { padding-bottom: 4px; }
+.dws[data-viewport='mobile'] .dws-vp__cap { gap: 6px; flex-wrap: wrap; }
+.dws[data-viewport='mobile'] .dws-vp__cap b { font-size: 11px; }
+.dws[data-viewport='mobile'] .dws-vp__cap span { font-size: 9.5px; }
+.dws[data-viewport='mobile'] .dws-vp__cap em { display: none; }
+.dws[data-viewport='mobile'] .dws-vp__ctl { display: none; }
+.dws[data-viewport='mobile'] .dws-vp__dots { padding-top: 4px; }
+.dws[data-viewport='mobile'] .dws-vp__strip {
+  grid-area: strip; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border: 1px solid rgba(255, 255, 255, 0.95); border-radius: 12px; background: rgba(255, 255, 255, 0.88); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.25);
+}
+.dws[data-viewport='mobile'] .dws-vp__strip label { display: flex; align-items: center; gap: 10px; min-height: 54px; padding: 6px 12px; border-bottom: 1px solid rgba(0, 0, 0, 0.07); }
+.dws[data-viewport='mobile'] .dws-vp__strip label:nth-child(odd) { border-right: 1px solid rgba(0, 0, 0, 0.07); }
+.dws[data-viewport='mobile'] .dws-vp__strip label:nth-last-child(-n + 2) { border-bottom: 0; }
+.dws[data-viewport='mobile'] .dws-vp__strip small { display: block; font-size: 8px; letter-spacing: 0.14em; color: var(--dws-mute); }
+.dws[data-viewport='mobile'] .dws-vp__strip select { max-width: 112px; min-height: 28px; padding: 0; border: 0; background: transparent; font-family: var(--dws-font-c); font-size: 15px; font-weight: 500; letter-spacing: 0.04em; }
+.dws[data-viewport='mobile'] .dws-vp__vcard {
+  grid-area: vcard; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 12px; text-align: left; width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.95); border-radius: 12px; background: rgba(255, 255, 255, 0.9); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.25);
+}
+.dws-vp__vring { display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; border: 5px solid rgba(0, 0, 0, 0.08); border-top-color: var(--dws-red); border-right-color: var(--dws-red); }
+.dws-vp__vring b { font-family: var(--dws-font-c); font-size: 17px; font-weight: 500; }
+.dws-vp__vlist { display: flex; flex-direction: column; gap: 2px; font-size: 9.5px; letter-spacing: 0.1em; color: #555; }
+.dws-vp__vlist small { margin-bottom: 3px; color: #111; font-family: var(--dws-font-c); font-size: 12px; letter-spacing: 0.08em; }
+.dws-vp__vlist i { display: flex; align-items: center; gap: 6px; font-style: normal; }
+.dws-vp__vlist i::before { content: ''; display: block; flex: none; }
+.dws-vp__vlist i[data-mark='PASS']::before { background: #1f9d55; }
+.dws-vp__vlist i[data-mark='FAIL']::before { background: var(--dws-red); }
+.dws-vp__vstatus { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; text-align: right; max-width: 98px; }
+.dws-vp__vstatus small { color: var(--dws-red); font-size: 8.5px; letter-spacing: 0.12em; }
+.dws-vp__vstatus strong { font-family: var(--dws-font-c); font-size: 16px; font-weight: 500; }
+.dws-vp__vstatus em { padding: 2px 8px; border-radius: 999px; background: rgba(232, 25, 44, 0.12); color: var(--dws-red); font-style: normal; font-size: 9px; letter-spacing: 0.1em; }
+.dws[data-viewport='mobile'] .dws-vp__tools { grid-area: tools; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.dws[data-viewport='mobile'] .dws-vp__tools button { min-height: 44px; border: 1px solid rgba(0, 0, 0, 0.14); border-radius: 999px; background: #fff; font-size: 10px; letter-spacing: 0.1em; }
+.dws[data-viewport='mobile'] .dws-vp__tools button.is-on { border-color: var(--dws-red); color: var(--dws-red); }
+.dws[data-viewport='mobile'] .dws-vp__inter button, .dws[data-viewport='mobile'] .dws-vp__ovs button { min-height: 48px; }
+.dws[data-viewport='mobile'] .dws-vp__panel--interactions, .dws[data-viewport='mobile'] .dws-vp__panel--overlays { display: none; }
+.dws[data-viewport='mobile'] .dws-vp[data-vp-expression='interaction'] .dws-vp__panel--interactions { display: block; }
+.dws[data-viewport='mobile'] .dws-vp[data-vp-expression='overlays'] .dws-vp__panel--overlays { display: block; }
+.dws[data-viewport='mobile'] .dws-vp__ph { display: none; }
+/* chamber-wide states take the whole row on phones */
+.dws[data-viewport='mobile'] .dws-vp:is([data-vp-expression='validation'], [data-vp-expression='compare'], [data-vp-expression='interaction']) .dws-vp__grid { grid-template-areas: 'chamber chamber chamber' 'strip strip strip' 'vcard vcard vcard' 'tools tools tools' 'inter inter inter' 'overlays overlays overlays'; }
+.dws[data-viewport='mobile'] .dws-vp:is([data-vp-expression='validation'], [data-vp-expression='compare'], [data-vp-expression='interaction']) :is(.dws-vp__panel--presets, .dws-vp__panel--routes) { display: none; }
+.dws[data-viewport='mobile'] .dws-vp[data-vp-expression='interaction'] .dws-vp__cbody { flex-direction: column; }
+.dws[data-viewport='mobile'] .dws-vp__inspect { flex: 1 1 auto; }
+.dws[data-viewport='mobile'] .dws-vp__strip, .dws[data-viewport='mobile'] .dws-vp__vcard { display: grid; }
+.dws[data-viewport='mobile'] .dws-vp__compare { gap: 8px; }
+.dws[data-viewport='mobile'] .dws-vp__cmp-pick button { padding: 0 7px; min-height: 28px; }
+/* the chamber never sizes the side-panel rows: it fills the grid height it is given */
+.dws[data-viewport='mobile'][data-mode='viewport'] .dws-main { grid-template-rows: max-content max-content; align-content: start; }
+
+/* route pager (authority: ‹ › at the chamber edges) */
+.dws-vp__chamber { position: relative; }
+.dws-vp__pager {
+  position: absolute; top: 50%; z-index: 3; display: grid; place-items: center; width: 34px; height: 34px; margin-top: -4px; padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 50%; background: #fff; color: #222; box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.35);
+}
+.dws-vp__pager--prev { left: -12px; }
+.dws-vp__pager--next { right: -12px; }
+.dws[data-viewport='tablet'] .dws-vp__pager { width: 44px; height: 44px; }
+.dws[data-viewport='mobile'] .dws-vp__pager { display: none; }
+.dws[data-viewport='mobile'] .dws-vp__routes b { white-space: nowrap; }
+
+/* validation / inspection adapt to the chamber width (container query on the chamber body) */
+@container vpbody (max-width: 560px) {
+  .dws-vp__valid { grid-template-columns: 1fr; justify-items: stretch; gap: 10px; }
+  .dws-vp__ring { justify-self: center; width: 84px; height: 84px; }
+  .dws-vp__checks li { grid-template-columns: 8px minmax(0, 1fr) auto auto; }
+  .dws-vp__checks li em { display: none; }
+  .dws-vp__verdict { padding-left: 0; border-left: 0; align-items: flex-start; }
+}
+.dws[data-viewport='mobile'] .dws-vp:is([data-vp-expression='validation'], [data-vp-expression='compare'], [data-vp-expression='interaction']) .dws-vp__chamber { height: auto; min-height: 390px; }
+.dws[data-viewport='mobile'] .dws-vp__valid { overflow: visible; }
+.dws[data-viewport='mobile'] .dws-vp__compare { min-height: 330px; }
+.dws-vp__cmp { justify-content: flex-start; } .dws[data-viewport='desktop'] .dws-vp__cmp, .dws[data-viewport='tablet'] .dws-vp__cmp { justify-content: center; }

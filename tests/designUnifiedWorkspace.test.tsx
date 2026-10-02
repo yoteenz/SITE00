@@ -11,6 +11,7 @@ import {
   DWS_NAV,
   DWS_EXPRESSION,
   DWS_NODES,
+  type DwsArtMode,
 } from '../src/site00/components/designUnified/dwsModel';
 import { DWS_PROFILES, SURFACES_EXPRESSION, allDwsProfiles, getDwsProfile, type DwsFamily } from '../src/site00/components/designUnified/dwsProfiles';
 import { DWS_AUTHORITY_IMAGES } from '../src/site00/components/designUnified/dwsAuthority';
@@ -27,6 +28,8 @@ function memoryStorage() {
   const data = new Map<string, string>();
   return { getItem: (k: string) => data.get(k) ?? null, setItem: (k: string, v: string) => void data.set(k, v), removeItem: (k: string) => void data.delete(k) };
 }
+/** The five board-stage modes (VIEWPORT is a chamber mode with its own suite: designViewportMode.test.tsx). */
+const ART_MODES = DWS_MODES.filter((m): m is DwsArtMode => m !== 'viewport');
 let VP = { w: 1672, h: 941, coarse: false };
 const stubWindow = () =>
   vi.stubGlobal('window', {
@@ -49,8 +52,8 @@ const run = (actions: DwsAction[], from: DwsState = DWS_INITIAL) => actions.redu
 
 describe('canonical structure', () => {
   it('has exactly five modes in the exact order', () => {
-    expect([...DWS_MODES]).toEqual(['brand', 'experience', 'surfaces', 'compiler', 'assets']);
-    expect(DWS_MODES.map((m) => DWS_MODE_LABEL[m])).toEqual(['BRAND', 'EXPERIENCE', 'SURFACES', 'COMPILER', 'ASSETS']);
+    expect([...DWS_MODES]).toEqual(['brand', 'experience', 'surfaces', 'compiler', 'assets', 'viewport']);
+    expect(DWS_MODES.map((m) => DWS_MODE_LABEL[m])).toEqual(['BRAND', 'EXPERIENCE', 'SURFACES', 'COMPILER', 'ASSETS', 'VIEWPORT']);
   });
 
   it('host navigation is HUB · WORK · LIBRARY · ACTIVITY · EXIT', () => {
@@ -64,11 +67,11 @@ describe('canonical structure', () => {
       expect(profile.pipeline.length).toBeGreaterThanOrEqual(5);
       expect(profile.table.length).toBeGreaterThanOrEqual(3);
     }
-    for (const m of DWS_MODES) expect(DWS_EXPRESSION[m].drawer).toBeTruthy();
+    for (const m of ART_MODES) expect(DWS_EXPRESSION[m].drawer).toBeTruthy();
   });
 
   it('pipelines follow the authority per mode and family', () => {
-    const names = (f: DwsFamily, m: (typeof DWS_MODES)[number]) => getDwsProfile(m, f).pipeline.map((s) => s.label);
+    const names = (f: DwsFamily, m: DwsArtMode) => getDwsProfile(m, f).pipeline.map((s) => s.label);
     expect(names('desktop', 'brand')).toEqual(['INTELLIGENCE', 'STRATEGY', 'IDENTITY', 'VOICE', 'EXPERIENCE', 'AUTHORITY', 'PRODUCTION']);
     expect(names('desktop', 'assets')).toEqual(['SOURCES', 'REFERENCES', 'AUTHORITIES', 'COMPONENTS', 'LIBRARIES', 'REVIEWS', 'DELIVERY']);
     expect(names('desktop', 'surfaces')).toEqual(['INTELLIGENCE', 'CONCEPT', 'EXPERIENCE', 'SURFACES', 'ASSETS', 'AUTHORITY', 'PRODUCTION']);
@@ -97,7 +100,7 @@ describe('authority coverage', () => {
   });
 
   it('every mode has a profile for every viewport family', () => {
-    for (const f of ['desktop', 'tabletL', 'tabletP', 'mobile'] as const) for (const m of DWS_MODES) expect(getDwsProfile(m, f).authority).toBeTruthy();
+    for (const f of ['desktop', 'tabletL', 'tabletP', 'mobile'] as const) for (const m of ART_MODES) expect(getDwsProfile(m, f).authority).toBeTruthy();
   });
 });
 
@@ -292,15 +295,15 @@ describe('viewport families', () => {
     ['tablet landscape', 1448, 1086, true, 'tabletL'],
     ['tablet portrait', 1086, 1448, true, 'tabletP'],
     ['mobile', 390, 844, true, 'mobile'],
-  ] as const)('renders the five modes + immutable host on %s', (_n, w, h, coarse, family) => {
+  ] as const)('renders the six modes + immutable host on %s', (_n, w, h, coarse, family) => {
     const html = renderAt(w, h, coarse);
     expect(html).toContain(`data-family="${family}"`);
     const t = textOf(html);
     for (const must of ['DESIGN', 'DESIGN PIPELINE', 'ON YOUR TABLE', 'HUB', 'WORK', 'LIBRARY', 'ACTIVITY', 'EXIT', 'BRAND', 'EXPERIENCE', 'SURFACES', 'COMPILER', 'ASSETS']) expect(t).toContain(must);
     expect(t.filter((x) => /[a-z]/.test(x))).toEqual([]);
-    // mode tab order is fixed
+    // mode tab order is fixed: the five existing modes keep their order; VIEWPORT is last
     const tabs = [...html.matchAll(/data-mode-tab="(\w+)"/g)].map((m) => m[1]);
-    expect(tabs).toEqual(['brand', 'experience', 'surfaces', 'compiler', 'assets']);
+    expect(tabs).toEqual(['brand', 'experience', 'surfaces', 'compiler', 'assets', 'viewport']);
   });
 
   it('mobile brand shows the workspace-overview boards (authority), tablet landscape shows the brand command board', () => {

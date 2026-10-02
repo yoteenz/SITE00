@@ -7,6 +7,7 @@ import type { DwsMode } from './dwsModel';
 import { DWS_BRAND_ASSETS, DWS_ICON_SET_ITEMS, DWS_JOURNEYS, DWS_PROJECTS, DWS_SURFACES, DWS_SURFACE_FAMILIES, DWS_SURFACE_TABS, DWS_VARIANTS, DWS_COMPILER_INPUTS } from './dwsModel';
 import { allDwsProfiles, type DwsFamily } from './dwsProfiles';
 import { DWS_STAGE_FORMS } from './DwsIcons';
+import { VP_DECK } from './dwsViewportMode';
 
 export const slug = (s: string) => s.toUpperCase().replace(/[^A-Z0-9]+/g, '_').replace(/^_+|_+$/g, '');
 
@@ -42,6 +43,8 @@ export function listDwsSlots(): DwsSlotRecord[] {
     for (const c of profile.table) add({ family, id: tableSlot(c.title), kind: 'CARD_IMAGE', surface: 'ON YOUR TABLE card', aspect: '4:1.5', crop: 'cover', safeZone: 'top-left PAGE chip', continuity: 'per project' });
     profile.pipeline.forEach((_, i) => void i);
   }
+  // VIEWPORT is a chamber mode (live client preview): its only art slots are the ON YOUR TABLE cards of its deck.
+  for (const f of ALL) for (const c of VP_DECK[f].table) add({ family: f, id: tableSlot(c.title), kind: 'CARD_IMAGE', surface: 'ON YOUR TABLE card (VIEWPORT)', aspect: '4:1.5', crop: 'cover', safeZone: 'top-left PAGE chip', continuity: 'per project' });
   for (const f of ALL) {
     for (const form of DWS_STAGE_FORMS) add({ family: f, id: stageObjectSlot(form), kind: 'ICON3D', surface: 'DESIGN PIPELINE stage object', aspect: '1:1', crop: 'contain', safeZone: 'none', continuity: 'pipeline icon family (ICON PACK 03)' });
     for (const p of DWS_PROJECTS) add({ family: f, id: projectMarkSlot(p.name), kind: 'PROJECT_MARK', surface: 'project selector mark', aspect: '34:40', crop: 'cover', safeZone: 'none', continuity: 'project' });

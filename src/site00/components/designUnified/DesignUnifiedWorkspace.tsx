@@ -3,6 +3,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { productionNavHref } from '../productionHub/nav';
 import { DwsIcon, DwsStageObject, stageForm } from './DwsIcons';
 import { DwsArt, DwsStage } from './DwsStage';
+import { DwsViewportStage } from './DwsViewportStage';
+import { VP_DECK, VP_INITIAL, VP_PIPELINE_ACTIVE } from './dwsViewportMode';
 import {
   AssetDetailsInspector,
   AssetDetailsModal,
@@ -129,11 +131,14 @@ function Center({ mode, ...p }: P & { mode: DwsMode }) {
       return <CompilerCenter {...p} />;
     case 'assets':
       return <AssetsCenter {...p} />;
+    case 'viewport':
+      return null;
   }
 }
 
 function Pipeline({ state, dispatch, stages, tablet }: P & { stages: DwsPStage[]; tablet: boolean }) {
-  const active = state.pipelineStage[state.mode] ?? 0;
+  // VIEWPORT opens on the VIEWPORT stage itself (the last DESIGN step before PRODUCTION).
+  const active = state.pipelineStage[state.mode] ?? (state.mode === 'viewport' ? VP_PIPELINE_ACTIVE : 0);
   return (
     <section className="dws-pipeline" aria-label="DESIGN PIPELINE" data-testid="dws-pipeline">
       <header className="dws-sechead">
@@ -160,7 +165,8 @@ function Pipeline({ state, dispatch, stages, tablet }: P & { stages: DwsPStage[]
 }
 
 function OnYourTable({ state, dispatch, cards }: P & { cards: DwsPCard[] }) {
-  const modal = DWS_EXPRESSION[state.mode].modal;
+  // VIEWPORT has no overlay layers: its attention items open the chamber's validation state (modal = null).
+  const modal = state.mode === 'viewport' ? null : DWS_EXPRESSION[state.mode].modal;
   return (
     <section className="dws-table" aria-label="ON YOUR TABLE" data-testid="dws-table">
       <header className="dws-sechead">
@@ -201,7 +207,10 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
   const info = useDwsViewportInfo();
   const vp = info.viewport;
   // Persisted decisions/selection are read synchronously so the first save can never overwrite them with defaults.
-  const [state, dispatch] = useReducer(dwsReducer, projectSlug, (slugArg): DwsState => ({ ...DWS_INITIAL, ...loadDws(slugArg), drawer: null, inspector: null, modal: null, layer: null, toast: null }));
+  const [state, dispatch] = useReducer(dwsReducer, projectSlug, (slugArg): DwsState => {
+    const saved = loadDws(slugArg);
+    return { ...DWS_INITIAL, ...saved, vp: { ...VP_INITIAL, ...(typeof window !== 'undefined' && window.innerWidth < 700 ? { device: 'mobile' as const, orientation: 'portrait' as const } : {}), ...saved.vp, expression: 'preview', reloadKey: 0 }, drawer: null, inspector: null, modal: null, layer: null, toast: null };
+  });
   const [menuOpen, setMenuOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const topRef = useRef<HTMLElement>(null);
@@ -248,10 +257,11 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
   const showCenter = vp === 'desktop' || (vp === 'tablet' && info.orientation === 'landscape');
   const centerOn = showCenter && anyOverlay;
 
-  const profile = getDwsProfile(state.mode, info.family);
+  const isViewport = state.mode === 'viewport';
+  const profile = state.mode === 'viewport' ? null : getDwsProfile(state.mode, info.family);
   const surfacesExpression = state.mode === 'surfaces' && anyOverlay && vp !== 'mobile';
-  const stages = surfacesExpression ? SURFACES_EXPRESSION.pipeline : profile.pipeline;
-  const cards = surfacesExpression ? SURFACES_EXPRESSION.table : profile.table;
+  const stages = isViewport ? VP_DECK[info.family].pipeline : surfacesExpression ? SURFACES_EXPRESSION.pipeline : profile!.pipeline;
+  const cards = isViewport ? VP_DECK[info.family].table : surfacesExpression ? SURFACES_EXPRESSION.table : profile!.table;
 
   return (
     <DwsViewportContext.Provider value={info}>
@@ -316,7 +326,11 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
 
       <main className="dws-main">
         <div className="dws-stagewrap">
-          <DwsStage state={state} dispatch={dispatch} profile={profile} family={info.family} projectName={project.name} />
+          {isViewport ? (
+            <DwsViewportStage state={state} dispatch={dispatch} projectSlug={projectSlug} family={info.family} />
+          ) : (
+            <DwsStage state={state} dispatch={dispatch} profile={profile!} family={info.family} projectName={project.name} />
+          )}
           {anyOverlay ? <div className="dws-scrim" onClick={() => dispatch({ type: 'RETURN_TO_OVERVIEW' })} aria-hidden="true" /> : null}
           <div className={`dws-layer${anyOverlay ? ' is-open' : ''}`} data-layer={mobileTop ?? 'none'} data-switch={vp === 'mobile' && openLayers.length > 1 ? '1' : undefined}>
             {vp === 'mobile' && openLayers.length > 1 ? (

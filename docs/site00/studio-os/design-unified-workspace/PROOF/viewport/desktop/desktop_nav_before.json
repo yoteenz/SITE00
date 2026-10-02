@@ -1,0 +1,20 @@
+{
+ "top": [
+  "BRAND",
+  "EXPERIENCE",
+  "SURFACES",
+  "COMPILER",
+  "ASSETS",
+  "VIEWPORT"
+ ],
+ "bottom": [
+  "HUB|/production|",
+  "WORK|button|page",
+  "LIBRARY|/production/libraries|",
+  "ACTIVITY|/production?panel=activity|",
+  "EXIT|/production|"
+ ],
+ "project": "NDXBOOK",
+ "needs": "3 ITEMS NEED YOU",
+ "brand": "DESIGNSITE 00 / STUDIO WORLD"
+}

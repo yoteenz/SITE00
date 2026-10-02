@@ -1,11 +1,11 @@
 {
   "generated": 0,
   "note": "Derived from src/site00/components/designUnified/dwsSlots.ts (listDwsSlots). Slots render a neutral text-free placeholder until a url is registered in DWS_ART_URLS. ICON3D slots are per FORM; interim live-SVG forms render in DwsStageObject.",
-  "total": 152,
+  "total": 156,
   "byKind": {
     "ENVIRONMENT_IMAGE": 1,
     "ICON3D": 9,
-    "CARD_IMAGE": 92,
+    "CARD_IMAGE": 96,
     "FOREGROUND_IMAGE": 15,
     "TRANSPARENT_OBJECT": 32,
     "PROJECT_MARK": 3
@@ -2069,6 +2069,21 @@
       ]
     },
     {
+      "id": "PROJECT.ART.TABLE.INTERACTION_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card (VIEWPORT)",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
       "id": "PROJECT.ART.TABLE.MOBILE_EXPRESSION",
       "kind": "CARD_IMAGE",
       "surface": "ON YOUR TABLE card",
@@ -2095,6 +2110,21 @@
       ]
     },
     {
+      "id": "PROJECT.ART.TABLE.RESPONSIVE_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card (VIEWPORT)",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
       "id": "PROJECT.ART.TABLE.ROUTE_REVIEW",
       "kind": "CARD_IMAGE",
       "surface": "ON YOUR TABLE card",
@@ -2107,6 +2137,19 @@
         "tabletL",
         "tabletP",
         "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.SAFE_AREA_CHECK",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card (VIEWPORT)",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP"
       ]
     },
     {
@@ -2160,6 +2203,21 @@
         "desktop",
         "tabletL",
         "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.VIEWPORT_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card (VIEWPORT)",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
       ]
     },
     {

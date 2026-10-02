@@ -3,6 +3,7 @@
  * Drawers, inspectors, modals, compare, library, review and export are STATES of one workspace (never pages).
  * The underlying mode + selection survive every overlay open/close.
  */
+import { VP_INITIAL, clampDim, type VpDevice, type VpExpression, type VpMark, type VpState, type VpZoom } from './dwsViewportMode';
 import {
   DWS_EXPRESSION,
   DWS_MODES,
@@ -43,6 +44,8 @@ export type DwsState = {
   pathStep: number;
   /** Mobile: which open layer is shown (null = top-most). Layers never stack on phones, but every layer stays reachable. */
   layer: 'drawer' | 'inspector' | 'modal' | null;
+  /** VIEWPORT mode chamber state (device, size, route, overlays, inspection, compare, validation). */
+  vp: VpState;
 };
 
 export const DWS_INITIAL: DwsState = {
@@ -69,6 +72,7 @@ export const DWS_INITIAL: DwsState = {
   toast: null,
   pathStep: 2,
   layer: null,
+  vp: VP_INITIAL,
 };
 
 export type DwsAction =
@@ -106,9 +110,21 @@ export type DwsAction =
   | { type: 'PATH_STEP'; step: number }
   | { type: 'RETURN_TO_OVERVIEW' }
   | { type: 'PIPELINE_STAGE_SELECT'; index: number }
-  | { type: 'ON_YOUR_TABLE_SELECT'; id: string; modal: DwsModalId }
+  | { type: 'ON_YOUR_TABLE_SELECT'; id: string; modal: DwsModalId | null }
   | { type: 'DISMISS_TOAST' }
   | { type: 'SET_LAYER'; layer: 'drawer' | 'inspector' | 'modal' }
+  | { type: 'VP_DEVICE'; device: VpDevice }
+  | { type: 'VP_CUSTOM'; width?: number; height?: number }
+  | { type: 'VP_ORIENTATION' }
+  | { type: 'VP_ZOOM'; zoom: VpZoom }
+  | { type: 'VP_ROUTE'; route: string }
+  | { type: 'VP_EXPRESSION'; expression: VpExpression }
+  | { type: 'VP_INTERACTION'; interaction: string | null }
+  | { type: 'VP_OVERLAY'; key: 'safe' | 'grid' | 'bounds' }
+  | { type: 'VP_PAIR'; slot: 0 | 1; device: Exclude<VpDevice, 'custom'> }
+  | { type: 'VP_REFRESH' }
+  | { type: 'VP_CHECK'; id: string; mark: VpMark | null }
+  | { type: 'VP_INSPECT'; key: string; mark: VpMark | null }
   | { type: 'HYDRATE'; value: Partial<DwsState> };
 
 const stamp = () => 'JUST NOW';
@@ -129,7 +145,7 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
     case 'MODE_SWITCH':
       if (!DWS_MODES.includes(a.mode)) return s;
       // Overlays belong to the mode they were opened in; the host + selection stay stable.
-      return { ...s, mode: a.mode, drawer: null, inspector: null, modal: null, forward: null, layer: null };
+      return { ...s, mode: a.mode, drawer: null, inspector: null, modal: null, forward: null, layer: null, vp: { ...s.vp, expression: 'preview' } };
     case 'OPEN_DRAWER':
       return { ...s, drawer: a.drawer, layer: 'drawer' };
     case 'CLOSE_DRAWER':
@@ -145,12 +161,15 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
     case 'SET_LAYER':
       return { ...s, layer: a.layer };
     case 'OPEN_EXPRESSION': {
+      if (s.mode === 'viewport') return { ...s, vp: { ...s.vp, expression: 'interaction', interaction: s.vp.interaction ?? 'navigation' } };
       const e = DWS_EXPRESSION[s.mode];
       return { ...s, drawer: e.drawer, inspector: e.inspector, modal: e.modal, layer: 'modal' };
     }
     case 'OPEN_LIBRARY':
+      if (s.mode === 'viewport') return s;
       return { ...s, drawer: DWS_EXPRESSION[s.mode].drawer };
     case 'SELECT_ARTIFACT':
+      if (s.mode === 'viewport') return s;
       return {
         ...s,
         selected: { ...s.selected, [s.mode]: a.id },
@@ -231,11 +250,56 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
     case 'PATH_STEP':
       return { ...s, pathStep: Math.max(0, a.step) };
     case 'RETURN_TO_OVERVIEW':
-      return { ...s, drawer: null, inspector: null, modal: null, forward: null, layer: null };
+      return { ...s, drawer: null, inspector: null, modal: null, forward: null, layer: null, vp: { ...s.vp, expression: 'preview' } };
     case 'PIPELINE_STAGE_SELECT':
       return { ...s, pipelineStage: { ...s.pipelineStage, [s.mode]: a.index } };
     case 'ON_YOUR_TABLE_SELECT':
+      // VIEWPORT has no overlay layers: its attention items open the chamber's validation state instead.
+      if (a.modal === null) return { ...s, tableSelected: a.id, vp: { ...s.vp, expression: 'validation' } };
       return { ...s, tableSelected: a.id, modal: a.modal, layer: 'modal' };
+    case 'VP_DEVICE': {
+      if (a.device === s.vp.device && a.device !== 'custom') return { ...s, vp: { ...s.vp, expression: 'presets' } };
+      const natural = a.device === 'custom' ? s.vp.orientation : a.device === 'mobile' || a.device === 'tablet' ? 'portrait' : 'landscape';
+      return { ...s, vp: { ...s.vp, device: a.device, orientation: natural, expression: a.device === 'custom' ? 'custom' : 'presets' } };
+    }
+    case 'VP_CUSTOM': {
+      const custom = { width: clampDim(a.width ?? s.vp.custom.width), height: clampDim(a.height ?? s.vp.custom.height) };
+      return { ...s, vp: { ...s.vp, device: 'custom', custom, expression: 'custom' } };
+    }
+    case 'VP_ORIENTATION': {
+      if (s.vp.device === 'custom') return { ...s, vp: { ...s.vp, custom: { width: s.vp.custom.height, height: s.vp.custom.width } } };
+      return { ...s, vp: { ...s.vp, orientation: s.vp.orientation === 'portrait' ? 'landscape' : 'portrait' } };
+    }
+    case 'VP_ZOOM':
+      return { ...s, vp: { ...s.vp, zoom: a.zoom } };
+    case 'VP_ROUTE':
+      return { ...s, vp: { ...s.vp, route: a.route, expression: s.vp.expression === 'compare' ? 'compare' : 'preview' } };
+    case 'VP_EXPRESSION':
+      return { ...s, vp: { ...s.vp, expression: s.vp.expression === a.expression ? 'preview' : a.expression, interaction: a.expression === 'interaction' ? (s.vp.interaction ?? 'navigation') : s.vp.interaction } };
+    case 'VP_INTERACTION':
+      return { ...s, vp: { ...s.vp, interaction: a.interaction, expression: a.interaction ? 'interaction' : 'preview' } };
+    case 'VP_OVERLAY': {
+      const overlays = { ...s.vp.overlays, [a.key]: !s.vp.overlays[a.key] };
+      return { ...s, vp: { ...s.vp, overlays, expression: 'overlays' } };
+    }
+    case 'VP_PAIR': {
+      const pair: VpState['pair'] = a.slot === 0 ? [a.device, s.vp.pair[1]] : [s.vp.pair[0], a.device];
+      return { ...s, vp: { ...s.vp, pair, expression: 'compare' } };
+    }
+    case 'VP_REFRESH':
+      return { ...s, vp: { ...s.vp, reloadKey: s.vp.reloadKey + 1 }, toast: 'PREVIEW REFRESHED' };
+    case 'VP_CHECK': {
+      const checks = { ...s.vp.checks };
+      if (a.mark) checks[a.id] = a.mark;
+      else delete checks[a.id];
+      return { ...s, vp: { ...s.vp, checks } };
+    }
+    case 'VP_INSPECT': {
+      const inspect = { ...s.vp.inspect };
+      if (a.mark) inspect[a.key] = a.mark;
+      else delete inspect[a.key];
+      return { ...s, vp: { ...s.vp, inspect } };
+    }
     case 'DISMISS_TOAST':
       return { ...s, toast: null };
     default:
@@ -246,7 +310,7 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
 /* ---- persistence (device-local; no backend contract is touched) ---- */
 
 const KEY = (slug: string) => `site00.dws.v1.${slug}`;
-const PERSISTED = ['mode', 'selected', 'decisions', 'library', 'deleted', 'duplicates', 'activity', 'pipelineStage'] as const;
+const PERSISTED = ['mode', 'selected', 'decisions', 'library', 'deleted', 'duplicates', 'activity', 'pipelineStage', 'vp'] as const;
 
 export function loadDws(slug: string): Partial<DwsState> {
   try {

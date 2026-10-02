@@ -1,0 +1,380 @@
+{
+ "vp": "desktop",
+ "results": [
+  [
+   "PASS",
+   "TOP NAV: 5 EXISTING + VIEWPORT LAST"
+  ],
+  [
+   "PASS",
+   "BOTTOM NAV UNCHANGED (HUB WORK LIBRARY ACTIVITY EXIT)"
+  ],
+  [
+   "PASS",
+   "EXISTING MODE BRAND: 6 BOARDS, NO VIEWPORT STAGE"
+  ],
+  [
+   "PASS",
+   "EXISTING MODE EXPERIENCE: 6 BOARDS, NO VIEWPORT STAGE"
+  ],
+  [
+   "PASS",
+   "EXISTING MODE SURFACES: 6 BOARDS, NO VIEWPORT STAGE"
+  ],
+  [
+   "PASS",
+   "EXISTING MODE COMPILER: 6 BOARDS, NO VIEWPORT STAGE"
+  ],
+  [
+   "PASS",
+   "EXISTING MODE ASSETS: 6 BOARDS, NO VIEWPORT STAGE"
+  ],
+  [
+   "PASS",
+   "VIEWPORT TAB ACTIVE"
+  ],
+  [
+   "PASS",
+   "ROOT data-mode=viewport"
+  ],
+  [
+   "PASS",
+   "TOP NAV IDENTICAL IN VIEWPORT"
+  ],
+  [
+   "PASS",
+   "BOTTOM NAV IDENTICAL IN VIEWPORT (LABELS, ROUTES, ACTIVE)"
+  ],
+  [
+   "PASS",
+   "LIVE CLIENT PREVIEW IFRAME PRESENT"
+  ],
+  [
+   "PASS",
+   "IFRAME SRC = CLIENT APP HOME"
+  ],
+  [
+   "PASS",
+   "CLIENT APP LOADED INSIDE FRAME"
+  ],
+  [
+   "PASS",
+   "CLIENT RENDERS OWN NAV INSIDE FRAME (NOT HOST)"
+  ],
+  [
+   "PASS",
+   "PIPELINE: VIEWPORT ACTIVE, IMMEDIATELY BEFORE PRODUCTION"
+  ],
+  [
+   "PASS",
+   "PIPELINE ORDER"
+  ],
+  [
+   "PASS",
+   "ON YOUR TABLE LIVE (CARDS WITH ACTIONS)"
+  ],
+  [
+   "PASS",
+   "PRESET DESKTOP 1440 × 900"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · DESKTOP PRESET"
+  ],
+  [
+   "PASS",
+   "PRESET TABLET 834 × 1194"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · TABLET PRESET"
+  ],
+  [
+   "PASS",
+   "PRESET MOBILE 393 × 852"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · MOBILE PRESET"
+  ],
+  [
+   "PASS",
+   "IFRAME SCALER MATCHES PRESET"
+  ],
+  [
+   "PASS",
+   "PRESET CHANGE KEPT MODE + PROJECT"
+  ],
+  [
+   "PASS",
+   "PRESET EXPRESSION = presets"
+  ],
+  [
+   "PASS",
+   "ORIENTATION → 852 × 393"
+  ],
+  [
+   "PASS",
+   "ORIENTATION BACK → 393 × 852"
+  ],
+  [
+   "PASS",
+   "ZOOM 100% → scale(1)"
+  ],
+  [
+   "PASS",
+   "ZOOM 50% → scale(0.5)"
+  ],
+  [
+   "PASS",
+   "ZOOM FIT → scale < 1"
+  ],
+  [
+   "PASS",
+   "CUSTOM EDITOR VISIBLE"
+  ],
+  [
+   "PASS",
+   "CUSTOM 1000 × 700"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · CUSTOM SIZE"
+  ],
+  [
+   "PASS",
+   "CUSTOM CLAMPS MIN 240"
+  ],
+  [
+   "PASS",
+   "CUSTOM ORIENTATION SWAPS W/H"
+  ],
+  [
+   "PASS",
+   "ROUTE REVIEWS → IFRAME SRC"
+  ],
+  [
+   "PASS",
+   "ROUTE REVIEWS PRESERVES HOST PATH + MODE + DEVICE"
+  ],
+  [
+   "PASS",
+   "ROUTE INBOX → IFRAME SRC"
+  ],
+  [
+   "PASS",
+   "ROUTE INBOX PRESERVES HOST PATH + MODE + DEVICE"
+  ],
+  [
+   "PASS",
+   "ROUTE LIBRARY → IFRAME SRC"
+  ],
+  [
+   "PASS",
+   "ROUTE LIBRARY PRESERVES HOST PATH + MODE + DEVICE"
+  ],
+  [
+   "PASS",
+   "ROUTE HOME → IFRAME SRC"
+  ],
+  [
+   "PASS",
+   "ROUTE HOME PRESERVES HOST PATH + MODE + DEVICE"
+  ],
+  [
+   "PASS",
+   "CLIENT FRAME NAVIGATED TO /REVIEWS"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · ROUTE"
+  ],
+  [
+   "PASS",
+   "PAGER NEXT → REVIEWS"
+  ],
+  [
+   "PASS",
+   "PAGER PREV → HOME"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · PAGER"
+  ],
+  [
+   "PASS",
+   "REFRESH REMOUNTS CLIENT FRAME"
+  ],
+  [
+   "PASS",
+   "OPEN IN NEW TAB LINK"
+  ],
+  [
+   "PASS",
+   "INTERACTION DRAWERS → INSPECTION STATE"
+  ],
+  [
+   "PASS",
+   "INTERACTION MODALS → INSPECTION STATE"
+  ],
+  [
+   "PASS",
+   "INTERACTION FORMS → INSPECTION STATE"
+  ],
+  [
+   "PASS",
+   "INTERACTION STATES → INSPECTION STATE"
+  ],
+  [
+   "PASS",
+   "INTERACTION NAVIGATION → INSPECTION STATE"
+  ],
+  [
+   "PASS",
+   "INTERACTION TOGGLE OFF → PREVIEW"
+  ],
+  [
+   "PASS",
+   "INSPECTION MARKS RECORDED"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · INTERACTION"
+  ],
+  [
+   "PASS",
+   "PIPELINE + TABLE CONTENT STABLE · INTERACTION"
+  ],
+  [
+   "PASS",
+   "SAFE AREA OVERLAY"
+  ],
+  [
+   "PASS",
+   "GRID OVERLAY"
+  ],
+  [
+   "PASS",
+   "BOUNDS OVERLAY"
+  ],
+  [
+   "PASS",
+   "OVERLAYS ARE HOST-DRAWN (OUTSIDE THE CLIENT IFRAME)"
+  ],
+  [
+   "PASS",
+   "OVERLAYS DO NOT BLOCK CLIENT INPUT"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · OVERLAYS"
+  ],
+  [
+   "PASS",
+   "OVERLAYS TOGGLE OFF"
+  ],
+  [
+   "PASS",
+   "COMPARE → TWO CLIENT FRAMES"
+  ],
+  [
+   "PASS",
+   "COMPARE EXPRESSION"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · COMPARE"
+  ],
+  [
+   "PASS",
+   "COMPARE PAIR CHANGES (DESKTOP ↔ TABLET)"
+  ],
+  [
+   "PASS",
+   "COMPARE TOGGLE OFF → PREVIEW"
+  ],
+  [
+   "PASS",
+   "VALIDATION STATE · HONEST NOT-RUN (0/5)"
+  ],
+  [
+   "PASS",
+   "VALIDATION MARKS → 2/5 + REVIEW REQUIRED + 1 ISSUE"
+  ],
+  [
+   "PASS",
+   "VALIDATION SHOWS INSPECTED COUNT FROM INTERACTION MARKS"
+  ],
+  [
+   "PASS",
+   "SHELL STABLE · VALIDATION"
+  ],
+  [
+   "PASS",
+   "PIPELINE + TABLE CONTENT STABLE · VALIDATION"
+  ],
+  [
+   "PASS",
+   "VALIDATE TOGGLE → PREVIEW"
+  ],
+  [
+   "PASS",
+   "ON YOUR TABLE ITEM → VALIDATION STATE (NO MODAL / NO PAGE)"
+  ],
+  [
+   "PASS",
+   "MENU → RETURN TO OVERVIEW (PREVIEW STATE, MODE KEPT)"
+  ],
+  [
+   "PASS",
+   "VIEWPORT STATE SURVIVES MODE SWITCH (DEVICE + CHECKS)"
+  ],
+  [
+   "PASS",
+   "VALIDATION MARKS SURVIVE MODE SWITCH"
+  ],
+  [
+   "PASS",
+   "PERSISTED ON FRESH LOAD: MODE=VIEWPORT, DEVICE=TABLET"
+  ],
+  [
+   "PASS",
+   "PROJECT SWITCH → SAME DESIGN WORKSPACE, 6 MODE TABS, PROJECT CONTEXT UPDATED"
+  ],
+  [
+   "PASS",
+   "NO H-OVERFLOW (preview)"
+  ],
+  [
+   "PASS",
+   "NO H-OVERFLOW (validation)"
+  ],
+  [
+   "PASS",
+   "NO H-OVERFLOW (compare)"
+  ],
+  [
+   "PASS",
+   "NO H-OVERFLOW (interaction)"
+  ],
+  [
+   "PASS",
+   "NO H-OVERFLOW (overlays)"
+  ],
+  [
+   "PASS",
+   "NO H-OVERFLOW (custom)"
+  ],
+  [
+   "PASS",
+   "UPPERCASE AUDIT: 624 NODES, 0 LOWERCASE"
+  ],
+  [
+   "PASS",
+   "NO PAGE ERRORS (HOST)"
+  ]
+ ],
+ "totalNodes": 624,
+ "lowercase": [],
+ "errs": []
+}

@@ -294,6 +294,7 @@ export const DWS_STAGE_FORMS: readonly DwsStageForm[] = ['SPHERE', 'PANELS', 'HE
 /** Authority mapping: first stage sphere, second panels, third head; AUTHORITY rings; final stage orb. */
 export function stageForm(label: string, index: number, total: number): DwsStageForm {
   if (label === 'AUTHORITY') return 'RINGS';
+  if (label === 'VIEWPORT') return 'ORB';
   if (index === total - 1) return total <= 5 ? 'RINGS' : 'ORB';
   if (/^(ROUTES|STATES|ROUTE MAPS|INTERACTION FLOWS|JOURNEYS|JOURNEY|FLOW)$/.test(label)) return 'ROUTE';
   return (['SPHERE', 'PANELS', 'HEAD', 'LAYERED', 'BLOCKS', 'ORBITS', 'ORBITS', 'ORBITS'] as const)[Math.min(index, 7)]!;

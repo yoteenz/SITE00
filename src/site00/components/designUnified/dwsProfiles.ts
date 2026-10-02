@@ -7,7 +7,7 @@
  *   mobile   → 03_MOBILE_AUTHORITIES
  * All user-visible strings are UPPERCASE.
  */
-import type { DwsMode } from './dwsModel';
+import type { DwsArtMode, DwsMode } from './dwsModel';
 
 export type DwsFamily = 'desktop' | 'tabletL' | 'tabletP' | 'mobile';
 
@@ -290,24 +290,24 @@ const M_ASSETS: DwsProfile = {
 
 /* ======================================================================= resolution */
 
-const DESKTOP: Record<DwsMode, DwsProfile> = { brand: D_BRAND, experience: D_EXPERIENCE, surfaces: D_SURFACES_OVERVIEW, compiler: D_COMPILER, assets: D_ASSETS };
-const TABLET: Record<DwsMode, DwsProfile> = { brand: T_BRAND, experience: T_EXPERIENCE, surfaces: T_OVERVIEW, compiler: T_COMPILER, assets: T_ASSETS };
-const MOBILE: Record<DwsMode, DwsProfile> = { brand: M_BRAND, experience: M_EXPERIENCE, surfaces: M_SURFACES, compiler: M_COMPILER, assets: M_ASSETS };
+const DESKTOP: Record<DwsArtMode, DwsProfile> = { brand: D_BRAND, experience: D_EXPERIENCE, surfaces: D_SURFACES_OVERVIEW, compiler: D_COMPILER, assets: D_ASSETS };
+const TABLET: Record<DwsArtMode, DwsProfile> = { brand: T_BRAND, experience: T_EXPERIENCE, surfaces: T_OVERVIEW, compiler: T_COMPILER, assets: T_ASSETS };
+const MOBILE: Record<DwsArtMode, DwsProfile> = { brand: M_BRAND, experience: M_EXPERIENCE, surfaces: M_SURFACES, compiler: M_COMPILER, assets: M_ASSETS };
 
-export const DWS_PROFILES = { desktop: DESKTOP, tabletL: TABLET, tabletP: { ...TABLET, brand: D_BRAND } as Record<DwsMode, DwsProfile>, mobile: MOBILE } as const;
+export const DWS_PROFILES = { desktop: DESKTOP, tabletL: TABLET, tabletP: { ...TABLET, brand: D_BRAND } as Record<DwsArtMode, DwsProfile>, mobile: MOBILE } as const;
 
-export function getDwsProfile(mode: DwsMode, family: DwsFamily): DwsProfile {
+export function getDwsProfile(mode: DwsArtMode, family: DwsFamily): DwsProfile {
   return DWS_PROFILES[family][mode];
 }
 
 /** All profiles, for validation + the slot registry. */
-export function allDwsProfiles(): { family: DwsFamily; mode: DwsMode; profile: DwsProfile }[] {
-  const out: { family: DwsFamily; mode: DwsMode; profile: DwsProfile }[] = [];
-  for (const family of Object.keys(DWS_PROFILES) as DwsFamily[]) for (const mode of Object.keys(DWS_PROFILES[family]) as DwsMode[]) out.push({ family, mode, profile: DWS_PROFILES[family][mode] });
+export function allDwsProfiles(): { family: DwsFamily; mode: DwsArtMode; profile: DwsProfile }[] {
+  const out: { family: DwsFamily; mode: DwsArtMode; profile: DwsProfile }[] = [];
+  for (const family of Object.keys(DWS_PROFILES) as DwsFamily[]) for (const mode of Object.keys(DWS_PROFILES[family]) as DwsArtMode[]) out.push({ family, mode, profile: DWS_PROFILES[family][mode] });
   return out;
 }
 
-export const DWS_DEFAULT_DRAWER: Record<DwsMode, DwsDrawerKey> = {
+export const DWS_DEFAULT_DRAWER: Record<DwsArtMode, DwsDrawerKey> = {
   brand: 'brand-library',
   experience: 'journeys',
   surfaces: 'surface-families',

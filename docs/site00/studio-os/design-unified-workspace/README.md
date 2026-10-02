@@ -32,3 +32,6 @@ Per viewport: all five modes (pipeline label + 5 boards + featured), bring-forwa
 - Expression layer: drawer 29.8% | centre 37% + modal 33% | inspector 24.4% (interaction authority), copy lifted to authority density.
 - Proof: `PROOF/convergence/*` authority (left) vs live (right); refreshed per-family flow captures in `PROOF/<family>/`.
 - Residual (asset-gated): project imagery, atrium environment plate and 3D pipeline renders are slots — the live render shows neutral placeholders until those assets are injected. Tablet portrait BRAND keeps the fifth board reachable as a low floor card (authority shows four flank boards).
+
+## VIEWPORT mode
+See `VIEWPORT.md` — sixth mode (after ASSETS), live client-preview chamber; proofs in `PROOF/viewport/`.
