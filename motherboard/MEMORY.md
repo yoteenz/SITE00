@@ -12862,3 +12862,15 @@ Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch 
 - **Runtime:** No fabricated territories; vitest + missing `OPENAI_API_KEY` → `MODEL_RUNTIME_BLOCKED`. Founder must set `founder_initiated: true` for runs.
 - **First thread:** SITE 00 → YOUR SPACE seed context in pack (not hard-coded engine logic).
 - **Not done:** No production deploy; no merge; live 3-territory proof requires configured server key.
+
+---
+
+## 2026-10-02 — CGPT live runtime + durable persistence (P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-LIVE-RUNTIME-PERSISTENCE1)
+
+Continuation on `cursor/cgpt-creative-director-loop1-87ed` (HEAD `c72efe6c`).
+
+- **Context:** Prove live OpenAI Creative Director + Supabase persistence for YOUR SPACE CONCEPT_TERRITORIES; fix model id (`gpt-5.6-sol` + separate reasoning); Responses API; founder judgment quarantine (`TEST_JUDGMENT_ONLY` cannot LOVE_IT).
+- **Shipped:** `modelConfig.ts`, Supabase persistence module + migration `20261001200000_site00_experience_compiler_creative_director.sql`, async agent/store/API, `runtime-status` with `OPENAI_API_KEY_PRESENT`, history adapter, expanded territory UI + run metadata, live-proof scripts, vitest persistence/model/quarantine tests (13 tests pass).
+- **Runtime proof:** Cloud VM + local API `OPENAI_API_KEY_PRESENT: NO`. Production `api.site00.com` still 404 on creative-director route (branch not deployed). Supabase MCP/REST timeout (522) — migration not applied from agent; use dashboard/CLI.
+- **Classification:** BLOCKED for full sprint PASS until Railway redeploy + migration apply + one live CONCEPT_TERRITORIES run.
+- **Next:** Merge/deploy API branch; apply migration; run `tsx scripts/studioos/run-creative-director-live-proof.ts` with key; set `SITE00_CREATIVE_DIRECTOR_STRICT_PERSISTENCE=1` in prod when tables verified.
