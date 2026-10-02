@@ -158,6 +158,8 @@ export const SITE00_ROUTES = {
   productionProject: '/production/:projectSlug',
   productionDesign: '/production/:projectSlug/design',
   productionDesignWorkspace: '/production/:projectSlug/design-workspace',
+  /** Live client app viewport QA (iframe); internal production tooling. */
+  productionViewportLab: '/production/:projectSlug/viewport-lab',
   productionExperience: '/production/:projectSlug/experience',
   productionExpression: '/production/:projectSlug/expression',
   /** Legacy PROJECTS → DESIGN paths (redirect to /production). */
@@ -572,6 +574,10 @@ export function site00ProductionWorkspacePath(): string {
 
 export function site00ProductionDesignPath(projectSlug: string): string {
   return `/production/${projectSlug.toLowerCase()}/design`;
+}
+
+export function site00ProductionViewportLabPath(projectSlug: string): string {
+  return `/production/${projectSlug.toLowerCase()}/viewport-lab`;
 }
 
 export function site00ProjectsDesignModulePath(): string {
