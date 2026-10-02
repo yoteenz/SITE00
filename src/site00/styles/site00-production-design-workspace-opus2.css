@@ -1,0 +1,71 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2 — Design workspace descendants inside Production
+ * (/production/:slug/design/workspace, references, assets, pages, skins, history, more).
+ * The twin-opus workspace keeps its structure and function; only its palette and type converge on the
+ * Production authority (light glass, red accent, Saira) — scoped to the production role so the standalone
+ * design bench is untouched. Artifact preview wells stay dark (they are image review stages).
+ */
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-root,
+.site00-design-workspace[data-workspace-role='production-provisional'] {
+  --tod-paper: #f7f7f9;
+  --tod-panel: rgba(255, 255, 255, 0.86);
+  --tod-navbar: rgba(255, 255, 255, 0.92);
+  --tod-tabbar: rgba(255, 255, 255, 0.9);
+  --tod-dockbar: #f1f1f4;
+  --tod-border-major: rgba(17, 17, 20, 0.14);
+  --tod-border-panel: rgba(17, 17, 20, 0.12);
+  --tod-border-column: rgba(17, 17, 20, 0.1);
+  --tod-border-subtle: rgba(17, 17, 20, 0.08);
+  --tod-border-control: rgba(17, 17, 20, 0.16);
+  --tod-ink: #111114;
+  --tod-ink-2: #45454d;
+  --tod-ink-3: #6b6b74;
+  --tod-lime: #e5231b;
+  --tod-lime-ink: #ffffff;
+  --tod-red: #e5231b;
+  --tod-mono: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  --tod-display: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-root,
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-stage {
+  background: #eef0f3;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-context {
+  background: rgba(255, 255, 255, 0.94);
+  color: #111114;
+  border-top: 1px solid rgba(17, 17, 20, 0.08);
+  border-bottom: 2px solid #e5231b;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-context__chip {
+  border-radius: 3px;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-hero-compare {
+  background: #16161a;
+  border-radius: 8px;
+  box-shadow: 0 24px 60px -36px rgba(17, 17, 20, 0.6);
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-hero-compare__paneHead {
+  color: #ff5a52;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-rail__action--ink,
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-rail--heroWorkflow .tod-rail__action--ink:not(:disabled) {
+  background: #111114;
+  border-color: #111114;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-context__stream {
+  color: #45454d;
+}
+/* Verification rail copy was white-on-white (inherited from the dark bench); read it on the light rail. */
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-rail__vfStageLabel {
+  color: #111114;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-rail__vfStageValue,
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-rail__actionBlocker {
+  color: #6b6b74;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-rail__vfStageStatus {
+  color: #8a8a93;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-hero-compare__generationConsole {
+  border-color: rgba(229, 35, 27, 0.55);
+}

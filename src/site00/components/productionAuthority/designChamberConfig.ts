@@ -217,5 +217,23 @@ for (const cfg of Object.values(DESIGN_CHAMBER)) {
     panel.art = art;
     if (panel.plates?.length) panel.plates = panel.plates.map(() => art);
   }
-  for (const card of cfg.table) card.plate = art;
+}
+
+/**
+ * "ON YOUR TABLE" cards: one distinct authority plate per decision (OPUS2). Grok1 slotted the mode's
+ * board art into every card, so each mode's table read as one image repeated three or four times.
+ */
+const B = AUTHORITY_ASSETS.boards;
+const TABLE_ART: Record<ProductionDesignMode, string[]> = {
+  brand: [B.brand, B.assets, AUTHORITY_ASSETS.designAtrium],
+  experience: [AUTHORITY_ASSETS.experienceWorld, B.experience, B.compiler],
+  surfaces: [B.surfaces, B.viewport, AUTHORITY_ASSETS.designAtrium],
+  compiler: [B.compiler, B.experience, B.surfaces],
+  assets: [B.assets, AUTHORITY_ASSETS.experienceWorld, AUTHORITY_ASSETS.libraryPlates[0]!],
+  viewport: [B.viewport, AUTHORITY_ASSETS.viewportCorridor, B.surfaces, B.assets],
+};
+for (const cfg of Object.values(DESIGN_CHAMBER)) {
+  cfg.table.forEach((card, i) => {
+    card.plate = TABLE_ART[cfg.mode][i] ?? AUTHORITY_ASSETS.boards[cfg.mode];
+  });
 }

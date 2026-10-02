@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStudioWorldActorCatalogue } from '../../../../shared/site00-studio-world/acting-catalogue/index.js';
-import { PW_IMG } from '../production/productionImagery';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { AUTHORITY_ASSETS } from './authorityAssets';
 import { Dot, Sec, Tabs, Thumb } from './primitives';
 
 type Lib = { id: string; title: string; sub: string; img: string; scope: string };
 
+/** Collection plates: authority red-geometry / world / stage art (OPUS2). The Actor Catalogue shows the project's live cast art when it exists. */
 const LIBRARIES: Lib[] = [
-  { id: 'actors', title: 'Actor Catalogue', sub: 'Characters, faces, profiles', img: PW_IMG.library.actors, scope: 'Cross-project casting authority. Actor ≠ Character ≠ Campaign Look.' },
-  { id: 'wardrobe', title: 'Wardrobe Library', sub: 'Clothing, accessories, looks', img: PW_IMG.library.wardrobe, scope: 'Garments, styling notes, era, role compatibility.' },
-  { id: 'hair', title: 'Hair + Makeup Library', sub: 'Styles, beauty, grooming', img: PW_IMG.library.hair, scope: 'Hair styles and makeup / grooming looks.' },
-  { id: 'environment', title: 'Environment Library', sub: 'Locations, atmospheres', img: PW_IMG.library.environment, scope: 'Reusable environments and lighting modes.' },
-  { id: 'sets', title: 'Set Library', sub: 'Sets, zones, anchors', img: PW_IMG.library.sets, scope: 'Sets with zones, interaction anchors, prop compatibility.' },
-  { id: 'prop', title: 'Prop Library', sub: 'Props, practical objects', img: PW_IMG.library.prop, scope: 'Props and practical objects tagged for set compatibility.' },
-  { id: 'graphic', title: 'Graphic / Text Asset Library', sub: 'Signage, screens, text anchors', img: PW_IMG.library.graphic, scope: 'Signage, screens, framed graphics and replaceable text.' },
-  { id: 'performance', title: 'Performance Library', sub: 'Movement, behavior, voice', img: PW_IMG.library.performance, scope: 'Behavior, movement and animation skins.' },
+  { id: 'actors', title: 'Actor Catalogue', sub: 'Characters, faces, profiles', img: AUTHORITY_ASSETS.libraryPlates[0]!, scope: 'Cross-project casting authority. Actor ≠ Character ≠ Campaign Look.' },
+  { id: 'wardrobe', title: 'Wardrobe Library', sub: 'Clothing, accessories, looks', img: AUTHORITY_ASSETS.libraryPlates[1]!, scope: 'Garments, styling notes, era, role compatibility.' },
+  { id: 'hair', title: 'Hair + Makeup Library', sub: 'Styles, beauty, grooming', img: AUTHORITY_ASSETS.libraryPlates[2]!, scope: 'Hair styles and makeup / grooming looks.' },
+  { id: 'environment', title: 'Environment Library', sub: 'Locations, atmospheres', img: AUTHORITY_ASSETS.experienceWorld, scope: 'Reusable environments and lighting modes.' },
+  { id: 'sets', title: 'Set Library', sub: 'Sets, zones, anchors', img: AUTHORITY_ASSETS.expressionStage, scope: 'Sets with zones, interaction anchors, prop compatibility.' },
+  { id: 'prop', title: 'Prop Library', sub: 'Props, practical objects', img: AUTHORITY_ASSETS.libraryPlates[0]!, scope: 'Props and practical objects tagged for set compatibility.' },
+  { id: 'graphic', title: 'Graphic / Text Asset Library', sub: 'Signage, screens, text anchors', img: AUTHORITY_ASSETS.libraryPlates[1]!, scope: 'Signage, screens, framed graphics and replaceable text.' },
+  { id: 'performance', title: 'Performance Library', sub: 'Movement, behavior, voice', img: AUTHORITY_ASSETS.libraryPlates[2]!, scope: 'Behavior, movement and animation skins.' },
 ];
 
 type Canon = 'canonical' | 'review' | 'superseded' | 'archive';
@@ -43,6 +43,8 @@ export function LibraryBody() {
   const production = data?.production ?? null;
   const graph = data?.graph;
   const sb = graph?.byId.storyboard;
+  const castSlot = graph?.byId.cast?.assetSlotId ?? null;
+  const castUrl = data?.assetUrl(castSlot) ?? null;
   const recent = (graph?.nodes ?? []).filter((n) => data?.assetUrl(n.assetSlotId)).slice(0, 5);
   const focusLib = CATEGORIES.find((c) => c.label === category)?.lib ?? null;
 
@@ -168,7 +170,7 @@ export function LibraryBody() {
               <ul className="pxa-strip">
                 {LIBRARIES.slice(0, 5).map((l) => (
                   <li key={l.id}>
-                    <Thumb plate={l.img} />
+                    {l.id === 'actors' && castUrl ? <Thumb slotId={castSlot} url={castUrl} label="CAST" /> : <Thumb plate={l.img} />}
                     <b>{l.title}</b>
                   </li>
                 ))}
@@ -204,7 +206,7 @@ export function LibraryBody() {
                 return (
                   <div key={l.id} className="pxa-collection">
                     <button type="button" aria-expanded={expanded} onClick={() => setOpen(expanded ? null : l.id)} data-testid={`library-${l.id}`}>
-                      <Thumb plate={l.img} />
+                      {live && castUrl ? <Thumb slotId={castSlot} url={castUrl} label="CAST" /> : <Thumb plate={l.img} />}
                       <span>
                         <b>{l.title}</b>
                         <small>{l.sub}</small>

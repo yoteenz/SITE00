@@ -209,3 +209,38 @@
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 }
+
+/* Expression floor cards: stage-plate fallback is a per-floor crop of the authority film stage. */
+.pxa .pxa-floorgrid .pxa-floor__art--stage {
+  background-size: 260%;
+  background-repeat: no-repeat;
+}
+@media (min-width: 1120px) {
+  .pxa .pxa-floorgrid .pxa-thumb {
+    height: 92px;
+  }
+  .pxa .pxa-floorgrid b {
+    font-size: 11px;
+  }
+}
+
+/* Hub: the legacy machine link sits inside the body gutter as a quiet glass pill (it was flush to x = 0). */
+.pxa .pxa-hub__machine {
+  margin: 4px 0 18px;
+  padding: 0 clamp(12px, 2.8vw, 40px);
+}
+.pxa .pxa-hub__machine a {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border: 1px solid rgba(17, 17, 20, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #55555e;
+}
+.pxa .pxa-hub__machine a:hover {
+  color: #e5231b;
+  border-color: rgba(229, 35, 27, 0.4);
+}
