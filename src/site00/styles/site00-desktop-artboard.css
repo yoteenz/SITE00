@@ -130,6 +130,10 @@
   color: var(--site-red);
 }
 
+.site00-desktop-artboard .site00-safe-ui .site00-logo-mark {
+  margin-top: 2px;
+}
+
 /** Hero copy — each line nudges independently via composition tokens (OriginPage CSS vars). */
 .site00-desktop-artboard .site00-home-hero__eyebrow,
 .site00-desktop-artboard .site00-home-hero__headline,
@@ -165,7 +169,7 @@
 
 .site00-desktop-artboard .site00-home-hero__coordinate {
   top: var(--site00-origin-hero-coordinate-offset-y, 0px);
-  margin-top: 20px;
+  margin-top: 26px;
 }
 
 .site00-desktop-artboard .site00-home-cards,
