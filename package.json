@@ -21,6 +21,8 @@
     "test:watch": "vitest",
     "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
     "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts",
+    "client-app:qa:urls": "node scripts/print-client-app-qa-urls.mjs",
+    "client-app:qa:capture": "node scripts/capture-client-app-screenshots.mjs",
     "postinstall": "node scripts/ensure-playwright-chromium.mjs",
     "typecheck:opus-native": "tsc --noEmit -p tsconfig.opusnative.json"
   },

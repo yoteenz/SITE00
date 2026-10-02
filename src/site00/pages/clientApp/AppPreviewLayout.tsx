@@ -3,6 +3,7 @@ import { CLIENT_APP_FIXTURES } from '../../../../shared/site00-client-app/fixtur
 import { clientAppPath } from '../../../../shared/site00-client-app/routes.js';
 import { Site00ClientAppShell } from '../../components/clientApp/Site00ClientAppShell';
 import type { ClientAppManifest } from '../../../../shared/site00-client-app/types.js';
+import { isSite00ClientAppPreviewFeatureActive } from '../../auth/clientAppPreviewState';
 
 function resolveActiveSection(pathname: string): string {
   if (pathname.includes('/reviews')) return 'reviews';
@@ -17,7 +18,7 @@ export function AppPreviewLayout() {
   const location = useLocation();
   const manifest: ClientAppManifest | undefined = CLIENT_APP_FIXTURES[projectSlug];
 
-  if (!import.meta.env.DEV) {
+  if (!isSite00ClientAppPreviewFeatureActive()) {
     return <Navigate to={clientAppPath()} replace />;
   }
 
