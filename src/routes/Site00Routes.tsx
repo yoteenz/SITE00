@@ -2512,7 +2512,7 @@ export function Site00Routes() {
         path={SITE00_ROUTES.studioExperienceCompiler}
         element={
           <Site00Layout>
-            <Site00AccountRouteGuard>
+            <Site00AccountRouteGuard allowExperienceCompilerPreviewGuest>
               <Site00Suspense>
                 <ExperienceCompilerWorkspacePage />
               </Site00Suspense>

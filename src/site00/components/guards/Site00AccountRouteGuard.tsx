@@ -16,7 +16,10 @@ import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav'
 import { GuardLoadingRecovery } from '../../../platform-stabilization/GuardLoadingRecovery';
 import { useGuardLoadingTimeout } from '../../../platform-stabilization/useGuardLoadingTimeout';
 import { promiseWithTimeout } from '../../../platform-stabilization/promiseWithTimeout';
-import { isSite00CloudPreviewBuild } from '../loader/site00PreviewHost';
+import {
+  isSite00CloudPreviewBuild,
+  isSite00ExperienceCompilerPreviewGuestBypass,
+} from '../loader/site00PreviewHost';
 
 const SERVER_RESTORE_ATTEMPT_KEY = 'site00_ctrl_room_restore_v1';
 const AUTH_STEP_TIMEOUT_MS = 6_000;
@@ -39,13 +42,22 @@ function finishLocalAuthRecovery(): void {
 }
 
 /** Protects SITE 00 CTRL ROOM — redirects to SITE 00 sign-in when signed out. */
-export function Site00AccountRouteGuard({ children }: { children: React.ReactNode }) {
+export function Site00AccountRouteGuard({
+  children,
+  allowExperienceCompilerPreviewGuest = false,
+}: {
+  children: React.ReactNode;
+  /** Cloud preview/tunnel only — unsigned MAP2 workspace while Supabase is down (temporary). */
+  allowExperienceCompilerPreviewGuest?: boolean;
+}) {
   const location = useLocation();
   const [recoveryDone, setRecoveryDone] = useState(false);
   const [apiTokenReady, setApiTokenReady] = useState<boolean | null>(null);
   const isLoading = !recoveryDone;
   const timedOut = useGuardLoadingTimeout(isLoading, 'Site00AccountRouteGuard');
   const cloudPreview = isSite00CloudPreviewBuild();
+  const ecPreviewGuest =
+    allowExperienceCompilerPreviewGuest && isSite00ExperienceCompilerPreviewGuestBypass();
   const signInHref = site00SignInHrefWithReturnTo(location);
 
   const goldenDiffCapture =
@@ -62,6 +74,13 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     if (designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
+      return;
+    }
+
+    if (ecPreviewGuest) {
+      finishLocalAuthRecovery();
+      setRecoveryDone(true);
+      setApiTokenReady(true);
       return;
     }
 
@@ -177,10 +196,16 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [cloudPreview, designPreviewCapture, goldenDiffCapture, location.search]);
+  }, [cloudPreview, designPreviewCapture, ecPreviewGuest, goldenDiffCapture, location.search]);
 
   useEffect(() => {
-    if (!recoveryDone || cloudPreview || allowUnauthenticatedCaptureSurface || !isSupabaseConfigured()) {
+    if (
+      !recoveryDone ||
+      cloudPreview ||
+      ecPreviewGuest ||
+      allowUnauthenticatedCaptureSurface ||
+      !isSupabaseConfigured()
+    ) {
       setApiTokenReady(true);
       return;
     }
@@ -191,7 +216,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
     return () => {
       cancelled = true;
     };
-  }, [allowUnauthenticatedCaptureSurface, cloudPreview, goldenDiffCapture, recoveryDone]);
+  }, [allowUnauthenticatedCaptureSurface, cloudPreview, ecPreviewGuest, goldenDiffCapture, recoveryDone]);
 
   if (timedOut && isLoading) {
     return (
@@ -217,8 +242,29 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
   }
 
   if (!isSignedIn()) {
-    if (allowUnauthenticatedCaptureSurface) {
-      return <>{children}</>;
+    if (allowUnauthenticatedCaptureSurface || ecPreviewGuest) {
+      return (
+        <>
+          {ecPreviewGuest ? (
+            <div
+              className="site00-ec-preview-guest-banner"
+              role="status"
+              style={{
+                background: '#1a1a1a',
+                color: '#f5c542',
+                fontSize: '11px',
+                letterSpacing: '0.06em',
+                padding: '8px 12px',
+                textAlign: 'center',
+                borderBottom: '1px solid #333',
+              }}
+            >
+              PREVIEW GUEST · EXPERIENCE COMPILER ONLY · SIGN-IN BYPASSED (SUPABASE DOWN) · NOT PRODUCTION
+            </div>
+          ) : null}
+          {children}
+        </>
+      );
     }
     if (cloudPreview) {
       return (
