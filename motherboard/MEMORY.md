@@ -12931,3 +12931,13 @@ Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile 
 
 - **Shipped:** `isSite00LayoutPreviewSwitchEnabled()` → `false` in `preview-mode.ts`; `Site00OriginLayoutSwitch`, `Site00PublicLayoutSwitch`, `Site00EcosystemLayoutSwitch` render nothing; `Site00Context` ignores session-stored preview mode when switch off and uses `defaultPreviewDeviceModeForViewport()` (desktop on ≥768px).
 - **Branch:** `cursor/remove-layout-preview-switch-87ed`.
+
+---
+
+## 2026-10-02 — Cloud preview tunnel pinned to 6c85fbcb
+
+Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (`cursor/design-unified-workspace-sonnet-structure2` — unified design workspace).
+
+- **Ops:** VM checkout `6c85fbcb`, `SITE00_PREVIEW_SYNC_MAIN=0` + `SITE00_CLOUD_PREVIEW_MODE=local` rebuild; tunnel serves `release-manifest.json` with `commitSha` `6c85fbcba83d`, `bundleEntry` `index.B15a40Ht.js`.
+- **Persist pin:** `/tmp/site00-cloud-preview-pinned-ref` + `run-site00-cloud-preview-server.sh` reads `SITE00_PREVIEW_PIN_REF` / pin file (local build, no main ff-merge). Bootstrap skips CI sync when pin file present.
+- **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
