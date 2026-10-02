@@ -11,6 +11,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_VERSION?: string;
   readonly VITE_SITE00_CANONICAL_ORIGIN?: string;
   readonly VITE_SITE00_CLOUD_PREVIEW?: string;
+  /** Cloud preview builds only — enables Experience Compiler PREVIEW_GUEST when combined with tunnel/preview meta. */
+  readonly VITE_SITE00_EC_PREVIEW_GUEST?: string;
   readonly DEV: boolean;
   readonly PROD: boolean;
   readonly MODE: string;

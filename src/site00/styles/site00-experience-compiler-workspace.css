@@ -2,8 +2,47 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 1.25rem 1rem 3rem;
-  color: #e8e8ea;
+  color: var(--site-text, #1a1a1a);
   font-family: system-ui, sans-serif;
+}
+
+/* Ecosystem mobile shell uses light #f4f4f2 — do not inherit dark-theme ghost text. */
+.site00-ecosystem-mobile-shell .ec-workspace {
+  color: var(--site-text, #1a1a1a);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__kicker,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-metrics span,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-note {
+  opacity: 1;
+  color: var(--site-text-muted, #4a4a48);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__title,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-metrics strong,
+.site00-ecosystem-mobile-shell .ec-workspace .ec-panel h2 {
+  color: var(--site-text, #1a1a1a);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-panel {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__nav-btn {
+  color: var(--site-text, #1a1a1a);
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+.site00-ecosystem-mobile-shell .ec-workspace .ec-workspace__nav-btn.is-active {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.35);
+}
+
+.ec-note--degraded {
+  border-left: 3px solid #f5c542;
+  padding-left: 0.65rem;
+  color: #5a4a12;
 }
 
 .ec-workspace__header {
@@ -36,7 +75,7 @@
 .ec-workspace__back {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
-  color: #9cf;
+  color: #0066aa;
   text-decoration: none;
 }
 

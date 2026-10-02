@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { isSite00ExperienceCompilerPreviewGuestBypass } from '../src/site00/components/loader/site00PreviewHost.js';
+import { isSite00EcPreviewGuestFeatureActive } from '../src/site00/auth/site00ShellAuthState.js';
 
 describe('Experience Compiler preview guest bypass', () => {
-  it('is enabled only on known tunnel hosts', () => {
+  it('host helper is false in vitest (no tunnel hostname)', () => {
     expect(isSite00ExperienceCompilerPreviewGuestBypass()).toBe(false);
-    // jsdom default hostname is not tunnel — helper returns false unless cloud preview meta/env set in browser
+  });
+
+  it('feature requires VITE_SITE00_EC_PREVIEW_GUEST build flag', () => {
+    expect(isSite00EcPreviewGuestFeatureActive()).toBe(false);
   });
 });

@@ -19,7 +19,8 @@ export type WorkspaceSection =
   | 'authority'
   | 'capabilities'
   | 'production'
-  | 'history';
+  | 'history'
+  | 'creative';
 
 export type SonnetBatchStatus =
   | 'NOT_READY'

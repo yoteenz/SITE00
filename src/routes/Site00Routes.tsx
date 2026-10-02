@@ -344,6 +344,7 @@ const StudioDashboardPage = lazy(() => import('../site00/pages/studio/StudioDash
 const StudioWorkspaceRouterPage = lazy(() => import('../site00/pages/studio/StudioWorkspaceRouterPage'));
 const StudioReviewDetailPage = lazy(() => import('../site00/pages/studio/StudioReviewDetailPage'));
 const ExperienceCompilerWorkspacePage = lazy(() => import('../site00/pages/studio/ExperienceCompilerWorkspacePage'));
+const StudioPreviewGuestLandingPage = lazy(() => import('../site00/pages/studio/StudioPreviewGuestLandingPage'));
 const ClientProjectRoomOverviewPage = lazy(
   () => import('../site00/pages/clientProjectRoom/ClientProjectRoomOverviewPage'),
 );
@@ -2395,6 +2396,18 @@ export function Site00Routes() {
             <Site00AccountRouteGuard>
               <Site00Suspense>
                 <ProjectProvisioningPage />
+              </Site00Suspense>
+            </Site00AccountRouteGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.studioPreviewGuest}
+        element={
+          <Site00Layout>
+            <Site00AccountRouteGuard allowStudioPreviewGuestLanding>
+              <Site00Suspense>
+                <StudioPreviewGuestLandingPage />
               </Site00Suspense>
             </Site00AccountRouteGuard>
           </Site00Layout>
