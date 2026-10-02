@@ -1,0 +1,13 @@
+{
+  "route": "/idnty/some-pieces-exist/assets",
+  "finalUrl": "/idnty/some-pieces-exist/assets",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 943,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "errors": []
+}

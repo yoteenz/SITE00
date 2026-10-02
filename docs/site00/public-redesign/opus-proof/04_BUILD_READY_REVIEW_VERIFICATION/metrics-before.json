@@ -1,0 +1,13 @@
+{
+  "route": "/idnty/build-ready/review",
+  "finalUrl": "/idnty/build-ready/review",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 942,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "errors": []
+}

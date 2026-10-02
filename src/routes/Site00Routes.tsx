@@ -66,6 +66,9 @@ import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
 import '../site00/astral-world/styles/astral-world.css';
 import '../site00/styles/site00-twin-test-a.css';
+import '../site00/styles/site00-public-redesign.css';
+import '../site00/styles/site00-public-redesign-origin.css';
+import '../site00/styles/site00-public-redesign-services.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const Site00LocationsPage = lazy(() => import('../site00/pages/LocationsPage'));

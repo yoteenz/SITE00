@@ -12922,3 +12922,9 @@ Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`
 - **Blocker:** Project REST/auth health returns **Cloudflare 522** (~20s) from cloud agent; Supabase MCP `list_migrations` / `execute_sql` / `apply_migration` all **connection timeout**. Management API reports `ACTIVE_HEALTHY` but DB/API origin unreachable.
 - **Likely pending (verify in dashboard):** `20260921120000`, `20260929153000`, `20260929160000`, `20261001150000`, `20261001200000` — see `docs/supabase/PENDING_MIGRATIONS_CHECKLIST.md`.
 - **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.
+
+---
+
+## 2026-10-02 — Preview tunnel integrated branch (origins + production + compiler)
+
+Merged `cursor/public-redesign-composer-asset-injection1-1b86` into `cursor/design-unified-workspace-sonnet-structure2` as `cursor/preview-tunnel-integrated-87ed` for single-branch cloud preview (Origin public-redesign patches + unified production design workspace + Experience Compiler creative workspace).

@@ -19,6 +19,7 @@ import { useOriginLocationsTransition } from '../hooks/useOriginLocationsTransit
 import { useOriginExpandedDismiss } from '../hooks/useOriginExpandedDismiss';
 import { useOriginBackgroundPreload } from '../hooks/useOriginBackgroundPreload';
 import { deriveOriginPanelState } from '../config/origin-panel-state';
+import { PublicOriginMobile } from '../components/public-redesign/PublicOrigin';
 
 export default function OriginPage() {
   const { state, setHomeMode } = useSite00();
@@ -35,6 +36,19 @@ export default function OriginPage() {
   useOriginBackgroundPreload(state.homeMode, isDesktopArtboardLayout ? 'desktop' : 'mobile');
 
   useOriginExpandedDismiss(state.homeMode, collapseExpandedPanel, !isMobileOrigin);
+
+  // Public redesign (SONNET-STRUCTURE1): mobile Origin is rebuilt from authority. The desktop-artboard
+  // branch below is preserved until approved desktop authority exists.
+  if (isMobileOrigin) {
+    return (
+      <PublicOriginMobile
+        homeMode={state.homeMode}
+        onExpand={(panel) => setHomeMode(`${panel}-expanded`)}
+        onCollapse={collapseExpandedPanel}
+        locationsTransition={locationsTransition}
+      />
+    );
+  }
 
   return (
     <EnvironmentShell environmentId="ORIGIN_ENVIRONMENT">
