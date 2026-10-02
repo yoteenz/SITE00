@@ -12922,3 +12922,12 @@ Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`
 - **Blocker:** Project REST/auth health returns **Cloudflare 522** (~20s) from cloud agent; Supabase MCP `list_migrations` / `execute_sql` / `apply_migration` all **connection timeout**. Management API reports `ACTIVE_HEALTHY` but DB/API origin unreachable.
 - **Likely pending (verify in dashboard):** `20260921120000`, `20260929153000`, `20260929160000`, `20261001150000`, `20261001200000` — see `docs/supabase/PENDING_MIGRATIONS_CHECKLIST.md`.
 - **Founder apply:** When dashboard health is green, run `bash scripts/supabase/apply-pending-site00-migrations.sh` (Supabase CLI) or paste SQL from `supabase/migrations/` in order.
+
+---
+
+## 2026-10-02 — Remove Mobile/Desktop layout preview switcher (Shadow PC)
+
+Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile / Desktop** debug switcher.
+
+- **Shipped:** `isSite00LayoutPreviewSwitchEnabled()` → `false` in `preview-mode.ts`; `Site00OriginLayoutSwitch`, `Site00PublicLayoutSwitch`, `Site00EcosystemLayoutSwitch` render nothing; `Site00Context` ignores session-stored preview mode when switch off and uses `defaultPreviewDeviceModeForViewport()` (desktop on ≥768px).
+- **Branch:** `cursor/remove-layout-preview-switch-87ed`.
