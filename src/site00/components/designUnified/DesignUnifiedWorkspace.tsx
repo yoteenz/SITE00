@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { site00ProductionDesignPath } from '../../config/routes';
 import { productionNavHref } from '../productionHub/nav';
 import { DwsIcon, DwsStageObject } from './DwsIcons';
 import { DwsArt, DwsStage } from './DwsStage';
@@ -188,7 +189,13 @@ function OnYourTable({ state, dispatch }: P) {
   );
 }
 
-export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string }) {
+export function DesignUnifiedWorkspace({
+  projectSlug,
+  productionShell = false,
+}: {
+  projectSlug: string;
+  productionShell?: boolean;
+}) {
   const navigate = useNavigate();
   const vp = useDwsViewport();
   // Persisted decisions/selection are read synchronously so the first save can never overwrite them with defaults.
@@ -227,44 +234,56 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
   const showCenter = vp === 'desktop' && anyOverlay;
 
   return (
-    <div className="dws" data-viewport={vp} data-mode={state.mode} data-overlay={anyOverlay ? 'open' : 'none'} data-testid="design-unified-workspace">
-      <header className="dws-top">
-        <div className="dws-brandmark">
-          <i aria-hidden="true" />
-          <span>
-            <strong>DESIGN</strong>
-            <small>SITE 00 / STUDIO WORLD</small>
-          </span>
-        </div>
-        <div className="dws-project">
-          <DwsArt slot={`PROJECT.ART.${project.name.replace(/\s/g, '_')}.MARK`} tone="dark" className="dws-project__mark" />
-          <span>
-            <small>PROJECT</small>
-            <button type="button" className="dws-project__btn" aria-haspopup="listbox" aria-expanded={menuOpen} onClick={() => setMenuOpen((o) => !o)} data-testid="dws-project">
-              <strong>{project.name}</strong>
-              <DwsIcon name="chevron" size={14} />
-            </button>
-          </span>
-          {menuOpen ? (
-            <ul className="dws-project__menu" role="listbox" aria-label="PROJECT">
-              {DWS_PROJECTS.map((p) => (
-                <li key={p.slug}>
-                  <button
-                    type="button"
-                    role="option"
-                    aria-selected={p.slug === projectSlug}
-                    onClick={() => {
-                      setMenuOpen(false);
-                      if (p.slug !== projectSlug) navigate(`/production/${p.slug}/design-workspace`);
-                    }}
-                  >
-                    {p.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+    <div
+      className={`dws${productionShell ? ' dws--production-shell' : ''}`}
+      data-viewport={vp}
+      data-mode={state.mode}
+      data-overlay={anyOverlay ? 'open' : 'none'}
+      data-production-shell={productionShell ? '1' : '0'}
+      data-testid="design-unified-workspace"
+    >
+      <header className={`dws-top${productionShell ? ' dws-top--production-shell' : ''}`}>
+        {productionShell ?
+          null
+        : <>
+            <div className="dws-brandmark">
+              <i aria-hidden="true" />
+              <span>
+                <strong>DESIGN</strong>
+                <small>SITE 00 / STUDIO WORLD</small>
+              </span>
+            </div>
+            <div className="dws-project">
+              <DwsArt slot={`PROJECT.ART.${project.name.replace(/\s/g, '_')}.MARK`} tone="dark" className="dws-project__mark" />
+              <span>
+                <small>PROJECT</small>
+                <button type="button" className="dws-project__btn" aria-haspopup="listbox" aria-expanded={menuOpen} onClick={() => setMenuOpen((o) => !o)} data-testid="dws-project">
+                  <strong>{project.name}</strong>
+                  <DwsIcon name="chevron" size={14} />
+                </button>
+              </span>
+              {menuOpen ?
+                <ul className="dws-project__menu" role="listbox" aria-label="PROJECT">
+                  {DWS_PROJECTS.map((p) => (
+                    <li key={p.slug}>
+                      <button
+                        type="button"
+                        role="option"
+                        aria-selected={p.slug === projectSlug}
+                        onClick={() => {
+                          setMenuOpen(false);
+                          if (p.slug !== projectSlug) navigate(site00ProductionDesignPath(p.slug));
+                        }}
+                      >
+                        {p.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              : null}
+            </div>
+          </>
+        }
 
         <nav className="dws-modes" aria-label="DESIGN MODES" data-testid="dws-modes">
           {DWS_MODES.map((m) => (
@@ -274,16 +293,21 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
           ))}
         </nav>
 
-        <button type="button" className="dws-needs" onClick={() => document.querySelector('.dws-table')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })} aria-label={`${needs} ITEMS NEED YOU`} data-testid="dws-needs">
-          <span className="dws-needs__dial" aria-hidden="true">
-            <i />
-          </span>
-          <b>{String(needs).padStart(2, '0')}</b>
-          <small>ITEMS NEED YOU</small>
-        </button>
-        <button type="button" className="dws-iconbtn dws-menu" aria-label="MENU" onClick={() => dispatch({ type: 'RETURN_TO_OVERVIEW' })}>
-          <DwsIcon name="menu" size={20} />
-        </button>
+        {productionShell ?
+          null
+        : <>
+            <button type="button" className="dws-needs" onClick={() => document.querySelector('.dws-table')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })} aria-label={`${needs} ITEMS NEED YOU`} data-testid="dws-needs">
+              <span className="dws-needs__dial" aria-hidden="true">
+                <i />
+              </span>
+              <b>{String(needs).padStart(2, '0')}</b>
+              <small>ITEMS NEED YOU</small>
+            </button>
+            <button type="button" className="dws-iconbtn dws-menu" aria-label="MENU" onClick={() => dispatch({ type: 'RETURN_TO_OVERVIEW' })}>
+              <DwsIcon name="menu" size={20} />
+            </button>
+          </>
+        }
       </header>
 
       <main className="dws-main">
@@ -310,33 +334,37 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
         </div>
       </main>
 
-      <nav className="dws-footnav" aria-label="STUDIO OS NAVIGATION" data-testid="dws-footnav">
-        {DWS_NAV.map((n) => {
-          const href =
-            n.id === 'hub' || n.id === 'exit'
-              ? '/production'
-              : n.id === 'library'
-                ? productionNavHref('library', projectSlug)
-                : n.id === 'activity'
-                  ? '/production?panel=activity'
-                  : null;
-          const inner = (
-            <>
-              <DwsIcon name={n.icon} size={24} accent={n.id === 'activity'} />
-              <span>{n.label}</span>
-            </>
-          );
-          return href ? (
-            <Link key={n.id} to={href} className="dws-footnav__item" data-nav={n.id}>
-              {inner}
-            </Link>
-          ) : (
-            <button key={n.id} type="button" className="dws-footnav__item is-on" aria-current="page" onClick={() => dispatch({ type: 'RETURN_TO_OVERVIEW' })} data-nav={n.id}>
-              {inner}
-            </button>
-          );
-        })}
-      </nav>
+      {productionShell ?
+        null
+      : (
+        <nav className="dws-footnav" aria-label="STUDIO OS NAVIGATION" data-testid="dws-footnav">
+          {DWS_NAV.map((n) => {
+            const href =
+              n.id === 'hub' || n.id === 'exit'
+                ? '/production'
+                : n.id === 'library'
+                  ? productionNavHref('library', projectSlug)
+                  : n.id === 'activity'
+                    ? '/production?panel=activity'
+                    : null;
+            const inner = (
+              <>
+                <DwsIcon name={n.icon} size={24} accent={n.id === 'activity'} />
+                <span>{n.label}</span>
+              </>
+            );
+            return href ?
+              <Link key={n.id} to={href} className="dws-footnav__item" data-nav={n.id}>
+                {inner}
+              </Link>
+            : (
+              <button key={n.id} type="button" className="dws-footnav__item is-on" aria-current="page" onClick={() => dispatch({ type: 'RETURN_TO_OVERVIEW' })} data-nav={n.id}>
+                {inner}
+              </button>
+            );
+          })}
+        </nav>
+      )}
 
       {state.toast ? (
         <div className="dws-toast" role="status" aria-live="polite" data-testid="dws-toast">

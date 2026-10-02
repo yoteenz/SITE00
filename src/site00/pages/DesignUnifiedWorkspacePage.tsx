@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { DesignUnifiedWorkspace } from '../components/designUnified/DesignUnifiedWorkspace';
 
 /**
- * `/production/:projectSlug/design-workspace` — the unified DESIGN workspace (BRAND · EXPERIENCE · SURFACES · COMPILER · ASSETS).
- * Additive route inside the existing internal-production guard; the legacy `/production/:slug/design/*` tooling is untouched.
+ * Canonical `/production/:projectSlug/design` — unified DESIGN workspace (BRAND · EXPERIENCE · SURFACES · COMPILER · ASSETS).
+ * Renders inside the Production chrome shell when `productionShell` is set. Legacy twin-opus UI lives at `/design-legacy/*` only.
  */
-export default function DesignUnifiedWorkspacePage() {
+type Props = { productionShell?: boolean };
+
+export default function DesignUnifiedWorkspacePage({ productionShell = false }: Props) {
   const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
   useEffect(() => {
     const { body, documentElement } = document;
@@ -20,5 +22,11 @@ export default function DesignUnifiedWorkspacePage() {
       body.style.background = prev[2]!;
     };
   }, []);
-  return <DesignUnifiedWorkspace key={projectSlug.toLowerCase()} projectSlug={projectSlug.toLowerCase()} />;
+  return (
+    <DesignUnifiedWorkspace
+      key={projectSlug.toLowerCase()}
+      projectSlug={projectSlug.toLowerCase()}
+      productionShell={productionShell}
+    />
+  );
 }
