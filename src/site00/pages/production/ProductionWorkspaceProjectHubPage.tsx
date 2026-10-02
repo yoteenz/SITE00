@@ -13,7 +13,9 @@ function ProjectLayoutInner() {
     !pathname.includes('/design-legacy');
   const isDesignLegacy = /^\/production\/[^/]+\/design-legacy(\/|$)/.test(pathname);
   const isDesign = isCanonicalDesign || isDesignLegacy;
-  const isFabrication = /\/character-fabrication(\/|$)/.test(pathname);
+  const isFabrication =
+    /\/character-fabrication(\/|$)/.test(pathname) ||
+    /^\/production\/[^/]+\/viewport-lab(\/|$)/.test(pathname);
   return (
     <div data-testid="production-workspace-shell" data-top-level-count={PRODUCTION_TOP_LEVEL_WORKSPACES.length}>
       {isDesign ?

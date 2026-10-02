@@ -12965,3 +12965,9 @@ Branch **`cursor/preview-tunnel-integrated-87ed`**: merges `public-redesign-comp
 ## 2026-10-02 — Production design cutover (P0.STUDIOOS.PRODUCTION.DESIGN-CUTOVER1)
 
 Unified DESIGN workspace is now **canonical at `/production/:projectSlug/design`** inside Production chrome (header + bottom nav). **`/design-workspace` → redirect**; old twin-opus UI only at **`/design-legacy/*`**. Unified shell hides duplicate `dws-footnav` + global project/attention chrome when `productionShell`. Matrix: `docs/studio-os/design-cutover-migration-matrix.md`. Branch: `cursor/design-cutover-production-87ed` (includes integrated preview/unified design base). **Not merged** until founder live QA.
+
+## 2026-10-02 — Viewport Lab (P0.STUDIOOS.PRODUCTION.VIEWPORT-LAB1)
+
+Sprint: live **Viewport Lab** at `/production/:projectSlug/viewport-lab` — iframe client SPA preview. Merged into **`cursor/design-cutover-production-87ed`** so tunnel branch ships route + design cutover together (missing route had caused empty outlet / wrong navigation to Origin).
+
+- **Registry:** `shared/site00-viewport-lab/`; Hub menu **VIEWPORT LAB**; QA `node scripts/viewport-lab-qa-proof.mjs`.

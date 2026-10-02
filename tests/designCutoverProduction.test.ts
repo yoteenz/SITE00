@@ -18,6 +18,8 @@ describe('P0 design cutover — routing and shell', () => {
     expect(routes).toContain('path="design/*"');
     expect(routes).toContain('path="design-workspace"');
     expect(routes).toContain('path="design-legacy/*"');
+    expect(routes).toContain('path="viewport-lab"');
+    expect(routes).toContain('ViewportLabPage');
   });
 
   it('unified workspace hides duplicate footer when productionShell', () => {

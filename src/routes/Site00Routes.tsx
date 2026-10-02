@@ -191,6 +191,7 @@ const ProductionDesignWorkspaceAliasRedirect = lazy(() =>
     default: m.ProductionDesignWorkspaceAliasRedirect,
   })),
 );
+const ViewportLabPage = lazy(() => import('../site00/pages/production/ViewportLabPage'));
 const DesignProductionRouteGate = lazy(() =>
   import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
     default: m.DesignProductionRouteGate,
@@ -1509,6 +1510,7 @@ export function Site00Routes() {
             <Route path="more" element={<Site00Suspense><DesignProductionSectionMore /></Site00Suspense>} />
           </Route>
         </Route>
+        <Route path="viewport-lab" element={<Site00Suspense><ViewportLabPage /></Site00Suspense>} />
         <Route path="experience/*" element={<Site00Suspense><ExperienceProductionShellPage /></Site00Suspense>} />
         <Route path="expression/*" element={<Site00Suspense><ExpressionProductionShellPage /></Site00Suspense>} />
       </Route>
