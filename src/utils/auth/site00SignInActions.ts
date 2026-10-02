@@ -22,10 +22,13 @@ import {
 import { registerServerSessionCookie } from '../sessionRestore';
 import { trackActivity } from '../activity';
 import { flushQueuedProfilePatch } from '../profileSyncQueue';
+import { isSupabaseTransportFailure, SUPABASE_UNAVAILABLE_MESSAGE } from '../supabaseFetch';
 
 export type Site00SignInResult =
   | { ok: true }
   | { ok: false; message: string };
+
+const SIGN_IN_AUTH_TIMEOUT_MS = 16_000;
 
 function normalizeAuthError(message: string): string {
   const raw = (message || '').toLowerCase();
@@ -110,10 +113,18 @@ export async function site00SignInWithPassword(email: string, password: string):
   if (!supabase) return { ok: false, message: 'SIGN-IN FAILED. TRY AGAIN.' };
 
   try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: emailTrim,
-      password: password.trim(),
-    });
+    const authResult = await promiseWithTimeout(
+      supabase.auth.signInWithPassword({
+        email: emailTrim,
+        password: password.trim(),
+      }),
+      SIGN_IN_AUTH_TIMEOUT_MS,
+      null,
+    );
+    if (!authResult) {
+      return { ok: false, message: SUPABASE_UNAVAILABLE_MESSAGE };
+    }
+    const { data, error } = authResult;
 
     if (error) {
       return { ok: false, message: normalizeAuthError(error.message) };
@@ -134,7 +145,10 @@ export async function site00SignInWithPassword(email: string, password: string):
       data.session.user.email ?? emailTrim,
     );
     return { ok: true };
-  } catch {
+  } catch (err) {
+    if (isSupabaseTransportFailure(err)) {
+      return { ok: false, message: SUPABASE_UNAVAILABLE_MESSAGE };
+    }
     return { ok: false, message: 'SIGN-IN FAILED. TRY AGAIN.' };
   }
 }
@@ -155,16 +169,23 @@ export async function site00SignInWithMagicLink(email: string, redirectTo: strin
     const postAuthPath = redirectTo.startsWith('http')
       ? redirectTo
       : `${origin}/origin/sign-in?returnTo=${encodeURIComponent(redirectTo.startsWith('/') ? redirectTo : `/${redirectTo}`)}`;
-    const { error } = await supabase.auth.signInWithOtp({
-      email: emailTrim,
-      options: {
-        emailRedirectTo: postAuthPath,
-        shouldCreateUser: true,
-      },
-    });
+    const otpResult = await promiseWithTimeout(
+      supabase.auth.signInWithOtp({
+        email: emailTrim,
+        options: {
+          emailRedirectTo: postAuthPath,
+          shouldCreateUser: true,
+        },
+      }),
+      SIGN_IN_AUTH_TIMEOUT_MS,
+      null,
+    );
+    if (!otpResult) return { ok: false, message: SUPABASE_UNAVAILABLE_MESSAGE };
+    const { error } = otpResult;
     if (error) return { ok: false, message: normalizeAuthError(error.message) };
     return { ok: true };
-  } catch {
+  } catch (err) {
+    if (isSupabaseTransportFailure(err)) return { ok: false, message: SUPABASE_UNAVAILABLE_MESSAGE };
     return { ok: false, message: 'MAGIC LINK FAILED. TRY AGAIN.' };
   }
 }
