@@ -24,6 +24,8 @@ import {
   type DwsAsset,
 } from './dwsModel';
 import type { DwsAction, DwsState } from './dwsState';
+import { brandAssetSlot, iconAssetSlot } from './dwsSlots';
+import { useDwsViewport } from './dwsViewport';
 
 type P = { state: DwsState; dispatch: (a: DwsAction) => void };
 const status = (s: DwsState, id: string, fallback: string) => s.decisions[id]?.status ?? fallback;
@@ -71,7 +73,7 @@ export function BrandLibraryDrawer({ state, dispatch }: P) {
             {items.map((a) => (
               <li key={a.id}>
                 <button type="button" className={`dws-asset${sel.id === a.id ? ' is-sel' : ''}`} onClick={() => dispatch({ type: 'SELECT_ARTIFACT', id: a.id })} aria-pressed={sel.id === a.id}>
-                  <DwsArt slot={`PROJECT.ART.BRAND.ASSET.${a.id.toUpperCase()}`} tone={a.id.includes('dark') ? 'dark' : 'light'} className="dws-asset__art" />
+                  <DwsArt slot={brandAssetSlot(a.id)} tone={a.id.includes('dark') ? 'dark' : 'light'} className="dws-asset__art" />
                   <span className="dws-asset__name">{a.name}</span>
                   <small>{a.sub}</small>
                   {sel.id === a.id ? (
@@ -97,7 +99,7 @@ export function AssetDetailsInspector({ state, dispatch }: P) {
   return (
     <Overlay kind="inspector" id="asset-details" title="ASSET DETAILS" onClose={() => dispatch({ type: 'CLOSE_INSPECTOR' })}>
       <div className="dws-asset-head">
-        <DwsArt slot={`PROJECT.ART.BRAND.ASSET.${a.id.toUpperCase()}`} tone="light" className="dws-asset-head__art" />
+        <DwsArt slot={brandAssetSlot(a.id)} tone="light" className="dws-asset-head__art" />
         <span>
           <strong>{a.name}</strong>
           <small>{a.sub}</small>
@@ -157,7 +159,7 @@ export function BrandReviewModal({ state, dispatch }: P) {
       }
     >
       <div className="dws-review">
-        <DwsArt slot={`PROJECT.ART.BRAND.ASSET.${a.id.toUpperCase()}`} tone="light" className="dws-review__art" />
+        <DwsArt slot={brandAssetSlot(a.id)} tone="light" className="dws-review__art" />
         <span className="dws-review__meta">
           <strong>
             {a.name} {a.sub} <em className="dws-ver">{a.version}</em>
@@ -186,6 +188,9 @@ export function selectedNode(s: DwsState) {
 }
 
 export function JourneysDrawer({ state, dispatch }: P) {
+  const { viewport, orientation } = useDwsViewport();
+  // Tablet landscape + desktop show the map in the centre panel; portrait tablet + phones carry it inside the drawer.
+  const inline = viewport === 'mobile' || (viewport === 'tablet' && orientation === 'portrait');
   const tab = state.filter.experience ?? 'JOURNEYS';
   const q = (state.search.experience ?? '').toLowerCase();
   const active = state.selected.experience ? undefined : undefined;
@@ -216,6 +221,25 @@ export function JourneysDrawer({ state, dispatch }: P) {
         })}
         {items.length === 0 ? <li className="dws-empty">NO JOURNEYS MATCH</li> : null}
       </ul>
+      {inline ? (
+        <section className="dws-inlinemap" data-testid="dws-inlinemap">
+          <h3 className="dws-h">ROUTE MAP</h3>
+          <ExperienceMap state={state} dispatch={dispatch} />
+          <ul className="dws-nodelist" aria-label="ROUTE NODES">
+            {DWS_NODES.map((n) => (
+              <li key={n.id}>
+                <button type="button" className={selectedNode(state).id === n.id ? 'is-sel' : ''} aria-pressed={selectedNode(state).id === n.id} onClick={() => dispatch({ type: 'SELECT_ARTIFACT', id: n.id })} data-node-item={n.id}>
+                  <i aria-hidden="true" />
+                  <span>
+                    <b>{n.label}</b>
+                    <small>{n.sub}</small>
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </Overlay>
   );
 }
@@ -602,7 +626,7 @@ export function AssetLibraryDrawer({ state, dispatch }: P) {
             {items.map((i) => (
               <li key={i.id}>
                 <button type="button" className={`dws-asset${sel.id === i.id ? ' is-sel' : ''}`} onClick={() => dispatch({ type: 'SELECT_ARTIFACT', id: i.id })} aria-pressed={sel.id === i.id} aria-label={i.name}>
-                  <DwsArt slot={`PROJECT.ART.ASSETS.${i.id.toUpperCase()}`} tone="dark" className="dws-asset__art" />
+                  <DwsArt slot={iconAssetSlot(i.id.replace(/-copy$/, ''))} tone="dark" className="dws-asset__art" />
                   {i.starred ? <i className="dws-asset__star" aria-hidden="true">★</i> : null}
                   {sel.id === i.id ? <i className="dws-asset__check"><DwsIcon name="check" size={10} /></i> : null}
                 </button>
@@ -624,7 +648,7 @@ export function AssetDetailsModal({ state, dispatch }: P) {
       footer={<><Btn kind="primary" icon="open" onClick={() => dispatch({ type: 'OPEN_MODAL', modal: 'export' })} testId="dws-open-export">OPEN</Btn><Btn icon="eye" onClick={() => dispatch({ type: 'BRING_FORWARD', id: i.id })}>PREVIEW</Btn><Btn icon="plus" onClick={() => dispatch({ type: 'ADD_TO_LIBRARY', id: i.id })}>{inLib ? 'IN PACK' : 'ADD TO PACK'}</Btn></>}
     >
       <div className="dws-review">
-        <DwsArt slot={`PROJECT.ART.ASSETS.${i.id.toUpperCase()}`} tone="dark" className="dws-review__art dws-review__art--big" />
+        <DwsArt slot={iconAssetSlot(i.id.replace(/-copy$/, ''))} tone="dark" className="dws-review__art dws-review__art--big" />
         <span className="dws-review__meta">
           <strong>{i.name}</strong>
           <small>NDX_{i.id.toUpperCase().replace(/-/g, '_')}</small>
@@ -698,7 +722,7 @@ export function AssetsCenter({ state }: P) {
     <div className="dws-center" data-testid="dws-assets-center">
       <header className="dws-center__head"><span><b>ASSETS</b> <i>/</i> <strong>{i.name}</strong></span></header>
       <div className="dws-center__cols">
-        <DwsArt slot={`PROJECT.ART.ASSETS.${i.id.toUpperCase()}`} tone="dark" className="dws-center__art" />
+        <DwsArt slot={iconAssetSlot(i.id.replace(/-copy$/, ''))} tone="dark" className="dws-center__art" />
         <ul className="dws-center__list">{['VISUAL AUTHORITIES', 'ICON FAMILIES', 'ENVIRONMENT PLATES', 'MATERIALS & COMPONENTS', 'TEMPLATES', 'DELIVERY PACKS'].map((x) => <li key={x}>{x}</li>)}</ul>
       </div>
     </div>

@@ -281,11 +281,103 @@ export function DwsIcon({ name, size = 20, className = '', accent = false }: { n
   );
 }
 
-/** Pipeline stage "object": a live SVG stand-in inside a soft sphere plate. Image slot: ICON3D.PIPELINE.<NAME>. */
-export function DwsStageObject({ icon, label }: { icon: string; label: string }) {
+/**
+ * Pipeline stage objects. The final objects are image-owned 3D renders (ICON PACK 03 / 02). Until they are registered,
+ * each FORM below is a live-SVG construction of the form the authority defines (sphere, split panels, head-in-lattice,
+ * layered cube, cube blocks, route cube, orbits, interlocked rings, eye orb) — never a random library glyph.
+ * Slot ids are per FORM (ICON3D.PIPELINE.<FORM>) so one production asset serves every stage that uses the form.
+ */
+export type DwsStageForm = 'SPHERE' | 'PANELS' | 'HEAD' | 'LAYERED' | 'BLOCKS' | 'ROUTE' | 'ORBITS' | 'RINGS' | 'ORB';
+
+export const DWS_STAGE_FORMS: readonly DwsStageForm[] = ['SPHERE', 'PANELS', 'HEAD', 'LAYERED', 'BLOCKS', 'ROUTE', 'ORBITS', 'RINGS', 'ORB'];
+
+/** Authority mapping: first stage sphere, second panels, third head; AUTHORITY rings; final stage orb. */
+export function stageForm(label: string, index: number, total: number): DwsStageForm {
+  if (label === 'AUTHORITY') return 'RINGS';
+  if (index === total - 1) return total <= 5 ? 'RINGS' : 'ORB';
+  if (/^(ROUTES|STATES|ROUTE MAPS|INTERACTION FLOWS|JOURNEYS|JOURNEY|FLOW)$/.test(label)) return 'ROUTE';
+  return (['SPHERE', 'PANELS', 'HEAD', 'LAYERED', 'BLOCKS', 'ORBITS', 'ORBITS', 'ORBITS'] as const)[Math.min(index, 7)]!;
+}
+
+const FORM: Record<DwsStageForm, ReactNode> = {
+  SPHERE: (
+    <>
+      <circle cx="24" cy="24" r="16" />
+      <ellipse cx="24" cy="24" rx="6" ry="16" />
+      <path d="M8 24h32M11 15h26M11 33h26" opacity="0.5" />
+      <circle cx="24" cy="24" r="2.400" fill="#e8192c" stroke="none" />
+    </>
+  ),
+  PANELS: (
+    <>
+      <rect x="9" y="8" width="13" height="32" />
+      <rect x="26" y="8" width="13" height="32" fill="currentColor" fillOpacity="0.88" />
+      <path d="M14 14h4M14 20h4" opacity="0.5" />
+      <path d="M30 17h5" stroke="#e8192c" />
+    </>
+  ),
+  HEAD: (
+    <>
+      <path d="M24 5 41 14v20L24 43 7 34V14z" opacity="0.55" />
+      <circle cx="24" cy="19" r="5.500" />
+      <path d="M13 36c0-6 5-9 11-9s11 3 11 9" />
+      <circle cx="24" cy="19" r="1.200" fill="#e8192c" stroke="none" />
+    </>
+  ),
+  LAYERED: (
+    <>
+      <path d="m24 6 15 7.500L24 21 9 13.500z" />
+      <path d="m9 20 15 7.500L39 20M9 27l15 7.500L39 27" opacity="0.7" />
+      <path d="M24 21v13" stroke="#e8192c" />
+    </>
+  ),
+  BLOCKS: (
+    <>
+      <path d="M24 5 38 12v10L24 29 10 22V12z" />
+      <path d="m10 12 14 7 14-7M24 19v10" opacity="0.6" />
+      <path d="M10 30l14 7 14-7v6l-14 7-14-7z" opacity="0.8" />
+      <circle cx="24" cy="19" r="1.800" fill="#e8192c" stroke="none" />
+    </>
+  ),
+  ROUTE: (
+    <>
+      <path d="M24 5 40 13v22L24 43 8 35V13z" opacity="0.55" />
+      <path d="M14 33c0-6 6-4 9-8s-4-8 2-11 9 2 9 2" stroke="#e8192c" />
+      <circle cx="14" cy="33" r="2" fill="currentColor" stroke="none" />
+      <circle cx="34" cy="16" r="2" fill="#e8192c" stroke="none" />
+    </>
+  ),
+  ORBITS: (
+    <>
+      <ellipse cx="24" cy="24" rx="17" ry="6.500" />
+      <ellipse cx="24" cy="24" rx="17" ry="6.500" transform="rotate(60 24 24)" />
+      <ellipse cx="24" cy="24" rx="17" ry="6.500" transform="rotate(120 24 24)" />
+      <circle cx="24" cy="24" r="2.800" fill="#e8192c" stroke="none" />
+    </>
+  ),
+  RINGS: (
+    <>
+      <ellipse cx="18" cy="24" rx="9" ry="16" />
+      <ellipse cx="24" cy="24" rx="9" ry="16" />
+      <ellipse cx="30" cy="24" rx="9" ry="16" />
+    </>
+  ),
+  ORB: (
+    <>
+      <circle cx="24" cy="24" r="17" />
+      <circle cx="24" cy="24" r="9" />
+      <circle cx="24" cy="24" r="4" fill="currentColor" stroke="none" />
+      <circle cx="24" cy="24" r="1.400" fill="#e8192c" stroke="none" />
+    </>
+  ),
+};
+
+export function DwsStageObject({ form }: { form: DwsStageForm }) {
   return (
-    <span className="dws-stageobj" data-asset-slot={`ICON3D.PIPELINE.${label}`} aria-hidden="true">
-      <DwsIcon name={icon} size={34} />
+    <span className="dws-stageobj" data-asset-slot={`ICON3D.PIPELINE.${form}`} data-asset-status="slot-owned-interim-svg" data-form={form} aria-hidden="true">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" focusable="false">
+        {FORM[form]}
+      </svg>
     </span>
   );
 }

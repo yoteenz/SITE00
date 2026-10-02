@@ -1,116 +1,2208 @@
 {
   "generated": 0,
-  "note": "Slots render a neutral text-free placeholder until a url is registered in DWS_ART_URLS (DwsStage.tsx). No authority screenshot is used as an image.",
+  "note": "Derived from src/site00/components/designUnified/dwsSlots.ts (listDwsSlots). Slots render a neutral text-free placeholder until a url is registered in DWS_ART_URLS. ICON3D slots are per FORM; interim live-SVG forms render in DwsStageObject.",
+  "total": 152,
+  "byKind": {
+    "ENVIRONMENT_IMAGE": 1,
+    "ICON3D": 9,
+    "CARD_IMAGE": 92,
+    "FOREGROUND_IMAGE": 15,
+    "TRANSPARENT_OBJECT": 32,
+    "PROJECT_MARK": 3
+  },
   "slots": [
     {
       "id": "ENV.DESIGN.ATRIUM",
-      "role": "ENVIRONMENT_IMAGE",
-      "surface": "stage background (all modes, 3 viewports)",
-      "bbox": "full stage, 16:9 desktop / 3:4 tablet / 9:16 mobile",
-      "crop": "cover, centre pedestal at 50% x 78%",
-      "safe_zone": "upper 55% free of detail behind suspended boards",
-      "continuity": "single atrium across all five modes",
-      "status": "PLACEHOLDER (live gradient + rings)"
-    },
-    {
-      "id": "PROJECT.ART.<MODE>.FEATURED",
-      "role": "FOREGROUND_IMAGE / CARD_IMAGE",
-      "surface": "featured overview board art (5 modes)",
-      "bbox": "~ 4:3.3 inside featured board",
+      "kind": "ENVIRONMENT_IMAGE",
+      "surface": "stage background (all modes)",
+      "aspect": "16:9",
       "crop": "cover",
-      "safe_zone": "lower-left 40% reserved for live statement text",
-      "continuity": "per-project",
-      "status": "PLACEHOLDER"
+      "safeZone": "centre pedestal at 50% x 78%; upper 55% free of detail behind suspended boards",
+      "continuity": "one atrium across all five modes",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
     },
     {
-      "id": "PROJECT.ART.<MODE>.<BOARD>",
-      "role": "CARD_IMAGE",
-      "surface": "25 suspended board arts (5 per mode)",
-      "bbox": "~ 1.1:1",
-      "crop": "cover",
-      "safe_zone": "none (no baked text)",
-      "continuity": "per-project",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.<MODE>.TABLE.<N>",
-      "role": "CARD_IMAGE",
-      "surface": "ON YOUR TABLE card thumbnails (20)",
-      "bbox": "~ 4:1.5",
-      "crop": "cover",
-      "safe_zone": "top-left PAGE chip",
-      "continuity": "per-project",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.BRAND.ASSET.<ASSET_ID>",
-      "role": "TRANSPARENT_OBJECT / CARD_IMAGE",
-      "surface": "brand library grid + inspector + review (12 assets)",
-      "bbox": "~ 4:3 grid, 1:1 inspector",
-      "crop": "contain on light, cover on dark",
-      "safe_zone": "none",
-      "continuity": "brand asset family",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.ASSETS.ICON-CORE-NNN",
-      "role": "TRANSPARENT_OBJECT",
-      "surface": "asset library icon grid (20) + details",
-      "bbox": "1:1",
+      "id": "ICON3D.PIPELINE.BLOCKS",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
       "crop": "contain",
-      "safe_zone": "none",
-      "continuity": "icon set",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.NN / PATH.PREVIEW",
-      "role": "CARD_IMAGE",
-      "surface": "journey rows + path-review preview",
-      "bbox": "40x28 / 16:7",
-      "crop": "cover",
-      "safe_zone": "lower-left reserved for live step copy",
-      "continuity": "journey",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.SURFACES.PREVIEW.<DEVICE> / VARIANT.N / RELATED.<ID> / FAMILY.<ID>",
-      "role": "FOREGROUND_IMAGE",
-      "surface": "surface preview, variants, related, family thumbs",
-      "bbox": "16:10 / 4:3",
-      "crop": "cover",
-      "safe_zone": "none",
-      "continuity": "surface family",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.COMPILER.* (CENTER, INPUT.*, EXPRESSION, RELATED.N)",
-      "role": "FOREGROUND_IMAGE",
-      "surface": "compiler centre, inputs, selected expression",
-      "bbox": "1:1 / 4:3",
-      "crop": "cover",
-      "safe_zone": "none",
-      "continuity": "expression",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "PROJECT.ART.<PROJECT>.MARK",
-      "role": "ICON",
-      "surface": "project selector mark",
-      "bbox": "34x40",
-      "crop": "cover",
-      "safe_zone": "none",
-      "continuity": "project",
-      "status": "PLACEHOLDER"
-    },
-    {
-      "id": "ICON3D.PIPELINE.<STAGE>",
-      "role": "TRANSPARENT_OBJECT",
-      "surface": "pipeline stage objects (sphere, panels, head, lattice, rings, orb ...)",
-      "bbox": "54x54 circle plate",
-      "crop": "contain",
-      "safe_zone": "none",
+      "safeZone": "none",
       "continuity": "pipeline icon family (ICON PACK 03)",
-      "status": "LIVE SVG STAND-IN"
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.HEAD",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.LAYERED",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.ORB",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.ORBITS",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.PANELS",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.RINGS",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.ROUTE",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "ICON3D.PIPELINE.SPHERE",
+      "kind": "ICON3D",
+      "surface": "DESIGN PIPELINE stage object",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.AUTHORITIES",
+      "kind": "CARD_IMAGE",
+      "surface": "ASSETS board VISUAL AUTHORITIES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.DELIVERY",
+      "kind": "CARD_IMAGE",
+      "surface": "ASSETS board DELIVERY PACKS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.FEATURED",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "ASSETS featured board art",
+      "aspect": "4:3.3",
+      "crop": "cover",
+      "safeZone": "lower-left 40% reserved for live statement text",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_001",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_002",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_003",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_004",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_005",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_006",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_007",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_008",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_009",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_010",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_011",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_012",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_013",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_014",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_015",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_016",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_017",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_018",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_019",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON_CORE_020",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "ASSETS icon grid / details",
+      "aspect": "1:1",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "icon set",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICONS",
+      "kind": "CARD_IMAGE",
+      "surface": "ASSETS board ICON FAMILIES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.MATERIALS",
+      "kind": "CARD_IMAGE",
+      "surface": "ASSETS board MATERIALS & COMPONENTS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.PLATES",
+      "kind": "CARD_IMAGE",
+      "surface": "ASSETS board ENVIRONMENT PLATES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.TEMPLATES",
+      "kind": "CARD_IMAGE",
+      "surface": "ASSETS board TEMPLATES & LIBRARIES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.ANIMATED_LOGO",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.APP_ICON",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.BRAND_FILM",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.LOCKUP_HORIZONTAL",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.LOCKUP_VERTICAL",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.LOGO_ON_DARK",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.LOGO_ON_LIGHT",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.MONOGRAM",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.PALETTE_V2",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.PRIMARY_LOGO",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.TYPOGRAPHY_SYSTEM",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.WORDMARK",
+      "kind": "TRANSPARENT_OBJECT",
+      "surface": "BRAND library grid / inspector / review",
+      "aspect": "4:3",
+      "crop": "contain",
+      "safeZone": "none",
+      "continuity": "brand asset family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.BRAND",
+      "kind": "CARD_IMAGE",
+      "surface": "BRAND board BRAND",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "tabletL"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.FEATURED",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "BRAND featured board art",
+      "aspect": "4:3.3",
+      "crop": "cover",
+      "safeZone": "lower-left 40% reserved for live statement text",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.PRINCIPLES",
+      "kind": "CARD_IMAGE",
+      "surface": "BRAND board EXPERIENCE PRINCIPLES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.STRATEGY",
+      "kind": "CARD_IMAGE",
+      "surface": "BRAND board STRATEGY",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.VALUES",
+      "kind": "CARD_IMAGE",
+      "surface": "BRAND board VALUES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.VISUAL",
+      "kind": "CARD_IMAGE",
+      "surface": "BRAND board VISUAL IDENTITY",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.BRAND.VOICE",
+      "kind": "CARD_IMAGE",
+      "surface": "BRAND board VOICE & TONE",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.BRIEFS",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER board AUTHORITY BRIEFS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.CENTER",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "COMPILER centre",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.EXPRESSION",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "COMPILER selected expression",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.FAMILIES",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER board FAMILIES & EXPRESSIONS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.FEATURED",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "COMPILER featured board art",
+      "aspect": "4:3.3",
+      "crop": "cover",
+      "safeZone": "lower-left 40% reserved for live statement text",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.GRAPH",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER board EXPERIENCE GRAPH",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.INPUT.DATA",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER input",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.INPUT.REFERENCES",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER input",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.INPUT.RULES",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER input",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.INTELLIGENCE",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER board PROJECT INTELLIGENCE",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.RELATED.1",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER related artifact",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.RELATED.2",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER related artifact",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.RELATED.3",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER related artifact",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.RELATED.4",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER related artifact",
+      "aspect": "1:1",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "expression",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.SYNTHESIS",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER board SYSTEM SYNTHESIS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.TERRITORIES",
+      "kind": "CARD_IMAGE",
+      "surface": "COMPILER board CONCEPT TERRITORIES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.ARCHITECTURE",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board EXPERIENCE ARCHITECTURE",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.FEATURED",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "EXPERIENCE featured board art",
+      "aspect": "4:3.3",
+      "crop": "cover",
+      "safeZone": "lower-left 40% reserved for live statement text",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.FLOWS",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board EXPERIENCE FLOWS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.INTERACTION",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board INTERACTION FLOWS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.01",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE journey row",
+      "aspect": "10:7",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "journey",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.02",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE journey row",
+      "aspect": "10:7",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "journey",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.03",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE journey row",
+      "aspect": "10:7",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "journey",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.04",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE journey row",
+      "aspect": "10:7",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "journey",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.05",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE journey row",
+      "aspect": "10:7",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "journey",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEYS",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board USER JOURNEYS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.MOMENTS",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board EXPERIENCE MOMENTS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.PATH.PREVIEW",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "INTERACTION PATH REVIEW preview",
+      "aspect": "16:7",
+      "crop": "cover",
+      "safeZone": "lower-left reserved for live step copy",
+      "continuity": "journey",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.ROUTES",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board ROUTE MAPS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.RULES",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board INTERACTION RULES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.STATES",
+      "kind": "CARD_IMAGE",
+      "surface": "EXPERIENCE board STATE FLOWS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.OVERVIEW.ASSETS",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board ASSETS",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.OVERVIEW.BRAND",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board BRAND",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.OVERVIEW.COMPILER",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board COMPILER",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.OVERVIEW.EXPERIENCE",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board EXPERIENCE",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.OVERVIEW.FEATURED",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES featured board art",
+      "aspect": "4:3.3",
+      "crop": "cover",
+      "safeZone": "lower-left 40% reserved for live statement text",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.OVERVIEW.SURFACES",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board SURFACES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.PROJECT.ASTRAL_WORLD.MARK",
+      "kind": "PROJECT_MARK",
+      "surface": "project selector mark",
+      "aspect": "34:40",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.PROJECT.FRONTAL_SLAYER.MARK",
+      "kind": "PROJECT_MARK",
+      "surface": "project selector mark",
+      "aspect": "34:40",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.PROJECT.NDXBOOK.MARK",
+      "kind": "PROJECT_MARK",
+      "surface": "project selector mark",
+      "aspect": "34:40",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.APP",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board APP SURFACES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.DESKTOP",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board DESKTOP SURFACES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.ENVIRONMENT",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board ENVIRONMENT SURFACES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.ALL",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.APP",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.COMPONENTS",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.DESKTOP",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.ENVIRONMENT",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.LAYOUTS",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.MOBILE",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.MOTION",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.STATES",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FAMILY.TABLET",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE family thumbnail",
+      "aspect": "3:2",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.FEATURED",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES featured board art",
+      "aspect": "4:3.3",
+      "crop": "cover",
+      "safeZone": "lower-left 40% reserved for live statement text",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.MOBILE",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board MOBILE SURFACES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.APP",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES centre preview",
+      "aspect": "16:10",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.COMPONENTS",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES centre preview",
+      "aspect": "16:10",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.DESKTOP",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES centre preview",
+      "aspect": "16:10",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.MOBILE",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES centre preview",
+      "aspect": "16:10",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.RESPONSIVE",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES centre preview",
+      "aspect": "16:10",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.TABLET",
+      "kind": "FOREGROUND_IMAGE",
+      "surface": "SURFACES centre preview",
+      "aspect": "16:10",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.RELATED.APP",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE related thumbnail",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.RELATED.DESKTOP",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE related thumbnail",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.RELATED.MOBILE",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE related thumbnail",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.RELATED.TABLET",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE related thumbnail",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.TABLET",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACES board TABLET SURFACES",
+      "aspect": "1.1:1",
+      "crop": "cover",
+      "safeZone": "none (no baked text)",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.VARIANT.1",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE expression variant",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.VARIANT.2",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE expression variant",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.VARIANT.3",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE expression variant",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.VARIANT.4",
+      "kind": "CARD_IMAGE",
+      "surface": "SURFACE expression variant",
+      "aspect": "4:3",
+      "crop": "cover",
+      "safeZone": "none",
+      "continuity": "surface family",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.ASSET_DELIVERY_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.ASSET_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.AUTHORITY_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.BRAND_AUTHORITY_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.COMPONENT_ASSET",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.COMPONENT_ASSETS",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.DESIGN_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.DESKTOP_SURFACES",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.ENVIRONMENT_PLATE",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.ENVIRONMENT_PLATES",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.EXPERIENCE_AUTHORITY",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.EXPERIENCE_FLOW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.EXPERIENCE_FLOW_APPROVAL",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.FAMILIES_EXPRESSIONS",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.ICON_FAMILY_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.INTERACTION_FLOW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.MOBILE_EXPRESSION",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.PALETTE_DIRECTION",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.ROUTE_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.STATE_FAMILY",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.SURFACE_FAMILY",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.TABLET_AUTHORITY",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.TYPOGRAPHY_SYSTEM",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.VISUAL_AUTHORITY",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.VISUAL_DIRECTION_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletL",
+        "tabletP",
+        "mobile"
+      ]
+    },
+    {
+      "id": "PROJECT.ART.TABLE.VISUAL_IDENTITY_REVIEW",
+      "kind": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card",
+      "aspect": "4:1.5",
+      "crop": "cover",
+      "safeZone": "top-left PAGE chip",
+      "continuity": "per project",
+      "families": [
+        "desktop",
+        "tabletP"
+      ]
     }
   ]
 }

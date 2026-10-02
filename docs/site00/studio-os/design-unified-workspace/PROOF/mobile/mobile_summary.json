@@ -1,0 +1,15 @@
+{
+ "vp": "mobile",
+ "viewport": [
+  390,
+  844
+ ],
+ "audit": {
+  "total": 92,
+  "lowercase": 0
+ },
+ "overflowX": false,
+ "errs": [],
+ "pass": 61,
+ "fail": []
+}

@@ -41,6 +41,8 @@ export type DwsState = {
   activity: { id: string; text: string; when: string }[];
   toast: string | null;
   pathStep: number;
+  /** Mobile: which open layer is shown (null = top-most). Layers never stack on phones, but every layer stays reachable. */
+  layer: 'drawer' | 'inspector' | 'modal' | null;
 };
 
 export const DWS_INITIAL: DwsState = {
@@ -66,6 +68,7 @@ export const DWS_INITIAL: DwsState = {
   activity: [],
   toast: null,
   pathStep: 2,
+  layer: null,
 };
 
 export type DwsAction =
@@ -105,6 +108,7 @@ export type DwsAction =
   | { type: 'PIPELINE_STAGE_SELECT'; index: number }
   | { type: 'ON_YOUR_TABLE_SELECT'; id: string; modal: DwsModalId }
   | { type: 'DISMISS_TOAST' }
+  | { type: 'SET_LAYER'; layer: 'drawer' | 'inspector' | 'modal' }
   | { type: 'HYDRATE'; value: Partial<DwsState> };
 
 const stamp = () => 'JUST NOW';
@@ -121,26 +125,28 @@ const decide = (s: DwsState, id: string, status: DwsStatus, text: string): DwsSt
 export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
   switch (a.type) {
     case 'HYDRATE':
-      return { ...s, ...a.value, drawer: null, inspector: null, modal: null, toast: null };
+      return { ...s, ...a.value, drawer: null, inspector: null, modal: null, layer: null, toast: null };
     case 'MODE_SWITCH':
       if (!DWS_MODES.includes(a.mode)) return s;
       // Overlays belong to the mode they were opened in; the host + selection stay stable.
-      return { ...s, mode: a.mode, drawer: null, inspector: null, modal: null, forward: null };
+      return { ...s, mode: a.mode, drawer: null, inspector: null, modal: null, forward: null, layer: null };
     case 'OPEN_DRAWER':
-      return { ...s, drawer: a.drawer };
+      return { ...s, drawer: a.drawer, layer: 'drawer' };
     case 'CLOSE_DRAWER':
-      return { ...s, drawer: null };
+      return { ...s, drawer: null, layer: s.layer === 'drawer' ? null : s.layer };
     case 'OPEN_INSPECTOR':
-      return { ...s, inspector: a.inspector };
+      return { ...s, inspector: a.inspector, layer: 'inspector' };
     case 'CLOSE_INSPECTOR':
-      return { ...s, inspector: null };
+      return { ...s, inspector: null, layer: s.layer === 'inspector' ? null : s.layer };
     case 'OPEN_MODAL':
-      return { ...s, modal: a.modal };
+      return { ...s, modal: a.modal, layer: 'modal' };
     case 'CLOSE_MODAL':
-      return { ...s, modal: null };
+      return { ...s, modal: null, layer: s.layer === 'modal' ? null : s.layer };
+    case 'SET_LAYER':
+      return { ...s, layer: a.layer };
     case 'OPEN_EXPRESSION': {
       const e = DWS_EXPRESSION[s.mode];
-      return { ...s, drawer: e.drawer, inspector: e.inspector, modal: e.modal };
+      return { ...s, drawer: e.drawer, inspector: e.inspector, modal: e.modal, layer: 'modal' };
     }
     case 'OPEN_LIBRARY':
       return { ...s, drawer: DWS_EXPRESSION[s.mode].drawer };
@@ -149,6 +155,7 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
         ...s,
         selected: { ...s.selected, [s.mode]: a.id },
         inspector: a.openInspector === false ? s.inspector : DWS_EXPRESSION[s.mode].inspector,
+        layer: a.openInspector === false ? s.layer : 'inspector',
       };
     case 'BRING_FORWARD':
       return { ...s, forward: a.id };
@@ -174,13 +181,13 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
       return { ...s, decisions: { ...s.decisions, [a.id]: { ...prev, comments: [...prev.comments, text.toUpperCase()] } }, toast: 'COMMENT ADDED' };
     }
     case 'APPROVE':
-      return { ...decide(s, a.id, 'APPROVED', 'APPROVED'), modal: null };
+      return { ...decide(s, a.id, 'APPROVED', 'APPROVED'), modal: null, layer: s.layer === 'modal' ? null : s.layer };
     case 'REQUEST_CHANGES':
-      return { ...decide(s, a.id, 'CHANGES REQUESTED', 'CHANGES REQUESTED'), modal: null };
+      return { ...decide(s, a.id, 'CHANGES REQUESTED', 'CHANGES REQUESTED'), modal: null, layer: s.layer === 'modal' ? null : s.layer };
     case 'REJECT':
-      return { ...decide(s, a.id, 'REJECTED', 'REJECTED'), modal: null };
+      return { ...decide(s, a.id, 'REJECTED', 'REJECTED'), modal: null, layer: s.layer === 'modal' ? null : s.layer };
     case 'CHOOSE':
-      return { ...decide(s, a.id, 'APPROVED', 'OPTION CHOSEN'), modal: null };
+      return { ...decide(s, a.id, 'APPROVED', 'OPTION CHOSEN'), modal: null, layer: s.layer === 'modal' ? null : s.layer };
     case 'ADD_TO_LIBRARY':
       return s.library.includes(a.id) ? s : { ...s, library: [...s.library, a.id], toast: 'ADDED TO LIBRARY' };
     case 'SET_EXPORT_FORMAT':
@@ -191,6 +198,7 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
       return {
         ...s,
         modal: null,
+        layer: s.layer === 'modal' ? null : s.layer,
         activity: [{ id: `exp.${s.activity.length}`, text: `EXPORT QUEUED · ${s.exportFormat.toUpperCase()}`, when: stamp() }, ...s.activity].slice(0, 30),
         toast: `EXPORT QUEUED · ${s.exportFormat.toUpperCase()}`,
       };
@@ -203,6 +211,7 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
         selected: { ...s.selected, [s.mode]: undefined },
         inspector: null,
         modal: null,
+        layer: null,
         toast: 'ASSET DELETED',
       };
     case 'SYNTH_FAMILY':
@@ -213,20 +222,20 @@ export function dwsReducer(s: DwsState, a: DwsAction): DwsState {
       return { ...s, synth: { ...s.synth, inputs: inputs.length ? inputs : s.synth.inputs, generated: false } };
     }
     case 'GENERATE':
-      return { ...s, synth: { ...s.synth, generated: true }, inspector: 'project-intelligence', toast: 'EXPRESSION GENERATED' };
+      return { ...s, synth: { ...s.synth, generated: true }, inspector: 'project-intelligence', layer: 'inspector', toast: 'EXPRESSION GENERATED' };
     case 'SEND_FOR_REVIEW': {
       const next = decide(s, a.id, 'IN REVIEW', 'SENT FOR REVIEW');
       const prev = next.decisions[a.id]!;
-      return { ...next, modal: null, decisions: { ...next.decisions, [a.id]: { ...prev, note: a.note.toUpperCase() } } };
+      return { ...next, modal: null, layer: next.layer === 'modal' ? null : next.layer, decisions: { ...next.decisions, [a.id]: { ...prev, note: a.note.toUpperCase() } } };
     }
     case 'PATH_STEP':
       return { ...s, pathStep: Math.max(0, a.step) };
     case 'RETURN_TO_OVERVIEW':
-      return { ...s, drawer: null, inspector: null, modal: null, forward: null };
+      return { ...s, drawer: null, inspector: null, modal: null, forward: null, layer: null };
     case 'PIPELINE_STAGE_SELECT':
       return { ...s, pipelineStage: { ...s.pipelineStage, [s.mode]: a.index } };
     case 'ON_YOUR_TABLE_SELECT':
-      return { ...s, tableSelected: a.id, modal: a.modal };
+      return { ...s, tableSelected: a.id, modal: a.modal, layer: 'modal' };
     case 'DISMISS_TOAST':
       return { ...s, toast: null };
     default:

@@ -1,0 +1,15 @@
+{
+ "vp": "tabletL",
+ "viewport": [
+  1448,
+  1086
+ ],
+ "audit": {
+  "total": 97,
+  "lowercase": 0
+ },
+ "overflowX": false,
+ "errs": [],
+ "pass": 58,
+ "fail": []
+}
