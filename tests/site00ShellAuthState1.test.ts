@@ -4,6 +4,7 @@ import {
   isSite00PreviewGuestAllowlistedPath,
   resolveSite00ShellAuthMode,
 } from '../src/site00/auth/site00ShellAuthState.js';
+import { resolveOperatingWorldNavHref } from '../src/site00/config/ecosystem-nav.js';
 
 describe('site00ShellAuthState', () => {
   it('allowlists experience compiler and preview-guest studio landing only', () => {

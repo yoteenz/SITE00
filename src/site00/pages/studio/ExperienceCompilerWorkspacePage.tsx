@@ -2,6 +2,8 @@ import { useCallback, useMemo, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { site00StudioPath, site00StudioPreviewGuestPath } from '../../config/routes';
 import { useSite00ShellAuth } from '../../auth/Site00ShellAuthContext';
+import { isSite00EcPreviewGuestFeatureActive } from '../../auth/site00ShellAuthState';
+import { isSignedIn } from '../../../utils/adminAuth';
 import { StudioShell } from '../../components/studio';
 import {
   addCustomExperienceFromWorkspace,
@@ -48,10 +50,11 @@ export default function ExperienceCompilerWorkspacePage() {
   const { projectSlug = 'site00' } = useParams();
   const { authMode, persistenceDegraded } = useSite00ShellAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const studioBackHref =
-    authMode === 'PREVIEW_GUEST'
-      ? site00StudioPreviewGuestPath(projectSlug)
-      : site00StudioPath(projectSlug);
+  const previewGuestNav =
+    authMode === 'PREVIEW_GUEST' || (!isSignedIn() && isSite00EcPreviewGuestFeatureActive());
+  const studioBackHref = previewGuestNav
+    ? site00StudioPreviewGuestPath(projectSlug)
+    : site00StudioPath(projectSlug);
   const tab = (searchParams.get('tab') as WorkspaceSection) || 'project';
   const [state, setState] = useState<ExperienceCompilerWorkspaceState>(() => loadOrBootstrapWorkspace(projectSlug));
   const [pushFeedback, setPushFeedback] = useState('');
