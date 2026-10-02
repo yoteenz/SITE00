@@ -11,6 +11,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNav } from '../productionHub/chrome';
 import { IconGlyph } from './PwPrimitives';
 import '../../styles/site00-production-mobile.css';
+import '../../styles/site00-production-descendants-opus2.css';
 
 type NavItem = { id: string; label: string; href: string; icon: string; match: (p: string) => boolean };
 

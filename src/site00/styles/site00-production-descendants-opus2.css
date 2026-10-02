@@ -1,0 +1,376 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2 — Production DESCENDANT convergence.
+ *
+ * Every child / grandchild screen still built on the legacy `pw-*` primitives (Experience + Expression sub-workspaces,
+ * casting, wardrobe, performance, sets, storyboard, review …) mounts in PwFrame variant="production", which carries the
+ * `.pw--authority` hook. This layer re-skins those primitives into the current Production authority language:
+ * luminous white chamber, glass panels, Saira Semi Condensed, red as light / signal, and a designed desktop width
+ * instead of the old 560px phone column. Function, data and markup are untouched. Host chrome (.pxh-*, .ph-*) is
+ * never selected here.
+ */
+
+.pw.pw--authority {
+  --pw-bg: #eeeef0;
+  --pw-surface: #f6f6f8;
+  --pw-card: rgba(255, 255, 255, 0.9);
+  --pw-card-2: #ffffff;
+  --pw-line: rgba(18, 18, 20, 0.09);
+  --pw-line-2: rgba(18, 18, 20, 0.16);
+  --pw-ink: #121214;
+  --pw-mute: #6d6d73;
+  --pw-dim: #9a9aa2;
+  --pw-red: #e5231b;
+  --pw-red-deep: #b3141a;
+  --pw-green: #1f9d55;
+  --pw-amber: #c97a12;
+  --pw-orange: #d85d1c;
+  --pw-blue: #2f7fc0;
+  --pw-mono: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  --pwa-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(252, 252, 253, 0.88));
+  --pwa-shadow: 0 0 0 1px rgba(20, 20, 26, 0.04), 0 12px 26px -18px rgba(20, 20, 26, 0.35);
+  background:
+    radial-gradient(ellipse 60% 30% at 50% 0%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(180deg, #f1f1f3, #ebebee);
+  color: var(--pw-ink);
+  letter-spacing: 0.04em;
+}
+
+/* atmosphere band (workspace art) behind the head of every descendant */
+.pw.pw--authority .pw-scroll__hero {
+  height: 230px;
+  opacity: 1;
+  background-size: cover;
+  background-position: center 55%;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.85) 45%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.85) 45%, transparent 100%);
+}
+.pw.pw--authority .pw-scroll__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(241, 241, 243, 0.94) 0%, rgba(241, 241, 243, 0.55) 34%, rgba(241, 241, 243, 0.1) 70%),
+    linear-gradient(180deg, rgba(241, 241, 243, 0) 45%, #eeeef0 100%);
+}
+.pw.pw--authority .pw-scroll__body {
+  position: relative;
+}
+
+/* ── screen head: red pipe + condensed title, like the authority section heads ── */
+.pw.pw--authority .pw-head {
+  position: relative;
+  padding-top: 18px;
+}
+.pw.pw--authority .pw-head__back {
+  color: var(--pw-mute);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+.pw.pw--authority .pw-head__numeral {
+  color: var(--pw-red);
+  font-weight: 300;
+}
+.pw.pw--authority .pw-head__title {
+  font-family: var(--pw-mono);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pw-ink);
+}
+.pw.pw--authority .pw-head__sub {
+  color: #3c3c42;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.pw.pw--authority .pw-head__bar {
+  background: transparent;
+  box-shadow: none;
+}
+.pw.pw--authority .pw-head__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  text-transform: uppercase;
+}
+.pw.pw--authority .pw-head__back svg {
+  color: var(--pw-red);
+}
+.pw.pw--authority .pw-head__title {
+  padding-left: 14px;
+  border-left: 2px solid var(--pw-red);
+}
+
+/* ── glass panels for every legacy card surface ── */
+.pw.pw--authority :is(.pw-row, .pw-card, .pw-entry, .pw-note, .pw-empty, .pw-kv, .pw-pkg, .pw-req, .pw-pcard, .pw-action, .pw-context, .pw-pillar, .pw-check) {
+  background: var(--pwa-glass);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow: var(--pwa-shadow);
+  color: var(--pw-ink);
+}
+.pw.pw--authority .pw-list {
+  gap: 10px;
+}
+.pw.pw--authority .pw-row {
+  border-radius: 8px;
+}
+.pw.pw--authority .pw-row:hover {
+  box-shadow: 0 0 0 1px rgba(229, 35, 27, 0.35), 0 14px 26px -18px rgba(229, 35, 27, 0.45);
+}
+.pw.pw--authority .pw-row__title,
+.pw.pw--authority .pw-entry__title,
+.pw.pw--authority .pw-pcard__name,
+.pw.pw--authority .pw-req__title {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.pw.pw--authority .pw-row__sub,
+.pw.pw--authority .pw-label {
+  color: var(--pw-mute);
+  letter-spacing: 0.12em;
+}
+.pw.pw--authority .pw-row__icon {
+  border-color: rgba(229, 35, 27, 0.25);
+  background: rgba(229, 35, 27, 0.06);
+  color: var(--pw-red);
+}
+.pw.pw--authority .pw-row__chev {
+  color: var(--pw-red);
+}
+.pw.pw--authority :is(.pw-row__thumb, .pw-pcard__thumb, .pw-req__thumb, .pw-plate, .pw-deliv-hero) {
+  background-color: #1c1c20;
+  border-color: rgba(255, 255, 255, 0.9);
+}
+.pw.pw--authority .pw-row__thumb--right::before {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.2) 60%);
+}
+.pw.pw--authority .pw-plate {
+  border-radius: 8px;
+  box-shadow: var(--pwa-shadow), 0 0 22px rgba(229, 35, 27, 0.12);
+}
+.pw.pw--authority .pw-plate--blank,
+.pw.pw--authority .pw-pcard__thumb--blank {
+  background:
+    repeating-linear-gradient(135deg, rgba(229, 35, 27, 0.06) 0 8px, transparent 8px 16px),
+    linear-gradient(160deg, #f6f6f8, #e6e6ea);
+  color: var(--pw-mute);
+}
+.pw.pw--authority .pw-note {
+  border-left: 2px solid var(--pw-red);
+  border-radius: 6px;
+  /* inline legacy colours on notes were tuned for black; keep them readable on glass */
+  color: #3c3c42 !important;
+  background: var(--pwa-glass) !important;
+}
+.pw.pw--authority .pw-empty {
+  border-radius: 8px;
+  border-style: dashed;
+  border-color: rgba(18, 18, 20, 0.18);
+  color: var(--pw-mute);
+}
+.pw.pw--authority .pw-empty strong {
+  color: var(--pw-ink);
+  letter-spacing: 0.14em;
+}
+.pw.pw--authority .pw-detail__hero::before {
+  background: linear-gradient(180deg, rgba(238, 238, 240, 0.4) 0%, rgba(238, 238, 240, 0) 30%, rgba(238, 238, 240, 0.55) 62%, #eeeef0 100%);
+}
+.pw.pw--authority .pw-deliv-hero__cap {
+  background: linear-gradient(180deg, transparent, rgba(12, 12, 14, 0.82));
+  color: #fff;
+}
+.pw.pw--authority .pw-req__tag {
+  background: rgba(229, 35, 27, 0.08);
+  color: var(--pw-red);
+}
+.pw.pw--authority .pw-sheet__scrim {
+  background: rgba(238, 238, 240, 0.6);
+  backdrop-filter: blur(4px);
+}
+.pw.pw--authority .pw-sheet__panel {
+  max-width: 760px;
+  background: #fbfbfc;
+  border-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 -20px 40px -20px rgba(20, 20, 26, 0.35);
+}
+
+/* ── controls: buttons, tabs, segments, chips, progress ── */
+.pw.pw--authority .pw-btn {
+  border-radius: 4px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pw.pw--authority .pw-btn--red {
+  background: var(--pw-red);
+  border-color: var(--pw-red);
+  color: #fff;
+  box-shadow: 0 10px 20px -12px rgba(229, 35, 27, 0.7);
+}
+.pw.pw--authority .pw-btn--ghost,
+.pw.pw--authority .pw-btn:not(.pw-btn--red):not(.pw-btn--light) {
+  background: #fff;
+  border: 1px solid var(--pw-red);
+  color: var(--pw-ink);
+}
+.pw.pw--authority .pw-btn--light {
+  background: #121214;
+  border-color: #121214;
+  color: #fff;
+}
+.pw.pw--authority .pw-tabs {
+  border-bottom: 1px solid var(--pw-line);
+}
+.pw.pw--authority .pw-tabs__tab {
+  color: var(--pw-mute);
+  letter-spacing: 0.14em;
+}
+.pw.pw--authority .pw-tabs__tab[aria-selected='true'],
+.pw.pw--authority .pw-tabs__tab.is-active {
+  color: var(--pw-red);
+}
+.pw.pw--authority .pw-seg {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: var(--pw-line);
+}
+.pw.pw--authority .pw-seg button.is-active {
+  background: var(--pw-red);
+  color: #fff;
+}
+.pw.pw--authority .pw-chip {
+  border-radius: 999px;
+  letter-spacing: 0.1em;
+}
+.pw.pw--authority .pw-progress {
+  background: rgba(18, 18, 20, 0.08);
+}
+.pw.pw--authority .pw-progress i {
+  background: var(--pw-red);
+}
+.pw.pw--authority .pw-select,
+.pw.pw--authority select {
+  background: #fff;
+  color: var(--pw-ink);
+  border-color: var(--pw-line-2);
+}
+.pw.pw--authority .pw-section {
+  color: var(--pw-ink);
+  letter-spacing: 0.12em;
+  border-left: 2px solid var(--pw-red);
+  padding-left: 10px;
+}
+.pw.pw--authority .pw-kv__row {
+  border-color: var(--pw-line);
+}
+
+/* ── tablet / desktop: a designed working width, not the 560px phone column ── */
+@media (min-width: 720px) {
+  .pw.pw--authority .pw-scroll__body {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 40px 28px;
+  }
+  .pw.pw--authority .pw-scroll__hero {
+    height: 300px;
+  }
+  .pw.pw--authority .pw-head__title {
+    font-size: 34px;
+  }
+  .pw.pw--authority .pw-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .pw.pw--authority .pw-stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+  .pw.pw--authority .pw-stack > :is(.pw-plate, .pw-deliv-hero, .pw-detail__hero) {
+    grid-row: span 3;
+    min-height: 320px;
+  }
+  .pw.pw--authority .pw-stack > :only-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1200px) {
+  .pw.pw--authority .pw-scroll__body {
+    max-width: 1320px;
+  }
+  .pw.pw--authority .pw-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ── EXPERIENCE descendants: capsule row + world plate shared with the root ── */
+.pw.pw--authority .pwa-capsules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 14px;
+}
+.pw.pw--authority .pwa-capsules a {
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 6px 14px -10px rgba(0, 0, 0, 0.4);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: #2d2d33;
+}
+.pw.pw--authority .pwa-capsules a.is-active {
+  border-color: var(--pw-red);
+  color: var(--pw-red);
+  box-shadow: 0 0 0 1px var(--pw-red), 0 8px 18px -10px rgba(229, 35, 27, 0.6);
+}
+.pw.pw--authority .pwa-xchild__world {
+  position: relative;
+  min-height: 220px;
+  background-size: 260%;
+}
+.pw.pw--authority .pwa-xchild__tag {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  display: grid;
+  gap: 2px;
+  padding: 8px 14px;
+  border-left: 2px solid var(--pw-red);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(6px);
+}
+.pw.pw--authority .pwa-xchild__tag b {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+.pw.pw--authority .pwa-xchild__tag small {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--pw-mute);
+}
+@media (min-width: 720px) {
+  .pw.pw--authority .pwa-xchild__world {
+    min-height: 380px;
+    background-size: 170%;
+  }
+}
+@media (max-width: 719px) {
+  .pw.pw--authority .pwa-capsules {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .pw.pw--authority .pwa-capsules a {
+    flex: none;
+    font-size: 9px;
+    padding: 5px 10px;
+  }
+}

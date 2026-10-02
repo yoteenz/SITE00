@@ -1,0 +1,211 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS2 — final convergence layer (loaded last).
+ * Interior only: never selects host chrome (.pxh-*, .ph-nav, .ph-top). Transforms stay inside chamber / body.
+ */
+
+/* ════════════════════════════════════════════════════════════ DESIGN / VIEWPORT — real target devices */
+
+.pxa .pxa-chamber--viewport .pxa-vstage {
+  overflow: hidden;
+}
+/* the device chamber grows with tall hosts so the target is reviewable, not a thumbnail */
+@media (min-width: 1120px) and (min-height: 820px) {
+  .pxa .pxa-chamber--viewport {
+    --ch-h: calc(100vh - 330px);
+  }
+}
+@media (min-width: 700px) and (max-width: 1119px) and (min-height: 900px) {
+  .pxa .pxa-chamber--viewport {
+    --ch-h: calc(100vh - 330px);
+  }
+}
+.pxa .pxa-device__screen,
+.pxa .pxa-device__bar {
+  display: flex;
+}
+.pxa .pxa-device__screen {
+  display: block;
+}
+.pxa .pxa-chamber--viewport .pxa-vstage:not([data-zoom='FIT']) {
+  /* fixed zoom larger than the stage = controlled inspection scroll, never a squeezed host layout */
+  display: block;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  text-align: center;
+}
+.pxa .pxa-chamber--viewport .pxa-vstage:not([data-zoom='FIT']) .pxa-device {
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+.pxa .pxa-chamber--viewport .pxa-vstage--desktop {
+  left: 5%;
+  right: 5%;
+  top: 4%;
+  bottom: 31%;
+}
+.pxa .pxa-chamber--viewport .pxa-vstage--tablet {
+  left: 14%;
+  right: 14%;
+}
+.pxa .pxa-chamber--viewport .pxa-device {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  place-items: stretch;
+  margin: 0;
+  flex: none;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.pxa .pxa-device__screen {
+  position: relative;
+  display: block;
+  flex: none;
+  overflow: hidden;
+  background: #0b0b0d;
+}
+/* phone: thin black bezel, rounded, red halo */
+.pxa .pxa-device--phone .pxa-device__screen {
+  border-radius: 22px;
+  box-shadow:
+    0 0 0 3px #0d0d0f,
+    0 0 0 5px rgba(255, 255, 255, 0.8),
+    0 0 0 7px rgba(229, 35, 27, 0.75),
+    0 0 34px rgba(229, 35, 27, 0.7),
+    0 0 80px rgba(229, 35, 27, 0.35);
+}
+/* tablet: wider bezel, smaller radius */
+.pxa .pxa-device--tablet .pxa-device__screen {
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 6px #0d0d0f,
+    0 0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 0 10px rgba(229, 35, 27, 0.6),
+    0 0 34px rgba(229, 35, 27, 0.55);
+}
+/* desktop: landscape browser canvas on a monitor stand — never a phone */
+.pxa .pxa-device--desktop {
+  position: relative;
+  padding: 0;
+  border-radius: 8px;
+  background: #0d0d0f;
+  box-shadow:
+    0 0 0 6px #0d0d0f,
+    0 0 0 8px rgba(255, 255, 255, 0.85),
+    0 0 0 10px rgba(229, 35, 27, 0.55),
+    0 0 40px rgba(229, 35, 27, 0.5),
+    0 30px 40px -24px rgba(0, 0, 0, 0.55);
+}
+.pxa .pxa-device--desktop::after {
+  /* monitor neck + foot (pure CSS, outside the client surface) */
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  width: 18%;
+  height: 16px;
+  transform: translateX(-50%);
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(180deg, #2b2b30, #0d0d0f);
+  box-shadow: 0 6px 12px -6px rgba(0, 0, 0, 0.5), 0 0 16px rgba(229, 35, 27, 0.35);
+}
+.pxa .pxa-device__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 8px 8px 0 0;
+  background: linear-gradient(180deg, #1c1c20, #121214);
+  color: #c9c9cf;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.pxa .pxa-device__bar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3c3c42;
+}
+.pxa .pxa-device__bar i:first-child {
+  background: var(--pxa-red);
+}
+.pxa .pxa-device__bar b {
+  flex: 1 1 auto;
+  font-size: inherit;
+  color: #c9c9cf;
+  text-align: left;
+  min-width: 0;
+  margin: 0 10px;
+  padding: 3px 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #26262b;
+  font-weight: 400;
+  text-transform: none;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pxa .pxa-device__bar em {
+  font-style: normal;
+  color: #8a8a92;
+  white-space: nowrap;
+}
+.pxa .pxa-device--desktop .pxa-device__screen {
+  border-radius: 0 0 6px 6px;
+}
+.pxa .pxa-vpanel__target {
+  justify-self: end;
+  margin-right: 6px;
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: #6d6d73;
+  white-space: nowrap;
+}
+.pxa .pxa-chamber--viewport .pxa-vpanel .pxa-btn--wide {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+}
+.pxa .pxa-chamber--viewport .pxa-field select:disabled {
+  color: #121214;
+  opacity: 0.55;
+}
+/* corridor ring only reads as a pedestal under handheld targets */
+.pxa .pxa-chamber--viewport[data-target-kind='desktop'] .pxa-chamber__ring--3 {
+  bottom: 27%;
+  width: 52%;
+  height: 8%;
+  opacity: 0.8;
+}
+@media (max-width: 699px) {
+  .pxa .pxa-chamber--viewport .pxa-vstage--desktop,
+  .pxa .pxa-chamber--viewport .pxa-vstage--tablet {
+    left: 3%;
+    right: 3%;
+    top: 4%;
+    bottom: 33%;
+  }
+  .pxa .pxa-device__bar {
+    height: 18px;
+    gap: 3px;
+    padding: 0 6px;
+    font-size: 6px;
+  }
+  .pxa .pxa-device__bar i {
+    width: 5px;
+    height: 5px;
+  }
+  .pxa .pxa-device__bar b {
+    margin: 0 4px;
+    padding: 1px 6px;
+  }
+  .pxa .pxa-vpanel__target {
+    display: none;
+  }
+  .pxa .pxa-chamber--viewport .pxa-vpanel .pxa-btn--wide {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+}
