@@ -1,0 +1,88 @@
+[
+  {
+    "family": "IDNTY (atrium, glass tiles)",
+    "routes": [
+      "/idnty"
+    ],
+    "reference_routes": [
+      "/idnty/state"
+    ]
+  },
+  {
+    "family": "FOUNDER_AUTHORITY_REQUIRED (private surface)",
+    "routes": [
+      "/idnty"
+    ],
+    "reference_routes": [
+      "/origin"
+    ]
+  },
+  {
+    "family": "BLDR",
+    "routes": [
+      "/bldr",
+      "/bldr/start",
+      "/bldr/:class (landing, step, review, complete, recommendation, discovery-result)"
+    ],
+    "reference_routes": [
+      "/bldr/state"
+    ]
+  },
+  {
+    "family": "EVOLVE",
+    "routes": [
+      "/evolve",
+      "/evolve/:path/* (property..complete)",
+      "/evolve/marketing, /services, /intake/:id, /brief/:id, /engagement/:id"
+    ],
+    "reference_routes": [
+      "/evolve/state"
+    ]
+  },
+  {
+    "family": "PUBLIC UTILITY (Origin plate)",
+    "routes": [
+      "/enter"
+    ],
+    "reference_routes": [
+      "/origin",
+      "/origin/locations"
+    ]
+  },
+  {
+    "family": "PUBLIC UTILITY",
+    "routes": [
+      "/sites",
+      "/services",
+      "/system",
+      "/about",
+      "/journal",
+      "/support"
+    ],
+    "reference_routes": [
+      "/origin",
+      "/origin/locations"
+    ]
+  },
+  {
+    "family": "AUTH",
+    "routes": [
+      "/origin/sign-in",
+      "/origin/create-account"
+    ],
+    "reference_routes": [
+      "/idnty/state"
+    ]
+  },
+  {
+    "family": "CLIENT_APP hybrid",
+    "routes": [
+      "/control",
+      "/control/sites",
+      "/projects"
+    ],
+    "reference_routes": [
+      "/idnty/state"
+    ]
+  }
+]

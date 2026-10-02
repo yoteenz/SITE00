@@ -1,0 +1,58 @@
+{
+  "generated": 0,
+  "proposals": [
+    {
+      "asset_id": "CARD.BLDR.START.SITE",
+      "route": "/bldr/start",
+      "role": "CARD_IMAGE",
+      "purpose": "SITE direction card art (legacy raster removed)",
+      "crop": "tile slot 4:3",
+      "continuity_group": "BLDR path continuity",
+      "status": "SLOT_PROPOSAL_ONLY_NOT_REGISTERED"
+    },
+    {
+      "asset_id": "CARD.BLDR.START.WORLD",
+      "route": "/bldr/start",
+      "role": "CARD_IMAGE",
+      "purpose": "WORLD direction card art",
+      "crop": "tile slot 4:3",
+      "continuity_group": "BLDR path continuity",
+      "status": "SLOT_PROPOSAL_ONLY_NOT_REGISTERED"
+    },
+    {
+      "asset_id": "CARD.SITES.PROJECT",
+      "route": "/sites",
+      "role": "CARD_IMAGE",
+      "purpose": "published project thumbnail (data-driven, seed empty)",
+      "crop": "16:10 cover",
+      "continuity_group": "SITES portfolio",
+      "status": "SLOT_PROPOSAL_ONLY_NOT_REGISTERED"
+    },
+    {
+      "asset_id": "CARD.JOURNAL.ARTICLE",
+      "route": "/journal",
+      "role": "CARD_IMAGE",
+      "purpose": "article cover (seed empty)",
+      "crop": "16:10 cover",
+      "continuity_group": "JOURNAL",
+      "status": "SLOT_PROPOSAL_ONLY_NOT_REGISTERED"
+    },
+    {
+      "asset_id": "ENV.UTILITY.DAYLIGHT (optional)",
+      "route": "/services,/system,/about,/journal,/support,/sites",
+      "role": "ENVIRONMENT_IMAGE",
+      "purpose": "optional distinct utility plate; currently reuses ENV.IDNTY.ATRIUM",
+      "crop": "9:19.5 full-bleed, text-safe upper 60%",
+      "continuity_group": "PUBLIC UTILITY",
+      "status": "SLOT_PROPOSAL_ONLY_NOT_REGISTERED"
+    }
+  ],
+  "live_code_exclusions_untouched": [
+    "MACHINE.IDNTY.FOUNDATION.ORB",
+    "MACHINE.IDNTY.PARTIAL.LATTICE",
+    "MACHINE.IDNTY.EVOLUTION.WAVES",
+    "MACHINE.IDNTY.AUTHORITY.STAR",
+    "ILLUSTRATION.BLDR.FRAMEWORK.STEP"
+  ],
+  "injected_assets_modified": 0
+}

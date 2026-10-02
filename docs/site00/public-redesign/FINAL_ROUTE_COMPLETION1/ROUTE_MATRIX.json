@@ -1,0 +1,142 @@
+[
+  {
+    "route": "/idnty",
+    "state": "signed-out gateway",
+    "defect": "DEF-005",
+    "component": "pages/idnty/IdntyHubPage.tsx (IdntySignedOutGateway)",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/idnty",
+    "state": "signed-in control center",
+    "defect": "DEF-005",
+    "component": "IdntyControlCenterExperience",
+    "status": "UNCHANGED_PRIVATE"
+  },
+  {
+    "route": "/bldr",
+    "state": "hub",
+    "defect": "DEF-006",
+    "component": "pages/bldr/BldrHubPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/bldr/start",
+    "state": "direction entry",
+    "defect": "DEF-006",
+    "component": "pages/bldr/BldrStartPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/evolve",
+    "state": "hub",
+    "defect": "DEF-007",
+    "component": "pages/evolve/EvolveHubPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/enter",
+    "state": "directory",
+    "defect": "DEF-008",
+    "component": "pages/EnterPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/sites",
+    "state": "portfolio (signed-in redirect to /control/sites kept)",
+    "defect": "DEF-009",
+    "component": "pages/SitesPortfolioPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/services",
+    "state": "hub",
+    "defect": "DEF-009",
+    "component": "pages/ServicesPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/system",
+    "state": "hub",
+    "defect": "DEF-009",
+    "component": "pages/SystemPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/about",
+    "state": "page",
+    "defect": "DEF-009",
+    "component": "pages/AboutPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/journal",
+    "state": "index",
+    "defect": "DEF-009",
+    "component": "pages/JournalPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/support",
+    "state": "topics",
+    "defect": "DEF-009",
+    "component": "pages/SupportPage.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/origin/sign-in",
+    "state": "sign-in",
+    "defect": "DEF-010",
+    "component": "components/auth/Site00AuthShell.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/origin/create-account",
+    "state": "create + verify-inbox",
+    "defect": "DEF-010",
+    "component": "components/auth/Site00AuthShell.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/control",
+    "state": "CTRL ROOM overview (mobile layout)",
+    "defect": "DEF-011",
+    "component": "pages/control/ControlOverviewPage.tsx via EcosystemShell(publicRedesign)",
+    "status": "HYBRID"
+  },
+  {
+    "route": "/control/sites",
+    "state": "CTRL sites (mobile layout)",
+    "defect": "DEF-011",
+    "component": "pages/control/ControlSitesPage.tsx",
+    "status": "HYBRID"
+  },
+  {
+    "route": "/projects",
+    "state": "MY SITES index (non-founder mobile)",
+    "defect": "DEF-012",
+    "component": "pages/ProjectsPage.tsx",
+    "status": "HYBRID"
+  },
+  {
+    "route": "/bldr/:class (landing, step, review, complete, recommendation, discovery-result)",
+    "state": "assessment",
+    "defect": "DEF-020",
+    "component": "components/bldr-assessment/BldrAssessmentShell.tsx, bldr/intake/BldrIntakeShell.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/evolve/:path/* (property..complete)",
+    "state": "assessment",
+    "defect": "DEF-020",
+    "component": "components/evolve-assessment/EvolveAssessmentShell.tsx",
+    "status": "REBUILT"
+  },
+  {
+    "route": "/evolve/marketing, /services, /intake/:id, /brief/:id, /engagement/:id",
+    "state": "marketing",
+    "defect": "DEF-020",
+    "component": "pages/evolve/marketing/*",
+    "status": "REBUILT"
+  }
+]
