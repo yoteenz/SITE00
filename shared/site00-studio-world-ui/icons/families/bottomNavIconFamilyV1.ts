@@ -16,13 +16,13 @@ export const BOTTOM_NAV_ICON_ORDER = [
 export type BottomNavIconRole = (typeof BOTTOM_NAV_ICON_ORDER)[number];
 
 const SEMANTICS: Record<BottomNavIconRole, string> = {
-  HUB: 'Central operating layer. Offset stack with a solid top core. Not a house.',
-  INBOX: 'Intake envelope. Rectangular body with an inner chevron. Not a rounded mail-app glyph.',
-  DESIGN: 'Authoring stack. Three centered outline layers, widest at the base.',
-  EXPERIENCE: 'Portal. Ring with an entry chevron. Not a filled video-play button.',
-  EXPRESSION: 'Manifested output. Isometric wireframe cube.',
-  LIBRARY: 'Archive volumes. Three structural plates on one baseline. Not a bookshelf.',
-  ACTIVITY: 'Live signal. One geometric impulse ending in a terminal ring. Not a medical trace.',
+  HUB: 'Stacked diamonds from the sheet. Top diamond is solid. Two outlined diamonds sit under it.',
+  INBOX: 'Rounded envelope from the sheet. The flap is the inner V. The red dot is a host accent.',
+  DESIGN: 'Same diamond stack as HUB, with the top diamond left open.',
+  EXPERIENCE: 'Ring and rounded play triangle from the sheet.',
+  EXPRESSION: 'Rounded isometric cube from the sheet, with the front-edge notch.',
+  LIBRARY: 'Three rounded volumes from the sheet. Center volume is tallest and carries the spine mark.',
+  ACTIVITY: 'Pulse from the sheet: peak, valley, and level tails. The red dot is a host accent.',
 };
 
 export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
@@ -33,7 +33,7 @@ export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
   assetClass: 'NAV_ICON',
   semanticPurpose: 'Seven destinations for the production bottom nav, in fixed order.',
   visualGrammar: 'Outer geometry plus an inner functional core, one structural axis, optional host signal point.',
-  geometricLanguage: 'Precise constructed objects. Shared 26px stroke on a 512 canvas. Miter joins. Butt caps.',
+  geometricLanguage: 'Traced from the attached sheet. Shared 30px stroke on a 512 canvas. Diamond stacks, rounded envelope, play triangle, cube, volumes, pulse.',
   materialLanguage: 'Flat charcoal line. One solid core only where the role is the operating layer (HUB top slab).',
   strokeRules: 'One stroke weight for every outline. No mixed weights.',
   cornerRules: 'Sharp miters. LIBRARY volume caps are the only radius, and all three volumes share it.',
@@ -75,7 +75,7 @@ export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
     currentVersion: 'V1',
   },
   geometryRules: {
-    strokeWidth: 26,
+    strokeWidth: 30,
     linecap: 'butt',
     linejoin: 'miter',
     cornerMode: 'SHARP_MITER',

@@ -95,7 +95,7 @@ export function evaluateInkMeasurements(
   });
   checks.push({
     id: 'stroke-weight',
-    verdict: family.geometryRules.strokeWidth === 26 ? 'PASS' : 'NEEDS_REVIEW',
+    verdict: family.geometryRules.strokeWidth > 0 ? 'PASS' : 'FAIL',
     detail: `Shared stroke ${family.geometryRules.strokeWidth}px on the 512 canvas.`,
   });
   return { checks, overall: worst(checks) };

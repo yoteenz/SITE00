@@ -4,7 +4,7 @@ Status of the family: FOUNDER_REVIEW. These checks do not approve the assets.
 
 | Check | Verdict |
 | --- | --- |
-| Stroke weight | PASS — one 26px stroke on the 512 canvas |
+| Stroke weight | PASS — one 30px stroke on the 512 canvas, traced to the attached sheet |
 | Visual mass | PASS — HUB carries the only solid core; the other six stay open line |
 | Bounding box | PASS — seven 512×512 transparent canvases |
 | Center of gravity | PASS — ink mass within 40px of center |

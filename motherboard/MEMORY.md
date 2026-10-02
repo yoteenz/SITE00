@@ -12864,3 +12864,14 @@ Founder attached a new bottom-nav icon sheet and asked for the canonical seven-i
 - **Decisions / outcomes:** V1 masters follow the attached sheet. HUB is an offset stack with a solid top core. INBOX is a sharp envelope with an inner chevron. DESIGN is a centered outline stack. EXPERIENCE is a portal ring with an entry chevron. EXPRESSION is an isometric cube. LIBRARY is three archive volumes. ACTIVITY is one signal impulse ending in a terminal ring. Masters are 512×512 charcoal with no baked red. Host red is shown only on the review sheet. Status is FOUNDER_REVIEW, not CANONICAL. The NDX icon registry stays the geometry source for that other family. A pointer record links it. New nav icons inherit `BOTTOM_NAV_ICON_FAMILY` and can be flagged `GENERIC_FAMILY_DRIFT`.
 - **Changes:** `docs/site00/bottom-nav/BOTTOM_NAV_ICON_FAMILY_V1/`, `shared/site00-studio-world-ui/icons/families/`, `scripts/site00-bottom-nav-icon-family-v1.mjs`, `tests/bottomNavIconFamilyV1.test.ts`. Live `icons.tsx` was not edited. The dirty production guard was not committed.
 - **Conventions:** Do not mark a family canonical because the files exist. Red stays a host accent. Do not wire this family until a later sprint says so. Do not merge the chrome line to main to land these icons.
+
+---
+
+## 2026-10-02 — Bottom nav icons traced to the attached sheet
+
+Founder asked why the V1 icons were not pixel-perfect to the attached bottom-nav sheet.
+
+- **Context:** The first V1 pass treated the sprint line “you may refine the geometry” as permission to redraw. Experience became a chevron, activity lost its valley, and hub/design became flat bars instead of diamond stacks.
+- **Decisions / outcomes:** Rebuild the seven masters to the sheet’s silhouettes. HUB is a solid-top diamond stack. DESIGN is the same stack, open. INBOX is a rounded envelope. EXPERIENCE is a ring with a rounded play triangle. EXPRESSION is a rounded cube with the front notch. LIBRARY is three rounded volumes with a center spine mark. ACTIVITY is the peak-and-valley pulse. Red dots stay host accents on the review sheet only.
+- **Changes:** `scripts/site00-bottom-nav-icon-family-v1.mjs` and the V1 outputs, masters, and proof images. Family stroke record is 30px. Live nav still unchanged.
+- **Conventions:** When the founder attaches a sheet and asks for that picture, trace it. Do not substitute a refined symbol for the drawn one.

@@ -4,10 +4,10 @@ import { mkdirSync, writeFileSync } from 'fs';
 const sharp = createRequire('/workspace/package.json')('sharp');
 
 const SIZE = 512;
-const STROKE = 26;
+const STROKE = 30;
 const INK = '#141414';
 const RED = '#e5231b';
-const TARGET = 292;
+const TARGET = 300;
 
 function poly(pts, close = true) {
   const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(2)} ${p[1].toFixed(2)}`).join(' ');
@@ -21,58 +21,162 @@ function roundRectPath(x, y, w, h, r) {
   return `M${(x + rr).toFixed(2)} ${y.toFixed(2)} H${(x + w - rr).toFixed(2)} Q${(x + w).toFixed(2)} ${y.toFixed(2)} ${(x + w).toFixed(2)} ${(y + rr).toFixed(2)} V${(y + h - rr).toFixed(2)} Q${(x + w).toFixed(2)} ${(y + h).toFixed(2)} ${(x + w - rr).toFixed(2)} ${(y + h).toFixed(2)} H${(x + rr).toFixed(2)} Q${x.toFixed(2)} ${(y + h).toFixed(2)} ${x.toFixed(2)} ${(y + h - rr).toFixed(2)} V${(y + rr).toFixed(2)} Q${x.toFixed(2)} ${y.toFixed(2)} ${(x + rr).toFixed(2)} ${y.toFixed(2)} Z`;
 }
 
-/** Geometry in a 512 design space. Filled paths are the solid core. */
+function roundedPoly(pts, rad) {
+  const n = pts.length;
+  const corners = pts.map((cur, i) => {
+    const prev = pts[(i + n - 1) % n];
+    const next = pts[(i + 1) % n];
+    const v1 = [cur[0] - prev[0], cur[1] - prev[1]];
+    const v2 = [next[0] - cur[0], next[1] - cur[1]];
+    const l1 = Math.hypot(v1[0], v1[1]);
+    const l2 = Math.hypot(v2[0], v2[1]);
+    const t = Math.min(rad, l1 * 0.42, l2 * 0.42);
+    return {
+      a: [cur[0] - (v1[0] / l1) * t, cur[1] - (v1[1] / l1) * t],
+      c: cur,
+      b: [cur[0] + (v2[0] / l2) * t, cur[1] + (v2[1] / l2) * t],
+    };
+  });
+  let d = `M${corners[0].a[0].toFixed(2)} ${corners[0].a[1].toFixed(2)}`;
+  for (let i = 0; i < n; i++) {
+    const corner = corners[i];
+    const next = corners[(i + 1) % n];
+    d += ` Q${corner.c[0].toFixed(2)} ${corner.c[1].toFixed(2)} ${corner.b[0].toFixed(2)} ${corner.b[1].toFixed(2)}`;
+    d += ` L${next.a[0].toFixed(2)} ${next.a[1].toFixed(2)}`;
+  }
+  return `${d} Z`;
+}
+
+function diamond(cx, cy, hw, hh, rad) {
+  return roundedPoly(
+    [
+      [cx, cy - hh],
+      [cx + hw, cy],
+      [cx, cy + hh],
+      [cx - hw, cy],
+    ],
+    rad,
+  );
+}
+
+/** Geometry traced from the attached bottom-nav sheet, not a reinterpretation. */
 function rawGeometry() {
+  const layer = (cy) => diamond(256, cy, 168, 86, 26);
   return {
     HUB: {
-      fills: [poly(rect(168, 88, 216, 68))],
-      strokes: [poly(rect(142, 176, 216, 68)), poly(rect(116, 264, 216, 68))],
+      fills: [layer(118)],
+      strokes: [layer(196), layer(274)],
     },
     INBOX: {
       strokes: [
-        poly([[112, 150], [400, 150], [400, 368], [112, 368]]),
-        poly([[150, 182], [256, 276], [362, 182]], false),
+        roundRectPath(96, 150, 320, 230, 36),
+        poly(
+          [
+            [132, 186],
+            [256, 286],
+            [380, 186],
+          ],
+          false,
+        ),
       ],
     },
     DESIGN: {
-      strokes: [poly(rect(176, 92, 160, 60)), poly(rect(146, 184, 220, 60)), poly(rect(112, 276, 288, 60))],
+      strokes: [layer(118), layer(196), layer(274)],
     },
     EXPERIENCE: {
-      circles: [{ cx: 256, cy: 256, r: 124 }],
-      strokes: [poly([[196, 176], [324, 256], [196, 336]], false)],
+      circles: [{ cx: 256, cy: 256, r: 132 }],
+      strokes: [
+        roundedPoly(
+          [
+            [188, 176],
+            [348, 256],
+            [188, 336],
+          ],
+          18,
+        ),
+      ],
     },
     EXPRESSION: {
       strokes: [
-        poly([[256, 104], [404, 186], [256, 268], [108, 186]]),
-        poly([[108, 186], [108, 344]], false),
-        poly([[404, 186], [404, 344]], false),
-        poly([[256, 268], [256, 426]], false),
-        poly([[108, 344], [256, 426], [404, 344]], false),
+        roundedPoly(
+          [
+            [256, 78],
+            [404, 160],
+            [404, 318],
+            [256, 400],
+            [108, 318],
+            [108, 160],
+          ],
+          22,
+        ),
+        poly(
+          [
+            [108, 160],
+            [256, 242],
+            [404, 160],
+          ],
+          false,
+        ),
+        poly(
+          [
+            [246, 242],
+            [246, 262],
+            [266, 262],
+            [266, 242],
+          ],
+          false,
+        ),
+        poly(
+          [
+            [256, 262],
+            [256, 400],
+          ],
+          false,
+        ),
       ],
     },
     LIBRARY: {
       strokes: [
-        roundRectPath(116, 156, 80, 220, 18),
-        roundRectPath(216, 112, 80, 264, 18),
-        roundRectPath(316, 172, 80, 204, 18),
+        roundRectPath(86, 176, 102, 242, 30),
+        roundRectPath(196, 86, 108, 332, 32),
+        roundRectPath(312, 206, 102, 212, 30),
       ],
+      fillOnly: [roundRectPath(226, 352, 48, 14, 4)],
     },
     ACTIVITY: {
-      strokes: [poly([[64, 312], [132, 312], [196, 312], [268, 72], [340, 312], [392, 312]], false)],
-      circles: [{ cx: 448, cy: 312, r: 48 }],
+      linecap: 'round',
+      linejoin: 'round',
+      strokes: [
+        poly(
+          [
+            [36, 236],
+            [132, 236],
+            [196, 236],
+            [250, 64],
+            [318, 392],
+            [378, 236],
+            [476, 236],
+          ],
+          false,
+        ),
+      ],
     },
   };
 }
 
 function svgFrom(icon) {
-  const fills = (icon.fills || []).map((d) => `<path d="${d}" fill="${INK}" stroke="none"/>`).join('');
+  const sw = icon.strokeWidth || STROKE;
+  const cap = icon.linecap || 'butt';
+  const join = icon.linejoin || 'miter';
+  const fills = (icon.fills || []).map((d) => `<path d="${d}" fill="${INK}" stroke="${INK}"/>`).join('');
+  const fillOnly = (icon.fillOnly || []).map((d) => `<path d="${d}" fill="${INK}" stroke="none"/>`).join('');
   const strokes = (icon.strokes || []).map((d) => `<path d="${d}"/>`).join('');
   const circles = (icon.circles || [])
     .map((c) => `<circle cx="${c.cx.toFixed(2)}" cy="${c.cy.toFixed(2)}" r="${c.r.toFixed(2)}"/>`)
     .join('');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${SIZE}" height="${SIZE}" viewBox="0 0 ${SIZE} ${SIZE}">
-  <g fill="none" stroke="${INK}" stroke-width="${STROKE}" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="2.2">${fills}${strokes}${circles}</g>
+  <g fill="none" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="${join}" stroke-linecap="${cap}" stroke-miterlimit="2.2">${fills}${fillOnly}${strokes}${circles}</g>
 </svg>`;
 }
 
@@ -103,12 +207,16 @@ function transformNumbers(d, s, ox, oy) {
 function transformIcon(icon, s, ox, oy) {
   return {
     fills: (icon.fills || []).map((d) => transformNumbers(d, s, ox, oy)),
+    fillOnly: (icon.fillOnly || []).map((d) => transformNumbers(d, s, ox, oy)),
     strokes: (icon.strokes || []).map((d) => transformNumbers(d, s, ox, oy)),
     circles: (icon.circles || []).map((c) => ({
       cx: c.cx * s + ox,
       cy: c.cy * s + oy,
       r: c.r * s,
     })),
+    linecap: icon.linecap,
+    linejoin: icon.linejoin,
+    strokeWidth: icon.strokeWidth,
   };
 }
 

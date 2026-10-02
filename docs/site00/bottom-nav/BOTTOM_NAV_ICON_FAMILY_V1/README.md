@@ -4,7 +4,7 @@ Founder-review masters for the production bottom nav. Not wired. Not canonical u
 
 Order: HUB, INBOX, DESIGN, EXPERIENCE, EXPRESSION, LIBRARY, ACTIVITY.
 
-The attached sheet is the primary authority (`authority/BOTTOM_NAV_ICON_PACK_SHEET.jpg`). These drawings refine that sheet into one construction: outer geometry, inner core, shared 26px charcoal stroke, no baked red.
+The attached sheet is the primary authority (`authority/BOTTOM_NAV_ICON_PACK_SHEET.jpg`). These drawings trace that sheet: shared 30px charcoal stroke, no baked red.
 
 | File | Role |
 | --- | --- |
