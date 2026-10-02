@@ -26,6 +26,7 @@
   --tod-red: #e5231b;
   --tod-mono: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
   --tod-display: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  --site00-font-mono: 'Saira Semi Condensed', ui-sans-serif, sans-serif;
 }
 .site00-design-workspace[data-workspace-role='production-provisional'] .tod-root,
 .site00-design-workspace[data-workspace-role='production-provisional'] .tod-stage {
@@ -75,4 +76,16 @@
 .site00-design-workspace[data-workspace-role='production-provisional'] .tod-ps-chip[aria-pressed='true'],
 .site00-design-workspace[data-workspace-role='production-provisional'] .tod-ps-chip.is-active {
   color: #ffffff;
+}
+/* Remaining hard-coded lime literals in the bench (#c8ff00) */
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-psr__linkBtn,
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-psr__assetsOpen:hover {
+  color: #ff5a52;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-page-assets__cell.is-selected {
+  border-color: #e5231b;
+  box-shadow: 0 0 0 1px #e5231b;
+}
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-hero-compare__generationConsole {
+  background: rgba(229, 35, 27, 0.08);
 }
