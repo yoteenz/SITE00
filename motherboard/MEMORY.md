@@ -12885,3 +12885,15 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1`. Base corrected to
 - **Bodies:** `src/site00/components/productionAuthority/` holds Hub, Inbox, Activity (`/production/activity`), Experience, Expression (Character Fabrication first), Library (full width) and the Design chamber (six `?mode=` modes). Registry of all 36 authority screens: `src/site00/config/production-authority-registry.ts`. Legacy machine stays at `/production?view=machine`; old design workspace at `design/workspace`.
 - **QA:** `scripts/production-authority/capture-matrix.mjs` renders all 36 states and asserts structure (36/36 pass). Proof matrix and screenshots were written to the agent artifacts dir. Full `npm test` has 57 failing files / 80 tests, identical on the base commit (pre-existing).
 - **Residual:** Imagery reuses existing plates; design chamber has no 3D atrium; pixel polish (tilt, glass density, internal type) is left for Opus.
+
+---
+
+## 2026-10-02 — Production authority convergence (OPUS1) on the SONNET1R1 branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-CONVERGENCE.OPUS1`. Base `cursor/production-authority-alignment-sonnet1r1` @ `029e5e14` (draft PR #1295). Work on `cursor/production-authority-convergence-opus1`. No deploy, no merge, no auth or route changes.
+
+- **Layer:** all visual convergence lives in `src/site00/styles/site00-production-authority-opus.css`, loaded after the Sonnet sheet by `ProductionAuthorityFrame`. It never selects host chrome (`.pxh-*`, `.ph-nav`); transforms / container units only inside the chamber and body sections (test-enforced in `tests/productionAuthorityConvergenceOpus1.test.ts`).
+- **Design chamber:** boards are absolutely placed at authority % coordinates per family with mirrored `rotateY(--tilt)` perspective, glass + red edge glow, CSS atrium (rings, red column, floor ring) and the canonical `production.hub.chamber.atmosphere` plate as the core. Board rows / subtitles / overview copy transcribed into `designChamberConfig.ts`.
+- **Viewport:** the device now renders the live client app in an iframe (DEV: `/app/preview/fixture-app-ndxbook`, prod: `/app/projects/:slug`), scaled to fit the preset.
+- **Host chrome fix:** a body-level `.pxa .ph-img { position: absolute }` rule had pinned the project mark to the page corner; static overrides in `site00-production-host-chrome.css` put it back inside the PROJECT group (no scaling).
+- **Proof:** `artifacts/production-authority-opus/` (36 final JPGs + 36 authority|live compares + `PROOF_MATRIX.md` + `matrix.json`). All 36 structurally pass; all 36 are RESIDUAL on missing authority artwork (atrium crowds, world / stage / canon renders, board art).

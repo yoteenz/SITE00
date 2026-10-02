@@ -36,7 +36,6 @@ export function ExpressionBody({ entry }: { entry: string }) {
         title="PRODUCTION FLOOR"
         sub="IDEAS INTO WORLDS. CHARACTERS INTO CULTURE. EVERYWHERE."
         side={['CAST', 'STYLE', 'STAGE', 'FILM', 'PACKAGE', 'PUBLISH']}
-        plate={PW_IMG.pillar.EXPRESSION}
         testId="expression-hero"
       />
       <LiveStatusBar expressionMode />

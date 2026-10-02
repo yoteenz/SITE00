@@ -10,6 +10,8 @@ export type ChamberPanel = {
   vis: ChamberVis;
   items?: string[];
   plates?: string[];
+  /** Board index rows (the authority's bullet column). */
+  rows?: string[];
 };
 
 export type DesignChamberConfig = {
@@ -18,6 +20,10 @@ export type DesignChamberConfig = {
   overviewTitle: string;
   lede: string;
   list: string[];
+  /** Light intro column beside the overview art (authority right column, above the dashed list). */
+  intro?: string[];
+  /** Caption under the overview thumbnail strip. */
+  caption?: string;
   panels: ChamberPanel[];
   edgeLeft: string;
   edgeRight: string;
@@ -33,14 +39,16 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     mode: 'brand',
     label: 'BRAND',
     overviewTitle: 'BRAND / WORKSPACE OVERVIEW',
-    lede: 'A UNIFIED BRAND SYSTEM FOR A BRIGHTER HUMAN FUTURE.',
+    lede: 'A UNIFIED BRAND SYSTEM FOR A BRIGHTER HUMAN FUTURE',
     list: ['IDENTITY', 'VISUAL LANGUAGE', 'TYPOGRAPHY', 'COLOR SYSTEM', 'APPLICATIONS', 'GUIDELINES'],
+    intro: ['IDENTITY', 'VISUAL LANGUAGE', 'TYPOGRAPHY', 'COLOR SYSTEM', 'APPLICATIONS', 'GUIDELINES'],
+    caption: 'CONSISTENT EXPERIENCES / PEOPLE TO IMPACT',
     panels: [
-      { n: '01', title: 'BRAND ESSENCE', sub: 'PURPOSE & POSITIONING', vis: 'plates', plates: [D.work!, D.framework!, D.history!] },
-      { n: '02', title: 'VISUAL LANGUAGE', sub: 'KEY ELEMENTS & STYLE', vis: 'grid', items: ['ICONS', 'LOGOS', 'MOTION'] },
-      { n: '03', title: 'TYPOGRAPHY SYSTEM', sub: 'TYPE RULES & HIERARCHY', vis: 'type', items: ['Aa', 'NDX GROTESK'] },
-      { n: '04', title: 'COLOR & MATERIAL', sub: 'PALETTE & SURFACES', vis: 'swatches' },
-      { n: '05', title: 'BRAND APPLICATIONS', sub: 'SYSTEM IN PRACTICE', vis: 'plates', plates: [D.family!, D.interactions!, D.assets!] },
+      { n: '01', title: 'BRAND ESSENCE', sub: 'PURPOSE & POSITIONING', vis: 'plates', plates: [D.work!, D.framework!, D.history!], rows: ['PURPOSE', 'VISION', 'AUDIENCE', 'DIFFERENTIATION', 'BRAND STORY'] },
+      { n: '02', title: 'VISUAL LANGUAGE', sub: 'KEY ELEMENTS & STYLE', vis: 'grid', items: ['ICONS', 'LOGOS', 'MOTION'], rows: ['LOGO SYSTEM', 'ICONOGRAPHY', 'GRAPHIC ELEMENTS', 'IMAGERY STYLE', 'MOTION LANGUAGE'] },
+      { n: '03', title: 'TYPOGRAPHY SYSTEM', sub: 'TYPE RULES & HIERARCHY', vis: 'type', items: ['Aa', 'NDX GROTESK'], rows: ['PRIMARY', 'SECONDARY', 'NUMERALS', 'SPACING', 'USAGE'] },
+      { n: '04', title: 'COLOR & MATERIAL', sub: 'PALETTE & SURFACES', vis: 'swatches', rows: ['PRIMARY PALETTE', 'SECONDARY PALETTE', 'MATERIAL LOGIC', 'LIGHT & SURFACE', 'DIGITAL APPLICATION'] },
+      { n: '05', title: 'BRAND APPLICATIONS', sub: 'SYSTEM IN PRACTICE', vis: 'plates', plates: [D.family!, D.interactions!, D.assets!], rows: ['ENVIRONMENTS', 'DIGITAL PRODUCTS', 'PRINT & COLLATERAL', 'MERCHANDISE', 'BRAND EXPERIENCE'] },
     ],
     edgeLeft: 'FROM IDENTITY TO IMPACT',
     edgeRight: 'BRAND SYSTEMS / REAL-WORLD IMPACT',
@@ -52,21 +60,22 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
       { title: 'EVOLUTION', sub: 'MEASURE & REFINE' },
     ],
     table: [
-      { title: 'BRAND IDENTITY REVIEW', sub: 'IDENTITY SYSTEM V1', cta: 'REVIEW', plate: D.work! },
-      { title: 'COLOR SYSTEM FINAL', sub: 'PALETTE & MATERIAL', cta: 'CHOOSE', plate: D.framework! },
-      { title: 'BRAND APPLICATIONS', sub: 'SYSTEM IN PRACTICE', cta: 'APPROVE', plate: D.family! },
+      { title: 'BRAND IDENTITY REVIEW', sub: 'VISUAL DIRECTION', cta: 'REVIEW', plate: D.work! },
+      { title: 'COLOR SYSTEM FINAL', sub: 'PALETTE & MATERIALS', cta: 'CHOOSE', plate: D.framework! },
+      { title: 'BRAND APPLICATIONS', sub: 'ENVIRONMENTS & COLLATERAL', cta: 'APPROVE', plate: D.family! },
     ],
   },
   experience: {
     mode: 'experience',
     label: 'EXPERIENCE',
     overviewTitle: 'EXPERIENCE / WORKSPACE OVERVIEW',
-    lede: 'FROM PEOPLE TO POSSIBILITIES.',
-    list: ['JOURNEYS', 'TOUCHPOINTS', 'FLOWS', 'STATES', 'ARCHITECTURE'],
+    lede: 'A UNIFIED EXPERIENCE DESIGN SYSTEM FROM PEOPLE TO IMPACT',
+    list: ['PEOPLE', 'JOURNEYS', 'TOUCHPOINTS', 'FLOWS', 'STATES', 'ARCHITECTURE'],
+    intro: ['JOURNEYS', 'TOUCHPOINTS', 'FLOWS', 'STATES', 'ARCHITECTURE'],
     panels: [
-      { n: '01', title: 'USER JOURNEYS', sub: 'PEOPLE TO POSSIBILITIES', vis: 'graph' },
-      { n: '02', title: 'ROUTE MAPS', sub: 'PATHS & TOUCHPOINTS', vis: 'graph' },
-      { n: '03', title: 'EXPERIENCE STATES', sub: 'SCREENS & INTERACTIONS', vis: 'phones' },
+      { n: '01', title: 'USER JOURNEYS', sub: 'PEOPLE TO POSSIBILITIES', vis: 'graph', rows: ['DISCOVER', 'EXPLORE', 'ENGAGE', 'CONVERT', 'RETAIN'] },
+      { n: '02', title: 'ROUTE MAPS', sub: 'PATHS & TOUCHPOINTS', vis: 'graph', rows: ['AWARENESS', 'CONSIDERATION', 'EXPERIENCE', 'CONVERSIONS', 'LOYALTY'] },
+      { n: '03', title: 'EXPERIENCE STATES', sub: 'SCREENS & INTERACTIONS', vis: 'phones', rows: ['IDLE', 'FOCUS', 'ENGAGED', 'ACCESS', 'ERROR'] },
       { n: '04', title: 'EXPERIENCE FLOWS', sub: 'SYSTEMS & LOGIC', vis: 'graph' },
       { n: '05', title: 'MOMENTS', sub: 'KEY SCENARIOS', vis: 'list', items: ['DISCOVERY', 'ONBOARDING', 'CORE FLOW', 'ADVOCACY'] },
     ],
@@ -89,23 +98,24 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     mode: 'surfaces',
     label: 'SURFACES',
     overviewTitle: 'SURFACES / WORKSPACE OVERVIEW',
-    lede: 'SURFACES ACROSS DEVICES / WORLDS IN MOTION.',
+    lede: 'A UNIFIED SURFACE ECOSYSTEM ACROSS DEVICES AND ENVIRONMENTS',
     list: ['MOBILE', 'TABLET', 'DESKTOP', 'APPS', 'ENVIRONMENTS'],
+    intro: ['SYSTEMS', 'UI FAMILIES', 'DEVICE EXPRESSIONS', 'PLATFORM OUTPUTS'],
     panels: [
-      { n: '01', title: 'MOBILE SURFACES', sub: 'IOS · ANDROID', vis: 'phones' },
-      { n: '02', title: 'TABLET SURFACES', sub: 'IPADOS · ANDROID TABLET', vis: 'phones' },
-      { n: '03', title: 'DESKTOP SURFACES', sub: 'WINDOWS · MACOS', vis: 'grid', items: ['WINDOWS', 'MACOS', 'WEB'] },
-      { n: '04', title: 'APP SURFACES', sub: 'HYBRID · NATIVE', vis: 'grid', items: ['HYBRID', 'NATIVE'] },
-      { n: '05', title: 'ENVIRONMENT SURFACES', sub: 'KIOSKS · XR / AR', vis: 'plates', plates: [X.environments!, X.zones!] },
+      { n: '01', title: 'MOBILE SURFACES', sub: 'APPS & MOBILE EXPERIENCES', vis: 'phones', rows: ['IOS', 'ANDROID', 'RESPONSIVE', 'COMPONENTS', 'UI KITS'] },
+      { n: '02', title: 'TABLET SURFACES', sub: 'IMMERSIVE & PRODUCTIVITY', vis: 'phones', rows: ['IPADOS', 'ANDROID TABLET', 'SPLIT VIEWS', 'PEN & TOUCH', 'CONTENT SYSTEMS'] },
+      { n: '03', title: 'DESKTOP SURFACES', sub: 'SUITES & WORKPLATFORMS', vis: 'grid', items: ['WINDOWS', 'MACOS', 'WEB'], rows: ['WINDOWS', 'MACOS', 'WEB APPS', 'PRODUCTIVITY', 'ENTERPRISE'] },
+      { n: '04', title: 'APP SURFACES', sub: 'PLATFORMS & EXPERIENCES', vis: 'grid', items: ['HYBRID', 'NATIVE'], rows: ['NATIVE APPS', 'HYBRID APPS', 'FEATURE SETS', 'UI COMPONENTS', 'STORE OUTPUTS'] },
+      { n: '05', title: 'ENVIRONMENT SURFACES', sub: 'SPACES & SPECIALIZED', vis: 'plates', plates: [X.environments!, X.zones!], rows: ['PHYSICAL SPACES', 'LARGE DISPLAYS', 'KIOSK SYSTEMS', 'VEHICLE UI', 'XR/AR SURFACES'] },
     ],
     edgeLeft: 'FROM SYSTEMS TO EXPERIENCES',
     edgeRight: 'SURFACES ACROSS DEVICES / WORLDS IN MOTION',
     pipeline: [
-      { title: 'FOUNDATION', sub: 'TOKENS & GRID' },
-      { title: 'COMPONENTS', sub: 'BLOCKS & STATES' },
-      { title: 'EXTENSIONS', sub: 'VARIANTS' },
-      { title: 'PLATFORMS', sub: 'DEVICE FAMILIES' },
-      { title: 'DEPLOYMENT', sub: 'HANDOFF' },
+      { title: 'FOUNDATION', sub: 'DESIGN TOKENS' },
+      { title: 'COMPONENTS', sub: 'UI SYSTEMS' },
+      { title: 'EXTENSIONS', sub: 'DEVICE VARIANTS' },
+      { title: 'PLATFORMS', sub: 'APP & WEB OUTPUT' },
+      { title: 'DEPLOYMENT', sub: 'ENVIRONMENTS' },
     ],
     table: [
       { title: 'MOBILE EXPRESSION', sub: 'MOBILE SURFACES', cta: 'REVIEW', plate: D.family! },
@@ -117,14 +127,15 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     mode: 'compiler',
     label: 'COMPILER',
     overviewTitle: 'COMPILER / EXPERIENCE OVERVIEW',
-    lede: 'UNIFIED EXPERIENCE COMPILER FROM CONCEPT TO DEPLOYMENT.',
+    lede: 'UNIFIED EXPERIENCE COMPILER FROM CONCEPT TO DEPLOYMENT',
     list: ['CONCEPTS', 'EXPERIENCE', 'INTELLIGENCE', 'FAMILIES', 'AUTHORITY', 'ORCHESTRATION'],
+    intro: ['SYNTHESIZE', 'SYSTEMS', 'PEOPLE', 'EXPERIENCES', 'INTO COHERENT', 'WORLDS'],
     panels: [
-      { n: '01', title: 'CONCEPT TERRITORIES', sub: 'DIRECTIONS & MOODS', vis: 'plates', plates: [D.work!, D.history!, D.framework!, D.assets!] },
-      { n: '02', title: 'EXPERIENCE GRAPH', sub: 'JOURNEYS & CONNECTIONS', vis: 'graph' },
-      { n: '03', title: 'PROJECT INTELLIGENCE', sub: 'SIGNALS & RISK', vis: 'globe', items: ['USAGE SIGNALS', 'RISK ANALYSIS'] },
-      { n: '04', title: 'FAMILIES & EXPRESSIONS', sub: 'SYSTEM VARIATIONS', vis: 'frames' },
-      { n: '05', title: 'AUTHORITY BRIEF', sub: 'DOCUMENTS & GUIDELINES', vis: 'list', items: ['BRIEF', 'GUIDELINES', 'HANDOFF'] },
+      { n: '01', title: 'CONCEPT TERRITORIES', sub: 'WORLDS & DIRECTIONS', vis: 'plates', plates: [D.work!, D.history!, D.framework!, D.assets!], rows: ['01 CORE', '02 EXPAND', '03 ALTERNATE'] },
+      { n: '02', title: 'EXPERIENCE GRAPH', sub: 'JOURNEYS & CONNECTIONS', vis: 'graph', rows: ['TOUCHPOINTS', 'USER FLOWS', 'SYSTEM LINKS', 'DATA LAYERS', 'EXPERIENCE NODES'] },
+      { n: '03', title: 'PROJECT INTELLIGENCE', sub: 'DATA / INSIGHTS / SIGNALS', vis: 'globe', items: ['USAGE SIGNALS', 'RISK ANALYSIS'], rows: ['USAGE SIGNALS', 'BEHAVIOR TRENDS', 'OPPORTUNITIES', 'RISK ANALYSIS', 'RECOMMENDATIONS'] },
+      { n: '04', title: 'FAMILIES & EXPRESSIONS', sub: 'SYSTEMS & VARIATIONS', vis: 'frames', rows: ['CORE FAMILY', 'EXPRESSION SETS', 'VARIATIONS MAP', 'VISUAL LANGUAGE'] },
+      { n: '05', title: 'AUTHORITY BRIEF', sub: 'GUIDELINES & DEPLOYMENT', vis: 'list', items: ['BRIEF', 'GUIDELINES', 'HANDOFF'], rows: ['STANDARDS', 'DEPLOYMENT', 'GOVERNANCE', 'APPROVAL FLOW', 'DISTRIBUTION'] },
     ],
     edgeLeft: 'FROM CONCEPT TO WORLDS',
     edgeRight: 'PAGES / SYSTEMS / WORLDS IN MOTION',
@@ -146,13 +157,14 @@ export const DESIGN_CHAMBER: Record<ProductionDesignMode, DesignChamberConfig> =
     label: 'ASSETS',
     overviewTitle: 'ASSETS / LIBRARY OVERVIEW',
     lede: 'A UNIFIED ASSET LIBRARY FOR EVERY SURFACE AND WORLD.',
-    list: ['AUTHORITIES', 'ICONS', 'PLATES', 'MATERIALS', 'TEMPLATES'],
+    list: ['TEMPLATES', 'COMPONENTS', 'ENVIRONMENTS', 'ICON SYSTEMS', 'MATERIALS', 'VISUAL AUTHORITIES'],
+    intro: ['A UNIFIED', 'ASSET LIBRARY', 'FROM', 'CONCEPTS', 'TO INTERFACES'],
     panels: [
-      { n: '01', title: 'VISUAL AUTHORITIES', sub: 'STYLES & REFERENCES', vis: 'plates', plates: [D.work!, D.framework!, D.history!, D.assets!] },
-      { n: '02', title: 'ICON FAMILIES', sub: 'SYSTEMS & LIBRARIES', vis: 'grid', items: ['CORE', 'UI', 'SYSTEM'] },
-      { n: '03', title: 'ENVIRONMENT PLATES', sub: 'WORLDS & LOCATIONS', vis: 'plates', plates: [X.environments!, X.world!] },
-      { n: '04', title: 'MATERIALS & COMPONENTS', sub: 'SURFACES & BUILDING BLOCKS', vis: 'swatches' },
-      { n: '05', title: 'TEMPLATES', sub: 'SYSTEMS & DELIVERABLES', vis: 'phones' },
+      { n: '01', title: 'VISUAL AUTHORITIES', sub: 'STYLES & REFERENCES', vis: 'plates', plates: [D.work!, D.framework!, D.history!, D.assets!], rows: ['MOOD', 'STYLE', 'COLOR', 'LIGHTING', 'COMPOSITION'] },
+      { n: '02', title: 'ICON FAMILIES', sub: 'SYSTEMS & LIBRARIES', vis: 'grid', items: ['CORE', 'UI', 'SYSTEM'], rows: ['CORE', 'UI', 'SYSTEM', 'MEDIA', 'NAVIGATION'] },
+      { n: '03', title: 'ENVIRONMENT PLATES', sub: 'WORLDS & LOCATIONS', vis: 'plates', plates: [X.environments!, X.world!], rows: ['WORLDS', 'LOCATIONS', 'SKYBOXES', 'PLATES', 'VARIATIONS'] },
+      { n: '04', title: 'MATERIALS & COMPONENTS', sub: 'SURFACES & BUILDING BLOCKS', vis: 'swatches', rows: ['MATERIALS', 'TEXTURES', 'COMPONENTS', 'MODULAR', 'PARAMETRIC'] },
+      { n: '05', title: 'TEMPLATES', sub: 'SYSTEMS & DELIVERABLES', vis: 'phones', rows: ['UI TEMPLATES', 'SCENES', 'PRESENTATIONS', 'EXPORTS', 'GUIDELINES'] },
     ],
     edgeLeft: 'FROM SOURCES TO LIBRARY',
     edgeRight: 'ASSETS ACROSS WORLDS',

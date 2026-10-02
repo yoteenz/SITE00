@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { subWorkspacesFor } from '../../../../shared/site00-production-workspace/registry.js';
 import { productionExperiencePath } from '../../../../shared/site00-production-workspace/routes.js';
-import { PW_IMG } from '../production/productionImagery';
 import { useProductionAuthorityData } from './ProductionAuthorityData';
 import { AuthorityHero } from './HubBody';
 import { Dot } from './primitives';
@@ -29,7 +28,6 @@ export function ExperienceBody() {
         title={`${(data?.project.name ?? 'NDXBOOK').toUpperCase()} EXPERIENCE`}
         sub="A CLEAR ROUTE FOR EVERY PERSON."
         side={['IDEAS', 'PEOPLE', 'WORLDS', 'IN MOTION']}
-        plate={PW_IMG.experienceRows.world}
         testId="experience-hero"
       />
       <div className="pxa-xpanel" data-testid="experience-panel">
