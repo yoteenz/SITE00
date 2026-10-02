@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useLocation } from 'react-router-dom';
 import { useSite00 } from '../../state/Site00Context';
+import { isSite00LayoutPreviewSwitchEnabled } from '../../state/preview-mode';
 import { SITE00_ROUTES } from '../../config/routes';
 
 function isEcosystemLayoutSwitchPath(pathname: string): boolean {
@@ -18,7 +19,11 @@ export function Site00EcosystemLayoutSwitch({ hidden = false }: { hidden?: boole
   const { pathname } = useLocation();
   const { isPreviewDesktop, setPreviewDeviceMode } = useSite00();
 
-  if (hidden || !isEcosystemLayoutSwitchPath(pathname)) {
+  if (
+    !isSite00LayoutPreviewSwitchEnabled() ||
+    hidden ||
+    !isEcosystemLayoutSwitchPath(pathname)
+  ) {
     return null;
   }
 

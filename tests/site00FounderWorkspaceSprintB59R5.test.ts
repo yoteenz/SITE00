@@ -21,6 +21,7 @@ import { computeProjectIndexSummaryMetrics } from '../shared/site00-projects/pro
 import { buildProjectProgressSummary } from '../shared/site00-projects/projectProgressSummary.js';
 import { getProjectOperatingAdapter } from '../shared/site00-projects/adapters/index.js';
 import { PROJECT_MODULE_CONFIGS } from '../shared/site00-projects/projectModules.js';
+import { PROJECTS_PAGE_SHELL_CONFIG } from '../shared/site00-projects/projectsPageShellConfig.js';
 import type { Site00ProjectIndexEntry } from '../shared/site00-projects/types.js';
 
 const ROOT = join(import.meta.dirname, '..');
@@ -154,9 +155,9 @@ describe('B5.9R5 Projects Index Redesign', () => {
     expect(PROJECT_CARD).toContain('currentFocus');
   });
 
-  it('19. founder view shows interactive design workspace', () => {
-    expect(INDEX_PAGE).toContain('ProjectIndexDesignCard');
-    expect(INDEX_PAGE).toContain('interactive={designRender.interactive}');
+  it('19. founder view shows production summary strip (design lives under /production)', () => {
+    expect(INDEX_PAGE).toContain('ProjectProductionSummaryStrip');
+    expect(INDEX_PAGE).not.toContain('ProjectIndexDesignCard');
   });
 
   it('20. client view keeps design shell placeholder without link', () => {
@@ -214,7 +215,7 @@ describe('B5.9R5 Projects Index Redesign', () => {
   });
 
   it('31. visual reference QA structure present', () => {
-    expect(HERO).toContain('ALL PROJECTS. ONE SYSTEM.');
+    expect(PROJECTS_PAGE_SHELL_CONFIG.tagline).toBe('ALL PROJECTS. ONE SYSTEM.');
     expect(HERO).toContain('ProjectsHeaderPlanet');
     expect(VIEW_STRIP).toContain('FOUNDER VIEW');
     expect(VIEW_STRIP).toContain('ADMIN CONTROL CENTER');

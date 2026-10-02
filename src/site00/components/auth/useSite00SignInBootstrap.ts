@@ -20,6 +20,7 @@ import { isSite00SignInPaused } from '../../config/signInPaused';
 const PROFILE_SYNC_TIMEOUT_MS = 12_000;
 const PREVIEW_PROFILE_SYNC_TIMEOUT_MS = 4_000;
 const SERVER_RESTORE_TIMEOUT_MS = 8_000;
+const GET_SESSION_TIMEOUT_MS = 12_000;
 
 function redirectAfterSignIn(locationSearch: string, locationState: unknown): void {
   const returnTo = new URLSearchParams(locationSearch).get('returnTo');
@@ -80,7 +81,10 @@ function redirectIfAlreadySignedIn(
   }
   const supabase = getSupabase();
   if (!supabase) return;
-  void supabase.auth.getSession().then(({ data: { session } }) => {
+  void promiseWithTimeout(supabase.auth.getSession(), GET_SESSION_TIMEOUT_MS, {
+    data: { session: null },
+    error: null,
+  }).then(({ data: { session } }) => {
     if (cancelled() || !session?.access_token) return;
     redirectAfterSignIn(locationSearch, locationState);
   });
@@ -126,7 +130,10 @@ export function useSite00SignInBootstrap(): void {
       void (async () => {
         const {
           data: { session },
-        } = await supabase.auth.getSession();
+        } = await promiseWithTimeout(supabase.auth.getSession(), GET_SESSION_TIMEOUT_MS, {
+          data: { session: null },
+          error: null,
+        });
         if (isCancelled()) return;
         if (await signOutIfSessionEmailUnconfirmed(supabase, session)) return;
         if (!session) {
