@@ -157,6 +157,7 @@ export const SITE00_ROUTES = {
   productionQueue: '/production/queue',
   productionProject: '/production/:projectSlug',
   productionDesign: '/production/:projectSlug/design',
+  productionDesignWorkspace: '/production/:projectSlug/design-workspace',
   productionExperience: '/production/:projectSlug/experience',
   productionExpression: '/production/:projectSlug/expression',
   /** Legacy PROJECTS → DESIGN paths (redirect to /production). */
