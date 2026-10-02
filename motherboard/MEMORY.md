@@ -12861,3 +12861,14 @@ Founder: sign-in / authorization stuck on tunnel (Experience Compiler path).
 - **Cause:** Supabase `hyycomvcaqxxvyrfupes` **522/timeouts**; `signInWithPassword` / `getSession` unbounded → submitting state hung.
 - **Fix (PR #1279):** Supabase client global fetch timeout ~15s; sign-in/magic-link + bootstrap/getAccessToken capped; message **SIGN-IN SERVICE IS TEMPORARILY UNAVAILABLE** when down.
 - **Founder:** Restore Supabase project health in dashboard; redeploy cPanel/tunnel CI dist after merge for tunnel bundle.
+
+---
+
+## 2026-10-02 — Experience Compiler preview guest bypass (Supabase down)
+
+Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase Auth unhealthy — needed MAP2 workspace view only, temporarily.
+
+- **Shipped (PR #1280 → `main` `e1e986ef`):** Tunnel/cloud-preview-only guest bypass on **`/studio/:projectSlug/experience-compiler`** via `allowExperienceCompilerPreviewGuest` + `isSite00ExperienceCompilerPreviewGuestBypass()` (`site00-cloud-preview` meta or `site00.fsbw-dev.com`). Yellow **PREVIEW GUEST** banner; other CTRL ROOM routes still require sign-in on tunnel.
+- **Not production:** `site00.com` without preview meta does not bypass.
+- **Cloud preview:** Rebuilt local dist `index.CWJzK2ZT.js` on tunnel; verified workspace loads without sign-in.
+- **Remove when healthy:** Drop bypass or gate behind explicit env when Supabase Auth is stable again.
