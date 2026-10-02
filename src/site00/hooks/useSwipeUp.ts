@@ -9,6 +9,7 @@ type SwipeUpOptions = {
 
 function isInteractiveSwipeTarget(target: EventTarget | null): boolean {
   if (!(target instanceof Element)) return false;
+  if (target.closest('[data-swipe-up-zone]')) return false;
   return Boolean(target.closest('button, a, input, textarea, select, [role="button"], [data-swipe-ignore]'));
 }
 

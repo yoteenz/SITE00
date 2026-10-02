@@ -10,6 +10,7 @@ import { hubAssetUrl } from '../../../../shared/site00-production-hub/assets.js'
 import { useProductionRequests } from '../../state/productionRequestStore';
 import '../../styles/site00-production-hub.css';
 import '../../styles/site00-production-hub-authority.css';
+import '../../styles/site00-production-system-chrome-typography.css';
 import { HubImage } from './HubImage';
 import { IcChevD, IcMenu, Reticle } from './icons';
 import { ProductionBottomNav, type ProductionNavId } from './nav';
@@ -34,7 +35,11 @@ export function useProductionChromeScale(): number {
 export function ProductionChromeStrip({ children }: { children: ReactNode }) {
   const scale = useProductionChromeScale();
   return (
-    <div className="ph ph--hub prod-chrome-strip" style={{ ['--phz' as string]: scale }} data-testid="production-chrome-strip">
+    <div
+      className="ph ph--hub ph--system-chrome prod-chrome-strip"
+      style={{ ['--phz' as string]: scale }}
+      data-testid="production-chrome-strip"
+    >
       {children}
     </div>
   );
@@ -74,7 +79,13 @@ export function useProductionWorkspaceChrome(): {
     active = 'library';
     sectionLabel = 'SHARED LIBRARY';
     sectionValue = 'ASSETS';
-  } else if (/^\/production\/[^/]+\/design(\/|$)/.test(pathname)) {
+  } else if (
+    (/^\/production\/[^/]+\/design(\/|$)/.test(pathname) &&
+      !pathname.includes('/design-workspace') &&
+      !pathname.includes('/design-legacy')) ||
+    /^\/production\/[^/]+\/design-workspace(\/|$)/.test(pathname) ||
+    /^\/production\/[^/]+\/design-legacy(\/|$)/.test(pathname)
+  ) {
     brand = 'DESIGN';
     active = 'design';
     sectionLabel = 'CURRENT WORKSPACE';

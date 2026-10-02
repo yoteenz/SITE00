@@ -58,13 +58,18 @@
   --a-panel: rgba(250, 250, 251, 0.94);
   --a-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(241, 242, 244, 0.88));
   --a-font: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
-  zoom: var(--phz, 0.4514);
+  zoom: 1;
   font-family: var(--a-font);
   font-size: 14px;
   letter-spacing: 0.06em;
   background: #ebebec;
 }
 .ph--hub :where(button, input, select, textarea) { font-family: var(--a-font); }
+
+/* Chamber / hub body keeps authority zoom; system chrome rows stay at zoom:1 (see system-chrome-typography.css). */
+.ph--hub > .ph-scroll {
+  zoom: var(--phz, 0.4514);
+}
 
 /* centred 864 authority canvas */
 .ph--hub .ph-scroll { overflow-x: hidden; }
@@ -594,6 +599,20 @@
   z-index: 30;
   overflow: visible;
 }
+.production-design-host {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  padding-top: max(env(safe-area-inset-top, 0px), 58px);
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 56px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.production-design-host > * {
+  pointer-events: auto;
+}
+
 .prod-chrome-fixed {
   position: fixed;
   left: 0;

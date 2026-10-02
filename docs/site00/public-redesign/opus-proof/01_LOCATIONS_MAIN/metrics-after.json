@@ -1,0 +1,87 @@
+{
+  "route": "/origin/locations",
+  "finalUrl": "/origin/locations",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 986,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": false,
+  "assetSlots": [
+    {
+      "id": "ENV.LOCATIONS.ARCH",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 986,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "CARD.LOCATIONS.BLDR",
+      "x": 176,
+      "y": 123,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.LOCATIONS.EVOLVE",
+      "x": 176,
+      "y": 194,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.LOCATIONS.SITES",
+      "x": 176,
+      "y": 265,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.LOCATIONS.SERVICES",
+      "x": 176,
+      "y": 336,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.LOCATIONS.SYSTEM",
+      "x": 176,
+      "y": 407,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.LOCATIONS.ABOUT",
+      "x": 176,
+      "y": 478,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    },
+    {
+      "id": "CARD.LOCATIONS.JOURNAL",
+      "x": 176,
+      "y": 549,
+      "w": 176,
+      "h": 61,
+      "radius": "0px",
+      "z": "auto"
+    }
+  ],
+  "errors": []
+}

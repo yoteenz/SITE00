@@ -1,0 +1,13 @@
+{
+  "route": "/idnty/build-ready/verification",
+  "finalUrl": "/idnty/build-ready/verification",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 1008,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "errors": []
+}
