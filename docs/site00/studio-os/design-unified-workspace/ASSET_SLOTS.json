@@ -1,0 +1,116 @@
+{
+  "generated": 0,
+  "note": "Slots render a neutral text-free placeholder until a url is registered in DWS_ART_URLS (DwsStage.tsx). No authority screenshot is used as an image.",
+  "slots": [
+    {
+      "id": "ENV.DESIGN.ATRIUM",
+      "role": "ENVIRONMENT_IMAGE",
+      "surface": "stage background (all modes, 3 viewports)",
+      "bbox": "full stage, 16:9 desktop / 3:4 tablet / 9:16 mobile",
+      "crop": "cover, centre pedestal at 50% x 78%",
+      "safe_zone": "upper 55% free of detail behind suspended boards",
+      "continuity": "single atrium across all five modes",
+      "status": "PLACEHOLDER (live gradient + rings)"
+    },
+    {
+      "id": "PROJECT.ART.<MODE>.FEATURED",
+      "role": "FOREGROUND_IMAGE / CARD_IMAGE",
+      "surface": "featured overview board art (5 modes)",
+      "bbox": "~ 4:3.3 inside featured board",
+      "crop": "cover",
+      "safe_zone": "lower-left 40% reserved for live statement text",
+      "continuity": "per-project",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.<MODE>.<BOARD>",
+      "role": "CARD_IMAGE",
+      "surface": "25 suspended board arts (5 per mode)",
+      "bbox": "~ 1.1:1",
+      "crop": "cover",
+      "safe_zone": "none (no baked text)",
+      "continuity": "per-project",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.<MODE>.TABLE.<N>",
+      "role": "CARD_IMAGE",
+      "surface": "ON YOUR TABLE card thumbnails (20)",
+      "bbox": "~ 4:1.5",
+      "crop": "cover",
+      "safe_zone": "top-left PAGE chip",
+      "continuity": "per-project",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.BRAND.ASSET.<ASSET_ID>",
+      "role": "TRANSPARENT_OBJECT / CARD_IMAGE",
+      "surface": "brand library grid + inspector + review (12 assets)",
+      "bbox": "~ 4:3 grid, 1:1 inspector",
+      "crop": "contain on light, cover on dark",
+      "safe_zone": "none",
+      "continuity": "brand asset family",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.ASSETS.ICON-CORE-NNN",
+      "role": "TRANSPARENT_OBJECT",
+      "surface": "asset library icon grid (20) + details",
+      "bbox": "1:1",
+      "crop": "contain",
+      "safe_zone": "none",
+      "continuity": "icon set",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.EXPERIENCE.JOURNEY.NN / PATH.PREVIEW",
+      "role": "CARD_IMAGE",
+      "surface": "journey rows + path-review preview",
+      "bbox": "40x28 / 16:7",
+      "crop": "cover",
+      "safe_zone": "lower-left reserved for live step copy",
+      "continuity": "journey",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.SURFACES.PREVIEW.<DEVICE> / VARIANT.N / RELATED.<ID> / FAMILY.<ID>",
+      "role": "FOREGROUND_IMAGE",
+      "surface": "surface preview, variants, related, family thumbs",
+      "bbox": "16:10 / 4:3",
+      "crop": "cover",
+      "safe_zone": "none",
+      "continuity": "surface family",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.COMPILER.* (CENTER, INPUT.*, EXPRESSION, RELATED.N)",
+      "role": "FOREGROUND_IMAGE",
+      "surface": "compiler centre, inputs, selected expression",
+      "bbox": "1:1 / 4:3",
+      "crop": "cover",
+      "safe_zone": "none",
+      "continuity": "expression",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "PROJECT.ART.<PROJECT>.MARK",
+      "role": "ICON",
+      "surface": "project selector mark",
+      "bbox": "34x40",
+      "crop": "cover",
+      "safe_zone": "none",
+      "continuity": "project",
+      "status": "PLACEHOLDER"
+    },
+    {
+      "id": "ICON3D.PIPELINE.<STAGE>",
+      "role": "TRANSPARENT_OBJECT",
+      "surface": "pipeline stage objects (sphere, panels, head, lattice, rings, orb ...)",
+      "bbox": "54x54 circle plate",
+      "crop": "contain",
+      "safe_zone": "none",
+      "continuity": "pipeline icon family (ICON PACK 03)",
+      "status": "LIVE SVG STAND-IN"
+    }
+  ]
+}

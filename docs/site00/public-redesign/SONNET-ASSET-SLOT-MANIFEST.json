@@ -1,0 +1,1306 @@
+{
+  "sprint": "P0.SITE00.PUBLIC-REDESIGN.SONNET-STRUCTURE1",
+  "rules": [
+    "No UI copy is baked into any raster.",
+    "No authority screenshot crop is used as an asset or placeholder.",
+    "Grok injects a slot by registering its URL in PUBLIC_REDESIGN_ASSET_URLS (src/site00/authority/publicRedesignAssetSlots.ts). No React edits.",
+    "Placeholders are neutral CSS gradients inside `AssetSlot` (aria-hidden, data-asset-slot / data-asset-status)."
+  ],
+  "totals": {
+    "slots": 52,
+    "requiredForFidelity": 33,
+    "grokRequired": 52,
+    "svgCssCouldReplace": 19
+  },
+  "slots": [
+    {
+      "id": "ENV.ORIGIN.COLLAPSED",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "01_ORIGIN_MAIN"
+      ],
+      "role": "DOUBLE-ZERO LANDMARK COURTYARD — COLLAPSED ORIGIN. EXISTING ORIGIN ENVIRONMENT ASSET STAYS MOUNTED UNTIL REPLACED.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 2532
+      },
+      "aspect": "9:19.5",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "FULL-BLEED, BEHIND HEADER / HERO / CARDS",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.ORIGIN.EXPANDED",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "02_ORIGIN_IDNTY_EXPANDED",
+        "03_ORIGIN_BLDR_EXPANDED",
+        "04_ORIGIN_EVOLVE_EXPANDED"
+      ],
+      "role": "DOUBLE-ZERO LANDMARK WITH WATERFALL SKYLINE — EXPANDED PANEL STATE (CLEAN, NO BAKED PANELS).",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 2532
+      },
+      "aspect": "9:19.5",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "FULL-BLEED; LOWER 2/3 IS COVERED BY THE GLASS PANEL",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.ORIGIN.IDNTY",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "01_ORIGIN_MAIN"
+      ],
+      "role": "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 560
+      },
+      "aspect": "400:560",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ORIGIN CARD 01 — FILLS CARD BACKGROUND",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.ORIGIN.BLDR",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "01_ORIGIN_MAIN"
+      ],
+      "role": "BLDR CARD STUDIO VIGNETTE (GLASS DISPLAY, PLINTH).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 560
+      },
+      "aspect": "400:560",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ORIGIN CARD 02 — FILLS CARD BACKGROUND",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.ORIGIN.EVOLVE",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "01_ORIGIN_MAIN"
+      ],
+      "role": "EVOLVE CARD LANDSCAPE VIGNETTE (CLIFF ROAD, SKYLINE).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 560
+      },
+      "aspect": "400:560",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ORIGIN CARD 03 — FILLS CARD BACKGROUND",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ILLUSTRATION.ORIGIN.IDENTITY",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "02_ORIGIN_IDNTY_EXPANDED"
+      ],
+      "role": "RED-LINE FACIAL GEOMETRY WIREFRAME (IDENTITY PANEL HERO).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 560,
+        "h": 560
+      },
+      "aspect": "560:560",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "EXPANDED IDENTITY PANEL — RIGHT OF TITLE",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.ORIGIN.BLDR",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "03_ORIGIN_BLDR_EXPANDED"
+      ],
+      "role": "RED-LINE ISOMETRIC BUILD LATTICE (BUILDER PANEL HERO).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 560,
+        "h": 560
+      },
+      "aspect": "560:560",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "EXPANDED BUILDER PANEL — RIGHT OF TITLE",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.ORIGIN.EVOLVE",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "04_ORIGIN_EVOLVE_EXPANDED"
+      ],
+      "role": "RED-LINE EXPLODED PROPERTY LATTICE (EVOLVE PANEL HERO).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 560,
+        "h": 560
+      },
+      "aspect": "560:560",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "EXPANDED EVOLVE PANEL — RIGHT OF TITLE",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.REFINE",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "04_ORIGIN_EVOLVE_EXPANDED"
+      ],
+      "role": "REFINE PATH VIGNETTE (CONCENTRIC ORBIT).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 400,
+        "h": 400
+      },
+      "aspect": "400:400",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "EVOLVE PANEL — CHOOSE YOUR PATH COLUMN 01",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.INSTALL",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "04_ORIGIN_EVOLVE_EXPANDED"
+      ],
+      "role": "INSTALL PATH VIGNETTE (LAYERED LATTICE).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 400,
+        "h": 400
+      },
+      "aspect": "400:400",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "EVOLVE PANEL — CHOOSE YOUR PATH COLUMN 02",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.ORIGIN.EVOLVE_PATH.TRANSFORM",
+      "routes": [
+        "/",
+        "/origin"
+      ],
+      "authority": [
+        "04_ORIGIN_EVOLVE_EXPANDED"
+      ],
+      "role": "TRANSFORM PATH VIGNETTE (STAR + ORBITS).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 400,
+        "h": 400
+      },
+      "aspect": "400:400",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "EVOLVE PANEL — CHOOSE YOUR PATH COLUMN 03",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ENV.IDNTY.ATRIUM",
+      "routes": [
+        "/idnty/state",
+        "/idnty/:state",
+        "/idnty/:state/:step",
+        "/idnty/:state/review"
+      ],
+      "authority": [
+        "01_IDNTY_DIAGNOSTIC_OVERVIEW",
+        "02_IDNTY_STATE_00_FOUNDATION",
+        "03_IDNTY_STATE_01_REFINE",
+        "04_IDNTY_STATE_02_EVOLUTION",
+        "05_IDNTY_STATE_03_BUILD_READY",
+        "01_FOUNDATION_PRIMARY_GOAL",
+        "02_FOUNDATION_AUDIENCE",
+        "03_FOUNDATION_TIMELINE",
+        "04_FOUNDATION_BUDGET",
+        "05_FOUNDATION_REVIEW",
+        "01_REFINE_EXISTING_ASSETS",
+        "02_REFINE_CONDITION",
+        "03_REFINE_GAPS",
+        "04_REFINE_REVIEW",
+        "01_EVOLUTION_AREAS",
+        "02_EVOLUTION_GOALS",
+        "03_EVOLUTION_TIMELINE",
+        "04_EVOLUTION_REVIEW",
+        "01_BUILD_READY_VERIFICATION",
+        "02_BUILD_READY_EVIDENCE",
+        "03_BUILD_READY_AUTHORITY_CHECK",
+        "04_BUILD_READY_REVIEW_VERIFICATION"
+      ],
+      "role": "LUMINOUS WHITE ATRIUM — CIRCULAR DAIS, STEPS, PLANTERS, RING LIGHT. SHARED ACROSS EVERY IDNTY STATE AND STEP (CONTINUITY).",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 2532
+      },
+      "aspect": "9:19.5",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "FULL-BLEED BEHIND THE HERO + MACHINE; PANEL SITS OVER THE LOWER REGION",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "MACHINE.IDNTY.FOUNDATION.ORB",
+      "routes": [
+        "/idnty/starting-at-zero"
+      ],
+      "authority": [
+        "02_IDNTY_STATE_00_FOUNDATION"
+      ],
+      "role": "GLOSSY RED SPHERE (OPTIONAL MATERIAL UPGRADE OVER THE SVG ORB).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 480,
+        "h": 480
+      },
+      "aspect": "480:480",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "MACHINE STAGE CENTER",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "MACHINE.IDNTY.PARTIAL.LATTICE",
+      "routes": [
+        "/idnty/some-pieces-exist"
+      ],
+      "authority": [
+        "03_IDNTY_STATE_01_REFINE"
+      ],
+      "role": "TRANSLUCENT RED HEX LATTICE VOLUME (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 520,
+        "h": 640
+      },
+      "aspect": "520:640",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "MACHINE STAGE CENTER",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "MACHINE.IDNTY.EVOLUTION.WAVES",
+      "routes": [
+        "/idnty/ready-for-evolution"
+      ],
+      "authority": [
+        "04_IDNTY_STATE_02_EVOLUTION"
+      ],
+      "role": "CONCENTRIC ELLIPSE WAVEFORM (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 640,
+        "h": 560
+      },
+      "aspect": "640:560",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "MACHINE STAGE CENTER",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "MACHINE.IDNTY.AUTHORITY.STAR",
+      "routes": [
+        "/idnty/build-ready"
+      ],
+      "authority": [
+        "05_IDNTY_STATE_03_BUILD_READY"
+      ],
+      "role": "GLOSSY RED FOUR-POINT STAR (OPTIONAL MATERIAL UPGRADE OVER THE SVG).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 560,
+        "h": 560
+      },
+      "aspect": "560:560",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "MACHINE STAGE CENTER",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ENV.BLDR.COMMAND_CENTER",
+      "routes": [
+        "/bldr/state"
+      ],
+      "authority": [
+        "01_BLDR_COMMAND_CENTER"
+      ],
+      "role": "SAME WHITE ATRIUM FAMILY AS IDNTY, BUILD-DAIS VARIANT.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 2532
+      },
+      "aspect": "9:19.5",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "FULL-BLEED BEHIND HERO + MACHINE",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "MACHINE.BLDR.TOWER",
+      "routes": [
+        "/bldr/state"
+      ],
+      "authority": [
+        "01_BLDR_COMMAND_CENTER"
+      ],
+      "role": "STACKED GLASS-SLAB ASSEMBLY TOWER WITH RED INSERTS AND FLOATING PATH PANELS.",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 760,
+        "h": 900
+      },
+      "aspect": "760:900",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "MACHINE STAGE CENTER, ABOVE DAIS",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.BLDR.PATH.SITE",
+      "routes": [
+        "/bldr/state"
+      ],
+      "authority": [
+        "01_BLDR_COMMAND_CENTER"
+      ],
+      "role": "SITE PATH CARD ILLUSTRATION (SKYLINE TOWERS WITH RED PLANES).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "COMMAND CENTER CARD 01 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.BLDR.PATH.WORLD",
+      "routes": [
+        "/bldr/state"
+      ],
+      "authority": [
+        "01_BLDR_COMMAND_CENTER"
+      ],
+      "role": "WORLD PATH CARD ILLUSTRATION (TERRACED PLATES WITH TREES).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "COMMAND CENTER CARD 02 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.BLDR.PATH.SYSTEMS",
+      "routes": [
+        "/bldr/state"
+      ],
+      "authority": [
+        "01_BLDR_COMMAND_CENTER"
+      ],
+      "role": "SYSTEMS PATH CARD ILLUSTRATION (SERVER-RACK STACK).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "COMMAND CENTER CARD 03 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.BLDR.PATH.EXTENSIONS",
+      "routes": [
+        "/bldr/state"
+      ],
+      "authority": [
+        "01_BLDR_COMMAND_CENTER"
+      ],
+      "role": "EXTENSIONS PATH CARD ILLUSTRATION (FLOATING RED CUBES).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "COMMAND CENTER CARD 04 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.BLDR.PATH.OVERVIEW",
+      "routes": [
+        "/bldr/state?path=overview"
+      ],
+      "authority": [
+        "02_BLDR_OVERVIEW"
+      ],
+      "role": "DAYLIGHT BUILDER ATRIUM — GLASS PATH PANELS OVER A ROUND TABLE.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1000
+      },
+      "aspect": "1170:1000",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 36% OF THE SCREEN; GLASS PANEL COVERS THE REST",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.BLDR.PATH.SITE",
+      "routes": [
+        "/bldr/state?path=site"
+      ],
+      "authority": [
+        "03_BLDR_SITE"
+      ],
+      "role": "RED-INSERT GLASS BUILDING OVER A WHITE TERRACE.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1000
+      },
+      "aspect": "1170:1000",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 36% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.BLDR.PATH.WORLD",
+      "routes": [
+        "/bldr/state?path=world"
+      ],
+      "authority": [
+        "04_BLDR_WORLD"
+      ],
+      "role": "RED GLOBE WITH TERRACED PLATES AND WATERFALL BACKDROP.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1000
+      },
+      "aspect": "1170:1000",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 36% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.BLDR.PATH.SYSTEMS",
+      "routes": [
+        "/bldr/state?path=systems"
+      ],
+      "authority": [
+        "05_BLDR_SYSTEMS"
+      ],
+      "role": "SERVER-STACK TOWER WITH SYSTEM ARCHITECTURE / FLOW PANELS.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1000
+      },
+      "aspect": "1170:1000",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 36% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.BLDR.PATH.EXTENSIONS",
+      "routes": [
+        "/bldr/state?path=extensions"
+      ],
+      "authority": [
+        "06_BLDR_EXTENSIONS"
+      ],
+      "role": "DISPLAY-CASE GALLERY WITH PLUG-IN / ADD-ON LIBRARY PANELS.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1000
+      },
+      "aspect": "1170:1000",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 36% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ILLUSTRATION.BLDR.PATH.PANEL.OVERVIEW",
+      "routes": [
+        "/bldr/state?path=overview"
+      ],
+      "authority": [
+        "02_BLDR_OVERVIEW"
+      ],
+      "role": "RED-LINE CUBE LATTICE (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.BLDR.PATH.PANEL.SITE",
+      "routes": [
+        "/bldr/state?path=site"
+      ],
+      "authority": [
+        "03_BLDR_SITE"
+      ],
+      "role": "RED-LINE BUILDING LATTICE (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.BLDR.PATH.PANEL.WORLD",
+      "routes": [
+        "/bldr/state?path=world"
+      ],
+      "authority": [
+        "04_BLDR_WORLD"
+      ],
+      "role": "RED-LINE TERRACE LATTICE (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.BLDR.PATH.PANEL.SYSTEMS",
+      "routes": [
+        "/bldr/state?path=systems"
+      ],
+      "authority": [
+        "05_BLDR_SYSTEMS"
+      ],
+      "role": "RED-LINE SYSTEM-STACK LATTICE (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.BLDR.PATH.PANEL.EXTENSIONS",
+      "routes": [
+        "/bldr/state?path=extensions"
+      ],
+      "authority": [
+        "06_BLDR_EXTENSIONS"
+      ],
+      "role": "RED-LINE LAYERED SLAB STACK (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.BLDR.FRAMEWORK.STEP",
+      "routes": [
+        "/bldr/state?path=*"
+      ],
+      "authority": [
+        "02_BLDR_OVERVIEW",
+        "03_BLDR_SITE",
+        "04_BLDR_WORLD",
+        "05_BLDR_SYSTEMS",
+        "06_BLDR_EXTENSIONS"
+      ],
+      "role": "FIVE FRAMEWORK STEP ILLUSTRATIONS (ORBIT, LAYERS, RINGS, HEX, HELIX) — SHARED ACROSS PATHS.",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 240,
+        "h": 240
+      },
+      "aspect": "240:240",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "FRAMEWORK ROW, 5 COLUMNS",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ENV.EVOLVE.INTERVENTION_CENTER",
+      "routes": [
+        "/evolve/state"
+      ],
+      "authority": [
+        "01_EVOLVE_INTERVENTION_CENTER"
+      ],
+      "role": "WHITE ATRIUM WITH LAYERED GLASS PROPERTY UNDER INTERVENTION.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 2532
+      },
+      "aspect": "9:19.5",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "FULL-BLEED BEHIND HERO + MACHINE",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "MACHINE.EVOLVE.PROPERTY_TOWER",
+      "routes": [
+        "/evolve/state"
+      ],
+      "authority": [
+        "01_EVOLVE_INTERVENTION_CENTER"
+      ],
+      "role": "THREE-LAYER GLASS PROPERTY (SURFACE / SYSTEM / FOUNDATION) WITH RED INTERVENTION BLOCKS.",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 760,
+        "h": 900
+      },
+      "aspect": "760:900",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "MACHINE STAGE CENTER",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.EVOLVE.PATH.REFINE",
+      "routes": [
+        "/evolve/state"
+      ],
+      "authority": [
+        "01_EVOLVE_INTERVENTION_CENTER"
+      ],
+      "role": "REFINE PATH CARD ILLUSTRATION (HALF-RED ORBIT TARGET).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "PATH CARD 01 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.EVOLVE.PATH.INSTALL",
+      "routes": [
+        "/evolve/state"
+      ],
+      "authority": [
+        "01_EVOLVE_INTERVENTION_CENTER"
+      ],
+      "role": "INSTALL PATH CARD ILLUSTRATION (RED-INSERT SLAB STACK).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "PATH CARD 02 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.EVOLVE.PATH.TRANSFORM",
+      "routes": [
+        "/evolve/state"
+      ],
+      "authority": [
+        "01_EVOLVE_INTERVENTION_CENTER"
+      ],
+      "role": "TRANSFORM PATH CARD ILLUSTRATION (EXPLODED CUBE ASSEMBLY).",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 400,
+        "h": 360
+      },
+      "aspect": "400:360",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "PATH CARD 03 — TOP REGION",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.EVOLVE.PATH.REFINE",
+      "routes": [
+        "/evolve/state?path=refine"
+      ],
+      "authority": [
+        "02_EVOLVE_REFINE"
+      ],
+      "role": "CURRENT-STATE / TARGET-STATE PANELS AROUND A GLASS CUBE ON A DAIS.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1100
+      },
+      "aspect": "1170:1100",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 45% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.EVOLVE.PATH.INSTALL",
+      "routes": [
+        "/evolve/state?path=install"
+      ],
+      "authority": [
+        "03_EVOLVE_INSTALL"
+      ],
+      "role": "SYSTEM MODULES / INTEGRATION LAYERS AROUND A MACHINE STACK.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1100
+      },
+      "aspect": "1170:1100",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 45% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ENV.EVOLVE.PATH.TRANSFORM",
+      "routes": [
+        "/evolve/state?path=transform"
+      ],
+      "authority": [
+        "04_EVOLVE_TRANSFORM"
+      ],
+      "role": "EXISTING / TRANSFORMED PANELS AROUND AN EXPLODED GLASS ASSEMBLY.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 1100
+      },
+      "aspect": "1170:1100",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "UPPER 45% OF THE SCREEN",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "ILLUSTRATION.EVOLVE.PATH.PANEL.REFINE",
+      "routes": [
+        "/evolve/state?path=refine"
+      ],
+      "authority": [
+        "02_EVOLVE_REFINE"
+      ],
+      "role": "CONCENTRIC TARGET (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.EVOLVE.PATH.PANEL.INSTALL",
+      "routes": [
+        "/evolve/state?path=install"
+      ],
+      "authority": [
+        "03_EVOLVE_INSTALL"
+      ],
+      "role": "LAYERED LATTICE (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ILLUSTRATION.EVOLVE.PATH.PANEL.TRANSFORM",
+      "routes": [
+        "/evolve/state?path=transform"
+      ],
+      "authority": [
+        "04_EVOLVE_TRANSFORM"
+      ],
+      "role": "STAR + ORBITAL NET (PANEL HEADER).",
+      "assetType": "machine-illustration",
+      "dimensions": {
+        "w": 420,
+        "h": 420
+      },
+      "aspect": "420:420",
+      "crop": "contain",
+      "transparentBackground": true,
+      "position": "PANEL HEADER RIGHT",
+      "responsive": "SCALES WITH ITS CONTAINER (CONTAIN). TRANSPARENT PNG/WEBP. NO TEXT BAKED IN.",
+      "fallback": "LIVE SVG LINEWORK SCAFFOLD (CSS/SVG).",
+      "requiredForFidelity": false,
+      "grokRequired": true,
+      "svgCssCouldReplace": true
+    },
+    {
+      "id": "ENV.LOCATIONS.ARCH",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "WARM MARBLE ARCHWAY CORRIDOR WITH LIGHT SHAFTS; DOUBLE-ZERO LANDMARK AT THE BASE.",
+      "assetType": "environment-plate",
+      "dimensions": {
+        "w": 1170,
+        "h": 2532
+      },
+      "aspect": "9:19.5",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "FULL-BLEED BEHIND THE DIRECTORY",
+      "responsive": "FULL-BLEED BEHIND CONTENT. OBJECT-FIT COVER, FOCAL POINT CENTER. ON WIDE VIEWPORTS THE PHONE ARTBOARD CROPS IT; NO TEXT, NO UI.",
+      "fallback": "NEUTRAL LUMINOUS WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.BLDR",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "BLDR ROW — STUDIO WITH GLASS DISPLAY.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.EVOLVE",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "EVOLVE ROW — TERRACE WITH TREE AND SKYLINE.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.SITES",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "SITES ROW — CLIFFSIDE SPIRE CITY.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.SERVICES",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "SERVICES ROW — SHOWROOM WITH DISPLAY.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.SYSTEM",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "SYSTEM ROW — GLASS CYLINDER MACHINERY.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.ABOUT",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "ABOUT ROW — DOUBLE-ZERO WALL RELIEF WITH TREES.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    },
+    {
+      "id": "CARD.LOCATIONS.JOURNAL",
+      "routes": [
+        "/origin/locations"
+      ],
+      "authority": [
+        "01_LOCATIONS_MAIN"
+      ],
+      "role": "JOURNAL ROW — MOUNTAIN TERRACE WITH TABLE.",
+      "assetType": "card-thumbnail",
+      "dimensions": {
+        "w": 520,
+        "h": 300
+      },
+      "aspect": "520:300",
+      "crop": "cover",
+      "transparentBackground": false,
+      "position": "ROW RIGHT HALF",
+      "responsive": "FILLS ITS CARD REGION (COVER). NO TEXT. EDGE FADES TO CARD SURFACE IN CSS, NOT IN THE ASSET.",
+      "fallback": "NEUTRAL WARM-WHITE GRADIENT (CSS).",
+      "requiredForFidelity": true,
+      "grokRequired": true,
+      "svgCssCouldReplace": false
+    }
+  ]
+}

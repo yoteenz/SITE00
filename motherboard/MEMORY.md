@@ -12951,3 +12951,23 @@ Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Ex
 - **Shipped:** `VITE_SITE00_CLIENT_APP_PREVIEW=1` + `clientAppPreviewState.ts` enables `/app/preview/*` fixtures on cloud preview (was dev-only). `docs/mobile-qa.md`, `npm run client-app:qa:urls|capture`, cloud preview build sets flag alongside EC guest. Playwright proof: fixture route shows bottom nav + NDXBOOK header on 390×844.
 - **Auth:** Real `/app/projects/*` still requires Supabase sign-in; fixtures need no auth. Tunnel API → `https://api.site00.com`.
 - **Blocker for APK:** No native project — Capacitor wrapper deferred.
+
+---
+
+## 2026-10-02 — Preview tunnel integrated branch (origins + production + compiler)
+
+Branch **`cursor/preview-tunnel-integrated-87ed`**: merges `public-redesign-composer-asset-injection1` (Origin env crossfade + framework icons + Grok asset URLs) with `design-unified-workspace-sonnet-structure2` (unified `/production/:slug/design-workspace` + Experience Compiler creative tab). Cloud preview pin file should reference this branch ref.
+
+- **2026-10-02:** `isSite00PreviewAuthBypassActive()` — when `VITE_SITE00_EC_PREVIEW_GUEST=1` + tunnel, all `Site00AccountRouteGuard` routes skip sign-in redirect; nav sign-in hrefs go direct to destination.
+
+---
+
+## 2026-10-02 — Production design cutover (P0.STUDIOOS.PRODUCTION.DESIGN-CUTOVER1)
+
+Unified DESIGN workspace is now **canonical at `/production/:projectSlug/design`** inside Production chrome (header + bottom nav). **`/design-workspace` → redirect**; old twin-opus UI only at **`/design-legacy/*`**. Unified shell hides duplicate `dws-footnav` + global project/attention chrome when `productionShell`. Matrix: `docs/studio-os/design-cutover-migration-matrix.md`. Branch: `cursor/design-cutover-production-87ed` (includes integrated preview/unified design base). **Not merged** until founder live QA.
+
+## 2026-10-02 — Viewport Lab (P0.STUDIOOS.PRODUCTION.VIEWPORT-LAB1)
+
+Sprint: live **Viewport Lab** at `/production/:projectSlug/viewport-lab` — iframe client SPA preview. Merged into **`cursor/design-cutover-production-87ed`** so tunnel branch ships route + design cutover together (missing route had caused empty outlet / wrong navigation to Origin).
+
+- **Registry:** `shared/site00-viewport-lab/`; Hub menu **VIEWPORT LAB**; QA `node scripts/viewport-lab-qa-proof.mjs`.

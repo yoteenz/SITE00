@@ -1,0 +1,1308 @@
+{
+  "sprint": "P0.SITE00.PUBLIC-REDESIGN.FOUNDER-VISUAL-PATCH-AUDIT1",
+  "generatedAt": "2026-10-01T22:59:21.347Z",
+  "previewBaseUrl": "http://127.0.0.1:5174",
+  "releaseManifest": {
+    "releaseId": "site00-v272-bb3d435",
+    "version": "v272",
+    "commitSha": "bb3d435f3681",
+    "frontendBuild": "v272",
+    "apiBuild": "v272",
+    "workerBuild": "v272",
+    "builtAt": "2026-10-01T22:31:25.157Z",
+    "bundleEntry": "/assets/index.DRTOUbxs.js"
+  },
+  "routesEnumerated": 34,
+  "viewports": [
+    "430x932",
+    "360x800"
+  ],
+  "crawlResults": [
+    {
+      "route": {
+        "id": "origin-root",
+        "path": "/",
+        "family": "ORIGIN",
+        "states": [
+          "collapsed"
+        ]
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/origin-root__430x932.png"
+    },
+    {
+      "route": {
+        "id": "origin-alias",
+        "path": "/origin",
+        "family": "ORIGIN",
+        "states": [
+          "collapsed"
+        ]
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/origin",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/origin-alias__430x932.png"
+    },
+    {
+      "route": {
+        "id": "locations",
+        "path": "/origin/locations",
+        "family": "LOCATIONS"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/origin/locations",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/locations__430x932.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-overview",
+        "path": "/idnty/state",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/idnty/state",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.FOUNDATION.ORB",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-overview__430x932.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-foundation",
+        "path": "/idnty/starting-at-zero",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/idnty/starting-at-zero",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.FOUNDATION.ORB",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-foundation__430x932.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-refine",
+        "path": "/idnty/some-pieces-exist",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/idnty/some-pieces-exist",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.PARTIAL.LATTICE",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-refine__430x932.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-evolution",
+        "path": "/idnty/ready-for-evolution",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/idnty/ready-for-evolution",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.EVOLUTION.WAVES",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-evolution__430x932.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-build-ready",
+        "path": "/idnty/build-ready",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/idnty/build-ready",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.AUTHORITY.STAR",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-build-ready__430x932.png"
+    },
+    {
+      "route": {
+        "id": "idnty-hub",
+        "path": "/idnty",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/idnty",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-hub__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-state-center",
+        "path": "/bldr/state",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/state",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-state-center__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-overview",
+        "path": "/bldr/state?path=overview",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=overview",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-overview__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-site",
+        "path": "/bldr/state?path=site",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=site",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-site__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-world",
+        "path": "/bldr/state?path=world",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=world",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-world__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-systems",
+        "path": "/bldr/state?path=systems",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=systems",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-systems__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-extensions",
+        "path": "/bldr/state?path=extensions",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=extensions",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-extensions__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-hub",
+        "path": "/bldr",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-hub__430x932.png"
+    },
+    {
+      "route": {
+        "id": "bldr-start",
+        "path": "/bldr/start",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/bldr/start",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-start__430x932.png"
+    },
+    {
+      "route": {
+        "id": "evolve-state-center",
+        "path": "/evolve/state",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/evolve/state",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-state-center__430x932.png"
+    },
+    {
+      "route": {
+        "id": "evolve-path-refine",
+        "path": "/evolve/state?path=refine",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/evolve/state?path=refine",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-path-refine__430x932.png"
+    },
+    {
+      "route": {
+        "id": "evolve-path-install",
+        "path": "/evolve/state?path=install",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/evolve/state?path=install",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-path-install__430x932.png"
+    },
+    {
+      "route": {
+        "id": "evolve-path-transform",
+        "path": "/evolve/state?path=transform",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/evolve/state?path=transform",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-path-transform__430x932.png"
+    },
+    {
+      "route": {
+        "id": "evolve-hub",
+        "path": "/evolve",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/evolve",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-hub__430x932.png"
+    },
+    {
+      "route": {
+        "id": "enter",
+        "path": "/enter",
+        "family": "ORIGIN"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/enter",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/enter__430x932.png"
+    },
+    {
+      "route": {
+        "id": "sites",
+        "path": "/sites",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/sites",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/sites__430x932.png"
+    },
+    {
+      "route": {
+        "id": "services",
+        "path": "/services",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/services",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/services__430x932.png"
+    },
+    {
+      "route": {
+        "id": "system",
+        "path": "/system",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/system",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/system__430x932.png"
+    },
+    {
+      "route": {
+        "id": "about",
+        "path": "/about",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/about",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/about__430x932.png"
+    },
+    {
+      "route": {
+        "id": "journal",
+        "path": "/journal",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/journal",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/journal__430x932.png"
+    },
+    {
+      "route": {
+        "id": "support",
+        "path": "/support",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/support",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/support__430x932.png"
+    },
+    {
+      "route": {
+        "id": "sign-in",
+        "path": "/origin/sign-in",
+        "family": "AUTH"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/origin/sign-in",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/sign-in__430x932.png"
+    },
+    {
+      "route": {
+        "id": "create-account",
+        "path": "/origin/create-account",
+        "family": "AUTH"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/origin/create-account",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/create-account__430x932.png"
+    },
+    {
+      "route": {
+        "id": "control-overview",
+        "path": "/control",
+        "family": "YOUR_SPACE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/control",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/control-overview__430x932.png"
+    },
+    {
+      "route": {
+        "id": "control-sites",
+        "path": "/control/sites",
+        "family": "YOUR_SPACE"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/control/sites",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/control-sites__430x932.png"
+    },
+    {
+      "route": {
+        "id": "projects",
+        "path": "/projects",
+        "family": "PROJECTS"
+      },
+      "viewport": {
+        "name": "430x932",
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:5174/projects",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/projects__430x932.png"
+    },
+    {
+      "route": {
+        "id": "origin-root",
+        "path": "/",
+        "family": "ORIGIN",
+        "states": [
+          "collapsed"
+        ]
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/origin-root__360x800.png"
+    },
+    {
+      "route": {
+        "id": "origin-alias",
+        "path": "/origin",
+        "family": "ORIGIN",
+        "states": [
+          "collapsed"
+        ]
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/origin",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/origin-alias__360x800.png"
+    },
+    {
+      "route": {
+        "id": "locations",
+        "path": "/origin/locations",
+        "family": "LOCATIONS"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/origin/locations",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/locations__360x800.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-overview",
+        "path": "/idnty/state",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/idnty/state",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.FOUNDATION.ORB",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-overview__360x800.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-foundation",
+        "path": "/idnty/starting-at-zero",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/idnty/starting-at-zero",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.FOUNDATION.ORB",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-foundation__360x800.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-refine",
+        "path": "/idnty/some-pieces-exist",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/idnty/some-pieces-exist",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.PARTIAL.LATTICE",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-refine__360x800.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-evolution",
+        "path": "/idnty/ready-for-evolution",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/idnty/ready-for-evolution",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.EVOLUTION.WAVES",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-evolution__360x800.png"
+    },
+    {
+      "route": {
+        "id": "idnty-state-build-ready",
+        "path": "/idnty/build-ready",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/idnty/build-ready",
+      "broken": [],
+      "placeholders": [
+        {
+          "slot": "MACHINE.IDNTY.AUTHORITY.STAR",
+          "className": "s00pr-asset-slot s00pr-stage__slot"
+        }
+      ],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-state-build-ready__360x800.png"
+    },
+    {
+      "route": {
+        "id": "idnty-hub",
+        "path": "/idnty",
+        "family": "IDNTY"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/idnty",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/idnty-hub__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-state-center",
+        "path": "/bldr/state",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/state",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-state-center__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-overview",
+        "path": "/bldr/state?path=overview",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=overview",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-overview__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-site",
+        "path": "/bldr/state?path=site",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=site",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-site__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-world",
+        "path": "/bldr/state?path=world",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=world",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-world__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-systems",
+        "path": "/bldr/state?path=systems",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=systems",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-systems__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-path-extensions",
+        "path": "/bldr/state?path=extensions",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/state?path=extensions",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-path-extensions__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-hub",
+        "path": "/bldr",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-hub__360x800.png"
+    },
+    {
+      "route": {
+        "id": "bldr-start",
+        "path": "/bldr/start",
+        "family": "BLDR"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/bldr/start",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/bldr-start__360x800.png"
+    },
+    {
+      "route": {
+        "id": "evolve-state-center",
+        "path": "/evolve/state",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/evolve/state",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-state-center__360x800.png"
+    },
+    {
+      "route": {
+        "id": "evolve-path-refine",
+        "path": "/evolve/state?path=refine",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/evolve/state?path=refine",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-path-refine__360x800.png"
+    },
+    {
+      "route": {
+        "id": "evolve-path-install",
+        "path": "/evolve/state?path=install",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/evolve/state?path=install",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-path-install__360x800.png"
+    },
+    {
+      "route": {
+        "id": "evolve-path-transform",
+        "path": "/evolve/state?path=transform",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/evolve/state?path=transform",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": true,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-path-transform__360x800.png"
+    },
+    {
+      "route": {
+        "id": "evolve-hub",
+        "path": "/evolve",
+        "family": "EVOLVE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/evolve",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/evolve-hub__360x800.png"
+    },
+    {
+      "route": {
+        "id": "enter",
+        "path": "/enter",
+        "family": "ORIGIN"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/enter",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/enter__360x800.png"
+    },
+    {
+      "route": {
+        "id": "sites",
+        "path": "/sites",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/sites",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/sites__360x800.png"
+    },
+    {
+      "route": {
+        "id": "services",
+        "path": "/services",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/services",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/services__360x800.png"
+    },
+    {
+      "route": {
+        "id": "system",
+        "path": "/system",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/system",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/system__360x800.png"
+    },
+    {
+      "route": {
+        "id": "about",
+        "path": "/about",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/about",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/about__360x800.png"
+    },
+    {
+      "route": {
+        "id": "journal",
+        "path": "/journal",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/journal",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/journal__360x800.png"
+    },
+    {
+      "route": {
+        "id": "support",
+        "path": "/support",
+        "family": "PUBLIC"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/support",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/support__360x800.png"
+    },
+    {
+      "route": {
+        "id": "sign-in",
+        "path": "/origin/sign-in",
+        "family": "AUTH"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/origin/sign-in",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/sign-in__360x800.png"
+    },
+    {
+      "route": {
+        "id": "create-account",
+        "path": "/origin/create-account",
+        "family": "AUTH"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/origin/create-account",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/create-account__360x800.png"
+    },
+    {
+      "route": {
+        "id": "control-overview",
+        "path": "/control",
+        "family": "YOUR_SPACE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/control",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/control-overview__360x800.png"
+    },
+    {
+      "route": {
+        "id": "control-sites",
+        "path": "/control/sites",
+        "family": "YOUR_SPACE"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/control/sites",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/control-sites__360x800.png"
+    },
+    {
+      "route": {
+        "id": "projects",
+        "path": "/projects",
+        "family": "PROJECTS"
+      },
+      "viewport": {
+        "name": "360x800",
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:5174/projects",
+      "broken": [],
+      "placeholders": [],
+      "hasS00pr": false,
+      "title": "SITE 00",
+      "screenshot": "docs/site00/public-redesign/FOUNDER_VISUAL_PATCH_AUDIT1/screenshots/projects__360x800.png"
+    }
+  ]
+}

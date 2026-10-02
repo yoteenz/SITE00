@@ -20,6 +20,7 @@ import { isSite00CloudPreviewBuild } from '../loader/site00PreviewHost';
 import { Site00ShellAuthProvider } from '../../auth/Site00ShellAuthContext';
 import {
   isSite00EcPreviewGuestFeatureActive,
+  isSite00PreviewAuthBypassActive,
   isSite00PreviewGuestAllowlistedPath,
 } from '../../auth/site00ShellAuthState';
 
@@ -47,6 +48,9 @@ function previewGuestAllowedForRoute(
   pathname: string,
   flags: { allowExperienceCompilerPreviewGuest: boolean; allowStudioPreviewGuestLanding: boolean },
 ): boolean {
+  if (isSite00PreviewAuthBypassActive()) {
+    return true;
+  }
   if (!isSite00EcPreviewGuestFeatureActive() || !isSite00PreviewGuestAllowlistedPath(pathname)) {
     return false;
   }
@@ -77,6 +81,7 @@ export function Site00AccountRouteGuard({
   const isLoading = !recoveryDone;
   const timedOut = useGuardLoadingTimeout(isLoading, 'Site00AccountRouteGuard');
   const cloudPreview = isSite00CloudPreviewBuild();
+  const previewAuthBypass = isSite00PreviewAuthBypassActive();
   const previewGuestRoute = previewGuestAllowedForRoute(location.pathname, {
     allowExperienceCompilerPreviewGuest,
     allowStudioPreviewGuestLanding,
@@ -269,7 +274,12 @@ export function Site00AccountRouteGuard({
     );
   }
 
-  if (apiTokenReady === false && isSignedIn() && !allowUnauthenticatedCaptureSurface) {
+  if (
+    apiTokenReady === false &&
+    isSignedIn() &&
+    !allowUnauthenticatedCaptureSurface &&
+    !previewAuthBypass
+  ) {
     return shellWrapped(<Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />);
   }
 
@@ -291,14 +301,14 @@ export function Site00AccountRouteGuard({
                 borderBottom: '1px solid #333',
               }}
             >
-              PREVIEW GUEST · STUDIO OS PREVIEW · SIGN-IN BYPASSED (SUPABASE DOWN) · NOT PRODUCTION
+              PREVIEW · SIGN-IN BYPASSED (SUPABASE DOWN) · READ-ONLY / DEGRADED · NOT PRODUCTION
             </div>
           ) : null}
           {children}
         </>,
       );
     }
-    if (cloudPreview) {
+    if (cloudPreview && !previewAuthBypass) {
       return shellWrapped(
         <div className="site00-ctrl-room-loading site00-ctrl-room-loading--sign-in" role="status" aria-live="polite">
           <p>SIGN IN REQUIRED FOR THIS ROUTE</p>
@@ -306,6 +316,28 @@ export function Site00AccountRouteGuard({
             GO TO SIGN IN →
           </Link>
         </div>,
+      );
+    }
+    if (previewAuthBypass) {
+      return shellWrapped(
+        <>
+          <div
+            className="site00-ec-preview-guest-banner"
+            role="status"
+            style={{
+              background: '#1a1a1a',
+              color: '#f5c542',
+              fontSize: '11px',
+              letterSpacing: '0.06em',
+              padding: '8px 12px',
+              textAlign: 'center',
+              borderBottom: '1px solid #333',
+            }}
+          >
+            PREVIEW · SIGN-IN BYPASSED (SUPABASE DOWN) · READ-ONLY / DEGRADED · NOT PRODUCTION
+          </div>
+          {children}
+        </>,
       );
     }
     return shellWrapped(<Navigate to={signInHref} replace />);

@@ -98,8 +98,13 @@ export function FastTravelPanel({ open, onClose, returnFocusRef }: FastTravelPan
     return () => panel.removeEventListener('keydown', onKeyDown);
   }, [open]);
 
+  // Return focus to the trigger only when the panel actually closes — never on first mount, which
+  // used to pull focus (and a focus ring) onto the header trigger on every page load.
+  const wasOpenRef = useRef(open);
   useEffect(() => {
-    if (open || !returnFocusRef?.current) return;
+    const wasOpen = wasOpenRef.current;
+    wasOpenRef.current = open;
+    if (open || !wasOpen || !returnFocusRef?.current) return;
     returnFocusRef.current.focus();
   }, [open, returnFocusRef]);
 
