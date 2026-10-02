@@ -160,9 +160,17 @@ export function ExperienceCompilerCreativeDirectorPanel({ state }: Props) {
           <h3>Creative workspace</h3>
           <p className="ec-cd__thread-title">{thread?.title ?? 'No thread yet — create on first action.'}</p>
           <p className="ec-cd__runtime">
-            Model slot: {runtime?.model ?? '…'} ·{' '}
-            {runtime?.configured ? 'configured' : runtime?.blocked?.code ?? 'MODEL_RUNTIME_BLOCKED'}
+            Model: {runtime?.model ?? '…'} · Reasoning: {runtime?.reasoning_effort ?? '…'} · Runtime:{' '}
+            {runtime?.runtime_state ?? (runtime?.configured ? 'MODEL_RUNTIME_READY' : 'MODEL_RUNTIME_BLOCKED')} · Key:{' '}
+            {runtime?.OPENAI_API_KEY_PRESENT ?? '—'} · Store: {runtime?.persistence_backend ?? '…'}
           </p>
+          {activeArtifact ? (
+            <p className="ec-cd__run-meta">
+              Run {activeArtifact.run_id?.slice(-10) ?? '—'} · {activeArtifact.model} · {activeArtifact.reasoning_effort ?? '—'} ·{' '}
+              {thread?.run_status}
+              {activeArtifact.parent_artifact_ids.length ? ` · lineage ← ${activeArtifact.parent_artifact_ids.join(',')}` : ''}
+            </p>
+          ) : null}
           {runError ? <p className="ec-cd__error">{runError}</p> : null}
 
           <div className="ec-cd__messages">
@@ -191,9 +199,30 @@ export function ExperienceCompilerCreativeDirectorPanel({ state }: Props) {
             <div className="ec-cd__territories">
               {territories.map((t) => (
                 <article key={t.territory_id} className="ec-cd__territory-card">
-                  <h4>{t.name}</h4>
+                  <h4>
+                    {t.territory_id}: {t.name}
+                  </h4>
                   <p>{t.core_idea}</p>
-                  <small>{t.spatial_metaphor}</small>
+                  <dl className="ec-cd__territory-dl">
+                    <dt>Spatial metaphor</dt>
+                    <dd>{t.spatial_metaphor}</dd>
+                    <dt>Emotional objective</dt>
+                    <dd>{t.emotional_objective}</dd>
+                    <dt>Experience logic</dt>
+                    <dd>{t.experience_logic}</dd>
+                    <dt>Information architecture</dt>
+                    <dd>{t.information_architecture}</dd>
+                    <dt>Interaction language</dt>
+                    <dd>{t.interaction_language}</dd>
+                    <dt>Visual language</dt>
+                    <dd>{t.visual_language}</dd>
+                    <dt>Mobile / tablet / desktop / app</dt>
+                    <dd>
+                      {t.mobile_expression} · {t.tablet_expression} · {t.desktop_expression} · {t.app_expression}
+                    </dd>
+                    <dt>Project alignment</dt>
+                    <dd>{t.project_alignment}</dd>
+                  </dl>
                 </article>
               ))}
             </div>

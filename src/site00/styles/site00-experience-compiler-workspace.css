@@ -309,6 +309,23 @@
   font-size: 0.68rem;
 }
 
+.ec-cd__territory-dl {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+.ec-cd__territory-dl dt {
+  font-weight: 600;
+  margin-top: 0.35rem;
+}
+.ec-cd__territory-dl dd {
+  margin: 0.15rem 0 0;
+  opacity: 0.92;
+}
+.ec-cd__run-meta {
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin: 0.25rem 0 0.75rem;
+}
 .ec-cd__territory-card h4 {
   margin: 0 0 0.35rem;
   font-size: 0.72rem;

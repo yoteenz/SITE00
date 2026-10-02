@@ -26,8 +26,13 @@ async function post<T>(action: string, body: Record<string, unknown>): Promise<T
 
 export type RuntimeStatus = {
   model: string;
+  reasoning_effort?: string;
   configured: boolean;
   blocked: { code: string; missing: string[]; message: string } | null;
+  OPENAI_API_KEY_PRESENT?: 'YES' | 'NO';
+  persistence_backend?: 'supabase' | 'memory';
+  runtime_state?: string;
+  provider_path?: string;
 };
 
 export const experienceCompilerCreativeDirectorApi = {

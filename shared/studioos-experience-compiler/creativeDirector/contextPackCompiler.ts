@@ -5,6 +5,7 @@ import type {
   FounderJudgment,
   WorkspaceCreativeDirectorSnapshot,
 } from '../creativeDirectorTypes.js';
+import { activeFounderJudgmentsForContext } from './judgmentQuarantine.js';
 
 export const YOUR_SPACE_SEED_THEMES = [
   'private project threshold',
@@ -33,7 +34,8 @@ function estimateBytes(obj: unknown): number {
 }
 
 function recentJudgments(judgments: FounderJudgment[], limit = 8): FounderJudgment[] {
-  return [...judgments].sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, limit);
+  const active = activeFounderJudgmentsForContext(judgments);
+  return [...active].sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, limit);
 }
 
 function isYourSpaceThread(thread: CreativeThread): boolean {

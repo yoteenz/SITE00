@@ -3,8 +3,8 @@ import { validateTaskOutput } from '../../../shared/studioos-experience-compiler
 import {
   CREATIVE_DIRECTOR_PROMPT_VERSION,
   creativeDirectorRuntimeBlocked,
-  getCreativeDirectorModelId,
-  getCreativeDirectorReasoningLevel,
+  resolveCreativeDirectorModelConfig,
+  type CreativeDirectorReasoningEffort,
 } from './config.js';
 
 export type GatewayRequest = {
@@ -12,20 +12,23 @@ export type GatewayRequest = {
   context_pack: CreativeContextPack;
   revision_context?: Record<string, unknown>;
   founder_initiated: boolean;
+  reasoning_effort?: CreativeDirectorReasoningEffort;
 };
 
 export type GatewaySuccess = {
   ok: true;
   model: string;
+  reasoning_effort: CreativeDirectorReasoningEffort;
   parsed: Record<string, unknown>;
   raw: string;
   input_token_estimate: number | null;
   output_token_estimate: number | null;
+  provider_path: 'openai.responses';
 };
 
 export type GatewayFailure =
   | { ok: false; blocked: NonNullable<ReturnType<typeof creativeDirectorRuntimeBlocked>> }
-  | { ok: false; error: string; raw?: string };
+  | { ok: false; error: string; raw?: string; state: 'LIVE_RUN_FAILED' | 'FAILED_VALIDATION' };
 
 function taskSystemPrompt(taskMode: CreativeDirectorTaskMode): string {
   const base = `You are CreativeDirectorAgent inside Studio OS Experience Compiler (MAP2).
@@ -35,7 +38,7 @@ Return ONE JSON object matching the task contract. No markdown fences.`;
 
   const contracts: Partial<Record<CreativeDirectorTaskMode, string>> = {
     CONCEPT_TERRITORIES: `${base}
-Task: CONCEPT_TERRITORIES — exactly 3 genuinely distinct territories (different spatial metaphor, interaction philosophy, information rhythm, visual expression, emotional experience).
+Task: CONCEPT_TERRITORIES — exactly 3 genuinely distinct territories (different spatial metaphor, interaction philosophy, information rhythm, visual expression, emotional experience, project-status storytelling).
 Fields per territory: territory_id, name, core_idea, spatial_metaphor, emotional_objective, experience_logic, information_architecture, interaction_language, visual_language, mobile_expression, tablet_expression, desktop_expression, app_expression, image_authority_needs[], live_code_needs[], risks[], failure_conditions[], project_alignment.
 Top-level: territories[], creative_rationale.`,
     EXPERIENCE_GRAPH: `${base}
@@ -61,73 +64,119 @@ Task: EXPERIENCE_ARCHITECTURE — experience architecture summary + pillars + ri
   return contracts[taskMode] ?? base;
 }
 
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / 4);
+function extractResponsesOutputText(body: Record<string, unknown>): string {
+  const parsed = body.output_parsed;
+  if (parsed && typeof parsed === 'object') return JSON.stringify(parsed);
+  const output = body.output;
+  if (!Array.isArray(output)) return '';
+  for (const item of output) {
+    if (!item || typeof item !== 'object') continue;
+    const row = item as Record<string, unknown>;
+    if (row.type !== 'message') continue;
+    const content = row.content;
+    if (!Array.isArray(content)) continue;
+    for (const part of content) {
+      if (!part || typeof part !== 'object') continue;
+      const p = part as Record<string, unknown>;
+      if (p.type === 'output_text' && typeof p.text === 'string') return p.text;
+    }
+  }
+  return '';
+}
+
+function usageTokens(body: Record<string, unknown>): { input: number | null; output: number | null } {
+  const usage = body.usage as Record<string, unknown> | undefined;
+  return {
+    input: typeof usage?.input_tokens === 'number' ? usage.input_tokens : null,
+    output: typeof usage?.output_tokens === 'number' ? usage.output_tokens : null,
+  };
 }
 
 export async function creativeModelGateway(req: GatewayRequest): Promise<GatewaySuccess | GatewayFailure> {
   if (!req.founder_initiated) {
-    return { ok: false, error: 'EXPENSIVE_RUN_REQUIRES_FOUNDER_INITIATION' };
+    return { ok: false, error: 'EXPENSIVE_RUN_REQUIRES_FOUNDER_INITIATION', state: 'LIVE_RUN_FAILED' };
   }
 
   const blocked = creativeDirectorRuntimeBlocked();
   if (blocked) return { ok: false, blocked };
 
+  const cfg = resolveCreativeDirectorModelConfig({
+    reasoning_effort: req.reasoning_effort,
+  });
   const apiKey = process.env.OPENAI_API_KEY!.trim();
-  const model = getCreativeDirectorModelId();
-  const reasoning = getCreativeDirectorReasoningLevel();
 
   const userPayload = {
     task_mode: req.task_mode,
     context_pack: req.context_pack,
     revision_context: req.revision_context ?? null,
-    reasoning_level: reasoning,
   };
 
   const user = JSON.stringify(userPayload);
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: taskSystemPrompt(req.task_mode) },
-        { role: 'user', content: user },
-      ],
-    }),
-  });
-
-  const body = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const msg = typeof body?.error?.message === 'string' ? body.error.message : `OpenAI HTTP ${res.status}`;
-    return { ok: false, error: msg };
-  }
-
-  const raw = String(body?.choices?.[0]?.message?.content ?? '');
-  if (!raw.trim()) return { ok: false, error: 'Empty model response', raw };
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(raw);
-  } catch {
-    return { ok: false, error: 'Model response was not valid JSON', raw };
-  }
-
-  const validation = validateTaskOutput(req.task_mode, parsed);
-  if (!validation.ok) {
-    return { ok: false, error: validation.error, raw };
-  }
-
-  return {
-    ok: true,
-    model,
-    parsed: validation.data,
-    raw,
-    input_token_estimate: estimateTokens(user),
-    output_token_estimate: estimateTokens(raw),
+  const bodyPayload = {
+    model: cfg.model,
+    reasoning: { effort: cfg.reasoning_effort },
+    instructions: taskSystemPrompt(req.task_mode),
+    input: [
+      {
+        role: 'user',
+        content: [{ type: 'input_text', text: user }],
+      },
+    ],
+    text: { format: { type: 'json_object' } },
+    max_output_tokens: cfg.max_output_tokens,
   };
+
+  let lastError = 'LIVE_RUN_FAILED';
+  for (let attempt = 1; attempt <= cfg.retry_policy.max_attempts; attempt++) {
+    const res = await fetch(cfg.responses_endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(bodyPayload),
+      signal: AbortSignal.timeout(cfg.timeout_ms),
+    });
+
+    const body = (await res.json().catch(() => ({}))) as Record<string, unknown>;
+    if (!res.ok) {
+      lastError = typeof (body.error as { message?: string } | undefined)?.message === 'string'
+        ? (body.error as { message: string }).message
+        : `OpenAI HTTP ${res.status}`;
+      if (attempt < cfg.retry_policy.max_attempts && [429, 500, 502, 503, 504].includes(res.status)) {
+        await new Promise((r) => setTimeout(r, cfg.retry_policy.backoff_ms * attempt));
+        continue;
+      }
+      return { ok: false, error: lastError, state: 'LIVE_RUN_FAILED' };
+    }
+
+    const raw = extractResponsesOutputText(body);
+    if (!raw.trim()) return { ok: false, error: 'Empty model response', state: 'LIVE_RUN_FAILED' };
+
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(raw);
+    } catch {
+      return { ok: false, error: 'Model response was not valid JSON', raw, state: 'FAILED_VALIDATION' };
+    }
+
+    const validation = validateTaskOutput(req.task_mode, parsed);
+    if (!validation.ok) {
+      return { ok: false, error: validation.error, raw, state: 'FAILED_VALIDATION' };
+    }
+
+    const usage = usageTokens(body);
+    return {
+      ok: true,
+      model: cfg.model,
+      reasoning_effort: cfg.reasoning_effort,
+      parsed: validation.data,
+      raw,
+      input_token_estimate: usage.input,
+      output_token_estimate: usage.output,
+      provider_path: 'openai.responses',
+    };
+  }
+
+  return { ok: false, error: lastError, state: 'LIVE_RUN_FAILED' };
 }

@@ -9,7 +9,17 @@ import {
   runCreativeDirectorAgent,
 } from '../../../../api/_lib/experienceCompilerCreativeDirector/creativeDirectorAgent.js';
 import { resetExperienceCompilerCreativeDirectorStore, saveThread } from '../../../../api/_lib/experienceCompilerCreativeDirector/store.js';
-import { creativeDirectorRuntimeBlocked } from '../../../../api/_lib/experienceCompilerCreativeDirector/config.js';
+import {
+  creativeDirectorRuntimeBlocked,
+  normalizeCreativeDirectorModelId,
+  validateModelIdentifier,
+} from '../../../../api/_lib/experienceCompilerCreativeDirector/config.js';
+import {
+  canPromoteJudgmentToApproval,
+  isQuarantinedTestJudgment,
+  TEST_JUDGMENT_PREFIX,
+} from '../../../../shared/studioos-experience-compiler/creativeDirector/judgmentQuarantine.js';
+import { buildCreativeHistoryLines } from '../../../../shared/studioos-experience-compiler/creativeDirector/historyAdapter.js';
 import { bootstrapSite00IngestWorkspace } from '../workspace/bootstrap';
 import { buildCreativeDirectorSnapshot } from '../creativeDirector/workspaceSnapshot';
 import { mkdirSync, readFileSync, writeFileSync } from 'fs';
@@ -22,11 +32,11 @@ beforeEach(() => {
 });
 
 describe('CreativeContextPack', () => {
-  it('compiles deterministic manifest sections with priority rules documented', () => {
+  it('compiles deterministic manifest sections with priority rules documented', async () => {
     expect(contextSourcePriorityLabel()[0]).toContain('APPROVED');
     const ws = bootstrapSite00IngestWorkspace('site00');
     const snapshot = buildCreativeDirectorSnapshot(ws);
-    const thread = createCreativeThread({
+    const thread = await createCreativeThread({
       project_id: ws.project_id,
       project_slug: 'site00',
       title: 'SITE 00 → YOUR SPACE → CREATIVE ARCHITECTURE',
@@ -75,7 +85,7 @@ describe('CreativeDirectorAgent persistence', () => {
   it('creates thread and blocks live model in vitest without corrupting state', async () => {
     const ws = bootstrapSite00IngestWorkspace('site00');
     const snapshot = buildCreativeDirectorSnapshot(ws);
-    const thread = createCreativeThread({
+    const thread = await createCreativeThread({
       project_id: ws.project_id,
       project_slug: 'site00',
       title: 'YOUR SPACE',
@@ -93,8 +103,8 @@ describe('CreativeDirectorAgent persistence', () => {
     }
   });
 
-  it('records founder judgment for next run context', () => {
-    const thread = createCreativeThread({
+  it('records founder judgment for next run context', async () => {
+    const thread = await createCreativeThread({
       project_id: 'p1',
       project_slug: 'site00',
       title: 't',
@@ -120,8 +130,8 @@ describe('CreativeDirectorAgent persistence', () => {
         },
       ],
     };
-    saveThread(withArt);
-    const updated = applyFounderJudgmentToThread({
+    await saveThread(withArt);
+    const updated = await applyFounderJudgmentToThread({
       thread_id: thread.thread_id,
       artifact_id: 'art1',
       action: 'PUSH_FURTHER',
@@ -129,6 +139,53 @@ describe('CreativeDirectorAgent persistence', () => {
     });
     expect(updated?.judgments).toHaveLength(1);
     expect(updated?.run_status).toBe('REVISION_REQUESTED');
+  });
+});
+
+describe('model config', () => {
+  it('strips reasoning suffix from model id', () => {
+    expect(normalizeCreativeDirectorModelId('gpt-5.6-sol-medium')).toBe('gpt-5.6-sol');
+    const v = validateModelIdentifier('gpt-5.6-sol-medium');
+    expect(v.ok).toBe(false);
+    expect(validateModelIdentifier('gpt-5.6-sol').ok).toBe(true);
+  });
+});
+
+describe('test judgment quarantine', () => {
+  it('blocks LOVE_IT promotion for TEST_JUDGMENT_ONLY notes', () => {
+    const note = `${TEST_JUDGMENT_PREFIX}: promising territory B for proof only`;
+    expect(isQuarantinedTestJudgment(note)).toBe(true);
+    expect(canPromoteJudgmentToApproval('LOVE_IT', note)).toBe(false);
+    expect(canPromoteJudgmentToApproval('LOVE_IT', 'Real founder note')).toBe(true);
+  });
+
+  it('marks quarantined lines in history adapter', async () => {
+    const thread = await createCreativeThread({
+      project_id: 'p1',
+      project_slug: 'site00',
+      title: 't',
+      task_mode: 'CONCEPT_TERRITORIES',
+    });
+    const withJudgment = {
+      ...thread,
+      judgments: [
+        {
+          judgment_id: 'j1',
+          artifact_id: 'a1',
+          thread_id: thread.thread_id,
+          project_id: 'p1',
+          action: 'PROMISING' as const,
+          founder_note: `${TEST_JUDGMENT_PREFIX} note`,
+          preserve: [],
+          reject: [],
+          combine_with: null,
+          requested_change: 'test',
+          created_at: new Date().toISOString(),
+        },
+      ],
+    };
+    const lines = buildCreativeHistoryLines(withJudgment);
+    expect(lines.some((l) => l.quarantined)).toBe(true);
   });
 });
 
@@ -159,8 +216,8 @@ describe('workspace UI shell', () => {
 describe('security', () => {
   it('client API module does not embed server API keys', () => {
     const src = readFileSync('src/site00/services/experienceCompilerCreativeDirectorApi.ts', 'utf8');
-    expect(src).not.toMatch(/OPENAI_API_KEY/);
-    expect(src).not.toMatch(/sk-/);
+    expect(src).not.toMatch(/process\.env\.OPENAI_API_KEY/);
+    expect(src).not.toMatch(/sk-[a-zA-Z0-9]/);
   });
 });
 

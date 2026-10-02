@@ -125,6 +125,8 @@ export type CreativeArtifact = {
   task_mode: CreativeDirectorTaskMode;
   context_pack_id: string;
   model: string;
+  reasoning_effort?: string | null;
+  run_id?: string | null;
   parent_artifact_ids: string[];
   founder_judgment_ids: string[];
   created_at: string;
