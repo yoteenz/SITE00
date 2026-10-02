@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import { DwsIcon } from './DwsIcons';
 import { DWS_MODE_LABEL, type DwsMode } from './dwsModel';
 import type { DwsFamily, DwsProfile, DwsPBoard } from './dwsProfiles';
-import { boardSlot, featuredSlot, SLOT_ATRIUM } from './dwsSlots';
+import { boardSlot, featuredSlot, projectMarkSlot, SLOT_ATRIUM } from './dwsSlots';
 import type { DwsAction, DwsState } from './dwsState';
 
 /** Registered project imagery (slot id → url). Empty until project artwork is injected. */
@@ -17,6 +17,34 @@ export function DwsArt({ slot, tone = 'dark', className = '', style }: { slot: s
   return (
     <span className={`dws-art dws-art--${tone} ${className}`.trim()} data-asset-slot={slot} data-asset-status={url ? 'injected' : 'placeholder'} style={style} aria-hidden="true">
       {url ? <img src={url} alt="" className="dws-art__img" /> : <i className="dws-art__geo" />}
+    </span>
+  );
+}
+
+/**
+ * Contact strip under a board: four CSS crops of the board's OWN art slot (no new slot ids, no invented imagery).
+ * Shown only where the authority carries a strip (BRAND boards).
+ */
+function CropStrip({ slot }: { slot: string }) {
+  const url = DWS_ART_URLS[slot];
+  return (
+    <span className="dws-board__strip" data-asset-crop={slot} aria-hidden="true">
+      {[0, 1, 2, 3].map((n) => (
+        <i key={n} style={url ? { backgroundImage: `url(${url})`, backgroundPosition: `${n * 33}% 50%` } : undefined} />
+      ))}
+    </span>
+  );
+}
+
+/** Palette row on the BRAND visual-identity board: live design tokens, not an image. */
+function Swatches() {
+  return (
+    <span className="dws-board__swatches" aria-hidden="true">
+      <i style={{ background: '#111' }} />
+      <i style={{ background: 'var(--dws-red)' }} />
+      <i style={{ background: '#bdbcbb' }} />
+      <i style={{ background: '#5d5d5d' }} />
+      <i style={{ background: '#e6dccb' }} />
     </span>
   );
 }
@@ -48,12 +76,26 @@ function BoardView({ mode, b, index, forward, onForward }: { mode: DwsMode; b: D
             </ul>
           ) : null}
         </div>
+        {mode === 'brand' && index === 1 ? <CropStrip slot={boardSlot(mode, b.id)} /> : null}
+        {mode === 'brand' && index === 2 ? <Swatches /> : null}
       </button>
     </article>
   );
 }
 
-export function DwsStage({ state, dispatch, profile, family }: { state: DwsState; dispatch: (a: DwsAction) => void; profile: DwsProfile; family: DwsFamily }) {
+export function DwsStage({
+  state,
+  dispatch,
+  profile,
+  family,
+  projectName,
+}: {
+  state: DwsState;
+  dispatch: (a: DwsAction) => void;
+  profile: DwsProfile;
+  family: DwsFamily;
+  projectName?: string;
+}) {
   const m: DwsMode = state.mode;
   const f = profile.featured;
   const featuredKey = `${m}.${f.id}`;
@@ -97,18 +139,34 @@ export function DwsStage({ state, dispatch, profile, family }: { state: DwsState
                 ))}
               </p>
             ) : null}
-            <ul className="dws-board__fentries">
-              {f.entries.map((e) => (
-                <li key={e}>
-                  <i aria-hidden="true" />
-                  {e}
-                </li>
-              ))}
-            </ul>
+            <div className="dws-board__fside">
+              {m === 'brand' && projectName && !f.intro ? (
+                <span className="dws-board__fmark">
+                  <DwsArt slot={projectMarkSlot(projectName)} tone="dark" className="dws-board__fmark-art" />
+                  <b>{projectName}</b>
+                </span>
+              ) : null}
+              {f.intro ? (
+                <p className="dws-board__intro">
+                  {f.intro.map((l) => (
+                    <span key={l}>{l}</span>
+                  ))}
+                </p>
+              ) : null}
+              <ul className="dws-board__fentries">
+                {f.entries.map((e) => (
+                  <li key={e}>
+                    <i aria-hidden="true" />
+                    {e}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <button type="button" className="dws-board__expr" onClick={() => dispatch({ type: 'OPEN_EXPRESSION' })}>
-            <span>OPEN INTERACTION EXPRESSION</span>
-            <DwsIcon name="arrow" size={14} />
+          {m === 'brand' ? <CropStrip slot={featuredSlot(m, f.id === 'ov-featured' ? 'ov-featured' : 'featured')} /> : null}
+          <button type="button" className="dws-board__expr" onClick={() => dispatch({ type: 'OPEN_EXPRESSION' })} aria-label="OPEN INTERACTION EXPRESSION">
+            <span className="dws-board__expr-label">OPEN INTERACTION EXPRESSION</span>
+            <DwsIcon name="chevronR" size={12} />
           </button>
         </article>
 

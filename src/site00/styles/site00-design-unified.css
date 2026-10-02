@@ -2385,3 +2385,584 @@
 .dws-layers { top: calc(var(--dws-top-h, 128px) + 8px) !important; }
 .dws[data-viewport='mobile'] .dws-layers + .dws-layer__drawer,
 .dws[data-viewport='mobile'] .dws-layers + .dws-layer__inspector { top: calc(var(--dws-top-h, 128px) + 48px); }
+
+/* ======================================================================= OPUS-CONVERGENCE1 — pixel / geometry convergence
+ * Authority-measured geometry per family. Function, state and slot ids are untouched; this block only refines the look.
+ * Typeface: the repo's existing condensed grotesk (Barlow, already shipped for Studio OS fabrication) — the authority family.
+ */
+
+@font-face { font-family: 'SITE00 DWS Condensed'; font-style: normal; font-weight: 300; font-display: swap; src: url('/site00/fonts/barlow-condensed/barlow-condensed-300.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS Condensed'; font-style: normal; font-weight: 400; font-display: swap; src: url('/site00/fonts/barlow-condensed/barlow-condensed-400.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS Condensed'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/barlow-condensed/barlow-condensed-500.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS Condensed'; font-style: normal; font-weight: 600; font-display: swap; src: url('/site00/fonts/barlow-condensed/barlow-condensed-600.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS'; font-style: normal; font-weight: 300; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-300.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS'; font-style: normal; font-weight: 400; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-400.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-500.woff2') format('woff2'); }
+@font-face { font-family: 'SITE00 DWS'; font-style: normal; font-weight: 600; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-600.woff2') format('woff2'); }
+
+.dws {
+  --dws-font: 'SITE00 DWS', 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --dws-font-c: 'SITE00 DWS Condensed', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --dws-paper: #f3f3f2;
+  font-family: var(--dws-font);
+  font-stretch: normal;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+.dws :is(.dws-brandmark strong, .dws-project__btn strong, .dws-modes button, .dws-needs b, .dws-board__head strong, .dws-board__code,
+  .dws-board__fhead, .dws-board__statement, .dws-sechead h2, .dws-stages span, .dws-stages b, .dws-cards strong, .dws-cards__act,
+  .dws-ov__titles strong, .dws-ov__code, .dws-tabs button, .dws-chip-float strong) {
+  font-family: var(--dws-font-c);
+}
+.dws-sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------- host header (all families share the same anatomy) */
+
+.dws-top {
+  gap: 0;
+  padding: 0 0 0 22px;
+  background: rgba(247, 247, 246, 0.97);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.dws-top > * { align-self: stretch; }
+.dws-top > :is(.dws-brandmark, .dws-project, .dws-modes, .dws-menu) { display: flex; align-items: center; }
+.dws-top > .dws-needs { display: grid; align-content: center; }
+.dws-brandmark { gap: 14px; padding-right: 40px; }
+.dws-brandmark > i { width: 2px; height: 38px; }
+.dws-brandmark strong { font-size: 34px; font-weight: 500; letter-spacing: 0.08em; line-height: 0.95; }
+.dws-brandmark small { margin-top: 4px; font-size: 11px; letter-spacing: 0.16em; color: #8a8a8a; }
+.dws-project { gap: 14px; padding: 0 24px; border-left: 1px solid rgba(0, 0, 0, 0.12); }
+.dws-project__mark { width: 33px; height: 40px; border-radius: 1px; }
+.dws-project small { font-size: 10px; letter-spacing: 0.12em; color: #6f6f6f; }
+.dws-project__btn strong { font-size: 19px; font-weight: 500; letter-spacing: 0.06em; }
+.dws-modes { gap: 0; justify-content: center; }
+.dws-modes button { padding: 0 17px; height: 100%; font-size: 17.5px; font-weight: 500; letter-spacing: 0.04em; color: #151515; }
+.dws-modes button.is-on { font-weight: 500; }
+.dws-modes button::after { left: 3px; right: 3px; height: 3px; }
+.dws-needs { column-gap: 14px; padding: 0 30px 0 24px; border-right: 1px solid rgba(0, 0, 0, 0.12); border-left: 1px solid rgba(0, 0, 0, 0.12); }
+.dws-needs__dial {
+  width: 46px;
+  height: 46px;
+  border: 1.5px solid #151515;
+  background:
+    radial-gradient(circle at 50% 50%, #0d0d0d 0 46%, transparent 47%),
+    conic-gradient(from 0deg, #fff 0 25%, #eee 0 50%, #fff 0 75%, #eee 0);
+  box-shadow: 0 0 0 3px #fff, 0 0 0 4px rgba(232, 25, 44, 0.55), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.dws-needs__dial i { inset: 14px; background: radial-gradient(circle at 40% 35%, #444, #050505 70%); }
+.dws-needs__dial i::before,
+.dws-needs__dial i::after { content: ''; position: absolute; left: 50%; top: -6px; bottom: -6px; width: 1px; background: rgba(255, 255, 255, 0.8); transform: translateX(-50%); }
+.dws-needs__dial i::after { transform: translateX(-50%) rotate(90deg); }
+.dws-needs b { font-size: 26px; font-weight: 500; letter-spacing: 0.04em; }
+.dws-needs small { font-size: 11px; letter-spacing: 0.14em; color: #555; }
+.dws-menu { width: 70px; height: auto; color: #151515; }
+
+/* ---------------------------------------------------------- atrium (luminous white environment slot, no image cheat) */
+
+.dws-atrium {
+  background:
+    radial-gradient(ellipse 22% 9% at 50% 0%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 50% 26% at 50% 4%, rgba(255, 230, 228, 0.65), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 70% 22% at 50% 94%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0) 72%),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0 7.6%, rgba(0, 0, 0, 0.035) 7.6% 7.75%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0) 14%, rgba(0, 0, 0, 0) 86%, rgba(0, 0, 0, 0.07)),
+    linear-gradient(180deg, #e7e6e5 0%, #f6f6f5 30%, #efeeed 58%, #fafafa 76%, #e8e7e6 100%);
+}
+.dws-atrium::before {
+  /* the red light column linking ceiling core to the floor reactor */
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 14%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, rgba(232, 25, 44, 0.85), rgba(232, 25, 44, 0.35) 45%, rgba(232, 25, 44, 0.75));
+  box-shadow: 0 0 10px rgba(232, 25, 44, 0.55);
+}
+.dws-atrium::after {
+  z-index: 0;
+  /* floor: soft reflective plane + thin technical arcs */
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -26%;
+  height: 52%;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 25, 44, 0.28);
+  box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.5), 0 0 0 19px rgba(232, 25, 44, 0.16), inset 0 0 60px rgba(255, 255, 255, 0.9);
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.95), rgba(240, 240, 239, 0.6) 60%, rgba(0, 0, 0, 0) 75%);
+}
+.dws-atrium__ring,
+.dws-atrium__core { z-index: 1; }
+.dws-atrium__ring { border-width: 1.5px; box-shadow: 0 0 16px rgba(232, 25, 44, 0.4), inset 0 0 12px rgba(232, 25, 44, 0.2); }
+.dws-atrium__ring--1 { top: -9%; width: 44%; height: 30%; border-color: rgba(255, 255, 255, 0.95); }
+.dws-atrium__ring--2 { top: -3%; width: 27%; height: 17%; border-color: rgba(232, 25, 44, 0.75); }
+.dws-atrium__ring--3 { bottom: 4%; width: 34%; height: 13%; opacity: 1; border-color: rgba(232, 25, 44, 0.55); }
+.dws-atrium__core {
+  bottom: 8%;
+  width: 9%;
+  height: 22%;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 3px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0) 18%, rgba(255, 255, 255, 0) 82%, rgba(255, 255, 255, 0.35)),
+    radial-gradient(circle at 50% 55%, #ff3347 0, #b40d1c 22%, #2a0206 62%, #0d0001 100%);
+  box-shadow: 0 0 34px rgba(232, 25, 44, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.6), 0 0 0 5px rgba(232, 25, 44, 0.35);
+}
+
+/* ---------------------------------------------------------- suspended boards (shared anatomy, container-scaled type) */
+
+.dws-boards { perspective: none; }
+.dws-board {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.98);
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.9));
+  box-shadow:
+    0 18px 36px -12px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(232, 25, 44, 0.1),
+    0 0 26px rgba(232, 25, 44, 0.12);
+  transform-origin: 50% 50%;
+}
+.dws-board__hit { display: flex; flex-direction: column; flex: 1; min-height: 0; height: 100%; }
+.dws-board__head { gap: 3.6cqi; padding: 6cqi 5.5cqi 2.6cqi; align-items: start; }
+.dws-board__code { font-size: max(10px, 9.2cqi); font-weight: 400; line-height: 0.95; }
+.dws-board__head strong { font-size: max(7.5px, 6.6cqi); font-weight: 500; line-height: 1.05; letter-spacing: 0.03em; }
+.dws-board__head small { margin-top: 0.6cqi; font-size: max(6px, 3.6cqi); letter-spacing: 0.14em; color: #777; }
+.dws-board__more { font-size: max(8px, 4.4cqi); line-height: 1; color: #333; }
+.dws-board__body {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4cqi;
+  padding: 0 5.5cqi 4.4cqi;
+}
+.dws-board__art { min-height: 0; height: 100%; border-radius: 1px; }
+.dws-board:is(.dws-board--2, .dws-board--3, .dws-board--4, .dws-board--5) .dws-board__art { order: 2; }
+.dws-board__rows { justify-content: center; gap: 4.8cqi; font-size: max(6.5px, 3.3cqi); letter-spacing: 0.08em; color: #3d3d3d; min-width: 0; }
+.dws-board__rows li { gap: 2.6cqi; align-items: flex-start; }
+.dws-board__rows li svg { flex: none; width: max(6px, 3.6cqi); height: max(6px, 3.6cqi); color: #555; margin-top: 0.2em; }
+.dws-board__rows span { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.2; overflow-wrap: anywhere; }
+.dws-board__strip { display: flex; gap: 1.6cqi; height: 15cqi; padding: 0 5.5cqi 5cqi; flex: none; }
+.dws-board__strip i {
+  flex: 1;
+  border-radius: 1px;
+  background: radial-gradient(circle at 60% 35%, rgba(232, 25, 44, 0.35), transparent 60%), linear-gradient(160deg, #3a3a3a, #0e0e0e);
+  background-size: 400% 100%;
+}
+.dws-board__strip i:nth-child(2n) { background: linear-gradient(200deg, #d9d8d6, #8b8a88 70%, #2e2e2e); }
+.dws-board__swatches { display: flex; gap: 1.8cqi; height: 9cqi; padding: 0 5.5cqi 5cqi; flex: none; }
+.dws-board__swatches i { flex: 1; border-radius: 1px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06); }
+
+/* featured (dominant) board */
+.dws-board--featured { z-index: 4; }
+.dws-board__fhead { padding: 4.6cqi 4.4cqi 2.4cqi; font-size: max(9px, 5.4cqi); letter-spacing: 0.03em; align-items: center; }
+.dws-board__fhead b { font-weight: 500; }
+.dws-board__fhead strong { font-weight: 500; }
+.dws-board__fbody {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
+  grid-template-areas: 'art side';
+  gap: 3.4cqi;
+  padding: 0 4.4cqi 2.6cqi;
+}
+.dws-board__fart { grid-area: art; min-height: 0; height: 100%; }
+.dws-board__statement {
+  /* shares the art cell (grid overlap), so copy always sits inside the art and wraps with it */
+  position: relative;
+  left: auto;
+  bottom: auto;
+  grid-area: art;
+  align-self: end;
+  z-index: 1;
+  margin: 0 4cqi 5cqi;
+  min-width: 0;
+  font-family: var(--dws-font-c);
+  font-size: max(8px, 4.9cqi);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: 0.08em;
+  overflow-wrap: anywhere;
+}
+.dws-board__statement:has(span:nth-child(5)) { align-self: start; margin-top: 4cqi; font-size: max(7px, 2.6cqi); line-height: 2.3; letter-spacing: 0.14em; }
+.dws-board__fside { grid-area: side; display: flex; flex-direction: column; justify-content: center; gap: 2.6cqi; overflow: hidden; min-width: 0; }
+.dws-board__fmark { display: flex; flex-direction: column; align-items: center; gap: 1.8cqi; }
+.dws-board__fmark-art { width: 10cqi; height: 8cqi; background: transparent; }
+.dws-board__fmark-art .dws-art__geo { background: conic-gradient(from 225deg at 50% 70%, var(--dws-red) 0 25%, transparent 0); clip-path: polygon(0 10%, 50% 60%, 100% 10%, 100% 40%, 50% 90%, 0 40%); }
+.dws-board__fmark b { font-family: var(--dws-font-c); font-size: max(7px, 3.4cqi); font-weight: 500; letter-spacing: 0.1em; }
+.dws-board__intro { display: flex; flex-direction: column; font-size: max(7px, 2.9cqi); line-height: 1.38; letter-spacing: 0.14em; color: #555; }
+.dws-board__intro::after { content: ''; display: block; width: 6cqi; height: 1px; margin-top: 2.4cqi; background: var(--dws-red); }
+.dws-board__fentries { justify-content: flex-start; gap: 1.9cqi; font-size: max(6px, 2.3cqi); letter-spacing: 0.1em; color: #333; }
+.dws-board__fentries li { overflow-wrap: anywhere; }
+.dws-board__fentries i { width: 3.2cqi; margin-right: 1.8cqi; }
+.dws-board__expr {
+  position: absolute;
+  right: 2.2cqi;
+  bottom: 1.4cqi;
+  width: auto;
+  min-width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0 4px;
+  justify-content: center;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #333;
+}
+.dws-board__expr:hover { color: var(--dws-red); }
+.dws-board__expr-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dws-board--featured .dws-board__strip { height: 12.6cqi; padding: 0 4.4cqi 5.2cqi; }
+
+/* desktop + tablet landscape composition: 2 | featured | 3 (authority-measured, % of stage) */
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--1 { left: 3.4%; top: 20.4%; width: 14.9%; height: 53.4%; transform: perspective(900px) rotateY(17deg) rotateZ(1.2deg); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--2 { left: 19.3%; top: 24.6%; width: 17.6%; height: 48.6%; transform: perspective(1100px) rotateY(10deg) rotateZ(0.6deg); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--featured { left: 38.3%; top: 25%; width: 23.2%; height: 50%; transform: none; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--3 { left: 63%; top: 28.6%; width: 11.1%; height: 44.4%; transform: perspective(900px) rotateY(-12deg) rotateZ(-1.2deg); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--4 { left: 74.6%; top: 26.6%; width: 9.9%; height: 47.2%; transform: perspective(900px) rotateY(-14deg) rotateZ(-1.6deg); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--5 { left: 85.2%; top: 23.6%; width: 13%; height: 51.4%; transform: perspective(900px) rotateY(-16deg) rotateZ(-2deg); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 0 5.5cqi 4.4cqi; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board--1 .dws-board__body { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) :is(.dws-board--3, .dws-board--4) .dws-board__body { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board__head { padding: 6cqi 5.5cqi 2.6cqi; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board__art { min-height: 0; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board__fart { min-height: 0; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board__rows { font-size: max(6.5px, 3.3cqi); gap: 4.4cqi; }
+.dws[data-viewport='desktop'] .dws-board.is-forward { box-shadow: 0 22px 50px rgba(0, 0, 0, 0.22), 0 0 0 2px var(--dws-red); }
+
+/* ---------------------------------------------------------- lower deck: pipeline | on your table */
+
+.dws-lower { background: linear-gradient(180deg, #f8f8f7, #f1f1f0); border-top: 0; }
+.dws-sechead { align-items: center; padding: 14px 22px 4px; }
+.dws-sechead h2 { padding-left: 13px; border-left-width: 2px; font-size: 20px; font-weight: 500; letter-spacing: 0.05em; line-height: 1; }
+.dws-sechead small { padding-left: 13px; margin-top: 4px; font-size: 11px; letter-spacing: 0.14em; color: #777; }
+.dws-viewall { gap: 10px; font-size: 11px; letter-spacing: 0.16em; color: #444; }
+.dws-viewall svg { width: 18px; }
+.dws-pipeline { border-right: 1px solid rgba(0, 0, 0, 0.08); }
+.dws-stages { padding: 4px 22px 14px 12px; }
+.dws-stages li { flex: 1 1 0; min-width: 0; }
+.dws-stages li + li { border-left: 1px solid rgba(0, 0, 0, 0.07); }
+.dws-stages li::before {
+  top: 49px;
+  height: 1.5px;
+  background: linear-gradient(90deg, rgba(232, 25, 44, 0.15), rgba(232, 25, 44, 0.9) 30%, rgba(232, 25, 44, 0.9) 70%, rgba(232, 25, 44, 0.15));
+  box-shadow: 0 0 6px rgba(232, 25, 44, 0.45);
+}
+.dws-stages button { padding: 0 6px 0 8px; }
+.dws-stageobj {
+  width: 72px;
+  height: 72px;
+  margin: 12px auto 10px;
+  background: radial-gradient(circle at 34% 28%, #ffffff 0, #f2f1f0 30%, #c9c7c5 64%, #8e8b88 100%);
+  box-shadow: inset 0 -6px 12px rgba(0, 0, 0, 0.16), inset 0 3px 6px rgba(255, 255, 255, 0.9), 0 8px 16px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  color: #2a2a2a;
+}
+.dws-stageobj svg { width: 44px; height: 44px; }
+.dws-stages b { font-size: 13px; font-weight: 500; letter-spacing: 0.06em; }
+.dws-stages span { font-size: 14.5px; font-weight: 500; letter-spacing: 0.05em; color: #111; white-space: nowrap; }
+.dws-stages li.is-active span { color: #111; }
+.dws-stages__bar { position: relative; margin-top: 7px; height: 3px; background: rgba(0, 0, 0, 0.08); }
+.dws-stages__bar::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 22px; background: var(--dws-red); }
+.dws-stages li.is-active .dws-stages__bar,
+.dws-stages li.is-done .dws-stages__bar { background: rgba(0, 0, 0, 0.08); }
+.dws-stages li.is-active .dws-stages__bar::before { width: 70%; }
+
+.dws-cards { grid-auto-columns: 187px; gap: 12px; padding: 4px 0 12px 12px; }
+.dws-cards li { border-radius: 3px; border: 0; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03); gap: 0; }
+.dws-cards__art { height: 81px; }
+.dws-cards__badge { left: 8px; top: 62px; padding: 1px 6px; border-radius: 2px; background: rgba(230, 230, 230, 0.92); font-size: 10px; letter-spacing: 0.1em; }
+.dws-cards__flag { right: 10px; top: 8px; width: 11px; height: 9px; }
+.dws-cards__text { padding: 8px 11px 0; gap: 3px; }
+.dws-cards strong { font-size: 14px; font-weight: 500; letter-spacing: 0.04em; }
+.dws-cards small { font-size: 10.5px; letter-spacing: 0.12em; color: #888; }
+.dws .dws-cards__act { margin: 8px 11px 10px; padding: 3px 9px; min-height: 24px; border-radius: 1px; border-color: rgba(232, 25, 44, 0.85); font-size: 13.5px; font-weight: 500; letter-spacing: 0.08em; color: #151515; }
+
+/* ---------------------------------------------------------- footer navigation */
+
+.dws-footnav {
+  padding: 4px 14.8% 0;
+  border-radius: 34px 34px 0 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(180deg, #f9f9f8, #efefee);
+  box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.05), inset 0 1px 0 #fff;
+}
+.dws .dws-footnav__item { gap: 6px; padding: 14px 4px 12px; font-size: 14px; letter-spacing: 0.14em; color: #2a2a2a; }
+.dws-footnav__item + .dws-footnav__item::before { top: 22px; bottom: 12px; background: rgba(0, 0, 0, 0.12); }
+.dws-footnav__item.is-on::after { left: 30%; right: 30%; height: 3px; }
+
+/* ---------------------------------------------------------- DESKTOP proportions (1672×941: 70 | 575 | 217 | 79) */
+
+.dws[data-viewport='desktop'] .dws-top { min-height: 70px; }
+.dws[data-viewport='desktop'] .dws-lower { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); height: 23.1vh; min-height: 196px; }
+.dws[data-viewport='desktop'] .dws-table { overflow: hidden; }
+.dws[data-viewport='desktop'] .dws-cards { overflow: hidden; }
+.dws[data-viewport='desktop'] .dws-footnav { height: 8.4vh; min-height: 68px; }
+
+/* ---------------------------------------------------------- TABLET LANDSCAPE (1484×1060 authority: 85 | 505 | 188 | 195 | 75) */
+
+.dws[data-family='tabletL'] .dws-top { min-height: 8vh; padding-left: 28px; }
+.dws[data-family='tabletL'] .dws-brandmark strong { font-size: 34px; }
+.dws[data-family='tabletL'] .dws-project { padding: 0 26px; }
+.dws[data-family='tabletL'] .dws-modes button { padding: 0 13px; height: 100%; font-size: 16px; }
+.dws[data-family='tabletL'] .dws-needs { padding: 0 34px 0 28px; }
+.dws[data-family='tabletL'] .dws-lower { gap: 6px; padding: 0 6px 6px; background: transparent; }
+.dws[data-family='tabletL'] .dws-pipeline { height: 17.8vh; border-radius: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); }
+.dws[data-family='tabletL'] .dws-table { height: 18.2vh; border-radius: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); overflow: hidden; }
+.dws[data-family='tabletL'] .dws-sechead { padding: 14px 40px 0; }
+.dws[data-family='tabletL'] .dws-table .dws-sechead > div { display: flex; align-items: baseline; gap: 28px; }
+.dws[data-family='tabletL'] .dws-stages { padding: 0 40px 10px; }
+.dws[data-family='tabletL'] .dws-stages li + li { border-left: 0; }
+.dws[data-family='tabletL'] .dws-stages li::before { top: 46px; }
+.dws[data-family='tabletL'] .dws-stageobj { width: 70px; height: 70px; margin: 8px auto 6px; }
+.dws[data-family='tabletL'] .dws-cards { grid-auto-columns: minmax(0, 1fr); gap: 22px; padding: 6px 52px 12px; }
+.dws[data-family='tabletL'] .dws-cards__art { height: 9vh; }
+.dws[data-family='tabletL'] .dws-cards__act { min-width: 190px; justify-content: space-between; }
+.dws[data-family='tabletL'] .dws-footnav { height: 7.2vh; padding: 0 3%; border-radius: 30px 30px 0 0; }
+.dws[data-family='tabletL'] .dws-footnav .dws-footnav__item { padding-top: 12px; }
+
+/* ---------------------------------------------------------- TABLET PORTRAIT (1086×1448 authority: 125 | 765 | 210 | 210 | 118, no scroll) */
+
+.dws[data-family='tabletP'] .dws-top {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: 'brand project needs menu' 'modes modes modes modes';
+  grid-template-rows: 85px 40px;
+  padding: 0 0 0 34px;
+}
+.dws[data-family='tabletP'] .dws-brandmark { padding-right: 76px; }
+.dws[data-family='tabletP'] .dws-brandmark strong { font-size: 34px; }
+.dws[data-family='tabletP'] .dws-project { padding: 0 34px; border-right: 1px solid rgba(0, 0, 0, 0.12); margin: 16px 0; }
+.dws[data-family='tabletP'] .dws-project__mark { width: 42px; height: 52px; }
+.dws[data-family='tabletP'] .dws-project__btn strong { font-size: 21px; }
+.dws[data-family='tabletP'] .dws-needs { border: 0; padding: 0 52px 0 40px; margin: 16px 0; border-right: 1px solid rgba(0, 0, 0, 0.12); }
+.dws[data-family='tabletP'] .dws-needs__dial { width: 56px; height: 56px; }
+.dws[data-family='tabletP'] .dws-needs b { font-size: 28px; }
+.dws[data-family='tabletP'] .dws-needs small { font-size: 14px; letter-spacing: 0.18em; }
+.dws[data-family='tabletP'] .dws-menu { width: 128px; }
+.dws[data-family='tabletP'] .dws-modes { justify-content: center; padding: 0; gap: 0; }
+.dws[data-family='tabletP'] .dws-modes button { height: 40px; padding: 0 40px; font-family: var(--dws-font); font-size: 14px; font-weight: 500; letter-spacing: 0.22em; }
+.dws[data-family='tabletP'] .dws-modes button + button::before { content: ''; position: absolute; left: 0; top: 13px; width: 1.5px; height: 13px; background: #333; }
+.dws[data-family='tabletP'] .dws-modes button.is-on { color: var(--dws-red); }
+.dws[data-family='tabletP'] .dws-modes button::after { left: 38px; right: 38px; bottom: 2px; }
+.dws[data-family='tabletP'] .dws-main { grid-template-rows: minmax(0, 1fr) auto; overflow: hidden; }
+.dws[data-family='tabletP'] .dws-stagewrap { height: auto; min-height: 0; }
+.dws[data-family='tabletP'] .dws-lower { grid-template-columns: 1fr; }
+.dws[data-family='tabletP'] .dws-pipeline { height: 14.5vh; min-height: 180px; border-bottom: 0; }
+.dws[data-family='tabletP'] .dws-table { height: 14.5vh; min-height: 190px; overflow: hidden; }
+.dws[data-family='tabletP'] .dws-sechead { padding: 14px 34px 2px; }
+.dws[data-family='tabletP'] .dws-stages { padding: 0 34px 8px; }
+.dws[data-family='tabletP'] .dws-stages li { min-width: 0; }
+.dws[data-family='tabletP'] .dws-stages li::before { top: 46px; }
+.dws[data-family='tabletP'] .dws-stageobj { width: 76px; height: 76px; margin: 6px auto 6px; }
+.dws[data-family='tabletP'] .dws-stages span { font-family: var(--dws-font); font-size: 13.5px; letter-spacing: 0.12em; }
+.dws[data-family='tabletP'] .dws-stages b { font-family: var(--dws-font); font-size: 15px; }
+.dws[data-family='tabletP'] .dws-cards { grid-auto-columns: 250px; gap: 8px; padding: 4px 34px 10px; }
+.dws[data-family='tabletP'] .dws-cards__art { height: 94px; }
+.dws[data-family='tabletP'] .dws-cards li { grid-template-columns: minmax(0, 1fr) auto; }
+.dws[data-family='tabletP'] .dws-cards__text { padding: 10px 16px 10px; }
+.dws[data-family='tabletP'] .dws-cards__text::after { content: ''; display: block; width: 18px; height: 2px; margin-top: 5px; background: var(--dws-red); }
+.dws[data-family='tabletP'] .dws-cards strong { font-size: 14.5px; }
+.dws[data-family='tabletP'] .dws-cards .dws-cards__act { min-width: 0; margin: 0 10px 16px 0; padding: 4px 6px; border-color: transparent; font-size: 11px; color: #333; }
+.dws[data-family='tabletP'] .dws-footnav { height: 8.1vh; min-height: 96px; padding: 0 2%; border-radius: 34px 34px 0 0; }
+.dws[data-family='tabletP'] .dws-footnav .dws-footnav__item { font-size: 16px; padding-top: 18px; }
+.dws[data-family='tabletP'] .dws-footnav__item svg { width: 32px; height: 32px; }
+
+/* portrait fan: dominant tall featured, near/far pairs either side (% of stage) */
+.dws[data-family='tabletP'] .dws-board--featured { left: 38.4%; top: 14.4%; width: 21.6%; height: 49%; transform: perspective(1100px) rotateY(16deg) rotateZ(2deg); z-index: 4; }
+.dws[data-family='tabletP'] .dws-board--1 { left: 20.6%; top: 24.4%; width: 15.8%; height: 37.6%; transform: perspective(900px) rotateY(14deg) rotateZ(1.5deg); z-index: 3; }
+.dws[data-family='tabletP'] .dws-board--5 { left: 8%; top: 34%; width: 12%; height: 29.2%; transform: perspective(900px) rotateY(18deg) rotateZ(1.5deg); z-index: 2; }
+.dws[data-family='tabletP'] .dws-board--2 { left: 62%; top: 26.8%; width: 17.2%; height: 36.4%; transform: perspective(900px) rotateY(-14deg) rotateZ(-2deg); z-index: 3; }
+.dws[data-family='tabletP'] .dws-board--3 { left: 80%; top: 35.2%; width: 12%; height: 28%; transform: perspective(900px) rotateY(-18deg) rotateZ(-2deg); z-index: 2; }
+.dws[data-family='tabletP'] .dws-board--4 { left: 39.5%; top: 68%; width: 21%; height: 17%; transform: none; z-index: 3; }
+/* brand: the authority's fan has four flank boards; the fifth stays reachable as a low floor card left of the reactor */
+.dws[data-family='tabletP'][data-mode='brand'] .dws-board--4 { left: 22%; top: 66%; width: 16%; height: 17%; transform: perspective(900px) rotateY(10deg); }
+.dws[data-family='tabletP'] .dws-board__body { grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); }
+.dws[data-family='tabletP'] .dws-board__art { min-height: 0; }
+.dws[data-family='tabletP'] :is(.dws-board--1, .dws-board--2) .dws-board__rows { display: flex; }
+.dws[data-family='tabletP'] :is(.dws-board--1, .dws-board--5) .dws-board__rows { display: flex; }
+.dws[data-family='tabletP'] .dws-board--1 .dws-board__art { order: 0; }
+.dws[data-family='tabletP'] .dws-board--4 .dws-board__body { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr); }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__fbody { grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__fhead { font-size: 7cqi; }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__fentries { font-size: max(7px, 3.6cqi); }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__statement { font-size: max(9px, 6cqi); }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__strip { display: none; }
+.dws[data-family='tabletP'] .dws-board__strip,
+.dws[data-family='tabletP'] .dws-board__swatches { height: 11cqi; }
+.dws[data-family='tabletP'] .dws-chip-float { padding: 12px 18px; border-radius: 14px; background: rgba(255, 255, 255, 0.92); }
+.dws[data-family='tabletP'] .dws-chip-float strong { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; }
+.dws[data-family='tabletP'] .dws-chip-float small { font-size: 10px; letter-spacing: 0.14em; }
+.dws[data-family='tabletP'] .dws-chip-float--film { left: 55.2%; top: 73.2%; bottom: auto; width: 24%; min-height: 7.8%; padding-left: 110px; justify-content: center; }
+.dws[data-family='tabletP'] .dws-chip-float--film::before { content: ''; position: absolute; left: 14px; top: 10px; bottom: 10px; width: 82px; border-radius: 2px; background: linear-gradient(160deg, #2b2b2b, #0b0b0b); }
+.dws[data-family='tabletP'] .dws-chip-float--sys { left: 1.8%; top: 86.6%; bottom: auto; width: 18.6%; padding-left: 28px; border-left: 0; }
+.dws[data-family='tabletP'] .dws-chip-float--sys::before { content: ''; position: absolute; left: 16px; top: 16px; width: 2px; height: 14px; background: var(--dws-red); }
+.dws[data-family='tabletP'] .dws-chip-float--apps { left: 82.9%; right: auto; top: 86.6%; bottom: auto; width: 15.4%; }
+.dws[data-family='tabletP'] .dws-ambient { font-size: 13.5px; line-height: 1.5; letter-spacing: 0.2em; color: #3a3a3a; }
+.dws[data-family='tabletP'] .dws-ambient::after { content: ''; display: block; width: 18px; height: 2px; margin-top: 12px; background: var(--dws-red); }
+.dws[data-family='tabletP'] .dws-ambient--l { left: 10.2%; top: 15.6%; width: 14%; }
+.dws[data-family='tabletP'] .dws-ambient--r { left: 83%; right: auto; top: 17%; width: 15%; }
+
+/* ---------------------------------------------------------- MOBILE (941×1672 authority ×0.4145 → 390) */
+
+.dws[data-viewport='mobile'] .dws-top {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: 'brand project needs menu' 'modes modes modes modes';
+  grid-template-rows: 54px 34px;
+  gap: 0;
+  padding: 0 0 0 12px;
+  border-radius: 0 0 16px 16px;
+}
+.dws[data-viewport='mobile'] .dws-brandmark { gap: 8px; padding-right: 10px; }
+.dws[data-viewport='mobile'] .dws-brandmark > i { height: 24px; }
+.dws[data-viewport='mobile'] .dws-brandmark strong { font-size: 18px; letter-spacing: 0.08em; }
+.dws[data-viewport='mobile'] .dws-brandmark small { margin-top: 2px; font-size: 6.5px; letter-spacing: 0.14em; }
+.dws[data-viewport='mobile'] .dws-project { gap: 7px; min-width: 0; padding: 0 8px; margin: 10px 0; border-top: 0; border-left: 1px solid rgba(0, 0, 0, 0.12); }
+.dws[data-viewport='mobile'] .dws-project > span { min-width: 0; }
+.dws[data-viewport='mobile'] .dws-project__mark { width: 21px; height: 26px; }
+.dws[data-viewport='mobile'] .dws-project small { font-size: 6.5px; }
+.dws[data-viewport='mobile'] .dws-project__btn { gap: 4px; }
+.dws[data-viewport='mobile'] .dws-project__btn strong { font-size: 11.5px; letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dws[data-viewport='mobile'] .dws-needs { column-gap: 6px; padding: 0 8px; margin: 10px 0; border-left: 1px solid rgba(0, 0, 0, 0.12); border-right: 1px solid rgba(0, 0, 0, 0.12); }
+.dws[data-viewport='mobile'] .dws-needs__dial { width: 26px; height: 26px; box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(232, 25, 44, 0.5); }
+.dws[data-viewport='mobile'] .dws-needs__dial i { inset: 8px; }
+.dws[data-viewport='mobile'] .dws-needs__dial i::before,
+.dws[data-viewport='mobile'] .dws-needs__dial i::after { top: -3px; bottom: -3px; }
+.dws[data-viewport='mobile'] .dws-needs b { font-size: 15px; }
+.dws[data-viewport='mobile'] .dws-needs small { font-size: 6.5px; letter-spacing: 0.12em; }
+.dws[data-viewport='mobile'] .dws-menu { width: 40px; }
+.dws[data-viewport='mobile'] .dws-modes { justify-content: space-between; gap: 0; padding: 0 6px; }
+.dws[data-viewport='mobile'] .dws-modes button { flex: 1 1 0; height: 34px; padding: 0 2px; font-family: var(--dws-font); font-size: 9.5px; font-weight: 500; letter-spacing: 0.08em; }
+.dws[data-viewport='mobile'] .dws-modes button + button::before { content: ''; position: absolute; left: 0; top: 12px; width: 1px; height: 10px; background: rgba(0, 0, 0, 0.18); }
+.dws[data-viewport='mobile'] .dws-modes button::after { left: 14%; right: 14%; height: 2px; }
+.dws[data-viewport='mobile'] .dws-stagewrap { height: calc(100vw * 0.92); min-height: 330px; }
+.dws[data-viewport='mobile'] .dws-board--featured { left: 31.6%; top: 21.6%; width: 40%; height: auto; min-height: 33%; transform: none; }
+.dws[data-viewport='mobile'] .dws-board--1 { left: 4%; top: 9.6%; width: 25.6%; height: 30%; transform: perspective(600px) rotateY(14deg) rotateZ(1.5deg); }
+.dws[data-viewport='mobile'] .dws-board--2 { left: 4.6%; top: 42%; width: 24.6%; height: 24.6%; transform: perspective(600px) rotateY(12deg) rotateZ(1deg); }
+.dws[data-viewport='mobile'] .dws-board--3 { left: 75.4%; top: 9.6%; width: 20.6%; height: 30.6%; transform: perspective(600px) rotateY(-14deg) rotateZ(-1.5deg); }
+.dws[data-viewport='mobile'] .dws-board--4 { left: 74.2%; top: 41%; width: 21%; height: 24%; transform: perspective(600px) rotateY(-12deg) rotateZ(-1deg); }
+.dws[data-viewport='mobile'] .dws-board--5 { left: 72.6%; top: 60.6%; width: 23%; height: 25%; transform: perspective(600px) rotateY(-12deg) rotateZ(-1deg); z-index: 3; }
+.dws[data-viewport='mobile'] .dws-board__head { gap: 3cqi; padding: 6cqi 5cqi 3cqi; grid-template-columns: auto minmax(0, 1fr) auto; }
+.dws[data-viewport='mobile'] .dws-board__code { font-size: max(11px, 10cqi); }
+.dws[data-viewport='mobile'] .dws-board__head strong { font-size: max(7.5px, 7.6cqi); overflow-wrap: anywhere; }
+.dws[data-viewport='mobile'] .dws-board__head small { display: block; font-size: max(5.5px, 4.4cqi); letter-spacing: 0.08em; overflow-wrap: anywhere; }
+.dws[data-viewport='mobile'] .dws-board__more { font-size: 7px; }
+.dws[data-viewport='mobile'] .dws-board__body { grid-template-columns: 1fr; padding: 0 5cqi 5cqi; }
+.dws[data-viewport='mobile'] .dws-board__rows { display: none; }
+.dws[data-viewport='mobile'] .dws-board__art { min-height: 0; height: 100%; }
+.dws[data-viewport='mobile'] .dws-board__strip,
+.dws[data-viewport='mobile'] .dws-board__swatches { display: none; }
+/* featured: the readable centre — copy WRAPS inside the board, never clips (container-scaled with legibility floors) */
+.dws[data-viewport='mobile'] .dws-board__fhead { padding: 4.6cqi 4.6cqi 2.6cqi; font-size: max(8px, 5.6cqi); line-height: 1.15; }
+.dws[data-viewport='mobile'] .dws-board__fhead > span { min-width: 0; overflow-wrap: anywhere; }
+.dws[data-viewport='mobile'] .dws-board__fbody { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); grid-template-areas: 'art side'; gap: 3cqi; padding: 0 4.6cqi 9cqi; }
+.dws[data-viewport='mobile'] .dws-board__fart { min-height: 56cqi; height: auto; align-self: stretch; }
+.dws[data-viewport='mobile'] .dws-board__statement { margin: 0 3.4cqi 4cqi; font-size: max(6.5px, 4.4cqi); line-height: 1.18; letter-spacing: 0.06em; }
+.dws[data-viewport='mobile'] .dws-board__statement:has(span:nth-child(5)) { margin-top: 3.4cqi; font-size: max(6px, 3.6cqi); line-height: 1.5; }
+.dws[data-viewport='mobile'] .dws-board__fside { justify-content: flex-start; gap: 3cqi; }
+.dws[data-viewport='mobile'] .dws-board__intro { font-size: max(6px, 3.8cqi); line-height: 1.35; letter-spacing: 0.08em; overflow-wrap: anywhere; }
+.dws[data-viewport='mobile'] .dws-board__fentries { display: flex; gap: 2cqi; font-size: max(6px, 3.8cqi); letter-spacing: 0.06em; }
+.dws[data-viewport='mobile'] .dws-board__fentries li { line-height: 1.15; }
+.dws[data-viewport='mobile'] .dws-board__fentries i { width: 3cqi; margin-right: 1.6cqi; }
+.dws[data-viewport='mobile'] .dws-board__fmark { display: none; }
+.dws[data-viewport='mobile'] .dws-board--featured .dws-board__strip { display: none; }
+.dws[data-viewport='mobile'] .dws-board__expr { right: 1cqi; bottom: 0; min-width: 28px; height: 28px; }
+.dws[data-viewport='mobile'] .dws-tagline { left: 4.2%; right: 4.2%; bottom: 1.6%; padding: 9px 16px; border-radius: 18px; background: rgba(255, 255, 255, 0.82); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06); font-size: 7px; letter-spacing: 0.12em; }
+.dws[data-viewport='mobile'] .dws-board.is-forward { left: 10%; top: 6%; width: 80%; height: 76%; transform: none; }
+.dws[data-viewport='mobile'] .dws-board.is-forward .dws-board__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.dws[data-viewport='mobile'] .dws-board.is-forward .dws-board__rows { display: flex; font-size: 9px; gap: 7px; }
+.dws[data-viewport='mobile'] .dws-board.is-forward .dws-board__head strong { font-size: 14px; }
+.dws[data-viewport='mobile'] .dws-board.is-forward .dws-board__head small { font-size: 8px; }
+.dws[data-viewport='mobile'] .dws-board.is-forward .dws-board__code { font-size: 22px; }
+.dws[data-viewport='mobile'] .dws-sechead { padding: 14px 14px 4px; }
+.dws[data-viewport='mobile'] .dws-sechead h2 { font-size: 15px; padding-left: 10px; }
+.dws[data-viewport='mobile'] .dws-sechead small { padding-left: 10px; font-size: 8px; }
+.dws[data-viewport='mobile'] .dws-viewall { font-size: 9px; }
+.dws[data-viewport='mobile'] .dws-stages { padding: 0 8px 12px; }
+.dws[data-viewport='mobile'] .dws-stages li { flex: 0 0 auto; min-width: 72px; }
+.dws[data-viewport='mobile'] .dws-stages li::before { top: 33px; }
+.dws[data-viewport='mobile'] .dws-stageobj { width: 50px; height: 50px; margin: 8px auto 6px; }
+.dws[data-viewport='mobile'] .dws-stageobj svg { width: 30px; height: 30px; }
+.dws[data-viewport='mobile'] .dws-stages b { font-size: 9px; }
+.dws[data-viewport='mobile'] .dws-stages span { font-family: var(--dws-font); font-size: 9px; letter-spacing: 0.1em; }
+.dws[data-viewport='mobile'] .dws-cards { grid-auto-columns: 112px; gap: 8px; padding: 2px 14px 12px; }
+.dws[data-viewport='mobile'] .dws-cards__art { height: 50px; }
+.dws[data-viewport='mobile'] .dws-cards__badge { top: 34px; font-size: 7px; }
+.dws[data-viewport='mobile'] .dws-cards__text { padding: 6px 7px 0; }
+.dws[data-viewport='mobile'] .dws-cards strong { font-size: 9.5px; }
+.dws[data-viewport='mobile'] .dws-cards small { font-size: 7px; letter-spacing: 0.08em; }
+.dws[data-viewport='mobile'] .dws .dws-cards__act, .dws[data-viewport='mobile'] .dws-cards .dws-cards__act { margin: 6px 7px 8px; min-height: 26px; padding: 2px 7px; font-size: 9.5px; }
+.dws[data-viewport='mobile'] .dws-footnav { padding: 0 2px; border-radius: 22px 22px 0 0; }
+.dws[data-viewport='mobile'] .dws-footnav .dws-footnav__item { gap: 3px; padding: 9px 2px 8px; font-size: 9.5px; letter-spacing: 0.12em; }
+.dws[data-viewport='mobile'] .dws-footnav__item + .dws-footnav__item::before { top: 12px; bottom: 10px; }
+.dws .dws-footnav__item.is-on { color: var(--dws-red); }
+/* desktop: the mode row is centred on the viewport (authority), header items keep their columns */
+.dws[data-viewport='desktop'] .dws-modes { position: absolute; left: 50%; top: 0; bottom: 0; transform: translateX(-50%); }
+.dws[data-viewport='desktop'] .dws-needs { grid-column: 4; }
+.dws[data-viewport='desktop'] .dws-menu { grid-column: 5; }
+/* tablet landscape: featured carries no contact strip (authority); side column reads top-down */
+.dws[data-family='tabletL'] .dws-board--featured .dws-board__strip { display: none; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-board__fside { justify-content: flex-start; padding-top: 1cqi; }
+.dws[data-family='tabletP'] .dws-cards__art { height: 84px; }
+.dws[data-family='tabletP'] .dws-cards__text { padding: 8px 14px 8px; }
+.dws[data-family='tabletP'] .dws-sechead { padding-top: 10px; }
+.dws[data-viewport='mobile'] .dws-board--featured .dws-board__expr { width: auto; left: auto; padding: 0 4px; }
+.dws-board__fentries li { display: flex; align-items: baseline; }
+.dws-board__fentries li i { flex: none; }
+.dws[data-family='tabletP'] .dws-board__code { font-size: max(12px, 12cqi); }
+.dws[data-family='tabletP'] .dws-board__head strong { font-size: max(9px, 8.4cqi); }
+.dws[data-family='tabletP'] .dws-board__head small { font-size: max(6.5px, 4.4cqi); }
+.dws[data-family='tabletP'] .dws-board__rows { font-size: max(7px, 4.2cqi); }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__fhead { font-size: max(12px, 8.6cqi); line-height: 1.1; }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__fhead > span { min-width: 0; }
+/* tablet portrait: lower deck sizes to its content; the stage takes the remainder (no clipped table cards) */
+.dws[data-family='tabletP'] .dws-pipeline,
+.dws[data-family='tabletP'] .dws-table { height: auto; min-height: 0; }
+.dws[data-family='tabletP'] .dws-stages { padding-bottom: 4px; }
+.dws[data-family='tabletP'] .dws-cards { padding-bottom: 14px; }
+.dws[data-viewport='tablet'] .dws-cards li { grid-template-rows: auto 1fr; align-items: start; }
+.dws[data-viewport='tablet'] .dws-cards__text { align-self: end; }
+.dws[data-viewport='tablet'] .dws-cards__act { align-self: end; }
+.dws[data-family='tabletL'] .dws-pipeline,
+.dws[data-family='tabletL'] .dws-table { height: auto; }
+.dws[data-family='tabletL'] .dws-cards .dws-cards__act { min-width: 120px; }
+.dws[data-family='tabletL'] .dws-cards[data-count='4'] { gap: 14px; padding: 6px 40px 12px; }
+.dws[data-family='tabletL'] .dws-cards[data-count='4'] .dws-cards__art { height: 7.4vh; }
+.dws[data-family='tabletL'] .dws-cards[data-count='4'] .dws-cards__act { min-width: 96px; }
+.dws[data-family='tabletL'] .dws-stageobj { width: 80px; height: 80px; }
+
+/* ---------------------------------------------------------- expression layer (interaction authority: drawer | centre + modal | inspector) */
+
+.dws-ov { border-radius: 10px; background: rgba(252, 252, 251, 0.96); box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(232, 25, 44, 0.12), 0 0 30px rgba(232, 25, 44, 0.08); }
+.dws-ov__titles strong { font-weight: 500; letter-spacing: 0.05em; }
+.dws-center { border-radius: 10px; }
+.dws-center__head { font-family: var(--dws-font-c); font-size: 20px; }
+/* the condensed authority face sets narrower than the old mono at the same size: lift expression copy to authority density */
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) :is(.dws-ov, .dws-center) > * { zoom: 1.16; }
+.dws[data-family='tabletP'] .dws-ov > * { zoom: 1.2; }
+.dws[data-viewport='mobile'] .dws-ov > * { zoom: 1.1; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-layer__drawer { left: 1.6%; top: 2%; bottom: 2%; width: 29.8%; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-layer__center { left: 34%; top: 7%; width: 37%; height: 50%; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-layer__modal { left: 38%; bottom: 2%; width: 33%; max-height: 52%; }
+.dws:is([data-viewport='desktop'], [data-family='tabletL']) .dws-layer__inspector { right: 1.4%; top: 2%; bottom: 2%; width: 24.4%; }
+/* the statement shares the art cell: neutralise the legacy absolute offsets so copy stays inside the art */
+.dws[data-viewport] .dws-board__statement { left: auto; right: auto; bottom: auto; top: auto; }
+.dws[data-viewport='mobile'] .dws-board__fbody { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.dws[data-viewport='mobile'] .dws-board__fentries { letter-spacing: 0.02em; }
+.dws[data-viewport='mobile'] .dws-board__fentries li,
+.dws[data-viewport='mobile'] .dws-board__intro,
+.dws[data-viewport='mobile'] .dws-board__statement { overflow-wrap: normal; }
+.dws[data-viewport='mobile'] .dws-board--featured .dws-board__fbody { padding-bottom: 7cqi; }
+.dws[data-viewport='mobile'] .dws-board--featured .dws-board__expr { bottom: -2px; }
+.dws[data-family='tabletP'] .dws-board--featured .dws-board__fentries { font-size: max(7px, 3.2cqi); letter-spacing: 0.05em; }

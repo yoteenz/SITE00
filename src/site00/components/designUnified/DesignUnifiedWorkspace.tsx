@@ -316,7 +316,7 @@ export function DesignUnifiedWorkspace({ projectSlug }: { projectSlug: string })
 
       <main className="dws-main">
         <div className="dws-stagewrap">
-          <DwsStage state={state} dispatch={dispatch} profile={profile} family={info.family} />
+          <DwsStage state={state} dispatch={dispatch} profile={profile} family={info.family} projectName={project.name} />
           {anyOverlay ? <div className="dws-scrim" onClick={() => dispatch({ type: 'RETURN_TO_OVERVIEW' })} aria-hidden="true" /> : null}
           <div className={`dws-layer${anyOverlay ? ' is-open' : ''}`} data-layer={mobileTop ?? 'none'} data-switch={vp === 'mobile' && openLayers.length > 1 ? '1' : undefined}>
             {vp === 'mobile' && openLayers.length > 1 ? (

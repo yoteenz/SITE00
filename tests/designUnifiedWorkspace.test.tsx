@@ -21,6 +21,7 @@ import * as MODEL from '../src/site00/components/designUnified/dwsModel';
 import * as PROFILES from '../src/site00/components/designUnified/dwsProfiles';
 import { DWS_INITIAL, dwsReducer, type DwsAction, type DwsState } from '../src/site00/components/designUnified/dwsState';
 import { DesignUnifiedWorkspace } from '../src/site00/components/designUnified/DesignUnifiedWorkspace';
+import { DwsStage } from '../src/site00/components/designUnified/DwsStage';
 
 function memoryStorage() {
   const data = new Map<string, string>();
@@ -408,5 +409,48 @@ describe('asset slot integrity', () => {
     const doc = JSON.parse(readFileSync('docs/site00/studio-os/design-unified-workspace/ASSET_SLOTS.json', 'utf8')) as { total: number; slots: { id: string }[] };
     expect(doc.slots.map((x) => x.id)).toEqual(slots.map((x) => x.id));
     expect(doc.total).toBe(slots.length);
+  });
+});
+
+describe('OPUS-CONVERGENCE1 visual structure', () => {
+  const render = () =>
+    renderToStaticMarkup(
+      <MemoryRouter initialEntries={['/x']}>
+        <DesignUnifiedWorkspace projectSlug="ndxbook" />
+      </MemoryRouter>,
+    );
+  it('featured board keeps the expression trigger as a compact labelled chevron (no pill)', () => {
+    VP = { w: 1672, h: 941, coarse: false };
+    stubWindow();
+    const html = render();
+    expect(html).toMatch(/class="dws-board__expr"[^>]*aria-label="OPEN INTERACTION EXPRESSION"/);
+    expect(html).toContain('dws-board__expr-label');
+  });
+  it('featured intro copy from the profile is rendered on the board', () => {
+    const profile = getDwsProfile('experience', 'desktop');
+    expect(profile.featured.intro?.length).toBeGreaterThan(0);
+    const html = renderToStaticMarkup(<DwsStage state={{ ...DWS_INITIAL, mode: 'experience' }} dispatch={() => {}} profile={profile} family="desktop" projectName="NDXBOOK" />);
+    expect(html).toContain('dws-board__intro');
+    for (const line of profile.featured.intro!) expect(html).toContain(line.replace(/&/g, '&amp;'));
+  });
+  it('contact strips are crops of existing board slots (data-asset-crop), never new slot ids', () => {
+    VP = { w: 1672, h: 941, coarse: false };
+    stubWindow();
+    const html = render();
+    const crops = [...html.matchAll(/data-asset-crop="([^"]+)"/g)].map((m) => m[1]!);
+    expect(crops.length).toBeGreaterThan(0);
+    const known = new Set(listDwsSlots().map((s) => s.id));
+    expect(crops.every((c) => known.has(c))).toBe(true);
+  });
+  it('typography uses the existing condensed authority family (no new font files)', () => {
+    const css = readFileSync('src/site00/styles/site00-design-unified.css', 'utf8');
+    expect(css).toContain("url('/site00/fonts/barlow-condensed/barlow-condensed-500.woff2')");
+    expect(css).toMatch(/--dws-font-c:\s*'SITE00 DWS Condensed'/);
+    expect(css).not.toMatch(/fonts\.googleapis/);
+  });
+  it('board copy is container-scaled with legibility floors (mobile clipping fix)', () => {
+    const css = readFileSync('src/site00/styles/site00-design-unified.css', 'utf8');
+    expect(css).toMatch(/\.dws-board \{[^}]*container-type: inline-size/);
+    expect(css).toMatch(/\.dws\[data-viewport='mobile'\] \.dws-board--featured \{[^}]*height: auto/);
   });
 });
