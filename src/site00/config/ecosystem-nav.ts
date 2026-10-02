@@ -3,7 +3,7 @@
  * Public routes (Services, Journal, public Sites, etc.) do NOT belong here.
  */
 
-import { SITE00_ROUTES } from './routes';
+import { SITE00_ROUTES, site00StudioPreviewGuestPath } from './routes';
 
 export type EcosystemNavId = 'control' | 'projects' | 'sites' | 'idnty';
 
@@ -72,7 +72,11 @@ export function isOperatingWorldNavActive(pathname: string, item: OperatingWorld
     return pathname.startsWith(SITE00_ROUTES.controlSites);
   }
   if (item.id === 'studio') {
-    return pathname.startsWith('/admin/site00/studio');
+    return (
+      pathname.startsWith('/admin/site00/studio') ||
+      pathname.includes('/experience-compiler') ||
+      pathname.includes('/preview-guest')
+    );
   }
   if (item.id === 'approvals') {
     return pathname.startsWith('/admin/site00/approvals');
@@ -84,6 +88,17 @@ export function isOperatingWorldNavActive(pathname: string, item: OperatingWorld
     return pathname.startsWith(SITE00_ROUTES.controlBilling);
   }
   return pathname === item.href || pathname.startsWith(`${item.href}/`);
+}
+
+/** Preview guest: only Studio nav may reach preview landing; other hrefs unchanged (guard blocks). */
+export function resolveOperatingWorldNavHref(
+  item: OperatingWorldNavItem,
+  options: { previewGuest: boolean; projectSlug: string },
+): string {
+  if (options.previewGuest && item.id === 'studio') {
+    return site00StudioPreviewGuestPath(options.projectSlug || 'site00');
+  }
+  return item.href;
 }
 
 /** @deprecated Use isOperatingWorldNavActive */

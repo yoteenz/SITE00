@@ -4,6 +4,7 @@ import {
   isSite00PreviewGuestAllowlistedPath,
   resolveSite00ShellAuthMode,
 } from '../src/site00/auth/site00ShellAuthState.js';
+import { resolveOperatingWorldNavHref } from '../src/site00/config/ecosystem-nav.js';
 
 describe('site00ShellAuthState', () => {
   it('allowlists experience compiler and preview-guest studio landing only', () => {
@@ -26,5 +27,14 @@ describe('site00ShellAuthState', () => {
     expect(
       resolveSite00ShellAuthMode('/studio/site00/experience-compiler', { previewGuestForce: true }),
     ).toBe('PREVIEW_GUEST');
+  });
+
+  it('rewrites STUDIO top nav href in preview guest mode', () => {
+    expect(
+      resolveOperatingWorldNavHref(
+        { id: 'studio', label: 'STUDIO', href: '/admin/site00/studio' },
+        { previewGuest: true, projectSlug: 'site00' },
+      ),
+    ).toBe('/studio/site00/preview-guest');
   });
 });
