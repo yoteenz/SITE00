@@ -12875,3 +12875,14 @@ Founder asked why the V1 icons were not pixel-perfect to the attached bottom-nav
 - **Decisions / outcomes:** Rebuild the seven masters to the sheet’s silhouettes. HUB is a solid-top diamond stack. DESIGN is the same stack, open. INBOX is a rounded envelope. EXPERIENCE is a ring with a rounded play triangle. EXPRESSION is a rounded cube with the front notch. LIBRARY is three rounded volumes with a center spine mark. ACTIVITY is the peak-and-valley pulse. Red dots stay host accents on the review sheet only.
 - **Changes:** `scripts/site00-bottom-nav-icon-family-v1.mjs` and the V1 outputs, masters, and proof images. Family stroke record is 30px. Live nav still unchanged.
 - **Conventions:** When the founder attaches a sheet and asks for that picture, trace it. Do not substitute a refined symbol for the drawn one.
+
+---
+
+## 2026-10-02 — Bottom nav icons keyed from the high-quality renders
+
+Founder rejected the redrawn V1 glyphs and sent seven high-quality renders to replicate.
+
+- **Context:** Same chat as the chrome type fixes, the contained conflict reviews, public-redesign lineage (draft PR 1275 and draft PR 1276, neither merged), the first icon pack (draft PR 1292), and the sheet-trace family (draft PR 1293). Order stays HUB, INBOX, DESIGN, EXPERIENCE, EXPRESSION, LIBRARY, ACTIVITY. Do not change labels, routes, or the live nav. Do not upload over site00.com. Do not merge these icon branches to main.
+- **Decisions / outcomes:** The seven PNGs are keyed from those renders. White paper becomes transparency. Ink is charcoal `#141414` on a 512 canvas, longest side 320px. EXPERIENCE is the circle and rounded play triangle. INBOX is the rounded envelope. EXPRESSION is the clean isometric cube, with no front-edge notch. LIBRARY is three volumes with the right one tilted, and no spine dash. ACTIVITY is the pulse with the open ring joined to the stroke. Both stack renders are open diamonds. HUB uses the tighter file. DESIGN uses the more open file. The filled hub slab on the low-res sheet is not in these renders, so it is not invented. Red stays a host accent on the review sheet only. Status stays FOUNDER_REVIEW.
+- **Changes:** `scripts/site00-bottom-nav-icon-family-v1.mjs` now keys `authority/hq/` instead of drawing SVG geometry. Outputs, masters, proof, and family copy updated. Live `icons.tsx` was not edited. The dirty production guard was not committed.
+- **Conventions:** When the founder attaches finished renders and says to use them, key those pixels. Do not redraw a nearby symbol. Do not add a fill, notch, or dash that is not in the file.

@@ -16,13 +16,13 @@ export const BOTTOM_NAV_ICON_ORDER = [
 export type BottomNavIconRole = (typeof BOTTOM_NAV_ICON_ORDER)[number];
 
 const SEMANTICS: Record<BottomNavIconRole, string> = {
-  HUB: 'Stacked diamonds from the sheet. Top diamond is solid. Two outlined diamonds sit under it.',
-  INBOX: 'Rounded envelope from the sheet. The flap is the inner V. The red dot is a host accent.',
-  DESIGN: 'Same diamond stack as HUB, with the top diamond left open.',
-  EXPERIENCE: 'Ring and rounded play triangle from the sheet.',
-  EXPRESSION: 'Rounded isometric cube from the sheet, with the front-edge notch.',
-  LIBRARY: 'Three rounded volumes from the sheet. Center volume is tallest and carries the spine mark.',
-  ACTIVITY: 'Pulse from the sheet: peak, valley, and level tails. The red dot is a host accent.',
+  HUB: 'Open diamond stack keyed from the tighter high-quality render. The low-res sheet filled the top slab; this render does not.',
+  INBOX: 'Rounded envelope keyed from the high-quality render. The flap is the inner V. The red dot is a host accent.',
+  DESIGN: 'Open diamond stack keyed from the more open high-quality render. It is not a filled slab.',
+  EXPERIENCE: 'Circle and rounded play triangle keyed from the high-quality render.',
+  EXPRESSION: 'Isometric cube wireframe keyed from the high-quality render. No front-edge notch.',
+  LIBRARY: 'Three rounded volumes keyed from the high-quality render. The right volume is tilted. No spine dash.',
+  ACTIVITY: 'Pulse keyed from the high-quality render: small rise, deep valley, tall peak, and an open ring joined to the stroke. The red dot is a host accent.',
 };
 
 export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
@@ -33,10 +33,10 @@ export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
   assetClass: 'NAV_ICON',
   semanticPurpose: 'Seven destinations for the production bottom nav, in fixed order.',
   visualGrammar: 'Outer geometry plus an inner functional core, one structural axis, optional host signal point.',
-  geometricLanguage: 'Traced from the attached sheet. Shared 30px stroke on a 512 canvas. Diamond stacks, rounded envelope, play triangle, cube, volumes, pulse.',
-  materialLanguage: 'Flat charcoal line. One solid core only where the role is the operating layer (HUB top slab).',
-  strokeRules: 'One stroke weight for every outline. No mixed weights.',
-  cornerRules: 'Sharp miters. LIBRARY volume caps are the only radius, and all three volumes share it.',
+  geometricLanguage: 'Keyed from the seven high-quality renders. Longest ink side is 320px on a 512 canvas. Open diamond stacks, rounded envelope, play triangle, cube, tilted volumes, pulse with a joined ring.',
+  materialLanguage: 'Flat charcoal line taken from the renders. Both stacks stay open. No invented fill, notch, or spine dash.',
+  strokeRules: 'Stroke weight is the render’s own weight after the shared optical fit. Do not redraw the glyphs to force one width.',
+  cornerRules: 'Corners follow each render. They are rounded where the source is rounded.',
   depthRules: 'Depth is drawn as offset planes or an isometric wireframe, not as shading.',
   lightingRules: 'No lighting, gradients, or shadows.',
   colorRules: 'Base master is #141414 on transparency.',
@@ -51,7 +51,7 @@ export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
   backgroundRules: 'No tiles, plates, or frames inside the icon file.',
   transparencyRules: 'Full transparency outside the glyph. Corner pixels are clear.',
   motionRules: 'No motion in the master. A future live state may pulse the ACTIVITY terminal without changing the drawing.',
-  referenceAssets: [`${PACK}/authority/BOTTOM_NAV_ICON_PACK_SHEET.jpg`],
+  referenceAssets: [`${PACK}/authority/BOTTOM_NAV_ICON_PACK_SHEET.jpg`, `${PACK}/authority/hq/`],
   canonicalExamples: BOTTOM_NAV_ICON_ORDER.map((role) => `${PACK}/outputs/${fileFor(role)}.png`),
   antiExamples: [
     'Generic house for HUB',
@@ -68,21 +68,21 @@ export const BOTTOM_NAV_ICON_FAMILY_V1: VisualFamilySpec = {
   lineage: {
     primaryAuthority: `${PACK}/authority/BOTTOM_NAV_ICON_PACK_SHEET.jpg`,
     secondaryAuthorities: [
-      'SITE 00 authority icon sheet line language, used as construction reference only',
+      `${PACK}/authority/hq/`,
       `${PRIOR}/README.md`,
     ],
     supersededExamples: [`${PRIOR}/outputs/`],
     currentVersion: 'V1',
   },
   geometryRules: {
-    strokeWidth: 30,
-    linecap: 'butt',
-    linejoin: 'miter',
-    cornerMode: 'SHARP_MITER',
+    strokeWidth: 31,
+    linecap: 'round',
+    linejoin: 'round',
+    cornerMode: 'PER_ICON_TRACE',
     innerCoreRequired: true,
     bakedRed: false,
   },
-  materialRules: ['charcoal line', 'single solid core on HUB only', 'no gradients', 'no shadows'],
+  materialRules: ['charcoal line keyed from the render', 'open stacks', 'no gradients', 'no shadows'],
   colorRulesList: ['#141414 default', 'transparent ground', 'red reserved for the host'],
   stateRules: ['BASE charcoal', 'ACTIVE host tint', 'ALERT host dot'],
   qaRules: [
@@ -115,8 +115,8 @@ export const BOTTOM_NAV_ICON_MEMBERS_V1: VisualAssetMembership[] = BOTTOM_NAV_IC
   familyId: BOTTOM_NAV_ICON_FAMILY_V1.familyId,
   semanticRole: role,
   owner: 'STUDIO OS HOST CHROME',
-  source: 'FABRICATED_FROM_BOTTOM_NAV_ICON_PACK_SHEET',
-  authorityReference: BOTTOM_NAV_ICON_FAMILY_V1.lineage.primaryAuthority,
+  source: 'KEYED_FROM_HQ_RENDER',
+  authorityReference: `${PACK}/authority/hq/${fileFor(role)}.jpg`,
   derivedFrom: 'BOTTOM_NAV_ICON_PACK_SHEET',
   variantOf: null,
   state: 'BASE',
