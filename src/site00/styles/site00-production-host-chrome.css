@@ -96,11 +96,24 @@
 .pxh-top__project {
   gap: 12px;
 }
-.pxh-top__thumb {
+.pxh-top__thumb,
+.pxa .pxh-top .pxh-top__thumb {
+  /* the project mark belongs inside the PROJECT group: never inherit the body-level absolute image fill */
+  position: relative;
+  inset: auto;
+  display: block;
+  overflow: hidden;
   flex: 0 0 30px;
   width: 30px;
   height: 40px;
   border-radius: 1px;
+  object-fit: cover;
+}
+.pxh-top__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 .pxh-top__project > span {
@@ -328,4 +341,19 @@
     width: 20px;
     height: 20px;
   }
+}
+
+/* Mobile host top: the project mark sits inside its PROJECT selector (never the body-level absolute image fill). */
+.pxa .ph-top .ph-top__thumb {
+  position: relative;
+  inset: auto;
+  display: block;
+  flex: 0 0 auto;
+}
+.pxa .ph-top .ph-top__thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

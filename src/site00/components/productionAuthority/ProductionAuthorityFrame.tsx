@@ -5,6 +5,7 @@ import { useProductionViewportFamily } from '../../hooks/useProductionViewportFa
 import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNav } from '../productionHub/chrome';
 import { ProductionAuthorityDataProvider, useProductionAuthorityData } from './ProductionAuthorityData';
 import '../../styles/site00-production-authority.css';
+import '../../styles/site00-production-authority-opus.css';
 
 function useBodyLock() {
   useEffect(() => {

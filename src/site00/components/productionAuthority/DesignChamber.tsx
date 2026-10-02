@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { HUB_ATMOSPHERE_SLOT_ID } from '../../../../shared/site00-production-hub/index.js';
 import {
@@ -121,20 +121,72 @@ function Panel({ panel, side }: { panel: ChamberPanel; side: 'left' | 'right' })
         <em>{panel.n}</em>
         <b>{panel.title}</b>
         <small>{panel.sub}</small>
+        <i className="pxa-panel__more" aria-hidden>
+          ···
+        </i>
       </header>
-      <PanelVis panel={panel} />
+      <div className={`pxa-panel__body${panel.rows?.length ? ' has-rows' : ''}`}>
+        <PanelVis panel={panel} />
+        {panel.rows?.length ?
+          <ul className="pxa-panel__rows">
+            {panel.rows.map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+          </ul>
+        : null}
+      </div>
     </article>
   );
 }
 
+/** Logical device sizes for the viewport presets (natural orientation). */
+const VIEWPORT_PRESETS: Record<string, [number, number]> = {
+  'MOBILE XL': [430, 932],
+  MOBILE: [390, 844],
+  TABLET: [834, 1194],
+  DESKTOP: [1440, 900],
+};
+/** Route options map onto the live client app's own sections. */
+const VIEWPORT_ROUTES: Record<string, string> = { 'HOME / FEED': '', PROJECTS: 'projects', PRODUCTION: 'project/build' };
+const IS_DEV = Boolean((import.meta as { env?: { DEV?: boolean } }).env?.DEV);
+
+function useBoxSize<T extends HTMLElement>(): [React.RefObject<T>, { w: number; h: number }] {
+  const ref = useRef<T>(null);
+  const [box, setBox] = useState({ w: 0, h: 0 });
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const read = () => {
+      const r = el.getBoundingClientRect();
+      if (r.width > 0 && r.height > 0) setBox({ w: r.width, h: r.height });
+    };
+    read();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(read);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, box];
+}
+
 function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
+  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
   const [preset, setPreset] = useState('MOBILE XL');
   const [route, setRoute] = useState('HOME / FEED');
   const [orientation, setOrientation] = useState('PORTRAIT');
   const [zoom, setZoom] = useState('100%');
-  const field = (label: string, value: string, set: (v: string) => void, options: string[]) => (
-    <label className="pxa-field">
-      <small>{label}</small>
+  const [safe, setSafe] = useState(false);
+  const [stageRef, box] = useBoxSize<HTMLDivElement>();
+  const [pw, ph] = VIEWPORT_PRESETS[preset] ?? [430, 932];
+  const [w, h] = orientation === 'LANDSCAPE' ? [Math.max(pw, ph), Math.min(pw, ph)] : [Math.min(pw, ph), Math.max(pw, ph)];
+  const fit = box.w && box.h ? Math.min(box.w / w, box.h / h) : 0.3;
+  const scale = fit * (parseInt(zoom, 10) / 100 || 1);
+  const section = VIEWPORT_ROUTES[route] ?? '';
+  const base = IS_DEV ? '/app/preview/fixture-app-ndxbook' : `/app/projects/${projectSlug}`;
+  const src = section ? `${base}/${section}` : base;
+  const field = (label: string, value: string, set: (v: string) => void, options: string[], cls: string) => (
+    <label className={`pxa-field pxa-field--${cls}`}>
+      <small>{label}:</small>
       <select value={value} onChange={(e) => set(e.target.value)}>
         {options.map((o) => (
           <option key={o}>{o}</option>
@@ -145,22 +197,28 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   return (
     <div className="pxa-chamber pxa-chamber--viewport" data-testid="design-chamber" data-mode="viewport">
       <ChamberBackdrop />
-      <div className="pxa-device" aria-hidden data-orientation={orientation.toLowerCase()}>
-        <span>
-          <b>SITE 00</b>
-          <small>{preset}</small>
-        </span>
+      <div className="pxa-vstage" ref={stageRef}>
+        <div className="pxa-device" data-orientation={orientation.toLowerCase()} data-preset={preset} style={{ width: Math.round(w * scale), height: Math.round(h * scale) }} data-testid="design-viewport-device">
+          <span className="pxa-device__scaler" style={{ width: w, height: h, transform: `scale(${scale})` }}>
+            <iframe title="LIVE CLIENT APP" src={src} className="pxa-device__frame" data-testid="design-viewport-frame" />
+          </span>
+          {safe ? <i className="pxa-device__safe" aria-hidden data-testid="design-viewport-safe" /> : null}
+        </div>
       </div>
       <div className="pxa-vpanel" data-testid="design-viewport-controls">
         <div className="pxa-vpanel__fields">
-          {field('VIEWPORT PRESET', preset, setPreset, ['MOBILE XL', 'MOBILE', 'TABLET', 'DESKTOP'])}
-          {field('ROUTE', route, setRoute, ['HOME / FEED', 'PROJECTS', 'PRODUCTION'])}
-          {field('ORIENTATION', orientation, setOrientation, ['PORTRAIT', 'LANDSCAPE'])}
-          {field('ZOOM', zoom, setZoom, ['75%', '100%', '125%'])}
+          {field('VIEWPORT PRESET', preset, setPreset, Object.keys(VIEWPORT_PRESETS), 'preset')}
+          {field('ROUTE', route, setRoute, Object.keys(VIEWPORT_ROUTES), 'route')}
+          <button type="button" className={`pxa-pill pxa-pill--safe${safe ? ' is-on' : ''}`} aria-pressed={safe} onClick={() => setSafe((v) => !v)} data-testid="design-viewport-safe-toggle">
+            SAFE AREA
+          </button>
+          {field('ORIENTATION', orientation, setOrientation, ['PORTRAIT', 'LANDSCAPE'], 'orientation')}
+          {field('ZOOM', zoom, setZoom, ['75%', '100%', '125%'], 'zoom')}
         </div>
-        <span className="pxa-pill pxa-pill--safe">SAFE AREA</span>
         <Link to="/production/ndxbook/design/workspace" className="pxa-btn pxa-btn--wide" data-testid="design-validation-sheet">
-          VALIDATION SHEET / REVIEW STATUS
+          <i className="pxa-vpanel__doc" aria-hidden />
+          <span>VALIDATION SHEET / REVIEW STATUS</span>
+          <span aria-hidden>›</span>
         </Link>
       </div>
       <footer className="pxa-chamber__edge">
@@ -176,6 +234,12 @@ function ChamberBackdrop() {
   const data = useProductionAuthorityData();
   return (
     <>
+      <span className="pxa-chamber__atrium" aria-hidden>
+        <i className="pxa-chamber__ring pxa-chamber__ring--1" />
+        <i className="pxa-chamber__ring pxa-chamber__ring--2" />
+        <i className="pxa-chamber__ring pxa-chamber__ring--3" />
+        <i className="pxa-chamber__floor" />
+      </span>
       <span className="pxa-chamber__bg" aria-hidden>
         <HubImage slotId={HUB_ATMOSPHERE_SLOT_ID} url={data?.assetUrl(HUB_ATMOSPHERE_SLOT_ID) ?? null} label="CHAMBER ATMOSPHERE" />
       </span>
@@ -212,15 +276,42 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
                 <span aria-hidden>···</span>
               </header>
               <div className="pxa-overview-panel__body">
-                <span className="pxa-overview-panel__mark" aria-hidden>
-                  <i />
+                <span className="pxa-overview-panel__art">
+                  <span className="pxa-overview-panel__mark" aria-hidden>
+                    <i />
+                  </span>
+                  <p>{cfg.lede}</p>
                 </span>
-                <p>{cfg.lede}</p>
-                <ul>
-                  {cfg.list.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
+                <div className="pxa-overview-panel__side">
+                  {cfg.intro?.length ?
+                    <span className="pxa-overview-panel__intro">
+                      {cfg.intro.map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
+                    </span>
+                  : null}
+                  {cfg.list.length && cfg.mode !== 'brand' ?
+                    <ul>
+                      {cfg.list.map((t) => (
+                        <li key={t}>{t}</li>
+                      ))}
+                    </ul>
+                  : null}
+                  {cfg.caption ?
+                    <span className="pxa-overview-panel__strip" aria-hidden>
+                      {cfg.panels
+                        .flatMap((p) => p.plates ?? [])
+                        .slice(0, 3)
+                        .map((u) => (
+                          <i key={u} style={{ backgroundImage: `url(${u})` }} />
+                        ))}
+                    </span>
+                  : null}
+                  {cfg.caption ? <small className="pxa-overview-panel__caption">{cfg.caption}</small> : null}
+                </div>
+                <i className="pxa-overview-panel__go" aria-hidden>
+                  »
+                </i>
               </div>
             </section>
             <div className="pxa-chamber__col pxa-chamber__col--right">
