@@ -30,7 +30,13 @@ export function isSite00EcPreviewGuestFeatureActive(): boolean {
   return isSite00EcPreviewGuestBuildEnabled() && isSite00EcPreviewGuestHostAllowed();
 }
 
+/** Cloud preview/tunnel — skip sign-in redirects while Supabase is unavailable (temporary QA). */
+export function isSite00PreviewAuthBypassActive(): boolean {
+  return isSite00EcPreviewGuestFeatureActive();
+}
+
 export function isSite00PreviewGuestAllowlistedPath(pathname: string): boolean {
+  if (isSite00PreviewAuthBypassActive()) return true;
   return PREVIEW_GUEST_COMPILER.test(pathname) || PREVIEW_GUEST_STUDIO_LANDING.test(pathname);
 }
 
@@ -42,7 +48,7 @@ export function resolveSite00ShellAuthMode(
   if (isSignedIn()) return 'AUTHENTICATED';
   const previewEligible =
     options?.previewGuestForce ??
-    (isSite00EcPreviewGuestFeatureActive() && isSite00PreviewGuestAllowlistedPath(pathname));
+    (isSite00PreviewAuthBypassActive() && isSite00PreviewGuestAllowlistedPath(pathname));
   if (previewEligible) return 'PREVIEW_GUEST';
   return 'SIGNED_OUT';
 }
