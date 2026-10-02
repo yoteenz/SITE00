@@ -17,7 +17,7 @@ export function isSite00CloudPreviewBuild(): boolean {
   return meta?.getAttribute('content') === '1';
 }
 
-/** Temporary: view Experience Compiler on cloud tunnel without Supabase sign-in (preview dist only). */
+/** @deprecated Use isSite00EcPreviewGuestFeatureActive() + route allowlist from site00ShellAuthState. */
 export function isSite00ExperienceCompilerPreviewGuestBypass(): boolean {
   return isSite00CloudPreviewBuild() || isSite00PreviewTunnelHost();
 }

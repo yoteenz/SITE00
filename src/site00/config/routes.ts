@@ -226,6 +226,8 @@ export const SITE00_ROUTES = {
   studioMilestones: '/studio/:projectSlug/milestones',
   studioActivity: '/studio/:projectSlug/activity',
   studioExperienceCompiler: '/studio/:projectSlug/experience-compiler',
+  /** Cloud preview guest — minimal Studio parent (no protected API). */
+  studioPreviewGuest: '/studio/:projectSlug/preview-guest',
   /** Client canonical intake retrieval — Identity + Builder intake persistence infrastructure */
   accountIntakes: '/account/intakes',
   accountIntakeDetail: '/account/intakes/:intakeType/:intakeId',
@@ -739,6 +741,10 @@ export function site00StudioPath(projectSlug: string, section?: 'input' | 'opera
 export function site00ExperienceCompilerPath(projectSlug: string, tab?: string): string {
   const base = `/studio/${projectSlug}/experience-compiler`;
   return tab ? `${base}?tab=${encodeURIComponent(tab)}` : base;
+}
+
+export function site00StudioPreviewGuestPath(projectSlug: string): string {
+  return `/studio/${projectSlug}/preview-guest`;
 }
 
 export function site00ClientProjectRoomPath(
