@@ -12941,3 +12941,13 @@ Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (
 - **Ops:** VM checkout `6c85fbcb`, `SITE00_PREVIEW_SYNC_MAIN=0` + `SITE00_CLOUD_PREVIEW_MODE=local` rebuild; tunnel serves `release-manifest.json` with `commitSha` `6c85fbcba83d`, `bundleEntry` `index.B15a40Ht.js`.
 - **Persist pin:** `/tmp/site00-cloud-preview-pinned-ref` + `run-site00-cloud-preview-server.sh` reads `SITE00_PREVIEW_PIN_REF` / pin file (local build, no main ff-merge). Bootstrap skips CI sync when pin file present.
 - **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
+
+---
+
+## 2026-10-02 — Client app mobile QA audit (P0.SITE00.CLIENT-APP.COMPOSER-RUNTIME-AUDIT1)
+
+Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Expo/Capacitor; no `android/`/`ios/`). Mobile QA path = **BrowserStack Live** (mobile browser) + cloud preview tunnel; **not** App Live/APK.
+
+- **Shipped:** `VITE_SITE00_CLIENT_APP_PREVIEW=1` + `clientAppPreviewState.ts` enables `/app/preview/*` fixtures on cloud preview (was dev-only). `docs/mobile-qa.md`, `npm run client-app:qa:urls|capture`, cloud preview build sets flag alongside EC guest. Playwright proof: fixture route shows bottom nav + NDXBOOK header on 390×844.
+- **Auth:** Real `/app/projects/*` still requires Supabase sign-in; fixtures need no auth. Tunnel API → `https://api.site00.com`.
+- **Blocker for APK:** No native project — Capacitor wrapper deferred.

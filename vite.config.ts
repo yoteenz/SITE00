@@ -170,6 +170,9 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_SITE00_EC_PREVIEW_GUEST': JSON.stringify(
         process.env.VITE_SITE00_EC_PREVIEW_GUEST === '1' ? '1' : '0',
       ),
+      'import.meta.env.VITE_SITE00_CLIENT_APP_PREVIEW': JSON.stringify(
+        process.env.VITE_SITE00_CLIENT_APP_PREVIEW === '1' ? '1' : '0',
+      ),
     },
     resolve: {
       alias: [
