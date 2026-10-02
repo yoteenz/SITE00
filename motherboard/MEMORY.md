@@ -12925,6 +12925,35 @@ Founder asked to apply any missing Supabase migrations on `hyycomvcaqxxvyrfupes`
 
 ---
 
+## 2026-10-02 — Remove Mobile/Desktop layout preview switcher (Shadow PC)
+
+Founder uses Shadow PC for real desktop view; asked to remove top-left **Mobile / Desktop** debug switcher.
+
+- **Shipped:** `isSite00LayoutPreviewSwitchEnabled()` → `false` in `preview-mode.ts`; `Site00OriginLayoutSwitch`, `Site00PublicLayoutSwitch`, `Site00EcosystemLayoutSwitch` render nothing; `Site00Context` ignores session-stored preview mode when switch off and uses `defaultPreviewDeviceModeForViewport()` (desktop on ≥768px).
+- **Branch:** `cursor/remove-layout-preview-switch-87ed`.
+
+---
+
+## 2026-10-02 — Cloud preview tunnel pinned to 6c85fbcb
+
+Founder asked to point **site00.fsbw-dev.com** tunnel at commit **`6c85fbcb`** (`cursor/design-unified-workspace-sonnet-structure2` — unified design workspace).
+
+- **Ops:** VM checkout `6c85fbcb`, `SITE00_PREVIEW_SYNC_MAIN=0` + `SITE00_CLOUD_PREVIEW_MODE=local` rebuild; tunnel serves `release-manifest.json` with `commitSha` `6c85fbcba83d`, `bundleEntry` `index.B15a40Ht.js`.
+- **Persist pin:** `/tmp/site00-cloud-preview-pinned-ref` + `run-site00-cloud-preview-server.sh` reads `SITE00_PREVIEW_PIN_REF` / pin file (local build, no main ff-merge). Bootstrap skips CI sync when pin file present.
+- **Revert to main CI preview:** `rm /tmp/site00-cloud-preview-pinned-ref`, `git checkout main`, restart `site00-vite` terminal (or `restart-site00-cloud-preview-full.sh`).
+
+---
+
+## 2026-10-02 — Client app mobile QA audit (P0.SITE00.CLIENT-APP.COMPOSER-RUNTIME-AUDIT1)
+
+Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Expo/Capacitor; no `android/`/`ios/`). Mobile QA path = **BrowserStack Live** (mobile browser) + cloud preview tunnel; **not** App Live/APK.
+
+- **Shipped:** `VITE_SITE00_CLIENT_APP_PREVIEW=1` + `clientAppPreviewState.ts` enables `/app/preview/*` fixtures on cloud preview (was dev-only). `docs/mobile-qa.md`, `npm run client-app:qa:urls|capture`, cloud preview build sets flag alongside EC guest. Playwright proof: fixture route shows bottom nav + NDXBOOK header on 390×844.
+- **Auth:** Real `/app/projects/*` still requires Supabase sign-in; fixtures need no auth. Tunnel API → `https://api.site00.com`.
+- **Blocker for APK:** No native project — Capacitor wrapper deferred.
+
+---
+
 ## 2026-10-02 — Preview tunnel integrated branch (origins + production + compiler)
 
-Merged `cursor/public-redesign-composer-asset-injection1-1b86` into `cursor/design-unified-workspace-sonnet-structure2` as `cursor/preview-tunnel-integrated-87ed` for single-branch cloud preview (Origin public-redesign patches + unified production design workspace + Experience Compiler creative workspace).
+Branch **`cursor/preview-tunnel-integrated-87ed`**: merges `public-redesign-composer-asset-injection1` (Origin env crossfade + framework icons + Grok asset URLs) with `design-unified-workspace-sonnet-structure2` (unified `/production/:slug/design-workspace` + Experience Compiler creative tab). Cloud preview pin file should reference this branch ref.

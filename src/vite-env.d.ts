@@ -13,6 +13,8 @@ interface ImportMetaEnv {
   readonly VITE_SITE00_CLOUD_PREVIEW?: string;
   /** Cloud preview builds only — enables Experience Compiler PREVIEW_GUEST when combined with tunnel/preview meta. */
   readonly VITE_SITE00_EC_PREVIEW_GUEST?: string;
+  /** Cloud preview builds only — enables `/app/preview/*` fixture QA on tunnel (not production site00.com). */
+  readonly VITE_SITE00_CLIENT_APP_PREVIEW?: string;
   readonly DEV: boolean;
   readonly PROD: boolean;
   readonly MODE: string;
