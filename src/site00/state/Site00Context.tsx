@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useLayoutEffect, useMemo, useReducer, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { isSite00PublicDesktopPath, site00PublicMobilePath } from '../config/site00-public-pages';
-import { isSite00OriginDesktopPath, SITE00_ROUTES } from '../config/routes';
+import { isSite00OriginDesktopPath } from '../config/routes';
 import {
   defaultPreviewDeviceModeForViewport,
   readStoredPreviewDeviceMode,
@@ -29,11 +29,7 @@ type Site00ContextValue = {
 const Site00Context = createContext<Site00ContextValue | null>(null);
 
 function resolveInitialPreviewMode(pathname: string): Site00PreviewDeviceMode {
-  if (
-    pathname === SITE00_ROUTES.enter ||
-    isSite00PublicDesktopPath(pathname) ||
-    isSite00OriginDesktopPath(pathname)
-  ) {
+  if (isSite00PublicDesktopPath(pathname) || isSite00OriginDesktopPath(pathname)) {
     return 'desktop';
   }
   const stored = readStoredPreviewDeviceMode();

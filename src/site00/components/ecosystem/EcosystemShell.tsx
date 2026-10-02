@@ -16,6 +16,7 @@ import { useActiveProjectSlug } from '../../hooks/useProjectPresenceAccent';
 import { ecosystemPageMeta } from '../../config/ecosystem-nav';
 import { SITE00_ROUTES } from '../../config/routes';
 import { isNdxFounderWorkspaceRoute } from '../../config/ndxFounderWorkspaceRoutes';
+import { HubLegacySkin, PublicHubPage } from '../public-redesign/PublicHubLayouts';
 
 type EcosystemShellProps = {
   children: ReactNode;
@@ -24,6 +25,12 @@ type EcosystemShellProps = {
   headerActions?: React.ReactNode;
   /** When true, page supplies its own hero/header inside children. */
   hidePageHeader?: boolean;
+  /**
+   * Public-redesign hybrid: on the mobile layout the page renders inside the public redesign shell (environment plate,
+   * technical header, bottom nav) with this hero. The functional content (`children`) is unchanged. Desktop keeps the
+   * operating-world layout (client-app desktop direction is a separate, founder-gated track).
+   */
+  publicRedesign?: { page: string; crumb: string; title?: string; subtitle?: string };
 };
 
 const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE);
@@ -32,7 +39,7 @@ const ecosystemBgUrl = resolveSite00PublicAsset(SITE00_CTRL_ROOM_DESKTOP_BG_FILE
  * Operating World shell — authenticated workspace.
  * Desktop: top navigation + architectural environment (no public-world sidebar).
  */
-export function EcosystemShell({ children, title, subtitle, headerActions, hidePageHeader = false }: EcosystemShellProps) {
+export function EcosystemShell({ children, title, subtitle, headerActions, hidePageHeader = false, publicRedesign }: EcosystemShellProps) {
   const { pathname } = useLocation();
   const activeProjectSlug = useActiveProjectSlug();
   const { isPreviewDesktop } = useSite00();
@@ -75,7 +82,29 @@ export function EcosystemShell({ children, title, subtitle, headerActions, hideP
     </div>
   );
 
-  const mobileLayout = (
+  const redesignedMobileLayout = publicRedesign ? (
+    <div className="site00-ecosystem-shell__mobile">
+      <PublicHubPage
+        section="idnty"
+        page={publicRedesign.page}
+        envSlotId="ENV.IDNTY.ATRIUM"
+        crumb={publicRedesign.crumb}
+        title={publicRedesign.title ?? pageTitle}
+        subtitle={publicRedesign.subtitle ?? pageSubtitle}
+        width="wide"
+      >
+        {isCtrlRoomRoute ? (
+          <div className="site00-ctrl-sign-out-mobile-bar">
+            <CtrlRoomSignOutButton variant="mobile-bar" />
+          </div>
+        ) : null}
+        {headerActions ? <div className="s00pr-hubactions s00pr-hubactions--first">{headerActions}</div> : null}
+        <HubLegacySkin kind="workspace">{children}</HubLegacySkin>
+      </PublicHubPage>
+    </div>
+  ) : null;
+
+  const mobileLayout = redesignedMobileLayout ?? (
     <div className="site00-ecosystem-shell__mobile">
       <Site00EcosystemMobileShell
         shellClassName="site00-ecosystem-mobile-shell"

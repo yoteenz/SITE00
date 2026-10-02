@@ -1,47 +1,51 @@
-import { Link } from 'react-router-dom';
+import { HubCta, PublicHubPage } from '../../../components/public-redesign/PublicHubLayouts';
 import { MARKETING_CONTENT_SERVICES } from '../../../../../shared/site00-marketing/serviceTaxonomy';
-import { Site00PublicShell } from '../../../components/shell/Site00PublicShell';
 import { site00EvolveMarketingIntake } from '../../../config/routes';
 import type { MarketingServiceCategory } from '../../../../../shared/site00-marketing/types';
 
 function ServiceCard({ service }: { service: (typeof MARKETING_CONTENT_SERVICES)[number] }) {
   return (
-    <article className="site00-marketing-service-card">
-      <span className="site00-marketing-service-card__num">{service.code}</span>
-      <h2>{service.title}</h2>
-      <p className="site00-marketing-service-card__tag">{service.tagline}</p>
-      <p className="site00-body">{service.whatItIs}</p>
-      <div className="site00-marketing-service-card__meta">
-        <p><strong>BEST FOR</strong> {service.bestFor}</p>
-        <p><strong>PLATFORMS</strong> {service.platforms.join(' · ')}</p>
-      </div>
-      <ul className="site00-marketing-service-card__produces">
+    <article className="s00pr-hubtile s00pr-hubtile--service">
+      <span className="s00pr-hubtile__corner" aria-hidden="true" />
+      <span className="s00pr-hubtile__head">
+        <b className="s00pr-hubtile__code">{service.code}</b>
+      </span>
+      <strong className="s00pr-hubtile__title">{service.title}</strong>
+      <span className="s00pr-hubtile__tag">{service.tagline}</span>
+      <span className="s00pr-hubtile__desc">{service.whatItIs}</span>
+      <span className="s00pr-hubtile__desc">
+        <b>BEST FOR</b> {service.bestFor}
+      </span>
+      <span className="s00pr-hubtile__desc">
+        <b>PLATFORMS</b> {service.platforms.join(' · ')}
+      </span>
+      <ul className="s00pr-hubtile__list">
         {service.produces.map((p) => (
           <li key={p}>{p}</li>
         ))}
       </ul>
-      <Link className="site00-btn site00-btn--ghost" to={site00EvolveMarketingIntake(service.id as MarketingServiceCategory)}>
-        {service.selectCta}
-      </Link>
+      <HubCta to={site00EvolveMarketingIntake(service.id as MarketingServiceCategory)}>{service.selectCta.replace(/\s*[→›]\s*$/, '')}</HubCta>
     </article>
   );
 }
 
 export default function MarketingServicesPage() {
   return (
-    <Site00PublicShell>
-      <div className="site00-marketing-services">
-        <header>
-          <p className="site00-label-red">EVOLVE / MARKETING & CONTENT</p>
-          <h1 className="site00-panel-title">SELECT PRODUCTION SERVICE</h1>
-          <p className="site00-body">CAMPAIGN DIRECTION AND CONTENT PRODUCTION — NOT GENERIC AI OUTPUT.</p>
-        </header>
-        <div className="site00-marketing-services__grid">
-          {MARKETING_CONTENT_SERVICES.map((s) => (
-            <ServiceCard key={s.id} service={s} />
-          ))}
-        </div>
+    <PublicHubPage
+      section="evolve"
+      page="evolve-marketing-services"
+      envSlotId="ENV.EVOLVE.INTERVENTION_CENTER"
+      tone="daylight"
+      crumb="EVOLVE / MARKETING & CONTENT"
+      title="SELECT PRODUCTION SERVICE"
+      subtitle="CAMPAIGN DIRECTION AND CONTENT PRODUCTION — NOT GENERIC AI OUTPUT."
+      width="wide"
+    >
+      <div className="s00pr-hubgrid s00pr-hubgrid--3">
+        {MARKETING_CONTENT_SERVICES.map((s) => (
+          <ServiceCard key={s.id} service={s} />
+        ))}
       </div>
-    </Site00PublicShell>
+    </PublicHubPage>
   );
 }

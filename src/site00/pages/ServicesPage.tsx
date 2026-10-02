@@ -1,32 +1,21 @@
-import { Site00PublicShell } from '../components/shell/Site00PublicShell';
-import { BracketHeading, PageIntro } from '../components/pages/Site00PagePrimitives';
+import { HubPanel, HubTile, HubTileGrid, PublicHubPage } from '../components/public-redesign/PublicHubLayouts';
 import { SITE00_SERVICES_SEED } from '../config/seed/site00-page-seed';
-import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
 
 export default function ServicesPage() {
   return (
-    <Site00PublicShell>
-      <div className="site00-page site00-page--services">
-        <PageIntro title={<BracketHeading>SERVICES</BracketHeading>} subtitle="WHAT WE BUILD." />
-        <div className="site00-services-grid site00-services-grid--capabilities">
-          {SITE00_SERVICES_SEED.map((service) => (
-            <article key={service.id} id={service.id} className="site00-service-card site00-service-card--capability">
-              <h2 className="site00-service-card__title">{service.title}</h2>
-              <p className="site00-service-card__desc">{service.description}</p>
-              <Link to={service.href} className="site00-link-red">
-                {service.cta}
-              </Link>
-            </article>
-          ))}
-        </div>
-        <section className="site00-page-banner">
-          <p className="site00-label-red">NEED SOMETHING ELSE?</p>
-          <Link to={SITE00_ROUTES.support} className="site00-link-red">
-            CONTACT SUPPORT →
-          </Link>
-        </section>
-      </div>
-    </Site00PublicShell>
+    <PublicHubPage section="idnty" page="services" crumb="LOCATION / SERVICES" title="SERVICES" subtitle="WHAT WE BUILD." width="wide">
+      <HubTileGrid columns={3}>
+        {SITE00_SERVICES_SEED.map((service, index) => (
+          <div key={service.id} id={service.id} className="s00pr-hubanchor">
+            <HubTile code={String(index + 1).padStart(2, '0')} title={service.title} description={service.description} cta={service.cta} to={service.href} />
+          </div>
+        ))}
+      </HubTileGrid>
+      <HubPanel label="NEED SOMETHING ELSE?">
+        <p>TALK TO THE SITE 00 TEAM.</p>
+        <a href={SITE00_ROUTES.support}>CONTACT SUPPORT →</a>
+      </HubPanel>
+    </PublicHubPage>
   );
 }

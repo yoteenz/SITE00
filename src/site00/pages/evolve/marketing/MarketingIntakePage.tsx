@@ -3,12 +3,11 @@ import { getMarketingService } from '../../../../../shared/site00-marketing/serv
 import type { MarketingIntakeRecord, MarketingServiceCategory } from '../../../../../shared/site00-marketing/types';
 import { formStateToIntakeRecord } from '../../../../../shared/site00-marketing/creativeIntake/fieldMapping';
 import { Site00AccountRouteGuard } from '../../../components/guards/Site00AccountRouteGuard';
-import { Site00PublicShell } from '../../../components/shell/Site00PublicShell';
+import { HubCta, HubLegacySkin, PublicHubPage } from '../../../components/public-redesign/PublicHubLayouts';
 import { CreativeIntakeEngine } from '../../../components/evolve/creative-intake/CreativeIntakeEngine';
 import { SITE00_ROUTES, site00EvolveMarketingBrief } from '../../../config/routes';
 import { marketingEngagementApi } from '../../../services/marketingEngagementApi';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import '../../../styles/site00-creative-intake.css';
 
 export default function MarketingIntakePage() {
@@ -20,10 +19,9 @@ export default function MarketingIntakePage() {
 
   if (!service) {
     return (
-      <Site00PublicShell>
-        <p>UNKNOWN SERVICE.</p>
-        <Link to={SITE00_ROUTES.evolveMarketingServices}>← SERVICES</Link>
-      </Site00PublicShell>
+      <PublicHubPage section="evolve" page="evolve-marketing-intake" tone="daylight" crumb="EVOLVE / MARKETING & CONTENT" title="UNKNOWN SERVICE." width="narrow">
+        <HubCta to={SITE00_ROUTES.evolveMarketingServices}>SERVICES</HubCta>
+      </PublicHubPage>
     );
   }
 
@@ -47,14 +45,24 @@ export default function MarketingIntakePage() {
 
   return (
     <Site00AccountRouteGuard>
-      <Site00PublicShell locationLabel="EVOLVE / MARKETING">
-        <CreativeIntakeEngine
-          service={service}
-          busy={busy}
-          onComplete={(form) => void handleComplete(formStateToIntakeRecord(form))}
-        />
-        {error ? <p className="site00-marketing-error">{error.toUpperCase()}</p> : null}
-      </Site00PublicShell>
+      <PublicHubPage
+        section="evolve"
+        page="evolve-marketing-intake"
+        tone="daylight"
+        crumb="LOCATION / EVOLVE / MARKETING"
+        title={service.title}
+        subtitle={service.tagline}
+        width="default"
+      >
+        <HubLegacySkin kind="intake">
+          <CreativeIntakeEngine
+            service={service}
+            busy={busy}
+            onComplete={(form) => void handleComplete(formStateToIntakeRecord(form))}
+          />
+          {error ? <p className="site00-marketing-error">{error.toUpperCase()}</p> : null}
+        </HubLegacySkin>
+      </PublicHubPage>
     </Site00AccountRouteGuard>
   );
 }

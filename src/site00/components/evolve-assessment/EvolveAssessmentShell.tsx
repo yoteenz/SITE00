@@ -2,14 +2,11 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { EnvironmentShell } from '../environment/EnvironmentShell';
 import { Site00AppShell } from '../shell/Site00AppShell';
-import { Site00MobileShell } from '../mobile/Site00MobileShell';
-import { Site00PageFooter } from '../shell/Site00PageFooter';
+import { HubLegacySkin, PublicHubPage } from '../public-redesign/PublicHubLayouts';
 import { Site00OriginLayoutSwitch } from '../shell/Site00OriginLayoutSwitch';
 import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
 import type { EvolvePathAssessmentConfig } from '../../config/evolve-assessment';
 import { EvolvePathIcon } from '../evolve/EvolvePathIcon';
-import { EvolveHeroArtwork } from '../evolve/mobile/EvolveHeroArtwork';
-import { Site00ThreeCornerMark } from '../mark/Site00ThreeCornerMark';
 import type { EvolvePathId } from '../../config/evolve';
 
 type EvolveAssessmentShellProps = {
@@ -55,37 +52,24 @@ export function EvolveAssessmentActions({
 export function EvolveAssessmentShell({ state, pathId, children, panel }: EvolveAssessmentShellProps) {
   const isDesktopArtboard = useSite00DesktopArtboardPreview();
 
-  const hero = (
-    <>
-      <div className="site00-evolve-assessment__icon">
-        <EvolvePathIcon id={pathId} title={state.title} size={64} />
-      </div>
-      <p className="site00-evolve-assessment__marker">{state.stageMarker}</p>
-      <h1 className="site00-evolve-assessment__title">{state.title}</h1>
-      <p className="site00-evolve-assessment__declaration">{state.declaration}</p>
-      <p className="site00-evolve-assessment__body">{state.editorialBody}</p>
-    </>
-  );
-
   if (!isDesktopArtboard) {
     return (
-      <div className="site00-evolve-assessment site00-evolve-assessment--mobile">
-        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-evolve-assessment-mobile-shell">
-          <div className="site00-evolve-assessment__mobile-content">
-            <header className="site00-evolve-assessment__mobile-hero">
-              <Site00ThreeCornerMark className="site00-evolve-assessment__mark" />
-              <EvolveAssessmentBreadcrumb label={state.breadcrumb} />
-              <div className="site00-evolve-assessment__hero-grid">
-                <div className="site00-evolve-assessment__hero-copy">{hero}</div>
-                <EvolveHeroArtwork className="site00-evolve-assessment__hero-art" />
-              </div>
-            </header>
-            {panel ? <div className="site00-evolve-assessment__panel">{panel}</div> : null}
-            {children}
-            <Site00PageFooter />
-          </div>
-        </Site00MobileShell>
-      </div>
+      <PublicHubPage
+        section="evolve"
+        page="evolve-assessment"
+        envSlotId="ENV.EVOLVE.INTERVENTION_CENTER"
+        tone="daylight"
+        crumb={state.breadcrumb}
+        title={state.title}
+        subtitle={state.declaration}
+        body={state.editorialBody}
+        width="default"
+      >
+        <HubLegacySkin kind="assessment">
+          {panel ? <div className="site00-evolve-assessment__panel">{panel}</div> : null}
+          {children}
+        </HubLegacySkin>
+      </PublicHubPage>
     );
   }
 

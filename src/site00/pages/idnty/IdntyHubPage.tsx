@@ -1,9 +1,8 @@
 import { useLocation } from 'react-router-dom';
-import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { EcosystemShell } from '../../components/ecosystem/EcosystemShell';
-import { IdntyGatewayHubIcon } from '../../components/idnty/IdntyGatewayHubIcon';
+import { HubTile, HubTileGrid, PublicHubPage } from '../../components/public-redesign/PublicHubLayouts';
+import { PublicLineIcon } from '../../components/public-redesign/PublicLineIcon';
 import { IdntyControlCenterExperience } from '../../components/idnty/control-center/IdntyControlCenterExperience';
-import { BracketHeading, EcosystemHubHero, HubActionCard } from '../../components/pages/Site00PagePrimitives';
 import { SITE00_ROUTES } from '../../config/routes';
 import { appendIdentityCommercialQuery } from '../../lib/identityCommercialContext';
 import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav';
@@ -19,32 +18,35 @@ function IdntySignedOutGateway() {
   });
 
   return (
-    <Site00PublicShell>
-      <div className="site00-page site00-page--idnty-gateway">
-        <EcosystemHubHero
-          panel="idnty"
-          title={<BracketHeading>IDNTY</BracketHeading>}
-          subtitle="ACCESS THE SYSTEM. YOUR WORK STARTS HERE."
+    <PublicHubPage
+      section="idnty"
+      page="idnty-gateway"
+      envSlotId="ENV.IDNTY.ATRIUM"
+      crumb="LOCATION / IDNTY / 00"
+      title="IDNTY"
+      subtitle="ACCESS THE SYSTEM. YOUR WORK STARTS HERE."
+      body="SIGN IN TO CONTINUE, OR CREATE YOUR IDNTY AND JOIN SITE 00."
+      width="narrow"
+    >
+      <HubTileGrid columns={2}>
+        <HubTile
+          code="01"
+          title="SIGN IN"
+          description="ACCESS YOUR ACCOUNT."
+          cta="SIGN IN →"
+          to={signInHref}
+          icon={<PublicLineIcon id="people" size={26} />}
         />
-
-        <div className="site00-idnty-gateway__actions">
-          <HubActionCard
-            title="SIGN IN"
-            description="ACCESS YOUR ACCOUNT."
-            cta="SIGN IN →"
-            href={signInHref}
-            icon={<IdntyGatewayHubIcon variant="sign-in" />}
-          />
-          <HubActionCard
-            title="CREATE IDNTY"
-            description="CREATE YOUR IDNTY. JOIN SITE 00."
-            cta="GET STARTED →"
-            href={createHref}
-            icon={<IdntyGatewayHubIcon variant="create-idnty" />}
-          />
-        </div>
-      </div>
-    </Site00PublicShell>
+        <HubTile
+          code="02"
+          title="CREATE IDNTY"
+          description="CREATE YOUR IDNTY. JOIN SITE 00."
+          cta="GET STARTED →"
+          to={createHref}
+          icon={<PublicLineIcon id="diamond" size={26} />}
+        />
+      </HubTileGrid>
+    </PublicHubPage>
   );
 }
 

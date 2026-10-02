@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getMarketingService } from '../../../../../shared/site00-marketing/serviceTaxonomy';
 import { Site00AccountRouteGuard } from '../../../components/guards/Site00AccountRouteGuard';
-import { Site00AppShell } from '../../../components/shell/Site00AppShell';
+import { HubLegacySkin, PublicHubPage } from '../../../components/public-redesign/PublicHubLayouts';
 import { site00EvolveMarketingEngagement, site00EvolveMarketingIntake } from '../../../config/routes';
 import type { MarketingEngagementPayload } from '../../../../../shared/site00-marketing/types';
 import { marketingEngagementApi } from '../../../services/marketingEngagementApi';
@@ -20,9 +20,9 @@ export default function MarketingBriefPage() {
 
   if (!data) {
     return (
-      <Site00AppShell>
-        <p className="site00-control-empty">LOADING BRIEF…</p>
-      </Site00AppShell>
+      <PublicHubPage section="evolve" page="evolve-marketing-brief" tone="daylight" crumb="EVOLVE / MARKETING & CONTENT" title="CAMPAIGN BRIEF SUMMARY" width="narrow">
+        <p className="s00pr-hubstatus" role="status">LOADING BRIEF…</p>
+      </PublicHubPage>
     );
   }
 
@@ -43,10 +43,8 @@ export default function MarketingBriefPage() {
 
   return (
     <Site00AccountRouteGuard>
-      <Site00AppShell>
-        <div className="site00-marketing-brief">
-          <p className="site00-label-red">EVOLVE / MARKETING & CONTENT</p>
-          <h1>CAMPAIGN BRIEF SUMMARY</h1>
+      <PublicHubPage section="evolve" page="evolve-marketing-brief" tone="daylight" crumb="EVOLVE / MARKETING & CONTENT" title="CAMPAIGN BRIEF SUMMARY" width="default">
+        <HubLegacySkin kind="brief" className="site00-marketing-brief">
 
           {data.reusedIdentity ? (
             <div className="site00-marketing-brief__reuse">
@@ -73,12 +71,12 @@ export default function MarketingBriefPage() {
               EDIT
             </Link>
             <button type="button" className="site00-btn site00-btn--primary" disabled={busy} onClick={() => void handleAuthorize()}>
-              AUTHORIZE & ENTER STUDIO →
+              AUTHORIZE & ENTER YOUR SPACE →
             </button>
           </div>
           <p className="site00-marketing-note">Production provisions only after server-side payment confirmation.</p>
-        </div>
-      </Site00AppShell>
+        </HubLegacySkin>
+      </PublicHubPage>
     </Site00AccountRouteGuard>
   );
 }

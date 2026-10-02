@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { marketingPhaseLabel } from '../../../../../shared/site00-marketing/clientPhases';
 import { Site00AccountRouteGuard } from '../../../components/guards/Site00AccountRouteGuard';
-import { Site00AppShell } from '../../../components/shell/Site00AppShell';
+import { HubLegacySkin, PublicHubPage } from '../../../components/public-redesign/PublicHubLayouts';
 import { SITE00_ROUTES } from '../../../config/routes';
 import type { MarketingEngagementPayload } from '../../../../../shared/site00-marketing/types';
 import { marketingEngagementApi } from '../../../services/marketingEngagementApi';
@@ -19,9 +19,9 @@ export default function MarketingEngagementPage() {
 
   if (!data) {
     return (
-      <Site00AppShell>
-        <p className="site00-control-empty">STUDIO INITIALIZING…</p>
-      </Site00AppShell>
+      <PublicHubPage section="evolve" page="evolve-marketing-engagement" tone="daylight" crumb="EVOLVE / MARKETING & CONTENT" title="ENGAGEMENT" width="narrow">
+        <p className="s00pr-hubstatus" role="status">WORKSPACE INITIALIZING…</p>
+      </PublicHubPage>
     );
   }
 
@@ -38,14 +38,17 @@ export default function MarketingEngagementPage() {
 
   return (
     <Site00AccountRouteGuard>
-      <Site00AppShell>
-        <div className="site00-marketing-workspace">
-          <header className="site00-marketing-workspace__header">
-            <p className="site00-label-red">EVOLVE / MARKETING & CONTENT</p>
-            <h1>{data.campaignName}</h1>
-            <p>{data.engagementCode} · {data.status.replace(/_/g, ' ')}</p>
-            <p>PHASE {data.clientPhase} / {marketingPhaseLabel(data.clientPhase)}</p>
-          </header>
+      <PublicHubPage
+        section="evolve"
+        page="evolve-marketing-engagement"
+        tone="daylight"
+        crumb="EVOLVE / MARKETING & CONTENT"
+        title={data.campaignName}
+        subtitle={`${data.engagementCode} · ${data.status.replace(/_/g, ' ')}`}
+        body={`PHASE ${data.clientPhase} / ${marketingPhaseLabel(data.clientPhase)}`}
+        width="default"
+      >
+        <HubLegacySkin kind="engagement" className="site00-marketing-workspace">
 
           {data.clientActionRequired ? (
             <section className="site00-marketing-action-required">
@@ -129,7 +132,7 @@ export default function MarketingEngagementPage() {
           {data.vaultLinks?.length ? (
             <section className="site00-marketing-deliverables">
               <h2>VAULT</h2>
-              <p className="site00-label">APPROVED FINALS · STUDIO WORLD</p>
+              <p className="site00-label">APPROVED FINALS · VAULT</p>
               {data.vaultLinks.map((v) => (
                 <article key={v.id}>
                   <h3>{v.title}</h3>
@@ -154,8 +157,8 @@ export default function MarketingEngagementPage() {
           <Link className="site00-btn site00-btn--ghost" to={SITE00_ROUTES.evolveMarketingServices}>
             START ANOTHER EVOLUTION →
           </Link>
-        </div>
-      </Site00AppShell>
+        </HubLegacySkin>
+      </PublicHubPage>
     </Site00AccountRouteGuard>
   );
 }

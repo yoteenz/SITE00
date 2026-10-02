@@ -13,7 +13,10 @@ export default function ControlOverviewPage() {
   const legacyActivity = toLegacyActivityRows(data.activity);
 
   return (
-    <EcosystemShell hidePageHeader>
+    <EcosystemShell
+      hidePageHeader
+      publicRedesign={{ page: 'ctrl-room', crumb: 'LOCATION / CTRL ROOM', title: 'CTRL ROOM', subtitle: 'CONTROL YOUR ACCOUNT, SITES, AND SIGNALS.' }}
+    >
       <div className="site00-ctrl-overview-page">
         <div className="site00-ctrl-overview-page__mobile">
           <CtrlRoomMobileExperience data={data} />

@@ -38,7 +38,7 @@ export default function ControlSitesPage() {
   );
 
   return (
-    <EcosystemShell headerActions={headerActions}>
+    <EcosystemShell headerActions={headerActions} publicRedesign={{ page: 'ctrl-sites', crumb: 'LOCATION / CTRL ROOM / SITES' }}>
       <div className="site00-page site00-page--control-sites">
         <div className="site00-eco-metrics site00-eco-metrics--4">
           <MetricCard label="ACTIVE SITES" value={String(siteMetrics.active)} />

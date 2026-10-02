@@ -12,7 +12,7 @@ export default function ControlSectionPage() {
   const showOperatorTools = isSettings && canAccessAdminPages();
 
   return (
-    <EcosystemShell title={section} subtitle="ACCOUNT SERVICES AND SETTINGS.">
+    <EcosystemShell title={section} subtitle="ACCOUNT SERVICES AND SETTINGS." publicRedesign={{ page: 'ctrl-section', crumb: `LOCATION / CTRL ROOM / ${section}` }}>
       {showOperatorTools ? (
         <section className="site00-ctrl-section site00-ctrl-section--operator">
           <p className="site00-ctrl-section__kicker">00 / CONTROL · OPERATOR</p>

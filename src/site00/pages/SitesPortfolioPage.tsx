@@ -1,10 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { Site00PublicShell } from '../components/shell/Site00PublicShell';
-import { BracketHeading, EmptyState, FilterTabs, PageIntro } from '../components/pages/Site00PagePrimitives';
+import { Navigate } from 'react-router-dom';
+import { HubCta, HubEmpty, HubPanel, HubTabs, HubTile, HubTileGrid, PublicHubPage } from '../components/public-redesign/PublicHubLayouts';
 import { SITE00_PORTFOLIO_SEED } from '../config/seed/site00-page-seed';
 import { SITE00_ROUTES } from '../config/routes';
-import { StatusBadge } from '../components/pages/Site00PagePrimitives';
 import { useSignedInFromStorage } from '../../hooks/useSignedInFromStorage';
 
 const FILTERS = [
@@ -26,56 +24,42 @@ export default function SitesPortfolioPage() {
   }
 
   return (
-    <Site00PublicShell>
-      <div className="site00-page site00-page--sites-portfolio">
-        <PageIntro
-          title={<BracketHeading>SITES</BracketHeading>}
-          subtitle="WE DESIGN. WE BUILD. WE LAUNCH."
-            body="A CURATED VIEW OF SITE 00 WORK — PUBLISHED PROJECTS AND IN-PROGRESS BUILDS AVAILABLE FOR PUBLIC SHOWCASE."
-        />
-
-        <FilterTabs tabs={FILTERS} active={filter} onChange={setFilter} />
-
-        {projects.length === 0 ? (
-          <EmptyState
-            title="NO PUBLISHED PROJECTS YET"
-            body="WHEN PROJECTS ARE APPROVED FOR PUBLIC SHOWCASE, THEY WILL APPEAR HERE."
-          />
-        ) : (
-          <div className="site00-portfolio-grid">
-            {projects.map((project) => (
-              <article key={project.id} className="site00-portfolio-card">
-                {project.imageUrl ? (
-                  <img src={project.imageUrl} alt="" className="site00-portfolio-card__image" />
-                ) : (
-                  <div className="site00-portfolio-card__image site00-portfolio-card__image--placeholder" />
-                )}
-                <div className="site00-portfolio-card__body">
-                  <StatusBadge
-                    status={project.status === 'completed' ? 'COMPLETED' : 'IN PROGRESS'}
-                    tone={project.status === 'completed' ? 'published' : 'progress'}
-                  />
-                  <h2 className="site00-portfolio-card__title">{project.name}</h2>
-                  <p className="site00-portfolio-card__desc">{project.description}</p>
-                  <Link to={`${SITE00_ROUTES.sites}/${project.id}`} className="site00-link-red">
-                    VIEW PROJECT →
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-
-        <section className="site00-page-cta">
-          <div>
-            <p className="site00-label-red">HAVE A PROJECT IN MIND?</p>
-            <p className="site00-body">LET&apos;S BUILD SOMETHING EXCEPTIONAL.</p>
-          </div>
-          <Link to={SITE00_ROUTES.bldr} className="site00-link-red">
-            START A PROJECT →
-          </Link>
-        </section>
+    <PublicHubPage
+      section="idnty"
+      page="sites"
+      crumb="LOCATION / SITES"
+      title="SITES"
+      subtitle="WE DESIGN. WE BUILD. WE LAUNCH."
+      body="A CURATED VIEW OF SITE 00 WORK — PUBLISHED PROJECTS AND IN-PROGRESS BUILDS AVAILABLE FOR PUBLIC SHOWCASE."
+      width="wide"
+    >
+      <div className="s00pr-hubtoolbar">
+        <HubTabs tabs={FILTERS} active={filter} onChange={setFilter} label="FILTER PROJECTS" />
       </div>
-    </Site00PublicShell>
+      {projects.length === 0 ? (
+        <HubEmpty title="NO PUBLISHED PROJECTS YET" body="WHEN PROJECTS ARE APPROVED FOR PUBLIC SHOWCASE, THEY WILL APPEAR HERE." />
+      ) : (
+        <HubTileGrid columns={3}>
+          {projects.map((project) => (
+            <HubTile
+              key={project.id}
+              title={project.name}
+              description={project.description}
+              badge={project.status === 'completed' ? 'COMPLETED' : 'IN PROGRESS'}
+              cta="VIEW PROJECT →"
+              to={`${SITE00_ROUTES.sites}/${project.id}`}
+            />
+          ))}
+        </HubTileGrid>
+      )}
+      <HubPanel label="HAVE A PROJECT IN MIND?">
+        <p>LET&apos;S BUILD SOMETHING EXCEPTIONAL.</p>
+        <div className="s00pr-hubactions">
+          <HubCta to={SITE00_ROUTES.bldr} variant="solid">
+            START A PROJECT
+          </HubCta>
+        </div>
+      </HubPanel>
+    </PublicHubPage>
   );
 }

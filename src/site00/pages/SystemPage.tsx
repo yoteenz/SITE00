@@ -1,37 +1,19 @@
-import { Site00PublicShell } from '../components/shell/Site00PublicShell';
-import { BracketHeading, PageIntro } from '../components/pages/Site00PagePrimitives';
+import { HubSteps, PublicHubPage } from '../components/public-redesign/PublicHubLayouts';
 import { SITE00_SYSTEM_LAYERS } from '../config/seed/site00-page-seed';
 
 export default function SystemPage() {
   return (
-    <Site00PublicShell>
-      <div className="site00-page site00-page--system">
-        <PageIntro title={<BracketHeading>SYSTEM</BracketHeading>} subtitle="THE FOUNDATION." />
-        <div className="site00-system-foundation">
-          <section className="site00-system-foundation__layers" aria-label="SITE 00 SYSTEM LAYERS">
-            <ol className="site00-system-layer-list">
-              {SITE00_SYSTEM_LAYERS.map((layer) => (
-                <li key={layer.id} className="site00-system-layer-list__item">
-                  <span className="site00-system-layer-list__num">{layer.num}</span>
-                  <div>
-                    <h2 className="site00-system-layer-list__title">{layer.title}</h2>
-                    <p className="site00-system-layer-list__desc">{layer.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </section>
-          <aside className="site00-system-foundation__visual" aria-label="SYSTEM LAYER STACK VISUALIZATION">
-            <div className="site00-system-stack-viz">
-              {SITE00_SYSTEM_LAYERS.map((layer) => (
-                <div key={layer.id} className="site00-system-stack-viz__plate">
-                  <span className="site00-system-stack-viz__label">{layer.title}</span>
-                </div>
-              ))}
-            </div>
-          </aside>
+    <PublicHubPage section="idnty" page="system" crumb="LOCATION / SYSTEM" title="SYSTEM" subtitle="THE FOUNDATION." width="wide">
+      <div className="s00pr-hubsplit">
+        <HubSteps label="SITE 00 SYSTEM LAYERS" items={SITE00_SYSTEM_LAYERS.map((layer) => ({ num: layer.num, title: layer.title, body: layer.description }))} />
+        <div className="s00pr-hubstack" role="img" aria-label="SYSTEM LAYER STACK">
+          {[...SITE00_SYSTEM_LAYERS].reverse().map((layer) => (
+            <span key={layer.id} className="s00pr-hubstack__plate">
+              {layer.title}
+            </span>
+          ))}
         </div>
       </div>
-    </Site00PublicShell>
+    </PublicHubPage>
   );
 }

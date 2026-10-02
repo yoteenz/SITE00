@@ -2,14 +2,12 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { EnvironmentShell } from '../environment/EnvironmentShell';
 import { Site00AppShell } from '../shell/Site00AppShell';
-import { Site00MobileShell } from '../mobile/Site00MobileShell';
 import { Site00PageFooter } from '../shell/Site00PageFooter';
 import { Site00OriginLayoutSwitch } from '../shell/Site00OriginLayoutSwitch';
 import { useSite00DesktopArtboardPreview } from '../shell/Site00DesktopArtboardContext';
-import { resolveSite00PublicAsset } from '../loader/site00LoaderConfig';
-import { SITE00_IDNTY_ASSESSMENT_MOBILE_BG } from '../../config/idnty-assessment-env';
 import type { BldrAssessmentStateConfig } from '../../config/bldr-assessment';
 import { BldrBuildClassIcon } from '../bldr/BldrBuildClassIcon';
+import { HubLegacySkin, PublicHubPage } from '../public-redesign/PublicHubLayouts';
 
 type BldrAssessmentShellProps = {
   state: BldrAssessmentStateConfig;
@@ -18,17 +16,6 @@ type BldrAssessmentShellProps = {
   showProcessStrip?: boolean;
   processStrip?: ReactNode;
 };
-
-function BldrAssessmentMobileBackground() {
-  const assetUrl = resolveSite00PublicAsset(SITE00_IDNTY_ASSESSMENT_MOBILE_BG);
-  return (
-    <div
-      className="site00-idnty-assessment-mobile-bg"
-      aria-hidden="true"
-      style={{ backgroundImage: `url("${assetUrl.replace(/"/g, '\\"')}")` }}
-    />
-  );
-}
 
 function BldrIntroPanel({ state }: { state: BldrAssessmentStateConfig }) {
   return (
@@ -47,23 +34,6 @@ function BldrIntroPanel({ state }: { state: BldrAssessmentStateConfig }) {
         ) : null}
       </div>
     </aside>
-  );
-}
-
-function BldrMobileHero({ state }: { state: BldrAssessmentStateConfig }) {
-  return (
-    <header className="site00-idnty-assessment__mobile-hero">
-      <div className="site00-idnty-assessment__icon site00-idnty-assessment__icon--mobile">
-        <BldrBuildClassIcon id={state.iconId} title={state.title} />
-      </div>
-      <p className="site00-idnty-assessment__marker">{state.stageMarker}</p>
-      <h1 className="site00-idnty-assessment__title">{state.title}</h1>
-      <p className="site00-idnty-assessment__declaration">{state.declaration}</p>
-      <p className="site00-idnty-assessment__body">{state.editorialBody}</p>
-      {state.editorialCta ? (
-        <p className="site00-idnty-assessment__cta-text">{state.editorialCta}</p>
-      ) : null}
-    </header>
   );
 }
 
@@ -86,21 +56,23 @@ export function BldrAssessmentShell({
 
   if (!isDesktopArtboard) {
     return (
-      <div className="site00-idnty-assessment site00-idnty-assessment--mobile">
-        <BldrAssessmentMobileBackground />
-        <Site00MobileShell showEnvironmentBackground={false} shellClassName="site00-idnty-assessment-mobile-shell">
-          <div className="site00-idnty-assessment__mobile-content">
-            <BldrAssessmentBreadcrumb label={state.breadcrumb} />
-            <BldrMobileHero state={state} />
-            {panel ? <div className="site00-idnty-assessment__panel">{panel}</div> : null}
-            {children}
-            {showProcessStrip && processStrip ? (
-              <div className="site00-idnty-assessment__process-mobile">{processStrip}</div>
-            ) : null}
-            <Site00PageFooter />
-          </div>
-        </Site00MobileShell>
-      </div>
+      <PublicHubPage
+        section="bldr"
+        page="bldr-assessment"
+        envSlotId="ENV.BLDR.COMMAND_CENTER"
+        crumb={state.breadcrumb}
+        title={state.title}
+        subtitle={state.declaration}
+        body={state.editorialBody}
+        width="default"
+      >
+        <HubLegacySkin kind="assessment">
+          {state.editorialCta ? <p className="s00pr-hubnote">{state.editorialCta}</p> : null}
+          {panel ? <div className="site00-idnty-assessment__panel">{panel}</div> : null}
+          {children}
+          {showProcessStrip && processStrip ? <div className="site00-idnty-assessment__process-mobile">{processStrip}</div> : null}
+        </HubLegacySkin>
+      </PublicHubPage>
     );
   }
 
