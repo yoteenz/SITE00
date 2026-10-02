@@ -12957,3 +12957,5 @@ Forensic audit: **client app = Vite/React SPA** at `/app/*` (not React Native/Ex
 ## 2026-10-02 — Preview tunnel integrated branch (origins + production + compiler)
 
 Branch **`cursor/preview-tunnel-integrated-87ed`**: merges `public-redesign-composer-asset-injection1` (Origin env crossfade + framework icons + Grok asset URLs) with `design-unified-workspace-sonnet-structure2` (unified `/production/:slug/design-workspace` + Experience Compiler creative tab). Cloud preview pin file should reference this branch ref.
+
+- **2026-10-02:** `isSite00PreviewAuthBypassActive()` — when `VITE_SITE00_EC_PREVIEW_GUEST=1` + tunnel, all `Site00AccountRouteGuard` routes skip sign-in redirect; nav sign-in hrefs go direct to destination.
