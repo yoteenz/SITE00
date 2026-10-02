@@ -633,7 +633,16 @@
 .ph--hub .ph-nav__item.is-active::after { left: 28px; right: 28px; bottom: 12px; height: 2px; box-shadow: none; }
 .ph--hub .ph-nav__icon { width: 30px; height: 28px; }
 .ph--hub .ph-nav__icon svg { width: 26px; height: 26px; stroke-width: 1.65; fill: none; }
+.ph--hub .ph-nav__glyph {
+  display: block;
+  width: 26px;
+  height: 26px;
+  background: #141414;
+  -webkit-mask: var(--nav-icon) center / contain no-repeat;
+  mask: var(--nav-icon) center / contain no-repeat;
+}
 .ph--hub .ph-nav__item.is-active .ph-nav__icon svg { stroke-width: 1.9; }
+.ph--hub .ph-nav__item.is-active .ph-nav__glyph { background: var(--a-red); }
 .ph--hub .ph-nav__item.is-active .ph-nav__icon .nav-solid { fill: currentColor; stroke: none; }
 .ph--hub .ph-top__brand--long b { font-size: 16px; letter-spacing: 0.02em; white-space: nowrap; }
 .prod-chrome-strip.ph {

@@ -12863,3 +12863,14 @@ Fetched `origin/cursor/authority-pixel-assets-1b86` (`200c6538`, PR #1259 squash
 ## 2026-10-01 — Pixel-assets recheck had nothing left to merge
 
 Fetched `origin/cursor/authority-pixel-assets-1b86` again. Tip still `200c6538`. It is an ancestor of `cursor/grok-plus-environment-unified-review-87ed` (20 commits ahead, 0 behind). `git merge` reports already up to date. No conflict markers, no file changes, no intent clash.
+
+---
+
+## 2026-10-02 — Production review nav uses the keyed bottom-nav icons
+
+Founder approved the seven high-quality bottom-nav renders and asked for them on the working production-review branch, on the tunnel, with sign-in paused while Supabase is down.
+
+- **Context:** The keyed masters live on `cursor/bottom-nav-icon-family-v1-1b86` (draft PR 1293, not merged). This review branch is the tunnel’s production hub. Order stays HUB, INBOX, DESIGN, EXPERIENCE, EXPRESSION, LIBRARY, ACTIVITY. Do not upload over site00.com.
+- **Decisions / outcomes:** The production bottom nav masks those PNGs. Inactive ink is charcoal. The active item uses the host red. Sign-in is skipped only on `site00.fsbw-dev.com` and localhost. site00.com still requires sign-in.
+- **Changes:** `productionHub/nav.tsx`, `productionHub/bottom-nav/*.png`, `signInPaused.ts`, the production and account guards, and the sign-in shell. Draft PR 1266 stays unmerged.
+- **Conventions:** Turn sign-in back on by removing the preview-host pause when Supabase is up. Do not bake that pause into a GoDaddy upload.

@@ -15,6 +15,7 @@ import { registerServerSessionCookie, tryServerSessionRestore } from '../../../u
 import { trackActivity } from '../../../utils/activity';
 import { resolveSite00ReturnToAfterSignIn } from '../../../utils/signInReturnTo';
 import { isSite00PreviewTunnelHost } from '../loader/site00PreviewHost';
+import { isSite00SignInPaused } from '../../config/signInPaused';
 
 const PROFILE_SYNC_TIMEOUT_MS = 12_000;
 const PREVIEW_PROFILE_SYNC_TIMEOUT_MS = 4_000;
@@ -94,6 +95,8 @@ export function useSite00SignInBootstrap(): void {
     let cancelled = false;
     const isCancelled = () => cancelled;
     const { search, state } = location;
+
+    if (isSite00SignInPaused()) return;
 
     ensureAuthRestoredFromBackup();
     redirectIfAlreadySignedIn(search, state, isCancelled);
