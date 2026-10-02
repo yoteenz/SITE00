@@ -1,0 +1,331 @@
+/*
+ * P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1 — tablet + desktop HOST CHROME.
+ *
+ * Canon (overrides hallucinated shell in the tablet/desktop authority renders):
+ *   TOP    [ LOCATION/WORKSPACE ] [ PROJECT NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
+ *   BOTTOM [ ICON ] LABEL  x7  (HUB INBOX DESIGN EXPERIENCE EXPRESSION LIBRARY ACTIVITY)
+ *
+ * SCALE GUARD: this file never uses zoom, transform scale, viewport/container units, rem scaling or
+ * clamp() for type. Every size is explicit px per viewport class (tablet / desktop).
+ */
+
+.pxh-strip {
+  --pxh-red: #e5231b;
+  --pxh-ink: #121214;
+  --pxh-mute: #6d6d73;
+  --pxh-line: #d8d8dc;
+  --pxh-font: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  flex: 0 0 auto;
+  font-family: var(--pxh-font);
+  color: var(--pxh-ink);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pxh-strip *,
+.pxh-strip *::before,
+.pxh-strip *::after {
+  box-sizing: border-box;
+}
+
+/* ═══ TOP ═══ */
+.pxh-top {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 58px;
+  padding: 0 0 0 20px;
+  background: linear-gradient(180deg, #fbfbfc, #f2f2f4);
+  border-bottom: 1px solid var(--pxh-line);
+}
+.pxh-top__cluster {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+}
+.pxh-top__cluster > * {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  border-right: 1px solid var(--pxh-line);
+  margin: 9px 0;
+  padding: 0 24px;
+  color: inherit;
+  text-decoration: none;
+}
+.pxh-top__cluster > :first-child {
+  padding-left: 14px;
+  position: relative;
+}
+.pxh-top__cluster > :first-child::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 3px;
+  background: var(--pxh-red);
+}
+.pxh-top__cluster > :last-child {
+  border-right: 0;
+}
+.pxh-top__loc {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.pxh-top__loc b {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.pxh-top__loc small {
+  margin-top: 3px;
+  font-size: 10.5px;
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  color: var(--pxh-mute);
+  white-space: nowrap;
+}
+.pxh-top__project {
+  gap: 12px;
+}
+.pxh-top__thumb {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 40px;
+  border-radius: 1px;
+  object-fit: cover;
+}
+.pxh-top__project > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pxh-top__project small,
+.pxh-top__attn small {
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 0.12em;
+  color: #3c3c42;
+  white-space: nowrap;
+}
+.pxh-top__project b {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: 0.08em;
+}
+.pxh-top__attn {
+  gap: 10px;
+}
+.pxh-top__attn > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.pxh-top__attn b {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  color: var(--pxh-red);
+}
+.pxh-top__attn small {
+  color: var(--pxh-red);
+}
+.pxh-top__menu {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 64px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--pxh-line);
+  background: transparent;
+  color: var(--pxh-ink);
+  cursor: pointer;
+}
+.pxh-top__menu:focus-visible,
+.pxh-nav__item:focus-visible,
+.pxh-top__cluster a:focus-visible {
+  outline: 2px solid var(--pxh-red);
+  outline-offset: -2px;
+}
+.pxh-pop {
+  position: absolute;
+  top: 100%;
+  right: 8px;
+  z-index: 40;
+  display: grid;
+  width: 240px;
+  background: #fff;
+  border: 1px solid var(--pxh-line);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+}
+.pxh-pop a {
+  display: grid;
+  gap: 2px;
+  padding: 12px 16px;
+  color: var(--pxh-ink);
+  text-decoration: none;
+  border-bottom: 1px solid #ececef;
+}
+.pxh-pop a:last-child {
+  border-bottom: 0;
+}
+.pxh-pop b {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+.pxh-pop span {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--pxh-mute);
+}
+
+/* ═══ BOTTOM NAV — [ ICON ] LABEL ═══ */
+.pxh-nav {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  height: 56px;
+  padding: 0 0 env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(180deg, #f8f8f9, #f0f0f2);
+  border-top: 1px solid var(--pxh-line);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+}
+.pxh-nav__item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 0 8px;
+  color: #4a4a50;
+  text-decoration: none;
+  border-left: 1px solid #dcdce0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+.pxh-nav__item:first-child {
+  border-left: 0;
+}
+.pxh-nav__icon {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+.pxh-nav__glyph {
+  display: block;
+  width: 22px;
+  height: 22px;
+  background: #141414;
+  -webkit-mask: var(--nav-icon) center / contain no-repeat;
+  mask: var(--nav-icon) center / contain no-repeat;
+}
+.pxh-nav__dot {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pxh-red);
+}
+.pxh-nav__label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: 1.05;
+}
+.pxh-nav__item.is-active {
+  color: var(--pxh-red);
+  font-weight: 500;
+}
+.pxh-nav__item.is-active .pxh-nav__glyph {
+  background: var(--pxh-red);
+}
+.pxh-nav__item.is-active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 7px;
+  height: 2px;
+  background: var(--pxh-red);
+}
+
+/* ═══ DESKTOP (>= 1120px): explicit px, wider gutters ═══ */
+@media (min-width: 1120px) {
+  .pxh-top {
+    height: 62px;
+    padding-left: 28px;
+  }
+  .pxh-top__cluster > * {
+    padding: 0 32px;
+  }
+  .pxh-top__loc b {
+    font-size: 24px;
+  }
+  .pxh-top__project b {
+    font-size: 18px;
+  }
+  .pxh-top__attn b {
+    font-size: 24px;
+  }
+  .pxh-top__menu {
+    width: 72px;
+  }
+  .pxh-nav {
+    height: 58px;
+  }
+  .pxh-nav__item {
+    gap: 11px;
+    font-size: 11.5px;
+  }
+  .pxh-nav__icon,
+  .pxh-nav__glyph {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ═══ TABLET (700–1119px): explicit px, tighter cluster ═══ */
+@media (max-width: 1119px) {
+  .pxh-top__cluster > * {
+    padding: 0 18px;
+  }
+  .pxh-top__loc b {
+    font-size: 19px;
+  }
+  .pxh-top__project b {
+    font-size: 15px;
+  }
+  .pxh-top__attn b {
+    font-size: 19px;
+  }
+  .pxh-nav__item {
+    gap: 7px;
+    padding: 0 4px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  .pxh-nav__icon,
+  .pxh-nav__glyph {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -237,6 +237,11 @@ const ProductionLibrariesPage = lazy(() =>
     default: m.ProductionLibrariesPage,
   })),
 );
+const ProductionActivityPage = lazy(() =>
+  import('../site00/pages/production/ProductionActivityPage').then((m) => ({
+    default: m.ProductionActivityPage,
+  })),
+);
 const ProductionQueuePage = lazy(() =>
   import('../site00/pages/production/ProductionQueuePage').then((m) => ({
     default: m.ProductionQueuePage,
@@ -1459,6 +1464,18 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.productionActivity}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionActivityPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.productionQueue}
         element={
           <Site00Layout>
@@ -1498,6 +1515,7 @@ export function Site00Routes() {
             }
           >
             <Route index element={null} />
+            <Route path="workspace" element={null} />
             <Route path="references" element={<Site00Suspense><DesignProductionSectionReferences /></Site00Suspense>} />
             <Route path="assets" element={<Site00Suspense><DesignProductionSectionAssets /></Site00Suspense>} />
             <Route path="pages" element={<Site00Suspense><DesignProductionSectionPages /></Site00Suspense>} />
