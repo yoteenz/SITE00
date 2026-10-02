@@ -28,4 +28,13 @@ describe('site00ShellAuthState', () => {
       resolveSite00ShellAuthMode('/studio/site00/experience-compiler', { previewGuestForce: true }),
     ).toBe('PREVIEW_GUEST');
   });
+
+  it('rewrites STUDIO top nav href in preview guest mode', () => {
+    expect(
+      resolveOperatingWorldNavHref(
+        { id: 'studio', label: 'STUDIO', href: '/admin/site00/studio' },
+        { previewGuest: true, projectSlug: 'site00' },
+      ),
+    ).toBe('/studio/site00/preview-guest');
+  });
 });
