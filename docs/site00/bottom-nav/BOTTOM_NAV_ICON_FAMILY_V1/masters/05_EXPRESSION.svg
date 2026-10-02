@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <g fill="none" stroke="#141414" stroke-width="26" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="2.2"><path d="M 256.41 122.86 L 379.19 190.88 L 256.41 258.90 L 133.64 190.88 Z"/><path d="M 133.64 190.88 L 133.64 321.95"/><path d="M 379.19 190.88 L 379.19 321.95"/><path d="M 256.41 258.90 L 256.41 389.97"/><path d="M 133.64 321.95 L 256.41 389.97 L 379.19 321.95"/></g>
+</svg>

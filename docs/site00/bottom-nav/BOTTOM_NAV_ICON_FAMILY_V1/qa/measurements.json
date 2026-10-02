@@ -1,0 +1,77 @@
+{
+  "stroke": 26,
+  "ink": "#141414",
+  "target": 292,
+  "icons": {
+    "HUB": {
+      "file": "outputs/01_HUB.png",
+      "canvas": 512,
+      "inkWidth": 292,
+      "inkHeight": 267,
+      "centerOfGravityX": 263.7,
+      "centerOfGravityY": 247.61,
+      "redPixels": 0,
+      "occupancy": 0.5703
+    },
+    "INBOX": {
+      "file": "outputs/02_INBOX.png",
+      "canvas": 512,
+      "inkWidth": 295,
+      "inkHeight": 229,
+      "centerOfGravityX": 256,
+      "centerOfGravityY": 249.95,
+      "redPixels": 0,
+      "occupancy": 0.5762
+    },
+    "DESIGN": {
+      "file": "outputs/03_DESIGN.png",
+      "canvas": 512,
+      "inkWidth": 295,
+      "inkHeight": 253,
+      "centerOfGravityX": 256,
+      "centerOfGravityY": 269.38,
+      "redPixels": 0,
+      "occupancy": 0.5762
+    },
+    "EXPERIENCE": {
+      "file": "outputs/04_EXPERIENCE.png",
+      "canvas": 512,
+      "inkWidth": 291,
+      "inkHeight": 291,
+      "centerOfGravityX": 257.38,
+      "centerOfGravityY": 256.01,
+      "redPixels": 0,
+      "occupancy": 0.5684
+    },
+    "EXPRESSION": {
+      "file": "outputs/05_EXPRESSION.png",
+      "canvas": 512,
+      "inkWidth": 299,
+      "inkHeight": 297,
+      "centerOfGravityX": 255.95,
+      "centerOfGravityY": 255.08,
+      "redPixels": 0,
+      "occupancy": 0.584
+    },
+    "LIBRARY": {
+      "file": "outputs/06_LIBRARY.png",
+      "canvas": 512,
+      "inkWidth": 295,
+      "inkHeight": 279,
+      "centerOfGravityX": 254.26,
+      "centerOfGravityY": 270.92,
+      "redPixels": 0,
+      "occupancy": 0.5762
+    },
+    "ACTIVITY": {
+      "file": "outputs/07_ACTIVITY.png",
+      "canvas": 512,
+      "inkWidth": 297,
+      "inkHeight": 206,
+      "centerOfGravityX": 271.17,
+      "centerOfGravityY": 278.96,
+      "redPixels": 0,
+      "occupancy": 0.5801
+    }
+  }
+}
