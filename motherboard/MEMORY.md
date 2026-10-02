@@ -13085,3 +13085,15 @@ Founder attached `sonnet_production_authority_handoff_v2` (8 TXT files) plus thr
 - **Existing Production code map:** `src/site00/components/productionHub/{chrome,nav,ProductionHub,panels,machine,overlays}.tsx`, `src/site00/components/production/PwFrame.tsx`, `src/site00/pages/production/*`, routes `/production`, `/production/queue` (INBOX), `/production/libraries` (LIBRARY), `/production?panel=activity` (ACTIVITY), `/production/:slug/{design,experience,expression}`; Design workspace `src/site00/components/designWorkspace/`. No tablet/desktop families, no LIBRARY full-width vault, no standalone ACTIVITY page on main.
 - **Review limits:** image review in this session was via textual descriptions only; pixel-level geometry claims need browser capture at 390x844 / 768x1024 (4:3) / 1440x810 and a PASS/FAIL 36-row proof matrix (file 05).
 - **Convention:** Authority images are QA inputs only (never shipped as runtime assets); build a typed registry (workspace, designMode, viewportFamily, authorityFile, route/state selector) in code/tests.
+
+---
+
+## 2026-10-02 — Merge `origin/main` into `cursor/production-authority-alignment-sonnet1r1` (conflict triage)
+
+Fetched `origin/main` @ `dbfebd31` and merged into authority-alignment branch. Git reported **3 content conflicts** — all **simple** (orthogonal edits, no competing product intent in the marked hunks).
+
+- **`.cursor/scripts/run-site00-cloud-preview-server.sh`:** Branch added `SITE00_CLOUD_PREVIEW_ROOT` worktree serving; main added `/tmp/site00-cloud-preview-pinned-ref` checkout. Resolution: **both** — log worktree root when set, then run pin-ref checkout when set.
+- **`Site00AccountRouteGuard.tsx`:** Branch added preview-host `isSite00SignInPaused()` bypass; main added `Site00ShellAuthProvider` + EC preview-guest allowlist. Resolution: **union imports** and **union** api-token skip conditions (`signInPaused` + `previewGuestRoute` + existing capture/cloud paths).
+- **`motherboard/MEMORY.md`:** Divergent append-only chronicles. Resolution: keep branch Grok/unified-review + SONNET1R1 entries, then main entries (Origin forensics, handoff v2, etc.) with `---` separators — no duplicate facts removed in conflict window.
+- **Complication (not in conflict markers):** This merge also auto-integrates a large `main` delta (Experience Compiler MAP2, existing-location service, creative director, shell auth tests, etc.) on top of the Grok-based authority stack. Re-validate Production authority QA on the merged tip; unrelated main features may affect routes/build size. Authority sprint assumed optional stacks (nav-typography, design cutover) still **not** on bare `main` — merged tree is authority + main, not necessarily + cutover stack unless those branches are merged separately.
+- **Verify:** `npm run build` OK after resolution.
