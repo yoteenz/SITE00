@@ -12874,3 +12874,14 @@ Founder approved the seven high-quality bottom-nav renders and asked for them on
 - **Decisions / outcomes:** The production bottom nav masks those PNGs. Inactive ink is charcoal. The active item uses the host red. Sign-in is skipped only on `site00.fsbw-dev.com` and localhost. site00.com still requires sign-in.
 - **Changes:** `productionHub/nav.tsx`, `productionHub/bottom-nav/*.png`, `signInPaused.ts`, the production and account guards, and the sign-in shell. Draft PR 1266 stays unmerged.
 - **Conventions:** Turn sign-in back on by removing the preview-host pause when Supabase is up. Do not bake that pause into a GoDaddy upload.
+
+---
+
+## 2026-10-02 — Production authority alignment (SONNET1R1) on the PR #1266 review branch
+
+Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1`. Base corrected to `cursor/grok-plus-environment-unified-review-87ed` @ `4dc9f839` (PR #1266, draft, not merged). Work lives on `cursor/production-authority-alignment-sonnet1r1` (draft PR #1295). No deploy, no auth changes.
+
+- **Shell:** Tablet/desktop use a scale-free `.pxh-*` host chrome (left cluster LOCATION / PROJECT NDXBOOK / ITEMS NEED YOU, hamburger far right, horizontal icon-left bottom nav). Mobile keeps the approved legacy top and icon-above nav. Host chrome must not use zoom, `transform: scale`, vw/cqw, rem scaling or clamp.
+- **Bodies:** `src/site00/components/productionAuthority/` holds Hub, Inbox, Activity (`/production/activity`), Experience, Expression (Character Fabrication first), Library (full width) and the Design chamber (six `?mode=` modes). Registry of all 36 authority screens: `src/site00/config/production-authority-registry.ts`. Legacy machine stays at `/production?view=machine`; old design workspace at `design/workspace`.
+- **QA:** `scripts/production-authority/capture-matrix.mjs` renders all 36 states and asserts structure (36/36 pass). Proof matrix and screenshots were written to the agent artifacts dir. Full `npm test` has 57 failing files / 80 tests, identical on the base commit (pre-existing).
+- **Residual:** Imagery reuses existing plates; design chamber has no 3D atrium; pixel polish (tilt, glass density, internal type) is left for Opus.

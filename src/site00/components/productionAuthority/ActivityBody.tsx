@@ -5,7 +5,8 @@ import type { HubData } from '../productionHub/useProductionHubData';
 import { AuthorityHero, LiveStatusBar } from './HubBody';
 import { agoLabel, Tabs } from './primitives';
 
-type Cat = 'ALL' | HubActivityCategory;
+export type ActivityWorkspace = 'DESIGN' | 'EXPERIENCE' | 'EXPRESSION' | 'LIBRARY' | 'PEOPLE' | 'SYSTEM';
+type Cat = 'ALL' | ActivityWorkspace;
 type Range = 'TODAY' | 'WEEK' | 'MONTH' | 'ALL';
 
 const BADGE: Record<HubActivityCategory, string> = {
@@ -26,12 +27,27 @@ const RANGE_MS: Record<Range, number> = {
 export type ActivityRow = {
   id: string;
   category: HubActivityCategory;
+  workspace: ActivityWorkspace;
   badge: string;
   title: string;
   detail: string;
   at: string | null;
   actor: string | null;
 };
+
+const WORKSPACE_KEYWORDS: readonly [ActivityWorkspace, RegExp][] = [
+  ['DESIGN', /design|brand|surface|compiler|viewport/i],
+  ['EXPERIENCE', /experience|world|zone|environment|simulation/i],
+  ['LIBRARY', /library|asset|canon|vault/i],
+  ['PEOPLE', /cast|people|character|actor/i],
+  ['EXPRESSION', /expression|storyboard|scene|frame|render|trailer|campaign/i],
+];
+
+function workspaceFor(category: HubActivityCategory, text: string): ActivityWorkspace {
+  if (category === 'ASSET') return 'LIBRARY';
+  for (const [ws, re] of WORKSPACE_KEYWORDS) if (re.test(text)) return ws;
+  return category === 'APPROVAL' || category === 'RENDER' ? 'EXPRESSION' : 'SYSTEM';
+}
 
 const NODE_BADGE: Record<string, string> = {
   COMPLETE: 'COMPLETE',
@@ -51,6 +67,7 @@ export function buildActivityRows(data: HubData | null): ActivityRow[] {
   const recorded: ActivityRow[] = data.activity.map((a) => ({
     id: a.id,
     category: a.category,
+    workspace: workspaceFor(a.category, `${a.title} ${a.detail}`),
     badge: BADGE[a.category],
     title: a.title,
     detail: a.detail,
@@ -61,6 +78,7 @@ export function buildActivityRows(data: HubData | null): ActivityRow[] {
   const state: ActivityRow[] = data.graph.nodes.map((n) => ({
     id: `state.${n.id}`,
     category: 'OTHER',
+    workspace: /cast/i.test(n.id) ? 'PEOPLE' : 'EXPRESSION',
     badge: NODE_BADGE[n.status] ?? n.status,
     title: `${label} · ${n.label}`,
     detail: n.statusDetail,
@@ -77,7 +95,7 @@ export function ActivityBody() {
   const rows = useMemo(() => {
     const now = Date.now();
     return buildActivityRows(data).filter(
-      (a) => (cat === 'ALL' || a.category === cat) && (a.at === null ? range === 'ALL' || range === 'TODAY' : now - new Date(a.at).getTime() <= RANGE_MS[range]),
+      (a) => (cat === 'ALL' || a.workspace === cat) && (a.at === null ? range === 'ALL' || range === 'TODAY' : now - new Date(a.at).getTime() <= RANGE_MS[range]),
     );
   }, [data, cat, range]);
   const project = data?.project;
@@ -103,11 +121,12 @@ export function ActivityBody() {
             onChange={setCat}
             tabs={[
               { id: 'ALL', label: 'ALL' },
-              { id: 'APPROVAL', label: 'APPROVALS' },
-              { id: 'RENDER', label: 'RENDERS' },
-              { id: 'ASSET', label: 'ASSETS' },
-              { id: 'REQUEST', label: 'REQUESTS' },
-              { id: 'OTHER', label: 'SYSTEM' },
+              { id: 'DESIGN', label: 'DESIGN' },
+              { id: 'EXPERIENCE', label: 'EXPERIENCE' },
+              { id: 'EXPRESSION', label: 'EXPRESSION' },
+              { id: 'LIBRARY', label: 'LIBRARY' },
+              { id: 'PEOPLE', label: 'PEOPLE' },
+              { id: 'SYSTEM', label: 'SYSTEM' },
             ]}
           />
           <Tabs
