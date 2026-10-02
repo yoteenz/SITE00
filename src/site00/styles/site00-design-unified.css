@@ -1,0 +1,2192 @@
+/**
+ * DESIGN UNIFIED WORKSPACE (STUDIO OS) — one host shell, five modes, expression states as overlays.
+ * ABSOLUTE TYPE RULE: every user-visible string renders UPPERCASE (source copy is uppercase AND this sheet enforces it,
+ * including typed text and placeholders). Project imagery is slot-owned (`.dws-art`); nothing here is a flattened screenshot.
+ */
+
+.dws {
+  --dws-red: #e8192c;
+  --dws-red-deep: #c4101f;
+  --dws-ink: #0b0b0b;
+  --dws-ink-2: #2b2b2b;
+  --dws-mute: #7b7b7b;
+  --dws-line: rgba(0, 0, 0, 0.12);
+  --dws-line-soft: rgba(0, 0, 0, 0.07);
+  --dws-glass: rgba(255, 255, 255, 0.82);
+  --dws-paper: #f4f4f3;
+  --dws-font: var(--site00-font-family, 'Martian Mono', ui-monospace, Menlo, monospace);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  box-sizing: border-box;
+  background: var(--dws-paper);
+  color: var(--dws-ink);
+  font-family: var(--dws-font);
+  font-stretch: var(--site00-font-stretch-default, semi-condensed);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+.dws *,
+.dws *::before,
+.dws *::after {
+  box-sizing: border-box;
+  text-transform: uppercase;
+}
+
+.dws input,
+.dws textarea,
+.dws select,
+.dws button {
+  font: inherit;
+  font-stretch: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-transform: uppercase;
+}
+
+.dws input::placeholder,
+.dws textarea::placeholder {
+  text-transform: uppercase;
+  color: var(--dws-mute);
+}
+
+.dws button {
+  cursor: pointer;
+}
+
+.dws :where(h1, h2, h3, p, ul, ol, dl, dd, figure) {
+  margin: 0;
+  padding: 0;
+}
+
+.dws :where(ul, ol) {
+  list-style: none;
+}
+
+.dws :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.dws :focus-visible {
+  outline: 2px solid var(--dws-red);
+  outline-offset: 2px;
+}
+
+.dws small {
+  font-size: 0.82em;
+}
+
+/* ---------------------------------------------------------------- top bar */
+
+.dws-top {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 18px;
+  min-height: 58px;
+  padding: 6px 18px;
+  background: rgba(250, 250, 250, 0.96);
+  border-bottom: 1px solid var(--dws-line-soft);
+}
+
+.dws-brandmark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dws-brandmark > i {
+  width: 2px;
+  height: 34px;
+  background: var(--dws-red);
+}
+
+.dws-brandmark strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+.dws-brandmark small {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--dws-mute);
+}
+
+.dws-project {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 1px solid var(--dws-line);
+}
+
+.dws-project__mark {
+  position: relative;
+  width: 34px;
+  height: 40px;
+  flex: none;
+}
+
+.dws-project small {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: var(--dws-mute);
+}
+
+.dws-project__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.dws-project__btn strong {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.dws-project__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 12px;
+  z-index: 40;
+  min-width: 200px;
+  padding: 6px;
+  border: 1px solid var(--dws-line);
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+}
+
+.dws-project__menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.dws-project__menu button[aria-selected='true'] {
+  color: var(--dws-red);
+}
+
+.dws-modes {
+  display: flex;
+  justify-content: center;
+  gap: clamp(14px, 3.2vw, 56px);
+  min-width: 0;
+}
+
+.dws-modes button {
+  position: relative;
+  padding: 18px 2px 16px;
+  border: 0;
+  background: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+.dws-modes button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: transparent;
+}
+
+.dws-modes button.is-on {
+  font-weight: 700;
+}
+
+.dws-modes button.is-on::after {
+  background: var(--dws-red);
+}
+
+.dws-needs {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 10px;
+  padding: 0 14px;
+  border: 0;
+  border-left: 1px solid var(--dws-line);
+  border-right: 1px solid var(--dws-line);
+  background: none;
+  text-align: left;
+}
+
+.dws-needs__dial {
+  grid-row: 1 / 3;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #111;
+  background: radial-gradient(circle, #222 0 38%, #fff 40% 100%);
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px rgba(232, 25, 44, 0.4);
+}
+
+.dws-needs__dial i {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  background: #111;
+}
+
+.dws-needs b {
+  align-self: end;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--dws-red);
+}
+
+.dws-needs small {
+  align-self: start;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: var(--dws-mute);
+  white-space: nowrap;
+}
+
+.dws-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+.dws-menu {
+  width: 40px;
+  height: 40px;
+}
+
+/* ---------------------------------------------------------------- main */
+
+.dws-main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dws-stagewrap {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dws-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.55fr);
+  background: rgba(250, 250, 250, 0.97);
+  border-top: 1px solid var(--dws-line-soft);
+}
+
+/* ---------------------------------------------------------------- atrium (environment slot) */
+
+.dws-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.dws-atrium {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 30% 7% at 50% 9%, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)),
+    radial-gradient(ellipse 60% 20% at 50% 12%, rgba(255, 238, 236, 0.9), rgba(255, 255, 255, 0)),
+    radial-gradient(ellipse 80% 14% at 50% 78%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0)),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0) 18%, rgba(0, 0, 0, 0) 82%, rgba(0, 0, 0, 0.06)),
+    linear-gradient(180deg, #e9e8e7 0%, #f6f5f4 26%, #eceae9 52%, #f8f8f7 70%, #e4e3e2 100%);
+}
+
+.dws-atrium__ring {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 22px rgba(232, 25, 44, 0.45), inset 0 0 18px rgba(232, 25, 44, 0.25);
+  transform: translateX(-50%);
+}
+
+.dws-atrium__ring--1 {
+  top: 4%;
+  width: 46%;
+  height: 16%;
+}
+.dws-atrium__ring--2 {
+  top: 7%;
+  width: 34%;
+  height: 11%;
+  border-color: rgba(232, 25, 44, 0.55);
+}
+.dws-atrium__ring--3 {
+  bottom: 12%;
+  width: 62%;
+  height: 22%;
+  opacity: 0.7;
+}
+
+.dws-atrium__core {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  width: 11%;
+  height: 24%;
+  transform: translateX(-50%);
+  border: 1px solid rgba(232, 25, 44, 0.5);
+  background: radial-gradient(circle, rgba(232, 25, 44, 0.65), rgba(30, 0, 4, 0.9) 70%);
+  box-shadow: 0 0 40px rgba(232, 25, 44, 0.55);
+}
+
+/* ---------------------------------------------------------------- art slots */
+
+.dws-art {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: #151515;
+}
+
+.dws-art--light {
+  background: linear-gradient(180deg, #f3f3f2, #dcdbd9);
+}
+
+.dws-art__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dws-art__geo {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(232, 25, 44, 0.55) 47% 48%, transparent 49%),
+    linear-gradient(45deg, transparent 56%, rgba(255, 255, 255, 0.18) 57% 58%, transparent 59%),
+    radial-gradient(circle at 70% 30%, rgba(232, 25, 44, 0.32), transparent 55%);
+}
+
+.dws-art--light .dws-art__geo {
+  background:
+    linear-gradient(135deg, transparent 46%, rgba(232, 25, 44, 0.45) 47% 48%, transparent 49%),
+    radial-gradient(circle at 60% 40%, rgba(0, 0, 0, 0.06), transparent 60%);
+}
+
+/* ---------------------------------------------------------------- boards */
+
+.dws-boards {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+}
+
+.dws-board {
+  position: absolute;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  background: var(--dws-glass);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(232, 25, 44, 0.08);
+  backdrop-filter: blur(8px);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.dws-board.is-forward {
+  z-index: 6;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.22), 0 0 0 2px var(--dws-red);
+}
+
+.dws-board__hit {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.dws-board__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: start;
+  padding: 10px 12px 6px;
+}
+
+.dws-board__code {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--dws-red);
+}
+
+.dws-board__head strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.dws-board__head small {
+  display: block;
+  margin-top: 2px;
+  font-size: 7.5px;
+  letter-spacing: 0.12em;
+  color: var(--dws-mute);
+}
+
+.dws-board__more {
+  font-style: normal;
+  color: var(--dws-mute);
+  letter-spacing: 0.1em;
+}
+
+.dws-board__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 8px;
+  padding: 4px 12px 12px;
+}
+
+.dws-board__art {
+  min-height: 92px;
+  border-radius: 2px;
+}
+
+.dws-board__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  color: #555;
+}
+
+.dws-board__rows li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dws-board__rows span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dws-board__fhead {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 18px 8px;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+}
+
+.dws-board__fhead b {
+  color: var(--dws-red);
+  font-weight: 500;
+}
+
+.dws-board__fhead i {
+  font-style: normal;
+}
+
+.dws-board__fhead strong {
+  font-weight: 700;
+}
+
+.dws-board__fbody {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+  grid-template-areas: 'art entries';
+  gap: 14px;
+  padding: 4px 18px 10px;
+  position: relative;
+}
+
+.dws-board__fart {
+  grid-area: art;
+  min-height: 170px;
+}
+
+.dws-board__statement {
+  position: absolute;
+  left: 30px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.dws-board__fentries {
+  grid-area: entries;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  color: #444;
+}
+
+.dws-board__fentries i {
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: var(--dws-red);
+}
+
+.dws-board__expr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 36px);
+  margin: 0 18px 14px;
+  padding: 9px 12px;
+  border: 1px solid rgba(232, 25, 44, 0.5);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--dws-red);
+}
+
+/* desktop composition: 2 | featured | 3 */
+.dws[data-viewport='desktop'] .dws-board--1 { left: 3%; top: 9%; width: 17%; transform: rotateY(22deg); }
+.dws[data-viewport='desktop'] .dws-board--2 { left: 21%; top: 6%; width: 17%; transform: rotateY(14deg); }
+.dws[data-viewport='desktop'] .dws-board--featured { left: 38.2%; top: 4%; width: 23.8%; z-index: 4; }
+.dws[data-viewport='desktop'] .dws-board--3 { left: 62.6%; top: 7%; width: 13.4%; transform: rotateY(-14deg); }
+.dws[data-viewport='desktop'] .dws-board--4 { left: 76.4%; top: 9%; width: 10.8%; transform: rotateY(-22deg); }
+.dws[data-viewport='desktop'] .dws-board--5 { left: 85%; top: 9%; width: 12.6%; transform: rotateY(-26deg); }
+.dws[data-viewport='desktop'] .dws-board__body { grid-template-columns: 1fr; }
+.dws[data-viewport='desktop'] .dws-board--4 .dws-board__body,
+.dws[data-viewport='desktop'] .dws-board--5 .dws-board__body,
+.dws[data-viewport='desktop'] .dws-board--3 .dws-board__body { grid-template-columns: 1fr; }
+.dws[data-viewport='desktop'] .dws-board__head { padding: 8px 8px 4px; }
+.dws[data-viewport='desktop'] .dws-board__art { min-height: 150px; }
+.dws[data-viewport='desktop'] .dws-board__fart { min-height: 200px; }
+.dws[data-viewport='desktop'] .dws-board__rows { font-size: 8px; gap: 7px; }
+.dws[data-viewport='desktop'] .dws-board--1 { top: 12%; }
+.dws[data-viewport='desktop'] .dws-board--2 { top: 9%; }
+.dws[data-viewport='desktop'] .dws-board__body { padding: 4px 8px 8px; }
+.dws[data-viewport='desktop'] .dws-board--1 .dws-board__body,
+.dws[data-viewport='desktop'] .dws-board--2 .dws-board__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+/* tablet composition: fan around a dominant centre */
+.dws[data-viewport='tablet'] .dws-board--featured { left: 31%; top: 6%; width: 38%; z-index: 4; }
+.dws[data-viewport='tablet'] .dws-board--1 { left: 1%; top: 22%; width: 19%; transform: rotateY(28deg); }
+.dws[data-viewport='tablet'] .dws-board--2 { left: 15%; top: 14%; width: 22%; transform: rotateY(16deg); z-index: 3; }
+.dws[data-viewport='tablet'] .dws-board--3 { left: 63%; top: 14%; width: 22%; transform: rotateY(-16deg); z-index: 3; }
+.dws[data-viewport='tablet'] .dws-board--4 { left: 80%; top: 22%; width: 19%; transform: rotateY(-28deg); }
+.dws[data-viewport='tablet'] .dws-board--5 { left: 33%; top: 62%; width: 34%; z-index: 5; }
+.dws[data-viewport='tablet'] .dws-board--1 .dws-board__rows,
+.dws[data-viewport='tablet'] .dws-board--4 .dws-board__rows { display: none; }
+.dws[data-viewport='tablet'] .dws-board--5 .dws-board__body { grid-template-columns: 1fr 1fr; }
+.dws[data-viewport='tablet'] .dws-board__body { grid-template-columns: 1fr; }
+.dws[data-viewport='tablet'] .dws-board__art { min-height: 70px; }
+
+/* mobile composition: overview centred, boards orbit it */
+.dws[data-viewport='mobile'] .dws-board--featured { left: 21%; top: 13%; width: 58%; z-index: 4; }
+.dws[data-viewport='mobile'] .dws-board--1 { left: 2%; top: 2%; width: 37%; transform: rotateY(18deg); }
+.dws[data-viewport='mobile'] .dws-board--3 { left: 61%; top: 2%; width: 37%; transform: rotateY(-18deg); }
+.dws[data-viewport='mobile'] .dws-board--2 { left: 2%; top: 63%; width: 31%; transform: rotateY(14deg); }
+.dws[data-viewport='mobile'] .dws-board--4 { left: 34.5%; top: 65%; width: 31%; }
+.dws[data-viewport='mobile'] .dws-board--5 { left: 67%; top: 63%; width: 31%; transform: rotateY(-14deg); }
+.dws[data-viewport='mobile'] .dws-board__body { grid-template-columns: 1fr; }
+.dws[data-viewport='mobile'] .dws-board__rows { display: none; }
+.dws[data-viewport='mobile'] .dws-board__art { min-height: 48px; }
+.dws[data-viewport='mobile'] .dws-board__head { padding: 6px 6px 3px; gap: 4px; }
+.dws[data-viewport='mobile'] .dws-board__head strong { font-size: 9px; }
+.dws[data-viewport='mobile'] .dws-board__head small { display: none; }
+.dws[data-viewport='mobile'] .dws-board__code { font-size: 14px; }
+.dws[data-viewport='mobile'] .dws-board__body { padding: 2px 6px 6px; }
+.dws[data-viewport='mobile'] .dws-board__fhead { padding: 8px 10px 4px; font-size: 11px; }
+.dws[data-viewport='mobile'] .dws-board__fbody { grid-template-columns: 1fr; padding: 2px 10px 6px; }
+.dws[data-viewport='mobile'] .dws-board__fart { min-height: 90px; }
+.dws[data-viewport='mobile'] .dws-board__fentries { display: none; }
+.dws[data-viewport='mobile'] .dws-board__statement { font-size: 9px; left: 18px; bottom: 14px; }
+.dws[data-viewport='mobile'] .dws-board__expr { width: calc(100% - 20px); margin: 0 10px 8px; padding: 6px 8px; font-size: 7px; }
+
+.dws-tagline {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  bottom: 10px;
+  z-index: 3;
+  display: none;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.dws-tagline span:last-child {
+  text-align: right;
+}
+
+.dws[data-viewport='mobile'] .dws-tagline {
+  display: grid;
+}
+
+.dws-forward {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 16px;
+  transform: translateX(-50%);
+  border: 1px solid var(--dws-line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.dws-forward button {
+  padding: 4px 10px;
+  border: 1px solid rgba(232, 25, 44, 0.5);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 8.5px;
+  color: var(--dws-red);
+}
+
+/* ---------------------------------------------------------------- pipeline + on your table */
+
+.dws-sechead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px 6px;
+  border-left: 0;
+}
+
+.dws-sechead h2 {
+  padding-left: 10px;
+  border-left: 2px solid var(--dws-red);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.dws-sechead small {
+  display: block;
+  padding-left: 10px;
+  margin-top: 2px;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  color: var(--dws-mute);
+}
+
+.dws-viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--dws-ink);
+}
+
+.dws-viewall svg {
+  color: var(--dws-red);
+}
+
+.dws-pipeline {
+  min-width: 0;
+  border-right: 1px solid var(--dws-line-soft);
+}
+
+.dws-stages {
+  display: flex;
+  gap: 0;
+  padding: 0 10px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.dws-stages::-webkit-scrollbar {
+  display: none;
+}
+
+.dws-stages li {
+  position: relative;
+  flex: 1 0 auto;
+  min-width: 78px;
+}
+
+.dws-stages li + li {
+  border-left: 1px solid var(--dws-line-soft);
+}
+
+.dws-stages li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(232, 25, 44, 0), rgba(232, 25, 44, 0.8), rgba(232, 25, 44, 0));
+}
+
+.dws-stages button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.dws-stageobj {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #d8d6d4 60%, #b6b3b0);
+  color: #3a3a3a;
+  box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dws-stages b {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--dws-red);
+}
+
+.dws-stages span {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.dws-stages__bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 5px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dws-stages li.is-active .dws-stages__bar,
+.dws-stages li.is-done .dws-stages__bar {
+  background: var(--dws-red);
+}
+
+.dws-stages li.is-active span {
+  color: var(--dws-red);
+}
+
+.dws-table {
+  min-width: 0;
+}
+
+.dws-cards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(150px, 1fr);
+  gap: 10px;
+  padding: 2px 16px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.dws-cards li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.dws-cards li.is-sel {
+  box-shadow: 0 0 0 2px var(--dws-red);
+}
+
+.dws-cards__art {
+  height: 62px;
+  flex: none;
+}
+
+.dws-cards__badge {
+  position: absolute;
+  left: 6px;
+  top: 40px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.85);
+  font-style: normal;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+}
+
+.dws-cards__flag {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 7px;
+  height: 7px;
+  background: var(--dws-red);
+}
+
+.dws-cards strong {
+  padding: 6px 8px 0;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.dws-cards small {
+  padding: 0 8px;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  color: var(--dws-mute);
+}
+
+.dws-cards__act {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 8px 8px;
+  padding: 5px 8px;
+  border: 1px solid rgba(232, 25, 44, 0.6);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+/* ---------------------------------------------------------------- footer navigation */
+
+.dws-footnav {
+  position: relative;
+  z-index: 8;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: 6px 10% 4px;
+  background: linear-gradient(180deg, #fbfbfa, #ececeb);
+  border-radius: 28px 28px 0 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.dws-footnav__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px 6px;
+  border: 0;
+  background: none;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #333;
+}
+
+.dws-footnav__item + .dws-footnav__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: var(--dws-line);
+}
+
+.dws-footnav__item.is-on {
+  color: var(--dws-red);
+}
+
+.dws-footnav__item.is-on::after {
+  content: '';
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+  height: 2px;
+  background: var(--dws-red);
+}
+
+/* ---------------------------------------------------------------- overlay layer (drawers / inspectors / modals) */
+
+.dws-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.dws-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.dws-layer > * {
+  pointer-events: auto;
+  position: absolute;
+}
+
+.dws-ov {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  background: rgba(252, 252, 251, 0.95);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(232, 25, 44, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.dws-ov__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 12px 14px 8px;
+}
+
+.dws-ov__bar {
+  width: 2px;
+  height: 18px;
+  margin-top: 2px;
+  background: var(--dws-red);
+}
+
+.dws-ov__code {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--dws-red);
+}
+
+.dws-ov__titles strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+}
+
+.dws-ov__titles small {
+  display: block;
+  margin-top: 2px;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  color: var(--dws-mute);
+}
+
+.dws-ov__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+  padding: 0 14px 14px;
+  overflow-y: auto;
+}
+
+.dws-ov__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 14px 14px;
+  border-top: 1px solid var(--dws-line-soft);
+}
+
+/* desktop geometry (matches the interaction authority) */
+.dws[data-viewport='desktop'] .dws-layer__drawer { left: 1.6%; top: 4%; bottom: 3%; width: 27%; }
+.dws[data-viewport='desktop'] .dws-layer__center { left: 31%; top: 10%; width: 38%; height: 50%; }
+.dws[data-viewport='desktop'] .dws-layer__inspector { right: 1.6%; top: 3%; bottom: 3%; width: 22%; }
+.dws[data-viewport='desktop'] .dws-layer__modal { left: 37%; bottom: 3%; width: 31%; max-height: 62%; display: flex; }
+.dws[data-viewport='desktop'] .dws-layer__modal > .dws-ov,
+.dws[data-viewport='desktop'] .dws-layer__drawer > .dws-ov,
+.dws[data-viewport='desktop'] .dws-layer__inspector > .dws-ov { width: 100%; }
+.dws[data-viewport='desktop'] .dws-layer__drawer,
+.dws[data-viewport='desktop'] .dws-layer__inspector { display: flex; }
+
+/* tablet: split drawer | inspector, or a centred modal */
+.dws[data-viewport='tablet'] .dws-layer__drawer { left: 2%; top: 2%; bottom: 2%; width: 47%; display: flex; }
+.dws[data-viewport='tablet'] .dws-layer__inspector { right: 2%; top: 2%; bottom: 2%; width: 47%; display: flex; }
+.dws[data-viewport='tablet'] .dws-layer__modal { left: 10%; right: 10%; top: 8%; max-height: 84%; display: flex; }
+.dws[data-viewport='tablet'] .dws-layer__modal > .dws-ov,
+.dws[data-viewport='tablet'] .dws-layer__drawer > .dws-ov,
+.dws[data-viewport='tablet'] .dws-layer__inspector > .dws-ov { width: 100%; }
+
+/* mobile: one sheet at a time, lifted over the whole viewport (above the footer nav) */
+.dws[data-viewport='mobile'] .dws-layer { position: fixed; inset: 0; z-index: 20; }
+.dws[data-viewport='mobile'] .dws-scrim { position: fixed; z-index: 19; background: rgba(255, 255, 255, 0.4); }
+.dws[data-viewport='mobile'] .dws-layer__drawer,
+.dws[data-viewport='mobile'] .dws-layer__inspector,
+.dws[data-viewport='mobile'] .dws-layer__modal {
+  left: 8px;
+  right: 8px;
+  bottom: 66px;
+  top: 74px;
+  display: flex;
+}
+.dws[data-viewport='mobile'] .dws-layer__modal { top: auto; max-height: calc(100% - 150px); }
+.dws[data-viewport='mobile'] .dws-layer__drawer > .dws-ov,
+.dws[data-viewport='mobile'] .dws-layer__inspector > .dws-ov,
+.dws[data-viewport='mobile'] .dws-layer__modal > .dws-ov { width: 100%; }
+
+.dws-return {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  z-index: 11;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--dws-line);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+}
+
+.dws[data-viewport='desktop'] .dws-return {
+  display: inline-flex;
+  left: 50%;
+  bottom: auto;
+  top: 6px;
+  transform: translateX(-50%);
+}
+
+/* ---------------------------------------------------------------- center panel (live expression surface) */
+
+.dws-center {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  background: rgba(252, 252, 251, 0.94);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+
+.dws-center__head {
+  font-size: 16px;
+  letter-spacing: 0.04em;
+}
+
+.dws-center__head b {
+  color: var(--dws-red);
+  font-weight: 500;
+}
+
+.dws-center__head i {
+  font-style: normal;
+}
+
+.dws-center__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 14px;
+  flex: 1;
+  min-height: 0;
+}
+
+.dws-center__art {
+  min-height: 130px;
+}
+
+.dws-center__list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  color: #444;
+}
+
+.dws-center__list li::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+  margin-right: 6px;
+  vertical-align: middle;
+  background: var(--dws-red);
+}
+
+/* ---------------------------------------------------------------- shared overlay widgets */
+
+.dws-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  border-bottom: 1px solid var(--dws-line-soft);
+}
+
+.dws-tabs button {
+  position: relative;
+  padding: 6px 0 8px;
+  border: 0;
+  background: none;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #555;
+}
+
+.dws-tabs button.is-on {
+  color: var(--dws-red);
+  font-weight: 700;
+}
+
+.dws-tabs button.is-on::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--dws-red);
+}
+
+.dws-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  min-height: 34px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  color: #555;
+}
+
+.dws-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.dws-search__filter {
+  padding-left: 8px;
+  border-left: 1px solid var(--dws-line);
+}
+
+.dws-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr);
+  gap: 10px;
+  min-height: 0;
+}
+
+.dws-tree {
+  display: flex;
+  flex-direction: column;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+.dws-tree button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 4px;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.dws-tree__group {
+  font-weight: 700;
+}
+
+.dws-tree__group.is-open {
+  color: var(--dws-red);
+}
+
+.dws-tree__leaf {
+  padding-left: 22px !important;
+  color: #555;
+}
+
+.dws-tree__leaf.is-on {
+  color: var(--dws-red);
+  background: rgba(232, 25, 44, 0.06) !important;
+}
+
+.dws-grid-title {
+  margin-bottom: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.dws-grid-title small {
+  font-weight: 400;
+  color: var(--dws-mute);
+}
+
+.dws-assetgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dws-assetgrid--icons {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dws-asset {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  text-align: left;
+  overflow: hidden;
+}
+
+.dws-asset.is-sel {
+  border-color: var(--dws-red);
+  box-shadow: 0 0 0 1px var(--dws-red);
+}
+
+.dws-asset__art {
+  height: 56px;
+}
+
+.dws-assetgrid--icons .dws-asset__art {
+  height: 52px;
+}
+
+.dws-asset__name {
+  padding: 3px 6px 0;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.dws-asset small {
+  padding: 0 6px 5px;
+  font-size: 6.5px;
+  color: var(--dws-mute);
+}
+
+.dws-asset__check {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+  background: var(--dws-red);
+  color: #fff;
+  font-style: normal;
+}
+
+.dws-asset__star {
+  position: absolute;
+  left: 4px;
+  top: 2px;
+  font-style: normal;
+  font-size: 9px;
+  color: #fff;
+}
+
+.dws-empty {
+  grid-column: 1 / -1;
+  padding: 18px 10px;
+  border: 1px dashed var(--dws-line);
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: var(--dws-mute);
+}
+
+.dws-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dws-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: left;
+}
+
+.dws-row.is-sel {
+  border-color: var(--dws-red);
+}
+
+.dws-row.is-red {
+  background: var(--dws-red);
+  color: #fff;
+}
+
+.dws-row strong {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.dws-row small {
+  display: block;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  color: var(--dws-mute);
+}
+
+.dws-row.is-red small {
+  color: #fff;
+}
+
+.dws-row b {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dws-red);
+}
+
+.dws-row__art,
+.dws-row__thumb {
+  position: relative;
+  width: 40px;
+  height: 28px;
+}
+
+.dws-rows--compact .dws-row {
+  padding: 6px 10px;
+}
+
+.dws-groups {
+  min-width: 0;
+}
+
+.dws-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--dws-line);
+  background: #fff;
+}
+
+.dws-pill i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dws-red);
+}
+
+.dws-pill--ok i {
+  background: #1f9d55;
+}
+
+.dws-pill--bad i {
+  background: #111;
+}
+
+.dws-ver {
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: #eee;
+  font-style: normal;
+  font-size: 8px;
+}
+
+.dws-kv {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.dws-kv > div {
+  display: grid;
+  grid-template-columns: 38% minmax(0, 1fr);
+  gap: 8px;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+}
+
+.dws-kv dt {
+  color: var(--dws-mute);
+}
+
+.dws-kv dd {
+  overflow-wrap: anywhere;
+}
+
+.dws-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.dws-chips li {
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: #eee;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.dws-h {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.dws-note {
+  font-size: 8.5px;
+  line-height: 1.55;
+  letter-spacing: 0.08em;
+  color: #555;
+}
+
+.dws-asset-head {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+}
+
+.dws-asset-head__art {
+  height: 64px;
+}
+
+.dws-asset-head strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.dws-asset-head small {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--dws-mute);
+}
+
+.dws-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.dws-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.dws-btn--primary {
+  border-color: var(--dws-red);
+  background: var(--dws-red);
+  color: #fff;
+}
+
+.dws-btn--dark {
+  width: 100%;
+  justify-content: flex-start;
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.dws-btn--danger {
+  color: var(--dws-red);
+  border-color: rgba(232, 25, 44, 0.5);
+}
+
+.dws-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dws-review {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 12px;
+}
+
+.dws-review__art {
+  min-height: 110px;
+}
+
+.dws-review__art--big {
+  min-height: 150px;
+}
+
+.dws-review__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dws-review__meta strong {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dws-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+}
+
+.dws-thread li {
+  padding: 5px 8px;
+  border-left: 2px solid var(--dws-red);
+  background: #f3f3f2;
+}
+
+.dws-comment {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dws-comment__avatar {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #e8e8e6;
+}
+
+.dws-comment input,
+.dws-textarea,
+.dws-field select {
+  flex: 1;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.dws-textarea {
+  width: 100%;
+  min-height: 70px;
+  resize: vertical;
+}
+
+.dws-field {
+  display: grid;
+  gap: 4px;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  color: var(--dws-mute);
+}
+
+.dws-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  color: var(--dws-mute);
+}
+
+.dws-crumbs button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+}
+
+.dws-crumbs li.is-on button {
+  color: var(--dws-red);
+  font-weight: 700;
+}
+
+.dws-crumbs__count {
+  margin-left: auto;
+}
+
+.dws-pathview {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.dws-pathview__art {
+  position: relative;
+  min-height: 130px;
+}
+
+.dws-pathview__copy {
+  position: absolute;
+  display: none;
+}
+
+.dws-pathview {
+  position: relative;
+}
+
+.dws-pathview__copy {
+  position: absolute;
+  left: 52px;
+  bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #fff;
+  font-size: 8.5px;
+}
+
+.dws-pathview__copy strong {
+  font-size: 15px;
+}
+
+.dws-play {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dws-versions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 8.5px;
+}
+
+.dws-versions li {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.dws-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+}
+
+.dws-toggle button {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #d0d0ce;
+}
+
+.dws-toggle button i {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+
+.dws-toggle button.is-on {
+  background: var(--dws-red);
+}
+
+.dws-toggle button.is-on i {
+  transform: translateX(16px);
+}
+
+.dws-formats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dws-formats button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  padding: 10px 4px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 9px;
+}
+
+.dws-formats button.is-on {
+  border-color: var(--dws-red);
+  box-shadow: 0 0 0 1px var(--dws-red);
+}
+
+.dws-formats small {
+  font-size: 6.5px;
+}
+
+.dws-compare {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.dws-compare li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+}
+
+.dws-compare li.is-on {
+  border-color: var(--dws-red);
+}
+
+.dws-compare__art {
+  height: 74px;
+}
+
+.dws-compare label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+}
+
+.dws-compare input {
+  accent-color: var(--dws-red);
+}
+
+.dws-devices {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dws-devices button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 100%;
+  padding: 6px 2px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 8px;
+}
+
+.dws-devices button.is-sel {
+  border-color: var(--dws-red);
+}
+
+.dws-devices small {
+  font-size: 6.5px;
+  color: var(--dws-mute);
+}
+
+.dws-variants,
+.dws-related {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.dws-variants li.is-on .dws-variants__art {
+  outline: 2px solid var(--dws-red);
+}
+
+.dws-variants__art,
+.dws-related__art,
+.dws-inputs__art {
+  height: 44px;
+}
+
+.dws-inspector__art {
+  height: 100px;
+}
+
+.dws-related button {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 7px;
+}
+
+.dws-step h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.dws-step h3 b {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dws-red);
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--dws-red);
+}
+
+.dws-step h3 small {
+  font-weight: 400;
+  color: var(--dws-mute);
+}
+
+.dws-inputs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.dws-inputs button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 3px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  font-size: 7.5px;
+}
+
+.dws-inputs button.is-sel {
+  border-color: var(--dws-red);
+  box-shadow: 0 0 0 1px var(--dws-red);
+}
+
+.dws-inputs__art {
+  height: 54px;
+}
+
+/* ---------------------------------------------------------------- experience map */
+
+.dws-map {
+  position: relative;
+  flex: 1;
+  min-height: 180px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #fafaf9, #ecebe9);
+  overflow: hidden;
+}
+
+.dws-map__filters {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 7.5px;
+  letter-spacing: 0.1em;
+}
+
+.dws-map__filters i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  border: 1.5px solid #111;
+  border-radius: 50%;
+}
+
+.dws-map__filters li.is-on i {
+  border-color: var(--dws-red);
+  background: var(--dws-red);
+}
+
+.dws-map__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dws-map__svg path {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 0.5;
+  stroke-dasharray: 1.5 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.dws-map__svg path.is-hot {
+  stroke: var(--dws-red);
+  stroke-width: 1.6;
+  stroke-dasharray: none;
+}
+
+.dws-node {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  transform: translate(-12px, -50%);
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.dws-node i {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 3px solid #111;
+  background: #fff;
+}
+
+.dws-node--key i {
+  border-color: var(--dws-red);
+  background: radial-gradient(circle, var(--dws-red) 0 40%, #fff 42%);
+}
+
+.dws-node--end i {
+  border-color: var(--dws-red);
+  background: var(--dws-red);
+}
+
+.dws-node.is-sel i {
+  box-shadow: 0 0 0 5px rgba(232, 25, 44, 0.25);
+}
+
+.dws-node b {
+  display: block;
+  font-size: 8.5px;
+}
+
+.dws-node small {
+  display: block;
+  font-size: 6.5px;
+  color: var(--dws-mute);
+}
+
+/* ---------------------------------------------------------------- toast */
+
+.dws-toast {
+  position: absolute;
+  right: 16px;
+  bottom: 96px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--dws-line);
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.dws-toast svg {
+  color: var(--dws-red);
+}
+
+/* ---------------------------------------------------------------- tablet adaptation */
+
+.dws[data-viewport='tablet'] .dws-top {
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  grid-template-areas: 'brand project needs menu' 'modes modes modes modes';
+  gap: 8px 14px;
+  padding-bottom: 0;
+}
+.dws[data-viewport='tablet'] .dws-brandmark { grid-area: brand; }
+.dws[data-viewport='tablet'] .dws-project { grid-area: project; }
+.dws[data-viewport='tablet'] .dws-needs { grid-area: needs; justify-self: end; }
+.dws[data-viewport='tablet'] .dws-menu { grid-area: menu; }
+.dws[data-viewport='tablet'] .dws-modes { grid-area: modes; justify-content: space-between; padding: 0 4px; }
+.dws[data-viewport='tablet'] .dws-modes button { padding: 8px 2px 10px; font-size: 12px; letter-spacing: 0.18em; }
+.dws[data-viewport='tablet'] .dws-main { overflow-y: auto; grid-template-rows: auto auto; }
+.dws[data-viewport='tablet'] .dws-stagewrap { height: min(62vh, 760px); }
+.dws[data-viewport='tablet'] .dws-lower { grid-template-columns: 1fr; }
+.dws[data-viewport='tablet'] .dws-pipeline { border-right: 0; border-bottom: 1px solid var(--dws-line-soft); }
+.dws[data-viewport='tablet'] .dws-stages li { min-width: 108px; }
+.dws[data-viewport='tablet'] .dws-cards { grid-auto-columns: minmax(200px, 1fr); }
+
+/* ---------------------------------------------------------------- mobile adaptation */
+
+.dws[data-viewport='mobile'] .dws-top {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas: 'brand needs menu' 'project project project' 'modes modes modes';
+  gap: 4px 8px;
+  padding: 6px 12px 0;
+}
+.dws[data-viewport='mobile'] .dws-brandmark { grid-area: brand; }
+.dws[data-viewport='mobile'] .dws-brandmark strong { font-size: 20px; }
+.dws[data-viewport='mobile'] .dws-brandmark small { font-size: 7px; }
+.dws[data-viewport='mobile'] .dws-project { grid-area: project; padding: 4px 0; border-left: 0; border-top: 1px solid var(--dws-line-soft); }
+.dws[data-viewport='mobile'] .dws-needs { grid-area: needs; padding: 0 8px; }
+.dws[data-viewport='mobile'] .dws-needs b { font-size: 22px; }
+.dws[data-viewport='mobile'] .dws-menu { grid-area: menu; width: 32px; height: 32px; }
+.dws[data-viewport='mobile'] .dws-modes { grid-area: modes; justify-content: space-between; gap: 2px; }
+.dws[data-viewport='mobile'] .dws-modes button { padding: 8px 0 9px; font-size: 10px; letter-spacing: 0.04em; }
+.dws[data-viewport='mobile'] .dws-main { overflow-y: auto; grid-template-rows: auto auto; }
+.dws[data-viewport='mobile'] .dws-stagewrap { height: 540px; }
+.dws[data-viewport='mobile'] .dws-lower { grid-template-columns: 1fr; }
+.dws[data-viewport='mobile'] .dws-pipeline { border-right: 0; }
+.dws[data-viewport='mobile'] .dws-stages li { min-width: 92px; }
+.dws[data-viewport='mobile'] .dws-cards { grid-auto-columns: 168px; }
+.dws[data-viewport='mobile'] .dws-footnav { padding: 4px 4px 2px; border-radius: 22px 22px 0 0; }
+.dws[data-viewport='mobile'] .dws-footnav__item { font-size: 9.5px; }
+.dws[data-viewport='mobile'] .dws-split { grid-template-columns: 1fr; }
+.dws[data-viewport='mobile'] .dws-assetgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dws[data-viewport='mobile'] .dws-review { grid-template-columns: 1fr; }
+.dws[data-viewport='mobile'] .dws-compare { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dws[data-viewport='mobile'] .dws-formats { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.dws[data-viewport='mobile'] .dws-toast { z-index: 40; bottom: 72px; right: 8px; left: 8px; justify-content: center; }
+.dws[data-viewport='mobile'] .dws-ov__body { padding-bottom: 20px; }
+.dws[data-viewport='mobile'] .dws-ov { font-size: 12px; }
+
+/* While an expression is open the suspended boards recede; the workspace context (mode, selection) is untouched. */
+.dws-boards {
+  transition: opacity 0.3s ease;
+}
+.dws[data-overlay='open'] .dws-boards {
+  opacity: 0.12;
+  pointer-events: none;
+}
+.dws[data-overlay='open'][data-viewport='desktop'] .dws-boards {
+  opacity: 0;
+}
+.dws[data-overlay='open'] .dws-forward,
+.dws[data-overlay='open'] .dws-tagline {
+  display: none;
+}
+
+.dws[data-viewport='mobile'] .dws-return { display: inline-flex; position: fixed; left: 50%; transform: translateX(-50%); bottom: 70px; z-index: 21; }
+.dws[data-viewport='mobile'] .dws-layer__modal { bottom: 104px; }
+.dws[data-viewport='mobile'] .dws-layer__drawer, .dws[data-viewport='mobile'] .dws-layer__inspector { bottom: 104px; }
+
+.dws[data-viewport='tablet'] .dws-return { display: inline-flex; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 12; }

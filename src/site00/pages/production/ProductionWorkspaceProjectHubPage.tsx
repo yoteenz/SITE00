@@ -8,7 +8,10 @@ import '../../styles/site00-production-mobile.css';
 function ProjectLayoutInner() {
   const { pathname } = useLocation();
   const isDesign = /^\/production\/[^/]+\/design(\/|$)/.test(pathname);
-  const isFabrication = /\/character-fabrication(\/|$)/.test(pathname);
+  const isFabrication =
+    /\/character-fabrication(\/|$)/.test(pathname) ||
+    /^\/production\/[^/]+\/design-workspace(\/|$)/.test(pathname) ||
+    /^\/production\/[^/]+\/viewport-lab(\/|$)/.test(pathname);
   return (
     <div data-testid="production-workspace-shell" data-top-level-count={PRODUCTION_TOP_LEVEL_WORKSPACES.length}>
       {isDesign ?

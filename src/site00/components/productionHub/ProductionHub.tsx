@@ -244,6 +244,7 @@ export function ProductionHub() {
     { id: 'design', label: 'DESIGN', sub: 'Websites, pages, interfaces' },
     { id: 'experience', label: 'EXPERIENCE', sub: 'Worlds, environments, modules' },
     { id: 'expression', label: 'EXPRESSION', sub: 'Campaigns, narrative, content' },
+    { id: 'viewport-lab', label: 'VIEWPORT LAB', sub: 'Live client app device QA' },
     { id: 'queue', label: 'INBOX / QUEUE', sub: 'Requests from projects and services' },
     { id: 'libraries', label: 'LIBRARY', sub: 'Shared production assets' },
   ];
@@ -534,6 +535,9 @@ export function ProductionHub() {
           onGo={(id) => {
             dispatch({ type: 'CLOSE_OVERLAY' });
             if (id === 'expression') return navigate(`/production/${project.projectId}/expression?entry=002&from=hub`);
+            if (id === 'viewport-lab') {
+              return navigate(`/production/${project.projectId}/viewport-lab?from=hub`);
+            }
             go(id as HubDeepTarget);
           }}
         />

@@ -1,0 +1,52 @@
+{
+  "asset_id": "CARD.ORIGIN.IDNTY",
+  "purpose": "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH).",
+  "family_id": "ORIGIN_CARD_IMAGE_FAMILY_V1",
+  "continuity_group_id": "IDNTY_ATRIUM_CONTINUITY_V1",
+  "surface": "MOBILE_WEB",
+  "dimensions": {
+    "w": 400,
+    "h": 560
+  },
+  "aspect": "400:560",
+  "reference_crop": "reference-crops/CARD_ORIGIN_IDNTY_REFERENCE.jpg",
+  "scene_decomposition_sheet": "scene-decomposition/01_ORIGIN_MAIN_DECOMPOSITION.md",
+  "safe_zone_map": "safe-zones/CARD_ORIGIN_IDNTY_SAFE_ZONES.png",
+  "must_include": [
+    "IDNTY CARD ATRIUM VIGNETTE (TREE, WHITE ARCH).",
+    "SITE 00 luminous white material language where applicable"
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "bottom navigation bar",
+    "form fields and inputs",
+    "card titles and body copy",
+    "status badges and progress indicators",
+    "live technical red linework (SVG)",
+    "brand icons unless asset spec requires them",
+    "card titles",
+    "path labels",
+    "buttons"
+  ],
+  "camera": "eye-level hero environment camera",
+  "lighting": "soft daylight with red accent bounce where brand family requires",
+  "materials": "white ceramic, glass, polished floor, red structural inserts",
+  "perspective": "architectural one-point with subtle wide lens",
+  "negative_space": {
+    "left_clear_percent": 0,
+    "right_clear_percent": 0,
+    "top_clear_percent": 0,
+    "bottom_clear_percent": 0,
+    "central_clear_region": null,
+    "custom_polygon_clear_region": null
+  },
+  "crop_behavior": "cover",
+  "transparency": false,
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "mask_ownership": "PARENT_OVERFLOW",
+  "asset_dependencies": [],
+  "output_format": "webp",
+  "version": 1
+}

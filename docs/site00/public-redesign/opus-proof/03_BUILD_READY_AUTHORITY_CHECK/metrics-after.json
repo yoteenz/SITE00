@@ -1,0 +1,33 @@
+{
+  "route": "/idnty/build-ready/authority-check",
+  "finalUrl": "/idnty/build-ready/authority-check",
+  "viewport": [
+    390,
+    693
+  ],
+  "docHeight": 744,
+  "overflowX": false,
+  "uppercaseViolations": [],
+  "navPresent": true,
+  "assetSlots": [
+    {
+      "id": "ENV.IDNTY.ATRIUM",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 744,
+      "radius": "0px",
+      "z": "0"
+    },
+    {
+      "id": "MACHINE.IDNTY.AUTHORITY.STAR",
+      "x": 0,
+      "y": 28,
+      "w": 390,
+      "h": 300,
+      "radius": "0px",
+      "z": "1"
+    }
+  ],
+  "errors": []
+}

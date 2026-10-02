@@ -3,6 +3,7 @@
  * Bottom nav handles ORIGIN, LOCATIONS, START BUILD; drawer is complementary.
  */
 
+import { isSite00PreviewAuthBypassActive } from '../auth/site00ShellAuthState';
 import { SITE00_ROUTES } from './routes';
 
 export type Site00MobileDirectoryItem = {
@@ -54,6 +55,9 @@ export function site00SignInHrefWithReturnTo(loc: { pathname: string; search?: s
 
 /** Sign-in URL for a post-auth destination path. */
 export function site00SignInHrefForReturnPath(returnPath: string): string {
+  if (isSite00PreviewAuthBypassActive()) {
+    return returnPath.slice(0, 1024);
+  }
   return `${SITE00_ROUTES.signIn}?returnTo=${encodeURIComponent(returnPath.slice(0, 1024))}`;
 }
 

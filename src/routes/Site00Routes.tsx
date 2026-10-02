@@ -66,6 +66,9 @@ import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
 import '../site00/astral-world/styles/astral-world.css';
 import '../site00/styles/site00-twin-test-a.css';
+import '../site00/styles/site00-public-redesign.css';
+import '../site00/styles/site00-public-redesign-origin.css';
+import '../site00/styles/site00-public-redesign-services.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const Site00LocationsPage = lazy(() => import('../site00/pages/LocationsPage'));
@@ -182,6 +185,8 @@ const DesignLegacyProjectDesignRedirect = lazy(() =>
     default: m.DesignLegacyProjectDesignRedirect,
   })),
 );
+const DesignUnifiedWorkspacePage = lazy(() => import('../site00/pages/DesignUnifiedWorkspacePage'));
+const ViewportLabPage = lazy(() => import('../site00/pages/production/ViewportLabPage'));
 const DesignProductionRouteGate = lazy(() =>
   import('../site00/pages/DesignProductionWorkspacePage').then((m) => ({
     default: m.DesignProductionRouteGate,
@@ -1498,6 +1503,8 @@ export function Site00Routes() {
             <Route path="more" element={<Site00Suspense><DesignProductionSectionMore /></Site00Suspense>} />
           </Route>
         </Route>
+        <Route path="design-workspace" element={<Site00Suspense><DesignUnifiedWorkspacePage /></Site00Suspense>} />
+        <Route path="viewport-lab" element={<Site00Suspense><ViewportLabPage /></Site00Suspense>} />
         <Route path="experience/*" element={<Site00Suspense><ExperienceProductionShellPage /></Site00Suspense>} />
         <Route path="expression/*" element={<Site00Suspense><ExpressionProductionShellPage /></Site00Suspense>} />
       </Route>

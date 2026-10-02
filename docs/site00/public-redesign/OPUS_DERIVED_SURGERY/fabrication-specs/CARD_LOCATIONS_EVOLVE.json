@@ -1,0 +1,50 @@
+{
+  "pack_source": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validated_against": "22a284773b1e57dccb49b0ed6e27b4e8cd8f1a12",
+  "asset_id": "CARD.LOCATIONS.EVOLVE",
+  "slot_id": "CARD.LOCATIONS.EVOLVE",
+  "authority": [
+    "01_LOCATIONS_MAIN"
+  ],
+  "visual_role": "EVOLVE ROW \u2014 TERRACE WITH TREE AND SKYLINE.",
+  "asset_type": "card-thumbnail",
+  "target_pixels": {
+    "w": 520,
+    "h": 300
+  },
+  "aspect_ratio": "520:300",
+  "crop_behavior": "cover",
+  "final_geometry": {
+    "frame": "390x693",
+    "x": 176,
+    "y": 194,
+    "w": 176,
+    "h": 61,
+    "from": "01_LOCATIONS_MAIN"
+  },
+  "transparency": false,
+  "mask_ownership": "CSS_MASK",
+  "shadow_ownership": "NO_SHADOW",
+  "reflection_ownership": "NONE",
+  "surface_derivation": "SAME_ASSET_DIFFERENT_CROP",
+  "continuity_group": "SITE00_LOCATIONS_UNIVERSE_V1",
+  "negative_space": "UI boxes in opus-geometry-after.json stay clear of focal detail. Wash on environments is live CSS over the lower region, not baked.",
+  "must_include": [
+    "EVOLVE ROW \u2014 TERRACE WITH TREE AND SKYLINE."
+  ],
+  "must_exclude": [
+    "header text and chrome",
+    "navigation labels and buttons",
+    "card titles and body copy",
+    "live technical SVG linework",
+    "baked CSS wash or row fade"
+  ],
+  "reference_crop": "reference-crops/CARD_LOCATIONS_EVOLVE_REFERENCE.jpg",
+  "safe_zone_map": "safe-zones/CARD_LOCATIONS_EVOLVE_SAFE_ZONES.png",
+  "reference_crop_clipped_by_proof": false,
+  "generation_source_of_pixels": "ACTUAL_SITE00_OPUS_DERIVED",
+  "validation_status": "VALID_WITH_METADATA_CORRECTION",
+  "validation_reason": "mask_ownership PARENT_OVERFLOW -> CSS_MASK",
+  "production_eligible": true,
+  "regeneration_required": false
+}
