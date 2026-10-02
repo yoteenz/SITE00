@@ -13,6 +13,7 @@ export type { ProjectExperienceMode };
 
 export type WorkspaceSection =
   | 'project'
+  | 'creative'
   | 'concept'
   | 'experience'
   | 'families'
