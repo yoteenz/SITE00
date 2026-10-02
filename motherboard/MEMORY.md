@@ -12872,3 +12872,16 @@ Founder: compiler route sent to sign-in / origin flow on tunnel while Supabase A
 - **Not production:** `site00.com` without preview meta does not bypass.
 - **Cloud preview:** Rebuilt local dist `index.CWJzK2ZT.js` on tunnel; verified workspace loads without sign-in.
 - **Remove when healthy:** Drop bypass or gate behind explicit env when Supabase Auth is stable again.
+
+---
+
+## 2026-10-02 — PREVIEW_GUEST shell fix (P0.STUDIOOS.EXPERIENCE-COMPILER.PREVIEW-GUEST-SHELL-FIX1)
+
+Preview guest route worked but shell/nav/auth-state was inconsistent.
+
+- **Auth:** `Site00ShellAuthMode` + `Site00ShellAuthProvider` — `PREVIEW_GUEST` with derived `canUseExperienceCompiler`, `canNavigateStudioPreview`, no protected read/mutate.
+- **Gate:** `VITE_SITE00_EC_PREVIEW_GUEST=1` at build (cloud preview script) + tunnel/cloud-preview meta/host — not production CI default.
+- **Studio nav:** `/studio/:slug/preview-guest` landing; ← STUDIO + top nav STUDIO → preview landing (not `/admin/site00/studio` or sign-in).
+- **Contrast:** EC workspace dark text on light `site00-ecosystem-mobile-shell` (#f4f4f2) — was light-on-light ghost UI.
+- **Creative tab:** stub + persistence degraded copy in preview guest.
+- **PRs #1282, #1283** → `main`.
