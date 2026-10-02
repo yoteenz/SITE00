@@ -5,7 +5,8 @@
  * Production authority (light glass, red accent, Saira) — scoped to the production role so the standalone
  * design bench is untouched. Artifact preview wells stay dark (they are image review stages).
  */
-.site00-design-workspace[data-workspace-role='production-provisional'] .tod-root,
+/* `.tod-dcs` / overlay-kit panels redeclare the tokens, so the remap follows them inside the workspace. */
+.site00-design-workspace[data-workspace-role='production-provisional'] :is(.tod-root, .tod-dcs, .tod-ok, .s00-dad, .s00-grok-dock),
 .site00-design-workspace[data-workspace-role='production-provisional'] {
   --tod-paper: #f7f7f9;
   --tod-panel: rgba(255, 255, 255, 0.86);
@@ -68,4 +69,10 @@
 }
 .site00-design-workspace[data-workspace-role='production-provisional'] .tod-hero-compare__generationConsole {
   border-color: rgba(229, 35, 27, 0.55);
+}
+
+/* Section filter chips used a hard lime fill with lime-ink text; on red they read in white. */
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-ps-chip[aria-pressed='true'],
+.site00-design-workspace[data-workspace-role='production-provisional'] .tod-ps-chip.is-active {
+  color: #ffffff;
 }
