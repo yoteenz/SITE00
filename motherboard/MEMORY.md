@@ -12886,6 +12886,12 @@ Preview guest route worked but shell/nav/auth-state was inconsistent.
 - **Creative tab:** stub + persistence degraded copy in preview guest.
 - **PRs #1282, #1283** → `main`.
 
+---
+
+## 2026-10-02 — Founder creative workspace (CREATIVE-WORKSPACE-EXPERIENCE1)
+
+Branch `cursor/creative-workspace-experience1-87ed`: merged CGPT creative director backend + visual **ExperienceCompilerCreativeWorkspace** (`?tab=creative`). Territory boards, journey rail, founder director, conversation dock secondary, run details collapsed. Empty states when no live model output. Browser proof on tunnel (desktop/mobile/tablet screenshots). Live CONCEPT_TERRITORIES run still needs API deploy + OpenAI key.
+
 ## 2026-10-01 — CGPT Creative Director loop (Experience Compiler MAP2)
 
 Sprint `P0.STUDIOOS.EXPERIENCE-COMPILER.CGPT-CREATIVE-DIRECTOR-LOOP1` on branch `cursor/cgpt-creative-director-loop1-87ed`.
