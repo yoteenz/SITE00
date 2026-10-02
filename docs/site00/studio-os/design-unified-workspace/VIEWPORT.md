@@ -41,3 +41,10 @@ device size and CSS-scaled (FIT / 50 / 75 / 100). Host QA guides (safe area, gri
 - Capture / proof / export is not shipped (no existing lab supported it cleanly). `OPEN IN NEW TAB` is provided.
 - The VIEWPORT pipeline (RESEARCH … REFINE · VIEWPORT · PRODUCTION) and its ON YOUR TABLE cards are the authority's VIEWPORT deck. The other five modes keep their own pipelines unchanged.
 - Phones are a vertical scroll: header, mode row and bottom nav are fixed, but the pipeline/table containers move down when a tool panel opens above them.
+
+## Baseline preservation (SONNET1R1)
+Canonical ancestor: `7e4cf365` (OPUS-CONVERGENCE1). The viewport work was written on top of it (it is an ancestor of the viewport commits; `e8d742f0` is not the base).
+- `site00-design-unified.css`: the first 100 990 bytes are byte-identical to the Opus file (sha256 `7efd371e…`); VIEWPORT CSS is append-only and every appended selector is `dws-vp*` / `data-mode='viewport'` scoped. No shared-shell rule is redefined.
+- Pixel regression of the five frozen modes vs the Opus captures (`PROOF/viewport/baseline-regression.json`): body (stage + lower deck + footer) differs in **0.000 %** of pixels for BRAND / EXPERIENCE / SURFACES / COMPILER / ASSETS at 1672×941 and 390×844; the only difference is the mode-tab row (header), which now carries the sixth tab.
+- Slots: 152 Opus ids intact; VIEWPORT adds 4 explicit table-card ids (`PROJECT.ART.TABLE.{RESPONSIVE_REVIEW,VIEWPORT_REVIEW,INTERACTION_REVIEW,SAFE_AREA_CHECK}`); final 156.
+- Panel tilt/perspective: untouched (VIEWPORT uses no suspended boards; it reuses the converged atrium, glass material and type scale).

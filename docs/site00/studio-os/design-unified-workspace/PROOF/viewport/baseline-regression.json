@@ -1,0 +1,92 @@
+{
+ "desktop.brand": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 4358,
+  "xRange": [
+   550,
+   1106
+  ],
+  "maxY": 68
+ },
+ "desktop.experience": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 4358,
+  "xRange": [
+   565,
+   1106
+  ],
+  "maxY": 68
+ },
+ "desktop.surfaces": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 4358,
+  "xRange": [
+   565,
+   1106
+  ],
+  "maxY": 68
+ },
+ "desktop.compiler": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 4358,
+  "xRange": [
+   565,
+   1106
+  ],
+  "maxY": 68
+ },
+ "desktop.assets": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 4358,
+  "xRange": [
+   565,
+   1106
+  ],
+  "maxY": 68
+ },
+ "mobile.brand": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 1640,
+  "xRange": [
+   27,
+   375
+  ],
+  "maxY": 87
+ },
+ "mobile.experience": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 1688,
+  "xRange": [
+   34,
+   375
+  ],
+  "maxY": 87
+ },
+ "mobile.surfaces": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 1738,
+  "xRange": [
+   34,
+   375
+  ],
+  "maxY": 87
+ },
+ "mobile.compiler": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 1788,
+  "xRange": [
+   34,
+   375
+  ],
+  "maxY": 87
+ },
+ "mobile.assets": {
+  "bodyDiffPct": 0,
+  "headerDiffPx": 1808,
+  "xRange": [
+   34,
+   375
+  ],
+  "maxY": 87
+ }
+}

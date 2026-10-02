@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { DWS_MODES, DWS_MODE_LABEL, DWS_NAV } from '../src/site00/components/designUnified/dwsModel';
 import { DWS_INITIAL, dwsReducer, type DwsAction, type DwsState } from '../src/site00/components/designUnified/dwsState';
 import { DesignUnifiedWorkspace } from '../src/site00/components/designUnified/DesignUnifiedWorkspace';
@@ -298,5 +299,47 @@ describe('VIEWPORT uppercase + slots', () => {
     const src = readFileSync('src/site00/components/designUnified/DwsViewportStage.tsx', 'utf8');
     expect(src).toContain('<iframe');
     expect(src).not.toMatch(/from '\.\.\/clientApp|from '\.\.\/\.\.\/pages\/clientApp/);
+  });
+});
+
+/* ---------------------------------------------------------------- OPUS baseline preservation (7e4cf365) */
+describe('OPUS baseline preservation', () => {
+  const OPUS_CSS_BYTES = 100990;
+  const OPUS_CSS_SHA256 = '7efd371ec939d89a2adc672eea1eea78191207fccdb47aad4f5444a66dc712a5';
+  it('the Opus-converged shared stylesheet is byte-identical; VIEWPORT CSS is append-only', () => {
+    const buf = readFileSync('src/site00/styles/site00-design-unified.css');
+    expect(buf.length).toBeGreaterThan(OPUS_CSS_BYTES);
+    expect(createHash('sha256').update(buf.subarray(0, OPUS_CSS_BYTES)).digest('hex')).toBe(OPUS_CSS_SHA256);
+    const appended = buf.subarray(OPUS_CSS_BYTES).toString('utf8');
+    expect(appended).toContain('VIEWPORT MODE (final DESIGN mode, after ASSETS)');
+  });
+  it('appended VIEWPORT selectors are scoped to viewport state (no shared-shell rule is redefined)', () => {
+    const buf = readFileSync('src/site00/styles/site00-design-unified.css').subarray(OPUS_CSS_BYTES).toString('utf8');
+    const SHARED = ['.dws-top', '.dws-modes', '.dws-footnav', '.dws-lower', '.dws-pipeline', '.dws-table', '.dws-board', '.dws-atrium', '.dws-ov', '.dws-brandmark', '.dws-needs'];
+    const selectors = [...buf.matchAll(/(^|\})\s*([^{}@/][^{}]*)\{/g)].map((m) => m[2]!.trim()).flatMap((s) => s.split(','));
+    const offenders = selectors.map((s) => s.trim()).filter((s) => SHARED.some((sh) => new RegExp(`(^|[\\s>])${sh.replace('.', '\\.')}(?![\\w-])`).test(s)) && !/dws-vp|data-mode='viewport'|data-vp-/.test(s));
+    expect(offenders).toEqual([]);
+  });
+  it('slot registry: the 152 Opus slot ids are intact; VIEWPORT adds exactly 4 explicit table-card slots', () => {
+    const slots = listDwsSlots().map((x) => x.id);
+    const added = ['PROJECT.ART.TABLE.INTERACTION_REVIEW', 'PROJECT.ART.TABLE.RESPONSIVE_REVIEW', 'PROJECT.ART.TABLE.SAFE_AREA_CHECK', 'PROJECT.ART.TABLE.VIEWPORT_REVIEW'];
+    expect(slots).toHaveLength(156);
+    for (const id of added) expect(slots).toContain(id);
+    expect(slots.filter((id) => !added.includes(id))).toHaveLength(152);
+  });
+  it('shared shell contract: five original modes first and in order, VIEWPORT sixth/after ASSETS, bottom nav unchanged', () => {
+    expect([...DWS_MODES].slice(0, 5)).toEqual(['brand', 'experience', 'surfaces', 'compiler', 'assets']);
+    expect(DWS_MODES[5]).toBe('viewport');
+    expect(DWS_MODES.indexOf('viewport')).toBe(DWS_MODES.indexOf('assets') + 1);
+    expect(DWS_NAV.map((n) => [n.id, n.label])).toEqual([['hub', 'HUB'], ['work', 'WORK'], ['library', 'LIBRARY'], ['activity', 'ACTIVITY'], ['exit', 'EXIT']]);
+  });
+  it('the five existing modes still render their Opus board stage (6 boards, no viewport stage)', () => {
+    for (const mode of ['brand', 'experience', 'surfaces', 'compiler', 'assets']) {
+      W = { w: 1672, h: 941, coarse: false };
+      stub({ 'site00.dws.v1.ndxbook': JSON.stringify({ mode }) });
+      const html = render();
+      expect((html.match(/class="dws-board /g) ?? []).length).toBe(6);
+      expect(html).not.toContain('dws-viewport-stage');
+    }
   });
 });
