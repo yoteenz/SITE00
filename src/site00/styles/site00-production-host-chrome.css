@@ -241,13 +241,11 @@
   width: 22px;
   height: 22px;
 }
-.pxh-nav__glyph {
+.pxh-nav__icon .bnav-ico {
   display: block;
-  width: 22px;
-  height: 22px;
-  background: #141414;
-  -webkit-mask: var(--nav-icon) center / contain no-repeat;
-  mask: var(--nav-icon) center / contain no-repeat;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 .pxh-nav__dot {
   position: absolute;
@@ -268,8 +266,8 @@
   color: var(--pxh-red);
   font-weight: 500;
 }
-.pxh-nav__item.is-active .pxh-nav__glyph {
-  background: var(--pxh-red);
+.pxh-nav__item.is-active .pxh-nav__icon {
+  color: #141414;
 }
 .pxh-nav__item.is-active::after {
   content: '';
@@ -310,7 +308,7 @@
     font-size: 11.5px;
   }
   .pxh-nav__icon,
-  .pxh-nav__glyph {
+  .pxh-nav__icon .bnav-ico {
     width: 24px;
     height: 24px;
   }
@@ -337,7 +335,7 @@
     letter-spacing: 0.08em;
   }
   .pxh-nav__icon,
-  .pxh-nav__glyph {
+  .pxh-nav__icon .bnav-ico {
     width: 20px;
     height: 20px;
   }
@@ -401,7 +399,7 @@
   width: 38px;
   height: 36px;
 }
-.pxa .prod-chrome-strip.ph--hub .ph-nav__glyph {
+.pxa .prod-chrome-strip.ph--hub .ph-nav__icon .bnav-ico {
   width: 34px;
   height: 34px;
 }

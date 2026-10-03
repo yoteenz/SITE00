@@ -92,8 +92,9 @@ describe('host chrome canon', () => {
     }
   });
 
-  it('keeps the keyed PNG icons (mask via --nav-icon) and marks the active tab', () => {
-    expect([...html.matchAll(/--nav-icon:/g)]).toHaveLength(7);
+  it('renders the architectural nav glyphs and marks the active tab', () => {
+    expect([...html.matchAll(/data-nav-glyph="/g)]).toHaveLength(7);
+    expect(html).toContain('data-nav-fidelity="reference-masters"');
     expect(html).toContain('aria-current="page"');
     expect(html.match(/is-active/g)).toHaveLength(1);
   });

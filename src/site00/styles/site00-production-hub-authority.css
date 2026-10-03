@@ -631,18 +631,18 @@
 .ph--hub .ph-nav__item + .ph-nav__item::before { content: ''; position: absolute; left: 0; top: 16px; bottom: 16px; width: 1px; background: #dcdce0; }
 .ph--hub .ph-nav__item.is-active { color: var(--a-red); font-weight: 500; }
 .ph--hub .ph-nav__item.is-active::after { left: 28px; right: 28px; bottom: 12px; height: 2px; box-shadow: none; }
-.ph--hub .ph-nav__icon { width: 30px; height: 28px; }
-.ph--hub .ph-nav__icon svg { width: 26px; height: 26px; stroke-width: 1.65; fill: none; }
-.ph--hub .ph-nav__glyph {
-  display: block;
-  width: 26px;
-  height: 26px;
-  background: #141414;
-  -webkit-mask: var(--nav-icon) center / contain no-repeat;
-  mask: var(--nav-icon) center / contain no-repeat;
+.ph--hub .ph-nav__icon { position: relative; width: 30px; height: 28px; color: #141414; }
+.ph--hub .ph-nav__icon .bnav-ico { width: 30px; height: 30px; display: block; object-fit: contain; }
+.ph--hub .ph-nav__item.is-active .ph-nav__icon { color: #141414; }
+.ph--hub .ph-nav__notify {
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--a-red);
 }
-.ph--hub .ph-nav__item.is-active .ph-nav__icon svg { stroke-width: 1.9; }
-.ph--hub .ph-nav__item.is-active .ph-nav__glyph { background: var(--a-red); }
 .ph--hub .ph-nav__item.is-active .ph-nav__icon .nav-solid { fill: currentColor; stroke: none; }
 .ph--hub .ph-top__brand--long b { font-size: 16px; letter-spacing: 0.02em; white-space: nowrap; }
 .prod-chrome-strip.ph {
