@@ -50,8 +50,17 @@ function toRecord(a: StudioWorldActor): ActorRecord {
   };
 }
 
+/** Fabrication remains on client-cast anchors; Studio World residents load canonical identity authority — do not generate new faces. */
 export function listFabricationActors(): ActorRecord[] {
-  return getStudioWorldActorCatalogue().actors.map(toRecord);
+  return getStudioWorldActorCatalogue()
+    .actors.filter((a) => a.catalogueNumber === 'SW-017')
+    .map(toRecord);
+}
+
+export function listStudioWorldResidentsForFabricationContext(): ActorRecord[] {
+  return getStudioWorldActorCatalogue()
+    .actors.filter((a) => a.actorId.startsWith('sw-resident-'))
+    .map(toRecord);
 }
 
 export function findFabricationActor(actorId: string): ActorRecord | null {

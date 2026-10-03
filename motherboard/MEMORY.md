@@ -12935,3 +12935,15 @@ Sprint `P0.STUDIOOS.PRODUCTION.AUTHORITY-TREE.COMPOSER1`. Forensic map only — 
 - **Method:** Routes (`Site00Routes`, production shells), registry canon vs `EXPERIENCE_CAPSULES`, Opus2 crawl cross-check; experience children labeled **UNMOUNTED** honestly; hub machine + expression-engine route **LEGACY_LOCKED**; design workspace mobile 768 scale flagged **RESPONSIVE_AUTHORITY_FAILURE**.
 - **Counts:** 37 route-equivalent surfaces; 23 interaction nodes; 5 temporary surfaces; 44 responsive-variant records; 4 genericization risks; 5 stale fallbacks; 2 authority conflicts.
 - **QA:** `tests/productionAuthorityConvergenceOpus2.test.ts` 18/18 pass (audit did not touch runtime).
+
+---
+
+## 2026-10-03 — Studio World Season 1 resident ingest (INGEST1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.STUDIOWORLD-RESIDENT-INGEST1`. FSBW owns canon; SITE00 adds production dossier projection + Casting Actors tab swap (no full Expression redesign).
+
+- **Projection:** `shared/site00-studio-world/resident-intelligence/season1-ensemble/` — 8 residents (Etta, Zuri Xu, Jules, Noa, Caspian, Iona, Marlowe 54/larger-bodied, EV), relationships, camera behavior, anti-flattening, protected OPEN fields, cast-role override guard (`validateCastRoleOverridesForResident`).
+- **Catalogue:** Generic seed actors retired from Casting UI; `getProductionCastingResidentTalentCatalogue()` / `listStudioWorldResidentTalentActors()`. Entry 002 **SW-017 Maya** preserved as client-cast lookup, excluded from resident Actors gallery.
+- **UI:** Expression Casting → Actors shows **STUDIO WORLD RESIDENT** badge + role; Library Actor Catalogue count uses residents.
+- **Artifacts:** `artifacts/studio-world-resident-ingest/` including `MOCK_ACTOR_MIGRATION.md`.
+- **Tests:** `tests/studioWorldSeason1ResidentIngest1.test.ts`; updated catalogue diversity test; build OK.
