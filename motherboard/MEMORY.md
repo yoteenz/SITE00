@@ -12974,3 +12974,9 @@ Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.STUDIOWORLD-RESIDENT-INGEST1`. FSBW ow
 ## 2026-10-03 — Studio World resident visual ingest (INGEST2)
 
 Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.RESIDENT-VISUAL-INGEST2`. Wired FSBW Season 1 visual authority package (27 JPEGs) into `public/site00/studio-world-residents/season1-v1/` + `visualAuthority.ts`. Casting Actors tab uses `resolveCastingCardImage()` (no uniform/alternate defaults). Marlowe natural off-duty; Iona utilitarian not glam; Zuri Xu only. CF `findFabricationActor` resolves `sw-resident-*` with catalogue portraits. Tests: `tests/studioWorldResidentVisualIngest2.test.ts`.
+
+---
+
+## 2026-10-03 — Studio World CASTING_THUMBNAIL authority (CASTING-THUMBNAIL-AUTHORITY1)
+
+Sprint `P0.STUDIOOS.PRODUCTION.EXPRESSION.CASTING-THUMBNAIL-AUTHORITY1`. **CASTING_THUMBNAIL** for Casting → Actors (`casting-thumbnails-v1/`). Founder moved review branch to `cursor/production-hub-descendants-opus1` (merged INGEST1+2 + thumbnails; tunnel dev preview on this branch). Tests: `tests/studioWorldCastingThumbnailAuthority1.test.ts`. Prior PR #1303 targeted narrative branch — superseded by descendants branch push.
