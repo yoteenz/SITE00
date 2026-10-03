@@ -112,7 +112,7 @@ describe('host chrome canon', () => {
   it('isolates the hamburger at the far right of the top panel (menu is outside the left cluster)', () => {
     const chrome = read('src/site00/components/productionHub/chrome.tsx');
     const top = chrome.slice(chrome.indexOf('function ProductionHostTop'));
-    const order = ['production-host-cluster', 'pxh-top__loc', 'pxh-top__project', 'pxh-top__attn', 'pxh-top__menu'].map((h) => top.indexOf(h));
+    const order = ['production-host-cluster', 'pxh-top__project', 'pxh-top__attn', 'pxh-top__menu'].map((h) => top.indexOf(h));
     expect(order.every((i) => i > -1)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
   });

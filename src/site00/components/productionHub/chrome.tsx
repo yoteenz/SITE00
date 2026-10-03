@@ -183,12 +183,12 @@ const MENU_HOST: MenuItem[] = [
 
 /** Light authority header used by every production workspace that is not the hub or character fabrication. */
 export function ProductionWorkspaceHeader() {
-  const { brand, projectId, queued, sectionLabel, sectionValue } = useProductionWorkspaceChrome();
+  const { brand, projectId, queued } = useProductionWorkspaceChrome();
   const family = useProductionViewportFamily();
   const [menu, setMenu] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
   if (family !== 'mobile') {
-    return <ProductionHostTop brand={brand} projectId={projectId} queued={queued} sectionLabel={sectionLabel} sectionValue={sectionValue} />;
+    return <ProductionHostTop projectId={projectId} queued={queued} />;
   }
   const long = brand.length > 12;
   return (
@@ -204,13 +204,6 @@ export function ProductionWorkspaceHeader() {
         <span className="ph-top__copy">
           <small>PROJECT</small>
           <b>{projectId.toUpperCase()}</b>
-        </span>
-        <IcChevD width={14} height={14} />
-      </Link>
-      <Link to="/production" className="ph-top__sel ph-top__sel--prod">
-        <span className="ph-top__copy">
-          <small>{sectionLabel}</small>
-          <b>{sectionValue}</b>
         </span>
         <IcChevD width={14} height={14} />
       </Link>
@@ -231,30 +224,14 @@ export function ProductionWorkspaceHeader() {
 
 /**
  * Tablet + desktop top host panel.
- * [ LOCATION / WORKSPACE ] [ PROJECT / NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
+ * [ PROJECT / NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
  */
-function ProductionHostTop({
-  brand,
-  projectId,
-  queued,
-  sectionLabel,
-  sectionValue,
-}: {
-  brand: string;
-  projectId: string;
-  queued: number;
-  sectionLabel: string;
-  sectionValue: string;
-}) {
+function ProductionHostTop({ projectId, queued }: { projectId: string; queued: number }) {
   const [menu, setMenu] = useState(false);
   const closeMenu = useCallback(() => setMenu(false), []);
   return (
     <header className="pxh-top" data-testid="production-workspace-header" data-shell="host-top">
       <div className="pxh-top__cluster" data-testid="production-host-cluster">
-        <div className="pxh-top__loc" data-testid="production-host-location" title={`${sectionLabel} ${sectionValue}`}>
-          <b>{brand}</b>
-          <small>SITE 00 / STUDIO WORLD</small>
-        </div>
         <Link to="/production" className="pxh-top__project" data-testid="production-chrome-project">
           <HubImage slotId="project.ndxbook.cover" url={hubAssetUrl('project.ndxbook.cover')} label="" className="pxh-top__thumb" />
           <span>

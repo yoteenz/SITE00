@@ -2,7 +2,7 @@
  * P0.STUDIOOS.PRODUCTION.AUTHORITY-ALIGNMENT.SONNET1R1 — tablet + desktop HOST CHROME.
  *
  * Canon (overrides hallucinated shell in the tablet/desktop authority renders):
- *   TOP    [ LOCATION/WORKSPACE ] [ PROJECT NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
+ *   TOP    [ PROJECT NDXBOOK ] [ ITEMS NEED YOU ] ........ [ MENU ]
  *   BOTTOM [ ICON ] LABEL  x7  (HUB INBOX DESIGN EXPERIENCE EXPRESSION LIBRARY ACTIVITY)
  *
  * SCALE GUARD: this file never uses zoom, transform scale, viewport/container units, rem scaling or
@@ -360,12 +360,19 @@
  * HUB.RECONSTRUCTION.OPUS1 — mobile host strip height convergence (authority frame only).
  * The phone strip is authored in the 864-wide hub space; the approved 9:16 authority gives the top bar
  * ≈165 / 1125 of the width (≈120 hub units) and the nav ≈150 / 1125 (≈112). Anatomy, links and the
- * CURRENT WORKSPACE selector are unchanged; only height, mark sizes and vertical rhythm move.
+ * The duplicate workspace tab readout is gone (bottom nav owns the tab). Only height, mark sizes and vertical rhythm move.
  * Scoped to `.pxa` so PwFrame descendants, Character Fabrication and the hub machine keep their offsets.
  * Static px only: no zoom, transform or viewport units are added here (the strip's existing zoom is untouched).
  */
 .pxa .prod-chrome-strip.ph--hub .ph-top {
   height: 120px;
+  grid-template-columns: 278px 190px minmax(0, 1fr) 48px;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > :nth-child(3) {
+  border-right: 1px solid #d0d0d4;
+}
+.pxa .prod-chrome-strip.ph--hub .ph-top > :nth-child(4) {
+  border-right: 0;
 }
 .pxa .prod-chrome-strip.ph--hub .ph-top > * {
   margin: 22px 0;
