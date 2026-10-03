@@ -7,7 +7,8 @@
 
   var ROOT_POLL_MS = 400;
   var ROOT_DEADLINE_MS = 12000;
-  var ROOT_DEADLINE_PREVIEW_MS = 60000;
+  var ROOT_DEADLINE_PREVIEW_MS = 45000;
+  var ROOT_NUDGE_PREVIEW_MS = 12000;
   var WATCHDOG_MS = 800;
   var WATCHDOG_MAX_MS = 45000;
   var bannerId = 'site00-assts-boot-recovery-banner';
@@ -100,10 +101,32 @@
     showRecoveryBanner();
   }
 
+  function bindModuleScriptLoadFailure() {
+    document.querySelectorAll('script[type="module"]').forEach(function (script) {
+      script.addEventListener(
+        'error',
+        function () {
+          maybeRecover('module-script-error');
+        },
+        { once: true },
+      );
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindModuleScriptLoadFailure, { once: true });
+  } else {
+    bindModuleScriptLoadFailure();
+  }
+
   window.addEventListener(
     'error',
     function (ev) {
       var msg = ev && ev.message ? String(ev.message) : '';
+      var target = ev && ev.target ? ev.target : null;
+      if (target && target.tagName === 'SCRIPT') {
+        maybeRecover('script-error');
+        return;
+      }
       if (
         msg.indexOf('module specifier') !== -1 ||
         msg.indexOf('chromium-bidi') !== -1 ||
@@ -135,6 +158,27 @@
     }
   });
 
+  function maybeNudgePreviewLoading() {
+    if (!isCloudPreviewHost() || rootHasApp()) return;
+    var hint = document.getElementById('site00-root-boot-hint');
+    if (!hint || hint.getAttribute('data-site00-nudged') === '1') return;
+    hint.setAttribute('data-site00-nudged', '1');
+    hint.innerHTML =
+      'Loading SITE 00…<br/><span style="font-weight:500;font-size:12px;opacity:.75">' +
+      'Mobile preview is downloading the app bundle — this can take 30–60s on cellular. ' +
+      'If it stays here, hard refresh or tap Reload below.</span>';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = 'Reload';
+    btn.style.cssText =
+      'display:block;margin:14px auto 0;padding:10px 18px;border:0;border-radius:8px;' +
+      'background:#1a1a18;color:#f5f5f3;font-weight:700;font-size:13px;';
+    btn.addEventListener('click', function () {
+      window.location.reload();
+    });
+    hint.appendChild(btn);
+  }
+
   var started = Date.now();
   var poll = window.setInterval(function () {
     if (rootHasApp()) {
@@ -143,6 +187,9 @@
       if (hint) hint.remove();
       window.clearInterval(poll);
       return;
+    }
+    if (isCloudPreviewHost() && Date.now() - started >= ROOT_NUDGE_PREVIEW_MS) {
+      maybeNudgePreviewLoading();
     }
     if (Date.now() - started >= rootDeadlineMs()) {
       window.clearInterval(poll);

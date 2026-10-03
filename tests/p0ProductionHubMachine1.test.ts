@@ -133,9 +133,13 @@ describe('ui state machine', () => {
     expect(hubReducer(open, { type: 'SELECT_SCENE', sceneId: 'sc-2' }).overlay).toBe('NONE');
   });
 
-  it('node select toggles; inspector open/close; restore never reopens an overlay', () => {
+  it('node select toggles; panel face swaps inside fixed shell; inspector open/close', () => {
     const sel = hubReducer(s0, { type: 'SELECT_NODE', nodeId: 'cast' });
     expect(sel.selectedNodeId).toBe('cast');
+    expect(sel.selectedNodePanelFace).toBe('DETAIL');
+    const summary = hubReducer(sel, { type: 'NODE_PANEL_BACK' });
+    expect(summary.selectedNodePanelFace).toBe('SUMMARY');
+    expect(summary.selectedNodeId).toBe('cast');
     const ins = hubReducer(sel, { type: 'OPEN_INSPECTOR', nodeId: 'cast', tab: 'profile' });
     expect(ins.inspectionState).toEqual({ open: true, tab: 'profile' });
     expect(hubReducer(ins, { type: 'CLOSE_INSPECTOR' }).inspectionState.open).toBe(false);
@@ -192,18 +196,24 @@ describe('scenes, deep links and asset firewall', () => {
     expect(slots.filter((s) => s.assetType === 'STORYBOARD_FRAME').every((s) => !s.grokRequired)).toBe(true);
   });
 
-  it('ships with no fulfilled assets: Sonnet mounted nothing', () => {
+  it('mounts the authority-cropped node, frame, and cover assets', () => {
     const slots = buildHubAssetSlots();
-    expect(slots.some((s) => s.status === 'FULFILLED')).toBe(false);
-    expect(hubAssetUrl('production.ndxbook.entry-002.node.set.primary')).toBeNull();
+    const set = slots.find((s) => s.slotId === 'production.ndxbook.entry-002.node.set.primary');
+    expect(set?.status).toBe('FULFILLED');
+    expect(hubAssetUrl('production.ndxbook.entry-002.node.set.primary')).toBe(
+      '/site00/production-hub/production/ndxbook/entry-002/node/set/primary.webp',
+    );
+    expect(hubAssetUrl('production.ndxbook.entry-002.storyboard.frame.03')).toMatch(/frame\/03\.webp$/);
+    expect(slots.some((s) => s.status === 'MISSING')).toBe(true);
   });
 
   it('a receipt fulfils exactly its slot and nothing else', () => {
     const slots = buildHubAssetSlots();
+    const already = slots.filter((s) => s.status === 'FULFILLED').map((s) => s.slotId);
     const target = slots.find((s) => s.grokRequired)!;
     const receipts = [{ slotId: target.slotId, canonicalAssetId: 'asset-1', url: '/x.webp', source: 'GROK' as const, receivedAt: '2026-01-01' }];
     const out = applyReceipts(slots, receipts);
-    expect(out.filter((s) => s.status === 'FULFILLED').map((s) => s.slotId)).toEqual([target.slotId]);
+    expect(out.filter((s) => s.status === 'FULFILLED').map((s) => s.slotId).sort()).toEqual([...already, target.slotId].sort());
     expect(hubAssetUrl(target.slotId, {}, receipts)).toBe('/x.webp');
   });
 });

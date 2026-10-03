@@ -57,7 +57,7 @@ export function OperationPanel({
           <b>{scene?.label ?? 'NO PRODUCTION'}</b>
           <span className="ph-bar" role="progressbar" aria-label="Production chain progress" aria-valuenow={graph.progressPercent} aria-valuemin={0} aria-valuemax={100}>
             <i style={{ width: `${graph.progressPercent}%` }} />
-            <em>{graph.completeCount} / {graph.nodes.length} STAGES</em>
+            <em title={`${graph.completeCount} / ${graph.nodes.length} stages`}>{graph.progressPercent}%</em>
           </span>
         </button>
         <button type="button" className="ph-op__operation" onClick={onOpenOperation} disabled={!op.nodeId} data-testid="hub-current-operation">

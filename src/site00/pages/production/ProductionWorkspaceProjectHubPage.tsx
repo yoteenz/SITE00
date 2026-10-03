@@ -1,72 +1,79 @@
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { PRODUCTION_TOP_LEVEL_WORKSPACES } from '../../../../shared/site00-production-workspace/registry.js';
-import {
-  productionDesignPath,
-  productionExperiencePath,
-  productionExpressionPath,
-} from '../../../../shared/site00-production-workspace/routes.js';
 import { PwFrame } from '../../components/production/PwFrame';
+import { DesignChamber, DesignModeBar, useDesignMode } from '../../components/productionAuthority/DesignChamber';
+import { ExperienceBody } from '../../components/productionAuthority/ExperienceBody';
+import { ExpressionBody } from '../../components/productionAuthority/ExpressionBody';
+import { AUTHORITY_ASSETS } from '../../components/productionAuthority/authorityAssets';
+import { ProductionAuthorityFrame } from '../../components/productionAuthority/ProductionAuthorityFrame';
+import { ProductionAuthorityDataProvider } from '../../components/productionAuthority/ProductionAuthorityData';
+import { ProductionChromeOverlay } from '../../components/productionHub/chrome';
 import { ProductionWorkspaceProvider, useProductionWorkspaceContext } from '../../context/ProductionWorkspaceContext';
-import type { ProductionWorkspaceType } from '../../../../shared/site00-production-workspace/types.js';
+import { useSearchParams } from 'react-router-dom';
 import '../../styles/site00-production-mobile.css';
 
-/**
- * Design keeps its own full-screen workspace surface (canonical, unchanged). A slim SITE 00 bar
- * carries the pillar switch above it so Production wayfinding stays consistent.
- */
-function DesignPillarBar() {
-  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
-  const { setActiveWorkspace } = useProductionWorkspaceContext();
-  const slug = projectSlug.toLowerCase();
-  const tabs: { id: ProductionWorkspaceType; href: string }[] = [
-    { id: 'DESIGN', href: productionDesignPath(slug) },
-    { id: 'EXPERIENCE', href: productionExperiencePath(slug) },
-    { id: 'EXPRESSION', href: productionExpressionPath(slug) },
-  ];
-  const numeral = (id: ProductionWorkspaceType) => (id === 'DESIGN' ? '01' : id === 'EXPERIENCE' ? '02' : '03');
+function DesignRoot() {
+  const mode = useDesignMode();
   return (
-    <header className="pw-bar" data-testid="production-pillar-nav">
-      <Link to="/production" className="pw-bar__back" aria-label="Production hub">
-        ‹ PRODUCTION
-      </Link>
-      <span className="pw-bar__project">{slug.toUpperCase()}</span>
-      <nav aria-label="Production workspace pillars" className="pw-bar__tabs">
-        {tabs.map((t) => (
-          <Link
-            key={t.id}
-            to={t.href}
-            data-testid={`production-tab-${t.id.toLowerCase()}`}
-            aria-label={t.id}
-            title={t.id}
-            aria-current={t.id === 'DESIGN' ? 'page' : undefined}
-            className={t.id === 'DESIGN' ? 'is-active' : ''}
-            onClick={() => setActiveWorkspace(t.id)}
-          >
-            {numeral(t.id)}
-          </Link>
-        ))}
-      </nav>
-    </header>
+    <ProductionAuthorityFrame screen={`design-${mode}`} subBar={<DesignModeBar active={mode} />}>
+      <DesignChamber mode={mode} />
+    </ProductionAuthorityFrame>
+  );
+}
+
+function ExpressionRoot({ slug }: { slug: string }) {
+  const [params] = useSearchParams();
+  const { context } = useProductionWorkspaceContext();
+  const entry = params.get('entry') ?? context.entryId ?? '002';
+  return (
+    <ProductionAuthorityFrame screen="expression">
+      <ExpressionBody entry={entry} key={slug} />
+    </ProductionAuthorityFrame>
   );
 }
 
 function ProjectLayoutInner() {
   const { pathname } = useLocation();
+  const { projectSlug = 'ndxbook' } = useParams<{ projectSlug: string }>();
+  const slug = projectSlug.toLowerCase();
   const isDesign = /^\/production\/[^/]+\/design(\/|$)/.test(pathname);
-  return (
+  const isDesignRoot = /^\/production\/[^/]+\/design\/?$/.test(pathname);
+  const isExperienceRoot = /^\/production\/[^/]+\/experience\/?$/.test(pathname);
+  const isExpressionRoot = /^\/production\/[^/]+\/expression\/?$/.test(pathname);
+  const isFabrication = /\/character-fabrication(\/|$)/.test(pathname);
+
+  let body;
+  if (isDesignRoot) body = <DesignRoot />;
+  else if (isExperienceRoot)
+    body = (
+      <ProductionAuthorityFrame screen="experience">
+        <ExperienceBody />
+      </ProductionAuthorityFrame>
+    );
+  else if (isExpressionRoot) body = <ExpressionRoot slug={slug} />;
+  else if (isDesign)
+    body = (
+      <>
+        <ProductionChromeOverlay />
+        <Outlet />
+      </>
+    );
+  else if (isFabrication) body = <Outlet />;
+  else
+    body = (
+      // Descendants keep their screens; the frame gives them the workspace's authority atmosphere.
+      <PwFrame variant="production" heroImage={/\/experience\//.test(pathname) ? AUTHORITY_ASSETS.experienceWorld : /\/expression\//.test(pathname) ? AUTHORITY_ASSETS.expressionStage : undefined}>
+        <Outlet />
+      </PwFrame>
+    );
+
+  const content = (
     <div data-testid="production-workspace-shell" data-top-level-count={PRODUCTION_TOP_LEVEL_WORKSPACES.length}>
-      {isDesign ?
-        <>
-          <DesignPillarBar />
-          <Outlet />
-        </>
-      : (
-        <PwFrame variant="production">
-          <Outlet />
-        </PwFrame>
-      )}
+      {body}
     </div>
   );
+  if (isFabrication) return content;
+  return <ProductionAuthorityDataProvider projectId={slug}>{content}</ProductionAuthorityDataProvider>;
 }
 
 export function ProductionWorkspaceProjectLayout() {

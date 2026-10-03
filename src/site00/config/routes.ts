@@ -144,6 +144,8 @@ export const SITE00_ROUTES = {
   productionLibraries: '/production/libraries',
   /** Production queue — structured work received from projects and services. */
   productionQueue: '/production/queue',
+  /** Production → ACTIVITY (project history). */
+  productionActivity: '/production/activity',
   productionProject: '/production/:projectSlug',
   productionDesign: '/production/:projectSlug/design',
   productionExperience: '/production/:projectSlug/experience',

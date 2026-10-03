@@ -104,6 +104,9 @@ const ConceptDirectedTwinV2PreviewPage = lazy(() => import('../site00/pages/Conc
 const HeroOutlierMeasureHarnessPage = import.meta.env.DEV
   ? lazy(() => import('../site00/pages/HeroOutlierMeasureHarnessPage'))
   : null;
+const LiveCharacterRuntimePrototypePage = import.meta.env.DEV
+  ? lazy(() => import('../site00/pages/prototype/LiveCharacterRuntimePrototypePage'))
+  : null;
 const ProjectAstralWorldReaderPage = lazy(() => import('../site00/pages/ProjectAstralWorldReaderPage'));
 const AccountIntakesPage = lazy(() => import('../site00/pages/account/AccountIntakesPage'));
 const AccountIntakeDetailPage = lazy(() => import('../site00/pages/account/AccountIntakeDetailPage'));
@@ -232,6 +235,11 @@ const ProductionWorkspaceProjectLayout = lazy(() =>
 const ProductionLibrariesPage = lazy(() =>
   import('../site00/pages/production/ProductionLibrariesPage').then((m) => ({
     default: m.ProductionLibrariesPage,
+  })),
+);
+const ProductionActivityPage = lazy(() =>
+  import('../site00/pages/production/ProductionActivityPage').then((m) => ({
+    default: m.ProductionActivityPage,
   })),
 );
 const ProductionQueuePage = lazy(() =>
@@ -1018,6 +1026,16 @@ export function Site00Routes() {
           }
         />
       ) : null}
+      {LiveCharacterRuntimePrototypePage ? (
+        <Route
+          path="/__dev/live-character-runtime"
+          element={
+            <Site00Suspense>
+              <LiveCharacterRuntimePrototypePage />
+            </Site00Suspense>
+          }
+        />
+      ) : null}
       <Route
         path={SITE00_ROUTES.projectReconstructionTwin}
         element={
@@ -1446,6 +1464,18 @@ export function Site00Routes() {
         }
       />
       <Route
+        path={SITE00_ROUTES.productionActivity}
+        element={
+          <Site00Layout>
+            <Site00InternalProductionGuard>
+              <Site00Suspense>
+                <ProductionActivityPage />
+              </Site00Suspense>
+            </Site00InternalProductionGuard>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.productionQueue}
         element={
           <Site00Layout>
@@ -1485,6 +1515,7 @@ export function Site00Routes() {
             }
           >
             <Route index element={null} />
+            <Route path="workspace" element={null} />
             <Route path="references" element={<Site00Suspense><DesignProductionSectionReferences /></Site00Suspense>} />
             <Route path="assets" element={<Site00Suspense><DesignProductionSectionAssets /></Site00Suspense>} />
             <Route path="pages" element={<Site00Suspense><DesignProductionSectionPages /></Site00Suspense>} />

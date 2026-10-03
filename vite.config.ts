@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
@@ -36,12 +37,16 @@ export default defineConfig(({ mode, command }) => {
     (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
       process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
 
+  /** HMR dev only — never transform dist/index.html during `vite preview` (would serve /src/main.tsx). */
+  const cloudPreviewDevServer =
+    cloudMobilePreview && command === 'serve' && mode === 'development';
+
   /** Cloud preview: stable stamp by default (same until redeploy); set SITE00_CLOUD_PREVIEW_STABLE=0 to bust every Vite boot. */
   const previewSessionUnstable =
     cloudMobilePreview &&
     (process.env.SITE00_CLOUD_PREVIEW_STABLE === '0' ||
       process.env.SITE00_CLOUD_PREVIEW_STABLE === 'false');
-  const previewSessionId = cloudMobilePreview
+  const previewSessionId = cloudPreviewDevServer
     ? previewSessionUnstable
       ? Date.now().toString(36)
       : String(buildId).slice(0, 12)
@@ -117,7 +122,26 @@ export default defineConfig(({ mode, command }) => {
     };
   }
 
+  function readPreviewCommitStamp(): string {
+    const fromEnv = (
+      process.env.SITE00_PREVIEW_COMMIT_SHA ||
+      process.env.GITHUB_SHA ||
+      ''
+    )
+      .trim()
+      .slice(0, 12);
+    if (fromEnv) return fromEnv;
+    try {
+      const manifestPath = path.resolve(__dirname, 'dist/release-manifest.json');
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8')) as { commitSha?: string };
+      return String(manifest.commitSha ?? '').slice(0, 12);
+    } catch {
+      return '';
+    }
+  }
+
   function cloudPreviewNoCachePlugin() {
+    const previewCommit = readPreviewCommitStamp();
     return {
       name: 'site00-cloud-preview-no-cache',
       configureServer(server: {
@@ -126,6 +150,11 @@ export default defineConfig(({ mode, command }) => {
         server.middlewares.use((_req: unknown, res: { setHeader: (k: string, v: string) => void }, next: () => void) => {
           res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
           res.setHeader('Pragma', 'no-cache');
+          res.setHeader('CDN-Cache-Control', 'no-store');
+          res.setHeader('Surrogate-Control', 'no-store');
+          if (previewCommit) {
+            res.setHeader('X-Site00-Preview-Commit', previewCommit);
+          }
           next();
         });
       },
@@ -166,10 +195,13 @@ export default defineConfig(({ mode, command }) => {
       ],
     },
     plugins: [
-      react(cloudMobilePreview ? { fastRefresh: false } : undefined),
+      react(cloudPreviewDevServer ? { fastRefresh: false } : undefined),
       ...(command === 'serve' ? [site00LocalApiPlugin()] : []),
-      ...(cloudMobilePreview && previewSessionId
+      ...(cloudPreviewDevServer && previewSessionId
         ? [stripViteClientForCloudPreviewPlugin(), cloudPreviewNoCachePlugin(), indexBuildStampPlugin(previewSessionId)]
+        : []),
+      ...(cloudMobilePreview && command === 'serve' && !cloudPreviewDevServer
+        ? [cloudPreviewNoCachePlugin()]
         : []),
       ...(command === 'build' ? [indexBuildStampPlugin(effectiveBuildId.slice(0, 12)), verifyClientBundlePlugin()] : []),
     ],
@@ -196,6 +228,8 @@ export default defineConfig(({ mode, command }) => {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate',
         Pragma: 'no-cache',
+        'CDN-Cache-Control': 'no-store',
+        'Surrogate-Control': 'no-store',
       },
     },
     server: {

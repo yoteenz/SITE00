@@ -43,10 +43,18 @@ import { ProductionBottomNav } from './nav';
 import { useProductionHubData } from './useProductionHubData';
 import { writeProductionWorkspaceContext } from '../../../../shared/site00-production-workspace/productionContextStorage.js';
 import '../../styles/site00-production-hub.css';
+import '../../styles/site00-production-hub-authority.css';
 
 const CTX_KEY = 'site00.production.hub.ctx.v1';
 const pad = (n: number) => String(n).padStart(2, '0');
 const slotLabel = (t: string | undefined) => (t ? t.replace(/_/g, ' ') : 'ASSET');
+
+/** Authority packs are 864px wide; cap the canvas at 520 CSS px on large screens. */
+const HUB_AUTHORITY_WIDTH = 864;
+function hubScale(): number {
+  if (typeof window === 'undefined') return 1;
+  return Math.min(window.innerWidth, 520) / HUB_AUTHORITY_WIDTH;
+}
 
 function readCtx(): Record<string, unknown> | null {
   try {
@@ -82,6 +90,14 @@ export function ProductionHub() {
       body.style.overflow = prev[0]!;
       documentElement.style.overflow = prev[1]!;
     };
+  }, []);
+
+  /* authority scale: the hub is authored in the 864px authority coordinate space and zoomed to the device width */
+  const [hubZoom, setHubZoom] = useState(() => hubScale());
+  useEffect(() => {
+    const onResize = () => setHubZoom(hubScale());
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   /* restore durable context once (deep-link return) */
@@ -219,7 +235,7 @@ export function ProductionHub() {
   const rightNodes = [graph.byId.performance, graph.byId.set, graph.byId.storyboard];
   const nextLabel = graph.nextStage ? HUB_NODE_LABEL[graph.nextStage] : '—';
   const productionLabel = data.production ? `${data.production.label} / ${data.production.subtitle}` : 'NO PRODUCTION';
-  const focusMode = state.inspectionState.open || state.compareOpen;
+  const focusMode = state.compareOpen; // 03 authority keeps On Your Table / Activity beneath the inspector
 
   const artifactSlot = frame ? frameSlot(frame.number) : frameSlot(1);
   const sceneSlotFor = (id: string) => `production.${HUB_ENTRY002.projectId}.${HUB_ENTRY002.productionId}.scene.${id}.reference`;
@@ -233,23 +249,25 @@ export function ProductionHub() {
   ];
 
   const ui = (
-    <div className="ph" data-testid="production-workspace-hub" data-hub-mode={mode.toLowerCase()} data-selected-scene={state.selectedSceneId ?? ''} data-selected-frame={state.selectedStoryboardFrameId ?? ''}>
+    <div className="ph ph--hub" style={{ ['--phz' as string]: hubZoom }} data-testid="production-workspace-hub" data-hub-mode={mode.toLowerCase()} data-selected-scene={state.selectedSceneId ?? ''} data-selected-frame={state.selectedStoryboardFrameId ?? ''}>
       {/* ── header ── */}
       <header className="ph-top" data-testid="hub-header">
         <div className="ph-top__brand">
-          <b>PRODUCTION</b>
-          <small>SITE 00 / STUDIO WORLD</small>
+          <span className="ph-top__copy">
+            <b>PRODUCTION</b>
+            <small>SITE 00 / STUDIO WORLD</small>
+          </span>
         </div>
         <button type="button" className="ph-top__sel" onClick={() => dispatch({ type: 'OPEN_OVERLAY', overlay: 'PROJECT_SELECTOR' })} aria-haspopup="dialog" data-testid="hub-project-trigger">
           <HubImage slotId={project.slotId} url={data.assetUrl(project.slotId)} label="" className="ph-top__thumb" />
-          <span>
+          <span className="ph-top__copy">
             <small>PROJECT</small>
             <b>{project.name.toUpperCase()}</b>
           </span>
           <IcChevD width={14} height={14} />
         </button>
         <button type="button" className="ph-top__sel ph-top__sel--prod" onClick={() => dispatch({ type: 'OPEN_OVERLAY', overlay: 'PROJECT_SELECTOR' })} aria-haspopup="dialog" data-testid="hub-production-trigger">
-          <span>
+          <span className="ph-top__copy">
             <small>CURRENT PRODUCTION</small>
             <b>{data.production?.label ?? 'NONE'}</b>
             <em>{data.production?.subtitle ?? 'NO PRODUCTION'}</em>
@@ -258,7 +276,7 @@ export function ProductionHub() {
         </button>
         <button type="button" className="ph-top__attn" onClick={() => dispatch({ type: 'OPEN_OVERLAY', overlay: 'ATTENTION' })} aria-haspopup="dialog" aria-label={`${data.attention.length} items need you`} data-testid="hub-attention-trigger">
           <Reticle size={38} />
-          <span>
+          <span className="ph-top__copy">
             <b data-testid="hub-attention-count">{pad(data.attention.length)}</b>
             <small>ITEMS NEED YOU</small>
           </span>
@@ -288,7 +306,18 @@ export function ProductionHub() {
             <div className="ph-livegrid" data-testid="hub-live">
               <div className="ph-col ph-col--l">
                 {leftNodes.map((n) => (
-                  <ProductionNode key={n.id} node={n} selected={state.selectedNodeId === n.id} compact={expandedArtifact} imageUrl={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                  <ProductionNode
+                    key={n.id}
+                    node={n}
+                    selected={state.selectedNodeId === n.id}
+                    panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                    compact={expandedArtifact}
+                    imageUrl={nodeImg(n)}
+                    slotLabel={nodeLabel(n)}
+                    onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                    onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                    onAction={(a) => onNodeAction(a, n)}
+                  />
                 ))}
               </div>
               <ArtifactStage
@@ -307,14 +336,33 @@ export function ProductionHub() {
               />
               <div className="ph-col ph-col--r">
                 {rightNodes.map((n) => (
-                  <ProductionNode key={n.id} node={n} selected={state.selectedNodeId === n.id} compact={expandedArtifact} imageUrl={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                  <ProductionNode
+                    key={n.id}
+                    node={n}
+                    selected={state.selectedNodeId === n.id}
+                    panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                    compact={expandedArtifact}
+                    imageUrl={nodeImg(n)}
+                    slotLabel={nodeLabel(n)}
+                    onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                    onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                    onAction={(a) => onNodeAction(a, n)}
+                  />
                 ))}
               </div>
             </div>
           ) : null}
 
           {mode === 'FLOW' ? (
-            <FlowStack nodes={graph.nodes} selectedNodeId={state.selectedNodeId} urlFor={nodeImg} onSelect={(id) => dispatch({ type: 'SELECT_NODE', nodeId: id })} onAction={onNodeAction} />
+            <FlowStack
+              nodes={graph.nodes}
+              selectedNodeId={state.selectedNodeId}
+              selectedNodePanelFace={state.selectedNodePanelFace}
+              urlFor={nodeImg}
+              onSelect={(id) => dispatch({ type: 'SELECT_NODE', nodeId: id })}
+              onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+              onAction={onNodeAction}
+            />
           ) : null}
 
           {mode === 'DEPENDENCIES' ? (
@@ -323,7 +371,17 @@ export function ProductionHub() {
                 <DependencyRails status={{ l: leftNodes.map((n) => n.status), r: rightNodes.map((n) => n.status) }} />
                 <div className="ph-dep__col">
                   {leftNodes.map((n) => (
-                    <DependencyNode key={n.id} node={n} selected={state.selectedNodeId === n.id} url={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                    <DependencyNode
+                      key={n.id}
+                      node={n}
+                      selected={state.selectedNodeId === n.id}
+                      panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                      url={nodeImg(n)}
+                      slotLabel={nodeLabel(n)}
+                      onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                      onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                      onAction={(a) => onNodeAction(a, n)}
+                    />
                   ))}
                 </div>
                 <div className="ph-dep__center">
@@ -331,7 +389,17 @@ export function ProductionHub() {
                 </div>
                 <div className="ph-dep__col">
                   {rightNodes.map((n) => (
-                    <DependencyNode key={n.id} node={n} selected={state.selectedNodeId === n.id} url={nodeImg(n)} slotLabel={nodeLabel(n)} onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })} onAction={(a) => onNodeAction(a, n)} />
+                    <DependencyNode
+                      key={n.id}
+                      node={n}
+                      selected={state.selectedNodeId === n.id}
+                      panelFace={state.selectedNodeId === n.id ? state.selectedNodePanelFace : 'SUMMARY'}
+                      url={nodeImg(n)}
+                      slotLabel={nodeLabel(n)}
+                      onSelect={() => dispatch({ type: 'SELECT_NODE', nodeId: n.id })}
+                      onBack={() => dispatch({ type: 'NODE_PANEL_BACK' })}
+                      onAction={(a) => onNodeAction(a, n)}
+                    />
                   ))}
                 </div>
               </div>

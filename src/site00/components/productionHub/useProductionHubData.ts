@@ -105,8 +105,15 @@ export function useProductionHubData(selectedProjectId: string) {
 
   const scenes = useMemo(() => (plan ? buildHubScenes(plan) : []), [plan]);
   const frames = useMemo(
-    () => buildHubFrames({ storyboardId: pipeline.panelCount > 0 ? (sb?.storyboardId ?? null) : null, version: sb?.version ?? null, count: pipeline.panelCount }),
-    [pipeline.panelCount, sb],
+    () =>
+      buildHubFrames({
+        storyboardId: pipeline.panelCount > 0 ? (sb?.storyboardId ?? null) : null,
+        version: sb?.version ?? null,
+        // Entry 002 authority filmstrip is 8 frames. Use that count until the pipeline reports panels,
+        // so the mounted frame receipts render instead of an empty tray.
+        count: pipeline.panelCount > 0 ? pipeline.panelCount : isEntry002 ? 8 : 0,
+      }),
+    [pipeline.panelCount, sb, isEntry002],
   );
 
   /* ── assets: registry + runtime canonical URLs (never substituted) ── */

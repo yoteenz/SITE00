@@ -8,8 +8,10 @@ import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import { canAccessAdminPages } from '../../../utils/adminAuth';
 import { SITE00_ROUTES } from '../../config/routes';
+import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNav } from '../productionHub/chrome';
 import { IconGlyph } from './PwPrimitives';
 import '../../styles/site00-production-mobile.css';
+import '../../styles/site00-production-descendants-opus2.css';
 
 type NavItem = { id: string; label: string; href: string; icon: string; match: (p: string) => boolean };
 
@@ -89,17 +91,32 @@ export function PwFrame({
   const items = variant === 'production' ? NAV_PRODUCTION : navProjects(admin);
 
   // Portal to <body>: host page CSS (uppercase/letter-spacing rules on .site00-page etc.) must not leak in.
+  if (variant === 'production') {
+    return createPortal(
+      <div className="pw pw--production pw--authority" data-testid="pw-frame-production">
+        <ProductionChromeStrip host>
+          <ProductionWorkspaceHeader />
+        </ProductionChromeStrip>
+        <div className="pw-scroll">
+          {heroImage ?
+            <div className="pw-scroll__hero" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
+          : null}
+          <div className="pw-scroll__body">{children}</div>
+        </div>
+        <ProductionChromeStrip host>
+          <ProductionWorkspaceNav />
+        </ProductionChromeStrip>
+      </div>,
+      document.body,
+    );
+  }
+
   return createPortal(
     <div className={`pw pw--${variant}`} data-testid={`pw-frame-${variant}`}>
       <header className="pw-top">
         <Link to={SITE00_ROUTES.origin} className="pw-top__brand">
           SITE 00
         </Link>
-        {variant === 'production' ?
-          <span className="pw-top__badge" data-testid="pw-founder-badge">
-            FOUNDER / PRODUCTION
-          </span>
-        : null}
         <Link to={SITE00_ROUTES.control} className="pw-top__avatar" aria-label="Account">
           {operatorInitials()}
         </Link>
@@ -110,7 +127,7 @@ export function PwFrame({
         : null}
         <div className="pw-scroll__body">{children}</div>
       </div>
-      <nav className="pw-nav" aria-label={variant === 'production' ? 'Production navigation' : 'Projects navigation'} data-testid="pw-bottom-nav">
+      <nav className="pw-nav" aria-label="Projects navigation" data-testid="pw-bottom-nav">
         {items.map((item) => {
           const active = item.match(pathname);
           return (

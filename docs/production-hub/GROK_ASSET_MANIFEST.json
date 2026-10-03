@@ -4,141 +4,9 @@
   "receiptContract": "Grok output → canonical asset id → HUB_ASSET_RECEIPTS (shared/site00-production-hub/assetReceipts.ts) → declared slot → HubImage component",
   "visualAssetsGeneratedBySonnet": 0,
   "totalSlots": 36,
-  "canonicalRuntimeSlots": 19,
-  "grokRequiredCount": 17,
+  "canonicalRuntimeSlots": 8,
+  "grokRequiredCount": 11,
   "assets": [
-    {
-      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.node.narrative.primary.v1",
-      "slotId": "production.ndxbook.entry-002.node.narrative.primary",
-      "project": "ndxbook",
-      "production": "entry-002",
-      "scene": null,
-      "department": "NARRATIVE",
-      "assetType": "NARRATIVE_EVIDENCE",
-      "purpose": "Narrative node artwork: archival evidence still that represents the Entry narrative.",
-      "composition": "Chamber node card \"NARRATIVE\" on the Production Hub; also reused in Flow, Dependencies, attention cards and activity rows.",
-      "cameraAngle": "Overhead / three-quarter documentary evidence framing, shallow depth.",
-      "continuity": "Must be consistent with the Entry 002 world: 2016 Instagram-baddie fashion vs 2026 return; editorial documentary tone.",
-      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
-      "aspectRatio": "16:10",
-      "minimumResolution": "1280x800",
-      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/node/narrative/primary.webp",
-      "dependentComponents": [
-        "ChamberNode",
-        "FlowStage",
-        "DependencyNode",
-        "NodeInspector",
-        "AttentionCard"
-      ],
-      "promptBrief": "Produce the narrative evidence for NARRATIVE of Entry 002 \"2016 IG BADDIE FASHION\"."
-    },
-    {
-      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.node.performance.primary.v1",
-      "slotId": "production.ndxbook.entry-002.node.performance.primary",
-      "project": "ndxbook",
-      "production": "entry-002",
-      "scene": null,
-      "department": "PERFORMANCE",
-      "assetType": "PERFORMANCE_STILL",
-      "purpose": "Performance node artwork: still of the subject in the directed performance state.",
-      "composition": "Chamber node card \"PERFORMANCE\" on the Production Hub; also reused in Flow, Dependencies, attention cards and activity rows.",
-      "cameraAngle": "Medium shot, 50mm equivalent, eye-level, mid-performance.",
-      "continuity": "Must be consistent with the Entry 002 world: 2016 Instagram-baddie fashion vs 2026 return; editorial documentary tone.",
-      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
-      "aspectRatio": "16:10",
-      "minimumResolution": "1280x800",
-      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/node/performance/primary.webp",
-      "dependentComponents": [
-        "ChamberNode",
-        "FlowStage",
-        "DependencyNode",
-        "NodeInspector",
-        "AttentionCard"
-      ],
-      "promptBrief": "Produce the performance still for PERFORMANCE of Entry 002 \"2016 IG BADDIE FASHION\"."
-    },
-    {
-      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.node.set.primary.v1",
-      "slotId": "production.ndxbook.entry-002.node.set.primary",
-      "project": "ndxbook",
-      "production": "entry-002",
-      "scene": null,
-      "department": "SETS",
-      "assetType": "SET_PLATE",
-      "purpose": "Set node artwork: approved environment/set plate for the production.",
-      "composition": "Chamber node card \"SET\" on the Production Hub; also reused in Flow, Dependencies, attention cards and activity rows.",
-      "cameraAngle": "Wide establishing plate, empty set, 24–35mm equivalent.",
-      "continuity": "Must be consistent with the Entry 002 world: 2016 Instagram-baddie fashion vs 2026 return; editorial documentary tone.",
-      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
-      "aspectRatio": "16:10",
-      "minimumResolution": "1280x800",
-      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/node/set/primary.webp",
-      "dependentComponents": [
-        "ChamberNode",
-        "FlowStage",
-        "DependencyNode",
-        "NodeInspector",
-        "AttentionCard"
-      ],
-      "promptBrief": "Produce the set plate for SET of Entry 002 \"2016 IG BADDIE FASHION\"."
-    },
-    {
-      "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.node.keyframes.primary.v1",
-      "slotId": "production.ndxbook.entry-002.node.keyframes.primary",
-      "project": "ndxbook",
-      "production": "entry-002",
-      "scene": null,
-      "department": "KEYFRAMES",
-      "assetType": "KEYFRAME_PLATE",
-      "purpose": "Keyframes node artwork: representative locked keyframe plate.",
-      "composition": "Chamber node card \"KEYFRAMES\" on the Production Hub; also reused in Flow, Dependencies, attention cards and activity rows.",
-      "cameraAngle": "Cinematic keyframe, follows approved storyboard framing.",
-      "continuity": "Must be consistent with the Entry 002 world: 2016 Instagram-baddie fashion vs 2026 return; editorial documentary tone.",
-      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
-      "aspectRatio": "16:10",
-      "minimumResolution": "1280x800",
-      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/production/ndxbook/entry-002/node/keyframes/primary.webp",
-      "dependentComponents": [
-        "ChamberNode",
-        "FlowStage",
-        "DependencyNode",
-        "NodeInspector",
-        "AttentionCard"
-      ],
-      "promptBrief": "Produce the keyframe plate for KEYFRAMES of Entry 002 \"2016 IG BADDIE FASHION\"."
-    },
     {
       "assetId": "grok.site00.production-hub.production.ndxbook.entry-002.scene.cultural_glitch-familiar.reference.v1",
       "slotId": "production.ndxbook.entry-002.scene.cultural_glitch-familiar.reference",
@@ -350,36 +218,6 @@
       "promptBrief": "Scene reference plate: OPEN LOOP — Residual curiosity — not clickbait"
     },
     {
-      "assetId": "grok.site00.production-hub.project.ndxbook.cover.v1",
-      "slotId": "project.ndxbook.cover",
-      "project": "ndxbook",
-      "production": null,
-      "scene": null,
-      "department": "PROJECT",
-      "assetType": "PROJECT_COVER",
-      "purpose": "Square cover thumbnail for project \"ndxbook\" in the header and the Project / Production selector.",
-      "composition": "Header project selector (40px) and Project / Production Selector rows (72px).",
-      "cameraAngle": "Centered emblematic composition, square crop-safe.",
-      "continuity": "Must represent the founder's personal project \"ndxbook\" — use its existing brand/world; do not invent a different identity.",
-      "lighting": "Neutral cinematic key, consistent with Entry 002 grade; no stylized color cast.",
-      "aspectRatio": "1:1",
-      "minimumResolution": "512x512",
-      "background": "In-scene background appropriate to the asset; no UI, no text, no watermark.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/project/ndxbook/cover.webp",
-      "dependentComponents": [
-        "ProjectProductionSelector",
-        "HubHeader"
-      ],
-      "promptBrief": "Cover image for founder project ndxbook."
-    },
-    {
       "assetId": "grok.site00.production-hub.project.studio-world.cover.v1",
       "slotId": "project.studio-world.cover",
       "project": "studio-world",
@@ -498,35 +336,6 @@
         "HubHeader"
       ],
       "promptBrief": "Cover image for founder project all-in-one-enterprises."
-    },
-    {
-      "assetId": "grok.site00.production-hub.production.hub.chamber.atmosphere.v1",
-      "slotId": "production.hub.chamber.atmosphere",
-      "project": "site00",
-      "production": null,
-      "scene": null,
-      "department": "ATMOSPHERE",
-      "assetType": "CHAMBER_ATMOSPHERE",
-      "purpose": "Optional environmental plate behind the Production Chamber (bright white fabrication atrium).",
-      "composition": "Full-bleed behind the chamber geometry. The chamber, rings, beam, rails and nodes are live CSS/SVG and are NOT part of this plate.",
-      "cameraAngle": "Locked-off wide, deep depth of field, no foreground subject.",
-      "continuity": "Bright white / chrome, soft depth of field, no people in the foreground, no text, no UI, no chamber machinery.",
-      "lighting": "Bright white daylight, soft red accent.",
-      "aspectRatio": "9:16",
-      "minimumResolution": "1080x1920",
-      "background": "The plate itself is the background.",
-      "transparency": "none",
-      "doNotChange": [
-        "No text, captions, logos or UI chrome baked into the image.",
-        "No chamber machinery (rings, beams, rails, nodes) — those are live code.",
-        "Identity / wardrobe continuity must match canonical Entry 002 cast and looks.",
-        "Deliver at the exact aspect ratio; do not crop from reference screenshots."
-      ],
-      "destinationPath": "public/site00/production-hub/production/hub/chamber/atmosphere.webp",
-      "dependentComponents": [
-        "ProductionChamber"
-      ],
-      "promptBrief": "Empty bright white industrial fabrication atrium, chrome and glass, soft red ambient accent light, no foreground objects, no text."
     }
   ]
 }

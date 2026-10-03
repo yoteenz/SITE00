@@ -17,6 +17,7 @@ import { GuardLoadingRecovery } from '../../../platform-stabilization/GuardLoadi
 import { useGuardLoadingTimeout } from '../../../platform-stabilization/useGuardLoadingTimeout';
 import { promiseWithTimeout } from '../../../platform-stabilization/promiseWithTimeout';
 import { isSite00CloudPreviewBuild } from '../loader/site00PreviewHost';
+import { isSite00SignInPaused } from '../../config/signInPaused';
 
 const SERVER_RESTORE_ATTEMPT_KEY = 'site00_ctrl_room_restore_v1';
 const AUTH_STEP_TIMEOUT_MS = 6_000;
@@ -59,7 +60,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
   const allowUnauthenticatedCaptureSurface = goldenDiffCapture || designPreviewCapture;
 
   useEffect(() => {
-    if (designPreviewCapture || goldenDiffCapture) {
+    if (isSite00SignInPaused() || designPreviewCapture || goldenDiffCapture) {
       finishLocalAuthRecovery();
       setRecoveryDone(true);
       return;
@@ -180,7 +181,7 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
   }, [cloudPreview, designPreviewCapture, goldenDiffCapture, location.search]);
 
   useEffect(() => {
-    if (!recoveryDone || cloudPreview || allowUnauthenticatedCaptureSurface || !isSupabaseConfigured()) {
+    if (!recoveryDone || isSite00SignInPaused() || cloudPreview || allowUnauthenticatedCaptureSurface || !isSupabaseConfigured()) {
       setApiTokenReady(true);
       return;
     }
@@ -211,6 +212,8 @@ export function Site00AccountRouteGuard({ children }: { children: React.ReactNod
       </div>
     );
   }
+
+  if (isSite00SignInPaused()) return <>{children}</>;
 
   if (apiTokenReady === false && isSignedIn() && !allowUnauthenticatedCaptureSurface) {
     return <Navigate to={signInHref} replace state={{ reason: 'api_session_expired' }} />;
