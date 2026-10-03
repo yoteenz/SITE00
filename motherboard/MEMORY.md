@@ -12991,4 +12991,10 @@ Founder rejected the keyed PNG masks (outline hub, flattened red). Production bo
 
 ## 2026-10-03 — Production bottom-nav icon system (GROK1)
 
-Sprint `P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1` on `cursor/production-hub-descendants-opus1`. Replaced the flat icon pack with the founder BOTTOM BAR ICON SYSTEM: pavilion hub, envelope tray, composition planes, portal, prism stage, open book, timeline. Glyphs live in `productionNavIcon.tsx`. Founder then sent the filled masters; glyphs were redrawn to those (thick black frames, white faces, signature red inside the mark). Inbox count and activity dot stay outside the SVG. Proof: `artifacts/production-bottom-nav-icons-grok1/`. Tests: `tests/productionBottomNavIconSystemGrok1.test.ts`.
+Sprint `P0.STUDIOOS.PRODUCTION.BOTTOM-NAV.ICON-SYSTEM.GROK1` on `cursor/production-hub-descendants-opus1`. Replaced the flat icon pack with the founder BOTTOM BAR ICON SYSTEM: pavilion hub, envelope tray, composition planes, portal, prism stage, open book, timeline. Glyphs live in `productionNavIcon.tsx`. Founder then sent the filled masters as images. The nav now uses those PNGs (`bottom-nav/masters/`), with the white field removed so they sit transparent on the bar. Inbox count and activity dot stay outside the image. Proof: `artifacts/production-bottom-nav-icons-grok1/`. Tests: `tests/productionBottomNavIconSystemGrok1.test.ts`.
+
+---
+
+## 2026-10-03 — Mobile bottom-nav labels outside the zoomed strip
+
+Founder asked for smaller bottom-nav type, then 12px on mobile only, then said the size was not changing because something was confining the text. Cause: mobile labels lived inside `.ph--hub`, which zooms the 864px canvas (~0.45 on a phone), so a stylesheet pixel is not a screen pixel. Fix on `cursor/production-hub-descendants-opus1`: `ProductionBottomChrome` keeps the icons in the zoomed strip and renders `ProductionNavLabelRow` as a sibling (`.prod-nav-labels`, 12px, no zoom ancestor). Tablet stays 10px and desktop stays 11.5px on `.pxh-nav`. No nested zoom. Draft review only — not merged, no GoDaddy ZIP.
